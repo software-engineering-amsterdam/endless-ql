@@ -1,4 +1,3 @@
-
 # Created by https://www.gitignore.io/api/git,java,eclipse,intellij,jetbrains
 
 ### Eclipse ###
@@ -54,10 +53,10 @@ local.properties
 .worksheet
 
 ### Eclipse Patch ###
-# Eclipse Core		
+# Eclipse Core
 .project
 
-# JDT-specific (Eclipse Java Development Tools)		
+# JDT-specific (Eclipse Java Development Tools)
 .classpath
 
 ### Git ###
@@ -120,9 +119,9 @@ fabric.properties
 ### Intellij Patch ###
 # Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
 
-# *.iml
-# modules.xml
-# .idea/misc.xml
+*.iml
+modules.xml
+.idea/misc.xml
 # *.ipr
 
 # Sonarlint plugin
@@ -187,13 +186,11 @@ hs_err_pid*
 
 # *.iml
 # modules.xml
-# .idea/misc.xml
+.idea/misc.xml
+.idea/vcs.xml
 # *.ipr
 
 # Sonarlint plugin
 
 
 # End of https://www.gitignore.io/api/git,java,eclipse,intellij,jetbrains
-
-
-Abel_Elias/\.idea/

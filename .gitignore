@@ -194,3 +194,6 @@ hs_err_pid*
 
 
 # End of https://www.gitignore.io/api/git,java,eclipse,intellij,jetbrains
+
+
+Abel_Elias/\.idea/

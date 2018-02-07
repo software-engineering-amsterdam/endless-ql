@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
+import {parse} from '../parser/QLParser';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  input: string;
+
+  parseInput() {
+    try {
+      console.log('parsing input');
+      const output = parse(this.input, {});
+      console.log(output);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }

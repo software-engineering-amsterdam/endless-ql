@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="jacc2">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Abel_Elias/src/lib/jacc/jacc.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

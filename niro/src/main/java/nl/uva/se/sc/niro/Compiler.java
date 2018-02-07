@@ -35,7 +35,7 @@ public class Compiler extends QLBaseListener {
 	
 	@Override
 	public void enterForm(FormContext ctx) {
-		System.out.printf("form %s {%n", ctx.name().getText());
+		System.out.printf("%nform %s {%n", ctx.name().getText());
 	}
 	
 	@Override

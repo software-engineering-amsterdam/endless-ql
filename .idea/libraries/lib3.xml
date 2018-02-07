@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="lib3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Abel_Elias/src/lib/miglayout-4.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Abel_Elias/src/lib/miglayout-4.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Abel_Elias/src/lib/antlr-3.4-complete-no-antlrv2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Abel_Elias/src/lib/miglayout-4.0-swing.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Abel_Elias/src/lib/rats.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

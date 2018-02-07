@@ -1,0 +1,29 @@
+QL Definition
+
+Form [form-name (type string)]{
+	Question [question-name (type string)]
+	Question-Var [var-name (type string)]
+	Question-Var-VarType [type-name (type string)]
+}
+
+Nodes:
+
+Node -> Node-name, Node-type
+From -> form-name, group-questions(opt)
+group-questions -> question, group-questions(opt)
+question -> question-name, var-name, var-type, conditonal(opt)
+var-type -> type, expression(opt)
+
+conditional -> condition-type, condition_true, condition_false, expressions_left, expressions_right(opt)
+
+expressions -> expression, expressions(opt)
+expression -> operand, expression_left, expression_right (opt), conditional (opt), 
+					expression_type [als het een daadwerkelijk getal is], typeValue (opt)
+
+operation -> num_left, num_right, operand
+types -> boolean | string, int | decimal | date | money | undefined
+operand -> boolean_operand | comparison_operand | math_operand
+
+
+if(6 - 3 == 5)
+if(if(5-4 == 5) && if(4-4 == 0))

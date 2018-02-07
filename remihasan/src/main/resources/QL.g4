@@ -6,14 +6,26 @@ block : '{' (condition | question)* '}';
 condition : IF '(' expression ')' block;
 question : IDENTIFIER ':' STRING ((questionvaluetype '=' expression) | questionvaluetype);
 
+// Expressions, possibly nested
 expression :
-    INTEGER
-    | IDENTIFIER
+    value
     | '(' expression ')'
     | expression operation expression;
 
-// Operation types such as +, -, / and *
-operation : SUMOPERATOR | SUBTRACTOPERTOR | MULTIPLYOPERATOR | DIVIDEOPERATOR | GT | GEQ | LT | LEQ;
+// Operators such as '+', '>=' and '&&'
+operation :
+    SUMOPERATOR
+    | SUBTRACTOPERTOR
+    | MULTIPLYOPERATOR
+    | DIVIDEOPERATOR
+    | GT
+    | GEQ
+    | LT
+    | LEQ
+    | EQ
+    | AND
+    | OR
+    | NOT;
 SUMOPERATOR : '+';
 SUBTRACTOPERTOR : '-';
 MULTIPLYOPERATOR : '*';
@@ -22,18 +34,42 @@ GT : '>';
 GEQ: '>=';
 LT : '<';
 LEQ : '<=';
+EQ : '==';
+AND : '&&';
+OR : '||';
+NOT : '!';
 
 
 
 
 
 // Question answer value types
-questionvaluetype : BOOLEANTYPE | MONEYTYPE;
+questionvaluetype :
+    BOOLEANTYPE
+    | STRINGTYPE
+    | INTEGERTYPE
+    | DATETYPE
+    | DECIMALTYPE
+    | MONEYTYPE;
 BOOLEANTYPE : 'boolean';
+STRINGTYPE : 'string';
+INTEGERTYPE : 'integer';
+DATETYPE : 'date';
+DECIMALTYPE : 'decimal';
 MONEYTYPE : 'money';
 
-//
+// All value types, numbers, date, etc.
+value :
+    INTEGER
+    | DECIMAL
+    | DATE
+    | MONEY
+    | STRING
+    | IDENTIFIER;
 IF : 'if';
 INTEGER : [0-9]+;
+DECIMAL : [0-9]+ '.' [0-9]+;
+DATE :  ([0-9] | [0-3] [0-9]) '-' ([0-9] | [0-3] [0-9]) '-' ([0-9] [0-9] [0-9] [0-9]);
+MONEY : ([0-9]+ '.' [0-9]+) | [0-9]+;
 STRING : '"' .*? '"';
 IDENTIFIER : [a-zA-Z0-9]+ ;

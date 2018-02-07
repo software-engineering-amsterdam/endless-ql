@@ -1,17 +1,11 @@
 grammar QL;
 
-INT   : [1-9][0-9]* ;
-
-ID    : [a-z][a-zA-Z]* ;
-
+ID    : [a-zA-Z0-9]+ ;
 TEXT  : '"' .*? '"' ;
-
 WS      : [ \t\r\n]+ -> skip ;
 COMMENT : '//' .*? '\n' -> skip ;
 
-program : form ;
-
-form : name '{' question+ '}' ;
+form : 'form' name '{' question+ '}' ;
 
 name : ID ;
 

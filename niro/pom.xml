@@ -13,6 +13,7 @@
 	  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
+		<maven.resources.plugin.version>3.0.2</maven.resources.plugin.version>
 		<google.sbt.compiler.version>1.0.0</google.sbt.compiler.version>
 	
 	  	<antlr4.version>4.7</antlr4.version>
@@ -62,6 +63,12 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven.compiler.plugin.version}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>${maven.resources.plugin.version}</version>
 			</plugin>
 
 			<plugin>

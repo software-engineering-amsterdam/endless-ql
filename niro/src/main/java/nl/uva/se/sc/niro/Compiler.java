@@ -9,8 +9,8 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import ql.QLBaseListener;
 import ql.QLLexer;
 import ql.QLParser;
+import ql.QLParser.ConditionalContext;
 import ql.QLParser.FormContext;
-import ql.QLParser.NameContext;
 import ql.QLParser.QuestionContext;
 
 /**
@@ -48,4 +48,13 @@ public class Compiler extends QLBaseListener {
 		System.out.printf("\t%s : %s %s%n", ctx.name().getText(), ctx.TEXT().getText(), ctx.type().getText());
 	}
 	
+	@Override
+	public void enterConditional(ConditionalContext ctx) {
+		System.out.printf("\tif (%s) {%n", ctx.condition().getText());
+	}
+	
+	@Override
+	public void exitConditional(ConditionalContext ctx) {
+		System.out.printf("\t}%n");
+	}
 }

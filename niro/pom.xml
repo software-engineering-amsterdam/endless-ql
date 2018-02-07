@@ -14,7 +14,9 @@
 
 		<maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
 		<google.sbt.compiler.version>1.0.0</google.sbt.compiler.version>
-	
+
+		<scalaVersion>2.12.4</scalaVersion>
+
 	  	<antlr4.version>4.7</antlr4.version>
 	  	<junit.version>4.12</junit.version>
 	</properties>

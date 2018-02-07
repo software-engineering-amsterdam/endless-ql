@@ -4,18 +4,18 @@ INT   : [1-9][0-9]* ;
 
 ID    : [a-z][a-zA-Z]* ;
 
-TEXT  : '"'[a-z][a-zA-Z]*'"' ;
+TEXT  : '"' .*? '"' ;
 
 WS      : [ \t\r\n]+ -> skip ;
 COMMENT : '//' .*? '\n' -> skip ;
 
 program : form ;
 
-form : name '{' field+ '}' ;
+form : name '{' question+ '}' ;
 
 name : ID ;
 
-field: name ':' TEXT type;
+question: name ':' TEXT type;
 
 type: bool;
 

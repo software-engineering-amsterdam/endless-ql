@@ -9,8 +9,8 @@ class App extends React.Component {
     const javascriptGrammar = require('!raw-loader!./parsing/grammars/javascript.pegjs');
     console.log(javascriptGrammar);
     const javascriptParser = peg.generate(javascriptGrammar);
-    const ast = javascriptParser.parse('console.not.log("Hello world");alert("BAR");');
-    console.log(ast); // OUTPUT: ?
+    const ast = javascriptParser.parse("if(true && var1) alert(\"asd\") else return null");
+    console.log(ast); // OUTPUT: AST
   }
 
   render() {

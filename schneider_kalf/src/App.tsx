@@ -7,9 +7,8 @@ const logo = require('./logo.svg');
 class App extends React.Component {
   componentDidMount() {
     const javascriptGrammar = require('!raw-loader!./parsing/grammars/javascript.pegjs');
-    console.log(javascriptGrammar);
     const javascriptParser = peg.generate(javascriptGrammar);
-    const ast = javascriptParser.parse("if(true && var1) alert(\"asd\") else return null");
+    const ast = javascriptParser.parse("if(true && var1){alert(\"asd\");alert(\"fgh\");}else{return null;}");
     console.log(ast); // OUTPUT: AST
   }
 

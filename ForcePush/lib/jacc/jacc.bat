@@ -1,2 +1,2 @@
 @echo off
-java -jar %JACC_PATH%\jacc.jar %*
+java -jar \lib\jacc\jacc.jar

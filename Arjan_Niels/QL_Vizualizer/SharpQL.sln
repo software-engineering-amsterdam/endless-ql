@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QL_Vizualizer", "QL_Vizualizer\QL_Vizualizer.csproj", "{2282F3C9-F91F-49BF-84EB-5584558A5B78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QL_Visualizer", "QL_Vizualizer\QL_Visualizer.csproj", "{2282F3C9-F91F-49BF-84EB-5584558A5B78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QL_Parser", "QL_Parser\QL_Parser.csproj", "{AED597D7-3472-4D95-9D15-7BA9B8BBE89E}"
 EndProject

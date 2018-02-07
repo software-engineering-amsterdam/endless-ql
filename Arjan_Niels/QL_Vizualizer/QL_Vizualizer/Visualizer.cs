@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace QL_Vizualizer
 {
-    public partial class Form1 : Form
+    public partial class Visualizer : Form
     {
-        public Form1()
+        public Visualizer()
         {
             InitializeComponent();
         }

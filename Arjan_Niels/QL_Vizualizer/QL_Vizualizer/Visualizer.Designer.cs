@@ -1,6 +1,6 @@
 ﻿namespace QL_Vizualizer
 {
-    partial class Form1
+    partial class Visualizer
     {
         /// <summary>
         /// Required designer variable.

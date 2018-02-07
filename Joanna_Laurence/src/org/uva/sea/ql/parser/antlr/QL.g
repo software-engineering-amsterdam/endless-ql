@@ -82,15 +82,15 @@ orExpr returns [Expr result]
 
     
 // Tokens
-WS  :	(' ' | '\t' | '\n' | '\r') { $channel=HIDDEN; }
+WS  :	(' ' | '\t' | '\n' | '\r') -> channel(HIDDEN)
     ;
 
 COMMENT 
-     : '/*' .* '*/' {$channel=HIDDEN;}
+     : '/*' .*? '*/' -> channel(HIDDEN)
     ;
 
 Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 Int: ('0'..'9')+;
 
-Str: '"' .* '"';
+Str: '"' .*? '"';

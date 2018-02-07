@@ -1,9 +1,9 @@
 export class Form {
-  constructor(private name: string, private questions: Question[]) { }
+  constructor(public name: string, public questions: Question[]) {}
 }
 
 export class Question {
-  constructor(private name: string, private label: string, private type: Type) { }
+  constructor(public name: string, public label: string, public type: Type) { }
 }
 
 export enum Type {

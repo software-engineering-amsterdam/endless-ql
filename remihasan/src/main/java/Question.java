@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Question {
 
-    private ArrayList<Condition> conditions = new ArrayList<Condition>();
+    private ArrayList<Expression<Boolean>> conditions = new ArrayList<Expression<Boolean>>();
     private String name;
     private String text;
     private Answer answer;
@@ -31,11 +31,11 @@ public class Question {
         this.answer = answer;
     }
 
-    public ArrayList<Condition> getConditions() {
+    public ArrayList<Expression<Boolean>> getConditions() {
         return conditions;
     }
 
-    public void setConditions(ArrayList<Condition> conditions) {
+    public void addConditions(ArrayList<Expression<Boolean>> conditions) {
         this.conditions = conditions;
     }
 }

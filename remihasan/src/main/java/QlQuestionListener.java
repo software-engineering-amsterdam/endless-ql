@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.beans.Expression;
 
 public class QlQuestionListener extends QLBaseListener {
 
@@ -7,26 +7,11 @@ public class QlQuestionListener extends QLBaseListener {
         System.out.println("QUESTION:");
         System.out.println(ctx.questionString().getText());
 
-        System.out.print("PARSING QUESTION...");
+        System.out.println("PARSING QUESTION...");
 
 
         Question question = new Question();
         QuestionDatabase.getInstance().addQuestion(question);
-
-
-//        try{
-//            String questionType = ctx.questionType().getText();
-//
-//            String name = ctx.identifier().toString();
-//            String text = ctx.questionString().toString();
-//            Answer answer = AnswerFactory.createAnswer(questionType);
-//            Question question = new Question();
-//            QuestionDatabase.getInstance().addQuestion(question);
-//        } catch(UnknownQuestionTypeException e){
-//            // TODO: decide what to do in case we cannot parse a question, for example when an unknown type is seen
-//            e.printStackTrace();
-//            System.exit(0);
-//        }
     }
 
     @Override
@@ -58,11 +43,18 @@ public class QlQuestionListener extends QLBaseListener {
 
     @Override
     public void enterCondition(QLParser.ConditionContext ctx) {
-        Condition condition = new Condition();
+//        Condition condition = new Condition();
 
         // TODO build condition
 
         QuestionDatabase.getInstance().addCondition(condition);
+    }
+
+    @Override
+    public void enterExpression(QLParser.ExpressionContext ctx) {
+        ExpressionAnd expression = new ExpressionAnd();
+        expression.setLeftExpression(new ExpressionBoolean(true));
+        expression.setRightExpression(new ExpressionBoolean(true));
     }
 
     @Override

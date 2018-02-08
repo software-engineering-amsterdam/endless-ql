@@ -11,4 +11,8 @@ export class DynamicFormQuestionComponent {
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
   get isValid() { return this.form.controls[this.question.key].valid; }
+
+  onCheckboxChange(question : QuestionBase<any>, event) {
+    this.form.controls[this.question.key].setValue(event.target.checked);
+  }
 }

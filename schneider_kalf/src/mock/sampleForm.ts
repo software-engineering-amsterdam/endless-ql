@@ -5,6 +5,9 @@ import Condition from "../form/condition/Condition";
 import { QuestionnaireField } from "../form/field/QuestionnaireField";
 import FieldType from "../form/field/FieldType";
 import BooleanWrapper from "../form/values/BooleanWrapper";
+import MoneyWrapper from "../form/values/MoneyWrapper";
+import { Currencies, Money } from "ts-money";
+import StringWrapper from "../form/values/StringWrapper";
 
 /*
 form Box1HouseOwning {
@@ -32,6 +35,18 @@ const sampleFields: Field[] = [
     name: "hasBoughtHouse",
     value: new BooleanWrapper(true),
     type: FieldType.Boolean
+  }),
+  new QuestionnaireField({
+    label: "How much should one Ripple be worth?",
+    name: "howMuchOneRipple",
+    value: new MoneyWrapper(new Money(15, Currencies.EUR)),
+    type: FieldType.Money
+  }),
+  new QuestionnaireField({
+    label: "Some comments?",
+    name: "comments",
+    value: new StringWrapper(""),
+    type: FieldType.Text
   })
 ];
 

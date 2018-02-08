@@ -1,6 +1,7 @@
 enum FieldType {
   Boolean = "boolean",
-  Money = "money"
+  Money = "money",
+  Text = "text"
 }
 
 export default FieldType;

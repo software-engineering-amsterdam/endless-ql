@@ -1,7 +1,7 @@
 import * as React from 'react';
-import './App.css';
 import { FormComponent } from './components/form_component/FormComponent';
 import { sampleForm } from "./mock/sampleForm";
+import 'bootstrap/dist/css/bootstrap.css';
 
 const peg = require('pegjs');
 
@@ -15,7 +15,7 @@ class App extends React.Component {
 
   render() {
     return (
-        <div className="App">
+        <div className="app container">
           <FormComponent form={sampleForm}/>
         </div>
     );

@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^4.0.0",
     "pegjs": "^0.10.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts-ts": "2.13.0"
+    "react-scripts-ts": "2.13.0",
+    "reactstrap": "next",
+    "ts-money": "^0.4.4"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -20,6 +23,7 @@
     "@types/pegjs": "^0.10.0",
     "@types/react": "^16.0.36",
     "@types/react-dom": "^16.0.3",
+    "@types/reactstrap": "5.0.0",
     "ava": "^0.25.0",
     "babel-preset-react-app": "^3.1.1",
     "cross-env": "^5.1.3",

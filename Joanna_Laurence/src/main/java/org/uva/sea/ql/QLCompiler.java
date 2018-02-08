@@ -22,7 +22,6 @@ public class QLCompiler extends QLBaseListener {
 
         //Parse the tree
         QLParser parser = new QLParser(tokens);
-        parser.removeErrorListeners();
         //parser.addErrorListener(new ErrorListener());
         QLParser.FormContext form = parser.form();
 
@@ -31,7 +30,7 @@ public class QLCompiler extends QLBaseListener {
         walker.walk(this, form);
 
         //Show the parse tree
-        Trees.inspect(parser.form(), parser);
+        Trees.inspect(form, parser);
 
         return null;
     }
@@ -59,38 +58,6 @@ public class QLCompiler extends QLBaseListener {
     public void exitStatements(QLParser.StatementsContext context) {
         System.out.printf("%n");
     }
-
-
-
-
-
-/*
-    @Override
-
-    public void enterQuestion(QuestionContext ctx) {
-
-        System.out.printf("\t%s : %s %s%n", ctx.name().getText(), ctx.TEXT().getText(), ctx.type().getText());
-
-    }
-
-
-    @Override
-
-    public void enterConditional(ConditionalContext ctx) {
-
-        System.out.printf("\tif (%s) {%n", ctx.condition().getText());
-
-    }
-
-
-    @Override
-
-    public void exitConditional(ConditionalContext ctx) {
-
-        System.out.printf("\t}%n");
-
-    }
-    */
 }
 
 

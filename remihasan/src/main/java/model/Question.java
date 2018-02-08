@@ -5,7 +5,7 @@ import answer.Answer;
 public class Question {
 
     private final String name;
-    private final String text;
+    public final String text;
     private final Answer answer;
 
     public Question(String name, String text, Answer answer) {

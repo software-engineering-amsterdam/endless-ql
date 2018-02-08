@@ -5,8 +5,8 @@ import com.google.gson.GsonBuilder;
 
 public class Form {
 
-    private final String identifier;
-    private final Block block;
+    public final String identifier;
+    public final Block block;
 
     public Form(String identifier, Block block){
         this.identifier = identifier;

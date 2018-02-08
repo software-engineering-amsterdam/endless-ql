@@ -12,7 +12,7 @@ public class ExpressionEq extends Expression<Boolean> {
     @Override
     public Boolean evaluate() {
         if(isEvaluable()){
-            return this.left.evaluate() == this.right.evaluate();
+            return this.left.evaluate().equals(this.right.evaluate());
         }
         return null;
     }
@@ -20,5 +20,10 @@ public class ExpressionEq extends Expression<Boolean> {
     @Override
     public boolean isEvaluable() {
         return this.left.isEvaluable() && this.right.isEvaluable();
+    }
+
+    @Override
+    public String toString() {
+        return this.left.toString() + " == " + this.right.toString();
     }
 }

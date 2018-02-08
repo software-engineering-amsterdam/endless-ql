@@ -1,10 +1,7 @@
 import { Component} from '@angular/core';
 import {ParserService} from './services/parser.service';
-import {QuestionBase} from "./domain/question-base";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {TextboxQuestion} from "./domain/question-textbox";
-import {DropdownQuestion} from "./domain/question-dropdown";
-import {CheckboxQuestion} from "./domain/question-checkbox";
+import {QuestionBase} from './domain/question-base';
+import {FormGroup} from '@angular/forms';
 import {QuestionService} from './services/question.service';
 import {QuestionControlService} from './services/question-control.service';
 

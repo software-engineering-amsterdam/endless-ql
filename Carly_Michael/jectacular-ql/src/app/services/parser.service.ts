@@ -18,17 +18,15 @@ export class ParserService {
   }
 
   private toForm(ast): Form {
-    console.log('toForm', ast);
-
     return new Form(ast.name, this.statementsToForm(ast.statements));
   }
 
   private statementsToForm(inputStatements): Statement[] {
-    let statements = [];
-    for (let statement of inputStatements) {
-      if(statement.statementType == "question") {
+    const statements = [];
+    for (const statement of inputStatements) {
+      if (statement.statementType === 'question') {
         statements.push(new Question(statement.name, statement.label, this.toQuestionType(statement.type)));
-      } else if(statement.statementType == "if") {
+      } else if (statement.statementType === 'if') {
         statements.push(new If(statement.condition, this.statementsToForm(statement.statements)));
       }
     }

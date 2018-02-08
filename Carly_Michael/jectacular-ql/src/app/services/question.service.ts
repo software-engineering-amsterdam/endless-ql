@@ -10,24 +10,25 @@ export class QuestionService {
   toFormQuestions(questions: Question[]): QuestionBase<any>[] {
     const formQuestions = [];
 
-    for (let index in questions) {
+    for (const index in questions) {
+      if (questions[index]) {
+        const question = questions[index];
+        const options = {
+          key: question.name,
+          label: question.label,
+          type: this.toHtmlInputType(question.type),
+          value: question.type === QuestionType.STRING ? '' : undefined,
+          order: index
+        };
 
-      const question = questions[index];
-      const options = {
-        key: question.name,
-        label: question.label,
-        type: this.toHtmlInputType(question.type),
-        value: question.type === QuestionType.STRING ? '': undefined,
-        order: index
-      };
-
-      switch (question.type) {
-        case QuestionType.BOOLEAN: {
-          formQuestions.push(new CheckboxQuestion(options));
-          break;
-        }
-        default: {
-          formQuestions.push(new TextboxQuestion(options));
+        switch (question.type) {
+          case QuestionType.BOOLEAN: {
+            formQuestions.push(new CheckboxQuestion(options));
+            break;
+          }
+          default: {
+            formQuestions.push(new TextboxQuestion(options));
+          }
         }
       }
     }

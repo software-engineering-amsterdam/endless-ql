@@ -3,7 +3,7 @@ from LexParser.QLGrammarVisitor import QLGrammarVisitor
 
 class Visitor(QLGrammarVisitor):
     def __init__(self):
-        self.memory = {}
+        self.program = {}
 
     def visitForm(self, ctx):
         print ("VISIT FORM");

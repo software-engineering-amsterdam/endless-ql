@@ -4,7 +4,7 @@ grammar Grammar;
 /**
  * Parser rules
  */
-
+forms           : form+ EOF ;
 form            : FORM label BRACKET_L elem+ BRACKET_R ;
 
 label           : WORD ;
@@ -14,9 +14,10 @@ block_elem      : if_block ;
 if_block        : IF PARENTH_L stmt PARENTH_R BRACKET_L elem+ BRACKET_R ;
 stmt            : label ;
 question        : STRING ;
-expr            : (constant operator expr) | (label operator expr) | constant | label ;
+expr            : unop expr | (constant binop expr) | (label binop expr) | constant | label ;
 constant        : NUMBER ;
-operator        : (MINUS | PLUS | MULTIPLY | DIVIDE) ;
+binop           : (MINUS | PLUS | MULTIPLY | DIVIDE | EQ | NEQ | GTE | GT | LTE | LT) ;
+unop            : (MINUS | PLUS | NOT) ;
 type_expr       : type
                 | type PARENTH_L expr PARENTH_R ;
 type            : (BOOLEAN_TYPE | MONEY_TYPE | INTEGER_TYPE | STRING_TYPE) ;
@@ -41,6 +42,14 @@ PLUS            : '+' ;
 MULTIPLY        : '*' ;
 DIVIDE          : '/' ;
 COLON           : ':' ;
+EQ              : '==' ;
+NEQ             : '!=' ;
+GTE             : '>=' ;
+GT              : '>' ;
+LTE             : '<=' ;
+LT              : '<' ;
+NOT             : '!' ;
+
 
 NEWLINE         : ('\r'? '\n' | '\r')+ -> skip ;
 WHITESPACE      : (' ' | '\t') -> skip ;

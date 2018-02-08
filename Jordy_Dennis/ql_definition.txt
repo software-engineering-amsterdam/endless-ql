@@ -28,3 +28,8 @@ operand -> boolean_operand | comparison_operand | math_operand
 1. Parse code and create AST
 2. Check Types
 3. 
+
+
+
+Emeregency LF to CLRF Command:
+sed 's/\r/\n/g;s/\n$//' test_gui.sh

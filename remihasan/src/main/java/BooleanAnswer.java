@@ -1,17 +1,15 @@
 public class BooleanAnswer extends Answer<Boolean> {
 
     BooleanAnswer(){
-        super.setAnswer(false);
+        super.setValue(false);
     }
 
-    public void setAnswer(Boolean answer){
-        super.setAnswer(answer);
+    public void setValue(Boolean value){
+        super.setValue(value);
     }
 
     @Override
-    public String getAnswerTypeString() {
+    public String getType() {
         return "boolean";
     }
-
-
 }

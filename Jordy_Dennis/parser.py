@@ -8,7 +8,7 @@ def main(argv):
     lexer = QLGrammarLexer(input)
     stream = CommonTokenStream(lexer)
     parser = QLGrammarParser(stream)
-    tree = parser.r()
+    tree = parser.form()
     print(tree.toStringTree(recog=parser))
 
 if __name__ == '__main__':

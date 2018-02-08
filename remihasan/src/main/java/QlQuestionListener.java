@@ -52,6 +52,11 @@ public class QlQuestionListener extends QLBaseListener {
     }
 
     @Override
+    public void enterIdentifier(QLParser.IdentifierContext ctx) {
+        QuestionDatabase.getInstance().addQuestionName(ctx.IDENTIFIER().toString());
+    }
+
+    @Override
     public void enterCondition(QLParser.ConditionContext ctx) {
         Condition condition = new Condition();
 

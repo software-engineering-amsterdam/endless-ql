@@ -80,7 +80,7 @@ rule names:
 parse
 formStmt
 blockStmt
-blockStatements
+command
 questionStmt
 ifStmt
 expression

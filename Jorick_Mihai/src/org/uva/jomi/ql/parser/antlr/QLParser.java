@@ -25,10 +25,10 @@ public class QLParser extends Parser {
 		STRING=25, BOOLEAN=26, INTEGER=27, DECIMAL=28, DATE=29, MONEY=30, INT=31, 
 		LABEL=32, LINE_COMMENT=33, COMMENT=34, WS=35, IDENTIFIER=36;
 	public static final int
-		RULE_parse = 0, RULE_formStmt = 1, RULE_blockStmt = 2, RULE_blockStatements = 3, 
+		RULE_parse = 0, RULE_formStmt = 1, RULE_blockStmt = 2, RULE_command = 3, 
 		RULE_questionStmt = 4, RULE_ifStmt = 5, RULE_expression = 6;
 	public static final String[] ruleNames = {
-		"parse", "formStmt", "blockStmt", "blockStatements", "questionStmt", "ifStmt", 
+		"parse", "formStmt", "blockStmt", "command", "questionStmt", "ifStmt", 
 		"expression"
 	};
 
@@ -190,11 +190,11 @@ public class QLParser extends Parser {
 	}
 
 	public static class BlockStmtContext extends ParserRuleContext {
-		public List<BlockStatementsContext> blockStatements() {
-			return getRuleContexts(BlockStatementsContext.class);
+		public List<CommandContext> command() {
+			return getRuleContexts(CommandContext.class);
 		}
-		public BlockStatementsContext blockStatements(int i) {
-			return getRuleContext(BlockStatementsContext.class,i);
+		public CommandContext command(int i) {
+			return getRuleContext(CommandContext.class,i);
 		}
 		public BlockStmtContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -223,7 +223,7 @@ public class QLParser extends Parser {
 				{
 				{
 				setState(27);
-				blockStatements();
+				command();
 				}
 				}
 				setState(32);
@@ -245,27 +245,27 @@ public class QLParser extends Parser {
 		return _localctx;
 	}
 
-	public static class BlockStatementsContext extends ParserRuleContext {
+	public static class CommandContext extends ParserRuleContext {
 		public QuestionStmtContext questionStmt() {
 			return getRuleContext(QuestionStmtContext.class,0);
 		}
 		public IfStmtContext ifStmt() {
 			return getRuleContext(IfStmtContext.class,0);
 		}
-		public BlockStatementsContext(ParserRuleContext parent, int invokingState) {
+		public CommandContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_blockStatements; }
+		@Override public int getRuleIndex() { return RULE_command; }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitBlockStatements(this);
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitCommand(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final BlockStatementsContext blockStatements() throws RecognitionException {
-		BlockStatementsContext _localctx = new BlockStatementsContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_blockStatements);
+	public final CommandContext command() throws RecognitionException {
+		CommandContext _localctx = new CommandContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_command);
 		try {
 			setState(37);
 			_errHandler.sync(this);

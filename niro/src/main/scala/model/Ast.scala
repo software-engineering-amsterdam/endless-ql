@@ -17,7 +17,7 @@ object Ast {
       answerTypeText match {
         case "boolean" => BooleanAnswerType
         case "text" => StringAnswerType
-        case "integer" => IntAnswerType
+        case "string" => IntAnswerType
         case other => throw new IllegalArgumentException(s"Unsupported type: $other")
       }
     }

@@ -88,3 +88,5 @@ hs_err_pid*
 
 # outputs
 build/
+
+.DS_Store

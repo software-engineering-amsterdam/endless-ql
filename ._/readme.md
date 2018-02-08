@@ -1,2 +1,2 @@
-<h2>Jouke Roorda & Sara Oonk</h2>
+<h2> </h2>
 Software Construction team repository 

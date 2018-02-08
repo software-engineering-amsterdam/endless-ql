@@ -1,5 +1,5 @@
 # Antlr generated files
-src/main/gen
+src/**/gen/**
 
 # Created by https://www.gitignore.io/api/java,linux,macos,gradle,intellij
 

@@ -1,6 +1,12 @@
 grammar QL;
 
+@parser::header {
+    package org.uva.jomi.ql.parser.antlr;
+}
 
+@lexer::header {
+	package org.uva.jomi.ql.parser.antlr;
+}
 
 form : 'form' IDENTIFIER block ;
 
@@ -10,10 +16,10 @@ command: question | condition ;
 
 condition: 'if' '(' IDENTIFIER ')' block ;
 
-question : IDENTIFIER ':' LABEL type '';
+question : IDENTIFIER ':' LABEL Type ;
 
 LABEL : '"' .*? '"' ;
-type : STRING | BOOLEAN | INTEGER | DECIMAL | DATE | MONEY;
+Type : STRING | BOOLEAN | INTEGER | DECIMAL | DATE | MONEY;
 
 
 LINE_COMMENT : '//' .*? '\r'? '\n' -> skip ;

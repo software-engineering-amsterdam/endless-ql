@@ -1,5 +1,6 @@
 bin/
 *.class
+*.iml
 
 # Package Files #
 *.war

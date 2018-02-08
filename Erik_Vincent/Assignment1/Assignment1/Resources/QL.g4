@@ -1,12 +1,13 @@
 grammar QL;
 
-f           : 'form' ID content EOF;
-content     : '{' (question | statement)* '}';
-question    : ID ':' LABEL ((qtype expression) | qtype) ';';
+f               : 'form' ID '{' content* '}' EOF;
+content         : (question | statement) | '{' content* '}';
+question        : ID ':' LABEL ((qtype expression) | qtype) ';';
 // More statements? Otherwise keep only ifstatement
-statement   : ifstatement;
-ifstatement : IF '(' expression ')' content;
-expression  : ID | VALUE | '(' expression ')' | expression operator expression;
+statement       : ifstatement | ifelsestatement;
+ifstatement     : IF '(' expression ')' content;
+ifelsestatement : IF '(' expression ')' content ELSE content;
+expression      : ID | VALUE | '(' expression ')' | expression operator expression;
 
 operator    : boolOp | compOp | arithOp;
 boolOp      : AND | OR | NOT;
@@ -15,6 +16,8 @@ arithOp     : ADD | SUB | MUL | DIV;
 qtype       : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | 'money';
 
 IF          : 'if';
+ELSE        : 'else';
+BOOL        : 'true' | 'false';
 AND         : '&&';
 OR          : '||';
 NOT         : '!';
@@ -28,7 +31,6 @@ ADD         : '+';
 SUB         : '-';
 MUL         : '*';
 DIV         : '/';
-LABEL       : '"' ~'"'*? '"';
 VALUE       : INTEGER | DECIMAL | DATE | MONEY;
 INTEGER     : [0-9]+;
 DECIMAL     : [0-9]+ '.' [0-9]+;
@@ -38,5 +40,7 @@ DAY         : '0'[1-9] | [1-3][0-9];
 MONTH       : '0'[1-9] | '1'[0-2];
 YEAR        : [1-2][0-9][0-9][0-9];
 MONEY       : INTEGER | DECIMAL;
-WHITESPACE  : [ \n\t\r]+ -> skip;
 ID          : [a-zA-Z0-9]+;
+LABEL       : '"' ~'"'*? '"';
+COMMENT     : '//' ~'\n'*? '\n' -> skip;
+WHITESPACE  : [ \n\t\r]+ -> skip;

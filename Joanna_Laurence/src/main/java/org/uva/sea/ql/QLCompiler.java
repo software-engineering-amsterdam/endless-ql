@@ -8,7 +8,11 @@ import org.uva.sea.ql.parser.antlr.*;
 
 public class QLCompiler extends QLBaseListener {
 
-
+    /**
+     * Compile a form specification
+     * @param source Of the source location
+     * @return
+     */
     public Object compileScriptFile(CharStream source){
 
         QLLexer lexer = new QLLexer(source);
@@ -29,15 +33,31 @@ public class QLCompiler extends QLBaseListener {
 
 
     @Override
-    public void enterForm(QLParser.FormContext ctx) {
-        System.out.printf("%nform %s {%n", ctx.result.getName());
+    public void enterForm(QLParser.FormContext context) {
+        System.out.printf("%nform %s {%n", context.result.getName());
     }
 
 
     @Override
-    public void exitForm(QLParser.FormContext ctx) {
+    public void exitForm(QLParser.FormContext context) {
         System.out.printf("}%n");
     }
+
+
+    @Override
+    public void enterStatements(QLParser.StatementsContext context) {
+        System.out.printf("statment %s", context.result.getLabel());
+    }
+
+
+    @Override
+    public void exitStatements(QLParser.StatementsContext context) {
+        System.out.printf("%n");
+    }
+
+
+
+
 
 /*
     @Override

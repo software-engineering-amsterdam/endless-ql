@@ -1,0 +1,13 @@
+FORM=1
+MONEY=2
+BOOLEAN=3
+ANY=4
+LABEL=5
+FORM_NAME=6
+LBRACE=7
+RBRACE=8
+'form'=1
+'money'=2
+'boolean'=3
+'{'=7
+'}'=8

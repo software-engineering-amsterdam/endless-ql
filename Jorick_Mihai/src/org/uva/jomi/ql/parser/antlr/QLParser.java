@@ -16,22 +16,26 @@ public class QLParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, BOOLEAN=8, MONEY=9, 
-		LINE_COMMENT=10, COMMENT=11, WS=12, IDENTIFIER=13, STRING=14;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, LABEL=8, LINE_COMMENT=9, 
+		COMMENT=10, WS=11, IDENTIFIER=12, STRING=13, BOOLEAN=14, INTEGER=15, DECIMAL=16, 
+		DATE=17, MONEY=18;
 	public static final int
 		RULE_form = 0, RULE_block = 1, RULE_command = 2, RULE_condition = 3, RULE_question = 4, 
-		RULE_type = 5;
+		RULE_regularquestion = 5, RULE_computedquestion = 6, RULE_expr = 7, RULE_type = 8;
 	public static final String[] ruleNames = {
-		"form", "block", "command", "condition", "question", "type"
+		"form", "block", "command", "condition", "question", "regularquestion", 
+		"computedquestion", "expr", "type"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'form'", "'{'", "'}'", "'if'", "'('", "')'", "':'", "'boolean'", 
+		null, "'form'", "'{'", "'}'", "'if'", "'('", "')'", "':'", null, null, 
+		null, null, null, "'string'", "'boolean'", "'integer'", "'decimal'", "'date'", 
 		"'money'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, "BOOLEAN", "MONEY", "LINE_COMMENT", 
-		"COMMENT", "WS", "IDENTIFIER", "STRING"
+		null, null, null, null, null, null, null, null, "LABEL", "LINE_COMMENT", 
+		"COMMENT", "WS", "IDENTIFIER", "STRING", "BOOLEAN", "INTEGER", "DECIMAL", 
+		"DATE", "MONEY"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -107,11 +111,11 @@ public class QLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(12);
+			setState(18);
 			match(T__0);
-			setState(13);
+			setState(19);
 			match(IDENTIFIER);
-			setState(14);
+			setState(20);
 			block();
 			}
 		}
@@ -154,23 +158,23 @@ public class QLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(16);
+			setState(22);
 			match(T__1);
-			setState(20);
+			setState(26);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__3 || _la==IDENTIFIER) {
 				{
 				{
-				setState(17);
+				setState(23);
 				command();
 				}
 				}
-				setState(22);
+				setState(28);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(23);
+			setState(29);
 			match(T__2);
 			}
 		}
@@ -210,20 +214,20 @@ public class QLParser extends Parser {
 		CommandContext _localctx = new CommandContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_command);
 		try {
-			setState(27);
+			setState(33);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case IDENTIFIER:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(25);
+				setState(31);
 				question();
 				}
 				break;
 			case T__3:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(26);
+				setState(32);
 				condition();
 				}
 				break;
@@ -267,15 +271,15 @@ public class QLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29);
+			setState(35);
 			match(T__3);
-			setState(30);
+			setState(36);
 			match(T__4);
-			setState(31);
+			setState(37);
 			match(IDENTIFIER);
-			setState(32);
+			setState(38);
 			match(T__5);
-			setState(33);
+			setState(39);
 			block();
 			}
 		}
@@ -291,10 +295,11 @@ public class QLParser extends Parser {
 	}
 
 	public static class QuestionContext extends ParserRuleContext {
-		public TerminalNode IDENTIFIER() { return getToken(QLParser.IDENTIFIER, 0); }
-		public TerminalNode STRING() { return getToken(QLParser.STRING, 0); }
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
+		public ComputedquestionContext computedquestion() {
+			return getRuleContext(ComputedquestionContext.class,0);
+		}
+		public RegularquestionContext regularquestion() {
+			return getRuleContext(RegularquestionContext.class,0);
 		}
 		public QuestionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -314,15 +319,69 @@ public class QLParser extends Parser {
 		QuestionContext _localctx = new QuestionContext(_ctx, getState());
 		enterRule(_localctx, 8, RULE_question);
 		try {
+			setState(43);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(41);
+				computedquestion();
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(42);
+				regularquestion();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class RegularquestionContext extends ParserRuleContext {
+		public TerminalNode IDENTIFIER() { return getToken(QLParser.IDENTIFIER, 0); }
+		public TerminalNode LABEL() { return getToken(QLParser.LABEL, 0); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public RegularquestionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_regularquestion; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterRegularquestion(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitRegularquestion(this);
+		}
+	}
+
+	public final RegularquestionContext regularquestion() throws RecognitionException {
+		RegularquestionContext _localctx = new RegularquestionContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_regularquestion);
+		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(35);
+			setState(45);
 			match(IDENTIFIER);
-			setState(36);
+			setState(46);
 			match(T__6);
-			setState(37);
-			match(STRING);
-			setState(38);
+			setState(47);
+			match(LABEL);
+			setState(48);
 			type();
 			}
 		}
@@ -337,8 +396,119 @@ public class QLParser extends Parser {
 		return _localctx;
 	}
 
+	public static class ComputedquestionContext extends ParserRuleContext {
+		public TerminalNode IDENTIFIER() { return getToken(QLParser.IDENTIFIER, 0); }
+		public TerminalNode LABEL() { return getToken(QLParser.LABEL, 0); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public ComputedquestionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_computedquestion; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterComputedquestion(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitComputedquestion(this);
+		}
+	}
+
+	public final ComputedquestionContext computedquestion() throws RecognitionException {
+		ComputedquestionContext _localctx = new ComputedquestionContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_computedquestion);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(50);
+			match(IDENTIFIER);
+			setState(51);
+			match(T__6);
+			setState(52);
+			match(LABEL);
+			setState(53);
+			type();
+			setState(54);
+			match(T__4);
+			setState(55);
+			expr();
+			setState(56);
+			match(T__5);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ExprContext extends ParserRuleContext {
+		public ExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_expr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExpr(this);
+		}
+	}
+
+	public final ExprContext expr() throws RecognitionException {
+		ExprContext _localctx = new ExprContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_expr);
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(61);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
+			while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1+1 ) {
+					{
+					{
+					setState(58);
+					matchWildcard();
+					}
+					} 
+				}
+				setState(63);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class TypeContext extends ParserRuleContext {
+		public TerminalNode STRING() { return getToken(QLParser.STRING, 0); }
 		public TerminalNode BOOLEAN() { return getToken(QLParser.BOOLEAN, 0); }
+		public TerminalNode INTEGER() { return getToken(QLParser.INTEGER, 0); }
+		public TerminalNode DECIMAL() { return getToken(QLParser.DECIMAL, 0); }
+		public TerminalNode DATE() { return getToken(QLParser.DATE, 0); }
 		public TerminalNode MONEY() { return getToken(QLParser.MONEY, 0); }
 		public TypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -356,14 +526,14 @@ public class QLParser extends Parser {
 
 	public final TypeContext type() throws RecognitionException {
 		TypeContext _localctx = new TypeContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_type);
+		enterRule(_localctx, 16, RULE_type);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(40);
+			setState(64);
 			_la = _input.LA(1);
-			if ( !(_la==BOOLEAN || _la==MONEY) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << STRING) | (1L << BOOLEAN) | (1L << INTEGER) | (1L << DECIMAL) | (1L << DATE) | (1L << MONEY))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -385,17 +555,23 @@ public class QLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\20-\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\3\2\3\2\3\2\3\3\3\3\7\3\25\n\3"+
-		"\f\3\16\3\30\13\3\3\3\3\3\3\4\3\4\5\4\36\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3"+
-		"\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\2\2\b\2\4\6\b\n\f\2\3\3\2\n\13\2(\2\16"+
-		"\3\2\2\2\4\22\3\2\2\2\6\35\3\2\2\2\b\37\3\2\2\2\n%\3\2\2\2\f*\3\2\2\2"+
-		"\16\17\7\3\2\2\17\20\7\17\2\2\20\21\5\4\3\2\21\3\3\2\2\2\22\26\7\4\2\2"+
-		"\23\25\5\6\4\2\24\23\3\2\2\2\25\30\3\2\2\2\26\24\3\2\2\2\26\27\3\2\2\2"+
-		"\27\31\3\2\2\2\30\26\3\2\2\2\31\32\7\5\2\2\32\5\3\2\2\2\33\36\5\n\6\2"+
-		"\34\36\5\b\5\2\35\33\3\2\2\2\35\34\3\2\2\2\36\7\3\2\2\2\37 \7\6\2\2 !"+
-		"\7\7\2\2!\"\7\17\2\2\"#\7\b\2\2#$\5\4\3\2$\t\3\2\2\2%&\7\17\2\2&\'\7\t"+
-		"\2\2\'(\7\20\2\2()\5\f\7\2)\13\3\2\2\2*+\t\2\2\2+\r\3\2\2\2\4\26\35";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\24E\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\3\2\3\2"+
+		"\3\2\3\3\3\3\7\3\33\n\3\f\3\16\3\36\13\3\3\3\3\3\3\4\3\4\5\4$\n\4\3\5"+
+		"\3\5\3\5\3\5\3\5\3\5\3\6\3\6\5\6.\n\6\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b"+
+		"\3\b\3\b\3\b\3\b\3\b\3\t\7\t>\n\t\f\t\16\tA\13\t\3\n\3\n\3\n\3?\2\13\2"+
+		"\4\6\b\n\f\16\20\22\2\3\3\2\17\24\2?\2\24\3\2\2\2\4\30\3\2\2\2\6#\3\2"+
+		"\2\2\b%\3\2\2\2\n-\3\2\2\2\f/\3\2\2\2\16\64\3\2\2\2\20?\3\2\2\2\22B\3"+
+		"\2\2\2\24\25\7\3\2\2\25\26\7\16\2\2\26\27\5\4\3\2\27\3\3\2\2\2\30\34\7"+
+		"\4\2\2\31\33\5\6\4\2\32\31\3\2\2\2\33\36\3\2\2\2\34\32\3\2\2\2\34\35\3"+
+		"\2\2\2\35\37\3\2\2\2\36\34\3\2\2\2\37 \7\5\2\2 \5\3\2\2\2!$\5\n\6\2\""+
+		"$\5\b\5\2#!\3\2\2\2#\"\3\2\2\2$\7\3\2\2\2%&\7\6\2\2&\'\7\7\2\2\'(\7\16"+
+		"\2\2()\7\b\2\2)*\5\4\3\2*\t\3\2\2\2+.\5\16\b\2,.\5\f\7\2-+\3\2\2\2-,\3"+
+		"\2\2\2.\13\3\2\2\2/\60\7\16\2\2\60\61\7\t\2\2\61\62\7\n\2\2\62\63\5\22"+
+		"\n\2\63\r\3\2\2\2\64\65\7\16\2\2\65\66\7\t\2\2\66\67\7\n\2\2\678\5\22"+
+		"\n\289\7\7\2\29:\5\20\t\2:;\7\b\2\2;\17\3\2\2\2<>\13\2\2\2=<\3\2\2\2>"+
+		"A\3\2\2\2?@\3\2\2\2?=\3\2\2\2@\21\3\2\2\2A?\3\2\2\2BC\t\2\2\2C\23\3\2"+
+		"\2\2\6\34#-?";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

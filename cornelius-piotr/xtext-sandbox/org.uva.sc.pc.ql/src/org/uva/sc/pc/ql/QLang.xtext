@@ -1,0 +1,23 @@
+grammar org.uva.sc.pc.ql.QLang with org.eclipse.xtext.common.Terminals
+
+generate qLang "http://www.uva.org/sc/pc/ql/QLang"
+
+Model:
+	forms+=Form*;
+	
+Form:
+	'form' name=ID '{'
+		questions+=Question*
+	'}';
+
+Question:
+	name=ID':' label=STRING type=QuestionType
+;
+
+QuestionType:
+	BoolType
+;
+
+BoolType:
+	'boolean'
+;

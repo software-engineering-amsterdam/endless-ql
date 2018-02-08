@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
+import {ParserService} from './services/parser.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  input: string;
+
+  constructor (private parser: ParserService) {}
+
+  parseInput() {
+    console.log(this.parser.parseInput(this.input));
+  }
 }

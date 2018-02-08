@@ -72,5 +72,6 @@ MONEY           : ([0-9]+ '.' [0-9]+) | [0-9]+;
 STRING          : '"' .*? '"';
 IDENTIFIER      : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
-COMMENT         : ('/*' .*? '*/') -> skip;
 WS              : [ \t\r\n]+ -> skip;
+COMMENT         : ('/*' .*? '*/') -> skip;
+LINE_COMMENT    : '//' ~[\r\n]* -> skip;

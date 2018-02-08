@@ -12,8 +12,9 @@ const multipleQuestionForm =
     form form {
       questionOne: "Question1?" boolean
       questionTwo: "Question2?" string
-      questionThree: "Question3? date
+      questionThree: "Question3?" date
       questionFour: "Question4?" money
+    }
   `;
 
 const formWrongName =

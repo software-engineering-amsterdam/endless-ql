@@ -1,34 +1,40 @@
 import {Injectable} from '@angular/core';
 import {QuestionBase} from '../domain/question-base';
-import {Question, QuestionType} from '../domain/ast';
+import {Question, QuestionType, Statement} from '../domain/ast';
 import {CheckboxQuestion} from '../domain/question-checkbox';
 import {TextboxQuestion} from '../domain/question-textbox';
 import {UnsupportedTypeError} from '../domain/errors';
 
 @Injectable()
 export class QuestionService {
-  toFormQuestions(questions: Question[]): QuestionBase<any>[] {
+  toFormQuestions(statements: Statement[]): QuestionBase<any>[] {
     const formQuestions = [];
 
-    for (const index in questions) {
-      if (questions[index]) {
-        const question = questions[index];
-        const options = {
-          key: question.name,
-          label: question.label,
-          type: this.toHtmlInputType(question.type),
-          value: question.type === QuestionType.STRING ? '' : undefined,
-          order: index
-        };
+    for (const index in statements) {
 
-        switch (question.type) {
-          case QuestionType.BOOLEAN: {
-            formQuestions.push(new CheckboxQuestion(options));
-            break;
-          }
-          default: {
-            formQuestions.push(new TextboxQuestion(options));
-          }
+      const statement = statements[index];
+
+      if (!statement || !(statement instanceof Question)) {
+        continue;
+      }
+
+      const question = <Question>statement;
+
+      const options = {
+        key: question.name,
+        label: question.label,
+        type: this.toHtmlInputType(question.type),
+        value: question.type === QuestionType.STRING ? '': undefined,
+        order: index
+      };
+
+      switch (question.type) {
+        case QuestionType.BOOLEAN: {
+          formQuestions.push(new CheckboxQuestion(options));
+          break;
+        }
+        default: {
+          formQuestions.push(new TextboxQuestion(options));
         }
       }
     }

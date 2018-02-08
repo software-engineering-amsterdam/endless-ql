@@ -26,7 +26,7 @@ export class AppComponent {
   parseInput() {
     try {
       const ast = this.parser.parseInput(this.input);
-      this.questions = this.questionService.toFormQuestions(ast.questions);
+      this.questions = this.questionService.toFormQuestions(ast.statements);
       this.form = this.questionControlService.toFormGroup(this.questions);
       this.formName = ast.name;
     } catch (e) {

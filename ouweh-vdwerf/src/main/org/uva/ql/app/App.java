@@ -18,8 +18,6 @@ public class App {
 
             QLParser parser = new QLParser(new CommonTokenStream(lexer));
             QLParser.FormContext fctx =  parser.form();
-            
-
         }
         catch (IOException ex) {
 

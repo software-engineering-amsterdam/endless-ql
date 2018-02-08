@@ -10,6 +10,7 @@ def main(argv):
     stream = CommonTokenStream(lexer)
     parser = QLGrammarParser(stream)
     tree = parser.form()
+    print(tree.toStringTree(recog=parser))
 
     #pass tree to visitor
     visitor = Visitor()

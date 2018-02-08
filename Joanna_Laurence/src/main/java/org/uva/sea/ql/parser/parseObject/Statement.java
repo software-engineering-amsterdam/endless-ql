@@ -1,18 +1,22 @@
 package org.uva.sea.ql.parser.parseObject;
 
 public class Statement {
+    private Question question;
+    private Condition condition;
 
-    private String label;
-
-    public Statement(String label) {
-        this.label = label;
+    public Question getQuestion() {
+        return question;
     }
 
-    public String getLabel() {
-        return label;
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public Condition getCondition() {
+        return condition;
+    }
+
+    public void setCondition(Condition condition) {
+        this.condition = condition;
     }
 }

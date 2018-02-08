@@ -1,47 +1,39 @@
-/*
-form taxOfficeExample {
-  "Did you sell a house in 2010?"
-    hasSoldHouse: boolean
-  "Did you buy a house in 2010?"
-    hasBoughtHouse: boolean
-  "Did you enter a loan?"
-    hasMaintLoan: boolean
-
-  if (hasSoldHouse) {
-    "What was the selling price?"
-      sellingPrice: money
-    "Private debts for the sold house:"
-      privateDebt: money
-    "Value residue:"
-      valueResidue: money =
-        (sellingPrice - privateDebt)
-  }
-
-}
-*/
-
 grammar QL;
 
 @parser::header
 {
     package org.uva.sea.ql.parser.antlr;
-    import org.uva.sea.ql.parser.parseObject.Form;
-    import org.uva.sea.ql.parser.parseObject.Statement;
+    import org.uva.sea.ql.parser.parseObject.*;
 }
 
 @lexer::header
 {
     package org.uva.sea.ql.parser.antlr;
-    import org.uva.sea.ql.parser.parseObject.Form;
-    import org.uva.sea.ql.parser.parseObject.Statement;
 }
 
 form returns [Form result]
     :   'form' Ident '{' stms=statements '}' { $result = new Form($Ident.text, $stms.result);  }
     ;
 
-statements returns [Statement result]
-    : 'statement' Ident {$result = new Statement($Ident.text); }
+statements returns [Statements result]
+    @init  { Statements statements = new Statements(); }
+    @after { $result = statements; }
+    : stm=statement { statements.getStatementList().add($stm.result); }
+    ;
+
+statement returns [Statement result]
+    @init  { Statement statement = new Statement(); }
+    @after { $result = statement; }
+    : quest=question { statement.setQuestion($quest.result); }
+    | cond=condition { statement.setCondition($cond.result); }
+    ;
+
+question returns [Question result]
+    : 'question' { $result = new Question(); }
+    ;
+
+condition returns [Condition result]
+    : 'condition' { $result = new Condition(); }
     ;
 
 WS  :	(' ' | '\t' | '\n' | '\r') -> skip;

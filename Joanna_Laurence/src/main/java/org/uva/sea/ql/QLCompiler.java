@@ -50,7 +50,7 @@ public class QLCompiler extends QLBaseListener {
 
     @Override
     public void enterStatements(QLParser.StatementsContext context) {
-        System.out.printf("statement %s", context.result.getLabel());
+        System.out.printf("statement %s", context.result.getStatementList());
     }
 
 

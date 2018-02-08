@@ -5,7 +5,9 @@ WS : [ \t\r\n]+ -> skip ;
 COMMENT : ('/*' .*? '*/') -> skip;
 block : '{' (condition | question)* '}';
 condition : IF '(' expression ')' block;
-question : IDENTIFIER ':' STRING ((questionvaluetype '=' expression) | questionvaluetype);
+question : IDENTIFIER ':' questionString ((questionvaluetype '=' expression) | questionvaluetype);
+
+questionString : STRING;
 
 // Expressions, possibly nested
 expression :

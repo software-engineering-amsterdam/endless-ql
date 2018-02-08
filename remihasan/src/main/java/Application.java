@@ -1,6 +1,7 @@
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import javax.swing.*;
 import java.io.File;
@@ -37,8 +38,13 @@ public class Application extends JFrame{
             // Create a QL parser that uses the tokens to parse
             parser = new QLParser(tokens);
 
-            ParseTree rootTree = parser.r();
-            processParseTree(rootTree);
+            // Walk it and attach our listener
+            ParseTreeWalker walker = new ParseTreeWalker();
+            QlQuestionListener listener = new QlQuestionListener();
+            walker.walk(listener, parser.r());
+
+//            ParseTree rootTree = parser.r();
+//            processParseTree(rootTree);
         } catch(IOException e){
             e.printStackTrace();
             System.exit(0);

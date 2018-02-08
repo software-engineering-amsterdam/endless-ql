@@ -2,6 +2,7 @@
 grammar QL;
 r  : 'form' IDENTIFIER block EOF;
 WS : [ \t\r\n]+ -> skip ;
+COMMENT : ('/*' .*? '*/') -> skip;
 block : '{' (condition | question)* '}';
 condition : IF '(' expression ')' block;
 question : IDENTIFIER ':' STRING ((questionvaluetype '=' expression) | questionvaluetype);
@@ -72,4 +73,4 @@ DECIMAL : [0-9]+ '.' [0-9]+;
 DATE :  ([0-9] | [0-3] [0-9]) '-' ([0-9] | [0-3] [0-9]) '-' ([0-9] [0-9] [0-9] [0-9]);
 MONEY : ([0-9]+ '.' [0-9]+) | [0-9]+;
 STRING : '"' .*? '"';
-IDENTIFIER : [a-zA-Z0-9]+ ;
+IDENTIFIER :  ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;

@@ -1,7 +1,6 @@
 ﻿using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Widgets;
 using System;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace QL_Vizualizer.Factories
@@ -24,6 +23,8 @@ namespace QL_Vizualizer.Factories
             input.Location = new System.Drawing.Point(0, result.Controls[0].Height);
             result.Controls.Add(input);
 
+            result.Height = result.Controls[0].Height + result.Controls[1].Height;
+
             if (result == null)
                 throw new InvalidOperationException(string.Format("Control Factory cannot create control for type {0}", widget.GetType()));
             return result;
@@ -44,10 +45,7 @@ namespace QL_Vizualizer.Factories
         {
             foreach (Control b in control.Controls)
                 if (b.GetType() == typeof(TextBox))
-                {
                     b.Text = intWidget.AnswerValue.ToString();
-                    
-                }
         }
 
         public static void ChangedIntWidget(QLWidgetInt intWidget, TextBox input)

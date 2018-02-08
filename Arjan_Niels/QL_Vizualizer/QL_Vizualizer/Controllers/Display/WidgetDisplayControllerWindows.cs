@@ -33,7 +33,7 @@ namespace QL_Vizualizer.Controllers.Display
             control.Location = new Point(0, (int)position);
 
             // Calculate bottom position
-            int newBottom = control.Height + (int)position;
+            int newBottom = control.Height + control.Location.Y;
 
             // Check if form has enough space, extend if needed
             if (_formControl.Height < newBottom)

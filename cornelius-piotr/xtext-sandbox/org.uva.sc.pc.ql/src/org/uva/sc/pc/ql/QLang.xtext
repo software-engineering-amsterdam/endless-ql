@@ -2,22 +2,66 @@ grammar org.uva.sc.pc.ql.QLang with org.eclipse.xtext.common.Terminals
 
 generate qLang "http://www.uva.org/sc/pc/ql/QLang"
 
-Model:
-	forms+=Form*;
-	
 Form:
 	'form' name=ID '{'
-		questions+=Question*
+	body=BlockBody
+	blocks+=Block*
 	'}';
 
+Block:
+	'if' '(' expression=Expression ')' '{'
+	body=BlockBody
+	'}';
+
+BlockBody:
+	{BlockBody} questions+=Question*;
+
 Question:
-	name=ID':' label=STRING type=QuestionType
-;
+	name=ID ':' label=STRING type=QuestionType ('=' '(' expression=Expression ')')?;	
+
+Expression:
+	Or;
+
+Or returns Expression:
+	And ({Or.left=current} "||" right=And)*;
+
+And returns Expression:
+	Equality ({And.left=current} "&&" right=Equality)*;
+
+Equality returns Expression:
+	Comparison ({Equality.left=current} op=("==" | "!=") right=Comparison)*;
+
+Comparison returns Expression:
+	PlusOrMinus ({Comparison.left=current} op=(">=" | "<=" | ">" | "<") right=PlusOrMinus)*;
+
+PlusOrMinus returns Expression:
+	MulOrDiv (({PlusOrMinus.left=current} op=('+' | '-')) right=MulOrDiv)*;
+
+MulOrDiv returns Expression:
+	Atomic (({MulOrDiv.left=current} op=('*' | '/')) right=Atomic)*;
+
+Atomic returns Expression:
+//'(' Expression ')' |
+	{Not} "!" expression=Atomic | {QuestionRef} question=[Question];
 
 QuestionType:
-	BoolType
-;
+	BoolType | StringType | IntegerType | DecimalType | DateType | MoneyType;
 
 BoolType:
-	'boolean'
-;
+	'boolean';
+
+StringType:
+	'string';
+
+IntegerType:
+	'integer';
+
+DecimalType:
+	'decimal';
+
+DateType:
+	'date';
+
+MoneyType:
+	'money' | 'currency';
+

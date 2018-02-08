@@ -16,6 +16,9 @@ def diff(first, second):
 
 
 if __name__ == '__main__':
+	if(os.path.isdir(destinationFolder) == False):
+		os.makedirs(destinationFolder)
+
 	# list the original files
 	p = subprocess.Popen(["ls"], stdout=subprocess.PIPE)
 	original_files = p.communicate()[0].decode("utf-8")
@@ -30,6 +33,8 @@ if __name__ == '__main__':
 	all_files = p.communicate()[0].decode("utf-8")
 	all_files = all_files.split("\n")
 	gen_files = diff(all_files, original_files)
+
+
 
 	# move all the generated files to the subdirectory called LexParser
 	for name in gen_files:

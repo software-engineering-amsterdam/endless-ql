@@ -13,16 +13,16 @@ questionType    : (type | type '=' expression);
 // Expressions, prioritized from top to bottom
 // label them for easier evaluation
 // inspired by: https://stackoverflow.com/a/23092428
-expression      : '(' expression ')'                        # parenExpr
-                | MINUS expression                          # negExpr
-                | NOT expression                            # notExpr
-                | expression (MUL | DIV) expression         # opExpr
-                | expression (PLUS | MINUS) expression      # opExpr
-                | expression (LE | LT | GE | GT) expression # boolExpr
-                | expression (EQ | NE) expression           # boolExpr
-                | expression AND expression                 # boolExpr
-                | expression OR expression                  # boolExpr
-                | constant                                  # constExpr
+expression      : '(' expr=expression ')'                                   # parenExpr
+                | MINUS expr=expression                                     # negExpr
+                | NOT expr=expression                                       # notExpr
+                | left=expression op=(MUL | DIV) right=expression           # opExpr
+                | left=expression op=(PLUS | MINUS) right=expression        # opExpr
+                | left=expression op=(LE | LT | GE | GT) right=expression   # boolExpr
+                | left=expression op=(EQ | NE) right=expression             # boolExpr
+                | left=expression op=AND right=expression                   # boolExpr
+                | left=expression op=OR right=expression                    # boolExpr
+                | constant                                                  # constExpr
                 ;
 
 type            : BOOLEANTYPE

@@ -1,3 +1,4 @@
+/* This is some comment*/
 form taxOfficeExample {
   someInteger: "Can you give me an integer value?" integer
   someBoolean: "Can you give me a yes or no value?" boolean

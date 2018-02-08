@@ -71,7 +71,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\grammar.g4" />
+    <None Include="Resources\QL.g4" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

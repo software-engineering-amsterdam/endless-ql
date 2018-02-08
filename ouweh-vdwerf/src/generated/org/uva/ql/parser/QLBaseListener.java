@@ -1,5 +1,5 @@
-// Generated from /home/edwin/SoftwareConstruction/endless-ql/ouweh-vdwerf/src/org/uva/ql/parser/QL.g4 by ANTLR 4.7
-package org.uva.ql.parser;
+// Generated from /home/edwin/SoftwareConstruction/endless-ql/ouweh-vdwerf/src/main/org/uva/ql/parser/QL.g4 by ANTLR 4.7
+package generated.org.uva.ql.parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;

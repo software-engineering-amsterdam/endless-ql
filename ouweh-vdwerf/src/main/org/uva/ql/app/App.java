@@ -1,4 +1,5 @@
-package org.uva.ql.app;
+package main.org.uva.ql.app;
+
 
 public class App {
 

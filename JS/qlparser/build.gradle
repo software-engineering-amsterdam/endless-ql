@@ -10,6 +10,13 @@ buildscript {
 	}
 }
 
+plugins {
+	// Tell Gradle to add Vaadin support
+	id 'com.devsoap.plugin.vaadin' version '1.2.0'
+
+	// Tell Gradle that we are working in idea
+	id 'idea'
+}
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -39,4 +46,9 @@ dependencyManagement {
 	imports {
 		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
 	}
+}
+
+// Vaadin plugin requires Gradle 4.0+
+task wrapper(type: Wrapper) {
+	gradleVersion = '4.0'
 }

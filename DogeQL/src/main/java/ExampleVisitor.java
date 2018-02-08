@@ -1,10 +1,4 @@
-package main.java;
-
-import grammar.SimpleGrammarExampleBaseVisitor;
-import grammar.SimpleGrammarExampleParser;
-
 public class ExampleVisitor extends SimpleGrammarExampleBaseVisitor<String> {
-
 
     @Override
     public String visitExpr(SimpleGrammarExampleParser.ExprContext ctx) {

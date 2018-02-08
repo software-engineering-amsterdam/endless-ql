@@ -1,2 +1,6 @@
 .idea
 /target
+/src/main/antlr4/com/chariotit/uva/sc/qdsl/*.interp
+/src/main/antlr4/com/chariotit/uva/sc/qdsl/*.tokens
+/src/main/antlr4/com/chariotit/uva/sc/qdsl/*.class
+/src/main/antlr4/com/chariotit/uva/sc/qdsl/*.java

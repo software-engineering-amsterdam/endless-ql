@@ -40,6 +40,8 @@ dependencies {
 	runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+	compile('org.antlr:antlr4-runtime:4.7.1')
 }
 
 dependencyManagement {

@@ -1,4 +1,4 @@
-package com.example.qlparser;
+package nl.uva.js.qlparser.ui;
 
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;

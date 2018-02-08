@@ -7,6 +7,10 @@
     <facet type="web" name="Web">
       <configuration>
         <webroots />
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/../../src/main/java" />
+          <root url="file://$MODULE_DIR$/../../src/main/resources" />
+        </sourceRoots>
       </configuration>
     </facet>
   </component>
@@ -16,11 +20,13 @@
     <content url="file://$MODULE_DIR$/../../src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/gen" isTestSource="false" generated="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring-boot-starter:3.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:1.5.10.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.antlr:antlr4-runtime:4.7.1" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring-boot:3.0.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.springframework.boot:spring-boot-devtools:1.5.10.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-themes:8.3.0" level="project" />

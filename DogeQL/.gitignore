@@ -2,6 +2,8 @@
 
 # Build dir
 out/
+gen/
+lib/
 
 # IntelliJ
 workspace.xml

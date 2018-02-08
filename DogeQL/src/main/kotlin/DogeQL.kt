@@ -1,10 +1,6 @@
-import grammar.SimpleGrammarExampleLexer
-import grammar.SimpleGrammarExampleParser
-import main.java.ExampleVisitor
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
 import java.io.File
-
 
 class DogeQL {
 
@@ -12,9 +8,8 @@ class DogeQL {
         @JvmStatic
         fun main(args: Array<String>) {
 
-
 //            val userInput = readLine()
-            val file = File("sample"+File.separator+"TestQuestionare.doge")
+            val file = File(this::class.java.getResource("sample" + File.separator + "TestQuestionare.doge").toURI())
             var content:String = file.readText()
             val stream = ANTLRInputStream(content)
 

@@ -4,6 +4,7 @@ import {QuestionBase} from "./questionmodels/question-base";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TextboxQuestion} from "./questionmodels/question-textbox";
 import {DropdownQuestion} from "./questionmodels/question-dropdown";
+import {CheckboxQuestion} from "./questionmodels/question-checkbox";
 
 @Component({
   selector: 'app-root',
@@ -53,6 +54,13 @@ export class AppComponent {
         label: 'Email',
         type: 'email',
         order: 2
+      }),
+
+      new CheckboxQuestion({
+        key: 'checkBoxQuestion',
+        label: 'Question',
+        type: 'checkbox',
+        order: 4
       })
     ];
 
@@ -67,5 +75,9 @@ export class AppComponent {
         : new FormControl(question.value || '');
     });
     return new FormGroup(group);
+  }
+
+  onSubmit() {
+    console.log(JSON.stringify(this.form.value));
   }
 }

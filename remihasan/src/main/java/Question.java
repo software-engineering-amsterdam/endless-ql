@@ -35,7 +35,7 @@ public class Question {
         return conditions;
     }
 
-    public void setConditions(ArrayList<Condition> conditions) {
-        this.conditions = conditions;
+    public void addConditions(ArrayList<Condition> conditions) {
+        this.conditions.addAll(conditions);
     }
 }

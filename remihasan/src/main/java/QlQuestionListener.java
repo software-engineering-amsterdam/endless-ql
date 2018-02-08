@@ -7,7 +7,7 @@ public class QlQuestionListener extends QLBaseListener {
         System.out.println("QUESTION:");
         System.out.println(ctx.questionString().getText());
 
-        System.out.print("PARSING QUESTION...");
+        System.out.println("PARSING QUESTION...");
 
 
         Question question = new Question();

@@ -31,11 +31,11 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBlockStmt(QLParser.BlockStmtContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#blockStatements}.
+	 * Visit a parse tree produced by {@link QLParser#command}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBlockStatements(QLParser.BlockStatementsContext ctx);
+	T visitCommand(QLParser.CommandContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#questionStmt}.
 	 * @param ctx the parse tree

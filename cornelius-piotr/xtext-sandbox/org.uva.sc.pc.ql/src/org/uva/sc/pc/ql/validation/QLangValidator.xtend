@@ -3,53 +3,22 @@
  */
 package org.uva.sc.pc.ql.validation
 
-import org.eclipse.xtext.validation.Check
-import org.uva.sc.pc.ql.qLang.Form
-import org.uva.sc.pc.ql.qLang.QLangPackage
-import org.uva.sc.pc.ql.qLang.Expression
-import org.uva.sc.pc.ql.qLang.PlusOrMinus
-import java.util.List
-import java.util.ArrayList
-import org.uva.sc.pc.ql.qLang.QuestionRef
-
 /**
  * This class contains custom validation rules. 
- *
+ * 
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
 class QLangValidator extends AbstractQLangValidator {
-	
+
 	public static val INVALID_NAME = 'invalidName'
 	public static val INVALID_TYPES = 'invalidName'
 
-	@Check
-	def checkGreetingStartsWithCapital(Form form) {
-		if (!Character.isUpperCase(form.name.charAt(0))) {
-			warning('Name should start with a capital', 
-					QLangPackage.Literals.FORM__NAME,
-					INVALID_NAME)
-		}
-	}
-	
-	@Check
-	def checkExpression(Expression exp) {
-		var types = getExpressionTypes(exp)
-		if(types.toSet.size > 1){
-			//error('A expression cannot contain multiple types', QLangPackage.Literals.E, INVALID_TYPES)
-		}
-	}
-	
-	def List<String> getExpressionTypes(Expression exp){
-		var list = new ArrayList<String>();
-		switch(exp){
-			PlusOrMinus: {
-				list.addAll(getExpressionTypes(exp.left))
-				list.addAll(getExpressionTypes(exp.right))
-			}
-			QuestionRef:
-				list.add(exp.question.type)
-		}
-		return list
-	}
-	
+//	@Check
+//	def checkGreetingStartsWithCapital(Form form) {
+//		if (!Character.isUpperCase(form.name.charAt(0))) {
+//			warning('Name should start with a capital', 
+//					QLangPackage.Literals.FORM__NAME,
+//					INVALID_NAME)
+//		}
+//	}
 }

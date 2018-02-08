@@ -23,10 +23,10 @@ Expression:
 	Or;
 
 Or returns Expression:
-	And ({Or.left=current} "||" right=And)*;
+	And ({Or.left=current} op="||" right=And)*;
 
 And returns Expression:
-	Equality ({And.left=current} "&&" right=Equality)*;
+	Equality ({And.left=current} op="&&" right=Equality)*;
 
 Equality returns Expression:
 	Comparison ({Equality.left=current} op=("==" | "!=") right=Comparison)*;
@@ -45,23 +45,23 @@ Atomic returns Expression:
 	{Not} "!" expression=Atomic | {QuestionRef} question=[Question];
 
 QuestionType:
-	BoolType | StringType | IntegerType | DecimalType | DateType | MoneyType;
+	TypeBool | TypeString | TypeInteger | TypeDecimal | TypeDate | TypeMoney;
 
-BoolType:
-	'boolean';
+TypeBool returns QuestionType:
+	{TypeBool} 'boolean';
 
-StringType:
-	'string';
+TypeString returns QuestionType:
+	{TypeString} 'string';
 
-IntegerType:
-	'integer';
+TypeInteger returns QuestionType:
+	{TypeInteger} 'integer';
 
-DecimalType:
-	'decimal';
+TypeDecimal returns QuestionType:
+	{TypeDecimal} 'decimal';
 
-DateType:
-	'date';
+TypeDate returns QuestionType:
+	{TypeDate} 'date';
 
-MoneyType:
-	'money' | 'currency';
+TypeMoney returns QuestionType:
+	{TypeMoney} 'money' | {TypeMoney} 'currency';
 

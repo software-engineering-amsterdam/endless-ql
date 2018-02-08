@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Form, Question, QuestionType} from '../domain/ast';
-import {parse} from '../../parser/QLParser';
+import {Form, If, Question, QuestionType, Statement} from '../domain/ast';
+import {parse} from '../../parser/ql-parser';
 import {UnsupportedTypeError} from '../domain/errors';
 
 @Injectable()
@@ -18,13 +18,21 @@ export class ParserService {
   }
 
   private toForm(ast): Form {
-    let questions = [];
+    console.log('toForm', ast);
 
-    for (let question of ast.questions) {
-      questions.push(new Question(question.name, question.label, this.toQuestionType(question.type)));
+    return new Form(ast.name, this.statementsToForm(ast.statements));
+  }
+
+  private statementsToForm(inputStatements): Statement[] {
+    let statements = [];
+    for (let statement of inputStatements) {
+      if(statement.statementType == "question") {
+        statements.push(new Question(statement.name, statement.label, this.toQuestionType(statement.type)));
+      } else if(statement.statementType == "if") {
+        statements.push(new If(statement.condition, this.statementsToForm(statement.statements)));
+      }
     }
-
-    return new Form(ast.name, questions);
+    return statements;
   }
 
   private toQuestionType(stringType: string): QuestionType {

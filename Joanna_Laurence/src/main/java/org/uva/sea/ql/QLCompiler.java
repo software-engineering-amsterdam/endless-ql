@@ -16,19 +16,21 @@ public class QLCompiler extends QLBaseListener {
      */
     public Object compileScriptFile(CharStream source){
 
+        //Get tokens
         QLLexer lexer = new QLLexer(source);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 
+        //Parse the tree
         QLParser parser = new QLParser(tokens);
         parser.removeErrorListeners();
         //parser.addErrorListener(new ErrorListener());
-
         QLParser.FormContext form = parser.form();
 
+        //Walk the tree and print out all elements
         ParseTreeWalker walker = new ParseTreeWalker();
-
         walker.walk(this, form);
 
+        //Show the parse tree
         Trees.inspect(parser.form(), parser);
 
         return null;

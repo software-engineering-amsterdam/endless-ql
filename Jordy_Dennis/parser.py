@@ -5,10 +5,10 @@ from LexParser.QLGrammarParser import QLGrammarParser
 
 def main(argv):
     input = FileStream(argv[1])
-    lexer = HelloLexer(input)
+    lexer = QLGrammarLexer(input)
     stream = CommonTokenStream(lexer)
-    parser = HelloParser(stream)
-    tree = parser.r()
+    parser = QLGrammarParser(stream)
+    tree = parser.form()
     print(tree.toStringTree(recog=parser))
 
 if __name__ == '__main__':

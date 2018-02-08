@@ -1,4 +1,7 @@
 // Generated from QL.g by ANTLR 4.7.1
+
+    package org.uva.jomi.ql.parser.antlr;
+
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -56,44 +59,4 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitQuestion(QLParser.QuestionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#regularquestion}.
-	 * @param ctx the parse tree
-	 */
-	void enterRegularquestion(QLParser.RegularquestionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#regularquestion}.
-	 * @param ctx the parse tree
-	 */
-	void exitRegularquestion(QLParser.RegularquestionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#computedquestion}.
-	 * @param ctx the parse tree
-	 */
-	void enterComputedquestion(QLParser.ComputedquestionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#computedquestion}.
-	 * @param ctx the parse tree
-	 */
-	void exitComputedquestion(QLParser.ComputedquestionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpr(QLParser.ExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpr(QLParser.ExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#type}.
-	 * @param ctx the parse tree
-	 */
-	void enterType(QLParser.TypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#type}.
-	 * @param ctx the parse tree
-	 */
-	void exitType(QLParser.TypeContext ctx);
 }

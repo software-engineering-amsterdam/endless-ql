@@ -33,12 +33,13 @@ type            : BOOLEANTYPE
                 | DECIMALTYPE
                 | MONEYTYPE;
 
-constant        : INTEGER
-                | DECIMAL
-                | DATE
-                | MONEY
-                | STRING
-                | IDENTIFIER;
+constant        : INTEGER # constant_integer
+                | DECIMAL # constant_decimal
+                | DATE # constant_date
+                | MONEY # constant_money
+                | STRING # constant_string
+                | IDENTIFIER # constant_identifier
+                ;
 
 // Operators
 PLUS            : '+';

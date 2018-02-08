@@ -1,5 +1,7 @@
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 public class AnswerFactory {
-    public static Answer createAnswer(String questionType) throws UnknownQuestionTypeException{
+    public static Answer createAnswer(String questionType) {
         switch(questionType){
             case "BOOLEANTYPE":
                 return new BooleanAnswer();
@@ -16,8 +18,6 @@ public class AnswerFactory {
 //                break;
 
             default:
-                // TODO unknown what to do?
-//                throw new UnknownQuestionTypeException(questionType);
                 return new BooleanAnswer();
         }
     }

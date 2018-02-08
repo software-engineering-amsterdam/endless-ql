@@ -1,9 +1,6 @@
-import jdk.internal.org.objectweb.asm.ClassVisitor;
 import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTreeVisitor;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import javax.swing.*;
 import java.io.*;
@@ -34,8 +31,12 @@ public class Application extends JFrame{
         parser = new QLParser(tokens);
 
         // Walk it and attach our listener
-        FormVisitor visitor = new FormVisitor();
-        visitor.visit(parser.root());
+        VisitorForm visitor = new VisitorForm();
+        Form form = visitor.visit(parser.root());
+
+        System.out.println(form);
+
+        System.out.println(form);
 
         // Visualize tree
         parser.reset();

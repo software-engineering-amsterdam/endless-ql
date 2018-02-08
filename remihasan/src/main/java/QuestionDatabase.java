@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 public class QuestionDatabase {
 
-    private static QuestionDatabase instance;
+    /*private static QuestionDatabase instance;
     private final ArrayList<Question> questions;
-    private final ArrayList<Condition> conditions;
+//    private final ArrayList<Condition> conditions;
     private QuestionDatabase(){
         questions = new ArrayList<Question>();
-        conditions = new ArrayList<Condition>();
+//        conditions = new ArrayList<Condition>();
     }
 
     public static QuestionDatabase getInstance(){
@@ -22,7 +22,7 @@ public class QuestionDatabase {
 
     public void addQuestion(Question question) {
         this.questions.add(question);
-        question.addConditions(conditions);
+//        question.addConditions(conditions);
     }
 
     public void addQuestionString(String questionString) {
@@ -32,15 +32,15 @@ public class QuestionDatabase {
         }
     }
 
-    public void addCondition(Condition condition) {
-        this.conditions.add(condition);
-    }
+//    public void addCondition(Condition condition) {
+//        this.conditions.add(condition);
+//    }
 
-    public void removeCondition() {
-        if(this.conditions.size() > 0){
-            this.conditions.remove(this.conditions.size() - 1);
-        }
-    }
+//    public void removeCondition() {
+//        if(this.conditions.size() > 0){
+//            this.conditions.remove(this.conditions.size() - 1);
+//        }
+//    }
 
     public void addQuestionType(String questionType) {
         if(questions.size() > 0){
@@ -61,15 +61,15 @@ public class QuestionDatabase {
         }
     }
 
-    /**
+    *//**
      * Returns a list of questions in a human readable formatted string
      * @return The formatted string
-     */
+     *//*
     @Override
     public String toString(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonString = gson.toJson(questions);
 
         return jsonString;
-    }
+    }*/
 }

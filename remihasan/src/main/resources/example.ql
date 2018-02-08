@@ -11,4 +11,7 @@ form taxOfficeExample {
   if(someBoolean) {
   	someBoolean2: "Does the date equal 1 January 2019?" boolean = (someDate == 1-1-2019)
   }
+  if(1 + 1 == 2) {
+  	someBoolean3: "Does this question show?" boolean
+  }
 }

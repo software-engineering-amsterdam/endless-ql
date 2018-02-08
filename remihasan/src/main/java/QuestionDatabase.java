@@ -1,8 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class QuestionDatabase {
@@ -24,7 +22,7 @@ public class QuestionDatabase {
 
     public void addQuestion(Question question) {
         this.questions.add(question);
-        question.setConditions(conditions);
+        question.addConditions(conditions);
     }
 
     public void addQuestionString(String questionString) {

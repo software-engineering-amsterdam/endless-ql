@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import {parse} from '../parser/QLParser';
+import {ParserService} from './services/parser.service';
 
 @Component({
   selector: 'app-root',
@@ -9,13 +9,9 @@ import {parse} from '../parser/QLParser';
 export class AppComponent {
   input: string;
 
+  constructor (private parser: ParserService) {}
+
   parseInput() {
-    try {
-      console.log('parsing input');
-      const output = parse(this.input, {});
-      console.log(output);
-    } catch (e) {
-      console.log(e);
-    }
+    console.log(this.parser.parseInput(this.input));
   }
 }

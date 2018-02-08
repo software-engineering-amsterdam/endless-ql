@@ -41,7 +41,7 @@ public class Application extends JFrame{
             // Walk it and attach our listener
             ParseTreeWalker walker = new ParseTreeWalker();
             QlQuestionListener listener = new QlQuestionListener();
-            walker.walk(listener, parser.r());
+            walker.walk(listener, parser.root());
 
 //            ParseTree rootTree = parser.r();
 //            processParseTree(rootTree);

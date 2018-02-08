@@ -1,16 +1,18 @@
-public class ExpressionMultiply extends Expression<Double> {
+package expression;
+
+public class ExpressionOr extends Expression<Boolean> {
     private final Expression left;
     private final Expression right;
 
-    ExpressionMultiply(Expression left, Expression right){
+    public ExpressionOr(Expression left, Expression right){
         this.left = left;
         this.right = right;
     }
 
     @Override
-    public Double evaluate() {
+    public Boolean evaluate() {
         if(isEvaluable()){
-            return (double)left.evaluate() * (double)right.evaluate();
+            return (boolean)left.evaluate() || (boolean)right.evaluate();
         }
         return null;
     }
@@ -22,6 +24,6 @@ public class ExpressionMultiply extends Expression<Double> {
 
     @Override
     public String toString() {
-        return left.toString() + " * " + right.toString();
+        return left.toString() + " || " + right.toString();
     }
 }

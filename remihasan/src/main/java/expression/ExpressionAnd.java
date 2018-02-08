@@ -1,16 +1,18 @@
-public class ExpressionDivide extends Expression<Double> {
+package expression;
+
+public class ExpressionAnd extends Expression<Boolean> {
     private final Expression left;
     private final Expression right;
 
-    ExpressionDivide(Expression left, Expression right){
+    public ExpressionAnd(Expression left, Expression right){
         this.left = left;
         this.right = right;
     }
 
     @Override
-    public Double evaluate() {
-        if(isEvaluable() && (double)right.evaluate() != 0){
-            return (double)left.evaluate() * (double)right.evaluate();
+    public Boolean evaluate() {
+        if(isEvaluable()){
+            return (boolean)left.evaluate() && (boolean)right.evaluate();
         }
         return null;
     }
@@ -22,6 +24,6 @@ public class ExpressionDivide extends Expression<Double> {
 
     @Override
     public String toString() {
-        return left.toString() + " / " + right.toString();
+        return left.toString() + " && " + right.toString();
     }
 }

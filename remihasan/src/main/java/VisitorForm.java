@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-import java.util.stream.Collectors;
+import model.Block;
+import model.Form;
 
 public class VisitorForm extends QLBaseVisitor<Form> {
 

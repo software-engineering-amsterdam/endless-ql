@@ -1,6 +1,8 @@
-public class AnswerDate extends Answer<String> {
+package answer;
 
-    private String value = null; // epoch start time
+public class AnswerString extends Answer<String> {
+
+    private String value = null;
 
     public void setValue(String value){
         this.value = value;

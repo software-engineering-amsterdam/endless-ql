@@ -1,3 +1,7 @@
+import expression.Expression;
+import model.Block;
+import model.Condition;
+
 public class VisitorCondition extends QLBaseVisitor<Condition>  {
 
     @Override

@@ -1,9 +1,11 @@
+package expression;
+
 public class ExpressionSum extends Expression<Double> {
 
     private final Expression left;
     private final Expression right;
 
-    ExpressionSum(Expression left, Expression right){
+    public ExpressionSum(Expression left, Expression right){
         this.left = left;
         this.right = right;
     }

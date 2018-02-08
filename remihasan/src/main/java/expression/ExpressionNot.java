@@ -1,7 +1,10 @@
-public class ExpressionNeg extends Expression<Boolean> {
+package expression;
+
+public class ExpressionNot extends Expression<Boolean> {
+
     private final Expression value;
 
-    public ExpressionNeg(Expression value) {
+    public ExpressionNot(Expression value){
         this.value = value;
     }
 
@@ -15,6 +18,6 @@ public class ExpressionNeg extends Expression<Boolean> {
 
     @Override
     public boolean isEvaluable() {
-        return this.value.isEvaluable();
+        return value.isEvaluable();
     }
 }

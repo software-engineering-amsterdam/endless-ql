@@ -1,5 +1,6 @@
-public class VisitorExpression extends QLBaseVisitor<Expression> {
+import expression.*;
 
+public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitOpExpr(QLParser.OpExprContext ctx) {
@@ -17,31 +18,33 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         }
     }
 
-//    @Override
-//    public Expression visitNegExpr(QLParser.NegExprContext ctx) {
-//        return -1.0 * (Double) visit(ctx.expr);
-//    }
-//
-//    @Override
-//    public Expression visitNotExpr(QLParser.NotExprContext ctx) {
-//        return !((Boolean) visit(ctx.expr));
-//    }
-//
-//    @Override
-//    public Expression visitBoolExpr(QLParser.BoolExprContext ctx) {
-//        String op = ctx.op.getText();
-//        Double left = (Double) visit(ctx.left);
-//        Double right = (Double) visit(ctx.right);
-//
-//        switch (op) {
-//            case ">": return left > right;
-//            case ">=": return left >= right;
-//            case "<": return left < right;
-//            case "<=": return left <= right;
-//            default: throw new IllegalArgumentException("Unknown operator " + op);
-//        }
-//    }
-//
+    @Override
+    public Expression visitNegExpr(QLParser.NegExprContext ctx) {
+        Expression value = visit(ctx.expr);
+        return new ExpressionNeg(value);
+    }
+
+    @Override
+    public Expression visitNotExpr(QLParser.NotExprContext ctx) {
+        Expression value = visit(ctx.expr);
+        return new ExpressionNot(value);
+    }
+
+    @Override
+    public Expression visitBoolExpr(QLParser.BoolExprContext ctx) {
+        String op = ctx.op.getText();
+        Expression left = visit(ctx.left);
+        Expression right = visit(ctx.right);
+
+        switch (op) {
+            case ">": return new ExpressionGT(left, right);
+            case ">=": return new ExpressionGE(left, right);
+            case "<": return new ExpressionLT(left, right);
+            case "<=": return new ExpressionLE(left, right);
+            default: throw new IllegalArgumentException("Unknown operator " + op);
+        }
+    }
+
     @Override
     public Expression visitCompExpr(QLParser.CompExprContext ctx) {
         String op = ctx.op.getText();
@@ -50,27 +53,28 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
         switch (op) {
             case "==": return new ExpressionEq(left, right);
-            case "!=": return new ExpressionNeg(new ExpressionEq(left, right));
+            case "!=": return new ExpressionNot(new ExpressionEq(left, right));
             default: throw new IllegalArgumentException("Unknown operator " + op);
         }
     }
-//
-//    @Override
-//    public Expression visitAndOrExpr(QLParser.AndOrExprContext ctx) {
-//        String op = ctx.op.getText();
-//        Boolean left = (Boolean) visit(ctx.left);
-//        Boolean right = (Boolean) visit(ctx.right);
-//
-//        switch (op) {
-//            case "&&": return left && right;
-//            case "||": return left || right;
-//            default: throw new IllegalArgumentException("Unknown operator " + op);
-//        }
-//    }
-//
+
+    @Override
+    public Expression visitAndOrExpr(QLParser.AndOrExprContext ctx) {
+        String op = ctx.op.getText();
+        Expression left = visit(ctx.left);
+        Expression right = visit(ctx.right);
+
+        switch (op) {
+            case "&&": return new ExpressionAnd(left, right);
+            case "||": return new ExpressionOr(left, right);
+            default: throw new IllegalArgumentException("Unknown operator " + op);
+        }
+    }
+
 
     @Override
     public Expression visitConstant_integer(QLParser.Constant_integerContext ctx) {
+        // TODO do we have to use integer? what if we do a sum of int + double?
         return new ExpressionDouble(Integer.valueOf(ctx.getText()));
     }
 
@@ -95,6 +99,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         return new ExpressionString(ctx.getText());
     }
 
+    // TODO do we need this?
 //    @Override
 //    public Expression visitIdentifier(QLParser.IdentifierContext ctx) {
 //        return new ExpressionIdentifier(ctx.getText());

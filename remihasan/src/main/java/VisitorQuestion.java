@@ -1,3 +1,6 @@
+import answer.Answer;
+import model.Question;
+
 public class VisitorQuestion extends QLBaseVisitor<Question> {
 
     @Override

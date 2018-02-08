@@ -1,8 +1,10 @@
+package expression;
+
 public class ExpressionIdentifier extends Expression<Boolean>{
 
     private final String identifier;
 
-    ExpressionIdentifier(String identifier){
+    public ExpressionIdentifier(String identifier){
         this.identifier = identifier;
     }
 

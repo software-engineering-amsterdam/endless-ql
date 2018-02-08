@@ -1,16 +1,18 @@
-public class ExpressionSubtract extends Expression<Double> {
+package expression;
+
+public class ExpressionDivide extends Expression<Double> {
     private final Expression left;
     private final Expression right;
 
-    ExpressionSubtract(Expression left, Expression right){
+    public ExpressionDivide(Expression left, Expression right){
         this.left = left;
         this.right = right;
     }
 
     @Override
     public Double evaluate() {
-        if(isEvaluable()){
-            return (double)left.evaluate() - (double)right.evaluate();
+        if(isEvaluable() && (double)right.evaluate() != 0){
+            return (double)left.evaluate() * (double)right.evaluate();
         }
         return null;
     }
@@ -22,6 +24,6 @@ public class ExpressionSubtract extends Expression<Double> {
 
     @Override
     public String toString() {
-        return left.toString() + " - " + right.toString();
+        return left.toString() + " / " + right.toString();
     }
 }

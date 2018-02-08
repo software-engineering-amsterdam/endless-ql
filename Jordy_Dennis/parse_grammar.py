@@ -9,13 +9,7 @@ grammarName = "QLGrammar"
 pythonVersion = "Python3"
 destinationFolder = "LexParser"
 
-# get the difference between two lists
-def diff(first, second):
-	second = set(second)
-	return [item for item in first if item not in second]
-
-
-if __name__ == '__main__':
+def main_parser(grammarName, pythonVersion, destinationFolder):
 	if(os.path.isdir(destinationFolder) == False):
 		os.makedirs(destinationFolder)
 

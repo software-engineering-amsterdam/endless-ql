@@ -10,7 +10,7 @@ identifier      : IDENTIFIER;
 questionString  : STRING;
 questionType    : (type | type '=' expression);
 
-// Expressions, prioritized
+// Expressions, prioritized from top to bottom
 expression      : '(' expression ')'
                 | MINUS expression
                 | NOT expression

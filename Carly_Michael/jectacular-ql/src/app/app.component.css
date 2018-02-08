@@ -1,0 +1,14 @@
+.page-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.input {
+  display: flex;
+  width: 50%;
+}
+
+.form {
+  display: flex;
+  width: 50%;
+}

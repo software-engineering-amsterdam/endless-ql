@@ -21,7 +21,7 @@ namespace QL_Vizualizer.Controllers
         /// <param name="displayController">Display controller to be used</param>
         /// <param name="widgets">Initial list of widgets</param>
         /// <returns></returns>
-        public static WidgetController Initialize(IWidgetDisplayController displayController, List<QLWidget<object>> widgets)
+        public static WidgetController Initialize(IWidgetDisplayController displayController, List<QLWidget> widgets)
         {
             // Prevent multiple calls to the Initialize function
             // Multiple calls result in the loss of all initialized data
@@ -29,7 +29,7 @@ namespace QL_Vizualizer.Controllers
                 throw new InvalidOperationException("Widget controller cannot be initialized multiple times");
 
             // Convert list input to dictionary
-            Dictionary<string, QLWidget<object>> widgetDictionary = widgets.ToDictionary(o => o.Identifyer, o => o);
+            Dictionary<string, QLWidget> widgetDictionary = widgets.ToDictionary(o => o.Identifyer, o => o);
 
             // Define the instance
             _instance = new WidgetController(displayController, widgetDictionary);
@@ -61,9 +61,9 @@ namespace QL_Vizualizer.Controllers
         /// <summary>
         /// Collection of widgets, dictionary on widget identifyer
         /// </summary>
-        private Dictionary<string, QLWidget<object>> _widgets;
+        private Dictionary<string, QLWidget> _widgets;
 
-        private WidgetController(IWidgetDisplayController displayController, Dictionary<string, QLWidget<object>> widgets)
+        private WidgetController(IWidgetDisplayController displayController, Dictionary<string, QLWidget> widgets)
         {
             _displayController = displayController;
             _widgets = widgets;
@@ -79,7 +79,7 @@ namespace QL_Vizualizer.Controllers
 
             // Display all widgets, updating their position as the bottom
             // of the last displayed widget.
-            foreach(QLWidget<object> widget in _widgets.Values)
+            foreach(QLWidget widget in _widgets.Values)
                 position = _displayController.Show(widget, position);
         }
 

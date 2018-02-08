@@ -1,34 +1,14 @@
-﻿namespace QL_Vizualizer.Widgets
+﻿using System;
+
+namespace QL_Vizualizer.Widgets
 {
-    public abstract class QLWidget<T>
+    public abstract class QLWidget
     {
-        /// <summary>
-        /// Contains given answer, if not answered contains default value for T
-        /// </summary>
-        public T AnswerValue { get; private set; }
-
-        /// <summary>
-        /// Indication if user gave an answer for this QLWidget
-        /// </summary>
-        public bool IsAnswered { get; private set; }
-
         public string Identifyer { get; private set; }
 
-        public QLWidget(string identifyer, string question)
+        public QLWidget(string identifyer)
         {
-            AnswerValue = default(T);
-            IsAnswered = false;
             Identifyer = identifyer;
-        }
-
-        /// <summary>
-        /// Set the value of the AnswerValue
-        /// </summary>
-        /// <param name="answer"></param>
-        public void SetAnswer(T answer)
-        {
-            AnswerValue = answer;
-            IsAnswered = true;
         }
 
     }

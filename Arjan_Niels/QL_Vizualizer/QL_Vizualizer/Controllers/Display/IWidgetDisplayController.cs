@@ -10,7 +10,7 @@ namespace QL_Vizualizer.Controllers.Display
         /// <param name="widget">Widget to be shown</param>
         /// <param name="position">X-Position of widget</param>
         /// <returns>Bottom X-Position of placed widget with repsect to all style attributes</returns>
-        float Show(QLWidget<object> widget, float position);
+        float Show(QLWidget widget, float position);
 
         /// <summary>
         /// X-Position of first widget

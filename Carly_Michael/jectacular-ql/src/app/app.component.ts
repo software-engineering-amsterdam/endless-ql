@@ -5,6 +5,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TextboxQuestion} from "./questionmodels/question-textbox";
 import {DropdownQuestion} from "./questionmodels/question-dropdown";
 import {CheckboxQuestion} from "./questionmodels/question-checkbox";
+import {QuestionService} from './services/question.service';
+import {QuestionControlService} from './services/question-control.service';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +17,20 @@ export class AppComponent {
   input: string;
   questions: QuestionBase<any>[] = [];
   form: FormGroup;
+  formName: string;
 
-  constructor (private parser: ParserService) {
-    this.questions = this.getQuestions();
-    this.form = this.toFormGroup(this.questions);
+  constructor (private parser: ParserService,
+               private questionService: QuestionService,
+               private questionControlService: QuestionControlService) {
+
   }
 
   parseInput() {
     console.log(this.parser.parseInput(this.input));
+    const ast = this.parser.parseInput(this.input);
+    this.questions = this.questionService.toFormQuestions(ast.questions);
+    this.form = this.questionControlService.toFormGroup(this.questions);
+    this.formName = ast.name;
   }
 
   getQuestions() {
@@ -60,6 +68,7 @@ export class AppComponent {
         key: 'checkBoxQuestion',
         label: 'Question',
         type: 'checkbox',
+        value: false,
         order: 4
       })
     ];

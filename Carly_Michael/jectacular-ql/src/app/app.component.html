@@ -5,10 +5,12 @@
     <textarea rows="25" cols="100" [(ngModel)]="input"></textarea>
 
     <button (click)="parseInput()">Parse</button>
+
+    <span *ngIf="errorMessage"> {{errorMessage}}</span>
   </div>
 
   <div *ngIf="form" class="form">
-    <h2>{{formName}}</h2>
+    <span>{{formName}}</span>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
       <div *ngFor="let question of questions" class="form-row">

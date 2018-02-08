@@ -1,4 +1,7 @@
 // Generated from QL.g by ANTLR 4.7.1
+
+    package org.uva.jomi.ql.parser.antlr;
+
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -56,14 +59,4 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitQuestion(QLParser.QuestionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#type}.
-	 * @param ctx the parse tree
-	 */
-	void enterType(QLParser.TypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#type}.
-	 * @param ctx the parse tree
-	 */
-	void exitType(QLParser.TypeContext ctx);
 }

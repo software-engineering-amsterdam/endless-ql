@@ -3,10 +3,10 @@ export class Form {
 }
 
 export class Question {
-  constructor(public name: string, public label: string, public type: Type) { }
+  constructor(public name: string, public label: string, public type: QuestionType) { }
 }
 
-export enum Type {
+export enum QuestionType {
   INT = 1,
   DECIMAL = 2,
   MONEY = 3,

@@ -1,1 +1,3 @@
-form taxOfficeExample {}
+form taxOfficeExample {
+    statment
+}

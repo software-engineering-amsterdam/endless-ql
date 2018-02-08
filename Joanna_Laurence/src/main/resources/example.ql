@@ -1,4 +1,3 @@
 form taxOfficeExample {
-    statement test
-    statement test2
+    statement testt
 }

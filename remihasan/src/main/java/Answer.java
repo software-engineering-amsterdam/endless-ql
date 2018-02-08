@@ -1,21 +1,16 @@
 public abstract class Answer<T> {
-    private T answer;
-    public void setAnswer(T answer){
-        this.answer = answer;
+    private final String type;
+    Answer(){
+        type = getType();
+    }
+    private T value;
+    public void setValue(T value){
+        this.value = value;
     }
 
-    public abstract String getAnswerTypeString();
+    public abstract String getType();
 
-    public T getAnswer() {
-        return answer;
-    }
-
-    @Override
-    public String toString() {
-        if(getAnswer() == null){
-            return getAnswerTypeString();
-        } else {
-            return getAnswerTypeString() + " (value: " + getAnswer() + ")";
-        }
+    public T getValue() {
+        return value;
     }
 }

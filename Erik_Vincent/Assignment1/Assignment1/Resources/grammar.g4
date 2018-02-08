@@ -2,19 +2,32 @@ grammar QL;
 
 f           : 'form' ID content EOF;
 content     : '{' (question | statement)* '}';
-question    : ID ':' LABEL ((qtype '=' expression) | qtype);
+question    : ID ':' LABEL ((qtype '=' expression) | qtype) ';';
 // More statements? Otherwise keep only ifstatement
 statement   : ifstatement;
 ifstatement : IF '(' expression ')' content;
 expression  : VALUE | '(' expression ')' | expression operator expression;
 
 operator    : boolOp | compOp | arithOp;
-boolOp      : '&&' | '||' | '!';
-compOp      : '<' | '>' | '<=' | '>=' | '!=' | '==';
-arithOp     : '+' | '-' | '*' | '/';
+boolOp      : AND | OR | NOT;
+compOp      : EL | EG | LT | GT | NEQ | EQ;
+arithOp     : ADD | SUB | MUL | DIV;
 qtype       : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | 'money';
 
 IF          : 'if';
+AND         : '&&';
+OR          : '||';
+NOT         : '!';
+EL          : '<=';
+EG          : '>=';
+LT          : '<';
+GT          : '>';
+NEQ         : '!=';
+EQ          : '==';
+ADD         : '+';
+SUB         : '-';
+MUL         : '*';
+DIV         : '/';
 ID          : [a-zA-Z0-9]+;
 LABEL       : '"' [^"]* '"';
 VALUE       : INTEGER | DECIMAL | DATE | MONEY;

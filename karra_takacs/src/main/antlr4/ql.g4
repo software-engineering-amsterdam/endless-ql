@@ -35,7 +35,7 @@ NEWLINE: ('\n' | '\r' | '\r\n') -> skip;
 
 WHITESPACE : (' ' | '\n' | '\r' | '\t') -> skip;
 
-IDENTIFIER: [a-zA-Z]+;
+IDENTIFIER: [a-zA-Z0-1_]+;
 
 NUMBER: [0-9]+;
 

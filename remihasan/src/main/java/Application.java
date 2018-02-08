@@ -1,3 +1,4 @@
+import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -43,8 +44,9 @@ public class Application extends JFrame{
             QlQuestionListener listener = new QlQuestionListener();
             walker.walk(listener, parser.root());
 
-//            ParseTree rootTree = parser.r();
-//            processParseTree(rootTree);
+            // Visualize tree
+            parser.reset();
+            Trees.inspect(parser.root(), parser);
         } catch(IOException e){
             e.printStackTrace();
             System.exit(0);

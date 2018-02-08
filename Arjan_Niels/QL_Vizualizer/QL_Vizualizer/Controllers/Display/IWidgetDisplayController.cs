@@ -1,4 +1,6 @@
-﻿namespace QL_Vizualizer.Widgets
+﻿using QL_Vizualizer.Widgets;
+
+namespace QL_Vizualizer.Controllers.Display
 {
     public interface IWidgetDisplayController
     {

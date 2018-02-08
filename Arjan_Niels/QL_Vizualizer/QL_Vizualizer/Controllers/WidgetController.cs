@@ -1,8 +1,10 @@
-﻿using System;
+﻿using QL_Vizualizer.Controllers.Display;
+using QL_Vizualizer.Widgets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QL_Vizualizer.Widgets
+namespace QL_Vizualizer.Controllers
 {
     public class WidgetController
     {

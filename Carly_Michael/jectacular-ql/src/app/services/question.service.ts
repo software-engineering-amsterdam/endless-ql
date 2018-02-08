@@ -24,7 +24,7 @@ export class QuestionService {
         key: question.name,
         label: question.label,
         type: this.toHtmlInputType(question.type),
-        value: question.type === QuestionType.STRING ? '': undefined,
+        value: question.type === QuestionType.STRING ? '' : undefined,
         order: index
       };
 

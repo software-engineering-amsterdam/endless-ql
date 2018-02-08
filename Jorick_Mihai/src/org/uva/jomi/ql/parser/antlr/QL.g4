@@ -1,5 +1,13 @@
 grammar QL;
 
+@parser::header {
+	package org.uva.jomi.ql.parser.antlr;
+}
+
+@lexer::header {
+	package org.uva.jomi.ql.parser.antlr;
+}
+
 parse: formStmt* EOF ;
 
 formStmt: 'form' IDENTIFIER blockStmt ;

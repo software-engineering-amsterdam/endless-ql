@@ -16,4 +16,9 @@ public class FormVisitor extends QLBaseVisitor {
         System.out.println(ctx.toString());
         return super.visitQuestionType(ctx);
     }
+
+    @Override
+    public Object visitOpExpr(QLParser.OpExprContext ctx) {
+        return super.visitOpExpr(ctx);
+    }
 }

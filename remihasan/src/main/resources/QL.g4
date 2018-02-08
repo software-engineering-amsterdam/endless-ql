@@ -19,9 +19,9 @@ expression      : '(' expr=expression ')'                                   # pa
                 | left=expression op=(MUL | DIV) right=expression           # opExpr
                 | left=expression op=(PLUS | MINUS) right=expression        # opExpr
                 | left=expression op=(LE | LT | GE | GT) right=expression   # boolExpr
-                | left=expression op=(EQ | NE) right=expression             # boolExpr
-                | left=expression op=AND right=expression                   # boolExpr
-                | left=expression op=OR right=expression                    # boolExpr
+                | left=expression op=(EQ | NE) right=expression             # compExpr
+                | left=expression op=AND right=expression                   # andOrExpr
+                | left=expression op=OR right=expression                    # andOrExpr
                 | constant                                                  # constExpr
                 ;
 

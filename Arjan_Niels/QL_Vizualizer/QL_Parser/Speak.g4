@@ -8,6 +8,7 @@ chat                : line line EOF ;
 line                : name SAYS opinion NEWLINE;
 name                : WORD ;
 opinion             : TEXT ;
+
  
 /*
 * Lexer Rules

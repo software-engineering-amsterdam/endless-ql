@@ -1,4 +1,4 @@
-// Generated from /home/edwin/SoftwareConstruction/endless-ql/ouweh-vdwerf/src/main/org/uva/ql/parser/QL.g4 by ANTLR 4.7
+// Generated from C:/Users/Dennis/Documents/Software Construction/endless-ql/ouweh-vdwerf/src/main/org/uva/ql/parser\QL.g4 by ANTLR 4.7
 package generated.org.uva.ql.parser;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 

@@ -18,3 +18,15 @@ form form {
 form form {
  	question: "Question?"  invalidType
 }
+
+form form {
+  question1: "IntegerQuestion?"  integer
+  question2: "DecimalQuestion?"  decimal
+  question3: "MoneyQuestion?"  money
+  question4: "BooleanQuestion?"  boolean
+  question5: "StringQuestion?"  string
+  question6: "DateQuestion?"  date
+  if (question4) {
+    question7: "ifQuestion" integer
+  }
+}

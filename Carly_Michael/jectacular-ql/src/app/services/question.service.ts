@@ -1,23 +1,30 @@
 import {Injectable} from '@angular/core';
 import {QuestionBase} from '../domain/question-base';
-import {Question, QuestionType} from '../domain/ast';
+import {Question, QuestionType, Statement} from '../domain/ast';
 import {CheckboxQuestion} from '../domain/question-checkbox';
 import {TextboxQuestion} from '../domain/question-textbox';
 import {UnsupportedTypeError} from '../domain/errors';
 
 @Injectable()
 export class QuestionService {
-  toFormQuestions(questions: Question[]): QuestionBase<any>[] {
+  toFormQuestions(statements: Statement[]): QuestionBase<any>[] {
     const formQuestions = [];
 
-    for (let index in questions) {
+    for (const index in statements) {
 
-      const question = questions[index];
+      const statement = statements[index];
+
+      if (!statement || !(statement instanceof Question)) {
+        continue;
+      }
+
+      const question = <Question>statement;
+
       const options = {
         key: question.name,
         label: question.label,
         type: this.toHtmlInputType(question.type),
-        value: question.type === QuestionType.STRING ? '': undefined,
+        value: question.type === QuestionType.STRING ? '' : undefined,
         order: index
       };
 

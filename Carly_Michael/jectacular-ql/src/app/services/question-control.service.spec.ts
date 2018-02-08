@@ -1,13 +1,12 @@
 import {inject, TestBed} from '@angular/core/testing';
 import {QuestionControlService} from './question-control.service';
 import {TextboxQuestion} from '../domain/question-textbox';
-import {QuestionType} from '../domain/ast';
 import {CheckboxQuestion} from '../domain/question-checkbox';
 
 describe('The question control service', () => {
   let service: QuestionControlService;
 
-  let questions = [
+  const questions = [
     new TextboxQuestion({
       key: 'intQuestion',
       label: 'intQuestion?',

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {QuestionBase} from '../questionmodels/question-base';
+import {QuestionBase} from '../domain/question-base';
 import {Question, QuestionType} from '../domain/ast';
-import {CheckboxQuestion} from '../questionmodels/question-checkbox';
-import {TextboxQuestion} from '../questionmodels/question-textbox';
+import {CheckboxQuestion} from '../domain/question-checkbox';
+import {TextboxQuestion} from '../domain/question-textbox';
 import {UnsupportedTypeError} from '../domain/errors';
 
 @Injectable()
@@ -17,6 +17,7 @@ export class QuestionService {
         key: question.name,
         label: question.label,
         type: this.toHtmlInputType(question.type),
+        value: question.type === QuestionType.STRING ? '': undefined,
         order: index
       };
 
@@ -38,7 +39,7 @@ export class QuestionService {
       case QuestionType.INT : return 'number';
       case QuestionType.DECIMAL: return 'number';
       case QuestionType.MONEY: return 'number';
-      case QuestionType.BOOLEAN: return 'checkbox';
+      case QuestionType.BOOLEAN: return 'boolean';
       case QuestionType.STRING: return 'text';
       case QuestionType.DATE: return 'date';
       default: throw new UnsupportedTypeError('QuestionType is not supported');

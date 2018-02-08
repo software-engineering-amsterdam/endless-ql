@@ -35,11 +35,7 @@ describe('ParserService', () => {
     service = _service;
   }));
 
-  it('should be created', inject([ParserService], (service: ParserService) => {
-    expect(service).toBeTruthy();
-  }));
-
-  it('should parse a valid ast to a form', () => {
+  it('should parse a valid input to a form', () => {
     const result = service.parseInput(validInput);
     expect(result.name).toBe('form');
     expect(result.questions.length).toBe(6);
@@ -52,5 +48,9 @@ describe('ParserService', () => {
     expect(result.questions[3].type).toBe(QuestionType.BOOLEAN);
     expect(result.questions[4].type).toBe(QuestionType.STRING);
     expect(result.questions[5].type).toBe(QuestionType.DATE);
+  });
+
+  it('should not parse an invalid input to a form', () => {
+    expect(() => service.parseInput(invalidInput)).toThrowError();
   });
 });

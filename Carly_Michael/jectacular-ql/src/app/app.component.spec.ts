@@ -1,19 +1,26 @@
 import { TestBed, async } from '@angular/core/testing';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import {ParserService} from './services/parser.service';
+import {DynamicFormQuestionComponent} from './questionmodels/dynamic-form-question.component';
+import {QuestionControlService} from './services/question-control.service';
+import {QuestionService} from './services/question.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        DynamicFormQuestionComponent
       ],
       imports: [
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
       ],
       providers: [
-        ParserService
+        ParserService,
+        QuestionService,
+        QuestionControlService
       ]
     }).compileComponents();
   }));

@@ -9,10 +9,9 @@ export class ParserService {
   parseInput(input: string): Form {
     let ast;
     try {
-      console.log('parsing input');
       ast = parse(input, {});
     } catch (e) {
-      console.log(e);
+      throw new Error(e);
     }
 
     return this.toForm(ast);

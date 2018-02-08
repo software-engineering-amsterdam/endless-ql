@@ -39,7 +39,7 @@ const sampleFields: Field[] = [
   new QuestionnaireField({
     label: "How much should one Ripple be worth?",
     name: "howMuchOneRipple",
-    value: new MoneyWrapper(new Money(15, Currencies.EUR)),
+    value: new MoneyWrapper(new Money(1500, Currencies.EUR)),
     type: FieldType.Money
   }),
   new QuestionnaireField({

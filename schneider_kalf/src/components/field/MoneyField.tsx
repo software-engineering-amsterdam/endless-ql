@@ -13,7 +13,7 @@ export const MoneyField: React.SFC<TextFieldProps> = (props) => {
       <FormGroup>
         <Label for={props.field.name}>{props.field.label}</Label>
         <InputGroup>
-          <Input name={props.field.name} type="number" value={props.value.toString()}/>
+          <Input name={props.field.name} type="number" step={0.01} value={props.value.toString()}/>
           <div className="input-group-append">
             <span className="input-group-text">€</span>
           </div>

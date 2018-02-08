@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class QlQuestionListener extends QLBaseListener {
 
     @Override
@@ -12,21 +10,6 @@ public class QlQuestionListener extends QLBaseListener {
 
         Question question = new Question();
         QuestionDatabase.getInstance().addQuestion(question);
-
-
-//        try{
-//            String questionType = ctx.questionType().getText();
-//
-//            String name = ctx.identifier().toString();
-//            String text = ctx.questionString().toString();
-//            Answer answer = AnswerFactory.createAnswer(questionType);
-//            Question question = new Question();
-//            QuestionDatabase.getInstance().addQuestion(question);
-//        } catch(UnknownQuestionTypeException e){
-//            // TODO: decide what to do in case we cannot parse a question, for example when an unknown type is seen
-//            e.printStackTrace();
-//            System.exit(0);
-//        }
     }
 
     @Override
@@ -63,6 +46,11 @@ public class QlQuestionListener extends QLBaseListener {
         // TODO build condition
 
         QuestionDatabase.getInstance().addCondition(condition);
+    }
+
+    @Override
+    public void enterExpression(QLParser.ExpressionContext ctx) {
+//        Expression expression = ;
     }
 
     @Override

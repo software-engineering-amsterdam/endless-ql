@@ -335,7 +335,7 @@ function peg$parse(input, options) {
   }
 
   function peg$parseform() {
-    let s0, s1, s2, s3, s4, s5, s6, s7, s8, s9;
+    let s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10;
 
     const key = peg$currPos * 7 + 0;
     const cached = peg$resultsCache[key];
@@ -388,9 +388,15 @@ function peg$parse(input, options) {
                       if (peg$silentFails === 0) { peg$fail(peg$c5); }
                     }
                     if (s9 !== peg$FAILED) {
-                      peg$savedPos = s0;
-                      s1 = peg$c6(s4, s8);
-                      s0 = s1;
+                      s10 = peg$parsews();
+                      if (s10 !== peg$FAILED) {
+                        peg$savedPos = s0;
+                        s1 = peg$c6(s4, s8);
+                        s0 = s1;
+                      } else {
+                        peg$currPos = s0;
+                        s0 = peg$FAILED;
+                      }
                     } else {
                       peg$currPos = s0;
                       s0 = peg$FAILED;

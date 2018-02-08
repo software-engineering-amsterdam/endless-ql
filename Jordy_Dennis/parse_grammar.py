@@ -20,7 +20,10 @@ if __name__ == '__main__':
 		os.makedirs(destinationFolder)
 
 	# Parse Language using antlr
-	p = subprocess.Popen(["antlr4", "-Dlanguage="+pythonVersion, grammarName + ".g4", "-o", "LexParser"], stdout=subprocess.PIPE)
+	p = subprocess.Popen(["java -jar /usr/local/lib/antlr-4.7.1-complete.jar -Dlanguage="
+						+ pythonVersion + " " + grammarName+".g4" + " -o " + destinationFolder],
+		stdout=subprocess.PIPE, shell=True)
+
 	p.communicate()
 
 	

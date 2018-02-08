@@ -1,7 +1,7 @@
 // pegjs parser definition
 form            = ws "form" ws name:identifier ws "{" ws
                   questions: q*
-                "}" {
+                "}" ws {
                   return {
                     name: name,
                     questions: questions

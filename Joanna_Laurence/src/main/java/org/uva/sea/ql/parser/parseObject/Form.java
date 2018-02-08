@@ -5,7 +5,7 @@ public class Form {
 
     private String name;
 
-    public Form(String name) {
+    public Form(String name, Statement statement) {
         this.name = name;
     }
 

@@ -37,7 +37,7 @@ grammar QL;
 }
 
 form returns [Form result]
-    :   'form' Ident '{' statements* '}' { $result = new Form($Ident.text);  }
+    :   'form' Ident '{' stms=statements '}' { $result = new Form($Ident.text, $stms.result);  }
     ;
 
 statements returns [Statement result]

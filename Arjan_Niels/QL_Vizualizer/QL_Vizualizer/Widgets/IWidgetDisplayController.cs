@@ -1,15 +1,18 @@
-﻿using System;
-
-namespace QL_Vizualizer.Widgets
+﻿namespace QL_Vizualizer.Widgets
 {
     public interface IWidgetDisplayController
     {
         /// <summary>
-        /// Shows widget on the specified position
+        /// Displays widget at specified position
         /// </summary>
-        /// <typeparam name="T">Type of widget</typeparam>
-        /// <param name="widget">Widget to be displayed</param>
-        /// <param name="position">Top-left position of widget</param>
-        void Show<T>(QLWidget<T> widget, Tuple<float, float> position);
+        /// <param name="widget">Widget to be shown</param>
+        /// <param name="position">X-Position of widget</param>
+        /// <returns>Bottom X-Position of placed widget with repsect to all style attributes</returns>
+        float Show(QLWidget<object> widget, float position);
+
+        /// <summary>
+        /// X-Position of first widget
+        /// </summary>
+        float InitialPosition { get; }
     }
 }

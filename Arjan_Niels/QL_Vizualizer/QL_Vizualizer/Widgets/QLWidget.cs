@@ -12,10 +12,13 @@
         /// </summary>
         public bool IsAnswered { get; private set; }
 
+        public string Identifyer { get; private set; }
+
         public QLWidget(string identifyer, string question)
         {
             AnswerValue = default(T);
             IsAnswered = false;
+            Identifyer = identifyer;
         }
 
         /// <summary>

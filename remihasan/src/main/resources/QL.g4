@@ -1,7 +1,7 @@
 // Define a grammar called QL
 grammar QL;
 
-root            : 'form' IDENTIFIER block EOF;
+root            : FORM IDENTIFIER block EOF;
 block           : '{' (condition | question)* '}';
 condition       : IF '(' expression ')' block;
 question        : identifier ':' questionString questionType;
@@ -52,6 +52,7 @@ OR              : '||';
 NOT             : '!';
 
 // Keywords
+FORM            : 'form';
 BOOLEANTYPE     : 'boolean';
 STRINGTYPE      : 'string';
 INTEGERTYPE     : 'integer';

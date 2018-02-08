@@ -1,4 +1,4 @@
-import {parse} from "./QLParser";
+import {parse} from "./ql-parser";
 
 const q1 = "form form {\n" +
   " \tquestion: \"Question?\"  boolean\n" +
@@ -24,9 +24,9 @@ describe("The parser", () => {
     const output = parse(q1, {});
     expect(output).not.toBeNull();
     expect(output.name).toBe("form");
-    expect(output.questions.length).toBe(1);
-    expect(output.questions[0].name).toBe("question");
-    expect(output.questions[0].label).toBe("Question?");
+    expect(output.statements.length).toBe(1);
+    expect(output.statements[0].name).toBe("question");
+    expect(output.statements[0].label).toBe("Question?");
   });
 
   it("Should parse form only with certain characters", function() {
@@ -38,15 +38,15 @@ describe("The parser", () => {
     const output = parse(q2, {});
     expect(output).not.toBeNull();
     expect(output.name).toBe("form");
-    expect(output.questions.length).toBe(4);
-    expect(output.questions[0].name).toBe("questionOne");
-    expect(output.questions[0].type).toBe('boolean');
-    expect(output.questions[0].label).toBe("Question1?");
-    expect(output.questions[1].name).toBe("questionTwo");
-    expect(output.questions[1].label).toBe("Question2?");
-    expect(output.questions[2].name).toBe("questionThree");
-    expect(output.questions[2].label).toBe("Question3?");
-    expect(output.questions[3].name).toBe("questionFour");
-    expect(output.questions[3].label).toBe("Question4?");
+    expect(output.statements.length).toBe(4);
+    expect(output.statements[0].name).toBe("questionOne");
+    expect(output.statements[0].type).toBe('boolean');
+    expect(output.statements[0].label).toBe("Question1?");
+    expect(output.statements[1].name).toBe("questionTwo");
+    expect(output.statements[1].label).toBe("Question2?");
+    expect(output.statements[2].name).toBe("questionThree");
+    expect(output.statements[2].label).toBe("Question3?");
+    expect(output.statements[3].name).toBe("questionFour");
+    expect(output.statements[3].label).toBe("Question4?");
   });
 });

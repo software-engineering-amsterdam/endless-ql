@@ -1,17 +1,31 @@
 // pegjs parser definition
 form            = ws "form" ws name:identifier ws "{" ws
-                  questions: q*
+                  statements: statement*
                 "}" ws {
                   return {
                     name: name,
-                    questions: questions
+                    statements: statements
                   }
                 }
+
+statement       = q / ifStatement
+
+ifStatement     = ws "if" ws "(" ws condition:identifier ws ")" ws "{" ws
+                  statements:statement* ws
+                  "}" ws
+                  {
+                    return {
+                      statementType: "if",
+                      condition: condition,
+                      statements: statements
+                    };
+                  }
 
 q "question"    = ws name:identifier ":" ws "\"" ws
                   label:text "\"" ws
                   type: type ws {
                     return {
+                      statementType: "question",
                       name: name,
                       label: label,
                       type: type

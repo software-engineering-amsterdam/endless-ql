@@ -15,8 +15,8 @@ formStmt: 'form' IDENTIFIER blockStmt ;
 blockStmt: '{' command* '}' ;
 
 command: questionStmt
-		 	   | ifStmt
-		 	   ;
+	   | ifStmt
+	   ;
 
 questionStmt: IDENTIFIER ':' LABEL Type (expression)? ;
 ifStmt: 'if' '(' expression ')' blockStmt ;

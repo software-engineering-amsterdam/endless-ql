@@ -8,12 +8,13 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import org.uva.jomi.ql.parser.antlr.*;
 
-public class Ql {
+public class QL {
 
 	public static void main(String[] args) {
 		// Report an error if the the user does not supply a source file
 		if (args.length < 1) {
 			System.err.println("Usage Ql <script>");
+			System.exit(1);
 		}
 		
 		try {
@@ -31,7 +32,6 @@ public class Ql {
 		} catch (IOException e) {
 			System.err.println("Source file was not found: " + e.getMessage());
 		}
-		
 	}
 
 }

@@ -1,3 +1,5 @@
+package answer;
+
 public class AnswerFactory {
     public static Answer createAnswer(String questionType) {
         switch(questionType){

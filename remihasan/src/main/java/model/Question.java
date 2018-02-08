@@ -1,3 +1,7 @@
+package model;
+
+import answer.Answer;
+
 public class Question {
 
     private final String name;

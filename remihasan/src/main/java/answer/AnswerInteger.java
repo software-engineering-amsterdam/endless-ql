@@ -1,3 +1,5 @@
+package answer;
+
 public class AnswerInteger extends Answer<Integer> {
 
     private Integer value = null;

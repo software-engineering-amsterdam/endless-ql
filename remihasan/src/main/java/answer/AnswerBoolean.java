@@ -1,3 +1,5 @@
+package answer;
+
 public class AnswerBoolean extends Answer<Boolean> {
 
     private Boolean value = null;

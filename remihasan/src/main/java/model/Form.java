@@ -1,3 +1,5 @@
+package model;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -6,7 +8,7 @@ public class Form {
     private final String identifier;
     private final Block block;
 
-    Form(String identifier, Block block){
+    public Form(String identifier, Block block){
         this.identifier = identifier;
         this.block = block;
     }

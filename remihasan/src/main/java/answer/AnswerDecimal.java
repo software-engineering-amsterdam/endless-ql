@@ -1,4 +1,6 @@
-public class AnswerMoney extends Answer<Double> {
+package answer;
+
+public class AnswerDecimal extends Answer<Double> {
 
     private Double value = null;
 

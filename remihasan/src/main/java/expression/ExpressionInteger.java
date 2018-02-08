@@ -1,13 +1,15 @@
-public class ExpressionDouble extends Expression<Double>{
+package expression;
 
-    private final double value;
+public class ExpressionInteger extends Expression<Integer> {
 
-    ExpressionDouble(double value){
+    private final int value;
+
+    ExpressionInteger(int value){
         this.value = value;
     }
-    
+
     @Override
-    public Double evaluate() {
+    public Integer evaluate() {
         return value;
     }
 

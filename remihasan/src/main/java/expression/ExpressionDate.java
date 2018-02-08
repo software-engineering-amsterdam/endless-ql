@@ -1,8 +1,11 @@
-public class ExpressionString extends Expression<String> {
+package expression;
+
+public class ExpressionDate extends Expression<String>{
+    // TODO: figure out best way to save and/or validate a date
 
     private final String text;
 
-    public ExpressionString(String text) {
+    public ExpressionDate(String text) {
         this.text = text;
     }
 

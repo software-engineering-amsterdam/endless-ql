@@ -1,3 +1,7 @@
+import model.Block;
+import model.Condition;
+import model.Question;
+
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 

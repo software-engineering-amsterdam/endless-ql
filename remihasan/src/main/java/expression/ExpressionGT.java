@@ -1,8 +1,11 @@
-public class ExpressionEq extends Expression<Boolean> {
+package expression;
+
+public class ExpressionGT extends Expression<Boolean>{
+
     private final Expression left;
     private final Expression right;
 
-    public ExpressionEq(Expression left, Expression right) {
+    public ExpressionGT(Expression left, Expression right){
         this.left = left;
         this.right = right;
     }
@@ -10,7 +13,7 @@ public class ExpressionEq extends Expression<Boolean> {
     @Override
     public Boolean evaluate() {
         if(isEvaluable()){
-            return this.left.evaluate() == this.right.evaluate();
+            return (double)this.left.evaluate() > (double)this.right.evaluate();
         }
         return null;
     }
@@ -18,5 +21,10 @@ public class ExpressionEq extends Expression<Boolean> {
     @Override
     public boolean isEvaluable() {
         return this.left.isEvaluable() && this.right.isEvaluable();
+    }
+
+    @Override
+    public String toString() {
+        return left.toString() + " > " + right.toString();
     }
 }

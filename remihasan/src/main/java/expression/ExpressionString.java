@@ -1,7 +1,10 @@
-public class ExpressionDate extends Expression<String>{
+package expression;
+
+public class ExpressionString extends Expression<String> {
+
     private final String text;
 
-    public ExpressionDate(String text) {
+    public ExpressionString(String text) {
         this.text = text;
     }
 

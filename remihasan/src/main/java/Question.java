@@ -1,16 +1,41 @@
+import java.util.ArrayList;
+
 public class Question {
 
-    private final String name;
-    private final String text;
+    private ArrayList<Condition> conditions = new ArrayList<Condition>();
+    private String name;
+    private String text;
     private Answer answer;
 
-    Question(String name, String text, Answer answer){
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
-        this.text = text;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text.substring(1, text.length() - 1);
+    }
+
+    public Answer getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(Answer answer) {
         this.answer = answer;
     }
 
-    public Answer getAnswer(){
-        return answer;
+    public ArrayList<Condition> getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(ArrayList<Condition> conditions) {
+        this.conditions = conditions;
     }
 }

@@ -16,8 +16,9 @@ public class AnswerFactory {
 //                break;
 
             default:
-                // unknown?
-                throw new UnknownQuestionTypeException(questionType);
+                // TODO unknown what to do?
+//                throw new UnknownQuestionTypeException(questionType);
+                return new BooleanAnswer();
         }
     }
 }

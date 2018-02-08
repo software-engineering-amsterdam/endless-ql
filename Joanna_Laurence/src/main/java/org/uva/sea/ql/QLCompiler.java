@@ -1,5 +1,6 @@
 package org.uva.sea.ql;
 
+import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -28,6 +29,8 @@ public class QLCompiler extends QLBaseListener {
 
         walker.walk(this, form);
 
+        Trees.inspect(parser.form(), parser);
+
         return null;
     }
 
@@ -46,7 +49,7 @@ public class QLCompiler extends QLBaseListener {
 
     @Override
     public void enterStatements(QLParser.StatementsContext context) {
-        System.out.printf("statment %s", context.result.getLabel());
+        System.out.printf("statement %s", context.result.getLabel());
     }
 
 

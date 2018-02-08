@@ -7,23 +7,44 @@ import com.google.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
+import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.uva.sc.pc.ql.qLang.Model
+import org.uva.sc.pc.ql.qLang.Form
+import org.uva.sc.pc.ql.qLang.PlusOrMinus
+import org.uva.sc.pc.ql.qLang.QuestionRef
 
 @RunWith(XtextRunner)
 @InjectWith(QLangInjectorProvider)
 class QLangParsingTest {
+	
 	@Inject
-	ParseHelper<Model> parseHelper
+	ParseHelper<Form> parseHelper
+	
+	@Inject
+	ValidationTestHelper validationTestHelper;
 	
 	@Test
 	def void loadModel() {
 		val result = parseHelper.parse('''
-			Hello Xtext!
+			form testForm{
+				q1: "Do you have a pet?" boolean
+				q2: "Do you have a house?" string
+				if(q1){
+					q1_1: "Do you have a dog?" boolean = (q1 + q2)
+					q1_2: "Do you have a cat?" boolean = (q1 * q2)
+				}
+			}
 		''')
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
+		
+		validationTestHelper.assertNoErrors(result)
+		
+		var test = result.blocks.head.body.questions.head.expression as PlusOrMinus
+		var temp = test.left as QuestionRef
+		Assert.assertEquals("q1", temp.question.name)
+		Assert.assertEquals("Do you have a pet?", temp.question.label)
 	}
 }

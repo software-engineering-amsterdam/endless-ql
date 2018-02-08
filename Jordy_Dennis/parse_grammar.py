@@ -4,20 +4,20 @@
 import os
 import subprocess
 
-
 # define grammar filename and python version
 grammarName = "QLGrammar"
 pythonVersion = "Python3"
 destinationFolder = "LexParser"
 
-# Parse Language using antlr
-p = subprocess.Popen(["antlr4", "-Dlanguage="+pythonVersion, grammarName + ".g4"], stdout=subprocess.PIPE)
-p.communicate()
+def main_parser(grammarName, pythonVersion, destinationFolder):
+	if(os.path.isdir(destinationFolder) == False):
+		os.makedirs(destinationFolder)
 
-# move all the generated files to the subdirectory called LexParser
-os.rename(grammarName + "Lexer.py", destinationFolder + "/" + grammarName + "Lexer.py")
-os.rename(grammarName + "Lexer.tokens", destinationFolder + "/" + grammarName + "Lexer.tokens")
-os.rename(grammarName + ".tokens", destinationFolder + "/" + grammarName + ".tokens")
-os.rename(grammarName + "Listener.py", destinationFolder + "/" + grammarName + "Listener.py")
-os.rename(grammarName + "Parser.py", destinationFolder + "/" + grammarName + "Parser.py")
+	# Parse Language using antlr
+	p = subprocess.Popen(["java -jar /usr/local/lib/antlr-4.7.1-complete.jar -Dlanguage="
+						+ pythonVersion + " " + grammarName+".g4" + " -o " + destinationFolder + " -visitor"],
+		stdout=subprocess.PIPE, shell=True)
+
+	p.communicate()
+
 	

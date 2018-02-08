@@ -20,7 +20,7 @@ public class Question {
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.text = text.substring(1, text.length() - 1);
     }
 
     public Answer getAnswer() {
@@ -37,14 +37,5 @@ public class Question {
 
     public void setConditions(ArrayList<Condition> conditions) {
         this.conditions = conditions;
-    }
-
-    @Override
-    public String toString(){
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("Question[text: " + this.text + ", answerType: " + answer.toString() + "]");
-
-        return stringBuilder.toString();
     }
 }

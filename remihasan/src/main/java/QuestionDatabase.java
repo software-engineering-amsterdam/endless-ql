@@ -1,3 +1,7 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -52,17 +56,22 @@ public class QuestionDatabase {
         }
     }
 
+    public void addQuestionName(String questionName) {
+        if(questions.size() > 0){
+            Question lastQuestion = questions.get(questions.size() - 1);
+            lastQuestion.setName(questionName);
+        }
+    }
+
     /**
      * Returns a list of questions in a human readable formatted string
      * @return The formatted string
      */
     @Override
     public String toString(){
-        StringBuilder stringBuilder = new StringBuilder();
-        for(Question question : questions){
-            stringBuilder.append(question.toString());
-            stringBuilder.append("\r\n");
-        }
-        return stringBuilder.toString();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonString = gson.toJson(questions);
+
+        return jsonString;
     }
 }

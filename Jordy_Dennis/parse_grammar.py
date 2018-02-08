@@ -21,7 +21,7 @@ if __name__ == '__main__':
 
 	# Parse Language using antlr
 	p = subprocess.Popen(["java -jar /usr/local/lib/antlr-4.7.1-complete.jar -Dlanguage="
-						+ pythonVersion + " " + grammarName+".g4" + " -o " + destinationFolder],
+						+ pythonVersion + " " + grammarName+".g4" + " -o " + destinationFolder + " -visitor"],
 		stdout=subprocess.PIPE, shell=True)
 
 	p.communicate()

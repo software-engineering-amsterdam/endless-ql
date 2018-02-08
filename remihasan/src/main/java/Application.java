@@ -36,8 +36,6 @@ public class Application extends JFrame{
 
         System.out.println(form);
 
-        System.out.println(form);
-
         // Visualize tree
         parser.reset();
         Trees.inspect(parser.root(), parser);

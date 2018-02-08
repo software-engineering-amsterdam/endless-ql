@@ -8,8 +8,5 @@ public class Question {
         this.name = name;
         this.text = text.substring(1, text.length() - 1);
         this.answer = answer;
-
-        System.out.println("debugquestion");
-        System.out.println(answer);
     }
 }

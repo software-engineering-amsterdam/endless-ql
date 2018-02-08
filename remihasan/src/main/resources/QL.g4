@@ -11,16 +11,19 @@ questionString  : STRING;
 questionType    : (type | type '=' expression);
 
 // Expressions, prioritized from top to bottom
-expression      : '(' expression ')'
-                | MINUS expression
-                | NOT expression
-                | expression (MUL | DIV) expression
-                | expression (PLUS | MINUS) expression
-                | expression (LE | LT | GE | GT) expression
-                | expression (EQ | NE) expression
-                | expression AND expression
-                | expression OR expression
-                | constant;
+// label them for easier evaluation
+// inspired by: https://stackoverflow.com/a/23092428
+expression      : '(' expr=expression ')'                                   # parenExpr
+                | MINUS expr=expression                                     # negExpr
+                | NOT expr=expression                                       # notExpr
+                | left=expression op=(MUL | DIV) right=expression           # opExpr
+                | left=expression op=(PLUS | MINUS) right=expression        # opExpr
+                | left=expression op=(LE | LT | GE | GT) right=expression   # boolExpr
+                | left=expression op=(EQ | NE) right=expression             # boolExpr
+                | left=expression op=AND right=expression                   # boolExpr
+                | left=expression op=OR right=expression                    # boolExpr
+                | constant                                                  # constExpr
+                ;
 
 type            : BOOLEANTYPE
                 | STRINGTYPE

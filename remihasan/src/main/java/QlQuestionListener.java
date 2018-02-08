@@ -1,3 +1,5 @@
+import java.beans.Expression;
+
 public class QlQuestionListener extends QLBaseListener {
 
     @Override
@@ -41,7 +43,7 @@ public class QlQuestionListener extends QLBaseListener {
 
     @Override
     public void enterCondition(QLParser.ConditionContext ctx) {
-        Condition condition = new Condition();
+//        Condition condition = new Condition();
 
         // TODO build condition
 
@@ -50,7 +52,9 @@ public class QlQuestionListener extends QLBaseListener {
 
     @Override
     public void enterExpression(QLParser.ExpressionContext ctx) {
-//        Expression expression = ;
+        ExpressionAnd expression = new ExpressionAnd();
+        expression.setLeftExpression(new ExpressionBoolean(true));
+        expression.setRightExpression(new ExpressionBoolean(true));
     }
 
     @Override

@@ -1,12 +1,7 @@
 public abstract class ExpressionBinary<T> extends Expression<T> {
-    Expression<T> leftExpression;
-    Expression<T> rightExpression;
+    Expression leftExpression;
+    Expression rightExpression;
 
-    private void setLeftExpression(Expression<T> leftExpression){
-        this.leftExpression = leftExpression;
-    }
-
-    private void setRightExpression(Expression<T> rightExpression){
-        this.rightExpression = rightExpression;
-    }
+    public abstract void setLeftExpression(Expression<?> leftExpression);
+    public abstract void setRightExpression(Expression<?> rightExpression);
 }

@@ -7,4 +7,11 @@ public class BooleanAnswer extends Answer<Boolean> {
     public void setAnswer(Boolean answer){
         super.setAnswer(answer);
     }
+
+    @Override
+    public String getAnswerTypeString() {
+        return "boolean";
+    }
+
+
 }

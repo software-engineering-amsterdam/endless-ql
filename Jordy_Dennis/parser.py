@@ -5,9 +5,9 @@ from LexParser.QLGrammarParser import QLGrammarParser
 
 def main(argv):
     input = FileStream(argv[1])
-    lexer = HelloLexer(input)
+    lexer = QLGrammarLexer(input)
     stream = CommonTokenStream(lexer)
-    parser = HelloParser(stream)
+    parser = QLGrammarParser(stream)
     tree = parser.r()
     print(tree.toStringTree(recog=parser))
 

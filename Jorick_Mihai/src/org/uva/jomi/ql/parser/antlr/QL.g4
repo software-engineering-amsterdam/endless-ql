@@ -12,9 +12,9 @@ parse: formStmt* EOF ;
 
 formStmt: 'form' IDENTIFIER blockStmt ;
 
-blockStmt: '{' blockStatements* '}' ;
+blockStmt: '{' command* '}' ;
 
-blockStatements: questionStmt
+command: questionStmt
 		 	   | ifStmt
 		 	   ;
 

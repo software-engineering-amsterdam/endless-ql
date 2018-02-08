@@ -188,6 +188,7 @@ hs_err_pid*
 # modules.xml
 .idea/misc.xml
 .idea/vcs.xml
+.idea/compiler.xml
 # *.ipr
 
 # Sonarlint plugin

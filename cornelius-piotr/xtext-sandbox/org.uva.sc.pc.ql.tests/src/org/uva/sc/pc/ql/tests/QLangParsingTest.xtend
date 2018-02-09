@@ -55,5 +55,34 @@ class QLangParsingTest {
 
 		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.question, "")
 	}
+	
+	@Test
+	def void testErrorOnForwardReference() {
+		val result = parseHelper.parse('''
+			form TestForm{
+				q1: "Do you have a pet?" boolean
+				if(q2){
+					q2: "Do you have a house?" boolean
+				}
+			}
+		''')
+		Assert.assertNotNull(result)
+		Assert.assertTrue(result.eResource.errors.isEmpty)
+
+		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.question, "")
+	}
+	
+	@Test
+	def void testErrorOnSelfReference() {
+		val result = parseHelper.parse('''
+			form TestForm{
+				q1: "Do you have a pet?" boolean = (q1 && q1)
+			}
+		''')
+		Assert.assertNotNull(result)
+		Assert.assertTrue(result.eResource.errors.isEmpty)
+
+		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.question, "")
+	}
 
 }

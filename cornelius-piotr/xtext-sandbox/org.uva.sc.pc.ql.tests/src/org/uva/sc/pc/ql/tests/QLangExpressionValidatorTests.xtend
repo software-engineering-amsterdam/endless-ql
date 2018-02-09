@@ -27,7 +27,7 @@ class QLangExpressionValidatorTests {
 	ValidationTestHelper validationTestHelper;
 
 	@Test
-	def void assertBooleanVariableInExpression(){
+	def void assertBooleanVariableInExpression() {
 		assertVariableInExpressionHelper(TypeUtil.OP_OR, TypeUtil.TYPE_BOOLEAN, false)
 		assertVariableInExpressionHelper(TypeUtil.OP_AND, TypeUtil.TYPE_BOOLEAN, false)
 		assertVariableInExpressionHelper(TypeUtil.OP_EQUALS, TypeUtil.TYPE_BOOLEAN, true)
@@ -40,11 +40,11 @@ class QLangExpressionValidatorTests {
 		assertVariableInExpressionHelper(TypeUtil.OP_MINUS, TypeUtil.TYPE_BOOLEAN, true)
 		assertVariableInExpressionHelper(TypeUtil.OP_MUL, TypeUtil.TYPE_BOOLEAN, true)
 		assertVariableInExpressionHelper(TypeUtil.OP_DIV, TypeUtil.TYPE_BOOLEAN, true)
-		assertVariableInExpressionHelper(TypeUtil.OP_NOT, TypeUtil.TYPE_BOOLEAN, true)
-		
+		assertVariableInExpressionHelper(TypeUtil.OP_NOT, TypeUtil.TYPE_BOOLEAN, false)
+
 	}
-	
-	def assertVariableInExpressionHelper(String op, String type, boolean expectError){
+
+	def assertVariableInExpressionHelper(String op, String type, boolean expectError) {
 		val result = parseHelper.parse('''
 			form TestForm{
 							q1: "Do you have a pet?" «type»
@@ -56,10 +56,38 @@ class QLangExpressionValidatorTests {
 		''')
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
-		if(!expectError)
-			validationTestHelper.assertNoErrors(result)
+		if (expectError)
+			switch op {
+				case TypeUtil.OP_OR:
+					validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionOr,
+						QLangExpressionValidator.TYPE_NOT_ALLOWED)
+				case TypeUtil.OP_AND:
+					validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionAnd,
+						QLangExpressionValidator.TYPE_NOT_ALLOWED)
+				case TypeUtil.OP_EQUALS,
+				case TypeUtil.OP_NOT_EQUALS:
+					validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionEquality,
+						QLangExpressionValidator.TYPE_NOT_ALLOWED)
+				case TypeUtil.OP_SMALLER_THAN,
+				case TypeUtil.OP_SMALLER_THAN_EQUALS,
+				case TypeUtil.OP_GREATER_THAN,
+				case TypeUtil.OP_GREATER_THAN_EUQALS:
+					validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionComparison,
+						QLangExpressionValidator.TYPE_NOT_ALLOWED)
+				case TypeUtil.OP_PLUS,
+				case TypeUtil.OP_MINUS:
+					validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionPlusOrMinus,
+						QLangExpressionValidator.TYPE_NOT_ALLOWED)
+				case TypeUtil.OP_MUL,
+				case TypeUtil.OP_DIV:
+					validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionMulOrDiv,
+						QLangExpressionValidator.TYPE_NOT_ALLOWED)
+				case TypeUtil.OP_NOT:
+					validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionNot,
+						QLangExpressionValidator.TYPE_NOT_ALLOWED)
+			}
 		else
-			validationTestHelper.assertError(result, QLangPackage.eINSTANCE.questionRef, QLangExpressionValidator.INVALID_EXPRESSION)
+			validationTestHelper.assertNoErrors(result)
 	}
-	
+
 }

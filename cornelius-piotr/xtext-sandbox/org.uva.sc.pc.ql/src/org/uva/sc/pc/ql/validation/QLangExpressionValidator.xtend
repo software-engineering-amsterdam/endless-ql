@@ -3,18 +3,21 @@
  */
 package org.uva.sc.pc.ql.validation
 
+import java.util.HashMap
 import java.util.List
+import java.util.Map
 import org.eclipse.xtext.validation.Check
-import org.uva.sc.pc.ql.qLang.And
 import org.uva.sc.pc.ql.qLang.Block
-import org.uva.sc.pc.ql.qLang.Comparison
-import org.uva.sc.pc.ql.qLang.Equality
-import org.uva.sc.pc.ql.qLang.MulOrDiv
-import org.uva.sc.pc.ql.qLang.Not
-import org.uva.sc.pc.ql.qLang.Or
-import org.uva.sc.pc.ql.qLang.PlusOrMinus
+import org.uva.sc.pc.ql.qLang.Expression
+import org.uva.sc.pc.ql.qLang.ExpressionAnd
+import org.uva.sc.pc.ql.qLang.ExpressionComparison
+import org.uva.sc.pc.ql.qLang.ExpressionEquality
+import org.uva.sc.pc.ql.qLang.ExpressionMulOrDiv
+import org.uva.sc.pc.ql.qLang.ExpressionNot
+import org.uva.sc.pc.ql.qLang.ExpressionOr
+import org.uva.sc.pc.ql.qLang.ExpressionPlusOrMinus
+import org.uva.sc.pc.ql.qLang.ExpressionQuestionRef
 import org.uva.sc.pc.ql.qLang.QLangPackage
-import org.uva.sc.pc.ql.qLang.QuestionRef
 import org.uva.sc.pc.ql.qLang.QuestionType
 import org.uva.sc.pc.ql.qLang.TypeBool
 import org.uva.sc.pc.ql.qLang.TypeDate
@@ -23,6 +26,7 @@ import org.uva.sc.pc.ql.qLang.TypeInteger
 import org.uva.sc.pc.ql.qLang.TypeMoney
 import org.uva.sc.pc.ql.qLang.TypeString
 import org.uva.sc.pc.ql.qLang.util.TypeUtil
+import org.uva.sc.pc.ql.qLang.Question
 
 /**
  * This class contains custom validation rules. 
@@ -31,61 +35,219 @@ import org.uva.sc.pc.ql.qLang.util.TypeUtil
  */
 class QLangExpressionValidator extends AbstractQLangValidator {
 
-	public static val INVALID_EXPRESSION = 'invalidExpression'
+	public static val TYPE_NOT_ALLOWED = 'typeNotAllowed'
+	public static val TYPE_NOT_ALLOWED_MESSAGE = "this type is not allowed for the specified operation"
 
-	public static val ALLOWED_OPS_AND_TYPES = #{
-		TypeBool -> #[TypeUtil.OP_AND, TypeUtil.OP_OR],
-		TypeString -> #[TypeUtil.OP_PLUS],
-		TypeInteger ->
+	public static val TYPE_NOT_SAME = 'typeNotSame'
+	public static val TYPE_NOT_SAME_MESSAGE = "The provided types for this operation have to be the same"
+
+	public static val BLOCK_INVALID_EXPRESSION = 'blockInvalidExpression'
+	public static val BLOCK_INVALID_EXPRESSION_MESSAGE = "Not a boolean expression"
+
+	public static val TYPE_NOT_EXPECTED = 'typeNotExpected'
+	public static val TYPE_NOT_EXPECTED_MESSAGE = "The resulting type does not match the expected type"
+
+	public static val Map<String, List<String>> ALLOWED_OPS_FOR_TYPES = #{
+		TypeUtil.TYPE_BOOLEAN -> #[TypeUtil.OP_AND, TypeUtil.OP_OR, TypeUtil.OP_NOT],
+		TypeUtil.TYPE_STRING -> #[TypeUtil.OP_PLUS, TypeUtil.OP_EQUALS, TypeUtil.OP_NOT_EQUALS],
+		TypeUtil.TYPE_INTEGER ->
 			#[TypeUtil.OP_SMALLER_THAN, TypeUtil.OP_SMALLER_THAN_EQUALS, TypeUtil.OP_GREATER_THAN,
 				TypeUtil.OP_GREATER_THAN_EUQALS, TypeUtil.OP_PLUS, TypeUtil.OP_MINUS, TypeUtil.OP_MUL, TypeUtil.OP_DIV],
-		TypeDecimal ->
+		TypeUtil.TYPE_DECIMAL ->
 			#[TypeUtil.OP_SMALLER_THAN, TypeUtil.OP_SMALLER_THAN_EQUALS, TypeUtil.OP_GREATER_THAN,
 				TypeUtil.OP_GREATER_THAN_EUQALS, TypeUtil.OP_PLUS, TypeUtil.OP_MINUS, TypeUtil.OP_MUL, TypeUtil.OP_DIV],
-		TypeDate -> #[],
-		TypeMoney ->
+		TypeUtil.TYPE_DATE -> #[],
+		TypeUtil.TYPE_MONEY ->
 			#[TypeUtil.OP_SMALLER_THAN, TypeUtil.OP_SMALLER_THAN_EQUALS, TypeUtil.OP_GREATER_THAN,
 				TypeUtil.OP_GREATER_THAN_EUQALS, TypeUtil.OP_PLUS, TypeUtil.OP_MINUS, TypeUtil.OP_MUL, TypeUtil.OP_DIV]
 	}
 
-	def getAllowedOpsForType(QuestionType type) {
+	def getAllowedTypesForOps() {
+		val ret = new HashMap<String, List<String>>
+		ALLOWED_OPS_FOR_TYPES.forEach [ k, v |
+			v.forEach [ p1, p2 |
+				if (ret.containsKey(p1)) {
+					ret.get(p1).add(k)
+				} else {
+					ret.put(p1, newArrayList(k))
+				}
+			]
+		]
+		return ret;
+	}
+
+	def getTypeForQuestionType(QuestionType type) {
 		switch (type) {
-			TypeBool: ALLOWED_OPS_AND_TYPES.get(TypeBool) as List<String>
-			TypeString: ALLOWED_OPS_AND_TYPES.get(TypeString) as List<String>
-			TypeInteger: ALLOWED_OPS_AND_TYPES.get(TypeInteger) as List<String>
-			TypeDecimal: ALLOWED_OPS_AND_TYPES.get(TypeDecimal) as List<String>
-			TypeDate: ALLOWED_OPS_AND_TYPES.get(TypeDate) as List<String>
-			TypeMoney: ALLOWED_OPS_AND_TYPES.get(TypeMoney) as List<String>
+			TypeBool: TypeUtil.TYPE_BOOLEAN
+			TypeString: TypeUtil.TYPE_STRING
+			TypeInteger: TypeUtil.TYPE_INTEGER
+			TypeDecimal: TypeUtil.TYPE_DECIMAL
+			TypeDate: TypeUtil.TYPE_DATE
+			TypeMoney: TypeUtil.TYPE_MONEY
+		}
+	}
+
+	def String computeType(Expression exp) {
+		switch exp {
+			ExpressionOr:
+				TypeUtil.TYPE_BOOLEAN
+			ExpressionAnd:
+				TypeUtil.TYPE_BOOLEAN
+			ExpressionEquality:
+				TypeUtil.TYPE_BOOLEAN
+			ExpressionComparison:
+				TypeUtil.TYPE_BOOLEAN
+			ExpressionPlusOrMinus: {
+				computeType(exp.left)
+			}
+			ExpressionMulOrDiv: {
+				computeType(exp.left)
+			}
+			ExpressionNot:
+				TypeUtil.TYPE_BOOLEAN
+			ExpressionQuestionRef:
+				getTypeForQuestionType(exp.question.type)
 		}
 	}
 
 	@Check
-	def checkVariableRef(QuestionRef exp) {
-		var questionType = exp.question.type
-		var List<String> allowedOps = getAllowedOpsForType(questionType)
-		var parent = exp.eContainer
-		var error = false;
-		switch (parent) {
-			Or:
-				error = !allowedOps.contains(parent.op)
-			And:
-				error = !allowedOps.contains(parent.op)
-			Equality:
-				error = !allowedOps.contains(parent.op)
-			Comparison:
-				error = !allowedOps.contains(parent.op)
-			PlusOrMinus:
-				error = !allowedOps.contains(parent.op)
-			MulOrDiv:
-				error = !allowedOps.contains(parent.op)
-			Not:
-				error = !allowedOps.contains(TypeUtil.OP_NOT)
-			Block: {
-			}
+	def checkExpressionOr(ExpressionOr exp) {
+
+		var leftType = computeType(exp.left)
+		var rightType = computeType(exp.right)
+
+		var allowedTypes = allowedTypesForOps.get(exp.op)
+		if (!allowedTypes.contains(leftType))
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_OR__LEFT, TYPE_NOT_ALLOWED)
+
+		if (!allowedTypes.contains(rightType))
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_OR__RIGHT, TYPE_NOT_ALLOWED)
+
+		if (leftType != rightType)
+			error(TYPE_NOT_SAME_MESSAGE, QLangPackage.Literals.EXPRESSION_OR__RIGHT, TYPE_NOT_SAME)
+
+	}
+
+	@Check
+	def checkExpressionAnd(ExpressionAnd exp) {
+
+		var leftType = computeType(exp.left)
+		var rightType = computeType(exp.right)
+
+		var allowedTypes = allowedTypesForOps.get(exp.op)
+		if (!allowedTypes.contains(leftType))
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_AND__LEFT, TYPE_NOT_ALLOWED)
+
+		if (!allowedTypes.contains(rightType))
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_AND__RIGHT, TYPE_NOT_ALLOWED)
+
+		if (leftType != rightType)
+			error(TYPE_NOT_SAME_MESSAGE, QLangPackage.Literals.EXPRESSION_AND__RIGHT, TYPE_NOT_SAME)
+
+	}
+
+	@Check
+	def checkExpressionEquality(ExpressionEquality exp) {
+
+		var leftType = computeType(exp.left)
+		var rightType = computeType(exp.right)
+
+		var allowedTypes = allowedTypesForOps.get(exp.op)
+		if (!allowedTypes.contains(leftType))
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_EQUALITY__LEFT, TYPE_NOT_ALLOWED)
+
+		if (!allowedTypes.contains(rightType))
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_EQUALITY__RIGHT, TYPE_NOT_ALLOWED)
+
+		if (leftType != rightType)
+			error(TYPE_NOT_SAME_MESSAGE, QLangPackage.Literals.EXPRESSION_EQUALITY__RIGHT, TYPE_NOT_SAME)
+
+	}
+
+	@Check
+	def checkExpressionComparison(ExpressionComparison exp) {
+
+		var leftType = computeType(exp.left)
+		var rightType = computeType(exp.right)
+
+		var allowedTypes = allowedTypesForOps.get(exp.op)
+		if (!allowedTypes.contains(leftType))
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_COMPARISON__LEFT, TYPE_NOT_ALLOWED)
+
+		if (!allowedTypes.contains(rightType))
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_COMPARISON__RIGHT, TYPE_NOT_ALLOWED)
+
+		if (leftType != rightType)
+			error(TYPE_NOT_SAME_MESSAGE, QLangPackage.Literals.EXPRESSION_COMPARISON__RIGHT, TYPE_NOT_SAME)
+
+	}
+
+	@Check
+	def checkExpressionPlusOrMinus(ExpressionPlusOrMinus exp) {
+
+		var leftType = computeType(exp.left)
+		var rightType = computeType(exp.right)
+
+		var allowedTypes = allowedTypesForOps.get(exp.op)
+		if (!allowedTypes.contains(leftType))
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_PLUS_OR_MINUS__LEFT, TYPE_NOT_ALLOWED)
+
+		if (!allowedTypes.contains(rightType))
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_PLUS_OR_MINUS__RIGHT, TYPE_NOT_ALLOWED)
+
+		if (leftType != rightType)
+			error(TYPE_NOT_SAME_MESSAGE, QLangPackage.Literals.EXPRESSION_PLUS_OR_MINUS__RIGHT, TYPE_NOT_SAME)
+
+	}
+
+	@Check
+	def checkExpressionMulOrDiv(ExpressionMulOrDiv exp) {
+
+		var leftType = computeType(exp.left)
+		var rightType = computeType(exp.right)
+
+		var allowedTypes = allowedTypesForOps.get(exp.op)
+		if (!allowedTypes.contains(leftType))
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_MUL_OR_DIV__LEFT, TYPE_NOT_ALLOWED)
+
+		if (!allowedTypes.contains(rightType))
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_MUL_OR_DIV__RIGHT, TYPE_NOT_ALLOWED)
+
+		if (leftType != rightType)
+			error(TYPE_NOT_SAME_MESSAGE, QLangPackage.Literals.EXPRESSION_MUL_OR_DIV__RIGHT, TYPE_NOT_SAME)
+
+	}
+
+	@Check
+	def checkExpressionNot(ExpressionNot exp) {
+
+		var type = computeType(exp.expression)
+
+		var allowedTypes = allowedTypesForOps.get(TypeUtil.OP_NOT)
+		if (!allowedTypes.contains(type))
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_NOT__EXPRESSION, TYPE_NOT_ALLOWED)
+
+	}
+
+	@Check
+	def checkBlockExpression(Block block) {
+
+		if (computeType(block.expression) != TypeUtil.TYPE_BOOLEAN) {
+			error(BLOCK_INVALID_EXPRESSION_MESSAGE, QLangPackage.Literals.BLOCK__EXPRESSION, BLOCK_INVALID_EXPRESSION)
 		}
-		if (error)
-			error('operation is undefined for type ' + questionType, QLangPackage.Literals.QUESTION_REF__QUESTION,
-				INVALID_EXPRESSION)
+
+	}
+
+	@Check
+	def checkComputedQuestion(Question question) {
+
+		if (question.expression !== null) {
+			var expectedType = getTypeForQuestionType(question.type)
+			var computedType = computeType(question.expression)
+			if (expectedType != computedType)
+				error(TYPE_NOT_EXPECTED_MESSAGE, QLangPackage.Literals.QUESTION__EXPRESSION, TYPE_NOT_EXPECTED)
+		}
+
 	}
 
 }

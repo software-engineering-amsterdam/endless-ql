@@ -425,6 +425,15 @@ public class QLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class StringExprContext extends ExpressionContext {
+		public TerminalNode LABEL() { return getToken(QLParser.LABEL, 0); }
+		public StringExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitStringExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class IntegerExprContext extends ExpressionContext {
 		public TerminalNode INTEGER() { return getToken(QLParser.INTEGER, 0); }
 		public IntegerExprContext(ExpressionContext ctx) { copyFrom(ctx); }
@@ -496,15 +505,6 @@ public class QLParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitGroupingExpr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class LabelExprContext extends ExpressionContext {
-		public TerminalNode LABEL() { return getToken(QLParser.LABEL, 0); }
-		public LabelExprContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitLabelExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -591,7 +591,7 @@ public class QLParser extends Parser {
 				break;
 			case LABEL:
 				{
-				_localctx = new LabelExprContext(_localctx);
+				_localctx = new StringExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(54);

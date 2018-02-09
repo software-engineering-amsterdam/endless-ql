@@ -38,6 +38,11 @@ class PrimaryExpr extends Expr {
 	public PrimaryExpr(QLToken token) {
 		this.token = token;
 	}
+	
+	public PrimaryExpr(QLToken token, QLType type) {
+		this.token = token;
+		this.setType(type);
+	}
 
 	@Override
 	<T> T accept(Visitor<T> visitor) {

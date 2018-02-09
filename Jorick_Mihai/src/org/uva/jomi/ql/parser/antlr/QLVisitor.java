@@ -56,6 +56,13 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAndExpr(QLParser.AndExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code StringExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringExpr(QLParser.StringExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code IntegerExpr}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
@@ -97,13 +104,6 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitGroupingExpr(QLParser.GroupingExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code LabelExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLabelExpr(QLParser.LabelExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MultiplicationExpr}
 	 * labeled alternative in {@link QLParser#expression}.

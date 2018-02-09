@@ -22,7 +22,7 @@ questionStmt: IDENTIFIER ':' LABEL TYPE (expression)? ;
 ifStmt: 'if' '(' expression ')' blockStmt ;
 
 expression: BOOLEAN # BooleanExpr
-		  | LABEL  # LabelExpr
+		  | LABEL  # StringExpr
 		  | INTEGER # IntegerExpr
 		  | IDENTIFIER # IdentifierExpr
 		  | operator='!' expression # UnaryExpr

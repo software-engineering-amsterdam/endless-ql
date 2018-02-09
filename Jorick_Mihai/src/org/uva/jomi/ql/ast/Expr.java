@@ -3,6 +3,7 @@ package org.uva.jomi.ql.ast;
 abstract public class Expr {
 	interface Visitor<T> {
 		T visitIndetifierExpr(IndentifierExpr expr);
+		T visitPrimaryExpr(PrimaryExpr expr);
 	}
 	
 	abstract <T> T accept(Visitor<T> visitor);
@@ -28,5 +29,18 @@ class IndentifierExpr extends Expr {
 	@Override
 	<T> T accept(Visitor<T> visitor) {
 		return visitor.visitIndetifierExpr(this);
+	}
+}
+
+class PrimaryExpr extends Expr {
+	final QLToken token;
+
+	public PrimaryExpr(QLToken token) {
+		this.token = token;
+	}
+
+	@Override
+	<T> T accept(Visitor<T> visitor) {
+		return visitor.visitPrimaryExpr(this);
 	}
 }

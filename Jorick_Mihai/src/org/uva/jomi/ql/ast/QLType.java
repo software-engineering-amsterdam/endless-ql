@@ -8,7 +8,7 @@ public enum QLType {
 	BOOLEAN ("boolean"),
 	INTEGER ("integer"),
 	DECIMAL ("decimal"),
-	DATE ("decimal"),
+	DATE ("date"),
 	MONEY ("money");
 	
 	private final String name;

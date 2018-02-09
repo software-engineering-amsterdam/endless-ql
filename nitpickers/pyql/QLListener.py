@@ -26,6 +26,15 @@ class QLListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by QLParser#block.
+    def enterBlock(self, ctx:QLParser.BlockContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#block.
+    def exitBlock(self, ctx:QLParser.BlockContext):
+        pass
+
+
     # Enter a parse tree produced by QLParser#expression.
     def enterExpression(self, ctx:QLParser.ExpressionContext):
         pass
@@ -53,12 +62,12 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#typ.
-    def enterTyp(self, ctx:QLParser.TypContext):
+    # Enter a parse tree produced by QLParser#type.
+    def enterType(self, ctx:QLParser.TypeContext):
         pass
 
-    # Exit a parse tree produced by QLParser#typ.
-    def exitTyp(self, ctx:QLParser.TypContext):
+    # Exit a parse tree produced by QLParser#type.
+    def exitType(self, ctx:QLParser.TypeContext):
         pass
 
 

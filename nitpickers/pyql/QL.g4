@@ -4,22 +4,37 @@ grammar QL;
  * Parser rules
  */
 
- form              : 'form' IDENTIFIER '{' statement+ '}' ;
+ form              : 'form' identifier '{' block '}' ;
 
- conditional_block : 'if' '(' expression ')' '{' statement+ '}' ;
+ conditional_block : 'if' '(' expression ')' '{' block '}' ;
 
- expression        : 'true'|'false' ;
+ block             : statement+ ;
 
- //rel_expression    :
-
- //unary_expresstion : '!';
+ expression        : '!' expression
+                   | '(' expression ')'
+                   | orExpression ;
 
  statement         : quest | conditional_block ;
 
- quest             : IDENTIFIER ':' STR typ ;
+ quest             : identifier ':' STR quest_type ;
 
- typ               : 'boolean' | 'text' | 'int' | DATE | DECIMAL | MONEY ;
+ quest_type        : 'boolean' | 'text' | 'int' | 'date' | 'date' | 'money';
 
+ unExpression  : literal | identifier;
+
+ mulExpression : unExpression (('*' | '/') unExpression)*;
+
+ addExpression : mulExpression (('+' | '-') mulExpression)*;
+
+ relExpression : addExpression (('<' | '<=' | '>' | '>=' | '==' | '!=') addExpression)* ;
+
+ andExpression : relExpression ('&&' relExpression)* ;
+
+ orExpression : andExpression ('||' andExpression)* ;
+
+ literal : MONEY | DECIMAL | INT | STR | BOOL ;
+
+ identifier : IDENTIFIER;
 
 /*
  * Lexer rules
@@ -29,18 +44,16 @@ WHITESPACE   : (' ' | '\t' | '\n' | '\r') -> channel(HIDDEN);
 
 COMMENT      : '/*' .*? '*/' -> channel(HIDDEN);
 
-LINE_COMMENT : '//'.*? -> channel(HIDDEN);
+LINE_COMMENT : '//'.*? ~[\r\n]* -> channel(HIDDEN);
 
-INT          : ('0'..'9')+;
+MONEY        : [1-9]+'.'([0-9] [0-9] [0-9]);
+
+DECIMAL      : INT '.' [0-9]+;
+
+INT          : ('1'..'9')+('0'..'9')*;//rejects leading zeros
 
 STR          : '"' .*? '"';
 
 BOOL         : 'true' | 'false';
-
-MONEY        : ([0-9]+.[0-9]{3});
-
-DECIMAL      : ([0-9]+.[0-9]+);
-
-DATE         : 'date';
 
 IDENTIFIER   : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;

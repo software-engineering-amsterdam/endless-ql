@@ -171,6 +171,7 @@ hs_err_pid*
 ## Plugin-specific files:
 
 # IntelliJ
+.idea
 
 # mpeltonen/sbt-idea plugin
 
@@ -219,3 +220,4 @@ Remi_Hasan/.idea/
 Remi_Hasan/gen/
 Remi_Hasan/target/
 *.bat
+

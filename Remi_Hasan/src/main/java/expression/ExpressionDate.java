@@ -1,6 +1,6 @@
 package expression;
 
-public class ExpressionDate extends Expression<String>{
+public class ExpressionDate extends Expression<String> {
     // TODO: figure out best way to save and/or validate a date
 
     private final String text;

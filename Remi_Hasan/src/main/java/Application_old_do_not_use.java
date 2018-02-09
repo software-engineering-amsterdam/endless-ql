@@ -9,9 +9,10 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 
-public class Application extends JFrame{
+public class Application_old_do_not_use extends JFrame{
 
     private QLLexer lexer;
     private CommonTokenStream tokens;
@@ -19,7 +20,7 @@ public class Application extends JFrame{
 
     public static void main(String[] args) {
         String fileName = "example.ql";
-        Application application = new Application();
+        Application_old_do_not_use application = new Application_old_do_not_use();
         Form form = application.parseForm(fileName);
         application.viewForm(form);
     }

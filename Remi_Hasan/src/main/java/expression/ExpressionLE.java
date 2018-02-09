@@ -1,6 +1,6 @@
 package expression;
 
-public class ExpressionLE extends Expression<Boolean>{
+public class ExpressionLE extends Expression<Boolean> {
 
     private final Expression left;
     private final Expression right;

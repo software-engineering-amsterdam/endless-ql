@@ -4,9 +4,9 @@ import answer.Answer;
 
 public class Question {
 
-    private final String name;
+    public final String name;
     public final String text;
-    private final Answer answer;
+    public final Answer answer;
 
     public Question(String name, String text, Answer answer) {
         this.name = name;

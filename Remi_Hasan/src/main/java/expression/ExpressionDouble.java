@@ -1,6 +1,6 @@
 package expression;
 
-public class ExpressionDouble extends Expression<Double>{
+public class ExpressionDouble extends Expression<Double> {
 
     private final double value;
 

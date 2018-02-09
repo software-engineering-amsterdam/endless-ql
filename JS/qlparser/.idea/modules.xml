@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/qlparser.iml" filepath="$PROJECT_DIR$/qlparser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/qlparser_main.iml" filepath="$PROJECT_DIR$/.idea/modules/qlparser_main.iml" group="qlparser" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/qlparser_test.iml" filepath="$PROJECT_DIR$/.idea/modules/qlparser_test.iml" group="qlparser" />
     </modules>
   </component>
 </project>

@@ -199,6 +199,8 @@ hs_err_pid*
 Abel_Elias/\.idea/
 
 Jordy_Dennis/env
+Jordy_Dennis/__pycache__
+Jordy_Dennis/LexParser
 Jordy_Dennis/*.pyc
 
 remihasan/.idea/
@@ -209,3 +211,11 @@ Arjan_Niels/QL_Vizualizer/.vs/
 Arjan_Niels/QL_Vizualizer/packages/
 Arjan_Niels/QL_Vizualizer/QL_Parser/obj/Debug/
 Arjan_Niels/QL_Vizualizer/QL_Vizualizer/obj/Debug/
+
+PyQuest/.idea/
+remihasan/gen/
+remihasan/target/
+Remi_Hasan/.idea/
+Remi_Hasan/gen/
+Remi_Hasan/target/
+*.bat

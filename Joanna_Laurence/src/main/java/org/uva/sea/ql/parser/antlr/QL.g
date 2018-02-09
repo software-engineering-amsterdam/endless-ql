@@ -3,7 +3,7 @@ grammar QL;
 @parser::header
 {
     package org.uva.sea.ql.parser.antlr;
-    import org.uva.sea.ql.parser.parseObject.*;
+    import org.uva.sea.ql.parser.elements.*;
 }
 
 @lexer::header
@@ -18,22 +18,39 @@ form returns [Form result]
 statements returns [Statements result]
     @init  { Statements statements = new Statements(); }
     @after { $result = statements; }
-    : stm=statement { statements.getStatementList().add($stm.result); }
+    : (stm=statement { statements.getStatementList().add($stm.result); })+
     ;
 
 statement returns [Statement result]
     @init  { Statement statement = new Statement(); }
     @after { $result = statement; }
     : quest=question { statement.setQuestion($quest.result); }
-    | cond=condition { statement.setCondition($cond.result); }
     ;
 
+//TODO: question can be computed
 question returns [Question result]
-    : 'question' { $result = new Question(); }
+    : lab=label var=variable ':' t=type { $result = new Question($lab.result, $var.result, $t.result); }
     ;
 
+//TODO: a condition can have nested conditions
 condition returns [Condition result]
-    : 'condition' { $result = new Condition(); }
+    : 'if' '(' expression ')' question { $result = new Condition(); }
+    ;
+
+label returns [String result]
+    : Str { $result = $Str.text; }
+    ;
+
+variable returns [String result]
+    : Ident { $result = $Ident.text; }
+    ;
+
+type returns [String result]
+    : Ident { $result = $Ident.text; }
+    ;
+
+expression returns [String result]
+    : Ident { $result = $Ident.text; }
     ;
 
 WS  :	(' ' | '\t' | '\n' | '\r') -> skip;

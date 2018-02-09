@@ -1,4 +1,4 @@
-package org.uva.sea.ql.parser.parseObject;
+package org.uva.sea.ql.parser.elements;
 
 import java.util.ArrayList;
 import java.util.List;

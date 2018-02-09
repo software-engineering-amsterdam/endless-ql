@@ -4,17 +4,20 @@ import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-
-import org.uva.sea.ql.parser.antlr.*;
+import org.uva.sea.ql.parser.antlr.QLBaseListener;
+import org.uva.sea.ql.parser.antlr.QLLexer;
+import org.uva.sea.ql.parser.antlr.QLParser;
+import org.uva.sea.ql.parser.elements.Statement;
 
 public class QLCompiler extends QLBaseListener {
 
     /**
      * Compile a form specification
+     *
      * @param source Of the source location
      * @return
      */
-    public Object compileScriptFile(CharStream source){
+    public Object compileScriptFile(CharStream source) {
 
         //Get tokens
         QLLexer lexer = new QLLexer(source);
@@ -50,7 +53,11 @@ public class QLCompiler extends QLBaseListener {
 
     @Override
     public void enterStatements(QLParser.StatementsContext context) {
-        System.out.printf("statement %s", context.result.getStatementList());
+        for (Statement statement : context.result.getStatementList()) {
+            System.out.println("statement label: " + statement.getQuestion().getLabel()
+                    + " variable: " + statement.getQuestion().getVariable()
+                    + " type: " + statement.getQuestion().getType());
+        }
     }
 
 

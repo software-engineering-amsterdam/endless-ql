@@ -1,16 +1,14 @@
 package nl.uva.se.sc.niro;
 
-import java.io.IOException;
-
+import nl.uva.se.sc.niro.ast.Node;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-
-import nl.uva.se.sc.niro.ast.Node;
 import ql.QLBaseVisitor;
 import ql.QLLexer;
 import ql.QLParser;
-import ql.QLParser.ExpressionContext;
 import ql.QLParser.FormContext;
+
+import java.io.IOException;
 
 /**
  * Just for testing the ANTLR integration. Acts mainly for Proof Of Concept. 
@@ -30,21 +28,20 @@ public class VisitingCompiler extends QLBaseVisitor<Node> {
 		visit(form);
 		return null;
 	}
-		
+
 	@Override
-	public Node visitExpression(ExpressionContext ctx) {
-		switch (ctx.getChildCount()) {
-		case 1 :
-			System.out.printf("EXPR=[%s]%n", ctx.getChild(0).getText());
-			break;
-		case 2 :
-			System.out.printf("OP=[%s] EXPR=[%s]%n", ctx.getChild(0).getText(), ctx.getChild(1).getText());
-			break;
-		case 3 :
-			System.out.printf("LHS=[%s] OP=[%s] RHS=[%s]%n", ctx.getChild(0).getText(), ctx.getChild(1).getText(), ctx.getChild(2).getText());
-			break;
-		}
-		return super.visitExpression(ctx);
+	public Node visitLogicalOpr(QLParser.LogicalOprContext ctx) {
+		System.out.printf("LogicalOpr [%s]%n", ctx.logicalOp().getText());
+		System.out.printf("LogicalOpr LHS [%s]%n", ctx.expression(0).getText());
+		System.out.printf("LogicalOpr RHS [%s]%n", ctx.expression(1).getText());
+		return super.visitLogicalOpr(ctx);
 	}
-		
+
+	@Override
+	public Node visitCompOpr(QLParser.CompOprContext ctx) {
+		System.out.printf("CompOpr [%s]%n", ctx.compOp().getText());
+		System.out.printf("CompOpr LHS [%s]%n", ctx.expression(0).getText());
+		System.out.printf("CompOpr RHS [%s]%n", ctx.expression(1).getText());
+		return super.visitCompOpr(ctx);
+	}
 }

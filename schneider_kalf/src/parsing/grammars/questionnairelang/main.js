@@ -52,7 +52,7 @@
 
 start = call+
 
-call = form:(form) _ lb* { return form}
+call = form:form _ lb* { return form}
 
 allOps = compOps / boolOps / baseOps
 
@@ -96,22 +96,11 @@ form
 }
 
 if
- = s:statement _ pre:(expression) _ block:block_if lb* {
-
-     
+ = s:"if" _ pre:(expression) _ block:block_if lb* {
      pre.name = "PREDICATE";
-     s.children = [];
-     s.children.push(pre);
-     s.children.push(block);
-     return s;
+     var childeren = [pre,block];
+     return base("IF", {childeren})
 }
-
-statements = "if"
-
-statement
- = _ stat:statements  {
-     return base("IF")
- }
 
 // Initiates an expression
 expression

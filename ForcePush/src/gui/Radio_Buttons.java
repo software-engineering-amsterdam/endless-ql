@@ -10,7 +10,11 @@ import javax.swing.JRadioButton;
 
 public class Radio_Buttons extends JPanel implements ActionListener {
 	
-	public Create_Radio()
+	public Radio_Buttons(){
+		
+	}
+	
+	public void Create_Radio()
 	{
 		
 		JRadioButton test_button = new JRadioButton("Test1"); 

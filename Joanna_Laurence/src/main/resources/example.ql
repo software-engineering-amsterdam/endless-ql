@@ -1,3 +1,9 @@
 form taxOfficeExample {
-    statement testt
+
+
+    if (hasSoldHouse)
+      "What was the selling price?"
+        sellingPrice: money
+
+
 }

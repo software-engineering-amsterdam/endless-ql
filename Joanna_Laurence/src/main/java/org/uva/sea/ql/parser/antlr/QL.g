@@ -28,11 +28,14 @@ statement returns [Statement result]
     | cont=condition { statement.setCondition($cont.result); }
     ;
 
-//TODO: question can be computed
-// expression
+
+//TODO: .text is used to check if it is not null
 question returns [Question result]
-    : lab=label var=variable ':' t=type { $result = new Question($lab.result, $var.result, $t.result); }
+    : lab=label var=variable ':' t=type ('=' ex=expression)? {
+        $result = new Question($lab.result, $var.result, $t.result,$ex.text == null ? null : $ex.result);
+      }
     ;
+
 
 //TODO: a condition can have nested conditions
 condition returns [Condition result]
@@ -77,7 +80,7 @@ unExpr returns [Expr result]
 
 primary returns [Expr result]
     : bool {$result = $bool.result; }
-    | var=Ident { $result = new Var($var.text); }
+    | var=variable { $result = new Var($var.text); }
     ;
 
 mulExpr returns [Expr result]

@@ -4,9 +4,9 @@ public class Question {
     private String label;
     private String variable;
     private String type;
+    private Expr value;
 
-    public Question(String label, String variable, String type) {
-
+    public Question(String label, String variable, String type, Expr value) {
         this.label = label;
         this.variable = variable;
         this.type = type;
@@ -38,5 +38,13 @@ public class Question {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Expr getValue() {
+        return value;
+    }
+
+    public void setValue(Expr value) {
+        this.value = value;
     }
 }

@@ -82,6 +82,7 @@ unExpr returns [Expr result]
 primary returns [Expr result]
     : bool {$result = $bool.result; }
     | var=variable { $result = new Var($var.text); }
+    | d=date { $result = $d.result; }
     | Int {$result = new Num(Integer.parseInt($Int.text));}
     | Decimal {$result = new Dec(Double.parseDouble($Decimal.text)); }
     | Str {$result = new Str($Str.text);}
@@ -145,6 +146,12 @@ andExpr returns [Expr result]
 orExpr returns [Expr result]
     :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
     ;
+
+date returns [DateExpr result]
+    : '@' day=Int month=Int year=Int '@' { $result = new DateExpr(Integer.parseInt($day.text),
+                                                                     Integer.parseInt($month.text),
+                                                                     Integer.parseInt($year.text)
+                                                                     ); };
 
 
 BOOLEAN_TRUE: ('true' | 'TRUE');

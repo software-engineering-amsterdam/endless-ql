@@ -37,6 +37,17 @@
       };
     }, head);
   }
+  
+  function fieldBody(type, name, label, expr){
+    return base("FIELD", {
+       attributes:{
+         type,
+         name,
+         label,
+       },
+       children: expr? [expr] : null
+    })
+  }
 }
 
 
@@ -53,31 +64,32 @@ baseOps = "+" / "-" / "*" / "/"
 
 type = "boolean" / "money" / "currency" / "date" 
 
-field
+// Field for pdf syntax
+fieldPdfSyntax
  = _ name:name _ ":" _ label:string _ type:type _ expr:expression? lb*{
-    return base("FIELD", {
-       attributes:{
-         type,
-         name,         
-         label,
-       },
-       children: expr? [expr] : null
-    })
+    console.log(name);
+    return fieldBody(type, name, label, expr)
+ }
+
+// Field for github syntax
+fieldGithubSyntax
+ = _ label:string lb* name:name _ ":" _ type:type lb* expr:("=" lb* expression)? lb*{
+    console.log(name, label, type, expr);
+    return fieldBody(type, name, label, expr? expr[2] : null)
  }
 
 block_if
- = "{" lb* e:(field / if)+ lb* _ "}" { 
+ = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" { 
      return base("BLOCK", {
        name:"THEN",
        children:e,
      })
  }
- 
+
 block_form
- = "{" lb* e:(field / if)+ lb* _ "}" { 
+ = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" { 
      return e
  }
-
 
 form
  = _ type:"form" _ name:name _ childeren:block_form lb*{

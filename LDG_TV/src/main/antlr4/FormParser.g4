@@ -6,7 +6,7 @@ grammar FormParser;
 form_builder  : 'form' CHARACTERS CURLY_BRACKET_OPEN form_data CURLY_BRACKET_CLOSE;
 form_data : (question_structure)+ if_structure?;
 
-question_structure :
+question_structure:
     question_identifier
     question_variable
     question_variable_seperator
@@ -33,6 +33,9 @@ question_answer: QUESTION_ANSWER;
  * Lexer Rules
  */
 
+fragment LOWERCASE  : [a-z] ;
+fragment UPPERCASE  : [A-Z] ;
+
 CURLY_BRACKET_OPEN : '{';
 CURLY_BRACKET_CLOSE : '}';
 BRACKET_OPEN : '(';
@@ -43,7 +46,8 @@ QUESTION_VARIABLE_SEPERATOR : ':';
 QUESTION_ANSWER_SEPERATOR : '=';
 QUESTION_ANSWER : '(' + (CHARACTERS | ' - ')+ ')';
 
-WHITESPACE : ' ' -> skip;
-NEWLINE : '\n' -> skip;
-CHARACTERS : ('a' .. 'z' | 'A' .. 'Z')+;
+WHITESPACE : (' ' | '\t') -> skip;
+NEWLINE : ('\r'? '\n' | '\r')+ -> skip;
+
+CHARACTERS : (LOWERCASE | UPPERCASE)+;
 NUMBERS : ('0' .. '9');

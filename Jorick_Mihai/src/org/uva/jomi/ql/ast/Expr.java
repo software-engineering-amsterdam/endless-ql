@@ -1,6 +1,6 @@
 package org.uva.jomi.ql.ast;
 
-abstract public class Expr {
+abstract public class Expr extends AstNode {
 	interface Visitor<T> {
 		T visitIndetifierExpr(IndentifierExpr expr);
 		T visitPrimaryExpr(PrimaryExpr expr);
@@ -20,10 +20,23 @@ abstract public class Expr {
 }
 
 class IndentifierExpr extends Expr {
-	QLToken token;
+	final QLToken token;
+	private boolean undefined = true;
 
 	public IndentifierExpr(QLToken token) {
 		this.token = token;
+	}
+	
+	public IndentifierExpr(QLToken token, QLType type) {
+		this.setType(type);
+		this.token = token;
+	}
+	public boolean isUndefined() {
+		return undefined;
+	}
+
+	public void setUndefined(boolean undefined) {
+		this.undefined = undefined;
 	}
 
 	@Override

@@ -32,10 +32,10 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 	
 	@Override public Stmt visitQuestionStmt(QLParser.QuestionStmtContext ctx) {
 		QLToken token = new QLToken(ctx.IDENTIFIER().getSymbol());
-		IndentifierExpr identifier = new IndentifierExpr(token);
 		String label = ctx.LABEL().getText();
-		QLType type = QLType.getType(ctx.LABEL().getText());
-		
+		QLType type = QLType.getType(ctx.TYPE().getText());
+		// Set the token and type of the identifier in order for it to match the question type
+		IndentifierExpr identifier = new IndentifierExpr(token, type);
 		// Check if the question has an expression
 		if (ctx.expression() != null) {
 			Expr expression = ctx.expression().accept(exprVisitor);

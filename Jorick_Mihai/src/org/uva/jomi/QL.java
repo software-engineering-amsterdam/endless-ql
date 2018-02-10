@@ -13,7 +13,7 @@ import org.uva.jomi.ql.parser.antlr.*;
 public class QL {
 
 	public static void main(String[] args) {
-		// Report an error if the the user does not supply a source file
+		// Report an error if the the user does not supply a source file.
 		if (args.length < 1) {
 			System.err.println("Usage QL <script>");
 			System.exit(1);
@@ -33,10 +33,14 @@ public class QL {
 			
 			List<Stmt> ast = astBuilder.visit(parser.parse());
 			
-			// Make sure there are no parsing errors before we use the Ast
+			// Make sure there are no parsing errors before we use the Ast.
 			// TODO - Extend the Antlr lexer in order to identify if lexical errors occurred.
 			if (parser.getNumberOfSyntaxErrors() == 0) {
 				
+				// Output the Ast in Graphviz dot format.
+				java.io.PrintStream outStream = new java.io.PrintStream("graph.txt");
+				outStream.println(new AstGraph().getGraph(ast));
+				outStream.close();
 			}
 			
 		} catch (IOException e) {

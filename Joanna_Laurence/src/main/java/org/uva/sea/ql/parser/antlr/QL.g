@@ -61,8 +61,6 @@ type returns [String result]
 
 expression returns [Expr result]
     : expr=orExpr {$result = $expr.result;}
-    | bool {$result = $bool.result; }
-    | var=Ident { $result = new Var($var.text); }
     ;
 
 bool returns [Expr result]
@@ -74,6 +72,12 @@ unExpr returns [Expr result]
     :  '+' x=unExpr { $result = new Pos($x.result); }
     |  '-' x=unExpr { $result = new Neg($x.result); }
     |  '!' x=unExpr { $result = new Not($x.result); }
+    |  p=primary    { $result = $p.result; }
+    ;
+
+primary returns [Expr result]
+    : bool {$result = $bool.result; }
+    | var=Ident { $result = new Var($var.text); }
     ;
 
 mulExpr returns [Expr result]

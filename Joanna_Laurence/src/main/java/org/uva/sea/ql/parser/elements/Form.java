@@ -1,11 +1,11 @@
-package org.uva.sea.ql.parser.parseObject;
+package org.uva.sea.ql.parser.elements;
 
 
 public class Form {
 
     private String name;
 
-    public Form(String name, Statement statement) {
+    public Form(String name, Statements statement) {
         this.name = name;
     }
 

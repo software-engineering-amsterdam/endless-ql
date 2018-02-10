@@ -84,5 +84,35 @@ class QLangParsingTest {
 
 		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.question, "")
 	}
+	
+	@Test
+	def void testErrorOnEmptyForm() {
+		val result = parseHelper.parse('''
+			form TestForm{
+				
+			}
+		''')
+		Assert.assertNotNull(result)
+		Assert.assertTrue(result.eResource.errors.isEmpty)
+
+		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.question, "")
+	}
+	
+	@Test
+	def void testErrorOnEmptyBlock() {
+		val result = parseHelper.parse('''
+			form TestForm{
+				q1: "Do you have a pet?" boolean
+				q2: "Do you have a pet?" boolean
+				if(q1 && q2){
+					
+				}
+			}
+		''')
+		Assert.assertNotNull(result)
+		Assert.assertTrue(result.eResource.errors.isEmpty)
+
+		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.question, "")
+	}
 
 }

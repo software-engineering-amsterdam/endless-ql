@@ -2,17 +2,17 @@ package ast.literal;
 
 public abstract class Literal<T> {
 
-	private T val;
+	private T value;
 	
-	public Literal(T val) {
-		this.setValue(val);
+	public Literal(T value) {
+		this.setValue(value);
 	}
 	
 	public T getValue() {
-		return val;
+		return value;
 	}
 
-	public void setValue(T val) {
-		this.val = val;
+	public void setValue(T value) {
+		this.value = value;
 	}
 }

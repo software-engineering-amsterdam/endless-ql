@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DogeQL.iml" filepath="$PROJECT_DIR$/DogeQL.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ql.iml" filepath="$PROJECT_DIR$/.idea/modules/ql.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ql_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ql_main.iml" group="ql" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ql_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ql_test.iml" group="ql" />
     </modules>
   </component>
 </project>

@@ -58,8 +58,8 @@ variable returns [String result]
     : Ident { $result = $Ident.text; }
     ;
 
-type returns [String result]
-    : Ident { $result = $Ident.text; }
+type returns [Type result]
+    : Types { $result = new Type($Types.text); }
     ;
 
 //TODO Nested formulas do not work yet: (1+2*3+(3+4)*6)
@@ -152,7 +152,7 @@ date returns [DateExpr result]
                                                                      Integer.parseInt($month.text),
                                                                      Integer.parseInt($year.text)
                                                                      ); };
-
+Types: ('money' | 'boolean' | 'string' | 'integer' | 'date' | 'decimal');
 
 BOOLEAN_TRUE: ('true' | 'TRUE');
 

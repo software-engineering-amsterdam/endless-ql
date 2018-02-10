@@ -3,10 +3,10 @@ package org.uva.sea.ql.parser.elements;
 public class Question {
     private String label;
     private String variable;
-    private String type;
+    private Type type;
     private Expr value;
 
-    public Question(String label, String variable, String type, Expr value) {
+    public Question(String label, String variable, Type type, Expr value) {
         this.label = label;
         this.variable = variable;
         this.type = type;
@@ -32,11 +32,11 @@ public class Question {
         this.variable = variable;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

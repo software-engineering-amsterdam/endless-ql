@@ -38,6 +38,7 @@ question returns [Question result]
 
 
 //TODO: a condition can have nested conditions
+//TODO: Ask if nested ifs are allowed
 condition returns [Condition result]
     : 'if' '(' expression ')' statementBlock { $result = new Condition(); }
     ;

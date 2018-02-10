@@ -7,7 +7,7 @@ public class Dec extends Expr {
         this.value = value;
     }
 
-    public double isValue() {
+    public double getValue() {
         return value;
     }
 

@@ -2,11 +2,11 @@ package org.uva.sea.ql.parser.elements;
 
 public class Money extends Expr {
     private String currency;
-    private Double cents;
+    private Double amount;
 
-    public Money(String currency, Double cents) {
+    public Money(String currency, Double amount) {
         this.currency = currency;
-        this.cents = cents;
+        this.amount = amount;
     }
 
     public String getCurrency() {
@@ -17,11 +17,11 @@ public class Money extends Expr {
         this.currency = currency;
     }
 
-    public Double getCents() {
-        return cents;
+    public Double getAmount() {
+        return amount;
     }
 
-    public void setCents(Double cents) {
-        this.cents = cents;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 }

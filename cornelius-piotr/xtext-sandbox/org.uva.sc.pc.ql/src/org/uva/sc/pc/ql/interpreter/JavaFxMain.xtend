@@ -2,10 +2,8 @@ package org.uva.sc.pc.ql.interpreter
 
 import java.util.ArrayList
 import java.util.HashMap
-import java.util.concurrent.Callable
 import javafx.application.Application
 import javafx.beans.binding.Binding
-import javafx.beans.binding.Bindings
 import javafx.event.Event
 import javafx.event.EventHandler
 import javafx.event.EventType
@@ -21,7 +19,6 @@ import javafx.stage.Stage
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
-import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.util.CancelIndicator
 import org.eclipse.xtext.validation.CheckMode
@@ -42,12 +39,9 @@ class JavaFxMain extends Application {
 
 	private static var Resource RESOURCE;
 
-	@Accessors(PUBLIC_GETTER)
 	private static val CONTROLS = new HashMap<Object, Control>
 
 	private static val BINDINGS = new ArrayList<Binding>
-
-	private val evaluator = new ExpressionEvaluator
 
 	override start(Stage primaryStage) {
 
@@ -67,24 +61,17 @@ class JavaFxMain extends Application {
 			var control = buildControlForQuestion(it)
 			root.children.add(control)
 		]
-		for (block : form.blocks) {
+		form.blocks.forEach[
 			val box = new VBox();
-			box.visible = evaluator.<Boolean>evalExpression(block.expression);
-			block.body.questions.forEach [
+			it.body.questions.forEach [
 				val control = buildControlForQuestion(it)
 				box.children.add(control)
 			]
-			val binding = Bindings.createBooleanBinding(new Callable<Boolean>() {
-
-				override call() throws Exception {
-					evaluator.<Boolean>evalExpression(block.expression)
-				}
-
-			})
+			val binding = BindingUtil.buildBindingForTypeBoolean(CONTROLS, it.expression)
 			box.visibleProperty.bind(binding)
 			BINDINGS.add(binding)
 			root.children.add(box)
-		}
+		]
 		return root
 	}
 
@@ -94,15 +81,16 @@ class JavaFxMain extends Application {
 		var Control control
 		switch question.type {
 			TypeBool:
-				control = new CheckBox
-			TypeDecimal,
-			TypeInteger,
+				control = buildControlForTypeBoolean(question.expression)
 			TypeString:
-				control = new TextField
+				control = buildControlForTypeString(question.expression)
+			TypeInteger:
+				control = buildControlForTypeInteger(question.expression)
+			TypeDecimal,
+			TypeMoney:
+				control = buildControlForTypeDecimalAndMoney(question.expression)
 			TypeDate:
 				control = new DatePicker
-			TypeMoney:
-				control = buildControlForTypeMoney(question.expression)
 			default:
 				throw new MissingCaseException
 		}
@@ -114,16 +102,40 @@ class JavaFxMain extends Application {
 		return hbox
 	}
 
-	def buildControlForTypeMoney(Expression expression) {
+	def buildControlForTypeBoolean(Expression expression) {
+		var text = new CheckBox
+		if (expression !== null) {
+			val binding = BindingUtil.buildBindingForTypeBoolean(CONTROLS, expression)
+			text.selectedProperty.bind(binding)
+			BINDINGS.add(binding)
+		}
+		return text
+	}
+
+	def buildControlForTypeString(Expression expression) {
 		var text = new TextField
 		if (expression !== null) {
-			val binding = Bindings.createStringBinding(new Callable<String>() {
+			val binding = BindingUtil.buildBindingForTypeString(CONTROLS, expression)
+			text.textProperty.bind(binding)
+			BINDINGS.add(binding)
+		}
+		return text
+	}
 
-				override call() throws Exception {
-					evaluator.<Double>evalExpression(expression).toString
-				}
+	def buildControlForTypeInteger(Expression expression) {
+		var text = new TextField
+		if (expression !== null) {
+			val binding = BindingUtil.buildBindingForTypeInteger(CONTROLS, expression)
+			text.textProperty.bind(binding)
+			BINDINGS.add(binding)
+		}
+		return text
+	}
 
-			})
+	def buildControlForTypeDecimalAndMoney(Expression expression) {
+		var text = new TextField
+		if (expression !== null) {
+			val binding = BindingUtil.buildBindingForTypeDecimalAndMoney(CONTROLS, expression)
 			text.textProperty.bind(binding)
 			BINDINGS.add(binding)
 		}

@@ -1,7 +1,6 @@
 package org.uva.sc.pc.ql.interpreter
 
-import javafx.scene.control.CheckBox
-import javafx.scene.control.TextField
+import java.util.Map
 import javax.script.ScriptEngine
 import javax.script.ScriptEngineManager
 import org.uva.sc.pc.ql.qLang.Expression
@@ -50,18 +49,15 @@ class ExpressionEvaluator {
 		}
 	}
 
-	def <T> evalExpression(Expression exp) {
+	def <T> evalExpression(Expression exp, Map<String, Object> arguments) {
 		val stringExp = buildExpression(exp)
 
-		exp.eAllContents.filter[it instanceof ExpressionQuestionRef].forEach [
-			var name = (it as ExpressionQuestionRef).question.name
-			var widget = JavaFxMain.CONTROLS.get(name)
-			switch widget {
-				CheckBox: engine.put(name, widget.selected)
-				TextField: engine.put(name, widget.text)
-			}
+		arguments.forEach[variableName, valueValue |
+			engine.put(variableName, valueValue)
 		]
+		println("evaluating " + stringExp + " with " + arguments)
 		var result = engine.eval(stringExp)
+		println("result " + result)
 		return result as T
 	}
 

@@ -7,9 +7,12 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.uva.sea.ql.parser.antlr.QLBaseListener;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
+import org.uva.sea.ql.parser.elements.Condition;
+import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.Statement;
+import org.uva.sea.ql.parser.prettyPrinter.BasicPrettyPrinter;
 
-public class QLCompiler extends QLBaseListener {
+public class QLCompiler {
 
     /**
      * Compile a form specification
@@ -30,7 +33,8 @@ public class QLCompiler extends QLBaseListener {
 
         //Walk the tree and print out all elements
         ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(this, form);
+        BasicPrettyPrinter printer = new BasicPrettyPrinter();
+        walker.walk(printer, form);
 
         //Show the parse tree
         Trees.inspect(form, parser);
@@ -39,32 +43,6 @@ public class QLCompiler extends QLBaseListener {
     }
 
 
-    @Override
-    public void enterForm(QLParser.FormContext context) {
-        System.out.printf("%nform %s {%n", context.result.getName());
-    }
-
-
-    @Override
-    public void exitForm(QLParser.FormContext context) {
-        System.out.printf("}%n");
-    }
-
-
-    @Override
-    public void enterStatements(QLParser.StatementsContext context) {
-        for (Statement statement : context.result.getStatementList()) {
-            System.out.println("statement label: " + statement.getQuestion().getLabel()
-                    + " variable: " + statement.getQuestion().getVariable()
-                    + " type: " + statement.getQuestion().getType());
-        }
-    }
-
-
-    @Override
-    public void exitStatements(QLParser.StatementsContext context) {
-        System.out.printf("%n");
-    }
 }
 
 

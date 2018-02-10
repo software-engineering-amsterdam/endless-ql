@@ -35,10 +35,10 @@ question returns [Question result]
 
 //TODO: a condition can have nested conditions
 condition returns [Condition result]
-    : 'if' '(' expression ')' statment_block { $result = new Condition(); }
+    : 'if' '(' expression ')' statementBlock { $result = new Condition(); }
     ;
 
-statment_block returns [Statements result]
+statementBlock returns [Statements result]
      @init  { Statements statements = new Statements(); }
      @after { $result = statements; }
 

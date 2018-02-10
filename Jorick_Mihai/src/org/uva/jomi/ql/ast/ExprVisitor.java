@@ -21,6 +21,5 @@ class ExprVisitor extends QLBaseVisitor<Expr> {
 	@Override public Expr visitIntegerExpr(QLParser.IntegerExprContext ctx) {
 		QLToken token = new QLToken(ctx.INTEGER().getSymbol());
 		return new PrimaryExpr(token, QLType.INTEGER);
-		
 	}
 }

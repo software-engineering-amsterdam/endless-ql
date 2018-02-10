@@ -2,7 +2,7 @@ package org.uva.jomi.ql.ast;
 
 import java.util.List;
 
-abstract class Stmt extends AstNode {
+public abstract class Stmt extends AstNode {
 	interface Visitor<T> {
 		T visitFormStmt(FormStmt stmt);
 		T visitBlockStmt(BlockStmt stmt);

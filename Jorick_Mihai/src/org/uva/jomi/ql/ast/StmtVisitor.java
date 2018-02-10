@@ -9,8 +9,8 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 	
 	private final ExprVisitor exprVisitor;
 	
-	public StmtVisitor(ExprVisitor exprVisitor) {
-		this.exprVisitor = exprVisitor;
+	public StmtVisitor() {
+		this.exprVisitor = new ExprVisitor();
 	}
 
 	@Override public Stmt visitFormStmt(QLParser.FormStmtContext ctx) {

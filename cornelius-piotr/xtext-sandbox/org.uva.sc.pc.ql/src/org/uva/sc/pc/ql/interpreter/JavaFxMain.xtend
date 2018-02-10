@@ -47,7 +47,7 @@ class JavaFxMain extends Application {
 
 	private static val BINDINGS = new ArrayList<Binding>
 
-	private val evaluator = new GuiExpressionEvaluator
+	private val evaluator = new ExpressionEvaluator
 
 	override start(Stage primaryStage) {
 
@@ -69,7 +69,7 @@ class JavaFxMain extends Application {
 		]
 		for (block : form.blocks) {
 			val box = new VBox();
-			box.visible = evaluator.evalExpression(block.expression);
+			box.visible = evaluator.<Boolean>evalExpression(block.expression);
 			block.body.questions.forEach [
 				val control = buildControlForQuestion(it)
 				box.children.add(control)

@@ -9,6 +9,9 @@ import org.uva.sc.pc.ql.qLang.Expression
 import org.uva.sc.pc.ql.qLang.ExpressionAnd
 import org.uva.sc.pc.ql.qLang.ExpressionComparison
 import org.uva.sc.pc.ql.qLang.ExpressionEquality
+import org.uva.sc.pc.ql.qLang.ExpressionLiteralBoolean
+import org.uva.sc.pc.ql.qLang.ExpressionLiteralInteger
+import org.uva.sc.pc.ql.qLang.ExpressionLiteralString
 import org.uva.sc.pc.ql.qLang.ExpressionMulOrDiv
 import org.uva.sc.pc.ql.qLang.ExpressionNot
 import org.uva.sc.pc.ql.qLang.ExpressionOr
@@ -16,6 +19,7 @@ import org.uva.sc.pc.ql.qLang.ExpressionPlusOrMinus
 import org.uva.sc.pc.ql.qLang.ExpressionQuestionRef
 import org.uva.sc.pc.ql.qLang.QLangPackage
 import org.uva.sc.pc.ql.qLang.Question
+import org.uva.sc.pc.ql.qLang.util.MissingCaseException
 import org.uva.sc.pc.ql.qLang.util.TypeUtil
 
 /**
@@ -55,8 +59,16 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 			}
 			ExpressionNot:
 				TypeUtil.TYPE_BOOLEAN
+			ExpressionLiteralString:
+				TypeUtil.TYPE_STRING
+			ExpressionLiteralInteger:
+				TypeUtil.TYPE_INTEGER
+			ExpressionLiteralBoolean:
+				TypeUtil.TYPE_BOOLEAN
 			ExpressionQuestionRef:
 				TypeUtil.getTypeForQuestionType(exp.question.type)
+			default:
+				throw new MissingCaseException
 		}
 	}
 

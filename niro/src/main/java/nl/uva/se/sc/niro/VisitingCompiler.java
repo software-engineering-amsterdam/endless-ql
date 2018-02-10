@@ -3,6 +3,7 @@ package nl.uva.se.sc.niro;
 import nl.uva.se.sc.niro.ast.Node;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.TerminalNode;
 import ql.QLBaseVisitor;
 import ql.QLLexer;
 import ql.QLParser;
@@ -32,6 +33,8 @@ public class VisitingCompiler extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitLogicalOpr(QLParser.LogicalOprContext ctx) {
 		System.out.printf("LogicalOpr [%s]%n", ctx.logicalOp().getText());
+		TerminalNode terminalNode = (TerminalNode) ctx.logicalOp().getChild(0);
+		System.out.printf("TerminalNode [%s]%n", terminalNode);
 		System.out.printf("LogicalOpr LHS [%s]%n", ctx.expression(0).getText());
 		System.out.printf("LogicalOpr RHS [%s]%n", ctx.expression(1).getText());
 		return super.visitLogicalOpr(ctx);

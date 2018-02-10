@@ -38,12 +38,12 @@ expression  : INTEGER                          # IntConst
             | expression arithmOp expression   # ArithmOpr
             | expression compOp expression     # CompOpr
             | expression logicalOp expression  # LogicalOpr
-            | name                             # ID ;
+            | name                             # Var ;
 
 form        : 'form' name '{' statement+ '}' ;
 name        : ID ;
 statement   : question | conditional ;
-question    : name ':' TEXT answer_type ( '(' expression ')' )?;
-answer_type : 'boolean' | 'integer' | 'string' ;
+question    : name ':' TEXT answer_type ( '=' '(' expression ')' )?;
+answer_type : 'boolean' | 'integer' | 'string' ; // TODO rename to answerType, or type
 
-conditional : 'if' '(' expression ')' '{' statement+ '}' ;
+conditional : 'if' '(' expression ')' '{' statement+ '}' ( 'else' '{' statement+ '}' )? ;

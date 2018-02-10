@@ -47,6 +47,11 @@ public class ListeningCompiler extends QLBaseListener {
 	}
 
 	@Override
+	public void exitForm(FormContext ctx) {
+		System.out.printf("}%n");
+	}
+
+	@Override
 	public void enterQuestion(QLParser.QuestionContext ctx) {
 		String questionId = ctx.name().getText();
 		String questionLabel = ctx.children.get(2).getText();

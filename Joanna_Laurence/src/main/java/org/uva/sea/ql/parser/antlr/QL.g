@@ -83,6 +83,7 @@ primary returns [Expr result]
     : bool {$result = $bool.result; }
     | var=variable { $result = new Var($var.text); }
     | Int {$result = new Num(Integer.parseInt($Int.text));}
+    | Decimal {$result = new Dec(Double.parseDouble($Decimal.text)); }
     | Str {$result = new Str($Str.text);}
     | '(' ex=expression ')' {$result = $ex.result;}
     ;
@@ -157,5 +158,7 @@ COMMENT : '/*' .*? '*/'  -> skip;
 Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 Int: ('0'..'9')+;
+
+Decimal: ('0'..'9')+ '.' ('0'..'9')+;
 
 Str: '"' .*? '"';

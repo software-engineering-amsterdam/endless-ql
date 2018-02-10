@@ -41,7 +41,7 @@ ExpressionMulOrDiv returns Expression:
 	ExpressionAtomic (({ExpressionMulOrDiv.left=current} op=('*' | '/')) right=ExpressionAtomic)*;
 
 ExpressionAtomic returns Expression:
-	'(' Expression ')' |
+//	'(' Expression ')' |
 	{ExpressionNot} "!" expression=ExpressionAtomic |
 	{ExpressionQuestionRef} question=[Question];
 

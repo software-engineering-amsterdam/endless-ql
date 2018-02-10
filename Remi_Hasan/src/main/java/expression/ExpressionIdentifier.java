@@ -1,6 +1,9 @@
 package expression;
 
-public class ExpressionIdentifier extends Expression<Boolean>{
+import answer.Answer;
+import model.Form;
+
+public class ExpressionIdentifier extends Expression<Object>{
 
     private final String identifier;
 
@@ -9,15 +12,18 @@ public class ExpressionIdentifier extends Expression<Boolean>{
     }
 
     @Override
-    public Boolean evaluate() {
-        // TODO get real value
-        return true;
+    public Object evaluate(Form form) {
+        System.out.println("id: " + identifier + " value: " + form.block.getQuestionAnswer(identifier).getValue());
+        if (isEvaluable(form)) {
+            return form.block.getQuestionAnswer(identifier).getValue();
+        }
+        return new ExpressionUndefined();
     }
 
     @Override
-    public boolean isEvaluable() {
-        // TODO does the identifier exist?
-        return true;
+    public boolean isEvaluable(Form form) {
+        Answer answer = form.block.getQuestionAnswer(identifier);
+        return answer != null && answer.getValue() != null;
     }
 
     @Override

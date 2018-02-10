@@ -1,5 +1,7 @@
 package expression;
 
+import model.Form;
+
 public class ExpressionNeg extends Expression<Double> {
     private final Expression value;
 
@@ -8,15 +10,15 @@ public class ExpressionNeg extends Expression<Double> {
     }
 
     @Override
-    public Double evaluate() {
-        if(isEvaluable()){
-            return -(double)this.value.evaluate();
+    public Double evaluate(Form form) {
+        if(isEvaluable(form)){
+            return -(double)this.value.evaluate(form);
         }
         return null;
     }
 
     @Override
-    public boolean isEvaluable() {
-        return this.value.isEvaluable();
+    public boolean isEvaluable(Form form) {
+        return this.value.isEvaluable(form);
     }
 }

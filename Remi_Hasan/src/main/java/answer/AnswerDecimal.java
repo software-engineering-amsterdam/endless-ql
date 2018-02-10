@@ -4,8 +4,8 @@ public class AnswerDecimal extends Answer<Double> {
 
     private Double value = null;
 
-    public void setValue(Double value){
-        this.value = value;
+    public void setValue(String value){
+        this.value = Double.parseDouble(value);
     }
 
     @Override

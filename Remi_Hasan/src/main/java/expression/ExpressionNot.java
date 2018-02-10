@@ -1,5 +1,7 @@
 package expression;
 
+import model.Form;
+
 public class ExpressionNot extends Expression<Boolean> {
 
     private final Expression value;
@@ -9,15 +11,15 @@ public class ExpressionNot extends Expression<Boolean> {
     }
 
     @Override
-    public Boolean evaluate() {
-        if(isEvaluable()){
-            return !(boolean)this.value.evaluate();
+    public Boolean evaluate(Form form) {
+        if(isEvaluable(form)){
+            return !(boolean)this.value.evaluate(form);
         }
         return null;
     }
 
     @Override
-    public boolean isEvaluable() {
-        return value.isEvaluable();
+    public boolean isEvaluable(Form form) {
+        return value.isEvaluable(form);
     }
 }

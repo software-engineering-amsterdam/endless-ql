@@ -1,5 +1,7 @@
 package expression;
 
+import model.Form;
+
 public class ExpressionDate extends Expression<String> {
     // TODO: figure out best way to save and/or validate a date
 
@@ -10,12 +12,12 @@ public class ExpressionDate extends Expression<String> {
     }
 
     @Override
-    public String evaluate() {
+    public String evaluate(Form form) {
         return text;
     }
 
     @Override
-    public boolean isEvaluable() {
+    public boolean isEvaluable(Form form) {
         return true;
     }
 

@@ -1,5 +1,7 @@
 package expression;
 
+import model.Form;
+
 public class ExpressionString extends Expression<String> {
 
     private final String text;
@@ -9,12 +11,12 @@ public class ExpressionString extends Expression<String> {
     }
 
     @Override
-    public String evaluate() {
+    public String evaluate(Form form) {
         return text;
     }
 
     @Override
-    public boolean isEvaluable() {
+    public boolean isEvaluable(Form form) {
         return true;
     }
 

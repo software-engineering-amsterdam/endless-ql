@@ -4,12 +4,17 @@ public class AnswerBoolean extends Answer<Boolean> {
 
     private Boolean value = null;
 
-    public void setValue(Boolean value){
-        this.value = value;
+    // TODO if parse fails do something special
+    public void setValue(String value){
+        this.value = Boolean.parseBoolean(value);
     }
 
     @Override
     public Boolean getValue() {
         return value;
+    }
+
+    public String toString(){
+        return String.valueOf(value);
     }
 }

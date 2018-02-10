@@ -75,7 +75,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     @Override
     public Expression visitConstant_integer(QLParser.Constant_integerContext ctx) {
         // TODO do we have to use integer? what if we do a sum of int + double?
-        return new ExpressionDouble(Integer.valueOf(ctx.getText()));
+        return new ExpressionInteger(Integer.valueOf(ctx.getText()));
     }
 
     @Override

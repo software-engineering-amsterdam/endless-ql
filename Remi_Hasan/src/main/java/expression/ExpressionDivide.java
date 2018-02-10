@@ -1,5 +1,7 @@
 package expression;
 
+import model.Form;
+
 public class ExpressionDivide extends Expression<Double> {
     private final Expression left;
     private final Expression right;
@@ -10,16 +12,16 @@ public class ExpressionDivide extends Expression<Double> {
     }
 
     @Override
-    public Double evaluate() {
-        if(isEvaluable() && (double)right.evaluate() != 0){
-            return (double)left.evaluate() * (double)right.evaluate();
+    public Double evaluate(Form form) {
+        if(isEvaluable(form) && (double)right.evaluate(form) != 0){
+            return (double)left.evaluate(form) * (double)right.evaluate(form);
         }
         return null;
     }
 
     @Override
-    public boolean isEvaluable() {
-        return left.isEvaluable() && right.isEvaluable();
+    public boolean isEvaluable(Form form) {
+        return left.isEvaluable(form) && right.isEvaluable(form);
     }
 
     @Override

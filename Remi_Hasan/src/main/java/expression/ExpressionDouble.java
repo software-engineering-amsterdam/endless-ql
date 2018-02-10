@@ -1,5 +1,7 @@
 package expression;
 
+import model.Form;
+
 public class ExpressionDouble extends Expression<Double> {
 
     private final double value;
@@ -9,12 +11,12 @@ public class ExpressionDouble extends Expression<Double> {
     }
     
     @Override
-    public Double evaluate() {
+    public Double evaluate(Form form) {
         return value;
     }
 
     @Override
-    public boolean isEvaluable() {
+    public boolean isEvaluable(Form form) {
         return true;
     }
 

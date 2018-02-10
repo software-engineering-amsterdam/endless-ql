@@ -1,5 +1,7 @@
 package expression;
 
+import model.Form;
+
 public class ExpressionEq extends Expression<Boolean> {
     private final Expression left;
     private final Expression right;
@@ -10,16 +12,22 @@ public class ExpressionEq extends Expression<Boolean> {
     }
 
     @Override
-    public Boolean evaluate() {
-        if(isEvaluable()){
-            return this.left.evaluate().equals(this.right.evaluate());
+    public Boolean evaluate(Form form) {
+//        Object leftEval = this.left.evaluate(form);
+//        Object rightEval = this.right.evaluate(form);
+//        if(leftEval == null){
+//            return rightEval == null;
+//        }
+//        return leftEval.equals(rightEval);
+        if(isEvaluable(form)){
+            return this.left.evaluate(form).equals(this.right.evaluate(form));
         }
         return null;
     }
 
     @Override
-    public boolean isEvaluable() {
-        return this.left.isEvaluable() && this.right.isEvaluable();
+    public boolean isEvaluable(Form form) {
+        return this.left.isEvaluable(form) && this.right.isEvaluable(form);
     }
 
     @Override

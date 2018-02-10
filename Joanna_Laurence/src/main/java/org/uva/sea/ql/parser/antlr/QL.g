@@ -63,7 +63,6 @@ type returns [Type result]
     : Types { $result = new Type($Types.text); }
     ;
 
-//TODO Nested formulas do not work yet: (1+2*3+(3+4)*6)
 expression returns [Expr result]
     : expr=orExpr {$result = $expr.result;}
     ;

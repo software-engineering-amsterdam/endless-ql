@@ -64,8 +64,7 @@ type returns [String result]
 
 //TODO Nested formulas do not work yet: (1+2*3+(3+4)*6)
 expression returns [Expr result]
-    : '(' expr=orExpr ')' {$result = $expr.result;}
-    | expr=orExpr {$result = $expr.result;}
+    : expr=orExpr {$result = $expr.result;}
     ;
 
 bool returns [Expr result]
@@ -85,6 +84,7 @@ primary returns [Expr result]
     | var=variable { $result = new Var($var.text); }
     | Int {$result = new Num(Integer.parseInt($Int.text));}
     | Str {$result = new Str($Str.text);}
+    | '(' ex=expression ')' {$result = $ex.result;}
     ;
 
 mulExpr returns [Expr result]

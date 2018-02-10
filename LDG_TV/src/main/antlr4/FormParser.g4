@@ -4,7 +4,7 @@ grammar FormParser;
  * Parser Rules
  */
 form_builder  : 'form' CHARACTERS CURLY_BRACKET_OPEN form_data CURLY_BRACKET_CLOSE;
-form_data : question_structure? if_structure?;
+form_data : (question_structure)+ if_structure?;
 
 question_structure :
     question_identifier
@@ -20,7 +20,7 @@ if_structure:
     question_variable
     BRACKET_CLOSE
     CURLY_BRACKET_OPEN
-    question_structure
+    (question_structure)+
     CURLY_BRACKET_CLOSE
 ;
 question_identifier : QUESTION_IDENTIFIER;
@@ -38,7 +38,7 @@ CURLY_BRACKET_CLOSE : '}';
 BRACKET_OPEN : '(';
 BRACKET_CLOSE : ')';
 
-QUESTION_IDENTIFIER : '"' + ((CHARACTERS | NUMBERS | ' ' | ':')+) + '?"';
+QUESTION_IDENTIFIER : '"' + ((CHARACTERS | NUMBERS | ' ' | ':' | '?')+) + '"';
 QUESTION_VARIABLE_SEPERATOR : ':';
 QUESTION_ANSWER_SEPERATOR : '=';
 QUESTION_ANSWER : '(' + (CHARACTERS | ' - ')+ ')';

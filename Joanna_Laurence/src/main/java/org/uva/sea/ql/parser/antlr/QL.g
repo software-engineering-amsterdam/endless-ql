@@ -18,13 +18,14 @@ form returns [Form result]
 statements returns [Statements result]
     @init  { Statements statements = new Statements(); }
     @after { $result = statements; }
-    : (stm=statement { statements.getStatementList().add($stm.result); })+
+    : (stm=statement { statements.addStatment($stm.result); })+
     ;
 
 statement returns [Statement result]
     @init  { Statement statement = new Statement(); }
     @after { $result = statement; }
     : quest=question { statement.setQuestion($quest.result); }
+    | cont=condition { statement.setCondition($cont.result); }
     ;
 
 //TODO: question can be computed
@@ -34,8 +35,16 @@ question returns [Question result]
 
 //TODO: a condition can have nested conditions
 condition returns [Condition result]
-    : 'if' '(' expression ')' question { $result = new Condition(); }
+    : 'if' '(' expression ')' statment_block { $result = new Condition(); }
     ;
+
+statment_block returns [Statements result]
+     @init  { Statements statements = new Statements(); }
+     @after { $result = statements; }
+
+     : '{' stms=statements '}' {$result = $stms.result; }
+     | stm=statement { statements.addStatment($stm.result); }
+     ;
 
 label returns [String result]
     : Str { $result = $Str.text; }

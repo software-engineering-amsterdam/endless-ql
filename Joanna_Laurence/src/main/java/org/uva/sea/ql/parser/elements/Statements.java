@@ -18,4 +18,8 @@ public class Statements {
     public void setStatementList(List<Statement> statementList) {
         this.statementList = statementList;
     }
+
+    public void addStatment(Statement item) {
+        this.statementList.add(item);
+    }
 }

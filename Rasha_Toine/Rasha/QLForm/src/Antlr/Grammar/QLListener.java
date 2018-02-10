@@ -1,7 +1,7 @@
 // Generated from .\QL.g4 by ANTLR 4.7
 
-	package Antlr.Grammar;
-	import Antlr.Grammar.*;
+	package antlr.grammar;
+	import antlr.grammar.*;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

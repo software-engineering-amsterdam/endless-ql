@@ -3,14 +3,14 @@ options {  language=Java; }
 
 @parser::header
 {
-	package Antlr.Grammar;
-	import Antlr.Grammar.*;
+	package antlr.grammar;
+	import antlr.grammar.*;
 }
 
 @lexer::header
 {
-	package Antlr.Grammar;
-	import Antlr.Grammar.*;
+	package antlr.grammar;
+	import antlr.grammar.*;
 }
 
 
@@ -32,14 +32,6 @@ expr
   | expr ('+'|'-') expr
   | expr ('>'|'>='|'<'|'<=') expr
  ;
-  /*| NOT expr 
-  | LP expr RP
-  | expr (AND|OR) expr
-  | expr (EQ|NEQ) expr
-  | expr (MUL|DIV) expr
-  | expr (ADD|SUB) expr
-  | expr (LT|LTEQ|GT|GTEQ) expr
- ;*/
 
 statement : question | ifStatement;
 
@@ -64,15 +56,15 @@ WHITESPACE   : (' ' | '\t' | '\n' | '\r') -> channel(HIDDEN);
 SingleComment: '//' ~[\r\n]+ -> channel(HIDDEN);
 BlockComment : '/*' .*? '*/' -> channel(HIDDEN);
 IDENT        : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-INTEGER      : ('0'..'9')+;
+DIGIT        : ('0'..'9');
+INTEGER      : DIGIT+;
 STRING       : '"' .*? '"';
 BOOLEAN      : ('true'|'false');
-DIGIT        : ('0'..'9');
 TwoDigits    : ('0'..'9')('0'..'9');
-FourDigits   : ('0'..'9')('0'..'9')('0'..'9')('0'..'9');
+QuadDigits   : ('0'..'9')('0'..'9')('0'..'9')('0'..'9');
 MONEY        : DIGIT+ '.' TwoDigits;
 DECIMAL      : DIGIT+ '.' DIGIT+;
-DATE	     : TwoDigits'-'TwoDigits'-'FourDigits;
+DATE	     : TwoDigits'-'TwoDigits'-'QuadDigits;
 
 ADD : '+';
 SUB : '-';
@@ -90,19 +82,6 @@ OR  : '||';
 LP  : '(';
 RP  : ')';
 
-/*
-BooleanType: 'boolean';
-IntType    : 'integer';
-MoneyType  : 'money';
-DecimalType: 'decimal';
-DateType   : 'date';
-StrType    : 'string';
-IfType     : 'if';
-ElseType   : 'else';
-FormType   : ('Form'|'form');
-COLON      : ':';
-LCB        : '{';
-RCB        : '}';*/
 
 
 

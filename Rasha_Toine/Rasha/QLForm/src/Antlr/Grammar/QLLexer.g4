@@ -4,8 +4,8 @@ options {  language=Java; }
 
 @lexer::header
 {
-	package Antlr.Grammar;
-	import Antlr.Grammar.*;
+	package antlr.grammar;
+	import antlr.grammar.*;
 }
 
 /*^^^^^^^^^^^^^^^^^^^^^^^^*
@@ -15,10 +15,10 @@ WHITESPACE   : (' ' | '\t' | '\n' | '\r') -> channel(HIDDEN);
 SingleComment: '//' ~[\r\n]+ -> channel(HIDDEN);
 BlockComment : '/*' .*? '*/' -> channel(HIDDEN);
 IDENT        : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-INTEGER      : ('0'..'9')+;
+DIGIT        : ('0'..'9');
+INTEGER      : DIGIT+;
 STRING       : '"' .*? '"';
 BOOLEAN      : ('true'|'false');
-DIGIT        : ('0'..'9');
 TwoDigits    : ('0'..'9')('0'..'9');
 FourDigits   : ('0'..'9')('0'..'9')('0'..'9')('0'..'9');
 MONEY        : DIGIT+ '.' TwoDigits;
@@ -40,19 +40,4 @@ AND : '&&';
 OR  : '||';
 LP  : '(';
 RP  : ')';
-
-/*
-BooleanType: 'boolean';
-IntType    : 'integer';
-MoneyType  : 'money';
-DecimalType: 'decimal';
-DateType   : 'date';
-StrType    : 'string';
-IfType     : 'if';
-ElseType   : 'else';
-FormType   : ('Form'|'form');
-COLON      : ':';
-LCB        : '{';
-RCB        : '}';*/
-
 

@@ -3,8 +3,8 @@ options {  language=Java; }
 
 @parser::header
 {
-	package Antlr.Grammar;
-	import Antlr.Grammar.*;
+	package antlr.grammar;
+	import antlr.grammar.*;
 }
 
 

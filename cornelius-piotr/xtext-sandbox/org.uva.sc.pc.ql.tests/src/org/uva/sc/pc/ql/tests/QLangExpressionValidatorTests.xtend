@@ -138,5 +138,37 @@ class QLangExpressionValidatorTests {
 					QLangExpressionValidator.TYPE_NOT_ALLOWED)
 		}
 	}
+	
+	@Test 
+	def testErrorOnInvalidIfBlockExpression(){
+		val result = parseHelper.parse('''
+			form TestForm{
+							q1: "Do you have a pet?" string
+							q2: "Do you have a house?" string
+							if(q1 + q2){
+								q3: "Computed" string = (q1 + q2)
+							}
+						}
+		''')
+		Assert.assertNotNull(result)
+		Assert.assertTrue(result.eResource.errors.isEmpty)
+		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.block,
+					QLangExpressionValidator.BLOCK_INVALID_EXPRESSION)
+	}
+	
+	@Test 
+	def testErrorOnInvalidComputedQuestionReturnType(){
+		val result = parseHelper.parse('''
+			form TestForm{
+							q1: "Do you have a pet?" string
+							q2: "Do you have a house?" string
+							q3: "Computed" string = (q1 == q2)
+						}
+		''')
+		Assert.assertNotNull(result)
+		Assert.assertTrue(result.eResource.errors.isEmpty)
+		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.question,
+					QLangExpressionValidator.TYPE_NOT_EXPECTED)
+	}
 
 }

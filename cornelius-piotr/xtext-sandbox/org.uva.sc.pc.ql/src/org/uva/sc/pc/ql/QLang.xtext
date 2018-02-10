@@ -17,51 +17,52 @@ BlockBody:
 	{BlockBody} questions+=Question*;
 
 Question:
-	name=ID ':' label=STRING type=QuestionType ('=' '(' expression=Expression ')')?;	
+	name=ID ':' label=STRING type=QuestionType ('=' '(' expression=Expression ')')?;
 
 Expression:
-	Or;
+	ExpressionOr;
 
-Or returns Expression:
-	And ({Or.left=current} "||" right=And)*;
+ExpressionOr returns Expression:
+	ExpressionAnd ({ExpressionOr.left=current} op="||" right=ExpressionAnd)*;
 
-And returns Expression:
-	Equality ({And.left=current} "&&" right=Equality)*;
+ExpressionAnd returns Expression:
+	ExpressionEquality ({ExpressionAnd.left=current} op="&&" right=ExpressionEquality)*;
 
-Equality returns Expression:
-	Comparison ({Equality.left=current} op=("==" | "!=") right=Comparison)*;
+ExpressionEquality returns Expression:
+	ExpressionComparison ({ExpressionEquality.left=current} op=("==" | "!=") right=ExpressionComparison)*;
 
-Comparison returns Expression:
-	PlusOrMinus ({Comparison.left=current} op=(">=" | "<=" | ">" | "<") right=PlusOrMinus)*;
+ExpressionComparison returns Expression:
+	ExpressionPlusOrMinus ({ExpressionComparison.left=current} op=(">=" | "<=" | ">" | "<") right=ExpressionPlusOrMinus)*;
 
-PlusOrMinus returns Expression:
-	MulOrDiv (({PlusOrMinus.left=current} op=('+' | '-')) right=MulOrDiv)*;
+ExpressionPlusOrMinus returns Expression:
+	ExpressionMulOrDiv (({ExpressionPlusOrMinus.left=current} op=('+' | '-')) right=ExpressionMulOrDiv)*;
 
-MulOrDiv returns Expression:
-	Atomic (({MulOrDiv.left=current} op=('*' | '/')) right=Atomic)*;
+ExpressionMulOrDiv returns Expression:
+	ExpressionAtomic (({ExpressionMulOrDiv.left=current} op=('*' | '/')) right=ExpressionAtomic)*;
 
-Atomic returns Expression:
-//'(' Expression ')' |
-	{Not} "!" expression=Atomic | {QuestionRef} question=[Question];
+ExpressionAtomic returns Expression:
+	'(' Expression ')' |
+	{ExpressionNot} "!" expression=ExpressionAtomic |
+	{ExpressionQuestionRef} question=[Question];
 
 QuestionType:
-	BoolType | StringType | IntegerType | DecimalType | DateType | MoneyType;
+	TypeBool | TypeString | TypeInteger | TypeDecimal | TypeDate | TypeMoney;
 
-BoolType:
-	'boolean';
+TypeBool returns QuestionType:
+	{TypeBool} 'boolean';
 
-StringType:
-	'string';
+TypeString returns QuestionType:
+	{TypeString} 'string';
 
-IntegerType:
-	'integer';
+TypeInteger returns QuestionType:
+	{TypeInteger} 'integer';
 
-DecimalType:
-	'decimal';
+TypeDecimal returns QuestionType:
+	{TypeDecimal} 'decimal';
 
-DateType:
-	'date';
+TypeDate returns QuestionType:
+	{TypeDate} 'date';
 
-MoneyType:
-	'money' | 'currency';
+TypeMoney returns QuestionType:
+	{TypeMoney} 'money' | {TypeMoney} 'currency';
 

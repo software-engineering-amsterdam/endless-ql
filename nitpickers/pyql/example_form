@@ -17,11 +17,29 @@ HTML datePicker input for date?
 form Box1HouseOwning {
    hasSoldHouse: “Did you sell a house in 2010?” boolean
    hasBoughtHouse: “Did you by a house in 2010?” boolean
-   hasMainLoan: "Did you enter a loan for maintenance/reconstruction?"
-boolean
+   hasMainLoan: "Did you enter a loan for maintenance/reconstruction?" boolean
+   age: "What's your age?" integer
    if (hasSoldHouse) {
       sellingPrice: “Price the house was sold for:” money
       privateDebt: “Private debts for the sold house:” money
+      if (age > 4) {
+         bigQuestion: "What's your name?" string
+      }
+      valueResidue: “Value residue:” money(sellingPrice - privateDebt)
+   }
+}
+
+form Box1HouseOwning {
+   hasSoldHouse: “Did you sell a house in 2010?” boolean
+   hasBoughtHouse: “Did you by a house in 2010?” boolean
+   hasMainLoan: "Did you enter a loan for maintenance/reconstruction?" boolean
+   age: "What's your age?" integer
+   if (hasSoldHouse) {
+      sellingPrice: “Price the house was sold for:” money
+      privateDebt: “Private debts for the sold house:” money
+      if (age > 4) {
+         bigQuestion: "What's your name?" string
+      }
       valueResidue: “Value residue:” money(sellingPrice - privateDebt)
    }
 }

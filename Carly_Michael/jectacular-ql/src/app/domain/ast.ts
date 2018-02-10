@@ -7,15 +7,13 @@ export class Statement {
 }
 
 export class Question extends Statement {
-  constructor(public name: string, public label: string, public type: QuestionType)
-  {
+  constructor(public name: string, public label: string, public type: QuestionType) {
     super();
   }
 }
 
 export class If extends Statement {
-  constructor(public condition: string, public statements: Statement[])
-  {
+  constructor(public condition: string, public statements: Statement[]) {
     super();
   }
 }

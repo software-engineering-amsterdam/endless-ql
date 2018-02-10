@@ -8,16 +8,17 @@ import javax.swing.JFrame
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.util.CancelIndicator
 import org.eclipse.xtext.validation.CheckMode
 import org.eclipse.xtext.validation.IResourceValidator
+import org.uva.sc.pc.ql.QLangStandaloneSetup
 import org.uva.sc.pc.ql.qLang.Form
-import org.eclipse.xtext.diagnostics.Severity
 
 class Main {
 	def static void main(String[] args) {
 		var files = Lists.newArrayList("test.ql");
-		var injector = new org.uva.sc.pc.ql.QLangStandaloneSetup().createInjectorAndDoEMFRegistration();
+		var injector = new QLangStandaloneSetup().createInjectorAndDoEMFRegistration();
 		var rs = injector.getInstance(ResourceSet);
 		var resources = new ArrayList<Resource>();
 		for (String file : files) {

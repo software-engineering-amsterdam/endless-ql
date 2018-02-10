@@ -1,6 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { QuestionService } from './question.service';
 import {Question, QuestionType} from '../domain/ast';
+import {TextboxQuestion} from '../domain/question-textbox';
+import {CheckboxQuestion} from '../domain/question-checkbox';
 
 describe('QuestionService', () => {
   let service: QuestionService;
@@ -30,12 +32,12 @@ describe('QuestionService', () => {
     expect(formQuestions[0].key).toBe('intQuestion');
     expect(formQuestions[0].label).toBe('intQuestion?');
     expect(formQuestions[0].controlType).toBe('textbox');
-    expect(formQuestions[0].type).toBe('number');
-    expect(formQuestions[1].type).toBe('number');
-    expect(formQuestions[2].type).toBe('number');
-    expect(formQuestions[3].type).toBe('boolean');
+    expect((<TextboxQuestion> formQuestions[0]).type).toBe('number');
+    expect((<TextboxQuestion> formQuestions[1]).type).toBe('number');
+    expect((<TextboxQuestion> formQuestions[2]).type).toBe('number');
+    expect((<CheckboxQuestion> formQuestions[3]).type).toBe('boolean');
     expect(formQuestions[3].controlType).toBe('checkbox');
-    expect(formQuestions[4].type).toBe('text');
-    expect(formQuestions[5].type).toBe('date');
+    expect((<TextboxQuestion> formQuestions[4]).type).toBe('text');
+    expect((<TextboxQuestion> formQuestions[5]).type).toBe('date');
   });
 });

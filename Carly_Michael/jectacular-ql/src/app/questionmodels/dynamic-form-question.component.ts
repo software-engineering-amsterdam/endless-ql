@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup }        from '@angular/forms';
-import { QuestionBase }     from '../domain/question-base';
+import { FormGroup } from '@angular/forms';
+import { QuestionBase } from '../domain/question-base';
 
 @Component({
   selector: 'app-question',
@@ -11,7 +11,7 @@ export class DynamicFormQuestionComponent {
   @Input() form: FormGroup;
   get isValid() { return this.form.controls[this.question.key].valid; }
 
-  onCheckboxChange(question : QuestionBase<any>, event) {
+  onCheckboxChange(question: QuestionBase<any>, event) {
     this.form.controls[this.question.key].setValue(event.target.checked);
   }
 }

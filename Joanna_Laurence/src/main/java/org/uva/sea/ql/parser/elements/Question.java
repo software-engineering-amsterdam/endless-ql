@@ -2,11 +2,11 @@ package org.uva.sea.ql.parser.elements;
 
 public class Question {
     private String label;
-    private String variable;
+    private Var variable;
     private Type type;
     private Expr value;
 
-    public Question(String label, String variable, Type type, Expr value) {
+    public Question(String label, Var variable, Type type, Expr value) {
         this.label = label;
         this.variable = variable;
         this.type = type;
@@ -24,11 +24,11 @@ public class Question {
         this.label = label;
     }
 
-    public String getVariable() {
+    public Var getVariable() {
         return variable;
     }
 
-    public void setVariable(String variable) {
+    public void setVariable(Var variable) {
         this.variable = variable;
     }
 

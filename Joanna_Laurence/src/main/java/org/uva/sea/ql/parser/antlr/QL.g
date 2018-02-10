@@ -54,8 +54,8 @@ label returns [String result]
     : Str { $result = $Str.text; }
     ;
 
-variable returns [String result]
-    : Ident { $result = $Ident.text; }
+variable returns [Var result]
+    : Ident { $result = new Var($Ident.text); }
     ;
 
 type returns [Type result]
@@ -81,13 +81,23 @@ unExpr returns [Expr result]
 
 primary returns [Expr result]
     : bool {$result = $bool.result; }
-    | var=variable { $result = new Var($var.text); }
+    | m=money { $result = $m.result; }
+    | var=variable { $result = $var.result; }
     | d=date { $result = $d.result; }
     | Int {$result = new Num(Integer.parseInt($Int.text));}
     | Decimal {$result = new Dec(Double.parseDouble($Decimal.text)); }
     | Str {$result = new Str($Str.text);}
     | '(' ex=expression ')' {$result = $ex.result;}
     ;
+
+money returns [Expr result]
+    : c=('$' | '€') v=Decimal {
+        $result = new Money($c.text, Double.parseDouble($v.text));
+    }
+
+    | c=('$' | '€') v=Int {
+        $result = new Money($c.text, Double.parseDouble($v.text));
+    };
 
 mulExpr returns [Expr result]
     :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr

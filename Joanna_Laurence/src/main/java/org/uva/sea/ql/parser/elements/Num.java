@@ -7,7 +7,7 @@ public class Num extends Expr {
         this.value = value;
     }
 
-    public int isValue() {
+    public int getValue() {
         return value;
     }
 

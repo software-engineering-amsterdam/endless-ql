@@ -84,10 +84,22 @@ primary returns [Expr result]
     | m=money { $result = $m.result; }
     | var=variable { $result = $var.result; }
     | d=date { $result = $d.result; }
-    | Int {$result = new Num(Integer.parseInt($Int.text));}
-    | Decimal {$result = new Dec(Double.parseDouble($Decimal.text)); }
-    | Str {$result = new Str($Str.text);}
+    | n=num {$result = $n.result;}
+    | de=dec {$result = $de.result; }
+    | s=str {$result = $s.result; }
     | '(' ex=expression ')' {$result = $ex.result;}
+    ;
+
+num returns [Expr result]
+    : Int {$result = new Num(Integer.parseInt($Int.text));}
+    ;
+
+dec returns [Expr result]
+    : Decimal {$result = new Dec(Double.parseDouble($Decimal.text));}
+    ;
+
+str returns [Expr result]
+    : Str {$result = new Str($Str.text);}
     ;
 
 money returns [Expr result]

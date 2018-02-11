@@ -80,7 +80,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitConstant_decimal(QLParser.Constant_decimalContext ctx) {
-        return new ExpressionDouble(Double.valueOf(ctx.getText()));
+        return new ExpressionDecimal(Double.valueOf(ctx.getText()));
     }
 
     @Override
@@ -91,12 +91,13 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     @Override
     public Expression visitConstant_money(QLParser.Constant_moneyContext ctx) {
         // TODO: Same as decimal?
-        return new ExpressionDouble(Double.valueOf(ctx.getText()));
+        return new ExpressionDecimal(Double.valueOf(ctx.getText()));
     }
 
     @Override
     public Expression visitConstant_string(QLParser.Constant_stringContext ctx) {
-        return new ExpressionString(ctx.getText());
+        String textWithQuotes = ctx.getText();
+        return new ExpressionString(textWithQuotes.substring(1, textWithQuotes.length() - 1));
     }
 
     // TODO do we need this?

@@ -10,6 +10,6 @@ public class ExpressionUndefined extends Expression<Object> {
 
     @Override
     public boolean isEvaluable(Form form) {
-        return true;
+        return false;
     }
 }

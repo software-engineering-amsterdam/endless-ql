@@ -3,8 +3,8 @@ package expression;
 import model.Form;
 
 public class ExpressionOr extends Expression<Boolean> {
-    private final Expression left;
-    private final Expression right;
+    private Expression left;
+    private Expression right;
 
     public ExpressionOr(Expression left, Expression right){
         this.left = left;

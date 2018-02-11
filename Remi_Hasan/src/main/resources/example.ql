@@ -1,12 +1,16 @@
 /* This is some comment*/
-/* TODO come up with cases with conditions where some value is undefined */
+/* TODO come up with cases with conditions where some value is undefined, duplicate variables or nonexistent variables in conditions */
 form taxOfficeExample {
-    someNumber: "Q1: Give me some number?" decimal
+    someString: "Q1: Give me the word 'hello'?" string
     someBoolean: "Q2: Give me true or false?" boolean
     if(someBoolean) {
         someBoolean2: "Q3: You can only answer this question if you answered true above" boolean
-        if(someNumber == 1.0) {
-            someBoolean3: "Q4: You can only answer this question if you Q1 equals 1 and Q2 equals true" boolean
+        if(someString == "hello") {
+            someBoolean3: "Q4: You can only answer this question if you Q1 equals 1 and Q2 equals 'hello'" boolean
         }
+    }
+    someNumber: "Q5: Can you give me a number?" decimal
+    if(someNumber > 5){
+        someBoolean4: "Q6: You can only answer this question if you answered Q5 > 5" boolean
     }
 }

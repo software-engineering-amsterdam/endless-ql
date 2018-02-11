@@ -1,14 +1,14 @@
 package model;
 
-import answer.Answer;
+import expression.Expression;
 
 public class Question {
 
     public final String name;
     public final String text;
-    public final Answer answer;
+    public final Expression answer;
 
-    public Question(String name, String text, Answer answer) {
+    public Question(String name, String text, Expression answer) {
         this.name = name;
         this.text = text.substring(1, text.length() - 1);
         this.answer = answer;

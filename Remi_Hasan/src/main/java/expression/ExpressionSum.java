@@ -4,8 +4,8 @@ import model.Form;
 
 public class ExpressionSum extends Expression<Double> {
 
-    private final Expression left;
-    private final Expression right;
+    private Expression left;
+    private Expression right;
 
     public ExpressionSum(Expression left, Expression right){
         this.left = left;

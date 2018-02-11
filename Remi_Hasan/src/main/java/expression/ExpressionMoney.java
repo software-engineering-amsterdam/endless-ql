@@ -2,16 +2,16 @@ package expression;
 
 import model.Form;
 
-public class ExpressionInteger extends Expression<Integer> {
+public class ExpressionMoney extends Expression<Double> {
 
-    private Integer value;
+    private Double value;
 
-    public ExpressionInteger(Integer value){
+    public ExpressionMoney(Double value){
         this.value = value;
     }
 
     @Override
-    public Integer evaluate(Form form) {
+    public Double evaluate(Form form) {
         return value;
     }
 
@@ -28,10 +28,5 @@ public class ExpressionInteger extends Expression<Integer> {
     @Override
     public boolean isEvaluable(Form form){
         return this.value != null;
-    }
-
-    @Override
-    public void setValue(String answer) {
-        this.value = Integer.parseInt(answer);
     }
 }

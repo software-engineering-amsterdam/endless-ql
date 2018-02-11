@@ -3,8 +3,8 @@ package expression;
 import model.Form;
 
 public class ExpressionSubtract extends Expression<Double> {
-    private final Expression left;
-    private final Expression right;
+    private Expression left;
+    private Expression right;
 
     public ExpressionSubtract(Expression left, Expression right){
         this.left = left;

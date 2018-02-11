@@ -3,8 +3,8 @@ package expression;
 import model.Form;
 
 public class ExpressionEq extends Expression<Boolean> {
-    private final Expression left;
-    private final Expression right;
+    private Expression left;
+    private Expression right;
 
     public ExpressionEq(Expression left, Expression right) {
         this.left = left;
@@ -13,6 +13,7 @@ public class ExpressionEq extends Expression<Boolean> {
 
     @Override
     public Boolean evaluate(Form form) {
+        System.out.println("eq check");
 //        Object leftEval = this.left.evaluate(form);
 //        Object rightEval = this.right.evaluate(form);
 //        if(leftEval == null){
@@ -33,5 +34,10 @@ public class ExpressionEq extends Expression<Boolean> {
     @Override
     public String toString() {
         return this.left.toString() + " == " + this.right.toString();
+    }
+
+    @Override
+    public boolean isBoolean(Form form){
+        return true;
     }
 }

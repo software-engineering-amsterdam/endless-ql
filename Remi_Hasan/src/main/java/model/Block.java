@@ -1,6 +1,7 @@
 package model;
 
-import answer.Answer;
+import expression.Expression;
+import expression.ExpressionUndefined;
 
 import java.util.ArrayList;
 
@@ -30,7 +31,7 @@ public class Block {
         }
     }
 
-    public Answer getQuestionAnswer(String name){
+    public Expression getQuestionAnswer(String name){
         System.out.println("getQuestionAnswer: " + name);
         for(Question question : questions){
             if(question.name.equals(name)){
@@ -39,11 +40,11 @@ public class Block {
             }
         }
         for(Condition condition : conditions){
-            Answer answer = condition.block.getQuestionAnswer(name);
+            Expression answer = condition.block.getQuestionAnswer(name);
             if(answer != null){
                 return answer;
             }
         }
-        return null;
+        return new ExpressionUndefined();
     }
 }

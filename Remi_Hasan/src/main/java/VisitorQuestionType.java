@@ -1,11 +1,11 @@
-import answer.Answer;
-import answer.AnswerFactory;
+import expression.ExpressionFactory;
+import expression.Expression;
 
-public class VisitorQuestionType extends QLBaseVisitor<Answer> {
+public class VisitorQuestionType extends QLBaseVisitor<Expression> {
     @Override
-    public Answer visitQuestionType(QLParser.QuestionTypeContext ctx) {
+    public Expression visitQuestionType(QLParser.QuestionTypeContext ctx) {
 
-        Answer answer = AnswerFactory.createAnswer(ctx.type().getText());
+        Expression answer = ExpressionFactory.createExpression(ctx.type().getText());
         return answer;
     }
 }

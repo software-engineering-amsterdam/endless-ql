@@ -1,4 +1,4 @@
-import answer.AnswerBoolean;
+import expression.ExpressionBoolean;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -72,10 +72,8 @@ public class Main extends Application {
 
     private void addQuestionsToFieldGroup(HashMap<String, Control> fields, Form form, Block block, FieldGroup fieldGroup){
         for(Question question : block.questions) {
-            // TODO, change type of question based on question.answer
-
-
-            if(question.answer instanceof AnswerBoolean){
+            System.out.printf("question[%s][%s][%s]\n", question.name, question.answer.isBoolean(form) + "", question.answer.isNumber(form) + "");
+            if(question.answer.isBoolean(form)){
                 ComboBox<String> input = Input.comboBox(
                         new OptionList() {{
                             add("", true);
@@ -94,7 +92,7 @@ public class Main extends Application {
                 fields.put(question.name, input);
                 fieldGroup.join(question.name, question.text, input);
             }
-            else {
+            else if(question.answer.isNumber(form) || question.answer.isString(form)){
                 TextInputControl input = Input.textField("");
 
                 // If input changes some questions might need to be enabled/disabled
@@ -131,8 +129,9 @@ public class Main extends Application {
 
     private void changeEditableFields(HashMap<String, Control> fields, Form form, Block block, boolean inEditableBlock) {
         for(Question question : block.questions){
+            System.out.printf("showing question[%s][%s]\n", question.name, inEditableBlock + "");
             Control field = fields.get(question.name);
-            // TODO implement more field types
+            // TODO implement more field types, and also change instanceof to something else
             if(field instanceof ComboBox){
                 ComboBox<String> comboBoxField = (ComboBox) field;
                 comboBoxField.setDisable(!inEditableBlock);
@@ -140,10 +139,17 @@ public class Main extends Application {
                 if(!inEditableBlock){
                     comboBoxField.getSelectionModel().clearSelection();
                 }
+            } else if(field instanceof TextInputControl) {
+                TextInputControl textInputControlField = (TextInputControl) field;
+                textInputControlField.setEditable(inEditableBlock);
+                if(!inEditableBlock){
+                    textInputControlField.clear();
+                }
             }
         }
         for(Condition condition : block.conditions){
             // Check if the expression of this block is met
+            System.out.println();
             boolean isEditableSubBlock = inEditableBlock && Boolean.TRUE.equals(condition.expression.evaluate(form));
 
             changeEditableFields(fields, form, condition.block, isEditableSubBlock);

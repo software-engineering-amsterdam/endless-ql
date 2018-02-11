@@ -1,6 +1,5 @@
 package expression;
 
-import answer.Answer;
 import model.Form;
 
 public class ExpressionIdentifier extends Expression<Object>{
@@ -11,23 +10,30 @@ public class ExpressionIdentifier extends Expression<Object>{
         this.identifier = identifier;
     }
 
+    // TODO do not return generic Object?
     @Override
     public Object evaluate(Form form) {
-        System.out.println("id: " + identifier + " value: " + form.block.getQuestionAnswer(identifier).getValue());
+        System.out.println("eval check: " + identifier + " " + isEvaluable(form) + " " + form.block.getQuestionAnswer(identifier));
         if (isEvaluable(form)) {
-            return form.block.getQuestionAnswer(identifier).getValue();
+            Expression expression = form.block.getQuestionAnswer(identifier);
+            return expression.evaluate(form);
         }
         return new ExpressionUndefined();
     }
 
     @Override
     public boolean isEvaluable(Form form) {
-        Answer answer = form.block.getQuestionAnswer(identifier);
-        return answer != null && answer.getValue() != null;
+        Expression answer = form.block.getQuestionAnswer(identifier);
+        return answer.isEvaluable(form);
     }
 
     @Override
     public String toString() {
         return identifier;
+    }
+
+    @Override
+    public boolean isNumber(Form form){
+        return isEvaluable(form) && form.block.getQuestionAnswer(identifier).isNumber(form);
     }
 }

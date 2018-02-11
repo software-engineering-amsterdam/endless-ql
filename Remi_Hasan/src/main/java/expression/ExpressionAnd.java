@@ -3,8 +3,8 @@ package expression;
 import model.Form;
 
 public class ExpressionAnd extends Expression<Boolean> {
-    private final Expression left;
-    private final Expression right;
+    private Expression left;
+    private Expression right;
 
     public ExpressionAnd(Expression left, Expression right){
         this.left = left;
@@ -24,8 +24,12 @@ public class ExpressionAnd extends Expression<Boolean> {
         return left.isEvaluable(form) && right.isEvaluable(form);
     }
 
-    @Override
-    public String toString() {
+    public String toString(Form form) {
         return left.toString() + " && " + right.toString();
+    }
+
+    @Override
+    public boolean isBoolean(Form form){
+        return true;
     }
 }

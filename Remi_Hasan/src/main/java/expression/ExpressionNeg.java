@@ -12,13 +12,13 @@ public class ExpressionNeg extends Expression<Double> {
     @Override
     public Double evaluate(Form form) {
         if(isEvaluable(form)){
-            return -(double)this.value.evaluate(form);
+            return -1 * Double.parseDouble(this.value.evaluate(form).toString());
         }
         return null;
     }
 
     @Override
     public boolean isEvaluable(Form form) {
-        return this.value.isEvaluable(form);
+        return this.value.isNumber(form) && this.value.isEvaluable(form);
     }
 }

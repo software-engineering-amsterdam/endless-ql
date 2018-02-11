@@ -3,8 +3,8 @@ package expression;
 import model.Form;
 
 public class ExpressionMultiply extends Expression<Double> {
-    private final Expression left;
-    private final Expression right;
+    private Expression left;
+    private Expression right;
 
     public ExpressionMultiply(Expression left, Expression right){
         this.left = left;

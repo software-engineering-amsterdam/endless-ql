@@ -3,8 +3,8 @@ package expression;
 import model.Form;
 
 public class ExpressionDivide extends Expression<Double> {
-    private final Expression left;
-    private final Expression right;
+    private Expression left;
+    private Expression right;
 
     public ExpressionDivide(Expression left, Expression right){
         this.left = left;

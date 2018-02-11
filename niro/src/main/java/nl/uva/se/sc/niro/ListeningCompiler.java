@@ -1,26 +1,19 @@
 package nl.uva.se.sc.niro;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import model.Ast.AnswerType;
-import model.Ast.AnswerType$;
-import model.Ast.QLForm;
-import model.Ast.Question;
-import model.Ast.Statement;
-
+import model.Ast.*;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-
 import ql.QLBaseListener;
 import ql.QLLexer;
 import ql.QLParser;
-import ql.QLParser.ExpressionContext;
 import ql.QLParser.FormContext;
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Just for testing the ANTLR integration. Acts mainly for Proof Of Concept. 
@@ -43,21 +36,6 @@ public class ListeningCompiler extends QLBaseListener {
 		walker.walk(this, form);
 		return null;
 	}
-	
-	@Override
-	public void enterExpression(ExpressionContext ctx) {
-		switch (ctx.getChildCount()) {
-		case 1 :
-			System.out.printf("EXPR=[%s]%n", ctx.getChild(0).getText());
-			break;
-		case 2 :
-			System.out.printf("OP=[%s] EXPR=[%s]%n", ctx.getChild(0).getText(), ctx.getChild(1).getText());
-			break;
-		case 3 :
-			System.out.printf("LHS=[%s] OP=[%s] RHS=[%s]%n", ctx.getChild(0).getText(), ctx.getChild(1).getText(), ctx.getChild(2).getText());
-			break;
-		}
-	}
 
 	@Override
 	public void enterForm(FormContext ctx) {
@@ -66,6 +44,11 @@ public class ListeningCompiler extends QLBaseListener {
 
 		qlForm = new QLForm(ctx.name().getText(), sList);
 		System.out.printf("%nform %s {%n", ctx.name().getText());
+	}
+
+	@Override
+	public void exitForm(FormContext ctx) {
+		System.out.printf("}%n");
 	}
 
 	@Override

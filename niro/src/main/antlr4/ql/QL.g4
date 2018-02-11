@@ -32,13 +32,13 @@ arithmOp    : SUB | ADD | DIV | MUL ;
 WS          : [ \t\r\n]+ -> skip ;
 COMMENT     : '//' .*? '\n' -> skip ;
 
-expression  : INTEGER                          # IntConst
-            | bool                             # BoolConst
-            | unaryOp expression               # UnaryOpr
-            | expression arithmOp expression   # ArithmOpr
-            | expression compOp expression     # CompOpr
-            | expression logicalOp expression  # LogicalOpr
-            | name                             # Var ;
+expression  : INTEGER                                  # IntConst
+            | bool                                     # BoolConst
+            | unaryOp expression                       # UnaryExpr
+            | lhs=expression arithmOp rhs=expression   # ArithmExpr
+            | lhs=expression compOp rhs=expression     # CompExpr
+            | lhs=expression logicalOp rhs=expression  # LogicalExpr
+            | name                                     # Var ;
 
 form        : 'form' name '{' statement+ '}' ;
 name        : ID ;
@@ -46,4 +46,4 @@ statement   : question | conditional ;
 question    : name ':' TEXT answer_type ( '=' '(' expression ')' )?;
 answer_type : 'boolean' | 'integer' | 'string' ; // TODO rename to answerType, or type
 
-conditional : 'if' '(' expression ')' '{' statement+ '}' ( 'else' '{' statement+ '}' )? ;
+conditional : 'if' '(' condition=expression ')' '{' thenBlock=statement+ '}' ( 'else' '{' elseBlock=statement+ '}' )? ;

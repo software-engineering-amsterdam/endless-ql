@@ -31,20 +31,20 @@ public class VisitingCompiler extends QLBaseVisitor<Node> {
 	}
 
 	@Override
-	public Node visitLogicalOpr(QLParser.LogicalOprContext ctx) {
+	public Node visitLogicalExpr(QLParser.LogicalExprContext ctx) {
 		System.out.printf("LogicalOpr [%s]%n", ctx.logicalOp().getText());
 		TerminalNode terminalNode = (TerminalNode) ctx.logicalOp().getChild(0);
 		System.out.printf("TerminalNode [%s]%n", terminalNode);
 		System.out.printf("LogicalOpr LHS [%s]%n", ctx.expression(0).getText());
 		System.out.printf("LogicalOpr RHS [%s]%n", ctx.expression(1).getText());
-		return super.visitLogicalOpr(ctx);
+		return super.visitLogicalExpr(ctx);
 	}
 
 	@Override
-	public Node visitCompOpr(QLParser.CompOprContext ctx) {
+	public Node visitCompExpr(QLParser.CompExprContext ctx) {
 		System.out.printf("CompOpr [%s]%n", ctx.compOp().getText());
-		System.out.printf("CompOpr LHS [%s]%n", ctx.expression(0).getText());
-		System.out.printf("CompOpr RHS [%s]%n", ctx.expression(1).getText());
-		return super.visitCompOpr(ctx);
+		System.out.printf("CompOpr LHS expr(0)=[%s] LHS=[%s]%n", ctx.expression(0).getText(), ctx.lhs.getText());
+		System.out.printf("CompOpr RHS expr(1)=[%s] RHS=[%s]%n", ctx.expression(1).getText(), ctx.rhs.getText());
+		return super.visitCompExpr(ctx);
 	}
 }

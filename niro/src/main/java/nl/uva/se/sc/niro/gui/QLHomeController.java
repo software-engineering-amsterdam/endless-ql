@@ -1,13 +1,17 @@
 package nl.uva.se.sc.niro.gui;
 
+import compiler.Compiler$;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import model.Ast;
+import org.antlr.v4.runtime.CharStreams;
 
 import java.io.File;
+import java.io.IOException;
 
 public class QLHomeController {
 
@@ -20,6 +24,12 @@ public class QLHomeController {
         File selectedFile = fileChooser.showOpenDialog(getActiveStage(event));
         if (selectedFile != null) {
             System.out.printf("File [%s] has been selected.%n", selectedFile);
+            try {
+                Ast.Node form = Compiler$.MODULE$.compile(CharStreams.fromFileName(selectedFile.getAbsolutePath()));
+                System.out.printf("Form [%s]%n", form);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

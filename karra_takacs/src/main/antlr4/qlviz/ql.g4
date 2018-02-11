@@ -1,4 +1,5 @@
 grammar ql;
+
 //file to define grammar
 
 //expressions
@@ -15,7 +16,24 @@ booleanExpression : BOOLEAN
 
 expression: numericExpression | booleanExpression;
 
-type : 'boolean'
+
+questionName: IDENTIFIER WHITESPACE* QUESTION_DELIMITER WHITESPACE*;
+questionText : WHITESPACE STRING WHITESPACE*;
+question : questionName questionText TYPE ( '(' expression ')' ) NEWLINE;
+
+form : FORM_HEADER BRACKET_OPEN question* BRACKET_CLOSE;
+
+//To skip New Lines, White spaces and comments
+FORM_HEADER : WHITESPACE* 'form' WHITESPACE*  -> skip;
+NEWLINE: ('\n' | '\r' | '\r\n') -> skip;
+WHITESPACE : (' ' | '\n' | '\r' | '\t') -> skip;
+COMMENT			: ('/*' .*? '*/') ->skip;
+LINE_COMMENT	: '//' ~[\r\n]* ->skip;
+BRACKET_OPEN : '{' -> skip;
+BRACKET_CLOSE: '}' -> skip;
+QUESTION_DELIMITER: ':' -> skip;
+
+TYPE : 'boolean'
      | 'money'
      | 'string'
      | 'integer'
@@ -23,24 +41,14 @@ type : 'boolean'
      | 'decimal'
      ;
 
-questionName: IDENTIFIER WHITESPACE ':';
-questionText : WHITESPACE STRING;
-question : questionName questionText type ( '(' expression ')' ) NEWLINE;
-
-form : FORM_HEADER '{' question+ '}';
-
-//To skip New Lines, White spaces and comments
-FORM_HEADER : WHITESPACE 'form'  -> skip;
-NEWLINE: ('\n' | '\r' | '\r\n') -> skip;
-WHITESPACE : (' ' | '\n' | '\r' | '\t') -> skip;
-COMMENT			: ('/*' .*? '*/') ->skip;
-LINE_COMMENT	: '//' ~[\r\n]* ->skip;
-
 //literals
 IDENTIFIER	: [a-zA-Z0-1_]+;
 NUMBER		: [0-9]+;
 BOOLEAN		: 'true' | 'false';
 STRING		: '"' .*? '"';
+
+
+
 
 //comparision operators
 

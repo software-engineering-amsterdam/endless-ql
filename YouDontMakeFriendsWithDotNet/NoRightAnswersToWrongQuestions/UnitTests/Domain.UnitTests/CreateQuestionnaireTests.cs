@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using QuestionnaireDomain.Logic;
+using QuestionnaireDomain.Logic.Logic;
 
 namespace UnitTests.Domain.UnitTests
 {
@@ -27,11 +27,7 @@ namespace UnitTests.Domain.UnitTests
         public void WhenGivenWellFormedDefinition_ReturnsDomainObjects()
         {
             var questionnaire = new QuestionnaireCreator();
-            var validText = $@"
-form MyForm {{
-    hasSoldHouse: ""Did you sell a house in 2010?"" boolean
-}}
-";
+            var validText = @"form MyForm {}";
             var result = questionnaire.Create(validText);
             Assert.IsNotNull(result);
             Assert.AreEqual(expected: "MyForm", actual:result.FormName);

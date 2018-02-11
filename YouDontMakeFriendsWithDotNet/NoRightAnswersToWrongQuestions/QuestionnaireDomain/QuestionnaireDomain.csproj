@@ -40,10 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\IQuestionnaire.cs" />
     <Compile Include="API\IQuestionnaireCreator.cs" />
     <Compile Include="DomainModule.cs" />
-    <Compile Include="DomainObjects\Questionnaire.cs" />
     <Compile Include="Logic\QuestionnaireCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -53,6 +51,7 @@
       <Name>QuestionnaireInfrastructure</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

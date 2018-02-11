@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AntlrInterpretor.Logic;
-using QuestionnaireDomain.API;
-using QuestionnaireDomain.DomainObjects;
+using QuestionaireDomain.Entities.API;
+using QuestionnaireDomain.Logic.API;
 
-namespace QuestionnaireDomain.Logic
+namespace QuestionnaireDomain.Logic.Logic
 {
     //ToDo: make class internal
     public class QuestionnaireCreator : IQuestionnaireCreator

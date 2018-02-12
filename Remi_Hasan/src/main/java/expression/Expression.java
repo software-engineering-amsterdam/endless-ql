@@ -20,6 +20,11 @@ public abstract class Expression<T> {
         return false;
     }
 
-    public void setValue(String value){}
+    public void setValue(String value){
 
+    }
+
+    public boolean isUndefined(){
+        return false;
+    }
 }

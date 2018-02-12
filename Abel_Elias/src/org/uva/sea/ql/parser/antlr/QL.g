@@ -14,8 +14,6 @@ import org.uva.sea.ql.ast.form.*;
 package org.uva.sea.ql.parser.antlr;
 }
 
-
-
 unExpr returns [Expr result]
     :  '+' x=unExpr { $result = new Pos($x.result); }
     |  '-' x=unExpr { $result = new Neg($x.result); }
@@ -87,7 +85,9 @@ bool returns [Expr result]
     ;
 
 // Tokens
-WS  :	(' ' | '\t' | '\n' | '\r') { $channel=HIDDEN; }
+WS  :	(' ' | 'Add AST classes for the provided expression categories, and for you syntactic extensions. Make sure the parser creates objects of the appropriate type.
+
+\t' | '\n' | '\r') { $channel=HIDDEN; }
     ;
 
 COMMENT 

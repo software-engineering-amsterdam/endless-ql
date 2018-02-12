@@ -91,20 +91,24 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 
 	@Override
 	public String visitBinaryExpr(BinaryExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"%s\"]\n", expr.getId(), expr.operator.getLexeme()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
 	public String visitGroupingExpr(GroupingExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.expression.accept(this) +
+				String.format("  %s [label=\"()\"]\n", expr.getId())+
+				String.format("  %s -> %s\n", expr.getId(), expr.expression.getId());
 	}
 
 	@Override
 	public String visitUnaryExpr(UnaryExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.right.accept(this) + String.format("  %s [label=\"%s\"]\n", expr.getId(), expr.operator.getLexeme())
+		+ String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override

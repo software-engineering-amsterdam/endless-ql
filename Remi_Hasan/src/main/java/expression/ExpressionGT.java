@@ -14,9 +14,6 @@ public class ExpressionGT extends Expression<Boolean>{
 
     @Override
     public Boolean evaluate(Form form) {
-        System.out.println("GT: " + isEvaluable(form));
-        System.out.println("GT: " + this.left.isNumber(form));
-        System.out.println("GT: " + this.right.isNumber(form));
         if(isEvaluable(form)){
             return Double.parseDouble(this.left.evaluate(form).toString()) > Double.parseDouble(this.right.evaluate(form).toString());
         }

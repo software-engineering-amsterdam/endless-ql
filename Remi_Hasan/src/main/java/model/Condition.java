@@ -2,7 +2,7 @@ package model;
 
 import expression.Expression;
 
-public class Condition {
+public class Condition extends BlockElement{
 
     public final Expression expression;
     public final Block block;
@@ -12,4 +12,13 @@ public class Condition {
         this.block = block;
     }
 
+    @Override
+    public boolean isQuestion() {
+        return false;
+    }
+
+    @Override
+    public boolean isCondition() {
+        return true;
+    }
 }

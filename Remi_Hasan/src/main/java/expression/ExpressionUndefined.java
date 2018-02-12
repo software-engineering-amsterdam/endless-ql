@@ -12,9 +12,4 @@ public class ExpressionUndefined extends Expression<Object> {
     public boolean isEvaluable(Form form) {
         return false;
     }
-
-    @Override
-    public boolean isUndefined(){
-        return true;
-    }
 }

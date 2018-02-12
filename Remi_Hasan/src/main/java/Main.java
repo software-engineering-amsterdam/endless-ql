@@ -70,6 +70,8 @@ public class Main extends Application {
         // TODO the order of questions is not displayed correctly
         // TODO because it first does all questions and then all questions within conditions
         for(Question question : block.questions) {
+
+            // Only show questions that have answers you can set a value to
            if(question.answer.isSetable(form)){
                System.out.println("adding: " + question.text);
                if(question.answer.isBoolean(form)){

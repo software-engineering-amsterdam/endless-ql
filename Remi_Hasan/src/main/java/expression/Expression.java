@@ -22,10 +22,6 @@ public abstract class Expression<T> {
 
     public void setValue(String value){}
 
-    public boolean isUndefined(){
-        return false;
-    }
-
     public boolean isSetable(Form form){
         return false;
     }

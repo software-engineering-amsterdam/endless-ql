@@ -20,7 +20,7 @@ public class ExpressionNot extends Expression<Boolean> {
 
     @Override
     public boolean isEvaluable(Form form) {
-        return this.value.isBoolean(form) && this.value.isEvaluable(form);
+        return this.value.isEvaluable(form) && this.value.isBoolean(form);
     }
 
     @Override

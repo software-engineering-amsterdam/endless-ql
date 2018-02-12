@@ -4,15 +4,15 @@ public class ExpressionFactory {
     public static Expression createExpression(String questionType) {
         switch(questionType){
             case "boolean":
-                return new ExpressionBoolean(null);
+                return new ExpressionVariableBoolean(null);
             case "string":
-                return new ExpressionString(null);
+                return new ExpressionVariableString(null);
             case "integer":
-                return new ExpressionInteger(null);
+                return new ExpressionVariableInteger(null);
             case "date":
-                return new ExpressionDate(null);
+                return new ExpressionVariableDate(null);
             case "decimal":
-                return new ExpressionDecimal(null);
+                return new ExpressionVariableDecimal(null);
             case "money":
                 return new ExpressionMoney(null);
             default:

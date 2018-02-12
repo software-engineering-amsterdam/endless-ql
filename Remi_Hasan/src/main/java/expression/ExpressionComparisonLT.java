@@ -2,12 +2,9 @@ package expression;
 
 import model.Form;
 
-public class ExpressionLT extends Expression<Boolean>{
+public class ExpressionComparisonLT extends ExpressionComparison{
 
-    private Expression left;
-    private Expression right;
-
-    public ExpressionLT(Expression left, Expression right){
+    public ExpressionComparisonLT(Expression left, Expression right){
         this.left = left;
         this.right = right;
     }
@@ -23,17 +20,7 @@ public class ExpressionLT extends Expression<Boolean>{
     }
 
     @Override
-    public boolean isEvaluable(Form form) {
-        return this.left.isNumber(form) && this.right.isNumber(form) && this.left.isEvaluable(form) && this.right.isEvaluable(form);
-    }
-
-    @Override
     public String toString() {
         return left.toString() + " < " + right.toString();
-    }
-
-    @Override
-    public boolean isBoolean(Form form){
-        return true;
     }
 }

@@ -2,11 +2,9 @@ package expression;
 
 import model.Form;
 
-public class ExpressionMultiply extends Expression<Double> {
-    private Expression left;
-    private Expression right;
+public class ExpressionArithmeticMultiply extends ExpressionArithmetic {
 
-    public ExpressionMultiply(Expression left, Expression right){
+    public ExpressionArithmeticMultiply(Expression left, Expression right){
         this.left = left;
         this.right = right;
     }
@@ -22,17 +20,7 @@ public class ExpressionMultiply extends Expression<Double> {
     }
 
     @Override
-    public boolean isEvaluable(Form form) {
-        return this.left.isNumber(form) && this.right.isNumber(form) && left.isEvaluable(form) && right.isEvaluable(form);
-    }
-
-    @Override
-    public boolean isNumber(Form form){
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return left.toString() + " * " + right.toString();
+        return super.toString("*");
     }
 }

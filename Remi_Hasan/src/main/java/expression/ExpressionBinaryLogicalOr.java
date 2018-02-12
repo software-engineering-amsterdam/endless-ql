@@ -2,11 +2,9 @@ package expression;
 
 import model.Form;
 
-public class ExpressionOr extends Expression<Boolean> {
-    private Expression left;
-    private Expression right;
+public class ExpressionBinaryLogicalOr extends ExpressionBinaryLogical {
 
-    public ExpressionOr(Expression left, Expression right){
+    public ExpressionBinaryLogicalOr(Expression left, Expression right){
         this.left = left;
         this.right = right;
     }
@@ -21,16 +19,11 @@ public class ExpressionOr extends Expression<Boolean> {
 
     @Override
     public boolean isEvaluable(Form form) {
-        return left.isEvaluable(form) && right.isEvaluable(form);
+        return left.isEvaluable(form) && right.isEvaluable(form) && left.isBoolean(form) && right.isBoolean(form);
     }
 
     @Override
     public String toString() {
         return left.toString() + " || " + right.toString();
-    }
-
-    @Override
-    public boolean isBoolean(Form form){
-        return true;
     }
 }

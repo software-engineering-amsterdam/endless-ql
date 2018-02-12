@@ -2,12 +2,9 @@ package expression;
 
 import model.Form;
 
-public class ExpressionSum extends Expression<Double> {
+public class ExpressionArithmeticSum extends ExpressionArithmetic {
 
-    private Expression left;
-    private Expression right;
-
-    public ExpressionSum(Expression left, Expression right){
+    public ExpressionArithmeticSum(Expression left, Expression right){
         this.left = left;
         this.right = right;
     }
@@ -23,17 +20,7 @@ public class ExpressionSum extends Expression<Double> {
     }
 
     @Override
-    public boolean isEvaluable(Form form) {
-        return left.isEvaluable(form) && right.isEvaluable(form);
-    }
-
-    @Override
     public String toString() {
-        return this.left.toString() + " + " + this.right.toString();
-    }
-
-    @Override
-    public boolean isNumber(Form form){
-        return true;
+        return super.toString("+");
     }
 }

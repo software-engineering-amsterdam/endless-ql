@@ -2,11 +2,9 @@ package expression;
 
 import model.Form;
 
-public class ExpressionSubtract extends Expression<Double> {
-    private Expression left;
-    private Expression right;
+public class ExpressionArithmeticSubtract extends ExpressionArithmetic {
 
-    public ExpressionSubtract(Expression left, Expression right){
+    public ExpressionArithmeticSubtract(Expression left, Expression right){
         this.left = left;
         this.right = right;
     }
@@ -22,17 +20,7 @@ public class ExpressionSubtract extends Expression<Double> {
     }
 
     @Override
-    public boolean isEvaluable(Form form) {
-        return left.isEvaluable(form) && right.isEvaluable(form);
-    }
-
-    @Override
     public String toString() {
-        return left.toString() + " - " + right.toString();
-    }
-
-    @Override
-    public boolean isNumber(Form form){
-        return true;
+        return super.toString("-");
     }
 }

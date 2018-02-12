@@ -10,10 +10,10 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression right = visit(ctx.right);
 
         switch (op) {
-            case "+": return new ExpressionSum(left, right);
-            case "-": return new ExpressionSubtract(left, right);
-            case "*": return new ExpressionMultiply(left, right);
-            case "/": return new ExpressionDivide(left, right);
+            case "+": return new ExpressionArithmeticSum(left, right);
+            case "-": return new ExpressionArithmeticSubtract(left, right);
+            case "*": return new ExpressionArithmeticMultiply(left, right);
+            case "/": return new ExpressionArithmeticDivide(left, right);
             default: throw new IllegalArgumentException("Unknown operator " + op);
         }
     }
@@ -37,10 +37,10 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression right = visit(ctx.right);
 
         switch (op) {
-            case ">": return new ExpressionGT(left, right);
-            case ">=": return new ExpressionGE(left, right);
-            case "<": return new ExpressionLT(left, right);
-            case "<=": return new ExpressionLE(left, right);
+            case ">": return new ExpressionComparisonGT(left, right);
+            case ">=": return new ExpressionComparisonGE(left, right);
+            case "<": return new ExpressionComparisonLT(left, right);
+            case "<=": return new ExpressionComparisonLE(left, right);
             default: throw new IllegalArgumentException("Unknown operator " + op);
         }
     }
@@ -52,8 +52,8 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression right = visit(ctx.right);
 
         switch (op) {
-            case "==": return new ExpressionEq(left, right);
-            case "!=": return new ExpressionNot(new ExpressionEq(left, right));
+            case "==": return new ExpressionComparisonEq(left, right);
+            case "!=": return new ExpressionNot(new ExpressionComparisonEq(left, right));
             default: throw new IllegalArgumentException("Unknown operator " + op);
         }
     }
@@ -65,8 +65,8 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression right = visit(ctx.right);
 
         switch (op) {
-            case "&&": return new ExpressionAnd(left, right);
-            case "||": return new ExpressionOr(left, right);
+            case "&&": return new ExpressionBinaryLogicalAnd(left, right);
+            case "||": return new ExpressionBinaryLogicalOr(left, right);
             default: throw new IllegalArgumentException("Unknown operator " + op);
         }
     }
@@ -75,29 +75,29 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     @Override
     public Expression visitConstant_integer(QLParser.Constant_integerContext ctx) {
         // TODO do we have to use integer? what if we do a sum of int + double?
-        return new ExpressionInteger(Integer.valueOf(ctx.getText()));
+        return new ExpressionVariableInteger(Integer.valueOf(ctx.getText()));
     }
 
     @Override
     public Expression visitConstant_decimal(QLParser.Constant_decimalContext ctx) {
-        return new ExpressionDecimal(Double.valueOf(ctx.getText()));
+        return new ExpressionVariableDecimal(Double.valueOf(ctx.getText()));
     }
 
     @Override
     public Expression visitConstant_date(QLParser.Constant_dateContext ctx) {
-        return new ExpressionDate(ctx.getText());
+        return new ExpressionVariableDate(ctx.getText());
     }
 
     @Override
     public Expression visitConstant_money(QLParser.Constant_moneyContext ctx) {
         // TODO: Same as decimal?
-        return new ExpressionDecimal(Double.valueOf(ctx.getText()));
+        return new ExpressionVariableDecimal(Double.valueOf(ctx.getText()));
     }
 
     @Override
     public Expression visitConstant_string(QLParser.Constant_stringContext ctx) {
         String textWithQuotes = ctx.getText();
-        return new ExpressionString(textWithQuotes.substring(1, textWithQuotes.length() - 1));
+        return new ExpressionVariableString(textWithQuotes.substring(1, textWithQuotes.length() - 1));
     }
 
     // TODO do we need this?

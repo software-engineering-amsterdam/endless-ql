@@ -6,8 +6,24 @@ grammar QL;
  * Parser rules
  */
 
-form: 'form' form_id '{' question* '}' EOF;
+form: 'form' form_id block EOF;
+block: '{' statement* '}';
+statement: question
+	     | conditional
+	     ;
 question: STR var ':' type;
+conditional: 'if' '(' expression ')' block;
+expression: BOOL 
+		  | STR
+		  | INT
+		  | '(' expression ')' 
+		  | NOT expression
+		  | expression COMPARER expression
+		  | expression OPERATOR expression
+		  | expression AND expression
+		  | expression OR expression
+		  ;
+
 form_id: NAME;
 var: NAME;
 type: 'int' | 'boolean';
@@ -15,6 +31,30 @@ type: 'int' | 'boolean';
 /*
  * Lexer rules
  */
+
+BOOL: TRUE | FALSE;
+INT: NUMBER;
+NOT: '!';
+COMPARER: '<'
+	    | '>'
+	    | '<='
+	    | '>='
+	    | '!='
+	    | '=='
+	    ;
+OPERATOR: ADD
+        | DIV
+        | SUB
+        | TIMES
+        ;
+ADD: '+';
+DIV: '/';
+SUB: '-';
+TIMES: '*';
+AND: '&&';
+OR: 'OR';
+TRUE: 'true';
+FALSE: 'false';
 
 WS:	[ \t\n\r]+ -> skip;
 COMMENT: '/*' .*? '*/' -> skip;

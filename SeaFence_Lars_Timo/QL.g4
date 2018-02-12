@@ -10,12 +10,15 @@ form: 'form' form_id block EOF;
 block: '{' statement* '}';
 statement: question
 	     | conditional
+	     | assignment
 	     ;
+assignment: STR var ':' type '=' '(' expression ')';
 question: STR var ':' type;
 conditional: 'if' '(' expression ')' block;
 expression: BOOL 
 		  | STR
 		  | INT
+		  | var
 		  | '(' expression ')' 
 		  | NOT expression
 		  | expression COMPARER expression
@@ -26,7 +29,8 @@ expression: BOOL
 
 form_id: NAME;
 var: NAME;
-type: 'int' | 'boolean';
+type: 'int'
+    | 'boolean';
 
 /*
  * Lexer rules

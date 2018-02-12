@@ -30,7 +30,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 		
 		switch (expr.getType()) {
 		case BOOLEAN:
-			value = String.format("[%s] %s", expr.getType(), expr.token.toString());
+			value = String.format("[%s] %s", expr.getType(), expr.token.getLexeme());
 			break;
 		case STRING:
 			// Remove double quotes at from the start and end of the string
@@ -109,8 +109,10 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 
 	@Override
 	public String visitIfStmt(IfStmt stmt) {
-		// TODO Auto-generated method stub
-		return null;
+		return stmt.expression.accept(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId()) +
+				stmt.blockStmt.accept(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.blockStmt.getId()) +
+				String.format("  %s [label=\"IfStmt\"]\n", stmt.getId());
 	}
-
 }

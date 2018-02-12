@@ -10,13 +10,13 @@ section         : SECTION STRING '{'? (section | question | default_)* '}'?;
 question        : QUESTION (IDENTIFIER | IDENTIFIER WIDGET widget);
 //questionContent : IDENTIFIER
 //                | IDENTIFIER WIDGET widget;
-default_         : DEFAULT type widget;
+default_         : DEFAULT type WIDGET widget;
 
 // Widgets
 widget          : radioWidget
                 | checkboxWidget
                 | spinboxWidget;
-radioWidget     : RADIO '(' STRING* ')';
+radioWidget     : RADIO '(' (STRING ',')* STRING ')';
 checkboxWidget  : CHECKBOX;
 spinboxWidget   : SPINBOX;
 

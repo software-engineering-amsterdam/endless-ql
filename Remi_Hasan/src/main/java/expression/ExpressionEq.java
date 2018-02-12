@@ -13,7 +13,6 @@ public class ExpressionEq extends Expression<Boolean> {
 
     @Override
     public Boolean evaluate(Form form) {
-        System.out.println("eq check");
 //        Object leftEval = this.left.evaluate(form);
 //        Object rightEval = this.right.evaluate(form);
 //        if(leftEval == null){

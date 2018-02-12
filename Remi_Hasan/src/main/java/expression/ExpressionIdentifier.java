@@ -13,7 +13,6 @@ public class ExpressionIdentifier extends Expression<Object>{
     // TODO do not return generic Object?
     @Override
     public Object evaluate(Form form) {
-        System.out.println("eval check: " + identifier + " " + isEvaluable(form) + " " + form.block.getQuestionAnswer(identifier));
         if (isEvaluable(form)) {
             Expression expression = form.block.getQuestionAnswer(identifier);
             return expression.evaluate(form);

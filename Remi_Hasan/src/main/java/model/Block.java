@@ -8,11 +8,9 @@ import java.util.ArrayList;
 public class Block {
 
     public final ArrayList<Question> questions;
-    public final ArrayList<Condition> conditions;
 
-    public Block(ArrayList<Question> questions, ArrayList<Condition> conditions){
+    public Block(ArrayList<Question> questions){
         this.questions = questions;
-        this.conditions = conditions;
     }
 
     public void answer(String name, String answer){
@@ -26,23 +24,12 @@ public class Block {
                 }
             }
         }
-        for(Condition condition: conditions){
-            condition.block.answer(name, answer);
-        }
     }
 
     public Expression getQuestionAnswer(String name){
-        System.out.println("getQuestionAnswer: " + name);
         for(Question question : questions){
             if(question.name.equals(name)){
-                System.out.println("found: " + question.answer);
                 return question.answer;
-            }
-        }
-        for(Condition condition : conditions){
-            Expression answer = condition.block.getQuestionAnswer(name);
-            if(answer != null){
-                return answer;
             }
         }
         return new ExpressionUndefined();

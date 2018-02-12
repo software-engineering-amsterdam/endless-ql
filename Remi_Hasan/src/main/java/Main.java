@@ -1,17 +1,13 @@
-import expression.ExpressionBoolean;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Control;
-import javafx.scene.control.TextInputControl;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.converter.DoubleStringConverter;
 import model.Block;
-import model.Condition;
 import model.Form;
 import model.Question;
 import org.yorichan.formfx.control.Input;
@@ -71,8 +67,10 @@ public class Main extends Application {
     }
 
     private void addQuestionsToFieldGroup(HashMap<String, Control> fields, Form form, Block block, FieldGroup fieldGroup){
+        // TODO the order of questions is not displayed correctly
+        // TODO because it first does all questions and then all questions within conditions
         for(Question question : block.questions) {
-            System.out.printf("question[%s][%s][%s]\n", question.name, question.answer.isBoolean(form) + "", question.answer.isNumber(form) + "");
+            System.out.println("adding: " + question.text);
             if(question.answer.isBoolean(form)){
                 ComboBox<String> input = Input.comboBox(
                         new OptionList() {{
@@ -81,6 +79,7 @@ public class Main extends Application {
                             add("false");
                         }});
 
+                // TODO implement observer pattern?
                 // If input changes some questions might need to be enabled/disabled
                 input.setOnAction(e -> {
                     if(input.isEditable() || !input.isDisabled()){
@@ -94,6 +93,14 @@ public class Main extends Application {
             }
             else if(question.answer.isNumber(form) || question.answer.isString(form)){
                 TextInputControl input = Input.textField("");
+
+                if(question.answer.isNumber(form)){
+                    // NumberStringConverter
+                    // CurrencyStringConverter
+                    // DoubleStringConverter
+                    // https://docs.oracle.com/javase/8/javafx/api/javafx/util/StringConverter.html
+                    input.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
+                }
 
                 // If input changes some questions might need to be enabled/disabled
                 input.setOnKeyTyped(e -> {
@@ -109,14 +116,25 @@ public class Main extends Application {
                 fieldGroup.join(question.name, question.text, input);
             }
 
+
+            // Test from: https://o7planning.org/en/11185/javafx-spinner-tutorial
+//            Label label = new Label("Select Level:");
+//            final Spinner<Integer> spinner = new Spinner<Integer>();
+//            final int initialValue = 3;
+//            // Value factory.
+//            SpinnerValueFactory<Integer> valueFactory = //
+//                    new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, initialValue);
+//            spinner.setValueFactory(valueFactory);
+//            fieldGroup.join("dummy", "dummy2", spinner);
+
             // separator, might be useful to visually make groups apparent
 //            fieldGroup.separate();
 
 
         }
-        for(Condition condition : block.conditions){
-            addQuestionsToFieldGroup(fields, form, condition.block, fieldGroup);
-        }
+//        for(Condition condition : block.conditions){
+//            addQuestionsToFieldGroup(fields, form, condition.block, fieldGroup);
+//        }
     }
 
     private void changeQuestionAnswer(TextInputControl field, Block block) {
@@ -129,31 +147,33 @@ public class Main extends Application {
 
     private void changeEditableFields(HashMap<String, Control> fields, Form form, Block block, boolean inEditableBlock) {
         for(Question question : block.questions){
-            System.out.printf("showing question[%s][%s]\n", question.name, inEditableBlock + "");
+            boolean conditionsMet = question.conditions.stream().allMatch(condition -> Boolean.TRUE.equals(condition.evaluate(form)));
+
             Control field = fields.get(question.name);
             // TODO implement more field types, and also change instanceof to something else
             if(field instanceof ComboBox){
                 ComboBox<String> comboBoxField = (ComboBox) field;
-                comboBoxField.setDisable(!inEditableBlock);
+                comboBoxField.setDisable(!conditionsMet);
                 // If the condition was not met, we should make it reset to default
-                if(!inEditableBlock){
+                if(!conditionsMet){
                     comboBoxField.getSelectionModel().clearSelection();
                 }
             } else if(field instanceof TextInputControl) {
                 TextInputControl textInputControlField = (TextInputControl) field;
-                textInputControlField.setEditable(inEditableBlock);
-                if(!inEditableBlock){
+                textInputControlField.setEditable(conditionsMet);
+                if(!conditionsMet){
                     textInputControlField.clear();
                 }
             }
-        }
-        for(Condition condition : block.conditions){
-            // Check if the expression of this block is met
-            System.out.println();
-            boolean isEditableSubBlock = inEditableBlock && Boolean.TRUE.equals(condition.expression.evaluate(form));
 
-            changeEditableFields(fields, form, condition.block, isEditableSubBlock);
+            // TODO evaluate fields with expression
         }
+//        for(Condition condition : block.conditions){
+//            // Check if the expression of this block is met
+//            boolean isEditableSubBlock = inEditableBlock && Boolean.TRUE.equals(condition.expression.evaluate(form));
+//
+//            changeEditableFields(fields, form, condition.block, isEditableSubBlock);
+//        }
     }
 
     private Button createSubmitButton(){

@@ -1,32 +1,36 @@
+import expression.Expression;
 import model.Block;
-import model.Condition;
 import model.Question;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class VisitorBlock extends QLBaseVisitor<Block> {
 
+    private final ArrayList<Expression> conditions;
+
+    VisitorBlock(ArrayList<Expression> conditions){
+        this.conditions = conditions;
+    }
+
     @Override
     public Block visitBlock(QLParser.BlockContext ctx) {
 
-        VisitorQuestion visitorQuestion = new VisitorQuestion();
-        VisitorCondition visitorCondition = new VisitorCondition();
+        VisitorBlockElement visitorBlockElement = new VisitorBlockElement(conditions);
 
-        // Visit all questions
-        ArrayList<Question> questions =
-                ctx
-                        .question().stream()
-                        .map(question -> visitorQuestion.visitQuestion(question))
-                        .collect(Collectors.toCollection(ArrayList::new));
+        Collection<ArrayList<Question>> questionLists = ctx
+                .blockElement().stream()
+                .map(x -> visitorBlockElement.visit(x))
+                .collect(Collectors.toCollection(ArrayList::new));
 
-        // Visit all conditions
-        ArrayList<Condition> conditions =
-                ctx
-                        .condition().stream()
-                        .map(condition -> visitorCondition.visitCondition(condition))
-                        .collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<Question> questions = new ArrayList<>();
+        for(ArrayList<Question> questionList : questionLists){
+            questions.addAll(questionList);
 
-        return new Block(questions, conditions);
+            // Add every condition to every question within this block
+            conditions.forEach(condition -> questionList.forEach(q -> q.addCondition(condition)));
+        }
+        return new Block(questions);
     }
 }

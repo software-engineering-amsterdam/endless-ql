@@ -14,7 +14,8 @@ import org.uva.sea.ql.ast.form.*;
 package org.uva.sea.ql.parser.antlr;
 }
 
-    
+
+
 unExpr returns [Expr result]
     :  '+' x=unExpr { $result = new Pos($x.result); }
     |  '-' x=unExpr { $result = new Neg($x.result); }
@@ -80,7 +81,11 @@ orExpr returns [Expr result]
     :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, rhs); } )*
     ;
 
-    
+bool returns [Expr result]
+    :   TRUE {$result = new Bool(true);}
+    |   FALSE {$result = new Bool(false);}
+    ;
+
 // Tokens
 WS  :	(' ' | '\t' | '\n' | '\r') { $channel=HIDDEN; }
     ;
@@ -94,3 +99,6 @@ Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 Int: ('0'..'9')+;
 
 Str: '"' .* '"';
+
+TRUE: ('true' | 'TRUE');
+FALSE: ('false' | 'FALSE')

@@ -8,5 +8,5 @@ public abstract class Stmt extends AstNode {
 		T visitIfStmt(IfStmt stmt);
 	}
 	
-	abstract <T> T accept(Visitor<T> visitor);
+	public abstract <T> T accept(Visitor<T> visitor);
 }

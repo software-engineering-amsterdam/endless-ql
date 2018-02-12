@@ -10,7 +10,7 @@ public class IfStmt extends Stmt {
 	}
 
 	@Override
-	<T> T accept(Visitor<T> visitor) {
+	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visitIfStmt(this);
 	}
 }

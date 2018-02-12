@@ -9,7 +9,7 @@ abstract public class Expr extends AstNode {
 		T visitUnaryExpr(UnaryExpr expr);
 	}
 	
-	abstract <T> T accept(Visitor<T> visitor);
+	public abstract <T> T accept(Visitor<T> visitor);
 	
 	private QLType type;
 	

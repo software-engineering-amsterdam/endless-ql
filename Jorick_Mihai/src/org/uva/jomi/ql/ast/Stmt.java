@@ -7,6 +7,7 @@ public abstract class Stmt extends AstNode {
 		T visitFormStmt(FormStmt stmt);
 		T visitBlockStmt(BlockStmt stmt);
 		T visitQuestionStmt(QuestionStmt stmt);
+		T visitIfStmt(IfStmt stmt);
 	}
 	
 	abstract <T> T accept(Visitor<T> visitor);
@@ -63,5 +64,20 @@ class QuestionStmt extends Stmt {
 	@Override
 	<T> T accept(Visitor<T> visitor) {
 		return visitor.visitQuestionStmt(this);
+	}
+}
+
+class IfStmt extends Stmt {
+	final Expr expression;
+	final BlockStmt blockStmt;
+	
+	public IfStmt(Expr expression, BlockStmt blockStmt) {
+		this.expression = expression;
+		this.blockStmt = blockStmt;
+	}
+
+	@Override
+	<T> T accept(Visitor<T> visitor) {
+		return visitor.visitIfStmt(this);
 	}
 }

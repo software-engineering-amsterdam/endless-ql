@@ -28,4 +28,9 @@ public class ExpressionDivide extends Expression<Double> {
     public String toString() {
         return left.toString() + " / " + right.toString();
     }
+
+    @Override
+    public boolean isNumber(Form form){
+        return true;
+    }
 }

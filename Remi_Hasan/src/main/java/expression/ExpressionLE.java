@@ -15,7 +15,9 @@ public class ExpressionLE extends Expression<Boolean> {
     @Override
     public Boolean evaluate(Form form) {
         if(isEvaluable(form)){
-            return (double)this.left.evaluate(form) <= (double)this.right.evaluate(form);
+            double leftEvaluated = Double.parseDouble(this.left.evaluate(form).toString());
+            double rightEvaluated = Double.parseDouble(this.right.evaluate(form).toString());
+            return leftEvaluated <= rightEvaluated;
         }
         return null;
     }

@@ -14,14 +14,21 @@ public class ExpressionMultiply extends Expression<Double> {
     @Override
     public Double evaluate(Form form) {
         if(isEvaluable(form)){
-            return (double)left.evaluate(form) * (double)right.evaluate(form);
+            double leftEvaluated = Double.parseDouble(this.left.evaluate(form).toString());
+            double rightEvaluated = Double.parseDouble(this.right.evaluate(form).toString());
+            return leftEvaluated * rightEvaluated;
         }
         return null;
     }
 
     @Override
     public boolean isEvaluable(Form form) {
-        return left.isEvaluable(form) && right.isEvaluable(form);
+        return this.left.isNumber(form) && this.right.isNumber(form) && left.isEvaluable(form) && right.isEvaluable(form);
+    }
+
+    @Override
+    public boolean isNumber(Form form){
+        return true;
     }
 
     @Override

@@ -30,4 +30,12 @@ public class Question extends BlockElement{
     public void addCondition(Expression condition) {
         this.conditions.add(condition);
     }
+
+    public boolean isAnswerable(Form form){
+        boolean conditionsMet = true;
+        for(Expression condition : conditions){
+            conditionsMet &=  Boolean.TRUE.equals(condition.evaluate(form));
+        }
+        return conditionsMet && answer.isSetable(form);
+    }
 }

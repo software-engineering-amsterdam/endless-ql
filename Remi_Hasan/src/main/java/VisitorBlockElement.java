@@ -25,4 +25,9 @@ public class VisitorBlockElement extends QLBaseVisitor<ArrayList<Question>> {
         VisitorCondition visitorCondition = new VisitorCondition(conditions);
         return visitorCondition.visitCondition(ctx);
     }
+
+    @Override
+    public ArrayList<Question> visitVariable(QLParser.VariableContext ctx) {
+        return new ArrayList<>();
+    }
 }

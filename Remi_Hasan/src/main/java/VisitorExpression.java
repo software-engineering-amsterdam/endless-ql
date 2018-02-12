@@ -106,6 +106,12 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 //        return new ExpressionIdentifier(ctx.getText());
 //    }
 
+
+    @Override
+    public Expression visitParenExpr(QLParser.ParenExprContext ctx) {
+        return super.visit(ctx.expression());
+    }
+
     @Override
     public Expression visitConstant_identifier(QLParser.Constant_identifierContext ctx) {
         return new ExpressionIdentifier(ctx.getText());

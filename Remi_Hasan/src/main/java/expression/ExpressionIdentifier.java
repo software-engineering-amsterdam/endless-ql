@@ -33,6 +33,6 @@ public class ExpressionIdentifier extends Expression<Object>{
 
     @Override
     public boolean isNumber(Form form){
-        return isEvaluable(form) && form.block.getQuestionAnswer(identifier).isNumber(form);
+        return form.block.getQuestionAnswer(identifier).isNumber(form);
     }
 }

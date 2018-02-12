@@ -30,4 +30,9 @@ public class ExpressionDate extends Expression<String> {
     public boolean isEvaluable(Form form){
         return this.value != null;
     }
+
+    @Override
+    public boolean isSetable(Form form){
+        return true;
+    }
 }

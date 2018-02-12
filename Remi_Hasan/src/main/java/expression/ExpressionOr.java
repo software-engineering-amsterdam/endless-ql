@@ -28,4 +28,9 @@ public class ExpressionOr extends Expression<Boolean> {
     public String toString() {
         return left.toString() + " || " + right.toString();
     }
+
+    @Override
+    public boolean isBoolean(Form form){
+        return true;
+    }
 }

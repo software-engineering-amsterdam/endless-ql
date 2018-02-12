@@ -34,4 +34,9 @@ public class ExpressionInteger extends Expression<Integer> {
     public void setValue(String answer) {
         this.value = Integer.parseInt(answer);
     }
+
+    @Override
+    public boolean isSetable(Form form){
+        return true;
+    }
 }

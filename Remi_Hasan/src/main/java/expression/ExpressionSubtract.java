@@ -14,7 +14,9 @@ public class ExpressionSubtract extends Expression<Double> {
     @Override
     public Double evaluate(Form form) {
         if(isEvaluable(form)){
-            return (double)left.evaluate(form) - (double)right.evaluate(form);
+            double leftEvaluated = Double.parseDouble(this.left.evaluate(form).toString());
+            double rightEvaluated = Double.parseDouble(this.right.evaluate(form).toString());
+            return leftEvaluated - rightEvaluated;
         }
         return null;
     }
@@ -27,5 +29,10 @@ public class ExpressionSubtract extends Expression<Double> {
     @Override
     public String toString() {
         return left.toString() + " - " + right.toString();
+    }
+
+    @Override
+    public boolean isNumber(Form form){
+        return true;
     }
 }

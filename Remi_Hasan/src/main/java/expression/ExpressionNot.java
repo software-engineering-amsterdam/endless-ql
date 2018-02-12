@@ -22,4 +22,9 @@ public class ExpressionNot extends Expression<Boolean> {
     public boolean isEvaluable(Form form) {
         return this.value.isBoolean(form) && this.value.isEvaluable(form);
     }
+
+    @Override
+    public boolean isBoolean(Form form){
+        return true;
+    }
 }

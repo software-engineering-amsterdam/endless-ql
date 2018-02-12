@@ -34,4 +34,9 @@ public class ExpressionDecimal extends Expression<Double> {
     public boolean isEvaluable(Form form){
         return this.value != null;
     }
+
+    @Override
+    public boolean isSetable(Form form){
+        return true;
+    }
 }

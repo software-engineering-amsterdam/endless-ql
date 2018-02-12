@@ -43,7 +43,7 @@ public class Main extends Application {
         gridForm.setAlignment(Pos.CENTER);
 
         // Build submit button
-        Button submitButton = createSubmitButton();
+        Button submitButton = createSubmitButton(form);
 
         // Create box with form and submit button
         VBox vBox = new VBox(35);
@@ -70,54 +70,55 @@ public class Main extends Application {
         // TODO the order of questions is not displayed correctly
         // TODO because it first does all questions and then all questions within conditions
         for(Question question : block.questions) {
-            System.out.println("adding: " + question.text);
-            if(question.answer.isBoolean(form)){
-                ComboBox<String> input = Input.comboBox(
-                        new OptionList() {{
-                            add("", true);
-                            add("true");
-                            add("false");
-                        }});
+           if(question.answer.isSetable(form)){
+               System.out.println("adding: " + question.text);
+               if(question.answer.isBoolean(form)){
+                   ComboBox<String> input = Input.comboBox(
+                           new OptionList() {{
+                               add("", true);
+                               add("true");
+                               add("false");
+                           }});
 
-                // TODO implement observer pattern?
-                // If input changes some questions might need to be enabled/disabled
-                input.setOnAction(e -> {
-                    if(input.isEditable() || !input.isDisabled()){
-                        changeQuestionAnswer(input, block);
-                        changeEditableFields(fields, form, block, true);
-                    }
-                });
+                   // TODO implement observer pattern?
+                   // If input changes some questions might need to be enabled/disabled
+                   input.setOnAction(e -> {
+                       if(input.isEditable() || !input.isDisabled()){
+                           changeQuestionAnswer(input, block);
+                           changeEditableFields(fields, form, block, true);
+                       }
+                   });
 
-                fields.put(question.name, input);
-                fieldGroup.join(question.name, question.text, input);
-            }
-            else if(question.answer.isNumber(form) || question.answer.isString(form)){
-                TextInputControl input = Input.textField("");
+                   fields.put(question.name, input);
+                   fieldGroup.join(question.name, question.text, input);
+               }
+               else if(question.answer.isNumber(form) || question.answer.isString(form)){
+                   TextInputControl input = Input.textField("");
 
-                if(question.answer.isNumber(form)){
-                    // NumberStringConverter
-                    // CurrencyStringConverter
-                    // DoubleStringConverter
-                    // https://docs.oracle.com/javase/8/javafx/api/javafx/util/StringConverter.html
-                    input.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-                }
+                   if(question.answer.isNumber(form)){
+                       // NumberStringConverter
+                       // CurrencyStringConverter
+                       // DoubleStringConverter
+                       // https://docs.oracle.com/javase/8/javafx/api/javafx/util/StringConverter.html
+                       input.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
+                   }
 
-                // If input changes some questions might need to be enabled/disabled
-                input.setOnKeyTyped(e -> {
-                    if(input.isEditable()){
-                        changeQuestionAnswer(input, block);
-                        changeEditableFields(fields, form, block, true);
-                    }
+                   // If input changes some questions might need to be enabled/disabled
+                   input.setOnKeyTyped(e -> {
+                       if(input.isEditable()){
+                           changeQuestionAnswer(input, block);
+                           changeEditableFields(fields, form, block, true);
+                       }
 
-                    System.out.println(form);
-                });
+                       System.out.println(form);
+                   });
 
-                fields.put(question.name, input);
-                fieldGroup.join(question.name, question.text, input);
-            }
+                   fields.put(question.name, input);
+                   fieldGroup.join(question.name, question.text, input);
+               }
 
 
-            // Test from: https://o7planning.org/en/11185/javafx-spinner-tutorial
+               // Test from: https://o7planning.org/en/11185/javafx-spinner-tutorial
 //            Label label = new Label("Select Level:");
 //            final Spinner<Integer> spinner = new Spinner<Integer>();
 //            final int initialValue = 3;
@@ -127,10 +128,11 @@ public class Main extends Application {
 //            spinner.setValueFactory(valueFactory);
 //            fieldGroup.join("dummy", "dummy2", spinner);
 
-            // separator, might be useful to visually make groups apparent
+               // separator, might be useful to visually make groups apparent
 //            fieldGroup.separate();
 
 
+           }
         }
 //        for(Condition condition : block.conditions){
 //            addQuestionsToFieldGroup(fields, form, condition.block, fieldGroup);
@@ -147,7 +149,11 @@ public class Main extends Application {
 
     private void changeEditableFields(HashMap<String, Control> fields, Form form, Block block, boolean inEditableBlock) {
         for(Question question : block.questions){
-            boolean conditionsMet = question.conditions.stream().allMatch(condition -> Boolean.TRUE.equals(condition.evaluate(form)));
+            boolean conditionsMet = question.isAnswerable(form);
+            if(!conditionsMet){
+                // TODO implement answer clear() function that resets values to default
+                question.answer.setValue("");
+            }
 
             Control field = fields.get(question.name);
             // TODO implement more field types, and also change instanceof to something else
@@ -160,7 +166,8 @@ public class Main extends Application {
                 }
             } else if(field instanceof TextInputControl) {
                 TextInputControl textInputControlField = (TextInputControl) field;
-                textInputControlField.setEditable(conditionsMet);
+//                textInputControlField.setEditable(conditionsMet);
+                textInputControlField.setDisable(!conditionsMet);
                 if(!conditionsMet){
                     textInputControlField.clear();
                 }
@@ -176,11 +183,14 @@ public class Main extends Application {
 //        }
     }
 
-    private Button createSubmitButton(){
+    private Button createSubmitButton(Form form){
         // TODO change to filling out the form
         Button submitButton = new Button("Submit");
         submitButton.setOnAction(e -> {
-            System.out.println("Submit called");
+            System.out.println("\nSubmit called");
+            for(Question question : form.block.questions){
+                System.out.println("\t" + question.name + " => " + question.answer.evaluate(form));
+            }
         });
         return submitButton;
     }

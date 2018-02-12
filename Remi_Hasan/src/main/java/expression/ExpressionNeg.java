@@ -21,4 +21,9 @@ public class ExpressionNeg extends Expression<Double> {
     public boolean isEvaluable(Form form) {
         return this.value.isNumber(form) && this.value.isEvaluable(form);
     }
+
+    @Override
+    public boolean isBoolean(Form form){
+        return true;
+    }
 }

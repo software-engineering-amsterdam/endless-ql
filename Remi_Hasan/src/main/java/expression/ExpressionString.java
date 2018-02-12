@@ -34,4 +34,9 @@ public class ExpressionString extends Expression<String> {
     public boolean isString(Form form){
         return true;
     }
+
+    @Override
+    public boolean isSetable(Form form){
+        return true;
+    }
 }

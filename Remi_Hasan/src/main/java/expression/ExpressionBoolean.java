@@ -34,4 +34,9 @@ public class ExpressionBoolean extends Expression<Boolean> {
     public void setValue(String value) {
         this.value = Boolean.parseBoolean(value);
     }
+
+    @Override
+    public boolean isSetable(Form form){
+        return true;
+    }
 }

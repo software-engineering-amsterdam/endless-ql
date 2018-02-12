@@ -15,7 +15,9 @@ public class ExpressionSum extends Expression<Double> {
     @Override
     public Double evaluate(Form form) {
         if(isEvaluable(form)){
-            return (double)left.evaluate(form) + (double)right.evaluate(form);
+            double leftEvaluated = Double.parseDouble(this.left.evaluate(form).toString());
+            double rightEvaluated = Double.parseDouble(this.right.evaluate(form).toString());
+            return leftEvaluated + rightEvaluated;
         }
         return null;
     }
@@ -30,4 +32,8 @@ public class ExpressionSum extends Expression<Double> {
         return this.left.toString() + " + " + this.right.toString();
     }
 
+    @Override
+    public boolean isNumber(Form form){
+        return true;
+    }
 }

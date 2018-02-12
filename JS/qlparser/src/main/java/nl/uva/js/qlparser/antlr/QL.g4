@@ -1,7 +1,7 @@
 grammar QL;
 
 
-// Lexical
+// Lexical parts
 // Grammar is whitespace insensative
 WS: [ \n\t\r]+ -> channel(HIDDEN);
 
@@ -64,10 +64,16 @@ datatype
     | INTEGER
     ;
 
+boolval
+    : TRUE
+    | FALSE
+    ;
+
 values
     : STRVAL
     | INTVAL
     | DECVAL
+    | boolval
     ;
 
 boolOp
@@ -91,8 +97,14 @@ arithOp
     | MULT
     ;
 
-// Higher level parsing
+oper
+    : boolOp
+    | compOp
+    | arithOp
+    ;
 
+// Higher level parsing
+// Entry point for this grammar
 form
     : FORM NAME formBlock
     ;
@@ -106,15 +118,12 @@ formExpression
     | IF LP expression RP formBlock
     ;
 
-
 expression
     : NAME
     | values
     | LP expression RP
     | NOT expression
-    | expression boolOp expression
-    | expression compOp expression
-    | expression arithOp expression
+    | expression oper expression
     ;
 
 question

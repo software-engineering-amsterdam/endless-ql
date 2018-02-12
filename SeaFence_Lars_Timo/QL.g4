@@ -1,4 +1,4 @@
-// https://tomassetti.me/antlr-mega-tutorial/
+/* https://tomassetti.me/antlr-mega-tutorial/ */
 
 grammar QL;
 
@@ -6,26 +6,19 @@ grammar QL;
  * Parser rules
  */
 
-form: FORM form_id '{' question '}' EOF;
-question: STR var;
-var: NAME ':' TYPE;
+form: 'form' form_id '{' question* '}' EOF;
+question: STR var ':' type;
 form_id: NAME;
+var: NAME;
+type: 'int' | 'boolean';
 
 /*
  * Lexer rules
  */
-fragment F: ('F'|'f');
-fragment O: ('O'|'o');
-fragment R: ('R'|'r');
-fragment M: ('M'|'m');
-FORM: F O R M;
 
-TYPE: (INT | BOOL);
-INT: 'int';
-BOOL: 'boolean';
 WS:	[ \t\n\r]+ -> skip;
-COMMENT: '/*' .* '*/' -> skip;
+COMMENT: '/*' .*? '*/' -> skip;
 
 NUMBER: [0-9]+;
-STR: '"' .* '"';
+STR: '"' .*? '"';
 NAME: ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;

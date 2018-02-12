@@ -66,6 +66,28 @@ class ExprVisitor extends QLBaseVisitor<Expr> {
 		return new BinaryExpr(left, operator, right);
 	}
 	
+	// Builds an Addition expression using the parser context.
+	@Override public Expr visitAdditionExpr(QLParser.AdditionExprContext ctx) {
+		Expr left = ctx.expression(0).accept(this);
+		Expr right = ctx.expression(1).accept(this);
+		QLToken operator = null;
+		
+		switch (ctx.operator.getType()) {
+		case QLParser.PLUS:
+			operator = new QLToken(QLTokenType.PLUS, ctx.operator);
+			break;
+		case QLParser.MINUS:
+			operator = new QLToken(QLTokenType.MINUS, ctx.operator);
+			break;
+		default:
+			// TODO - Needs to go into an Error class.
+			System.err.println("Illegal oprator found in Addition expression: " + ctx.operator.getText());
+			break;
+		}
+		
+		return new BinaryExpr(left, operator, right);
+	}
+	
 	// Builds an Equality expression using the parser context.
 	@Override public Expr visitEqualityExpr(QLParser.EqualityExprContext ctx) {
 		Expr left = ctx.expression(0).accept(this);
@@ -127,7 +149,7 @@ class ExprVisitor extends QLBaseVisitor<Expr> {
 			break;
 		case QLParser.SLASH:
 			operator = new QLToken(QLTokenType.SLASH, ctx.operator);
-
+			break;
 		default:
 			// TODO - Needs to go into an Error class.
 			System.err.println("Illegal oprator found in Multiplication expression: " + ctx.operator.getText());

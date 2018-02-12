@@ -4,11 +4,10 @@ import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import nl.uva.js.qlparser.ast.AST;
 
 public class Evaluator {
 
-    public VerticalLayout eval(AST ast) {
+    public VerticalLayout eval() {
         VerticalLayout layout = new VerticalLayout();
 
         // example placeholder

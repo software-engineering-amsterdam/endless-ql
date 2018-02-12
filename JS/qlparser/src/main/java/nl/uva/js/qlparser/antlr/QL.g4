@@ -69,7 +69,7 @@ boolval
     | FALSE
     ;
 
-values
+value
     : STRVAL
     | INTVAL
     | DECVAL
@@ -120,7 +120,7 @@ formExpression
 
 expression
     : NAME
-    | values
+    | value
     | LP expression RP
     | NOT expression
     | expression oper expression

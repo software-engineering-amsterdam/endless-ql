@@ -7,9 +7,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import nl.uva.js.qlparser.ast.AST;
 import nl.uva.js.qlparser.evaluator.Evaluator;
-import nl.uva.js.qlparser.parser.ASTBuilder;
 
 @SpringUI
 @Theme("valo")
@@ -56,10 +54,10 @@ public class QlparserUI extends UI {
         if (parseSuccess) {
             //Extract AST from the Antlr parse tree
 //            feedbackPane.addLine("Building AST...");
-            ASTBuilder builder = new ASTBuilder();
+//            ASTBuilder builder = new ASTBuilder();
 //            ParseTreeWalker walker = new ParseTreeWalker();
 //            walker.walk(builder, parseTree);
-            AST ast = builder.getAST();
+//            AST ast = builder.getAST();
 
             //Checking
 //            Checker checker = new Checker();
@@ -71,7 +69,7 @@ public class QlparserUI extends UI {
 //            }
 
             Evaluator evaluator = new Evaluator();
-            layout = evaluator.eval(ast);
+//            layout = evaluator.eval(ast);
         }
 
         return layout;

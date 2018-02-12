@@ -40,7 +40,19 @@ TYPE: 'boolean' | 'string' | 'integer' | 'decimal' | 'date' | 'money';
  
 TRUE: 'true' ;
 FALSE: 'false' ;
-
+STAR: '*' ;
+SLASH: '/' ;
+PLUS: '+' ;
+MINUS: '-' ;
+BANG: '!' ;
+GREATER: '>' ;
+GREATER_EQUAL: '>=' ;
+LESS: '<' ;
+LESS_EQUAL: '<=' ;
+BANG_EQUAL: '!=' ;
+EQUAL_EQUAL: '==' ;
+AND: '&&' ;
+OR: '||' ;
 INTEGER: ('1'..'9')+ DIGIT* ;
 LABEL: '"' .*? '"' ;
 

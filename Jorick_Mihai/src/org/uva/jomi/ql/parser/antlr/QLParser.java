@@ -19,10 +19,11 @@ public class QLParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, T__19=20, BOOLEAN=21, TYPE=22, TRUE=23, FALSE=24, 
-		INTEGER=25, LABEL=26, LINE_COMMENT=27, COMMENT=28, WS=29, IDENTIFIER=30;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, BOOLEAN=8, TYPE=9, 
+		TRUE=10, FALSE=11, STAR=12, SLASH=13, PLUS=14, MINUS=15, BANG=16, GREATER=17, 
+		GREATER_EQUAL=18, LESS=19, LESS_EQUAL=20, BANG_EQUAL=21, EQUAL_EQUAL=22, 
+		AND=23, OR=24, INTEGER=25, LABEL=26, LINE_COMMENT=27, COMMENT=28, WS=29, 
+		IDENTIFIER=30;
 	public static final int
 		RULE_parse = 0, RULE_formStmt = 1, RULE_blockStmt = 2, RULE_command = 3, 
 		RULE_questionStmt = 4, RULE_ifStmt = 5, RULE_expression = 6;
@@ -32,15 +33,15 @@ public class QLParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'form'", "'{'", "'}'", "':'", "'if'", "'('", "')'", "'!'", "'*'", 
-		"'/'", "'+'", "'-'", "'>'", "'>='", "'<'", "'<='", "'!='", "'=='", "'&&'", 
-		"'||'", null, null, "'true'", "'false'"
+		null, "'form'", "'{'", "'}'", "':'", "'if'", "'('", "')'", null, null, 
+		"'true'", "'false'", "'*'", "'/'", "'+'", "'-'", "'!'", "'>'", "'>='", 
+		"'<'", "'<='", "'!='", "'=='", "'&&'", "'||'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, "BOOLEAN", "TYPE", 
-		"TRUE", "FALSE", "INTEGER", "LABEL", "LINE_COMMENT", "COMMENT", "WS", 
-		"IDENTIFIER"
+		null, null, null, null, null, null, null, null, "BOOLEAN", "TYPE", "TRUE", 
+		"FALSE", "STAR", "SLASH", "PLUS", "MINUS", "BANG", "GREATER", "GREATER_EQUAL", 
+		"LESS", "LESS_EQUAL", "BANG_EQUAL", "EQUAL_EQUAL", "AND", "OR", "INTEGER", 
+		"LABEL", "LINE_COMMENT", "COMMENT", "WS", "IDENTIFIER"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -616,13 +617,13 @@ public class QLParser extends Parser {
 				match(IDENTIFIER);
 				}
 				break;
-			case T__7:
+			case BANG:
 				{
 				_localctx = new UnaryExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(57);
-				((UnaryExprContext)_localctx).operator = match(T__7);
+				((UnaryExprContext)_localctx).operator = match(BANG);
 				setState(58);
 				expression(8);
 				}
@@ -664,7 +665,7 @@ public class QLParser extends Parser {
 						setState(66);
 						((MultiplicationExprContext)_localctx).operator = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !(_la==T__8 || _la==T__9) ) {
+						if ( !(_la==STAR || _la==SLASH) ) {
 							((MultiplicationExprContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
 						}
 						else {
@@ -685,7 +686,7 @@ public class QLParser extends Parser {
 						setState(69);
 						((AdditionExprContext)_localctx).operator = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !(_la==T__10 || _la==T__11) ) {
+						if ( !(_la==PLUS || _la==MINUS) ) {
 							((AdditionExprContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
 						}
 						else {
@@ -706,7 +707,7 @@ public class QLParser extends Parser {
 						setState(72);
 						((ComparisonExprContext)_localctx).operator = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__12) | (1L << T__13) | (1L << T__14) | (1L << T__15))) != 0)) ) {
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << GREATER) | (1L << GREATER_EQUAL) | (1L << LESS) | (1L << LESS_EQUAL))) != 0)) ) {
 							((ComparisonExprContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
 						}
 						else {
@@ -727,7 +728,7 @@ public class QLParser extends Parser {
 						setState(75);
 						((EqualityExprContext)_localctx).operator = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !(_la==T__16 || _la==T__17) ) {
+						if ( !(_la==BANG_EQUAL || _la==EQUAL_EQUAL) ) {
 							((EqualityExprContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
 						}
 						else {
@@ -746,7 +747,7 @@ public class QLParser extends Parser {
 						setState(77);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 						setState(78);
-						((AndExprContext)_localctx).operator = match(T__18);
+						((AndExprContext)_localctx).operator = match(AND);
 						setState(79);
 						expression(3);
 						}
@@ -758,7 +759,7 @@ public class QLParser extends Parser {
 						setState(80);
 						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
 						setState(81);
-						((OrExprContext)_localctx).operator = match(T__19);
+						((OrExprContext)_localctx).operator = match(OR);
 						setState(82);
 						expression(2);
 						}
@@ -815,24 +816,24 @@ public class QLParser extends Parser {
 		"\3\5\3\5\5\5(\n\5\3\6\3\6\3\6\3\6\3\6\5\6/\n\6\3\7\3\7\3\7\3\7\3\7\3\7"+
 		"\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\bB\n\b\3\b\3\b\3\b\3\b"+
 		"\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\7\bV\n\b\f\b"+
-		"\16\bY\13\b\3\b\2\3\16\t\2\4\6\b\n\f\16\2\6\3\2\13\f\3\2\r\16\3\2\17\22"+
-		"\3\2\23\24\2b\2\23\3\2\2\2\4\30\3\2\2\2\6\34\3\2\2\2\b\'\3\2\2\2\n)\3"+
-		"\2\2\2\f\60\3\2\2\2\16A\3\2\2\2\20\22\5\4\3\2\21\20\3\2\2\2\22\25\3\2"+
-		"\2\2\23\21\3\2\2\2\23\24\3\2\2\2\24\26\3\2\2\2\25\23\3\2\2\2\26\27\7\2"+
-		"\2\3\27\3\3\2\2\2\30\31\7\3\2\2\31\32\7 \2\2\32\33\5\6\4\2\33\5\3\2\2"+
-		"\2\34 \7\4\2\2\35\37\5\b\5\2\36\35\3\2\2\2\37\"\3\2\2\2 \36\3\2\2\2 !"+
-		"\3\2\2\2!#\3\2\2\2\" \3\2\2\2#$\7\5\2\2$\7\3\2\2\2%(\5\n\6\2&(\5\f\7\2"+
-		"\'%\3\2\2\2\'&\3\2\2\2(\t\3\2\2\2)*\7 \2\2*+\7\6\2\2+,\7\34\2\2,.\7\30"+
-		"\2\2-/\5\16\b\2.-\3\2\2\2./\3\2\2\2/\13\3\2\2\2\60\61\7\7\2\2\61\62\7"+
-		"\b\2\2\62\63\5\16\b\2\63\64\7\t\2\2\64\65\5\6\4\2\65\r\3\2\2\2\66\67\b"+
-		"\b\1\2\67B\7\27\2\28B\7\34\2\29B\7\33\2\2:B\7 \2\2;<\7\n\2\2<B\5\16\b"+
-		"\n=>\7\b\2\2>?\5\16\b\2?@\7\t\2\2@B\3\2\2\2A\66\3\2\2\2A8\3\2\2\2A9\3"+
-		"\2\2\2A:\3\2\2\2A;\3\2\2\2A=\3\2\2\2BW\3\2\2\2CD\f\b\2\2DE\t\2\2\2EV\5"+
-		"\16\b\tFG\f\7\2\2GH\t\3\2\2HV\5\16\b\bIJ\f\6\2\2JK\t\4\2\2KV\5\16\b\7"+
-		"LM\f\5\2\2MN\t\5\2\2NV\5\16\b\6OP\f\4\2\2PQ\7\25\2\2QV\5\16\b\5RS\f\3"+
-		"\2\2ST\7\26\2\2TV\5\16\b\4UC\3\2\2\2UF\3\2\2\2UI\3\2\2\2UL\3\2\2\2UO\3"+
-		"\2\2\2UR\3\2\2\2VY\3\2\2\2WU\3\2\2\2WX\3\2\2\2X\17\3\2\2\2YW\3\2\2\2\t"+
-		"\23 \'.AUW";
+		"\16\bY\13\b\3\b\2\3\16\t\2\4\6\b\n\f\16\2\6\3\2\16\17\3\2\20\21\3\2\23"+
+		"\26\3\2\27\30\2b\2\23\3\2\2\2\4\30\3\2\2\2\6\34\3\2\2\2\b\'\3\2\2\2\n"+
+		")\3\2\2\2\f\60\3\2\2\2\16A\3\2\2\2\20\22\5\4\3\2\21\20\3\2\2\2\22\25\3"+
+		"\2\2\2\23\21\3\2\2\2\23\24\3\2\2\2\24\26\3\2\2\2\25\23\3\2\2\2\26\27\7"+
+		"\2\2\3\27\3\3\2\2\2\30\31\7\3\2\2\31\32\7 \2\2\32\33\5\6\4\2\33\5\3\2"+
+		"\2\2\34 \7\4\2\2\35\37\5\b\5\2\36\35\3\2\2\2\37\"\3\2\2\2 \36\3\2\2\2"+
+		" !\3\2\2\2!#\3\2\2\2\" \3\2\2\2#$\7\5\2\2$\7\3\2\2\2%(\5\n\6\2&(\5\f\7"+
+		"\2\'%\3\2\2\2\'&\3\2\2\2(\t\3\2\2\2)*\7 \2\2*+\7\6\2\2+,\7\34\2\2,.\7"+
+		"\13\2\2-/\5\16\b\2.-\3\2\2\2./\3\2\2\2/\13\3\2\2\2\60\61\7\7\2\2\61\62"+
+		"\7\b\2\2\62\63\5\16\b\2\63\64\7\t\2\2\64\65\5\6\4\2\65\r\3\2\2\2\66\67"+
+		"\b\b\1\2\67B\7\n\2\28B\7\34\2\29B\7\33\2\2:B\7 \2\2;<\7\22\2\2<B\5\16"+
+		"\b\n=>\7\b\2\2>?\5\16\b\2?@\7\t\2\2@B\3\2\2\2A\66\3\2\2\2A8\3\2\2\2A9"+
+		"\3\2\2\2A:\3\2\2\2A;\3\2\2\2A=\3\2\2\2BW\3\2\2\2CD\f\b\2\2DE\t\2\2\2E"+
+		"V\5\16\b\tFG\f\7\2\2GH\t\3\2\2HV\5\16\b\bIJ\f\6\2\2JK\t\4\2\2KV\5\16\b"+
+		"\7LM\f\5\2\2MN\t\5\2\2NV\5\16\b\6OP\f\4\2\2PQ\7\31\2\2QV\5\16\b\5RS\f"+
+		"\3\2\2ST\7\32\2\2TV\5\16\b\4UC\3\2\2\2UF\3\2\2\2UI\3\2\2\2UL\3\2\2\2U"+
+		"O\3\2\2\2UR\3\2\2\2VY\3\2\2\2WU\3\2\2\2WX\3\2\2\2X\17\3\2\2\2YW\3\2\2"+
+		"\2\t\23 \'.AUW";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

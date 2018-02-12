@@ -3,6 +3,7 @@ package org.uva.jomi.ql.ast;
 import org.antlr.v4.runtime.Token;
 
 class QLToken {
+	private QLTokenType type;
 	private String lexeme;
 	private int line;
 	private int column;
@@ -11,6 +12,21 @@ class QLToken {
 		this.lexeme = token.getText();
 		this.line = token.getLine();
 		this.column = token.getCharPositionInLine();
+	}
+	
+	public QLToken(QLTokenType type, Token token) {
+		this.type = type;
+		this.lexeme = token.getText();
+		this.line = token.getLine();
+		this.column = token.getCharPositionInLine();
+	}
+	
+	public QLTokenType getType() {
+		return type;
+	}
+
+	public void setType(QLTokenType type) {
+		this.type = type;
 	}
 
 	public String getLexeme() {

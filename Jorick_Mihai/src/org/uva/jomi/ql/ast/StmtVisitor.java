@@ -15,7 +15,7 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 		this.exprVisitor = new ExprVisitor();
 	}
 	
-	// Builds a Form statement using the parser context. 
+	// Builds a Form statement using the parser context.
 	@Override public Stmt visitFormStmt(QLParser.FormStmtContext ctx) {
 		QLToken token = new QLToken(ctx.IDENTIFIER().getSymbol());
 		IndentifierExpr identifier = new IndentifierExpr(token);

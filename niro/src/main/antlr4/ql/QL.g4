@@ -43,7 +43,7 @@ expression  : INTEGER                                  # IntConst
 form        : 'form' name '{' statement+ '}' ;
 name        : ID ;
 statement   : question | conditional ;
-question    : name ':' TEXT answer_type ( '=' '(' expression ')' )?;
-answer_type : 'boolean' | 'integer' | 'string' ; // TODO rename to answerType, or type
+question    : name ':' TEXT answerType ( '=' '(' expression ')' )?;
+answerType : 'boolean' | 'integer' | 'string' ;
 
 conditional : 'if' '(' condition=expression ')' '{' thenBlock=statement+ '}' ( 'else' '{' elseBlock=statement+ '}' )? ;

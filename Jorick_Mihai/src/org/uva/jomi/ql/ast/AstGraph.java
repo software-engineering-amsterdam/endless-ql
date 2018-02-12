@@ -89,4 +89,22 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 		return header;
 	}
 
+	@Override
+	public String visitBinaryExpr(BinaryExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String visitGroupingExpr(GroupingExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String visitUnaryExpr(UnaryExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

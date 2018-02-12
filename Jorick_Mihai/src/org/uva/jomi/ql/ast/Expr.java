@@ -4,6 +4,9 @@ abstract public class Expr extends AstNode {
 	interface Visitor<T> {
 		T visitIndetifierExpr(IndentifierExpr expr);
 		T visitPrimaryExpr(PrimaryExpr expr);
+		T visitBinaryExpr(BinaryExpr expr);
+		T visitGroupingExpr(GroupingExpr expr);
+		T visitUnaryExpr(UnaryExpr expr);
 	}
 	
 	abstract <T> T accept(Visitor<T> visitor);
@@ -60,5 +63,50 @@ class PrimaryExpr extends Expr {
 	@Override
 	<T> T accept(Visitor<T> visitor) {
 		return visitor.visitPrimaryExpr(this);
+	}
+}
+
+class BinaryExpr extends Expr {
+	final Expr left;
+	final QLToken operator;
+	final Expr right;
+	
+	public BinaryExpr(Expr left, QLToken operator, Expr right) {
+		this.left = left;
+		this.operator = operator;
+		this.right = right;
+	}
+	
+	@Override
+	<T> T accept(Visitor<T> visitor) {
+		return visitor.visitBinaryExpr(this);
+	}
+}
+
+class GroupingExpr extends Expr {
+	final Expr expression;
+	
+	public GroupingExpr(Expr expression) {
+		this.expression = expression;
+	}
+
+	@Override
+	<T> T accept(Visitor<T> visitor) {
+		return visitor.visitGroupingExpr(this);
+	}
+}
+
+class UnaryExpr extends Expr {
+	final QLToken operator;
+	final Expr right;
+	
+	public UnaryExpr(QLToken operator, Expr right) {
+		this.operator = operator;
+		this.right = right;
+	}
+
+	@Override
+	<T> T accept(Visitor<T> visitor) {
+		return visitor.visitUnaryExpr(this);
 	}
 }

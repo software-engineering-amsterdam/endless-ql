@@ -1,7 +1,6 @@
 parser grammar QuestionareLanguageParser;
 
-options { tokenVocab=QuestionareLanguageLexer; }
-
+options { tokenVocab = QuestionareLanguageLexer; }
 
 form : FORM IDENTIFIER formBody ;
 formBody : questionBody | statement;

@@ -13,13 +13,13 @@ class DogeQL {
             var content:String = file.readText()
             val stream = ANTLRInputStream(content)
 
-            val lexer = SimpleGrammarExampleLexer(stream)
+            val lexer = QuestionareLanguageLexer(stream)
             val tokens = CommonTokenStream(lexer)
-            val parser = SimpleGrammarExampleParser(tokens)
-            val ctx = parser.prog()
+            val parser = QuestionareLanguageParser(tokens)
+            val ctx = parser.form();
 
             // Traverse AST post-order
-            val visitor = ExampleVisitor().visitProg(ctx)
+//            val visitor = ExampleVisitor().visitProg(ctx)
         }
     }
 

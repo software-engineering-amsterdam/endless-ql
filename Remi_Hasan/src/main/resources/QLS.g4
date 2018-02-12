@@ -4,18 +4,21 @@
 grammar QLS;
 
 root            : STYLESHEET IDENTIFIER page* EOF;
-//block           : (page | default);
 page            : PAGE IDENTIFIER '{' (section | default_)* '}';
 section         : SECTION STRING '{'? (section | question | default_)* '}'?;
-question        : QUESTION (IDENTIFIER | IDENTIFIER WIDGET widget);
-//questionContent : IDENTIFIER
-//                | IDENTIFIER WIDGET widget;
-default_         : DEFAULT type WIDGET widget;
+question        : QUESTION (IDENTIFIER | IDENTIFIER widget);
+default_        : DEFAULT type (widget | '{' widget* '}');
 
 // Widgets
-widget          : radioWidget
-                | checkboxWidget
-                | spinboxWidget;
+widget          : WIDGET radioWidget
+                | WIDGET checkboxWidget
+                | WIDGET spinboxWidget
+                | WIDTH ':' INTEGER
+                | FONT ':' STRING // TODO validate font family?
+                | FONTSIZE ':' INTEGER
+                | COLOR ':' HEXCOLOR
+                ;
+
 radioWidget     : RADIO '(' (STRING ',')* STRING ')';
 checkboxWidget  : CHECKBOX;
 spinboxWidget   : SPINBOX;
@@ -25,7 +28,8 @@ type            : BOOLEANTYPE
                 | INTEGERTYPE
                 | DATETYPE
                 | DECIMALTYPE
-                | MONEYTYPE;
+                | MONEYTYPE
+                ;
 
 // Keywords
 STYLESHEET            : 'stylesheet';
@@ -37,6 +41,10 @@ QUESTION              : 'question';
 RADIO                 : 'radio';
 CHECKBOX              : 'checkbox';
 SPINBOX               : 'spinbox';
+WIDTH                 : 'width';
+FONT                  : 'font';
+FONTSIZE              : 'fontsize';
+COLOR                 : 'color';
 
 BOOLEANTYPE           : 'boolean';
 STRINGTYPE            : 'string';
@@ -57,3 +65,4 @@ DATE            : ([0-9] | [0-3] [0-9]) '-' ([0-9] | [0-3] [0-9]) '-' ([0-9] [0-
 MONEY           : ([0-9]+ '.' [0-9]+) | [0-9]+;
 STRING          : '"' .*? '"';
 IDENTIFIER      : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+HEXCOLOR        : '#' ([0-9] | 'a'..'f') ([0-9] | 'a'..'f') ([0-9] | 'a'..'f') ([0-9] | 'a'..'f') ([0-9] | 'a'..'f') ([0-9] | 'a'..'f');

@@ -1,4 +1,4 @@
-// Generated from .\QL.g4 by ANTLR 4.7
+// Generated from QL.g4 by ANTLR 4.7.1
 
 	package antlr.grammar;
 	import antlr.grammar.*;

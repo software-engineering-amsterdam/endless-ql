@@ -1,4 +1,4 @@
-// Generated from .\QL.g4 by ANTLR 4.7
+// Generated from QL.g4 by ANTLR 4.7.1
 
 	package antlr.grammar;
 	import antlr.grammar.*;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -22,8 +22,8 @@ public class QLParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, WHITESPACE=14, SingleComment=15, 
-		BlockComment=16, IDENT=17, INTEGER=18, STRING=19, BOOLEAN=20, DIGIT=21, 
-		TwoDigits=22, FourDigits=23, MONEY=24, DECIMAL=25, DATE=26, ADD=27, SUB=28, 
+		BlockComment=16, IDENT=17, DIGIT=18, INTEGER=19, STRING=20, BOOLEAN=21, 
+		TwoDigits=22, QuadDigits=23, MONEY=24, DECIMAL=25, DATE=26, ADD=27, SUB=28, 
 		MUL=29, DIV=30, LT=31, LTEQ=32, GT=33, GTEQ=34, EQ=35, NEQ=36, NOT=37, 
 		AND=38, OR=39, LP=40, RP=41;
 	public static final int
@@ -43,8 +43,8 @@ public class QLParser extends Parser {
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, "WHITESPACE", "SingleComment", "BlockComment", "IDENT", "INTEGER", 
-		"STRING", "BOOLEAN", "DIGIT", "TwoDigits", "FourDigits", "MONEY", "DECIMAL", 
+		null, null, "WHITESPACE", "SingleComment", "BlockComment", "IDENT", "DIGIT", 
+		"INTEGER", "STRING", "BOOLEAN", "TwoDigits", "QuadDigits", "MONEY", "DECIMAL", 
 		"DATE", "ADD", "SUB", "MUL", "DIV", "LT", "LTEQ", "GT", "GTEQ", "EQ", 
 		"NEQ", "NOT", "AND", "OR", "LP", "RP"
 	};
@@ -774,26 +774,26 @@ public class QLParser extends Parser {
 		"8\n\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6F\n\6\3\7\3\7"+
 		"\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7V\n\7\3\b\3\b\7\b"+
 		"Z\n\b\f\b\16\b]\13\b\3\b\3\b\3\t\3\t\3\t\3\t\7\te\n\t\f\t\16\th\13\t\3"+
-		"\t\3\t\3\t\2\3\6\n\2\4\6\b\n\f\16\20\2\n\4\2\23\26\32\34\3\2\3\b\3\2("+
-		")\3\2%&\3\2\37 \3\2\35\36\3\2!$\3\2\16\17\2p\2\22\3\2\2\2\4\24\3\2\2\2"+
-		"\6\37\3\2\2\2\b\67\3\2\2\2\nE\3\2\2\2\fU\3\2\2\2\16W\3\2\2\2\20`\3\2\2"+
-		"\2\22\23\t\2\2\2\23\3\3\2\2\2\24\25\t\3\2\2\25\5\3\2\2\2\26\27\b\4\1\2"+
-		"\27 \7\23\2\2\30 \5\2\2\2\31\32\7\'\2\2\32 \5\6\4\t\33\34\7*\2\2\34\35"+
-		"\5\6\4\2\35\36\7+\2\2\36 \3\2\2\2\37\26\3\2\2\2\37\30\3\2\2\2\37\31\3"+
-		"\2\2\2\37\33\3\2\2\2 \62\3\2\2\2!\"\f\7\2\2\"#\t\4\2\2#\61\5\6\4\b$%\f"+
-		"\6\2\2%&\t\5\2\2&\61\5\6\4\7\'(\f\5\2\2()\t\6\2\2)\61\5\6\4\6*+\f\4\2"+
-		"\2+,\t\7\2\2,\61\5\6\4\5-.\f\3\2\2./\t\b\2\2/\61\5\6\4\4\60!\3\2\2\2\60"+
-		"$\3\2\2\2\60\'\3\2\2\2\60*\3\2\2\2\60-\3\2\2\2\61\64\3\2\2\2\62\60\3\2"+
-		"\2\2\62\63\3\2\2\2\63\7\3\2\2\2\64\62\3\2\2\2\658\5\n\6\2\668\5\f\7\2"+
-		"\67\65\3\2\2\2\67\66\3\2\2\28\t\3\2\2\29:\7\23\2\2:;\7\t\2\2;<\7\25\2"+
-		"\2<F\5\4\3\2=>\7\23\2\2>?\7\t\2\2?@\7\25\2\2@A\5\4\3\2AB\7*\2\2BC\5\6"+
-		"\4\2CD\7+\2\2DF\3\2\2\2E9\3\2\2\2E=\3\2\2\2F\13\3\2\2\2GH\7\n\2\2HI\7"+
-		"*\2\2IJ\5\6\4\2JK\7+\2\2KL\5\16\b\2LV\3\2\2\2MN\7\n\2\2NO\7*\2\2OP\5\6"+
-		"\4\2PQ\7+\2\2QR\5\16\b\2RS\7\13\2\2ST\5\16\b\2TV\3\2\2\2UG\3\2\2\2UM\3"+
-		"\2\2\2V\r\3\2\2\2W[\7\f\2\2XZ\5\b\5\2YX\3\2\2\2Z]\3\2\2\2[Y\3\2\2\2[\\"+
-		"\3\2\2\2\\^\3\2\2\2][\3\2\2\2^_\7\r\2\2_\17\3\2\2\2`a\t\t\2\2ab\7\23\2"+
-		"\2bf\7\f\2\2ce\5\16\b\2dc\3\2\2\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2\2gi\3\2"+
-		"\2\2hf\3\2\2\2ij\7\r\2\2j\21\3\2\2\2\n\37\60\62\67EU[f";
+		"\t\3\t\3\t\2\3\6\n\2\4\6\b\n\f\16\20\2\n\5\2\23\23\25\27\32\34\3\2\3\b"+
+		"\3\2()\3\2%&\3\2\37 \3\2\35\36\3\2!$\3\2\16\17\2p\2\22\3\2\2\2\4\24\3"+
+		"\2\2\2\6\37\3\2\2\2\b\67\3\2\2\2\nE\3\2\2\2\fU\3\2\2\2\16W\3\2\2\2\20"+
+		"`\3\2\2\2\22\23\t\2\2\2\23\3\3\2\2\2\24\25\t\3\2\2\25\5\3\2\2\2\26\27"+
+		"\b\4\1\2\27 \7\23\2\2\30 \5\2\2\2\31\32\7\'\2\2\32 \5\6\4\t\33\34\7*\2"+
+		"\2\34\35\5\6\4\2\35\36\7+\2\2\36 \3\2\2\2\37\26\3\2\2\2\37\30\3\2\2\2"+
+		"\37\31\3\2\2\2\37\33\3\2\2\2 \62\3\2\2\2!\"\f\7\2\2\"#\t\4\2\2#\61\5\6"+
+		"\4\b$%\f\6\2\2%&\t\5\2\2&\61\5\6\4\7\'(\f\5\2\2()\t\6\2\2)\61\5\6\4\6"+
+		"*+\f\4\2\2+,\t\7\2\2,\61\5\6\4\5-.\f\3\2\2./\t\b\2\2/\61\5\6\4\4\60!\3"+
+		"\2\2\2\60$\3\2\2\2\60\'\3\2\2\2\60*\3\2\2\2\60-\3\2\2\2\61\64\3\2\2\2"+
+		"\62\60\3\2\2\2\62\63\3\2\2\2\63\7\3\2\2\2\64\62\3\2\2\2\658\5\n\6\2\66"+
+		"8\5\f\7\2\67\65\3\2\2\2\67\66\3\2\2\28\t\3\2\2\29:\7\23\2\2:;\7\t\2\2"+
+		";<\7\26\2\2<F\5\4\3\2=>\7\23\2\2>?\7\t\2\2?@\7\26\2\2@A\5\4\3\2AB\7*\2"+
+		"\2BC\5\6\4\2CD\7+\2\2DF\3\2\2\2E9\3\2\2\2E=\3\2\2\2F\13\3\2\2\2GH\7\n"+
+		"\2\2HI\7*\2\2IJ\5\6\4\2JK\7+\2\2KL\5\16\b\2LV\3\2\2\2MN\7\n\2\2NO\7*\2"+
+		"\2OP\5\6\4\2PQ\7+\2\2QR\5\16\b\2RS\7\13\2\2ST\5\16\b\2TV\3\2\2\2UG\3\2"+
+		"\2\2UM\3\2\2\2V\r\3\2\2\2W[\7\f\2\2XZ\5\b\5\2YX\3\2\2\2Z]\3\2\2\2[Y\3"+
+		"\2\2\2[\\\3\2\2\2\\^\3\2\2\2][\3\2\2\2^_\7\r\2\2_\17\3\2\2\2`a\t\t\2\2"+
+		"ab\7\23\2\2bf\7\f\2\2ce\5\16\b\2dc\3\2\2\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2"+
+		"\2gi\3\2\2\2hf\3\2\2\2ij\7\r\2\2j\21\3\2\2\2\n\37\60\62\67EU[f";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

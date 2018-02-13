@@ -1,7 +1,7 @@
 package model;
 
 import expression.Expression;
-import expression.ExpressionUndefined;
+import expression.ExpressionVariableUndefined;
 
 import java.util.ArrayList;
 
@@ -32,6 +32,6 @@ public class Block {
                 return question.answer;
             }
         }
-        return new ExpressionUndefined();
+        return new ExpressionVariableUndefined();
     }
 }

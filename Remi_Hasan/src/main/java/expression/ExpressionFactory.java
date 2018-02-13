@@ -14,7 +14,7 @@ public class ExpressionFactory {
             case "decimal":
                 return new ExpressionVariableDecimal(null);
             case "money":
-                return new ExpressionMoney(null);
+                return new ExpressionVariableMoney(null);
             default:
                 throw new IllegalArgumentException("Unknown question type " + questionType);
         }

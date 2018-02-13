@@ -2,20 +2,25 @@ package expression;
 
 import model.Form;
 
-public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
+public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
+    @Override
+    public boolean isEvaluable(Form form) {
+        return false;
+    }
 
-    public ExpressionVariableBoolean(Boolean value){
-        this.value = value;
+    @Override
+    public Object evaluate(Form form) {
+        return this;
+    }
+
+    @Override
+    public Boolean equals(Form form, Expression other) {
+        return null;
     }
 
     @Override
     public ReturnType getReturnType(Form form) {
-        return ReturnType.Boolean;
-    }
-
-    @Override
-    public void setValue(String value) {
-        this.value = Boolean.parseBoolean(value);
+        return ReturnType.Undefined;
     }
 
     @Override

@@ -8,15 +8,17 @@ import nl.uva.js.qlparser.models.enums.*;
 import nl.uva.js.qlparser.models.formexpressions.FormExpression;
 import nl.uva.js.qlparser.models.formexpressions.IfBlock;
 import nl.uva.js.qlparser.models.formexpressions.Question;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
-class QLVisitorImpl implements QLVisitor {
+class QLFunnel implements QLVisitor {
 
     @Override
     public DataType visitDatatype(QLParser.DatatypeContext ctx) {
@@ -33,18 +35,16 @@ class QLVisitorImpl implements QLVisitor {
         DataType type;
         Object value;
 
-        if (ctx.STRVAL() != null) {
-            type = DataType.STRING;
-            value = ctx.STRVAL().getText();
-        } else if (ctx.INTVAL() != null) {
-            type = DataType.INTEGER;
-            value = Integer.valueOf(ctx.INTVAL().getText());
-        } else if (ctx.DECVAL() != null) {
-            type = DataType.DECIMAL;
-            value = Double.valueOf(ctx.DECVAL().getText());
-        } else {
+        if (ctx.boolval() != null) {
             type = DataType.BOOLEAN;
             value = visitBoolval(ctx.boolval());
+        } else {
+            type = Arrays.stream(DataType.values())
+                    .filter(dt -> dt.toString().startsWith(getTokenType(ctx).substring(0, 3)))
+                    .findFirst()
+                    .orElse(null);
+
+            value = type.getValueOf().apply(ctx.getText());
         }
 
         return Value.builder()
@@ -55,26 +55,17 @@ class QLVisitorImpl implements QLVisitor {
 
     @Override
     public Operator visitBoolOp(QLParser.BoolOpContext ctx) {
-        if (ctx.AND() != null) return BoolOp.AND;
-        else return BoolOp.OR;
+        return BoolOp.valueOf(this.getTokenType(ctx));
     }
 
     @Override
     public Operator visitCompOp(QLParser.CompOpContext ctx) {
-        if (ctx.LT() != null) return CompOp.LT;
-        else if (ctx.LTE() != null) return CompOp.LTE;
-        else if (ctx.GT() != null) return CompOp.GT;
-        else if (ctx.GTE() != null) return CompOp.GTE;
-        else if (ctx.EQ() != null) return CompOp.EQ;
-        else return CompOp.NEQ;
+        return CompOp.valueOf(this.getTokenType(ctx));
     }
 
     @Override
     public Operator visitArithOp(QLParser.ArithOpContext ctx) {
-        if (ctx.MIN() != null) return ArithOp.MIN;
-        else if (ctx.PLUS() != null) return ArithOp.PLUS;
-        else if (ctx.DIV() != null) return ArithOp.DIV;
-        else return ArithOp.MULT;
+        return ArithOp.valueOf(this.getTokenType(ctx));
     }
 
     @Override
@@ -146,6 +137,13 @@ class QLVisitorImpl implements QLVisitor {
                 .value((ctx.expression() == null)? null : visitExpression(ctx.expression()))
                 .build();
     }
+
+    private String getTokenType(ParserRuleContext ctx) {
+        return QLParser.VOCABULARY.getSymbolicName(
+                ((TerminalNode) ctx.children.get(0)).getSymbol().getType()
+        );
+    }
+
 
     @Override
     public Object visit(ParseTree tree) {

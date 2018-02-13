@@ -12,6 +12,12 @@ public class VisitorBlockElement extends QLBaseVisitor<ArrayList<Question>> {
     }
 
     @Override
+    public ArrayList<Question> visitCondition(QLParser.ConditionContext ctx) {
+        VisitorCondition visitorCondition = new VisitorCondition(conditions);
+        return visitorCondition.visitCondition(ctx);
+    }
+
+    @Override
     public ArrayList<Question> visitQuestion(QLParser.QuestionContext ctx) {
         VisitorQuestion visitorQuestion = new VisitorQuestion();
         Question question = visitorQuestion.visitQuestion(ctx);
@@ -20,14 +26,9 @@ public class VisitorBlockElement extends QLBaseVisitor<ArrayList<Question>> {
         return questions;
     }
 
-    @Override
-    public ArrayList<Question> visitCondition(QLParser.ConditionContext ctx) {
-        VisitorCondition visitorCondition = new VisitorCondition(conditions);
-        return visitorCondition.visitCondition(ctx);
-    }
-
-    @Override
-    public ArrayList<Question> visitVariable(QLParser.VariableContext ctx) {
-        return new ArrayList<>();
-    }
+    // TODO do we need this?
+//    @Override
+//    public ArrayList<Question> visitVariable(QLParser.VariableContext ctx) {
+//        return new ArrayList<>();
+//    }
 }

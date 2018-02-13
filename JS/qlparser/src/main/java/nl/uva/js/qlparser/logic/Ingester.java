@@ -14,7 +14,11 @@ public class Ingester {
     public Form toParsedForm(String location) throws IOException {
         QLLexer lex = new QLLexer(CharStreams.fromPath(Paths.get(location)));
         QLParser parser = new QLParser(new CommonTokenStream(lex));
+        parser.getState();
+        Form form = new QLFunnel().visitForm(parser.form());
 
-        return new QLVisitorImpl().visitForm(parser.form());
+
+
+        return form;
     }
 }

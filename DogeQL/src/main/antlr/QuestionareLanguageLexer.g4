@@ -9,10 +9,11 @@ STRING : 'string' ;
 MONEY : 'money' ;
 IF: 'if';
 
-OPEN_BRACE : '{' ;
-CLOSE_BRACE : '}' ;
-OPEN_PARENS : '(' ;
-CLOSE_PARENS : ')' ;
+// Separators
+LPAREN: '(' ;
+RPAREN: ')' ;
+LBRACE: '{' ;
+RBRACE: '}' ;
 COLON : ':' ;
 
 IDENTIFIER : [a-zA-Z]+;

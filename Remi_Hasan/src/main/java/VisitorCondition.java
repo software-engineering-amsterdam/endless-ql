@@ -1,6 +1,5 @@
 import expression.Expression;
 import model.Block;
-import model.Condition;
 import model.Question;
 
 import java.util.ArrayList;

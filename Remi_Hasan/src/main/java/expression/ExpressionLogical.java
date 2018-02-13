@@ -2,17 +2,17 @@ package expression;
 
 import model.Form;
 
-interface ComparisonOperation {
-    Boolean operation(Form form, Expression a, Expression b);
+interface LogicalOperation {
+    boolean operation(Form form, Expression a, Expression b);
 }
 
-public abstract class ExpressionComparison extends Expression<Boolean>{
+public abstract class ExpressionLogical extends Expression<Boolean> {
     final Expression left;
     final Expression right;
-    final ComparisonOperation op;
+    final LogicalOperation op;
     final String opString;
 
-    ExpressionComparison(Expression left, Expression right, ComparisonOperation op, String opString){
+    ExpressionLogical(Expression left, Expression right, LogicalOperation op, String opString){
         this.left = left;
         this.right = right;
         this.op = op;
@@ -23,7 +23,8 @@ public abstract class ExpressionComparison extends Expression<Boolean>{
     public boolean isEvaluable(Form form) {
         return this.left.isEvaluable(form)
                 && this.right.isEvaluable(form)
-                && this.left.getReturnType(form) == this.right.getReturnType(form);
+                && this.left.getReturnType(form) == ReturnType.Boolean
+                && this.right.getReturnType(form) == ReturnType.Boolean;
     }
 
     @Override
@@ -61,8 +62,7 @@ public abstract class ExpressionComparison extends Expression<Boolean>{
 
     @Override
     public Boolean equals(Form form, Expression other) {
-        ExpressionVariableBoolean thisEvaluated = new ExpressionVariableBoolean(this.evaluate(form));
-        return thisEvaluated.equals(form, other);
+        return this.evaluate(form).equals(other.evaluate(form));
     }
 
     @Override

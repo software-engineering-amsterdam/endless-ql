@@ -1,3 +1,4 @@
+import expression.ReturnType;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -74,7 +75,7 @@ public class Main extends Application {
             // Only show questions that have answers you can set a value to
            if(question.answer.isSetable(form)){
                System.out.println("adding: " + question.text);
-               if(question.answer.isBoolean(form)){
+               if(question.answer.getReturnType(form) == ReturnType.Boolean){
                    ComboBox<String> input = Input.comboBox(
                            new OptionList() {{
                                add("", true);
@@ -94,10 +95,10 @@ public class Main extends Application {
                    fields.put(question.name, input);
                    fieldGroup.join(question.name, question.text, input);
                }
-               else if(question.answer.isNumber(form) || question.answer.isString(form)){
+               else if(question.answer.getReturnType(form) == ReturnType.Number || question.answer.getReturnType(form) == ReturnType.String){
                    TextInputControl input = Input.textField("");
 
-                   if(question.answer.isNumber(form)){
+                   if(question.answer.getReturnType(form) == ReturnType.Number){
                        // NumberStringConverter
                        // CurrencyStringConverter
                        // DoubleStringConverter
@@ -136,9 +137,6 @@ public class Main extends Application {
 
            }
         }
-//        for(Condition condition : block.conditions){
-//            addQuestionsToFieldGroup(fields, form, condition.block, fieldGroup);
-//        }
     }
 
     private void changeQuestionAnswer(TextInputControl field, Block block) {
@@ -174,21 +172,15 @@ public class Main extends Application {
                     textInputControlField.clear();
                 }
             }
-
-            // TODO evaluate fields with expression
         }
-//        for(Condition condition : block.conditions){
-//            // Check if the expression of this block is met
-//            boolean isEditableSubBlock = inEditableBlock && Boolean.TRUE.equals(condition.expression.evaluate(form));
-//
-//            changeEditableFields(fields, form, condition.block, isEditableSubBlock);
-//        }
     }
 
     private Button createSubmitButton(Form form){
-        // TODO change to filling out the form
-        Button submitButton = new Button("Submit");
+        // TODO save answers to file?
+        Button submitButton = new Button("Submit (see output in console)");
         submitButton.setOnAction(e -> {
+
+            // Debug output, shows answer to every question in console
             System.out.println("\nSubmit called");
             for(Question question : form.block.questions){
                 System.out.println("\t" + question.name + " => " + question.answer.evaluate(form));

@@ -14,16 +14,14 @@ public class ExpressionIdentifier extends Expression<Object>{
     @Override
     public Object evaluate(Form form) {
         if (isEvaluable(form)) {
-            Expression expression = form.block.getQuestionAnswer(identifier);
-            return expression.evaluate(form);
+            return getVariable(form).evaluate(form);
         }
-        return new ExpressionUndefined();
+        return new ExpressionVariableUndefined();
     }
 
     @Override
     public boolean isEvaluable(Form form) {
-        Expression answer = form.block.getQuestionAnswer(identifier);
-        return answer.isEvaluable(form);
+        return getVariable(form).isEvaluable(form);
     }
 
     @Override
@@ -32,7 +30,56 @@ public class ExpressionIdentifier extends Expression<Object>{
     }
 
     @Override
-    public boolean isNumber(Form form){
-        return form.block.getQuestionAnswer(identifier).isNumber(form);
+    public ReturnType getReturnType(Form form){
+        return form.block.getQuestionAnswer(identifier).getReturnType(form);
+    }
+
+    private Expression getVariable(Form form){
+        return form.block.getQuestionAnswer(identifier);
+    }
+
+    @Override
+    public Double divide(Form form, Expression other) {
+        return getVariable(form).divide(form, other);
+    }
+
+    @Override
+    public Double multiply(Form form, Expression other) {
+        return getVariable(form).multiply(form, other);
+    }
+
+    @Override
+    public Double subtract(Form form, Expression other) {
+        return getVariable(form).subtract(form, other);
+    }
+
+    @Override
+    public Double sum(Form form, Expression other) {
+        return getVariable(form).sum(form, other);
+    }
+
+    @Override
+    public Boolean equals(Form form, Expression other) {
+        return getVariable(form).equals(form, other);
+    }
+
+    @Override
+    public Boolean ge(Form form, Expression other) {
+        return getVariable(form).ge(form, other);
+    }
+
+    @Override
+    public Boolean gt(Form form, Expression other) {
+        return getVariable(form).gt(form, other);
+    }
+
+    @Override
+    public Boolean le(Form form, Expression other) {
+        return getVariable(form).le(form, other);
+    }
+
+    @Override
+    public Boolean lt(Form form, Expression other) {
+        return getVariable(form).lt(form, other);
     }
 }

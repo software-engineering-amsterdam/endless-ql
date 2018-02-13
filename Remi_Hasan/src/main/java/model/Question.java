@@ -4,7 +4,7 @@ import expression.Expression;
 
 import java.util.ArrayList;
 
-public class Question extends BlockElement{
+public class Question{
 
     public final String name;
     public final String text;
@@ -15,16 +15,6 @@ public class Question extends BlockElement{
         this.name = name;
         this.text = text.substring(1, text.length() - 1);
         this.answer = answer;
-    }
-
-    @Override
-    public boolean isQuestion() {
-        return true;
-    }
-
-    @Override
-    public boolean isCondition() {
-        return false;
     }
 
     public void addCondition(Expression condition) {

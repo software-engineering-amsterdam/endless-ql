@@ -1,5 +1,6 @@
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
+import org.antlr.v4.runtime.tree.ParseTreeWalker
 import java.io.File
 
 class DogeQL {
@@ -16,10 +17,15 @@ class DogeQL {
             val lexer = QuestionareLanguageLexer(stream)
             val tokens = CommonTokenStream(lexer)
             val parser = QuestionareLanguageParser(tokens)
-            val ctx = parser.form();
+            val ctx = parser.form()
+
 
             // Traverse AST post-order
-//            val visitor = ExampleVisitor().visitProg(ctx)
+            val listener = FormListener()
+
+            ParseTreeWalker.DEFAULT.walk(listener, ctx)
+
+            val form = listener.form
         }
     }
 

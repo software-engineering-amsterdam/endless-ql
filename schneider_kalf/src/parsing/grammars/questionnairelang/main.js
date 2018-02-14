@@ -4,29 +4,19 @@
  */
 
 {
-  // Counter so assign unique id's
-  let ID_COUNTER = 1;
-  
-  // Increments and returns COUNTER value
-  function getID() {
-    return ID_COUNTER++;
-  }
-  
   // A base type for building the main tree layout
   function base(type, rest){
     return Object.assign({
-        id:getID(),
         type:type,
         //location:location(),
     },
     rest)
   }
-  
+
   // Building an expression, DRY
   function buildExpression(head, tail, type) {
     return tail.reduce(function(left, curr) {
       return {
-        id:getID(),
         type,
         attributes:{
             operator:curr[1],
@@ -38,7 +28,7 @@
       };
     }, head);
   }
-  
+
   function fieldBody(type, name, label, expr){
     return base("FIELD", {
        attributes:{

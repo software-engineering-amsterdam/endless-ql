@@ -1,6 +1,7 @@
 package model;
 
 import expression.Expression;
+import expression.ExpressionVariableBoolean;
 
 import java.util.ArrayList;
 
@@ -24,8 +25,13 @@ public class Question{
     public boolean isAnswerable(Form form){
         boolean conditionsMet = true;
         for(Expression condition : conditions){
-            conditionsMet &=  Boolean.TRUE.equals(condition.evaluate(form));
+            System.out.println("c: " + condition.toString() + " " + Boolean.TRUE.equals(condition.evaluate(form).get()));
+            if(!Boolean.TRUE.equals(condition.evaluate(form).get()) && name.equals("someBoolean4")){
+                System.out.println("");
+            }
+            conditionsMet &=  Boolean.TRUE.equals(condition.evaluate(form).get());
         }
+        System.out.println("q: " + name + " " + conditionsMet);
         return conditionsMet && answer.isSetable(form);
     }
 }

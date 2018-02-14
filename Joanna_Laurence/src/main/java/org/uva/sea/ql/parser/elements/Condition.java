@@ -34,6 +34,10 @@ public class Condition implements ASTNode {
 
     public void traverse(Traverse traverse) {
         traverse.doCondition(this);
+        this.expression.traverse(traverse);
+        for (ASTNode node: this.questions) {
+            node.traverse(traverse);
+        }
     }
 
     public Type getType() {

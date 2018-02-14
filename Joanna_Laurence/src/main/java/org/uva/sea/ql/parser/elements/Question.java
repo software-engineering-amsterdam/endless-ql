@@ -55,6 +55,11 @@ public class Question implements ASTNode {
 
     public void traverse(Traverse traverse) {
         traverse.doQuestion(this);
+        this.variable.traverse(traverse);
+        this.nodeType.traverse(traverse);
+
+        if(this.value != null)
+            this.value.traverse(traverse);
     }
 
     public Type getType() {

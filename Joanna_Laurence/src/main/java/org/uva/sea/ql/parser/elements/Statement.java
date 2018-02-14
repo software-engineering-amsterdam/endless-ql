@@ -25,6 +25,8 @@ public class Statement implements ASTNode {
 
     public void traverse(Traverse traverse) {
         traverse.doStatement(this);
+        this.question.traverse(traverse);
+        this.condition.traverse(traverse);
     }
 
     public Type getType() {

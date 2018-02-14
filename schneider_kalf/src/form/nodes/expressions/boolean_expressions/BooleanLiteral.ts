@@ -1,10 +1,10 @@
 import ExpressionVisitor from "../../visitors/ExpressionVisitor";
 import Expression from "../Expression";
 
-export default class NumberLiteral implements Expression {
-  private value: number;
+export default class BooleanLiteral implements Expression {
+  private value: boolean;
 
-  constructor(value: number) {
+  constructor(value: boolean) {
     this.value = value;
   }
 

@@ -1,8 +1,6 @@
 import TreeNode from "../TreeNode";
-import ExpressionVisitor from "../visitors/FieldVisitor";
+import ExpressionVisitor from "../visitors/ExpressionVisitor";
 
-export default class Expression implements TreeNode {
-  accept(visitor: ExpressionVisitor): any {
-    return visitor.visitExpression(this);
-  }
+export default abstract class Expression implements TreeNode {
+  abstract accept(visitor: ExpressionVisitor): any;
 }

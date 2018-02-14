@@ -1,8 +1,8 @@
-import BinaryExpression from "../BinaryExpression";
+import BinaryOperator from "../BinaryOperator";
 import ExpressionVisitor from "../../visitors/ExpressionVisitor";
 
-export default class Or extends BinaryExpression {
+export default class Or extends BinaryOperator {
   accept(visitor: ExpressionVisitor): any {
-    return visitor.visitOr();
+    return visitor.visitOr(this);
   }
 }

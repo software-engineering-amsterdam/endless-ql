@@ -118,7 +118,10 @@ def p_stmts(p):
 
 
 def p_stmt(p):
-    """stmt : question"""
+    """stmt : if
+            | elif
+            | else
+            | question"""
     p[0] = p[1]
 
 
@@ -143,6 +146,24 @@ def p_answer(p):
 def p_answer_assign(p):
     """answer : VAR COLON assign"""
     p[0] = ('ANSWER', p[1], p[3])
+
+
+# Control Flow
+
+
+def p_if(p):
+    """if : IF LPAREN expr RPAREN LBRACKET stmts RBRACKET"""
+    p[0] = ('IF', p[3], p[6])
+
+
+def p_elif(p):
+    """elif : ELIF LPAREN expr RPAREN LBRACKET stmts RBRACKET"""
+    p[0] = ('ELIF', p[3], p[6])
+
+
+def p_else(p):
+    """else : ELSE LBRACKET stmts RBRACKET"""
+    p[0] = ('ELSE', p[3])
 
 
 # Other

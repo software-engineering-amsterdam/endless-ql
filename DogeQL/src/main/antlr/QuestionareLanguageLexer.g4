@@ -9,6 +9,10 @@ STRING : 'string' ;
 MONEY : 'money' ;
 IF: 'if';
 
+// Expressions
+OR : '||';
+AND : '&&';
+
 // Separators
 LPAREN: '(' ;
 RPAREN: ')' ;

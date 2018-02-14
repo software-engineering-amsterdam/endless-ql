@@ -1,7 +1,9 @@
-package org.uva.jomi.ql.ast;
+package org.uva.jomi.ql.ast.expressions;
+
+import org.uva.jomi.ql.ast.expressions.Expr.Visitor;
 
 public class GroupingExpr extends Expr {
-	final Expr expression;
+	public final Expr expression;
 	
 	public GroupingExpr(Expr expression) {
 		this.expression = expression;

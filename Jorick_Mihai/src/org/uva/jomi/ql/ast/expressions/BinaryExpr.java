@@ -1,9 +1,11 @@
-package org.uva.jomi.ql.ast;
+package org.uva.jomi.ql.ast.expressions;
+
+import org.uva.jomi.ql.ast.QLToken;
 
 public class BinaryExpr extends Expr {
-	final Expr left;
-	final QLToken operator;
-	final Expr right;
+	public final Expr left;
+	public final QLToken operator;
+	public final Expr right;
 	
 	public BinaryExpr(Expr left, QLToken operator, Expr right) {
 		this.left = left;

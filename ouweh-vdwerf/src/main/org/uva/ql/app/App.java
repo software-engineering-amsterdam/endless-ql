@@ -18,6 +18,9 @@ public class App {
 
             QLParser parser = new QLParser(new CommonTokenStream(lexer));
             QLParser.FormContext fctx =  parser.form();
+            ParseTreeVisitor visitor = new ParseTreeVisitor();
+            Form fm = (Form) visitor.visit(fctx);
+
         }
         catch (IOException ex) {
 

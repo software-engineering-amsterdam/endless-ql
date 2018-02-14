@@ -49,6 +49,12 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStmt(QLParser.IfStmtContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QLParser#ifElseStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfElseStmt(QLParser.IfElseStmtContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code AndExpr}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree

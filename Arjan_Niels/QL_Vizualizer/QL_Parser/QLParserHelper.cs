@@ -21,7 +21,6 @@ namespace QL_Parser
             QLanguageParser.FormDeclarationContext formContext = qLanguageParser.formDeclaration();
             FormVisitor visitor = new FormVisitor();
 
-
             Form form = (Form)visitor.VisitFormDeclaration(formContext);
             return form;
         }

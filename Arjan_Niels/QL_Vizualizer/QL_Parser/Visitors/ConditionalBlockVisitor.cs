@@ -1,11 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using QL_Parser.Models;
 using QLanguage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static QLanguage.QLanguageParser;
 
 namespace QL_Parser.Visitors
 {
@@ -13,7 +9,15 @@ namespace QL_Parser.Visitors
     {
         public override ConditionalBlock VisitConditionalBlock([NotNull] QLanguageParser.ConditionalBlockContext context)
         {
-            return base.VisitConditionalBlock(context);
+            var conditionalBlock = new ConditionalBlock();
+
+            // Get the sections
+            SectionContext[] sectionContext = context.section();
+            SectionVisitor visitor = new SectionVisitor();
+            foreach (SectionContext ctx in sectionContext)
+                conditionalBlock.Sections.Add(visitor.VisitSection(ctx));
+
+            return conditionalBlock;
         }
     }
 }

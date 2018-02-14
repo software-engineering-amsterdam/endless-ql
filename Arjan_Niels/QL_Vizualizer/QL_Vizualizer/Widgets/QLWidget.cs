@@ -1,4 +1,5 @@
 ﻿using QL_Vizualizer.Controllers;
+using QL_Vizualizer.Factories;
 using System.Linq;
 
 namespace QL_Vizualizer.Widgets

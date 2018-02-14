@@ -18,7 +18,7 @@ namespace QL_Vizualizer
         public Visualizer()
         {
             InitializeComponent();
-            WidgetController.Initialize(new WidgetDisplayControllerWindows(10, panel1));
+            WidgetController.Initialize(new WidgetVisualizeController<Control>(new WidgetDisplayControllerWindows(10, panel1)));
             WidgetController.Instance.SetWidgets(new List<QLWidget>()
             {
                 new QLWidgetInt("a", "wat is 10 + 1?", new Expression<bool>(() => {return true; }), null),

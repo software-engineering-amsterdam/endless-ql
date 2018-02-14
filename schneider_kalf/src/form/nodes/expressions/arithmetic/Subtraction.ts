@@ -1,8 +1,8 @@
 import BinaryOperator from "../BinaryOperator";
 import ExpressionVisitor from "../../visitors/ExpressionVisitor";
 
-export default class Equals extends BinaryOperator {
+export default class Subtraction extends BinaryOperator {
   accept(visitor: ExpressionVisitor): any {
-    return visitor.visitEquals(this);
+    return visitor.visitSubtraction(this);
   }
 }

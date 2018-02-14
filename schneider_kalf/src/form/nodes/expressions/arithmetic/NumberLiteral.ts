@@ -9,7 +9,7 @@ export default class NumberLiteral implements Expression {
   }
 
   accept(visitor: ExpressionVisitor): any {
-    return visitor.visitLiteral(this);
+    return visitor.visitNumberLiteral(this);
   }
 
   getValue() {

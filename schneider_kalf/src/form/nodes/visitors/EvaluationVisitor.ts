@@ -2,21 +2,52 @@ import Addition from "../expressions/arithmetic/Addition";
 import NumberLiteral from "../expressions/arithmetic/NumberLiteral";
 import Multiplication from "../expressions/arithmetic/Multiplication";
 import ExpressionVisitor from "./ExpressionVisitor";
-import Expression from "../expressions/Expression";
 import Negation from "../expressions/boolean_expressions/Negation";
 import And from "../expressions/boolean_expressions/And";
 import Or from "../expressions/boolean_expressions/Or";
-import { assertBoolean, assertNumeric } from "../../typechecking/typeAssertions";
+import {
+  assertBoolean, assertComparable, assertNumeric, assertSameType,
+  assertValidDivision
+} from "../../typechecking/typeAssertions";
 import Variable from "../expressions/Variable";
 import { NotImplementedYetError } from "../../errors";
+import BooleanLiteral from "../expressions/boolean_expressions/BooleanLiteral";
+import Division from "../expressions/arithmetic/Division";
+import Subtraction from "../expressions/arithmetic/Subtraction";
+import Equals from "../expressions/comparisons/Equals";
 
-export class EvaluationVisitor implements ExpressionVisitor {
+/**
+ * TODO: Maybe use mixins to seperate boolean and arithmetic logic
+ */
+export default class EvaluationVisitor implements ExpressionVisitor {
+  visitEquals(equals: Equals) {
+    const leftValue: any = equals.left.accept(this);
+    const rightValue: any = equals.right.accept(this);
+
+    assertSameType(leftValue, rightValue);
+    assertComparable(leftValue);
+
+    return leftValue === rightValue;
+  }
+
   visitVariable(variable: Variable) {
     throw NotImplementedYetError.make("Evaluate variables");
   }
 
   visitNegation(negation: Negation): any {
     return assertBoolean(negation.expression.accept(this)) === false;
+  }
+
+  visitBooleanLiteral(literal: BooleanLiteral): any {
+    return assertBoolean(literal.getValue());
+  }
+
+  visitDivision(division: Division): any {
+    const dividendValue: any = division.dividend.accept(this);
+    const divisorValue: any = division.divisor.accept(this);
+    assertValidDivision(dividendValue, divisorValue);
+
+    return dividendValue.accept(this) / divisorValue.accept(this);
   }
 
   visitAnd(and: And): any {
@@ -35,11 +66,11 @@ export class EvaluationVisitor implements ExpressionVisitor {
     return assertNumeric(addition.left.accept(this)) + assertNumeric(addition.right.accept(this));
   }
 
-  visitLiteral(literal: NumberLiteral): any {
-    return literal.getValue();
+  visitSubtraction(subtraction: Subtraction): any {
+    return assertNumeric(subtraction.left.accept(this)) - assertNumeric(subtraction.right.accept(this));
   }
 
-  visitExpression(expression: Expression) {
-    throw new Error("Method not implemented.");
+  visitNumberLiteral(literal: NumberLiteral): any {
+    return assertNumeric(literal.getValue());
   }
 }

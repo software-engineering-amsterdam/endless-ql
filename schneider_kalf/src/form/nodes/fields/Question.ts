@@ -2,12 +2,12 @@ import FieldType from "../../field/FieldType";
 import Field from "./Field";
 import NodeVisitor from "../visitors/NodeVisitor";
 
-export class Question implements Field {
+export default class Question implements Field {
   readonly label: string;
   readonly name: string;
   readonly type: FieldType;
 
-  constructor(label: string, name: string, type: FieldType) {
+  constructor(name: string, label: string, type: FieldType) {
     this.label = label;
     this.name = name;
     this.type = type;

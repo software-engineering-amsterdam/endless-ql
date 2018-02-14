@@ -23,6 +23,16 @@ export class TypeCheckError extends FormError {
   }
 }
 
+export class DivisionByZeroError extends FormError {
+  static make(message?: string) {
+    if (typeof message === 'undefined') {
+      message = `Division by zero is not possible. `;
+    }
+
+    return new DivisionByZeroError(message);
+  }
+}
+
 export class NotImplementedYetError extends Error {
   static make(feature: string, message?: string) {
     if (typeof message === 'undefined') {

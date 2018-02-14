@@ -9,7 +9,7 @@ export default class BooleanLiteral implements Expression {
   }
 
   accept(visitor: ExpressionVisitor): any {
-    return visitor.visitLiteral(this);
+    return visitor.visitBooleanLiteral(this);
   }
 
   getValue() {

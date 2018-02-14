@@ -11,7 +11,7 @@ namespace QL_Parser
 {
     public class QLParserHelper
     {
-        public static void Parse(String file)
+        public static Form Parse(String file)
         {
             AntlrInputStream inputStream = new AntlrInputStream(file);
             QLanguageLexer qLanguageLexer = new QLanguageLexer(inputStream);
@@ -23,12 +23,7 @@ namespace QL_Parser
 
 
             Form form = (Form)visitor.VisitFormDeclaration(formContext);
-
-            Console.WriteLine("Parsed a form with the name: {0}", form.Name);
-            foreach (Question question in form.Sections.Where(x => x.GetType() == typeof(Question)))
-                Console.WriteLine("ID: {0} of type {1}", question.ID, question.QType);
-
-            Console.ReadLine();
+            return form;
         }
     }
 }

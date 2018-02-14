@@ -14,7 +14,7 @@ statement: question
 	     ;
 assignment: STR var ':' vartype '=' '(' expression ')';
 question: STR var ':' vartype;
-conditional: 'if' '(' expression ')' block;
+conditional: if_cond elif_cond* else_cond?;
 expression: BOOL 
 		  | STR
 		  | INT
@@ -31,6 +31,10 @@ form_id: NAME;
 var: NAME;
 vartype: 'int'
     | 'boolean';
+
+if_cond: 'if' '(' expression ')' block;
+elif_cond: 'elif' '(' expression ')' block;
+else_cond: 'else' block;
 
 /*
  * Lexer rules

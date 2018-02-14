@@ -64,7 +64,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="temp.txt" />
   </ItemGroup>
   <ItemGroup>
     <Antlr4 Include="QLanguage.g4">

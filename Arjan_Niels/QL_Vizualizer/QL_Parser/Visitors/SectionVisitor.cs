@@ -9,7 +9,7 @@ namespace QL_Parser.Visitors
     {
         public override Section VisitSection([NotNull] SectionContext context)
         {
-            // If the Section is a Question, process it. 
+            // If the Section is a Question, process it.
             var questionContext = context.question();
             if (questionContext != null)
             {

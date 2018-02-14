@@ -6,8 +6,8 @@
 formDeclaration		: 'form' formName '{' (section)* '}';
 section				: (question | conditionalBlock);
 question			: TEXT ID ':' QTYPE;
-conditionalBlock	: 'if x { }';
-
+conditionalBlock	: 'if' statement '{' (section)* '}';
+statement			: 'x < y';
 formName			: ID;
 
  /*

@@ -21,7 +21,7 @@ command: questionStmt
 
 questionStmt: IDENTIFIER ':' LABEL TYPE (expression)? ;
 ifStmt: 'if' '(' expression ')' blockStmt ;
-ifElseStmt: 'if' '(' expression ')' blockStmt 'else' blockStmt;
+ifElseStmt: 'if' '(' expression ')' ifBlock=blockStmt 'else' elseBlock=blockStmt;
 
 expression: BOOLEAN # BooleanExpr
 		  | LABEL  # StringExpr

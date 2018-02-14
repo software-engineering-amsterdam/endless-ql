@@ -409,6 +409,8 @@ public class QLParser extends Parser {
 	}
 
 	public static class IfElseStmtContext extends ParserRuleContext {
+		public BlockStmtContext ifBlock;
+		public BlockStmtContext elseBlock;
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -444,11 +446,11 @@ public class QLParser extends Parser {
 			setState(58);
 			match(T__6);
 			setState(59);
-			blockStmt();
+			((IfElseStmtContext)_localctx).ifBlock = blockStmt();
 			setState(60);
 			match(T__7);
 			setState(61);
-			blockStmt();
+			((IfElseStmtContext)_localctx).elseBlock = blockStmt();
 			}
 		}
 		catch (RecognitionException re) {

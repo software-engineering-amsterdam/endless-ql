@@ -1,12 +1,19 @@
 grammar QL;
 
+/*
+ * Parser Rules
+ */
 
 questionnaire:
     form*
 ;
 
 form:
-    'form' identifier block
+    FORM identifier block EOF
+;
+
+identifier:
+    LETTER (LETTER | DIGIT | '_')*
 ;
 
 block:
@@ -15,7 +22,7 @@ block:
 
 //TODO: Add if/else expressions
 expression:
-   question
+   question '\n'
 ;
 
 question:
@@ -26,8 +33,6 @@ string:
     '"' (~('"'))* '"'
 ;
 
-//Types taken from doc: boolean, string, integer, date and decimal and money/currency
-//Question: Seperate(now) or in type
 type:
     BOOLEANTYPE |
     STRINGTYPE |
@@ -36,6 +41,16 @@ type:
     DECIMALTYPE |
     MONEYTYPE
 ;
+
+/*
+ * Lexer Rules
+ */
+
+FORM:
+    'form'
+;
+
+WHITESPACE : ' ' -> skip
 
 MONEYTYPE:
     'money' | 'currency'
@@ -61,13 +76,6 @@ BOOLEANTYPE:
     'boolean'
 ;
 
-identifier:
-    LETTER indentifierTail
-;
-
-indentifierTail:
-    (LETTER | DIGIT | '_')*
-;
 
 
 LETTER:

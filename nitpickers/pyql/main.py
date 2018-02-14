@@ -1,7 +1,7 @@
 import sys
 from antlr4 import *
-from QLLexer import QLLexer
-from QLParser import QLParser
+from antlr.QLLexer import QLLexer
+from antlr.QLParser import QLParser
 # from HtmlQLListener import HtmlQLListener
 
 

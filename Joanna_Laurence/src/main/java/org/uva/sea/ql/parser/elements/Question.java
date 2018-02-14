@@ -1,12 +1,15 @@
 package org.uva.sea.ql.parser.elements;
 
-public class Question {
+import org.uva.sea.ql.parser.elements.types.Type;
+import org.uva.sea.ql.parser.elements.types.Var;
+
+public class Question extends ASTNode {
     private String label;
     private Var variable;
     private Type type;
-    private Expr value;
+    private ASTNode value;
 
-    public Question(String label, Var variable, Type type, Expr value) {
+    public Question(String label, Var variable, Type type, ASTNode value) {
         this.label = label;
         this.variable = variable;
         this.type = type;
@@ -40,11 +43,11 @@ public class Question {
         this.type = type;
     }
 
-    public Expr getValue() {
+    public ASTNode getValue() {
         return value;
     }
 
-    public void setValue(Expr value) {
+    public void setValue(ASTNode value) {
         this.value = value;
     }
 }

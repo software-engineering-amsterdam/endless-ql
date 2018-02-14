@@ -10,6 +10,8 @@ public class ExpressionComparisonGE extends ExpressionComparison {
 
     @Override
     public ExpressionVariable evaluate(Form form) {
-        return this.left.evaluate(form).ge(this.right.evaluate(form));
+        ExpressionVariable leftEvaluated = this.left.evaluate(form);
+        ExpressionVariable rightEvaluated = this.right.evaluate(form);
+        return leftEvaluated.ge(rightEvaluated);
     }
 }

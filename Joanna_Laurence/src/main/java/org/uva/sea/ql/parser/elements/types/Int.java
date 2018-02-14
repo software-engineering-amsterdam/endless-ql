@@ -1,11 +1,12 @@
 package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class Num extends ASTNode {
+public class Int implements ASTNode {
     private int value;
 
-    public Num(int value) {
+    public Int(int value) {
         this.value = value;
     }
 
@@ -15,5 +16,9 @@ public class Num extends ASTNode {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public void traverse(Traverse traverse) {
+        traverse.doInt(this);
     }
 }

@@ -1,6 +1,8 @@
 package org.uva.sea.ql.parser.elements;
 
-public class Statement extends ASTNode {
+import org.uva.sea.ql.traverse.Traverse;
+
+public class Statement implements ASTNode {
     private Question question;
     private Condition condition;
 
@@ -18,5 +20,9 @@ public class Statement extends ASTNode {
 
     public void setCondition(Condition condition) {
         this.condition = condition;
+    }
+
+    public void traverse(Traverse traverse) {
+        traverse.doStatement(this);
     }
 }

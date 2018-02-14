@@ -2,8 +2,9 @@ package org.uva.sea.ql.parser.elements;
 
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.elements.types.Var;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class Question extends ASTNode {
+public class Question implements ASTNode {
     private String label;
     private Var variable;
     private Type type;
@@ -49,5 +50,9 @@ public class Question extends ASTNode {
 
     public void setValue(ASTNode value) {
         this.value = value;
+    }
+
+    public void traverse(Traverse traverse) {
+        traverse.doQuestion(this);
     }
 }

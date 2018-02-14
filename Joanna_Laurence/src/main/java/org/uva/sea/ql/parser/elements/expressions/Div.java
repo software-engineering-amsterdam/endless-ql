@@ -1,29 +1,26 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.types.Type;
+import org.uva.sea.ql.parser.nodeTypes.DualNode;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class Div extends ASTNode {
-    private ASTNode lhs;
-    private ASTNode rhs;
-
+public class Div extends DualNode {
     public Div(ASTNode lhs, ASTNode rhs) {
-        this.lhs = lhs;
-        this.rhs = rhs;
+        super(lhs, rhs);
     }
 
-    public ASTNode getLhs() {
-        return lhs;
+    public void traverse(Traverse traverse) {
+        super.traverse(traverse);
+        traverse.doDiv(this);
+        this.traverseChildren(traverse);
     }
 
-    public void setLhs(ASTNode lhs) {
-        this.lhs = lhs;
-    }
-
-    public ASTNode getRhs() {
-        return rhs;
-    }
-
-    public void setRhs(ASTNode rhs) {
-        this.rhs = rhs;
+    /**
+     * The value is returned, so the type of LHS
+     * @return The type
+     */
+    public Type getType() {
+        return this.getLhs().getType();
     }
 }

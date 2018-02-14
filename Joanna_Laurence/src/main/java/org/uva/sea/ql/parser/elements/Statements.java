@@ -1,9 +1,11 @@
 package org.uva.sea.ql.parser.elements;
 
+import org.uva.sea.ql.traverse.Traverse;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Statements extends ASTNode {
+public class Statements implements ASTNode {
 
     private List<ASTNode> statementList;
 
@@ -21,5 +23,9 @@ public class Statements extends ASTNode {
 
     public void addStatement(ASTNode item) {
         this.statementList.add(item);
+    }
+
+    public void traverse(Traverse traverse) {
+        traverse.doStatements(this);
     }
 }

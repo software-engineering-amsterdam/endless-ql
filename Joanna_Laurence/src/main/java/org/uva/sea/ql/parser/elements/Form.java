@@ -1,7 +1,8 @@
 package org.uva.sea.ql.parser.elements;
 
+import org.uva.sea.ql.traverse.Traverse;
 
-public class Form extends ASTNode {
+public class Form implements ASTNode {
 
     private String name;
 
@@ -15,5 +16,9 @@ public class Form extends ASTNode {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void traverse(Traverse traverse) {
+        traverse.doForm(this);
     }
 }

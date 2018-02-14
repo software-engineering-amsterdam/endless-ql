@@ -79,7 +79,6 @@ andExpr returns [ASTNode result]
     :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result); } )*
     ;
 
-
 relExpr returns [ASTNode result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr
     {

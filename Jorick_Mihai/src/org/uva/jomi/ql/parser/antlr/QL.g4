@@ -20,6 +20,7 @@ command: questionStmt
 
 questionStmt: IDENTIFIER ':' LABEL TYPE (expression)? ;
 ifStmt: 'if' '(' expression ')' blockStmt ;
+ifElseStmt: 'if' '(' expression ')' blockStmt 'else' blockStmt;
 
 expression: BOOLEAN # BooleanExpr
 		  | LABEL  # StringExpr

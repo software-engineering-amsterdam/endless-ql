@@ -4,12 +4,12 @@
  */
 
 {
-  // Global counter so assign unique id's
-  var COUNTER = 1;
+  // Counter so assign unique id's
+  let ID_COUNTER = 1;
   
   // Increments and returns COUNTER value
   function getID() {
-    return COUNTER++;
+    return ID_COUNTER++;
   }
   
   // A base type for building the main tree layout
@@ -24,15 +24,16 @@
   
   // Building an expression, DRY
   function buildExpression(head, tail, type) {
-    return tail.reduce(function(memo, curr) {
+    return tail.reduce(function(left, curr) {
       return {
+        id:getID(),
         type,
         attributes:{
             operator:curr[1],
         },
         children:[
-            {left:memo},
-            {right:curr[3]}
+            Object.assign({name:"LEFT"}, left),
+            Object.assign({name:"RIGHT"}, curr[3])
         ]
       };
     }, head);
@@ -55,12 +56,23 @@ start = call+
 
 call = form:form _ lb* { return form}
 
-allOps = compOps / boolOps / baseOps
-
+// Unary operation
 unaryOps = "!"
+
+// Boolean operations
 boolOps = "&&" / "||"
+
+// Compartive operations
 compOps = "<=" / ">=" / "!=" / "==" / "<" / ">"
-baseOps = "+" / "-" / "*" / "/"
+
+//Addative operations
+addOps = "+" / "-"
+
+//Multiplicant operations
+multOps = "*" / "/"
+
+// All includede aritmic operations
+aritmicOps = multOps / addOps
 
 type = "boolean" / "money" / "currency" / "date" 
 
@@ -106,49 +118,48 @@ if
 
 // Initiates an expression
 expression
- = bools:bools {
-     return {
-       type:"EXPRESSION",
+ = expr:boolExpr {
+     return base("EXPRESSION", {
        name: null,
-       children:[bools],
-     }
+       children:[expr],
+     })
  }
 
 // BooleanExpression
-bools
-  = _ head:operation _ tail:(_(boolOps)_ operation)+ _{
+boolExpr
+  = _ head:compExpr _ tail:(_(boolOps)_ compExpr)+ _{
     return buildExpression(head, tail, "BooleanExpression")
   }
-  / operation
+  / compExpr
 
 // ComparisonExpression
-operation
-  = _ head:additive _ tail:(_(compOps)_ additive)+ _{
+compExpr
+  = _ head:additiveExpr _ tail:(_(compOps)_ additiveExpr)+ _{
     return buildExpression(head, tail, "ComparisonExpression")
   }
-  / additive
+  / additiveExpr
 
 // AdditiveExpression
-additive
-  = _ head:multiplicative _ tail:(_("+" / "-")_ multiplicative)+ _{
+additiveExpr
+  = _ head:multiplicativeExpr _ tail:(_(addOps)_ multiplicativeExpr)+ _{
     return buildExpression(head, tail, "AdditiveExpression")
   }
-  / multiplicative
+  / multiplicativeExpr
 
 // MultiplicativeExpression
-multiplicative
-  = _ head:primary _ tail:(_("*" / "/")_ primary)+ _{
+multiplicativeExpr
+  = _ head:primary _ tail:(_(multOps)_ primary)+ _{
     return buildExpression(head, tail, "MultiplicativeExpression")
   }
   / primary
 
 primary
   = value
-  / "("_ bools:bools _ ")" { return bools; }
-  / unarryExpression
+  / "("_ expr:boolExpr _ ")" { return expr; }
+  / unarryExpr
 
 // UnaryExpression
-unarryExpression
+unarryExpr
  = _ op:unaryOps value:primary _ {
      return {
         type:"UnaryExpression",

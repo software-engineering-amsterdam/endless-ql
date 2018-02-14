@@ -1,25 +1,24 @@
 package ast;
 
-import java.util.List;
-import java.util.Set;
-
 import ast.AstNode;
+import ast.expression.Identifier;
 
 public class Form extends AstNode{
 
-	private final String id;
-	private final List<Block> blocks;
+	private final Identifier id;
+	private final Block block;
 
-	public Form(String id, List<Block> blocks) {
+	public Form(Identifier id, Block block) {
 		this.id = id;
-		this.blocks = blocks;
+		this.block = block;
 	}
 
-	public String getId() {
+	public Identifier getId() {
 		return id;
 	}
 
-	public List<Block> getBlocks() {
-		return this.blocks;
+	public Block getBlock() {
+		return this.block;
 	}
+	
 }

@@ -1,11 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { QuestionService } from './question.service';
-import {Question, QuestionType} from '../domain/ast';
-import {TextboxQuestion} from '../domain/question-textbox';
-import {CheckboxQuestion} from '../domain/question-checkbox';
+import {Form, Question, QuestionType} from './ast';
+import {TextboxQuestion} from './question-textbox';
+import {CheckboxQuestion} from './question-checkbox';
 
 describe('QuestionService', () => {
-  let service: QuestionService;
 
   const questions = [
     new Question('intQuestion', 'intQuestion?', QuestionType.INT),
@@ -16,18 +14,8 @@ describe('QuestionService', () => {
     new Question('dateQuestion', 'dateQuestion?', QuestionType.DATE)
   ];
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [QuestionService]
-    });
-  });
-
-  beforeEach(inject([QuestionService], (_service: QuestionService) => {
-    service = _service;
-  }));
-
   it('should return the proper QuestionBase questions', () => {
-    const formQuestions = service.toFormQuestions(questions);
+    const formQuestions = new Form('test', questions).toFormQuestion();
     expect(formQuestions.length).toBe(6);
     expect(formQuestions[0].key).toBe('intQuestion');
     expect(formQuestions[0].label).toBe('intQuestion?');

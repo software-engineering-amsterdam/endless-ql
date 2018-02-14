@@ -4,10 +4,13 @@ grammar QL;
 
 
 form : FORM_HEADER BRACKET_OPEN questionBlock+ BRACKET_CLOSE;
-
-questionBlock 	: (questionName|condition);
+question: WHITESPACE* questionText questionName TYPE WHITESPACE*;
+questionText: STRING;
+questionBlock: WHITESPACE* question+ WHITESPACE*
+             | WHITESPACE* conditionalBlock+ WHITESPACE*;
 questionName: IDENTIFIER WHITESPACE* QUESTION_DELIMITER WHITESPACE*;
-condition 		: IF '(' (booleanExpression | IDENTIFIER)')' questionBlock;
+conditionalBlock: WHITESPACE* IF WHITESPACE* '(' (booleanExpression | IDENTIFIER)')' WHITESPACE*
+                  BRACKET_OPEN questionBlock+ BRACKET_OPEN;
 
 //To skip New Lines, White spaces and comments
 FORM_HEADER : WHITESPACE* 'form' WHITESPACE*  -> skip;

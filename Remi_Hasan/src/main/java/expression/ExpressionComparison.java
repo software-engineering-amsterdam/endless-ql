@@ -4,8 +4,8 @@ import model.Form;
 
 public abstract class ExpressionComparison extends ExpressionBinary<Boolean>{
 
-    ExpressionComparison(Expression left, Expression right, BinaryOperation op, String opString) {
-        super(left, right, op, opString);
+    ExpressionComparison(Expression left, Expression right, String opString) {
+        super(left, right, opString);
     }
 
     @Override

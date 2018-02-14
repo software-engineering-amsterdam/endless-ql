@@ -1,7 +1,7 @@
 import sys
 from antlr4 import *
-from QLLexer import QLLexer
-from QLParser import QLParser
+from antlr_files.QLLexer import QLLexer
+from antlr_files.QLParser import QLParser
 
 def main(argv):
     input = FileStream(argv[1])

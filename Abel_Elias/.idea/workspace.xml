@@ -3,7 +3,23 @@
   <component name="ChangeListManager">
     <list default="true" id="96ca7f12-a829-4bcc-af68-11d8edc5ec3b" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/FormQL.g4" afterPath="$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/FormQL.g4" />
+      <change beforePath="$PROJECT_DIR$/Abel/HelloWorld.tokens" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Abel/HelloWorld/HelloWorld.g4" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Abel/HelloWorldBaseListener.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Abel/HelloWorldLexer.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Abel/HelloWorldLexer.tokens" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Abel/HelloWorldListener.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Abel/HelloWorldParser.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/lib/jacc/LICENSE" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/lib/jacc/README" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/lib/jacc/jacc" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/lib/jacc/jacc.bat" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/lib/jacc/jacc.jar" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/FormQL.g4" afterPath="$PROJECT_DIR$/src/antlr/grammar/FormQL.g4" />
+      <change beforePath="$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QL.g" afterPath="$PROJECT_DIR$/src/antlr/grammar/QL.g" />
+      <change beforePath="$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QLLexer.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/uva/sea/ql/parser/rats/QLParser.rats" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/uva/sea/ql/parser/rats/RunRats.java" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,8 +34,8 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="FormQL.g4" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/FormQL.g4">
+      <file leaf-file-name="FormQL.g4" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/antlr/grammar/FormQL.g4">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="397">
               <caret line="31" column="50" lean-forward="false" selection-start-line="31" selection-start-column="50" selection-end-line="31" selection-end-column="50" />
@@ -28,16 +44,6 @@
                 <element signature="e#55#123#1" expanded="true" />
                 <element signature="e#125#192#1" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HelloWorld.g4" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Abel/HelloWorld/HelloWorld.g4">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="1" lean-forward="false" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -103,31 +109,19 @@
             <path>
               <item name="QL" type="b2602c69:ProjectViewProjectNode" />
               <item name="Abel_Elias" type="462c0819:PsiDirectoryNode" />
-              <item name="Abel" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="QL" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Abel_Elias" type="462c0819:PsiDirectoryNode" />
-              <item name="Abel" type="462c0819:PsiDirectoryNode" />
-              <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="QL" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Abel_Elias" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="QL" type="b2602c69:ProjectViewProjectNode" />
               <item name="Abel_Elias" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="parser" type="462c0819:PsiDirectoryNode" />
+              <item name="grammar" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="QL" type="b2602c69:ProjectViewProjectNode" />
               <item name="Abel_Elias" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="parser" type="462c0819:PsiDirectoryNode" />
-              <item name="antlr" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -341,7 +335,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QLLexer.java">
+    <entry file="file://$PROJECT_DIR$/src/antlr/grammar/QLLexer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4675">
           <caret line="275" column="60" lean-forward="true" selection-start-line="275" selection-start-column="60" selection-end-line="275" selection-end-column="60" />
@@ -358,7 +352,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QLLexer.java">
+    <entry file="file://$PROJECT_DIR$/src/antlr/grammar/QLLexer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
@@ -368,10 +362,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QL.g">
+    <entry file="file://$PROJECT_DIR$/src/antlr/grammar/QL.g">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="19" column="39" lean-forward="false" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -390,7 +385,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QLLexer.java">
+    <entry file="file://$PROJECT_DIR$/src/antlr/grammar/QLLexer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
@@ -408,10 +403,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QL.g">
+    <entry file="file://$PROJECT_DIR$/src/antlr/grammar/QL.g">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -483,10 +479,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/jacc/ql.jacc" />
     <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/jacc/ql.output" />
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QL.g">
+    <entry file="file://$PROJECT_DIR$/src/antlr/grammar/QL.g">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="71" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -508,6 +505,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -515,6 +513,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -533,7 +532,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QLLexer.java">
+    <entry file="file://$PROJECT_DIR$/src/antlr/grammar/QLLexer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3808">
           <caret line="233" column="59" lean-forward="false" selection-start-line="233" selection-start-column="59" selection-end-line="233" selection-end-column="59" />
@@ -551,7 +550,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/FormQL.g4">
+    <entry file="file://$PROJECT_DIR$/src/antlr/grammar/FormQL.g4">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="397">
           <caret line="31" column="50" lean-forward="false" selection-start-line="31" selection-start-column="50" selection-end-line="31" selection-end-column="50" />

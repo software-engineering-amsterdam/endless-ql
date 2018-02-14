@@ -2,16 +2,15 @@ package model
 
 object Ast {
 
-  sealed class Node()
-  case class QLForm(formName: String, statements: Seq[Statement]) extends Node
+  case class QLForm(formName: String, statements: Seq[Statement])
 
   sealed trait Statement
-  case class Question(id: String, label: String, answerType: AnswerType) extends Node with Statement
+  case class Question(id: String, label: String, answerType: AnswerType) extends Statement
 
-  case class Conditional() extends Node with Statement
+  case class Conditional() extends Statement
 
   sealed trait AnswerType
-  object AnswerType extends Node {
+  object AnswerType {
     case object StringAnswerType extends AnswerType
     case object IntAnswerType extends AnswerType
     case object BooleanAnswerType extends AnswerType

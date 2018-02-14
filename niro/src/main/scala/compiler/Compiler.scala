@@ -9,7 +9,7 @@ import scala.collection.JavaConverters
 
 object Compiler {
 
-  def compile(formSource: CharStream): Node = {
+  def compile(formSource: CharStream): QLForm = {
     val parser = new QLParser(new CommonTokenStream(new QLLexer(formSource)))
     parser.removeErrorListeners()
     parser.addErrorListener(new ErrorListener)

@@ -31,4 +31,8 @@ public class Money implements ASTNode {
     public void traverse(Traverse traverse) {
         traverse.doMoney(this);
     }
+
+    public Type getType() {
+        return new Type("money");
+    }
 }

@@ -21,4 +21,8 @@ public class Str implements ASTNode {
     public void traverse(Traverse traverse) {
         traverse.doStr(this);
     }
+
+    public Type getType() {
+        return new Type("string");
+    }
 }

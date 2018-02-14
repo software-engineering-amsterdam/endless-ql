@@ -41,4 +41,8 @@ public class DateExpr implements ASTNode {
     public void traverse(Traverse traverse) {
         traverse.doDateExpr(this);
     }
+
+    public Type getType() {
+        return new Type("date");
+    }
 }

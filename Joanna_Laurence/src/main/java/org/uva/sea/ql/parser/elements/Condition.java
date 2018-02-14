@@ -7,24 +7,20 @@ import java.util.List;
 
 public class Condition implements ASTNode {
 
-    private String expression;
+    private ASTNode expression;
     private List<Question> questions;
 
-    public Condition() {
-        System.out.println("Condition created");
-    }
-
-    public Condition(String expression, List<Question> questions) {
-
-        this.expression = expression;
+    public Condition(ASTNode expression, List<Question> questions)
+    {
         this.questions = questions;
+        this.expression = expression;
     }
 
-    public String getExpression() {
+    public ASTNode getExpression() {
         return expression;
     }
 
-    public void setExpression(String expression) {
+    public void setExpression(ASTNode expression) {
         this.expression = expression;
     }
 

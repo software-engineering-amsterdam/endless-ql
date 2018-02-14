@@ -21,4 +21,8 @@ public class Int implements ASTNode {
     public void traverse(Traverse traverse) {
         traverse.doInt(this);
     }
+
+    public Type getType() {
+        return new Type("integer");
+    }
 }

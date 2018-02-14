@@ -1,6 +1,7 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.types.Type;
 
 public class Mul extends ASTNode {
 
@@ -26,5 +27,13 @@ public class Mul extends ASTNode {
 
     public void setRhs(ASTNode rhs) {
         this.rhs = rhs;
+    }
+
+    public Type getExprType() {
+        return lhs.getExprType();
+    }
+
+    public boolean checkType() {
+        return lhs.getExprType().equals(rhs.getExprType());
     }
 }

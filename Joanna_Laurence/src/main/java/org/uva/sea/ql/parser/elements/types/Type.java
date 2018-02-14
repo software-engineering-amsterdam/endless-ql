@@ -16,4 +16,16 @@ public class Type extends ASTNode {
     public void setType(String type) {
         this.type = type;
     }
+
+    public Type getExprType() {
+        return new Type(type);
+    }
+
+    public boolean checkType() {
+        return true;
+    }
+
+    public boolean equals(Type name) {
+        return this.type.equals(name);
+    }
 }

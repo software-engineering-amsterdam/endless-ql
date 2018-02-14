@@ -6,7 +6,6 @@ grammar QL;
     import org.uva.sea.ql.parser.elements.*;
     import org.uva.sea.ql.parser.elements.expressions.*;
     import org.uva.sea.ql.parser.elements.types.*;
-
 }
 
 @lexer::header
@@ -152,7 +151,7 @@ bool returns [ASTNode result]
     ;
 
 num returns [ASTNode result]
-    : INT {$result = new Num(Integer.parseInt($INT.text));}
+    : INT {$result = new Int(Integer.parseInt($INT.text));}
     ;
 
 dec returns [ASTNode result]

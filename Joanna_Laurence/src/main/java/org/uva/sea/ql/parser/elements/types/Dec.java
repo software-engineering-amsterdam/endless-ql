@@ -16,4 +16,12 @@ public class Dec extends ASTNode {
     public void setValue(double value) {
         this.value = value;
     }
+
+    public Type getExprType() {
+        return new Type("decimal");
+    }
+
+    public boolean checkType() {
+        return true;
+    }
 }

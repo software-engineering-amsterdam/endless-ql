@@ -16,4 +16,12 @@ public class Bool extends ASTNode {
     public void setValue(boolean value) {
         this.value = value;
     }
+
+    public Type getExprType() {
+        return new Type("boolean");
+    }
+
+    public boolean checkType() {
+        return true;
+    }
 }

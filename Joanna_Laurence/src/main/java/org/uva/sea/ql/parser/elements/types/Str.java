@@ -16,4 +16,12 @@ public class Str extends ASTNode {
     public void setValue(String value) {
         this.value = value;
     }
+
+    public Type getExprType() {
+        return new Type("string");
+    }
+
+    public boolean checkType() {
+        return true;
+    }
 }

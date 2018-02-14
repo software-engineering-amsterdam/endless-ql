@@ -26,4 +26,12 @@ public class Div extends ASTNode {
     public void setRhs(ASTNode rhs) {
         this.rhs = rhs;
     }
+
+    public Type getExprType() {
+        return lhs.getExprType();
+    }
+
+    public boolean checkType() {
+        return lhs.getExprType().equals(rhs.getExprType());
+    }
 }

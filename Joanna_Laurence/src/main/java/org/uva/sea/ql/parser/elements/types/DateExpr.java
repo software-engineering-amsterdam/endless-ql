@@ -36,4 +36,12 @@ public class DateExpr extends ASTNode {
     public void setYear(int year) {
         this.year = year;
     }
+
+    public Type getExprType() {
+        return new Type("date");
+    }
+
+    public boolean checkType() {
+        return true;
+    }
 }

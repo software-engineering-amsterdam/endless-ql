@@ -26,4 +26,12 @@ public class Money extends ASTNode {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
+
+    public Type getExprType() {
+        return new Type("money");
+    }
+
+    public boolean checkType() {
+        return true;
+    }
 }

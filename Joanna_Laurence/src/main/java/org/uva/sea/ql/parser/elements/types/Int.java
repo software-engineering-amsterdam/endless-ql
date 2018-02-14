@@ -2,10 +2,10 @@ package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
 
-public class Num extends ASTNode {
+public class Int extends ASTNode {
     private int value;
 
-    public Num(int value) {
+    public Int(int value) {
         this.value = value;
     }
 
@@ -15,5 +15,13 @@ public class Num extends ASTNode {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public Type getExprType() {
+        return new Type("integer");
+    }
+
+    public boolean checkType() {
+        return true;
     }
 }

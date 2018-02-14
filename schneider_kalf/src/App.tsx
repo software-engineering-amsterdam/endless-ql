@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormComponent } from './components/form_component/FormComponent';
+import { FormComponent } from './rendering/components/form_component/FormComponent';
 import { sampleForm } from "./mock/sampleForm";
 import 'bootstrap/dist/css/bootstrap.css';
 

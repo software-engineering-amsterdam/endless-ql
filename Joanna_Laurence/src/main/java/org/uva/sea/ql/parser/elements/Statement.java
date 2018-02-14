@@ -1,6 +1,6 @@
 package org.uva.sea.ql.parser.elements;
 
-public class Statement extends Expr {
+public class Statement extends ASTNode {
     private Question question;
     private Condition condition;
 

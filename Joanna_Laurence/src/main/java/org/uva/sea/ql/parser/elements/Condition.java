@@ -2,7 +2,7 @@ package org.uva.sea.ql.parser.elements;
 
 import java.util.List;
 
-public class Condition extends Expr {
+public class Condition extends ASTNode {
 
     private String expression;
     private List<Question> questions;

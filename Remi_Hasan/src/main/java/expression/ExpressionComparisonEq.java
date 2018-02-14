@@ -11,6 +11,8 @@ public class ExpressionComparisonEq extends ExpressionComparison {
 
     @Override
     public ExpressionVariable evaluate(Form form) {
-        return this.left.evaluate(form).equals(this.right.evaluate(form));
+        ExpressionVariable leftEvaluated = this.left.evaluate(form);
+        ExpressionVariable rightEvaluated = this.right.evaluate(form);
+        return leftEvaluated.equals(rightEvaluated);
     }
 }

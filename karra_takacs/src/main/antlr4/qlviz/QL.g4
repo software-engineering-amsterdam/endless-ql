@@ -3,11 +3,11 @@ grammar QL;
 //file to define grammar
 
 
-form : FORM_HEADER BRACKET_OPEN questionBlock BRACKET_CLOSE;
+form : FORM_HEADER BRACKET_OPEN questionBlock+ BRACKET_CLOSE;
 
 questionBlock 	: (questionName|condition);
 questionName: IDENTIFIER WHITESPACE* QUESTION_DELIMITER WHITESPACE*;
-condition 		: IF '(' (BOOLEANEXPRESSION | IDENTIFIER)')' questionBlock;
+condition 		: IF '(' (booleanExpression | IDENTIFIER)')' questionBlock;
 
 //To skip New Lines, White spaces and comments
 FORM_HEADER : WHITESPACE* 'form' WHITESPACE*  -> skip;

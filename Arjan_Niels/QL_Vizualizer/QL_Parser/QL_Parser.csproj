@@ -49,12 +49,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ConditionalBlock.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\Section.cs" />
+    <Compile Include="Visitors\ConditionalBlockVisitor.cs" />
     <Compile Include="Visitors\FormVisitor.cs" />
     <Compile Include="Models\Form.cs" />
     <Compile Include="QLParserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Visitors\QuestionVisitor.cs" />
     <Compile Include="Visitors\SectionVisitor.cs" />
   </ItemGroup>
   <ItemGroup>

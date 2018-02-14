@@ -1,4 +1,13 @@
 ﻿form TestForm {
-"Did you sell a house in 2010?"
-"Did you buy a house in 2010?"
+	"Did you sell a house in 2010?"
+		soldHouseIn2010: boolean
+
+	"Did you buy a house in 2010?"
+		boughtHouseIn2010: boolean
+
+	"What was the selling price?"
+		sellingPrice: money
+
+	"What is the name of your cat?"
+		catName: text
 }

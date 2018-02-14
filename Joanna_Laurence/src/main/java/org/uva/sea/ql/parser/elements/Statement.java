@@ -1,5 +1,6 @@
 package org.uva.sea.ql.parser.elements;
 
+import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.traverse.Traverse;
 
 public class Statement implements ASTNode {
@@ -24,5 +25,9 @@ public class Statement implements ASTNode {
 
     public void traverse(Traverse traverse) {
         traverse.doStatement(this);
+    }
+
+    public Type getType() {
+        return new Type("undefined");
     }
 }

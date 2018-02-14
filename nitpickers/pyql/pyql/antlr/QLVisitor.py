@@ -3,7 +3,7 @@ from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .QLParser import QLParser
 else:
-    from QLParser import QLParser
+    from pyql.antlr.QLParser import QLParser
 
 # This class defines a complete generic visitor for a parse tree produced by QLParser.
 

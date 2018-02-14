@@ -1,4 +1,4 @@
-# Generated from QL.g4 by ANTLR 4.5.3
+# Generated from QL.g4 by ANTLR 4.7
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .QLParser import QLParser
@@ -35,15 +35,6 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#expression.
-    def enterExpression(self, ctx:QLParser.ExpressionContext):
-        pass
-
-    # Exit a parse tree produced by QLParser#expression.
-    def exitExpression(self, ctx:QLParser.ExpressionContext):
-        pass
-
-
     # Enter a parse tree produced by QLParser#statement.
     def enterStatement(self, ctx:QLParser.StatementContext):
         pass
@@ -71,39 +62,21 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#unExpression.
-    def enterUnExpression(self, ctx:QLParser.UnExpressionContext):
+    # Enter a parse tree produced by QLParser#expression.
+    def enterExpression(self, ctx:QLParser.ExpressionContext):
         pass
 
-    # Exit a parse tree produced by QLParser#unExpression.
-    def exitUnExpression(self, ctx:QLParser.UnExpressionContext):
-        pass
-
-
-    # Enter a parse tree produced by QLParser#mulExpression.
-    def enterMulExpression(self, ctx:QLParser.MulExpressionContext):
-        pass
-
-    # Exit a parse tree produced by QLParser#mulExpression.
-    def exitMulExpression(self, ctx:QLParser.MulExpressionContext):
+    # Exit a parse tree produced by QLParser#expression.
+    def exitExpression(self, ctx:QLParser.ExpressionContext):
         pass
 
 
-    # Enter a parse tree produced by QLParser#addExpression.
-    def enterAddExpression(self, ctx:QLParser.AddExpressionContext):
+    # Enter a parse tree produced by QLParser#orExpression.
+    def enterOrExpression(self, ctx:QLParser.OrExpressionContext):
         pass
 
-    # Exit a parse tree produced by QLParser#addExpression.
-    def exitAddExpression(self, ctx:QLParser.AddExpressionContext):
-        pass
-
-
-    # Enter a parse tree produced by QLParser#relExpression.
-    def enterRelExpression(self, ctx:QLParser.RelExpressionContext):
-        pass
-
-    # Exit a parse tree produced by QLParser#relExpression.
-    def exitRelExpression(self, ctx:QLParser.RelExpressionContext):
+    # Exit a parse tree produced by QLParser#orExpression.
+    def exitOrExpression(self, ctx:QLParser.OrExpressionContext):
         pass
 
 
@@ -116,12 +89,39 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#orExpression.
-    def enterOrExpression(self, ctx:QLParser.OrExpressionContext):
+    # Enter a parse tree produced by QLParser#relExpression.
+    def enterRelExpression(self, ctx:QLParser.RelExpressionContext):
         pass
 
-    # Exit a parse tree produced by QLParser#orExpression.
-    def exitOrExpression(self, ctx:QLParser.OrExpressionContext):
+    # Exit a parse tree produced by QLParser#relExpression.
+    def exitRelExpression(self, ctx:QLParser.RelExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#addExpression.
+    def enterAddExpression(self, ctx:QLParser.AddExpressionContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#addExpression.
+    def exitAddExpression(self, ctx:QLParser.AddExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#mulExpression.
+    def enterMulExpression(self, ctx:QLParser.MulExpressionContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#mulExpression.
+    def exitMulExpression(self, ctx:QLParser.MulExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#unExpression.
+    def enterUnExpression(self, ctx:QLParser.UnExpressionContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#unExpression.
+    def exitUnExpression(self, ctx:QLParser.UnExpressionContext):
         pass
 
 
@@ -140,6 +140,15 @@ class QLListener(ParseTreeListener):
 
     # Exit a parse tree produced by QLParser#identifier.
     def exitIdentifier(self, ctx:QLParser.IdentifierContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#money.
+    def enterMoney(self, ctx:QLParser.MoneyContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#money.
+    def exitMoney(self, ctx:QLParser.MoneyContext):
         pass
 
 

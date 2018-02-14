@@ -10,5 +10,5 @@ class CodeLocation:
     def get_row(self):
         return self.row
 
-    def __str__(self):
+    def __repr__(self):
         return "Row: " + str(self.row) + "; Column: " + str(self.column)

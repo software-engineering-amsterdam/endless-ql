@@ -7,9 +7,11 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.uva.jomi.ql.ast.AstBuilder;
+import org.uva.jomi.ql.ast.analysis.TypeChecker;
 import org.uva.jomi.ql.ast.statements.Stmt;
 import org.uva.jomi.ql.ast.*;
 import org.uva.jomi.ql.parser.antlr.*;
+import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
 
 public class QL {
 
@@ -30,13 +32,18 @@ public class QL {
 			// Create a lexer instance
 			QLParser parser = new QLParser(tokens);
 			
-			AstBuilder astBuilder = new AstBuilder();
+			ParseContext cst = parser.parse();
 			
-			List<Stmt> ast = astBuilder.visit(parser.parse());
+			AstBuilder astBuilder = new AstBuilder();
+			List<Stmt> ast = astBuilder.visit(cst);
 			
 			// Make sure there are no parsing errors before we use the Ast.
 			// TODO - Extend the Antlr lexer in order to identify if lexical errors occurred.
 			if (parser.getNumberOfSyntaxErrors() == 0) {
+				
+				TypeChecker typeChecker = new TypeChecker();
+				typeChecker.check(ast);
+				
 				
 				// Output the Ast in Graphviz dot format.
 				java.io.PrintStream outStream = new java.io.PrintStream("graph.txt");
@@ -50,4 +57,3 @@ public class QL {
 	}
 
 }
-

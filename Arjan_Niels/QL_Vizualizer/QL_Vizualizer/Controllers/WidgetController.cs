@@ -21,18 +21,15 @@ namespace QL_Vizualizer.Controllers
         /// <param name="displayController">Display controller to be used</param>
         /// <param name="widgets">Initial list of widgets</param>
         /// <returns></returns>
-        public static WidgetController Initialize(IWidgetDisplayController displayController, List<QLWidget> widgets)
+        public static WidgetController Initialize(IWidgetDisplayController displayController)
         {
             // Prevent multiple calls to the Initialize function
             // Multiple calls result in the loss of all initialized data
             if (_instance != null)
                 throw new InvalidOperationException("Widget controller cannot be initialized multiple times");
 
-            // Convert list input to dictionary
-            Dictionary<string, QLWidget> widgetDictionary = widgets.ToDictionary(o => o.Identifyer, o => o);
-
             // Define the instance
-            _instance = new WidgetController(displayController, widgetDictionary);
+            _instance = new WidgetController(displayController);
 
             // Use singleton structure to return the value
             return Instance;
@@ -63,10 +60,19 @@ namespace QL_Vizualizer.Controllers
         /// </summary>
         private Dictionary<string, QLWidget> _widgets;
 
-        private WidgetController(IWidgetDisplayController displayController, Dictionary<string, QLWidget> widgets)
+        private Dictionary<string, List<QLWidget>> _notifyOnChange;
+
+        private WidgetController(IWidgetDisplayController displayController)
         {
             _displayController = displayController;
-            _widgets = widgets;
+            _widgets = new Dictionary<string, QLWidget>();
+            _notifyOnChange = new Dictionary<string, List<QLWidget>>();
+        }
+
+        public void SetWidgets(List<QLWidget> widgets)
+        {
+            // Convert list input to dictionary
+            _widgets = widgets.ToDictionary(o => o.Identifyer, o => o);
         }
 
         /// <summary>
@@ -83,5 +89,33 @@ namespace QL_Vizualizer.Controllers
                 position = _displayController.Show(widget, position);
         }
 
+        public void ReceiveUpdates(string targetID, QLWidget widget)
+        {
+            // Create value in dictonary if it does not exist
+            if (!_notifyOnChange.ContainsKey(targetID))
+                _notifyOnChange.Add(targetID, new List<QLWidget>());
+
+            // Add value to targetID
+            if (!_notifyOnChange[targetID].Contains(widget))
+                _notifyOnChange[targetID].Add(widget);
+
+        }
+
+        public void ValueUpdate(string targetID)
+        {
+            if (_notifyOnChange.ContainsKey(targetID))
+                foreach (QLWidget w in _notifyOnChange[targetID])
+                    w.ReceiveUpdate(targetID);
+        }
+
+        public QLWidget GetWidget(string widgetID)
+        {
+            return _widgets[widgetID];
+        }
+
+        public void UpdateView(QLWidget widget)
+        {
+            _displayController.UpdateView(widget);
+        }
     }
 }

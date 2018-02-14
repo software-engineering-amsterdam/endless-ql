@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QL_Vizualizer.Factories;
 using QL_Vizualizer.Widgets;
 
 namespace QL_Vizualizer.Controllers.Display
@@ -14,10 +15,13 @@ namespace QL_Vizualizer.Controllers.Display
         public float InitialPosition { get; private set; }
 
         private Control _formControl;
+        private Dictionary<string, Control> _controlIndex;
 
-        public WidgetDisplayControllerWindows(float topMargin)
+        public WidgetDisplayControllerWindows(float topMargin, Control form)
         {
             InitialPosition = topMargin;
+            _formControl = form;
+            _controlIndex = new Dictionary<string, Control>();
         }
 
         public float Show(QLWidget widget, float position)
@@ -26,10 +30,10 @@ namespace QL_Vizualizer.Controllers.Display
             Control control = CreateControl(widget);
 
             // Set location of control
-            control.Location = new Point((int)position, 0);
+            control.Location = new Point(0, (int)position);
 
             // Calculate bottom position
-            int newBottom = control.Height + (int)position;
+            int newBottom = control.Height + control.Location.Y;
 
             // Check if form has enough space, extend if needed
             if (_formControl.Height < newBottom)
@@ -38,16 +42,20 @@ namespace QL_Vizualizer.Controllers.Display
             // Add control to form
             _formControl.Controls.Add(control);
 
-            // Create event
-
             // Return bottom
             return newBottom;
         }
 
         private Control CreateControl(QLWidget widget)
         {
-            Console.WriteLine(widget.GetType());
-            throw new Exception();
+            Control c = ControlFactory.CreateControl(widget);
+            _controlIndex.Add(widget.Identifyer, c);
+            return c;
+        }
+
+        public void UpdateView(QLWidget widget)
+        {
+            ControlFactory.UpdateControl(widget, _controlIndex[widget.Identifyer]);
         }
     }
 }

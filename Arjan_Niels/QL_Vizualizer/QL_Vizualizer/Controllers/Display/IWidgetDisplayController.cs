@@ -12,6 +12,8 @@ namespace QL_Vizualizer.Controllers.Display
         /// <returns>Bottom X-Position of placed widget with repsect to all style attributes</returns>
         float Show(QLWidget widget, float position);
 
+        void UpdateView(QLWidget widget);
+
         /// <summary>
         /// X-Position of first widget
         /// </summary>

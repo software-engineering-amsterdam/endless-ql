@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QL_Parser;
+using QL_Parser.Models;
 
 namespace QL_Parser_Tester
 {
@@ -17,7 +18,13 @@ namespace QL_Parser_Tester
                 builder.AppendLine(line);
 
             Console.WriteLine("Start parsing the QL");
-            QLParserHelper.Parse(builder.ToString());
+            Form form = QLParserHelper.Parse(builder.ToString());
+
+            Console.WriteLine("Parsed a form with the name: {0}", form.Name);
+            foreach (Question question in form.Sections.Where(x => x.GetType() == typeof(Question)))
+                Console.WriteLine("ID: {0} of type {1}", question.ID, question.QType);
+
+            Console.ReadLine();
         }
     }
 }

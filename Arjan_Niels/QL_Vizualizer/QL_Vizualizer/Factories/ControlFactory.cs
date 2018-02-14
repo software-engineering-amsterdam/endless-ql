@@ -5,9 +5,9 @@ using System.Windows.Forms;
 
 namespace QL_Vizualizer.Factories
 {
-    public static class ControlFactory
+    public class ControlFactory : IElementFactory<Control>
     {
-        public static Control CreateControl(QLWidget widget)
+        public Control CreateElement(QLWidget widget)
         {
             Control result = new Panel();
             result.Controls.Add(new Label { Text = widget.Text });
@@ -30,7 +30,7 @@ namespace QL_Vizualizer.Factories
             return result;
         }
 
-        public static void UpdateControl(QLWidget widget, Control control)
+        public Control UpdateElement(QLWidget widget, Control control)
         {
             switch (widget)
             {
@@ -39,16 +39,17 @@ namespace QL_Vizualizer.Factories
                     break;
             }
 
+            return control;
         }
 
-        public static void UpdateIntWidget(QLWidgetInt intWidget, Control control)
+        private void UpdateIntWidget(QLWidgetInt intWidget, Control control)
         {
             foreach (Control b in control.Controls)
                 if (b.GetType() == typeof(TextBox))
                     b.Text = intWidget.AnswerValue.ToString();
         }
 
-        public static void ChangedIntWidget(QLWidgetInt intWidget, TextBox input)
+        private void ChangedIntWidget(QLWidgetInt intWidget, TextBox input)
         {
             int value = 0;
             if (int.TryParse(input.Text, out value))

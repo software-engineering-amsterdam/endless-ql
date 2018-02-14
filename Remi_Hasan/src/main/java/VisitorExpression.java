@@ -95,7 +95,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     @Override
     public Expression visitConstant_money(QLParser.Constant_moneyContext ctx) {
         // TODO: Same as decimal?
-        return new ExpressionVariableDecimal(Double.valueOf(ctx.getText()));
+        return new ExpressionVariableMoney(Double.valueOf(ctx.getText()));
     }
 
     // TODO do we need this?

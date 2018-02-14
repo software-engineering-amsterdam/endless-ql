@@ -8,6 +8,7 @@ public abstract class Stmt extends AstNode {
 		T visitBlockStmt(BlockStmt stmt);
 		T visitQuestionStmt(QuestionStmt stmt);
 		T visitIfStmt(IfStmt stmt);
+		T visitIfElseStmt(IfElseStmt stmt);
 	}
 	
 	public abstract <T> T accept(Visitor<T> visitor);

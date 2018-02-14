@@ -1,6 +1,6 @@
 // $ANTLR 3.4 /Users/tvdstorm/SEA/courses/sc/2012-2013/repos/sea-of-ql/prototypes/QLJava/src/org/uva/sea/ql/parser/antlr/QL.g 2013-01-29 13:31:30
 
-package org.uva.sea.ql.parser.antlr;
+package antlr.grammar;
 
 
 import org.antlr.runtime.*;

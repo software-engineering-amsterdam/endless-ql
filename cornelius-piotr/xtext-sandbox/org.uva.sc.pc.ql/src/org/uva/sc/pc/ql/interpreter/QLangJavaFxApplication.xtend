@@ -28,25 +28,25 @@ class QLangJavaFxApplication extends Application {
 		astData = rs.getResource(URI.createFileURI(file), true)
 
 		val validator = injector.getInstance(IResourceValidator)
-		var error = false
+		
 		val issues = validator.validate(astData, CheckMode.ALL, CancelIndicator.NullImpl)
-		for (i : issues) {
-			println(i)
-			if(i.severity == Severity.ERROR) error = true
-		}
+		val errors = issues.filter[it.severity == Severity.ERROR]
+		
+		errors.forEach[
+			println(it)
+		]
 
-		if (error)
+		if (!errors.empty)
 			System.exit(0)
 
 		injector.injectMembers(this)
 	}
 
 	override start(Stage primaryStage) {
-
 		val form = astData.allContents.head as Form
 		val rootStage = stageService.buildGuiLayout(form)
 
-		var scene = new Scene(rootStage, 800, 600)
+		val scene = new Scene(rootStage, 800, 600)
 		primaryStage.setTitle(form.name)
 		primaryStage.setScene(scene)
 		primaryStage.show()

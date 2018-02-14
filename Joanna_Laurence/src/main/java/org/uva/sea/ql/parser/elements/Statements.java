@@ -3,23 +3,23 @@ package org.uva.sea.ql.parser.elements;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Statements {
+public class Statements extends ASTNode {
 
-    private List<Statement> statementList;
+    private List<ASTNode> statementList;
 
     public Statements() {
-        statementList = new ArrayList<Statement>();
+        statementList = new ArrayList<ASTNode>();
     }
 
-    public List<Statement> getStatementList() {
+    public List<ASTNode> getStatementList() {
         return statementList;
     }
 
-    public void setStatementList(List<Statement> statementList) {
+    public void setStatementList(List<ASTNode> statementList) {
         this.statementList = statementList;
     }
 
-    public void addStatment(Statement item) {
+    public void addStatement(ASTNode item) {
         this.statementList.add(item);
     }
 }

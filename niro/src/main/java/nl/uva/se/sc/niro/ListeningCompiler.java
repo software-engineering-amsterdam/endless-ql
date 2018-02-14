@@ -42,8 +42,8 @@ public class ListeningCompiler extends QLBaseListener {
 		List<Statement> jList = new ArrayList<>();
 		Seq<Statement> sList = JavaConverters.asScalaBufferConverter(jList).asScala().toSeq();
 
-		qlForm = new QLForm(ctx.name().getText(), sList);
-		System.out.printf("%nform %s {%n", ctx.name().getText());
+		qlForm = new QLForm(ctx.Ident().getText(), sList);
+		System.out.printf("%nform %s {%n", ctx.Ident().getText());
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class ListeningCompiler extends QLBaseListener {
 
 	@Override
 	public void enterQuestion(QLParser.QuestionContext ctx) {
-		String questionId = ctx.name().getText();
+		String questionId = ctx.Ident().getText();
 		String questionLabel = ctx.children.get(2).getText();
 		String answerTypeText = ctx.answerType().getText();
 		AnswerType answerType = AnswerType$.MODULE$.apply(answerTypeText);
@@ -64,6 +64,6 @@ public class ListeningCompiler extends QLBaseListener {
 		Seq<Statement> sList = JavaConverters.asScalaBufferConverter(questions).asScala().toSeq();
 
 		qlForm = new QLForm(qlForm.formName(), sList);
-		System.out.printf("\t%s : %s %s%n", ctx.name().getText(), ctx.TEXT().getText(), ctx.answerType().getText());
+		System.out.printf("\t%s : %s %s%n", ctx.Ident().getText(), ctx.TEXT().getText(), ctx.answerType().getText());
 	}
 }

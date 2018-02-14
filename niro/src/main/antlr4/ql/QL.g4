@@ -1,8 +1,17 @@
 grammar QL;
 
-INTEGER     : [1-9][0-9]* ;
-ID          : [a-zA-Z0-9_]+ ;
-TEXT        : '"' .*? '"' ;
+FORM        : 'form' ;
+IF          : 'if' ;
+ELSE        : 'else' ;
+ASSIGN      : '=' ;
+
+L_CURLY     : '{' ;
+R_CURLY     : '}' ;
+
+L_PEREN     : '(' ;
+R_PEREN     : ')' ;
+
+D_COLON     : ':' ;
 
 LT          : '<' ;
 LTE         : '<=' ;
@@ -16,11 +25,23 @@ ADD         : '+' ;
 DIV         : '/' ;
 MUL         : '*' ;
 
-FALSE       : 'false' ;
-TRUE        : 'true' ;
 OR          : '||' ;
 AND         : '&&' ;
 NOT         : '!' ;
+
+BOOLEAN     : 'boolean' ;
+INTEGER     : 'integer' ;
+STRING      : 'string' ;
+
+FALSE       : 'false' ;
+TRUE        : 'true' ;
+
+IntValue    : [1-9][0-9]* ;
+Ident       : [a-zA-Z0-9_]+ ;
+TEXT        : '"' .*? '"' ;
+
+WS          : [ \t\r\n]+ -> skip ;
+COMMENT     : '//' .*? '\n' -> skip ;
 
 bool        : FALSE | TRUE ;
 
@@ -29,21 +50,17 @@ compOp      : LT | LTE | GTE | GT | NE | EQ ;
 logicalOp   : OR | AND | NOT ;
 arithmOp    : SUB | ADD | DIV | MUL ;
 
-WS          : [ \t\r\n]+ -> skip ;
-COMMENT     : '//' .*? '\n' -> skip ;
-
-expression  : INTEGER                                  # IntConst
+expression  : IntValue                                 # IntConst
             | bool                                     # BoolConst
             | unaryOp expression                       # UnaryExpr
             | lhs=expression arithmOp rhs=expression   # ArithmExpr
             | lhs=expression compOp rhs=expression     # CompExpr
             | lhs=expression logicalOp rhs=expression  # LogicalExpr
-            | name                                     # Var ;
+            | Ident                                    # Var ;
 
-form        : 'form' name '{' statement+ '}' ;
-name        : ID ;
+form        : FORM Ident L_CURLY statement+ R_CURLY EOF ;
 statement   : question | conditional ;
-question    : name ':' TEXT answerType ( '=' '(' expression ')' )?;
-answerType : 'boolean' | 'integer' | 'string' ;
+question    : Ident D_COLON TEXT answerType ( ASSIGN L_PEREN expression R_PEREN )?;
+answerType  : BOOLEAN | INTEGER | STRING ;
 
-conditional : 'if' '(' condition=expression ')' '{' thenBlock=statement+ '}' ( 'else' '{' elseBlock=statement+ '}' )? ;
+conditional : IF L_PEREN condition=expression R_PEREN L_CURLY thenBlock=statement+ R_CURLY ( ELSE L_CURLY elseBlock=statement+ R_CURLY )? ;

@@ -18,11 +18,11 @@ object Compiler extends QLBaseVisitor[Node] {
 
   override def visitForm(ctx: QLParser.FormContext): Node = {
     val statements = JavaConverters.asScalaBufferConverter(ctx.statement).asScala
-    new QLForm(ctx.name().getText(), statements.map(stmt => visitStatement(stmt).asInstanceOf[Statement]))
+    new QLForm(ctx.Ident().getText(), statements.map(stmt => visitStatement(stmt).asInstanceOf[Statement]))
   }
 
   override def visitQuestion(ctx: QLParser.QuestionContext): Node = {
-    new Question(ctx.name().getText, ctx.TEXT().getText, AnswerType.apply(ctx.answerType().getText))
+    new Question(ctx.Ident().getText, ctx.TEXT().getText, AnswerType.apply(ctx.answerType().getText))
   }
 
 }

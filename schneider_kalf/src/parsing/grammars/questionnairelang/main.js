@@ -4,12 +4,12 @@
  */
 
 {
-  // Global counter so assign unique id's
-  var COUNTER = 1;
-
+  // Counter so assign unique id's
+  let ID_COUNTER = 1;
+  
   // Increments and returns COUNTER value
   function getID() {
-    return COUNTER++;
+    return ID_COUNTER++;
   }
 
   // A base type for building the main tree layout

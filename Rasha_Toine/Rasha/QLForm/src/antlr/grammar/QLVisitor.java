@@ -20,6 +20,12 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLiteral(QLParser.LiteralContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QLParser#identifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdentifier(QLParser.IdentifierContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QLParser#questionType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

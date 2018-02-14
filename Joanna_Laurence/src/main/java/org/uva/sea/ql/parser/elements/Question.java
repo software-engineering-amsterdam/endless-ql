@@ -1,5 +1,8 @@
 package org.uva.sea.ql.parser.elements;
 
+import org.uva.sea.ql.parser.elements.types.Type;
+import org.uva.sea.ql.parser.elements.types.Var;
+
 public class Question {
     private String label;
     private Var variable;

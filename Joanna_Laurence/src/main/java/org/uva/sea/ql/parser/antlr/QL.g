@@ -12,7 +12,7 @@ grammar QL;
 }
 
 form returns [Form result]
-    :   'form' Ident '{' stms=statements '}' { $result = new Form($Ident.text, $stms.result);  }
+    :   'form' IDENT '{' stms=statements '}' { $result = new Form($Ident.text, $stms.result);  }
     ;
 
 statements returns [Statements result]
@@ -52,15 +52,15 @@ statementBlock returns [Statements result]
      ;
 
 label returns [String result]
-    : Str { $result = $Str.text; }
+    : STR { $result = $Str.text; }
     ;
 
 variable returns [Var result]
-    : Ident { $result = new Var($Ident.text); }
+    : IDENT { $result = new Var($Ident.text); }
     ;
 
 type returns [Type result]
-    : Types { $result = new Type($Types.text); }
+    : TYPES { $result = new Type($Types.text); }
     ;
 
 expression returns [Expr result]
@@ -81,33 +81,33 @@ unExpr returns [Expr result]
 
 primary returns [Expr result]
     : bool {$result = $bool.result; }
-    | m=money { $result = $m.result; }
-    | var=variable { $result = $var.result; }
-    | d=date { $result = $d.result; }
-    | n=num {$result = $n.result;}
-    | de=dec {$result = $de.result; }
-    | s=str {$result = $s.result; }
-    | '(' ex=expression ')' {$result = $ex.result;}
+    | money { $result = $money.result; }
+    | variable { $result = $variable.result; }
+    | date { $result = $date.result; }
+    | num {$result = $num.result;}
+    | dec {$result = $dec.result; }
+    | str {$result = $str.result; }
+    | '(' expression ')' {$result = $expression.result;}
     ;
 
 num returns [Expr result]
-    : Int {$result = new Num(Integer.parseInt($Int.text));}
+    : INT {$result = new Num(Integer.parseInt($Int.text));}
     ;
 
 dec returns [Expr result]
-    : Decimal {$result = new Dec(Double.parseDouble($Decimal.text));}
+    : DECIMAL {$result = new Dec(Double.parseDouble($Decimal.text));}
     ;
 
 str returns [Expr result]
-    : Str {$result = new Str($Str.text);}
+    : STR {$result = new Str($Str.text);}
     ;
 
 money returns [Expr result]
-    : c=('$' | '€') v=Decimal {
+    : c=('$' | '€') v=DECIMAL {
         $result = new Money($c.text, Double.parseDouble($v.text));
     }
 
-    | c=('$' | '€') v=Int {
+    | c=('$' | '€') v=INT {
         $result = new Money($c.text, Double.parseDouble($v.text));
     };
 
@@ -117,7 +117,7 @@ mulExpr returns [Expr result]
       if ($op.text.equals("*")) {
         $result = new Mul($result, $rhs.result);
       }
-      if ($op.text.equals("<=")) {
+      if ($op.text.equals("/")) {
         $result = new Div($result, $rhs.result);
       }
     })*
@@ -140,13 +140,13 @@ relExpr returns [Expr result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr
     {
       if ($op.text.equals("<")) {
-        $result = new LT($result, $rhs.result);
+        $result = new LThan($result, $rhs.result);
       }
       if ($op.text.equals("<=")) {
         $result = new LEq($result, $rhs.result);
       }
       if ($op.text.equals(">")) {
-        $result = new GT($result, $rhs.result);
+        $result = new GThan($result, $rhs.result);
       }
       if ($op.text.equals(">=")) {
         $result = new GEq($result, $rhs.result);
@@ -170,11 +170,12 @@ orExpr returns [Expr result]
     ;
 
 date returns [DateExpr result]
-    : '@' day=Int month=Int year=Int '@' { $result = new DateExpr(Integer.parseInt($day.text),
+    : '@' day=INT month=INT year=INT '@' { $result = new DateExpr(Integer.parseInt($day.text),
                                                                      Integer.parseInt($month.text),
                                                                      Integer.parseInt($year.text)
                                                                      ); };
-Types: ('money' | 'boolean' | 'string' | 'integer' | 'date' | 'decimal');
+
+TYPES: ('money' | 'boolean' | 'string' | 'integer' | 'date' | 'decimal');
 
 BOOLEAN_TRUE: ('true' | 'TRUE');
 
@@ -184,10 +185,10 @@ WS  :	(' ' | '\t' | '\n' | '\r') -> skip;
 
 COMMENT : '/*' .*? '*/'  -> skip;
 
-Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+IDENT:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
-Int: ('0'..'9')+;
+INT: ('0'..'9')+;
 
-Decimal: ('0'..'9')+ '.' ('0'..'9')+;
+DECIMAL: ('0'..'9')+ '.' ('0'..'9')+;
 
-Str: '"' .*? '"';
+STR: '"' .*? '"';

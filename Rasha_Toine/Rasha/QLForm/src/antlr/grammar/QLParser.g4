@@ -11,9 +11,24 @@ options {  language=Java; }
 /*^^^^^^^^^^^^^^^^^^^^*
 	Parser Rules
 *^^^^^^^^^^^^^^^^^^^^*/
-literal: MONEY | INTEGER | BOOLEAN  | STRING | DATE | DECIMAL | IDENT; // atom
+literal // atom
+   : MONEY
+   | INTEGER
+   | BOOLEAN
+   | STRING
+   | DATE
+   | DECIMAL
+   | IDENT
+  ;
+   
 
-questionEnum: 'money' | 'integer' | 'boolean' | 'string' | 'date' | 'decimal';  // enum for type of answer
+questionType
+   : 'money'
+   | 'integer'
+   | 'boolean'
+   | 'string'
+   | 'date'
+   | 'decimal'; 
 
 expr
   : IDENT
@@ -26,27 +41,23 @@ expr
   | expr ('+'|'-') expr
   | expr ('>'|'>='|'<'|'<=') expr
  ;
-  /*| NOT expr 
-  | LP expr RP
-  | expr (AND|OR) expr
-  | expr (EQ|NEQ) expr
-  | expr (MUL|DIV) expr
-  | expr (ADD|SUB) expr
-  | expr (LT|LTEQ|GT|GTEQ) expr
- ;*/
 
-statement : question | ifStatement;
+statement 
+  : question | ifElseStatement;
 
 question
-  : IDENT ':' STRING questionEnum  // question to be answered
-  | IDENT ':' STRING questionEnum '(' expr ')' // question to be computed - expr eval
+  : IDENT ':' STRING questionType  // question to be answered
+  | IDENT ':' STRING questionType '(' expr ')' // question to be computed - expr eval
  ;
   
-ifStatement
-  : 'if' '(' expr ')' block  // if-statement
-  | 'if' '(' expr ')' block 'else' elseBlock = block  //if-else-statement
- ;
-
-block: '{' statement* '}'; // block of multiple statements
+ifElseStatement
+   : 'if' '(' expr ')' block ('else' block)?;  //if or if-else-statement
  
-form: ('Form'|'form') IDENT '{' block* '}'; // questionnaire
+block 
+   :'{' statement* '}'; // block of multiple statements
+ 
+form
+   : ('Form'|'form') IDENT block; // form
+
+// TODO check whether it is relevant to QL
+//questionnaire: ('Questionnaire'|'questionnaire') IDENT '{' form* '}';

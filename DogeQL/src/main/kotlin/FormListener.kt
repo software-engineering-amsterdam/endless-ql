@@ -1,3 +1,5 @@
+import model.Form
+import model.Question
 import java.util.ArrayList
 
 class FormListener : QuestionareLanguageParserBaseListener() {

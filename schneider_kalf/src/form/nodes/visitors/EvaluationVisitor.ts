@@ -15,18 +15,20 @@ import BooleanLiteral from "../expressions/boolean_expressions/BooleanLiteral";
 import Division from "../expressions/arithmetic/Division";
 import Subtraction from "../expressions/arithmetic/Subtraction";
 import Equals from "../expressions/comparisons/Equals";
+import NotEquals from "../expressions/comparisons/NotEquals";
+import BinaryOperator from "../expressions/BinaryOperator";
 
 /**
  * TODO: Maybe use mixins to seperate boolean and arithmetic logic
  */
 export default class EvaluationVisitor implements ExpressionVisitor {
+  visitNotEquals(notEquals: NotEquals): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(notEquals);
+    return leftValue !== rightValue;
+  }
+
   visitEquals(equals: Equals) {
-    const leftValue: any = equals.left.accept(this);
-    const rightValue: any = equals.right.accept(this);
-
-    assertSameType(leftValue, rightValue);
-    assertComparable(leftValue);
-
+    const {leftValue, rightValue} = this.assertSidesAreComparable(equals);
     return leftValue === rightValue;
   }
 
@@ -72,5 +74,14 @@ export default class EvaluationVisitor implements ExpressionVisitor {
 
   visitNumberLiteral(literal: NumberLiteral): any {
     return assertNumeric(literal.getValue());
+  }
+
+  private assertSidesAreComparable(operator: BinaryOperator) {
+    const leftValue: any = operator.left.accept(this);
+    const rightValue: any = operator.right.accept(this);
+
+    assertSameType(leftValue, rightValue);
+    assertComparable(leftValue);
+    return {leftValue, rightValue};
   }
 }

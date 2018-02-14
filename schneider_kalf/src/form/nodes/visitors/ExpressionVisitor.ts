@@ -9,6 +9,7 @@ import Division from "../expressions/arithmetic/Division";
 import BooleanLiteral from "../expressions/boolean_expressions/BooleanLiteral";
 import Subtraction from "../expressions/arithmetic/Subtraction";
 import Equals from "../expressions/comparisons/Equals";
+import NotEquals from "../expressions/comparisons/NotEquals";
 
 interface ExpressionVisitor {
   visitAddition(addition: Addition): any;
@@ -32,6 +33,8 @@ interface ExpressionVisitor {
   visitSubtraction(subtraction: Subtraction): any;
 
   visitEquals(equals: Equals): any;
+
+  visitNotEquals(notEquals: NotEquals): any;
 }
 
 export default ExpressionVisitor;

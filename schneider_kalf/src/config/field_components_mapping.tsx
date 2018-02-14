@@ -4,9 +4,8 @@ import { TextField } from "../rendering/components/field/TextField";
 import BooleanWrapper from "../form/values/BooleanWrapper";
 import MoneyWrapper from "../form/values/MoneyWrapper";
 import StringWrapper from "../form/values/StringWrapper";
-import { FieldComponentMapping } from "../rendering/fieldMapping";
 
-export const fieldComponentsMapping: FieldComponentMapping[] = [
+export const fieldComponentsMapping = [
   {
     value: BooleanWrapper,
     component: BooleanField

@@ -3,53 +3,87 @@
  */
 package org.uva.sc.pc.ql.validation
 
+import java.util.ArrayList
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
+import org.uva.sc.pc.ql.qLang.BlockBody
+import org.uva.sc.pc.ql.qLang.ExpressionQuestionRef
 import org.uva.sc.pc.ql.qLang.Form
 import org.uva.sc.pc.ql.qLang.QLangPackage
-import org.uva.sc.pc.ql.qLang.Expression
-import org.uva.sc.pc.ql.qLang.PlusOrMinus
-import java.util.List
-import java.util.ArrayList
-import org.uva.sc.pc.ql.qLang.QuestionRef
+import org.uva.sc.pc.ql.qLang.Question
 
 /**
  * This class contains custom validation rules. 
- *
+ * 
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
 class QLangValidator extends AbstractQLangValidator {
-	
-	public static val INVALID_NAME = 'invalidName'
-	public static val INVALID_TYPES = 'invalidName'
+
+	public static val BLOCK_MISSING_QUESTION = 'blockMissingQuestion'
+	public static val BLOCK_MISSING_QUESTION_MESSAGE = 'At least one question is required!'
+
+	public static val SELF_REFERNCE = "selfReference"
+	public static val SELF_REFERNCE_MESSAGE = "The expression of a computed question cannot contain itself!"
+
+	public static val FORWARD_REFERNCE = "forwardReference"
+	public static val FORWARD_REFERNCE_MESSAGE = "The expression cannot contain a forward reference!"
 
 	@Check
-	def checkGreetingStartsWithCapital(Form form) {
-		if (!Character.isUpperCase(form.name.charAt(0))) {
-			warning('Name should start with a capital', 
-					QLangPackage.Literals.FORM__NAME,
-					INVALID_NAME)
+	def checkBlockHasQuestion(BlockBody blockBody) {
+
+		if (blockBody.questions.isEmpty) {
+			error(BLOCK_MISSING_QUESTION_MESSAGE, QLangPackage.Literals.BLOCK_BODY__QUESTIONS, BLOCK_MISSING_QUESTION)
 		}
+
 	}
-	
+
 	@Check
-	def checkExpression(Expression exp) {
-		var types = getExpressionTypes(exp)
-		if(types.toSet.size > 1){
-			//error('A expression cannot contain multiple types', QLangPackage.Literals.E, INVALID_TYPES)
+	def checkQuestionSelfReference(Question question) {
+
+		if (question.expression !== null) {
+			question.expression.eContents.filter[it instanceof ExpressionQuestionRef].forEach [
+				val questionRef = it as ExpressionQuestionRef
+				if (questionRef.question.name == question.name)
+					error(SELF_REFERNCE_MESSAGE, QLangPackage.Literals.QUESTION__EXPRESSION, SELF_REFERNCE)
+			]
 		}
+
 	}
-	
-	def List<String> getExpressionTypes(Expression exp){
-		var list = new ArrayList<String>();
-		switch(exp){
-			PlusOrMinus: {
-				list.addAll(getExpressionTypes(exp.left))
-				list.addAll(getExpressionTypes(exp.right))
+
+	@Check
+	def checkForForwardReferences(ExpressionQuestionRef questionRef) {
+		val form = getForm(questionRef)
+
+		val elementsInTreeBefore = new ArrayList<EObject>
+		var found = false
+		for (elem : form.eAllContents.toList) {
+
+			if (!found) {
+				elementsInTreeBefore.add(elem)
+				if (elem == questionRef) {
+					found = true
+				}
 			}
-			QuestionRef:
-				list.add(exp.question.type)
+
 		}
-		return list
+
+		val questionsInTreeBefore = elementsInTreeBefore.filter[it instanceof Question]
+		val questionExists = questionsInTreeBefore.exists [
+			val question = it as Question
+			question.name == questionRef.question.name
+		]
+		if (!questionExists) {
+			error(FORWARD_REFERNCE_MESSAGE, QLangPackage.Literals.EXPRESSION_QUESTION_REF__QUESTION, FORWARD_REFERNCE)
+		}
+
 	}
-	
+
+	def Form getForm(EObject obj) {
+		val parent = obj.eContainer
+		if (parent instanceof Form) {
+			return parent as Form
+		} else {
+			return getForm(parent)
+		}
+	}
 }

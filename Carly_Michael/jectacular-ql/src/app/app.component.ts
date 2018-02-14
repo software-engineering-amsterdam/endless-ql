@@ -1,9 +1,9 @@
 import { Component} from '@angular/core';
-import {ParserService} from './services/parser.service';
-import {QuestionBase} from "./questionmodels/question-base";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {TextboxQuestion} from "./questionmodels/question-textbox";
-import {DropdownQuestion} from "./questionmodels/question-dropdown";
+import {parse} from '../parser/ql-parser';
+import {QuestionBase} from './domain/question-base';
+import {FormGroup} from '@angular/forms';
+import {QuestionControlService} from './services/question-control.service';
+import {Form} from './domain/ast';
 
 @Component({
   selector: 'app-root',
@@ -14,58 +14,29 @@ export class AppComponent {
   input: string;
   questions: QuestionBase<any>[] = [];
   form: FormGroup;
+  formName: string;
+  errorMessage: string;
 
-  constructor (private parser: ParserService) {
-    this.questions = this.getQuestions();
-    this.form = this.toFormGroup(this.questions);
+  constructor (private questionControlService: QuestionControlService) {
+
   }
 
   parseInput() {
-    console.log(this.parser.parseInput(this.input));
+    try {
+      const ast = parse(this.input, {});
+      ast.checkTypes();
+      this.questions = ast.toFormQuestion();
+      this.form = this.questionControlService.toFormGroup(this.questions);
+      this.formName = ast.name;
+    } catch (e) {
+      this.form = undefined;
+      this.formName = undefined;
+      this.questions = undefined;
+      this.errorMessage = e.message;
+    }
   }
 
-  getQuestions() {
-
-    let questions: QuestionBase<any>[] = [
-
-      new DropdownQuestion({
-        key: 'brave',
-        label: 'Bravery Rating',
-        options: [
-          {key: 'solid',  value: 'Solid'},
-          {key: 'great',  value: 'Great'},
-          {key: 'good',   value: 'Good'},
-          {key: 'unproven', value: 'Unproven'}
-        ],
-        order: 3
-      }),
-
-      new TextboxQuestion({
-        key: 'firstName',
-        label: 'First name',
-        value: 'Bombasto',
-        required: true,
-        order: 1
-      }),
-
-      new TextboxQuestion({
-        key: 'emailAddress',
-        label: 'Email',
-        type: 'email',
-        order: 2
-      })
-    ];
-
-    return questions.sort((a, b) => a.order - b.order);
-  }
-
-  toFormGroup(questions: QuestionBase<any>[] ) {
-    let group: any = {};
-
-    questions.forEach(question => {
-      group[question.key] = question.required ? new FormControl(question.value || '', Validators.required)
-        : new FormControl(question.value || '');
-    });
-    return new FormGroup(group);
+  onSubmit() {
+    console.log(JSON.stringify(this.form.value));
   }
 }

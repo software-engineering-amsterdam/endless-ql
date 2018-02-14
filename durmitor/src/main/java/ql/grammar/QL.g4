@@ -3,104 +3,95 @@ grammar QL;
 // Tokens
 WS          : (' ' | '\t' | '\n' | '\r') ->channel (HIDDEN);
 
-SLComment   : '//' (.)*? '\n' -> channel(HIDDEN);
-  
 MLCOMMENT   : '/*' (.)*? '*/' -> channel(HIDDEN);
+
+SLCOMMENT   : '//' (.)*? '\n' -> channel(HIDDEN);
 
 BOOLEAN     : 'true'
             | 'false'
-            | 'boolean'
-            ;
-		
-DIGIT       : ('0'..'9');
-
-STRING      : '"' (.)*? '"'
-            | 'string'
             ;
 
-INTEGER     : DIGIT+
-            | 'integer'
-            ;
+STRING      : '"' (.)*? '"';
 
-DECIMAL     : DIGIT* [.] DIGIT+
-            | 'float'
-            ;
+DATE        : TWO_DIGITS'-'TWO_DIGITS'-'FOUR_DIGITS;
 
-TWO_DIGITS  :	DIGIT DIGIT;
+MONEY       : DIGIT+ [.] TWO_DIGITS;
+
+DECIMAL     : DIGIT* [.] DIGIT+;
+
+INTEGER     : DIGIT+;
 
 FOUR_DIGITS : TWO_DIGITS TWO_DIGITS;
 
-CURRENCY    : DIGIT+ [.] TWO_DIGITS
-            | 'money'
-            ;
+TWO_DIGITS  : DIGIT DIGIT;
 
-DATE        : TWO_DIGITS'-'TWO_DIGITS'-'FOUR_DIGITS
-            | 'date'
-            ;
+DIGIT       : ('0'..'9');
 
 ID          : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
-
 // Questionnaire language
-form        : 'form' ID block;
+form                : 'form' identifier block;
 
-block       : '{' question* '}';
+statement           : block
+                    | question
+                    | ifThenElse
+                    | ifThen
+                    ;
+            
+block               : '{' statement* '}';
 
-question    : answerable
-            | conditional
-            | computed
-            ; 
+question            : computedQuestion
+                    | answerableQuestion
+                    ;
 
-answerable  : identifier ':' label type;
+computedQuestion    : lbl=label identifier ':' type '=' '(' expr ')';
 
-computed    : identifier ':' label type '(' expr ')';
+answerableQuestion  : lbl=label identifier ':' type;
 
-conditional : ifThen
-            | ifThenElse
-            ;
+type                : 'boolean'
+                    | 'string'
+                    | 'integer'
+                    | 'decimal'
+                    | 'money'
+                    | 'date'
+                    ;
 
-label       : STRING;
+label               : STRING;
 
-identifier  : ID;
+literal             : BOOLEAN
+                    | STRING
+                    | INTEGER
+                    | DECIMAL
+                    | MONEY
+                    | DATE
+                    ;
 
-type        : BOOLEAN
-            | STRING
-            | INTEGER
-            | DECIMAL
-            | CURRENCY
-            | DATE
-            ;
+identifier          : ID;
 
-ifThen      : 'if' '(' expr ')' block;
+ifThen              : 'if' '(' condition=expr ')' thenStmt=statement;
 
-ifThenElse  : 'if' '(' expr ')' block 'else' block;
+ifThenElse          : 'if' '(' condition=expr ')' thenStmt=statement 'else' elseStmt=statement;
 
 // Expressions
-expr        : unExpr
-            | mulExpr
-            | addExpr
-            | relExpr
-            | andExpr
-            | orExpr
-            ;
-	
-primary     : type
-            | identifier
-            ;
+primary	: literal
+		| identifier
+		;
+		
+unExpr	: '+' unExpr
+		| '-' unExpr
+		| '!' unExpr
+		| primary
+		;
 
-unExpr      : '+' unExpr
-            | '-' unExpr
-            | '!' unExpr
-            |  primary
-            ;    
-    
-mulExpr     : unExpr ('*'|'/') unExpr; 
-  
-addExpr     : mulExpr ('+'|'-') mulExpr; 
-  
-relExpr     : addExpr ('<'|'<='|'>'|'>='|'=='|'!=') addExpr;
-    
-andExpr     : relExpr '&&' relExpr;
-
-orExpr      : andExpr '||' andExpr;
-
+mulExpr	: lhs = unExpr (op = ('*'|'/') rhs = unExpr)*;
+addExpr	: lhs = mulExpr (op = ('+'|'-') rhs = mulExpr)*;
+relExpr	: lhs = addExpr (op=('<'|'<='|'>'|'>='|'=='|'!=') rhs = addExpr)*;
+andExpr	: lhs = relExpr ('&&' rhs = relExpr)*;
+orExpr	: lhs = andExpr ('||' rhs = andExpr)*;
+expr		: orExpr
+		| andExpr
+		| relExpr
+		| addExpr
+		| mulExpr
+		| unExpr
+		;

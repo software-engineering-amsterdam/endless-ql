@@ -1,36 +1,45 @@
 // pegjs parser definition
 form            = ws "form" ws name:identifier ws "{" ws
-                  questions: q*
+                  statements: statement*
                 "}" ws {
-                  return {
-                    name: name,
-                    questions: questions
-                  }
+                  return new Form(name, statements);
                 }
+
+statement       = q / ifStatement
+
+ifStatement     = ws "if" ws "(" ws condition:identifier ws ")" ws "{" ws
+                  statements:statement* ws
+                  "}" ws
+                  {
+                    return new If(condition, statements);
+                  }
 
 q "question"    = ws name:identifier ":" ws "\"" ws
                   label:text "\"" ws
                   type: type ws {
-                    return {
-                      name: name,
-                      label: label,
-                      type: type
-                    }
+                    return new Question(name, label, type);
                   }
 
-text            = (ws word ws)+ {return text()}
+text            = (ws word ws)+ {return text();}
+
+type            = booleanType /
+                  stringType /
+                  integerType /
+                  dateType /
+                  decimalType /
+                  moneyType
 
 // low-level
 
 ws "whitespace" = [ \t\n\r]* { return; }
 
-identifier 		= [a-zA-Z0-9]+ {return text()}
+identifier 		= [a-zA-Z0-9]+ {return text();}
 
-word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text()}
+word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
 
-type            = "boolean" /
-                  "string" /
-                  "integer" /
-                  "date" /
-                  "decimal" /
-                  "money"
+booleanType     = "boolean" { return QuestionType.BOOLEAN; }
+stringType     = "string" { return QuestionType.STRING; }
+integerType     = "integer" { return QuestionType.INT; }
+dateType     = "date" { return QuestionType.DATE; }
+decimalType     = "decimal" { return QuestionType.DECIMAL; }
+moneyType     = "money" { return QuestionType.MONEY; }

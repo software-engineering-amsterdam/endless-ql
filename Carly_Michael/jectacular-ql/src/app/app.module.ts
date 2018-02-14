@@ -2,9 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule }          from '@angular/forms';
-import { ParserService } from './services/parser.service';
-import {DynamicFormQuestionComponent} from "./questionmodels/dynamic-form-question.component";
+import { ReactiveFormsModule } from '@angular/forms';
+import {DynamicFormQuestionComponent} from './questionmodels/dynamic-form-question.component';
+import {QuestionControlService} from './services/question-control.service';
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import {DynamicFormQuestionComponent} from "./questionmodels/dynamic-form-questi
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ParserService],
+  providers: [QuestionControlService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

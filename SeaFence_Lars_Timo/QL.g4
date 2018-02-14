@@ -12,8 +12,8 @@ statement: question
 	     | conditional
 	     | assignment
 	     ;
-assignment: STR var ':' type '=' '(' expression ')';
-question: STR var ':' type;
+assignment: STR var ':' vartype '=' '(' expression ')';
+question: STR var ':' vartype;
 conditional: 'if' '(' expression ')' block;
 expression: BOOL 
 		  | STR
@@ -29,7 +29,7 @@ expression: BOOL
 
 form_id: NAME;
 var: NAME;
-type: 'int'
+vartype: 'int'
     | 'boolean';
 
 /*

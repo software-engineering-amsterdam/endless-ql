@@ -49,7 +49,7 @@ compileTestKotlin {
 
 generateGrammarSource {
     maxHeapSize = "64m"
-    arguments += ["-visitor", "-long-messages"]
+    arguments += ["-long-messages"]
 }
 
 task copySamples {

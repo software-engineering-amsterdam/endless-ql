@@ -5,7 +5,7 @@ import model.Form;
 public class ExpressionVariableString extends ExpressionVariable<String> {
 
     public ExpressionVariableString(String value) {
-        this.value = value;
+        super(value);
     }
 
     @Override
@@ -19,42 +19,57 @@ public class ExpressionVariableString extends ExpressionVariable<String> {
     }
 
     @Override
-    public Double divide(Form form, Expression other) {
-        return null;
+    public ExpressionVariable divide(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
     }
 
     @Override
-    public Double multiply(Form form, Expression other) {
-        return null;
+    public ExpressionVariable multiply(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
     }
 
     @Override
-    public Double subtract(Form form, Expression other) {
-        return null;
+    public ExpressionVariable subtract(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
     }
 
     @Override
-    public Double sum(Form form, Expression other) {
-        return null;
+    public ExpressionVariable sum(ExpressionVariable other) {
+        return new ExpressionVariableString(this.value + other.value);
     }
 
     @Override
-    public Boolean ge(Form form, Expression other) {
-        return null;
+    public ExpressionVariable ge(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
     }
 
     @Override
-    public Boolean gt(Form form, Expression other) {
-        return null;
+    public ExpressionVariable gt(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
     }
 
     @Override
-    public Boolean le(Form form, Expression other) {
-        return null;
+    public ExpressionVariable le(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
     }
 
     @Override
-    public Boolean lt(Form form, Expression other) {
-        return null;
+    public ExpressionVariable lt(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
+
+    @Override
+    public ExpressionVariable and(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
+
+    @Override
+    public ExpressionVariable or(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
+
+    @Override
+    public ExpressionVariable not() {
+        return new ExpressionVariableUndefined();
     }
 }

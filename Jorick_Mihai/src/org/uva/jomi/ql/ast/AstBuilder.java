@@ -1,5 +1,7 @@
 package org.uva.jomi.ql.ast;
 
+import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.ast.statements.StmtVisitor;
 import org.uva.jomi.ql.parser.antlr.*;
 import java.util.ArrayList;
 import java.util.List;

@@ -24,15 +24,16 @@
 
   // Building an expression, DRY
   function buildExpression(head, tail, type) {
-    return tail.reduce(function(memo, curr) {
+    return tail.reduce(function(left, curr) {
       return {
+        id:getID(),
         type,
         attributes:{
             operator:curr[1],
         },
         children:[
-            {left:memo},
-            {right:curr[3]}
+            Object.assign({name:"LEFT"}, left),
+            Object.assign({name:"RIGHT"}, curr[3])
         ]
       };
     }, head);

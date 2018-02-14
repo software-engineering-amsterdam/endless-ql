@@ -10,7 +10,6 @@ import org.uva.sea.ql.parser.antlr.QLParser;
 import org.uva.sea.ql.parser.elements.Condition;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.Statement;
-import org.uva.sea.ql.parser.prettyPrinter.BasicPrettyPrinter;
 
 public class QLCompiler {
 
@@ -28,13 +27,9 @@ public class QLCompiler {
 
         //Parse the tree
         QLParser parser = new QLParser(tokens);
+
         //parser.addErrorListener(new ErrorListener());
         QLParser.FormContext form = parser.form();
-
-        //Walk the tree and print out all elements
-        ParseTreeWalker walker = new ParseTreeWalker();
-        BasicPrettyPrinter printer = new BasicPrettyPrinter();
-        walker.walk(printer, form);
 
         //Show the parse tree
         Trees.inspect(form, parser);

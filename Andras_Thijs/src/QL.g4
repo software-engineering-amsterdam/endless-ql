@@ -16,7 +16,7 @@ TYPE     : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | 'money';
 BOOLEAN  : 'true' | 'false';
 VARIABLE : [a-zA-Z][a-zA-Z0-9_]+;
 STRING   : '"'[a-zA-Z0-9?.!:;()/ \t]+'"'; // TODO: allow more characters
-NUMERAL     : [0-9]+;
+NUMERAL  : [0-9]+;
 
 // Form structure
 form      : 'form' VARIABLE '{' question* condition* '}';

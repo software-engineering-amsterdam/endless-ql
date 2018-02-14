@@ -6,12 +6,12 @@
 {
   // Global counter so assign unique id's
   var COUNTER = 1;
-  
+
   // Increments and returns COUNTER value
   function getID() {
     return COUNTER++;
   }
-  
+
   // A base type for building the main tree layout
   function base(type, rest){
     return Object.assign({
@@ -21,7 +21,7 @@
     },
     rest)
   }
-  
+
   // Building an expression, DRY
   function buildExpression(head, tail, type) {
     return tail.reduce(function(memo, curr) {
@@ -37,7 +37,7 @@
       };
     }, head);
   }
-  
+
   function fieldBody(type, name, label, expr){
     return base("FIELD", {
        attributes:{
@@ -62,7 +62,7 @@ boolOps = "&&" / "||"
 compOps = "<=" / ">=" / "!=" / "==" / "<" / ">"
 baseOps = "+" / "-" / "*" / "/"
 
-type = "boolean" / "money" / "currency" / "date" 
+type = "boolean" / "money" / "currency" / "date"
 
 // Field for pdf syntax
 fieldPdfSyntax
@@ -79,7 +79,7 @@ fieldGithubSyntax
  }
 
 block_if
- = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" { 
+ = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" {
      return base("BLOCK", {
        name:"THEN",
        children:e,
@@ -87,7 +87,7 @@ block_if
  }
 
 block_form
- = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" { 
+ = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" {
      return e
  }
 
@@ -158,11 +158,11 @@ unarryExpression
         children: [value],
      }
   }
- 
- 
- 
-name 
- = v:([a-zA-Z]+) { 
+
+
+
+name
+ = v:([a-zA-Z]+) {
      return v.join("")
    }
 
@@ -181,8 +181,8 @@ variable
 integer
   = digits:([-]?[0-9]+) {
       return {
-        type: "INTEGER", 
-        value: parseInt(digits.join(""), 10) 
+        type: "INTEGER",
+        value: parseInt(digits.join(""), 10)
       }
     }
 

@@ -13,6 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.uva.sc.pc.ql.qLang.Form
 import org.uva.sc.pc.ql.qLang.QLangPackage
+import org.uva.sc.pc.ql.validation.QLangValidator
 
 @RunWith(XtextRunner)
 @InjectWith(QLangInjectorProvider)
@@ -95,7 +96,7 @@ class QLangParsingTest {
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
 
-		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.question, "")
+		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.blockBody, QLangValidator.BLOCK_MISSING_QUESTION)
 	}
 	
 	@Test
@@ -112,7 +113,7 @@ class QLangParsingTest {
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
 
-		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.question, "")
+		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.blockBody, QLangValidator.BLOCK_MISSING_QUESTION)
 	}
 
 }

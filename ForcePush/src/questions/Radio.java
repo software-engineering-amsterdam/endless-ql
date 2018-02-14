@@ -2,9 +2,9 @@ package questions;
 
 public class Radio extends Question{
 
-	public Radio(String question) 
+	public Radio(String question, String answerType, String answerName) 
 	{
-		super(question);
+		super(question, answerType, answerName);
 	}
 
 }

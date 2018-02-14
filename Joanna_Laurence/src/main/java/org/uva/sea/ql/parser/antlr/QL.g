@@ -4,6 +4,9 @@ grammar QL;
 {
     package org.uva.sea.ql.parser.antlr;
     import org.uva.sea.ql.parser.elements.*;
+    import org.uva.sea.ql.parser.elements.expressions.*;
+    import org.uva.sea.ql.parser.elements.types.*;
+
 }
 
 @lexer::header
@@ -81,13 +84,13 @@ relExpr returns [Expr result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr
     {
       if ($op.text.equals("<")) {
-        $result = new LT($result, $rhs.result);
+        $result = new LThan($result, $rhs.result);
       }
       if ($op.text.equals("<=")) {
         $result = new LEq($result, $rhs.result);
       }
       if ($op.text.equals(">")) {
-        $result = new GT($result, $rhs.result);
+        $result = new GThan($result, $rhs.result);
       }
       if ($op.text.equals(">=")) {
         $result = new GEq($result, $rhs.result);

@@ -12,7 +12,7 @@ from commons.config import config
 from commons.logging import logging_basic_config
 from commons.utility import open_file
 from lexer.ql_lexer import ql_lex
-
+from parse.combinators import *
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +49,11 @@ def main():
     # lexer
     tokens = ql_lex(file)
     print(tokens)
+
+    # parse
+    # parser = globals()[sys.argv[2]]()
+    result = parser(tokens, 0)
+    print(result)
 
     # parse
     # create ast

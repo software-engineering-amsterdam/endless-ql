@@ -31,13 +31,25 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestionEnum(QLParser.QuestionEnumContext ctx) { }
+	@Override public void enterIdentifier(QLParser.IdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestionEnum(QLParser.QuestionEnumContext ctx) { }
+	@Override public void exitIdentifier(QLParser.IdentifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterQuestionType(QLParser.QuestionTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQuestionType(QLParser.QuestionTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -79,13 +91,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfStatement(QLParser.IfStatementContext ctx) { }
+	@Override public void enterIfElseStatement(QLParser.IfElseStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIfStatement(QLParser.IfStatementContext ctx) { }
+	@Override public void exitIfElseStatement(QLParser.IfElseStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -60,6 +60,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Question.cs" />
     <Compile Include="QuestionForm.cs" />
     <Compile Include="Parser\QLBaseListener.cs" />
     <Compile Include="Parser\QLLexer.cs" />
@@ -97,4 +98,8 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>cd $(ProjectDir)Resources\
+GenerateParser.bat</PreBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -2,9 +2,10 @@ package expression;
 
 import model.Form;
 
-public class ExpressionLogical  extends ExpressionBinary<Boolean>{
-    ExpressionLogical(Expression left, Expression right, BinaryOperation op, String opString) {
-        super(left, right, op, opString);
+public abstract class ExpressionLogical  extends ExpressionBinary<Boolean>{
+
+    public ExpressionLogical(Expression left, Expression right, String opString) {
+        super(left, right, opString);
     }
 
     @Override

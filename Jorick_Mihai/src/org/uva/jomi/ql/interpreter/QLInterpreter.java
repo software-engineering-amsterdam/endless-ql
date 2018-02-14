@@ -10,6 +10,7 @@ import org.uva.jomi.ql.ast.expressions.IndentifierExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
 import org.uva.jomi.ql.ast.statements.FormStmt;
+import org.uva.jomi.ql.ast.statements.IfElseStmt;
 import org.uva.jomi.ql.ast.statements.IfStmt;
 import org.uva.jomi.ql.ast.statements.QuestionStmt;
 import org.uva.jomi.ql.ast.statements.Stmt;
@@ -83,6 +84,12 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 	@Override
 	public Void visitIfStmt(IfStmt stmt) {
 		// TODO Interpret IfStmt.
+		return null;
+	}
+
+	@Override
+	public Void visitIfElseStmt(IfElseStmt stmt) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

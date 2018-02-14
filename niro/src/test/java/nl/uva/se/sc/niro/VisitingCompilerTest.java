@@ -17,8 +17,7 @@ public class VisitingCompilerTest {
 	
 	@Test
 	public void simpleQuestionaireTest() throws IOException {
-		VisitingCompiler compiler = new VisitingCompiler();
-		compiler.compileScriptFile(toCharStream("/simple.ql"));
+        compiler.Compiler$.MODULE$.compile(toCharStream("/simple.ql"));
 		if (ErrorListener.errorReported) {
 			fail("Somehting went wrong, see the console for more information!");
 		}
@@ -26,8 +25,7 @@ public class VisitingCompilerTest {
 
     @Test
     public void conditionalIfNotQuestionaireTest() throws IOException {
-        VisitingCompiler compiler = new VisitingCompiler();
-        compiler.compileScriptFile(toCharStream("/not-conditional-if.ql"));
+        compiler.Compiler$.MODULE$.compile(toCharStream("/not-conditional-if.ql"));
         if (ErrorListener.errorReported) {
             fail("Somehting went wrong, see the console for more information!");
         }
@@ -35,8 +33,7 @@ public class VisitingCompilerTest {
 
     @Test
 	public void conditionalIfQuestionaireTest() throws IOException {
-		VisitingCompiler compiler = new VisitingCompiler();
-		compiler.compileScriptFile(toCharStream("/simple-conditional-if.ql"));
+        compiler.Compiler$.MODULE$.compile(toCharStream("/simple-conditional-if.ql"));
 		if (ErrorListener.errorReported) {
 			fail("Somehting went wrong, see the console for more information!");
 		}
@@ -44,8 +41,7 @@ public class VisitingCompilerTest {
 
     @Test
     public void conditionalIfElseQuestionaireTest() throws IOException {
-        VisitingCompiler compiler = new VisitingCompiler();
-        compiler.compileScriptFile(toCharStream("/simple-conditional-if-else.ql"));
+        compiler.Compiler$.MODULE$.compile(toCharStream("/simple-conditional-if-else.ql"));
         if (ErrorListener.errorReported) {
             fail("Somehting went wrong, see the console for more information!");
         }
@@ -53,8 +49,7 @@ public class VisitingCompilerTest {
 
 	@Test
 	public void nestedConditionalQuestionaireTest() throws IOException {
-		VisitingCompiler compiler = new VisitingCompiler();
-		compiler.compileScriptFile(toCharStream("/nested-conditional.ql"));
+        compiler.Compiler$.MODULE$.compile(toCharStream("/nested-conditional.ql"));
 		if (ErrorListener.errorReported) {
 			fail("Somehting went wrong, see the console for more information!");
 		}
@@ -62,8 +57,7 @@ public class VisitingCompilerTest {
 
 	@Test
 	public void expressionConditionalIfQuestionaireTest() throws IOException {
-		VisitingCompiler compiler = new VisitingCompiler();
-		compiler.compileScriptFile(toCharStream("/expression-conditional-if.ql"));
+        compiler.Compiler$.MODULE$.compile(toCharStream("/expression-conditional-if.ql"));
 		if (ErrorListener.errorReported) {
 			fail("Somehting went wrong, see the console for more information!");
 		}
@@ -71,8 +65,7 @@ public class VisitingCompilerTest {
 
     @Test
     public void expressionConditionalIfElseQuestionaireTest() throws IOException {
-        VisitingCompiler compiler = new VisitingCompiler();
-        compiler.compileScriptFile(toCharStream("/expression-conditional-if-else.ql"));
+        compiler.Compiler$.MODULE$.compile(toCharStream("/expression-conditional-if-else.ql"));
         if (ErrorListener.errorReported) {
             fail("Somehting went wrong, see the console for more information!");
         }
@@ -80,8 +73,7 @@ public class VisitingCompilerTest {
 
 	@Test
 	public void nestedExpressionQuestionaireTest() throws IOException {
-		VisitingCompiler compiler = new VisitingCompiler();
-		compiler.compileScriptFile(toCharStream("/nested-expression.ql"));
+        compiler.Compiler$.MODULE$.compile(toCharStream("/nested-expression.ql"));
 		if (ErrorListener.errorReported) {
 			fail("Somehting went wrong, see the console for more information!");
 		}

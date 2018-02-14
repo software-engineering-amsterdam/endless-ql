@@ -46,8 +46,8 @@ object Ast {
 
         def apply(operator: String, expression: Expression): UnaryOp = {
           operator match {
-            case "*" => Sub(expression)
-            case "-" => Negate(expression)
+            case "-" => Sub(expression)
+            case "!" => Negate(expression)
             case other => throw new IllegalArgumentException(s"Unsupported unary operator: $other")
           }
         }

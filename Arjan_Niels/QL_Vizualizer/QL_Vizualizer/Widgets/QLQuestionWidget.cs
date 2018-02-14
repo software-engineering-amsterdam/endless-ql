@@ -31,10 +31,6 @@ namespace QL_Vizualizer.Widgets
             IsAnswered = false;
             _answerExpression = answerExpression;
 
-            // If there is an answer expression, the field updates itself and cannot be edited
-            if (_answerExpression != null)
-                Active = false;
-
             if (answerExpression != null)
                 foreach (string s in answerExpression.WidgetIDs)
                     WidgetController.Instance.ReceiveUpdates(s, this);

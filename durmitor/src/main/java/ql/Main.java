@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ql.ast.AstForm;
+import ql.ast.form.Form;
 
 public class Main {
 
@@ -15,7 +16,7 @@ public class Main {
 
         String filePath;
         QL ql;
-        AstForm root;
+        Form form;
 
         if (args.length == 0) {
             filePath = "resources/default.tax";
@@ -25,7 +26,7 @@ public class Main {
 
         ql = new QL(filePath);
         try {
-            root = (AstForm) ql.getAst();
+            form = (Form) ql.getForm();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

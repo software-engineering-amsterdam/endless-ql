@@ -171,6 +171,7 @@ hs_err_pid*
 ## Plugin-specific files:
 
 # IntelliJ
+.idea
 
 # mpeltonen/sbt-idea plugin
 
@@ -199,6 +200,8 @@ hs_err_pid*
 Abel_Elias/\.idea/
 
 Jordy_Dennis/env
+Jordy_Dennis/__pycache__
+Jordy_Dennis/LexParser
 Jordy_Dennis/*.pyc
 
 remihasan/.idea/
@@ -209,3 +212,14 @@ Arjan_Niels/QL_Vizualizer/.vs/
 Arjan_Niels/QL_Vizualizer/packages/
 Arjan_Niels/QL_Vizualizer/QL_Parser/obj/Debug/
 Arjan_Niels/QL_Vizualizer/QL_Vizualizer/obj/Debug/
+Arjan_Niels/QL_Vizualizer/\.vs/
+Arjan_Niels/QL_Vizualizer/QL_Parser/obj/Debug/
+Arjan_Niels/QL_Vizualizer/packages/Antlr\.3\.5\.0\.2/
+Arjan_Niels/QL_Vizualizer/packages/
+
+Arjan_Niels/QL_Vizualizer/QL_Parser_Tester/obj/Debug/
+
+PyQuest/.idea/
+Remi_Hasan/gen/
+Remi_Hasan/target/
+*.bat

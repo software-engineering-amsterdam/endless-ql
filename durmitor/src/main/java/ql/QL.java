@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ql.ast.AstNode;
+import ql.ast.form.Form;
 import ql.grammar.QLLexer;
 import ql.grammar.QLParser;
 import ql.visitors.QLVisitorToAst;
@@ -49,5 +50,28 @@ public class QL {
          */
 
         return null;
+    }
+    
+    public Form getForm() throws Exception { 
+        
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
+        QLVisitorToAst visitor  = new QLVisitorToAst();
+        
+        CharStream charStream;
+        QLParser parser;
+        ParseTree tree;
+        Form form;
+
+        if (inputStream == null) {
+            charStream = CharStreams.fromFileName(filePath, Charset.forName("UTF-8"));
+        } else {
+            charStream = CharStreams.fromStream(inputStream, Charset.forName("UTF-8"));
+        }
+
+        parser      = new QLParser(new CommonTokenStream(new QLLexer(charStream)));
+        tree        = parser.form();
+        form        = (Form) visitor.visit(tree);
+
+        return form;
     }
 }

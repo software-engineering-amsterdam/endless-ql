@@ -75,7 +75,7 @@ export class If implements Statement {
 
   toFormQuestion(formQuestions: QuestionBase<any>[], condition?: (form: FormGroup) => boolean): QuestionBase<any>[] {
     const conditionQuestion = formQuestions.filter((q) => q.key === this.condition);
-    if (conditionQuestion.length !== 1 || !(conditionQuestion[0] instanceof CheckboxQuestion)) {
+    if (conditionQuestion.length !== 1 || !(conditionQuestion[0].controlType === 'checkbox')) {
       throw new Error('condition not type of checkbox');
     }
 

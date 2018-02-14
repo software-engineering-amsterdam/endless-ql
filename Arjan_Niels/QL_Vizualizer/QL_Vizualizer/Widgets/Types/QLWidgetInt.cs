@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QL_Vizualizer.Widgets
+namespace QL_Vizualizer.Widgets.Types
 {
     public class QLWidgetInt : QLQuestionWidget<int>
     {

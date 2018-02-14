@@ -1,6 +1,7 @@
 ﻿using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Widgets;
+using QL_Vizualizer.Widgets.Types;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,7 +30,8 @@ namespace QL_Vizualizer
                 new QLWidgetInt("b", "wat is 5 + 3?", new Expression<bool>(() => {return true; }), null),
                 new QLWidgetInt("c", "som:", new Expression<bool>(() => {return true; }), new Expression<int>(() => {
                     return (WidgetController.Instance.GetWidget("a") as QLWidgetInt).AnswerValue + (WidgetController.Instance.GetWidget("b") as QLWidgetInt).AnswerValue;
-                }, "a", "b"))
+                }, "a", "b")),
+                new QLWidgetBool("d","This statement is False", new Expression<bool>(() => {return true; }), null)
 
             });
 

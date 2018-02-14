@@ -1,29 +1,26 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
-import org.uva.sea.ql.parser.elements.Expr;
+import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.types.Type;
+import org.uva.sea.ql.parser.nodeTypes.DualNode;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class Eq extends Expr {
-    private Expr lhs;
-    private Expr rhs;
-
-    public Eq(Expr lhs, Expr rhs) {
-        this.lhs = lhs;
-        this.rhs = rhs;
+public class Eq extends DualNode {
+    public Eq(ASTNode lhs, ASTNode rhs) {
+        super(lhs, rhs);
     }
 
-    public Expr getLhs() {
-        return lhs;
+    public void traverse(Traverse traverse) {
+        super.traverse(traverse);
+        traverse.doLogical(this);
+        traverse.doEq(this);
+        this.traverseChildren(traverse);
     }
 
-    public void setLhs(Expr lhs) {
-        this.lhs = lhs;
-    }
-
-    public Expr getRhs() {
-        return rhs;
-    }
-
-    public void setRhs(Expr rhs) {
-        this.rhs = rhs;
+    /**
+     * @return True or false is returned
+     */
+    public Type getType() {
+        return new Type("Boolean");
     }
 }

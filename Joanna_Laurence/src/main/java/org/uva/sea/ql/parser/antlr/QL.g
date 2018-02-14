@@ -24,7 +24,7 @@ statements returns [Statements result]
     : (stm=statement { statements.addStatement($stm.result); })+
     ;
 
-statement returns [Expr result]
+statement returns [ASTNode result]
     : quest=question { $result = $quest.result; }
     | cont=condition { $result = $cont.result; }
     ;
@@ -49,38 +49,36 @@ type returns [Type result]
     ;
 
 condition returns [Condition result]
-    : 'if' '(' expression ')' questionBlock { $result = new Condition(); }
+    : 'if' '(' expr=expression ')' q=questionBlock { $result = new Condition($expr.result, $q.result); }
     ;
 
-questionBlock returns [Statements result]
-    @init  { Statements statements = new Statements(); }
-    @after { $result = statements; }
-
+questionBlock returns [List<Question> result]
+    @init  { ArrayList<Question> questions = new ArrayList<Question>(); }
+    @after { $result = questions; }
     : '{' stms=questions '}' {$result = $stms.result; }
-    | stm=question {statements.addStatement($stm.result);}
+    | stm=question {questions.add($stm.result);}
     ;
 
 //To suport lists than only can contain questions
-questions returns [Statements result]
-    @init  { Statements statements = new Statements(); }
-    @after { $result = statements; }
-    : (stm=question {statements.addStatement($stm.result);})+
+questions returns [List<Question> result]
+    @init  { ArrayList<Question> questions = new ArrayList<Question>(); }
+    @after { $result = questions; }
+    : (stm=question {questions.add($stm.result);})+
     ;
 
-expression returns [Expr result]
+expression returns [ASTNode result]
     : expr=orExpr {$result = $expr.result;}
     ;
 
-orExpr returns [Expr result]
+orExpr returns [ASTNode result]
     :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
     ;
 
-andExpr returns [Expr result]
+andExpr returns [ASTNode result]
     :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result); } )*
     ;
 
-
-relExpr returns [Expr result]
+relExpr returns [ASTNode result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr
     {
       if ($op.text.equals("<")) {
@@ -104,7 +102,7 @@ relExpr returns [Expr result]
     })*
     ;
 
-addExpr returns [Expr result]
+addExpr returns [ASTNode result]
     :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
     {
       if ($op.text.equals("+")) {
@@ -116,7 +114,7 @@ addExpr returns [Expr result]
     })*
     ;
 
-mulExpr returns [Expr result]
+mulExpr returns [ASTNode result]
     :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr
     {
       if ($op.text.equals("*")) {
@@ -128,14 +126,14 @@ mulExpr returns [Expr result]
     })*
     ;
 
-unExpr returns [Expr result]
+unExpr returns [ASTNode result]
     :  '+' x=unExpr { $result = new Pos($x.result); }
     |  '-' x=unExpr { $result = new Neg($x.result); }
     |  '!' x=unExpr { $result = new Not($x.result); }
     |  p=primary    { $result = $p.result; }
     ;
 
-primary returns [Expr result]
+primary returns [ASTNode result]
     : bool {$result = $bool.result; }
     | money { $result = $money.result; }
     | variable { $result = $variable.result; }
@@ -146,24 +144,24 @@ primary returns [Expr result]
     | '(' expression ')' {$result = $expression.result;}
     ;
 
-bool returns [Expr result]
+bool returns [ASTNode result]
     : BOOLEAN_TRUE {$result = new Bool(true); }
     | BOOLEAN_FALSE {$result = new Bool(false); }
     ;
 
-num returns [Expr result]
-    : INT {$result = new Num(Integer.parseInt($INT.text));}
+num returns [ASTNode result]
+    : INT {$result = new Int(Integer.parseInt($INT.text));}
     ;
 
-dec returns [Expr result]
+dec returns [ASTNode result]
     : DECIMAL {$result = new Dec(Double.parseDouble($DECIMAL.text));}
     ;
 
-str returns [Expr result]
+str returns [ASTNode result]
     : STR {$result = new Str($STR.text);}
     ;
 
-money returns [Expr result]
+money returns [ASTNode result]
     : c=('$' | '€') v=DECIMAL {
         $result = new Money($c.text, Double.parseDouble($v.text));
     }

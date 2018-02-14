@@ -1,19 +1,22 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
-import org.uva.sea.ql.parser.elements.Expr;
+import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.types.Type;
+import org.uva.sea.ql.parser.nodeTypes.SingleNode;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class Not extends Expr {
-    private Expr value;
-
-    public Not(Expr value) {
-        this.value = value;
+public class Not extends SingleNode {
+    public Not(ASTNode value) {
+        super(value);
     }
 
-    public Expr getValue() {
-        return value;
+    public void traverse(Traverse traverse) {
+        traverse.doNot(this);
+        this.traverseChildren(traverse);
     }
 
-    public void setValue(Expr value) {
-        this.value = value;
+    public Type getType() {
+        return new Type("Boolean");
     }
 }
+

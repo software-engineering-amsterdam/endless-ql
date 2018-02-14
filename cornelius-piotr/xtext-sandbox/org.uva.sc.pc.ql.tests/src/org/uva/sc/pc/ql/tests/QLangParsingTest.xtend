@@ -56,7 +56,7 @@ class QLangParsingTest {
 
 		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.question, "")
 	}
-	
+
 	@Test
 	def void testErrorOnForwardReference() {
 		val result = parseHelper.parse('''
@@ -70,9 +70,10 @@ class QLangParsingTest {
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
 
-		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.question, "")
+		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionQuestionRef,
+			QLangValidator.FORWARD_REFERNCE)
 	}
-	
+
 	@Test
 	def void testErrorOnSelfReference() {
 		val result = parseHelper.parse('''
@@ -83,9 +84,9 @@ class QLangParsingTest {
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
 
-		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.question, "")
+		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.question, QLangValidator.SELF_REFERNCE)
 	}
-	
+
 	@Test
 	def void testErrorOnEmptyForm() {
 		val result = parseHelper.parse('''
@@ -96,9 +97,10 @@ class QLangParsingTest {
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
 
-		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.blockBody, QLangValidator.BLOCK_MISSING_QUESTION)
+		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.blockBody,
+			QLangValidator.BLOCK_MISSING_QUESTION)
 	}
-	
+
 	@Test
 	def void testErrorOnEmptyBlock() {
 		val result = parseHelper.parse('''
@@ -113,7 +115,8 @@ class QLangParsingTest {
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
 
-		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.blockBody, QLangValidator.BLOCK_MISSING_QUESTION)
+		validationTestHelper.assertError(result, QLangPackage.eINSTANCE.blockBody,
+			QLangValidator.BLOCK_MISSING_QUESTION)
 	}
 
 }

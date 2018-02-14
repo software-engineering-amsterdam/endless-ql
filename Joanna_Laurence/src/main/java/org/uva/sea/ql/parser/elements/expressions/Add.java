@@ -1,29 +1,27 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
-import org.uva.sea.ql.parser.elements.Expr;
+import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.types.Type;
+import org.uva.sea.ql.parser.nodeTypes.DualNode;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class Add extends Expr {
-    private Expr lhs;
-    private Expr rhs;
-
-    public Add(Expr lhs, Expr rhs) {
-        this.lhs = lhs;
-        this.rhs = rhs;
+public class Add extends DualNode {
+    public Add(ASTNode lhs, ASTNode rhs) {
+        super(lhs, rhs);
     }
 
-    public Expr getLhs() {
-        return lhs;
+    public void traverse(Traverse traverse) {
+        super.traverse(traverse);
+        traverse.doOperation(this);
+        traverse.doAdd(this);
+        this.traverseChildren(traverse);
     }
 
-    public void setLhs(Expr lhs) {
-        this.lhs = lhs;
-    }
-
-    public Expr getRhs() {
-        return rhs;
-    }
-
-    public void setRhs(Expr rhs) {
-        this.rhs = rhs;
+    /**
+     * The value is returned, so the type of LHS
+     * @return The type
+     */
+    public Type getType() {
+        return this.getLhs().getType();
     }
 }

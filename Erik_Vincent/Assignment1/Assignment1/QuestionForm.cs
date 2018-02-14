@@ -11,15 +11,18 @@ namespace Assignment1
     internal class QuestionForm
     {
         public string Id { get; }
+        public Dictionary<string, Question> Questions { get; }
 
         public QuestionForm(string id)
         {
             Id = id;
+            Questions = new Dictionary<string, Question>();
         }
 
         public void AddQuestion(string id, string label, string qtype)
         {
             Console.WriteLine(id + " : " + label + " : " + qtype);
+            Questions.Add(id, new QuestionBool(id, label));
         }
     }
 }

@@ -9,20 +9,11 @@ public class QuestionStmt extends Stmt {
 	public final IndentifierExpr identifier;
 	public final String label;
 	public final QLType type;
-	public final Expr expression;
 
 	public QuestionStmt(IndentifierExpr identifier, String label, QLType type) {
 		this.identifier = identifier;
 		this.label = label;
 		this.type = type;
-		this.expression = null;
-	}
-	
-	public QuestionStmt(IndentifierExpr identifier, String label, QLType type, Expr expression) {
-		this.identifier = identifier;
-		this.label = label;
-		this.type = type;
-		this.expression = expression;
 	}
 
 	@Override

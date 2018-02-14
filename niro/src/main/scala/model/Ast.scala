@@ -40,7 +40,7 @@ object Ast {
 
       object UnaryExpr {
         case class Sub(value: Expression) extends UnaryExpr
-        case class Not(value: Expression) extends UnaryExpr
+        case class Negate(value: Expression) extends UnaryExpr
       }
 
       object ArithmExpr {

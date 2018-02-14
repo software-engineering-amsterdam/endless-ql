@@ -3,23 +3,22 @@
  */
 package org.uva.sc.pc.ql.validation
 
-
 /**
  * This class contains custom validation rules. 
- *
+ * 
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
 class QLangValidator extends AbstractQLangValidator {
-	
-//	public static val INVALID_NAME = 'invalidName'
-//
+
+	public static val INVALID_NAME = 'invalidName'
+	public static val INVALID_TYPES = 'invalidName'
+
 //	@Check
-//	def checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
+//	def checkGreetingStartsWithCapital(Form form) {
+//		if (!Character.isUpperCase(form.name.charAt(0))) {
 //			warning('Name should start with a capital', 
-//					QLangPackage.Literals.GREETING__NAME,
+//					QLangPackage.Literals.FORM__NAME,
 //					INVALID_NAME)
 //		}
 //	}
-	
 }

@@ -1,22 +1,49 @@
 grammar QL;
 
-INT   : [1-9][0-9]* ;
+INTEGER     : [1-9][0-9]* ;
+ID          : [a-zA-Z0-9_]+ ;
+TEXT        : '"' .*? '"' ;
 
-ID    : [a-z][a-zA-Z]* ;
+LT          : '<' ;
+LTE         : '<=' ;
+EQ          : '==' ;
+NE          : '!=' ;
+GTE         : '>=' ;
+GT          : '>' ;
 
-TEXT  : '"'[a-z][a-zA-Z]*'"' ;
+SUB         : '-' ;
+ADD         : '+' ;
+DIV         : '/' ;
+MUL         : '*' ;
 
-WS      : [ \t\r\n]+ -> skip ;
-COMMENT : '//' .*? '\n' -> skip ;
+FALSE       : 'false' ;
+TRUE        : 'true' ;
+OR          : '||' ;
+AND         : '&&' ;
+NOT         : '!' ;
 
-program : form ;
+bool        : FALSE | TRUE ;
 
-form : name '{' field+ '}' ;
+unaryOp     : SUB | ADD | NOT;
+compOp      : LT | LTE | GTE | GT | NE | EQ ;
+logicalOp   : OR | AND | NOT ;
+arithmOp    : SUB | ADD | DIV | MUL ;
 
-name : ID ;
+WS          : [ \t\r\n]+ -> skip ;
+COMMENT     : '//' .*? '\n' -> skip ;
 
-field: name ':' TEXT type;
+expression  : INTEGER                                  # IntConst
+            | bool                                     # BoolConst
+            | unaryOp expression                       # UnaryExpr
+            | lhs=expression arithmOp rhs=expression   # ArithmExpr
+            | lhs=expression compOp rhs=expression     # CompExpr
+            | lhs=expression logicalOp rhs=expression  # LogicalExpr
+            | name                                     # Var ;
 
-type: bool;
+form        : 'form' name '{' statement+ '}' ;
+name        : ID ;
+statement   : question | conditional ;
+question    : name ':' TEXT answer_type ( '=' '(' expression ')' )?;
+answer_type : 'boolean' | 'integer' | 'string' ; // TODO rename to answerType, or type
 
-bool: 'boolean';
+conditional : 'if' '(' condition=expression ')' '{' thenBlock=statement+ '}' ( 'else' '{' elseBlock=statement+ '}' )? ;

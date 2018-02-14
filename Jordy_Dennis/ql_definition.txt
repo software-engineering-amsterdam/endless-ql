@@ -25,5 +25,11 @@ types -> boolean | string, int | decimal | date | money | undefined
 operand -> boolean_operand | comparison_operand | math_operand
 
 
-if(6 - 3 == 5)
-if(if(5-4 == 5) && if(4-4 == 0))
+1. Parse code and create AST
+2. Check Types
+3. 
+
+
+
+Emeregency LF to CLRF Command:
+sed 's/\r/\n/g;s/\n$//' test_gui.sh

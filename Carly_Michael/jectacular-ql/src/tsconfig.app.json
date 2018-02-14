@@ -8,6 +8,7 @@
   },
   "exclude": [
     "test.ts",
+    "./parser/ql-parser.ts",
     "**/*.spec.ts"
   ]
 }

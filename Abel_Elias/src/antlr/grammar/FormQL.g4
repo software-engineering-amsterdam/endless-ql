@@ -19,7 +19,7 @@ questionnaire : form; // (top) questionnaire
 
 form : FORM IDENTIFIER content EOF; // form
 
-content : CURLY_BRACE_L (ifStatement* | question+) CURLY_BRACE_R; // content
+content : CURLY_BRACE_L (ifStatement | question) CURLY_BRACE_R; // content
 
 question : IDENTIFIER COLON STR type; //question2
 

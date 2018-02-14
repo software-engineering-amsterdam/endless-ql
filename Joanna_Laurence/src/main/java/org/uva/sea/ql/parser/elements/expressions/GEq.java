@@ -12,6 +12,7 @@ public class GEq extends DualNode {
 
     public void traverse(Traverse traverse) {
         super.traverse(traverse);
+        traverse.doLogical(this);
         traverse.doGEq(this);
         this.traverseChildren(traverse);
     }

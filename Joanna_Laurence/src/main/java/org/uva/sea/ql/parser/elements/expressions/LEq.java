@@ -12,6 +12,7 @@ public class LEq extends DualNode {
 
     public void traverse(Traverse traverse) {
         super.traverse(traverse);
+        traverse.doLogical(this);
         traverse.doLEq(this);
         this.traverseChildren(traverse);
     }

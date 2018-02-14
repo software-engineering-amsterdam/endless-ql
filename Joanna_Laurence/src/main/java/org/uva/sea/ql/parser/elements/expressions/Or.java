@@ -12,6 +12,7 @@ public class Or extends DualNode {
 
     public void traverse(Traverse traverse) {
         super.traverse(traverse);
+        traverse.doLogical(this);
         traverse.doOr(this);
         this.traverseChildren(traverse);
     }

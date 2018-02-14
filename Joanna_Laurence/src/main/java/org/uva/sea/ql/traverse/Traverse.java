@@ -64,4 +64,8 @@ public abstract class Traverse {
     public void doStatements(Statements node) {}
 
     public void doDualNode(DualNode node) {}
+
+    public void doLogical(DualNode node) {}
+
+    public void doOperation(DualNode node) {}
 }

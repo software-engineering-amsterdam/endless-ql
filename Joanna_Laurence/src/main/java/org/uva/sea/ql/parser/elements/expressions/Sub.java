@@ -13,6 +13,7 @@ public class Sub extends DualNode {
 
     public void traverse(Traverse traverse) {
         super.traverse(traverse);
+        traverse.doOperation(this);
         traverse.doSub(this);
         this.traverseChildren(traverse);
     }

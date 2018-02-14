@@ -12,6 +12,7 @@ public class Div extends DualNode {
 
     public void traverse(Traverse traverse) {
         super.traverse(traverse);
+        traverse.doOperation(this);
         traverse.doDiv(this);
         this.traverseChildren(traverse);
     }

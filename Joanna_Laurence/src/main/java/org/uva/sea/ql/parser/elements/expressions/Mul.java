@@ -12,6 +12,7 @@ public class Mul extends DualNode {
 
     public void traverse(Traverse traverse) {
         super.traverse(traverse);
+        traverse.doOperation(this);
         traverse.doMul(this);
         this.traverseChildren(traverse);
     }

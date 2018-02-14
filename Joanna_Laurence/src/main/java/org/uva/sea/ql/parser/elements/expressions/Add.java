@@ -12,6 +12,7 @@ public class Add extends DualNode {
 
     public void traverse(Traverse traverse) {
         super.traverse(traverse);
+        traverse.doOperation(this);
         traverse.doAdd(this);
         this.traverseChildren(traverse);
     }

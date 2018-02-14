@@ -105,8 +105,6 @@ public class QLTypeCheck extends Traverse {
             this.error(node);
     }
 
-    //TODO: add do operation in interface
-    //TODO: Call in unExpr mulExpr addExpr relExpr
     //TODO: Add test that 1 + 1.5 is valid
     /**
      * Types can be integer and decimal. Int is converted to decimal
@@ -119,8 +117,7 @@ public class QLTypeCheck extends Traverse {
         checkIsNumber(node, rhsType);
     }
 
-    //TODO: add do operation in andExpr orExpr
-    //TODO: Call in add do logical
+    //TODO: Is 1.0 equal to 1?
     /**
      * Types have to be the same
      * @param node The node that is inspected

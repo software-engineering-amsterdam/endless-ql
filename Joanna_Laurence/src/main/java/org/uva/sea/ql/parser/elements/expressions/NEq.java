@@ -12,6 +12,7 @@ public class NEq extends DualNode {
 
     public void traverse(Traverse traverse) {
         super.traverse(traverse);
+        traverse.doLogical(this);
         traverse.doNEq(this);
         this.traverseChildren(traverse);
     }

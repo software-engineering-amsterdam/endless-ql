@@ -12,6 +12,7 @@ public class GThan extends DualNode {
 
     public void traverse(Traverse traverse) {
         super.traverse(traverse);
+        traverse.doLogical(this);
         traverse.doGThan(this);
         this.traverseChildren(traverse);
     }

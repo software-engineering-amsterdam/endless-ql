@@ -12,6 +12,7 @@ public class Eq extends DualNode {
 
     public void traverse(Traverse traverse) {
         super.traverse(traverse);
+        traverse.doLogical(this);
         traverse.doEq(this);
         this.traverseChildren(traverse);
     }

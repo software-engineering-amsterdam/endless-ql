@@ -1,13 +1,10 @@
 package ast.expression;
 
-import utils.CodeReference;
-
 public class Identifier extends Expression {
 
 	private final String id;
 
-	public Identifier(String id, CodeReference location) {
-		super(location);
+	public Identifier(String id) {
 		this.id = id;
 	}
 

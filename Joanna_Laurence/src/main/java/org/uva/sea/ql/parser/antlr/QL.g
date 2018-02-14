@@ -60,7 +60,7 @@ questionBlock returns [List<Question> result]
     ;
 
 //To suport lists than only can contain questions
-questions returns [Statements result]
+questions returns [List<Question> result]
     @init  { ArrayList<Question> questions = new ArrayList<Question>(); }
     @after { $result = questions; }
     : (stm=question {questions.add($stm.result);})+

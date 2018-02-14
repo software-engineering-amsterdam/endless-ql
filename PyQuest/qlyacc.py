@@ -59,6 +59,11 @@ def p_expr_number(p):
     p[0] = ('NUMBER', p[1])
 
 
+def p_expr_float(p):
+    """expr : FLOAT"""
+    p[0] = ('FLOAT', p[1])
+
+
 # Comparisons
 
 

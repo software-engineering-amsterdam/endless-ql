@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import qlviz.*;
 
 public class QlApplication {
 	public static void main(String[] args) {
@@ -17,10 +18,10 @@ public class QlApplication {
 			return;
 		}
 
-		qlLexer lexer = new qlLexer(charStream);
+		QLLexer lexer = new QLLexer(charStream);
 
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		qlParser parser = new qlParser(tokens);
+		QLParser parser = new QLParser(tokens);
 
 
 		ParseTreeWalker TreeWalker = new ParseTreeWalker();

@@ -1,4 +1,4 @@
-grammar ql;
+grammar QL;
 
 //file to define grammar
 

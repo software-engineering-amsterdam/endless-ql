@@ -19,7 +19,7 @@ object Compiler {
   object FormCompiler extends QLBaseVisitor[QLForm] {
     override def visitForm(ctx: QLParser.FormContext): QLForm = {
       val statements = JavaConverters.asScalaBufferConverter(ctx.statement).asScala
-      QLForm(ctx.Ident().getText(), statements.map(stmt => StatementCompiler.visit(stmt)))
+      QLForm(ctx.Ident().getText, statements.map(stmt => StatementCompiler.visit(stmt)))
     }
   }
 

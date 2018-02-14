@@ -1,5 +1,5 @@
 /*
- * Grammer for the Questionnaire Language
+ * Grammar for the Questionnaire Language
  *
  */
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Field from "../../form/field/Field";
-import BooleanWrapper from "../../form/values/BooleanWrapper";
+import Field from "../../../form/field/Field";
+import BooleanWrapper from "../../../form/values/BooleanWrapper";
 import { FormGroup, Label, Input } from 'reactstrap';
 
 export interface BooleanFieldProps {

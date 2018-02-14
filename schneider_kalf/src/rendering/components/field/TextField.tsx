@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Field from "../../form/field/Field";
-import ValueWrapper from "../../form/values/ValueWrapper";
+import Field from "../../../form/field/Field";
+import ValueWrapper from "../../../form/values/ValueWrapper";
 import { FormGroup, Label, Input } from 'reactstrap';
 
 export interface TextFieldProps {

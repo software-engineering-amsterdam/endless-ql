@@ -11,6 +11,7 @@ export interface SyntaxTree {
 
 export interface Node {
   id: number;
+  parent?: Node;
   type: NodeTypes;
   name?: string;
   attributes?: { [key: string]: AttributeValue };

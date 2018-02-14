@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Form from "../../form/Form";
+import Form from "../../../form/Form";
 import { FieldContainer } from "../field_container/FieldContainer";
-import Field from "../../form/field/Field";
+import Field from "../../../form/field/Field";
 
 export interface FormComponentProps {
   form: Form;

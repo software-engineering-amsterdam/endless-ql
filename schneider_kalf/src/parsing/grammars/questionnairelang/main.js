@@ -108,11 +108,10 @@ if
 // Initiates an expression
 expression
  = bools:bools {
-     return {
-       type:"EXPRESSION",
+     return base("EXPRESSION",{
        name: null,
        children:[bools],
-     }
+     })
  }
 
 // BooleanExpression

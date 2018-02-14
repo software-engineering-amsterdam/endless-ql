@@ -6,6 +6,6 @@ package org.uva.sea.ql;
  */
 public class QLVariableInfo {
 
-
+    //TODO: Implement
 
 }

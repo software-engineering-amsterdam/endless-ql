@@ -16,6 +16,7 @@ blockStmt: '{' command* '}' ;
 
 command: questionStmt
 	   | ifStmt
+	   | ifElseStmt
 	   ;
 
 questionStmt: IDENTIFIER ':' LABEL TYPE (expression)? ;

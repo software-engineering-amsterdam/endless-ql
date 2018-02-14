@@ -10,6 +10,8 @@ public class ExpressionArithmeticSum extends ExpressionArithmetic{
 
     @Override
     public ExpressionVariable evaluate(Form form) {
-        return this.left.evaluate(form).sum(this.right.evaluate(form));
+        ExpressionVariable leftEvaluated = this.left.evaluate(form);
+        ExpressionVariable rightEvaluated = this.right.evaluate(form);
+        return leftEvaluated.sum(rightEvaluated);
     }
 }

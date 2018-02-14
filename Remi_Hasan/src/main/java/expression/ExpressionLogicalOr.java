@@ -10,6 +10,8 @@ public class ExpressionLogicalOr extends ExpressionLogical {
 
     @Override
     public ExpressionVariable evaluate(Form form) {
-        return this.left.evaluate(form).or(this.right.evaluate(form));
+        ExpressionVariable leftEvaluated = this.left.evaluate(form);
+        ExpressionVariable rightEvaluated = this.right.evaluate(form);
+        return leftEvaluated.or(rightEvaluated);
     }
 }

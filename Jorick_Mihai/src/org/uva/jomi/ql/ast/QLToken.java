@@ -2,7 +2,7 @@ package org.uva.jomi.ql.ast;
 
 import org.antlr.v4.runtime.Token;
 
-class QLToken {
+public class QLToken {
 	private QLTokenType type;
 	private String lexeme;
 	private int line;

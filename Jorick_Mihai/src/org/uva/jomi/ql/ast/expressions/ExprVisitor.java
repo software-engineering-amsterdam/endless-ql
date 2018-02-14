@@ -1,8 +1,12 @@
-package org.uva.jomi.ql.ast;
+package org.uva.jomi.ql.ast.expressions;
 
+import org.uva.jomi.ql.ast.QLToken;
+import org.uva.jomi.ql.ast.QLTokenType;
+import org.uva.jomi.ql.ast.QLType;
+import org.uva.jomi.ql.ast.statements.UnaryExpr;
 import org.uva.jomi.ql.parser.antlr.*;
 
-class ExprVisitor extends QLBaseVisitor<Expr> {
+public class ExprVisitor extends QLBaseVisitor<Expr> {
 	
 	// Builds an Identifier expression using the parser context. 
 	@Override public Expr visitIdentifierExpr(QLParser.IdentifierExprContext ctx) {

@@ -1,7 +1,11 @@
-package org.uva.jomi.ql.ast;
+package org.uva.jomi.ql.ast.expressions;
+
+import org.uva.jomi.ql.ast.QLToken;
+import org.uva.jomi.ql.ast.QLType;
+import org.uva.jomi.ql.ast.expressions.Expr.Visitor;
 
 public class PrimaryExpr extends Expr {
-	final QLToken token;
+	public final QLToken token;
 
 	public PrimaryExpr(QLToken token) {
 		this.token = token;

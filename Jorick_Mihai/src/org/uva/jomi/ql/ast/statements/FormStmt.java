@@ -1,8 +1,11 @@
-package org.uva.jomi.ql.ast;
+package org.uva.jomi.ql.ast.statements;
+
+import org.uva.jomi.ql.ast.expressions.IndentifierExpr;
+import org.uva.jomi.ql.ast.statements.Stmt.Visitor;
 
 public class FormStmt extends Stmt {
-	final IndentifierExpr identifier;
-	final BlockStmt blockStmt;
+	public final IndentifierExpr identifier;
+	public final BlockStmt blockStmt;
 	
 	public FormStmt(IndentifierExpr identifier, BlockStmt blockStmt) {
 		this.identifier = identifier;

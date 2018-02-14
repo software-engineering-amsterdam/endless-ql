@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class App {
 
-    public static void main (String [] args) {
+    public App() {
         try {
             CharStream cs = CharStreams.fromFileName("input/default.ql");
             QLLexer lexer = new QLLexer(cs);
@@ -23,9 +23,11 @@ public class App {
 
         }
         catch (IOException ex) {
-
+            System.out.println(ex.toString());
         }
+    }
 
-
+    public static void main (String [] args) {
+        new App();
     }
 }

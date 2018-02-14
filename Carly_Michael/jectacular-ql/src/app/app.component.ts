@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import {ParserService} from './services/parser.service';
+import {parse} from '../parser/ql-parser';
 import {QuestionBase} from './domain/question-base';
 import {FormGroup} from '@angular/forms';
 import {QuestionService} from './services/question.service';
@@ -17,15 +17,14 @@ export class AppComponent {
   formName: string;
   errorMessage: string;
 
-  constructor (private parser: ParserService,
-               private questionService: QuestionService,
+  constructor (private questionService: QuestionService,
                private questionControlService: QuestionControlService) {
 
   }
 
   parseInput() {
     try {
-      const ast = this.parser.parseInput(this.input);
+      let ast = parse(this.input, {});
       this.questions = this.questionService.toFormQuestions(ast.statements);
       this.form = this.questionControlService.toFormGroup(this.questions);
       this.formName = ast.name;

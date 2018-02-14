@@ -35,8 +35,8 @@ object Ast {
     object Operator {
       sealed trait UnaryOp extends Operator
       sealed trait ArithmOp extends Operator
-      sealed trait CompExpr extends Operator
-      sealed trait LogicalExpr extends Operator
+      sealed trait CompOp extends Operator
+      sealed trait LogicalOp extends Operator
 
       object UnaryOp {
         case class Sub(value: Expression) extends UnaryOp
@@ -51,18 +51,18 @@ object Ast {
       }
 
       object CompOp {
-        case class Lt(left: Expression, right: Expression) extends CompExpr
-        case class LTe(left: Expression, right: Expression) extends CompExpr
-        case class GTe(left: Expression, right: Expression) extends CompExpr
-        case class Gt(left: Expression, right: Expression) extends CompExpr
-        case class Ne(left: Expression, right: Expression) extends CompExpr
-        case class Eq(left: Expression, right: Expression) extends CompExpr
+        case class Lt(left: Expression, right: Expression) extends CompOp
+        case class LTe(left: Expression, right: Expression) extends CompOp
+        case class GTe(left: Expression, right: Expression) extends CompOp
+        case class Gt(left: Expression, right: Expression) extends CompOp
+        case class Ne(left: Expression, right: Expression) extends CompOp
+        case class Eq(left: Expression, right: Expression) extends CompOp
       }
 
       object LogicalOp {
-        case class Or(left: Expression, right: Expression) extends CompExpr
-        case class And(left: Expression, right: Expression) extends CompExpr
-        case class Not(left: Expression, right: Expression) extends CompExpr
+        case class Or(left: Expression, right: Expression) extends LogicalOp
+        case class And(left: Expression, right: Expression) extends LogicalOp
+        case class Not(left: Expression, right: Expression) extends LogicalOp
       }
     }
   }

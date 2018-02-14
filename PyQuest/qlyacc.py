@@ -1,8 +1,7 @@
 import ply.yacc as yacc
 import lex
 
-
-tokens = lex.tokens
+tokens = lex.LexTokenizer.tokens
 precedence = (
     ('left', 'OR'),
     ('left', 'AND'),
@@ -106,11 +105,64 @@ def p_assign(p):
     p[0] = ('ASSIGN', p[1], p[2])
 
 
+# Statements
+
+
+def p_stmts(p):
+    """stmts : stmt stmts
+             | stmt"""
+    # if (len(p) == 3):
+    #     p[0] = ('STMTS', p[1], p[2])
+    # elif (len(p) == 2):
+    #     p[0] = p[1]
+
+
+def p_stmt(p):
+    """stmt : question"""
+    p[0] = p[1]
+
+
+def p_form(p):
+    """stmt : FORM VAR LBRACKET stmts RBRACKET"""
+    p[0] = ('FORM', p[2], p[4])
+
+
+# Questions and answers
+
+
+def p_question(p):
+    """question : QUESTION answer"""
+    p[0] = ('QUESTION', p[1], p[2])
+
+
+def p_answer(p):
+    """answer : VAR COLON type"""
+    p[0] = ('ANSWER', p[1], p[3])
+
+
+def p_answer_assign(p):
+    """answer : VAR COLON assign"""
+    p[0] = ('ANSWER', p[1], p[3])
+
+
+# Other
+
+
+def p_type(p):
+    """type : INTEGER
+            | DECIMAL
+            | BOOLEAN
+            | STRING
+            | DATE
+            | MONEY"""
+    p[0] = p[1]
+
+
 # Misc
 
 
 def p_error(p):
-    print("Whoa. You are seriously hosed.")
+    print("Whoa.")
     if not p:
         print("End of File!")
         return
@@ -123,4 +175,5 @@ def p_error(p):
     parser.restart()
 
 
-yacc.yacc()
+# Build the parser
+parser = yacc.yacc()

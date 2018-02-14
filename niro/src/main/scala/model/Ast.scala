@@ -1,5 +1,7 @@
 package model
 
+import model.Ast.Expression.Operator.LogicalOp.{And, Not, Or}
+
 object Ast {
 
   case class QLForm(formName: String, statements: Seq[Statement])
@@ -41,6 +43,14 @@ object Ast {
       object UnaryOp {
         case class Sub(value: Expression) extends UnaryOp
         case class Negate(value: Expression) extends UnaryOp
+
+        def apply(operator: String, expression: Expression): UnaryOp = {
+          operator match {
+            case "*" => Sub(expression)
+            case "-" => Negate(expression)
+            case other => throw new IllegalArgumentException(s"Unsupported unary operator: $other")
+          }
+        }
       }
 
       object ArithmOp {
@@ -48,6 +58,16 @@ object Ast {
         case class Add(left: Expression, right: Expression) extends ArithmOp
         case class Div(left: Expression, right: Expression) extends ArithmOp
         case class Mul(left: Expression, right: Expression) extends ArithmOp
+
+        def apply(operator: String, left: Expression, right: Expression): ArithmOp = {
+          operator match {
+            case "*" => Mul(left, right)
+            case "/" => Div(left, right)
+            case "+" => Add(left, right)
+            case "-" => Sub(left, right)
+            case other => throw new IllegalArgumentException(s"Unsupported arithmatic operator: $other")
+          }
+        }
       }
 
       object CompOp {
@@ -57,12 +77,33 @@ object Ast {
         case class Gt(left: Expression, right: Expression) extends CompOp
         case class Ne(left: Expression, right: Expression) extends CompOp
         case class Eq(left: Expression, right: Expression) extends CompOp
+
+        def apply(operator: String, left: Expression, right: Expression): CompOp = {
+          operator match {
+            case "<" => Lt(left, right)
+            case "<=" => LTe(left, right)
+            case ">=" => GTe(left, right)
+            case ">" => Gt(left, right)
+            case "!=" => Ne(left, right)
+            case "==" => Eq(left, right)
+            case other => throw new IllegalArgumentException(s"Unsupported comparison operator: $other")
+          }
+        }
       }
 
       object LogicalOp {
         case class Or(left: Expression, right: Expression) extends LogicalOp
         case class And(left: Expression, right: Expression) extends LogicalOp
         case class Not(left: Expression, right: Expression) extends LogicalOp
+
+        def apply(operator: String, left: Expression, right: Expression): LogicalOp = {
+          operator match {
+            case "||" => Or(left, right)
+            case "&&" => And(left, right)
+            case "!=" => Not(left, right)
+            case other => throw new IllegalArgumentException(s"Unsupported logical operator: $other")
+          }
+        }
       }
     }
   }

@@ -9,6 +9,7 @@ import org.uva.jomi.ql.ast.expressions.IndentifierExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
 import org.uva.jomi.ql.ast.statements.FormStmt;
+import org.uva.jomi.ql.ast.statements.IfElseStmt;
 import org.uva.jomi.ql.ast.statements.IfStmt;
 import org.uva.jomi.ql.ast.statements.QuestionStmt;
 import org.uva.jomi.ql.ast.statements.Stmt;
@@ -130,5 +131,16 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 				stmt.blockStmt.accept(this) +
 				String.format("  %s -> %s\n", stmt.getId(), stmt.blockStmt.getId()) +
 				String.format("  %s [label=\"IfStmt\"]\n", stmt.getId());
+	}
+
+	@Override
+	public String visitIfElseStmt(IfElseStmt stmt) {
+		return stmt.expression.accept(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId()) +
+				stmt.ifBlockStmt.accept(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.ifBlockStmt.getId()) +
+				stmt.elseBlockStmt.accept(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.elseBlockStmt.getId()) +
+				String.format("  %s [label=\"IfElseStmt\"]\n", stmt.getId());
 	}
 }

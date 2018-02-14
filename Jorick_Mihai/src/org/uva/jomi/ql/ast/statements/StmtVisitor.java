@@ -65,4 +65,13 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 		BlockStmt blockStmt = (BlockStmt) visitBlockStmt(ctx.blockStmt());
 		return new IfStmt(expression, blockStmt);
 	}
+	
+	// Builds an IfElse statement using the parser context.
+	@Override public Stmt visitIfElseStmt(QLParser.IfElseStmtContext ctx) {
+		Expr expression = ctx.expression().accept(exprVisitor);
+		
+		BlockStmt ifBlockStmt = (BlockStmt) visitBlockStmt(ctx.ifBlock);
+		BlockStmt elseBlockStmt = (BlockStmt) visitBlockStmt(ctx.elseBlock);
+		return new IfElseStmt(expression, ifBlockStmt, elseBlockStmt);
+	}
 }

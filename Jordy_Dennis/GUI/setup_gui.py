@@ -11,7 +11,6 @@
 from tkinter import *
 from tkinter.font import *
 from functools import partial
-from GUI.scrframe import VerticalScrolledFrame
 
 def sel(label, var):
 	selection = "You selected the option " + str(var.get())

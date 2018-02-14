@@ -1,14 +1,20 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="DogeQL" type="JetRunConfigurationType" factoryName="Kotlin" singleton="true">
-    <option name="VM_PARAMETERS" value="" />
-    <option name="PROGRAM_PARAMETERS" value="" />
-    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-    <option name="ALTERNATIVE_JRE_PATH" />
-    <option name="PASS_PARENT_ENVS" value="true" />
-    <option name="MAIN_CLASS_NAME" value="DogeQL" />
-    <option name="WORKING_DIRECTORY" value="" />
-    <module name="DogeQL" />
-    <envs />
+  <configuration default="false" name="DogeQL" type="GradleRunConfiguration" factoryName="Gradle" singleton="true">
+    <ExternalSystemSettings>
+      <option name="executionName" />
+      <option name="externalProjectPath" value="$PROJECT_DIR$" />
+      <option name="externalSystemIdString" value="GRADLE" />
+      <option name="scriptParameters" value="" />
+      <option name="taskDescriptions">
+        <list />
+      </option>
+      <option name="taskNames">
+        <list>
+          <option value="run" />
+        </list>
+      </option>
+      <option name="vmOptions" value="" />
+    </ExternalSystemSettings>
     <method />
   </configuration>
 </component>

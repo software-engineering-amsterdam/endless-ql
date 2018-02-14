@@ -2,7 +2,7 @@ grammar QL;
 
 f               : 'form' ID '{' content* '}' EOF;
 content         : (question | statement) | '{' content* '}';
-question        : ID ':' LABEL ((qtype expression) | qtype) ';';
+question        : ID ':' LABEL ((QTYPE expression) | QTYPE) ';';
 // More statements? Otherwise keep only ifstatement
 statement       : ifstatement | ifelsestatement;
 ifstatement     : IF '(' expression ')' content;
@@ -13,7 +13,7 @@ operator    : boolOp | compOp | arithOp;
 boolOp      : AND | OR | NOT;
 compOp      : EL | EG | LT | GT | NEQ | EQ;
 arithOp     : ADD | SUB | MUL | DIV;
-qtype       : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | 'money';
+QTYPE       : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | 'money';
 
 IF          : 'if';
 ELSE        : 'else';

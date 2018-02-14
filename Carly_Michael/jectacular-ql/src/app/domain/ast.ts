@@ -1,10 +1,23 @@
 export class Form {
-  constructor(public name: string, public questions: Question[]) {}
+  constructor(public name: string, public statements: Statement[]) {}
 }
 
-export class Question {
-  constructor(public name: string, public label: string, public type: QuestionType) { }
+export class Statement {
+  constructor() {}
 }
+
+export class Question extends Statement {
+  constructor(public name: string, public label: string, public type: QuestionType) {
+    super();
+  }
+}
+
+export class If extends Statement {
+  constructor(public condition: string, public statements: Statement[]) {
+    super();
+  }
+}
+
 
 export enum QuestionType {
   INT = 1,

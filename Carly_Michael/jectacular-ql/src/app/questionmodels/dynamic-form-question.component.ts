@@ -1,20 +1,23 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup }        from '@angular/forms';
-
-import { QuestionBase }     from './question-base';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { QuestionBase } from '../domain/question-base';
 
 @Component({
   selector: 'app-question',
   templateUrl: './dynamic-form-question.component.html'
 })
-export class DynamicFormQuestionComponent {
+export class DynamicFormQuestionComponent implements OnInit {
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
   get isValid() { return this.form.controls[this.question.key].valid; }
-  tempChange(question : QuestionBase<any>, event) {
-    //key.value = !key.value;
-    //event.target.checked ? question.value = true : false;
-    this.question.value = event.target.checked;
-    console.log(question, this.question, event);
+
+  onCheckboxChange(question: QuestionBase<any>, event) {
+    this.form.controls[this.question.key].setValue(event.target.checked);
+  }
+
+  ngOnInit(): void {
+    this.form.valueChanges.subscribe(() => {
+      //console.log('hey!');
+    });
   }
 }

@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "genParser": "./node_modules/.bin/pegjs --plugin ./node_modules/ts-pegjs/src/tspegjs -o ./src/parser/QLParser.ts --cache ./src/parser/ql.pegjs"
+    "genParser": "./node_modules/.bin/pegjs --plugin ./node_modules/ts-pegjs/src/tspegjs --extra-options-file ./src/parser/pegconfig.json -o ./src/parser/ql-parser.ts --cache ./src/parser/ql.pegjs"
   },
   "private": true,
   "dependencies": {

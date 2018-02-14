@@ -49,6 +49,54 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStmt(QLParser.IfStmtContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QLParser#ifElseStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfElseStmt(QLParser.IfElseStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code AndExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAndExpr(QLParser.AndExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code StringExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringExpr(QLParser.StringExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code IntegerExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIntegerExpr(QLParser.IntegerExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code AdditionExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAdditionExpr(QLParser.AdditionExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EqualityExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEqualityExpr(QLParser.EqualityExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ComparisonExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComparisonExpr(QLParser.ComparisonExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code IdentifierExpr}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
@@ -63,19 +111,12 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGroupingExpr(QLParser.GroupingExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code BinaryExpr}
+	 * Visit a parse tree produced by the {@code MultiplicationExpr}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBinaryExpr(QLParser.BinaryExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code PrimaryExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPrimaryExpr(QLParser.PrimaryExprContext ctx);
+	T visitMultiplicationExpr(QLParser.MultiplicationExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code UnaryExpr}
 	 * labeled alternative in {@link QLParser#expression}.
@@ -83,4 +124,18 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitUnaryExpr(QLParser.UnaryExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BooleanExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBooleanExpr(QLParser.BooleanExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code OrExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOrExpr(QLParser.OrExprContext ctx);
 }

@@ -1,8 +1,8 @@
 package org.uva.sea.ql.parser.elements.types;
 
-import org.uva.sea.ql.parser.elements.Expr;
+import org.uva.sea.ql.parser.elements.ASTNode;
 
-public class Money extends Expr {
+public class Money extends ASTNode {
     private String currency;
     private Double amount;
 

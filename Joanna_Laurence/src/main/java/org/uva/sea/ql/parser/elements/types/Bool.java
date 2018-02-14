@@ -1,8 +1,8 @@
 package org.uva.sea.ql.parser.elements.types;
 
-import org.uva.sea.ql.parser.elements.Expr;
+import org.uva.sea.ql.parser.elements.ASTNode;
 
-public class Bool extends Expr {
+public class Bool extends ASTNode {
     private boolean value;
 
     public Bool(boolean value) {

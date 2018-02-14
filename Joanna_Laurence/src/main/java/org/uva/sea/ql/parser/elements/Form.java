@@ -1,7 +1,7 @@
 package org.uva.sea.ql.parser.elements;
 
 
-public class Form {
+public class Form extends ASTNode {
 
     private String name;
 

@@ -1,8 +1,8 @@
 package org.uva.sea.ql.parser.elements.types;
 
-import org.uva.sea.ql.parser.elements.Expr;
+import org.uva.sea.ql.parser.elements.ASTNode;
 
-public class Var extends Expr {
+public class Var extends ASTNode {
     private String variableName;
 
     public Var(String variableName) {

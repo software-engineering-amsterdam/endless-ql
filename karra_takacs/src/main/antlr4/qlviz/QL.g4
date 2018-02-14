@@ -2,26 +2,12 @@ grammar QL;
 
 //file to define grammar
 
-//expressions
-numericExpression : NUMBER
-                  | UNARY_NUMERIC_OPERATOR NUMBER
-                  | numericExpression BINARY_NUMERIC_OPERATOR numericExpression
-                  ;
 
-booleanExpression : BOOLEAN
-                  | booleanExpression BINARY_BOOLEAN_OPERATOR booleanExpression
-                  | UNARY_BOOLEAN_OPERATOR booleanExpression
-                  | numericExpression COMPARISON_OPERATOR numericExpression
-                  ;
+form : FORM_HEADER BRACKET_OPEN questionBlock BRACKET_CLOSE;
 
-expression: numericExpression | booleanExpression;
-
-
+questionBlock 	: (questionName|condition);
 questionName: IDENTIFIER WHITESPACE* QUESTION_DELIMITER WHITESPACE*;
-questionText : WHITESPACE STRING WHITESPACE*;
-question : questionName questionText TYPE ( '(' expression ')' ) NEWLINE;
-
-form : FORM_HEADER BRACKET_OPEN question* BRACKET_CLOSE;
+condition 		: IF '(' (BOOLEANEXPRESSION | IDENTIFIER)')' questionBlock;
 
 //To skip New Lines, White spaces and comments
 FORM_HEADER : WHITESPACE* 'form' WHITESPACE*  -> skip;
@@ -40,6 +26,9 @@ TYPE : 'boolean'
      | 'date'
      | 'decimal'
      ;
+     
+//keywords
+IF	:'if';
 
 //literals
 IDENTIFIER	: [a-zA-Z0-1_]+;
@@ -72,3 +61,16 @@ fragment NUMERIC_OP : '+'
                     | '/'
                     ;
 
+//expressions
+numericExpression : NUMBER
+                  | UNARY_NUMERIC_OPERATOR NUMBER
+                  | numericExpression BINARY_NUMERIC_OPERATOR numericExpression
+                  ;
+
+booleanExpression : BOOLEAN
+                  | booleanExpression BINARY_BOOLEAN_OPERATOR booleanExpression
+                  | UNARY_BOOLEAN_OPERATOR booleanExpression
+                  | numericExpression COMPARISON_OPERATOR numericExpression
+                  ;
+
+expression: numericExpression | booleanExpression;

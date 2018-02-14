@@ -10,6 +10,8 @@ public class ExpressionLogicalAnd extends ExpressionLogical {
 
     @Override
     public ExpressionVariable evaluate(Form form) {
-        return this.left.evaluate(form).divide(this.right.evaluate(form));
+        ExpressionVariable leftEvaluated = this.left.evaluate(form);
+        ExpressionVariable rightEvaluated = this.right.evaluate(form);
+        return leftEvaluated.and(rightEvaluated);
     }
 }

@@ -2,9 +2,22 @@ package questions;
 
 public class Textbox extends Question{
 
-	public Textbox(String question) 
+private String answer;
+	
+	public Textbox(String question, String answerType, String answerName) 
 	{
-		super(question);
+		super(question, answerType, answerName);
+		answer = "";
+	}
+
+	public void givenAnswer(String answer) 
+	{
+		this.answer = answer;
+	}
+
+	public String answerValue()
+	{
+		return answer;
 	}
 
 }

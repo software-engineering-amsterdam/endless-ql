@@ -10,6 +10,8 @@ public class ExpressionArithmeticSubtract extends ExpressionArithmetic {
 
     @Override
     public ExpressionVariable evaluate(Form form) {
-        return this.left.evaluate(form).subtract(this.right.evaluate(form));
+        ExpressionVariable leftEvaluated = this.left.evaluate(form);
+        ExpressionVariable rightEvaluated = this.right.evaluate(form);
+        return leftEvaluated.subtract(rightEvaluated);
     }
 }

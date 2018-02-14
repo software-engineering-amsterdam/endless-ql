@@ -3,7 +3,7 @@ package ast.expression;
 import ast.literal.Literal;
 
 public class LiteralExpression extends Expression {
-	
+
 	private Literal<Object> obj;
 
 	public Literal<Object> getObj() {

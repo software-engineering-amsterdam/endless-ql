@@ -1,10 +1,12 @@
-package org.uva.sea.ql.parser.elements;
+package org.uva.sea.ql.parser.elements.expressions;
 
-public class Add extends Expr {
+import org.uva.sea.ql.parser.elements.Expr;
+
+public class Eq extends Expr {
     private Expr lhs;
     private Expr rhs;
 
-    public Add(Expr lhs, Expr rhs) {
+    public Eq(Expr lhs, Expr rhs) {
         this.lhs = lhs;
         this.rhs = rhs;
     }

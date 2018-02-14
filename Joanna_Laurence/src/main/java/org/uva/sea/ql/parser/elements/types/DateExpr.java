@@ -1,4 +1,6 @@
-package org.uva.sea.ql.parser.elements;
+package org.uva.sea.ql.parser.elements.types;
+
+import org.uva.sea.ql.parser.elements.Expr;
 
 public class DateExpr extends Expr {
     private int day;

@@ -1,4 +1,6 @@
-package org.uva.sea.ql.parser.elements;
+package org.uva.sea.ql.parser.elements.expressions;
+
+import org.uva.sea.ql.parser.elements.Expr;
 
 public class Neg extends Expr {
     private Expr value;

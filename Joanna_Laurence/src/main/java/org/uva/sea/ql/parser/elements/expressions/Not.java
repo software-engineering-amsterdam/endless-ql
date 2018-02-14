@@ -1,9 +1,11 @@
-package org.uva.sea.ql.parser.elements;
+package org.uva.sea.ql.parser.elements.expressions;
 
-public class Pos extends Expr {
+import org.uva.sea.ql.parser.elements.Expr;
+
+public class Not extends Expr {
     private Expr value;
 
-    public Pos(Expr value) {
+    public Not(Expr value) {
         this.value = value;
     }
 

@@ -1,10 +1,12 @@
-package org.uva.sea.ql.parser.elements;
+package org.uva.sea.ql.parser.elements.expressions;
 
-public class GEq extends Expr {
+import org.uva.sea.ql.parser.elements.Expr;
+
+public class Div extends Expr {
     private Expr lhs;
     private Expr rhs;
 
-    public GEq(Expr lhs, Expr rhs) {
+    public Div(Expr lhs, Expr rhs) {
         this.lhs = lhs;
         this.rhs = rhs;
     }

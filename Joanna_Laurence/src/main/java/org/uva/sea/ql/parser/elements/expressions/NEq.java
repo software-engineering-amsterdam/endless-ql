@@ -1,10 +1,12 @@
-package org.uva.sea.ql.parser.elements;
+package org.uva.sea.ql.parser.elements.expressions;
 
-public class Or extends Expr {
+import org.uva.sea.ql.parser.elements.Expr;
+
+public class NEq extends Expr {
     private Expr lhs;
     private Expr rhs;
 
-    public Or(Expr lhs, Expr rhs) {
+    public NEq(Expr lhs, Expr rhs) {
         this.lhs = lhs;
         this.rhs = rhs;
     }

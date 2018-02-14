@@ -3,24 +3,22 @@ package qlviz;
 import java.io.IOException;
 import java.util.List;
 
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 public class QlApplication {
 	public static void main(String[] args) {
-		CharStream cs = null;
-		String file = "C:\\projects\\endless-ql\\karra_takacs\\src\\main\\resources\\taxform.QL";
+		ICharStreamProvider charStreamProvider = new FileReader(args[0]);
+		CharStream charStream;
 		try {
 			// reads the file into a character stream
-			cs = new ANTLRFileStream(file);
+			charStream = charStreamProvider.getStream();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return;
 		}
 		// creates a lexer object
-		qlLexer lexer = new qlLexer(cs);
+		qlLexer lexer = new qlLexer(charStream);
 		// List<? extends Token> allTokens = lexer.getAllTokens();
 		// gets the tokens which match the lexer.
 		CommonTokenStream tokens = new CommonTokenStream(lexer);

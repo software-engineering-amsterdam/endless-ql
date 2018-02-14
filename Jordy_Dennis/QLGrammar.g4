@@ -1,11 +1,10 @@
-grammar QLGrammar;            
-form: FORM ID BRACKETL NEWLINE groupquestions BRACKETR;
+grammar QLGrammar;
+    
+form: FORM ID BRACKETL NEWLINE+ groupquestions NEWLINE* BRACKETR NEWLINE*;
 
-groupquestions: (question NEWLINE)+;
+groupquestions: (question NEWLINE)*;
 
 question: STRING_LITERAL NEWLINE ID DOT ID;
-
-
 
 
 FORM:   'form';

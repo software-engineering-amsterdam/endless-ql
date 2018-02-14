@@ -9,6 +9,7 @@ import qlviz.QLParser;
 import qlviz.QLVisitor;
 import qlviz.model.Form;
 import qlviz.model.Question;
+import qlviz.model.QuestionBlock;
 import qlviz.model.QuestionType;
 
 import java.util.LinkedList;
@@ -21,19 +22,19 @@ import java.util.stream.Collectors;
  */
 public class FormVisitor extends QLBaseVisitor<Form> {
 
-    private final QLVisitor<Question> questionVisitor;
+    private final QLVisitor<QuestionBlock> questionBlockVisitor;
 
-    public FormVisitor(QLVisitor<Question> questionVisitor) {
+    public FormVisitor(QLVisitor<QuestionBlock> questionBlockVisitor) {
 
-        this.questionVisitor = questionVisitor;
+        this.questionBlockVisitor = questionBlockVisitor;
     }
 
     @Override
     public Form visitForm(QLParser.FormContext ctx) {
         return new Form(
-          ctx.question()
+          ctx.questionBlock()
                   .stream()
-                  .map(this.questionVisitor::visitQuestion)
+                  .map(this.questionBlockVisitor::visitQuestionBlock)
                   .collect(Collectors.toList())
         );
     }

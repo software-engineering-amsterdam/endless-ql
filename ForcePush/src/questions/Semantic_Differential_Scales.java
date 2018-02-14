@@ -7,4 +7,5 @@ public class Semantic_Differential_Scales extends Question{
 		super(question, answerType, answerName);
 	}
 
+
 }

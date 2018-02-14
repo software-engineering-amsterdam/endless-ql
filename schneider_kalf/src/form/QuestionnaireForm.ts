@@ -12,4 +12,5 @@ export default class QuestionnaireForm implements Form {
     this.fields = fields;
     this.conditions = conditions;
   }
+
 }

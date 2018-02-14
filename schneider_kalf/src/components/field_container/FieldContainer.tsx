@@ -15,14 +15,6 @@ export const FieldContainer: React.SFC<FieldContainerProps> = (props) => {
   let field = null;
 
   // TODO: Replace instanceof checks with more elaborate approach
-  if (props.field.value instanceof StringWrapper) {
-    field = (
-        <TextField
-            value={props.field.value}
-            field={props.field}
-        />);
-  }
-
   if (props.field.value instanceof MoneyWrapper) {
     field = (
         <MoneyField

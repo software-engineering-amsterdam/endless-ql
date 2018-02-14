@@ -5,8 +5,7 @@ import generated.org.uva.ql.parser.QLParser;
 import main.org.uva.ql.ast.*;
 import main.org.uva.ql.ast.type.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ParseTreeVisitor extends QLBaseVisitor {
 
@@ -30,10 +29,27 @@ public class ParseTreeVisitor extends QLBaseVisitor {
 
     @Override
     public TreeNode visitIfStatement(QLParser.IfStatementContext ctx) {
-        System.out.println("Test");
+        List<Statement> body = new ArrayList<>();
+        for (QLParser.StatementContext item : ctx.statement()) {
+            body.add((Statement) visit(item));
+        }
 
-        visitChildren(ctx);
-        return new Conditional();
+        return new Conditional((Expression) visit(ctx.expression()), body);
+    }
+
+    @Override
+    public TreeNode visitIfElseStatement(QLParser.IfElseStatementContext ctx) {
+        List<Statement> ifBody = new ArrayList<>();
+        for (QLParser.StatementContext item : ctx.ifCase) {
+            ifBody.add((Statement) visit(item));
+        }
+
+        List<Statement> elseBody = new ArrayList<>();
+        for (QLParser.StatementContext item : ctx.elseCase) {
+            elseBody.add((Statement) visit(item));
+        }
+
+        return new Conditional((Expression) visit(ctx.expression()), ifBody, elseBody);
     }
 
     @Override

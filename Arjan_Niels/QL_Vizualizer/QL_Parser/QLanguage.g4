@@ -5,10 +5,10 @@
 */
 formDeclaration		: 'form' formName '{' (section)* '}';
 section				: (question | conditionalBlock);
-
-formName			: ID ;
-question			: TEXT NEWLINE;
+question			: TEXT ID ':' QTYPE;
 conditionalBlock	: 'if x { }';
+
+formName			: ID;
 
  /*
   * Lexer Rules
@@ -17,8 +17,7 @@ conditionalBlock	: 'if x { }';
 fragment LOWERCASE  : [a-z] ;
 fragment UPPERCASE  : [A-Z] ;
  
+QTYPE				: ('boolean' | 'money' | 'text');
 ID					: [a-zA-Z0-9]+ ;
-WORDS               : (ID)+ ;
 TEXT				: '"' .*? '"' ;
-WS					: [ \t\n\r]+ -> skip ;
-NEWLINE             : ('\r'? '\n' | '\r')+ ;
+WS					: [ \t\n\r]+ -> skip;

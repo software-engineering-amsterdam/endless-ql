@@ -3,23 +3,23 @@ package org.uva.sea.ql.parser.elements;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Statements {
+public class Statements extends Expr {
 
-    private List<Statement> statementList;
+    private List<Expr> statementList;
 
     public Statements() {
-        statementList = new ArrayList<Statement>();
+        statementList = new ArrayList<Expr>();
     }
 
-    public List<Statement> getStatementList() {
+    public List<Expr> getStatementList() {
         return statementList;
     }
 
-    public void setStatementList(List<Statement> statementList) {
+    public void setStatementList(List<Expr> statementList) {
         this.statementList = statementList;
     }
 
-    public void addStatment(Statement item) {
+    public void addStatement(Expr item) {
         this.statementList.add(item);
     }
 }

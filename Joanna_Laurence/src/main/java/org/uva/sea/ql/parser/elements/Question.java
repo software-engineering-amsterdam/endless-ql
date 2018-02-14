@@ -3,7 +3,7 @@ package org.uva.sea.ql.parser.elements;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.elements.types.Var;
 
-public class Question {
+public class Question extends Expr {
     private String label;
     private Var variable;
     private Type type;

@@ -3,14 +3,22 @@
 /*
  * Parser Rules
 */
-formDeclaration : 'form' formName '{' '}';
-formName : ID ;
-question : ID ;
+formDeclaration		: 'form' formName '{' (section)* '}';
+section				: (question | conditionalBlock);
 
+formName			: ID ;
+question			: TEXT NEWLINE;
+conditionalBlock	: 'if x { }';
 
  /*
   * Lexer Rules
  */
 
-ID : [a-zA-Z0-9]+ ;
-WS: [ \t\n\r]+ -> skip ;
+fragment LOWERCASE  : [a-z] ;
+fragment UPPERCASE  : [A-Z] ;
+ 
+ID					: [a-zA-Z0-9]+ ;
+WORDS               : (ID)+ ;
+TEXT				: '"' .*? '"' ;
+WS					: [ \t\n\r]+ -> skip ;
+NEWLINE             : ('\r'? '\n' | '\r')+ ;

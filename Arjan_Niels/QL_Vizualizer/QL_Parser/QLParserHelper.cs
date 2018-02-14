@@ -25,7 +25,8 @@ namespace QL_Parser
             Form form = (Form)visitor.VisitFormDeclaration(formContext);
 
             Console.WriteLine("Parsed a form with the name: {0}", form.Name);
-
+            foreach (Section section in form.Sections)
+                Console.WriteLine("ID: {0}", section.ID);
 
             Console.ReadLine();
         }

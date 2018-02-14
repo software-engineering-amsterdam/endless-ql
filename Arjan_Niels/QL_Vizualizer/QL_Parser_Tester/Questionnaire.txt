@@ -1,3 +1,4 @@
 ﻿form TestForm {
-
+"Did you sell a house in 2010?"
+"Did you buy a house in 2010?"
 }

@@ -8,7 +8,6 @@ statement: (question | conditional | assignment);
 question: STRING ID DOT types;
 assignment: STRING ID DOT types ASSIGN PARL expression PARR;
 
-
 expression: BOOL
             | INT
             | ID

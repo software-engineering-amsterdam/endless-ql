@@ -9,6 +9,7 @@ destinationFolder = "LexParser"
 import sys
 from antlr4 import *
 from parse_grammar import main_parser
+from GUI.setup_gui import Gui
 
 # Generate the lexer and parser for the grammar
 main_parser(grammarName, pythonVersion, destinationFolder)
@@ -18,19 +19,21 @@ from visitor import Visitor
 from LexParser.QLGrammarLexer import QLGrammarLexer
 from LexParser.QLGrammarParser import QLGrammarParser
 
-
 def main(argv):
 	input = FileStream(argv[1])
 	lexer = QLGrammarLexer(input)
 	stream = CommonTokenStream(lexer)
 	parser = QLGrammarParser(stream)
 	tree = parser.form()
-	# print(tree.toStringTree(recog=parser))
-	print(parser.question().toStringTree(recog=parser))
+
+	g = Gui()
+	g.create_form()
+	# g.create_header("Mijn Vragenlijst")
+	g.execute()
 
 	#pass tree to visitor
-	visitor = Visitor()
-	visitor.visit(tree)
+	# visitor = Visitor()
+	# visitor.visit(tree)
 	
 
 if __name__ == '__main__':

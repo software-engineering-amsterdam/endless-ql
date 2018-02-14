@@ -6,7 +6,6 @@ object Ast {
 
   sealed trait Statement
   case class Question(id: String, label: String, answerType: AnswerType) extends Statement
-
   case class Conditional() extends Statement
 
   sealed trait AnswerType

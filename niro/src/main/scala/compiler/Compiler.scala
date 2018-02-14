@@ -25,7 +25,7 @@ object Compiler {
 
   object StatementCompiler extends QLBaseVisitor[Statement] {
     override def visitQuestion(ctx: QLParser.QuestionContext): Statement = {
-      Question(ctx.Ident().getText, ctx.TEXT().getText, AnswerType.apply(ctx.answerType().getText))
+      Question(ctx.Ident().getText, ctx.TEXT().getText, AnswerType(ctx.answerType().getText))
     }
 
     override def visitConditional(ctx: QLParser.ConditionalContext): Statement = {

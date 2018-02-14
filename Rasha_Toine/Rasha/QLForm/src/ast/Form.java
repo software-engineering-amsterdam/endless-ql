@@ -1,23 +1,19 @@
 package ast;
 
-import java.util.List;
-import java.util.Set;
-
-import org.antlr.runtime.tree.TreeWizard.Visitor;
-
 import ast.AstNode;
+import ast.expression.Identifier;
 
 public class Form extends AstNode{
 
-	private final String id;
+	private final Identifier id;
 	private final Block block;
 
-	public Form(String id, Block block) {
+	public Form(Identifier id, Block block) {
 		this.id = id;
 		this.block = block;
 	}
 
-	public String getId() {
+	public Identifier getId() {
 		return id;
 	}
 
@@ -25,5 +21,4 @@ public class Form extends AstNode{
 		return this.block;
 	}
 	
-
 }

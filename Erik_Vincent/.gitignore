@@ -322,3 +322,5 @@ ASALocalRun/
 # MSBuild Binary and Structured Log
 *.binlog
 
+# Generated parser
+Assignment1/Assignment1/Parser/

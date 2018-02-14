@@ -1,0 +1,1 @@
+antlr4.bat -Dlanguage=CSharp -o ..\Parser\ QL.g4

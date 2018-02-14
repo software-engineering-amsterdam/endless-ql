@@ -1,7 +1,5 @@
 package com.chariotit.uva.sc.qdsl;
 
-
-
 public class FormsVisitor<T> extends GrammarBaseVisitor <T>{
 
 

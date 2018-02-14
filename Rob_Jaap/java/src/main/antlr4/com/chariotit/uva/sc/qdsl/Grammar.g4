@@ -4,7 +4,7 @@ grammar Grammar;
 /**
  * Parser rules
  */
-forms           : form+ ;
+forms           : form+ EOF ;
 form            : FORM label BRACKET_L elem+ BRACKET_R ;
 
 label           : WORD ;

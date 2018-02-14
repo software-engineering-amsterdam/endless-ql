@@ -8,6 +8,8 @@ object Ast {
   sealed trait Statement
   case class Question(id: String, label: String, answerType: AnswerType) extends Node with Statement
 
+  case class Conditional() extends Node with Statement
+
   sealed trait AnswerType
   object AnswerType extends Node {
     case object StringAnswerType extends AnswerType

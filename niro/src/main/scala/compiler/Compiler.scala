@@ -7,22 +7,30 @@ import org.antlr.v4.runtime.{CharStream, CommonTokenStream}
 
 import scala.collection.JavaConverters
 
-object Compiler extends QLBaseVisitor[Node] {
+object Compiler {
 
   def compile(formSource: CharStream): Node = {
     val parser = new QLParser(new CommonTokenStream(new QLLexer(formSource)))
     parser.removeErrorListeners()
     parser.addErrorListener(new ErrorListener)
-    visit(parser.form)
+    FormCompiler.visit(parser.form)
   }
 
-  override def visitForm(ctx: QLParser.FormContext): Node = {
-    val statements = JavaConverters.asScalaBufferConverter(ctx.statement).asScala
-    new QLForm(ctx.Ident().getText(), statements.map(stmt => visitStatement(stmt).asInstanceOf[Statement]))
+  object FormCompiler extends QLBaseVisitor[QLForm] {
+    override def visitForm(ctx: QLParser.FormContext): QLForm = {
+      val statements = JavaConverters.asScalaBufferConverter(ctx.statement).asScala
+      QLForm(ctx.Ident().getText(), statements.map(stmt => StatementCompiler.visit(stmt)))
+    }
   }
 
-  override def visitQuestion(ctx: QLParser.QuestionContext): Node = {
-    new Question(ctx.Ident().getText, ctx.TEXT().getText, AnswerType.apply(ctx.answerType().getText))
+  object StatementCompiler extends QLBaseVisitor[Statement] {
+    override def visitQuestion(ctx: QLParser.QuestionContext): Statement = {
+      Question(ctx.Ident().getText, ctx.TEXT().getText, AnswerType.apply(ctx.answerType().getText))
+    }
+
+    override def visitConditional(ctx: QLParser.ConditionalContext): Statement = {
+      Conditional()
+    }
   }
 
 }

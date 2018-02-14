@@ -1,7 +1,11 @@
-package org.uva.jomi.ql.ast;
+package org.uva.jomi.ql.ast.expressions;
+
+import org.uva.jomi.ql.ast.QLToken;
+import org.uva.jomi.ql.ast.QLType;
+import org.uva.jomi.ql.ast.expressions.Expr.Visitor;
 
 public class IndentifierExpr extends Expr {
-	final QLToken token;
+	public final QLToken token;
 	private boolean undefined = true;
 
 	public IndentifierExpr(QLToken token) {

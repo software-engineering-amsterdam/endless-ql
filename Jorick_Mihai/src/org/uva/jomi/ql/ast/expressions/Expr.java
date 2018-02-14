@@ -1,4 +1,8 @@
-package org.uva.jomi.ql.ast;
+package org.uva.jomi.ql.ast.expressions;
+
+import org.uva.jomi.ql.ast.AstNode;
+import org.uva.jomi.ql.ast.QLType;
+import org.uva.jomi.ql.ast.statements.UnaryExpr;
 
 abstract public class Expr extends AstNode {
 	public interface Visitor<T> {

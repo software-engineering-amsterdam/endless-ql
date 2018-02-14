@@ -1,8 +1,10 @@
-package org.uva.jomi.ql.ast;
+package org.uva.jomi.ql.ast.statements;
+
+import org.uva.jomi.ql.ast.expressions.Expr;
 
 public class IfStmt extends Stmt {
-	final Expr expression;
-	final BlockStmt blockStmt;
+	public final Expr expression;
+	public final BlockStmt blockStmt;
 	
 	public IfStmt(Expr expression, BlockStmt blockStmt) {
 		this.expression = expression;

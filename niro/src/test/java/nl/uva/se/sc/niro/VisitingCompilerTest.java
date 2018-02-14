@@ -3,7 +3,6 @@ package nl.uva.se.sc.niro;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,7 +24,16 @@ public class VisitingCompilerTest {
 		}
 	}
 
-	@Test
+    @Test
+    public void conditionalIfNotQuestionaireTest() throws IOException {
+        VisitingCompiler compiler = new VisitingCompiler();
+        compiler.compileScriptFile(toCharStream("/not-conditional-if.ql"));
+        if (ErrorListener.errorReported) {
+            fail("Somehting went wrong, see the console for more information!");
+        }
+    }
+
+    @Test
 	public void conditionalIfQuestionaireTest() throws IOException {
 		VisitingCompiler compiler = new VisitingCompiler();
 		compiler.compileScriptFile(toCharStream("/simple-conditional-if.ql"));
@@ -70,7 +78,6 @@ public class VisitingCompilerTest {
         }
     }
 
-    @Ignore
 	@Test
 	public void nestedExpressionQuestionaireTest() throws IOException {
 		VisitingCompiler compiler = new VisitingCompiler();

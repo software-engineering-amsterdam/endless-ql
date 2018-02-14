@@ -5,11 +5,11 @@ IF          : 'if' ;
 ELSE        : 'else' ;
 ASSIGN      : '=' ;
 
-L_CURLY     : '{' ;
-R_CURLY     : '}' ;
+CURLY_L     : '{' ;
+CURLY_R     : '}' ;
 
-L_PEREN     : '(' ;
-R_PEREN     : ')' ;
+BRACK_L     : '(' ;
+BRACK_R     : ')' ;
 
 D_COLON     : ':' ;
 
@@ -27,7 +27,7 @@ MUL         : '*' ;
 
 OR          : '||' ;
 AND         : '&&' ;
-NOT         : '!' ;
+NEG         : '!' ;
 
 BOOLEAN     : 'boolean' ;
 INTEGER     : 'integer' ;
@@ -45,22 +45,23 @@ COMMENT     : '//' .*? '\n' -> skip ;
 
 bool        : FALSE | TRUE ;
 
-unaryOp     : SUB | ADD | NOT;
+unaryOp     : SUB | NEG;
 compOp      : LT | LTE | GTE | GT | NE | EQ ;
-logicalOp   : OR | AND | NOT ;
+logicalOp   : OR | AND | NEG ;
 arithmOp    : SUB | ADD | DIV | MUL ;
 
 expression  : IntValue                                 # IntConst
+            | Ident                                    # Var
             | bool                                     # BoolConst
-            | unaryOp expression                       # UnaryExpr
             | lhs=expression arithmOp rhs=expression   # ArithmExpr
             | lhs=expression compOp rhs=expression     # CompExpr
             | lhs=expression logicalOp rhs=expression  # LogicalExpr
-            | Ident                                    # Var ;
+            | unaryOp expression                       # UnaryExpr
+            | BRACK_L expression BRACK_R               # GroupExpr ;
 
-form        : FORM Ident L_CURLY statement+ R_CURLY EOF ;
+form        : FORM Ident CURLY_L statement+ CURLY_R EOF ;
 statement   : question | conditional ;
-question    : Ident D_COLON TEXT answerType ( ASSIGN L_PEREN expression R_PEREN )?;
+question    : Ident D_COLON TEXT answerType ( ASSIGN BRACK_L expression BRACK_R )?;
 answerType  : BOOLEAN | INTEGER | STRING ;
 
-conditional : IF L_PEREN ( condition=expression ) R_PEREN L_CURLY ( thenBlock+=question+ ) R_CURLY ( ELSE L_CURLY ( elseBlock+=question+ ) R_CURLY )? ;
+conditional : IF BRACK_L ( condition=expression ) BRACK_R CURLY_L ( thenBlock+=question+ ) CURLY_R ( ELSE CURLY_L ( elseBlock+=question+ ) CURLY_R )? ;

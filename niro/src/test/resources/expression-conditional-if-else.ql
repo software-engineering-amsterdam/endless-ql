@@ -4,5 +4,7 @@ form QonditionQuestions {
 	middleName: "Do you have a middle name?" boolean
 	if (lastName != firstName && a > -10) {
 		lastName: "What is your last name?" string
-	} 
+	} else {
+    	middleName: "Do you have a middle name?" boolean
+	}
 }

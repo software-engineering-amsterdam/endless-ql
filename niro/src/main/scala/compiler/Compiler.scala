@@ -1,5 +1,6 @@
 package compiler
 
+import model.Ast.Expression.Ident
 import model.Ast._
 import nl.uva.se.sc.niro.ErrorListener
 import ql.{QLBaseVisitor, QLLexer, QLParser}
@@ -19,18 +20,23 @@ object Compiler {
   object FormCompiler extends QLBaseVisitor[QLForm] {
     override def visitForm(ctx: QLParser.FormContext): QLForm = {
       val statements = JavaConverters.asScalaBufferConverter(ctx.statement).asScala
-      QLForm(ctx.Ident().getText, statements.map(stmt => StatementCompiler.visit(stmt)))
+      QLForm(ctx.Ident().getText, statements.map(StatementCompiler.visit))
     }
   }
 
   object StatementCompiler extends QLBaseVisitor[Statement] {
     override def visitQuestion(ctx: QLParser.QuestionContext): Statement = {
-      Question(ctx.Ident().getText, ctx.TEXT().getText, AnswerType(ctx.answerType().getText))
+      Question(Ident(ctx.Ident().getText), ctx.TEXT().getText, AnswerType(ctx.answerType().getText))
     }
 
     override def visitConditional(ctx: QLParser.ConditionalContext): Statement = {
-      Conditional()
+      val thenStatements = JavaConverters.asScalaBufferConverter(ctx.thenBlock).asScala
+      val elseStatements = JavaConverters.asScalaBufferConverter(ctx.elseBlock).asScala
+      Conditional(ExpressionCompiler.visit(ctx.condition), thenStatements.map(StatementCompiler.visit), elseStatements.map(StatementCompiler.visit))
     }
+  }
+
+  object ExpressionCompiler extends QLBaseVisitor[Expression] {
   }
 
 }

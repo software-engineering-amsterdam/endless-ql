@@ -1,7 +1,8 @@
-form QonditionQuestions {
+form ConditionQuestions {
 	firstName: "What is your first name?" string
-	if (42) {
+	if (true) {
 		middleName: "What is your middle name?" string
+	} else {
 		lastName: "What is your last name?" string
-	} 
+	}
 }

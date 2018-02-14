@@ -1,6 +1,5 @@
 /** Grammar for questionnaire form */
-grammar formQL;
-options {backtrack=true; memoize=true; output=AST; ASTLabelType=CommonTree;}
+grammar FormQL;
 
 @parser::header
 {
@@ -24,7 +23,7 @@ content : CURLY_BRACE_L (ifStatement* | question+) CURLY_BRACE_R; // content
 
 ifStatement : IF BRACE_L expr BRACE_R content; //statement
 
-question : IDENTIFIER COLON STR; //question (TODO: add the answer type)
+question : IDENTIFIER COLON STR type; //question (TODO: add the answer type)
 
 expr : type
      | NOT expr // not

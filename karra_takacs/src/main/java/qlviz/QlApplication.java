@@ -1,11 +1,8 @@
 package qlviz;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import qlviz.*;
 import qlviz.interpreter.ITreeToFormConverter;
 import qlviz.interpreter.TreeToFormConverter;
 import qlviz.model.Form;
@@ -25,9 +22,6 @@ public class QlApplication {
 
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
-
-		ITreeToFormConverter modelConverter = new TreeToFormConverter();
-		Form model = modelConverter.Convert(parser);
 	}
 
 }

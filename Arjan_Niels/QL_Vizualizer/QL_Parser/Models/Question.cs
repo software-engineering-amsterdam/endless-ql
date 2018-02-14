@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QL_Parser
+namespace QL_Parser.Models
 {
-    public class Class1
+    public class Question
     {
+        public string Text { get; set; }
     }
 }

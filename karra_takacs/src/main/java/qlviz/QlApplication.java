@@ -6,6 +6,9 @@ import java.util.List;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import qlviz.*;
+import qlviz.interpreter.ITreeToFormConverter;
+import qlviz.interpreter.TreeToFormConverter;
+import qlviz.model.Form;
 
 public class QlApplication {
 	public static void main(String[] args) {
@@ -23,11 +26,8 @@ public class QlApplication {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
 
-
-		ParseTreeWalker TreeWalker = new ParseTreeWalker();
-		TaxFormBaseListener listener = new TaxFormBaseListener();
-		TreeWalker.walk(listener, parser.questionName());
-
+		ITreeToFormConverter modelConverter = new TreeToFormConverter();
+		Form model = modelConverter.Convert(parser);
 	}
 
 }

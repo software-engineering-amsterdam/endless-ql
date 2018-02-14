@@ -6,7 +6,8 @@
 
 "use strict";
 
-/* tslint:disable */
+/* tslint:disable */ 
+ import { Form, Question, QuestionType, If } from '../app/domain/ast'
 export class SyntaxError extends Error {
   public static buildMessage(expected: string, found: string) {
     const DESCRIBE_EXPECTATION_FNS = {
@@ -144,10 +145,7 @@ function peg$parse(input, options) {
   const peg$c4 = "}";
   const peg$c5 = peg$literalExpectation("}", false);
   const peg$c6 = function(name, statements) {
-                    return {
-                      name: name,
-                      statements: statements
-                    }
+                    return new Form(name, statements);
                   };
   const peg$c7 = "if";
   const peg$c8 = peg$literalExpectation("if", false);
@@ -156,11 +154,7 @@ function peg$parse(input, options) {
   const peg$c11 = ")";
   const peg$c12 = peg$literalExpectation(")", false);
   const peg$c13 = function(condition, statements) {
-                      return {
-                        statementType: "if",
-                        condition: condition,
-                        statements: statements
-                      };
+                      return new If(condition, statements);
                     };
   const peg$c14 = peg$otherExpectation("question");
   const peg$c15 = ":";
@@ -168,14 +162,9 @@ function peg$parse(input, options) {
   const peg$c17 = "\"";
   const peg$c18 = peg$literalExpectation("\"", false);
   const peg$c19 = function(name, label, type) {
-                      return {
-                        statementType: "question",
-                        name: name,
-                        label: label,
-                        type: type
-                      }
+                      return new Question(name, label, type);
                     };
-  const peg$c20 = function() {return text()};
+  const peg$c20 = function() {return text();};
   const peg$c21 = peg$otherExpectation("whitespace");
   const peg$c22 = /^[ \t\n\r]/;
   const peg$c23 = peg$classExpectation([" ", "\t", "\n", "\r"], false, false);
@@ -186,16 +175,22 @@ function peg$parse(input, options) {
   const peg$c28 = peg$classExpectation([["a", "z"], ["A", "Z"], ["0", "9"], ":", "?", "\\", "/", ".", ",", ";", "!"], false, false);
   const peg$c29 = "boolean";
   const peg$c30 = peg$literalExpectation("boolean", false);
-  const peg$c31 = "string";
-  const peg$c32 = peg$literalExpectation("string", false);
-  const peg$c33 = "integer";
-  const peg$c34 = peg$literalExpectation("integer", false);
-  const peg$c35 = "date";
-  const peg$c36 = peg$literalExpectation("date", false);
-  const peg$c37 = "decimal";
-  const peg$c38 = peg$literalExpectation("decimal", false);
-  const peg$c39 = "money";
-  const peg$c40 = peg$literalExpectation("money", false);
+  const peg$c31 = function() { return QuestionType.BOOLEAN; };
+  const peg$c32 = "string";
+  const peg$c33 = peg$literalExpectation("string", false);
+  const peg$c34 = function() { return QuestionType.STRING; };
+  const peg$c35 = "integer";
+  const peg$c36 = peg$literalExpectation("integer", false);
+  const peg$c37 = function() { return QuestionType.INT; };
+  const peg$c38 = "date";
+  const peg$c39 = peg$literalExpectation("date", false);
+  const peg$c40 = function() { return QuestionType.DATE; };
+  const peg$c41 = "decimal";
+  const peg$c42 = peg$literalExpectation("decimal", false);
+  const peg$c43 = function() { return QuestionType.DECIMAL; };
+  const peg$c44 = "money";
+  const peg$c45 = peg$literalExpectation("money", false);
+  const peg$c46 = function() { return QuestionType.MONEY; };
 
   let peg$currPos = 0;
   let peg$savedPos = 0;
@@ -344,7 +339,7 @@ function peg$parse(input, options) {
   function peg$parseform() {
     let s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10;
 
-    const key = peg$currPos * 9 + 0;
+    const key = peg$currPos * 15 + 0;
     const cached = peg$resultsCache[key];
 
     if (cached) {
@@ -449,7 +444,7 @@ function peg$parse(input, options) {
   function peg$parsestatement() {
     let s0;
 
-    const key = peg$currPos * 9 + 1;
+    const key = peg$currPos * 15 + 1;
     const cached = peg$resultsCache[key];
 
     if (cached) {
@@ -471,7 +466,7 @@ function peg$parse(input, options) {
   function peg$parseifStatement() {
     let s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15;
 
-    const key = peg$currPos * 9 + 2;
+    const key = peg$currPos * 15 + 2;
     const cached = peg$resultsCache[key];
 
     if (cached) {
@@ -618,7 +613,7 @@ function peg$parse(input, options) {
   function peg$parseq() {
     let s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11;
 
-    const key = peg$currPos * 9 + 3;
+    const key = peg$currPos * 15 + 3;
     const cached = peg$resultsCache[key];
 
     if (cached) {
@@ -730,7 +725,7 @@ function peg$parse(input, options) {
   function peg$parsetext() {
     let s0, s1, s2, s3, s4, s5;
 
-    const key = peg$currPos * 9 + 4;
+    const key = peg$currPos * 15 + 4;
     const cached = peg$resultsCache[key];
 
     if (cached) {
@@ -801,10 +796,44 @@ function peg$parse(input, options) {
     return s0;
   }
 
+  function peg$parsetype() {
+    let s0;
+
+    const key = peg$currPos * 15 + 5;
+    const cached = peg$resultsCache[key];
+
+    if (cached) {
+      peg$currPos = cached.nextPos;
+
+      return cached.result;
+    }
+
+    s0 = peg$parsebooleanType();
+    if (s0 === peg$FAILED) {
+      s0 = peg$parsestringType();
+      if (s0 === peg$FAILED) {
+        s0 = peg$parseintegerType();
+        if (s0 === peg$FAILED) {
+          s0 = peg$parsedateType();
+          if (s0 === peg$FAILED) {
+            s0 = peg$parsedecimalType();
+            if (s0 === peg$FAILED) {
+              s0 = peg$parsemoneyType();
+            }
+          }
+        }
+      }
+    }
+
+    peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
+
+    return s0;
+  }
+
   function peg$parsews() {
     let s0, s1, s2;
 
-    const key = peg$currPos * 9 + 5;
+    const key = peg$currPos * 15 + 6;
     const cached = peg$resultsCache[key];
 
     if (cached) {
@@ -852,7 +881,7 @@ function peg$parse(input, options) {
   function peg$parseidentifier() {
     let s0, s1, s2;
 
-    const key = peg$currPos * 9 + 6;
+    const key = peg$currPos * 15 + 7;
     const cached = peg$resultsCache[key];
 
     if (cached) {
@@ -898,7 +927,7 @@ function peg$parse(input, options) {
   function peg$parseword() {
     let s0, s1, s2;
 
-    const key = peg$currPos * 9 + 7;
+    const key = peg$currPos * 15 + 8;
     const cached = peg$resultsCache[key];
 
     if (cached) {
@@ -941,10 +970,10 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsetype() {
-    let s0;
+  function peg$parsebooleanType() {
+    let s0, s1;
 
-    const key = peg$currPos * 9 + 8;
+    const key = peg$currPos * 15 + 9;
     const cached = peg$resultsCache[key];
 
     if (cached) {
@@ -953,58 +982,174 @@ function peg$parse(input, options) {
       return cached.result;
     }
 
+    s0 = peg$currPos;
     if (input.substr(peg$currPos, 7) === peg$c29) {
-      s0 = peg$c29;
+      s1 = peg$c29;
       peg$currPos += 7;
     } else {
-      s0 = peg$FAILED;
+      s1 = peg$FAILED;
       if (peg$silentFails === 0) { peg$fail(peg$c30); }
     }
-    if (s0 === peg$FAILED) {
-      if (input.substr(peg$currPos, 6) === peg$c31) {
-        s0 = peg$c31;
-        peg$currPos += 6;
-      } else {
-        s0 = peg$FAILED;
-        if (peg$silentFails === 0) { peg$fail(peg$c32); }
-      }
-      if (s0 === peg$FAILED) {
-        if (input.substr(peg$currPos, 7) === peg$c33) {
-          s0 = peg$c33;
-          peg$currPos += 7;
-        } else {
-          s0 = peg$FAILED;
-          if (peg$silentFails === 0) { peg$fail(peg$c34); }
-        }
-        if (s0 === peg$FAILED) {
-          if (input.substr(peg$currPos, 4) === peg$c35) {
-            s0 = peg$c35;
-            peg$currPos += 4;
-          } else {
-            s0 = peg$FAILED;
-            if (peg$silentFails === 0) { peg$fail(peg$c36); }
-          }
-          if (s0 === peg$FAILED) {
-            if (input.substr(peg$currPos, 7) === peg$c37) {
-              s0 = peg$c37;
-              peg$currPos += 7;
-            } else {
-              s0 = peg$FAILED;
-              if (peg$silentFails === 0) { peg$fail(peg$c38); }
-            }
-            if (s0 === peg$FAILED) {
-              if (input.substr(peg$currPos, 5) === peg$c39) {
-                s0 = peg$c39;
-                peg$currPos += 5;
-              } else {
-                s0 = peg$FAILED;
-                if (peg$silentFails === 0) { peg$fail(peg$c40); }
-              }
-            }
-          }
-        }
-      }
+    if (s1 !== peg$FAILED) {
+      peg$savedPos = s0;
+      s1 = peg$c31();
     }
+    s0 = s1;
+
+    peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
+
+    return s0;
+  }
+
+  function peg$parsestringType() {
+    let s0, s1;
+
+    const key = peg$currPos * 15 + 10;
+    const cached = peg$resultsCache[key];
+
+    if (cached) {
+      peg$currPos = cached.nextPos;
+
+      return cached.result;
+    }
+
+    s0 = peg$currPos;
+    if (input.substr(peg$currPos, 6) === peg$c32) {
+      s1 = peg$c32;
+      peg$currPos += 6;
+    } else {
+      s1 = peg$FAILED;
+      if (peg$silentFails === 0) { peg$fail(peg$c33); }
+    }
+    if (s1 !== peg$FAILED) {
+      peg$savedPos = s0;
+      s1 = peg$c34();
+    }
+    s0 = s1;
+
+    peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
+
+    return s0;
+  }
+
+  function peg$parseintegerType() {
+    let s0, s1;
+
+    const key = peg$currPos * 15 + 11;
+    const cached = peg$resultsCache[key];
+
+    if (cached) {
+      peg$currPos = cached.nextPos;
+
+      return cached.result;
+    }
+
+    s0 = peg$currPos;
+    if (input.substr(peg$currPos, 7) === peg$c35) {
+      s1 = peg$c35;
+      peg$currPos += 7;
+    } else {
+      s1 = peg$FAILED;
+      if (peg$silentFails === 0) { peg$fail(peg$c36); }
+    }
+    if (s1 !== peg$FAILED) {
+      peg$savedPos = s0;
+      s1 = peg$c37();
+    }
+    s0 = s1;
+
+    peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
+
+    return s0;
+  }
+
+  function peg$parsedateType() {
+    let s0, s1;
+
+    const key = peg$currPos * 15 + 12;
+    const cached = peg$resultsCache[key];
+
+    if (cached) {
+      peg$currPos = cached.nextPos;
+
+      return cached.result;
+    }
+
+    s0 = peg$currPos;
+    if (input.substr(peg$currPos, 4) === peg$c38) {
+      s1 = peg$c38;
+      peg$currPos += 4;
+    } else {
+      s1 = peg$FAILED;
+      if (peg$silentFails === 0) { peg$fail(peg$c39); }
+    }
+    if (s1 !== peg$FAILED) {
+      peg$savedPos = s0;
+      s1 = peg$c40();
+    }
+    s0 = s1;
+
+    peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
+
+    return s0;
+  }
+
+  function peg$parsedecimalType() {
+    let s0, s1;
+
+    const key = peg$currPos * 15 + 13;
+    const cached = peg$resultsCache[key];
+
+    if (cached) {
+      peg$currPos = cached.nextPos;
+
+      return cached.result;
+    }
+
+    s0 = peg$currPos;
+    if (input.substr(peg$currPos, 7) === peg$c41) {
+      s1 = peg$c41;
+      peg$currPos += 7;
+    } else {
+      s1 = peg$FAILED;
+      if (peg$silentFails === 0) { peg$fail(peg$c42); }
+    }
+    if (s1 !== peg$FAILED) {
+      peg$savedPos = s0;
+      s1 = peg$c43();
+    }
+    s0 = s1;
+
+    peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
+
+    return s0;
+  }
+
+  function peg$parsemoneyType() {
+    let s0, s1;
+
+    const key = peg$currPos * 15 + 14;
+    const cached = peg$resultsCache[key];
+
+    if (cached) {
+      peg$currPos = cached.nextPos;
+
+      return cached.result;
+    }
+
+    s0 = peg$currPos;
+    if (input.substr(peg$currPos, 5) === peg$c44) {
+      s1 = peg$c44;
+      peg$currPos += 5;
+    } else {
+      s1 = peg$FAILED;
+      if (peg$silentFails === 0) { peg$fail(peg$c45); }
+    }
+    if (s1 !== peg$FAILED) {
+      peg$savedPos = s0;
+      s1 = peg$c46();
+    }
+    s0 = s1;
 
     peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
 

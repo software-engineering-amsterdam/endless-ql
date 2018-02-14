@@ -2,6 +2,9 @@
 
 ### Eclipse ###
 
+# Recursively allow our files
+!/Joanna_Laurence/**
+
 .metadata
 bin/
 tmp/

@@ -1,14 +1,13 @@
 package main.org.uva.ql.ast;
 
+import java.util.List;
 
 public class Form extends TreeNode {
 
-    public Form(String name) {
+    private List<Statement> statements;
 
+    public Form(List<Statement> statements) {
+        this.statements = statements;
     }
 
-    @Override
-    public void Treenode() {
-        System.out.println("test");
-    }
 }

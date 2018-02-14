@@ -23,7 +23,7 @@
 		<scalatic_2_12.version>3.0.5</scalatic_2_12.version>
 		<scalatest.maven.plugin.version>1.0</scalatest.maven.plugin.version>
 
-		<antlr4.version>4.7</antlr4.version>
+		<antlr4.version>4.7.1</antlr4.version>
 		<junit.version>4.12</junit.version>
 	</properties>
 

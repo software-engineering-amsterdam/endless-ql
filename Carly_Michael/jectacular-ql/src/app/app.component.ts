@@ -2,8 +2,8 @@ import { Component} from '@angular/core';
 import {parse} from '../parser/ql-parser';
 import {QuestionBase} from './domain/question-base';
 import {FormGroup} from '@angular/forms';
-import {QuestionService} from './services/question.service';
 import {QuestionControlService} from './services/question-control.service';
+import {Form} from './domain/ast';
 
 @Component({
   selector: 'app-root',
@@ -17,15 +17,15 @@ export class AppComponent {
   formName: string;
   errorMessage: string;
 
-  constructor (private questionService: QuestionService,
-               private questionControlService: QuestionControlService) {
+  constructor (private questionControlService: QuestionControlService) {
 
   }
 
   parseInput() {
     try {
-      let ast = parse(this.input, {});
-      this.questions = this.questionService.toFormQuestions(ast.statements);
+      const ast = parse(this.input, {});
+      console.log(ast instanceof Form, ast);
+      this.questions = ast.toFormQuestion();
       this.form = this.questionControlService.toFormGroup(this.questions);
       this.formName = ast.name;
     } catch (e) {

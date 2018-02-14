@@ -76,7 +76,7 @@ namespace QL_Vizualizer.Factories
             // Create textbox for integerss
             TextBox result = new TextBox();
             result.TextChanged += delegate (object sender, EventArgs e) { ChangedIntWidget(widget, result); };
-            if (!widget.Active)
+            if (!widget.Editable)
                 result.Enabled = false;
             return result;
         }

@@ -2,9 +2,9 @@ package questions;
 
 public class Multiple_Answer extends Question{
 
-	public Multiple_Answer(String question) 
+	public Multiple_Answer(String question, String answerType, String answerName) 
 	{
-		super(question);
+		super(question, answerType, answerName);
 	}
 
 }

@@ -3,6 +3,10 @@
  */
 package org.uva.sc.pc.ql.validation
 
+import org.eclipse.xtext.validation.Check
+import org.uva.sc.pc.ql.qLang.BlockBody
+import org.uva.sc.pc.ql.qLang.QLangPackage
+
 /**
  * This class contains custom validation rules. 
  * 
@@ -10,15 +14,15 @@ package org.uva.sc.pc.ql.validation
  */
 class QLangValidator extends AbstractQLangValidator {
 
-	public static val INVALID_NAME = 'invalidName'
-	public static val INVALID_TYPES = 'invalidName'
+	public static val BLOCK_MISSING_QUESTION = 'blockMissingQuestion'
+	public static val BLOCK_MISSING_QUESTION_MESSAGE = 'At least one question is required!'
 
-//	@Check
-//	def checkGreetingStartsWithCapital(Form form) {
-//		if (!Character.isUpperCase(form.name.charAt(0))) {
-//			warning('Name should start with a capital', 
-//					QLangPackage.Literals.FORM__NAME,
-//					INVALID_NAME)
-//		}
-//	}
+	@Check
+	def checkBlockHasQuestion(BlockBody blockBody){
+		
+		if(blockBody.questions.isEmpty){
+			error(BLOCK_MISSING_QUESTION_MESSAGE, QLangPackage.Literals.BLOCK_BODY__QUESTIONS, BLOCK_MISSING_QUESTION)
+		}
+		
+	} 
 }

@@ -18,7 +18,11 @@ namespace QL_Vizualizer
         public Visualizer()
         {
             InitializeComponent();
+
+            // Initialize widget controller
             WidgetController.Initialize(new WidgetVisualizeController<Control>(new WidgetDisplayControllerWindows(10, panel1)));
+
+            // Create widgets
             WidgetController.Instance.SetWidgets(new List<QLWidget>()
             {
                 new QLWidgetInt("a", "wat is 10 + 1?", new Expression<bool>(() => {return true; }), null),
@@ -26,8 +30,10 @@ namespace QL_Vizualizer
                 new QLWidgetInt("c", "som:", new Expression<bool>(() => {return true; }), new Expression<int>(() => {
                     return (WidgetController.Instance.GetWidget("a") as QLWidgetInt).AnswerValue + (WidgetController.Instance.GetWidget("b") as QLWidgetInt).AnswerValue;
                 }, "a", "b"))
+
             });
 
+            // Display widgets
             WidgetController.Instance.Show();
         }
     }

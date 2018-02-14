@@ -1,9 +1,9 @@
-from pyql.ast import code_location
+from pyql.ast.code_location import CodeLocation
 
 
 class ASTNode:
 
-    def __init__(self, loc: code_location):
+    def __init__(self, loc: CodeLocation):
         self.location = loc
 
     def get_code_location(self):

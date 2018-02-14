@@ -1,13 +1,14 @@
 package nl.uva.se.sc.niro;
 
-import static org.junit.Assert.fail;
-
-import java.io.IOException;
-
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+
+import java.io.IOException;
+
+import static org.junit.Assert.fail;
 
 public class VisitingCompilerTest {
 	@Before
@@ -46,6 +47,16 @@ public class VisitingCompilerTest {
 	public void expressionConditionalQuestionaireTest() throws IOException {
 		VisitingCompiler compiler = new VisitingCompiler();
 		compiler.compileScriptFile(toCharStream("/expression-conditional.ql"));
+		if (ErrorListener.errorReported) {
+			fail("Somehting went wrong, see the console for more information!");
+		}
+	}
+
+	@Ignore
+	@Test
+	public void nesteExpressionQuestionaireTest() throws IOException {
+		VisitingCompiler compiler = new VisitingCompiler();
+		compiler.compileScriptFile(toCharStream("/nested-expression.ql"));
 		if (ErrorListener.errorReported) {
 			fail("Somehting went wrong, see the console for more information!");
 		}

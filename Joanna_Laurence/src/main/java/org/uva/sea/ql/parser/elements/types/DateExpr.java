@@ -1,8 +1,8 @@
 package org.uva.sea.ql.parser.elements.types;
 
-import org.uva.sea.ql.parser.elements.Expr;
+import org.uva.sea.ql.parser.elements.ASTNode;
 
-public class DateExpr extends Expr {
+public class DateExpr extends ASTNode {
     private int day;
     private int month;
     private int year;

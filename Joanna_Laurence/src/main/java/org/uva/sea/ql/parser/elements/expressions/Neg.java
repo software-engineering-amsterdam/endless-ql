@@ -1,19 +1,19 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
-import org.uva.sea.ql.parser.elements.Expr;
+import org.uva.sea.ql.parser.elements.ASTNode;
 
-public class Neg extends Expr {
-    private Expr value;
+public class Neg extends ASTNode {
+    private ASTNode value;
 
-    public Neg(Expr value) {
+    public Neg(ASTNode value) {
         this.value = value;
     }
 
-    public Expr getValue() {
+    public ASTNode getValue() {
         return value;
     }
 
-    public void setValue(Expr value) {
+    public void setValue(ASTNode value) {
         this.value = value;
     }
 }

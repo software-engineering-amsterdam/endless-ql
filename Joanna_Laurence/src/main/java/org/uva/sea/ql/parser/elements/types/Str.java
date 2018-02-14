@@ -1,8 +1,8 @@
 package org.uva.sea.ql.parser.elements.types;
 
-import org.uva.sea.ql.parser.elements.Expr;
+import org.uva.sea.ql.parser.elements.ASTNode;
 
-public class Str extends Expr {
+public class Str extends ASTNode {
     private String value;
 
     public Str(String value) {

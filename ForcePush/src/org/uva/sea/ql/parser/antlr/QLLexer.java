@@ -1,5 +1,5 @@
 // $ANTLR 3.4 /Users/tvdstorm/SEA/courses/sc/2012-2013/repos/sea-of-ql/prototypes/QLJava/src/org/uva/sea/ql/parser/antlr/QL.g 2013-01-29 13:31:30
-
+// /Users/georg/Documents/GitHub/endless-ql/ForcePush/src/org/uva/sea/ql/parser/antlr/QL.g"
 package org.uva.sea.ql.parser.antlr;
 
 
@@ -56,7 +56,7 @@ public class QLLexer extends Lexer {
     public QLLexer(CharStream input, RecognizerSharedState state) {
         super(input,state);
     }
-    public String getGrammarFileName() { return "/Users/tvdstorm/SEA/courses/sc/2012-2013/repos/sea-of-ql/prototypes/QLJava/src/org/uva/sea/ql/parser/antlr/QL.g"; }
+    public String getGrammarFileName() { return "/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/org/uva/sea/ql/parser/antlr/QL.g"; }
 
     // $ANTLR start "T__9"
     public final void mT__9() throws RecognitionException {

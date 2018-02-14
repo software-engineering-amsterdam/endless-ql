@@ -1,29 +1,29 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
-import org.uva.sea.ql.parser.elements.Expr;
+import org.uva.sea.ql.parser.elements.ASTNode;
 
-public class LThan extends Expr {
-    private Expr lhs;
-    private Expr rhs;
+public class LThan extends ASTNode {
+    private ASTNode lhs;
+    private ASTNode rhs;
 
-    public LThan(Expr lhs, Expr rhs) {
+    public LThan(ASTNode lhs, ASTNode rhs) {
         this.lhs = lhs;
         this.rhs = rhs;
     }
 
-    public Expr getLhs() {
+    public ASTNode getLhs() {
         return lhs;
     }
 
-    public void setLhs(Expr lhs) {
+    public void setLhs(ASTNode lhs) {
         this.lhs = lhs;
     }
 
-    public Expr getRhs() {
+    public ASTNode getRhs() {
         return rhs;
     }
 
-    public void setRhs(Expr rhs) {
+    public void setRhs(ASTNode rhs) {
         this.rhs = rhs;
     }
 }

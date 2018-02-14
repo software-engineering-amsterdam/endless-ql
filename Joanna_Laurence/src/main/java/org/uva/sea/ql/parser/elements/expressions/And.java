@@ -1,29 +1,29 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
-import org.uva.sea.ql.parser.elements.Expr;
+import org.uva.sea.ql.parser.elements.ASTNode;
 
-public class And extends Expr {
-    private Expr lhs;
-    private Expr rhs;
+public class And extends ASTNode {
+    private ASTNode lhs;
+    private ASTNode rhs;
 
-    public And(Expr lhs, Expr rhs) {
+    public And(ASTNode lhs, ASTNode rhs) {
         this.lhs = lhs;
         this.rhs = rhs;
     }
 
-    public Expr getLhs() {
+    public ASTNode getLhs() {
         return lhs;
     }
 
-    public void setLhs(Expr lhs) {
+    public void setLhs(ASTNode lhs) {
         this.lhs = lhs;
     }
 
-    public Expr getRhs() {
+    public ASTNode getRhs() {
         return rhs;
     }
 
-    public void setRhs(Expr rhs) {
+    public void setRhs(ASTNode rhs) {
         this.rhs = rhs;
     }
 }

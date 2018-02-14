@@ -4,13 +4,15 @@ public abstract class Question {
 
 private boolean mandatory;
 private String question;
-private String answer;
+private String answerType;
+private String answerName;
 
-	public Question(String question)
+	public Question(String question, String answerType, String answerName)
 	{
 		mandatory = false;
 		this.question = question;
-		answer = "";
+		this.answerType = answerType;
+		this.answerName = answerName;
 	}
 
 	public void mandatory()
@@ -28,23 +30,22 @@ private String answer;
 		return mandatory;
 	}
 	
-	public void editQuestion(String newQuestion)
-	{
-		question = newQuestion;
-	}
 	
 	public String writtenQuestion()
 	{
 		return question;
 	}
 	
-	public void givenAnswer(String newAnswer)
+	
+	public String answerTypeValue()
 	{
-		answer = newAnswer;
+		return answerType;
 	}
 	
-	public String answerValue()
+	public String answerNameValue()
 	{
-		return answer;
+		return answerName;
 	}
+	
+	
 }

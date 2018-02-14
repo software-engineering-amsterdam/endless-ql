@@ -28,6 +28,9 @@ public class Statements implements ASTNode {
 
     public void traverse(Traverse traverse) {
         traverse.doStatements(this);
+        for (ASTNode node: this.statementList) {
+             node.traverse(traverse);
+        }
     }
 
     public Type getType() {

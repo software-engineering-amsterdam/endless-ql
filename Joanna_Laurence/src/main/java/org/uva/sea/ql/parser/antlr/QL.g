@@ -140,13 +140,13 @@ relExpr returns [Expr result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr
     {
       if ($op.text.equals("<")) {
-        $result = new LT($result, $rhs.result);
+        $result = new LThan($result, $rhs.result);
       }
       if ($op.text.equals("<=")) {
         $result = new LEq($result, $rhs.result);
       }
       if ($op.text.equals(">")) {
-        $result = new GT($result, $rhs.result);
+        $result = new GThan($result, $rhs.result);
       }
       if ($op.text.equals(">=")) {
         $result = new GEq($result, $rhs.result);

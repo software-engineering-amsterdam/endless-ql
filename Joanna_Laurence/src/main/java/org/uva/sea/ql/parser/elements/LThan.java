@@ -1,10 +1,10 @@
 package org.uva.sea.ql.parser.elements;
 
-public class LT extends Expr {
+public class LThan extends Expr {
     private Expr lhs;
     private Expr rhs;
 
-    public LT(Expr lhs, Expr rhs) {
+    public LThan(Expr lhs, Expr rhs) {
         this.lhs = lhs;
         this.rhs = rhs;
     }

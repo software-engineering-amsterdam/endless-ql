@@ -4,5 +4,6 @@ form ConditionQuestions {
 		middleName: "What is your middle name?" string
 	} else {
 		lastName: "What is your last name?" string
+		lastName: "What is your last name?" string
 	}
 }

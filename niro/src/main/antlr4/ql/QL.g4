@@ -63,4 +63,4 @@ statement   : question | conditional ;
 question    : Ident D_COLON TEXT answerType ( ASSIGN L_PEREN expression R_PEREN )?;
 answerType  : BOOLEAN | INTEGER | STRING ;
 
-conditional : IF L_PEREN ( condition=expression ) R_PEREN L_CURLY ( thenBlock+=question ) R_CURLY ( ELSE L_CURLY ( elseBlock+=question ) R_CURLY )? ;
+conditional : IF L_PEREN ( condition=expression ) R_PEREN L_CURLY ( thenBlock+=question+ ) R_CURLY ( ELSE L_CURLY ( elseBlock+=question+ ) R_CURLY )? ;

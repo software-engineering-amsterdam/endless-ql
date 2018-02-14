@@ -33,24 +33,24 @@ object Ast {
 
     sealed trait Operator extends Expression
     object Operator {
-      sealed trait UnaryExpr extends Operator
-      sealed trait ArithmExpr extends Operator
+      sealed trait UnaryOp extends Operator
+      sealed trait ArithmOp extends Operator
       sealed trait CompExpr extends Operator
       sealed trait LogicalExpr extends Operator
 
-      object UnaryExpr {
-        case class Sub(value: Expression) extends UnaryExpr
-        case class Negate(value: Expression) extends UnaryExpr
+      object UnaryOp {
+        case class Sub(value: Expression) extends UnaryOp
+        case class Negate(value: Expression) extends UnaryOp
       }
 
-      object ArithmExpr {
-        case class Sub(left: Expression, right: Expression) extends ArithmExpr
-        case class Add(left: Expression, right: Expression) extends ArithmExpr
-        case class Div(left: Expression, right: Expression) extends ArithmExpr
-        case class Mul(left: Expression, right: Expression) extends ArithmExpr
+      object ArithmOp {
+        case class Sub(left: Expression, right: Expression) extends ArithmOp
+        case class Add(left: Expression, right: Expression) extends ArithmOp
+        case class Div(left: Expression, right: Expression) extends ArithmOp
+        case class Mul(left: Expression, right: Expression) extends ArithmOp
       }
 
-      object CompExpr {
+      object CompOp {
         case class Lt(left: Expression, right: Expression) extends CompExpr
         case class LTe(left: Expression, right: Expression) extends CompExpr
         case class GTe(left: Expression, right: Expression) extends CompExpr

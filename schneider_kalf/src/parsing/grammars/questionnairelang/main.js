@@ -11,7 +11,7 @@
   function getID() {
     return ID_COUNTER++;
   }
-
+  
   // A base type for building the main tree layout
   function base(type, rest){
     return Object.assign({
@@ -21,7 +21,7 @@
     },
     rest)
   }
-
+  
   // Building an expression, DRY
   function buildExpression(head, tail, type) {
     return tail.reduce(function(left, curr) {
@@ -38,7 +38,7 @@
       };
     }, head);
   }
-
+  
   function fieldBody(type, name, label, expr){
     return base("FIELD", {
        attributes:{
@@ -56,14 +56,25 @@ start = call+
 
 call = form:form _ lb* { return form}
 
-allOps = compOps / boolOps / baseOps
-
+// Unary operation
 unaryOps = "!"
-boolOps = "&&" / "||"
-compOps = "<=" / ">=" / "!=" / "==" / "<" / ">"
-baseOps = "+" / "-" / "*" / "/"
 
-type = "boolean" / "money" / "currency" / "date"
+// Boolean operations
+boolOps = "&&" / "||"
+
+// Compartive operations
+compOps = "<=" / ">=" / "!=" / "==" / "<" / ">"
+
+//Addative operations
+addOps = "+" / "-"
+
+//Multiplicant operations
+multOps = "*" / "/"
+
+// All includede aritmic operations
+aritmicOps = multOps / addOps
+
+type = "boolean" / "money" / "currency" / "date" 
 
 // Field for pdf syntax
 fieldPdfSyntax
@@ -80,7 +91,7 @@ fieldGithubSyntax
  }
 
 block_if
- = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" {
+ = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" { 
      return base("BLOCK", {
        name:"THEN",
        children:e,
@@ -88,7 +99,7 @@ block_if
  }
 
 block_form
- = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" {
+ = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" { 
      return e
  }
 
@@ -107,48 +118,48 @@ if
 
 // Initiates an expression
 expression
- = bools:bools {
-     return base("EXPRESSION",{
+ = expr:boolExpr {
+     return base("EXPRESSION", {
        name: null,
-       children:[bools],
+       children:[expr],
      })
  }
 
 // BooleanExpression
-bools
-  = _ head:operation _ tail:(_(boolOps)_ operation)+ _{
+boolExpr
+  = _ head:compExpr _ tail:(_(boolOps)_ compExpr)+ _{
     return buildExpression(head, tail, "BooleanExpression")
   }
-  / operation
+  / compExpr
 
 // ComparisonExpression
-operation
-  = _ head:additive _ tail:(_(compOps)_ additive)+ _{
+compExpr
+  = _ head:additiveExpr _ tail:(_(compOps)_ additiveExpr)+ _{
     return buildExpression(head, tail, "ComparisonExpression")
   }
-  / additive
+  / additiveExpr
 
 // AdditiveExpression
-additive
-  = _ head:multiplicative _ tail:(_("+" / "-")_ multiplicative)+ _{
+additiveExpr
+  = _ head:multiplicativeExpr _ tail:(_(addOps)_ multiplicativeExpr)+ _{
     return buildExpression(head, tail, "AdditiveExpression")
   }
-  / multiplicative
+  / multiplicativeExpr
 
 // MultiplicativeExpression
-multiplicative
-  = _ head:primary _ tail:(_("*" / "/")_ primary)+ _{
+multiplicativeExpr
+  = _ head:primary _ tail:(_(multOps)_ primary)+ _{
     return buildExpression(head, tail, "MultiplicativeExpression")
   }
   / primary
 
 primary
   = value
-  / "("_ bools:bools _ ")" { return bools; }
-  / unarryExpression
+  / "("_ expr:boolExpr _ ")" { return expr; }
+  / unarryExpr
 
 // UnaryExpression
-unarryExpression
+unarryExpr
  = _ op:unaryOps value:primary _ {
      return {
         type:"UnaryExpression",
@@ -158,11 +169,11 @@ unarryExpression
         children: [value],
      }
   }
-
-
-
-name
- = v:([a-zA-Z]+) {
+ 
+ 
+ 
+name 
+ = v:([a-zA-Z]+) { 
      return v.join("")
    }
 
@@ -181,8 +192,8 @@ variable
 integer
   = digits:([-]?[0-9]+) {
       return {
-        type: "INTEGER",
-        value: parseInt(digits.join(""), 10)
+        type: "INTEGER", 
+        value: parseInt(digits.join(""), 10) 
       }
     }
 

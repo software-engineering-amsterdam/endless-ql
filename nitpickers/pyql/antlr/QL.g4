@@ -2,6 +2,7 @@ grammar QL;
 
 /*
  * Parser rules
+ * TODO: ()
  */
 
  form              : 'form' identifier '{' block '}' ;
@@ -10,31 +11,34 @@ grammar QL;
 
  block             : statement+ ;
 
- expression        : '!' expression
-                   | '(' expression ')'
-                   | orExpression ;
-
  statement         : quest | conditional_block ;
 
  quest             : identifier ':' STR quest_type ;
 
- quest_type        : 'boolean' | 'text' | 'int' | 'date' | 'date' | 'money';
+ quest_type        : 'boolean' | 'string' | 'integer' | 'date' | 'date' | money;
 
- unExpression  : literal | identifier;
+ expression        : '!' expression
+                   | orExpression
+                   | '(' expression ')'
+                   ;
 
- mulExpression : unExpression (('*' | '/') unExpression)*;
-
- addExpression : mulExpression (('+' | '-') mulExpression)*;
-
- relExpression : addExpression (('<' | '<=' | '>' | '>=' | '==' | '!=') addExpression)* ;
+ orExpression : andExpression ('||' andExpression)* ;
 
  andExpression : relExpression ('&&' relExpression)* ;
 
- orExpression : andExpression ('||' andExpression)* ;
+ relExpression : addExpression (('<' | '<=' | '>' | '>=' | '==' | '!=') addExpression)* ;
+
+ addExpression : mulExpression (('+' | '-') mulExpression)*;
+
+ mulExpression : unExpression (('*' | '/') unExpression)*;
+
+ unExpression  : literal | identifier;
 
  literal : MONEY | DECIMAL | INT | STR | BOOL ;
 
  identifier : IDENTIFIER;
+
+ money: 'money' | 'money(' identifier ('-'|'+'|'*'|'/') identifier ')' ;
 
 /*
  * Lexer rules

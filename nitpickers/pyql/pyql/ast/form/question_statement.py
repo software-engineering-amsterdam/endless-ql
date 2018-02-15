@@ -31,4 +31,10 @@ class QuestionStatement(statement.Statement):
         self._answer = answer
 
     def __repr__(self):
-        return "AST QuestionStatement at: " + str(self.location)
+        output = {
+            "identifier":       str(self.identifier),
+            "text":             str(self.text),
+            "question_type":    str(self.question_type),
+            "answer":           str(self.answer)
+        }
+        return str({"AST QuestionStatement " + str(self.location): str(output)})

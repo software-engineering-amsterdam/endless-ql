@@ -118,7 +118,7 @@ public class Main extends Application {
             if (input.isEditable() || !input.isDisabled()) {
                 // Change answer
                 changeQuestionAnswer(input, question);
-//                        changeEditableFields(fields, form, block, true);
+                changeEditableFields(fields, form.elements, true);
             }
         });
 
@@ -158,7 +158,7 @@ public class Main extends Application {
     private void changeQuestionAnswer(TextInputControl input, Question question) {
         question.answer.setValue(input.getText());
     }
-//
+    //
     private void changeQuestionAnswer(ComboBox input, Question question) {
         question.answer.setValue(input.getSelectionModel().getSelectedItem().toString());
     }
@@ -171,36 +171,11 @@ public class Main extends Application {
 
     private void changeEditableFields(HashMap<String, Control> fields, BlockElement blockElement, boolean inEditableBlock){
         if(blockElement.isQuestion()){
-            changeEditableFields(fields, (Question) blockElement, inEditableBlock);
+            Control field = fields.get(((Question) blockElement).name);
+            field.setVisible(inEditableBlock);
         } else if(blockElement.isCondition()){
             changeEditableFields(fields, (Condition) blockElement, inEditableBlock);
         }
-    }
-
-    private void changeEditableFields(HashMap<String, Control> fields, Question question, boolean inEditableBlock){
-        Control field = fields.get(question.name);
-        if(field != null){
-            field.setVisible(inEditableBlock);
-        } else {
-            // TODO
-            System.out.println("eh???");
-        }
-//        // TODO implement more field types, and also change instanceof to something else
-//        if(field instanceof ComboBox){
-//            ComboBox<String> comboBoxField = (ComboBox) field;
-//            comboBoxField.setDisable(!conditionsMet);
-//            // If the condition was not met, we should make it reset to default
-//            if(!conditionsMet){
-//                comboBoxField.getSelectionModel().clearSelection();
-//            }
-//        } else if(field instanceof TextInputControl) {
-//            TextInputControl textInputControlField = (TextInputControl) field;
-////                textInputControlField.setEditable(conditionsMet);
-//            textInputControlField.setDisable(!conditionsMet);
-//            if(!conditionsMet){
-//                textInputControlField.clear();
-//            }
-//        }
     }
 
     private void changeEditableFields(HashMap<String, Control> fields, Condition condition, boolean inEditableBlock){

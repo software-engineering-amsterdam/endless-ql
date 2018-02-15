@@ -1,9 +1,8 @@
 import { Component} from '@angular/core';
 import {parse} from '../parser/ql-parser';
-import {QuestionBase} from './domain/question-base';
+import {QuestionBase} from './domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {QuestionControlService} from './services/question-control.service';
-import {Form} from './domain/ast';
 
 @Component({
   selector: 'app-root',

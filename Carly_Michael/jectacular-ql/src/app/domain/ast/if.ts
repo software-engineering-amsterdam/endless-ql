@@ -1,8 +1,8 @@
-import {Statement} from './ast';
-import {QuestionBase} from './question-base';
+import {Statement} from './';
+import {QuestionBase} from '../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {Question} from './question';
-import {QuestionType} from './question-type';
+import {QuestionType} from '../angular-questions/question-type';
 import * as _ from 'lodash';
 
 export class If implements Statement {

@@ -1,6 +1,5 @@
 package nl.uva.se.sc.niro.parser
 
-import nl.uva.se.sc.niro.ErrorListener
 import nl.uva.se.sc.niro.model.Ast.Expression.Operator._
 import nl.uva.se.sc.niro.model.Ast.Expression._
 import nl.uva.se.sc.niro.model.Ast._

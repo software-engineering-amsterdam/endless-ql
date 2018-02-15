@@ -1,26 +1,22 @@
 package nl.uva.se.sc.niro.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import nl.uva.se.sc.niro.model.Ast;
-import scala.collection.Iterator;
+import javafx.scene.layout.VBox;
+
+import java.util.List;
 
 
 public class QLFormController extends QLBaseController {
     @FXML
-    public Label formName;
+    private Label formName;
 
     @FXML
-    public GridPane questions;
+    private VBox questions;
 
-    public void populateQuestions(Ast.QLForm form) {
-        formName.setText(form.formName());
-
-        Iterator<Ast.Statement> stmtIter = form.statements().iterator();
-        while (stmtIter.hasNext()) {
-            Ast.Statement stmt = stmtIter.next();
-            System.out.println(stmt);
-        }
+    public void populateForm(String name, List<Parent> controls) {
+        formName.setText(name);
+        questions.getChildren().addAll(controls);
     }
 }

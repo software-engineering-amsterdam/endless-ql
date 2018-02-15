@@ -4,22 +4,44 @@
  */
 
 {
-    // A base type for building the main tree layout
+  /*
+    -@Nodes.IfCondition,
+
+    -@Nodes.NumberLiteral,
+    -@Nodes.BooleanLiteral,
+    -@Nodes.StringLiteral,
+    -@Nodes.VariableIdentifier,
+
+    -@Nodes.ComputedField,
+    -@Nodes.Question,
+    -@Nodes.FormNode
+
+    -@FieldType
+  */
+   // A base type for building the main tree layout
   let operations = {
-              // "!"  : Expression,
-              "&&" : Expression,
-              "||" : Expression,
-              "<=" : Expression,
-              ">=" : Expression,
-              "!=" : Expression,
-              "==" : Expression,
-              "<"  : Expression,
-              ">"  : Expression,
-              "+"  : Expression,
-              "-"  : Expression,
-              "*"  : Expression,
-              "/"  : Expression
+              // "!"  : Node.Negation,
+              "&&" : Nodes.And,
+              "||" : Nodes.Or,
+              "<=" : Nodes.SmallerThanOrEqual,
+              ">=" : Nodes.LargerThanOrEqual,
+              "!=" : Nodes.NotEqual,
+              "==" : Nodes.Equals,
+              "<"  : Nodes.SmallerThan,
+              ">"  : Nodes.LargerThan,
+              "+"  : Nodes.Addition,
+              "-"  : Nodes.Subtraction,
+              "*"  : Nodes.Multiplication,
+              "/"  : Nodes.Division
             }
+    let types = {
+                  "boolean" : FieldType.Boolean,
+                  "date" : FieldType.Date,
+                  "money" : FieldType.Money,
+                  "integer" : FieldType.Integer,
+                  "float" : FieldType.Float,
+                  "text" : FieldType.Text,
+                }
 
   function base(type, rest){
     return (<any>Object).assign({
@@ -61,49 +83,41 @@ multOps = "*" / "/"
 // All includede aritmic operations
 aritmicOps = multOps / addOps
 
-type = "boolean" / "money" / "currency" / "date"
+literalTypes = "boolean" / "money" / "date" / "integer" / "float" / "text"
 
-// Field for pdf syntax
-fieldPdfSyntax
- = _ name:name _ ":" _ label:string _ type:type _ expr:expression? lb*{
-    return new Field(name, label, type, expr);
- }
+type
+    = literalType:literalTypes {
+        return types[literalType];
+    }
+
 
 // Field for github syntax
-fieldGithubSyntax
- = _ label:string lb* name:name _ ":" _ type:type lb* expr:("=" lb* expression)? lb*{
-    return new Field(name, label, type, expr);
+field
+ = _ label:stringLiteral lb* name:name _ ":" _ type:type lb* expr:("=" lb* expression)? lb*{
+    if (expr)
+        return new Nodes.ComputedField(name, label.value, type, expr[2]);
+    return new Nodes.Question(name, label.value, type);
  }
 
-block_if
- = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" {
-     return e;
- }
-
-block_form
- = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" {
+block
+ = "{" lb* e:(field / if)+ lb* "}" {
      return e;
  }
 
 form
- = _ "form" _ name:name _ children:block_form lb*{
-     var attr = {attributes:{name,}, children}
-     return new Form(name, children)
+ = _ "form" _ name:name _ block:block lb*{
+     return new Nodes.FormNode(name, block)
 }
 
 if
- = _ "if" _ pre:(expression) _ children:block_if lb* {
-     return new If(pre, children);
+ = _ "if" _ predicate:expression _ block:block lb* {
+     return new Nodes.IfCondition(predicate, block);
 }
 
 // Initiates an expression
 expression
  = expr:boolExpr {
     return expr;
-     // return base("EXPRESSION", {
-     //   name: null,
-     //   children:[expr],
-     // })
  }
 
 // BooleanExpression
@@ -151,36 +165,33 @@ unarryExpr
      }
   }
 
-
 name
  = v:([a-zA-Z]+) {
      return v.join("")
    }
 
-// Variable / Identifier?
-variable
- = v:([a-zA-Z]+) {
-     return {
-       type: "VARIABLE",
-       attributes:{
-           name:v.join(""),
-       }
-     }
+// Identifier?
+identifier
+ = chars:([a-zA-Z]+) {
+     return new Nodes.VariableIdentifier(chars.join(""));
    }
 
-// Integer
-integer
-  = digits:([-]?[0-9]+) {
-      return {
-        type: "INTEGER",
-        value: parseInt(digits.join(""), 10)
-      }
-    }
+// Boolean Literal
+booleanLiteral
+  = Literal:("True" / "False") {
+    return new Nodes.BooleanLiteral(Literal == "True")
+  }
 
-// Currently only support doublequote String
-string
+// Integer
+numberLiteral
+  = digits:([-]?[0-9]+) {
+      return new Nodes.NumberLiteral(parseInt(digits.join(""), 10))
+  }
+
+// String Literal, Currently only support double quoted String
+stringLiteral
  = '"' chars:doubleString* '"'{
-     return chars.join('')
+     return new Nodes.StringLiteral(chars.join(''));
  }
 
 doubleString
@@ -198,9 +209,7 @@ escapeSequence
   / "t"  { return "\t";   }
   / "v"  { return "\x0B"; }
 
-
-
-value = variable / integer / string
+value = identifier / numberLiteral / stringLiteral / booleanLiteral
 comment = "//" (!lb .)*
 ws = [ \t]
 _ = (ws / comment)*

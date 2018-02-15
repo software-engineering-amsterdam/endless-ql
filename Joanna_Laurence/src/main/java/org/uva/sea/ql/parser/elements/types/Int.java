@@ -1,8 +1,9 @@
 package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class Int extends ASTNode {
+public class Int implements ASTNode {
     private int value;
 
     public Int(int value) {
@@ -17,11 +18,11 @@ public class Int extends ASTNode {
         this.value = value;
     }
 
-    public Type getExprType() {
-        return new Type("integer");
+    public void traverse(Traverse traverse) {
+        traverse.doInt(this);
     }
 
-    public boolean checkType() {
-        return true;
+    public Type getType() {
+        return new Type("integer");
     }
 }

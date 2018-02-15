@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AST\QLLabel.cs" />
+    <Compile Include="AST\QLStatement.cs" />
+    <Compile Include="Parsing\QLQuestionVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QL.g4.lexer.cs">
       <DependentUpon>QL.g4</DependentUpon>
@@ -54,8 +57,11 @@
     <Compile Include="QL.g4.parser.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
-    <Compile Include="QLForm.cs" />
-    <Compile Include="QLVisitor.cs" />
+    <Compile Include="AST\QLExpression.cs" />
+    <Compile Include="AST\QLForm.cs" />
+    <Compile Include="AST\QLQuestion.cs" />
+    <Compile Include="Parsing\QLFormVisitor.cs" />
+    <Compile Include="Parsing\QLStatementVisitor.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

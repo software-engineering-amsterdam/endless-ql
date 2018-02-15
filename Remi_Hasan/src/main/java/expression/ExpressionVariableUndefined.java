@@ -1,7 +1,5 @@
 package expression;
 
-import model.Form;
-
 public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
 
     public ExpressionVariableUndefined() {
@@ -9,12 +7,12 @@ public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
     }
 
     @Override
-    public ExpressionVariable evaluate(Form form) {
+    public ExpressionVariable evaluate() {
         return this;
     }
 
     @Override
-    public boolean isSetable(Form form){
+    public boolean isSetable() {
         return false;
     }
 
@@ -74,7 +72,7 @@ public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
     }
 
     @Override
-    public ReturnType getReturnType(Form form) {
+    public ReturnType getReturnType() {
         return ReturnType.Undefined;
     }
 }

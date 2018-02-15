@@ -2,37 +2,25 @@ package org.uva.sea.ql.parser.elements.expressions;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.types.Type;
+import org.uva.sea.ql.parser.nodeTypes.DualNode;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class GEq extends ASTNode {
-    private ASTNode lhs;
-    private ASTNode rhs;
-
+public class GEq extends DualNode {
     public GEq(ASTNode lhs, ASTNode rhs) {
-        this.lhs = lhs;
-        this.rhs = rhs;
+        super(lhs, rhs);
     }
 
-    public ASTNode getLhs() {
-        return lhs;
+    public void traverse(Traverse traverse) {
+        super.traverse(traverse);
+        traverse.doLogical(this);
+        traverse.doGEq(this);
+        this.traverseChildren(traverse);
     }
 
-    public void setLhs(ASTNode lhs) {
-        this.lhs = lhs;
-    }
-
-    public ASTNode getRhs() {
-        return rhs;
-    }
-
-    public void setRhs(ASTNode rhs) {
-        this.rhs = rhs;
-    }
-
-    public Type getExprType() {
-        return lhs.getExprType();
-    }
-
-    public boolean checkType() {
-        return lhs.getExprType().equals(rhs.getExprType());
+    /**
+     * @return True or false is returned
+     */
+    public Type getType() {
+        return new Type("Boolean");
     }
 }

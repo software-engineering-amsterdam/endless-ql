@@ -1,5 +1,6 @@
 import {parse} from './ql-parser';
-import {QuestionType} from '../app/domain/ast';
+import {QuestionType} from '../app/domain/ast/index';
+import {gen, check, property, sample, sampleOne} from 'testcheck';
 
 const simpleForm =
   `
@@ -41,6 +42,42 @@ const formWrongQuestionName =
       questionå: "Question?" boolean
     }
   `;
+
+function questionTypeToString(type: QuestionType): string {
+  switch (type) {
+    case QuestionType.BOOLEAN: return 'boolean';
+    case QuestionType.DATE: return 'date';
+    case QuestionType.DECIMAL: return 'decimal';
+    case QuestionType.MONEY: return 'money';
+    case QuestionType.STRING: return 'string';
+    case QuestionType.INT: return 'integer';
+    default: console.log(`Unknown type ${type}`);
+  }
+}
+
+describe('Generated forms', () => {
+  it('Should parse correctly generated forms', () => {
+    check(property(gen.intWithin(0, 50), x => {
+      const formName = sampleOne(gen.alphaNumString.notEmpty());
+      const questions = sample(gen.alphaNumString.notEmpty(), x * 2);
+      const types = sample(gen.intWithin(QuestionType.INT, QuestionType.BOOLEAN), x);
+      let form = `form ${formName} { \r\n`;
+
+      for (let i = 0, n = 0; i < questions.length; i += 2, n++) {
+        form += `${questions[i]}: "${questions[i + 1]}" ${questionTypeToString(types[n])}\r\n`;
+      }
+
+      form += ' }';
+
+      console.log('checked form', x, form);
+
+      const output = parse(form, {});
+      expect(output).not.toBeNull();
+      expect(output.name).toBe(formName);
+      expect(output.statements.length).toBe(x);
+    }), {numTests: 100});
+  });
+});
 
 describe('The parser', () => {
   it('Should parse simple form', () =>  {

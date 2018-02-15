@@ -1,10 +1,14 @@
 package org.uva.sea.ql.parser.elements.types;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.uva.sea.ql.parser.elements.ASTNode;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class Var extends ASTNode {
+public class Var implements ASTNode {
     private String variableName;
+
+    private Question linkedQuestion = null;
 
     public Var(String variableName) {
         this.variableName = variableName;
@@ -18,12 +22,24 @@ public class Var extends ASTNode {
         this.variableName = variableName;
     }
 
-    //TODO: implement variable name checker before
-    public Type getExprType() {
-        throw new NotImplementedException();
+    public Question getLinkedQuestion() {
+        return linkedQuestion;
     }
 
-    public boolean checkType() {
-        throw new NotImplementedException();
+    public void setLinkedQuestion(Question linkedQuestion) {
+        this.linkedQuestion = linkedQuestion;
+    }
+
+    public void traverse(Traverse traverse) {
+        traverse.doVar(this);
+    }
+
+    public Type getType() {
+        if(this.linkedQuestion == null) {
+            System.out.println("Variable information should be set before requesting type information");
+            return new Type("undefined");
+        }
+
+        return this.linkedQuestion.getType();
     }
 }

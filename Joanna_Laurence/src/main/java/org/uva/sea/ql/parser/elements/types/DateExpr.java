@@ -1,8 +1,9 @@
 package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class DateExpr extends ASTNode {
+public class DateExpr implements ASTNode {
     private int day;
     private int month;
     private int year;
@@ -37,11 +38,11 @@ public class DateExpr extends ASTNode {
         this.year = year;
     }
 
-    public Type getExprType() {
-        return new Type("date");
+    public void traverse(Traverse traverse) {
+        traverse.doDateExpr(this);
     }
 
-    public boolean checkType() {
-        return true;
+    public Type getType() {
+        return new Type("date");
     }
 }

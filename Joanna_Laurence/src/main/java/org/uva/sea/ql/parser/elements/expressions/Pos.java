@@ -2,27 +2,21 @@ package org.uva.sea.ql.parser.elements.expressions;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.types.Type;
+import org.uva.sea.ql.parser.nodeTypes.SingleNode;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class Pos extends ASTNode {
-    private ASTNode value;
+public class Pos extends SingleNode {
 
     public Pos(ASTNode value) {
-        this.value = value;
+        super(value);
     }
 
-    public ASTNode getValue() {
-        return value;
+    public void traverse(Traverse traverse) {
+        traverse.doPos(this);
+        this.traverseChildren(traverse);
     }
 
-    public void setValue(ASTNode value) {
-        this.value = value;
-    }
-
-    public Type getExprType() {
-        return value.getExprType();
-    }
-
-    public boolean checkType() {
-        return value.checkType();
+    public Type getType() {
+        return this.getValue().getType();
     }
 }

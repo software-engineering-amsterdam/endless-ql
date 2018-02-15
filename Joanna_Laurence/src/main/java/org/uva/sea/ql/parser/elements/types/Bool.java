@@ -1,15 +1,18 @@
 package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.nodeTypes.DualNode;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class Bool extends ASTNode {
+public class Bool implements ASTNode {
+
     private boolean value;
 
     public Bool(boolean value) {
         this.value = value;
     }
 
-    public boolean getValue() {
+    public boolean isValue() {
         return value;
     }
 
@@ -17,11 +20,11 @@ public class Bool extends ASTNode {
         this.value = value;
     }
 
-    public Type getExprType() {
-        return new Type("boolean");
+    public void traverse(Traverse traverse) {
+        traverse.doBool(this);
     }
 
-    public boolean checkType() {
-        return true;
+    public Type getType() {
+        return new Type("boolean");
     }
 }

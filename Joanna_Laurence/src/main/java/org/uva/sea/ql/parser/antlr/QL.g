@@ -20,7 +20,7 @@ form returns [Form result]
 statements returns [Statements result]
     @init  { Statements statements = new Statements(); }
     @after { $result = statements; }
-    : (stm=statement { statements.addStatement($stm.result); })+
+    : (stm=statement { statements.addStatement($stm.result); })*
     ;
 
 statement returns [ASTNode result]
@@ -48,22 +48,21 @@ type returns [Type result]
     ;
 
 condition returns [Condition result]
-    : 'if' '(' expression ')' questionBlock { $result = new Condition(); }
+    : 'if' '(' expr=expression ')' q=questionBlock { $result = new Condition($expr.result, $q.result); }
     ;
 
-questionBlock returns [Statements result]
-    @init  { Statements statements = new Statements(); }
-    @after { $result = statements; }
-
-    : '{' stms=questions '}' {$result = $stms.result; }
-    | stm=question {statements.addStatement($stm.result);}
+questionBlock returns [List<Question> result]
+    @init  { ArrayList<Question> questions = new ArrayList<Question>(); }
+    @after { $result = questions; }
+    : '{' stms=questions '}' {questions.addAll($stms.result); }
+    | stm=question {questions.add($stm.result);}
     ;
 
 //To suport lists than only can contain questions
-questions returns [Statements result]
-    @init  { Statements statements = new Statements(); }
-    @after { $result = statements; }
-    : (stm=question {statements.addStatement($stm.result);})+
+questions returns [List<Question> result]
+    @init  { ArrayList<Question> questions = new ArrayList<Question>(); }
+    @after { $result = questions; }
+    : (stm=question {questions.add($stm.result);})*
     ;
 
 expression returns [ASTNode result]
@@ -77,7 +76,6 @@ orExpr returns [ASTNode result]
 andExpr returns [ASTNode result]
     :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result); } )*
     ;
-
 
 relExpr returns [ASTNode result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr

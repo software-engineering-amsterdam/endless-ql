@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.fail;
 
-public class VisitingQLFormParserTest {
+public class QLFormParserTest {
 	@Before
 	public void clearErrors() {
 		ErrorListener.errorReported = false;

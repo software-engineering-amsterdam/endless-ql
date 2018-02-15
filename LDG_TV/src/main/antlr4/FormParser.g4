@@ -9,26 +9,31 @@ form_data : (question_structure)+ if_structure?;
 question_structure:
     question_identifier
     question_variable
-    question_variable_seperator
+    QUESTION_VARIABLE_SEPERATOR
     question_answer_type
     question_answer_seperator?
     question_answer?
 ;
 if_structure:
-    'if'
-    BRACKET_OPEN
-    question_variable
-    BRACKET_CLOSE
+    IF
+    stat_block
     CURLY_BRACKET_OPEN
     (question_structure)+
     CURLY_BRACKET_CLOSE
 ;
+
+stat_block:
+   BRACKET_OPEN
+   question_variable
+   BRACKET_CLOSE
+;
+
 question_identifier : QUESTION_IDENTIFIER;
 question_variable: CHARACTERS;
-question_variable_seperator : QUESTION_VARIABLE_SEPERATOR;
+// question_variable_seperator : QUESTION_VARIABLE_SEPERATOR;
 question_answer_type: CHARACTERS;
 question_answer_seperator:  QUESTION_ANSWER_SEPERATOR;
-question_answer: QUESTION_ANSWER;
+question_answer: (CHARACTERS | NUMBERS);
 /*
  * Lexer Rules
  */
@@ -44,7 +49,10 @@ BRACKET_CLOSE : ')';
 QUESTION_IDENTIFIER : '"' + ((CHARACTERS | NUMBERS | ' ' | ':' | '?')+) + '"';
 QUESTION_VARIABLE_SEPERATOR : ':';
 QUESTION_ANSWER_SEPERATOR : '=';
-QUESTION_ANSWER : '(' + (CHARACTERS | ' - ')+ ')';
+//QUESTION_ANSWER : (CHARACTERS | NUMBERS | BRACKET_OPEN | BRACKET_CLOSE);
+// BRACKET_OPEN + (CHARACTERS | ' - ')+ BRACKET_CLOSE; // TODO test with and without whitespace
+
+IF : 'if';
 
 WHITESPACE : (' ' | '\t') -> skip;
 NEWLINE : ('\r'? '\n' | '\r')+ -> skip;

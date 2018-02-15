@@ -6,10 +6,11 @@ public abstract class Expression<T> {
 
     public abstract ExpressionVariable evaluate();
 
-    public boolean isSetable(){
+    public boolean isSettable() {
         return false;
     }
-    public void setValue(String value){
+
+    public void setValue(String value) {
 
     }
 }

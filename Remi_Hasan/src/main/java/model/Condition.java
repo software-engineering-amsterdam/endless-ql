@@ -10,7 +10,7 @@ public class Condition extends BlockElement {
     public ArrayList<BlockElement> elements;
 
     // TODO force condition to be of evaluated type ExpressionVariableBoolean
-    public Condition(Expression condition, ArrayList<BlockElement> elements){
+    public Condition(Expression condition, ArrayList<BlockElement> elements) {
         this.condition = condition;
         this.elements = elements;
     }

@@ -4,7 +4,7 @@ from pyql.ast.form import statement
 class QuestionStatement(statement.Statement):
 
     def __init__(self, location, identifier, text, question_type, answer=None):
-        super(QuestionStatement, self).__init__(location)
+        super().__init__(location)
         self._identifier = identifier
         self._text = text
         self._question_type = question_type
@@ -31,4 +31,10 @@ class QuestionStatement(statement.Statement):
         self._answer = answer
 
     def __repr__(self):
-        return "AST QuestionStatement at: " + str(self.location)
+        output = {
+            "identifier":       str(self.identifier),
+            "text":             str(self.text),
+            "question_type":    str(self.question_type),
+            "answer":           str(self.answer)
+        }
+        return str({"AST QuestionStatement " + str(self.location): str(output)})

@@ -1,12 +1,12 @@
-from pyql.ast.form.statement import Statement
-from pyql.ast.form.block import Block
+from pyql.ast.form import statement
+from pyql.ast.form import block
 from pyql.ast.expression import expressions
 
 
-class IfStatement(Statement):
+class IfStatement(statement.Statement):
 
-    def __init__(self, location, expression: expressions.Expression, block: Block):
-        super(IfStatement, self).__init__(location)
+    def __init__(self, location, expression: expressions.Expression, block: block.Block):
+        super().__init__(location)
         self._expression = expression
         self._block = block
 

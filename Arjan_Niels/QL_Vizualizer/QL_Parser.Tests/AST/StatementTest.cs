@@ -2,11 +2,12 @@
 using QL_Parser.AST.Nodes;
 using System.Linq;
 
-namespace QL_Parser.Tests
+namespace QL_Parser.Tests.AST
 {
     [TestClass]
-    public class ConditionalTest
+    public class StatementTest
     {
+        private FormNode node;
         private readonly string _simpleConditional = "form SimpleAND {" +
             "\"Have your sold a house last year?\"" +
             "   soldAHouse: boolean" +
@@ -17,16 +18,24 @@ namespace QL_Parser.Tests
             "   }" +
             "}";
 
+        [TestInitialize]
+        public void Initialize()
+        {
+            node = QLParserHelper.Parse(_simpleConditional);
+        }
 
         [TestMethod]
-        public void SimpleConditionalTokens()
+        public void SingleVariableNameTest()
         {
-            FormNode form = QLParserHelper.Parse(_simpleConditional);
-            var conditionalBlock = form.Children
+            var statement = node.Children
                 .Where(x => x.GetType() == typeof(ConditionalNode))
-                .First();
+                .Select(x => x as ConditionalNode)
+                .First().StatementNode;
 
-            Assert.IsNotNull(conditionalBlock);
+            Assert.AreEqual("soldAHouse", statement.ID);
+            Assert.IsNull(statement.lhs);
+            Assert.IsNull(statement.opr);
+            Assert.IsNull(statement.rhs);
         }
     }
 }

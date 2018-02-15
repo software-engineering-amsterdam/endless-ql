@@ -2,8 +2,16 @@
 {
     public class ConditionalNode : Node
     {
-        public ConditionalNode() : base(NodeType.CONDITIONAL)
+        public StatementNode StatementNode { get; private set; }
+
+        public ConditionalNode(StatementNode statementNode) : base(NodeType.CONDITIONAL)
         {
+            this.StatementNode = statementNode;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1}", base.ToString(), StatementNode);
         }
     }
 }

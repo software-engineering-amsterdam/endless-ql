@@ -2,20 +2,17 @@
 	"Did you sell a house in 2010?"
 		soldHouseIn2010: boolean
 
-	"Did you buy a house in 2010?"
-		boughtHouseIn2010: boolean
-
 	"What is the name of your cat?"
 		myCatsNameLala: text
 
 	"What was the selling price?"
 		sellingPrice: money
 
-	"Ïs this the second question in the conditional block?"
-		secondQuestion: boolean
+	if (sellingPrice || hasNetflix) && (piet || klaas) {
 
-	if (secondQuestion || sellingPrice) && pieter {
-		"Do you like coffee?"
-			youLikesCoffee: boolean
+		if secondQuestion {
+			"Have you seen House of Cards?"
+				seenHouseOfCards: boolean
+		}
 	}
 }

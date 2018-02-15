@@ -8,10 +8,10 @@ section				: question | conditionalBlock;
 question			: TEXT ID ':' QTYPE;
 formName			: ID;
 
-value				: ID | '(' statement ')'; 
+value				: '(' statement ')' | ID; 
 binary				: (AND | OR);
 conditionalBlock	: 'if' statement '{' (section)* '}';
-statement			: value (binary statement)*;
+statement			: value binary statement | value;
 
  /*
   * Lexer Rules

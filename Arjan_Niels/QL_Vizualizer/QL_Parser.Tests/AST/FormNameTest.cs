@@ -2,7 +2,7 @@
 using QL_Parser.AST.Nodes;
 using System;
 
-namespace QL_Parser.Tests
+namespace QL_Parser.Tests.AST
 {
     [TestClass]
     public class FormNameTest

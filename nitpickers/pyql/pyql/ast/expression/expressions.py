@@ -1,8 +1,8 @@
-from pyql.ast.ast import ASTNode
+from pyql.ast import ast
 from pyql.ast import code_location
 
 
-class Expression(ASTNode):
+class Expression(ast.ASTNode):
 
     def __init__(self, location: code_location.CodeLocation):
         super().__init__(location)
@@ -138,8 +138,8 @@ class Not(UnaryExpression):
 
 
 if __name__ == "__main__":
-    location = code_location.CodeLocation(2, 3)
-    b = And(location, "left", "right")
-    c = Not(location, b)
+    loc = code_location.CodeLocation(2, 3)
+    b = And(loc, "left", "right")
+    c = Not(loc, b)
     print(b)
     print(c)

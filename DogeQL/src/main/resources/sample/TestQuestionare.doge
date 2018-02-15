@@ -5,4 +5,10 @@ form taxOfficeExample {
     hasBoughtHouse: boolean
   "Did you enter a loan?"
     hasMaintLoan: boolean
+
+  if ((A || B) && hasSoldHouse || (hasMaintLoan && ccc)) {
+     "Is BTC gonna crash?"
+       sendHelp: boolean
+   }
+
 }

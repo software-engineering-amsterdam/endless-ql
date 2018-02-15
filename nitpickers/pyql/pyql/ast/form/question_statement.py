@@ -4,7 +4,7 @@ from pyql.ast.form import statement
 class QuestionStatement(statement.Statement):
 
     def __init__(self, location, identifier, text, question_type, answer=None):
-        super(QuestionStatement, self).__init__(location)
+        super().__init__(location)
         self._identifier = identifier
         self._text = text
         self._question_type = question_type

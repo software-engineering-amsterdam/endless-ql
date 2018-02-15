@@ -22,8 +22,7 @@ public class VisitorCondition extends QLBaseVisitor<Condition> {
             elements.add(blockElement);
         }
 
-        Condition condition = new Condition(expression, elements);
-        return condition;
+        return new Condition(expression, elements);
     }
 
 }

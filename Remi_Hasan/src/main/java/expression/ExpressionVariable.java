@@ -18,7 +18,7 @@ public abstract class ExpressionVariable<T> extends Expression<T> {
     }
 
     @Override
-    public boolean isSetable() {
+    public boolean isSettable() {
         return true;
     }
 

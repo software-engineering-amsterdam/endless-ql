@@ -21,7 +21,7 @@ form returns [Form result]
 statements returns [Statements result]
     @init  { Statements statements = new Statements(); }
     @after { $result = statements; }
-    : (stm=statement { statements.addStatement($stm.result); })+
+    : (stm=statement { statements.addStatement($stm.result); })*
     ;
 
 statement returns [ASTNode result]

@@ -1,11 +1,15 @@
 package org.uva.sea.ql;
 
 import org.antlr.v4.gui.Trees;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.atn.ATNConfigSet;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.uva.sea.ql.parser.antlr.ErrorHandler;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;;
 import org.uva.sea.ql.parser.elements.Form;
+
+import java.util.BitSet;
 
 public class QLCompiler {
 
@@ -25,8 +29,11 @@ public class QLCompiler {
         QLParser parser = new QLParser(tokens);
 
         //Check the parsing result
+        ErrorHandler parseErrorListener = new ErrorHandler();
+        parser.addErrorListener(parseErrorListener);
+
         QLParser.FormContext form = parser.form();
-        if(form.result == null)
+        if(parseErrorListener.isError() || form.result == null)
             return null;
 
         QLVariableInfo varChecker = new QLVariableInfo();

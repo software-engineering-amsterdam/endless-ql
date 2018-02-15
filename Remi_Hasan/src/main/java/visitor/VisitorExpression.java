@@ -1,3 +1,8 @@
+package visitor;
+
+import antlr.QLBaseVisitor;
+import antlr.QLLexer;
+import antlr.QLParser;
 import expression.*;
 import model.LookupTable;
 

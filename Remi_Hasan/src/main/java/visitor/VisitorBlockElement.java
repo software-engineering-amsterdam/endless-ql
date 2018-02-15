@@ -1,3 +1,7 @@
+package visitor;
+
+import antlr.QLBaseVisitor;
+import antlr.QLParser;
 import model.BlockElement;
 import model.Condition;
 import model.LookupTable;

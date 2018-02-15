@@ -113,4 +113,15 @@ public class ParseTreeVisitor extends QLBaseVisitor {
     public TreeNode visitIntegerLiteral(QLParser.IntegerLiteralContext ctx) {
         return new IntegerLiteral(ctx.getText());
     }
+
+    @Override
+    public TreeNode visitLogicalOr(QLParser.LogicalOrContext ctx) {
+        return new Or((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+    }
+
+    @Override
+    public TreeNode visitLogicalAnd(QLParser.LogicalAndContext ctx) {
+        return new And((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+    }
+
 }

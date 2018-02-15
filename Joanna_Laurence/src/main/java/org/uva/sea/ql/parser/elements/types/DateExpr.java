@@ -3,7 +3,7 @@ package org.uva.sea.ql.parser.elements.types;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.traverse.Traverse;
 
-public class DateExpr implements ASTNode {
+public class DateExpr extends ASTNode {
     private int day;
     private int month;
     private int year;

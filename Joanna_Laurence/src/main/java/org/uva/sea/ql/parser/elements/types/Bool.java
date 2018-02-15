@@ -4,7 +4,7 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.nodeTypes.DualNode;
 import org.uva.sea.ql.traverse.Traverse;
 
-public class Bool implements ASTNode {
+public class Bool extends ASTNode {
 
     private boolean value;
 

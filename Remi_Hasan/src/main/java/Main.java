@@ -90,52 +90,10 @@ public class Main extends Application {
         if (true || question.answer.isSetable()) {
 
             if (question.answer.getReturnType() == ReturnType.Boolean) {
-                ComboBox<String> input = Input.comboBox(
-                        new OptionList() {{
-                            add("", true);
-                            add("true");
-                            add("false");
-                        }});
-
-                // TODO implement observer pattern?
-                // If input changes some questions might need to be enabled/disabled
-                input.setOnAction(e -> {
-                    if (input.isEditable() || !input.isDisabled()) {
-                        // Change answer
-                        changeQuestionAnswer(input, question);
-//                        changeEditableFields(fields, form, block, true);
-                    }
-                });
-
-                fields.put(question.name, input);
-                fieldGroup.join(question.name, question.text, input);
+                addBooleanQuestionToFieldGroup(fields, form, question, fieldGroup);
             } else if (question.answer.getReturnType() == ReturnType.Number || question.answer.getReturnType() == ReturnType.String) {
-                TextInputControl input = Input.textField("");
-
-                if (question.answer.getReturnType() == ReturnType.Number) {
-                    // NumberStringConverter
-                    // CurrencyStringConverter
-                    // DoubleStringConverter
-                    // https://docs.oracle.com/javase/8/javafx/api/javafx/util/StringConverter.html
-                    input.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-                }
-
-                // If input changes some questions might need to be enabled/disabled
-                input.setOnKeyTyped(e -> {
-                    if (input.isEditable()) {
-                        changeQuestionAnswer(input, question);
-                        changeEditableFields(fields, form.elements, true);
-                    }
-
-                    System.out.println(form);
-                });
-
-                fields.put(question.name, input);
-                fieldGroup.join(question.name, question.text, input);
-            } else {
-                System.out.println("debugggg");
+                addNumberQuestionToFieldGroup(fields, form, question, fieldGroup);
             }
-
 
             // Test from: https://o7planning.org/en/11185/javafx-spinner-tutorial
 //            Label label = new Label("Select Level:");
@@ -149,9 +107,58 @@ public class Main extends Application {
 
             // separator, might be useful to visually make groups apparent
 //            fieldGroup.separate();
-
-
         }
+    }
+
+    private void addBooleanQuestionToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup){
+        ComboBox<String> input = Input.comboBox(
+                new OptionList() {{
+                    add("", true);
+                    add("true");
+                    add("false");
+                }});
+
+        // TODO implement observer pattern?
+        // If input changes some questions might need to be enabled/disabled
+        input.setOnAction(e -> {
+            if (input.isEditable() || !input.isDisabled()) {
+                // Change answer
+                changeQuestionAnswer(input, question);
+//                        changeEditableFields(fields, form, block, true);
+            }
+        });
+
+        fields.put(question.name, input);
+        fieldGroup.join(question.name, question.text, input);
+    }
+
+    private void addNumberQuestionToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup){
+        TextInputControl input = Input.textField("");
+
+        if (question.answer.getReturnType() == ReturnType.Number) {
+            // NumberStringConverter
+            // CurrencyStringConverter
+            // DoubleStringConverter
+            // https://docs.oracle.com/javase/8/javafx/api/javafx/util/StringConverter.html
+            input.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
+        }
+
+        // If input changes some questions might need to be enabled/disabled
+        input.setOnKeyTyped(e -> {
+            if (input.isEditable()) {
+                changeQuestionAnswer(input, question);
+                changeEditableFields(fields, form.elements, true);
+            }
+
+//                    System.out.println(form);
+        });
+
+        fields.put(question.name, input);
+        fieldGroup.join(question.name, question.text, input);
+    }
+
+    private void addStringQuestionToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup){
+        // TODO
     }
 
     private void changeQuestionAnswer(TextInputControl input, Question question) {

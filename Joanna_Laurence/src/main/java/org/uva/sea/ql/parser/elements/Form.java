@@ -32,7 +32,8 @@ public class Form implements ASTNode {
 
     public void traverse(Traverse traverse) {
         traverse.doForm(this);
-        this.statements.traverse(traverse);
+        if(this.statements != null)
+            this.statements.traverse(traverse);
     }
 
     public Type getType() {

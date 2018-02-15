@@ -12,7 +12,7 @@ namespace QL_Parser_Tester
     {
         static void Main(string[] args)
         {
-            string[] lines = System.IO.File.ReadAllLines(@"..\..\..\QL_Parser_Tester\Questionnaire.txt");
+            string[] lines = System.IO.File.ReadAllLines(@"..\..\..\QL_Parser_Tester\Questionnaire.gl");
             StringBuilder builder = new StringBuilder();
             foreach (string line in lines)
                 builder.AppendLine(line);

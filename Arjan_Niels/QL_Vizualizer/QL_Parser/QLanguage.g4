@@ -4,11 +4,12 @@
  * Parser Rules
 */
 formDeclaration		: 'form' formName '{' (section)* '}';
-section				: (question | conditionalBlock);
+section				: question | conditionalBlock;
 question			: TEXT ID ':' QTYPE;
+formName			: ID;
+
 conditionalBlock	: 'if' statement '{' (section)* '}';
 statement			: 'x < y';
-formName			: ID;
 
  /*
   * Lexer Rules
@@ -17,7 +18,15 @@ formName			: ID;
 fragment LOWERCASE  : [a-z] ;
 fragment UPPERCASE  : [A-Z] ;
  
-QTYPE				: ('boolean' | 'money' | 'text');
+LPAREN				: '(';
+RPAREN				: ')';
+
+AND					: '&&';
+OR					: '||';
+
+
+OPR					: AND | OR;
+QTYPE				: 'boolean' | 'money' | 'text' | 'integer';
 ID					: [a-zA-Z0-9]+ ;
 TEXT				: '"' .*? '"' ;
 WS					: [ \t\n\r]+ -> skip;

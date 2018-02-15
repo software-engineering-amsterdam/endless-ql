@@ -9,13 +9,19 @@ namespace QL_Parser.Visitors
     {
         public override ConditionalBlock VisitConditionalBlock([NotNull] QLanguageParser.ConditionalBlockContext context)
         {
+            // Create a conditionalBlock wherein we can store the results.
             var conditionalBlock = new ConditionalBlock();
 
-            // Get the sections
-            SectionContext[] sectionContext = context.section();
-            SectionVisitor visitor = new SectionVisitor();
-            foreach (SectionContext ctx in sectionContext)
-                conditionalBlock.Sections.Add(visitor.VisitSection(ctx));
+            // Process the statements and add them to the conditionalBlock.
+            var statementContext = context.statement();
+            var statementVisitor = new StatementVisitor();
+            conditionalBlock.Statement = statementVisitor.VisitStatement(statementContext);
+
+            // Get the sections and process them.
+            var sectionContext = context.section();
+            var sectionVisitor = new SectionVisitor();
+            foreach (var ctx in sectionContext)
+                conditionalBlock.Sections.Add(sectionVisitor.VisitSection(ctx));
 
             return conditionalBlock;
         }

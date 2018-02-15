@@ -8,13 +8,16 @@
 	"What is the name of your cat?"
 		myCatsNameLala: text
 
-	if x < y {
+	if soldHouseIn2010 {
 		"What was the selling price?"
 			sellingPrice: money
 
-		if x < y {
+		"Ïs this the second question in the conditional block?"
+			secondQuestion: boolean
+
+		if secondQuestion {
 			"Do you like coffee?"
-				likesCoffee: boolean
+				youLikesCoffee: boolean
 		}
 	}
 }

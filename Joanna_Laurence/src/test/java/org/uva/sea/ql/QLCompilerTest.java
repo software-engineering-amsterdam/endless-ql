@@ -16,42 +16,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-class TestPair {
-    private String location;
-    private Boolean shouldCompile;
-
-    public TestPair(String location, Boolean shouldCompile) {
-        this.location = location;
-        this.shouldCompile = shouldCompile;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public Boolean getShouldCompile() {
-        return shouldCompile;
-    }
-}
-
 @RunWith(Parameterized.class)
 public class QLCompilerTest extends TestCase {
-
-    private QLCompiler compiler = new QLCompiler();
 
     private String testFile;
     private Boolean shouldCompile;
 
 
-    public QLCompilerTest(TestPair entry) {
-        this.testFile = entry.getLocation();
-        this.shouldCompile = entry.getShouldCompile();
+    public QLCompilerTest(String testFile, Boolean shouldCompile) {
+        this.testFile = testFile;
+        this.shouldCompile = shouldCompile;
     }
 
-    @Parameterized.Parameters
-    public static Collection<TestPair> data() {
+    @Parameterized.Parameters(name = "{index}: {0}")
+    public static Collection<Object[]> data() {
 
-        Collection<TestPair> testFiles = new ArrayList<TestPair>();
+        Collection<Object[]> testFiles = new ArrayList<Object[]>();
         testFiles.addAll(getTestFiles("src/test/resources/correctQL/", true));
         testFiles.addAll(getTestFiles("src/test/resources/incorrectQL/", false));
 
@@ -64,13 +44,13 @@ public class QLCompilerTest extends TestCase {
      * @param shouldCompile Should the file compile?
      * @return Map of test files and if they should compile
      */
-    private static Collection<TestPair> getTestFiles(String folderLocation, Boolean shouldCompile) {
-        Collection<TestPair> testFiles = new ArrayList<TestPair>();
+    private static Collection<Object[]> getTestFiles(String folderLocation, Boolean shouldCompile) {
+        Collection<Object[]> testFiles = new ArrayList<Object[]>();
         File folder = new File(folderLocation);
         File[] listOfFiles = folder.listFiles();
         if(listOfFiles != null) {
             for (File file : listOfFiles) {
-                testFiles.add(new TestPair(file.getAbsolutePath(), shouldCompile));
+                testFiles.add(new Object[] {file.getAbsolutePath(),shouldCompile});
             }
         }
         return testFiles;
@@ -83,6 +63,7 @@ public class QLCompilerTest extends TestCase {
      */
     private boolean doesCompile(String fileName) {
         try {
+            QLCompiler compiler = new QLCompiler();
             CharStream steam = CharStreams.fromStream(new FileInputStream(fileName));
             Form result = compiler.compileScriptFile(steam);
             return result != null;

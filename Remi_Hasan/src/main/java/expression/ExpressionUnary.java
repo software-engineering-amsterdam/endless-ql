@@ -1,7 +1,5 @@
 package expression;
 
-import model.Form;
-
 public abstract class ExpressionUnary<T> extends Expression<T> {
     final Expression v;
     final String opString;
@@ -11,7 +9,7 @@ public abstract class ExpressionUnary<T> extends Expression<T> {
         this.opString = opString;
     }
 
-    public abstract ReturnType getReturnType(Form form);
+    public abstract ReturnType getReturnType();
 
     @Override
     public String toString(){

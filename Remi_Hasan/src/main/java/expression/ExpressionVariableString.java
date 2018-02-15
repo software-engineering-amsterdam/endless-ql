@@ -9,7 +9,7 @@ public class ExpressionVariableString extends ExpressionVariable<String> {
     }
 
     @Override
-    public ReturnType getReturnType(Form form) {
+    public ReturnType getReturnType() {
         return ReturnType.String;
     }
 

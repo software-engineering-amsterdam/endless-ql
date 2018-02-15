@@ -1,29 +1,25 @@
 import expression.Expression;
-import model.Block;
-import model.Question;
+import model.BlockElement;
+import model.Condition;
 
 import java.util.ArrayList;
 
-public class VisitorCondition extends QLBaseVisitor<ArrayList<Question>>  {
-
-    private final ArrayList<Expression> conditions;
-
-    VisitorCondition(ArrayList<Expression> conditions){
-        this.conditions = conditions;
-    }
+public class VisitorCondition extends QLBaseVisitor<Condition> {
 
     @Override
-    public ArrayList<Question> visitCondition(QLParser.ConditionContext ctx) {
+    public Condition visitCondition(QLParser.ConditionContext ctx) {
         VisitorExpression visitorExpression = new VisitorExpression();
-        Expression condition = visitorExpression.visit(ctx.expression());
+        Expression expression = visitorExpression.visit(ctx.expression());
 
-        ArrayList<Expression> subConditions = new ArrayList<>();
-        subConditions.addAll(conditions);
-        subConditions.add(condition);
+        ArrayList<BlockElement> elements = new ArrayList<>();
+        VisitorBlockElement visitorBlockElement = new VisitorBlockElement();
+        for (QLParser.BlockElementContext x : ctx.block().blockElement()) {
+            BlockElement blockElement = visitorBlockElement.visit(x);
+            elements.add(blockElement);
+        }
 
-        VisitorBlock visitorBlock = new VisitorBlock(subConditions);
-        Block block = visitorBlock.visitBlock(ctx.block());
-        return block.questions;
+        Condition condition = new Condition(expression, elements);
+        return condition;
     }
 
 }

@@ -1,7 +1,5 @@
 package expression;
 
-import model.Form;
-
 public abstract class ExpressionBinary<T> extends Expression<T> {
     final Expression left;
     final Expression right;
@@ -13,7 +11,7 @@ public abstract class ExpressionBinary<T> extends Expression<T> {
         this.opString = opString;
     }
 
-    public abstract ReturnType getReturnType(Form form);
+    public abstract ReturnType getReturnType();
 
     @Override
     public String toString(){

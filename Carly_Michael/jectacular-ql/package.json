@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "genParser": "./node_modules/.bin/pegjs --plugin ./node_modules/ts-pegjs/src/tspegjs --extra-options-file ./src/parser/pegconfig.json -o ./src/parser/ql-parser.ts --cache ./src/parser/ql.pegjs",
-    "check": "ng lint && ng test --single-run && ng e2e && ng build --prod"
+    "check": "npm run genParser && ng lint && ng test --single-run && ng e2e && ng build --prod"
   },
   "private": true,
   "dependencies": {

@@ -8,7 +8,7 @@ export class QuestionBase<T> {
   order: number;
   controlType: string;
   hiddenCondition: (form: FormGroup) => boolean;
-
+  readonly: boolean;
 
   constructor(options: {
     value?: T,
@@ -18,6 +18,7 @@ export class QuestionBase<T> {
     order?: number,
     controlType?: string,
     hiddenCondition?: (form: FormGroup) => boolean
+    readonly?: boolean
   } = {}) {
     this.value = options.value;
     this.key = options.key || '';
@@ -26,5 +27,6 @@ export class QuestionBase<T> {
     this.order = options.order === undefined ? 1 : options.order;
     this.controlType = options.controlType || '';
     this.hiddenCondition = options.hiddenCondition || (() => true);
+    this.readonly = options.readonly || false;
   }
 }

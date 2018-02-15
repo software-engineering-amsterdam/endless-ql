@@ -18,8 +18,8 @@ object Ast {
     def apply(answerTypeText: String): AnswerType = {
       answerTypeText match {
         case "boolean" => BooleanAnswerType
-        case "text" => StringAnswerType
-        case "string" => IntAnswerType
+        case "string" => StringAnswerType
+        case "integer" => IntAnswerType
         case other => throw new IllegalArgumentException(s"Unsupported type: $other")
       }
     }

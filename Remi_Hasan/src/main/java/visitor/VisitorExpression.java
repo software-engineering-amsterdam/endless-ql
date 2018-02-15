@@ -6,6 +6,8 @@ import antlr.QLParser;
 import expression.*;
 import model.LookupTable;
 
+import java.math.BigDecimal;
+
 public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
@@ -99,6 +101,11 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     }
 
     @Override
+    public Expression visitConstant_boolean(QLParser.Constant_booleanContext ctx) {
+        return new ExpressionVariableBoolean(Boolean.parseBoolean(ctx.getText()));
+    }
+
+    @Override
     public Expression visitConstant_integer(QLParser.Constant_integerContext ctx) {
         // TODO do we have to use integer? what if we do a sum of int + double?
         return new ExpressionVariableInteger(Integer.parseInt(ctx.getText()));
@@ -117,7 +124,8 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     @Override
     public Expression visitConstant_money(QLParser.Constant_moneyContext ctx) {
         // TODO: Same as decimal?
-        return new ExpressionVariableMoney(Double.valueOf(ctx.getText()));
+        BigDecimal bigDecimal = BigDecimal.valueOf(Double.valueOf(ctx.getText()));
+        return new ExpressionVariableMoney(bigDecimal);
     }
 
     // TODO do we need this?
@@ -128,8 +136,10 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitConstant_string(QLParser.Constant_stringContext ctx) {
-        String textWithQuotes = ctx.getText();
-        return new ExpressionVariableString(textWithQuotes.substring(1, textWithQuotes.length() - 1));
+        String text = ctx.STRING().toString();
+        // remove quotes from text
+        text = text.substring(1, text.length() - 1);
+        return new ExpressionVariableString(text);
     }
 
     @Override

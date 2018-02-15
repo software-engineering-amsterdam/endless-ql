@@ -30,7 +30,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Parse form from specified file
-        String fileName = "example.ql";
+        String fileName = "java/example.ql";
         InputStream stream = getClass().getResourceAsStream(fileName);
         Form form = FormParser.parseForm(stream);
 

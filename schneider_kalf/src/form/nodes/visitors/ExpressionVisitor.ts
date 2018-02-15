@@ -14,6 +14,7 @@ import LargerThan from "../expressions/comparisons/LargerThan";
 import LargerThanOrEqual from "../expressions/comparisons/LargerThanOrEqual";
 import SmallerThan from "../expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../expressions/comparisons/SmallerThanOrEqual";
+import StringLiteral from "../expressions/string/StringLiteral";
 
 interface ExpressionVisitor {
   visitAddition(addition: Addition): any;

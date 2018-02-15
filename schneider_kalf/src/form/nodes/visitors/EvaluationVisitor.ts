@@ -45,7 +45,7 @@ export default class EvaluationVisitor implements ExpressionVisitor {
     const divisorValue: any = division.divisor.accept(this);
     assertValidDivision(dividendValue, divisorValue);
 
-    return dividendValue.accept(this) / divisorValue.accept(this);
+    return dividendValue / divisorValue;
   }
 
   visitAnd(and: And): any {

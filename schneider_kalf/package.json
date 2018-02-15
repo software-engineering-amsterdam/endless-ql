@@ -33,9 +33,5 @@
     "typescript": "^2.7.1"
   },
   "jest": {
-    "name": "my-project",
-    "jest": {
-      "verbose": true
-    }
   }
 }

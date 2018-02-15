@@ -1,4 +1,4 @@
-import { DivisionByZeroError, TypeCheckError } from "../errors";
+import { DivisionByZeroError, NotComparableError, TypeCheckError } from "../errors";
 
 export const getTypeString = (value: any) => {
   if (Array.isArray(value)) {
@@ -56,5 +56,13 @@ export const assertValidDivision = (dividend: any, divisor: any) => {
 };
 
 export const assertSameType = (left: any, right: any) => {
-  return typeof left === typeof right;
+  if (typeof left !== typeof right) {
+    const error = NotComparableError.make(left, right);
+    console.log(typeof error);
+    console.log(error instanceof NotComparableError);
+
+    throw error;
+  }
+
+  return {left, right};
 };

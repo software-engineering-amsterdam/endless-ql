@@ -1,3 +1,5 @@
+import { getTypeString } from "./typechecking/typeAssertions";
+
 export class FormError extends Error {
   constructor(m: string) {
     super(m);
@@ -18,6 +20,25 @@ export class TypeCheckError extends FormError {
 
     error.expectedType = expectedType;
     error.receivedType = receivedType;
+
+    return error;
+  }
+}
+
+export class NotComparableError extends FormError {
+  left: any;
+  right: any;
+
+  static make(left: string, right: string, message?: string) {
+    if (typeof message === 'undefined') {
+      message = `Cannot compare ${left} [${getTypeString(left)}] to  ${right} [${getTypeString(right)}]`;
+    }
+
+    const error = new NotComparableError(message);
+    error.name = "NotComparableError";
+
+    error.left = left;
+    error.right = right;
 
     return error;
   }

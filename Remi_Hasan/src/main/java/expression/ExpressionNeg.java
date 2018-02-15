@@ -1,7 +1,5 @@
 package expression;
 
-import model.Form;
-
 public class ExpressionNeg extends ExpressionUnary<Double> {
 
     public ExpressionNeg(Expression v) {
@@ -9,14 +7,14 @@ public class ExpressionNeg extends ExpressionUnary<Double> {
     }
 
     @Override
-    public ExpressionVariable evaluate(Form form) {
+    public ExpressionVariable evaluate() {
         ExpressionVariable leftEvaluated = new ExpressionVariableInteger(-1);
-        ExpressionVariable rightEvaluated = v.evaluate(form);
-        return new ExpressionArithmeticMultiply(leftEvaluated, rightEvaluated).evaluate(form);
+        ExpressionVariable rightEvaluated = v.evaluate();
+        return new ExpressionArithmeticMultiply(leftEvaluated, rightEvaluated).evaluate();
     }
 
     @Override
-    public ReturnType getReturnType(Form form) {
+    public ReturnType getReturnType() {
         return ReturnType.Number;
     }
 }

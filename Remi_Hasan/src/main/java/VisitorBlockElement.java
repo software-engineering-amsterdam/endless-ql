@@ -1,29 +1,25 @@
-import expression.Expression;
+import model.BlockElement;
+import model.Condition;
+import model.LookupTable;
 import model.Question;
 
-import java.util.ArrayList;
-
-public class VisitorBlockElement extends QLBaseVisitor<ArrayList<Question>> {
-
-    private final ArrayList<Expression> conditions;
-
-    VisitorBlockElement(ArrayList<Expression> conditions){
-        this.conditions = conditions;
-    }
+public class VisitorBlockElement extends QLBaseVisitor<BlockElement> {
 
     @Override
-    public ArrayList<Question> visitCondition(QLParser.ConditionContext ctx) {
-        VisitorCondition visitorCondition = new VisitorCondition(conditions);
+    public Condition visitCondition(QLParser.ConditionContext ctx) {
+        VisitorCondition visitorCondition = new VisitorCondition();
         return visitorCondition.visitCondition(ctx);
     }
 
     @Override
-    public ArrayList<Question> visitQuestion(QLParser.QuestionContext ctx) {
+    public Question visitQuestion(QLParser.QuestionContext ctx) {
         VisitorQuestion visitorQuestion = new VisitorQuestion();
         Question question = visitorQuestion.visitQuestion(ctx);
-        ArrayList<Question> questions = new ArrayList<>();
-        questions.add(question);
-        return questions;
+
+        LookupTable lookupTable = LookupTable.getInstance();
+        lookupTable.insert(question);
+
+        return question;
     }
 
     // TODO do we need this?

@@ -25,7 +25,7 @@ public class QLHomeController {
         if (selectedFile != null) {
             System.out.printf("File [%s] has been selected.%n", selectedFile);
             try {
-                Ast.Node form = Compiler$.MODULE$.compile(CharStreams.fromFileName(selectedFile.getAbsolutePath()));
+                Ast.QLForm form = Compiler$.MODULE$.compile(CharStreams.fromFileName(selectedFile.getAbsolutePath()));
                 System.out.printf("Form [%s]%n", form);
             } catch (IOException e) {
                 e.printStackTrace();

@@ -12,16 +12,17 @@ import java.io.IOException;
 
 public class App {
 
-    public App() {
+    private App() {
         try {
             CharStream cs = CharStreams.fromFileName("input/default.ql");
             QLLexer lexer = new QLLexer(cs);
 
             QLParser parser = new QLParser(new CommonTokenStream(lexer));
-            QLParser.FormContext fctx =  parser.form();
+            QLParser.FormContext formContext =  parser.form();
             ParseTreeVisitor visitor = new ParseTreeVisitor();
-            Form fm = (Form) visitor.visit(fctx);
+            Form form = (Form) visitor.visit(formContext);
 
+            System.out.println(form);
         }
         catch (IOException ex) {
             System.out.println(ex.toString());

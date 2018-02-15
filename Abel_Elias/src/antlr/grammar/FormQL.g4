@@ -21,7 +21,8 @@ form : FORM IDENTIFIER content EOF; // form
 
 content : CURLY_BRACE_L (ifStatement | question)* CURLY_BRACE_R; // content
 
-question : IDENTIFIER COLON STR type; //question2
+question : IDENTIFIER COLON STR type //question 1
+         | IDENTIFIER COLON STR type BRACE_L IDENTIFIER SUB IDENTIFIER BRACE_R; //question 12
 
 ifStatement : IF BRACE_L expr BRACE_R content*; //statement
 

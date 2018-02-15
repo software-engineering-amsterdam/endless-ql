@@ -7,6 +7,7 @@ public abstract class Stmt extends AstNode {
 		T visitFormStmt(FormStmt stmt);
 		T visitBlockStmt(BlockStmt stmt);
 		T visitQuestionStmt(QuestionStmt stmt);
+		T visitComputedQuestionStmt(ComputedQuestionStmt stmt);
 		T visitIfStmt(IfStmt stmt);
 		T visitIfElseStmt(IfElseStmt stmt);
 	}

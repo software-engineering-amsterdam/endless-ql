@@ -81,15 +81,13 @@ public class Main extends Application {
 
     private void addQuestionsToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup) {
         // Only show questions that have answers you can set a value to
-        if (true || question.answer.isSettable()) {
+        if (question.answer.getReturnType() == ReturnType.Boolean) {
+            addBooleanQuestionToFieldGroup(fields, form, question, fieldGroup);
+        } else if (question.answer.getReturnType() == ReturnType.Number || question.answer.getReturnType() == ReturnType.String) {
+            addNumberQuestionToFieldGroup(fields, form, question, fieldGroup);
+        }
 
-            if (question.answer.getReturnType() == ReturnType.Boolean) {
-                addBooleanQuestionToFieldGroup(fields, form, question, fieldGroup);
-            } else if (question.answer.getReturnType() == ReturnType.Number || question.answer.getReturnType() == ReturnType.String) {
-                addNumberQuestionToFieldGroup(fields, form, question, fieldGroup);
-            }
-
-            // Test from: https://o7planning.org/en/11185/javafx-spinner-tutorial
+        // Test from: https://o7planning.org/en/11185/javafx-spinner-tutorial
 //            Label label = new Label("Select Level:");
 //            final Spinner<Integer> spinner = new Spinner<Integer>();
 //            final int initialValue = 3;
@@ -99,9 +97,8 @@ public class Main extends Application {
 //            spinner.setValueFactory(valueFactory);
 //            fieldGroup.join("dummy", "dummy2", spinner);
 
-            // separator, might be useful to visually make groups apparent
+        // separator, might be useful to visually make groups apparent
 //            fieldGroup.separate();
-        }
     }
 
     private void addBooleanQuestionToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup) {

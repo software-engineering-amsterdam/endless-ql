@@ -27,6 +27,29 @@ yarn start
 
 Visit [http://localhost:3000](http://localhost:3000/)
 
+## Generating a new parser
+
+**Requirements to generate parser**
+
+You need a [global installation of pegjs](https://github.com/pegjs/pegjs) to run the parser generator command
+below:
+
+```bash
+npm install -g pegjs
+```
+
+**Run QL parser generator**
+
+After making changes to `src/parsing/grammars/ql_grammar.pegts`
+you can run the following command to generate a new parser:
+
+```
+npm run generate:ql
+```
+
+The results will be written to `src/parsing/parsers/ql_parser.ts`.
+If the development server is running it will automatically reload.
+
 ## Doubts
 
 * Can we have escape charachters in string \"?

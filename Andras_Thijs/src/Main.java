@@ -6,7 +6,14 @@ import java.io.IOException;
 public class Main {
     public static void main (String[] args){
 
+        FormDisplay form = new FormDisplay();
+        form.displayForm();
+
+
+
+        /*
         FormReader formReader = new FormReader();
+
 
         CharStream testInput1 = CharStreams.fromString("");
 
@@ -22,5 +29,6 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
     }
 }

@@ -76,21 +76,12 @@ public class FormReader {
 
         QLParser parser = new QLParser(tokens);
 
-        parser.removeErrorListeners();
-
-        parser.addErrorListener(SyntaxErrorListener.INSTANCE);
-
         QLParser.FormContext formContext = parser.form();
 
         ParseTreeWalker walker = new ParseTreeWalker();
 
         FormReaderListener listener = new FormReaderListener();
 
-        try {
-            walker.walk(listener, formContext);
-        } catch (Exception e){
-            System.out.println("SYNTAX ERROR");
-        }
     }
 
 }

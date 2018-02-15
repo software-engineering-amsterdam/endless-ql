@@ -1,14 +1,16 @@
 class CodeLocation:
 
     def __init__(self, row, column):
-        self.row = row
-        self.column = column
+        self._row = row
+        self._column = column
 
-    def get_column(self):
-        return self.column
+    @property
+    def column(self):
+        return self._column
 
-    def get_row(self):
-        return self.row
+    @property
+    def row(self):
+        return self._row
 
     def __repr__(self):
-        return "Row: " + str(self.row) + "; Column: " + str(self.column)
+        return "(" + str(self.row) + "," + str(self.column) + ")"

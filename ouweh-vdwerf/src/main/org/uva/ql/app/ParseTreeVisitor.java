@@ -3,6 +3,12 @@ package main.org.uva.ql.app;
 import generated.org.uva.ql.parser.QLBaseVisitor;
 import generated.org.uva.ql.parser.QLParser;
 import main.org.uva.ql.ast.*;
+import main.org.uva.ql.ast.expression.Expression;
+import main.org.uva.ql.ast.expression.binary.*;
+import main.org.uva.ql.ast.expression.unary.BooleanLiteral;
+import main.org.uva.ql.ast.expression.unary.IntegerLiteral;
+import main.org.uva.ql.ast.expression.unary.Parameter;
+import main.org.uva.ql.ast.expression.unary.StringLiteral;
 import main.org.uva.ql.ast.type.*;
 
 import java.util.*;
@@ -11,20 +17,22 @@ public class ParseTreeVisitor extends QLBaseVisitor {
 
     @Override
     public Form visitForm(QLParser.FormContext ctx) {
-        System.out.println(String.format("Visit Form: %s", ctx.id.getText()));
+        String formId = ctx.id.getText();
         List<Statement> statements = new ArrayList<>();
 
         for(QLParser.StatementContext statementContext : ctx.statement()){
             statements.add((Statement) visit(statementContext));
         }
-
-        return new Form(statements);
+        return new Form(formId, statements);
     }
 
     @Override
     public TreeNode visitQuestion(QLParser.QuestionContext ctx) {
-        System.out.println(String.format("Visit Question: %s", ctx.text.getText()));
-        return new Question(ctx.text.getText(), (Type)visit(ctx.type()));
+        String questionName = ctx.ID().getText();
+        String questionContent = ctx.text.getText();
+        Type questionType = (Type)visit(ctx.type());
+
+        return new Question(questionName, questionContent, questionType);
     }
 
     @Override
@@ -52,6 +60,25 @@ public class ParseTreeVisitor extends QLBaseVisitor {
         return new Conditional((Expression) visit(ctx.expression()), ifBody, elseBody);
     }
 
+    public TreeNode visitComparation(QLParser.ComparationContext ctx){
+        String operation = ctx.op.getText();
+        if(operation.equals(">")) {
+            return new GreaterThan((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        } else if (operation.equals("<")) {
+            return new LessThan((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        } else if (operation.equals("<")) {
+            return new LessThan((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        } else if (operation.equals("<=")) {
+            return new LessThanEqualTo((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        } else if (operation.equals(">=")) {
+            return new GreaterThanEqualTo((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        } else if (operation.equals("!=")) {
+            return new NotEqual((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        } else {
+            return new Equal((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        }
+    }
+
     @Override
     public TreeNode visitIntegerType(QLParser.IntegerTypeContext ctx) {
         return new IntegerType();
@@ -66,4 +93,35 @@ public class ParseTreeVisitor extends QLBaseVisitor {
     public TreeNode visitStringType(QLParser.StringTypeContext ctx) {
         return new StringType();
     }
+
+    @Override
+    public TreeNode visitParameter(QLParser.ParameterContext ctx) {
+        return new Parameter(ctx.getText());
+    }
+
+    @Override
+    public TreeNode visitStringLiteral(QLParser.StringLiteralContext ctx) {
+        return new StringLiteral(ctx.getText());
+    }
+
+    @Override
+    public TreeNode visitBooleanLiteral(QLParser.BooleanLiteralContext ctx) {
+        return new BooleanLiteral(ctx.getText());
+    }
+
+    @Override
+    public TreeNode visitIntegerLiteral(QLParser.IntegerLiteralContext ctx) {
+        return new IntegerLiteral(ctx.getText());
+    }
+
+    @Override
+    public TreeNode visitLogicalOr(QLParser.LogicalOrContext ctx) {
+        return new Or((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+    }
+
+    @Override
+    public TreeNode visitLogicalAnd(QLParser.LogicalAndContext ctx) {
+        return new And((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+    }
+
 }

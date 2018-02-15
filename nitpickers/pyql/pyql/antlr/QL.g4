@@ -2,18 +2,20 @@ grammar QL;
 
 /*
  * Parser rules
- * TODO: ()
+ * TODO: () -> (3 + (2 - 2))
  */
 
  form              : 'form' identifier '{' block '}' ;
 
  conditional_block : 'if' '(' expression ')' '{' block '}' ;
 
- block             : (quest | conditional_block)+;
+ block             : statement+;
 
- quest             : identifier ':' STR quest_type ;
+ statement         : question | conditional_block ;
 
- quest_type        : 'boolean' | 'string' | 'integer' | 'date' | 'date' | money;
+ question          : identifier ':' STR question_type ;
+
+ question_type     : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | money;
 
  expression        : '!' expression
                    | orExpression
@@ -34,7 +36,7 @@ grammar QL;
 
  literal : MONEY | DECIMAL | INT | STR | BOOL ;
 
- identifier : IDENTIFIER;
+ identifier : IDENTIFIER ;
 
  money: 'money' | 'money(' identifier ('-'|'+'|'*'|'/') identifier ')' ;
 

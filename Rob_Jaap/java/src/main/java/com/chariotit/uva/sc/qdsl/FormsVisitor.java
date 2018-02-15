@@ -1,9 +1,14 @@
 package com.chariotit.uva.sc.qdsl;
 
-public class FormsVisitor<T> extends GrammarBaseVisitor <T>{
+import com.chariotit.uva.sc.qdsl.grammar.QLBaseVisitor;
+import com.chariotit.uva.sc.qdsl.grammar.QLParser;
+import org.antlr.v4.runtime.Parser;
 
 
-    @Override public T visitForm(GrammarParser.FormContext ctx) {
+public class FormsVisitor<T> extends QLBaseVisitor <T> {
+
+    @Override
+    public T visitForm(QLParser.FormContext ctx) {
 
         System.out.println("Visiting form test");
 

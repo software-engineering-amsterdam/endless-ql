@@ -1,9 +1,8 @@
 package expression;
 
-import model.Form;
 import model.LookupTable;
 
-public class ExpressionIdentifier extends Expression<Object> {
+public class ExpressionIdentifier<T> extends Expression<T> {
 
     private final String identifier;
 
@@ -12,8 +11,8 @@ public class ExpressionIdentifier extends Expression<Object> {
     }
 
     @Override
-    public ExpressionVariable evaluate(Form form) {
-        return getVariable(form).evaluate(form);
+    public ExpressionVariable evaluate() {
+        return LookupTable.getInstance().getQuestionAnswer(identifier).evaluate();
     }
 
     @Override
@@ -22,12 +21,7 @@ public class ExpressionIdentifier extends Expression<Object> {
     }
 
     @Override
-    public ReturnType getReturnType(Form form) {
-        return getVariable(form).getReturnType(form);
-    }
-
-    private Expression getVariable(Form form) {
-        LookupTable lookupTable = LookupTable.getInstance();
-        return lookupTable.getQuestionAnswer(identifier);
+    public ReturnType getReturnType() {
+        return evaluate().getReturnType();
     }
 }

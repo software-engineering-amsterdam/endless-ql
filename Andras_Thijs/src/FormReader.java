@@ -9,31 +9,66 @@ public class FormReader {
 
         @Override
         public void enterForm(QLParser.FormContext ctx) {
+            //System.out.println(ctx.getText());
+        }
+
+        @Override
+        public void enterQuestion(QLParser.QuestionContext ctx){
             System.out.println(ctx.getText());
         }
 
     }
 
-    private void parseForm (String path) throws IOException {
+    public class FormReaderVisitor extends QLBaseVisitor<Object> {
 
-            CharStream charStream =  CharStreams.fromFileName(path);
 
-            QLLexer lexer = new QLLexer(charStream);
+        @Override
+        public Object visitForm(QLParser.FormContext ctx) {
+            return visitChildren(ctx);
+        }
 
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
+        @Override
+        public Object visitQuestion(QLParser.QuestionContext ctx) {
+            return visitChildren(ctx);
+        }
 
-            QLParser parser = new QLParser(tokens);
-
-            QLParser.FormContext formContext = parser.form();
-
-            ParseTreeWalker walker = new ParseTreeWalker();
-
-            FormReaderListener listener = new FormReaderListener();
-
-            walker.walk(listener, formContext);
     }
 
-    private void parseForm (CharStream charStream){
+    public static class SyntaxErrorListener extends BaseErrorListener {
+        public static SyntaxErrorListener INSTANCE = new SyntaxErrorListener();
+
+        @Override
+        public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol,
+                                int line, int charPositionInLine,
+                                String msg, RecognitionException e)
+        {
+            String sourceName = recognizer.getInputStream().getSourceName();
+            if (!sourceName.isEmpty()) {
+                sourceName = String.format("%s:%d:%d: ", sourceName, line, charPositionInLine);
+            }
+
+            System.err.println(sourceName+"line "+line+":"+charPositionInLine+" "+msg);
+        }
+    }
+
+    public void parseFile (String path) throws IOException {
+
+        CharStream charStream = CharStreams.fromFileName(path);
+
+        parseCharstream(charStream);
+
+    }
+
+    public void parseString (String s) {
+
+        CharStream charStream = CharStreams.fromString(s);
+
+        parseCharstream(charStream);
+
+    }
+
+    public void parseCharstream (CharStream charStream){
+
 
         QLLexer lexer = new QLLexer(charStream);
 
@@ -41,13 +76,21 @@ public class FormReader {
 
         QLParser parser = new QLParser(tokens);
 
+        parser.removeErrorListeners();
+
+        parser.addErrorListener(SyntaxErrorListener.INSTANCE);
+
         QLParser.FormContext formContext = parser.form();
 
         ParseTreeWalker walker = new ParseTreeWalker();
 
         FormReaderListener listener = new FormReaderListener();
 
-        walker.walk(listener, formContext);
+        try {
+            walker.walk(listener, formContext);
+        } catch (Exception e){
+            System.out.println("SYNTAX ERROR");
+        }
     }
 
 }

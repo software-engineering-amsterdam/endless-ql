@@ -42,7 +42,10 @@ ExpressionMulOrDiv returns Expression:
 
 ExpressionAtomic returns Expression:
 	'(' Expression ')' |
-	{ExpressionNot} "!" expression=ExpressionAtomic |
+	{ExpressionNot} "!" expression=ExpressionAtomic | 
+	{ExpressionLiteralString} expression=STRING | 
+	{ExpressionLiteralInteger} expression=INT |
+	{ExpressionLiteralBoolean} expression=('true' | 'false') | 
 	{ExpressionQuestionRef} question=[Question];
 
 QuestionType:

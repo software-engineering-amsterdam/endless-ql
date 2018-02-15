@@ -3,9 +3,9 @@ grammar QL;
 // Tokens
 WS          : (' ' | '\t' | '\n' | '\r') ->channel (HIDDEN);
 
-SLCOMMENT   : '//' (.)*? '\n' -> channel(HIDDEN);
-
 MLCOMMENT   : '/*' (.)*? '*/' -> channel(HIDDEN);
+
+SLCOMMENT   : '//' (.)*? '\n' -> channel(HIDDEN);
 
 BOOLEAN     : 'true'
             | 'false'
@@ -30,74 +30,68 @@ DIGIT       : ('0'..'9');
 ID          : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 // Questionnaire language
-form        : 'form' identifier block;
+form                : 'form' identifier block;
 
-block       : '{' question* '}';
+statement           : block
+                    | question
+                    | ifThenElse
+                    | ifThen
+                    ;
+            
+block               : '{' statement* '}';
 
-question    : conditional
-            | computed
-            | answerable
-            ; 
+question            : computedQuestion
+                    | answerableQuestion
+                    ;
 
-conditional : ifThenElse
-            | ifThen
-            ;
+computedQuestion    : lbl=label identifier ':' type '=' '(' expr ')';
 
-computed    : answerable '(' expr ')';
+answerableQuestion  : lbl=label identifier ':' type;
 
-answerable  : identifier ':' label typeLabel;
+type                : 'boolean'
+                    | 'string'
+                    | 'integer'
+                    | 'decimal'
+                    | 'money'
+                    | 'date'
+                    ;
 
-label       : STRING;
+label               : STRING;
 
-typeLabel   : 'boolean'
-            | 'string'
-            | 'integer'
-            | 'decimal'
-            | 'money'
-            | 'date'
-            ;
+literal             : BOOLEAN
+                    | STRING
+                    | INTEGER
+                    | DECIMAL
+                    | MONEY
+                    | DATE
+                    ;
 
-type        : BOOLEAN
-            | STRING
-            | INTEGER
-            | DECIMAL
-            | MONEY
-            | DATE
-            ;
+identifier          : ID;
 
-identifier  : ID;
+ifThen              : 'if' '(' condition=expr ')' thenStmt=statement;
 
-literal     : type;
-
-ifThenElse  : ifThen 'else' block;
-
-ifThen      : 'if' '(' expr ')' block;
+ifThenElse          : 'if' '(' condition=expr ')' thenStmt=statement 'else' elseStmt=statement;
 
 // Expressions
-andExpr     : orExpr '&&' orExpr;
+primary	: literal
+		| identifier
+		;
+		
+unExpr	: '+' unExpr
+		| '-' unExpr
+		| '!' unExpr
+		| primary
+		;
 
-orExpr      : relExpr '||' relExpr;
-
-relExpr     : mulExpr ('<'|'<='|'>'|'>='|'=='|'!=') mulExpr;
-    
-mulExpr     : addExpr ('*'|'/') addExpr; 
-  
-addExpr     : unExpr ('+'|'-') unExpr; 
-  
-unExpr      : primary
-            | '+' unExpr
-            | '-' unExpr
-            | '!' unExpr
-            ;    
-    
-primary     : literal
-            | identifier
-            ;
-
-expr        : andExpr
-            | orExpr
-            | relExpr
-            | mulExpr
-            | addExpr
-            | unExpr
-            ;
+mulExpr	: lhs = unExpr (op = ('*'|'/') rhs = unExpr)*;
+addExpr	: lhs = mulExpr (op = ('+'|'-') rhs = mulExpr)*;
+relExpr	: lhs = addExpr (op=('<'|'<='|'>'|'>='|'=='|'!=') rhs = addExpr)*;
+andExpr	: lhs = relExpr ('&&' rhs = relExpr)*;
+orExpr	: lhs = andExpr ('||' rhs = andExpr)*;
+expr		: orExpr
+		| andExpr
+		| relExpr
+		| addExpr
+		| mulExpr
+		| unExpr
+		;

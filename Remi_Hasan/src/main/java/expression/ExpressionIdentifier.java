@@ -1,6 +1,9 @@
 package expression;
 
-public class ExpressionIdentifier extends Expression<Boolean>{
+import model.BlockElement;
+import model.Form;
+
+public class ExpressionIdentifier extends Expression<Object>{
 
     private final String identifier;
 
@@ -9,19 +12,21 @@ public class ExpressionIdentifier extends Expression<Boolean>{
     }
 
     @Override
-    public Boolean evaluate() {
-        // TODO get real value
-        return true;
-    }
-
-    @Override
-    public boolean isEvaluable() {
-        // TODO does the identifier exist?
-        return true;
+    public ExpressionVariable evaluate(Form form) {
+        return getVariable(form).evaluate(form);
     }
 
     @Override
     public String toString() {
         return identifier;
+    }
+
+    @Override
+    public ReturnType getReturnType(Form form){
+        return getVariable(form).getReturnType(form);
+    }
+
+    private Expression getVariable(Form form){
+        return form.getQuestionAnswer(identifier);
     }
 }

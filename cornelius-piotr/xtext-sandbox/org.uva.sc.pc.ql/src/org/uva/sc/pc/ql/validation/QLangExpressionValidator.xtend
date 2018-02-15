@@ -3,30 +3,24 @@
  */
 package org.uva.sc.pc.ql.validation
 
-import java.util.HashMap
-import java.util.List
-import java.util.Map
 import org.eclipse.xtext.validation.Check
 import org.uva.sc.pc.ql.qLang.Block
 import org.uva.sc.pc.ql.qLang.Expression
 import org.uva.sc.pc.ql.qLang.ExpressionAnd
 import org.uva.sc.pc.ql.qLang.ExpressionComparison
 import org.uva.sc.pc.ql.qLang.ExpressionEquality
+import org.uva.sc.pc.ql.qLang.ExpressionLiteralBoolean
+import org.uva.sc.pc.ql.qLang.ExpressionLiteralInteger
+import org.uva.sc.pc.ql.qLang.ExpressionLiteralString
 import org.uva.sc.pc.ql.qLang.ExpressionMulOrDiv
 import org.uva.sc.pc.ql.qLang.ExpressionNot
 import org.uva.sc.pc.ql.qLang.ExpressionOr
 import org.uva.sc.pc.ql.qLang.ExpressionPlusOrMinus
 import org.uva.sc.pc.ql.qLang.ExpressionQuestionRef
 import org.uva.sc.pc.ql.qLang.QLangPackage
-import org.uva.sc.pc.ql.qLang.QuestionType
-import org.uva.sc.pc.ql.qLang.TypeBool
-import org.uva.sc.pc.ql.qLang.TypeDate
-import org.uva.sc.pc.ql.qLang.TypeDecimal
-import org.uva.sc.pc.ql.qLang.TypeInteger
-import org.uva.sc.pc.ql.qLang.TypeMoney
-import org.uva.sc.pc.ql.qLang.TypeString
-import org.uva.sc.pc.ql.qLang.util.TypeUtil
 import org.uva.sc.pc.ql.qLang.Question
+import org.uva.sc.pc.ql.qLang.util.MissingCaseException
+import org.uva.sc.pc.ql.qLang.util.TypeUtil
 
 /**
  * This class contains custom validation rules. 
@@ -47,46 +41,6 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 	public static val TYPE_NOT_EXPECTED = 'typeNotExpected'
 	public static val TYPE_NOT_EXPECTED_MESSAGE = "The resulting type does not match the expected type"
 
-	public static val Map<String, List<String>> ALLOWED_OPS_FOR_TYPES = #{
-		TypeUtil.TYPE_BOOLEAN -> #[TypeUtil.OP_AND, TypeUtil.OP_OR, TypeUtil.OP_NOT],
-		TypeUtil.TYPE_STRING -> #[TypeUtil.OP_PLUS, TypeUtil.OP_EQUALS, TypeUtil.OP_NOT_EQUALS],
-		TypeUtil.TYPE_INTEGER ->
-			#[TypeUtil.OP_SMALLER_THAN, TypeUtil.OP_SMALLER_THAN_EQUALS, TypeUtil.OP_GREATER_THAN,
-				TypeUtil.OP_GREATER_THAN_EUQALS, TypeUtil.OP_PLUS, TypeUtil.OP_MINUS, TypeUtil.OP_MUL, TypeUtil.OP_DIV],
-		TypeUtil.TYPE_DECIMAL ->
-			#[TypeUtil.OP_SMALLER_THAN, TypeUtil.OP_SMALLER_THAN_EQUALS, TypeUtil.OP_GREATER_THAN,
-				TypeUtil.OP_GREATER_THAN_EUQALS, TypeUtil.OP_PLUS, TypeUtil.OP_MINUS, TypeUtil.OP_MUL, TypeUtil.OP_DIV],
-		TypeUtil.TYPE_DATE -> #[],
-		TypeUtil.TYPE_MONEY ->
-			#[TypeUtil.OP_SMALLER_THAN, TypeUtil.OP_SMALLER_THAN_EQUALS, TypeUtil.OP_GREATER_THAN,
-				TypeUtil.OP_GREATER_THAN_EUQALS, TypeUtil.OP_PLUS, TypeUtil.OP_MINUS, TypeUtil.OP_MUL, TypeUtil.OP_DIV]
-	}
-
-	def getAllowedTypesForOps() {
-		val ret = new HashMap<String, List<String>>
-		ALLOWED_OPS_FOR_TYPES.forEach [ k, v |
-			v.forEach [ p1, p2 |
-				if (ret.containsKey(p1)) {
-					ret.get(p1).add(k)
-				} else {
-					ret.put(p1, newArrayList(k))
-				}
-			]
-		]
-		return ret;
-	}
-
-	def getTypeForQuestionType(QuestionType type) {
-		switch (type) {
-			TypeBool: TypeUtil.TYPE_BOOLEAN
-			TypeString: TypeUtil.TYPE_STRING
-			TypeInteger: TypeUtil.TYPE_INTEGER
-			TypeDecimal: TypeUtil.TYPE_DECIMAL
-			TypeDate: TypeUtil.TYPE_DATE
-			TypeMoney: TypeUtil.TYPE_MONEY
-		}
-	}
-
 	def String computeType(Expression exp) {
 		switch exp {
 			ExpressionOr:
@@ -105,8 +59,16 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 			}
 			ExpressionNot:
 				TypeUtil.TYPE_BOOLEAN
+			ExpressionLiteralString:
+				TypeUtil.TYPE_STRING
+			ExpressionLiteralInteger:
+				TypeUtil.TYPE_INTEGER
+			ExpressionLiteralBoolean:
+				TypeUtil.TYPE_BOOLEAN
 			ExpressionQuestionRef:
-				getTypeForQuestionType(exp.question.type)
+				TypeUtil.getTypeForQuestionType(exp.question.type)
+			default:
+				throw new MissingCaseException
 		}
 	}
 
@@ -116,7 +78,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = allowedTypesForOps.get(exp.op)
+		var allowedTypes = TypeUtil.allowedTypesForOps.get(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_OR__LEFT, TYPE_NOT_ALLOWED)
 
@@ -134,7 +96,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = allowedTypesForOps.get(exp.op)
+		var allowedTypes = TypeUtil.allowedTypesForOps.get(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_AND__LEFT, TYPE_NOT_ALLOWED)
 
@@ -152,7 +114,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = allowedTypesForOps.get(exp.op)
+		var allowedTypes = TypeUtil.allowedTypesForOps.get(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_EQUALITY__LEFT, TYPE_NOT_ALLOWED)
 
@@ -170,7 +132,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = allowedTypesForOps.get(exp.op)
+		var allowedTypes = TypeUtil.allowedTypesForOps.get(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_COMPARISON__LEFT, TYPE_NOT_ALLOWED)
 
@@ -188,7 +150,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = allowedTypesForOps.get(exp.op)
+		var allowedTypes = TypeUtil.allowedTypesForOps.get(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_PLUS_OR_MINUS__LEFT, TYPE_NOT_ALLOWED)
 
@@ -206,7 +168,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = allowedTypesForOps.get(exp.op)
+		var allowedTypes = TypeUtil.allowedTypesForOps.get(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_MUL_OR_DIV__LEFT, TYPE_NOT_ALLOWED)
 
@@ -223,7 +185,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 
 		var type = computeType(exp.expression)
 
-		var allowedTypes = allowedTypesForOps.get(TypeUtil.OP_NOT)
+		var allowedTypes = TypeUtil.allowedTypesForOps.get(TypeUtil.OP_NOT)
 		if (!allowedTypes.contains(type))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_NOT__EXPRESSION, TYPE_NOT_ALLOWED)
 
@@ -242,7 +204,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 	def checkComputedQuestion(Question question) {
 
 		if (question.expression !== null) {
-			var expectedType = getTypeForQuestionType(question.type)
+			var expectedType = TypeUtil.getTypeForQuestionType(question.type)
 			var computedType = computeType(question.expression)
 			if (expectedType != computedType)
 				error(TYPE_NOT_EXPECTED_MESSAGE, QLangPackage.Literals.QUESTION__EXPRESSION, TYPE_NOT_EXPECTED)

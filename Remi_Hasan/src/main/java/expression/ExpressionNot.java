@@ -1,23 +1,20 @@
 package expression;
 
-public class ExpressionNot extends Expression<Boolean> {
+import model.Form;
 
-    private final Expression value;
+public class ExpressionNot extends ExpressionUnary<Boolean> {
 
-    public ExpressionNot(Expression value){
-        this.value = value;
+    public ExpressionNot(Expression v) {
+        super(v, "!");
     }
 
     @Override
-    public Boolean evaluate() {
-        if(isEvaluable()){
-            return !(boolean)this.value.evaluate();
-        }
-        return null;
+    public ExpressionVariable evaluate(Form form) {
+        return this.v.evaluate(form).not();
     }
 
     @Override
-    public boolean isEvaluable() {
-        return value.isEvaluable();
+    public ReturnType getReturnType(Form form) {
+        return ReturnType.Boolean;
     }
 }

@@ -1,17 +1,17 @@
 /* This is some comment*/
+/* TODO come up with cases with conditions where some value is undefined, duplicate variables or nonexistent variables in conditions */
 form taxOfficeExample {
-  someInteger: "Can you give me an integer value?" integer
-  someBoolean: "Can you give me a yes or no value?" boolean
-  someDecimal: "Can you give me a decimal value?" decimal
-  someDate: "Can you give me a date value?" date
-  someMoney: "Can you give me a money value?" money
-  someString: "Can you give me a string value?" string
-
-  someExpressionResult: "What is A + 1 + 2?" integer = (someInteger + 1 + 2)
-  if(someBoolean) {
-  	someBoolean2: "Does the date equal 1 January 2019?" boolean = (someDate == 1-1-2019)
-  }
-  if(1 + 1 == 2) {
-  	someBoolean3: "This question only shows if 1 + 1 == 2 evaluates to true" boolean
-  }
+    someString: "Q1: Give me the word 'hello'?" string
+    someBoolean1: "Q2: Give me true or false?" boolean
+    if(someBoolean1) {
+        someBoolean2: "Q3: You can only answer this question if you answered true above" boolean
+        if(someString == "hello") {
+            someBoolean3: "Q4: You can only answer this question if you Q1 equals 1 and Q2 equals 'hello'" boolean
+        }
+    }
+    someNumber: "Q5: Can you give me a number?" decimal
+    if(someNumber > 5){
+        someBoolean4: "Q6: You can only answer this question if you answered Q5 > 5" boolean
+    }
+    someNumberWithExpression: "Some text here" decimal = ((someNumber + 2) * 2)
 }

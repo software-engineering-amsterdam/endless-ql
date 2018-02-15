@@ -3,15 +3,15 @@
 Documentation goes here:
 
 to run give file as arg, example:
-$ python run_app.py util/hello.imp
+$ python run_app.py forms/simple.ql
 """
 import logging
 import argparse
 import sys
 from commons.config import config
 from commons.logging import logging_basic_config
-from lexer.ql_lexer import ql_lex
-
+from commons.utility import open_file
+from parse.ql_parser import *
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +21,7 @@ def main():
     Main program
     """
     # CLI
+    # todo: link pytest tests with cli arg parser
     parser = argparse.ArgumentParser(description='Python Questionnaire Language')
     parser.add_argument(dest='file_name', help='Python input file', nargs='?')
     parser.add_argument('-l', '--log-level', dest='log_level', default='warn',
@@ -47,25 +48,19 @@ def main():
     # lexer
     tokens = ql_lex(file)
     print(tokens)
+    print('\n')
 
-    # parse
-    # create ast
+    # parse & ast
+    result = ql_parser(tokens)
+    print(result)
+
+    # todo: maybe to a json inbetween to have a good look at ast instead of cli
+
     # static checker
+    #   - https://github.com/titusjan/astviewer
     # expression eval
     # gui
     sys.exit()
-
-
-def open_file(filename):
-    file = open(filename)
-    characters = file.read()
-    file.close()
-    return characters
-
-
-def tests():
-    # write
-    pass
 
 
 if __name__ == '__main__':

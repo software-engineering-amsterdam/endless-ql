@@ -1,4 +1,4 @@
-import answer.Answer;
+import expression.Expression;
 import model.Question;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {
@@ -9,7 +9,7 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
 
         String questionName = ctx.identifier().getText();
         String questionText = ctx.questionString().getText();
-        Answer answer = visitorQuestionType.visit(ctx.questionType());
+        Expression answer = visitorQuestionType.visit(ctx.questionType());
 
         return new Question(questionName, questionText, answer);
     }

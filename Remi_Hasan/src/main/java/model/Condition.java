@@ -2,14 +2,16 @@ package model;
 
 import expression.Expression;
 
-public class Condition {
+import java.util.ArrayList;
 
-    public final Expression expression;
-    public final Block block;
+// TODO rename to something like conditionblock for consistency
+public class Condition extends BlockElement {
+    Expression condition;
+    ArrayList<BlockElement> elements;
 
-    public Condition(Expression expression, Block block){
-        this.expression = expression;
-        this.block = block;
+    // TODO force condition to be of evaluated type ExpressionVariableBoolean
+    public Condition(Expression condition, ArrayList<BlockElement> elements){
+        this.condition = condition;
+        this.elements = elements;
     }
-
 }

@@ -1,11 +1,18 @@
-import answer.Answer;
-import answer.AnswerFactory;
+import expression.ExpressionFactory;
+import expression.Expression;
 
-public class VisitorQuestionType extends QLBaseVisitor<Answer> {
+public class VisitorQuestionType extends QLBaseVisitor<Expression> {
+
     @Override
-    public Answer visitQuestionType(QLParser.QuestionTypeContext ctx) {
+    public Expression visitQuestionType(QLParser.QuestionTypeContext ctx) {
+        if(ctx.expression() != null){
+            VisitorExpression visitorExpression = new VisitorExpression();
+            System.out.println("a: " + visitorExpression.visit(ctx.expression()));
+            return visitorExpression.visit(ctx.expression());
+        } else {
+            Expression answer = ExpressionFactory.createExpression(ctx.type().getText());
+            return answer;
+        }
 
-        Answer answer = AnswerFactory.createAnswer(ctx.type().getText());
-        return answer;
     }
 }

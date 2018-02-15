@@ -1,22 +1,22 @@
 package expression;
 
-public class ExpressionNeg extends Expression<Double> {
-    private final Expression value;
+import model.Form;
 
-    public ExpressionNeg(Expression value) {
-        this.value = value;
+public class ExpressionNeg extends ExpressionUnary<Double> {
+
+    public ExpressionNeg(Expression v) {
+        super(v, "-");
     }
 
     @Override
-    public Double evaluate() {
-        if(isEvaluable()){
-            return -(double)this.value.evaluate();
-        }
-        return null;
+    public ExpressionVariable evaluate(Form form) {
+        ExpressionVariable leftEvaluated = new ExpressionVariableInteger(-1);
+        ExpressionVariable rightEvaluated = v.evaluate(form);
+        return new ExpressionArithmeticMultiply(leftEvaluated, rightEvaluated).evaluate(form);
     }
 
     @Override
-    public boolean isEvaluable() {
-        return this.value.isEvaluable();
+    public ReturnType getReturnType(Form form) {
+        return ReturnType.Number;
     }
 }

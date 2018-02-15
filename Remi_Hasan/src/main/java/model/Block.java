@@ -1,8 +1,5 @@
 package model;
 
-import expression.Expression;
-import expression.ExpressionVariableUndefined;
-
 import java.util.ArrayList;
 
 public class Block {
@@ -24,14 +21,5 @@ public class Block {
                 }
             }
         }
-    }
-
-    public Expression getQuestionAnswer(String name) {
-        for (Question question : questions) {
-            if (question.name.equals(name)) {
-                return question.answer;
-            }
-        }
-        return new ExpressionVariableUndefined();
     }
 }

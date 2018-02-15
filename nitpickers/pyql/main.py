@@ -15,7 +15,7 @@ def main(argv):
     b = type(tree)
     visitor = ParseTreeVisitor()
     c = tree.accept(visitor)
-    print("end")
+    print(c)
 
     # output = open("output.html", "w")
 

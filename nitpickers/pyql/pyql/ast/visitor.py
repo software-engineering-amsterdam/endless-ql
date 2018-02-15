@@ -4,15 +4,16 @@ from pyql.ast.form.question_statement import QuestionStatement
 from pyql.ast.form.block import Block
 from pyql.ast.form.if_statement import IfStatement
 from pyql.ast.code_location import CodeLocation
+from pyql.ast.form.form import Form
 
 
 class ParseTreeVisitor(QLVisitor):
 
     def visitForm(self, ctx: QLParser.FormContext):
-        block = ctx.block().accept(self)
         identifier = ctx.identifier().accept(self)
         location = self.location(ctx)
-        print("visit form")
+        block = ctx.block().accept(self)
+        return Form(identifier, location, block)
 
     def visitConditional_block(self, ctx: QLParser.Conditional_blockContext):
         return IfStatement(self.location(ctx), ctx.expression(), ctx.block().accept(self))

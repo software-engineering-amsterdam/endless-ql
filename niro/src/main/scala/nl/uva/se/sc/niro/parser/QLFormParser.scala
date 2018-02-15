@@ -41,6 +41,10 @@ object QLFormParser {
       IntConst(ctx.IntValue().getText.toInt)
     }
 
+    override def visitDecConst(ctx: QLParser.DecConstContext): Expression = {
+      DecConst(ctx.DecValue().getText.toDouble)
+    }
+
     override def visitBoolConst(ctx: QLParser.BoolConstContext): Expression = {
       BoolConst(ctx.getText.toBoolean)
     }

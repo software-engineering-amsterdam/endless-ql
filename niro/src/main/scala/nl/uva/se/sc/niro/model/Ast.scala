@@ -15,13 +15,19 @@ object Ast {
   object AnswerType {
     case object StringAnswerType extends AnswerType
     case object IntAnswerType extends AnswerType
+    case object DecAnswerType extends AnswerType
+    case object MoneyAnswerType extends AnswerType
     case object BooleanAnswerType extends AnswerType
+    case object DateAnswerType extends AnswerType
 
     def apply(answerTypeText: String): AnswerType = {
       answerTypeText match {
         case "boolean" => BooleanAnswerType
         case "string" => StringAnswerType
         case "integer" => IntAnswerType
+        case "decimal" => DecAnswerType
+        case "money" => MoneyAnswerType
+        case "date" => DateAnswerType
         case other => throw new IllegalArgumentException(s"Unsupported type: $other")
       }
     }
@@ -30,6 +36,7 @@ object Ast {
   sealed trait Expression
   object Expression {
     case class IntConst(value: Int) extends Expression
+    case class DecConst(value: Double) extends Expression
     case class BoolConst(value: Boolean) extends Expression
     case class Ident(value: String) extends Expression
 

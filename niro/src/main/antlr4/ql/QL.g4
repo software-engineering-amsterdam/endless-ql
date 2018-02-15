@@ -28,15 +28,20 @@ MUL         : '*' ;
 OR          : '||' ;
 AND         : '&&' ;
 NEG         : '!' ;
+COMMA       : ',' ;
 
 BOOLEAN     : 'boolean' ;
 INTEGER     : 'integer' ;
 STRING      : 'string' ;
+DECIMAL     : 'decimal' ;
+MONEY       : 'money' ;
+DATE        : 'date' ;
 
 FALSE       : 'false' ;
 TRUE        : 'true' ;
 
 IntValue    : [1-9][0-9]* ;
+DecValue    : [1-9][0-9]* COMMA [0-9]+ ;
 Ident       : [a-zA-Z0-9_]+ ;
 TEXT        : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); };
 
@@ -51,6 +56,7 @@ logicalOp   : OR | AND | NEG ;
 arithmOp    : SUB | ADD | DIV | MUL ;
 
 expression  : IntValue                                 # IntConst
+            | DecValue                                 # DecConst
             | Ident                                    # Var
             | bool                                     # BoolConst
             | lhs=expression arithmOp rhs=expression   # ArithmExpr
@@ -63,4 +69,4 @@ form        : FORM Ident CURLY_L statement+ CURLY_R EOF ;
 statement   : question | conditional ;
 question    : Ident D_COLON TEXT answerType ( ASSIGN BRACK_L expression BRACK_R )?;
 conditional : IF BRACK_L condition=expression BRACK_R CURLY_L thenBlock+=statement+ CURLY_R ( ELSE CURLY_L elseBlock+=statement+ CURLY_R )? ;
-answerType  : BOOLEAN | INTEGER | STRING ;
+answerType  : BOOLEAN | INTEGER | STRING | MONEY | DATE | DECIMAL | MONEY;

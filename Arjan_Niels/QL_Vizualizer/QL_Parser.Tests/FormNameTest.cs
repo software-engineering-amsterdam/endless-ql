@@ -15,7 +15,6 @@ namespace QL_Parser.Tests
         {
             Form form = QLParserHelper.Parse(_simpleForm);
             Assert.AreEqual("SimpleForm", form.Name);
-            Assert.AreEqual(0, form.Sections.Count);
         }
 
         [TestMethod]

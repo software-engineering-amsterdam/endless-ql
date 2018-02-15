@@ -20,5 +20,4 @@ public class QLGui {
     private CharStream toCharStream(String fileName) throws IOException {
         return CharStreams.fromStream(getClass().getResourceAsStream(fileName));
     }
-
 }

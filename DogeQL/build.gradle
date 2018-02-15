@@ -52,6 +52,3 @@ generateGrammarSource {
     arguments += ["-long-messages"]
 }
 
-task copySamples {
-
-}

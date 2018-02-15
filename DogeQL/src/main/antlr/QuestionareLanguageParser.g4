@@ -1,15 +1,51 @@
 parser grammar QuestionareLanguageParser;
 
-options { tokenVocab = QuestionareLanguageLexer; }
+options {
+    tokenVocab = QuestionareLanguageLexer;
+}
 
-form : FORM IDENTIFIER formBody ;
-formBody : LBRACE question+ statement* RBRACE;
+form
+    : CON_FORM IDENTIFIER block
+    ;
 
-question : STRING_LITERAL IDENTIFIER COLON TYPE;
+block
+    : SEP_LBRACE statement* SEP_RBRACE
+    ;
 
-statement : IF LPAREN expr RPAREN formBody;
+statement
+    : ifStatement
+    | questionStatement
+    ;
 
-logicOp : OR | AND;
-expr : expr logicOp expr |
-       LPAREN expr RPAREN |
-       IDENTIFIER;
+questionStatement
+    : LIT_STRING variableInitialization
+    ;
+
+ifStatement
+    : FLOW_IF block
+    ;
+
+variableInitialization
+    : variableDeclaration (OP_ASSIGN expression)?
+    ;
+
+variableDeclaration
+    : IDENTIFIER SEP_COLON TYPE
+    ;
+
+expression
+    : SEP_LPAREN expression SEP_RPAREN
+    | expression BINARY_OPERATOR expression
+    | UNARY_OPERATOR expression
+    | IDENTIFIER
+    | literal
+    ;
+
+literal
+    : LIT_BOOLEAN
+    | LIT_INTEGER
+    | LIT_DECIMAL
+    | LIT_STRING
+    | LIT_COLOR
+    | LIT_DATE
+    ;

@@ -4,83 +4,54 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 
-import static org.junit.Assert.fail;
+import static junit.framework.TestCase.fail;
 
+@RunWith(Parameterized.class)
 public class QLFormParserTest {
-	@Before
-	public void clearErrors() {
-		ErrorListener.errorReported = false;
-	}
-	
-	@Test
-	public void simpleQuestionaireTest() throws IOException {
-        parser.QLFormParser$.MODULE$.parse(toCharStream("/simple.ql"));
-		if (ErrorListener.errorReported) {
-			fail("Somehting went wrong, see the console for more information!");
-		}
-	}
+    private String formFile;
+
+    public QLFormParserTest(String formFile) {
+        this.formFile = formFile;
+    }
+
+    @Before
+    public void clearErrors() {
+        ErrorListener.errorReported = false;
+    }
+
+    @Parameterized.Parameters(name = "Parsing: {0}")
+    public static Collection<Object> parameters() {
+        Object[] formFiles = {
+                "/simple.ql",
+                "/not-conditional-if.ql",
+                "/simple-conditional-if.ql",
+                "/simple-conditional-if-else.ql",
+                "/nested-conditional.ql",
+                "/expression-conditional-if.ql",
+                "/expression-conditional-if-else.ql",
+                "/nested-expression.ql"
+        };
+        return Arrays.asList(formFiles);
+    }
 
     @Test
-    public void conditionalIfNotQuestionaireTest() throws IOException {
-        parser.QLFormParser$.MODULE$.parse(toCharStream("/not-conditional-if.ql"));
+    public void parserTest() throws IOException {
+        parser.QLFormParser$.MODULE$.parse(toCharStream(formFile));
         if (ErrorListener.errorReported) {
             fail("Somehting went wrong, see the console for more information!");
         }
     }
 
-    @Test
-	public void conditionalIfQuestionaireTest() throws IOException {
-        parser.QLFormParser$.MODULE$.parse(toCharStream("/simple-conditional-if.ql"));
-		if (ErrorListener.errorReported) {
-			fail("Somehting went wrong, see the console for more information!");
-		}
-	}
 
-    @Test
-    public void conditionalIfElseQuestionaireTest() throws IOException {
-        parser.QLFormParser$.MODULE$.parse(toCharStream("/simple-conditional-if-else.ql"));
-        if (ErrorListener.errorReported) {
-            fail("Somehting went wrong, see the console for more information!");
-        }
+    private CharStream toCharStream(String fileName) throws IOException {
+        return CharStreams.fromStream(getClass().getResourceAsStream(fileName));
     }
 
-	@Test
-	public void nestedConditionalQuestionaireTest() throws IOException {
-        parser.QLFormParser$.MODULE$.parse(toCharStream("/nested-conditional.ql"));
-		if (ErrorListener.errorReported) {
-			fail("Somehting went wrong, see the console for more information!");
-		}
-	}
-
-	@Test
-	public void expressionConditionalIfQuestionaireTest() throws IOException {
-        parser.QLFormParser$.MODULE$.parse(toCharStream("/expression-conditional-if.ql"));
-		if (ErrorListener.errorReported) {
-			fail("Somehting went wrong, see the console for more information!");
-		}
-	}
-
-    @Test
-    public void expressionConditionalIfElseQuestionaireTest() throws IOException {
-        parser.QLFormParser$.MODULE$.parse(toCharStream("/expression-conditional-if-else.ql"));
-        if (ErrorListener.errorReported) {
-            fail("Somehting went wrong, see the console for more information!");
-        }
-    }
-
-	@Test
-	public void nestedExpressionQuestionaireTest() throws IOException {
-        parser.QLFormParser$.MODULE$.parse(toCharStream("/nested-expression.ql"));
-		if (ErrorListener.errorReported) {
-			fail("Somehting went wrong, see the console for more information!");
-		}
-	}
-
-	private CharStream toCharStream(String fileName) throws IOException {
-		return CharStreams.fromStream(getClass().getResourceAsStream(fileName));
-	}
-	
 }

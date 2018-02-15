@@ -3,13 +3,13 @@ package qlviz.model;
 import java.util.List;
 
 public class Form {
-    private List<Question> questions;
+    private List<QuestionBlock> questions;
 
-    public Form(List<Question> questions) {
+    public Form(List<QuestionBlock> questions) {
         this.questions = questions;
     }
 
-    public List<Question> getQuestions() {
+    public List<QuestionBlock> getQuestions() {
         return questions;
     }
 }

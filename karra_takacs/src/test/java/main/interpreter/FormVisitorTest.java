@@ -11,6 +11,7 @@ import qlviz.QLVisitor;
 import qlviz.interpreter.FormVisitor;
 import qlviz.model.Form;
 import qlviz.model.Question;
+import qlviz.model.QuestionBlock;
 
 import java.util.LinkedList;
 
@@ -21,11 +22,11 @@ public class FormVisitorTest {
     @Test
     public void TestAddsQuestion() {
         // Arrange
-        QLVisitor<Question> visitorMock = (QLVisitor<Question>) mock(QLVisitor.class);
+        QLVisitor<QuestionBlock> visitorMock = (QLVisitor<QuestionBlock>) mock(QLVisitor.class);
         QLParser.FormContext contextMock = (QLParser.FormContext)mock(QLParser.FormContext.class);
-        QLParser.QuestionContext questionContextMock = mock(QLParser.QuestionContext.class);
+        QLParser.QuestionBlockContext questionContextMock = mock(QLParser.QuestionBlockContext.class);
 
-        when(contextMock.question()).thenReturn(Lists.newArrayList(questionContextMock));
+        when(contextMock.questionBlock()).thenReturn(Lists.newArrayList(questionContextMock));
 
         FormVisitor listener = new FormVisitor(visitorMock);
 
@@ -34,6 +35,6 @@ public class FormVisitorTest {
 
         // Assert
         Assert.assertEquals(1, result.getQuestions().size());
-        verify(visitorMock).visitQuestion(questionContextMock);
+        verify(visitorMock).visitQuestionBlock(questionContextMock);
     }
 }

@@ -1,12 +1,9 @@
-import expression.Expression;
 import model.BlockElement;
 import model.Condition;
+import model.LookupTable;
 import model.Question;
 
-import java.util.ArrayList;
-
 public class VisitorBlockElement extends QLBaseVisitor<BlockElement> {
-
 
     @Override
     public Condition visitCondition(QLParser.ConditionContext ctx) {
@@ -18,6 +15,10 @@ public class VisitorBlockElement extends QLBaseVisitor<BlockElement> {
     public Question visitQuestion(QLParser.QuestionContext ctx) {
         VisitorQuestion visitorQuestion = new VisitorQuestion();
         Question question = visitorQuestion.visitQuestion(ctx);
+
+        LookupTable lookupTable = LookupTable.getInstance();
+        lookupTable.insert(question);
+
         return question;
     }
 

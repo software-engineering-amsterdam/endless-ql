@@ -1,19 +1,18 @@
 package expression;
 
-import model.BlockElement;
-import model.Form;
+import model.LookupTable;
 
-public class ExpressionIdentifier extends Expression<Object>{
+public class ExpressionIdentifier<T> extends Expression<T> {
 
     private final String identifier;
 
-    public ExpressionIdentifier(String identifier){
+    public ExpressionIdentifier(String identifier) {
         this.identifier = identifier;
     }
 
     @Override
-    public ExpressionVariable evaluate(Form form) {
-        return getVariable(form).evaluate(form);
+    public ExpressionVariable evaluate() {
+        return LookupTable.getInstance().getQuestionAnswer(identifier).evaluate();
     }
 
     @Override
@@ -22,11 +21,7 @@ public class ExpressionIdentifier extends Expression<Object>{
     }
 
     @Override
-    public ReturnType getReturnType(Form form){
-        return getVariable(form).getReturnType(form);
-    }
-
-    private Expression getVariable(Form form){
-        return form.getQuestionAnswer(identifier);
+    public ReturnType getReturnType() {
+        return evaluate().getReturnType();
     }
 }

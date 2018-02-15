@@ -67,6 +67,9 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 						token.getColumn(),
 						token.getLexeme());
 
+			// Increment the number of identifier resolution errors
+			identifierResolver.incrementNumberOfErrors();
+
 			// TODO - Consider if returning null is a good alternative.
 			return null;
 		} else {

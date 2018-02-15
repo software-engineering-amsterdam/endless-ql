@@ -38,7 +38,7 @@ TRUE        : 'true' ;
 
 IntValue    : [1-9][0-9]* ;
 Ident       : [a-zA-Z0-9_]+ ;
-TEXT        : '"' .*? '"' ;
+TEXT        : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); };
 
 WS          : [ \t\r\n]+ -> skip ;
 COMMENT     : '//' .*? '\n' -> skip ;

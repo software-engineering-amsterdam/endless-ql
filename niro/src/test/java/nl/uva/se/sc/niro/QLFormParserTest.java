@@ -1,8 +1,5 @@
 package nl.uva.se.sc.niro;
 
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -14,16 +11,10 @@ import java.util.Collection;
 import static junit.framework.TestCase.fail;
 
 @RunWith(Parameterized.class)
-public class QLFormParserTest {
-    private String formFile;
+public class QLFormParserTest extends AbstractQLFormParserTest {
 
     public QLFormParserTest(String formFile) {
-        this.formFile = formFile;
-    }
-
-    @Before
-    public void clearErrors() {
-        ErrorListener.errorReported = false;
+        super(formFile);
     }
 
     @Parameterized.Parameters(name = "Parsing: {0}")
@@ -49,9 +40,5 @@ public class QLFormParserTest {
         }
     }
 
-
-    private CharStream toCharStream(String fileName) throws IOException {
-        return CharStreams.fromStream(getClass().getResourceAsStream(fileName));
-    }
 
 }

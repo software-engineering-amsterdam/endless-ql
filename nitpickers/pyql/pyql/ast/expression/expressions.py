@@ -64,6 +64,24 @@ class Division(BinaryExpression):
         return str(self.left) + " / " + str(self.right)
 
 
+class Addition(BinaryExpression):
+
+    def __init__(self, location: code_location.CodeLocation, left, right):
+        super().__init__(location, left, right)
+
+    def __repr__(self):
+        return str(self.left) + " + " + str(self.right)
+
+
+class Subtraction(BinaryExpression):
+
+    def __init__(self, location: code_location.CodeLocation, left, right):
+        super().__init__(location, left, right)
+
+    def __repr__(self):
+        return str(self.left) + " - " + str(self.right)
+
+
 class GreaterThan(BinaryExpression):
 
     def __init__(self, location: code_location.CodeLocation, left, right):

@@ -5,7 +5,9 @@ from pyql.ast.form.block import Block
 from pyql.ast.form.if_statement import IfStatement
 from pyql.ast.code_location import CodeLocation
 from pyql.ast.form.form import Form
+from pyql.ast.expression.expressions import *
 
+# TODO check if can get rid of 'if getChildCount() > 1'
 
 class ParseTreeVisitor(QLVisitor):
 
@@ -16,7 +18,7 @@ class ParseTreeVisitor(QLVisitor):
         return Form(identifier, location, block)
 
     def visitConditional_block(self, ctx: QLParser.Conditional_blockContext):
-        return IfStatement(self.location(ctx), ctx.expression(), ctx.block().accept(self))
+        return IfStatement(self.location(ctx), ctx.expression().accept(self), ctx.block().accept(self))
 
     def visitBlock(self, ctx: QLParser.BlockContext):
         statements = [s.accept(self) for s in ctx.statement()]
@@ -32,25 +34,64 @@ class ParseTreeVisitor(QLVisitor):
         return ctx.getText()
 
     def visitExpression(self, ctx: QLParser.ExpressionContext):
-        print("visit expression")
+        return self.visitChildren(ctx)
 
     def visitOrExpression(self, ctx: QLParser.OrExpressionContext):
-        print("visit or expression")
+        if ctx.getChildCount() > 1:
+            left = ctx.andExpression(0).accept(self)
+            right = ctx.andExpression(1).accept(self)
+            return Or(self.location(ctx), left, right)
+        return self.visitChildren(ctx)
 
     def visitAndExpression(self, ctx: QLParser.AndExpressionContext):
-        print("visit and expressino")
+        if ctx.getChildCount() > 1:
+            left = ctx.relExpression(0).accept(self)
+            right = ctx.relExpression(1).accept(self)
+            return And(self.location(ctx), left, right)
+        return self.visitChildren(ctx)
 
     def visitRelExpression(self, ctx: QLParser.RelExpressionContext):
-        print("visit relational expression")
+        if ctx.getChildCount() > 1:
+            left = ctx.addExpression(0).accept(self)
+            right = ctx.addExpression(1).accept(self)
+            location = self.location(ctx)
+            switcher = {
+                "<": LessThan(location, left, right),
+                ">": GreaterThan(location, left, right),
+                "<=": LessThanOrEqual(location, left, right),
+                ">=": GreaterThanOrEqual(location, left, right),
+                "==": Equals(location, left, right),
+                "!=": NotEquals(location, left, right)
+            }
+            return switcher.get(self.operator(ctx))
+        return self.visitChildren(ctx)
 
     def visitAddExpression(self, ctx: QLParser.AddExpressionContext):
-        print("visit add expression")
+        if ctx.getChildCount() > 1:
+            left = ctx.mulExpression(0).accept(self)
+            right = ctx.mulExpression(1).accept(self)
+            location = self.location(ctx)
+            switcher = {
+                "+": Addition(location, left, right),
+                "-": Subtraction(location, left, right),
+            }
+            return switcher.get(self.operator(ctx))
+        return self.visitChildren(ctx)
 
     def visitMulExpression(self, ctx: QLParser.MulExpressionContext):
-        print("visit multiplication expression")
+        if ctx.getChildCount() > 1:
+            left = ctx.unExpression(0).accept(self)
+            right = ctx.unExpression(1).accept(self)
+            location = self.location(ctx)
+            switcher = {
+                "*": Multiplication(location, left, right),
+                "/": Division(location, left, right),
+            }
+            return switcher.get(self.operator(ctx))
+        return self.visitChildren(ctx)
 
     def visitUnExpression(self, ctx: QLParser.UnExpressionContext):
-        print("visit unary expression")
+        return self.visitChildren(ctx)
 
     def visitLiteral(self, ctx: QLParser.LiteralContext):
         return ctx.getText()
@@ -63,3 +104,6 @@ class ParseTreeVisitor(QLVisitor):
 
     def location(self, context):
         return CodeLocation(context.start.line, context.start.column)
+
+    def operator(self, ctx):
+        return ctx.getChild(1).getText()

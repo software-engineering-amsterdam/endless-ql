@@ -1,16 +1,16 @@
-import Addition from "./expressions/arithmetic/Addition";
-import NumberLiteral from "./expressions/arithmetic/NumberLiteral";
-import Multiplication from "./expressions/arithmetic/Multiplication";
-import Equals from "./expressions/comparisons/Equals";
-import FormNode from "./FormNode";
-import EvaluationVisitor from "./visitors/EvaluationVisitor";
-import Question from "./fields/Question";
-import FieldType from "../field/FieldType";
-import ComputedField from "./fields/ComputedField";
-import Variable from "./expressions/VariableIdentifier";
-import BooleanLiteral from "./expressions/boolean_expressions/BooleanLiteral";
-import IfCondition from "./conditions/IfCondition";
-import Negation from "./expressions/boolean_expressions/Negation";
+import Addition from "../form/nodes/expressions/arithmetic/Addition";
+import NumberLiteral from "../form/nodes/expressions/arithmetic/NumberLiteral";
+import Multiplication from "../form/nodes/expressions/arithmetic/Multiplication";
+import Equals from "../form/nodes/expressions/comparisons/Equals";
+import FormNode from "../form/nodes/FormNode";
+import EvaluationVisitor from "../form/nodes/visitors/EvaluationVisitor";
+import Question from "../form/nodes/fields/Question";
+import FieldType from "../form/field/FieldType";
+import ComputedField from "../form/nodes/fields/ComputedField";
+import Variable from "../form/nodes/expressions/VariableIdentifier";
+import BooleanLiteral from "../form/nodes/expressions/boolean_expressions/BooleanLiteral";
+import IfCondition from "../form/nodes/conditions/IfCondition";
+import Negation from "../form/nodes/expressions/boolean_expressions/Negation";
 
 export const testExpressionStuff = () => {
   const formula = new Multiplication(

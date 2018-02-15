@@ -18,6 +18,7 @@ import NotEqual from './expressions/comparisons/NotEqual';
 import SmallerThanOrEqual from './expressions/comparisons/SmallerThanOrEqual';
 import VariableIdentifier from './expressions/VariableIdentifier';
 import ComputedField from "./fields/ComputedField";
+import StringLiteral from "./expressions/string/StringLiteral";
 
 /**
  * List all available node types for easy access in the grammar.
@@ -39,6 +40,7 @@ export default {
   NotEqual,
   SmallerThan,
   SmallerThanOrEqual,
+  StringLiteral,
   VariableIdentifier,
   ComputedField,
   Question,

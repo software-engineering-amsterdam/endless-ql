@@ -47,6 +47,8 @@ interface ExpressionVisitor {
   visitSmallerThan(smallerThan: SmallerThan): any;
 
   visitSmallerThanOrEqual(smallerThanOrEqual: SmallerThanOrEqual): any;
+
+  visitStringLiteral(stringLiteral: StringLiteral): any;
 }
 
 export default ExpressionVisitor;

@@ -6,7 +6,7 @@ import Negation from "../expressions/boolean_expressions/Negation";
 import And from "../expressions/boolean_expressions/And";
 import Or from "../expressions/boolean_expressions/Or";
 import {
-  assertBoolean, assertComparable, assertNumeric, assertSameType,
+  assertBoolean, assertComparable, assertNumeric, assertSameType, assertString,
   assertValidDivision
 } from "../../typechecking/typeAssertions";
 import Variable from "../expressions/VariableIdentifier";
@@ -21,11 +21,13 @@ import LargerThan from "../expressions/comparisons/LargerThan";
 import LargerThanOrEqual from "../expressions/comparisons/LargerThanOrEqual";
 import SmallerThan from "../expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../expressions/comparisons/SmallerThanOrEqual";
+import StringLiteral from "../expressions/string/StringLiteral";
 
 /**
  * TODO: Maybe use mixins to separate boolean and arithmetic logic
  */
 export default class EvaluationVisitor implements ExpressionVisitor {
+
   visitVariableIdentifier(variable: Variable) {
     throw NotImplementedYetError.make("Evaluate variables");
   }
@@ -98,6 +100,10 @@ export default class EvaluationVisitor implements ExpressionVisitor {
 
   visitNumberLiteral(literal: NumberLiteral): any {
     return assertNumeric(literal.getValue());
+  }
+
+  visitStringLiteral(literal: StringLiteral): any {
+    return assertString(literal.getValue());
   }
 
   private assertSidesAreComparable(operator: BinaryOperator) {

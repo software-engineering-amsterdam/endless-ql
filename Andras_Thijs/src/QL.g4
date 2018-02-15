@@ -25,7 +25,7 @@ STRING   : '"'[a-zA-Z0-9?.!:;()/ \t]+'"'; // TODO: allow more characters
 // Form structure
 form      : 'form' VARIABLE '{' question* condition* '}';
 question  : VARIABLE ':' STRING TYPE expression?;
-condition : 'if' expression '{' question+ '}';
+condition : 'if' expression '{' question* condition* '}';
 
 // Expressions: Include some basic rules about operators
 expression : '(' expression ')'

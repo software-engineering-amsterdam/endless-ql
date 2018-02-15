@@ -1,14 +1,12 @@
 package expression;
 
-import model.Form;
-
 public abstract class Expression<T> {
 
-    public abstract ReturnType getReturnType(Form form);
+    public abstract ReturnType getReturnType();
 
-    public abstract ExpressionVariable evaluate(Form form);
+    public abstract ExpressionVariable evaluate();
 
-    public boolean isSetable(Form form){
+    public boolean isSetable(){
         return false;
     }
     public void setValue(String value){

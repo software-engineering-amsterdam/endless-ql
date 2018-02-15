@@ -9,7 +9,7 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
     }
 
     @Override
-    public ReturnType getReturnType(Form form) {
+    public ReturnType getReturnType() {
         return ReturnType.Boolean;
     }
 

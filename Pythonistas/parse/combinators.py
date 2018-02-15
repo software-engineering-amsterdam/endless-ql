@@ -1,4 +1,7 @@
 class Result:
+    """
+    Result of the parser, consist out of value(part of AST) and position(index of the next token in stream)
+    """
     def __init__(self, value, pos):
         self.value = value
         self.pos = pos
@@ -8,6 +11,9 @@ class Result:
 
 
 class Parser:
+    """
+    Takes stream of tokens, provides functionality with operators
+    """
     def __add__(self, other):
         return Concat(self, other)
 
@@ -21,7 +27,25 @@ class Parser:
         return Process(self, function)
 
 
+class Phrase(Parser):
+    """
+    Ensured every token gets iterated
+    """
+    def __init__(self, parser):
+        self.parser = parser
+
+    def __call__(self, tokens, pos):
+        result = self.parser(tokens, pos)
+        if result and result.pos == len(tokens):
+            return result
+        else:
+            return None
+
+
 class Tag(Parser):
+    """
+    Call does the actual parsing
+    """
     def __init__(self, tag):
         self.tag = tag
 
@@ -33,26 +57,31 @@ class Tag(Parser):
 
 
 class Reserved(Parser):
+    """
+    Used to parse reserved words and operators
+    """
     def __init__(self, value, tag):
         self.value = value
         self.tag = tag
 
     def __call__(self, tokens, pos):
-        if pos < len(tokens) and \
-           tokens[pos][0] == self.value and \
-           tokens[pos][1] is self.tag:
+        if pos < len(tokens) and tokens[pos][0] == self.value and tokens[pos][1] is self.tag:
             return Result(tokens[pos][0], pos + 1)
         else:
             return None
 
 
 class Concat(Parser):
+    """
+    For sequence of tokens
+    """
     def __init__(self, left, right):
         self.left = left
         self.right = right
 
     def __call__(self, tokens, pos):
         left_result = self.left(tokens, pos)
+        # print(left_result)
         if left_result:
             right_result = self.right(tokens, left_result.pos)
             if right_result:
@@ -97,6 +126,9 @@ class Alternate(Parser):
 
 
 class Opt(Parser):
+    """
+    Optional parsing (if/else)
+    """
     def __init__(self, parser):
         self.parser = parser
 
@@ -109,6 +141,9 @@ class Opt(Parser):
 
 
 class Rep(Parser):
+    """
+    Applies parser repeatedly
+    """
     def __init__(self, parser):
         self.parser = parser
 
@@ -135,6 +170,9 @@ class Process(Parser):
 
 
 class Lazy(Parser):
+    """
+    Lazy eval for parser
+    """
     def __init__(self, parser_func):
         self.parser = None
         self.parser_func = parser_func
@@ -143,15 +181,3 @@ class Lazy(Parser):
         if not self.parser:
             self.parser = self.parser_func()
         return self.parser(tokens, pos)
-
-
-class Phrase(Parser):
-    def __init__(self, parser):
-        self.parser = parser
-
-    def __call__(self, tokens, pos):
-        result = self.parser(tokens, pos)
-        if result and result.pos == len(tokens):
-            return result
-        else:
-            return None

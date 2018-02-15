@@ -14,7 +14,7 @@ public class VisitorForm extends QLBaseVisitor<Form> {
         VisitorBlockElement visitorBlockElement = new VisitorBlockElement();
 
         ArrayList<BlockElement> elements = new ArrayList<>();
-        for(QLParser.BlockElementContext blockElementContext : ctx.block().blockElement()){
+        for (QLParser.BlockElementContext blockElementContext : ctx.block().blockElement()) {
             BlockElement blockElement = visitorBlockElement.visit(blockElementContext);
             elements.add(blockElement);
         }

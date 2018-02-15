@@ -1,7 +1,5 @@
 package expression;
 
-import model.Form;
-
 public class ExpressionLogicalOr extends ExpressionLogical {
 
     public ExpressionLogicalOr(Expression left, Expression right) {

@@ -30,7 +30,7 @@ public class FormParser {
 
             return form;
 
-        } catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);
 

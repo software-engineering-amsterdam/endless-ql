@@ -1,11 +1,8 @@
 package model;
 
 import expression.Expression;
-import expression.ExpressionVariableBoolean;
 
-import java.util.ArrayList;
-
-public class Question extends BlockElement{
+public class Question extends BlockElement {
 
     public final String name;
     public final String text;

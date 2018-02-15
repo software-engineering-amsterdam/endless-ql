@@ -22,12 +22,6 @@ public class FormParser {
             VisitorForm visitor = new VisitorForm();
             Form form = visitor.visit(parser.root());
 
-            System.out.println(form);
-
-            // Visualize tree
-            parser.reset();
-            Trees.inspect(parser.root(), parser);
-
             return form;
 
         } catch (IOException e) {

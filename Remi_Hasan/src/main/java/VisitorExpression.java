@@ -1,4 +1,5 @@
 import expression.*;
+import model.LookupTable;
 
 public class VisitorExpression extends QLBaseVisitor<Expression> {
 
@@ -112,6 +113,22 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitConstant_identifier(QLParser.Constant_identifierContext ctx) {
-        return new ExpressionIdentifier(ctx.getText());
+        String identifier = ctx.IDENTIFIER().getText();
+        Expression referenceExpression = LookupTable.getInstance().getQuestionAnswer(identifier);
+
+        switch(referenceExpression.getReturnType()){
+            case Number:
+                return new ExpressionIdentifier<Object>(ctx.getText());
+            case Boolean:
+                return new ExpressionIdentifier<Boolean>(ctx.getText());
+            case String:
+                return new ExpressionIdentifier<String>(ctx.getText());
+            case Money:
+                return new ExpressionIdentifier<Double>(ctx.getText());
+            case Date:
+                return new ExpressionIdentifier<String>(ctx.getText());
+            default:
+                throw new IllegalArgumentException("identifier '" + identifier +  "'does not exist");
+        }
     }
 }

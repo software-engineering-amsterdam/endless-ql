@@ -7,11 +7,11 @@ import org.uva.jomi.ql.ast.expressions.*;
 
 public class IdentifierResolver {
 	private int numberOfErrors = 0;
-	private final Stack<HashMap<String, IndentifierExpr>> indentifierStack;
+	private final Stack<HashMap<String, IdentifierExpr>> indentifierStack;
 	
 	// Create a new stack
 	public IdentifierResolver() {
-		this.indentifierStack = new Stack<HashMap<String, IndentifierExpr>>();
+		this.indentifierStack = new Stack<HashMap<String, IdentifierExpr>>();
 	}
 	
 	public int getNumberOfErrors() {
@@ -24,7 +24,7 @@ public class IdentifierResolver {
 	
 	// Create a new scope
 	public void enterScope() {
-		indentifierStack.push(new HashMap<String, IndentifierExpr>());
+		indentifierStack.push(new HashMap<String, IdentifierExpr>());
 	}
 	
 	// Destroy the top scope
@@ -33,12 +33,12 @@ public class IdentifierResolver {
 	}
 	
 	// Add a new element to the inner most scope
-	public void add(IndentifierExpr identifier) {
+	public void add(IdentifierExpr identifier) {
 		indentifierStack.peek().put(identifier.token.getLexeme(), identifier);
 	}
 	
 	// Try to add a new element to the top most scope
-	public boolean tryAdd(String name, IndentifierExpr indetifier) {
+	public boolean tryAdd(String name, IdentifierExpr indetifier) {
 		if (indentifierStack.isEmpty()) {
 			System.err.println("Empty Stack - Could not add the element");
 			return false;
@@ -57,8 +57,8 @@ public class IdentifierResolver {
 	}
 	
 	// Search from the inner to the outer most scope for a particular identifier name
-	public IndentifierExpr getIndetifier(String name) {
-		for (HashMap<String, IndentifierExpr> map : indentifierStack) {
+	public IdentifierExpr getIndetifier(String name) {
+		for (HashMap<String, IdentifierExpr> map : indentifierStack) {
 			if (map.containsKey(name)) {
 				return map.get(name);
 			}

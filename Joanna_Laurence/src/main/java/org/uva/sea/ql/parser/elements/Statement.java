@@ -3,7 +3,7 @@ package org.uva.sea.ql.parser.elements;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.traverse.Traverse;
 
-public class Statement implements ASTNode {
+public class Statement extends ASTNode {
     private Question question;
     private Condition condition;
 

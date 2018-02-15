@@ -3,7 +3,7 @@ package org.uva.sea.ql.parser.nodeTypes;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.traverse.Traverse;
 
-public abstract class DualNode implements ASTNode {
+public abstract class DualNode extends ASTNode {
     private ASTNode lhs;
     private ASTNode rhs;
 

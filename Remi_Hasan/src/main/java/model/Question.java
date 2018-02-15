@@ -16,4 +16,9 @@ public class Question extends BlockElement{
         this.text = text.substring(1, text.length() - 1);
         this.answer = answer;
     }
+
+    @Override
+    public boolean isQuestion() {
+        return true;
+    }
 }

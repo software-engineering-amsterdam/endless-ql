@@ -1,13 +1,8 @@
 import expression.Expression;
-import model.Block;
 import model.BlockElement;
 import model.Condition;
-import model.Question;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class VisitorCondition extends QLBaseVisitor<Condition> {
 

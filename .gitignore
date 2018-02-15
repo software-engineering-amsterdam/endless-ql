@@ -71,6 +71,8 @@ local.properties
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
+ForcePush/.idea/workspace.xml
+ForcePush/.idea/misc.xml
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
@@ -223,3 +225,10 @@ PyQuest/.idea/
 Remi_Hasan/gen/
 Remi_Hasan/target/
 *.bat
+<<<<<<< HEAD
+
+GunOli/src/main/autoGen/
+=======
+ForcePush/.idea/workspace.xml
+ForcePush/.idea/misc.xml
+>>>>>>> 64159463394073e8fa8c21cb06c5c492eee59a0c

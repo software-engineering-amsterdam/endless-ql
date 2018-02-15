@@ -12,6 +12,7 @@ from commons.config import config
 from commons.logging import logging_basic_config
 from commons.utility import open_file
 from parse.ql_parser import *
+from gui import gui
 
 logger = logging.getLogger(__name__)
 
@@ -44,6 +45,8 @@ def main():
 
     # openfile
     file = open_file(args.file_name)
+    # file = open("C:/Users/svdh/PycharmProjects/sql/endless-ql/Pythonistas/forms/simple.ql","r")
+    print(args.file_name)
 
     # lexer
     tokens = ql_lex(file)
@@ -52,6 +55,7 @@ def main():
 
     # parse & ast
     result = ql_parser(tokens)
+    # return result
     print(result)
 
     # todo: maybe to a json inbetween to have a good look at ast instead of cli
@@ -59,7 +63,10 @@ def main():
     # static checker
     #   - https://github.com/titusjan/astviewer
     # expression eval
+
     # gui
+    gui.buildWidget(result)
+
     sys.exit()
 
 

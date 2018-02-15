@@ -1,9 +1,10 @@
 package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.traverse.Traverse;
 
-public class Str implements ASTNode {
+public class Str extends ASTNode {
     private String value;
 
     public Str(String value) {
@@ -18,7 +19,7 @@ public class Str implements ASTNode {
         this.value = value;
     }
 
-    public void traverse(Traverse traverse) {
+    public void traverse(Traverse traverse, TraverseType traverseType) {
         traverse.doStr(this);
     }
 

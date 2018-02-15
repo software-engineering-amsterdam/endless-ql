@@ -1,6 +1,7 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.SingleNode;
 import org.uva.sea.ql.traverse.Traverse;
@@ -10,9 +11,8 @@ public class Not extends SingleNode {
         super(value);
     }
 
-    public void traverse(Traverse traverse) {
+    public void traverse(Traverse traverse, TraverseType traverseType) {
         traverse.doNot(this);
-        this.traverseChildren(traverse);
     }
 
     public Type getType() {

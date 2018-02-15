@@ -3,7 +3,7 @@ package org.uva.sea.ql.parser.elements;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.traverse.Traverse;
 
-public class Form implements ASTNode {
+public class Form extends ASTNode {
 
     private String name;
 
@@ -30,10 +30,13 @@ public class Form implements ASTNode {
         this.statements = statements;
     }
 
-    public void traverse(Traverse traverse) {
+    public void traverse(Traverse traverse, TraverseType traverseType) {
         traverse.doForm(this);
+    }
+
+    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
         if(this.statements != null)
-            this.statements.traverse(traverse);
+            this.statements.traverse(traverse, traverseType);
     }
 
     public Type getType() {

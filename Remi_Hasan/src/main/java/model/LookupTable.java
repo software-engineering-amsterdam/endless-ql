@@ -16,14 +16,14 @@ public class LookupTable {
     }
 
     public static LookupTable getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new LookupTable();
         }
         return instance;
     }
 
     public Expression getQuestionAnswer(String identifier) {
-        if(table.containsKey(identifier)) {
+        if (table.containsKey(identifier)) {
             // TODO: switch to getter-setter?
             return table.get(identifier).answer;
         }
@@ -32,7 +32,7 @@ public class LookupTable {
     }
 
     public void insert(Question question) {
-        if(table.containsKey(question.name)) {
+        if (table.containsKey(question.name)) {
             // TODO: errors with line numbers
             throw new IllegalArgumentException("Identifier already exists");
         }

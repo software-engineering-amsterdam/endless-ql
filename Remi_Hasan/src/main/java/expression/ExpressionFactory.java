@@ -2,7 +2,7 @@ package expression;
 
 public class ExpressionFactory {
     public static Expression createExpression(String questionType) {
-        switch(questionType){
+        switch (questionType) {
             case "boolean":
                 return new ExpressionVariableBoolean(null);
             case "string":

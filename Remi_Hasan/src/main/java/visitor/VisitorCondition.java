@@ -1,3 +1,7 @@
+package visitor;
+
+import antlr.QLBaseVisitor;
+import antlr.QLParser;
 import expression.Expression;
 import model.BlockElement;
 import model.Condition;
@@ -13,13 +17,12 @@ public class VisitorCondition extends QLBaseVisitor<Condition> {
 
         ArrayList<BlockElement> elements = new ArrayList<>();
         VisitorBlockElement visitorBlockElement = new VisitorBlockElement();
-        for (QLParser.BlockElementContext x : ctx.block().blockElement()) {
-            BlockElement blockElement = visitorBlockElement.visit(x);
+        for (QLParser.BlockElementContext blockElementContext : ctx.block().blockElement()) {
+            BlockElement blockElement = visitorBlockElement.visit(blockElementContext);
             elements.add(blockElement);
         }
 
-        Condition condition = new Condition(expression, elements);
-        return condition;
+        return new Condition(expression, elements);
     }
 
 }

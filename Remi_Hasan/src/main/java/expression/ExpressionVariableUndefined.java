@@ -1,7 +1,5 @@
 package expression;
 
-import model.Form;
-
 public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
 
     public ExpressionVariableUndefined() {
@@ -14,7 +12,7 @@ public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
     }
 
     @Override
-    public boolean isSetable(){
+    public boolean isSettable() {
         return false;
     }
 

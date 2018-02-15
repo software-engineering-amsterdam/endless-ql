@@ -1,3 +1,8 @@
+package visitor;
+
+import antlr.QLBaseVisitor;
+import antlr.QLLexer;
+import antlr.QLParser;
 import expression.*;
 import model.LookupTable;
 
@@ -17,11 +22,16 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression right = visit(ctx.right);
 
         switch (op) {
-            case QLLexer.PLUS: return new ExpressionArithmeticSum(left, right);
-            case QLLexer.MINUS: return new ExpressionArithmeticSubtract(left, right);
-            case QLLexer.MUL: return new ExpressionArithmeticMultiply(left, right);
-            case QLLexer.DIV: return new ExpressionArithmeticDivide(left, right);
-            default: throw new IllegalArgumentException("Unknown operator " + op);
+            case QLLexer.PLUS:
+                return new ExpressionArithmeticSum(left, right);
+            case QLLexer.MINUS:
+                return new ExpressionArithmeticSubtract(left, right);
+            case QLLexer.MUL:
+                return new ExpressionArithmeticMultiply(left, right);
+            case QLLexer.DIV:
+                return new ExpressionArithmeticDivide(left, right);
+            default:
+                throw new IllegalArgumentException("Unknown operator " + op);
         }
     }
 
@@ -38,9 +48,12 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression right = visit(ctx.right);
 
         switch (op) {
-            case QLLexer.EQ: return new ExpressionComparisonEq(left, right);
-            case QLLexer.NE: return new ExpressionNot(new ExpressionComparisonEq(left, right));
-            default: throw new IllegalArgumentException("Unknown operator " + op);
+            case QLLexer.EQ:
+                return new ExpressionComparisonEq(left, right);
+            case QLLexer.NE:
+                return new ExpressionNot(new ExpressionComparisonEq(left, right));
+            default:
+                throw new IllegalArgumentException("Unknown operator " + op);
         }
     }
 
@@ -51,9 +64,12 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression right = visit(ctx.right);
 
         switch (op) {
-            case QLLexer.AND: return new ExpressionLogicalAnd(left, right);
-            case QLLexer.OR: return new ExpressionLogicalOr(left, right);
-            default: throw new IllegalArgumentException("Unknown operator " + op);
+            case QLLexer.AND:
+                return new ExpressionLogicalAnd(left, right);
+            case QLLexer.OR:
+                return new ExpressionLogicalOr(left, right);
+            default:
+                throw new IllegalArgumentException("Unknown operator " + op);
         }
     }
 
@@ -64,11 +80,16 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression right = visit(ctx.right);
 
         switch (op) {
-            case QLLexer.GT: return new ExpressionComparisonGT(left, right);
-            case QLLexer.GE: return new ExpressionComparisonGE(left, right);
-            case QLLexer.LT: return new ExpressionComparisonLT(left, right);
-            case QLLexer.LE: return new ExpressionComparisonLE(left, right);
-            default: throw new IllegalArgumentException("Unknown operator " + op);
+            case QLLexer.GT:
+                return new ExpressionComparisonGT(left, right);
+            case QLLexer.GE:
+                return new ExpressionComparisonGE(left, right);
+            case QLLexer.LT:
+                return new ExpressionComparisonLT(left, right);
+            case QLLexer.LE:
+                return new ExpressionComparisonLE(left, right);
+            default:
+                throw new IllegalArgumentException("Unknown operator " + op);
         }
     }
 
@@ -116,7 +137,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         String identifier = ctx.IDENTIFIER().getText();
         Expression referenceExpression = LookupTable.getInstance().getQuestionAnswer(identifier);
 
-        switch(referenceExpression.getReturnType()){
+        switch (referenceExpression.getReturnType()) {
             case Number:
                 return new ExpressionIdentifier<Object>(ctx.getText());
             case Boolean:
@@ -128,7 +149,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
             case Date:
                 return new ExpressionIdentifier<String>(ctx.getText());
             default:
-                throw new IllegalArgumentException("identifier '" + identifier +  "'does not exist");
+                throw new IllegalArgumentException("identifier '" + identifier + "'does not exist");
         }
     }
 }

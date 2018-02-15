@@ -1,7 +1,5 @@
 package expression;
 
-import model.Form;
-
 public class ExpressionVariableString extends ExpressionVariable<String> {
 
     public ExpressionVariableString(String value) {
@@ -14,7 +12,7 @@ public class ExpressionVariableString extends ExpressionVariable<String> {
     }
 
     @Override
-    public void setValue(String value){
+    public void setValue(String value) {
         this.value = value;
     }
 

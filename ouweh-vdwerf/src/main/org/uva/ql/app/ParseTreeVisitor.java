@@ -4,6 +4,11 @@ import generated.org.uva.ql.parser.QLBaseVisitor;
 import generated.org.uva.ql.parser.QLParser;
 import main.org.uva.ql.ast.*;
 import main.org.uva.ql.ast.expression.Expression;
+import main.org.uva.ql.ast.expression.binary.*;
+import main.org.uva.ql.ast.expression.unary.BooleanLiteral;
+import main.org.uva.ql.ast.expression.unary.IntegerLiteral;
+import main.org.uva.ql.ast.expression.unary.Parameter;
+import main.org.uva.ql.ast.expression.unary.StringLiteral;
 import main.org.uva.ql.ast.type.*;
 
 import java.util.*;
@@ -55,6 +60,25 @@ public class ParseTreeVisitor extends QLBaseVisitor {
         return new Conditional((Expression) visit(ctx.expression()), ifBody, elseBody);
     }
 
+    public TreeNode visitComparation(QLParser.ComparationContext ctx){
+        String operation = ctx.op.getText();
+        if(operation.equals(">")) {
+            return new GreaterThan((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        } else if (operation.equals("<")) {
+            return new LessThan((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        } else if (operation.equals("<")) {
+            return new LessThan((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        } else if (operation.equals("<=")) {
+            return new LessThanEqualTo((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        } else if (operation.equals(">=")) {
+            return new GreaterThanEqualTo((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        } else if (operation.equals("!=")) {
+            return new NotEqual((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        } else {
+            return new Equal((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+        }
+    }
+
     @Override
     public TreeNode visitIntegerType(QLParser.IntegerTypeContext ctx) {
         return new IntegerType();
@@ -72,6 +96,21 @@ public class ParseTreeVisitor extends QLBaseVisitor {
 
     @Override
     public TreeNode visitParameter(QLParser.ParameterContext ctx) {
-        return new Expression();
+        return new Parameter(ctx.getText());
+    }
+
+    @Override
+    public TreeNode visitStringLiteral(QLParser.StringLiteralContext ctx) {
+        return new StringLiteral(ctx.getText());
+    }
+
+    @Override
+    public TreeNode visitBooleanLiteral(QLParser.BooleanLiteralContext ctx) {
+        return new BooleanLiteral(ctx.getText());
+    }
+
+    @Override
+    public TreeNode visitIntegerLiteral(QLParser.IntegerLiteralContext ctx) {
+        return new IntegerLiteral(ctx.getText());
     }
 }

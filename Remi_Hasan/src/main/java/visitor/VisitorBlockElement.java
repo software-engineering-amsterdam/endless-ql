@@ -1,3 +1,7 @@
+package visitor;
+
+import antlr.QLBaseVisitor;
+import antlr.QLParser;
 import model.BlockElement;
 import model.Condition;
 import model.LookupTable;
@@ -22,9 +26,4 @@ public class VisitorBlockElement extends QLBaseVisitor<BlockElement> {
         return question;
     }
 
-    // TODO do we need this?
-//    @Override
-//    public ArrayList<Question> visitVariable(QLParser.VariableContext ctx) {
-//        return new ArrayList<>();
-//    }
 }

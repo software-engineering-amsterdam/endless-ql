@@ -74,14 +74,8 @@ public class Main extends Application {
             if (blockElement.isQuestion()) {
                 addQuestionsToFieldGroup(fields, form, (Question) blockElement, fieldGroup);
             } else if (blockElement.isCondition()) {
-                addQuestionsToFieldGroup(fields, form, (Condition) blockElement, fieldGroup);
+                addQuestionsToFieldGroup(fields, form, ((Condition) blockElement).elements, fieldGroup);
             }
-        }
-    }
-
-    private void addQuestionsToFieldGroup(HashMap<String, Control> fields, Form form, Condition condition, FieldGroup fieldGroup) {
-        if (Boolean.TRUE.equals(condition.condition.evaluate().get())) {
-            addQuestionsToFieldGroup(fields, form, condition.elements, fieldGroup);
         }
     }
 

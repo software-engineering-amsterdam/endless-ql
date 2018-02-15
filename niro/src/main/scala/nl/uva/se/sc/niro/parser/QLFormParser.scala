@@ -1,10 +1,11 @@
 package nl.uva.se.sc.niro.parser
 
-import nl.uva.se.sc.niro.model.Ast._
-import nl.uva.se.sc.niro.model.Ast.Expression._
+import nl.uva.se.sc.niro.ErrorListener
 import nl.uva.se.sc.niro.model.Ast.Expression.Operator._
-import ql.{QLBaseVisitor, QLLexer, QLParser}
-import org.antlr.v4.runtime.{CharStream, CommonTokenStream}
+import nl.uva.se.sc.niro.model.Ast.Expression._
+import nl.uva.se.sc.niro.model.Ast._
+import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
+import ql.{ QLBaseVisitor, QLLexer, QLParser }
 
 import scala.collection.JavaConverters
 
@@ -19,7 +20,7 @@ object QLFormParser {
 
   object FormCompiler extends QLBaseVisitor[QLForm] {
     override def visitForm(ctx: QLParser.FormContext): QLForm = {
-      val statements = JavaConverters.asScalaIteratorConverter(ctx.statement.iterator).asScala.toSeq
+      val statements = JavaConverters.asScalaBuffer(ctx.statement).toList
       QLForm(ctx.Ident().getText, statements.map(StatementCompiler.visit))
     }
   }
@@ -30,8 +31,8 @@ object QLFormParser {
     }
 
     override def visitConditional(ctx: QLParser.ConditionalContext): Statement = {
-      val thenStatements = JavaConverters.asScalaIteratorConverter(ctx.thenBlock.iterator).asScala.toSeq
-      val elseStatements = JavaConverters.asScalaIteratorConverter(ctx.elseBlock.iterator).asScala.toSeq
+      val thenStatements = JavaConverters.asScalaBuffer(ctx.thenBlock).toList
+      val elseStatements = JavaConverters.asScalaBuffer(ctx.elseBlock).toList
       Conditional(ExpressionCompiler.visit(ctx.condition), thenStatements.map(StatementCompiler.visit), elseStatements.map(StatementCompiler.visit))
     }
   }

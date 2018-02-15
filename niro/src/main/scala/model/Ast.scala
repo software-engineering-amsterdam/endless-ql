@@ -1,7 +1,5 @@
 package model
 
-import model.Ast.Expression.Operator.LogicalOp.{And, Not, Or}
-
 object Ast {
 
   case class QLForm(formName: String, statements: Seq[Statement])

@@ -1,6 +1,6 @@
 package parser
 
-import model.Ast.Expression.Ident
+import model.Ast.Expression.{BoolConst, Ident, IntConst}
 import model.Ast.Expression.Operator.{ArithmOp, CompOp, LogicalOp, UnaryOp}
 import model.Ast._
 import nl.uva.se.sc.niro.ErrorListener
@@ -38,6 +38,18 @@ object QLFormParser {
   }
 
   object ExpressionCompiler extends QLBaseVisitor[Expression] {
+    override def visitIntConst(ctx: QLParser.IntConstContext): Expression = {
+      IntConst(ctx.IntValue().getText().toInt)
+    }
+
+    override def visitBoolConst(ctx: QLParser.BoolConstContext): Expression = {
+      BoolConst(ctx.getText.toBoolean)
+    }
+
+    override def visitVar(ctx: QLParser.VarContext): Expression = {
+      Ident(ctx.Ident().getText)
+    }
+
     override def visitUnaryExpr(ctx: QLParser.UnaryExprContext): Expression = {
       UnaryOp(ctx.unaryOp().getText, visit(ctx.expression))
     }
@@ -52,6 +64,10 @@ object QLFormParser {
 
     override def visitLogicalExpr(ctx: QLParser.LogicalExprContext): Expression = {
       LogicalOp(ctx.logicalOp().getText, visit(ctx.lhs), visit(ctx.rhs))
+    }
+
+    override def visitGroupExpr(ctx: QLParser.GroupExprContext): Expression = {
+      visit(ctx.expression())
     }
   }
 

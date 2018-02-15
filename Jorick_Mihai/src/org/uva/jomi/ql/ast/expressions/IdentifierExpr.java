@@ -3,15 +3,15 @@ package org.uva.jomi.ql.ast.expressions;
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
 
-public class IndentifierExpr extends Expr {
+public class IdentifierExpr extends Expr {
 	public final QLToken token;
 	private boolean undefined = true;
 
-	public IndentifierExpr(QLToken token) {
+	public IdentifierExpr(QLToken token) {
 		this.token = token;
 	}
 	
-	public IndentifierExpr(QLToken token, QLType type) {
+	public IdentifierExpr(QLToken token, QLType type) {
 		this.setType(type);
 		this.token = token;
 	}

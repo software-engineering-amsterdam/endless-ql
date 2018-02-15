@@ -4,7 +4,7 @@ import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.elements.types.Var;
 import org.uva.sea.ql.traverse.Traverse;
 
-public class Question implements ASTNode {
+public class Question extends ASTNode {
     private String label;
     private Var variable;
     private Type nodeType;
@@ -53,13 +53,16 @@ public class Question implements ASTNode {
         this.value = value;
     }
 
-    public void traverse(Traverse traverse) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doQuestion(this);
-        this.variable.traverse(traverse);
-        this.nodeType.traverse(traverse);
+    }
+
+    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
+        this.variable.doTraversal(traverse,traverseType);
+        this.nodeType.doTraversal(traverse,traverseType);
 
         if(this.value != null)
-            this.value.traverse(traverse);
+            this.value.doTraversal(traverse,traverseType);
     }
 
     public Type getType() {

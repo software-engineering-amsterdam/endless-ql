@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.uva.jomi.ql.ast.AstBuilder;
-import org.uva.jomi.ql.ast.analysis.TypeChecker;
+import org.uva.jomi.ql.ast.analysis.TypeResolver;
 import org.uva.jomi.ql.ast.statements.Stmt;
 import org.uva.jomi.ql.ast.*;
 import org.uva.jomi.ql.parser.antlr.*;
@@ -42,8 +42,10 @@ public class QL {
 			if (parser.getNumberOfSyntaxErrors() == 0 &&
 				astBuilder.getNumberOfBuildErrors() == 0) {
 
-				TypeChecker typeChecker = new TypeChecker();
-				typeChecker.check(ast);
+				TypeResolver typeResolver = new TypeResolver();
+				typeResolver.check(ast);
+				
+				System.out.println("Number of errors: " + typeResolver.getNumberOfErrors());
 
 
 				// Output the Ast in GraphViz dot format.

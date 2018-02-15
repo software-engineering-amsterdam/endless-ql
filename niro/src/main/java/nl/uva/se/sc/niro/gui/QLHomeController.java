@@ -1,17 +1,18 @@
 package nl.uva.se.sc.niro.gui;
 
-import parser.QLFormParser$;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import model.Ast;
+import nl.uva.se.sc.niro.parser.QLFormParser$;
 import org.antlr.v4.runtime.CharStreams;
 
 import java.io.File;
 import java.io.IOException;
+
+import static nl.uva.se.sc.niro.model.Ast.QLForm;
 
 public class QLHomeController {
 
@@ -25,7 +26,7 @@ public class QLHomeController {
         if (selectedFile != null) {
             System.out.printf("File [%s] has been selected.%n", selectedFile);
             try {
-                Ast.QLForm form = QLFormParser$.MODULE$.parse(CharStreams.fromFileName(selectedFile.getAbsolutePath()));
+                QLForm form = QLFormParser$.MODULE$.parse(CharStreams.fromFileName(selectedFile.getAbsolutePath()));
                 System.out.printf("Form [%s]%n", form);
             } catch (IOException e) {
                 e.printStackTrace();

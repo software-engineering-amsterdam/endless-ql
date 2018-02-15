@@ -1,11 +1,13 @@
-package model
+package nl.uva.se.sc.niro.model
+
+import nl.uva.se.sc.niro.model.Ast.Expression.Ident
 
 object Ast {
 
   case class QLForm(formName: String, statements: Seq[Statement])
 
   sealed trait Statement
-  import model.Ast.Expression.Ident
+
   case class Question(id: Ident, label: String, answerType: AnswerType) extends Statement
   case class Conditional(condition: Expression, ifStatements: Seq[Statement], elseStatements: Seq[Statement]) extends Statement
 

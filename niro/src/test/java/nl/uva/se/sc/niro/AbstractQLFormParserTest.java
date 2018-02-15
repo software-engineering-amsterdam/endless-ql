@@ -1,5 +1,6 @@
 package nl.uva.se.sc.niro;
 
+import nl.uva.se.sc.niro.parser.ErrorListener;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.junit.Before;

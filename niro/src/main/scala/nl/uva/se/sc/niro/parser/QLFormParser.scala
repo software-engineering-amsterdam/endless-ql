@@ -1,9 +1,8 @@
-package parser
+package nl.uva.se.sc.niro.parser
 
-import model.Ast.Expression.{BoolConst, Ident, IntConst}
-import model.Ast.Expression.Operator.{ArithmOp, CompOp, LogicalOp, UnaryOp}
-import model.Ast._
-import nl.uva.se.sc.niro.ErrorListener
+import nl.uva.se.sc.niro.model.Ast._
+import nl.uva.se.sc.niro.model.Ast.Expression._
+import nl.uva.se.sc.niro.model.Ast.Expression.Operator._
 import ql.{QLBaseVisitor, QLLexer, QLParser}
 import org.antlr.v4.runtime.{CharStream, CommonTokenStream}
 

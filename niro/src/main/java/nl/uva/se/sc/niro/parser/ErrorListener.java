@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro;
+package nl.uva.se.sc.niro.parser;
 
 import java.util.Collections;
 import java.util.List;

@@ -4,12 +4,14 @@ import { sampleForm } from "./mock/sampleForm";
 import 'bootstrap/dist/css/bootstrap.css';
 import { testExpressionStuff } from "./form/nodes/test";
 
+
 const qlParser = require("./parsing/parsers/ql_parser");
 
 class App extends React.Component {
   componentDidMount() {
+    const gl = require("!raw!./mock/sampleForm.txt");
 
-    const result = qlParser.parse("5 * 3");
+    const result = qlParser.parse(gl);
     console.log("Parser source:");
     console.log(result);
 

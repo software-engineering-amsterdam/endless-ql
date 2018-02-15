@@ -1,31 +1,207 @@
-// Simple Arithmetics Grammar
-// ==========================
-//
-// Accepts expressions like "2 * (3 + 4)" and computes their value.
+/*
+ * Grammar for the Questionnaire Language
+ *
+ */
 
-Expression
-  = head:Term tail:(_ ("+" / "-") _ Term)* {
-      return tail.reduce(function(result, element) {
-        if (element[1] === "+") { return result + element[3]; }
-        if (element[1] === "-") { return result - element[3]; }
-      }, head);
+{
+    // A base type for building the main tree layout
+  let operations = {
+              // "!"  : Expression,
+              "&&" : Expression,
+              "||" : Expression,
+              "<=" : Expression,
+              ">=" : Expression,
+              "!=" : Expression,
+              "==" : Expression,
+              "<"  : Expression,
+              ">"  : Expression,
+              "+"  : Expression,
+              "-"  : Expression,
+              "*"  : Expression,
+              "/"  : Expression
+            }
+
+  function base(type, rest){
+    return (<any>Object).assign({
+        type:type,
+        //location:location(),
+    },
+    rest)
+  }
+
+  // Building an expression, DRY
+  function buildExpression(head, tail) {
+    return tail.reduce(function(left, curr) {
+      const Operation = operations[curr[1]];
+      return new Operation(left, curr[3]);
+    }
+    , head);
+  }
+}
+
+start = call+
+
+call = form:form _ lb* { return form}
+
+// Unary operation
+unaryOps = "!"
+
+// Boolean operations
+boolOps = "&&" / "||"
+
+// Compartive operations
+compOps = "<=" / ">=" / "!=" / "==" / "<" / ">"
+
+//Addative operations
+addOps = "+" / "-"
+
+//Multiplicant operations
+multOps = "*" / "/"
+
+// All includede aritmic operations
+aritmicOps = multOps / addOps
+
+type = "boolean" / "money" / "currency" / "date"
+
+// Field for pdf syntax
+fieldPdfSyntax
+ = _ name:name _ ":" _ label:string _ type:type _ expr:expression? lb*{
+    return new Field(name, label, type, expr);
+ }
+
+// Field for github syntax
+fieldGithubSyntax
+ = _ label:string lb* name:name _ ":" _ type:type lb* expr:("=" lb* expression)? lb*{
+    return new Field(name, label, type, expr);
+ }
+
+block_if
+ = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" {
+     return e;
+ }
+
+block_form
+ = "{" lb* e:(fieldGithubSyntax / fieldPdfSyntax / if)+ lb* "}" {
+     return e;
+ }
+
+form
+ = _ "form" _ name:name _ children:block_form lb*{
+     var attr = {attributes:{name,}, children}
+     return new Form(name, children)
+}
+
+if
+ = _ "if" _ pre:(expression) _ children:block_if lb* {
+     return new If(pre, children);
+}
+
+// Initiates an expression
+expression
+ = expr:boolExpr {
+    return expr;
+     // return base("EXPRESSION", {
+     //   name: null,
+     //   children:[expr],
+     // })
+ }
+
+// BooleanExpression
+boolExpr
+  = _ head:compExpr _ tail:(_(boolOps)_ compExpr)+ _{
+    return buildExpression(head, tail)
+  }
+  / compExpr
+
+// ComparisonExpression
+compExpr
+  = _ head:additiveExpr _ tail:(_(compOps)_ additiveExpr)+ _{
+    return buildExpression(head, tail)
+  }
+  / additiveExpr
+
+// AdditiveExpression
+additiveExpr
+  = _ head:multiplicativeExpr _ tail:(_(addOps)_ multiplicativeExpr)+ _{
+    return buildExpression(head, tail)
+  }
+  / multiplicativeExpr
+
+// MultiplicativeExpression
+multiplicativeExpr
+  = _ head:primary _ tail:(_(multOps)_ primary)+ _{
+    return buildExpression(head, tail)
+  }
+  / primary
+
+primary
+  = value
+  / "("_ expr:boolExpr _ ")" { return expr; }
+  / unarryExpr
+
+// UnaryExpression
+unarryExpr
+ = _ op:unaryOps value:primary _ {
+     return {
+        type:"UnaryExpression",
+        attributes:{
+            operator:op,
+        },
+        children: [value],
+     }
+  }
+
+
+name
+ = v:([a-zA-Z]+) {
+     return v.join("")
+   }
+
+// Variable / Identifier?
+variable
+ = v:([a-zA-Z]+) {
+     return {
+       type: "VARIABLE",
+       attributes:{
+           name:v.join(""),
+       }
+     }
+   }
+
+// Integer
+integer
+  = digits:([-]?[0-9]+) {
+      return {
+        type: "INTEGER",
+        value: parseInt(digits.join(""), 10)
+      }
     }
 
-Term
-  = head:Factor tail:(_ ("*" / "/") _ Factor)* {
-      return tail.reduce(function(result, element) {
-        console.log(new Nodes.Addition(new Nodes.NumberLiteral(3), new Nodes.NumberLiteral(2)));
-        if (element[1] === "*") { return result * element[3]; }
-        if (element[1] === "/") { return result / element[3]; }
-      }, head);
-    }
+// Currently only support doublequote String
+string
+ = '"' chars:doubleString* '"'{
+     return chars.join('')
+ }
 
-Factor
-  = "(" _ expr:Expression _ ")" { return expr; }
-  / Integer
+doubleString
+  = !('"' / "\\") char:. { return char; }
+  / "\\" sequence:escapeSequence { return sequence; }
 
-Integer "integer"
-  = _ [0-9]+ { return parseInt(text(), 10); }
+escapeSequence
+  = "'"
+  / '"'
+  / "\\"
+  / "b"  { return "\b";   }
+  / "f"  { return "\f";   }
+  / "n"  { return "\n";   }
+  / "r"  { return "\r";   }
+  / "t"  { return "\t";   }
+  / "v"  { return "\x0B"; }
 
-_ "whitespace"
-  = [ \t\n\r]*
+
+
+value = variable / integer / string
+comment = "//" (!lb .)*
+ws = [ \t]
+_ = (ws / comment)*
+lb = [ \t\r\n]

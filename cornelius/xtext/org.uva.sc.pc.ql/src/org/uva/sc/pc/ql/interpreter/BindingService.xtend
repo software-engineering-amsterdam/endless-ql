@@ -5,10 +5,10 @@ import java.util.concurrent.Callable
 import javafx.beans.binding.Bindings
 import javafx.scene.control.CheckBox
 import javafx.scene.control.Control
+import javafx.scene.control.DatePicker
 import javafx.scene.control.TextField
 import javax.inject.Inject
 import org.uva.sc.pc.ql.qLang.Expression
-import org.uva.sc.pc.ql.qLang.ExpressionQuestionRef
 import org.uva.sc.pc.ql.qLang.util.MissingCaseException
 
 class BindingService {
@@ -16,7 +16,7 @@ class BindingService {
 	@Inject
 	private var ExpressionEvaluator evaluator
 
-	def buildBindingForTypeBoolean(HashMap<Object, Control> controls, Expression expression) {
+	def buildBindingForTypeBoolean(HashMap<String, Control> controls, Expression expression) {
 		val binding = Bindings.createBooleanBinding(new Callable<Boolean>() {
 
 			override call() throws Exception {
@@ -27,7 +27,7 @@ class BindingService {
 		return binding
 	}
 
-	def buildBindingForTypeString(HashMap<Object, Control> controls, Expression expression) {
+	def buildBindingForTypeString(HashMap<String, Control> controls, Expression expression) {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
@@ -38,7 +38,7 @@ class BindingService {
 		return binding
 	}
 
-	def buildBindingForTypeInteger(HashMap<Object, Control> controls, Expression expression) {
+	def buildBindingForTypeInteger(HashMap<String, Control> controls, Expression expression) {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
@@ -50,7 +50,7 @@ class BindingService {
 		return binding
 	}
 
-	def buildBindingForTypeDecimalAndMoney(HashMap<Object, Control> controls, Expression expression) {
+	def buildBindingForTypeDecimalAndMoney(HashMap<String, Control> controls, Expression expression) {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
@@ -61,14 +61,13 @@ class BindingService {
 		return binding
 	}
 
-	def private getExpressionArguments(HashMap<Object, Control> controls, Expression exp) {
+	def private getExpressionArguments(HashMap<String, Control> controls, Expression exp) {
 		val result = new HashMap<String, Object>
-		exp.eAllContents.filter[it instanceof ExpressionQuestionRef].forEach [
-			var name = (it as ExpressionQuestionRef).question.name
-			var widget = controls.get(name)
+		controls.forEach [ name, widget |
 			switch widget {
 				CheckBox: result.put(name, widget.selected)
 				TextField: result.put(name, widget.text)
+				DatePicker: result.put(name, widget.value)
 				default: throw new MissingCaseException
 			}
 		]

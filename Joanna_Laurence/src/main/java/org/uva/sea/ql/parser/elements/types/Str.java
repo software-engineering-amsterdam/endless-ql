@@ -3,7 +3,7 @@ package org.uva.sea.ql.parser.elements.types;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.traverse.Traverse;
 
-public class Str implements ASTNode {
+public class Str extends ASTNode {
     private String value;
 
     public Str(String value) {

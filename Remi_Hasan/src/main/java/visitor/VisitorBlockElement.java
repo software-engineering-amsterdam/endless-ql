@@ -26,9 +26,4 @@ public class VisitorBlockElement extends QLBaseVisitor<BlockElement> {
         return question;
     }
 
-    // TODO do we need this?
-//    @Override
-//    public ArrayList<Question> visitVariable(QLParser.VariableContext ctx) {
-//        return new ArrayList<>();
-//    }
 }

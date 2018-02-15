@@ -81,7 +81,7 @@ public class Main extends Application {
 
     private void addQuestionsToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup) {
         // Only show questions that have answers you can set a value to
-        if (true || question.answer.isSetable()) {
+        if (true || question.answer.isSettable()) {
 
             if (question.answer.getReturnType() == ReturnType.Boolean) {
                 addBooleanQuestionToFieldGroup(fields, form, question, fieldGroup);

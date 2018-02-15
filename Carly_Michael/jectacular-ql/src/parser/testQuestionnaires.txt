@@ -19,6 +19,7 @@ form form {
  	question: "Question?"  invalidType
 }
 
+//valid form with if question
 form form {
   question1: "IntegerQuestion?"  integer
   question2: "DecimalQuestion?"  decimal

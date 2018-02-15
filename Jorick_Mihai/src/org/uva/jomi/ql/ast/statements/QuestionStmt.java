@@ -1,9 +1,7 @@
 package org.uva.jomi.ql.ast.statements;
 
 import org.uva.jomi.ql.ast.QLType;
-import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.expressions.IndentifierExpr;
-import org.uva.jomi.ql.ast.statements.Stmt.Visitor;
 
 public class QuestionStmt extends Stmt {
 	public final IndentifierExpr identifier;
@@ -14,6 +12,10 @@ public class QuestionStmt extends Stmt {
 		this.identifier = identifier;
 		this.label = label;
 		this.type = type;
+	}
+
+	public QLType getType() {
+		return type;
 	}
 
 	@Override

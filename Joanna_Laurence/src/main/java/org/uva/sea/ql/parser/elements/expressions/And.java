@@ -10,6 +10,7 @@ public class And extends DualNode {
         super(lhs, rhs);
     }
 
+    //TODO: These parts can be refactor. Make callable?
     public void traverse(Traverse traverse) {
         super.traverse(traverse);
         traverse.doLogical(this);

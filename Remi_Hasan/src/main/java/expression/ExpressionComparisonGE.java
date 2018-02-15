@@ -1,7 +1,5 @@
 package expression;
 
-import model.Form;
-
 public class ExpressionComparisonGE extends ExpressionComparison {
 
     public ExpressionComparisonGE(Expression left, Expression right) {
@@ -9,9 +7,9 @@ public class ExpressionComparisonGE extends ExpressionComparison {
     }
 
     @Override
-    public ExpressionVariable evaluate(Form form) {
-        ExpressionVariable leftEvaluated = this.left.evaluate(form);
-        ExpressionVariable rightEvaluated = this.right.evaluate(form);
+    public ExpressionVariable evaluate() {
+        ExpressionVariable leftEvaluated = this.left.evaluate();
+        ExpressionVariable rightEvaluated = this.right.evaluate();
         return leftEvaluated.ge(rightEvaluated);
     }
 }

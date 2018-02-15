@@ -39,13 +39,14 @@ public class QL {
 			
 			// Make sure there are no parsing errors before we use the Ast.
 			// TODO - Extend the Antlr lexer in order to identify if lexical errors occurred.
-			if (parser.getNumberOfSyntaxErrors() == 0) {
+			if (parser.getNumberOfSyntaxErrors() == 0 &&
+				astBuilder.getNumberOfBuildErrors() != 0) {
 				
 				TypeChecker typeChecker = new TypeChecker();
 				typeChecker.check(ast);
 				
 				
-				// Output the Ast in Graphviz dot format.
+				// Output the Ast in GraphViz dot format.
 				java.io.PrintStream outStream = new java.io.PrintStream("graph.txt");
 				outStream.println(new AstGraph().getGraph(ast));
 				outStream.close();

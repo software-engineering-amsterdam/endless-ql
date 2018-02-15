@@ -9,6 +9,14 @@
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
@@ -42,8 +50,15 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>antlr4 ${basedir}/main/java/org/uva/sea/ql/parser/antlr/QL.g</executable>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-jar</argument>
+                                <argument>/usr/local/lib/antlr-4.7.1-complete.jar</argument>
+                                <argument>${basedir}/src/main/java/org/uva/sea/ql/parser/antlr/QL.g</argument>
+                            </arguments>
+
                         </configuration>
+
                     </execution>
                 </executions>
             </plugin>

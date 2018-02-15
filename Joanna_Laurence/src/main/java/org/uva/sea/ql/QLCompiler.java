@@ -17,7 +17,7 @@ public class QLCompiler {
      * Compile a form specification
      *
      * @param source Of the source location
-     * @return
+     * @return The AST node that can be used by the interpreter
      */
     public Form compileScriptFile(CharStream source) {
 
@@ -52,8 +52,6 @@ public class QLCompiler {
 
         return form.result;
     }
-
-
 }
 
 

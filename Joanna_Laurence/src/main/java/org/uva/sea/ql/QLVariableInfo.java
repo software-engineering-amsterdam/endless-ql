@@ -20,16 +20,27 @@ public class QLVariableInfo extends Traverse {
 
     private Boolean error = false;
 
+    //TODO: Log the line and column!
+    //TODO: Add the locations int the AST node
     private void error(String error, ASTNode node) {
         System.err.println(error + " on line: column: ");
         this.error = true;
     }
 
+    /**
+     * Checks correct variable usage and links variables to questions
+     * @param node The root node of the AST that needs to be checked
+     * @return If an error occurred
+     */
     public boolean addVariableInformation(ASTNode node) {
         node.traverse(this);
         return !error;
     }
 
+    /**
+     * Variables have to be defined before used
+     * @param node The var node in the AST that is traversed
+     */
     public void doVar(Var node) {
         //Questions should not already exist
         String variableName = node.getVariableName();
@@ -41,6 +52,10 @@ public class QLVariableInfo extends Traverse {
         node.setLinkedQuestion(variableMap.get(variableName));
     }
 
+    /**
+     * Questions should not be defined yet. Map the question by its name
+     * @param node The question node in the AST that is traversed
+     */
     public void doQuestion(Question node) {
         //Questions should not already exist
         String variableName = node.getVariable().getVariableName();
@@ -52,5 +67,4 @@ public class QLVariableInfo extends Traverse {
         //Add new question to the lookup
         variableMap.put(variableName, node);
     }
-
 }

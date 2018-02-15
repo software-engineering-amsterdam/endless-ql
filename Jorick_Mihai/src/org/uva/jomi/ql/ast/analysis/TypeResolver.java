@@ -47,6 +47,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	@Override
 	public Void visitComputedQuestionStmt(ComputedQuestionStmt stmt) {
 		stmt.identifier.accept(this);
+		stmt.expression.accept(this);
 		
 		// Before traversing the Ast enforce the question type on the expression if needed
 		if (stmt.expression.getType() == null) {
@@ -77,34 +78,37 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public Void visitIndetifierExpr(IdentifierExpr expr) {
-		return null;
-	}
-
-	@Override
-	public Void visitPrimaryExpr(PrimaryExpr expr) {
-		return null;
-	}
-
-	@Override
 	public Void visitBinaryExpr(BinaryExpr expr) {
 		expr.left.accept(this);
 		expr.right.accept(this);
-		//TODO Check if left and right expression are equal
+		
+		if(expr.left.getType() != expr.right.getType()) {
+			this.incrementNumberOfErrors();
+			System.out.println("Cannot do " + expr.left.getType() + " " + expr.operator.getLexeme() + " " + expr.right.getType());
+		}
+		
 		return null;
 	}
 
 	@Override
 	public Void visitGroupingExpr(GroupingExpr expr) {
 		expr.expression.accept(this);
-		//TODO Do something?
 		return null;
 	}
 
 	@Override
 	public Void visitUnaryExpr(UnaryExpr expr) {
 		expr.right.accept(this);
-		//TODO Do something?
+		return null;
+	}
+	
+	@Override
+	public Void visitIndetifierExpr(IdentifierExpr expr) {
+		return null;
+	}
+
+	@Override
+	public Void visitPrimaryExpr(PrimaryExpr expr) {
 		return null;
 	}
 	

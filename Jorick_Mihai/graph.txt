@@ -1,39 +1,97 @@
 digraph G {
   node [shape="box"]
-  6 [label="BlockStmt"]
-  6 -> 3
-  3 [label="QuestionStmt
-Name: q1
+  17 [label="BlockStmt"]
+  17 -> 2
+  2 [label="QuestionStmt
+Name: hasSoldHouse
 Type: boolean"]
-  2 [label="Type: BOOLEAN
-Value: true
-"]
-  3 -> 2
   1 [label="[Ident]
-Name: q1
+Name: hasSoldHouse
 Type: BOOLEAN
-Undefined: false"]
-  3 -> 1
-  6 -> 5
-  5 [label="QuestionStmt
-Name: q2
+Undefined: true"]
+  2 -> 1
+  17 -> 4
+  4 [label="QuestionStmt
+Name: hasBoughtHouse
 Type: string"]
   1 [label="[Ident]
-Name: q1
+Name: hasSoldHouse
 Type: BOOLEAN
-Undefined: false"]
-  5 -> 1
-  4 [label="[Ident]
-Name: q2
+Undefined: true"]
+  4 -> 1
+  3 [label="[Ident]
+Name: hasBoughtHouse
 Type: STRING
 Undefined: false"]
-  5 -> 4
-  7 -> 6
+  4 -> 3
+  17 -> 6
+  6 [label="QuestionStmt
+Name: hasMaintLoan
+Type: boolean"]
+  5 [label="[Ident]
+Name: hasMaintLoan
+Type: BOOLEAN
+Undefined: true"]
+  6 -> 5
+  17 -> 16
+  1 [label="[Ident]
+Name: hasSoldHouse
+Type: BOOLEAN
+Undefined: true"]
+  16 -> 1
+  15 [label="BlockStmt"]
+  15 -> 8
+  8 [label="QuestionStmt
+Name: sellingPrice
+Type: string"]
+  7 [label="[Ident]
+Name: sellingPrice
+Type: STRING
+Undefined: true"]
+  8 -> 7
+  15 -> 10
+  10 [label="QuestionStmt
+Name: privateDebt
+Type: money"]
+  9 [label="[Ident]
+Name: privateDebt
+Type: MONEY
+Undefined: true"]
+  10 -> 9
+  15 -> 14
+  14 [label="QuestionStmt
+Name: valueResidue
+Type: money"]
+  7 [label="[Ident]
+Name: sellingPrice
+Type: STRING
+Undefined: true"]
+  9 [label="[Ident]
+Name: privateDebt
+Type: MONEY
+Undefined: true"]
+  12 [label="-
+Type: null
+"]
+  12 -> 7
+  12 -> 9
+  13 [label="GroupingExpr
+Type: MONEY"]
+  13 -> 12
+  14 -> 13
+  11 [label="[Ident]
+Name: valueResidue
+Type: MONEY
+Undefined: false"]
+  14 -> 11
+  16 -> 15
+  16 [label="IfStmt"]
+  18 -> 17
   0 [label="[Ident]
-Name: Form1
+Name: Box1HouseOwning
 Type: null
 Undefined: true"]
-  7 -> 0
-  7 [label="FormStmt
-Name: Form1"]
+  18 -> 0
+  18 [label="FormStmt
+Name: Box1HouseOwning"]
 }

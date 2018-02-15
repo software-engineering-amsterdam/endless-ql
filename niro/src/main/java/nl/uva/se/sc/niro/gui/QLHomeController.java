@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.gui;
 
-import compiler.Compiler$;
+import parser.QLFormParser$;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -25,7 +25,7 @@ public class QLHomeController {
         if (selectedFile != null) {
             System.out.printf("File [%s] has been selected.%n", selectedFile);
             try {
-                Ast.QLForm form = Compiler$.MODULE$.compile(CharStreams.fromFileName(selectedFile.getAbsolutePath()));
+                Ast.QLForm form = QLFormParser$.MODULE$.parse(CharStreams.fromFileName(selectedFile.getAbsolutePath()));
                 System.out.printf("Form [%s]%n", form);
             } catch (IOException e) {
                 e.printStackTrace();

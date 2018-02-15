@@ -1,18 +1,17 @@
-package compiler
+package parser
 
 import model.Ast.Expression.Ident
 import model.Ast.Expression.Operator.{ArithmOp, CompOp, LogicalOp, UnaryOp}
-import model.Ast.Expression.Operator.ArithmOp.Mul
 import model.Ast._
 import nl.uva.se.sc.niro.ErrorListener
 import ql.{QLBaseVisitor, QLLexer, QLParser}
 import org.antlr.v4.runtime.{CharStream, CommonTokenStream}
 
-import scala.collection.{JavaConverters, mutable}
+import scala.collection.JavaConverters
 
-object Compiler {
+object QLFormParser {
 
-  def compile(formSource: CharStream): QLForm = {
+  def parse(formSource: CharStream): QLForm = {
     val parser = new QLParser(new CommonTokenStream(new QLLexer(formSource)))
     parser.removeErrorListeners()
     parser.addErrorListener(new ErrorListener)

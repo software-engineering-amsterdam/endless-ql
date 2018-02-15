@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.fail;
 
-public class VisitingCompilerTest {
+public class VisitingQLFormParserTest {
 	@Before
 	public void clearErrors() {
 		ErrorListener.errorReported = false;
@@ -17,7 +17,7 @@ public class VisitingCompilerTest {
 	
 	@Test
 	public void simpleQuestionaireTest() throws IOException {
-        compiler.Compiler$.MODULE$.compile(toCharStream("/simple.ql"));
+        parser.QLFormParser$.MODULE$.parse(toCharStream("/simple.ql"));
 		if (ErrorListener.errorReported) {
 			fail("Somehting went wrong, see the console for more information!");
 		}
@@ -25,7 +25,7 @@ public class VisitingCompilerTest {
 
     @Test
     public void conditionalIfNotQuestionaireTest() throws IOException {
-        compiler.Compiler$.MODULE$.compile(toCharStream("/not-conditional-if.ql"));
+        parser.QLFormParser$.MODULE$.parse(toCharStream("/not-conditional-if.ql"));
         if (ErrorListener.errorReported) {
             fail("Somehting went wrong, see the console for more information!");
         }
@@ -33,7 +33,7 @@ public class VisitingCompilerTest {
 
     @Test
 	public void conditionalIfQuestionaireTest() throws IOException {
-        compiler.Compiler$.MODULE$.compile(toCharStream("/simple-conditional-if.ql"));
+        parser.QLFormParser$.MODULE$.parse(toCharStream("/simple-conditional-if.ql"));
 		if (ErrorListener.errorReported) {
 			fail("Somehting went wrong, see the console for more information!");
 		}
@@ -41,7 +41,7 @@ public class VisitingCompilerTest {
 
     @Test
     public void conditionalIfElseQuestionaireTest() throws IOException {
-        compiler.Compiler$.MODULE$.compile(toCharStream("/simple-conditional-if-else.ql"));
+        parser.QLFormParser$.MODULE$.parse(toCharStream("/simple-conditional-if-else.ql"));
         if (ErrorListener.errorReported) {
             fail("Somehting went wrong, see the console for more information!");
         }
@@ -49,7 +49,7 @@ public class VisitingCompilerTest {
 
 	@Test
 	public void nestedConditionalQuestionaireTest() throws IOException {
-        compiler.Compiler$.MODULE$.compile(toCharStream("/nested-conditional.ql"));
+        parser.QLFormParser$.MODULE$.parse(toCharStream("/nested-conditional.ql"));
 		if (ErrorListener.errorReported) {
 			fail("Somehting went wrong, see the console for more information!");
 		}
@@ -57,7 +57,7 @@ public class VisitingCompilerTest {
 
 	@Test
 	public void expressionConditionalIfQuestionaireTest() throws IOException {
-        compiler.Compiler$.MODULE$.compile(toCharStream("/expression-conditional-if.ql"));
+        parser.QLFormParser$.MODULE$.parse(toCharStream("/expression-conditional-if.ql"));
 		if (ErrorListener.errorReported) {
 			fail("Somehting went wrong, see the console for more information!");
 		}
@@ -65,7 +65,7 @@ public class VisitingCompilerTest {
 
     @Test
     public void expressionConditionalIfElseQuestionaireTest() throws IOException {
-        compiler.Compiler$.MODULE$.compile(toCharStream("/expression-conditional-if-else.ql"));
+        parser.QLFormParser$.MODULE$.parse(toCharStream("/expression-conditional-if-else.ql"));
         if (ErrorListener.errorReported) {
             fail("Somehting went wrong, see the console for more information!");
         }
@@ -73,7 +73,7 @@ public class VisitingCompilerTest {
 
 	@Test
 	public void nestedExpressionQuestionaireTest() throws IOException {
-        compiler.Compiler$.MODULE$.compile(toCharStream("/nested-expression.ql"));
+        parser.QLFormParser$.MODULE$.parse(toCharStream("/nested-expression.ql"));
 		if (ErrorListener.errorReported) {
 			fail("Somehting went wrong, see the console for more information!");
 		}

@@ -16,9 +16,74 @@ class QLParser:
         )
         self.parser = yacc.yacc(module=self)
 
+    def parse(self, data, lexer):
+        self.parser.parse(data, lexer)
+
+    # Statements
+    @staticmethod
+    def p_form(p):
+        """form : FORM VAR LBRACKET stmts RBRACKET"""
+        p[0] = ('FORM', p[2], p[4])
+
+    @staticmethod
+    def p_stmts(p):
+        """stmts : stmt stmts
+                 | stmt"""
+        if len(p) == 3:
+            p[0] = [p[1]] + p[2]
+        elif len(p) == 2:
+            p[0] = p[1]
+
+    @staticmethod
+    def p_stmt(p):
+        """stmt : assign
+                | if
+                | elif
+                | else
+                | question
+                | form"""
+        p[0] = p[1]
+
+    @staticmethod
+    def p_assign(p):
+        """assign : VAR ASSIGN expr"""
+        p[0] = ('ASSIGN', p[1], p[2])
+
+    # Questions and answers
+    @staticmethod
+    def p_question(p):
+        """question : QUESTION answer"""
+        p[0] = ('QUESTION', p[1], p[2])
+
+    @staticmethod
+    def p_answer(p):
+        """answer : VAR COLON type"""
+        p[0] = ('ANSWER', p[1], p[3])
+
+    @staticmethod
+    def p_answer_assign(p):
+        """answer : VAR COLON assign"""
+        p[0] = ('ANSWER', p[1], p[3])
+
+    # Control Flow
+    @staticmethod
+    def p_if(p):
+        """if : IF LPAREN expr RPAREN LBRACKET stmts RBRACKET"""
+        p[0] = ('IF', p[3], p[6])
+
+    @staticmethod
+    def p_elif(p):
+        """elif : ELIF LPAREN expr RPAREN LBRACKET stmts RBRACKET"""
+        p[0] = ('ELIF', p[3], p[6])
+
+    @staticmethod
+    def p_else(p):
+        """else : ELSE LBRACKET stmts RBRACKET"""
+        p[0] = ('ELSE', p[3])
+
     # Expressions
     @staticmethod
-    def p_expr_brackets(p):
+    def p_parenthesis(p):
         """expr : LPAREN expr RPAREN"""
         p[0] = p[2]
 
@@ -91,74 +156,14 @@ class QLParser:
 
     # Literals
     @staticmethod
-    def p_expr_number(p):
+    def p_number(p):
         """expr : NUMBER"""
         p[0] = ('NUMBER', p[1])
 
     @staticmethod
-    def p_expr_float(p):
+    def p_float(p):
         """expr : FLOAT"""
         p[0] = ('FLOAT', p[1])
-
-    # Statements
-    @staticmethod
-    def p_stmts(p):
-        """stmts : stmt stmts
-                 | stmt"""
-        if len(p) == 3:
-            p[0] = ('STMTS', p[1], p[2])
-        elif len(p) == 2:
-            p[0] = p[1]
-
-    @staticmethod
-    def p_stmt(p):
-        """stmt : if
-                | elif
-                | else
-                | question"""
-        p[0] = p[1]
-
-    @staticmethod
-    def p_form(p):
-        """stmt : FORM VAR LBRACKET stmts RBRACKET"""
-        p[0] = ('FORM', p[2], p[4])
-
-    # Questions and answers
-    @staticmethod
-    def p_question(p):
-        """question : QUESTION answer"""
-        p[0] = ('QUESTION', p[1], p[2])
-
-    @staticmethod
-    def p_answer(p):
-        """answer : VAR COLON type"""
-        p[0] = ('ANSWER', p[1], p[3])
-
-    @staticmethod
-    def p_answer_assign(p):
-        """answer : VAR COLON assign"""
-        p[0] = ('ANSWER', p[1], p[3])
-
-    # Control Flow
-    @staticmethod
-    def p_if(p):
-        """if : IF LPAREN expr RPAREN LBRACKET stmts RBRACKET"""
-        p[0] = ('IF', p[3], p[6])
-
-    @staticmethod
-    def p_elif(p):
-        """elif : ELIF LPAREN expr RPAREN LBRACKET stmts RBRACKET"""
-        p[0] = ('ELIF', p[3], p[6])
-
-    @staticmethod
-    def p_else(p):
-        """else : ELSE LBRACKET stmts RBRACKET"""
-        p[0] = ('ELSE', p[3])
-
-    @staticmethod
-    def p_assign(p):
-        """assign : VAR ASSIGN expr"""
-        p[0] = ('ASSIGN', p[1], p[2])
 
     # Other
     @staticmethod
@@ -172,7 +177,13 @@ class QLParser:
         p[0] = p[1]
 
     # Misc
+    # @staticmethod
+    # def p_empty(p):
+    #     """empty :"""
+    #     pass
+
     def p_error(self, p):
+        print(p)
         print("Whoa.")
         if not p:
             print("End of File!")

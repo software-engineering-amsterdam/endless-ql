@@ -31,6 +31,7 @@ Workflow {
 		}
 		language = StandardLanguage {
 			name = "org.uva.sc.pc.qls.QSLang"
+			referencedResource = "platform:/resource/org.uva.sc.pc.ql/model/generated/QLang.genmodel"
 			fileExtensions = "qls"
 
 			serializer = {

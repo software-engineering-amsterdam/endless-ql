@@ -36,7 +36,10 @@ public class TypeChecker implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
 	@Override
 	public Void visitComputedQuestionStmt(ComputedQuestionStmt stmt) {
-		// TODO Auto-generated method stub
+		// Before traversing the Ast enforce the question type on the expression if needed
+		if (stmt.expression.getType() == null) {
+			stmt.expression.setType(stmt.getType());
+		}
 		return null;
 	}	
 

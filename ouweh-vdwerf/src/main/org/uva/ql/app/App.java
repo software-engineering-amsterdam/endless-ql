@@ -21,6 +21,8 @@ public class App {
             QLParser.FormContext formContext =  parser.form();
             ParseTreeVisitor visitor = new ParseTreeVisitor();
             Form form = (Form) visitor.visit(formContext);
+
+            System.out.println(form);
         }
         catch (IOException ex) {
             System.out.println(ex.toString());

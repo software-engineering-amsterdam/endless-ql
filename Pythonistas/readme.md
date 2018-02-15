@@ -46,7 +46,7 @@ optional arguments:
   -v, --version         Prints the program version.
 ```
 
-example: python run_app.py commons/input.ql
+example: python run_app.py forms/simple.ql
 
 # Testing
 

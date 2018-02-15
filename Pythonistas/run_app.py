@@ -3,7 +3,7 @@
 Documentation goes here:
 
 to run give file as arg, example:
-$ python run_app.py commons/input.ql
+$ python run_app.py forms/simple.ql
 """
 import logging
 import argparse
@@ -11,8 +11,7 @@ import sys
 from commons.config import config
 from commons.logging import logging_basic_config
 from commons.utility import open_file
-from lexer.ql_lexer import ql_lex
-from parse.combinators import *
+from parse.ql_parser import *
 
 logger = logging.getLogger(__name__)
 
@@ -49,14 +48,14 @@ def main():
     # lexer
     tokens = ql_lex(file)
     print(tokens)
+    print('\n')
 
-    # parse
-    # parser = globals()[sys.argv[2]]()
-    result = parser(tokens, 0)
+    # parse & ast
+    result = ql_parser(tokens)
     print(result)
 
-    # parse
-    # create ast
+    # todo: maybe to a json inbetween to have a good look at ast instead of cli
+
     # static checker
     #   - https://github.com/titusjan/astviewer
     # expression eval

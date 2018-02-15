@@ -1,6 +1,13 @@
-grammar org.uva.sc.pc.qls.QSLang with org.eclipse.xtext.common.Terminals
+grammar org.uva.sc.pc.qls.QSLang with org.uva.sc.pc.ql.QLang
 
 generate qSLang "http://www.uva.org/sc/pc/qls/QSLang"
+
+import "http://www.uva.org/sc/pc/ql/QLang"
+
+Model:
+	form = Form
+	(stylesheet=Stylesheet)?
+;
 
 Stylesheet:
 	'stylesheet' name=ID
@@ -24,15 +31,15 @@ SectionExtended returns Section:
 ;
 
 SectionShort returns Section:
-	'section' name=STRING question=Question
+	'section' name=STRING question=QuestionRef
 ;
 
 BlockElement:
-	Question | Section | DefaultTypeStyle
+	QuestionRef | Section | DefaultTypeStyle
 ;
 
-Question: 
-	'question' name=ID (widget=Widget)?
+QuestionRef: 
+	'question' question=[Question] (widget=Widget)?
 ;
 
 Widget:

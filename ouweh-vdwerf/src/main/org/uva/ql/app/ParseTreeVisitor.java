@@ -11,20 +11,22 @@ public class ParseTreeVisitor extends QLBaseVisitor {
 
     @Override
     public Form visitForm(QLParser.FormContext ctx) {
-        System.out.println(String.format("Visit Form: %s", ctx.id.getText()));
+        String formId = ctx.id.getText();
         List<Statement> statements = new ArrayList<>();
 
         for(QLParser.StatementContext statementContext : ctx.statement()){
             statements.add((Statement) visit(statementContext));
         }
-
-        return new Form(statements);
+        return new Form(formId, statements);
     }
 
     @Override
     public TreeNode visitQuestion(QLParser.QuestionContext ctx) {
-        System.out.println(String.format("Visit Question: %s", ctx.text.getText()));
-        return new Question(ctx.text.getText(), (Type)visit(ctx.type()));
+        String questionName = ctx.ID().getText();
+        String questionContent = ctx.text.getText();
+        Type questionType = (Type)visit(ctx.type());
+
+        return new Question(questionName, questionContent, questionType);
     }
 
     @Override
@@ -65,5 +67,10 @@ public class ParseTreeVisitor extends QLBaseVisitor {
     @Override
     public TreeNode visitStringType(QLParser.StringTypeContext ctx) {
         return new StringType();
+    }
+
+    @Override
+    public TreeNode visitParameter(QLParser.ParameterContext ctx) {
+        return new Expression();
     }
 }

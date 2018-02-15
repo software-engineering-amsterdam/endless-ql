@@ -18,4 +18,13 @@ public class Conditional extends Statement{
         this.condition = condition;
         this.ifSide = ifSide;
     }
+
+    @Override
+    public String toString() {
+        String conditional = String.format("If %s \n", this.condition);
+        for (Statement statement : ifSide) {
+            conditional += String.format("\t\t%s\n",statement);
+        }
+        return conditional;
+    }
 }

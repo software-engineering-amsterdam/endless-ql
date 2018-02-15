@@ -3,7 +3,7 @@ from pyql.ast import code_location
 
 class ASTNode:
 
-    def __init__(self, loc: code_location):
+    def __init__(self, loc: code_location.CodeLocation):
         self.location = loc
 
     def get_code_location(self):
@@ -14,6 +14,8 @@ class ASTNode:
 
 
 if __name__ == '__main__':
+
     location = code_location.CodeLocation(2, 3)
+    node = ASTNode(3)
     node = ASTNode(location)
     print(node)

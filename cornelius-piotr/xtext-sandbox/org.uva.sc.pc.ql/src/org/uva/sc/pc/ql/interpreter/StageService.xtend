@@ -24,6 +24,7 @@ import org.uva.sc.pc.ql.qLang.TypeInteger
 import org.uva.sc.pc.ql.qLang.TypeMoney
 import org.uva.sc.pc.ql.qLang.TypeString
 import org.uva.sc.pc.ql.qLang.util.MissingCaseException
+import org.uva.sc.pc.ql.qLang.Block
 
 class StageService {
 
@@ -41,18 +42,23 @@ class StageService {
 			root.children.add(control)
 		]
 		form.blocks.forEach [
-			val box = new VBox();
-			it.body.questions.forEach [
-				val control = buildControlForQuestion(it)
-				box.children.add(control)
-			]
-			val binding = bindingService.buildBindingForTypeBoolean(controls, it.expression)
-			box.visibleProperty.bind(binding)
-			bindings.add(binding)
-			root.children.add(box)
+			val block = buildControlForBlock(it)
+			root.children.add(block)
 		]
 		registerListeners
 		return root
+	}
+
+	def private buildControlForBlock(Block block) {
+		val box = new VBox();
+		block.body.questions.forEach [
+			val control = buildControlForQuestion(it)
+			box.children.add(control)
+		]
+		val binding = bindingService.buildBindingForTypeBoolean(controls, block.expression)
+		box.visibleProperty.bind(binding)
+		bindings.add(binding)
+		return box
 	}
 
 	def private buildControlForQuestion(Question question) {

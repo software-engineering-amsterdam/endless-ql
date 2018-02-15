@@ -2,4 +2,3 @@
 
 ## Colaborators:
 * Cornelius Ries
-* Piotr Kosytorz

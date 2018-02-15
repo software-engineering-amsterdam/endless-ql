@@ -29,14 +29,14 @@ public class QLFormParserTest {
     @Parameterized.Parameters(name = "Parsing: {0}")
     public static Collection<Object> parameters() {
         Object[] formFiles = {
-                "/simple.ql",
-                "/not-conditional-if.ql",
-                "/simple-conditional-if.ql",
-                "/simple-conditional-if-else.ql",
-                "/nested-conditional.ql",
-                "/expression-conditional-if.ql",
-                "/expression-conditional-if-else.ql",
-                "/nested-expression.ql"
+                "/positive/simple.ql",
+                "/positive/not-conditional-if.ql",
+                "/positive/simple-conditional-if.ql",
+                "/positive/simple-conditional-if-else.ql",
+                "/positive/nested-conditional.ql",
+                "/positive/expression-conditional-if.ql",
+                "/positive/expression-conditional-if-else.ql",
+                "/positive/nested-expression.ql"
         };
         return Arrays.asList(formFiles);
     }
@@ -45,7 +45,7 @@ public class QLFormParserTest {
     public void parserTest() throws IOException {
         parser.QLFormParser$.MODULE$.parse(toCharStream(formFile));
         if (ErrorListener.errorReported) {
-            fail("Somehting went wrong, see the console for more information!");
+            fail("Something went wrong, see the console for more information!");
         }
     }
 

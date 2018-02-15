@@ -1,10 +1,8 @@
 package expression;
 
-import model.Form;
-
 public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
 
-    public ExpressionVariableDecimal(Double value){
+    public ExpressionVariableDecimal(Double value) {
         super(value);
     }
 
@@ -14,18 +12,18 @@ public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
     }
 
     @Override
-    public void setValue(String value){
+    public void setValue(String value) {
         this.value = Double.parseDouble(value);
     }
 
     // TODO
     @Override
     public ExpressionVariable divide(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
 
         double right = Double.parseDouble(other.value.toString());
-        if(right == 0.0){
+        if (right == 0.0) {
             return new ExpressionVariableUndefined();
         }
         return new ExpressionVariableDecimal(this.value / right);
@@ -33,49 +31,49 @@ public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
 
     @Override
     public ExpressionVariable multiply(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableDecimal(this.value * Double.parseDouble(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable subtract(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableDecimal(this.value - Double.parseDouble(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable sum(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableDecimal(this.value + Double.parseDouble(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable ge(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(this.value >= Double.parseDouble(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable gt(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(this.value > Double.parseDouble(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable le(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(this.value <= Double.parseDouble(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable lt(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(this.value < Double.parseDouble(other.value.toString()));
     }

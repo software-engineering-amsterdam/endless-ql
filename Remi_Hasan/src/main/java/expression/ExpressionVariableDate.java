@@ -1,7 +1,5 @@
 package expression;
 
-import model.Form;
-
 public class ExpressionVariableDate extends ExpressionVariable<String> {
     // TODO: figure out best way to save and/or validate a date
 
@@ -15,7 +13,7 @@ public class ExpressionVariableDate extends ExpressionVariable<String> {
     }
 
     @Override
-    public void setValue(String value){
+    public void setValue(String value) {
         this.value = value;
     }
 
@@ -42,28 +40,28 @@ public class ExpressionVariableDate extends ExpressionVariable<String> {
     // TODO
     @Override
     public ExpressionVariable ge(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableUndefined();
     }
 
     @Override
     public ExpressionVariable gt(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableUndefined();
     }
 
     @Override
     public ExpressionVariable le(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableUndefined();
     }
 
     @Override
     public ExpressionVariable lt(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableUndefined();
     }

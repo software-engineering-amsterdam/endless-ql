@@ -1,5 +1,7 @@
 package main.org.uva.ql.ast;
 
+
+import main.org.uva.ql.ast.expression.Expression;
 import java.util.ArrayList;
 import java.util.List;
 

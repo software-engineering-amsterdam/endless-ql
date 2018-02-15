@@ -1,10 +1,11 @@
 package model;
 
 public abstract class BlockElement {
-    public boolean isQuestion(){
+    public boolean isQuestion() {
         return false;
     }
-    public boolean isCondition(){
+
+    public boolean isCondition() {
         return false;
     }
 }

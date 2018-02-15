@@ -20,7 +20,7 @@ public class QLVariableInfo extends Traverse {
     //TODO: Log the line and column!
     //TODO: Add the locations int the AST node
     private void error(String error, ASTNode node) {
-        System.err.println(error + " on line: column: ");
+        System.err.println(error + " on line:  " + node.getLine() + " column: " + node.getColumn());
         this.error = true;
     }
 
@@ -57,7 +57,7 @@ public class QLVariableInfo extends Traverse {
         //Questions should not already exist
         String variableName = node.getVariable().getVariableName();
         if(variableMap.containsKey(variableName)) {
-            this.error("Question already exist", node);
+            this.error("Question already exists", node);
             return;
         }
 

@@ -6,7 +6,6 @@ import org.uva.sea.ql.traverse.Traverse;
 public class Form extends ASTNode {
 
     private String name;
-
     private Statements statements;
 
     public Form(String name, Statements statements) {

@@ -81,15 +81,13 @@ public class Main extends Application {
 
     private void addQuestionsToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup) {
         // Only show questions that have answers you can set a value to
-        if (true || question.answer.isSetable()) {
+        if (question.answer.getReturnType() == ReturnType.Boolean) {
+            addBooleanQuestionToFieldGroup(fields, form, question, fieldGroup);
+        } else if (question.answer.getReturnType() == ReturnType.Number || question.answer.getReturnType() == ReturnType.String) {
+            addNumberQuestionToFieldGroup(fields, form, question, fieldGroup);
+        }
 
-            if (question.answer.getReturnType() == ReturnType.Boolean) {
-                addBooleanQuestionToFieldGroup(fields, form, question, fieldGroup);
-            } else if (question.answer.getReturnType() == ReturnType.Number || question.answer.getReturnType() == ReturnType.String) {
-                addNumberQuestionToFieldGroup(fields, form, question, fieldGroup);
-            }
-
-            // Test from: https://o7planning.org/en/11185/javafx-spinner-tutorial
+        // Test from: https://o7planning.org/en/11185/javafx-spinner-tutorial
 //            Label label = new Label("Select Level:");
 //            final Spinner<Integer> spinner = new Spinner<Integer>();
 //            final int initialValue = 3;
@@ -99,12 +97,11 @@ public class Main extends Application {
 //            spinner.setValueFactory(valueFactory);
 //            fieldGroup.join("dummy", "dummy2", spinner);
 
-            // separator, might be useful to visually make groups apparent
+        // separator, might be useful to visually make groups apparent
 //            fieldGroup.separate();
-        }
     }
 
-    private void addBooleanQuestionToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup){
+    private void addBooleanQuestionToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup) {
         ComboBox<String> input = Input.comboBox(
                 new OptionList() {{
                     add("", true);
@@ -126,7 +123,7 @@ public class Main extends Application {
         fieldGroup.join(question.name, question.text, input);
     }
 
-    private void addNumberQuestionToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup){
+    private void addNumberQuestionToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup) {
         TextInputControl input = Input.textField("");
 
         if (question.answer.getReturnType() == ReturnType.Number) {
@@ -151,36 +148,37 @@ public class Main extends Application {
         fieldGroup.join(question.name, question.text, input);
     }
 
-    private void addStringQuestionToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup){
+    private void addStringQuestionToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup) {
         // TODO
     }
 
     private void changeQuestionAnswer(TextInputControl input, Question question) {
         question.answer.setValue(input.getText());
     }
+
     //
     private void changeQuestionAnswer(ComboBox input, Question question) {
         question.answer.setValue(input.getSelectionModel().getSelectedItem().toString());
     }
 
     private void changeEditableFields(HashMap<String, Control> fields, ArrayList<BlockElement> elements, boolean inEditableBlock) {
-        for(BlockElement blockElement : elements){
+        for (BlockElement blockElement : elements) {
             changeEditableFields(fields, blockElement, inEditableBlock);
         }
     }
 
-    private void changeEditableFields(HashMap<String, Control> fields, BlockElement blockElement, boolean inEditableBlock){
-        if(blockElement.isQuestion()){
+    private void changeEditableFields(HashMap<String, Control> fields, BlockElement blockElement, boolean inEditableBlock) {
+        if (blockElement.isQuestion()) {
             Control field = fields.get(((Question) blockElement).name);
             field.setVisible(inEditableBlock);
-        } else if(blockElement.isCondition()){
+        } else if (blockElement.isCondition()) {
             changeEditableFields(fields, (Condition) blockElement, inEditableBlock);
         }
     }
 
-    private void changeEditableFields(HashMap<String, Control> fields, Condition condition, boolean inEditableBlock){
+    private void changeEditableFields(HashMap<String, Control> fields, Condition condition, boolean inEditableBlock) {
         boolean inEditableSubBlock = inEditableBlock && Boolean.TRUE.equals(condition.condition.evaluate().get());
-        for(BlockElement blockElement : condition.elements){
+        for (BlockElement blockElement : condition.elements) {
             changeEditableFields(fields, blockElement, inEditableSubBlock);
         }
     }
@@ -196,22 +194,22 @@ public class Main extends Application {
         return submitButton;
     }
 
-    private void printQuestionAnswers(BlockElement blockElement){
-        if(blockElement.isQuestion()){
+    private void printQuestionAnswers(BlockElement blockElement) {
+        if (blockElement.isQuestion()) {
             printQuestionAnswers((Question) blockElement);
-        } else if(blockElement.isCondition()){
+        } else if (blockElement.isCondition()) {
             printQuestionAnswers((Condition) blockElement);
         }
     }
 
-    private void printQuestionAnswers(Condition condition){
-        for(BlockElement blockElement : condition.elements){
+    private void printQuestionAnswers(Condition condition) {
+        for (BlockElement blockElement : condition.elements) {
             printQuestionAnswers(blockElement);
         }
     }
 
 
-    private void printQuestionAnswers(Question question){
+    private void printQuestionAnswers(Question question) {
         System.out.println("\t" + question.name + " => " + question.answer.evaluate());
     }
 }

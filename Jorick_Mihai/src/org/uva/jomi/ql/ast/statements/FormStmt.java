@@ -1,13 +1,13 @@
 package org.uva.jomi.ql.ast.statements;
 
-import org.uva.jomi.ql.ast.expressions.IndentifierExpr;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
 import org.uva.jomi.ql.ast.statements.Stmt.Visitor;
 
 public class FormStmt extends Stmt {
-	public final IndentifierExpr identifier;
+	public final IdentifierExpr identifier;
 	public final BlockStmt blockStmt;
 	
-	public FormStmt(IndentifierExpr identifier, BlockStmt blockStmt) {
+	public FormStmt(IdentifierExpr identifier, BlockStmt blockStmt) {
 		this.identifier = identifier;
 		this.blockStmt = blockStmt;
 	}

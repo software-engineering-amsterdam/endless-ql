@@ -77,7 +77,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public Void visitIndetifierExpr(IndentifierExpr expr) {
+	public Void visitIndetifierExpr(IdentifierExpr expr) {
 		return null;
 	}
 

@@ -36,7 +36,6 @@ public class QL {
 
 			AstBuilder astBuilder = new AstBuilder();
 			List<Stmt> ast = astBuilder.visit(cst);
-			System.out.println(astBuilder.getNumberOfBuildErrors());
 
 			// Make sure there are no parsing errors before we use the Ast.
 			// TODO - Extend the Antlr lexer in order to identify if lexical errors occurred.

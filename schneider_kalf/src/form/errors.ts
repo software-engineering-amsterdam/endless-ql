@@ -35,7 +35,7 @@ export class NotComparableError extends FormError {
     }
 
     const error = new NotComparableError(message);
-    error.name = "NotComparableError";
+    Object.setPrototypeOf(error, NotComparableError.prototype);
 
     error.left = left;
     error.right = right;
@@ -50,7 +50,9 @@ export class DivisionByZeroError extends FormError {
       message = `Division by zero is not possible. `;
     }
 
-    return new DivisionByZeroError(message);
+    const error = new DivisionByZeroError(message);
+    Object.setPrototypeOf(error, DivisionByZeroError.prototype);
+    return error;
   }
 }
 

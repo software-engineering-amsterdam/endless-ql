@@ -57,11 +57,7 @@ export const assertValidDivision = (dividend: any, divisor: any) => {
 
 export const assertSameType = (left: any, right: any) => {
   if (typeof left !== typeof right) {
-    const error = NotComparableError.make(left, right);
-    console.log(typeof error);
-    console.log(error instanceof NotComparableError);
-
-    throw error;
+    throw NotComparableError.make(left, right);
   }
 
   return {left, right};

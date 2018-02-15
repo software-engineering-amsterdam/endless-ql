@@ -34,7 +34,6 @@ it('holds that true === !false', () => {
 it('throws and exception if 1 === true is evaluated', () => {
   expect(() => {
     const oneIsEqualToTrue = new Equals(new BooleanLiteral(true), new NumberLiteral(1));
-    console.log("EVALUATE AND DIE?", evaluate(oneIsEqualToTrue));
     evaluate(oneIsEqualToTrue);
   }).toThrow(NotComparableError);
 });

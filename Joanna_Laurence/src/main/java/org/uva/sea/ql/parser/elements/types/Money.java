@@ -3,7 +3,7 @@ package org.uva.sea.ql.parser.elements.types;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.traverse.Traverse;
 
-public class Money implements ASTNode {
+public class Money extends ASTNode {
     private String currency;
     private Double amount;
 

@@ -14,13 +14,22 @@ grammar QL;
 }
 
 form returns [Form result]
-    :   'form' IDENT '{' stms=statements '}' { $result = new Form($IDENT.text, $stms.result);  }
+    :   'form' IDENT '{' stms=statements '}' { $result = new Form($IDENT.text, $stms.result);
+      int x = $stms.start.getLine();
+      int y = $stms.start.getStartIndex();
+      $result.setLocation(x,y);}
     ;
 
 statements returns [Statements result]
     @init  { Statements statements = new Statements(); }
     @after { $result = statements; }
-    : (stm=statement { statements.addStatement($stm.result); })*
+    : (stm=statement {
+        int x = $stm.start.getLine();
+        int y = $stm.start.getStartIndex();
+        statements.setLocation(x,y);
+        statements.addStatement($stm.result);
+        System.out.println("Statements " + statements.getLine() + " " + statements.getColumn());
+        })*
     ;
 
 statement returns [ASTNode result]
@@ -32,23 +41,39 @@ statement returns [ASTNode result]
 question returns [Question result]
     : lab=label var=variable ':' t=type ('=' ex=expression)? {
         $result = new Question($lab.result, $var.result, $t.result,$ex.text == null ? null : $ex.result);
+        $result.setLocation($lab.start.getLine(), $lab.start.getCharPositionInLine());
+        System.out.println("Question " + $result.getLine() + " " + $result.getColumn());
       }
     ;
 
 label returns [String result]
-    : STR { $result = $STR.text; }
+    : STR {
+        $result = $STR.text;
+    }
     ;
 
 variable returns [Var result]
-    : IDENT { $result = new Var($IDENT.text); }
+    : IDENT {
+        $result = new Var($IDENT.text);
+        $result.setLocation($IDENT.getLine(), $IDENT.getCharPositionInLine());
+        System.out.println("Variable " + $result.getLine() + " " + $result.getColumn());
+        }
     ;
 
 type returns [Type result]
-    : TYPES { $result = new Type($TYPES.text); }
+    : TYPES {
+        $result = new Type($TYPES.text);
+        $result.setLocation($TYPES.getLine(), $TYPES.getCharPositionInLine());
+        System.out.println("Type " + $result.getLine() + " " + $result.getColumn());
+        }
     ;
 
 condition returns [Condition result]
-    : 'if' '(' expr=expression ')' q=questionBlock { $result = new Condition($expr.result, $q.result); }
+    : 'if' '(' expr=expression ')' q=questionBlock {
+        $result = new Condition($expr.result, $q.result);
+        $result.setLocation($expr.start.getLine(), $expr.start.getCharPositionInLine());
+        System.out.println("Type " + $result.getLine() + " " + $result.getColumn());
+        }
     ;
 
 questionBlock returns [List<Question> result]
@@ -66,7 +91,11 @@ questions returns [List<Question> result]
     ;
 
 expression returns [ASTNode result]
-    : expr=orExpr {$result = $expr.result;}
+    : expr=orExpr {
+        $result = $expr.result;
+        $result.setLocation($expr.start.getLine(), $expr.start.getCharPositionInLine());
+        System.out.println("Expression " + $result.getLine() + " " + $result.getColumn());
+    }
     ;
 
 orExpr returns [ASTNode result]

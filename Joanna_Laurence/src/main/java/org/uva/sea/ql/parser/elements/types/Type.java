@@ -4,7 +4,7 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.traverse.Traverse;
 
 //TODO: Override equals
-public class Type implements ASTNode {
+public class Type extends ASTNode {
     private String nodeType;
 
     public Type(String type) {
@@ -40,17 +40,5 @@ public class Type implements ASTNode {
     @Override
     public int hashCode() {
         return nodeType != null ? nodeType.hashCode() : 0;
-    }
-
-    public Type getExprType() {
-        return new Type(type);
-    }
-
-    public boolean checkType() {
-        return true;
-    }
-
-    public boolean equals(Type name) {
-        return this.type.equals(name);
     }
 }

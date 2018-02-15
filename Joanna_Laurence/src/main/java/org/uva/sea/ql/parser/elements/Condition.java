@@ -5,7 +5,7 @@ import org.uva.sea.ql.traverse.Traverse;
 
 import java.util.List;
 
-public class Condition implements ASTNode {
+public class Condition extends ASTNode {
 
     private ASTNode expression;
     private List<Question> questions;

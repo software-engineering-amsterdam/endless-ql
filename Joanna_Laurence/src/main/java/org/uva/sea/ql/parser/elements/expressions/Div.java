@@ -24,12 +24,4 @@ public class Div extends DualNode {
     public Type getType() {
         return this.getLhs().getType();
     }
-
-    public Type getExprType() {
-        return lhs.getExprType();
-    }
-
-    public boolean checkType() {
-        return lhs.getExprType().equals(rhs.getExprType());
-    }
 }

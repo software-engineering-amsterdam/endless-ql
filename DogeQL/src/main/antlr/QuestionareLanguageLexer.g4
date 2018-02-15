@@ -2,13 +2,13 @@ lexer grammar QuestionareLanguageLexer;
 
 /* Constructs */
 
-CON_FORM
+FORM
     : 'form'
     ;
 
 /* Control flow */
 
-FLOW_IF
+IF
     : 'if'
     ;
 
@@ -49,27 +49,27 @@ TYPE_DATE
 
 /* Separators */
 
-SEP_LPAREN
+LPAREN
     : '('
     ;
 
-SEP_RPAREN
+RPAREN
     : ')'
     ;
 
-SEP_LBRACE
+LBRACE
     : '{'
     ;
 
-SEP_RBRACE
+RBRACE
     : '}'
     ;
 
-SEP_COLON
+COLON
     : ':'
     ;
 
-SEP_QUOTE
+QUOTE
     : '"'
     ;
 
@@ -90,7 +90,7 @@ LIT_DECIMAL
     ;
 
 LIT_STRING
-    : SEP_QUOTE .*? SEP_QUOTE
+    : QUOTE .*? QUOTE
     ;
 
 LIT_COLOR
@@ -140,77 +140,77 @@ HexDigit
 /* Operators */
 
 UNARY_OPERATOR
-    : OP_NOT
+    : NOT
     ;
 
 BINARY_OPERATOR
-    : OP_GT
-    | OP_LT
-    | OP_EQUAL
-    | OP_LE
-    | OP_GE
-    | OP_NOTEQUAL
-    | OP_AND
-    | OP_OR
-    | OP_ADD
-    | OP_SUB
-    | OP_MUL
-    | OP_DIV
+    : GT
+    | LT
+    | EQUAL
+    | LE
+    | GE
+    | NOTEQUAL
+    | AND
+    | OR
+    | ADD
+    | SUB
+    | MUL
+    | DIV
     ;
 
-OP_ASSIGN
+ASSIGN
     : '='
     ;
 
-OP_GT
+GT
     : '>'
     ;
 
-OP_LT
+LT
     : '<'
     ;
 
-OP_NOT
+NOT
     : '!'
     ;
 
-OP_EQUAL
+EQUAL
     : '=='
     ;
 
-OP_LE
+LE
     : '<='
     ;
 
-OP_GE
+GE
     : '>='
     ;
 
-OP_NOTEQUAL
+NOTEQUAL
     : '!='
     ;
 
-OP_AND
+AND
     : '&&'
     ;
 
-OP_OR
+OR
     : '||'
     ;
 
-OP_ADD
+ADD
     : '+'
     ;
 
-OP_SUB
+SUB
     : '-'
     ;
 
-OP_MUL
+MUL
     : '*'
     ;
 
-OP_DIV
+DIV
     : '/'
     ;
 
@@ -232,7 +232,7 @@ IDENTIFIER_LETTER_OR_DIGIT
 
 /* Whitespace and comments */
 
-WS
+WHITESPACE
     : [ \t\r\n\u000C]+ -> channel(HIDDEN)
     ;
 

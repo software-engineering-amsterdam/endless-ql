@@ -5,11 +5,11 @@ options {
 }
 
 form
-    : CON_FORM IDENTIFIER block
+    : FORM IDENTIFIER block
     ;
 
 block
-    : SEP_LBRACE statement* SEP_RBRACE
+    : LBRACE statement* RBRACE
     ;
 
 statement
@@ -22,21 +22,21 @@ questionStatement
     ;
 
 ifStatement
-    : FLOW_IF SEP_LPAREN expression SEP_RPAREN block
+    : IF LPAREN expression RPAREN block
     ;
 
 variableInitialization
-    : variableDeclaration (OP_ASSIGN expression)?
+    : variableDeclaration (ASSIGN expression)?
     ;
 
 variableDeclaration
-    : IDENTIFIER SEP_COLON TYPE
+    : IDENTIFIER COLON TYPE
     ;
 
 expression
-    : SEP_LPAREN expression SEP_RPAREN
-    | expression BINARY_OPERATOR expression
+    : LPAREN expression RPAREN
     | UNARY_OPERATOR expression
+    | expression BINARY_OPERATOR expression
     | IDENTIFIER
     | literal
     ;

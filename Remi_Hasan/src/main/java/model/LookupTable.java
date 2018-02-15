@@ -33,6 +33,7 @@ public class LookupTable {
 
     public void insert(Question question) {
         if(table.containsKey(question.name)) {
+            // TODO: errors with line numbers
             throw new IllegalArgumentException("Identifier already exists");
         }
         table.put(question.name, question);

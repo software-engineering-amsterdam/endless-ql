@@ -24,8 +24,8 @@ class QLangJavaFxApplication extends Application {
 	override init() {
 		val file = parameters.raw.get(0)
 		val injector = new QLangStandaloneSetup().createInjectorAndDoEMFRegistration()
-		val rs = injector.getInstance(ResourceSet)
-		astData = rs.getResource(URI.createFileURI(file), true)
+		val resourceSet = injector.getInstance(ResourceSet)
+		astData = resourceSet.getResource(URI.createFileURI(file), true)
 
 		val validator = injector.getInstance(IResourceValidator)
 		

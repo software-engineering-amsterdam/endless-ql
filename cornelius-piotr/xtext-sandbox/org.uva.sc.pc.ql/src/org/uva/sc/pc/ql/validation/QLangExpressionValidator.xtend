@@ -20,7 +20,7 @@ import org.uva.sc.pc.ql.qLang.ExpressionQuestionRef
 import org.uva.sc.pc.ql.qLang.QLangPackage
 import org.uva.sc.pc.ql.qLang.Question
 import org.uva.sc.pc.ql.qLang.util.MissingCaseException
-import org.uva.sc.pc.ql.qLang.util.TypeUtil
+import org.uva.sc.pc.ql.qLang.util.QLangUtil
 
 /**
  * This class contains custom validation rules. 
@@ -44,13 +44,13 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 	def String computeType(Expression exp) {
 		switch exp {
 			ExpressionOr:
-				TypeUtil.TYPE_BOOLEAN
+				QLangUtil.TYPE_BOOLEAN
 			ExpressionAnd:
-				TypeUtil.TYPE_BOOLEAN
+				QLangUtil.TYPE_BOOLEAN
 			ExpressionEquality:
-				TypeUtil.TYPE_BOOLEAN
+				QLangUtil.TYPE_BOOLEAN
 			ExpressionComparison:
-				TypeUtil.TYPE_BOOLEAN
+				QLangUtil.TYPE_BOOLEAN
 			ExpressionPlusOrMinus: {
 				computeType(exp.left)
 			}
@@ -58,15 +58,15 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 				computeType(exp.left)
 			}
 			ExpressionNot:
-				TypeUtil.TYPE_BOOLEAN
+				QLangUtil.TYPE_BOOLEAN
 			ExpressionLiteralString:
-				TypeUtil.TYPE_STRING
+				QLangUtil.TYPE_STRING
 			ExpressionLiteralInteger:
-				TypeUtil.TYPE_INTEGER
+				QLangUtil.TYPE_INTEGER
 			ExpressionLiteralBoolean:
-				TypeUtil.TYPE_BOOLEAN
+				QLangUtil.TYPE_BOOLEAN
 			ExpressionQuestionRef:
-				TypeUtil.getTypeForQuestionType(exp.question.type)
+				QLangUtil.getTypeForQuestionType(exp.question.type)
 			default:
 				throw new MissingCaseException
 		}
@@ -78,7 +78,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = TypeUtil.allowedTypesForOps.get(exp.op)
+		var allowedTypes = QLangUtil.allowedTypesForOperations.get(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_OR__LEFT, TYPE_NOT_ALLOWED)
 
@@ -96,7 +96,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = TypeUtil.allowedTypesForOps.get(exp.op)
+		var allowedTypes = QLangUtil.allowedTypesForOperations.get(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_AND__LEFT, TYPE_NOT_ALLOWED)
 
@@ -114,7 +114,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = TypeUtil.allowedTypesForOps.get(exp.op)
+		var allowedTypes = QLangUtil.allowedTypesForOperations.get(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_EQUALITY__LEFT, TYPE_NOT_ALLOWED)
 
@@ -132,7 +132,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = TypeUtil.allowedTypesForOps.get(exp.op)
+		var allowedTypes = QLangUtil.allowedTypesForOperations.get(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_COMPARISON__LEFT, TYPE_NOT_ALLOWED)
 
@@ -150,7 +150,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = TypeUtil.allowedTypesForOps.get(exp.op)
+		var allowedTypes = QLangUtil.allowedTypesForOperations.get(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_PLUS_OR_MINUS__LEFT, TYPE_NOT_ALLOWED)
 
@@ -168,7 +168,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = TypeUtil.allowedTypesForOps.get(exp.op)
+		var allowedTypes = QLangUtil.allowedTypesForOperations.get(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_MUL_OR_DIV__LEFT, TYPE_NOT_ALLOWED)
 
@@ -185,7 +185,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 
 		var type = computeType(exp.expression)
 
-		var allowedTypes = TypeUtil.allowedTypesForOps.get(TypeUtil.OP_NOT)
+		var allowedTypes = QLangUtil.allowedTypesForOperations.get(QLangUtil.OPERATION_NOT)
 		if (!allowedTypes.contains(type))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLangPackage.Literals.EXPRESSION_NOT__EXPRESSION, TYPE_NOT_ALLOWED)
 
@@ -194,7 +194,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 	@Check
 	def checkBlockExpression(Block block) {
 
-		if (computeType(block.expression) != TypeUtil.TYPE_BOOLEAN) {
+		if (computeType(block.expression) != QLangUtil.TYPE_BOOLEAN) {
 			error(BLOCK_INVALID_EXPRESSION_MESSAGE, QLangPackage.Literals.BLOCK__EXPRESSION, BLOCK_INVALID_EXPRESSION)
 		}
 
@@ -204,7 +204,7 @@ class QLangExpressionValidator extends AbstractQLangValidator {
 	def checkComputedQuestion(Question question) {
 
 		if (question.expression !== null) {
-			var expectedType = TypeUtil.getTypeForQuestionType(question.type)
+			var expectedType = QLangUtil.getTypeForQuestionType(question.type)
 			var computedType = computeType(question.expression)
 			if (expectedType != computedType)
 				error(TYPE_NOT_EXPECTED_MESSAGE, QLangPackage.Literals.QUESTION__EXPRESSION, TYPE_NOT_EXPECTED)

@@ -63,7 +63,7 @@ questionBlock returns [List<Question> result]
 questions returns [List<Question> result]
     @init  { ArrayList<Question> questions = new ArrayList<Question>(); }
     @after { $result = questions; }
-    : (stm=question {questions.add($stm.result);})+
+    : (stm=question {questions.add($stm.result);})*
     ;
 
 expression returns [ASTNode result]

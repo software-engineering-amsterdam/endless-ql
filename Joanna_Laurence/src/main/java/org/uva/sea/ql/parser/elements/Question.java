@@ -63,6 +63,6 @@ public class Question implements ASTNode {
     }
 
     public Type getType() {
-        return new Type("undefined");
+        return nodeType;
     }
 }

@@ -8,3 +8,5 @@ form Box1HouseOwning {
 		valueResidue: "Value residue:" money(sellingPrice - privateDebt)
 	}
 }
+
+form Box1HouseOwning {}

@@ -1,9 +1,13 @@
+import com.sun.istack.internal.NotNull;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
 import java.io.IOException;
+import java.util.List;
 
-public class FormReader {
+import static java.util.stream.Collectors.toList;
+
+public class FormReader  {
 
     public class FormReaderListener extends QLBaseListener {
 
@@ -34,54 +38,62 @@ public class FormReader {
 
     }
 
-    public static class SyntaxErrorListener extends BaseErrorListener {
-        public static SyntaxErrorListener INSTANCE = new SyntaxErrorListener();
 
-        @Override
-        public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol,
-                                int line, int charPositionInLine,
-                                String msg, RecognitionException e)
-        {
-            String sourceName = recognizer.getInputStream().getSourceName();
-            if (!sourceName.isEmpty()) {
-                sourceName = String.format("%s:%d:%d: ", sourceName, line, charPositionInLine);
-            }
-
-            System.err.println(sourceName+"line "+line+":"+charPositionInLine+" "+msg);
-        }
-    }
-
-    public void parseFile (String path) throws IOException {
+    public QLForm parseFile (String path) throws IOException {
 
         CharStream charStream = CharStreams.fromFileName(path);
 
-        parseCharstream(charStream);
+        return parseCharstream(charStream);
 
     }
 
-    public void parseString (String s) {
+    public QLForm parseString (String s) {
 
         CharStream charStream = CharStreams.fromString(s);
 
-        parseCharstream(charStream);
+        return parseCharstream(charStream);
 
     }
 
-    public void parseCharstream (CharStream charStream){
+    public QLForm parseCharstream (CharStream charStream){
 
 
         QLLexer lexer = new QLLexer(charStream);
-
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-
+        TokenStream tokens = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(tokens);
 
-        QLParser.FormContext formContext = parser.form();
+        FormVisitor formVisitor = new FormVisitor();
 
-        ParseTreeWalker walker = new ParseTreeWalker();
+        QLForm traverseResult = (QLForm) formVisitor.visit(parser.form());
 
-        FormReaderListener listener = new FormReaderListener();
+        return traverseResult;
 
+    }
+
+    private static class FormVisitor extends QLBaseVisitor<QLForm> {
+
+        @Override
+        public QLForm visitForm(@NotNull QLParser.FormContext ctx) {
+            String formName = ctx.VARIABLE().getText();
+            QuestionVisitor questionVisitor = new QuestionVisitor();
+            List<Question> questions = ctx.question()
+                    .stream()
+                    .map(question -> question.accept(questionVisitor))
+                    .collect(toList());
+            return new QLForm(formName, questions);
+        }
+    }
+
+    private static class QuestionVisitor extends QLBaseVisitor<Question> {
+
+        @Override
+        public Question visitQuestion(@NotNull QLParser.QuestionContext ctx) {
+            String questionName = ctx.VARIABLE().getText();
+            String questionLabel = ctx.STRING().getText();
+            String questionType = ctx.TYPE().getText();
+
+            return new Question(questionName, questionLabel, questionType);
+        }
     }
 
 }

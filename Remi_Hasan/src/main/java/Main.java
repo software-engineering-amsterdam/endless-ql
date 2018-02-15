@@ -16,7 +16,6 @@ import org.yorichan.formfx.control.Input;
 import org.yorichan.formfx.control.option.OptionList;
 import org.yorichan.formfx.field.FieldGroup;
 import org.yorichan.formfx.form.GridForm;
-import visitor.FormParser;
 
 import java.io.InputStream;
 import java.util.ArrayList;

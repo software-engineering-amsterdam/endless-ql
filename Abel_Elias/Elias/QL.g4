@@ -76,8 +76,6 @@ BOOLEANTYPE:
     'boolean'
 ;
 
-
-
 LETTER:
     'A'..'Z' | 'a'..'z'
 ;

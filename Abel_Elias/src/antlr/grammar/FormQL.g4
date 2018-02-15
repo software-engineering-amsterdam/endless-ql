@@ -14,19 +14,27 @@ grammar FormQL;
 }
 
 /** Parser rules */
+form : FORM identifier block EOF; // form
 
-questionnaire : form; // (top) questionnaire
+identifier:
+    LETTER (LETTER | DIGIT | '_')*
+;
 
-form : FORM IDENTIFIER content EOF; // form
+block : CURLY_BRACE_L (ifStatement | question | statement)* CURLY_BRACE_R; // content
 
-content : CURLY_BRACE_L (ifStatement | question)* CURLY_BRACE_R; // content
+question : identifier COLON STR type;
 
-question : IDENTIFIER COLON STR type //question 1
-         | IDENTIFIER COLON STR type BRACE_L IDENTIFIER SUB IDENTIFIER BRACE_R; //question 12
+statement : identifier COLON STR type expr;
 
-ifStatement : IF BRACE_L expr BRACE_R content*; //statement
+expr:
+    expr operator expr |
+    INT |
+    STR |
+    DEC |
 
-expr : type
+ifStatement : IF BRACE_L booleanExpr BRACE_R content*; //statement
+
+booleanExpr : type
      | NOT expr // not
      | expr ( GRT | LST | GRTE | LSTE | EQT | NEQT) expr //equality and relational
      | expr ( AND | OR) expr // conditional

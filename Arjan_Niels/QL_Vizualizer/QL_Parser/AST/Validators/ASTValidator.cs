@@ -23,10 +23,11 @@ namespace QL_Parser.AST.Validators
 
         private ASTValidator()
         {
-            // Register all the validators.
+            // Register the validators.
             _validators = new List<IASTValidator>
             {
-                new SingleFormValidator()
+                new SingleFormValidator(),
+                new QuestionHasNoChildrenValidator()
             };
 
             _errors = new List<string>();

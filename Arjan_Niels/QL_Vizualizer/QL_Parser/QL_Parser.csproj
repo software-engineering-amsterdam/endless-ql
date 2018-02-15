@@ -56,6 +56,7 @@
     <Compile Include="AST\SymbolTable.cs" />
     <Compile Include="AST\Validators\ASTValidator.cs" />
     <Compile Include="AST\Validators\IASTValidator.cs" />
+    <Compile Include="AST\Validators\QuestionHasNoChildrenValidator.cs" />
     <Compile Include="AST\Validators\SingleFormValidator.cs" />
     <Compile Include="Models\ConditionalBlock.cs" />
     <Compile Include="Models\Question.cs" />

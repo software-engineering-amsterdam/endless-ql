@@ -1,8 +1,9 @@
-lexer grammar Grammar;
-
+grammar Grammar;
+options {backtrack=true; memorize=true;}
 
 //Whitespace
-WHITESPACE : [ \t\r\n]+ -> skip;
+NEWLINE : '\r\n' | 'r' | '\n';
+WHITESPACE : [\t]+;
 
 //Keywords
 FORM : 'form';
@@ -45,12 +46,8 @@ OR : '||';
 NOT : '!';
 
 //Variables
-VAR : [_]*[A-Za-z0-9]*;
-LABEL : '"'[A-Za-z0-9 ,.?]+'"';
+VAR : [_]*[a-z][A-Za-z0-9_]*;
+LABEL : '"'[A-Za-z0-9\t]+'"';
 
-<<<<<<< HEAD
 //RULES
-question : VAR ASSIGN LABEL BOOL+;
-form : FORM VAR LCURLYBRAKET question+ RCURLYBRAKET;
-=======
->>>>>>> a1532717721957782eaca3fc1d54b173efe04671
+a : INT INT;

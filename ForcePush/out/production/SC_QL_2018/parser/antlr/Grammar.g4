@@ -1,5 +1,5 @@
-lexer grammar Grammar;
-
+grammar Grammar;
+options {backtrack=true; memorize=true;}
 
 //Whitespace
 NEWLINE : '\r\n' | 'r' | '\n';
@@ -49,3 +49,5 @@ NOT : '!';
 VAR : [_]*[a-z][A-Za-z0-9_]*;
 LABEL : '"'[A-Za-z0-9\t]+'"';
 
+//RULES
+a : INT INT;

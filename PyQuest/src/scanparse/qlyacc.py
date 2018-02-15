@@ -175,15 +175,8 @@ class QLParser:
                 | MONEY"""
         p[0] = p[1]
 
-    # Misc
-    # @staticmethod
-    # def p_empty(p):
-    #     """empty :"""
-    #     pass
-
     def p_error(self, p):
         print(p)
-        print("Whoa.")
         if not p:
             print("End of File!")
             return

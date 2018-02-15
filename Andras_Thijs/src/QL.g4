@@ -25,7 +25,7 @@ condition : 'if' boolexpression '{' question+ '}';
 
 // Expressions: Include some basic rules about operators
 expression : '(' expression ')'
-           | NOT expression
+           | NOT boolexpression
            | STRING EQUALOPERATOR STRING
            | NUMERAL (EQUALOPERATOR | COMPARISON | ARITHMETICS) NUMERAL
            | BOOLEAN (BOOLOPERATOR | EQUALOPERATOR) BOOLEAN

@@ -20,7 +20,7 @@ object QLFormParser {
 
   object FormCompiler extends QLBaseVisitor[QLForm] {
     override def visitForm(ctx: QLParser.FormContext): QLForm = {
-      val statements = JavaConverters.asScalaBufferConverter(ctx.statement).asScala
+      val statements = JavaConverters.asScalaIteratorConverter(ctx.statement.iterator).asScala.toSeq
       QLForm(ctx.Ident().getText, statements.map(StatementCompiler.visit))
     }
   }
@@ -31,15 +31,15 @@ object QLFormParser {
     }
 
     override def visitConditional(ctx: QLParser.ConditionalContext): Statement = {
-      val thenStatements = JavaConverters.asScalaBufferConverter(ctx.thenBlock).asScala
-      val elseStatements = JavaConverters.asScalaBufferConverter(ctx.elseBlock).asScala
+      val thenStatements = JavaConverters.asScalaIteratorConverter(ctx.thenBlock.iterator).asScala.toSeq
+      val elseStatements = JavaConverters.asScalaIteratorConverter(ctx.elseBlock.iterator).asScala.toSeq
       Conditional(ExpressionCompiler.visit(ctx.condition), thenStatements.map(StatementCompiler.visit), elseStatements.map(StatementCompiler.visit))
     }
   }
 
   object ExpressionCompiler extends QLBaseVisitor[Expression] {
     override def visitIntConst(ctx: QLParser.IntConstContext): Expression = {
-      IntConst(ctx.IntValue().getText().toInt)
+      IntConst(ctx.IntValue().getText.toInt)
     }
 
     override def visitBoolConst(ctx: QLParser.BoolConstContext): Expression = {

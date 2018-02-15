@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import expression.Expression;
 import expression.ExpressionVariableUndefined;
 
+import java.awt.image.LookupTable;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -12,26 +13,15 @@ public class Form {
 
     public final String identifier;
     public final ArrayList<BlockElement> elements;
-    public final Map<String, Question> lookupTable;
 
-    public Form(String identifier, ArrayList<BlockElement> elements, Map<String, Question> lookupTable){
+    public Form(String identifier, ArrayList<BlockElement> elements) {
         this.identifier = identifier;
         this.elements = elements;
-        this.lookupTable = lookupTable;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(this);
-    }
-
-    public Expression getQuestionAnswer(String identifier) {
-        Question question = lookupTable.get(identifier);
-        if(question != null) {
-            return question.answer;
-        } else {
-            return new ExpressionVariableUndefined();
-        }
     }
 }

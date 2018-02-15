@@ -1,6 +1,7 @@
+package model;
+
 import expression.Expression;
 import expression.ExpressionVariableUndefined;
-import model.Question;
 
 import java.util.HashMap;
 import java.util.Map;

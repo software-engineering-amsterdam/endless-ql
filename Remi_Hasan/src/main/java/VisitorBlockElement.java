@@ -1,11 +1,7 @@
-import expression.Expression;
 import model.BlockElement;
 import model.Condition;
+import model.LookupTable;
 import model.Question;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class VisitorBlockElement extends QLBaseVisitor<BlockElement> {
 

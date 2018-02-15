@@ -1,13 +1,13 @@
 package expression;
 
-import model.BlockElement;
 import model.Form;
+import model.LookupTable;
 
-public class ExpressionIdentifier extends Expression<Object>{
+public class ExpressionIdentifier extends Expression<Object> {
 
     private final String identifier;
 
-    public ExpressionIdentifier(String identifier){
+    public ExpressionIdentifier(String identifier) {
         this.identifier = identifier;
     }
 
@@ -22,11 +22,12 @@ public class ExpressionIdentifier extends Expression<Object>{
     }
 
     @Override
-    public ReturnType getReturnType(Form form){
+    public ReturnType getReturnType(Form form) {
         return getVariable(form).getReturnType(form);
     }
 
-    private Expression getVariable(Form form){
-        return form.getQuestionAnswer(identifier);
+    private Expression getVariable(Form form) {
+        LookupTable lookupTable = LookupTable.getInstance();
+        return lookupTable.getQuestionAnswer(identifier);
     }
 }

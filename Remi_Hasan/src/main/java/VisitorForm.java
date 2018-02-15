@@ -21,7 +21,7 @@ public class VisitorForm extends QLBaseVisitor<Form> {
             elements.add(blockElement);
         }
 
-        return new Form(ctx.IDENTIFIER().getText(), elements, visitorBlockElement.getLookupTable());
+        return new Form(ctx.IDENTIFIER().getText(), elements);
     }
 
 }

@@ -62,6 +62,5 @@ expression  : IntValue                                 # IntConst
 form        : FORM Ident CURLY_L statement+ CURLY_R EOF ;
 statement   : question | conditional ;
 question    : Ident D_COLON TEXT answerType ( ASSIGN BRACK_L expression BRACK_R )?;
-answerType  : BOOLEAN | INTEGER | STRING ;
-
 conditional : IF BRACK_L condition=expression BRACK_R CURLY_L thenBlock+=statement+ CURLY_R ( ELSE CURLY_L elseBlock+=statement+ CURLY_R )? ;
+answerType  : BOOLEAN | INTEGER | STRING ;

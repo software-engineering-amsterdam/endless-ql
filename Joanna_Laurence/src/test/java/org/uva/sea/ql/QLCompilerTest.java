@@ -37,8 +37,6 @@ class TestPair {
 @RunWith(Parameterized.class)
 public class QLCompilerTest extends TestCase {
 
-    private QLCompiler compiler = new QLCompiler();
-
     private String testFile;
     private Boolean shouldCompile;
 
@@ -83,6 +81,7 @@ public class QLCompilerTest extends TestCase {
      */
     private boolean doesCompile(String fileName) {
         try {
+            QLCompiler compiler = new QLCompiler();
             CharStream steam = CharStreams.fromStream(new FileInputStream(fileName));
             Form result = compiler.compileScriptFile(steam);
             return result != null;

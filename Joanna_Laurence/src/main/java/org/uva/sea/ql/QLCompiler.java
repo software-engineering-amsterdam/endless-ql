@@ -48,7 +48,7 @@ public class QLCompiler {
         }
 
         //Show the parse tree
-        Trees.inspect(form, parser);
+        //Trees.inspect(form, parser);
 
         return form.result;
     }

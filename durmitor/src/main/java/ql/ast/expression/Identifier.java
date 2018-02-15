@@ -1,6 +1,4 @@
-package ql.ast;
-
-import ql.ast.expression.Expression;
+package ql.ast.expression;
 
 public class Identifier extends Expression {
     
@@ -9,5 +7,9 @@ public class Identifier extends Expression {
     public Identifier(String name) {
         this.name = name;
     }
-    
+
+    @Override
+    public String toString() {
+        return name;
     }
+}

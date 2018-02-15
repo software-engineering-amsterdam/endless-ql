@@ -70,73 +70,73 @@ public class Main extends Application {
     }
 
     private void addQuestionsToFieldGroup(HashMap<String, Control> fields, Form form, ArrayList<BlockElement> elements, FieldGroup fieldGroup){
-        for(Question question : block.questions) {
-
-            // Only show questions that have answers you can set a value to
-           if(question.answer.isSetable(form)){
-
-               if(question.answer.getReturnType(form) == ReturnType.Boolean){
-                   ComboBox<String> input = Input.comboBox(
-                           new OptionList() {{
-                               add("", true);
-                               add("true");
-                               add("false");
-                           }});
-
-                   // TODO implement observer pattern?
-                   // If input changes some questions might need to be enabled/disabled
-                   input.setOnAction(e -> {
-                       if(input.isEditable() || !input.isDisabled()){
-                           changeQuestionAnswer(input, block);
-                           changeEditableFields(fields, form, block, true);
-                       }
-                   });
-
-                   fields.put(question.name, input);
-                   fieldGroup.join(question.name, question.text, input);
-               }
-               else if(question.answer.getReturnType(form) == ReturnType.Number || question.answer.getReturnType(form) == ReturnType.String){
-                   TextInputControl input = Input.textField("");
-
-                   if(question.answer.getReturnType(form) == ReturnType.Number){
-                       // NumberStringConverter
-                       // CurrencyStringConverter
-                       // DoubleStringConverter
-                       // https://docs.oracle.com/javase/8/javafx/api/javafx/util/StringConverter.html
-                       input.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-                   }
-
-                   // If input changes some questions might need to be enabled/disabled
-                   input.setOnKeyTyped(e -> {
-                       if(input.isEditable()){
-                           changeQuestionAnswer(input, block);
-                           changeEditableFields(fields, form, block, true);
-                       }
-
-                       System.out.println(form);
-                   });
-
-                   fields.put(question.name, input);
-                   fieldGroup.join(question.name, question.text, input);
-               }
-
-
-               // Test from: https://o7planning.org/en/11185/javafx-spinner-tutorial
-//            Label label = new Label("Select Level:");
-//            final Spinner<Integer> spinner = new Spinner<Integer>();
-//            final int initialValue = 3;
-//            // Value factory.
-//            SpinnerValueFactory<Integer> valueFactory = //
-//                    new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, initialValue);
-//            spinner.setValueFactory(valueFactory);
-//            fieldGroup.join("dummy", "dummy2", spinner);
-
-               // separator, might be useful to visually make groups apparent
-//            fieldGroup.separate();
-
-
-           }
-        }
+//        for(Question question : block.questions) {
+//
+//            // Only show questions that have answers you can set a value to
+//           if(question.answer.isSetable(form)){
+//
+//               if(question.answer.getReturnType(form) == ReturnType.Boolean){
+//                   ComboBox<String> input = Input.comboBox(
+//                           new OptionList() {{
+//                               add("", true);
+//                               add("true");
+//                               add("false");
+//                           }});
+//
+//                   // TODO implement observer pattern?
+//                   // If input changes some questions might need to be enabled/disabled
+//                   input.setOnAction(e -> {
+//                       if(input.isEditable() || !input.isDisabled()){
+//                           changeQuestionAnswer(input, block);
+//                           changeEditableFields(fields, form, block, true);
+//                       }
+//                   });
+//
+//                   fields.put(question.name, input);
+//                   fieldGroup.join(question.name, question.text, input);
+//               }
+//               else if(question.answer.getReturnType(form) == ReturnType.Number || question.answer.getReturnType(form) == ReturnType.String){
+//                   TextInputControl input = Input.textField("");
+//
+//                   if(question.answer.getReturnType(form) == ReturnType.Number){
+//                       // NumberStringConverter
+//                       // CurrencyStringConverter
+//                       // DoubleStringConverter
+//                       // https://docs.oracle.com/javase/8/javafx/api/javafx/util/StringConverter.html
+//                       input.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
+//                   }
+//
+//                   // If input changes some questions might need to be enabled/disabled
+//                   input.setOnKeyTyped(e -> {
+//                       if(input.isEditable()){
+//                           changeQuestionAnswer(input, block);
+//                           changeEditableFields(fields, form, block, true);
+//                       }
+//
+//                       System.out.println(form);
+//                   });
+//
+//                   fields.put(question.name, input);
+//                   fieldGroup.join(question.name, question.text, input);
+//               }
+//
+//
+//               // Test from: https://o7planning.org/en/11185/javafx-spinner-tutorial
+////            Label label = new Label("Select Level:");
+////            final Spinner<Integer> spinner = new Spinner<Integer>();
+////            final int initialValue = 3;
+////            // Value factory.
+////            SpinnerValueFactory<Integer> valueFactory = //
+////                    new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, initialValue);
+////            spinner.setValueFactory(valueFactory);
+////            fieldGroup.join("dummy", "dummy2", spinner);
+//
+//               // separator, might be useful to visually make groups apparent
+////            fieldGroup.separate();
+//
+//
+//           }
+//        }
     }
 
     private void changeQuestionAnswer(TextInputControl field, Block block) {
@@ -148,31 +148,31 @@ public class Main extends Application {
     }
 
     private void changeEditableFields(HashMap<String, Control> fields, Form form, ArrayList<BlockElement> elements, boolean inEditableBlock) {
-        for(Question question : block.questions){
-            boolean conditionsMet = question.isAnswerable(form);
-            if(!conditionsMet){
-                // TODO implement answer clear() function that resets values to default
-                question.answer.setValue("");
-            }
-
-            Control field = fields.get(question.name);
-            // TODO implement more field types, and also change instanceof to something else
-            if(field instanceof ComboBox){
-                ComboBox<String> comboBoxField = (ComboBox) field;
-                comboBoxField.setDisable(!conditionsMet);
-                // If the condition was not met, we should make it reset to default
-                if(!conditionsMet){
-                    comboBoxField.getSelectionModel().clearSelection();
-                }
-            } else if(field instanceof TextInputControl) {
-                TextInputControl textInputControlField = (TextInputControl) field;
-//                textInputControlField.setEditable(conditionsMet);
-                textInputControlField.setDisable(!conditionsMet);
-                if(!conditionsMet){
-                    textInputControlField.clear();
-                }
-            }
-        }
+//        for(Question question : block.questions){
+//            boolean conditionsMet = question.isAnswerable(form);
+//            if(!conditionsMet){
+//                // TODO implement answer clear() function that resets values to default
+//                question.answer.setValue("");
+//            }
+//
+//            Control field = fields.get(question.name);
+//            // TODO implement more field types, and also change instanceof to something else
+//            if(field instanceof ComboBox){
+//                ComboBox<String> comboBoxField = (ComboBox) field;
+//                comboBoxField.setDisable(!conditionsMet);
+//                // If the condition was not met, we should make it reset to default
+//                if(!conditionsMet){
+//                    comboBoxField.getSelectionModel().clearSelection();
+//                }
+//            } else if(field instanceof TextInputControl) {
+//                TextInputControl textInputControlField = (TextInputControl) field;
+////                textInputControlField.setEditable(conditionsMet);
+//                textInputControlField.setDisable(!conditionsMet);
+//                if(!conditionsMet){
+//                    textInputControlField.clear();
+//                }
+//            }
+//        }
     }
 
     private Button createSubmitButton(Form form){
@@ -180,11 +180,11 @@ public class Main extends Application {
         Button submitButton = new Button("Submit (see output in console)");
         submitButton.setOnAction(e -> {
 
-            // Debug output, shows answer to every question in console
-            System.out.println("\nSubmit called");
-            for(Question question : form.block.questions){
-                System.out.println("\t" + question.name + " => " + question.answer.evaluate(form));
-            }
+//            // Debug output, shows answer to every question in console
+//            System.out.println("\nSubmit called");
+//            for(Question question : form.block.questions){
+//                System.out.println("\t" + question.name + " => " + question.answer.evaluate(form));
+//            }
         });
         return submitButton;
     }

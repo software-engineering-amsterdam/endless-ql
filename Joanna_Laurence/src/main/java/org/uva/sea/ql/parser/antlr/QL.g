@@ -55,7 +55,7 @@ condition returns [Condition result]
 questionBlock returns [List<Question> result]
     @init  { ArrayList<Question> questions = new ArrayList<Question>(); }
     @after { $result = questions; }
-    : '{' stms=questions '}' {$result = $stms.result; }
+    : '{' stms=questions '}' {questions.addAll($stms.result); }
     | stm=question {questions.add($stm.result);}
     ;
 

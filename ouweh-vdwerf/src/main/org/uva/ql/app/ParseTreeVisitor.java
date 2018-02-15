@@ -3,6 +3,7 @@ package main.org.uva.ql.app;
 import generated.org.uva.ql.parser.QLBaseVisitor;
 import generated.org.uva.ql.parser.QLParser;
 import main.org.uva.ql.ast.*;
+import main.org.uva.ql.ast.expression.Expression;
 import main.org.uva.ql.ast.type.*;
 
 import java.util.*;

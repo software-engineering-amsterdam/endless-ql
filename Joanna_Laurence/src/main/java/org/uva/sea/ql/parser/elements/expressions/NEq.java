@@ -18,6 +18,6 @@ public class NEq extends DualNode {
     }
 
     public Type getType() {
-        return new Type("Boolean");
+        return new Type("boolean");
     }
 }

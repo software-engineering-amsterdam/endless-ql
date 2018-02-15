@@ -21,6 +21,6 @@ public class And extends DualNode {
      * @return True or false is returned
      */
     public Type getType() {
-        return new Type("Boolean");
+        return new Type("boolean");
     }
 }

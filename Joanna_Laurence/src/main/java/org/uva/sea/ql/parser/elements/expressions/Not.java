@@ -16,7 +16,7 @@ public class Not extends SingleNode {
     }
 
     public Type getType() {
-        return new Type("Boolean");
+        return new Type("boolean");
     }
 }
 

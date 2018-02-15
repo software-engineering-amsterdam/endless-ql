@@ -9,7 +9,7 @@ const qlParser = require("./parsing/parsers/ql_parser");
 
 class App extends React.Component {
   componentDidMount() {
-    const gl = require("!raw!./mock/sampleForm.txt");
+    const gl = require("!raw!./mock/sample.ql.txt");
 
     const result = qlParser.parse(gl);
     console.log("Parser source:");

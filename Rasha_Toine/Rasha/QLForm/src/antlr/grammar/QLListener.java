@@ -21,6 +21,16 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitLiteral(QLParser.LiteralContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QLParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifier(QLParser.IdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifier(QLParser.IdentifierContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QLParser#questionType}.
 	 * @param ctx the parse tree
 	 */

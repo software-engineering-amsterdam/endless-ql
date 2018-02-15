@@ -8,6 +8,7 @@ import org.uva.jomi.ql.ast.expressions.GroupingExpr;
 import org.uva.jomi.ql.ast.expressions.IndentifierExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
+import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
 import org.uva.jomi.ql.ast.statements.FormStmt;
 import org.uva.jomi.ql.ast.statements.IfElseStmt;
 import org.uva.jomi.ql.ast.statements.IfStmt;
@@ -90,16 +91,28 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 			   stmt.getId(),
 			   stmt.identifier.token.getLexeme(),
 			   stmt.type.getName());
-		// Visit the optional expression statement
-		if (stmt.expression != null) {
-			header += stmt.expression.accept(this);
-			header += String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId());
-		}
 		// Visit the identifier expression
 		header += stmt.identifier.accept(this);
 		header += String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId());
 		
 		return header;
+	}
+	
+	@Override
+	public String visitComputedQuestionStmt(ComputedQuestionStmt stmt) {
+		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
+				   stmt.getId(),
+				   stmt.identifier.token.getLexeme(),
+				   stmt.type.getName());
+			// Visit the expression statement
+			header += stmt.expression.accept(this);
+			header += String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId());
+			
+			// Visit the identifier expression
+			header += stmt.identifier.accept(this);
+			header += String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId());
+			
+			return header;
 	}
 
 	@Override
@@ -143,4 +156,5 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 				String.format("  %s -> %s\n", stmt.getId(), stmt.elseBlockStmt.getId()) +
 				String.format("  %s [label=\"IfElseStmt\"]\n", stmt.getId());
 	}
+
 }

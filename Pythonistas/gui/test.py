@@ -29,7 +29,7 @@ class Window(QWidget):
     def putQuestion(self,question, datatype='boolean',choices = ['Yes','No']):
         ''' Example function that adds a question and radiobuttons to a gui
         '''
-        buttonquestion = QLabel(question.strip('"\''))
+        buttonquestion = QLabel(question)
         self.layout.addWidget(buttonquestion, self.row, 0)
 
         if datatype == 'boolean':
@@ -48,14 +48,62 @@ class Window(QWidget):
             self.textbox.resize(280, 40)
             self.layout.addWidget(self.textbox, self.row, 1)
 
+
         self.row += 1
 
-    def quitbutton(self):
+    def putButtons(self):
+        ''' Example function that adds buttons to a gui
+        '''
+        sometext = QLabel("Some text")
+        self.layout.addWidget(sometext,0,0)
+
+        sometext = QLabel("cake or pie")
+        self.layout.addWidget(sometext,1,0)
+
+        radiobutton1 = QRadioButton("Brazil")
+        radiobutton1.setChecked(True)
+        radiobutton1.country = "Brazil"
+        # radiobutton.toggled.connect(self.on_radio_button_toggled)
+        self.layout.addWidget(radiobutton1, 0, 1)
+
+        radiobutton2 = QRadioButton("Argentina")
+        radiobutton2.country = "Argentina"
+        # radiobutton.toggled.connect(self.on_radio_button_toggled)
+        self.layout.addWidget(radiobutton2, 0, 2)
+
+        radiobutton3 = QRadioButton("Ecuador")
+        radiobutton3.country = "Ecuador"
+        # radiobutton.toggled.connect(self.on_radio_button_toggled)
+        self.layout.addWidget(radiobutton3, 0, 3)
+
+        self.btn_grp = QButtonGroup()
+        self.btn_grp.setExclusive(True)
+        self.btn_grp.addButton(radiobutton1)
+        self.btn_grp.addButton(radiobutton2)
+        self.btn_grp.addButton(radiobutton3)
+
+        pie = QRadioButton("pie")
+        pie.setChecked(True)
+        pie.country = "Brazil"
+        # radiobutton.toggled.connect(self.on_radio_button_toggled)
+        self.layout.addWidget(pie, 1, 1)
+
+        cake = QRadioButton("cake")
+        cake.country = "Argentina"
+        # radiobutton.toggled.connect(self.on_radio_button_toggled)
+        self.layout.addWidget(cake, 1, 2)
+
+        self.btn_grp = QButtonGroup()
+        self.btn_grp.setExclusive(True)
+        self.btn_grp.addButton(pie)
+        self.btn_grp.addButton(cake)
+
         qbtn = QPushButton('Quit', self)
         qbtn.clicked.connect(QApplication.instance().quit)
         qbtn.resize(qbtn.sizeHint())
-        self.layout.addWidget(qbtn, self.row,3)
-        self.row +=1
+        self.layout.addWidget(qbtn, 2,3)
+
+
     # def on_radio_button_toggled(self):
     #     radiobutton = self.sender()
     #

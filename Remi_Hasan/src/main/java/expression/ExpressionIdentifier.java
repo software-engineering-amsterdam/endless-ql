@@ -1,5 +1,6 @@
 package expression;
 
+import model.BlockElement;
 import model.Form;
 
 public class ExpressionIdentifier extends Expression<Object>{
@@ -26,6 +27,6 @@ public class ExpressionIdentifier extends Expression<Object>{
     }
 
     private Expression getVariable(Form form){
-        return form.block.getQuestionAnswer(identifier);
+        return form.getQuestionAnswer(identifier);
     }
 }

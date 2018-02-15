@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import model.Block;
+import model.BlockElement;
 import model.Form;
 import model.Question;
 import org.yorichan.formfx.control.Input;
@@ -17,6 +18,7 @@ import org.yorichan.formfx.field.FieldGroup;
 import org.yorichan.formfx.form.GridForm;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main extends Application {
@@ -61,20 +63,18 @@ public class Main extends Application {
     private FieldGroup createFieldGroup(Form form){
         FieldGroup fieldGroup = new FieldGroup();
         HashMap<String, Control> fields = new HashMap<>();
-        addQuestionsToFieldGroup(fields, form, form.block, fieldGroup);
-        changeEditableFields(fields, form, form.block, true);
+        addQuestionsToFieldGroup(fields, form, form.elements, fieldGroup);
+        changeEditableFields(fields, form, form.elements, true);
 
         return fieldGroup;
     }
 
-    private void addQuestionsToFieldGroup(HashMap<String, Control> fields, Form form, Block block, FieldGroup fieldGroup){
-        // TODO the order of questions is not displayed correctly
-        // TODO because it first does all questions and then all questions within conditions
+    private void addQuestionsToFieldGroup(HashMap<String, Control> fields, Form form, ArrayList<BlockElement> elements, FieldGroup fieldGroup){
         for(Question question : block.questions) {
 
             // Only show questions that have answers you can set a value to
            if(question.answer.isSetable(form)){
-               System.out.println("adding: " + question.text);
+
                if(question.answer.getReturnType(form) == ReturnType.Boolean){
                    ComboBox<String> input = Input.comboBox(
                            new OptionList() {{
@@ -147,7 +147,7 @@ public class Main extends Application {
         block.answer(field.getId(), field.getSelectionModel().getSelectedItem().toString());
     }
 
-    private void changeEditableFields(HashMap<String, Control> fields, Form form, Block block, boolean inEditableBlock) {
+    private void changeEditableFields(HashMap<String, Control> fields, Form form, ArrayList<BlockElement> elements, boolean inEditableBlock) {
         for(Question question : block.questions){
             boolean conditionsMet = question.isAnswerable(form);
             if(!conditionsMet){

@@ -1,90 +1,95 @@
 package expression;
 
-import model.Form;
-
 public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
 
-    public ExpressionVariableDecimal(Double value){
-        this.value = value;
+    public ExpressionVariableDecimal(Double value) {
+        super(value);
     }
 
     @Override
-    public ReturnType getReturnType(Form form) {
+    public ReturnType getReturnType() {
         return ReturnType.Number;
     }
 
     @Override
-    public void setValue(String value){
+    public void setValue(String value) {
         this.value = Double.parseDouble(value);
     }
 
-
     // TODO
     @Override
-    public Double divide(Form form, Expression other) {
-        if(this.getReturnType(form) == ReturnType.Number && other.getReturnType(form) == ReturnType.Number){
-            double left = (double)other.evaluate(form);
-            double right = (double)other.evaluate(form);
-            if(right != 0.0){
-                return left / right;
-            }
+    public ExpressionVariable divide(ExpressionVariable other) {
+        if (this.value == null || other == null)
+            return new ExpressionVariableUndefined();
+
+        double right = Double.parseDouble(other.value.toString());
+        if (right == 0.0) {
+            return new ExpressionVariableUndefined();
         }
-        return null;
-    }
-    @Override
-    public Double multiply(Form form, Expression other) {
-        if(this.getReturnType(form) == ReturnType.Number && other.getReturnType(form) == ReturnType.Number){
-            return this.value * (double)other.evaluate(form);
-        }
-        return null;
+        return new ExpressionVariableDecimal(this.value / right);
     }
 
     @Override
-    public Double subtract(Form form, Expression other) {
-        if(this.getReturnType(form) == ReturnType.Number && other.getReturnType(form) == ReturnType.Number){
-            return this.value - (double)other.evaluate(form);
-        }
-        return null;
+    public ExpressionVariable multiply(ExpressionVariable other) {
+        if (this.value == null || other == null)
+            return new ExpressionVariableUndefined();
+        return new ExpressionVariableDecimal(this.value * Double.parseDouble(other.value.toString()));
     }
 
     @Override
-    public Double sum(Form form, Expression other) {
-        if(this.getReturnType(form) == ReturnType.Number && other.getReturnType(form) == ReturnType.Number){
-            return this.value + (double)other.evaluate(form);
-        }
-        return null;
+    public ExpressionVariable subtract(ExpressionVariable other) {
+        if (this.value == null || other == null)
+            return new ExpressionVariableUndefined();
+        return new ExpressionVariableDecimal(this.value - Double.parseDouble(other.value.toString()));
     }
 
     @Override
-    public Boolean ge(Form form, Expression other) {
-        if(this.getReturnType(form) == ReturnType.Number && other.getReturnType(form) == ReturnType.Number){
-            return this.value >= (double)other.evaluate(form);
-        }
-        return null;
+    public ExpressionVariable sum(ExpressionVariable other) {
+        if (this.value == null || other == null)
+            return new ExpressionVariableUndefined();
+        return new ExpressionVariableDecimal(this.value + Double.parseDouble(other.value.toString()));
     }
 
     @Override
-    public Boolean gt(Form form, Expression other) {
-        if(this.getReturnType(form) == ReturnType.Number && other.getReturnType(form) == ReturnType.Number){
-            return this.value > (double)other.evaluate(form);
-        }
-        return null;
+    public ExpressionVariable ge(ExpressionVariable other) {
+        if (this.value == null || other == null)
+            return new ExpressionVariableUndefined();
+        return new ExpressionVariableBoolean(this.value >= Double.parseDouble(other.value.toString()));
     }
 
     @Override
-    public Boolean le(Form form, Expression other) {
-        if(this.getReturnType(form) == ReturnType.Number && other.getReturnType(form) == ReturnType.Number){
-            return this.value <= (double)other.evaluate(form);
-        }
-        return null;
+    public ExpressionVariable gt(ExpressionVariable other) {
+        if (this.value == null || other == null)
+            return new ExpressionVariableUndefined();
+        return new ExpressionVariableBoolean(this.value > Double.parseDouble(other.value.toString()));
     }
 
     @Override
-    public Boolean lt(Form form, Expression other) {
-        if(this.getReturnType(form) == ReturnType.Number && other.getReturnType(form) == ReturnType.Number){
-            return this.value < (double)other.evaluate(form);
-        }
-        return null;
+    public ExpressionVariable le(ExpressionVariable other) {
+        if (this.value == null || other == null)
+            return new ExpressionVariableUndefined();
+        return new ExpressionVariableBoolean(this.value <= Double.parseDouble(other.value.toString()));
     }
 
+    @Override
+    public ExpressionVariable lt(ExpressionVariable other) {
+        if (this.value == null || other == null)
+            return new ExpressionVariableUndefined();
+        return new ExpressionVariableBoolean(this.value < Double.parseDouble(other.value.toString()));
+    }
+
+    @Override
+    public ExpressionVariable and(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
+
+    @Override
+    public ExpressionVariable or(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
+
+    @Override
+    public ExpressionVariable not() {
+        return new ExpressionVariableUndefined();
+    }
 }

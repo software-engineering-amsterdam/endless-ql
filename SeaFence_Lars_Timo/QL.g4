@@ -12,9 +12,9 @@ statement: question
 	     | conditional
 	     | assignment
 	     ;
-assignment: STR var ':' type '=' '(' expression ')';
-question: STR var ':' type;
-conditional: 'if' '(' expression ')' block;
+assignment: STR var ':' vartype '=' '(' expression ')';
+question: STR var ':' vartype;
+conditional: if_cond elif_cond* else_cond?;
 expression: BOOL 
 		  | STR
 		  | INT
@@ -29,8 +29,12 @@ expression: BOOL
 
 form_id: NAME;
 var: NAME;
-type: 'int'
+vartype: 'int'
     | 'boolean';
+
+if_cond: 'if' '(' expression ')' block;
+elif_cond: 'elif' '(' expression ')' block;
+else_cond: 'else' block;
 
 /*
  * Lexer rules

@@ -73,14 +73,25 @@ ifThen              : 'if' '(' condition=expr ')' thenStmt=statement;
 ifThenElse          : 'if' '(' condition=expr ')' thenStmt=statement 'else' elseStmt=statement;
 
 // Expressions
-expr        : literal
-            | identifier
-            | ('+' | '-') expr
-            | expr ('+'|'-') expr
-            | expr ('*'|'/') expr
-            | expr ('<'|'>'|'<='|'>='|'!='|'==') expr
-            | expr '||' expr
-            | expr '&&' expr
-            | '(' expr ')'
-            | '!' expr
-            ;
+primary	: literal
+		| identifier
+		;
+		
+unExpr	: '+' unExpr
+		| '-' unExpr
+		| '!' unExpr
+		| primary
+		;
+
+mulExpr	: lhs = unExpr (op = ('*'|'/') rhs = unExpr)*;
+addExpr	: lhs = mulExpr (op = ('+'|'-') rhs = mulExpr)*;
+relExpr	: lhs = addExpr (op=('<'|'<='|'>'|'>='|'=='|'!=') rhs = addExpr)*;
+andExpr	: lhs = relExpr ('&&' rhs = relExpr)*;
+orExpr	: lhs = andExpr ('||' rhs = andExpr)*;
+expr		: orExpr
+		| andExpr
+		| relExpr
+		| addExpr
+		| mulExpr
+		| unExpr
+		;

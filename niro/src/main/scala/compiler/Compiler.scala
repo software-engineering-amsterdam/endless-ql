@@ -1,29 +1,42 @@
 package compiler
 
+import model.Ast.Expression.Ident
 import model.Ast._
 import nl.uva.se.sc.niro.ErrorListener
 import ql.{QLBaseVisitor, QLLexer, QLParser}
 import org.antlr.v4.runtime.{CharStream, CommonTokenStream}
-import ql.QLParser.StatementContext
 
 import scala.collection.JavaConverters
 
-object Compiler extends QLBaseVisitor[Node] {
+object Compiler {
 
-  def compile(formDefinition: CharStream): Node = {
-    val parser = new QLParser(new CommonTokenStream(new QLLexer(formDefinition)))
+  def compile(formSource: CharStream): QLForm = {
+    val parser = new QLParser(new CommonTokenStream(new QLLexer(formSource)))
     parser.removeErrorListeners()
     parser.addErrorListener(new ErrorListener)
-    visit(parser.form)
+    FormCompiler.visit(parser.form)
   }
 
-  override def visitForm(ctx: QLParser.FormContext): Node = {
-    val statements = JavaConverters.asScalaBufferConverter(ctx.statement).asScala.toSeq.map(stmt => visitStatement(stmt).asInstanceOf[Statement])
-    new QLForm(ctx.name().getText(), statements)
+  object FormCompiler extends QLBaseVisitor[QLForm] {
+    override def visitForm(ctx: QLParser.FormContext): QLForm = {
+      val statements = JavaConverters.asScalaBufferConverter(ctx.statement).asScala
+      QLForm(ctx.Ident().getText, statements.map(StatementCompiler.visit))
+    }
   }
 
-  override def visitQuestion(ctx: QLParser.QuestionContext): Node = {
-    new Question(ctx.name().getText, ctx.TEXT().getText, AnswerType.apply(ctx.answer_type().getText))
+  object StatementCompiler extends QLBaseVisitor[Statement] {
+    override def visitQuestion(ctx: QLParser.QuestionContext): Statement = {
+      Question(Ident(ctx.Ident().getText), ctx.TEXT().getText, AnswerType(ctx.answerType().getText))
+    }
+
+    override def visitConditional(ctx: QLParser.ConditionalContext): Statement = {
+      val thenStatements = JavaConverters.asScalaBufferConverter(ctx.thenBlock).asScala
+      val elseStatements = JavaConverters.asScalaBufferConverter(ctx.elseBlock).asScala
+      Conditional(ExpressionCompiler.visit(ctx.condition), thenStatements.map(StatementCompiler.visit), elseStatements.map(StatementCompiler.visit))
+    }
+  }
+
+  object ExpressionCompiler extends QLBaseVisitor[Expression] {
   }
 
 }

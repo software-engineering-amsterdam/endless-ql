@@ -3,6 +3,19 @@ package org.uva.jomi.ql.interpreter;
 import java.util.List;
 
 import org.uva.jomi.ql.ast.*;
+import org.uva.jomi.ql.ast.expressions.BinaryExpr;
+import org.uva.jomi.ql.ast.expressions.Expr;
+import org.uva.jomi.ql.ast.expressions.GroupingExpr;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
+import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
+import org.uva.jomi.ql.ast.statements.BlockStmt;
+import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
+import org.uva.jomi.ql.ast.statements.FormStmt;
+import org.uva.jomi.ql.ast.statements.IfElseStmt;
+import org.uva.jomi.ql.ast.statements.IfStmt;
+import org.uva.jomi.ql.ast.statements.QuestionStmt;
+import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.ast.statements.UnaryExpr;
 
 
 public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
@@ -22,7 +35,7 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 	}
 
 	@Override
-	public Object visitIndetifierExpr(IndentifierExpr expr) {
+	public Object visitIndetifierExpr(IdentifierExpr expr) {
 		// TODO Interpret IndentifierExpr.
 		return null;
 	}
@@ -68,10 +81,23 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 		// TODO Interpret QuestionStmt.
 		return null;
 	}
+	
+	@Override
+	public Void visitComputedQuestionStmt(ComputedQuestionStmt stmt) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public Void visitIfStmt(IfStmt stmt) {
 		// TODO Interpret IfStmt.
 		return null;
 	}
+
+	@Override
+	public Void visitIfElseStmt(IfElseStmt stmt) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

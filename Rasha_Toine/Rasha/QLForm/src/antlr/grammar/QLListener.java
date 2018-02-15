@@ -21,15 +21,25 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitLiteral(QLParser.LiteralContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#questionEnum}.
+	 * Enter a parse tree produced by {@link QLParser#identifier}.
 	 * @param ctx the parse tree
 	 */
-	void enterQuestionEnum(QLParser.QuestionEnumContext ctx);
+	void enterIdentifier(QLParser.IdentifierContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#questionEnum}.
+	 * Exit a parse tree produced by {@link QLParser#identifier}.
 	 * @param ctx the parse tree
 	 */
-	void exitQuestionEnum(QLParser.QuestionEnumContext ctx);
+	void exitIdentifier(QLParser.IdentifierContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#questionType}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestionType(QLParser.QuestionTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#questionType}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestionType(QLParser.QuestionTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#expr}.
 	 * @param ctx the parse tree
@@ -61,15 +71,15 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitQuestion(QLParser.QuestionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#ifStatement}.
+	 * Enter a parse tree produced by {@link QLParser#ifElseStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterIfStatement(QLParser.IfStatementContext ctx);
+	void enterIfElseStatement(QLParser.IfElseStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#ifStatement}.
+	 * Exit a parse tree produced by {@link QLParser#ifElseStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitIfStatement(QLParser.IfStatementContext ctx);
+	void exitIfElseStatement(QLParser.IfElseStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#block}.
 	 * @param ctx the parse tree

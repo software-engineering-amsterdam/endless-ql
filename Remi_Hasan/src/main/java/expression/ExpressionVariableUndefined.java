@@ -1,65 +1,78 @@
 package expression;
 
-import model.Form;
-
 public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
-    @Override
-    public boolean isEvaluable(Form form) {
-        return false;
+
+    public ExpressionVariableUndefined() {
+        super(null);
     }
 
     @Override
-    public Object evaluate(Form form) {
+    public ExpressionVariable evaluate() {
         return this;
     }
 
     @Override
-    public Boolean equals(Form form, Expression other) {
-        return null;
+    public boolean isSettable() {
+        return false;
     }
 
     @Override
-    public ReturnType getReturnType(Form form) {
+    public ExpressionVariable divide(ExpressionVariable other) {
+        return this;
+    }
+
+    @Override
+    public ExpressionVariable multiply(ExpressionVariable other) {
+        return this;
+    }
+
+    @Override
+    public ExpressionVariable subtract(ExpressionVariable other) {
+        return this;
+    }
+
+    @Override
+    public ExpressionVariable sum(ExpressionVariable other) {
+        return this;
+    }
+
+    @Override
+    public ExpressionVariable ge(ExpressionVariable other) {
+        return this;
+    }
+
+    @Override
+    public ExpressionVariable gt(ExpressionVariable other) {
+        return this;
+    }
+
+    @Override
+    public ExpressionVariable le(ExpressionVariable other) {
+        return this;
+    }
+
+    @Override
+    public ExpressionVariable lt(ExpressionVariable other) {
+        return this;
+    }
+
+    @Override
+    public ExpressionVariable and(ExpressionVariable other) {
+        return this;
+    }
+
+    @Override
+    public ExpressionVariable or(ExpressionVariable other) {
+        return this;
+    }
+
+    @Override
+    public ExpressionVariable not() {
+        return this;
+    }
+
+    @Override
+    public ReturnType getReturnType() {
         return ReturnType.Undefined;
-    }
-
-    @Override
-    public Double divide(Form form, Expression other) {
-        return null;
-    }
-
-    @Override
-    public Double multiply(Form form, Expression other) {
-        return null;
-    }
-
-    @Override
-    public Double subtract(Form form, Expression other) {
-        return null;
-    }
-
-    @Override
-    public Double sum(Form form, Expression other) {
-        return null;
-    }
-
-    @Override
-    public Boolean ge(Form form, Expression other) {
-        return null;
-    }
-
-    @Override
-    public Boolean gt(Form form, Expression other) {
-        return null;
-    }
-
-    @Override
-    public Boolean le(Form form, Expression other) {
-        return null;
-    }
-
-    @Override
-    public Boolean lt(Form form, Expression other) {
-        return null;
     }
 }

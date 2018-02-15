@@ -1,8 +1,7 @@
 import { Component} from '@angular/core';
-import {ParserService} from './services/parser.service';
-import {QuestionBase} from './domain/question-base';
+import {parse} from '../parser/ql-parser';
+import {QuestionBase} from './domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
-import {QuestionService} from './services/question.service';
 import {QuestionControlService} from './services/question-control.service';
 
 @Component({
@@ -16,17 +15,20 @@ export class AppComponent {
   form: FormGroup;
   formName: string;
   errorMessage: string;
+  payLoad: string;
 
-  constructor (private parser: ParserService,
-               private questionService: QuestionService,
-               private questionControlService: QuestionControlService) {
+  constructor (private questionControlService: QuestionControlService) {
 
   }
 
   parseInput() {
     try {
-      const ast = this.parser.parseInput(this.input);
-      this.questions = this.questionService.toFormQuestions(ast.statements);
+      // parse input to tree
+      const ast = parse(this.input, {});
+      // check types
+      ast.checkTypes();
+      // make form
+      this.questions = ast.toFormQuestion();
       this.form = this.questionControlService.toFormGroup(this.questions);
       this.formName = ast.name;
     } catch (e) {
@@ -38,6 +40,7 @@ export class AppComponent {
   }
 
   onSubmit() {
+    this.payLoad = JSON.stringify(this.form.value);
     console.log(JSON.stringify(this.form.value));
   }
 }

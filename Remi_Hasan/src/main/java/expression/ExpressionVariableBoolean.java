@@ -1,15 +1,13 @@
 package expression;
 
-import model.Form;
-
 public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
 
-    public ExpressionVariableBoolean(Boolean value){
-        this.value = value;
+    public ExpressionVariableBoolean(Boolean value) {
+        super(value);
     }
 
     @Override
-    public ReturnType getReturnType(Form form) {
+    public ReturnType getReturnType() {
         return ReturnType.Boolean;
     }
 
@@ -19,42 +17,63 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
     }
 
     @Override
-    public Double divide(Form form, Expression other) {
-        return null;
+    public ExpressionVariable divide(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
     }
 
     @Override
-    public Double multiply(Form form, Expression other) {
-        return null;
+    public ExpressionVariable multiply(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
     }
 
     @Override
-    public Double subtract(Form form, Expression other) {
-        return null;
+    public ExpressionVariable subtract(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
     }
 
     @Override
-    public Double sum(Form form, Expression other) {
-        return null;
+    public ExpressionVariable sum(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
     }
 
     @Override
-    public Boolean ge(Form form, Expression other) {
-        return null;
+    public ExpressionVariable ge(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
     }
 
     @Override
-    public Boolean gt(Form form, Expression other) {
-        return null;
+    public ExpressionVariable gt(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
     }
 
     @Override
-    public Boolean le(Form form, Expression other) {
-        return null;
+    public ExpressionVariable le(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
     }
 
     @Override
-    public Boolean lt(Form form, Expression other) {
-        return null;
+    public ExpressionVariable lt(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
+
+    @Override
+    public ExpressionVariable and(ExpressionVariable other) {
+        if (this.value == null || other == null)
+            return new ExpressionVariableUndefined();
+        return new ExpressionVariableBoolean(this.value && Boolean.parseBoolean(other.value.toString()));
+    }
+
+    @Override
+    public ExpressionVariable or(ExpressionVariable other) {
+        if (this.value == null || other == null)
+            return new ExpressionVariableUndefined();
+        return new ExpressionVariableBoolean(this.value || Boolean.parseBoolean(other.value.toString()));
+    }
+
+    @Override
+    public ExpressionVariable not() {
+        if (this.value == null)
+            return new ExpressionVariableUndefined();
+        return new ExpressionVariableBoolean(!this.value);
     }
 }

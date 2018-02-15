@@ -53,10 +53,18 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicQlTests.cs" />
+    <Compile Include="QLFormParseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QLQuestionParseTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CorrectForms\EmptyForm.ql" />
+    <None Include="CorrectForms\expresions.ql" />
+    <None Include="CorrectForms\ifElseStatement.ql" />
+    <None Include="CorrectForms\ifStatement.ql" />
+    <None Include="CorrectForms\multipleQuestions.ql" />
+    <None Include="CorrectForms\questionWithExpresion.ql" />
+    <None Include="CorrectForms\singleQuestion.ql" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

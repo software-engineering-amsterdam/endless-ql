@@ -16,6 +16,11 @@ namespace Assignment1
             Id = id;
             Label = label;
         }
+
+        public override string ToString()
+        {
+            return Id + ": " + Label;
+        }
     }
 
     internal class QuestionBool : Question

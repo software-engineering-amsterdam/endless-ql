@@ -1,5 +1,40 @@
 grammar QL;
 
+/* Requirements
+
+- grouping construct (for assigning characteristics to a group of questions, like style)
+- question
+    - id,
+    - label (actual question)
+    - type
+    - (optional) associated to an expression, which makes it computed
+
+// Boolean expressions, e.g.
+&&
+||
+!
+
+// Comparisons
+<
+>
+>=
+<=
+!=
+==
+
+// Required types
+BOOL
+STRING
+INTEGER
+DATE
+DECIMAL
+MONEY
+
+// Additional options. Only requirement is the data type can be automatically mapped to a widget
+ENUMERATION //(e.g. good, bad, don't know)
+INTEGER_RANGE // (e.g. 1..5)
+*/
+
 
 form            : 'form'  ID  block;
 
@@ -35,6 +70,7 @@ exprBool        : exprBool '&&' exprBool
                 | compStr
                 | valBool
                 ;
+
 compNum         : exprNum compNumSym exprNum;
 compNumSym      : ('<'|'<='|'>'|'>='|'=='|'!=');
 compStr         : exprStr '==' exprStr
@@ -56,10 +92,12 @@ exprStr	        : exprStr '+' exprStr
                 | '(' exprStr ')'
                 | valStr
                 ;
+
 valStr	        : STRINGLIT | ID;
 
 
-//Lexer terms
+
+
 //Types
 TYPE            : ('boolean' | 'money' | 'int' | 'float' | 'string');
 BOOLEAN         : ('true' | 'false');
@@ -68,4 +106,61 @@ INT             : ('0'..'9')+;
 
 //Other terms
 ID              : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-WS              : (' ' | '\t' | '\n' | '\r')+ -> skip;
+WHITESPACE      : (' ' | '\t' | '\n' | '\r')+ -> skip;
+
+MULTI_COMMENT   : '/*' .*? '*/' -> channel(HIDDEN);
+
+SINGLE_COMMENT  : '//' ~[\r\n]* '\r'? '\n' -> channel(HIDDEN);
+
+
+
+
+
+
+
+
+/*
+    OLD
+*/
+
+//
+//grammar QL;
+//form        : 'form'  ID  '{' (formField)*  '}'
+//            ;
+//
+//formField   : condition
+//            | question
+//            | computedQuestion
+//            ;
+//
+//condition   : MULTILINE_COMMENT
+//            ;
+//
+//question    :
+//            ;
+//
+//computedQuestion
+//            : MULTILINE_COMMENT
+//            ;
+//
+//// Tokens
+//ID          : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+//
+//
+//WS  :	(' ' | '\t' | '\n' | '\r') -> channel(HIDDEN)
+//    ;
+//
+//MULTILINE_COMMENT
+//    : '/*' .* '*/' -> channel(HIDDEN)
+//    ;
+//
+////?
+//SINGLELINE_COMMENT
+//    :   '//' ~[\r\n]* '\r'? '\n' -> channel(HIDDEN)
+//    ;
+//
+//Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+//
+//Int: ('0'..'9')+;
+//
+//Str: '"' .* '"';

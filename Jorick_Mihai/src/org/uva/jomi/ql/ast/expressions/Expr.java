@@ -6,7 +6,7 @@ import org.uva.jomi.ql.ast.statements.UnaryExpr;
 
 abstract public class Expr extends AstNode {
 	public interface Visitor<T> {
-		T visitIndetifierExpr(IndentifierExpr expr);
+		T visitIndetifierExpr(IdentifierExpr expr);
 		T visitPrimaryExpr(PrimaryExpr expr);
 		T visitBinaryExpr(BinaryExpr expr);
 		T visitGroupingExpr(GroupingExpr expr);

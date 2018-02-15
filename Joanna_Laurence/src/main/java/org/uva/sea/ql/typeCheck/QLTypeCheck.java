@@ -14,11 +14,9 @@ public class QLTypeCheck extends Traverse {
      * Log will be written to std err
      * @param node Do the type check for the node
      */
-    public void doTypeCheck(ASTNode node) {
+    public boolean doTypeCheck(ASTNode node) {
         node.traverse(this);
-        if(error) {
-            System.exit(1);
-        }
+        return !error;
     }
 
     /**
@@ -60,7 +58,7 @@ public class QLTypeCheck extends Traverse {
      */
     public void doQuestion(Question node) {
         ASTNode value = node.getValue();
-        if(value == null || node.getType() == value.getType())
+        if(value != null && node.getType() != value.getType())
             this.error(node);
     }
 

@@ -11,9 +11,9 @@ import java.util.Collection;
 import static junit.framework.TestCase.fail;
 
 @RunWith(Parameterized.class)
-public class QLFormParserTest extends AbstractQLFormParserTest {
+public class PositiveQLFormParserTest extends AbstractQLFormParserTest {
 
-    public QLFormParserTest(String formFile) {
+    public PositiveQLFormParserTest(String formFile) {
         super(formFile);
     }
 

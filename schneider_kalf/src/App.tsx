@@ -6,14 +6,14 @@ import { testExpressionStuff } from "./mock/evaluationExamples";
 
 class App extends React.Component {
   componentDidMount() {
-    /*
+
       const qlParser = require("./parsing/parsers/ql_parser");
-      const ql = require("./mock/sample.ql.txt");
+      const ql = require("!raw-loader!./mock/sample.ql.txt");
+      console.log(ql);
 
       const result = qlParser.parse(ql);
       console.log("Parser source:");
       console.log(result);
-      */
 
     // testExpressionStuff();
   }

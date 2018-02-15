@@ -49,6 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AST\Nodes\ConditionalNode.cs" />
+    <Compile Include="AST\Nodes\FormNode.cs" />
+    <Compile Include="AST\Nodes\Node.cs" />
+    <Compile Include="AST\Nodes\QuestionNode.cs" />
+    <Compile Include="AST\SymbolTable.cs" />
+    <Compile Include="AST\Validators\ASTValidator.cs" />
+    <Compile Include="AST\Validators\IASTValidator.cs" />
+    <Compile Include="AST\Validators\SingleFormValidator.cs" />
     <Compile Include="Models\ConditionalBlock.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\Section.cs" />

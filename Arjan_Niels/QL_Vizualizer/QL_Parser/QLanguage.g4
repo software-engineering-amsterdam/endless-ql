@@ -11,7 +11,7 @@ formName			: ID;
 value				: ID | '(' statement ')'; 
 binary				: (AND | OR);
 conditionalBlock	: 'if' statement '{' (section)* '}';
-statement			: NOT? (value | value (binary statement)*);
+statement			: value (binary statement)*;
 
  /*
   * Lexer Rules
@@ -24,7 +24,6 @@ NOT					: 'not';
 AND					: '&&';
 OR					: '||';
 
-UNARY				: NOT;
 
 
  /*

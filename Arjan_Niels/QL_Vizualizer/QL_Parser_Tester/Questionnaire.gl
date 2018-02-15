@@ -8,16 +8,14 @@
 	"What is the name of your cat?"
 		myCatsNameLala: text
 
-	if soldHouseIn2010 {
-		"What was the selling price?"
-			sellingPrice: money
+	"What was the selling price?"
+		sellingPrice: money
 
-		"Ïs this the second question in the conditional block?"
-			secondQuestion: boolean
+	"Ïs this the second question in the conditional block?"
+		secondQuestion: boolean
 
-		if secondQuestion {
-			"Do you like coffee?"
-				youLikesCoffee: boolean
-		}
+	if (secondQuestion || sellingPrice) && pieter {
+		"Do you like coffee?"
+			youLikesCoffee: boolean
 	}
 }

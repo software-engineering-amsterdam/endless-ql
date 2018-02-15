@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL_Parser;
+﻿using QL_Parser;
 using QL_Parser.Models;
+using System;
+using System.Text;
 
 namespace QL_Parser_Tester
 {
@@ -20,7 +17,6 @@ namespace QL_Parser_Tester
             Console.WriteLine("Start parsing the QL");
             Form form = QLParserHelper.Parse(builder.ToString());
             PrintForm(form);
-
 
             Console.ReadLine();
         }

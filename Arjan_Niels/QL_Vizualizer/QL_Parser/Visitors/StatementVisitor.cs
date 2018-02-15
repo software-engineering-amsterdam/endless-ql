@@ -8,6 +8,10 @@ namespace QL_Parser.Visitors
     {
         public override Statement VisitStatement([NotNull] QLanguageParser.StatementContext context)
         {
+
+
+
+
             return base.VisitStatement(context);
         }
     }

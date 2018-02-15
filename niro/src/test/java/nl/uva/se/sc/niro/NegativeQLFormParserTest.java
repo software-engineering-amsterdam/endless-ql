@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 
 import static junit.framework.TestCase.fail;
@@ -31,10 +30,7 @@ public class NegativeQLFormParserTest extends AbstractQLFormParserTest {
 
     @Parameterized.Parameters(name = "Parsing: {0}")
     public static Collection<Object> parameters() {
-        Object[] formFiles = {
-                "/negative/using-reserved-word-as-identifier.ql"
-        };
-        return Arrays.asList(formFiles);
+        return findFilesInFolder("/negative/");
     }
 
     @Test

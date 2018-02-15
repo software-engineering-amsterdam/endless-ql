@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 
 import static junit.framework.TestCase.fail;
@@ -19,17 +18,7 @@ public class PositiveQLFormParserTest extends AbstractQLFormParserTest {
 
     @Parameterized.Parameters(name = "Parsing: {0}")
     public static Collection<Object> parameters() {
-        Object[] formFiles = {
-                "/positive/simple.ql",
-                "/positive/not-conditional-if.ql",
-                "/positive/simple-conditional-if.ql",
-                "/positive/simple-conditional-if-else.ql",
-                "/positive/nested-conditional.ql",
-                "/positive/expression-conditional-if.ql",
-                "/positive/expression-conditional-if-else.ql",
-                "/positive/nested-expression.ql"
-        };
-        return Arrays.asList(formFiles);
+        return findFilesInFolder("/positive/");
     }
 
     @Test

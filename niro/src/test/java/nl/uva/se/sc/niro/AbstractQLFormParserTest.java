@@ -22,17 +22,19 @@ public class AbstractQLFormParserTest {
         ErrorListener.errorReported = false;
     }
 
-    protected static Collection<Object> findFilesInFolder(String folderName) {
-        String pathname = AbstractQLFormParserTest.class.getResource(folderName).getFile();
-        System.out.println(pathname);
-        String[] qlFormNames = new File(pathname).list(new FilenameFilter() {
+    protected static Collection<Object> findFormFilesInFolder(String folderName) {
+        String[] qlFormFiles = new File(AbstractQLFormParserTest.class.getResource(folderName).getFile()).list(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
                 return name.endsWith(".ql");
             }
         });
-        Collection<Object> qlFormFiles = new ArrayList<>(qlFormNames.length);
-        for (String qlFormName : qlFormNames) {
+        return addFolderNameToFileNames(folderName, qlFormFiles);
+    }
+
+    private static Collection<Object> addFolderNameToFileNames(String folderName, String[] fileNames) {
+        Collection<Object> qlFormFiles = new ArrayList<>(fileNames.length);
+        for (String qlFormName : fileNames) {
             qlFormFiles.add(folderName + qlFormName);
         }
         return qlFormFiles;

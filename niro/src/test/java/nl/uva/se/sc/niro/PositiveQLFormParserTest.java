@@ -18,7 +18,7 @@ public class PositiveQLFormParserTest extends AbstractQLFormParserTest {
 
     @Parameterized.Parameters(name = "Parsing: {0}")
     public static Collection<Object> parameters() {
-        return findFilesInFolder("/positive/");
+        return findFormFilesInFolder("/positive/");
     }
 
     @Test

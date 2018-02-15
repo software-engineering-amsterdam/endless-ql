@@ -30,7 +30,7 @@ public class NegativeQLFormParserTest extends AbstractQLFormParserTest {
 
     @Parameterized.Parameters(name = "Parsing: {0}")
     public static Collection<Object> parameters() {
-        return findFilesInFolder("/negative/");
+        return findFormFilesInFolder("/negative/");
     }
 
     @Test

@@ -1,7 +1,7 @@
 form Box1HouseOwning {
    hasSoldHouse: "Did you sell a house in 2010?" boolean
    hasBoughtHouse: "Did you by a house in 2010?" boolean
-   hasMainLoan: "Did you enter a loan for maintenance/reconstruction?" int
+   hasMainLoan: "Did you enter a loan for maintenance/reconstruction?" integer
    age: "What's your age?" integer
    if (true) {
       sellingPrice: "Price the house was sold for:" money
@@ -12,6 +12,3 @@ form Box1HouseOwning {
       valueResidue: "Value residue:" money(sellingPrice - privateDebt)
    }
 }
-
-BooleanQtype
-BooleanLiteral

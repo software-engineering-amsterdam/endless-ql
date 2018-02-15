@@ -12,3 +12,6 @@ class ASTNode:
 
     def __repr__(self):
         return "AST node at: " + str(self._location)
+
+    def accept(self, visitor):
+        return visitor.visit(self)

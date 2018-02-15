@@ -12,14 +12,22 @@ class Identifier(Expression):
 
     def __init__(self, identifier: str, location: code_location.CodeLocation):
         super().__init__(location)
-        self.identifier = identifier
+        self._identifier = identifier
+
+    @property
+    def identifier(self):
+        return self._identifier
 
 
 class UnaryExpression(Expression):
 
     def __init__(self, location: code_location.CodeLocation, expression):
         super().__init__(location)
-        self.expression = expression
+        self._expression = expression
+
+    @property
+    def expression(self):
+        return self._expression
 
 
 class BinaryExpression(Expression):
@@ -134,7 +142,7 @@ class Not(UnaryExpression):
         super().__init__(location, expression)
 
     def __repr__(self):
-        return "!" + str(self.expression)
+        return "!(" + str(self.expression) + ")"
 
 
 if __name__ == "__main__":

@@ -24,24 +24,82 @@ block : CURLY_BRACE_L (ifStatement | question | statement)* CURLY_BRACE_R; // co
 
 question : identifier COLON STR type;
 
-statement : identifier COLON STR type expr;
+statement : identifier COLON STR typeValue;
 
-expr:
-    expr operator expr |
+typeValue:
+    booleanType boolean |
+    moneyType  money |
+    stringType string |
+    integerType  integer |
+    dateType date |
+    decimalType decimal |
+;
+
+boolean:
+    'true' |
+    'false' |
+    identifier |
+    NOT boolean |
+    BRACE_L boolean BRACE_R |
+    boolean boolOperator boolean |
+    money comparisonOperator money |
+    integer comparisonOperator integer |
+    string EQT string |
+;
+
+boolOperator:
+    EQT | NEQT | AND | OR
+;
+
+comparisonOperator:
+    EQT | GRT | LST | GRTE | LSTE
+;
+
+money:
+    MON |
+    identifier |
+    BRACE_L money BRACE_R |
+    money numberOperator money |
+;
+
+integer:
     INT |
+    identifier |
+    BRACE_L integer BRACE_R|
+    integer numberOperator integer |
+;
+
+string:
     STR |
+    BRACE_L string BRACE_R |
+    string ADD string
+;
+
+numberOperator:
+    NOT | ADD | SUB | MUL | DIV | REM
+;
+
+decimal:
     DEC |
+    identifier |
+    BRACE_L decimal BRACE_R |
+    decimal numberOperator decimal |
+;
+
+date:
+    'dateplaceholder'
+;
 
 ifStatement : IF BRACE_L booleanExpr BRACE_R content*; //statement
 
-booleanExpr : type
-     | NOT expr // not
-     | expr ( GRT | LST | GRTE | LSTE | EQT | NEQT) expr //equality and relational
-     | expr ( AND | OR) expr // conditional
-     | expr (ADD | SUB | DIV | MUL | REM) expr // arithmetic
-     ;
+type:  booleanType | stringType | integerType | moneyType | dateType | decimalType ;
 
-type : STR | INT | BOOL | MONEY | IDENTIFIER;
+booleanType: 'boolean';
+stringType: 'string';
+integerType: 'integer';
+moneyType: 'money' | currency;
+dateType: 'date';
+decimalType: 'decimal';
 
 /** Lexer rules (tokens)*/
 
@@ -50,8 +108,8 @@ type : STR | INT | BOOL | MONEY | IDENTIFIER;
 //    ;
 WHITESPACE : (' ' | '\t' | '\n' | '\r') -> channel(HIDDEN);
 
-FORM : ('form' | 'Form');
-IF : ('if' | 'If');
+FORM : ('form');
+IF : ('if');
 COLON : ':';
 
 // seperators
@@ -61,26 +119,30 @@ BRACE_L : '(';
 BRACE_R : ')';
 
 // operators
-NOT : '!';
 ADD : '+';
 SUB : '-';
 MUL : '*';
 DIV : '/';
 REM : '%';
+
 EQT : '==';
-NEQT : '!=';
 GRT : '>';
 LST : '<';
 GRTE : '>=';
 LSTE : '<=';
+
 AND : '&&';
+NEQT : '!=';
 OR : '||';
+NOT : '!';
 
 ESC_SEQ : '\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\');
 
-// literals (type)
+// literals
 STR : '“' .*? '”';
-INT : ('0'..'9')+;
-IDENTIFIER:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+INT : ('-')? DIGIT+;
 BOOL : ('true' | 'false');
-MONEY : (INT + '.' + INT) | INT;
+MON : DIGIT+ '.' DIGIT DIGIT;
+DEC : DIGIT+  '.'  DIGIT+;
+DIGIT : ('0'..'9');
+LETTER: ('a'..'z'|'A'..'Z');

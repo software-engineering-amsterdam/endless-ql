@@ -1,8 +1,5 @@
 package expression;
 
-import model.BlockElement;
-import model.Form;
-
 public class ExpressionIdentifier extends Expression<Object>{
 
     private final String identifier;
@@ -12,8 +9,8 @@ public class ExpressionIdentifier extends Expression<Object>{
     }
 
     @Override
-    public ExpressionVariable evaluate(Form form) {
-        return getVariable(form).evaluate(form);
+    public ExpressionVariable evaluate() {
+        return getVariable(form).evaluate();
     }
 
     @Override
@@ -22,11 +19,11 @@ public class ExpressionIdentifier extends Expression<Object>{
     }
 
     @Override
-    public ReturnType getReturnType(Form form){
-        return getVariable(form).getReturnType(form);
+    public ReturnType getReturnType(){
+        return getVariable(form).getReturnType();
     }
 
-    private Expression getVariable(Form form){
+    private Expression getVariable(){
         return form.getQuestionAnswer(identifier);
     }
 }

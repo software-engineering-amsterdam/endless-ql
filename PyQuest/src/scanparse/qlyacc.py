@@ -32,22 +32,16 @@ class QLParser:
         if len(p) == 3:
             p[0] = [p[1]] + p[2]
         elif len(p) == 2:
-            p[0] = p[1]
+            p[0] = [p[1]]
 
     @staticmethod
     def p_stmt(p):
-        """stmt : assign
-                | if
+        """stmt : if
                 | elif
                 | else
                 | question
                 | form"""
         p[0] = p[1]
-
-    @staticmethod
-    def p_assign(p):
-        """assign : VAR ASSIGN expr"""
-        p[0] = ('ASSIGN', p[1], p[2])
 
     # Questions and answers
     @staticmethod
@@ -62,8 +56,8 @@ class QLParser:
 
     @staticmethod
     def p_answer_assign(p):
-        """answer : VAR COLON assign"""
-        p[0] = ('ANSWER', p[1], p[3])
+        """answer : VAR COLON type ASSIGN expr"""
+        p[0] = ('ANSWER', p[1], p[3], p[5])
 
     # Control Flow
     @staticmethod
@@ -86,6 +80,11 @@ class QLParser:
     def p_parenthesis(p):
         """expr : LPAREN expr RPAREN"""
         p[0] = p[2]
+
+    @staticmethod
+    def p_var(p):
+        """expr : VAR"""
+        p[0] = p[1]
 
     # Unary operators
     @staticmethod

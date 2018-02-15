@@ -11,7 +11,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/intellij-plugin-v4/lib/antlr-4.7-intellij-1.8.4-version-complete.jar!/" />
+          <root url="jar://$APPLICATION_PLUGINS_DIR$/intellij-plugin-v4/lib/antlr-4.7-intellij-1.8.4-version-complete.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -20,7 +20,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/jgoodies.jar/jgoodies.jar!/" />
+          <root url="jar://$APPLICATION_PLUGINS_DIR$/JFormDesigner/lib/jgoodies-forms.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

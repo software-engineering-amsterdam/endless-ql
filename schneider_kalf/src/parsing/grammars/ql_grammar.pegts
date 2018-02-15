@@ -14,6 +14,7 @@ Expression
 Term
   = head:Factor tail:(_ ("*" / "/") _ Factor)* {
       return tail.reduce(function(result, element) {
+        console.log(new Nodes.Addition(new Nodes.NumberLiteral(3), new Nodes.NumberLiteral(2)));
         if (element[1] === "*") { return result * element[3]; }
         if (element[1] === "/") { return result / element[3]; }
       }, head);

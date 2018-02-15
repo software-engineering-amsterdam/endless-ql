@@ -16,7 +16,8 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom && ava",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "generate:ql": "pegjs --plugin ./node_modules/ts-pegjs -o src/parsing/parsers/ql_parser.ts --extra-options-file src/parsing/grammars/pegconfig.json src/parsing/grammars/ql_grammar.pegts"
   },
   "devDependencies": {
     "@types/jest": "^22.1.1",

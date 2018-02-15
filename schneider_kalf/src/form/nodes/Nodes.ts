@@ -1,5 +1,4 @@
 import FormNode from './FormNode';
-import ComputedField from './fields/Field';
 import Question from './fields/Question';
 import IfCondition from './conditions/IfCondition';
 import Addition from './expressions/arithmetic/Addition';
@@ -18,11 +17,12 @@ import SmallerThan from './expressions/comparisons/SmallerThan';
 import NotEqual from './expressions/comparisons/NotEqual';
 import SmallerThanOrEqual from './expressions/comparisons/SmallerThanOrEqual';
 import VariableIdentifier from './expressions/VariableIdentifier';
+import ComputedField from "./fields/ComputedField";
 
 /**
  * List all available node types for easy access in the grammar.
  */
-export {
+export default {
   IfCondition,
   Addition,
   Division,

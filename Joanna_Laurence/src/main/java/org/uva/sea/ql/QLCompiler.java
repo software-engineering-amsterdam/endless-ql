@@ -6,7 +6,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;;
 import org.uva.sea.ql.parser.elements.Form;
-import org.uva.sea.ql.typeCheck.QLTypeCheck;
 
 public class QLCompiler {
 
@@ -30,11 +29,14 @@ public class QLCompiler {
         if(form.result == null)
             return null;
 
-        //TODO: link variable information
+        QLVariableInfo varChecker = new QLVariableInfo();
+        if(!varChecker.addVariableInformation(form.result)) {
+            return null;
+        }
 
         //Do the type check
-        QLTypeCheck checker = new QLTypeCheck();
-        if(!checker.doTypeCheck(form.result)) {
+        QLTypeCheck typeChecker = new QLTypeCheck();
+        if(!typeChecker.doTypeCheck(form.result)) {
             return null;
         }
 

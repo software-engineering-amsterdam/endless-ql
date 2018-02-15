@@ -1,4 +1,4 @@
-package org.uva.sea.ql.typeCheck;
+package org.uva.sea.ql;
 
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;

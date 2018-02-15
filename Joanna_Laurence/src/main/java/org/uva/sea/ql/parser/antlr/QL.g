@@ -14,9 +14,9 @@ grammar QL;
 }
 
 form returns [Form result]
-    :   'form' IDENT '{' stms=statements '}' {
+    :   f='form' IDENT '{' stms=statements '}' {
         $result = new Form($IDENT.text, $stms.result);
-        $result.setLocation($stms.start.getLine(),$stms.start.getStartIndex());}
+        $result.setLocation($f.getLine(),$f.getStartIndex());}
     ;
 
 statements returns [Statements result]
@@ -58,9 +58,9 @@ type returns [Type result]
     };
 
 condition returns [Condition result]
-    : 'if' '(' expr=expression ')' q=questionBlock {
+    : i='if' '(' expr=expression ')' q=questionBlock {
         $result = new Condition($expr.result, $q.result);
-        $result.setLocation($expr.start.getLine(), $expr.start.getCharPositionInLine());
+        $result.setLocation($i.getLine(), $i.getCharPositionInLine());
     };
 
 questionBlock returns [List<Question> result]
@@ -83,11 +83,9 @@ expression returns [ASTNode result]
     };
 
 orExpr returns [ASTNode result]
-    : lhs=andExpr {
-        $result = $lhs.result;
-       } ( '||' rhs=andExpr {
+    : lhs=andExpr { $result = $lhs.result; } ( or='||' rhs=andExpr {
         $result = new Or($result, $rhs.result);
-        $result.setLocation($rhs.start.getLine(), $rhs.start.getCharPositionInLine());
+        $result.setLocation($or.getLine(), $or.getCharPositionInLine());
        })*
     ;
 
@@ -150,17 +148,17 @@ mulExpr returns [ASTNode result]
     ;
 
 unExpr returns [ASTNode result]
-    :  '+' x=unExpr {
+    :  plus='+' x=unExpr {
         $result = new Pos($x.result);
-        $result.setLocation($x.start.getLine(), $x.start.getCharPositionInLine());
+        $result.setLocation($plus.getLine(), $plus.getCharPositionInLine());
     }
-    |  '-' x=unExpr {
+    |  minus='-' x=unExpr {
         $result = new Neg($x.result);
-        $result.setLocation($x.start.getLine(), $x.start.getCharPositionInLine());
+        $result.setLocation($minus.getLine(), $minus.getCharPositionInLine());
     }
-    |  '!' x=unExpr {
+    |  exl='!' x=unExpr {
         $result = new Not($x.result);
-        $result.setLocation($x.start.getLine(), $x.start.getCharPositionInLine());
+        $result.setLocation($exl.getLine(), $exl.getCharPositionInLine());
     }
     |  p=primary    { $result = $p.result; }
     ;

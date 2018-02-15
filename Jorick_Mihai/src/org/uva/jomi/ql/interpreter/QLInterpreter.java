@@ -9,6 +9,7 @@ import org.uva.jomi.ql.ast.expressions.GroupingExpr;
 import org.uva.jomi.ql.ast.expressions.IndentifierExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
+import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
 import org.uva.jomi.ql.ast.statements.FormStmt;
 import org.uva.jomi.ql.ast.statements.IfElseStmt;
 import org.uva.jomi.ql.ast.statements.IfStmt;
@@ -80,6 +81,12 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 		// TODO Interpret QuestionStmt.
 		return null;
 	}
+	
+	@Override
+	public Void visitComputedQuestionStmt(ComputedQuestionStmt stmt) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public Void visitIfStmt(IfStmt stmt) {
@@ -92,4 +99,5 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

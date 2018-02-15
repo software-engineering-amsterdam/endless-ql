@@ -3,8 +3,8 @@ import FieldType from "../../field/FieldType";
 import NodeVisitor from "../visitors/NodeVisitor";
 
 export default class FieldDecorator implements Field {
-  get name(): string {
-    return this.fieldToBeDecorated.name;
+  get identifier(): string {
+    return this.fieldToBeDecorated.identifier;
   }
 
   get label(): string {

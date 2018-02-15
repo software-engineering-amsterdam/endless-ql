@@ -9,30 +9,24 @@ import {
   assertBoolean, assertComparable, assertNumeric, assertSameType,
   assertValidDivision
 } from "../../typechecking/typeAssertions";
-import Variable from "../expressions/Variable";
+import Variable from "../expressions/VariableIdentifier";
 import { NotImplementedYetError } from "../../errors";
 import BooleanLiteral from "../expressions/boolean_expressions/BooleanLiteral";
 import Division from "../expressions/arithmetic/Division";
 import Subtraction from "../expressions/arithmetic/Subtraction";
 import Equals from "../expressions/comparisons/Equals";
-import NotEquals from "../expressions/comparisons/NotEquals";
+import NotEquals from "../expressions/comparisons/NotEqual";
 import BinaryOperator from "../expressions/BinaryOperator";
+import LargerThan from "../expressions/comparisons/LargerThan";
+import LargerThanOrEqual from "../expressions/comparisons/LargerThanOrEqual";
+import SmallerThan from "../expressions/comparisons/SmallerThan";
+import SmallerThanOrEqual from "../expressions/comparisons/SmallerThanOrEqual";
 
 /**
- * TODO: Maybe use mixins to seperate boolean and arithmetic logic
+ * TODO: Maybe use mixins to separate boolean and arithmetic logic
  */
 export default class EvaluationVisitor implements ExpressionVisitor {
-  visitNotEquals(notEquals: NotEquals): any {
-    const {leftValue, rightValue} = this.assertSidesAreComparable(notEquals);
-    return leftValue !== rightValue;
-  }
-
-  visitEquals(equals: Equals) {
-    const {leftValue, rightValue} = this.assertSidesAreComparable(equals);
-    return leftValue === rightValue;
-  }
-
-  visitVariable(variable: Variable) {
+  visitVariableIdentifier(variable: Variable) {
     throw NotImplementedYetError.make("Evaluate variables");
   }
 
@@ -70,6 +64,36 @@ export default class EvaluationVisitor implements ExpressionVisitor {
 
   visitSubtraction(subtraction: Subtraction): any {
     return assertNumeric(subtraction.left.accept(this)) - assertNumeric(subtraction.right.accept(this));
+  }
+
+  visitLargerThan(largerThan: LargerThan): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(largerThan);
+    return leftValue >= rightValue;
+  }
+
+  visitLargerThanOrEqual(largerThanOrEqual: LargerThanOrEqual): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(largerThanOrEqual);
+    return leftValue >= rightValue;
+  }
+
+  visitSmallerThan(smallerThan: SmallerThan): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(smallerThan);
+    return leftValue < rightValue;
+  }
+
+  visitSmallerThanOrEqual(smallerThanOrEqual: SmallerThanOrEqual): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(smallerThanOrEqual);
+    return leftValue <= rightValue;
+  }
+
+  visitNotEqual(notEquals: NotEquals): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(notEquals);
+    return leftValue !== rightValue;
+  }
+
+  visitEquals(equals: Equals) {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(equals);
+    return leftValue === rightValue;
   }
 
   visitNumberLiteral(literal: NumberLiteral): any {

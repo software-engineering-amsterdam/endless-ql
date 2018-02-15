@@ -3,6 +3,7 @@ import { FormComponent } from './rendering/components/form_component/FormCompone
 import { sampleForm } from "./mock/sampleForm";
 import 'bootstrap/dist/css/bootstrap.css';
 import { testExpressionStuff } from "./form/nodes/test";
+import Nodes from './form/nodes/Nodes';
 
 const pegjs = require("pegjs");
 const tspegjs = require("ts-pegjs");
@@ -10,6 +11,8 @@ const tspegjs = require("ts-pegjs");
 class App extends React.Component {
   componentDidMount() {
     const grammar = require('!raw-loader!./parsing/grammars/questionnaire.pegts');
+
+    new Nodes.FormNode();
 
     const parserSource = pegjs.generate(grammar, {
       output: "source",

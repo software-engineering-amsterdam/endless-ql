@@ -4,12 +4,16 @@ import Multiplication from "../expressions/arithmetic/Multiplication";
 import Or from "../expressions/boolean_expressions/Or";
 import And from "../expressions/boolean_expressions/And";
 import Negation from "../expressions/boolean_expressions/Negation";
-import Variable from "../expressions/Variable";
+import Variable from "../expressions/VariableIdentifier";
 import Division from "../expressions/arithmetic/Division";
 import BooleanLiteral from "../expressions/boolean_expressions/BooleanLiteral";
 import Subtraction from "../expressions/arithmetic/Subtraction";
 import Equals from "../expressions/comparisons/Equals";
-import NotEquals from "../expressions/comparisons/NotEquals";
+import NotEquals from "../expressions/comparisons/NotEqual";
+import LargerThan from "../expressions/comparisons/LargerThan";
+import LargerThanOrEqual from "../expressions/comparisons/LargerThanOrEqual";
+import SmallerThan from "../expressions/comparisons/SmallerThan";
+import SmallerThanOrEqual from "../expressions/comparisons/SmallerThanOrEqual";
 
 interface ExpressionVisitor {
   visitAddition(addition: Addition): any;
@@ -24,7 +28,7 @@ interface ExpressionVisitor {
 
   visitNegation(negation: Negation): any;
 
-  visitVariable(variable: Variable): any;
+  visitVariableIdentifier(variable: Variable): any;
 
   visitDivision(division: Division): any;
 
@@ -34,7 +38,15 @@ interface ExpressionVisitor {
 
   visitEquals(equals: Equals): any;
 
-  visitNotEquals(notEquals: NotEquals): any;
+  visitNotEqual(notEquals: NotEquals): any;
+
+  visitLargerThan(largerThan: LargerThan): any;
+
+  visitLargerThanOrEqual(largerThanOrEqual: LargerThanOrEqual): any;
+
+  visitSmallerThan(smallerThan: SmallerThan): any;
+
+  visitSmallerThanOrEqual(smallerThanOrEqual: SmallerThanOrEqual): any;
 }
 
 export default ExpressionVisitor;

@@ -7,7 +7,7 @@ import EvaluationVisitor from "./visitors/EvaluationVisitor";
 import Question from "./fields/Question";
 import FieldType from "../field/FieldType";
 import ComputedField from "./fields/ComputedField";
-import Variable from "./expressions/Variable";
+import Variable from "./expressions/VariableIdentifier";
 import BooleanLiteral from "./expressions/boolean_expressions/BooleanLiteral";
 import IfCondition from "./conditions/IfCondition";
 import Negation from "./expressions/boolean_expressions/Negation";
@@ -46,7 +46,7 @@ export const testExpressionStuff = () => {
       new Question("q3", "Only visible if q1  is false?", FieldType.Boolean),
     ]),
     new IfCondition(new Negation(new Variable("q2")), [
-      new Question("q3", "Only visible if q1  is true?", FieldType.Boolean),
+      new Question("q3", "Only visible if q1  is false?", FieldType.Boolean),
     ])
   ]);
 

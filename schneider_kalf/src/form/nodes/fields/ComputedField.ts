@@ -5,13 +5,13 @@ import NodeVisitor from "../visitors/NodeVisitor";
 
 export default class ComputedField implements Field {
   readonly label: string;
-  readonly name: string;
+  readonly identifier: string;
   readonly type: FieldType;
   readonly formula: Expression;
 
-  constructor(name: string, label: string, type: FieldType, formula: Expression) {
+  constructor(identifier: string, label: string, type: FieldType, formula: Expression) {
     this.label = label;
-    this.name = name;
+    this.identifier = identifier;
     this.type = type;
     this.formula = formula;
   }

@@ -1,7 +1,7 @@
 import ExpressionVisitor from "../visitors/ExpressionVisitor";
 import Expression from "./Expression";
 
-export default class Variable implements Expression {
+export default class VariableIdentifier implements Expression {
   readonly identifier: string;
 
   constructor(identifier: string) {
@@ -9,6 +9,6 @@ export default class Variable implements Expression {
   }
 
   accept(visitor: ExpressionVisitor): any {
-    return visitor.visitVariable(this);
+    return visitor.visitVariableIdentifier(this);
   }
 }

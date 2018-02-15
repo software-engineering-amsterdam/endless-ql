@@ -2,6 +2,7 @@ package org.uva.sea.ql.typeCheck;
 
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;
+import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.DualNode;
 import org.uva.sea.ql.traverse.Traverse;
 
@@ -25,7 +26,7 @@ public class QLTypeCheck extends Traverse {
      * @param type The type as string
      */
     private void checkIsNumber(DualNode node, String type) {
-        if(!(type.equals("integer") || type.equals("decimal")))
+        if(!(type.equals("integer") || type.equals("decimal") || type.equals("money")))
             this.error(node);
     }
 
@@ -58,7 +59,7 @@ public class QLTypeCheck extends Traverse {
      */
     public void doQuestion(Question node) {
         ASTNode value = node.getValue();
-        if(value != null && node.getType() != value.getType())
+        if(value != null && !node.getNodeType().equals(value.getType()))
             this.error(node);
     }
 

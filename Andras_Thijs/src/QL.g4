@@ -25,16 +25,10 @@ STRING   : '"'[a-zA-Z0-9?.!:;()/ \t]+'"'; // TODO: allow more characters
 // Form structure
 form      : 'form' VARIABLE '{' question* condition* '}';
 question  : VARIABLE ':' STRING TYPE expression?;
-condition : 'if' boolexpression '{' question+ '}';
+condition : 'if' expression '{' question+ '}';
 
 // Expressions: Include some basic rules about operators
 expression : '(' expression ')'
-           | NOT boolexpression
+           | NOT expression
            | VARIABLE | BOOLEAN | STRING | NUMERAL
            | expression OPERATOR expression; // All other constrains will be handled by the type checker.
-
-// Boolexpressions: these ensure that a boolean (or variable) is returned, needed for conditions.
-boolexpression : '(' boolexpression ')'
-               | NOT boolexpression
-               | VARIABLE | BOOLEAN
-               | expression (BOOLOPERATOR | COMPARISON) expression;

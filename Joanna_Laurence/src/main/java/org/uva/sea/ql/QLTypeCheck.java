@@ -15,8 +15,8 @@ public class QLTypeCheck extends Traverse {
      * Log will be written to std err
      * @param node Do the type check for the node
      */
-    public boolean doTypeCheck(ASTNode node) {
-        node.traverse(this);
+    public boolean doTypeCheck(Form node, TraverseType traverseType) {
+        node.doTraversal(this, traverseType);
         return !error;
     }
 
@@ -49,7 +49,7 @@ public class QLTypeCheck extends Traverse {
      * @param node The node that caused an error
      */
     private void error(ASTNode node) {
-        System.err.println("Incorrect type on line: column: ");
+        System.err.println("Incorrect type on line:" + node.getLine() + " column: " + node.getColumn());
         this.error = true;
     }
 

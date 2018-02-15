@@ -12,8 +12,7 @@ expression  : '(' expression ')'                                        # parenE
             | left=expression op=(PLUS | MINUS) right=expression        # opExpr
             | left=expression op=(LE | LT | GE | GT) right=expression   # boolExpr
             | left=expression op=(EQ | NE) right=expression             # compExpr
-            | left=expression op=AND right=expression                   # andOrExpr
-            | left=expression op=OR right=expression                    # andOrExpr
+            | left=expression op=(AND | OR) right=expression            # andOrExpr
             | constant                                                  # constExpr
             ;
 

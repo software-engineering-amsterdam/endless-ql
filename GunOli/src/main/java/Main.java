@@ -1,7 +1,5 @@
-import constructs.Form;
-import org.antlr.v4.gui.Trees;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
+import ParseObjects.Form;
+
 import java.io.InputStream;
 
 public class Main {

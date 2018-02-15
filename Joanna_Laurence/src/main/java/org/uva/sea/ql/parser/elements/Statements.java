@@ -6,7 +6,7 @@ import org.uva.sea.ql.traverse.Traverse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Statements implements ASTNode {
+public class Statements extends ASTNode {
 
     private List<ASTNode> statementList;
 

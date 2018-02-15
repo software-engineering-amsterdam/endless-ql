@@ -4,7 +4,7 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.traverse.Traverse;
 
 //TODO: Override equals
-public class Type implements ASTNode {
+public class Type extends ASTNode {
     private String nodeType;
 
     public Type(String type) {

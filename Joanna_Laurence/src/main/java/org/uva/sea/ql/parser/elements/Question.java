@@ -4,7 +4,7 @@ import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.elements.types.Var;
 import org.uva.sea.ql.traverse.Traverse;
 
-public class Question implements ASTNode {
+public class Question extends ASTNode {
     private String label;
     private Var variable;
     private Type nodeType;

@@ -5,7 +5,7 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.traverse.Traverse;
 
-public class Var implements ASTNode {
+public class Var extends ASTNode {
     private String variableName;
 
     private Question linkedQuestion = null;

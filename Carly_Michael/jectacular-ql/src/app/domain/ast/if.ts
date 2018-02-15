@@ -5,9 +5,10 @@ import {Question} from './question';
 import {QuestionType} from '../angular-questions/question-type';
 import * as _ from 'lodash';
 import {UnknownQuestionError, TypeError} from '../errors';
+import {Location} from './location';
 
 export class If implements Statement {
-  constructor(public condition: string, public statements: Statement[]) {
+  constructor(public condition: string, public statements: Statement[], public location: Location) {
   }
 
   checkType(allQuestions: Question[]): void {

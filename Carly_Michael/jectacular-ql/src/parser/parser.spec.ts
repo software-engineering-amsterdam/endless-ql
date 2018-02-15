@@ -9,6 +9,14 @@ const simpleForm =
     }
   `;
 
+const expressionQuestionForm =
+  `
+    form form {
+      question: "Question?" integer
+      exprQuestion: "Expression?" integer = (question + 500)
+    }
+  `;
+
 const multipleQuestionForm =
   `
     form form {
@@ -69,8 +77,6 @@ describe('Generated forms', () => {
 
       form += ' }';
 
-      console.log('checked form', x, form);
-
       const output = parse(form, {});
       expect(output).not.toBeNull();
       expect(output.name).toBe(formName);
@@ -83,7 +89,6 @@ describe('The parser', () => {
   it('Should parse simple form', () =>  {
     const output = parse(simpleForm, {});
     expect(output).not.toBeNull();
-    console.log(output);
     expect(output.name).toBe('form');
     expect(output.statements.length).toBe(1);
     expect(output.statements[0].name).toBe('question');
@@ -130,5 +135,19 @@ describe('The parser', () => {
     expect(ifStatement.statements[0].name).toBe('questionIf');
     expect(ifStatement.statements[0].label).toBe('QuestionIf?');
     expect(ifStatement.statements[0].type).toBe(QuestionType.INT);
+  });
+
+  it('Should parse expression questions', () =>  {
+    const output = parse(expressionQuestionForm, {});
+    expect(output).not.toBeNull();
+    expect(output.name).toBe('form');
+    expect(output.statements.length).toBe(2);
+    expect(output.statements[0].name).toBe('question');
+    expect(output.statements[0].label).toBe('Question?');
+    expect(output.statements[0].type).toBe(QuestionType.INT);
+    expect(output.statements[1].name).toBe('exprQuestion');
+    expect(output.statements[1].label).toBe('Expression?');
+    expect(output.statements[1].type).toBe(QuestionType.INT);
+    expect(output.statements[1].expression).toBe('question + 500');
   });
 });

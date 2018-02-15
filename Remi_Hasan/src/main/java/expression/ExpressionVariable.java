@@ -1,7 +1,5 @@
 package expression;
 
-import model.Form;
-
 public abstract class ExpressionVariable<T> extends Expression<T>{
 
     T value;
@@ -15,12 +13,12 @@ public abstract class ExpressionVariable<T> extends Expression<T>{
     }
 
     @Override
-    public ExpressionVariable<T> evaluate(Form form) {
+    public ExpressionVariable<T> evaluate() {
         return this;
     }
 
     @Override
-    public boolean isSetable(Form form){
+    public boolean isSetable(){
         return true;
     }
 

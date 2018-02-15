@@ -1,7 +1,5 @@
 package expression;
 
-import model.Form;
-
 public class ExpressionNot extends ExpressionUnary<Boolean> {
 
     public ExpressionNot(Expression v) {
@@ -9,12 +7,12 @@ public class ExpressionNot extends ExpressionUnary<Boolean> {
     }
 
     @Override
-    public ExpressionVariable evaluate(Form form) {
-        return this.v.evaluate(form).not();
+    public ExpressionVariable evaluate() {
+        return this.v.evaluate().not();
     }
 
     @Override
-    public ReturnType getReturnType(Form form) {
+    public ReturnType getReturnType() {
         return ReturnType.Boolean;
     }
 }

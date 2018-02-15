@@ -4,5 +4,10 @@ form QonditionQuestions {
 		lastName: "What is your last name?" string
 	} else {
 		middleName: "What is your middle name?" string
+        if (false) {
+            lastName: "What is your last name?" string
+        } else {
+            middleName: "What is your middle name?" string
+        }
 	}
 }

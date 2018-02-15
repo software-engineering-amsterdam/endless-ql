@@ -5,8 +5,8 @@ form: FORM ID block EOF;
 block: BRACKETL NEWLINE* (statement NEWLINE*)* BRACKETR;
 statement: (question | conditional | assignment);
 
-question: STRING ID DOT type;
-assignment: STRING ID DOT type ASSIGN PARL expression PARR;
+question: STRING ID DOT types;
+assignment: STRING ID DOT types ASSIGN PARL expression PARR;
 
 expression: BOOL
             | INT
@@ -46,7 +46,7 @@ COMPARE: '<'
         | '!='
         ;
 
-type: 'integer' | 'boolean' | 'string' | 'date' | 'money';
+types: 'integer' | 'boolean' | 'string' | 'date' | 'money';
 
 BOOL: 'true' | 'false';
 INT :   [0-9]+ ;         // match integers

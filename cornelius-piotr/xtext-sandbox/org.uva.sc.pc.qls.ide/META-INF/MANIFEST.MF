@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.uva.sc.pc.qls.ide
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: org.uva.sc.pc.qls.ide; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.uva.sc.pc.qls,
+ org.eclipse.xtext.ide,
+ org.eclipse.xtext.xbase.ide,
+ org.antlr.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.uva.sc.pc.qls.ide.contentassist.antlr.internal,
+ org.uva.sc.pc.qls.ide.contentassist.antlr
+

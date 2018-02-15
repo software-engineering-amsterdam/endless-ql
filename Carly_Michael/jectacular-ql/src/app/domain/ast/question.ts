@@ -14,6 +14,7 @@ export class Question implements Statement {
     return [this];
   }
 
+  // type checking for questions will be implemented in expression questions
   checkType(allQuestions: Question[]): void {
     return;
   }
@@ -27,6 +28,7 @@ export class Question implements Statement {
       hiddenCondition: condition
     };
 
+    // make a checkbox for a boolean, else make an input
     switch (this.type) {
       case QuestionType.BOOLEAN: {
         formQuestions.push(new CheckboxQuestion(options));

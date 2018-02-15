@@ -7,6 +7,10 @@ import java.io.IOException;
 
 public class QLGui {
 
+    /**
+     * Generate the GUI
+     * @param guiSpecification Specification of the GUI
+     */
     public void start(String guiSpecification) {
         try {
             QLCompiler compiler = new QLCompiler();
@@ -17,6 +21,12 @@ public class QLGui {
         }
     }
 
+    /**
+     * Convert file name to resource
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
     private CharStream toCharStream(String fileName) throws IOException {
         return CharStreams.fromStream(getClass().getResourceAsStream(fileName));
     }

@@ -11,7 +11,6 @@ export class Form {
     let formQuestions: QuestionBase<any>[] = [];
 
     for (const index in this.statements) {
-
       const statement = this.statements[index];
 
       if (!statement) {
@@ -27,6 +26,7 @@ export class Form {
   checkTypes(): void {
     let allQuestions = [];
 
+    // get all questions in a list for checking on identifiers and types
     for (const statement of this.statements) {
       const questions = statement.getQuestions();
 
@@ -36,6 +36,7 @@ export class Form {
     }
     allQuestions = _.flatten(allQuestions);
 
+    // check if questions have duplicate identifiers
     if (_.uniqBy(allQuestions, 'name').length < allQuestions.length) {
       const groupedQuestions = _.groupBy(allQuestions, 'name');
 
@@ -46,6 +47,7 @@ export class Form {
       });
     }
 
+    // check types of if statements
     for (const statement of this.statements) {
       statement.checkType(allQuestions);
     }

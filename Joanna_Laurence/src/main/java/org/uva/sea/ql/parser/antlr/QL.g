@@ -21,7 +21,7 @@ form returns [Form result]
 statements returns [Statements result]
     @init  { Statements statements = new Statements(); }
     @after { $result = statements; }
-    : (stm=statement { statements.addStatement($stm.result); })+
+    : (stm=statement { statements.addStatement($stm.result); })*
     ;
 
 statement returns [ASTNode result]
@@ -55,7 +55,7 @@ condition returns [Condition result]
 questionBlock returns [List<Question> result]
     @init  { ArrayList<Question> questions = new ArrayList<Question>(); }
     @after { $result = questions; }
-    : '{' stms=questions '}' {$result = $stms.result; }
+    : '{' stms=questions '}' {questions.addAll($stms.result); }
     | stm=question {questions.add($stm.result);}
     ;
 
@@ -63,7 +63,7 @@ questionBlock returns [List<Question> result]
 questions returns [List<Question> result]
     @init  { ArrayList<Question> questions = new ArrayList<Question>(); }
     @after { $result = questions; }
-    : (stm=question {questions.add($stm.result);})+
+    : (stm=question {questions.add($stm.result);})*
     ;
 
 expression returns [ASTNode result]

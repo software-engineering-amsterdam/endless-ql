@@ -1,7 +1,7 @@
-import {QuestionBase} from './question-base';
+import {QuestionBase} from '../angular-questions/question-base';
 import {Statement} from './statement';
 import * as _ from 'lodash';
-import {DuplicateIdentifierError} from './errors';
+import {DuplicateIdentifierError} from '../errors';
 import {Question} from './question';
 
 export class Form {

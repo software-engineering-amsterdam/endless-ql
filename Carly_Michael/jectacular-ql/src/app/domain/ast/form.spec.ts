@@ -1,6 +1,6 @@
-import {Form, Question, QuestionType} from './ast';
-import {CheckboxQuestion} from './question-checkbox';
-import {TextboxQuestion} from './question-textbox';
+import {Form, Question, QuestionType} from './';
+import {CheckboxQuestion} from '../angular-questions/question-checkbox';
+import {TextboxQuestion} from '../angular-questions/question-textbox';
 
 const questions = [
   new Question('intQuestion', 'intQuestion?', QuestionType.INT),

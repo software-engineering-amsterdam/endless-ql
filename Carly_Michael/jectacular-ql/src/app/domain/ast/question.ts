@@ -1,9 +1,9 @@
-import {UnsupportedTypeError} from './errors';
-import {QuestionBase} from './question-base';
+import {UnsupportedTypeError} from '../errors';
+import {QuestionBase} from '../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
-import {CheckboxQuestion} from './question-checkbox';
-import {TextboxQuestion} from './question-textbox';
-import {QuestionType} from './question-type';
+import {CheckboxQuestion} from '../angular-questions/question-checkbox';
+import {TextboxQuestion} from '../angular-questions/question-textbox';
+import {QuestionType} from '../angular-questions/question-type';
 import {Statement} from './statement';
 
 export class Question implements Statement {

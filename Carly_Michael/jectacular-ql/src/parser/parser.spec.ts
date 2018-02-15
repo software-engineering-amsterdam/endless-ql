@@ -1,5 +1,5 @@
 import {parse} from './ql-parser';
-import {QuestionType} from '../app/domain/ast';
+import {QuestionType} from '../app/domain/ast/index';
 
 const simpleForm =
   `

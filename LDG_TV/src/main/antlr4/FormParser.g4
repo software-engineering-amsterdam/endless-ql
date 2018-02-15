@@ -11,7 +11,7 @@ question_structure:
     question_variable
     QUESTION_VARIABLE_SEPERATOR
     question_answer_type
-    question_answer_seperator?
+    QUESTION_ANSWER_SEPERATOR?
     question_answer?
 ;
 if_structure:
@@ -32,8 +32,8 @@ question_identifier : QUESTION_IDENTIFIER;
 question_variable: CHARACTERS;
 // question_variable_seperator : QUESTION_VARIABLE_SEPERATOR;
 question_answer_type: CHARACTERS;
-question_answer_seperator:  QUESTION_ANSWER_SEPERATOR;
-question_answer: (CHARACTERS | NUMBERS);
+// question_answer_seperator:  QUESTION_ANSWER_SEPERATOR;
+question_answer: (CHARACTERS | NUMBERS | PLUS | MINUS | TIMES | DIV);
 /*
  * Lexer Rules
  */
@@ -46,16 +46,26 @@ CURLY_BRACKET_CLOSE : '}';
 BRACKET_OPEN : '(';
 BRACKET_CLOSE : ')';
 
+PLUS: '+';
+MINUS: '-';
+TIMES: '*';
+DIV: '/';
+
 QUESTION_IDENTIFIER : '"' + ((CHARACTERS | NUMBERS | ' ' | ':' | '?')+) + '"';
 QUESTION_VARIABLE_SEPERATOR : ':';
 QUESTION_ANSWER_SEPERATOR : '=';
+
 //QUESTION_ANSWER : (CHARACTERS | NUMBERS | BRACKET_OPEN | BRACKET_CLOSE);
 // BRACKET_OPEN + (CHARACTERS | ' - ')+ BRACKET_CLOSE; // TODO test with and without whitespace
 
 IF : 'if';
 
-WHITESPACE : (' ' | '\t') -> skip;
+WHITESPACE : [ \r\n\t] + -> skip;
 NEWLINE : ('\r'? '\n' | '\r')+ -> skip;
 
 CHARACTERS : (LOWERCASE | UPPERCASE)+;
-NUMBERS : ('0' .. '9');
+
+fragment NUMBERS
+   : ('0' .. '9') + ('.' ('0' .. '9') +)?
+   ;
+

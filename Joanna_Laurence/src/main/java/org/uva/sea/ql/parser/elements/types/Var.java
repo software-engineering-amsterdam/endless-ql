@@ -31,7 +31,7 @@ public class Var extends ASTNode {
         this.linkedQuestion = linkedQuestion;
     }
 
-    public void traverse(Traverse traverse, TraverseType traverseType) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doVar(this);
     }
 

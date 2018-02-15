@@ -39,7 +39,7 @@ public class DateExpr extends ASTNode {
         this.year = year;
     }
 
-    public void traverse(Traverse traverse, TraverseType traverseType) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doDateExpr(this);
     }
 

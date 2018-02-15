@@ -37,9 +37,9 @@ public abstract class DualNode extends ASTNode {
 
     /**
      * Traverse over the node
-     * @param traverse How to traverse
+     * @param traverse How to traverseNode
      */
-    public void traverse(Traverse traverse, TraverseType traverseType) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doDualNode(this);
     }
 }

@@ -29,13 +29,13 @@ public class Form extends ASTNode {
         this.statements = statements;
     }
 
-    public void traverse(Traverse traverse, TraverseType traverseType) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doForm(this);
     }
 
     public void traverseChildren(Traverse traverse, TraverseType traverseType) {
         if(this.statements != null)
-            this.statements.traverse(traverse, traverseType);
+            this.statements.doTraversal(traverse, traverseType);
     }
 
     public Type getType() {

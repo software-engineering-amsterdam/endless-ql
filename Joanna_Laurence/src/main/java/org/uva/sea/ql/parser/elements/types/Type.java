@@ -20,7 +20,7 @@ public class Type extends ASTNode {
         this.nodeType = type;
     }
 
-    public void traverse(Traverse traverse, TraverseType traverseType) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doType(this);
     }
 

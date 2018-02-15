@@ -23,13 +23,13 @@ public class Statement extends ASTNode {
         this.condition = condition;
     }
 
-    public void traverse(Traverse traverse, TraverseType traverseType) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doStatement(this);
     }
 
     public void traverseChildren(Traverse traverse, TraverseType traverseType) {
-        this.question.traverse(traverse,traverseType);
-        this.condition.traverse(traverse,traverseType);
+        this.question.doTraversal(traverse,traverseType);
+        this.condition.doTraversal(traverse,traverseType);
     }
 
     public Type getType() {

@@ -29,8 +29,8 @@ public class QLVariableInfo extends Traverse {
      * @param node The root node of the AST that needs to be checked
      * @return If an error occurred
      */
-    public boolean addVariableInformation(ASTNode node) {
-        node.traverse(this, TraverseType.TOP_DOWN);
+    public boolean addVariableInformation(Form node) {
+        node.doTraversal(this, TraverseType.TOP_DOWN);
         return !error;
     }
 

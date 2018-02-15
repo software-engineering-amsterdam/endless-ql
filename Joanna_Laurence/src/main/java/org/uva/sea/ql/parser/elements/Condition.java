@@ -32,14 +32,14 @@ public class Condition extends ASTNode {
         this.questions = questions;
     }
 
-    public void traverse(Traverse traverse, TraverseType traverseType) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doCondition(this);
     }
 
     public void traverseChildren(Traverse traverse, TraverseType traverseType) {
-        this.expression.traverse(traverse, traverseType);
+        this.expression.traverseNode(traverse, traverseType);
         for (ASTNode node: this.questions) {
-            node.traverse(traverse, traverseType);
+            node.doTraversal(traverse, traverseType);
         }
     }
 

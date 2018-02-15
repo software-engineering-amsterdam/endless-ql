@@ -11,7 +11,7 @@ public class Not extends SingleNode {
         super(value);
     }
 
-    public void traverse(Traverse traverse, TraverseType traverseType) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doNot(this);
     }
 

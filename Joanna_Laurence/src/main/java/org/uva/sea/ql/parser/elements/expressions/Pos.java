@@ -13,7 +13,7 @@ public class Pos extends SingleNode {
     }
 
 
-    public void traverse(Traverse traverse, TraverseType traverseType) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doPos(this);
     }
 

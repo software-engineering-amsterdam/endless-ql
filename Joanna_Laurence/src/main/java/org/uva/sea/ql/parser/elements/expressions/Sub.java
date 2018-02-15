@@ -12,8 +12,8 @@ public class Sub extends DualNode {
         super(lhs, rhs);
     }
 
-    public void traverse(Traverse traverse, TraverseType traverseType) {
-        super.traverse(traverse, traverseType);
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
+        super.traverseNode(traverse, traverseType);
         traverse.doOperation(this);
         traverse.doSub(this);
     }

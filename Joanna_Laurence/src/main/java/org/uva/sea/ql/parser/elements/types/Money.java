@@ -29,7 +29,7 @@ public class Money extends ASTNode {
         this.amount = amount;
     }
 
-    public void traverse(Traverse traverse, TraverseType traverseType) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doMoney(this);
     }
 

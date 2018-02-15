@@ -10,13 +10,13 @@ public abstract class ASTNode {
 
     /**
      * Traverse over the node
-     * @param traverse How to traverse
+     * @param traverse How to traverseNode
      */
-    public abstract void traverse(Traverse traverse, TraverseType traverseType);
+    public abstract void traverseNode(Traverse traverse, TraverseType traverseType);
 
     /**
      * Traverse over the children
-     * @param traverse How to traverse
+     * @param traverse How to traverseNode
      */
     public void traverseChildren(Traverse traverse, TraverseType traverseType) {
 
@@ -28,9 +28,9 @@ public abstract class ASTNode {
      * @param traverseType
      */
     public void doTraversal(Traverse traverse, TraverseType traverseType) {
-        if(traverseType == TraverseType.TOP_DOWN) this.traverse(traverse, traverseType);
+        if(traverseType == TraverseType.TOP_DOWN) this.traverseNode(traverse, traverseType);
         this.traverseChildren(traverse, traverseType);
-        if(traverseType == TraverseType.BOTTOM_UP) this.traverse(traverse, traverseType);
+        if(traverseType == TraverseType.BOTTOM_UP) this.traverseNode(traverse, traverseType);
     }
 
     /**

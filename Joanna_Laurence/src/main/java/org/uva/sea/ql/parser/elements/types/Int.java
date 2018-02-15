@@ -19,7 +19,7 @@ public class Int extends ASTNode {
         this.value = value;
     }
 
-    public void traverse(Traverse traverse, TraverseType traverseType) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doInt(this);
     }
 

@@ -33,7 +33,13 @@ question_variable: CHARACTERS;
 // question_variable_seperator : QUESTION_VARIABLE_SEPERATOR;
 question_answer_type: CHARACTERS;
 // question_answer_seperator:  QUESTION_ANSWER_SEPERATOR;
-question_answer: (CHARACTERS | NUMBERS | PLUS | MINUS | TIMES | DIV);
+question_answer: QUESTION_ANSWER
+
+//value : question_answer
+//    | (CHARACTERS | NUMBERS)
+//    | (PLUS | MINUS | TIMES | DIV)
+//    ;
+
 /*
  * Lexer Rules
  */
@@ -55,8 +61,9 @@ QUESTION_IDENTIFIER : '"' + ((CHARACTERS | NUMBERS | ' ' | ':' | '?')+) + '"';
 QUESTION_VARIABLE_SEPERATOR : ':';
 QUESTION_ANSWER_SEPERATOR : '=';
 
-//QUESTION_ANSWER : (CHARACTERS | NUMBERS | BRACKET_OPEN | BRACKET_CLOSE);
-// BRACKET_OPEN + (CHARACTERS | ' - ')+ BRACKET_CLOSE; // TODO test with and without whitespace
+QUESTION_ANSWER : BRACKET_OPEN (CHARACTERS | NUMBERS | PLUS | MINUS | TIMES | DIV)+ BRACKET_CLOSE;
+
+
 
 IF : 'if';
 

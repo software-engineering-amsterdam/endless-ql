@@ -1,55 +1,7 @@
 import {parse} from './ql-parser';
 import {QuestionType} from '../app/domain/ast/index';
 import {gen, check, property, sample, sampleOne} from 'testcheck';
-
-const simpleForm =
-  `
-    form form {
-      question: "Question?" boolean
-    }
-  `;
-
-const expressionQuestionForm =
-  `
-    form form {
-      question: "Question?" integer
-      exprQuestion: "Expression?" integer = (question + 500)
-    }
-  `;
-
-const multipleQuestionForm =
-  `
-    form form {
-      questionOne: "Question1?" boolean
-      questionTwo: "Question2?" string
-      questionThree: "Question3?" date
-      questionFour: "Question4?" money
-    }
-  `;
-
-const ifQuestionForm =
-  `
-    form form {
-      question: "Question?" boolean
-      if (question) {
-        questionIf: "QuestionIf?" integer
-      }
-    }
-  `;
-
-const formWrongName =
-  `
-    form form! {
-      question: "Question?" boolean
-    }
-  `;
-
-const formWrongQuestionName =
-  `
-    form form {
-      questionå: "Question?" boolean
-    }
-  `;
+import * as mockInput from '../app/mock-input';
 
 function questionTypeToString(type: QuestionType): string {
   switch (type) {
@@ -87,7 +39,7 @@ describe('Generated forms', () => {
 
 describe('The parser', () => {
   it('Should parse simple form', () =>  {
-    const output = parse(simpleForm, {});
+    const output = parse(mockInput.simpleForm, {});
     expect(output).not.toBeNull();
     expect(output.name).toBe('form');
     expect(output.statements.length).toBe(1);
@@ -97,12 +49,12 @@ describe('The parser', () => {
   });
 
   it('Should parse form only with certain characters', () => {
-    expect(() => parse(formWrongName, {})).toThrow();
-    expect(() => parse(formWrongQuestionName, {})).toThrow();
+    expect(() => parse(mockInput.formWrongName, {})).toThrow();
+    expect(() => parse(mockInput.formWrongQuestionName, {})).toThrow();
   });
 
   it('Should parse multiple questions', () => {
-    const output = parse(multipleQuestionForm, {});
+    const output = parse(mockInput.multipleQuestionForm, {});
     expect(output).not.toBeNull();
     expect(output.name).toBe('form');
     expect(output.statements.length).toBe(4);
@@ -121,7 +73,7 @@ describe('The parser', () => {
   });
 
   it('should parse a form with an if statement', () => {
-    const output = parse(ifQuestionForm, {});
+    const output = parse(mockInput.ifQuestionForm, {});
     expect(output).not.toBeNull();
     expect(output.name).toBe('form');
     expect(output.statements.length).toBe(2);
@@ -138,7 +90,7 @@ describe('The parser', () => {
   });
 
   it('Should parse expression questions', () =>  {
-    const output = parse(expressionQuestionForm, {});
+    const output = parse(mockInput.expressionQuestionForm, {});
     expect(output).not.toBeNull();
     expect(output.name).toBe('form');
     expect(output.statements.length).toBe(2);

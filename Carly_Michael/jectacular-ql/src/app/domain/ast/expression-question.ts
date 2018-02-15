@@ -3,7 +3,7 @@ import {QuestionBase} from '../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {CheckboxQuestion} from '../angular-questions/question-checkbox';
 import {TextboxQuestion} from '../angular-questions/question-textbox';
-import {QuestionType} from '../angular-questions/question-type';
+import {QuestionType} from './question-type';
 import {Statement} from './statement';
 import {Question} from './question';
 import {Location} from './location';

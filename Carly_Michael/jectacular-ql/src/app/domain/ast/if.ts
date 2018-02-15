@@ -2,7 +2,7 @@ import {Statement} from './';
 import {QuestionBase} from '../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {Question} from './question';
-import {QuestionType} from '../angular-questions/question-type';
+import {QuestionType} from './question-type';
 import * as _ from 'lodash';
 import {UnknownQuestionError, TypeError} from '../errors';
 import {Location} from './location';

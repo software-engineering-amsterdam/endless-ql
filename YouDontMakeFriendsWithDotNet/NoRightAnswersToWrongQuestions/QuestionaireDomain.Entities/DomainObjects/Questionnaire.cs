@@ -1,10 +1,15 @@
-﻿using QuestionaireDomain.Entities.API;
-
-namespace QuestionaireDomain.Entities.DomainObjects
+﻿namespace QuestionaireDomain.Entities.DomainObjects
 {
-    //ToDo: Make internal
-    public class Questionnaire : IQuestionnaire
+    public class Questionnaire : AstNode, IAstVisitor
     {
-        public string FormName { get; set; }
+        public override void Accept(IAstVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
+        public void Visit(IAstVisitor visitor)
+        {
+            
+        }
     }
 }

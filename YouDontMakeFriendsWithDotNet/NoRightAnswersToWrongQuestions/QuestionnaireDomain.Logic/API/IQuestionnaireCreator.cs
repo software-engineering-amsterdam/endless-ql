@@ -4,6 +4,6 @@ namespace QuestionnaireDomain.Logic.API
 {
     public interface IQuestionnaireCreator
     {
-        IQuestionnaire Create(string definition);
+        IQuestionnaireAst Create(string definition);
     }
 }

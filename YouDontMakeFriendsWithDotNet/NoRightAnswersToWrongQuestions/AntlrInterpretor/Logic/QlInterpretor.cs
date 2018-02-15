@@ -1,28 +1,66 @@
 ﻿using System;
+using System.Diagnostics;
 using AntlGrammar;
 using Antlr4.Runtime;
-using AntlrInterpretor.API;
 using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.DomainObjects;
 
 namespace AntlrInterpretor.Logic
 {
-    //ToDo: Make internal + register with DI
-    public class QlInterpretor : IQlInterpretor
+    internal class QlInterpretor : IQlInterpretor
     {
-        public IQuestionnaire BuildForm(string definition)
+        public IQuestionnaireAst BuildForm(string definition)
         {
-            var lexer = new QLLexer(new AntlrInputStream(definition));
+            var stream = new AntlrInputStream(definition);
+            var lexer = new QLLexer(stream);
+            lexer.RemoveErrorListeners();
+            lexer.AddErrorListener(new QlErrorListener());
+
             var tokens = new CommonTokenStream(lexer);
+
             var parser = new QLParser(tokens);
+            parser.RemoveErrorListeners();
+            parser.AddErrorListener(new QlErrorListener());
+
             var tree = parser.questionnaire();
 
-            var qlVisitor = new QLVisitor();
+            var qlVisitor = new QlVisitor();
             return qlVisitor.Visit(tree);
-
-            return new Questionnaire()
+        }
+    }
+    
+    internal class QlErrorListener : BaseErrorListener, IAntlrErrorListener<int>
+    {
+        public override void SyntaxError(
+            IRecognizer recognizer, 
+            IToken offendingSymbol, 
+            int line,
+            int charPositionInLine, 
+            string msg, 
+            RecognitionException e)
+        {
+            var message = @"Parse failed. See inner exception for details.";
+            var detailsMessage = $@"'{offendingSymbol.Text}' was not recognized at line {line}, position {charPositionInLine}, giving the following error {msg} ";
+            throw new QlParserException(message, e)
             {
-                FormName = "MyForm"
+                ParserName = "ANTLR 4.0",
+                ParseErrorDetails = detailsMessage
+            };
+        }
+        
+        public void SyntaxError(
+            IRecognizer recognizer, 
+            int offendingSymbol, 
+            int line, 
+            int charPositionInLine, 
+            string msg,
+            RecognitionException e)
+        {
+            var message = @"Parse failed. See inner exception for details.";
+            var detailsMessage = $@"'{offendingSymbol}' was not recognized at line {line}, position {charPositionInLine}, giving the following error {msg} ";
+            throw new QlParserException(message, e)
+            {
+                ParserName = "ANTLR 4.0",
+                ParseErrorDetails = detailsMessage
             };
         }
     }

@@ -2,8 +2,12 @@
 
 namespace QuestionnaireInfrastructure.API
 {
-    public interface IHasRegistrations
+    public class QLApp
     {
-        void RegisterDependencies(IServiceCollection appRegistration);
+
+        static QLApp()
+        {
+
+        }
     }
 }

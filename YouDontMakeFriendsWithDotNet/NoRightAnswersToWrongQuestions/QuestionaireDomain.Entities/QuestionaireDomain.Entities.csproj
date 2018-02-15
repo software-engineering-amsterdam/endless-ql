@@ -40,8 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\IQuestionnaire.cs" />
+    <Compile Include="API\IQlInterpretor.cs" />
+    <Compile Include="API\IQuestionnaireAst.cs" />
+    <Compile Include="API\QlParserException.cs" />
+    <Compile Include="DomainObjects\AstNode.cs" />
+    <Compile Include="DomainObjects\ChildCollection.cs" />
+    <Compile Include="DomainObjects\IAstVisitor.cs" />
+    <Compile Include="DomainObjects\LineInfo.cs" />
     <Compile Include="DomainObjects\Questionnaire.cs" />
+    <Compile Include="DomainObjects\QuestionnaireAst.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

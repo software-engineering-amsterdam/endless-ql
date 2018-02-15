@@ -1,6 +1,6 @@
 ﻿namespace QuestionaireDomain.Entities.API
 {
-    public interface IQuestionnaire
+    public interface IQuestionnaireAst
     {
         string FormName { get; set; }
     }

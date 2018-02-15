@@ -8,24 +8,29 @@ section				: question | conditionalBlock;
 question			: TEXT ID ':' QTYPE;
 formName			: ID;
 
+value				: ID | '(' statement ')'; 
+binary				: (AND | OR);
 conditionalBlock	: 'if' statement '{' (section)* '}';
-statement			: 'x < y';
+statement			: NOT? (value | value (binary statement)*);
 
  /*
   * Lexer Rules
+  * Statements
  */
 
-fragment LOWERCASE  : [a-z] ;
-fragment UPPERCASE  : [A-Z] ;
- 
 LPAREN				: '(';
 RPAREN				: ')';
-
+NOT					: 'not';
 AND					: '&&';
 OR					: '||';
 
+UNARY				: NOT;
 
-OPR					: AND | OR;
+
+ /*
+  * Lexer Rules
+  * Other
+ */
 QTYPE				: 'boolean' | 'money' | 'text' | 'integer';
 ID					: [a-zA-Z0-9]+ ;
 TEXT				: '"' .*? '"' ;

@@ -7,8 +7,9 @@ namespace QL_Parser.Tests.AST
     [TestClass]
     public class StatementTest
     {
-        private FormNode node;
-        private readonly string _simpleConditional = "form SimpleAND {" +
+        private FormNode _simpleForm;
+        private FormNode _complexeForm;
+        private readonly string _simpleFormRaw = "form SimpleAND {" +
             "\"Have your sold a house last year?\"" +
             "   soldAHouse: boolean" +
             "" +
@@ -17,17 +18,31 @@ namespace QL_Parser.Tests.AST
             "           pirceHouse: money" +
             "   }" +
             "}";
+        private readonly string _complexFormRaw = "form SimpleAND {" +
+            "   \"Have your sold a house last year?\"" +
+            "       soldAHouse: boolean" +
+            "" +
+            "   \"Have you seen House of Cards?\"" +
+            "       hasSeenHouseOfCards: boolean" +
+            "" +
+            "   if soldAHouse && hasSeenHouseOfCards {" +
+            "       \"For what price did you sell your house?\"" +
+            "           pirceHouse: money" +
+            "   }" +
+            "}";
+
 
         [TestInitialize]
         public void Initialize()
         {
-            node = QLParserHelper.Parse(_simpleConditional);
+            _simpleForm = QLParserHelper.Parse(_simpleFormRaw);
+            _complexeForm = QLParserHelper.Parse(_complexFormRaw);
         }
 
         [TestMethod]
         public void SingleVariableNameTest()
         {
-            var statement = node.Children
+            var statement = _simpleForm.Children
                 .Where(x => x.GetType() == typeof(ConditionalNode))
                 .Select(x => x as ConditionalNode)
                 .First().StatementNode;
@@ -36,6 +51,20 @@ namespace QL_Parser.Tests.AST
             Assert.IsNull(statement.lhs);
             Assert.IsNull(statement.opr);
             Assert.IsNull(statement.rhs);
+        }
+
+        [TestMethod]
+        public void ComplexVariableTest()
+        {
+            var statement = _complexeForm.Children
+                .Where(x => x.GetType() == typeof(ConditionalNode))
+                .Select(x => x as ConditionalNode)
+                .First().StatementNode;
+
+            Assert.AreEqual("soldAHouse", statement.lhs.ID);
+            Assert.AreEqual("&&", statement.opr);
+            Assert.AreEqual("hasSeenHouseOfCards", statement.rhs.ID);
+            Assert.IsNull(statement.ID);
         }
     }
 }

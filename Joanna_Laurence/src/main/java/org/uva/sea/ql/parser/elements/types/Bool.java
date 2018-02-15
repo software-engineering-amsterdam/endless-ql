@@ -13,7 +13,7 @@ public class Bool extends ASTNode {
         this.value = value;
     }
 
-    public boolean isValue() {
+    public boolean isTrue() {
         return value;
     }
 

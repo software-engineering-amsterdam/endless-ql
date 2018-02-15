@@ -15,8 +15,8 @@ public class QLTypeCheck extends Traverse {
      * Log will be written to std err
      * @param node Do the type check for the node
      */
-    public boolean doTypeCheck(Form node, TraverseType traverseType) {
-        node.doTraversal(this, traverseType);
+    public boolean doTypeCheck(Form node) {
+        node.doTraversal(this, TraverseType.TOP_DOWN);
         return !error;
     }
 

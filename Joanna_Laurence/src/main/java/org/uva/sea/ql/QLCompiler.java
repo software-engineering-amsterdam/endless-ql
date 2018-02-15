@@ -44,7 +44,7 @@ public class QLCompiler {
 
         //Do the type check
         QLTypeCheck typeChecker = new QLTypeCheck();
-        if(!typeChecker.doTypeCheck(form.result, TraverseType.TOP_DOWN)) {
+        if(!typeChecker.doTypeCheck(form.result)) {
             return null;
         }
 

@@ -17,7 +17,7 @@ BlockBody:
 	{BlockBody} questions+=Question*;
 
 Question:
-	name=ID ':' label=STRING type=QuestionType ('=' '(' expression=Expression ')')?;
+	label=STRING name=ID ':'  type=QuestionType ('=' '(' expression=Expression ')')?;
 
 Expression:
 	ExpressionOr;

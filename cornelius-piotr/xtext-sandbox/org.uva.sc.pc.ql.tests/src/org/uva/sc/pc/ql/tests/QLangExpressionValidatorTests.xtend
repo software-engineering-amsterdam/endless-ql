@@ -101,9 +101,9 @@ class QLangExpressionValidatorTests {
 	def assertVariableInExpressionHelper(String op, String type) {
 		val result = parseHelper.parse('''
 			form TestForm{
-							q1: "Do you have a pet?" «type»
-							q2: "Do you have a house?" «type»
-							q3: "Computed" «type» = («IF op != "!"»q1«ENDIF» «op» q2)
+							"Do you have a pet?" q1: «type»
+							"Do you have a house?" q2: «type»
+							"Computed" q3: «type» = («IF op != "!"»q1«ENDIF» «op» q2)
 						}
 		''')
 		Assert.assertNotNull(result)
@@ -143,10 +143,10 @@ class QLangExpressionValidatorTests {
 	def testErrorOnInvalidIfBlockExpression(){
 		val result = parseHelper.parse('''
 			form TestForm{
-							q1: "Do you have a pet?" string
-							q2: "Do you have a house?" string
+							"Do you have a pet?" q1: string
+							"Do you have a house?" q2: string
 							if(q1 + q2){
-								q3: "Computed" string = (q1 + q2)
+								"Computed" q3: string = (q1 + q2)
 							}
 						}
 		''')
@@ -160,9 +160,9 @@ class QLangExpressionValidatorTests {
 	def testErrorOnInvalidComputedQuestionReturnType(){
 		val result = parseHelper.parse('''
 			form TestForm{
-							q1: "Do you have a pet?" string
-							q2: "Do you have a house?" string
-							q3: "Computed" string = (q1 == q2)
+							"Do you have a pet?" q1: string
+							"Do you have a house?" q2: string
+							"Computed" q3: string = (q1 == q2)
 						}
 		''')
 		Assert.assertNotNull(result)

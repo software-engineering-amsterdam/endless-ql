@@ -78,12 +78,13 @@ class QLangValidator extends AbstractQLangValidator {
 
 	}
 
-	def Form getForm(EObject obj) {
+	def dispatch Form getForm(EObject obj) {
 		val parent = obj.eContainer
-		if (parent instanceof Form) {
-			return parent as Form
-		} else {
-			return getForm(parent)
-		}
+		return getForm(parent)
 	}
+	
+	def dispatch getForm(Form form){
+		return form
+	}
+	
 }

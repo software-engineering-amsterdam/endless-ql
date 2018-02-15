@@ -21,7 +21,56 @@ class QSLangParsingTest {
 	@Test
 	def void loadModel() {
 		val result = parseHelper.parse('''
-			Hello Xtext!
+			form taxOfficeExample { 
+			  "Did you sell a house in 2010?" 
+			    hasSoldHouse: boolean
+			  "Did you buy a house in 2010?"
+			    hasBoughtHouse: boolean
+			  "Did you enter a loan?"
+			    hasMaintLoan: boolean
+			    
+			  if (hasSoldHouse) {
+			    "What was the selling price?"
+			      sellingPrice: money
+			    "Private debts for the sold house:"
+			      privateDebt: money
+			    "Value residue:"
+			      valueResidue: money = 
+			        (sellingPrice - privateDebt)
+			  }
+			  
+			}
+			
+			stylesheet taxOfficeExample 
+			  page Housing {
+			    section "Buying"
+			      question hasBoughtHouse  
+			        widget checkbox 
+			    section "Loaning"  
+			      question hasMaintLoan
+			  }
+			
+			  page Selling { 
+			    section "Selling" {
+			      question hasSoldHouse
+			        widget radio("Yes", "No") 
+			      section "You sold a house" {
+			        question sellingPrice
+			          widget spinbox
+			        question privateDebt
+			          widget spinbox 
+			        question valueResidue
+			        default money {
+			          width: 400
+			          font: "Arial" 
+			          fontsize: 14
+			          color: #A9f9992
+			          widget spinbox
+			        }        
+			      }
+			    }
+			    default boolean widget radio("Yes", "No")
+			  }  
 		''')
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)

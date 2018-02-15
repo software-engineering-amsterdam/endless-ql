@@ -29,11 +29,11 @@ class QLangParsingTest {
 	def void loadModel() {
 		val result = parseHelper.parse('''
 			form TestForm{
-				q1: "Do you have a pet?" boolean
-				q2: "Do you have a house?" boolean
+				"Do you have a pet?" q1: boolean
+				"Do you have a house?" q2: boolean
 				if(q1){
-					q1_1: "Do you have a dog?" boolean = (q1 && q2)
-					q1_2: "Do you have a cat?" boolean = (q1 || q2)
+					"Do you have a dog?" q1_1: boolean = (q1 && q2)
+					"Do you have a cat?" q1_2: boolean = (q1 || q2)
 				}
 			}
 		''')
@@ -47,8 +47,8 @@ class QLangParsingTest {
 	def void testErrorOnDuplicateVariable() {
 		val result = parseHelper.parse('''
 			form TestForm{
-				q1: "Do you have a pet?" boolean
-				q1: "Do you have a house?" boolean
+				"Do you have a pet?" q1: boolean
+				"Do you have a house?" q1: boolean
 			}
 		''')
 		Assert.assertNotNull(result)
@@ -61,9 +61,9 @@ class QLangParsingTest {
 	def void testErrorOnForwardReference() {
 		val result = parseHelper.parse('''
 			form TestForm{
-				q1: "Do you have a pet?" boolean
+				"Do you have a pet?" q1: boolean
 				if(q2){
-					q2: "Do you have a house?" boolean
+					"Do you have a house?" q2: boolean
 				}
 			}
 		''')
@@ -78,7 +78,7 @@ class QLangParsingTest {
 	def void testErrorOnSelfReference() {
 		val result = parseHelper.parse('''
 			form TestForm{
-				q1: "Do you have a pet?" boolean = (q1 && q1)
+				"Do you have a pet?" q1: boolean = (q1 && q1)
 			}
 		''')
 		Assert.assertNotNull(result)
@@ -105,8 +105,8 @@ class QLangParsingTest {
 	def void testErrorOnEmptyBlock() {
 		val result = parseHelper.parse('''
 			form TestForm{
-				q1: "Do you have a pet?" boolean
-				q2: "Do you have a pet?" boolean
+				"Do you have a pet?" q1: boolean
+				"Do you have a pet?" q2: boolean
 				if(q1 && q2){
 					
 				}

@@ -43,31 +43,31 @@ QuestionRef:
 ;
 
 Widget:
-	'widget' (YesNoRadioWidget | YesNoDropdownWidget | SpinboxWidget | CheckboxWidget| SliderWidget | TextWidget	)
+	'widget' (YesNoRadioWidget | YesNoDropdownWidget | SpinboxWidget | CheckboxWidget| SliderWidget | TextWidget)
 ;
 
 SpinboxWidget:
-	name='spinbox'
+	type='spinbox'
 ;
 
 CheckboxWidget: 
-	name='checkbox'
+	type='checkbox'
 ;
 
 SliderWidget: 
-	name='slider'
+	type='slider'
 ;
 
 TextWidget:
-	name='text'
+	type='text'
 ;
 	
 YesNoRadioWidget:
-	name='radio' '(' option1=WidgetOption ',' option2=WidgetOption ')'
+	type='radio' '(' option1=WidgetOption ',' option2=WidgetOption ')'
 ;
 
 YesNoDropdownWidget:
-	name='dropdown' '(' option1=WidgetOption ',' option2=WidgetOption ')'
+	type='dropdown' '(' option1=WidgetOption ',' option2=WidgetOption ')'
 ;
 
 WidgetOption: 
@@ -79,47 +79,34 @@ DefaultTypeStyle:
 ;
 
 DefaultTypeStyleShort returns DefaultTypeStyle:
-	'default' name=ID (widget=Widget)?
+	'default' type=QuestionType (widget=Widget)?
 ;
 	
 DefaultTypeStyleExtended returns DefaultTypeStyle:
-	'default' name=ID '{'
-		(element+=DefaultTypeStyleBlockElement)*
+	'default' type=QuestionType '{'
+		(styles+=StyleAttribute)*
+		widget=Widget
 	'}'
-;	
-
-DefaultTypeStyleBlockElement:
-	StyleAttribute | Widget
 ;
 
 StyleAttribute:
 	WidthStylingAttribute | FontStylingAttribute | FontSizeStylingAttribute | ColorStylingAttribute
 ;
-
-/**
- * TODO: the parser seems to have issues with INT (he doesn't see it)
- */
  
 WidthStylingAttribute returns StyleAttribute:
 	'width' ':' width=INT
 ;
 
 FontStylingAttribute returns StyleAttribute:
-	'font' ':' name=STRING
+	'font' ':' font=STRING
 ;
 
-/**
- * TODO: idem
- */
 FontSizeStylingAttribute returns StyleAttribute:
 	'fontsize' ':' size=INT
 ;
 
-/**
- * TODO: idem
- */
 ColorStylingAttribute returns StyleAttribute:
-	'color' ':' '#' value=INT
+	'color' ':' value=HEX
 ;
 
-
+terminal HEX: '#'+('a'..'f' | 'A'..'F' | '0'..'9')*;

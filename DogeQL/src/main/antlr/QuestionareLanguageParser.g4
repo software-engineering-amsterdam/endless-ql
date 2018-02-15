@@ -22,7 +22,7 @@ questionStatement
     ;
 
 ifStatement
-    : FLOW_IF block
+    : FLOW_IF SEP_LPAREN expression SEP_RPAREN block
     ;
 
 variableInitialization

@@ -39,12 +39,12 @@ object Ast {
       sealed trait LogicalOp extends Operator
 
       object UnaryOp {
-        case class Sub(value: Expression) extends UnaryOp
+        case class Min(value: Expression) extends UnaryOp
         case class Negate(value: Expression) extends UnaryOp
 
         def apply(operator: String, expression: Expression): UnaryOp = {
           operator match {
-            case "-" => Sub(expression)
+            case "-" => Min(expression)
             case "!" => Negate(expression)
             case other => throw new IllegalArgumentException(s"Unsupported unary operator: $other")
           }

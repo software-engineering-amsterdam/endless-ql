@@ -2,7 +2,7 @@ grammar QL;
 
 /*
  * Parser rules
- * TODO: ()
+ * TODO: () -> (3 + (2 - 2))
  */
 
  form              : 'form' identifier '{' block '}' ;
@@ -13,7 +13,7 @@ grammar QL;
 
  quest             : identifier ':' STR quest_type ;
 
- quest_type        : 'boolean' | 'string' | 'integer' | 'date' | 'date' | money;
+ quest_type        : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | money;
 
  expression        : '!' expression
                    | orExpression
@@ -34,7 +34,7 @@ grammar QL;
 
  literal : MONEY | DECIMAL | INT | STR | BOOL ;
 
- identifier : IDENTIFIER;
+ identifier : IDENTIFIER ;
 
  money: 'money' | 'money(' identifier ('-'|'+'|'*'|'/') identifier ')' ;
 

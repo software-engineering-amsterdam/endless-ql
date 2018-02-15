@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Parser.Models;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL_Parser.AST.Nodes;
+using System.Linq;
 
 namespace QL_Parser.Tests
 {
@@ -21,9 +21,9 @@ namespace QL_Parser.Tests
         [TestMethod]
         public void SimpleConditionalTokens()
         {
-            Form form = QLParserHelper.Parse(_simpleConditional);
-            var conditionalBlock = form.Sections
-                .Where(x => x.GetType() == typeof(ConditionalBlock))
+            FormNode form = QLParserHelper.Parse(_simpleConditional);
+            var conditionalBlock = form.Children
+                .Where(x => x.GetType() == typeof(ConditionalNode))
                 .First();
 
             Assert.IsNotNull(conditionalBlock);

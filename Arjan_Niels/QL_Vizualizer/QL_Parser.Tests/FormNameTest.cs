@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Parser.Models;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL_Parser.AST.Nodes;
+using System;
 
 namespace QL_Parser.Tests
 {
@@ -13,15 +13,15 @@ namespace QL_Parser.Tests
         [TestMethod]
         public void SimpleFormNameTest()
         {
-            Form form = QLParserHelper.Parse(_simpleForm);
-            Assert.AreEqual("SimpleForm", form.Name);
+            FormNode form = QLParserHelper.Parse(_simpleForm);
+            Assert.AreEqual("SimpleForm", form.FormName);
         }
 
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
         public void IncorrectFormSyntexTest()
         {
-            Form form = QLParserHelper.Parse(_incorrectSimpleForm);
+            FormNode form = QLParserHelper.Parse(_incorrectSimpleForm);
         }
     }
 }

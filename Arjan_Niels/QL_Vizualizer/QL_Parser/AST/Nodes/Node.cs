@@ -28,5 +28,10 @@ namespace QL_Parser.AST.Nodes
             else
                 this.Children.Add(node);
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0}", Type);
+        }
     }
 }

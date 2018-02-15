@@ -15,11 +15,11 @@ namespace QL_Parser.Tests.AST
         [TestInitialize]
         public void Initialize()
         {
-            var firstQuestion = new QuestionNode(NodeType.QUESTION, "Q1", "Do you like puppies?");
-            var secondQuestion = new QuestionNode(NodeType.QUESTION, "Q2", "Do you like kittens?");
-            var thirdQuestion = new QuestionNode(NodeType.QUESTION, "Q3", "Is this the first question?");
+            var firstQuestion = new QuestionNode("Q1", "Do you like puppies?", QuestionType.BOOLEAN);
+            var secondQuestion = new QuestionNode("Q2", "Do you like kittens?", QuestionType.BOOLEAN);
+            var thirdQuestion = new QuestionNode("Q3", "Is this the first question?", QuestionType.BOOLEAN);
             thirdQuestion.AddNode(new FormNode("InvalidFormInLowerLayer"));
-            var forthQuestion = new QuestionNode(NodeType.QUESTION, "Q4", "Is this the forthQuestion?");
+            var forthQuestion = new QuestionNode("Q4", "Is this the forthQuestion?", QuestionType.BOOLEAN);
 
             _validAST = new FormNode("TestForm");
             _validAST.AddNode(firstQuestion);

@@ -1,5 +1,5 @@
 ﻿using QL_Parser;
-using QL_Parser.Models;
+using QL_Parser.AST.Nodes;
 using System;
 using System.Text;
 
@@ -15,35 +15,35 @@ namespace QL_Parser_Tester
                 builder.AppendLine(line);
 
             Console.WriteLine("Start parsing the QL");
-            Form form = QLParserHelper.Parse(builder.ToString());
+            FormNode form = QLParserHelper.Parse(builder.ToString());
             PrintForm(form);
 
             Console.ReadLine();
         }
 
-        public static void PrintForm(Form form)
+        public static void PrintForm(FormNode form)
         {
-            Console.WriteLine("Parsed a form with the name: {0}", form.Name);
-            foreach (Section section in form.Sections)
-                if (section.GetType() == typeof(Question))
-                    PrintSection(section as Question);
+            Console.WriteLine(form);
+            foreach (Node section in form.Children)
+                if (section.GetType() == typeof(QuestionNode))
+                    PrintSection(section as QuestionNode);
                 else
-                    PrintSection(section as ConditionalBlock);
+                    PrintSection(section as ConditionalNode);
         }
 
-        public static void PrintSection(Question question)
+        public static void PrintSection(QuestionNode question)
         {
             Console.WriteLine(question);
         }
 
-        public static void PrintSection(ConditionalBlock conditional)
+        public static void PrintSection(ConditionalNode conditional)
         {
-            Console.WriteLine("\nHere starts a new section");
-            foreach (Section section in conditional.Sections)
-                if (section.GetType() == typeof(Question))
-                    PrintSection(section as Question);
+            Console.WriteLine("\n" + conditional);
+            foreach (Node section in conditional.Children)
+                if (section.GetType() == typeof(QuestionNode))
+                    PrintSection(section as QuestionNode);
                 else
-                    PrintSection(section as ConditionalBlock);
+                    PrintSection(section as ConditionalNode);
         }
     }
 }

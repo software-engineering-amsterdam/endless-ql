@@ -2,7 +2,7 @@
 {
     public class ConditionalNode : Node
     {
-        public ConditionalNode(NodeType type) : base(type)
+        public ConditionalNode() : base(NodeType.CONDITIONAL)
         {
         }
     }

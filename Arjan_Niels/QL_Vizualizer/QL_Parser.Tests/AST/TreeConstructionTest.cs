@@ -13,8 +13,8 @@ namespace QL_Parser.Tests.AST
         public void Initialize()
         {
             AST = new FormNode("TestForm");
-            var firstQuestion = new QuestionNode(NodeType.QUESTION, "Q1", "Do you like puppies?");
-            var secondQuestion = new QuestionNode(NodeType.QUESTION, "Q2", "Do you like kittens?");
+            var firstQuestion = new QuestionNode("Q1", "Do you like puppies?", QuestionType.BOOLEAN);
+            var secondQuestion = new QuestionNode("Q2", "Do you like kittens?", QuestionType.BOOLEAN);
 
             AST.AddNode(firstQuestion);
             AST.AddNode(secondQuestion);

@@ -14,8 +14,8 @@ namespace QL_Parser.Tests.AST.Validators
         public void Initialize()
         {
             _validAST = new FormNode("ValidForm");
-            var firstQuestion = new QuestionNode(NodeType.QUESTION, "Q1", "Do you like puppies?");
-            var secondQuestion = new QuestionNode(NodeType.QUESTION, "Q2", "Do you like kittens?");
+            var firstQuestion = new QuestionNode("Q1", "Do you like puppies?", QuestionType.BOOLEAN);
+            var secondQuestion = new QuestionNode("Q2", "Do you like kittens?", QuestionType.BOOLEAN);
 
             _validAST.AddNode(firstQuestion);
             _validAST.AddNode(secondQuestion);

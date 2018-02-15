@@ -8,5 +8,10 @@
         {
             this.FormName = formName;
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + string.Format("\t\tThis form is called {0}", FormName);
+        }
     }
 }

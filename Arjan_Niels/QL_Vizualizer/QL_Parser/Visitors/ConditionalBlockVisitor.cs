@@ -1,29 +1,28 @@
 ﻿using Antlr4.Runtime.Misc;
-using QL_Parser.Models;
+using QL_Parser.AST.Nodes;
 using QLanguage;
-using static QLanguage.QLanguageParser;
 
 namespace QL_Parser.Visitors
 {
-    public class ConditionalBlockVisitor : QLanguage.QLanguageBaseVisitor<ConditionalBlock>
+    public class ConditionalBlockVisitor : QLanguage.QLanguageBaseVisitor<ConditionalNode>
     {
-        public override ConditionalBlock VisitConditionalBlock([NotNull] QLanguageParser.ConditionalBlockContext context)
+        public override ConditionalNode VisitConditionalBlock([NotNull] QLanguageParser.ConditionalBlockContext context)
         {
             // Create a conditionalBlock wherein we can store the results.
-            var conditionalBlock = new ConditionalBlock();
+            var conditionalNode = new ConditionalNode();
 
             // Process the statements and add them to the conditionalBlock.
-            var statementContext = context.statement();
-            var statementVisitor = new StatementVisitor();
-            conditionalBlock.Statement = statementVisitor.VisitStatement(statementContext);
+            //var statementContext = context.statement();
+            //var statementVisitor = new StatementVisitor();
+            //conditionalBlock.Statement = statementVisitor.VisitStatement(statementContext);
 
             // Get the sections and process them.
             var sectionContext = context.section();
             var sectionVisitor = new SectionVisitor();
             foreach (var ctx in sectionContext)
-                conditionalBlock.Sections.Add(sectionVisitor.VisitSection(ctx));
+                conditionalNode.AddNode(sectionVisitor.VisitSection(ctx));
 
-            return conditionalBlock;
+            return conditionalNode;
         }
     }
 }

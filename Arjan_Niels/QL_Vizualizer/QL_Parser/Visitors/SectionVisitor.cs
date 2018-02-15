@@ -1,13 +1,13 @@
-﻿using System;
-using Antlr4.Runtime.Misc;
-using QL_Parser.Models;
+﻿using Antlr4.Runtime.Misc;
+using QL_Parser.AST.Nodes;
+using System;
 using static QLanguage.QLanguageParser;
 
 namespace QL_Parser.Visitors
 {
-    public class SectionVisitor : QLanguage.QLanguageBaseVisitor<Section>
+    public class SectionVisitor : QLanguage.QLanguageBaseVisitor<Node>
     {
-        public override Section VisitSection([NotNull] SectionContext context)
+        public override Node VisitSection([NotNull] SectionContext context)
         {
             // If the Section is a Question, process it.
             var questionContext = context.question();

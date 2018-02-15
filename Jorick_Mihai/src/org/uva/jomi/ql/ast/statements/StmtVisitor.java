@@ -80,6 +80,7 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 		// Check if the question has an expression
 		if (ctx.expression() != null) {
 			Expr expression = ctx.expression().accept(exprVisitor);
+			identifier.setUndefined(false);
 			return new ComputedQuestionStmt(identifier, label, type, expression);
 		}
 

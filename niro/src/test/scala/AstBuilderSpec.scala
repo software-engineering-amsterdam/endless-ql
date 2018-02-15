@@ -1,23 +1,23 @@
 import java.io.IOException
 
-import model.Ast.AnswerType.{ BooleanAnswerType, StringAnswerType }
-import model.Ast.Expression.Operator.ArithmOp.{ Add, Div, Mul, Sub }
-import model.Ast.Expression.Operator.CompOp.{ Gt, Ne }
-import model.Ast.Expression.Operator.LogicalOp.And
-import model.Ast.Expression.Operator.UnaryOp.{ Min, Negate }
-import model.Ast.Expression.{ BoolConst, Ident, IntConst }
-import model.Ast._
+import nl.uva.se.sc.niro.model.Ast.AnswerType.{ BooleanAnswerType, StringAnswerType }
+import nl.uva.se.sc.niro.model.Ast.Expression.Operator.ArithmOp.{ Add, Div, Mul, Sub }
+import nl.uva.se.sc.niro.model.Ast.Expression.Operator.CompOp.{ Gt, Ne }
+import nl.uva.se.sc.niro.model.Ast.Expression.Operator.LogicalOp.And
+import nl.uva.se.sc.niro.model.Ast.Expression.Operator.UnaryOp.{ Min, Negate }
+import nl.uva.se.sc.niro.model.Ast.Expression.{ BoolConst, Ident, IntConst }
+import nl.uva.se.sc.niro.model.Ast._
+import nl.uva.se.sc.niro.parser.QLFormParser
 import org.antlr.v4.runtime.{ CharStream, CharStreams }
 import org.scalatest.FunSuite
-import parser.QLFormParser
 
 class AstBuilderSpec extends FunSuite {
   @throws[IOException]
-  protected def toCharStream(fileName: String): CharStream = CharStreams.fromStream(getClass.getResourceAsStream(fileName))
+  private def toCharStream(filePath: String): CharStream = CharStreams.fromStream(getClass.getResourceAsStream(filePath))
+  private def generateQLForm(filePath: String): QLForm = QLFormParser.parse(toCharStream(filePath))
 
-  test("simple ql") {
-
-    val actual: QLForm = QLFormParser.parse(toCharStream("/positive/simple.ql"))
+  test("should parse simple-ql to the correct AST") {
+    val actual: QLForm = generateQLForm("/positive/simple.ql")
 
     val expected: QLForm =
       QLForm(
@@ -39,9 +39,8 @@ class AstBuilderSpec extends FunSuite {
     assert(actual == expected)
   }
 
-  test("simple-conditional-if") {
-
-    val actual: QLForm = QLFormParser.parse(toCharStream("/positive/simple-conditional-if.ql"))
+  test("should parse simple-conditional-if to the correct AST") {
+    val actual: QLForm = generateQLForm("/positive/simple-conditional-if.ql")
 
     val expected: QLForm =
       QLForm(
@@ -69,8 +68,8 @@ class AstBuilderSpec extends FunSuite {
     assert(actual == expected)
   }
 
-  test("/positive/not-conditional-if.ql") {
-    val actual: QLForm = QLFormParser.parse(toCharStream("/positive/not-conditional-if.ql"))
+  test("should parse not-conditional-if to the correct AST") {
+    val actual: QLForm = generateQLForm("/positive/not-conditional-if.ql")
     val expected = QLForm(
       formName = "ConditionQuestions",
       statements = List(
@@ -84,11 +83,12 @@ class AstBuilderSpec extends FunSuite {
         )
       )
     )
+
     assert(actual == expected)
   }
 
-  test("/positive/simple-conditional-if-else.ql") {
-    val actual: QLForm = QLFormParser.parse(toCharStream("/positive/simple-conditional-if-else.ql"))
+  test("should parse simple-conditional-if-else to the correct AST") {
+    val actual: QLForm = generateQLForm("/positive/simple-conditional-if-else.ql")
     val expected = QLForm(
       formName = "ConditionQuestions",
       statements = List(
@@ -105,11 +105,12 @@ class AstBuilderSpec extends FunSuite {
         )
       )
     )
+
     assert(actual == expected)
   }
 
-  test("/positive/nested-conditional.ql") {
-    val actual: QLForm = QLFormParser.parse(toCharStream("/positive/nested-conditional.ql"))
+  test("should parse nested-conditional to the correct AST") {
+    val actual: QLForm = generateQLForm("/positive/nested-conditional.ql")
     val expected = QLForm(
       formName = "QonditionQuestions",
       statements = List(
@@ -138,8 +139,8 @@ class AstBuilderSpec extends FunSuite {
     assert(actual == expected)
   }
 
-  test("/positive/expression-conditional-if.ql") {
-    val actual: QLForm = QLFormParser.parse(toCharStream("/positive/expression-conditional-if.ql"))
+  test("should parse expression-conditional-if to the correct AST") {
+    val actual: QLForm = generateQLForm("/positive/expression-conditional-if.ql")
     val expected = QLForm(
       formName = "QonditionQuestions",
       statements = List(
@@ -155,12 +156,12 @@ class AstBuilderSpec extends FunSuite {
         )
       )
     )
-    assert(actual == expected)
 
+    assert(actual == expected)
   }
 
-  test("/positive/expression-conditional-if-else.ql") {
-    val actual: QLForm = QLFormParser.parse(toCharStream("/positive/expression-conditional-if-else.ql"))
+  test("should parse expression-conditional-if-else to the correct AST") {
+    val actual: QLForm = generateQLForm("/positive/expression-conditional-if-else.ql")
     val expected = QLForm(
       formName = "QonditionQuestions",
       statements = List(
@@ -180,11 +181,12 @@ class AstBuilderSpec extends FunSuite {
         )
       )
     )
+
     assert(actual == expected)
   }
 
-  test("/positive/nested-expression.ql") {
-    val actual: QLForm = QLFormParser.parse(toCharStream("/positive/nested-expression.ql"))
+  test("should parse nested-expression to the correct AST") {
+    val actual: QLForm = generateQLForm("/positive/nested-expression.ql")
     val expected = QLForm(
       formName = "Box1HouseOwning",
       statements = List(
@@ -198,6 +200,7 @@ class AstBuilderSpec extends FunSuite {
         )
       )
     )
+
     assert(actual == expected)
   }
 }

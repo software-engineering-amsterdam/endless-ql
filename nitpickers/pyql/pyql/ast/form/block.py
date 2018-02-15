@@ -12,5 +12,5 @@ class Block(ast.ASTNode):
         return self._statements
 
     def __repr__(self):
-        return "AST Block at: " + str(self.location)
+        return str({"AST Block " + str(self.location): str(self.statements)})
 

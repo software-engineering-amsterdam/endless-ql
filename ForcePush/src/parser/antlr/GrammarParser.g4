@@ -12,10 +12,10 @@ variable:VAR
 
 expression: variable arithmetic=(PLUS|MINUS|ASTERISK|DIVISION) variable
           | variable boolean=(AND|OR) variable
-          | variable comparison=(LESS|HIGHER|EQUALHIGHER|EQUALLESS|DIFF|EQUAL) variable;
+          | variable comparison=(LESS|HIGHER|EQUALHIGHER|EQUALLESS|DIFF|ISEQUAL) variable;
 
-question:variable ASSIGN LABEL type=(BOOL|STR|INT|DATE|DECIMAL|MONEY)
-        |question LPAREN expression RPAREN;
+question:variable ASSIGN LABEL type=(BOOL|STR|DATE|DECIMAL|MONEY)
+        |question EQUAL LPAREN* expression RPAREN*;
 
 conditional: operator=(IF|ELSE|IFELSE) LPAREN (variable|expression) RPAREN LCURLYBRAKET (question|conditional)+ RCURLYBRAKET;
 

@@ -30,6 +30,7 @@ PLUS : '+';
 MINUS : '-';
 ASTERISK : '*';
 DIVISION : '/';
+EQUAL : '=';
 
 //Comparisons
 LESS : '<';
@@ -37,7 +38,7 @@ HIGHER : '>';
 EQUALHIGHER : '>=';
 EQUALLESS : '<=';
 DIFF : '!=';
-EQUAL : '==';
+ISEQUAL : '==';
 
 //Booleans
 AND : '&&';

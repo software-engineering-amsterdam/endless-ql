@@ -13,8 +13,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.uva.sc.pc.ql.qLang.Form
 import org.uva.sc.pc.ql.qLang.QLangPackage
-import org.uva.sc.pc.ql.qLang.util.TypeUtil
 import org.uva.sc.pc.ql.validation.QLangExpressionValidator
+import org.uva.sc.pc.ql.qLang.util.QLangUtil
 
 @RunWith(XtextRunner)
 @InjectWith(QLangInjectorProvider)
@@ -28,74 +28,74 @@ class QLangExpressionValidatorTests {
 
 	@Test
 	def void testBooleanVariableValidityInExpression() {
-		assertVariableInExpressionHelper(TypeUtil.OP_EQUALS, TypeUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(TypeUtil.OP_NOT_EQUALS, TypeUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(TypeUtil.OP_SMALLER_THAN, TypeUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(TypeUtil.OP_SMALLER_THAN_EQUALS, TypeUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(TypeUtil.OP_GREATER_THAN, TypeUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(TypeUtil.OP_GREATER_THAN_EUQALS, TypeUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(TypeUtil.OP_PLUS, TypeUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(TypeUtil.OP_MINUS, TypeUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(TypeUtil.OP_MUL, TypeUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(TypeUtil.OP_DIV, TypeUtil.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_EQUALS, QLangUtil.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_NOT_EQUALS, QLangUtil.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_SMALLER_THAN, QLangUtil.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_SMALLER_THAN_EQUALS, QLangUtil.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_GREATER_THAN, QLangUtil.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_GREATER_THAN_EUQALS, QLangUtil.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_PLUS, QLangUtil.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_MINUS, QLangUtil.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_MUL, QLangUtil.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_DIV, QLangUtil.TYPE_BOOLEAN)
 	}
 
 	@Test
 	def void testStringVariableValidityInExpression() {
-		assertVariableInExpressionHelper(TypeUtil.OP_OR, TypeUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(TypeUtil.OP_AND, TypeUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(TypeUtil.OP_SMALLER_THAN, TypeUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(TypeUtil.OP_SMALLER_THAN_EQUALS, TypeUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(TypeUtil.OP_GREATER_THAN, TypeUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(TypeUtil.OP_GREATER_THAN_EUQALS, TypeUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(TypeUtil.OP_MINUS, TypeUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(TypeUtil.OP_MUL, TypeUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(TypeUtil.OP_DIV, TypeUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(TypeUtil.OP_NOT, TypeUtil.TYPE_STRING)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_OR, QLangUtil.TYPE_STRING)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_AND, QLangUtil.TYPE_STRING)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_SMALLER_THAN, QLangUtil.TYPE_STRING)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_SMALLER_THAN_EQUALS, QLangUtil.TYPE_STRING)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_GREATER_THAN, QLangUtil.TYPE_STRING)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_GREATER_THAN_EUQALS, QLangUtil.TYPE_STRING)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_MINUS, QLangUtil.TYPE_STRING)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_MUL, QLangUtil.TYPE_STRING)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_DIV, QLangUtil.TYPE_STRING)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_NOT, QLangUtil.TYPE_STRING)
 	}
 	
 	@Test
 	def void testIntegerVariableValidityInExpression() {
-		assertVariableInExpressionHelper(TypeUtil.OP_OR, TypeUtil.TYPE_INTEGER)
-		assertVariableInExpressionHelper(TypeUtil.OP_AND, TypeUtil.TYPE_INTEGER)
-		assertVariableInExpressionHelper(TypeUtil.OP_EQUALS, TypeUtil.TYPE_INTEGER)
-		assertVariableInExpressionHelper(TypeUtil.OP_NOT_EQUALS, TypeUtil.TYPE_INTEGER)
-		assertVariableInExpressionHelper(TypeUtil.OP_NOT, TypeUtil.TYPE_INTEGER)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_OR, QLangUtil.TYPE_INTEGER)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_AND, QLangUtil.TYPE_INTEGER)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_EQUALS, QLangUtil.TYPE_INTEGER)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_NOT_EQUALS, QLangUtil.TYPE_INTEGER)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_NOT, QLangUtil.TYPE_INTEGER)
 	}
 	
 	@Test
 	def void testDecimalVariableValidityInExpression() {
-		assertVariableInExpressionHelper(TypeUtil.OP_OR, TypeUtil.TYPE_DECIMAL)
-		assertVariableInExpressionHelper(TypeUtil.OP_AND, TypeUtil.TYPE_DECIMAL)
-		assertVariableInExpressionHelper(TypeUtil.OP_EQUALS, TypeUtil.TYPE_DECIMAL)
-		assertVariableInExpressionHelper(TypeUtil.OP_NOT_EQUALS, TypeUtil.TYPE_DECIMAL)
-		assertVariableInExpressionHelper(TypeUtil.OP_NOT, TypeUtil.TYPE_DECIMAL)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_OR, QLangUtil.TYPE_DECIMAL)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_AND, QLangUtil.TYPE_DECIMAL)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_EQUALS, QLangUtil.TYPE_DECIMAL)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_NOT_EQUALS, QLangUtil.TYPE_DECIMAL)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_NOT, QLangUtil.TYPE_DECIMAL)
 	}
 	
 	@Test
 	def void testMoneyVariableValidityInExpression() {
-		assertVariableInExpressionHelper(TypeUtil.OP_OR, TypeUtil.TYPE_MONEY)
-		assertVariableInExpressionHelper(TypeUtil.OP_AND, TypeUtil.TYPE_MONEY)
-		assertVariableInExpressionHelper(TypeUtil.OP_EQUALS, TypeUtil.TYPE_MONEY)
-		assertVariableInExpressionHelper(TypeUtil.OP_NOT_EQUALS, TypeUtil.TYPE_MONEY)
-		assertVariableInExpressionHelper(TypeUtil.OP_NOT, TypeUtil.TYPE_MONEY)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_OR, QLangUtil.TYPE_MONEY)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_AND, QLangUtil.TYPE_MONEY)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_EQUALS, QLangUtil.TYPE_MONEY)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_NOT_EQUALS, QLangUtil.TYPE_MONEY)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_NOT, QLangUtil.TYPE_MONEY)
 	}
 	
 	@Test
 	def void testDateVariableValidityInExpression() {
-		assertVariableInExpressionHelper(TypeUtil.OP_OR, TypeUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(TypeUtil.OP_AND, TypeUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(TypeUtil.OP_EQUALS, TypeUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(TypeUtil.OP_NOT_EQUALS, TypeUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(TypeUtil.OP_SMALLER_THAN, TypeUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(TypeUtil.OP_SMALLER_THAN_EQUALS, TypeUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(TypeUtil.OP_GREATER_THAN, TypeUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(TypeUtil.OP_GREATER_THAN_EUQALS, TypeUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(TypeUtil.OP_PLUS, TypeUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(TypeUtil.OP_MINUS, TypeUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(TypeUtil.OP_MUL, TypeUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(TypeUtil.OP_DIV, TypeUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(TypeUtil.OP_NOT, TypeUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_OR, QLangUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_AND, QLangUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_EQUALS, QLangUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_NOT_EQUALS, QLangUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_SMALLER_THAN, QLangUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_SMALLER_THAN_EQUALS, QLangUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_GREATER_THAN, QLangUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_GREATER_THAN_EUQALS, QLangUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_PLUS, QLangUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_MINUS, QLangUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_MUL, QLangUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_DIV, QLangUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLangUtil.OPERATION_NOT, QLangUtil.TYPE_DATE)
 	}
 
 	def assertVariableInExpressionHelper(String op, String type) {
@@ -109,31 +109,31 @@ class QLangExpressionValidatorTests {
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
 		switch op {
-			case TypeUtil.OP_OR:
+			case QLangUtil.OPERATION_OR:
 				validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionOr,
 					QLangExpressionValidator.TYPE_NOT_ALLOWED)
-			case TypeUtil.OP_AND:
+			case QLangUtil.OPERATION_AND:
 				validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionAnd,
 					QLangExpressionValidator.TYPE_NOT_ALLOWED)
-			case TypeUtil.OP_EQUALS,
-			case TypeUtil.OP_NOT_EQUALS:
+			case QLangUtil.OPERATION_EQUALS,
+			case QLangUtil.OPERATION_NOT_EQUALS:
 				validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionEquality,
 					QLangExpressionValidator.TYPE_NOT_ALLOWED)
-			case TypeUtil.OP_SMALLER_THAN,
-			case TypeUtil.OP_SMALLER_THAN_EQUALS,
-			case TypeUtil.OP_GREATER_THAN,
-			case TypeUtil.OP_GREATER_THAN_EUQALS:
+			case QLangUtil.OPERATION_SMALLER_THAN,
+			case QLangUtil.OPERATION_SMALLER_THAN_EQUALS,
+			case QLangUtil.OPERATION_GREATER_THAN,
+			case QLangUtil.OPERATION_GREATER_THAN_EUQALS:
 				validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionComparison,
 					QLangExpressionValidator.TYPE_NOT_ALLOWED)
-			case TypeUtil.OP_PLUS,
-			case TypeUtil.OP_MINUS:
+			case QLangUtil.OPERATION_PLUS,
+			case QLangUtil.OPERATION_MINUS:
 				validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionPlusOrMinus,
 					QLangExpressionValidator.TYPE_NOT_ALLOWED)
-			case TypeUtil.OP_MUL,
-			case TypeUtil.OP_DIV:
+			case QLangUtil.OPERATION_MUL,
+			case QLangUtil.OPERATION_DIV:
 				validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionMulOrDiv,
 					QLangExpressionValidator.TYPE_NOT_ALLOWED)
-			case TypeUtil.OP_NOT:
+			case QLangUtil.OPERATION_NOT:
 				validationTestHelper.assertError(result, QLangPackage.eINSTANCE.expressionNot,
 					QLangExpressionValidator.TYPE_NOT_ALLOWED)
 		}

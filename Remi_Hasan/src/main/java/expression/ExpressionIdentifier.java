@@ -11,11 +11,6 @@ public class ExpressionIdentifier<T> extends Expression<T> {
     }
 
     @Override
-    public ExpressionVariable evaluate() {
-        return LookupTable.getInstance().getQuestionAnswer(identifier).evaluate();
-    }
-
-    @Override
     public String toString() {
         return identifier;
     }
@@ -23,5 +18,10 @@ public class ExpressionIdentifier<T> extends Expression<T> {
     @Override
     public ReturnType getReturnType() {
         return evaluate().getReturnType();
+    }
+
+    @Override
+    public ExpressionVariable evaluate() {
+        return LookupTable.getInstance().getQuestionAnswer(identifier).evaluate();
     }
 }

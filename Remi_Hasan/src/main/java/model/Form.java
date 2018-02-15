@@ -2,12 +2,8 @@ package model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import expression.Expression;
-import expression.ExpressionVariableUndefined;
 
-import java.awt.image.LookupTable;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Form {
 

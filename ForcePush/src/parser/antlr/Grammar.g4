@@ -2,8 +2,7 @@ grammar Grammar;
 options {backtrack=true; memorize=true;}
 
 //Whitespace
-NEWLINE : '\r\n' | 'r' | '\n';
-WHITESPACE : [\t]+;
+WHITESPACE : [ \t\r\n]+ -> skip;
 
 //Keywords
 FORM : 'form';
@@ -46,8 +45,9 @@ OR : '||';
 NOT : '!';
 
 //Variables
-VAR : [_]*[a-z][A-Za-z0-9_]*;
-LABEL : '"'[A-Za-z0-9\t]+'"';
+VAR : [_]*[A-Za-z0-9]*;
+LABEL : '"'[A-Za-z0-9 ,.?]+'"';
 
 //RULES
-a : INT INT;
+question : VAR ASSIGN LABEL BOOL+;
+form : FORM VAR LCURLYBRAKET question+ RCURLYBRAKET;

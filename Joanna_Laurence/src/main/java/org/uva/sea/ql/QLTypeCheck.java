@@ -37,7 +37,7 @@ public class QLTypeCheck extends Traverse {
      * @param rhsType The second type
      */
     private void checkIsSame(DualNode node, String lhsType, String rhsType) {
-        if(lhsType.equals(rhsType))
+        if(!lhsType.equals(rhsType))
             this.error(node);
     }
 

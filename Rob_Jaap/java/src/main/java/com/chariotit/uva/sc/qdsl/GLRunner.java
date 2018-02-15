@@ -17,7 +17,7 @@ public class GLRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         if (args.length == 0) {
-            System.err.println("Missing filename argument. Please provide grammar.");
+            System.err.println("Missing filename argument. Please provide input file.");
             System.exit(1);
         }
 
@@ -33,11 +33,15 @@ public class GLRunner implements CommandLineRunner {
         QLLexer lexer = new QLLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(tokens);
-        ParseTree tree = parser.form();
+        ParseTree tree = parser.forms();
+//        ParseTree tree = parser.form();
+        //ParseTree tree = pxarser.question();
         System.out.println(tree.toStringTree(parser));
 
         System.out.println(parser.getGrammarFileName());
         System.out.println(parser.getTokenNames());
+        System.out.println(tree.getChildCount());
+ //       System.out.println(tree.getChild(7).getText());
 //
         FormsVisitor visitor = new FormsVisitor();
 //

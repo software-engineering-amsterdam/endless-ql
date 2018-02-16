@@ -50,23 +50,19 @@ public class Main {
         List<Expression> conditions     = new ConditionCollector().collect(form);
         
         checker.checkUndefinedRefs(references, symbolTable);
-        List<String> refErrors = checker.getErrors();
-        System.out.println(refErrors);
+        checker.printErrors();
         
         checker = new TypeChecker();
         checker.checkConflictingQuestionTypes(questions);
-        List<String> confErrors = checker.getErrors();
-        System.out.println(confErrors);
+        checker.printErrors();
         
         checker = new TypeChecker();
         checker.checkConditionTypes(conditions, symbolTable);
-        List<String> condErrors = checker.getErrors();
-        System.out.println(condErrors);
+        checker.printErrors();
         
         checker = new TypeChecker();
         checker.checkDuplicateLabels(questions);
-        List<String> lblErrors = checker.getWarnings();
-        System.out.println(lblErrors);
+        checker.printWarnings();
         
         // Visit and build GUI from AST
 

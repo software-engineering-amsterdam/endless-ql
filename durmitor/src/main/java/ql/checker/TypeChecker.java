@@ -1,7 +1,6 @@
 package ql.checker;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +26,7 @@ public class TypeChecker {
         {
             if(!symbolTable.containsKey(id.getName()))
             {
-                errors.add("Reference <" + id.getName() + "> to undefined question found @ " + id.getLocation());
+                errors.add("Reference [ " + id.getName() + " ] to undefined question found @ " + id.getLocation());
             }
         }
     }
@@ -44,7 +43,7 @@ public class TypeChecker {
                 
                 if(orig.getIdentifier().getName().equals(dup.getIdentifier().getName()) && !orig.getType().equals(dup.getType()))
                 {
-                    errors.add("Duplicate questions found with different types; " + orig.toString() + " @ " + orig.getLocation() + " and " + dup.toString() + " @ " + dup.getLocation());
+                    errors.add("Duplicate questions with different types found @ " + orig.getLocation() + " and " + " @ " + dup.getLocation() + "; [ " + orig.toString() + " ], [ " + dup.toString() + " ]");
                 }
             }
         }
@@ -60,16 +59,16 @@ public class TypeChecker {
                 
                 if(!symbolTable.containsKey(id.getName()))
                 {
-                    errors.add("Reference <" + id.getName() + "> to undefined question found @ " + id.getLocation());
+                    errors.add("Non-boolean condition [ " + id.getName() + " ] with type [ " + id.getType().toString() + " ] found @ "+ id.getLocation());
                 }
-                else if(symbolTable.get(id.getName()).equals(new Bool()))
+                else if(!symbolTable.get(id.getName()).equals(new Bool()))
                 {
-                    errors.add("Non-boolean condition <" + id.getName() + ":" + symbolTable.get(id.getName()).toString() + "> found @ "+ id.getLocation());
+                    errors.add("Non-boolean condition [ " + id.getName() + " ] with type [ " + symbolTable.get(id.getName()).toString() + " ] found @ "+ id.getLocation());
                 }
             }
             else if(!c.getType().equals(new Bool()))
             {
-                errors.add("Non-boolean condition <" + c.toString() + ":" + c.getType().toString() + "> found @ "+ c.getLocation());
+                errors.add("Non-boolean condition [ " + c.toString() + " ] with type [ " + c.getType().toString() + " ] found @ "+ c.getLocation());
             }
         }
     }
@@ -86,7 +85,7 @@ public class TypeChecker {
                 
                 if(orig.getLabel().equals(dup.getLabel()))
                 {
-                    warnings.add("Duplicate labels found; \"" + orig.getLabel() + "\" @ " + orig.getLocation() + " and \"" + dup.getLabel() + "\" @ " + dup.getLocation());
+                    warnings.add("Duplicate labels [ " + orig.getLabel() + " ] found @ " + orig.getLocation() + " and  @ " + dup.getLocation());
                 }
             }
         }
@@ -106,5 +105,13 @@ public class TypeChecker {
     
     public List<String> getWarnings() {
         return warnings;
+    }
+
+    public void printErrors() {
+        for(String msg : errors) System.err.println("ERROR: " + msg);
+    }
+    
+    public void printWarnings() {
+        for(String msg : warnings) System.out.println("WARNING: " + msg);
     }
 }

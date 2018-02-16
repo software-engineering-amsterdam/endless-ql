@@ -21,6 +21,6 @@ public class QLNode {
     }
     
     public String getLocation() {
-        return "line: " + this.line + ":" + this.column;
+        return "line " + this.line + ":" + this.column;
     }
 }

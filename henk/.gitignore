@@ -26,4 +26,5 @@ npm-debug.log
 # variables.
 /config/*.secret.exs
 
-/src/**/*.erl
+# Hide .erl files in lib
+/lib/generators/*.erl

@@ -15,10 +15,10 @@ Rootsymbol main.
 
 main -> header '{' questions '}'              : ['$1', '$3'].
 header -> form identifier                     : extract_token('$2').
-questions -> question                       : '$1'.
-questions -> question questions             : ['$1', '$2'].
+questions -> question                         : '$1'.
+questions -> question questions               : ['$1', '$2'].
 
-question -> identifier string_val type      : [{identifier, extract_token('$1')}, '$2', '$3'].
+question -> identifier string_val type        : [{identifier, extract_token('$1')}, '$2', '$3'].
 Erlang code.
 
 extract_token({_Token, _Line, Value}) -> Value.

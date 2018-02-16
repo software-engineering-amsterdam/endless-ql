@@ -13,48 +13,48 @@ class Window(QWidget):
         self.radioquestions = 0
         self.btn_grp = []
         self.questionnumber = 0
-        self.questions = [] # Sorted list of questions
-        self.answers = []   # Sorted list of corresponding answers
+        self.radiobuttons = 0
+        self.radiobuttonlist = []
+        self.database = {}
 
     def putQuestion(self,question, datatype='boolean',choices = ['Yes','No']):
-        ''' Example function that adds a question and correscponding answer buttons to a gui
+        ''' Example function that adds a question and radiobuttons to a gui
         '''
         buttonquestion = QLabel(question.strip('"\''))
         self.layout.addWidget(buttonquestion, self.row, 0)
-        self.questions.append(question)
-        self.answers.append('undefined')
+        # self.database[self.questionnumber] = [question, 'undefined']
+        self.database[question] = 'undefined'
         self.questionnumber += 1
-
-        if datatype == 'boolean' or datatype == 'multiplechoice': # assuming multiple choice will be required
+        if datatype == 'boolean':
             self.btn_grp.append(QButtonGroup())
+            radiobutton = []
             for choice in range(len(choices)):
-                radiobutton = QRadioButton(choices[choice])
-                radiobutton.answer = choices[choice]
-                radiobutton.question = question
-
-                self.layout.addWidget(radiobutton, self.row, choice+1)
-                radiobutton.toggled.connect(self.writeanswer)
+                radiobutton.append(QRadioButton(choices[choice]))
+                # radiobutton.toggled.connect(self.on_radio_button_toggled)
+                self.layout.addWidget(radiobutton[choice], self.row, choice+1)
+                radiobutton[choice].toggled.connect(lambda: self.writeanswer(question,choices[choice]))
+                # if self.radiobuttonlist[self.radiobuttons].isChecked:
+                #     self.database[self.questionnumber] = [question, choices[choice]]
+                #     print(choices[choice])
 
                 self.btn_grp[self.radioquestions].setExclusive(True)
-                self.btn_grp[self.radioquestions].addButton(radiobutton)
+                self.btn_grp[self.radioquestions].addButton(radiobutton[choice])
+                self.radiobuttons += 1
             self.radioquestions += 1
 
-        # if datatype == 'boolean':
-        #     self.btn_grp.append(QButtonGroup())
-        #     radiobuttons = []
-        #     for choice in range(len(choices)):
-        #         radiobuttons.append(QRadioButton(choices[choice]))
-        #         radiobuttons[-1].answer = choices[choice]
-        #         radiobuttons[-1].question = question
-        #         print(choices[choice])
-        #         self.layout.addWidget(radiobuttons[choice], self.row, choice+1)
-        #         radiobuttons[choice].toggled.connect(self.writeanswer)
-        #
-        #
-        #         self.btn_grp[self.radioquestions].setExclusive(True)
-        #         self.btn_grp[self.radioquestions].addButton(radiobuttons[choice])
-        #         self.radiobuttons += 1
-        #     self.radioquestions += 1
+            # for choice in range(len(choices)):
+            #     self.radiobuttonlist.append(QRadioButton(choices[choice]))
+            #     # radiobutton.toggled.connect(self.on_radio_button_toggled)
+            #     self.layout.addWidget(self.radiobuttonlist[-1], self.row, choice+1)
+            #     self.radiobuttonlist[self.radiobuttons].toggled.connect(self.writeanswer,)
+            #     # if self.radiobuttonlist[self.radiobuttons].isChecked:
+            #     #     self.database[self.questionnumber] = [question, choices[choice]]
+            #     #     print(choices[choice])
+            #
+            #     self.btn_grp[self.radioquestions].setExclusive(True)
+            #     self.btn_grp[self.radioquestions].addButton(self.radiobuttonlist[-1])
+            #     self.radiobuttons += 1
+            # self.radioquestions += 1
 
         elif datatype == 'Num':
             self.textbox = QLineEdit(self)
@@ -63,9 +63,8 @@ class Window(QWidget):
 
         self.row += 1
 
-    def writeanswer(self):
-        sender = self.sender()
-        self.answers[self.questions.index(sender.question)] = sender.answer
+    def writeanswer(self,question,answer):
+        self.database[question] = answer
 
     def quitbutton(self):
         qbtn = QPushButton('Quit', self)
@@ -83,8 +82,8 @@ class Window(QWidget):
     def submit(self):
         file = open( 'output.txt', 'w')
 
-        for i in range(len(self.questions)):
-            file.write(self.questions[i]+str(self.answers[i])+"\n")
+        for key in self.database.keys():
+            file.write(key+str(self.database[key])+"\n")
         file.close()
 
     # def submit(self):

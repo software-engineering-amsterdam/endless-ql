@@ -38,6 +38,7 @@ public class Main {
         tc = new TypeChecker(form);
         tc.collectIdentifiers();
         System.out.println(tc.getIdentifiers());
+        System.out.println(tc.getDuplicateIds());
 
         // Visit and build GUI from AST
 

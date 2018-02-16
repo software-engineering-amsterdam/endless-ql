@@ -7,6 +7,10 @@ public class Identifier extends Expression {
     public Identifier(String name) {
         this.name = name;
     }
+    
+    public String getName() {
+        return name;
+    }
 
     @Override
     public String toString() {

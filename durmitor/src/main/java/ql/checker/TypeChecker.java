@@ -28,4 +28,29 @@ public class TypeChecker {
         
         return ids;
     }
+    
+    public ArrayList<Identifier> getDuplicateIds() {
+        
+        ArrayList<Identifier> copy = new ArrayList<Identifier>(ids);
+        ArrayList<Identifier> dups = new ArrayList<Identifier>();
+        
+        // Take an identifier; original
+        for(int o = 0; o < copy.size(); o++ ) {
+            Identifier orig = copy.get(o);
+            
+            // Take one of the following identifiers
+            for(int d = copy.size() - 1; d > o; d-- ) {
+                Identifier dup = copy.get(d);
+                
+                // Collect the identifiers with the same name as the original
+                if(orig.getName().equals(dup.getName())) {
+                    if(!dups.contains(orig)) dups.add(orig);
+                    dups.add(dup);
+                    copy.remove(d);
+                }
+            }
+        }
+        
+        return dups;
+    }
 }

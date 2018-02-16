@@ -38,6 +38,8 @@ form taxFormExample {
             gotCaught: boolean
         "Did you get caught?"
             gotCaught: boolean
+        "Did you get caught?"
+            gotCaught: boolean
     }
 
 }

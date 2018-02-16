@@ -25,6 +25,7 @@ object StatementFactory {
 
     val elsePane = new VBox()
     elsePane.managedProperty().bind(elsePane.visibleProperty())
+    elsePane.visibleProperty().bind(thenPane.visibleProperty().not())
     elsePane.getChildren.addAll(this.createStatements(conditional.elseStatements))
 
     new VBox(thenPane, elsePane)

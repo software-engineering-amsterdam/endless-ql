@@ -23,5 +23,5 @@ In order to run the project needs  the [Antlr4 Java Runtime](http://www.antlr.or
 # wget http://www.antlr.org/download/antlr-runtime-4.7.1.jar
 ``` 
 
-After the Antlr4 runtime is in the correct location one can open the [QL.java](src/org/uva/jomi/ql/parser/antlr/QL.g4) file and run it. The QL programming language expects and input file, as such the user must update the default [Run Configuration](https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.cdt.doc.user%2Ftasks%2Fcdt_t_run_com.htm) and
+After the Antlr4 runtime is in the correct location one can open the [QL.java](src/org/uva/jomi/QL.java) file and run it. The QL programming language expects and input file, as such the user must update the default [Run Configuration](https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.cdt.doc.user%2Ftasks%2Fcdt_t_run_com.htm) and
  provide an input file (we provide two examples as a reference: [example-1.ql](example-1.ql) and [example-1.ql](example-2.ql)).  

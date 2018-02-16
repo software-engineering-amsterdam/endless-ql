@@ -1,56 +1,110 @@
 package ql.checker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import ql.ast.expression.Expression;
 import ql.ast.expression.Identifier;
-import ql.ast.form.Form;
-import ql.visitors.IdCollector;
+import ql.ast.statement.Question;
+import ql.ast.type.Bool;
+import ql.ast.type.Type;
 
 public class TypeChecker {
 
-    private ArrayList<Identifier> ids;
-    private Form form;
+    private List<String> errors;
+    private List<String> warnings;
     
-    public TypeChecker(Form form) {
-        this.ids    = new ArrayList<Identifier>();
-        this.form   = form;
+    public TypeChecker() {
+        this.errors     = new ArrayList<String>();
+        this.warnings   = new ArrayList<String>();
     }
     
-    public ArrayList<Identifier> getIdentifiers() {
-        return ids;
+    public void checkUndefinedRefs(List<Identifier> refs, Map<String,Type> symbolTable) {
+        
+        for(Identifier id : refs)
+        {
+            if(!symbolTable.containsKey(id.getName()))
+            {
+                errors.add("Reference <" + id.getName() + "> to undefined question found @ " + id.getLocation());
+            }
+        }
     }
     
-    public ArrayList<Identifier> collectIdentifiers() {
+    public void checkConflictingQuestionTypes(List<Question> questions) {
         
-        IdCollector ic = new IdCollector(ids);
-        
-        ic.visit(form.getBlock());
-        
-        return ids;
-    }
-    
-    public ArrayList<Identifier> getDuplicateIds() {
-        
-        ArrayList<Identifier> copy = new ArrayList<Identifier>(ids);
-        ArrayList<Identifier> dups = new ArrayList<Identifier>();
-        
-        // Take an identifier; original
-        for(int o = 0; o < copy.size(); o++ ) {
-            Identifier orig = copy.get(o);
+        for(int o = 0; o < questions.size(); o++)
+        {
+            Question orig = questions.get(o);
             
-            // Take one of the following identifiers
-            for(int d = copy.size() - 1; d > o; d-- ) {
-                Identifier dup = copy.get(d);
+            for(int d = o + 1; d < questions.size(); d++) 
+            {
+                Question dup = questions.get(d);
                 
-                // Collect the identifiers with the same name as the original
-                if(orig.getName().equals(dup.getName())) {
-                    if(!dups.contains(orig)) dups.add(orig);
-                    dups.add(dup);
-                    copy.remove(d);
+                if(orig.getIdentifier().getName().equals(dup.getIdentifier().getName()) && !orig.getType().equals(dup.getType()))
+                {
+                    errors.add("Duplicate questions found with different types; " + orig.toString() + " @ " + orig.getLocation() + " and " + dup.toString() + " @ " + dup.getLocation());
                 }
             }
         }
+    }
+    
+    public void checkConditionTypes(List<Expression> conditions, Map<String,Type> symbolTable) {
         
-        return dups;
+        for(Expression c : conditions)
+        {
+            if(c.isIdentifier())
+            {
+                Identifier id = (Identifier) c;
+                
+                if(!symbolTable.containsKey(id.getName()))
+                {
+                    errors.add("Reference <" + id.getName() + "> to undefined question found @ " + id.getLocation());
+                }
+                else if(symbolTable.get(id.getName()).equals(new Bool()))
+                {
+                    errors.add("Non-boolean condition <" + id.getName() + ":" + symbolTable.get(id.getName()).toString() + "> found @ "+ id.getLocation());
+                }
+            }
+            else if(!c.getType().equals(new Bool()))
+            {
+                errors.add("Non-boolean condition <" + c.toString() + ":" + c.getType().toString() + "> found @ "+ c.getLocation());
+            }
+        }
+    }
+    
+    public void checkDuplicateLabels(List<Question> questions) {
+        
+        for(int o = 0; o < questions.size(); o++)
+        {
+            Question orig = questions.get(o);
+            
+            for(int d = o + 1; d < questions.size(); d++) 
+            {
+                Question dup = questions.get(d);
+                
+                if(orig.getLabel().equals(dup.getLabel()))
+                {
+                    warnings.add("Duplicate labels found; \"" + orig.getLabel() + "\" @ " + orig.getLocation() + " and \"" + dup.getLabel() + "\" @ " + dup.getLocation());
+                }
+            }
+        }
+    }
+    
+    public boolean hasErrors() {
+        return !errors.isEmpty();
+    }
+    
+    public List<String> getErrors() {
+        return errors;
+    }
+    
+    public boolean hasWarnings() {
+        return !errors.isEmpty();
+    }
+    
+    public List<String> getWarnings() {
+        return warnings;
     }
 }

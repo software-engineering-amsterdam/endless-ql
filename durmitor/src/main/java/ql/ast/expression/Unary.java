@@ -9,4 +9,8 @@ public abstract class Unary extends Expression {
     {
         return expr+"";
     }
+    
+    public Expression getExpression() {
+        return expr;
+    }
 }

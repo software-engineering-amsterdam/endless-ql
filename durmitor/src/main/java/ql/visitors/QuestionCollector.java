@@ -1,26 +1,27 @@
 package ql.visitors;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import ql.ast.expression.Identifier;
+import ql.ast.form.Form;
 import ql.ast.statement.AnswerableQuestion;
 import ql.ast.statement.Block;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
+import ql.ast.statement.Question;
 import ql.ast.statement.Statement;
 import ql.visitors.interfaces.StatementVisitor;
 
-public class IdCollector implements StatementVisitor {
-    
-    private ArrayList<Identifier> ids;
-    
-    public IdCollector() {
-        ids = new ArrayList<Identifier>();
-    }
+public class QuestionCollector extends AbstractCollector<Question> implements StatementVisitor {
 
-    public IdCollector(ArrayList<Identifier> ids) {
-        this.ids = ids;
+    @Override
+    public List<Question> collect(Form form) {
+        
+        collection.clear();
+        
+        visit(form.getBlock());
+        
+        return collection;
     }
     
     @Override
@@ -29,7 +30,7 @@ public class IdCollector implements StatementVisitor {
            stmt.accept(this);
         }
     }
-
+    
     @Override
     public void visit(IfThen stmt) {
         stmt.getThenStatement().accept(this);
@@ -43,12 +44,11 @@ public class IdCollector implements StatementVisitor {
 
     @Override
     public void visit(AnswerableQuestion stmt) {
-        ids.add(stmt.getIdentifier());
+        collection.add(stmt);
     }
 
     @Override
     public void visit(ComputedQuestion stmt) {
-        ids.add(stmt.getIdentifier());
+        collection.add(stmt);
     }
-    
 }

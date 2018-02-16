@@ -15,9 +15,8 @@ import ql.ast.expression.Greater;
 import ql.ast.expression.GreaterEqual;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.IntLiteral;
-import ql.ast.expression.LessThan;
+import ql.ast.expression.Less;
 import ql.ast.expression.LessEqual;
-import ql.ast.expression.Literal;
 import ql.ast.expression.MoneyLiteral;
 import ql.ast.expression.Multiply;
 import ql.ast.expression.Negation;
@@ -99,7 +98,7 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         Type type               = (Type) visit(ctx.type());
         Identifier id           = (Identifier) visitIdentifier(ctx.identifier());
         Expression expr         = (Expression) visit(ctx.expr());
-        ComputedQuestion stmt   = new ComputedQuestion(label,id,type,expr); 
+        ComputedQuestion stmt   = new ComputedQuestion(label,id,type,expr);
         
         return setLocation(stmt, ctx.start);
     }
@@ -186,7 +185,7 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         Expression rhs  = (Expression) visit(ctx.rhs);
         QLNode expr     = null;
         
-        if(isTokenType(ctx.op,QLParser.LT))      expr = new LessThan(lhs,rhs);
+        if(isTokenType(ctx.op,QLParser.LT))      expr = new Less(lhs,rhs);
         else if(isTokenType(ctx.op,QLParser.LE)) expr = new LessEqual(lhs,rhs);
         else if(isTokenType(ctx.op,QLParser.GT)) expr = new Greater(lhs,rhs);
         else if(isTokenType(ctx.op,QLParser.GE)) expr = new GreaterEqual(lhs,rhs);

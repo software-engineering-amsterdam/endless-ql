@@ -1,5 +1,9 @@
 package ql.ast.expression;
 
+import ql.ast.type.Bool;
+import ql.ast.type.Type;
+import ql.visitors.interfaces.ExpressionVisitor;
+
 public class LessEqual extends Binary {
 
     public LessEqual(Expression lhs, Expression rhs) {
@@ -7,7 +11,17 @@ public class LessEqual extends Binary {
     }
 
     @Override
+    public Type getType() {
+        return new Bool();
+    }
+
+    @Override
 	public String toString() {
 		return lhs.toString() + " <= " + rhs.toString();
 	}
+
+    @Override
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
+    }
 }

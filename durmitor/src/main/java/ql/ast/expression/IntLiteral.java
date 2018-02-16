@@ -1,5 +1,9 @@
 package ql.ast.expression;
 
+import ql.ast.type.Int;
+import ql.ast.type.Type;
+import ql.visitors.interfaces.ExpressionVisitor;
+
 public class IntLiteral extends Literal<Integer> {
 
     private int value;
@@ -13,6 +17,11 @@ public class IntLiteral extends Literal<Integer> {
     }
 
     @Override
+    public Type getType() {
+        return new Int();
+    }
+
+    @Override
     public String toString() {
         return String.valueOf(value);
     }
@@ -22,4 +31,8 @@ public class IntLiteral extends Literal<Integer> {
         return value;
     }
 
+    @Override
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
+    }
 }

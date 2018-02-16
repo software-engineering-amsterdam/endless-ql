@@ -14,6 +14,7 @@ import javafx.scene.control.TextField
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javax.inject.Inject
+import org.uva.sc.pc.ql.qLang.Block
 import org.uva.sc.pc.ql.qLang.Expression
 import org.uva.sc.pc.ql.qLang.Form
 import org.uva.sc.pc.ql.qLang.Question
@@ -23,12 +24,11 @@ import org.uva.sc.pc.ql.qLang.TypeDecimal
 import org.uva.sc.pc.ql.qLang.TypeInteger
 import org.uva.sc.pc.ql.qLang.TypeMoney
 import org.uva.sc.pc.ql.qLang.TypeString
-import org.uva.sc.pc.ql.qLang.util.MissingCaseException
-import org.uva.sc.pc.ql.qLang.Block
+import org.uva.sc.pc.ql.util.MissingCaseException
 
 class StageService {
 
-	private val controls = new HashMap<Object, Control>
+	private val controls = new HashMap<String, Control>
 
 	private val bindings = new ArrayList<Binding>
 
@@ -45,7 +45,7 @@ class StageService {
 			val block = buildControlForBlock(it)
 			root.children.add(block)
 		]
-		registerListeners
+		root.lookup("hasSoldHouse")
 		return root
 	}
 
@@ -80,12 +80,18 @@ class StageService {
 			default:
 				throw new MissingCaseException
 		}
-		if (question.expression !== null) {
-			control.disable = true
-		}
+		setControlDefaults(control, question)
 		hbox.children.add(control)
 		controls.put(question.name, control)
 		return hbox
+	}
+	
+	private def setControlDefaults(Control control, Question question) {
+		control.id = question.name
+		if (question.expression !== null) {
+			control.disable = true
+		}
+		registerListener(control)
 	}
 
 	def private buildControlForTypeBoolean(Expression expression) {
@@ -128,14 +134,12 @@ class StageService {
 		return text
 	}
 
-	def private registerListeners() {
-		controls.forEach [ name, control |
-			control.addEventHandler(EventType.ROOT, new EventHandler() {
-				override handle(Event arg0) {
-					invalidateBindings
-				}
-			})
-		]
+	def private registerListener(Control control) {
+		control.addEventHandler(EventType.ROOT, new EventHandler() {
+			override handle(Event arg0) {
+				invalidateBindings
+			}
+		})
 	}
 
 	def private invalidateBindings() {

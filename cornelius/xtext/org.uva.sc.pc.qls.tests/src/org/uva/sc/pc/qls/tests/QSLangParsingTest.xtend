@@ -7,6 +7,7 @@ import com.google.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
+import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -15,11 +16,15 @@ import org.uva.sc.pc.qls.qSLang.Model
 @RunWith(XtextRunner)
 @InjectWith(QSLangInjectorProvider)
 class QSLangParsingTest {
+	
 	@Inject
 	ParseHelper<Model> parseHelper
-	
+
+	@Inject
+	ValidationTestHelper validationTestHelper;
+
 	@Test
-	def void loadModel() {
+	def void positiveTest() {
 		val result = parseHelper.parse('''
 			form taxOfficeExample { 
 			  "Did you sell a house in 2010?" 
@@ -74,5 +79,8 @@ class QSLangParsingTest {
 		''')
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
+		
+		validationTestHelper.assertNoErrors(result)
 	}
+
 }

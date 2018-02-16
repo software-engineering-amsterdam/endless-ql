@@ -104,7 +104,7 @@
 						<phase>none</phase>
 					</execution>
 					<execution>
-						<id>default-testCcompile</id>
+						<id>default-testCompile</id>
 						<phase>none</phase>
 					</execution>
 				</executions>

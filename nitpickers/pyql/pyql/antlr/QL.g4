@@ -9,7 +9,9 @@ grammar QL;
 
  conditional_block : 'if' '(' expression ')' '{' block '}' ;
 
- block             : (question | conditional_block)+;
+ block             : statement+;
+
+ statement         : question | conditional_block ;
 
  question          : identifier ':' STR question_type ;
 

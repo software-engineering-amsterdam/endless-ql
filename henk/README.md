@@ -10,6 +10,9 @@ The following pre-requicities are needed to setup the project
 
 ## Runing
 
+## Code Analysis
+`mix credo`
+
 ## Testing
 
 ## coverage

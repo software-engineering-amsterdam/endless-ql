@@ -1,50 +1,30 @@
 /** Grammar for questionnaire form */
 grammar FormQL;
 
-@parser::header
-{
-	package antlr.grammar;
-	import antlr.grammar.*;
-}
-
-@lexer::header
-{
-	package antlr.grammar;
-	import antlr.grammar.*;
-}
-
 /** Parser rules */
-form : FORM identifier block EOF; // form
+form : FORM IDENTIFIER CURLY_BRACE_L block CURLY_BRACE_R EOF; // form
 
-identifier:
-    LETTER (LETTER | DIGIT | '_')*
-;
 
 block : CURLY_BRACE_L (ifStatement | question | statement)* CURLY_BRACE_R; // content
 
-question : identifier COLON STR type;
+question : IDENTIFIER COLON STR type;
 
-statement : identifier COLON STR typeValue;
+statement : IDENTIFIER COLON STR type value;
 
-typeValue:
-    booleanType boolean |
-    moneyType  money |
-    stringType string |
-    integerType  integer |
-    dateType date |
-    decimalType decimal |
+value:
+    BOOL |
+    MON |
+    INT |
+    DEC |
+    IDENTIFIER |
+    BRACE_L value BRACE_R |
+    value operator value
 ;
 
-boolean:
-    'true' |
-    'false' |
-    identifier |
-    NOT boolean |
-    BRACE_L boolean BRACE_R |
-    boolean boolOperator boolean |
-    money comparisonOperator money |
-    integer comparisonOperator integer |
-    string EQT string |
+operator:
+    boolOperator |
+    comparisonOperator |
+    numberOperator
 ;
 
 boolOperator:
@@ -55,61 +35,24 @@ comparisonOperator:
     EQT | GRT | LST | GRTE | LSTE
 ;
 
-money:
-    MON |
-    identifier |
-    BRACE_L money BRACE_R |
-    money numberOperator money |
-;
-
-integer:
-    INT |
-    identifier |
-    BRACE_L integer BRACE_R|
-    integer numberOperator integer |
-;
-
-string:
-    STR |
-    BRACE_L string BRACE_R |
-    string ADD string
-;
-
 numberOperator:
     NOT | ADD | SUB | MUL | DIV | REM
 ;
 
-decimal:
-    DEC |
-    identifier |
-    BRACE_L decimal BRACE_R |
-    decimal numberOperator decimal |
-;
+ifStatement : IF BRACE_L boolean BRACE_R block*;
 
-date:
-    'dateplaceholder'
-;
-
-ifStatement : IF BRACE_L booleanExpr BRACE_R content*; //statement
-
-type:  booleanType | stringType | integerType | moneyType | dateType | decimalType ;
-
-booleanType: 'boolean';
-stringType: 'string';
-integerType: 'integer';
-moneyType: 'money' | currency;
-dateType: 'date';
-decimalType: 'decimal';
+type:  BOOLEANTYPE | STRINGTYPE | INTEGERTYPE | MONEYTYPE | DATETYPE | DECIMALTYPE ;
 
 /** Lexer rules (tokens)*/
+BOOLEANTYPE: 'boolean';
+STRINGTYPE: 'string';
+INTEGERTYPE: 'integer';
+MONEYTYPE: 'money' | 'currency';
+DATETYPE: 'date';
+DECIMALTYPE: 'decimal';
 
-//COMMENT
-//    : '/*' .* '*/' {$channel=HIDDEN;}
-//    ;
-WHITESPACE : (' ' | '\t' | '\n' | '\r') -> channel(HIDDEN);
-
-FORM : ('form');
-IF : ('if');
+FORM : 'form';
+IF : 'if';
 COLON : ':';
 
 // seperators
@@ -136,13 +79,15 @@ NEQT : '!=';
 OR : '||';
 NOT : '!';
 
-ESC_SEQ : '\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\');
+// ESC_SEQ : '\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\');
 
 // literals
+fragment DIGIT : ('0'..'9');
+fragment LETTER : ('a'..'z'|'A'..'Z');
+
+IDENTIFIER: LETTER (LETTER | DIGIT | '_')*;
 STR : '“' .*? '”';
 INT : ('-')? DIGIT+;
 BOOL : ('true' | 'false');
 MON : DIGIT+ '.' DIGIT DIGIT;
 DEC : DIGIT+  '.'  DIGIT+;
-DIGIT : ('0'..'9');
-LETTER: ('a'..'z'|'A'..'Z');

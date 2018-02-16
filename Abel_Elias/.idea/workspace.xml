@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="96ca7f12-a829-4bcc-af68-11d8edc5ec3b" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Elias/QL.g4" afterPath="$PROJECT_DIR$/Elias/QL.g4" />
+      <change beforePath="$PROJECT_DIR$/resources/exampleForm" afterPath="$PROJECT_DIR$/resources/exampleForm" />
       <change beforePath="$PROJECT_DIR$/src/antlr/grammar/FormQL.g4" afterPath="$PROJECT_DIR$/src/antlr/grammar/FormQL.g4" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
@@ -18,23 +20,25 @@
       <file leaf-file-name="FormQL.g4" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/antlr/grammar/FormQL.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="145" column="26" lean-forward="true" selection-start-line="145" selection-start-column="26" selection-end-line="145" selection-end-column="26" />
+            <state relative-caret-position="28">
+              <caret line="41" column="7" lean-forward="true" selection-start-line="41" selection-start-column="7" selection-end-line="41" selection-end-column="7" />
               <folding>
-                <element signature="e#55#123#1" expanded="true" />
-                <element signature="e#125#192#1" expanded="true" />
-                <element signature="e#257#307#1" expanded="false" />
-                <element signature="e#478#638#1" expanded="false" />
-                <element signature="e#638#879#1" expanded="false" />
-                <element signature="e#879#922#1" expanded="false" />
-                <element signature="e#922#979#1" expanded="false" />
-                <element signature="e#979#1077#1" expanded="false" />
-                <element signature="e#1182#1254#1" expanded="false" />
-                <element signature="e#1311#1417#1" expanded="false" />
-                <element signature="e#1417#1448#1" expanded="false" />
-                <marker date="1518712786578" expanded="false" signature="1084:1180" ph=":...;" />
-                <marker date="1518712786578" expanded="false" signature="1268:1309" ph=":...;" />
+                <element signature="e#0#37#0" expanded="true" />
+                <element signature="e#440#516#1" expanded="false" />
+                <element signature="e#516#559#1" expanded="false" />
+                <element signature="e#616#673#1" expanded="false" />
+                <marker date="1518742896630" expanded="false" signature="577:614" ph=":...;" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="exampleForm" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/exampleForm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="59" lean-forward="true" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="59" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -42,8 +46,8 @@
       <file leaf-file-name="QL.g4" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Elias/QL.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="1" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="16" selection-end-column="1" />
+            <state relative-caret-position="363">
+              <caret line="77" column="0" lean-forward="false" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -64,6 +68,7 @@
       <find>if</find>
       <find>unexpr</find>
       <find>STR</find>
+      <find>identifier</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -84,17 +89,18 @@
         <option value="$PROJECT_DIR$/src/QuestionnaireForm.java" />
         <option value="$PROJECT_DIR$/src/FormBuilder.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
-        <option value="$PROJECT_DIR$/Elias/QL.g4" />
         <option value="$PROJECT_DIR$/Elias/QL2.g4" />
+        <option value="$PROJECT_DIR$/resources/exampleForm" />
+        <option value="$PROJECT_DIR$/Elias/QL.g4" />
         <option value="$PROJECT_DIR$/src/antlr/grammar/FormQL.g4" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="97" />
-    <option name="y" value="-771" />
-    <option name="width" value="1366" />
-    <option name="height" value="768" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="754" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -112,10 +118,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="AndroidView" />
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -148,6 +151,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -355,24 +361,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-286" y="-1088" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33184856" sideWeight="0.495829" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17961165" sideWeight="0.49319214" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40416667" sideWeight="0.37100214" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17961165" sideWeight="0.50680786" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.4979145" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23854166" sideWeight="0.8859275" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23786408" sideWeight="0.8774584" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21908316" sideWeight="0.49585798" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="ANTLR Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40416667" sideWeight="0.62899786" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22239032" sideWeight="0.49585798" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="ANTLR Preview" active="true" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="FLOATING" visible="true" show_stripe_button="true" weight="0.40291262" sideWeight="0.8895613" order="7" side_tool="false" content_ui="tabs" x="-1920" y="-313" width="1920" height="1080" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -479,13 +484,6 @@
     <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/jacc/ql.jacc" />
     <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/jacc/ql.output" />
     <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/rats/QLParser.rats" />
-    <entry file="file://$PROJECT_DIR$/src/QL.tokens">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Abel/HelloWorldParser.java" />
     <entry file="file://$PROJECT_DIR$/Abel/HelloWorldListener.java" />
     <entry file="file://$PROJECT_DIR$/Abel/HelloWorldLexer.tokens" />
@@ -526,13 +524,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/exampleForm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="44" lean-forward="false" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Elias/QL2.g4" />
     <entry file="file://$PROJECT_DIR$/src/antlr/grammar/QLLexer.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -551,30 +542,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Elias/QL.g4">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="1" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="16" selection-end-column="1" />
+        <state relative-caret-position="363">
+          <caret line="77" column="0" lean-forward="false" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/QL.tokens">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-616">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/exampleForm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="59" lean-forward="true" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="59" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/antlr/grammar/FormQL.g4">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="145" column="26" lean-forward="true" selection-start-line="145" selection-start-column="26" selection-end-line="145" selection-end-column="26" />
+        <state relative-caret-position="28">
+          <caret line="41" column="7" lean-forward="true" selection-start-line="41" selection-start-column="7" selection-end-line="41" selection-end-column="7" />
           <folding>
-            <element signature="e#55#123#1" expanded="true" />
-            <element signature="e#125#192#1" expanded="true" />
-            <element signature="e#257#307#1" expanded="false" />
-            <element signature="e#478#638#1" expanded="false" />
-            <element signature="e#638#879#1" expanded="false" />
-            <element signature="e#879#922#1" expanded="false" />
-            <element signature="e#922#979#1" expanded="false" />
-            <element signature="e#979#1077#1" expanded="false" />
-            <element signature="e#1182#1254#1" expanded="false" />
-            <element signature="e#1311#1417#1" expanded="false" />
-            <element signature="e#1417#1448#1" expanded="false" />
-            <marker date="1518712786578" expanded="false" signature="1084:1180" ph=":...;" />
-            <marker date="1518712786578" expanded="false" signature="1268:1309" ph=":...;" />
+            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#440#516#1" expanded="false" />
+            <element signature="e#516#559#1" expanded="false" />
+            <element signature="e#616#673#1" expanded="false" />
+            <marker date="1518742896630" expanded="false" signature="577:614" ph=":...;" />
           </folding>
         </state>
       </provider>

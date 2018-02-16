@@ -1,9 +1,19 @@
 defmodule Henk do
-  @moduledoc """
-  Henk keeps the contexts that define your domain
-  and business logic.
+  
+  @line ~s(
+    form Box1HouseWarning {
+      hasSoldHouse: "Did you sell something?" boolean
+      hasNotHouse: "Did you sell something?" boolean
+    }
+  )
 
-  Contexts are also responsible for managing your data, regardless
-  if it comes from the database, an external API or others.
-  """
+  def parse(str) do
+    {:ok, tokens, _} = str |> to_charlist() |> :example_lexer.string()
+    {:ok, list} = :example_parser.parse(tokens)
+    list
+  end
+
+  def parseLine do
+    parse @line
+  end
 end

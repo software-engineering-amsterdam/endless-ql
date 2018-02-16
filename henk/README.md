@@ -10,10 +10,19 @@ The following prerequisite are needed to setup the project:
 2. Hex package manager: run `mix local.hex`
 
 ## installing
-To install the required dependencies, run `mix deps.get`
+To install the required elixir dependencies, run
+
+```
+# Install elixir dependencies
+mix deps.get`
+
+# Install npm dependencies
+cd assets && npm install
+```
 
 ## Runing
-To run the webserver or debuggin mode do the following:
+To run the webserver or debuggin mode do the following in the root of the project
+directory:
 
 ```
 # Server will be hosted on: localhost:4000

@@ -2,6 +2,9 @@
 
 ### Eclipse ###
 
+# Recursively allow our files
+!/Joanna_Laurence/**
+
 .metadata
 bin/
 tmp/
@@ -188,6 +191,8 @@ hs_err_pid*
 # modules.xml
 .idea/misc.xml
 .idea/vcs.xml
+.idea/compiler.xml
+.idea/*
 # *.ipr
 
 # Sonarlint plugin

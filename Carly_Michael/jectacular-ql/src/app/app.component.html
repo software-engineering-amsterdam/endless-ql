@@ -1,5 +1,34 @@
 <h1>Welcome to our spectacular QL parser!</h1>
 
-<textarea rows="25" cols="100" [(ngModel)]="input"></textarea>
+<div class="page-container">
+  <div class="input">
+    <span class="header">Input</span>
 
-<button (click)="parseInput()">Parse</button>
+    <span id="error-message" *ngIf="errorMessage" class="error"> {{errorMessage}}</span>
+
+    <textarea id="input" rows="25" cols="100" [(ngModel)]="input"></textarea>
+
+    <button id="parse-button" (click)="parseInput()">Parse</button>
+
+  </div>
+
+  <div *ngIf="form" class="form">
+    <span class="header">{{formName}}</span>
+    <form id="form" (ngSubmit)="onSubmit()" [formGroup]="form">
+
+      <div *ngFor="let question of questions" class="form-row">
+        <app-question [question]="question" [form]="form"></app-question>
+      </div>
+
+      <div class="form-row">
+        <button id="form-submit" type="submit">Save</button>
+      </div>
+    </form>
+
+    <div *ngIf="payload" class="form-row">
+      <strong>Saved the following values</strong><br>{{payLoad}}
+    </div>
+  </div>
+</div>
+
+

@@ -3,3 +3,5 @@
 .settings/
 /target/
 .idea
+.cache-tests/
+*.iml

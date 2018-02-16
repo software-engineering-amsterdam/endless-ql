@@ -1,5 +1,8 @@
 import { Component} from '@angular/core';
-import {parse} from '../parser/QLParser';
+import {parse} from '../parser/ql-parser';
+import {QuestionBase} from './domain/angular-questions/question-base';
+import {FormGroup} from '@angular/forms';
+import {QuestionControlService} from './services/question-control.service';
 
 @Component({
   selector: 'app-root',
@@ -8,14 +11,36 @@ import {parse} from '../parser/QLParser';
 })
 export class AppComponent {
   input: string;
+  questions: QuestionBase<any>[] = [];
+  form: FormGroup;
+  formName: string;
+  errorMessage: string;
+  payLoad: string;
+
+  constructor (private questionControlService: QuestionControlService) {
+
+  }
 
   parseInput() {
     try {
-      console.log('parsing input');
-      const output = parse(this.input, {});
-      console.log(output);
+      // parse input to tree
+      const ast = parse(this.input, {});
+      // check types
+      ast.checkTypes();
+      // make form
+      this.questions = ast.toFormQuestion();
+      this.form = this.questionControlService.toFormGroup(this.questions);
+      this.formName = ast.name;
     } catch (e) {
-      console.log(e);
+      this.form = undefined;
+      this.formName = undefined;
+      this.questions = undefined;
+      this.errorMessage = e.message;
     }
+  }
+
+  onSubmit() {
+    this.payLoad = JSON.stringify(this.form.value);
+    console.log(JSON.stringify(this.form.value));
   }
 }

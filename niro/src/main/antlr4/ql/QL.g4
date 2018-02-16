@@ -1,22 +1,72 @@
 grammar QL;
 
-INT   : [1-9][0-9]* ;
+FORM        : 'form' ;
+IF          : 'if' ;
+ELSE        : 'else' ;
+ASSIGN      : '=' ;
 
-ID    : [a-z][a-zA-Z]* ;
+CURLY_L     : '{' ;
+CURLY_R     : '}' ;
 
-TEXT  : '"'[a-z][a-zA-Z]*'"' ;
+BRACK_L     : '(' ;
+BRACK_R     : ')' ;
 
-WS      : [ \t\r\n]+ -> skip ;
-COMMENT : '//' .*? '\n' -> skip ;
+D_COLON     : ':' ;
 
-program : form ;
+LT          : '<' ;
+LTE         : '<=' ;
+EQ          : '==' ;
+NE          : '!=' ;
+GTE         : '>=' ;
+GT          : '>' ;
 
-form : name '{' field+ '}' ;
+SUB         : '-' ;
+ADD         : '+' ;
+DIV         : '/' ;
+MUL         : '*' ;
 
-name : ID ;
+OR          : '||' ;
+AND         : '&&' ;
+NEG         : '!' ;
+COMMA       : ',' ;
 
-field: name ':' TEXT type;
+BOOLEAN     : 'boolean' ;
+INTEGER     : 'integer' ;
+STRING      : 'string' ;
+DECIMAL     : 'decimal' ;
+MONEY       : 'money' ;
+DATE        : 'date' ;
 
-type: bool;
+FALSE       : 'false' ;
+TRUE        : 'true' ;
 
-bool: 'boolean';
+IntValue    : [1-9][0-9]* ;
+DecValue    : [1-9][0-9]* COMMA [0-9]+ ;
+Ident       : [a-zA-Z0-9_]+ ;
+TEXT        : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); };
+
+WS          : [ \t\r\n]+ -> skip ;
+COMMENT     : '//' .*? '\n' -> skip ;
+
+bool        : FALSE | TRUE ;
+
+unaryOp     : SUB | NEG;
+compOp      : LT | LTE | GTE | GT | NE | EQ ;
+logicalOp   : OR | AND | NEG ;
+arithmOp    : SUB | ADD | DIV | MUL ;
+
+expression  : IntValue                                 # IntConst
+            | DecValue                                 # DecConst
+            | Ident                                    # Var
+            | bool                                     # BoolConst
+            | lhs=expression arithmOp rhs=expression   # ArithmExpr
+            | lhs=expression compOp rhs=expression     # CompExpr
+            | lhs=expression logicalOp rhs=expression  # LogicalExpr
+            | unaryOp expression                       # UnaryExpr
+            | BRACK_L expression BRACK_R               # GroupExpr ;
+
+form        : FORM Ident CURLY_L statement+ CURLY_R EOF ;
+statement   : question | conditional ;
+question    : Ident D_COLON TEXT answerType ( ASSIGN BRACK_L expression BRACK_R )?;
+conditional : IF BRACK_L condition=expression BRACK_R CURLY_L thenBlock+=statement+ CURLY_R ( ELSE CURLY_L elseBlock+=statement+ CURLY_R )? ;
+answerType  : BOOLEAN | INTEGER | STRING | MONEY | DATE | DECIMAL | MONEY;

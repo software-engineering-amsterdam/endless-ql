@@ -7,6 +7,7 @@
 The following pre-requicities are needed to setup the project
 
 ## installing
+`mix deps.get`
 
 ## Runing
 
@@ -14,5 +15,10 @@ The following pre-requicities are needed to setup the project
 `mix credo`
 
 ## Testing
+```
+mix espec
+# or
+mix espec /path/to/file
+```
 
 ## coverage

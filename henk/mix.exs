@@ -10,7 +10,8 @@ defmodule Henk.Mixfile do
       erlc_paths: ["lib/generators"],
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
-      deps: deps()
+      deps: deps(),
+      preferred_cli_env: [espec: :test]
     ]
   end
 
@@ -39,7 +40,8 @@ defmodule Henk.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false}
+      {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false},
+      {:espec, "~> 1.5.0", only: :test}
     ]
   end
 end

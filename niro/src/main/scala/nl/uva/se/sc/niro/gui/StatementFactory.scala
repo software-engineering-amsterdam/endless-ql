@@ -9,27 +9,28 @@ import nl.uva.se.sc.niro.model.Ast._
 import scala.collection.JavaConverters
 
 object StatementFactory {
+
   def createStatements(statements: Seq[Statement]) : java.util.List[Parent] = {
-    println(statements.size)
     JavaConverters.seqAsJavaList(statements.map(this.convert))
   }
 
   def convert(question: Question): Parent = {
-    println("question")
-    new HBox(new Label("Question"))
+    new HBox(new Label(question.label))
   }
+
   def convert(conditional: Conditional): Parent = {
-    println("conditional")
-    val thenPane = new Pane()
+    val thenPane = new VBox()
     thenPane.getChildren.addAll(this.createStatements(conditional.ifStatements))
-    val elsePane = new Pane()
+    val elsePane = new VBox()
     elsePane.getChildren.addAll(this.createStatements(conditional.elseStatements))
     new VBox(thenPane, elsePane)
   }
 
   def convert(statement: Statement): Parent = {
-    println("statement")
-    new HBox(new Label("Statement"))
+    statement match {
+      case q: Question => convert(q)
+      case c: Conditional => convert(c)
+    }
   }
 
 }

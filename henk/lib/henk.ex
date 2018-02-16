@@ -1,5 +1,5 @@
 defmodule Henk do
-  
+
   @line ~s(
     form Box1HouseWarning {
       hasSoldHouse: "Did you sell something?" boolean
@@ -8,12 +8,12 @@ defmodule Henk do
   )
 
   def parse(str) do
-    {:ok, tokens, _} = str |> to_charlist() |> :example_lexer.string()
-    {:ok, list} = :example_parser.parse(tokens)
+    {:ok, tokens, _} = str |> to_charlist() |> :lexer.string()
+    {:ok, list} = :parser.parse(tokens)
     list
   end
 
-  def parseLine do
+  def parse_line do
     parse @line
   end
 end

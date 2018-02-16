@@ -7,6 +7,7 @@ defmodule Henk.Mixfile do
       version: "0.0.1",
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
+      erlc_paths: ["lib/generators"],
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
       deps: deps()

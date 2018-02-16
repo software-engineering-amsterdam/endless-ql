@@ -46,8 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Display\WidgetDisplayControllerWindows.cs" />
+    <Compile Include="Controllers\WidgetController.cs" />
     <Compile Include="Expression.cs" />
     <Compile Include="Factories\ControlFactory.cs" />
+    <Compile Include="Factories\IElementFactory.cs" />
     <Compile Include="Visualizer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -56,11 +58,13 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\Display\IWidgetDisplayController.cs" />
+    <Compile Include="Controllers\Display\WidgetDisplayController.cs" />
     <Compile Include="Widgets\QLQuestionWidget.cs" />
     <Compile Include="Widgets\QLWidget.cs" />
-    <Compile Include="Controllers\WidgetController.cs" />
-    <Compile Include="Widgets\QLWidgetInt.cs" />
+    <Compile Include="Controllers\WidgetVisualizeController.cs" />
+    <Compile Include="Widgets\Types\QLWidgetBool.cs" />
+    <Compile Include="Widgets\Types\QLWidgetInt.cs" />
+    <Compile Include="Widgets\Types\QLWidgetString.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

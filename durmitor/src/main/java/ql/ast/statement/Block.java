@@ -2,6 +2,8 @@ package ql.ast.statement;
 
 import java.util.ArrayList;
 
+import ql.visitors.interfaces.StatementVisitor;
+
 public class Block extends Statement {
     
     private ArrayList<Statement> statements;
@@ -47,5 +49,10 @@ public class Block extends Statement {
         str += "}";
         
         return str;
+    }
+
+    @Override
+    public void accept(StatementVisitor visitor) {
+        visitor.visit(this);
     }
 }

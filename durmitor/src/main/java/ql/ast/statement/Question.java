@@ -14,4 +14,16 @@ public abstract class Question extends Statement {
         this.id = id;
         this.type = type;
     }
+    
+    public String getLabel() {
+        return label;
+    }
+    
+    public Identifier getIdentifier() {
+        return id;
+    }
+    
+    public Type getType() {
+        return type;
+    }
 }

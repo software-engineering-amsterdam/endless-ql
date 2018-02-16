@@ -2,23 +2,24 @@
 grammar FormQL;
 
 /** Parser rules */
-form : FORM IDENTIFIER CURLY_BRACE_L block CURLY_BRACE_R EOF; // form
+form : FORM IDENTIFIER block EOF; // form
 
 
 block : CURLY_BRACE_L (ifStatement | question | statement)* CURLY_BRACE_R; // content
 
 question : IDENTIFIER COLON STR type;
 
-statement : IDENTIFIER COLON STR type value;
+statement : IDENTIFIER COLON STR type expression;
 
-value:
+expression:
     BOOL |
     MON |
     INT |
     DEC |
     IDENTIFIER |
-    BRACE_L value BRACE_R |
-    value operator value
+    BRACE_L expression BRACE_R |
+    expression operator expression |
+    NOT expression
 ;
 
 operator:
@@ -36,10 +37,10 @@ comparisonOperator:
 ;
 
 numberOperator:
-    NOT | ADD | SUB | MUL | DIV | REM
+   ADD | SUB | MUL | DIV | REM
 ;
 
-ifStatement : IF BRACE_L boolean BRACE_R block*;
+ifStatement : IF BRACE_L expression BRACE_R block*;
 
 type:  BOOLEANTYPE | STRINGTYPE | INTEGERTYPE | MONEYTYPE | DATETYPE | DECIMALTYPE ;
 
@@ -86,7 +87,7 @@ fragment DIGIT : ('0'..'9');
 fragment LETTER : ('a'..'z'|'A'..'Z');
 
 IDENTIFIER: LETTER (LETTER | DIGIT | '_')*;
-STR : '“' .*? '”';
+STR : '"' .*? '"';
 INT : ('-')? DIGIT+;
 BOOL : ('true' | 'false');
 MON : DIGIT+ '.' DIGIT DIGIT;

@@ -3,7 +3,7 @@ Software Construction
 
 Students :
  * Jorick van Rhenen   (jvrhenen)   11353341
- * Mihai Onofei        (mihai303)   11407360       
+ * Mihai Onofrei       (mihai303)   11407360       
 
 
 This repository contains the source code for the QL programming language.

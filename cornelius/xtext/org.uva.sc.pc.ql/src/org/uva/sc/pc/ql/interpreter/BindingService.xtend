@@ -9,7 +9,7 @@ import javafx.scene.control.DatePicker
 import javafx.scene.control.TextField
 import javax.inject.Inject
 import org.uva.sc.pc.ql.qLang.Expression
-import org.uva.sc.pc.ql.qLang.util.MissingCaseException
+import org.uva.sc.pc.ql.util.MissingCaseException
 
 class BindingService {
 

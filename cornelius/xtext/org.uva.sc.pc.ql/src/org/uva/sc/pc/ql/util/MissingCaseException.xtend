@@ -1,4 +1,4 @@
-package org.uva.sc.pc.ql.qLang.util
+package org.uva.sc.pc.ql.util
 
 import java.lang.Exception
 

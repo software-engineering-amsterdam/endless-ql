@@ -16,14 +16,14 @@ import org.uva.sc.pc.ql.qLang.Form
 
 class QLangJavaFxApplication extends Application {
 
-	private var Resource astData
+	protected var Resource astData
 
 	@Inject
 	private var StageService stageService
 
 	override init() {
 		val file = parameters.raw.get(0)
-		val injector = new QLangStandaloneSetup().createInjectorAndDoEMFRegistration()
+		val injector = createInjector
 		val resourceSet = injector.getInstance(ResourceSet)
 		astData = resourceSet.getResource(URI.createFileURI(file), true)
 
@@ -43,13 +43,21 @@ class QLangJavaFxApplication extends Application {
 	}
 
 	override start(Stage primaryStage) {
-		val form = astData.allContents.head as Form
+		val form = getForm
 		val rootStage = stageService.buildGuiLayout(form)
 
 		val scene = new Scene(rootStage, 800, 600)
 		primaryStage.setTitle(form.name)
 		primaryStage.setScene(scene)
 		primaryStage.show()
+	}
+
+	def createInjector(){
+		new QLangStandaloneSetup().createInjectorAndDoEMFRegistration()
+	}
+	
+	def getForm(){
+		astData.allContents.head as Form
 	}
 
 }

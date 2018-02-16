@@ -15,7 +15,7 @@ import org.uva.sc.pc.ql.qLang.ExpressionNot
 import org.uva.sc.pc.ql.qLang.ExpressionOr
 import org.uva.sc.pc.ql.qLang.ExpressionPlusOrMinus
 import org.uva.sc.pc.ql.qLang.ExpressionQuestionRef
-import org.uva.sc.pc.ql.qLang.util.MissingCaseException
+import org.uva.sc.pc.ql.util.MissingCaseException
 
 class ExpressionEvaluator {
 

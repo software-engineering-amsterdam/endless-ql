@@ -19,8 +19,8 @@ import org.uva.sc.pc.ql.qLang.ExpressionPlusOrMinus
 import org.uva.sc.pc.ql.qLang.ExpressionQuestionRef
 import org.uva.sc.pc.ql.qLang.QLangPackage
 import org.uva.sc.pc.ql.qLang.Question
-import org.uva.sc.pc.ql.qLang.util.MissingCaseException
-import org.uva.sc.pc.ql.qLang.util.QLangUtil
+import org.uva.sc.pc.ql.util.MissingCaseException
+import org.uva.sc.pc.ql.util.QLangUtil
 
 /**
  * This class contains custom validation rules. 

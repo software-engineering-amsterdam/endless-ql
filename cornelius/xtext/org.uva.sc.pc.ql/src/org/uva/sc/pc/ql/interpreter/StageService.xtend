@@ -24,7 +24,7 @@ import org.uva.sc.pc.ql.qLang.TypeDecimal
 import org.uva.sc.pc.ql.qLang.TypeInteger
 import org.uva.sc.pc.ql.qLang.TypeMoney
 import org.uva.sc.pc.ql.qLang.TypeString
-import org.uva.sc.pc.ql.qLang.util.MissingCaseException
+import org.uva.sc.pc.ql.util.MissingCaseException
 
 class StageService {
 

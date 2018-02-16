@@ -13,7 +13,6 @@ import org.antlr.v4.runtime.CharStreams;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import static nl.uva.se.sc.niro.model.Ast.QLForm;
 
@@ -42,10 +41,9 @@ public class QLHomeController extends QLBaseController {
 
     private Scene createSceneForForm(QLForm form) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/nl/uva/se/sc/niro/gui/QLForm.fxml"));
-        List<Parent> questions = StatementFactory.createStatements(form.statements());
 
         Parent root = loader.load();
-        ((QLFormController)loader.getController()).populateForm(form.formName(), questions);
+        ((QLFormController) loader.getController()).populateForm(form);
         return new Scene(root);
     }
 

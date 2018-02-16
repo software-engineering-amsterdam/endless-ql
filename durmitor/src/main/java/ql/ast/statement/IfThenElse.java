@@ -13,4 +13,9 @@ public class IfThenElse extends Statement {
         this.thenStmt = thenStmt;
         this.elseStmt = elseStmt;
     }
+
+    @Override
+    public String toString() {
+        return "if( " +condition.toString() + " ) " + thenStmt.toString() + " else " + elseStmt.toString();
+    }
 }

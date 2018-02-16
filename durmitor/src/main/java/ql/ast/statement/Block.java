@@ -31,4 +31,21 @@ public class Block extends Statement {
     {
         return this.statements;
     }
+
+    @Override
+    public String toString() {
+        
+        String str = "{ ";
+        
+        for(Statement stmt : statements)
+        {
+            str += "[";
+            str += stmt.toString();
+            str += "] ";
+        }
+                
+        str += "}";
+        
+        return str;
+    }
 }

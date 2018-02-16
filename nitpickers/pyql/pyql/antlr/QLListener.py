@@ -1,4 +1,4 @@
-# Generated from QL.g4 by ANTLR 4.5.3
+# Generated from QL.g4 by ANTLR 4.7
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .QLParser import QLParser
@@ -32,6 +32,15 @@ class QLListener(ParseTreeListener):
 
     # Exit a parse tree produced by QLParser#block.
     def exitBlock(self, ctx:QLParser.BlockContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#statement.
+    def enterStatement(self, ctx:QLParser.StatementContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#statement.
+    def exitStatement(self, ctx:QLParser.StatementContext):
         pass
 
 

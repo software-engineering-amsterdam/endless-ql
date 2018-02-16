@@ -3,7 +3,9 @@ from pyql.ast import ast
 
 class Form(ast.ASTNode):
 
-    def __init__(self, location, block):
+    def __init__(self, identifier, location, block):
+        super().__init__(location)
+        self._identifier = identifier
         self._location = location
         self._block = block
 

@@ -1,6 +1,9 @@
 package ql.ast.statement;
 
-public abstract class Statement {
+import ql.ast.QLNode;
 
+public abstract class Statement extends QLNode {
+
+    public abstract String toString();
     
 }

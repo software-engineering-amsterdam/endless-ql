@@ -11,4 +11,9 @@ public class IfThen extends Statement {
         this.condition = condition;
         this.thenStmt = thenStmt;
     }
+
+    @Override
+    public String toString() {
+        return "if( " +condition.toString() + " ) " + thenStmt.toString();
+    }
 }

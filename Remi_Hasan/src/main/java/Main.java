@@ -52,7 +52,7 @@ public class Main extends Application {
     private void renderForm(Stage stage, File file) {
         Form form = parseFormFromFile(file);
 
-        if(form != null) {
+        if(form == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "File not found");
             alert.showAndWait();
         }

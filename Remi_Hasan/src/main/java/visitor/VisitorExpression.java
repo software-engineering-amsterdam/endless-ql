@@ -10,6 +10,12 @@ import java.math.BigDecimal;
 
 public class VisitorExpression extends QLBaseVisitor<Expression> {
 
+    private void typeCheck(Expression left, Expression right) {
+        if(left.getReturnType() != right.getReturnType()) {
+            throw new IllegalArgumentException("Type mismatch");
+        }
+    }
+
     @Override
     public Expression visitNotExpr(QLParser.NotExprContext ctx) {
         Expression value = visit(ctx.expr);
@@ -22,6 +28,8 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         int op = ctx.op.getType();
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
+
+        typeCheck(left, right);
 
         switch (op) {
             case QLLexer.PLUS:
@@ -49,6 +57,8 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
+        typeCheck(left, right);
+
         switch (op) {
             case QLLexer.EQ:
                 return new ExpressionComparisonEq(left, right);
@@ -65,6 +75,8 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
+        typeCheck(left, right);
+
         switch (op) {
             case QLLexer.AND:
                 return new ExpressionLogicalAnd(left, right);
@@ -80,6 +92,8 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         int op = ctx.op.getType();
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
+
+        typeCheck(left, right);
 
         switch (op) {
             case QLLexer.GT:

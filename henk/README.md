@@ -4,21 +4,41 @@
 - Jovan Maric, 10443762
 
 ## Requirements
-The following pre-requicities are needed to setup the project
+The following prerequisite are needed to setup the project:
+
+1. Latest Elixir: https://elixir-lang.org/install.html
+2. Hex package manager: run `mix local.hex`
 
 ## installing
-`mix deps.get`
+To install the required dependencies, run `mix deps.get`
 
 ## Runing
+To run the webserver or debuggin mode do the following:
+
+```
+# Server will be hosted on: localhost:4000
+mix phx.server
+```
+
+Or
+
+```
+# Interactive mode for debugging purposes
+iex -S mix
+```
 
 ## Code Analysis
-`mix credo`
+To run code analysis, run `mix credo`
 
 ## Testing
+To run the test suite do the following:
+
 ```
 mix espec
-# or
-mix espec /path/to/file
 ```
 
-## coverage
+Or
+
+```
+mix espec /path/to/file
+```

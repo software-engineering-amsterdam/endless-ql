@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import ql.ast.AstForm;
 import ql.ast.form.Form;
+import ql.checker.TypeChecker;
 
 public class Main {
 
@@ -16,7 +17,8 @@ public class Main {
 
         String filePath;
         QL ql;
-        Form form;
+        Form form = null;
+        TypeChecker tc;
 
         if (args.length == 0) {
             filePath = "resources/default.tax";
@@ -33,6 +35,10 @@ public class Main {
         }
 
         // Visit and TypeCheck the AST
+        tc = new TypeChecker(form);
+        tc.collectIdentifiers();
+        System.out.println(tc.getIdentifiers());
+        System.out.println(tc.getDuplicateIds());
 
         // Visit and build GUI from AST
 

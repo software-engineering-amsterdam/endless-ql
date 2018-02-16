@@ -14,6 +14,14 @@ public class Form extends QLNode {
         this.block = block;
     }
     
+    public Identifier getId() {
+        return id;
+    }
+
+    public Block getBlock() {
+        return block;
+    }
+
     public String toString() {
         return "form " + id.toString() + " " + block.toString();
     }

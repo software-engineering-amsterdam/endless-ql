@@ -16,7 +16,7 @@ public class QLFormController extends QLBaseController {
     private VBox questions;
 
     public void populateForm(String name, List<Parent> controls) {
-        formName.setText(name);
+        formName.setText(name.replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2"));
         questions.getChildren().addAll(controls);
     }
 }

@@ -8,6 +8,7 @@ $ python run_app.py forms/simple.ql
 import logging
 import argparse
 import sys
+from astviewer.main import view
 from commons.config import config
 from commons.logging import logging_basic_config
 from commons.utility import open_file
@@ -59,7 +60,7 @@ def main():
     print(result)
 
     # todo: maybe to a json inbetween to have a good look at ast instead of cli
-
+    view(source_code=result)
     # static checker
     #   - https://github.com/titusjan/astviewer
     # expression eval

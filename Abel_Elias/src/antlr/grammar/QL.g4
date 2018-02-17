@@ -1,8 +1,8 @@
 /** Grammar for questionnaire form */
-grammar FormQL;
+grammar QL;
 
 /** Parser rules */
-form : FORM BREAK* IDENTIFIER block EOF; // form
+form : FORM IDENTIFIER block EOF; // form
 
 block : CURLY_BRACE_L NEWLINE ((ifStatement | question | statement) NEWLINE)* CURLY_BRACE_R; // content
 

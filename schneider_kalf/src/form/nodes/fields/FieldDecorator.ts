@@ -2,6 +2,9 @@ import Field from "./Field";
 import FieldType from "../../field/FieldType";
 import NodeVisitor from "../visitors/NodeVisitor";
 
+/**
+ * Decorator for Fields that makes the Field "decoratable" for future usage.
+ */
 export default class FieldDecorator implements Field {
   get identifier(): string {
     return this.fieldToBeDecorated.identifier;

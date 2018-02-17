@@ -22,6 +22,8 @@ import StringLiteral from "./expressions/string/StringLiteral";
 
 /**
  * List all available node types for easy access in the grammar.
+ * This list is not needed otherwise, but used to create according
+ * instances inside the parser.
  */
 export default {
   IfCondition,

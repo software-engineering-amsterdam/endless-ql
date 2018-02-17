@@ -19,6 +19,7 @@ form form {
  	question: "Question?"  invalidType
 }
 
+//valid form with if question
 form form {
   question1: "IntegerQuestion?"  integer
   question2: "DecimalQuestion?"  decimal
@@ -27,6 +28,33 @@ form form {
   question5: "StringQuestion?"  string
   question6: "DateQuestion?"  date
   if (question4) {
+    question7: "ifQuestion" integer
+  }
+}
+
+//duplicate identifier form
+form form {
+   question1: "IntegerQuestion?"  integer
+   question2: "DecimalQuestion?"  decimal
+   question3: "MoneyQuestion?"  money
+   question4: "BooleanQuestion?"  boolean
+   question5: "StringQuestion?"  string
+   question5: "StringQuestion?"  string
+   question6: "DateQuestion?"  date
+   if (question4) {
+     question7: "ifQuestion" integer
+   }
+ }
+
+//type error form
+form form {
+  question1: "IntegerQuestion?"  integer
+  question2: "DecimalQuestion?"  decimal
+  question3: "MoneyQuestion?"  money
+  question4: "BooleanQuestion?"  boolean
+  question5: "StringQuestion?"  string
+  question6: "DateQuestion?"  date
+  if (question5) {
     question7: "ifQuestion" integer
   }
 }

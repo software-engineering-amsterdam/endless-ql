@@ -1,29 +1,26 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.TraverseType;
+import org.uva.sea.ql.parser.elements.types.Type;
+import org.uva.sea.ql.parser.nodeTypes.DualNode;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class LThan extends ASTNode {
-    private ASTNode lhs;
-    private ASTNode rhs;
-
+public class LThan extends DualNode {
     public LThan(ASTNode lhs, ASTNode rhs) {
-        this.lhs = lhs;
-        this.rhs = rhs;
+        super(lhs, rhs);
     }
 
-    public ASTNode getLhs() {
-        return lhs;
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
+        super.traverseNode(traverse, traverseType);
+        traverse.doLogical(this);
+        traverse.doLThan(this);
     }
 
-    public void setLhs(ASTNode lhs) {
-        this.lhs = lhs;
-    }
-
-    public ASTNode getRhs() {
-        return rhs;
-    }
-
-    public void setRhs(ASTNode rhs) {
-        this.rhs = rhs;
+    /**
+     * @return True or false is returned
+     */
+    public Type getType() {
+        return new Type("boolean");
     }
 }

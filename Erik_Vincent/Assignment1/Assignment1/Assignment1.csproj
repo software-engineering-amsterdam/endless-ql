@@ -69,6 +69,10 @@
     <Compile Include="QLListener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\ConversionToModelTest.cs" />
+    <Compile Include="Tests\GrammarTest.cs" />
+    <Compile Include="Tests\TestHelper.cs" />
+    <Compile Include="Tests\TestValues.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

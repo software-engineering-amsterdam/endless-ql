@@ -1,33 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using QL_Vizualizer.Factories;
 using QL_Vizualizer.Widgets;
 
 namespace QL_Vizualizer.Controllers.Display
 {
-    public class WidgetDisplayControllerWindows : IWidgetDisplayController
+    public class WidgetDisplayControllerWindows : WidgetDisplayController<Control>
     {
-        public float InitialPosition { get; private set; }
+        /// <summary>
+        /// Control element to add all created controls to
+        /// </summary>
+        private Control _mainControl;
 
-        private Control _formControl;
-        private Dictionary<string, Control> _controlIndex;
-
-        public WidgetDisplayControllerWindows(float topMargin, Control form)
+        public WidgetDisplayControllerWindows(float topMargin, Control control) : base(topMargin, new ControlFactory())
         {
-            InitialPosition = topMargin;
-            _formControl = form;
-            _controlIndex = new Dictionary<string, Control>();
+            _mainControl = control;
         }
 
-        public float Show(QLWidget widget, float position)
+        /// <summary>
+        /// Shows specific widget
+        /// </summary>
+        /// <param name="widget">Widget to show</param>
+        /// <param name="position">X position to show widget</param>
+        /// <returns></returns>
+        public override float Show(QLWidget widget, float position)
         {
             // Create control
-            Control control = CreateControl(widget);
+            Control control = CreateElement(widget);
 
             // Set location of control
             control.Location = new Point(0, (int)position);
@@ -36,26 +35,14 @@ namespace QL_Vizualizer.Controllers.Display
             int newBottom = control.Height + control.Location.Y;
 
             // Check if form has enough space, extend if needed
-            if (_formControl.Height < newBottom)
-                _formControl.Height = newBottom + (int)InitialPosition;
+            if (_mainControl.Height < newBottom)
+                _mainControl.Height = newBottom + (int)InitialPosition;
 
             // Add control to form
-            _formControl.Controls.Add(control);
+            _mainControl.Controls.Add(control);
 
             // Return bottom
             return newBottom;
-        }
-
-        private Control CreateControl(QLWidget widget)
-        {
-            Control c = ControlFactory.CreateControl(widget);
-            _controlIndex.Add(widget.Identifyer, c);
-            return c;
-        }
-
-        public void UpdateView(QLWidget widget)
-        {
-            ControlFactory.UpdateControl(widget, _controlIndex[widget.Identifyer]);
         }
     }
 }

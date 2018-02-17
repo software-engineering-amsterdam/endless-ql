@@ -42,7 +42,7 @@ public class QuestionBlockVisitorTest {
         ConditionalBlockVisitor conditionalBlockVisitor = mock(ConditionalBlockVisitor.class);
         QLParser.QuestionBlockContext contextMock = mock(QLParser.QuestionBlockContext.class);
         QLParser.ConditionalBlockContext conditionalContextBlock = mock(QLParser.ConditionalBlockContext.class);
-        when(contextMock.question()).thenReturn(Lists.newArrayList());
+
         when(contextMock.conditionalBlock()).thenReturn(Lists.newArrayList(conditionalContextBlock));
 
         QuestionBlockVisitor visitor = new QuestionBlockVisitor(questionVisitor, conditionalBlockVisitor);
@@ -52,6 +52,6 @@ public class QuestionBlockVisitorTest {
 
         // Assert
         Assert.assertEquals(0, questionBlock.getQuestions().size());
-        Assert.assertEquals(1, questionBlock.getBlocks());
+        Assert.assertEquals(1, questionBlock.getBlocks().size());
     }
 }

@@ -1,6 +1,6 @@
-package ast.expression;
+package ast.literal;
 
-public class Identifier extends Expression {
+public class Identifier {
 
 	private final String id;
 

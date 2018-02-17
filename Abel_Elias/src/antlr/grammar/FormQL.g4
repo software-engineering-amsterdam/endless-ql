@@ -2,10 +2,9 @@
 grammar FormQL;
 
 /** Parser rules */
-form : FORM IDENTIFIER block EOF; // form
+form : FORM BREAK* IDENTIFIER block EOF; // form
 
-
-block : CURLY_BRACE_L (ifStatement | question | statement)* CURLY_BRACE_R; // content
+block : CURLY_BRACE_L NEWLINE ((ifStatement | question | statement) NEWLINE)* CURLY_BRACE_R; // content
 
 question : IDENTIFIER COLON STR type;
 
@@ -16,6 +15,7 @@ expression:
     MON |
     INT |
     DEC |
+    STR |
     IDENTIFIER |
     BRACE_L expression BRACE_R |
     expression operator expression |
@@ -45,6 +45,8 @@ ifStatement : IF BRACE_L expression BRACE_R block*;
 type:  BOOLEANTYPE | STRINGTYPE | INTEGERTYPE | MONEYTYPE | DATETYPE | DECIMALTYPE ;
 
 /** Lexer rules (tokens)*/
+WS : (' ' | '\t')+ -> channel(HIDDEN);
+
 BOOLEANTYPE: 'boolean';
 STRINGTYPE: 'string';
 INTEGERTYPE: 'integer';
@@ -57,6 +59,7 @@ IF : 'if';
 COLON : ':';
 
 // seperators
+
 CURLY_BRACE_L : '{';
 CURLY_BRACE_R: '}';
 BRACE_L : '(';
@@ -92,3 +95,4 @@ INT : ('-')? DIGIT+;
 BOOL : ('true' | 'false');
 MON : DIGIT+ '.' DIGIT DIGIT;
 DEC : DIGIT+  '.'  DIGIT+;
+NEWLINE : '\n';

@@ -22,14 +22,17 @@ object StatementFactory {
 
   def convert(conditional: Conditional): Parent = {
     val thenPane = new VBox()
+    thenPane.setSpacing(10)
     // When invisible we don't occupy any space
     thenPane.managedProperty().bind(thenPane.visibleProperty())
 
     thenPane.getChildren.addAll(this.createStatements(conditional.ifStatements))
 
     val elsePane = new VBox()
+    elsePane.setSpacing(10)
+    // When invisible we don't occupy any space
     elsePane.managedProperty().bind(elsePane.visibleProperty())
-    // Exclusive or with thenPane
+    // Exclusive visibility with thenPane
     elsePane.visibleProperty().bind(thenPane.visibleProperty().not())
 
     elsePane.getChildren.addAll(this.createStatements(conditional.elseStatements))

@@ -1,5 +1,6 @@
 package nl.uva.se.sc.niro.gui
 
+import javafx.beans.value.{ChangeListener, ObservableValue}
 import javafx.scene.layout.{HBox, VBox}
 import javafx.scene.Parent
 import javafx.scene.control.{CheckBox, Label, TextField}
@@ -21,14 +22,17 @@ object StatementFactory {
 
   def convert(conditional: Conditional): Parent = {
     val thenPane = new VBox()
+    thenPane.setSpacing(10)
     // When invisible we don't occupy any space
     thenPane.managedProperty().bind(thenPane.visibleProperty())
 
     thenPane.getChildren.addAll(this.createStatements(conditional.ifStatements))
 
     val elsePane = new VBox()
+    elsePane.setSpacing(10)
+    // When invisible we don't occupy any space
     elsePane.managedProperty().bind(elsePane.visibleProperty())
-    // Exclusive or with thenPane
+    // Exclusive visibility with thenPane
     elsePane.visibleProperty().bind(thenPane.visibleProperty().not())
 
     elsePane.getChildren.addAll(this.createStatements(conditional.elseStatements))
@@ -59,14 +63,18 @@ object StatementFactory {
   }
 
   private def createDecimalField(): Parent = {
-    createRegExField("\\d+(,\\d{0,2})?")
+    createRegExField("\\d*(,\\d{0,2})?")
   }
 
   private def createRegExField(validPattern: String) = {
-    val integerField = new TextField()
-    integerField.setOnKeyTyped(keyEvent => {
-      if (!(integerField.getText() + keyEvent.getCharacter).matches(validPattern)) keyEvent.consume()
+    val regexField = new TextField()
+    regexField.textProperty().addListener(new ChangeListener[String] {
+      override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
+        if (!newValue.matches(validPattern)) {
+          regexField.setText(oldValue)
+        }
+      }
     })
-    integerField
+    regexField
   }
 }

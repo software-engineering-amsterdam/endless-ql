@@ -1,10 +1,10 @@
 package ql.ast.type;
 
-public class Decimal extends Type {
-    
-    private double value;
-    
-    public Decimal() {
-        this.value = 0.00;
+public class Decimal extends Numeric {
+
+    @Override
+    public String toString() {
+        return "decimal";
     }
+    
 }

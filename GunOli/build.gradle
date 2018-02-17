@@ -1,4 +1,4 @@
-group 'GunOli'
+group 'endless-ql'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
@@ -16,3 +16,10 @@ dependencies {
     compile "org.antlr:antlr4-runtime:4.7"
 }
 
+build {
+    dependsOn generateGrammarSource
+}
+
+compileJava {
+    dependsOn generateGrammarSource
+}

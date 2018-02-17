@@ -1,6 +1,7 @@
 bin/
+.idea/
 *.class
-
+gen/
 # Package Files #
 *.war
 *.ear

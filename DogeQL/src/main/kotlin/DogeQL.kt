@@ -11,7 +11,7 @@ class DogeQL {
 
 //            val userInput = readLine()
             val file = File(this::class.java.getResource("sample" + File.separator + "TestQuestionare.doge").toURI())
-            var content:String = file.readText()
+            var content = file.readText()
             val stream = ANTLRInputStream(content)
 
             val lexer = QuestionareLanguageLexer(stream)
@@ -24,8 +24,6 @@ class DogeQL {
             val listener = FormListener()
 
             ParseTreeWalker.DEFAULT.walk(listener, ctx)
-
-            val form = listener.form
         }
     }
 

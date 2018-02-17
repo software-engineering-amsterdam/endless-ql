@@ -1,22 +1,23 @@
 package ast.statement;
 
+import ast.expression.Identifier;
+import ast.type.Type;
 import utils.CodeReference;
-import utils.TypeEnum;
 
-public class Question extends Statement {
+public abstract class Question extends Statement {
 
-	private final String id;
+	private final Identifier id;
 	private final String name;
-	private final TypeEnum type;
+	private final Type type;
 
-	public Question(String id, String name, TypeEnum type, CodeReference location) {
+	public Question(Identifier id, String name, Type type, CodeReference location) {
 		super(location);
 		this.id = id;
 		this.name = name;
 		this.type = type;
 	}
 
-	public String getIdentifier() {
+	public Identifier getIdentifier() {
 		return id;
 	}
 
@@ -24,7 +25,7 @@ public class Question extends Statement {
 		return name;
 	}
 
-	public TypeEnum getType() {
+	public Type getType() {
 		return type;
 	}
 

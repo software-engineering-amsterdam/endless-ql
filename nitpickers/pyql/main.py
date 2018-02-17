@@ -1,8 +1,8 @@
 import sys
 from antlr4 import *
-from QLLexer import QLLexer
-from QLParser import QLParser
-# from HtmlQLListener import HtmlQLListener
+from pyql.antlr.QLLexer import QLLexer
+from pyql.antlr.QLParser import QLParser
+from pyql.ast.visitor import ParseTreeVisitor
 
 
 def main(argv):
@@ -12,6 +12,10 @@ def main(argv):
     parser = QLParser(stream)
     tree = parser.form()
     print(tree)
+    b = type(tree)
+    visitor = ParseTreeVisitor()
+    c = tree.accept(visitor)
+    print(c)
 
     # output = open("output.html", "w")
 

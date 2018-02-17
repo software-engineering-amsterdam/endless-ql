@@ -1,6 +1,8 @@
 package ql.visitors;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import ql.ast.expression.Add;
 import ql.ast.expression.And;
@@ -31,18 +33,43 @@ import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
+import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class ReferenceCollector extends AbstractCollector<Identifier> implements ExpressionVisitor {
+public class ReferenceChecker implements ExpressionVisitor {
     
-    @Override
-    public List<Identifier> collect(Form form) {
+    private Form form;
+    private Map<String,Type> symbolTable;
+    private List<String> errors;
+    private List<Identifier> undefined;
+
+    public ReferenceChecker(Form form, Map<String,Type> symbolTable, List<String> errors) {
         
-        collection.clear();
+        this.form           = form;
+        this.symbolTable    = symbolTable;
+        this.errors         = errors;
+        this.undefined      = new ArrayList<Identifier>();
+    }
+    
+    public List<Identifier> getUndefinedReferences() {
         
         visit(form.getBlock());
         
-        return collection;
+        return undefined;
+    }
+    
+    private void check(Identifier id) {
+        
+        if(!symbolTable.containsKey(id.getName()))
+        {
+            undefined.add(id);
+            errors.add("Reference [ " + id.getName() + " ] to undefined question found @ " + id.getLocation());
+        }
+    }
+    
+    @Override
+    public void visit(Identifier expr) {
+        check(expr);
     }
     
     @Override
@@ -130,11 +157,6 @@ public class ReferenceCollector extends AbstractCollector<Identifier> implements
     public void visit(Divide expr) {
         expr.getLhs().accept(this);
         expr.getRhs().accept(this);
-    }
-
-    @Override
-    public void visit(Identifier expr) {
-        collection.add(expr);
     }
 
     @Override

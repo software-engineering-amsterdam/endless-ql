@@ -5,7 +5,7 @@ import java.util.List;
 import org.uva.jomi.ql.ast.expressions.BinaryExpr;
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.expressions.GroupingExpr;
-import org.uva.jomi.ql.ast.expressions.IndentifierExpr;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
 import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
@@ -30,7 +30,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitIndetifierExpr(IndentifierExpr expr) {
+	public String visitIndetifierExpr(IdentifierExpr expr) {
 		return String.format("  %s [label=\"[Ident]\nName: %s\nType: %s\nUndefined: %s\"]\n",
 				expr.getId(),
 				expr.token.getLexeme(),
@@ -44,15 +44,15 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 		
 		switch (expr.getType()) {
 		case BOOLEAN:
-			value = String.format("[%s] %s", expr.getType(), expr.token.getLexeme());
+			value = String.format("Type: %s\nValue: %s\n", expr.getType(), expr.token.getLexeme());
 			break;
 		case STRING:
 			// Remove double quotes at from the start and end of the string
 			value = expr.token.getLexeme().substring(1, expr.token.getLexeme().length() - 1);
-			value = String.format("[%s] %s", expr.getType(), value);
+			value = String.format("Type: %s\nValue: %s\n", expr.getType(), value);
 			break;
 		case INTEGER:
-			value = String.format("[%s] %s", expr.getType(), expr.token.getLexeme());
+			value = String.format("Type: %s\nValue: %s\n", expr.getType(), expr.token.getLexeme());
 			break;
 		default:
 			// TODO Improve error by displaying the location of the offending token.
@@ -119,7 +119,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	public String visitBinaryExpr(BinaryExpr expr) {
 		return expr.left.accept(this) +
 				expr.right.accept(this) +
-				String.format("  %s [label=\"%s\"]\n", expr.getId(), expr.operator.getLexeme()) +
+				String.format("  %s [label=\"%s\nType: %s\n\"]\n", expr.getId(), expr.operator.getLexeme(), expr.getType()) +
 				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
 				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
@@ -127,14 +127,14 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	@Override
 	public String visitGroupingExpr(GroupingExpr expr) {
 		return expr.expression.accept(this) +
-				String.format("  %s [label=\"()\"]\n", expr.getId())+
+				String.format("  %s [label=\"GroupingExpr\nType: %s\"]\n", expr.getId(), expr.getType()) +
 				String.format("  %s -> %s\n", expr.getId(), expr.expression.getId());
 	}
 
 	@Override
 	public String visitUnaryExpr(UnaryExpr expr) {
-		return expr.right.accept(this) + String.format("  %s [label=\"%s\"]\n", expr.getId(), expr.operator.getLexeme())
-		+ String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+		return expr.right.accept(this) + String.format("  %s [label=\"%s\nType: %s\n\"]\n", expr.getId(), expr.operator.getLexeme(), expr.getType()) +
+		 		String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
@@ -156,5 +156,4 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 				String.format("  %s -> %s\n", stmt.getId(), stmt.elseBlockStmt.getId()) +
 				String.format("  %s [label=\"IfElseStmt\"]\n", stmt.getId());
 	}
-
 }

@@ -68,10 +68,10 @@ public class QL {
             charStream = CharStreams.fromStream(inputStream, Charset.forName("UTF-8"));
         }
 
-        parser      = new QLParser(new CommonTokenStream(new QLLexer(charStream)));
-        tree        = parser.form();
-        form        = (Form) visitor.visit(tree);
-
+        parser  = new QLParser(new CommonTokenStream(new QLLexer(charStream)));
+        tree    = parser.form();
+        form    = (Form) visitor.visit(tree);
+        System.out.println(form.toString());
         return form;
     }
 }

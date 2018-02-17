@@ -1,15 +1,13 @@
 package expression;
 
-import model.Form;
-
 public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
 
-    public ExpressionVariableBoolean(Boolean value){
+    public ExpressionVariableBoolean(Boolean value) {
         super(value);
     }
 
     @Override
-    public ReturnType getReturnType(Form form) {
+    public ReturnType getReturnType() {
         return ReturnType.Boolean;
     }
 
@@ -60,21 +58,21 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
 
     @Override
     public ExpressionVariable and(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(this.value && Boolean.parseBoolean(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable or(ExpressionVariable other) {
-        if(this.value == null || other == null)
+        if (this.value == null || other == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(this.value || Boolean.parseBoolean(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable not() {
-        if(this.value == null)
+        if (this.value == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(!this.value);
     }

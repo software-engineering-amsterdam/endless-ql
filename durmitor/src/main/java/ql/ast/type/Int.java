@@ -1,10 +1,10 @@
 package ql.ast.type;
 
-public class Int extends Type {
-    
-    private int value;
-    
-    public Int() {
-        this.value = 0;
+public class Int extends Numeric {
+
+    @Override
+    public String toString() {
+        return "integer";
     }
+    
 }

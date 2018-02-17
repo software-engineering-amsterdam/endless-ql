@@ -1,4 +1,5 @@
 ﻿using QL_Vizualizer.Controllers;
+using QL_Vizualizer.Factories;
 using System.Linq;
 
 namespace QL_Vizualizer.Widgets
@@ -15,7 +16,7 @@ namespace QL_Vizualizer.Widgets
         /// <summary>
         /// Indication if the widget should be shown
         /// </summary>
-        public bool Active { get; private set; }
+        public bool Active { get; protected set; }
 
         /// <summary>
         /// Expression for activation evaluation
@@ -27,6 +28,10 @@ namespace QL_Vizualizer.Widgets
             Text = text;
             Identifyer = identifyer;
             _activationExpression = activationExpression;
+            if (_activationExpression != null)
+                Active = _activationExpression.Run();
+            else
+                Active = true;
 
             if (activationExpression != null)
                 foreach (string id in activationExpression.WidgetIDs)

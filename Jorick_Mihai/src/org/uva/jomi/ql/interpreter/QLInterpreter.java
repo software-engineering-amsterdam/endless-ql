@@ -6,7 +6,7 @@ import org.uva.jomi.ql.ast.*;
 import org.uva.jomi.ql.ast.expressions.BinaryExpr;
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.expressions.GroupingExpr;
-import org.uva.jomi.ql.ast.expressions.IndentifierExpr;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
 import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
@@ -35,7 +35,7 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 	}
 
 	@Override
-	public Object visitIndetifierExpr(IndentifierExpr expr) {
+	public Object visitIndetifierExpr(IdentifierExpr expr) {
 		// TODO Interpret IndentifierExpr.
 		return null;
 	}

@@ -2,22 +2,29 @@
 form            = ws "form" ws name:identifier ws "{" ws
                   statements: statement*
                 "}" ws {
-                  return new Form(name, statements);
+                  return new Form(name, statements, location());
                 }
 
-statement       = q / ifStatement
+statement       = exprQuestion / q / ifStatement
 
 ifStatement     = ws "if" ws "(" ws condition:identifier ws ")" ws "{" ws
                   statements:statement* ws
                   "}" ws
                   {
-                    return new If(condition, statements);
+                    return new If(condition, statements, location());
                   }
 
 q "question"    = ws name:identifier ":" ws "\"" ws
                   label:text "\"" ws
                   type: type ws {
-                    return new Question(name, label, type);
+                    return new Question(name, label, type, location());
+                  }
+
+exprQuestion    = ws name:identifier ":" ws "\"" ws
+                  label:text "\"" ws
+                  type: type ws
+                  "=" ws "(" ws expr:expression ws ")" ws {
+                    return new ExpressionQuestion(name, label, type, expr, location());
                   }
 
 text            = (ws word ws)+ {return text();}
@@ -34,6 +41,7 @@ type            = booleanType /
 ws "whitespace" = [ \t\n\r]* { return; }
 
 identifier 		= [a-zA-Z0-9]+ {return text();}
+expression 		= [a-zA-Z0-9 +\-\/*><=]+ {return text();}
 
 word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
 

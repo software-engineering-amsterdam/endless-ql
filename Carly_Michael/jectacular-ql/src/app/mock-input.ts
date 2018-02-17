@@ -14,6 +14,14 @@ export const validFormWithIf =
       }
   `;
 
+export const formWrongName =
+  `
+    form form! {
+      question: "Question?" boolean
+    }
+  `;
+
+
 export const formWrongQuestionName =
   `
     form form {
@@ -35,4 +43,39 @@ export const duplicateIdentifierForm =
         question7: "ifQuestion" integer
       }
   }
+  `;
+
+export const ifQuestionForm =
+  `
+    form form {
+      question: "Question?" boolean
+      if (question) {
+        questionIf: "QuestionIf?" integer
+      }
+    }
+  `;
+
+export const simpleForm =
+  `
+    form form {
+      question: "Question?" boolean
+    }
+  `;
+
+export const multipleQuestionForm =
+  `
+    form form {
+      questionOne: "Question1?" boolean
+      questionTwo: "Question2?" string
+      questionThree: "Question3?" date
+      questionFour: "Question4?" money
+    }
+  `;
+
+export const expressionQuestionForm =
+  `
+    form form {
+      question: "Question?" integer
+      exprQuestion: "Expression?" integer = (question + 500)
+    }
   `;

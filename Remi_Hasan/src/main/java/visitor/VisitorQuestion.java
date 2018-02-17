@@ -13,6 +13,8 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
 
         String questionName = ctx.identifier().getText();
         String questionText = ctx.questionString().getText();
+        // remove quotes from text
+        questionText = questionText.substring(1, questionText.length() - 1);
         Expression answer = visitorQuestionType.visit(ctx.questionType());
 
         return new Question(questionName, questionText, answer);

@@ -30,6 +30,7 @@ PLUS : '+';
 MINUS : '-';
 ASTERISK : '*';
 DIVISION : '/';
+EQUAL : '=';
 
 //Comparisons
 LESS : '<';
@@ -37,7 +38,7 @@ HIGHER : '>';
 EQUALHIGHER : '>=';
 EQUALLESS : '<=';
 DIFF : '!=';
-EQUAL : '==';
+ISEQUAL : '==';
 
 //Booleans
 AND : '&&';
@@ -45,12 +46,7 @@ OR : '||';
 NOT : '!';
 
 //Variables
-VAR : [_]*[A-Za-z0-9]*;
-LABEL : '"'[A-Za-z0-9 ,.?]+'"';
+VAR : [_]*[A-Za-z][A-Za-z0-9]*;
+LABEL : '"'[A-Za-z0-9 ,.?/:]+'"';
 
-<<<<<<< HEAD
-//RULES
-question : VAR ASSIGN LABEL BOOL+;
-form : FORM VAR LCURLYBRAKET question+ RCURLYBRAKET;
-=======
->>>>>>> a1532717721957782eaca3fc1d54b173efe04671
+

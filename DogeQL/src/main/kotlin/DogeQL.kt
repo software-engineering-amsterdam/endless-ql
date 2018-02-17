@@ -24,8 +24,6 @@ class DogeQL {
             val listener = FormListener()
 
             ParseTreeWalker.DEFAULT.walk(listener, ctx)
-
-            val form = listener.form
         }
     }
 

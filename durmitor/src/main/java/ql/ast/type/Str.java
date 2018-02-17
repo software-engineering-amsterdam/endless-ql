@@ -1,10 +1,10 @@
 package ql.ast.type;
 
 public class Str extends Type {
-    
-    private String value;
-    
-    public Str() {
-        this.value = "";
+
+    @Override
+    public String toString() {
+        return "string";
     }
+    
 }

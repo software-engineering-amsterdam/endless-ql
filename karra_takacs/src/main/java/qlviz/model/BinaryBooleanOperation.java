@@ -1,6 +1,7 @@
 package qlviz.model;
 
 
+
 public class BinaryBooleanOperation extends BooleanExpression {
 
 

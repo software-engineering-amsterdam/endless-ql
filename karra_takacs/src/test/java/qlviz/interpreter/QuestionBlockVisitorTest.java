@@ -1,12 +1,9 @@
-package main.interpreter;
+package qlviz.interpreter;
 
 import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import qlviz.QLParser;
-import qlviz.interpreter.ConditionalBlockVisitor;
-import qlviz.interpreter.QuestionBlockVisitor;
-import qlviz.interpreter.QuestionVisitor;
 import qlviz.model.QuestionBlock;
 
 import java.util.ArrayList;

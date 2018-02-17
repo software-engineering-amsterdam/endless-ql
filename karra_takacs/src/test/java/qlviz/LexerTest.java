@@ -1,14 +1,9 @@
-package main;
+package qlviz;
 
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.atn.ATNConfigSet;
-import org.antlr.v4.runtime.dfa.DFA;
 import org.junit.Assert;
 import org.junit.Test;
-import qlviz.QLLexer;
-import qlviz.QLLexer;
 
-import java.util.BitSet;
 import java.util.List;
 
 

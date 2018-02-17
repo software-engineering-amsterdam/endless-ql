@@ -1,8 +1,7 @@
-package main.model;
+package qlviz.model;
 
 import org.junit.Assert;
 import org.junit.Test;
-import qlviz.model.BooleanLiteral;
 
 public class BooleanLiteralTest {
 

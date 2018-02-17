@@ -1,19 +1,12 @@
-package main.interpreter;
+package qlviz.interpreter;
 
 import com.google.common.collect.Lists;
-import edu.emory.mathcs.backport.java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mock;
-import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
 import qlviz.QLVisitor;
-import qlviz.interpreter.FormVisitor;
 import qlviz.model.Form;
-import qlviz.model.Question;
 import qlviz.model.QuestionBlock;
-
-import java.util.LinkedList;
 
 import static org.mockito.Mockito.*;
 

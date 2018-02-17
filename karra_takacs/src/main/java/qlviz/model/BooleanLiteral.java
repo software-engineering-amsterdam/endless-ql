@@ -13,3 +13,4 @@ public class BooleanLiteral extends BooleanExpression {
         return this.value;
     }
 }
+

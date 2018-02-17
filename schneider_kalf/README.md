@@ -50,6 +50,15 @@ npm run generate:ql
 The results will be written to `src/parsing/parsers/ql_parser.ts`.
 If the development server is running it will automatically reload.
 
+## Tests
+
+To run the tests inside `src/test` please execute: 
+
+```
+yarn test
+```
+
+
 ## Doubts
 
 * Can we have escape charachters in string \"?

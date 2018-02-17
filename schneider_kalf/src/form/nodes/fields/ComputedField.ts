@@ -9,6 +9,15 @@ export default class ComputedField implements Field {
   readonly type: FieldType;
   readonly formula: Expression;
 
+  /**
+   * Creates a computed field that will be rendered as a readonly label that
+   * displays the result of the provided formula.
+   *
+   * @param {string} identifier
+   * @param {string} label
+   * @param {FieldType} type
+   * @param {Expression} formula
+   */
   constructor(identifier: string, label: string, type: FieldType, formula: Expression) {
     this.label = label;
     this.identifier = identifier;

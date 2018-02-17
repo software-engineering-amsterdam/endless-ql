@@ -21,7 +21,7 @@ form taxFormExample {
                 (sellingPrice - privateDebt)
     }
 
-    if (age) {
+    if (undefined) {
         "Are you a minor?"
             old: boolean
     }
@@ -38,6 +38,8 @@ form taxFormExample {
             gotCaught: boolean
         "Did you get caught?"
             gotCaught: boolean
+        "Did you get caught?"
+            gotCaught: string
     }
 
 }

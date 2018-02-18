@@ -1,8 +1,11 @@
-1- Write grammar in .g4
-2- Read QL form from a certain location (select ql file)
-3- Parse file content (form) into an AST
-4- Check types
-5- Validate semantics
-6- Visit AST to generate GUI
-7- Work on conditions (questions visibility triggers)
-8- Implement unit testing
+QL-interpreter:
+	1- Write grammar in .g4
+	2- Read QL form from a certain location (select ql file)
+	3- Parse file content (form) into an AST
+	4- Check types
+	5- Validate semantics
+	6- Visit AST to generate GUI (inc. evaluate expressions)
+	7- Work on conditions (questions visibility triggers)
+	8- Implement unit testing
+
+QLS:

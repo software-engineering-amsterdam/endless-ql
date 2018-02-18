@@ -1,5 +1,9 @@
 package qlviz.gui;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import javafx.application.Application;
@@ -42,59 +46,48 @@ public class TaxForm extends Application {
 	public void start(Stage stage) throws Exception {
 
 		VBox taxFormFields = new VBox();
-		CheckBox buy = new CheckBox("Buy");
-		CheckBox sell = new CheckBox("Sell");
-		CheckBox loanType = new CheckBox("Loan Type");
-		ParseBuilder parseBuilder = new ParseBuilder();
-		ParseTree parseTree = parseBuilder.generateParseTree(this.getParameters().getRaw().get(0));
-		QuestionVisitor questionVisitor = new QuestionVisitor(new QuestionTypeVisitor());
-
-		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor =
-				new BooleanExpressionVisitor(
-					new NumericExpressionVisitor(
-							new BinaryNumericOperatorVisitor()
-					),
-					new BinaryBooleanOperatorVisitor(),
-					new NumericComparisonOperatorVisitor());
-		QLBaseVisitor<QuestionBlock> questionBlockVisitor =
-				new QuestionBlockVisitor(
-						new QuestionVisitor(
-								new QuestionTypeVisitor()
-						),
-						pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor)
-				);
-		Form form =  new FormVisitor(questionBlockVisitor).visit(parseTree);
-		  for( QuestionBlock questionBlock : form.getQuestions()) {
-			for(int j = 0 ;j <questionBlock.getQuestions().size();j++) {
-			
-			System.out.println(form.getQuestions().get(0).getQuestions().get(j).getText());
-			}
-		  }
-		buy.selectedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				System.out.println(buy.isSelected());
-			}
-		});
-
-		sell.selectedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				System.out.println(sell.isSelected());
-			}
-		});
-		loanType.selectedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				System.out.println(loanType.isSelected());
-			}
-		});
-		taxFormFields.getChildren().addAll(buy, sell, loanType);
+		addFormFields(taxFormFields);
 		Scene scene = new Scene(taxFormFields, 550, 250);
 		stage.setTitle("Tax form");
 		stage.setScene(scene);
 		stage.show();
+	}
+
+	// adds form fields
+	private void addFormFields(VBox taxFormFields) {
+		HashMap<Integer, String> checkboxList = getQuestions();
+		Iterator<Map.Entry<Integer, String>> checkBoxIterator = checkboxList.entrySet().iterator();
+		while (checkBoxIterator.hasNext()) {
+			CheckBox checkBoxLabel = new CheckBox(checkBoxIterator.next().getValue());
+			checkBoxLabel.selectedProperty().addListener(new ChangeListener<Boolean>() {
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					System.out.println(checkBoxLabel.isSelected());
+				}
+			});
+			taxFormFields.getChildren().add(checkBoxLabel);
+		}
+	}
+
+	// get questions from the input file
+	private HashMap<Integer, String> getQuestions() {
+		ParseBuilder parseBuilder = new ParseBuilder();
+		ParseTree parseTree = parseBuilder.generateParseTree(this.getParameters().getRaw().get(0));
+		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor = new BooleanExpressionVisitor(
+				new NumericExpressionVisitor(new BinaryNumericOperatorVisitor()), new BinaryBooleanOperatorVisitor(),
+				new NumericComparisonOperatorVisitor());
+		QLBaseVisitor<QuestionBlock> questionBlockVisitor = new QuestionBlockVisitor(
+				new QuestionVisitor(new QuestionTypeVisitor()),
+				pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor));
+		Form form = new FormVisitor(questionBlockVisitor).visit(parseTree);
+		HashMap<Integer, String> checkboxList = new HashMap<Integer, String>();
+		for (QuestionBlock questionBlock : form.getQuestions()) {
+			for (int j = 0; j < questionBlock.getQuestions().size(); j++) {
+				checkboxList.put(j, form.getQuestions().get(0).getQuestions().get(j).getText());
+				System.out.println(form.getQuestions().get(0).getQuestions().get(j).getText());
+			}
+		}
+		return checkboxList;
 	}
 
 }

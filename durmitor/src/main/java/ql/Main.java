@@ -2,9 +2,6 @@ package ql;
 
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import ql.ast.form.Form;
 import ql.ast.type.Type;
 import ql.checker.TypeChecker;
@@ -41,6 +38,7 @@ public class Main {
         checker.checkIdentifiers(form);
         checker.checkReferences(form, symbolTable);
         checker.checkConditions(form, symbolTable);
+        checker.checkOperands(form, symbolTable);
         checker.checkLabels(form);
         checker.printErrors();
         checker.printWarnings();

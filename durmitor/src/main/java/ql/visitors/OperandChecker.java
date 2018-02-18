@@ -6,6 +6,7 @@ import java.util.Map;
 
 import ql.ast.expression.Add;
 import ql.ast.expression.And;
+import ql.ast.expression.BinaryOperator;
 import ql.ast.expression.BoolLiteral;
 import ql.ast.expression.DateLiteral;
 import ql.ast.expression.DecimalLiteral;
@@ -22,10 +23,12 @@ import ql.ast.expression.Multiply;
 import ql.ast.expression.Negation;
 import ql.ast.expression.Negative;
 import ql.ast.expression.NotEqual;
+import ql.ast.expression.Operator;
 import ql.ast.expression.Or;
 import ql.ast.expression.Positive;
 import ql.ast.expression.StrLiteral;
 import ql.ast.expression.Subtract;
+import ql.ast.expression.UnaryOperator;
 import ql.ast.form.Form;
 import ql.ast.statement.AnswerableQuestion;
 import ql.ast.statement.Block;
@@ -36,107 +39,125 @@ import ql.ast.statement.Statement;
 import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class ReferenceChecker implements ExpressionVisitor {
+public class OperandChecker implements ExpressionVisitor {
     
     private Form form;
     private Map<String,Type> symbolTable;
     private List<String> errors;
-    private List<Identifier> undefined;
+    private List<Operator> illegal;
 
-    public ReferenceChecker(Form form, Map<String,Type> symbolTable, List<String> errors) {
+    public OperandChecker(Form form, Map<String,Type> symbolTable, List<String> errors) {
         
         this.form           = form;
         this.symbolTable    = symbolTable;
         this.errors         = errors;
-        this.undefined      = new ArrayList<Identifier>();
+        this.illegal      = new ArrayList<Operator>();
     }
     
-    public List<Identifier> getUndefinedReferences() {
+    public List<Operator> getUndefinedReferences() {
         
         visit(form.getBlock());
         
-        return undefined;
+        return illegal;
     }
     
-    private void check(Identifier id) {
+    private void check(BinaryOperator op) {
         
-        if(id.getType(symbolTable).isUndefined())
+        Type lhs = op.getLhs().getType(symbolTable);
+        Type rhs = op.getRhs().getType(symbolTable);
+        if(!op.isLegalFor(lhs,rhs))
         {
-            undefined.add(id);
-            errors.add("Reference [ " + id.getName() + " ] to undefined question found @ " + id.getLocation());
+            errors.add("Illegal operation [ " + op.getOperator() + " ]  on [ "+lhs+" ] and [ "+rhs+" ] @ " + op.getLocation());
         }
     }
     
-    @Override
-    public void visit(Identifier expr) {
-        check(expr);
+    private void check(UnaryOperator op) {
+        
+        Type type = op.getType(symbolTable);
+        if(!op.isLegalFor(type))
+        {
+            errors.add("Illegal operation [ " + op.getOperator() + " ] on [ "+type+" ] @ " + op.getLocation());
+        }
     }
+    
     
     @Override
     public void visit(Negation expr) {
+        check(expr);
         expr.getExpression().accept(this);
     }
 
     @Override
     public void visit(Negative expr) {
+        check(expr);
         expr.getExpression().accept(this);
     }
 
     @Override
     public void visit(Positive expr) {
+        check(expr);
         expr.getExpression().accept(this);
     }
 
     @Override
     public void visit(And expr) {
+        check(expr);
         expr.getLhs().accept(this);
         expr.getRhs().accept(this);
     }
 
     @Override
     public void visit(Or expr) {
+        check(expr);
         expr.getLhs().accept(this);
         expr.getRhs().accept(this);
     }
 
     @Override
     public void visit(Greater expr) {
+        check(expr);
         expr.getLhs().accept(this);
         expr.getRhs().accept(this);
     }
 
     @Override
     public void visit(GreaterEqual expr) {
+        check(expr);
         expr.getLhs().accept(this);
         expr.getRhs().accept(this);
     }
 
     @Override
     public void visit(Less expr) {
+        check(expr);
         expr.getLhs().accept(this);
         expr.getRhs().accept(this);
     }
 
     @Override
     public void visit(LessEqual expr) {
+        check(expr);
         expr.getLhs().accept(this);
         expr.getRhs().accept(this);
     }
 
     @Override
     public void visit(Equal expr) {
+        check(expr);
         expr.getLhs().accept(this);
         expr.getRhs().accept(this);
     }
 
     @Override
     public void visit(NotEqual expr) {
+        check(expr);
         expr.getLhs().accept(this);
         expr.getRhs().accept(this);
     }
 
     @Override
     public void visit(Add expr) {
+        check(expr);
         expr.getLhs().accept(this);
         expr.getRhs().accept(this);
     }
@@ -145,20 +166,26 @@ public class ReferenceChecker implements ExpressionVisitor {
     public void visit(Subtract expr) {
         expr.getLhs().accept(this);
         expr.getRhs().accept(this);
+        check(expr);
     }
 
     @Override
     public void visit(Multiply expr) {
+        check(expr);
         expr.getLhs().accept(this);
         expr.getRhs().accept(this);
     }
 
     @Override
     public void visit(Divide expr) {
+        check(expr);
         expr.getLhs().accept(this);
         expr.getRhs().accept(this);
     }
 
+    @Override
+    public void visit(Identifier expr) {}
+    
     @Override
     public void visit(BoolLiteral expr) {}
 

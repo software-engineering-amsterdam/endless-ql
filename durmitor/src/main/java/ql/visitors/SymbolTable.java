@@ -15,7 +15,7 @@ import ql.visitors.interfaces.StatementVisitor;
 
 public class SymbolTable implements StatementVisitor {
     
-    Map<String,Type> symbolTable;
+    private Map<String,Type> symbolTable;
     
     public SymbolTable() {
         symbolTable = new HashMap<String,Type>();

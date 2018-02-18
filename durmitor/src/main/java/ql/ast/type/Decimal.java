@@ -6,5 +6,4 @@ public class Decimal extends Numeric {
     public String toString() {
         return "decimal";
     }
-    
 }

@@ -40,14 +40,7 @@ public class ConditionChecker implements StatementVisitor {
     
     private void check(Expression condition) {
         
-        Type type = condition.getType();
-        
-        if(condition.isIdentifier())
-        {
-            String name = ((Identifier) condition).getName();
-            
-            if(symbolTable.containsKey(name)) type = symbolTable.get(name);
-        }
+        Type type = condition.getType(symbolTable);
         
         if(!type.isBoolean())
         {

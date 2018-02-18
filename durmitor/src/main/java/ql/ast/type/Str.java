@@ -6,5 +6,4 @@ public class Str extends Type {
     public String toString() {
         return "string";
     }
-    
 }

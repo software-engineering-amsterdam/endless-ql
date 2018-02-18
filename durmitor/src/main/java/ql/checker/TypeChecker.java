@@ -11,6 +11,7 @@ import ql.ast.type.Type;
 import ql.visitors.ConditionChecker;
 import ql.visitors.ConflictingIdChecker;
 import ql.visitors.DuplicateLabelChecker;
+import ql.visitors.OperandChecker;
 import ql.visitors.ReferenceChecker;
 
 public class TypeChecker {
@@ -43,6 +44,13 @@ public class TypeChecker {
         ConditionChecker checker = new ConditionChecker(form, symbolTable, errors);
         
         return checker.getInvalidConditions();
+    }
+    
+    public void checkOperands(Form form, Map<String,Type> symbolTable)
+    {
+        OperandChecker checker = new OperandChecker(form, symbolTable, errors);
+        
+        System.out.println(checker.getUndefinedReferences());
     }
     
     public List<String> checkLabels(Form form)

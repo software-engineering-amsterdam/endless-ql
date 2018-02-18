@@ -16,7 +16,7 @@ public class QuestionVisitorTest {
     public void TestQuestionIdentifier() {
         // Arrange
         final String testIdentifier = "test_identifier";
-        QLBaseVisitor<QuestionType> typeVisitorMock = mock(QLBaseVisitor.class);
+        QuestionTypeTranslator typeVisitorMock = mock(QuestionTypeTranslator.class);
         QLParser.QuestionContext contextMock = mock(QLParser.QuestionContext.class);
         QLParser.QuestionNameContext nameContext = mock(QLParser.QuestionNameContext.class);
         QLParser.QuestionTextContext textContextMock = mock(QLParser.QuestionTextContext.class);

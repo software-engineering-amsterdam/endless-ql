@@ -1,21 +1,22 @@
 package qlviz.interpreter;
 
+import org.antlr.v4.runtime.tree.TerminalNode;
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
 import qlviz.model.*;
 
 public class QuestionVisitor extends QLBaseVisitor<Question> {
 
-    private final QLBaseVisitor<QuestionType> questionTypeVisitor;
+    private final QuestionTypeTranslator questionTypeTranslator;
 
-    public QuestionVisitor(QLBaseVisitor<QuestionType> questionTypeVisitor) {
-        this.questionTypeVisitor = questionTypeVisitor;
+    public QuestionVisitor(QuestionTypeTranslator questionTypeTranslator) {
+        this.questionTypeTranslator = questionTypeTranslator;
     }
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
         QuestionType type =
-                questionTypeVisitor.visitTerminal(ctx.TYPE());
+                questionTypeTranslator.translate(ctx.TYPE());
         String text = ctx.questionText().getText();
         String name = ctx.questionName().getText();
         switch (type){

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class BooleanQuestion extends Question {
     private boolean value;
 
-    public boolean isValue() {
+    public boolean getValue() {
         return value;
     }
 

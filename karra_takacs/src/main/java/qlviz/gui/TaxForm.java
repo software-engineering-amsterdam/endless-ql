@@ -45,8 +45,21 @@ public class TaxForm extends Application {
 		ParseBuilder parseBuilder = new ParseBuilder();
 		ParseTree parseTree = parseBuilder.generateParseTree(this.getParameters().getRaw().get(0));
 		QuestionVisitor questionVisitor = new QuestionVisitor(new QuestionTypeVisitor());
-		ConditionalBlockVisitor conditionalBlockVisitor = new ConditionalBlockVisitor(new QLBaseVisitor<BooleanExpression>(),new QLBaseVisitor<QuestionBlock>());
-		QuestionBlockVisitor questionBlockVisitor = new QuestionBlockVisitor(questionVisitor, conditionalBlockVisitor);
+
+		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor =
+				new BooleanExpressionVisitor(
+					new NumericExpressionVisitor(
+							new BinaryNumericOperatorVisitor()
+					),
+					new BinaryBooleanOperatorVisitor(),
+					new NumericComparisonOperatorVisitor());
+		QLBaseVisitor<QuestionBlock> questionBlockVisitor =
+				new QuestionBlockVisitor(
+						new QuestionVisitor(
+								new QuestionTypeVisitor()
+						),
+						pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor)
+				);
 		Form form =  new FormVisitor(questionBlockVisitor).visit(parseTree);
 		for (QuestionBlock question : form.getQuestions()) {
 			System.out.println(question.getQuestions());

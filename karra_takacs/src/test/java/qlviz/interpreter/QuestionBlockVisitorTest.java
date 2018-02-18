@@ -23,7 +23,7 @@ public class QuestionBlockVisitorTest {
         when(contextMock.conditionalBlock()).thenReturn(new ArrayList<>());
         when(contextMock.question()).thenReturn(Lists.newArrayList(questionContextMock, questionContextMock));
 
-        QuestionBlockVisitor visitor = new QuestionBlockVisitor(questionVisitor, conditionalBlockVisitor);
+        QuestionBlockVisitor visitor = new QuestionBlockVisitor(questionVisitor, q -> conditionalBlockVisitor);
 
         // Act
         QuestionBlock questionBlock = visitor.visitQuestionBlock(contextMock);
@@ -42,7 +42,7 @@ public class QuestionBlockVisitorTest {
 
         when(contextMock.conditionalBlock()).thenReturn(Lists.newArrayList(conditionalContextBlock));
 
-        QuestionBlockVisitor visitor = new QuestionBlockVisitor(questionVisitor, conditionalBlockVisitor);
+        QuestionBlockVisitor visitor = new QuestionBlockVisitor(questionVisitor, q -> conditionalBlockVisitor);
 
         // Act
         QuestionBlock questionBlock = visitor.visitQuestionBlock(contextMock);

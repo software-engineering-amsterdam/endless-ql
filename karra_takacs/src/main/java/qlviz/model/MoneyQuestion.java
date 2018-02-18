@@ -2,19 +2,11 @@ package qlviz.model;
 
 import java.math.BigDecimal;
 
-public class MoneyQuestion extends Question {
-    private BigDecimal value;
+public class MoneyQuestion extends NumericQuestion {
 
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public void setValue(BigDecimal value) {
-        this.value = value;
-    }
-
-    public MoneyQuestion(String name, String text, QuestionType type) {
+   public MoneyQuestion(String name, String text, QuestionType type) {
         super(name, text, type);
     }
+
 }
 

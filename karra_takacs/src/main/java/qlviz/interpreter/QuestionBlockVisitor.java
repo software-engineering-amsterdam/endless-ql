@@ -2,18 +2,20 @@ package qlviz.interpreter;
 
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
+import qlviz.model.ConditionalBlock;
+import qlviz.model.Question;
 import qlviz.model.QuestionBlock;
 
 import java.util.stream.Collectors;
 
 public class QuestionBlockVisitor extends QLBaseVisitor<QuestionBlock> {
 
-    private final QuestionVisitor questionVisitor;
-    private final ConditionalBlockVisitor conditionalBlockVisitor;
+    private final QLBaseVisitor<Question> questionVisitor;
+    private final QLBaseVisitor<ConditionalBlock> conditionalBlockVisitor;
 
-    public QuestionBlockVisitor(QuestionVisitor questionVisitor, ConditionalBlockVisitor conditionalBlockVisitor) {
+    public QuestionBlockVisitor(QuestionVisitor questionVisitor, ConditionalBlockVisitorFactory conditionalBlockVisitorFactory) {
         this.questionVisitor = questionVisitor;
-        this.conditionalBlockVisitor = conditionalBlockVisitor;
+        this.conditionalBlockVisitor = conditionalBlockVisitorFactory.create(this);
     }
 
     @Override

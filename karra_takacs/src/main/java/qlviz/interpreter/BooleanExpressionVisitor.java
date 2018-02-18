@@ -6,19 +6,13 @@ import qlviz.model.*;
 
 public class BooleanExpressionVisitor extends QLBaseVisitor<BooleanExpression> {
 
-    private final QLBaseVisitor<Negation> negationVisitor;
-    private final QLBaseVisitor<BinaryBooleanOperation> binaryOperationVisitor;
     private final QLBaseVisitor<NumericExpression> numericExpressionVisitor;
     private final BinaryBooleanOperatorTranslator binaryBooleanOperatorTranslator;
     private final NumericComparisonOperatorTranslator numericComparisonOperatorTranslator;
 
-    public BooleanExpressionVisitor(QLBaseVisitor<Negation> negationVisitor,
-                                    QLBaseVisitor<BinaryBooleanOperation> binaryOperationVisitor,
-                                    QLBaseVisitor<NumericExpression> numericExpressionVisitor,
+    public BooleanExpressionVisitor(QLBaseVisitor<NumericExpression> numericExpressionVisitor,
                                     BinaryBooleanOperatorTranslator binaryBooleanOperatorTranslator,
                                     NumericComparisonOperatorTranslator numericComparisonOperatorTranslator) {
-        this.negationVisitor = negationVisitor;
-        this.binaryOperationVisitor = binaryOperationVisitor;
         this.numericExpressionVisitor = numericExpressionVisitor;
         this.binaryBooleanOperatorTranslator = binaryBooleanOperatorTranslator;
         this.numericComparisonOperatorTranslator = numericComparisonOperatorTranslator;
@@ -45,6 +39,9 @@ public class BooleanExpressionVisitor extends QLBaseVisitor<BooleanExpression> {
             NumericExpression right = ctx.numericExpression(1).accept(this.numericExpressionVisitor);
             NumericComparisonOperator operator = numericComparisonOperatorTranslator.translate(ctx.COMPARISON_OPERATOR().getSymbol().getText());
             return new NumericComparison(left, right, operator);
+        }
+        else if (ctx.IDENTIFIER() != null) {
+            return new BooleanQuestionReference(ctx.IDENTIFIER().getText());
         }
         return null;
     }

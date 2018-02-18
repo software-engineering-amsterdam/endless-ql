@@ -54,7 +54,7 @@ public class OperandChecker implements ExpressionVisitor {
         this.illegal      = new ArrayList<Operator>();
     }
     
-    public List<Operator> getUndefinedReferences() {
+    public List<Operator> getIllegalOperations() {
         
         visit(form.getBlock());
         
@@ -67,6 +67,7 @@ public class OperandChecker implements ExpressionVisitor {
         Type rhs = op.getRhs().getType(symbolTable);
         if(!op.isLegalFor(lhs,rhs))
         {
+            illegal.add(op);
             errors.add("Illegal operation [ " + op.getOperator() + " ]  on [ "+lhs+" ] and [ "+rhs+" ] @ " + op.getLocation());
         }
     }
@@ -76,10 +77,10 @@ public class OperandChecker implements ExpressionVisitor {
         Type type = op.getType(symbolTable);
         if(!op.isLegalFor(type))
         {
+            illegal.add(op);
             errors.add("Illegal operation [ " + op.getOperator() + " ] on [ "+type+" ] @ " + op.getLocation());
         }
     }
-    
     
     @Override
     public void visit(Negation expr) {

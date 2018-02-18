@@ -6,6 +6,7 @@ import java.util.Map;
 
 import ql.ast.expression.Expression;
 import ql.ast.expression.Identifier;
+import ql.ast.expression.Operator;
 import ql.ast.form.Form;
 import ql.ast.type.Type;
 import ql.visitors.ConditionChecker;
@@ -46,11 +47,11 @@ public class TypeChecker {
         return checker.getInvalidConditions();
     }
     
-    public void checkOperands(Form form, Map<String,Type> symbolTable)
+    public List<Operator> checkOperands(Form form, Map<String,Type> symbolTable)
     {
         OperandChecker checker = new OperandChecker(form, symbolTable, errors);
         
-        System.out.println(checker.getUndefinedReferences());
+        return checker.getIllegalOperations();
     }
     
     public List<String> checkLabels(Form form)

@@ -1,0 +1,70 @@
+grammar org.uva.sc.cr.ql.QL with org.eclipse.xtext.common.Terminals
+
+generate qL "http://www.uva.org/sc/cr/ql/QL"
+
+Form:
+	'form' name=ID '{'
+	body=BlockBody
+	blocks+=Block*
+	'}';
+
+Block:
+	'if' '(' expression=Expression ')' '{'
+	body=BlockBody
+	'}';
+
+BlockBody:
+	{BlockBody} questions+=Question*;
+
+Question:
+	label=STRING name=ID ':'  type=QuestionType ('=' '(' expression=Expression ')')?;
+
+Expression:
+	ExpressionOr;
+
+ExpressionOr returns Expression:
+	ExpressionAnd ({ExpressionOr.left=current} op="||" right=ExpressionAnd)*;
+
+ExpressionAnd returns Expression:
+	ExpressionEquality ({ExpressionAnd.left=current} op="&&" right=ExpressionEquality)*;
+
+ExpressionEquality returns Expression:
+	ExpressionComparison ({ExpressionEquality.left=current} op=("==" | "!=") right=ExpressionComparison)*;
+
+ExpressionComparison returns Expression:
+	ExpressionPlusOrMinus ({ExpressionComparison.left=current} op=(">=" | "<=" | ">" | "<") right=ExpressionPlusOrMinus)*;
+
+ExpressionPlusOrMinus returns Expression:
+	ExpressionMulOrDiv (({ExpressionPlusOrMinus.left=current} op=('+' | '-')) right=ExpressionMulOrDiv)*;
+
+ExpressionMulOrDiv returns Expression:
+	ExpressionAtomic (({ExpressionMulOrDiv.left=current} op=('*' | '/')) right=ExpressionAtomic)*;
+
+ExpressionAtomic returns Expression:
+	'(' Expression ')' |
+	{ExpressionNot} "!" expression=ExpressionAtomic | 
+	{ExpressionLiteralString} expression=STRING | 
+	{ExpressionLiteralInteger} expression=INT |
+	{ExpressionLiteralBoolean} expression=('true' | 'false') | 
+	{ExpressionQuestionRef} question=[Question];
+
+QuestionType:
+	TypeBool | TypeString | TypeInteger | TypeDecimal | TypeDate | TypeMoney;
+
+TypeBool returns QuestionType:
+	{TypeBool} 'boolean';
+
+TypeString returns QuestionType:
+	{TypeString} 'string';
+
+TypeInteger returns QuestionType:
+	{TypeInteger} 'integer';
+
+TypeDecimal returns QuestionType:
+	{TypeDecimal} 'decimal';
+
+TypeDate returns QuestionType:
+	{TypeDate} 'date';
+
+TypeMoney returns QuestionType:
+	{TypeMoney} 'money' | {TypeMoney} 'currency';

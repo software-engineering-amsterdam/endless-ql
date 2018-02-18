@@ -1,9 +1,6 @@
 package nl.uva.se.sc.niro;
 
-import nl.uva.se.sc.niro.parser.ErrorListener;
-import nl.uva.se.sc.niro.parser.QLFormParser$;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import nl.uva.se.sc.niro.parser.QLFormParser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -20,20 +17,6 @@ public class NegativeQLFormParserTest extends AbstractQLFormParserTest {
         super(formFile);
     }
 
-    @BeforeClass
-    public static void warnUserForErrorInConsole() {
-        System.out.printf("%nPlease be aware that we expect error messages being printed to the console!%n%n");
-        // Ensures that the message above is printed before any errors
-        System.out.flush();
-    }
-
-    @AfterClass
-    public static void notifyUserThatErrorsAreBadAgain() {
-        // Ensures that any error is printed before the message below
-        System.err.flush();
-        System.out.printf("%nTests have been run, so you can be worried when you see error messages appearing...%n%n");
-    }
-
     @Parameterized.Parameters(name = "Parsing: {0}")
     public static Collection<Object> parameters() {
         return findFormFilesInFolder("/negative/");
@@ -41,9 +24,9 @@ public class NegativeQLFormParserTest extends AbstractQLFormParserTest {
 
     @Test
     public void parserTest() throws IOException {
-        QLFormParser$.MODULE$.parse(toCharStream(formFile));
-        if (!ErrorListener.errorReported) {
-            fail("Something went wrong, see the console for more information!");
+        QLFormParser.parse(toCharStream(formFile));
+        if (QLFormParser.getParseErrors().isEmpty()) {
+            fail("No error was reported but at least one should have been reported!");
         }
     }
 

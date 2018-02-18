@@ -20,14 +20,14 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		QLToken token = new QLToken(ctx.IDENTIFIER().getSymbol());
 
 		// Search for the identifier from the inner most to scope to the outer most scope.
-		IdentifierExpr identifier = identifierResolver.getIndetifier(token.getLexeme());
+		IdentifierExpr identifier = identifierResolver.getIdentifier(token.getLexeme());
 
 		if (identifier != null) {
 			// If the identifier is found we return the reference to that specific identifier.
 			return identifier;
 		} else {
 			// The identifier is not present in any scope, we report an error.
-			System.err.printf("[IdentifierResolver] line: %s, column: %s: Undefined indetifier: %s\n",
+			System.err.printf("[IdentifierResolver] line: %s, column: %s: Undefined identifier: %s\n",
 					token.getLine(),
 					token.getColumn(),
 					token.getLexeme());

@@ -9,11 +9,14 @@ import ql.{ QLBaseVisitor, QLLexer, QLParser }
 import scala.collection.JavaConverters
 
 object QLFormParser {
+  private val errorListener = new ErrorListener
+  def getParseErrors = errorListener.getParseErrors
 
   def parse(formSource: CharStream): QLForm = {
+    errorListener.getParseErrors.clear()
     val parser = new QLParser(new CommonTokenStream(new QLLexer(formSource)))
     parser.removeErrorListeners()
-    parser.addErrorListener(new ErrorListener)
+    parser.addErrorListener(errorListener)
     FormCompiler.visit(parser.form)
   }
 

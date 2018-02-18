@@ -1,4 +1,4 @@
-﻿using Assignment1.Tests;
+﻿//using Assignment1.Tests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +17,9 @@ namespace Assignment1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
-            ConversionToModelTest gt = new ConversionToModelTest();
-            gt.RunTests();
+            Application.Run(new Form1());
+            //ConversionToModelTest gt = new ConversionToModelTest();
+            //gt.RunTests();
         }
     }
 }

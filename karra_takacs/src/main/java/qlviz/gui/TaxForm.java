@@ -19,6 +19,8 @@ import qlviz.interpreter.FormVisitor;
 import qlviz.interpreter.QuestionBlockVisitor;
 import qlviz.interpreter.QuestionVisitor;
 import qlviz.interpreter.TreeToFormConverter;
+import qlviz.model.BooleanExpression;
+import qlviz.model.ConditionalBlock;
 import qlviz.model.Form;
 import qlviz.model.Question;
 import qlviz.model.QuestionBlock;
@@ -47,11 +49,11 @@ public class TaxForm extends Application {
 		ParseBuilder parseBuilder = new ParseBuilder();
 		ParseTree parseTree = parseBuilder.generateParseTree();
 		QuestionVisitor questionVisitor = new QuestionVisitor(new QLBaseVisitor<QuestionType>());
-		ConditionalBlockVisitor conditionalBlockVisitor = new ConditionalBlockVisitor();
+		ConditionalBlockVisitor conditionalBlockVisitor = new ConditionalBlockVisitor(new QLBaseVisitor<BooleanExpression>(),new QLBaseVisitor<QuestionBlock>());
 		QuestionBlockVisitor questionBlockVisitor = new QuestionBlockVisitor(questionVisitor, conditionalBlockVisitor);
-		QuestionBlock questionBlock = questionBlockVisitor.visit(parseTree);
-		for (Question question : questionBlock.getQuestions()) {
-			System.out.println(question.getName());
+		Form form =  new FormVisitor(questionBlockVisitor).visit(parseTree);
+		for (QuestionBlock question : form.getQuestions()) {
+			System.out.println(question.getQuestions());
 		}
 
 		buy.selectedProperty().addListener(new ChangeListener<Boolean>() {

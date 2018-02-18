@@ -55,12 +55,12 @@ class QLangUtil {
 
 	def static getAllowedTypesForOperations() {
 		val ret = new HashMap<String, List<String>>
-		ALLOWED_OPERATIONS_FOR_TYPES.forEach [ k, v |
-			v.forEach [ p1, p2 |
-				if (ret.containsKey(p1)) {
-					ret.get(p1).add(k)
+		ALLOWED_OPERATIONS_FOR_TYPES.forEach [ operation, allowedTypes |
+			allowedTypes.forEach [
+				if (ret.containsKey(it)) {
+					ret.get(it).add(operation)
 				} else {
-					ret.put(p1, newArrayList(k))
+					ret.put(it, newArrayList(operation))
 				}
 			]
 		]

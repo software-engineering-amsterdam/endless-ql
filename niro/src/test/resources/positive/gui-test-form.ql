@@ -8,4 +8,5 @@ form ConditionQuestions {
 	} else {
 		lastName: "What is your last name of your parent?" string
 	}
+	dateOfBirth: "What is you date of birth?" date
 }

@@ -79,7 +79,7 @@ GRTE : '>=';
 LSTE : '<=';
 
 AND : '&&';
-NEQT : '!=';
+NEQT : '!=';xxxxxxxxx
 OR : '||';
 NOT : '!';
 

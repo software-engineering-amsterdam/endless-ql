@@ -1,6 +1,6 @@
 package qlviz.model;
 
-public class Question {
+public abstract class Question {
     private String name;
     private String text;
     private QuestionType type;

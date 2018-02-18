@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import ql.ast.expression.Expression;
-import ql.ast.expression.Identifier;
 import ql.ast.form.Form;
 import ql.ast.statement.AnswerableQuestion;
 import ql.ast.statement.Block;

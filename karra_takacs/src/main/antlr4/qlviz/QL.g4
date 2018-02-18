@@ -3,24 +3,26 @@ grammar QL;
 //file to define grammar
 
 
-form : FORM_HEADER BRACKET_OPEN questionBlock+ BRACKET_CLOSE;
-question: WHITESPACE* questionText questionName TYPE WHITESPACE*;
-questionText: STRING;
-questionBlock: WHITESPACE* question+ WHITESPACE*
-             | WHITESPACE* conditionalBlock+ WHITESPACE*;
-questionName: IDENTIFIER WHITESPACE* QUESTION_DELIMITER WHITESPACE*;
-conditionalBlock: WHITESPACE* IF WHITESPACE* '(' (booleanExpression | IDENTIFIER)')' WHITESPACE*
+form : FORM_HEADER '{' questionBlock+ '}' EOF;
+question:   questionName questionText TYPE ;
+questionText: STRING QUESTION_DELIMITER;
+questionBlock:  question+
+             | conditionalBlock+ ;
+questionName: IDENTIFIER;
+conditionalBlock:  IF  '(' (booleanExpression | IDENTIFIER)')' 
                   BRACKET_OPEN questionBlock+ BRACKET_OPEN;
 
 //To skip New Lines, White spaces and comments
-FORM_HEADER : WHITESPACE* 'form' WHITESPACE*  -> skip;
+FORM_HEADER :  'form'  -> skip;
 NEWLINE: ('\n' | '\r' | '\r\n') -> skip;
 WHITESPACE : (' ' | '\n' | '\r' | '\t') -> skip;
 COMMENT			: ('/*' .*? '*/') ->skip;
 LINE_COMMENT	: '//' ~[\r\n]* ->skip;
 BRACKET_OPEN : '{' -> skip;
 BRACKET_CLOSE: '}' -> skip;
-QUESTION_DELIMITER: ':' -> skip;
+
+
+QUESTION_DELIMITER: ':' ;
 
 TYPE : 'boolean'
      | 'money'

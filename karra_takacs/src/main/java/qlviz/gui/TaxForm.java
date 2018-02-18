@@ -47,7 +47,7 @@ public class TaxForm extends Application {
 		CheckBox sell = new CheckBox("Sell");
 		CheckBox loanType = new CheckBox("Loan Type");
 		ParseBuilder parseBuilder = new ParseBuilder();
-		ParseTree parseTree = parseBuilder.generateParseTree();
+		ParseTree parseTree = parseBuilder.generateParseTree(this.getParameters().getRaw().get(0));
 		QuestionVisitor questionVisitor = new QuestionVisitor(new QLBaseVisitor<QuestionType>());
 		ConditionalBlockVisitor conditionalBlockVisitor = new ConditionalBlockVisitor(new QLBaseVisitor<BooleanExpression>(),new QLBaseVisitor<QuestionBlock>());
 		QuestionBlockVisitor questionBlockVisitor = new QuestionBlockVisitor(questionVisitor, conditionalBlockVisitor);

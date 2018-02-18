@@ -1,7 +1,6 @@
 package qlviz.interpreter;
 
 import com.google.common.collect.Lists;
-import com.sun.tools.internal.xjc.model.CBuiltinLeafInfo;
 import org.junit.Assert;
 import org.junit.Test;
 import qlviz.QLBaseVisitor;

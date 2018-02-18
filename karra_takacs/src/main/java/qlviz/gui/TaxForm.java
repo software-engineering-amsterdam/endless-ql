@@ -1,9 +1,6 @@
 package qlviz.gui;
 
-import java.util.ArrayList;
-
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.apache.commons.lang3.StringUtils;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -14,13 +11,19 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import qlviz.ParseBuilder;
 import qlviz.QLBaseVisitor;
-import qlviz.interpreter.*;
+import qlviz.interpreter.BinaryBooleanOperatorVisitor;
+import qlviz.interpreter.BinaryNumericOperatorVisitor;
+import qlviz.interpreter.BooleanExpressionVisitor;
+import qlviz.interpreter.ConditionalBlockVisitor;
+import qlviz.interpreter.FormVisitor;
+import qlviz.interpreter.NumericComparisonOperatorVisitor;
+import qlviz.interpreter.NumericExpressionVisitor;
+import qlviz.interpreter.QuestionBlockVisitor;
+import qlviz.interpreter.QuestionTypeVisitor;
+import qlviz.interpreter.QuestionVisitor;
 import qlviz.model.BooleanExpression;
-import qlviz.model.ConditionalBlock;
 import qlviz.model.Form;
-import qlviz.model.Question;
 import qlviz.model.QuestionBlock;
-import qlviz.model.QuestionType;
 
 public class TaxForm extends Application {
 
@@ -61,10 +64,12 @@ public class TaxForm extends Application {
 						pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor)
 				);
 		Form form =  new FormVisitor(questionBlockVisitor).visit(parseTree);
-		for (QuestionBlock question : form.getQuestions()) {
-			System.out.println(question.getQuestions());
-		}
-
+		  for( QuestionBlock questionBlock : form.getQuestions()) {
+			for(int j = 0 ;j <questionBlock.getQuestions().size();j++) {
+			
+			System.out.println(form.getQuestions().get(0).getQuestions().get(j).getText());
+			}
+		  }
 		buy.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {

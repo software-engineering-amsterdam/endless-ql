@@ -1,56 +1,78 @@
 package ql.checker;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
+import ql.ast.expression.Expression;
 import ql.ast.expression.Identifier;
 import ql.ast.form.Form;
-import ql.visitors.IdCollector;
+import ql.ast.type.Type;
+import ql.visitors.ConditionChecker;
+import ql.visitors.ConflictingIdChecker;
+import ql.visitors.DuplicateLabelChecker;
+import ql.visitors.ReferenceChecker;
 
 public class TypeChecker {
 
-    private ArrayList<Identifier> ids;
-    private Form form;
+    private List<String> errors;
+    private List<String> warnings;
     
-    public TypeChecker(Form form) {
-        this.ids    = new ArrayList<Identifier>();
-        this.form   = form;
+    
+    public TypeChecker() {
+        this.errors     = new ArrayList<String>();
+        this.warnings   = new ArrayList<String>();
     }
     
-    public ArrayList<Identifier> getIdentifiers() {
-        return ids;
+    public List<Identifier> checkIdentifiers(Form form)
+    {
+        ConflictingIdChecker checker = new ConflictingIdChecker(form, errors);
+        
+        return checker.getDuplicates();
     }
     
-    public ArrayList<Identifier> collectIdentifiers() {
+    public List<Identifier> checkReferences(Form form, Map<String,Type> symbolTable)
+    {
+        ReferenceChecker checker = new ReferenceChecker(form, symbolTable, errors);
         
-        IdCollector ic = new IdCollector(ids);
-        
-        ic.visit(form.getBlock());
-        
-        return ids;
+        return checker.getUndefinedReferences();
     }
     
-    public ArrayList<Identifier> getDuplicateIds() {
+    public List<Expression> checkConditions(Form form, Map<String,Type> symbolTable)
+    {
+        ConditionChecker checker = new ConditionChecker(form, symbolTable, errors);
         
-        ArrayList<Identifier> copy = new ArrayList<Identifier>(ids);
-        ArrayList<Identifier> dups = new ArrayList<Identifier>();
+        return checker.getInvalidConditions();
+    }
+    
+    public List<String> checkLabels(Form form)
+    {
+        DuplicateLabelChecker checker = new DuplicateLabelChecker(form, warnings);
         
-        // Take an identifier; original
-        for(int o = 0; o < copy.size(); o++ ) {
-            Identifier orig = copy.get(o);
-            
-            // Take one of the following identifiers
-            for(int d = copy.size() - 1; d > o; d-- ) {
-                Identifier dup = copy.get(d);
-                
-                // Collect the identifiers with the same name as the original
-                if(orig.getName().equals(dup.getName())) {
-                    if(!dups.contains(orig)) dups.add(orig);
-                    dups.add(dup);
-                    copy.remove(d);
-                }
-            }
-        }
-        
-        return dups;
+        return checker.getDuplicates();
+    }
+
+    public boolean hasErrors() {
+        return !errors.isEmpty();
+    }
+    
+    public List<String> getErrors() {
+        return errors;
+    }
+    
+    public boolean hasWarnings() {
+        return !errors.isEmpty();
+    }
+    
+    public List<String> getWarnings() {
+        return warnings;
+    }
+
+    public void printErrors() {
+        for(String msg : errors) System.err.println("ERROR: " + msg);
+    }
+    
+    public void printWarnings() {
+        for(String msg : warnings) System.out.println("WARNING: " + msg);
     }
 }

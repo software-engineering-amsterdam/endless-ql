@@ -1,6 +1,6 @@
 package ql.ast.type;
 
-public class Int extends Type {
+public class Int extends Numeric {
 
     @Override
     public String toString() {

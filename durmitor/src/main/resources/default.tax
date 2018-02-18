@@ -13,7 +13,7 @@ form taxFormExample {
 	
     if (hasSoldHouse) {
         "What was the selling price?"
-            sellingPrice: money
+            sellingPrice: decimal
         "Private debts for the sold house:"
             privateDebt: money
         "Value residue:"
@@ -21,7 +21,7 @@ form taxFormExample {
                 (sellingPrice - privateDebt)
     }
 
-    if (age) {
+    if (undefined) {
         "Are you a minor?"
             old: boolean
     }
@@ -39,7 +39,7 @@ form taxFormExample {
         "Did you get caught?"
             gotCaught: boolean
         "Did you get caught?"
-            gotCaught: boolean
+            gotCaught: string = ("hello" == "world")
     }
 
 }

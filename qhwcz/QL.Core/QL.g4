@@ -7,27 +7,23 @@ grammar QL;
 form: FORM LABEL LCB (statements)? RCB;
 
 statements: question (statements)?
-		  | IF expresion LCB (statements)? RCB (ELSE LCB (statements)? RCB)?;
+		  | IF expression LCB (statements)? RCB (ELSE LCB (statements)? RCB)?;
 
+question: description name type (ASSIGNMENT expression)?;
 
-question: description name type (ASSIGNMENT expresion)?;
-
-expresion: LB expresion RB
+expression: LB expression RB
          | LABEL
 		 | literal
-		 | unOp expresion
-		 | expresion binOp expresion;
+		 | unOp expression
+		 | expression binOp expression;
 
 description: STR;
-
 name: LABEL COLON;
-
 type: TYPEBOOL | TYPEINT | TYPEDEC | TYPESTR | TYPEDATE | TYPEMONEY;
 
 literal: BOOL | INT | DEC | STR | MONEY | DATE;
 
 binOp: GT | ST | GE | SE | NE | AND | OR | EQ | PLUS | MINUS | DIVIDE | MULTIPLY;
-
 unOp: MINUS | PLUS | NOT;
 
 /* 
@@ -82,7 +78,7 @@ fragment NUMBER:	('0'..'9');
 BOOL: ('true'|'false'); 
 INT:  NUMBER+;
 DEC:  INT '.' (NUMBER (NUMBER)?)?;
-STR:  '#' .*? '#';
+STR:  '"' .*? '"';
 DATE: INT '-' INT '-' INT;
 MONEY: INT '.' NUMBER NUMBER;
 
@@ -90,6 +86,6 @@ MONEY: INT '.' NUMBER NUMBER;
 LABEL:	(LOWERCASE|UPPERCASE)(LOWERCASE|UPPERCASE|NUMBER|'_')*;
 
 // Hidden
-WHITESPACE:	    (' ' | '\t' | '\n' | '\r') -> skip;
+WHITESPACE:	    (' ' | '\t' | '\n' | '\r' |) -> skip;
 //MULTICOMMENT:   '/*' .* '*/' -> skip;
 SINGLECOMMENT:  '//' ~[\r\n]* -> skip;

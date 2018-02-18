@@ -15,4 +15,12 @@ public abstract class Binary extends Expression {
     {
         return lhs + " op " + rhs;
     }
+    
+    public Expression getLhs() {
+        return lhs;
+    }
+    
+    public Expression getRhs() {
+        return rhs;
+    }
 }

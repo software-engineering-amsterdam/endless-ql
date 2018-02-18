@@ -50,7 +50,7 @@ input           : STRINGLIT declaration;
 declaration     : ID ':' TYPE;
 
 output          : STRINGLIT assignment;
-assignment      : declaration '=' expr;
+assignment      : (declaration | ID) '=' expr;
 
 exprIf          : 'if' '(' exprBool ')' block;
 
@@ -108,9 +108,9 @@ INT             : ('0'..'9')+;
 ID              : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 WHITESPACE      : (' ' | '\t' | '\n' | '\r')+ -> skip;
 
-MULTI_COMMENT   : '/*' .*? '*/' -> channel(HIDDEN);
+MULTI_COMMENT   : '/*' .*? '*/' -> skip;
 
-SINGLE_COMMENT  : '//' ~[\r\n]* '\r'? '\n' -> channel(HIDDEN);
+SINGLE_COMMENT  : '//' ~[\r\n]* '\r'? '\n' -> skip;
 
 
 

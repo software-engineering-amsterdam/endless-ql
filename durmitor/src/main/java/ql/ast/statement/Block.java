@@ -2,9 +2,11 @@ package ql.ast.statement;
 
 import java.util.ArrayList;
 
+import ql.visitors.interfaces.ExpressionVisitable;
+import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.StatementVisitor;
 
-public class Block extends Statement {
+public class Block extends Statement implements ExpressionVisitable {
     
     private ArrayList<Statement> statements;
     
@@ -53,6 +55,11 @@ public class Block extends Statement {
 
     @Override
     public void accept(StatementVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public void accept(ExpressionVisitor visitor) {
         visitor.visit(this);
     }
 }

@@ -1,5 +1,9 @@
 package ql.ast.expression;
 
+import ql.ast.type.Bool;
+import ql.ast.type.Type;
+import ql.visitors.interfaces.ExpressionVisitor;
+
 public class BoolLiteral extends Literal<Boolean> {
 
     private boolean value;
@@ -13,8 +17,18 @@ public class BoolLiteral extends Literal<Boolean> {
     }
 
     @Override
+    public Type getType() {
+        return new Bool();
+    }
+
+    @Override
     public String toString() {
         return String.valueOf(value);
+    }
+
+    @Override
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

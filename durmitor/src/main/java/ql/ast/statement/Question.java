@@ -26,4 +26,8 @@ public abstract class Question extends Statement {
     public Type getType() {
         return type;
     }
+    
+    public boolean equals(Question question) {
+        return this.toString().equals(question.toString());
+    }
 }

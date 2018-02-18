@@ -23,10 +23,14 @@ public class NegativeQLFormParserTest extends AbstractQLFormParserTest {
     @BeforeClass
     public static void warnUserForErrorInConsole() {
         System.out.printf("%nPlease be aware that we expect error messages being printed to the console!%n%n");
+        // Ensures that the message above is printed before any errors
+        System.out.flush();
     }
 
     @AfterClass
     public static void notifyUserThatErrorsAreBadAgain() {
+        // Ensures that any error is printed before the message below
+        System.err.flush();
         System.out.printf("%nTests have been run, so you can be worried when you see error messages appearing...%n%n");
     }
 
@@ -42,6 +46,5 @@ public class NegativeQLFormParserTest extends AbstractQLFormParserTest {
             fail("Something went wrong, see the console for more information!");
         }
     }
-
 
 }

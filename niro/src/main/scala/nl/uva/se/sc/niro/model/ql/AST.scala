@@ -85,6 +85,13 @@ object AST {
       op match {
         case LogicalOperator => ExprType.Bool
         case ComparisonOperator => ExprType.Bool
+        case ArithmeticOperator => (left.exprType, right.exprType) match {
+          case (ExprType.Money, _) => ExprType.Money
+          case (_, ExprType.Money) => ExprType.Money
+          case (ExprType.Decimal, _) => ExprType.Decimal
+          case (_, ExprType.Decimal) => ExprType.Decimal
+          case other => ExprType.Integer
+        }
         case other => throw new IllegalArgumentException(s"Unsupported binary operation: $other")
       }
     }

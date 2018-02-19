@@ -28,7 +28,8 @@ literal // atom
   ;
 
 identifier
- : IDENT;
+   : IDENT
+  ;
    
 
 questionType
@@ -37,7 +38,8 @@ questionType
    | 'boolean'
    | 'string'
    | 'date'
-   | 'decimal'; 
+   | 'decimal'
+  ; 
 
 expr
   : identifier
@@ -52,7 +54,9 @@ expr
  ;
 
 statement 
-  : question | ifElseStatement;
+  : question 
+  | ifElseStatement
+ ;
 
 question
   : identifier ':' STRING questionType  // question to be answered
@@ -68,7 +72,8 @@ block // block of multiple statements
   ; 
  
 form // form
-   : ('Form'|'form') identifier block;
+   : ('Form'|'form') identifier block
+  ;
 
 // TODO check whether it is relevant to QL
 //questionnaire: ('Questionnaire'|'questionnaire') identifier '{' form* '}';

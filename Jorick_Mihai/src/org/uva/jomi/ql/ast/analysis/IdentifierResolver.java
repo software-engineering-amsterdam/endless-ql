@@ -7,11 +7,11 @@ import org.uva.jomi.ql.ast.expressions.*;
 
 public class IdentifierResolver {
 	private int numberOfErrors = 0;
-	private final Stack<HashMap<String, IndentifierExpr>> indentifierStack;
+	private final Stack<HashMap<String, IdentifierExpr>> identifierStack;
 	
 	// Create a new stack
 	public IdentifierResolver() {
-		this.indentifierStack = new Stack<HashMap<String, IndentifierExpr>>();
+		this.identifierStack = new Stack<HashMap<String, IdentifierExpr>>();
 	}
 	
 	public int getNumberOfErrors() {
@@ -24,32 +24,32 @@ public class IdentifierResolver {
 	
 	// Create a new scope
 	public void enterScope() {
-		indentifierStack.push(new HashMap<String, IndentifierExpr>());
+		identifierStack.push(new HashMap<String, IdentifierExpr>());
 	}
 	
 	// Destroy the top scope
 	public void leaveScope() {
-		indentifierStack.pop();
+		identifierStack.pop();
 	}
 	
 	// Add a new element to the inner most scope
-	public void add(IndentifierExpr identifier) {
-		indentifierStack.peek().put(identifier.token.getLexeme(), identifier);
+	public void add(IdentifierExpr identifier) {
+		identifierStack.peek().put(identifier.token.getLexeme(), identifier);
 	}
 	
 	// Try to add a new element to the top most scope
-	public boolean tryAdd(String name, IndentifierExpr indetifier) {
-		if (indentifierStack.isEmpty()) {
+	public boolean tryAdd(String name, IdentifierExpr identifier) {
+		if (identifierStack.isEmpty()) {
 			System.err.println("Empty Stack - Could not add the element");
 			return false;
 		}
-		indentifierStack.peek().put(name, indetifier);
+		identifierStack.peek().put(name, identifier);
 		return true;
 	}
 	
 	// Check if a particular identifier is present in the inner most scope
 	public boolean isInCurrentScope(String identifierName) {
-		if (indentifierStack.peek().containsKey(identifierName)) {
+		if (identifierStack.peek().containsKey(identifierName)) {
 			return true;
 		} else {
 			return false;
@@ -57,8 +57,8 @@ public class IdentifierResolver {
 	}
 	
 	// Search from the inner to the outer most scope for a particular identifier name
-	public IndentifierExpr getIndetifier(String name) {
-		for (HashMap<String, IndentifierExpr> map : indentifierStack) {
+	public IdentifierExpr getIdentifier(String name) {
+		for (HashMap<String, IdentifierExpr> map : identifierStack) {
 			if (map.containsKey(name)) {
 				return map.get(name);
 			}

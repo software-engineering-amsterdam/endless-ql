@@ -1,6 +1,7 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.DualNode;
 import org.uva.sea.ql.traverse.Traverse;
@@ -11,11 +12,10 @@ public class Sub extends DualNode {
         super(lhs, rhs);
     }
 
-    public void traverse(Traverse traverse) {
-        super.traverse(traverse);
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
+        super.traverseNode(traverse, traverseType);
         traverse.doOperation(this);
         traverse.doSub(this);
-        this.traverseChildren(traverse);
     }
 
     public Type getType() {

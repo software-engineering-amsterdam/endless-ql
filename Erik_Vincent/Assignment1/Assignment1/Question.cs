@@ -3,40 +3,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Assignment1
 {
-    internal abstract class Question
+    internal class Question : Content
     {
-        public virtual string Id { get; }
-        public virtual string Label { get; }
+        public string Id { get; }
+        public string Label { get; }
+        public Expression Expression { get; set; }
 
-        protected Question(string id, string label)
+        public Question(string id, string label)
         {
             Id = id;
             Label = label;
         }
 
-        public override string ToString()
-        {
-            return Id + ": " + Label;
-        }
+        public virtual Control CreateControl() => new Label() { Text = Label, AutoSize = true };
     }
 
     internal class QuestionBool : Question
     {
-        public bool Value { get; }
-        public QuestionBool(string id, string label, bool value = false) : base(id, label)
+        public QuestionBool(string id, string label) : base(id, label)
         {
-            Value = value;
+            Expression = new Expression(false);
         }
+
+        public override Control CreateControl() => new CheckBox() { Text = Label, AutoSize = true, Checked = Expression.Evaluate() };
     }
 
-    internal class QuestionDecimal : Question
+    internal class QuestionMoney : Question
     {
-        public QuestionDecimal(string id, string label, double value = 0.0) : base(id, label)
+        public QuestionMoney(string id, string label) : base(id, label)
         {
+            Expression = new Expression(0.0);
+        }
 
+        public override Control CreateControl()
+        {
+            var panel = new FlowLayoutPanel() { AutoSize = true, AutoSizeMode = AutoSizeMode.GrowAndShrink, FlowDirection = FlowDirection.TopDown};
+            panel.Controls.Add(base.CreateControl());
+            panel.Controls.Add(new TextBox(){Text = Expression.Evaluate().ToString()});
+            return panel;
         }
     }
 }

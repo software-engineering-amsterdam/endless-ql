@@ -9,7 +9,7 @@ destinationFolder = "LexParser"
 import sys
 from antlr4 import *
 from parse_grammar import main_parser
-from GUI.setup_gui import Gui
+from GUI import Gui
 
 # Generate the lexer and parser for the grammar
 main_parser(grammarName, pythonVersion, destinationFolder)

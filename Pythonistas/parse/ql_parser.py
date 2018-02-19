@@ -29,15 +29,18 @@ def stmt_list():
 # Basic parsers
 
 def keyword(kw):
-    return Reserved(kw, RESERVED)
+    return Reserved(kw, 'reserved')
 
 
-# todo: cleanup stuff beneath
-num = Tag(INT) ^ (lambda i: int(i))
-id = Tag(ID)
-value = Tag(VALUE)
-boolean = Tag(BOOLEAN)
-form = Tag(FORM)
+# Helper
+
+def get_tags():
+    num = Tag('int') ^ (lambda i: int(i))
+    id = Tag('id')
+    value = Tag('value')
+    boolean = Tag('boolean')
+    form = Tag('form')
+    return num, id, value, boolean, form
 
 
 # Statements
@@ -56,6 +59,7 @@ def form_stmt():
         ((((((_, name), _), _), parsed_form), _), _) = parsed
         return FormStatement(name, parsed_form)
 
+    num, id, value, boolean, form = get_tags()
     return form + id + keyword('{') + keyword('\n') + Lazy(stmt_list) + keyword('\n') + keyword('}') ^ process
 
 
@@ -67,6 +71,7 @@ def assign_stmt():
         (((name, _), question), data_type) = parsed
         return AssignStatement(name, question, data_type)
 
+    num, id, value, boolean, form = get_tags()
     return id + keyword(':') + value + keyword('boolean') ^ process
 
 

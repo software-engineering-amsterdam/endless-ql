@@ -3,11 +3,12 @@ import {QuestionBase} from '../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {CheckboxQuestion} from '../angular-questions/question-checkbox';
 import {TextboxQuestion} from '../angular-questions/question-textbox';
-import {QuestionType} from '../angular-questions/question-type';
+import {QuestionType} from './question-type';
 import {Statement} from './statement';
+import {Location} from './location';
 
 export class Question implements Statement {
-  constructor(public name: string, public label: string, public type: QuestionType) {
+  constructor(public name: string, public label: string, public type: QuestionType, public location: Location) {
   }
 
   getQuestions(): Question[] {

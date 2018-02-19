@@ -85,7 +85,7 @@ namespace QL_Visualizer.Tests.Visualize
         #endregion
 
         #region Update
-        //[TestMethod]
+        [TestMethod]
         public void UpdateBoolElementTest()
         {
             Control c = _controlFactory.CreateElement(_boolWidget);
@@ -100,14 +100,34 @@ namespace QL_Visualizer.Tests.Visualize
             Assert.IsTrue(_boolWidget.AnswerValue);
         }
 
+        [TestMethod]
         public void UpdateIntElementTest()
         {
-            throw new NotImplementedException();
+            Control c = _controlFactory.CreateElement(_intWidget);
+
+            // Control should contain a checkbox at 0
+            Assert.IsInstanceOfType(c.Controls[1], typeof(TextBox));
+
+            // Check the checkbox
+            ((TextBox)c.Controls[1]).Text = 100.ToString();
+
+            // Answer must now be updated
+            Assert.AreEqual(100, _intWidget.AnswerValue);
         }
 
+        [TestMethod]
         public void UpdateStringElementTest()
         {
-            throw new NotImplementedException();
+            Control c = _controlFactory.CreateElement(_stringWidget);
+
+            // Control should contain a checkbox at 0
+            Assert.IsInstanceOfType(c.Controls[1], typeof(TextBox));
+
+            // Check the checkbox
+            ((TextBox)c.Controls[1]).Text = "unittest";
+
+            // Answer must now be updated
+            Assert.AreEqual("unittest", _stringWidget.AnswerValue);
         }
         #endregion
     }

@@ -29,17 +29,11 @@ object AST {
     override def exprType: ExprType = expression.exprType
   }
 
-  sealed trait Operation extends Expression
+  // Operators
   sealed trait Operator
   object UnaryOperator extends Enumeration with Operator {
     type UnaryOperator = Value
     val NEG, MIN = Value
-  }
-
-  sealed trait UnaryOperation extends Operation
-  case class NegateOperation(op: UnaryOperation, expr: Expression) extends UnaryOperation {
-    override def getChildren: Seq[Node] = Seq(expr)
-    override def exprType: ExprType = expr.exprType
   }
 
   sealed trait BinaryOperator extends Operator
@@ -55,6 +49,16 @@ object AST {
     type LogicalOperator = Value
     val LT, LTE, GTE, GT, EQ, NE = Value
   }
+
+  // Operation expressions
+  sealed trait Operation extends Expression
+
+  sealed trait UnaryOperation extends Operation
+  case class NegateOperation(op: UnaryOperation, expr: Expression) extends UnaryOperation {
+    override def getChildren: Seq[Node] = Seq(expr)
+    override def exprType: ExprType = expr.exprType
+  }
+
   case class BinaryOperation(op: BinaryOperator, left: Expression, right: Expression) extends Operation {
     override def getChildren: Seq[Node] = Seq(left, right)
     override def exprType: ExprType = {

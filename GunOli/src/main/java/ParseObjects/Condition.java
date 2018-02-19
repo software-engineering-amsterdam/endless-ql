@@ -1,5 +1,7 @@
 package ParseObjects;
 
+import ParseObjects.Expressions.Expression;
+
 public class Condition {
     Expression condition;
     Block block;

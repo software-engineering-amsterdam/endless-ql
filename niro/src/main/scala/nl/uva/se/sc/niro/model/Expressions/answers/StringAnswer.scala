@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model.Expressions
+package nl.uva.se.sc.niro.model.Expressions.answers
 
 import nl.uva.se.sc.niro.model.Comparisons
 import nl.uva.se.sc.niro.model.Expressions.Expression.Answer

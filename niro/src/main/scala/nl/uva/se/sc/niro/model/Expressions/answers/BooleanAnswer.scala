@@ -1,8 +1,8 @@
-package nl.uva.se.sc.niro.model.Expressions
+package nl.uva.se.sc.niro.model.Expressions.answers
 
 import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
-import nl.uva.se.sc.niro.model.{ Comparisons, Logicals }
 import nl.uva.se.sc.niro.model.Operators._
+import nl.uva.se.sc.niro.model.{ Comparisons, Logicals }
 
 case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer with Comparisons[BooleanAnswer] with Logicals[BooleanAnswer] {
 

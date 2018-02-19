@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model
 
-import nl.uva.se.sc.niro.model.Expressions.BooleanAnswer
+import nl.uva.se.sc.niro.model.Expressions.answers.BooleanAnswer
 
 trait Comparisons[T] {
 

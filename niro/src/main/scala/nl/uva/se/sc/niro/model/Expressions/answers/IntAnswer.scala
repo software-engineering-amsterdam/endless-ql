@@ -1,8 +1,8 @@
-package nl.uva.se.sc.niro.model.Expressions
+package nl.uva.se.sc.niro.model.Expressions.answers
 
 import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
-import nl.uva.se.sc.niro.model.{ Arithmetics, Comparisons }
 import nl.uva.se.sc.niro.model.Operators._
+import nl.uva.se.sc.niro.model.{ Arithmetics, Comparisons }
 
 case class IntAnswer(possibleValue: Option[Int]) extends Answer with Arithmetics[IntAnswer] with Comparisons[IntAnswer] {
 

@@ -1,22 +1,23 @@
 import ParseObjects.Form;
 
+import java.io.InputStream;
+import antlrGen.*;
 import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-
-import java.io.InputStream;
-public class main {
+public class Main {
 
     public Form parseForm(InputStream stream){
         try{
+            //Todo: Fix project structure
 
            QLLexer lexer = new QLLexer(CharStreams.fromStream(stream));
            CommonTokenStream tokens = new CommonTokenStream(lexer);
            QLParser parser = new QLParser(tokens);
            Trees.inspect(parser.root(), parser);
 
-            return null;
+           return null;
         }catch(Exception e){
             System.out.println(e);
 
@@ -31,6 +32,6 @@ public class main {
     }
 
     public static void main(String[] args) {
-        new main().start();
+        new Main().start();
     }
 }

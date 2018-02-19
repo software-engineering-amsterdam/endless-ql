@@ -1,4 +1,4 @@
-// Generated from /Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/antlr/QL.g4 by ANTLR 4.7
+// Generated from C:/Users/Michael/Desktop/Software Construction/endless-ql/GunOli/src/main/antlr\QL.g4 by ANTLR 4.7
 package antlrGen;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -27,6 +27,16 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBlock(QLParser.BlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(QLParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(QLParser.StatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#condition}.
 	 * @param ctx the parse tree

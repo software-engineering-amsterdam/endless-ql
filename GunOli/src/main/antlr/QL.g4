@@ -1,36 +1,37 @@
 grammar QL;
 
 root        : FORM IDENTIFIER block EOF;
-block       : '{' (condition | question) '}';
+block       : '{' statement+ '}';
+statement   : condition | question;
 condition   : IF '(' expression ')' block;
 question    : IDENTIFIER ':' STRING type;
 
-expression  : '(' expression ')'                                        # parenExpr
-           | MINUS expression                                          # negExpr
-           | NOT expression                                            # notExpr
-           | left=expression op=(MUL | DIV) right=expression           # opExpr
-           | left=expression op=(PLUS | MINUS) right=expression        # opExpr
-           | left=expression op=(LE | LT | GE | GT) right=expression   # boolExpr
-           | left=expression op=(EQ | NE) right=expression             # compExpr
-           | left=expression op=(AND | OR) right=expression            # andOrExpr
-           | constant                                                  # constExpr
-           ;
+expression  : '(' expression ')'                                       # parenExpr
+          | MINUS expression                                          # negExpr
+          | NOT expression                                            # notExpr
+          | left=expression op=(MUL | DIV) right=expression           # opExpr
+          | left=expression op=(PLUS | MINUS) right=expression        # opExpr
+          | left=expression op=(LE | LT | GE | GT) right=expression   # boolExpr
+          | left=expression op=(EQ | NE) right=expression             # compExpr
+          | left=expression op=(AND | OR) right=expression            # andOrExpr
+          | constant                                                  # constExpr
+          ;
 
-constant    : INTEGER                                                   # intConstant
-           | DECIMAL                                                   # floatConstant
-           | STRING                                                    # strConstant
-           | IDENTIFIER                                                # idConstant
-           | MONEY                                                     # moneyConstant
-           | DATE                                                      # dateConstant
-           ;
+constant  : INTEGER                                                  # intConstant
+          | DECIMAL                                                   # floatConstant
+          | STRING                                                    # strConstant
+          | IDENTIFIER                                                # idConstant
+          | MONEY                                                     # moneyConstant
+          | DATE                                                      # dateConstant
+          ;
 
-type        : BOOLEANTYPE
-           | STRINGTYPE
-           | MONEYTYPE
-           | INTEGERTYPE
-           | DATETYPE
-           | DECIMALTYPE
-           ;
+type      : BOOLEANTYPE
+          | STRINGTYPE
+          | MONEYTYPE
+          | INTEGERTYPE
+          | DATETYPE
+          | DECIMALTYPE
+          ;
 
 // Operators
 PLUS            : '+';
@@ -49,7 +50,7 @@ NOT             : '!';
 
 // Terms
 FORM            : 'form';
-IF              : 'form';
+IF              : 'if';
 BOOLEANTYPE     : 'boolean';
 STRINGTYPE      : 'string';
 MONEYTYPE       : 'money';

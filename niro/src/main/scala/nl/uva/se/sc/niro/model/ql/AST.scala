@@ -90,7 +90,7 @@ object AST {
           case (_, ExprType.Money) => ExprType.Money
           case (ExprType.Decimal, _) => ExprType.Decimal
           case (_, ExprType.Decimal) => ExprType.Decimal
-          case other => ExprType.Integer
+          case _ => ExprType.Integer
         }
         case other => throw new IllegalArgumentException(s"Unsupported binary operation: $other")
       }

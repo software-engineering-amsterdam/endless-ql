@@ -4,19 +4,19 @@ using QuestionaireDomain.Entities.DomainObjects;
 
 namespace AntlrInterpretor.Logic
 {
-    public class QLVisitor : QLBaseVisitor<IQuestionnaire>
+    public class QlVisitor : QLBaseVisitor<IQuestionnaireAst>
     {
-        private readonly IQuestionnaire m_questionnaire;
+        private readonly IQuestionnaireAst m_questionnaireAst;
 
-        public QLVisitor()
+        public QlVisitor()
         {
-            m_questionnaire = new Questionnaire();    
+            m_questionnaireAst = new QuestionnaireAst();    
         }
-        public override IQuestionnaire VisitQuestionnaire(QLParser.QuestionnaireContext context)
+        public override IQuestionnaireAst VisitQuestionnaire(QLParser.QuestionnaireContext context)
         {
             var formName = context.FORM_ID().GetText();
-            m_questionnaire.FormName = formName;
-            return m_questionnaire;
+            m_questionnaireAst.FormName = formName;
+            return m_questionnaireAst;
         }
     }
 }

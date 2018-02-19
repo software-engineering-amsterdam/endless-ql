@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model
 
-import nl.uva.se.sc.niro.model.Expression.Answer
+import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
 
 trait Arithmetics[T] extends Answer {
 

@@ -30,13 +30,19 @@ object AST {
   }
 
   sealed trait Operation extends Expression
+  sealed trait Operator
+  object UnaryOperator extends Enumeration with Operator {
+    type UnaryOperator = Value
+    val NEG, MIN = Value
+  }
+
   sealed trait UnaryOperation extends Operation
-  case class NegateOperation(expr: Expression) extends UnaryOperation {
+  case class NegateOperation(op: UnaryOperation, expr: Expression) extends UnaryOperation {
     override def getChildren: Seq[Node] = Seq(expr)
     override def exprType: ExprType = expr.exprType
   }
 
-  sealed trait BinaryOperator
+  sealed trait BinaryOperator extends Operator
   object LogicalOperator extends Enumeration with BinaryOperator {
     type LogicalOperator = Value
     val AND, OR = Value
@@ -45,11 +51,16 @@ object AST {
     type LogicalOperator = Value
     val SUB, ADD, DIV, MUL = Value
   }
+  object ComparisonOperator extends Enumeration with BinaryOperator {
+    type LogicalOperator = Value
+    val LT, LTE, GTE, GT, EQ, NE = Value
+  }
   case class BinaryOperation(op: BinaryOperator, left: Expression, right: Expression) extends Operation {
     override def getChildren: Seq[Node] = Seq(left, right)
     override def exprType: ExprType = {
       op match {
         case LogicalOperator => ExprType.Bool
+        case ComparisonOperator => ExprType.Bool
         case other => throw new IllegalArgumentException(s"Unsupported binary operation: $other")
       }
     }

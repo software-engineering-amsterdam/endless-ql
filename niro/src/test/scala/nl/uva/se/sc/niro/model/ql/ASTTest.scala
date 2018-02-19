@@ -1,6 +1,4 @@
-package nl.uva.se.sc.niro.mode.ql
-
-import java.util.function.BinaryOperator
+package nl.uva.se.sc.niro.model.ql
 
 import nl.uva.se.sc.niro.model.ql.AST.ExprType._
 import nl.uva.se.sc.niro.model.ql.AST.UnaryOperators._

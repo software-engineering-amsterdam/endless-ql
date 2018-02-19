@@ -25,4 +25,20 @@ object Operators {
 
   case object Min extends UnaryOperator
   case object Neg extends UnaryOperator
+
+  def apply(operator: String): Operator = operator match {
+    case "<" => Lt
+    case "<=" => LTe
+    case "==" => Eq
+    case "!=" => Ne
+    case ">=" => GTe
+    case ">" => Gt
+    case "-" => Sub
+    case "+" => Add
+    case "/" => Div
+    case "*" => Mul
+    case "||" => Or
+    case "&&" => And
+    case "!" => Neg
+  }
 }

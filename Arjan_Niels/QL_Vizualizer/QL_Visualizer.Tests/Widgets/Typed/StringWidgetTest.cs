@@ -22,7 +22,7 @@ namespace QL_Visualizer.Tests.Widgets.Typed
         [TestMethod]
         public override void ValueTest()
         {
-            Assert.AreEqual("", Widget.AnswerValue);
+            Assert.AreEqual(null, Widget.AnswerValue);
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Vizualizer.Controllers;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Vizualizer.Controllers.Display;
-using QL_Vizualizer.Factories;
 using QL_Vizualizer.Widgets.Types;
 
 namespace QL_Visualizer.Tests.Display
@@ -10,30 +7,40 @@ namespace QL_Visualizer.Tests.Display
     [TestClass]
     public abstract class WidgetDisplayControllerTest<T>
     {
-        protected WidgetController _widgetController;
+        //protected WidgetController _widgetController;
         protected WidgetDisplayController<T> _widgetDisplayController;
-        protected ElementFactory<T> _elementFactory;
+        //protected ElementFactory<T> _elementFactory;
 
-        private QLWidgetInt _intWidget;
-        private QLWidgetBool _boolWidget;
-        private QLWidgetString _stringWidget;
-
-        [TestInitialize]
-        public void Initialize()
-        {
-            _intWidget = new QLWidgetInt("a", "q1");
-            _boolWidget = new QLWidgetBool("b", "q2");
-            _stringWidget = new QLWidgetString("c", "q3");
-        }
-
+        protected QLWidgetInt _intWidget;
+        protected QLWidgetBool _boolWidget;
+        protected QLWidgetString _stringWidget;
 
         [TestMethod]
-        public void CreateElementTest()
+        public void ShowTest()
         {
-            //_widgetController.
+            // when int widget is added, the element must be there
+            _widgetDisplayController.Show(_intWidget, 10f);
+            Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_intWidget.Identifyer));
+
+            // when string widget is added, the element must be there
+            _widgetDisplayController.Show(_stringWidget, 10f);
+            Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_stringWidget.Identifyer));
+
+            // when bool widget is added, the element must be there
+            _widgetDisplayController.Show(_boolWidget, 10f);
+            Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_boolWidget.Identifyer));
+
+            // there must now be a total of three elements
+            Assert.AreEqual(3, _widgetDisplayController.ElementIndex.Count);
         }
 
         [TestMethod]
-        public abstract void UpdateElementTest();
+        public abstract void UpdateIntElementTest();
+
+        [TestMethod]
+        public abstract void UpdateBoolElementTest();
+
+        [TestMethod]
+        public abstract void UpdateStringElementTest();
     }
 }

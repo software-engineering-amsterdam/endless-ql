@@ -14,7 +14,7 @@ namespace QL_Vizualizer.Controllers.Display
         /// <summary>
         /// Dictonary of all created elements, key: WidgetID, Value: element
         /// </summary>
-        private Dictionary<string, T> _elementIndex;
+        public Dictionary<string, T> ElementIndex { get; private set; }
 
         /// <summary>
         /// Element factory that creates all elements
@@ -25,7 +25,7 @@ namespace QL_Vizualizer.Controllers.Display
         {
             InitialPosition = initialPosition;
             _elementFactory = elementFactory;
-            _elementIndex = new Dictionary<string, T>();
+            ElementIndex = new Dictionary<string, T>();
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace QL_Vizualizer.Controllers.Display
         protected T CreateElement(QLWidget widget)
         {
             T element = _elementFactory.CreateElement(widget);
-            _elementIndex.Add(widget.Identifyer, element);
+            ElementIndex.Add(widget.Identifyer, element);
             return element;
         }
 
@@ -49,7 +49,7 @@ namespace QL_Vizualizer.Controllers.Display
         /// <param name="widget">Target widget</param>
         public void UpdateView(QLWidget widget)
         {
-            _elementFactory.UpdateElement(widget, _elementIndex[widget.Identifyer]);
+            _elementFactory.UpdateElement(widget, ElementIndex[widget.Identifyer]);
         }
     }
 }

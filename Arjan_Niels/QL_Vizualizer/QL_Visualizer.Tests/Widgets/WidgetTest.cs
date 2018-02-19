@@ -1,7 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Vizualizer.Widgets;
-using QL_Vizualizer.Widgets.Types;
-using System.Linq.Expressions;
 
 namespace QL_Visualizer.Tests
 {

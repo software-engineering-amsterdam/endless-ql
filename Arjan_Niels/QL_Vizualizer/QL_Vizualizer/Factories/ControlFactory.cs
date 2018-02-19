@@ -130,6 +130,7 @@ namespace QL_Vizualizer.Factories
             textBox.Location = new Point(0, AddLabel(widget.Text, 0, ref result));
             textBox.TextChanged += delegate (object sender, EventArgs e) { ChangedStringWidget(widget, textBox); };
 
+            result.Controls.Add(textBox);
         }
 
         #endregion

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Factories;
 using QL_Vizualizer.Widgets.Types;
 
-namespace QL_Visualizer.Tests.Visualize
+namespace QL_Visualizer.Tests.Elements
 {
     [TestClass]
     public class ControlFactoryTest : IElementFactoryTest

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace QL_Visualizer.Tests.Visualize
+namespace QL_Visualizer.Tests.Elements
 {
     public interface IElementFactoryTest
     {

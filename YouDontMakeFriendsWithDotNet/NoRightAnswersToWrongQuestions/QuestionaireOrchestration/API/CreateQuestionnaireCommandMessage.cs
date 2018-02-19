@@ -3,9 +3,9 @@ using QuestionnaireInfrastructure.API;
 
 namespace QuestionaireOrchestration.API
 {
-    public class ParseTextCommandMessage : ICommandMessage
+    public class CreateQuestionnaireCommandMessage : ICommandMessage
     {
-        public ParseTextCommandMessage()
+        public CreateQuestionnaireCommandMessage()
         {
             Id = Guid.NewGuid();
         }

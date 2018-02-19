@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using QuestionaireDomain.Entities.API;
 
 namespace QuestionaireDomain.Entities.DomainObjects
@@ -44,6 +45,12 @@ namespace QuestionaireDomain.Entities.DomainObjects
     
     public class QuestionnaireAst : IQuestionnaireAst
     {
+        public QuestionnaireAst()
+        {
+            Id = Guid.NewGuid();
+        }
+
         public string FormName { get; set; }
+        public Guid Id { get; }
     }
 }

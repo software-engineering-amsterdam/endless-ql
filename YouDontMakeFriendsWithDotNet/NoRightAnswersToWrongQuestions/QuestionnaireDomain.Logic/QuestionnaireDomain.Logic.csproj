@@ -138,8 +138,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\IDomainItemLocator.cs" />
     <Compile Include="API\IQuestionnaireCreator.cs" />
     <Compile Include="DomainLogicModule.cs" />
+    <Compile Include="Logic\DomainItemLocator.cs" />
+    <Compile Include="Logic\DomainItemRegistry.cs" />
     <Compile Include="Logic\QuestionnaireCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -15,14 +15,5 @@ namespace QuestionnaireInfrastructure.API
             registrations.RegisterDependencies(serviceCollection);
             return serviceCollection;
         }
-
-        public static IServiceCollection AddHandler<TCommand, THandler>(this IServiceCollection services)
-            where TCommand : ICommandMessage
-            where THandler : ICommandHandler<TCommand>
-        {
-            services.AddTransient(typeof(TCommand), typeof(THandler));
-            
-            return services;
-        }
     }
 }

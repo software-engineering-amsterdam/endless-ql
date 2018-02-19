@@ -164,6 +164,7 @@
       <Link>GeneratedCode\QLVisitor.cs</Link>
     </Compile>
     <Compile Include="AntlrModule.cs" />
+    <Compile Include="Logic\QlErrorListener.cs" />
     <Compile Include="Logic\QlInterpretor.cs" />
     <Compile Include="Logic\QLVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -176,6 +177,10 @@
     <Folder Include="API\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AntlGrammar\AntlGrammar.csproj">
+      <Project>{ff0183f4-7487-4645-99f9-0713f3cac488}</Project>
+      <Name>AntlGrammar</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionaireDomain.Entities.csproj">
       <Project>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</Project>
       <Name>QuestionaireDomain.Entities</Name>

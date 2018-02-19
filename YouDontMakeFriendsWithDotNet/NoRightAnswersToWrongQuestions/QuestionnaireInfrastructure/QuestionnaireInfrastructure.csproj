@@ -128,7 +128,6 @@
     <Compile Include="API\QLApp.cs" />
     <Compile Include="DependencyInjectionContainer.cs" />
     <Compile Include="Logic\CommandBus.cs" />
-    <Compile Include="ServiceCollectionExtension.cs" />
     <Compile Include="InfrastructureModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

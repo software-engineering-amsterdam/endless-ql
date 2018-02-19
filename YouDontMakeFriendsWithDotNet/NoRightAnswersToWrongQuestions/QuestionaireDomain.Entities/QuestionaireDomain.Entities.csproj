@@ -40,11 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\IDomainItem.cs" />
     <Compile Include="API\IQlInterpretor.cs" />
     <Compile Include="API\IQuestionnaireAst.cs" />
     <Compile Include="API\QlParserException.cs" />
     <Compile Include="DomainObjects\AstNode.cs" />
     <Compile Include="DomainObjects\ChildCollection.cs" />
+    <Compile Include="DomainObjects\CommandObjectRegistry.cs" />
     <Compile Include="DomainObjects\IAstVisitor.cs" />
     <Compile Include="DomainObjects\LineInfo.cs" />
     <Compile Include="DomainObjects\Questionnaire.cs" />

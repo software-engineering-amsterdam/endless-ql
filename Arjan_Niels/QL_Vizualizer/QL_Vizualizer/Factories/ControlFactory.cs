@@ -150,11 +150,13 @@ namespace QL_Vizualizer.Factories
 
         private void ChangedBoolWidget(QLWidgetBool boolWidget, CheckBox input)
         {
+            boolWidget.SetAnswer(input.Checked);
             _widgetController.ValueUpdate(boolWidget.Identifyer);
         }
 
         private void ChangedStringWidget(QLWidgetString stringWidget, TextBox input)
         {
+            stringWidget.SetAnswer(input.Text);
             _widgetController.ValueUpdate(stringWidget.Identifyer);
         }
         #endregion

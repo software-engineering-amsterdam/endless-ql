@@ -11,11 +11,11 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link QLParser#root}.
+	 * Visit a parse tree produced by {@link QLParser#form}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRoot(QLParser.RootContext ctx);
+	T visitForm(QLParser.FormContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#block}.
 	 * @param ctx the parse tree
@@ -41,103 +41,41 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestion(QLParser.QuestionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code notExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Visit a parse tree produced by {@link QLParser#questionType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNotExpr(QLParser.NotExprContext ctx);
+	T visitQuestionType(QLParser.QuestionTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code opExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Visit a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitOpExpr(QLParser.OpExprContext ctx);
+	T visitExpression(QLParser.ExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code negExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Visit a parse tree produced by {@link QLParser#operator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNegExpr(QLParser.NegExprContext ctx);
+	T visitOperator(QLParser.OperatorContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code compExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Visit a parse tree produced by {@link QLParser#unaryOp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCompExpr(QLParser.CompExprContext ctx);
+	T visitUnaryOp(QLParser.UnaryOpContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code andOrExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Visit a parse tree produced by {@link QLParser#binaryOp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAndOrExpr(QLParser.AndOrExprContext ctx);
+	T visitBinaryOp(QLParser.BinaryOpContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code boolExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Visit a parse tree produced by {@link QLParser#constant}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBoolExpr(QLParser.BoolExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code parenExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitParenExpr(QLParser.ParenExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code constExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConstExpr(QLParser.ConstExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code intConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIntConstant(QLParser.IntConstantContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code floatConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFloatConstant(QLParser.FloatConstantContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code strConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStrConstant(QLParser.StrConstantContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code idConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIdConstant(QLParser.IdConstantContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code moneyConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMoneyConstant(QLParser.MoneyConstantContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code dateConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDateConstant(QLParser.DateConstantContext ctx);
+	T visitConstant(QLParser.ConstantContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#type}.
 	 * @param ctx the parse tree

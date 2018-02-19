@@ -10,12 +10,10 @@ public class Main {
 
     public Form parseForm(InputStream stream){
         try{
-            //Todo: Fix project structure
-
            QLLexer lexer = new QLLexer(CharStreams.fromStream(stream));
            CommonTokenStream tokens = new CommonTokenStream(lexer);
            QLParser parser = new QLParser(tokens);
-           Trees.inspect(parser.root(), parser);
+           Trees.inspect(parser.form(), parser);
 
            return null;
         }catch(Exception e){

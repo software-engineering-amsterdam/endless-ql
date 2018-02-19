@@ -1,3 +1,7 @@
 package nl.uva.js.qlparser.models.enums;
 
-public interface Operator {}
+import java.util.List;
+
+public interface Operator {
+    List<DataType> requiredType();
+}

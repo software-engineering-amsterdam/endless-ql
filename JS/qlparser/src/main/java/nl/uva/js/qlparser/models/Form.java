@@ -9,7 +9,17 @@ import java.util.LinkedList;
 
 @Data
 @Builder
-public class Form {
+public class Form implements Expression, Expression.TypeCheckable {
     @NonNull private String name;
     private LinkedList<FormExpression> formExpressions;
+
+    @Override
+    public void toRepresentation() {
+
+    }
+
+    @Override
+    public void checkType() {
+        formExpressions.forEach(Expression.TypeCheckable::checkType);
+    }
 }

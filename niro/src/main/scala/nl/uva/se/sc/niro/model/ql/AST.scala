@@ -36,11 +36,23 @@ object AST {
     override def exprType: ExprType = expr.exprType
   }
 
-  abstract class BinaryOperation(left: Expression, right: Expression) extends Operation {
-    override def getChildren: Seq[Node] = Seq(left, right)
+  sealed trait BinaryOperator
+  object LogicalOperator extends Enumeration with BinaryOperator {
+    type LogicalOperator = Value
+    val AND, OR = Value
   }
-  abstract class LogicalOperation(left: Expression, right: Expression) extends BinaryOperation(left, right) {
-    override def exprType: ExprType = { ExprType.Bool }
+  object ArithmeticOperator extends Enumeration with BinaryOperator {
+    type LogicalOperator = Value
+    val SUB, ADD, DIV, MUL = Value
+  }
+  case class BinaryOperation(op: BinaryOperator, left: Expression, right: Expression) extends Operation {
+    override def getChildren: Seq[Node] = Seq(left, right)
+    override def exprType: ExprType = {
+      op match {
+        case LogicalOperator => ExprType.Bool
+        case other => throw new IllegalArgumentException(s"Unsupported binary operation: $other")
+      }
+    }
   }
 
 }

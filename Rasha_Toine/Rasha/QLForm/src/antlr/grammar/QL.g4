@@ -26,6 +26,10 @@ literal // atom
    | DECIMAL
    | IDENT
   ;
+
+identifier
+   : IDENT
+  ;
    
 
 questionType
@@ -34,10 +38,11 @@ questionType
    | 'boolean'
    | 'string'
    | 'date'
-   | 'decimal'; 
+   | 'decimal'
+  ; 
 
 expr
-  : IDENT
+  : identifier
   | literal
   | '!' expr
   | '(' expr ')'
@@ -49,11 +54,13 @@ expr
  ;
 
 statement 
-  : question | ifElseStatement;
+  : question 
+  | ifElseStatement
+ ;
 
 question
-  : IDENT ':' STRING questionType  // question to be answered
-  | IDENT ':' STRING questionType '(' expr ')' // question to be computed - expr eval
+  : identifier ':' STRING questionType  // question to be answered
+  | identifier ':' STRING questionType '(' expr ')' // question to be computed - expr eval
  ;
   
 ifElseStatement //if or if-else-statement
@@ -65,10 +72,11 @@ block // block of multiple statements
   ; 
  
 form // form
-   : ('Form'|'form') IDENT block;
+   : ('Form'|'form') identifier block
+  ;
 
 // TODO check whether it is relevant to QL
-//questionnaire: ('Questionnaire'|'questionnaire') IDENT '{' form* '}';
+//questionnaire: ('Questionnaire'|'questionnaire') identifier '{' form* '}';
 
 /*^^^^^^^^^^^^^^^^^^^^^^^^*
 	Lexer Rules - Tokens

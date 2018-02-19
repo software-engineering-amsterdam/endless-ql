@@ -1,27 +1,26 @@
 package org.uva.sea.ql.parser.elements;
 
+import org.uva.sea.ql.parser.elements.types.Type;
+import org.uva.sea.ql.traverse.Traverse;
+
 import java.util.List;
 
 public class Condition extends ASTNode {
 
-    private String expression;
+    private ASTNode expression;
     private List<Question> questions;
 
-    public Condition() {
-        System.out.println("Condition created");
-    }
-
-    public Condition(String expression, List<Question> questions) {
-
-        this.expression = expression;
+    public Condition(ASTNode expression, List<Question> questions)
+    {
         this.questions = questions;
+        this.expression = expression;
     }
 
-    public String getExpression() {
+    public ASTNode getExpression() {
         return expression;
     }
 
-    public void setExpression(String expression) {
+    public void setExpression(ASTNode expression) {
         this.expression = expression;
     }
 
@@ -31,5 +30,21 @@ public class Condition extends ASTNode {
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
+        traverse.doCondition(this);
+    }
+
+    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
+        this.expression.traverseNode(traverse, traverseType);
+        for (ASTNode node: this.questions) {
+            node.doTraversal(traverse, traverseType);
+        }
+    }
+
+
+    public Type getType() {
+        return new Type("undefined");
     }
 }

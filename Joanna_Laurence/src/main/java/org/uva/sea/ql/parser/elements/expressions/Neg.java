@@ -1,20 +1,22 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.TraverseType;
+import org.uva.sea.ql.parser.elements.types.Type;
+import org.uva.sea.ql.parser.nodeTypes.SingleNode;
+import org.uva.sea.ql.traverse.Traverse;
 
-public class Neg extends ASTNode {
-    private ASTNode value;
-
+public class Neg extends SingleNode {
     public Neg(ASTNode value) {
-        this.value = value;
+        super(value);
     }
 
-    public ASTNode getValue() {
-        return value;
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
+        traverse.doNeg(this);
     }
 
-    public void setValue(ASTNode value) {
-        this.value = value;
+    public Type getType() {
+        return new Type("boolean");
     }
 }
 

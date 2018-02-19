@@ -1,46 +1,63 @@
-grammar QL;
+parser grammar QL;
 
-f               : 'form' ID '{' content* '}' EOF;
-content         : (question | statement) | '{' content* '}';
-question        : ID ':' LABEL ((QTYPE expression) | QTYPE) ';';
-// More statements? Otherwise keep only ifstatement
-statement       : ifstatement | ifelsestatement;
-ifstatement     : IF '(' expression ')' content;
-ifelsestatement : IF '(' expression ')' content ELSE content;
-expression      : ID | VALUE | '(' expression ')' | expression operator expression;
+options { tokenVocab=QLLexer; }
 
-operator    : boolOp | compOp | arithOp;
-boolOp      : AND | OR | NOT;
-compOp      : EL | EG | LT | GT | NEQ | EQ;
-arithOp     : ADD | SUB | MUL | DIV;
-QTYPE       : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | 'money';
-
-IF          : 'if';
-ELSE        : 'else';
-BOOL        : 'true' | 'false';
-AND         : '&&';
-OR          : '||';
-NOT         : '!';
-EL          : '<=';
-EG          : '>=';
-LT          : '<';
-GT          : '>';
-NEQ         : '!=';
-EQ          : '==';
-ADD         : '+';
-SUB         : '-';
-MUL         : '*';
-DIV         : '/';
-VALUE       : INTEGER | DECIMAL | DATE | MONEY;
-INTEGER     : [0-9]+;
-DECIMAL     : [0-9]+ '.' [0-9]+;
-DATE        : DAY '-' MONTH '-' YEAR;
-DAY         : '0'[1-9] | [1-3][0-9];
-// Make it possible to do text or just numbers for month? 
-MONTH       : '0'[1-9] | '1'[0-2];
-YEAR        : [1-2][0-9][0-9][0-9];
-MONEY       : INTEGER | DECIMAL;
-ID          : [a-zA-Z0-9]+;
-LABEL       : '"' ~'"'*? '"';
-COMMENT     : '//' ~'\n'*? '\n' -> skip;
-WHITESPACE  : [ \n\t\r]+ -> skip;
+file
+	: form* EOF
+	;
+form
+	: FORM ID content
+	;
+content
+	: OPEN_CB (question | statement)* CLOSE_CB;
+questionAssign
+	: questionBool (ASSIGN expression)
+	| questionMoney (ASSIGN expression)
+	;
+question
+	: questionAssign
+	| questionBool
+	| questionMoney
+	;
+questionBool
+	: LABEL ID SEP BOOLEAN
+	;
+questionMoney
+	: LABEL ID SEP MONEY
+	;
+statement
+	: ifstatement
+	;
+ifstatement
+	: IF OPEN_BR expression CLOSE_BR content (ELSE content)?
+	;
+expression
+	: value
+	| OPEN_BR expression CLOSE_BR
+	| expression AND expression
+	| expression OR expression
+	| expression SUB expression
+	| operatorU expression
+	| id
+	;
+value
+	: bool
+	| integer
+	| decimal
+	;
+bool
+	: TRUE
+	| FALSE
+	;
+integer
+	: INTEGER
+	;
+decimal
+	: DECIMAL
+	;
+id
+	: ID
+	;
+operatorU
+	: NOT
+	;

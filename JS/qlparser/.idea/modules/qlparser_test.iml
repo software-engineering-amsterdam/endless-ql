@@ -14,19 +14,30 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output-test url="file://$MODULE_DIR$/../../build/classes/java/test" />
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../../build/generated-src/antlr/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../build/generated-src/antlr/test" isTestSource="true" />
+    </content>
     <content url="file://$MODULE_DIR$/../../src/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../src/test/antlr" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/test/resources" type="java-test-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="qlparser_main" />
+    <orderEntry type="library" name="Gradle: org.antlr:antlr4:4.7.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.joda:joda-money:0.12" level="project" />
+    <orderEntry type="library" name="Gradle: org.antlr:antlr4-runtime:4.7.1" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring-boot-starter:3.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:1.5.10.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.antlr:antlr4-runtime:4.7.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-test:1.5.10.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring-boot:3.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.antlr:ST4:4.0.8" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.springframework.boot:spring-boot-devtools:1.5.10.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.antlr:antlr-runtime:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.abego.treelayout:org.abego.treelayout.core:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.glassfish:javax.json:1.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.icu:icu4j:58.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring-boot:3.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-themes:8.3.0" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-client-compiled:8.3.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter:1.5.10.RELEASE" level="project" />

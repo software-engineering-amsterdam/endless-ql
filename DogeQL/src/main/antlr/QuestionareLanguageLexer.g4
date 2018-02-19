@@ -81,8 +81,8 @@ LIT_BOOLEAN
     ;
 
 LIT_INTEGER
-    : Digits
-    | Hexadecimal
+    : ('-'+)?Digits
+    | ('-'+)?Hexadecimal
     ;
 
 LIT_DECIMAL

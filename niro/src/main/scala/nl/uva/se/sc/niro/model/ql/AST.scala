@@ -13,6 +13,18 @@ object AST {
     val String, Date, Bool, Integer, Decimal, Money = Value
   }
 
+  case class Form(name: String, statements: Seq[Statement]) extends Node {
+    override def getChildren: Seq[Node] = statements
+  }
+
+  sealed trait Statement extends Node
+  case class Question(label: String, answerValue: AnswerValue) extends Statement {
+    override def getChildren: Seq[Node] = Seq(answerValue)
+  }
+  case class Conditional(condition: Expression, thenBlock: Seq[Statement], elseBlock: Seq[Statement]) extends Statement {
+    override def getChildren: Seq[Node] = Seq(condition) ++ thenBlock ++ elseBlock
+  }
+
   sealed trait Expression extends Node {
     def exprType: ExprType
   }
@@ -21,12 +33,13 @@ object AST {
     override def getChildren: Seq[Node] = Seq.empty
   }
   case class Constant(exprType: ExprType, value: Any) extends Leaf
-  case class Variable(name: String, exprType: ExprType) extends Leaf {
-    private var v: Any = null
-    def setValue(v: Any) = { this.v = v }
-  }
-  case class NamedExpression(name: String, expression: Expression) extends Leaf {
-    override def exprType: ExprType = expression.exprType
+  sealed trait AnswerValue extends Leaf
+  sealed trait AnswerVariable extends AnswerValue
+  case class VariableDefinition(name: String, exprType: ExprType) extends AnswerVariable
+  case class VariableDeclaration(name: String, exprType: ExprType, expression: Expression) extends AnswerVariable
+  case class Variable(name: String) extends AnswerValue {
+    var answerVariable: AnswerVariable = null
+    override def exprType: ExprType = answerVariable.exprType
   }
 
   // Operators
@@ -42,11 +55,11 @@ object AST {
     val AND, OR = Value
   }
   object ArithmeticOperator extends Enumeration with BinaryOperator {
-    type LogicalOperator = Value
+    type ArithmeticOperator = Value
     val SUB, ADD, DIV, MUL = Value
   }
   object ComparisonOperator extends Enumeration with BinaryOperator {
-    type LogicalOperator = Value
+    type ComparisonOperator = Value
     val LT, LTE, GTE, GT, EQ, NE = Value
   }
 

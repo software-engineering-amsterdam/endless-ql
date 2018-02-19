@@ -35,5 +35,4 @@ public class DecimalLiteral extends Literal<Double> {
     public Double getValue() {
         return value;
     }
-
 }

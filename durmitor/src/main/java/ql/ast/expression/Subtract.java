@@ -1,10 +1,11 @@
 package ql.ast.expression;
 
+import ql.ast.type.Money;
 import ql.ast.type.Numeric;
 import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Subtract extends Binary {
+public class Subtract extends BinaryArithmetic {
 
     public Subtract(Expression lhs, Expression rhs) {
         super(lhs, rhs);
@@ -16,12 +17,17 @@ public class Subtract extends Binary {
     }
     
     @Override
-	public String toString() {
-		return lhs.toString() + " - " + rhs.toString();
-	}    
-
-    @Override
     public void accept(ExpressionVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public String getOperator() {
+        return "-";
+    }
+
+    @Override
+    protected void initOperations() {
+        legalOperations.add(new BinaryOperation(this, Money.class, Money.class));
     }
 }

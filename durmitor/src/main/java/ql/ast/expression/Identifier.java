@@ -1,5 +1,7 @@
 package ql.ast.expression;
 
+import java.util.Map;
+
 import ql.ast.type.Type;
 import ql.ast.type.Undefined;
 import ql.visitors.interfaces.ExpressionVisitor;
@@ -11,11 +13,6 @@ public class Identifier extends Expression {
     public Identifier(String name) {
         this.name = name;
         super.type = new Undefined();
-    }
-    
-    public Identifier(String name, Type type) {
-        this.name = name;
-        super.type = type;
     }
     
     public String getName() {
@@ -31,6 +28,10 @@ public class Identifier extends Expression {
         return type;
     }
 
+    public Type getType(Map<String,Type> symbolTable) {
+        return symbolTable.getOrDefault(name, type);
+    }
+    
     @Override
     public String toString() {
         return name;

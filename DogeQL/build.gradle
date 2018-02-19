@@ -37,18 +37,22 @@ dependencies {
 
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
-
     dependsOn generateGrammarSource
 }
 
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
-
     dependsOn generateTestGrammarSource
 }
 
 generateGrammarSource {
     maxHeapSize = "64m"
-    arguments += ["-long-messages"]
+    arguments += ["-visitor", "-long-messages"]
+}
+
+sourceSets {
+    test {
+        compileClasspath += sourceSets.main.compileClasspath
+    }
 }
 

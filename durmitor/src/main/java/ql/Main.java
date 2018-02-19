@@ -1,20 +1,10 @@
 package ql;
 
-import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import ql.ast.expression.Expression;
-import ql.ast.expression.Identifier;
 import ql.ast.form.Form;
-import ql.ast.statement.Question;
 import ql.ast.type.Type;
 import ql.checker.TypeChecker;
-import ql.visitors.ConditionCollector;
-import ql.visitors.QuestionCollector;
-import ql.visitors.ReferenceCollector;
 import ql.visitors.SymbolTable;
 
 public class Main {
@@ -43,25 +33,14 @@ public class Main {
         }
 
         // Visit and TypeCheck the AST
+        Map<String, Type> symbolTable   = new SymbolTable().build(form);
         TypeChecker checker             = new TypeChecker();
-        Map<String, Type> symbolTable   = new SymbolTable(form).build();
-        List<Identifier> references     = new ReferenceCollector().collect(form);
-        List<Question> questions        = new QuestionCollector().collect(form);
-        List<Expression> conditions     = new ConditionCollector().collect(form);
-        
-        checker.checkUndefinedRefs(references, symbolTable);
+        checker.checkIdentifiers(form);
+        checker.checkReferences(form, symbolTable);
+        checker.checkConditions(form, symbolTable);
+        checker.checkOperands(form, symbolTable);
+        checker.checkLabels(form);
         checker.printErrors();
-        
-        checker = new TypeChecker();
-        checker.checkConflictingQuestionTypes(questions);
-        checker.printErrors();
-        
-        checker = new TypeChecker();
-        checker.checkConditionTypes(conditions, symbolTable);
-        checker.printErrors();
-        
-        checker = new TypeChecker();
-        checker.checkDuplicateLabels(questions);
         checker.printWarnings();
         
         // Visit and build GUI from AST

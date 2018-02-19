@@ -32,6 +32,7 @@ public class FormVisitor extends QLBaseVisitor<Form> {
     @Override
     public Form visitForm(QLParser.FormContext ctx) {
         return new Form(
+          ctx.IDENTIFIER().getText(),
           ctx.questionBlock()
                   .stream()
                   .map(this.questionBlockVisitor::visitQuestionBlock)

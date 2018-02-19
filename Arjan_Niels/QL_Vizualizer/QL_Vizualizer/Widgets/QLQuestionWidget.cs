@@ -25,7 +25,7 @@ namespace QL_Vizualizer.Widgets
         /// </summary>
         public bool Editable { get { return _answerExpression == null; } }
 
-        public QLQuestionWidget(string identifyer, string text, Expression<bool> activationExpression, Expression<T> answerExpression) : base(identifyer, text, activationExpression)
+        public QLQuestionWidget(string identifyer, string text, WidgetController widgetController, Expression<bool> activationExpression = null, Expression<T> answerExpression = null) : base(identifyer, text, widgetController, activationExpression)
         {
             AnswerValue = default(T);
             IsAnswered = false;
@@ -33,7 +33,7 @@ namespace QL_Vizualizer.Widgets
 
             if (answerExpression != null)
                 foreach (string s in answerExpression.WidgetIDs)
-                    WidgetController.Instance.ReceiveUpdates(s, this);
+                    _widgetController.ReceiveUpdates(s, this);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace QL_Vizualizer.Widgets
             if (_answerExpression.WidgetIDs.Contains(updatedIdentifyer))
             {
                 SetAnswer(_answerExpression.Run());
-                WidgetController.Instance.UpdateView(this);
+                _widgetController.UpdateView(this);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QL_Vizualizer.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace QL_Vizualizer.Widgets.Types
 {
     public class QLWidgetString : QLQuestionWidget<string>
     {
-        public QLWidgetString(string identifyer, string text, Expression<bool> activationExpression, Expression<string> answerExpression) : base(identifyer, text, activationExpression, answerExpression)
+        public QLWidgetString(string identifyer, string text, WidgetController widgetController, Expression<bool> activationExpression = null, Expression<string> answerExpression = null) : base(identifyer, text, widgetController, activationExpression, answerExpression)
         {
         }
     }

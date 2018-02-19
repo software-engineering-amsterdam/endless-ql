@@ -1,5 +1,4 @@
 ﻿using QL_Vizualizer.Widgets;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,44 +12,6 @@ namespace QL_Vizualizer.Controllers
     /// </summary>
     public abstract class WidgetController
     {
-        // Singleton structure
-        #region Singleton
-
-        /// <summary>
-        /// Static, one time initialized, instance
-        /// </summary>
-        private static WidgetController _instance;
-
-        /// <summary>
-        /// Defines the WidgetController Singleton instance
-        /// </summary>
-        /// <param name="controller">Instance of an WidgetController</param>
-        public static void Initialize(WidgetController controller)
-        {
-            // Prevent multiple calls to the Initialize function
-            // Multiple calls result in the loss of all initialized data
-            if (_instance != null)
-                throw new InvalidOperationException("Widget controller cannot be initialized multiple times");
-
-            // Define the instance
-            _instance = controller;
-        }
-
-        /// <summary>
-        /// Singleton instance of the MainControler
-        /// </summary>
-        public static WidgetController Instance
-        {
-            get
-            {
-                // Throw excetion if the instance is not initialzied
-                if (_instance == null)
-                    throw new InvalidOperationException("Widget controller was not initiallized");
-                return _instance;
-            }
-        }
-        #endregion
-
         /// <summary>
         /// Collection of widgets, dictionary on widget identifyer
         /// </summary>

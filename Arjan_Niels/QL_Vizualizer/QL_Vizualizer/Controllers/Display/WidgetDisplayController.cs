@@ -19,9 +19,9 @@ namespace QL_Vizualizer.Controllers.Display
         /// <summary>
         /// Element factory that creates all elements
         /// </summary>
-        protected IElementFactory<T> _elementFactory { get; private set; }
+        protected ElementFactory<T> _elementFactory { get; private set; }
 
-        public WidgetDisplayController(float initialPosition, IElementFactory<T> elementFactory)
+        public WidgetDisplayController(float initialPosition, ElementFactory<T> elementFactory)
         {
             InitialPosition = initialPosition;
             _elementFactory = elementFactory;

@@ -23,7 +23,12 @@ namespace QL_Vizualizer.Widgets
         /// </summary>
         private Expression<bool> _activationExpression;
 
-        public QLWidget(string identifyer, string text, Expression<bool> activationExpression)
+        /// <summary>
+        /// Widget controller that this widget receives updates from
+        /// </summary>
+        protected WidgetController _widgetController { get; private set; }
+
+        public QLWidget(string identifyer, string text, WidgetController widgetController, Expression<bool> activationExpression = null)
         {
             Text = text;
             Identifyer = identifyer;
@@ -33,9 +38,11 @@ namespace QL_Vizualizer.Widgets
             else
                 Active = true;
 
+            _widgetController = widgetController;
+
             if (activationExpression != null)
                 foreach (string id in activationExpression.WidgetIDs)
-                    WidgetController.Instance.ReceiveUpdates(id, this);
+                    _widgetController.ReceiveUpdates(id, this);
         }
 
         /// <summary>

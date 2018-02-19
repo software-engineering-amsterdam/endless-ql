@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Factories;
 using QL_Vizualizer.Widgets.Types;
 
@@ -10,6 +11,7 @@ namespace QL_Visualizer.Tests.Visualize
     public class ControlFactoryTest : IElementFactoryTest
     {
         private ControlFactory _controlFactory;
+        private WidgetController _widgetController;
 
         private QLWidgetInt _intWidget;
         private QLWidgetBool _boolWidget;
@@ -18,10 +20,10 @@ namespace QL_Visualizer.Tests.Visualize
         [TestInitialize]
         public void Initialize()
         {
-            _controlFactory = new ControlFactory();
-            _intWidget = new QLWidgetInt("a", "q1", null, null);
-            _boolWidget = new QLWidgetBool("b", "q2", null, null);
-            _stringWidget = new QLWidgetString("c", "q3", null, null);
+            _controlFactory = new ControlFactory(_widgetController);
+            _intWidget = new QLWidgetInt("a", "q1", _widgetController);
+            _boolWidget = new QLWidgetBool("b", "q2", _widgetController);
+            _stringWidget = new QLWidgetString("c", "q3", _widgetController);
         }
 
         #region Create

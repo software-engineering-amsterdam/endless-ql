@@ -3,19 +3,22 @@ using QL_Vizualizer.Widgets;
 using QL_Vizualizer.Widgets.Types;
 using System;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace QL_Vizualizer.Factories
 {
-    public class ControlFactory : IElementFactory<Control>
+    public class ControlFactory : ElementFactory<Control>
     {
+        public ControlFactory(WidgetController widgetController) : base(widgetController)
+        {
+        }
+
         /// <summary>
         /// Creates a windowsform control
         /// </summary>
         /// <param name="widget">Widget to create control from</param>
         /// <returns>Windows forms control</returns>
-        public Control CreateElement(QLWidget widget)
+        public override Control CreateElement(QLWidget widget)
         {
             // Create main body of control
             Control result = new Panel();
@@ -45,7 +48,7 @@ namespace QL_Vizualizer.Factories
         /// <param name="widget">Widget associated to the control</param>
         /// <param name="control">Control to be updated</param>
         /// <returns></returns>
-        public Control UpdateElement(QLWidget widget, Control control)
+        public override Control UpdateElement(QLWidget widget, Control control)
         {
             switch (widget)
             {
@@ -127,6 +130,7 @@ namespace QL_Vizualizer.Factories
             textBox.Location = new Point(0, AddLabel(widget.Text, 0, ref result));
             textBox.TextChanged += delegate (object sender, EventArgs e) { ChangedStringWidget(widget, textBox); };
 
+            result.Controls.Add(textBox);
         }
 
         #endregion
@@ -138,7 +142,7 @@ namespace QL_Vizualizer.Factories
             if (int.TryParse(input.Text, out value))
             {
                 intWidget.SetAnswer(value);
-                WidgetController.Instance.ValueUpdate(intWidget.Identifyer);
+                _widgetController.ValueUpdate(intWidget.Identifyer);
             }
             else
                 input.Text = "";
@@ -146,12 +150,14 @@ namespace QL_Vizualizer.Factories
 
         private void ChangedBoolWidget(QLWidgetBool boolWidget, CheckBox input)
         {
-            WidgetController.Instance.ValueUpdate(boolWidget.Identifyer);
+            boolWidget.SetAnswer(input.Checked);
+            _widgetController.ValueUpdate(boolWidget.Identifyer);
         }
 
         private void ChangedStringWidget(QLWidgetString stringWidget, TextBox input)
         {
-            WidgetController.Instance.ValueUpdate(stringWidget.Identifyer);
+            stringWidget.SetAnswer(input.Text);
+            _widgetController.ValueUpdate(stringWidget.Identifyer);
         }
         #endregion
     }

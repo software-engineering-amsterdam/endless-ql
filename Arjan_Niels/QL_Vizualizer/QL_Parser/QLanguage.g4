@@ -33,4 +33,6 @@ OR					: '||';
 QTYPE				: 'boolean' | 'money' | 'text' | 'integer';
 ID					: [a-zA-Z0-9]+ ;
 TEXT				: '"' .*? '"' ;
+
+LINE_COMMENT		: '//' ~[\r\n]* -> skip;
 WS					: [ \t\n\r]+ -> skip;

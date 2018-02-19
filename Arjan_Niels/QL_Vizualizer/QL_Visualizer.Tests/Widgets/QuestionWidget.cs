@@ -1,8 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Vizualizer.Widgets;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace QL_Visualizer.Tests.Widgets
 {

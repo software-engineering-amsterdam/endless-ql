@@ -1,15 +1,17 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL_Vizualizer.Controllers;
+using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Factories;
 using QL_Vizualizer.Widgets.Types;
 
-namespace QL_Visualizer.Tests.Visualize
+namespace QL_Visualizer.Tests.Elements
 {
     [TestClass]
     public class ControlFactoryTest : IElementFactoryTest
     {
         private ControlFactory _controlFactory;
+        private WidgetController _widgetController;
 
         private QLWidgetInt _intWidget;
         private QLWidgetBool _boolWidget;
@@ -18,10 +20,14 @@ namespace QL_Visualizer.Tests.Visualize
         [TestInitialize]
         public void Initialize()
         {
-            _controlFactory = new ControlFactory();
-            _intWidget = new QLWidgetInt("a", "q1", null, null);
-            _boolWidget = new QLWidgetBool("b", "q2", null, null);
-            _stringWidget = new QLWidgetString("c", "q3", null, null);
+            Control mainControl = new Panel();
+            _widgetController = new WidgetVisualizeController<Control>();
+            _widgetController.SetDisplayController(new WidgetDisplayControllerWindows(10f, mainControl, _widgetController));
+
+            _controlFactory = new ControlFactory(_widgetController);
+            _intWidget = new QLWidgetInt("a", "q1");
+            _boolWidget = new QLWidgetBool("b", "q2");
+            _stringWidget = new QLWidgetString("c", "q3");
         }
 
         #region Create
@@ -78,7 +84,7 @@ namespace QL_Visualizer.Tests.Visualize
         #endregion
 
         #region Update
-        //[TestMethod]
+        [TestMethod]
         public void UpdateBoolElementTest()
         {
             Control c = _controlFactory.CreateElement(_boolWidget);
@@ -93,14 +99,34 @@ namespace QL_Visualizer.Tests.Visualize
             Assert.IsTrue(_boolWidget.AnswerValue);
         }
 
+        [TestMethod]
         public void UpdateIntElementTest()
         {
-            throw new NotImplementedException();
+            Control c = _controlFactory.CreateElement(_intWidget);
+
+            // Control should contain a checkbox at 0
+            Assert.IsInstanceOfType(c.Controls[1], typeof(TextBox));
+
+            // Check the checkbox
+            ((TextBox)c.Controls[1]).Text = 100.ToString();
+
+            // Answer must now be updated
+            Assert.AreEqual(100, _intWidget.AnswerValue);
         }
 
+        [TestMethod]
         public void UpdateStringElementTest()
         {
-            throw new NotImplementedException();
+            Control c = _controlFactory.CreateElement(_stringWidget);
+
+            // Control should contain a checkbox at 0
+            Assert.IsInstanceOfType(c.Controls[1], typeof(TextBox));
+
+            // Check the checkbox
+            ((TextBox)c.Controls[1]).Text = "unittest";
+
+            // Answer must now be updated
+            Assert.AreEqual("unittest", _stringWidget.AnswerValue);
         }
         #endregion
     }

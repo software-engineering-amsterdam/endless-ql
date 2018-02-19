@@ -25,14 +25,24 @@ namespace QL_Vizualizer.Widgets
         /// </summary>
         public bool Editable { get { return _answerExpression == null; } }
 
-        public QLQuestionWidget(string identifyer, string text, WidgetController widgetController, Expression<bool> activationExpression = null, Expression<T> answerExpression = null) : base(identifyer, text, widgetController, activationExpression)
+        public QLQuestionWidget(string identifyer, string text, Expression<bool> activationExpression = null, Expression<T> answerExpression = null) : base(identifyer, text, activationExpression)
         {
             AnswerValue = default(T);
             IsAnswered = false;
-            _answerExpression = answerExpression;
+            _answerExpression = answerExpression;       
+        }
 
-            if (answerExpression != null)
-                foreach (string s in answerExpression.WidgetIDs)
+        /// <summary>
+        /// Sets widgetcontroller and subscribes to value changes
+        /// </summary>
+        /// <param name="controller">Controller to use</param>
+        public override void SetController(WidgetController controller)
+        {
+            base.SetController(controller);
+
+            // Subscribe for answer expressions
+            if (_answerExpression != null)
+                foreach (string s in _answerExpression.WidgetIDs)
                     _widgetController.ReceiveUpdates(s, this);
         }
 

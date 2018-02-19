@@ -1,4 +1,5 @@
-﻿using QL_Vizualizer.Widgets;
+﻿using QL_Vizualizer.Controllers.Display;
+using QL_Vizualizer.Widgets;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,6 +30,13 @@ namespace QL_Vizualizer.Controllers
         }
 
         /// <summary>
+        /// Set display controller
+        /// </summary>
+        /// <typeparam name="T">Element type of display controller</typeparam>
+        /// <param name="displayController">Display controller to use</param>
+        public abstract void SetDisplayController<T>(WidgetDisplayController<T> displayController);
+
+        /// <summary>
         /// Updates the view of a widget
         /// </summary>
         /// <param name="widget">Widget to update</param>
@@ -47,6 +55,10 @@ namespace QL_Vizualizer.Controllers
         {
             // Convert list input to dictionary
             _widgets = widgets.ToDictionary(o => o.Identifyer, o => o);
+
+            // Set controller for each assigned widget
+            foreach (QLWidget w in _widgets.Values)
+                w.SetController(this);
         }
 
         /// <summary>

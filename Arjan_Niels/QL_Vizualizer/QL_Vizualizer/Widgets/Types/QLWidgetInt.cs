@@ -9,7 +9,7 @@ namespace QL_Vizualizer.Widgets.Types
 {
     public class QLWidgetInt : QLQuestionWidget<int>
     {
-        public QLWidgetInt(string identifyer, string text, WidgetController widgetController, Expression<bool> activationExpression = null, Expression<int> answerExpression = null) : base(identifyer, text, widgetController, activationExpression, answerExpression)
+        public QLWidgetInt(string identifyer, string text, Expression<bool> activationExpression = null, Expression<int> answerExpression = null) : base(identifyer, text, activationExpression, answerExpression)
         {
         }
     }

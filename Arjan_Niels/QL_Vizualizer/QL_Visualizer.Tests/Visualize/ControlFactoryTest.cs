@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Vizualizer.Controllers;
+using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Factories;
 using QL_Vizualizer.Widgets.Types;
 
@@ -20,10 +21,14 @@ namespace QL_Visualizer.Tests.Visualize
         [TestInitialize]
         public void Initialize()
         {
+            Control mainControl = new Panel();
+            _widgetController = new WidgetVisualizeController<Control>();
+            _widgetController.SetDisplayController(new WidgetDisplayControllerWindows(10f, mainControl, _widgetController));
+
             _controlFactory = new ControlFactory(_widgetController);
-            _intWidget = new QLWidgetInt("a", "q1", _widgetController);
-            _boolWidget = new QLWidgetBool("b", "q2", _widgetController);
-            _stringWidget = new QLWidgetString("c", "q3", _widgetController);
+            _intWidget = new QLWidgetInt("a", "q1");
+            _boolWidget = new QLWidgetBool("b", "q2");
+            _stringWidget = new QLWidgetString("c", "q3");
         }
 
         #region Create

@@ -1,5 +1,6 @@
 ﻿using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Widgets;
+using System;
 
 namespace QL_Vizualizer.Controllers
 {
@@ -14,9 +15,11 @@ namespace QL_Vizualizer.Controllers
         /// </summary>
         private WidgetDisplayController<T> _displayController;
 
-        public WidgetVisualizeController(WidgetDisplayController<T> displayController)
+        public override void SetDisplayController<Y>(WidgetDisplayController<Y> displayController)
         {
-            _displayController = displayController;
+            if (typeof(Y) != typeof(T))
+                throw new InvalidOperationException("Tried to set displaycontroller with type mismatch");
+            _displayController = displayController as WidgetDisplayController<T>;
         }
 
         /// <summary>

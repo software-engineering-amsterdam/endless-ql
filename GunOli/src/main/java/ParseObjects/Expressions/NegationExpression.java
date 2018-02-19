@@ -1,8 +1,8 @@
 package ParseObjects.Expressions;
 
-public class NegationExpression extends UnaryExpression<Boolean> {
+public class NegationExpression extends UnaryExpression<Double> {
     public NegationExpression(Expression expr){
-        super("!", expr);
+        super("-", expr);
     }
 
     @Override
@@ -11,7 +11,7 @@ public class NegationExpression extends UnaryExpression<Boolean> {
     }
 
     @Override
-    public Boolean evaluate(){
+    public Double evaluate(){
         return null;
     }
 }

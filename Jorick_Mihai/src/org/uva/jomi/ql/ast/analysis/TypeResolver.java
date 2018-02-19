@@ -1,12 +1,19 @@
 package org.uva.jomi.ql.ast.analysis;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.expressions.*;
 import org.uva.jomi.ql.ast.statements.*;
 
 public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
-	private int numberOfErrors = 0;
+	private List<String> errorMessages;
+	
+	public TypeResolver() {
+		this.errorMessages = new ArrayList<String>();
+	}
 	
 	public void check(List<Stmt> statements) {		
 		for (Stmt statement : statements) {
@@ -15,11 +22,12 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	}
 	
 	public int getNumberOfErrors() {
-		return numberOfErrors;
+		return this.errorMessages.size();
 	}
-
-	private void incrementNumberOfErrors() {
-		this.numberOfErrors++;
+	
+	public void addError(String error) {
+		this.errorMessages.add(error);
+		System.out.println(error);
 	}
 	
 	
@@ -55,8 +63,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 		}
 		
 		if(stmt.expression.getType() != stmt.getType()) {
-			this.incrementNumberOfErrors();
-			System.out.println(stmt.label + " expected " + stmt.getType() + " but got " + stmt.expression.getType());
+			this.addError(stmt.label + " expected " + stmt.getType() + " but got " + stmt.expression.getType());
 		}
 		
 		return null;
@@ -83,8 +90,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 		expr.right.accept(this);
 		
 		if(expr.left.getType() != expr.right.getType()) {
-			this.incrementNumberOfErrors();
-			System.out.println("Cannot do " + expr.left.getType() + " " + expr.operator.getLexeme() + " " + expr.right.getType());
+			this.addError("Cannot do " + expr.left.getType() + " " + expr.operator.getLexeme() + " " + expr.right.getType());
 		}
 		
 		return null;

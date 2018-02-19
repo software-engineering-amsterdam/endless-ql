@@ -2,6 +2,14 @@
 
 DSL for Questionnaire Language
 
+## Demo
+
+Feel free to try out the DSL editor on the demo website:
+
+[http://sp.schneider.click/](http://sp.schneider.click/) 
+
+So far it only outputs the given questionnaire to a JSON textarea.
+
 ## Development
 
 **Requirements:**
@@ -49,6 +57,25 @@ npm run generate:ql
 
 The results will be written to `src/parsing/parsers/ql_parser.ts`.
 If the development server is running it will automatically reload.
+
+## Tests
+
+To run the tests inside `src/test` please execute: 
+
+```
+yarn test
+```
+
+This will watch all files for changes and execute the tests every time a 
+file is saved. You maybe have to press `a` initially to run all tests.
+
+## Build for production
+
+```
+yarn build
+```
+
+Result will be written into the `/build` folder
 
 ## Doubts
 

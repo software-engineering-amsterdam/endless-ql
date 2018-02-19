@@ -7,6 +7,13 @@ export default class Question implements Field {
   readonly identifier: string;
   readonly type: FieldType;
 
+  /**
+   * Creates a question that lets the user input an answer.
+   *
+   * @param {string} identifier
+   * @param {string} label
+   * @param {FieldType} type
+   */
   constructor(identifier: string, label: string, type: FieldType) {
     this.label = label;
     this.identifier = identifier;

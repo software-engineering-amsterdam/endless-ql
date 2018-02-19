@@ -1,5 +1,6 @@
 package ast.expression;
 
+import ast.literal.Identifier;
 import visiting.ExpressionVisitor;
 
 public class IdentityExpression extends Expression {

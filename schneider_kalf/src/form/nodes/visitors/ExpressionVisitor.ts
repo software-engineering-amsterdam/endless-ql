@@ -16,6 +16,9 @@ import SmallerThan from "../expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../expressions/comparisons/SmallerThanOrEqual";
 import StringLiteral from "../expressions/string/StringLiteral";
 
+/**
+ * Visitor that visits every node that extends the Expression class.
+ */
 interface ExpressionVisitor {
   visitAddition(addition: Addition): any;
 

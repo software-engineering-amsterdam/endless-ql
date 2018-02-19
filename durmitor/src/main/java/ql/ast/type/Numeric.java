@@ -6,5 +6,4 @@ public class Numeric extends Type {
     public String toString() {
         return "numeric";
     }
-
 }

@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro;
 
-import nl.uva.se.sc.niro.parser.ErrorListener;
-import nl.uva.se.sc.niro.parser.QLFormParser$;
+import nl.uva.se.sc.niro.gui.ErrorUtil;
+import nl.uva.se.sc.niro.parser.QLFormParser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -25,9 +25,9 @@ public class PositiveQLFormParserTest extends AbstractQLFormParserTest {
 
     @Test
     public void parserTest() throws IOException {
-        QLFormParser$.MODULE$.parse(toCharStream(formFile));
-        if (ErrorListener.errorReported) {
-            fail("Something went wrong, see the console for more information!");
+        QLFormParser.parse(toCharStream(formFile));
+        if (!QLFormParser.getParseErrors().isEmpty()) {
+            fail(ErrorUtil.toString(QLFormParser.getParseErrors()));
         }
     }
 

@@ -9,13 +9,15 @@
     "react-dom": "^16.2.0",
     "react-scripts-ts": "2.13.0",
     "reactstrap": "next",
-    "ts-money": "^0.4.4"
+    "ts-money": "^0.4.4",
+    "ts-pegjs": "^0.1.13"
   },
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom && ava",
-    "eject": "react-scripts-ts eject"
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject",
+    "generate:ql": "pegjs --plugin ./node_modules/ts-pegjs -o src/parsing/parsers/ql_parser.ts --extra-options-file src/parsing/grammars/pegconfig.json src/parsing/grammars/ql_grammar.pegts"
   },
   "devDependencies": {
     "@types/jest": "^22.1.1",
@@ -29,5 +31,7 @@
     "cross-env": "^5.1.3",
     "raw-loader": "^0.5.1",
     "typescript": "^2.7.1"
+  },
+  "jest": {
   }
 }

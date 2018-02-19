@@ -52,7 +52,7 @@ bool        : FALSE | TRUE ;
 
 unaryOp     : SUB | NEG;
 compOp      : LT | LTE | GTE | GT | NE | EQ ;
-logicalOp   : OR | AND | NEG ;
+logicalOp   : OR | AND ;
 arithmOp    : SUB | ADD | DIV | MUL ;
 
 expression  : IntValue                                 # IntConst

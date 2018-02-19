@@ -4,7 +4,7 @@ import ql.ast.type.Bool;
 import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Greater extends Binary {
+public class Greater extends BinaryRelation {
 
     public Greater(Expression lhs, Expression rhs) {
         super(lhs, rhs);
@@ -16,12 +16,12 @@ public class Greater extends Binary {
     }
 
     @Override
-	public String toString() {
-		return lhs.toString() + " > " + rhs.toString();
-	}
-
-    @Override
     public void accept(ExpressionVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public String getOperator() {
+        return ">";
     }
 }

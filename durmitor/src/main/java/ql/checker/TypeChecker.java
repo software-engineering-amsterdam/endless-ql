@@ -6,91 +6,61 @@ import java.util.Map;
 
 import ql.ast.expression.Expression;
 import ql.ast.expression.Identifier;
-import ql.ast.statement.Question;
-import ql.ast.type.Bool;
+import ql.ast.expression.Operator;
+import ql.ast.form.Form;
 import ql.ast.type.Type;
+import ql.visitors.ConditionChecker;
+import ql.visitors.ConflictingIdChecker;
+import ql.visitors.DuplicateLabelChecker;
+import ql.visitors.OperandChecker;
+import ql.visitors.ReferenceChecker;
 
 public class TypeChecker {
 
     private List<String> errors;
     private List<String> warnings;
     
+    
     public TypeChecker() {
         this.errors     = new ArrayList<String>();
         this.warnings   = new ArrayList<String>();
     }
     
-    public void checkUndefinedRefs(List<Identifier> refs, Map<String,Type> symbolTable) {
+    public List<Identifier> checkIdentifiers(Form form)
+    {
+        ConflictingIdChecker checker = new ConflictingIdChecker(form, errors);
         
-        for(Identifier id : refs)
-        {
-            if(!symbolTable.containsKey(id.getName()))
-            {
-                errors.add("Reference [ " + id.getName() + " ] to undefined question found @ " + id.getLocation());
-            }
-        }
+        return checker.getDuplicates();
     }
     
-    public void checkConflictingQuestionTypes(List<Question> questions) {
+    public List<Identifier> checkReferences(Form form, Map<String,Type> symbolTable)
+    {
+        ReferenceChecker checker = new ReferenceChecker(form, symbolTable, errors);
         
-        for(int o = 0; o < questions.size(); o++)
-        {
-            Question orig = questions.get(o);
-            
-            for(int d = o + 1; d < questions.size(); d++) 
-            {
-                Question dup = questions.get(d);
-                
-                if(orig.getIdentifier().getName().equals(dup.getIdentifier().getName()) && !orig.getType().equals(dup.getType()))
-                {
-                    errors.add("Duplicate questions with different types found @ " + orig.getLocation() + " and " + " @ " + dup.getLocation() + "; [ " + orig.toString() + " ], [ " + dup.toString() + " ]");
-                }
-            }
-        }
+        return checker.getUndefinedReferences();
     }
     
-    public void checkConditionTypes(List<Expression> conditions, Map<String,Type> symbolTable) {
+    public List<Expression> checkConditions(Form form, Map<String,Type> symbolTable)
+    {
+        ConditionChecker checker = new ConditionChecker(form, symbolTable, errors);
         
-        for(Expression c : conditions)
-        {
-            if(c.isIdentifier())
-            {
-                Identifier id = (Identifier) c;
-                
-                if(!symbolTable.containsKey(id.getName()))
-                {
-                    errors.add("Non-boolean condition [ " + id.getName() + " ] with type [ " + id.getType().toString() + " ] found @ "+ id.getLocation());
-                }
-                else if(!symbolTable.get(id.getName()).equals(new Bool()))
-                {
-                    errors.add("Non-boolean condition [ " + id.getName() + " ] with type [ " + symbolTable.get(id.getName()).toString() + " ] found @ "+ id.getLocation());
-                }
-            }
-            else if(!c.getType().equals(new Bool()))
-            {
-                errors.add("Non-boolean condition [ " + c.toString() + " ] with type [ " + c.getType().toString() + " ] found @ "+ c.getLocation());
-            }
-        }
+        return checker.getInvalidConditions();
     }
     
-    public void checkDuplicateLabels(List<Question> questions) {
+    public List<Operator> checkOperands(Form form, Map<String,Type> symbolTable)
+    {
+        OperandChecker checker = new OperandChecker(form, symbolTable, errors);
         
-        for(int o = 0; o < questions.size(); o++)
-        {
-            Question orig = questions.get(o);
-            
-            for(int d = o + 1; d < questions.size(); d++) 
-            {
-                Question dup = questions.get(d);
-                
-                if(orig.getLabel().equals(dup.getLabel()))
-                {
-                    warnings.add("Duplicate labels [ " + orig.getLabel() + " ] found @ " + orig.getLocation() + " and  @ " + dup.getLocation());
-                }
-            }
-        }
+        return checker.getIllegalOperations();
     }
     
+    public List<String> checkLabels(Form form)
+    {
+        DuplicateLabelChecker checker = new DuplicateLabelChecker(form, warnings);
+        
+        return checker.getDuplicates();
+    }
+
     public boolean hasErrors() {
         return !errors.isEmpty();
     }

@@ -1,6 +1,6 @@
 package ast.expression;
 
-public class UnaryExpression extends Expression {
+public abstract class UnaryExpression extends Expression {
 
 	private Expression expr;
 

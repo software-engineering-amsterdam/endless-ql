@@ -13,6 +13,9 @@ BRACK_R     : ')' ;
 
 D_COLON     : ':' ;
 
+COMMA       : ',' ;
+PERIOD      : '.' ;
+
 LT          : '<' ;
 LTE         : '<=' ;
 EQ          : '==' ;
@@ -28,7 +31,6 @@ MUL         : '*' ;
 OR          : '||' ;
 AND         : '&&' ;
 NEG         : '!' ;
-COMMA       : ',' ;
 
 BOOLEAN     : 'boolean' ;
 INTEGER     : 'integer' ;
@@ -41,7 +43,7 @@ FALSE       : 'false' ;
 TRUE        : 'true' ;
 
 IntValue    : [1-9][0-9]* ;
-DecValue    : [1-9][0-9]* COMMA [0-9]+ ;
+DecValue    : [1-9][0-9]* PERIOD [0-9]+ ;
 Ident       : [a-zA-Z0-9_]+ ;
 TEXT        : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); };
 

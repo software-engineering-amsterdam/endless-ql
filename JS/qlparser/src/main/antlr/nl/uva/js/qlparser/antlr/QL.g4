@@ -20,9 +20,13 @@ INTEGER:    'integer';
 TRUE:       'true';
 FALSE:      'false';
 
+// ISO8601 date notation
+DATVAL:     [0-9]+'-'[0-9]+'-'[0-9]+;
+
 INTVAL:     [0-9]+;
 DECVAL:     [0-9]+'.'[0-9]+;
-STRVAL:     '"'~['\\\r\n]+'"';
+MONVAL:     [0-9]+','[0-9]+;
+STRVAL:     '"'~['\\\r\n]+?'"';
 
 IF:         'if';
 
@@ -73,6 +77,7 @@ value
     : STRVAL
     | INTVAL
     | DECVAL
+    | MONVAL
     | boolval
     ;
 

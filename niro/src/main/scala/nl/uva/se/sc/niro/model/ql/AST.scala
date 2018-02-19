@@ -44,30 +44,37 @@ object AST {
 
   // Operators
   sealed trait Operator
-  object UnaryOperator extends Enumeration with Operator {
-    type UnaryOperator = Value
-    val NEG, MIN = Value
+
+  sealed trait UnaryOperator extends Operator
+  object UnaryOperators extends UnaryOperator {
+    case class NEG() extends UnaryOperator
+    case class MIN() extends UnaryOperator
   }
 
   sealed trait BinaryOperator extends Operator
-  object LogicalOperator extends Enumeration with BinaryOperator {
-    type LogicalOperator = Value
-    val AND, OR = Value
+  object LogicalOperator extends BinaryOperator {
+    case class AND() extends BinaryOperator
+    case class OR() extends BinaryOperator
   }
-  object ArithmeticOperator extends Enumeration with BinaryOperator {
-    type ArithmeticOperator = Value
-    val SUB, ADD, DIV, MUL = Value
+  object ArithmeticOperator extends BinaryOperator {
+    case class SUB() extends BinaryOperator
+    case class ADD() extends BinaryOperator
+    case class DIV() extends BinaryOperator
+    case class MUL() extends BinaryOperator
   }
-  object ComparisonOperator extends Enumeration with BinaryOperator {
-    type ComparisonOperator = Value
-    val LT, LTE, GTE, GT, EQ, NE = Value
+  object ComparisonOperator extends BinaryOperator {
+    case class LT() extends BinaryOperator
+    case class LTE() extends BinaryOperator
+    case class GTE() extends BinaryOperator
+    case class GT() extends BinaryOperator
+    case class EQ() extends BinaryOperator
+    case class NE() extends BinaryOperator
   }
 
   // Operation expressions
   sealed trait Operation extends Expression
 
-  sealed trait UnaryOperation extends Operation
-  case class NegateOperation(op: UnaryOperation, expr: Expression) extends UnaryOperation {
+  case class UnaryOperation(op: UnaryOperator, expr: Expression) extends Operation {
     override def getChildren: Seq[Node] = Seq(expr)
     override def exprType: ExprType = expr.exprType
   }

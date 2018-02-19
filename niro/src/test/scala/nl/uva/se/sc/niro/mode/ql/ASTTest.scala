@@ -1,7 +1,10 @@
 package nl.uva.se.sc.niro.mode.ql
 
-import nl.uva.se.sc.niro.model.ql.AST.{Question, _}
+import java.util.function.BinaryOperator
+
 import nl.uva.se.sc.niro.model.ql.AST.ExprType._
+import nl.uva.se.sc.niro.model.ql.AST.UnaryOperators._
+import nl.uva.se.sc.niro.model.ql.AST._
 import org.scalatest.FunSuite
 
 class ASTTest extends FunSuite {
@@ -9,7 +12,7 @@ class ASTTest extends FunSuite {
   test("Just check the console for now") {
     val expected = Form("NewASTForm", Seq(
       Question("Did you sell your house this year?", VariableDefinition("hasSoldHouse", Bool)),
-      Conditional(Variable("hasSoldHouse"),
+      Conditional(UnaryOperation(NEG(), Variable("hasSoldHouse")),
         Seq(
           Question("What is the price you sold your house for?", VariableDefinition("priceOfHouse", Money))
         ),

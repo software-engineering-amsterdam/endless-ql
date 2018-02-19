@@ -1,4 +1,4 @@
-package qlviz;
+package qlviz.gui;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;

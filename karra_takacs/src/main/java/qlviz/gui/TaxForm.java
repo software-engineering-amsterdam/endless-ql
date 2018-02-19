@@ -13,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import qlviz.ParseBuilder;
 import qlviz.QLBaseVisitor;
 import qlviz.interpreter.BinaryBooleanOperatorVisitor;
 import qlviz.interpreter.BinaryNumericOperatorVisitor;
@@ -71,7 +70,7 @@ public class TaxForm extends Application {
 
 	// get questions from the input file
 	private HashMap<Integer, String> getQuestions() {
-		ParseBuilder parseBuilder = new ParseBuilder();
+		ParserBuilder parseBuilder = new ParserBuilder();
 		ParseTree parseTree = parseBuilder.generateParseTree(this.getParameters().getRaw().get(0));
 		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor = new BooleanExpressionVisitor(
 				new NumericExpressionVisitor(new BinaryNumericOperatorVisitor()), new BinaryBooleanOperatorVisitor(),

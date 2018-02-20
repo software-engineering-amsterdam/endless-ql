@@ -1,8 +1,11 @@
 package nl.uva.se.sc.niro.parser
 
-import nl.uva.se.sc.niro.model.Ast.Expression.Operator._
-import nl.uva.se.sc.niro.model.Ast.Expression._
+import java.util
+
 import nl.uva.se.sc.niro.model.Ast._
+import nl.uva.se.sc.niro.model.Expressions.Expression.{ Answer, BinaryOperation, Expression, UnaryOperation }
+import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, DecAnswer, IntAnswer, Reference }
+import nl.uva.se.sc.niro.model.Operators.{ BinaryOperator, UnaryOperator }
 import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
 import ql.{ QLBaseVisitor, QLLexer, QLParser }
 
@@ -10,7 +13,7 @@ import scala.collection.JavaConverters
 
 object QLFormParser {
   private val errorListener = new ErrorListener
-  def getParseErrors = errorListener.getParseErrors
+  def getParseErrors: util.List[ParseErrorInfo] = errorListener.getParseErrors
 
   def parse(formSource: CharStream): QLForm = {
     errorListener.getParseErrors.clear()
@@ -29,7 +32,7 @@ object QLFormParser {
 
   object StatementCompiler extends QLBaseVisitor[Statement] {
     override def visitQuestion(ctx: QLParser.QuestionContext): Statement = {
-      Question(Ident(ctx.Ident().getText), ctx.TEXT().getText, AnswerType(ctx.answerType().getText))
+      Question(ctx.Ident().getText, ctx.TEXT().getText, ExpressionCompiler.visit(ctx.expression))
     }
 
     override def visitConditional(ctx: QLParser.ConditionalContext): Statement = {
@@ -40,41 +43,44 @@ object QLFormParser {
   }
 
   object ExpressionCompiler extends QLBaseVisitor[Expression] {
+    override def visitAnswerTypeConst(ctx: QLParser.AnswerTypeConstContext): Expression = {
+      Answer(ctx.getText)
+    }
+
     override def visitIntConst(ctx: QLParser.IntConstContext): Expression = {
-      IntConst(ctx.IntValue().getText.toInt)
+      IntAnswer(Some(ctx.IntValue().getText.toInt))
     }
 
     override def visitDecConst(ctx: QLParser.DecConstContext): Expression = {
-      DecConst(ctx.DecValue().getText.toDouble)
+      DecAnswer(Some(ctx.DecValue().getText.toDouble))
     }
 
-    override def visitBoolConst(ctx: QLParser.BoolConstContext): Expression = {
-      BoolConst(ctx.getText.toBoolean)
+    override def visitBool(ctx: QLParser.BoolContext): Expression = {
+      BooleanAnswer(Some(ctx.getText.toBoolean))
     }
 
     override def visitVar(ctx: QLParser.VarContext): Expression = {
-      Ident(ctx.Ident().getText)
+      Reference(ctx.Ident().getText)
     }
 
     override def visitUnaryExpr(ctx: QLParser.UnaryExprContext): Expression = {
-      UnaryOp(ctx.unaryOp().getText, visit(ctx.expression))
+      UnaryOperation(UnaryOperator(ctx.unaryOp().getText), visit(ctx.expression))
     }
 
     override def visitArithmExpr(ctx: QLParser.ArithmExprContext): Expression = {
-      ArithmOp(ctx.arithmOp().getText, visit(ctx.lhs), visit(ctx.rhs))
+      BinaryOperation(BinaryOperator(ctx.arithmOp().getText), visit(ctx.lhs), visit(ctx.rhs))
     }
 
     override def visitCompExpr(ctx: QLParser.CompExprContext): Expression = {
-      CompOp(ctx.compOp().getText, visit(ctx.lhs), visit(ctx.rhs))
+      BinaryOperation(BinaryOperator(ctx.compOp().getText), visit(ctx.lhs), visit(ctx.rhs))
     }
 
     override def visitLogicalExpr(ctx: QLParser.LogicalExprContext): Expression = {
-      LogicalOp(ctx.logicalOp().getText, visit(ctx.lhs), visit(ctx.rhs))
+      BinaryOperation(BinaryOperator(ctx.logicalOp().getText), visit(ctx.lhs), visit(ctx.rhs))
     }
 
     override def visitGroupExpr(ctx: QLParser.GroupExprContext): Expression = {
       visit(ctx.expression())
     }
   }
-
 }

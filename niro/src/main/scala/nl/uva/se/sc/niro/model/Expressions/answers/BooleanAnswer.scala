@@ -6,12 +6,12 @@ import nl.uva.se.sc.niro.model.{ Comparisons, Logicals }
 
 case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer with Comparisons[BooleanAnswer] with Logicals[BooleanAnswer] {
 
-  def lt(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ < value)))
-  def lTe(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ <= value)))
-  def gTe(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ >= value)))
-  def gt(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ > value)))
-  def ne(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ != value)))
-  def eq(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ == value)))
+  def lt(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value < _)))
+  def lTe(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value <= _)))
+  def gTe(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value >= _)))
+  def gt(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value > _)))
+  def ne(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value != _)))
+  def eq(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value == _)))
 
 
   def and(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ && value)))

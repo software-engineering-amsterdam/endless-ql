@@ -5,12 +5,12 @@ import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
 import nl.uva.se.sc.niro.model.Operators._
 
 case class StringAnswer(possibleValue: Option[String]) extends Answer with Comparisons[StringAnswer] {
-  def lt(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ < value)))
-  def lTe(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ <= value)))
-  def gTe(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ >= value)))
-  def gt(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ > value)))
-  def ne(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ != value)))
-  def eq(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ == value)))
+  def lt(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value < _)))
+  def lTe(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value <= _)))
+  def gTe(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value >= _)))
+  def gt(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value > _)))
+  def ne(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value != _)))
+  def eq(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value == _)))
 
   def apply(operator: BinaryOperator, right: Answer): Answer = right match {
     case rhs: StringAnswer => operator match {

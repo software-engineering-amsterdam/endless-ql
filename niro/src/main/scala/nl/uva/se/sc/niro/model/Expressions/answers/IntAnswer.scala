@@ -6,17 +6,17 @@ import nl.uva.se.sc.niro.model.{ Arithmetics, Comparisons }
 
 case class IntAnswer(possibleValue: Option[Int]) extends Answer with Arithmetics[IntAnswer] with Comparisons[IntAnswer] {
 
-  def add(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => otherValue + value)))
-  def sub(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => otherValue - value)))
-  def mul(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => otherValue * value)))
-  def div(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => otherValue / value)))
+  def add(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value + otherValue)))
+  def sub(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value - otherValue)))
+  def mul(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value * otherValue)))
+  def div(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value / otherValue)))
 
-  def lt(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ < value)))
-  def lTe(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ <= value)))
-  def gTe(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ >= value)))
-  def gt(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ > value)))
-  def ne(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ != value)))
-  def eq(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ == value)))
+  def lt(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value < otherValue)))
+  def lTe(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value <= otherValue)))
+  def gTe(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value >= otherValue)))
+  def gt(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value > otherValue)))
+  def ne(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value != otherValue)))
+  def eq(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value == otherValue)))
 
   def min: IntAnswer = IntAnswer(possibleValue.map(-_))
 

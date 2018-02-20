@@ -20,7 +20,7 @@ case class IntAnswer(possibleValue: Option[Int]) extends Answer with Arithmetics
 
   def min: IntAnswer = IntAnswer(possibleValue.map(-_))
 
-  def apply(operator: Operator, other: Answer): Answer = (this, other) match {
+  def apply(operator: BinaryOperator, other: Answer): Answer = (this, other) match {
     case (lhs: IntAnswer, rhs: IntAnswer) => operator match {
       case Add => add(rhs)
       case Sub => sub(rhs)
@@ -37,7 +37,7 @@ case class IntAnswer(possibleValue: Option[Int]) extends Answer with Arithmetics
     case _ => throw new IllegalArgumentException(s"Can't perform operation on different types. Type ${this.getClass.getSimpleName} and ${other.getClass.getSimpleName}")
   }
 
-  def apply(operator: Operator): Answer = operator match {
+  def apply(operator: UnaryOperator): Answer = operator match {
     case Min => min
   }
 }

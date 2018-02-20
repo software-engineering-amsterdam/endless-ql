@@ -19,7 +19,7 @@ case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer with Com
 
   def neg: BooleanAnswer = BooleanAnswer(possibleValue.map(!_))
 
-  def apply(operator: Operator, right: Answer): Answer = right match {
+  def apply(operator: BinaryOperator, right: Answer): Answer = right match {
     case rhs: BooleanAnswer => operator match {
       case Lt => lt(rhs)
       case LTe => lTe(rhs)
@@ -32,7 +32,7 @@ case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer with Com
     case _ => throw new IllegalArgumentException(s"Can't perform operation on different types")
   }
 
-  def apply(operator: Operator): Answer = operator match {
+  def apply(operator: UnaryOperator): Answer = operator match {
     case Neg => neg
     case _ => throw new UnsupportedOperationException(s"Cant perform $operator on BooleanAnswer")
   }

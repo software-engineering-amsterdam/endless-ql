@@ -12,7 +12,7 @@ case class StringAnswer(possibleValue: Option[String]) extends Answer with Compa
   def ne(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ != value)))
   def eq(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ == value)))
 
-  def apply(operator: Operator, right: Answer): Answer = right match {
+  def apply(operator: BinaryOperator, right: Answer): Answer = right match {
     case rhs: StringAnswer => operator match {
       case Lt => lt(rhs)
       case LTe => lTe(rhs)
@@ -25,5 +25,5 @@ case class StringAnswer(possibleValue: Option[String]) extends Answer with Compa
     case _ => throw new IllegalArgumentException(s"Can't perform operation on different types")
   }
 
-  def apply(operator: Operator): Answer = throw new UnsupportedOperationException("Unary operators are not supported on StringAnswer")
+  def apply(operator: UnaryOperator): Answer = throw new UnsupportedOperationException("Unary operators are not supported on StringAnswer")
 }

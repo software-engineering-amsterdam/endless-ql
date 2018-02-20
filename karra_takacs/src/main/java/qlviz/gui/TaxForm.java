@@ -61,7 +61,7 @@ public class TaxForm extends Application {
 			checkBoxLabel.selectedProperty().addListener(new ChangeListener<Boolean>() {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-					System.out.println(checkBoxLabel.isSelected());
+					//todo
 				}
 			});
 			taxFormFields.getChildren().add(checkBoxLabel);

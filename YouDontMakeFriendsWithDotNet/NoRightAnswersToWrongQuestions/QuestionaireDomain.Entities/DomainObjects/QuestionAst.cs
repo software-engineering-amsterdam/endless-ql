@@ -2,7 +2,7 @@
 
 namespace QuestionaireDomain.Entities.DomainObjects
 {
-    public class QuestionAst : IQuestionAst
+    public class QuestionAst : AstNodeBase, IQuestionAst
     {
         public QuestionAst(string name, string text)
         {
@@ -12,5 +12,11 @@ namespace QuestionaireDomain.Entities.DomainObjects
 
         public string Name { get; }
         public string Text { get; }
+
+
+        public override void Accept(IAstVisitor visitor)
+        {
+            //ToDo: Do something here
+        }
     }
 }

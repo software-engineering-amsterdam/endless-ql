@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionaireDomain.Entities.API
 {
-    public interface IQuestionAst
+    public interface IQuestionAst : IAstNode
     {
         string Name { get; }
         string Text { get; }

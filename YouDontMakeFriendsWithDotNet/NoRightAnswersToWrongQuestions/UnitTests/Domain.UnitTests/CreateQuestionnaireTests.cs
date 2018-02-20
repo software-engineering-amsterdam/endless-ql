@@ -86,23 +86,14 @@ namespace UnitTests.Domain.UnitTests
         [Test]
         public void WhenGivenWellFormedDefinition_ReturnsDomainObjects()
         {
-            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
-            var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
-            var validText = @"form MyForm {}";
-            var domainItemId = questionnaireCreator.Create(validText);
-            var createdForm = domainItemLocator.Get<IQuestionnaireAst>(domainItemId); 
-            Assert.IsNotNull(domainItemId);
+            var createdForm = CreateForm(@"form MyForm {}");
             Assert.AreEqual(expected: "MyForm", actual: createdForm.FormName);
         }
 
         [TestCaseSource(nameof(CommentCases))]
         public void WhenGivenComments_ReturnsDomainObjects(string validText, string expectedName)
         {
-            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
-            var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
-            var domainItemId = questionnaireCreator.Create(validText);
-            var createdForm = domainItemLocator.Get<IQuestionnaireAst>(domainItemId);
-            Assert.IsNotNull(domainItemId);
+            var createdForm = CreateForm(validText);
             Assert.AreEqual(expected: expectedName, actual: createdForm.FormName);
         }
 
@@ -135,11 +126,7 @@ form CommentFormMLX {}";
         [TestCaseSource(nameof(ValidNameCases))]
         public void WhenGivenValidIdentifier_NamesTheFormCorrectly(string validText, string expectedName)
         {
-            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
-            var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
-            var domainItemId = questionnaireCreator.Create(validText);
-            var createdForm = domainItemLocator.Get<IQuestionnaireAst>(domainItemId);
-            Assert.IsNotNull(domainItemId);
+            var createdForm = CreateForm(validText);
             Assert.AreEqual(expected: expectedName, actual: createdForm.FormName);
         }
 
@@ -185,26 +172,42 @@ form CommentFormMLX {}";
                 yield return new TestCaseData(@"form +_(# {}", @"+_(#");
             }
         }
+        
+        [TestCaseSource(nameof(QuestionCases))]
+        public void WhenGivenValidQuestion_NameAndTextCorrect(string validText, string questionId, string questionText)
+        {
+            var createdForm = CreateForm(validText);
+            var question = createdForm.Questions.FirstOrDefault();
+            Assert.AreEqual(expected: questionId, actual: question.Name);
+            Assert.AreEqual(expected: questionText, actual: question.Text);
+        }
 
-        //[TestCaseSource(nameof(QuestionCases))]
-        //public void WhenGivenValidQuestion_NameAndTextCorrect(string validText, string questionId, string questionText)
-        //{
-        //    var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
-        //    var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
-        //    var domainItemId = questionnaireCreator.Create(validText);
-        //    var createdForm = domainItemLocator.Get<IQuestionnaireAst>(domainItemId);
-        //    var question = createdForm.Questions.FirstOrDefault();
-        //    Assert.IsNotNull(domainItemId);
-        //    Assert.AreEqual(expected: questionId, actual: question.Name);
-        //    Assert.AreEqual(expected: questionText, actual: question.Text);
-        //}
+        private IQuestionnaireAst CreateForm(string validText)
+        {
+            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+            var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
+            var domainItemId = questionnaireCreator.Create(validText);
+            var createdForm = domainItemLocator.Get<IQuestionnaireAst>(domainItemId);
+            Assert.IsNotNull(domainItemId);
+            return createdForm;
+        }
 
-        //private static IEnumerable QuestionCases
-        //{
-        //    get
-        //    {
-        //        yield return new TestCaseData(@"form NameForm { x: ""xyz"" boolean}", @"x", @"xyz");
-        //    }
-        //}
+        private static IEnumerable QuestionCases
+        {
+            get
+            {
+                var nl = Environment.NewLine;
+                yield return new TestCaseData("form NameForm { x : \"xyz\" }", @"x", @"xyz");
+                yield return new TestCaseData("form NameForm { qname : \"this is a question\" }", @"qname", @"this is a question");
+                yield return new TestCaseData(
+                    $"form NameForm {{ {nl} qname2 : \"this is a question too\" {nl} }} ",
+                    @"qname2",
+                    @"this is a question too");
+                yield return new TestCaseData(
+                    $"form NameForm {{{nl}    qname3 : \"this is a question three\"{nl}    qname4 : \"this is a question four\" }} ",
+                    @"qname3",
+                    @"this is a question three");
+            }
+        }
     }
 }

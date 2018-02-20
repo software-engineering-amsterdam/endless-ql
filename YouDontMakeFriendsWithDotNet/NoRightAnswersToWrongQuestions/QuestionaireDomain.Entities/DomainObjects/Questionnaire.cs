@@ -1,6 +1,6 @@
 ﻿//namespace QuestionaireDomain.Entities.DomainObjects
 //{
-//    public class Questionnaire : AstNode, IAstVisitor
+//    public class Questionnaire : AstNodeBase, IAstVisitor
 //    {
 //        public override void Accept(IAstVisitor visitor)
 //        {

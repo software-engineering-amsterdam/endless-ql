@@ -3,6 +3,7 @@ using System.Diagnostics;
 using AntlGrammar;
 using Antlr4.Runtime;
 using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.DomainObjects;
 
 namespace AntlrInterpretor.Logic
 {
@@ -24,7 +25,7 @@ namespace AntlrInterpretor.Logic
             var tree = parser.questionnaire();
 
             var qlVisitor = new QlVisitor();
-            return qlVisitor.Visit(tree);
+            return (IQuestionnaireAst)qlVisitor.Visit(tree);
         }
     }
 }

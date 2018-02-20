@@ -55,7 +55,8 @@ compOp      : LT | LTE | GTE | GT | NE | EQ ;
 logicalOp   : OR | AND ;
 arithmOp    : SUB | ADD | DIV | MUL ;
 
-expression  : IntValue                                 # IntConst
+expression  : answerType                               # AnswerTypeConst
+            | IntValue                                 # IntConst
             | DecValue                                 # DecConst
             | Ident                                    # Var
             | bool                                     # BoolConst
@@ -67,6 +68,6 @@ expression  : IntValue                                 # IntConst
 
 form        : FORM Ident CURLY_L statement+ CURLY_R EOF ;
 statement   : question | conditional ;
-question    : Ident D_COLON TEXT answerType ( ASSIGN BRACK_L expression BRACK_R )?;
+question    : Ident D_COLON TEXT expression;
 conditional : IF BRACK_L condition=expression BRACK_R CURLY_L thenBlock+=statement+ CURLY_R ( ELSE CURLY_L elseBlock+=statement+ CURLY_R )? ;
 answerType  : BOOLEAN | INTEGER | STRING | MONEY | DATE | DECIMAL | MONEY;

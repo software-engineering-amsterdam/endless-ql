@@ -36,7 +36,9 @@ object AST {
   sealed trait AnswerValue extends Leaf
   sealed trait AnswerVariable extends AnswerValue
   case class VariableDefinition(name: String, exprType: ExprType) extends AnswerVariable
-  case class VariableDeclaration(name: String, exprType: ExprType, expression: Expression) extends AnswerVariable
+  case class VariableDeclaration(name: String, exprType: ExprType, expression: Expression) extends AnswerVariable {
+    override def getChildren: Seq[Node] = Seq(expression)
+  }
   case class Variable(name: String) extends AnswerValue {
     var answerVariable: AnswerVariable = null
     override def exprType: ExprType = answerVariable.exprType
@@ -46,7 +48,7 @@ object AST {
   sealed trait Operator
 
   sealed trait UnaryOperator extends Operator
-  object UnaryOperators extends UnaryOperator {
+  object UnaryOperator extends UnaryOperator {
     case object NEG extends UnaryOperator
     case object MIN extends UnaryOperator
   }
@@ -54,24 +56,24 @@ object AST {
   sealed trait BinaryOperator extends Operator
   sealed trait LogicalOperator extends BinaryOperator
   object LogicalOperator extends LogicalOperator {
-    case object AND extends BinaryOperator
-    case object OR extends BinaryOperator
+    case object AND extends LogicalOperator
+    case object OR extends LogicalOperator
   }
   sealed trait ArithmeticOperator extends BinaryOperator
   object ArithmeticOperator extends ArithmeticOperator {
-    case object SUB extends BinaryOperator
-    case object ADD extends BinaryOperator
-    case object DIV extends BinaryOperator
-    case object MUL extends BinaryOperator
+    case object SUB extends ArithmeticOperator
+    case object ADD extends ArithmeticOperator
+    case object DIV extends ArithmeticOperator
+    case object MUL extends ArithmeticOperator
   }
   sealed trait ComparisonOperator extends BinaryOperator
   object ComparisonOperator extends ComparisonOperator {
-    case object LT extends BinaryOperator
-    case object LTE extends BinaryOperator
-    case object GTE extends BinaryOperator
-    case object GT extends BinaryOperator
-    case object EQ extends BinaryOperator
-    case object NE extends BinaryOperator
+    case object LT extends ComparisonOperator
+    case object LTE extends ComparisonOperator
+    case object GTE extends ComparisonOperator
+    case object GT extends ComparisonOperator
+    case object EQ extends ComparisonOperator
+    case object NE extends ComparisonOperator
   }
 
   // Operation expressions

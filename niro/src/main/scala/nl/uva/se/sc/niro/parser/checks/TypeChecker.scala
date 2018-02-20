@@ -1,5 +1,6 @@
 package nl.uva.se.sc.niro.parser.checks
 
+import nl.uva.se.sc.niro.model.ql.AST.ExprType.ExprType
 import nl.uva.se.sc.niro.model.ql.AST._
 import nl.uva.se.sc.niro.parser.{CheckException, TypeCheckException}
 
@@ -10,7 +11,7 @@ object TypeChecker {
     node match {
       case question: Question => checkTypes(question)
       case conditional: Conditional => checkTypes(conditional)
-      case binary: BinaryOperation => checkTypes(binary)
+      case BinaryOperation(op: ArithmeticOperator, left, right) => checkTypes(BinaryOperation(op, left, right))
       case _ => node.getChildren.foreach(checkTypes)
     }
   }
@@ -32,21 +33,19 @@ object TypeChecker {
 
   @throws[CheckException]
   def checkTypes(binaryOperation: BinaryOperation): Unit = {
-    checkTypes(binaryOperation.left)
-    checkTypes(binaryOperation.right)
-    binaryOperation.op match {
-      case ArithmeticOperator.ADD | ArithmeticOperator.DIV | ArithmeticOperator.MUL | ArithmeticOperator.SUB => {
-        (binaryOperation.left.exprType, binaryOperation.right.exprType) match {
-          case (ExprType.String, _) => throw new TypeCheckException("The left hand side of the arithmetic expression yields a string!")
-          case (ExprType.Date, _) => throw new TypeCheckException("The left hand side of the arithmetic expression yields a date!")
-          case (ExprType.Bool, _) => throw new TypeCheckException("The left hand side of the arithmetic expression yields a boolean!")
-          case (_, ExprType.String) => throw new TypeCheckException("The right hand side of the arithmetic expression yields a string!")
-          case (_, ExprType.Date) => throw new TypeCheckException("The right hand side of the arithmetic expression yields a date!")
-          case (_, ExprType.Bool) => throw new TypeCheckException("The right hand side of the arithmetic expression yields a boolean!")
-          case (_, _) => () // Catch all for all legal arithmetic operations to suppress compiler warnings.
-        }
+    def checkForNonNumericTypes(exprType: ExprType, side: String): Unit = {
+      exprType match {
+        case ExprType.String => throw new TypeCheckException(s"The $side hand side of the arithmetic expression yields a string!")
+        case ExprType.Date => throw new TypeCheckException(s"The $side hand side of the arithmetic expression yields a date!")
+        case ExprType.Bool => throw new TypeCheckException(s"The $side hand side of the arithmetic expression yields a boolean!")
+        case _ => () // Catch all for all legal arithmetic operations to suppress compiler warnings.
       }
-      case _ => () // Catch all to suppress compiler warnings.
     }
+
+    checkTypes(binaryOperation.left)
+    checkForNonNumericTypes(binaryOperation.left.exprType, "left")
+
+    checkTypes(binaryOperation.right)
+    checkForNonNumericTypes(binaryOperation.right.exprType, "right")
   }
 }

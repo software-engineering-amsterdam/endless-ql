@@ -1,9 +1,8 @@
 package nl.uva.se.sc.niro.parser;
 
-public class CheckException extends RuntimeException {
-    private String message;
+public class CheckException extends Exception {
 
     public CheckException(String message) {
-        this.message = message;
+        super(message);
     }
 }

@@ -29,4 +29,40 @@ class TypeCheckerSpec extends FunSuite {
 
     assert(typeCheckError.getMessage === "Conditional expression resolves not to boolean!")
   }
+
+  test("should not allow a string at the left hand side of an arithmetic expression") {
+    val form: Node = Form("TypeChecker", Seq(
+      Conditional(BinaryOperation(ArithmeticOperator.ADD, VariableDefinition("name", ExprType.String),VariableDefinition("invalidIntegerType", ExprType.Integer)), Seq.empty, Seq.empty)
+    ))
+
+    val typeCheckError = intercept[CheckException] {
+      TypeChecker.checkTypes(form)
+    }
+
+    assert(typeCheckError.getMessage === "The left hand side of the arithmetic expression yields a string!")
+  }
+
+  test("should not allow a date at the left hand side of an arithmetic expression") {
+    val form: Node = Form("TypeChecker", Seq(
+      Conditional(BinaryOperation(ArithmeticOperator.ADD, VariableDefinition("date", ExprType.Date),VariableDefinition("invalidIntegerType", ExprType.Integer)), Seq.empty, Seq.empty)
+    ))
+
+    val typeCheckError = intercept[CheckException] {
+      TypeChecker.checkTypes(form)
+    }
+
+    assert(typeCheckError.getMessage === "The left hand side of the arithmetic expression yields a date!")
+  }
+
+  test("should not allow a boolean at the left hand side of an arithmetic expression") {
+    val form: Node = Form("TypeChecker", Seq(
+      Conditional(BinaryOperation(ArithmeticOperator.ADD, VariableDefinition("name", ExprType.Bool),VariableDefinition("invalidIntegerType", ExprType.Integer)), Seq.empty, Seq.empty)
+    ))
+
+    val typeCheckError = intercept[CheckException] {
+      TypeChecker.checkTypes(form)
+    }
+
+    assert(typeCheckError.getMessage === "The left hand side of the arithmetic expression yields a boolean!")
+  }
 }

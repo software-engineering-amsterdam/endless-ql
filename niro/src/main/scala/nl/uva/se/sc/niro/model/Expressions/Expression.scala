@@ -1,13 +1,25 @@
 package nl.uva.se.sc.niro.model.Expressions
 
+import nl.uva.se.sc.niro.model.Expressions.answers._
 import nl.uva.se.sc.niro.model.Operators._
 
 object Expression {
 
   abstract class Expression
   abstract class Answer extends Expression {
-    def apply(operator: Operator): Answer
-    def apply(operator: Operator, right: Answer): Answer
+    def apply(operator: UnaryOperator): Answer
+    def apply(operator: BinaryOperator, right: Answer): Answer
+  }
+
+  object Answer {
+    def apply(answerType: String): Answer = answerType match {
+      case "boolean" => BooleanAnswer(None)
+      case "integer" => IntAnswer(None)
+      case "string" => StringAnswer(None)
+      case "decimal" => DecAnswer(None)
+      case "money" => MoneyAnswer(None)
+      case "date" => DateAnswer(None)
+    }
   }
 
   case class BinaryOperation(binaryOperator: BinaryOperator, left: Expression, right: Expression) extends Expression

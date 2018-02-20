@@ -12,7 +12,7 @@ import java.util.function.Function;
 public enum DataType {
     DATE(LocalDate::parse),
 //    To be improved at a later stage, but needed for type checking
-    MONEY(m -> BigDecimal.valueOf(Double.parseDouble(m))),
+    MONEY(m -> BigDecimal.valueOf(Double.valueOf(m.replace(',', '.')))),
     STRING(String::valueOf),
     DECIMAL(Double::valueOf),
     BOOLEAN(Boolean::valueOf),

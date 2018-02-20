@@ -1,7 +1,10 @@
 grammar QL;
-questionnaire: 'form' FORM_ID '{}'; 
+questionnaire: 'form' IDENT '{' question* '}'; 
+question: IDENT ':' STRING;
 
-FORM_ID  :   [a-zA-Z]+ ;
+STRING: '"' (~'"')* '"';
+IDENT  :  [a-zA-Z] [a-zA-Z0-9_]* ;
 NEWLINE:'\r'? '\n' -> skip;
 WS  :   [ \t]+ -> skip ;
-MYCOMMENT :  '//' ~[\r\n]* -> skip;
+LINECOMMENT :  '//' ~[\r\n]* -> skip;
+BLOCKCOMMENT : '/*' .*? '*/'  -> skip;

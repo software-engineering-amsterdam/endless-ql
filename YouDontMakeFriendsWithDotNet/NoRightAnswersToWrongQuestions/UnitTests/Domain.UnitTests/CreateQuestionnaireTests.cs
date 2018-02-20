@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.ComponentModel.Design;
+using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
@@ -109,14 +110,101 @@ namespace UnitTests.Domain.UnitTests
         {
             get
             {
-                var comment1 = @"form CommentForm {}//";
-                yield return new TestCaseData(comment1, @"CommentForm");
-                var comment2 = @"form CommentFormX {}// has comment";
-                yield return new TestCaseData(comment2, @"CommentFormX");
-                var comment3 = @"// has comment
-form CommentFormX {}";
-                yield return new TestCaseData(comment2, @"CommentFormX");
+                yield return new TestCaseData(@"form CommentForm {}//", @"CommentForm");
+                yield return new TestCaseData(@"form CommentFormX {}// has comment", @"CommentFormX");
+                var comment1 = @"// has comment
+form CommentFormXYZ {}";
+                yield return new TestCaseData(comment1, @"CommentFormXYZ");
+                yield return new TestCaseData(@"form CommentFormABC {}/* . */", @"CommentFormABC");
+                yield return new TestCaseData(@"form /* inline */ CommentFormDEF {}", @"CommentFormDEF");
+                var multilineComment1 = @"/*
+some comment
+*/
+form CommentFormML {}";
+                yield return new TestCaseData(multilineComment1, @"CommentFormML");
+                var multilineComment2 = @"/*
+//some comment
+*/
+form CommentFormMLX {}";
+                yield return new TestCaseData(multilineComment2, @"CommentFormMLX");
+                yield return new TestCaseData(@"form /* //inline */ CommentFormCIC {}", @"CommentFormCIC");
+                // ToDo: Add instring comments and make sure they print
             }
         }
+
+        [TestCaseSource(nameof(ValidNameCases))]
+        public void WhenGivenValidIdentifier_NamesTheFormCorrectly(string validText, string expectedName)
+        {
+            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+            var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
+            var domainItemId = questionnaireCreator.Create(validText);
+            var createdForm = domainItemLocator.Get<IQuestionnaireAst>(domainItemId);
+            Assert.IsNotNull(domainItemId);
+            Assert.AreEqual(expected: expectedName, actual: createdForm.FormName);
+        }
+
+        private static IEnumerable ValidNameCases
+        {
+            get
+            {
+                yield return new TestCaseData(@"form NameForm {}", @"NameForm");
+                yield return new TestCaseData(@"form NameForm1 {}", @"NameForm1");
+                yield return new TestCaseData(@"form A {}", @"A");
+                yield return new TestCaseData(@"form z {}", @"z");
+                yield return new TestCaseData(@"form Name_Form1 {}", @"Name_Form1");
+            }
+        }
+
+        [TestCaseSource(nameof(InvalidNameCases))]
+        public void WhenGivenInvalidIdentifier_ThrowsLexingError(string invalidText, string invalidName)
+        {
+            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+            try
+            {
+                questionnaireCreator.Create(invalidText);
+            }
+
+            catch (QlParserException exception)
+            {
+                Assert.IsTrue(exception.ParseErrorDetails.Contains(invalidName));
+
+                return;
+            }
+
+            Assert.Fail("Should have thrown an QlParserException exception");
+        }
+
+        private static IEnumerable InvalidNameCases
+        {
+            get
+            {
+                yield return new TestCaseData(@"form 1NameForm {}", @"1NameForm");
+                yield return new TestCaseData(@"form Name$Form {}", @"Name$Form");
+                yield return new TestCaseData(@"form _NameForm {}", @"_NameForm");
+                yield return new TestCaseData(@"form % {}", @"%");
+                yield return new TestCaseData(@"form +_(# {}", @"+_(#");
+            }
+        }
+
+        //[TestCaseSource(nameof(QuestionCases))]
+        //public void WhenGivenValidQuestion_NameAndTextCorrect(string validText, string questionId, string questionText)
+        //{
+        //    var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+        //    var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
+        //    var domainItemId = questionnaireCreator.Create(validText);
+        //    var createdForm = domainItemLocator.Get<IQuestionnaireAst>(domainItemId);
+        //    var question = createdForm.Questions.FirstOrDefault();
+        //    Assert.IsNotNull(domainItemId);
+        //    Assert.AreEqual(expected: questionId, actual: question.Name);
+        //    Assert.AreEqual(expected: questionText, actual: question.Text);
+        //}
+
+        //private static IEnumerable QuestionCases
+        //{
+        //    get
+        //    {
+        //        yield return new TestCaseData(@"form NameForm { x: ""xyz"" boolean}", @"x", @"xyz");
+        //    }
+        //}
     }
 }

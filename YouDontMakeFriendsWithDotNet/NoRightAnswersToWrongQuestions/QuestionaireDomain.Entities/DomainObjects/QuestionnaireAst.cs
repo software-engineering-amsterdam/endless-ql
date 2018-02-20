@@ -48,9 +48,11 @@ namespace QuestionaireDomain.Entities.DomainObjects
         public QuestionnaireAst()
         {
             Id = Guid.NewGuid();
+            Questions = new List<IQuestionAst>();
         }
 
         public string FormName { get; set; }
         public Guid Id { get; }
+        public IList<IQuestionAst> Questions { get; }
     }
 }

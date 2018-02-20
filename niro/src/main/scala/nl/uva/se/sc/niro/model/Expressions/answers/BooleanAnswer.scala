@@ -27,6 +27,8 @@ case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer with Com
       case Gt => gt(rhs)
       case Ne => ne(rhs)
       case Eq => eq(rhs)
+      case And => and(rhs)
+      case Or => or(rhs)
       case _ => throw new UnsupportedOperationException(s"Unsupported $operator")
     }
     case _ => throw new IllegalArgumentException(s"Can't perform operation on different types")

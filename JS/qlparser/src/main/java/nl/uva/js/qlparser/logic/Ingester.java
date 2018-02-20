@@ -15,8 +15,8 @@ import java.util.Map;
 public class Ingester {
 
     public Form toParsedForm(String location) throws IOException {
-        QLLexer lex = new QLLexer(CharStreams.fromPath(Paths.get(location)));
-        QLParser parser = new QLParser(new CommonTokenStream(lex));
+        QLLexer lexer = new QLLexer(CharStreams.fromPath(Paths.get(location)));
+        QLParser parser = new QLParser(new CommonTokenStream(lexer));
 
         Form form = new QLFunnel().visitForm(parser.form());
         form.checkType();

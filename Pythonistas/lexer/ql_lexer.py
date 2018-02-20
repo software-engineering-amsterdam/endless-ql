@@ -11,6 +11,7 @@ def get_token_exprs():
         (r'}',                     'reserved'),
         (r'"(.*?)"',               'value'),
         (r':',                     'reserved'),
+        (r'if',                    'reserved'),
         (r'\(',                    'reserved'),
         (r'\)',                    'reserved'),
         (r'-',                     'reserved'),

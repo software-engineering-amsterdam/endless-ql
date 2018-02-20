@@ -2,10 +2,16 @@ from PyQt5.QtWidgets import *
 import sys
 import parse
 import ast
-import os
 
 from parse.ql_parser import *
-from lexer import ql_lexer
+
+'''
+This file contains two widget windows. If this file is run, the first, InputWindow, opens.
+In this window QL text can be typed or pasted. When pressing the "Parse" button, this text
+is parsed, and a second window, OutputWindow opens. The Outputwindow contains an interactive
+ questionnaire, encoded by the input text.
+'''
+
 
 class InputWindow(QWidget):
     def __init__(self):
@@ -76,6 +82,8 @@ class OutputWindow(QWidget):
         self.questions = [] # Sorted list of questions
         self.answers = []   # Sorted list of corresponding answers
 
+        self.setWindowTitle('Questionnaire')
+
     def putQuestion(self,question, datatype='boolean',choices = ['Yes','No']):
         ''' Example function that adds a question and correscponding answer buttons to a gui
         '''
@@ -133,7 +141,6 @@ class OutputWindow(QWidget):
 
 
 if __name__ == '__main__':
-
     app = QApplication(sys.argv)
 
     screen = InputWindow()

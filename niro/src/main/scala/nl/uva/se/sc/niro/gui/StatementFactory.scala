@@ -2,14 +2,16 @@ package nl.uva.se.sc.niro.gui
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import javafx.beans.value.{ChangeListener, ObservableValue}
-import javafx.scene.layout.{HBox, VBox}
+import javafx.beans.value.{ ChangeListener, ObservableValue }
+import javafx.scene.layout.{ HBox, VBox }
 import javafx.scene.Parent
-import javafx.scene.control.{CheckBox, DatePicker, Label, TextField}
+import javafx.scene.control.{ CheckBox, DatePicker, Label, TextField }
 import javafx.util.StringConverter
 
-import nl.uva.se.sc.niro.model.Ast.AnswerType._
 import nl.uva.se.sc.niro.model.Ast._
+import nl.uva.se.sc.niro.model.Expressions.Expression
+import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
+import nl.uva.se.sc.niro.model.Expressions.answers._
 
 import scala.collection.JavaConverters
 
@@ -20,7 +22,7 @@ object StatementFactory {
   }
 
   def convert(question: Question): Parent = {
-    new HBox(new Label(question.label), convert(question.answerType))
+    new HBox(new Label(question.label), convert(Expression.evaluate(question.answer)))
   }
 
   def convert(conditional: Conditional): Parent = {
@@ -50,14 +52,14 @@ object StatementFactory {
     }
   }
 
-  def convert(answerType: AnswerType): Parent = {
-    answerType match {
-      case BooleanAnswerType => new CheckBox()
-      case StringAnswerType => new TextField()
-      case IntAnswerType => createIntegerField()
-      case DecAnswerType => createDecimalField()
-      case MoneyAnswerType => createDecimalField()
-      case DateAnswerType => createDateField
+  def convert(answer: Answer): Parent = {
+    answer match {
+      case _: BooleanAnswer => new CheckBox()
+      case _: StringAnswer => new TextField()
+      case _: IntAnswer => createIntegerField()
+      case _: DecAnswer => createDecimalField()
+      case _: MoneyAnswer => createDecimalField()
+      case _: DateAnswer => createDateField
       case other => new Label(s"Unimplemented type: $other")
     }
   }

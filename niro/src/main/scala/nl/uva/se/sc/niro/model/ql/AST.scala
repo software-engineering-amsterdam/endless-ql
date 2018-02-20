@@ -47,28 +47,31 @@ object AST {
 
   sealed trait UnaryOperator extends Operator
   object UnaryOperators extends UnaryOperator {
-    case class NEG() extends UnaryOperator
-    case class MIN() extends UnaryOperator
+    case object NEG extends UnaryOperator
+    case object MIN extends UnaryOperator
   }
 
   sealed trait BinaryOperator extends Operator
-  object LogicalOperator extends BinaryOperator {
-    case class AND() extends BinaryOperator
-    case class OR() extends BinaryOperator
+  sealed trait LogicalOperator extends BinaryOperator
+  object LogicalOperator extends LogicalOperator {
+    case object AND extends BinaryOperator
+    case object OR extends BinaryOperator
   }
-  object ArithmeticOperator extends BinaryOperator {
-    case class SUB() extends BinaryOperator
-    case class ADD() extends BinaryOperator
-    case class DIV() extends BinaryOperator
-    case class MUL() extends BinaryOperator
+  sealed trait ArithmeticOperator extends BinaryOperator
+  object ArithmeticOperator extends ArithmeticOperator {
+    case object SUB extends BinaryOperator
+    case object ADD extends BinaryOperator
+    case object DIV extends BinaryOperator
+    case object MUL extends BinaryOperator
   }
-  object ComparisonOperator extends BinaryOperator {
-    case class LT() extends BinaryOperator
-    case class LTE() extends BinaryOperator
-    case class GTE() extends BinaryOperator
-    case class GT() extends BinaryOperator
-    case class EQ() extends BinaryOperator
-    case class NE() extends BinaryOperator
+  sealed trait ComparisonOperator extends BinaryOperator
+  object ComparisonOperator extends ComparisonOperator {
+    case object LT extends BinaryOperator
+    case object LTE extends BinaryOperator
+    case object GTE extends BinaryOperator
+    case object GT extends BinaryOperator
+    case object EQ extends BinaryOperator
+    case object NE extends BinaryOperator
   }
 
   // Operation expressions

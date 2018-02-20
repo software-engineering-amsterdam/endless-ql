@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Parser.AST.Nodes;
 
-namespace QL_Parser.Tests
+namespace QL_Parser.Tests.AST
 {
     [TestClass]
     public class QuestionTest

@@ -8,8 +8,8 @@
 	"What was the selling price?"
 		sellingPrice: money
 
+	// A comment
 	if (sellingPrice || hasNetflix) && (piet || klaas) {
-
 		if secondQuestion {
 			"Have you seen House of Cards?"
 				seenHouseOfCards: boolean

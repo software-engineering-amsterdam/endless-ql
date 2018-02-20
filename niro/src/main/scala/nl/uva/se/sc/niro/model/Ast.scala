@@ -112,7 +112,7 @@ object Ast {
             case "/" => Div(left, right)
             case "+" => Add(left, right)
             case "-" => Sub(left, right)
-            case other => throw new IllegalArgumentException(s"Unsupported arithmatic operator: $other")
+            case other => throw new IllegalArgumentException(s"Unsupported arithmetic operator: $other")
           }
         }
       }

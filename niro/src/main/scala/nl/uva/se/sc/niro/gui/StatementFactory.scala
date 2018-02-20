@@ -45,8 +45,8 @@ object StatementFactory {
 
   def convert(statement: Statement): Parent = {
     statement match {
-      case q: Question => convert(q)
-      case c: Conditional => convert(c)
+      case question: Question => convert(question)
+      case conditional: Conditional => convert(conditional)
     }
   }
 

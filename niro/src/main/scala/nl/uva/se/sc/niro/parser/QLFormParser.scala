@@ -32,7 +32,7 @@ object QLFormParser {
 
   object StatementCompiler extends QLBaseVisitor[Statement] {
     override def visitQuestion(ctx: QLParser.QuestionContext): Statement = {
-      Question(ctx.Ident().getText, ctx.TEXT().getText, ExpressionCompiler.visit(ctx.expression))
+      Question(ctx.Ident().getText, ctx.label.getText, ExpressionCompiler.visit(ctx.expression))
     }
 
     override def visitConditional(ctx: QLParser.ConditionalContext): Statement = {

@@ -1,4 +1,0 @@
-package typechecker
-
-interface TypeChecker {
-}

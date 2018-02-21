@@ -127,7 +127,8 @@ public class Main extends Application {
             if (statement.isQuestion()) {
                 addQuestionsToFieldGroup(fields, form, (Question) statement, fieldGroup);
             } else if (statement.isCondition()) {
-                addQuestionsToFieldGroup(fields, form, ((Condition) statement).statements, fieldGroup);
+                addQuestionsToFieldGroup(fields, form, ((Condition) statement).conditionTrueStatements, fieldGroup);
+                addQuestionsToFieldGroup(fields, form, ((Condition) statement).conditionFalseSatements, fieldGroup);
             }
         }
     }
@@ -190,6 +191,7 @@ public class Main extends Application {
         // If input changes some questions might need to be enabled/disabled
         input.setOnKeyTyped(e -> {
             if (input.isEditable()) {
+                // TODO Change other fields that depend
                 changeQuestionAnswer(input, question);
                 changeEditableFields(fields, form.statements, true);
             }
@@ -231,9 +233,12 @@ public class Main extends Application {
     }
 
     private void changeEditableFields(HashMap<String, Control> fields, Condition condition, boolean inEditableBlock) {
-        boolean inEditableSubBlock = inEditableBlock && Boolean.TRUE.equals(condition.condition.evaluate().get());
-        for (Statement statement : condition.statements) {
-            changeEditableFields(fields, statement, inEditableSubBlock);
+        boolean inEditableSubBlock = Boolean.TRUE.equals(condition.condition.evaluate().get());
+        for (Statement statement : condition.conditionTrueStatements) {
+            changeEditableFields(fields, statement, inEditableBlock && inEditableSubBlock);
+        }
+        for (Statement statement : condition.conditionFalseSatements) {
+            changeEditableFields(fields, statement, inEditableBlock && !inEditableSubBlock);
         }
     }
 
@@ -257,7 +262,7 @@ public class Main extends Application {
     }
 
     private void printQuestionAnswers(Condition condition) {
-        for (Statement statement : condition.statements) {
+        for (Statement statement : condition.conditionTrueStatements) {
             printQuestionAnswers(statement);
         }
     }

@@ -6,21 +6,18 @@ from antlr_files_2.QLVisitor import QLVisitor
 from gui import Gui
 
 def main(argv):
-    input = FileStream(argv[1])
-    lexer = QLLexer(input)
-    stream = CommonTokenStream(lexer)
-    parser = QLParser(stream)
+    # input = FileStream(argv[1])
+    # lexer = QLLexer(input)
+    # stream = CommonTokenStream(lexer)
+    # parser = QLParser(stream)
 
-    tree = parser.form()
-
-    visitor = QLVisitor()
-    visitor.visit(tree)
+    # tree = parser.form()
     # print(tree.toStringTree(recog=parser))
-    # gui = Gui()
-    # gui.addLabel("hey", "jaja")
-    # gui.addCheckBox("yes")
-    # print gui.checkBoxValues["yes"].get()
-    # gui.showWindow()
+    gui = Gui()
+    gui.addLabel("hey", "jaja")
+    gui.addCheckBox("yes")
+    print gui.checkBoxValues["yes"].get()
+    gui.showWindow()
 
 if __name__ == '__main__':
     main(sys.argv)

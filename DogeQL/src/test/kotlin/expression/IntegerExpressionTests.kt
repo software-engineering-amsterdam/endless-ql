@@ -3,7 +3,6 @@ package expression
 import data.IntegerValue
 import org.junit.Assert
 import org.junit.Test
-import javax.naming.OperationNotSupportedException
 
 class IntegerExpressionTests {
 
@@ -88,11 +87,6 @@ class IntegerExpressionTests {
 
         val result2 = IntegerValue(10) <= IntegerValue(10)
         Assert.assertTrue(result2)
-    }
-
-    @Test(expected = OperationNotSupportedException::class)
-    fun when_Negate_Expect_Exception() {
-        !IntegerValue(1)
     }
 
 }

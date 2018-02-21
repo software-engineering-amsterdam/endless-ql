@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace QL_Vizualizer.Controllers.Display
 {
-    public abstract class WidgetDisplayController<T>
+    public abstract class WidgetDisplayController<T,Y>
     {
         /// <summary>
         /// X-Position of first widget
@@ -19,9 +19,9 @@ namespace QL_Vizualizer.Controllers.Display
         /// <summary>
         /// Element factory that creates all elements
         /// </summary>
-        protected ElementFactory<T> _elementFactory { get; private set; }
+        protected ElementFactory<T,Y> _elementFactory { get; private set; }
 
-        public WidgetDisplayController(float initialPosition, ElementFactory<T> elementFactory)
+        public WidgetDisplayController(float initialPosition, ElementFactory<T,Y> elementFactory)
         {
             InitialPosition = initialPosition;
             _elementFactory = elementFactory;
@@ -34,11 +34,13 @@ namespace QL_Vizualizer.Controllers.Display
         /// <param name="widget">Widget to be shown</param>
         /// <param name="position">X-Position of widget</param>
         /// <returns>Bottom X-Position of placed widget with repsect to all style attributes</returns>
-        public abstract float Show(QLWidget widget, float position);
+        public abstract float Show(QLWidget widget, Y style);
 
-        protected T CreateElement(QLWidget widget)
+        public abstract Y UpdatePosition(QLWidget widget, float positionAbove, Y style);
+
+        protected T CreateElement(QLWidget widget, Y style)
         {
-            T element = _elementFactory.CreateElement(widget);
+            T element = _elementFactory.CreateElement(widget, style);
             ElementIndex.Add(widget.Identifyer, element);
             return element;
         }

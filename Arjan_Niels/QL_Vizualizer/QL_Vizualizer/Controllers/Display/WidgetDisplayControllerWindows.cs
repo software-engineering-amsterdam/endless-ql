@@ -1,11 +1,12 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using QL_Vizualizer.Factories;
+using QL_Vizualizer.Style;
 using QL_Vizualizer.Widgets;
 
 namespace QL_Vizualizer.Controllers.Display
 {
-    public class WidgetDisplayControllerWindows : WidgetDisplayController<Control>
+    public class WidgetDisplayControllerWindows : WidgetDisplayController<Control, WindowsStyleProperties>
     {
         /// <summary>
         /// Control element to add all created controls to
@@ -23,13 +24,10 @@ namespace QL_Vizualizer.Controllers.Display
         /// <param name="widget">Widget to show</param>
         /// <param name="position">X position to show widget</param>
         /// <returns></returns>
-        public override float Show(QLWidget widget, float position)
+        public override float Show(QLWidget widget, WindowsStyleProperties style)
         {
             // Create control
-            Control control = CreateElement(widget);
-
-            // Set location of control
-            control.Location = new Point(0, (int)position);
+            Control control = CreateElement(widget, style);
 
             // Calculate bottom position
             int newBottom = control.Height + control.Location.Y;
@@ -43,6 +41,12 @@ namespace QL_Vizualizer.Controllers.Display
 
             // Return bottom
             return newBottom;
+        }
+
+        public override WindowsStyleProperties UpdatePosition(QLWidget widget, float positionAbove, WindowsStyleProperties style)
+        {
+            style.YPosition += (int)positionAbove;
+            return style;
         }
     }
 }

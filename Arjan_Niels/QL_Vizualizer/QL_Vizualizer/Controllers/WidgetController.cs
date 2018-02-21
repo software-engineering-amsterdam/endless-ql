@@ -34,7 +34,7 @@ namespace QL_Vizualizer.Controllers
         /// </summary>
         /// <typeparam name="T">Element type of display controller</typeparam>
         /// <param name="displayController">Display controller to use</param>
-        public abstract void SetDisplayController<T>(WidgetDisplayController<T> displayController);
+        public abstract void SetDisplayController<T,Y>(WidgetDisplayController<T,Y> displayController);
 
         /// <summary>
         /// Updates the view of a widget
@@ -51,7 +51,7 @@ namespace QL_Vizualizer.Controllers
         /// Sets all widgets, overrides existing values
         /// </summary>
         /// <param name="widgets">Widgets to assign</param>
-        public void SetWidgets(List<QLWidget> widgets)
+        public virtual void SetWidgets(List<QLWidget> widgets)
         {
             // Convert list input to dictionary
             _widgets = widgets.ToDictionary(o => o.Identifyer, o => o);

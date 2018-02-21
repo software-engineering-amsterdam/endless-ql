@@ -2,17 +2,20 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Controllers.Display;
+using QL_Vizualizer.Style;
 using QL_Vizualizer.Widgets.Types;
 
 namespace QL_Visualizer.Tests.Display
 {
     [TestClass]
-    public class WidgetDisplayControllerWindowsTest : WidgetDisplayControllerTest<Control>
+    public class WidgetDisplayControllerWindowsTest : WidgetDisplayControllerTest<Control, WindowsStyleProperties>
     {
         [TestInitialize]
         public void Initialize()
         {
-            _widgetDisplayController = new WidgetDisplayControllerWindows(0f, new Panel(), new WidgetVisualizeController<Control>());
+            _widgetStyle = new WindowsStyleProperties();
+
+            _widgetDisplayController = new WidgetDisplayControllerWindows(0f, new Panel(), new WidgetVisualizeController<Control, WindowsStyleProperties>(_widgetStyle));
             _intWidget = new QLWidgetInt("a", "q1");
             _boolWidget = new QLWidgetBool("b", "q2");
             _stringWidget = new QLWidgetString("c", "q3");
@@ -25,7 +28,7 @@ namespace QL_Visualizer.Tests.Display
             _intWidget.SetAnswer(10);
 
             // Create element
-            _widgetDisplayController.Show(_intWidget, 0f);
+            _widgetDisplayController.Show(_intWidget, _widgetStyle);
 
             // Update value
             _intWidget.SetAnswer(20);
@@ -41,7 +44,7 @@ namespace QL_Visualizer.Tests.Display
             _boolWidget.SetAnswer(true);
 
             // Create element
-            _widgetDisplayController.Show(_boolWidget, 0f);
+            _widgetDisplayController.Show(_boolWidget, _widgetStyle);
             
             // Update value
             _boolWidget.SetAnswer(false);
@@ -57,7 +60,7 @@ namespace QL_Visualizer.Tests.Display
             _stringWidget.SetAnswer("fail");
 
             // Create element
-            _widgetDisplayController.Show(_stringWidget, 0f);
+            _widgetDisplayController.Show(_stringWidget, _widgetStyle);
 
             // Update value
             _stringWidget.SetAnswer("pass");

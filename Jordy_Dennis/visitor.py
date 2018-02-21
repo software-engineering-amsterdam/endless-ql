@@ -18,7 +18,8 @@ class Visitor(QLGrammarVisitor):
         for i in value:
             temp_form.addChild(i)
         
-        print(temp_form)
+        self.QLNode.addForm(temp_form)
+
         return temp_form
 
 

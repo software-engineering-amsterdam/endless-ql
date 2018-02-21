@@ -3,7 +3,7 @@ class QLNode:
         self.forms = []
 
     def addForm(self, form):
-        self.forms += form
+        self.forms.append(form)
 
 class formNode:
     def __init__(self, name):

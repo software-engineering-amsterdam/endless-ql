@@ -4,7 +4,7 @@ import ql.ast.type.Bool;
 import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class NotEqual extends Binary {
+public class NotEqual extends BinaryEquality {
 
     public NotEqual(Expression lhs, Expression rhs) {
         super(lhs, rhs);
@@ -16,12 +16,12 @@ public class NotEqual extends Binary {
     }
 
     @Override
-	public String toString() {
-		return lhs.toString() + " != " + rhs.toString();
-	}
-
-    @Override
     public void accept(ExpressionVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public String getOperator() {
+        return "!=";
     }
 }

@@ -35,5 +35,4 @@ public class BoolLiteral extends Literal<Boolean> {
     public Boolean getValue() {
         return value;
     }
-
 }

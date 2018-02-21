@@ -12,6 +12,10 @@ public class MoneyType extends Type {
         this.setVal(val);
     }
 
+	public MoneyType() {
+		
+	}
+
 	public BigDecimal getVal() {
 		return val;
 	}

@@ -1,9 +1,10 @@
 package ast.literal;
 
+import ast.AstNode;
 import visiting.LiteralVisitor;
 
 
-public abstract class Literal<T> {
+public abstract class Literal<T> extends AstNode {
 
 	private T value;
 	

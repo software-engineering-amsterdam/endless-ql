@@ -8,12 +8,12 @@ import visiting.StatementVisitor;
 public class IfThenStatement extends Statement {
 
 	private final Expression expression; // condition
-	private final Block IfBody;
+	private final Block ifBody;
 
-	public IfThenStatement(Expression expression, Block IfBody, CodeReference location) {
+	public IfThenStatement(Expression expression, Block ifBody, CodeReference location) {
 		super(location);
 		this.expression = expression;
-		this.IfBody = IfBody;
+		this.ifBody = ifBody;
 	}
 
 	public Expression getExpression() {
@@ -21,7 +21,7 @@ public class IfThenStatement extends Statement {
 	}
 
 	public Block getIfBody() {
-		return IfBody;
+		return ifBody;
 	}
 
 	@Override

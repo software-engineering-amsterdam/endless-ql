@@ -1,6 +1,6 @@
 package ast.statement;
 
-import ast.expression.Identifier;
+import ast.literal.Identifier;
 import ast.type.Type;
 import utils.CodeReference;
 

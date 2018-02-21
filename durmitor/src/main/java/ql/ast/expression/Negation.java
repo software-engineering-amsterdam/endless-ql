@@ -4,7 +4,7 @@ import ql.ast.type.Bool;
 import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Negation extends Unary {
+public class Negation extends UnaryBooleanLogic {
 
     public Negation(Expression expr) { 
         super.expr = expr;
@@ -16,12 +16,12 @@ public class Negation extends Unary {
     }
 
     @Override
-	public String toString() {
-		return "!" + expr.toString();
-	}
-
-    @Override
     public void accept(ExpressionVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public String getOperator() {
+        return "!";
     }
 }

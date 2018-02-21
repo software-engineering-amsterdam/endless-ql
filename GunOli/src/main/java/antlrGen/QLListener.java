@@ -1,4 +1,4 @@
-// Generated from /Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/antlr/QL.g4 by ANTLR 4.7
+// Generated from C:/Users/Michael/Desktop/Software Construction/endless-ql/GunOli/src/main/antlr\QL.g4 by ANTLR 4.7
 package antlrGen;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -8,15 +8,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface QLListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link QLParser#root}.
+	 * Enter a parse tree produced by {@link QLParser#form}.
 	 * @param ctx the parse tree
 	 */
-	void enterRoot(QLParser.RootContext ctx);
+	void enterForm(QLParser.FormContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#root}.
+	 * Exit a parse tree produced by {@link QLParser#form}.
 	 * @param ctx the parse tree
 	 */
-	void exitRoot(QLParser.RootContext ctx);
+	void exitForm(QLParser.FormContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#block}.
 	 * @param ctx the parse tree
@@ -27,6 +27,16 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBlock(QLParser.BlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(QLParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(QLParser.StatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#condition}.
 	 * @param ctx the parse tree
@@ -48,173 +58,65 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitQuestion(QLParser.QuestionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code notExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Enter a parse tree produced by {@link QLParser#questionType}.
 	 * @param ctx the parse tree
 	 */
-	void enterNotExpr(QLParser.NotExprContext ctx);
+	void enterQuestionType(QLParser.QuestionTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code notExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Exit a parse tree produced by {@link QLParser#questionType}.
 	 * @param ctx the parse tree
 	 */
-	void exitNotExpr(QLParser.NotExprContext ctx);
+	void exitQuestionType(QLParser.QuestionTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code opExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Enter a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterOpExpr(QLParser.OpExprContext ctx);
+	void enterExpression(QLParser.ExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code opExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Exit a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitOpExpr(QLParser.OpExprContext ctx);
+	void exitExpression(QLParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code negExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Enter a parse tree produced by {@link QLParser#operator}.
 	 * @param ctx the parse tree
 	 */
-	void enterNegExpr(QLParser.NegExprContext ctx);
+	void enterOperator(QLParser.OperatorContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code negExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Exit a parse tree produced by {@link QLParser#operator}.
 	 * @param ctx the parse tree
 	 */
-	void exitNegExpr(QLParser.NegExprContext ctx);
+	void exitOperator(QLParser.OperatorContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code compExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Enter a parse tree produced by {@link QLParser#unaryOp}.
 	 * @param ctx the parse tree
 	 */
-	void enterCompExpr(QLParser.CompExprContext ctx);
+	void enterUnaryOp(QLParser.UnaryOpContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code compExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Exit a parse tree produced by {@link QLParser#unaryOp}.
 	 * @param ctx the parse tree
 	 */
-	void exitCompExpr(QLParser.CompExprContext ctx);
+	void exitUnaryOp(QLParser.UnaryOpContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code andOrExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Enter a parse tree produced by {@link QLParser#binaryOp}.
 	 * @param ctx the parse tree
 	 */
-	void enterAndOrExpr(QLParser.AndOrExprContext ctx);
+	void enterBinaryOp(QLParser.BinaryOpContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code andOrExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Exit a parse tree produced by {@link QLParser#binaryOp}.
 	 * @param ctx the parse tree
 	 */
-	void exitAndOrExpr(QLParser.AndOrExprContext ctx);
+	void exitBinaryOp(QLParser.BinaryOpContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code boolExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Enter a parse tree produced by {@link QLParser#constant}.
 	 * @param ctx the parse tree
 	 */
-	void enterBoolExpr(QLParser.BoolExprContext ctx);
+	void enterConstant(QLParser.ConstantContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code boolExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Exit a parse tree produced by {@link QLParser#constant}.
 	 * @param ctx the parse tree
 	 */
-	void exitBoolExpr(QLParser.BoolExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code parenExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterParenExpr(QLParser.ParenExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code parenExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitParenExpr(QLParser.ParenExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code constExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterConstExpr(QLParser.ConstExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code constExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitConstExpr(QLParser.ConstExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code intConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 */
-	void enterIntConstant(QLParser.IntConstantContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code intConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 */
-	void exitIntConstant(QLParser.IntConstantContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code floatConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 */
-	void enterFloatConstant(QLParser.FloatConstantContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code floatConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 */
-	void exitFloatConstant(QLParser.FloatConstantContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code strConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 */
-	void enterStrConstant(QLParser.StrConstantContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code strConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 */
-	void exitStrConstant(QLParser.StrConstantContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code idConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 */
-	void enterIdConstant(QLParser.IdConstantContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code idConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 */
-	void exitIdConstant(QLParser.IdConstantContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code moneyConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 */
-	void enterMoneyConstant(QLParser.MoneyConstantContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code moneyConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 */
-	void exitMoneyConstant(QLParser.MoneyConstantContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code dateConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 */
-	void enterDateConstant(QLParser.DateConstantContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code dateConstant}
-	 * labeled alternative in {@link QLParser#constant}.
-	 * @param ctx the parse tree
-	 */
-	void exitDateConstant(QLParser.DateConstantContext ctx);
+	void exitConstant(QLParser.ConstantContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#type}.
 	 * @param ctx the parse tree

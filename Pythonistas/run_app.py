@@ -5,9 +5,13 @@ Documentation goes here:
 to run give file as arg, example:
 $ python run_app.py forms/simple.ql
 """
+import os
 import logging
 import argparse
 import sys
+import ast
+
+from astviewer.main import view
 from commons.config import config
 from commons.logging import logging_basic_config
 from commons.utility import open_file
@@ -31,14 +35,22 @@ def main():
                         "will be printed. Default: 'warn'")
     parser.add_argument('-v', '--version', action='store_true',
                         help="Prints the program version.")
+    parser.add_argument('-t', '--test', action='store_true',
+                        help="Runs the testsuite.")
 
     args = parser.parse_args()
 
     # logging
     logging_basic_config(args.log_level.upper())
 
+    # Run version
     if args.version:
         print('{} {}'.format(config['program']['name'], config['program']['version']))
+        sys.exit(0)
+
+    # Run testsuite
+    if args.test:
+        os.system("pytest")
         sys.exit(0)
 
     logger.info('Started {} {}'.format(config['program']['name'], config['program']['version']))
@@ -46,12 +58,10 @@ def main():
     # openfile
     file = open_file(args.file_name)
     # file = open("C:/Users/svdh/PycharmProjects/sql/endless-ql/Pythonistas/forms/simple.ql","r")
-    print(args.file_name)
 
     # lexer
     tokens = ql_lex(file)
     print(tokens)
-    print('\n')
 
     # parse & ast
     result = ql_parser(tokens)
@@ -59,15 +69,15 @@ def main():
     print(result)
 
     # todo: maybe to a json inbetween to have a good look at ast instead of cli
-
+    # view(source_code=result)
     # static checker
     #   - https://github.com/titusjan/astviewer
     # expression eval
 
     # gui
-    gui.buildWidget(result)
-
-    sys.exit()
+    # gui.buildWidget(result)
+    #
+    # sys.exit()
 
 
 if __name__ == '__main__':

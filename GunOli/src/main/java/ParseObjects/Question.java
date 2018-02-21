@@ -1,5 +1,7 @@
 package ParseObjects;
 
+import ParseObjects.Expressions.Expression;
+
 public class Question {
     private String identifier;
     private String text;

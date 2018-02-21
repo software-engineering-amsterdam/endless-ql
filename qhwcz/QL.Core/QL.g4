@@ -4,18 +4,22 @@ grammar QL;
 *  Parser Rules
 */
 
-form: FORM LABEL LCB (statements)? RCB;
+form: FORM LABEL LCB block RCB;
 
-statements: question (statements)?
-		  | IF expresion LCB (statements)? RCB (ELSE LCB (statements)? RCB)?;
+block: (statement)*;
 
-question: description name type (ASSIGNMENT expresion)?;
+statement: question
+		 | conditional;
 
-expresion: LB expresion RB
+question: description name type (ASSIGNMENT expression)?;
+
+conditional: IF expression LCB block RCB (ELSE LCB block RCB)?;
+
+expression: LB expression RB
          | LABEL
 		 | literal
-		 | unOp expresion
-		 | expresion binOp expresion;
+		 | unOp expression
+		 | expression binOp expression;
 
 description: STR;
 name: LABEL COLON;
@@ -86,6 +90,6 @@ MONEY: INT '.' NUMBER NUMBER;
 LABEL:	(LOWERCASE|UPPERCASE)(LOWERCASE|UPPERCASE|NUMBER|'_')*;
 
 // Hidden
-WHITESPACE:	    (' ' | '\t' | '\n' | '\r' |) -> skip;
+WHITESPACE:	    (' ' | '\t' | '\n' | '\r') -> skip;
 //MULTICOMMENT:   '/*' .* '*/' -> skip;
 SINGLECOMMENT:  '//' ~[\r\n]* -> skip;

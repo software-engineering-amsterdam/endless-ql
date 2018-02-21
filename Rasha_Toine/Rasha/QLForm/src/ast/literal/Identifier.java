@@ -1,6 +1,8 @@
 package ast.literal;
 
-public class Identifier {
+import ast.AstNode;
+
+public class Identifier extends AstNode {
 
 	private final String id;
 

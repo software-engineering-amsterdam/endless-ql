@@ -6,5 +6,13 @@ public class Undefined extends Type {
     public String toString() {
         return "undefined";
     }
+    
+    public Undefined clone() {
+        return new Undefined();
+    }
 
+    @Override
+    public boolean isUndefined() {
+        return true;
+    }
 }

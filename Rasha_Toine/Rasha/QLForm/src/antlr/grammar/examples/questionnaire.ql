@@ -7,4 +7,8 @@ form Box1HouseOwning {
 		privateDebt: "Private debts for the sold house:" money
 		valueResidue: "Value residue:" money(sellingPrice - privateDebt)
 	}
+	else 
+	{
+		privateDebt: "Private debts for the sold house:" money
+	}
 }

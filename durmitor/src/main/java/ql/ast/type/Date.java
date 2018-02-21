@@ -6,5 +6,4 @@ public class Date extends Type {
     public String toString() {
         return "date";
     }
-
 }

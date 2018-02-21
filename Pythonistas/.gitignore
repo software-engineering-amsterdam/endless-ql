@@ -16,3 +16,7 @@ Thumbs.db
 ################
 *.pyc
 *.pyo
+
+# Pytest #
+################
+/.pytest_cache/

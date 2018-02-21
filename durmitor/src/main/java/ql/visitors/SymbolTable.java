@@ -15,15 +15,13 @@ import ql.visitors.interfaces.StatementVisitor;
 
 public class SymbolTable implements StatementVisitor {
     
-    Map<String,Type> symbolTable;
-    Form form;
+    private Map<String,Type> symbolTable;
     
-    public SymbolTable(Form form) {
+    public SymbolTable() {
         symbolTable = new HashMap<String,Type>();
-        this.form = form;
     }
     
-    public Map<String,Type> build() {
+    public Map<String,Type> build(Form form) {
         
         symbolTable.clear();
         

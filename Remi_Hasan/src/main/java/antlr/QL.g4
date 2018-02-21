@@ -3,8 +3,8 @@
 grammar QL;
 
 root            : FORM IDENTIFIER block EOF;
-block           : '{' blockElement* '}';
-blockElement    : condition | question;
+block           : '{' statement* '}';
+statement    : condition | question;
 condition       : IF '(' expression ')' block;
 question        : identifier ':' questionString questionType;
 

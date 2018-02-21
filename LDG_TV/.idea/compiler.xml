@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
@@ -13,4 +14,23 @@
       <module name="QuestionnaireDSL_1" target="1.5" />
     </bytecodeTargetLevel>
   </component>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="1" />
+        <module name="QuestionnaireDSL_1" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="1" target="1.5" />
+      <module name="QuestionnaireDSL_1" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+>>>>>>> LDG_TV-dev
 </project>

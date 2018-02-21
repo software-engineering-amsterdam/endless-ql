@@ -14,8 +14,15 @@ import java.util.Map;
 
 public class Ingester {
 
-    public Form toParsedForm(String location) throws IOException {
-        QLLexer lexer = new QLLexer(CharStreams.fromPath(Paths.get(location)));
+    public static Form toStringParsedForm(String qlForm) {
+        return createFormFromLexer(new QLLexer(CharStreams.fromString(qlForm)));
+    }
+
+    public static Form toLocationParsedForm(String location) throws IOException {
+        return createFormFromLexer(new QLLexer(CharStreams.fromPath(Paths.get(location))));
+    }
+
+    private static Form createFormFromLexer(QLLexer lexer) {
         QLParser parser = new QLParser(new CommonTokenStream(lexer));
 
         Form form = new QLFunnel().visitForm(parser.form());

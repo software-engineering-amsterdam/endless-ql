@@ -229,6 +229,8 @@ WS  :	(' ' | '\t' | '\n' | '\r') -> skip;
 
 COMMENT : '/*' .*? '*/'  -> skip;
 
+SINGLE_COMMENT : '//'  ~[\r\n]*  -> skip;
+
 IDENT:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 INT: ('0'..'9')+;

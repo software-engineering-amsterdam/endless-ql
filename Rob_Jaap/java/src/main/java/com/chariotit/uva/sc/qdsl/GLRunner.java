@@ -26,6 +26,7 @@ public class GLRunner implements CommandLineRunner {
         System.out.println(filePath);
 
         CharStream input = CharStreams.fromFileName(filePath);
+        
 
 //        ANTLRInputStream input = new ANTLRInputStream(new FileInputStream(filePath));
 
@@ -35,17 +36,17 @@ public class GLRunner implements CommandLineRunner {
         QLParser parser = new QLParser(tokens);
         ParseTree tree = parser.forms();
 //        ParseTree tree = parser.form();
-        //ParseTree tree = pxarser.question();
-        System.out.println(tree.toStringTree(parser));
-
-        System.out.println(parser.getGrammarFileName());
-        System.out.println(parser.getTokenNames());
-        System.out.println(tree.getChildCount());
- //       System.out.println(tree.getChild(7).getText());
+//        //ParseTree tree = pxarser.question();
+//        System.out.println(tree.toStringTree(parser));
 //
+//        System.out.println(parser.getGrammarFileName());
+//        System.out.println(parser.getTokenNames());
+//        System.out.println(tree.getChildCount());
+// //       System.out.println(tree.getChild(7).getText());
+////
         FormsVisitor visitor = new FormsVisitor();
-//
-        System.out.println(visitor.visit(tree));
 
+        System.out.println("---------- Result: ----------");
+        System.out.println("visitor result: " + visitor.visit(tree));
     }
 }

@@ -1,5 +1,5 @@
 // Define a grammar called Hello
-grammar FormParser;
+grammar Form;
 /*
  * Parser Rules
  */

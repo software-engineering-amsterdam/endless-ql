@@ -1,4 +1,4 @@
-// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/src/main/antlr4\FormParser.g4 by ANTLR 4.7
+// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/src/main/antlr4\Form.g4 by ANTLR 4.7
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class FormParserParser extends Parser {
+public class FormParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -72,7 +72,7 @@ public class FormParserParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "FormParser.g4"; }
+	public String getGrammarFileName() { return "Form.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -83,28 +83,28 @@ public class FormParserParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public FormParserParser(TokenStream input) {
+	public FormParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class Form_builderContext extends ParserRuleContext {
-		public TerminalNode CHARACTERS() { return getToken(FormParserParser.CHARACTERS, 0); }
-		public TerminalNode CURLY_BRACKET_OPEN() { return getToken(FormParserParser.CURLY_BRACKET_OPEN, 0); }
+		public TerminalNode CHARACTERS() { return getToken(FormParser.CHARACTERS, 0); }
+		public TerminalNode CURLY_BRACKET_OPEN() { return getToken(FormParser.CURLY_BRACKET_OPEN, 0); }
 		public Form_dataContext form_data() {
 			return getRuleContext(Form_dataContext.class,0);
 		}
-		public TerminalNode CURLY_BRACKET_CLOSE() { return getToken(FormParserParser.CURLY_BRACKET_CLOSE, 0); }
+		public TerminalNode CURLY_BRACKET_CLOSE() { return getToken(FormParser.CURLY_BRACKET_CLOSE, 0); }
 		public Form_builderContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_form_builder; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).enterForm_builder(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterForm_builder(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).exitForm_builder(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitForm_builder(this);
 		}
 	}
 
@@ -153,11 +153,11 @@ public class FormParserParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_form_data; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).enterForm_data(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterForm_data(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).exitForm_data(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitForm_data(this);
 		}
 	}
 
@@ -212,11 +212,11 @@ public class FormParserParser extends Parser {
 		public Question_variableContext question_variable() {
 			return getRuleContext(Question_variableContext.class,0);
 		}
-		public TerminalNode QUESTION_VARIABLE_SEPERATOR() { return getToken(FormParserParser.QUESTION_VARIABLE_SEPERATOR, 0); }
+		public TerminalNode QUESTION_VARIABLE_SEPERATOR() { return getToken(FormParser.QUESTION_VARIABLE_SEPERATOR, 0); }
 		public Question_answer_typeContext question_answer_type() {
 			return getRuleContext(Question_answer_typeContext.class,0);
 		}
-		public TerminalNode QUESTION_ANSWER_SEPERATOR() { return getToken(FormParserParser.QUESTION_ANSWER_SEPERATOR, 0); }
+		public TerminalNode QUESTION_ANSWER_SEPERATOR() { return getToken(FormParser.QUESTION_ANSWER_SEPERATOR, 0); }
 		public Question_answerContext question_answer() {
 			return getRuleContext(Question_answerContext.class,0);
 		}
@@ -226,11 +226,11 @@ public class FormParserParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_question_structure; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).enterQuestion_structure(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_structure(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).exitQuestion_structure(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_structure(this);
 		}
 	}
 
@@ -283,12 +283,12 @@ public class FormParserParser extends Parser {
 	}
 
 	public static class If_structureContext extends ParserRuleContext {
-		public TerminalNode IF() { return getToken(FormParserParser.IF, 0); }
+		public TerminalNode IF() { return getToken(FormParser.IF, 0); }
 		public Stat_blockContext stat_block() {
 			return getRuleContext(Stat_blockContext.class,0);
 		}
-		public TerminalNode CURLY_BRACKET_OPEN() { return getToken(FormParserParser.CURLY_BRACKET_OPEN, 0); }
-		public TerminalNode CURLY_BRACKET_CLOSE() { return getToken(FormParserParser.CURLY_BRACKET_CLOSE, 0); }
+		public TerminalNode CURLY_BRACKET_OPEN() { return getToken(FormParser.CURLY_BRACKET_OPEN, 0); }
+		public TerminalNode CURLY_BRACKET_CLOSE() { return getToken(FormParser.CURLY_BRACKET_CLOSE, 0); }
 		public List<Question_structureContext> question_structure() {
 			return getRuleContexts(Question_structureContext.class);
 		}
@@ -301,11 +301,11 @@ public class FormParserParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_if_structure; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).enterIf_structure(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterIf_structure(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).exitIf_structure(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitIf_structure(this);
 		}
 	}
 
@@ -352,22 +352,22 @@ public class FormParserParser extends Parser {
 	}
 
 	public static class Stat_blockContext extends ParserRuleContext {
-		public TerminalNode BRACKET_OPEN() { return getToken(FormParserParser.BRACKET_OPEN, 0); }
+		public TerminalNode BRACKET_OPEN() { return getToken(FormParser.BRACKET_OPEN, 0); }
 		public Question_variableContext question_variable() {
 			return getRuleContext(Question_variableContext.class,0);
 		}
-		public TerminalNode BRACKET_CLOSE() { return getToken(FormParserParser.BRACKET_CLOSE, 0); }
+		public TerminalNode BRACKET_CLOSE() { return getToken(FormParser.BRACKET_CLOSE, 0); }
 		public Stat_blockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_stat_block; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).enterStat_block(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterStat_block(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).exitStat_block(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitStat_block(this);
 		}
 	}
 
@@ -397,18 +397,18 @@ public class FormParserParser extends Parser {
 	}
 
 	public static class Question_identifierContext extends ParserRuleContext {
-		public TerminalNode QUESTION_IDENTIFIER() { return getToken(FormParserParser.QUESTION_IDENTIFIER, 0); }
+		public TerminalNode QUESTION_IDENTIFIER() { return getToken(FormParser.QUESTION_IDENTIFIER, 0); }
 		public Question_identifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_question_identifier; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).enterQuestion_identifier(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_identifier(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).exitQuestion_identifier(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_identifier(this);
 		}
 	}
 
@@ -434,18 +434,18 @@ public class FormParserParser extends Parser {
 	}
 
 	public static class Question_variableContext extends ParserRuleContext {
-		public TerminalNode CHARACTERS() { return getToken(FormParserParser.CHARACTERS, 0); }
+		public TerminalNode CHARACTERS() { return getToken(FormParser.CHARACTERS, 0); }
 		public Question_variableContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_question_variable; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).enterQuestion_variable(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_variable(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).exitQuestion_variable(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_variable(this);
 		}
 	}
 
@@ -471,18 +471,18 @@ public class FormParserParser extends Parser {
 	}
 
 	public static class Question_answer_typeContext extends ParserRuleContext {
-		public TerminalNode CHARACTERS() { return getToken(FormParserParser.CHARACTERS, 0); }
+		public TerminalNode CHARACTERS() { return getToken(FormParser.CHARACTERS, 0); }
 		public Question_answer_typeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_question_answer_type; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).enterQuestion_answer_type(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_answer_type(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).exitQuestion_answer_type(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_answer_type(this);
 		}
 	}
 
@@ -508,29 +508,29 @@ public class FormParserParser extends Parser {
 	}
 
 	public static class Question_answerContext extends ParserRuleContext {
-		public TerminalNode BRACKET_OPEN() { return getToken(FormParserParser.BRACKET_OPEN, 0); }
+		public TerminalNode BRACKET_OPEN() { return getToken(FormParser.BRACKET_OPEN, 0); }
 		public List<Question_variableContext> question_variable() {
 			return getRuleContexts(Question_variableContext.class);
 		}
 		public Question_variableContext question_variable(int i) {
 			return getRuleContext(Question_variableContext.class,i);
 		}
-		public TerminalNode BRACKET_CLOSE() { return getToken(FormParserParser.BRACKET_CLOSE, 0); }
-		public TerminalNode PLUS() { return getToken(FormParserParser.PLUS, 0); }
-		public TerminalNode MINUS() { return getToken(FormParserParser.MINUS, 0); }
-		public TerminalNode TIMES() { return getToken(FormParserParser.TIMES, 0); }
-		public TerminalNode DIV() { return getToken(FormParserParser.DIV, 0); }
+		public TerminalNode BRACKET_CLOSE() { return getToken(FormParser.BRACKET_CLOSE, 0); }
+		public TerminalNode PLUS() { return getToken(FormParser.PLUS, 0); }
+		public TerminalNode MINUS() { return getToken(FormParser.MINUS, 0); }
+		public TerminalNode TIMES() { return getToken(FormParser.TIMES, 0); }
+		public TerminalNode DIV() { return getToken(FormParser.DIV, 0); }
 		public Question_answerContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_question_answer; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).enterQuestion_answer(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_answer(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormParserListener ) ((FormParserListener)listener).exitQuestion_answer(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_answer(this);
 		}
 	}
 

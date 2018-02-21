@@ -1,4 +1,4 @@
-// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/src/main/antlr4\FormParser.g4 by ANTLR 4.7
+// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/src/main/antlr4\Form.g4 by ANTLR 4.7
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class FormParserLexer extends Lexer {
+public class FormLexer extends Lexer {
 	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -78,13 +78,13 @@ public class FormParserLexer extends Lexer {
 	}
 
 
-	public FormParserLexer(CharStream input) {
+	public FormLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "FormParser.g4"; }
+	public String getGrammarFileName() { return "Form.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

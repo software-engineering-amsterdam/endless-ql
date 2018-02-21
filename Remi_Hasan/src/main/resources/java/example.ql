@@ -12,6 +12,8 @@ form taxOfficeExample {
     someNumber: "Q5: Can you give me a number?" decimal
     if(someNumber > 5){
         someBoolean4: "Q6: You can only answer this question if you answered Q5 > 5" boolean
+    } else {
+        someBoolean5: "Q7: This will only enable if someNumber <= 5" boolean
     }
     someNumberWithExpression: "Some text here" decimal = ((someNumber + 2) * 2)
 }

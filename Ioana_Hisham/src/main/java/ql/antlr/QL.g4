@@ -1,5 +1,15 @@
 grammar QL;
 
+@parser::header
+{
+package ql.antlr;
+}
+
+@lexer::header
+{
+package ql.antlr;
+}
+
 form            : 'form' Identifier '{' statements* '}' ;
 
 statements      : question

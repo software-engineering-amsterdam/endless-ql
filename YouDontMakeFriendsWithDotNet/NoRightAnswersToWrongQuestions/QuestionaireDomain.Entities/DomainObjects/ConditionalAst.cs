@@ -11,11 +11,14 @@ namespace QuestionaireDomain.Entities.DomainObjects
     {
         public ConditionalAst(string questionName)
         {
+            QuestionName = questionName;
         }
 
         public override void Accept(IAstVisitor visitor)
         {
             throw new NotImplementedException();
         }
+
+        public string QuestionName { get; }
     }
 }

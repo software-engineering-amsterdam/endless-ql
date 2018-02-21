@@ -17,6 +17,7 @@ namespace UnitTests.Domain.UnitTests
     public class CreateQuestionnaireTests
     {
         private IServiceProvider m_serviceProvider;
+        private static readonly string NewLine = Environment.NewLine;
 
         [SetUp]
         public void Init()
@@ -195,28 +196,27 @@ form CommentFormMLX {}";
         {
             get
             {
-                var nl = Environment.NewLine;
                 yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", @"x", @"xyz");
                 yield return new TestCaseData("form NameForm { qname : \"this is a question\"  boolean }", @"qname", @"this is a question");
                 yield return new TestCaseData(
-                    $"form NameForm {{ {nl} qname2 : \"this is a question too\"  boolean{nl}  }} ",
+                    $"form NameForm {{ {NewLine} qname2 : \"this is a question too\"  boolean{NewLine}  }} ",
                     @"qname2",
                     @"this is a question too");
                 yield return new TestCaseData(
-                    $"form NameForm {{{nl}    qname3 : \"this is a question three\" boolean{nl}    qname4 : \"this is a question four\" boolean }} ",
+                    $"form NameForm {{{NewLine}    qname3 : \"this is a question three\" boolean{NewLine}    qname4 : \"this is a question four\" boolean }} ",
                     @"qname3",
                     @"this is a question three");
                 yield return new TestCaseData(
-                    $"form NameForm {{{nl}    qname3 : \"this is a question three\" boolean{nl}    qname4 : \"this is a question four\" boolean }} ",
+                    $"form NameForm {{{NewLine}    qname3 : \"this is a question three\" boolean{NewLine}    qname4 : \"this is a question four\" boolean }} ",
                     @"qname3",
                     @"this is a question three");
                 yield return new TestCaseData(
-                    $"form NameForm {{{nl}    qname3 : \"this is a question three\" boolean{nl}    qname4 : \"this is a question four\" boolean }} ",
+                    $"form NameForm {{{NewLine}    qname3 : \"this is a question three\" boolean{NewLine}    qname4 : \"this is a question four\" boolean }} ",
                     @"qname3",
                     @"this is a question three");
                 yield return new TestCaseData("form NameForm { x: \"xyz\" boolean }", @"x", @"xyz");
                 yield return new TestCaseData("form NameForm { \"xyz\"  x: boolean }", @"x", @"xyz");
-                yield return new TestCaseData($"form NameForm {{ \"xyz\" {nl} x: boolean {nl} \"xxx\" {nl} y: boolean {nl}}}", @"x", @"xyz");
+                yield return new TestCaseData($"form NameForm {{ \"xyz\" {NewLine} x: boolean {NewLine} \"xxx\" {NewLine} y: boolean {NewLine}}}", @"x", @"xyz");
             }
         }
 
@@ -231,15 +231,14 @@ form CommentFormMLX {}";
         {
             get
             {
-                var nl = Environment.NewLine;
                 yield return new TestCaseData("form NameForm { x : \"xyz\" boolean }", 1);
                 yield return new TestCaseData("form NameForm { qname : \"this is a question\" boolean }", 1);
-                yield return new TestCaseData($"form NameForm {{ {nl} qname2 : \"this is a question too\"  boolean{nl} }} ", 1);
+                yield return new TestCaseData($"form NameForm {{ {NewLine} qname2 : \"this is a question too\"  boolean{NewLine} }} ", 1);
                 yield return new TestCaseData(
-                    $"form NameForm {{{nl}    qname3 : \"this is a question three\"  boolean{nl}    qname4 : \"this is a question four\"  boolean }} ",
+                    $"form NameForm {{{NewLine}    qname3 : \"this is a question three\"  boolean{NewLine}    qname4 : \"this is a question four\"  boolean }} ",
                     2);
                 yield return new TestCaseData(
-                    $"form NameForm {{{nl}    x : \"xyz\"  boolean{nl}    y : \"yzx\"  boolean{nl}    z : \"zxy\"  boolean }} ",
+                    $"form NameForm {{{NewLine}    x : \"xyz\"  boolean{NewLine}    y : \"yzx\"  boolean{NewLine}    z : \"zxy\"  boolean }} ",
                     3);
             }
         }
@@ -276,13 +275,12 @@ form CommentFormMLX {}";
         {
             get
             {
-                var nl = Environment.NewLine;
                 yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", 0);
                 yield return new TestCaseData(
-                    $"form NameForm {{{nl}    x : \"xyz\"  boolean{nl}    if (x) {{{nl}    z : \"zxy\"  boolean }} }} ",
+                    $"form NameForm {{{NewLine}    x : \"xyz\"  boolean{NewLine}    if (x) {{{NewLine}    z : \"zxy\"  boolean }} }} ",
                     1);
                 yield return new TestCaseData(
-                    $"form NameForm {{{nl}    x : \"xyz\"  boolean{nl}    if (x) {{{nl}    z : \"zxy\"  boolean{nl}    if (z) {{{nl}    a : \"aaa\"  boolean }} }} }} ",
+                    $"form NameForm {{{NewLine}    x : \"xyz\"  boolean{NewLine}    if (x) {{{NewLine}    z : \"zxy\"  boolean{NewLine}    if (z) {{{NewLine}    a : \"aaa\"  boolean }} }} }} ",
                     2);
             }
         }
@@ -309,14 +307,76 @@ form CommentFormMLX {}";
         {
             get
             {
-                var nl = Environment.NewLine;
-                yield return new TestCaseData($"form NameForm {{     x : \"xyz\"  boolean {nl}    x : \"123\"  boolean  }}", "x");
-                yield return new TestCaseData($"form NameForm {{     y : \"xyz\"  boolean {nl}    x : \"123\"  boolean  {nl}    y : \"123\"  boolean  }}", "y");
-                yield return new TestCaseData($"form NameForm {{     x : \"xyz\"  boolean {nl}    z : \"123\"  boolean  {nl}    z : \"123\"  boolean  }}", "z");
+                yield return new TestCaseData($"form NameForm {{     x : \"xyz\"  boolean {NewLine}    x : \"123\"  boolean  }}", "x");
+                yield return new TestCaseData($"form NameForm {{     y : \"xyz\"  boolean {NewLine}    x : \"123\"  boolean  {NewLine}    y : \"123\"  boolean  }}", "y");
+                yield return new TestCaseData($"form NameForm {{     x : \"xyz\"  boolean {NewLine}    z : \"123\"  boolean  {NewLine}    z : \"123\"  boolean  }}", "z");
                 yield return new TestCaseData(
-                    $"form NameForm {{{nl}    aName : \"xyz\"  boolean{nl}    if (aName) {{{nl}    aName : \"zxy\"  boolean }} }} ", "aName");
+                    $"form NameForm {{{NewLine}    aName : \"xyz\"  boolean{NewLine}    if (aName) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", "aName");
             }
         }
+
+        [TestCaseSource(nameof(NonBooleanConditional))]
+        public void WhenANonBooleanQuestionIsUsedInAConditional_ThrowsAnError(string invalidText, string nonBooleanName)
+        {
+            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+            try
+            {
+                questionnaireCreator.Create(invalidText);
+            }
+            catch (QlParserException exception)
+            {
+                Assert.IsTrue(exception.ParseErrorDetails.Contains(nonBooleanName));
+                return;
+            }
+
+            Assert.Fail("Should have thrown an exception");
+        }
+
+        private static IEnumerable NonBooleanConditional
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    stringQuestion : \"xyz\"  string{NewLine}    if (stringQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", "stringQuestion");
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    integerQuestion : \"xyz\"  integer{NewLine}    if (integerQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", "integerQuestion");
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    decimalQuestion : \"xyz\"  decimal{NewLine}    if (decimalQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", "decimalQuestion");
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    dateQuestion : \"xyz\"  date{NewLine}    if (dateQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", "dateQuestion");
+            }
+        }
+
+        [TestCaseSource(nameof(BooleanConditional))]
+        public void WhenBooleanQuestionUsedInAConditional_ParsesCorrectly(string validText, IEnumerable<string> booleanNames)
+        {
+            var createdForm = CreateForm(validText);
+            var questionNames = createdForm
+                .Statements
+                .Flatten()
+                .OfType<IConditionalAst>()
+                .Select(x => x.QuestionName)
+                .ToList();
+
+            foreach (var expectedName in booleanNames)
+            {
+                Assert.Contains(expected: expectedName, actual: questionNames);
+            }
+        }
+
+        private static IEnumerable BooleanConditional
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion1 : \"xyz\"  boolean{NewLine}    if (boolQuestion1) {{{NewLine}    aName : \"zxy\"  boolean }} {NewLine}    if (boolQuestion1) {{{NewLine}    aName2 : \"zxy\"  boolean }} }} ", new[] { "boolQuestion1" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion2 : \"xyz\"  boolean{NewLine}    if (boolQuestion2) {{{NewLine}    aName : \"zxy\"  boolean {NewLine}    if (aName) {{{NewLine}    aName2 : \"zxy\"  boolean }}  }} }} ", new[] { "boolQuestion2", "aName" });
+            }
+        }
+
     }
 
     public static class TestHelperExtensions

@@ -28,7 +28,20 @@ namespace AntlrInterpretor.Logic
         public override IAstNode VisitConditional(QLParser.ConditionalContext context)
         {
             var questionName = context.IDENTIFIER().GetText();
+            var question = m_questionnaireAst
+                .Questions
+                .FirstOrDefault(x => x.Name == questionName);
+            
+
+            if (question.Type != typeof(bool))
+            {
+                var message = $@"the question {questionName} is not a boolean question";
+
+                throw new QlParserException(message, null) {ParseErrorDetails = message, ParserName = "Antlr 4.0"};
+            }
+
             var conditional = new ConditionalAst(questionName);
+            
             m_questionnaireAst.Statements.Add(conditional);
             context.statement()
                 .Select(x => Visit(x))
@@ -46,6 +59,7 @@ namespace AntlrInterpretor.Logic
                 var message = $@"The question with the id '{name}' exists more than once";
                 throw new QlParserException(message, null) { ParseErrorDetails = message, ParserName = "Antlr 4.0"};
             }
+
             var text = context.QUESTIONTEXT().GetText();
             Type type;
             switch (context.questiontype().qtype.Type)

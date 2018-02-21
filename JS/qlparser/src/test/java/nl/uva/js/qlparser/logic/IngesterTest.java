@@ -98,21 +98,7 @@ public class IngesterTest {
                 .formExpressions(expectedExpressions)
                 .build();
 
-        Form actualForm = ingester.toLocationParsedForm("src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql");
-
-        assertEquals(expectedForm, actualForm);
-    }
-
-
-    @Test
-    public void testQuicktest() throws IOException {
-
-        Form expectedForm = Form.builder()
-                .name("something")
-                .formExpressions(null)
-                .build();
-
-        Form actualForm = ingester.toLocationParsedForm("src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input2.jsql");
+        Form actualForm = ingester.toParsedForm("src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql");
 
         assertEquals(expectedForm, actualForm);
     }

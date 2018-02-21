@@ -5,7 +5,7 @@ options {
 }
 
 form
-    : FORM IDENTIFIER block
+    : FORM NAME block
     ;
 
 block
@@ -30,14 +30,14 @@ variableInitialization
     ;
 
 variableDeclaration
-    : IDENTIFIER COLON TYPE
+    : NAME COLON TYPE
     ;
 
 expression
     : LPAREN expression RPAREN
     | UNARY_OPERATOR expression
     | expression BINARY_OPERATOR expression
-    | IDENTIFIER
+    | NAME
     | literal
     ;
 

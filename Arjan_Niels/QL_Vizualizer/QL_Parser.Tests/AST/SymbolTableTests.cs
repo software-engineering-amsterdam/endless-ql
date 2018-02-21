@@ -13,8 +13,17 @@ namespace QL_Parser.Tests.AST
 
         private FormNode OneVarForm;
         private readonly string _oneVarFormRaw = "form OneVar { " +
-            "\"Have you bought a house in 2010?\"" +
+            "\"Have you bought a house in 2018?\"" +
             "       boughtAHouse: boolean" +
+            "}";
+
+        private FormNode MultipleVarForm;
+        private readonly string _multipleVarFormRaw = "form MultipleVarForm {" +
+            "   \"Have you bought a house in 2018?\"" +
+            "       boughtAHouse: boolean" +
+            "" +
+            "   \"What was the selling price?\"" +
+            "       priceHouse: money" +
             "}";
 
         [TestCleanup]
@@ -23,13 +32,16 @@ namespace QL_Parser.Tests.AST
         [TestInitialize]
         public void Initialize() => SymbolTable.Reset();
 
+        #region No vars
         [TestMethod]
         public void NoVariablesInSymbolTable()
         {
             SimpleForm = QLParserHelper.Parse(_simpleFormRaw);
             Assert.AreEqual(0, SymbolTable.Instance.TypeMap.Count);
         }
+        #endregion
 
+        #region One var
         [TestMethod]
         public void OneVariableInSymbolTable()
         {
@@ -50,5 +62,31 @@ namespace QL_Parser.Tests.AST
             OneVarForm = QLParserHelper.Parse(_oneVarFormRaw);
             Assert.AreEqual(QuestionType.BOOLEAN, SymbolTable.Instance.TypeMap["boughtAHouse"]);
         }
+        #endregion
+
+        #region Multiple vars
+        [TestMethod]
+        public void MultipleVarsCountSymbolTable()
+        {
+            MultipleVarForm = QLParserHelper.Parse(_multipleVarFormRaw);
+            Assert.AreEqual(2, SymbolTable.Instance.TypeMap.Count);
+        }
+
+        [TestMethod]
+        public void MultipleVarsNameCheck()
+        {
+            MultipleVarForm = QLParserHelper.Parse(_multipleVarFormRaw);
+            Assert.AreEqual("boughtAHouse", SymbolTable.Instance.TypeMap.Keys.ToArray()[0]);
+            Assert.AreEqual("priceHouse", SymbolTable.Instance.TypeMap.Keys.ToArray()[1]);
+        }
+
+        [TestMethod]
+        public void MultipleVarsTypeCheck()
+        {
+            MultipleVarForm = QLParserHelper.Parse(_multipleVarFormRaw);
+            Assert.AreEqual(QuestionType.BOOLEAN, SymbolTable.Instance.TypeMap["boughtAHouse"]);
+            Assert.AreEqual(QuestionType.MONEY, SymbolTable.Instance.TypeMap["priceHouse"]);
+        }
+        #endregion
     }
 }

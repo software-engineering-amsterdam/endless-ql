@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import *
 import sys
 import parse
-import ast
+import ql_ast
 
 from parse.ql_parser import *
 
@@ -28,6 +28,8 @@ class InputWindow(QWidget):
         self.setLayout(self.layout)
 
     def inputwindow(self):
+        # Creates a textbox for input of QL text.
+        # This QL text can later be parsed into a questionnaire.
         titlelabel = QLabel("Input your QL text here")
         self.layout.addWidget(titlelabel,0,0)
 
@@ -44,7 +46,6 @@ class InputWindow(QWidget):
         self.output = OutputWindow()
         tokens = ql_lex(self.textbox.toPlainText())
         result = ql_parser(tokens)
-
         self.buildGui(result,self.output)
 
         self.output.quitbutton()
@@ -55,12 +56,14 @@ class InputWindow(QWidget):
     def buildGui(self, node, screen):
         if type(node) is parse.combinators.Result:
             self.buildGui(node.value, screen)
-        elif type(node) is ast.ql_ast.FormStatement:
-            self.buildGui(node.form, screen)
-        elif type(node) is ast.ql_ast.CompoundStatement:
+        elif type(node) is ql_ast.ql_ast.FormStatement:
+            for child in node.form:
+                self.buildGui(child,screen)
+            # self.buildGui(node.form, screen)
+        elif type(node) is ql_ast.ql_ast.CompoundStatement:
             self.buildGui(node.first, screen)
             self.buildGui(node.second, screen)
-        elif type(node) is ast.ql_ast.AssignStatement:
+        elif type(node) is ql_ast.ql_ast.AssignStatement:
             screen.putQuestion(node.question, node.data_type)
 
     def quitbutton(self):
@@ -123,14 +126,14 @@ class OutputWindow(QWidget):
         qbtn = QPushButton('Quit', self)
         qbtn.clicked.connect(QApplication.instance().quit)
         qbtn.resize(qbtn.sizeHint())
-        self.layout.addWidget(qbtn, self.row,3)
+        self.layout.addWidget(qbtn, self.row,2)
         # self.row +=1
 
     def submitbutton(self):
         smbtn = QPushButton('Submit', self)
         smbtn.clicked.connect(self.submit)
         smbtn.resize(smbtn.sizeHint())
-        self.layout.addWidget(smbtn, self.row,2)
+        self.layout.addWidget(smbtn, self.row,1)
 
     def submit(self):
         file = open( 'output.txt', 'w')

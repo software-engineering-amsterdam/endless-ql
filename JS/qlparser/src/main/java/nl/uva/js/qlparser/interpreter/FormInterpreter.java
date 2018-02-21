@@ -2,7 +2,9 @@ package nl.uva.js.qlparser.interpreter;
 
 import com.vaadin.ui.*;
 import nl.uva.js.qlparser.models.Form;
+import org.springframework.stereotype.Component;
 
+@Component("interpreter")
 public class FormInterpreter {
 
     public Layout interpretForm(Form form) {

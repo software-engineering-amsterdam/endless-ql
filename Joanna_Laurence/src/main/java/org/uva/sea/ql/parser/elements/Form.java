@@ -17,16 +17,8 @@ public class Form extends ASTNode {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Statements getStatements() {
         return statements;
-    }
-
-    public void setStatements(Statements statements) {
-        this.statements = statements;
     }
 
     public void traverseNode(Traverse traverse, TraverseType traverseType) {

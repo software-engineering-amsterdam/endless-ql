@@ -1,22 +1,35 @@
 package org.uva.sc.cr.ql.interpreter
 
+import java.util.ArrayList
 import java.util.HashMap
+import java.util.List
 import java.util.concurrent.Callable
+import javafx.beans.binding.Binding
 import javafx.beans.binding.Bindings
-import javafx.scene.control.CheckBox
-import javafx.scene.control.Control
-import javafx.scene.control.DatePicker
-import javafx.scene.control.TextField
 import javax.inject.Inject
+import javax.inject.Singleton
+import org.uva.sc.cr.ql.interpreter.controls.ControlWrapper
 import org.uva.sc.cr.ql.qL.Expression
-import org.uva.sc.cr.ql.util.MissingCaseException
 
+@Singleton
 class BindingService {
 
 	@Inject
 	private var ExpressionEvaluator evaluator
 
-	def buildBindingForTypeBoolean(HashMap<String, Control> controls, Expression expression) {
+	private List<Binding> bindings;
+
+	new() {
+		bindings = new ArrayList();
+	}
+
+	public def invalidateBindings() {
+		bindings.forEach [
+			it.invalidate
+		]
+	}
+
+	def buildBindingForTypeBoolean(List<ControlWrapper> controls, Expression expression) {
 		val binding = Bindings.createBooleanBinding(new Callable<Boolean>() {
 
 			override call() throws Exception {
@@ -24,10 +37,11 @@ class BindingService {
 			}
 
 		})
+		bindings.add(binding)
 		return binding
 	}
 
-	def buildBindingForTypeString(HashMap<String, Control> controls, Expression expression) {
+	def buildBindingForTypeString(List<ControlWrapper> controls, Expression expression) {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
@@ -35,10 +49,11 @@ class BindingService {
 			}
 
 		})
+		bindings.add(binding)
 		return binding
 	}
 
-	def buildBindingForTypeInteger(HashMap<String, Control> controls, Expression expression) {
+	def buildBindingForTypeInteger(List<ControlWrapper> controls, Expression expression) {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
@@ -47,10 +62,11 @@ class BindingService {
 			}
 
 		})
+		bindings.add(binding)
 		return binding
 	}
 
-	def buildBindingForTypeDecimalAndMoney(HashMap<String, Control> controls, Expression expression) {
+	def buildBindingForTypeDecimalAndMoney(List<ControlWrapper> controls, Expression expression) {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
@@ -58,18 +74,14 @@ class BindingService {
 			}
 
 		})
+		bindings.add(binding)
 		return binding
 	}
 
-	def private getExpressionArguments(HashMap<String, Control> controls, Expression exp) {
+	def private getExpressionArguments(List<ControlWrapper> controls, Expression exp) {
 		val result = new HashMap<String, Object>
-		controls.forEach [ name, widget |
-			switch widget {
-				CheckBox: result.put(name, widget.selected)
-				TextField: result.put(name, widget.text)
-				DatePicker: result.put(name, widget.value)
-				default: throw new MissingCaseException
-			}
+		controls.forEach [ control |
+			result.put(control.name, control.value)
 		]
 		return result
 	}

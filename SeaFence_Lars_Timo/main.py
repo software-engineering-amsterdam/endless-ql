@@ -11,7 +11,11 @@ def main(argv):
     # stream = CommonTokenStream(lexer)
     # parser = QLParser(stream)
 
-    # tree = parser.form()
+    tree = parser.form()
+
+    visitor = QLVisitor()
+    visitor.visit(tree)
+    
     # print(tree.toStringTree(recog=parser))
     gui = Gui()
     gui.addLabel("hey", "jaja")

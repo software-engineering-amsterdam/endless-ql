@@ -18,10 +18,6 @@ public class Statements extends ASTNode {
         return statementList;
     }
 
-    public void setStatementList(List<ASTNode> statementList) {
-        this.statementList = statementList;
-    }
-
     public void addStatement(ASTNode item) {
         this.statementList.add(item);
     }

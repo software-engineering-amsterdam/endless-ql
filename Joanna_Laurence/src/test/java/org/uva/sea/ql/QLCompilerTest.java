@@ -8,19 +8,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.uva.sea.ql.parser.elements.Form;
-import org.uva.sea.ql.parser.elements.types.Bool;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @RunWith(Parameterized.class)
 public class QLCompilerTest extends TestCase {
 
     private String testFile;
     private Boolean shouldCompile;
+
+    private static TestFileHelper testFileHelper = new TestFileHelper();
 
 
     public QLCompilerTest(String testFile, Boolean shouldCompile) {
@@ -46,13 +48,12 @@ public class QLCompilerTest extends TestCase {
      */
     private static Collection<Object[]> getTestFiles(String folderLocation, Boolean shouldCompile) {
         Collection<Object[]> testFiles = new ArrayList<Object[]>();
-        File folder = new File(folderLocation);
-        File[] listOfFiles = folder.listFiles();
-        if(listOfFiles != null) {
-            for (File file : listOfFiles) {
-                testFiles.add(new Object[] {file.getAbsolutePath(),shouldCompile});
-            }
+
+        Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
+        for(String location : locations) {
+            testFiles.add(new Object[] {location,shouldCompile});
         }
+
         return testFiles;
     }
 

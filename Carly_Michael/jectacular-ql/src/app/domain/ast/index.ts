@@ -5,3 +5,4 @@ export * from './question';
 export * from './if';
 export * from './expression-question';
 export * from './location';
+export * from './expression';

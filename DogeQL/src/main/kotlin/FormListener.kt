@@ -14,7 +14,6 @@ class FormListener : QuestionareLanguageParserBaseListener() {
         }
 
         table.print()
-
     }
 
     override fun exitQuestionStatement(ctx: QuestionareLanguageParser.QuestionStatementContext) {

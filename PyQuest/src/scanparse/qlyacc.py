@@ -1,10 +1,11 @@
 import ply.yacc as yacc
-import qllex
+import src.scanparse.qllex
+from src.AST.nodes import *
 
 
 class QLParser:
     def __init__(self):
-        self.tokens = qllex.LexTokenizer.tokens
+        self.tokens = src.scanparse.qllex.LexTokenizer.tokens
         self.precedence = (
             ('left', 'OR'),
             ('left', 'AND'),
@@ -22,25 +23,25 @@ class QLParser:
     # Statements
     @staticmethod
     def p_form(p):
-        """form : FORM VAR LBRACKET stmts RBRACKET"""
+        """form : FORM VAR LBRACKET statements RBRACKET"""
         p[0] = ('FORM', p[2], p[4])
 
     @staticmethod
-    def p_stmts(p):
-        """stmts : stmt stmts
-                 | stmt"""
+    def p_statements(p):
+        """statements   : statement statements
+                        | statement"""
         if len(p) == 3:
             p[0] = [p[1]] + p[2]
         elif len(p) == 2:
             p[0] = [p[1]]
 
     @staticmethod
-    def p_stmt(p):
-        """stmt : if
-                | elif
-                | else
-                | question
-                | form"""
+    def p_statement(p):
+        """statement    : if
+                        | elif
+                        | else
+                        | question
+                        | form"""
         p[0] = p[1]
 
     # Questions and answers
@@ -56,113 +57,113 @@ class QLParser:
 
     @staticmethod
     def p_answer_assign(p):
-        """answer : VAR COLON type ASSIGN expr"""
+        """answer : VAR COLON type ASSIGN expression"""
         p[0] = ('ANSWER', p[1], p[3], p[5])
 
     # Control Flow
     @staticmethod
     def p_if(p):
-        """if : IF LPAREN expr RPAREN LBRACKET stmts RBRACKET"""
+        """if : IF LPAREN expression RPAREN LBRACKET statements RBRACKET"""
         p[0] = ('IF', p[3], p[6])
 
     @staticmethod
     def p_elif(p):
-        """elif : ELIF LPAREN expr RPAREN LBRACKET stmts RBRACKET"""
+        """elif : ELIF LPAREN expression RPAREN LBRACKET statements RBRACKET"""
         p[0] = ('ELIF', p[3], p[6])
 
     @staticmethod
     def p_else(p):
-        """else : ELSE LBRACKET stmts RBRACKET"""
+        """else : ELSE LBRACKET statements RBRACKET"""
         p[0] = ('ELSE', p[3])
 
     # Expressions
     @staticmethod
     def p_parenthesis(p):
-        """expr : LPAREN expr RPAREN"""
+        """expression : LPAREN expression RPAREN"""
         p[0] = p[2]
 
     @staticmethod
-    def p_var(p):
-        """expr : VAR"""
+    def p_variable(p):
+        """expression : VAR"""
         p[0] = p[1]
 
     # Unary operators
     @staticmethod
     def p_not(p):
-        """expr : NOT expr"""
-        p[0] = ('NOT', p[2])
+        """expression : NOT expression"""
+        p[0] = UnaryOperatorNode(p.lineno(1), bool, 'not', p[2])
 
     # Binary operators
     @staticmethod
     def p_and(p):
-        """expr : expr AND expr"""
-        p[0] = ('AND', p[1], p[3])
+        """expression : expression AND expression"""
+        p[0] = BinaryOperatorNode(p.lineno(2), bool, 'and', p[1], p[3])
 
     @staticmethod
     def p_or(p):
-        """expr : expr OR expr"""
-        p[0] = ('OR', p[1], p[3])
+        """expression : expression OR expression"""
+        p[0] = BinaryOperatorNode(p.lineno(2), bool, 'OR', p[1], p[3])
 
     @staticmethod
     def p_plus(p):
-        """expr : expr PLUS expr"""
-        p[0] = ('PLUS', p[1], p[3])
+        """expression : expression PLUS expression"""
+        p[0] = BinaryOperatorNode(p.lineno(2), None, 'PLUS', p[1], p[3])
 
     @staticmethod
     def p_minus(p):
-        """expr : expr MINUS expr"""
-        p[0] = ('MINUS', p[1], p[3])
+        """expression : expression MINUS expression"""
+        p[0] = BinaryOperatorNode(p.lineno(2), None, 'MINUS', p[1], p[3])
 
     @staticmethod
     def p_times(p):
-        """expr : expr TIMES expr"""
-        p[0] = ('TIMES', p[1], p[3])
+        """expression : expression TIMES expression"""
+        p[0] = BinaryOperatorNode(p.lineno(2), None, 'TIMES', p[1], p[3])
 
     @staticmethod
     def p_divide(p):
-        """expr : expr DIVIDE expr"""
-        p[0] = ('DIVIDE', p[1], p[3])
+        """expression : expression DIVIDE expression"""
+        p[0] = BinaryOperatorNode(p.lineno(2), None, 'DIVIDE', p[1], p[3])
 
     @staticmethod
-    def p_eq(p):
-        """expr : expr EQ expr"""
-        p[0] = ('EQ', p[1], p[3])
+    def p_equals(p):
+        """expression : expression EQ expression"""
+        p[0] = BinaryOperatorNode(p.lineno(2), bool, 'EQ', p[1], p[3])
 
     @staticmethod
-    def p_ne(p):
-        """expr : expr NE expr"""
-        p[0] = ('NE', p[1], p[3])
+    def p_not_equals(p):
+        """expression : expression NE expression"""
+        p[0] = BinaryOperatorNode(p.lineno(2), bool, 'NE', p[1], p[3])
 
     @staticmethod
-    def p_le(p):
-        """expr : expr LE expr"""
-        p[0] = ('LE', p[1], p[3])
+    def p_less_equals(p):
+        """expression : expression LE expression"""
+        p[0] = BinaryOperatorNode(p.lineno(2), bool, 'LE', p[1], p[3])
 
     @staticmethod
-    def p_lt(p):
-        """expr : expr LT expr"""
-        p[0] = ('LT', p[1], p[3])
+    def p_less_than(p):
+        """expression : expression LT expression"""
+        p[0] = BinaryOperatorNode(p.lineno(2), bool, 'LT', p[1], p[3])
 
     @staticmethod
-    def p_ge(p):
-        """expr : expr GE expr"""
-        p[0] = ('GE', p[1], p[3])
+    def p_greater_equals(p):
+        """expression : expression GE expression"""
+        p[0] = BinaryOperatorNode(p.lineno(2), bool, 'EQ', p[1], p[3])
 
     @staticmethod
-    def p_gt(p):
-        """expr : expr GT expr"""
-        p[0] = ('GT', p[1], p[3])
+    def p_greater_than(p):
+        """expression : expression GT expression"""
+        p[0] = BinaryOperatorNode(p.lineno(2), bool, 'GT', p[1], p[3])
 
     # Literals
     @staticmethod
     def p_number(p):
-        """expr : NUMBER"""
-        p[0] = ('NUMBER', p[1])
+        """expression : NUMBER"""
+        p[0] = LiteralNode(p.lineno(1), int, p[1])
 
     @staticmethod
     def p_float(p):
-        """expr : FLOAT"""
-        p[0] = ('FLOAT', p[1])
+        """expression : FLOAT"""
+        p[0] = LiteralNode(p.lineno(1), float, p[1])
 
     # Other
     @staticmethod
@@ -175,15 +176,9 @@ class QLParser:
                 | MONEY"""
         p[0] = p[1]
 
-    # Misc
-    # @staticmethod
-    # def p_empty(p):
-    #     """empty :"""
-    #     pass
-
     def p_error(self, p):
+        print('error')
         print(p)
-        print("Whoa.")
         if not p:
             print("End of File!")
             return

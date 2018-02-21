@@ -1,17 +1,12 @@
-<<<<<<< HEAD
 # ----------------------------------------------------
 
 class BaseNode(object):
 
-    def __init__(self, line_number, children):
+    def __init__(self, line_number):
         self.line_number = line_number
-        self.children = children
 
     def accept(self, visitor):
         visitor.visit(self)
-
-    def get_children(self):
-        return self.children
 
 # ----------------------------------------------------
 
@@ -44,24 +39,13 @@ class QuestionNode(BaseNode):
         return self.val_type
 
 # ----------------------------------------------------
-=======
-# ----------------------------------------------------
-
-class BaseNode(object):
-
-    def __init__(self, line_number):
-        self.line_number = line_number
-
-    def accept(self, visitor):
-        visitor.visit(self)
-
-# ----------------------------------------------------
 
 class StatementNode(BaseNode):
 
     def __init__(self, line_number, block):
         super(StatementNode, self).__init__(line_number)
         self.block = block
+
 
 # ----------------------------------------------------
 
@@ -70,7 +54,46 @@ class ExpressionNode(BaseNode):
         super(ExpressionNode, self).__init__(line_number)
         self.expression_type = expression_type
 
+
+class BinaryOperatorNode(ExpressionNode):
+    def __init__(self, line_number, expression_type, operator, lhs, rhs):
+        super(BinaryOperatorNode, self).__init__(line_number, expression_type)
+        self.operator = operator
+        self.lhs = lhs
+        self.rhs = rhs
+
+
+class UnaryOperatorNode(ExpressionNode):
+    def __init__(self, line_number, expression_type, operator, expression):
+        super(UnaryOperatorNode, self).__init__(line_number, expression_type)
+        self.operator = operator
+        self.expression = expression
+
+
+class LiteralNode(ExpressionNode):
+    def __init__(self, line_number, expression_type, value):
+        super(LiteralNode, self).__init__(line_number, expression_type)
+        self.value = value
+
+
+class VariableNode(ExpressionNode):
+    def __init__(self, line_number, expression_type, name):
+        super(VariableNode, self).__init__(line_number, expression_type)
+        self.name = name
+
 # ----------------------------------------------------
+
+
+class TypeNode(BaseNode):
+    def __init__(self, line_number, name):
+        super(TypeNode, self).__init__(line_number)
+        self.name = name
+
+
+# class MoneyNode(TypeNode):
+#     def __init__(self, line_number, name, currency):
+#         super(MoneyNode, self).__init__(line_number, name)
+#         self.currency = currency  # currency symbol
 
 
 #
@@ -155,12 +178,3 @@ class ExpressionNode(BaseNode):
 #         return self.expression
 #
 # # ----------------------------------------------------
-
-
-
-
-
-
-
-
->>>>>>> master

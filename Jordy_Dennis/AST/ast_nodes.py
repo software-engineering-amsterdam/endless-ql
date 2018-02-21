@@ -5,6 +5,9 @@ class QLNode:
     def addForm(self, form):
         self.forms.append(form)
 
+    def __repr__(self):
+        return "FORMS: {}".format(self.forms)
+
 class formNode:
     def __init__(self, name):
         self.name = name

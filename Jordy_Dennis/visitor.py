@@ -5,7 +5,7 @@ from AST.ast_nodes import *
 class Visitor(QLGrammarVisitor):
     def __init__(self):
         self.program = {}
-        self.QLnode = QLNode()
+        self.QLNode = QLNode()
 
 
     # Visit a parse tree produced by QLGrammarParser#form.

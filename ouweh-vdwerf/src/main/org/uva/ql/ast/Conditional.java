@@ -25,6 +25,8 @@ public class Conditional extends Statement{
         this.elseSide = new ArrayList<>();
     }
 
+    public Expression getCondition() { return condition; }
+
     public List<Statement> getIfSide() {
         return ifSide;
     }

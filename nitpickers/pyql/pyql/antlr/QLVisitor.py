@@ -14,8 +14,8 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#conditional_block.
-    def visitConditional_block(self, ctx:QLParser.Conditional_blockContext):
+    # Visit a parse tree produced by QLParser#conditionalBlock.
+    def visitConditionalBlock(self, ctx:QLParser.ConditionalBlockContext):
         return self.visitChildren(ctx)
 
 
@@ -34,8 +34,8 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#question_type.
-    def visitQuestion_type(self, ctx:QLParser.Question_typeContext):
+    # Visit a parse tree produced by QLParser#questionType.
+    def visitQuestionType(self, ctx:QLParser.QuestionTypeContext):
         return self.visitChildren(ctx)
 
 

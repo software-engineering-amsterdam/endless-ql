@@ -15,10 +15,6 @@ public class Str extends ASTNode {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doStr(this);
     }

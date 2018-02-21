@@ -1,6 +1,9 @@
 package org.uva.sea.ql;
 
-import org.uva.sea.ql.parser.elements.*;
+import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.Form;
+import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.types.Var;
 import org.uva.sea.ql.traverse.Traverse;
 

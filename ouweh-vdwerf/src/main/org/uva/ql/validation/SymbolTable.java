@@ -1,6 +1,6 @@
-package main.org.uva.ql.validation;
+package org.uva.ql.validation;
 
-import main.org.uva.ql.ast.type.Type;
+import org.uva.ql.ast.type.Type;
 
 import java.util.HashMap;
 
@@ -9,6 +9,7 @@ public class SymbolTable {
     private final HashMap <String, Type> table;
 
     public SymbolTable () {
+
         this.table = new HashMap<>();
     }
 

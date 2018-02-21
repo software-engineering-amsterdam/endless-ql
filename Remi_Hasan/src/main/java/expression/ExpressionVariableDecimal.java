@@ -8,12 +8,15 @@ public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Number;
+        return ReturnType.Decimal;
     }
 
     @Override
     public void setValue(String value) {
-        this.value = Double.parseDouble(value);
+        if(value.isEmpty())
+            this.value = null;
+        else
+            this.value = Double.parseDouble(value);
     }
 
     // TODO

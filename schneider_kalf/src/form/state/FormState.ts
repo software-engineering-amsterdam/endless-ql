@@ -1,0 +1,22 @@
+export default class FormState {
+  store: Map<string, any>;
+
+  constructor(store: Map<string, any>) {
+    this.store = store;
+  }
+
+  set(identifier: string, value: any): FormState {
+    const newStore = new Map(this.store);
+    newStore.set(identifier, value);
+
+    return new FormState(newStore);
+  }
+
+  get(identifier: string): any | null {
+    return this.store.get(identifier);
+  }
+
+  has(identifier: string): boolean {
+    return this.store.has(identifier);
+  }
+}

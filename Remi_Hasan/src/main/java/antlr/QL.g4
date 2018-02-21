@@ -3,9 +3,10 @@
 grammar QL;
 
 root            : FORM IDENTIFIER block EOF;
-block           : '{' blockElement* '}';
-blockElement    : condition | question;
-condition       : IF '(' expression ')' block;
+block           : '{' statement* '}';
+statement       : condition | question;
+condition       : IF '(' expression ')' conditionTrueBlock=block ELSE conditionFalseBlock=block
+                | IF '(' expression ')' conditionTrueBlock=block;
 question        : identifier ':' questionString questionType;
 
 identifier      : IDENTIFIER;
@@ -69,6 +70,7 @@ DATETYPE        : 'date';
 DECIMALTYPE     : 'decimal';
 MONEYTYPE       : 'money';
 IF              : 'if';
+ELSE            : 'else';
 
 // Literals
 INTEGER         : [0-9]+;
@@ -80,4 +82,3 @@ IDENTIFIER      : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 WS              : [ \t\r\n]+ -> skip;
 COMMENT         : ('/*' .*? '*/') -> skip;
-LINE_COMMENT    : '//' ~[\r\n]* -> skip;

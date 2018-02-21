@@ -1,30 +1,20 @@
 package nl.uva.js.qlparser.interpreter;
 
-import com.vaadin.ui.*;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Layout;
 import nl.uva.js.qlparser.models.Form;
+
+import java.util.ArrayList;
 
 public class FormInterpreter {
 
-    public Layout interpretForm(Form form) {
-        VerticalLayout layout = new VerticalLayout();
+    public static Layout interpret(Form form) {
+        FormLayout layout = new FormLayout();
 
-        // TODO: IMPLEMENT (DUMMY DATA)
-        TextField name;
-        name = new TextField("Name");
-        layout.addComponent(name);
+        ArrayList<Component> components = form.getComponents();
 
-        // A single-select radio button group
-        RadioButtonGroup<String> single =
-                new RadioButtonGroup<>("I am...");
-        single.setItems("Male", "Female", "Apache helicopter");
-        layout.addComponent(single);
-
-        // A multi-select check box group
-        CheckBoxGroup<String> multi =
-                new CheckBoxGroup<>("I have bought...");
-        multi.setItems("A house", "A car", "A ship");
-        layout.addComponent(multi);
-
+        layout.addComponents(components.toArray(new Component[components.size()]));
         return layout;
     }
 }

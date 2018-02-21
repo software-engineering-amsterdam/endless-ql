@@ -13,6 +13,18 @@ public class Question extends Statement {
         this.type = type;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public Type getType() {
+        return this.type;
+    }
+
     @Override
     public String toString() {
         return String.format("%s\t%s:%s",this.content, this.name, this.type);

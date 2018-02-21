@@ -1,4 +1,4 @@
 ﻿form test {
-  "Did you sell a house in 2010?"
-    hasSoldHouse: boolean
+"What is the meaning of life?"
+	whatIsMeaning: money
 }

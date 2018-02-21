@@ -26,10 +26,13 @@ public class Statements extends ASTNode {
         this.statementList.add(item);
     }
 
-    public void traverse(Traverse traverse) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doStatements(this);
+    }
+
+    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
         for (ASTNode node: this.statementList) {
-             node.traverse(traverse);
+            node.doTraversal(traverse,traverseType);
         }
     }
 

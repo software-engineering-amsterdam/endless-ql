@@ -1,6 +1,7 @@
 package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.traverse.Traverse;
 
 public class Money extends ASTNode {
@@ -28,7 +29,7 @@ public class Money extends ASTNode {
         this.amount = amount;
     }
 
-    public void traverse(Traverse traverse) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doMoney(this);
     }
 

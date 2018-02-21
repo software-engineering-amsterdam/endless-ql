@@ -8,6 +8,7 @@ import org.uva.sea.ql.parser.antlr.ErrorHandler;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;;
 import org.uva.sea.ql.parser.elements.Form;
+import org.uva.sea.ql.parser.elements.TraverseType;
 
 import java.util.BitSet;
 
@@ -43,7 +44,7 @@ public class QLCompiler {
 
         //Do the type check
         QLTypeCheck typeChecker = new QLTypeCheck();
-        if(!typeChecker.doTypeCheck(form.result)) {
+        if(!typeChecker.doTypeCheck(form.result, TraverseType.TOP_DOWN)) {
             return null;
         }
 

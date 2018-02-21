@@ -47,9 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AST\QLLabel.cs" />
+    <Compile Include="Api\ParsedSymbols.cs" />
+    <Compile Include="Api\IQLParsingService.cs" />
+    <Compile Include="Api\ServiceRegistry.cs" />
+    <Compile Include="AST\QLOperator.cs" />
     <Compile Include="AST\QLStatement.cs" />
-    <Compile Include="Parsing\QLQuestionVisitor.cs" />
+    <Compile Include="Parsing\QLParsingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QL.g4.lexer.cs">
       <DependentUpon>QL.g4</DependentUpon>
@@ -59,9 +62,7 @@
     </Compile>
     <Compile Include="AST\QLExpression.cs" />
     <Compile Include="AST\QLForm.cs" />
-    <Compile Include="AST\QLQuestion.cs" />
-    <Compile Include="Parsing\QLFormVisitor.cs" />
-    <Compile Include="Parsing\QLStatementVisitor.cs" />
+    <Compile Include="Parsing\QLVisitor.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

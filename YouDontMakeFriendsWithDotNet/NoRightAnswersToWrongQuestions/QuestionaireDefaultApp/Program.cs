@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using QuestionnaireInfrastructure.API;
 
 namespace QuestionaireDefaultApp
 {
-    class Program
+    public class Program : QlApp 
     {
         static void Main(string[] args)
         {
+            //ToDo: have a working app using Antlr and WPF
+            //QlServiceCollection.AddModule();
         }
     }
 }

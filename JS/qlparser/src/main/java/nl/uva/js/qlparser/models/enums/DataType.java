@@ -4,12 +4,15 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
 public enum DataType {
-    DATE(String::new),
-    MONEY(Double::valueOf),
+    DATE(LocalDate::parse),
+//    To be improved at a later stage, but needed for type checking
+    MONEY(m -> BigDecimal.valueOf(Double.valueOf(m.replace(',', '.')))),
     STRING(String::valueOf),
     DECIMAL(Double::valueOf),
     BOOLEAN(Boolean::valueOf),

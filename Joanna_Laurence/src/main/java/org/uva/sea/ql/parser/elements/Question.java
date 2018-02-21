@@ -53,13 +53,16 @@ public class Question extends ASTNode {
         this.value = value;
     }
 
-    public void traverse(Traverse traverse) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doQuestion(this);
-        this.variable.traverse(traverse);
-        this.nodeType.traverse(traverse);
+    }
+
+    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
+        this.variable.doTraversal(traverse,traverseType);
+        this.nodeType.doTraversal(traverse,traverseType);
 
         if(this.value != null)
-            this.value.traverse(traverse);
+            this.value.doTraversal(traverse,traverseType);
     }
 
     public Type getType() {

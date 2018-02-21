@@ -1,22 +1,37 @@
-﻿using AntlGrammar;
+﻿using System.Linq;
+using AntlGrammar;
 using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.DomainObjects;
 
 namespace AntlrInterpretor.Logic
 {
-    public class QLVisitor : QLBaseVisitor<IQuestionnaire>
+    public class QlVisitor : QLBaseVisitor<IAstNode>
     {
-        private readonly IQuestionnaire m_questionnaire;
+        private readonly IQuestionnaireAst m_questionnaireAst;
 
-        public QLVisitor()
+        public QlVisitor()
         {
-            m_questionnaire = new Questionnaire();    
+            m_questionnaireAst = new QuestionnaireAst();
         }
-        public override IQuestionnaire VisitQuestionnaire(QLParser.QuestionnaireContext context)
+
+        public override IAstNode VisitQuestionnaire(QLParser.QuestionnaireContext context)
         {
-            var formName = context.FORM_ID().GetText();
-            m_questionnaire.FormName = formName;
-            return m_questionnaire;
+            var formName = context.IDENT().GetText();
+            context.question()
+                .Select(x => Visit(x))
+                .ToList();
+            m_questionnaireAst.FormName = formName;
+            return m_questionnaireAst;
+        }
+
+        public override IAstNode VisitQuestion(QLParser.QuestionContext context)
+        {
+            var name = context.IDENT().GetText();
+            var text = context.STRING().GetText();
+            var type = typeof(bool);
+            var question = new QuestionAst(name, text.Replace("\"", ""), type);
+            m_questionnaireAst.Questions.Add(question);
+            return m_questionnaireAst;
         }
     }
 }

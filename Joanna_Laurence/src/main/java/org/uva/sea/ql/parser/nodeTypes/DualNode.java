@@ -1,6 +1,7 @@
 package org.uva.sea.ql.parser.nodeTypes;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.traverse.Traverse;
 
 public abstract class DualNode extends ASTNode {
@@ -12,10 +13,6 @@ public abstract class DualNode extends ASTNode {
         this.rhs = rhs;
     }
 
-    public void traverseChildren(Traverse traverse) {
-        this.lhs.traverse(traverse);
-        this.rhs.traverse(traverse);
-    }
 
     public ASTNode getLhs() {
         return lhs;
@@ -33,11 +30,16 @@ public abstract class DualNode extends ASTNode {
         this.rhs = rhs;
     }
 
+    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
+        this.lhs.doTraversal(traverse, traverseType);
+        this.rhs.doTraversal(traverse, traverseType);
+    }
+
     /**
      * Traverse over the node
-     * @param traverse How to traverse
+     * @param traverse How to traverseNode
      */
-    public void traverse(Traverse traverse) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doDualNode(this);
     }
 }

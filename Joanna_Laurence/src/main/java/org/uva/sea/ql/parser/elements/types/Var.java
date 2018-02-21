@@ -3,6 +3,7 @@ package org.uva.sea.ql.parser.elements.types;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.traverse.Traverse;
 
 public class Var extends ASTNode {
@@ -30,7 +31,7 @@ public class Var extends ASTNode {
         this.linkedQuestion = linkedQuestion;
     }
 
-    public void traverse(Traverse traverse) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doVar(this);
     }
 

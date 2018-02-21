@@ -29,6 +29,20 @@ DIGIT       : ('0'..'9');
 
 ID          : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
+AND         : '&&';
+OR          : '||';
+LT          : '<';
+LE          : '<=';
+GT          : '>';
+GE          : '>=';
+EQ          : '==';
+NE          : '!=';
+PLUS        : '+';
+MINUS       : '-';
+MULTIPLY    : '*';
+DIVIDE      : '/';
+NOT         : '!';
+
 // Questionnaire language
 form                : 'form' identifier block;
 
@@ -44,26 +58,26 @@ question            : computedQuestion
                     | answerableQuestion
                     ;
 
-computedQuestion    : lbl=label identifier ':' type '=' '(' expr ')';
+computedQuestion    : label identifier ':' type '=' '(' expr ')';
 
-answerableQuestion  : lbl=label identifier ':' type;
+answerableQuestion  : label identifier ':' type;
 
-type                : 'boolean'
-                    | 'string'
-                    | 'integer'
-                    | 'decimal'
-                    | 'money'
-                    | 'date'
+type                : 'boolean' #BooleanType
+                    | 'string'  #StringType
+                    | 'integer' #IntegerType
+                    | 'decimal' #DecimalType
+                    | 'money'   #MoneyType
+                    | 'date'    #DateType
                     ;
 
 label               : STRING;
 
-literal             : BOOLEAN
-                    | STRING
-                    | INTEGER
-                    | DECIMAL
-                    | MONEY
-                    | DATE
+literal             : BOOLEAN   #BooleanLiteral
+                    | STRING    #StringLiteral
+                    | INTEGER   #IntegerLiteral
+                    | DECIMAL   #DecimalLiteral
+                    | MONEY     #MoneyLiteral
+                    | DATE      #DateLiteral
                     ;
 
 identifier          : ID;
@@ -73,25 +87,16 @@ ifThen              : 'if' '(' condition=expr ')' thenStmt=statement;
 ifThenElse          : 'if' '(' condition=expr ')' thenStmt=statement 'else' elseStmt=statement;
 
 // Expressions
-primary	: literal
-		| identifier
-		;
-		
-unExpr	: '+' unExpr
-		| '-' unExpr
-		| '!' unExpr
-		| primary
-		;
-
-mulExpr	: lhs = unExpr (op = ('*'|'/') rhs = unExpr)*;
-addExpr	: lhs = mulExpr (op = ('+'|'-') rhs = mulExpr)*;
-relExpr	: lhs = addExpr (op=('<'|'<='|'>'|'>='|'=='|'!=') rhs = addExpr)*;
-andExpr	: lhs = relExpr ('&&' rhs = relExpr)*;
-orExpr	: lhs = andExpr ('||' rhs = andExpr)*;
-expr		: orExpr
-		| andExpr
-		| relExpr
-		| addExpr
-		| mulExpr
-		| unExpr
-		;
+primary : literal
+        | identifier
+        ;
+        
+expr    : ex = primary                                      #PriExpr
+        | '(' ex = expr ')'                                 #BraExpr
+        |  op = (PLUS|MINUS|NOT) ex = expr                  #PreExpr
+        | lhs = expr op = (MULTIPLY|DIVIDE) rhs = expr      #MulExpr
+        | lhs = expr op = (PLUS|MINUS) rhs = expr           #AddExpr
+        | lhs = expr op = (GE|GT|LT|LE|EQ|NE) rhs = expr    #RelExpr
+        | lhs = expr op = AND rhs = expr                    #AndExpr
+        | lhs = expr op = OR rhs = expr                     #OrExpr
+        ;

@@ -1,14 +1,14 @@
 package data
 
-import common.Identifier
+import common.Name
 import java.util.*
 
 class QuestionTable {
 
-    private val table = HashMap<Identifier, Question>()
+    private val table = HashMap<Name, Question>()
 
-    fun register(identifier: Identifier, question: Question) {
-        table[identifier] = question
+    fun register(name: Name, question: Question) {
+        table[name] = question
     }
 
     fun print(){
@@ -17,19 +17,26 @@ class QuestionTable {
         }
     }
 
+
+    // duplicate question declarations with different types
+    // duplicate labels (warning)
+
+
+
+
     //duplicate labels (warning)
     fun checkForDuplicateQuestions(): List<String> {
-        val distinctQuestions = table.values.distinctBy { question -> question.questionText }
+        val distinctQuestions = table.values.distinctBy { question -> question.label }
 
         val duplicateQuestions = table.values - distinctQuestions
 
-        val duplicateQuestionText =  duplicateQuestions.map { x -> x.questionText }
+        val duplicateQuestionText =  duplicateQuestions.map { x -> x.label }
 
         return duplicateQuestionText
     }
 
     fun checkForDuplicateQuestionsWithDifferentTypes(): List<Any> {
-        val questions = table.values.map { it.questionText to it.value.type }
+        val questions = table.values.map { it.label to it.value.type }
 
         val distinctQuestions = questions.toMap()
 

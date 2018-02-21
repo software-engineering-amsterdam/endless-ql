@@ -1,7 +1,7 @@
-package main.org.uva.ql.ast;
+package org.uva.ql.ast;
 
-import main.org.uva.ql.ast.type.Type;
-import main.org.uva.ql.visitor.StatementVisitor;
+import org.uva.ql.ast.type.Type;
+import org.uva.ql.visitor.StatementVisitor;
 
 public class Question extends Statement {
     private String name;

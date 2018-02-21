@@ -1,11 +1,11 @@
-package main.org.uva.ql.validation;
+package org.uva.ql.validation;
 
-import main.org.uva.ql.ast.Conditional;
-import main.org.uva.ql.ast.Form;
-import main.org.uva.ql.ast.Question;
+import org.uva.ql.ast.Conditional;
+import org.uva.ql.ast.Form;
+import org.uva.ql.ast.Question;
 
-import main.org.uva.ql.ast.Statement;
-import main.org.uva.ql.visitor.StatementVisitor;
+import org.uva.ql.ast.Statement;
+import org.uva.ql.visitor.StatementVisitor;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 
-public class GUI_Main 
+public class GUIMain
 {
 	 
 
@@ -23,7 +23,7 @@ public class GUI_Main
 	private static void Create_GUI_Frame() 
 	{
 	JFrame guiFrame = new JFrame("MainFrame");
-	Radio_Buttons radio = new Radio_Buttons();
+	RadioButtons radio = new RadioButtons();
 
 	guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	guiFrame.setTitle("Questionnaire");

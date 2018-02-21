@@ -16,12 +16,9 @@ import java.io.IOException;
 @Theme("valo")
 public class WebUI extends UI {
 
+    // TODO: DI
     private Ingester ingester = new Ingester();
     private FormInterpreter interpreter = new FormInterpreter();
-
-//    public WebUI(Ingester ingester) {
-//        this.ingester = ingester;
-//    }
 
     @Override
     protected void init(VaadinRequest request) {
@@ -39,15 +36,21 @@ public class WebUI extends UI {
     }
 
     private Layout createLayout(String qlInput) {
-        try {
-            Form form = ingester.toParsedForm("");
-            return interpreter.interpretForm(form);
 
+        // Dummy data
+        return interpreter.interpretForm(null);
+
+        /*
+        try {
+            String tempFileLocation = ""; // Todo
+            Form form = ingester.toParsedForm(tempFileLocation);
+            return interpreter.interpretForm(form);
 
         } catch (IOException e) {
             VerticalLayout error = new VerticalLayout();
             error.addComponent(new Label("Could not parse Questionnaire Language."));
             return error;
         }
+        */
     }
 }

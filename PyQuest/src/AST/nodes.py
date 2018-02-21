@@ -8,6 +8,7 @@ class BaseNode(object):
     def accept(self, visitor):
         visitor.visit(self)
 
+
 # ----------------------------------------------------
 
 class StatementNode(BaseNode):
@@ -16,12 +17,41 @@ class StatementNode(BaseNode):
         super(StatementNode, self).__init__(line_number)
         self.block = block
 
+
 # ----------------------------------------------------
 
 class ExpressionNode(BaseNode):
     def __init__(self, line_number, expression_type):
         super(ExpressionNode, self).__init__(line_number)
         self.expression_type = expression_type
+
+
+class BinaryOperatorNode(ExpressionNode):
+    def __init__(self, line_number, expression_type, operator, lhs, rhs):
+        super(BinaryOperatorNode, self).__init__(line_number, expression_type)
+        self.operator = operator
+        self.lhs = lhs
+        self.rhs = rhs
+
+
+class UnaryOperatorNode(ExpressionNode):
+    def __init__(self, line_number, expression_type, operator, expression):
+        super(UnaryOperatorNode, self).__init__(line_number, expression_type)
+        self.operator = operator
+        self.expression = expression
+
+
+class LiteralNode(ExpressionNode):
+    def __init__(self, line_number, expression_type, name, value):
+        super(LiteralNode, self).__init__(line_number, expression_type)
+        self.name = name
+        self.value = value
+
+
+class VariableNode(ExpressionNode):
+    def __init__(self, line_number, expression_type, name):
+        super(VariableNode, self).__init__(line_number, expression_type)
+        self.name = name
 
 # ----------------------------------------------------
 
@@ -108,11 +138,3 @@ class ExpressionNode(BaseNode):
 #         return self.expression
 #
 # # ----------------------------------------------------
-
-
-
-
-
-
-
-

@@ -1,7 +1,6 @@
 import antlr.QLLexer;
 import antlr.QLParser;
 import model.Form;
-import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import visitor.VisitorForm;
@@ -11,8 +10,8 @@ import java.io.InputStream;
 
 public class FormParser {
 
-    public static Form parseForm(InputStream stream) {
-        try {
+    public static Form parseForm(InputStream stream) throws IOException, IllegalArgumentException, UnsupportedOperationException{
+        try{
             QLLexer lexer = new QLLexer(CharStreams.fromStream(stream));
 
             CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -23,12 +22,10 @@ public class FormParser {
             Form form = visitor.visit(parser.root());
 
             return form;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(0);
-
-            return new Form(null, null);
+        } catch (Exception e){
+            // TODO improve exception
+            System.out.println("exception thrown during parsing");
+            throw new UnsupportedOperationException(e.toString());
         }
     }
 }

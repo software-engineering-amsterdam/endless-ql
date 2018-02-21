@@ -86,9 +86,10 @@ public class Main extends Application {
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "File not readable, check permissions.");
             alert.showAndWait();
-        } catch(IllegalArgumentException e){
+        } catch(UnsupportedOperationException e){
             // TODO Explain why form is invalid
             Alert alert = new Alert(Alert.AlertType.ERROR, "Form invalid");
+            alert.setContentText(e.toString());
             alert.showAndWait();
         }
     }
@@ -221,8 +222,9 @@ public class Main extends Application {
 
     private void changeEditableFields(HashMap<String, Control> fields, Statement statement, boolean inEditableBlock) {
         if (statement.isQuestion()) {
-            Control field = fields.get(((Question) statement).name);
-            field.setVisible(inEditableBlock);
+            Question question = (Question) statement;
+            Control field = fields.get(question.name);
+            field.setDisable(!inEditableBlock || !question.answer.isSettable());
         } else if (statement.isCondition()) {
             changeEditableFields(fields, (Condition) statement, inEditableBlock);
         }

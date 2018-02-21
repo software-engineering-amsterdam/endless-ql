@@ -2,6 +2,7 @@
 
 from .gui_imports import *
 from .scroll_frame_gui import ScrollFrameGui
+from .form_question import Question
 
 # Any formGUI consists of a main frame, a header within this frame, and a scroll frame.
 # The scroll frame can not be changed, only the contents within. 
@@ -15,6 +16,8 @@ class FormGui:
 
 		sfg = ScrollFrameGui(self.frame)
 		self.contents = sfg.get_contents()
+		self.questions = []
+		self.name = header
 
 
 	# Create the header according to the specified layout
@@ -28,6 +31,10 @@ class FormGui:
 		text.pack(anchor=NW)
 		self.header_frame = header_frame
 
+	def add_question(self, question_text="Hi mom", question_type="bool"):
+		q = Question(self.contents, question_text, question_type)
+		self.questions.append(q)
+
 	def get_header(self):
 		return self.header_frame
 
@@ -36,3 +43,12 @@ class FormGui:
 
 	def get_contents(self):
 		return self.contents
+
+	def get_text(self):
+		return self.name
+
+	def get_answers(self):
+		answers = {}
+		for q in self.questions:
+			answers[q.get_text()] = q.get_answer()
+		return answers

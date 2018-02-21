@@ -3,9 +3,9 @@ package nl.uva.se.sc.niro.gui
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javafx.beans.value.{ChangeListener, ObservableValue}
-import javafx.scene.layout._
 import javafx.scene.Parent
 import javafx.scene.control.{CheckBox, DatePicker, Label, TextField}
+import javafx.scene.layout._
 import javafx.util.StringConverter
 
 import nl.uva.se.sc.niro.model.Ast.AnswerType._
@@ -14,6 +14,8 @@ import nl.uva.se.sc.niro.model.Ast._
 object StatementFactory {
 
   def createStatements(gridPane: GridPane, statements: Seq[Statement]): Unit = {
+    gridPane.setHgap(10)
+
     var rowNr = 0
     for (statement <- statements) {
       statement match {

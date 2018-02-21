@@ -139,7 +139,7 @@ class QLFunnel extends QLBaseVisitor {
     public Question visitQuestion(QLParser.QuestionContext ctx) {
         Question question = Question.builder()
                 .name(ctx.NAME().getText())
-                .question(ctx.STRVAL().getText())
+                .question((String) DataType.STRING.getValueOf().apply(ctx.STRVAL().getText()))
                 .dataType(visitDatatype(ctx.datatype()))
 //                As the value is optional, only apply the visitExpression function if there is something to visit.
                 .value(NonNullRun.function(ctx.expression(), this::visitExpression))

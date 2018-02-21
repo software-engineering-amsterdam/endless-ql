@@ -4,5 +4,6 @@ namespace QuestionaireDomain.Entities.API
 {
     public interface IConditionalAst : IAstNode
     {
+        string QuestionName { get; }
     }
 }

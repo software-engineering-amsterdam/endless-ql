@@ -1,85 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Assignment1.Model
+namespace Assignment1
 {
-    class IfStatement : Statement
+    public class IfStatement : Content
     {
-        private Expression _condition;
-        private List<Content> _thenContent;
-        private List<Content> _elseContent;
-        public Expression Condition
-        {
-            get
-            {
-                return _condition;
-            }
-        }
-        public List<Content> ThenContent
-        {
-            get
-            {
-                return _thenContent;
-            }
-        }
-        public List<Content> ElseContent
-        {
-            get
-            {
-                return _elseContent;
-            }
-        }
+        protected readonly Expression Expression;
+        protected readonly List<Content> ThenContent;
 
-        public IfStatement(Expression condition, bool hasElseContent)
+        public IfStatement(Expression expression, List<Content> thenContent)
         {
-            _condition = condition;
-            _thenContent = new List<Content>();
-            if (hasElseContent)
-                _elseContent = new List<Content>();
-        }
-
-        public void AddThenContent(Content newContent)
-        {
-            _thenContent.Add(newContent);
-        }
-
-        public bool AddElseContent(Content newContent)
-        {
-            if (_elseContent == null)
-                return false;
-            _elseContent.Add(newContent);
-            return true;
+            Expression = expression;
+            ThenContent = thenContent;
         }
 
         public override Control CreateControl()
         {
-            FlowLayoutPanel panel = (FlowLayoutPanel)base.CreateControl();
-            if (_condition.Evaluate())
+            return !Expression.Evaluate() ? new Control() : CreatePanel(ThenContent);
+        }
+
+        protected Panel CreatePanel(List<Content> content)
+        {
+            var panel = new FlowLayoutPanel
             {
-                addContentToPanel(panel, _thenContent);
-            }
-            else if (_elseContent.Count > 0)
+                FlowDirection = FlowDirection.TopDown,
+                AutoSize = true
+            };
+            foreach (var c in content)
             {
-                addContentToPanel(panel, _elseContent);
-            }
-            else
-            {
-                panel.Visible = false;
+                panel.Controls.Add(c.CreateControl());
             }
             return panel;
         }
+    }
 
-        private void addContentToPanel(FlowLayoutPanel panel, List<Content> content)
+    public class IfElseStatement : IfStatement
+    {
+        private readonly List<Content> _elseContent;
+
+        public IfElseStatement(Expression expression, List<Content> thenContent, List<Content> elseContent) : base(expression, thenContent)
         {
-            //foreach (Content contentItem in content)
-            foreach (Question question in content.OfType<Question>())
-            {
-                panel.Controls.Add(question.CreateControl());
-            }
+            _elseContent = elseContent;
+        }
+
+        public override Control CreateControl()
+        {
+            return CreatePanel(Expression.Evaluate() ? ThenContent : _elseContent);
         }
     }
 }

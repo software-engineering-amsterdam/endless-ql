@@ -63,7 +63,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\IfStatement.cs" />
-    <Compile Include="Model\Statement.cs" />
     <Compile Include="Parser\QL.cs" />
     <Compile Include="Parser\QLBaseListener.cs" />
     <Compile Include="Parser\QLListener.cs" />

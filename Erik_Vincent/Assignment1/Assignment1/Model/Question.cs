@@ -13,13 +13,13 @@ namespace Assignment1
         public string Label { get; }
         public dynamic Value
         {
-            get => _computed ? _expression.Evaluate() : _value;
+            get => Computed ? Expression.Evaluate() : _value;
             set => _value = value;
         }
 
         private dynamic _value;
-        private readonly Expression _expression;
-        private readonly bool _computed;
+        public Expression Expression;
+        public bool Computed;
 
         public Question(string id, string label)
         {
@@ -27,15 +27,11 @@ namespace Assignment1
             Label = label;
         }
 
-        public Question(string id, string label, Expression expression)
+        public override Control CreateControl() => new Label()
         {
-            Id = id;
-            Label = label;
-            _computed = true;
-            _expression = expression;
-        }
-
-        public virtual Control CreateControl() => new Label() { Text = Label, AutoSize = true };
+            Text = Label,
+            AutoSize = true
+        };
     }
 
     internal class QuestionBool : Question
@@ -45,7 +41,13 @@ namespace Assignment1
             Value = false;
         }
 
-        public override Control CreateControl() => new CheckBox() { Text = Label, AutoSize = true, Checked = Value };
+        public override Control CreateControl() => new CheckBox()
+        {
+            Text = Label,
+            AutoSize = true,
+            Checked = Value,
+            Enabled = !Computed
+        };
     }
 
     internal class QuestionMoney : Question
@@ -57,9 +59,19 @@ namespace Assignment1
 
         public override Control CreateControl()
         {
-            var panel = new FlowLayoutPanel() { AutoSize = true, AutoSizeMode = AutoSizeMode.GrowAndShrink, FlowDirection = FlowDirection.TopDown };
+            var panel = new FlowLayoutPanel()
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                FlowDirection = FlowDirection.TopDown
+
+            };
             panel.Controls.Add(base.CreateControl());
-            panel.Controls.Add(new TextBox() { Text = Value.ToString() });
+            panel.Controls.Add(new TextBox()
+            {
+                Text = Value.ToString(),
+                Enabled = !Computed
+            });
             return panel;
         }
     }

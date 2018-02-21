@@ -27,7 +27,7 @@ export const evaluate = (expression: Expression, state?: FormState): any => {
  */
 export const canBeEvaluated = (expression: Expression, state: FormState) => {
   try {
-    evaluate(expression);
+    evaluate(expression, state);
   } catch (error) {
     console.error(error);
     return false;

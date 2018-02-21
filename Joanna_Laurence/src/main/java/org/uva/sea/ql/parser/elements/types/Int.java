@@ -7,16 +7,16 @@ import org.uva.sea.ql.traverse.Traverse;
 public class Int extends ASTNode {
     private int value;
 
+    public Int(String value) {
+        this.value = Integer.parseInt(value);
+    }
+
     public Int(int value) {
         this.value = value;
     }
 
     public int getValue() {
         return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
     }
 
     public void traverseNode(Traverse traverse, TraverseType traverseType) {

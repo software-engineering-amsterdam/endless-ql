@@ -7,16 +7,16 @@ import org.uva.sea.ql.traverse.Traverse;
 public class Dec extends ASTNode {
     private double value;
 
+    public Dec(String value) {
+        this.value = Double.parseDouble(value);
+    }
+
     public Dec(double value) {
         this.value = value;
     }
 
     public double getValue() {
         return value;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
     }
 
     public void traverseNode(Traverse traverse, TraverseType traverseType) {

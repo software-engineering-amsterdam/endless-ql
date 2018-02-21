@@ -98,6 +98,14 @@ public class FormParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_form_builder; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterForm_builder(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitForm_builder(this);
+		}
 	}
 
 	public final Form_builderContext form_builder() throws RecognitionException {
@@ -143,6 +151,14 @@ public class FormParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_form_data; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterForm_data(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitForm_data(this);
+		}
 	}
 
 	public final Form_dataContext form_data() throws RecognitionException {
@@ -208,6 +224,14 @@ public class FormParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_question_structure; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_structure(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_structure(this);
+		}
 	}
 
 	public final Question_structureContext question_structure() throws RecognitionException {
@@ -275,6 +299,14 @@ public class FormParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_if_structure; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterIf_structure(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitIf_structure(this);
+		}
 	}
 
 	public final If_structureContext if_structure() throws RecognitionException {
@@ -329,6 +361,14 @@ public class FormParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statement_block_structure; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterStatement_block_structure(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitStatement_block_structure(this);
+		}
 	}
 
 	public final Statement_block_structureContext statement_block_structure() throws RecognitionException {
@@ -362,6 +402,14 @@ public class FormParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_question_identifier; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_identifier(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_identifier(this);
+		}
 	}
 
 	public final Question_identifierContext question_identifier() throws RecognitionException {
@@ -391,6 +439,14 @@ public class FormParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_question_variable; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_variable(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_variable(this);
+		}
 	}
 
 	public final Question_variableContext question_variable() throws RecognitionException {
@@ -420,6 +476,14 @@ public class FormParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_question_answer_type; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_answer_type(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_answer_type(this);
+		}
 	}
 
 	public final Question_answer_typeContext question_answer_type() throws RecognitionException {
@@ -460,6 +524,14 @@ public class FormParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_question_answer; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_answer(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_answer(this);
+		}
 	}
 
 	public final Question_answerContext question_answer() throws RecognitionException {

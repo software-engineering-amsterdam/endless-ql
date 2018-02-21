@@ -15,14 +15,15 @@ public class VisitorCondition extends QLBaseVisitor<Condition> {
         VisitorExpression visitorExpression = new VisitorExpression();
         Expression expression = visitorExpression.visit(ctx.expression());
 
-        ArrayList<Statement> elements = new ArrayList<>();
+        // Visit all statements in the conditional body
+        ArrayList<Statement> statements = new ArrayList<>();
         VisitorStatement visitorStatement = new VisitorStatement();
         for (QLParser.StatementContext statementContext : ctx.block().statement()) {
             Statement statement = visitorStatement.visit(statementContext);
-            elements.add(statement);
+            statements.add(statement);
         }
 
-        return new Condition(expression, elements);
+        return new Condition(expression, statements);
     }
 
 }

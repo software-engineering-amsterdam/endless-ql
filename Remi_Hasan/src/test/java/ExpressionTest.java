@@ -38,7 +38,7 @@ public class ExpressionTest {
         Form actualForm = parseForm(fileName);
 
         // Expected
-        ArrayList<Statement> elements = new ArrayList<>() {{
+        ArrayList<Statement> statements = new ArrayList<>() {{
             add(new Question("q1", "Can you give me a boolean?", new ExpressionVariableBoolean(true)));
             add(new Question("q2", "Can you give me a string?", new ExpressionVariableString("hello")));
             add(new Question("q3", "Can you give me a integer?", new ExpressionVariableInteger(1)));
@@ -46,7 +46,7 @@ public class ExpressionTest {
             add(new Question("q5", "Can you give me a decimal?", new ExpressionVariableDecimal(1.2345)));
             add(new Question("q6", "Can you give me a money?", new ExpressionVariableMoney(BigDecimal.valueOf(1.99))));
         }};
-        Form expectedForm = new Form("testForm", elements);
+        Form expectedForm = new Form("testForm", statements);
         assertEquals(expectedForm.toString().trim(), actualForm.toString().trim());
     }
 

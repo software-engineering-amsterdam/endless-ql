@@ -18,10 +18,7 @@ import org.yorichan.formfx.control.option.OptionList;
 import org.yorichan.formfx.field.FieldGroup;
 import org.yorichan.formfx.form.GridForm;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -50,52 +47,60 @@ public class Main extends Application {
     }
 
     private void renderForm(Stage stage, File file) {
-        Form form = parseFormFromFile(file);
+        try{
+            Form form = FormParser.parseForm(new FileInputStream(file));
 
-        if(form == null) {
+            if(form == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "File not found");
+                alert.showAndWait();
+            }
+
+            // Create a group of fields composed of our form questions
+            FieldGroup fieldGroup = createFieldGroup(form);
+
+            // Create our form grid
+            GridForm gridForm = new GridForm(fieldGroup);
+            gridForm.setPadding(new Insets(10, 10, 10, 10));
+            gridForm.setFieldOrientation(Orientation.HORIZONTAL);
+            gridForm.setAlignment(Pos.CENTER);
+
+            // Build file selector
+            Button fileSelectorButton = createFileSelectorButton(stage);
+
+            // Build submit button
+            Button submitButton = createSubmitButton(null);
+
+            // Create box with form and submit button
+            VBox vBox = new VBox(35);
+            vBox.setAlignment(Pos.CENTER);
+            vBox.getChildren().addAll(fileSelectorButton, gridForm, submitButton);
+
+            // Create entire scene
+            Scene scene = new Scene(vBox);
+            stage.setTitle(form.identifier + " form");
+            stage.setScene(scene);
+            stage.show();
+        } catch(FileNotFoundException e){
             Alert alert = new Alert(Alert.AlertType.ERROR, "File not found");
             alert.showAndWait();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "File not readable, check permissions.");
+            alert.showAndWait();
+        } catch(UnsupportedOperationException e){
+            // TODO Explain why form is invalid
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Form invalid");
+            alert.setContentText(e.toString());
+            alert.showAndWait();
         }
-
-        // Create a group of fields composed of our form questions
-        FieldGroup fieldGroup = createFieldGroup(form);
-
-        // Create our form grid
-        GridForm gridForm = new GridForm(fieldGroup);
-        gridForm.setPadding(new Insets(10, 10, 10, 10));
-        gridForm.setFieldOrientation(Orientation.HORIZONTAL);
-        gridForm.setAlignment(Pos.CENTER);
-
-        // Build file selector
-        Button fileSelectorButton = createFileSelectorButton(stage);
-
-        // Build submit button
-        Button submitButton = createSubmitButton(null);
-
-        // Create box with form and submit button
-        VBox vBox = new VBox(35);
-        vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(fileSelectorButton, gridForm, submitButton);
-
-        // Create entire scene
-        Scene scene = new Scene(vBox);
-        stage.setTitle(form.identifier + " form");
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    private Form parseFormFromFile(File file) {
-        InputStream stream;
-        try {
-            stream = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            return null;
-        }
-        return FormParser.parseForm(stream);
     }
 
     private Button createFileSelectorButton(Stage stage) {
+        // Resource path
+        File resourcesFile = new File(getClass().getResource("java/example.ql").getFile());
+        File resourceDirectory = new File(resourcesFile.getParentFile().getAbsolutePath());
+
         final FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(resourceDirectory);
         final Button openButton = new Button("Browse files...");
 
         openButton.setOnAction((event) -> {

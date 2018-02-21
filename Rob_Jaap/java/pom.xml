@@ -22,7 +22,7 @@
         <antlr4.visitor>true</antlr4.visitor>
         <antlr4.listener>true</antlr4.listener>
         <antlr.version>4.7</antlr.version>
-        <start-class>com.chariotit.uva.sc.qdsl.GLApplication</start-class>
+        <start-class>com.chariotit.uva.sc.qdsl.Application</start-class>
         <java.version>1.8</java.version>
     </properties>
 

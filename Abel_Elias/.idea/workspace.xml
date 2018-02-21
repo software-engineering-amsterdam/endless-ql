@@ -2,23 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96ca7f12-a829-4bcc-af68-11d8edc5ec3b" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/parsing/QLBuilder.java" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QL.tokens" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QL.tokens" afterPath="$PROJECT_DIR$/src/parsing/gen/QL.tokens" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLBaseListener.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLBaseListener.java" afterPath="$PROJECT_DIR$/src/parsing/gen/QLBaseListener.java" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLBaseVisitor.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLBaseVisitor.java" afterPath="$PROJECT_DIR$/src/parsing/gen/QLBaseVisitor.java" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLLexer.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLLexer.java" afterPath="$PROJECT_DIR$/src/parsing/gen/QLLexer.java" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLLexer.tokens" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLLexer.tokens" afterPath="$PROJECT_DIR$/src/parsing/gen/QLLexer.tokens" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLListener.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLListener.java" afterPath="$PROJECT_DIR$/src/parsing/gen/QLListener.java" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLParser.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLParser.java" afterPath="$PROJECT_DIR$/src/parsing/gen/QLParser.java" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLVisitor.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/parsing/parsing/QLVisitor.java" afterPath="$PROJECT_DIR$/src/parsing/gen/QLVisitor.java" />
+      <change beforePath="$PROJECT_DIR$/lib/antlr-3.4-complete-no-antlrv2.jar" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
+      <change beforePath="$PROJECT_DIR$/src/parsing/QL.g4" afterPath="$PROJECT_DIR$/src/parsing/QL.g4" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,19 +21,47 @@
       <file leaf-file-name="QL.g4" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/parsing/QL.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="867">
-              <caret line="51" column="23" lean-forward="true" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="23" />
+            <state relative-caret-position="102">
+              <caret line="6" column="77" lean-forward="true" selection-start-line="6" selection-start-column="77" selection-end-line="6" selection-end-column="77" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QLBaseVisitor.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/parsing/gen/QLBaseVisitor.java">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="12" lean-forward="true" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+            <state relative-caret-position="272">
+              <caret line="16" column="51" lean-forward="true" selection-start-line="16" selection-start-column="51" selection-end-line="16" selection-end-column="51" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="exampleForm" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/exampleForm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="2" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="9" selection-end-column="2" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QLBuilder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/parsing/QLBuilder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" column="1" lean-forward="false" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#199#200#0" expanded="true" />
+                <element signature="e#243#244#0" expanded="true" />
+                <element signature="e#322#323#0" expanded="true" />
+                <element signature="e#369#370#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -90,7 +106,6 @@
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/FormQL.g4" />
         <option value="$PROJECT_DIR$/src/QuestionnaireForm.java" />
         <option value="$PROJECT_DIR$/src/FormBuilder.java" />
-        <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/Elias/QL2.g4" />
         <option value="$PROJECT_DIR$/Elias/QL.g4" />
         <option value="$PROJECT_DIR$/resources/exampleForm" />
@@ -99,9 +114,11 @@
         <option value="$PROJECT_DIR$/src/QL.g4" />
         <option value="$PROJECT_DIR$/src/gui/FormBuilder.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/parsing/QL.g4" />
         <option value="$PROJECT_DIR$/src/parsing/parsing/QLBaseVisitor.java" />
         <option value="$PROJECT_DIR$/src/parsing/gen/QLBaseVisitor.java" />
+        <option value="$PROJECT_DIR$/src/parsing/QLBuilder.java" />
+        <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/parsing/QL.g4" />
       </list>
     </option>
   </component>
@@ -138,6 +155,11 @@
             <path>
               <item name="QL" type="b2602c69:ProjectViewProjectNode" />
               <item name="Abel_Elias" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="QL" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Abel_Elias" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -153,10 +175,7 @@
             </path>
             <path>
               <item name="QL" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Abel_Elias" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="parsing" type="462c0819:PsiDirectoryNode" />
-              <item name="gen" type="462c0819:PsiDirectoryNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
@@ -168,15 +187,15 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/parsing" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../libs/antlr-4.7.1-complete.jar!/" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="ql" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="$PROJECT_DIR$/Abel/HelloWorld/HelloWorld.g4::/auto-gen" value="false" />
     <property name="$PROJECT_DIR$/Abel/HelloWorld/HelloWorld.g4::/output-dir" value="$PROJECT_DIR$/Abel" />
     <property name="$PROJECT_DIR$/Abel/HelloWorld/HelloWorld.g4::/gen-listener" value="true" />
@@ -190,19 +209,24 @@
     <property name="$PROJECT_DIR$/src/antlr/grammar/QL.g4::/gen-listener" value="true" />
     <property name="$PROJECT_DIR$/src/antlr/grammar/QL.g4::/gen-visitor" value="true" />
     <property name="$PROJECT_DIR$/src/parsing/QL.g4::/auto-gen" value="false" />
-    <property name="$PROJECT_DIR$/src/parsing/QL.g4::/output-dir" value="C:\dev\uva\endless-ql\Abel_Elias\src\parsing" />
-    <property name="$PROJECT_DIR$/src/parsing/QL.g4::/gen-listener" value="true" />
+    <property name="$PROJECT_DIR$/src/parsing/QL.g4::/output-dir" value="C:\dev\uva\endless-ql\Abel_Elias\src\" />
+    <property name="$PROJECT_DIR$/src/parsing/QL.g4::/gen-listener" value="false" />
     <property name="$PROJECT_DIR$/src/parsing/QL.g4::/gen-visitor" value="true" />
+    <property name="$PROJECT_DIR$/src/antlr/QL.g4::/auto-gen" value="false" />
+    <property name="$PROJECT_DIR$/src/antlr/QL.g4::/output-dir" value="C:\dev\uva\endless-ql\Abel_Elias\src\antlr\parsing" />
+    <property name="$PROJECT_DIR$/src/antlr/QL.g4::/gen-listener" value="true" />
+    <property name="$PROJECT_DIR$/src/antlr/QL.g4::/gen-visitor" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\dev\uva\endless-ql\Abel_Elias\src\parsing\grammar" />
-      <recent name="C:\dev\uva\endless-ql\Abel_Elias\src\antlr\grammar" />
-      <recent name="C:\dev\uva\endless-ql\Abel_Elias\src" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\dev\uva\endless-ql\Abel_Elias\src\antlr\grammar" />
       <recent name="C:\dev\uva\endless-ql\Abel_Elias\Elias" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\dev\uva\endless-ql\Abel_Elias\src\parsing\gen" />
+      <recent name="C:\dev\uva\endless-ql\Abel_Elias\src\parsing\grammar" />
+      <recent name="C:\dev\uva\endless-ql\Abel_Elias\src\antlr\grammar" />
+      <recent name="C:\dev\uva\endless-ql\Abel_Elias\src" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -394,18 +418,19 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17799352" sideWeight="0.69969743" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47707424" sideWeight="0.48957247" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23624596" sideWeight="0.16565809" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32847896" sideWeight="0.505295" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.4979145" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32847896" sideWeight="0.494705" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23624596" sideWeight="0.8343419" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23624596" sideWeight="0.5695915" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16792738" sideWeight="0.49585798" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="ANTLR Preview" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.40291262" sideWeight="0.8895613" order="7" side_tool="false" content_ui="tabs" x="124" y="-847" width="1189" height="464" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16565809" sideWeight="0.49585798" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="ANTLR Preview" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.40291262" sideWeight="0.8895613" order="7" side_tool="false" content_ui="tabs" x="88" y="137" width="1189" height="464" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -416,7 +441,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47707424" sideWeight="0.48957247" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -429,15 +453,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/jacc/QLTokens.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/rats/RunRats.java" />
     <entry file="file://$PROJECT_DIR$/gen/HelloWorldBaseVisitor.java" />
     <entry file="file://$PROJECT_DIR$/gen/HelloWorldLexer.tokens" />
     <entry file="file://$PROJECT_DIR$/gen/HelloWorldLexer.java" />
@@ -472,16 +487,6 @@
     <entry file="file://$PROJECT_DIR$/src/antlr/grammar/QLLexer.java" />
     <entry file="file://$PROJECT_DIR$/src/QL.tokens" />
     <entry file="file://$PROJECT_DIR$/gen/antlr/grammar/QLListener.java" />
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="5" lean-forward="false" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
-          <folding>
-            <element signature="e#136#137#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.classpath" />
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
@@ -541,27 +546,67 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/parsing/gen/QLBaseVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="14" column="20" lean-forward="true" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parsing/gen/QLLexer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="40" lean-forward="false" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parsing/gen/QLParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3217">
+          <caret line="89" column="11" lean-forward="false" selection-start-line="89" selection-start-column="11" selection-end-line="89" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/exampleForm">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="9" column="2" lean-forward="true" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+          <caret line="9" column="2" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="9" selection-end-column="2" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parsing/QLBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="1" lean-forward="false" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#199#200#0" expanded="true" />
+            <element signature="e#243#244#0" expanded="true" />
+            <element signature="e#322#323#0" expanded="true" />
+            <element signature="e#369#370#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/parsing/QL.g4">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="867">
-          <caret line="51" column="23" lean-forward="true" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="23" />
+        <state relative-caret-position="102">
+          <caret line="6" column="77" lean-forward="true" selection-start-line="6" selection-start-column="77" selection-end-line="6" selection-end-column="77" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/parsing/gen/QLBaseVisitor.java">
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="12" lean-forward="true" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
-          <folding />
+        <state relative-caret-position="272">
+          <caret line="16" column="51" lean-forward="true" selection-start-line="16" selection-start-column="51" selection-end-line="16" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -622,7 +667,6 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.3922414" />
               </list>
             </option>
           </splitter-proportions>

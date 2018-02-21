@@ -4,7 +4,7 @@ grammar QL;
 /** Parser rules */
 form : FORM IDENTIFIER block EOF; // form
 
-block : CURLY_BRACE_L NEWLINE ((ifStatement | question | statement) NEWLINE)* CURLY_BRACE_R; // content
+block : CURLY_BRACE_L NEWLINE* ((ifStatement | question | statement) NEWLINE*)* CURLY_BRACE_R NEWLINE*; // content
 
 question : IDENTIFIER COLON STR type;
 
@@ -42,7 +42,13 @@ numberOperator:
 
 ifStatement : IF BRACE_L expression BRACE_R block*;
 
-type:  BOOLEANTYPE | STRINGTYPE | INTEGERTYPE | MONEYTYPE | DATETYPE | DECIMALTYPE ;
+type: BOOLEANTYPE   #booltype
+    | STRINGTYPE    #stringtype
+    | INTEGERTYPE   #integertype
+    | MONEYTYPE     #moneytype
+    | DATETYPE      #datetype
+    | DECIMALTYPE   #decimaltype
+;
 
 /** Lexer rules (tokens)*/
 WS : (' ' | '\t')+ -> channel(HIDDEN);

@@ -1,5 +1,5 @@
 // Generated from C:/dev/uva/endless-ql/Abel_Elias/src/parsing\QL.g4 by ANTLR 4.7
-package parsing.gen;
+package parsing;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -71,9 +71,45 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStatement(QLParser.IfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#type}.
+	 * Visit a parse tree produced by the {@code booltype}
+	 * labeled alternative in {@link QLParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitType(QLParser.TypeContext ctx);
+	T visitBooltype(QLParser.BooltypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code stringtype}
+	 * labeled alternative in {@link QLParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringtype(QLParser.StringtypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code integertype}
+	 * labeled alternative in {@link QLParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIntegertype(QLParser.IntegertypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code moneytype}
+	 * labeled alternative in {@link QLParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMoneytype(QLParser.MoneytypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code datetype}
+	 * labeled alternative in {@link QLParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDatetype(QLParser.DatetypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code decimaltype}
+	 * labeled alternative in {@link QLParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDecimaltype(QLParser.DecimaltypeContext ctx);
 }

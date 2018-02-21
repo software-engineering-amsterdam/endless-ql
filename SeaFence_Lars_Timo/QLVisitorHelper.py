@@ -13,16 +13,26 @@ class QLVisitorHelper(QLVisitor):
         block = ctx.block()
         statements = block.statement()
 
-        #loop over all statements, creating nodes if present
         for statement in statements:
             node = self.visit(statement)
-            print node
             if (node != None):
                 form.statements.append(node)
 
         print(form)
-        return 
 
+        return
+
+
+    # Visit a parse tree produced by QLParser#assignment.
+    def visitAssignment(self, ctx):
+        name = ctx.STR().getText()
+        var = ctx.var().getText()
+        vartype = ctx.vartype().getText()
+        expression = ctx.expression
+        node = AssignmentNode(name, var, vartype, expression)
+        # print(node)
+        return node
+        # return self.visitChildren(ctx)
 
     # Visit a parse tree produced by QLParser#question.
     def visitQuestion(self, ctx):
@@ -37,9 +47,15 @@ class QLVisitorHelper(QLVisitor):
 
     # Visit a parse tree produced by QLParser#conditional.
     def visitConditional(self, ctx):
+        if_condition_node = self.visit(ctx.if_cond())
+        if (ctx.else_cond()):
+            else_condition_node = self.visit(ctx.else_cond())
+            return if_condition_node, else_condition_node
+        # self.visit(if_condition)
+        # else_condition = ctx.else_cond()
+        # if (else_condition != None):
 
-        return self.visitChildren(ctx)
-
+        return if_condition_node
 
     # Visit a parse tree produced by QLParser#expression.
     def visitExpression(self, ctx):
@@ -68,11 +84,17 @@ class QLVisitorHelper(QLVisitor):
 
     # Visit a parse tree produced by QLParser#if_cond.
     def visitIf_cond(self, ctx):
-        # expression = ctx.expression().getText()
-        # node = ifNode(expression)
+        expression = ctx.expression().getText()
+        if_node = IfNode(expression)
+        block = ctx.block()
+        statements = block.statement()
+        for statement in statements:
+            node = self.visit(statement)
+            if (node != None):
+                # print(node)
+                if_node.statements.append(node)
         # print(node)
-        return self.visitChildren(ctx)
-
+        return if_node
 
     # Visit a parse tree produced by QLParser#elif_cond.
     def visitElif_cond(self, ctx):
@@ -81,4 +103,13 @@ class QLVisitorHelper(QLVisitor):
 
     # Visit a parse tree produced by QLParser#else_cond.
     def visitElse_cond(self, ctx):
-        return self.visitChildren(ctx)
+        else_node = ElseNode()
+        block = ctx.block()
+        statements = block.statement()
+        for statement in statements:
+            node = self.visit(statement)
+            if (node != None):
+                # print(node)
+                else_node.statements.append(node)
+        # print(node)
+        return else_node

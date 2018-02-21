@@ -15,5 +15,9 @@ form taxOfficeExample {
       valueResidue: money = 
         (sellingPrice - privateDebt)
   }
+  elif (hasSoldHouse){
+        "Private debts for the sold house:"
+      privateDebt: money
+  }
   
 }

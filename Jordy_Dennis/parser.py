@@ -27,14 +27,14 @@ def main(argv):
 	parser = QLGrammarParser(stream)
 	tree = parser.form()
 
-	g = Gui()
-	g.create_form()
+	#g = Gui()
+	#g.create_form()
 	# g.create_header("Mijn Vragenlijst")
-	g.execute()
+	#g.execute()
 
 	#pass tree to visitor
-	# visitor = Visitor()
-	# visitor.visit(tree)
+	visitor = Visitor()
+	visitor.visit(tree)
 	
 
 if __name__ == '__main__':

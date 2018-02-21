@@ -18,17 +18,9 @@ import static org.junit.Assert.assertEquals;
 
 public class ExpressionTest {
 
-    public Form parseForm(String fileName) throws IOException {
+    private Form parseForm(String fileName) throws IOException {
         InputStream stream = getClass().getResourceAsStream(fileName);
-        System.out.println("stream: " + stream);
-        QLLexer lexer = new QLLexer(CharStreams.fromStream(stream));
-
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        QLParser parser = new QLParser(tokens);
-
-        // Walk it and attach our listener
-        VisitorForm visitor = new VisitorForm();
-        return visitor.visit(parser.root());
+        return FormParser.parseForm(stream);
     }
 
     @Test

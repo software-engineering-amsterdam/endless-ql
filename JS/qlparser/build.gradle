@@ -52,6 +52,10 @@ generateGrammarSource {
 	arguments += ['-no-listener', '-visitor', '-package', 'nl.uva.js.qlparser.antlr']
 }
 
+bootRun {
+	systemProperties "ql.file": "src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql", "ql.mode": "dynamic"
+}
+
 dependencyManagement {
 	imports {
 		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"

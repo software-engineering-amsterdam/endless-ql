@@ -23,5 +23,16 @@ class  QuestionTypeCheckerTests {
         result shouldEqual expectedResult
     }
 
-    
+    @Test
+    fun when_NoDuplicateLabels_Expect_Empty() {
+        val input = hashMapOf(
+                "question1" to Question("Question one?", BooleanValue(false)),
+                "question2" to Question("Question two?", BooleanValue(false))
+        )
+
+        val result = typeChecker.findDuplicateLabels(input)
+
+        result shouldEqual emptyList()
+    }
+
 }

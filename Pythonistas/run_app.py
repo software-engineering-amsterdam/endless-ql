@@ -51,6 +51,7 @@ def main():
     # Run testsuite
     if args.test:
         os.system("pytest")
+        sys.exit(0)
 
     logger.info('Started {} {}'.format(config['program']['name'], config['program']['version']))
 

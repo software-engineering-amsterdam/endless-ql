@@ -3,13 +3,12 @@ package nl.uva.se.sc.niro.parser
 import java.util
 
 import nl.uva.se.sc.niro.model.Ast._
-import nl.uva.se.sc.niro.model.Expressions.Expression.{Answer, BinaryOperation, Expression, UnaryOperation}
-import nl.uva.se.sc.niro.model.Expressions.answers.{BooleanAnswer, DecAnswer, IntAnswer, Reference}
-import nl.uva.se.sc.niro.model.Operators.{BinaryOperator, UnaryOperator}
-import org.antlr.v4.runtime.{CharStream, CommonTokenStream}
-import org.apache.logging.log4j.Level
+import nl.uva.se.sc.niro.model.Expressions.Expression._
+import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, DecAnswer, IntAnswer }
+import nl.uva.se.sc.niro.model.Operators.{ BinaryOperator, UnaryOperator }
+import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
 import org.apache.logging.log4j.scala.Logging
-import ql.{QLBaseVisitor, QLLexer, QLParser}
+import ql.{ QLBaseVisitor, QLLexer, QLParser }
 
 import scala.collection.JavaConverters
 

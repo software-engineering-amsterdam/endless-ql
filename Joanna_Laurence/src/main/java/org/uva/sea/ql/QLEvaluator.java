@@ -1,6 +1,7 @@
 package org.uva.sea.ql;
 
 import org.uva.sea.ql.evaluate.Evaluator;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.*;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class QLEvaluator {
 
     private QLExprEvaluate exprEvaluate;
 
-    public QLEvaluator(Map<String, Evaluator> evaluator) {
+    public QLEvaluator(Map<NodeType, Evaluator> evaluator) {
         this.exprEvaluate = new QLExprEvaluate(evaluator);
     }
 

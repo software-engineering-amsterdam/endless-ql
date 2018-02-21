@@ -19,9 +19,17 @@ public class Condition extends ASTNode implements QuestionContainerNode {
         this.expression = expression;
     }
 
+    /**
+     *
+     * @param exprEvaluate
+     * @return
+     */
     public List<Question> evalQuestions(QLExprEvaluate exprEvaluate) {
         List<Question> questions = new ArrayList<>();
         Bool conditionValue = (Bool)exprEvaluate.getValue(expression);
+        if(exprEvaluate.isNotComplete() )
+            return new ArrayList<>();
+
         if(conditionValue.isTrue()) {
             for(ASTNode node : this.statements.getStatementList()) {
                 questions.addAll(((QuestionContainerNode)node).evalQuestions(exprEvaluate));

@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.uva.sea.ql.evaluate.Evaluator;
 import org.uva.sea.ql.evaluate.EvaluatorBoolean;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 
 public class QLGui {
 
-    Map<String, Evaluator> evaluators = new HashMap<>();
+    Map<NodeType, Evaluator> evaluators = new HashMap<>();
 
     /**
      * Generate the GUI
@@ -49,10 +50,10 @@ public class QLGui {
 
     /**
      * Add a type evaluator
-     * @param evaluatorName
+     * @param NodeType
      * @param evaluator
      */
-    public void addEvaluator(String evaluatorName, Evaluator evaluator) {
-        this.evaluators.put(evaluatorName, evaluator);
+    public void addEvaluator(NodeType evaluatorType, Evaluator evaluator) {
+        this.evaluators.put(evaluatorType, evaluator);
     }
 }

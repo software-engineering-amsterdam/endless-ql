@@ -1,6 +1,7 @@
 package org.uva.sea.ql;
 
 import org.uva.sea.ql.evaluate.Evaluator;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.expressions.*;
@@ -24,15 +25,17 @@ public class QLExprEvaluate extends Traverse {
 
     private Stack<ASTNode> stack = new Stack<>();
 
-    private Map<String, Evaluator> evaluator;
+    private Map<NodeType, Evaluator> evaluator;
 
     private boolean error = false;
+
+    private boolean notComplete = false;
 
     /**
      * Constructor
      * @param evaluator The supported operations
      */
-    public QLExprEvaluate(Map<String, Evaluator> evaluator) {
+    public QLExprEvaluate(Map<NodeType, Evaluator> evaluator) {
         this.evaluator = evaluator;
     }
 
@@ -42,9 +45,16 @@ public class QLExprEvaluate extends Traverse {
      */
     public ASTNode getValue(ASTNode node) {
         node.doTraversal(this, TraverseType.BOTTOM_UP);
-        return this.error ? null : this.stack.pop();
+        return this.error || this.notComplete ? null : this.stack.pop();
     }
 
+    public boolean isError() {
+        return error;
+    }
+
+    public boolean isNotComplete() {
+        return notComplete;
+    }
 
     /**
      * Get evaluator for a type
@@ -77,13 +87,38 @@ public class QLExprEvaluate extends Traverse {
     }
 
     /**
+     *
+     * @param minimalStackSize
+     * @return
+     */
+    private boolean stateIsValid(int minimalStackSize) {
+        if(this.notComplete || this.error)
+            return false;
+
+        if(this.stack.size() < minimalStackSize) {
+            this.error = true;
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Pop two elements from the stack, make them compatible. Get the evaluator. Execute the
      * operation that is passed
      * @param doubleOperator Operation that has to be done
      */
     private void doDoubleOperator(ApplyDualNode<Evaluator, ASTNode, ASTNode> doubleOperator) {
+        if(!this.stateIsValid(2))
+            return;
+
         ASTNode second = stack.pop();
         ASTNode first = stack.pop();
+        if(second == null || first == null) {
+            this.notComplete = true;
+            return;
+        }
+
         first = makeTypeCompatible(first, second);
         second = makeTypeCompatible(second, first);
         Type typeName = first.getType();
@@ -97,7 +132,15 @@ public class QLExprEvaluate extends Traverse {
      * @param singleOperator Operation that has to be done
      */
     private void doSingleOperator(ApplySingleNode<Evaluator, ASTNode> singleOperator) {
+        if(!this.stateIsValid(1))
+            return;
+
         ASTNode node = stack.pop();
+        if(node == null) {
+            this.notComplete = true;
+            return;
+        }
+
         Type typeName = node.getType();
         Evaluator eval = getEvaluator(typeName);
         singleOperator.apply(eval, node);

@@ -11,6 +11,7 @@ import org.uva.sea.ql.evaluate.Evaluator;
 import org.uva.sea.ql.evaluate.EvaluatorBoolean;
 import org.uva.sea.ql.evaluate.EvaluatorDecimal;
 import org.uva.sea.ql.evaluate.EvaluatorInteger;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
 import sun.misc.IOUtils;
@@ -27,15 +28,15 @@ public class QLEvaluatorTest extends TestCase {
     private int correctQuestions;
 
     private static TestFileHelper testFileHelper = new TestFileHelper();
-    private Map<String, Evaluator> evaluators = new HashMap<>();
+    private Map<NodeType, Evaluator> evaluators = new HashMap<>();
 
     public QLEvaluatorTest(String testFile, int correctQuestions) {
         this.testFile = testFile;
         this.correctQuestions = correctQuestions;
 
-        evaluators.put("boolean", new EvaluatorBoolean());
-        evaluators.put("decimal", new EvaluatorDecimal());
-        evaluators.put("integer", new EvaluatorInteger());
+        evaluators.put(NodeType.BOOLEAN, new EvaluatorBoolean());
+        evaluators.put(NodeType.DECIMAL, new EvaluatorDecimal());
+        evaluators.put(NodeType.INTEGER, new EvaluatorInteger());
 
     }
 

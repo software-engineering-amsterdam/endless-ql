@@ -62,7 +62,7 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 		// Make sure the identifier is not already defined in the inner most scope
 		if (identifierResolver.isInCurrentScope(token.getLexeme())) {
 			// TODO - create an error handler
-			System.err.printf("[IdentifierResolver] line: %s, column: %s: Duplicated indetifier: %s\n",
+			System.err.printf("[IdentifierResolver] line: %s, column: %s: Duplicated identifier: %s\n",
 						token.getLine(),
 						token.getColumn(),
 						token.getLexeme());

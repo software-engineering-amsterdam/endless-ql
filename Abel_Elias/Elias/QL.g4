@@ -3,11 +3,6 @@ grammar QL;
 /*
  * Parser Rules
  */
-
-questionnaire:
-    form*
-;
-
 form:
     FORM identifier block EOF
 ;
@@ -50,10 +45,10 @@ FORM:
     'form'
 ;
 
-WHITESPACE : ' ' -> skip
+//WHITESPACE : ' ' -> skip;
 
 MONEYTYPE:
-    'money' | 'currency'
+    ('money' | 'currency')
 ;
 
 DECIMALTYPE:
@@ -75,8 +70,6 @@ STRINGTYPE:
 BOOLEANTYPE:
     'boolean'
 ;
-
-
 
 LETTER:
     'A'..'Z' | 'a'..'z'

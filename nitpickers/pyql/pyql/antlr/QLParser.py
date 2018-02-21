@@ -2,12 +2,12 @@
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
-from typing import TextIO
+from typing.io import TextIO
 import sys
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3%")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3&")
         buf.write("\u0089\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\3\2\3\2\3\2\3\2\3")
@@ -20,8 +20,8 @@ def serializedATN():
         buf.write("n\13\f\3\r\3\r\3\r\7\rs\n\r\f\r\16\rv\13\r\3\16\3\16\5")
         buf.write("\16z\n\16\3\17\3\17\3\20\3\20\3\21\3\21\3\21\3\21\3\21")
         buf.write("\3\21\3\21\5\21\u0087\n\21\3\21\2\2\22\2\4\6\b\n\f\16")
-        buf.write("\20\22\24\26\30\32\34\36 \2\7\3\2\21\26\3\2\27\30\3\2")
-        buf.write("\31\32\3\2 $\3\2\27\32\2\u0088\2\"\3\2\2\2\4(\3\2\2\2")
+        buf.write("\20\22\24\26\30\32\34\36 \2\7\3\2\22\27\3\2\30\31\3\2")
+        buf.write("\32\33\3\2!%\3\2\30\33\2\u0088\2\"\3\2\2\2\4(\3\2\2\2")
         buf.write("\6\61\3\2\2\2\b\67\3\2\2\2\n9\3\2\2\2\fD\3\2\2\2\16M\3")
         buf.write("\2\2\2\20O\3\2\2\2\22W\3\2\2\2\24_\3\2\2\2\26g\3\2\2\2")
         buf.write("\30o\3\2\2\2\32y\3\2\2\2\34{\3\2\2\2\36}\3\2\2\2 \u0086")
@@ -31,23 +31,23 @@ def serializedATN():
         buf.write("\5\b\5\2\61\60\3\2\2\2\62\63\3\2\2\2\63\61\3\2\2\2\63")
         buf.write("\64\3\2\2\2\64\7\3\2\2\2\658\5\n\6\2\668\5\4\3\2\67\65")
         buf.write("\3\2\2\2\67\66\3\2\2\28\t\3\2\2\29:\5\36\20\2:;\7\t\2")
-        buf.write("\2;<\7#\2\2<=\5\f\7\2=\13\3\2\2\2>E\7\n\2\2?E\7\13\2\2")
-        buf.write("@E\7\f\2\2AE\7\r\2\2BE\7\r\2\2CE\5 \21\2D>\3\2\2\2D?\3")
-        buf.write("\2\2\2D@\3\2\2\2DA\3\2\2\2DB\3\2\2\2DC\3\2\2\2E\r\3\2")
-        buf.write("\2\2FG\7\16\2\2GN\5\16\b\2HN\5\20\t\2IJ\7\7\2\2JK\5\16")
-        buf.write("\b\2KL\7\b\2\2LN\3\2\2\2MF\3\2\2\2MH\3\2\2\2MI\3\2\2\2")
-        buf.write("N\17\3\2\2\2OT\5\22\n\2PQ\7\17\2\2QS\5\22\n\2RP\3\2\2")
-        buf.write("\2SV\3\2\2\2TR\3\2\2\2TU\3\2\2\2U\21\3\2\2\2VT\3\2\2\2")
-        buf.write("W\\\5\24\13\2XY\7\20\2\2Y[\5\24\13\2ZX\3\2\2\2[^\3\2\2")
-        buf.write("\2\\Z\3\2\2\2\\]\3\2\2\2]\23\3\2\2\2^\\\3\2\2\2_d\5\26")
-        buf.write("\f\2`a\t\2\2\2ac\5\26\f\2b`\3\2\2\2cf\3\2\2\2db\3\2\2")
-        buf.write("\2de\3\2\2\2e\25\3\2\2\2fd\3\2\2\2gl\5\30\r\2hi\t\3\2")
-        buf.write("\2ik\5\30\r\2jh\3\2\2\2kn\3\2\2\2lj\3\2\2\2lm\3\2\2\2")
-        buf.write("m\27\3\2\2\2nl\3\2\2\2ot\5\32\16\2pq\t\4\2\2qs\5\32\16")
-        buf.write("\2rp\3\2\2\2sv\3\2\2\2tr\3\2\2\2tu\3\2\2\2u\31\3\2\2\2")
-        buf.write("vt\3\2\2\2wz\5\34\17\2xz\5\36\20\2yw\3\2\2\2yx\3\2\2\2")
-        buf.write("z\33\3\2\2\2{|\t\5\2\2|\35\3\2\2\2}~\7%\2\2~\37\3\2\2")
-        buf.write("\2\177\u0087\7\33\2\2\u0080\u0081\7\34\2\2\u0081\u0082")
+        buf.write("\2;<\7$\2\2<=\5\f\7\2=\13\3\2\2\2>E\7\n\2\2?E\7\13\2\2")
+        buf.write("@E\7\f\2\2AE\7\r\2\2BE\7\16\2\2CE\5 \21\2D>\3\2\2\2D?")
+        buf.write("\3\2\2\2D@\3\2\2\2DA\3\2\2\2DB\3\2\2\2DC\3\2\2\2E\r\3")
+        buf.write("\2\2\2FG\7\17\2\2GN\5\16\b\2HN\5\20\t\2IJ\7\7\2\2JK\5")
+        buf.write("\16\b\2KL\7\b\2\2LN\3\2\2\2MF\3\2\2\2MH\3\2\2\2MI\3\2")
+        buf.write("\2\2N\17\3\2\2\2OT\5\22\n\2PQ\7\20\2\2QS\5\22\n\2RP\3")
+        buf.write("\2\2\2SV\3\2\2\2TR\3\2\2\2TU\3\2\2\2U\21\3\2\2\2VT\3\2")
+        buf.write("\2\2W\\\5\24\13\2XY\7\21\2\2Y[\5\24\13\2ZX\3\2\2\2[^\3")
+        buf.write("\2\2\2\\Z\3\2\2\2\\]\3\2\2\2]\23\3\2\2\2^\\\3\2\2\2_d")
+        buf.write("\5\26\f\2`a\t\2\2\2ac\5\26\f\2b`\3\2\2\2cf\3\2\2\2db\3")
+        buf.write("\2\2\2de\3\2\2\2e\25\3\2\2\2fd\3\2\2\2gl\5\30\r\2hi\t")
+        buf.write("\3\2\2ik\5\30\r\2jh\3\2\2\2kn\3\2\2\2lj\3\2\2\2lm\3\2")
+        buf.write("\2\2m\27\3\2\2\2nl\3\2\2\2ot\5\32\16\2pq\t\4\2\2qs\5\32")
+        buf.write("\16\2rp\3\2\2\2sv\3\2\2\2tr\3\2\2\2tu\3\2\2\2u\31\3\2")
+        buf.write("\2\2vt\3\2\2\2wz\5\34\17\2xz\5\36\20\2yw\3\2\2\2yx\3\2")
+        buf.write("\2\2z\33\3\2\2\2{|\t\5\2\2|\35\3\2\2\2}~\7&\2\2~\37\3")
+        buf.write("\2\2\2\177\u0087\7\34\2\2\u0080\u0081\7\35\2\2\u0081\u0082")
         buf.write("\5\36\20\2\u0082\u0083\t\6\2\2\u0083\u0084\5\36\20\2\u0084")
         buf.write("\u0085\7\b\2\2\u0085\u0087\3\2\2\2\u0086\177\3\2\2\2\u0086")
         buf.write("\u0080\3\2\2\2\u0087!\3\2\2\2\r\63\67DMT\\dlty\u0086")
@@ -66,9 +66,9 @@ class QLParser ( Parser ):
 
     literalNames = [ "<INVALID>", "'form'", "'{'", "'}'", "'if'", "'('", 
                      "')'", "':'", "'boolean'", "'string'", "'integer'", 
-                     "'date'", "'!'", "'||'", "'&&'", "'<'", "'<='", "'>'", 
-                     "'>='", "'=='", "'!='", "'+'", "'-'", "'*'", "'/'", 
-                     "'money'", "'money('" ]
+                     "'date'", "'decimal'", "'!'", "'||'", "'&&'", "'<'", 
+                     "'<='", "'>'", "'>='", "'=='", "'!='", "'+'", "'-'", 
+                     "'*'", "'/'", "'money'", "'money('" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
@@ -76,16 +76,16 @@ class QLParser ( Parser ):
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "WHITESPACE", 
-                      "COMMENT", "LINE_COMMENT", "MONEY", "DECIMAL", "INT", 
-                      "STR", "BOOL", "IDENTIFIER" ]
+                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "WHITESPACE", "COMMENT", "LINE_COMMENT", "MONEY", 
+                      "DECIMAL", "INT", "STR", "BOOL", "IDENTIFIER" ]
 
     RULE_form = 0
     RULE_conditional_block = 1
     RULE_block = 2
     RULE_statement = 3
-    RULE_quest = 4
-    RULE_quest_type = 5
+    RULE_question = 4
+    RULE_question_type = 5
     RULE_expression = 6
     RULE_orExpression = 7
     RULE_andExpression = 8
@@ -97,8 +97,8 @@ class QLParser ( Parser ):
     RULE_identifier = 14
     RULE_money = 15
 
-    ruleNames =  [ "form", "conditional_block", "block", "statement", "quest", 
-                   "quest_type", "expression", "orExpression", "andExpression", 
+    ruleNames =  [ "form", "conditional_block", "block", "statement", "question", 
+                   "question_type", "expression", "orExpression", "andExpression", 
                    "relExpression", "addExpression", "mulExpression", "unExpression", 
                    "literal", "identifier", "money" ]
 
@@ -129,15 +129,16 @@ class QLParser ( Parser ):
     T__23=24
     T__24=25
     T__25=26
-    WHITESPACE=27
-    COMMENT=28
-    LINE_COMMENT=29
-    MONEY=30
-    DECIMAL=31
-    INT=32
-    STR=33
-    BOOL=34
-    IDENTIFIER=35
+    T__26=27
+    WHITESPACE=28
+    COMMENT=29
+    LINE_COMMENT=30
+    MONEY=31
+    DECIMAL=32
+    INT=33
+    STR=34
+    BOOL=35
+    IDENTIFIER=36
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -171,6 +172,12 @@ class QLParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitForm" ):
                 listener.exitForm(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitForm" ):
+                return visitor.visitForm(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -223,6 +230,12 @@ class QLParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitConditional_block" ):
                 listener.exitConditional_block(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConditional_block" ):
+                return visitor.visitConditional_block(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -279,6 +292,12 @@ class QLParser ( Parser ):
             if hasattr( listener, "exitBlock" ):
                 listener.exitBlock(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBlock" ):
+                return visitor.visitBlock(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -315,8 +334,8 @@ class QLParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def quest(self):
-            return self.getTypedRuleContext(QLParser.QuestContext,0)
+        def question(self):
+            return self.getTypedRuleContext(QLParser.QuestionContext,0)
 
 
         def conditional_block(self):
@@ -334,6 +353,12 @@ class QLParser ( Parser ):
             if hasattr( listener, "exitStatement" ):
                 listener.exitStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStatement" ):
+                return visitor.visitStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -348,7 +373,7 @@ class QLParser ( Parser ):
             if token in [QLParser.IDENTIFIER]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 51
-                self.quest()
+                self.question()
                 pass
             elif token in [QLParser.T__3]:
                 self.enterOuterAlt(localctx, 2)
@@ -366,7 +391,7 @@ class QLParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class QuestContext(ParserRuleContext):
+    class QuestionContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -379,28 +404,34 @@ class QLParser ( Parser ):
         def STR(self):
             return self.getToken(QLParser.STR, 0)
 
-        def quest_type(self):
-            return self.getTypedRuleContext(QLParser.Quest_typeContext,0)
+        def question_type(self):
+            return self.getTypedRuleContext(QLParser.Question_typeContext,0)
 
 
         def getRuleIndex(self):
-            return QLParser.RULE_quest
+            return QLParser.RULE_question
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterQuest" ):
-                listener.enterQuest(self)
+            if hasattr( listener, "enterQuestion" ):
+                listener.enterQuestion(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitQuest" ):
-                listener.exitQuest(self)
+            if hasattr( listener, "exitQuestion" ):
+                listener.exitQuestion(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitQuestion" ):
+                return visitor.visitQuestion(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
 
-    def quest(self):
+    def question(self):
 
-        localctx = QLParser.QuestContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 8, self.RULE_quest)
+        localctx = QLParser.QuestionContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 8, self.RULE_question)
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 55
@@ -410,7 +441,7 @@ class QLParser ( Parser ):
             self.state = 57
             self.match(QLParser.STR)
             self.state = 58
-            self.quest_type()
+            self.question_type()
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -419,7 +450,7 @@ class QLParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class Quest_typeContext(ParserRuleContext):
+    class Question_typeContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -430,63 +461,65 @@ class QLParser ( Parser ):
 
 
         def getRuleIndex(self):
-            return QLParser.RULE_quest_type
+            return QLParser.RULE_question_type
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterQuest_type" ):
-                listener.enterQuest_type(self)
+            if hasattr( listener, "enterQuestion_type" ):
+                listener.enterQuestion_type(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitQuest_type" ):
-                listener.exitQuest_type(self)
+            if hasattr( listener, "exitQuestion_type" ):
+                listener.exitQuestion_type(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitQuestion_type" ):
+                return visitor.visitQuestion_type(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
 
-    def quest_type(self):
+    def question_type(self):
 
-        localctx = QLParser.Quest_typeContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 10, self.RULE_quest_type)
+        localctx = QLParser.Question_typeContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 10, self.RULE_question_type)
         try:
             self.state = 66
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,2,self._ctx)
-            if la_ == 1:
+            token = self._input.LA(1)
+            if token in [QLParser.T__7]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 60
                 self.match(QLParser.T__7)
                 pass
-
-            elif la_ == 2:
+            elif token in [QLParser.T__8]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 61
                 self.match(QLParser.T__8)
                 pass
-
-            elif la_ == 3:
+            elif token in [QLParser.T__9]:
                 self.enterOuterAlt(localctx, 3)
                 self.state = 62
                 self.match(QLParser.T__9)
                 pass
-
-            elif la_ == 4:
+            elif token in [QLParser.T__10]:
                 self.enterOuterAlt(localctx, 4)
                 self.state = 63
                 self.match(QLParser.T__10)
                 pass
-
-            elif la_ == 5:
+            elif token in [QLParser.T__11]:
                 self.enterOuterAlt(localctx, 5)
                 self.state = 64
-                self.match(QLParser.T__10)
+                self.match(QLParser.T__11)
                 pass
-
-            elif la_ == 6:
+            elif token in [QLParser.T__25, QLParser.T__26]:
                 self.enterOuterAlt(localctx, 6)
                 self.state = 65
                 self.money()
                 pass
-
+            else:
+                raise NoViableAltException(self)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -521,6 +554,12 @@ class QLParser ( Parser ):
             if hasattr( listener, "exitExpression" ):
                 listener.exitExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpression" ):
+                return visitor.visitExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -532,10 +571,10 @@ class QLParser ( Parser ):
             self.state = 75
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [QLParser.T__11]:
+            if token in [QLParser.T__12]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 68
-                self.match(QLParser.T__11)
+                self.match(QLParser.T__12)
                 self.state = 69
                 self.expression()
                 pass
@@ -588,6 +627,12 @@ class QLParser ( Parser ):
             if hasattr( listener, "exitOrExpression" ):
                 listener.exitOrExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitOrExpression" ):
+                return visitor.visitOrExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -603,9 +648,9 @@ class QLParser ( Parser ):
             self.state = 82
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==QLParser.T__12:
+            while _la==QLParser.T__13:
                 self.state = 78
-                self.match(QLParser.T__12)
+                self.match(QLParser.T__13)
                 self.state = 79
                 self.andExpression()
                 self.state = 84
@@ -644,6 +689,12 @@ class QLParser ( Parser ):
             if hasattr( listener, "exitAndExpression" ):
                 listener.exitAndExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAndExpression" ):
+                return visitor.visitAndExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -659,9 +710,9 @@ class QLParser ( Parser ):
             self.state = 90
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==QLParser.T__13:
+            while _la==QLParser.T__14:
                 self.state = 86
-                self.match(QLParser.T__13)
+                self.match(QLParser.T__14)
                 self.state = 87
                 self.relExpression()
                 self.state = 92
@@ -700,6 +751,12 @@ class QLParser ( Parser ):
             if hasattr( listener, "exitRelExpression" ):
                 listener.exitRelExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRelExpression" ):
+                return visitor.visitRelExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -715,10 +772,10 @@ class QLParser ( Parser ):
             self.state = 98
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLParser.T__14) | (1 << QLParser.T__15) | (1 << QLParser.T__16) | (1 << QLParser.T__17) | (1 << QLParser.T__18) | (1 << QLParser.T__19))) != 0):
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLParser.T__15) | (1 << QLParser.T__16) | (1 << QLParser.T__17) | (1 << QLParser.T__18) | (1 << QLParser.T__19) | (1 << QLParser.T__20))) != 0):
                 self.state = 94
                 _la = self._input.LA(1)
-                if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLParser.T__14) | (1 << QLParser.T__15) | (1 << QLParser.T__16) | (1 << QLParser.T__17) | (1 << QLParser.T__18) | (1 << QLParser.T__19))) != 0)):
+                if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLParser.T__15) | (1 << QLParser.T__16) | (1 << QLParser.T__17) | (1 << QLParser.T__18) | (1 << QLParser.T__19) | (1 << QLParser.T__20))) != 0)):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
@@ -761,6 +818,12 @@ class QLParser ( Parser ):
             if hasattr( listener, "exitAddExpression" ):
                 listener.exitAddExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAddExpression" ):
+                return visitor.visitAddExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -776,10 +839,10 @@ class QLParser ( Parser ):
             self.state = 106
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==QLParser.T__20 or _la==QLParser.T__21:
+            while _la==QLParser.T__21 or _la==QLParser.T__22:
                 self.state = 102
                 _la = self._input.LA(1)
-                if not(_la==QLParser.T__20 or _la==QLParser.T__21):
+                if not(_la==QLParser.T__21 or _la==QLParser.T__22):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
@@ -822,6 +885,12 @@ class QLParser ( Parser ):
             if hasattr( listener, "exitMulExpression" ):
                 listener.exitMulExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMulExpression" ):
+                return visitor.visitMulExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -837,10 +906,10 @@ class QLParser ( Parser ):
             self.state = 114
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==QLParser.T__22 or _la==QLParser.T__23:
+            while _la==QLParser.T__23 or _la==QLParser.T__24:
                 self.state = 110
                 _la = self._input.LA(1)
-                if not(_la==QLParser.T__22 or _la==QLParser.T__23):
+                if not(_la==QLParser.T__23 or _la==QLParser.T__24):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
@@ -883,6 +952,12 @@ class QLParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUnExpression" ):
                 listener.exitUnExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnExpression" ):
+                return visitor.visitUnExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -948,6 +1023,12 @@ class QLParser ( Parser ):
             if hasattr( listener, "exitLiteral" ):
                 listener.exitLiteral(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLiteral" ):
+                return visitor.visitLiteral(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -993,6 +1074,12 @@ class QLParser ( Parser ):
             if hasattr( listener, "exitIdentifier" ):
                 listener.exitIdentifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIdentifier" ):
+                return visitor.visitIdentifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1036,6 +1123,12 @@ class QLParser ( Parser ):
             if hasattr( listener, "exitMoney" ):
                 listener.exitMoney(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMoney" ):
+                return visitor.visitMoney(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1048,20 +1141,20 @@ class QLParser ( Parser ):
             self.state = 132
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [QLParser.T__24]:
+            if token in [QLParser.T__25]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 125
-                self.match(QLParser.T__24)
+                self.match(QLParser.T__25)
                 pass
-            elif token in [QLParser.T__25]:
+            elif token in [QLParser.T__26]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 126
-                self.match(QLParser.T__25)
+                self.match(QLParser.T__26)
                 self.state = 127
                 self.identifier()
                 self.state = 128
                 _la = self._input.LA(1)
-                if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLParser.T__20) | (1 << QLParser.T__21) | (1 << QLParser.T__22) | (1 << QLParser.T__23))) != 0)):
+                if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLParser.T__21) | (1 << QLParser.T__22) | (1 << QLParser.T__23) | (1 << QLParser.T__24))) != 0)):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)

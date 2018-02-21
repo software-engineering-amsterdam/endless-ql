@@ -1,4 +1,6 @@
-﻿using QL_Vizualizer.Controllers;
+﻿using QL_Parser;
+using QL_Parser.AST.Nodes;
+using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Widgets;
 using QL_Vizualizer.Widgets.Types;
@@ -17,6 +19,7 @@ namespace QL_Vizualizer
         private void parseButtonClick(object sender, System.EventArgs e)
         {
             CreateDummyForm();
+            FormNode node = QLParserHelper.Parse(textBox1.Text);
         }
 
         private void CreateDummyForm()

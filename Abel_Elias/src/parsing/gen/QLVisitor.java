@@ -1,5 +1,5 @@
 // Generated from C:/dev/uva/endless-ql/Abel_Elias/src/parsing\QL.g4 by ANTLR 4.7
-package parsing;
+package parsing.gen;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -35,17 +35,117 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(QLParser.StatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#expression}.
+	 * Visit a parse tree produced by the {@code identifier}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpression(QLParser.ExpressionContext ctx);
+	T visitIdentifier(QLParser.IdentifierContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#operator}.
+	 * Visit a parse tree produced by the {@code boolExpression}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitOperator(QLParser.OperatorContext ctx);
+	T visitBoolExpression(QLParser.BoolExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code numExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumExpression(QLParser.NumExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code string}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString(QLParser.StringContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code boolIdentifier}
+	 * labeled alternative in {@link QLParser#booleanExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolIdentifier(QLParser.BoolIdentifierContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code notOperation}
+	 * labeled alternative in {@link QLParser#booleanExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNotOperation(QLParser.NotOperationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code compOperation}
+	 * labeled alternative in {@link QLParser#booleanExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompOperation(QLParser.CompOperationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code boolBraces}
+	 * labeled alternative in {@link QLParser#booleanExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolBraces(QLParser.BoolBracesContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code boolValue}
+	 * labeled alternative in {@link QLParser#booleanExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolValue(QLParser.BoolValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code boolOperation}
+	 * labeled alternative in {@link QLParser#booleanExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolOperation(QLParser.BoolOperationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code intValue}
+	 * labeled alternative in {@link QLParser#numberExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIntValue(QLParser.IntValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code numIdentifier}
+	 * labeled alternative in {@link QLParser#numberExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumIdentifier(QLParser.NumIdentifierContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code numBraces}
+	 * labeled alternative in {@link QLParser#numberExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumBraces(QLParser.NumBracesContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code moneyValue}
+	 * labeled alternative in {@link QLParser#numberExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMoneyValue(QLParser.MoneyValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code decValue}
+	 * labeled alternative in {@link QLParser#numberExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDecValue(QLParser.DecValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code numOperation}
+	 * labeled alternative in {@link QLParser#numberExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumOperation(QLParser.NumOperationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#boolOperator}.
 	 * @param ctx the parse tree

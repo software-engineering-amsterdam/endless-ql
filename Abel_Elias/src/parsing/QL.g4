@@ -10,22 +10,26 @@ question : IDENTIFIER COLON STR type;
 
 statement : IDENTIFIER COLON STR type expression;
 
-expression:
-    BOOL |
-    MON |
-    INT |
-    DEC |
-    STR |
-    IDENTIFIER |
-    BRACE_L expression BRACE_R |
-    expression operator expression |
-    NOT expression
+expression: IDENTIFIER #identifier
+    | booleanExpression #boolExpression
+    | numberExpression #numExpression
+    | STR #string
 ;
 
-operator:
-    boolOperator |
-    comparisonOperator |
-    numberOperator
+booleanExpression: IDENTIFIER #boolIdentifier
+    | left=booleanExpression boolOperator right=booleanExpression #boolOperation
+    | BRACE_L booleanExpression BRACE_R #boolBraces
+    | left=numberExpression comparisonOperator right=numberExpression #compOperation
+    | NOT booleanExpression #notOperation
+    | BOOL #boolValue
+;
+
+numberExpression: IDENTIFIER #numIdentifier
+    | BRACE_L numberExpression BRACE_R  #numBraces
+    | left=numberExpression numberOperator right=numberExpression #numOperation
+    | MON #moneyValue
+    | INT #intValue
+    | DEC #decValue
 ;
 
 boolOperator:
@@ -40,7 +44,7 @@ numberOperator:
    ADD | SUB | MUL | DIV | REM
 ;
 
-ifStatement : IF BRACE_L expression BRACE_R block*;
+ifStatement : IF BRACE_L booleanExpression BRACE_R block*;
 
 type: BOOLEANTYPE   #booltype
     | STRINGTYPE    #stringtype
@@ -100,5 +104,5 @@ STR : '"' .*? '"';
 INT : ('-')? DIGIT+;
 BOOL : ('true' | 'false');
 MON : DIGIT+ '.' DIGIT DIGIT;
-DEC : DIGIT+  '.'  DIGIT+;
+DEC : ('-')? DIGIT+  '.'  DIGIT+;
 NEWLINE : '\n';

@@ -1,13 +1,13 @@
 package classes;
 
-public class Config {
-    private String currencyCode = EUR;
+public class Configuration {
+    private String currencyCode = "EUR";
 
-    String getCurrencyCode(){
+    public String getCurrencyCode(){
         return currencyCode;
     }
 
-    void setCurrencyCode(String currencyCode){
+    public void setCurrencyCode(String currencyCode){
         this.currencyCode = currencyCode;
     }
 }

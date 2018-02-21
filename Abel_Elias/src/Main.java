@@ -1,13 +1,13 @@
-import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
-import parsing.QLBuilder;
-import parsing.gen.QLLexer;
-import parsing.gen.QLParser;
+import parsing.AST_Visitor;
+import parsing.gen.*;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Main {
     public void parseAndBuild(InputStream inputStream){
@@ -17,8 +17,15 @@ public class Main {
             QLParser parser = new QLParser(tokens);
             ParseTree tree = parser.form();
 
-            QLBuilder builder = new QLBuilder();
-            builder.visit(tree);
+            AST_Visitor builder = new AST_Visitor();
+            HashMap memory = (HashMap) builder.visit(tree);
+
+            Iterator it = memory.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry)it.next();
+                System.out.println(pair.getKey() + " = " + pair.getValue());
+                it.remove();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

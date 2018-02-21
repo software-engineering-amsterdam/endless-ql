@@ -8,6 +8,5 @@ namespace QL_Parser.Models
 {
     public class Section
     {
-        public String ID { get; set; }
     }
 }

@@ -1,22 +1,37 @@
 package ql.ast.statement;
 
-import ql.ast.Identifier;
 import ql.ast.expression.Expression;
+import ql.ast.expression.Identifier;
 import ql.ast.type.Type;
+import ql.visitors.interfaces.ExpressionVisitable;
+import ql.visitors.interfaces.ExpressionVisitor;
+import ql.visitors.interfaces.StatementVisitor;
 
-public class ComputedQuestion extends Question {
+public class ComputedQuestion extends Question implements ExpressionVisitable {
     
-    private String label;
-    private Identifier identifier;
-    private Type type;
-    private Expression expression;
-    
-    public ComputedQuestion(String label, Identifier identifier, Type type, Expression expression) {
-        this.label = label;
-        this.identifier = identifier;
-        this.type = type;
-        this.expression = expression;
+    private Expression expr;
+
+    public ComputedQuestion(String label, Identifier id, Type type, Expression expr) {
+        super(label, id, type);
+        this.expr = expr;
     }
 
+    public Expression getExpression() {
+        return expr;
+    }
+
+    @Override
+    public String toString() {
+        return "\"" + label.toString() + "\" " + id.toString() + ": " + type.toString() + "( " + expr.toString() + " )";
+    }
     
+    @Override
+    public void accept(StatementVisitor visitor) {
+        visitor.visit(this);
+    }
+    
+    @Override
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
+    }
 }

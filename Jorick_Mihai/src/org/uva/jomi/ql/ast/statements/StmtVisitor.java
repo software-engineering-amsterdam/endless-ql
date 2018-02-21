@@ -8,7 +8,7 @@ import org.uva.jomi.ql.ast.QLType;
 import org.uva.jomi.ql.ast.analysis.IdentifierResolver;
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.expressions.ExprVisitor;
-import org.uva.jomi.ql.ast.expressions.IndentifierExpr;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
 import org.uva.jomi.ql.parser.antlr.*;
 import org.uva.jomi.ql.parser.antlr.QLParser.CommandContext;
 
@@ -27,7 +27,7 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 	// Builds a Form statement using the parser context.
 	@Override public Stmt visitFormStmt(QLParser.FormStmtContext ctx) {
 		QLToken token = new QLToken(ctx.IDENTIFIER().getSymbol());
-		IndentifierExpr identifier = new IndentifierExpr(token);
+		IdentifierExpr identifier = new IdentifierExpr(token);
 		BlockStmt blockStmt = (BlockStmt) visitBlockStmt(ctx.blockStmt());
 		return new FormStmt(identifier, blockStmt);
 	}
@@ -57,15 +57,18 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 		QLType type = QLType.getType(ctx.TYPE().getText());
 
 		// Set the token and type of the identifier in order for it to match the question type.
-		IndentifierExpr identifier = new IndentifierExpr(token, type);
+		IdentifierExpr identifier = new IdentifierExpr(token, type);
 
 		// Make sure the identifier is not already defined in the inner most scope
 		if (identifierResolver.isInCurrentScope(token.getLexeme())) {
 			// TODO - create an error handler
-			System.err.printf("[IdentifierResolver] line: %s, column: %s: Duplicated indetifier: %s\n",
+			System.err.printf("[IdentifierResolver] line: %s, column: %s: Duplicated identifier: %s\n",
 						token.getLine(),
 						token.getColumn(),
 						token.getLexeme());
+
+			// Increment the number of identifier resolution errors
+			identifierResolver.incrementNumberOfErrors();
 
 			// TODO - Consider if returning null is a good alternative.
 			return null;
@@ -77,6 +80,7 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 		// Check if the question has an expression
 		if (ctx.expression() != null) {
 			Expr expression = ctx.expression().accept(exprVisitor);
+			identifier.setUndefined(false);
 			return new ComputedQuestionStmt(identifier, label, type, expression);
 		}
 

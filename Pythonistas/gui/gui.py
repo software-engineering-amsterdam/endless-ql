@@ -1,109 +1,149 @@
 from PyQt5.QtWidgets import *
 import sys
+import parse
+import ast
 
-class Window(QWidget):
+from parse.ql_parser import *
+
+'''
+This file contains two widget windows. If this file is run, the first, InputWindow, opens.
+In this window QL text can be typed or pasted. When pressing the "Parse" button, this text
+is parsed, and a second window, OutputWindow opens. The Outputwindow contains an interactive
+ questionnaire, encoded by the input text.
+'''
+
+
+class InputWindow(QWidget):
     def __init__(self):
-        super(Window,self).__init__()
-        self.setGeometry(300, 300, 300, 200)
-        self.setWindowTitle('testing')
+        super(InputWindow,self).__init__()
+        self.layout = QGridLayout()
+        self.layout.setSpacing(10)
+
+        self.inputwindow()
+        self.parsebutton()
+        self.quitbutton()
+        self.setWindowTitle('QL parser')
+        self.setGeometry(300, 300, 350, 300)
+
+        self.setLayout(self.layout)
+
+    def inputwindow(self):
+        titlelabel = QLabel("Input your QL text here")
+        self.layout.addWidget(titlelabel,0,0)
+
+        self.textbox = QTextEdit()
+        self.layout.addWidget(self.textbox,1,0,10,5)
+
+    def parsebutton(self):
+        parsebtn = QPushButton('Parse', self)
+        parsebtn.clicked.connect(self.parse)
+        parsebtn.resize(parsebtn.sizeHint())
+        self.layout.addWidget(parsebtn, 12, 0)
+
+    def parse(self):
+        self.output = OutputWindow()
+        tokens = ql_lex(self.textbox.toPlainText())
+        result = ql_parser(tokens)
+
+        self.buildGui(result,self.output)
+
+        self.output.quitbutton()
+        self.output.submitbutton()
+
+        self.output.show()
+
+    def buildGui(self, node, screen):
+        if type(node) is parse.combinators.Result:
+            self.buildGui(node.value, screen)
+        elif type(node) is ast.ql_ast.FormStatement:
+            self.buildGui(node.form, screen)
+        elif type(node) is ast.ql_ast.CompoundStatement:
+            self.buildGui(node.first, screen)
+            self.buildGui(node.second, screen)
+        elif type(node) is ast.ql_ast.AssignStatement:
+            screen.putQuestion(node.question, node.data_type)
+
+    def quitbutton(self):
+        qbtn = QPushButton('Quit', self)
+        qbtn.clicked.connect(QApplication.instance().quit)
+        qbtn.resize(qbtn.sizeHint())
+        self.layout.addWidget(qbtn, 12, 4)
+
+
+class OutputWindow(QWidget):
+    def __init__(self):
+        super(OutputWindow,self).__init__()
         self.layout = QGridLayout()
         self.setLayout(self.layout)
         self.row = 0
+        self.radioquestions = 0
+        self.btn_grp = []
+        self.questionnumber = 0
+        self.questions = [] # Sorted list of questions
+        self.answers = []   # Sorted list of corresponding answers
 
-        # Add questions and buttons to the window.
-        # self.putinbuttons()
-        self.putquestion("Cake?")
-        self.putquestion("male?")
+        self.setWindowTitle('Questionnaire')
 
-
-        qbtn = QPushButton('Quit', self)
-        qbtn.clicked.connect(QApplication.instance().quit)
-        qbtn.resize(qbtn.sizeHint())
-        self.layout.addWidget(qbtn, self.row,2)
-
-    def putquestion(self,question):
-        buttonquestion = QLabel(question)
+    def putQuestion(self,question, datatype='boolean',choices = ['Yes','No']):
+        ''' Example function that adds a question and correscponding answer buttons to a gui
+        '''
+        buttonquestion = QLabel(question.strip('"\''))
         self.layout.addWidget(buttonquestion, self.row, 0)
+        self.questions.append(question)
+        self.answers.append('undefined')
+        self.questionnumber += 1
 
-        radiobutton1 = QRadioButton("Yes")
-        # radiobutton.toggled.connect(self.on_radio_button_toggled)
-        self.layout.addWidget(radiobutton1, self.row, 1)
+        if datatype == 'boolean' or datatype == 'multiplechoice': # assuming multiple choice will be required
+            self.btn_grp.append(QButtonGroup())
+            for choice in range(len(choices)):
+                radiobutton = QRadioButton(choices[choice])
+                radiobutton.answer = choices[choice]
+                radiobutton.question = question
 
-        radiobutton2 = QRadioButton("No")
-        radiobutton2.setChecked(True)
-        # radiobutton.toggled.connect(self.on_radio_button_toggled)
-        self.layout.addWidget(radiobutton2, self.row, 2)
+                self.layout.addWidget(radiobutton, self.row, choice+1)
+                radiobutton.toggled.connect(self.writeanswer)
 
-        self.btn_grp = QButtonGroup()
-        self.btn_grp.setExclusive(True)
-        self.btn_grp.addButton(radiobutton1)
-        self.btn_grp.addButton(radiobutton2)
+                self.btn_grp[self.radioquestions].setExclusive(True)
+                self.btn_grp[self.radioquestions].addButton(radiobutton)
+            self.radioquestions += 1
+
+        elif datatype == 'Num':
+            self.textbox = QLineEdit(self)
+            # self.textbox.resize(280, 40)
+            self.layout.addWidget(self.textbox, self.row, 1)
 
         self.row += 1
 
-    def putinbuttons(self):
+    def writeanswer(self):
+        sender = self.sender()
+        self.answers[self.questions.index(sender.question)] = sender.answer
 
-        sometext = QLabel("Some text")
-        self.layout.addWidget(sometext,0,0)
 
-        sometext = QLabel("cake or pie")
-        self.layout.addWidget(sometext,1,0)
-
-        radiobutton1 = QRadioButton("Brazil")
-        radiobutton1.setChecked(True)
-        radiobutton1.country = "Brazil"
-        # radiobutton.toggled.connect(self.on_radio_button_toggled)
-        self.layout.addWidget(radiobutton1, 0, 1)
-
-        radiobutton2 = QRadioButton("Argentina")
-        radiobutton2.country = "Argentina"
-        # radiobutton.toggled.connect(self.on_radio_button_toggled)
-        self.layout.addWidget(radiobutton2, 0, 2)
-
-        radiobutton3 = QRadioButton("Ecuador")
-        radiobutton3.country = "Ecuador"
-        # radiobutton.toggled.connect(self.on_radio_button_toggled)
-        self.layout.addWidget(radiobutton3, 0, 3)
-
-        self.btn_grp = QButtonGroup()
-        self.btn_grp.setExclusive(True)
-        self.btn_grp.addButton(radiobutton1)
-        self.btn_grp.addButton(radiobutton2)
-        self.btn_grp.addButton(radiobutton3)
-
-        pie = QRadioButton("pie")
-        pie.setChecked(True)
-        pie.country = "Brazil"
-        # radiobutton.toggled.connect(self.on_radio_button_toggled)
-        self.layout.addWidget(pie, 1, 1)
-
-        cake = QRadioButton("cake")
-        cake.country = "Argentina"
-        # radiobutton.toggled.connect(self.on_radio_button_toggled)
-        self.layout.addWidget(cake, 1, 2)
-
-        self.btn_grp = QButtonGroup()
-        self.btn_grp.setExclusive(True)
-        self.btn_grp.addButton(pie)
-        self.btn_grp.addButton(cake)
-
+    def quitbutton(self):
         qbtn = QPushButton('Quit', self)
         qbtn.clicked.connect(QApplication.instance().quit)
         qbtn.resize(qbtn.sizeHint())
-        self.layout.addWidget(qbtn, 2,3)
+        self.layout.addWidget(qbtn, self.row,3)
+        # self.row +=1
 
+    def submitbutton(self):
+        smbtn = QPushButton('Submit', self)
+        smbtn.clicked.connect(self.submit)
+        smbtn.resize(smbtn.sizeHint())
+        self.layout.addWidget(smbtn, self.row,2)
 
-    # def on_radio_button_toggled(self):
-    #     radiobutton = self.sender()
-    #
-    #     if radiobutton.isChecked():
-    #         print("Selected country is %s" % (radiobutton.country))
+    def submit(self):
+        file = open( 'output.txt', 'w')
+
+        for i in range(len(self.questions)):
+            file.write(self.questions[i]+str(self.answers[i])+"\n")
+        file.close()
+
 
 if __name__ == '__main__':
-
     app = QApplication(sys.argv)
 
-    screen = Window()
+    screen = InputWindow()
     screen.show()
 
     sys.exit(app.exec_())

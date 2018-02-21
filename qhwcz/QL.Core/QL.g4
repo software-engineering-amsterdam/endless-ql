@@ -4,30 +4,30 @@ grammar QL;
 *  Parser Rules
 */
 
-form: FORM LABEL BEGIN (statements)? END;
+form: FORM LABEL LCB block RCB;
 
-statements: question (statements)?
-		  | IF expresion BEGIN (statements)? END (ELSE BEGIN (statements)? END)?;
+block: (statement)*;
 
+statement: question
+		 | conditional;
 
-question: description name type (ASSIGNMENT expresion)?;
+question: description name type (ASSIGNMENT expression)?;
 
-expresion: LB expresion RB
+conditional: IF expression LCB block RCB (ELSE LCB block RCB)?;
+
+expression: LB expression RB
          | LABEL
 		 | literal
-		 | unOp expresion
-		 | expresion binOp expresion;
+		 | unOp expression
+		 | expression binOp expression;
 
 description: STR;
-
 name: LABEL COLON;
-
 type: TYPEBOOL | TYPEINT | TYPEDEC | TYPESTR | TYPEDATE | TYPEMONEY;
 
-literal: BOOL | INT | DEC | STRING | MONEY; // | DATE
+literal: BOOL | INT | DEC | STR | MONEY | DATE;
 
 binOp: GT | ST | GE | SE | NE | AND | OR | EQ | PLUS | MINUS | DIVIDE | MULTIPLY;
-
 unOp: MINUS | PLUS | NOT;
 
 /* 
@@ -53,11 +53,10 @@ MINUS:    '-';
 DIVIDE:   '/';
 MULTIPLY: '*';
 
-// Terms and labels
+// Terms
 FORM:	'form';
 IF:		'if';
 ELSE:	'else';
-LABEL:	('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 // Types
 TYPEBOOL:   'boolean';
@@ -67,20 +66,28 @@ TYPESTR:    'string';
 TYPEDATE:   'date';
 TYPEMONEY:  'money';
 
-BEGIN:		'{';
-END:		'}';
+LCB:		'{';
+RCB:		'}';
 LB:			'(';
 RB:			')';
 COLON:		':';
 ASSIGNMENT: '=';
 
+// Fragments
+fragment UPPERCASE: ('A'..'Z');
+fragment LOWERCASE: ('a'..'z');
+fragment NUMBER:	('0'..'9');
+
 // Literals
-BOOL: ('true'|'false');
-INT:  ('0'..'9')+;
-DEC:  ('0'..'9')+ (.[0-9][0-9]?)?;
+BOOL: ('true'|'false'); 
+INT:  NUMBER+;
+DEC:  INT '.' (NUMBER (NUMBER)?)?;
 STR:  '"' .*? '"';
-//DATE: 
-MONEY: ('0'..'9')+ '.' ('0'..'9') ('0'..'9');
+DATE: INT '-' INT '-' INT;
+MONEY: INT '.' NUMBER NUMBER;
+
+// Labels (Placed last, because it will match with other keywords)
+LABEL:	(LOWERCASE|UPPERCASE)(LOWERCASE|UPPERCASE|NUMBER|'_')*;
 
 // Hidden
 WHITESPACE:	    (' ' | '\t' | '\n' | '\r') -> skip;

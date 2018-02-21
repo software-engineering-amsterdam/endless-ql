@@ -1,7 +1,8 @@
 package nl.uva.js.qlparser.logic;
 
+import nl.uva.js.qlparser.antlr.QLBaseVisitor;
 import nl.uva.js.qlparser.antlr.QLParser;
-import nl.uva.js.qlparser.antlr.QLVisitor;
+import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.models.Form;
 import nl.uva.js.qlparser.models.dataexpressions.*;
 import nl.uva.js.qlparser.models.enums.*;
@@ -9,16 +10,16 @@ import nl.uva.js.qlparser.models.formexpressions.FormExpression;
 import nl.uva.js.qlparser.models.formexpressions.IfBlock;
 import nl.uva.js.qlparser.models.formexpressions.Question;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-class QLFunnel implements QLVisitor {
+class QLFunnel extends QLBaseVisitor {
+    private Map<String, DataType> typeRegistry = new HashMap<>();
 
     @Override
     public DataType visitDatatype(QLParser.DatatypeContext ctx) {
@@ -40,9 +41,12 @@ class QLFunnel implements QLVisitor {
             value = visitBoolval(ctx.boolval());
         } else {
             type = Arrays.stream(DataType.values())
-                    .filter(dt -> dt.toString().startsWith(getTokenType(ctx).substring(0, 3)))
+//                    Match datatype of the value with any of the defined datatypes.
+//                    Should antlr decide to make up value types that are not available as enum (which it should not,
+//                    as the value types are defined in the grammar), the Java Optional class with throw an exception.
+                    .filter(dataType -> dataType.toString().startsWith(getTokenType(ctx).substring(0, 3)))
                     .findFirst()
-                    .orElse(null);
+                    .get();
 
             value = type.getValueOf().apply(ctx.getText());
         }
@@ -108,15 +112,16 @@ class QLFunnel implements QLVisitor {
         if (ctx.NAME() != null)
             return Variable.builder()
                     .name(ctx.NAME().getText())
+                    .dataType(typeRegistry.get(ctx.NAME().getText()))
                     .build();
-
-        else if (ctx.value() != null)
-            return visitValue(ctx.value());
 
         else if (ctx.NOT() != null)
             return Negation.builder()
                     .expression(visitExpression(ctx.expression(0)))
                     .build();
+
+        else if (ctx.value() != null)
+            return visitValue(ctx.value());
 
         else if (ctx.oper() != null)
             return Combinator.builder()
@@ -125,43 +130,33 @@ class QLFunnel implements QLVisitor {
                     .right(visitExpression(ctx.expression(1)))
                     .build();
 
+//        The only possibility left here is an expression between parentheses. These do not matter for the models,
+//        so just return the embedded expression
         else return visitExpression(ctx.expression(0));
     }
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
-        return Question.builder()
+        Question question = Question.builder()
                 .name(ctx.NAME().getText())
-                .question(ctx.STRVAL().getText())
+                .question((String) DataType.STRING.getValueOf().apply(ctx.STRVAL().getText()))
                 .dataType(visitDatatype(ctx.datatype()))
-                .value((ctx.expression() == null)? null : visitExpression(ctx.expression()))
+//                As the value is optional, only apply the visitExpression function if there is something to visit.
+                .value(NonNullRun.function(ctx.expression(), this::visitExpression))
                 .build();
+
+        typeRegistry.putIfAbsent(question.getName(), question.getDataType());
+
+        return question;
     }
 
+    /*
+     * Get the name of the token that was parsed.
+     * This is particularly interesting for operators, as they can immediately be parsed to the corresponding enum.
+     */
     private String getTokenType(ParserRuleContext ctx) {
         return QLParser.VOCABULARY.getSymbolicName(
                 ((TerminalNode) ctx.children.get(0)).getSymbol().getType()
         );
-    }
-
-
-    @Override
-    public Object visit(ParseTree tree) {
-        return null;
-    }
-
-    @Override
-    public Object visitChildren(RuleNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visitTerminal(TerminalNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visitErrorNode(ErrorNode node) {
-        return null;
     }
 }

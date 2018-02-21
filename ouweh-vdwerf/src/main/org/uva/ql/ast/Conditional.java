@@ -1,5 +1,8 @@
 package main.org.uva.ql.ast;
 
+
+import main.org.uva.ql.ast.expression.Expression;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Conditional extends Statement{
@@ -17,6 +20,7 @@ public class Conditional extends Statement{
     public Conditional (Expression condition, List<Statement> ifSide) {
         this.condition = condition;
         this.ifSide = ifSide;
+        this.elseSide = new ArrayList<>();
     }
 
     @Override

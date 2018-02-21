@@ -15,4 +15,9 @@ public class Value implements DataExpression {
     public void toRepresentation() {
 
     }
+
+    @Override
+    public DataType checkAndReturnType() {
+        return dataType;
+    }
 }

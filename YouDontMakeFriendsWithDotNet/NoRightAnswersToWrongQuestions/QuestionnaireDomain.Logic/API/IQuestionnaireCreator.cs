@@ -1,9 +1,9 @@
-﻿using QuestionaireDomain.Entities.API;
+﻿using System;
 
 namespace QuestionnaireDomain.Logic.API
 {
     public interface IQuestionnaireCreator
     {
-        IQuestionnaire Create(string definition);
+        Guid Create(string definition);
     }
 }

@@ -8,9 +8,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-public class Radio_Buttons extends JPanel implements ActionListener {
+public class RadioButtons extends JPanel implements ActionListener {
 	
-	public Radio_Buttons(){
+	public RadioButtons(){
 		
 	}
 	

@@ -1,9 +1,9 @@
 import antlr.QLLexer;
 import antlr.QLParser;
 import expression.*;
-import model.BlockElement;
 import model.Form;
 import model.Question;
+import model.Statement;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;
@@ -38,7 +38,7 @@ public class ExpressionTest {
         Form actualForm = parseForm(fileName);
 
         // Expected
-        ArrayList<BlockElement> elements = new ArrayList<>() {{
+        ArrayList<Statement> elements = new ArrayList<>() {{
             add(new Question("q1", "Can you give me a boolean?", new ExpressionVariableBoolean(true)));
             add(new Question("q2", "Can you give me a string?", new ExpressionVariableString("hello")));
             add(new Question("q3", "Can you give me a integer?", new ExpressionVariableInteger(1)));

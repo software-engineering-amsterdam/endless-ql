@@ -9,10 +9,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
-import model.BlockElement;
 import model.Condition;
 import model.Form;
 import model.Question;
+import model.Statement;
 import org.yorichan.formfx.control.Input;
 import org.yorichan.formfx.control.option.OptionList;
 import org.yorichan.formfx.field.FieldGroup;
@@ -111,18 +111,18 @@ public class Main extends Application {
     private FieldGroup createFieldGroup(Form form) {
         FieldGroup fieldGroup = new FieldGroup();
         HashMap<String, Control> fields = new HashMap<>();
-        addQuestionsToFieldGroup(fields, form, form.elements, fieldGroup);
-        changeEditableFields(fields, form.elements, true);
+        addQuestionsToFieldGroup(fields, form, form.statements, fieldGroup);
+        changeEditableFields(fields, form.statements, true);
 
         return fieldGroup;
     }
 
-    private void addQuestionsToFieldGroup(HashMap<String, Control> fields, Form form, ArrayList<BlockElement> elements, FieldGroup fieldGroup) {
-        for (BlockElement blockElement : elements) {
-            if (blockElement.isQuestion()) {
-                addQuestionsToFieldGroup(fields, form, (Question) blockElement, fieldGroup);
-            } else if (blockElement.isCondition()) {
-                addQuestionsToFieldGroup(fields, form, ((Condition) blockElement).elements, fieldGroup);
+    private void addQuestionsToFieldGroup(HashMap<String, Control> fields, Form form, ArrayList<Statement> statements, FieldGroup fieldGroup) {
+        for (Statement statement : statements) {
+            if (statement.isQuestion()) {
+                addQuestionsToFieldGroup(fields, form, (Question) statement, fieldGroup);
+            } else if (statement.isCondition()) {
+                addQuestionsToFieldGroup(fields, form, ((Condition) statement).statements, fieldGroup);
             }
         }
     }
@@ -163,7 +163,7 @@ public class Main extends Application {
             if (input.isEditable() || !input.isDisabled()) {
                 // Change answer
                 changeQuestionAnswer(input, question);
-                changeEditableFields(fields, form.elements, true);
+                changeEditableFields(fields, form.statements, true);
             }
         });
 
@@ -186,7 +186,7 @@ public class Main extends Application {
         input.setOnKeyTyped(e -> {
             if (input.isEditable()) {
                 changeQuestionAnswer(input, question);
-                changeEditableFields(fields, form.elements, true);
+                changeEditableFields(fields, form.statements, true);
             }
 
 //                    System.out.println(form);
@@ -209,25 +209,25 @@ public class Main extends Application {
         question.answer.setValue(input.getSelectionModel().getSelectedItem().toString());
     }
 
-    private void changeEditableFields(HashMap<String, Control> fields, ArrayList<BlockElement> elements, boolean inEditableBlock) {
-        for (BlockElement blockElement : elements) {
-            changeEditableFields(fields, blockElement, inEditableBlock);
+    private void changeEditableFields(HashMap<String, Control> fields, ArrayList<Statement> statements, boolean inEditableBlock) {
+        for (Statement statement : statements) {
+            changeEditableFields(fields, statement, inEditableBlock);
         }
     }
 
-    private void changeEditableFields(HashMap<String, Control> fields, BlockElement blockElement, boolean inEditableBlock) {
-        if (blockElement.isQuestion()) {
-            Control field = fields.get(((Question) blockElement).name);
+    private void changeEditableFields(HashMap<String, Control> fields, Statement statement, boolean inEditableBlock) {
+        if (statement.isQuestion()) {
+            Control field = fields.get(((Question) statement).name);
             field.setVisible(inEditableBlock);
-        } else if (blockElement.isCondition()) {
-            changeEditableFields(fields, (Condition) blockElement, inEditableBlock);
+        } else if (statement.isCondition()) {
+            changeEditableFields(fields, (Condition) statement, inEditableBlock);
         }
     }
 
     private void changeEditableFields(HashMap<String, Control> fields, Condition condition, boolean inEditableBlock) {
         boolean inEditableSubBlock = inEditableBlock && Boolean.TRUE.equals(condition.condition.evaluate().get());
-        for (BlockElement blockElement : condition.elements) {
-            changeEditableFields(fields, blockElement, inEditableSubBlock);
+        for (Statement statement : condition.statements) {
+            changeEditableFields(fields, statement, inEditableSubBlock);
         }
     }
 
@@ -242,17 +242,17 @@ public class Main extends Application {
         return submitButton;
     }
 
-    private void printQuestionAnswers(BlockElement blockElement) {
-        if (blockElement.isQuestion()) {
-            printQuestionAnswers((Question) blockElement);
-        } else if (blockElement.isCondition()) {
-            printQuestionAnswers((Condition) blockElement);
+    private void printQuestionAnswers(Statement statement) {
+        if (statement.isQuestion()) {
+            printQuestionAnswers((Question) statement);
+        } else if (statement.isCondition()) {
+            printQuestionAnswers((Condition) statement);
         }
     }
 
     private void printQuestionAnswers(Condition condition) {
-        for (BlockElement blockElement : condition.elements) {
-            printQuestionAnswers(blockElement);
+        for (Statement statement : condition.statements) {
+            printQuestionAnswers(statement);
         }
     }
 

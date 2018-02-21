@@ -53,7 +53,7 @@ generateGrammarSource {
 }
 
 bootRun {
-	systemProperties "ql.file": "src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql", "ql.mode": "dynamic"
+	systemProperties "ql.file": "ql_input.jsql", "ql.mode": "file"
 }
 
 dependencyManagement {

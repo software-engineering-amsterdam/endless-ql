@@ -30,7 +30,7 @@ class UnaryExpression(Expression):
         return self._expression
 
 
-class BinaryExpression(Expression):
+class BinaryExpression(Expression): # abstract
 
     def __init__(self, location: code_location.CodeLocation, left, right):
         super().__init__(location)

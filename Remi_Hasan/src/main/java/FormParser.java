@@ -11,24 +11,16 @@ import java.io.InputStream;
 
 public class FormParser {
 
-    public static Form parseForm(InputStream stream) {
-        try {
-            QLLexer lexer = new QLLexer(CharStreams.fromStream(stream));
+    public static Form parseForm(InputStream stream) throws IOException, IllegalArgumentException{
+        QLLexer lexer = new QLLexer(CharStreams.fromStream(stream));
 
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            QLParser parser = new QLParser(tokens);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        QLParser parser = new QLParser(tokens);
 
-            // Walk it and attach our listener
-            VisitorForm visitor = new VisitorForm();
-            Form form = visitor.visit(parser.root());
+        // Walk it and attach our listener
+        VisitorForm visitor = new VisitorForm();
+        Form form = visitor.visit(parser.root());
 
-            return form;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(0);
-
-            return new Form(null, null);
-        }
+        return form;
     }
 }

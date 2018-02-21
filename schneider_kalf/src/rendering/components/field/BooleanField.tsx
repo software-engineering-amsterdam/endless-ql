@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Field from "../../../form/field/Field";
 import BooleanWrapper from "../../../form/values/BooleanWrapper";
 import { FormGroup, Label, Input } from 'reactstrap';
+import Field from "../../../form/nodes/fields/FieldNode";
 
 export interface BooleanFieldProps {
   value: BooleanWrapper;
@@ -11,8 +11,8 @@ export interface BooleanFieldProps {
 export const BooleanField: React.SFC<BooleanFieldProps> = (props) => {
   return (
       <FormGroup check={true}>
-        <Label for={props.field.name} check={true}>
-          <Input checked={props.value.get()} name={props.field.name} type="checkbox"/>{' '}
+        <Label for={props.field.identifier} check={true}>
+          <Input checked={props.value.get()} name={props.field.identifier} type="checkbox"/>{' '}
           {props.field.label}
         </Label>
       </FormGroup>

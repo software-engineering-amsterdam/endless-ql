@@ -2,22 +2,22 @@ package com.chariotit.uva.sc.qdsl.ast.node;
 
 import java.util.List;
 
-public class Form extends AstNode {
+public class IfBlock extends BlockElement {
 
-    private String label;
+    private Expression expression;
     private List<FormElement> formElements;
 
-    public Form(String label, List<FormElement> formElements) {
-        this.label = label;
+    public IfBlock(Expression expression, List<FormElement> formElements) {
+        this.expression = expression;
         this.formElements = formElements;
     }
 
-    public String getLabel() {
-        return label;
+    public Expression getStatement() {
+        return expression;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setStatement(Expression expression) {
+        this.expression = expression;
     }
 
     public List<FormElement> getFormElements() {

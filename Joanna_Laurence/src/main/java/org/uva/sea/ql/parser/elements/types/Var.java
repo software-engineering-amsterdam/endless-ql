@@ -18,20 +18,16 @@ public class Var extends ASTNode {
         return variableName;
     }
 
-    public void setVariableName(String variableName) {
-        this.variableName = variableName;
-    }
-
     public Question getLinkedQuestion() {
         return linkedQuestion;
     }
 
-    public void setLinkedQuestion(Question linkedQuestion) {
-        this.linkedQuestion = linkedQuestion;
-    }
-
     public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doVar(this);
+    }
+
+    public void setLinkedQuestion(Question linkedQuestion) {
+        this.linkedQuestion = linkedQuestion;
     }
 
     public Type getType() {

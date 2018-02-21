@@ -15,10 +15,6 @@ public class Dec extends ASTNode {
         return value;
     }
 
-    public void setValue(double value) {
-        this.value = value;
-    }
-
     public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doDec(this);
     }

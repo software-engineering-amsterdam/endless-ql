@@ -31,16 +31,8 @@ public class Condition extends ASTNode implements QuestionContainerNode {
         return expression;
     }
 
-    public void setExpression(ASTNode expression) {
-        this.expression = expression;
-    }
-
     public List<Question> getQuestions() {
         return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
     }
 
     public void traverseNode(Traverse traverse, TraverseType traverseType) {

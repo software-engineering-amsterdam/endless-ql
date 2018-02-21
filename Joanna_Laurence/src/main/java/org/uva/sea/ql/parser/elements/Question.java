@@ -36,32 +36,16 @@ public class Question extends ASTNode implements QuestionContainerNode {
         return label;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
     public Var getVariable() {
         return variable;
-    }
-
-    public void setVariable(Var variable) {
-        this.variable = variable;
     }
 
     public Type getNodeType() {
         return nodeType;
     }
 
-    public void setNodeType(Type nodeType) {
-        this.nodeType = nodeType;
-    }
-
     public ASTNode getValue() {
         return value;
-    }
-
-    public void setValue(ASTNode value) {
-        this.value = value;
     }
 
     public void traverseNode(Traverse traverse, TraverseType traverseType) {

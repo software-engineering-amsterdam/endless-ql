@@ -16,10 +16,6 @@ public class Type extends ASTNode {
         return nodeType;
     }
 
-    public void setNodeType(String type) {
-        this.nodeType = type;
-    }
-
     public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doType(this);
     }

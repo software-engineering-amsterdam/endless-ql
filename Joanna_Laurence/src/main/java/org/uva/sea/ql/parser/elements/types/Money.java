@@ -17,16 +17,8 @@ public class Money extends ASTNode {
         return currency;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
     public Double getAmount() {
         return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
     }
 
     public void traverseNode(Traverse traverse, TraverseType traverseType) {

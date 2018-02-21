@@ -16,10 +16,6 @@ public class Bool extends ASTNode {
         return value;
     }
 
-    public void setValue(boolean value) {
-        this.value = value;
-    }
-
     public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doBool(this);
     }

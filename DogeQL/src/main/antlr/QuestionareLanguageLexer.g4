@@ -81,8 +81,8 @@ LIT_BOOLEAN
     ;
 
 LIT_INTEGER
-    : Digits
-    | Hexadecimal
+    : ('-'+)?Digits
+    | ('-'+)?Hexadecimal
     ;
 
 LIT_DECIMAL
@@ -214,19 +214,19 @@ DIV
     : '/'
     ;
 
-/* Identifiers */
+/* Name */
 
-IDENTIFIER
-    : IDENTIFIER_LETTER (IDENTIFIER_LETTER_OR_DIGIT*)
+NAME
+    : NAME_LETTER (NAME_LETTER_OR_DIGIT*)
     ;
 
 fragment
-IDENTIFIER_LETTER
+NAME_LETTER
     : [a-zA-Z$_]
     ;
 
 fragment
-IDENTIFIER_LETTER_OR_DIGIT
+NAME_LETTER_OR_DIGIT
     : [a-zA-Z0-9$_]
     ;
 

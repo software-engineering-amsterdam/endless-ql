@@ -1,0 +1,4 @@
+.ql-sample-output textarea{
+    height: calc(100vh - 50px);
+    min-height: 500px;
+}

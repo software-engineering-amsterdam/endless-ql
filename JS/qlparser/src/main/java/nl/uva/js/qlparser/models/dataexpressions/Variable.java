@@ -9,11 +9,15 @@ import nl.uva.js.qlparser.models.enums.DataType;
 @Builder
 public class Variable implements DataExpression {
     private DataType dataType;
-
     @NonNull private String name;
 
     @Override
     public void toRepresentation() {
 
+    }
+
+    @Override
+    public DataType checkAndReturnType() {
+        return dataType;
     }
 }

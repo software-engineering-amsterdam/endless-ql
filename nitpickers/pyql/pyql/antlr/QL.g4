@@ -7,17 +7,18 @@ grammar QL;
 
  form              : 'form' identifier '{' block '}' ;
 
- conditional_block : 'if' '(' expression ')' '{' block '}' ;
+ conditionalBlock : 'if' '(' expression ')' '{' block '}' ;
 
- block             : (quest | conditional_block)+;
+ block             : statement+;
 
- quest             : identifier ':' STR quest_type ;
+ statement         : question | conditionalBlock ;
 
- quest_type        : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | money;
+ question          : identifier ':' STRING questionType ;
 
- expression        : '!' expression
+ questionType     : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | money;
+
+ expression        : '!' orExpression
                    | orExpression
-                   | '(' expression ')'
                    ;
 
  orExpression : andExpression ('||' andExpression)* ;
@@ -30,13 +31,13 @@ grammar QL;
 
  mulExpression : unExpression (('*' | '/') unExpression)*;
 
- unExpression  : literal | identifier;
+ unExpression  : literal | identifier | '(' expression ')';
 
- literal : MONEY | DECIMAL | INT | STR | BOOL ;
+ literal : MONEY | DECIMAL | INT | STRING | BOOL ;
 
  identifier : IDENTIFIER ;
 
- money: 'money' | 'money(' identifier ('-'|'+'|'*'|'/') identifier ')' ;
+ money: 'money' | 'money(' addExpression ')' ;
 
 /*
  * Lexer rules
@@ -54,7 +55,7 @@ DECIMAL      : INT '.' [0-9]+;
 
 INT          : ('1'..'9')+('0'..'9')*;//rejects leading zeros
 
-STR          : '"' .*? '"';
+STRING       : '"' .*? '"';
 
 BOOL         : 'true' | 'false';
 

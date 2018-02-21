@@ -3,6 +3,7 @@ package main.org.uva.ql.app;
 import generated.org.uva.ql.parser.QLLexer;
 import generated.org.uva.ql.parser.QLParser;
 import main.org.uva.ql.ast.Form;
+import main.org.uva.ql.validation.Validator;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -22,7 +23,8 @@ public class App {
             ParseTreeVisitor visitor = new ParseTreeVisitor();
             Form form = (Form) visitor.visit(formContext);
 
-            System.out.println(form);
+            Validator validator = new Validator();
+            validator.execute(form);
         }
         catch (IOException ex) {
             System.out.println(ex.toString());

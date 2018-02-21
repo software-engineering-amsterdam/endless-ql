@@ -1,14 +1,18 @@
 package ql.ast.type;
 
-import ql.ast.Value;
-
 public class Undefined extends Type {
-    
-    Value value;
-    
-    public Undefined() {
-        this.value = null;
+
+    @Override
+    public String toString() {
+        return "undefined";
     }
     
-    
+    public Undefined clone() {
+        return new Undefined();
+    }
+
+    @Override
+    public boolean isUndefined() {
+        return true;
+    }
 }

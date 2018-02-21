@@ -1,15 +1,17 @@
 import Form from "./Form";
 import Field from "./field/Field";
-import Condition from "./condition/Condition";
 
+/**
+ * Questionnaire form that contains fields and is given a name.
+ * Is used to hold information about the form described in the
+ * DSL input.
+ */
 export default class QuestionnaireForm implements Form {
   readonly fields: Field[];
-  readonly conditions: Condition[];
   readonly name: string;
 
-  constructor(name: string, fields: Field[], conditions: Condition[]) {
+  constructor(name: string, fields: Field[]) {
     this.name = name;
     this.fields = fields;
-    this.conditions = conditions;
   }
 }

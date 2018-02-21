@@ -11,8 +11,8 @@ import java.io.InputStream;
 
 public class FormParser {
 
-    public static Form parseForm(InputStream stream) {
-        try {
+    public static Form parseForm(InputStream stream) throws IOException, IllegalArgumentException, UnsupportedOperationException{
+        try{
             QLLexer lexer = new QLLexer(CharStreams.fromStream(stream));
 
             CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -22,19 +22,16 @@ public class FormParser {
             VisitorForm visitor = new VisitorForm();
             Form form = visitor.visit(parser.root());
 
-            System.out.println(form);
-
-            // Visualize tree
+            // Debug
             parser.reset();
             Trees.inspect(parser.root(), parser);
 
             return form;
-
-        } catch (IOException e) {
+        } catch (Exception e){
+            // TODO improve exception
+            System.out.println("exception thrown during parsing");
             e.printStackTrace();
-            System.exit(0);
-
-            return new Form(null, null);
+            throw new UnsupportedOperationException(e.toString());
         }
     }
 }

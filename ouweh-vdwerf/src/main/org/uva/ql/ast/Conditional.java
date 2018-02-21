@@ -2,6 +2,8 @@ package main.org.uva.ql.ast;
 
 
 import main.org.uva.ql.ast.expression.Expression;
+import main.org.uva.ql.visitor.StatementVisitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,21 @@ public class Conditional extends Statement{
         this.condition = condition;
         this.ifSide = ifSide;
         this.elseSide = new ArrayList<>();
+    }
+
+    public Expression getCondition() { return condition; }
+
+    public List<Statement> getIfSide() {
+        return ifSide;
+    }
+
+    public List<Statement> getElseSide() {
+        return elseSide;
+    }
+
+    @Override
+    public <T, C> T accept(StatementVisitor<T, C> visitor, C context) {
+        return visitor.visit(this, context);
     }
 
     @Override

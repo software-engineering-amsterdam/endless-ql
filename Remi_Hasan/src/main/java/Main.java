@@ -89,7 +89,8 @@ public class Main extends Application {
         } catch(UnsupportedOperationException e){
             // TODO Explain why form is invalid
             Alert alert = new Alert(Alert.AlertType.ERROR, "Form invalid");
-            alert.setContentText(e.toString());
+            alert.setHeaderText("Form invalid");
+            alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
     }

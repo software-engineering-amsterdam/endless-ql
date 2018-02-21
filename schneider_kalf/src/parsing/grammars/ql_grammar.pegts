@@ -4,25 +4,8 @@
  */
 
 {
-
-
-
- if ((123123 + 123123) > (234234 + 123123 || 123123))
-  /*
-    -@Nodes.IfCondition,
-
-    -@Nodes.NumberLiteral,
-    -@Nodes.BooleanLiteral,
-    -@Nodes.StringLiteral,
-    -@Nodes.VariableIdentifier,
-
-    -@Nodes.ComputedField,
-    -@Nodes.Question,
-    -@Nodes.FormNode
-
-    -@FieldType
-  */
-   // A base type for building the main tree layout
+  // TODO: Reserve words "true" "false"
+  // A base type for building the main tree layout
   let operations = {
               // "!"  : Node.Negation,
               "&&" : Nodes.And,

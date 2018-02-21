@@ -10,7 +10,6 @@ import nl.uva.js.qlparser.models.enums.DataType;
 import nl.uva.js.qlparser.models.formexpressions.FormExpression;
 import nl.uva.js.qlparser.models.formexpressions.IfBlock;
 import nl.uva.js.qlparser.models.formexpressions.Question;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -19,10 +18,12 @@ import java.util.LinkedList;
 
 import static org.junit.Assert.assertEquals;
 
-public class IngesterTest {
+public class QLIngesterTest {
+
+    private static final String INPUT_LOCATION = "src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql";
 
     @Test
-    public void testToParsedForm() throws IOException {
+    public void getFormFromLocation() throws IOException {
         // Questions
         Question hasSoldHouse = Question.builder()
                 .name("hasSoldHouse")
@@ -34,18 +35,23 @@ public class IngesterTest {
                 .name("hasBoughtHouse")
                 .question("Did you buy a house in 2010?")
                 .dataType(DataType.BOOLEAN)
+                .value(Combinator.builder()
+                        .operator(CompOp.EQ)
+                        .left(Value.builder().dataType(DataType.BOOLEAN).value(true).build())
+                        .right(Value.builder().dataType(DataType.BOOLEAN).value(true).build())
+                        .build()) // TODO: Makes no sense
                 .build();
 
         Question hasMaintLoan = Question.builder()
                 .name("hasMaintLoan")
-                .question("Did you enter a loan for maintenance/reconstruction?")
+                .question("Did you enter a loan?")
                 .dataType(DataType.BOOLEAN)
                 .build();
 
         // Conditional questions
         Question sellingPrice = Question.builder()
                 .name("sellingPrice")
-                .question("Price the house was sold for:")
+                .question("What was the selling price?")
                 .dataType(DataType.MONEY)
                 .build();
 
@@ -53,6 +59,7 @@ public class IngesterTest {
                 .name("privateDebt")
                 .question("Private debts for the sold house:")
                 .dataType(DataType.MONEY)
+                .value(Value.builder().dataType(DataType.MONEY).value(1000.0).build())
                 .build();
 
         Question valueResidue = Question.builder()
@@ -67,10 +74,9 @@ public class IngesterTest {
                 .build();
 
         IfBlock ifBlock = IfBlock.builder()
-                .condition(Combinator.builder()
-                        .left(Variable.builder().dataType(DataType.BOOLEAN).name("hasSoldHouse").build())
-                        .operator(CompOp.EQ)
-                        .right(Value.builder().dataType(DataType.BOOLEAN).value(true).build())
+                .condition(Variable.builder()
+                        .dataType(DataType.BOOLEAN)
+                        .name("hasSoldHouse")
                         .build())
                 .expressions(new LinkedList<>(Arrays.asList(
                         sellingPrice,
@@ -87,12 +93,12 @@ public class IngesterTest {
                 ));
 
         Form expectedForm = Form.builder()
-                .name("Box1HouseOwning")
+                .name("taxOfficeExample")
                 .formExpressions(expectedExpressions)
                 .build();
 
-        Form actualForm = Ingester.toLocationParsedForm("src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql");
+        Form actualForm = QLIngester.parseFormFromLocation(INPUT_LOCATION);
 
-        assertEquals(expectedForm, actualForm);
+        assertEquals(expectedForm.toString(), actualForm.toString());
     }
 }

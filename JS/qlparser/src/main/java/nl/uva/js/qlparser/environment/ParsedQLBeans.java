@@ -1,6 +1,6 @@
 package nl.uva.js.qlparser.environment;
 
-import nl.uva.js.qlparser.logic.Ingester;
+import nl.uva.js.qlparser.logic.QLIngester;
 import nl.uva.js.qlparser.models.Form;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +21,7 @@ public class ParsedQLBeans {
     @Bean
     public Form parsedAndCheckedForm() throws IOException {
         return (mode.equals("file"))
-                ? Ingester.toLocationParsedForm(qlFile)
+                ? QLIngester.parseFormFromLocation(qlFile)
                 : null;
     }
 }

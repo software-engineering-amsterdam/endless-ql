@@ -3,9 +3,10 @@ import {Statement} from './statement';
 import * as _ from 'lodash';
 import {DuplicateIdentifierError} from '../errors';
 import {Question} from './question';
+import {Location} from './location';
 
 export class Form {
-  constructor(public name: string, public statements: Statement[]) {}
+  constructor(public name: string, public statements: Statement[], public location: Location) {}
 
   toFormQuestion(): QuestionBase<any>[] {
     let formQuestions: QuestionBase<any>[] = [];

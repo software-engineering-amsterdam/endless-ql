@@ -10,16 +10,17 @@ namespace Assignment1
 {
     internal class Controller
     {
-        public void ParseForm(string input)
+        public IEnumerable<QuestionForm> ParseString(string input)
         {
             ICharStream stream = CharStreams.fromstring(input);
             ITokenSource lexer = new QLLexer(stream);
             ITokenStream tokens = new CommonTokenStream(lexer);
-            QLParser parser = new QLParser(tokens);
-            QLParser.FContext context = parser.f();
-            IQLListener listener = new QLListener();
+            QL parser = new QL(tokens);
+            QL.FileContext context = parser.file();
+            QLListener listener = new QLListener();
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.Walk(listener, context);
+            return listener.Forms;
         }
     }
 }

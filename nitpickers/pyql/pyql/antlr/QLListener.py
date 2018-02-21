@@ -44,21 +44,21 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#quest.
-    def enterQuest(self, ctx:QLParser.QuestContext):
+    # Enter a parse tree produced by QLParser#question.
+    def enterQuestion(self, ctx:QLParser.QuestionContext):
         pass
 
-    # Exit a parse tree produced by QLParser#quest.
-    def exitQuest(self, ctx:QLParser.QuestContext):
+    # Exit a parse tree produced by QLParser#question.
+    def exitQuestion(self, ctx:QLParser.QuestionContext):
         pass
 
 
-    # Enter a parse tree produced by QLParser#quest_type.
-    def enterQuest_type(self, ctx:QLParser.Quest_typeContext):
+    # Enter a parse tree produced by QLParser#question_type.
+    def enterQuestion_type(self, ctx:QLParser.Question_typeContext):
         pass
 
-    # Exit a parse tree produced by QLParser#quest_type.
-    def exitQuest_type(self, ctx:QLParser.Quest_typeContext):
+    # Exit a parse tree produced by QLParser#question_type.
+    def exitQuestion_type(self, ctx:QLParser.Question_typeContext):
         pass
 
 

@@ -1,5 +1,3 @@
-
-
 from .gui_imports import *
 
 # class that returns the correct widget based on the input type
@@ -63,4 +61,3 @@ class InputTypeMap:
 			self.old_value = new_val
 		except:
 			var.set(self.old_value)
-

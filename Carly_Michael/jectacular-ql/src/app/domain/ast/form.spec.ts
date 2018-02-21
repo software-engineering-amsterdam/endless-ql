@@ -1,18 +1,34 @@
 import {Form, Question, QuestionType} from './';
 import {CheckboxQuestion} from '../angular-questions/question-checkbox';
 import {TextboxQuestion} from '../angular-questions/question-textbox';
+import {Location} from '../ast/index';
+
+const emptyLoc: Location = {
+  start:
+    {
+      offset: 0,
+      line: 0,
+      column: 0
+    },
+  end:
+    {
+      offset: 0,
+      line: 0,
+      column: 0
+    }
+};
 
 const questions = [
-  new Question('intQuestion', 'intQuestion?', QuestionType.INT),
-  new Question('decimalQuestion', 'decimalQuestion?', QuestionType.DECIMAL),
-  new Question('moneyQuestion', 'moneyQuestion?', QuestionType.MONEY),
-  new Question('booleanQuestion', 'booleanQuestion?', QuestionType.BOOLEAN),
-  new Question('stringQuestion', 'stringQuestion?', QuestionType.STRING),
-  new Question('dateQuestion', 'dateQuestion?', QuestionType.DATE)
+  new Question('intQuestion', 'intQuestion?', QuestionType.INT, emptyLoc),
+  new Question('decimalQuestion', 'decimalQuestion?', QuestionType.DECIMAL, emptyLoc),
+  new Question('moneyQuestion', 'moneyQuestion?', QuestionType.MONEY, emptyLoc),
+  new Question('booleanQuestion', 'booleanQuestion?', QuestionType.BOOLEAN, emptyLoc),
+  new Question('stringQuestion', 'stringQuestion?', QuestionType.STRING, emptyLoc),
+  new Question('dateQuestion', 'dateQuestion?', QuestionType.DATE, emptyLoc)
 ];
 
 it('should return the proper QuestionBase questions', () => {
-  const formQuestions = new Form('test', questions).toFormQuestion();
+  const formQuestions = new Form('test', questions, emptyLoc).toFormQuestion();
   expect(formQuestions.length).toBe(6);
   expect(formQuestions[0].key).toBe('intQuestion');
   expect(formQuestions[0].label).toBe('intQuestion?');

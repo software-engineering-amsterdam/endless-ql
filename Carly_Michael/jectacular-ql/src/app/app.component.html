@@ -2,27 +2,30 @@
 
 <div class="page-container">
   <div class="input">
-    <textarea rows="25" cols="100" [(ngModel)]="input"></textarea>
+    <span class="header">Input</span>
 
-    <button (click)="parseInput()">Parse</button>
+    <span id="error-message" *ngIf="errorMessage" class="error"> {{errorMessage}}</span>
 
-    <span *ngIf="errorMessage"> {{errorMessage}}</span>
+    <textarea id="input" rows="25" cols="100" [(ngModel)]="input"></textarea>
+
+    <button id="parse-button" (click)="parseInput()">Parse</button>
+
   </div>
 
   <div *ngIf="form" class="form">
-    <span>{{formName}}</span>
-    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <span class="header">{{formName}}</span>
+    <form id="form" (ngSubmit)="onSubmit()" [formGroup]="form">
 
       <div *ngFor="let question of questions" class="form-row">
         <app-question [question]="question" [form]="form"></app-question>
       </div>
 
       <div class="form-row">
-        <button type="submit" [disabled]="!form.valid">Save</button>
+        <button id="form-submit" type="submit">Save</button>
       </div>
     </form>
 
-    <div *ngIf="payLoad" class="form-row">
+    <div *ngIf="payload" class="form-row">
       <strong>Saved the following values</strong><br>{{payLoad}}
     </div>
   </div>

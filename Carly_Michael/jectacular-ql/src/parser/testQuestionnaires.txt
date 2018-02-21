@@ -34,17 +34,17 @@ form form {
 
 //duplicate identifier form
 form form {
-  question1: "IntegerQuestion?"  integer
-  question2: "DecimalQuestion?"  decimal
-  question3: "MoneyQuestion?"  money
-  question4: "BooleanQuestion?"  boolean
-  question5: "StringQuestion?"  string
-  question5: "StringQuestion?"  string
-  question6: "DateQuestion?"  date
-  if (question4) {
-    question7: "ifQuestion" integer
-  }
-}
+   question1: "IntegerQuestion?"  integer
+   question2: "DecimalQuestion?"  decimal
+   question3: "MoneyQuestion?"  money
+   question4: "BooleanQuestion?"  boolean
+   question5: "StringQuestion?"  string
+   question5: "StringQuestion?"  string
+   question6: "DateQuestion?"  date
+   if (question4) {
+     question7: "ifQuestion" integer
+   }
+ }
 
 //type error form
 form form {
@@ -57,4 +57,10 @@ form form {
   if (question5) {
     question7: "ifQuestion" integer
   }
+}
+
+//calculated value form
+form form {
+ q1: "test" integer
+ q2: "t3" integer = (2 * (3 + 4))
 }

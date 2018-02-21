@@ -5,7 +5,7 @@ import java.util.List;
 import org.uva.jomi.ql.ast.expressions.BinaryExpr;
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.expressions.GroupingExpr;
-import org.uva.jomi.ql.ast.expressions.IndentifierExpr;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
 import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
@@ -30,7 +30,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitIndetifierExpr(IndentifierExpr expr) {
+	public String visitIndetifierExpr(IdentifierExpr expr) {
 		return String.format("  %s [label=\"[Ident]\nName: %s\nType: %s\nUndefined: %s\"]\n",
 				expr.getId(),
 				expr.token.getLexeme(),

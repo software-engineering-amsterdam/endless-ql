@@ -1,3 +1,4 @@
+
 # Jordy Bottelier
 # Dennis Kruidenberg
 
@@ -28,8 +29,12 @@ def main(argv):
 
 	g = Gui()
 	g.create_form()
-	# g.create_form()
+	# g.create_header("Mijn Vragenlijst")
 	g.execute()
+
+	#pass tree to visitor
+	# visitor = Visitor()
+	# visitor.visit(tree)
 	
 
 if __name__ == '__main__':

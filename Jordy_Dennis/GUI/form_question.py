@@ -34,4 +34,3 @@ class Question:
 
 	def get_text(self):
 		return self.question_text
-

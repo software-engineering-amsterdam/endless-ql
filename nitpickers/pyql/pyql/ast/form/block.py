@@ -1,10 +1,10 @@
-from pyql.ast.ast_node import ASTNode
+from pyql.ast.ast import ASTNode
 
 
 class Block(ASTNode):
 
     def __init__(self, location, statements: []):
-        super(Block, self).__init__(location)
+        super().__init__(location)
         self._statements = statements
 
     @property
@@ -12,5 +12,5 @@ class Block(ASTNode):
         return self._statements
 
     def __repr__(self):
-        return "AST Block at: " + str(self.location)
+        return str({"AST Block " + str(self.location): str(self.statements)})
 

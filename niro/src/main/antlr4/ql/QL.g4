@@ -5,11 +5,11 @@ IF          : 'if' ;
 ELSE        : 'else' ;
 ASSIGN      : '=' ;
 
-L_CURLY     : '{' ;
-R_CURLY     : '}' ;
+CURLY_L     : '{' ;
+CURLY_R     : '}' ;
 
-L_PEREN     : '(' ;
-R_PEREN     : ')' ;
+BRACK_L     : '(' ;
+BRACK_R     : ')' ;
 
 D_COLON     : ':' ;
 
@@ -27,40 +27,52 @@ MUL         : '*' ;
 
 OR          : '||' ;
 AND         : '&&' ;
-NOT         : '!' ;
+NEG         : '!' ;
+COMMA       : ',' ;
 
 BOOLEAN     : 'boolean' ;
 INTEGER     : 'integer' ;
 STRING      : 'string' ;
+DECIMAL     : 'decimal' ;
+MONEY       : 'money' ;
+DATE        : 'date' ;
 
 FALSE       : 'false' ;
 TRUE        : 'true' ;
 
 IntValue    : [1-9][0-9]* ;
+DecValue    : [1-9][0-9]* COMMA [0-9]+ ;
 Ident       : [a-zA-Z0-9_]+ ;
-TEXT        : '"' .*? '"' ;
+TEXT        : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); };
 
 WS          : [ \t\r\n]+ -> skip ;
 COMMENT     : '//' .*? '\n' -> skip ;
 
 bool        : FALSE | TRUE ;
 
-unaryOp     : SUB | ADD | NOT;
+unaryOp     : SUB | NEG;
 compOp      : LT | LTE | GTE | GT | NE | EQ ;
-logicalOp   : OR | AND | NOT ;
+logicalOp   : OR | AND ;
 arithmOp    : SUB | ADD | DIV | MUL ;
 
-expression  : IntValue                                 # IntConst
-            | bool                                     # BoolConst
-            | unaryOp expression                       # UnaryExpr
-            | lhs=expression arithmOp rhs=expression   # ArithmExpr
-            | lhs=expression compOp rhs=expression     # CompExpr
-            | lhs=expression logicalOp rhs=expression  # LogicalExpr
-            | Ident                                    # Var ;
+expression  : answerType                                    # AnswerTypeConst
+            | IntValue                                      # IntConst
+            | DecValue                                      # DecConst
+            | Ident                                         # Var
+            | bool                                          # BoolConst
+            | lhs=expression arithmOp rhs=expression        # ArithmExpr
+            | lhs=expression compOp rhs=expression          # CompExpr
+            | lhs=expression logicalOp rhs=expression       # LogicalExpr
+            | unaryOp expression                            # UnaryExpr
+            | BRACK_L expression BRACK_R                    # GroupExpr
+            | answerType ASSIGN BRACK_L expression BRACK_R  # ComputedField ;
 
-form        : FORM Ident L_CURLY statement+ R_CURLY EOF ;
-statement   : question | conditional ;
-question    : Ident D_COLON TEXT answerType ( ASSIGN L_PEREN expression R_PEREN )?;
-answerType  : BOOLEAN | INTEGER | STRING ;
+form        : FORM Ident CURLY_L statement+ CURLY_R EOF ;
 
-conditional : IF L_PEREN ( condition=expression ) R_PEREN L_CURLY ( thenBlock+=question+ ) R_CURLY ( ELSE L_CURLY ( elseBlock+=question+ ) R_CURLY )? ;
+statement   : question
+            | conditional ;
+
+question    : Ident D_COLON label=TEXT expression;
+conditional : IF BRACK_L condition=expression BRACK_R CURLY_L thenBlock+=statement+ CURLY_R ( ELSE CURLY_L elseBlock+=statement+ CURLY_R )? ;
+
+answerType  : BOOLEAN | INTEGER | STRING | MONEY | DATE | DECIMAL | MONEY;

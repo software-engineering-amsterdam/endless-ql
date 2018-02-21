@@ -1,30 +1,30 @@
 ﻿using Antlr4.Runtime.Misc;
-using QL_Parser.Models;
+using QL_Parser.AST.Nodes;
 using QL_Parser.Visitors;
 using static QLanguage.QLanguageParser;
 
 namespace QL_Parser
 {
-    public class FormVisitor : QLanguage.QLanguageBaseVisitor<object>
+    public class FormVisitor : QLanguage.QLanguageBaseVisitor<FormNode>
     {
-        public Form Form { get; set; }
+        public FormNode Form { get; set; }
 
-        public override object VisitFormDeclaration([NotNull] FormDeclarationContext context)
+        public override FormNode VisitFormDeclaration([NotNull] FormDeclarationContext context)
         {
-            // Construct form object to store the results in.
-            Form form = new Form();
-
             //Get the formname
             FormNameContext formName = context.formName();
-            form.Name = formName.GetText();
+
+            // Construct FormNode object to store the results in.
+            var name = formName.GetText();
+            FormNode node = new FormNode(name);
 
             // Get the sections
             SectionContext[] sectionContext = context.section();
             SectionVisitor visitor = new SectionVisitor();
             foreach (SectionContext ctx in sectionContext)
-                form.Sections.Add(visitor.VisitSection(ctx));
+                node.AddNode(visitor.VisitSection(ctx));
 
-            return form;
+            return node;
         }
     }
 }

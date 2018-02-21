@@ -1,6 +1,10 @@
 package ast.literal;
 
-public abstract class Literal<T> {
+import ast.AstNode;
+import visiting.LiteralVisitor;
+
+
+public abstract class Literal<T> extends AstNode {
 
 	private T value;
 	
@@ -15,4 +19,6 @@ public abstract class Literal<T> {
 	public void setValue(T value) {
 		this.value = value;
 	}
+	
+	public abstract <T, U> T accept(LiteralVisitor<T, U> visitor, U ctx);
 }

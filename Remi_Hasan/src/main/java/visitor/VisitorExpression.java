@@ -6,29 +6,48 @@ import antlr.QLParser;
 import expression.*;
 import model.LookupTable;
 
+import java.math.BigDecimal;
+
 public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitNotExpr(QLParser.NotExprContext ctx) {
         Expression value = visit(ctx.expr);
+
+        if(!value.getReturnType().not())
+            throw new IllegalArgumentException("Type mismatch");
+
         return new ExpressionNot(value);
     }
 
     @Override
     public Expression visitOpExpr(QLParser.OpExprContext ctx) {
         // Inspired by: https://stackoverflow.com/a/23092428
-        int op = ctx.op.getType();
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
+
+        int op = ctx.op.getType();
         switch (op) {
             case QLLexer.PLUS:
+                if(!left.getReturnType().sum(right.getReturnType()))
+                    throw new IllegalArgumentException("Type mismatch");
+
                 return new ExpressionArithmeticSum(left, right);
             case QLLexer.MINUS:
+                if(!left.getReturnType().subtract(right.getReturnType()))
+                    throw new IllegalArgumentException("Type mismatch");
+
                 return new ExpressionArithmeticSubtract(left, right);
             case QLLexer.MUL:
+                if(!left.getReturnType().multiply(right.getReturnType()))
+                    throw new IllegalArgumentException("Type mismatch");
+
                 return new ExpressionArithmeticMultiply(left, right);
             case QLLexer.DIV:
+                if(!left.getReturnType().divide(right.getReturnType()))
+                    throw new IllegalArgumentException("Type mismatch");
+
                 return new ExpressionArithmeticDivide(left, right);
             default:
                 throw new IllegalArgumentException("Unknown operator " + op);
@@ -49,8 +68,14 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
         switch (op) {
             case QLLexer.EQ:
+                if(!left.getReturnType().eq(right.getReturnType()))
+                    throw new IllegalArgumentException("Type mismatch");
+
                 return new ExpressionComparisonEq(left, right);
             case QLLexer.NE:
+                if(!left.getReturnType().eq(right.getReturnType()))
+                    throw new IllegalArgumentException("Type mismatch");
+
                 return new ExpressionNot(new ExpressionComparisonEq(left, right));
             default:
                 throw new IllegalArgumentException("Unknown operator " + op);
@@ -65,8 +90,14 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
         switch (op) {
             case QLLexer.AND:
+                if(!left.getReturnType().and(right.getReturnType()))
+                    throw new IllegalArgumentException("Type mismatch");
+
                 return new ExpressionLogicalAnd(left, right);
             case QLLexer.OR:
+                if(!left.getReturnType().or(right.getReturnType()))
+                    throw new IllegalArgumentException("Type mismatch");
+
                 return new ExpressionLogicalOr(left, right);
             default:
                 throw new IllegalArgumentException("Unknown operator " + op);
@@ -81,12 +112,24 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
         switch (op) {
             case QLLexer.GT:
+                if(!left.getReturnType().gt(right.getReturnType()))
+                    throw new IllegalArgumentException("Type mismatch");
+
                 return new ExpressionComparisonGT(left, right);
             case QLLexer.GE:
+                if(!left.getReturnType().ge(right.getReturnType()))
+                    throw new IllegalArgumentException("Type mismatch");
+
                 return new ExpressionComparisonGE(left, right);
             case QLLexer.LT:
+                if(!left.getReturnType().lt(right.getReturnType()))
+                    throw new IllegalArgumentException("Type mismatch");
+
                 return new ExpressionComparisonLT(left, right);
             case QLLexer.LE:
+                if(!left.getReturnType().le(right.getReturnType()))
+                    throw new IllegalArgumentException("Type mismatch");
+
                 return new ExpressionComparisonLE(left, right);
             default:
                 throw new IllegalArgumentException("Unknown operator " + op);
@@ -96,6 +139,11 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     @Override
     public Expression visitParenExpr(QLParser.ParenExprContext ctx) {
         return super.visit(ctx.expression());
+    }
+
+    @Override
+    public Expression visitConstant_boolean(QLParser.Constant_booleanContext ctx) {
+        return new ExpressionVariableBoolean(Boolean.parseBoolean(ctx.getText()));
     }
 
     @Override
@@ -117,7 +165,8 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     @Override
     public Expression visitConstant_money(QLParser.Constant_moneyContext ctx) {
         // TODO: Same as decimal?
-        return new ExpressionVariableMoney(Double.valueOf(ctx.getText()));
+        BigDecimal bigDecimal = BigDecimal.valueOf(Double.valueOf(ctx.getText()));
+        return new ExpressionVariableMoney(bigDecimal);
     }
 
     // TODO do we need this?
@@ -128,8 +177,10 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitConstant_string(QLParser.Constant_stringContext ctx) {
-        String textWithQuotes = ctx.getText();
-        return new ExpressionVariableString(textWithQuotes.substring(1, textWithQuotes.length() - 1));
+        String text = ctx.STRING().toString();
+        // remove quotes from text
+        text = text.substring(1, text.length() - 1);
+        return new ExpressionVariableString(text);
     }
 
     @Override
@@ -138,8 +189,10 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression referenceExpression = LookupTable.getInstance().getQuestionAnswer(identifier);
 
         switch (referenceExpression.getReturnType()) {
-            case Number:
-                return new ExpressionIdentifier<Object>(ctx.getText());
+            case Integer:
+                return new ExpressionIdentifier<Integer>(ctx.getText());
+            case Decimal:
+                return new ExpressionIdentifier<Integer>(ctx.getText());
             case Boolean:
                 return new ExpressionIdentifier<Boolean>(ctx.getText());
             case String:

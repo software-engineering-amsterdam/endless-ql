@@ -6,18 +6,19 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
-import model.BlockElement;
 import model.Condition;
 import model.Form;
 import model.Question;
+import model.Statement;
 import org.yorichan.formfx.control.Input;
 import org.yorichan.formfx.control.option.OptionList;
 import org.yorichan.formfx.field.FieldGroup;
 import org.yorichan.formfx.form.GridForm;
 
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,53 +29,105 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        // Parse form from specified file
-        String fileName = "example.ql";
-        InputStream stream = getClass().getResourceAsStream(fileName);
-        Form form = FormParser.parseForm(stream);
+    public void start(Stage stage) {
+        stage.setTitle("QL form file selector");
 
-        // Inspired by https://github.com/YoriChan/FormFX
+        // Build file selector
+        Button fileSelectorButton = createFileSelectorButton(stage);
 
-        // Create a group of fields composed of our form questions
-        FieldGroup fieldGroup = createFieldGroup(form);
-
-        // Create our form grid
-        GridForm gridForm = new GridForm(fieldGroup);
-        gridForm.setPadding(new Insets(10, 10, 10, 10));
-        gridForm.setFieldOrientation(Orientation.HORIZONTAL);
-        gridForm.setAlignment(Pos.CENTER);
-
-        // Build submit button
-        Button submitButton = createSubmitButton(form);
-
-        // Create box with form and submit button
+        // Put button inside a box with spacing
         VBox vBox = new VBox(35);
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(gridForm, submitButton);
+        vBox.getChildren().add(fileSelectorButton);
 
         // Create entire scene
-        Scene scene = new Scene(vBox);
-        stage.setTitle(form.identifier + " form");
+        Scene scene = new Scene(vBox, 300, 100);
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void renderForm(Stage stage, File file) {
+        try{
+            Form form = FormParser.parseForm(new FileInputStream(file));
+
+            if(form == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "File not found");
+                alert.showAndWait();
+            }
+
+            // Create a group of fields composed of our form questions
+            FieldGroup fieldGroup = createFieldGroup(form);
+
+            // Create our form grid
+            GridForm gridForm = new GridForm(fieldGroup);
+            gridForm.setPadding(new Insets(10, 10, 10, 10));
+            gridForm.setFieldOrientation(Orientation.HORIZONTAL);
+            gridForm.setAlignment(Pos.CENTER);
+
+            // Build file selector
+            Button fileSelectorButton = createFileSelectorButton(stage);
+
+            // Build submit button
+            Button submitButton = createSubmitButton(null);
+
+            // Create box with form and submit button
+            VBox vBox = new VBox(35);
+            vBox.setAlignment(Pos.CENTER);
+            vBox.getChildren().addAll(fileSelectorButton, gridForm, submitButton);
+
+            // Create entire scene
+            Scene scene = new Scene(vBox);
+            stage.setTitle(form.identifier + " form");
+            stage.setScene(scene);
+            stage.show();
+        } catch(FileNotFoundException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR, "File not found");
+            alert.showAndWait();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "File not readable, check permissions.");
+            alert.showAndWait();
+        } catch(UnsupportedOperationException e){
+            // TODO Explain why form is invalid
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Form invalid");
+            alert.setContentText(e.toString());
+            alert.showAndWait();
+        }
+    }
+
+    private Button createFileSelectorButton(Stage stage) {
+        // Resource path
+        File resourcesFile = new File(getClass().getResource("java/example.ql").getFile());
+        File resourceDirectory = new File(resourcesFile.getParentFile().getAbsolutePath());
+
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(resourceDirectory);
+        final Button openButton = new Button("Browse files...");
+
+        openButton.setOnAction((event) -> {
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                renderForm(stage, file);
+            }
+        });
+
+        return openButton;
     }
 
     private FieldGroup createFieldGroup(Form form) {
         FieldGroup fieldGroup = new FieldGroup();
         HashMap<String, Control> fields = new HashMap<>();
-        addQuestionsToFieldGroup(fields, form, form.elements, fieldGroup);
-        changeEditableFields(fields, form.elements, true);
+        addQuestionsToFieldGroup(fields, form, form.statements, fieldGroup);
+        changeEditableFields(fields, form.statements, true);
 
         return fieldGroup;
     }
 
-    private void addQuestionsToFieldGroup(HashMap<String, Control> fields, Form form, ArrayList<BlockElement> elements, FieldGroup fieldGroup) {
-        for (BlockElement blockElement : elements) {
-            if (blockElement.isQuestion()) {
-                addQuestionsToFieldGroup(fields, form, (Question) blockElement, fieldGroup);
-            } else if (blockElement.isCondition()) {
-                addQuestionsToFieldGroup(fields, form, ((Condition) blockElement).elements, fieldGroup);
+    private void addQuestionsToFieldGroup(HashMap<String, Control> fields, Form form, ArrayList<Statement> statements, FieldGroup fieldGroup) {
+        for (Statement statement : statements) {
+            if (statement.isQuestion()) {
+                addQuestionsToFieldGroup(fields, form, (Question) statement, fieldGroup);
+            } else if (statement.isCondition()) {
+                addQuestionsToFieldGroup(fields, form, ((Condition) statement).statements, fieldGroup);
             }
         }
     }
@@ -83,7 +136,7 @@ public class Main extends Application {
         // Only show questions that have answers you can set a value to
         if (question.answer.getReturnType() == ReturnType.Boolean) {
             addBooleanQuestionToFieldGroup(fields, form, question, fieldGroup);
-        } else if (question.answer.getReturnType() == ReturnType.Number || question.answer.getReturnType() == ReturnType.String) {
+        } else if (question.answer.getReturnType() == ReturnType.Integer || question.answer.getReturnType() == ReturnType.Decimal || question.answer.getReturnType() == ReturnType.String) {
             addNumberQuestionToFieldGroup(fields, form, question, fieldGroup);
         }
 
@@ -115,7 +168,7 @@ public class Main extends Application {
             if (input.isEditable() || !input.isDisabled()) {
                 // Change answer
                 changeQuestionAnswer(input, question);
-                changeEditableFields(fields, form.elements, true);
+                changeEditableFields(fields, form.statements, true);
             }
         });
 
@@ -126,7 +179,7 @@ public class Main extends Application {
     private void addNumberQuestionToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup) {
         TextInputControl input = Input.textField("");
 
-        if (question.answer.getReturnType() == ReturnType.Number) {
+        if (question.answer.getReturnType() == ReturnType.Integer || question.answer.getReturnType() == ReturnType.Decimal) {
             // NumberStringConverter
             // CurrencyStringConverter
             // DoubleStringConverter
@@ -138,7 +191,7 @@ public class Main extends Application {
         input.setOnKeyTyped(e -> {
             if (input.isEditable()) {
                 changeQuestionAnswer(input, question);
-                changeEditableFields(fields, form.elements, true);
+                changeEditableFields(fields, form.statements, true);
             }
 
 //                    System.out.println(form);
@@ -161,25 +214,25 @@ public class Main extends Application {
         question.answer.setValue(input.getSelectionModel().getSelectedItem().toString());
     }
 
-    private void changeEditableFields(HashMap<String, Control> fields, ArrayList<BlockElement> elements, boolean inEditableBlock) {
-        for (BlockElement blockElement : elements) {
-            changeEditableFields(fields, blockElement, inEditableBlock);
+    private void changeEditableFields(HashMap<String, Control> fields, ArrayList<Statement> statements, boolean inEditableBlock) {
+        for (Statement statement : statements) {
+            changeEditableFields(fields, statement, inEditableBlock);
         }
     }
 
-    private void changeEditableFields(HashMap<String, Control> fields, BlockElement blockElement, boolean inEditableBlock) {
-        if (blockElement.isQuestion()) {
-            Control field = fields.get(((Question) blockElement).name);
+    private void changeEditableFields(HashMap<String, Control> fields, Statement statement, boolean inEditableBlock) {
+        if (statement.isQuestion()) {
+            Control field = fields.get(((Question) statement).name);
             field.setVisible(inEditableBlock);
-        } else if (blockElement.isCondition()) {
-            changeEditableFields(fields, (Condition) blockElement, inEditableBlock);
+        } else if (statement.isCondition()) {
+            changeEditableFields(fields, (Condition) statement, inEditableBlock);
         }
     }
 
     private void changeEditableFields(HashMap<String, Control> fields, Condition condition, boolean inEditableBlock) {
         boolean inEditableSubBlock = inEditableBlock && Boolean.TRUE.equals(condition.condition.evaluate().get());
-        for (BlockElement blockElement : condition.elements) {
-            changeEditableFields(fields, blockElement, inEditableSubBlock);
+        for (Statement statement : condition.statements) {
+            changeEditableFields(fields, statement, inEditableSubBlock);
         }
     }
 
@@ -189,22 +242,22 @@ public class Main extends Application {
         submitButton.setOnAction(e -> {
 
             // Debug output, shows answer to every question in console
-            form.elements.forEach(x -> printQuestionAnswers(x));
+//            form.elements.forEach(x -> printQuestionAnswers(x));
         });
         return submitButton;
     }
 
-    private void printQuestionAnswers(BlockElement blockElement) {
-        if (blockElement.isQuestion()) {
-            printQuestionAnswers((Question) blockElement);
-        } else if (blockElement.isCondition()) {
-            printQuestionAnswers((Condition) blockElement);
+    private void printQuestionAnswers(Statement statement) {
+        if (statement.isQuestion()) {
+            printQuestionAnswers((Question) statement);
+        } else if (statement.isCondition()) {
+            printQuestionAnswers((Condition) statement);
         }
     }
 
     private void printQuestionAnswers(Condition condition) {
-        for (BlockElement blockElement : condition.elements) {
-            printQuestionAnswers(blockElement);
+        for (Statement statement : condition.statements) {
+            printQuestionAnswers(statement);
         }
     }
 

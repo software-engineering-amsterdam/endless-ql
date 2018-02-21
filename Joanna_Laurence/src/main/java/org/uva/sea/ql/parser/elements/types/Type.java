@@ -1,10 +1,11 @@
 package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.traverse.Traverse;
 
 //TODO: Override equals
-public class Type implements ASTNode {
+public class Type extends ASTNode {
     private String nodeType;
 
     public Type(String type) {
@@ -19,7 +20,7 @@ public class Type implements ASTNode {
         this.nodeType = type;
     }
 
-    public void traverse(Traverse traverse) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doType(this);
     }
 

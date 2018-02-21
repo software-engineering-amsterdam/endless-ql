@@ -1,9 +1,8 @@
 import QuestionnaireForm from "../form/QuestionnaireForm";
 import Form from "../form/Form";
 import Field from "../form/field/Field";
-import Condition from "../form/condition/Condition";
 import { QuestionnaireField } from "../form/field/QuestionnaireField";
-import FieldType from "../form/field/FieldType";
+import FieldType from "../form/FieldType";
 import BooleanWrapper from "../form/values/BooleanWrapper";
 import MoneyWrapper from "../form/values/MoneyWrapper";
 import { Currencies, Money } from "ts-money";
@@ -50,6 +49,4 @@ const sampleFields: Field[] = [
   })
 ];
 
-const sampleConditions: Condition[] = [];
-
-export const sampleForm: Form = new QuestionnaireForm("Box1HouseOwning", sampleFields, sampleConditions);
+export const sampleForm: Form = new QuestionnaireForm("Box1HouseOwning", sampleFields);

@@ -3,8 +3,8 @@
 grammar QL;
 
 root            : FORM IDENTIFIER block EOF;
-block           : '{' blockElement* '}';
-blockElement    : condition | question;
+block           : '{' statement* '}';
+statement    : condition | question;
 condition       : IF '(' expression ')' block;
 question        : identifier ':' questionString questionType;
 
@@ -34,7 +34,8 @@ type            : BOOLEANTYPE
                 | DECIMALTYPE
                 | MONEYTYPE;
 
-constant        : INTEGER # constant_integer
+constant        : (TRUE | FALSE) # constant_boolean
+                | INTEGER # constant_integer
                 | DECIMAL # constant_decimal
                 | DATE # constant_date
                 | MONEY # constant_money
@@ -56,6 +57,8 @@ NE              : '!=';
 AND             : '&&';
 OR              : '||';
 NOT             : '!';
+TRUE            : 'true';
+FALSE           : 'false';
 
 // Keywords
 FORM            : 'form';

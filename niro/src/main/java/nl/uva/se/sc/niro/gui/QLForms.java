@@ -18,7 +18,7 @@ public class QLForms extends Application {
     public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/nl/uva/se/sc/niro/gui/QLHome.fxml"));
 
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root);
 
         stage.setTitle("QL Forms");
         stage.setScene(scene);

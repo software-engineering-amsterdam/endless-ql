@@ -32,10 +32,10 @@ class Gui:
 		form = FormGui(self.mainframe, header)
 		content_frame = form.get_contents()
 		# sfg = ScrollFrameGui(content_frame)
-		# q = Question(content_frame)
-		# for q in questions:
-		# 	form.add_question(q, "int")
-		# self.forms.append(form)
+		q = Question(content_frame)
+		for q in questions:
+			form.add_question(q, "int")
+		self.forms.append(form)
 
 		b = Button(self.mainframe, text="OK", command=self.collect_answers)
 		b.pack()

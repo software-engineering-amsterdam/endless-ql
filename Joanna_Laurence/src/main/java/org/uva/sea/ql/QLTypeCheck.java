@@ -15,13 +15,13 @@ public class QLTypeCheck extends Traverse {
      * Log will be written to std err
      * @param node Do the type check for the node
      */
-    public boolean doTypeCheck(ASTNode node) {
-        node.traverse(this);
+    public boolean doTypeCheck(Form node, TraverseType traverseType) {
+        node.doTraversal(this, traverseType);
         return !error;
     }
 
     /**
-     * Determine if the type is numeric
+     * Determine if the type is numeric (Money is also)
      * @param node The node that contains the type
      * @param type The type as string
      */
@@ -31,13 +31,25 @@ public class QLTypeCheck extends Traverse {
     }
 
     /**
+     * Determine if the type is numeric (Int/double)
+     * @param type The type
+     */
+    private boolean IsBasicNumber(Type type) {
+        return ((type.getNodeType().equals("integer") || type.getNodeType().equals("decimal")));
+    }
+
+
+    /**
      * Check if the types are the same
      * @param node The node to is checked
      * @param lhsType The first type
      * @param rhsType The second type
      */
-    private void checkIsSame(DualNode node, String lhsType, String rhsType) {
-        if(!lhsType.equals(rhsType))
+    private void checkIsSame(ASTNode node, Type lhsType, Type rhsType) {
+        boolean exactlyTheSame = lhsType.equals(rhsType);
+        boolean almostTheSame = IsBasicNumber(lhsType) && IsBasicNumber(rhsType);
+
+        if(!exactlyTheSame && !almostTheSame)
             this.error(node);
     }
 
@@ -49,7 +61,7 @@ public class QLTypeCheck extends Traverse {
      * @param node The node that caused an error
      */
     private void error(ASTNode node) {
-        System.err.println("Incorrect type on line: column: ");
+        System.err.println("Incorrect type on line:" + node.getLine() + " column: " + node.getColumn());
         this.error = true;
     }
 
@@ -59,8 +71,10 @@ public class QLTypeCheck extends Traverse {
      */
     public void doQuestion(Question node) {
         ASTNode value = node.getValue();
-        if(value != null && !node.getNodeType().equals(value.getType()))
-            this.error(node);
+
+        if(value != null) {
+            checkIsSame(node, node.getNodeType(), value.getType());
+        }
     }
 
     /**
@@ -122,8 +136,8 @@ public class QLTypeCheck extends Traverse {
      * @param node The node that is inspected
      */
     public void doLogical(DualNode node)  {
-        String lhsType = node.getLhs().getType().getNodeType();
-        String rhsType = node.getRhs().getType().getNodeType();
+        Type lhsType = node.getLhs().getType();
+        Type rhsType = node.getRhs().getType();
         checkIsSame(node, lhsType, rhsType);
     }
 }

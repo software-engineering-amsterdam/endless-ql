@@ -6,7 +6,7 @@ import org.uva.sea.ql.traverse.Traverse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Statements implements ASTNode {
+public class Statements extends ASTNode {
 
     private List<ASTNode> statementList;
 
@@ -26,10 +26,13 @@ public class Statements implements ASTNode {
         this.statementList.add(item);
     }
 
-    public void traverse(Traverse traverse) {
+    public void traverseNode(Traverse traverse, TraverseType traverseType) {
         traverse.doStatements(this);
+    }
+
+    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
         for (ASTNode node: this.statementList) {
-             node.traverse(traverse);
+            node.doTraversal(traverse,traverseType);
         }
     }
 

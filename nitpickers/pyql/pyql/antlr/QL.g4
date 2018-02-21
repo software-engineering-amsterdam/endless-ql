@@ -9,11 +9,13 @@ grammar QL;
 
  conditional_block : 'if' '(' expression ')' '{' block '}' ;
 
- block             : (quest | conditional_block)+;
+ block             : statement+;
 
- quest             : identifier ':' STR quest_type ;
+ statement         : question | conditional_block ;
 
- quest_type        : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | money;
+ question          : identifier ':' STR question_type ;
+
+ question_type     : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | money;
 
  expression        : '!' expression
                    | orExpression

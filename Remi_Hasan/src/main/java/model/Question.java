@@ -2,7 +2,7 @@ package model;
 
 import expression.Expression;
 
-public class Question extends BlockElement {
+public class Question extends Statement {
 
     public final String name;
     public final String text;
@@ -10,7 +10,7 @@ public class Question extends BlockElement {
 
     public Question(String name, String text, Expression answer) {
         this.name = name;
-        this.text = text.substring(1, text.length() - 1);
+        this.text = text;
         this.answer = answer;
     }
 

@@ -2,12 +2,14 @@ import {Statement} from './';
 import {QuestionBase} from '../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {Question} from './question';
-import {QuestionType} from '../angular-questions/question-type';
+import {QuestionType} from './question-type';
 import * as _ from 'lodash';
 import {UnknownQuestionError, TypeError} from '../errors';
+import {Location} from './location';
 
-export class If implements Statement {
-  constructor(public condition: string, public statements: Statement[]) {
+export class If extends Statement {
+  constructor(public condition: string, public statements: Statement[], location: Location) {
+    super(location);
   }
 
   checkType(allQuestions: Question[]): void {
@@ -16,9 +18,10 @@ export class If implements Statement {
 
     // throw errors if it is not available or if the type is wrong
     if (referencedQuestion === undefined) {
-      throw new UnknownQuestionError(`Cannot find question with identifier ${this.condition}`);
+      throw new UnknownQuestionError(
+        `Cannot find question with identifier ${this.condition} for if statement ` + this.getLocationErrorMessage());
     } else if (referencedQuestion.type !== QuestionType.BOOLEAN) {
-      throw new TypeError(`Expected type boolean for ${this.condition} for usage in if statement`);
+      throw new TypeError(`Expected type boolean for ${this.condition} for usage in if statement ` + this.getLocationErrorMessage());
     }
   }
 

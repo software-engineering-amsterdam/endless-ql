@@ -1,10 +1,11 @@
 package ql;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.Map;
 
-import ql.ast.AstForm;
 import ql.ast.form.Form;
+import ql.ast.type.Type;
+import ql.checker.TypeChecker;
+import ql.visitors.SymbolTable;
 
 public class Main {
 
@@ -16,7 +17,7 @@ public class Main {
 
         String filePath;
         QL ql;
-        Form form;
+        Form form = null;
 
         if (args.length == 0) {
             filePath = "resources/default.tax";
@@ -28,12 +29,20 @@ public class Main {
         try {
             form = (Form) ql.getForm();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
         // Visit and TypeCheck the AST
-
+        Map<String, Type> symbolTable   = new SymbolTable().build(form);
+        TypeChecker checker             = new TypeChecker();
+        checker.checkIdentifiers(form);
+        checker.checkReferences(form, symbolTable);
+        checker.checkConditions(form, symbolTable);
+        checker.checkOperands(form, symbolTable);
+        checker.checkLabels(form);
+        checker.printErrors();
+        checker.printWarnings();
+        
         // Visit and build GUI from AST
 
         // Add Action/DocumentListeners to GUI.

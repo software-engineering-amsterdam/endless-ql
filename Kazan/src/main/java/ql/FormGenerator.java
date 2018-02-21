@@ -1,65 +1,50 @@
 package ql;
 
-import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import view.FormView;
+import view.TreeView;
 
 import java.io.IOException;
-
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.gui.TreeViewer;
-
-import java.util.Arrays;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FormGenerator {
 
-    public void start(String fileName) {
-
-        CharStream inputStream = null;
+    public void loadFile(String filePath) {
         try {
-            inputStream = CharStreams.fromFileName(fileName);
+            String formContent = new String(Files.readAllBytes(Paths.get(filePath)));
+            generateFromString(formContent);
         } catch (IOException e) {
-            System.err.println("Couldn't find source file: " + e.getMessage());
+            System.err.println("Couldn't read source: " + e.getMessage());
         }
-
-        QLLexer lexer = new QLLexer(inputStream);
-        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-        QLParser parser = new QLParser(tokenStream);
-        // parser.removeErrorListeners();
-        ParseTree parseTree = parser.form();
-
-        //show AST in console
-        System.out.println(parseTree.toStringTree(parser));
-
-        //show AST in JFrame
-        visualiseTree(parser, parseTree);
-
-        QLCustomVisitor visitor = new QLCustomVisitor();
-
-        visitor.visit(parseTree);
-
-
     }
 
+    public void generateFromString(String formContent) throws IOException {
+            InputStream stream = new ByteArrayInputStream(formContent.getBytes(StandardCharsets.UTF_8));
+            QLLexer lexer = new QLLexer(CharStreams.fromStream(stream, StandardCharsets.UTF_8));
+            CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 
-    private void visualiseTree(QLParser parser, ParseTree parseTree) {
-        JFrame frame = new JFrame("AST Visualisation");
-        JPanel panel = new JPanel();
-        TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()),parseTree);
-        viewer.setScale(0.8);//scale a little
-        panel.add(viewer);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(panel);
-        frame.setSize(1400,400);
-        frame.setVisible(true);
-    }
+            QLParser parser = new QLParser(tokenStream);
+            parser.removeErrorListeners();
+            ExceptionErrorListener throwErrorListener = new ExceptionErrorListener();
+            parser.addErrorListener(throwErrorListener);
+
+            ParseTree parseTree = parser.form();
+
+            TreeView treeViewer = new TreeView();
+            treeViewer.start(parser, parseTree);
 
 
-    public static void main(String[] args) {
+            TypeCheckVisitor typeCheckVisitor = new TypeCheckVisitor();
+            typeCheckVisitor.visit(parseTree);
 
+            FormView formViewer = new FormView();
+            formViewer.start(parseTree);
     }
 
 }

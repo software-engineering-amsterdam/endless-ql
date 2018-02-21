@@ -1,11 +1,14 @@
 package utils;
 
+import org.antlr.v4.runtime.ParserRuleContext;
+
 public class CodeReference {
 
-	private final int startLine;
-	private final int endLine;
-	private final int startColumn;
-	private final int endColumn;
+	private int startLine;
+	private int endLine;
+	private int startColumn;
+	private int endColumn;
+	private String content;
 
 	public CodeReference() {
 		this.startLine = 0;
@@ -13,12 +16,32 @@ public class CodeReference {
 		this.startColumn = 0;
 		this.endColumn = 0;
 	}
+	
+	public CodeReference(int startLine, int startColumn, String content) {
+		this.startLine = startLine;
+		this.startColumn = startColumn;
+		this.setContent(content);
+	}
 
-	public CodeReference(int startLine, int endLine, int startColumn, int endColumn) {
+	public CodeReference(int startLine, int endLine, int startColumn, int endColumn, String content) {
 		this.startLine = startLine;
 		this.endLine = endLine;
 		this.startColumn = startColumn;
 		this.endColumn = endColumn;
+		this.setContent(content);
+	}
+	
+	public CodeReference(ParserRuleContext context) {
+		StringBuilder contentBuilder;
+		contentBuilder = new StringBuilder();
+		for (int r = 0;r < context.getChildCount();r++) {
+			contentBuilder.append(context.getChild(r).getText());
+			contentBuilder.append(' ');
+		}
+		setContent(contentBuilder.toString());
+			
+		startLine = context.getStart().getLine();
+		startColumn = context.getStart().getCharPositionInLine() + 1;
 	}
 
 	public int getStartLine() {
@@ -35,5 +58,13 @@ public class CodeReference {
 	
 	public int getEndColumn() {
 		return endColumn;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 }

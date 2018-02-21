@@ -1,9 +1,6 @@
 package org.uva.sea.ql;
 
-import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.Condition;
-import org.uva.sea.ql.parser.elements.Form;
-import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.types.Var;
 import org.uva.sea.ql.traverse.Traverse;
 
@@ -23,7 +20,7 @@ public class QLVariableInfo extends Traverse {
     //TODO: Log the line and column!
     //TODO: Add the locations int the AST node
     private void error(String error, ASTNode node) {
-        System.err.println(error + " on line: column: ");
+        System.err.println(error + " on line:  " + node.getLine() + " column: " + node.getColumn());
         this.error = true;
     }
 
@@ -32,8 +29,8 @@ public class QLVariableInfo extends Traverse {
      * @param node The root node of the AST that needs to be checked
      * @return If an error occurred
      */
-    public boolean addVariableInformation(ASTNode node) {
-        node.traverse(this);
+    public boolean addVariableInformation(Form node) {
+        node.doTraversal(this, TraverseType.TOP_DOWN);
         return !error;
     }
 
@@ -60,7 +57,7 @@ public class QLVariableInfo extends Traverse {
         //Questions should not already exist
         String variableName = node.getVariable().getVariableName();
         if(variableMap.containsKey(variableName)) {
-            this.error("Question already exist", node);
+            this.error("Question already exists", node);
             return;
         }
 

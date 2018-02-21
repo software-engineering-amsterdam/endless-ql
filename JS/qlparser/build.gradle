@@ -18,6 +18,7 @@ plugins {
 	id 'idea'
 }
 apply plugin: 'java'
+apply plugin: 'antlr'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
@@ -35,13 +36,20 @@ ext {
 }
 
 dependencies {
+	compile('org.joda:joda-money:0.12')
+	compile('org.antlr:antlr4-runtime:4.7.1')
 	compile('com.vaadin:vaadin-spring-boot-starter')
 	compile('org.springframework.boot:spring-boot-starter-web')
+
 	runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 
-	compile('org.antlr:antlr4-runtime:4.7.1')
+	antlr('org.antlr:antlr4:4.7.1')
+}
+
+generateGrammarSource {
+	arguments += ['-no-listener', '-visitor', '-package', 'nl.uva.js.qlparser.antlr']
 }
 
 dependencyManagement {

@@ -3,10 +3,7 @@ from antlr4 import *
 from antlr_files_2.QLLexer import QLLexer
 from antlr_files_2.QLParser import QLParser
 from antlr_files_2.QLVisitor import QLVisitor
-try:
-    from Tkinter import *
-except ImportError:
-    from _tkinter import *
+from gui import Gui
 
 def main(argv):
     # input = FileStream(argv[1])
@@ -16,11 +13,11 @@ def main(argv):
 
     # tree = parser.form()
     # print(tree.toStringTree(recog=parser))
-
-    root = Tk()
-    w = Label(root, text="Hello, world!")
-    w.pack()
-    root.mainloop()
+    gui = Gui()
+    gui.addLabel("hey", "jaja")
+    gui.addCheckBox("yes")
+    print gui.checkBoxValues["yes"].get()
+    gui.showWindow()
 
 if __name__ == '__main__':
     main(sys.argv)

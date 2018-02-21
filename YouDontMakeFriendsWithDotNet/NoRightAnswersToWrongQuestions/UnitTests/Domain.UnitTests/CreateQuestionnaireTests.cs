@@ -234,19 +234,19 @@ form CommentFormMLX {}";
             }
         }
 
-        //[TestCaseSource(nameof(TypeCases))]
-        //public void WhenQuestionsHasType_CorrectTypeOnQuestions(string validText, Type expectedType)
-        //{
-        //    var createdForm = CreateForm(validText);
-        //    var actualType = createdForm.Questions.FirstOrDefault(x => x.Type);
-        //    Assert.AreEqual(expected: expectedType, actual: actualType);
-        //}
+        [TestCaseSource(nameof(TypeCases))]
+        public void WhenQuestionsHasType_CorrectTypeOnQuestions(string validText, Type expectedType)
+        {
+            var createdForm = CreateForm(validText);
+            var actualType = createdForm.Questions.FirstOrDefault().Type;
+            Assert.AreEqual(expected: expectedType, actual: actualType);
+        }
 
         private static IEnumerable TypeCases
         {
             get
             {
-                yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", 1);
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", typeof(bool));
             }
         }
 

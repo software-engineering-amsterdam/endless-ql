@@ -28,8 +28,8 @@ namespace AntlrInterpretor.Logic
         {
             var name = context.IDENT().GetText();
             var text = context.STRING().GetText();
-
-            var question = new QuestionAst(name, text.Replace("\"", ""));
+            var type = typeof(bool);
+            var question = new QuestionAst(name, text.Replace("\"", ""), type);
             m_questionnaireAst.Questions.Add(question);
             return m_questionnaireAst;
         }

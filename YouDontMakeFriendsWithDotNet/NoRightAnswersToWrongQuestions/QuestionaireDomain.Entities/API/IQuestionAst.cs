@@ -1,4 +1,5 @@
-﻿using QuestionaireDomain.Entities.DomainObjects;
+﻿using System;
+using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionaireDomain.Entities.API
 {
@@ -6,5 +7,6 @@ namespace QuestionaireDomain.Entities.API
     {
         string Name { get; }
         string Text { get; }
+        Type Type { get; }
     }
 }

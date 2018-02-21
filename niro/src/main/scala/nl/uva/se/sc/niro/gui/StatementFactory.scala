@@ -17,6 +17,7 @@ object StatementFactory {
 
   def createStatements(gridPane: GridPane, statements: Seq[Statement]): Unit = {
     gridPane.setHgap(10)
+    gridPane.setGridLinesVisible(true)
 
     var rowNr = 0
     for (statement <- statements) {
@@ -24,23 +25,29 @@ object StatementFactory {
         case question: Question => {
           gridPane.add(new Label(question.label), 0, rowNr)
           gridPane.add(convert(Expression.evaluate(question.answer)), 1, rowNr)
+          gridPane.getRowConstraints.add(new RowConstraints())
         }
         case condition: Conditional => {
           val thenPane = new GridPane()
           // When invisible we don't occupy any space
           thenPane.managedProperty().bind(thenPane.visibleProperty())
           gridPane.add(thenPane, 0, rowNr, 2, 1)
+          gridPane.getRowConstraints.add(new RowConstraints())
           createStatements(thenPane, condition.ifStatements)
 
           if (!condition.elseStatements.isEmpty) {
             rowNr += 1
-            val elsePane = new GridPane()
+            val constraint = new RowConstraints()
+            gridPane.getRowConstraints.add(constraint)
+
             // When invisible we don't occupy any space
+            val elsePane = new GridPane()
             elsePane.managedProperty().bind(thenPane.visibleProperty())
             // Exclusive visibility with thenPane
             elsePane.visibleProperty().bind(thenPane.visibleProperty().not())
             gridPane.add(elsePane, 0, rowNr, 2, 1)
             createStatements(elsePane, condition.elseStatements)
+            constraint.prefHeightProperty().set(0)
           }
         }
       }

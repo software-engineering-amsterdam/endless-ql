@@ -10,7 +10,7 @@ namespace Assignment1
 {
     internal class Controller
     {
-        public IEnumerable<QuestionForm> ParseString(string input)
+        public List<QuestionForm> ParseString(string input)
         {
             ICharStream stream = CharStreams.fromstring(input);
             ITokenSource lexer = new QLLexer(stream);

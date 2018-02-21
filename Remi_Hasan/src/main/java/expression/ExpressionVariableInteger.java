@@ -12,8 +12,11 @@ public class ExpressionVariableInteger extends ExpressionVariable<Integer> {
     }
 
     @Override
-    public void setValue(String answer) {
-        this.value = Integer.parseInt(answer);
+    public void setValue(String value) {
+        if(value.isEmpty())
+            this.value = null;
+        else
+            this.value = Integer.parseInt(value);
     }
 
     // TODO

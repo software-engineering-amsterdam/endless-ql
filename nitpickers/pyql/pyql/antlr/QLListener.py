@@ -17,12 +17,12 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#conditional_block.
-    def enterConditional_block(self, ctx:QLParser.Conditional_blockContext):
+    # Enter a parse tree produced by QLParser#conditionalBlock.
+    def enterConditionalBlock(self, ctx:QLParser.ConditionalBlockContext):
         pass
 
-    # Exit a parse tree produced by QLParser#conditional_block.
-    def exitConditional_block(self, ctx:QLParser.Conditional_blockContext):
+    # Exit a parse tree produced by QLParser#conditionalBlock.
+    def exitConditionalBlock(self, ctx:QLParser.ConditionalBlockContext):
         pass
 
 
@@ -53,12 +53,12 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#question_type.
-    def enterQuestion_type(self, ctx:QLParser.Question_typeContext):
+    # Enter a parse tree produced by QLParser#questionType.
+    def enterQuestionType(self, ctx:QLParser.QuestionTypeContext):
         pass
 
-    # Exit a parse tree produced by QLParser#question_type.
-    def exitQuestion_type(self, ctx:QLParser.Question_typeContext):
+    # Exit a parse tree produced by QLParser#questionType.
+    def exitQuestionType(self, ctx:QLParser.QuestionTypeContext):
         pass
 
 

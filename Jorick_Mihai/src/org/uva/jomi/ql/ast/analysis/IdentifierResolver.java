@@ -7,6 +7,7 @@ import org.uva.jomi.ql.ast.statements.*;
 
 public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
+	private int numberOfErrors = 0;
 	public final IdentifierStack identifierStack;
 
 	public IdentifierResolver() {
@@ -19,8 +20,32 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		}
 	}
 
-	public void visitQuestionIdentifierExpr(IdentifierExpr identifier) {
+	public int getNumberOfErrors() {
+		return numberOfErrors;
+	}
 
+	public void incrementNumberOfErrors() {
+		this.numberOfErrors++;
+	}
+
+	/*
+	 * Add supplementary visit method for questions in order to add a new identifier
+	 * to the stack.
+	 */
+	public void visitQuestionIdentifierExpr(IdentifierExpr identifier) {
+		if (identifierStack.contains(identifier.token.getLexeme())) {
+			// TODO - create an error handler
+			System.err.printf("[IdentifierResolver] line: %s, column: %s: Duplicated identifier: %s\n",
+						identifier.token.getLine(),
+						identifier.token.getColumn(),
+						identifier.token.getLexeme());
+
+			// Increment the number of identifier resolution errors
+			incrementNumberOfErrors();
+		} else {
+			// Add the identifier to the inner most scope map
+			identifierStack.add(identifier);
+		}
 	}
 
 	@Override
@@ -47,14 +72,14 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	@Override
 	public Void visitQuestionStmt(QuestionStmt stmt) {
 		// Make  sure the question name has not been already declared
-		stmt.identifier.accept(this);
+		visitQuestionIdentifierExpr(stmt.identifier);
 		return null;
 	}
 
 	@Override
 	public Void visitComputedQuestionStmt(ComputedQuestionStmt stmt) {
 		// Make  sure the question name has not been already declared
-		stmt.identifier.accept(this);
+		visitQuestionIdentifierExpr(stmt.identifier);
 		stmt.expression.accept(this);
 		return null;
 	}
@@ -71,18 +96,19 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visitIdentifierExpr(IdentifierExpr identifier) {
+
 		if (identifierStack.contains(identifier.token.getLexeme())) {
+			IdentifierExpr retrievedIndetifier = identifierStack.getIdentifier(identifier.token.getLexeme());
+			identifier.updateAllFields(retrievedIndetifier);
+		} else {
 			// TODO - create an error handler
-			System.err.printf("[IdentifierResolver] line: %s, column: %s: Duplicated identifier: %s\n",
+			System.err.printf("[IdentifierResolver] line: %s, column: %s: Undefined identifier: %s\n",
 						identifier.token.getLine(),
 						identifier.token.getColumn(),
 						identifier.token.getLexeme());
 
 			// Increment the number of identifier resolution errors
-			identifierStack.incrementNumberOfErrors();
-		} else {
-			// Add the identifier to the inner most scope map
-			identifierStack.add(identifier);
+			incrementNumberOfErrors();
 		}
 
 		return null;

@@ -55,32 +55,31 @@ public class QL {
 				// Resolve the Ast
 				identifierResolver.resolve(ast);
 
-				TypeResolver typeResolver = new TypeResolver();
-				typeResolver.check(ast);
-				System.out.println("Number of errors: " + typeResolver.getNumberOfErrors());
+				if (identifierResolver.getNumberOfErrors() == 0) {
+					TypeResolver typeResolver = new TypeResolver();
+					typeResolver.check(ast);
+					System.out.println("Number of errors: " + typeResolver.getNumberOfErrors());
 
-				if (typeResolver.getNumberOfErrors() == 0) {
-					UIBuilder builder = new UIBuilder();
-					List<JPanel>panels = builder.build(ast);
+					if (typeResolver.getNumberOfErrors() == 0) {
+						UIBuilder builder = new UIBuilder();
+						List<JPanel>panels = builder.build(ast);
 
-					JFrame frame = new JFrame();
-//				    frame.setLayout(new BoxLayout(frame, BoxLayout.PAGE_AXIS));
+						JFrame frame = new JFrame();
+					    //frame.setLayout(new BoxLayout(frame, BoxLayout.PAGE_AXIS));
 
-					for (JPanel panel : panels) {
-					    frame.add(panel);
+						for (JPanel panel : panels) {
+						    frame.add(panel);
+						}
+
+						frame.setVisible(true);
+						// Show Panels
 					}
 
-					frame.setVisible(true);
-					// Show Panels
+					// Output the Ast in GraphViz dot format.
+					java.io.PrintStream outStream = new java.io.PrintStream("graph.txt");
+					outStream.println(new AstGraph().getGraph(ast));
+					outStream.close();
 				}
-
-
-
-
-				// Output the Ast in GraphViz dot format.
-				java.io.PrintStream outStream = new java.io.PrintStream("graph.txt");
-				outStream.println(new AstGraph().getGraph(ast));
-				outStream.close();
 			}
 
 		} catch (IOException e) {

@@ -14,7 +14,8 @@ export const MoneyField: React.SFC<MoneyFieldProps> = (props) => {
         <Label for={props.field.identifier}>{props.field.label}</Label>
         <InputGroup>
           <Input
-              onChange={e => props.onChange(e.target.value)}
+              readOnly={props.field.isReadOnly()}
+              onChange={e => props.onChange(parseFloat(e.target.value))}
               name={props.field.identifier}
               type="number"
               step={0.01}

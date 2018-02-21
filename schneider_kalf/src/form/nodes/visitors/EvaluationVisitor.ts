@@ -10,7 +10,7 @@ import {
   assertValidDivision
 } from "../../typechecking/typeAssertions";
 import Variable from "../expressions/VariableIdentifier";
-import { NotImplementedYetError } from "../../errors";
+import { NotImplementedYetError, UnkownFieldError, UnkownVariableIdentifierError } from "../../form_errors";
 import BooleanLiteral from "../expressions/boolean_expressions/BooleanLiteral";
 import Division from "../expressions/arithmetic/Division";
 import Subtraction from "../expressions/arithmetic/Subtraction";
@@ -22,6 +22,7 @@ import LargerThanOrEqual from "../expressions/comparisons/LargerThanOrEqual";
 import SmallerThan from "../expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../expressions/comparisons/SmallerThanOrEqual";
 import StringLiteral from "../expressions/string/StringLiteral";
+import FormState from "../../state/FormState";
 
 /**
  * The evaluation visitor travels through an expression and calculates
@@ -31,6 +32,11 @@ import StringLiteral from "../expressions/string/StringLiteral";
  * TODO: Maybe use mixins to separate boolean and arithmetic logic
  */
 export default class EvaluationVisitor implements ExpressionVisitor {
+  private state: FormState | undefined;
+
+  constructor(state?: FormState) {
+    this.state = state;
+  }
 
   /**
    * Visit the variable identifier and return its value
@@ -39,7 +45,11 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @param {VariableIdentifier} variable
    */
   visitVariableIdentifier(variable: Variable) {
-    throw NotImplementedYetError.make("Evaluate variables");
+    if (!this.state || !this.state.has(variable.identifier)) {
+      throw new UnkownVariableIdentifierError(variable.identifier);
+    }
+
+    return this.state.get(variable.identifier);
   }
 
   /**

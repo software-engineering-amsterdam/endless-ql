@@ -5,6 +5,8 @@ import { filterNodes } from "./form_helpers";
 import FormState from "./state/FormState";
 import ComputedField from "./nodes/fields/ComputedField";
 import Question from "./nodes/fields/Question";
+import Maybe = jest.Maybe;
+import { UnkownFieldError } from "./form_errors";
 
 export default class QuestionForm implements Form {
   private node: FormNode;
@@ -27,6 +29,12 @@ export default class QuestionForm implements Form {
     return filterNodes((node) => node instanceof Question, this.node);
   }
 
+  findField(identifier: string): Maybe<FieldNode> {
+    return this.getFields().find((field: FieldNode) => {
+      return field.identifier === identifier;
+    });
+  }
+
   getName(): string {
     return this.node.name;
   }
@@ -35,7 +43,22 @@ export default class QuestionForm implements Form {
     return this.state;
   }
 
-  setValue(identifier: string, value: any): Form {
+  setAnswer(identifier: string, value: any): Form {
     return new QuestionForm(this.node, this.state.set(identifier, value));
+  }
+
+  getAnswer(identifier: string) {
+    const field = this.findField(identifier);
+
+    if (!field) {
+      throw UnkownFieldError.make(identifier);
+    }
+
+    try {
+      return field.getAnswer(this.state);
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
   }
 }

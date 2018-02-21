@@ -33,10 +33,8 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   }
 
   onChange(identifier: string, value: any) {
-    console.log("ON CHANGE", identifier, value);
-
     this.setState({
-      form: sampleForm.setValue(identifier, value)
+      form: this.state.form.setAnswer(identifier, value)
     });
   }
 
@@ -75,7 +73,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
               {errorMessage}
             </div>
             <div className="col-md-6">
-              <FormComponent onChange={this.onChange} form={sampleForm}/>
+              <FormComponent onChange={this.onChange} form={this.state.form}/>
             </div>
             <h2>Sample Expression evaluation</h2>
 

@@ -1,5 +1,5 @@
 export default class FormState {
-  private store: Map<string, any>;
+  store: Map<string, any>;
 
   constructor(store: Map<string, any>) {
     this.store = store;
@@ -8,6 +8,7 @@ export default class FormState {
   set(identifier: string, value: any): FormState {
     const newStore = new Map(this.store);
     newStore.set(identifier, value);
+
     return new FormState(newStore);
   }
 

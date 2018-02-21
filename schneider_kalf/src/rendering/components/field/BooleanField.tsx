@@ -13,8 +13,9 @@ export const BooleanField: React.SFC<BooleanFieldProps> = (props) => {
       <FormGroup check={true}>
         <Label for={props.field.identifier} check={true}>
           <Input
+              readOnly={props.field.isReadOnly()}
               onChange={e => props.onChange(e.target.checked)}
-              checked={props.value}
+              checked={props.value || false}
               name={props.field.identifier}
               type="checkbox"
           />

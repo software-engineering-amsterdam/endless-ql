@@ -7,10 +7,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import ql.ast.AstNode;
 import ql.ast.form.Form;
 import ql.grammar.QLLexer;
 import ql.grammar.QLParser;
@@ -26,32 +23,6 @@ public class QL {
         this.filePath = filePath;
     }
 
-    public AstNode getAst() throws Exception {
-
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
-        CharStream charStream;
-        QLLexer lexer;
-
-        if (inputStream == null) {
-            charStream = CharStreams.fromFileName(filePath, Charset.forName("UTF-8"));
-        } else {
-            charStream = CharStreams.fromStream(inputStream, Charset.forName("UTF-8"));
-        }
-
-        lexer = new QLLexer(charStream);
-        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-        QLParser parser = new QLParser(tokenStream);
-
-        /*
-         * ParseTree tree = parser.form(); QLVisitorToAst visitor = new
-         * QLVisitorToAst(); AstNode root = (AstNode) visitor.visit(tree);
-         * 
-         * return root;
-         */
-
-        return null;
-    }
-    
     public Form getForm() throws Exception { 
         
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);

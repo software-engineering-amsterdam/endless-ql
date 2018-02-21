@@ -60,7 +60,7 @@ public class ReferenceChecker implements ExpressionVisitor {
     
     private void check(Identifier id) {
         
-        if(!symbolTable.containsKey(id.getName()))
+        if(id.getType(symbolTable).isUndefined())
         {
             undefined.add(id);
             errors.add("Reference [ " + id.getName() + " ] to undefined question found @ " + id.getLocation());

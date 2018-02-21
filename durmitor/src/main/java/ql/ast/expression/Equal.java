@@ -4,7 +4,7 @@ import ql.ast.type.Bool;
 import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Equal extends Binary {
+public class Equal extends BinaryEquality {
 
     public Equal(Expression lhs, Expression rhs) {
         super(lhs, rhs);
@@ -16,12 +16,12 @@ public class Equal extends Binary {
     }
 
     @Override
-	public String toString() {
-		return lhs.toString() + " == " + rhs.toString();
-	}
-
-    @Override
     public void accept(ExpressionVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public String getOperator() {
+        return "==";
     }
 }

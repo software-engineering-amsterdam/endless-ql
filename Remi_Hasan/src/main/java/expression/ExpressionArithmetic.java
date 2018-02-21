@@ -7,6 +7,9 @@ public abstract class ExpressionArithmetic extends ExpressionBinary<Double> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Number;
+        if(left.getReturnType() == ReturnType.Decimal || right.getReturnType() == ReturnType.Decimal)
+            return ReturnType.Decimal;
+        else
+            return ReturnType.Integer;
     }
 }

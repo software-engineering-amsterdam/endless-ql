@@ -7,4 +7,8 @@ public class Bool extends Type {
         return "boolean";
     }
 
+    @Override
+    public boolean isBoolean() { 
+        return true; 
+    }
 }

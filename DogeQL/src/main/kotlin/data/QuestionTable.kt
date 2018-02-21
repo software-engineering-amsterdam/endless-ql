@@ -1,18 +1,42 @@
 package data
 
-import common.Identifier
+import common.Name
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 class QuestionTable {
 
-    private val table = HashMap<Identifier, Question>()
+    private val table = HashMap<Name, Question>()
 
-    fun register(identifier: Identifier, question: Question) {
-        table[identifier] = question
+    fun register(name: Name, question: Question) {
+        table[name] = question
     }
 
     fun print(){
         table.forEach { identifier, question ->
             println("ID: $identifier, Question: $question ")
         }
+    }
+
+    fun findDuplicateLabels(): List<String> {
+
+        val uniqueLabels = HashSet<String>()
+
+        val duplicateLabels = ArrayList<String>()
+
+        table.forEach{
+            _, question ->
+            if (!uniqueLabels.add(question.label)){
+                duplicateLabels.add(question.label)
+            }
+        }
+
+        duplicateLabels.forEach{
+            label ->
+            println("Warning duplicate label: $label")
+        }
+
+        return duplicateLabels
     }
 }

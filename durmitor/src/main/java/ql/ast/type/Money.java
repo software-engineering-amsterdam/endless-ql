@@ -6,5 +6,4 @@ public class Money extends Type {
     public String toString() {
         return "money";
     }
-    
 }

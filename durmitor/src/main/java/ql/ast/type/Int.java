@@ -6,5 +6,4 @@ public class Int extends Numeric {
     public String toString() {
         return "integer";
     }
-    
 }

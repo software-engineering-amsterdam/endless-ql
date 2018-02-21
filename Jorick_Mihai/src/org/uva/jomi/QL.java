@@ -1,7 +1,13 @@
 package org.uva.jomi;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.io.IOException;
 import java.util.List;
+
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -12,6 +18,8 @@ import org.uva.jomi.ql.ast.statements.Stmt;
 import org.uva.jomi.ql.ast.*;
 import org.uva.jomi.ql.parser.antlr.*;
 import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
+import org.uva.jomi.ui.elements.BaseElement;
+import org.uva.jomi.ui.generator.UIBuilder;
 
 public class QL {
 
@@ -44,8 +52,24 @@ public class QL {
 
 				TypeResolver typeResolver = new TypeResolver();
 				typeResolver.check(ast);
-				
 				System.out.println("Number of errors: " + typeResolver.getNumberOfErrors());
+				
+				if (typeResolver.getNumberOfErrors() == 0) { 
+					UIBuilder builder = new UIBuilder();
+					List<JPanel>panels = builder.build(ast);
+					
+					JFrame frame = new JFrame();
+//				    frame.setLayout(new BoxLayout(frame, BoxLayout.PAGE_AXIS));
+				    
+					for (JPanel panel : panels) {
+					    frame.add(panel);
+					}
+					
+					frame.setVisible(true);
+					// Show Panels
+				}
+				
+				
 
 
 				// Output the Ast in GraphViz dot format.

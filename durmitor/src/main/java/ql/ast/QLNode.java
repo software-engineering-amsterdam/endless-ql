@@ -15,6 +15,14 @@ public class QLNode {
         this.column = column;
     }
     
+    public int getLine() {
+        return line;
+    }
+    
+    public int getColumn() {
+        return column;
+    }
+    
     public void setLocation(int line, int column) {
         this.line   = line;
         this.column = column;

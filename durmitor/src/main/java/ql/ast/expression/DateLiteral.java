@@ -37,5 +37,4 @@ public class DateLiteral extends Literal<Date> {
     public java.util.Date getValue() {
         return value;
     }
-
 }

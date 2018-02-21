@@ -25,5 +25,4 @@ public class Form extends QLNode {
     public String toString() {
         return "form " + id.toString() + " " + block.toString();
     }
-
 }

@@ -4,7 +4,7 @@ using static QL.Core.QLParser;
 
 namespace QL.Core.Parsing
 {
-    public class QLParsingService : IQLParsingService
+    internal class QLParsingService : IQLParsingService
     {        
         private QLParser SetupParser(string text)
         {
@@ -25,8 +25,7 @@ namespace QL.Core.Parsing
 
             return new ParsedSymbols
             {
-                Forms = visitor.Forms,
-                Questions = visitor.Questions
+                Forms = visitor.AST
             };
         }
     }

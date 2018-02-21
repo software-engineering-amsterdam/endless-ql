@@ -1,7 +1,7 @@
 package ast.statement;
 
 import ast.expression.Expression;
-import ast.expression.Identifier;
+import ast.literal.Identifier;
 import ast.type.Type;
 import utils.CodeReference;
 import visiting.StatementVisitor;

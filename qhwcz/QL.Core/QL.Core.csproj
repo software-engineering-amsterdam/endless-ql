@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Api\ParsedSymbols.cs" />
     <Compile Include="Api\IQLParsingService.cs" />
+    <Compile Include="Api\ServiceRegistry.cs" />
     <Compile Include="AST\QLOperator.cs" />
     <Compile Include="AST\QLStatement.cs" />
     <Compile Include="Parsing\QLParsingService.cs" />
@@ -61,7 +62,6 @@
     </Compile>
     <Compile Include="AST\QLExpression.cs" />
     <Compile Include="AST\QLForm.cs" />
-    <Compile Include="AST\QLQuestion.cs" />
     <Compile Include="Parsing\QLVisitor.cs" />
   </ItemGroup>
   <ItemGroup />

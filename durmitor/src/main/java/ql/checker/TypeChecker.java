@@ -6,11 +6,13 @@ import java.util.Map;
 
 import ql.ast.expression.Expression;
 import ql.ast.expression.Identifier;
+import ql.ast.expression.Operator;
 import ql.ast.form.Form;
 import ql.ast.type.Type;
 import ql.visitors.ConditionChecker;
 import ql.visitors.ConflictingIdChecker;
 import ql.visitors.DuplicateLabelChecker;
+import ql.visitors.OperandChecker;
 import ql.visitors.ReferenceChecker;
 
 public class TypeChecker {
@@ -43,6 +45,13 @@ public class TypeChecker {
         ConditionChecker checker = new ConditionChecker(form, symbolTable, errors);
         
         return checker.getInvalidConditions();
+    }
+    
+    public List<Operator> checkOperands(Form form, Map<String,Type> symbolTable)
+    {
+        OperandChecker checker = new OperandChecker(form, symbolTable, errors);
+        
+        return checker.getIllegalOperations();
     }
     
     public List<String> checkLabels(Form form)

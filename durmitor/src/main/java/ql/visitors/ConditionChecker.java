@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import ql.ast.expression.Expression;
-import ql.ast.expression.Identifier;
 import ql.ast.form.Form;
 import ql.ast.statement.AnswerableQuestion;
 import ql.ast.statement.Block;
@@ -40,14 +39,7 @@ public class ConditionChecker implements StatementVisitor {
     
     private void check(Expression condition) {
         
-        Type type = condition.getType();
-        
-        if(condition.isIdentifier())
-        {
-            String name = ((Identifier) condition).getName();
-            
-            if(symbolTable.containsKey(name)) type = symbolTable.get(name);
-        }
+        Type type = condition.getType(symbolTable);
         
         if(!type.isBoolean())
         {

@@ -1,6 +1,5 @@
 package org.uva.sea.ql.parser.elements.types;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.TraverseType;

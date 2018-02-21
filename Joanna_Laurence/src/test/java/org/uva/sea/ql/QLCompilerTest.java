@@ -8,13 +8,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.uva.sea.ql.parser.elements.Form;
-import org.uva.sea.ql.parser.elements.types.Bool;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @RunWith(Parameterized.class)
 public class QLCompilerTest extends TestCase {

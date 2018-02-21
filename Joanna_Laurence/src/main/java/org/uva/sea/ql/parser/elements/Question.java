@@ -1,10 +1,17 @@
 package org.uva.sea.ql.parser.elements;
 
+import org.uva.sea.ql.QLExprEvaluate;
+import org.uva.sea.ql.parser.elements.types.Bool;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.elements.types.Var;
 import org.uva.sea.ql.traverse.Traverse;
 
-public class Question extends ASTNode {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class Question extends ASTNode implements QuestionContainerNode {
     private String label;
     private Var variable;
     private Type nodeType;
@@ -15,6 +22,10 @@ public class Question extends ASTNode {
         this.variable = variable;
         this.nodeType = nodeType;
         this.value = value;
+    }
+
+    public List<Question> evalQuestions(QLExprEvaluate exprEvaluate) {
+        return Collections.singletonList(this);
     }
 
     public Question() {

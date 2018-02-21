@@ -1,4 +1,4 @@
-lexer grammar Grammar;
+lexer grammar GrammarLexer;
 
 
 //Whitespace

@@ -4,6 +4,10 @@
  */
 
 {
+
+
+
+ if ((123123 + 123123) > (234234 + 123123 || 123123))
   /*
     -@Nodes.IfCondition,
 
@@ -86,10 +90,9 @@ aritmicOps = multOps / addOps
 literalTypes = "boolean" / "money" / "date" / "integer" / "float" / "text"
 
 type
-    = literalType:literalTypes {
-        return types[literalType];
-    }
-
+ = literalType:literalTypes {
+    return types[literalType];
+}
 
 // Field for github syntax
 field
@@ -97,12 +100,12 @@ field
     if (expr)
         return new Nodes.ComputedField(name, label.value, type, expr[2]);
     return new Nodes.Question(name, label.value, type);
- }
+}
 
 block
  = "{" lb* e:(field / if)+ lb* "}" {
      return e;
- }
+}
 
 form
  = _ "form" _ name:name _ block:block lb*{
@@ -118,7 +121,7 @@ if
 expression
  = expr:boolExpr {
     return expr;
- }
+}
 
 // BooleanExpression
 boolExpr
@@ -156,43 +159,43 @@ primary
 // UnaryExpression
 unarryExpr
  = _ op:unaryOps value:primary _ {
-     return {
+    return {
         type:"UnaryExpression",
         attributes:{
             operator:op,
         },
         children: [value],
      }
-  }
+}
 
 name
  = v:([a-zA-Z]+) {
-     return v.join("")
-   }
+    return v.join("")
+}
 
 // Identifier?
 identifier
  = chars:([a-zA-Z]+) {
-     return new Nodes.VariableIdentifier(chars.join(""));
-   }
+    return new Nodes.VariableIdentifier(chars.join(""));
+}
 
 // Boolean Literal
 booleanLiteral
-  = Literal:("True" / "False") {
+ = Literal:("True" / "False") {
     return new Nodes.BooleanLiteral(Literal == "True")
-  }
+}
 
 // Integer
 numberLiteral
-  = digits:([-]?[0-9]+) {
-      return new Nodes.NumberLiteral(parseInt(digits.join(""), 10))
-  }
+ = digits:([-]?[0-9]+) {
+    return new Nodes.NumberLiteral(parseInt(digits.join(""), 10))
+}
 
 // String Literal, Currently only support double quoted String
 stringLiteral
  = '"' chars:doubleString* '"'{
-     return new Nodes.StringLiteral(chars.join(''));
- }
+    return new Nodes.StringLiteral(chars.join(''));
+}
 
 doubleString
   = !('"' / "\\") char:. { return char; }
@@ -209,8 +212,15 @@ escapeSequence
   / "t"  { return "\t";   }
   / "v"  { return "\x0B"; }
 
+// Supported types
+type = "money" / "date" / "integer" / "boolean"
+
 value = identifier / numberLiteral / stringLiteral / booleanLiteral
+
+// Single line comments
 comment = "//" (![\n] .)*
+
+// White spaces and new lines
 ws = [ \t]
 _ = (ws / comment)*
 lb = [ \t\r\n] / comment

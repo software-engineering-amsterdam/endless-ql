@@ -9,101 +9,113 @@
 
 start = call+
 
-call = lb* form:stylesheet lb* { return form}
+call = lb* stylesheet:stylesheet lb* { return stylesheet}
 
-block
+// Stylesheet
+stylesheet
+ = _ "stylesheet" _ name:name lb* page:page*{
+    return { name, page }
+}
+
+// Page
+page
+ = _ "page" _ name:name _ block:pageBlock lb*{
+    return { name, block };
+}
+
+pageBlock
  = "{" lb* body:(section / default)+ lb* "}" {
-     return body;
+    return body;
 }
 
-sectionBlockQuoted
- = _ "{" lb* body:sectionBlockUnquoted+ lb* "}" lb* {
-     return body
-}
-
-sectionBlockUnquoted
- = _ body:(question / section / default) lb* {
-     return body
+// Section
+section
+ = _ "section" _ name:stringLiteral lb* block:sectionBody{
+    return { name, block };
 }
 
 sectionBody
  = sectionBlockQuoted / sectionBlockUnquoted
 
+sectionBlockQuoted
+ = _ "{" lb* body:sectionBlockUnquoted+ lb* "}" lb* {
+    return body
+}
 
+sectionBlockUnquoted
+ = _ body:(question / section / default) lb* {
+    return body
+}
+
+// Question
+question
+ = _ "question" _ name:name lb* widget:widget? lb*{
+    return { name, widget };
+}
+
+
+
+// Default
 default = defaultBlockQuoted / defaultBlockUnquoted
 
 defaultBlockQuoted
  = _ "default" _ type:type _ "{" lb* args:defaultBlockBody+ lb* "}" lb* {
-   return {type, args};
+    return {type, args};
 }
 
 defaultBlockUnquoted
  = _ "default" _ type:type lb* args:defaultBlockBody lb* {
-   return {type, args};
+    return {type, args};
 }
 
 defaultBlockBody
  = (widget / style)
 
-
-stylesheet
- = _ "stylesheet" _ name:name lb* page:page*{
-     return { name, page }
+// Widget
+widget
+ = _ "widget" _ name:name options:widgetOptions? lb* {
+    return {name, options};
 }
 
-page
- = _ "page" _ name:name _ block:block lb*{
-   return { name, block };
- }
-
-section
- = _ "section" _ name:stringLiteral lb* block:sectionBody{
-   return { name, block };
- }
-
-question
- = _ "question" _ name:name lb* widget:widget? lb*{
-   return { name, widget };
- }
-
-widget
- = _ "widget" _ name:name options:options? lb* {
-   return {name, options};
- }
-
-options
- = "(" _ args:args _ ")" lb* {
-   return args;
- }
-
-args
-  = head:stringLiteral rest:(_ "," _ r:args{ return r; })? {
+// WidgetOptions
+widgetOptions
+ = "(" _ args:arguments _ ")" lb* {
+    return args;
+}
+// Arguments, komma separated list
+arguments
+  = head:stringLiteral rest:(_ "," _ r:arguments{ return r; })? {
     return rest != null ? [head].concat(rest) : [head];
 }
 
+// Style element
 style
- = _ name:name _ ":" _ args:styleArgs lb*{
-   return {name, args}
+ = _ name:name _ ":" _ args:styleValues lb*{
+    return {name, args}
 }
 
-styleArgs
+// Style values
+styleValues
  = numberLiteral / stringLiteral / color
 
-
+// Preliminary color code
+// TODO: make hexadecimal
 color
  = _ code:(["#"][0-9]+){
     return "#".concat(code[1].join(""))
 }
 
+// Name
+// TODO: refactor as this is just an identifier
 name
  = v:([a-zA-Z]+) {
-     return v.join("")
+    return v.join("")
 }
 
 // Identifier?
 identifier
  = chars:([a-zA-Z]+) {
-     return chars.join("");
+    return chars.join("");
 }
 
 // Boolean Literal
@@ -115,15 +127,16 @@ booleanLiteral
 // Integer
 numberLiteral
   = digits:([-]?[0-9]+) {
-      return parseInt(digits.join(""), 10)
+    return parseInt(digits.join(""), 10)
 }
 
 // String Literal, Currently only support double quoted String
 stringLiteral
  = '"' chars:doubleString* '"'{
-     return chars.join('');
+    return chars.join('');
 }
 
+// String denoted with double quoted
 doubleString
   = !('"' / "\\") char:. { return char; }
   / "\\" sequence:escapeSequence { return sequence; }
@@ -139,9 +152,15 @@ escapeSequence
   / "t"  { return "\t";   }
   / "v"  { return "\x0B"; }
 
-type = "money" / "date" / "integer" / "boolean"
+// Supported types
+type = "boolean" / "money" / "date" / "integer" / "float" / "text"
+
 value = identifier / numberLiteral / stringLiteral / booleanLiteral
+
+// Single line comments
 comment = "//" (![\n] .)*
+
+// White spaces and new lines
 ws = [ \t]
 _ = (ws / comment)*
 lb = [ \t\r\n] / comment

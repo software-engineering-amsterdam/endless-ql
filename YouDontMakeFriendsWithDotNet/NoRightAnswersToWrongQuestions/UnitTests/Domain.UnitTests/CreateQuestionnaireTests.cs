@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.DomainObjects;
 using QuestionnaireDomain.Logic;
 using QuestionnaireDomain.Logic.API;
 using QuestionnaireDomain.Logic.Logic;
@@ -187,11 +189,11 @@ form CommentFormMLX {}";
         public void WhenGivenValidQuestion_NameAndTextCorrect(string validText, string questionId, string questionText)
         {
             var createdForm = CreateForm(validText);
-            var question = createdForm.Questions.FirstOrDefault();
+            var question = createdForm.Statements.OfType<IQuestionAst>().FirstOrDefault();
             Assert.AreEqual(expected: questionId, actual: question.Name);
             Assert.AreEqual(expected: questionText, actual: question.Text);
         }
-
+        
         private static IEnumerable QuestionCases
         {
             get
@@ -207,6 +209,13 @@ form CommentFormMLX {}";
                     $"form NameForm {{{nl}    qname3 : \"this is a question three\" boolean{nl}    qname4 : \"this is a question four\" boolean }} ",
                     @"qname3",
                     @"this is a question three");
+                yield return new TestCaseData(
+                    $"form NameForm {{{nl}    qname3 : \"this is a question three\" boolean{nl}    qname4 : \"this is a question four\" boolean }} ",
+                    @"qname3",
+                    @"this is a question three");
+                yield return new TestCaseData("form NameForm { x: \"xyz\" boolean }", @"x", @"xyz");
+                yield return new TestCaseData("form NameForm { \"xyz\"  x: boolean }", @"x", @"xyz");
+                yield return new TestCaseData($"form NameForm {{ \"xyz\" {nl} x: boolean {nl} \"xxx\" {nl} y: boolean {nl}}}", @"x", @"xyz");
             }
         }
 
@@ -214,7 +223,7 @@ form CommentFormMLX {}";
         public void WhenGivenMultipleQuestions_CorrectNumberOfQuestions(string validText, int questionCount)
         {
             var createdForm = CreateForm(validText);
-            Assert.AreEqual(expected: questionCount, actual: createdForm.Questions.Count);
+            Assert.AreEqual(expected: questionCount, actual: createdForm.Statements.Count);
         }
 
         private static IEnumerable MultipleQuestionCases
@@ -238,7 +247,7 @@ form CommentFormMLX {}";
         public void WhenQuestionsHasType_CorrectTypeOnQuestions(string validText, Type expectedType)
         {
             var createdForm = CreateForm(validText);
-            var actualType = createdForm.Questions.FirstOrDefault().Type;
+            var actualType = createdForm.Statements.OfType<IQuestionAst>().FirstOrDefault()?.Type;
             Assert.AreEqual(expected: expectedType, actual: actualType);
         }
 
@@ -247,8 +256,35 @@ form CommentFormMLX {}";
             get
             {
                 yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", typeof(bool));
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  string }", typeof(string));
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  integer }", typeof(int));
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  date }", typeof(DateTime));
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  decimal }", typeof(decimal));
             }
         }
 
+        //[TestCaseSource(nameof(ConditionalStatementCases))]
+        //public void WhenFormHasConditionalStatement_CorrectNumberOfConditionalCasesExist(string validText, int conditionCount)
+        //{
+        //    var createdForm = CreateForm(validText);
+        //    var actualCount = createdForm.Statements.OfType<IConditionalAst>().Count;
+        //    Assert.AreEqual(expected: conditionCount, actual: actualCount);
+        //}
+        
+        private static IEnumerable ConditionalStatementCases
+        {
+            get
+            {
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", 0);
+            }
+        }
+    }
+
+    public static class TestHelperExtensions
+    {
+        public static IEnumerable<IAstNode> Flatten(this IEnumerable<IAstNode> e)
+        {
+            return e.SelectMany(c => c.Statements.Flatten()).Concat(e);
+        }
     }
 }

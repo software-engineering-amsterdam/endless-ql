@@ -2,6 +2,8 @@ package data
 
 import common.Name
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 class QuestionTable {
 
@@ -15,5 +17,26 @@ class QuestionTable {
         table.forEach { identifier, question ->
             println("ID: $identifier, Question: $question ")
         }
+    }
+
+    fun findDuplicateLabels(): List<String> {
+
+        val uniqueLabels = HashSet<String>()
+
+        val duplicateLabels = ArrayList<String>()
+
+        table.forEach{
+            _, question ->
+            if (!uniqueLabels.add(question.label)){
+                duplicateLabels.add(question.label)
+            }
+        }
+
+        duplicateLabels.forEach{
+            label ->
+            println("Warning duplicate label: $label")
+        }
+
+        return duplicateLabels
     }
 }

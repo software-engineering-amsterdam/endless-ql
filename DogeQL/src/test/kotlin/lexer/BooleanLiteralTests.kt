@@ -22,7 +22,7 @@ class BooleanLiteralTests {
     @Test
     fun when_InvalidBoolean_Expect_Failure() {
         val input = "fail"
-        val result = ParserHost(input, expectError = true).parser.literal().LIT_BOOLEAN()
+        val result = ParserHost("fail", expectError = true).parser.literal().LIT_BOOLEAN()
         Assert.assertNull(result)
     }
 

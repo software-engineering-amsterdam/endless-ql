@@ -74,10 +74,4 @@ class BooleanExpressionTests {
         Assert.assertTrue(result)
     }
 
-    @Test
-    fun when_Negate_Expect_Success() {
-        val result = !BooleanValue(true)
-        Assert.assertFalse(result.booleanValue.value)
-    }
-
 }

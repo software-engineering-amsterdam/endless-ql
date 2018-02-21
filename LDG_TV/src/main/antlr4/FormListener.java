@@ -47,15 +47,15 @@ public interface FormListener extends ParseTreeListener {
 	 */
 	void exitIf_structure(FormParser.If_structureContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FormParser#statement_block_structure}.
+	 * Enter a parse tree produced by {@link FormParser#stat_block}.
 	 * @param ctx the parse tree
 	 */
-	void enterStatement_block_structure(FormParser.Statement_block_structureContext ctx);
+	void enterStat_block(FormParser.Stat_blockContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FormParser#statement_block_structure}.
+	 * Exit a parse tree produced by {@link FormParser#stat_block}.
 	 * @param ctx the parse tree
 	 */
-	void exitStatement_block_structure(FormParser.Statement_block_structureContext ctx);
+	void exitStat_block(FormParser.Stat_blockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FormParser#question_identifier}.
 	 * @param ctx the parse tree

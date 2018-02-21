@@ -9,6 +9,7 @@ from pyql.ast.expression.expressions import *
 
 # TODO check if can get rid of 'if getChildCount() > 1'
 
+
 class ParseTreeVisitor(QLVisitor):
 
     def visitForm(self, ctx: QLParser.FormContext):
@@ -17,12 +18,11 @@ class ParseTreeVisitor(QLVisitor):
         block = ctx.block().accept(self)
         return Form(identifier, location, block)
 
-    def visitConditional_block(self, ctx: QLParser.Conditional_blockContext):
+    def visitConditionalBlock(self, ctx: QLParser.Conditional_blockContext):
         return IfStatement(self.location(ctx), ctx.expression().accept(self), ctx.block().accept(self))
 
     def visitBlock(self, ctx: QLParser.BlockContext):
-        statements = [s.accept(self) for s in ctx.statement()]
-        return Block(self.location(ctx), statements)
+        return Block(self.location(ctx), [s.accept(self) for s in ctx.statement()])
 
     def visitStatement(self, ctx: QLParser.StatementContext):
         return self.visitChildren(ctx)
@@ -30,7 +30,7 @@ class ParseTreeVisitor(QLVisitor):
     def visitQuestion(self, ctx: QLParser.QuestionContext):
         return QuestionStatement(self.location(ctx), ctx.identifier().accept(self), ctx.STR(), ctx.question_type().accept(self))
 
-    def visitQuestion_type(self, ctx: QLParser.Question_typeContext):
+    def visitQuestionType(self, ctx: QLParser.Question_typeContext):
         return ctx.getText()
 
     def visitExpression(self, ctx: QLParser.ExpressionContext):

@@ -8,11 +8,9 @@ import Question from "./nodes/fields/Question";
 
 export default class QuestionForm implements Form {
   private node: FormNode;
-  private state: FormState;
 
   constructor(formNode: FormNode, state: FormState) {
     this.node = formNode;
-    this.state = state;
   }
 
   getFields(): FieldNode[] {
@@ -25,17 +23,5 @@ export default class QuestionForm implements Form {
 
   getQuestions(): ComputedField[] {
     return filterNodes((node) => node instanceof Question, this.node);
-  }
-
-  getName(): string {
-    return this.node.name;
-  }
-
-  getState(): FormState {
-    return this.state;
-  }
-
-  setValue(identifier: string, value: any): Form {
-    return new QuestionForm(this.node, this.state.set(identifier, value));
   }
 }

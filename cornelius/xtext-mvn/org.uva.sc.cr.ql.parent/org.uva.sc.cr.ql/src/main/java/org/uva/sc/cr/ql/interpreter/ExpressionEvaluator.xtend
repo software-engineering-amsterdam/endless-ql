@@ -1,6 +1,7 @@
 package org.uva.sc.cr.ql.interpreter
 
 import java.util.Map
+import javax.inject.Singleton
 import javax.script.ScriptEngine
 import javax.script.ScriptEngineManager
 import org.uva.sc.cr.ql.qL.Expression
@@ -17,6 +18,7 @@ import org.uva.sc.cr.ql.qL.ExpressionPlusOrMinus
 import org.uva.sc.cr.ql.qL.ExpressionQuestionRef
 import org.uva.sc.cr.ql.util.MissingCaseException
 
+@Singleton
 class ExpressionEvaluator {
 
 	val ScriptEngine engine;
@@ -44,15 +46,16 @@ class ExpressionEvaluator {
 				" " + exp.expression + " "
 			ExpressionQuestionRef:
 				exp.question.name
-			default:
+			default: {
 				throw new MissingCaseException
+			}
 		}
 	}
 
 	def <T> evalExpression(Expression exp, Map<String, Object> arguments) {
 		val stringExp = buildExpression(exp)
 
-		arguments.forEach[variableName, valueValue |
+		arguments.forEach [ variableName, valueValue |
 			engine.put(variableName, valueValue)
 		]
 		println("evaluating " + stringExp + " with " + arguments)

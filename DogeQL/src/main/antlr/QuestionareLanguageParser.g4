@@ -18,19 +18,11 @@ statement
     ;
 
 questionStatement
-    : LIT_STRING variableInitialization
+    : LIT_STRING NAME COLON TYPE (ASSIGN expression)?
     ;
 
 ifStatement
     : IF LPAREN expression RPAREN block
-    ;
-
-variableInitialization
-    : variableDeclaration (ASSIGN expression)?
-    ;
-
-variableDeclaration
-    : NAME COLON TYPE
     ;
 
 expression

@@ -6,7 +6,7 @@ form ConditionQuestions {
 		canRead: "Can you read?" boolean
 		salary: "What is your monthly salary?" money
 	} else {
-		lastName: "What is your last name of your parent?" string
+		lastName: "What is your last name of your parents?" string
 	}
-	dateOfBirth: "What is you date of birth?" date
+	dateOfBirth: "What is your date of birth?" date
 }

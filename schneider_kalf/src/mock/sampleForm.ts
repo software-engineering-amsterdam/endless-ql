@@ -1,12 +1,13 @@
-import QuestionnaireForm from "../form/QuestionnaireForm";
 import Form from "../form/Form";
-import Field from "../form/field/Field";
-import { QuestionnaireField } from "../form/field/QuestionnaireField";
-import FieldType from "../form/field/FieldType";
-import BooleanWrapper from "../form/values/BooleanWrapper";
-import MoneyWrapper from "../form/values/MoneyWrapper";
-import { Currencies, Money } from "ts-money";
-import StringWrapper from "../form/values/StringWrapper";
+import FieldType from "../form/FieldType";
+import FormNode from "../form/nodes/FormNode";
+import Question from "../form/nodes/fields/Question";
+import IfCondition from "../form/nodes/conditions/IfCondition";
+import VariableIdentifier from "../form/nodes/expressions/VariableIdentifier";
+import ComputedField from "../form/nodes/fields/ComputedField";
+import Subtraction from "../form/nodes/expressions/arithmetic/Subtraction";
+import QuestionForm from "../form/QuestionForm";
+import FormState from "../form/state/FormState";
 
 /*
 form Box1HouseOwning {
@@ -22,31 +23,20 @@ valueResidue: “Value residue:” money(sellingPrice - privateDebt)
 }
 */
 
-const sampleFields: Field[] = [
-  new QuestionnaireField({
-    label: "Did you sell a house in 2010?",
-    name: "hasSoldHouse",
-    value: new BooleanWrapper(false),
-    type: FieldType.Boolean
-  }),
-  new QuestionnaireField({
-    label: "Did you by a house in 2010?",
-    name: "hasBoughtHouse",
-    value: new BooleanWrapper(true),
-    type: FieldType.Boolean
-  }),
-  new QuestionnaireField({
-    label: "How much should one Ripple be worth?",
-    name: "howMuchOneRipple",
-    value: new MoneyWrapper(new Money(1500, Currencies.EUR)),
-    type: FieldType.Money
-  }),
-  new QuestionnaireField({
-    label: "Some comments?",
-    name: "comments",
-    value: new StringWrapper(""),
-    type: FieldType.Text
-  })
-];
+const formNode: FormNode = new FormNode("Box1HouseOwning", [
+  new Question("hasSoldHouse", "Did you sell a house in 2010?", FieldType.Boolean),
+  new Question("hasBoughtHouse", "Did you by a house in 2010?", FieldType.Boolean),
+  new Question("hasMaintLoan", "Did you enter a loan for maintenance/reconstruction?", FieldType.Boolean),
+  new IfCondition(new VariableIdentifier("hasSoldHouse"), [
+    new Question("sellingPrice", "Price the house was sold for:", FieldType.Money),
+    new Question("privateDebt", "Private debts for the sold house:", FieldType.Money),
+    new ComputedField(
+        "Value residue:",
+        "Price the house was sold for:", FieldType.Money,
+        new Subtraction(new VariableIdentifier("sellingPrice"), new VariableIdentifier("privateDebt")
+        )
+    ),
+  ]),
+]);
 
-export const sampleForm: Form = new QuestionnaireForm("Box1HouseOwning", sampleFields);
+export const sampleForm: Form = new QuestionForm(formNode, new FormState(new Map()));

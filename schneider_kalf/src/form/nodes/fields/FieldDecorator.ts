@@ -1,5 +1,5 @@
-import Field from "./Field";
-import FieldType from "../../field/FieldType";
+import Field from "./FieldNode";
+import FieldType from "../../FieldType";
 import NodeVisitor from "../visitors/NodeVisitor";
 
 /**

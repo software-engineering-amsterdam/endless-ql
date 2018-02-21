@@ -20,9 +20,6 @@ public class VisitorStatement extends QLBaseVisitor<Statement> {
         VisitorQuestion visitorQuestion = new VisitorQuestion();
         Question question = visitorQuestion.visitQuestion(ctx);
 
-        LookupTable lookupTable = LookupTable.getInstance();
-        lookupTable.insert(question);
-
         return question;
     }
 

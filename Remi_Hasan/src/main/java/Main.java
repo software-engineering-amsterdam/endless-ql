@@ -68,7 +68,7 @@ public class Main extends Application {
             Button fileSelectorButton = createFileSelectorButton(stage);
 
             // Build submit button
-            Button submitButton = createSubmitButton(null);
+            Button submitButton = createSubmitButton(form);
 
             // Create box with form and submit button
             VBox vBox = new VBox(35);
@@ -89,7 +89,8 @@ public class Main extends Application {
         } catch(UnsupportedOperationException e){
             // TODO Explain why form is invalid
             Alert alert = new Alert(Alert.AlertType.ERROR, "Form invalid");
-            alert.setContentText(e.toString());
+            alert.setHeaderText("Form invalid");
+            alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
     }
@@ -127,7 +128,8 @@ public class Main extends Application {
             if (statement.isQuestion()) {
                 addQuestionsToFieldGroup(fields, form, (Question) statement, fieldGroup);
             } else if (statement.isCondition()) {
-                addQuestionsToFieldGroup(fields, form, ((Condition) statement).statements, fieldGroup);
+                addQuestionsToFieldGroup(fields, form, ((Condition) statement).conditionTrueStatements, fieldGroup);
+                addQuestionsToFieldGroup(fields, form, ((Condition) statement).conditionFalseSatements, fieldGroup);
             }
         }
     }
@@ -190,6 +192,7 @@ public class Main extends Application {
         // If input changes some questions might need to be enabled/disabled
         input.setOnKeyTyped(e -> {
             if (input.isEditable()) {
+                // TODO Change other fields that depend
                 changeQuestionAnswer(input, question);
                 changeEditableFields(fields, form.statements, true);
             }
@@ -231,9 +234,12 @@ public class Main extends Application {
     }
 
     private void changeEditableFields(HashMap<String, Control> fields, Condition condition, boolean inEditableBlock) {
-        boolean inEditableSubBlock = inEditableBlock && Boolean.TRUE.equals(condition.condition.evaluate().get());
-        for (Statement statement : condition.statements) {
-            changeEditableFields(fields, statement, inEditableSubBlock);
+        boolean inEditableSubBlock = Boolean.TRUE.equals(condition.condition.evaluate().get());
+        for (Statement statement : condition.conditionTrueStatements) {
+            changeEditableFields(fields, statement, inEditableBlock && inEditableSubBlock);
+        }
+        for (Statement statement : condition.conditionFalseSatements) {
+            changeEditableFields(fields, statement, inEditableBlock && !inEditableSubBlock);
         }
     }
 
@@ -243,7 +249,7 @@ public class Main extends Application {
         submitButton.setOnAction(e -> {
 
             // Debug output, shows answer to every question in console
-//            form.elements.forEach(x -> printQuestionAnswers(x));
+            form.statements.forEach(x -> printQuestionAnswers(x));
         });
         return submitButton;
     }
@@ -257,7 +263,7 @@ public class Main extends Application {
     }
 
     private void printQuestionAnswers(Condition condition) {
-        for (Statement statement : condition.statements) {
+        for (Statement statement : condition.conditionTrueStatements) {
             printQuestionAnswers(statement);
         }
     }

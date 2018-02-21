@@ -14,6 +14,8 @@ class FormListener : QuestionareLanguageParserBaseListener() {
         }
 
         table.print()
+
+        table.findDuplicateLabels()
     }
 
     override fun exitQuestionStatement(ctx: QuestionareLanguageParser.QuestionStatementContext) {

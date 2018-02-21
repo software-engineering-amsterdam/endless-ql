@@ -13,12 +13,13 @@ public class QLMain {
          Rename mul add etc
          set location <- constructor
          lhs rhs
-         rename to visit pattern << doX
-         Double dispatch for evaluator
+         rename to visit pattern << doX to visit
+
+         Double dispatch for evaluator?
          int/int=decimal when needed
-         Add variable value @ eval
          rel: add . add << will return a list not a tree. // a - b - c. << terry group
-         // Binary expression - operation as name?
+         // Binary expression - operation as name? Instead of condition and logical? logical = binary operator
+         Support defining values to variables. See todo @ evaluator
      */
 
     /**

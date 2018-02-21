@@ -16,17 +16,13 @@ question_structure:
 ;
 if_structure:
     IF
-    stat_block
+    statement_block_structure
     CURLY_BRACKET_OPEN
     (question_structure)+
     CURLY_BRACKET_CLOSE
 ;
 
-stat_block:
-   BRACKET_OPEN
-   question_variable
-   BRACKET_CLOSE
-;
+statement_block_structure: BRACKET_OPEN question_variable BRACKET_CLOSE ;
 
 question_identifier : QUESTION_IDENTIFIER;
 question_variable: CHARACTERS;
@@ -61,7 +57,5 @@ NEWLINE : ('\r'? '\n' | '\r')+ -> skip;
 
 CHARACTERS : (LOWERCASE | UPPERCASE)+;
 
-fragment NUMBERS
-   : ('0' .. '9') + ('.' ('0' .. '9') +)?
-   ;
+fragment NUMBERS : ('0' .. '9') + ('.' ('0' .. '9') +)? ;
 

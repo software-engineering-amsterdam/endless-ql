@@ -1,8 +1,7 @@
 from pyql.antlr.QLVisitor import QLVisitor
 from pyql.antlr.QLParser import QLParser
-from pyql.ast.form.question_statement import QuestionStatement
+from pyql.ast.form.ql_statements import *
 from pyql.ast.form.block import Block
-from pyql.ast.form.if_statement import IfStatement
 from pyql.ast.code_location import CodeLocation
 from pyql.ast.form.form import Form
 from pyql.ast.expression.expressions import *
@@ -18,8 +17,11 @@ class ParseTreeVisitor(QLVisitor):
         block = ctx.block().accept(self)
         return Form(identifier, location, block)
 
-    def visitConditionalBlock(self, ctx: QLParser.ConditionalBlockContext):
-        return IfStatement(self.location(ctx), ctx.expression().accept(self), ctx.block().accept(self))
+    def visitIfStatement(self, ctx:QLParser.IfStatementContext):
+        return If(self.location(ctx), ctx.expression().accept(self), ctx.block().accept(self))
+
+    def visitIfElseStatement(self, ctx:QLParser.IfElseStatementContext):
+        return IfElse(self.location(ctx), ctx.expression().accept(self), ctx.block(0).accept(self), ctx.block(1).accept(self))
 
     def visitBlock(self, ctx: QLParser.BlockContext):
         return Block(self.location(ctx), [s.accept(self) for s in ctx.statement()])
@@ -28,7 +30,7 @@ class ParseTreeVisitor(QLVisitor):
         return self.visitChildren(ctx)
 
     def visitQuestion(self, ctx: QLParser.QuestionContext):
-        return QuestionStatement(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(), ctx.questionType().accept(self))
+        return Question(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(), ctx.questionType().accept(self))
 
     def visitQuestionType(self, ctx: QLParser.QuestionTypeContext):
         return ctx.getText()

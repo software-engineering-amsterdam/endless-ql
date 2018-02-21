@@ -25,6 +25,6 @@ public class IdentifierExpr extends Expr {
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visitIndetifierExpr(this);
+		return visitor.visitIdentifierExpr(this);
 	}
 }

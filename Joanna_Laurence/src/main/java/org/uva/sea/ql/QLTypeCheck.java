@@ -2,9 +2,9 @@ package org.uva.sea.ql;
 
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.*;
-import org.uva.sea.ql.parser.elements.expressions.Neg;
+import org.uva.sea.ql.parser.elements.expressions.Negative;
 import org.uva.sea.ql.parser.elements.expressions.Not;
-import org.uva.sea.ql.parser.elements.expressions.Pos;
+import org.uva.sea.ql.parser.elements.expressions.Positive;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.DualNode;
 import org.uva.sea.ql.traverse.Traverse;
@@ -84,7 +84,7 @@ public class QLTypeCheck extends Traverse {
      * Only money, int and decimal could be negated
      * @param node The node that is inspected
      */
-    public void doNeg(Neg node)  {
+    public void doNeg(Negative node)  {
         NodeType nodeType = node.getType().getNodeType();
         if(!(nodeType == NodeType.BOOLEAN || nodeType == NodeType.INTEGER || nodeType == NodeType.DECIMAL))
             this.error(node);
@@ -94,7 +94,7 @@ public class QLTypeCheck extends Traverse {
      * Only money, int and decimal could be made positive
      * @param node The node that is inspected
      */
-    public void doPos(Pos node) {
+    public void doPos(Positive node) {
         NodeType nodeType = node.getType().getNodeType();
         if(!(nodeType == NodeType.MONEY || nodeType == NodeType.INTEGER || nodeType == NodeType.DECIMAL))
             this.error(node);

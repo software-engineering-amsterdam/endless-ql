@@ -150,7 +150,7 @@ public class QLExprEvaluate extends Traverse {
      * Do the addition operation
      * @param node The node
      */
-    public void doAdd(Add node)  {
+    public void doAdd(Addition node)  {
         this.doDoubleOperator((eval, lhs, rhs) -> {
             if(eval != null) {
                 this.stack.add(eval.add(lhs, rhs));
@@ -166,7 +166,7 @@ public class QLExprEvaluate extends Traverse {
         });
     }
 
-    public void doDiv(Div node)  {
+    public void doDiv(Division node)  {
         this.doDoubleOperator((eval, lhs, rhs) -> {
             if(eval != null) {
                 this.stack.add(eval.div(lhs, rhs));
@@ -174,7 +174,7 @@ public class QLExprEvaluate extends Traverse {
         });
     }
 
-    public void doEq(Eq node)  {
+    public void doEq(Equal node)  {
         this.doDoubleOperator((eval, lhs, rhs) -> {
             if(eval != null) {
                 this.stack.add(eval.eq(lhs, rhs));
@@ -182,7 +182,7 @@ public class QLExprEvaluate extends Traverse {
         });
     }
 
-    public void doGEq(GEq node)  {
+    public void doGEq(GreaterOrEqual node)  {
         this.doDoubleOperator((eval, lhs, rhs) -> {
             if(eval != null) {
                 this.stack.add(eval.gEq(lhs, rhs));
@@ -190,7 +190,7 @@ public class QLExprEvaluate extends Traverse {
         });
     }
 
-    public void doGThan(GThan node)  {
+    public void doGThan(GreaterThan node)  {
         this.doDoubleOperator((eval, lhs, rhs) -> {
             if(eval != null) {
                 this.stack.add(eval.gThan(lhs, rhs));
@@ -198,7 +198,7 @@ public class QLExprEvaluate extends Traverse {
         });
     }
 
-    public void doLEq(LEq node)  {
+    public void doLEq(LessOrEqual node)  {
         this.doDoubleOperator((eval, lhs, rhs) -> {
             if(eval != null) {
                 this.stack.add(eval.lEq(lhs, rhs));
@@ -206,7 +206,7 @@ public class QLExprEvaluate extends Traverse {
         });
     }
 
-    public void doLThan(LThan node)  {
+    public void doLThan(LessThan node)  {
         this.doDoubleOperator((eval, lhs, rhs) -> {
             if(eval != null) {
                 this.stack.add(eval.lThan(lhs, rhs));
@@ -214,7 +214,7 @@ public class QLExprEvaluate extends Traverse {
         });
     }
 
-    public void doMul(Mul node)  {
+    public void doMul(Multiplication node)  {
         this.doDoubleOperator((eval, lhs, rhs) -> {
             if(eval != null) {
                 this.stack.add(eval.mul(lhs, rhs));
@@ -222,7 +222,7 @@ public class QLExprEvaluate extends Traverse {
         });
     }
 
-    public void doNeg(Neg node)  {
+    public void doNeg(Negative node)  {
         this.doSingleOperator((eval, value) -> {
             if(eval != null) {
                 this.stack.add(eval.neg(value));
@@ -230,7 +230,7 @@ public class QLExprEvaluate extends Traverse {
         });
     }
 
-    public void doNEq(NEq node)  {
+    public void doNEq(NotEqual node)  {
         this.doDoubleOperator((eval, lhs, rhs) -> {
             if(eval != null) {
                 this.stack.add(eval.nEq(lhs, rhs));
@@ -254,7 +254,7 @@ public class QLExprEvaluate extends Traverse {
         });
     }
 
-    public void doPos(Pos node) {
+    public void doPos(Positive node) {
         this.doSingleOperator((eval, value) -> {
             if(eval != null) {
                 this.stack.add(eval.pos(value));
@@ -262,7 +262,7 @@ public class QLExprEvaluate extends Traverse {
         });
     }
 
-    public void doSub(Sub node) {
+    public void doSub(Subtraction node) {
         this.doDoubleOperator((eval, lhs, rhs) -> {
             if(eval != null) {
                 this.stack.add(eval.sub(lhs, rhs));

@@ -7,35 +7,35 @@ import org.uva.sea.ql.parser.nodeTypes.DualNode;
 
 public abstract class Traverse {
 
-    public void doAdd(Add node)  {}
+    public void doAdd(Addition node)  {}
 
     public void doAnd(And node)  {}
 
-    public void doDiv(Div node)  {}
+    public void doDiv(Division node)  {}
 
-    public void doEq(Eq node)  {}
+    public void doEq(Equal node)  {}
 
-    public void doGEq(GEq node)  {}
+    public void doGEq(GreaterOrEqual node)  {}
 
-    public void doGThan(GThan node)  {}
+    public void doGThan(GreaterThan node)  {}
 
-    public void doLEq(LEq node)  {}
+    public void doLEq(LessOrEqual node)  {}
 
-    public void doLThan(LThan node)  {}
+    public void doLThan(LessThan node)  {}
 
-    public void doMul(Mul node)  {}
+    public void doMul(Multiplication node)  {}
 
-    public void doNeg(Neg node)  {}
+    public void doNeg(Negative node)  {}
 
-    public void doNEq(NEq node)  {}
+    public void doNEq(NotEqual node)  {}
 
     public void doNot(Not node)  {}
 
     public void doOr(Or node) {}
 
-    public void doPos(Pos node) {}
+    public void doPos(Positive node) {}
 
-    public void doSub(Sub node) {}
+    public void doSub(Subtraction node) {}
 
     public void doBool(Bool node) {}
 

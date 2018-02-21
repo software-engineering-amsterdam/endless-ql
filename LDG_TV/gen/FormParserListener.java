@@ -47,6 +47,16 @@ public interface FormParserListener extends ParseTreeListener {
 	 */
 	void exitIf_structure(FormParserParser.If_structureContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link FormParserParser#stat_block}.
+	 * @param ctx the parse tree
+	 */
+	void enterStat_block(FormParserParser.Stat_blockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormParserParser#stat_block}.
+	 * @param ctx the parse tree
+	 */
+	void exitStat_block(FormParserParser.Stat_blockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link FormParserParser#question_identifier}.
 	 * @param ctx the parse tree
 	 */
@@ -67,16 +77,6 @@ public interface FormParserListener extends ParseTreeListener {
 	 */
 	void exitQuestion_variable(FormParserParser.Question_variableContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FormParserParser#question_variable_seperator}.
-	 * @param ctx the parse tree
-	 */
-	void enterQuestion_variable_seperator(FormParserParser.Question_variable_seperatorContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FormParserParser#question_variable_seperator}.
-	 * @param ctx the parse tree
-	 */
-	void exitQuestion_variable_seperator(FormParserParser.Question_variable_seperatorContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link FormParserParser#question_answer_type}.
 	 * @param ctx the parse tree
 	 */
@@ -86,16 +86,6 @@ public interface FormParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitQuestion_answer_type(FormParserParser.Question_answer_typeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FormParserParser#question_answer_seperator}.
-	 * @param ctx the parse tree
-	 */
-	void enterQuestion_answer_seperator(FormParserParser.Question_answer_seperatorContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FormParserParser#question_answer_seperator}.
-	 * @param ctx the parse tree
-	 */
-	void exitQuestion_answer_seperator(FormParserParser.Question_answer_seperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FormParserParser#question_answer}.
 	 * @param ctx the parse tree

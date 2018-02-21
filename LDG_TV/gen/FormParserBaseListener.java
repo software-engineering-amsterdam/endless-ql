@@ -63,6 +63,18 @@ public class FormParserBaseListener implements FormParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStat_block(FormParserParser.Stat_blockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStat_block(FormParserParser.Stat_blockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterQuestion_identifier(FormParserParser.Question_identifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -87,18 +99,6 @@ public class FormParserBaseListener implements FormParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestion_variable_seperator(FormParserParser.Question_variable_seperatorContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitQuestion_variable_seperator(FormParserParser.Question_variable_seperatorContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterQuestion_answer_type(FormParserParser.Question_answer_typeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -106,18 +106,6 @@ public class FormParserBaseListener implements FormParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitQuestion_answer_type(FormParserParser.Question_answer_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterQuestion_answer_seperator(FormParserParser.Question_answer_seperatorContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitQuestion_answer_seperator(FormParserParser.Question_answer_seperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

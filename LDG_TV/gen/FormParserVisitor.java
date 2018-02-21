@@ -34,6 +34,12 @@ public interface FormParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIf_structure(FormParserParser.If_structureContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link FormParserParser#stat_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStat_block(FormParserParser.Stat_blockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link FormParserParser#question_identifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -46,23 +52,11 @@ public interface FormParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestion_variable(FormParserParser.Question_variableContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link FormParserParser#question_variable_seperator}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQuestion_variable_seperator(FormParserParser.Question_variable_seperatorContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link FormParserParser#question_answer_type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitQuestion_answer_type(FormParserParser.Question_answer_typeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link FormParserParser#question_answer_seperator}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQuestion_answer_seperator(FormParserParser.Question_answer_seperatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link FormParserParser#question_answer}.
 	 * @param ctx the parse tree

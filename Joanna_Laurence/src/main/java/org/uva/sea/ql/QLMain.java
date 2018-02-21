@@ -8,22 +8,16 @@ public class QLMain {
 
     /**
      * TODO:
-         Bigint << money
          Date with /
-         Pass text and do no java logic inside the grammar
          Rename mul add etc
-         enum for types
-         immutable
          set location <- constructor
          lhs rhs
          rename to visit pattern << doX
-         if inside if
          Double dispatch for evaluator
-         int/int=decimal
+         int/int=decimal when needed
          Add variable value @ eval
          rel: add . add << will return a list not a tree. // a - b - c. << terry group
-         // Binary expression - operation
-         Remove java in grammar
+         // Binary expression - operation as name?
      */
 
     /**

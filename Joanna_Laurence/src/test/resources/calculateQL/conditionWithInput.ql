@@ -1,6 +1,4 @@
-//Q=3
-//waitDays:=integer 5
-
+//Q=2
 form taxOfficeExample {
   "What was the selling price?"
     sellingPrice: decimal = 1.5

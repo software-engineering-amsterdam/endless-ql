@@ -53,6 +53,10 @@ public class QLEvaluatorTest extends TestCase {
     private static Collection<Object[]> getTestFiles(String folderLocation) {
         Collection<Object[]> testFiles = new ArrayList<Object[]>();
 
+        //TODO: extract bag of variables @ evaluator
+        //waitDays:=integer 5
+        //waitDays has the value Integer("5")
+
         Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
         for(String location : locations) {
             testFiles.add(new Object[] {location, determineExpectedTests(location)});

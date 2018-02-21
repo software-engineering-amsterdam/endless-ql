@@ -25,9 +25,5 @@ def main(argv):
 
     # output.close()
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 36cc4c964245943ce6286f0970b39ed755f6e4f3
 if __name__ == '__main__':
     main(sys.argv)

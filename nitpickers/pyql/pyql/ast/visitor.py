@@ -18,7 +18,7 @@ class ParseTreeVisitor(QLVisitor):
         block = ctx.block().accept(self)
         return Form(identifier, location, block)
 
-    def visitConditionalBlock(self, ctx: QLParser.Conditional_blockContext):
+    def visitConditionalBlock(self, ctx: QLParser.ConditionalBlockContext):
         return IfStatement(self.location(ctx), ctx.expression().accept(self), ctx.block().accept(self))
 
     def visitBlock(self, ctx: QLParser.BlockContext):
@@ -28,9 +28,9 @@ class ParseTreeVisitor(QLVisitor):
         return self.visitChildren(ctx)
 
     def visitQuestion(self, ctx: QLParser.QuestionContext):
-        return QuestionStatement(self.location(ctx), ctx.identifier().accept(self), ctx.STR(), ctx.question_type().accept(self))
+        return QuestionStatement(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(), ctx.questionType().accept(self))
 
-    def visitQuestionType(self, ctx: QLParser.Question_typeContext):
+    def visitQuestionType(self, ctx: QLParser.QuestionTypeContext):
         return ctx.getText()
 
     def visitExpression(self, ctx: QLParser.ExpressionContext):

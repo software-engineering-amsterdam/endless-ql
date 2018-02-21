@@ -3,7 +3,7 @@ import NumberLiteral from "../form/nodes/expressions/arithmetic/NumberLiteral";
 import Multiplication from "../form/nodes/expressions/arithmetic/Multiplication";
 import Equals from "../form/nodes/expressions/comparisons/Equals";
 import FormNode from "../form/nodes/FormNode";
-import EvaluationVisitor from "../form/nodes/visitors/EvaluationVisitor";
+import EvaluationVisitor from "../form/evaluation/EvaluationVisitor";
 import Question from "../form/nodes/fields/Question";
 import Variable from "../form/nodes/expressions/VariableIdentifier";
 import BooleanLiteral from "../form/nodes/expressions/boolean_expressions/BooleanLiteral";

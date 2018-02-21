@@ -1,4 +1,4 @@
-import { DivisionByZeroError, NotComparableError, TypeCheckError } from "../errors";
+import { DivisionByZeroError, NotComparableError, TypeCheckError } from "../form_errors";
 
 /**
  * Returns the type of a given value including the classname if it is

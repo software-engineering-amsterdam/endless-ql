@@ -71,7 +71,7 @@ YesNoDropdownWidget:
 ;
 
 WidgetOption: 
-	name=STRING
+	option=STRING
 ;
 
 DefaultTypeStyle:

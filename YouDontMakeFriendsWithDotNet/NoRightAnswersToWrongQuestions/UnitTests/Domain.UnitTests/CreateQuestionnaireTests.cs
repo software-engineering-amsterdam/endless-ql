@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections;
-using System.ComponentModel.Design;
+using System.Collections.Generic;
 using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.DomainObjects;
 using QuestionnaireDomain.Logic;
 using QuestionnaireDomain.Logic.API;
-using QuestionnaireDomain.Logic.Logic;
 using QuestionnaireInfrastructure.API;
 
 namespace UnitTests.Domain.UnitTests
@@ -160,7 +160,6 @@ form CommentFormMLX {}";
             {
                 questionnaireCreator.Create(invalidText);
             }
-
             catch (QlParserException exception)
             {
                 Assert.IsTrue(exception.ParseErrorDetails.Contains(invalidName));
@@ -265,5 +264,66 @@ form CommentFormMLX {}";
             }
         }
 
+        [TestCaseSource(nameof(ConditionalStatementCases))]
+        public void WhenFormHasConditionalStatement_CorrectNumberOfConditionalCasesExist(string validText, int conditionCount)
+        {
+            var createdForm = CreateForm(validText);
+            var actualCount = createdForm.Statements.Flatten().OfType<IConditionalAst>().Count();
+            Assert.AreEqual(expected: conditionCount, actual: actualCount);
+        }
+
+        private static IEnumerable ConditionalStatementCases
+        {
+            get
+            {
+                var nl = Environment.NewLine;
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", 0);
+                yield return new TestCaseData(
+                    $"form NameForm {{{nl}    x : \"xyz\"  boolean{nl}    if (x) {{{nl}    z : \"zxy\"  boolean }} }} ",
+                    1);
+                yield return new TestCaseData(
+                    $"form NameForm {{{nl}    x : \"xyz\"  boolean{nl}    if (x) {{{nl}    z : \"zxy\"  boolean{nl}    if (z) {{{nl}    a : \"aaa\"  boolean }} }} }} ",
+                    2);
+            }
+        }
+
+
+        [TestCaseSource(nameof(QuestionDuplicatesCases))]
+        public void WhenDuplicateQuestionId_ThrowsAnError(string invalidText, string duplicateName)
+        {
+            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+            try
+            {
+                questionnaireCreator.Create(invalidText);
+            }
+            catch (QlParserException exception)
+            {
+                Assert.IsTrue(exception.ParseErrorDetails.Contains(duplicateName));
+                return;
+            }
+
+            Assert.Fail("Should have thrown an exception");
+        }
+
+        private static IEnumerable QuestionDuplicatesCases
+        {
+            get
+            {
+                var nl = Environment.NewLine;
+                yield return new TestCaseData($"form NameForm {{     x : \"xyz\"  boolean {nl}    x : \"123\"  boolean  }}", "x");
+                yield return new TestCaseData($"form NameForm {{     y : \"xyz\"  boolean {nl}    x : \"123\"  boolean  {nl}    y : \"123\"  boolean  }}", "y");
+                yield return new TestCaseData($"form NameForm {{     x : \"xyz\"  boolean {nl}    z : \"123\"  boolean  {nl}    z : \"123\"  boolean  }}", "z");
+                yield return new TestCaseData(
+                    $"form NameForm {{{nl}    aName : \"xyz\"  boolean{nl}    if (aName) {{{nl}    aName : \"zxy\"  boolean }} }} ", "aName");
+            }
+        }
+    }
+
+    public static class TestHelperExtensions
+    {
+        public static IEnumerable<IAstNode> Flatten(this IEnumerable<IAstNode> e)
+        {
+            return e.SelectMany(c => c.Statements.Flatten()).Concat(e);
+        }
     }
 }

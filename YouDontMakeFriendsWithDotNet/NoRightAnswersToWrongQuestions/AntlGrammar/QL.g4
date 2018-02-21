@@ -1,10 +1,14 @@
 grammar QL;
 
-questionnaire: 'form' IDENTIFIER '{' question* '}'; 
- 
+questionnaire: 'form' IDENTIFIER '{' statement* '}'; 
+
+statement : (question | conditional); 
+
 question: IDENTIFIER ':' QUESTIONTEXT questiontype | QUESTIONTEXT IDENTIFIER  ':' questiontype ;
 
 questiontype: qtype=(BOOLTYPE | STRINGTYPE | INTTYPE | DATETYPE | DECIMALTYPE);
+
+conditional: 'if' '(' IDENTIFIER ')' '{' statement* '}';
 
 BOOLTYPE: 'boolean';
 STRINGTYPE: 'string';

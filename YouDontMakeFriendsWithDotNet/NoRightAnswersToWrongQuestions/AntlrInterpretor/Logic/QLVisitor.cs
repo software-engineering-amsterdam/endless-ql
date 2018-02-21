@@ -18,16 +18,34 @@ namespace AntlrInterpretor.Logic
         public override IAstNode VisitQuestionnaire(QLParser.QuestionnaireContext context)
         {
             var formName = context.IDENTIFIER().GetText();
-            context.question()
+            context.statement()
                 .Select(x => Visit(x))
                 .ToList();
             m_questionnaireAst.FormName = formName;
             return m_questionnaireAst;
         }
 
+        public override IAstNode VisitConditional(QLParser.ConditionalContext context)
+        {
+            var questionName = context.IDENTIFIER().GetText();
+            var conditional = new ConditionalAst(questionName);
+            m_questionnaireAst.Statements.Add(conditional);
+            context.statement()
+                .Select(x => Visit(x))
+                .ToList();
+
+            return m_questionnaireAst;
+        }
+
         public override IAstNode VisitQuestion(QLParser.QuestionContext context)
         {
             var name = context.IDENTIFIER().GetText();
+            var questionExists = m_questionnaireAst.Questions.Any(x => x.Name == name);
+            if (questionExists)
+            {
+                var message = $@"The question with the id '{name}' exists more than once";
+                throw new QlParserException(message, null) { ParseErrorDetails = message, ParserName = "Antlr 4.0"};
+            }
             var text = context.QUESTIONTEXT().GetText();
             Type type;
             switch (context.questiontype().qtype.Type)
@@ -55,6 +73,7 @@ namespace AntlrInterpretor.Logic
 
             var question = new QuestionAst(name, text.Replace("\"", ""), type);
             m_questionnaireAst.Statements.Add(question);
+            m_questionnaireAst.Questions.Add(question);
             return m_questionnaireAst;
         }
     }

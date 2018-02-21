@@ -52,7 +52,7 @@ class CompoundStatement(Statement):
         self.second = second
 
     def __repr__(self):
-        return 'CompoundStatement(%s, %s)' % (self.first, self.second)
+        return '%s, %s' % (self.first, self.second)
 
     # def eval(self, env):
     #     self.first.eval(env)

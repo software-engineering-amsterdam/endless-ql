@@ -3,6 +3,7 @@ package nl.uva.js.qlparser.logic;
 import nl.uva.js.qlparser.models.Form;
 import nl.uva.js.qlparser.models.dataexpressions.Combinator;
 import nl.uva.js.qlparser.models.dataexpressions.Value;
+import nl.uva.js.qlparser.models.dataexpressions.Variable;
 import nl.uva.js.qlparser.models.enums.ArithOp;
 import nl.uva.js.qlparser.models.enums.CompOp;
 import nl.uva.js.qlparser.models.enums.DataType;
@@ -66,17 +67,17 @@ public class IngesterTest {
                 .question("Value residue:")
                 .dataType(DataType.MONEY)
                 .value(Combinator.builder()
-                        .left(sellingPrice.getValue())
+                        .left(Variable.builder().dataType(DataType.MONEY).name("sellingPrice").build())
                         .operator(ArithOp.MIN)
-                        .right(privateDebt.getValue())
+                        .right(Variable.builder().dataType(DataType.MONEY).name("privateDebt").build())
                         .build())
                 .build();
 
         IfBlock ifBlock = IfBlock.builder()
                 .condition(Combinator.builder()
-                        .left(hasSoldHouse.getValue())
+                        .left(Variable.builder().dataType(DataType.BOOLEAN).name("hasSoldHouse").build())
                         .operator(CompOp.EQ)
-                        .right(Value.builder().dataType(DataType.BOOLEAN).value("TRUE").build())
+                        .right(Value.builder().dataType(DataType.BOOLEAN).value(true).build())
                         .build())
                 .expressions(new LinkedList<>(Arrays.asList(
                         sellingPrice,
@@ -98,20 +99,6 @@ public class IngesterTest {
                 .build();
 
         Form actualForm = ingester.toParsedForm("src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql");
-
-        assertEquals(expectedForm, actualForm);
-    }
-
-
-    @Test
-    public void testQuicktest() throws IOException {
-
-        Form expectedForm = Form.builder()
-                .name("something")
-                .formExpressions(null)
-                .build();
-
-        Form actualForm = ingester.toParsedForm("src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input2.jsql");
 
         assertEquals(expectedForm, actualForm);
     }

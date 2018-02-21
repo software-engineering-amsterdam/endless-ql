@@ -4,7 +4,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
 {
     public interface IAstNode
     {
-        IList<IAstNode> Questions { get; }
+        IList<IAstNode> Statements { get; }
 
         void Accept(IAstVisitor visitor);
     }

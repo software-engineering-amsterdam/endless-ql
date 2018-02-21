@@ -4,7 +4,7 @@ import Input from "reactstrap/lib/Input";
 import Addition from "./form/nodes/expressions/arithmetic/Addition";
 import Multiplication from "./form/nodes/expressions/arithmetic/Multiplication";
 import NumberLiteral from "./form/nodes/expressions/arithmetic/NumberLiteral";
-import { evaluate } from "./form/form_helpers";
+import { evaluate } from "./form/evaluation/evaluation_functions";
 import { FormComponent } from "./rendering/components/form_component/FormComponent";
 import { sampleForm } from "./mock/sampleForm";
 import Expression from "./form/nodes/expressions/Expression";

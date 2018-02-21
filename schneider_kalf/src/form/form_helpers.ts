@@ -1,18 +1,5 @@
-import EvaluationVisitor from "./nodes/visitors/EvaluationVisitor";
-import Expression from "./nodes/expressions/Expression";
 import TreeNode from "./nodes/TreeNode";
 import NodeTraveller from "./nodes/visitors/NodeTraveller";
-
-/**
- * Alias to evaluate a form using the EvaluationVisitor
- *
- * @param {Expression} expression
- * @returns {any}
- */
-export const evaluate = (expression: Expression): any => {
-  const evaluationVisitor = new EvaluationVisitor();
-  return expression.accept(evaluationVisitor);
-};
 
 export const filterNodes = (predicate: (node: TreeNode) => boolean, start: TreeNode): any[] => {
   let nodes: TreeNode[] = [];

@@ -1,4 +1,3 @@
-import {UnsupportedTypeError} from '../errors';
 import {QuestionBase} from '../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {CheckboxQuestion} from '../angular-questions/question-checkbox';
@@ -7,17 +6,13 @@ import {QuestionType} from './question-type';
 import {Statement} from './statement';
 import {Location} from './location';
 
-export class Question implements Statement {
-  constructor(public name: string, public label: string, public type: QuestionType, public location: Location) {
+export class Question extends Statement {
+  constructor(public name: string, public label: string, public type: QuestionType, location: Location) {
+    super(location);
   }
 
   getQuestions(): Question[] {
     return [this];
-  }
-
-  // type checking for questions will be implemented in expression questions
-  checkType(allQuestions: Question[]): void {
-    return;
   }
 
   toFormQuestion(formQuestions: QuestionBase<any>[], condition?: (form: FormGroup) => boolean): QuestionBase<any>[] {
@@ -41,17 +36,5 @@ export class Question implements Statement {
     }
 
     return formQuestions;
-  }
-
-  private toHtmlInputType(type: QuestionType): string {
-    switch (type) {
-      case QuestionType.INT : return 'number';
-      case QuestionType.DECIMAL: return 'number';
-      case QuestionType.MONEY: return 'number';
-      case QuestionType.BOOLEAN: return 'boolean';
-      case QuestionType.STRING: return 'text';
-      case QuestionType.DATE: return 'date';
-      default: throw new UnsupportedTypeError('QuestionType is not supported');
-    }
   }
 }

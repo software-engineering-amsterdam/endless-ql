@@ -15,6 +15,6 @@ public class ExpressionNeg extends ExpressionUnary<Double> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Number;
+        return v.getReturnType();
     }
 }

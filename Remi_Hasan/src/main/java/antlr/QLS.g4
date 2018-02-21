@@ -1,6 +1,8 @@
 // TODO make external file for parts that are the same as QL.g4?
 // TODO and include that file?
 
+// TODO SECTION { and without when single
+
 grammar QLS;
 
 root            : STYLESHEET IDENTIFIER page* EOF;

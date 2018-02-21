@@ -13,7 +13,10 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
 
     @Override
     public void setValue(String value) {
-        this.value = Boolean.parseBoolean(value);
+        if(value.isEmpty())
+            this.value = null;
+        else
+            this.value = Boolean.parseBoolean(value);
     }
 
     @Override

@@ -6,10 +6,10 @@ namespace QuestionaireDomain.Entities.DomainObjects
     {
         protected AstNodeBase()
         {
-            Questions = new List<IAstNode>();
+            Statements = new List<IAstNode>();
         }
         
-        public IList<IAstNode> Questions { get; }
+        public IList<IAstNode> Statements { get; }
 
         public abstract void Accept(IAstVisitor visitor);
     }

@@ -187,7 +187,7 @@ form CommentFormMLX {}";
         public void WhenGivenValidQuestion_NameAndTextCorrect(string validText, string questionId, string questionText)
         {
             var createdForm = CreateForm(validText);
-            var question = createdForm.Questions.FirstOrDefault();
+            var question = createdForm.Statements.OfType<IQuestionAst>().FirstOrDefault();
             Assert.AreEqual(expected: questionId, actual: question.Name);
             Assert.AreEqual(expected: questionText, actual: question.Text);
         }
@@ -214,7 +214,7 @@ form CommentFormMLX {}";
         public void WhenGivenMultipleQuestions_CorrectNumberOfQuestions(string validText, int questionCount)
         {
             var createdForm = CreateForm(validText);
-            Assert.AreEqual(expected: questionCount, actual: createdForm.Questions.Count);
+            Assert.AreEqual(expected: questionCount, actual: createdForm.Statements.Count);
         }
 
         private static IEnumerable MultipleQuestionCases
@@ -238,7 +238,7 @@ form CommentFormMLX {}";
         public void WhenQuestionsHasType_CorrectTypeOnQuestions(string validText, Type expectedType)
         {
             var createdForm = CreateForm(validText);
-            var actualType = createdForm.Questions.FirstOrDefault().Type;
+            var actualType = createdForm.Statements.OfType<IQuestionAst>().FirstOrDefault()?.Type;
             Assert.AreEqual(expected: expectedType, actual: actualType);
         }
 

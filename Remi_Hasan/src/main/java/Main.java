@@ -68,7 +68,7 @@ public class Main extends Application {
             Button fileSelectorButton = createFileSelectorButton(stage);
 
             // Build submit button
-            Button submitButton = createSubmitButton(null);
+            Button submitButton = createSubmitButton(form);
 
             // Create box with form and submit button
             VBox vBox = new VBox(35);
@@ -248,7 +248,7 @@ public class Main extends Application {
         submitButton.setOnAction(e -> {
 
             // Debug output, shows answer to every question in console
-//            form.elements.forEach(x -> printQuestionAnswers(x));
+            form.statements.forEach(x -> printQuestionAnswers(x));
         });
         return submitButton;
     }

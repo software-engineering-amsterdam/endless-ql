@@ -1,13 +1,23 @@
 grammar QL;
-questionnaire: 'form' IDENT '{' question* '}'; 
-question: IDENT ':' STRING questiontype;
 
+questionnaire: 'form' IDENTIFIER '{' question* '}'; 
+ 
+question: IDENTIFIER ':' QUESTIONTEXT questiontype | QUESTIONTEXT IDENTIFIER  ':' questiontype ;
 
-questiontype: 'boolean'  # bool;
+questiontype: qtype=(BOOLTYPE | STRINGTYPE | INTTYPE | DATETYPE | DECIMALTYPE);
 
-STRING: '"' (~'"')* '"';
-IDENT  :  [a-zA-Z] [a-zA-Z0-9_]* ;
+BOOLTYPE: 'boolean';
+STRINGTYPE: 'string';
+INTTYPE: 'integer';
+DATETYPE: 'date';
+DECIMALTYPE: 'decimal';
+
+QUESTIONTEXT: '"' (~'"')* '"';
+IDENTIFIER : [a-zA-Z] [a-zA-Z0-9_]* ;
 NEWLINE:'\r'? '\n' -> skip;
 WS  :   [ \t]+ -> skip ;
 LINECOMMENT :  '//' ~[\r\n]* -> skip;
-BLOCKCOMMENT : '/*' .*? '*/'  -> skip;
+BLOCKCOMMENT :   '/*' .*? '*/' -> skip;
+
+
+

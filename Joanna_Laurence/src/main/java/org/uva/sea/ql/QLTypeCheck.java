@@ -1,7 +1,9 @@
 package org.uva.sea.ql;
 
 import org.uva.sea.ql.parser.elements.*;
-import org.uva.sea.ql.parser.elements.expressions.*;
+import org.uva.sea.ql.parser.elements.expressions.Neg;
+import org.uva.sea.ql.parser.elements.expressions.Not;
+import org.uva.sea.ql.parser.elements.expressions.Pos;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.DualNode;
 import org.uva.sea.ql.traverse.Traverse;

@@ -1,12 +1,14 @@
 package org.uva.sea.ql;
 
 import org.uva.sea.ql.evaluate.Evaluator;
-import org.uva.sea.ql.parser.elements.*;
+import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
 import org.uva.sea.ql.traverse.Traverse;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Stack;
 
 @FunctionalInterface
 interface ApplyDualNode<One, Two, Three> {
@@ -250,6 +252,6 @@ public class QLExprEvaluate extends Traverse {
     }
 
     public void doVar(Var node) {
-        this.stack.add(node);
+        this.stack.add(node.getLinkedQuestion().getValue());
     }
 }

@@ -86,9 +86,10 @@ public class Main extends Application {
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "File not readable, check permissions.");
             alert.showAndWait();
-        } catch(IllegalArgumentException e){
+        } catch(UnsupportedOperationException e){
             // TODO Explain why form is invalid
             Alert alert = new Alert(Alert.AlertType.ERROR, "Form invalid");
+            alert.setContentText(e.toString());
             alert.showAndWait();
         }
     }

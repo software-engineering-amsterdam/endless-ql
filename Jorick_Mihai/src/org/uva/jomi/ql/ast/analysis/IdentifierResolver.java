@@ -1,69 +1,110 @@
 package org.uva.jomi.ql.ast.analysis;
 
-import java.util.HashMap;
-import java.util.Stack;
+import java.util.List;
 
 import org.uva.jomi.ql.ast.expressions.*;
+import org.uva.jomi.ql.ast.statements.*;
 
-public class IdentifierResolver {
-	private int numberOfErrors = 0;
-	private final Stack<HashMap<String, IdentifierExpr>> identifierStack;
-	
-	// Create a new stack
+public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
+
+	public final IdentifierStack identifierStack;
+
 	public IdentifierResolver() {
-		this.identifierStack = new Stack<HashMap<String, IdentifierExpr>>();
-	}
-	
-	public int getNumberOfErrors() {
-		return numberOfErrors;
+		identifierStack = new IdentifierStack();
 	}
 
-	public void incrementNumberOfErrors() {
-		this.numberOfErrors++;
-	}
-	
-	// Create a new scope
-	public void enterScope() {
-		identifierStack.push(new HashMap<String, IdentifierExpr>());
-	}
-	
-	// Destroy the top scope
-	public void leaveScope() {
-		identifierStack.pop();
-	}
-	
-	// Add a new element to the inner most scope
-	public void add(IdentifierExpr identifier) {
-		identifierStack.peek().put(identifier.token.getLexeme(), identifier);
-	}
-	
-	// Try to add a new element to the top most scope
-	public boolean tryAdd(String name, IdentifierExpr identifier) {
-		if (identifierStack.isEmpty()) {
-			System.err.println("Empty Stack - Could not add the element");
-			return false;
+	public void resolve(List<Stmt> statements) {
+		for (Stmt statment : statements) {
+			statment.accept(this);
 		}
-		identifierStack.peek().put(name, identifier);
-		return true;
 	}
-	
-	// Check if a particular identifier is present in the inner most scope
-	public boolean isInCurrentScope(String identifierName) {
-		if (identifierStack.peek().containsKey(identifierName)) {
-			return true;
+
+	public void visitQuestionIdentifierExpr(IdentifierExpr identifier) {
+
+	}
+
+	@Override
+	public Void visitFormStmt(FormStmt stmt) {
+		stmt.blockStmt.accept(this);
+		return null;
+	}
+
+	@Override
+	public Void visitBlockStmt(BlockStmt stmt) {
+		// Create a new scope for the block statement
+		identifierStack.enterScope();
+
+		// Visit every statement in the block and add it to the statements array.
+		for (Stmt statement : stmt.statements) {
+			statement.accept(this);
+		}
+
+		// Remove the innermost scope
+		identifierStack.leaveScope();
+		return null;
+	}
+
+	@Override
+	public Void visitQuestionStmt(QuestionStmt stmt) {
+		// Make  sure the question name has not been already declared
+		stmt.identifier.accept(this);
+		return null;
+	}
+
+	@Override
+	public Void visitComputedQuestionStmt(ComputedQuestionStmt stmt) {
+		// Make  sure the question name has not been already declared
+		stmt.identifier.accept(this);
+		stmt.expression.accept(this);
+		return null;
+	}
+
+	@Override
+	public Void visitIfStmt(IfStmt stmt) {
+		return null;
+	}
+
+	@Override
+	public Void visitIfElseStmt(IfElseStmt stmt) {
+		return null;
+	}
+
+	@Override
+	public Void visitIdentifierExpr(IdentifierExpr identifier) {
+		if (identifierStack.contains(identifier.token.getLexeme())) {
+			// TODO - create an error handler
+			System.err.printf("[IdentifierResolver] line: %s, column: %s: Duplicated identifier: %s\n",
+						identifier.token.getLine(),
+						identifier.token.getColumn(),
+						identifier.token.getLexeme());
+
+			// Increment the number of identifier resolution errors
+			identifierStack.incrementNumberOfErrors();
 		} else {
-			return false;
-		}
-	}
-	
-	// Search from the inner to the outer most scope for a particular identifier name
-	public IdentifierExpr getIdentifier(String name) {
-		for (HashMap<String, IdentifierExpr> map : identifierStack) {
-			if (map.containsKey(name)) {
-				return map.get(name);
-			}
+			// Add the identifier to the inner most scope map
+			identifierStack.add(identifier);
 		}
 
+		return null;
+	}
+
+	@Override
+	public Void visitPrimaryExpr(PrimaryExpr expr) {
+		return null;
+	}
+
+	@Override
+	public Void visitBinaryExpr(BinaryExpr expr) {
+		return null;
+	}
+
+	@Override
+	public Void visitGroupingExpr(GroupingExpr expr) {
+		return null;
+	}
+
+	@Override
+	public Void visitUnaryExpr(UnaryExpr expr) {
 		return null;
 	}
 }

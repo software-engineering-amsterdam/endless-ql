@@ -1,33 +1,36 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Vizualizer.Controllers.Display;
+using QL_Vizualizer.Style;
 using QL_Vizualizer.Widgets.Types;
 
 namespace QL_Visualizer.Tests.Display
 {
     [TestClass]
-    public abstract class WidgetDisplayControllerTest<T>
+    public abstract class WidgetDisplayControllerTest<T,Y>
     {
         //protected WidgetController _widgetController;
-        protected WidgetDisplayController<T> _widgetDisplayController;
+        protected WidgetDisplayController<T, Y> _widgetDisplayController;
         //protected ElementFactory<T> _elementFactory;
 
         protected QLWidgetInt _intWidget;
         protected QLWidgetBool _boolWidget;
         protected QLWidgetString _stringWidget;
 
+        protected Y _widgetStyle;
+
         [TestMethod]
         public void ShowTest()
         {
             // when int widget is added, the element must be there
-            _widgetDisplayController.Show(_intWidget, 10f);
+            _widgetDisplayController.Show(_intWidget, _widgetStyle);
             Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_intWidget.Identifyer));
 
             // when string widget is added, the element must be there
-            _widgetDisplayController.Show(_stringWidget, 10f);
+            _widgetDisplayController.Show(_stringWidget, _widgetStyle);
             Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_stringWidget.Identifyer));
 
             // when bool widget is added, the element must be there
-            _widgetDisplayController.Show(_boolWidget, 10f);
+            _widgetDisplayController.Show(_boolWidget, _widgetStyle);
             Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_boolWidget.Identifyer));
 
             // there must now be a total of three elements

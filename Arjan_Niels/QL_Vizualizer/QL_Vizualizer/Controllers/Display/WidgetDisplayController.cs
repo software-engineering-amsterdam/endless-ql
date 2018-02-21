@@ -17,11 +17,6 @@ namespace QL_Vizualizer.Controllers.Display
         public Dictionary<string, T> ElementIndex { get; private set; }
 
         /// <summary>
-        /// Dictionary of all element styles, Key: widgetID, Value: element style
-        /// </summary>
-        public Dictionary<string, Y> ElementStyleIndex { get; private set; }
-
-        /// <summary>
         /// Element factory that creates all elements
         /// </summary>
         protected ElementFactory<T,Y> _elementFactory { get; private set; }
@@ -39,16 +34,13 @@ namespace QL_Vizualizer.Controllers.Display
         /// <param name="widget">Widget to be shown</param>
         /// <param name="position">X-Position of widget</param>
         /// <returns>Bottom X-Position of placed widget with repsect to all style attributes</returns>
-        public abstract float Show(QLWidget widget, float position);
+        public abstract float Show(QLWidget widget, Y style);
 
-        public void SetStyles(Dictionary<string, Y> styles)
-        {
-            ElementStyleIndex = styles;
-        }
+        public abstract Y UpdatePosition(QLWidget widget, float positionAbove, Y style);
 
-        protected T CreateElement(QLWidget widget)
+        protected T CreateElement(QLWidget widget, Y style)
         {
-            T element = _elementFactory.CreateElement(widget, ElementStyleIndex[widget.Identifyer]);
+            T element = _elementFactory.CreateElement(widget, style);
             ElementIndex.Add(widget.Identifyer, element);
             return element;
         }

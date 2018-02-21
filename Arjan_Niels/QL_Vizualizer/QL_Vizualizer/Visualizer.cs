@@ -20,13 +20,13 @@ namespace QL_Vizualizer
         private void parseButtonClick(object sender, System.EventArgs e)
         {
             CreateDummyForm();
-            FormNode node = QLParserHelper.Parse(textBox1.Text);
+            //FormNode node = QLParserHelper.Parse(textBox1.Text);
         }
 
         private void CreateDummyForm()
         {
             // Initialize widget controller
-            WidgetController widgetController = new WidgetVisualizeController<Control, WindowsStyleProperties>();
+            WidgetController widgetController = new WidgetVisualizeController<Control, WindowsStyleProperties>(new WindowsStyleProperties { Width = panel1.Width - 10 });
             widgetController.SetDisplayController(new WidgetDisplayControllerWindows(10, panel1, widgetController));
 
             // Create widgets

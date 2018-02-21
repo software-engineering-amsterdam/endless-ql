@@ -4,5 +4,6 @@
     {
         public int YPosition;
         public int Width;
+        public int LabelInputMargin;
     }
 }

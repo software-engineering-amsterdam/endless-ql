@@ -5,6 +5,9 @@ namespace QL_Vizualizer.Factories
 {
     public abstract class ElementFactory<T,Y>
     {
+        /// <summary>
+        /// Widget controller that contains all widgets
+        /// </summary>
         protected WidgetController _widgetController { get; private set; }
 
         public ElementFactory(WidgetController widgetController)

@@ -19,35 +19,35 @@ from .form_question import Question
 
 class Gui:
 
-	def __init__(self):
-		self.gui = Tk()
-		self.mainframe = create_frame(self.gui, background='pink')
-		self.mainframe.pack(expand=True, fill='both')
-		self.forms = []
+    def __init__(self):
+        self.gui = Tk()
+        self.mainframe = create_frame(self.gui, background='pink')
+        self.mainframe.pack(expand=True, fill='both')
+        self.forms = []
 
-	# Upon creating a new form, create a new frame which is a child from the mainframe.
-	# For every form, create the header frame and questions frame and fill the questions frame
-	# with questions
-	def create_form(self, header="No Header Text", questions=["Wie is je moeder", "sup", "daaag"]):
-		form = FormGui(self.mainframe, header)
-		content_frame = form.get_contents()
-		# sfg = ScrollFrameGui(content_frame)
-		q = Question(content_frame)
-		for q in questions:
-			form.add_question(q, "int")
-		self.forms.append(form)
+    # Upon creating a new form, create a new frame which is a child from the mainframe.
+    # For every form, create the header frame and questions frame and fill the questions frame
+    # with questions
+    def create_form(self, header="No Header Text", questions=["Wie is je moeder", "sup", "daaag"]):
+        form = FormGui(self.mainframe, header)
+        content_frame = form.get_contents()
+        # sfg = ScrollFrameGui(content_frame)
+        q = Question(content_frame)
+        for q in questions:
+            form.add_question(q, "int")
+        self.forms.append(form)
 
-		b = Button(self.mainframe, text="OK", command=self.collect_answers)
-		b.pack()
+        b = Button(self.mainframe, text="OK", command=self.collect_answers)
+        b.pack()
 
 
-	# Execute the GUI
-	def execute(self):
-		self.gui.geometry("1500x1000")
-		self.gui.mainloop()
+    # Execute the GUI
+    def execute(self):
+        self.gui.geometry("1500x1000")
+        self.gui.mainloop()
 
-	def collect_answers(self):
-		answers = {}
-		for f in self.forms:
-			answers[f.get_text()] = f.get_answers()
-		print(answers)
+    def collect_answers(self):
+        answers = {}
+        for f in self.forms:
+            answers[f.get_text()] = f.get_answers()
+        print(answers)

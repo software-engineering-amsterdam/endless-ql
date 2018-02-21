@@ -1,4 +1,4 @@
-//Q=3
+//Q=4
 form taxOfficeExample {
   "What was the selling price?"
     sellingPrice: decimal = 1.5
@@ -8,11 +8,16 @@ form taxOfficeExample {
 
     if (sellingPrice * waitDays > 5) {
       "Did you wait to long?"
-        waitedToLong: boolean
+        waitedToLong: boolean = true
     }
 
-    if (sellingPrice * waitDays > 15) {
-      "Do you want to have a free giftbag?"
-        freeBag: boolean
+    if (waitedToLong) {
+      "Did you wait to long?"
+        waitedToLong2: boolean
+    }
+
+    if (!waitedToLong) {
+      "Did you wait to long?"
+        waitedToLong3: boolean
     }
 }

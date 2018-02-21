@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Form from "../../../form/Form";
 import { FieldContainer } from "../field_container/FieldContainer";
-import Field from "../../../form/field/Field";
+import Field from "../../../form/nodes/fields/FieldNode";
 
 export interface FormComponentProps {
   form: Form;
@@ -10,7 +10,7 @@ export interface FormComponentProps {
 export const FormComponent: React.SFC<FormComponentProps> = (props) => {
   const renderFields = () => {
     return props.form.fields.map((field: Field) => {
-      return <FieldContainer key={field.name} field={field}/>;
+      return <FieldContainer key={field.identifier} field={field}/>;
     });
   };
 

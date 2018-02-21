@@ -1,6 +1,5 @@
-import Field from "./field/Field";
+import FieldNode from "./nodes/fields/FieldNode";
 
 export default interface Form {
-  readonly name: string;
-  readonly fields: Field[];
+  getFields(): FieldNode[];
 }

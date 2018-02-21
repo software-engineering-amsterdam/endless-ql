@@ -5,12 +5,12 @@ import Equals from "../form/nodes/expressions/comparisons/Equals";
 import FormNode from "../form/nodes/FormNode";
 import EvaluationVisitor from "../form/nodes/visitors/EvaluationVisitor";
 import Question from "../form/nodes/fields/Question";
-import FieldType from "../form/field/FieldType";
-import ComputedField from "../form/nodes/fields/ComputedField";
 import Variable from "../form/nodes/expressions/VariableIdentifier";
 import BooleanLiteral from "../form/nodes/expressions/boolean_expressions/BooleanLiteral";
 import IfCondition from "../form/nodes/conditions/IfCondition";
 import Negation from "../form/nodes/expressions/boolean_expressions/Negation";
+import ComputedField from "../form/nodes/fields/ComputedField";
+import FieldType from "../form/FieldType";
 
 export const testExpressionStuff = () => {
   const formula = new Multiplication(

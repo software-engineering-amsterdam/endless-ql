@@ -5,20 +5,12 @@ import java.util.Stack;
 import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
 
 public class IdentifierStack {
-	private int numberOfErrors = 0;
+
 	private final Stack<HashMap<String, IdentifierExpr>> identifierStack;
 
 	// Create a new stack
 	public IdentifierStack() {
 		this.identifierStack = new Stack<HashMap<String, IdentifierExpr>>();
-	}
-
-	public int getNumberOfErrors() {
-		return numberOfErrors;
-	}
-
-	public void incrementNumberOfErrors() {
-		this.numberOfErrors++;
 	}
 
 	// Create a new scope

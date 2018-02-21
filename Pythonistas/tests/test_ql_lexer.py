@@ -11,25 +11,21 @@ sys.path.insert(0, myPath + '/../')
 from lexer.ql_lexer import ql_lex
 
 
-def add_one(x):
-    return x + 1
-
-
-def test_structure():
-    assert add_one(3) == 4
-
-
-# todo: write tests
+# todo: put \n into tests
 def test_form():
-    form = "form Box1HouseOwning {}"
-    assert ql_lex(form) == "[('form', 'form'), ('Box1HouseOwning', 'id'), ('{', 'reserved'), ('}', 'reserved')]"
+    form_statement = "form Box1HouseOwning {}"
+    assert ql_lex(form_statement) == [('form', 'form'), ('Box1HouseOwning', 'id'), ('{', 'reserved'), ('}', 'reserved')]
 
 
 def test_declaration():
-    # "Did you sell a house in 2010?" \n hasSoldHouse: boolean
-    pass
+    declaration_statement = 'hasSoldHouse: "Did you sell a house in 2010?" boolean'
+    assert ql_lex(declaration_statement) == [('hasSoldHouse', 'id'), (':', 'reserved'),
+                                             ('"Did you sell a house in 2010?"', 'value'), ('boolean', 'reserved')]
 
 
 def test_if():
-    # if
-    pass
+    if_statement = 'if (hasSoldHouse) {sellingPrice: "Price the house was sold for:" money}'
+    assert ql_lex(if_statement) == [('if', 'reserved'), ('(', 'reserved'), ('hasSoldHouse', 'id'), (')', 'reserved'),
+                                    ('{', 'reserved'), ('sellingPrice', 'id'), (':', 'reserved'),
+                                    ('"Price the house was sold for:"', 'value'), ('money', 'reserved'),
+                                    ('}', 'reserved')]

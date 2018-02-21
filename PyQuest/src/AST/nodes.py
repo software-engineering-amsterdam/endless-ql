@@ -56,6 +56,18 @@ class VariableNode(ExpressionNode):
 # ----------------------------------------------------
 
 
+class TypeNode(BaseNode):
+    def __init__(self, line_number, name):
+        super(TypeNode, self).__init__(line_number)
+        self.name = name
+
+
+# class MoneyNode(TypeNode):
+#     def __init__(self, line_number, name, currency):
+#         super(MoneyNode, self).__init__(line_number, name)
+#         self.currency = currency  # currency symbol
+
+
 #
 #
 #

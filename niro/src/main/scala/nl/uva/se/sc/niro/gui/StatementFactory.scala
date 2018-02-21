@@ -1,10 +1,11 @@
 package nl.uva.se.sc.niro.gui
 
+import java.lang
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javafx.beans.value.{ChangeListener, ObservableValue}
 import javafx.scene.Parent
-import javafx.scene.control.{ CheckBox, DatePicker, Label, TextField }
+import javafx.scene.control.{CheckBox, DatePicker, Label, TextField}
 import javafx.scene.layout._
 import javafx.util.StringConverter
 
@@ -22,24 +23,35 @@ object StatementFactory {
     for (statement <- statements) {
       statement match {
         case question: Question => {
+          gridPane.getRowConstraints.add(new RowConstraints())
           gridPane.add(new Label(question.label), 0, rowNr)
           gridPane.add(convert(Expression.evaluate(question.answer)), 1, rowNr)
         }
         case condition: Conditional => {
+          val thenConstraint = new RowConstraints()
+          gridPane.getRowConstraints.add(thenConstraint)
+
           val thenPane = new GridPane()
+          gridPane.add(thenPane, 0, rowNr, 2, 1)
           // When invisible we don't occupy any space
           thenPane.managedProperty().bind(thenPane.visibleProperty())
-          gridPane.add(thenPane, 0, rowNr, 2, 1)
+          bindConstraintToVisiblity(thenConstraint, thenPane)
           createStatements(thenPane, condition.ifStatements)
 
           if (!condition.elseStatements.isEmpty) {
             rowNr += 1
-            val elsePane = new GridPane()
+
+            val elseConstraint = new RowConstraints()
+            gridPane.getRowConstraints.add(elseConstraint)
+
             // When invisible we don't occupy any space
-            elsePane.managedProperty().bind(thenPane.visibleProperty())
+            val elsePane = new GridPane()
+            gridPane.add(elsePane, 0, rowNr, 2, 1)
+            elsePane.managedProperty().bind(elsePane.visibleProperty())
+            bindConstraintToVisiblity(elseConstraint, elsePane)
             // Exclusive visibility with thenPane
             elsePane.visibleProperty().bind(thenPane.visibleProperty().not())
-            gridPane.add(elsePane, 0, rowNr, 2, 1)
+
             createStatements(elsePane, condition.elseStatements)
           }
         }
@@ -94,6 +106,14 @@ object StatementFactory {
       }
     })
     dateField
+  }
+
+  private def bindConstraintToVisiblity(constraint: RowConstraints, pane: GridPane) = {
+    pane.visibleProperty().addListener(new ChangeListener[lang.Boolean] {
+      override def changed(observable: ObservableValue[_ <: lang.Boolean], oldValue: lang.Boolean, newValue: lang.Boolean): Unit = {
+        constraint.setPrefHeight(if(newValue) { -1.0} else {0.0})
+      }
+    })
   }
 
 }

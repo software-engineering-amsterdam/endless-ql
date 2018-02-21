@@ -1,6 +1,6 @@
 import Equals from "../../form/nodes/expressions/comparisons/Equals";
 import BooleanLiteral from "../../form/nodes/expressions/boolean_expressions/BooleanLiteral";
-import { evaluate } from "../../form/form_helpers";
+import { evaluate } from "../../form/evaluation/evaluation_functions";
 import NotEqual from "../../form/nodes/expressions/comparisons/NotEqual";
 import Negation from "../../form/nodes/expressions/boolean_expressions/Negation";
 import NumberLiteral from "../../form/nodes/expressions/arithmetic/NumberLiteral";

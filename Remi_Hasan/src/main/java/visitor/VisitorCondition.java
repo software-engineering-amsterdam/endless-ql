@@ -17,7 +17,7 @@ public class VisitorCondition extends QLBaseVisitor<Condition> {
         Expression expression = visitorExpression.visit(ctx.expression());
 
         if(expression.getReturnType() != ReturnType.Boolean)
-            throw new IllegalArgumentException("Type mismatch");
+            throw new UnsupportedOperationException("Condition expression not of type boolean");
 
         // Visit all conditionTrueStatements in the conditional body
         ArrayList<Statement> conditionTrueStatements = new ArrayList<>();

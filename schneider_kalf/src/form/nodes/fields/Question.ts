@@ -1,6 +1,7 @@
 import FieldType from "../../FieldType";
 import Field from "./FieldNode";
 import NodeVisitor from "../visitors/NodeVisitor";
+import FormState from "../../state/FormState";
 
 export default class Question implements Field {
   readonly label: string;
@@ -22,5 +23,13 @@ export default class Question implements Field {
 
   accept(visitor: NodeVisitor): any {
     return visitor.visitQuestion(this);
+  }
+
+  isReadOnly(): boolean {
+    return false;
+  }
+
+  getAnswer(state: FormState) {
+    return state.get(this.identifier);
   }
 }

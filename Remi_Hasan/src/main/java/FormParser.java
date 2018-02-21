@@ -30,8 +30,7 @@ public class FormParser {
         } catch (Exception e){
             // TODO improve exception
             System.out.println("exception thrown during parsing");
-            e.printStackTrace();
-            throw new UnsupportedOperationException(e.toString());
+            throw new UnsupportedOperationException(e.getMessage());
         }
     }
 }

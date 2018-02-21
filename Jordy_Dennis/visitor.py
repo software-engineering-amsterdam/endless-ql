@@ -107,9 +107,3 @@ class Visitor(QLGrammarVisitor):
         print("TYPES")
         return self.visitChildren(ctx)
 
-
-
-
-
-
-

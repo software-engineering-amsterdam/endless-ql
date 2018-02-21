@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class QLNode:
     def __init__(self):
         self.forms = []
@@ -67,8 +68,4 @@ class expressionNode:
 
     def __repr__(self):
         return "Expression: {} {} {}".format(self.left, self.op, self.right)
-
-
-
-
 

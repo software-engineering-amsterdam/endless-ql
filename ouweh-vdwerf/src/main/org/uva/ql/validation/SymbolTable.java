@@ -9,6 +9,7 @@ public class SymbolTable {
     private final HashMap <String, Type> table;
 
     public SymbolTable () {
+
         this.table = new HashMap<>();
     }
 

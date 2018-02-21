@@ -1,14 +1,16 @@
 package data
 
-import common.Identifier
+import common.Name
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 class QuestionTable {
 
-    private val table = HashMap<Identifier, Question>()
+    private val table = HashMap<Name, Question>()
 
-    fun register(identifier: Identifier, question: Question) {
-        table[identifier] = question
+    fun register(name: Name, question: Question) {
+        table[name] = question
     }
 
     fun print(){
@@ -17,24 +19,24 @@ class QuestionTable {
         }
     }
 
-    //duplicate labels (warning)
-    fun checkForDuplicateQuestions(): List<String> {
-        val distinctQuestions = table.values.distinctBy { question -> question.questionText }
+    fun findDuplicateLabels(): List<String> {
 
-        val duplicateQuestions = table.values - distinctQuestions
+        val uniqueLabels = HashSet<String>()
 
-        val duplicateQuestionText =  duplicateQuestions.map { x -> x.questionText }
+        val duplicateLabels = ArrayList<String>()
 
-        return duplicateQuestionText
-    }
+        table.forEach{
+            _, question ->
+            if (!uniqueLabels.add(question.label)){
+                duplicateLabels.add(question.label)
+            }
+        }
 
-    fun checkForDuplicateQuestionsWithDifferentTypes(): List<Any> {
-        val questions = table.values.map { it.questionText to it.value.type }
+        duplicateLabels.forEach{
+            label ->
+            println("Warning duplicate label: $label")
+        }
 
-        val distinctQuestions = questions.toMap()
-
-        val duplicateQuestion = questions - distinctQuestions
-
-        return duplicateQuestion
+        return duplicateLabels
     }
 }

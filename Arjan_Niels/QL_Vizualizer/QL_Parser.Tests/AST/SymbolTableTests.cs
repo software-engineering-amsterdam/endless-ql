@@ -60,7 +60,7 @@ namespace QL_Parser.Tests.AST
         public void CheckTypeInSymbolTable()
         {
             OneVarForm = QLParserHelper.Parse(_oneVarFormRaw);
-            Assert.AreEqual(QuestionType.BOOLEAN, SymbolTable.Instance.TypeMap["boughtAHouse"]);
+            Assert.AreEqual(QValueType.BOOLEAN, SymbolTable.Instance.TypeMap["boughtAHouse"]);
         }
         #endregion
 
@@ -84,9 +84,10 @@ namespace QL_Parser.Tests.AST
         public void MultipleVarsTypeCheck()
         {
             MultipleVarForm = QLParserHelper.Parse(_multipleVarFormRaw);
-            Assert.AreEqual(QuestionType.BOOLEAN, SymbolTable.Instance.TypeMap["boughtAHouse"]);
-            Assert.AreEqual(QuestionType.MONEY, SymbolTable.Instance.TypeMap["priceHouse"]);
+            Assert.AreEqual(QValueType.BOOLEAN, SymbolTable.Instance.TypeMap["boughtAHouse"]);
+            Assert.AreEqual(QValueType.MONEY, SymbolTable.Instance.TypeMap["priceHouse"]);
         }
         #endregion
     }
 }
+  

@@ -10,8 +10,21 @@ namespace QL_Parser.Analysis.Semantic
     {
         public bool Analyse(Node node, bool logErrors = true)
         {
+            // Traverse tree to check the types.
+
+
             return true;
-            // throw new System.NotImplementedException();
+        }
+
+        private bool traverse(Node parent)
+        {
+            foreach(Node node in parent.Children)
+            {
+
+            }
+
+
+            return false;
         }
     }
 }

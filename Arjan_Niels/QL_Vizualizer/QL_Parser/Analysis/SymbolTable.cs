@@ -23,13 +23,13 @@ namespace QL_Parser.Analysis
 
         private SymbolTable()
         {
-            this.TypeMap = new Dictionary<string, QuestionType>();
+            this.TypeMap = new Dictionary<string, QValueType>();
         }
         #endregion
 
-        public Dictionary<string, QuestionType> TypeMap { get; set; }
+        public Dictionary<string, QValueType> TypeMap { get; set; }
 
-        public QuestionType GetType(string id)
+        public QValueType GetType(string id)
         {
             if (TypeMap.ContainsKey(id))
                 return TypeMap[id];
@@ -37,7 +37,7 @@ namespace QL_Parser.Analysis
             throw new KeyNotFoundException(string.Format("Unknown variable {0}", id));
         }
 
-        public static void Add(string id, QuestionType type)
+        public static void Add(string id, QValueType type)
         {
             if (!Instance.TypeMap.ContainsKey(id))
                 Instance.TypeMap.Add(id, type);
@@ -50,6 +50,12 @@ namespace QL_Parser.Analysis
         public static void Reset()
         {
             Instance.TypeMap.Clear();
+            SymbolTable.Add("Henk", QValueType.BOOLEAN);
+        }
+
+        public static QValueType Get(string identifier)
+        {
+            return Instance.TypeMap[identifier];
         }
     }
 }

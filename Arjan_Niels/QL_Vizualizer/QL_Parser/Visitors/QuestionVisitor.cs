@@ -12,7 +12,7 @@ namespace QL_Parser.Visitors
         {
             var id = context.ID().GetText();
             var question = context.TEXT().GetText();
-            var qtype = (QuestionType)Enum.Parse(typeof(QuestionType), context.QTYPE().GetText().ToUpper());
+            var qtype = (AST.Nodes.QValueType)Enum.Parse(typeof(AST.Nodes.QValueType), context.QTYPE().GetText().ToUpper());
 
 
             // Register the new ID in the SymbolTable.

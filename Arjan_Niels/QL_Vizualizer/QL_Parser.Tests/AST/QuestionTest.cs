@@ -48,7 +48,7 @@ namespace QL_Parser.Tests.AST
         {
             var form = QLParserHelper.Parse(_formRaw);
             var firstQuestion = form.Children[0] as QuestionNode;
-            Assert.AreEqual(QuestionType.BOOLEAN, firstQuestion.QuestionType);
+            Assert.AreEqual(QValueType.BOOLEAN, firstQuestion.ValueType);
         }
         #endregion
 

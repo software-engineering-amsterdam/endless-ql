@@ -61,6 +61,7 @@
     <Compile Include="Analysis\SymbolTable.cs" />
     <Compile Include="Analysis\Syntactic\QuestionHasNoChildrenValidator.cs" />
     <Compile Include="Analysis\Syntactic\SingleFormValidator.cs" />
+    <Compile Include="AST\Nodes\QValueType.cs" />
     <Compile Include="Visitors\ConditionalBlockVisitor.cs" />
     <Compile Include="Visitors\FormVisitor.cs" />
     <Compile Include="QLParserHelper.cs" />

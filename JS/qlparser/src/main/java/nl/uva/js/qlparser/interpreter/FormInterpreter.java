@@ -5,7 +5,7 @@ import nl.uva.js.qlparser.models.Form;
 
 public class FormInterpreter {
 
-    public static Layout interpretForm(Form form) {
+    public static Layout interpret(Form form) {
         VerticalLayout layout = new VerticalLayout();
 
         // TODO: IMPLEMENT (DUMMY DATA)

@@ -24,7 +24,7 @@ class QLParser:
     @staticmethod
     def p_form(p):
         """form : FORM VAR LBRACKET statements RBRACKET"""
-        p[0] = ('FORM', p[2], p[4])
+        p[0] = FormNode(p.lineno(1), p[4], p[2])
 
     @staticmethod
     def p_statements(p):
@@ -44,27 +44,22 @@ class QLParser:
                         | form"""
         p[0] = p[1]
 
-    # Questions and answers
+    # Questions
     @staticmethod
     def p_question(p):
-        """question : QUESTION answer"""
-        p[0] = ('QUESTION', p[1], p[2])
+        """question : QUESTION VAR COLON type"""
+        p[0] = QuestionNode(p.lineno(1), p[1], p[2], p[4], None)
 
     @staticmethod
-    def p_answer(p):
-        """answer : VAR COLON type"""
-        p[0] = ('ANSWER', p[1], p[3])
-
-    @staticmethod
-    def p_answer_assign(p):
-        """answer : VAR COLON type ASSIGN expression"""
-        p[0] = ('ANSWER', p[1], p[3], p[5])
+    def p_question_computed(p):
+        """question : QUESTION VAR COLON type ASSIGN expression"""
+        p[0] = QuestionNode(p.lineno(1), p[1], p[2], p[4], p[6])
 
     # Control Flow
     @staticmethod
     def p_if(p):
         """if : IF LPAREN expression RPAREN LBRACKET statements RBRACKET"""
-        p[0] = ('IF', p[3], p[6])
+        p[0] = IfNode(p.lineno(1), p[6], p[3])
 
     @staticmethod
     def p_elif(p):

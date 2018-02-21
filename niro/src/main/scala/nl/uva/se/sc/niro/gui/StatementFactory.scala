@@ -25,7 +25,7 @@ object StatementFactory {
       statement match {
         case question: Question => {
           grid.getRowConstraints.add(new RowConstraints())
-          grid.addRow(rowNr, new Label(question.label), convert(Expression.evaluate(question.answer)))
+          grid.addRow(rowNr, new Label(question.label), convert(Expression.evaluate(question.answer, Map.empty)))
         }
         case condition: Conditional => {
           val thenPane = insertQuestionPaneAtRow(grid, rowNr, condition.ifStatements)

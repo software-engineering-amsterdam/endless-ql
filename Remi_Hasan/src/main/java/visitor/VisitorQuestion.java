@@ -4,6 +4,7 @@ import antlr.QLBaseVisitor;
 import antlr.QLParser;
 import expression.Expression;
 import expression.ExpressionFactory;
+import model.LookupTable;
 import model.Question;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {
@@ -18,7 +19,12 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
 
         Expression defaultAnswer = getDefaultAnswer(ctx.questionType());
 
-        return new Question(questionName, questionText, defaultAnswer);
+        Question question = new Question(questionName, questionText, defaultAnswer);
+
+        LookupTable lookupTable = LookupTable.getInstance();
+        lookupTable.insert(question);
+
+        return question;
     }
 
     private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType) {

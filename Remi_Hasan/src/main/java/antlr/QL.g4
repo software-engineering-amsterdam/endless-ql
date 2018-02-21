@@ -4,8 +4,9 @@ grammar QL;
 
 root            : FORM IDENTIFIER block EOF;
 block           : '{' statement* '}';
-statement    : condition | question;
-condition       : IF '(' expression ')' block;
+statement       : condition | question;
+condition       : IF '(' expression ')' conditionTrueBlock=block ELSE conditionFalseBlock=block
+                | IF '(' expression ')' conditionTrueBlock=block;
 question        : identifier ':' questionString questionType;
 
 identifier      : IDENTIFIER;
@@ -69,6 +70,7 @@ DATETYPE        : 'date';
 DECIMALTYPE     : 'decimal';
 MONEYTYPE       : 'money';
 IF              : 'if';
+ELSE            : 'else';
 
 // Literals
 INTEGER         : [0-9]+;

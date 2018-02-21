@@ -1,40 +1,25 @@
-# Generated from QL.g4 by ANTLR 4.7
+from antlr_files_2.QLVisitor import QLVisitor
 from antlr4 import *
 from QLast import *
 
 # This class defines a complete generic visitor for a parse tree produced by QLParser.
 
-class QLVisitor(ParseTreeVisitor):
+class QLVisitorHelper(QLVisitor):
 
     # Visit a parse tree produced by QLParser#form.
     def visitForm(self, ctx):
         form_id = ctx.form_id().getText()
-        node = formNode(form_id)
+        form = FormNode(form_id)
         block = ctx.block()
         statements = block.statement()
-        print statements
         for statement in statements:
-           node = self.visit(statement)
-           print node
+            node = self.visit(statement)
+            print node
+            if (node != None):
+                form.statements.append(node)
 
-        # return self.visitChildren(ctx)
+        print(form)
         return 
-
-
-    # Visit a parse tree produced by QLParser#block.
-    def visitBlock(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLParser#statement.
-    def visitStatement(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLParser#assignment.
-    def visitAssignment(self, ctx):
-
-        return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by QLParser#question.
@@ -42,13 +27,15 @@ class QLVisitor(ParseTreeVisitor):
         question = ctx.STR().getText()
         var = ctx.var().getText()
         vartype = ctx.vartype().getText()
-        node = questionNode(question, var, vartype)
+        node = QuestionNode(question, var, vartype)
+        # print(node)
         return node
         # return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by QLParser#conditional.
     def visitConditional(self, ctx):
+
         return self.visitChildren(ctx)
 
 

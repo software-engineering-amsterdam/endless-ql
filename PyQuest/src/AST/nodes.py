@@ -8,6 +8,35 @@ class BaseNode(object):
     def accept(self, visitor):
         visitor.visit(self)
 
+# ----------------------------------------------------
+
+class FormNode(BaseNode):
+
+    def __init__(self, line_number, label, children):
+        super(FormNode, self).__init__(line_number, children)
+        self.label = label
+
+    def get_label(self):
+        return self.label
+
+# ----------------------------------------------------
+
+class QuestionNode(BaseNode):
+
+    def __init__(self, line_number, question, label, val_type, children):
+        super(QuestionNode, self).__init__(line_number, children)
+        self.question = question
+        self.label = label
+        self.val_type = val_type
+
+    def get_question(self):
+        return self.question
+
+    def get_label(self):
+        return self.label
+
+    def get_val_type(self):
+        return self.val_type
 
 # ----------------------------------------------------
 

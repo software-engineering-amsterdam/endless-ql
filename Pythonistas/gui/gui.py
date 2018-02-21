@@ -28,6 +28,8 @@ class InputWindow(QWidget):
         self.setLayout(self.layout)
 
     def inputwindow(self):
+        # Creates a textbox for input of QL text.
+        # This QL text can later be parsed into a questionnaire.
         titlelabel = QLabel("Input your QL text here")
         self.layout.addWidget(titlelabel,0,0)
 
@@ -44,7 +46,6 @@ class InputWindow(QWidget):
         self.output = OutputWindow()
         tokens = ql_lex(self.textbox.toPlainText())
         result = ql_parser(tokens)
-        print(result)
         self.buildGui(result,self.output)
 
         self.output.quitbutton()
@@ -125,14 +126,14 @@ class OutputWindow(QWidget):
         qbtn = QPushButton('Quit', self)
         qbtn.clicked.connect(QApplication.instance().quit)
         qbtn.resize(qbtn.sizeHint())
-        self.layout.addWidget(qbtn, self.row,3)
+        self.layout.addWidget(qbtn, self.row,2)
         # self.row +=1
 
     def submitbutton(self):
         smbtn = QPushButton('Submit', self)
         smbtn.clicked.connect(self.submit)
         smbtn.resize(smbtn.sizeHint())
-        self.layout.addWidget(smbtn, self.row,2)
+        self.layout.addWidget(smbtn, self.row,1)
 
     def submit(self):
         file = open( 'output.txt', 'w')

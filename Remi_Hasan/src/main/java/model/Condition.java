@@ -5,14 +5,14 @@ import expression.Expression;
 import java.util.ArrayList;
 
 // TODO rename to something like conditionblock for consistency
-public class Condition extends BlockElement {
+public class Condition extends Statement {
     public Expression condition;
-    public ArrayList<BlockElement> elements;
+    public ArrayList<Statement> statements;
 
     // TODO force condition to be of evaluated type ExpressionVariableBoolean
-    public Condition(Expression condition, ArrayList<BlockElement> elements) {
+    public Condition(Expression condition, ArrayList<Statement> statements) {
         this.condition = condition;
-        this.elements = elements;
+        this.statements = statements;
     }
 
     @Override

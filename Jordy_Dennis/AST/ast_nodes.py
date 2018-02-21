@@ -3,7 +3,10 @@ class QLNode:
         self.forms = []
 
     def addForm(self, form):
-        self.forms += form
+        self.forms.append(form)
+
+    def __repr__(self):
+        return "FORMS: {}".format(self.forms)
 
 class formNode:
     def __init__(self, name):
@@ -11,7 +14,7 @@ class formNode:
         self.children = []
 
     def addChild(self, child):
-        self.children += child
+        self.children.append(child)
 
     def  __repr__(self):
         return "Form: {}, children: {}".format(self.name, self.children)
@@ -23,7 +26,7 @@ class questionNode:
         self.varType = varType
 
     def __repr__(self):
-        return "Question: \"{}\",{}:{}".format(self.question,self.varName, self.varType)
+        return "Question: {}, {}:{}".format(self.question,self.varName, self.varType)
 
 class conditionalNode:
     def __init__(self, expression):
@@ -33,10 +36,12 @@ class conditionalNode:
         self.elseChildren = []
 
     def addIfChild(self, child):
-        self.ifChildren += child
+        for i in child:
+            self.ifChildren.append(i)
 
     def addElifChild(self, child):
-        self.elifChildren += child
+        for i in child:
+            self.elifChildren.append(i)
 
     def addElseChild(self, child):
         self.elseChildren += child
@@ -65,8 +70,4 @@ class expressionNode:
 
     def __repr__(self):
         return "Expression: {} {} {}".format(self.left, self.op, self.right)
-
-
-
-
 

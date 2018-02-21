@@ -55,18 +55,24 @@ compOp      : LT | LTE | GTE | GT | NE | EQ ;
 logicalOp   : OR | AND ;
 arithmOp    : SUB | ADD | DIV | MUL ;
 
-expression  : IntValue                                 # IntConst
-            | DecValue                                 # DecConst
-            | Ident                                    # Var
-            | bool                                     # BoolConst
-            | lhs=expression arithmOp rhs=expression   # ArithmExpr
-            | lhs=expression compOp rhs=expression     # CompExpr
-            | lhs=expression logicalOp rhs=expression  # LogicalExpr
-            | unaryOp expression                       # UnaryExpr
-            | BRACK_L expression BRACK_R               # GroupExpr ;
+expression  : answerType                                    # AnswerTypeConst
+            | IntValue                                      # IntConst
+            | DecValue                                      # DecConst
+            | Ident                                         # Var
+            | bool                                          # BoolConst
+            | lhs=expression arithmOp rhs=expression        # ArithmExpr
+            | lhs=expression compOp rhs=expression          # CompExpr
+            | lhs=expression logicalOp rhs=expression       # LogicalExpr
+            | unaryOp expression                            # UnaryExpr
+            | BRACK_L expression BRACK_R                    # GroupExpr
+            | answerType ASSIGN BRACK_L expression BRACK_R  # ComputedField ;
 
 form        : FORM Ident CURLY_L statement+ CURLY_R EOF ;
-statement   : question | conditional ;
-question    : Ident D_COLON TEXT answerType ( ASSIGN BRACK_L expression BRACK_R )?;
+
+statement   : question
+            | conditional ;
+
+question    : Ident D_COLON label=TEXT expression;
 conditional : IF BRACK_L condition=expression BRACK_R CURLY_L thenBlock+=statement+ CURLY_R ( ELSE CURLY_L elseBlock+=statement+ CURLY_R )? ;
+
 answerType  : BOOLEAN | INTEGER | STRING | MONEY | DATE | DECIMAL | MONEY;

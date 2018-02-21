@@ -1,3 +1,3 @@
 package data
 
-data class Question(val questionText: String, var value: BaseSymbolValue)
+data class Question(val label: String, var value: BaseSymbolValue)

@@ -23,13 +23,13 @@ namespace QL_Parser.Analysis
 
         private SymbolTable()
         {
-            this.TypeMap = new Dictionary<string, NodeType>();
+            this.TypeMap = new Dictionary<string, QuestionType>();
         }
         #endregion
 
-        public Dictionary<string, NodeType> TypeMap { get; set; }
+        public Dictionary<string, QuestionType> TypeMap { get; set; }
 
-        public NodeType GetType(string id)
+        public QuestionType GetType(string id)
         {
             if (TypeMap.ContainsKey(id))
                 return TypeMap[id];
@@ -37,10 +37,19 @@ namespace QL_Parser.Analysis
             throw new KeyNotFoundException(string.Format("Unknown variable {0}", id));
         }
 
-        public void Add(string id, NodeType type)
+        public static void Add(string id, QuestionType type)
         {
-            if (!TypeMap.ContainsKey(id))
-                TypeMap.Add(id, type);
+            if (!Instance.TypeMap.ContainsKey(id))
+                Instance.TypeMap.Add(id, type);
+        }
+
+        /// <summary>
+        /// This function clears the TypeMap with all its values and should only
+        /// be used for testing purposes.
+        /// </summary>
+        public static void Reset()
+        {
+            Instance.TypeMap.Clear();
         }
     }
 }

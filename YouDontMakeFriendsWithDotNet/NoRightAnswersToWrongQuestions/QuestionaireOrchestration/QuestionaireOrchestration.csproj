@@ -30,8 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.ZipFile">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,15 +47,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\ICommandQueryService.cs" />
+    <Compile Include="CommandHandlers\ICommandObjectRegistry.cs" />
+    <Compile Include="CommandHandlers\ParseTextCommandHandler.cs" />
     <Compile Include="OrchestrationModule.cs" />
+    <Compile Include="API\CreateQuestionnaireCommandMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryServices\CommandQueryService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionaireDomain.Entities.csproj">
+      <Project>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</Project>
+      <Name>QuestionaireDomain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QuestionnaireDomain.Logic\QuestionnaireDomain.Logic.csproj">
+      <Project>{A90F662F-AFD9-45AA-8B13-DBFBAF4A6CFC}</Project>
+      <Name>QuestionnaireDomain.Logic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
       <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>
       <Name>QuestionnaireInfrastructure</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

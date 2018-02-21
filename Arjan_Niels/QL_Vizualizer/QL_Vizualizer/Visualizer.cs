@@ -12,7 +12,15 @@ namespace QL_Vizualizer
         public Visualizer()
         {
             InitializeComponent();
+        }
 
+        private void parseButtonClick(object sender, System.EventArgs e)
+        {
+            CreateDummyForm();
+        }
+
+        private void CreateDummyForm()
+        {
             // Initialize widget controller
             WidgetController widgetController = new WidgetVisualizeController<Control>();
             widgetController.SetDisplayController(new WidgetDisplayControllerWindows(10, panel1, widgetController));

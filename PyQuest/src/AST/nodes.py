@@ -42,9 +42,8 @@ class UnaryOperatorNode(ExpressionNode):
 
 
 class LiteralNode(ExpressionNode):
-    def __init__(self, line_number, expression_type, name, value):
+    def __init__(self, line_number, expression_type, value):
         super(LiteralNode, self).__init__(line_number, expression_type)
-        self.name = name
         self.value = value
 
 

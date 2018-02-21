@@ -6,9 +6,10 @@ import Multiplication from "./form/nodes/expressions/arithmetic/Multiplication";
 import NumberLiteral from "./form/nodes/expressions/arithmetic/NumberLiteral";
 import { evaluate } from "./form/evaluation/evaluation_functions";
 import { FormComponent } from "./rendering/components/form_component/FormComponent";
-import { sampleForm } from "./mock/sampleForm";
 import Expression from "./form/nodes/expressions/Expression";
 import Form from "./form/Form";
+import { sampleForm } from "./mock/sampleForm";
+import { QlsTest } from "./modules/rendering/components/qls_test/QlsTest";
 
 export interface AppComponentProps {
 }
@@ -16,6 +17,7 @@ export interface AppComponentProps {
 export interface AppComponentState {
   qlInput?: string;
   form: Form;
+  errorMessage: string;
 }
 
 const qlParser = require("./parsing/parsers/ql_parser");
@@ -26,10 +28,31 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
 
     this.state = {
       qlInput: require("!raw-loader!./mock/sample.ql.txt"),
-      form: sampleForm
+      form: sampleForm,
+      errorMessage: ""
     };
 
     this.onChange = this.onChange.bind(this);
+  }
+
+  onChangeQuestionnaire(text: string) {
+    let form: Form;
+    let errorMessage: string = "";
+
+    try {
+      form = qlParser.parse(this.state.qlInput);
+
+      this.setState({
+        form: form,
+        errorMessage: errorMessage
+      });
+    } catch (error) {
+      errorMessage = error.message;
+    }
+
+    this.setState({
+      errorMessage: errorMessage
+    });
   }
 
   onChange(identifier: string, value: any) {
@@ -62,6 +85,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
          */
         <div className="app container">
           <h2>Sample QL ouput</h2>
+          <QlsTest/>
           <div className="row ql-sample-output">
             <div className="col-md-6">
               <Input

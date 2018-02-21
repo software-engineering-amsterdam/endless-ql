@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assignment1
 {
-    internal abstract class Content
+    public abstract class Content
     {
     }
 }

@@ -1,6 +1,6 @@
 parser grammar GrammarParser;
 
-options { tokenVocab=Grammar; }
+options { tokenVocab=GrammarLexer; }
 
 //TESTING RULES
 a : b INT ;

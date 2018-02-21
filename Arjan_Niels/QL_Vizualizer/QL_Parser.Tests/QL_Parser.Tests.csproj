@@ -51,6 +51,7 @@
     <Compile Include="AST\CommentTest.cs" />
     <Compile Include="AST\TreeConstructionTest.cs" />
     <Compile Include="AST\StatementTest.cs" />
+    <Compile Include="AST\SymbolTableTests.cs" />
     <Compile Include="AST\Validators\ASTValidatorTests.cs" />
     <Compile Include="AST\Validators\QuestionHasNoChildrenTests.cs" />
     <Compile Include="AST\Validators\SingleFormValidatorTests.cs" />

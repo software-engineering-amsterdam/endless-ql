@@ -59,7 +59,7 @@ namespace QL_Parser.Analysis
 
         public static void Reset()
         {
-            _instance = new Analyser();
+            Instance._messages.Clear();
         }
     }
 }

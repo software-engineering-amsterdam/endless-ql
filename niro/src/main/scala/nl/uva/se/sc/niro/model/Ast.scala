@@ -13,6 +13,8 @@ object Ast {
   case class Conditional(condition: Expression, ifStatements: Seq[Statement], elseStatements: Seq[Statement]) extends Statement
 
   object Statement {
+
+    // TODO maybe only add questions of conditions with predicate true?
     def collectQuestions(statements: Seq[Statement]): Seq[Question] = {
       statements.flatMap {
         case q: Question => Seq(q)

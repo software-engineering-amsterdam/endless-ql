@@ -98,7 +98,7 @@ public class IngesterTest {
                 .formExpressions(expectedExpressions)
                 .build();
 
-        Form actualForm = ingester.toParsedForm("src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql");
+        Form actualForm = ingester.toLocationParsedForm("src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql");
 
         assertEquals(expectedForm, actualForm);
     }
@@ -112,7 +112,7 @@ public class IngesterTest {
                 .formExpressions(null)
                 .build();
 
-        Form actualForm = ingester.toParsedForm("src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input2.jsql");
+        Form actualForm = ingester.toLocationParsedForm("src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input2.jsql");
 
         assertEquals(expectedForm, actualForm);
     }

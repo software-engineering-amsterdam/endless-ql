@@ -4,12 +4,12 @@
  */
 
 {
+
 }
 
 start = call+
 
 call = lb* form:stylesheet lb* { return form}
-
 
 block
  = "{" lb* body:(section / default)+ lb* "}" {
@@ -141,7 +141,7 @@ escapeSequence
 
 type = "money" / "date" / "integer" / "boolean"
 value = identifier / numberLiteral / stringLiteral / booleanLiteral
-comment = "//" (!lb .)*
+comment = "//" (![\n] .)*
 ws = [ \t]
 _ = (ws / comment)*
-lb = [ \t\r\n]
+lb = [ \t\r\n] / comment

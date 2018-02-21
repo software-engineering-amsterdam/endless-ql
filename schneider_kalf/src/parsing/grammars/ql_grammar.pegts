@@ -210,7 +210,7 @@ escapeSequence
   / "v"  { return "\x0B"; }
 
 value = identifier / numberLiteral / stringLiteral / booleanLiteral
-comment = "//" (!lb .)*
+comment = "//" (![\n] .)*
 ws = [ \t]
 _ = (ws / comment)*
-lb = [ \t\r\n]
+lb = [ \t\r\n] / comment

@@ -1,19 +1,25 @@
 import * as React from 'react';
-import Field from "../../../form/field/Field";
-import MoneyWrapper from "../../../form/values/MoneyWrapper";
 import { FormGroup, Label, InputGroup, Input } from 'reactstrap';
+import Field from "../../../form/nodes/fields/FieldNode";
 
 export interface MoneyFieldProps {
-  value: MoneyWrapper;
+  value: number;
   field: Field;
+  onChange: (value: any) => void;
 }
 
 export const MoneyField: React.SFC<MoneyFieldProps> = (props) => {
   return (
       <FormGroup>
-        <Label for={props.field.name}>{props.field.label}</Label>
+        <Label for={props.field.identifier}>{props.field.label}</Label>
         <InputGroup>
-          <Input name={props.field.name} type="number" step={0.01} value={props.value.toString()}/>
+          <Input
+              onChange={e => props.onChange(e.target.value)}
+              name={props.field.identifier}
+              type="number"
+              step={0.01}
+              value={props.value || ""}
+          />
           <div className="input-group-append">
             <span className="input-group-text">€</span>
           </div>

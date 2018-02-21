@@ -46,9 +46,9 @@ def get_tags():
 # Statements
 def stmt():
     """
-    Possible paterns to be recognized
+    Possible patterns to be recognized
     """
-    return form_stmt() | assign_stmt() | if_stmt()
+    return form_stmt() | assign_stmt() #| if_stmt()
 
 
 def form_stmt():
@@ -138,7 +138,6 @@ def aexp_value():
 def precedence(value_parser, precedence_levels, combine):
     def op_parser(precedence_level):
         return any_operator_in_list(precedence_level) ^ combine
-    print(combine)
     parser = value_parser * op_parser(precedence_levels[0])
     for precedence_level in precedence_levels[1:]:
         parser = parser * op_parser(precedence_level)
@@ -155,13 +154,13 @@ def process_relop(parsed):
     return RelopBexp(op, left, right)
 
 
-# def process_logic(op):
-#     if op == 'and':
-#         return lambda l, r: AndBexp(l, r)
-#     elif op == 'or':
-#         return lambda l, r: OrBexp(l, r)
-#     else:
-#         raise RuntimeError('unknown logic operator: ' + op)
+def process_logic(op):
+    if op == 'and':
+        return lambda l, r: AndBexp(l, r)
+    elif op == 'or':
+        return lambda l, r: OrBexp(l, r)
+    else:
+        raise RuntimeError('unknown logic operator: ' + op)
 
 
 def process_group(parsed):

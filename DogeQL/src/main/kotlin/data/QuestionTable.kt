@@ -1,13 +1,14 @@
 package data
 
-import common.Identifier
+import common.Name
+import java.util.*
 
 class QuestionTable {
 
-    private val table = HashMap<Identifier, Question>()
+    private val table = HashMap<Name, Question>()
 
-    fun register(identifier: Identifier, question: Question) {
-        table[identifier] = question
+    fun register(name: Name, question: Question) {
+        table[name] = question
     }
 
     fun print(){

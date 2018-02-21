@@ -4,6 +4,7 @@ import generated.org.uva.ql.parser.QLBaseVisitor;
 import generated.org.uva.ql.parser.QLParser;
 import main.org.uva.ql.ast.*;
 import main.org.uva.ql.ast.expression.Expression;
+import main.org.uva.ql.ast.expression.ParameterGroup;
 import main.org.uva.ql.ast.expression.binary.*;
 import main.org.uva.ql.ast.expression.unary.BooleanLiteral;
 import main.org.uva.ql.ast.expression.unary.IntegerLiteral;
@@ -32,7 +33,12 @@ public class ParseTreeVisitor extends QLBaseVisitor {
         String questionContent = ctx.text.getText();
         Type questionType = (Type)visit(ctx.type());
 
-        return new Question(questionName, questionContent, questionType);
+        if(ctx.calculatedValue() != null){
+            Expression calculation = (Expression) visit(ctx.calculatedValue());
+            return new CalculatedQuestion(questionName, questionContent, questionType, calculation);
+        } else {
+            return new Question(questionName, questionContent, questionType);
+        }
     }
 
     @Override
@@ -60,22 +66,36 @@ public class ParseTreeVisitor extends QLBaseVisitor {
         return new Conditional((Expression) visit(ctx.expression()), ifBody, elseBody);
     }
 
+    @Override
+    public TreeNode visitAddSub(QLParser.AddSubContext ctx) {
+        Expression left = (Expression) visit(ctx.left);
+        Expression right = (Expression) visit(ctx.right);
+        String operation = ctx.op.getText();
+
+        if (operation.equals("+")) {
+            return new Addition(left, right);
+        } else {
+            return new Subtraction(left, right);
+        }
+    }
+
+    @Override
     public TreeNode visitComparation(QLParser.ComparationContext ctx){
         String operation = ctx.op.getText();
-        if(operation.equals(">")) {
-            return new GreaterThan((Expression) visit(ctx.left), (Expression) visit(ctx.right));
-        } else if (operation.equals("<")) {
-            return new LessThan((Expression) visit(ctx.left), (Expression) visit(ctx.right));
-        } else if (operation.equals("<")) {
-            return new LessThan((Expression) visit(ctx.left), (Expression) visit(ctx.right));
-        } else if (operation.equals("<=")) {
-            return new LessThanEqualTo((Expression) visit(ctx.left), (Expression) visit(ctx.right));
-        } else if (operation.equals(">=")) {
-            return new GreaterThanEqualTo((Expression) visit(ctx.left), (Expression) visit(ctx.right));
-        } else if (operation.equals("!=")) {
-            return new NotEqual((Expression) visit(ctx.left), (Expression) visit(ctx.right));
-        } else {
-            return new Equal((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+
+        switch (operation){
+            case ">":
+                return new GreaterThan((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+            case "<":
+                return new LessThan((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+            case "<=":
+                return new LessThanEqualTo((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+            case ">=":
+                return new GreaterThanEqualTo((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+            case "!=":
+                return new NotEqual((Expression) visit(ctx.left), (Expression) visit(ctx.right));
+            default:
+                return new Equal((Expression) visit(ctx.left), (Expression) visit(ctx.right));
         }
     }
 
@@ -124,4 +144,13 @@ public class ParseTreeVisitor extends QLBaseVisitor {
         return new And((Expression) visit(ctx.left), (Expression) visit(ctx.right));
     }
 
+    @Override
+    public TreeNode visitCalculatedValue(QLParser.CalculatedValueContext ctx) {
+        return (Expression)visit(ctx.expression());
+    }
+
+    @Override
+    public TreeNode visitParameterGroup(QLParser.ParameterGroupContext ctx) {
+        return new ParameterGroup((Expression) visit(ctx.expression()));
+    }
 }

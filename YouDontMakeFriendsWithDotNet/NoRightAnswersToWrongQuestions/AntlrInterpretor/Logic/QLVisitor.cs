@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using System;
 using System.Linq;
 using AntlGrammar;
@@ -58,4 +59,42 @@ namespace AntlrInterpretor.Logic
             return m_questionnaireAst;
         }
     }
+=======
+﻿using System.Linq;
+using AntlGrammar;
+using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.DomainObjects;
+
+namespace AntlrInterpretor.Logic
+{
+    public class QlVisitor : QLBaseVisitor<IAstNode>
+    {
+        private readonly IQuestionnaireAst m_questionnaireAst;
+
+        public QlVisitor()
+        {
+            m_questionnaireAst = new QuestionnaireAst();
+        }
+
+        public override IAstNode VisitQuestionnaire(QLParser.QuestionnaireContext context)
+        {
+            var formName = context.IDENT().GetText();
+            context.question()
+                .Select(x => Visit(x))
+                .ToList();
+            m_questionnaireAst.FormName = formName;
+            return m_questionnaireAst;
+        }
+
+        public override IAstNode VisitQuestion(QLParser.QuestionContext context)
+        {
+            var name = context.IDENT().GetText();
+            var text = context.STRING().GetText();
+            var type = typeof(bool);
+            var question = new QuestionAst(name, text.Replace("\"", ""), type);
+            m_questionnaireAst.Questions.Add(question);
+            return m_questionnaireAst;
+        }
+    }
+>>>>>>> b4a9b6ed7a567bef7322e087eb0d3de8f04a3913
 }

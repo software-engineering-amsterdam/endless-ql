@@ -32,7 +32,7 @@ public class WebUI extends UI {
 
             final Button btnRender = new Button("Render QL");
 
-            setContent(new VerticalLayout(area, btnRender));
+            setContent(new FormLayout(area, btnRender));
 
             btnRender.addClickListener(
                     e -> setContent(createDynamicLayout(area.getValue()))

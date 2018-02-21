@@ -48,7 +48,7 @@ def stmt():
     """
     Possible paterns to be recognized
     """
-    return form_stmt() | assign_stmt() | if_stmt()
+    return form_stmt() | assign_stmt() #| if_stmt()
 
 
 def form_stmt():

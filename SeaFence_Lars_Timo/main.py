@@ -15,6 +15,7 @@ def main(argv):
 
     visitor = QLVisitor()
     visitor.visit(tree)
+    
     # print(tree.toStringTree(recog=parser))
     # gui = Gui()
     # gui.addLabel("hey", "jaja")

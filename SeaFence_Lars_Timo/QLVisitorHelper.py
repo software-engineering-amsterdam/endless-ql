@@ -12,6 +12,8 @@ class QLVisitorHelper(QLVisitor):
         form = FormNode(form_id)
         block = ctx.block()
         statements = block.statement()
+
+        #loop over all statements, creating nodes if present
         for statement in statements:
             node = self.visit(statement)
             print node

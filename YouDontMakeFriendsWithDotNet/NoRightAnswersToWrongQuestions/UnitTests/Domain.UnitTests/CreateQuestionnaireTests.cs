@@ -90,6 +90,16 @@ namespace UnitTests.Domain.UnitTests
             Assert.AreEqual(expected: "MyForm", actual: createdForm.FormName);
         }
 
+        private IQuestionnaireAst CreateForm(string validText)
+        {
+            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+            var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
+            var domainItemId = questionnaireCreator.Create(validText);
+            var createdForm = domainItemLocator.Get<IQuestionnaireAst>(domainItemId);
+            Assert.IsNotNull(domainItemId);
+            return createdForm;
+        }
+
         [TestCaseSource(nameof(CommentCases))]
         public void WhenGivenComments_ReturnsDomainObjects(string validText, string expectedName)
         {
@@ -182,32 +192,63 @@ form CommentFormMLX {}";
             Assert.AreEqual(expected: questionText, actual: question.Text);
         }
 
-        private IQuestionnaireAst CreateForm(string validText)
-        {
-            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
-            var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
-            var domainItemId = questionnaireCreator.Create(validText);
-            var createdForm = domainItemLocator.Get<IQuestionnaireAst>(domainItemId);
-            Assert.IsNotNull(domainItemId);
-            return createdForm;
-        }
-
         private static IEnumerable QuestionCases
         {
             get
             {
                 var nl = Environment.NewLine;
-                yield return new TestCaseData("form NameForm { x : \"xyz\" }", @"x", @"xyz");
-                yield return new TestCaseData("form NameForm { qname : \"this is a question\" }", @"qname", @"this is a question");
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", @"x", @"xyz");
+                yield return new TestCaseData("form NameForm { qname : \"this is a question\"  boolean }", @"qname", @"this is a question");
                 yield return new TestCaseData(
-                    $"form NameForm {{ {nl} qname2 : \"this is a question too\" {nl} }} ",
+                    $"form NameForm {{ {nl} qname2 : \"this is a question too\"  boolean{nl}  }} ",
                     @"qname2",
                     @"this is a question too");
                 yield return new TestCaseData(
-                    $"form NameForm {{{nl}    qname3 : \"this is a question three\"{nl}    qname4 : \"this is a question four\" }} ",
+                    $"form NameForm {{{nl}    qname3 : \"this is a question three\" boolean{nl}    qname4 : \"this is a question four\" boolean }} ",
                     @"qname3",
                     @"this is a question three");
             }
         }
+
+        [TestCaseSource(nameof(MultipleQuestionCases))]
+        public void WhenGivenMultipleQuestions_CorrectNumberOfQuestions(string validText, int questionCount)
+        {
+            var createdForm = CreateForm(validText);
+            Assert.AreEqual(expected: questionCount, actual: createdForm.Questions.Count);
+        }
+
+        private static IEnumerable MultipleQuestionCases
+        {
+            get
+            {
+                var nl = Environment.NewLine;
+                yield return new TestCaseData("form NameForm { x : \"xyz\" boolean }", 1);
+                yield return new TestCaseData("form NameForm { qname : \"this is a question\" boolean }", 1);
+                yield return new TestCaseData($"form NameForm {{ {nl} qname2 : \"this is a question too\"  boolean{nl} }} ", 1);
+                yield return new TestCaseData(
+                    $"form NameForm {{{nl}    qname3 : \"this is a question three\"  boolean{nl}    qname4 : \"this is a question four\"  boolean }} ",
+                    2);
+                yield return new TestCaseData(
+                    $"form NameForm {{{nl}    x : \"xyz\"  boolean{nl}    y : \"yzx\"  boolean{nl}    z : \"zxy\"  boolean }} ",
+                    3);
+            }
+        }
+
+        //[TestCaseSource(nameof(TypeCases))]
+        //public void WhenQuestionsHasType_CorrectTypeOnQuestions(string validText, Type expectedType)
+        //{
+        //    var createdForm = CreateForm(validText);
+        //    var actualType = createdForm.Questions.FirstOrDefault(x => x.Type);
+        //    Assert.AreEqual(expected: expectedType, actual: actualType);
+        //}
+
+        private static IEnumerable TypeCases
+        {
+            get
+            {
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", 1);
+            }
+        }
+
     }
 }

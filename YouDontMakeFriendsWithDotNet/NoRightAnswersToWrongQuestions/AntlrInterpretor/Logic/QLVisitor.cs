@@ -17,7 +17,7 @@ namespace AntlrInterpretor.Logic
         public override IAstNode VisitQuestionnaire(QLParser.QuestionnaireContext context)
         {
             var formName = context.IDENT().GetText();
-            var statements = context.question()
+            context.question()
                 .Select(x => Visit(x))
                 .ToList();
             m_questionnaireAst.FormName = formName;

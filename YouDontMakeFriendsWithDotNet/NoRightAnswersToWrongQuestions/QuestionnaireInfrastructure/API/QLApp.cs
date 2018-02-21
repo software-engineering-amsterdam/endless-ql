@@ -1,13 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace QuestionnaireInfrastructure.API
+﻿namespace QuestionnaireInfrastructure.API
 {
-    public class QLApp
+    public class QlApp
     {
-
-        static QLApp()
+        static QlApp()
         {
-
         }
     }
 }

@@ -2,13 +2,6 @@
 
 namespace QuestionaireDomain.Entities.DomainObjects
 {
-    public interface IAstNode
-    {
-        IList<IAstNode> Questions { get; }
-
-        void Accept(IAstVisitor visitor);
-    }
-
     public abstract class AstNodeBase : IAstNode
     {
         protected AstNodeBase()

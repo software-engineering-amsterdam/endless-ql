@@ -1,8 +1,4 @@
-﻿using System;
-using System.Configuration;
-using System.Linq;
-using System.Runtime.Remoting.Channels;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace QuestionnaireInfrastructure.API
 {

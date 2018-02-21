@@ -1,9 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using AntlGrammar;
+﻿using AntlGrammar;
 using Antlr4.Runtime;
 using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.DomainObjects;
 
 namespace AntlrInterpretor.Logic
 {

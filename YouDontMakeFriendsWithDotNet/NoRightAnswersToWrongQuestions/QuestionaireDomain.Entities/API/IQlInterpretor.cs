@@ -1,6 +1,4 @@
-﻿using QuestionaireDomain.Entities.DomainObjects;
-
-namespace QuestionaireDomain.Entities.API
+﻿namespace QuestionaireDomain.Entities.API
 {
     public interface IQlInterpretor
     {

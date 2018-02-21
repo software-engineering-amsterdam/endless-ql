@@ -1,5 +1,4 @@
 ﻿using System;
-using QuestionaireDomain.Entities.API;
 
 namespace QuestionnaireDomain.Logic.API
 {

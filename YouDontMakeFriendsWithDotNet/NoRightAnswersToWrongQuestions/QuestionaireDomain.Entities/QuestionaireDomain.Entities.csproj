@@ -47,10 +47,9 @@
     <Compile Include="API\IQuestionAst.cs" />
     <Compile Include="DomainObjects\AstNodeBase.cs" />
     <Compile Include="DomainObjects\CommandObjectRegistry.cs" />
+    <Compile Include="DomainObjects\IAstNode.cs" />
     <Compile Include="DomainObjects\IAstVisitor.cs" />
-    <Compile Include="DomainObjects\LineInfo.cs" />
     <Compile Include="DomainObjects\QuestionAst.cs" />
-    <Compile Include="DomainObjects\Questionnaire.cs" />
     <Compile Include="DomainObjects\QuestionnaireAst.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

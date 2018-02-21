@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.Design;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using QuestionaireOrchestration.API;
 using QuestionaireOrchestration.CommandHandlers;
 using QuestionaireOrchestration.QueryServices;
@@ -14,7 +13,6 @@ namespace QuestionaireOrchestration
             appRegistration.AddTransient(typeof(ICommandHandler<CreateQuestionnaireCommandMessage>), typeof(ParseTextCommandHandler));
             appRegistration.AddTransient(typeof(ICommandQueryService), typeof(CommandQueryService));
             appRegistration.AddTransient(typeof(ICommandObjectRegistry), typeof(CommandObjectRegistry));
-
         }
     }
 }

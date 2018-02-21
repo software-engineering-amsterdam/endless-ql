@@ -8,18 +8,18 @@ namespace QL_Vizualizer.Controllers
     /// Implements View of Widgets
     /// </summary>
     /// <typeparam name="T">Widget View Type</typeparam>
-    public class WidgetVisualizeController<T> : WidgetController
+    public class WidgetVisualizeController<T,Y> : WidgetController
     {
         /// <summary>
         /// Display controller to show widgets
         /// </summary>
-        private WidgetDisplayController<T> _displayController;
+        private WidgetDisplayController<T,Y> _displayController;
 
-        public override void SetDisplayController<Y>(WidgetDisplayController<Y> displayController)
+        public override void SetDisplayController<X,Z>(WidgetDisplayController<X, Z> displayController)
         {
-            if (typeof(Y) != typeof(T))
+            if (typeof(X) != typeof(T) || typeof(Y) != typeof(Z))
                 throw new InvalidOperationException("Tried to set displaycontroller with type mismatch");
-            _displayController = displayController as WidgetDisplayController<T>;
+            _displayController = displayController as WidgetDisplayController<T,Y>;
         }
 
         /// <summary>

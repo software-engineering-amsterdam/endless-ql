@@ -34,7 +34,7 @@ namespace QL_Vizualizer.Controllers
         /// </summary>
         /// <typeparam name="T">Element type of display controller</typeparam>
         /// <param name="displayController">Display controller to use</param>
-        public abstract void SetDisplayController<T>(WidgetDisplayController<T> displayController);
+        public abstract void SetDisplayController<T,Y>(WidgetDisplayController<T,Y> displayController);
 
         /// <summary>
         /// Updates the view of a widget

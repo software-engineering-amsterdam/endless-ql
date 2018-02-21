@@ -2,6 +2,7 @@
 using QL_Parser.AST.Nodes;
 using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Controllers.Display;
+using QL_Vizualizer.Style;
 using QL_Vizualizer.Widgets;
 using QL_Vizualizer.Widgets.Types;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace QL_Vizualizer
         private void CreateDummyForm()
         {
             // Initialize widget controller
-            WidgetController widgetController = new WidgetVisualizeController<Control>();
+            WidgetController widgetController = new WidgetVisualizeController<Control, WindowsStyleProperties>();
             widgetController.SetDisplayController(new WidgetDisplayControllerWindows(10, panel1, widgetController));
 
             // Create widgets

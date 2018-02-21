@@ -3,7 +3,7 @@ using QL_Vizualizer.Widgets;
 
 namespace QL_Vizualizer.Factories
 {
-    public abstract class ElementFactory<T>
+    public abstract class ElementFactory<T,Y>
     {
         protected WidgetController _widgetController { get; private set; }
 
@@ -16,8 +16,9 @@ namespace QL_Vizualizer.Factories
         /// Creates (display) Element
         /// </summary>
         /// <param name="widget">Widget to create Element for</param>
+        /// <param name="style">Style of the widget to be created</param>
         /// <returns>Element</returns>
-        public abstract T CreateElement(QLWidget widget);
+        public abstract T CreateElement(QLWidget widget, Y style);
 
         /// <summary>
         /// Updates specified element for widget

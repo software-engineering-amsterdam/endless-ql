@@ -1,11 +1,12 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using QL_Vizualizer.Factories;
+using QL_Vizualizer.Style;
 using QL_Vizualizer.Widgets;
 
 namespace QL_Vizualizer.Controllers.Display
 {
-    public class WidgetDisplayControllerWindows : WidgetDisplayController<Control>
+    public class WidgetDisplayControllerWindows : WidgetDisplayController<Control, WindowsStyleProperties>
     {
         /// <summary>
         /// Control element to add all created controls to

@@ -50,6 +50,7 @@
     <Compile Include="Expression.cs" />
     <Compile Include="Factories\ControlFactory.cs" />
     <Compile Include="Factories\ElementFactory.cs" />
+    <Compile Include="Style\WindowsStyleProperties.cs" />
     <Compile Include="Visualizer.cs">
       <SubType>Form</SubType>
     </Compile>

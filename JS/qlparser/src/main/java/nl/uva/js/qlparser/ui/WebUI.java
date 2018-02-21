@@ -9,6 +9,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import nl.uva.js.qlparser.models.Form;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 
@@ -16,9 +17,14 @@ import java.io.IOException;
 @Theme("valo")
 public class WebUI extends UI {
 
-    // TODO: DI
-    private Ingester ingester = new Ingester();
-    private FormInterpreter interpreter = new FormInterpreter();
+    private Ingester ingester;
+    private FormInterpreter interpreter;
+
+    @Autowired
+    public WebUI(Ingester ingester, FormInterpreter interpreter) {
+        this.ingester = ingester;
+        this.interpreter = interpreter;
+    }
 
     @Override
     protected void init(VaadinRequest request) {

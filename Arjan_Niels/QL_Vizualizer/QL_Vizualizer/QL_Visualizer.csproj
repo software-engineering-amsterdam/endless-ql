@@ -90,6 +90,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\QL_Parser\QL_Parser.csproj">
+      <Project>{aed597d7-3472-4d95-9d15-7ba9b8bbe89e}</Project>
+      <Name>QL_Parser</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

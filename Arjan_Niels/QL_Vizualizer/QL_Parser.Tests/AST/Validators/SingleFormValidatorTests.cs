@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL_Parser.Analysis;
+using QL_Parser.Analysis.Syntactic;
 using QL_Parser.AST.Nodes;
-using QL_Parser.AST.Validators;
 
 namespace QL_Parser.Tests.AST
 {
@@ -37,32 +38,38 @@ namespace QL_Parser.Tests.AST
             forthQuestion.AddNode(secondQuestion);
         }
 
+        [TestCleanup]
+        public void CleanUp()
+        {
+            Analyser.Reset();
+        }
+
         [TestMethod]
         public void RootIsOnlyFormNodeTest()
         {
-            IASTValidator validator = new SingleFormValidator();
-            Assert.IsTrue(validator.IsValid(_validAST, logErrors: false));
+            var validator = new SingleFormValidator();
+            Assert.IsTrue(validator.Analyse(_validAST, logErrors: false));
         }
 
         [TestMethod]
         public void RootIsOnlyFormNodeFalseTest()
         {
-            IASTValidator validator = new SingleFormValidator();
-            Assert.IsFalse(validator.IsValid(_multipleFormAST, logErrors: false));
+            var validator = new SingleFormValidator();
+            Assert.IsFalse(validator.Analyse(_multipleFormAST, logErrors: false));
         }
 
         [TestMethod]
         public void RootIsOnlyFormNodeInLowerLayerFalseTest()
         {
-            IASTValidator validator = new SingleFormValidator();
-            Assert.IsFalse(validator.IsValid(_multipleFormInLowerNodeAST, logErrors: false));
+            var validator = new SingleFormValidator();
+            Assert.IsFalse(validator.Analyse(_multipleFormInLowerNodeAST, logErrors: false));
         }
 
         [TestMethod]
         public void MultipleLayerValidForm()
         {
-            IASTValidator validator = new SingleFormValidator();
-            Assert.IsTrue(validator.IsValid(_multipleLayerValidForm, logErrors: false));
+            var validator = new SingleFormValidator();
+            Assert.IsTrue(validator.Analyse(_multipleLayerValidForm, logErrors: false));
         }
     }
 }

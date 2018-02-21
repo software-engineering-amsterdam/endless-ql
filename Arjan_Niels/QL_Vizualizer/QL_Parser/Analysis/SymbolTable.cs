@@ -1,12 +1,11 @@
 ﻿using QL_Parser.AST.Nodes;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace QL_Parser.AST
+namespace QL_Parser.Analysis
 {
+    /// <summary>
+    /// The SymbolTable keeps track of all the variables in the parse tree.
+    /// </summary>
     public class SymbolTable
     {
         #region Singleton

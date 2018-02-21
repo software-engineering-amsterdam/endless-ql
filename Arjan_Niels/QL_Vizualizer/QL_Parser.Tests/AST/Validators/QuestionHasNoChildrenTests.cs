@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL_Parser.Analysis.Syntactic;
 using QL_Parser.AST.Nodes;
-using QL_Parser.AST.Validators;
 
 namespace QL_Parser.Tests.AST.Validators
 {
@@ -31,14 +31,14 @@ namespace QL_Parser.Tests.AST.Validators
         public void QuestionHasNoChildrenTest()
         {
             var validator = new QuestionHasNoChildrenValidator();
-            Assert.IsTrue(validator.IsValid(_validAST));
+            Assert.IsTrue(validator.Analyse(_validAST));
         }
 
         [TestMethod]
         public void QuestionHasChildrenTest()
         {
             var validator = new QuestionHasNoChildrenValidator();
-            Assert.IsFalse(validator.IsValid(_invalidAST));
+            Assert.IsFalse(validator.Analyse(_invalidAST));
         }
     }
 }

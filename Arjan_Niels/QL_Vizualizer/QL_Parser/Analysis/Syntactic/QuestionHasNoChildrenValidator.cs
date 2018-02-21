@@ -1,12 +1,12 @@
 ﻿using QL_Parser.AST.Nodes;
 
-namespace QL_Parser.AST.Validators
+namespace QL_Parser.Analysis.Syntactic
 {
-    public class QuestionHasNoChildrenValidator : IASTValidator
+    public class QuestionHasNoChildrenValidator : IAnalyser
     {
         private readonly string errorMessage = "Questions can't have child nodes.";
 
-        public bool IsValid(Node node, bool logErrors = true)
+        public bool Analyse(Node node, bool logErrors = true)
         {
             return QuestionHasNoChildren(node, logErrors);
         }
@@ -20,7 +20,7 @@ namespace QL_Parser.AST.Validators
                 {
                     if (logErrors)
                     {
-                        ASTValidator.AddError(errorMessage);
+                        Analyser.AddMessage(errorMessage, MessageType.ERROR);
                     }
                     return false;
                 }

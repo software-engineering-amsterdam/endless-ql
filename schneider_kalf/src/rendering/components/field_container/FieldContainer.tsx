@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Field from '../../../form/field/Field';
+import Field from "../../../form/nodes/fields/FieldNode";
 
 export interface FieldContainerProps {
   field: Field;

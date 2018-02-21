@@ -21,13 +21,6 @@ import static org.junit.Assert.assertEquals;
 
 public class IngesterTest {
 
-    private Ingester ingester;
-
-    @Before
-    public void setup() {
-        ingester = new Ingester();
-    }
-
     @Test
     public void testToParsedForm() throws IOException {
         // Questions
@@ -98,7 +91,7 @@ public class IngesterTest {
                 .formExpressions(expectedExpressions)
                 .build();
 
-        Form actualForm = ingester.toParsedForm("src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql");
+        Form actualForm = Ingester.toLocationParsedForm("src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql");
 
         assertEquals(expectedForm, actualForm);
     }

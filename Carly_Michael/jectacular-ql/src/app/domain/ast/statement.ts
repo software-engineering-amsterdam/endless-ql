@@ -16,7 +16,7 @@ export abstract class Statement {
   }
 
   protected getLocationErrorMessage(): string {
-    return `between line ${this.location.start.line}` +
+    return ` between line ${this.location.start.line}` +
       ` and col ${this.location.start.column} and line ${this.location.end.line} and col ${this.location.end.column}`;
   }
 

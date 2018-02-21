@@ -8,7 +8,7 @@ public class ExpressionVariableInteger extends ExpressionVariable<Integer> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Number;
+        return ReturnType.Integer;
     }
 
     @Override

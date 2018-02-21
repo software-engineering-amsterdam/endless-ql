@@ -1,6 +1,13 @@
 grammar QL;
-questionnaire:   'form' FORM_ID '{}'; 
+questionnaire: 'form' IDENT '{' question* '}'; 
+question: IDENT ':' STRING questiontype;
 
-FORM_ID  :   [a-zA-Z]+ ;
+
+questiontype: 'boolean'  # bool;
+
+STRING: '"' (~'"')* '"';
+IDENT  :  [a-zA-Z] [a-zA-Z0-9_]* ;
 NEWLINE:'\r'? '\n' -> skip;
 WS  :   [ \t]+ -> skip ;
+LINECOMMENT :  '//' ~[\r\n]* -> skip;
+BLOCKCOMMENT : '/*' .*? '*/'  -> skip;

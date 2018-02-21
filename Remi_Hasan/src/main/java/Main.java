@@ -131,7 +131,7 @@ public class Main extends Application {
         // Only show questions that have answers you can set a value to
         if (question.answer.getReturnType() == ReturnType.Boolean) {
             addBooleanQuestionToFieldGroup(fields, form, question, fieldGroup);
-        } else if (question.answer.getReturnType() == ReturnType.Number || question.answer.getReturnType() == ReturnType.String) {
+        } else if (question.answer.getReturnType() == ReturnType.Integer || question.answer.getReturnType() == ReturnType.Decimal || question.answer.getReturnType() == ReturnType.String) {
             addNumberQuestionToFieldGroup(fields, form, question, fieldGroup);
         }
 
@@ -174,7 +174,7 @@ public class Main extends Application {
     private void addNumberQuestionToFieldGroup(HashMap<String, Control> fields, Form form, Question question, FieldGroup fieldGroup) {
         TextInputControl input = Input.textField("");
 
-        if (question.answer.getReturnType() == ReturnType.Number) {
+        if (question.answer.getReturnType() == ReturnType.Integer || question.answer.getReturnType() == ReturnType.Decimal) {
             // NumberStringConverter
             // CurrencyStringConverter
             // DoubleStringConverter

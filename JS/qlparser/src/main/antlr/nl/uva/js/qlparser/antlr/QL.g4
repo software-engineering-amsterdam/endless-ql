@@ -3,7 +3,8 @@ grammar QL;
 
 // Lexical parts
 // Grammar is whitespace insensative
-WS: [ \n\t\r]+ -> channel(HIDDEN);
+WS: [ \n\t\r]+      -> channel(HIDDEN);
+LC: '//'~[\r\n]+    -> channel(HIDDEN);
 
 // Top level element indicator
 FORM:       'form';
@@ -31,7 +32,7 @@ STRVAL:     '"'~['\\\r\n]+?'"';
 IF:         'if';
 
 // Variable names, also form name
-NAME:       [a-zA-Z]+;
+NAME:       [a-zA-Z][a-zA-Z0-9]+;
 
 COLON:      ':';
 ASSIGN:     '=';

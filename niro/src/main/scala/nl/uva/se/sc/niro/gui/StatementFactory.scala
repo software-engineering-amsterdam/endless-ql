@@ -3,61 +3,59 @@ package nl.uva.se.sc.niro.gui
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javafx.beans.value.{ChangeListener, ObservableValue}
-import javafx.scene.layout.{HBox, VBox}
 import javafx.scene.Parent
-import javafx.scene.control.{CheckBox, DatePicker, Label, TextField}
+import javafx.scene.control.{ CheckBox, DatePicker, Label, TextField }
+import javafx.scene.layout._
 import javafx.util.StringConverter
 
-import nl.uva.se.sc.niro.model.Ast.AnswerType._
 import nl.uva.se.sc.niro.model.Ast._
-
-import scala.collection.JavaConverters
+import nl.uva.se.sc.niro.model.Expressions.Expression
+import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
+import nl.uva.se.sc.niro.model.Expressions.answers._
 
 object StatementFactory {
 
-  def createStatements(statements: Seq[Statement]) : java.util.List[Parent] = {
-    JavaConverters.seqAsJavaList(statements.map(this.convert))
-  }
+  def createStatements(gridPane: GridPane, statements: Seq[Statement]): Unit = {
+    gridPane.setHgap(10)
 
-  def convert(question: Question): Parent = {
-    new HBox(new Label(question.label), convert(question.answerType))
-  }
+    var rowNr = 0
+    for (statement <- statements) {
+      statement match {
+        case question: Question => {
+          gridPane.add(new Label(question.label), 0, rowNr)
+          gridPane.add(convert(Expression.evaluate(question.answer)), 1, rowNr)
+        }
+        case condition: Conditional => {
+          val thenPane = new GridPane()
+          // When invisible we don't occupy any space
+          thenPane.managedProperty().bind(thenPane.visibleProperty())
+          gridPane.add(thenPane, 0, rowNr, 2, 1)
+          createStatements(thenPane, condition.ifStatements)
 
-  def convert(conditional: Conditional): Parent = {
-    val thenPane = new VBox()
-    thenPane.setSpacing(10)
-    // When invisible we don't occupy any space
-    thenPane.managedProperty().bind(thenPane.visibleProperty())
-
-    thenPane.getChildren.addAll(this.createStatements(conditional.ifStatements))
-
-    val elsePane = new VBox()
-    elsePane.setSpacing(10)
-    // When invisible we don't occupy any space
-    elsePane.managedProperty().bind(elsePane.visibleProperty())
-    // Exclusive visibility with thenPane
-    elsePane.visibleProperty().bind(thenPane.visibleProperty().not())
-
-    elsePane.getChildren.addAll(this.createStatements(conditional.elseStatements))
-
-    new VBox(thenPane, elsePane)
-  }
-
-  def convert(statement: Statement): Parent = {
-    statement match {
-      case q: Question => convert(q)
-      case c: Conditional => convert(c)
+          if (!condition.elseStatements.isEmpty) {
+            rowNr += 1
+            val elsePane = new GridPane()
+            // When invisible we don't occupy any space
+            elsePane.managedProperty().bind(thenPane.visibleProperty())
+            // Exclusive visibility with thenPane
+            elsePane.visibleProperty().bind(thenPane.visibleProperty().not())
+            gridPane.add(elsePane, 0, rowNr, 2, 1)
+            createStatements(elsePane, condition.elseStatements)
+          }
+        }
+      }
+      rowNr += 1
     }
   }
 
-  def convert(answerType: AnswerType): Parent = {
-    answerType match {
-      case BooleanAnswerType => new CheckBox()
-      case StringAnswerType => new TextField()
-      case IntAnswerType => createIntegerField()
-      case DecAnswerType => createDecimalField()
-      case MoneyAnswerType => createDecimalField()
-      case DateAnswerType => createDateField
+  def convert(answer: Answer): Parent = {
+    answer match {
+      case _: BooleanAnswer => new CheckBox()
+      case _: StringAnswer => new TextField()
+      case _: IntAnswer => createIntegerField()
+      case _: DecAnswer => createDecimalField()
+      case _: MoneyAnswer => createDecimalField()
+      case _: DateAnswer => createDateField
       case other => new Label(s"Unimplemented type: $other")
     }
   }

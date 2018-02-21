@@ -28,12 +28,8 @@ def main(argv):
 
 	g = Gui()
 	g.create_form()
-	# g.create_header("Mijn Vragenlijst")
+	# g.create_form()
 	g.execute()
-
-	#pass tree to visitor
-	# visitor = Visitor()
-	# visitor.visit(tree)
 	
 
 if __name__ == '__main__':

@@ -207,6 +207,17 @@ form CommentFormMLX {}";
                     $"form NameForm {{{nl}    qname3 : \"this is a question three\" boolean{nl}    qname4 : \"this is a question four\" boolean }} ",
                     @"qname3",
                     @"this is a question three");
+                yield return new TestCaseData(
+                    $"form NameForm {{{nl}    qname3 : \"this is a question three\" boolean{nl}    qname4 : \"this is a question four\" boolean }} ",
+                    @"qname3",
+                    @"this is a question three");
+                yield return new TestCaseData(
+                    $"form NameForm {{{nl}    qname3 : \"this is a question three\" boolean{nl}    qname4 : \"this is a question four\" boolean }} ",
+                    @"qname3",
+                    @"this is a question three");
+                yield return new TestCaseData("form NameForm { x: \"xyz\" boolean }", @"x", @"xyz");
+                yield return new TestCaseData("form NameForm { \"xyz\"  x: boolean }", @"x", @"xyz");
+                yield return new TestCaseData($"form NameForm {{ \"xyz\" {nl} x: boolean {nl} \"xxx\" {nl} y: boolean {nl}}}", @"x", @"xyz");
             }
         }
 
@@ -247,6 +258,10 @@ form CommentFormMLX {}";
             get
             {
                 yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", typeof(bool));
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  string }", typeof(string));
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  integer }", typeof(int));
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  date }", typeof(DateTime));
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  decimal }", typeof(decimal));
             }
         }
 

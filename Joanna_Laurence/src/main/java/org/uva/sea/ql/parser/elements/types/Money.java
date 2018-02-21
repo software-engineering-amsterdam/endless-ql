@@ -10,9 +10,9 @@ public class Money extends ASTNode {
     private String currency;
     private BigInteger amount;
 
-    public Money(String currency, BigInteger amount) {
+    public Money(String currency, String amount) {
         this.currency = currency;
-        this.amount = amount;
+        this.amount = new BigInteger(amount);
     }
 
     public String getCurrency() {

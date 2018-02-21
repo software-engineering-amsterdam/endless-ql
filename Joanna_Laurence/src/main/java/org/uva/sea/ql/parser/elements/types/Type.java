@@ -1,18 +1,19 @@
 package org.uva.sea.ql.parser.elements.types;
 
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.traverse.Traverse;
 
 //TODO: Override equals
 public class Type extends ASTNode {
-    private String nodeType;
+    private NodeType nodeType;
 
     public Type(String type) {
-        this.nodeType = type;
+        this.nodeType = NodeType.valueOf(type.toUpperCase());
     }
 
-    public String getNodeType() {
+    public NodeType getNodeType() {
         return nodeType;
     }
 

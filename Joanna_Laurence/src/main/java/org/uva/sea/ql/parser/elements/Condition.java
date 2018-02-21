@@ -11,28 +11,31 @@ import java.util.List;
 public class Condition extends ASTNode implements QuestionContainerNode {
 
     private ASTNode expression;
-    private List<Question> questions;
+    private Statements statements;
 
-    public Condition(ASTNode expression, List<Question> questions)
+    public Condition(ASTNode expression, Statements statements)
     {
-        this.questions = questions;
+        this.statements = statements;
         this.expression = expression;
     }
 
     public List<Question> evalQuestions(QLExprEvaluate exprEvaluate) {
+        List<Question> questions = new ArrayList<>();
         Bool conditionValue = (Bool)exprEvaluate.getValue(expression);
         if(conditionValue.isTrue()) {
-            return questions;
+            for(ASTNode node : this.statements.getStatementList()) {
+                questions.addAll(((QuestionContainerNode)node).evalQuestions(exprEvaluate));
+            }
         }
-        return new ArrayList<>();
+        return questions;
     }
 
     public ASTNode getExpression() {
         return expression;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
+    public Statements getStatements() {
+        return statements;
     }
 
     public void traverseNode(Traverse traverse, TraverseType traverseType) {
@@ -42,7 +45,7 @@ public class Condition extends ASTNode implements QuestionContainerNode {
     public void traverseChildren(Traverse traverse, TraverseType traverseType) {
         this.expression.traverseNode(traverse, traverseType);
         expression.doTraversal(traverse, traverseType);
-        for (ASTNode node: this.questions) {
+        for (ASTNode node: this.statements.getStatementList()) {
             node.doTraversal(traverse, traverseType);
         }
     }

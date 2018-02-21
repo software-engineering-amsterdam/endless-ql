@@ -1,5 +1,6 @@
 package org.uva.sea.ql;
 
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.Neg;
 import org.uva.sea.ql.parser.elements.expressions.Not;
@@ -27,8 +28,8 @@ public class QLTypeCheck extends Traverse {
      * @param node The node that contains the type
      * @param type The type as string
      */
-    private void checkIsNumber(DualNode node, String type) {
-        if(!(type.equals("integer") || type.equals("decimal") || type.equals("money")))
+    private void checkIsNumber(DualNode node, NodeType type) {
+        if(!(type == NodeType.INTEGER || type == NodeType.DECIMAL || type == NodeType.MONEY))
             this.error(node);
     }
 
@@ -37,7 +38,7 @@ public class QLTypeCheck extends Traverse {
      * @param type The type
      */
     private boolean IsBasicNumber(Type type) {
-        return ((type.getNodeType().equals("integer") || type.getNodeType().equals("decimal")));
+        return (type.getNodeType() == NodeType.INTEGER || type.getNodeType() == NodeType.DECIMAL);
     }
 
 
@@ -84,8 +85,8 @@ public class QLTypeCheck extends Traverse {
      * @param node The node that is inspected
      */
     public void doNeg(Neg node)  {
-        String nodeType = node.getType().getNodeType();
-        if(!(nodeType.equals("money") || nodeType.equals("integer") || nodeType.equals("decimal")))
+        NodeType nodeType = node.getType().getNodeType();
+        if(!(nodeType == NodeType.BOOLEAN || nodeType == NodeType.INTEGER || nodeType == NodeType.DECIMAL))
             this.error(node);
     }
 
@@ -94,8 +95,8 @@ public class QLTypeCheck extends Traverse {
      * @param node The node that is inspected
      */
     public void doPos(Pos node) {
-        String nodeType = node.getType().getNodeType();
-        if(!(nodeType.equals("money") || nodeType.equals("integer") || nodeType.equals("decimal")))
+        NodeType nodeType = node.getType().getNodeType();
+        if(!(nodeType == NodeType.MONEY || nodeType == NodeType.INTEGER || nodeType == NodeType.DECIMAL))
             this.error(node);
     }
 
@@ -105,8 +106,8 @@ public class QLTypeCheck extends Traverse {
      */
     //TODO: The expression object has to expression inside?
     public void doCondition(Condition node) {
-        String nodeType = node.getExpression().getType().getNodeType();
-        if(!(nodeType.equals("boolean")))
+        NodeType nodeType = node.getExpression().getType().getNodeType();
+        if(!(nodeType == NodeType.BOOLEAN))
             this.error(node);
     }
 
@@ -115,8 +116,8 @@ public class QLTypeCheck extends Traverse {
      * @param node The node that is inspected
      */
     public void doNot(Not node)  {
-        String nodeType = node.getType().getNodeType();
-        if(!(nodeType.equals("boolean")))
+        NodeType nodeType = node.getType().getNodeType();
+        if(!(nodeType == NodeType.BOOLEAN))
             this.error(node);
     }
 
@@ -126,8 +127,8 @@ public class QLTypeCheck extends Traverse {
      * @param node The node that is inspected
      */
     public void doOperation(DualNode node)  {
-        String lhsType = node.getLhs().getType().getNodeType();
-        String rhsType = node.getRhs().getType().getNodeType();
+        NodeType lhsType = node.getLhs().getType().getNodeType();
+        NodeType rhsType = node.getRhs().getType().getNodeType();
         checkIsNumber(node, lhsType);
         checkIsNumber(node, rhsType);
     }

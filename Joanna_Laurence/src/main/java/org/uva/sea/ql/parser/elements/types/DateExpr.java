@@ -4,27 +4,20 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.traverse.Traverse;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class DateExpr extends ASTNode {
-    private int day;
-    private int month;
-    private int year;
+    private Calendar date = Calendar.getInstance();
 
-    public DateExpr(int day, int month, int year) {
-        this.day = day;
-        this.month = month;
-        this.year = year;
+    public DateExpr(String day, String month, String year) {
+        this.date.set(Calendar.YEAR, Integer.parseInt(year));
+        this.date.set(Calendar.MONTH, Integer.parseInt(month));
+        this.date.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day));
     }
 
-    public int getDay() {
-        return day;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public int getYear() {
-        return year;
+    public Calendar getDate() {
+        return date;
     }
 
     public void traverseNode(Traverse traverse, TraverseType traverseType) {

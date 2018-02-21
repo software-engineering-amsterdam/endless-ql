@@ -70,7 +70,7 @@ public class QLExprEvaluate extends Traverse {
     private ASTNode makeTypeCompatible(ASTNode node, ASTNode with) {
         if(node instanceof Int && with instanceof Dec) {
             int intVal = ((Int)node).getValue();
-            return new Dec((double)intVal);
+            return new Dec(intVal);
         }
 
         return node;

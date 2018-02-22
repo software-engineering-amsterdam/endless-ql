@@ -11,26 +11,16 @@ using System.Threading.Tasks;
 
 namespace Assignment1
 {
-    internal class QuestionForm
+    public class QuestionForm
     {
         public string Id { get; }
-        public List<Content> Content { get; } = new List<Content>();
-        public Dictionary<string, Question> Questions { get; } = new Dictionary<string, Question>();
+        public List<Content> Content { get; }
 
-        public QuestionForm(string id)
+
+        public QuestionForm(string id, List<Content> content)
         {
             Id = id;
-        }
-
-        public void AddQuestion(Question question)
-        {
-            Content.Add(question);
-            Questions.Add(question.Id, question);
-        }
-
-        public void AddStatement()
-        {
-            
+            Content = content;
         }
     }
 }

@@ -1,15 +1,15 @@
-form Box1HouseOwning {
+form taxOfficeExample {
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
   "Did you buy a house in 2010?"
-    hasBoughtHouse: boolean
-  "Did you enter a loan for maintenance/reconstruction?"
+    hasBoughtHouse: boolean = true == true
+  "Did you enter a loan?"
     hasMaintLoan: boolean
-  if (hasSoldHouse == true) {
-    "Price the house was sold for:"
+  if (hasSoldHouse) {
+    "What was the selling price?"
       sellingPrice: money
     "Private debts for the sold house:"
-      privateDebt: money
+      privateDebt: money = 1000,00
     "Value residue:"
       valueResidue: money =
         (sellingPrice - privateDebt)

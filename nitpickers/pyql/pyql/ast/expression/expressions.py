@@ -30,7 +30,7 @@ class UnaryExpression(Expression):
         return self._expression
 
 
-class BinaryExpression(Expression):
+class BinaryExpression(Expression): # abstract
 
     def __init__(self, location: code_location.CodeLocation, left, right):
         super().__init__(location)
@@ -165,7 +165,7 @@ class Not(UnaryExpression):
 
 if __name__ == "__main__":
     loc = code_location.CodeLocation(2, 3)
-    b = And(loc, "left", "right")
-    c = Not(loc, b)
-    print(b)
-    print(c)
+    b = And(2, "left", "right")
+    # c = Not(loc, b)
+    print(b.location)
+    # print(c)

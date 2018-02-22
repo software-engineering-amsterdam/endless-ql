@@ -1,9 +1,12 @@
 package nl.uva.js.qlparser.models.dataexpressions;
 
+import com.vaadin.ui.Component;
 import lombok.Builder;
 import lombok.Data;
 import nl.uva.js.qlparser.models.enums.DataType;
 import nl.uva.js.qlparser.models.exceptions.TypeMismatchException;
+
+import java.util.ArrayList;
 
 @Data
 @Builder
@@ -11,8 +14,9 @@ public class Negation implements DataExpression {
     private DataExpression expression;
 
     @Override
-    public void toRepresentation() {
+    public ArrayList<Component> getComponents() {
 
+        return new ArrayList<>();
     }
 
     @Override

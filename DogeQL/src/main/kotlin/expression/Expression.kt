@@ -1,7 +1,5 @@
 package expression
 
-class Expression {
-
-
+interface Expression: ExpressionVisitable {
 
 }

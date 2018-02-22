@@ -1,16 +1,16 @@
-package main.org.uva.ql.app;
+package org.uva.ql.app;
 
-import generated.org.uva.ql.parser.QLBaseVisitor;
-import generated.org.uva.ql.parser.QLParser;
-import main.org.uva.ql.ast.*;
-import main.org.uva.ql.ast.expression.Expression;
-import main.org.uva.ql.ast.expression.ParameterGroup;
-import main.org.uva.ql.ast.expression.binary.*;
-import main.org.uva.ql.ast.expression.unary.BooleanLiteral;
-import main.org.uva.ql.ast.expression.unary.IntegerLiteral;
-import main.org.uva.ql.ast.expression.unary.Parameter;
-import main.org.uva.ql.ast.expression.unary.StringLiteral;
-import main.org.uva.ql.ast.type.*;
+import antlr.generated.QLBaseVisitor;
+import antlr.generated.QLParser;
+import org.uva.ql.ast.*;
+import org.uva.ql.ast.expression.Expression;
+import org.uva.ql.ast.expression.ParameterGroup;
+import org.uva.ql.ast.expression.binary.*;
+import org.uva.ql.ast.expression.unary.BooleanLiteral;
+import org.uva.ql.ast.expression.unary.IntegerLiteral;
+import org.uva.ql.ast.expression.unary.Parameter;
+import org.uva.ql.ast.expression.unary.StringLiteral;
+import org.uva.ql.ast.type.*;
 
 import java.util.*;
 
@@ -153,5 +153,4 @@ public class ParseTreeVisitor extends QLBaseVisitor {
     public TreeNode visitParameterGroup(QLParser.ParameterGroupContext ctx) {
         return new ParameterGroup((Expression) visit(ctx.expression()));
     }
-
 }

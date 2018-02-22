@@ -6,21 +6,21 @@ import org.junit.Test
 class BooleanLiteralTests {
 
     @Test
-    fun when_TrueBoolean_Expect_Success() {
+    fun `true should be parsed as boolean`() {
         val input = "true"
         val result = ParserHost("true").parser.literal().LIT_BOOLEAN()
         ParseAssert.assertNotNullAndEqual(input, result)
     }
 
     @Test
-    fun when_FalseBoolean_Expect_Success() {
+    fun `false should be parsed as boolean`() {
         val input = "false"
         val result = ParserHost("false").parser.literal().LIT_BOOLEAN()
         ParseAssert.assertNotNullAndEqual(input, result)
     }
 
     @Test
-    fun when_InvalidBoolean_Expect_Failure() {
+    fun `fail should not be parsed as boolean`() {
         val input = "fail"
         val result = ParserHost("fail", expectError = true).parser.literal().LIT_BOOLEAN()
         Assert.assertNull(result)

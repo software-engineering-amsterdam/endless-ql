@@ -1,10 +1,9 @@
 package nl.uva.se.sc.niro.model.Expressions.answers
 
 import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
-import nl.uva.se.sc.niro.model.Operators._
-import nl.uva.se.sc.niro.model.{ Arithmetics, Comparisons }
+import nl.uva.se.sc.niro.model._
 
-case class IntAnswer(possibleValue: Option[Int]) extends Answer with Arithmetics[IntAnswer] with Comparisons[IntAnswer] {
+case class IntAnswer(possibleValue: Option[Int]) extends Answer {
 
   def add(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value + otherValue)))
   def sub(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value - otherValue)))

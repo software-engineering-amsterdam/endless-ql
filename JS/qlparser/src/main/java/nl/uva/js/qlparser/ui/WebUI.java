@@ -7,7 +7,7 @@ import nl.uva.js.qlparser.interpreter.FormInterpreter;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
-import nl.uva.js.qlparser.logic.Ingester;
+import nl.uva.js.qlparser.logic.QLIngester;
 import nl.uva.js.qlparser.models.Form;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +32,7 @@ public class WebUI extends UI {
 
             final Button btnRender = new Button("Render QL");
 
-            setContent(new VerticalLayout(area, btnRender));
+            setContent(new FormLayout(area, btnRender));
 
             btnRender.addClickListener(
                     e -> setContent(createDynamicLayout(area.getValue()))
@@ -41,10 +41,10 @@ public class WebUI extends UI {
     }
 
     private Layout createFileLayout() {
-        return FormInterpreter.interpretForm(qlForm);
+        return FormInterpreter.interpret(qlForm);
     }
 
     private Layout createDynamicLayout(String qlInput) {
-        return FormInterpreter.interpretForm(Ingester.toStringParsedForm(qlInput));
+        return FormInterpreter.interpret(QLIngester.parseFormFromString(qlInput));
     }
 }

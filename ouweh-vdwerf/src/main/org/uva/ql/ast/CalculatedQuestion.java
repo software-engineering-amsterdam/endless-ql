@@ -1,7 +1,7 @@
-package main.org.uva.ql.ast;
+package org.uva.ql.ast;
 
-import main.org.uva.ql.ast.expression.Expression;
-import main.org.uva.ql.ast.type.Type;
+import org.uva.ql.ast.expression.Expression;
+import org.uva.ql.ast.type.Type;
 
 public class CalculatedQuestion extends Question {
     private Expression expression;

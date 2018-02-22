@@ -1,23 +1,33 @@
 parser grammar GrammarParser;
 
-options { tokenVocab=Grammar; }
+options { tokenVocab=GrammarLexer; }
 
-//TESTING RULES
-a : b INT ;
-b : VAR VAR;
-r : VAR {System.out.println("invoke "+$VAR.text);} ;
+//TESTING RULES, DO NOT UNCOMMENT
+//a : b INT ;
+//b : VAR VAR;
+//r : VAR {System.out.println("If "+$VAR.text+" prints this works.");} ;
+//{System.out.println("variable = "+$variable.text+"| Assign = "+$ASSIGN.text+"| Label = "+$LABEL.text+"| Type = "+$type.text);}
 
 //RULES
-variable:VAR
-        |NOT VAR;
+variable    :VAR
+            |NUM
+            |NOT VAR;
 
-expression: variable arithmetic=(PLUS|MINUS|ASTERISK|DIVISION) variable
-          | variable decisions=(AND|OR) variable
-          | variable comparison=(LESS|HIGHER|EQUALHIGHER|EQUALLESS|DIFF|ISEQUAL) variable;
 
-question:variable ASSIGN LABEL type=(BOOL|STR|DATE|DECIMAL|MONEY)
-        |question EQUAL LPAREN* expression RPAREN*;
+decisions   :(AND|OR);
+operator    :(IF|ELSE|IFELSE);
+type        :(BOOL|STR|DATE|DECIMAL|MONEY);
+arithmetic  :(PLUS|MINUS|MULTIPLY|DIVIDE);
+comparison  :(LESS|GREATER|EQUALGREATER|EQUALLESS|NOTEQUAL|ISEQUAL);
 
-conditional: operator=(IF|ELSE|IFELSE) LPAREN (variable|expression) RPAREN LCURLYBRAKET (question|conditional)+ RCURLYBRAKET;
 
-form: FORM variable LCURLYBRAKET (question|conditional)* RCURLYBRAKET;
+expression      : variable arithmetic variable
+                | variable decisions variable
+                | variable comparison variable;
+
+questionFormat  : LABEL variable ASSIGN type
+                | questionFormat EQUAL LPAREN* expression RPAREN*;
+
+conditional     : operator LPAREN (variable|expression) RPAREN LCURLYBRACKET (questionFormat|conditional)+ RCURLYBRACKET;
+
+formStructure   : FORM variable LCURLYBRACKET (questionFormat|conditional)* RCURLYBRACKET;

@@ -16,12 +16,10 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 
 	// An expression visitor is needed in order to visit the expression nodes in the Ast.
 	private final ExprVisitor exprVisitor;
-	private final IdentifierResolver identifierResolver;
 
 	// The expression visitor is initialized in the default constructor
-	public StmtVisitor(IdentifierResolver identifierResolver) {
-		this.identifierResolver = identifierResolver;
-		this.exprVisitor = new ExprVisitor(identifierResolver);
+	public StmtVisitor() {
+		this.exprVisitor = new ExprVisitor();
 	}
 
 	// Builds a Form statement using the parser context.
@@ -36,16 +34,10 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 	@Override public Stmt visitBlockStmt(QLParser.BlockStmtContext ctx) {
 		List<Stmt> statements = new ArrayList<>(ctx.command().size());
 
-		// Create a new scope for the block statement
-		identifierResolver.enterScope();
-
 		// Visit every statement in the block and add it to the statements array.
 		for (CommandContext statement : ctx.command()) {
 			statements.add(visit(statement));
 		}
-
-		// Remove the innermost scope
-		identifierResolver.leaveScope();
 
 		return new BlockStmt(statements);
 	}
@@ -58,24 +50,6 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 
 		// Set the token and type of the identifier in order for it to match the question type.
 		IdentifierExpr identifier = new IdentifierExpr(token, type);
-
-		// Make sure the identifier is not already defined in the inner most scope
-		if (identifierResolver.isInCurrentScope(token.getLexeme())) {
-			// TODO - create an error handler
-			System.err.printf("[IdentifierResolver] line: %s, column: %s: Duplicated identifier: %s\n",
-						token.getLine(),
-						token.getColumn(),
-						token.getLexeme());
-
-			// Increment the number of identifier resolution errors
-			identifierResolver.incrementNumberOfErrors();
-
-			// TODO - Consider if returning null is a good alternative.
-			return null;
-		} else {
-			// Add the identifier to the inner most scope map
-			identifierResolver.add(identifier);
-		}
 
 		// Check if the question has an expression
 		if (ctx.expression() != null) {

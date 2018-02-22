@@ -5,36 +5,28 @@ import nl.uva.se.sc.niro.model._
 
 case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
 
-  def lt(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value < _)))
-  def lTe(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value <= _)))
-  def gTe(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value >= _)))
-  def gt(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value > _)))
-  def ne(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value != _)))
-  def eq(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value == _)))
-
-
-  def and(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ && value)))
-  def or(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ || value)))
-
-  def neg: BooleanAnswer = BooleanAnswer(possibleValue.map(!_))
-
-  def apply(operator: BinaryOperator, right: Answer): Answer = right match {
-    case rhs: BooleanAnswer => operator match {
-      case Lt => lt(rhs)
-      case LTe => lTe(rhs)
-      case GTe => gTe(rhs)
-      case Gt => gt(rhs)
-      case Ne => ne(rhs)
-      case Eq => eq(rhs)
-      case And => and(rhs)
-      case Or => or(rhs)
-      case _ => throw new UnsupportedOperationException(s"Unsupported $operator")
+  def apply(operator: BinaryOperator, other: Answer): Answer = other match {
+    case otherBooleanAnswer: BooleanAnswer => operator match {
+      case Lt => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ < _))
+      case LTe => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ <= _))
+      case GTe => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ >= _))
+      case Gt => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ > _))
+      case Ne => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ != _))
+      case Eq => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ == _))
+      case And => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ && _))
+      case Or => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ || _))
+      case _ => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
     }
-    case _ => throw new IllegalArgumentException(s"Can't perform operation on different types")
+    case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $other")
   }
 
+  def combine[R](other: BooleanAnswer)(f: (Boolean, Boolean) => R): Option[R] = for {
+    thisValue <- possibleValue
+    thatValue <- other.possibleValue
+  } yield f(thisValue, thatValue)
+
   def apply(operator: UnaryOperator): Answer = operator match {
-    case Neg => neg
-    case _ => throw new UnsupportedOperationException(s"Cant perform $operator on BooleanAnswer")
+    case Neg => BooleanAnswer(possibleValue.map(!_))
+    case _ => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
 }

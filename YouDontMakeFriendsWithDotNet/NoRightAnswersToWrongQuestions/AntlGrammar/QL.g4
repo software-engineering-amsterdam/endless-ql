@@ -10,15 +10,15 @@ questiontype: qtype=(BOOLTYPE | STRINGTYPE | INTTYPE | DATETYPE | DECIMALTYPE);
 
 conditional: 'if' '(' condition ')' '{' statement* '}';
 
-condition: IDENTIFIER                                       # booleancondition
-         | IDENTIFIER booleanoperator booleanvalue          # booleancomparison
-		 | IDENTIFIER comparisonoperator comparisonvalue    # valuecomparison
+condition: IDENTIFIER                                                                 # booleancondition
+         | (IDENTIFIER | booleanvalue) booleanoperator (IDENTIFIER | booleanvalue)    # booleancomparison
+		 | IDENTIFIER comparisonoperator comparisonvalue                              # valuecomparison
          ;
 
 booleanoperator: op=(ISEQUAL | ISNOTEQUAL);
 booleanvalue: val=(TRUE | FALSE);
 comparisonoperator: ISGREATERTHAN;
-comparisonvalue: (INTEGER | DECIMAL);
+comparisonvalue: (INTEGER | DECIMAL | DATE);
 
 BOOLTYPE: 'boolean';
 STRINGTYPE: 'string';
@@ -32,6 +32,7 @@ ISGREATERTHAN : '>';
 TRUE : ('true'| 'True'| 'TRUE');
 FALSE : ('false' | 'False' | 'FALSE');
 
+DATE: [0-9]?[0-9]'/'[0-9]?[0-9]'/'([0-9][0-9])?([0-9][0-9]);
 DECIMAL: '-'?[0-9]+ '.' [0-9]+;
 INTEGER: '-'?[0-9]+;
 

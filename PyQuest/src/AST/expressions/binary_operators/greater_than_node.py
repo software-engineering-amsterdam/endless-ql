@@ -1,4 +1,4 @@
-from src.AST.expressions.binary_operators.binary_operator import BinaryOperatorNode
+from src.AST.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
 
 
 class GreaterThanOperatorNode(BinaryOperatorNode):

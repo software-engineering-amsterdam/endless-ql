@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\VariableAnalyserTest.cs" />
     <Compile Include="AST\CommentTest.cs" />
     <Compile Include="AST\TreeConstructionTest.cs" />
     <Compile Include="AST\StatementTest.cs" />

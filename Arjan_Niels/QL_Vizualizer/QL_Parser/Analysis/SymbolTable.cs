@@ -37,12 +37,21 @@ namespace QL_Parser.Analysis
             throw new KeyNotFoundException(string.Format("Unknown variable {0}", id));
         }
 
-        public static void Add(string id, QValueType type)
+        /// <summary>
+        /// This function adds a variable to the SymbolTable. In case of an error a message will
+        /// be added to the analyser.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="type"></param>
+        public static bool Add(string id, QValueType type)
         {
             if (!Instance.TypeMap.ContainsKey(id))
+            {
                 Instance.TypeMap.Add(id, type);
-            else
-                Analyser.AddMessage(string.Format("The analyser encountered a duplicate identifier: {0}", id), MessageType.ERROR);
+                return true;
+            }
+
+            return false;
         }
 
         public static QValueType Get(string identifier)

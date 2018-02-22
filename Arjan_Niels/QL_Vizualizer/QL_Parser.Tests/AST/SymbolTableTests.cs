@@ -37,6 +37,7 @@ namespace QL_Parser.Tests.AST
             MultipleVarForm = QLParserHelper.Parse(_multipleVarFormRaw);
 
             SymbolTable.Reset();
+            Analyser.Reset();
         }
 
         #region No vars

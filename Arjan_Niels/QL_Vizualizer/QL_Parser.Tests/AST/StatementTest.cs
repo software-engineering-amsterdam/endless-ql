@@ -60,9 +60,9 @@ namespace QL_Parser.Tests.AST
                 .First().StatementNode;
 
             Assert.AreEqual("soldAHouse", statement.ID);
-            Assert.IsNull(statement.lhs);
-            Assert.IsNull(statement.opr);
-            Assert.IsNull(statement.rhs);
+            Assert.IsNull(statement.LeftSide);
+            Assert.IsNull(statement.Operator);
+            Assert.IsNull(statement.RightSide);
         }
 
         [TestMethod]
@@ -73,9 +73,9 @@ namespace QL_Parser.Tests.AST
                 .Select(x => x as ConditionalNode)
                 .First().StatementNode;
 
-            Assert.AreEqual("soldAHouse", statement.lhs.ID);
-            Assert.AreEqual("&&", statement.opr);
-            Assert.AreEqual("hasSeenHouseOfCards", statement.rhs.ID);
+            Assert.AreEqual("soldAHouse", statement.LeftSide.ID);
+            Assert.AreEqual("&&", statement.Operator);
+            Assert.AreEqual("hasSeenHouseOfCards", statement.RightSide.ID);
             Assert.IsNull(statement.ID);
         }
 
@@ -87,19 +87,19 @@ namespace QL_Parser.Tests.AST
                 .Select(x => x as ConditionalNode)
                 .First().StatementNode;
 
-            var lhs = statement.lhs;
-            var rhs = statement.rhs;
-            Assert.AreEqual("&&", statement.opr);
+            var lhs = statement.LeftSide;
+            var rhs = statement.RightSide;
+            Assert.AreEqual("&&", statement.Operator);
 
             // lhs
-            Assert.AreEqual("firstArgument", lhs.lhs.ID);
-            Assert.AreEqual("||", lhs.opr);
-            Assert.AreEqual("secondArgument", lhs.rhs.ID);
+            Assert.AreEqual("firstArgument", lhs.LeftSide.ID);
+            Assert.AreEqual("||", lhs.Operator);
+            Assert.AreEqual("secondArgument", lhs.RightSide.ID);
 
             // rhs
-            Assert.AreEqual("thirdArgument", rhs.lhs.ID);
-            Assert.AreEqual("||", rhs.opr);
-            Assert.AreEqual("forthArgument", rhs.rhs.ID);
+            Assert.AreEqual("thirdArgument", rhs.LeftSide.ID);
+            Assert.AreEqual("||", rhs.Operator);
+            Assert.AreEqual("forthArgument", rhs.RightSide.ID);
         }
     }
 }

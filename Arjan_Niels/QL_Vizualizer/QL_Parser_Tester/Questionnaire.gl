@@ -8,6 +8,9 @@
 	"What was the selling price?"
 		sellingPrice: money
 
+		"What was the selling price?"
+		sellingPrice: money
+
 	// A comment
 	if (sellingPrice || hasNetflix) && (piet || klaas) {
 		if secondQuestion {

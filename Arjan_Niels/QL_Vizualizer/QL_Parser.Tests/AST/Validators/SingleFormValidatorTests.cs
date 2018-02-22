@@ -42,6 +42,7 @@ namespace QL_Parser.Tests.AST
         public void CleanUp()
         {
             Analyser.Reset();
+            SymbolTable.Reset();
         }
 
         [TestMethod]

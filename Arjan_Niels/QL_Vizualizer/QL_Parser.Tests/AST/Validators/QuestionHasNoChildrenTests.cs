@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL_Parser.Analysis;
 using QL_Parser.Analysis.Syntactic;
 using QL_Parser.AST.Nodes;
 
@@ -25,6 +26,13 @@ namespace QL_Parser.Tests.AST.Validators
             _invalidAST.AddNode(firstQuestion);
             _invalidAST.AddNode(thirdQuestion);
             thirdQuestion.AddNode(secondQuestion);
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            SymbolTable.Reset();
+            Analyser.Reset();
         }
 
         [TestMethod]

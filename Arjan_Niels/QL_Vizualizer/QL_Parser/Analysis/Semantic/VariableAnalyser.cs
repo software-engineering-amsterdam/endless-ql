@@ -22,17 +22,17 @@ namespace QL_Parser.Analysis.Semantic
             return true;
         }
 
-        private bool traverse(Node parent)
+        private bool traverse(Node parent, bool logErrors = true)
         {
             if (parent.Type == NodeType.QUESTION)
             {
                 var questionNode = (QuestionNode)parent;
-                SymbolTable.Add(questionNode.ID, questionNode.ValueType);
+                if (!SymbolTable.Add(questionNode.ID, questionNode.ValueType) && logErrors)
+                    Analyser.AddMessage(string.Format("Duplicate identifier: {0} {1}", questionNode.ID, questionNode.ValueType), MessageType.ERROR);
             }
 
             foreach (Node node in parent.Children)
                 traverse(node);
-
 
             return false;
         }

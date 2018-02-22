@@ -53,7 +53,7 @@ namespace QL_Parser.Tests.AST.Validators
         {
             Analyser.Analyse(_invalidAST);
             var errors = Analyser.GetErrors();
-            Assert.AreEqual("This AST contains multiple 'FormNode'.", errors[0]);
+            Assert.AreEqual("ERROR This AST contains multiple 'FormNode'.", errors[0]);
         }
 
         [TestMethod]

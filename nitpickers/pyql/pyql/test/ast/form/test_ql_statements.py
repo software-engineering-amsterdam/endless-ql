@@ -1,6 +1,6 @@
 import unittest
 from pyql.ast import code_location
-from pyql.ast.form import question_statement
+from pyql.ast.form import ql_statements
 
 
 class TestQuestionStatement(unittest.TestCase):
@@ -10,10 +10,10 @@ class TestQuestionStatement(unittest.TestCase):
         self._test_identifier = "identifier"
         self._test_text = "text"
         self._test_type = "boolean"
-        self.question_statement = question_statement.QuestionStatement(self._test_location,
-                                                                       self._test_identifier,
-                                                                       self._test_text,
-                                                                       self._test_type)
+        self.question_statement = ql_statements.QuestionStatement(self._test_location,
+                                                                  self._test_identifier,
+                                                                  self._test_text,
+                                                                  self._test_type)
 
     def test_init(self):
         self.assertEqual(self.question_statement.location, self._test_location)

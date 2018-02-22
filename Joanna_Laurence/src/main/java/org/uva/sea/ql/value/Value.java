@@ -1,6 +1,9 @@
 package org.uva.sea.ql.value;
 
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.parser.elements.types.Decimal;
+import org.uva.sea.ql.parser.elements.types.Int;
+import org.uva.sea.ql.parser.elements.types.Money;
 
 public abstract class Value {
 
@@ -39,6 +42,18 @@ public abstract class Value {
     }
 
     public Value multiply(Value value) {
+        return new ErrorValue("Multiply operator cannot be applied here");
+    }
+
+    public Value multiply(MoneyValue value) {
+        return new ErrorValue("Multiply operator cannot be applied here");
+    }
+
+    public Value multiply(DecimalValue value) {
+        return new ErrorValue("Multiply operator cannot be applied here");
+    }
+
+    public Value multiply(IntValue value) {
         return new ErrorValue("Multiply operator cannot be applied here");
     }
 

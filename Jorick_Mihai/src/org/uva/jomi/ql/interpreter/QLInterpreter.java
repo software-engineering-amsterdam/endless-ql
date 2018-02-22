@@ -35,7 +35,7 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 	}
 
 	@Override
-	public Object visitIndetifierExpr(IdentifierExpr expr) {
+	public Object visitIdentifierExpr(IdentifierExpr expr) {
 		// TODO Interpret IndentifierExpr.
 		return null;
 	}

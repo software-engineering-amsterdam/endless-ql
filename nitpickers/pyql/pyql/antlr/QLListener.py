@@ -17,12 +17,21 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#conditionalBlock.
-    def enterConditionalBlock(self, ctx:QLParser.ConditionalBlockContext):
+    # Enter a parse tree produced by QLParser#ifStatement.
+    def enterIfStatement(self, ctx:QLParser.IfStatementContext):
         pass
 
-    # Exit a parse tree produced by QLParser#conditionalBlock.
-    def exitConditionalBlock(self, ctx:QLParser.ConditionalBlockContext):
+    # Exit a parse tree produced by QLParser#ifStatement.
+    def exitIfStatement(self, ctx:QLParser.IfStatementContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#ifElseStatement.
+    def enterIfElseStatement(self, ctx:QLParser.IfElseStatementContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#ifElseStatement.
+    def exitIfElseStatement(self, ctx:QLParser.IfElseStatementContext):
         pass
 
 

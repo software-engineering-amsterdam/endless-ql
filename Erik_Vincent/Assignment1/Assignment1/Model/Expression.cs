@@ -26,15 +26,15 @@ namespace Assignment1
         public override dynamic Evaluate() => !_expression.Evaluate();
     }
 
-    internal class ExpressionId : Expression
+    public class ExpressionId : Expression
     {
-        private readonly Dictionary<string, Question> _questions;
-        private readonly string _id;
+        public readonly string Id;
+        public Question Question;
         public ExpressionId(string id)
         {
-            _id = id;
+            Id = id;
         }
-        //public override dynamic Evaluate() => _questions[_id].Expression.Evaluate();
+        public override dynamic Evaluate() => Question.Value;
     }
 
     internal abstract class ExpressionOperatorB : Expression

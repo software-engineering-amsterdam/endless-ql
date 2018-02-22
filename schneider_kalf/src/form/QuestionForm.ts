@@ -53,12 +53,6 @@ export default class QuestionForm implements Form {
     if (!field) {
       throw UnkownFieldError.make(identifier);
     }
-
-    try {
-      return field.getAnswer(this.state);
-    } catch (e) {
-      console.error(e);
-      return null;
-    }
+    return field.getAnswer(this.state);
   }
 }

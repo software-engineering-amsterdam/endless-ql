@@ -1,16 +1,16 @@
-package main.org.uva.ql.validation;
+package org.uva.ql.validation;
 
-import main.org.uva.ql.ast.Conditional;
-import main.org.uva.ql.ast.Question;
-import main.org.uva.ql.ast.Statement;
-import main.org.uva.ql.ast.expression.ParameterGroup;
-import main.org.uva.ql.ast.expression.binary.*;
-import main.org.uva.ql.ast.expression.unary.*;
-import main.org.uva.ql.ast.type.BooleanType;
-import main.org.uva.ql.ast.type.IntegerType;
-import main.org.uva.ql.ast.type.StringType;
-import main.org.uva.ql.ast.type.Type;
-import main.org.uva.ql.visitor.*;
+import org.uva.ql.ast.Conditional;
+import org.uva.ql.ast.Question;
+import org.uva.ql.ast.Statement;
+import org.uva.ql.ast.expression.ParameterGroup;
+import org.uva.ql.ast.expression.binary.*;
+import org.uva.ql.ast.expression.unary.*;
+import org.uva.ql.ast.type.BooleanType;
+import org.uva.ql.ast.type.IntegerType;
+import org.uva.ql.ast.type.StringType;
+import org.uva.ql.ast.type.Type;
+import org.uva.ql.visitor.*;
 
 public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String>  {
 

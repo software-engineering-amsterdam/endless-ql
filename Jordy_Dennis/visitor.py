@@ -1,6 +1,6 @@
 from LexParser.QLGrammarParser import QLGrammarParser
 from LexParser.QLGrammarVisitor import QLGrammarVisitor
-from AST.ast_nodes import *
+from AST import *
 
 class Visitor(QLGrammarVisitor):
     def __init__(self):
@@ -12,7 +12,7 @@ class Visitor(QLGrammarVisitor):
     def visitForm(self, ctx:QLGrammarParser.FormContext):
         print("FORM")
         
-        temp_form = formNode(ctx.ID().getText())
+        temp_form = FormNode(ctx.ID().getText())
         value = self.visit(ctx.block())
         
         for i in value:
@@ -46,7 +46,7 @@ class Visitor(QLGrammarVisitor):
         var = ctx.ID().getText()
         varType = ctx.types().getText()
         
-        questionN = questionNode(question, var, varType)      
+        questionN = QuestionNode(question, var, varType)      
         
         return questionN
 

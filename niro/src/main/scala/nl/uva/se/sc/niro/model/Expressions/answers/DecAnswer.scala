@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.model.Expressions.answers
 
 import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
-import nl.uva.se.sc.niro.model.Operators.{ BinaryOperator, UnaryOperator }
+import nl.uva.se.sc.niro.model.{ BinaryOperator, UnaryOperator }
 
 case class DecAnswer(possibleValue: Option[Double]) extends Answer {
   def apply(unaryOperator: UnaryOperator): Answer = ???

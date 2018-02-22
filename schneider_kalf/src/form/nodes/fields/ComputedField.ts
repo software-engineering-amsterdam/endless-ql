@@ -3,7 +3,7 @@ import Field from "./FieldNode";
 import Expression from "../expressions/Expression";
 import NodeVisitor from "../visitors/NodeVisitor";
 import FormState from "../../state/FormState";
-import EvaluationVisitor from "../visitors/EvaluationVisitor";
+import { canBeEvaluated, evaluate } from "../../evaluation/evaluation_functions";
 
 export default class ComputedField implements Field {
   readonly label: string;
@@ -36,7 +36,10 @@ export default class ComputedField implements Field {
   }
 
   getAnswer(state: FormState) {
-    const evaluator = new EvaluationVisitor(state);
-    return this.formula.accept(evaluator);
+    if (!canBeEvaluated(this.formula, state)) {
+      return null;
+    }
+
+    return evaluate(this.formula, state);
   }
 }

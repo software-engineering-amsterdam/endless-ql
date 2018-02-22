@@ -3,37 +3,15 @@ package org.uva.jomi.ql.ast.expressions;
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLTokenType;
 import org.uva.jomi.ql.ast.QLType;
-import org.uva.jomi.ql.ast.analysis.IdentifierResolver;
 import org.uva.jomi.ql.ast.statements.UnaryExpr;
 import org.uva.jomi.ql.parser.antlr.*;
 
 public class ExprVisitor extends QLBaseVisitor<Expr> {
 
-	private final IdentifierResolver identifierResolver;
-
-	public ExprVisitor(IdentifierResolver identifierResolver) {
-		this.identifierResolver = identifierResolver;
-	}
-
 	// Builds an Identifier expression using the parser context.
 	@Override public Expr visitIdentifierExpr(QLParser.IdentifierExprContext ctx) {
 		QLToken token = new QLToken(ctx.IDENTIFIER().getSymbol());
-
-		// Search for the identifier from the inner most to scope to the outer most scope.
-		IdentifierExpr identifier = identifierResolver.getIdentifier(token.getLexeme());
-
-		if (identifier != null) {
-			// If the identifier is found we return the reference to that specific identifier.
-			return identifier;
-		} else {
-			// The identifier is not present in any scope, we report an error.
-			System.err.printf("[IdentifierResolver] line: %s, column: %s: Undefined identifier: %s\n",
-					token.getLine(),
-					token.getColumn(),
-					token.getLexeme());
-			// TODO - think about what should be returned
 			return new IdentifierExpr(token);
-		}
 	}
 
 	// Builds a Boolean expression using the parser context.

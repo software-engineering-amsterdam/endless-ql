@@ -22,6 +22,10 @@
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-maven-plugin</artifactId>
                 <version>4.7.1</version>
+                <configuration>
+                    <sourceDirectory>src/main/java/ql/antlr</sourceDirectory>
+                    <visitor>true</visitor>
+                </configuration>
                 <executions>
                     <execution>
                         <id>antlr</id>

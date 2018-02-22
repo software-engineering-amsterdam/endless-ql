@@ -122,7 +122,8 @@ public class Renderer {
             if (statement.isQuestion()) {
                 addQuestion(fieldMap, fieldGroup, (Question) statement);
             } else {
-                addStatements(fieldMap, fieldGroup, ((Condition) statement).statements);
+                addStatements(fieldMap, fieldGroup, ((Condition) statement).trueStatements);
+                addStatements(fieldMap, fieldGroup, ((Condition) statement).falseStatements);
             }
         }
     }
@@ -149,8 +150,10 @@ public class Renderer {
                 field.getControl().setVisible(isTrue);
             } else {
                 Condition conditional = (Condition) statement;
-                boolean visible = isTrue && Boolean.TRUE.equals(conditional.condition.evaluate().get());
-                updateConditional(fieldMap, conditional.statements, visible);
+                boolean trueBlockVisible = isTrue && Boolean.TRUE.equals(conditional.condition.evaluate().get());
+                boolean falseBlockVisible = isTrue && Boolean.FALSE.equals(conditional.condition.evaluate().get());
+                updateConditional(fieldMap, conditional.trueStatements, trueBlockVisible);
+                updateConditional(fieldMap, conditional.falseStatements, falseBlockVisible);
             }
         }
     }

@@ -32,6 +32,21 @@ class Question(statement.Statement):
         return str({"AST QuestionStatement " + str(self.location): str(output)})
 
 
+# money(sellingPrice - privateDebt)
+class ComputedQuestion(Question):
+
+    def __init__(self, location, identifier, text, question_type, expression):
+        super().__init__(location, identifier, text, question_type)
+        self._expression = expression
+
+    @property
+    def expression(self):
+        return self._expression
+
+    def __repr__(self):
+        return "AST ComputedQuestion Statement at: " + str(self.location)
+
+
 class If(statement.Statement):
 
     def __init__(self, location, expression: expressions.Expression, block: block.Block):

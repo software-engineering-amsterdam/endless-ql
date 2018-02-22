@@ -1,65 +1,49 @@
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.generator.InRange;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import expression.Expression;
-import expression.ExpressionVariableInteger;
+import expression.*;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnitQuickcheck.class)
 public class ExpressionArithmeticTest {
 
     @Property
     public void ExpressionArithmeticDivide(@InRange(min = "-1000", max = "1000") int left, @InRange(min = "-1000", max = "1000") int right){
-        String input = left + " / " + right;
-        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(left / right);
+        ANTLRTester tester = new ANTLRTester(left + " / " + right);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionArithhmeticBase(input, expectedExpression);
-    }
-
-    @Property
-    public void ExpressionArithmeticDivideByZero(int left){
-        boolean exceptionThrown = false;
-        try {
-            ExpressionArithmeticDivide(left, 0);
-        } catch(ArithmeticException e){
-            exceptionThrown = true;
+        ExpressionArithmeticDivide expectedExpression = new ExpressionArithmeticDivide(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
+        if(!expectedExpression.equals(actualExpression)){
+            System.out.println("");
         }
-
-        assertTrue(exceptionThrown);
+        assertEquals(expectedExpression, actualExpression);
     }
 
     @Property
     public void ExpressionArithmeticMultiply(@InRange(min = "-1000", max = "1000") int left, @InRange(min = "-1000", max = "1000") int right){
-        String input = left + " * " + right;
-        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(left * right);
-
-        ExpressionArithhmeticBase(input, expectedExpression);
+        ANTLRTester tester = new ANTLRTester(left + " * " + right);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+        ExpressionArithmeticMultiply expectedExpression = new ExpressionArithmeticMultiply(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
+        assertEquals(expectedExpression, actualExpression);
     }
 
     @Property
     public void ExpressionArithmeticSubtract(@InRange(min = "-1000", max = "1000") int left, @InRange(min = "-1000", max = "1000") int right){
-        String input = left + " - " + right;
-        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(left - right);
-
-        ExpressionArithhmeticBase(input, expectedExpression);
+        ANTLRTester tester = new ANTLRTester(left + " - " + right);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+        ExpressionArithmeticSubtract expectedExpression = new ExpressionArithmeticSubtract(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
+        assertEquals(expectedExpression, actualExpression);
     }
 
     @Property
     public void ExpressionArithmeticSum(@InRange(min = "-1000", max = "1000") int left, @InRange(min = "-1000", max = "1000") int right){
-        String input = left + " + " + right;
-        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(left + right);
-
-        ExpressionArithhmeticBase(input, expectedExpression);
-    }
-
-    public void ExpressionArithhmeticBase(String input, ExpressionVariableInteger expectedExpression){
-        ANTLRTester tester = new ANTLRTester(input);
+        ANTLRTester tester = new ANTLRTester(left + " + " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
+        ExpressionArithmeticSum expectedExpression = new ExpressionArithmeticSum(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
+        assertEquals(expectedExpression, actualExpression);
     }
     
 }

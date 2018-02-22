@@ -29,8 +29,8 @@ namespace QL_Parser.Analysis.Semantic
             }
 
             // Set result to false if any of the children encounters an error.
-            foreach (Node n in node.Children)
-                if (!Analyse(n) && result)
+            foreach (Node child in node.Children)
+                if (!Analyse(child) && result)
                     result = false;
 
             return result;

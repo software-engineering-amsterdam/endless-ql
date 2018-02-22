@@ -17,8 +17,8 @@ namespace QL_Parser.Analysis.Semantic
                 }
             }
 
-            foreach (Node n in node.Children)
-                if (!Analyse(n) && result)
+            foreach (Node child in node.Children)
+                if (!Analyse(child) && result)
                     result = false;
 
             return result;

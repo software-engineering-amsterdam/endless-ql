@@ -24,14 +24,13 @@ public class ApplicationRunner implements CommandLineRunner {
 
         String filePath = args[0];
 
-
         CharStream input = CharStreams.fromFileName(filePath);
         QLLexer lexer = new QLLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(tokens);
         ParseTree tree = parser.forms();
         GLVisitor visitor = new GLVisitor();
-//
+
         System.out.println(visitor.visit(tree));
 
     }

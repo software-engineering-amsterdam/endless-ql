@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GLVisitor<T> extends QLBaseVisitor<AstNode> {
+public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
 
     @Override
     public Form visitForm(QLParser.FormContext ctx) {

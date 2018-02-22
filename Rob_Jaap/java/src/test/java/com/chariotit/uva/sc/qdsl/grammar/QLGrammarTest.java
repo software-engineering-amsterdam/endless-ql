@@ -10,21 +10,18 @@ import com.chariotit.uva.sc.qdsl.ast.node.type.BooleanType;
 import com.chariotit.uva.sc.qdsl.ast.node.type.IntegerType;
 import com.chariotit.uva.sc.qdsl.ast.node.type.MoneyType;
 import com.chariotit.uva.sc.qdsl.ast.node.type.StringType;
-import com.chariotit.uva.sc.qdsl.parser.GLVisitor;
+import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class GLGrammarTest {
+public class QLGrammarTest {
 
     private QLParser getParser(String inputFile) {
         try {
@@ -41,7 +38,7 @@ public class GLGrammarTest {
     private AstRoot getAst(String inputFile) {
         QLParser parser = getParser(inputFile);
         ParseTree tree = parser.forms();
-        GLVisitor visitor = new GLVisitor();
+        QLVisitor visitor = new QLVisitor();
 
         return (AstRoot)visitor.visit(tree);
     }

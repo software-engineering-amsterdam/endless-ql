@@ -6,3 +6,5 @@ export * from './if';
 export * from './expression-question';
 export * from './location';
 export * from './expression';
+export * from './binary-expression';
+export * from './expression-type';

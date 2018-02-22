@@ -53,9 +53,9 @@ type returns [Type result]
         $result = new Type($TYPES, $TYPES.text);
     };
 
-condition returns [Condition result]
+condition returns [IfStatement result]
     : i='if' '(' expr=expression ')' block {
-        $result = new Condition($i, $expr.result, $block.result);
+        $result = new IfStatement($i, $expr.result, $block.result);
     };
 
 

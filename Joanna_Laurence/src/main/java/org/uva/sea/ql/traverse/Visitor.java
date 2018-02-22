@@ -53,7 +53,7 @@ public interface Visitor<T> {
 
     T visit(Variable node);
 
-    T visit(Condition node);
+    T visit(IfStatement node);
 
     T visit(Form node);
 

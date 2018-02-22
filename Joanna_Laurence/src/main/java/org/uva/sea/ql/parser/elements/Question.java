@@ -1,14 +1,10 @@
 package org.uva.sea.ql.parser.elements;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.sea.ql.QLExprEvaluate;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.elements.types.Variable;
 import org.uva.sea.ql.traverse.Visitor;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 
 public class Question extends ASTNode {
 

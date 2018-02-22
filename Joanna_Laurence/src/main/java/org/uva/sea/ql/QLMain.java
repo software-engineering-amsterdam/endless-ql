@@ -17,6 +17,7 @@ public class QLMain {
          Chaining of method calls
 
          Add add/div etc operators
+         Move value items to other package
 
      */
 

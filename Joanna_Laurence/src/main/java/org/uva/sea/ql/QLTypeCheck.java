@@ -3,7 +3,6 @@ package org.uva.sea.ql;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;
-import org.uva.sea.ql.parser.elements.types.*;
 import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.ql.traverse.BaseVisitor;
 
@@ -70,7 +69,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     public Void visit(Question node) {
         super.visit(node);
 
-        ASTNode value = node.getDefaultValue();
+        ASTNode value = node.getValue();
         if(value != null) {
             NodeType questionType = node.getNodeType().getNodeType();
             NodeType valueType = value.getType().getNodeType();
@@ -199,7 +198,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
      * The value of the expression could be false or true. Show or hide
      * @param node The node that is inspected
      */
-    public Void visit(Condition node) {
+    public Void visit(IfStatement node) {
         super.visit(node);
 
         NodeType nodeType = node.getExpression().getType().getNodeType();

@@ -54,7 +54,7 @@ object QLFormParser extends Logging {
       val ifConditional = Conditional(predicate, thenStatements)
       val elseConditional = Conditional(negatedPredicate, elseStatements)
 
-      Seq(ifConditional, elseConditional)
+      Seq(ifConditional, elseConditional).filter(_.thenStatements.nonEmpty)
     }
   }
 

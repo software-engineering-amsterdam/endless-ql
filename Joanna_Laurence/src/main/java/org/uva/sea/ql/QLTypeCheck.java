@@ -69,7 +69,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     public Void visit(Question node) {
         super.visit(node);
 
-        ASTNode value = node.getDefaultValue();
+        ASTNode value = node.getValue();
         if(value != null) {
             NodeType questionType = node.getNodeType().getNodeType();
             NodeType valueType = value.getType().getNodeType();

@@ -1,6 +1,6 @@
 package org.uva.sea.ql;
 
-import org.uva.sea.ql.evaluate.*;
+import org.uva.sea.ql.value.*;
 
 public abstract class QLValueEvaluator<T> {
 

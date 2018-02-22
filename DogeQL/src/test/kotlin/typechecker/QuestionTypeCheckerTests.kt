@@ -18,7 +18,7 @@ class  QuestionTypeCheckerTests {
 
         val result = typeChecker.findDuplicateLabels(input)
 
-        val expectedResult = listOf("Question one?")
+        val expectedResult = setOf("Question one?")
 
         result shouldEqual expectedResult
     }
@@ -32,7 +32,7 @@ class  QuestionTypeCheckerTests {
 
         val result = typeChecker.findDuplicateLabels(input)
 
-        result shouldEqual emptyList()
+        result shouldEqual emptySet()
     }
 
 }

@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.model.Expressions
 
 import nl.uva.se.sc.niro.model.Expressions.answers._
-import nl.uva.se.sc.niro.model.Operators._
+import nl.uva.se.sc.niro.model.{ BinaryOperator, UnaryOperator }
 
 object Expression {
 

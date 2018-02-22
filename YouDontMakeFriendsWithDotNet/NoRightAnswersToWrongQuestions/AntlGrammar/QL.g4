@@ -10,11 +10,14 @@ questiontype: qtype=(BOOLTYPE | STRINGTYPE | INTTYPE | DATETYPE | DECIMALTYPE);
 
 conditional: 'if' '(' condition ')' '{' statement* '}';
 
-condition: (IDENTIFIER | IDENTIFIER booleanoperator booleanvalue);
+condition: IDENTIFIER                               # booleancondition
+         | IDENTIFIER booleanoperator booleanvalue  # booleancomparison
+		 | IDENTIFIER comparisonoperator '10'       # valuecomparison
+         ;
 
 booleanoperator: op=(ISEQUAL | ISNOTEQUAL);
 booleanvalue: val=(TRUE | FALSE);
-
+comparisonoperator: ISGREATERTHAN;
 
 BOOLTYPE: 'boolean';
 STRINGTYPE: 'string';
@@ -24,6 +27,7 @@ DECIMALTYPE: 'decimal';
 
 ISNOTEQUAL : '!=';
 ISEQUAL : '==';
+ISGREATERTHAN : '>';
 TRUE : ('true'| 'True'| 'TRUE');
 FALSE : ('false' | 'False' | 'FALSE');
 

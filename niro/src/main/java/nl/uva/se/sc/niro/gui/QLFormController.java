@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import nl.uva.se.sc.niro.model.Ast;
+import nl.uva.se.sc.niro.model.QLForm;
 
 
 public class QLFormController extends QLBaseController {
@@ -15,7 +15,7 @@ public class QLFormController extends QLBaseController {
     @FXML
     private GridPane questions;
 
-    public void populateForm(Ast.QLForm form) {
+    public void populateForm(QLForm form) {
         formName.setText(form.formName().replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2"));
         questions.setPadding(new Insets(0, 20, 0, 20));
         StatementFactory.createStatements(questions, form.statements());

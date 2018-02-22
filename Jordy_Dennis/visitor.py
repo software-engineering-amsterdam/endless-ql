@@ -54,6 +54,7 @@ class Visitor(QLGrammarVisitor):
     # Visit a parse tree produced by QLGrammarParser#assignment.
     def visitAssignment(self, ctx:QLGrammarParser.AssignmentContext):
         print("ASSIGMENT")
+        return "ASSIGNMENT"
         return self.visitChildren(ctx)
 
 
@@ -66,14 +67,21 @@ class Visitor(QLGrammarVisitor):
     # Visit a parse tree produced by QLGrammarParser#conditional.
     def visitConditional(self, ctx:QLGrammarParser.ConditionalContext):
         print("CONDITIONAL")
-        conditionalN = self.visit(ctx.if_conditional())
+
+        conditionalN = conditionalNode()
+
+        if_condition = self.visit(ctx.if_conditional())
+        conditionalN.addIfChild(if_condition)
+
         if(ctx.elif_conditional()):
             print("HIER")
             for i in ctx.elif_conditional():
                 conditionalN.addElifChild(self.visit(i))
+        
         if(ctx.else_conditional()):
             print("ELSE")
-            conditionalN.addElseChild(self.visit(ctx.else_conditional()))
+            else_condition = self.visit(ctx.else_conditional())
+            conditionalN.addElseChild(else_condition)
 
  
         print("haha")
@@ -83,24 +91,34 @@ class Visitor(QLGrammarVisitor):
     # Visit a parse tree produced by QLGrammarParser#if_conditional.
     def visitIf_conditional(self, ctx:QLGrammarParser.If_conditionalContext):
         print("IF")
+
         condition = self.visit(ctx.expression())
-        conditionalN = ConditionalNode(condition)
+        conditionN = conditionNode(condition);
+
         if_questions = self.visit(ctx.block())
-        conditionalN.addIfChild(if_questions)
+        conditionN.addQuestions(if_questions)
         
-        return conditionalN
+        return conditionN
        
 
 
     # Visit a parse tree produced by QLGrammarParser#elif_conditional.
     def visitElif_conditional(self, ctx:QLGrammarParser.Elif_conditionalContext):
         print("ELIF")
-        return self.visitChildren(ctx)
+        
+        condition = self.visit(ctx.expression())
+        conditionN = conditionNode(condition);
+
+        elif_questions = self.visit(ctx.block())
+        conditionN.addQuestions(elif_questions)
+        
+        return conditionN
 
 
     # Visit a parse tree produced by QLGrammarParser#else_conditional.
     def visitElse_conditional(self, ctx:QLGrammarParser.Else_conditionalContext):
         print("ELSE")
+
         return self.visitChildren(ctx)
 
 

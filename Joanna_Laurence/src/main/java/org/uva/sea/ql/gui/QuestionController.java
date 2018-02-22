@@ -26,14 +26,15 @@ public class QuestionController {
 
     @FXML
     private void addTextField(ActionEvent event) {
-        vBox.getChildren().add(createNumericQuestion("Did you sell a house in 2012?"));
+        vBox.getChildren().add(createNumericQuestion("What was the selling price?"));
     }
 
     @FXML
     public void addLabel(ActionEvent actionEvent) {
-        vBox.getChildren().add(createComputedQuestion("Did you sell a house in 2012?"));
+        vBox.getChildren().add(createComputedQuestion("You sell a house in: "));
     }
 
+    @FXML
     public void addNewQuestion(ActionEvent actionEvent) {
         vBox.getChildren().add(createQuestionRow(new Label("Did you sell a house?"), new CheckBox()));
     }
@@ -57,7 +58,7 @@ public class QuestionController {
     }
 
     private Node createComputedQuestion(String question) {
-        Label label = new Label("123");
+        Label label = new Label("2012");
         return createQuestionRow(new Label(question), label);
     }
 
@@ -72,6 +73,4 @@ public class QuestionController {
 
         return wrapper;
     }
-
-
 }

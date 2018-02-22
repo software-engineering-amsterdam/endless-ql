@@ -24,4 +24,9 @@ public class ExpressionIdentifier<T> extends Expression<T> {
     public ExpressionVariable evaluate() {
         return LookupTable.getInstance().getQuestionAnswer(identifier).evaluate();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return evaluate().equals(other);
+    }
 }

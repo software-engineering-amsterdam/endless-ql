@@ -24,9 +24,10 @@ namespace QL_Vizualizer.Controllers.Display
 
         private Form _mainForm;
 
-        public WidgetDisplayControllerWindows(float topMargin, WidgetController widgetController) : base(topMargin, new ControlFactory(widgetController), widgetController)
+        public WidgetDisplayControllerWindows(float topMargin, WidgetController widgetController) : base(topMargin, new ControlFactory(widgetController), widgetController, new WindowsStyleProperties { Width = 338 })
         {
             ConstructMainWindow();
+            
         }
 
         /// <summary>

@@ -22,23 +22,28 @@ namespace QL_Vizualizer.Controllers
         /// </summary>
         public Dictionary<string, Y> ElementStyleIndex { get; private set; }
 
-        private Y _defaultStyle;
-
-        public TypedWidgetController(Y defaultStyle)
-        {
-            _defaultStyle = defaultStyle;
-        }
-
         public void SetStyles(Dictionary<string, Y> styles)
         {
-            foreach (KeyValuePair<string, Y> style in styles)
-                ElementStyleIndex[style.Key] = style.Value;
+            if (ElementStyleIndex == null)
+                ElementStyleIndex = styles;
+            else
+                foreach (KeyValuePair<string, Y> style in styles)
+                    ElementStyleIndex[style.Key] = style.Value;
+        }
+
+        private void UpdateDefaultStyle()
+        {
+            if (ElementStyleIndex == null)
+                ElementStyleIndex = _widgets.Keys.ToDictionary(o => o, o => _displayController.DefaultStyle);
+            else
+                foreach (string s in _widgets.Keys)
+                    if (!ElementStyleIndex.ContainsKey(s))
+                        ElementStyleIndex.Add(s, _displayController.DefaultStyle);
         }
 
         public override void SetWidgets(List<QLWidget> widgets)
         {
             base.SetWidgets(widgets);
-            ElementStyleIndex = _widgets.Keys.ToDictionary(o => o, o => _defaultStyle);
         }
 
         public override void SetDisplayController<X,Z>(WidgetDisplayController<X, Z> displayController)
@@ -47,6 +52,7 @@ namespace QL_Vizualizer.Controllers
                 throw new InvalidOperationException("Tried to set displaycontroller with type mismatch.");
 
             _displayController = displayController as WidgetDisplayController<T,Y>;
+            UpdateDefaultStyle();
         }
         
         public override void ShowView()

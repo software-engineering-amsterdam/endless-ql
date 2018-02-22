@@ -23,12 +23,15 @@ namespace QL_Vizualizer.Controllers.Display
 
         protected WidgetController _widgetController { get; private set; }
 
-        public WidgetDisplayController(float initialPosition, ElementFactory<T,Y> elementFactory, WidgetController controller)
+        public Y DefaultStyle { get; private set; }
+
+        public WidgetDisplayController(float initialPosition, ElementFactory<T,Y> elementFactory, WidgetController controller, Y defaultStyle)
         {
             InitialPosition = initialPosition;
             _elementFactory = elementFactory;
             ElementIndex = new Dictionary<string, T>();
             _widgetController = controller;
+            DefaultStyle = defaultStyle;
         }
 
         /// <summary>

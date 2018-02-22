@@ -24,7 +24,7 @@ namespace QL_Visualizer.Tests.Elements
         public void Initialize()
         {
             _style = new WindowsStyleProperties();
-            _widgetController = new TypedWidgetController<Control, WindowsStyleProperties>(_style);
+            _widgetController = new TypedWidgetController<Control, WindowsStyleProperties>();
             _widgetController.SetDisplayController(new WidgetDisplayControllerWindows(10f, _widgetController));
 
             _controlFactory = new ControlFactory(_widgetController);

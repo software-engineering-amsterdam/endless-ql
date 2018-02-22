@@ -19,11 +19,13 @@ def main(argv):
     # print(tree.toStringTree(recog=parser))
     gui = Gui()
     gui.addLabel("hey", "jaja")
+    gui.removeLabel("hey")
     gui.addCheckBox("yes")
     gui.addSlider("slider", 0, 100, 'horizontal')
     gui.addSpinBox("spinbox", 0, 100)
     gui.addTextBox("text", 3, 30)
     gui.addRadioButton("radio", "ben je dik:", 2)
+    gui.addDropDown("drop", ["1", "2", "3"])
     gui.showWindow()
 
 if __name__ == '__main__':

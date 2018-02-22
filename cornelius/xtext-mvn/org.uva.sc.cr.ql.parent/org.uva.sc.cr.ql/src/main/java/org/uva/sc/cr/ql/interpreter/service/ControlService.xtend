@@ -1,11 +1,9 @@
-package org.uva.sc.cr.ql.interpreter
+package org.uva.sc.cr.ql.interpreter.service
 
 import java.util.ArrayList
 import java.util.List
 import javafx.event.Event
 import javafx.event.EventHandler
-import javafx.scene.control.Label
-import javafx.scene.layout.HBox
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.eclipse.xtend.lib.annotations.Accessors
@@ -15,6 +13,7 @@ import org.uva.sc.cr.ql.interpreter.controls.DateControlWrapper
 import org.uva.sc.cr.ql.interpreter.controls.DecimalControlWrapper
 import org.uva.sc.cr.ql.interpreter.controls.IntegerControlWrapper
 import org.uva.sc.cr.ql.interpreter.controls.TextControlWrapper
+import org.uva.sc.cr.ql.qL.Expression
 import org.uva.sc.cr.ql.qL.Question
 import org.uva.sc.cr.ql.qL.TypeBool
 import org.uva.sc.cr.ql.qL.TypeDate
@@ -37,9 +36,7 @@ class ControlService {
 		controls = new ArrayList<ControlWrapper>
 	}
 
-	def public buildControlForQuestion(Question question) {
-		val hbox = new HBox
-		hbox.children.add(new Label(question.label))
+	def public buildControlForQuestion(Question question, Expression visibleExpression) {
 		var ControlWrapper controlWrapper
 		switch question.type {
 			TypeBool:
@@ -56,10 +53,13 @@ class ControlService {
 			default:
 				throw new MissingCaseException
 		}
-		hbox.children.add(controlWrapper.control)
 		controlWrapper.registerListener(buildEventHandler)
+		if (visibleExpression !== null) {
+			val binding = bindingService.buildBindingForTypeBoolean(controls, visibleExpression)
+			controlWrapper.bindVisibleProperty(binding)
+		}
 		controls.add(controlWrapper)
-		return hbox
+		return controlWrapper.controlWithLabel
 	}
 
 	def private buildControlForTypeBoolean(Question question) {

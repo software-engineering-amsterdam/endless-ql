@@ -6,6 +6,7 @@ import expression.ExpressionVariableUndefined;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: do this differently. also: lookup table per scope?
 public class LookupTable {
     private static LookupTable instance = null;
 

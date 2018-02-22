@@ -1,10 +1,11 @@
 
 class ConditionalNode:
-    def __init__(self, expression):
+    def __init__(self, expression, line):
         self.expression = expression
         self.ifChildren = []
         self.elifChildren = []
         self.elseChildren = []
+        self.line = line
 
     def addIfChild(self, child):
         for i in child:

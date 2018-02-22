@@ -141,14 +141,17 @@ public class DecimalValue extends Value {
         return value.multiply(this);
     }
 
+    @Override
     public Value multiply(IntValue value) {
         return new DecimalValue(this.decimalValue * value.getIntValue());
     }
 
+    @Override
     public Value multiply(MoneyValue value) {
         return new MoneyValue(value.getCurrency(), (new BigDecimal(this.decimalValue)).multiply(value.getAmount()));
     }
 
+    @Override
     public Value multiply(DecimalValue value) {
         return new DecimalValue(this.decimalValue * value.getDecimalValue());
     }

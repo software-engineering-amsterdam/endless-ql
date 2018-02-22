@@ -20,7 +20,7 @@ class QLJavaFxApplication extends Application {
 	protected var Resource astData
 
 	@Inject
-	private var StageService stageService
+	protected var StageService stageService
 
 	override init() {
 		val file = parameters.raw.get(0)

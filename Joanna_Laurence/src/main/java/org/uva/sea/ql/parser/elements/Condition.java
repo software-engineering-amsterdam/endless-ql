@@ -3,9 +3,10 @@ package org.uva.sea.ql.parser.elements;
 import org.uva.sea.ql.QLExprEvaluate;
 import org.uva.sea.ql.parser.elements.types.Bool;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.Visitor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Condition extends ASTNode implements QuestionContainerNode {
@@ -24,7 +25,7 @@ public class Condition extends ASTNode implements QuestionContainerNode {
      * @param exprEvaluate
      * @return
      */
-    public List<Question> evalQuestions(QLExprEvaluate exprEvaluate) {
+    public List<Question> evalQuestions(QLExprEvaluate exprEvaluate, HashMap<String, ASTNode> symbolTable) {
         List<Question> questions = new ArrayList<>();
         Bool conditionValue = (Bool)exprEvaluate.getValue(expression);
         if(exprEvaluate.isNotComplete() )
@@ -32,7 +33,7 @@ public class Condition extends ASTNode implements QuestionContainerNode {
 
         if(conditionValue.isTrue()) {
             for(ASTNode node : this.statements.getStatementList()) {
-                questions.addAll(((QuestionContainerNode)node).evalQuestions(exprEvaluate));
+                questions.addAll(((QuestionContainerNode)node).evalQuestions(exprEvaluate,symbolTable));
             }
         }
         return questions;
@@ -46,16 +47,9 @@ public class Condition extends ASTNode implements QuestionContainerNode {
         return statements;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doCondition(this);
-    }
-
-    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
-        this.expression.traverseNode(traverse, traverseType);
-        expression.doTraversal(traverse, traverseType);
-        for (ASTNode node: this.statements.getStatementList()) {
-            node.doTraversal(traverse, traverseType);
-        }
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     public Type getType() {

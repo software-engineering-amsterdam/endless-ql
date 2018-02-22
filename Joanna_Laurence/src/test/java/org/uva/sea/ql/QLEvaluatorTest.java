@@ -100,7 +100,7 @@ public class QLEvaluatorTest extends TestCase {
             if(result == null)
                 return 0;
 
-            QLEvaluator evaluate = new QLEvaluator(this.evaluators);
+            QLEvaluator evaluate = new QLEvaluator(this.evaluators, new HashMap<>());
             List<Question> questions = evaluate.getQuestions(result);
             return questions.size();
         } catch (IOException e) {

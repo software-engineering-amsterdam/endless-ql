@@ -1,7 +1,7 @@
 package org.uva.sea.ql.parser.elements;
 
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.Visitor;
 
 public class Statement extends ASTNode {
     private Question question;
@@ -15,13 +15,9 @@ public class Statement extends ASTNode {
         return condition;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doStatement(this);
-    }
-
-    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
-        this.question.doTraversal(traverse,traverseType);
-        this.condition.doTraversal(traverse,traverseType);
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     public Type getType() {

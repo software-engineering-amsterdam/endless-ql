@@ -1,30 +1,30 @@
 package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.Visitor;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
-public class Money extends ASTNode {
+public class Money extends ASTNode  {
     private String currency;
-    private BigInteger amount;
+    private BigDecimal amount;
 
     public Money(String currency, String amount) {
         this.currency = currency;
-        this.amount = new BigInteger(amount);
+        this.amount = new BigDecimal(amount);
     }
 
     public String getCurrency() {
         return currency;
     }
 
-    public BigInteger getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doMoney(this);
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     public Type getType() {

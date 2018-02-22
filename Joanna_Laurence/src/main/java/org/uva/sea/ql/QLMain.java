@@ -23,6 +23,7 @@ public class QLMain {
 
         Are question values computed on the first level?
         //WHen value is defined, make immutible
+        a && b << only eval b when a is true. etc
      */
 
     /**

@@ -2,15 +2,14 @@ package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.Question;
-import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.Visitor;
 
-public class Var extends ASTNode {
+public class Variable extends ASTNode  {
     private String variableName;
 
     private Question linkedQuestion = null;
 
-    public Var(String variableName) {
+    public Variable(String variableName) {
         this.variableName = variableName;
     }
 
@@ -22,8 +21,9 @@ public class Var extends ASTNode {
         return linkedQuestion;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doVar(this);
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     public void setLinkedQuestion(Question linkedQuestion) {

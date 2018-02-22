@@ -3,10 +3,9 @@ package org.uva.sea.ql;
 import org.uva.sea.ql.evaluate.Evaluator;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
 import java.util.Map;
 import java.util.Stack;
@@ -21,7 +20,7 @@ interface ApplySingleNode<One, Two> {
     public void apply(One one, Two two);
 }
 
-public class QLExprEvaluate extends Traverse {
+public class QLExprEvaluate extends BaseVisitor {
 
     private Stack<ASTNode> stack = new Stack<>();
 
@@ -44,7 +43,7 @@ public class QLExprEvaluate extends Traverse {
      * @param node The base AST node
      */
     public ASTNode getValue(ASTNode node) {
-        node.doTraversal(this, TraverseType.BOTTOM_UP);
+        node.accept(this);
         return this.error || this.notComplete ? null : this.stack.pop();
     }
 
@@ -78,9 +77,9 @@ public class QLExprEvaluate extends Traverse {
      * @param with To the type of this node when possible
      */
     private ASTNode makeTypeCompatible(ASTNode node, ASTNode with) {
-        if(node instanceof Int && with instanceof Dec) {
+        if(node instanceof Int && with instanceof Decimal) {
             int intVal = ((Int)node).getValue();
-            return new Dec(intVal);
+            return new Decimal(intVal);
         }
 
         return node;
@@ -278,7 +277,7 @@ public class QLExprEvaluate extends Traverse {
         this.stack.add(node);
     }
 
-    public void doDec(Dec node) {
+    public void doDec(Decimal node) {
         this.stack.add(node);
     }
 
@@ -294,7 +293,7 @@ public class QLExprEvaluate extends Traverse {
         this.stack.add(node);
     }
 
-    public void doVar(Var node) {
+    public void doVar(Variable node) {
         this.stack.add(node.getLinkedQuestion().getValue());
     }
 }

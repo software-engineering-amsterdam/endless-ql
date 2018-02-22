@@ -21,12 +21,12 @@ object QuestionPopulator {
           grid.addRow(rowNr, new Label(question.label), WidgetFactory.makeWidget(evaluateExpression(question.answer, Map.empty)))
         }
         case condition: Conditional => {
-          val thenPane = insertQuestionPaneAtRow(grid, rowNr)
+          val thenPane = createQuestionPaneAtRow(grid, rowNr)
           populateGridWithQuestions(thenPane, condition.ifStatements)
 
           if (!condition.elseStatements.isEmpty) {
             rowNr += 1
-            val elsePane = insertQuestionPaneAtRow(grid, rowNr)
+            val elsePane = createQuestionPaneAtRow(grid, rowNr)
             populateGridWithQuestions(elsePane, condition.elseStatements)
             // Exclusive visibility with thenPane
             elsePane.visibleProperty().bind(thenPane.visibleProperty().not())
@@ -37,19 +37,24 @@ object QuestionPopulator {
     }
   }
 
-  private def insertQuestionPaneAtRow(grid: GridPane, rowNr: Int): GridPane = {
-    val thenConstraint = new RowConstraints()
-    grid.getRowConstraints.add(thenConstraint)
+  private def createQuestionPaneAtRow(grid: GridPane, rowNr: Int): GridPane = {
+    // A row constraint is needed for hiding and showing entire rows.
+    val rowConstraint = new RowConstraints()
+    grid.getRowConstraints.add(rowConstraint)
 
     val innerGrid = new GridPane()
     grid.add(innerGrid, 0, rowNr, 2, 1)
     // When invisible we don't occupy any space
     innerGrid.managedProperty().bind(innerGrid.visibleProperty())
-    bindConstraintToVisiblity(thenConstraint, innerGrid)
+    bindConstraintToVisiblity(rowConstraint, innerGrid)
 
     innerGrid
   }
 
+  /**
+    * By setting the preferred height to 0.0 the entire row is hidden, and by setting it to -1.0 the layout manager will
+    * recalculate the height of the row and make is visible again.
+    */
   private def bindConstraintToVisiblity(constraint: RowConstraints, pane: GridPane) = {
     pane.visibleProperty().addListener(new ChangeListener[lang.Boolean] {
       override def changed(observable: ObservableValue[_ <: lang.Boolean], oldValue: lang.Boolean, newValue: lang.Boolean): Unit = {

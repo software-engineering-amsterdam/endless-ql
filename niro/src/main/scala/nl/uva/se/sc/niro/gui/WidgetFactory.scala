@@ -14,9 +14,9 @@ object WidgetFactory {
 
   def makeWidget(answer: Answer): Parent = {
     answer match {
-      case _: BooleanAnswer => new CheckBox()
-      case _: StringAnswer => new TextField()
-      case _: IntAnswer => createIntegerField()
+      case b: BooleanAnswer => createCheckbox(b.possibleValue)
+      case s: StringAnswer => createTextField(s.possibleValue)
+      case i: IntAnswer => createIntegerField(i.possibleValue)
       case _: DecAnswer => createDecimalField()
       case _: MoneyAnswer => createDecimalField()
       case _: DateAnswer => createDateField
@@ -24,16 +24,26 @@ object WidgetFactory {
     }
   }
 
-  def createIntegerField(): Parent = {
-    createRegExField("\\d+")
+  private def createTextField(text: Option[String]) = {
+    new TextField(text.getOrElse(""))
+  }
+
+  private def createCheckbox(bool: Option[Boolean]) = {
+    val checkbox = new CheckBox()
+    bool.foreach(checkbox.setSelected(_))
+    checkbox
+  }
+
+  def createIntegerField(value: Option[Int]): Parent = {
+    createRegExField("\\d+", value.map(_.toString).getOrElse(""))
   }
 
   def createDecimalField(): Parent = {
-    createRegExField("\\d*(,\\d{0,2})?")
+    createRegExField("\\d*(,\\d{0,2})?", "")
   }
 
-  def createRegExField(validPattern: String): Parent = {
-    val regexField = new TextField()
+  def createRegExField(validPattern: String, value: String): Parent = {
+    val regexField = new TextField(value)
     regexField.textProperty().addListener(new ChangeListener[String] {
       override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
         if (!newValue.matches(validPattern)) {

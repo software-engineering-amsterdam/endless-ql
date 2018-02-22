@@ -2,7 +2,9 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
+import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,6 +13,8 @@ public class FormTemplate {
     private JFrame frame;
     private JPanel mainPanel;
     private QLForm body;
+    private JButton submit;
+    private List<Component> components;
 
     public FormTemplate(){
         body  = new QLForm("Undefined");
@@ -42,7 +46,7 @@ public class FormTemplate {
                 Question question = iterator.next();
                 builder.append(question.getLabel(), getComponent(question.getType()));
             }
-            builder.append(new JButton("Submit"));
+            builder.append(submit);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -65,9 +69,21 @@ public class FormTemplate {
         switch (type){
             case BOOL: return new JCheckBox();
 
+            case INT: return new JFormattedTextField(intField());
+
             default: return new JLabel(String.valueOf(type));
         }
     }
+
+    private NumberFormatter intField(){
+        NumberFormat format = NumberFormat.getInstance();
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setMaximum(Integer.MAX_VALUE);
+        formatter.setAllowsInvalid(false);
+        return formatter;
+    }
+
 
 //    public void setTitle(String title){
 //

@@ -1,6 +1,5 @@
 import com.sun.istack.internal.NotNull;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -90,7 +89,7 @@ public class FormReader  {
         public Question visitQuestion(@NotNull QLParser.QuestionContext ctx) {
             String questionName = ctx.VARIABLE().getText();
             String questionLabel = ctx.STRING().getText();
-            String questionType = ctx.TYPE().getText();
+            Type questionType = Type.getByCode(ctx.TYPE().getText());
 
             return new Question(questionName, questionLabel, questionType);
         }

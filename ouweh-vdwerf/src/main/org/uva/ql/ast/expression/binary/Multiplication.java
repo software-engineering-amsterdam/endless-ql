@@ -11,7 +11,7 @@ public class Multiplication extends BinaryOperation {
 
     @Override
     public String toString() {
-        return String.format("(%s * %s)", this.getLeft(), this.getRight());
+        return String.format("%s * %s", this.getLeft(), this.getRight());
     }
 
     @Override

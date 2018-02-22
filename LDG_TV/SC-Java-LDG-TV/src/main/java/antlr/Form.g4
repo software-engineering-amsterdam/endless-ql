@@ -1,4 +1,3 @@
-// Define a grammar called Hello
 grammar Form;
 /*
  * Parser Rules
@@ -27,8 +26,9 @@ statementBlockStructure: BRACKET_OPEN questionVariable BRACKET_CLOSE ;
 questionLabel : QUESTION_LABEL;
 questionVariable: CHARACTERS;
 questionVariableType: 'boolean' | 'money' | 'string';
-questionVariableValue: expression | CHARACTERS | NUMBERS;
-expression: (BRACKET_OPEN questionVariable operator questionVariable BRACKET_CLOSE);
+questionVariableValue: expression | value;
+expression: BRACKET_OPEN questionVariable operator questionVariable BRACKET_CLOSE;
+value: CHARACTERS | NUMBERS;
 operator: (PLUS | MINUS | TIMES | DIV) ;
 /*
  * Lexer Rules

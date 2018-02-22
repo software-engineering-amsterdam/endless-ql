@@ -1,23 +1,40 @@
 package ui
 
 import data.Question
-import javafx.scene.control.Label
-import javafx.scene.control.ListView
 import tornadofx.*
-import ui.question.QuestionItemViewModel
+import ui.question.ListViewItem
+import javax.swing.text.html.ListView
 
 
 class DogeMainView: View() {
 
-    val questionItemViewModel : QuestionItemViewModel by inject()
+    val dogeController : DogeController by inject()
 
+    override val root = vbox()
 
-    override val root = vbox {
+    init {
+        with(root){
+            listview<Question> {
+                cellFormat {
+                    graphic = cache {
+                       form {
+                            fieldset {
+                                field("hoi") {
+                                    textfield()
+                                }
+                            }
+                        }
+                    }
 
-        listview<Question> {
-            itemsProperty().bind(questionItemViewModel.questions.observable())
-            bindSelected(questionItemViewModel)
+                }
+                runAsync {
+                    updateMessage("loading")
+                    dogeController.getQuestions().observable()
+                } ui {
+                    items = it
+                }
+            }
         }
-    }
 
+    }
 }

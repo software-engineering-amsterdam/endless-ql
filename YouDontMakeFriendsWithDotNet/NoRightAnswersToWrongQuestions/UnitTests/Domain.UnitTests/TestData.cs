@@ -215,6 +215,27 @@ form CommentFormMLX {}";
                 yield return new TestCaseData(
                     string.Format(formTemplate, "decimalQuestion", "decimal", "decimalQuestion > -1234.5678"),
                     new[] { "decimalQuestion>-1234.5678" });
+                yield return new TestCaseData(
+                    string.Format(formTemplate, "dateQuestion", "date", "dateQuestion > 1/1/2011"),
+                    new[] { "dateQuestion>1/1/2011" });
+                yield return new TestCaseData(
+                    string.Format(formTemplate, "dateQuestion", "date", "dateQuestion > 15/11/1975"),
+                    new[] { "dateQuestion>15/11/1975" });
+                yield return new TestCaseData(
+                    string.Format(formTemplate, "dateQuestion", "date", "dateQuestion > 5/12/66"),
+                    new[] { "dateQuestion>5/12/66" });
+
+
+
+                yield return new TestCaseData(
+                    string.Format(formTemplate, "boolQuestion", "boolean", "TRUE == True"),
+                    new[] { "TRUE==True" });
+                yield return new TestCaseData(
+                    string.Format(formTemplate, "boolQuestion", "boolean", "false == False"),
+                    new[] { "false==False" });
+                yield return new TestCaseData(
+                    string.Format(formTemplate, "boolQuestion", "boolean", "false == boolQuestion"),
+                    new[] { "false==boolQuestion" });
             }
         }
     }

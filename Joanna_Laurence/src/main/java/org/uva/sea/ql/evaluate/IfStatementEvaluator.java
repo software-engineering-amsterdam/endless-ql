@@ -4,6 +4,8 @@ import org.uva.sea.ql.QLEvaluator;
 import org.uva.sea.ql.QLValueEvaluator;
 import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.value.BooleanValue;
+import org.uva.sea.ql.value.Value;
 
 import java.util.ArrayList;
 import java.util.List;

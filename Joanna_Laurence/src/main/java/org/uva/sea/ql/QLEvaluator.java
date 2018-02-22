@@ -4,13 +4,8 @@ import org.uva.sea.ql.evaluate.*;
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
-import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
-import org.uva.sea.ql.parser.nodeTypes.SingleNode;
 import org.uva.sea.ql.traverse.BaseVisitor;
-import org.uva.sea.ql.traverse.Visitor;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.uva.sea.ql.value.*;
 
 public class QLEvaluator extends BaseVisitor<Value> {
 

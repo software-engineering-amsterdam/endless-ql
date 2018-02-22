@@ -1,4 +1,4 @@
-package org.uva.sea.ql.evaluate;
+package org.uva.sea.ql.value;
 
 import java.math.BigDecimal;
 import org.uva.sea.ql.QLValueEvaluator;

@@ -22,11 +22,6 @@ public class Type extends ASTNode  {
         return nodeType;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
     public Type getType() {
         return new Type(NodeType.STRING);
     } //This does not have a type
@@ -44,5 +39,10 @@ public class Type extends ASTNode  {
     @Override
     public int hashCode() {
         return nodeType != null ? nodeType.hashCode() : 0;
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

@@ -16,12 +16,12 @@ public class Statement extends ASTNode {
         return condition;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
     public Type getType() {
         return new Type(NodeType.UNKNOWN);
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

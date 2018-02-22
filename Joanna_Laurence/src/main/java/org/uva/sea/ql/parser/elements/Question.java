@@ -10,13 +10,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class Question extends ASTNode implements QuestionContainerNode {
+public class Question extends ASTNode {
 
     private String label;
     private Variable variable;
     private Type nodeType;
     private ASTNode value;
-    private ASTNode computedAnswer;
 
     public Question(Token token, String label, Variable variable, Type nodeType, ASTNode value) {
         super(token);
@@ -24,15 +23,6 @@ public class Question extends ASTNode implements QuestionContainerNode {
         this.variable = variable;
         this.nodeType = nodeType;
         this.value = value;
-    }
-
-    public List<Question> evalQuestions(QLExprEvaluate exprEvaluate, HashMap<String, ASTNode> symbolTable) {
-        this.computedAnswer = computeAnswer(exprEvaluate, symbolTable);
-        return Collections.singletonList(this);
-    }
-
-    private ASTNode computeAnswer(QLExprEvaluate exprEvaluate, HashMap<String, ASTNode> symbolTable) {
-        return (value != null) ? exprEvaluate.getValue(this.value) : symbolTable.get(this.variable.getVariableName());
     }
 
     public String getLabel() {
@@ -47,24 +37,20 @@ public class Question extends ASTNode implements QuestionContainerNode {
         return nodeType;
     }
 
-    public ASTNode getValue() {
-        return this.computedAnswer;
-    }
-
     /**
      * The value that is defined in QL
      * @return
      */
-    public ASTNode getDefaultValue() {
+    public ASTNode getValue() {
         return this.value;
-    }
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
     }
 
     public Type getType() {
         return nodeType;
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

@@ -23,6 +23,16 @@ public class LookupTable {
         return instance;
     }
 
+    public Question getQuestion(String identifier) {
+        if (table.containsKey(identifier)) {
+            return table.get(identifier);
+        }
+
+        // TODO: throw exception?
+        return null;
+    }
+
+
     public Expression getQuestionAnswer(String identifier) {
         if (table.containsKey(identifier)) {
             // TODO: switch to getter-setter?

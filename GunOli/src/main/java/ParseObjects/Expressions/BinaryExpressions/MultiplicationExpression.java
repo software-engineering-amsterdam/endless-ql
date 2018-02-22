@@ -16,7 +16,11 @@ public class MultiplicationExpression extends BinaryExpression<Double> {
     public EvaluationType returnType() {return EvaluationType.Decimal;}
 
     @Override
-    public Constant<Double> evaluate() {return null;} //Todo:Implement;
+    public Constant<Double> evaluate() {
+        Constant left = this.getExprLeft().evaluate();
+        Constant right = this.getExprRight().evaluate();
+        return left.multipl(right);
+    }
 
     @Override
     public Boolean isArithmetic() {return true;}

@@ -7,15 +7,19 @@ import ParseObjects.Expressions.Expression;
 
 
 public class DivisionExpression extends BinaryExpression<Double> {
-    public DivisionExpression(String operator, Expression left, Expression right){
-        super(operator,left,right);
+    public DivisionExpression(Expression left, Expression right){
+        super("/",left,right);
     }
 
     @Override
     public EvaluationType returnType() {return EvaluationType.Decimal;}
 
     @Override
-    public Constant<Double> evaluate() {return null;}
+    public Constant<Double> evaluate() {
+        Constant left = this.getExprLeft().evaluate();
+        Constant right = this.getExprRight().evaluate();
+        return left.divite(right);
+    }
 
     @Override
     public Boolean isArithmetic(){

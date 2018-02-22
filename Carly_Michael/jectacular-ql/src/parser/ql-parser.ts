@@ -229,7 +229,6 @@ function peg$parse(input, options) {
   const peg$c71 = "d";
   const peg$c72 = peg$literalExpectation("d", false);
   const peg$c73 = function(day, month, year) {
-    console.log(day[0] + day[1], month[0] + month[1], year);
     let jsMonth = parseInt(month[0] + month[1], 10)-1;
     return new Literal(ExpressionType.DATE, new Date(Date.UTC(year[0] + year[1] + year[2] + year[3],
       jsMonth, day[0] + day[1], 0, 0, 0, 0)), location());

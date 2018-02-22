@@ -13,10 +13,6 @@ public class Int extends ASTNode  {
         this.value = Integer.parseInt(value);
     }
 
-    public Int(String value) {
-        this.value = Integer.parseInt(value);
-    }
-
     public Int(Token token, int value) {
         super(token);
         this.value = value;

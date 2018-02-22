@@ -23,12 +23,6 @@ public class Condition extends ASTNode implements QuestionContainerNode {
         this.expression = expression;
     }
 
-    public Condition(ASTNode expression, Statements statements)
-    {
-        this.statements = statements;
-        this.expression = expression;
-    }
-
     /**
      *
      * @param exprEvaluate

@@ -26,13 +26,6 @@ public class Question extends ASTNode implements QuestionContainerNode {
         this.value = value;
     }
 
-    public Question(String label, Variable variable, Type nodeType, ASTNode value) {
-        this.label = label;
-        this.variable = variable;
-        this.nodeType = nodeType;
-        this.value = value;
-    }
-
     public List<Question> evalQuestions(QLExprEvaluate exprEvaluate, HashMap<String, ASTNode> symbolTable) {
         this.computedAnswer = computeAnswer(exprEvaluate, symbolTable);
         return Collections.singletonList(this);
@@ -40,10 +33,6 @@ public class Question extends ASTNode implements QuestionContainerNode {
 
     private ASTNode computeAnswer(QLExprEvaluate exprEvaluate, HashMap<String, ASTNode> symbolTable) {
         return (value != null) ? exprEvaluate.getValue(this.value) : symbolTable.get(this.variable.getVariableName());
-    }
-
-    public Question() {
-        System.out.println("Question created");
     }
 
     public String getLabel() {

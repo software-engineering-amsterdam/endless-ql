@@ -13,10 +13,6 @@ public class Decimal extends ASTNode  {
         this.value = Double.parseDouble(value);
     }
 
-    public Decimal(String value) {
-        this.value = Double.parseDouble(value);
-    }
-
     public Decimal(Token token, double value) {
         super(token);
         this.value = value;

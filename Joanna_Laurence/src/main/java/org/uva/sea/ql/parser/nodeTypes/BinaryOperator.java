@@ -15,11 +15,6 @@ public abstract class BinaryOperator extends ASTNode implements Visitable {
         this.rhs = rhs;
     }
 
-    public BinaryOperator(ASTNode lhs, ASTNode rhs) {
-        this.lhs = lhs;
-        this.rhs = rhs;
-    }
-
     public ASTNode getLhs() {
         return lhs;
     }

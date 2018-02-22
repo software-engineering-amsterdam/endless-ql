@@ -16,10 +16,6 @@ public class Variable extends ASTNode  {
         this.variableName = variableName;
     }
 
-    public Variable(String variableName) {
-        this.variableName = variableName;
-    }
-
     public String getVariableName() {
         return variableName;
     }

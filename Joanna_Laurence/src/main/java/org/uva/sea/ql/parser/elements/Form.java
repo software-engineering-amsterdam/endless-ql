@@ -16,11 +16,6 @@ public class Form extends ASTNode {
         this.statements = statements;
     }
 
-    public Form(String name, Statements statements) {
-        this.name = name;
-        this.statements = statements;
-    }
-
     public String getName() {
         return name;
     }

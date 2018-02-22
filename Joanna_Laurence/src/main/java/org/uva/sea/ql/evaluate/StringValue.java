@@ -14,24 +14,9 @@ public class StringValue extends Value {
         return stringValue;
     }
 
-    public Value add(IntValue value) {
-        return new ErrorValue("Cannot add integer to string");
-    }
-
-    public Value add(DecimalValue value) {
-        return new ErrorValue("Cannot add decimal to string");
-    }
-
-    public Value add(MoneyValue value) {
-        return new ErrorValue("Cannot add money to string");
-    }
-
-    public Value add(BooleanValue value) {
-        return new ErrorValue("Cannot add boolean to string");
-    }
-
-    public Value add(DateValue value) {
-        return new ErrorValue("Cannot add date to string");
+    @Override
+    public Value add(Value value) {
+        return value.add(this);
     }
 
     public Value add(StringValue value) {
@@ -43,18 +28,4 @@ public class StringValue extends Value {
         return visitor.visit(this);
     }
 
-    @Override
-    public Value negate() {
-        return new ErrorValue("Negate operator cannot be applied on a string value");
-    }
-
-    @Override
-    public Value not() {
-        return new ErrorValue("Not operator cannot be applied on a string value");
-    }
-
-    @Override
-    public Value positive() {
-        return new ErrorValue("Positive operator cannot be applied on a string value");
-    }
 }

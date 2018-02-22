@@ -4,12 +4,13 @@ import java.util.HashMap;
 
 public class SymbolTable {
 
+    //string - name of the variable
     private HashMap<String, Value> symbolTable = new HashMap<>();
 
     /**
      * Add or update symbol table
      *
-     * @param name Name of the symbol
+     * @param name Name of the symbol/variable
      * @param val  Value of the symbol
      */
     public void addOrUpdateValue(String name, Value val) {

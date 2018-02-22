@@ -7,62 +7,62 @@ public abstract class Value {
     public abstract <T> T accept(QLValueEvaluator<T> visitor);
 
     public Value add(Value value) {
-        return value.add(this);
+        return new ErrorValue("Add operator cannot be applied here");
     }
 
     public Value and(Value value) {
-        return value.and(this);
+        return new ErrorValue("And operator cannot be applied here");
     }
 
     public Value divide(Value value) {
-        return value.divide(this);
+        return new ErrorValue("Divide operator cannot be applied here");
     }
 
     public Value isEqual(Value value) {
-        return value.isEqual(this);
+        return new ErrorValue("isEqual operator cannot be applied here");
     }
 
     public Value isGreaterOrEqual(Value value) {
-        return value.isGreaterOrEqual(this);
+        return new ErrorValue("isGreaterOrEqual operator cannot be applied here");
     }
 
     public Value isGreaterThan(Value value) {
-        return value.isGreaterThan(this);
+        return new ErrorValue("isGreaterThan operator cannot be applied here");
     }
 
     public Value isLessOrEqual(Value value) {
-        return value.isLessOrEqual(this);
+        return new ErrorValue("isLessOrEqual operator cannot be applied here");
     }
 
     public Value isLessThan(Value value) {
-        return value.isLessThan(this);
+        return new ErrorValue("isLessThan operator cannot be applied here");
     }
 
     public Value multiply(Value value) {
-        return value.multiply(this);
+        return new ErrorValue("Multiply operator cannot be applied here");
     }
 
     public Value negate(){
-        return this;
+        return new ErrorValue("Negate operator cannot be applied here");
     };
 
     public Value isNotEqual(Value value) {
-        return value.isNotEqual(this);
+        return new ErrorValue("isNotEqual operator cannot be applied here");
     }
 
     public Value not(){
-        return this;
+        return new ErrorValue("Not operator cannot be applied on here");
     };
 
     public Value or(Value value) {
-        return value.or(value);
+        return new ErrorValue("Or operator cannot be applied here");
     }
 
     public Value positive(){
-        return this;
+        return new ErrorValue("Positive operator cannot be applied here");
     };
 
     public Value subtract(Value value) {
-        return value.subtract(this);
+        return new ErrorValue("Subtract operator cannot be applied here");
     }
 }

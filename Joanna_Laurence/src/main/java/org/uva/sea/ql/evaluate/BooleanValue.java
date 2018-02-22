@@ -13,38 +13,40 @@ public class BooleanValue extends Value {
         return booleanValue;
     }
 
-    public Value add(IntValue value) {
-        return new ErrorValue("Cannot add integer to boolean");
+    @Override
+    public Value and(Value value) {
+        return value.and(this);
     }
 
-    public Value add(DecimalValue value) {
-        return new ErrorValue("Cannot add decimal to boolean");
-    }
-
-    public Value add(MoneyValue value) {
-        return new ErrorValue("Cannot add money to boolean");
-    }
-
-    public Value add(BooleanValue value) {
-        return new ErrorValue("Cannot add boolean to boolean");
-    }
-
-    public Value add(DateValue value) {
-        return new ErrorValue("Cannot add date to boolean");
-    }
-
-    public Value add(StringValue value) {
-        return new ErrorValue("Cannot add string to boolean");
+    public Value and(BooleanValue value) {
+        return new BooleanValue(this.booleanValue && value.getBooleanValue());
     }
 
     @Override
-    public <T> T accept(QLValueEvaluator<T> visitor) {
-        return visitor.visit(this);
+    public Value isEqual(Value value) {
+        return value.isEqual(this);
+    }
+
+    public Value isEqual(BooleanValue value) {
+        return new BooleanValue(this.booleanValue == value.getBooleanValue());
     }
 
     @Override
-    public Value negate() {
-        return new ErrorValue("Negate operator cannot be applied on a boolean value");
+    public Value isNotEqual(Value value) {
+        return value.isNotEqual(this);
+    }
+
+    public Value isNotEqual(BooleanValue value) {
+        return new BooleanValue(this.booleanValue != value.getBooleanValue());
+    }
+
+    @Override
+    public Value or(Value value) {
+        return value.or(value);
+    }
+
+    public Value or(BooleanValue value) {
+        return new BooleanValue(this.booleanValue || value.getBooleanValue());
     }
 
     @Override
@@ -53,7 +55,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value positive() {
-        return new ErrorValue("Positive operator cannot be applied on a boolean value");
+    public <T> T accept(QLValueEvaluator<T> visitor) {
+        return visitor.visit(this);
     }
 }

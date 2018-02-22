@@ -32,7 +32,7 @@
       </HBox>
    </bottom>
    <center>
-      <GridPane fx:id="questions"  BorderPane.alignment="TOP_CENTER">
+      <GridPane fx:id="questionsGrid"  BorderPane.alignment="TOP_CENTER">
       </GridPane>
    </center>
 </BorderPane>

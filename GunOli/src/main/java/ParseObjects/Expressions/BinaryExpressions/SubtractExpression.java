@@ -15,8 +15,9 @@ public class SubtractExpression extends BinaryExpression<Double> {
 
     @Override
     public Constant<Double> evaluate() {
-        //ToDo: Implement
-        return null;
+        Constant left = this.getExprLeft().evaluate();
+        Constant right = this.getExprRight().evaluate();
+        return left.subtract(right);
     }
 
     @Override

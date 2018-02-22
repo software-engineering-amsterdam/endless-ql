@@ -16,8 +16,10 @@ public class AdditionExpression extends BinaryExpression<Double> {
     }
 
     @Override
-    public Constant<Double> evaluate(){
-        return null;//change
+    public Constant evaluate(){
+        Constant left = this.getExprLeft().evaluate();
+        Constant right = this.getExprRight().evaluate();
+        return left.sum(right);
     }
 
     @Override

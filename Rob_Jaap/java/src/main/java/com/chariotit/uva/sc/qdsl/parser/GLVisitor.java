@@ -10,6 +10,7 @@ import com.chariotit.uva.sc.qdsl.ast.node.type.StringType;
 import com.chariotit.uva.sc.qdsl.grammar.QLBaseVisitor;
 import com.chariotit.uva.sc.qdsl.grammar.QLParser;
 import com.chariotit.uva.sc.qdsl.parser.exception.UnknownOptionException;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +31,14 @@ public class GLVisitor<T> extends QLBaseVisitor<AstNode> {
 
 
     @Override
-    public Forms visitForms(QLParser.FormsContext ctx) {
+    public AstRoot visitForms(QLParser.FormsContext ctx) {
         List<Form> forms = new ArrayList<>();
 
         for (int i = 0; i < ctx.form().size(); i++) {
             forms.add(visitForm(ctx.form(i)));
         }
 
-        return new Forms(forms);
+        return new AstRoot(forms);
     }
 
     @Override
@@ -207,5 +208,10 @@ public class GLVisitor<T> extends QLBaseVisitor<AstNode> {
                 visitBinop(ctx.binop()),
                 visitExpr(ctx.expr())
         );
+    }
+
+    @Override
+    public AstNode visit(ParseTree tree) {
+        return super.visit(tree);
     }
 }

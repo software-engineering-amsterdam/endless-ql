@@ -89,7 +89,7 @@ public class FormReader  {
         public Question visitQuestion(@NotNull QLParser.QuestionContext ctx) {
             String questionName = ctx.VARIABLE().getText();
             String questionLabel = ctx.STRING().getText();
-            Type questionType = Type.getByCode(ctx.TYPE().getText());
+            String questionType = ctx.TYPE().getText();
 
             return new Question(questionName, questionLabel, questionType);
         }

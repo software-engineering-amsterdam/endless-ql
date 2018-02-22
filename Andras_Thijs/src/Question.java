@@ -20,7 +20,7 @@ public class Question {
         return label;
     }
 
-    public String getType() {
-        return type.toString();
+    public Type getType() {
+        return type;
     }
 }

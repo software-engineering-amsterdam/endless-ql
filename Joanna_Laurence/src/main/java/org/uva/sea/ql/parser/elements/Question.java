@@ -1,5 +1,6 @@
 package org.uva.sea.ql.parser.elements;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.QLExprEvaluate;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.elements.types.Variable;
@@ -16,6 +17,14 @@ public class Question extends ASTNode implements QuestionContainerNode {
     private Type nodeType;
     private ASTNode value;
     private ASTNode computedAnswer;
+
+    public Question(Token token, String label, Variable variable, Type nodeType, ASTNode value) {
+        super(token);
+        this.label = label;
+        this.variable = variable;
+        this.nodeType = nodeType;
+        this.value = value;
+    }
 
     public Question(String label, Variable variable, Type nodeType, ASTNode value) {
         this.label = label;

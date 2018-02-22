@@ -1,5 +1,6 @@
 package org.uva.sea.ql.parser.elements.types;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.traverse.Visitor;
@@ -8,7 +9,8 @@ import org.uva.sea.ql.traverse.Visitor;
 public class Type extends ASTNode  {
     private NodeType nodeType;
 
-    public Type(String type) {
+    public Type(Token token, String type) {
+        super(token);
         this.nodeType = NodeType.valueOf(type.toUpperCase());
     }
 
@@ -26,7 +28,7 @@ public class Type extends ASTNode  {
     }
 
     public Type getType() {
-        return new Type("string");
+        return new Type(NodeType.STRING);
     } //This does not have a type
 
     @Override

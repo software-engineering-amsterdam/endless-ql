@@ -15,8 +15,8 @@ grammar QL;
 
 form returns [Form result]
     :   f='form' IDENT '{' stms=statements '}' {
-        $result = new Form($IDENT.text, $stms.result);
-        $result.setLocation($f.getLine(),$f.getStartIndex());}
+            $result = new Form($f, $IDENT.text, $stms.result);
+        }
     ;
 
 statements returns [Statements result]
@@ -24,7 +24,6 @@ statements returns [Statements result]
     @after { $result = statements; }
     : (stm=statement {
         statements.addStatement($stm.result);
-        statements.setLocation($stm.start.getLine(),$stm.start.getStartIndex());
     })*
     ;
 
@@ -36,8 +35,7 @@ statement returns [ASTNode result]
 //TODO: .text is used to check if it is not null
 question returns [Question result]
     : lab=label var=variable ':' t=type ('=' ex=expression)? {
-        $result = new Question($lab.result, $var.result, $t.result,$ex.text == null ? null : $ex.result);
-        $result.setLocation($lab.start.getLine(), $lab.start.getCharPositionInLine());
+        $result = new Question($lab.start, $lab.result, $var.result, $t.result,$ex.text == null ? null : $ex.result);
     };
 
 label returns [String result]
@@ -47,20 +45,17 @@ label returns [String result]
 
 variable returns [Variable result]
     : IDENT {
-        $result = new Variable($IDENT.text);
-        $result.setLocation($IDENT.getLine(), $IDENT.getCharPositionInLine());
+        $result = new Variable($IDENT, $IDENT.text);
     };
 
 type returns [Type result]
     : TYPES {
-        $result = new Type($TYPES.text);
-        $result.setLocation($TYPES.getLine(), $TYPES.getCharPositionInLine());
+        $result = new Type($TYPES, $TYPES.text);
     };
 
 condition returns [Condition result]
     : i='if' '(' expr=expression ')' block {
-        $result = new Condition($expr.result, $block.result);
-        $result.setLocation($i.getLine(), $i.getCharPositionInLine());
+        $result = new Condition($i, $expr.result, $block.result);
     };
 
 
@@ -78,15 +73,13 @@ expression returns [ASTNode result]
 
 orExpr returns [ASTNode result]
     : lhs=andExpr { $result = $lhs.result; } ( or='||' rhs=andExpr {
-        $result = new Or($result, $rhs.result);
-        $result.setLocation($or.getLine(), $or.getCharPositionInLine());
+        $result = new Or($or, $result, $rhs.result);
        })*
     ;
 
 andExpr returns [ASTNode result]
     :   lhs=relExpr { $result=$lhs.result; } ( and='&&' rhs=relExpr {
-        $result = new And($result, $rhs.result);
-        $result.setLocation($and.getLine(), $and.getCharPositionInLine());
+        $result = new And($and, $result, $rhs.result);
     } )*
     ;
 
@@ -94,24 +87,23 @@ relExpr returns [ASTNode result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr
     {
       if ($op.text.equals("<")) {
-        $result = new LessThan($result, $rhs.result);
+        $result = new LessThan($op, $result, $rhs.result);
       }
       if ($op.text.equals("<=")) {
-        $result = new LessOrEqual($result, $rhs.result);
+        $result = new LessOrEqual($op, $result, $rhs.result);
       }
       if ($op.text.equals(">")) {
-        $result = new GreaterThan($result, $rhs.result);
+        $result = new GreaterThan($op, $result, $rhs.result);
       }
       if ($op.text.equals(">=")) {
-        $result = new GreaterOrEqual($result, $rhs.result);
+        $result = new GreaterOrEqual($op, $result, $rhs.result);
       }
       if ($op.text.equals("==")) {
-        $result = new Equal($result, $rhs.result);
+        $result = new Equal($op, $result, $rhs.result);
       }
       if ($op.text.equals("!=")) {
-        $result = new NotEqual($result, $rhs.result);
+        $result = new NotEqual($op, $result, $rhs.result);
       }
-      $result.setLocation($op.getLine(), $op.getCharPositionInLine());
     })*
     ;
 
@@ -119,12 +111,11 @@ addExpr returns [ASTNode result]
     :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
     {
       if ($op.text.equals("+")) {
-        $result = new Addition($result, $rhs.result);
+        $result = new Addition($op, $result, $rhs.result);
       }
       if ($op.text.equals("-")) {
-        $result = new Subtraction($result, $rhs.result);
+        $result = new Subtraction($op, $result, $rhs.result);
       }
-      $result.setLocation($op.getLine(), $op.getCharPositionInLine());
     })*
     ;
 
@@ -132,27 +123,23 @@ mulExpr returns [ASTNode result]
     :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr
     {
       if ($op.text.equals("*")) {
-        $result = new Multiplication($result, $rhs.result);
+        $result = new Multiplication($op, $result, $rhs.result);
       }
       if ($op.text.equals("/")) {
-        $result = new Division($result, $rhs.result);
+        $result = new Division($op, $result, $rhs.result);
       }
-      $result.setLocation($op.getLine(), $op.getCharPositionInLine());
     })*
     ;
 
 unExpr returns [ASTNode result]
     :  plus='+' x=unExpr {
-        $result = new Positive($x.result);
-        $result.setLocation($plus.getLine(), $plus.getCharPositionInLine());
+        $result = new Positive($plus, $x.result);
     }
     |  minus='-' x=unExpr {
-        $result = new Negative($x.result);
-        $result.setLocation($minus.getLine(), $minus.getCharPositionInLine());
+        $result = new Negative($minus, $x.result);
     }
     |  exl='!' x=unExpr {
-        $result = new Not($x.result);
-        $result.setLocation($exl.getLine(), $exl.getCharPositionInLine());
+        $result = new Not($exl, $x.result);
     }
     |  p=primary    { $result = $p.result; }
     ;
@@ -170,47 +157,39 @@ primary returns [ASTNode result]
 
 bool returns [ASTNode result]
     : BOOLEAN_TRUE {
-        $result = new Bool(true);
-        $result.setLocation($BOOLEAN_TRUE.getLine(), $BOOLEAN_TRUE.getCharPositionInLine());
+        $result = new Bool($BOOLEAN_TRUE, true);
     }
     | BOOLEAN_FALSE {
-        $result = new Bool(false);
-        $result.setLocation($BOOLEAN_FALSE.getLine(), $BOOLEAN_FALSE.getCharPositionInLine());
+        $result = new Bool($BOOLEAN_FALSE, false);
     };
 
 num returns [ASTNode result]
     : INT {
-        $result = new Int($INT.text);
-        $result.setLocation($INT.getLine(), $INT.getCharPositionInLine());
+        $result = new Int($INT, $INT.text);
     };
 
 dec returns [ASTNode result]
     : DECIMAL {
-        $result = new Decimal($DECIMAL.text);
-        $result.setLocation($DECIMAL.getLine(), $DECIMAL.getCharPositionInLine());
+        $result = new Decimal($DECIMAL, $DECIMAL.text);
     };
 
 str returns [ASTNode result]
     : STR {
-        $result = new Str($STR.text);
-        $result.setLocation($STR.getLine(), $STR.getCharPositionInLine());
+        $result = new Str($STR, $STR.text);
     };
 
 money returns [ASTNode result]
     : c=('$' | '€') v=DECIMAL {
-        $result = new Money($c.text, $v.text);
-        $result.setLocation($v.getLine(), $v.getCharPositionInLine());
+        $result = new Money($v, $c.text, $v.text);
     }
 
     | c=('$' | '€') v=INT {
-        $result = new Money($c.text, $v.text);
-        $result.setLocation($v.getLine(), $v.getCharPositionInLine());
+        $result = new Money($v, $c.text, $v.text);
     };
 
 date returns [DateExpr result]
     : '@' day=INT month=INT year=INT '@' {
-        $result = new DateExpr($day.text, $month.text, $year.text);
-        $result.setLocation($day.getLine(), $day.getCharPositionInLine());
+        $result = new DateExpr($day, $day.text, $month.text, $year.text);
     };
 
 TYPES: ('money' | 'boolean' | 'string' | 'integer' | 'date' | 'decimal');

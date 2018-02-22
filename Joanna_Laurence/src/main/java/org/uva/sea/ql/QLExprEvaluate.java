@@ -79,7 +79,7 @@ public class QLExprEvaluate extends BaseVisitor {
     private ASTNode makeTypeCompatible(ASTNode node, ASTNode with) {
         if(node instanceof Int && with instanceof Decimal) {
             int intVal = ((Int)node).getValue();
-            return new Decimal(intVal);
+            return new Decimal(node.getToken(), intVal);
         }
 
         return node;

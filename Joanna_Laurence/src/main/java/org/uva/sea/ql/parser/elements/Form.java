@@ -1,5 +1,7 @@
 package org.uva.sea.ql.parser.elements;
 
+import org.antlr.v4.runtime.Token;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.traverse.Visitor;
 
@@ -7,6 +9,12 @@ public class Form extends ASTNode {
 
     private String name;
     private Statements statements;
+
+    public Form(Token token, String name, Statements statements) {
+        super(token);
+        this.name = name;
+        this.statements = statements;
+    }
 
     public Form(String name, Statements statements) {
         this.name = name;
@@ -27,6 +35,6 @@ public class Form extends ASTNode {
     }
 
     public Type getType() {
-        return new Type("undefined");
+        return new Type(NodeType.UNKNOWN);
     }
 }

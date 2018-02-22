@@ -8,7 +8,7 @@ public class EvaluatorDecimal implements Evaluator {
 
     @Override
     public ASTNode add(ASTNode lhs, ASTNode rhs) {
-        return new Decimal(((Decimal)lhs).getValue() + ((Decimal)rhs).getValue());
+        return new Decimal(lhs.getToken(), ((Decimal)lhs).getValue() + ((Decimal)rhs).getValue());
     }
 
     @Override
@@ -17,27 +17,27 @@ public class EvaluatorDecimal implements Evaluator {
         if(rhsValue == 0)
             return null;
 
-        return new Decimal(((Decimal)lhs).getValue() / rhsValue);
+        return new Decimal(lhs.getToken(), ((Decimal)lhs).getValue() / rhsValue);
     }
 
     @Override
     public ASTNode sub(ASTNode lhs, ASTNode rhs) {
-        return new Decimal(((Decimal)lhs).getValue() - ((Decimal)rhs).getValue());
+        return new Decimal(lhs.getToken(), ((Decimal)lhs).getValue() - ((Decimal)rhs).getValue());
     }
 
     @Override
     public ASTNode mul(ASTNode lhs, ASTNode rhs) {
-        return new Decimal(((Decimal)lhs).getValue() * ((Decimal)rhs).getValue());
+        return new Decimal(lhs.getToken(), ((Decimal)lhs).getValue() * ((Decimal)rhs).getValue());
     }
 
     @Override
     public ASTNode pos(ASTNode node) {
-        return new Decimal(+((Decimal)node).getValue());
+        return new Decimal(node.getToken(), +((Decimal)node).getValue());
     }
 
     @Override
     public ASTNode neg(ASTNode node) {
-        return new Decimal(-((Decimal)node).getValue());
+        return new Decimal(node.getToken(), -((Decimal)node).getValue());
     }
 
     @Override
@@ -47,41 +47,41 @@ public class EvaluatorDecimal implements Evaluator {
 
     @Override
     public ASTNode and(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Decimal)lhs).getValue() != 0 && ((Decimal)rhs).getValue() != 0);
+        return new Bool(lhs.getToken(), ((Decimal)lhs).getValue() != 0 && ((Decimal)rhs).getValue() != 0);
     }
 
     @Override
     public ASTNode eq(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Decimal)lhs).getValue() == ((Decimal)rhs).getValue());
+        return new Bool(lhs.getToken(), ((Decimal)lhs).getValue() == ((Decimal)rhs).getValue());
     }
 
     @Override
     public ASTNode gEq(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Decimal)lhs).getValue() >= ((Decimal)rhs).getValue());
+        return new Bool(lhs.getToken(), ((Decimal)lhs).getValue() >= ((Decimal)rhs).getValue());
     }
 
     @Override
     public ASTNode gThan(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Decimal)lhs).getValue() > ((Decimal)rhs).getValue());
+        return new Bool(lhs.getToken(), ((Decimal)lhs).getValue() > ((Decimal)rhs).getValue());
     }
 
     @Override
     public ASTNode lEq(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Decimal)lhs).getValue() <= ((Decimal)rhs).getValue());
+        return new Bool(lhs.getToken(),((Decimal)lhs).getValue() <= ((Decimal)rhs).getValue());
     }
 
     @Override
     public ASTNode lThan(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Decimal)lhs).getValue() < ((Decimal)rhs).getValue());
+        return new Bool(lhs.getToken(),((Decimal)lhs).getValue() < ((Decimal)rhs).getValue());
     }
 
     @Override
     public ASTNode nEq(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Decimal)lhs).getValue() != ((Decimal)rhs).getValue());
+        return new Bool(lhs.getToken(),((Decimal)lhs).getValue() != ((Decimal)rhs).getValue());
     }
 
     @Override
     public ASTNode or(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Decimal)lhs).getValue() != 0 || ((Decimal)rhs).getValue() != 0);
+        return new Bool(lhs.getToken(),((Decimal)lhs).getValue() != 0 || ((Decimal)rhs).getValue() != 0);
     }
 }

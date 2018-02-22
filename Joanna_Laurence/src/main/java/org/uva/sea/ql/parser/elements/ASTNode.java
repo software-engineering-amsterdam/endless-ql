@@ -1,5 +1,6 @@
 package org.uva.sea.ql.parser.elements;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.traverse.Visitable;
 
@@ -7,8 +8,15 @@ public abstract class ASTNode implements Visitable {
 
     private int line;
     private int column;
+    private Token token;
 
+    public ASTNode() {
+    }
 
+    public ASTNode(Token token) {
+        this.line = token.getLine();
+        this.column = token.getCharPositionInLine();
+    }
     /**
      * Get the node type
      * @return The type
@@ -23,8 +31,7 @@ public abstract class ASTNode implements Visitable {
         return this.column;
     }
 
-    public void setLocation(int line, int column){
-        this.line = line;
-        this.column = column;
+    public Token getToken() {
+        return token;
     }
 }

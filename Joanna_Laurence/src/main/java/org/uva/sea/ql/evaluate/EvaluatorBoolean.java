@@ -27,27 +27,27 @@ public class EvaluatorBoolean implements Evaluator {
 
     @Override
     public ASTNode pos(ASTNode node) {
-        return new Bool(true);
+        return new Bool(node.getToken(),true);
     }
 
     @Override
     public ASTNode neg(ASTNode node) {
-        return new Bool(false);
+        return new Bool(node.getToken(),false);
     }
 
     @Override
     public ASTNode not(ASTNode node) {
-        return new Bool(!((Bool)node).isTrue());
+        return new Bool(node.getToken(),!((Bool)node).isTrue());
     }
 
     @Override
     public ASTNode and(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Bool)lhs).isTrue() == ((Bool)rhs).isTrue());
+        return new Bool(lhs.getToken(),((Bool)lhs).isTrue() == ((Bool)rhs).isTrue());
     }
 
     @Override
     public ASTNode eq(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Bool)lhs).isTrue() == ((Bool)rhs).isTrue());
+        return new Bool(lhs.getToken(),((Bool)lhs).isTrue() == ((Bool)rhs).isTrue());
     }
 
     @Override
@@ -72,11 +72,11 @@ public class EvaluatorBoolean implements Evaluator {
 
     @Override
     public ASTNode nEq(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Bool)lhs).isTrue() != ((Bool)rhs).isTrue());
+        return new Bool(lhs.getToken(),((Bool)lhs).isTrue() != ((Bool)rhs).isTrue());
     }
 
     @Override
     public ASTNode or(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Bool)lhs).isTrue() || ((Bool)rhs).isTrue());
+        return new Bool(lhs.getToken(),((Bool)lhs).isTrue() || ((Bool)rhs).isTrue());
     }
 }

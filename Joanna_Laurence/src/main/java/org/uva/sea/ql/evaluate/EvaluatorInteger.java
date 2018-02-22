@@ -8,7 +8,7 @@ public class EvaluatorInteger implements Evaluator {
 
     @Override
     public ASTNode add(ASTNode lhs, ASTNode rhs) {
-        return new Int(((Int)lhs).getValue() + ((Int)rhs).getValue());
+        return new Int(lhs.getToken(),((Int)lhs).getValue() + ((Int)rhs).getValue());
     }
 
     @Override
@@ -17,27 +17,27 @@ public class EvaluatorInteger implements Evaluator {
         if(rhsValue == 0)
             return null;
 
-        return new Int(((Int)lhs).getValue() / rhsValue);
+        return new Int(lhs.getToken(),((Int)lhs).getValue() / rhsValue);
     }
 
     @Override
     public ASTNode sub(ASTNode lhs, ASTNode rhs) {
-        return new Int(((Int)lhs).getValue() - ((Int)rhs).getValue());
+        return new Int(lhs.getToken(),((Int)lhs).getValue() - ((Int)rhs).getValue());
     }
 
     @Override
     public ASTNode mul(ASTNode lhs, ASTNode rhs) {
-        return new Int(((Int)lhs).getValue() * ((Int)rhs).getValue());
+        return new Int(lhs.getToken(),((Int)lhs).getValue() * ((Int)rhs).getValue());
     }
 
     @Override
     public ASTNode pos(ASTNode node) {
-        return new Int(+((Int)node).getValue());
+        return new Int(node.getToken(), +((Int)node).getValue());
     }
 
     @Override
     public ASTNode neg(ASTNode node) {
-        return new Int(-((Int)node).getValue());
+        return new Int(node.getToken(), -((Int)node).getValue());
     }
 
     @Override
@@ -47,41 +47,41 @@ public class EvaluatorInteger implements Evaluator {
 
     @Override
     public ASTNode and(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Int)lhs).getValue() != 0 && ((Int)rhs).getValue() != 0);
+        return new Bool(lhs.getToken(),((Int)lhs).getValue() != 0 && ((Int)rhs).getValue() != 0);
     }
 
     @Override
     public ASTNode eq(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Int)lhs).getValue() == ((Int)rhs).getValue());
+        return new Bool(lhs.getToken(),((Int)lhs).getValue() == ((Int)rhs).getValue());
     }
 
     @Override
     public ASTNode gEq(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Int)lhs).getValue() >= ((Int)rhs).getValue());
+        return new Bool(lhs.getToken(),((Int)lhs).getValue() >= ((Int)rhs).getValue());
     }
 
     @Override
     public ASTNode gThan(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Int)lhs).getValue() > ((Int)rhs).getValue());
+        return new Bool(lhs.getToken(),((Int)lhs).getValue() > ((Int)rhs).getValue());
     }
 
     @Override
     public ASTNode lEq(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Int)lhs).getValue() <= ((Int)rhs).getValue());
+        return new Bool(lhs.getToken(),((Int)lhs).getValue() <= ((Int)rhs).getValue());
     }
 
     @Override
     public ASTNode lThan(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Int)lhs).getValue() < ((Int)rhs).getValue());
+        return new Bool(lhs.getToken(),((Int)lhs).getValue() < ((Int)rhs).getValue());
     }
 
     @Override
     public ASTNode nEq(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Int)lhs).getValue() != ((Int)rhs).getValue());
+        return new Bool(lhs.getToken(),((Int)lhs).getValue() != ((Int)rhs).getValue());
     }
 
     @Override
     public ASTNode or(ASTNode lhs, ASTNode rhs) {
-        return new Bool(((Int)lhs).getValue() != 0 || ((Int)rhs).getValue() != 0);
+        return new Bool(lhs.getToken(),((Int)lhs).getValue() != 0 || ((Int)rhs).getValue() != 0);
     }
 }

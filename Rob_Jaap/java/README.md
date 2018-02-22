@@ -15,14 +15,20 @@ mvn test
 ##### Run
 
 ```
+mvn exec:java
+```
+(make sure example_ql.ql is available in the root),
+
+or run
+```
 mvn package
-java -jar target/qdsl-1.0-SNAPSHOT.jar
+java -jar target/qdsl-1.0-SNAPSHOT.jar example_ql.ql
 ```
 
 
 
 ##### Good to know
-* example.txt in root contains form that gets parsed correctly
+* example_ql.ql in root contains form that gets parsed correctly
 
 
 ##### Links

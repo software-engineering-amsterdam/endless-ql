@@ -7,7 +7,9 @@ import ParseObjects.Expressions.Expression;
 import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 
 public class SubtractExpression extends BinaryExpression<Double> {
+
     public SubtractExpression(Expression left, Expression right) { super("-", left, right); }
+
 
     @Override
     public EvaluationType returnType() {
@@ -20,6 +22,7 @@ public class SubtractExpression extends BinaryExpression<Double> {
         DecimalConstant right = (DecimalConstant) this.getExprRight().evaluate();
         return new DecimalConstant(left.getValue() - right.getValue());
     }
+
 
     @Override
     public Boolean isArithmetic(){

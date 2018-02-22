@@ -5,10 +5,10 @@ import ParseObjects.Expressions.BinaryExpression;
 import ParseObjects.Expressions.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
+import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 
 public class MultiplicationExpression extends BinaryExpression<Double> {
     public MultiplicationExpression(String operator, Expression left, Expression right){
-
         super(operator, left, right);
     }
 
@@ -16,12 +16,12 @@ public class MultiplicationExpression extends BinaryExpression<Double> {
     public EvaluationType returnType() {return EvaluationType.Decimal;}
 
     @Override
-    public Constant<Double> evaluate() {
-        Constant left = this.getExprLeft().evaluate();
-        Constant right = this.getExprRight().evaluate();
-        return left.multipl(right);
+    public Constant<Double> evaluate(){
+        DecimalConstant left  = (DecimalConstant) this.getExprLeft().evaluate();
+        DecimalConstant right = (DecimalConstant) this.getExprRight().evaluate();
+        return new DecimalConstant(left.getValue() * right.getValue());
     }
 
     @Override
-    public Boolean isArithmetic() {return true;}
+    public Boolean isArithmetic() { return true; }
 }

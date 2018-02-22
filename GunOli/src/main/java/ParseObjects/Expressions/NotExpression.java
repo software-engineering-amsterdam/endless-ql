@@ -7,11 +7,11 @@ public class NotExpression extends UnaryExpression<Boolean>{
 
     @Override
     public EvaluationType returnType(){
-        return null;
+        return EvaluationType.Boolean;
     }
 
     @Override
-    public Boolean evaluate(){
-        return null;
+    public Constant<Boolean> evaluate(){
+        return null;//change
     }
 }

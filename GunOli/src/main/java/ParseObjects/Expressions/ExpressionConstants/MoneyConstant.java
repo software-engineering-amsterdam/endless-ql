@@ -1,4 +1,7 @@
-package ParseObjects.Expressions;
+package ParseObjects.Expressions.ExpressionConstants;
+
+import ParseObjects.Expressions.Constant;
+import ParseObjects.Expressions.EvaluationType;
 
 /**
  * Created by Michael on 2/22/2018.

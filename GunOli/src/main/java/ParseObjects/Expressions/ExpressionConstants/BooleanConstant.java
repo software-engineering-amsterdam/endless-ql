@@ -1,4 +1,7 @@
-package ParseObjects.Expressions;
+package ParseObjects.Expressions.ExpressionConstants;
+
+import ParseObjects.Expressions.Constant;
+import ParseObjects.Expressions.EvaluationType;
 
 class BooleanConstant extends Constant<Boolean> {
     public BooleanConstant(Boolean value){

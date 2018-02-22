@@ -1,12 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Parser.Analysis;
+using QL_Parser.Analysis.Semantic;
 using QL_Parser.AST.Nodes;
 using System.Linq;
 
 namespace QL_Parser.Tests.AST
 {
     [TestClass]
-    public class SymbolTableTests
+    public class SymbolTableTests : QLTest
     {
         private FormNode SimpleForm;
         private readonly string _simpleFormRaw = "form SimpleForm { }";
@@ -26,11 +27,15 @@ namespace QL_Parser.Tests.AST
             "       priceHouse: money" +
             "}";
 
-        [TestCleanup]
-        public void CleanUp() => SymbolTable.Reset();
-
         [TestInitialize]
-        public void Initialize() => SymbolTable.Reset();
+        public void Initialize()
+        {
+            OneVarForm = QLParserHelper.Parse(_oneVarFormRaw);
+            MultipleVarForm = QLParserHelper.Parse(_multipleVarFormRaw);
+
+            SymbolTable.Reset();
+            Analyser.Reset();
+        }
 
         #region No vars
         [TestMethod]
@@ -45,22 +50,31 @@ namespace QL_Parser.Tests.AST
         [TestMethod]
         public void OneVariableInSymbolTable()
         {
-            OneVarForm = QLParserHelper.Parse(_oneVarFormRaw);
+            var varAnalyser = new VariableAnalyser();
+            var hasSucceeded = varAnalyser.Analyse(OneVarForm);
+
+            Assert.IsTrue(hasSucceeded);
             Assert.AreEqual(1, SymbolTable.Instance.TypeMap.Count);
         }
 
         [TestMethod]
         public void CheckNameOneVarInSymbolTable()
         {
-            OneVarForm = QLParserHelper.Parse(_oneVarFormRaw);
+            var validator = new VariableAnalyser();
+            var hasSucceeded = validator.Analyse(OneVarForm);
+
+            Assert.IsTrue(hasSucceeded);
             Assert.AreEqual("boughtAHouse", SymbolTable.Instance.TypeMap.Keys.ToArray()[0]);
         }
 
         [TestMethod]
         public void CheckTypeInSymbolTable()
         {
-            OneVarForm = QLParserHelper.Parse(_oneVarFormRaw);
-            Assert.AreEqual(QuestionType.BOOLEAN, SymbolTable.Instance.TypeMap["boughtAHouse"]);
+            var validator = new VariableAnalyser();
+            var hasSucceeded = validator.Analyse(OneVarForm);
+
+            Assert.IsTrue(hasSucceeded);
+            Assert.AreEqual(QValueType.BOOLEAN, SymbolTable.Get("boughtAHouse"));
         }
         #endregion
 
@@ -68,14 +82,20 @@ namespace QL_Parser.Tests.AST
         [TestMethod]
         public void MultipleVarsCountSymbolTable()
         {
-            MultipleVarForm = QLParserHelper.Parse(_multipleVarFormRaw);
+            var validator = new VariableAnalyser();
+            var hasSucceeded = validator.Analyse(MultipleVarForm);
+
+            Assert.IsTrue(hasSucceeded);
             Assert.AreEqual(2, SymbolTable.Instance.TypeMap.Count);
         }
 
         [TestMethod]
         public void MultipleVarsNameCheck()
         {
-            MultipleVarForm = QLParserHelper.Parse(_multipleVarFormRaw);
+            var validator = new VariableAnalyser();
+            var hasSucceeded = validator.Analyse(MultipleVarForm);
+
+            Assert.IsTrue(hasSucceeded);
             Assert.AreEqual("boughtAHouse", SymbolTable.Instance.TypeMap.Keys.ToArray()[0]);
             Assert.AreEqual("priceHouse", SymbolTable.Instance.TypeMap.Keys.ToArray()[1]);
         }
@@ -83,9 +103,12 @@ namespace QL_Parser.Tests.AST
         [TestMethod]
         public void MultipleVarsTypeCheck()
         {
-            MultipleVarForm = QLParserHelper.Parse(_multipleVarFormRaw);
-            Assert.AreEqual(QuestionType.BOOLEAN, SymbolTable.Instance.TypeMap["boughtAHouse"]);
-            Assert.AreEqual(QuestionType.MONEY, SymbolTable.Instance.TypeMap["priceHouse"]);
+            var validator = new VariableAnalyser();
+            var hasSucceeded = validator.Analyse(MultipleVarForm);
+
+            Assert.IsTrue(hasSucceeded);
+            Assert.AreEqual(QValueType.BOOLEAN, SymbolTable.Get("boughtAHouse"));
+            Assert.AreEqual(QValueType.MONEY, SymbolTable.Get("priceHouse"));
         }
         #endregion
     }

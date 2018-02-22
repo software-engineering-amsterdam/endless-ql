@@ -1,12 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Parser.Analysis;
 using QL_Parser.Analysis.Syntactic;
 using QL_Parser.AST.Nodes;
 
 namespace QL_Parser.Tests.AST
 {
     [TestClass]
-    public class UnitTest1
+    public class SingleFormValidatorTest : QLTest
     {
         private Node _validAST;
         private Node _multipleFormAST;
@@ -16,11 +15,11 @@ namespace QL_Parser.Tests.AST
         [TestInitialize]
         public void Initialize()
         {
-            var firstQuestion = new QuestionNode("Q1", "Do you like puppies?", QuestionType.BOOLEAN);
-            var secondQuestion = new QuestionNode("Q2", "Do you like kittens?", QuestionType.BOOLEAN);
-            var thirdQuestion = new QuestionNode("Q3", "Is this the first question?", QuestionType.BOOLEAN);
+            var firstQuestion = new QuestionNode("Q1", "Do you like puppies?", QValueType.BOOLEAN);
+            var secondQuestion = new QuestionNode("Q2", "Do you like kittens?", QValueType.BOOLEAN);
+            var thirdQuestion = new QuestionNode("Q3", "Is this the first question?", QValueType.BOOLEAN);
             thirdQuestion.AddNode(new FormNode("InvalidFormInLowerLayer"));
-            var forthQuestion = new QuestionNode("Q4", "Is this the forthQuestion?", QuestionType.BOOLEAN);
+            var forthQuestion = new QuestionNode("Q4", "Is this the forthQuestion?", QValueType.BOOLEAN);
 
             _validAST = new FormNode("TestForm");
             _validAST.AddNode(firstQuestion);
@@ -36,12 +35,6 @@ namespace QL_Parser.Tests.AST
             _multipleLayerValidForm.AddNode(forthQuestion);
             forthQuestion.AddNode(firstQuestion);
             forthQuestion.AddNode(secondQuestion);
-        }
-
-        [TestCleanup]
-        public void CleanUp()
-        {
-            Analyser.Reset();
         }
 
         [TestMethod]

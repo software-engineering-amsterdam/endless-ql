@@ -1,4 +1,5 @@
 ﻿using QL_Parser;
+using QL_Parser.Analysis;
 using QL_Parser.AST.Nodes;
 using System;
 using System.Text;
@@ -18,11 +19,11 @@ namespace QL_Parser_Tester
             FormNode form = QLParserHelper.Parse(builder.ToString());
             PrintForm(form);
 
-            //ASTValidator.IsValid(form);
-            //var errors = ASTValidator.GetErrors();
-            //Console.WriteLine("\n\n---- Errors: {0} ----", errors.Count);
-            //foreach (string error in errors)
-            //    Console.WriteLine(error);
+            Analyser.Analyse(form);
+            var errors = Analyser.GetErrors();
+            Console.WriteLine("\n\n---- Errors: {0} ----", errors.Count);
+            foreach (string error in errors)
+                Console.WriteLine(error);
 
             Console.ReadLine();
         }

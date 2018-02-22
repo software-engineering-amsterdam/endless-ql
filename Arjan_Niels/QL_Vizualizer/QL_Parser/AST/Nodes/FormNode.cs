@@ -11,7 +11,7 @@
 
         public override string ToString()
         {
-            return base.ToString() + string.Format("\t\tThis form is called {0}", FormName);
+            return base.ToString() + string.Format("\t\t{0}", FormName);
         }
     }
 }

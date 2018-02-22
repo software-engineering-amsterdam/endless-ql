@@ -30,10 +30,13 @@ namespace QL_Parser.Analysis
             this._messages = new List<ParseMessage>();
             this._analysers = new List<IAnalyser>()
             {
+                // Syntactic
                 new QuestionHasNoChildrenValidator(),
                 new SingleFormValidator(),
 
-                new VariableAnalyser()
+                // Semantic
+                new VariableAnalyser(),
+                new OnlyInitialisedVarsAnalyser()
             };
         }
 
@@ -53,7 +56,7 @@ namespace QL_Parser.Analysis
         public static List<string> GetErrors()
         {
             return Instance._messages
-                .Select(x => x.Message)
+                .Select(x => x.ToString())
                 .ToList();
         }
 

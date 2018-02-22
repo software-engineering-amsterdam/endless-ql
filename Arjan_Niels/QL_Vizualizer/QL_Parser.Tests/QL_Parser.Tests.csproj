@@ -48,6 +48,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyserTests.cs" />
+    <Compile Include="Analysis\Semantic\VariableAnalyserTest.cs" />
     <Compile Include="AST\CommentTest.cs" />
     <Compile Include="AST\TreeConstructionTest.cs" />
     <Compile Include="AST\StatementTest.cs" />
@@ -56,9 +58,11 @@
     <Compile Include="AST\Validators\QuestionHasNoChildrenTests.cs" />
     <Compile Include="AST\Validators\SingleFormValidatorTests.cs" />
     <Compile Include="AST\FormNameTest.cs" />
+    <Compile Include="FormExamples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AST\QuestionTest.cs" />
     <Compile Include="AST\ConditionalTest.cs" />
+    <Compile Include="QLTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

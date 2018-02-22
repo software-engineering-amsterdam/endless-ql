@@ -4,6 +4,9 @@ form ConditionQuestions {
 	if (age > 10) {
 		lastName: "What is your last name?" string
 		canRead: "Can you read?" boolean
+		if (canRead) {
+		    bookTitle: "What is the last book you read?" string
+		}
 		salary: "What is your monthly salary?" money
 	} else {
 		lastName: "What is your last name of your parents?" string

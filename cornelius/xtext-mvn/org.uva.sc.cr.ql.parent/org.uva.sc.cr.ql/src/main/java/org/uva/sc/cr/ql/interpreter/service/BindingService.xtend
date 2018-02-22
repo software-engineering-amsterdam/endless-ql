@@ -1,4 +1,4 @@
-package org.uva.sc.cr.ql.interpreter
+package org.uva.sc.cr.ql.interpreter.service
 
 import java.util.ArrayList
 import java.util.HashMap

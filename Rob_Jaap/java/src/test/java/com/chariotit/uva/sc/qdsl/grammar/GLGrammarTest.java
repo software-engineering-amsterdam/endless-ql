@@ -1,6 +1,8 @@
 package com.chariotit.uva.sc.qdsl.grammar;
 
 import com.chariotit.uva.sc.qdsl.ast.node.*;
+import com.chariotit.uva.sc.qdsl.ast.node.type.BooleanType;
+import com.chariotit.uva.sc.qdsl.ast.node.type.MoneyType;
 import com.chariotit.uva.sc.qdsl.parser.GLVisitor;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -48,5 +50,14 @@ public class GLGrammarTest {
         assertEquals(ifBlock.getFormElements().size(), 3);
         assertEquals(((LabelExpression)(ifBlock.getExpression())).getLabel().getLabel(),
                 "hasSoldHouse");
+
+        LineElement valueResidue = (LineElement)(ifBlock.getFormElements().get(2));
+        assertTrue(valueResidue.getTypeExpression().getType() instanceof MoneyType);
+        assertFalse(valueResidue.getTypeExpression().getType() instanceof BooleanType);
+
+        assertTrue(valueResidue.getTypeExpression().getExpression() instanceof
+                LabelBinOpExpression);
+        assertTrue(((LabelBinOpExpression)(valueResidue.getTypeExpression().getExpression()))
+                .getExpression() instanceof LabelExpression);
     }
 }

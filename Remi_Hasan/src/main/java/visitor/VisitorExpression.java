@@ -58,7 +58,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     public Expression visitNegExpr(QLParser.NegExprContext ctx) {
         Expression value = visit(ctx.expr);
 
-        if(value.getReturnType() != ReturnType.Boolean)
+        if(!value.getReturnType().neg())
             throw new IllegalArgumentException("Cannot apply negation on '" + value.getReturnType() + "'");
 
         return new ExpressionNeg(value);
@@ -147,28 +147,28 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     }
 
     @Override
-    public Expression visitConstant_boolean(QLParser.Constant_booleanContext ctx) {
+    public Expression visitBooleanConstant(QLParser.BooleanConstantContext ctx) {
         return new ExpressionVariableBoolean(Boolean.parseBoolean(ctx.getText()));
     }
 
     @Override
-    public Expression visitConstant_integer(QLParser.Constant_integerContext ctx) {
+    public Expression visitIntegerConstant(QLParser.IntegerConstantContext ctx) {
         // TODO do we have to use integer? what if we do a sum of int + double?
         return new ExpressionVariableInteger(Integer.parseInt(ctx.getText()));
     }
 
     @Override
-    public Expression visitConstant_decimal(QLParser.Constant_decimalContext ctx) {
+    public Expression visitDecimalConstant(QLParser.DecimalConstantContext ctx) {
         return new ExpressionVariableDecimal(Double.valueOf(ctx.getText()));
     }
 
     @Override
-    public Expression visitConstant_date(QLParser.Constant_dateContext ctx) {
+    public Expression visitDateConstant(QLParser.DateConstantContext ctx) {
         return new ExpressionVariableDate(ctx.getText());
     }
 
     @Override
-    public Expression visitConstant_money(QLParser.Constant_moneyContext ctx) {
+    public Expression visitMoneyConstant(QLParser.MoneyConstantContext ctx) {
         // TODO: Same as decimal?
         BigDecimal bigDecimal = BigDecimal.valueOf(Double.valueOf(ctx.getText()));
         return new ExpressionVariableMoney(bigDecimal);
@@ -180,8 +180,9 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 //        return new ExpressionIdentifier(ctx.getText());
 //    }
 
+
     @Override
-    public Expression visitConstant_string(QLParser.Constant_stringContext ctx) {
+    public Expression visitStringConstant(QLParser.StringConstantContext ctx) {
         String text = ctx.STRING().toString();
         // remove quotes from text
         text = text.substring(1, text.length() - 1);
@@ -189,7 +190,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     }
 
     @Override
-    public Expression visitConstant_identifier(QLParser.Constant_identifierContext ctx) {
+    public Expression visitIdentifierConstant(QLParser.IdentifierConstantContext ctx) {
         String identifier = ctx.IDENTIFIER().getText();
         Expression referenceExpression = LookupTable.getInstance().getQuestionAnswer(identifier);
 

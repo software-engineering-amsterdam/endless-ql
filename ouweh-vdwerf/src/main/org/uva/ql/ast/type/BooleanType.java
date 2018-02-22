@@ -1,6 +1,6 @@
-package main.org.uva.ql.ast.type;
+package org.uva.ql.ast.type;
 
-import main.org.uva.ql.visitor.TypeVisitor;
+import org.uva.ql.visitor.TypeVisitor;
 
 public class BooleanType extends Type {
 

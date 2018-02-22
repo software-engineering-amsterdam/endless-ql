@@ -1,9 +1,9 @@
-package main.org.uva.ql.app;
+package org.uva.ql.app;
 
-import generated.org.uva.ql.parser.QLLexer;
-import generated.org.uva.ql.parser.QLParser;
-import main.org.uva.ql.ast.Form;
-import main.org.uva.ql.validation.Validator;
+import antlr.generated.QLLexer;
+import antlr.generated.QLParser;
+import org.uva.ql.ast.Form;
+import org.uva.ql.validation.Validator;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;

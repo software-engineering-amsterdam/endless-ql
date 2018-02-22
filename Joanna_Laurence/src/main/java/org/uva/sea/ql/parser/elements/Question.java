@@ -1,10 +1,17 @@
 package org.uva.sea.ql.parser.elements;
 
+import org.uva.sea.ql.QLExprEvaluate;
+import org.uva.sea.ql.parser.elements.types.Bool;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.elements.types.Var;
 import org.uva.sea.ql.traverse.Traverse;
 
-public class Question extends ASTNode {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class Question extends ASTNode implements QuestionContainerNode {
     private String label;
     private Var variable;
     private Type nodeType;
@@ -17,6 +24,10 @@ public class Question extends ASTNode {
         this.value = value;
     }
 
+    public List<Question> evalQuestions(QLExprEvaluate exprEvaluate) {
+        return Collections.singletonList(this);
+    }
+
     public Question() {
         System.out.println("Question created");
     }
@@ -25,32 +36,16 @@ public class Question extends ASTNode {
         return label;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
     public Var getVariable() {
         return variable;
-    }
-
-    public void setVariable(Var variable) {
-        this.variable = variable;
     }
 
     public Type getNodeType() {
         return nodeType;
     }
 
-    public void setNodeType(Type nodeType) {
-        this.nodeType = nodeType;
-    }
-
     public ASTNode getValue() {
         return value;
-    }
-
-    public void setValue(ASTNode value) {
-        this.value = value;
     }
 
     public void traverseNode(Traverse traverse, TraverseType traverseType) {

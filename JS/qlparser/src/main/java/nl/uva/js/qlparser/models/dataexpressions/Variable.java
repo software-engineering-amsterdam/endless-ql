@@ -1,9 +1,12 @@
 package nl.uva.js.qlparser.models.dataexpressions;
 
+import com.vaadin.ui.Component;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import nl.uva.js.qlparser.models.enums.DataType;
+
+import java.util.ArrayList;
 
 @Data
 @Builder
@@ -12,8 +15,9 @@ public class Variable implements DataExpression {
     @NonNull private String name;
 
     @Override
-    public void toRepresentation() {
+    public ArrayList<Component> getComponents() {
 
+        return new ArrayList<>();
     }
 
     @Override

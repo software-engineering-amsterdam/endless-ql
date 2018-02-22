@@ -5,48 +5,49 @@ lexer grammar GrammarLexer;
 WHITESPACE : [ \t\r\n]+ -> skip;
 
 //Keywords
-FORM : 'form';
+FORM        : 'form';
 
 //Types
-BOOL : 'boolean';
-STR : 'string';
-INT : 'integer';
-DATE : 'date';
-DECIMAL : 'decimal';
-MONEY : 'money' | 'currency';
+BOOL        : 'boolean';
+STR         : 'string';
+INT         : 'integer';
+DATE        : 'date';
+DECIMAL     : 'decimal';
+MONEY       : 'money' | 'currency';
 
 //Operators
-ASSIGN : ':';
-LPAREN : '(';
-RPAREN : ')';
-LCURLYBRAKET : '{';
-RCURLYBRAKET : '}';
-IF : 'if';
-ELSE : 'else';
-IFELSE : 'ifelse';
+ASSIGN          : ':';
+LPAREN          : '(';
+RPAREN          : ')';
+LCURLYBRACKET   : '{';
+RCURLYBRACKET   : '}';
+IF              : 'if';
+ELSE            : 'else';
+IFELSE          : 'ifelse';
 
 //Arithmetic
-PLUS : '+';
-MINUS : '-';
-ASTERISK : '*';
-DIVISION : '/';
-EQUAL : '=';
+PLUS        : '+';
+MINUS       : '-';
+MULTIPLY    : '*';
+DIVIDE      : '/';
+EQUAL       : '=';
 
 //Comparisons
-LESS : '<';
-HIGHER : '>';
-EQUALHIGHER : '>=';
-EQUALLESS : '<=';
-DIFF : '!=';
-ISEQUAL : '==';
+LESS        : '<';
+GREATER     : '>';
+EQUALGREATER: '>=';
+EQUALLESS   : '<=';
+NOTEQUAL    : '!=';
+ISEQUAL     : '==';
 
 //Booleans
-AND : '&&';
-OR : '||';
-NOT : '!';
+AND         : '&&';
+OR          : '||';
+NOT         : '!';
 
 //Variables
-VAR : [_]*[A-Za-z][A-Za-z0-9]*;
-LABEL : '"'[A-Za-z0-9 ,.?/:]+'"';
+NUM         : [0-9]+;
+VAR         : [A-Za-z][A-Za-z0-9]*;
+LABEL       : '"'[A-Za-z0-9 ,.?/:]+'"';
 
 

@@ -4,29 +4,23 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.traverse.Traverse;
 
+import java.math.BigInteger;
+
 public class Money extends ASTNode {
     private String currency;
-    private Double amount;
+    private BigInteger amount;
 
-    public Money(String currency, Double amount) {
+    public Money(String currency, String amount) {
         this.currency = currency;
-        this.amount = amount;
+        this.amount = new BigInteger(amount);
     }
 
     public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public Double getAmount() {
+    public BigInteger getAmount() {
         return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
     }
 
     public void traverseNode(Traverse traverse, TraverseType traverseType) {

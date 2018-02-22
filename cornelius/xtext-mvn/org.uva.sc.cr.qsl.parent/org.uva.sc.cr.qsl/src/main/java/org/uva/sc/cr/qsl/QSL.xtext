@@ -35,7 +35,7 @@ SectionShort returns Section:
 ;
 
 BlockElement:
-	QuestionRef | Section | DefaultTypeStyle
+	QuestionRef | Section | DefaultStyle
 ;
 
 QuestionRef: 
@@ -43,46 +43,42 @@ QuestionRef:
 ;
 
 Widget:
-	'widget' (YesNoRadioWidget | YesNoDropdownWidget | SpinboxWidget | CheckboxWidget| SliderWidget | TextWidget)
+	'widget' (WidgetSpinbox | WidgetCheckbox | WidgetSlider | WidgetText| WidgetRadio | WidgetDropdown)
 ;
 
-SpinboxWidget:
+WidgetSpinbox:
 	type='spinbox'
 ;
 
-CheckboxWidget: 
+WidgetCheckbox: 
 	type='checkbox'
 ;
 
-SliderWidget: 
+WidgetSlider: 
 	type='slider'
 ;
 
-TextWidget:
+WidgetText:
 	type='text'
 ;
 	
-YesNoRadioWidget:
-	type='radio' '(' option1=WidgetOption ',' option2=WidgetOption ')'
+WidgetRadio:
+	type='radio' '(' option1=STRING ',' option2=STRING ')'
 ;
 
-YesNoDropdownWidget:
-	type='dropdown' '(' option1=WidgetOption ',' option2=WidgetOption ')'
+WidgetDropdown:
+	type='dropdown' '(' option1=STRING ',' option2=STRING ')'
 ;
 
-WidgetOption: 
-	option=STRING
+DefaultStyle:
+	DefaultStyleShort | DefaultStyleExtended
 ;
 
-DefaultTypeStyle:
-	DefaultTypeStyleShort | DefaultTypeStyleExtended
-;
-
-DefaultTypeStyleShort returns DefaultTypeStyle:
+DefaultStyleShort returns DefaultStyle:
 	'default' type=QuestionType (widget=Widget)?
 ;
 	
-DefaultTypeStyleExtended returns DefaultTypeStyle:
+DefaultStyleExtended returns DefaultStyle:
 	'default' type=QuestionType '{'
 		(styles+=StyleAttribute)*
 		widget=Widget
@@ -90,22 +86,22 @@ DefaultTypeStyleExtended returns DefaultTypeStyle:
 ;
 
 StyleAttribute:
-	WidthStylingAttribute | FontStylingAttribute | FontSizeStylingAttribute | ColorStylingAttribute
+	StyleAttributeWidth | StyleAttributeFont | StyleAttributeFontSize | StyleAttributeColor
 ;
  
-WidthStylingAttribute returns StyleAttribute:
+StyleAttributeWidth returns StyleAttribute:
 	'width' ':' width=INT
 ;
 
-FontStylingAttribute returns StyleAttribute:
+StyleAttributeFont returns StyleAttribute:
 	'font' ':' font=STRING
 ;
 
-FontSizeStylingAttribute returns StyleAttribute:
+StyleAttributeFontSize returns StyleAttribute:
 	'fontsize' ':' size=INT
 ;
 
-ColorStylingAttribute returns StyleAttribute:
+StyleAttributeColor returns StyleAttribute:
 	'color' ':' value=HEX
 ;
 

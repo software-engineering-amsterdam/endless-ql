@@ -25,9 +25,9 @@ namespace Assignment1
         private void Form1_Load(object sender, EventArgs e)
         {
             var forms = _controller.ParseString(System.IO.File.ReadAllText("test.txt"));
-            foreach (var question in forms[0].Content.OfType<Question>())
+            foreach (var content in forms[0].Content)
             {
-                _panel.Controls.Add(question.CreateControl());
+                _panel.Controls.Add(content.CreateControl());
             }
             Controls.Add(_panel);
         }

@@ -10,5 +10,7 @@ form Box1HouseOwning {
          bigQuestion: "What's your name?" string
       }
       valueResidue: "Value residue:" money(sellingPrice - privateDebt)
+   } else {
+      sellingPrice: "Price the house was sold for: " money
    }
 }

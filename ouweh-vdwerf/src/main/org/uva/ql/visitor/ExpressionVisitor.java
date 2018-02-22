@@ -1,8 +1,8 @@
-package main.org.uva.ql.visitor;
+package org.uva.ql.visitor;
 
-import main.org.uva.ql.ast.expression.ParameterGroup;
-import main.org.uva.ql.ast.expression.binary.*;
-import main.org.uva.ql.ast.expression.unary.*;
+import org.uva.ql.ast.expression.ParameterGroup;
+import org.uva.ql.ast.expression.binary.*;
+import org.uva.ql.ast.expression.unary.*;
 
 public interface ExpressionVisitor<T, C> {
 

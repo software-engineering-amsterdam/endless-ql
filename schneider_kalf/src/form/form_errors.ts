@@ -86,7 +86,7 @@ export class UnkownVariableIdentifierError extends FormError {
 
   static make(identifier: string, message?: string) {
     if (typeof message === 'undefined') {
-      message = `Unkown variable identifier ${identifier}.`;
+      message = `Unkown variable identifier: "${identifier}"`;
     }
 
     const error = new UnkownVariableIdentifierError(message);

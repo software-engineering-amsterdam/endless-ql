@@ -10,5 +10,8 @@ class AssignmentNode:
     def changeValue(self, value):
         pass
 
+    def checkTypes(self):
+    	self.expression.checkChildTypes()
+
     def __repr__(self):
         return "Assigment: \"{}\" {}:{} = {}".format(self.question,self.varName, self.varType, self.expression)

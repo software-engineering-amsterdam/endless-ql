@@ -137,6 +137,8 @@ public class ParseTreeVisitorTest {
     @Test
     public void visitIntegerLiteral() {
         List<String> testCases = Arrays.asList(
+                "-1",
+                "0",
                 "1",
                 "10",
                 "2147483647" // Max signed positive int

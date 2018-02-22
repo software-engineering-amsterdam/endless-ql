@@ -17,5 +17,9 @@ class ConditionalNode:
     def addElseChild(self, block):
         self.elseBlock = block
 
+    def checkTypes(self):
+        print("checkingCond")
+
+
     def __repr__(self):
         return "Conditional: if: {} elif: {} else: {}".format(self.ifCondition, self.elifCondition, self.elseBlock)

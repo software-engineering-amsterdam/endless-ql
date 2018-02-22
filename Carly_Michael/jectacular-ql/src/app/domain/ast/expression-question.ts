@@ -30,9 +30,10 @@ export class ExpressionQuestion extends Statement {
     const options = {
       key: this.name,
       label: this.label,
-      type: this.toHtmlInputType(this.type),
-      value: this.type === QuestionType.STRING ? '' : undefined,
-      hiddenCondition: condition
+      type: Statement.toHtmlInputType(this.type),
+      value: this.expression.evaluate(),
+      hiddenCondition: condition,
+      readonly: true
     };
 
     // make a checkbox for a boolean, else make an input
@@ -46,6 +47,7 @@ export class ExpressionQuestion extends Statement {
       }
     }
 
+    console.log('formquestions in expression question', formQuestions);
     return formQuestions;
   }
 

@@ -62,12 +62,57 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#questionType.
-    def enterQuestionType(self, ctx:QLParser.QuestionTypeContext):
+    # Enter a parse tree produced by QLParser#booleanType.
+    def enterBooleanType(self, ctx:QLParser.BooleanTypeContext):
         pass
 
-    # Exit a parse tree produced by QLParser#questionType.
-    def exitQuestionType(self, ctx:QLParser.QuestionTypeContext):
+    # Exit a parse tree produced by QLParser#booleanType.
+    def exitBooleanType(self, ctx:QLParser.BooleanTypeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#stringType.
+    def enterStringType(self, ctx:QLParser.StringTypeContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#stringType.
+    def exitStringType(self, ctx:QLParser.StringTypeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#integerType.
+    def enterIntegerType(self, ctx:QLParser.IntegerTypeContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#integerType.
+    def exitIntegerType(self, ctx:QLParser.IntegerTypeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#dateType.
+    def enterDateType(self, ctx:QLParser.DateTypeContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#dateType.
+    def exitDateType(self, ctx:QLParser.DateTypeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#decimalType.
+    def enterDecimalType(self, ctx:QLParser.DecimalTypeContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#decimalType.
+    def exitDecimalType(self, ctx:QLParser.DecimalTypeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#moneyType.
+    def enterMoneyType(self, ctx:QLParser.MoneyTypeContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#moneyType.
+    def exitMoneyType(self, ctx:QLParser.MoneyTypeContext):
         pass
 
 

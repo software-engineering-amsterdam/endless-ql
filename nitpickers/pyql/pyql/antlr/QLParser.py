@@ -559,27 +559,149 @@ class QLParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def money(self):
-            return self.getTypedRuleContext(QLParser.MoneyContext,0)
-
 
         def getRuleIndex(self):
             return QLParser.RULE_questionType
 
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class DecimalTypeContext(QuestionTypeContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a QLParser.QuestionTypeContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterQuestionType" ):
-                listener.enterQuestionType(self)
+            if hasattr( listener, "enterDecimalType" ):
+                listener.enterDecimalType(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitQuestionType" ):
-                listener.exitQuestionType(self)
+            if hasattr( listener, "exitDecimalType" ):
+                listener.exitDecimalType(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitQuestionType" ):
-                return visitor.visitQuestionType(self)
+            if hasattr( visitor, "visitDecimalType" ):
+                return visitor.visitDecimalType(self)
             else:
                 return visitor.visitChildren(self)
 
+
+    class BooleanTypeContext(QuestionTypeContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a QLParser.QuestionTypeContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterBooleanType" ):
+                listener.enterBooleanType(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitBooleanType" ):
+                listener.exitBooleanType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBooleanType" ):
+                return visitor.visitBooleanType(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class DateTypeContext(QuestionTypeContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a QLParser.QuestionTypeContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterDateType" ):
+                listener.enterDateType(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitDateType" ):
+                listener.exitDateType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDateType" ):
+                return visitor.visitDateType(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class IntegerTypeContext(QuestionTypeContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a QLParser.QuestionTypeContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterIntegerType" ):
+                listener.enterIntegerType(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitIntegerType" ):
+                listener.exitIntegerType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIntegerType" ):
+                return visitor.visitIntegerType(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class StringTypeContext(QuestionTypeContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a QLParser.QuestionTypeContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterStringType" ):
+                listener.enterStringType(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitStringType" ):
+                listener.exitStringType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStringType" ):
+                return visitor.visitStringType(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class MoneyTypeContext(QuestionTypeContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a QLParser.QuestionTypeContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def money(self):
+            return self.getTypedRuleContext(QLParser.MoneyContext,0)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterMoneyType" ):
+                listener.enterMoneyType(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitMoneyType" ):
+                listener.exitMoneyType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMoneyType" ):
+                return visitor.visitMoneyType(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -592,31 +714,37 @@ class QLParser ( Parser ):
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLParser.T__8]:
+                localctx = QLParser.BooleanTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 79
                 self.match(QLParser.T__8)
                 pass
             elif token in [QLParser.T__9]:
+                localctx = QLParser.StringTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 80
                 self.match(QLParser.T__9)
                 pass
             elif token in [QLParser.T__10]:
+                localctx = QLParser.IntegerTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
                 self.state = 81
                 self.match(QLParser.T__10)
                 pass
             elif token in [QLParser.T__11]:
+                localctx = QLParser.DateTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
                 self.state = 82
                 self.match(QLParser.T__11)
                 pass
             elif token in [QLParser.T__12]:
+                localctx = QLParser.DecimalTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
                 self.state = 83
                 self.match(QLParser.T__12)
                 pass
             elif token in [QLParser.T__26, QLParser.T__27]:
+                localctx = QLParser.MoneyTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 6)
                 self.state = 84
                 self.money()

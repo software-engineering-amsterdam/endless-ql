@@ -12,4 +12,13 @@ public abstract class ExpressionArithmetic extends ExpressionBinary<Double> {
         else
             return ReturnType.INTEGER;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if(this.getClass().equals(other.getClass())){
+            ExpressionArithmetic otherExpression = (ExpressionArithmetic) other;
+            return this.left.equals(otherExpression.left) && this.right.equals(otherExpression.right);
+        }
+        return false;
+    }
 }

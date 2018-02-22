@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Content.cs" />
-    <Compile Include="Controller.cs" />
+    <Compile Include="Presenter.cs" />
     <Compile Include="Model\Expression.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

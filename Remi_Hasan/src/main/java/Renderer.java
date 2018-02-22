@@ -147,7 +147,7 @@ public class Renderer {
             // Debug output, shows answer to every question in console
             for (Statement statement : form.statements) {
                 if (statement.isQuestion()) {
-                    System.out.println(((Question) statement).answer);
+                    System.out.println(((Question) statement).answer.evaluate());
                 }
             }
         });

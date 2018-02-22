@@ -1,100 +1,143 @@
 from LexParser.QLGrammarParser import QLGrammarParser
 from LexParser.QLGrammarVisitor import QLGrammarVisitor
 from AST import *
+import logging
 
 class Visitor(QLGrammarVisitor):
     def __init__(self):
         self.program = {}
         self.QLNode = QLNode()
+        # used to log debug self.logger.debugs
+        # set to logging.DEBUG to show debug messages
+        logging.basicConfig(level=logging.DEBUG)
+        self.logger = logging.getLogger(__name__)
 
 
     # Visit a parse tree produced by QLGrammarParser#form.
     def visitForm(self, ctx:QLGrammarParser.FormContext):
-        print("FORM")
+        self.logger.debug("FORM")
         
-        temp_form = FormNode(ctx.ID().getText())
-        value = self.visit(ctx.block())
-        
-        for i in value:
-            temp_form.addChild(i)
-        
-        self.QLNode.addForm(temp_form)
+        # create formNode
+        formName = ctx.ID().getText()
+        formNode = FormNode(formName, ctx.start.line)
 
-        return temp_form
+        # visit the block
+        statements = self.visit(ctx.block())
+        
+        # add all the statements to the block
+        formNode.addStatements(statements)
+        
+        self.QLNode.addForm(formNode)
 
 
     # Visit a parse tree produced by QLGrammarParser#block.
     def visitBlock(self, ctx:QLGrammarParser.BlockContext):
-        print("BLOCK")
+        self.logger.debug("BLOCK")
 
-        temp = []
+        # collect all the statements into one block
+        block = []
         for i in ctx.statement():
-            temp.append(self.visit(i))
-        return temp
+            block.append(self.visit(i))
+        return block
 
 
     # Visit a parse tree produced by QLGrammarParser#statement.
     def visitStatement(self, ctx:QLGrammarParser.StatementContext):
-        print("STATEMENT")
+        self.logger.debug("STATEMENT")
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by QLGrammarParser#question.
     def visitQuestion(self, ctx:QLGrammarParser.QuestionContext):
-        print("QUESTION")
+        self.logger.debug("QUESTION")
+
+        #collect information about the question
         question = ctx.STRING().getText()
         var = ctx.ID().getText()
-        varType = ctx.types().getText()
+        varType = self.visit(ctx.types())
         
-        questionN = QuestionNode(question, var, varType)      
+        questionN = QuestionNode(question, var, varType, ctx.start.line)      
         
         return questionN
 
 
     # Visit a parse tree produced by QLGrammarParser#assignment.
     def visitAssignment(self, ctx:QLGrammarParser.AssignmentContext):
-        print("ASSIGMENT")
-        # return "ASSIGNMENT"
-        return self.visitChildren(ctx)
+        self.logger.debug("ASSIGMENT")
+        question = ctx.STRING().getText()
+        varName = ctx.ID().getText()
+        varType = ctx.types().getText()
+        expr = self.visit(ctx.expression())
+        assignNode = AssignmentNode(question, varName, varType, expr, ctx.start.line)
+
+        return assignNode
 
 
     # Visit a parse tree produced by QLGrammarParser#expression.
     def visitExpression(self, ctx:QLGrammarParser.ExpressionContext):
-        print("Exp")
-        return "EXPRESSION"
+        self.logger.debug("EXP")
+        # this is a binop
+        if (ctx.left and ctx.right):
+            left = self.visit(ctx.left)
+            right = self.visit(ctx.right)
+            op = getOp(ctx)
+            binNode = BinaryNode(left, right, op, ctx.start.line)
+            return binNode
+
+        elif(ctx.left):
+            return self.visit(ctx.left)
+        return self.visitChildren(ctx)
+
+    def visitLiteral(self, ctx:QLGrammarParser.LiteralContext):
+        self.logger.debug("LITERAL")
+
+        return ctx.getText()
+
+    # Visit a parse tree produced by QLGrammarParser#unaryexp.
+    def visitUnaryexp(self, ctx:QLGrammarParser.UnaryexpContext):
+        self.logger.debug("UNARY")
+        expr = self.visit(ctx.expression())
+
+        op = ctx.NOT().getText()
+
+        unaryNode = UnaryNode(expr, op, ctx.start.line)
+        return unaryNode
+
 
 
     # Visit a parse tree produced by QLGrammarParser#conditional.
     def visitConditional(self, ctx:QLGrammarParser.ConditionalContext):
-        print("CONDITIONAL")
+        self.logger.debug("CONDITIONAL")
 
-        conditionalN = conditionalNode()
-
+        #visit if_block
         if_condition = self.visit(ctx.if_conditional())
-        conditionalN.addIfChild(if_condition)
 
+        #create conditionalNode
+        conditionalN = ConditionalNode(if_condition)
+
+        #visit optional elif
         if(ctx.elif_conditional()):
-            print("HIER")
             for i in ctx.elif_conditional():
-                conditionalN.addElifChild(self.visit(i))
+                elif_condition = self.visit(i)
+                conditionalN.addElifCondition(elif_condition)
         
+        #visit optional else
         if(ctx.else_conditional()):
-            print("ELSE")
             else_condition = self.visit(ctx.else_conditional())
             conditionalN.addElseChild(else_condition)
 
- 
-        print("haha")
         return conditionalN
 
 
     # Visit a parse tree produced by QLGrammarParser#if_conditional.
     def visitIf_conditional(self, ctx:QLGrammarParser.If_conditionalContext):
-        print("IF")
+        self.logger.debug("IF")
 
+        #visit condition of the if
         condition = self.visit(ctx.expression())
-        conditionN = conditionNode(condition);
+        conditionN = ConditionNode(condition, ctx.start.line);
 
+        #visit block of if
         if_questions = self.visit(ctx.block())
         conditionN.addQuestions(if_questions)
         
@@ -104,11 +147,13 @@ class Visitor(QLGrammarVisitor):
 
     # Visit a parse tree produced by QLGrammarParser#elif_conditional.
     def visitElif_conditional(self, ctx:QLGrammarParser.Elif_conditionalContext):
-        print("ELIF")
+        self.logger.debug("ELIF")
         
+        #visit condition of elif
         condition = self.visit(ctx.expression())
-        conditionN = conditionNode(condition);
-
+        conditionN = ConditionNode(condition, ctx.start.line);
+        
+        #visit block of elif
         elif_questions = self.visit(ctx.block())
         conditionN.addQuestions(elif_questions)
         
@@ -117,13 +162,30 @@ class Visitor(QLGrammarVisitor):
 
     # Visit a parse tree produced by QLGrammarParser#else_conditional.
     def visitElse_conditional(self, ctx:QLGrammarParser.Else_conditionalContext):
-        print("ELSE")
+        self.logger.debug("ELSE")
 
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by QLGrammarParser#types.
     def visitTypes(self, ctx:QLGrammarParser.TypesContext):
-        print("TYPES")
-        return self.visitChildren(ctx)
+        self.logger.debug("TYPES")
+
+        return ctx.getText()
+
+# get operator from ctx object
+def getOp(ctx):
+    op = None
+    if(ctx.COMPARE()):
+        op = ctx.COMPARE().getText()
+    elif(ctx.MATH_OPERATOR_PRIO()):
+        op = ctx.MATH_OPERATOR_PRIO()
+    elif(ctx.MATH_OPERATOR()):
+        op = ctx.MATH_OPERATOR()
+    elif(ctx.AND()):
+        op = ctx.AND()
+    elif(ctx.OR()):
+        op = ctx.OR()
+    return op
+
 

@@ -4,12 +4,8 @@ import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
 
 public class IdentifierExpr extends Expr {
-	public QLToken token;
+	public final QLToken token;
 	private boolean undefined = true;
-
-	public QLToken getToken() {
-		return token;
-	}
 
 	public IdentifierExpr(QLToken token) {
 		this.token = token;
@@ -18,6 +14,22 @@ public class IdentifierExpr extends Expr {
 	public IdentifierExpr(QLToken token, QLType type) {
 		this.setType(type);
 		this.token = token;
+	}
+
+	public QLToken getToken() {
+		return token;
+	}
+
+	public int getLine() {
+		return token.getLine();
+	}
+
+	public int getCloumn() {
+		return token.getColumn();
+	}
+
+	public String getName() {
+		return token.getLexeme();
 	}
 
 	public boolean isUndefined() {
@@ -29,7 +41,6 @@ public class IdentifierExpr extends Expr {
 	}
 
 	public void updateAllFields(IdentifierExpr indetifier) {
-		this.token = indetifier.token;
 		this.undefined = indetifier.undefined;
 	}
 

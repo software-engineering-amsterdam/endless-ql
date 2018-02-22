@@ -29,6 +29,9 @@ public class ParseTreeVisitorTest {
 
     @Test
     public void visitQuestion() {
+        QLParser parser = builder.getQLParser("\"TestQuestion:\" testText: integer");
+        Question question = (Question) builder.getStatement(parser);
+        Assert.assertEquals("\"TestQuestion:\"\ttestText:IntegerType",question.toString());
     }
 
     @Test
@@ -183,6 +186,9 @@ public class ParseTreeVisitorTest {
 
     @Test
     public void visitCalculatedValue() {
+        QLParser parser = builder.getQLParser("\"TestQuestion:\" testText: integer = 10");
+        CalculatedQuestion calculatedQuestion = (CalculatedQuestion) builder.getStatement(parser);
+        Assert.assertEquals("\"TestQuestion:\"\ttestText:IntegerType = 10",calculatedQuestion.toString());
     }
 
     @Test

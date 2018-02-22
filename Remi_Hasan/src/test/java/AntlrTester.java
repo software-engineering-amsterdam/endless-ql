@@ -4,12 +4,12 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import visitor.VisitorExpression;
 
-class AntlrTester{
+class ANTLRTester {
 
     final QLParser parser;
     final VisitorExpression visitor;
 
-    AntlrTester(String input){
+    ANTLRTester(String input){
         QLLexer lexer = new QLLexer(CharStreams.fromString(input));
 
         CommonTokenStream tokens = new CommonTokenStream(lexer);

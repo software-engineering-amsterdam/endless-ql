@@ -14,9 +14,11 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 public class FormBaseListener implements FormListener {
 
 	public FormNode formNode;
-
+	public FormBaseListener(FormNode formNode){
+		this.formNode = formNode;
+	}
 	public void enterForm_builder(FormParser.Form_builderContext ctx) {
-		this.formNode = new FormNode(ctx.CHARACTERS().getText());
+		this.formNode.setFormIdentifier(ctx.CHARACTERS().getText());
 	}
 	public void exitForm_builder(FormParser.Form_builderContext ctx) { }
 

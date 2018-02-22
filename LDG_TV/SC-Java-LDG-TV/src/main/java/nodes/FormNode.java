@@ -4,11 +4,13 @@ public class FormNode {
 
     private String formIdentifier;
     private FormData formData;
-    public FormNode(String formIdentifier){
-        this.formIdentifier = formIdentifier;
+    public FormNode(){
         this.formData = new FormData();
     }
 
+    public void setFormIdentifier(String formIdentifier) {
+        this.formIdentifier = formIdentifier;
+    }
     public String getFormIdentifier() {
         return formIdentifier;
     }

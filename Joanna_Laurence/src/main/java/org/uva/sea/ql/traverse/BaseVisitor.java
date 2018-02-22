@@ -119,9 +119,9 @@ public abstract class BaseVisitor<T> implements Visitor<T> {
     }
 
     public T visit(Statement node) {
-        node.getIfStatement().accept(this);
-        node.getQuestion().accept(this);
-        return null;
+        T ifStatement = node.getIfStatement().accept(this);
+        T question = node.getQuestion().accept(this);
+        return ifStatement == null ? question : ifStatement;
     }
 
     public T visit(Statements node) {
@@ -138,7 +138,6 @@ public abstract class BaseVisitor<T> implements Visitor<T> {
     }
 
     public T visit(SingleNode node) {
-        node.getValue().accept(this);
-        return null;
+        return node.getValue().accept(this);
     }
 }

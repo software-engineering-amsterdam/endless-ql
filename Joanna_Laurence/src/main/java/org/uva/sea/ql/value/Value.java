@@ -213,6 +213,10 @@ public abstract class Value {
         return new ErrorValue("isLessOrEqual operator cannot be applied here");
     }
 
+    public Value isLessOrEqual(UndefinedValue undefinedValue) {
+        return undefinedValue;
+    }
+
     //isLessThan
     public Value isLessThan(Value value) {
         return new ErrorValue("isLessThan operator cannot be applied here");
@@ -240,6 +244,10 @@ public abstract class Value {
 
     public Value isLessThan(StringValue value) {
         return new ErrorValue("isLessThan operator cannot be applied here");
+    }
+
+    public Value isLessThan(UndefinedValue undefinedValue) {
+        return undefinedValue;
     }
 
     //multiply
@@ -275,7 +283,6 @@ public abstract class Value {
         return undefinedValue;
     }
 
-
     //negate
     public Value negate() {
         return new ErrorValue("Negate operator cannot be applied here");
@@ -308,6 +315,10 @@ public abstract class Value {
 
     public Value isNotEqual(StringValue value) {
         return new ErrorValue("isNotEqual operator cannot be applied here");
+    }
+
+    public Value isNotEqual(UndefinedValue undefinedValue) {
+        return undefinedValue;
     }
 
     //not
@@ -344,6 +355,10 @@ public abstract class Value {
         return new ErrorValue("Or operator cannot be applied here");
     }
 
+    public Value or(UndefinedValue undefinedValue) {
+        return undefinedValue;
+    }
+
     //positive
     public Value positive() {
         return new ErrorValue("Positive operator cannot be applied here");
@@ -377,4 +392,9 @@ public abstract class Value {
     public Value subtract(StringValue value) {
         return new ErrorValue("Subtract operator cannot be applied here");
     }
+
+    public Value subtract(UndefinedValue undefinedValue) {
+        return undefinedValue;
+    }
+
 }

@@ -9,7 +9,7 @@ public class Question {
     public Question(String name, String label, String type) {
         this.name = name;
         this.label = label;
-        this.type = Type.valueOf(type.toUpperCase());
+        this.type = Type.getByCode(type);
     }
 
     public String getName() {

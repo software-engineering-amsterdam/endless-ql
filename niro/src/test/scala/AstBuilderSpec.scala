@@ -1,7 +1,7 @@
 import java.io.IOException
 
-import nl.uva.se.sc.niro.model.Expressions.{ BinaryOperation, Reference, UnaryOperation }
 import nl.uva.se.sc.niro.model.Expressions.answers._
+import nl.uva.se.sc.niro.model.Expressions.{ BinaryOperation, Reference, UnaryOperation }
 import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.parser.QLFormParser
 import org.antlr.v4.runtime.{ CharStream, CharStreams }
@@ -48,18 +48,14 @@ class AstBuilderSpec extends FunSuite {
             answer = StringAnswer(None)
           ),
           Conditional(
-            condition = BooleanAnswer(Some(true)),
-            ifStatements = List(
-              Question(
-                id = "middleName",
-                label = "What is your middle name?",
-                answer = StringAnswer(None)
-              )
-            ),
-            elseStatements = List.empty
+            predicate = BooleanAnswer(Some(true)),
+            thenStatements = List(
+              Question(id = "middleName", label = "What is your middle name?", answer = StringAnswer(None))
+            )
           )
         )
       )
+
 
     assert(actual == expected)
   }
@@ -67,18 +63,17 @@ class AstBuilderSpec extends FunSuite {
   test("should parse not-conditional-if to the correct AST") {
     val actual: QLForm = generateQLForm("/positive/not-conditional-if.ql")
     val expected = QLForm(
-      formName = "ConditionQuestions",
-      statements = List(
-        Question(id = "firstName", label = "What is your first name?", answer = StringAnswer(None)),
+      "ConditionQuestions",
+      List(
+        Question("firstName","What is your first name?",StringAnswer(None)),
         Conditional(
-          condition = UnaryOperation(Neg, BooleanAnswer(Some(true))),
-          ifStatements = List(
-            Question("middleName", "What is your middle name?", StringAnswer(None))
-          ),
-          elseStatements = List.empty
+          predicate = UnaryOperation(Neg, BooleanAnswer(Some(true))),
+          thenStatements = List(Question("middleName", "What is your middle name?", StringAnswer(None))
+          )
         )
       )
     )
+
 
     assert(actual == expected)
   }
@@ -90,13 +85,16 @@ class AstBuilderSpec extends FunSuite {
       statements = List(
         Question(id = "firstName", "What is your first name?", answer = StringAnswer(None)),
         Conditional(
-          condition = BooleanAnswer(Some(true)),
-          ifStatements = List(
+          predicate = BooleanAnswer(Some(true)),
+          thenStatements = List(
             Question(id = "middleName", label = "What is your middle name?", answer = StringAnswer(None))
-          ),
-          elseStatements = List(
-            Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None)),
-            Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None))
+          )
+        ),
+        Conditional(
+          predicate = UnaryOperation(Neg, BooleanAnswer(Some(true))),
+          thenStatements = List(
+            Question("lastName", "What is your last name?", StringAnswer(None)),
+            Question("lastName", "What is your last name?", StringAnswer(None))
           )
         )
       )
@@ -112,21 +110,17 @@ class AstBuilderSpec extends FunSuite {
       statements = List(
         Question(id = "firstName", label = "What is your first name?", answer = StringAnswer(None)),
         Conditional(
-          condition = BooleanAnswer(Some(true)),
-          ifStatements = List(
+          predicate = BooleanAnswer(Some(true)),
+          thenStatements = List(
             Question("lastName", "What is your last name?",answer = StringAnswer(None))
-          ),
-          elseStatements = List(
-            Question("middleName", "What is your middle name?", answer = StringAnswer(None)),
-            Conditional(
-              condition = BooleanAnswer(Some(false)),
-              ifStatements = List(
-                Question("lastName", "What is your last name?", answer = StringAnswer(None))
-              ),
-              elseStatements = List(
-                Question("middleName", "What is your middle name?", answer = StringAnswer(None))
-              )
-            )
+          )
+        ),
+        Conditional(
+          predicate = UnaryOperation(Neg, BooleanAnswer(Some(true))),
+          thenStatements = List(
+            Question("middleName", "What is your middle name?", StringAnswer(None)),
+            Conditional(BooleanAnswer(Some(false)), List(Question("lastName", "What is your last name?", StringAnswer(None)))),
+            Conditional(UnaryOperation(Neg, BooleanAnswer(Some(false))), List(Question("middleName", "What is your middle name?", StringAnswer(None))))
           )
         )
       )
@@ -140,15 +134,14 @@ class AstBuilderSpec extends FunSuite {
     val expected = QLForm(
       formName = "QonditionQuestions",
       statements = List(
-        Question(id = "firstName", label = "What is your first name?", answer = StringAnswer(None)),
-        Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None)),
-        Question(id = "middleName", label = "Do you have a middle name?", answer = BooleanAnswer(None)),
+        Question("firstName", "What is your first name?", StringAnswer(None)),
+        Question("lastName", "What is your last name?", StringAnswer(None)),
+        Question("middleName", "Do you have a middle name?", BooleanAnswer(None)),
         Conditional(
-          condition = BinaryOperation(And, BinaryOperation(Ne, Reference("lastName"), Reference("firstName")), BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10))))),
-          ifStatements = List(
+          predicate = BinaryOperation(And, BinaryOperation(Ne, Reference("lastName"), Reference("firstName")), BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10))))),
+          thenStatements = List(
             Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None))
-          ),
-          elseStatements = List.empty
+          )
         )
       )
     )
@@ -161,36 +154,26 @@ class AstBuilderSpec extends FunSuite {
     val expected = QLForm(
       formName = "QonditionQuestions",
       statements = List(
-        Question(id = "firstName", label = "What is your first name?", answer = StringAnswer(None)),
-        Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None)),
-        Question(id = "middleName", label = "Do you have a middle name?", answer = BooleanAnswer(None)),
+        Question("firstName", "What is your first name?", StringAnswer(None)),
+        Question("lastName", "What is your last name?", StringAnswer(None)),
+        Question("middleName", "Do you have a middle name?", BooleanAnswer(None)),
         Conditional(
-          BinaryOperation(
-            binaryOperator = And,
-            left = BinaryOperation(
-              binaryOperator = Ne,
-              left = Reference("lastName"),
-              right = Reference("firstName")
-            ),
-            right = BinaryOperation(
-              binaryOperator = Gt,
-              left = Reference("a"),
-              right = UnaryOperation(
-                unaryOperator = Min,
-                left = IntAnswer(Some(10))
-              )
-            )
-          ),
-          List(
-            Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None)),
-            Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None))),
-          List(
-            Question(id = "middleName", label = "Do you have a middle name?", answer = BooleanAnswer(None)),
-            Question(id = "middleName", label = "Do you have a middle name?", answer = BooleanAnswer(None))
+          predicate = BinaryOperation(And, BinaryOperation(Ne, Reference("lastName"), Reference("firstName")), BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10))))),
+          thenStatements = List(
+            Question("lastName", "What is your last name?", StringAnswer(None)),
+            Question("lastName", "What is your last name?", StringAnswer(None))
+          )
+        ),
+        Conditional(
+          predicate = UnaryOperation(Neg, BinaryOperation(And, BinaryOperation(Ne, Reference("lastName"), Reference("firstName")), BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10)))))),
+          thenStatements = List(
+            Question("middleName", "Do you have a middle name?", BooleanAnswer(None)),
+            Question("middleName", "Do you have a middle name?", BooleanAnswer(None))
           )
         )
       )
     )
+
 
     assert(actual == expected)
   }
@@ -202,7 +185,7 @@ class AstBuilderSpec extends FunSuite {
       statements = List(
         Question(id = "hasSoldHouse", label = "Did you sell a house in 2010?", answer = BooleanAnswer(None)),
         Conditional(
-          condition = BinaryOperation(
+          predicate = BinaryOperation(
             binaryOperator = Div,
             left = BinaryOperation(
               binaryOperator = Add,
@@ -218,10 +201,10 @@ class AstBuilderSpec extends FunSuite {
               right = IntAnswer(Some(23))
             ),
             right = IntAnswer(Some(54))),
-          ifStatements = List(
+          thenStatements = List(
             Question(id = "asd", label = "asd", answer = BooleanAnswer(None))
-          ),
-          elseStatements = List())
+          )
+        )
       )
     )
 
@@ -242,4 +225,5 @@ class AstBuilderSpec extends FunSuite {
 
     assert(actual == expected)
   }
+
 }

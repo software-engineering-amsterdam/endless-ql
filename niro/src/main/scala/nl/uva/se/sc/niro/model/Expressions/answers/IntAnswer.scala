@@ -3,9 +3,9 @@ package nl.uva.se.sc.niro.model.Expressions.answers
 import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
 import nl.uva.se.sc.niro.model._
 
-case class IntAnswer(possibleValue: Option[Int]) extends Answer {
+final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
 
-  def apply(operator: BinaryOperator, other: Answer): Answer = other match {
+  def applyBinaryOperator(operator: BinaryOperator, other: Answer): Answer = other match {
     case otherIntAnswer: IntAnswer => operator match {
       case Add => IntAnswer(combine[Int](otherIntAnswer)(_ + _))
       case Sub => IntAnswer(combine[Int](otherIntAnswer)(_ - _))
@@ -22,12 +22,12 @@ case class IntAnswer(possibleValue: Option[Int]) extends Answer {
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $other")
   }
 
-  def combine[R](other: IntAnswer)(f: (Int, Int) => R): Option[R] = for {
+  private def combine[R](other: IntAnswer)(f: (Int, Int) => R): Option[R] = for {
     thisValue <- possibleValue
     thatValue <- other.possibleValue
   } yield f(thisValue, thatValue)
 
-  def apply(operator: UnaryOperator): Answer = operator match {
+  def applyUnaryOperator(operator: UnaryOperator): Answer = operator match {
     case Min => IntAnswer(possibleValue.map(-_))
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }

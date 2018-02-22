@@ -3,9 +3,9 @@ package nl.uva.se.sc.niro.model.Expressions.answers
 import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
 import nl.uva.se.sc.niro.model._
 
-case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
+final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
 
-  def apply(operator: BinaryOperator, other: Answer): Answer = other match {
+  def applyBinaryOperator(operator: BinaryOperator, other: Answer): Answer = other match {
     case otherBooleanAnswer: BooleanAnswer => operator match {
       case Lt => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ < _))
       case LTe => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ <= _))
@@ -20,13 +20,13 @@ case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $other")
   }
 
-  def combine[R](other: BooleanAnswer)(f: (Boolean, Boolean) => R): Option[R] = for {
-    thisValue <- possibleValue
-    thatValue <- other.possibleValue
-  } yield f(thisValue, thatValue)
-
-  def apply(operator: UnaryOperator): Answer = operator match {
+  def applyUnaryOperator(operator: UnaryOperator): Answer = operator match {
     case Neg => BooleanAnswer(possibleValue.map(!_))
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
+
+  private def combine[R](other: BooleanAnswer)(f: (Boolean, Boolean) => R): Option[R] = for {
+    thisValue <- possibleValue
+    thatValue <- other.possibleValue
+  } yield f(thisValue, thatValue)
 }

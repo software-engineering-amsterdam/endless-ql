@@ -7,8 +7,8 @@ object Expression {
 
   abstract class Expression
   abstract class Answer extends Expression {
-    def apply(operator: UnaryOperator): Answer
-    def apply(operator: BinaryOperator, right: Answer): Answer
+    def applyUnaryOperator(operator: UnaryOperator): Answer
+    def applyBinaryOperator(operator: BinaryOperator, right: Answer): Answer
   }
 
   case class Reference(value: String) extends Expression
@@ -27,10 +27,18 @@ object Expression {
   case class BinaryOperation(binaryOperator: BinaryOperator, left: Expression, right: Expression) extends Expression
   case class UnaryOperation(unaryOperator: UnaryOperator, left: Expression) extends Expression
 
+  // TODO check if it's necessary to make this call tail recursive
   def evaluate(expr: Expression, symbolTable: Map[String, Expression]): Answer = expr match {
-    case answer: Answer => answer
-    case Reference(questionIdentifier) => evaluate(symbolTable(questionIdentifier), symbolTable)
-    case UnaryOperation(operator: UnaryOperator, expression) => evaluate(expression, symbolTable).apply(operator)
-    case BinaryOperation(operator: BinaryOperator, leftExpression, rightExpression) => evaluate(leftExpression, symbolTable).apply(operator, evaluate(rightExpression, symbolTable))
+    case answer: Answer =>
+      answer
+    case Reference(questionIdentifier) =>
+      evaluate(symbolTable(questionIdentifier), symbolTable)
+    case UnaryOperation(operator: UnaryOperator, expression) =>
+      val answer = evaluate(expression, symbolTable)
+      answer.applyUnaryOperator(operator)
+    case BinaryOperation(operator: BinaryOperator, leftExpression, rightExpression) =>
+      val leftAnswer = evaluate(leftExpression, symbolTable)
+      val rightAnswer = evaluate(rightExpression, symbolTable)
+      leftAnswer.applyBinaryOperator(operator, rightAnswer)
   }
 }

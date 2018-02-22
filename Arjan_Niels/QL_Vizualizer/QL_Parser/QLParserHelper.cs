@@ -10,9 +10,8 @@ namespace QL_Parser
     {
         public static FormNode Parse(String file)
         {
-            SymbolTable.Reset();
-            Analyser.Reset();
-
+            // Prepare the environment before we start parsing a new questionnaire.
+            Prepare();
 
             AntlrInputStream inputStream = new AntlrInputStream(file);
             QLanguageLexer qLanguageLexer = new QLanguageLexer(inputStream);
@@ -23,6 +22,12 @@ namespace QL_Parser
             FormVisitor visitor = new FormVisitor();
 
             return visitor.VisitFormDeclaration(formContext);
+        }
+
+        private static void Prepare()
+        {
+            SymbolTable.Reset();
+            Analyser.Reset();
         }
     }
 }

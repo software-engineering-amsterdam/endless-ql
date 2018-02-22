@@ -63,6 +63,7 @@
     <Compile Include="AST\QuestionTest.cs" />
     <Compile Include="AST\ConditionalTest.cs" />
     <Compile Include="QLTest.cs" />
+    <Compile Include="AST\InvalidTreeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

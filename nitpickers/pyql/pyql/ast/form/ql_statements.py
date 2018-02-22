@@ -48,28 +48,22 @@ class If(statement.Statement):
         return self._block
 
     def __repr__(self):
-        return "AST IfStatement at: " + str(self.location)
+        return "AST If Statement at: " + str(self.location)
 
 
-class IfElse(statement.Statement):
+class IfElse(If):
 
-    def __init__(self, location, expression: expressions.Expression, if_block: block.Block, else_block: block.Block):
-        super().__init__(location)
-        self._expression = expression
-        self._if_block = if_block
+    def __init__(self, location, expression, if_block, else_block):
+        super().__init__(location, expression, if_block)
         self._else_block = else_block
 
     @property
-    def expression(self):
-        return self._expression
-
-    @property
     def if_block(self):
-        return self._if_block
+        return super().block
 
     @property
     def else_block(self):
         return self._else_block
 
     def __repr__(self):
-        return "AST IfStatement at: " + str(self.location)
+        return "AST IfElse Statement at: " + str(self.location)

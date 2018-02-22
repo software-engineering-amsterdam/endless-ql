@@ -9,78 +9,63 @@ import org.uva.sea.ql.parser.nodeTypes.SingleNode;
 public abstract class BaseVisitor<T> implements Visitor<T> {
 
     public T visit(Addition node)  {
-        this.visit((BinaryOperator)node);
-        return null;
+        return this.visit((BinaryOperator)node);
     }
 
     public T visit(And node)  {
-        this.visit((BinaryOperator)node);
-        return null;
+        return this.visit((BinaryOperator)node);
     }
 
     public T visit(Division node)  {
-        this.visit((BinaryOperator)node);
-        return null;
+        return this.visit((BinaryOperator)node);
     }
 
     public T visit(Equal node)  {
-        this.visit((BinaryOperator)node);
-        return null;
+        return this.visit((BinaryOperator)node);
     }
 
     public T visit(GreaterOrEqual node)  {
-        this.visit((BinaryOperator)node);
-        return null;
+        return this.visit((BinaryOperator)node);
     }
 
     public T visit(GreaterThan node)  {
-        this.visit((BinaryOperator)node);
-        return null;
+        return this.visit((BinaryOperator)node);
     }
 
     public T visit(LessOrEqual node)  {
-        this.visit((BinaryOperator)node);
-        return null;
+        return this.visit((BinaryOperator)node);
     }
 
     public T visit(LessThan node)  {
-        this.visit((BinaryOperator)node);
-        return null;
+        return this.visit((BinaryOperator)node);
     }
 
     public T visit(Multiplication node)  {
-        this.visit((BinaryOperator)node);
-        return null;
+        return this.visit((BinaryOperator)node);
     }
 
     public T visit(Negative node)  {
-        this.visit((SingleNode) node);
-        return null;
+        return this.visit((SingleNode) node);
     }
 
     public T visit(NotEqual node)  {
-        this.visit((BinaryOperator)node);
-        return null;
+        return this.visit((BinaryOperator)node);
     }
 
     public T visit(Not node)  {
-        this.visit((SingleNode) node);
-        return null;
+        return this.visit((SingleNode) node);
     }
 
     public T visit(Or node) {
-        this.visit((BinaryOperator)node);
-        return null;
+        return this.visit((BinaryOperator)node);
     }
 
     public T visit(Positive node) {
-        this.visit((SingleNode) node);
-        return null;
+        return this.visit((SingleNode) node);
     }
 
     public T visit(Subtraction node) {
-        this.visit((BinaryOperator)node);
-        return null;
+        return this.visit((BinaryOperator)node);
     }
 
     public T visit(Bool node) {
@@ -117,13 +102,11 @@ public abstract class BaseVisitor<T> implements Visitor<T> {
 
     public T visit(IfStatement node) {
         node.getExpression().accept(this);
-        node.getStatements().accept(this);
-        return null;
+        return node.getStatements().accept(this);
     }
 
     public T visit(Form node) {
-        node.getStatements().accept(this);
-        return null;
+        return node.getStatements().accept(this);
     }
 
     public T visit(Question node) {
@@ -136,9 +119,9 @@ public abstract class BaseVisitor<T> implements Visitor<T> {
     }
 
     public T visit(Statement node) {
-        node.getIfStatement().accept(this);
-        node.getQuestion().accept(this);
-        return null;
+        T ifStatement = node.getIfStatement().accept(this);
+        T question = node.getQuestion().accept(this);
+        return ifStatement == null ? question : ifStatement;
     }
 
     public T visit(Statements node) {
@@ -155,7 +138,6 @@ public abstract class BaseVisitor<T> implements Visitor<T> {
     }
 
     public T visit(SingleNode node) {
-        node.getValue().accept(this);
-        return null;
+        return node.getValue().accept(this);
     }
 }

@@ -25,23 +25,31 @@ namespace AntlrInterpretor.Logic
             return m_questionnaireAst;
         }
 
-        public override IAstNode VisitConditional(QLParser.ConditionalContext context)
+        public override IAstNode VisitBooleancondition(QLParser.BooleanconditionContext context)
         {
-            var questionName = context.condition().IDENTIFIER().GetText();
+            var questionName = context.IDENTIFIER().GetText();
             var question = m_questionnaireAst
                 .Questions
-                .FirstOrDefault(x => x.Name == questionName);   
+                .FirstOrDefault(x => x.Name == questionName);
 
-            if (question.Type != typeof(bool))
+            if (question?.Type != typeof(bool))
             {
                 var message = $@"the question {questionName} is not a boolean question";
 
-                throw new QlParserException(message, null) {ParseErrorDetails = message, ParserName = "Antlr 4.0"};
+                throw new QlParserException(message, null) { ParseErrorDetails = message, ParserName = "Antlr 4.0" };
             }
 
+            return m_questionnaireAst;
+        }
+
+        public override IAstNode VisitConditional(QLParser.ConditionalContext context)
+        {
+
+            var questionName = context.condition().GetText();
             var conditional = new ConditionalAst(questionName);
             
             m_questionnaireAst.Statements.Add(conditional);
+            Visit(context.condition());
             context.statement()
                 .Select(x => Visit(x))
                 .ToList();

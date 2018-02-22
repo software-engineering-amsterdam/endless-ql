@@ -10,7 +10,7 @@ import javafx.scene.control.{CheckBox, DatePicker, Label, TextField}
 import javafx.scene.layout._
 import javafx.util.StringConverter
 
-import nl.uva.se.sc.niro.model.Ast._
+import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.Expressions.Expression
 import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
 import nl.uva.se.sc.niro.model.Expressions.answers._

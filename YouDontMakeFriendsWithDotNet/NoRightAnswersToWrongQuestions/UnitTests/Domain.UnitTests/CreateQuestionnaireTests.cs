@@ -400,21 +400,23 @@ form CommentFormMLX {}";
             get
             {
                 yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == true) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == true) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion==true" });
                 yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == True) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == True) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion==True" });
                 yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == TRUE) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == TRUE) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion==TRUE" });
                 yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == false) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == false) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion==false" });
                 yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == False) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == False) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion==False" });
                 yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == FALSE) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == FALSE) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion==FALSE" });
                 yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion != TRUE) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion != TRUE) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion!=TRUE" });
                 yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion != false) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion != false) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion!=false" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    intQuestion : \"xyz\"  integer{NewLine}    if (intQuestion > 10) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "intQuestion>10" });
             }
         }
     }

@@ -10,12 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Question extends ASTNode implements QuestionContainerNode {
+
     private String label;
     private Variable variable;
     private Type nodeType;
     private ASTNode value;
     private ASTNode computedAnswer;
-
 
     public Question(String label, Variable variable, Type nodeType, ASTNode value) {
         this.label = label;
@@ -51,6 +51,14 @@ public class Question extends ASTNode implements QuestionContainerNode {
 
     public ASTNode getValue() {
         return this.computedAnswer;
+    }
+
+    /**
+     * The value that is defined in QL
+     * @return
+     */
+    public ASTNode getDefaultValue() {
+        return this.value;
     }
 
     @Override

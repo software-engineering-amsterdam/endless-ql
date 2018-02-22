@@ -59,7 +59,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     private void checkTypesCompatible(ASTNode node, Type firstType, Type secondType) {
         boolean exactlyTheSame = firstType.equals(secondType);
         boolean compatibleTypes = IsBasicNumber(firstType) && IsBasicNumber(secondType);
-        if(!(exactlyTheSame && compatibleTypes))
+        if(!(exactlyTheSame || compatibleTypes))
             this.error(node);
     }
 
@@ -88,7 +88,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     public Void visit(Question node) {
         super.visit(node);
 
-        ASTNode value = node.getValue();
+        ASTNode value = node.getDefaultValue();
         if(value != null) {
             this.checkTypesCompatible(node, node.getNodeType(), value.getType());
         }

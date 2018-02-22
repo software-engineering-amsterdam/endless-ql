@@ -1,6 +1,7 @@
 import tkinter
 from tkinter import ttk
 
+
 class Frm(ttk.Frame):
     def __init__(self, parent, *args, **kwargs):
         ttk.Frame.__init__(self, parent, *args, **kwargs)
@@ -20,7 +21,7 @@ class Frm(ttk.Frame):
             child.grid_configure(padx=5, pady=5)
 
     def add_question(self, question_text, question_type):
-        self.num_value1 = ttk.Label(self, text=question_text, width=40)\
+        self.num_value1 = ttk.Label(self, text=question_text, width=40) \
             .grid(column=0)
         self.num_value = ttk.Entry(self, width=20).grid(column=1)
 

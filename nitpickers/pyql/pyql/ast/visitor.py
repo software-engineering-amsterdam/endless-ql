@@ -6,6 +6,7 @@ from pyql.ast.code_location import CodeLocation
 from pyql.ast.form.form import Form
 from pyql.ast.expression.expressions import *
 
+
 # TODO check if can get rid of 'if getChildCount() > 1'
 
 
@@ -17,11 +18,12 @@ class ParseTreeVisitor(QLVisitor):
         block = ctx.block().accept(self)
         return Form(identifier, location, block)
 
-    def visitIfStatement(self, ctx:QLParser.IfStatementContext):
+    def visitIfStatement(self, ctx: QLParser.IfStatementContext):
         return If(self.location(ctx), ctx.expression().accept(self), ctx.block().accept(self))
 
-    def visitIfElseStatement(self, ctx:QLParser.IfElseStatementContext):
-        return IfElse(self.location(ctx), ctx.expression().accept(self), ctx.block(0).accept(self), ctx.block(1).accept(self))
+    def visitIfElseStatement(self, ctx: QLParser.IfElseStatementContext):
+        return IfElse(self.location(ctx), ctx.expression().accept(self), ctx.block(0).accept(self),
+                      ctx.block(1).accept(self))
 
     def visitBlock(self, ctx: QLParser.BlockContext):
         return Block(self.location(ctx), [s.accept(self) for s in ctx.statement()])
@@ -30,7 +32,8 @@ class ParseTreeVisitor(QLVisitor):
         return self.visitChildren(ctx)
 
     def visitQuestion(self, ctx: QLParser.QuestionContext):
-        return Question(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(), ctx.questionType().accept(self))
+        return Question(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(),
+                        ctx.questionType().accept(self))
 
     def visitQuestionType(self, ctx: QLParser.QuestionTypeContext):
         return ctx.getText()
@@ -82,7 +85,7 @@ class ParseTreeVisitor(QLVisitor):
             return switcher.get(self.operator(ctx))
         return self.visitChildren(ctx)
 
-    def visitAddOperator(self, ctx:QLParser.AddOperatorContext):
+    def visitAddOperator(self, ctx: QLParser.AddOperatorContext):
         return ctx.getText()
 
     def visitMulExpression(self, ctx: QLParser.MulExpressionContext):
@@ -99,7 +102,7 @@ class ParseTreeVisitor(QLVisitor):
             return switcher.get(self.operator(ctx))
         return self.visitChildren(ctx)
 
-    def visitMulOperator(self, ctx:QLParser.MulOperatorContext):
+    def visitMulOperator(self, ctx: QLParser.MulOperatorContext):
         return ctx.getText()
 
     def visitUnExpression(self, ctx: QLParser.UnExpressionContext):

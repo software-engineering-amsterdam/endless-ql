@@ -24,11 +24,6 @@ public class Variable extends ASTNode  {
         return linkedQuestion;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
     public void setLinkedQuestion(Question linkedQuestion) {
         this.linkedQuestion = linkedQuestion;
     }
@@ -40,5 +35,10 @@ public class Variable extends ASTNode  {
         }
 
         return this.linkedQuestion.getType();
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

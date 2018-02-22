@@ -12,7 +12,7 @@ public class Statements extends ASTNode {
     private List<ASTNode> statementList;
 
     public Statements() {
-        statementList = new ArrayList<ASTNode>();
+        statementList = new ArrayList<>();
     }
 
     public List<ASTNode> getStatementList() {
@@ -23,12 +23,12 @@ public class Statements extends ASTNode {
         this.statementList.add(item);
     }
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
     public Type getType() {
         return new Type(NodeType.UNKNOWN);
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

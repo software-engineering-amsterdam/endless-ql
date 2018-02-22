@@ -42,7 +42,12 @@ mulOperator       : '*' | '/' ;
 
 unExpression      : literal | identifier | '(' expression ')';
 
-literal           : MONEY | DECIMAL | INT | STRING | BOOL ;
+literal           : MONEY #moneyLiteral
+                  | DECIMAL #decimalLiteral
+                  | INT #intLiteral
+                  | STRING #stringLiteral
+                  | BOOL #boolLiteral
+                  ;
 
 identifier        : IDENTIFIER ;
 

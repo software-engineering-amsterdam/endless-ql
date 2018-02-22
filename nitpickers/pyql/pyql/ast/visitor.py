@@ -88,11 +88,23 @@ class ParseTreeVisitor(QLVisitor):
     def visitUnExpression(self, ctx: QLParser.UnExpressionContext):
         return self.visitChildren(ctx)
 
-    def visitLiteral(self, ctx: QLParser.LiteralContext):
-        return ctx.getText()
+    def visitMoneyLiteral(self, ctx: QLParser.MoneyLiteralContext):
+        return MoneyLiteral(self.location(ctx), ctx.getText())
+
+    def visitDecimalLiteral(self, ctx: QLParser.DecimalLiteralContext):
+        return DecimalLiteral(self.location(ctx), ctx.getText())
+
+    def visitIntLiteral(self, ctx: QLParser.IntLiteralContext):
+        return IntLiteral(self.location(ctx), ctx.getText())
+
+    def visitStringLiteral(self, ctx: QLParser.StringLiteralContext):
+        return StringLiteral(self.location(ctx), ctx.getText())
+
+    def visitBoolLiteral(self, ctx: QLParser.BoolLiteralContext):
+        return BoolLiteral(self.location(ctx), ctx.getText())
 
     def visitIdentifier(self, ctx: QLParser.IdentifierContext):
-        return ctx.getText()
+        return Identifier(ctx.getText(), self.location(ctx))
 
     def visitMoney(self, ctx: QLParser.MoneyContext):
         print("visit money")

@@ -6,32 +6,23 @@ namespace QL_Parser.Analysis.Syntactic
     {
         private readonly string errorMessage = "This AST contains multiple 'FormNode'.";
 
-        public bool Analyse(Node node, bool logErrors = true)
-        {
-            return NodeContainsForm(node, logErrors);
-        }
-
         /// <summary>
         /// A recursive function to find out if the AST contains multiple FormNode
         /// </summary>
-        /// <param name="parent"></param>
-        /// <param name="logErrors"></param>
+        /// <param name="node"></param>
         /// <returns></returns>
-        private bool NodeContainsForm(Node parent, bool logErrors)
+        public bool Analyse(Node node)
         {
             var childValue = true;
-            foreach (Node child in parent.Children)
+            foreach (Node child in node.Children)
             {
                 if (child.Type == NodeType.FORM)
                 {
-                    if (logErrors)
-                    {
-                        Analyser.AddMessage(errorMessage, MessageType.ERROR);
-                    }
+                    Analyser.AddMessage(errorMessage, MessageType.ERROR);
                     return false;
                 }
                 else
-                    childValue = NodeContainsForm(child, logErrors);
+                    childValue = Analyse(child);
             }
 
             return childValue;

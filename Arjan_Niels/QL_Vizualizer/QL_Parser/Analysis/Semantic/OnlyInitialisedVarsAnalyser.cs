@@ -4,7 +4,7 @@ namespace QL_Parser.Analysis.Semantic
 {
     public class OnlyInitialisedVarsAnalyser : IAnalyser
     {
-        public bool Analyse(Node node, bool logErrors = true)
+        public bool Analyse(Node node)
         {
             var result = true;
             if (node.Type == NodeType.CONDITIONAL)
@@ -15,9 +15,8 @@ namespace QL_Parser.Analysis.Semantic
 
             // Set result to false when any of the children encounters a error.
             foreach (Node n in node.Children)
-                if (!Analyse(n, logErrors) && result)
+                if (!Analyse(n) && result)
                     result = false;
-
 
             return result;
         }

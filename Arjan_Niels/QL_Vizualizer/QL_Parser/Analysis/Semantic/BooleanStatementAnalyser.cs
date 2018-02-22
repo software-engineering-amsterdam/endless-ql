@@ -4,7 +4,7 @@ namespace QL_Parser.Analysis.Semantic
 {
     public class BooleanStatementnalyser : IAnalyser
     {
-        public bool Analyse(Node node, bool logErrors = true)
+        public bool Analyse(Node node)
         {
             var result = true;
             if (node.Type == NodeType.CONDITIONAL)

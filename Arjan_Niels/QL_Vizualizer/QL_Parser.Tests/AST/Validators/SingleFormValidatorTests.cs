@@ -41,28 +41,28 @@ namespace QL_Parser.Tests.AST
         public void RootIsOnlyFormNodeTest()
         {
             var validator = new SingleFormValidator();
-            Assert.IsTrue(validator.Analyse(_validAST, logErrors: false));
+            Assert.IsTrue(validator.Analyse(_validAST));
         }
 
         [TestMethod]
         public void RootIsOnlyFormNodeFalseTest()
         {
             var validator = new SingleFormValidator();
-            Assert.IsFalse(validator.Analyse(_multipleFormAST, logErrors: false));
+            Assert.IsFalse(validator.Analyse(_multipleFormAST));
         }
 
         [TestMethod]
         public void RootIsOnlyFormNodeInLowerLayerFalseTest()
         {
             var validator = new SingleFormValidator();
-            Assert.IsFalse(validator.Analyse(_multipleFormInLowerNodeAST, logErrors: false));
+            Assert.IsFalse(validator.Analyse(_multipleFormInLowerNodeAST));
         }
 
         [TestMethod]
         public void MultipleLayerValidForm()
         {
             var validator = new SingleFormValidator();
-            Assert.IsTrue(validator.Analyse(_multipleLayerValidForm, logErrors: false));
+            Assert.IsTrue(validator.Analyse(_multipleLayerValidForm));
         }
     }
 }

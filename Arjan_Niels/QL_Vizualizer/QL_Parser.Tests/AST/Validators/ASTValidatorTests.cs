@@ -52,7 +52,7 @@ namespace QL_Parser.Tests.AST.Validators
         [TestMethod]
         public void NoErrorsWhenLogErrorsIsFalse()
         {
-            Analyser.Analyse(_validAST, logErrors: false);
+            Analyser.Analyse(_validAST);
             var errors = Analyser.GetErrors();
             Assert.AreEqual(0, errors.Count);
 

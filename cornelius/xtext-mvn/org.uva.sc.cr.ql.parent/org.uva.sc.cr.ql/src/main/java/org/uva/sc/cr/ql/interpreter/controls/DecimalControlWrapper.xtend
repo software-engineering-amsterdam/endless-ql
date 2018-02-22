@@ -6,15 +6,13 @@ import org.uva.sc.cr.ql.qL.Question
 
 class DecimalControlWrapper extends ControlWrapper {
 
-	private val TextField control
+	private var TextField control
 
 	new(Question question, StringBinding binding) {
 		super(question, binding)
-		control = new TextField
 		if (question.expression !== null) {
 			control.textProperty.bind(binding)
 		}
-		setDefaults
 	}
 
 	override getValue() {
@@ -23,6 +21,10 @@ class DecimalControlWrapper extends ControlWrapper {
 
 	override getControl() {
 		return control
+	}
+	
+	override protected buildControl() {
+		control = new TextField
 	}
 
 }

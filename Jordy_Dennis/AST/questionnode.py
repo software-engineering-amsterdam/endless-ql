@@ -1,3 +1,6 @@
+"""
+
+"""
 
 class QuestionNode:
     def __init__(self, question, varName, varType, line):

@@ -27,14 +27,15 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
     jcenter()
+    maven { url "http://dl.bintray.com/salomonbrys/kodein" }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation "space.traversal.kapsule:kapsule-core:0.3"
-
     antlr "org.antlr:antlr4:4.5"
+
+    implementation 'org.kodein:kodein-generic-jvm:5.0.0-beta4'
 
     testImplementation 'org.amshove.kluent:kluent:1.34'
 

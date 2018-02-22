@@ -6,12 +6,10 @@ import org.uva.sc.cr.ql.qL.Question
 
 class DateControlWrapper extends ControlWrapper {
 
-	private val DatePicker control
+	private var DatePicker control
 
 	new(Question question, BooleanBinding binding) {
 		super(question, binding)
-		control = new DatePicker
-		setDefaults
 	}
 
 	override getValue() {
@@ -20,6 +18,10 @@ class DateControlWrapper extends ControlWrapper {
 
 	override getControl() {
 		return control
+	}
+	
+	override protected buildControl() {
+		control = new DatePicker
 	}
 
 }

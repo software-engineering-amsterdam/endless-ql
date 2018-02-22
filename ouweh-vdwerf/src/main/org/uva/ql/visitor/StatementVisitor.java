@@ -1,6 +1,6 @@
-package main.org.uva.ql.visitor;
+package org.uva.ql.visitor;
 
-import main.org.uva.ql.ast.*;
+import org.uva.ql.ast.*;
 
 
 public interface StatementVisitor<T, C> {

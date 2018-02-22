@@ -94,22 +94,22 @@ relExpr returns [ASTNode result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr
     {
       if ($op.text.equals("<")) {
-        $result = new LThan($result, $rhs.result);
+        $result = new LessThan($result, $rhs.result);
       }
       if ($op.text.equals("<=")) {
-        $result = new LEq($result, $rhs.result);
+        $result = new LessOrEqual($result, $rhs.result);
       }
       if ($op.text.equals(">")) {
-        $result = new GThan($result, $rhs.result);
+        $result = new GreaterThan($result, $rhs.result);
       }
       if ($op.text.equals(">=")) {
-        $result = new GEq($result, $rhs.result);
+        $result = new GreaterOrEqual($result, $rhs.result);
       }
       if ($op.text.equals("==")) {
-        $result = new Eq($result, $rhs.result);
+        $result = new Equal($result, $rhs.result);
       }
       if ($op.text.equals("!=")) {
-        $result = new NEq($result, $rhs.result);
+        $result = new NotEqual($result, $rhs.result);
       }
       $result.setLocation($op.getLine(), $op.getCharPositionInLine());
     })*
@@ -119,10 +119,10 @@ addExpr returns [ASTNode result]
     :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
     {
       if ($op.text.equals("+")) {
-        $result = new Add($result, $rhs.result);
+        $result = new Addition($result, $rhs.result);
       }
       if ($op.text.equals("-")) {
-        $result = new Sub($result, $rhs.result);
+        $result = new Subtraction($result, $rhs.result);
       }
       $result.setLocation($op.getLine(), $op.getCharPositionInLine());
     })*
@@ -132,10 +132,10 @@ mulExpr returns [ASTNode result]
     :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr
     {
       if ($op.text.equals("*")) {
-        $result = new Mul($result, $rhs.result);
+        $result = new Multiplication($result, $rhs.result);
       }
       if ($op.text.equals("/")) {
-        $result = new Div($result, $rhs.result);
+        $result = new Division($result, $rhs.result);
       }
       $result.setLocation($op.getLine(), $op.getCharPositionInLine());
     })*
@@ -143,11 +143,11 @@ mulExpr returns [ASTNode result]
 
 unExpr returns [ASTNode result]
     :  plus='+' x=unExpr {
-        $result = new Pos($x.result);
+        $result = new Positive($x.result);
         $result.setLocation($plus.getLine(), $plus.getCharPositionInLine());
     }
     |  minus='-' x=unExpr {
-        $result = new Neg($x.result);
+        $result = new Negative($x.result);
         $result.setLocation($minus.getLine(), $minus.getCharPositionInLine());
     }
     |  exl='!' x=unExpr {

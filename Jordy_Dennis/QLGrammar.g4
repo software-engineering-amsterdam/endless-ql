@@ -19,7 +19,7 @@ expression: BOOL
             | expression OR expression
             ;
 
-conditional: if_conditional | (if_conditional elif_conditional* else_conditional);
+conditional: if_conditional | (if_conditional elif_conditional* else_conditional?);
 if_conditional: IF_TOKEN PARL expression PARR block;
 elif_conditional: ELIF_TOKEN PARL expression PARR block;
 else_conditional: ELSE_TOKEN block;

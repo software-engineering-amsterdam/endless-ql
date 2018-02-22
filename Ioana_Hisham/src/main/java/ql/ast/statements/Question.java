@@ -1,20 +1,20 @@
 package ql.ast.statements;
 
 import ql.ast.expressions.literals.Identifier;
-import ql.ast.expressions.literals.String;
+import ql.ast.expressions.literals.StringLiteral;
 import ql.types.Type;
 
 public class Question extends Statement {
 
-    private String description;
+    private StringLiteral description;
     private Identifier identifier;
     private Type type;
 
-    public Question(int lineNumber, String description, Identifier identifier, Type type) {
+    public Question(int lineNumber, StringLiteral description, Identifier identifier, Type type) {
         super(lineNumber);
     }
 
-    public String getDescription() {
+    public StringLiteral getDescription() {
         return description;
     }
 

@@ -1,7 +1,7 @@
-package main.org.uva.ql.ast.expression.binary;
+package org.uva.ql.ast.expression.binary;
 
-import main.org.uva.ql.ast.expression.Expression;
-import main.org.uva.ql.visitor.ExpressionVisitor;
+import org.uva.ql.ast.expression.Expression;
+import org.uva.ql.visitor.ExpressionVisitor;
 
 public class Addition extends BinaryOperation {
 

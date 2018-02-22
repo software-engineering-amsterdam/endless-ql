@@ -1,7 +1,7 @@
-package main.org.uva.ql.ast.expression;
+package org.uva.ql.ast.expression;
 
-import main.org.uva.ql.ast.TreeNode;
-import main.org.uva.ql.visitor.ExpressionVisitor;
+import org.uva.ql.ast.TreeNode;
+import org.uva.ql.visitor.ExpressionVisitor;
 
 public abstract class Expression extends TreeNode {
 

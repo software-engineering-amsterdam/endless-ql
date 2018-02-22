@@ -29,25 +29,35 @@ class questionNode:
         return "Question: {}, {}:{}".format(self.question,self.varName, self.varType)
 
 class conditionalNode:
-    def __init__(self, expression):
-        self.expression = expression
-        self.ifChildren = []
+    def __init__(self):
+        self.ifChild = None
         self.elifChildren = []
-        self.elseChildren = []
+        self.elseChild = None
 
     def addIfChild(self, child):
-        for i in child:
-            self.ifChildren.append(i)
+        self.ifChild = child
 
     def addElifChild(self, child):
-        for i in child:
-            self.elifChildren.append(i)
+        self.elifChildren.append(child)
 
     def addElseChild(self, child):
-        self.elseChildren += child
+        self.elseChildren = child 
 
     def __repr__(self):
-        return "Conditional: if({}): {} elif: {} else: {}".format(self.expression, self.ifChildren, self.elifChildren,self.elseChildren)
+        return "Conditional: if: {} elif: {} else: {}".format(self.ifChild, self.elifChildren,self.elseChild)
+
+class conditionNode:
+    def __init__(self, expression):
+        self.expression = expression
+        self.questions = []
+
+    def addQuestions(self, questions):
+        for i in questions:
+            self.questions.append(i)
+
+    def __repr__(self):
+        return "({}) {}".format(self.expression, self.questions)
+
 
 class assignmentNode:
     def __init__(self, question, var, varType, expression):

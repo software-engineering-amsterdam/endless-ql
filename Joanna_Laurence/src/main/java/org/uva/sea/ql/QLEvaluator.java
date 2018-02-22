@@ -5,6 +5,7 @@ import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +13,11 @@ public class QLEvaluator {
 
     private QLExprEvaluate exprEvaluate;
 
-    public QLEvaluator(Map<NodeType, Evaluator> evaluator) {
+    private HashMap<String, ASTNode> symbolTable;
+
+    public QLEvaluator(Map<NodeType, Evaluator> evaluator, HashMap<String, ASTNode> symbolTable) {
         this.exprEvaluate = new QLExprEvaluate(evaluator);
+        this.symbolTable = symbolTable;
     }
 
     /**
@@ -26,7 +30,7 @@ public class QLEvaluator {
 
         List<ASTNode> nodes = form.getStatements().getStatementList();
         for(ASTNode node : nodes) {
-            questionList.addAll(((QuestionContainerNode)node).evalQuestions(this.exprEvaluate));
+            questionList.addAll(((QuestionContainerNode)node).evalQuestions(this.exprEvaluate, this.symbolTable));
         }
 
         return questionList;

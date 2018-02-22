@@ -20,6 +20,9 @@ public class QLMain {
          rel: add . add << will return a list not a tree. // a - b - c. << terry group
          // Binary expression - operation as name? Instead of condition and logical? logical = binary operator
          Support defining values to variables. See todo @ evaluator
+
+        Are question values computed on the first level?
+        //WHen value is defined, make immutible
      */
 
     /**

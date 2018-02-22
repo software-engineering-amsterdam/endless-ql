@@ -6,7 +6,7 @@ import org.uva.sea.ql.parser.elements.types.*;
 import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.ql.parser.nodeTypes.SingleNode;
 
-public abstract class BaseVisitor<T> implements Visitor {
+public abstract class BaseVisitor<T> implements Visitor<T> {
 
     public T visit(Addition node)  {
         this.visit((BinaryOperator)node);
@@ -115,7 +115,7 @@ public abstract class BaseVisitor<T> implements Visitor {
         return null;
     }
 
-    public T visit(Condition node) {
+    public T visit(IfStatement node) {
         node.getExpression().accept(this);
         node.getStatements().accept(this);
         return null;
@@ -136,7 +136,7 @@ public abstract class BaseVisitor<T> implements Visitor {
     }
 
     public T visit(Statement node) {
-        node.getCondition().accept(this);
+        node.getIfStatement().accept(this);
         node.getQuestion().accept(this);
         return null;
     }

@@ -12,39 +12,17 @@ import org.uva.sea.ql.traverse.Visitor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QLEvaluator implements Visitor<Value> {
-
-    private Error errors = new Error();
-
-    private List<Question> questions = new ArrayList<>();
-
-    private QuestionEvaluator questionEvaluator = new QuestionEvaluator();
+public class QLEvaluator extends BaseVisitor<Value> {
 
     private SymbolTable symbolTable;
-
-    /**
-     *
-     * @param questions
-     */
-    public void mergeQuestions(List<Question> questions) {
-        this.questions.addAll(questions);
-    }
-
-    /**
-     * Constructor
-     * @param symbolTable The state of the program
-     */
-    public QLEvaluator(SymbolTable symbolTable) {
-        this.symbolTable = symbolTable;
-    }
 
     /**
      * Evaluate the AST and get all questions
      * @param node The base AST node
      */
-    public List<Question> getQuestions(ASTNode node) {
-        node.accept(this);
-        return this.questions;
+    public Value evaluate(ASTNode node, SymbolTable symbolTable) {
+        this.symbolTable = symbolTable;
+        return node.accept(this);
     }
 
     @Override
@@ -187,47 +165,6 @@ public class QLEvaluator implements Visitor<Value> {
 
     @Override
     public Value visit(Variable node) {
-        return null;
-    }
-
-    @Override
-    public Value visit(Condition node) {
-        Value condition = node.getExpression().accept(this);
-        Value statements = node.getStatements().accept(this);
-
-        List<Question> questions = this.questionEvaluator.evaluate(condition, statements);
-        this.questions.addAll(questions);
-
-        return null;
-    }
-
-    @Override
-    public Value visit(Form node) {
-        return null;
-    }
-
-    @Override
-    public Value visit(Question node) {
-        return null;
-    }
-
-    @Override
-    public Value visit(Statement node) {
-        return null;
-    }
-
-    @Override
-    public Value visit(Statements node) {
-        return null;
-    }
-
-    @Override
-    public Value visit(BinaryOperator node) {
-        return null;
-    }
-
-    @Override
-    public Value visit(SingleNode node) {
-        return null;
+        return this.symbolTable.getValue(node.getVariableName());
     }
 }

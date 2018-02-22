@@ -14,7 +14,6 @@ import org.uva.sea.ql.evaluate.EvaluatorInteger;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
-import sun.misc.IOUtils;
 
 import java.io.*;
 import java.util.*;
@@ -101,7 +100,7 @@ public class QLEvaluatorTest extends TestCase {
                 return 0;
 
             QLEvaluator evaluate = new QLEvaluator(this.evaluators, new HashMap<>());
-            List<Question> questions = evaluate.getQuestions(result);
+            List<Question> questions = evaluate.evaluate(result);
             return questions.size();
         } catch (IOException e) {
             return 0;

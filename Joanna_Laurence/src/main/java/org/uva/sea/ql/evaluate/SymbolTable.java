@@ -20,7 +20,7 @@ public class SymbolTable {
      * @param name Name of the symbol
      * @return Value of the symbol or null on error
      */
-    public void getValue(String name) {
-        symbolTable.get(name);
+    public Value getValue(String name) {
+        return symbolTable.get(name);
     }
 }

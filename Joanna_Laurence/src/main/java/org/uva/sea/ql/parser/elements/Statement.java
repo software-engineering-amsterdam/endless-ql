@@ -6,14 +6,14 @@ import org.uva.sea.ql.traverse.Visitor;
 
 public class Statement extends ASTNode {
     private Question question;
-    private Condition condition;
+    private IfStatement ifStatement;
 
     public Question getQuestion() {
         return question;
     }
 
-    public Condition getCondition() {
-        return condition;
+    public IfStatement getIfStatement() {
+        return ifStatement;
     }
 
     public Type getType() {

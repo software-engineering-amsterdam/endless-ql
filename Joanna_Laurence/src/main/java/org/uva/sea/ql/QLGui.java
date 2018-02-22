@@ -28,7 +28,7 @@ public class QLGui {
             if(rootNode == null)
                 return;
 
-            QLEvaluator evaluate = new QLEvaluator(this.evaluators);
+            QLEvaluator evaluate = new QLEvaluator(this.evaluators, new HashMap<>());
             List<Question> questions = evaluate.getQuestions(rootNode);
             System.out.println("Total questions: " + questions.size());
 

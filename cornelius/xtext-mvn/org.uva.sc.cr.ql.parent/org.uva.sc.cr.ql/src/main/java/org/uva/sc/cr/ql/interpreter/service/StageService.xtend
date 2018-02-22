@@ -3,7 +3,8 @@ package org.uva.sc.cr.ql.interpreter.service
 import javafx.scene.layout.VBox
 import javax.inject.Inject
 import javax.inject.Singleton
-import org.uva.sc.cr.ql.qL.Block
+import org.uva.sc.cr.ql.qL.BlockBody
+import org.uva.sc.cr.ql.qL.Expression
 import org.uva.sc.cr.ql.qL.Form
 
 @Singleton
@@ -16,26 +17,23 @@ class StageService {
 	private var BindingService bindingService
 
 	def buildGuiLayout(Form form) {
-		val root = new VBox
-		form.body.questions.forEach [
-			val control = controlService.buildControlForQuestion(it)
-			root.children.add(control)
-		]
-		form.blocks.forEach [
-			val block = buildPanelForBlock(it)
-			root.children.add(block)
-		]
-		return root
+		buildPanelForBlock(form.body, null)
 	}
 
-	def private buildPanelForBlock(Block block) {
-		val box = new VBox();
-		block.body.questions.forEach [
+	def private VBox buildPanelForBlock(BlockBody body, Expression expression) {
+		val box = new VBox
+		body.questions.forEach [
 			val control = controlService.buildControlForQuestion(it)
 			box.children.add(control)
 		]
-		val binding = bindingService.buildBindingForTypeBoolean(controlService.controls, block.expression)
-		box.visibleProperty.bind(binding)
+		body.blocks.forEach [
+			val blockChild = buildPanelForBlock(it.body, it.expression)
+			box.children.add(blockChild)
+		]
+		if (expression !== null) {
+			val binding = bindingService.buildBindingForTypeBoolean(controlService.controls, expression)
+			box.visibleProperty.bind(binding)
+		}
 		return box
 	}
 

@@ -5,7 +5,6 @@ generate qL "http://www.uva.org/sc/cr/ql/QL"
 Form:
 	'form' name=ID '{'
 	body=BlockBody
-	blocks+=Block*
 	'}';
 
 Block:
@@ -14,7 +13,9 @@ Block:
 	'}';
 
 BlockBody:
-	{BlockBody} questions+=Question*;
+	{BlockBody} questions+=Question*
+	blocks+=Block*
+	;
 
 Question:
 	label=STRING name=ID ':'  type=QuestionType ('=' '(' expression=Expression ')')?;

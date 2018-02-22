@@ -41,11 +41,11 @@ namespace QL_Parser.Analysis
             };
         }
 
-        public static bool Analyse(Node node, bool logErrors = true)
+        public static bool Analyse(Node node)
         {
             var result = true;
             foreach (IAnalyser analyser in Instance._analysers)
-                if (!analyser.Analyse(node, logErrors) && result)
+                if (!analyser.Analyse(node) && result)
                     result = false;
             return result;
         }

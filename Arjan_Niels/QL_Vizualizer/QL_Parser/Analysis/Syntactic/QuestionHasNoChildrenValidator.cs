@@ -6,26 +6,18 @@ namespace QL_Parser.Analysis.Syntactic
     {
         private readonly string errorMessage = "Questions can't have child nodes.";
 
-        public bool Analyse(Node node, bool logErrors = true)
-        {
-            return QuestionHasNoChildren(node, logErrors);
-        }
-
-        private bool QuestionHasNoChildren(Node parent, bool logErrors)
+        public bool Analyse(Node node)
         {
             var childValue = true;
-            foreach (Node child in parent.Children)
+            foreach (Node child in node.Children)
             {
                 if (child.Type == NodeType.QUESTION && child.Children.Count != 0)
                 {
-                    if (logErrors)
-                    {
-                        Analyser.AddMessage(errorMessage, MessageType.ERROR);
-                    }
+                    Analyser.AddMessage(errorMessage, MessageType.ERROR);
                     return false;
                 }
                 else
-                    childValue = QuestionHasNoChildren(child, logErrors);
+                    childValue = Analyse(child);
             }
 
             return childValue;

@@ -4,12 +4,12 @@ import org.uva.jomi.ql.ast.AstNode;
 
 public abstract class Stmt extends AstNode {
 	public interface Visitor<T> {
-		T visitFormStmt(FormStmt stmt);
-		T visitBlockStmt(BlockStmt stmt);
-		T visitQuestionStmt(QuestionStmt stmt);
-		T visitComputedQuestionStmt(ComputedQuestionStmt stmt);
-		T visitIfStmt(IfStmt stmt);
-		T visitIfElseStmt(IfElseStmt stmt);
+		T visit(FormStmt stmt);
+		T visit(BlockStmt stmt);
+		T visit(QuestionStmt stmt);
+		T visit(ComputedQuestionStmt stmt);
+		T visit(IfStmt stmt);
+		T visit(IfElseStmt stmt);
 	}
 	
 	public abstract <T> T accept(Visitor<T> visitor);

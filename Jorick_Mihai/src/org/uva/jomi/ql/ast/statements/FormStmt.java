@@ -14,6 +14,6 @@ public class FormStmt extends Stmt {
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visitFormStmt(this);
+		return visitor.visit(this);
 	}
 }

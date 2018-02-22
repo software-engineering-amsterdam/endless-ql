@@ -49,13 +49,13 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	}
 
 	@Override
-	public Void visitFormStmt(FormStmt stmt) {
+	public Void visit(FormStmt stmt) {
 		stmt.blockStmt.accept(this);
 		return null;
 	}
 
 	@Override
-	public Void visitBlockStmt(BlockStmt stmt) {
+	public Void visit(BlockStmt stmt) {
 		// Create a new scope for the block statement
 		identifierStack.enterScope();
 
@@ -70,14 +70,14 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	}
 
 	@Override
-	public Void visitQuestionStmt(QuestionStmt stmt) {
+	public Void visit(QuestionStmt stmt) {
 		// Make  sure the question name has not been already declared
 		resolveQuestionIdentifier(stmt.getIdentifier());
 		return null;
 	}
 
 	@Override
-	public Void visitComputedQuestionStmt(ComputedQuestionStmt stmt) {
+	public Void visit(ComputedQuestionStmt stmt) {
 		// Make  sure the question name has not been already declared
 		resolveQuestionIdentifier(stmt.getIdentifier());
 		stmt.expression.accept(this);
@@ -85,17 +85,17 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	}
 
 	@Override
-	public Void visitIfStmt(IfStmt stmt) {
+	public Void visit(IfStmt stmt) {
 		return null;
 	}
 
 	@Override
-	public Void visitIfElseStmt(IfElseStmt stmt) {
+	public Void visit(IfElseStmt stmt) {
 		return null;
 	}
 
 	@Override
-	public Void visitIdentifierExpr(IdentifierExpr identifier) {
+	public Void visit(IdentifierExpr identifier) {
 
 		if (identifierStack.contains(identifier.getName())) {
 			IdentifierExpr retrievedIndetifier = identifierStack.getIdentifier(identifier.getName());
@@ -115,22 +115,22 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	}
 
 	@Override
-	public Void visitPrimaryExpr(PrimaryExpr expr) {
+	public Void visit(PrimaryExpr expr) {
 		return null;
 	}
 
 	@Override
-	public Void visitBinaryExpr(BinaryExpr expr) {
+	public Void visit(BinaryExpr expr) {
 		return null;
 	}
 
 	@Override
-	public Void visitGroupingExpr(GroupingExpr expr) {
+	public Void visit(GroupingExpr expr) {
 		return null;
 	}
 
 	@Override
-	public Void visitUnaryExpr(UnaryExpr expr) {
+	public Void visit(UnaryExpr expr) {
 		return null;
 	}
 }

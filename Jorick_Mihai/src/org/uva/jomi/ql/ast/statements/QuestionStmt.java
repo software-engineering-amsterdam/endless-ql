@@ -18,6 +18,10 @@ public class QuestionStmt extends Stmt {
 		return type;
 	}
 
+	public IdentifierExpr getIdentifier() {
+		return identifier;
+	}
+
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visitQuestionStmt(this);

@@ -1,5 +1,4 @@
 import com.pholser.junit.quickcheck.Property;
-import com.pholser.junit.quickcheck.generator.InRange;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import expression.*;
 import org.junit.runner.RunWith;
@@ -15,9 +14,6 @@ public class ExpressionArithmeticTest {
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
         ExpressionArithmeticDivide expectedExpression = new ExpressionArithmeticDivide(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
-        if(!expectedExpression.equals(actualExpression)){
-            System.out.println("");
-        }
         assertEquals(expectedExpression, actualExpression);
     }
 

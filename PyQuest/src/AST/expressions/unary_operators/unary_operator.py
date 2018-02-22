@@ -1,4 +1,4 @@
-from src.AST.expressions.expression_node import ExpressionNode
+from AST.expressions.expression_node import ExpressionNode
 
 
 class UnaryOperatorNode(ExpressionNode):

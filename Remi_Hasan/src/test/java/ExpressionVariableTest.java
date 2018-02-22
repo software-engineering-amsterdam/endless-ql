@@ -1,21 +1,14 @@
-import antlr.QLLexer;
-import antlr.QLParser;
 import expression.*;
-import jdk.dynalink.linker.support.Lookup;
 import model.LookupTable;
 import model.Question;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;
-import visitor.VisitorExpression;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
 
-public class ExpressionTest {
+public class ExpressionVariableTest {
 
     @Test
     public void ExpressionBooleanTrueTest() throws IOException {
@@ -36,15 +29,6 @@ public class ExpressionTest {
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
     }
-
-    // TODO remove this
-//    booleanConstant : (TRUE | FALSE);
-//    integerConstant : INTEGER;
-//    decimalConstant : DECIMAL;
-//    dateConstant : DATE;
-//    moneyConstant : MONEY;
-//    stringConstant : STRING;
-//    identifierConstant : IDENTIFIER;
 
     @Test
     public void ExpressionIntegerPositiveTest() throws IOException {
@@ -130,6 +114,10 @@ public class ExpressionTest {
         assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
     }
 
+
+
+
+    // TODO move to form test class
 //
 //    @Test
 //    public void FormWithAllTypesOfExpressionsTest() throws IOException {
@@ -156,18 +144,3 @@ public class ExpressionTest {
 }
 
 
-class AntlrTester{
-
-    final QLParser parser;
-    final VisitorExpression visitor;
-
-    AntlrTester(String input){
-        QLLexer lexer = new QLLexer(CharStreams.fromString(input));
-
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        this.parser = new QLParser(tokens);
-
-        // Walk it and attach our listener
-        this.visitor = new VisitorExpression();
-    }
-}

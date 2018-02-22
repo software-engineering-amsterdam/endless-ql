@@ -16,7 +16,7 @@ namespace Assignment1
             Forms = context.result;
         }
 
-        public override void ExitQuestionNorm(QL.QuestionNormContext context)
+        public override void ExitQuestion(QL.QuestionContext context)
         {
             _questions.Add(context.result.Id, context.result);
         }

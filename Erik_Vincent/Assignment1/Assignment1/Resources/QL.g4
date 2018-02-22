@@ -22,13 +22,17 @@ content returns [List<Content> result]
 	@init {
 	$result = new List<Content>();
 	}
-	: OPEN_CB (questionAssign
-		{$result.Add($questionAssign.result);} 
-		| questionNorm
-		{$result.Add($questionNorm.result);} 
+	: OPEN_CB (question
+		{$result.Add($question.result);}
 		| ifstatement
 		{$result.Add($ifstatement.result);}
 		)* CLOSE_CB
+	;
+question returns [Question result]
+	: questionAssign
+		{$result = $questionAssign.result;}
+	| questionNorm
+		{$result = $questionNorm.result;}
 	;
 questionAssign returns [Question result]
 	: questionNorm ASSIGN value

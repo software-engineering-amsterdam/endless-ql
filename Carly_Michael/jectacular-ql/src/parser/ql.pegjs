@@ -23,24 +23,26 @@ q "question"    = ws name:identifier ":" ws "\"" ws
 exprQuestion    = ws name:identifier ":" ws "\"" ws
                   label:text "\"" ws
                   type: type ws
-                  "=" ws "(" ws expr:Expression ws ")" ws {
+                  "=" ws expr:addExpression ws {
                     return new ExpressionQuestion(name, label, type, expr, location());
                   }
 
-Expression
-  = head:Factor tail:(ws ("+" / "-" / "*" / "/") ws Factor)* {
-      tail[0].unshift(head);
-      return tail.reduce(function(result, element) {
-        if (element[2] === "+") { result.push(new AddExpression(element[0], element[4])); return result; }
-        if (element[2] === "-") { result.push(new SubtractExpression(element[0], element[4])); return result; }
-        if (element[2] === "*") { result.push(new MultiplyExpression(element[0], element[4])); return result; }
-        if (element[2] === "/") { result.push(new DivideExpression(element[0], element[4])); return result; }
-      }, []);
-}
+addExpression
+  = head:mulExpression tail:(ws ("+" / "-") ws addExpression) {
+      return new BinaryExpression(head, tail[3], tail[1], location());
+} / v:mulExpression {
+        return v;
+      }
+
+mulExpression
+  = head:Factor tail:(ws ("*" / "/") ws mulExpression) {
+      return new BinaryExpression(head, tail[3], tail[1], location());
+} / v:Factor {
+        return v;
+      }
 
 Factor
-  = "(" ws expr:Expression ws ")" { return expr; }
-/ integer
+  = v:integer {return v;} / "(" expr:addExpression ")" { return expr; }
 
 text            = (ws word ws)+ {return text();}
 
@@ -54,9 +56,10 @@ type            = booleanType /
 // low-level
 
 ws "whitespace" = [ \t\n\r]* { return; }
+ws2 = [ \t\n\r]+ { return; }
 identifier 		  = [a-zA-Z0-9]+ {return text();}
 expression 		  = [a-zA-Z0-9 +\-\/*><=]+ {return text();}
-integer         = ws [0-9]+ { return new IntegerExpression(parseInt(text(), 10)); }
+integer         = ws [0-9]+ ws { return new Literal(ExpressionType.NUMBER, parseInt(text(), 10), location()); }
 word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
 
 booleanType     = "boolean" { return QuestionType.BOOLEAN; }

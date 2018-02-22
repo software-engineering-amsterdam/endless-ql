@@ -14,3 +14,15 @@ class CodeLocation:
 
     def __repr__(self):
         return "(" + str(self.line) + "," + str(self.column) + ")"
+
+
+def build(l: list):
+    if len(l) == 2:
+        return CodeLocation(l[0], l[1])
+    return CodeLocation(l[0], build(l.pop(0)))
+
+
+if __name__ == "__main__":
+    list = [1, 2, 3, 4, 5]
+    cc = build(list)
+    print(cc)

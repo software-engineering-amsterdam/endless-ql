@@ -72,6 +72,8 @@ class ParseTreeVisitor(QLVisitor):
         if ctx.getChildCount() > 1:
             left = ctx.mulExpression(0).accept(self)
             right = ctx.mulExpression(1).accept(self)
+            mulExpressions = [m.accept(self) for m in ctx.mulExpression()]
+            operators = [o.accept(self) for o in ctx.addOperator()]
             location = self.location(ctx)
             switcher = {
                 "+": Addition(location, left, right),
@@ -80,10 +82,15 @@ class ParseTreeVisitor(QLVisitor):
             return switcher.get(self.operator(ctx))
         return self.visitChildren(ctx)
 
+    def visitAddOperator(self, ctx:QLParser.AddOperatorContext):
+        return ctx.getText()
+
     def visitMulExpression(self, ctx: QLParser.MulExpressionContext):
         if ctx.getChildCount() > 1:
             left = ctx.unExpression(0).accept(self)
             right = ctx.unExpression(1).accept(self)
+            unExpressions = [m.accept(self) for m in ctx.unExpression()]
+            operators = [o.accept(self) for o in ctx.mulOperator()]
             location = self.location(ctx)
             switcher = {
                 "*": Multiplication(location, left, right),
@@ -91,6 +98,9 @@ class ParseTreeVisitor(QLVisitor):
             }
             return switcher.get(self.operator(ctx))
         return self.visitChildren(ctx)
+
+    def visitMulOperator(self, ctx:QLParser.MulOperatorContext):
+        return ctx.getText()
 
     def visitUnExpression(self, ctx: QLParser.UnExpressionContext):
         return self.visitChildren(ctx)

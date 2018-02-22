@@ -1,7 +1,6 @@
 package org.uva.sea.ql.parser.elements;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.sea.ql.QLExprEvaluate;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.types.Bool;
 import org.uva.sea.ql.parser.elements.types.Type;

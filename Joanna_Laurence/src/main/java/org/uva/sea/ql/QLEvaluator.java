@@ -18,7 +18,17 @@ public class QLEvaluator implements Visitor<Value> {
 
     private List<Question> questions = new ArrayList<>();
 
+    private QuestionEvaluator questionEvaluator = new QuestionEvaluator();
+
     private SymbolTable symbolTable;
+
+    /**
+     *
+     * @param questions
+     */
+    public void mergeQuestions(List<Question> questions) {
+        this.questions.addAll(questions);
+    }
 
     /**
      * Constructor
@@ -176,11 +186,17 @@ public class QLEvaluator implements Visitor<Value> {
     }
 
     @Override
+    public Value visit(Variable node) {
+        return null;
+    }
+
+    @Override
     public Value visit(Condition node) {
-        Value conditionValue = node.accept(new QLValueEvaluator<>() {
-        });
+        Value condition = node.getExpression().accept(this);
+        Value statements = node.getStatements().accept(this);
 
-
+        List<Question> questions = this.questionEvaluator.evaluate(condition, statements);
+        this.questions.addAll(questions);
 
         return null;
     }

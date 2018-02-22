@@ -1,5 +1,8 @@
 package org.uva.sea.ql.evaluate;
 
-public interface Value<T> {
-    T getValue();
+public abstract class Value<T> {
+
+    public Value add(Value value){
+        return value.add(this);
+    }
 }

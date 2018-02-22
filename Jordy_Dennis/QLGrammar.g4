@@ -9,7 +9,7 @@ question: STRING ID DOT types;
 assignment: STRING ID DOT types ASSIGN PARL expression PARR;
 
 expression: literal
-            | PARL expression PARR
+            | PARL left = expression PARR
             | unaryexp
             | left=expression COMPARE right=expression
             | left=expression MATH_OPERATOR_PRIO right=expression

@@ -13,4 +13,7 @@ public abstract class Expression<T> {
     public void setValue(String value) {
 
     }
+
+    @Override
+    public abstract boolean equals(Object other);
 }

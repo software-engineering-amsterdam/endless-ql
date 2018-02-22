@@ -24,7 +24,7 @@ public class IdentifierExpr extends Expr {
 		return token.getLine();
 	}
 
-	public int getCloumn() {
+	public int getColumn() {
 		return token.getColumn();
 	}
 

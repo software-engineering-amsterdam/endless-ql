@@ -55,4 +55,13 @@ public abstract class ExpressionVariable<T> extends Expression<T> {
     public abstract ExpressionVariable or(ExpressionVariable other);
 
     public abstract ExpressionVariable not();
+
+    @Override
+    public boolean equals(Object other){
+        if(this.getClass().equals(other.getClass())){
+            ExpressionVariable otherExpression = (ExpressionVariable) other;
+            return this.value.equals(otherExpression.value);
+        }
+        return false;
+    }
 }

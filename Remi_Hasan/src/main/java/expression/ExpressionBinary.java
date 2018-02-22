@@ -17,4 +17,7 @@ public abstract class ExpressionBinary<T> extends Expression<T> {
     public String toString() {
         return this.left.toString() + opString + this.right.toString();
     }
+
+    @Override
+    public abstract boolean equals(Object other);
 }

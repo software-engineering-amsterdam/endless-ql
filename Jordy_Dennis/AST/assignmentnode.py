@@ -1,10 +1,11 @@
 
 class AssignmentNode:
-    def __init__(self, question, var, varType, expression):
+    def __init__(self, question, varName, varType, expression, line):
         self.question = question
         self.varName = varName
         self.varType = varType
-        self.value = expression
+        self.expression = expression
+        self.line = line
 
     def changeValue(self, value):
         pass

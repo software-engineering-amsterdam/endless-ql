@@ -66,14 +66,14 @@ comparisonExpression
 
 addExpression
   = head:mulExpression tail:(ws ("+" / "-") ws addExpression) {
-      return new BinaryExpression(head, tail[3], tail[1], location());
+      return new ArithmeticExpression(head, tail[3], tail[1], location());
 } / v:mulExpression {
         return v;
       }
 
 mulExpression
   = head:unaryExpression tail:(ws ("*" / "/") ws mulExpression) {
-      return new BinaryExpression(head, tail[3], tail[1], location());
+      return new ArithmeticExpression(head, tail[3], tail[1], location());
 } / v:unaryExpression {
         return v;
       }

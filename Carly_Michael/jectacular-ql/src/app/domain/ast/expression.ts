@@ -1,9 +1,11 @@
 import {ExpressionType} from './expression-type';
 import {Location} from './location';
 
-export type BinaryOperator = '+' | '-' | '*' | '/';
+export type ArithmeticOperator = '+' | '-' | '*' | '/';
+export type ComparisonOperator = '>' | '<' | '>=' | '<=';
 export type UnaryOperator = '!' | '-';
 export type LogicalOperator = '&&' | '||';
+export type EqualityOperator = '==' | '!=';
 export type LiteralType = boolean | number | string | Date;
 
 export abstract class Expression {

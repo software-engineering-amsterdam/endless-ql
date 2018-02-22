@@ -7,9 +7,9 @@ import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 
-public class MultiplicationExpression extends BinaryExpression<Double> {
-    public MultiplicationExpression(Expression left, Expression right){
-        super("*", left, right);
+public class DivisionExpression extends BinaryExpression<Double> {
+    public DivisionExpression(Expression left, Expression right){
+        super("/", left, right);
     }
 
     @Override
@@ -19,7 +19,7 @@ public class MultiplicationExpression extends BinaryExpression<Double> {
     public Constant<Double> evaluate(){
         DecimalConstant left  = (DecimalConstant) this.getExprLeft().evaluate();
         DecimalConstant right = (DecimalConstant) this.getExprRight().evaluate();
-        return new DecimalConstant(left.getValue() * right.getValue());
+        return new DecimalConstant(left.getValue() / right.getValue());
     }
 
     @Override

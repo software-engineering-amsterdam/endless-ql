@@ -7,7 +7,7 @@
 "use strict";
 
 /* tslint:disable */ 
- import { Form, Question, ExpressionQuestion, QuestionType, If, ExpressionType, Literal, BinaryExpression, LogicalExpression, UnaryExpression } from '../app/domain/ast'
+ import { Form, Question, ExpressionQuestion, QuestionType, If, ExpressionType, Literal, ArithmeticExpression, LogicalExpression, UnaryExpression } from '../app/domain/ast'
 export class SyntaxError extends Error {
   public static buildMessage(expected: string, found: string) {
     const DESCRIBE_EXPECTATION_FNS = {
@@ -196,7 +196,7 @@ function peg$parse(input, options) {
   const peg$c43 = "-";
   const peg$c44 = peg$literalExpectation("-", false);
   const peg$c45 = function(head, tail) {
-        return new BinaryExpression(head, tail[3], tail[1], location());
+        return new ArithmeticExpression(head, tail[3], tail[1], location());
   };
   const peg$c46 = "*";
   const peg$c47 = peg$literalExpectation("*", false);

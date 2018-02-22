@@ -7,9 +7,9 @@ import org.uva.sea.ql.parser.elements.expressions.Not;
 import org.uva.sea.ql.parser.elements.expressions.Positive;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.DualNode;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
-public class QLTypeCheck extends Traverse {
+public class QLTypeCheck extends BaseVisitor {
 
     private boolean error = false;
 

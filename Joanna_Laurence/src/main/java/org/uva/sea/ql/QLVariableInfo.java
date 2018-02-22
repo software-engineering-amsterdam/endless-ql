@@ -5,7 +5,7 @@ import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.types.Var;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.Map;
  * Iterates over the AST and add links between variables and questions
  * Checks if variables are not used before declared
  */
-public class QLVariableInfo extends Traverse {
+public class QLVariableInfo extends BaseVisitor {
 
     private Map<String, Question> variableMap = new HashMap<String, Question>();
 

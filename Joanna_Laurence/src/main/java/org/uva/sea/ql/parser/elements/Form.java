@@ -1,7 +1,7 @@
 package org.uva.sea.ql.parser.elements;
 
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
 public class Form extends ASTNode {
 
@@ -21,13 +21,9 @@ public class Form extends ASTNode {
         return statements;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doForm(this);
-    }
-
-    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
-        if(this.statements != null)
-            this.statements.doTraversal(traverse, traverseType);
+    @Override
+    public void accept(BaseVisitor visitor) {
+        visitor.visit(this);
     }
 
     public Type getType() {

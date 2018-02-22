@@ -2,12 +2,11 @@ package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
 import java.util.Calendar;
-import java.util.Date;
 
-public class DateExpr extends ASTNode {
+public class DateExpr extends ASTNode  {
     private Calendar date = Calendar.getInstance();
 
     public DateExpr(String day, String month, String year) {
@@ -20,8 +19,9 @@ public class DateExpr extends ASTNode {
         return date;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doDateExpr(this);
+    @Override
+    public void accept(BaseVisitor visitor) {
+        visitor.visit(this);
     }
 
     public Type getType() {

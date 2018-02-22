@@ -1,10 +1,9 @@
 package org.uva.sea.ql.parser.elements;
 
 import org.uva.sea.ql.QLExprEvaluate;
-import org.uva.sea.ql.parser.elements.types.Bool;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.elements.types.Var;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
 import java.util.*;
 
@@ -52,16 +51,9 @@ public class Question extends ASTNode implements QuestionContainerNode {
         return this.computedAnswer;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doQuestion(this);
-    }
-
-    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
-        this.variable.doTraversal(traverse,traverseType);
-        this.nodeType.doTraversal(traverse,traverseType);
-
-        if(this.value != null)
-            this.value.doTraversal(traverse,traverseType);
+    @Override
+    public void accept(BaseVisitor visitor) {
+        visitor.visit(this);
     }
 
     public Type getType() {

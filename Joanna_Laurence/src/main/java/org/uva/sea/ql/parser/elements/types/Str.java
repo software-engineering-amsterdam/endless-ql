@@ -2,9 +2,9 @@ package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
-public class Str extends ASTNode {
+public class Str extends ASTNode  {
     private String value;
 
     public Str(String value) {
@@ -15,8 +15,9 @@ public class Str extends ASTNode {
         return value;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doStr(this);
+    @Override
+    public void accept(BaseVisitor visitor) {
+        visitor.visit(this);
     }
 
     public Type getType() {

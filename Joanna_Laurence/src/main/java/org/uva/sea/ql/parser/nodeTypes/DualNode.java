@@ -1,10 +1,10 @@
 package org.uva.sea.ql.parser.nodeTypes;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.Visitable;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
-public abstract class DualNode extends ASTNode {
+public abstract class DualNode extends ASTNode implements Visitable {
     private ASTNode lhs;
     private ASTNode rhs;
 
@@ -13,33 +13,16 @@ public abstract class DualNode extends ASTNode {
         this.rhs = rhs;
     }
 
-
     public ASTNode getLhs() {
         return lhs;
-    }
-
-    public void setLhs(ASTNode lhs) {
-        this.lhs = lhs;
     }
 
     public ASTNode getRhs() {
         return rhs;
     }
 
-    public void setRhs(ASTNode rhs) {
-        this.rhs = rhs;
-    }
-
-    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
-        this.lhs.doTraversal(traverse, traverseType);
-        this.rhs.doTraversal(traverse, traverseType);
-    }
-
-    /**
-     * Traverse over the node
-     * @param traverse How to traverseNode
-     */
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doDualNode(this);
+    @Override
+    public void accept(BaseVisitor visitor) {
+        visitor.visit(this);
     }
 }

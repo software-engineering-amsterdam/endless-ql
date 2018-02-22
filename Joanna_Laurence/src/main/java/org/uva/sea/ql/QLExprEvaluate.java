@@ -6,7 +6,7 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
 import java.util.Map;
 import java.util.Stack;
@@ -21,7 +21,7 @@ interface ApplySingleNode<One, Two> {
     public void apply(One one, Two two);
 }
 
-public class QLExprEvaluate extends Traverse {
+public class QLExprEvaluate extends BaseVisitor {
 
     private Stack<ASTNode> stack = new Stack<>();
 

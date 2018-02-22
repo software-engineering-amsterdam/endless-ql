@@ -3,27 +3,32 @@ package org.uva.sea.ql.parser.elements.types;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
 //TODO: Override equals
-public class Type extends ASTNode {
+public class Type extends ASTNode  {
     private NodeType nodeType;
 
     public Type(String type) {
         this.nodeType = NodeType.valueOf(type.toUpperCase());
     }
 
+    public Type(NodeType type) {
+        this.nodeType = type;
+    }
+
     public NodeType getNodeType() {
         return nodeType;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doType(this);
+    @Override
+    public void accept(BaseVisitor visitor) {
+        visitor.visit(this);
     }
 
     public Type getType() {
         return new Type("string");
-    }
+    } //This does not have a type
 
     @Override
     public boolean equals(Object o) {

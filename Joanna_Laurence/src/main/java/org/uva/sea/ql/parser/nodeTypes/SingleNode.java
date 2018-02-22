@@ -2,7 +2,7 @@ package org.uva.sea.ql.parser.nodeTypes;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
 public abstract class SingleNode extends ASTNode {
     private ASTNode value;
@@ -15,11 +15,8 @@ public abstract class SingleNode extends ASTNode {
         return value;
     }
 
-    public void setValue(ASTNode value) {
-        this.value = value;
-    }
-
-    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
-        this.value.doTraversal(traverse, traverseType);
+    @Override
+    public void accept(BaseVisitor visitor) {
+        visitor.visit(this);
     }
 }

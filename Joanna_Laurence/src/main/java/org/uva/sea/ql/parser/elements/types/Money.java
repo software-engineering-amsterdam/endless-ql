@@ -2,12 +2,11 @@ package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
-public class Money extends ASTNode {
+public class Money extends ASTNode  {
     private String currency;
     private BigDecimal amount;
 
@@ -24,8 +23,9 @@ public class Money extends ASTNode {
         return amount;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doMoney(this);
+    @Override
+    public void accept(BaseVisitor visitor) {
+        visitor.visit(this);
     }
 
     public Type getType() {

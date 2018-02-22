@@ -3,7 +3,7 @@ package org.uva.sea.ql.parser.elements;
 import org.uva.sea.ql.QLExprEvaluate;
 import org.uva.sea.ql.parser.elements.types.Bool;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,16 +47,9 @@ public class Condition extends ASTNode implements QuestionContainerNode {
         return statements;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doCondition(this);
-    }
-
-    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
-        this.expression.traverseNode(traverse, traverseType);
-        expression.doTraversal(traverse, traverseType);
-        for (ASTNode node: this.statements.getStatementList()) {
-            node.doTraversal(traverse, traverseType);
-        }
+    @Override
+    public void accept(BaseVisitor visitor) {
+        visitor.visit(this);
     }
 
     public Type getType() {

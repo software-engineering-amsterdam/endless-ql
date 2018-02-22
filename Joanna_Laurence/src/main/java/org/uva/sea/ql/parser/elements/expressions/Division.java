@@ -4,17 +4,16 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.DualNode;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.BaseVisitor;
 
-public class Division extends DualNode {
+public class Division extends DualNode  {
     public Division(ASTNode lhs, ASTNode rhs) {
         super(lhs, rhs);
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        super.traverseNode(traverse, traverseType);
-        traverse.doOperation(this);
-        traverse.doDiv(this);
+    @Override
+    public void accept(BaseVisitor visitor) {
+        visitor.visit(this);
     }
 
     /**

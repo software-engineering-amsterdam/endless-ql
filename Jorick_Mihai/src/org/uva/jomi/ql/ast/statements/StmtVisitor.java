@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
-import org.uva.jomi.ql.ast.analysis.IdentifierResolver;
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.expressions.ExprVisitor;
 import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
@@ -14,32 +13,43 @@ import org.uva.jomi.ql.parser.antlr.QLParser.CommandContext;
 
 public class StmtVisitor extends QLBaseVisitor<Stmt> {
 
+	private class BlockStmtVisitor extends QLBaseVisitor<BlockStmt> {
+
+		private final StmtVisitor stmtVisitor;
+
+		public BlockStmtVisitor(StmtVisitor stmtVisitor) {
+			this.stmtVisitor = stmtVisitor;
+		}
+
+		// Builds a Block statement using the parser context.
+		@Override public BlockStmt visitBlockStmt(QLParser.BlockStmtContext ctx) {
+			List<Stmt> statements = new ArrayList<>(ctx.command().size());
+
+			// Visit every statement in the block and add it to the statements array.
+			for (CommandContext statement : ctx.command()) {
+				statements.add(statement.accept(stmtVisitor));
+			}
+
+			return new BlockStmt(statements);
+		}
+	}
+
 	// An expression visitor is needed in order to visit the expression nodes in the Ast.
 	private final ExprVisitor exprVisitor;
+	private final BlockStmtVisitor blockStmtVisitor;
 
 	// The expression visitor is initialized in the default constructor
 	public StmtVisitor() {
 		this.exprVisitor = new ExprVisitor();
+		this.blockStmtVisitor = new BlockStmtVisitor(this);
 	}
 
 	// Builds a Form statement using the parser context.
 	@Override public Stmt visitFormStmt(QLParser.FormStmtContext ctx) {
 		QLToken token = new QLToken(ctx.IDENTIFIER().getSymbol());
 		IdentifierExpr identifier = new IdentifierExpr(token);
-		BlockStmt blockStmt = (BlockStmt) visitBlockStmt(ctx.blockStmt());
+		BlockStmt blockStmt = ctx.blockStmt().accept(blockStmtVisitor);
 		return new FormStmt(identifier, blockStmt);
-	}
-
-	// Builds a Block statement using the parser context.
-	@Override public Stmt visitBlockStmt(QLParser.BlockStmtContext ctx) {
-		List<Stmt> statements = new ArrayList<>(ctx.command().size());
-
-		// Visit every statement in the block and add it to the statements array.
-		for (CommandContext statement : ctx.command()) {
-			statements.add(visit(statement));
-		}
-
-		return new BlockStmt(statements);
 	}
 
 	// Builds a Question statement using the parser context.
@@ -64,7 +74,7 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 	// Builds an If statement using the parser context.
 	@Override public Stmt visitIfStmt(QLParser.IfStmtContext ctx) {
 		Expr expression = ctx.expression().accept(exprVisitor);
-		BlockStmt blockStmt = (BlockStmt) visitBlockStmt(ctx.blockStmt());
+		BlockStmt blockStmt = ctx.blockStmt().accept(blockStmtVisitor);
 		return new IfStmt(expression, blockStmt);
 	}
 
@@ -72,8 +82,8 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 	@Override public Stmt visitIfElseStmt(QLParser.IfElseStmtContext ctx) {
 		Expr expression = ctx.expression().accept(exprVisitor);
 
-		BlockStmt ifBlockStmt = (BlockStmt) visitBlockStmt(ctx.ifBlock);
-		BlockStmt elseBlockStmt = (BlockStmt) visitBlockStmt(ctx.elseBlock);
+		BlockStmt ifBlockStmt = ctx.ifBlock.accept(blockStmtVisitor);
+		BlockStmt elseBlockStmt = ctx.elseBlock.accept(blockStmtVisitor);
 		return new IfElseStmt(expression, ifBlockStmt, elseBlockStmt);
 	}
 }

@@ -26,7 +26,7 @@
     </form>
 
     <div *ngIf="payload" class="form-row">
-      <strong>Saved the following values</strong><br>{{payLoad}}
+      <strong>Saved the following values</strong><br>{{payload | json}}
     </div>
   </div>
 </div>

@@ -11,6 +11,6 @@ public class GroupingExpr extends Expr {
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visitGroupingExpr(this);
+		return visitor.visit(this);
 	}
 }

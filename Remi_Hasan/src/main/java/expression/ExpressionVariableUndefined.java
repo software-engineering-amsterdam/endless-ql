@@ -73,7 +73,7 @@ public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Undefined;
+        return ReturnType.UNDEFINED;
     }
 
     @Override

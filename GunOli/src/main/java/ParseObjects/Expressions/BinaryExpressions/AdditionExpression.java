@@ -4,6 +4,7 @@ import ParseObjects.Expressions.BinaryExpression;
 import ParseObjects.Expressions.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
+import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 
 public class AdditionExpression extends BinaryExpression<Double> {
     public AdditionExpression(Expression left, Expression right){
@@ -17,7 +18,9 @@ public class AdditionExpression extends BinaryExpression<Double> {
 
     @Override
     public Constant<Double> evaluate(){
-        return null;//change
+        DecimalConstant left  = (DecimalConstant) this.getExprLeft().evaluate();
+        DecimalConstant right = (DecimalConstant) this.getExprRight().evaluate();
+        return new DecimalConstant(left.getValue() + right.getValue());
     }
 
     @Override

@@ -10,12 +10,12 @@ form
     ;
 
 statement
-    :   text=STRING ID ':' type calculatedValue?                            #question
+    :   text=STRING ID ':' type calculatedValue? ';'?                       #question
     |   'if' '(' expression ')'
-                '{' statement* '}'                                          #ifStatement
+                OPEN_BRACKET statement* CLOSE_BRACKET                       #ifStatement
     |   'if' '(' expression ')'
-                '{' ifCase+=statement* '}'
-                'else' '{' elseCase+=statement* '}'                         #ifElseStatement
+                OPEN_BRACKET ifCase+=statement* CLOSE_BRACKET
+                'else' OPEN_BRACKET elseCase+=statement* CLOSE_BRACKET      #ifElseStatement
     ;
 
 expression
@@ -38,7 +38,8 @@ calculatedValue
 
 type
     : 'boolean'                                                             #booleanType
-    | 'money'                                                               #integerType
+    | 'integer'                                                             #integerType
+    | 'money'                                                               #moneyType
     | 'string'                                                              #stringType
     ;
 
@@ -51,7 +52,7 @@ ID:   [a-zA-Z_]+[a-zA-Z0-9_]* ;
 STRING: '"' .*? '"';
 
 NUMBER
-    :    ('0'..'9')+ ('.' ('0'..'9')+)?
+    :   '-'? ('0'..'9')+ ('.' ('0'..'9')+)?
     ;
 
 WHITESPACE

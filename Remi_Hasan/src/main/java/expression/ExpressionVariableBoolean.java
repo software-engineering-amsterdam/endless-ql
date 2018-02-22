@@ -8,7 +8,7 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Boolean;
+        return ReturnType.BOOLEAN;
     }
 
     @Override

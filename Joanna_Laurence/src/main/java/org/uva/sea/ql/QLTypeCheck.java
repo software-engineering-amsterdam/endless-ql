@@ -9,57 +9,30 @@ import org.uva.sea.ql.traverse.BaseVisitor;
 
 public class QLTypeCheck extends BaseVisitor<Void> {
 
-    private boolean error = false;
+    private Error errors = new Error();
 
     /**
      * Check types and exit program when errors are found
      * Log will be written to std err
      * @param node Do the type check for the node
      */
-    public boolean doTypeCheck(Form node) {
+    public Error doTypeCheck(Form node) {
         node.accept(this);
-        return !error;
+        return this.errors;
     }
-
-    /**
-     * Determine if the type is numeric (Money is also)
-     * @param node The node that contains the type
-     * @param type The type as string
-     */
-    private void checkIsNumber(ASTNode node, NodeType type) {
-        if(!(type == NodeType.INTEGER || type == NodeType.DECIMAL || type == NodeType.MONEY))
-            this.error(node);
-    }
-
-    /**
-     * Determine if the type is numeric (Int/double)
-     * @param type The type
-     */
-    private boolean IsBasicNumber(Type type) {
-        return (type.getNodeType() == NodeType.INTEGER || type.getNodeType() == NodeType.DECIMAL);
-    }
-
 
     /**
      * Check if the types are the same
      * @param node The node to is checked
      */
     private void checkLogicalOperator(BinaryOperator node) {
-        Type lhsType = node.getLhs().getType();
-        Type rhsType = node.getRhs().getType();
-        checkTypesCompatible(node, lhsType, rhsType);
-    }
+        ASTNode lhs = node.getLhs();
+        NodeType lhsType = lhs.getType().getNodeType();
 
-    /**
-     *
-     * @param node The ASTNode
-     * @param firstType The first type that is compared
-     * @param secondType The second type that is compared
-     */
-    private void checkTypesCompatible(ASTNode node, Type firstType, Type secondType) {
-        boolean exactlyTheSame = firstType.equals(secondType);
-        boolean compatibleTypes = IsBasicNumber(firstType) && IsBasicNumber(secondType);
-        if(!(exactlyTheSame || compatibleTypes))
+        ASTNode rhs = node.getRhs();
+        NodeType rhsType = rhs.getType().getNodeType();
+
+        if(!lhsType.isTypeCompatible(rhsType))
             this.error(node);
     }
 
@@ -69,16 +42,25 @@ public class QLTypeCheck extends BaseVisitor<Void> {
      * @param node The node that caused an error
      */
     private void error(ASTNode node) {
-        System.err.println("Incorrect type on line:" + node.getLine() + " column: " + node.getColumn());
-        this.error = true;
+        this.errors.addError("Incorrect type on line:" + node.getLine() + " column: " + node.getColumn());
+    }
+
+    /**
+     *
+     * @param node The AST node
+     * @return If the node is of type number
+     */
+    private boolean isNodeNumber(ASTNode node) {
+        NodeType type = node.getType().getNodeType();
+        return type.isNumber();
     }
 
     /**
      * Both sides have to be numbers
      */
     private void checkBinaryOperatorNumbers(BinaryOperator node) {
-        checkIsNumber(node, node.getLhs().getType().getNodeType());
-        checkIsNumber(node, node.getRhs().getType().getNodeType());
+        if(!(isNodeNumber(node.getLhs()) && isNodeNumber(node.getRhs())))
+            this.error(node);
     }
 
     /**
@@ -90,7 +72,10 @@ public class QLTypeCheck extends BaseVisitor<Void> {
 
         ASTNode value = node.getDefaultValue();
         if(value != null) {
-            this.checkTypesCompatible(node, node.getNodeType(), value.getType());
+            NodeType questionType = node.getNodeType().getNodeType();
+            NodeType valueType = value.getType().getNodeType();
+            if(!questionType.isTypeCompatible(valueType))
+                this.error(node);
         }
         return null;
     }
@@ -99,6 +84,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     @Override
     public Void visit(Addition node) {
         super.visit(node);
+
         this.checkBinaryOperatorNumbers(node);
         return null;
     }
@@ -106,12 +92,15 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     @Override
     public Void visit(And node) {
         super.visit(node);
+
         this.checkLogicalOperator(node);
         return null;
     }
 
     @Override
     public Void visit(Division node) {
+        super.visit(node);
+
         this.checkBinaryOperatorNumbers(node);
         return null;
     }
@@ -119,6 +108,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     @Override
     public Void visit(Equal node) {
         super.visit(node);
+
         this.checkLogicalOperator(node);
         return null;
     }
@@ -126,6 +116,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     @Override
     public Void visit(GreaterOrEqual node) {
         super.visit(node);
+
         this.checkLogicalOperator(node);
         return null;
     }
@@ -133,6 +124,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     @Override
     public Void visit(GreaterThan node) {
         super.visit(node);
+
         this.checkLogicalOperator(node);
         return null;
     }
@@ -140,6 +132,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     @Override
     public Void visit(LessOrEqual node) {
         super.visit(node);
+
         this.checkLogicalOperator(node);
         return null;
     }
@@ -147,6 +140,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     @Override
     public Void visit(LessThan node) {
         super.visit(node);
+
         this.checkLogicalOperator(node);
         return null;
     }
@@ -154,6 +148,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     @Override
     public Void visit(Multiplication node) {
         super.visit(node);
+
         this.checkBinaryOperatorNumbers(node);
         return null;
     }
@@ -174,6 +169,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     @Override
     public Void visit(NotEqual node) {
         super.visit(node);
+
         this.checkLogicalOperator(node);
         return null;
     }
@@ -183,6 +179,8 @@ public class QLTypeCheck extends BaseVisitor<Void> {
      * @param node The node that is inspected
      */
     public Void visit(Positive node) {
+        super.visit(node);
+
         NodeType nodeType = node.getType().getNodeType();
         if(!(nodeType == NodeType.MONEY || nodeType == NodeType.INTEGER || nodeType == NodeType.DECIMAL))
             this.error(node);
@@ -192,6 +190,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     @Override
     public Void visit(Subtraction node) {
         super.visit(node);
+
         this.checkBinaryOperatorNumbers(node);
         return null;
     }
@@ -225,6 +224,7 @@ public class QLTypeCheck extends BaseVisitor<Void> {
     @Override
     public Void visit(Or node) {
         super.visit(node);
+
         this.checkLogicalOperator(node);
         return null;
     }

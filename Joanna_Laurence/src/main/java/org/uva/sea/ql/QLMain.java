@@ -1,10 +1,5 @@
 package org.uva.sea.ql;
 
-import org.uva.sea.ql.evaluate.EvaluatorBoolean;
-import org.uva.sea.ql.evaluate.EvaluatorDecimal;
-import org.uva.sea.ql.evaluate.EvaluatorInteger;
-import org.uva.sea.ql.parser.NodeType;
-
 public class QLMain {
 
     /**
@@ -24,6 +19,15 @@ public class QLMain {
         Are question values computed on the first level?
         //WHen value is defined, make immutible
         a && b << only eval b when a is true. etc
+
+         Enum methods for number
+         Error list
+         Chaining of method calls
+
+         Return Value types
+         Create value types for everything
+         Add add/div etc operators
+
      */
 
     /**
@@ -32,10 +36,6 @@ public class QLMain {
      */
     public static void main(String[] args) {
         QLGui gui = new QLGui();
-        gui.addEvaluator(NodeType.BOOLEAN, new EvaluatorBoolean());
-        gui.addEvaluator(NodeType.DECIMAL, new EvaluatorDecimal());
-        gui.addEvaluator(NodeType.INTEGER, new EvaluatorInteger());
-
         gui.start("/example.ql");
     }
 }

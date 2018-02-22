@@ -1,49 +1,34 @@
 package org.uva.sea.ql;
 
-import org.uva.sea.ql.evaluate.Evaluator;
-import org.uva.sea.ql.parser.NodeType;
-import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.evaluate.Value;
+import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
+import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
+import org.uva.sea.ql.parser.nodeTypes.SingleNode;
 import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.traverse.Visitor;
 
-import java.util.Map;
-import java.util.Stack;
+public class QLExprEvaluate implements Visitor<Value> {
 
-@FunctionalInterface
-interface ApplyDualNode<One, Two, Three> {
-    public void apply(One one, Two two, Three three);
-}
-
-@FunctionalInterface
-interface ApplySingleNode<One, Two> {
-    public void apply(One one, Two two);
-}
-
-public class QLExprEvaluate extends BaseVisitor {
-
-    private Stack<ASTNode> stack = new Stack<>();
-
-    private Map<NodeType, Evaluator> evaluator;
-
-    private boolean error = false;
-
-    private boolean notComplete = false;
+    private Error errors = new Error();
 
     /**
      * Constructor
      * @param evaluator The supported operations
      */
-    public QLExprEvaluate(Map<NodeType, Evaluator> evaluator) {
-        this.evaluator = evaluator;
+    public QLExprEvaluate() {
+
     }
 
     /**
      * Evaluate the AST and get all questions
      * @param node The base AST node
      */
-    public ASTNode getValue(ASTNode node) {
-        node.accept(this);
+    public Value getValue(ASTNode node) {
+        return node.accept(this);
+
+
         return this.error || this.notComplete ? null : this.stack.pop();
     }
 
@@ -285,15 +270,173 @@ public class QLExprEvaluate extends BaseVisitor {
         this.stack.add(node);
     }
 
-    public void doInt(Int node) {
+    public Int doInt(Int node) {
         this.stack.add(node);
     }
 
-    public void doStr(Str node) {
+    public Str doStr(Str node) {
         this.stack.add(node);
     }
 
-    public void doVar(Variable node) {
+    @Override
+    public Value visit(Addition node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(And node) {
+        Value left = node.getLhs().accept(this);
+
+        return left.and(right);
+    }
+    /*
+    public class IntValue extends Value{
+
+    public Value and(Value value){
+        return value.and(this);
+    }
+
+    public Value and(IntValue value){
+        return new IntValue(this.intValue, value.intValue);
+    }
+    }*/
+
+    @Override
+    public Value visit(Division node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Equal node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(GreaterOrEqual node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(GreaterThan node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(LessOrEqual node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(LessThan node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Multiplication node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Negative node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(NotEqual node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Not node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Or node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Positive node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Subtraction node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Bool node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(DateExpr node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Decimal node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Money node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Int node) {
+        return new IntValue(node.getValue());
+    }
+
+    @Override
+    public Value visit(Str node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Type node) {
+        return null;
+    }
+
+    public T visit(Variable node) {
         this.stack.add(node.getLinkedQuestion().getValue());
+    }
+
+    @Override
+    public Value visit(Condition node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Form node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Question node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Statement node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Statements node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(BinaryOperator node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(SingleNode node) {
+        return null;
     }
 }

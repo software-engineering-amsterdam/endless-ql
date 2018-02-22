@@ -3,8 +3,9 @@ package org.uva.sea.ql.parser.elements;
 import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.traverse.Visitable;
+import org.uva.sea.ql.traverse.Visitor;
 
-public abstract class ASTNode implements Visitable {
+public abstract class ASTNode {
 
     private int line;
     private int column;
@@ -34,4 +35,6 @@ public abstract class ASTNode implements Visitable {
     public Token getToken() {
         return token;
     }
+
+    public abstract <T> T accept(Visitor<T> visitor);
 }

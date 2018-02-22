@@ -8,6 +8,6 @@ public abstract class ExpressionLogical extends ExpressionBinary<Boolean> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Boolean;
+        return ReturnType.BOOLEAN;
     }
 }

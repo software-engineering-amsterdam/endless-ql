@@ -16,6 +16,6 @@ public class UnaryExpr extends Expr {
 	@Override
 	public
 	<T> T accept(Visitor<T> visitor) {
-		return visitor.visitUnaryExpr(this);
+		return visitor.visit(this);
 	}
 }

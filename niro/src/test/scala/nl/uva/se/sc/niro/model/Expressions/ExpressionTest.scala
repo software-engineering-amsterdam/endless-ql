@@ -1,10 +1,8 @@
 package nl.uva.se.sc.niro.model.Expressions
 
-
-import nl.uva.se.sc.niro.model.Ast.{ QLForm, Question }
 import nl.uva.se.sc.niro.model.Expressions.Expression._
 import nl.uva.se.sc.niro.model.Expressions.answers._
-import nl.uva.se.sc.niro.model.Operators._
+import nl.uva.se.sc.niro.model._
 import org.scalatest.{ Matchers, WordSpec }
 
 class ExpressionTest extends WordSpec with Matchers {

@@ -1,6 +1,4 @@
 import expression.ReturnType;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -9,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.converter.DoubleStringConverter;
 import model.Condition;
 import model.Form;
 import model.Question;
@@ -74,14 +73,14 @@ public class Renderer {
         FieldGroup fieldGroup = new FieldGroup();
         HashMap<Question, Field> fieldMap = new HashMap<>();
         addStatements(fieldMap, fieldGroup, form.statements);
-        updateConditional(fieldMap, form.statements, true);
+        updateFields(fieldMap, form.statements, true);
         return fieldGroup;
     }
 
     private void addQuestion(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, Question question) {
         Control input;
 
-        if (question.answer.getReturnType() == ReturnType.Boolean) {
+        if (question.type == ReturnType.BOOLEAN) {
             input = createBooleanField(fieldMap, question);
         } else {
             input = createTextField(fieldMap, question);
@@ -97,7 +96,7 @@ public class Renderer {
 
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             question.answer.setValue(newValue.toString());
-            updateConditional(fieldMap, form.statements, true);
+            updateFields(fieldMap, form.statements, true);
         });
 
         return checkBox;
@@ -106,11 +105,24 @@ public class Renderer {
     private Control createTextField(HashMap<Question, Field> fieldMap, Question question) {
         TextInputControl textField = Input.textField();
 
+        if (question.type == ReturnType.INTEGER || question.type == ReturnType.DECIMAL) {
+            // NumberStringConverter
+            // CurrencyStringConverter
+            // DoubleStringConverter
+            // https://docs.oracle.com/javase/8/javafx/api/javafx/util/StringConverter.html
+            textField.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
+        }
+
+        if(!question.answer.isSettable()) {
+            textField.setEditable(false);
+            textField.setText(question.answer.evaluate().toString());
+        }
+
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
                 question.answer.setValue(textField.getText());
-                updateConditional(fieldMap, form.statements, true);
+                updateFields(fieldMap, form.statements, true);
             }
         });
 
@@ -122,7 +134,8 @@ public class Renderer {
             if (statement.isQuestion()) {
                 addQuestion(fieldMap, fieldGroup, (Question) statement);
             } else {
-                addStatements(fieldMap, fieldGroup, ((Condition) statement).statements);
+                addStatements(fieldMap, fieldGroup, ((Condition) statement).trueStatements);
+                addStatements(fieldMap, fieldGroup, ((Condition) statement).falseStatements);
             }
         }
     }
@@ -134,28 +147,52 @@ public class Renderer {
             // Debug output, shows answer to every question in console
             for (Statement statement : form.statements) {
                 if (statement.isQuestion()) {
-                    System.out.println(((Question) statement).answer);
+                    System.out.println(((Question) statement).answer.evaluate());
                 }
             }
         });
         return submitButton;
     }
 
-    private void updateConditional(HashMap<Question, Field> fieldMap, ArrayList<Statement> statements, boolean parentVisible) {
+    private void updateFields(HashMap<Question, Field> fieldMap, ArrayList<Statement> statements, boolean isTrue) {
         for (Statement statement : statements) {
             if (statement.isQuestion()) {
-                Field field = fieldMap.get((Question) statement);
-                field.getLabel().setVisible(parentVisible);
-                field.getControl().setVisible(parentVisible);
+                updateField(fieldMap, statement, isTrue);
             } else {
                 Condition conditional = (Condition) statement;
-                boolean visible = parentVisible && Boolean.TRUE.equals(conditional.condition.evaluate().get());
-                updateConditional(fieldMap, conditional.statements, visible);
+                boolean trueBlockVisible = isTrue && Boolean.TRUE.equals(conditional.condition.evaluate().get());
+                boolean falseBlockVisible = isTrue && !trueBlockVisible;
+                updateFields(fieldMap, conditional.trueStatements, trueBlockVisible);
+                updateFields(fieldMap, conditional.falseStatements, falseBlockVisible);
+            }
+        }
+    }
+
+    private void updateField(HashMap<Question, Field> fieldMap, Statement statement, boolean isTrue) {
+        Question question = (Question) statement;
+
+        Field field = fieldMap.get(question);
+        field.getLabel().setVisible(isTrue);
+        field.getControl().setVisible(isTrue);
+
+        if(!question.answer.isSettable()) {
+            Object answer = question.answer.evaluate().get();
+            if(answer == null) {
+                answer = "";
+            }
+
+            if (question.type == ReturnType.BOOLEAN) {
+                CheckBox checkBox = (CheckBox) field.getControl();
+                checkBox.setSelected(Boolean.TRUE.equals(answer));
+            } else {
+                TextInputControl textField = (TextInputControl) field.getControl();
+                textField.setText(answer.toString());
             }
         }
     }
 
     private void showErrorAlert(Exception e, String message) {
+        e.printStackTrace();
         Alert alert = new Alert(Alert.AlertType.ERROR, message);
         alert.setContentText(e.toString());
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

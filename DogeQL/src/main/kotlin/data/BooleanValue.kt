@@ -46,4 +46,8 @@ class BooleanValue(var value: Boolean) : BaseSymbolValue(QuestionType.BOOLEAN) {
         }
     }
 
+    override fun not(): BaseSymbolValue {
+        return BooleanValue(!value)
+    }
+
 }

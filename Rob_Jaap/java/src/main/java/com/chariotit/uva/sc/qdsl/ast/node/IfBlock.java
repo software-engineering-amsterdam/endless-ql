@@ -12,11 +12,11 @@ public class IfBlock extends BlockElement {
         this.formElements = formElements;
     }
 
-    public Expression getStatement() {
+    public Expression getExpression() {
         return expression;
     }
 
-    public void setStatement(Expression expression) {
+    public void setExpression(Expression expression) {
         this.expression = expression;
     }
 

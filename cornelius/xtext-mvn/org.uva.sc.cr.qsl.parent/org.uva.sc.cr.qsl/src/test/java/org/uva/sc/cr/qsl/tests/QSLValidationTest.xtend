@@ -57,7 +57,7 @@ class QSLValidationTest {
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
 
-		validationTestHelper.assertError(result, QSLPackage.eINSTANCE.questionRef, "")
+		validationTestHelper.assertError(result, QSLPackage.eINSTANCE.questionReference, "")
 	}
 
 }

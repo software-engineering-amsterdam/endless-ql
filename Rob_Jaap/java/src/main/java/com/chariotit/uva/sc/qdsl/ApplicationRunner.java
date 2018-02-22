@@ -1,6 +1,6 @@
 package com.chariotit.uva.sc.qdsl;
 
-import com.chariotit.uva.sc.qdsl.parser.GLVisitor;
+import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +29,7 @@ public class ApplicationRunner implements CommandLineRunner {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(tokens);
         ParseTree tree = parser.forms();
-        GLVisitor visitor = new GLVisitor();
+        QLVisitor visitor = new QLVisitor();
 
         System.out.println(visitor.visit(tree));
 

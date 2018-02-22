@@ -82,7 +82,9 @@ class Visitor(QLGrammarVisitor):
 
     def visitLiteral(self, ctx:QLGrammarParser.LiteralContext):
         self.logger.debug("LITERAL")
-        return self.visitChildren(ctx)
+
+        print(ctx.getText())
+        return ctx.getText()
 
     # Visit a parse tree produced by QLGrammarParser#unaryexp.
     def visitUnaryexp(self, ctx:QLGrammarParser.UnaryexpContext):

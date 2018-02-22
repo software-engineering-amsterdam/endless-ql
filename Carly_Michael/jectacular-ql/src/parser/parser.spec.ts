@@ -1,5 +1,5 @@
 import {parse} from './ql-parser';
-import {BinaryExpression, ExpressionType, Literal, QuestionType} from '../app/domain/ast/index';
+import {ArithmeticExpression, ExpressionType, Literal, QuestionType} from '../app/domain/ast/index';
 import {gen, check, property, sample, sampleOne} from 'testcheck';
 import * as mockInput from '../app/mock-input';
 

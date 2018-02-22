@@ -1,16 +1,15 @@
 import {ExpressionType} from './expression-type';
-import {Expression, LiteralType} from './expression';
-import {BinaryOperator} from './expression';
+import {ArithmeticOperator, Expression, LiteralType} from './expression';
 import {Location} from './location';
 import {UnknownOperatorError} from '../errors';
 
-export class BinaryExpression extends Expression {
-  constructor(public left: Expression, public right: Expression, public operator: BinaryOperator, location: Location) {
+export class ArithmeticExpression extends Expression {
+  constructor(public left: Expression, public right: Expression, public operator: ArithmeticOperator, location: Location) {
     super(location);
   }
 
   checkType(): ExpressionType {
-    if (this.left.checkType() === this.right.checkType()) {
+    if (this.left.checkType() === this.right.checkType() && this.left.checkType() === ExpressionType.NUMBER) {
       return this.left.checkType();
     } else {
       throw new TypeError(

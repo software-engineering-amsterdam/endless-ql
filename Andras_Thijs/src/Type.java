@@ -5,7 +5,7 @@ public enum Type {
     BOOL ("boolean"),
     STRING ("string"),
     INT ("integer"),
-    DATA ("date"),
+    DATE ("date"),
     DECIMAL ("decimal"),
     MONEY ("money");
 

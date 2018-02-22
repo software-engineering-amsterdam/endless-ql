@@ -36,7 +36,7 @@ namespace AntlrInterpretor.Logic
             {
                 var message = $@"the question {questionName} is not a boolean question";
 
-                throw new QlParserException(message, null) { ParseErrorDetails = message, ParserName = "Antlr 4.0" };
+                throw new QlParserException(message, null) { ParseErrorDetails = message };
             }
 
             return m_questionnaireAst;
@@ -64,7 +64,7 @@ namespace AntlrInterpretor.Logic
             if (questionExists)
             {
                 var message = $@"The question with the id '{name}' exists more than once";
-                throw new QlParserException(message, null) { ParseErrorDetails = message, ParserName = "Antlr 4.0"};
+                throw new QlParserException(message, null) { ParseErrorDetails = message };
             }
 
             var text = context.QUESTIONTEXT().GetText();

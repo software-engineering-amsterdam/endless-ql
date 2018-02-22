@@ -31,6 +31,7 @@ export class AppComponent {
       this.questions = ast.toFormQuestion();
       this.form = this.questionControlService.toFormGroup(this.questions);
       this.formName = ast.name;
+      this.errorMessage = undefined;
     } catch (e) {
       this.form = undefined;
       this.formName = undefined;

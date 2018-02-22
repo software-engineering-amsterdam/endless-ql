@@ -12,9 +12,5 @@ namespace QL_Visualizer.Tests.Controllers
     {
         [TestMethod]
         public abstract void SetDisplayControllerTest();
-
-        [TestMethod]
-        public abstract void 
-
     }
 }

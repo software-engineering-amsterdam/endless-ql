@@ -16,10 +16,11 @@ class CodeLocation:
         return "(" + str(self.line) + "," + str(self.column) + ")"
 
 
-def build(l: list):
+def build(l):
     if len(l) == 2:
         return CodeLocation(l[0], l[1])
-    return CodeLocation(l[0], build(l.pop(0)))
+    head, *tail = l
+    return CodeLocation(head, build(tail))
 
 
 if __name__ == "__main__":

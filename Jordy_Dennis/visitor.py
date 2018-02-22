@@ -2,6 +2,7 @@ from LexParser.QLGrammarParser import QLGrammarParser
 from LexParser.QLGrammarVisitor import QLGrammarVisitor
 from AST import *
 import logging
+import sys
 
 class Visitor(QLGrammarVisitor):
     def __init__(self):
@@ -12,11 +13,14 @@ class Visitor(QLGrammarVisitor):
         logging.basicConfig(level=logging.DEBUG)
         self.logger = logging.getLogger(__name__)
 
+    def getAst(self):
+        return self.QLAst
+
 
     # Visit a parse tree produced by QLGrammarParser#form.
     def visitForm(self, ctx:QLGrammarParser.FormContext):
         self.logger.debug("FORM")
-        
+
         # create formNode
         formName = ctx.ID().getText()
         formNode = FormNode(formName, ctx.start.line)

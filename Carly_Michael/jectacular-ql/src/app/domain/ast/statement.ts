@@ -6,6 +6,18 @@ import {QuestionType} from './question-type';
 import {UnsupportedTypeError} from '../errors';
 
 export abstract class Statement {
+  protected static toHtmlInputType(type: QuestionType): string {
+    switch (type) {
+      case QuestionType.INT : return 'number';
+      case QuestionType.DECIMAL: return 'number';
+      case QuestionType.MONEY: return 'number';
+      case QuestionType.BOOLEAN: return 'boolean';
+      case QuestionType.STRING: return 'text';
+      case QuestionType.DATE: return 'date';
+      default: throw new UnsupportedTypeError('QuestionType is not supported');
+    }
+  }
+
   constructor(public location: Location) {}
 
   abstract toFormQuestion(formQuestions: QuestionBase<any>[], condition?: (form: FormGroup) => boolean): QuestionBase<any>[];
@@ -18,17 +30,5 @@ export abstract class Statement {
   protected getLocationErrorMessage(): string {
     return ` between line ${this.location.start.line}` +
       ` and col ${this.location.start.column} and line ${this.location.end.line} and col ${this.location.end.column}`;
-  }
-
-  protected toHtmlInputType(type: QuestionType): string {
-    switch (type) {
-      case QuestionType.INT : return 'number';
-      case QuestionType.DECIMAL: return 'number';
-      case QuestionType.MONEY: return 'number';
-      case QuestionType.BOOLEAN: return 'boolean';
-      case QuestionType.STRING: return 'text';
-      case QuestionType.DATE: return 'date';
-      default: throw new UnsupportedTypeError('QuestionType is not supported');
-    }
   }
 }

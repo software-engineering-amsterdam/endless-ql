@@ -1,6 +1,4 @@
 import expression.ReturnType;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -9,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.converter.DoubleStringConverter;
 import model.Condition;
 import model.Form;
 import model.Question;
@@ -105,6 +104,14 @@ public class Renderer {
 
     private Control createTextField(HashMap<Question, Field> fieldMap, Question question) {
         TextInputControl textField = Input.textField();
+
+        if (question.answer.getReturnType() == ReturnType.Integer || question.answer.getReturnType() == ReturnType.Decimal) {
+            // NumberStringConverter
+            // CurrencyStringConverter
+            // DoubleStringConverter
+            // https://docs.oracle.com/javase/8/javafx/api/javafx/util/StringConverter.html
+            textField.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
+        }
 
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {

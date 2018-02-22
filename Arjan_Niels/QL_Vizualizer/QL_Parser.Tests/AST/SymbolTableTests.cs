@@ -50,7 +50,7 @@ namespace QL_Parser.Tests.AST
         [TestMethod]
         public void OneVariableInSymbolTable()
         {
-            var varAnalyser = new VariableAnalyser();
+            var varAnalyser = new DuplicateVariableAnalyser();
             var hasSucceeded = varAnalyser.Analyse(OneVarForm);
 
             Assert.IsTrue(hasSucceeded);
@@ -60,7 +60,7 @@ namespace QL_Parser.Tests.AST
         [TestMethod]
         public void CheckNameOneVarInSymbolTable()
         {
-            var validator = new VariableAnalyser();
+            var validator = new DuplicateVariableAnalyser();
             var hasSucceeded = validator.Analyse(OneVarForm);
 
             Assert.IsTrue(hasSucceeded);
@@ -70,7 +70,7 @@ namespace QL_Parser.Tests.AST
         [TestMethod]
         public void CheckTypeInSymbolTable()
         {
-            var validator = new VariableAnalyser();
+            var validator = new DuplicateVariableAnalyser();
             var hasSucceeded = validator.Analyse(OneVarForm);
 
             Assert.IsTrue(hasSucceeded);
@@ -82,7 +82,7 @@ namespace QL_Parser.Tests.AST
         [TestMethod]
         public void MultipleVarsCountSymbolTable()
         {
-            var validator = new VariableAnalyser();
+            var validator = new DuplicateVariableAnalyser();
             var hasSucceeded = validator.Analyse(MultipleVarForm);
 
             Assert.IsTrue(hasSucceeded);
@@ -92,7 +92,7 @@ namespace QL_Parser.Tests.AST
         [TestMethod]
         public void MultipleVarsNameCheck()
         {
-            var validator = new VariableAnalyser();
+            var validator = new DuplicateVariableAnalyser();
             var hasSucceeded = validator.Analyse(MultipleVarForm);
 
             Assert.IsTrue(hasSucceeded);
@@ -103,7 +103,7 @@ namespace QL_Parser.Tests.AST
         [TestMethod]
         public void MultipleVarsTypeCheck()
         {
-            var validator = new VariableAnalyser();
+            var validator = new DuplicateVariableAnalyser();
             var hasSucceeded = validator.Analyse(MultipleVarForm);
 
             Assert.IsTrue(hasSucceeded);

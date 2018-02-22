@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyserTests.cs" />
-    <Compile Include="Analysis\Semantic\VariableAnalyserTest.cs" />
+    <Compile Include="Analysis\Semantic\DuplicateVariableAnalyserTest.cs" />
     <Compile Include="AST\CommentTest.cs" />
     <Compile Include="AST\TreeConstructionTest.cs" />
     <Compile Include="AST\StatementTest.cs" />

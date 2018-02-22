@@ -10,6 +10,8 @@ import Expression from "./form/nodes/expressions/Expression";
 import Form from "./form/Form";
 import { sampleForm } from "./mock/sampleForm";
 import { QlsTest } from "./modules/rendering/components/qls_test/QlsTest";
+import QuestionForm from "./form/QuestionForm";
+import FormNode from "./form/nodes/FormNode";
 
 export interface AppComponentProps {
 }
@@ -36,22 +38,23 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   }
 
   onChangeQuestionnaire(text: string) {
-    let form: Form;
     let errorMessage: string = "";
 
     try {
-      form = qlParser.parse(this.state.qlInput);
+      const formNodes: FormNode[] = qlParser.parse(this.state.qlInput);
 
       this.setState({
-        form: form,
-        errorMessage: errorMessage
+        form: new QuestionForm(formNodes[0], this.state.form.getState()),
+        errorMessage: errorMessage,
+        qlInput: text
       });
     } catch (error) {
       errorMessage = error.message;
     }
 
     this.setState({
-      errorMessage: errorMessage
+      errorMessage: errorMessage,
+      qlInput: text
     });
   }
 
@@ -62,17 +65,6 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   }
 
   render() {
-    let form = null;
-    let errorMessage = null;
-
-    if (this.state.qlInput && this.state.qlInput.length !== 0) {
-      try {
-        form = qlParser.parse(this.state.qlInput);
-      } catch (error) {
-        errorMessage = error.message;
-      }
-    }
-
     const sampleExpression: Expression = new Addition(
         new Multiplication(new NumberLiteral(5), new NumberLiteral(3)),
         new NumberLiteral(1)
@@ -91,10 +83,10 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
               <Input
                   type="textarea"
                   value={this.state.qlInput}
-                  onChange={e => this.setState({qlInput: e.target.value})}
+                  onChange={e => this.onChangeQuestionnaire(e.target.value)}
                   name="ql_input"
               />
-              {errorMessage}
+              {this.state.errorMessage}
             </div>
             <div className="col-md-6">
               <FormComponent onChange={this.onChange} form={this.state.form}/>

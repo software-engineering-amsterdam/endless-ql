@@ -54,13 +54,13 @@ class Visitor(QLGrammarVisitor):
     # Visit a parse tree produced by QLGrammarParser#assignment.
     def visitAssignment(self, ctx:QLGrammarParser.AssignmentContext):
         print("ASSIGMENT")
-        return "ASSIGNMENT"
+        # return "ASSIGNMENT"
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by QLGrammarParser#expression.
     def visitExpression(self, ctx:QLGrammarParser.ExpressionContext):
-        print("EXPRESSION")
+        print("Exp")
         return "EXPRESSION"
 
 

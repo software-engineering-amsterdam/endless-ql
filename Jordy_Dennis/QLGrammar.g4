@@ -48,7 +48,7 @@ COMPARE: '<'
         | '!='
         ;
 
-types: 'integer' | 'boolean' | 'string' | 'date' | 'money';
+types: 'integer' | 'int' | 'boolean' | 'bool' | 'string' | 'str' | 'date' | 'money';
 
 BOOL: 'true' | 'false';
 INT :   [0-9]+ ;         // match integers

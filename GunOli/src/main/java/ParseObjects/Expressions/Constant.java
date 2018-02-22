@@ -14,4 +14,9 @@ public abstract class Constant<T> extends Expression<T> {
     public T getValue() {
         return this.value;
     }
+
+    @Override
+    public Constant<T> evaluate() {
+        return this;
+    }
 }

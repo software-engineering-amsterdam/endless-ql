@@ -4,8 +4,6 @@ import java.util.ArrayList
 import java.util.List
 import javafx.event.Event
 import javafx.event.EventHandler
-import javafx.scene.control.Label
-import javafx.scene.layout.HBox
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.eclipse.xtend.lib.annotations.Accessors
@@ -38,8 +36,6 @@ class ControlService {
 	}
 
 	def public buildControlForQuestion(Question question) {
-		val hbox = new HBox
-		hbox.children.add(new Label(question.label))
 		var ControlWrapper controlWrapper
 		switch question.type {
 			TypeBool:
@@ -56,10 +52,9 @@ class ControlService {
 			default:
 				throw new MissingCaseException
 		}
-		hbox.children.add(controlWrapper.control)
 		controlWrapper.registerListener(buildEventHandler)
 		controls.add(controlWrapper)
-		return hbox
+		return controlWrapper.controlWithLabel
 	}
 
 	def private buildControlForTypeBoolean(Question question) {

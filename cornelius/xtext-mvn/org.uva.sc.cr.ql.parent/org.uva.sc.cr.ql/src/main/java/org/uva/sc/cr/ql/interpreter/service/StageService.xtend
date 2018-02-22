@@ -1,4 +1,4 @@
-package org.uva.sc.cr.ql.interpreter
+package org.uva.sc.cr.ql.interpreter.service
 
 import javafx.scene.layout.VBox
 import javax.inject.Inject

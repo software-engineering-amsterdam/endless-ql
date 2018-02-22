@@ -12,9 +12,4 @@ public class ExpressionLogicalOr extends ExpressionLogical {
         ExpressionVariable rightEvaluated = this.right.evaluate();
         return leftEvaluated.or(rightEvaluated);
     }
-
-    @Override
-    public boolean equals(Object other) {
-        return false;
-    }
 }

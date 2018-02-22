@@ -29,18 +29,14 @@ exprQuestion    = ws name:identifier ":" ws "\"" ws
 
 addExpression
   = head:mulExpression tail:(ws ("+" / "-") ws addExpression) {
-      console.log(head, tail);
-      if (tail[1] === "+") { return new AddExpression(head, tail[3]); }
-      if (tail[1] === "-") { return new SubtractExpression(head, tail[3]); }
+      return new BinaryExpression(head, tail[3], tail[1], location());
 } / v:mulExpression {
         return v;
       }
 
 mulExpression
   = head:Factor tail:(ws ("*" / "/") ws mulExpression) {
-  console.log(head, tail);
-      if (tail[2] === "*") { return new MultiplyExpression(head, tail[3]); }
-      if (tail[2] === "/") { return new DivideExpression(head, tail[3]); }
+      return new BinaryExpression(head, tail[3], tail[1], location());
 } / v:Factor {
         return v;
       }
@@ -63,7 +59,7 @@ ws "whitespace" = [ \t\n\r]* { return; }
 ws2 = [ \t\n\r]+ { return; }
 identifier 		  = [a-zA-Z0-9]+ {return text();}
 expression 		  = [a-zA-Z0-9 +\-\/*><=]+ {return text();}
-integer         = ws [0-9]+ ws { return new IntegerExpression(parseInt(text(), 10)); }
+integer         = ws [0-9]+ ws { return new Literal(ExpressionType.NUMBER, parseInt(text(), 10), location()); }
 word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
 
 booleanType     = "boolean" { return QuestionType.BOOLEAN; }

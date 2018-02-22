@@ -1,4 +1,4 @@
-from .qlnode import *
+from .qlastnode import *
 from .assignmentnode import *
 from .conditionalnode import *
 from .expressionnode import *

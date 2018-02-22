@@ -1,4 +1,4 @@
-class QLNode:
+class QLAst:
     def __init__(self):
         self.forms = []
 

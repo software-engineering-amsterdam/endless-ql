@@ -6,7 +6,7 @@ import logging
 class Visitor(QLGrammarVisitor):
     def __init__(self):
         self.program = {}
-        self.QLNode = QLNode()
+        self.QLAst = QLAst()
         # used to log debug self.logger.debugs
         # set to logging.DEBUG to show debug messages
         logging.basicConfig(level=logging.DEBUG)
@@ -27,7 +27,7 @@ class Visitor(QLGrammarVisitor):
         # add all the statements to the block
         formNode.addStatements(statements)
         
-        self.QLNode.addForm(formNode)
+        self.QLAst.addForm(formNode)
 
 
     # Visit a parse tree produced by QLGrammarParser#block.

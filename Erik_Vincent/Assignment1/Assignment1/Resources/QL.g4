@@ -23,17 +23,37 @@ content returns [List<Content> result]
 	$result = new List<Content>();
 	}
 	: OPEN_CB (question
-		{$result.Add($question.result);} 
+		{$result.Add($question.result);}
+		| ifstatement
+		{$result.Add($ifstatement.result);}
 		)* CLOSE_CB
 	;
 question returns [Question result]
+	: questionAssign
+		{$result = $questionAssign.result;}
+	| questionNorm
+		{$result = $questionNorm.result;}
+	;
+questionAssign returns [Question result]
+	: questionNorm ASSIGN value
+		{$result = $questionNorm.result;
+		 $result.Value = $value.result;}
+	| questionNorm ASSIGN expression
+		{$result = $questionNorm.result;
+		 $result.Computed = true;
+		 $result.Expression = $expression.result;}
+	;
+questionNorm returns [Question result]
 	: LABEL ID SEP BOOLEAN
 		{$result = new QuestionBool($ID.text, $LABEL.text);}
 	| LABEL ID SEP MONEY
 		{$result = new QuestionMoney($ID.text, $LABEL.text);}
 	;
-ifstatement
-	: IF OPEN_BR expression CLOSE_BR content (ELSE content)?
+ifstatement returns [IfStatement result]
+	: IF OPEN_BR expression CLOSE_BR content1=content ELSE content2=content
+		{$result = new IfElseStatement($expression.result, $content1.result, $content2.result);}
+	| IF OPEN_BR expression CLOSE_BR content
+		{$result = new IfStatement($expression.result, $content.result);}
 	;
 expression returns [Expression result]
 	: value
@@ -66,7 +86,11 @@ expression returns [Expression result]
 		{$result = new ExpressionAnd($left.result, $right.result);}
 	| left=expression OR right=expression
 		{$result = new ExpressionOr($left.result, $right.result);}
-	| ID
+	| expressionId
+		{$result = $expressionId.result;}
+	;
+expressionId returns [ExpressionId result]
+	: ID
 		{$result = new ExpressionId($ID.text);}
 	;
 value returns [dynamic result]

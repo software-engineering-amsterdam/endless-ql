@@ -1,85 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Collections.Generic;
 
-namespace Assignment1.Model
+namespace Assignment1
 {
-    class IfStatement : Statement
+    public class IfStatement : Content
     {
-        private Expression _condition;
-        private List<Content> _thenContent;
-        private List<Content> _elseContent;
-        public Expression Condition
-        {
-            get
-            {
-                return _condition;
-            }
-        }
-        public List<Content> ThenContent
-        {
-            get
-            {
-                return _thenContent;
-            }
-        }
-        public List<Content> ElseContent
-        {
-            get
-            {
-                return _elseContent;
-            }
-        }
+        public readonly Expression Expression;
+        public readonly List<Content> ThenContent;
 
-        public IfStatement(Expression condition, bool hasElseContent)
+        public IfStatement(Expression expression, List<Content> thenContent)
         {
-            _condition = condition;
-            _thenContent = new List<Content>();
-            if (hasElseContent)
-                _elseContent = new List<Content>();
+            Expression = expression;
+            ThenContent = thenContent;
         }
+    }
 
-        public void AddThenContent(Content newContent)
-        {
-            _thenContent.Add(newContent);
-        }
+    public class IfElseStatement : IfStatement
+    {
+        public readonly List<Content> ElseContent;
 
-        public bool AddElseContent(Content newContent)
+        public IfElseStatement(Expression expression, List<Content> thenContent, List<Content> elseContent) : base(expression, thenContent)
         {
-            if (_elseContent == null)
-                return false;
-            _elseContent.Add(newContent);
-            return true;
-        }
-
-        public override Control CreateControl()
-        {
-            FlowLayoutPanel panel = (FlowLayoutPanel)base.CreateControl();
-            if (_condition.Evaluate())
-            {
-                addContentToPanel(panel, _thenContent);
-            }
-            else if (_elseContent.Count > 0)
-            {
-                addContentToPanel(panel, _elseContent);
-            }
-            else
-            {
-                panel.Visible = false;
-            }
-            return panel;
-        }
-
-        private void addContentToPanel(FlowLayoutPanel panel, List<Content> content)
-        {
-            //foreach (Content contentItem in content)
-            foreach (Question question in content.OfType<Question>())
-            {
-                panel.Controls.Add(question.CreateControl());
-            }
+            ElseContent = elseContent;
         }
     }
 }

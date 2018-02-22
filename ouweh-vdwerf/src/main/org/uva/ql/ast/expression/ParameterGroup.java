@@ -1,6 +1,6 @@
-package main.org.uva.ql.ast.expression;
+package org.uva.ql.ast.expression;
 
-import main.org.uva.ql.visitor.ExpressionVisitor;
+import org.uva.ql.visitor.ExpressionVisitor;
 
 public class ParameterGroup extends Expression {
 

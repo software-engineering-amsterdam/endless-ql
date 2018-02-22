@@ -1,10 +1,9 @@
 package nl.uva.se.sc.niro.model.Expressions.answers
 
-import nl.uva.se.sc.niro.model.Comparisons
 import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
-import nl.uva.se.sc.niro.model.Operators._
+import nl.uva.se.sc.niro.model._
 
-case class StringAnswer(possibleValue: Option[String]) extends Answer with Comparisons[StringAnswer] {
+case class StringAnswer(possibleValue: Option[String]) extends Answer {
   def lt(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value < _)))
   def lTe(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value <= _)))
   def gTe(other: StringAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value >= _)))

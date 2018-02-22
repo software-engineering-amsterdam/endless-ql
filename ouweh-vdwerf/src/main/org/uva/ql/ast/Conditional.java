@@ -1,8 +1,8 @@
-package main.org.uva.ql.ast;
+package org.uva.ql.ast;
 
 
-import main.org.uva.ql.ast.expression.Expression;
-import main.org.uva.ql.visitor.StatementVisitor;
+import org.uva.ql.ast.expression.Expression;
+import org.uva.ql.visitor.StatementVisitor;
 
 import java.util.ArrayList;
 import java.util.List;

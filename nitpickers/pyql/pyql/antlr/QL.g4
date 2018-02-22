@@ -5,39 +5,48 @@ grammar QL;
  * TODO: () -> (3 + (2 - 2))
  */
 
- form              : 'form' identifier '{' block '}' ;
+form              : 'form' identifier '{' block '}' ;
 
- conditionalBlock : 'if' '(' expression ')' '{' block '}' ;
+ifStatement       : 'if' '(' expression ')' '{' block '}' ;
 
- block             : statement+;
+ifElseStatement   : 'if' '(' expression ')' '{' block '}' 'else' '{' block '}' ;
 
- statement         : question | conditionalBlock ;
+block             : statement+;
 
- question          : identifier ':' STRING questionType ;
+statement         : question
+                  | ifStatement
+                  | ifElseStatement
+                  ;
 
- questionType     : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | money;
+question          : identifier ':' STRING questionType ;
 
- expression        : '!' orExpression
-                   | orExpression
-                   ;
+questionType      : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | money;
 
- orExpression : andExpression ('||' andExpression)* ;
+expression        : '!' orExpression
+                  | orExpression
+                  ;
 
- andExpression : relExpression ('&&' relExpression)* ;
+orExpression      : andExpression ('||' andExpression)* ;
 
- relExpression : addExpression (('<' | '<=' | '>' | '>=' | '==' | '!=') addExpression)* ;
+andExpression     : relExpression ('&&' relExpression)* ;
 
- addExpression : mulExpression (('+' | '-') mulExpression)*;
+relExpression     : addExpression (('<' | '<=' | '>' | '>=' | '==' | '!=') addExpression)* ;
 
- mulExpression : unExpression (('*' | '/') unExpression)*;
+addExpression     : mulExpression (addOperator mulExpression)*;
 
- unExpression  : literal | identifier | '(' expression ')';
+addOperator       : '+' | '-' ;
 
- literal : MONEY | DECIMAL | INT | STRING | BOOL ;
+mulExpression     : unExpression (mulOperator unExpression)*;
 
- identifier : IDENTIFIER ;
+mulOperator       : '*' | '/' ;
 
- money: 'money' | 'money(' addExpression ')' ;
+unExpression      : literal | identifier | '(' expression ')';
+
+literal           : MONEY | DECIMAL | INT | STRING | BOOL ;
+
+identifier        : IDENTIFIER ;
+
+money             : 'money' | 'money(' addExpression ')' ;
 
 /*
  * Lexer rules

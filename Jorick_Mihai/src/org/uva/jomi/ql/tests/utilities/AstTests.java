@@ -15,7 +15,6 @@ public class AstTests {
 	public void firstTest() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(firstTestSource);
 		FormStmt Form1 = (FormStmt) ast.get(0);
-		//assertTrue(condition);
-		//Form1.identifier.token.getLexeme() == "";
+		assertTrue(Form1.identifier.getName().equals("Form1"));
 	}
 }

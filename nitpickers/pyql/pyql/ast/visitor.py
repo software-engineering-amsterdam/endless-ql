@@ -60,29 +60,15 @@ class ParseTreeVisitor(QLVisitor):
             left = ctx.addExpression(0).accept(self)
             right = ctx.addExpression(1).accept(self)
             location = self.location(ctx)
-            switcher = {
-                "<": LessThan(location, left, right),
-                ">": GreaterThan(location, left, right),
-                "<=": LessThanOrEqual(location, left, right),
-                ">=": GreaterThanOrEqual(location, left, right),
-                "==": Equals(location, left, right),
-                "!=": NotEquals(location, left, right)
-            }
-            return switcher.get(self.operator(ctx))
+            return self.binaryExpressionFactory(location, left, right, self.binaryOperator(ctx))
         return self.visitChildren(ctx)
 
     def visitAddExpression(self, ctx: QLParser.AddExpressionContext):
         if ctx.getChildCount() > 1:
-            left = ctx.mulExpression(0).accept(self)
-            right = ctx.mulExpression(1).accept(self)
             mulExpressions = [m.accept(self) for m in ctx.mulExpression()]
             operators = [o.accept(self) for o in ctx.addOperator()]
             location = self.location(ctx)
-            switcher = {
-                "+": Addition(location, left, right),
-                "-": Subtraction(location, left, right),
-            }
-            return switcher.get(self.operator(ctx))
+            return self.buildMultiaryExpression(location, mulExpressions, operators)
         return self.visitChildren(ctx)
 
     def visitAddOperator(self, ctx: QLParser.AddOperatorContext):
@@ -90,16 +76,10 @@ class ParseTreeVisitor(QLVisitor):
 
     def visitMulExpression(self, ctx: QLParser.MulExpressionContext):
         if ctx.getChildCount() > 1:
-            left = ctx.unExpression(0).accept(self)
-            right = ctx.unExpression(1).accept(self)
             unExpressions = [m.accept(self) for m in ctx.unExpression()]
             operators = [o.accept(self) for o in ctx.mulOperator()]
             location = self.location(ctx)
-            switcher = {
-                "*": Multiplication(location, left, right),
-                "/": Division(location, left, right),
-            }
-            return switcher.get(self.operator(ctx))
+            return self.buildMultiaryExpression(location, unExpressions, operators)
         return self.visitChildren(ctx)
 
     def visitMulOperator(self, ctx: QLParser.MulOperatorContext):
@@ -120,5 +100,28 @@ class ParseTreeVisitor(QLVisitor):
     def location(self, context):
         return CodeLocation(context.start.line, context.start.column)
 
-    def operator(self, ctx):
+    def buildMultiaryExpression(self, location, expressions, operators):
+        if len(expressions) == 2:
+            return self.binaryExpressionFactory(location, expressions[0], expressions[1], operators[0])
+        operator = operators.pop()
+        expression = expressions.pop()
+        return self.binaryExpressionFactory(location, self.buildMultiaryExpression(location, expressions, operators),
+                                            expression, operator)
+
+    def binaryOperator(self, ctx):
         return ctx.getChild(1).getText()
+
+    def binaryExpressionFactory(self, location, left, right, operator):
+        switcher = {
+            "*": Multiplication(location, left, right),
+            "/": Division(location, left, right),
+            "+": Addition(location, left, right),
+            "-": Subtraction(location, left, right),
+            "<": LessThan(location, left, right),
+            ">": GreaterThan(location, left, right),
+            "<=": LessThanOrEqual(location, left, right),
+            ">=": GreaterThanOrEqual(location, left, right),
+            "==": Equals(location, left, right),
+            "!=": NotEquals(location, left, right)
+        }
+        return switcher.get(operator)

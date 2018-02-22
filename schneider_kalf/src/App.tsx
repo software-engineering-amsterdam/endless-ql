@@ -65,11 +65,6 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   }
 
   render() {
-    const sampleExpression: Expression = new Addition(
-        new Multiplication(new NumberLiteral(5), new NumberLiteral(3)),
-        new NumberLiteral(1)
-    );
-
     return (
         /**
          * The lines below only demonstrate the behaviour of the DSL and will be replaced by
@@ -90,12 +85,6 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
             </div>
             <div className="col-md-6">
               <FormComponent onChange={this.onChange} form={this.state.form}/>
-            </div>
-            <h2>Sample Expression evaluation</h2>
-
-            <div className="col-md-12">
-
-              <pre>5 * 3 + 1 = {evaluate(sampleExpression)}</pre>
             </div>
           </div>
         </div>

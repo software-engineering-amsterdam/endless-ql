@@ -7,7 +7,7 @@ using System.Linq;
 namespace QL_Parser.Tests.AST
 {
     [TestClass]
-    public class SymbolTableTests
+    public class SymbolTableTests : QLTest
     {
         private FormNode SimpleForm;
         private readonly string _simpleFormRaw = "form SimpleForm { }";
@@ -26,9 +26,6 @@ namespace QL_Parser.Tests.AST
             "   \"What was the selling price?\"" +
             "       priceHouse: money" +
             "}";
-
-        [TestCleanup]
-        public void CleanUp() => SymbolTable.Reset();
 
         [TestInitialize]
         public void Initialize()

@@ -5,7 +5,7 @@ using System.Linq;
 namespace QL_Parser.Tests.AST
 {
     [TestClass]
-    public class StatementTest
+    public class StatementTest : QLTest
     {
         private FormNode _simpleForm;
         private FormNode _complexeForm;

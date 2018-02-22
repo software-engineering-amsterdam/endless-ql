@@ -4,7 +4,7 @@ using QL_Parser.AST.Nodes;
 namespace QL_Parser.Tests.AST
 {
     [TestClass]
-    public class QuestionTest
+    public class QuestionTest : QLTest
     {
         private readonly string _formRaw = "form simpleForm { " +
             "   \"Have you sold a house in 2010?\"" +

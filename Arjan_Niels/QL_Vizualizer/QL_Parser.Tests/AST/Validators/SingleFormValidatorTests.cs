@@ -1,12 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Parser.Analysis;
 using QL_Parser.Analysis.Syntactic;
 using QL_Parser.AST.Nodes;
 
 namespace QL_Parser.Tests.AST
 {
     [TestClass]
-    public class UnitTest1
+    public class SingleFormValidatorTest : QLTest
     {
         private Node _validAST;
         private Node _multipleFormAST;
@@ -36,13 +35,6 @@ namespace QL_Parser.Tests.AST
             _multipleLayerValidForm.AddNode(forthQuestion);
             forthQuestion.AddNode(firstQuestion);
             forthQuestion.AddNode(secondQuestion);
-        }
-
-        [TestCleanup]
-        public void CleanUp()
-        {
-            Analyser.Reset();
-            SymbolTable.Reset();
         }
 
         [TestMethod]

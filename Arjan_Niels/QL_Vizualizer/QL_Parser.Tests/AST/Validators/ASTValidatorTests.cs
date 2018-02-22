@@ -5,7 +5,7 @@ using QL_Parser.AST.Nodes;
 namespace QL_Parser.Tests.AST.Validators
 {
     [TestClass]
-    public class ASTValidatorTests
+    public class ASTValidatorTests : QLTest
     {
         private Node _validAST;
         private Node _invalidAST;
@@ -22,13 +22,6 @@ namespace QL_Parser.Tests.AST.Validators
 
             _invalidAST = new FormNode("InvalidForm");
             _invalidAST.AddNode(new FormNode("InvalidSecondForm"));
-        }
-
-        [TestCleanup]
-        public void CleanUp()
-        {
-            Analyser.Reset();
-            SymbolTable.Reset();
         }
 
         [TestMethod]

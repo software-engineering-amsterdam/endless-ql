@@ -5,5 +5,6 @@ namespace QL_Parser.Tests.Analysis.Semantic
     [TestClass]
     public class AllVarsAreRegisteredAnalyserTest
     {
+
     }
 }

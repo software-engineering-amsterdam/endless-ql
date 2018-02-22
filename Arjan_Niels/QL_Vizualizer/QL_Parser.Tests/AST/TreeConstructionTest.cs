@@ -5,7 +5,7 @@ using System;
 namespace QL_Parser.Tests.AST
 {
     [TestClass]
-    public class TreeConstructionTest
+    public class TreeConstructionTest : QLTest
     {
         public Node AST { get; set; }
 

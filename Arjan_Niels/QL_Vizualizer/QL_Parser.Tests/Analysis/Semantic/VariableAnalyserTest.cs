@@ -6,7 +6,7 @@ using QL_Parser.AST.Nodes;
 namespace QL_Parser.Tests.Analysis.Semantic
 {
     [TestClass]
-    public class VariableAnalyserTest
+    public class VariableAnalyserTest : QLTest
     {
         private FormNode _validForm;
         private readonly string _validFormRaw = "form ValidForm {" +
@@ -28,13 +28,6 @@ namespace QL_Parser.Tests.Analysis.Semantic
         {
             _validForm = QLParserHelper.Parse(_validFormRaw);
             _invalidForm = QLParserHelper.Parse(_invalidFormRaw);
-        }
-
-        [TestCleanup]
-        public void CleanUp()
-        {
-            SymbolTable.Reset();
-            Analyser.Reset();
         }
 
         [TestMethod]

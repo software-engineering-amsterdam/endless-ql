@@ -13,6 +13,7 @@ import scala.collection.JavaConverters
 
 object QLFormParser extends Logging {
   private val errorListener = new ErrorListener
+
   def getParseErrors: util.List[ParseErrorInfo] = errorListener.getParseErrors
 
   def parse(formSource: CharStream): QLForm = {
@@ -26,23 +27,34 @@ object QLFormParser extends Logging {
 
   object FormCompiler extends QLBaseVisitor[QLForm] {
     override def visitForm(ctx: QLParser.FormContext): QLForm = {
-      val statements = JavaConverters.asScalaBuffer(ctx.statement).toList
-      QLForm(ctx.Ident().getText, statements.map(StatementCompiler.visit))
+      val formName = ctx.Ident().getText
+      val statements: Seq[Statement] = JavaConverters.asScalaBuffer(ctx.statement).toList.flatMap(StatementCompiler.visit)
+
+      QLForm(formName, statements)
     }
   }
 
-  object StatementCompiler extends QLBaseVisitor[Statement] {
-    override def visitQuestion(ctx: QLParser.QuestionContext): Statement = {
+  object StatementCompiler extends QLBaseVisitor[Seq[Statement]] {
+    override def visitQuestion(ctx: QLParser.QuestionContext): Seq[Statement] = {
+      val questionId = ctx.Ident().getText
+      val questionLabel = ctx.label.getText
       val expression = Option(ctx.expression)
         .map(ExpressionCompiler.visit)
         .getOrElse(Answer(ctx.answerType.getText))
-      Question(ctx.Ident().getText, ctx.label.getText, expression)
+      Seq(Question(questionId, questionLabel, expression))
     }
 
-    override def visitConditional(ctx: QLParser.ConditionalContext): Statement = {
-      val thenStatements = JavaConverters.asScalaBuffer(ctx.thenBlock).toList
-      val elseStatements = JavaConverters.asScalaBuffer(ctx.elseBlock).toList
-      Conditional(ExpressionCompiler.visit(ctx.condition), thenStatements.map(StatementCompiler.visit), elseStatements.map(StatementCompiler.visit))
+    override def visitConditional(ctx: QLParser.ConditionalContext): Seq[Statement] = {
+      val predicate: Expression = ExpressionCompiler.visit(ctx.condition)
+      val negatedPredicate: Expression = UnaryOperation(Neg, predicate)
+
+      val thenStatements: Seq[Statement] = JavaConverters.asScalaBuffer(ctx.thenBlock).toList.flatMap(StatementCompiler.visit)
+      val elseStatements: Seq[Statement] = JavaConverters.asScalaBuffer(ctx.elseBlock).toList.flatMap(StatementCompiler.visit)
+
+      val ifConditional = Conditional(predicate, thenStatements)
+      val elseConditional = Conditional(negatedPredicate, elseStatements)
+
+      Seq(ifConditional, elseConditional)
     }
   }
 
@@ -83,4 +95,5 @@ object QLFormParser extends Logging {
       visit(ctx.expression())
     }
   }
+
 }

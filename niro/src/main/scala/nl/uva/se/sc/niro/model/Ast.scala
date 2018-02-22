@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model
 
-import nl.uva.se.sc.niro.model.Expressions.Expression._
+import nl.uva.se.sc.niro.model.Expressions.Expression
 
 case class QLForm(formName: String, statements: Seq[Statement]) {
   val symbolTable: Map[String, Expression] = Statement.collectQuestions(statements).map(q => (q.id, q.answer)).toMap

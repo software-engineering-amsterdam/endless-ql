@@ -1,6 +1,6 @@
 import java.io.IOException
 
-import nl.uva.se.sc.niro.model.Expressions.Expression.{ BinaryOperation, Reference, UnaryOperation }
+import nl.uva.se.sc.niro.model.Expressions.{ BinaryOperation, Reference, UnaryOperation }
 import nl.uva.se.sc.niro.model.Expressions.answers._
 import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.parser.QLFormParser

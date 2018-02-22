@@ -2,10 +2,9 @@ package nl.uva.se.sc.niro.parser
 
 import java.util
 
-import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.Expressions.Expression._
+import nl.uva.se.sc.niro.model.Expressions._
 import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, DecAnswer, IntAnswer }
-import nl.uva.se.sc.niro.model.{ BinaryOperator, UnaryOperator }
+import nl.uva.se.sc.niro.model.{ BinaryOperator, UnaryOperator, _ }
 import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
 import org.apache.logging.log4j.scala.Logging
 import ql.{ QLBaseVisitor, QLLexer, QLParser }

@@ -26,9 +26,10 @@ statementBlockStructure: BRACKET_OPEN questionVariable BRACKET_CLOSE ;
 
 questionLabel : QUESTION_LABEL;
 questionVariable: CHARACTERS;
-questionVariableType: CHARACTERS;
-questionVariableValue: BRACKET_OPEN questionVariable (PLUS | MINUS | TIMES | DIV) questionVariable BRACKET_CLOSE;
-
+questionVariableType: 'boolean' | 'money' | 'string';
+questionVariableValue: expression | CHARACTERS | NUMBERS;
+expression: (BRACKET_OPEN questionVariable operator questionVariable BRACKET_CLOSE);
+operator: (PLUS | MINUS | TIMES | DIV) ;
 /*
  * Lexer Rules
  */
@@ -57,5 +58,5 @@ NEWLINE : ('\r'? '\n' | '\r')+ -> skip;
 
 CHARACTERS : (LOWERCASE | UPPERCASE)+;
 
-fragment NUMBERS : ('0' .. '9') + ('.' ('0' .. '9') +)? ;
+fragment NUMBERS : ('0' .. '9')+  ;
 

@@ -1,5 +1,6 @@
-// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/antlr4\Form.g4 by ANTLR 4.7
+// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/java/antlr\Form.g4 by ANTLR 4.7
 package antlr;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -15,132 +16,156 @@ public class FormBaseListener implements FormListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void enterFormBuilder(FormParser.FormBuilderContext ctx) { }
+	@Override public void enterFormBuilder(FormParser.FormBuilderContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void exitFormBuilder(FormParser.FormBuilderContext ctx) { }
+	@Override public void exitFormBuilder(FormParser.FormBuilderContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void enterFormData(FormParser.FormDataContext ctx) { }
+	@Override public void enterFormData(FormParser.FormDataContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void exitFormData(FormParser.FormDataContext ctx) { }
+	@Override public void exitFormData(FormParser.FormDataContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void enterQuestionStructure(FormParser.QuestionStructureContext ctx) { }
+	@Override public void enterQuestionStructure(FormParser.QuestionStructureContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void exitQuestionStructure(FormParser.QuestionStructureContext ctx) { }
+	@Override public void exitQuestionStructure(FormParser.QuestionStructureContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void enterIfStructure(FormParser.IfStructureContext ctx) { }
+	@Override public void enterIfStructure(FormParser.IfStructureContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void exitIfStructure(FormParser.IfStructureContext ctx) { }
+	@Override public void exitIfStructure(FormParser.IfStructureContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void enterStatementBlockStructure(FormParser.StatementBlockStructureContext ctx) { }
+	@Override public void enterStatementBlockStructure(FormParser.StatementBlockStructureContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void exitStatementBlockStructure(FormParser.StatementBlockStructureContext ctx) { }
+	@Override public void exitStatementBlockStructure(FormParser.StatementBlockStructureContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void enterQuestionLabel(FormParser.QuestionLabelContext ctx) { }
+	@Override public void enterQuestionLabel(FormParser.QuestionLabelContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void exitQuestionLabel(FormParser.QuestionLabelContext ctx) { }
+	@Override public void exitQuestionLabel(FormParser.QuestionLabelContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void enterQuestionVariable(FormParser.QuestionVariableContext ctx) { }
+	@Override public void enterQuestionVariable(FormParser.QuestionVariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void exitQuestionVariable(FormParser.QuestionVariableContext ctx) { }
+	@Override public void exitQuestionVariable(FormParser.QuestionVariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void enterQuestionVariableType(FormParser.QuestionVariableTypeContext ctx) { }
+	@Override public void enterQuestionVariableType(FormParser.QuestionVariableTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void exitQuestionVariableType(FormParser.QuestionVariableTypeContext ctx) { }
+	@Override public void exitQuestionVariableType(FormParser.QuestionVariableTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void enterQuestionVariableValue(FormParser.QuestionVariableValueContext ctx) { }
+	@Override public void enterQuestionVariableValue(FormParser.QuestionVariableValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void exitQuestionVariableValue(FormParser.QuestionVariableValueContext ctx) { }
+	@Override public void exitQuestionVariableValue(FormParser.QuestionVariableValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpression(FormParser.ExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpression(FormParser.ExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOperator(FormParser.OperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOperator(FormParser.OperatorContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void enterEveryRule(ParserRuleContext ctx) { }
+	@Override public void enterEveryRule(ParserRuleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void exitEveryRule(ParserRuleContext ctx) { }
+	@Override public void exitEveryRule(ParserRuleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void visitTerminal(TerminalNode node) { }
+	@Override public void visitTerminal(TerminalNode node) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	public void visitErrorNode(ErrorNode node) { }
+	@Override public void visitErrorNode(ErrorNode node) { }
 }

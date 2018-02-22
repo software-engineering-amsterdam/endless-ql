@@ -1,4 +1,5 @@
-package antlr;// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/antlr4\Form.g4 by ANTLR 4.7
+// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/java/antlr\Form.g4 by ANTLR 4.7
+package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -96,4 +97,24 @@ public interface FormListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitQuestionVariableValue(FormParser.QuestionVariableValueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpression(FormParser.ExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpression(FormParser.ExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormParser#operator}.
+	 * @param ctx the parse tree
+	 */
+	void enterOperator(FormParser.OperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormParser#operator}.
+	 * @param ctx the parse tree
+	 */
+	void exitOperator(FormParser.OperatorContext ctx);
 }

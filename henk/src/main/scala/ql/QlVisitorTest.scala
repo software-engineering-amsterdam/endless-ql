@@ -1,12 +1,12 @@
-package arithmetic
+package ql
 
-import arithmetic.grammar._
+import ql.grammar._
 import org.antlr.v4.runtime._
 import scala.util.Try
 
 import scala.collection.JavaConversions._
 
-object ArithmeticVisitorTest extends App {
+object QlVisitorTest extends App {
 
   sealed trait Expr
   case class Operation(name:String) extends Expr
@@ -21,26 +21,23 @@ object ArithmeticVisitorTest extends App {
   )
   expressions.foreach(parse)
 
-
   def parse(input:String) = {
     println("\nEvaluating expression " + input)
 
     val charStream = new ANTLRInputStream(input)
-    val lexer = new ArithmeticLexer(charStream)
+    val lexer = new QlLexer(charStream)
     val tokens = new CommonTokenStream(lexer)
-    val parser = new ArithmeticParser(tokens)
+    val parser = new QlParser(tokens)
 
-    val arithmeticVisitor = new ArithmeticVisitorApp()
-    val res = arithmeticVisitor.visit(parser.expr())
+    val qlVisitor = new QlVisitorApp()
+    val res = qlVisitor.visit(parser.expr())
     println(res)
 
   }
 
+  class QlVisitorApp extends QlParserBaseVisitor[Expr] {
 
-
-  class ArithmeticVisitorApp extends ArithmeticParserBaseVisitor[Expr] {
-
-    override def visitExpr(ctx: ArithmeticParser.ExprContext): ExprResult = {
+    override def visitExpr(ctx: QlParser.ExprContext): ExprResult = {
       val exprText = ctx.getText
       println(s"Expression after tokenization = $exprText")
 
@@ -54,8 +51,7 @@ object ArithmeticVisitorTest extends App {
 
     }
 
-
-    override def visitOperation(ctx: ArithmeticParser.OperationContext): Operation = {
+    override def visitOperation(ctx: QlParser.OperationContext): Operation = {
       val op = ctx.getText
       Operation(op)
     }
@@ -73,10 +69,6 @@ object ArithmeticVisitorTest extends App {
           println(s"Unsupported operation")
           None
       }
-
     }
-
   }
-
-
 }

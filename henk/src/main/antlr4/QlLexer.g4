@@ -1,4 +1,4 @@
-lexer grammar ArithmeticLexer;
+lexer grammar QlLexer;
 
 WS: [ \t\n]+ -> skip ;
 

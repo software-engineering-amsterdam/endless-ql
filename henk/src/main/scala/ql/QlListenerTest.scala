@@ -1,12 +1,12 @@
-package arithmetic
+package ql
 
-import arithmetic.grammar._
+import ql.grammar._
 import org.antlr.v4.runtime._
 import scala.util.Try
 
 import scala.collection.JavaConversions._
 
-object ArithmeticListenerTest extends App {
+object QlListenerTest extends App {
 
   val expressions = List(
     "127.1 + 2717",
@@ -22,21 +22,19 @@ object ArithmeticListenerTest extends App {
     println("\nEvaluating expression " + input)
 
     val charStream = new ANTLRInputStream(input)
-    val lexer = new ArithmeticLexer(charStream)
+    val lexer = new QlLexer(charStream)
     val tokens = new CommonTokenStream(lexer)
-    val parser = new ArithmeticParser(tokens)
+    val parser = new QlParser(tokens)
 
-    val arithmeticListener = new ArithmeticListenerApp()
+    val qlListener = new QlListenerApp()
 
-    parser.expr.enterRule(arithmeticListener)
+    parser.expr.enterRule(qlListener)
 
   }
 
+  class QlListenerApp extends QlParserBaseListener {
 
-
-  class ArithmeticListenerApp extends ArithmeticParserBaseListener {
-
-    override def enterExpr(ctx: ArithmeticParser.ExprContext): Unit = {
+    override def enterExpr(ctx: QlParser.ExprContext): Unit = {
       val exprText = ctx.getText
       println(s"Expression after tokenization = $exprText")
 
@@ -52,7 +50,6 @@ object ArithmeticListenerTest extends App {
         case None =>
           println(s"Failed to evaluate expression. Tokenized expr = $exprText")
       }
-
     }
 
     def parseDouble(s: String): Option[Double] = Try(s.toDouble).toOption
@@ -68,10 +65,6 @@ object ArithmeticListenerTest extends App {
           println(s"Unsupported operation")
           None
       }
-
     }
-
   }
-
-
 }

@@ -33,7 +33,10 @@ object QLFormParser extends Logging {
 
   object StatementCompiler extends QLBaseVisitor[Statement] {
     override def visitQuestion(ctx: QLParser.QuestionContext): Statement = {
-      Question(ctx.Ident().getText, ctx.label.getText, ExpressionCompiler.visit(ctx.expression))
+      val expression = Option(ctx.expression)
+        .map(ExpressionCompiler.visit)
+        .getOrElse(Answer(ctx.answerType.getText))
+      Question(ctx.Ident().getText, ctx.label.getText, expression)
     }
 
     override def visitConditional(ctx: QLParser.ConditionalContext): Statement = {
@@ -44,10 +47,6 @@ object QLFormParser extends Logging {
   }
 
   object ExpressionCompiler extends QLBaseVisitor[Expression] {
-    override def visitAnswerTypeConst(ctx: QLParser.AnswerTypeConstContext): Expression = {
-      Answer(ctx.getText)
-    }
-
     override def visitIntConst(ctx: QLParser.IntConstContext): Expression = {
       IntAnswer(Some(ctx.IntValue().getText.toInt))
     }

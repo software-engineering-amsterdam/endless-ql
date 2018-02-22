@@ -55,8 +55,7 @@ compOp      : LT | LTE | GTE | GT | NE | EQ ;
 logicalOp   : OR | AND ;
 arithmOp    : SUB | ADD | DIV | MUL ;
 
-expression  : answerType                                    # AnswerTypeConst
-            | IntValue                                      # IntConst
+expression  : IntValue                                      # IntConst
             | DecValue                                      # DecConst
             | Ident                                         # Var
             | bool                                          # BoolConst
@@ -64,15 +63,14 @@ expression  : answerType                                    # AnswerTypeConst
             | lhs=expression compOp rhs=expression          # CompExpr
             | lhs=expression logicalOp rhs=expression       # LogicalExpr
             | unaryOp expression                            # UnaryExpr
-            | BRACK_L expression BRACK_R                    # GroupExpr
-            | answerType ASSIGN BRACK_L expression BRACK_R  # ComputedField ;
+            | BRACK_L expression BRACK_R                    # GroupExpr ;
 
 form        : FORM Ident CURLY_L statement+ CURLY_R EOF ;
 
 statement   : question
             | conditional ;
 
-question    : Ident D_COLON label=TEXT expression;
+question    : Ident D_COLON label=TEXT answerType ( ASSIGN BRACK_L expression BRACK_R )?;
 conditional : IF BRACK_L condition=expression BRACK_R CURLY_L thenBlock+=statement+ CURLY_R ( ELSE CURLY_L elseBlock+=statement+ CURLY_R )? ;
 
 answerType  : BOOLEAN | INTEGER | STRING | MONEY | DATE | DECIMAL | MONEY;

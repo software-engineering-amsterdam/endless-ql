@@ -227,4 +227,19 @@ class AstBuilderSpec extends FunSuite {
 
     assert(actual == expected)
   }
+
+  test("should parse simple-expression to the correct AST") {
+    val actual: QLForm = generateQLForm("/positive/simple-expression.ql")
+
+    val expected: QLForm =
+      QLForm(
+        formName = "Box1HouseOwning",
+        statements = List(
+          Question(id = "hasSoldHouse", label = "Did you sell a house in 2010?", answer = BooleanAnswer(None)),
+          Question(id = "houseSellingPrice", label = "What was the selling price?", answer = BinaryOperation(Sub, IntAnswer(Some(10000)), Reference("hasSoldHouse")))
+        )
+      )
+
+    assert(actual == expected)
+  }
 }

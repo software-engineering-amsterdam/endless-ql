@@ -82,11 +82,13 @@ namespace QL_Vizualizer.Controllers
         public virtual void HandleQL(string rawQL)
         {
             FormNode node = QLParserHelper.Parse(rawQL);
-            if (Analyser.Analyse(node))
+            if (!Analyser.Analyse(node))
             {
                 ShowError(Analyser.GetErrors().ToArray());
                 return;
             }
+
+
         }
 
         /// <summary>

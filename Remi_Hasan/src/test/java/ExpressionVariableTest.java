@@ -12,7 +12,7 @@ public class ExpressionVariableTest {
 
     @Test
     public void ExpressionBooleanTrueTest() throws IOException {
-        AntlrTester tester = new AntlrTester("true");
+        ANTLRTester tester = new ANTLRTester("true");
         Expression actualExpression = tester.visitor.visitBooleanConstant(tester.parser.booleanConstant());
         ExpressionVariableBoolean expectedExpression = new ExpressionVariableBoolean(true);
 
@@ -22,7 +22,7 @@ public class ExpressionVariableTest {
 
     @Test
     public void ExpressionBooleanFalseTest() throws IOException {
-        AntlrTester tester = new AntlrTester("false");
+        ANTLRTester tester = new ANTLRTester("false");
         Expression actualExpression = tester.visitor.visitBooleanConstant(tester.parser.booleanConstant());
         ExpressionVariableBoolean expectedExpression = new ExpressionVariableBoolean(false);
 
@@ -32,7 +32,7 @@ public class ExpressionVariableTest {
 
     @Test
     public void ExpressionIntegerPositiveTest() throws IOException {
-        AntlrTester tester = new AntlrTester("1");
+        ANTLRTester tester = new ANTLRTester("1");
         Expression actualExpression = tester.visitor.visitIntegerConstant(tester.parser.integerConstant());
         ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(1);
 
@@ -42,7 +42,7 @@ public class ExpressionVariableTest {
 
     @Test
     public void ExpressionIntegerNegativeTest() throws IOException {
-        AntlrTester tester = new AntlrTester("-1");
+        ANTLRTester tester = new ANTLRTester("-1");
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
         ExpressionNeg expectedExpression = new ExpressionNeg(new ExpressionVariableInteger(1));
 
@@ -52,7 +52,7 @@ public class ExpressionVariableTest {
 
     @Test
     public void ExpressionDecimalPositiveTest() throws IOException {
-        AntlrTester tester = new AntlrTester("1.0");
+        ANTLRTester tester = new ANTLRTester("1.0");
         Expression actualExpression = tester.visitor.visitDecimalConstant(tester.parser.decimalConstant());
         ExpressionVariableDecimal expectedExpression = new ExpressionVariableDecimal(1.0);
 
@@ -62,7 +62,7 @@ public class ExpressionVariableTest {
 
     @Test
     public void ExpressionDecimalNegativeTest() throws IOException {
-        AntlrTester tester = new AntlrTester("-1.0");
+        ANTLRTester tester = new ANTLRTester("-1.0");
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
         ExpressionNeg expectedExpression = new ExpressionNeg(new ExpressionVariableDecimal(1.0));
 
@@ -72,7 +72,7 @@ public class ExpressionVariableTest {
 
     @Test
     public void ExpressionDateTest() throws IOException {
-        AntlrTester tester = new AntlrTester("1-1-2018");
+        ANTLRTester tester = new ANTLRTester("1-1-2018");
         Expression actualExpression = tester.visitor.visitDateConstant(tester.parser.dateConstant());
         ExpressionVariableDate expectedExpression = new ExpressionVariableDate("1-1-2018");
 
@@ -82,7 +82,7 @@ public class ExpressionVariableTest {
 
     @Test
     public void ExpressionMoneyTest() throws IOException {
-        AntlrTester tester = new AntlrTester("1.99");
+        ANTLRTester tester = new ANTLRTester("1.99");
         Expression actualExpression = tester.visitor.visitMoneyConstant(tester.parser.moneyConstant());
         ExpressionVariableMoney expectedExpression = new ExpressionVariableMoney(BigDecimal.valueOf(1.99));
 
@@ -92,7 +92,7 @@ public class ExpressionVariableTest {
 
     @Test
     public void ExpressionStringTest() throws IOException {
-        AntlrTester tester = new AntlrTester("\"Could you give me some value?\"");
+        ANTLRTester tester = new ANTLRTester("\"Could you give me some value?\"");
         Expression actualExpression = tester.visitor.visitStringConstant(tester.parser.stringConstant());
         ExpressionVariableString expectedExpression = new ExpressionVariableString("Could you give me some value?");
 
@@ -106,7 +106,7 @@ public class ExpressionVariableTest {
         Question dummyQuestion = new Question("someQuestionIdentifier_123", "", new ExpressionVariableInteger(1));
         LookupTable.getInstance().insert(dummyQuestion);
 
-        AntlrTester tester = new AntlrTester("someQuestionIdentifier_123");
+        ANTLRTester tester = new ANTLRTester("someQuestionIdentifier_123");
         Expression actualExpression = tester.visitor.visitIdentifierConstant(tester.parser.identifierConstant());
         ExpressionIdentifier<Integer> expectedExpression = new ExpressionIdentifier<Integer>("someQuestionIdentifier_123");
 

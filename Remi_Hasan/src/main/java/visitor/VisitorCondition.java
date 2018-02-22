@@ -16,7 +16,7 @@ public class VisitorCondition extends QLBaseVisitor<Condition> {
         VisitorExpression visitorExpression = new VisitorExpression();
         Expression expression = visitorExpression.visit(ctx.expression());
 
-        if(expression.getReturnType() != ReturnType.Boolean) {
+        if(expression.getReturnType() != ReturnType.BOOLEAN) {
             throw new UnsupportedOperationException("Condition expression not of type boolean");
         }
 

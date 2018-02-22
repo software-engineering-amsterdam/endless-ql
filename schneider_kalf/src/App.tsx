@@ -1,12 +1,7 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Input from "reactstrap/lib/Input";
-import Addition from "./form/nodes/expressions/arithmetic/Addition";
-import Multiplication from "./form/nodes/expressions/arithmetic/Multiplication";
-import NumberLiteral from "./form/nodes/expressions/arithmetic/NumberLiteral";
-import { evaluate } from "./form/evaluation/evaluation_functions";
 import { FormComponent } from "./rendering/components/form_component/FormComponent";
-import Expression from "./form/nodes/expressions/Expression";
 import Form from "./form/Form";
 import { sampleForm } from "./mock/sampleForm";
 import { QlsTest } from "./modules/styling/rendering/components/qls_test/QlsTest";
@@ -36,13 +31,14 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onChangeQuestionnaire(require("!raw-loader!./mock/sample.ql.txt"));
   }
 
   onChangeQuestionnaire(text: string) {
     let errorMessage: string = "";
 
     try {
-      const formNodes: FormNode[] = qlParser.parse(this.state.qlInput);
+      const formNodes: FormNode[] = qlParser.parse(text);
 
       this.setState({
         form: new QuestionForm(formNodes[0], this.state.form.getState()),

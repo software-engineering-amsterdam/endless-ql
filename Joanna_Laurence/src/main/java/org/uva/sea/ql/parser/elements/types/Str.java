@@ -1,8 +1,7 @@
 package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.traverse.Visitor;
 
 public class Str extends ASTNode  {
     private String value;
@@ -16,7 +15,7 @@ public class Str extends ASTNode  {
     }
 
     @Override
-    public void accept(BaseVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 

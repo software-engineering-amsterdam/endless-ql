@@ -1,7 +1,7 @@
 package org.uva.sea.ql.parser.elements;
 
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.traverse.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class Statements extends ASTNode {
     }
 
     @Override
-    public void accept(BaseVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 

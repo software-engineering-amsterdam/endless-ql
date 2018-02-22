@@ -78,9 +78,9 @@ public class QLExprEvaluate extends BaseVisitor {
      * @param with To the type of this node when possible
      */
     private ASTNode makeTypeCompatible(ASTNode node, ASTNode with) {
-        if(node instanceof Int && with instanceof Dec) {
+        if(node instanceof Int && with instanceof Decimal) {
             int intVal = ((Int)node).getValue();
-            return new Dec(intVal);
+            return new Decimal(intVal);
         }
 
         return node;
@@ -278,7 +278,7 @@ public class QLExprEvaluate extends BaseVisitor {
         this.stack.add(node);
     }
 
-    public void doDec(Dec node) {
+    public void doDec(Decimal node) {
         this.stack.add(node);
     }
 
@@ -294,7 +294,7 @@ public class QLExprEvaluate extends BaseVisitor {
         this.stack.add(node);
     }
 
-    public void doVar(Var node) {
+    public void doVar(Variable node) {
         this.stack.add(node.getLinkedQuestion().getValue());
     }
 }

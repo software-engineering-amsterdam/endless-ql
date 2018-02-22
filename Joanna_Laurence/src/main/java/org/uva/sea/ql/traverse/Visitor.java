@@ -3,7 +3,7 @@ package org.uva.sea.ql.traverse;
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
-import org.uva.sea.ql.parser.nodeTypes.DualNode;
+import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.ql.parser.nodeTypes.SingleNode;
 
 public interface Visitor<T> {
@@ -41,7 +41,7 @@ public interface Visitor<T> {
 
     T visit(DateExpr node);
 
-    T visit(Dec node);
+    T visit(Decimal node);
 
     T visit(Money node);
 
@@ -51,7 +51,7 @@ public interface Visitor<T> {
 
     T visit(Type node);
 
-    T visit(Var node);
+    T visit(Variable node);
 
     T visit(Condition node);
 
@@ -63,7 +63,7 @@ public interface Visitor<T> {
 
     T visit(Statements node);
 
-    T visit(DualNode node);
+    T visit(BinaryOperator node);
 
     T visit(SingleNode node);
 }

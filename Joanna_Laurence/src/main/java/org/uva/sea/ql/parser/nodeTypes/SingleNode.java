@@ -1,8 +1,7 @@
 package org.uva.sea.ql.parser.nodeTypes;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.traverse.Visitor;
 
 public abstract class SingleNode extends ASTNode {
     private ASTNode value;
@@ -16,7 +15,7 @@ public abstract class SingleNode extends ASTNode {
     }
 
     @Override
-    public void accept(BaseVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 }

@@ -1,10 +1,9 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.SingleNode;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.traverse.Visitor;
 
 public class Positive extends SingleNode  {
 
@@ -13,7 +12,7 @@ public class Positive extends SingleNode  {
     }
 
     @Override
-    public void accept(BaseVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 

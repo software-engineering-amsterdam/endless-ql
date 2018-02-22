@@ -2,20 +2,22 @@ package org.uva.sea.ql.parser.elements;
 
 import org.uva.sea.ql.QLExprEvaluate;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.parser.elements.types.Var;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.parser.elements.types.Variable;
+import org.uva.sea.ql.traverse.Visitor;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class Question extends ASTNode implements QuestionContainerNode {
     private String label;
-    private Var variable;
+    private Variable variable;
     private Type nodeType;
     private ASTNode value;
     private ASTNode computedAnswer;
 
 
-    public Question(String label, Var variable, Type nodeType, ASTNode value) {
+    public Question(String label, Variable variable, Type nodeType, ASTNode value) {
         this.label = label;
         this.variable = variable;
         this.nodeType = nodeType;
@@ -39,7 +41,7 @@ public class Question extends ASTNode implements QuestionContainerNode {
         return label;
     }
 
-    public Var getVariable() {
+    public Variable getVariable() {
         return variable;
     }
 
@@ -52,7 +54,7 @@ public class Question extends ASTNode implements QuestionContainerNode {
     }
 
     @Override
-    public void accept(BaseVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 

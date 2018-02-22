@@ -3,7 +3,7 @@ package org.uva.sea.ql.parser.elements;
 import org.uva.sea.ql.QLExprEvaluate;
 import org.uva.sea.ql.parser.elements.types.Bool;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.traverse.Visitor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +48,7 @@ public class Condition extends ASTNode implements QuestionContainerNode {
     }
 
     @Override
-    public void accept(BaseVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 

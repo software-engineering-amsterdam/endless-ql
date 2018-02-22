@@ -3,8 +3,7 @@ package org.uva.sea.ql;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
-import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.parser.elements.types.Var;
+import org.uva.sea.ql.parser.elements.types.Variable;
 import org.uva.sea.ql.traverse.BaseVisitor;
 
 import java.util.HashMap;
@@ -33,7 +32,7 @@ public class QLVariableInfo extends BaseVisitor {
      * @return If an error occurred
      */
     public boolean addVariableInformation(Form node) {
-        node.doTraversal(this, TraverseType.TOP_DOWN);
+        node.accept(this);
         return !error;
     }
 
@@ -41,30 +40,38 @@ public class QLVariableInfo extends BaseVisitor {
      * Variables have to be defined before used
      * @param node The var node in the AST that is traversed
      */
-    public void doVar(Var node) {
+    @Override
+    public Void visit(Variable node) {
+        super.visit(node);
+
         //Questions should not already exist
         String variableName = node.getVariableName();
         if(!variableMap.containsKey(variableName)) {
             this.error("Variable is not defined", node);
-            return;
+            return null;
         }
 
         node.setLinkedQuestion(variableMap.get(variableName));
+        return null;
     }
 
     /**
      * Questions should not be defined yet. Map the question by its name
      * @param node The question node in the AST that is traversed
      */
-    public void doQuestion(Question node) {
+    @Override
+    public Void visit(Question node) {
+        super.visit(node);
+
         //Questions should not already exist
         String variableName = node.getVariable().getVariableName();
         if(variableMap.containsKey(variableName)) {
             this.error("Question already exists", node);
-            return;
+            return null;
         }
 
         //Add new question to the lookup
         variableMap.put(variableName, node);
+        return null;
     }
 }

@@ -1,12 +1,11 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.parser.nodeTypes.DualNode;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
+import org.uva.sea.ql.traverse.Visitor;
 
-public class Addition extends DualNode  {
+public class Addition extends BinaryOperator {
     public Addition(ASTNode lhs, ASTNode rhs) {
         super(lhs, rhs);
     }
@@ -20,7 +19,7 @@ public class Addition extends DualNode  {
     }
 
     @Override
-    public void accept(BaseVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 }

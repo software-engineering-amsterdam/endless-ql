@@ -13,18 +13,19 @@ ifElseStatement   : 'if' '(' expression ')' '{' block '}' 'else' '{' block '}' ;
 
 block             : statement+;
 
-statement         : question
-                  | ifStatement
-                  | ifElseStatement
-                  ;
+statement         : question | ifStatement | ifElseStatement ;
 
 question          : identifier ':' STRING questionType ;
 
-questionType      : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | money;
-
-expression        : '!' orExpression
-                  | orExpression
+questionType      : 'boolean' #booleanType
+                  | 'string' #stringType
+                  | 'integer' #integerType
+                  | 'date' #dateType
+                  | 'decimal' #decimalType
+                  | money #moneyType
                   ;
+
+expression        : '!' orExpression | orExpression ;
 
 orExpression      : andExpression ('||' andExpression)* ;
 

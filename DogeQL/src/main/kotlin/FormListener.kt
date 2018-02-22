@@ -44,7 +44,6 @@ class FormListener : QuestionareLanguageParserBaseListener() {
     }
 }
 
-
 fun typeParser(type: String): BaseSymbolValue = when (type) {
     "boolean" -> BooleanValue(false)
     "integer" -> IntegerValue(1)

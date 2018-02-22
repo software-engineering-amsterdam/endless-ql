@@ -32,6 +32,8 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
+    implementation "space.traversal.kapsule:kapsule-core:0.3"
+
     antlr "org.antlr:antlr4:4.5"
 
     testImplementation 'org.amshove.kluent:kluent:1.34'

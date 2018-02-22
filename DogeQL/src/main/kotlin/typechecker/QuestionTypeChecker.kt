@@ -4,13 +4,13 @@ import common.Name
 import data.Question
 import java.util.HashMap
 
-class QuestionTypeChecker() : TypeChecker{
+class QuestionTypeChecker : TypeChecker{
 
-    fun findDuplicateLabels(table : HashMap<Name, Question>): List<String> {
+    fun findDuplicateLabels(table : HashMap<Name, Question>): HashSet<String> {
 
         val uniqueLabels = HashSet<String>()
 
-        val duplicateLabels = ArrayList<String>()
+        val duplicateLabels = HashSet<String>()
 
         table.forEach{
             _, question ->

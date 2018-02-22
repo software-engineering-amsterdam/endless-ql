@@ -4,6 +4,8 @@ import ParseObjects.Expressions.BinaryExpression;
 import ParseObjects.Expressions.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
+import ParseObjects.Expressions.ExpressionConstants.BooleanConstant;
+import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 
 
 public class LessThanExpression extends BinaryExpression<Boolean> {
@@ -13,19 +15,14 @@ public class LessThanExpression extends BinaryExpression<Boolean> {
 
     @Override
     public EvaluationType returnType() {
-        Constant left = this.getExprLeft().evaluate();
-        Constant right = this.getExprRight().evaluate();
-        return left.lessThan(right);
+        return EvaluationType.Boolean;
     }
 
     @Override
     public Constant<Boolean> evaluate() {
-        return null;
-    }
-
-    @Override
-    public Boolean isArithmetic() {
-        return false;
+        DecimalConstant left = (DecimalConstant) this.getExprLeft().evaluate();
+        DecimalConstant right = (DecimalConstant) this.getExprRight().evaluate();
+        return new BooleanConstant(left.getValue() < right.getValue());
     }
     @Override
     public Boolean isLogical(){

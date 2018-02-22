@@ -2,6 +2,7 @@
 using QL_Parser.Analysis;
 using QL_Parser.AST.Nodes;
 using QL_Vizualizer.Controllers.Display;
+using QL_Vizualizer.Factories;
 using QL_Vizualizer.Widgets;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,10 +63,17 @@ namespace QL_Vizualizer.Controllers
         public abstract void ShowError(params string[] errors);
 
         /// <summary>
+        /// Displays form
+        /// </summary>
+        /// <param name="title">Form title</param>
+        /// <param name="widgets">Widgets of form</param>
+        public abstract void DisplayForm(string title, QLWidget[] widgets);
+
+        /// <summary>
         /// Sets all widgets, overrides existing values
         /// </summary>
         /// <param name="widgets">Widgets to assign</param>
-        public virtual void SetWidgets(List<QLWidget> widgets)
+        public virtual void SetWidgets(QLWidget[] widgets)
         {
             // Convert list input to dictionary
             _widgets = widgets.ToDictionary(o => o.Identifyer, o => o);
@@ -81,6 +89,7 @@ namespace QL_Vizualizer.Controllers
         /// <param name="rawQL">Raw QL-language string</param>
         public virtual void HandleQL(string rawQL)
         {
+            Reset();
             FormNode node = QLParserHelper.Parse(rawQL);
             if (!Analyser.Analyse(node))
             {
@@ -88,7 +97,16 @@ namespace QL_Vizualizer.Controllers
                 return;
             }
 
+            List<QLWidget> widgets = new List<QLWidget>();
 
+            foreach (Node n in node.Children)
+                if(n.Type == NodeType.QUESTION)
+                {
+                    QuestionNode qn = n as QuestionNode;
+                    widgets.Add(WidgetFactory.CreateWidget(qn));
+                }
+
+            DisplayForm(node.FormName, widgets.ToArray());
         }
 
         /// <summary>
@@ -126,6 +144,12 @@ namespace QL_Vizualizer.Controllers
         public QLWidget GetWidget(string widgetID)
         {
             return _widgets[widgetID];
+        }
+
+        public virtual void Reset()
+        {
+            _widgets = new Dictionary<string, QLWidget>();
+            _notifyOnChange = new Dictionary<string, List<QLWidget>>();
         }
     }
 }

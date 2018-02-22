@@ -42,11 +42,12 @@ namespace QL_Vizualizer.Controllers.Display
         /// <returns>Bottom X-Position of placed widget with repsect to all style attributes</returns>
         public abstract float ShowWidget(QLWidget widget, Y style);
 
+        public abstract void SetTitle(string title);
+
         /// <summary>
         /// Shows display to user
         /// </summary>
         public abstract void ShowDisplay();
-
 
         /// <summary>
         /// Displays given errors to the user
@@ -77,6 +78,11 @@ namespace QL_Vizualizer.Controllers.Display
         public void UpdateView(QLWidget widget)
         {
             _elementFactory.UpdateElement(widget, ElementIndex[widget.Identifyer]);
+        }
+
+        public virtual void Reset()
+        {
+            ElementIndex = new Dictionary<string, T>();
         }
     }
 }

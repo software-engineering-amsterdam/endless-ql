@@ -78,15 +78,35 @@ public class ParseTreeVisitorTest {
     }
 
     @Test
+    public void visitMoneyType() {
+        String testCase = "\"Where is\" myMoney: money";
+        QLParser parser = builder.getQLParser(testCase);
+        Question question = (Question) builder.getStatement(parser);
+        Assert.assertEquals("MoneyType", question.getType().toString());
+    }
+
+    @Test
     public void visitIntegerType() {
+        String testCase = "\"MyQuestion\" myInt: integer";
+        QLParser parser = builder.getQLParser(testCase);
+        Question question = (Question) builder.getStatement(parser);
+        Assert.assertEquals("IntegerType", question.getType().toString());
     }
 
     @Test
     public void visitBooleanType() {
+        String testCase = "\"MyQuestion\" myBool: boolean";
+        QLParser parser = builder.getQLParser(testCase);
+        Question question = (Question) builder.getStatement(parser);
+        Assert.assertEquals("BooleanType", question.getType().toString());
     }
 
     @Test
     public void visitStringType() {
+        String testCase = "\"MyQuestion\" myString: string";
+        QLParser parser = builder.getQLParser(testCase);
+        Question question = (Question) builder.getStatement(parser);
+        Assert.assertEquals("StringType", question.getType().toString());
     }
 
     @Test

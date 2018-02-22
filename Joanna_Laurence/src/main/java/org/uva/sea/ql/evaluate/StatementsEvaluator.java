@@ -1,6 +1,7 @@
 package org.uva.sea.ql.evaluate;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.Statements;
 import org.uva.sea.ql.traverse.BaseVisitor;
@@ -51,7 +52,9 @@ public class StatementsEvaluator extends BaseVisitor<List<Question>> {
     public List<Question> visit(Statements node) {
         List<Question> questions = new ArrayList<>();
         for(ASTNode statement : node.getStatementList()) {
-            questions.addAll(statement.accept(this));
+            List<Question> subQuestions = statement.accept(this);
+            if(subQuestions != null)
+                questions.addAll(subQuestions);
         }
         return questions;
     }
@@ -63,5 +66,14 @@ public class StatementsEvaluator extends BaseVisitor<List<Question>> {
      */
     public List<Question> visit(Question question) {
         return Arrays.asList(new Question[] {question});
+    }
+
+    /**
+     * Do not evaluate if statements
+     * @param ifStatement
+     * @return
+     */
+    public List<Question> visit(IfStatement ifStatement) {
+        return new ArrayList<>();
     }
 }

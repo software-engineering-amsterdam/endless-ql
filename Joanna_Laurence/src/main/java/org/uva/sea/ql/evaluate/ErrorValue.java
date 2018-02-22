@@ -17,4 +17,19 @@ public class ErrorValue extends Value {
     public <T> T accept(QLValueEvaluator<T> visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public Value negate() {
+        return this;
+    }
+
+    @Override
+    public Value not() {
+        return this;
+    }
+
+    @Override
+    public Value positive() {
+        return this;
+    }
 }

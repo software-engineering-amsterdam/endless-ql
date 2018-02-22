@@ -45,4 +45,19 @@ public class DecimalValue extends Value {
     public <T> T accept(QLValueEvaluator<T> visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public Value negate() {
+        return new DecimalValue(this.decimalValue * (-1));
+    }
+
+    @Override
+    public Value not() {
+        return new ErrorValue("Not operator cannot be applied on a decimal value");
+    }
+
+    @Override
+    public Value positive() {
+        return new DecimalValue(this.decimalValue);
+    }
 }

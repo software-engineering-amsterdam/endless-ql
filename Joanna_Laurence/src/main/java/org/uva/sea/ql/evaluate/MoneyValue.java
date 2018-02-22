@@ -23,15 +23,15 @@ public class MoneyValue extends Value {
     }
 
     public Value add(IntValue value) {
-        return new MoneyValue(this.getCurrency(), this.getAmount().add(new BigDecimal(value.getIntValue())));
+        return new MoneyValue(this.currency, this.amount.add(new BigDecimal(value.getIntValue())));
     }
 
     public Value add(DecimalValue value) {
-        return new MoneyValue(this.getCurrency(), this.getAmount().add(new BigDecimal(value.getDecimalValue())));
+        return new MoneyValue(this.currency, this.amount.add(new BigDecimal(value.getDecimalValue())));
     }
 
     public Value add(MoneyValue value) {
-        return new MoneyValue(value.getCurrency(), this.getAmount().add(value.getAmount()));
+        return new MoneyValue(value.currency, this.amount.add(value.getAmount()));
     }
 
     public Value add(BooleanValue value) {
@@ -49,5 +49,20 @@ public class MoneyValue extends Value {
     @Override
     public <T> T accept(QLValueEvaluator<T> visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public Value negate() {
+        return new MoneyValue(this.currency, this.amount.negate());
+    }
+
+    @Override
+    public Value not() {
+        return new ErrorValue("Not operator cannot be applied on a money value");
+    }
+
+    @Override
+    public Value positive() {
+        return new MoneyValue(this.currency, this.amount);
     }
 }

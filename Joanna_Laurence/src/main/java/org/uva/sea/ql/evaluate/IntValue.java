@@ -43,4 +43,19 @@ public class IntValue extends Value {
     public <T> T accept(QLValueEvaluator<T> visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public Value negate() {
+        return new IntValue(this.intValue * (-1));
+    }
+
+    @Override
+    public Value not() {
+        return new ErrorValue("Not operator cannot be applied on a integer value");
+    }
+
+    @Override
+    public Value positive() {
+        return new IntValue(this.intValue);
+    }
 }

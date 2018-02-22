@@ -46,4 +46,19 @@ public class DateValue extends Value {
     public <T> T accept(QLValueEvaluator<T> visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public Value negate() {
+        return new ErrorValue("Negate operator cannot be applied on a date value");
+    }
+
+    @Override
+    public Value not() {
+        return new ErrorValue("Not operator cannot be applied on a date value");
+    }
+
+    @Override
+    public Value positive() {
+        return new ErrorValue("Positive operator cannot be applied on a date value");
+    }
 }

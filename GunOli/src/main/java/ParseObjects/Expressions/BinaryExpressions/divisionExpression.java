@@ -6,8 +6,8 @@ import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 
 
-public class divisionExpression extends BinaryExpression<Double> {
-    public divisionExpression(String operator, Expression left, Expression right){
+public class DivisionExpression extends BinaryExpression<Double> {
+    public DivisionExpression(String operator, Expression left, Expression right){
         super(operator,left,right);
     }
 

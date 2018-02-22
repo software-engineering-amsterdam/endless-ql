@@ -20,7 +20,7 @@ public class AdditionExpression extends BinaryExpression<Double> {
     public Constant<Double> evaluate(){
         return null;//change
     }
-    
+
     @Override
     public Boolean isArithmetic(){
         return true;

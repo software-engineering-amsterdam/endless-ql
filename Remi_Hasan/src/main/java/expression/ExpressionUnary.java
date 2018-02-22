@@ -15,4 +15,7 @@ public abstract class ExpressionUnary<T> extends Expression<T> {
     public String toString() {
         return opString + this.v.toString();
     }
+
+    @Override
+    public abstract boolean equals(Object other);
 }

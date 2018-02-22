@@ -9,7 +9,8 @@ import { FormComponent } from "./rendering/components/form_component/FormCompone
 import Expression from "./form/nodes/expressions/Expression";
 import Form from "./form/Form";
 import { sampleForm } from "./mock/sampleForm";
-import { QlsTest } from "./modules/rendering/components/qls_test/QlsTest";
+import { QlsTest } from "./modules/styling/rendering/components/qls_test/QlsTest";
+
 import QuestionForm from "./form/QuestionForm";
 import FormNode from "./form/nodes/FormNode";
 

@@ -5,17 +5,14 @@ import ParseObjects.Expressions.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 
-public class SubtractExpression extends BinaryExpression<Double> {
-    public SubtractExpression(String operator, Expression left, Expression right){
 
-        super(operator, left, right);
+public class divisionExpression extends BinaryExpression<Double> {
+    public divisionExpression(String operator, Expression left, Expression right){
+        super(operator,left,right);
     }
-
 
     @Override
-    public EvaluationType returnType() {
-        return EvaluationType.Decimal;
-    }
+    public EvaluationType returnType() {return EvaluationType.Decimal;}
 
     @Override
     public Constant<Double> evaluate() {return null;}

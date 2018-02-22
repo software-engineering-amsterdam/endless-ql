@@ -36,7 +36,7 @@ namespace QL_Parser.Analysis
 
                 // Semantic
                 new VariableAnalyser(),
-                new AllVarsAreRegisteredAnalyser()
+                new OnlyInitialisedVarsAnalyser()
             };
         }
 

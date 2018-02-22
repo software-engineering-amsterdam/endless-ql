@@ -2,21 +2,24 @@
 
 namespace QL_Parser.Analysis.Semantic
 {
-    public class AllVarsAreRegisteredAnalyser : IAnalyser
+    public class OnlyInitialisedVarsAnalyser : IAnalyser
     {
         public bool Analyse(Node node, bool logErrors = true)
         {
-            var success = true;
+            var result = true;
             if (node.Type == NodeType.CONDITIONAL)
             {
                 var conditionalNode = (ConditionalNode)node;
                 return AnalyseExpression(conditionalNode.Expression);
             }
 
+            // Set result to false when any of the children encounters a error.
             foreach (Node n in node.Children)
-                Analyse(n, logErrors);
+                if (!Analyse(n, logErrors) && result)
+                    result = false;
 
-            return success;
+
+            return result;
         }
 
         private bool IsIdentiierInSymbolTable(ValueNode node)

@@ -35,7 +35,7 @@ object WidgetFactory {
   }
 
   def createIntegerField(value: Option[Int]): Parent = {
-    createRegExField("\\d+", value.map(_.toString).getOrElse(""))
+    createRegExField("\\d*", value.map(_.toString).getOrElse(""))
   }
 
   def createDecimalField(): Parent = {

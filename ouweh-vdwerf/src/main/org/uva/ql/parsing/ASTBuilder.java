@@ -27,7 +27,7 @@ public class ASTBuilder {
         return  new QLParser(new CommonTokenStream(lexer));
     }
 
-    private Form getForm(QLParser parser){
+    public Form getForm(QLParser parser){
         ParseTreeVisitor visitor = new ParseTreeVisitor();
         QLParser.FormContext formContext =  parser.form();
         return (Form) visitor.visit(formContext);

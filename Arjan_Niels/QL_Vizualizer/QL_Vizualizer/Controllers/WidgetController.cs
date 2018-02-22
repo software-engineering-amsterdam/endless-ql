@@ -1,4 +1,7 @@
-﻿using QL_Vizualizer.Controllers.Display;
+﻿using QL_Parser;
+using QL_Parser.Analysis;
+using QL_Parser.AST.Nodes;
+using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Widgets;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +56,12 @@ namespace QL_Vizualizer.Controllers
         public abstract void ShowView();
 
         /// <summary>
+        /// Handles error display
+        /// </summary>
+        /// <param name="errors">Errors to show</param>
+        public abstract void ShowError(params string[] errors);
+
+        /// <summary>
         /// Sets all widgets, overrides existing values
         /// </summary>
         /// <param name="widgets">Widgets to assign</param>
@@ -64,6 +73,20 @@ namespace QL_Vizualizer.Controllers
             // Set controller for each assigned widget
             foreach (QLWidget w in _widgets.Values)
                 w.SetController(this);
+        }
+
+        /// <summary>
+        /// Handles QL-language input
+        /// </summary>
+        /// <param name="rawQL">Raw QL-language string</param>
+        public virtual void HandleQL(string rawQL)
+        {
+            FormNode node = QLParserHelper.Parse(rawQL);
+            if (Analyser.Analyse(node))
+            {
+                ShowError(Analyser.GetErrors().ToArray());
+                return;
+            }
         }
 
         /// <summary>

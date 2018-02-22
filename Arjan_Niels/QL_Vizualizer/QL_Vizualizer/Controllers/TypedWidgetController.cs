@@ -22,6 +22,10 @@ namespace QL_Vizualizer.Controllers
         /// </summary>
         public Dictionary<string, Y> ElementStyleIndex { get; private set; }
 
+        /// <summary>
+        /// Set styles of widgets
+        /// </summary>
+        /// <param name="styles">Styles by widgetID</param>
         public void SetStyles(Dictionary<string, Y> styles)
         {
             if (ElementStyleIndex == null)
@@ -31,6 +35,10 @@ namespace QL_Vizualizer.Controllers
                     ElementStyleIndex[style.Key] = style.Value;
         }
 
+        /// <summary>
+        /// Update widgetstyles with default style
+        /// Does not override already set styles
+        /// </summary>
         private void UpdateDefaultStyle()
         {
             if (ElementStyleIndex == null)
@@ -41,11 +49,12 @@ namespace QL_Vizualizer.Controllers
                         ElementStyleIndex.Add(s, _displayController.DefaultStyle);
         }
 
-        public override void SetWidgets(List<QLWidget> widgets)
-        {
-            base.SetWidgets(widgets);
-        }
-
+        /// <summary>
+        /// Sets display controller
+        /// </summary>
+        /// <typeparam name="X">Element type</typeparam>
+        /// <typeparam name="Z">Style type</typeparam>
+        /// <param name="displayController">Display contoller, types must match with TypedWidgetController</param>
         public override void SetDisplayController<X,Z>(WidgetDisplayController<X, Z> displayController)
         {
             if (typeof(X) != typeof(T) || typeof(Y) != typeof(Z))
@@ -55,11 +64,27 @@ namespace QL_Vizualizer.Controllers
             UpdateDefaultStyle();
         }
         
+        /// <summary>
+        /// Shows (main) view to user
+        /// </summary>
         public override void ShowView()
         {
             if (_displayController == null)
                 throw new InvalidOperationException("Display controller is not set, but showview is called.");
             _displayController.ShowDisplay();
+        }
+
+        /// <summary>
+        /// Shows error(s) to user
+        /// </summary>
+        /// <param name="errors">One or more errors</param>
+        public override void ShowError(params string[] errors)
+        {
+            if (_displayController == null)
+                throw new InvalidOperationException("Display controller is not set, cannot display errors.");
+
+            // Forward error display to errors
+            _displayController.ShowError(errors);
         }
 
         /// <summary>

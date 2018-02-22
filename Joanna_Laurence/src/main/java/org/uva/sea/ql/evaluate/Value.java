@@ -42,19 +42,25 @@ public abstract class Value {
         return value.multiply(this);
     }
 
-    public abstract Value negate();
+    public Value negate(){
+        return this;
+    };
 
     public Value isNotEqual(Value value) {
         return value.isNotEqual(this);
     }
 
-    public abstract Value not();
+    public Value not(){
+        return this;
+    };
 
     public Value or(Value value) {
         return value.or(value);
     }
 
-    public abstract Value positive();
+    public Value positive(){
+        return this;
+    };
 
     public Value subtract(Value value) {
         return value.subtract(this);

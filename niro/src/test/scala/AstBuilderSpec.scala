@@ -1,9 +1,8 @@
 import java.io.IOException
 
-import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.Expressions.Expression.{ BinaryOperation, Reference, UnaryOperation }
 import nl.uva.se.sc.niro.model.Expressions.answers._
-import nl.uva.se.sc.niro.model.Operators._
+import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.parser.QLFormParser
 import org.antlr.v4.runtime.{ CharStream, CharStreams }
 import org.scalatest.FunSuite

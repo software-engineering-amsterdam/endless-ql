@@ -2,39 +2,44 @@ package ui
 
 import data.Question
 import tornadofx.*
-import ui.question.ListViewItem
-import javax.swing.text.html.ListView
+import ui.question.QuestionField
+import ui.question.QuestionViewModel
 
 
 class DogeMainView: View() {
 
-    val dogeController : DogeController by inject()
+    private val questionViewModel : QuestionViewModel by inject()
 
     override val root = vbox()
 
     init {
         with(root){
             listview<Question> {
+                itemsProperty().bind(questionViewModel.questions)
+                bindSelected(questionViewModel)
+
                 cellFormat {
                     graphic = cache {
                        form {
                             fieldset {
-                                field("hoi") {
-                                    textfield()
-                                }
+                                add(QuestionField(item))
                             }
                         }
                     }
 
                 }
                 runAsync {
-                    updateMessage("loading")
-                    dogeController.getQuestions().observable()
-                } ui {
-                    items = it
+                    questionViewModel.load()
                 }
             }
+            button("Save") {
+                setOnAction { save() }
+            }
         }
+    }
 
+
+    fun save(){
+        var t = questionViewModel.questions;
     }
 }

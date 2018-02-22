@@ -22,12 +22,12 @@ public class Decimal extends ASTNode  {
         return value;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
     public Type getType() {
         return new Type(NodeType.DECIMAL);
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

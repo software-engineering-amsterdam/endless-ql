@@ -11,12 +11,12 @@ public class Multiplication extends BinaryOperator {
         super(token, lhs, rhs);
     }
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
     public Type getType() {
         return super.getLhs().getType();
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

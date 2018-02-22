@@ -11,12 +11,12 @@ public class Positive extends SingleNode  {
         super(token, value);
     }
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
     public Type getType() {
         return this.getValue().getType();
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

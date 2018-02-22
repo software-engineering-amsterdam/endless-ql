@@ -11,16 +11,16 @@ public class Division extends BinaryOperator {
         super(token, lhs, rhs);
     }
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
     /**
      * The value is returned, so the type of LHS
      * @return The type
      */
     public Type getType() {
         return super.getLhs().getType();
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

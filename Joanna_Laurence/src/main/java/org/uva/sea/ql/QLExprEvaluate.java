@@ -254,30 +254,6 @@ public class QLExprEvaluate implements Visitor<Value> {
         });
     }
 
-    public void doBool(Bool node) {
-        this.stack.add(node);
-    }
-
-    public void doDateExpr(DateExpr node) {
-        this.stack.add(node);
-    }
-
-    public void doDec(Decimal node) {
-        this.stack.add(node);
-    }
-
-    public void doMoney(Money node) {
-        this.stack.add(node);
-    }
-
-    public Int doInt(Int node) {
-        this.stack.add(node);
-    }
-
-    public Str doStr(Str node) {
-        this.stack.add(node);
-    }
-
     @Override
     public Value visit(Addition node) {
         return null;
@@ -289,17 +265,6 @@ public class QLExprEvaluate implements Visitor<Value> {
 
         return left.and(right);
     }
-    /*
-    public class IntValue extends Value{
-
-    public Value and(Value value){
-        return value.and(this);
-    }
-
-    public Value and(IntValue value){
-        return new IntValue(this.intValue, value.intValue);
-    }
-    }*/
 
     @Override
     public Value visit(Division node) {

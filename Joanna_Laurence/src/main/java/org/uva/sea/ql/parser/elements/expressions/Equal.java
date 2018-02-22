@@ -12,15 +12,15 @@ public class Equal extends BinaryOperator {
         super(token, lhs, rhs);
     }
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
     /**
      * @return True or false is returned
      */
     public Type getType() {
         return new Type(NodeType.BOOLEAN);
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

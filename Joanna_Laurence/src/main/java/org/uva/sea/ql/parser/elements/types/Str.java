@@ -17,12 +17,12 @@ public class Str extends ASTNode  {
         return value;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
     public Type getType() {
         return new Type(NodeType.STRING);
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

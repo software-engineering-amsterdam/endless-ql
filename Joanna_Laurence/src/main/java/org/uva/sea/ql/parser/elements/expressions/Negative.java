@@ -12,13 +12,13 @@ public class Negative extends SingleNode  {
         super(token, value);
     }
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
     public Type getType() {
         return new Type(NodeType.BOOLEAN);
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }
 

@@ -12,7 +12,7 @@ public class AdditionExpression extends BinaryExpression<Double> {
     }
 
     @Override
-    public Double evaluate(){
+    public Constant<Double> evaluate(){
         return null;//change
     }
 

@@ -44,14 +44,22 @@ namespace QL_Vizualizer.Controllers
         public override void SetDisplayController<X,Z>(WidgetDisplayController<X, Z> displayController)
         {
             if (typeof(X) != typeof(T) || typeof(Y) != typeof(Z))
-                throw new InvalidOperationException("Tried to set displaycontroller with type mismatch");
+                throw new InvalidOperationException("Tried to set displaycontroller with type mismatch.");
+
             _displayController = displayController as WidgetDisplayController<T,Y>;
+        }
+        
+        public override void ShowView()
+        {
+            if (_displayController == null)
+                throw new InvalidOperationException("Display controller is not set, but showview is called.");
+            _displayController.ShowDisplay();
         }
 
         /// <summary>
         /// Displays all widgets
         /// </summary>
-        public override void Show()
+        public override void ShowWidgets()
         {
             // Start showing widgets at specified starting position
             float position = _displayController.InitialPosition;
@@ -61,7 +69,7 @@ namespace QL_Vizualizer.Controllers
             foreach (QLWidget widget in _widgets.Values)
             {
                 ElementStyleIndex[widget.Identifyer] = _displayController.UpdatePosition(widget, position, ElementStyleIndex[widget.Identifyer]);
-                position = _displayController.Show(widget, ElementStyleIndex[widget.Identifyer]);
+                position = _displayController.ShowWidget(widget, ElementStyleIndex[widget.Identifyer]);
             }
         }
 

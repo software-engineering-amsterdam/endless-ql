@@ -51,12 +51,6 @@
     <Compile Include="Factories\ControlFactory.cs" />
     <Compile Include="Factories\ElementFactory.cs" />
     <Compile Include="Style\WindowsStyleProperties.cs" />
-    <Compile Include="Visualizer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Visualizer.Designer.cs">
-      <DependentUpon>Visualizer.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\Display\WidgetDisplayController.cs" />
@@ -74,10 +68,8 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Visualizer.resx">
-      <DependentUpon>Visualizer.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -96,6 +88,9 @@
       <Project>{aed597d7-3472-4d95-9d15-7ba9b8bbe89e}</Project>
       <Name>QL_Parser</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eye_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

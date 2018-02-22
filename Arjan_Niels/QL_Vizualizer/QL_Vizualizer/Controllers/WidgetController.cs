@@ -45,7 +45,12 @@ namespace QL_Vizualizer.Controllers
         /// <summary>
         /// Shows all widgets
         /// </summary>
-        public abstract void Show();
+        public abstract void ShowWidgets();
+
+        /// <summary>
+        /// Shows view to user
+        /// </summary>
+        public abstract void ShowView();
 
         /// <summary>
         /// Sets all widgets, overrides existing values

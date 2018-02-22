@@ -22,15 +22,15 @@ namespace QL_Visualizer.Tests.Controllers.Display
         public void ShowTest()
         {
             // when int widget is added, the element must be there
-            _widgetDisplayController.Show(_intWidget, _widgetStyle);
+            _widgetDisplayController.ShowWidget(_intWidget, _widgetStyle);
             Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_intWidget.Identifyer));
 
             // when string widget is added, the element must be there
-            _widgetDisplayController.Show(_stringWidget, _widgetStyle);
+            _widgetDisplayController.ShowWidget(_stringWidget, _widgetStyle);
             Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_stringWidget.Identifyer));
 
             // when bool widget is added, the element must be there
-            _widgetDisplayController.Show(_boolWidget, _widgetStyle);
+            _widgetDisplayController.ShowWidget(_boolWidget, _widgetStyle);
             Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_boolWidget.Identifyer));
 
             // there must now be a total of three elements

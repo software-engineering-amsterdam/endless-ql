@@ -141,15 +141,15 @@ public class Renderer {
         return submitButton;
     }
 
-    private void updateConditional(HashMap<Question, Field> fieldMap, ArrayList<Statement> statements, boolean parentVisible) {
+    private void updateConditional(HashMap<Question, Field> fieldMap, ArrayList<Statement> statements, boolean isTrue) {
         for (Statement statement : statements) {
             if (statement.isQuestion()) {
                 Field field = fieldMap.get((Question) statement);
-                field.getLabel().setVisible(parentVisible);
-                field.getControl().setVisible(parentVisible);
+                field.getLabel().setVisible(isTrue);
+                field.getControl().setVisible(isTrue);
             } else {
                 Condition conditional = (Condition) statement;
-                boolean visible = parentVisible && Boolean.TRUE.equals(conditional.condition.evaluate().get());
+                boolean visible = isTrue && Boolean.TRUE.equals(conditional.condition.evaluate().get());
                 updateConditional(fieldMap, conditional.statements, visible);
             }
         }

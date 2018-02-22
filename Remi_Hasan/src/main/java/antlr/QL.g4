@@ -7,7 +7,7 @@ block           : '{' statement* '}';
 statement       : condition | question;
 condition       : IF '(' expression ')' conditionTrueBlock=block ELSE conditionFalseBlock=block
                 | IF '(' expression ')' conditionTrueBlock=block;
-question        : identifier ':' questionString questionType;
+question        : questionString identifier ':' questionType;
 
 identifier      : IDENTIFIER;
 questionString  : STRING;

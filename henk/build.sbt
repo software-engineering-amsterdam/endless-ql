@@ -12,5 +12,6 @@ scalaVersion := "2.12.4"
 
 libraryDependencies ++= Seq(
   "org.antlr" % "antlr4-runtime" % "4.7.1",
-  "org.antlr" % "stringtemplate" % "3.2"
+  "org.antlr" % "stringtemplate" % "3.2",
+  "org.scalatest" %% "scalatest" % "3.0.4" % "test"
 )

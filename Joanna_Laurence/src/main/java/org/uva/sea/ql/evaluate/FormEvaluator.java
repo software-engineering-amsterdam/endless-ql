@@ -1,11 +1,8 @@
 package org.uva.sea.ql.evaluate;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
-import org.uva.sea.ql.QLEvaluator;
-import org.uva.sea.ql.QLValueEvaluator;
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.traverse.BaseVisitor;
-import xtc.tree.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;

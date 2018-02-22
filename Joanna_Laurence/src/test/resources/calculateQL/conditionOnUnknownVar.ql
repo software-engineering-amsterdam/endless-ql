@@ -15,7 +15,7 @@ form taxOfficeExample {
 
     if ((sellingPrice * waitDays) <= 50) {
       "Did you wait to long?"
-        waitedToLong2: boolean = false
+        waitedToLong1: boolean = false
     }
 
 

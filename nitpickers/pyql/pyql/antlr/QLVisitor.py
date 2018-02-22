@@ -39,8 +39,33 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#questionType.
-    def visitQuestionType(self, ctx:QLParser.QuestionTypeContext):
+    # Visit a parse tree produced by QLParser#booleanType.
+    def visitBooleanType(self, ctx:QLParser.BooleanTypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#stringType.
+    def visitStringType(self, ctx:QLParser.StringTypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#integerType.
+    def visitIntegerType(self, ctx:QLParser.IntegerTypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#dateType.
+    def visitDateType(self, ctx:QLParser.DateTypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#decimalType.
+    def visitDecimalType(self, ctx:QLParser.DecimalTypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#moneyType.
+    def visitMoneyType(self, ctx:QLParser.MoneyTypeContext):
         return self.visitChildren(ctx)
 
 

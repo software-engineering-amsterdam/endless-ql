@@ -44,7 +44,7 @@ public class ExpressionVariableTest {
     public void ExpressionIntegerNegativeTest() throws IOException {
         ANTLRTester tester = new ANTLRTester("-1");
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
-        ExpressionNeg expectedExpression = new ExpressionNeg(new ExpressionVariableInteger(1));
+        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableInteger(1));
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
@@ -64,7 +64,7 @@ public class ExpressionVariableTest {
     public void ExpressionDecimalNegativeTest() throws IOException {
         ANTLRTester tester = new ANTLRTester("-1.0");
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
-        ExpressionNeg expectedExpression = new ExpressionNeg(new ExpressionVariableDecimal(1.0));
+        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableDecimal(1.0));
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());

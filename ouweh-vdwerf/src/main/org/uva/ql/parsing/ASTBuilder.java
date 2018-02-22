@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.uva.ql.ast.Form;
 import org.uva.ql.ast.expression.Expression;
+import org.uva.ql.ast.Statement;
 
 public class ASTBuilder {
     public ASTBuilder(){
@@ -18,11 +19,7 @@ public class ASTBuilder {
         return getForm(parser);
     }
 
-    private Form getForm(QLParser parser){
-        QLParser.FormContext formContext =  parser.form();
-        ParseTreeVisitor visitor = new ParseTreeVisitor();
-        return (Form) visitor.visit(formContext);
-    }
+
 
     public QLParser getQLParser(String input){
         CharStream charStream = CharStreams.fromString(input);
@@ -30,9 +27,21 @@ public class ASTBuilder {
         return  new QLParser(new CommonTokenStream(lexer));
     }
 
+    public Form getForm(QLParser parser){
+        ParseTreeVisitor visitor = new ParseTreeVisitor();
+        QLParser.FormContext formContext =  parser.form();
+        return (Form) visitor.visit(formContext);
+    }
+
     public Expression getExpression(QLParser parser) {
         ParseTreeVisitor visitor = new ParseTreeVisitor();
         QLParser.ExpressionContext context = parser.expression();
         return (Expression) visitor.visit(context);
+    }
+
+    public Statement getStatement(QLParser parser) {
+        ParseTreeVisitor visitor = new ParseTreeVisitor();
+        QLParser.StatementContext context = parser.statement();
+        return (Statement) visitor.visit(context);
     }
 }

@@ -5,7 +5,6 @@ import nl.uva.se.sc.niro.model.Expressions.Expression
 
 case class QLForm(formName: String, statements: Seq[Statement]) {
   val symbolTable: Map[String, Expression] = Statement.collectAllQuestions(statements).map(q => (q.id, q.answer)).toMap
-  val visibleQuestions = Statement.collectAllVisibleQuestions(statements, symbolTable)
 }
 
 sealed trait Statement

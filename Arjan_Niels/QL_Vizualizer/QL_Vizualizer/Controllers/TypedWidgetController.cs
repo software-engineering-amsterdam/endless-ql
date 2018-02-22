@@ -22,38 +22,69 @@ namespace QL_Vizualizer.Controllers
         /// </summary>
         public Dictionary<string, Y> ElementStyleIndex { get; private set; }
 
-        private Y _defaultStyle;
-
-        public TypedWidgetController(Y defaultStyle)
-        {
-            _defaultStyle = defaultStyle;
-        }
-
+        /// <summary>
+        /// Set styles of widgets
+        /// </summary>
+        /// <param name="styles">Styles by widgetID</param>
         public void SetStyles(Dictionary<string, Y> styles)
         {
-            foreach (KeyValuePair<string, Y> style in styles)
-                ElementStyleIndex[style.Key] = style.Value;
+            if (ElementStyleIndex == null)
+                ElementStyleIndex = styles;
+            else
+                foreach (KeyValuePair<string, Y> style in styles)
+                    ElementStyleIndex[style.Key] = style.Value;
         }
 
-        public override void SetWidgets(List<QLWidget> widgets)
+        /// <summary>
+        /// Update widgetstyles with default style
+        /// Does not override already set styles
+        /// </summary>
+        private void UpdateDefaultStyle()
         {
-            base.SetWidgets(widgets);
-            ElementStyleIndex = _widgets.Keys.ToDictionary(o => o, o => _defaultStyle);
+            if (ElementStyleIndex == null)
+                ElementStyleIndex = _widgets.Keys.ToDictionary(o => o, o => _displayController.DefaultStyle);
+            else
+                foreach (string s in _widgets.Keys)
+                    if (!ElementStyleIndex.ContainsKey(s))
+                        ElementStyleIndex.Add(s, _displayController.DefaultStyle);
         }
 
+        /// <summary>
+        /// Sets display controller
+        /// </summary>
+        /// <typeparam name="X">Element type</typeparam>
+        /// <typeparam name="Z">Style type</typeparam>
+        /// <param name="displayController">Display contoller, types must match with TypedWidgetController</param>
         public override void SetDisplayController<X,Z>(WidgetDisplayController<X, Z> displayController)
         {
             if (typeof(X) != typeof(T) || typeof(Y) != typeof(Z))
                 throw new InvalidOperationException("Tried to set displaycontroller with type mismatch.");
 
             _displayController = displayController as WidgetDisplayController<T,Y>;
+            UpdateDefaultStyle();
         }
         
+        /// <summary>
+        /// Shows (main) view to user
+        /// </summary>
         public override void ShowView()
         {
             if (_displayController == null)
                 throw new InvalidOperationException("Display controller is not set, but showview is called.");
             _displayController.ShowDisplay();
+        }
+
+        /// <summary>
+        /// Shows error(s) to user
+        /// </summary>
+        /// <param name="errors">One or more errors</param>
+        public override void ShowError(params string[] errors)
+        {
+            if (_displayController == null)
+                throw new InvalidOperationException("Display controller is not set, cannot display errors.");
+
+            // Forward error display to errors
+            _displayController.ShowError(errors);
         }
 
         /// <summary>

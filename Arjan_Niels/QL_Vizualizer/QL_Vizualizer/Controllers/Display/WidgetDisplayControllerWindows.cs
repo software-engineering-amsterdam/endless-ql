@@ -18,15 +18,25 @@ namespace QL_Vizualizer.Controllers.Display
         /// </summary>
         private Control _widgetContainer;
 
+        /// <summary>
+        /// QL input field
+        /// </summary>
         private TextBox _qlInput;
 
+        /// <summary>
+        /// Parse button
+        /// </summary>
         private Button _parseButton;
 
+        /// <summary>
+        /// Form shown to user
+        /// </summary>
         private Form _mainForm;
 
-        public WidgetDisplayControllerWindows(float topMargin, WidgetController widgetController) : base(topMargin, new ControlFactory(widgetController), widgetController)
+        public WidgetDisplayControllerWindows(float topMargin, WidgetController widgetController) : base(topMargin, new ControlFactory(widgetController), widgetController, new WindowsStyleProperties { Width = 338 })
         {
             ConstructMainWindow();
+            
         }
 
         /// <summary>
@@ -54,21 +64,32 @@ namespace QL_Vizualizer.Controllers.Display
             return newBottom;
         }
 
+        /// <summary>
+        /// Show main form
+        /// </summary>
         public override void ShowDisplay()
         {
             Application.Run(_mainForm);
         }
 
+        /// <summary>
+        /// Updates style of widget
+        /// </summary>
+        /// <param name="widget">Target widget</param>
+        /// <param name="positionAbove">Bottom of previous</param>
+        /// <param name="style">Style of target</param>
+        /// <returns>Updated style</returns>
         public override WindowsStyleProperties UpdatePosition(QLWidget widget, float positionAbove, WindowsStyleProperties style)
         {
             style.YPosition += (int)positionAbove;
             return style;
         }
 
-        public override void ParseQL(string rawQL)
+        /// <summary>
+        /// Temporary function to diplay dummy widgets
+        /// </summary>
+        public void DummyQL()
         {
-            base.ParseQL(rawQL);
-
             // Create widgets
             _widgetController.SetWidgets(new List<QLWidget>()
             {
@@ -85,7 +106,20 @@ namespace QL_Vizualizer.Controllers.Display
             _widgetController.ShowWidgets();
         }
 
+        /// <summary>
+        /// Shows message box with error(s) to user
+        /// </summary>
+        /// <param name="errors">One or more errors</param>
+        public override void ShowError(params string[] errors)
+        {
+            // Show message box
+            MessageBox.Show(string.Join("\n", errors), errors.Length > 1 ? "Errors occured" : "Error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
         #region Main window constructors
+        /// <summary>
+        /// Construct view and assigns it to _mainForm
+        /// </summary>
         private void ConstructMainWindow()
         {
 
@@ -109,6 +143,10 @@ namespace QL_Vizualizer.Controllers.Display
             _mainForm.PerformLayout();
         }
 
+        /// <summary>
+        /// Creates form element
+        /// </summary>
+        /// <returns>Form object</returns>
         private Form CreateForm()
         {
             return new Form
@@ -122,6 +160,11 @@ namespace QL_Vizualizer.Controllers.Display
             };
         }
 
+
+        /// <summary>
+        /// Creates widget panel
+        /// </summary>
+        /// <returns>Widget panel</returns>
         private Panel CreateWidgetPanel()
         {
             return new Panel
@@ -132,6 +175,10 @@ namespace QL_Vizualizer.Controllers.Display
             };
         }
 
+        /// <summary>
+        /// Creates QL input textbox
+        /// </summary>
+        /// <returns>QL inputfield</returns>
         private TextBox CreateQLInputPanel()
         {
             return new TextBox
@@ -156,7 +203,8 @@ namespace QL_Vizualizer.Controllers.Display
                 UseVisualStyleBackColor = true
             };
 
-            result.Click += delegate (object sender, EventArgs eventArgs) { ParseQL(_qlInput.Text); };
+            //result.Click += delegate (object sender, EventArgs eventArgs) { DummyQL(); };
+            result.Click += delegate (object sender, EventArgs eventArgs) { _widgetController.HandleQL(_qlInput.Text); };
             return result;
         }
         #endregion

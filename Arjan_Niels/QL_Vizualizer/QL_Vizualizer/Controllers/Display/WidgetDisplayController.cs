@@ -23,12 +23,15 @@ namespace QL_Vizualizer.Controllers.Display
 
         protected WidgetController _widgetController { get; private set; }
 
-        public WidgetDisplayController(float initialPosition, ElementFactory<T,Y> elementFactory, WidgetController controller)
+        public Y DefaultStyle { get; private set; }
+
+        public WidgetDisplayController(float initialPosition, ElementFactory<T,Y> elementFactory, WidgetController controller, Y defaultStyle)
         {
             InitialPosition = initialPosition;
             _elementFactory = elementFactory;
             ElementIndex = new Dictionary<string, T>();
             _widgetController = controller;
+            DefaultStyle = defaultStyle;
         }
 
         /// <summary>
@@ -43,6 +46,13 @@ namespace QL_Vizualizer.Controllers.Display
         /// Shows display to user
         /// </summary>
         public abstract void ShowDisplay();
+
+
+        /// <summary>
+        /// Displays given errors to the user
+        /// </summary>
+        /// <param name="errors">Errors to show</param>
+        public abstract void ShowError(params string[] errors);
 
         /// <summary>
         /// Updates the position of the widget with the bottom position of the previous widget
@@ -67,11 +77,6 @@ namespace QL_Vizualizer.Controllers.Display
         public void UpdateView(QLWidget widget)
         {
             _elementFactory.UpdateElement(widget, ElementIndex[widget.Identifyer]);
-        }
-
-        public virtual void ParseQL(string rawQL)
-        {
-
         }
     }
 }

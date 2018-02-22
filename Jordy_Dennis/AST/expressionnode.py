@@ -8,10 +8,11 @@
 
 
 class ExpressionNode:
-    def __init(self, left, right=None, op=None):
+    def __init(self, left, line, right=None, op=None):
         self.left = left
         self.right = right
         self.op = op
+        self.line = line
 
     def __repr__(self):
         return "Expression: {} {} {}".format(self.left, self.op, self.right)

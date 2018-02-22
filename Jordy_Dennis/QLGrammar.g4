@@ -8,17 +8,18 @@ statement: (question | conditional | assignment);
 question: STRING ID DOT types;
 assignment: STRING ID DOT types ASSIGN PARL expression PARR;
 
-expression: BOOL
-            | INT
-            | ID
+expression: literal
             | PARL expression PARR
-            | NOT expression
-            | expression COMPARE expression
-            | expression MATH_OPERATOR_PRIO expression
-            | expression MATH_OPERATOR expression
-            | expression AND expression
-            | expression OR expression
+            | unaryexp
+            | left=expression COMPARE right=expression
+            | left=expression MATH_OPERATOR_PRIO right=expression
+            | left=expression MATH_OPERATOR right=expression
+            | left=expression AND right=expression
+            | left=expression OR right=expression
             ;
+
+literal: INT | BOOL | ID;
+unaryexp: NOT expression;
 
 conditional: if_conditional | (if_conditional elif_conditional* else_conditional?);
 if_conditional: IF_TOKEN PARL expression PARR block;

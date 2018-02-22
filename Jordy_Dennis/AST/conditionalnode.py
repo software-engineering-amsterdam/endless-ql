@@ -5,10 +5,11 @@ The If and elif are conditionals, else is just a block
 """
 
 class ConditionalNode:
-    def __init__(self, ifCondition):
+    def __init__(self, ifCondition, line):
         self.ifCondition= ifCondition
         self.elifCondition = []
         self.elseBlock = None
+        self.line = line
 
     def addElifCondition(self, condition):
         self.elifCondition.append(condition)

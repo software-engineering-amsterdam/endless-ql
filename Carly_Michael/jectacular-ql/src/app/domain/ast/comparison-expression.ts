@@ -2,14 +2,16 @@ import {ExpressionType} from './expression-type';
 import {ComparisonOperator, Expression, LiteralType} from './expression';
 import {Location} from './location';
 import {UnknownOperatorError} from '../errors';
+import {Question} from './question';
 
 export class ComparisonExpression extends Expression {
   constructor(public left: Expression, public right: Expression, public operator: ComparisonOperator, location: Location) {
     super(location);
   }
 
-  checkType(): ExpressionType {
-    if (this.left.checkType() === this.right.checkType() && this.left.checkType() === ExpressionType.NUMBER) {
+  checkType(allQuestions: Question[]): ExpressionType {
+    if (this.left.checkType(allQuestions) === this.right.checkType(allQuestions) &&
+        this.left.checkType(allQuestions) === ExpressionType.NUMBER) {
       return ExpressionType.BOOLEAN;
     } else {
       throw new TypeError(

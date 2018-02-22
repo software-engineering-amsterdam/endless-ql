@@ -83,36 +83,36 @@ describe('Expressions', () => {
   });
   describe('Should check and return type', () => {
     it('logical expressions', () => {
-      expect(andExpression.checkType()).toBe(ExpressionType.BOOLEAN);
+      expect(andExpression.checkType([])).toBe(ExpressionType.BOOLEAN);
       expect(() => new LogicalExpression(intLiteral, booleanLiteral, '&&', location)
-        .checkType()).toThrowError();
+        .checkType([])).toThrowError();
     });
 
     it('arithmetic expressions', () => {
-      expect(timesExpression.checkType()).toBe(ExpressionType.NUMBER);
+      expect(timesExpression.checkType([])).toBe(ExpressionType.NUMBER);
       expect(() => new ArithmeticExpression(intLiteral, booleanLiteral, '/', location)
-        .checkType()).toThrowError();
+        .checkType([])).toThrowError();
     });
 
     it('comparison expressions', () => {
-      expect(lessThanExpression.checkType()).toBe(ExpressionType.BOOLEAN);
+      expect(lessThanExpression.checkType([])).toBe(ExpressionType.BOOLEAN);
       expect(() => new ComparisonExpression(intLiteral, booleanLiteral, '>', location)
-        .checkType()).toThrowError();
+        .checkType([])).toThrowError();
     });
 
     it('equality expressions', () => {
-      expect(equalExpression.checkType()).toBe(ExpressionType.BOOLEAN);
+      expect(equalExpression.checkType([])).toBe(ExpressionType.BOOLEAN);
       expect(() => new EqualityExpression(intLiteral, booleanLiteral, '==', location)
-        .checkType()).toThrowError();
+        .checkType([])).toThrowError();
     });
 
     it('unary expressions', () => {
-      expect(negativeExpression.checkType()).toBe(ExpressionType.NUMBER);
-      expect(negateExpression.checkType()).toBe(ExpressionType.BOOLEAN);
+      expect(negativeExpression.checkType([])).toBe(ExpressionType.NUMBER);
+      expect(negateExpression.checkType([])).toBe(ExpressionType.BOOLEAN);
       expect(() => new UnaryExpression(booleanLiteral, '-', location)
-        .checkType()).toThrowError();
+        .checkType([])).toThrowError();
       expect(() => new UnaryExpression(decimalLiteral, '!', location)
-        .checkType()).toThrowError();
+        .checkType([])).toThrowError();
     });
   });
 });

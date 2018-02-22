@@ -28,7 +28,7 @@ class QLVisitorHelper(QLVisitor):
         name = ctx.STR().getText()
         var = ctx.var().getText()
         vartype = ctx.vartype().getText()
-        expression = ctx.expression()
+        expression = self.visit(ctx.expression())
         node = AssignmentNode(name, var, vartype, expression)
         # print(node)
         return node
@@ -67,12 +67,28 @@ class QLVisitorHelper(QLVisitor):
 
     # Visit a parse tree produced by QLParser#expression.
     def visitExpression(self, ctx):
-        # Todo: Make distinction between expressions
-        # expression = ctx.getText()
-        # print(expression)
-        # if (expression.find("+") != -1 || expression.find("-") != -1):
 
-        return self.visitChildren(ctx)
+        if (ctx.left and ctx.right):
+            if (ctx.COMPARER()):
+                binop = ctx.COMPARER().getText()
+            elif (ctx.DIVMULOPERATOR()):
+                binop = ctx.DIVMULOPERATOR().getText()
+            elif (ctx.ADDSUBOPERATOR()):
+                binop = ctx.ADDSUBOPERATOR().getText()
+            elif (ctx.AND()):
+                binop = ctx.AND().getText()
+            elif (ctx.OR()):
+                binop = ctx.OR().getText()
+            left_node = self.visit(ctx.left)
+            right_node = self.visit(ctx.right)
+            return BinOpNode(left_node, binop, right_node)
+
+        elif (ctx.var()):
+            var = ctx.var().getText()
+            # print var
+            return UnOpNode(var)
+
+        return
 
 
     # Visit a parse tree produced by QLParser#form_id.
@@ -92,7 +108,7 @@ class QLVisitorHelper(QLVisitor):
 
     # Visit a parse tree produced by QLParser#if_cond.
     def visitIf_cond(self, ctx):
-        expression = ctx.expression().getText()
+        expression = self.visit(ctx.expression())
         if_node = IfNode(expression)
         block = ctx.block()
         statements = block.statement()
@@ -107,7 +123,7 @@ class QLVisitorHelper(QLVisitor):
 
     # Visit a parse tree produced by QLParser#elif_cond.
     def visitElif_cond(self, ctx):
-        expression = ctx.expression().getText()
+        expression = self.visit(ctx.expression())
         elif_node = ElifNode(expression)
         block = ctx.block()
         statements = block.statement()

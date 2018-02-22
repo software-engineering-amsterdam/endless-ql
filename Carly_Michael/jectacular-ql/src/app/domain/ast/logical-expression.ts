@@ -2,14 +2,16 @@ import {ExpressionType} from './expression-type';
 import {Expression, LiteralType, LogicalOperator} from './expression';
 import {Location} from './location';
 import {UnknownOperatorError} from '../errors';
+import {Question} from './question';
 
 export class LogicalExpression extends Expression {
   constructor(public left: Expression, public right: Expression, public operator: LogicalOperator, location: Location) {
     super(location);
   }
 
-  checkType(): ExpressionType {
-    if (this.left.checkType() === ExpressionType.BOOLEAN && this.right.checkType() === ExpressionType.BOOLEAN) {
+  checkType(allQuestions: Question[]): ExpressionType {
+    if (this.left.checkType(allQuestions) === ExpressionType.BOOLEAN &&
+        this.right.checkType(allQuestions) === ExpressionType.BOOLEAN) {
       return ExpressionType.BOOLEAN;
     } else {
       throw new TypeError(

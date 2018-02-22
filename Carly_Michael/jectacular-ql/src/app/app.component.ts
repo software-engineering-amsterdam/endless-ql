@@ -25,12 +25,14 @@ export class AppComponent {
     try {
       // parse input to tree
       const ast = parse(this.input, {});
+      console.log(ast);
       // check types
       ast.checkTypes();
       // make form
       this.questions = ast.toFormQuestion();
       this.form = this.questionControlService.toFormGroup(this.questions);
       this.formName = ast.name;
+      this.errorMessage = undefined;
     } catch (e) {
       this.form = undefined;
       this.formName = undefined;

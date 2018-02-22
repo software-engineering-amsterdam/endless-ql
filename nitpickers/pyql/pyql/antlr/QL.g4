@@ -5,40 +5,44 @@ grammar QL;
  * TODO: () -> (3 + (2 - 2))
  */
 
- form              : 'form' identifier '{' block '}' ;
+form              : 'form' identifier '{' block '}' ;
 
- conditional_block : 'if' '(' expression ')' '{' block '}' ;
+ifStatement       : 'if' '(' expression ')' '{' block '}' ;
 
- block             : statement+;
+ifElseStatement   : 'if' '(' expression ')' '{' block '}' 'else' '{' block '}' ;
 
- statement         : question | conditional_block ;
+block             : statement+;
 
- question          : identifier ':' STR question_type ;
+statement         : question
+                  | ifStatement
+                  | ifElseStatement
+                  ;
 
- question_type     : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | money;
+question          : identifier ':' STRING questionType ;
 
- expression        : '!' expression
-                   | orExpression
-                   | '(' expression ')'
-                   ;
+questionType      : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | money;
 
- orExpression : andExpression ('||' andExpression)* ;
+expression        : '!' orExpression
+                  | orExpression
+                  ;
 
- andExpression : relExpression ('&&' relExpression)* ;
+orExpression      : andExpression ('||' andExpression)* ;
 
- relExpression : addExpression (('<' | '<=' | '>' | '>=' | '==' | '!=') addExpression)* ;
+andExpression     : relExpression ('&&' relExpression)* ;
 
- addExpression : mulExpression (('+' | '-') mulExpression)*;
+relExpression     : addExpression (('<' | '<=' | '>' | '>=' | '==' | '!=') addExpression)* ;
 
- mulExpression : unExpression (('*' | '/') unExpression)*;
+addExpression     : mulExpression (('+' | '-') mulExpression)*;
 
- unExpression  : literal | identifier;
+mulExpression     : unExpression (('*' | '/') unExpression)*;
 
- literal : MONEY | DECIMAL | INT | STR | BOOL ;
+unExpression      : literal | identifier | '(' expression ')';
 
- identifier : IDENTIFIER ;
+literal           : MONEY | DECIMAL | INT | STRING | BOOL ;
 
- money: 'money' | 'money(' identifier ('-'|'+'|'*'|'/') identifier ')' ;
+identifier        : IDENTIFIER ;
+
+money             : 'money' | 'money(' addExpression ')' ;
 
 /*
  * Lexer rules
@@ -56,7 +60,7 @@ DECIMAL      : INT '.' [0-9]+;
 
 INT          : ('1'..'9')+('0'..'9')*;//rejects leading zeros
 
-STR          : '"' .*? '"';
+STRING       : '"' .*? '"';
 
 BOOL         : 'true' | 'false';
 

@@ -4,6 +4,14 @@ import java.math.BigDecimal;
 
 public class ExpressionVariableMoney extends ExpressionVariable<BigDecimal> {
 
+    @Override
+    public void setValue(String value) {
+        if(value.isEmpty())
+            this.value = null;
+        else
+            this.value = BigDecimal.valueOf(Double.parseDouble(value));
+    }
+
     public ExpressionVariableMoney(BigDecimal value) {
         super(value);
     }

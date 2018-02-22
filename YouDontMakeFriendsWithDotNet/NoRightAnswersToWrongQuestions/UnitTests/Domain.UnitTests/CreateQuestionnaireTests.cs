@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections;
-using System.ComponentModel.Design;
+using System.Collections.Generic;
 using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.DomainObjects;
 using QuestionnaireDomain.Logic;
 using QuestionnaireDomain.Logic.API;
-using QuestionnaireDomain.Logic.Logic;
 using QuestionnaireInfrastructure.API;
 
 namespace UnitTests.Domain.UnitTests
@@ -17,6 +17,7 @@ namespace UnitTests.Domain.UnitTests
     public class CreateQuestionnaireTests
     {
         private IServiceProvider m_serviceProvider;
+        private static readonly string NewLine = Environment.NewLine;
 
         [SetUp]
         public void Init()
@@ -160,7 +161,6 @@ form CommentFormMLX {}";
             {
                 questionnaireCreator.Create(invalidText);
             }
-
             catch (QlParserException exception)
             {
                 Assert.IsTrue(exception.ParseErrorDetails.Contains(invalidName));
@@ -187,7 +187,7 @@ form CommentFormMLX {}";
         public void WhenGivenValidQuestion_NameAndTextCorrect(string validText, string questionId, string questionText)
         {
             var createdForm = CreateForm(validText);
-            var question = createdForm.Questions.FirstOrDefault();
+            var question = createdForm.Statements.OfType<IQuestionAst>().FirstOrDefault();
             Assert.AreEqual(expected: questionId, actual: question.Name);
             Assert.AreEqual(expected: questionText, actual: question.Text);
         }
@@ -196,17 +196,27 @@ form CommentFormMLX {}";
         {
             get
             {
-                var nl = Environment.NewLine;
                 yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", @"x", @"xyz");
                 yield return new TestCaseData("form NameForm { qname : \"this is a question\"  boolean }", @"qname", @"this is a question");
                 yield return new TestCaseData(
-                    $"form NameForm {{ {nl} qname2 : \"this is a question too\"  boolean{nl}  }} ",
+                    $"form NameForm {{ {NewLine} qname2 : \"this is a question too\"  boolean{NewLine}  }} ",
                     @"qname2",
                     @"this is a question too");
                 yield return new TestCaseData(
-                    $"form NameForm {{{nl}    qname3 : \"this is a question three\" boolean{nl}    qname4 : \"this is a question four\" boolean }} ",
+                    $"form NameForm {{{NewLine}    qname3 : \"this is a question three\" boolean{NewLine}    qname4 : \"this is a question four\" boolean }} ",
                     @"qname3",
                     @"this is a question three");
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    qname3 : \"this is a question three\" boolean{NewLine}    qname4 : \"this is a question four\" boolean }} ",
+                    @"qname3",
+                    @"this is a question three");
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    qname3 : \"this is a question three\" boolean{NewLine}    qname4 : \"this is a question four\" boolean }} ",
+                    @"qname3",
+                    @"this is a question three");
+                yield return new TestCaseData("form NameForm { x: \"xyz\" boolean }", @"x", @"xyz");
+                yield return new TestCaseData("form NameForm { \"xyz\"  x: boolean }", @"x", @"xyz");
+                yield return new TestCaseData($"form NameForm {{ \"xyz\" {NewLine} x: boolean {NewLine} \"xxx\" {NewLine} y: boolean {NewLine}}}", @"x", @"xyz");
             }
         }
 
@@ -214,22 +224,21 @@ form CommentFormMLX {}";
         public void WhenGivenMultipleQuestions_CorrectNumberOfQuestions(string validText, int questionCount)
         {
             var createdForm = CreateForm(validText);
-            Assert.AreEqual(expected: questionCount, actual: createdForm.Questions.Count);
+            Assert.AreEqual(expected: questionCount, actual: createdForm.Statements.Count);
         }
 
         private static IEnumerable MultipleQuestionCases
         {
             get
             {
-                var nl = Environment.NewLine;
                 yield return new TestCaseData("form NameForm { x : \"xyz\" boolean }", 1);
                 yield return new TestCaseData("form NameForm { qname : \"this is a question\" boolean }", 1);
-                yield return new TestCaseData($"form NameForm {{ {nl} qname2 : \"this is a question too\"  boolean{nl} }} ", 1);
+                yield return new TestCaseData($"form NameForm {{ {NewLine} qname2 : \"this is a question too\"  boolean{NewLine} }} ", 1);
                 yield return new TestCaseData(
-                    $"form NameForm {{{nl}    qname3 : \"this is a question three\"  boolean{nl}    qname4 : \"this is a question four\"  boolean }} ",
+                    $"form NameForm {{{NewLine}    qname3 : \"this is a question three\"  boolean{NewLine}    qname4 : \"this is a question four\"  boolean }} ",
                     2);
                 yield return new TestCaseData(
-                    $"form NameForm {{{nl}    x : \"xyz\"  boolean{nl}    y : \"yzx\"  boolean{nl}    z : \"zxy\"  boolean }} ",
+                    $"form NameForm {{{NewLine}    x : \"xyz\"  boolean{NewLine}    y : \"yzx\"  boolean{NewLine}    z : \"zxy\"  boolean }} ",
                     3);
             }
         }
@@ -238,7 +247,7 @@ form CommentFormMLX {}";
         public void WhenQuestionsHasType_CorrectTypeOnQuestions(string validText, Type expectedType)
         {
             var createdForm = CreateForm(validText);
-            var actualType = createdForm.Questions.FirstOrDefault().Type;
+            var actualType = createdForm.Statements.OfType<IQuestionAst>().FirstOrDefault()?.Type;
             Assert.AreEqual(expected: expectedType, actual: actualType);
         }
 
@@ -247,8 +256,174 @@ form CommentFormMLX {}";
             get
             {
                 yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", typeof(bool));
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  string }", typeof(string));
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  integer }", typeof(int));
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  date }", typeof(DateTime));
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  decimal }", typeof(decimal));
             }
         }
 
+        [TestCaseSource(nameof(ConditionalStatementCases))]
+        public void WhenFormHasConditionalStatement_CorrectNumberOfConditionalCasesExist(string validText, int conditionCount)
+        {
+            var createdForm = CreateForm(validText);
+            var actualCount = createdForm.Statements.Flatten().OfType<IConditionalAst>().Count();
+            Assert.AreEqual(expected: conditionCount, actual: actualCount);
+        }
+
+        private static IEnumerable ConditionalStatementCases
+        {
+            get
+            {
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", 0);
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    x : \"xyz\"  boolean{NewLine}    if (x) {{{NewLine}    z : \"zxy\"  boolean }} }} ",
+                    1);
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    x : \"xyz\"  boolean{NewLine}    if (x) {{{NewLine}    z : \"zxy\"  boolean{NewLine}    if (z) {{{NewLine}    a : \"aaa\"  boolean }} }} }} ",
+                    2);
+            }
+        }
+
+
+        [TestCaseSource(nameof(QuestionDuplicatesCases))]
+        public void WhenDuplicateQuestionId_ThrowsAnError(string invalidText, string duplicateName)
+        {
+            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+            try
+            {
+                questionnaireCreator.Create(invalidText);
+            }
+            catch (QlParserException exception)
+            {
+                Assert.IsTrue(exception.ParseErrorDetails.Contains(duplicateName));
+                return;
+            }
+
+            Assert.Fail("Should have thrown an exception");
+        }
+
+        private static IEnumerable QuestionDuplicatesCases
+        {
+            get
+            {
+                yield return new TestCaseData($"form NameForm {{     x : \"xyz\"  boolean {NewLine}    x : \"123\"  boolean  }}", "x");
+                yield return new TestCaseData($"form NameForm {{     y : \"xyz\"  boolean {NewLine}    x : \"123\"  boolean  {NewLine}    y : \"123\"  boolean  }}", "y");
+                yield return new TestCaseData($"form NameForm {{     x : \"xyz\"  boolean {NewLine}    z : \"123\"  boolean  {NewLine}    z : \"123\"  boolean  }}", "z");
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    aName : \"xyz\"  boolean{NewLine}    if (aName) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", "aName");
+            }
+        }
+
+        [TestCaseSource(nameof(NonBooleanConditional))]
+        public void WhenANonBooleanQuestionIsUsedInAConditional_ThrowsAnError(string invalidText, string nonBooleanName)
+        {
+            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+            try
+            {
+                questionnaireCreator.Create(invalidText);
+            }
+            catch (QlParserException exception)
+            {
+                Assert.IsTrue(exception.ParseErrorDetails.Contains(nonBooleanName));
+                return;
+            }
+
+            Assert.Fail("Should have thrown an exception");
+        }
+
+        private static IEnumerable NonBooleanConditional
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    stringQuestion : \"xyz\"  string{NewLine}    if (stringQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", "stringQuestion");
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    integerQuestion : \"xyz\"  integer{NewLine}    if (integerQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", "integerQuestion");
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    decimalQuestion : \"xyz\"  decimal{NewLine}    if (decimalQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", "decimalQuestion");
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    dateQuestion : \"xyz\"  date{NewLine}    if (dateQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", "dateQuestion");
+            }
+        }
+
+        [TestCaseSource(nameof(BooleanConditional))]
+        public void WhenBooleanQuestionUsedInAConditional_ParsesCorrectly(string validText, IEnumerable<string> booleanNames)
+        {
+            var createdForm = CreateForm(validText);
+            var questionNames = createdForm
+                .Statements
+                .Flatten()
+                .OfType<IConditionalAst>()
+                .Select(x => x.QuestionName)
+                .ToList();
+
+            foreach (var expectedName in booleanNames)
+            {
+                Assert.Contains(expected: expectedName, actual: questionNames);
+            }
+        }
+
+        private static IEnumerable BooleanConditional
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion1 : \"xyz\"  boolean{NewLine}    if (boolQuestion1) {{{NewLine}    aName : \"zxy\"  boolean }} {NewLine}    if (boolQuestion1) {{{NewLine}    aName2 : \"zxy\"  boolean }} }} ", new[] { "boolQuestion1" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion2 : \"xyz\"  boolean{NewLine}    if (boolQuestion2) {{{NewLine}    aName : \"zxy\"  boolean {NewLine}    if (aName) {{{NewLine}    aName2 : \"zxy\"  boolean }}  }} }} ", new[] { "boolQuestion2", "aName" });
+            }
+        }
+
+        [TestCaseSource(nameof(ComparisonConditional))]
+        public void WhenComparisonUsedInAConditional_ParsesCorrectly(string validText, IEnumerable<string> booleanNames)
+        {
+            var createdForm = CreateForm(validText);
+            var questionNames = createdForm
+                .Statements
+                .Flatten()
+                .OfType<IConditionalAst>()
+                .Select(x => x.QuestionName)
+                .ToList();
+
+            foreach (var expectedName in booleanNames)
+            {
+                Assert.Contains(expected: expectedName, actual: questionNames);
+            }
+        }
+
+
+        private static IEnumerable ComparisonConditional
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == true) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == True) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == TRUE) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == false) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == False) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == FALSE) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion != TRUE) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion != false) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+            }
+        }
+    }
+
+    public static class TestHelperExtensions
+    {
+        public static IEnumerable<IAstNode> Flatten(this IEnumerable<IAstNode> e)
+        {
+            return e.SelectMany(c => c.Statements.Flatten()).Concat(e);
+        }
     }
 }

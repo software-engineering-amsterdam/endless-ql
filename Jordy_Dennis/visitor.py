@@ -72,6 +72,7 @@ class Visitor(QLGrammarVisitor):
             for i in ctx.elif_conditional():
                 conditionalN.addElifChild(self.visit(i))
         if(ctx.else_conditional()):
+            print("ELSE")
             conditionalN.addElseChild(self.visit(ctx.else_conditional()))
 
  

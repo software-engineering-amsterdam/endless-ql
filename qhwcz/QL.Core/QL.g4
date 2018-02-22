@@ -4,25 +4,28 @@ grammar QL;
 *  Parser Rules
 */
 
-form: FORM LABEL LCB block RCB;
+form: FORM LABEL block;
 
-block: (statement)*;
+block: LCB (statement)* RCB;
 
 statement: question
 		 | conditional;
 
-question: description name type (ASSIGNMENT expression)?;
+question: description name COLON type (ASSIGNMENT expression)?;
 
-conditional: IF expression LCB block RCB (ELSE LCB block RCB)?;
+conditional: IF LB expression RB ifBlock (elseBlock)?;
 
-expression: LB expression RB
-         | LABEL
-		 | literal
-		 | unOp expression
-		 | expression binOp expression;
+ifBlock: block;
+elseBlock: ELSE block;
+
+expression: LB expression RB			#scopedExpresion
+         | name							#variableExpression
+		 | literal						#literalExpression
+		 | unOp expression				#unaryExpression
+		 | expression binOp expression	#binaryExpression;
 
 description: STR;
-name: LABEL COLON;
+name: LABEL;
 type: TYPEBOOL | TYPEINT | TYPEDEC | TYPESTR | TYPEDATE | TYPEMONEY;
 
 literal: BOOL | INT | DEC | STR | MONEY | DATE;

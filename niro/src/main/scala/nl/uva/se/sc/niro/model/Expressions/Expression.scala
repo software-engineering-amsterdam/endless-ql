@@ -11,6 +11,8 @@ object Expression {
     def apply(operator: BinaryOperator, right: Answer): Answer
   }
 
+  case class Reference(value: String) extends Expression
+
   object Answer {
     def apply(answerType: String): Answer = answerType match {
       case "boolean" => BooleanAnswer(None)
@@ -25,9 +27,10 @@ object Expression {
   case class BinaryOperation(binaryOperator: BinaryOperator, left: Expression, right: Expression) extends Expression
   case class UnaryOperation(unaryOperator: UnaryOperator, left: Expression) extends Expression
 
-  def evaluate(expr: Expression): Answer = expr match {
+  def evaluate(expr: Expression, symbolTable: Map[String, Expression]): Answer = expr match {
     case answer: Answer => answer
-    case UnaryOperation(operator: UnaryOperator, expression) => evaluate(expression).apply(operator)
-    case BinaryOperation(operator: BinaryOperator, leftExpression, rightExpression) => evaluate(leftExpression).apply(operator, evaluate(rightExpression))
+    case Reference(questionIdentifier) => evaluate(symbolTable(questionIdentifier), symbolTable)
+    case UnaryOperation(operator: UnaryOperator, expression) => evaluate(expression, symbolTable).apply(operator)
+    case BinaryOperation(operator: BinaryOperator, leftExpression, rightExpression) => evaluate(leftExpression, symbolTable).apply(operator, evaluate(rightExpression, symbolTable))
   }
 }

@@ -1,6 +1,6 @@
 import Addition from "../../form/nodes/expressions/arithmetic/Addition";
 import NumberLiteral from "../../form/nodes/expressions/arithmetic/NumberLiteral";
-import { evaluate } from "../../form/form_helpers";
+import { evaluate } from "../../form/evaluation/evaluation_functions";
 import Division from "../../form/nodes/expressions/arithmetic/Division";
 import Multiplication from "../../form/nodes/expressions/arithmetic/Multiplication";
 import Equals from "../../form/nodes/expressions/comparisons/Equals";

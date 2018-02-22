@@ -1,6 +1,6 @@
-package main.org.uva.ql.ast.expression.binary;
+package org.uva.ql.ast.expression.binary;
 
-import main.org.uva.ql.ast.expression.Expression;
+import org.uva.ql.ast.expression.Expression;
 
 public abstract class BinaryOperation extends Expression {
 

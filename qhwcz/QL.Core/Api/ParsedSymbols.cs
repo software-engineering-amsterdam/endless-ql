@@ -1,11 +1,17 @@
-﻿using QL.Core.AST;
+﻿using QL.Core.Ast;
 using System.Collections.Generic;
 
 namespace QL.Core.Api
 {
     public class ParsedSymbols
     {
-        public IList<QLForm> Forms { get; set; }
-        public IList<QLQuestion> Questions { get; set; }
+        public ParsedSymbols(Node formNode, IReadOnlyList<string> errors)
+        {
+            FormNode = formNode;
+            Errors = errors;
+        }
+
+        public Node FormNode { get; }
+        public IReadOnlyList<string> Errors {get;}
     }
 }

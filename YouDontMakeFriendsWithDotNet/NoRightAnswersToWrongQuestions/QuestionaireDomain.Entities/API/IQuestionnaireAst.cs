@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionaireDomain.Entities.API

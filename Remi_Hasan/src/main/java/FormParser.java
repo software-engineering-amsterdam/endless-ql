@@ -1,6 +1,7 @@
 import antlr.QLLexer;
 import antlr.QLParser;
 import model.Form;
+import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import visitor.VisitorForm;
@@ -21,11 +22,15 @@ public class FormParser {
             VisitorForm visitor = new VisitorForm();
             Form form = visitor.visit(parser.root());
 
+            // Debug
+            parser.reset();
+            Trees.inspect(parser.root(), parser);
+
             return form;
         } catch (Exception e){
             // TODO improve exception
             System.out.println("exception thrown during parsing");
-            throw new UnsupportedOperationException(e.toString());
+            throw new UnsupportedOperationException(e.getMessage());
         }
     }
 }

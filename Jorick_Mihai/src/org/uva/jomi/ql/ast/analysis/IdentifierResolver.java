@@ -32,7 +32,7 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	 * Add supplementary visit method for questions in order to add a new identifier
 	 * to the stack.
 	 */
-	public void visitQuestionIdentifierExpr(IdentifierExpr identifier) {
+	public void resolveQuestionIdentifier(IdentifierExpr identifier) {
 		if (identifierStack.contains(identifier.getName())) {
 			// TODO - create an error handler
 			System.err.printf("[IdentifierResolver] line: %s, column: %s: Duplicated identifier: %s\n",
@@ -72,14 +72,14 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	@Override
 	public Void visitQuestionStmt(QuestionStmt stmt) {
 		// Make  sure the question name has not been already declared
-		visitQuestionIdentifierExpr(stmt.identifier);
+		resolveQuestionIdentifier(stmt.getIdentifier());
 		return null;
 	}
 
 	@Override
 	public Void visitComputedQuestionStmt(ComputedQuestionStmt stmt) {
 		// Make  sure the question name has not been already declared
-		visitQuestionIdentifierExpr(stmt.identifier);
+		resolveQuestionIdentifier(stmt.getIdentifier());
 		stmt.expression.accept(this);
 		return null;
 	}

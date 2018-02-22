@@ -6,34 +6,17 @@ import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.scene.control.Label
 import javafx.scene.layout._
 import nl.uva.se.sc.niro.Evaluator._
+import nl.uva.se.sc.niro.model.Expressions.Expression
 import nl.uva.se.sc.niro.model._
 
 object QuestionPopulator {
 
-  def populateGridWithQuestions(grid: GridPane, statements: Seq[Statement]): Unit = {
+  def populateGridWithQuestions(grid: GridPane, questions: Seq[Question], symbolTable: Map[String, Expression]): Unit = {
     grid.setHgap(10)
 
-    var rowNr = 0
-    for (statement <- statements) {
-      statement match {
-        case question: Question => {
-          grid.getRowConstraints.add(new RowConstraints())
-          grid.addRow(rowNr, new Label(question.label), WidgetFactory.makeWidget(evaluateExpression(question.answer, Map.empty)))
-        }
-        case condition: Conditional => {
-          val thenPane = createQuestionPaneAtRow(grid, rowNr)
-          populateGridWithQuestions(thenPane, condition.ifStatements)
-
-          if (!condition.elseStatements.isEmpty) {
-            rowNr += 1
-            val elsePane = createQuestionPaneAtRow(grid, rowNr)
-            populateGridWithQuestions(elsePane, condition.elseStatements)
-            // Exclusive visibility with thenPane
-            elsePane.visibleProperty().bind(thenPane.visibleProperty().not())
-          }
-        }
-      }
-      rowNr += 1
+    questions.zipWithIndex.foreach { case (Question(_, label, expression), row) =>
+      grid.getRowConstraints.add(new RowConstraints())
+      grid.addRow(row, new Label(label), WidgetFactory.makeWidget(evaluateExpression(expression, symbolTable)))
     }
   }
 

@@ -25,6 +25,7 @@ export class AppComponent {
     try {
       // parse input to tree
       const ast = parse(this.input, {});
+      console.log(ast);
       // check types
       ast.checkTypes();
       // make form

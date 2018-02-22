@@ -1,5 +1,6 @@
 import {ExpressionType} from './expression-type';
 import {Location} from './location';
+import {Question} from './question';
 
 export type ArithmeticOperator = '+' | '-' | '*' | '/';
 export type ComparisonOperator = '>' | '<' | '>=' | '<=';
@@ -10,7 +11,7 @@ export type LiteralType = boolean | number | string | Date;
 
 export abstract class Expression {
   constructor(public location: Location) {}
-  abstract checkType(): ExpressionType;
+  abstract checkType(allQuestions: Question[]): ExpressionType;
   abstract evaluate(): LiteralType;
 
   protected getLocationErrorMessage(): string {

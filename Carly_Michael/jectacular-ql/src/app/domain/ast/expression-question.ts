@@ -8,7 +8,8 @@ import {Question} from './question';
 import {Location} from './location';
 import {Expression} from './expression';
 import {ExpressionType} from './expression-type';
-import {UnsupportedTypeError} from '../errors';
+import {UnknownQuestionError, UnsupportedTypeError} from '../errors';
+import * as _ from 'lodash';
 
 export class ExpressionQuestion extends Statement {
   constructor(public name: string, public label: string, public type: QuestionType, public expression: Expression, location: Location) {
@@ -19,9 +20,9 @@ export class ExpressionQuestion extends Statement {
     return [];
   }
 
-  checkType() {
-    if (! this.expressionTypeValidForQuestion(this.expression.checkType())) {
-      throw new TypeError(`Expression type  ${this.expression.checkType()} incompatible with question type ${this.type}`
+  checkType(allQuestions: Question[]) {
+    if (! this.expressionTypeValidForQuestion(this.expression.checkType(allQuestions), allQuestions)) {
+      throw new TypeError(`Expression type ${this.expression.checkType(allQuestions)} incompatible with question type ${this.type}`
       + this.getLocationErrorMessage());
     }
   }
@@ -51,7 +52,7 @@ export class ExpressionQuestion extends Statement {
     return formQuestions;
   }
 
-  expressionTypeValidForQuestion(expressionType: ExpressionType): boolean {
+  expressionTypeValidForQuestion(expressionType: ExpressionType, allQuestions: Question[]): boolean {
     switch (expressionType) {
       case ExpressionType.NUMBER:
         return this.type === QuestionType.MONEY || this.type === QuestionType.INT || this.type === QuestionType.DECIMAL;
@@ -61,6 +62,14 @@ export class ExpressionQuestion extends Statement {
         return this.type === QuestionType.DATE;
       case ExpressionType.STRING:
         return this.type === QuestionType.STRING;
+      case ExpressionType.VARIABLE:
+        const q1: Question = _.find(allQuestions, { name: this.expression.evaluate() });
+
+        if (q1 === undefined) {
+          throw new UnknownQuestionError(`Question with name ${this.expression.evaluate()} not found`);
+        }
+
+        return this.type === q1.type;
       default: throw new UnsupportedTypeError(`ExpressionType ${expressionType} is unknown`);
     }
   }

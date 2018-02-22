@@ -1,18 +1,12 @@
 package nl.uva.se.sc.niro.gui
 
 import java.lang
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import javafx.beans.value.{ChangeListener, ObservableValue}
-import javafx.scene.Parent
-import javafx.scene.control.{CheckBox, DatePicker, Label, TextField}
-import javafx.scene.layout._
-import javafx.util.StringConverter
 
+import javafx.beans.value.{ ChangeListener, ObservableValue }
+import javafx.scene.control.Label
+import javafx.scene.layout._
+import nl.uva.se.sc.niro.Evaluator._
 import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.Expressions.Expression
-import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
-import nl.uva.se.sc.niro.model.Expressions.answers._
 
 object QuestionPopulator {
 
@@ -24,7 +18,7 @@ object QuestionPopulator {
       statement match {
         case question: Question => {
           grid.getRowConstraints.add(new RowConstraints())
-          grid.addRow(rowNr, new Label(question.label), WidgetFactory.makeWidget(Expression.evaluate(question.answer, Map.empty)))
+          grid.addRow(rowNr, new Label(question.label), WidgetFactory.makeWidget(evaluateExpression(question.answer, Map.empty)))
         }
         case condition: Conditional => {
           val thenPane = insertQuestionPaneAtRow(grid, rowNr)

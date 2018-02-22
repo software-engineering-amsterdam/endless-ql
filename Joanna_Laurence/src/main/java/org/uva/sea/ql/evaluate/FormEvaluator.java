@@ -1,10 +1,8 @@
 package org.uva.sea.ql.evaluate;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.traverse.BaseVisitor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FormEvaluator extends BaseVisitor<List<Question>> {
@@ -36,21 +34,10 @@ public class FormEvaluator extends BaseVisitor<List<Question>> {
      * @return Questions
      */
     public List<Question> visit(Statements node) {
-        List<Question> questions = new ArrayList<>();
-        for(ASTNode statement : node.getStatementList()) {
-            questions.addAll(statement.accept(this));
-        }
-        return questions;
+        StatementsEvaluator statementsEvaluator = new StatementsEvaluator(node);
+        return statementsEvaluator.evaluate();
     }
 
-    /**
-     * Questions as an array
-     * @param question The questions
-     * @return List of questions
-     */
-    public List<Question> visit(Question question) {;
-        return Arrays.asList(new Question[] {question});
-    }
 
     /**
      * Use the if statement evaluator to get a list of questions from a if statement

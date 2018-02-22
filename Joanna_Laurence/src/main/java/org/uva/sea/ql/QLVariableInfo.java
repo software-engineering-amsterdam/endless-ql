@@ -19,8 +19,11 @@ public class QLVariableInfo extends BaseVisitor {
 
     private Boolean error = false;
 
-    //TODO: Log the line and column!
-    //TODO: Add the locations int the AST node
+    /**
+     *
+     * @param error
+     * @param node
+     */
     private void error(String error, ASTNode node) {
         System.err.println(error + " on line:  " + node.getLine() + " column: " + node.getColumn());
         this.error = true;

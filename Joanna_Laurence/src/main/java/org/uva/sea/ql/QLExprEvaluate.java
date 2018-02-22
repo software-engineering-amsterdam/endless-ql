@@ -3,7 +3,6 @@ package org.uva.sea.ql;
 import org.uva.sea.ql.evaluate.Evaluator;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
 import org.uva.sea.ql.traverse.BaseVisitor;
@@ -44,7 +43,7 @@ public class QLExprEvaluate extends BaseVisitor {
      * @param node The base AST node
      */
     public ASTNode getValue(ASTNode node) {
-        node.doTraversal(this, TraverseType.BOTTOM_UP);
+        node.accept(this);
         return this.error || this.notComplete ? null : this.stack.pop();
     }
 

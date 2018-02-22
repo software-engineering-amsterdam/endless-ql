@@ -1,7 +1,10 @@
 package com.chariotit.uva.sc.qdsl.parser;
 
 import com.chariotit.uva.sc.qdsl.ast.node.*;
+import com.chariotit.uva.sc.qdsl.ast.node.constant.BooleanConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.constant.IntegerConstant;
+import com.chariotit.uva.sc.qdsl.ast.node.constant.MoneyConstant;
+import com.chariotit.uva.sc.qdsl.ast.node.constant.StringConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.operator.*;
 import com.chariotit.uva.sc.qdsl.ast.node.type.BooleanType;
 import com.chariotit.uva.sc.qdsl.ast.node.type.IntegerType;
@@ -69,7 +72,11 @@ public class GLVisitor<T> extends QLBaseVisitor<AstNode> {
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
-        return new Question(ctx.STRING().getText());
+        // Remove leading and trailing quotes from question
+        String question = ctx.STRING().getText().substring(
+                1, ctx.STRING().getText().length() - 1
+        );
+        return new Question(question);
     }
 
     @Override
@@ -91,11 +98,49 @@ public class GLVisitor<T> extends QLBaseVisitor<AstNode> {
 
     @Override
     public Constant visitConstant(QLParser.ConstantContext ctx) {
-        if (ctx.NUMBER() != null) {
-            return new IntegerConstant(Integer.parseInt(ctx.NUMBER().getText()));
+        if (ctx.money_constant() != null) {
+            return visitMoney_constant(ctx.money_constant());
+        } else if (ctx.string_constant() != null) {
+            return visitString_constant(ctx.string_constant());
+        } else if (ctx.boolean_constant() != null) {
+            return visitBoolean_constant(ctx.boolean_constant());
+        } else if (ctx.integer_constant() != null) {
+            return visitInteger_constant(ctx.integer_constant());
         } else {
             throw new UnknownOptionException();
         }
+    }
+
+    @Override
+    public MoneyConstant visitMoney_constant(QLParser.Money_constantContext ctx) {
+        return new MoneyConstant(Float.parseFloat(ctx.NUMBER(0).getText() + "." + ctx.NUMBER(1)
+                .getText()));
+    }
+
+    @Override
+    public StringConstant visitString_constant(QLParser.String_constantContext ctx) {
+        // Remove leading and trailing quotes from question
+        String string = ctx.STRING().getText().substring(
+                1, ctx.STRING().getText().length() - 1
+        );
+
+        return new StringConstant(string);
+    }
+
+    @Override
+    public BooleanConstant visitBoolean_constant(QLParser.Boolean_constantContext ctx) {
+        if (ctx.TRUE() != null) {
+            return new BooleanConstant(true);
+        } else if (ctx.FALSE() != null) {
+            return new BooleanConstant(false);
+        } else {
+            throw new UnknownOptionException();
+        }
+    }
+
+    @Override
+    public IntegerConstant visitInteger_constant(QLParser.Integer_constantContext ctx) {
+        return new IntegerConstant(Integer.parseInt(ctx.NUMBER().getText()));
     }
 
     @Override

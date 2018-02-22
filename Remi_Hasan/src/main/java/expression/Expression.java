@@ -13,4 +13,9 @@ public abstract class Expression<T> {
     public void setValue(String value) {
 
     }
+
+    @Override
+    public boolean equals(Object other){
+        return this.toString().equals(other.toString());
+    }
 }

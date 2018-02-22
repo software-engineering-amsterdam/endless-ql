@@ -29,7 +29,6 @@ export const canBeEvaluated = (expression: Expression, state: FormState) => {
   try {
     evaluate(expression, state);
   } catch (error) {
-    console.error(error);
     return false;
   }
 

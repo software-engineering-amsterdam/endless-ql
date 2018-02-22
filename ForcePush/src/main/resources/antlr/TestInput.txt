@@ -2,10 +2,10 @@ form taxOfficeExample {
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
   "Did you buy a house in 2010?"
-    hasBoughtHouse: boolean
+    hasBoughtHouse: multipleAnswer(a,b)
   "Did you enter a loan?"
-    hasMaintLoan: boolean
-    
+    hasMaintLoan: string
+// this is a comment
   if (hasSoldHouse) {
     "What was the selling price?"
       sellingPrice: money

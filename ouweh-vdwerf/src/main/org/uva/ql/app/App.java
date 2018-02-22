@@ -15,7 +15,7 @@ public class App {
 
     private App() {
         try {
-            CharStream cs = CharStreams.fromFileName("input/default.ql");
+            CharStream cs = CharStreams.fromFileName("input/circularDependency.ql");
             QLLexer lexer = new QLLexer(cs);
 
             QLParser parser = new QLParser(new CommonTokenStream(lexer));

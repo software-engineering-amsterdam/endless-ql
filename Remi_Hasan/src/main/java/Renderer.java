@@ -73,7 +73,7 @@ public class Renderer {
         FieldGroup fieldGroup = new FieldGroup();
         HashMap<Question, Field> fieldMap = new HashMap<>();
         addStatements(fieldMap, fieldGroup, form.statements);
-        updateConditional(fieldMap, form.statements, true);
+        updateFields(fieldMap, form.statements, true);
         return fieldGroup;
     }
 
@@ -96,7 +96,7 @@ public class Renderer {
 
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             question.answer.setValue(newValue.toString());
-            updateConditional(fieldMap, form.statements, true);
+            updateFields(fieldMap, form.statements, true);
         });
 
         return checkBox;
@@ -122,7 +122,7 @@ public class Renderer {
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
                 question.answer.setValue(textField.getText());
-                updateConditional(fieldMap, form.statements, true);
+                updateFields(fieldMap, form.statements, true);
             }
         });
 
@@ -154,18 +154,39 @@ public class Renderer {
         return submitButton;
     }
 
-    private void updateConditional(HashMap<Question, Field> fieldMap, ArrayList<Statement> statements, boolean isTrue) {
+    private void updateFields(HashMap<Question, Field> fieldMap, ArrayList<Statement> statements, boolean isTrue) {
         for (Statement statement : statements) {
             if (statement.isQuestion()) {
-                Field field = fieldMap.get((Question) statement);
-                field.getLabel().setVisible(isTrue);
-                field.getControl().setVisible(isTrue);
+                updateField(fieldMap, statement, isTrue);
             } else {
                 Condition conditional = (Condition) statement;
                 boolean trueBlockVisible = isTrue && Boolean.TRUE.equals(conditional.condition.evaluate().get());
-                boolean falseBlockVisible = isTrue && Boolean.FALSE.equals(conditional.condition.evaluate().get());
-                updateConditional(fieldMap, conditional.trueStatements, trueBlockVisible);
-                updateConditional(fieldMap, conditional.falseStatements, falseBlockVisible);
+                boolean falseBlockVisible = isTrue && !trueBlockVisible;
+                updateFields(fieldMap, conditional.trueStatements, trueBlockVisible);
+                updateFields(fieldMap, conditional.falseStatements, falseBlockVisible);
+            }
+        }
+    }
+
+    private void updateField(HashMap<Question, Field> fieldMap, Statement statement, boolean isTrue) {
+        Question question = (Question) statement;
+
+        Field field = fieldMap.get(question);
+        field.getLabel().setVisible(isTrue);
+        field.getControl().setVisible(isTrue);
+
+        if(!question.answer.isSettable()) {
+            Object answer = question.answer.evaluate().get();
+            if(answer == null) {
+                answer = "";
+            }
+
+            if (question.type == ReturnType.BOOLEAN) {
+                CheckBox checkBox = (CheckBox) field.getControl();
+                checkBox.setSelected(Boolean.TRUE.equals(answer));
+            } else {
+                TextInputControl textField = (TextInputControl) field.getControl();
+                textField.setText(answer.toString());
             }
         }
     }

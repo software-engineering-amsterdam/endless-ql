@@ -1,33 +1,37 @@
 package org.uva.sea.ql.parser.elements.types;
 
+import org.antlr.v4.runtime.Token;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.Visitor;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class Money extends ASTNode {
+public class Money extends ASTNode  {
     private String currency;
-    private BigInteger amount;
+    private BigDecimal amount;
 
-    public Money(String currency, String amount) {
+    public Money(Token token, String currency, String amount) {
+        super(token);
         this.currency = currency;
-        this.amount = new BigInteger(amount);
+        this.amount = new BigDecimal(amount);
     }
 
     public String getCurrency() {
         return currency;
     }
 
-    public BigInteger getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doMoney(this);
+    public Type getType() {
+        return new Type(NodeType.MONEY);
     }
 
-    public Type getType() {
-        return new Type("money");
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

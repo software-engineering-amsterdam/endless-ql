@@ -2,16 +2,17 @@ import {ExpressionType} from './expression-type';
 import {Expression, LiteralType, UnaryOperator} from './expression';
 import {Location} from './location';
 import {UnknownOperatorError, UnsupportedTypeError} from '../errors';
+import {Question} from './question';
 
 export class UnaryExpression extends Expression {
   constructor(public right: Expression, public operator: UnaryOperator, location: Location) {
     super(location);
   }
 
-  checkType(): ExpressionType {
-    if (this.operator === '-' && this.right.checkType() === ExpressionType.NUMBER) {
+  checkType(allQuestions: Question[]): ExpressionType {
+    if (this.operator === '-' && this.right.checkType(allQuestions) === ExpressionType.NUMBER) {
       return ExpressionType.NUMBER;
-    } else if (this.operator === '!' && this.right.checkType() === ExpressionType.BOOLEAN) {
+    } else if (this.operator === '!' && this.right.checkType(allQuestions) === ExpressionType.BOOLEAN) {
       return ExpressionType.BOOLEAN;
     } else {
       throw new TypeError(

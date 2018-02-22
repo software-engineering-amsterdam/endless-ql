@@ -10,8 +10,10 @@ class QLVisitorHelper(QLVisitor):
     def visitForm(self, ctx):
         form_id = ctx.form_id().getText()
         form = FormNode(form_id)
+        
         block = ctx.block()
         statements = block.statement()
+
         for statement in statements:
             node = self.visit(statement)
             if (statement.conditional() and node != None):
@@ -28,11 +30,10 @@ class QLVisitorHelper(QLVisitor):
         name = ctx.STR().getText()
         var = ctx.var().getText()
         vartype = ctx.vartype().getText()
-        expression = ctx.expression()
+        expression = self.visit(ctx.expression())
         node = AssignmentNode(name, var, vartype, expression)
-        # print(node)
+
         return node
-        # return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by QLParser#question.
@@ -41,9 +42,8 @@ class QLVisitorHelper(QLVisitor):
         var = ctx.var().getText()
         vartype = ctx.vartype().getText()
         node = QuestionNode(question, var, vartype)
-        # print(node)
+
         return node
-        # return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by QLParser#conditional.
@@ -67,55 +67,48 @@ class QLVisitorHelper(QLVisitor):
 
     # Visit a parse tree produced by QLParser#expression.
     def visitExpression(self, ctx):
-        # Todo: Make distinction between expressions
-        # expression = ctx.getText()
-        # print(expression)
-        # if (expression.find("+") != -1 || expression.find("-") != -1):
+        if (ctx.left and ctx.right):
+            binop = getOperator(ctx)
+            left_node = self.visit(ctx.left)
+            right_node = self.visit(ctx.right)
+            return BinOpNode(left_node, binop, right_node)
 
-        return self.visitChildren(ctx)
+        elif (ctx.var()):
+            var = ctx.var().getText()
+            # print var
+            return UnOpNode(var)
 
-
-    # Visit a parse tree produced by QLParser#form_id.
-    def visitForm_id(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLParser#var.
-    def visitVar(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLParser#vartype.
-    def visitVartype(self, ctx):
-        return self.visitChildren(ctx)
-
+        return
 
     # Visit a parse tree produced by QLParser#if_cond.
     def visitIf_cond(self, ctx):
-        expression = ctx.expression().getText()
+        expression = self.visit(ctx.expression())
         if_node = IfNode(expression)
+
         block = ctx.block()
         statements = block.statement()
+
         for statement in statements:
             node = self.visit(statement)
             if (node != None):
-                # print(node)
                 if_node.statements.append(node)
-        # print(node)
+
         return if_node
 
 
     # Visit a parse tree produced by QLParser#elif_cond.
     def visitElif_cond(self, ctx):
-        expression = ctx.expression().getText()
+        expression = self.visit(ctx.expression())
         elif_node = ElifNode(expression)
+
         block = ctx.block()
         statements = block.statement()
+
         for statement in statements:
             node = self.visit(statement)
             if (node != None):
-                # print(node)
                 elif_node.statements.append(node)
+
         return elif_node
 
 
@@ -124,10 +117,28 @@ class QLVisitorHelper(QLVisitor):
         else_node = ElseNode()
         block = ctx.block()
         statements = block.statement()
+
         for statement in statements:
             node = self.visit(statement)
             if (node != None):
-                # print(node)
                 else_node.statements.append(node)
-        # print(node)
+
         return else_node
+
+def getOperator(ctx):
+    if (ctx.COMPARER()):
+        binop = ctx.COMPARER().getText()
+
+    elif (ctx.DIVMULOPERATOR()):
+        binop = ctx.DIVMULOPERATOR().getText()
+
+    elif (ctx.ADDSUBOPERATOR()):
+        binop = ctx.ADDSUBOPERATOR().getText()
+
+    elif (ctx.AND()):
+        binop = ctx.AND().getText()
+
+    elif (ctx.OR()):
+        binop = ctx.OR().getText()
+
+    return binop

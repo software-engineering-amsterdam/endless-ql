@@ -2,15 +2,17 @@ import {ExpressionType} from './expression-type';
 import {ArithmeticOperator, Expression, LiteralType} from './expression';
 import {Location} from './location';
 import {UnknownOperatorError} from '../errors';
+import {Question} from './question';
 
 export class ArithmeticExpression extends Expression {
   constructor(public left: Expression, public right: Expression, public operator: ArithmeticOperator, location: Location) {
     super(location);
   }
 
-  checkType(): ExpressionType {
-    if (this.left.checkType() === this.right.checkType() && this.left.checkType() === ExpressionType.NUMBER) {
-      return this.left.checkType();
+  checkType(allQuestions: Question[]): ExpressionType {
+    if (this.left.checkType(allQuestions) === this.right.checkType(allQuestions) &&
+        this.left.checkType(allQuestions) === ExpressionType.NUMBER) {
+      return this.left.checkType(allQuestions);
     } else {
       throw new TypeError(
         `Type of expression left is different from type of expression right `

@@ -17,13 +17,4 @@ public class ExpressionNeg extends ExpressionUnary<Double> {
     public ReturnType getReturnType() {
         return v.getReturnType();
     }
-
-    @Override
-    public boolean equals(Object other) {
-        if(this.getClass().equals(other.getClass())){
-            ExpressionNeg otherExpression = (ExpressionNeg) v;
-            return this.v.equals(otherExpression.v);
-        }
-        return false;
-    }
 }

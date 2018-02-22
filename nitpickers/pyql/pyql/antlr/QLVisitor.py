@@ -89,8 +89,28 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#literal.
-    def visitLiteral(self, ctx:QLParser.LiteralContext):
+    # Visit a parse tree produced by QLParser#moneyLiteral.
+    def visitMoneyLiteral(self, ctx:QLParser.MoneyLiteralContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#decimalLiteral.
+    def visitDecimalLiteral(self, ctx:QLParser.DecimalLiteralContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#intLiteral.
+    def visitIntLiteral(self, ctx:QLParser.IntLiteralContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#stringLiteral.
+    def visitStringLiteral(self, ctx:QLParser.StringLiteralContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#boolLiteral.
+    def visitBoolLiteral(self, ctx:QLParser.BoolLiteralContext):
         return self.visitChildren(ctx)
 
 

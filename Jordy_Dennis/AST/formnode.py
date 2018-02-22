@@ -14,5 +14,9 @@ class FormNode:
         for statement in statements:
             self.block.append(statement)
 
+    def checkTypes(self):
+    	for statement in self.block:
+    		statement.checkTypes()
+
     def  __repr__(self):
         return "Form: {}, block: {}".format(self.name, self.block)

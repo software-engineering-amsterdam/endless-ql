@@ -2,21 +2,25 @@ from LexParser.QLGrammarParser import QLGrammarParser
 from LexParser.QLGrammarVisitor import QLGrammarVisitor
 from AST import *
 import logging
+import sys
 
 class Visitor(QLGrammarVisitor):
     def __init__(self):
         self.program = {}
-        self.QLNode = QLNode()
+        self.QLAst = QLAst()
         # used to log debug self.logger.debugs
         # set to logging.DEBUG to show debug messages
         logging.basicConfig(level=logging.DEBUG)
         self.logger = logging.getLogger(__name__)
 
+    def getAst(self):
+        return self.QLAst
+
 
     # Visit a parse tree produced by QLGrammarParser#form.
     def visitForm(self, ctx:QLGrammarParser.FormContext):
         self.logger.debug("FORM")
-        
+
         # create formNode
         formName = ctx.ID().getText()
         formNode = FormNode(formName, ctx.start.line)
@@ -27,7 +31,7 @@ class Visitor(QLGrammarVisitor):
         # add all the statements to the block
         formNode.addStatements(statements)
         
-        self.QLNode.addForm(formNode)
+        self.QLAst.addForm(formNode)
 
 
     # Visit a parse tree produced by QLGrammarParser#block.
@@ -73,6 +77,7 @@ class Visitor(QLGrammarVisitor):
         return assignNode
 
 
+    """ --------------------------- EXPRESSION ------------------------------------------------- """
     # Visit a parse tree produced by QLGrammarParser#expression.
     def visitExpression(self, ctx:QLGrammarParser.ExpressionContext):
         self.logger.debug("EXP")
@@ -92,7 +97,6 @@ class Visitor(QLGrammarVisitor):
         self.logger.debug("LITERAL")
         litVal, litType = getLiteralValue(ctx)
         litNode = LiteralNode(litVal, litType, ctx.start.line)
-        print(litNode)
         return litNode
 
     # Visit a parse tree produced by QLGrammarParser#unaryexp.
@@ -105,7 +109,7 @@ class Visitor(QLGrammarVisitor):
         unaryNode = UnaryNode(expr, op, ctx.start.line)
         return unaryNode
 
-
+    """ --------------------------- CONDITIONAL --------------------------------------------- """
 
     # Visit a parse tree produced by QLGrammarParser#conditional.
     def visitConditional(self, ctx:QLGrammarParser.ConditionalContext):
@@ -115,7 +119,7 @@ class Visitor(QLGrammarVisitor):
         if_condition = self.visit(ctx.if_conditional())
 
         #create conditionalNode
-        conditionalN = ConditionalNode(if_condition)
+        conditionalN = ConditionalNode(if_condition, ctx.start.line)
 
         #visit optional elif
         if(ctx.elif_conditional()):
@@ -130,7 +134,6 @@ class Visitor(QLGrammarVisitor):
 
         return conditionalN
 
-
     # Visit a parse tree produced by QLGrammarParser#if_conditional.
     def visitIf_conditional(self, ctx:QLGrammarParser.If_conditionalContext):
         self.logger.debug("IF")
@@ -142,7 +145,6 @@ class Visitor(QLGrammarVisitor):
         #visit block of if
         if_questions = self.visit(ctx.block())
         conditionN.addQuestions(if_questions)
-        
         return conditionN
        
 
@@ -205,6 +207,9 @@ def getLiteralValue(ctx):
     elif(ctx.FLOAT()):
         litType = float
         litVal = ctx.FLOAT()
+    elif(ctx.ID()):
+        litType = "var"
+        litVal = ctx.ID()
     return litVal, litType
 
 

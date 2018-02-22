@@ -8,7 +8,7 @@ import sys
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\'")
-        buf.write("\u00a0\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\u00a5\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
         buf.write("\4\24\t\24\3\2\3\2\3\2\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3")
@@ -20,48 +20,52 @@ def serializedATN():
         buf.write("\f\7\fr\n\f\f\f\16\fu\13\f\3\r\3\r\3\r\3\r\7\r{\n\r\f")
         buf.write("\r\16\r~\13\r\3\16\3\16\3\17\3\17\3\17\3\17\7\17\u0086")
         buf.write("\n\17\f\17\16\17\u0089\13\17\3\20\3\20\3\21\3\21\3\21")
-        buf.write("\3\21\3\21\3\21\5\21\u0093\n\21\3\22\3\22\3\23\3\23\3")
-        buf.write("\24\3\24\3\24\3\24\3\24\5\24\u009e\n\24\3\24\2\2\25\2")
-        buf.write("\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&\2\6\3\2\23")
-        buf.write("\30\3\2\31\32\3\2\33\34\3\2\"&\2\u009d\2(\3\2\2\2\4.\3")
-        buf.write("\2\2\2\6\66\3\2\2\2\bC\3\2\2\2\nJ\3\2\2\2\fL\3\2\2\2\16")
-        buf.write("W\3\2\2\2\20\\\3\2\2\2\22^\3\2\2\2\24f\3\2\2\2\26n\3\2")
-        buf.write("\2\2\30v\3\2\2\2\32\177\3\2\2\2\34\u0081\3\2\2\2\36\u008a")
-        buf.write("\3\2\2\2 \u0092\3\2\2\2\"\u0094\3\2\2\2$\u0096\3\2\2\2")
-        buf.write("&\u009d\3\2\2\2()\7\3\2\2)*\5$\23\2*+\7\4\2\2+,\5\b\5")
-        buf.write("\2,-\7\5\2\2-\3\3\2\2\2./\7\6\2\2/\60\7\7\2\2\60\61\5")
-        buf.write("\20\t\2\61\62\7\b\2\2\62\63\7\4\2\2\63\64\5\b\5\2\64\65")
-        buf.write("\7\5\2\2\65\5\3\2\2\2\66\67\7\6\2\2\678\7\7\2\289\5\20")
-        buf.write("\t\29:\7\b\2\2:;\7\4\2\2;<\5\b\5\2<=\7\5\2\2=>\7\t\2\2")
-        buf.write(">?\7\4\2\2?@\5\b\5\2@A\7\5\2\2A\7\3\2\2\2BD\5\n\6\2CB")
-        buf.write("\3\2\2\2DE\3\2\2\2EC\3\2\2\2EF\3\2\2\2F\t\3\2\2\2GK\5")
-        buf.write("\f\7\2HK\5\4\3\2IK\5\6\4\2JG\3\2\2\2JH\3\2\2\2JI\3\2\2")
-        buf.write("\2K\13\3\2\2\2LM\5$\23\2MN\7\n\2\2NO\7%\2\2OP\5\16\b\2")
-        buf.write("P\r\3\2\2\2QX\7\13\2\2RX\7\f\2\2SX\7\r\2\2TX\7\16\2\2")
-        buf.write("UX\7\17\2\2VX\5&\24\2WQ\3\2\2\2WR\3\2\2\2WS\3\2\2\2WT")
-        buf.write("\3\2\2\2WU\3\2\2\2WV\3\2\2\2X\17\3\2\2\2YZ\7\20\2\2Z]")
-        buf.write("\5\22\n\2[]\5\22\n\2\\Y\3\2\2\2\\[\3\2\2\2]\21\3\2\2\2")
-        buf.write("^c\5\24\13\2_`\7\21\2\2`b\5\24\13\2a_\3\2\2\2be\3\2\2")
-        buf.write("\2ca\3\2\2\2cd\3\2\2\2d\23\3\2\2\2ec\3\2\2\2fk\5\26\f")
-        buf.write("\2gh\7\22\2\2hj\5\26\f\2ig\3\2\2\2jm\3\2\2\2ki\3\2\2\2")
-        buf.write("kl\3\2\2\2l\25\3\2\2\2mk\3\2\2\2ns\5\30\r\2op\t\2\2\2")
-        buf.write("pr\5\30\r\2qo\3\2\2\2ru\3\2\2\2sq\3\2\2\2st\3\2\2\2t\27")
-        buf.write("\3\2\2\2us\3\2\2\2v|\5\34\17\2wx\5\32\16\2xy\5\34\17\2")
-        buf.write("y{\3\2\2\2zw\3\2\2\2{~\3\2\2\2|z\3\2\2\2|}\3\2\2\2}\31")
-        buf.write("\3\2\2\2~|\3\2\2\2\177\u0080\t\3\2\2\u0080\33\3\2\2\2")
-        buf.write("\u0081\u0087\5 \21\2\u0082\u0083\5\36\20\2\u0083\u0084")
-        buf.write("\5 \21\2\u0084\u0086\3\2\2\2\u0085\u0082\3\2\2\2\u0086")
-        buf.write("\u0089\3\2\2\2\u0087\u0085\3\2\2\2\u0087\u0088\3\2\2\2")
-        buf.write("\u0088\35\3\2\2\2\u0089\u0087\3\2\2\2\u008a\u008b\t\4")
-        buf.write("\2\2\u008b\37\3\2\2\2\u008c\u0093\5\"\22\2\u008d\u0093")
-        buf.write("\5$\23\2\u008e\u008f\7\7\2\2\u008f\u0090\5\20\t\2\u0090")
-        buf.write("\u0091\7\b\2\2\u0091\u0093\3\2\2\2\u0092\u008c\3\2\2\2")
-        buf.write("\u0092\u008d\3\2\2\2\u0092\u008e\3\2\2\2\u0093!\3\2\2")
-        buf.write("\2\u0094\u0095\t\5\2\2\u0095#\3\2\2\2\u0096\u0097\7\'")
-        buf.write("\2\2\u0097%\3\2\2\2\u0098\u009e\7\35\2\2\u0099\u009a\7")
-        buf.write("\36\2\2\u009a\u009b\5\30\r\2\u009b\u009c\7\b\2\2\u009c")
-        buf.write("\u009e\3\2\2\2\u009d\u0098\3\2\2\2\u009d\u0099\3\2\2\2")
-        buf.write("\u009e\'\3\2\2\2\rEJW\\cks|\u0087\u0092\u009d")
+        buf.write("\3\21\3\21\3\21\5\21\u0093\n\21\3\22\3\22\3\22\3\22\3")
+        buf.write("\22\5\22\u009a\n\22\3\23\3\23\3\24\3\24\3\24\3\24\3\24")
+        buf.write("\5\24\u00a3\n\24\3\24\2\2\25\2\4\6\b\n\f\16\20\22\24\26")
+        buf.write("\30\32\34\36 \"$&\2\5\3\2\23\30\3\2\31\32\3\2\33\34\2")
+        buf.write("\u00a6\2(\3\2\2\2\4.\3\2\2\2\6\66\3\2\2\2\bC\3\2\2\2\n")
+        buf.write("J\3\2\2\2\fL\3\2\2\2\16W\3\2\2\2\20\\\3\2\2\2\22^\3\2")
+        buf.write("\2\2\24f\3\2\2\2\26n\3\2\2\2\30v\3\2\2\2\32\177\3\2\2")
+        buf.write("\2\34\u0081\3\2\2\2\36\u008a\3\2\2\2 \u0092\3\2\2\2\"")
+        buf.write("\u0099\3\2\2\2$\u009b\3\2\2\2&\u00a2\3\2\2\2()\7\3\2\2")
+        buf.write(")*\5$\23\2*+\7\4\2\2+,\5\b\5\2,-\7\5\2\2-\3\3\2\2\2./")
+        buf.write("\7\6\2\2/\60\7\7\2\2\60\61\5\20\t\2\61\62\7\b\2\2\62\63")
+        buf.write("\7\4\2\2\63\64\5\b\5\2\64\65\7\5\2\2\65\5\3\2\2\2\66\67")
+        buf.write("\7\6\2\2\678\7\7\2\289\5\20\t\29:\7\b\2\2:;\7\4\2\2;<")
+        buf.write("\5\b\5\2<=\7\5\2\2=>\7\t\2\2>?\7\4\2\2?@\5\b\5\2@A\7\5")
+        buf.write("\2\2A\7\3\2\2\2BD\5\n\6\2CB\3\2\2\2DE\3\2\2\2EC\3\2\2")
+        buf.write("\2EF\3\2\2\2F\t\3\2\2\2GK\5\f\7\2HK\5\4\3\2IK\5\6\4\2")
+        buf.write("JG\3\2\2\2JH\3\2\2\2JI\3\2\2\2K\13\3\2\2\2LM\5$\23\2M")
+        buf.write("N\7\n\2\2NO\7%\2\2OP\5\16\b\2P\r\3\2\2\2QX\7\13\2\2RX")
+        buf.write("\7\f\2\2SX\7\r\2\2TX\7\16\2\2UX\7\17\2\2VX\5&\24\2WQ\3")
+        buf.write("\2\2\2WR\3\2\2\2WS\3\2\2\2WT\3\2\2\2WU\3\2\2\2WV\3\2\2")
+        buf.write("\2X\17\3\2\2\2YZ\7\20\2\2Z]\5\22\n\2[]\5\22\n\2\\Y\3\2")
+        buf.write("\2\2\\[\3\2\2\2]\21\3\2\2\2^c\5\24\13\2_`\7\21\2\2`b\5")
+        buf.write("\24\13\2a_\3\2\2\2be\3\2\2\2ca\3\2\2\2cd\3\2\2\2d\23\3")
+        buf.write("\2\2\2ec\3\2\2\2fk\5\26\f\2gh\7\22\2\2hj\5\26\f\2ig\3")
+        buf.write("\2\2\2jm\3\2\2\2ki\3\2\2\2kl\3\2\2\2l\25\3\2\2\2mk\3\2")
+        buf.write("\2\2ns\5\30\r\2op\t\2\2\2pr\5\30\r\2qo\3\2\2\2ru\3\2\2")
+        buf.write("\2sq\3\2\2\2st\3\2\2\2t\27\3\2\2\2us\3\2\2\2v|\5\34\17")
+        buf.write("\2wx\5\32\16\2xy\5\34\17\2y{\3\2\2\2zw\3\2\2\2{~\3\2\2")
+        buf.write("\2|z\3\2\2\2|}\3\2\2\2}\31\3\2\2\2~|\3\2\2\2\177\u0080")
+        buf.write("\t\3\2\2\u0080\33\3\2\2\2\u0081\u0087\5 \21\2\u0082\u0083")
+        buf.write("\5\36\20\2\u0083\u0084\5 \21\2\u0084\u0086\3\2\2\2\u0085")
+        buf.write("\u0082\3\2\2\2\u0086\u0089\3\2\2\2\u0087\u0085\3\2\2\2")
+        buf.write("\u0087\u0088\3\2\2\2\u0088\35\3\2\2\2\u0089\u0087\3\2")
+        buf.write("\2\2\u008a\u008b\t\4\2\2\u008b\37\3\2\2\2\u008c\u0093")
+        buf.write("\5\"\22\2\u008d\u0093\5$\23\2\u008e\u008f\7\7\2\2\u008f")
+        buf.write("\u0090\5\20\t\2\u0090\u0091\7\b\2\2\u0091\u0093\3\2\2")
+        buf.write("\2\u0092\u008c\3\2\2\2\u0092\u008d\3\2\2\2\u0092\u008e")
+        buf.write("\3\2\2\2\u0093!\3\2\2\2\u0094\u009a\7\"\2\2\u0095\u009a")
+        buf.write("\7#\2\2\u0096\u009a\7$\2\2\u0097\u009a\7%\2\2\u0098\u009a")
+        buf.write("\7&\2\2\u0099\u0094\3\2\2\2\u0099\u0095\3\2\2\2\u0099")
+        buf.write("\u0096\3\2\2\2\u0099\u0097\3\2\2\2\u0099\u0098\3\2\2\2")
+        buf.write("\u009a#\3\2\2\2\u009b\u009c\7\'\2\2\u009c%\3\2\2\2\u009d")
+        buf.write("\u00a3\7\35\2\2\u009e\u009f\7\36\2\2\u009f\u00a0\5\30")
+        buf.write("\r\2\u00a0\u00a1\7\b\2\2\u00a1\u00a3\3\2\2\2\u00a2\u009d")
+        buf.write("\3\2\2\2\u00a2\u009e\3\2\2\2\u00a3\'\3\2\2\2\16EJW\\c")
+        buf.write("ks|\u0087\u0092\u0099\u00a2")
         return buf.getvalue()
 
 
@@ -1198,38 +1202,134 @@ class QLParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def MONEY(self):
-            return self.getToken(QLParser.MONEY, 0)
-
-        def DECIMAL(self):
-            return self.getToken(QLParser.DECIMAL, 0)
-
-        def INT(self):
-            return self.getToken(QLParser.INT, 0)
-
-        def STRING(self):
-            return self.getToken(QLParser.STRING, 0)
-
-        def BOOL(self):
-            return self.getToken(QLParser.BOOL, 0)
 
         def getRuleIndex(self):
             return QLParser.RULE_literal
 
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class DecimalLiteralContext(LiteralContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a QLParser.LiteralContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def DECIMAL(self):
+            return self.getToken(QLParser.DECIMAL, 0)
+
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterLiteral" ):
-                listener.enterLiteral(self)
+            if hasattr( listener, "enterDecimalLiteral" ):
+                listener.enterDecimalLiteral(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitLiteral" ):
-                listener.exitLiteral(self)
+            if hasattr( listener, "exitDecimalLiteral" ):
+                listener.exitDecimalLiteral(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitLiteral" ):
-                return visitor.visitLiteral(self)
+            if hasattr( visitor, "visitDecimalLiteral" ):
+                return visitor.visitDecimalLiteral(self)
             else:
                 return visitor.visitChildren(self)
 
+
+    class StringLiteralContext(LiteralContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a QLParser.LiteralContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def STRING(self):
+            return self.getToken(QLParser.STRING, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterStringLiteral" ):
+                listener.enterStringLiteral(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitStringLiteral" ):
+                listener.exitStringLiteral(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStringLiteral" ):
+                return visitor.visitStringLiteral(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class IntLiteralContext(LiteralContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a QLParser.LiteralContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def INT(self):
+            return self.getToken(QLParser.INT, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterIntLiteral" ):
+                listener.enterIntLiteral(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitIntLiteral" ):
+                listener.exitIntLiteral(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIntLiteral" ):
+                return visitor.visitIntLiteral(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class MoneyLiteralContext(LiteralContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a QLParser.LiteralContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def MONEY(self):
+            return self.getToken(QLParser.MONEY, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterMoneyLiteral" ):
+                listener.enterMoneyLiteral(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitMoneyLiteral" ):
+                listener.exitMoneyLiteral(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMoneyLiteral" ):
+                return visitor.visitMoneyLiteral(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class BoolLiteralContext(LiteralContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a QLParser.LiteralContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def BOOL(self):
+            return self.getToken(QLParser.BOOL, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterBoolLiteral" ):
+                listener.enterBoolLiteral(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitBoolLiteral" ):
+                listener.exitBoolLiteral(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBoolLiteral" ):
+                return visitor.visitBoolLiteral(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1237,16 +1337,43 @@ class QLParser ( Parser ):
 
         localctx = QLParser.LiteralContext(self, self._ctx, self.state)
         self.enterRule(localctx, 32, self.RULE_literal)
-        self._la = 0 # Token type
         try:
-            self.enterOuterAlt(localctx, 1)
-            self.state = 146
-            _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLParser.MONEY) | (1 << QLParser.DECIMAL) | (1 << QLParser.INT) | (1 << QLParser.STRING) | (1 << QLParser.BOOL))) != 0)):
-                self._errHandler.recoverInline(self)
+            self.state = 151
+            self._errHandler.sync(self)
+            token = self._input.LA(1)
+            if token in [QLParser.MONEY]:
+                localctx = QLParser.MoneyLiteralContext(self, localctx)
+                self.enterOuterAlt(localctx, 1)
+                self.state = 146
+                self.match(QLParser.MONEY)
+                pass
+            elif token in [QLParser.DECIMAL]:
+                localctx = QLParser.DecimalLiteralContext(self, localctx)
+                self.enterOuterAlt(localctx, 2)
+                self.state = 147
+                self.match(QLParser.DECIMAL)
+                pass
+            elif token in [QLParser.INT]:
+                localctx = QLParser.IntLiteralContext(self, localctx)
+                self.enterOuterAlt(localctx, 3)
+                self.state = 148
+                self.match(QLParser.INT)
+                pass
+            elif token in [QLParser.STRING]:
+                localctx = QLParser.StringLiteralContext(self, localctx)
+                self.enterOuterAlt(localctx, 4)
+                self.state = 149
+                self.match(QLParser.STRING)
+                pass
+            elif token in [QLParser.BOOL]:
+                localctx = QLParser.BoolLiteralContext(self, localctx)
+                self.enterOuterAlt(localctx, 5)
+                self.state = 150
+                self.match(QLParser.BOOL)
+                pass
             else:
-                self._errHandler.reportMatch(self)
-                self.consume()
+                raise NoViableAltException(self)
+
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1290,7 +1417,7 @@ class QLParser ( Parser ):
         self.enterRule(localctx, 34, self.RULE_identifier)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 148
+            self.state = 153
             self.match(QLParser.IDENTIFIER)
         except RecognitionException as re:
             localctx.exception = re
@@ -1335,21 +1462,21 @@ class QLParser ( Parser ):
         localctx = QLParser.MoneyContext(self, self._ctx, self.state)
         self.enterRule(localctx, 36, self.RULE_money)
         try:
-            self.state = 155
+            self.state = 160
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLParser.T__26]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 150
+                self.state = 155
                 self.match(QLParser.T__26)
                 pass
             elif token in [QLParser.T__27]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 151
+                self.state = 156
                 self.match(QLParser.T__27)
-                self.state = 152
+                self.state = 157
                 self.addExpression()
-                self.state = 153
+                self.state = 158
                 self.match(QLParser.T__5)
                 pass
             else:

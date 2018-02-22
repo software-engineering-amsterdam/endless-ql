@@ -14,6 +14,9 @@ class ConditionNode:
         for i in block:
             self.block.append(i)
 
+    def checkTypes(self):
+        print("checkingCond")
+
     def __repr__(self):
         return "({}) {}".format(self.condition, self.block)
 

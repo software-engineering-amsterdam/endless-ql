@@ -53,7 +53,7 @@ generateGrammarSource {
 }
 
 bootRun {
-	systemProperties "ql.file": "ql_input.jsql", "ql.mode": "file"
+	systemProperties "ql.file": "input_file/ql_input.jsql", "ql.mode": "file"
 }
 
 dependencyManagement {

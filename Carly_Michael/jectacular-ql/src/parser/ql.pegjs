@@ -66,28 +66,27 @@ comparisonExpression
 
 addExpression
   = head:mulExpression tail:(ws ("+" / "-") ws addExpression) {
-      return new BinaryExpression(head, tail[3], tail[1], location());
+      return new ArithmeticExpression(head, tail[3], tail[1], location());
 } / v:mulExpression {
         return v;
       }
 
 mulExpression
   = head:unaryExpression tail:(ws ("*" / "/") ws mulExpression) {
-      return new BinaryExpression(head, tail[3], tail[1], location());
+      return new ArithmeticExpression(head, tail[3], tail[1], location());
 } / v:unaryExpression {
         return v;
       }
 
 unaryExpression
   = head:(ws ("!" / "-") ws unaryExpression) {
-  console.log(head);
       return new UnaryExpression(head[3], head[1], location());
 } / v:primitive {
         return v;
       }
 
 primitive
-  = integer / boolean / date / "(" expr:addExpression ")" { return expr; }
+  = integer / boolean / date / string / variable / "(" expr:addExpression ")" { return expr; }
 
 text            = (ws word ws)+ {return text();}
 
@@ -101,16 +100,17 @@ type            = booleanType /
 // low-level
 
 ws "whitespace" = [ \t\n\r]* { return; }
-ws2 = [ \t\n\r]+ { return; }
 identifier 		  = [a-zA-Z0-9]+ {return text();}
 expression 		  = [a-zA-Z0-9 +\-\/*><=]+ {return text();}
 integer         = ws [0-9]+ ws { return new Literal(ExpressionType.NUMBER, parseInt(text(), 10), location()); }
-boolean         = ws ("true" / "false") ws { return new Literal(ExpressionType.BOOLEAN, text(), location()); }
+boolean         = ws val:("true" / "false") ws { return new Literal(ExpressionType.BOOLEAN, val, location()); }
 date            = ws "d" day:([0-9][0-9]) "-" month:([0-9][0-9]) "-" year:([0-9][0-9][0-9][0-9]) {
   let jsMonth = parseInt(month[0] + month[1], 10)-1;
   return new Literal(ExpressionType.DATE, new Date(Date.UTC(year[0] + year[1] + year[2] + year[3],
     jsMonth, day[0] + day[1], 0, 0, 0, 0)), location());
 }
+string          = ws "\"" val:identifier "\"" ws { return new Literal(ExpressionType.STRING, val, location()); }
+variable        = ws val:identifier ws { return new Literal(ExpressionType.VARIABLE, val, location()); }
 word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
 
 booleanType     = "boolean" { return QuestionType.BOOLEAN; }

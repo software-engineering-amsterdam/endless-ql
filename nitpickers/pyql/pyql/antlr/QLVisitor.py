@@ -39,8 +39,33 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#questionType.
-    def visitQuestionType(self, ctx:QLParser.QuestionTypeContext):
+    # Visit a parse tree produced by QLParser#booleanType.
+    def visitBooleanType(self, ctx:QLParser.BooleanTypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#stringType.
+    def visitStringType(self, ctx:QLParser.StringTypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#integerType.
+    def visitIntegerType(self, ctx:QLParser.IntegerTypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#dateType.
+    def visitDateType(self, ctx:QLParser.DateTypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#decimalType.
+    def visitDecimalType(self, ctx:QLParser.DecimalTypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#moneyType.
+    def visitMoneyType(self, ctx:QLParser.MoneyTypeContext):
         return self.visitChildren(ctx)
 
 
@@ -89,8 +114,28 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#literal.
-    def visitLiteral(self, ctx:QLParser.LiteralContext):
+    # Visit a parse tree produced by QLParser#moneyLiteral.
+    def visitMoneyLiteral(self, ctx:QLParser.MoneyLiteralContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#decimalLiteral.
+    def visitDecimalLiteral(self, ctx:QLParser.DecimalLiteralContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#intLiteral.
+    def visitIntLiteral(self, ctx:QLParser.IntLiteralContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#stringLiteral.
+    def visitStringLiteral(self, ctx:QLParser.StringLiteralContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#boolLiteral.
+    def visitBoolLiteral(self, ctx:QLParser.BoolLiteralContext):
         return self.visitChildren(ctx)
 
 

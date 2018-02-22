@@ -9,7 +9,7 @@ public class ExpressionVariableDate extends ExpressionVariable<String> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Date;
+        return ReturnType.DATE;
     }
 
     @Override
@@ -43,28 +43,28 @@ public class ExpressionVariableDate extends ExpressionVariable<String> {
     // TODO
     @Override
     public ExpressionVariable ge(ExpressionVariable other) {
-        if (this.value == null || other == null)
+        if (this.value == null || other.value == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableUndefined();
     }
 
     @Override
     public ExpressionVariable gt(ExpressionVariable other) {
-        if (this.value == null || other == null)
+        if (this.value == null || other.value == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableUndefined();
     }
 
     @Override
     public ExpressionVariable le(ExpressionVariable other) {
-        if (this.value == null || other == null)
+        if (this.value == null || other.value == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableUndefined();
     }
 
     @Override
     public ExpressionVariable lt(ExpressionVariable other) {
-        if (this.value == null || other == null)
+        if (this.value == null || other.value == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableUndefined();
     }

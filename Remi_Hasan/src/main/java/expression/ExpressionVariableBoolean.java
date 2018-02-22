@@ -8,7 +8,7 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Boolean;
+        return ReturnType.BOOLEAN;
     }
 
     @Override
@@ -61,14 +61,14 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
 
     @Override
     public ExpressionVariable and(ExpressionVariable other) {
-        if (this.value == null || other == null)
+        if (this.value == null || other.value == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(this.value && Boolean.parseBoolean(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable or(ExpressionVariable other) {
-        if (this.value == null || other == null)
+        if (this.value == null || other.value == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(this.value || Boolean.parseBoolean(other.value.toString()));
     }

@@ -1,14 +1,18 @@
 import {ExpressionType} from './expression-type';
 import {Location} from './location';
+import {Question} from './question';
 
-export type BinaryOperator = '+' | '-' | '*' | '/';
+export type ArithmeticOperator = '+' | '-' | '*' | '/';
+export type ComparisonOperator = '>' | '<' | '>=' | '<=';
 export type UnaryOperator = '!' | '-';
 export type LogicalOperator = '&&' | '||';
+export type EqualityOperator = '==' | '!=';
 export type LiteralType = boolean | number | string | Date;
 
 export abstract class Expression {
   constructor(public location: Location) {}
-  abstract getType(): ExpressionType;
+  abstract checkType(allQuestions: Question[]): ExpressionType;
+  abstract evaluate(): LiteralType;
 
   protected getLocationErrorMessage(): string {
     return ` between line ${this.location.start.line}` +
@@ -21,7 +25,11 @@ export class Literal extends Expression {
     super(location);
   }
 
-  getType(): ExpressionType {
-    return undefined;
+  checkType(): ExpressionType {
+    return this.type;
+  }
+
+  evaluate(): LiteralType {
+    return this.value;
   }
 }

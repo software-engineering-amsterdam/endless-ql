@@ -41,7 +41,7 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 	}
 	
 	@Override
-	public BaseElement visitFormStmt(FormStmt form) {
+	public BaseElement visit(FormStmt form) {
 		PanelElement panel = new PanelElement();
 		
 		panel.addElement(form.blockStmt.accept(this));
@@ -50,7 +50,7 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 	}
 
 	@Override
-	public BaseElement visitBlockStmt(BlockStmt block) {
+	public BaseElement visit(BlockStmt block) {
 		PanelElement panel = new PanelElement();
 		
 		for (Stmt statement : block.statements) {
@@ -61,23 +61,23 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 	}
 
 	@Override
-	public BaseElement visitQuestionStmt(QuestionStmt questionStmt) {
+	public BaseElement visit(QuestionStmt questionStmt) {
 		return new QuestionElement(questionStmt.identifier.getName(), questionStmt.label, questionStmt.type.getName());
 	}
 
 	@Override
-	public BaseElement visitComputedQuestionStmt(ComputedQuestionStmt questionStmt) {
+	public BaseElement visit(ComputedQuestionStmt questionStmt) {
 		return new ComputedQuestionElement(questionStmt.identifier.getName(), questionStmt.label, questionStmt.type.getName(), questionStmt.expression);
 	}
 
 	@Override
-	public BaseElement visitIfStmt(IfStmt stmt) {
+	public BaseElement visit(IfStmt stmt) {
 		BaseElement ifElement = stmt.blockStmt.accept(this);
 		return new ConditionalPanelElement(stmt.expression, ifElement, null);
 	}
 
 	@Override
-	public BaseElement visitIfElseStmt(IfElseStmt stmt) {
+	public BaseElement visit(IfElseStmt stmt) {
 		BaseElement ifElement = stmt.ifBlockStmt.accept(this);
 		BaseElement elseElement = stmt.elseBlockStmt.accept(this);
 		return new ConditionalPanelElement(stmt.expression, ifElement, elseElement);

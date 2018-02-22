@@ -2,6 +2,7 @@ package org.uva.sea.ql;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.uva.sea.ql.parser.antlr.ErrorHandler;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
@@ -41,7 +42,10 @@ public class QLCompiler {
 
         //Do the type check
         QLTypeCheck typeChecker = new QLTypeCheck();
-        if(!typeChecker.doTypeCheck(form.result)) {
+        Error errors = typeChecker.doTypeCheck(form.result);
+        if(errors.errorsPresent()) {
+            for(String error : errors.getErrors())
+                System.err.println(error);
             return null;
         }
 

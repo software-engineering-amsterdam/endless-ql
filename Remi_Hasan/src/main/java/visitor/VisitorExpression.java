@@ -5,6 +5,7 @@ import antlr.QLLexer;
 import antlr.QLParser;
 import expression.*;
 import model.LookupTable;
+import model.Question;
 
 import java.math.BigDecimal;
 
@@ -17,7 +18,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         if(!value.getReturnType().not())
             throw new IllegalArgumentException("Cannot apply operator not to '" + value.getReturnType() + "'");
 
-        return new ExpressionNot(value);
+        return new ExpressionUnaryNot(value);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         if(!value.getReturnType().neg())
             throw new IllegalArgumentException("Cannot apply negation on '" + value.getReturnType() + "'");
 
-        return new ExpressionNeg(value);
+        return new ExpressionUnaryNeg(value);
     }
 
     @Override
@@ -81,7 +82,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
                 if(!left.getReturnType().eq(right.getReturnType()))
                     throw new IllegalArgumentException("Cannot apply operator neq to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
 
-                return new ExpressionNot(new ExpressionComparisonEq(left, right));
+                return new ExpressionUnaryNot(new ExpressionComparisonEq(left, right));
             default:
                 throw new IllegalArgumentException("Cannot apply unknown operator '" + ctx.op.toString() + "'");
         }
@@ -192,23 +193,23 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     @Override
     public Expression visitIdentifierConstant(QLParser.IdentifierConstantContext ctx) {
         String identifier = ctx.IDENTIFIER().getText();
-        Expression referenceExpression = LookupTable.getInstance().getQuestionAnswer(identifier);
+        Question referencedQuestion = LookupTable.getInstance().getQuestion(identifier);
 
-        switch (referenceExpression.getReturnType()) {
-            case Integer:
+        switch (referencedQuestion.type) {
+            case INTEGER:
                 return new ExpressionIdentifier<Integer>(ctx.getText());
-            case Decimal:
-                return new ExpressionIdentifier<Integer>(ctx.getText());
-            case Boolean:
-                return new ExpressionIdentifier<Boolean>(ctx.getText());
-            case String:
-                return new ExpressionIdentifier<String>(ctx.getText());
-            case Money:
+            case DECIMAL:
                 return new ExpressionIdentifier<Double>(ctx.getText());
-            case Date:
+            case BOOLEAN:
+                return new ExpressionIdentifier<Boolean>(ctx.getText());
+            case STRING:
+                return new ExpressionIdentifier<String>(ctx.getText());
+            case MONEY:
+                return new ExpressionIdentifier<Double>(ctx.getText());
+            case DATE:
                 return new ExpressionIdentifier<String>(ctx.getText());
             default:
-                throw new IllegalArgumentException("Cannot create identifier for unknown type '" + referenceExpression.getReturnType() + "'");
+                throw new IllegalArgumentException("Cannot create identifier for unknown type '" + referencedQuestion.type + "'");
         }
     }
 }

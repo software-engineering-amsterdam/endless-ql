@@ -4,14 +4,11 @@ import antlr.generated.QLParser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.expression.ParameterGroup;
-import org.uva.ql.ast.expression.binary.And;
-import org.uva.ql.ast.expression.binary.Or;
-import org.uva.ql.ast.expression.unary.BooleanLiteral;
-import org.uva.ql.ast.expression.unary.IntegerLiteral;
-import org.uva.ql.ast.expression.unary.StringLiteral;
-import org.uva.ql.ast.expression.unary.Parameter;
+import org.uva.ql.ast.expression.binary.*;
+import org.uva.ql.ast.expression.unary.*;
+import org.uva.ql.ast.expression.*;
+import org.uva.ql.ast.*;
+
 
 import java.util.Arrays;
 import java.util.List;

@@ -11,6 +11,7 @@ import {Expression} from './expression';
 export class ExpressionQuestion extends Statement {
   constructor(public name: string, public label: string, public type: QuestionType, public expression: Expression, location: Location) {
     super(location);
+    console.log(this.expression);
   }
 
   getQuestions(): Question[] {

@@ -7,11 +7,11 @@ public class NegationExpression extends UnaryExpression<Double> {
 
     @Override
     public EvaluationType returnType(){
-        return null;
+        return EvaluationType.Decimal;
     }
 
     @Override
-    public Double evaluate(){
-        return null;
+    public Constant<Double> evaluate(){
+        return null;//change
     }
 }

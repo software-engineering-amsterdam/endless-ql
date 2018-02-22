@@ -90,8 +90,10 @@ class Visitor(QLGrammarVisitor):
 
     def visitLiteral(self, ctx:QLGrammarParser.LiteralContext):
         self.logger.debug("LITERAL")
-
-        return ctx.getText()
+        litVal, litType = getLiteralValue(ctx)
+        litNode = LiteralNode(litVal, litType, ctx.start.line)
+        print(litNode)
+        return litNode
 
     # Visit a parse tree produced by QLGrammarParser#unaryexp.
     def visitUnaryexp(self, ctx:QLGrammarParser.UnaryexpContext):
@@ -187,5 +189,22 @@ def getOp(ctx):
     elif(ctx.OR()):
         op = ctx.OR()
     return op
+
+def getLiteralValue(ctx):
+    litType = None
+    litVal = None
+    if(ctx.INT()):
+        litType = int
+        litVal = ctx.INT()
+    elif(ctx.BOOL()):
+        litType = bool
+        litVal = ctx.BOOL()
+    elif(ctx.STRING()):
+        litType = str
+        litVal = ctx.STRING()
+    elif(ctx.FLOAT()):
+        litType = float
+        litVal = ctx.FLOAT()
+    return litVal, litType
 
 

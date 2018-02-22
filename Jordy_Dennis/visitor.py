@@ -80,24 +80,12 @@ class Visitor(QLGrammarVisitor):
         if (ctx.left and ctx.right):
             left = self.visit(ctx.left)
             right = self.visit(ctx.right)
-
-            if(ctx.COMPARE()):
-                op = ctx.COMPARE().getText()
-            elif(ctx.MATH_OPERATOR_PRIO()):
-                op = ctx.MATH_OPERATOR_PRIO()
-            elif(ctx.MATH_OPERATOR()):
-                op = ctx.MATH_OPERATOR()
-            elif(ctx.AND()):
-                op = ctx.AND()
-            elif(ctx.OR()):
-                op = ctx.OR()
-            
+            op = getOp(ctx)
             binNode = BinaryNode(left, right, op, ctx.start.line)
             return binNode
-        
+
         elif(ctx.left):
             return self.visit(ctx.left)
-        
         return self.visitChildren(ctx)
 
     def visitLiteral(self, ctx:QLGrammarParser.LiteralContext):
@@ -184,5 +172,20 @@ class Visitor(QLGrammarVisitor):
         self.logger.debug("TYPES")
 
         return ctx.getText()
+
+# get operator from ctx object
+def getOp(ctx):
+    op = None
+    if(ctx.COMPARE()):
+        op = ctx.COMPARE().getText()
+    elif(ctx.MATH_OPERATOR_PRIO()):
+        op = ctx.MATH_OPERATOR_PRIO()
+    elif(ctx.MATH_OPERATOR()):
+        op = ctx.MATH_OPERATOR()
+    elif(ctx.AND()):
+        op = ctx.AND()
+    elif(ctx.OR()):
+        op = ctx.OR()
+    return op
 
 

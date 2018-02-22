@@ -8,5 +8,7 @@ export default interface Form {
 
   getState(): FormState;
 
-  setValue(identifier: string, value: any): Form;
+  setAnswer(identifier: string, value: any): Form;
+
+  getAnswer(identifier: string): any;
 }

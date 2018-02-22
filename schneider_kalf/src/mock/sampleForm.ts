@@ -31,8 +31,8 @@ const formNode: FormNode = new FormNode("Box1HouseOwning", [
     new Question("sellingPrice", "Price the house was sold for:", FieldType.Money),
     new Question("privateDebt", "Private debts for the sold house:", FieldType.Money),
     new ComputedField(
-        "Value residue:",
-        "Price the house was sold for:", FieldType.Money,
+        "valueResidue",
+        "Value residue:", FieldType.Money,
         new Subtraction(new VariableIdentifier("sellingPrice"), new VariableIdentifier("privateDebt")
         )
     ),

@@ -26,7 +26,7 @@ class AssignmentNode:
 		self.expression = expression
 
 	def __repr__(self):
-		return "Assignment: {} {} {} = {}".format(self.name, self.vartype, self.var, sefl.expression)
+		return "Assignment: {} {} {} = {}".format(self.name, self.vartype, self.var, self.expression)
 
 # Can either be a solo value or an binary operator?
 class ExpressionNode:
@@ -49,24 +49,25 @@ class BinOpNode:
 class IfNode:
 	def __init__(self, expression):
 		self.expression = expression
-		self.questions
+		self.statements = []
 
 	def __repr__(self):
-		return "If expression: {}".format(self.expression)
+		return "If expression: {}, statements: {}".format(self.expression, self.statements)
 
 class ElifNode:
 	def __init__(self, expression):
 		self.expression = expression
+		self.statements = []
 
 	def __repr__(self):
 		return "Elif expression: {}".format(self.expression)
 
 class ElseNode:
-	def __init__(self, expression):
-		self.expression = expression
+	def __init__(self):
+		self.statements = []
 
 	def __repr__(self):
-		return "Else expression: {}".format(self.expression)
+		return "Else expression: {}".format(self.statements)
 
 class NumberNode:
 	def __init__(self, number):

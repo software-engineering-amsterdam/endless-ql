@@ -20,10 +20,11 @@ export const FormComponent: React.SFC<FormComponentProps> = (props) => {
               onChange={onChange(field.identifier)}
               key={field.identifier}
               field={field}
-              value={props.form.getState().get(field.identifier)}
+              value={props.form.getAnswer(field.identifier)}
           />);
     });
   };
+
   return (
       <div>
         <h1>FORM: {props.form.getName()}</h1>

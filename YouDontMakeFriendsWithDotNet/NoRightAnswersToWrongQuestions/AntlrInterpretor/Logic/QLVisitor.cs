@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿using System;
 using System.Linq;
 using AntlGrammar;
@@ -19,18 +18,57 @@ namespace AntlrInterpretor.Logic
         public override IAstNode VisitQuestionnaire(QLParser.QuestionnaireContext context)
         {
             var formName = context.IDENTIFIER().GetText();
-            context.question()
+            context.statement()
                 .Select(x => Visit(x))
                 .ToList();
             m_questionnaireAst.FormName = formName;
             return m_questionnaireAst;
         }
-        
+
+        public override IAstNode VisitBooleancondition(QLParser.BooleanconditionContext context)
+        {
+            var questionName = context.IDENTIFIER().GetText();
+            var question = m_questionnaireAst
+                .Questions
+                .FirstOrDefault(x => x.Name == questionName);
+
+            if (question?.Type != typeof(bool))
+            {
+                var message = $@"the question {questionName} is not a boolean question";
+
+                throw new QlParserException(message, null) { ParseErrorDetails = message, ParserName = "Antlr 4.0" };
+            }
+
+            return m_questionnaireAst;
+        }
+
+        public override IAstNode VisitConditional(QLParser.ConditionalContext context)
+        {
+
+            var questionName = context.condition().GetText();
+            var conditional = new ConditionalAst(questionName);
+            
+            m_questionnaireAst.Statements.Add(conditional);
+            Visit(context.condition());
+            context.statement()
+                .Select(x => Visit(x))
+                .ToList();
+
+            return m_questionnaireAst;
+        }
+
         public override IAstNode VisitQuestion(QLParser.QuestionContext context)
         {
             var name = context.IDENTIFIER().GetText();
+            var questionExists = m_questionnaireAst.Questions.Any(x => x.Name == name);
+            if (questionExists)
+            {
+                var message = $@"The question with the id '{name}' exists more than once";
+                throw new QlParserException(message, null) { ParseErrorDetails = message, ParserName = "Antlr 4.0"};
+            }
+
             var text = context.QUESTIONTEXT().GetText();
-            Type type ;
+            Type type;
             switch (context.questiontype().qtype.Type)
             {
                 case QLParser.BOOLTYPE:
@@ -56,45 +94,8 @@ namespace AntlrInterpretor.Logic
 
             var question = new QuestionAst(name, text.Replace("\"", ""), type);
             m_questionnaireAst.Statements.Add(question);
-            return m_questionnaireAst;
-        }
-    }
-=======
-﻿using System.Linq;
-using AntlGrammar;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.DomainObjects;
-
-namespace AntlrInterpretor.Logic
-{
-    public class QlVisitor : QLBaseVisitor<IAstNode>
-    {
-        private readonly IQuestionnaireAst m_questionnaireAst;
-
-        public QlVisitor()
-        {
-            m_questionnaireAst = new QuestionnaireAst();
-        }
-
-        public override IAstNode VisitQuestionnaire(QLParser.QuestionnaireContext context)
-        {
-            var formName = context.IDENT().GetText();
-            context.question()
-                .Select(x => Visit(x))
-                .ToList();
-            m_questionnaireAst.FormName = formName;
-            return m_questionnaireAst;
-        }
-
-        public override IAstNode VisitQuestion(QLParser.QuestionContext context)
-        {
-            var name = context.IDENT().GetText();
-            var text = context.STRING().GetText();
-            var type = typeof(bool);
-            var question = new QuestionAst(name, text.Replace("\"", ""), type);
             m_questionnaireAst.Questions.Add(question);
             return m_questionnaireAst;
         }
     }
->>>>>>> b4a9b6ed7a567bef7322e087eb0d3de8f04a3913
 }

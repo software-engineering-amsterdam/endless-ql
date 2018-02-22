@@ -58,23 +58,17 @@ type returns [Type result]
     };
 
 condition returns [Condition result]
-    : i='if' '(' expr=expression ')' q=questionBlock {
-        $result = new Condition($expr.result, $q.result);
+    : i='if' '(' expr=expression ')' block {
+        $result = new Condition($expr.result, $block.result);
         $result.setLocation($i.getLine(), $i.getCharPositionInLine());
     };
 
-questionBlock returns [List<Question> result]
-    @init  { ArrayList<Question> questions = new ArrayList<Question>(); }
-    @after { $result = questions; }
-    : '{' stms=questions '}' {questions.addAll($stms.result); }
-    | stm=question {questions.add($stm.result);}
-    ;
 
-//To suport lists than only can contain questions
-questions returns [List<Question> result]
-    @init  { ArrayList<Question> questions = new ArrayList<Question>(); }
-    @after { $result = questions; }
-    : (stm=question {questions.add($stm.result);})*
+block returns [Statements result]
+    @init  { Statements statements = new Statements(); }
+    @after { $result = statements; }
+    : '{' stms=statements '}' {statements = $stms.result; }
+    | stm=statement {statements.addStatement($stm.result);}
     ;
 
 expression returns [ASTNode result]
@@ -186,13 +180,13 @@ bool returns [ASTNode result]
 
 num returns [ASTNode result]
     : INT {
-        $result = new Int(Integer.parseInt($INT.text));
+        $result = new Int($INT.text);
         $result.setLocation($INT.getLine(), $INT.getCharPositionInLine());
     };
 
 dec returns [ASTNode result]
     : DECIMAL {
-        $result = new Dec(Double.parseDouble($DECIMAL.text));
+        $result = new Dec($DECIMAL.text);
         $result.setLocation($DECIMAL.getLine(), $DECIMAL.getCharPositionInLine());
     };
 
@@ -204,18 +198,18 @@ str returns [ASTNode result]
 
 money returns [ASTNode result]
     : c=('$' | '€') v=DECIMAL {
-        $result = new Money($c.text, Double.parseDouble($v.text));
+        $result = new Money($c.text, $v.text);
         $result.setLocation($v.getLine(), $v.getCharPositionInLine());
     }
 
     | c=('$' | '€') v=INT {
-        $result = new Money($c.text, Double.parseDouble($v.text));
+        $result = new Money($c.text, $v.text);
         $result.setLocation($v.getLine(), $v.getCharPositionInLine());
     };
 
 date returns [DateExpr result]
     : '@' day=INT month=INT year=INT '@' {
-        $result = new DateExpr(Integer.parseInt($day.text), Integer.parseInt($month.text), Integer.parseInt($year.text));
+        $result = new DateExpr($day.text, $month.text, $year.text);
         $result.setLocation($day.getLine(), $day.getCharPositionInLine());
     };
 
@@ -228,6 +222,8 @@ BOOLEAN_FALSE: ('false' | 'FALSE');
 WS  :	(' ' | '\t' | '\n' | '\r') -> skip;
 
 COMMENT : '/*' .*? '*/'  -> skip;
+
+SINGLE_COMMENT : '//'  ~[\r\n]*  -> skip;
 
 IDENT:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 

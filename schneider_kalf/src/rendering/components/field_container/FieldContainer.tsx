@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Field from "../../../form/nodes/fields/FieldNode";
 import { fieldComponentsMapping } from "../../../config/field_components_mapping";
+import { CannotRenderFieldType } from "../../rendering_errors";
 
 export interface FieldContainerProps {
   field: Field;
@@ -25,7 +26,7 @@ export const FieldContainer: React.SFC<FieldContainerProps> = (props) => {
   const FieldComponent = findComponent();
 
   if (!FieldComponent) {
-    return <span>{"NO COMPONENT FOUND FOR TYPE" + props.field.type}</span>;
+    throw CannotRenderFieldType.make(props.field.type);
   }
 
   return (

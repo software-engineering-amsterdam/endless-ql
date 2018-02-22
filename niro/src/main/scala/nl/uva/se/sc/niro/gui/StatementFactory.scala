@@ -10,7 +10,7 @@ import javafx.scene.control.{CheckBox, DatePicker, Label, TextField}
 import javafx.scene.layout._
 import javafx.util.StringConverter
 
-import nl.uva.se.sc.niro.model.Ast._
+import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.Expressions.Expression
 import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
 import nl.uva.se.sc.niro.model.Expressions.answers._
@@ -25,7 +25,7 @@ object StatementFactory {
       statement match {
         case question: Question => {
           grid.getRowConstraints.add(new RowConstraints())
-          grid.addRow(rowNr, new Label(question.label), convert(Expression.evaluate(question.answer)))
+          grid.addRow(rowNr, new Label(question.label), convert(Expression.evaluate(question.answer, Map.empty)))
         }
         case condition: Conditional => {
           val thenPane = insertQuestionPaneAtRow(grid, rowNr, condition.ifStatements)

@@ -1,12 +1,23 @@
-<<<<<<< HEAD
 grammar QL;
 
-questionnaire: 'form' IDENTIFIER '{' question* '}'; 
- 
+questionnaire: 'form' IDENTIFIER '{' statement* '}'; 
+
+statement : (question | conditional); 
+
 question: IDENTIFIER ':' QUESTIONTEXT questiontype | QUESTIONTEXT IDENTIFIER  ':' questiontype ;
 
 questiontype: qtype=(BOOLTYPE | STRINGTYPE | INTTYPE | DATETYPE | DECIMALTYPE);
 
+conditional: 'if' '(' condition ')' '{' statement* '}';
+
+condition: IDENTIFIER                               # booleancondition
+         | IDENTIFIER booleanoperator booleanvalue  # booleancomparison
+		 | IDENTIFIER comparisonoperator '10'       # valuecomparison
+         ;
+
+booleanoperator: op=(ISEQUAL | ISNOTEQUAL);
+booleanvalue: val=(TRUE | FALSE);
+comparisonoperator: ISGREATERTHAN;
 
 BOOLTYPE: 'boolean';
 STRINGTYPE: 'string';
@@ -14,23 +25,15 @@ INTTYPE: 'integer';
 DATETYPE: 'date';
 DECIMALTYPE: 'decimal';
 
+ISNOTEQUAL : '!=';
+ISEQUAL : '==';
+ISGREATERTHAN : '>';
+TRUE : ('true'| 'True'| 'TRUE');
+FALSE : ('false' | 'False' | 'FALSE');
+
 QUESTIONTEXT: '"' (~'"')* '"';
 IDENTIFIER : [a-zA-Z] [a-zA-Z0-9_]* ;
 NEWLINE:'\r'? '\n' -> skip;
 WS  :   [ \t]+ -> skip ;
 LINECOMMENT :  '//' ~[\r\n]* -> skip;
-=======
-grammar QL;
-questionnaire: 'form' IDENT '{' question* '}'; 
-question: IDENT ':' STRING questiontype;
-
-
-questiontype: 'boolean'  # bool;
-
-STRING: '"' (~'"')* '"';
-IDENT  :  [a-zA-Z] [a-zA-Z0-9_]* ;
-NEWLINE:'\r'? '\n' -> skip;
-WS  :   [ \t]+ -> skip ;
-LINECOMMENT :  '//' ~[\r\n]* -> skip;
->>>>>>> b4a9b6ed7a567bef7322e087eb0d3de8f04a3913
-BLOCKCOMMENT : '/*' .*? '*/'  -> skip;
+BLOCKCOMMENT :   '/*' .*? '*/' -> skip;

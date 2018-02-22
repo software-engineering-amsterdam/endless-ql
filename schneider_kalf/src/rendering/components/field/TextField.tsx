@@ -13,6 +13,7 @@ export const TextField: React.SFC<TextFieldProps> = (props) => {
       <FormGroup>
         <Label for={props.field.identifier}>{props.field.label}</Label>
         <Input
+            readOnly={props.field.isReadOnly()}
             name={props.field.identifier}
             type="text"
             onChange={e => props.onChange(e.target.value)}

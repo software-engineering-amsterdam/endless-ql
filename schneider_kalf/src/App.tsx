@@ -4,11 +4,12 @@ import Input from "reactstrap/lib/Input";
 import Addition from "./form/nodes/expressions/arithmetic/Addition";
 import Multiplication from "./form/nodes/expressions/arithmetic/Multiplication";
 import NumberLiteral from "./form/nodes/expressions/arithmetic/NumberLiteral";
-import { evaluate } from "./form/form_helpers";
+import { evaluate } from "./form/evaluation/evaluation_functions";
 import { FormComponent } from "./rendering/components/form_component/FormComponent";
-import { sampleForm } from "./mock/sampleForm";
 import Expression from "./form/nodes/expressions/Expression";
 import Form from "./form/Form";
+import { sampleForm } from "./mock/sampleForm";
+import { QlsTest } from "./modules/rendering/components/qls_test/QlsTest";
 
 export interface AppComponentProps {
 }
@@ -16,6 +17,7 @@ export interface AppComponentProps {
 export interface AppComponentState {
   qlInput?: string;
   form: Form;
+  errorMessage: string;
 }
 
 const qlParser = require("./parsing/parsers/ql_parser");
@@ -26,17 +28,36 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
 
     this.state = {
       qlInput: require("!raw-loader!./mock/sample.ql.txt"),
-      form: sampleForm
+      form: sampleForm,
+      errorMessage: ""
     };
 
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange(identifier: string, value: any) {
-    console.log("ON CHANGE", identifier, value);
+  onChangeQuestionnaire(text: string) {
+    let form: Form;
+    let errorMessage: string = "";
+
+    try {
+      form = qlParser.parse(this.state.qlInput);
+
+      this.setState({
+        form: form,
+        errorMessage: errorMessage
+      });
+    } catch (error) {
+      errorMessage = error.message;
+    }
 
     this.setState({
-      form: sampleForm.setValue(identifier, value)
+      errorMessage: errorMessage
+    });
+  }
+
+  onChange(identifier: string, value: any) {
+    this.setState({
+      form: this.state.form.setAnswer(identifier, value)
     });
   }
 
@@ -64,6 +85,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
          */
         <div className="app container">
           <h2>Sample QL ouput</h2>
+          <QlsTest/>
           <div className="row ql-sample-output">
             <div className="col-md-6">
               <Input
@@ -75,7 +97,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
               {errorMessage}
             </div>
             <div className="col-md-6">
-              <FormComponent onChange={this.onChange} form={sampleForm}/>
+              <FormComponent onChange={this.onChange} form={this.state.form}/>
             </div>
             <h2>Sample Expression evaluation</h2>
 

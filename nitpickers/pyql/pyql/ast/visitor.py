@@ -1,13 +1,13 @@
 from pyql.antlr.QLVisitor import QLVisitor
 from pyql.antlr.QLParser import QLParser
-from pyql.ast.form.question_statement import QuestionStatement
+from pyql.ast.form.ql_statements import *
 from pyql.ast.form.block import Block
-from pyql.ast.form.if_statement import IfStatement
 from pyql.ast.code_location import CodeLocation
 from pyql.ast.form.form import Form
 from pyql.ast.expression.expressions import *
 
 # TODO check if can get rid of 'if getChildCount() > 1'
+
 
 class ParseTreeVisitor(QLVisitor):
 
@@ -17,20 +17,22 @@ class ParseTreeVisitor(QLVisitor):
         block = ctx.block().accept(self)
         return Form(identifier, location, block)
 
-    def visitConditional_block(self, ctx: QLParser.Conditional_blockContext):
-        return IfStatement(self.location(ctx), ctx.expression().accept(self), ctx.block().accept(self))
+    def visitIfStatement(self, ctx:QLParser.IfStatementContext):
+        return If(self.location(ctx), ctx.expression().accept(self), ctx.block().accept(self))
+
+    def visitIfElseStatement(self, ctx:QLParser.IfElseStatementContext):
+        return IfElse(self.location(ctx), ctx.expression().accept(self), ctx.block(0).accept(self), ctx.block(1).accept(self))
 
     def visitBlock(self, ctx: QLParser.BlockContext):
-        statements = [s.accept(self) for s in ctx.statement()]
-        return Block(self.location(ctx), statements)
+        return Block(self.location(ctx), [s.accept(self) for s in ctx.statement()])
 
     def visitStatement(self, ctx: QLParser.StatementContext):
         return self.visitChildren(ctx)
 
     def visitQuestion(self, ctx: QLParser.QuestionContext):
-        return QuestionStatement(self.location(ctx), ctx.identifier().accept(self), ctx.STR(), ctx.question_type().accept(self))
+        return Question(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(), ctx.questionType().accept(self))
 
-    def visitQuestion_type(self, ctx: QLParser.Question_typeContext):
+    def visitQuestionType(self, ctx: QLParser.QuestionTypeContext):
         return ctx.getText()
 
     def visitExpression(self, ctx: QLParser.ExpressionContext):

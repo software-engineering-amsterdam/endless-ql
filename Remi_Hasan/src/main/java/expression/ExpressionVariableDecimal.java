@@ -13,7 +13,10 @@ public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
 
     @Override
     public void setValue(String value) {
-        this.value = Double.parseDouble(value);
+        if(value.isEmpty())
+            this.value = null;
+        else
+            this.value = Double.parseDouble(value);
     }
 
     // TODO

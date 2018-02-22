@@ -14,8 +14,6 @@ class FormListener : QuestionareLanguageParserBaseListener() {
         }
 
         table.print()
-
-        table.findDuplicateLabels()
     }
 
     override fun exitQuestionStatement(ctx: QuestionareLanguageParser.QuestionStatementContext) {
@@ -45,7 +43,6 @@ class FormListener : QuestionareLanguageParserBaseListener() {
         }
     }
 }
-
 
 fun typeParser(type: String): BaseSymbolValue = when (type) {
     "boolean" -> BooleanValue(false)

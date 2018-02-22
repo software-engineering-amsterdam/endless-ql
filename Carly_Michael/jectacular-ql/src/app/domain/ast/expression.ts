@@ -8,7 +8,8 @@ export type LiteralType = boolean | number | string | Date;
 
 export abstract class Expression {
   constructor(public location: Location) {}
-  abstract getType(): ExpressionType;
+  abstract checkType(): ExpressionType;
+  abstract evaluate(): LiteralType;
 
   protected getLocationErrorMessage(): string {
     return ` between line ${this.location.start.line}` +
@@ -21,7 +22,11 @@ export class Literal extends Expression {
     super(location);
   }
 
-  getType(): ExpressionType {
-    return undefined;
+  checkType(): ExpressionType {
+    return this.type;
+  }
+
+  evaluate(): LiteralType {
+    return this.value;
   }
 }

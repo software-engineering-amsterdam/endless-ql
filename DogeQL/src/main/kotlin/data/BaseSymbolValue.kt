@@ -10,6 +10,7 @@ abstract class BaseSymbolValue(var type: QuestionType): Comparable<BaseSymbolVal
     abstract operator fun minus(that: BaseSymbolValue): BaseSymbolValue
     abstract operator fun times(that: BaseSymbolValue): BaseSymbolValue
     abstract operator fun div(that: BaseSymbolValue): BaseSymbolValue
+    abstract operator fun not(): BaseSymbolValue
 
     val integerValue: IntegerValue
         get() = this as IntegerValue
@@ -17,8 +18,12 @@ abstract class BaseSymbolValue(var type: QuestionType): Comparable<BaseSymbolVal
     val booleanValue: BooleanValue
         get() = this as BooleanValue
 
-    internal fun unsupportedOperation(operator: String, that: BaseSymbolValue): Nothing {
-        throw OperationNotSupportedException("Unable to apply '$operator' to  $type and ${that.type}")
+    internal fun unsupportedOperation(operator: String, that: BaseSymbolValue? = null): Nothing {
+        that?.let {
+            throw OperationNotSupportedException("Unable to apply '$operator' to  $type and ${that.type}")
+        } ?: run {
+            throw OperationNotSupportedException("Unable to apply '$operator' to  $type")
+        }
     }
 
 }

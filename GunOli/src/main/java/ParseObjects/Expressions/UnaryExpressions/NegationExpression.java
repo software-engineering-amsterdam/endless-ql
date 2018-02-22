@@ -1,0 +1,22 @@
+package ParseObjects.Expressions.UnaryExpressions;
+
+import ParseObjects.Expressions.Constant;
+import ParseObjects.Expressions.EvaluationType;
+import ParseObjects.Expressions.Expression;
+import ParseObjects.Expressions.UnaryExpression;
+
+public class NegationExpression extends UnaryExpression<Double> {
+    public NegationExpression(Expression expr){
+        super("-", expr);
+    }
+
+    @Override
+    public EvaluationType returnType(){
+        return EvaluationType.Decimal;
+    }
+
+    @Override
+    public Constant<Double> evaluate(){
+        return null;//change
+    }
+}

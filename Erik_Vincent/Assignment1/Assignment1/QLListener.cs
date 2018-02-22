@@ -16,14 +16,22 @@ namespace Assignment1
             Forms = context.result;
         }
 
-        public override void ExitQuestionNorm(QL.QuestionNormContext context)
+        public override void ExitQuestion(QL.QuestionContext context)
         {
             _questions.Add(context.result.Id, context.result);
         }
 
         public override void ExitExpressionId(QL.ExpressionIdContext context)
         {
-            context.result.Question = _questions[context.result.Id];
+            try
+            {
+                context.result.Question = _questions[context.result.Id];
+            }
+            catch (KeyNotFoundException e)
+            {
+                Console.WriteLine("ERROR: The name '" + context.result.Id + "' does not exist in the current context.");
+                throw;
+            }
         }
     }
 }

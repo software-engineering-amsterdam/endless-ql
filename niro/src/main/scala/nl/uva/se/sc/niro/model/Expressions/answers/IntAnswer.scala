@@ -5,38 +5,29 @@ import nl.uva.se.sc.niro.model._
 
 case class IntAnswer(possibleValue: Option[Int]) extends Answer {
 
-  def add(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value + otherValue)))
-  def sub(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value - otherValue)))
-  def mul(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value * otherValue)))
-  def div(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value / otherValue)))
-
-  def lt(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value < otherValue)))
-  def lTe(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value <= otherValue)))
-  def gTe(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value >= otherValue)))
-  def gt(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value > otherValue)))
-  def ne(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value != otherValue)))
-  def eq(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value == otherValue)))
-
-  def min: IntAnswer = IntAnswer(possibleValue.map(-_))
-
-  def apply(operator: BinaryOperator, other: Answer): Answer = (this, other) match {
-    case (lhs: IntAnswer, rhs: IntAnswer) => operator match {
-      case Add => add(rhs)
-      case Sub => sub(rhs)
-      case Mul => mul(rhs)
-      case Div => div(rhs)
-      case Lt => lt(rhs)
-      case LTe => lTe(rhs)
-      case GTe => gTe(rhs)
-      case Gt => gt(rhs)
-      case Ne => ne(rhs)
-      case Eq => eq(rhs)
+  def apply(operator: BinaryOperator, other: Answer): Answer = other match {
+    case (other: IntAnswer) => operator match {
+      case Add => IntAnswer(combine[Int](other)(_ + _))
+      case Sub => IntAnswer(combine[Int](other)(_ - _))
+      case Mul => IntAnswer(combine[Int](other)(_ * _))
+      case Div => IntAnswer(combine[Int](other)(_ / _))
+      case Lt => BooleanAnswer(combine[Boolean](other)(_ < _))
+      case LTe => BooleanAnswer(combine[Boolean](other)(_ <= _))
+      case GTe => BooleanAnswer(combine[Boolean](other)(_ >= _))
+      case Gt => BooleanAnswer(combine[Boolean](other)(_ > _))
+      case Ne => BooleanAnswer(combine[Boolean](other)(_ != _))
+      case Eq => BooleanAnswer(combine[Boolean](other)(_ == _))
       case _ => throw new UnsupportedOperationException(s"Unsupported $operator")
     }
-    case _ => throw new IllegalArgumentException(s"Can't perform operation on different types. Type ${this.getClass.getSimpleName} and ${other.getClass.getSimpleName}")
+    case _ => throw new IllegalArgumentException(s"Can't perform operation on type ${other.getClass.getSimpleName}")
   }
 
+  def combine[R](other: IntAnswer)(f: (Int, Int) => R): Option[R] = for {
+    thisValue <- possibleValue
+    thatValue <- other.possibleValue
+  } yield f(thisValue, thatValue)
+
   def apply(operator: UnaryOperator): Answer = operator match {
-    case Min => min
+    case Min => IntAnswer(possibleValue.map(-_))
   }
 }

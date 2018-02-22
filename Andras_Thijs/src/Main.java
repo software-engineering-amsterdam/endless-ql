@@ -1,6 +1,3 @@
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -8,18 +5,7 @@ import java.util.List;
 
 public class Main {
     public static void main (String[] args){
-
         FormReader formReader = new FormReader();
-
-
-        CharStream testInput1 = CharStreams.fromString("");
-
-        CharStream testInput2 = CharStreams.fromString("foo");
-
-        CharStream testInput3 = CharStreams.fromString("form Box1HouseOwning {}");
-
-        CharStream testInput4 = CharStreams.fromString("form Box1HouseOwning { foo }");
-
 
         try {
             QLForm form = formReader.parseFile("./src/test_grammar.txt");
@@ -37,6 +23,5 @@ public class Main {
 
         FormTemplate form = new FormTemplate();
         form.initGUI();
-
     }
 }

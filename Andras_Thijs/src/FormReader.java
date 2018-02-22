@@ -6,7 +6,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class FormReader  {
+public class FormReader {
 
     public class FormReaderVisitor extends QLBaseVisitor<Object> {
 
@@ -80,6 +80,4 @@ public class FormReader  {
             return new Question(questionName, questionLabel, questionType);
         }
     }
-
 }
-

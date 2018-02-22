@@ -11,6 +11,7 @@ import nl.uva.js.qlparser.models.Form;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @SpringUI
@@ -22,6 +23,9 @@ public class WebUI extends UI {
     @Autowired
     private Form qlForm;
 
+    @Value("${ql.file:#{null}}")
+    private String qlFile;
+
     private Button btnReload;
 
     @Override
@@ -29,25 +33,33 @@ public class WebUI extends UI {
         if (mode.equals("file")) {
             btnReload = new Button("Reload QL file");
             btnReload.addClickListener(
-                    e -> setContent(createLayoutFromFile())
+                    e -> reload()
             );
-
             setContent(createLayoutFromFile());
-        }
 
-        else if (mode.equals("dynamic")) {
-
+        } else if (mode.equals("dynamic")) {
             TextArea area = new TextArea("Enter Questionnaire Language:");
             area.setWidth("700");
             area.setHeight("500");
 
             final Button btnRender = new Button("Render QL");
-
-            setContent(new FormLayout(area, btnRender));
-
             btnRender.addClickListener(
                     e -> setContent(createLayoutFromQLString(area.getValue()))
             );
+
+            setContent(new FormLayout(area, btnRender));
+        }
+    }
+
+    /**
+     * Vaadin handles the IOException by providing visual feedback on the reload button.
+     */
+    private void reload() {
+        try {
+            qlForm = QLIngester.parseFormFromLocation(qlFile);
+            setContent(createLayoutFromFile());
+        } catch (IOException e) {
+            setContent(new Label("Unable to parse QL"));
         }
     }
 

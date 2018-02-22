@@ -5,6 +5,7 @@ import jdk.dynalink.linker.support.Lookup;
 import model.LookupTable;
 import model.Question;
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;
 import visitor.VisitorExpression;
@@ -58,8 +59,8 @@ public class ExpressionTest {
     @Test
     public void ExpressionIntegerNegativeTest() throws IOException {
         AntlrTester tester = new AntlrTester("-1");
-        Expression actualExpression = tester.visitor.visitIntegerConstant(tester.parser.integerConstant());
-        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(-1);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+        ExpressionNeg expectedExpression = new ExpressionNeg(new ExpressionVariableInteger(1));
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
@@ -78,8 +79,8 @@ public class ExpressionTest {
     @Test
     public void ExpressionDecimalNegativeTest() throws IOException {
         AntlrTester tester = new AntlrTester("-1.0");
-        Expression actualExpression = tester.visitor.visitDecimalConstant(tester.parser.decimalConstant());
-        ExpressionVariableDecimal expectedExpression = new ExpressionVariableDecimal(-1.0);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+        ExpressionNeg expectedExpression = new ExpressionNeg(new ExpressionVariableDecimal(1.0));
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
@@ -87,7 +88,7 @@ public class ExpressionTest {
 
     @Test
     public void ExpressionDateTest() throws IOException {
-        AntlrTester tester = new AntlrTester("1.0");
+        AntlrTester tester = new AntlrTester("1-1-2018");
         Expression actualExpression = tester.visitor.visitDateConstant(tester.parser.dateConstant());
         ExpressionVariableDate expectedExpression = new ExpressionVariableDate("1-1-2018");
 
@@ -107,7 +108,7 @@ public class ExpressionTest {
 
     @Test
     public void ExpressionStringTest() throws IOException {
-        AntlrTester tester = new AntlrTester("Could you give me some value?");
+        AntlrTester tester = new AntlrTester("\"Could you give me some value?\"");
         Expression actualExpression = tester.visitor.visitStringConstant(tester.parser.stringConstant());
         ExpressionVariableString expectedExpression = new ExpressionVariableString("Could you give me some value?");
 
@@ -157,14 +158,11 @@ public class ExpressionTest {
 
 class AntlrTester{
 
-
     final QLParser parser;
     final VisitorExpression visitor;
 
     AntlrTester(String input){
-        //        InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-        ANTLRInputStream stream = new ANTLRInputStream(input);
-        QLLexer lexer = new QLLexer(stream);
+        QLLexer lexer = new QLLexer(CharStreams.fromString(input));
 
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         this.parser = new QLParser(tokens);

@@ -58,7 +58,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     public Expression visitNegExpr(QLParser.NegExprContext ctx) {
         Expression value = visit(ctx.expr);
 
-        if(value.getReturnType() != ReturnType.Boolean)
+        if(!value.getReturnType().neg())
             throw new IllegalArgumentException("Cannot apply negation on '" + value.getReturnType() + "'");
 
         return new ExpressionNeg(value);

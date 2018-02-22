@@ -6,9 +6,8 @@ import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 
 public class AdditionExpression extends BinaryExpression<Double> {
-
-    public AdditionExpression(String operator, Expression left, Expression right){
-        super(operator, left, right);
+    public AdditionExpression(Expression left, Expression right){
+        super("+", left, right);
     }
 
     @Override
@@ -17,8 +16,10 @@ public class AdditionExpression extends BinaryExpression<Double> {
     }
 
     @Override
-    public Constant<Double> evaluate(){
-        return null;//change
+    public Constant evaluate(){
+        Constant left = this.getExprLeft().evaluate();
+        Constant right = this.getExprRight().evaluate();
+        return left.sum(right);
     }
 
     @Override

@@ -18,7 +18,7 @@ expression: literal
             | left=expression OR right=expression
             ;
 
-literal: INT | BOOL | ID;
+literal: INT | BOOL | ID | STRING | FLOAT;
 unaryexp: NOT expression;
 
 conditional: if_conditional | (if_conditional elif_conditional* else_conditional?);
@@ -53,6 +53,7 @@ types: 'integer' | 'int' | 'boolean' | 'bool' | 'string' | 'str' | 'date' | 'mon
 
 BOOL: 'true' | 'false';
 INT :   [0-9]+ ;         // match integers
+FLOAT: [0-9]+.[0-9]+;   // match floats
 ID  :   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;      // match identifiers
 STRING : '"' (~('"' | '\\' | '\r' | '\n'))* '"';
 

@@ -1,4 +1,4 @@
-from src.AST.base_node import BaseNode
+from AST.base_node import BaseNode
 
 
 class ExpressionNode(BaseNode):

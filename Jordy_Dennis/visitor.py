@@ -9,7 +9,7 @@ class Visitor(QLGrammarVisitor):
         self.QLNode = QLNode()
         # used to log debug self.logger.debugs
         # set to logging.DEBUG to show debug messages
-        logging.basicConfig(level=logging.INFO)
+        logging.basicConfig(level=logging.DEBUG)
         self.logger = logging.getLogger(__name__)
 
 
@@ -70,7 +70,7 @@ class Visitor(QLGrammarVisitor):
         expr = self.visit(ctx.expression())
         assignNode = AssignmentNode(question, varName, varType, expr, ctx.start.line)
 
-        return self.visitChildren(ctx)
+        return assignNode
 
 
     # Visit a parse tree produced by QLGrammarParser#expression.
@@ -81,8 +81,9 @@ class Visitor(QLGrammarVisitor):
         return "EXPRESSION"
 
     def visitLiteral(self, ctx:QLGrammarParser.LiteralContext):
-        
-        return self.visitChildren(ctx)
+        self.logger.debug("LITERAL")
+        print(ctx.getText())
+        return ctx.getText()
 
     # Visit a parse tree produced by QLGrammarParser#unaryexp.
     def visitUnaryexp(self, ctx:QLGrammarParser.UnaryexpContext):

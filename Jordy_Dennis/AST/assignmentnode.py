@@ -4,7 +4,7 @@ class AssignmentNode:
         self.question = question
         self.varName = varName
         self.varType = varType
-        self.value = expression
+        self.expression = expression
         self.line = line
 
     def changeValue(self, value):

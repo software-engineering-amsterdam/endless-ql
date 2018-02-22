@@ -6,10 +6,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.uva.jomi.ui.SymbolTable;
 import org.uva.jomi.ui.elements.fields.FieldFactory;
 import org.uva.jomi.ui.elements.fields.InputField;
+import org.uva.jomi.ui.elements.fields.InputField.InputFieldListener;
 
-public class QuestionElement implements BaseElement {
+public class QuestionElement implements BaseElement, InputFieldListener {
 
 	private String identifier;
 	private String question;
@@ -31,10 +33,16 @@ public class QuestionElement implements BaseElement {
 		
 		InputField inputField = new FieldFactory().getField(this.type);
 		if(inputField != null) {
+			inputField.setFieldListener(this);
 			panel.add(inputField.build());
 		}		
 		
 		return panel;
+	}
+
+	@Override
+	public void valueDidChange(InputField<?> field) {
+		SymbolTable.getInstance().put(this.identifier, field.getValue());
 	}
 	
 }

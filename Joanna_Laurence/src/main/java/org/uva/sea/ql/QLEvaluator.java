@@ -160,6 +160,10 @@ public class QLEvaluator extends BaseVisitor<Value> {
 
     @Override
     public Value visit(Variable node) {
+        if(node.getLinkedQuestion() != null) {
+            return node.getLinkedQuestion().getValue().accept(this);
+        }
+
         return this.symbolTable.getValue(node.getVariableName());
     }
 }

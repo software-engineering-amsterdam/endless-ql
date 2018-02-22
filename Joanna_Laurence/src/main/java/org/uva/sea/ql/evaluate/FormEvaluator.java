@@ -34,6 +34,10 @@ public class FormEvaluator extends BaseVisitor<List<Question>> {
      * @return Questions
      */
     public List<Question> visit(Statements node) {
+        for(ASTNode statement : node.getStatementList()) {
+            statement.accept(this);
+        }
+
         StatementsEvaluator statementsEvaluator = new StatementsEvaluator(node);
         return statementsEvaluator.evaluate();
     }
@@ -45,6 +49,7 @@ public class FormEvaluator extends BaseVisitor<List<Question>> {
      * @return Questions
      */
     public List<Question> visit(IfStatement ifStatement) {
+        ifStatement.getStatements().accept(this);
         return this.ifStatementEvaluator.evaluate(ifStatement, this.symbolTable);
     }
 }

@@ -9,7 +9,7 @@ public class ExpressionVariableDate extends ExpressionVariable<String> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Date;
+        return ReturnType.DATE;
     }
 
     @Override

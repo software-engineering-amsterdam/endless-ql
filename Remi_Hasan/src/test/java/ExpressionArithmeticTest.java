@@ -1,37 +1,65 @@
+import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.generator.InRange;
+import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import expression.Expression;
 import expression.ExpressionVariableInteger;
-import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+@RunWith(JUnitQuickcheck.class)
 public class ExpressionArithmeticTest {
 
-    @Test
-    public void ExpressionArtihmeticDivide(){
-        AntlrTester tester = new AntlrTester("1 / 2");
+    @Property
+    public void ExpressionArithmeticDivide(@InRange(min = "-1000", max = "1000") int left, @InRange(min = "-1000", max = "1000") int right){
+        String input = left + " / " + right;
+        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(left / right);
+
+        ExpressionArithhmeticBase(input, expectedExpression);
+    }
+
+    @Property
+    public void ExpressionArithmeticDivideByZero(int left){
+        boolean exceptionThrown = false;
+        try {
+            ExpressionArithmeticDivide(left, 0);
+        } catch(ArithmeticException e){
+            exceptionThrown = true;
+        }
+
+        assertTrue(exceptionThrown);
+    }
+
+    @Property
+    public void ExpressionArithmeticMultiply(@InRange(min = "-1000", max = "1000") int left, @InRange(min = "-1000", max = "1000") int right){
+        String input = left + " * " + right;
+        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(left * right);
+
+        ExpressionArithhmeticBase(input, expectedExpression);
+    }
+
+    @Property
+    public void ExpressionArithmeticSubtract(@InRange(min = "-1000", max = "1000") int left, @InRange(min = "-1000", max = "1000") int right){
+        String input = left + " - " + right;
+        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(left - right);
+
+        ExpressionArithhmeticBase(input, expectedExpression);
+    }
+
+    @Property
+    public void ExpressionArithmeticSum(@InRange(min = "-1000", max = "1000") int left, @InRange(min = "-1000", max = "1000") int right){
+        String input = left + " + " + right;
+        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(left + right);
+
+        ExpressionArithhmeticBase(input, expectedExpression);
+    }
+
+    public void ExpressionArithhmeticBase(String input, ExpressionVariableInteger expectedExpression){
+        ANTLRTester tester = new ANTLRTester(input);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
-        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(0);
 
         assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
     }
-
-
-    @Test(expected = ArithmeticException.class)
-    public void ExpressionArtihmeticDivideByZero(){
-        AntlrTester tester = new AntlrTester("1.0 / 0.0");
-        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
-        actualExpression.evaluate();
-    }
-
-    @Test
-    public void ExpressionArtihmeticMultiply(){
-        AntlrTester tester = new AntlrTester("1 * 2");
-        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
-        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(2);
-
-        assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
-    }
-
-
-
+    
 }

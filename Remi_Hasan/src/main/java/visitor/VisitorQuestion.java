@@ -2,8 +2,7 @@ package visitor;
 
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
-import expression.Expression;
-import expression.ExpressionFactory;
+import expression.*;
 import model.LookupTable;
 import model.Question;
 
@@ -17,9 +16,11 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
         // remove quotes from text
         questionText = questionText.substring(1, questionText.length() - 1);
 
+        QLParser.QuestionTypeContext questionTypeContext = ctx.questionType();
+        ReturnType questionType = ReturnType.valueOf(questionTypeContext.type().getText().toUpperCase());
         Expression defaultAnswer = getDefaultAnswer(ctx.questionType());
 
-        Question question = new Question(questionName, questionText, defaultAnswer);
+        Question question = new Question(questionType, questionName, questionText, defaultAnswer);
 
         LookupTable lookupTable = LookupTable.getInstance();
         lookupTable.insert(question);

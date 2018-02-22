@@ -1,4 +1,4 @@
-from src.AST.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
+from AST.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
 
 
 class AdditionOperatorNode(BinaryOperatorNode):

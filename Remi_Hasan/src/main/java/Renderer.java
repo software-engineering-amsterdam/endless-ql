@@ -80,7 +80,7 @@ public class Renderer {
     private void addQuestion(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, Question question) {
         Control input;
 
-        if (question.answer.getReturnType() == ReturnType.Boolean) {
+        if (question.type == ReturnType.BOOLEAN) {
             input = createBooleanField(fieldMap, question);
         } else {
             input = createTextField(fieldMap, question);
@@ -105,12 +105,17 @@ public class Renderer {
     private Control createTextField(HashMap<Question, Field> fieldMap, Question question) {
         TextInputControl textField = Input.textField();
 
-        if (question.answer.getReturnType() == ReturnType.Integer || question.answer.getReturnType() == ReturnType.Decimal) {
+        if (question.type == ReturnType.INTEGER || question.type == ReturnType.DECIMAL) {
             // NumberStringConverter
             // CurrencyStringConverter
             // DoubleStringConverter
             // https://docs.oracle.com/javase/8/javafx/api/javafx/util/StringConverter.html
             textField.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
+        }
+
+        if(!question.answer.isSettable()) {
+            textField.setEditable(false);
+            textField.setText(question.answer.evaluate().toString());
         }
 
         // If input changes some questions might need to be enabled/disabled
@@ -166,6 +171,7 @@ public class Renderer {
     }
 
     private void showErrorAlert(Exception e, String message) {
+        e.printStackTrace();
         Alert alert = new Alert(Alert.AlertType.ERROR, message);
         alert.setContentText(e.toString());
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

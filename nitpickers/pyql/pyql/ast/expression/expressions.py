@@ -10,7 +10,7 @@ class Expression(ast.ASTNode):
 
 class Identifier(Expression):
 
-    def __init__(self, identifier: str, location):
+    def __init__(self, location, identifier):
         super().__init__(location)
         self._identifier = identifier
 

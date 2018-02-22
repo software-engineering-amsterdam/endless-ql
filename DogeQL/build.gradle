@@ -6,10 +6,12 @@ buildscript {
 
     repositories {
         mavenCentral()
+        maven { url "http://dl.bintray.com/salomonbrys/kodein" }
     }
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        implementation 'org.kodein:kodein-generic-jvm:5.0.0-beta4'
     }
 }
 
@@ -31,8 +33,6 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
-    implementation "space.traversal.kapsule:kapsule-core:0.3"
 
     antlr "org.antlr:antlr4:4.5"
 

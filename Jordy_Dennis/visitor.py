@@ -115,7 +115,7 @@ class Visitor(QLGrammarVisitor):
         if_condition = self.visit(ctx.if_conditional())
 
         #create conditionalNode
-        conditionalN = ConditionalNode(if_condition)
+        conditionalN = ConditionalNode(if_condition, ctx.start.line)
 
         #visit optional elif
         if(ctx.elif_conditional()):

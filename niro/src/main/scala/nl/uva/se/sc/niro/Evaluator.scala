@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro
 
 import nl.uva.se.sc.niro.model.Expressions._
-import nl.uva.se.sc.niro.model.{ BinaryOperator, UnaryOperator }
+import nl.uva.se.sc.niro.model.{ BinaryOperator, QLForm, UnaryOperator }
 
 object Evaluator {
   // TODO check if it's necessary to make this call tail recursive
@@ -18,4 +18,6 @@ object Evaluator {
       val rightAnswer = evaluateExpression(rightExpression, symbolTable)
       leftAnswer.applyBinaryOperator(operator, rightAnswer)
   }
+
+  def evaluateQLForm(qLForm: QLForm): QLForm = ???
 }

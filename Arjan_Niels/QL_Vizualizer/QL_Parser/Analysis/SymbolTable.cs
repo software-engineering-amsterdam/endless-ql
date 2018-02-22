@@ -50,7 +50,6 @@ namespace QL_Parser.Analysis
         public static void Reset()
         {
             Instance.TypeMap.Clear();
-            SymbolTable.Add("Henk", QValueType.BOOLEAN);
         }
 
         public static QValueType Get(string identifier)

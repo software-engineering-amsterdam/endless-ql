@@ -32,9 +32,13 @@ andExpression     : relExpression ('&&' relExpression)* ;
 
 relExpression     : addExpression (('<' | '<=' | '>' | '>=' | '==' | '!=') addExpression)* ;
 
-addExpression     : mulExpression (('+' | '-') mulExpression)*;
+addExpression     : mulExpression (addOperator mulExpression)*;
 
-mulExpression     : unExpression (('*' | '/') unExpression)*;
+addOperator       : '+' | '-' ;
+
+mulExpression     : unExpression (mulOperator unExpression)*;
+
+mulOperator       : '*' | '/' ;
 
 unExpression      : literal | identifier | '(' expression ')';
 

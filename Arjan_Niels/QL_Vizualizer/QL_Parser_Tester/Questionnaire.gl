@@ -2,16 +2,13 @@
 	"Did you sell a house in 2010?"
 		soldHouseIn2010: boolean
 
-	"What is the name of your cat?"
-		myCatsNameLala: text
-
 	"What was the selling price?"
 		sellingPrice: money
 
 		"What was the selling price?"
 		sellingPrice: money
 
-	// A comment
+	// A comment which will be ignored.
 	if (sellingPrice || hasNetflix) && (piet || klaas) {
 		if secondQuestion {
 			"Have you seen House of Cards?"

@@ -35,7 +35,8 @@ namespace QL_Parser.Analysis
                 new SingleFormValidator(),
 
                 // Semantic
-                new VariableAnalyser()
+                new VariableAnalyser(),
+                new AllVarsAreRegisteredAnalyser()
             };
         }
 

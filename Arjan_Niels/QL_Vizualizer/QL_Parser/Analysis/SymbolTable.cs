@@ -56,7 +56,10 @@ namespace QL_Parser.Analysis
 
         public static QValueType Get(string identifier)
         {
-            return Instance.TypeMap[identifier];
+            if (Instance.TypeMap.ContainsKey(identifier))
+                return Instance.TypeMap[identifier];
+            else
+                return QValueType.UNKNOWN;
         }
 
         /// <summary>

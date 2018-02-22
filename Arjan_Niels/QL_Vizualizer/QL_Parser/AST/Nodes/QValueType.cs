@@ -2,6 +2,7 @@
 {
     public enum QValueType
     {
+        UNKNOWN,
         BOOLEAN,
         MONEY,
         TEXT,

@@ -55,51 +55,55 @@ namespace QL_Parser.Tests.AST
         public void SingleVariableNameTest()
         {
             var statement = _simpleForm.Children
-                .Where(x => x.GetType() == typeof(ConditionalNode))
+                .Where(x => x.Type == NodeType.CONDITIONAL)
                 .Select(x => x as ConditionalNode)
-                .First().StatementNode;
+                .First().Expression as ValueNode;
 
             Assert.AreEqual("soldAHouse", statement.ID);
-            Assert.IsNull(statement.LeftSide);
-            Assert.IsNull(statement.Operator);
-            Assert.IsNull(statement.RightSide);
         }
 
         [TestMethod]
         public void ComplexVariableTest()
         {
             var statement = _complexeForm.Children
-                .Where(x => x.GetType() == typeof(ConditionalNode))
+                .Where(x => x.Type == NodeType.CONDITIONAL)
                 .Select(x => x as ConditionalNode)
-                .First().StatementNode;
+                .First().Expression as StatementNode;
 
-            Assert.AreEqual("soldAHouse", statement.LeftSide.ID);
+            var leftSide = (ValueNode)statement.LeftSide;
+            var rightSide = (ValueNode)statement.RightSide;
+
+            Assert.AreEqual("soldAHouse", leftSide.ID);
             Assert.AreEqual("&&", statement.Operator);
-            Assert.AreEqual("hasSeenHouseOfCards", statement.RightSide.ID);
-            Assert.IsNull(statement.ID);
+            Assert.AreEqual("hasSeenHouseOfCards", rightSide.ID);
         }
 
         [TestMethod]
         public void ComplexNestedStatementFormTest()
         {
             var statement = _nestedStatementForm.Children
-                .Where(x => x.GetType() == typeof(ConditionalNode))
+                .Where(x => x.Type == NodeType.CONDITIONAL)
                 .Select(x => x as ConditionalNode)
-                .First().StatementNode;
+                .First().Expression as StatementNode;
 
-            var lhs = statement.LeftSide;
-            var rhs = statement.RightSide;
+            var leftSide = (StatementNode)statement.LeftSide;
+            var rightSide = (StatementNode)statement.RightSide;
             Assert.AreEqual("&&", statement.Operator);
 
             // lhs
-            Assert.AreEqual("firstArgument", lhs.LeftSide.ID);
-            Assert.AreEqual("||", lhs.Operator);
-            Assert.AreEqual("secondArgument", lhs.RightSide.ID);
+            var leftLeftValue = (ValueNode)leftSide.LeftSide;
+            var leftRightValue = (ValueNode)leftSide.RightSide;
+
+            Assert.AreEqual("firstArgument", leftLeftValue.ID);
+            Assert.AreEqual("||", leftSide.Operator);
+            Assert.AreEqual("secondArgument", leftRightValue.ID);
 
             // rhs
-            Assert.AreEqual("thirdArgument", rhs.LeftSide.ID);
-            Assert.AreEqual("||", rhs.Operator);
-            Assert.AreEqual("forthArgument", rhs.RightSide.ID);
+            var rightLeftValue = (ValueNode)rightSide.LeftSide;
+            var rightRightValue = (ValueNode)rightSide.RightSide;
+            Assert.AreEqual("thirdArgument", rightLeftValue.ID);
+            Assert.AreEqual("||", rightSide.Operator);
+            Assert.AreEqual("forthArgument", rightRightValue.ID);
         }
     }
 }

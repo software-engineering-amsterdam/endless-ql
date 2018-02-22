@@ -2,6 +2,7 @@
 {
     public interface IExpressionNode
     {
-        object GetValue();
+        NodeType GetNodeType();
+        QValueType GetQValueType();
     }
 }

@@ -3,7 +3,7 @@ using QL_Parser.Analysis;
 using QL_Parser.Analysis.Semantic;
 using QL_Parser.AST.Nodes;
 
-namespace QL_Parser.Tests.Analysis
+namespace QL_Parser.Tests.Analysis.Semantic
 {
     [TestClass]
     public class VariableAnalyserTest

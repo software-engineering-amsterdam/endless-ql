@@ -1,10 +1,29 @@
-﻿namespace QL_Parser.AST.Nodes
+﻿using QL_Parser.Analysis;
+
+namespace QL_Parser.AST.Nodes
 {
-    public class ValueNode : IExpressionNode
+    public class ValueNode : Node, IExpressionNode
     {
-        public object GetValue()
+        public string ID { get; private set; }
+
+        public ValueNode(string id) : base(NodeType.VALUE)
         {
-            throw new System.NotImplementedException();
+            this.ID = id;
+        }
+
+        public QValueType GetQValueType()
+        {
+            return SymbolTable.Get(ID);
+        }
+
+        public NodeType GetNodeType()
+        {
+            return Type;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1}", base.ToString(), ID);
         }
     }
 }

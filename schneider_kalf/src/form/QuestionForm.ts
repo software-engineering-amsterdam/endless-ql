@@ -18,7 +18,7 @@ export default class QuestionForm implements Form {
   }
 
   getFields(): FieldNode[] {
-    return this.getComputedFields().concat(this.getQuestions());
+    return filterNodes((node) => node instanceof ComputedField || node instanceof Question, this.node);
   }
 
   getComputedFields(): ComputedField[] {

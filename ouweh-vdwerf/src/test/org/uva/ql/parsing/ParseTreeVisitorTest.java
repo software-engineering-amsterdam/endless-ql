@@ -36,10 +36,18 @@ public class ParseTreeVisitorTest {
 
     @Test
     public void visitIfStatement() {
+        String testCase = "if(true) { \"MyQuestion\" myInt: integer }";
+        QLParser parser = builder.getQLParser(testCase);
+        Conditional conditional = (Conditional) builder.getStatement(parser);
+        Assert.assertEquals("\"MyQuestion\"\tmyInt:IntegerType", conditional.getIfSide().get(0).toString());
     }
 
     @Test
     public void visitIfElseStatement() {
+        String testCase = "if(true) { } else { \"MyQuestion\" myInt: integer }";
+        QLParser parser = builder.getQLParser(testCase);
+        Conditional conditional = (Conditional) builder.getStatement(parser);
+        Assert.assertEquals("\"MyQuestion\"\tmyInt:IntegerType", conditional.getElseSide().get(0).toString());
     }
 
     @Test

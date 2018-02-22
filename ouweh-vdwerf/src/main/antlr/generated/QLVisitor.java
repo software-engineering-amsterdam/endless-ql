@@ -137,6 +137,13 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIntegerType(QLParser.IntegerTypeContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code moneyType}
+	 * labeled alternative in {@link QLParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMoneyType(QLParser.MoneyTypeContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code stringType}
 	 * labeled alternative in {@link QLParser#type}.
 	 * @param ctx the parse tree

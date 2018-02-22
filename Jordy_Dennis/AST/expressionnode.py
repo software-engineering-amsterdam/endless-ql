@@ -18,7 +18,7 @@ class BinaryNode:
         return "Binop: {} {} {}".format(self.left, self.op, self.right)
 
 class UnaryNode:
-    def __init__(self, left, line, op):
+    def __init__(self, left, op, line):
         self.left = left
         self.op = op
         self.line = line
@@ -27,10 +27,10 @@ class UnaryNode:
         return "Monop: {} {}".format(self.op, self.left)
 
 class LiteralNode:
-    def __init__(self, value, line, _type):
+    def __init__(self, value, _type, line):
         self.value = value
         self.line = line
         self.type = _type
 
     def __repr__(self):
-        return "literal: {} ".format(self.value)
+        return "literal: {}({}) ".format(self.value,self.type)

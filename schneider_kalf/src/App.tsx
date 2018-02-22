@@ -1,15 +1,11 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Input from "reactstrap/lib/Input";
-import Addition from "./form/nodes/expressions/arithmetic/Addition";
-import Multiplication from "./form/nodes/expressions/arithmetic/Multiplication";
-import NumberLiteral from "./form/nodes/expressions/arithmetic/NumberLiteral";
-import { evaluate } from "./form/evaluation/evaluation_functions";
 import { FormComponent } from "./rendering/components/form_component/FormComponent";
-import Expression from "./form/nodes/expressions/Expression";
 import Form from "./form/Form";
 import { sampleForm } from "./mock/sampleForm";
-import { QlsTest } from "./modules/rendering/components/qls_test/QlsTest";
+import { QlsTest } from "./modules/styling/rendering/components/qls_test/QlsTest";
+
 import QuestionForm from "./form/QuestionForm";
 import FormNode from "./form/nodes/FormNode";
 
@@ -35,13 +31,14 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onChangeQuestionnaire(require("!raw-loader!./mock/sample.ql.txt"));
   }
 
   onChangeQuestionnaire(text: string) {
     let errorMessage: string = "";
 
     try {
-      const formNodes: FormNode[] = qlParser.parse(this.state.qlInput);
+      const formNodes: FormNode[] = qlParser.parse(text);
 
       this.setState({
         form: new QuestionForm(formNodes[0], this.state.form.getState()),
@@ -65,11 +62,6 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   }
 
   render() {
-    const sampleExpression: Expression = new Addition(
-        new Multiplication(new NumberLiteral(5), new NumberLiteral(3)),
-        new NumberLiteral(1)
-    );
-
     return (
         /**
          * The lines below only demonstrate the behaviour of the DSL and will be replaced by
@@ -90,12 +82,6 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
             </div>
             <div className="col-md-6">
               <FormComponent onChange={this.onChange} form={this.state.form}/>
-            </div>
-            <h2>Sample Expression evaluation</h2>
-
-            <div className="col-md-12">
-
-              <pre>5 * 3 + 1 = {evaluate(sampleExpression)}</pre>
             </div>
           </div>
         </div>

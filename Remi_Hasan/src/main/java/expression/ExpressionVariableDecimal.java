@@ -8,7 +8,7 @@ public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Decimal;
+        return ReturnType.DECIMAL;
     }
 
     @Override

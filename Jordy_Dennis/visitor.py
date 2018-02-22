@@ -75,7 +75,7 @@ class Visitor(QLGrammarVisitor):
 
     # Visit a parse tree produced by QLGrammarParser#expression.
     def visitExpression(self, ctx:QLGrammarParser.ExpressionContext):
-        self.logger.debug("Exp")
+        self.logger.debug("EXP")
         # this is a binop
         if (ctx.left and ctx.right):
             left = self.visit(ctx.left)
@@ -83,18 +83,27 @@ class Visitor(QLGrammarVisitor):
             op = getOp(ctx)
             binNode = BinaryNode(left, right, op, ctx.start.line)
             return binNode
+
+        elif(ctx.left):
+            return self.visit(ctx.left)
         return self.visitChildren(ctx)
 
     def visitLiteral(self, ctx:QLGrammarParser.LiteralContext):
         self.logger.debug("LITERAL")
-
-        print(ctx.getText())
-        return ctx.getText()
+        litVal, litType = getLiteralValue(ctx)
+        litNode = LiteralNode(litVal, litType, ctx.start.line)
+        print(litNode)
+        return litNode
 
     # Visit a parse tree produced by QLGrammarParser#unaryexp.
     def visitUnaryexp(self, ctx:QLGrammarParser.UnaryexpContext):
-        # print(ctx.NOT().getText())
-        return self.visitChildren(ctx)
+        self.logger.debug("UNARY")
+        expr = self.visit(ctx.expression())
+
+        op = ctx.NOT().getText()
+
+        unaryNode = UnaryNode(expr, op, ctx.start.line)
+        return unaryNode
 
 
 
@@ -180,5 +189,22 @@ def getOp(ctx):
     elif(ctx.OR()):
         op = ctx.OR()
     return op
+
+def getLiteralValue(ctx):
+    litType = None
+    litVal = None
+    if(ctx.INT()):
+        litType = int
+        litVal = ctx.INT()
+    elif(ctx.BOOL()):
+        litType = bool
+        litVal = ctx.BOOL()
+    elif(ctx.STRING()):
+        litType = str
+        litVal = ctx.STRING()
+    elif(ctx.FLOAT()):
+        litType = float
+        litVal = ctx.FLOAT()
+    return litVal, litType
 
 

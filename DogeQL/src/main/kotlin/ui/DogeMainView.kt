@@ -4,40 +4,20 @@ import data.Question
 import javafx.scene.control.Label
 import javafx.scene.control.ListView
 import tornadofx.*
+import ui.question.QuestionItemViewModel
 
 
 class DogeMainView: View() {
 
-    var dogeController: DogeController by singleAssign()
-    var questions: ListView<Question> by singleAssign()
-    var label: Label by singleAssign()
+    val questionItemViewModel : QuestionItemViewModel by inject()
+
 
     override val root = vbox {
 
-        dogeController = DogeController()
-
-        questions = listview {
-            cellFormat {
-                graphic = cache {
-                    form {
-                        fieldset {
-                            field("Question") {
-                                label(it.label)
-                            }
-                        }
-                    }
-                }
-            }
+        listview<Question> {
+            itemsProperty().bind(questionItemViewModel.questions.observable())
+            bindSelected(questionItemViewModel)
         }
-
-        label = label("Hey")
-
-        runAsync {
-            dogeController.getQuestions().observable()
-        } ui {
-            questions.items = it
-        }
-
     }
 
 }

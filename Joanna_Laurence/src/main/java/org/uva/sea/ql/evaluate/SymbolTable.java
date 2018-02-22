@@ -8,15 +8,15 @@ public class SymbolTable {
 
     /**
      * Add or update symbol table
+     *
      * @param name Name of the symbol
-     * @param val Value of the symbol
+     * @param val  Value of the symbol
      */
     public void addOrUpdateValue(String name, Value val) {
         symbolTable.put(name, val);
     }
 
     /**
-     *
      * @param name Name of the symbol
      * @return Value of the symbol or null on error
      */

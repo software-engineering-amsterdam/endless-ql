@@ -18,10 +18,22 @@ public class IntValue extends Value {
     }
 
     public Value add(MoneyValue value) {
-        return new MoneyValue(value.getCurrency(),value.getAmount().add(new BigDecimal(this.intValue)) );
+        return new MoneyValue(value.getCurrency(), value.getAmount().add(new BigDecimal(this.intValue)));
     }
 
     public Value add(DecimalValue value) {
         return new DecimalValue(value.getDecimalValue() + this.intValue);
+    }
+
+    public Value add(BooleanValue value) {
+        return new ErrorValue("Cannot add boolean to integer");
+    }
+
+    public Value add(DateValue value) {
+        return new ErrorValue("Cannot add date to integer");
+    }
+
+    public Value add(StringValue value) {
+        return new ErrorValue("Cannot add string to integer");
     }
 }

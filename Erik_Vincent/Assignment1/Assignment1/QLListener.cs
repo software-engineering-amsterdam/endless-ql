@@ -23,7 +23,15 @@ namespace Assignment1
 
         public override void ExitExpressionId(QL.ExpressionIdContext context)
         {
-            context.result.Question = _questions[context.result.Id];
+            try
+            {
+                context.result.Question = _questions[context.result.Id];
+            }
+            catch (KeyNotFoundException e)
+            {
+                Console.WriteLine("ERROR: The name '" + context.result.Id + "' does not exist in the current context.");
+                throw;
+            }
         }
     }
 }

@@ -31,7 +31,10 @@ content returns [List<Content> result]
 		)* CLOSE_CB
 	;
 questionAssign returns [Question result]
-	: questionNorm ASSIGN expression
+	: questionNorm ASSIGN value
+		{$result = $questionNorm.result;
+		 $result.Value = $value.result;}
+	| questionNorm ASSIGN expression
 		{$result = $questionNorm.result;
 		 $result.Computed = true;
 		 $result.Expression = $expression.result;}

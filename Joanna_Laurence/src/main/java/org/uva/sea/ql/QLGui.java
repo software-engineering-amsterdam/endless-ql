@@ -2,14 +2,12 @@ package org.uva.sea.ql;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
-import org.uva.sea.ql.evaluate.Evaluator;
-import org.uva.sea.ql.parser.NodeType;
-import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.evaluate.FormEvaluator;
+import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 public class QLGui {
@@ -25,10 +23,8 @@ public class QLGui {
             if(rootNode == null)
                 return;
 
-            ASTNode statements = rootNode.getStatements();
-
-            QLEvaluator evaluate = new QLEvaluator(this.evaluators, new HashMap<>());
-            List<Question> questions = evaluate.evaluate(rootNode);
+            FormEvaluator evaluate = new FormEvaluator();
+            List<Question> questions = evaluate.evaluate(rootNode, new SymbolTable());
             System.out.println("Total questions: " + questions.size());
 
         } catch (IOException e) {
@@ -45,14 +41,5 @@ public class QLGui {
      */
     private CharStream toCharStream(String fileName) throws IOException {
         return CharStreams.fromStream(getClass().getResourceAsStream(fileName));
-    }
-
-    /**
-     *
-     * @param evaluatorType
-     * @param evaluator
-     */
-    public void addEvaluator(NodeType evaluatorType, Evaluator evaluator) {
-        this.evaluators.put(evaluatorType, evaluator);
     }
 }

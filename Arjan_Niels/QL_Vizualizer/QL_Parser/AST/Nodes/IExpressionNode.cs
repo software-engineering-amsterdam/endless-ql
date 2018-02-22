@@ -1,6 +1,6 @@
 ﻿namespace QL_Parser.AST.Nodes
 {
-    interface IExpressionNode
+    public interface IExpressionNode
     {
         object GetValue();
     }

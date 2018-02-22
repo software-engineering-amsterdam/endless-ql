@@ -41,6 +41,13 @@ namespace QL_Parser.Analysis
         {
             if (!Instance.TypeMap.ContainsKey(id))
                 Instance.TypeMap.Add(id, type);
+            else
+                Analyser.AddMessage(string.Format("The analyser encountered a duplicate identifier: {0}", id), MessageType.ERROR);
+        }
+
+        public static QValueType Get(string identifier)
+        {
+            return Instance.TypeMap[identifier];
         }
 
         /// <summary>
@@ -50,11 +57,6 @@ namespace QL_Parser.Analysis
         public static void Reset()
         {
             Instance.TypeMap.Clear();
-        }
-
-        public static QValueType Get(string identifier)
-        {
-            return Instance.TypeMap[identifier];
         }
     }
 }

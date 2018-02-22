@@ -1,6 +1,6 @@
 ﻿namespace QL_Parser.AST.Nodes
 {
-    public class StatementNode : Node
+    public class StatementNode : Node, IExpressionNode
     {
         public string ID { get; private set; }
         public StatementNode lhs { get; private set; }
@@ -25,6 +25,11 @@
                 return string.Format("{0} ({1} {2} {3})", base.ToString(), lhs, opr, rhs);
             else
                 return string.Format(" {0} {1}", base.ToString(), ID);
+        }
+
+        public object GetValue()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

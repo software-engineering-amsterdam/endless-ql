@@ -28,6 +28,7 @@ namespace QL_Parser.Tests.AST.Validators
         public void CleanUp()
         {
             Analyser.Reset();
+            SymbolTable.Reset();
         }
 
         [TestMethod]

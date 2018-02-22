@@ -55,6 +55,7 @@
     <Compile Include="Analysis\Semantic\VariableAnalyser.cs" />
     <Compile Include="AST\Nodes\ConditionalNode.cs" />
     <Compile Include="AST\Nodes\FormNode.cs" />
+    <Compile Include="AST\Nodes\IExpressionNode.cs" />
     <Compile Include="AST\Nodes\Node.cs" />
     <Compile Include="AST\Nodes\QuestionNode.cs" />
     <Compile Include="AST\Nodes\StatementNode.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Analysis\Syntactic\QuestionHasNoChildrenValidator.cs" />
     <Compile Include="Analysis\Syntactic\SingleFormValidator.cs" />
     <Compile Include="AST\Nodes\QValueType.cs" />
+    <Compile Include="AST\Nodes\ValueNode.cs" />
     <Compile Include="Visitors\ConditionalBlockVisitor.cs" />
     <Compile Include="Visitors\FormVisitor.cs" />
     <Compile Include="QLParserHelper.cs" />

@@ -17,7 +17,7 @@ public class ExpressionIdentifier<T> extends Expression<T> {
 
     @Override
     public ReturnType getReturnType() {
-        return evaluate().getReturnType();
+        return LookupTable.getInstance().getQuestion(identifier).type;
     }
 
     @Override

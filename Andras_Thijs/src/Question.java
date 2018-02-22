@@ -2,14 +2,14 @@ public class Question {
 
     private String name;
     private String label;
-    private String type;
+    private Type type;
     //TODO: private boolean condition;
     //TODO: private <something> expression
 
     public Question(String name, String label, String type) {
         this.name = name;
         this.label = label;
-        this.type = type;
+        this.type = Type.valueOf(type.toUpperCase());
     }
 
     public String getName() {
@@ -20,7 +20,7 @@ public class Question {
         return label;
     }
 
-    public String getString() {
-        return type;
+    public String getType() {
+        return type.toString();
     }
 }

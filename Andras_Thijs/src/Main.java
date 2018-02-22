@@ -22,13 +22,13 @@ public class Main {
 
 
         try {
-            QLForm form = formReader.parseFile("./Andras_Thijs/src/test_grammar.txt");
+            QLForm form = formReader.parseFile("./src/test_grammar.txt");
             List<Question> questions = form.getQuestions();
             System.out.println("Form name: " + form.getName());
             Iterator<Question> iterator = questions.iterator();
             while (iterator.hasNext()) {
                 Question question = iterator.next();
-                System.out.println("Question: " + question.getName() + " Label: " + question.getLabel() + " Type: " + question.getString() );
+                System.out.println("Question: " + question.getName() + " Label: " + question.getLabel() + " Type: " + question.getType() );
             }
 
         } catch (IOException e) {

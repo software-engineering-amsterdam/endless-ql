@@ -13,9 +13,6 @@ class StageService {
 	@Inject
 	private var ControlService controlService
 
-	@Inject
-	private var BindingService bindingService
-
 	def buildGuiLayout(Form form) {
 		buildPanelForBlock(form.body, null)
 	}
@@ -23,17 +20,13 @@ class StageService {
 	def private VBox buildPanelForBlock(BlockBody body, Expression expression) {
 		val box = new VBox
 		body.questions.forEach [
-			val control = controlService.buildControlForQuestion(it)
+			val control = controlService.buildControlForQuestion(it, expression)
 			box.children.add(control)
 		]
 		body.blocks.forEach [
 			val blockChild = buildPanelForBlock(it.body, it.expression)
 			box.children.add(blockChild)
 		]
-		if (expression !== null) {
-			val binding = bindingService.buildBindingForTypeBoolean(controlService.controls, expression)
-			box.visibleProperty.bind(binding)
-		}
 		return box
 	}
 

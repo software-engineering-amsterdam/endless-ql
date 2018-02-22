@@ -13,6 +13,7 @@ import org.uva.sc.cr.ql.interpreter.controls.DateControlWrapper
 import org.uva.sc.cr.ql.interpreter.controls.DecimalControlWrapper
 import org.uva.sc.cr.ql.interpreter.controls.IntegerControlWrapper
 import org.uva.sc.cr.ql.interpreter.controls.TextControlWrapper
+import org.uva.sc.cr.ql.qL.Expression
 import org.uva.sc.cr.ql.qL.Question
 import org.uva.sc.cr.ql.qL.TypeBool
 import org.uva.sc.cr.ql.qL.TypeDate
@@ -35,7 +36,7 @@ class ControlService {
 		controls = new ArrayList<ControlWrapper>
 	}
 
-	def public buildControlForQuestion(Question question) {
+	def public buildControlForQuestion(Question question, Expression visibleExpression) {
 		var ControlWrapper controlWrapper
 		switch question.type {
 			TypeBool:
@@ -53,6 +54,10 @@ class ControlService {
 				throw new MissingCaseException
 		}
 		controlWrapper.registerListener(buildEventHandler)
+		if (visibleExpression !== null) {
+			val binding = bindingService.buildBindingForTypeBoolean(controls, visibleExpression)
+			controlWrapper.bindVisibleProperty(binding)
+		}
 		controls.add(controlWrapper)
 		return controlWrapper.controlWithLabel
 	}

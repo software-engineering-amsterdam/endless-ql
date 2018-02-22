@@ -1,8 +1,8 @@
 from AST.base_node import BaseNode
-from src.AST.statements.block_statement_node import BlockStatementNode
-from src.AST.statements.form_node import FormNode
-from src.AST.statements.if_node import IfNode
-from src.AST.statements.question_node import QuestionNode
+from AST.statements.block_statement_node import BlockStatementNode
+from AST.statements.form_node import FormNode
+from AST.statements.if_node import IfNode
+from AST.statements.question_node import QuestionNode
 
 
 import src.visitors.visitor_helper as visitor

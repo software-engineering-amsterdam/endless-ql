@@ -6,15 +6,13 @@ import org.uva.sc.cr.ql.qL.Question
 
 class TextControlWrapper extends ControlWrapper {
 
-	private val TextField control
+	private var TextField control 
 
 	new(Question question, StringBinding binding) {
 		super(question, binding)
-		control = new TextField
 		if (question.expression !== null) {
 			control.textProperty.bind(binding)
 		}
-		setDefaults
 	}
 
 	override getValue() {
@@ -24,5 +22,9 @@ class TextControlWrapper extends ControlWrapper {
 	override getControl() {
 		return control
 	}
-
+	
+	override protected buildControl() {
+		control = new TextField
+	}
+	
 }

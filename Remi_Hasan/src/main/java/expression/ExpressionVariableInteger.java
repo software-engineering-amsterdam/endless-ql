@@ -8,7 +8,7 @@ public class ExpressionVariableInteger extends ExpressionVariable<Integer> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Integer;
+        return ReturnType.INTEGER;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class ExpressionVariableInteger extends ExpressionVariable<Integer> {
     public ExpressionVariable divide(ExpressionVariable other) {
         double right = Double.parseDouble(other.value.toString());
         if (right == 0.0) {
-            return new ExpressionVariableUndefined();
+            throw new ArithmeticException("Cannot divide by zero.");
         }
         return new ExpressionVariableInteger((int) (Double.parseDouble(this.value.toString()) / right));
     }

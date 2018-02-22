@@ -8,7 +8,7 @@ public class ExpressionVariableString extends ExpressionVariable<String> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.String;
+        return ReturnType.STRING;
     }
 
     @Override

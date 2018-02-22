@@ -13,4 +13,3 @@ class Block(ASTNode):
 
     def __repr__(self):
         return str({"AST Block " + str(self.location): str(self.statements)})
-

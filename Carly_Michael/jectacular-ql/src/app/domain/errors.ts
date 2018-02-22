@@ -22,3 +22,8 @@ export class DuplicateIdentifierError implements Error {
   type = 'DuplicateIdentifier';
   constructor(public message: string) {}
 }
+
+export class UnknownOperatorError implements Error {
+  type = 'UnknownOperator';
+  constructor(public message: string) {}
+}

@@ -18,7 +18,7 @@ public class ExpressionVariableMoney extends ExpressionVariable<BigDecimal> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Money;
+        return ReturnType.MONEY;
     }
 
     @Override

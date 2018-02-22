@@ -1,191 +1,191 @@
 package expression;
 
 public enum ReturnType {
-    Integer {
+    INTEGER {
         @Override
-        public boolean sum(ReturnType other) {
-            return other == Integer || other == Decimal || other == Money || other == Date;
+        public Boolean sum(ReturnType other) {
+            return other == INTEGER || other == DECIMAL || other == MONEY || other == DATE;
         }
 
         @Override
-        public boolean divide(ReturnType other) {
-            return other == Integer || other == Decimal;
+        public Boolean divide(ReturnType other) {
+            return other == INTEGER || other == DECIMAL;
         }
 
         @Override
-        public boolean ge(ReturnType other) {
-            return other == Integer || other == Decimal || other == Money;
+        public Boolean ge(ReturnType other) {
+            return other == INTEGER || other == DECIMAL || other == MONEY;
         }
 
         @Override
-        public boolean eq(ReturnType other) {
-            return other == Integer || other == Decimal || other == Money;
+        public Boolean eq(ReturnType other) {
+            return other == INTEGER || other == DECIMAL || other == MONEY;
         }
-    }, Decimal {
+    }, DECIMAL {
         @Override
-        public boolean sum(ReturnType other) {
-            return other == Integer || other == Decimal || other == Money;
-        }
-
-        @Override
-        public boolean divide(ReturnType other) {
-            return other == Integer || other == Decimal;
+        public Boolean sum(ReturnType other) {
+            return other == INTEGER || other == DECIMAL || other == MONEY;
         }
 
         @Override
-        public boolean ge(ReturnType other) {
-            return other == Integer || other == Decimal || other == Money;
+        public Boolean divide(ReturnType other) {
+            return other == INTEGER || other == DECIMAL;
         }
 
         @Override
-        public boolean eq(ReturnType other) {
-            return other == Integer || other == Decimal || other == Money;
+        public Boolean ge(ReturnType other) {
+            return other == INTEGER || other == DECIMAL || other == MONEY;
         }
-    }, Boolean {
+
         @Override
-        public boolean sum(ReturnType other) {
+        public Boolean eq(ReturnType other) {
+            return other == INTEGER || other == DECIMAL || other == MONEY;
+        }
+    }, BOOLEAN {
+        @Override
+        public Boolean sum(ReturnType other) {
             return false;
         }
 
         @Override
-        public boolean divide(ReturnType other) {
+        public Boolean divide(ReturnType other) {
             return false;
         }
 
         @Override
-        public boolean ge(ReturnType other) {
+        public Boolean ge(ReturnType other) {
             return false;
         }
 
         @Override
-        public boolean eq(ReturnType other) {
-            return other == Boolean;
+        public Boolean eq(ReturnType other) {
+            return other == BOOLEAN;
         }
-    }, String {
+    }, STRING {
         @Override
-        public boolean sum(ReturnType other) {
+        public Boolean sum(ReturnType other) {
             return false;
         }
 
         @Override
-        public boolean divide(ReturnType other) {
+        public Boolean divide(ReturnType other) {
             return false;
         }
 
         @Override
-        public boolean ge(ReturnType other) {
+        public Boolean ge(ReturnType other) {
             return false;
         }
 
         @Override
-        public boolean eq(ReturnType other) {
-            return other == String;
+        public Boolean eq(ReturnType other) {
+            return other == STRING;
         }
-    }, Money {
+    }, MONEY {
         @Override
-        public boolean sum(ReturnType other) {
-            return other == Integer || other == Decimal || other == Money;
-        }
-
-        @Override
-        public boolean divide(ReturnType other) {
-            return other == Integer || other == Decimal || other == Money;
-
+        public Boolean sum(ReturnType other) {
+            return other == INTEGER || other == DECIMAL || other == MONEY;
         }
 
         @Override
-        public boolean ge(ReturnType other) {
+        public Boolean divide(ReturnType other) {
+            return other == INTEGER || other == DECIMAL || other == MONEY;
+
+        }
+
+        @Override
+        public Boolean ge(ReturnType other) {
             return false;
         }
 
         @Override
-        public boolean eq(ReturnType other) {
-            return other == Integer || other == Decimal || other == Money;
+        public Boolean eq(ReturnType other) {
+            return other == INTEGER || other == DECIMAL || other == MONEY;
         }
-    }, Date {
+    }, DATE {
         @Override
-        public boolean sum(ReturnType other) {
-            return other == Integer;
+        public Boolean sum(ReturnType other) {
+            return other == INTEGER;
         }
 
         @Override
-        public boolean divide(ReturnType other) {
+        public Boolean divide(ReturnType other) {
             return false;
         }
 
         @Override
-        public boolean ge(ReturnType other) {
-            return other == Date;
+        public Boolean ge(ReturnType other) {
+            return other == DATE;
         }
 
         @Override
-        public boolean eq(ReturnType other) {
-            return other == Date;
+        public Boolean eq(ReturnType other) {
+            return other == DATE;
         }
-    }, Undefined {
+    }, UNDEFINED {
         @Override
-        public boolean sum(ReturnType other) {
+        public Boolean sum(ReturnType other) {
             return false;
         }
 
         @Override
-        public boolean divide(ReturnType other) {
+        public Boolean divide(ReturnType other) {
             return false;
         }
 
         @Override
-        public boolean ge(ReturnType other) {
+        public Boolean ge(ReturnType other) {
             return false;
         }
 
         @Override
-        public boolean eq(ReturnType other) {
+        public Boolean eq(ReturnType other) {
             return false;
         }
     };
 
-    public abstract boolean sum(ReturnType other);
+    public abstract Boolean sum(ReturnType other);
 
-    public boolean subtract(ReturnType other) {
+    public Boolean subtract(ReturnType other) {
         return sum(other);
     }
 
-    public abstract boolean divide(ReturnType other);
+    public abstract Boolean divide(ReturnType other);
 
-    public boolean multiply(ReturnType other) {
+    public Boolean multiply(ReturnType other) {
         return divide(other);
     }
 
-    public abstract boolean ge(ReturnType other);
+    public abstract Boolean ge(ReturnType other);
 
-    public boolean gt(ReturnType other) {
+    public Boolean gt(ReturnType other) {
         return ge(other);
     }
 
-    public boolean le(ReturnType other) {
+    public Boolean le(ReturnType other) {
         return ge(other);
     }
 
-    public boolean lt(ReturnType other) {
+    public Boolean lt(ReturnType other) {
         return ge(other);
     }
 
-    public abstract boolean eq(ReturnType other);
+    public abstract Boolean eq(ReturnType other);
 
-    public boolean and(ReturnType other) {
-        return other == Boolean;
+    public Boolean and(ReturnType other) {
+        return other == BOOLEAN;
     }
 
-    public boolean or(ReturnType other) {
-        return this == Boolean && other == Boolean;
+    public Boolean or(ReturnType other) {
+        return this == BOOLEAN && other == BOOLEAN;
     }
 
-    public boolean neg() {
-        return this == Integer || this == Decimal || this == Money;
+    public Boolean neg() {
+        return this == INTEGER || this == DECIMAL || this == MONEY;
     }
 
-    public boolean not() {
-        return this == Boolean;
+    public Boolean not() {
+        return this == BOOLEAN;
     }
 }
 

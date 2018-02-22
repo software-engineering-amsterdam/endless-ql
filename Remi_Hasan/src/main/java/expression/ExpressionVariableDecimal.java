@@ -8,7 +8,7 @@ public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Decimal;
+        return ReturnType.DECIMAL;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
 
         double right = Double.parseDouble(other.value.toString());
         if (right == 0.0) {
-            return new ExpressionVariableUndefined();
+            throw new ArithmeticException("Cannot divide by zero.");
         }
         return new ExpressionVariableDecimal(this.value / right);
     }

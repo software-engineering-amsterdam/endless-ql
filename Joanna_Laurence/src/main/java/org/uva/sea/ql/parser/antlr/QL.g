@@ -45,7 +45,7 @@ label returns [String result]
         $result = $STR.text;
     };
 
-variable returns [Var result]
+variable returns [Variable result]
     : IDENT {
         $result = new Variable($IDENT.text);
         $result.setLocation($IDENT.getLine(), $IDENT.getCharPositionInLine());

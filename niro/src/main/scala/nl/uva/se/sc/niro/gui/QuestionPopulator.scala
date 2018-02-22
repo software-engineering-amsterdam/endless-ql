@@ -24,7 +24,7 @@ object QuestionPopulator {
 
   private def populateQuestionAtRow(grid: GridPane, rowNr: Int, question: Question, symbolTable: Map[String, Expression]): Unit = {
     grid.getRowConstraints.add(new RowConstraints())
-    grid.addRow(rowNr, new Label(question.label), WidgetFactory.makeWidget(evaluateExpression(question.answer, Map.empty)))
+    grid.addRow(rowNr, new Label(question.label), WidgetFactory.makeWidget(evaluateExpression(question.answer, symbolTable)))
   }
 
   private def populateConditionAtRow(grid: GridPane, rowNr: Int, conditional: Conditional, symbolTable: Map[String, Expression]): Unit = {

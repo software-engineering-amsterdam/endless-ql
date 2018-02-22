@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 public class ExpressionArithmeticTest {
 
     @Property
-    public void ExpressionArithmeticDivide(@InRange(min = "-1000", max = "1000") int left, @InRange(min = "-1000", max = "1000") int right){
+    public void ExpressionArithmeticDivide(int left, int right){
         ANTLRTester tester = new ANTLRTester(left + " / " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
@@ -22,7 +22,7 @@ public class ExpressionArithmeticTest {
     }
 
     @Property
-    public void ExpressionArithmeticMultiply(@InRange(min = "-1000", max = "1000") int left, @InRange(min = "-1000", max = "1000") int right){
+    public void ExpressionArithmeticMultiply(int left, int right){
         ANTLRTester tester = new ANTLRTester(left + " * " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
         ExpressionArithmeticMultiply expectedExpression = new ExpressionArithmeticMultiply(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
@@ -30,7 +30,7 @@ public class ExpressionArithmeticTest {
     }
 
     @Property
-    public void ExpressionArithmeticSubtract(@InRange(min = "-1000", max = "1000") int left, @InRange(min = "-1000", max = "1000") int right){
+    public void ExpressionArithmeticSubtract(int left, int right){
         ANTLRTester tester = new ANTLRTester(left + " - " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
         ExpressionArithmeticSubtract expectedExpression = new ExpressionArithmeticSubtract(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
@@ -38,7 +38,7 @@ public class ExpressionArithmeticTest {
     }
 
     @Property
-    public void ExpressionArithmeticSum(@InRange(min = "-1000", max = "1000") int left, @InRange(min = "-1000", max = "1000") int right){
+    public void ExpressionArithmeticSum(int left, int right){
         ANTLRTester tester = new ANTLRTester(left + " + " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 

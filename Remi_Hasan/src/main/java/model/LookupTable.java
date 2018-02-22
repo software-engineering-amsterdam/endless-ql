@@ -38,6 +38,9 @@ public class LookupTable {
             throw new IllegalArgumentException("Identifier already exists");
         }
         table.put(question.name, question);
+
+
+        LookupTable.getInstance().getQuestionAnswer("");
     }
 
 }

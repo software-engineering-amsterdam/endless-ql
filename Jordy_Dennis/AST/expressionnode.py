@@ -7,11 +7,30 @@
 # (so we can check, if type_left != type_right, exception)
 
 
-class ExpressionNode:
-    def __init(self, left, right=None, op=None):
+class BinaryNode:
+    def __init__(self, left, right, op, line):
         self.left = left
         self.right = right
         self.op = op
+        self.line = line
 
     def __repr__(self):
-        return "Expression: {} {} {}".format(self.left, self.op, self.right)
+        return "Binop: {} {} {}".format(self.left, self.op, self.right)
+
+class UnaryNode:
+    def __init__(self, left, line, op):
+        self.left = left
+        self.op = op
+        self.line = line
+
+    def __repr__(self):
+        return "Monop: {} {}".format(self.op, self.left)
+
+class LiteralNode:
+    def __init__(self, value, line, _type):
+        self.value = value
+        self.line = line
+        self.type = _type
+
+    def __repr__(self):
+        return "literal: {} ".format(self.value)

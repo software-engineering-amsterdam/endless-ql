@@ -33,12 +33,12 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	 * to the stack.
 	 */
 	public void visitQuestionIdentifierExpr(IdentifierExpr identifier) {
-		if (identifierStack.contains(identifier.token.getLexeme())) {
+		if (identifierStack.contains(identifier.getName())) {
 			// TODO - create an error handler
 			System.err.printf("[IdentifierResolver] line: %s, column: %s: Duplicated identifier: %s\n",
-						identifier.token.getLine(),
-						identifier.token.getColumn(),
-						identifier.token.getLexeme());
+						identifier.getLine(),
+						identifier.getColumn(),
+						identifier.getName());
 
 			// Increment the number of identifier resolution errors
 			incrementNumberOfErrors();
@@ -97,15 +97,15 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	@Override
 	public Void visitIdentifierExpr(IdentifierExpr identifier) {
 
-		if (identifierStack.contains(identifier.token.getLexeme())) {
-			IdentifierExpr retrievedIndetifier = identifierStack.getIdentifier(identifier.token.getLexeme());
+		if (identifierStack.contains(identifier.getName())) {
+			IdentifierExpr retrievedIndetifier = identifierStack.getIdentifier(identifier.getName());
 			identifier.updateAllFields(retrievedIndetifier);
 		} else {
 			// TODO - create an error handler
 			System.err.printf("[IdentifierResolver] line: %s, column: %s: Undefined identifier: %s\n",
-						identifier.token.getLine(),
-						identifier.token.getColumn(),
-						identifier.token.getLexeme());
+						identifier.getLine(),
+						identifier.getColumn(),
+						identifier.getName());
 
 			// Increment the number of identifier resolution errors
 			incrementNumberOfErrors();

@@ -7,15 +7,23 @@ import {Statement} from './statement';
 import {Question} from './question';
 import {Location} from './location';
 import {Expression} from './expression';
+import {ExpressionType} from './expression-type';
+import {UnsupportedTypeError} from '../errors';
 
 export class ExpressionQuestion extends Statement {
   constructor(public name: string, public label: string, public type: QuestionType, public expression: Expression, location: Location) {
     super(location);
-    console.log(this.expression);
   }
 
   getQuestions(): Question[] {
     return [];
+  }
+
+  checkType() {
+    if (! this.expressionTypeValidForQuestion(this.expression.checkType())) {
+      throw new TypeError(`Expression type  ${this.expression.checkType()} incompatible with question type ${this.type}`
+      + this.getLocationErrorMessage());
+    }
   }
 
   toFormQuestion(formQuestions: QuestionBase<any>[], condition?: (form: FormGroup) => boolean): QuestionBase<any>[] {
@@ -39,5 +47,19 @@ export class ExpressionQuestion extends Statement {
     }
 
     return formQuestions;
+  }
+
+  expressionTypeValidForQuestion(expressionType: ExpressionType): boolean {
+    switch (expressionType) {
+      case ExpressionType.NUMBER:
+        return this.type === QuestionType.MONEY || this.type === QuestionType.INT || this.type === QuestionType.DECIMAL;
+      case ExpressionType.BOOLEAN:
+        return this.type === QuestionType.BOOLEAN;
+      case ExpressionType.DATE:
+        return this.type === QuestionType.DATE;
+      case ExpressionType.STRING:
+        return this.type === QuestionType.STRING;
+      default: throw new UnsupportedTypeError(`ExpressionType ${expressionType} is unknown`);
+    }
   }
 }

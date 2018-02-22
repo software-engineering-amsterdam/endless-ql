@@ -11,13 +11,25 @@ import nl.uva.se.sc.niro.model._
 
 object QuestionPopulator {
 
-  def populateGridWithQuestions(grid: GridPane, questions: Seq[Question], symbolTable: Map[String, Expression]): Unit = {
+  def populateGridWithQuestions(grid: GridPane, statements: Seq[Statement], symbolTable: Map[String, Expression]): Unit = {
     grid.setHgap(10)
 
-    questions.zipWithIndex.foreach { case (Question(_, label, expression), row) =>
-      grid.getRowConstraints.add(new RowConstraints())
-      grid.addRow(row, new Label(label), WidgetFactory.makeWidget(evaluateExpression(expression, symbolTable)))
+    statements.zipWithIndex foreach {
+      case (statement, row) => statement match {
+        case question: Question => populateQuestionAtRow(grid, row, question, symbolTable)
+        case conditional: Conditional => populateConditionAtRow(grid, row, conditional, symbolTable)
+      }
     }
+  }
+
+  private def populateQuestionAtRow(grid: GridPane, rowNr: Int, question: Question, symbolTable: Map[String, Expression]): Unit = {
+    grid.getRowConstraints.add(new RowConstraints())
+    grid.addRow(rowNr, new Label(question.label), WidgetFactory.makeWidget(evaluateExpression(question.answer, Map.empty)))
+  }
+
+  private def populateConditionAtRow(grid: GridPane, rowNr: Int, conditional: Conditional, symbolTable: Map[String, Expression]): Unit = {
+    val innerPane = createQuestionPaneAtRow (grid, rowNr)
+    populateGridWithQuestions(innerPane, conditional.thenStatements, symbolTable)
   }
 
   private def createQuestionPaneAtRow(grid: GridPane, rowNr: Int): GridPane = {

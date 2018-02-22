@@ -5,14 +5,14 @@ import org.antlr.v4.runtime.CharStreams;
 import org.uva.sea.ql.evaluate.Evaluator;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Form;
+import org.uva.sea.ql.parser.elements.Question;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class QLGui {
-
-    Map<NodeType, Evaluator> evaluators = new HashMap<>();
 
     /**
      * Generate the GUI
@@ -25,9 +25,9 @@ public class QLGui {
             if(rootNode == null)
                 return;
 
-            //QLEvaluator evaluate = new QLEvaluator(this.evaluators, new HashMap<>());
-            //List<Question> questions = evaluate.getQuestions(rootNode);
-            //System.out.println("Total questions: " + questions.size());
+            QLEvaluator evaluate = new QLEvaluator(this.evaluators, new HashMap<>());
+            List<Question> questions = evaluate.getQuestions(rootNode);
+            System.out.println("Total questions: " + questions.size());
 
         } catch (IOException e) {
             System.err.println("The gui specification cannot be found: " + guiSpecification);

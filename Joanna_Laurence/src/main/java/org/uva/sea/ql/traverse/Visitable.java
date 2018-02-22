@@ -1,5 +1,5 @@
 package org.uva.sea.ql.traverse;
 
-public interface Visitable {
-    void accept(Visitor visitor);
+public interface Visitable<T> {
+    <V extends T> V accept(Visitor visitor);
 }

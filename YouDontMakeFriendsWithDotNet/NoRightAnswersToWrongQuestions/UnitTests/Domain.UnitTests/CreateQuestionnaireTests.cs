@@ -377,6 +377,46 @@ form CommentFormMLX {}";
             }
         }
 
+        [TestCaseSource(nameof(ComparisonConditional))]
+        public void WhenComparisonUsedInAConditional_ParsesCorrectly(string validText, IEnumerable<string> booleanNames)
+        {
+            var createdForm = CreateForm(validText);
+            var questionNames = createdForm
+                .Statements
+                .Flatten()
+                .OfType<IConditionalAst>()
+                .Select(x => x.QuestionName)
+                .ToList();
+
+            foreach (var expectedName in booleanNames)
+            {
+                Assert.Contains(expected: expectedName, actual: questionNames);
+            }
+        }
+
+
+        private static IEnumerable ComparisonConditional
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == true) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == True) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == TRUE) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == false) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == False) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion == FALSE) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion != TRUE) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion != false) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
+            }
+        }
     }
 
     public static class TestHelperExtensions

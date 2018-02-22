@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.parser
 
 import java.util
 
-import nl.uva.se.sc.niro.model.Ast._
+import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.Expressions.Expression._
 import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, DecAnswer, IntAnswer }
 import nl.uva.se.sc.niro.model.Operators.{ BinaryOperator, UnaryOperator }

@@ -87,7 +87,7 @@ public class ExpressionTest {
 
     @Test
     public void ExpressionDateTest() throws IOException {
-        AntlrTester tester = new AntlrTester("1.0");
+        AntlrTester tester = new AntlrTester("1-1-2018");
         Expression actualExpression = tester.visitor.visitDateConstant(tester.parser.dateConstant());
         ExpressionVariableDate expectedExpression = new ExpressionVariableDate("1-1-2018");
 
@@ -107,7 +107,7 @@ public class ExpressionTest {
 
     @Test
     public void ExpressionStringTest() throws IOException {
-        AntlrTester tester = new AntlrTester("Could you give me some value?");
+        AntlrTester tester = new AntlrTester("\"Could you give me some value?\"");
         Expression actualExpression = tester.visitor.visitStringConstant(tester.parser.stringConstant());
         ExpressionVariableString expectedExpression = new ExpressionVariableString("Could you give me some value?");
 
@@ -156,7 +156,6 @@ public class ExpressionTest {
 
 
 class AntlrTester{
-
 
     final QLParser parser;
     final VisitorExpression visitor;

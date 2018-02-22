@@ -27,11 +27,10 @@ namespace AntlrInterpretor.Logic
 
         public override IAstNode VisitConditional(QLParser.ConditionalContext context)
         {
-            var questionName = context.IDENTIFIER().GetText();
+            var questionName = context.condition().IDENTIFIER().GetText();
             var question = m_questionnaireAst
                 .Questions
-                .FirstOrDefault(x => x.Name == questionName);
-            
+                .FirstOrDefault(x => x.Name == questionName);   
 
             if (question.Type != typeof(bool))
             {

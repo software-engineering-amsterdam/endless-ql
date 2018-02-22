@@ -78,7 +78,9 @@
     <Compile Include="FormFactory.cs" />
     <Compile Include="IFormFactory.cs" />
     <Compile Include="MainController.cs" />
+    <Compile Include="QuestionnaireParsingException.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="FormBuildingVisitor.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

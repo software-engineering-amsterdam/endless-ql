@@ -4,7 +4,7 @@ grammar Form;
  * Parser Rules
  */
 form_builder  : 'form' CHARACTERS CURLY_BRACKET_OPEN form_data CURLY_BRACKET_CLOSE;
-form_data : (question_structure)+ if_structure?;
+form_data : (question_structure)+ (if_structure)+?;
 
 question_structure:
     question_label

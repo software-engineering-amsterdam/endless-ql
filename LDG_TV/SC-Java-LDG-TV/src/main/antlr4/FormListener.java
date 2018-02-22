@@ -1,4 +1,4 @@
-// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/src/main/antlr4\Form.g4 by ANTLR 4.7
+// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/antlr4\Form.g4 by ANTLR 4.7
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -57,15 +57,15 @@ public interface FormListener extends ParseTreeListener {
 	 */
 	void exitStatement_block_structure(FormParser.Statement_block_structureContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FormParser#question_identifier}.
+	 * Enter a parse tree produced by {@link FormParser#question_label}.
 	 * @param ctx the parse tree
 	 */
-	void enterQuestion_identifier(FormParser.Question_identifierContext ctx);
+	void enterQuestion_label(FormParser.Question_labelContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FormParser#question_identifier}.
+	 * Exit a parse tree produced by {@link FormParser#question_label}.
 	 * @param ctx the parse tree
 	 */
-	void exitQuestion_identifier(FormParser.Question_identifierContext ctx);
+	void exitQuestion_label(FormParser.Question_labelContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FormParser#question_variable}.
 	 * @param ctx the parse tree

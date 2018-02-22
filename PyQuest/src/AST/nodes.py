@@ -77,11 +77,11 @@ class ExpressionNode(BaseNode):
 
 
 class BinaryOperatorNode(ExpressionNode):
-    def __init__(self, line_number, expression_type, operator, lhs, rhs):
+    def __init__(self, line_number, expression_type, operator, left_expression, right_expression):
         super(BinaryOperatorNode, self).__init__(line_number, expression_type)
         self.operator = operator
-        self.lhs = lhs
-        self.rhs = rhs
+        self.left_term = left_expression
+        self.right_term = right_expression
 
 
 class UnaryOperatorNode(ExpressionNode):

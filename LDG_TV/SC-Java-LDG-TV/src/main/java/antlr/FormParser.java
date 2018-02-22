@@ -1,12 +1,9 @@
-// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/antlr4\Form.g4 by ANTLR 4.7
+package antlr;// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/antlr4\Form.g4 by ANTLR 4.7
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class FormParser extends Parser {
@@ -18,14 +15,15 @@ public class FormParser extends Parser {
 	public static final int
 		T__0=1, CURLY_BRACKET_OPEN=2, CURLY_BRACKET_CLOSE=3, BRACKET_OPEN=4, BRACKET_CLOSE=5, 
 		PLUS=6, MINUS=7, TIMES=8, DIV=9, QUESTION_LABEL=10, QUESTION_VARIABLE_SEPERATOR=11, 
-		QUESTION_ANSWER_SEPERATOR=12, IF=13, WHITESPACE=14, NEWLINE=15, CHARACTERS=16;
+		QUESTION_VARIABLE_VALUE_SEPERATOR=12, IF=13, WHITESPACE=14, NEWLINE=15, 
+		CHARACTERS=16;
 	public static final int
-		RULE_form_builder = 0, RULE_form_data = 1, RULE_question_structure = 2, 
-		RULE_if_structure = 3, RULE_statement_block_structure = 4, RULE_question_label = 5, 
-		RULE_question_variable = 6, RULE_question_answer_type = 7, RULE_question_answer = 8;
+		RULE_formBuilder = 0, RULE_formData = 1, RULE_questionStructure = 2, RULE_ifStructure = 3, 
+		RULE_statementBlockStructure = 4, RULE_questionLabel = 5, RULE_questionVariable = 6, 
+		RULE_questionVariableType = 7, RULE_questionVariableValue = 8;
 	public static final String[] ruleNames = {
-		"form_builder", "form_data", "question_structure", "if_structure", "statement_block_structure", 
-		"question_label", "question_variable", "question_answer_type", "question_answer"
+		"formBuilder", "formData", "questionStructure", "ifStructure", "statementBlockStructure", 
+		"questionLabel", "questionVariable", "questionVariableType", "questionVariableValue"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -35,7 +33,7 @@ public class FormParser extends Parser {
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, "CURLY_BRACKET_OPEN", "CURLY_BRACKET_CLOSE", "BRACKET_OPEN", 
 		"BRACKET_CLOSE", "PLUS", "MINUS", "TIMES", "DIV", "QUESTION_LABEL", "QUESTION_VARIABLE_SEPERATOR", 
-		"QUESTION_ANSWER_SEPERATOR", "IF", "WHITESPACE", "NEWLINE", "CHARACTERS"
+		"QUESTION_VARIABLE_VALUE_SEPERATOR", "IF", "WHITESPACE", "NEWLINE", "CHARACTERS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -71,7 +69,7 @@ public class FormParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Form.g4"; }
+	public String getGrammarFileName() { return "antlr/Form.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -86,30 +84,30 @@ public class FormParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class Form_builderContext extends ParserRuleContext {
+	public static class FormBuilderContext extends ParserRuleContext {
 		public TerminalNode CHARACTERS() { return getToken(FormParser.CHARACTERS, 0); }
 		public TerminalNode CURLY_BRACKET_OPEN() { return getToken(FormParser.CURLY_BRACKET_OPEN, 0); }
-		public Form_dataContext form_data() {
-			return getRuleContext(Form_dataContext.class,0);
+		public FormDataContext formData() {
+			return getRuleContext(FormDataContext.class,0);
 		}
 		public TerminalNode CURLY_BRACKET_CLOSE() { return getToken(FormParser.CURLY_BRACKET_CLOSE, 0); }
-		public Form_builderContext(ParserRuleContext parent, int invokingState) {
+		public FormBuilderContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_form_builder; }
+		@Override public int getRuleIndex() { return RULE_formBuilder; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterForm_builder(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterFormBuilder(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitForm_builder(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitFormBuilder(this);
 		}
 	}
 
-	public final Form_builderContext form_builder() throws RecognitionException {
-		Form_builderContext _localctx = new Form_builderContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_form_builder);
+	public final FormBuilderContext formBuilder() throws RecognitionException {
+		FormBuilderContext _localctx = new FormBuilderContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_formBuilder);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -120,7 +118,7 @@ public class FormParser extends Parser {
 			setState(20);
 			match(CURLY_BRACKET_OPEN);
 			setState(21);
-			form_data();
+			formData();
 			setState(22);
 			match(CURLY_BRACKET_CLOSE);
 			}
@@ -136,36 +134,36 @@ public class FormParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Form_dataContext extends ParserRuleContext {
-		public List<Question_structureContext> question_structure() {
-			return getRuleContexts(Question_structureContext.class);
+	public static class FormDataContext extends ParserRuleContext {
+		public List<QuestionStructureContext> questionStructure() {
+			return getRuleContexts(QuestionStructureContext.class);
 		}
-		public Question_structureContext question_structure(int i) {
-			return getRuleContext(Question_structureContext.class,i);
+		public QuestionStructureContext questionStructure(int i) {
+			return getRuleContext(QuestionStructureContext.class,i);
 		}
-		public List<If_structureContext> if_structure() {
-			return getRuleContexts(If_structureContext.class);
+		public List<IfStructureContext> ifStructure() {
+			return getRuleContexts(IfStructureContext.class);
 		}
-		public If_structureContext if_structure(int i) {
-			return getRuleContext(If_structureContext.class,i);
+		public IfStructureContext ifStructure(int i) {
+			return getRuleContext(IfStructureContext.class,i);
 		}
-		public Form_dataContext(ParserRuleContext parent, int invokingState) {
+		public FormDataContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_form_data; }
+		@Override public int getRuleIndex() { return RULE_formData; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterForm_data(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterFormData(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitForm_data(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitFormData(this);
 		}
 	}
 
-	public final Form_dataContext form_data() throws RecognitionException {
-		Form_dataContext _localctx = new Form_dataContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_form_data);
+	public final FormDataContext formData() throws RecognitionException {
+		FormDataContext _localctx = new FormDataContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_formData);
 		int _la;
 		try {
 			int _alt;
@@ -178,7 +176,7 @@ public class FormParser extends Parser {
 				{
 				{
 				setState(24);
-				question_structure();
+				questionStructure();
 				}
 				}
 				setState(27); 
@@ -194,7 +192,7 @@ public class FormParser extends Parser {
 					{
 					{
 					setState(29);
-					if_structure();
+					ifStructure();
 					}
 					}
 					break;
@@ -218,57 +216,57 @@ public class FormParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Question_structureContext extends ParserRuleContext {
-		public Question_labelContext question_label() {
-			return getRuleContext(Question_labelContext.class,0);
+	public static class QuestionStructureContext extends ParserRuleContext {
+		public QuestionLabelContext questionLabel() {
+			return getRuleContext(QuestionLabelContext.class,0);
 		}
-		public Question_variableContext question_variable() {
-			return getRuleContext(Question_variableContext.class,0);
+		public QuestionVariableContext questionVariable() {
+			return getRuleContext(QuestionVariableContext.class,0);
 		}
 		public TerminalNode QUESTION_VARIABLE_SEPERATOR() { return getToken(FormParser.QUESTION_VARIABLE_SEPERATOR, 0); }
-		public Question_answer_typeContext question_answer_type() {
-			return getRuleContext(Question_answer_typeContext.class,0);
+		public QuestionVariableTypeContext questionVariableType() {
+			return getRuleContext(QuestionVariableTypeContext.class,0);
 		}
-		public TerminalNode QUESTION_ANSWER_SEPERATOR() { return getToken(FormParser.QUESTION_ANSWER_SEPERATOR, 0); }
-		public Question_answerContext question_answer() {
-			return getRuleContext(Question_answerContext.class,0);
+		public TerminalNode QUESTION_VARIABLE_VALUE_SEPERATOR() { return getToken(FormParser.QUESTION_VARIABLE_VALUE_SEPERATOR, 0); }
+		public QuestionVariableValueContext questionVariableValue() {
+			return getRuleContext(QuestionVariableValueContext.class,0);
 		}
-		public Question_structureContext(ParserRuleContext parent, int invokingState) {
+		public QuestionStructureContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_question_structure; }
+		@Override public int getRuleIndex() { return RULE_questionStructure; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_structure(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestionStructure(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_structure(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestionStructure(this);
 		}
 	}
 
-	public final Question_structureContext question_structure() throws RecognitionException {
-		Question_structureContext _localctx = new Question_structureContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_question_structure);
+	public final QuestionStructureContext questionStructure() throws RecognitionException {
+		QuestionStructureContext _localctx = new QuestionStructureContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_questionStructure);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(34);
-			question_label();
+			questionLabel();
 			setState(35);
-			question_variable();
+			questionVariable();
 			setState(36);
 			match(QUESTION_VARIABLE_SEPERATOR);
 			setState(37);
-			question_answer_type();
+			questionVariableType();
 			setState(39);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==QUESTION_ANSWER_SEPERATOR) {
+			if (_la==QUESTION_VARIABLE_VALUE_SEPERATOR) {
 				{
 				setState(38);
-				match(QUESTION_ANSWER_SEPERATOR);
+				match(QUESTION_VARIABLE_VALUE_SEPERATOR);
 				}
 			}
 
@@ -278,7 +276,7 @@ public class FormParser extends Parser {
 			if (_la==BRACKET_OPEN) {
 				{
 				setState(41);
-				question_answer();
+				questionVariableValue();
 				}
 			}
 
@@ -295,36 +293,36 @@ public class FormParser extends Parser {
 		return _localctx;
 	}
 
-	public static class If_structureContext extends ParserRuleContext {
+	public static class IfStructureContext extends ParserRuleContext {
 		public TerminalNode IF() { return getToken(FormParser.IF, 0); }
-		public Statement_block_structureContext statement_block_structure() {
-			return getRuleContext(Statement_block_structureContext.class,0);
+		public StatementBlockStructureContext statementBlockStructure() {
+			return getRuleContext(StatementBlockStructureContext.class,0);
 		}
 		public TerminalNode CURLY_BRACKET_OPEN() { return getToken(FormParser.CURLY_BRACKET_OPEN, 0); }
 		public TerminalNode CURLY_BRACKET_CLOSE() { return getToken(FormParser.CURLY_BRACKET_CLOSE, 0); }
-		public List<Question_structureContext> question_structure() {
-			return getRuleContexts(Question_structureContext.class);
+		public List<QuestionStructureContext> questionStructure() {
+			return getRuleContexts(QuestionStructureContext.class);
 		}
-		public Question_structureContext question_structure(int i) {
-			return getRuleContext(Question_structureContext.class,i);
+		public QuestionStructureContext questionStructure(int i) {
+			return getRuleContext(QuestionStructureContext.class,i);
 		}
-		public If_structureContext(ParserRuleContext parent, int invokingState) {
+		public IfStructureContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_if_structure; }
+		@Override public int getRuleIndex() { return RULE_ifStructure; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterIf_structure(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterIfStructure(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitIf_structure(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitIfStructure(this);
 		}
 	}
 
-	public final If_structureContext if_structure() throws RecognitionException {
-		If_structureContext _localctx = new If_structureContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_if_structure);
+	public final IfStructureContext ifStructure() throws RecognitionException {
+		IfStructureContext _localctx = new IfStructureContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_ifStructure);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -332,7 +330,7 @@ public class FormParser extends Parser {
 			setState(44);
 			match(IF);
 			setState(45);
-			statement_block_structure();
+			statementBlockStructure();
 			setState(46);
 			match(CURLY_BRACKET_OPEN);
 			setState(48); 
@@ -342,7 +340,7 @@ public class FormParser extends Parser {
 				{
 				{
 				setState(47);
-				question_structure();
+				questionStructure();
 				}
 				}
 				setState(50); 
@@ -364,36 +362,36 @@ public class FormParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Statement_block_structureContext extends ParserRuleContext {
+	public static class StatementBlockStructureContext extends ParserRuleContext {
 		public TerminalNode BRACKET_OPEN() { return getToken(FormParser.BRACKET_OPEN, 0); }
-		public Question_variableContext question_variable() {
-			return getRuleContext(Question_variableContext.class,0);
+		public QuestionVariableContext questionVariable() {
+			return getRuleContext(QuestionVariableContext.class,0);
 		}
 		public TerminalNode BRACKET_CLOSE() { return getToken(FormParser.BRACKET_CLOSE, 0); }
-		public Statement_block_structureContext(ParserRuleContext parent, int invokingState) {
+		public StatementBlockStructureContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_statement_block_structure; }
+		@Override public int getRuleIndex() { return RULE_statementBlockStructure; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterStatement_block_structure(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterStatementBlockStructure(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitStatement_block_structure(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitStatementBlockStructure(this);
 		}
 	}
 
-	public final Statement_block_structureContext statement_block_structure() throws RecognitionException {
-		Statement_block_structureContext _localctx = new Statement_block_structureContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_statement_block_structure);
+	public final StatementBlockStructureContext statementBlockStructure() throws RecognitionException {
+		StatementBlockStructureContext _localctx = new StatementBlockStructureContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_statementBlockStructure);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(54);
 			match(BRACKET_OPEN);
 			setState(55);
-			question_variable();
+			questionVariable();
 			setState(56);
 			match(BRACKET_CLOSE);
 			}
@@ -409,25 +407,25 @@ public class FormParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Question_labelContext extends ParserRuleContext {
+	public static class QuestionLabelContext extends ParserRuleContext {
 		public TerminalNode QUESTION_LABEL() { return getToken(FormParser.QUESTION_LABEL, 0); }
-		public Question_labelContext(ParserRuleContext parent, int invokingState) {
+		public QuestionLabelContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_question_label; }
+		@Override public int getRuleIndex() { return RULE_questionLabel; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_label(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestionLabel(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_label(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestionLabel(this);
 		}
 	}
 
-	public final Question_labelContext question_label() throws RecognitionException {
-		Question_labelContext _localctx = new Question_labelContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_question_label);
+	public final QuestionLabelContext questionLabel() throws RecognitionException {
+		QuestionLabelContext _localctx = new QuestionLabelContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_questionLabel);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -446,25 +444,25 @@ public class FormParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Question_variableContext extends ParserRuleContext {
+	public static class QuestionVariableContext extends ParserRuleContext {
 		public TerminalNode CHARACTERS() { return getToken(FormParser.CHARACTERS, 0); }
-		public Question_variableContext(ParserRuleContext parent, int invokingState) {
+		public QuestionVariableContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_question_variable; }
+		@Override public int getRuleIndex() { return RULE_questionVariable; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_variable(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestionVariable(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_variable(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestionVariable(this);
 		}
 	}
 
-	public final Question_variableContext question_variable() throws RecognitionException {
-		Question_variableContext _localctx = new Question_variableContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_question_variable);
+	public final QuestionVariableContext questionVariable() throws RecognitionException {
+		QuestionVariableContext _localctx = new QuestionVariableContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_questionVariable);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -483,25 +481,25 @@ public class FormParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Question_answer_typeContext extends ParserRuleContext {
+	public static class QuestionVariableTypeContext extends ParserRuleContext {
 		public TerminalNode CHARACTERS() { return getToken(FormParser.CHARACTERS, 0); }
-		public Question_answer_typeContext(ParserRuleContext parent, int invokingState) {
+		public QuestionVariableTypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_question_answer_type; }
+		@Override public int getRuleIndex() { return RULE_questionVariableType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_answer_type(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestionVariableType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_answer_type(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestionVariableType(this);
 		}
 	}
 
-	public final Question_answer_typeContext question_answer_type() throws RecognitionException {
-		Question_answer_typeContext _localctx = new Question_answer_typeContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_question_answer_type);
+	public final QuestionVariableTypeContext questionVariableType() throws RecognitionException {
+		QuestionVariableTypeContext _localctx = new QuestionVariableTypeContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_questionVariableType);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -520,36 +518,36 @@ public class FormParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Question_answerContext extends ParserRuleContext {
+	public static class QuestionVariableValueContext extends ParserRuleContext {
 		public TerminalNode BRACKET_OPEN() { return getToken(FormParser.BRACKET_OPEN, 0); }
-		public List<Question_variableContext> question_variable() {
-			return getRuleContexts(Question_variableContext.class);
+		public List<QuestionVariableContext> questionVariable() {
+			return getRuleContexts(QuestionVariableContext.class);
 		}
-		public Question_variableContext question_variable(int i) {
-			return getRuleContext(Question_variableContext.class,i);
+		public QuestionVariableContext questionVariable(int i) {
+			return getRuleContext(QuestionVariableContext.class,i);
 		}
 		public TerminalNode BRACKET_CLOSE() { return getToken(FormParser.BRACKET_CLOSE, 0); }
 		public TerminalNode PLUS() { return getToken(FormParser.PLUS, 0); }
 		public TerminalNode MINUS() { return getToken(FormParser.MINUS, 0); }
 		public TerminalNode TIMES() { return getToken(FormParser.TIMES, 0); }
 		public TerminalNode DIV() { return getToken(FormParser.DIV, 0); }
-		public Question_answerContext(ParserRuleContext parent, int invokingState) {
+		public QuestionVariableValueContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_question_answer; }
+		@Override public int getRuleIndex() { return RULE_questionVariableValue; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestion_answer(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterQuestionVariableValue(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestion_answer(this);
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitQuestionVariableValue(this);
 		}
 	}
 
-	public final Question_answerContext question_answer() throws RecognitionException {
-		Question_answerContext _localctx = new Question_answerContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_question_answer);
+	public final QuestionVariableValueContext questionVariableValue() throws RecognitionException {
+		QuestionVariableValueContext _localctx = new QuestionVariableValueContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_questionVariableValue);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -557,7 +555,7 @@ public class FormParser extends Parser {
 			setState(64);
 			match(BRACKET_OPEN);
 			setState(65);
-			question_variable();
+			questionVariable();
 			setState(66);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PLUS) | (1L << MINUS) | (1L << TIMES) | (1L << DIV))) != 0)) ) {
@@ -569,7 +567,7 @@ public class FormParser extends Parser {
 				consume();
 			}
 			setState(67);
-			question_variable();
+			questionVariable();
 			setState(68);
 			match(BRACKET_CLOSE);
 			}

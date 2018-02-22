@@ -3,31 +3,31 @@ grammar Form;
 /*
  * Parser Rules
  */
-form_builder  : 'form' CHARACTERS CURLY_BRACKET_OPEN form_data CURLY_BRACKET_CLOSE;
-form_data : (question_structure)+ (if_structure)+?;
+formBuilder  : 'form' CHARACTERS CURLY_BRACKET_OPEN formData CURLY_BRACKET_CLOSE;
+formData : (questionStructure)+ (ifStructure)+?;
 
-question_structure:
-    question_label
-    question_variable
+questionStructure:
+    questionLabel
+    questionVariable
     QUESTION_VARIABLE_SEPERATOR
-    question_answer_type
-    QUESTION_ANSWER_SEPERATOR?
-    question_answer?
+    questionVariableType
+    QUESTION_VARIABLE_VALUE_SEPERATOR?
+    questionVariableValue?
 ;
-if_structure:
+ifStructure:
     IF
-    statement_block_structure
+    statementBlockStructure
     CURLY_BRACKET_OPEN
-    (question_structure)+
+    (questionStructure)+
     CURLY_BRACKET_CLOSE
 ;
 
-statement_block_structure: BRACKET_OPEN question_variable BRACKET_CLOSE ;
+statementBlockStructure: BRACKET_OPEN questionVariable BRACKET_CLOSE ;
 
-question_label : QUESTION_LABEL;
-question_variable: CHARACTERS;
-question_answer_type: CHARACTERS;
-question_answer: BRACKET_OPEN question_variable (PLUS | MINUS | TIMES | DIV) question_variable BRACKET_CLOSE;
+questionLabel : QUESTION_LABEL;
+questionVariable: CHARACTERS;
+questionVariableType: CHARACTERS;
+questionVariableValue: BRACKET_OPEN questionVariable (PLUS | MINUS | TIMES | DIV) questionVariable BRACKET_CLOSE;
 
 /*
  * Lexer Rules
@@ -48,7 +48,7 @@ DIV: '/';
 
 QUESTION_LABEL : '"' + ((CHARACTERS | NUMBERS | ' ' | ':' | '?')+) + '"';
 QUESTION_VARIABLE_SEPERATOR : ':';
-QUESTION_ANSWER_SEPERATOR : '=';
+QUESTION_VARIABLE_VALUE_SEPERATOR : '=';
 
 IF : 'if';
 

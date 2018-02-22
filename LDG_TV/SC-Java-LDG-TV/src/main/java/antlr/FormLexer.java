@@ -1,12 +1,9 @@
-// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/antlr4\Form.g4 by ANTLR 4.7
+package antlr;// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/antlr4\Form.g4 by ANTLR 4.7
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
-import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class FormLexer extends Lexer {
@@ -18,7 +15,8 @@ public class FormLexer extends Lexer {
 	public static final int
 		T__0=1, CURLY_BRACKET_OPEN=2, CURLY_BRACKET_CLOSE=3, BRACKET_OPEN=4, BRACKET_CLOSE=5, 
 		PLUS=6, MINUS=7, TIMES=8, DIV=9, QUESTION_LABEL=10, QUESTION_VARIABLE_SEPERATOR=11, 
-		QUESTION_ANSWER_SEPERATOR=12, IF=13, WHITESPACE=14, NEWLINE=15, CHARACTERS=16;
+		QUESTION_VARIABLE_VALUE_SEPERATOR=12, IF=13, WHITESPACE=14, NEWLINE=15, 
+		CHARACTERS=16;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -30,8 +28,8 @@ public class FormLexer extends Lexer {
 	public static final String[] ruleNames = {
 		"T__0", "LOWERCASE", "UPPERCASE", "CURLY_BRACKET_OPEN", "CURLY_BRACKET_CLOSE", 
 		"BRACKET_OPEN", "BRACKET_CLOSE", "PLUS", "MINUS", "TIMES", "DIV", "QUESTION_LABEL", 
-		"QUESTION_VARIABLE_SEPERATOR", "QUESTION_ANSWER_SEPERATOR", "IF", "WHITESPACE", 
-		"NEWLINE", "CHARACTERS", "NUMBERS"
+		"QUESTION_VARIABLE_SEPERATOR", "QUESTION_VARIABLE_VALUE_SEPERATOR", "IF", 
+		"WHITESPACE", "NEWLINE", "CHARACTERS", "NUMBERS"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -41,7 +39,7 @@ public class FormLexer extends Lexer {
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, "CURLY_BRACKET_OPEN", "CURLY_BRACKET_CLOSE", "BRACKET_OPEN", 
 		"BRACKET_CLOSE", "PLUS", "MINUS", "TIMES", "DIV", "QUESTION_LABEL", "QUESTION_VARIABLE_SEPERATOR", 
-		"QUESTION_ANSWER_SEPERATOR", "IF", "WHITESPACE", "NEWLINE", "CHARACTERS"
+		"QUESTION_VARIABLE_VALUE_SEPERATOR", "IF", "WHITESPACE", "NEWLINE", "CHARACTERS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -83,7 +81,7 @@ public class FormLexer extends Lexer {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Form.g4"; }
+	public String getGrammarFileName() { return "antlr/Form.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

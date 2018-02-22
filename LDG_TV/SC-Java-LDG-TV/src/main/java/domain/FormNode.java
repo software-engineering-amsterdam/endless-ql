@@ -1,4 +1,4 @@
-package nodes;
+package domain;
 
 public class FormNode {
 

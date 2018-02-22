@@ -1,4 +1,4 @@
-package main.org.uva.ql.ast;
+package org.uva.ql.ast;
 
 public abstract class TreeNode {
 

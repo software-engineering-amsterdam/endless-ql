@@ -4,21 +4,28 @@ grammar QL;
 *  Parser Rules
 */
 
-form: FORM LABEL LCB (statements)? RCB;
+form: FORM LABEL block;
 
-statements: question (statements)?
-		  | IF expression LCB (statements)? RCB (ELSE LCB (statements)? RCB)?;
+block: LCB (statement)* RCB;
 
-question: description name type (ASSIGNMENT expression)?;
+statement: question
+		 | conditional;
 
-expression: LB expression RB
-         | LABEL
-		 | literal
-		 | unOp expression
-		 | expression binOp expression;
+question: description name COLON type (ASSIGNMENT expression)?;
+
+conditional: IF LB expression RB ifBlock (elseBlock)?;
+
+ifBlock: block;
+elseBlock: ELSE block;
+
+expression: LB expression RB			#scopedExpresion
+         | name							#variableExpression
+		 | literal						#literalExpression
+		 | unOp expression				#unaryExpression
+		 | expression binOp expression	#binaryExpression;
 
 description: STR;
-name: LABEL COLON;
+name: LABEL;
 type: TYPEBOOL | TYPEINT | TYPEDEC | TYPESTR | TYPEDATE | TYPEMONEY;
 
 literal: BOOL | INT | DEC | STR | MONEY | DATE;
@@ -86,6 +93,6 @@ MONEY: INT '.' NUMBER NUMBER;
 LABEL:	(LOWERCASE|UPPERCASE)(LOWERCASE|UPPERCASE|NUMBER|'_')*;
 
 // Hidden
-WHITESPACE:	    (' ' | '\t' | '\n' | '\r' |) -> skip;
+WHITESPACE:	    (' ' | '\t' | '\n' | '\r') -> skip;
 //MULTICOMMENT:   '/*' .* '*/' -> skip;
 SINGLECOMMENT:  '//' ~[\r\n]* -> skip;

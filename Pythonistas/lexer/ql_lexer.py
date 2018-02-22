@@ -11,12 +11,14 @@ def get_token_exprs():
         (r'}',                     'reserved'),
         (r'"(.*?)"',               'value'),
         (r':',                     'reserved'),
+        (r'if',                    'reserved'),
         (r'\(',                    'reserved'),
         (r'\)',                    'reserved'),
         (r'-',                     'reserved'),
         (r'=',                     'reserved'),
         (r'[0-9]+',                'int'),
         (r'boolean',               'reserved'),
+        (r'money',                 'reserved'),
         (r'[A-Za-z][A-Za-z0-9_]*', 'id')
     ]
 

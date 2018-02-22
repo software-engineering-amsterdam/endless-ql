@@ -17,12 +17,21 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#conditional_block.
-    def enterConditional_block(self, ctx:QLParser.Conditional_blockContext):
+    # Enter a parse tree produced by QLParser#ifStatement.
+    def enterIfStatement(self, ctx:QLParser.IfStatementContext):
         pass
 
-    # Exit a parse tree produced by QLParser#conditional_block.
-    def exitConditional_block(self, ctx:QLParser.Conditional_blockContext):
+    # Exit a parse tree produced by QLParser#ifStatement.
+    def exitIfStatement(self, ctx:QLParser.IfStatementContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#ifElseStatement.
+    def enterIfElseStatement(self, ctx:QLParser.IfElseStatementContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#ifElseStatement.
+    def exitIfElseStatement(self, ctx:QLParser.IfElseStatementContext):
         pass
 
 
@@ -53,12 +62,12 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#question_type.
-    def enterQuestion_type(self, ctx:QLParser.Question_typeContext):
+    # Enter a parse tree produced by QLParser#questionType.
+    def enterQuestionType(self, ctx:QLParser.QuestionTypeContext):
         pass
 
-    # Exit a parse tree produced by QLParser#question_type.
-    def exitQuestion_type(self, ctx:QLParser.Question_typeContext):
+    # Exit a parse tree produced by QLParser#questionType.
+    def exitQuestionType(self, ctx:QLParser.QuestionTypeContext):
         pass
 
 
@@ -107,12 +116,30 @@ class QLListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by QLParser#addOperator.
+    def enterAddOperator(self, ctx:QLParser.AddOperatorContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#addOperator.
+    def exitAddOperator(self, ctx:QLParser.AddOperatorContext):
+        pass
+
+
     # Enter a parse tree produced by QLParser#mulExpression.
     def enterMulExpression(self, ctx:QLParser.MulExpressionContext):
         pass
 
     # Exit a parse tree produced by QLParser#mulExpression.
     def exitMulExpression(self, ctx:QLParser.MulExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#mulOperator.
+    def enterMulOperator(self, ctx:QLParser.MulOperatorContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#mulOperator.
+    def exitMulOperator(self, ctx:QLParser.MulOperatorContext):
         pass
 
 

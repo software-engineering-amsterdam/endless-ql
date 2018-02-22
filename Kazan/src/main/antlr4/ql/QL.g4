@@ -7,7 +7,7 @@ grammar QL;
     - id,
     - label (actual question)
     - type
-    - (optional) associated to an expression, which makes it computed
+    - (optional) associated to an expression
 
 // Boolean expressions, e.g.
 &&
@@ -33,6 +33,13 @@ MONEY
 // Additional options. Only requirement is the data type can be automatically mapped to a widget
 ENUMERATION //(e.g. good, bad, don't know)
 INTEGER_RANGE // (e.g. 1..5)
+
+
+
+TODO:
+- Refactor lexer/parser divisiion
+- Reconsider money / decimal separation
+- Implement DATE type
 */
 
 
@@ -46,13 +53,15 @@ statement       : input
                 ;
 
 
-input           : STRINGLIT declaration;
+input           : STRLIT declaration;
 declaration     : ID ':' TYPE;
 
-output          : STRINGLIT assignment;
+output          : STRLIT assignment;
 assignment      : (declaration | ID) '=' expr;
 
-exprIf          : 'if' '(' exprBool ')' block;
+
+exprIf          : 'if' '(' exprBool ')' block elseBlock?;
+elseBlock       : 'else' block;
 
 
 expr            : exprBool
@@ -60,23 +69,26 @@ expr            : exprBool
                 | exprStr
                 ;
 
-exprBool        : exprBool '&&' exprBool
+exprBool        : '(' exprBool ')'
+                | '!' exprBool
+                | exprBool '&&' exprBool
                 | exprBool '||' exprBool
                 | exprBool '==' exprBool
                 | exprBool '!=' exprBool
-                | '(' exprBool ')'
-                | '!' exprBool
                 | compNum
                 | compStr
                 | valBool
                 ;
 
+// Compare Numerical
 compNum         : exprNum compNumSym exprNum;
+//TODO turn compNumSym into a lexer term, and update the visitTerminal method accordingly when building the AST tree. We could also visit this terminal from the compNum visit, because
+//this is the only legal moment when we can encounter these characters (and in the other comparisons)
 compNumSym      : ('<'|'<='|'>'|'>='|'=='|'!=');
 compStr         : exprStr '==' exprStr
                 | exprStr '!=' exprStr
                 ;
-valBool         : BOOLEAN | ID;
+valBool         : BOOLLIT | ID;
 
 exprNum	        : exprNum '+' exprNum
                 | exprNum '-' exprNum
@@ -86,23 +98,27 @@ exprNum	        : exprNum '+' exprNum
                 | '(' exprNum ')'
                 | valNum
                 ;
-valNum	        : INT | ID;
+valNum	        : INTLIT | ID;
 
 exprStr	        : exprStr '+' exprStr
                 | '(' exprStr ')'
                 | valStr
                 ;
 
-valStr	        : STRINGLIT | ID;
-
-
+valStr	        : STRLIT | ID;
 
 
 //Types
 TYPE            : ('boolean' | 'money' | 'int' | 'float' | 'string');
-BOOLEAN         : ('true' | 'false');
-STRINGLIT       : '"' ('a'..'z'|'A'..'Z'|'0'..'9'|' '|'?'|'.'|','|':')* '"';
-INT             : ('0'..'9')+;
+STRLIT       : '"' ('a'..'z'|'A'..'Z'|'0'..'9'|' '|'?'|'.'|','|':')* '"';
+INTLIT             : ('0'..'9')+;
+//TODO replace "INT" in the line valNum with INT | DECIMAL | MONEY_LITERAL. This will allow using numericals interchangeably. Test this thoroughly.
+
+//TODO the line which defines MONLIT is incorrect. The two INTLIT terms would allow integers of any length at these positions. We could either reuse a DIGIT term, or inline this.
+//MONLIT   : '-'? INTLIT+ '.' INTLIT INTLIT;
+DECLIT : '-'? INTLIT+ '.' INTLIT+;
+BOOLLIT : ('true' | 'false');
+
 
 //Other terms
 ID              : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
@@ -111,56 +127,3 @@ WHITESPACE      : (' ' | '\t' | '\n' | '\r')+ -> skip;
 MULTI_COMMENT   : '/*' .*? '*/' -> skip;
 
 SINGLE_COMMENT  : '//' ~[\r\n]* '\r'? '\n' -> skip;
-
-
-
-
-
-
-
-
-/*
-    OLD
-*/
-
-//
-//grammar QL;
-//form        : 'form'  ID  '{' (formField)*  '}'
-//            ;
-//
-//formField   : condition
-//            | question
-//            | computedQuestion
-//            ;
-//
-//condition   : MULTILINE_COMMENT
-//            ;
-//
-//question    :
-//            ;
-//
-//computedQuestion
-//            : MULTILINE_COMMENT
-//            ;
-//
-//// Tokens
-//ID          : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-//
-//
-//WS  :	(' ' | '\t' | '\n' | '\r') -> channel(HIDDEN)
-//    ;
-//
-//MULTILINE_COMMENT
-//    : '/*' .* '*/' -> channel(HIDDEN)
-//    ;
-//
-////?
-//SINGLELINE_COMMENT
-//    :   '//' ~[\r\n]* '\r'? '\n' -> channel(HIDDEN)
-//    ;
-//
-//Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-//
-//Int: ('0'..'9')+;
-//
-//Str: '"' .* '"';

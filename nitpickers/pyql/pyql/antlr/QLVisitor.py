@@ -14,8 +14,13 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#conditional_block.
-    def visitConditional_block(self, ctx:QLParser.Conditional_blockContext):
+    # Visit a parse tree produced by QLParser#ifStatement.
+    def visitIfStatement(self, ctx:QLParser.IfStatementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#ifElseStatement.
+    def visitIfElseStatement(self, ctx:QLParser.IfElseStatementContext):
         return self.visitChildren(ctx)
 
 
@@ -34,8 +39,8 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#question_type.
-    def visitQuestion_type(self, ctx:QLParser.Question_typeContext):
+    # Visit a parse tree produced by QLParser#questionType.
+    def visitQuestionType(self, ctx:QLParser.QuestionTypeContext):
         return self.visitChildren(ctx)
 
 
@@ -64,8 +69,18 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by QLParser#addOperator.
+    def visitAddOperator(self, ctx:QLParser.AddOperatorContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by QLParser#mulExpression.
     def visitMulExpression(self, ctx:QLParser.MulExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#mulOperator.
+    def visitMulOperator(self, ctx:QLParser.MulOperatorContext):
         return self.visitChildren(ctx)
 
 

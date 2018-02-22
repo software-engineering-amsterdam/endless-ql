@@ -1,35 +1,49 @@
 package org.uva.sea.ql.parser.elements;
 
+import org.uva.sea.ql.QLExprEvaluate;
+import org.uva.sea.ql.parser.elements.types.Bool;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.traverse.Traverse;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Condition extends ASTNode {
+public class Condition extends ASTNode implements QuestionContainerNode {
 
     private ASTNode expression;
-    private List<Question> questions;
+    private Statements statements;
 
-    public Condition(ASTNode expression, List<Question> questions)
+    public Condition(ASTNode expression, Statements statements)
     {
-        this.questions = questions;
+        this.statements = statements;
         this.expression = expression;
+    }
+
+    /**
+     *
+     * @param exprEvaluate
+     * @return
+     */
+    public List<Question> evalQuestions(QLExprEvaluate exprEvaluate) {
+        List<Question> questions = new ArrayList<>();
+        Bool conditionValue = (Bool)exprEvaluate.getValue(expression);
+        if(exprEvaluate.isNotComplete() )
+            return new ArrayList<>();
+
+        if(conditionValue.isTrue()) {
+            for(ASTNode node : this.statements.getStatementList()) {
+                questions.addAll(((QuestionContainerNode)node).evalQuestions(exprEvaluate));
+            }
+        }
+        return questions;
     }
 
     public ASTNode getExpression() {
         return expression;
     }
 
-    public void setExpression(ASTNode expression) {
-        this.expression = expression;
-    }
-
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+    public Statements getStatements() {
+        return statements;
     }
 
     public void traverseNode(Traverse traverse, TraverseType traverseType) {
@@ -38,11 +52,11 @@ public class Condition extends ASTNode {
 
     public void traverseChildren(Traverse traverse, TraverseType traverseType) {
         this.expression.traverseNode(traverse, traverseType);
-        for (ASTNode node: this.questions) {
+        expression.doTraversal(traverse, traverseType);
+        for (ASTNode node: this.statements.getStatementList()) {
             node.doTraversal(traverse, traverseType);
         }
     }
-
 
     public Type getType() {
         return new Type("undefined");

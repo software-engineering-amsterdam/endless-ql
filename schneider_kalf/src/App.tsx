@@ -4,13 +4,20 @@ import Input from "reactstrap/lib/Input";
 import Addition from "./form/nodes/expressions/arithmetic/Addition";
 import Multiplication from "./form/nodes/expressions/arithmetic/Multiplication";
 import NumberLiteral from "./form/nodes/expressions/arithmetic/NumberLiteral";
-import { evaluate } from "./form/form_helpers";
+import { evaluate } from "./form/evaluation/evaluation_functions";
+import { FormComponent } from "./rendering/components/form_component/FormComponent";
+import Expression from "./form/nodes/expressions/Expression";
+import Form from "./form/Form";
+import { sampleForm } from "./mock/sampleForm";
+import { QlsTest } from "./modules/rendering/components/qls_test/QlsTest";
 
 export interface AppComponentProps {
 }
 
 export interface AppComponentState {
   qlInput?: string;
+  form: Form;
+  errorMessage: string;
 }
 
 const qlParser = require("./parsing/parsers/ql_parser");
@@ -20,8 +27,38 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     super(props);
 
     this.state = {
-      qlInput: require("!raw-loader!./mock/sample.ql.txt")
+      qlInput: require("!raw-loader!./mock/sample.ql.txt"),
+      form: sampleForm,
+      errorMessage: ""
     };
+
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChangeQuestionnaire(text: string) {
+    let form: Form;
+    let errorMessage: string = "";
+
+    try {
+      form = qlParser.parse(this.state.qlInput);
+
+      this.setState({
+        form: form,
+        errorMessage: errorMessage
+      });
+    } catch (error) {
+      errorMessage = error.message;
+    }
+
+    this.setState({
+      errorMessage: errorMessage
+    });
+  }
+
+  onChange(identifier: string, value: any) {
+    this.setState({
+      form: this.state.form.setAnswer(identifier, value)
+    });
   }
 
   render() {
@@ -36,7 +73,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
       }
     }
 
-    const sampleFormula = new Addition(
+    const sampleExpression: Expression = new Addition(
         new Multiplication(new NumberLiteral(5), new NumberLiteral(3)),
         new NumberLiteral(1)
     );
@@ -48,6 +85,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
          */
         <div className="app container">
           <h2>Sample QL ouput</h2>
+          <QlsTest/>
           <div className="row ql-sample-output">
             <div className="col-md-6">
               <Input
@@ -59,13 +97,13 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
               {errorMessage}
             </div>
             <div className="col-md-6">
-              <Input type="textarea" readOnly={true} value={JSON.stringify(form, null, '\t')} name="form_tree_output"/>
+              <FormComponent onChange={this.onChange} form={this.state.form}/>
             </div>
             <h2>Sample Expression evaluation</h2>
 
             <div className="col-md-12">
 
-              <pre>5 * 3 + 1 = {evaluate(sampleFormula)}</pre>
+              <pre>5 * 3 + 1 = {evaluate(sampleExpression)}</pre>
             </div>
           </div>
         </div>

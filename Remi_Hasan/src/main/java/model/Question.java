@@ -2,7 +2,7 @@ package model;
 
 import expression.Expression;
 
-public class Question extends BlockElement {
+public class Question extends Statement {
 
     public final String name;
     public final String text;

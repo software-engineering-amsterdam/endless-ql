@@ -11,7 +11,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<build.helper.maven.plugin.version>3.0.0</build.helper.maven.plugin.version>
 
 		<maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
@@ -23,27 +23,50 @@
 		<scalatic_2_12.version>3.0.5</scalatic_2_12.version>
 		<scalatest.maven.plugin.version>1.0</scalatest.maven.plugin.version>
 
+		<log4j.version>2.10.0</log4j.version>
+        <log4j.api.scala.version>11.0</log4j.api.scala.version>
+
 		<antlr4.version>4.7.1</antlr4.version>
 		<junit.version>4.12</junit.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api-scala_2.12</artifactId>
+            <version>${log4j.api.scala.version}</version>
+        </dependency>
+
+        <dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4-runtime</artifactId>
 			<version>${antlr4.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.scalactic</groupId>
 			<artifactId>scalactic_2.12</artifactId>
 			<version>${scalatic_2_12.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.scalatest</groupId>
 			<artifactId>scalatest_2.12</artifactId>
@@ -53,7 +76,6 @@
 	</dependencies>
 
 	<build>
-
 		<plugins>
 
 			<plugin>

@@ -30,7 +30,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitIndetifierExpr(IdentifierExpr expr) {
+	public String visitIdentifierExpr(IdentifierExpr expr) {
 		return String.format("  %s [label=\"[Ident]\nName: %s\nType: %s\nUndefined: %s\"]\n",
 				expr.getId(),
 				expr.token.getLexeme(),

@@ -1,12 +1,14 @@
-﻿using QuestionnaireInfrastructure.API;
+﻿using Microsoft.Extensions.DependencyInjection;
+using QuestionnaireInfrastructure.API;
+using QuestionnaireInfrastructure.Logic;
 
 namespace QuestionnaireInfrastructure
 {
     public class InfrastructureModule : IHasRegistrations
     {
-        public void RegisterDependencies(IAppRegistration appRegistration)
+        public void RegisterDependencies(IServiceCollection appRegistration)
         {
-            
+            appRegistration.AddSingleton<ICommandBus, CommandBus>();    
         }
     }
 }

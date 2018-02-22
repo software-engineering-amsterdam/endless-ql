@@ -2,7 +2,6 @@ package org.uva.sea.ql.parser.elements.types;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.parser.nodeTypes.DualNode;
 import org.uva.sea.ql.traverse.Traverse;
 
 public class Bool extends ASTNode {
@@ -13,12 +12,8 @@ public class Bool extends ASTNode {
         this.value = value;
     }
 
-    public boolean isValue() {
+    public boolean isTrue() {
         return value;
-    }
-
-    public void setValue(boolean value) {
-        this.value = value;
     }
 
     public void traverseNode(Traverse traverse, TraverseType traverseType) {

@@ -1,63 +1,55 @@
 package nl.uva.se.sc.niro.gui
 
+import java.lang
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javafx.beans.value.{ChangeListener, ObservableValue}
-import javafx.scene.layout.{HBox, VBox}
+import javafx.geometry.Insets
 import javafx.scene.Parent
 import javafx.scene.control.{CheckBox, DatePicker, Label, TextField}
+import javafx.scene.layout._
 import javafx.util.StringConverter
 
-import nl.uva.se.sc.niro.model.Ast.AnswerType._
-import nl.uva.se.sc.niro.model.Ast._
-
-import scala.collection.JavaConverters
+import nl.uva.se.sc.niro.model._
+import nl.uva.se.sc.niro.model.Expressions.Expression
+import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
+import nl.uva.se.sc.niro.model.Expressions.answers._
 
 object StatementFactory {
 
-  def createStatements(statements: Seq[Statement]) : java.util.List[Parent] = {
-    JavaConverters.seqAsJavaList(statements.map(this.convert))
-  }
+  def createStatements(grid: GridPane, statements: Seq[Statement]): Unit = {
+    grid.setHgap(10)
 
-  def convert(question: Question): Parent = {
-    new HBox(new Label(question.label), convert(question.answerType))
-  }
+    var rowNr = 0
+    for (statement <- statements) {
+      statement match {
+        case question: Question => {
+          grid.getRowConstraints.add(new RowConstraints())
+          grid.addRow(rowNr, new Label(question.label), convert(Expression.evaluate(question.answer, Map.empty)))
+        }
+        case condition: Conditional => {
+          val thenPane = insertQuestionPaneAtRow(grid, rowNr, condition.ifStatements)
 
-  def convert(conditional: Conditional): Parent = {
-    val thenPane = new VBox()
-    thenPane.setSpacing(10)
-    // When invisible we don't occupy any space
-    thenPane.managedProperty().bind(thenPane.visibleProperty())
-
-    thenPane.getChildren.addAll(this.createStatements(conditional.ifStatements))
-
-    val elsePane = new VBox()
-    elsePane.setSpacing(10)
-    // When invisible we don't occupy any space
-    elsePane.managedProperty().bind(elsePane.visibleProperty())
-    // Exclusive visibility with thenPane
-    elsePane.visibleProperty().bind(thenPane.visibleProperty().not())
-
-    elsePane.getChildren.addAll(this.createStatements(conditional.elseStatements))
-
-    new VBox(thenPane, elsePane)
-  }
-
-  def convert(statement: Statement): Parent = {
-    statement match {
-      case q: Question => convert(q)
-      case c: Conditional => convert(c)
+          if (!condition.elseStatements.isEmpty) {
+            rowNr += 1
+            val elsePane = insertQuestionPaneAtRow(grid, rowNr, condition.elseStatements)
+            // Exclusive visibility with thenPane
+            elsePane.visibleProperty().bind(thenPane.visibleProperty().not())
+          }
+        }
+      }
+      rowNr += 1
     }
   }
 
-  def convert(answerType: AnswerType): Parent = {
-    answerType match {
-      case BooleanAnswerType => new CheckBox()
-      case StringAnswerType => new TextField()
-      case IntAnswerType => createIntegerField()
-      case DecAnswerType => createDecimalField()
-      case MoneyAnswerType => createDecimalField()
-      case DateAnswerType => createDateField
+  def convert(answer: Answer): Parent = {
+    answer match {
+      case _: BooleanAnswer => new CheckBox()
+      case _: StringAnswer => new TextField()
+      case _: IntAnswer => createIntegerField()
+      case _: DecAnswer => createDecimalField()
+      case _: MoneyAnswer => createDecimalField()
+      case _: DateAnswer => createDateField
       case other => new Label(s"Unimplemented type: $other")
     }
   }
@@ -96,6 +88,28 @@ object StatementFactory {
       }
     })
     dateField
+  }
+
+  private def insertQuestionPaneAtRow(grid: GridPane, rowNr: Int, statements: Seq[Statement]): GridPane = {
+    val thenConstraint = new RowConstraints()
+    grid.getRowConstraints.add(thenConstraint)
+
+    val innerGrid = new GridPane()
+    grid.add(innerGrid, 0, rowNr, 2, 1)
+    // When invisible we don't occupy any space
+    innerGrid.managedProperty().bind(innerGrid.visibleProperty())
+    bindConstraintToVisiblity(thenConstraint, innerGrid)
+
+    createStatements(innerGrid, statements)
+    innerGrid
+  }
+
+  private def bindConstraintToVisiblity(constraint: RowConstraints, pane: GridPane) = {
+    pane.visibleProperty().addListener(new ChangeListener[lang.Boolean] {
+      override def changed(observable: ObservableValue[_ <: lang.Boolean], oldValue: lang.Boolean, newValue: lang.Boolean): Unit = {
+        constraint.setPrefHeight(if(newValue) { -1.0} else {0.0})
+      }
+    })
   }
 
 }

@@ -3,10 +3,11 @@
 grammar QL;
 
 root            : FORM IDENTIFIER block EOF;
-block           : '{' blockElement* '}';
-blockElement    : condition | question;
-condition       : IF '(' expression ')' block;
-question        : identifier ':' questionString questionType;
+block           : '{' statement* '}';
+statement       : condition | question;
+condition       : IF '(' expression ')' conditionTrueBlock=block ELSE conditionFalseBlock=block
+                | IF '(' expression ')' conditionTrueBlock=block;
+question        : questionString identifier ':' questionType;
 
 identifier      : IDENTIFIER;
 questionString  : STRING;
@@ -34,14 +35,21 @@ type            : BOOLEANTYPE
                 | DECIMALTYPE
                 | MONEYTYPE;
 
-constant        : (TRUE | FALSE) # constant_boolean
-                | INTEGER # constant_integer
-                | DECIMAL # constant_decimal
-                | DATE # constant_date
-                | MONEY # constant_money
-                | STRING # constant_string
-                | IDENTIFIER # constant_identifier
-                ;
+constant        : booleanConstant # constant_boolean
+                | integerConstant # constant_integer
+                | decimalConstant # constant_decimal
+                | dateConstant # constant_date
+                | moneyConstant # constant_money
+                | stringConstant # constant_string
+                | identifierConstant # constant_identifier;
+
+booleanConstant : (TRUE | FALSE);
+integerConstant : INTEGER;
+decimalConstant : DECIMAL;
+dateConstant : DATE;
+moneyConstant : MONEY;
+stringConstant : STRING;
+identifierConstant : IDENTIFIER;
 
 // Operators
 PLUS            : '+';
@@ -69,6 +77,7 @@ DATETYPE        : 'date';
 DECIMALTYPE     : 'decimal';
 MONEYTYPE       : 'money';
 IF              : 'if';
+ELSE            : 'else';
 
 // Literals
 INTEGER         : [0-9]+;
@@ -80,4 +89,3 @@ IDENTIFIER      : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 WS              : [ \t\r\n]+ -> skip;
 COMMENT         : ('/*' .*? '*/') -> skip;
-LINE_COMMENT    : '//' ~[\r\n]* -> skip;

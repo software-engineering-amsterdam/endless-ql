@@ -4,23 +4,26 @@ grammar QL;
 /**
  * Parser rules
  */
-forms           : form+ EOF ;
-form            : FORM label BRACKET_L elem+ BRACKET_R ;
+forms               : form+ EOF ;
+form                : FORM label BRACKET_L elem+ BRACKET_R ;
 
-label           : WORD ;
-elem            : (line_elem | block_elem) ;
-line_elem       : label COLON question type_expr;
-block_elem      : if_block ;
-if_block        : IF PARENTH_L stmt PARENTH_R BRACKET_L elem+ BRACKET_R ;
-stmt            : label ;
-question        : STRING ;
-expr            : unop expr | (constant binop expr) | (label binop expr) | constant | label ;
-constant        : NUMBER ;
-binop           : (MINUS | PLUS | MULTIPLY | DIVIDE | EQ | NEQ | GTE | GT | LTE | LT) ;
-unop            : (MINUS | PLUS | NOT) ;
-type_expr       : type
-                | type PARENTH_L expr PARENTH_R ;
-type            : (BOOLEAN_TYPE | MONEY_TYPE | INTEGER_TYPE | STRING_TYPE) ;
+label               : WORD ;
+line_elm            : label COLON question type_expr ;
+elem                : line_elm | block_elm ;
+block_elm           : if_block ;
+if_block            : IF PARENTH_L expr PARENTH_R BRACKET_L elem+ BRACKET_R ;
+question            : STRING ;
+expr                : unop_expr | label_binop_expr | const_binop_expr | constant | label_expr ;
+unop_expr           : unop expr ;
+label_binop_expr    : label binop expr ;
+const_binop_expr    : constant binop expr ;
+label_expr          : label ;
+constant            : NUMBER ;
+binop               : (MINUS | PLUS | MULTIPLY | DIVIDE | EQ | NEQ | GTE | GT | LTE | LT) ;
+unop                : (MINUS | PLUS | NOT) ;
+type_expr           : type
+                    | type PARENTH_L expr PARENTH_R ;
+type                : (BOOLEAN_TYPE | MONEY_TYPE | INTEGER_TYPE | STRING_TYPE) ;
 
 
 /**

@@ -1,10 +1,11 @@
-package main.org.uva.ql.ast;
+package org.uva.ql.ast;
 
 import java.util.List;
 
 public class Form extends TreeNode {
 
     private final String id;
+
     private List<Statement> statements;
 
     public Form(String id, List<Statement> statements) {
@@ -19,5 +20,9 @@ public class Form extends TreeNode {
             form += String.format("\n\t%s", statement.toString());
         }
         return form;
+    }
+
+    public List<Statement> getStatements() {
+        return statements;
     }
 }

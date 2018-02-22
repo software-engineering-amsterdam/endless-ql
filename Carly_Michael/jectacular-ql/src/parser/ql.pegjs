@@ -23,9 +23,26 @@ q "question"    = ws name:identifier ":" ws "\"" ws
 exprQuestion    = ws name:identifier ":" ws "\"" ws
                   label:text "\"" ws
                   type: type ws
-                  "=" ws "(" ws expr:expression ws ")" ws {
+                  "=" ws expr:addExpression ws {
                     return new ExpressionQuestion(name, label, type, expr, location());
                   }
+
+addExpression
+  = head:mulExpression tail:(ws ("+" / "-") ws addExpression) {
+      return new BinaryExpression(head, tail[3], tail[1], location());
+} / v:mulExpression {
+        return v;
+      }
+
+mulExpression
+  = head:Factor tail:(ws ("*" / "/") ws mulExpression) {
+      return new BinaryExpression(head, tail[3], tail[1], location());
+} / v:Factor {
+        return v;
+      }
+
+Factor
+  = v:integer {return v;} / "(" expr:addExpression ")" { return expr; }
 
 text            = (ws word ws)+ {return text();}
 
@@ -39,15 +56,15 @@ type            = booleanType /
 // low-level
 
 ws "whitespace" = [ \t\n\r]* { return; }
-
-identifier 		= [a-zA-Z0-9]+ {return text();}
-expression 		= [a-zA-Z0-9 +\-\/*><=]+ {return text();}
-
+ws2 = [ \t\n\r]+ { return; }
+identifier 		  = [a-zA-Z0-9]+ {return text();}
+expression 		  = [a-zA-Z0-9 +\-\/*><=]+ {return text();}
+integer         = ws [0-9]+ ws { return new Literal(ExpressionType.NUMBER, parseInt(text(), 10), location()); }
 word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
 
 booleanType     = "boolean" { return QuestionType.BOOLEAN; }
-stringType     = "string" { return QuestionType.STRING; }
+stringType      = "string" { return QuestionType.STRING; }
 integerType     = "integer" { return QuestionType.INT; }
-dateType     = "date" { return QuestionType.DATE; }
+dateType        = "date" { return QuestionType.DATE; }
 decimalType     = "decimal" { return QuestionType.DECIMAL; }
-moneyType     = "money" { return QuestionType.MONEY; }
+moneyType       = "money" { return QuestionType.MONEY; }

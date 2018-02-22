@@ -1,13 +1,13 @@
 from pyql.antlr.QLVisitor import QLVisitor
 from pyql.antlr.QLParser import QLParser
-from pyql.ast.form.question_statement import QuestionStatement
+from pyql.ast.form.ql_statements import *
 from pyql.ast.form.block import Block
-from pyql.ast.form.if_statement import IfStatement
 from pyql.ast.code_location import CodeLocation
 from pyql.ast.form.form import Form
 from pyql.ast.expression.expressions import *
 
 # TODO check if can get rid of 'if getChildCount() > 1'
+
 
 class ParseTreeVisitor(QLVisitor):
 
@@ -17,20 +17,22 @@ class ParseTreeVisitor(QLVisitor):
         block = ctx.block().accept(self)
         return Form(identifier, location, block)
 
-    def visitConditional_block(self, ctx: QLParser.Conditional_blockContext):
-        return IfStatement(self.location(ctx), ctx.expression().accept(self), ctx.block().accept(self))
+    def visitIfStatement(self, ctx:QLParser.IfStatementContext):
+        return If(self.location(ctx), ctx.expression().accept(self), ctx.block().accept(self))
+
+    def visitIfElseStatement(self, ctx:QLParser.IfElseStatementContext):
+        return IfElse(self.location(ctx), ctx.expression().accept(self), ctx.block(0).accept(self), ctx.block(1).accept(self))
 
     def visitBlock(self, ctx: QLParser.BlockContext):
-        statements = [s.accept(self) for s in ctx.statement()]
-        return Block(self.location(ctx), statements)
+        return Block(self.location(ctx), [s.accept(self) for s in ctx.statement()])
 
     def visitStatement(self, ctx: QLParser.StatementContext):
         return self.visitChildren(ctx)
 
     def visitQuestion(self, ctx: QLParser.QuestionContext):
-        return QuestionStatement(self.location(ctx), ctx.identifier().accept(self), ctx.STR(), ctx.question_type().accept(self))
+        return Question(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(), ctx.questionType().accept(self))
 
-    def visitQuestion_type(self, ctx: QLParser.Question_typeContext):
+    def visitQuestionType(self, ctx: QLParser.QuestionTypeContext):
         return ctx.getText()
 
     def visitExpression(self, ctx: QLParser.ExpressionContext):
@@ -70,6 +72,8 @@ class ParseTreeVisitor(QLVisitor):
         if ctx.getChildCount() > 1:
             left = ctx.mulExpression(0).accept(self)
             right = ctx.mulExpression(1).accept(self)
+            mulExpressions = [m.accept(self) for m in ctx.mulExpression()]
+            operators = [o.accept(self) for o in ctx.addOperator()]
             location = self.location(ctx)
             switcher = {
                 "+": Addition(location, left, right),
@@ -78,10 +82,15 @@ class ParseTreeVisitor(QLVisitor):
             return switcher.get(self.operator(ctx))
         return self.visitChildren(ctx)
 
+    def visitAddOperator(self, ctx:QLParser.AddOperatorContext):
+        return ctx.getText()
+
     def visitMulExpression(self, ctx: QLParser.MulExpressionContext):
         if ctx.getChildCount() > 1:
             left = ctx.unExpression(0).accept(self)
             right = ctx.unExpression(1).accept(self)
+            unExpressions = [m.accept(self) for m in ctx.unExpression()]
+            operators = [o.accept(self) for o in ctx.mulOperator()]
             location = self.location(ctx)
             switcher = {
                 "*": Multiplication(location, left, right),
@@ -89,6 +98,9 @@ class ParseTreeVisitor(QLVisitor):
             }
             return switcher.get(self.operator(ctx))
         return self.visitChildren(ctx)
+
+    def visitMulOperator(self, ctx:QLParser.MulOperatorContext):
+        return ctx.getText()
 
     def visitUnExpression(self, ctx: QLParser.UnExpressionContext):
         return self.visitChildren(ctx)

@@ -1,12 +1,8 @@
 import java.io.IOException
 
-import nl.uva.se.sc.niro.model.Ast.AnswerType.{ BooleanAnswerType, StringAnswerType }
-import nl.uva.se.sc.niro.model.Ast.Expression.Operator.ArithmOp.{ Add, Div, Mul, Sub }
-import nl.uva.se.sc.niro.model.Ast.Expression.Operator.CompOp.{ Gt, Ne }
-import nl.uva.se.sc.niro.model.Ast.Expression.Operator.LogicalOp.And
-import nl.uva.se.sc.niro.model.Ast.Expression.Operator.UnaryOp.{ Min, Negate }
-import nl.uva.se.sc.niro.model.Ast.Expression.{ BoolConst, Ident, IntConst }
-import nl.uva.se.sc.niro.model.Ast._
+import nl.uva.se.sc.niro.model.Expressions.Expression.{ BinaryOperation, Reference, UnaryOperation }
+import nl.uva.se.sc.niro.model.Expressions.answers._
+import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.parser.QLFormParser
 import org.antlr.v4.runtime.{ CharStream, CharStreams }
 import org.scalatest.FunSuite
@@ -24,14 +20,14 @@ class AstBuilderSpec extends FunSuite {
         formName = "Box1HouseOwning",
         statements = List(
           Question(
-            id = Ident("hasSoldHouse"),
+            id = "hasSoldHouse",
             label = "Did you sell a house in 2010?",
-            answerType = BooleanAnswerType
+            answer = BooleanAnswer(None)
           ),
           Question(
-            id = Ident("hasBoughtHouse"),
+            id = "hasBoughtHouse",
             label = "Did you by a house in 2010?",
-            answerType = BooleanAnswerType
+            answer = BooleanAnswer(None)
           )
         )
       )
@@ -47,17 +43,17 @@ class AstBuilderSpec extends FunSuite {
         formName = "ConditionQuestions",
         statements = List(
           Question(
-            id = Ident("firstName"),
+            id = "firstName",
             label = "What is your first name?",
-            answerType = StringAnswerType
+            answer = StringAnswer(None)
           ),
           Conditional(
-            condition = BoolConst(true),
+            condition = BooleanAnswer(Some(true)),
             ifStatements = List(
               Question(
-                id = Ident("middleName"),
+                id = "middleName",
                 label = "What is your middle name?",
-                answerType = StringAnswerType
+                answer = StringAnswer(None)
               )
             ),
             elseStatements = List.empty
@@ -73,11 +69,11 @@ class AstBuilderSpec extends FunSuite {
     val expected = QLForm(
       formName = "ConditionQuestions",
       statements = List(
-        Question(id = Ident("firstName"), label = "What is your first name?", answerType = StringAnswerType),
+        Question(id = "firstName", label = "What is your first name?", answer = StringAnswer(None)),
         Conditional(
-          condition = Negate(BoolConst(true)),
+          condition = UnaryOperation(Neg, BooleanAnswer(Some(true))),
           ifStatements = List(
-            Question(Ident("middleName"), "What is your middle name?", StringAnswerType)
+            Question("middleName", "What is your middle name?", StringAnswer(None))
           ),
           elseStatements = List.empty
         )
@@ -92,15 +88,15 @@ class AstBuilderSpec extends FunSuite {
     val expected = QLForm(
       formName = "ConditionQuestions",
       statements = List(
-        Question(id = Ident("firstName"), "What is your first name?", answerType = StringAnswerType),
+        Question(id = "firstName", "What is your first name?", answer = StringAnswer(None)),
         Conditional(
-          condition = BoolConst(true),
+          condition = BooleanAnswer(Some(true)),
           ifStatements = List(
-            Question(id = Ident("middleName"), label = "What is your middle name?", answerType = StringAnswerType)
+            Question(id = "middleName", label = "What is your middle name?", answer = StringAnswer(None))
           ),
           elseStatements = List(
-            Question(id = Ident("lastName"), label = "What is your last name?", answerType = StringAnswerType),
-            Question(id = Ident("lastName"), label = "What is your last name?", answerType = StringAnswerType)
+            Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None)),
+            Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None))
           )
         )
       )
@@ -114,21 +110,21 @@ class AstBuilderSpec extends FunSuite {
     val expected = QLForm(
       formName = "QonditionQuestions",
       statements = List(
-        Question(id = Ident("firstName"), label = "What is your first name?", answerType = StringAnswerType),
+        Question(id = "firstName", label = "What is your first name?", answer = StringAnswer(None)),
         Conditional(
-          condition = BoolConst(true),
+          condition = BooleanAnswer(Some(true)),
           ifStatements = List(
-            Question(Ident("lastName"), "What is your last name?", StringAnswerType)
+            Question("lastName", "What is your last name?",answer = StringAnswer(None))
           ),
           elseStatements = List(
-            Question(Ident("middleName"), "What is your middle name?", StringAnswerType),
+            Question("middleName", "What is your middle name?", answer = StringAnswer(None)),
             Conditional(
-              condition = BoolConst(false),
+              condition = BooleanAnswer(Some(false)),
               ifStatements = List(
-                Question(Ident("lastName"), "What is your last name?", StringAnswerType)
+                Question("lastName", "What is your last name?", answer = StringAnswer(None))
               ),
               elseStatements = List(
-                Question(Ident("middleName"), "What is your middle name?", StringAnswerType)
+                Question("middleName", "What is your middle name?", answer = StringAnswer(None))
               )
             )
           )
@@ -144,13 +140,13 @@ class AstBuilderSpec extends FunSuite {
     val expected = QLForm(
       formName = "QonditionQuestions",
       statements = List(
-        Question(id = Ident("firstName"), label = "What is your first name?", answerType = StringAnswerType),
-        Question(id = Ident("lastName"), label = "What is your last name?", answerType = StringAnswerType),
-        Question(id = Ident("middleName"), label = "Do you have a middle name?", answerType = BooleanAnswerType),
+        Question(id = "firstName", label = "What is your first name?", answer = StringAnswer(None)),
+        Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None)),
+        Question(id = "middleName", label = "Do you have a middle name?", answer = BooleanAnswer(None)),
         Conditional(
-          condition = And(Ne(Ident("lastName"), Ident("firstName")), Gt(Ident("a"), Min(IntConst(10)))),
+          condition = BinaryOperation(And, BinaryOperation(Ne, Reference("lastName"), Reference("firstName")), BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10))))),
           ifStatements = List(
-            Question(id = Ident("lastName"), label = "What is your last name?", answerType = StringAnswerType)
+            Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None))
           ),
           elseStatements = List.empty
         )
@@ -165,18 +161,32 @@ class AstBuilderSpec extends FunSuite {
     val expected = QLForm(
       formName = "QonditionQuestions",
       statements = List(
-        Question(id = Ident("firstName"), label = "What is your first name?", answerType = StringAnswerType),
-        Question(id = Ident("lastName"), label = "What is your last name?", answerType = StringAnswerType),
-        Question(id = Ident("middleName"), label = "Do you have a middle name?", answerType = BooleanAnswerType),
+        Question(id = "firstName", label = "What is your first name?", answer = StringAnswer(None)),
+        Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None)),
+        Question(id = "middleName", label = "Do you have a middle name?", answer = BooleanAnswer(None)),
         Conditional(
-          condition = And(Ne(Ident("lastName"), Ident("firstName")), Gt(Ident("a"), Min(IntConst(10)))),
-          ifStatements = List(
-            Question(Ident("lastName"), "What is your last name?", StringAnswerType),
-            Question(Ident("lastName"), "What is your last name?", StringAnswerType)
+          BinaryOperation(
+            binaryOperator = And,
+            left = BinaryOperation(
+              binaryOperator = Ne,
+              left = Reference("lastName"),
+              right = Reference("firstName")
+            ),
+            right = BinaryOperation(
+              binaryOperator = Gt,
+              left = Reference("a"),
+              right = UnaryOperation(
+                unaryOperator = Min,
+                left = IntAnswer(Some(10))
+              )
+            )
           ),
-          elseStatements = List(
-            Question(Ident("middleName"), "Do you have a middle name?", BooleanAnswerType),
-            Question(Ident("middleName"), "Do you have a middle name?", BooleanAnswerType)
+          List(
+            Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None)),
+            Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None))),
+          List(
+            Question(id = "middleName", label = "Do you have a middle name?", answer = BooleanAnswer(None)),
+            Question(id = "middleName", label = "Do you have a middle name?", answer = BooleanAnswer(None))
           )
         )
       )
@@ -190,14 +200,28 @@ class AstBuilderSpec extends FunSuite {
     val expected = QLForm(
       formName = "Box1HouseOwning",
       statements = List(
-        Question(id = Ident("hasSoldHouse"), label = "Did you sell a house in 2010?", answerType = BooleanAnswerType),
+        Question(id = "hasSoldHouse", label = "Did you sell a house in 2010?", answer = BooleanAnswer(None)),
         Conditional(
-          condition = Div(Add(Mul(Sub(IntConst(10000), Ident("hasSoldHouse")), IntConst(42)), IntConst(23)), IntConst(54)),
+          condition = BinaryOperation(
+            binaryOperator = Div,
+            left = BinaryOperation(
+              binaryOperator = Add,
+              left = BinaryOperation(
+                binaryOperator = Mul,
+                left = BinaryOperation(
+                  binaryOperator = Sub,
+                  left = IntAnswer(Some(10000)),
+                  right = Reference("hasSoldHouse")
+                ),
+                right = IntAnswer(Some(42))
+              ),
+              right = IntAnswer(Some(23))
+            ),
+            right = IntAnswer(Some(54))),
           ifStatements = List(
-            Question(Ident("asd"), "asd", BooleanAnswerType)
+            Question(id = "asd", label = "asd", answer = BooleanAnswer(None))
           ),
-          elseStatements = List.empty
-        )
+          elseStatements = List())
       )
     )
 

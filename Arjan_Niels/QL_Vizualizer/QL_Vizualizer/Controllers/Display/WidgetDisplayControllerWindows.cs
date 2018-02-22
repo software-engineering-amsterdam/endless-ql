@@ -12,7 +12,7 @@ namespace QL_Vizualizer.Controllers.Display
         /// </summary>
         private Control _mainControl;
 
-        public WidgetDisplayControllerWindows(float topMargin, Control control) : base(topMargin, new ControlFactory())
+        public WidgetDisplayControllerWindows(float topMargin, Control control, WidgetController widgetController) : base(topMargin, new ControlFactory(widgetController))
         {
             _mainControl = control;
         }

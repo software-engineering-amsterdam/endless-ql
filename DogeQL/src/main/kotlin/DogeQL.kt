@@ -1,7 +1,8 @@
-import org.antlr.v4.runtime.ANTLRInputStream
-import org.antlr.v4.runtime.CommonTokenStream
-import org.antlr.v4.runtime.tree.ParseTreeWalker
-import java.io.File
+import org.kodein.Kodein
+import org.kodein.generic.bind
+import org.kodein.generic.instance
+import org.kodein.generic.provider
+import org.kodein.newInstance
 
 class DogeQL {
 
@@ -9,21 +10,34 @@ class DogeQL {
         @JvmStatic
         fun main(args: Array<String>) {
 
-//            val userInput = readLine()
-            val file = File(this::class.java.getResource("sample" + File.separator + "TestQuestionare.doge").toURI())
-            var content = file.readText()
-            val stream = ANTLRInputStream(content)
+////            val userInput = readLine()
+//            val file = File(this::class.java.getResource("sample" + File.separator + "TestQuestionare.doge").toURI())
+//            var content = file.readText()
+//            val stream = ANTLRInputStream(content)
+//
+//            val lexer = QuestionareLanguageLexer(stream)
+//            val tokens = CommonTokenStream(lexer)
+//            val parser = QuestionareLanguageParser(tokens)
+//            val ctx = parser.form()
+//
+//
+//            // Traverse AST post-order
+//            val listener = FormListener()
+//
+//            ParseTreeWalker.DEFAULT.walk(listener, ctx)
 
-            val lexer = QuestionareLanguageLexer(stream)
-            val tokens = CommonTokenStream(lexer)
-            val parser = QuestionareLanguageParser(tokens)
-            val ctx = parser.form()
 
+            val kodein = Kodein {
+//                bind() from provider { Person() }
+//                bind<Person>() with provider { Person() }
+                bind<Employee>() with provider {  Employee(instance()) }
+//                bind<Company>() with  provider { Company(instance()) }
+            }
 
-            // Traverse AST post-order
-            val listener = FormListener()
+//            val company: Company by kodein.instance()
+            val company by kodein.newInstance { Company(instance()) }
 
-            ParseTreeWalker.DEFAULT.walk(listener, ctx)
+            company.test()
         }
     }
 

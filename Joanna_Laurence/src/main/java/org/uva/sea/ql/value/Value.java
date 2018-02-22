@@ -122,7 +122,32 @@ public abstract class Value {
         return new ErrorValue("isEqual operator cannot be applied here");
     }
 
+    //isGreaterOrEqual
     public Value isGreaterOrEqual(Value value) {
+        return new ErrorValue("isGreaterOrEqual operator cannot be applied here");
+    }
+
+    public Value isGreaterOrEqual(BooleanValue value) {
+        return new ErrorValue("isGreaterOrEqual operator cannot be applied here");
+    }
+
+    public Value isGreaterOrEqual(DateValue value) {
+        return new ErrorValue("isGreaterOrEqual operator cannot be applied here");
+    }
+
+    public Value isGreaterOrEqual(DecimalValue value) {
+        return new ErrorValue("isGreaterOrEqual operator cannot be applied here");
+    }
+
+    public Value isGreaterOrEqual(IntValue value) {
+        return new ErrorValue("isGreaterOrEqual operator cannot be applied here");
+    }
+
+    public Value isGreaterOrEqual(MoneyValue value) {
+        return new ErrorValue("isGreaterOrEqual operator cannot be applied here");
+    }
+
+    public Value isGreaterOrEqual(StringValue value) {
         return new ErrorValue("isGreaterOrEqual operator cannot be applied here");
     }
 

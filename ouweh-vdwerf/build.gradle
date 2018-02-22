@@ -25,5 +25,5 @@ generateGrammarSource.doLast {
         from "${buildDir}/generated-src/antlr/main"
         into "src/main/antlr/generated"
     }
-
+    clean.execute()
 }

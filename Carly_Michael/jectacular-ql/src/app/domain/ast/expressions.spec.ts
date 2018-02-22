@@ -1,9 +1,11 @@
 import {Literal} from './expression';
 import {ExpressionType} from './expression-type';
 import {LogicalExpression} from './logical-expression';
-import {BinaryExpression} from './binary-expression';
+import {ArithmeticExpression} from './arithmetic-expression';
 import {UnaryExpression} from './unary-expression';
 import {Location} from './location';
+import {ComparisonExpression} from './comparison-expression';
+import {EqualityExpression} from './equality-expression';
 
 const location: Location = {
   start: {
@@ -26,10 +28,17 @@ const decimalLiteral = new Literal(ExpressionType.NUMBER, 8.0, location);
 const andExpression = new LogicalExpression(booleanLiteral, booleanLiteral, '&&', location);
 const orExpression = new LogicalExpression(booleanLiteral, booleanLiteral, '||', location);
 
-const timesExpression = new BinaryExpression(intLiteral, decimalLiteral, '*', location);
-const divideExpression = new BinaryExpression(intLiteral, intLiteral, '/', location);
-const addExpression = new BinaryExpression(decimalLiteral, intLiteral, '+', location);
-const subtractExpression = new BinaryExpression(decimalLiteral, decimalLiteral, '-', location);
+const timesExpression = new ArithmeticExpression(intLiteral, decimalLiteral, '*', location);
+const divideExpression = new ArithmeticExpression(intLiteral, intLiteral, '/', location);
+const addExpression = new ArithmeticExpression(decimalLiteral, intLiteral, '+', location);
+const subtractExpression = new ArithmeticExpression(decimalLiteral, decimalLiteral, '-', location);
+const lessThanExpression = new ComparisonExpression(intLiteral, decimalLiteral, '<', location);
+const greaterThanExpression = new ComparisonExpression(intLiteral, intLiteral, '>', location);
+const lessEqualExpression = new ComparisonExpression(decimalLiteral, intLiteral, '<=', location);
+const greaterEqualExpression = new ComparisonExpression(decimalLiteral, decimalLiteral, '>=', location);
+
+const equalExpression = new EqualityExpression(intLiteral, intLiteral, '==', location);
+const inEqualExpression = new EqualityExpression(booleanLiteral, booleanLiteral, '!=', location);
 
 const negativeExpression = new UnaryExpression(intLiteral, '-', location);
 const negateExpression = new UnaryExpression(booleanLiteral, '!', location);
@@ -48,11 +57,23 @@ describe('Expressions', () => {
       expect(orExpression.evaluate()).toBe(true);
     });
 
-    it('binary expressions', () => {
+    it('arithmetic expressions', () => {
       expect(timesExpression.evaluate()).toBe(40.0);
       expect(divideExpression.evaluate()).toBe(1);
       expect(addExpression.evaluate()).toBe(13.0);
       expect(subtractExpression.evaluate()).toBe(0.0);
+    });
+
+    it('comparison expressions', () => {
+      expect(lessThanExpression.evaluate()).toBe(true);
+      expect(greaterThanExpression.evaluate()).toBe(false);
+      expect(lessEqualExpression.evaluate()).toBe(false);
+      expect(greaterEqualExpression.evaluate()).toBe(true);
+    });
+
+    it('equality expressions', () => {
+      expect(equalExpression.evaluate()).toBe(true);
+      expect(inEqualExpression.evaluate()).toBe(false);
     });
 
     it('unary expressions', () => {
@@ -67,9 +88,21 @@ describe('Expressions', () => {
         .checkType()).toThrowError();
     });
 
-    it('binary expressions', () => {
+    it('arithmetic expressions', () => {
       expect(timesExpression.checkType()).toBe(ExpressionType.NUMBER);
-      expect(() => new BinaryExpression(intLiteral, booleanLiteral, '/', location)
+      expect(() => new ArithmeticExpression(intLiteral, booleanLiteral, '/', location)
+        .checkType()).toThrowError();
+    });
+
+    it('comparison expressions', () => {
+      expect(lessThanExpression.checkType()).toBe(ExpressionType.BOOLEAN);
+      expect(() => new ComparisonExpression(intLiteral, booleanLiteral, '>', location)
+        .checkType()).toThrowError();
+    });
+
+    it('equality expressions', () => {
+      expect(equalExpression.checkType()).toBe(ExpressionType.BOOLEAN);
+      expect(() => new EqualityExpression(intLiteral, booleanLiteral, '==', location)
         .checkType()).toThrowError();
     });
 

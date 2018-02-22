@@ -35,7 +35,7 @@ def main(argv):
     #pass tree to visitor
     visitor = Visitor()
     visitor.visit(tree)
-    print(visitor.QLNode)
+    print(visitor.QLAst)
     
 
 if __name__ == '__main__':

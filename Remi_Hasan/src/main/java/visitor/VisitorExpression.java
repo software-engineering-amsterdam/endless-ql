@@ -18,7 +18,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         if(!value.getReturnType().not())
             throw new IllegalArgumentException("Cannot apply operator not to '" + value.getReturnType() + "'");
 
-        return new ExpressionNot(value);
+        return new ExpressionUnaryNot(value);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         if(!value.getReturnType().neg())
             throw new IllegalArgumentException("Cannot apply negation on '" + value.getReturnType() + "'");
 
-        return new ExpressionNeg(value);
+        return new ExpressionUnaryNeg(value);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
                 if(!left.getReturnType().eq(right.getReturnType()))
                     throw new IllegalArgumentException("Cannot apply operator neq to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
 
-                return new ExpressionNot(new ExpressionComparisonEq(left, right));
+                return new ExpressionUnaryNot(new ExpressionComparisonEq(left, right));
             default:
                 throw new IllegalArgumentException("Cannot apply unknown operator '" + ctx.op.toString() + "'");
         }

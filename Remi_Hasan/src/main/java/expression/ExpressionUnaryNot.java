@@ -1,8 +1,8 @@
 package expression;
 
-public class ExpressionNot extends ExpressionUnary<Boolean> {
+public class ExpressionUnaryNot extends ExpressionUnary<Boolean> {
 
-    public ExpressionNot(Expression v) {
+    public ExpressionUnaryNot(Expression v) {
         super(v, "!");
     }
 

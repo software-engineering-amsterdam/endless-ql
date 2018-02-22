@@ -1,8 +1,8 @@
 package expression;
 
-public class ExpressionNeg extends ExpressionUnary<Double> {
+public class ExpressionUnaryNeg extends ExpressionUnary<Double> {
 
-    public ExpressionNeg(Expression v) {
+    public ExpressionUnaryNeg(Expression v) {
         super(v, "-");
     }
 

@@ -1,6 +1,8 @@
 package org.uva.sea.ql.evaluate;
 
 import java.math.BigDecimal;
+import org.uva.sea.ql.QLValueEvaluator;
+
 
 public class DecimalValue extends Value {
 
@@ -37,5 +39,10 @@ public class DecimalValue extends Value {
 
     public Value add(StringValue value) {
         return new ErrorValue("Cannot add string to decimal");
+    }
+
+    @Override
+    public <T> T accept(QLValueEvaluator<T> visitor) {
+        return visitor.visit(this);
     }
 }

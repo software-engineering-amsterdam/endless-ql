@@ -1,5 +1,7 @@
 package org.uva.sea.ql.evaluate;
 
+import org.uva.sea.ql.QLValueEvaluator;
+
 public class ErrorValue extends Value {
     private String error;
 
@@ -9,5 +11,10 @@ public class ErrorValue extends Value {
 
     public String getError() {
         return error;
+    }
+
+    @Override
+    public <T> T accept(QLValueEvaluator<T> visitor) {
+        return visitor.visit(this);
     }
 }

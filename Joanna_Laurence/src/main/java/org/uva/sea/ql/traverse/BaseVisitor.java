@@ -127,9 +127,6 @@ public abstract class BaseVisitor<T> implements Visitor {
     }
 
     public T visit(Question node) {
-        if(node.getDefaultValue() != null)
-            node.getDefaultValue().accept(this);
-
         if(node.getValue() != null)
             node.getValue().accept(this);
 

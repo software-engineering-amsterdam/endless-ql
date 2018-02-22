@@ -1,13 +1,12 @@
 package org.uva.sea.ql;
 
-import org.uva.sea.ql.evaluate.BooleanValue;
-import org.uva.sea.ql.evaluate.SymbolTable;
-import org.uva.sea.ql.evaluate.Value;
+import org.uva.sea.ql.evaluate.*;
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
 import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.ql.parser.nodeTypes.SingleNode;
+import org.uva.sea.ql.traverse.BaseVisitor;
 import org.uva.sea.ql.traverse.Visitor;
 
 import java.util.ArrayList;
@@ -40,6 +39,7 @@ public class QLEvaluator implements Visitor<Value> {
 
     @Override
     public Value visit(Addition node) {
+        //TODO: extract to method. Add error handling. Do for every get
         Value left = node.getLhs().accept(this);
         Value right = node.getRhs().accept(this);
         return left.add(right);
@@ -147,17 +147,17 @@ public class QLEvaluator implements Visitor<Value> {
 
     @Override
     public Value visit(DateExpr node) {
-        return null;
+        return new DateValue(node.getDate());
     }
 
     @Override
     public Value visit(Decimal node) {
-        return null;
+        return new DecimalValue(node.getValue());
     }
 
     @Override
     public Value visit(Money node) {
-        return null;
+        return new MoneyValue(node.getCurrency(), node.getAmount());
     }
 
     @Override
@@ -167,7 +167,7 @@ public class QLEvaluator implements Visitor<Value> {
 
     @Override
     public Value visit(Str node) {
-        return null;
+        return new StringValue(node.getValue());
     }
 
     @Override
@@ -175,12 +175,13 @@ public class QLEvaluator implements Visitor<Value> {
         return null;
     }
 
-    public T visit(Variable node) {
-        this.stack.add(node.getLinkedQuestion().getValue());
-    }
-
     @Override
     public Value visit(Condition node) {
+        Value conditionValue = node.accept(new QLValueEvaluator<>() {
+        });
+
+
+
         return null;
     }
 

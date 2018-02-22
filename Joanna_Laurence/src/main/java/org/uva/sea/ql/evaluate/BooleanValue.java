@@ -1,5 +1,7 @@
 package org.uva.sea.ql.evaluate;
 
+import org.uva.sea.ql.QLValueEvaluator;
+
 public class BooleanValue extends Value {
     boolean booleanValue;
 
@@ -33,5 +35,10 @@ public class BooleanValue extends Value {
 
     public Value add(StringValue value) {
         return new ErrorValue("Cannot add string to boolean");
+    }
+
+    @Override
+    public <T> T accept(QLValueEvaluator<T> visitor) {
+        return visitor.visit(this);
     }
 }

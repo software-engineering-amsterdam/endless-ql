@@ -1,6 +1,8 @@
 package org.uva.sea.ql.evaluate;
 
 
+import org.uva.sea.ql.QLValueEvaluator;
+
 import java.util.Calendar;
 
 public class DateValue extends Value {
@@ -38,5 +40,10 @@ public class DateValue extends Value {
 
     public Value add(StringValue value) {
         return new ErrorValue("Cannot add string to date");
+    }
+
+    @Override
+    public <T> T accept(QLValueEvaluator<T> visitor) {
+        return visitor.visit(this);
     }
 }

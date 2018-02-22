@@ -76,9 +76,27 @@ class Visitor(QLGrammarVisitor):
     # Visit a parse tree produced by QLGrammarParser#expression.
     def visitExpression(self, ctx:QLGrammarParser.ExpressionContext):
         self.logger.debug("Exp")
-        print("Left: "+ str(ctx.left))
-        self.visitChildren(ctx)
-        return "EXPRESSION"
+        # this is a binop
+        if (ctx.left and ctx.right):
+            left = self.visit(ctx.left)
+            right = self.visit(ctx.right)
+
+            if(ctx.COMPARE()):
+                op = ctx.COMPARE().getText()
+            elif(ctx.MATH_OPERATOR_PRIO()):
+                op = ctx.MATH_OPERATOR_PRIO()
+            elif(ctx.MATH_OPERATOR()):
+                op = ctx.MATH_OPERATOR()
+            elif(ctx.AND()):
+                op = ctx.AND()
+            elif(ctx.OR()):
+                op = ctx.OR()
+            
+            binNode = BinaryNode(left, right, op, ctx.start.line)
+            return binNode
+        
+        
+        return self.visitChildren(ctx)
 
     def visitLiteral(self, ctx:QLGrammarParser.LiteralContext):
         self.logger.debug("LITERAL")

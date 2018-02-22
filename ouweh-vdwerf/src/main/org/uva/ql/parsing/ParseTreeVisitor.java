@@ -80,6 +80,19 @@ public class ParseTreeVisitor extends QLBaseVisitor {
     }
 
     @Override
+    public TreeNode visitMulDiv(QLParser.MulDivContext ctx) {
+        Expression left = (Expression) visit(ctx.left);
+        Expression right = (Expression) visit(ctx.right);
+        String operation = ctx.op.getText();
+
+        if (operation.equals("*")) {
+            return new Multiplication(left, right);
+        } else {
+            return new Division(left, right);
+        }
+    }
+
+    @Override
     public TreeNode visitComparation(QLParser.ComparationContext ctx){
         String operation = ctx.op.getText();
 

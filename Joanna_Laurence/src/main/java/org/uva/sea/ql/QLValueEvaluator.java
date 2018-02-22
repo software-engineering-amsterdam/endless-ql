@@ -35,4 +35,8 @@ public abstract class QLValueEvaluator<T> {
     public T visit(QuestionValue node) {
         return null;
     }
+
+    public T visit(UndefinedValue node) {
+        return null;
+    }
 }

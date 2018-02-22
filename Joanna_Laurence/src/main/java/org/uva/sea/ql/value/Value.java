@@ -35,6 +35,10 @@ public abstract class Value {
         return new ErrorValue("Add operator cannot be applied here");
     }
 
+    public Value add(UndefinedValue undefinedValue) {
+        return undefinedValue;
+    }
+
     //and
     public Value and(Value value) {
         return new ErrorValue("And operator cannot be applied here");
@@ -266,6 +270,11 @@ public abstract class Value {
     public Value multiply(StringValue value) {
         return new ErrorValue("Multiply operator cannot be applied here");
     }
+
+    public Value multiply(UndefinedValue undefinedValue) {
+        return undefinedValue;
+    }
+
 
     //negate
     public Value negate() {

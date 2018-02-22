@@ -62,12 +62,12 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 
 	@Override
 	public BaseElement visitQuestionStmt(QuestionStmt questionStmt) {
-		return new QuestionElement(questionStmt);
+		return new QuestionElement(questionStmt.identifier.getName(), questionStmt.label, questionStmt.type.getName());
 	}
 
 	@Override
 	public BaseElement visitComputedQuestionStmt(ComputedQuestionStmt questionStmt) {
-		return new ComputedQuestionElement(questionStmt);
+		return new ComputedQuestionElement(questionStmt.identifier.getName(), questionStmt.label, questionStmt.type.getName(), questionStmt.expression);
 	}
 
 	@Override

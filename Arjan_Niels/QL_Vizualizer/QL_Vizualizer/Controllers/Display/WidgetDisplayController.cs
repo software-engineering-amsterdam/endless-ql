@@ -21,11 +21,14 @@ namespace QL_Vizualizer.Controllers.Display
         /// </summary>
         protected ElementFactory<T,Y> _elementFactory { get; private set; }
 
-        public WidgetDisplayController(float initialPosition, ElementFactory<T,Y> elementFactory)
+        protected WidgetController _widgetController { get; private set; }
+
+        public WidgetDisplayController(float initialPosition, ElementFactory<T,Y> elementFactory, WidgetController controller)
         {
             InitialPosition = initialPosition;
             _elementFactory = elementFactory;
             ElementIndex = new Dictionary<string, T>();
+            _widgetController = controller;
         }
 
         /// <summary>
@@ -34,8 +37,20 @@ namespace QL_Vizualizer.Controllers.Display
         /// <param name="widget">Widget to be shown</param>
         /// <param name="position">X-Position of widget</param>
         /// <returns>Bottom X-Position of placed widget with repsect to all style attributes</returns>
-        public abstract float Show(QLWidget widget, Y style);
+        public abstract float ShowWidget(QLWidget widget, Y style);
 
+        /// <summary>
+        /// Shows display to user
+        /// </summary>
+        public abstract void ShowDisplay();
+
+        /// <summary>
+        /// Updates the position of the widget with the bottom position of the previous widget
+        /// </summary>
+        /// <param name="widget">Widget to update</param>
+        /// <param name="positionAbove">Bottom of previous/above widget</param>
+        /// <param name="style">Style of the widget to update</param>
+        /// <returns>Updated style</returns>
         public abstract Y UpdatePosition(QLWidget widget, float positionAbove, Y style);
 
         protected T CreateElement(QLWidget widget, Y style)
@@ -52,6 +67,11 @@ namespace QL_Vizualizer.Controllers.Display
         public void UpdateView(QLWidget widget)
         {
             _elementFactory.UpdateElement(widget, ElementIndex[widget.Identifyer]);
+        }
+
+        public virtual void ParseQL(string rawQL)
+        {
+
         }
     }
 }

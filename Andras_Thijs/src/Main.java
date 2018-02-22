@@ -35,8 +35,8 @@ public class Main {
             e.printStackTrace();
         }
 
-        FormDisplay form = new FormDisplay();
-        form.displayForm();
+        FormTemplate form = new FormTemplate();
+        form.initGUI();
 
     }
 }

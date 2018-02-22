@@ -8,20 +8,6 @@ import static java.util.stream.Collectors.toList;
 
 public class FormReader  {
 
-    public class FormReaderListener extends QLBaseListener {
-
-        @Override
-        public void enterForm(QLParser.FormContext ctx) {
-            //System.out.println(ctx.getText());
-        }
-
-        @Override
-        public void enterQuestion(QLParser.QuestionContext ctx){
-            System.out.println(ctx.getText());
-        }
-
-    }
-
     public class FormReaderVisitor extends QLBaseVisitor<Object> {
 
 

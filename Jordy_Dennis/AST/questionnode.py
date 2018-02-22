@@ -9,5 +9,8 @@ class QuestionNode:
         self.varType = varType
         self.line = line
 
+    def checkTypes(self):
+    	print("checkingQuestion")
+
     def __repr__(self):
         return "Question: {}, {}:{}".format(self.question,self.varName, self.varType)

@@ -6,11 +6,11 @@ import org.uva.jomi.ql.ast.statements.UnaryExpr;
 
 abstract public class Expr extends AstNode {
 	public interface Visitor<T> {
-		T visitIdentifierExpr(IdentifierExpr expr);
-		T visitPrimaryExpr(PrimaryExpr expr);
-		T visitBinaryExpr(BinaryExpr expr);
-		T visitGroupingExpr(GroupingExpr expr);
-		T visitUnaryExpr(UnaryExpr expr);
+		T visit(IdentifierExpr expr);
+		T visit(PrimaryExpr expr);
+		T visit(BinaryExpr expr);
+		T visit(GroupingExpr expr);
+		T visit(UnaryExpr expr);
 	}
 
 	public abstract <T> T accept(Visitor<T> visitor);

@@ -10,9 +10,7 @@ class Visitor(QLGrammarVisitor):
 
     # Visit a parse tree produced by QLGrammarParser#form.
     def visitForm(self, ctx:QLGrammarParser.FormContext):
-        print("FORM")
-        
-        temp_form = FormNode(ctx.ID().getText())
+        temp_form = FormNode(ctx.ID().getText(), ctx.start.line)
         value = self.visit(ctx.block())
         
         for i in value:
@@ -46,22 +44,38 @@ class Visitor(QLGrammarVisitor):
         var = ctx.ID().getText()
         varType = ctx.types().getText()
         
-        questionN = QuestionNode(question, var, varType)      
+        questionN = QuestionNode(question, var, varType, ctx.start.line)      
         
         return questionN
 
 
     # Visit a parse tree produced by QLGrammarParser#assignment.
     def visitAssignment(self, ctx:QLGrammarParser.AssignmentContext):
-        print("ASSIGMENT")
-        # return "ASSIGNMENT"
+        print("assign")
+        question = ctx.STRING().getText()
+        varName = ctx.ID().getText()
+        varType = ctx.types().getText()
+        expr = self.visit(ctx.expression())
+        assignNode = AssignmentNode(question, varName, varType, expr, ctx.start.line)
+        
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by QLGrammarParser#expression.
     def visitExpression(self, ctx:QLGrammarParser.ExpressionContext):
-        print("Exp")
+        print("Left: "+ str(ctx.left))
+        self.visitChildren(ctx)
         return "EXPRESSION"
+
+    def visitLiteral(self, ctx:QLGrammarParser.LiteralContext):
+        
+        return self.visitChildren(ctx)
+
+    # Visit a parse tree produced by QLGrammarParser#unaryexp.
+    def visitUnaryexp(self, ctx:QLGrammarParser.UnaryexpContext):
+        # print(ctx.NOT().getText())
+        return self.visitChildren(ctx)
+
 
 
     # Visit a parse tree produced by QLGrammarParser#conditional.
@@ -93,7 +107,7 @@ class Visitor(QLGrammarVisitor):
         print("IF")
 
         condition = self.visit(ctx.expression())
-        conditionN = conditionNode(condition);
+        conditionN = conditionNode(condition, ctx.start.line);
 
         if_questions = self.visit(ctx.block())
         conditionN.addQuestions(if_questions)
@@ -107,7 +121,7 @@ class Visitor(QLGrammarVisitor):
         print("ELIF")
         
         condition = self.visit(ctx.expression())
-        conditionN = conditionNode(condition);
+        conditionN = conditionNode(condition, ctx.start.line);
 
         elif_questions = self.visit(ctx.block())
         conditionN.addQuestions(elif_questions)
@@ -126,4 +140,5 @@ class Visitor(QLGrammarVisitor):
     def visitTypes(self, ctx:QLGrammarParser.TypesContext):
         print("TYPES")
         return self.visitChildren(ctx)
+
 

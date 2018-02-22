@@ -1,33 +1,27 @@
+import {ExpressionType} from './expression-type';
+import {Location} from './location';
+
+export type BinaryOperator = '+' | '-' | '*' | '/';
+export type UnaryOperator = '!' | '-';
+export type LogicalOperator = '&&' | '||';
+export type LiteralType = boolean | number | string | Date;
+
 export abstract class Expression {
-  constructor(public elementLeft: Expression, public elementRight: Expression) { }
-}
+  constructor(public location: Location) {}
+  abstract getType(): ExpressionType;
 
-export class IntegerExpression extends Expression {
-  constructor(public value: number) {
-    super(null, null);
+  protected getLocationErrorMessage(): string {
+    return ` between line ${this.location.start.line}` +
+      ` and col ${this.location.start.column} and line ${this.location.end.line} and col ${this.location.end.column}`;
   }
 }
 
-export class AddExpression extends Expression {
-  constructor(elementLeft: Expression, elementRight: Expression) {
-    super(elementLeft, elementRight);
+export class Literal extends Expression {
+  constructor(public type: ExpressionType, public value: LiteralType, location: Location) {
+    super(location);
   }
-}
 
-export class SubtractExpression extends Expression {
-  constructor(elementLeft: Expression, elementRight: Expression) {
-    super(elementLeft, elementRight);
-  }
-}
-
-export class MultiplyExpression extends Expression {
-  constructor(elementLeft: Expression, elementRight: Expression) {
-    super(elementLeft, elementRight);
-  }
-}
-
-export class DivideExpression extends Expression {
-  constructor(elementLeft: Expression, elementRight: Expression) {
-    super(elementLeft, elementRight);
+  getType(): ExpressionType {
+    return undefined;
   }
 }

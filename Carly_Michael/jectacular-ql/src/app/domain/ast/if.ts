@@ -1,4 +1,4 @@
-import {Statement} from './';
+import {Statement} from './statement';
 import {QuestionBase} from '../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {Question} from './question';

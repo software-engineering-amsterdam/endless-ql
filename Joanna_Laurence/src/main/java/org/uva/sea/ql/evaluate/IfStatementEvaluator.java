@@ -20,7 +20,6 @@ public class IfStatementEvaluator extends QLValueEvaluator<List<Question>> {
      */
     private List<Question> cachedQuestions = new ArrayList<>();
 
-
     /**
      * Evaluates the condition, when true the statements are returned
      * @param ifStatement Statement that is evaluated

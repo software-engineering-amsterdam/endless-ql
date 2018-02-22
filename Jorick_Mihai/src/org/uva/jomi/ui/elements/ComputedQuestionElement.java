@@ -8,9 +8,9 @@ public class ComputedQuestionElement extends QuestionElement {
 
 	private Expr expression;
 	
-	public ComputedQuestionElement(ComputedQuestionStmt question) {
-		super(question);
-		this.expression = question.expression;
+	public ComputedQuestionElement(String identifier, String question, String type, Expr expression) {
+		super(identifier, question, type);
+		this.expression = expression;
 	}
 	
 }

@@ -46,7 +46,7 @@ public class Validator implements StatementVisitor<Void, String> {
 
         // TODO expressions
 
-        System.out.println(table.size());
+        System.out.println("Total number of questions: " + table.size());
     }
 
     public boolean findDuplicates() {
@@ -55,11 +55,11 @@ public class Validator implements StatementVisitor<Void, String> {
 
         for (Question question : this.questions) {
             if (!questionIDs.add(question.getName())) {
-                System.out.printf("Question name %s already exists.", question.getName());
+                System.out.printf("\nWARNING: (var could be overwritten) question name %s already exists.", question.getName());
             }
 
             if (!questionTexts.add(question.getContent())) {
-                System.out.printf("Question content %s already exists.", question.getContent());
+                System.out.printf("\nWARNING: Question content %s already exists.", question.getContent());
             }
         }
         // TODO return something useful here.

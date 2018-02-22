@@ -8,6 +8,6 @@ public abstract class ExpressionComparison extends ExpressionBinary<Boolean> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Boolean;
+        return ReturnType.BOOLEAN;
     }
 }

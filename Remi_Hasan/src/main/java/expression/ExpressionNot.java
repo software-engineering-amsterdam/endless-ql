@@ -13,6 +13,6 @@ public class ExpressionNot extends ExpressionUnary<Boolean> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Boolean;
+        return ReturnType.BOOLEAN;
     }
 }

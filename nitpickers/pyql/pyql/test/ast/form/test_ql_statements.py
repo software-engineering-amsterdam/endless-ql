@@ -46,7 +46,7 @@ class TestComputedQuestion(unittest.TestCase):
         self.assertEqual(self.test_computed_question.question_type, self.test_type)
         self.assertEqual(self.test_computed_question.expression, self.test_expression)
 
-g
+
 class TestIf(unittest.TestCase):
 
     def setUp(self):

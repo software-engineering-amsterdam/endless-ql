@@ -23,7 +23,6 @@ public class SubtractExpression extends BinaryExpression<Double> {
         return new DecimalConstant(left.getValue() - right.getValue());
     }
 
-
     @Override
     public Boolean isArithmetic(){
         return true;

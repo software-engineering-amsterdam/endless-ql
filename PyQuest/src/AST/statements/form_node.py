@@ -1,4 +1,4 @@
-from src.AST.statements.block_statement_node import BlockStatementNode
+from AST.statements.block_statement_node import BlockStatementNode
 
 
 class FormNode(BlockStatementNode):

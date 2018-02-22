@@ -17,11 +17,16 @@ public class ExpressionIdentifier<T> extends Expression<T> {
 
     @Override
     public ReturnType getReturnType() {
-        return evaluate().getReturnType();
+        return LookupTable.getInstance().getQuestion(identifier).type;
     }
 
     @Override
     public ExpressionVariable evaluate() {
         return LookupTable.getInstance().getQuestionAnswer(identifier).evaluate();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return evaluate().equals(other);
     }
 }

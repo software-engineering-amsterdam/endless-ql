@@ -254,6 +254,40 @@ form CommentFormMLX {}";
                 yield return new TestCaseData(
                     $"form NameForm {{{NewLine}    intQuestion1 : \"xyz\"  integer{NewLine}    intQuestion2 : \"abc\"  integer{NewLine}    dateQuestion1 : \"321\"  date{NewLine}    dateQuestion2 : \"123\"  date{NewLine}    if ((intQuestion1 >= intQuestion2) != (dateQuestion1 == dateQuestion2)) {{{NewLine}    aName : \"zxy\"  boolean {NewLine} }} }} ",
                     new[] { "(intQuestion1>=intQuestion2)!=(dateQuestion1==dateQuestion2)" });
+                yield return new TestCaseData(
+                    $@"form NameForm {{
+    intQuestion1 : ""xyz""  integer
+    intQuestion2 : ""abc""  integer
+    boolQuestion1 : ""bbb""  boolean
+    if ((intQuestion1 + intQuestion2) != boolQuestion1) {{
+        aName : ""zxy""  boolean 
+    }} 
+}} ",
+                    new[] { "(intQuestion1+intQuestion2)!=boolQuestion1" });
+                yield return new TestCaseData(
+                    $@"form NameForm {{
+    intQuestion1 : ""xyz""  integer
+    intQuestion2 : ""abc""  integer
+    boolQuestion1 : ""ccc""  boolean
+    if (boolQuestion1 == (intQuestion1 - intQuestion2)) {{
+        aName : ""zxy""  boolean 
+    }} 
+}} ",
+                    new[] { "boolQuestion1==(intQuestion1-intQuestion2)" });
+                //                yield return new TestCaseData(
+                //$@"form NameForm {{
+                //    intQuestion1 : ""xyz""  integer
+                //    intQuestion2 : ""abc""  integer
+                //    if ((intQuestion1 / intQuestion2) >= (intQuestion2 * intQuestion1)) {{
+                //        aName : ""zxy""  boolean 
+                //    }} 
+                //}} ",
+                //                    new[] { "(intQuestion1/intQuestion2)>=(intQuestion2*intQuestion1)" });                //yield return new TestCaseData(
+                //    $"form NameForm {{{NewLine}    intQuestion1 : \"xyz\"  integer{NewLine}    intQuestion2 : \"abc\"  integer{NewLine}    if ((intQuestion1 + intQuestion2) != (intQuestion1 - intQuestion2)) {{{NewLine}    aName : \"zxy\"  boolean {NewLine} }} }} ",
+                //    new[] { "(intQuestion1+intQuestion2)!=(intQuestion1-intQuestion2)" });
+                //yield return new TestCaseData(
+                //    $"form NameForm {{{NewLine}    decimalQuestion1 : \"xyz\"  decimal{NewLine}    decimalQuestion2 : \"abc\"  decimal{NewLine}    if ((decimalQuestion1 * decimalQuestion2) > (decimalQuestion1 / decimalQuestion2)) {{{NewLine}    aName : \"zxy\"  boolean {NewLine} }} }} ",
+                //    new[] { "(decimalQuestion1*decimalQuestion2)>(decimalQuestion1/decimalQuestion2)" });
             }
         }
     }

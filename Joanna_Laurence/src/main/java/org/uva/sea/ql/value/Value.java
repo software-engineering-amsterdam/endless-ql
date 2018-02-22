@@ -68,6 +68,10 @@ public abstract class Value {
         return new ErrorValue("And operator cannot be applied here");
     }
 
+    public Value and(UndefinedValue undefinedValue) {
+        return undefinedValue;
+    }
+
     //divide
     public Value divide(Value value) {
         return new ErrorValue("Divide operator cannot be applied here");
@@ -95,6 +99,10 @@ public abstract class Value {
 
     public Value divide(StringValue value) {
         return new ErrorValue("Divide operator cannot be applied here");
+    }
+
+    public Value divide(UndefinedValue undefinedValue) {
+        return undefinedValue;
     }
 
     //isEqual
@@ -126,6 +134,10 @@ public abstract class Value {
         return new ErrorValue("isEqual operator cannot be applied here");
     }
 
+    public Value isEqual(UndefinedValue undefinedValue) {
+        return undefinedValue;
+    }
+
     //isGreaterOrEqual
     public Value isGreaterOrEqual(Value value) {
         return new ErrorValue("isGreaterOrEqual operator cannot be applied here");
@@ -155,6 +167,10 @@ public abstract class Value {
         return new ErrorValue("isGreaterOrEqual operator cannot be applied here");
     }
 
+    public Value isGreaterOrEqual(UndefinedValue undefinedValue) {
+        return undefinedValue;
+    }
+
     //isGreaterThan
     public Value isGreaterThan(Value value) {
         return new ErrorValue("isGreaterThan operator cannot be applied here");
@@ -182,6 +198,10 @@ public abstract class Value {
 
     public Value isGreaterThan(StringValue value) {
         return new ErrorValue("isGreaterThan operator cannot be applied here");
+    }
+
+    public Value isGreaterThan(UndefinedValue undefinedValue) {
+        return undefinedValue;
     }
 
     //isLessOrEqual

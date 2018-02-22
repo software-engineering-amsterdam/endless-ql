@@ -6,4 +6,8 @@ public class BooleanValue extends Value {
     public BooleanValue(boolean booleanValue) {
         this.booleanValue = booleanValue;
     }
+
+    public boolean getBooleanValue() {
+        return booleanValue;
+    }
 }

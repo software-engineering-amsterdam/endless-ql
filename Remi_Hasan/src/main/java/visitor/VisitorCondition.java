@@ -16,17 +16,20 @@ public class VisitorCondition extends QLBaseVisitor<Condition> {
         VisitorExpression visitorExpression = new VisitorExpression();
         Expression expression = visitorExpression.visit(ctx.expression());
 
-        if(expression.getReturnType() != ReturnType.Boolean)
+        if(expression.getReturnType() != ReturnType.Boolean) {
             throw new UnsupportedOperationException("Condition expression not of type boolean");
+        }
 
         // Visit all conditionTrueStatements in the conditional body
         ArrayList<Statement> conditionTrueStatements = new ArrayList<>();
         ArrayList<Statement> conditionFalseStatements = new ArrayList<>();
         VisitorStatement visitorStatement = new VisitorStatement();
+
         for (QLParser.StatementContext statementContext : ctx.conditionTrueBlock.statement()) {
             Statement statement = visitorStatement.visit(statementContext);
             conditionTrueStatements.add(statement);
         }
+
         if(ctx.conditionFalseBlock != null){
             for (QLParser.StatementContext statementContext : ctx.conditionFalseBlock.statement()) {
                 Statement statement = visitorStatement.visit(statementContext);

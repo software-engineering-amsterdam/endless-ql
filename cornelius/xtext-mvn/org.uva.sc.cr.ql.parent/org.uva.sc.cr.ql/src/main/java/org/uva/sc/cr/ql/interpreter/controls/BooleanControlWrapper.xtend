@@ -6,15 +6,13 @@ import org.uva.sc.cr.ql.qL.Question
 
 class BooleanControlWrapper extends ControlWrapper {
 
-	private val CheckBox control
+	private var CheckBox control
 
 	new(Question question, BooleanBinding binding) {
 		super(question, binding)
-		control = new CheckBox
 		if (question.expression !== null) {
 			control.selectedProperty.bind(binding)
 		}
-		setDefaults
 	}
 
 	override getValue() {
@@ -23,6 +21,10 @@ class BooleanControlWrapper extends ControlWrapper {
 
 	override getControl() {
 		return control
+	}
+	
+	override protected buildControl() {
+		control = new CheckBox
 	}
 
 }

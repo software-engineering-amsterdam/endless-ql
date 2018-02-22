@@ -6,7 +6,7 @@ namespace QL_Parser.Analysis.Semantic
     /// The TypeAnalyser walks over the tree and looks if all the variable type
     /// are in compliance with the language.
     /// </summary>
-    public class VariableAnalyser : IAnalyser
+    public class DuplicateVariableAnalyser : IAnalyser
     {
         /// <summary>
         /// This function will return true if it doesn't encounter any problems. 
@@ -23,7 +23,7 @@ namespace QL_Parser.Analysis.Semantic
                 var questionNode = (QuestionNode)node;
                 if (!SymbolTable.Add(questionNode.ID, questionNode.ValueType) && logErrors)
                 {
-                    Analyser.AddMessage(string.Format("Duplicate identifier: {0} {1}", questionNode.ID, questionNode.ValueType), MessageType.ERROR);
+                    Analyser.AddMessage(string.Format("Duplicate identifier {0} {1}", questionNode.ID, questionNode.ValueType), MessageType.ERROR);
                     return false;
                 }
             }

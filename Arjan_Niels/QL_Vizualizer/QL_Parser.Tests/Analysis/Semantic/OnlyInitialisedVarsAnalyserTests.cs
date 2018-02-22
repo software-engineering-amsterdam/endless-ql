@@ -21,7 +21,7 @@ namespace QL_Parser.Tests.Analysis.Semantic
         [TestMethod]
         public void AllVarsInitialised()
         {
-            var variableAnalyser = new VariableAnalyser();
+            var variableAnalyser = new DuplicateVariableAnalyser();
             variableAnalyser.Analyse(_simpleFormWithConditional);
 
             var onlyIdentifiedVarsAnalyser = new OnlyInitialisedVarsAnalyser();
@@ -34,7 +34,7 @@ namespace QL_Parser.Tests.Analysis.Semantic
         [TestMethod]
         public void NotAllVarsInitialised()
         {
-            var variableAnalyser = new VariableAnalyser();
+            var variableAnalyser = new DuplicateVariableAnalyser();
             variableAnalyser.Analyse(_simpleFormWithNotInitialisedVar);
 
             var onlyIdentifiedVarsAnalyser = new OnlyInitialisedVarsAnalyser();

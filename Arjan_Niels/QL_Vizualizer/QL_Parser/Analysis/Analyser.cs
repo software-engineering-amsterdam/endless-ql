@@ -35,17 +35,19 @@ namespace QL_Parser.Analysis
                 new SingleFormValidator(),
 
                 // Semantic
-                new VariableAnalyser(),
-                new OnlyInitialisedVarsAnalyser()
+                new DuplicateVariableAnalyser(),
+                new OnlyInitialisedVarsAnalyser(),
+                new BooleanStatementnalyser()
             };
         }
 
         public static bool Analyse(Node node, bool logErrors = true)
         {
+            var result = true;
             foreach (IAnalyser analyser in Instance._analysers)
-                analyser.Analyse(node, logErrors);
-
-            return false;
+                if (!analyser.Analyse(node, logErrors) && result)
+                    result = false;
+            return result;
         }
 
         public static void AddMessage(string message, MessageType type)

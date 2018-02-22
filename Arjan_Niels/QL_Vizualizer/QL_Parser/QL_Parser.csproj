@@ -52,8 +52,9 @@
     <Compile Include="Analysis\Analyser.cs" />
     <Compile Include="Analysis\IAnalyser.cs" />
     <Compile Include="Analysis\ParseMessage.cs" />
+    <Compile Include="Analysis\Semantic\BooleanStatementAnalyser.cs" />
     <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyser.cs" />
-    <Compile Include="Analysis\Semantic\VariableAnalyser.cs" />
+    <Compile Include="Analysis\Semantic\DuplicateVariableAnalyser.cs" />
     <Compile Include="AST\Nodes\ConditionalNode.cs" />
     <Compile Include="AST\Nodes\FormNode.cs" />
     <Compile Include="AST\Nodes\IExpressionNode.cs" />

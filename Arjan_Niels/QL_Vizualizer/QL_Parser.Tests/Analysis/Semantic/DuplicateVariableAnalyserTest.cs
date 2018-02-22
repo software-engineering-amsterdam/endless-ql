@@ -6,7 +6,7 @@ using QL_Parser.AST.Nodes;
 namespace QL_Parser.Tests.Analysis.Semantic
 {
     [TestClass]
-    public class VariableAnalyserTest : QLTest
+    public class DuplicateVariableAnalyserTest : QLTest
     {
         private FormNode _validForm;
         private FormNode _invalidForm;
@@ -22,7 +22,7 @@ namespace QL_Parser.Tests.Analysis.Semantic
         [TestMethod]
         public void NoDuplicateVariableTest()
         {
-            var analyser = new VariableAnalyser();
+            var analyser = new DuplicateVariableAnalyser();
             var hasSucceded = analyser.Analyse(_validForm);
 
             Assert.IsTrue(hasSucceded);
@@ -33,12 +33,12 @@ namespace QL_Parser.Tests.Analysis.Semantic
         [TestMethod]
         public void DuplicateVariableTest()
         {
-            var analyser = new VariableAnalyser();
+            var analyser = new DuplicateVariableAnalyser();
             var hasSucceded = analyser.Analyse(_invalidForm);
 
             Assert.IsFalse(hasSucceded);
             Assert.AreEqual(1, Analyser.GetErrors().Count);
-            Assert.AreEqual("ERROR Duplicate identifier: boughtAHouse BOOLEAN", Analyser.GetErrors()[0]);
+            Assert.AreEqual("ERROR Duplicate identifier boughtAHouse BOOLEAN", Analyser.GetErrors()[0]);
         }
     }
 }

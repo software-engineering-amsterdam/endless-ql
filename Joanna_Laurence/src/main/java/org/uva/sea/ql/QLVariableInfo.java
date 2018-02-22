@@ -64,8 +64,6 @@ public class QLVariableInfo extends BaseVisitor {
      */
     @Override
     public Void visit(Question node) {
-        super.visit(node);
-
         //Questions should not already exist
         String variableName = node.getVariable().getVariableName();
         if(variableMap.containsKey(variableName)) {
@@ -75,6 +73,10 @@ public class QLVariableInfo extends BaseVisitor {
 
         //Add new question to the lookup
         variableMap.put(variableName, node);
+
+        //Visit all siblings
+        super.visit(node);
+
         return null;
     }
 }

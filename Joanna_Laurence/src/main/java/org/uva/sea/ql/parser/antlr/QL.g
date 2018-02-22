@@ -45,9 +45,9 @@ label returns [String result]
         $result = $STR.text;
     };
 
-variable returns [Var result]
+variable returns [Variable result]
     : IDENT {
-        $result = new Var($IDENT.text);
+        $result = new Variable($IDENT.text);
         $result.setLocation($IDENT.getLine(), $IDENT.getCharPositionInLine());
     };
 
@@ -186,7 +186,7 @@ num returns [ASTNode result]
 
 dec returns [ASTNode result]
     : DECIMAL {
-        $result = new Dec($DECIMAL.text);
+        $result = new Decimal($DECIMAL.text);
         $result.setLocation($DECIMAL.getLine(), $DECIMAL.getCharPositionInLine());
     };
 

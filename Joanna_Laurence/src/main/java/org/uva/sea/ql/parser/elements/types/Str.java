@@ -1,5 +1,6 @@
 package org.uva.sea.ql.parser.elements.types;
 
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.traverse.Visitor;
 
@@ -20,6 +21,6 @@ public class Str extends ASTNode  {
     }
 
     public Type getType() {
-        return new Type("string");
+        return new Type(NodeType.STRING);
     }
 }

@@ -9,25 +9,25 @@ namespace QL_Parser.Tests.Analysis.Semantic
     public class VariableAnalyserTest : QLTest
     {
         private FormNode _validForm;
-        private readonly string _validFormRaw = "form ValidForm {" +
-            "   \"Have you bought a house?\"" +
-            "       boughtAHouse: boolean" +
-            "}";
-
         private FormNode _invalidForm;
-        private readonly string _invalidFormRaw = "form ValidForm {" +
-            "   \"Have you bought a house?\"" +
-            "       boughtAHouse: boolean" +
 
-            "   \"Have you bought a house?\"" +
-            "       boughtAHouse: boolean" +
-            "}";
 
         [TestInitialize]
         public void Initialize()
         {
-            _validForm = QLParserHelper.Parse(_validFormRaw);
-            _invalidForm = QLParserHelper.Parse(_invalidFormRaw);
+            _validForm = QLParserHelper.Parse(FormExamples.SimpleForm);
+            _invalidForm = QLParserHelper.Parse(FormExamples.SimpleFormWithDuplicateVars);
+        }
+
+        [TestMethod]
+        public void NoDuplicateVariableTest()
+        {
+            var analyser = new VariableAnalyser();
+            var hasSucceded = analyser.Analyse(_validForm);
+
+            Assert.IsTrue(hasSucceded);
+            Assert.AreEqual(0, Analyser.GetErrors().Count);
+
         }
 
         [TestMethod]
@@ -36,6 +36,7 @@ namespace QL_Parser.Tests.Analysis.Semantic
             var analyser = new VariableAnalyser();
             var hasSucceded = analyser.Analyse(_invalidForm);
 
+            Assert.IsFalse(hasSucceded);
             Assert.AreEqual(1, Analyser.GetErrors().Count);
             Assert.AreEqual("ERROR Duplicate identifier: boughtAHouse BOOLEAN", Analyser.GetErrors()[0]);
         }

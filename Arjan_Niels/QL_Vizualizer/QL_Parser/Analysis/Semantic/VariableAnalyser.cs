@@ -16,25 +16,24 @@ namespace QL_Parser.Analysis.Semantic
         /// <returns></returns>
         public bool Analyse(Node node, bool logErrors = true)
         {
-            // Traverse tree to check the types.
+            var result = true;
 
-            traverse(node);
-            return true;
-        }
-
-        private bool traverse(Node parent, bool logErrors = true)
-        {
-            if (parent.Type == NodeType.QUESTION)
+            if (node.Type == NodeType.QUESTION)
             {
-                var questionNode = (QuestionNode)parent;
+                var questionNode = (QuestionNode)node;
                 if (!SymbolTable.Add(questionNode.ID, questionNode.ValueType) && logErrors)
+                {
                     Analyser.AddMessage(string.Format("Duplicate identifier: {0} {1}", questionNode.ID, questionNode.ValueType), MessageType.ERROR);
+                    return false;
+                }
             }
 
-            foreach (Node node in parent.Children)
-                traverse(node);
+            // Set result to false if any of the children encounters an error.
+            foreach (Node n in node.Children)
+                if (!Analyse(n, logErrors) && result)
+                    result = false;
 
-            return false;
+            return result;
         }
     }
 }

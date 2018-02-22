@@ -17,5 +17,12 @@
             "   if notInitialisedVar {" +
             "   }" +
             "}";
+        public static readonly string SimpleFormWithDuplicateVars = "form ValidForm {" +
+            "   \"Have you bought a house?\"" +
+            "       boughtAHouse: boolean" +
+
+            "   \"Have you bought a house?\"" +
+            "       boughtAHouse: boolean" +
+            "}";
     }
 }

@@ -3,7 +3,6 @@ package visitor;
 import antlr.QLBaseVisitor;
 import antlr.QLLexer;
 import antlr.QLParser;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import expression.*;
 import model.LookupTable;
 

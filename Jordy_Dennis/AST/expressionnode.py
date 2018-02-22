@@ -33,4 +33,4 @@ class LiteralNode:
         self.type = _type
 
     def __repr__(self):
-        return "literal: {} ".format(self.value)
+        return "literal: {}({}) ".format(self.value,self.type)

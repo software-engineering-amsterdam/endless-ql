@@ -19,6 +19,7 @@ public class StringValue extends Value {
         return value.add(this);
     }
 
+    @Override
     public Value add(StringValue value) {
         return new StringValue(this.getStringValue().concat(value.getStringValue()));
     }

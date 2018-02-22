@@ -27,14 +27,17 @@ public class MoneyValue extends Value {
         return value.add(this);
     }
 
+    @Override
     public Value add(IntValue value) {
         return new MoneyValue(this.currency, this.amount.add(new BigDecimal(value.getIntValue())));
     }
 
+    @Override
     public Value add(MoneyValue value) {
         return new MoneyValue(this.currency, this.amount.add(value.getAmount()));
     }
 
+    @Override
     public Value add(DecimalValue value) {
         return new MoneyValue(this.currency, this.amount.add(new BigDecimal(value.getDecimalValue())));
     }
@@ -44,14 +47,17 @@ public class MoneyValue extends Value {
         return value.divide(this);
     }
 
+    @Override
     public Value divide(IntValue value) {
         return new MoneyValue(this.currency, this.amount.divide(new BigDecimal(value.getIntValue())));
     }
 
+    @Override
     public Value divide(MoneyValue value) {
         return new MoneyValue(this.currency, this.amount.divide(value.getAmount()));
     }
 
+    @Override
     public Value divide(DecimalValue value) {
         return new MoneyValue(this.currency, this.amount.divide(new BigDecimal(value.getDecimalValue())));
     }
@@ -61,14 +67,17 @@ public class MoneyValue extends Value {
         return value.isEqual(this);
     }
 
+    @Override
     public Value isEqual(IntValue value) {
         return new BooleanValue(this.amount.equals(new BigDecimal(value.getIntValue())));
     }
 
+    @Override
     public Value isEqual(MoneyValue value) {
         return new BooleanValue(this.amount.equals(value.getAmount()));
     }
 
+    @Override
     public Value isEqual(DecimalValue value) {
         return new BooleanValue(this.amount.equals(new BigDecimal(value.getDecimalValue())));
     }
@@ -78,14 +87,17 @@ public class MoneyValue extends Value {
         return value.isGreaterOrEqual(this);
     }
 
+    @Override
     public Value isGreaterOrEqual(IntValue value) {
         return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getIntValue())) >= 0);
     }
 
+    @Override
     public Value isGreaterOrEqual(MoneyValue value) {
         return new BooleanValue(this.amount.compareTo(value.getAmount()) >= 0);
     }
 
+    @Override
     public Value isGreaterOrEqual(DecimalValue value) {
         return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getDecimalValue())) >= 0);
     }
@@ -95,14 +107,17 @@ public class MoneyValue extends Value {
         return value.isGreaterThan(this);
     }
 
+    @Override
     public Value isGreaterThan(IntValue value) {
         return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getIntValue())) > 0);
     }
 
+    @Override
     public Value isGreaterThan(MoneyValue value) {
         return new BooleanValue(this.amount.compareTo(value.getAmount()) > 0);
     }
 
+    @Override
     public Value isGreaterThan(DecimalValue value) {
         return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getDecimalValue())) > 0);
     }
@@ -112,14 +127,17 @@ public class MoneyValue extends Value {
         return value.isLessOrEqual(this);
     }
 
+    @Override
     public Value isLessOrEqual(IntValue value) {
         return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getIntValue())) <= 0);
     }
 
+    @Override
     public Value isLessOrEqual(MoneyValue value) {
         return new BooleanValue(this.amount.compareTo(value.getAmount()) <= 0);
     }
 
+    @Override
     public Value isLessOrEqual(DecimalValue value) {
         return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getDecimalValue())) <= 0);
     }
@@ -129,14 +147,17 @@ public class MoneyValue extends Value {
         return value.isLessThan(this);
     }
 
+    @Override
     public Value isLessThan(IntValue value) {
         return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getIntValue())) < 0);
     }
 
+    @Override
     public Value isLessThan(MoneyValue value) {
         return new BooleanValue(this.amount.compareTo(value.getAmount()) < 0);
     }
 
+    @Override
     public Value isLessThan(DecimalValue value) {
         return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getDecimalValue())) < 0);
     }
@@ -146,14 +167,17 @@ public class MoneyValue extends Value {
         return value.multiply(this);
     }
 
+    @Override
     public Value multiply(IntValue value) {
         return new MoneyValue(this.currency, this.amount.multiply(new BigDecimal(value.getIntValue())));
     }
 
+    @Override
     public Value multiply(MoneyValue value) {
         return new MoneyValue(this.currency, this.amount.multiply(value.getAmount()));
     }
 
+    @Override
     public Value multiply(DecimalValue value) {
         return new MoneyValue(this.currency, this.amount.multiply(new BigDecimal(value.getDecimalValue())));
     }
@@ -163,14 +187,17 @@ public class MoneyValue extends Value {
         return value.isNotEqual(this);
     }
 
+    @Override
     public Value isNotEqual(IntValue value) {
         return new BooleanValue(!this.amount.equals(new BigDecimal(value.getIntValue())));
     }
 
+    @Override
     public Value isNotEqual(MoneyValue value) {
         return new BooleanValue(!this.amount.equals(value.getAmount()));
     }
 
+    @Override
     public Value isNotEqual(DecimalValue value) {
         return new BooleanValue(!this.amount.equals(new BigDecimal(value.getDecimalValue())));
     }
@@ -180,14 +207,17 @@ public class MoneyValue extends Value {
         return value.subtract(this);
     }
 
+    @Override
     public Value subtract(IntValue value) {
         return new MoneyValue(this.currency, this.amount.subtract(new BigDecimal(value.getIntValue())));
     }
 
+    @Override
     public Value subtract(MoneyValue value) {
         return new MoneyValue(this.currency, this.amount.subtract(value.getAmount()));
     }
 
+    @Override
     public Value subtract(DecimalValue value) {
         return new MoneyValue(this.currency, this.amount.subtract(new BigDecimal(value.getDecimalValue())));
     }

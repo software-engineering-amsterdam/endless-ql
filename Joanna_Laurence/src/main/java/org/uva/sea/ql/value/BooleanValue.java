@@ -18,6 +18,7 @@ public class BooleanValue extends Value {
         return value.and(this);
     }
 
+    @Override
     public Value and(BooleanValue value) {
         return new BooleanValue(this.booleanValue && value.getBooleanValue());
     }
@@ -27,6 +28,7 @@ public class BooleanValue extends Value {
         return value.isEqual(this);
     }
 
+    @Override
     public Value isEqual(BooleanValue value) {
         return new BooleanValue(this.booleanValue == value.getBooleanValue());
     }
@@ -36,6 +38,7 @@ public class BooleanValue extends Value {
         return value.isNotEqual(this);
     }
 
+    @Override
     public Value isNotEqual(BooleanValue value) {
         return new BooleanValue(this.booleanValue != value.getBooleanValue());
     }
@@ -45,6 +48,7 @@ public class BooleanValue extends Value {
         return value.or(value);
     }
 
+    @Override
     public Value or(BooleanValue value) {
         return new BooleanValue(this.booleanValue || value.getBooleanValue());
     }

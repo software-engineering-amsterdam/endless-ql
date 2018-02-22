@@ -18,6 +18,7 @@ public class QLMain {
 
          Add add/div etc operators
          Move value items to other package
+        String equal and date equal. (Lesser than and greater than for date, etc)
 
      */
 

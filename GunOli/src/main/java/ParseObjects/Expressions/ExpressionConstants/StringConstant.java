@@ -11,5 +11,4 @@ public class StringConstant extends Constant<String> {
     public EvaluationType returnType(){
         return EvaluationType.String;
     }
-
 }

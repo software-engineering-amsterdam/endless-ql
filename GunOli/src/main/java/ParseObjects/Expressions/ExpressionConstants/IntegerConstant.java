@@ -7,6 +7,7 @@ public class IntegerConstant extends Constant<Integer> {
     public IntegerConstant(Integer value){
         super(value);
     }
+    public IntegerConstant(String value)  { super(Integer.parseInt(value));}
 
     public EvaluationType returnType(){
         return EvaluationType.Integer;

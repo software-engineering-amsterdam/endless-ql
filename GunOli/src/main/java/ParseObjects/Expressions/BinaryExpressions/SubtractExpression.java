@@ -6,10 +6,7 @@ import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 
 public class SubtractExpression extends BinaryExpression<Double> {
-    public SubtractExpression(String operator, Expression left, Expression right){
-        super(operator, left, right);
-    }
-
+    public SubtractExpression(Expression left, Expression right) { super("-", left, right); }
 
     @Override
     public EvaluationType returnType() {

@@ -11,8 +11,10 @@ public class Main {
             ANTLRInputStream input = new ANTLRInputStream(new FileInputStream(args[0]));
             FormLexer lexer = new FormLexer(input);
             FormParser parser = new FormParser(new CommonTokenStream(lexer));
-            parser.addParseListener(new FormBaseListener());
-            parser.form_builder();
+            FormParser.Form_builderContext tree = parser.form_builder();
+            FormBaseListener extractor = new FormBaseListener();
+            ParseTreeWalker.DEFAULT.walk(extractor, tree);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

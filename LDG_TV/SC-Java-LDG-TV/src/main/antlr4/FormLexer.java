@@ -1,4 +1,4 @@
-// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/src/main/antlr4\Form.g4 by ANTLR 4.7
+// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/antlr4\Form.g4 by ANTLR 4.7
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -17,7 +17,7 @@ public class FormLexer extends Lexer {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, CURLY_BRACKET_OPEN=2, CURLY_BRACKET_CLOSE=3, BRACKET_OPEN=4, BRACKET_CLOSE=5, 
-		PLUS=6, MINUS=7, TIMES=8, DIV=9, QUESTION_IDENTIFIER=10, QUESTION_VARIABLE_SEPERATOR=11, 
+		PLUS=6, MINUS=7, TIMES=8, DIV=9, QUESTION_LABEL=10, QUESTION_VARIABLE_SEPERATOR=11, 
 		QUESTION_ANSWER_SEPERATOR=12, IF=13, WHITESPACE=14, NEWLINE=15, CHARACTERS=16;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
@@ -29,7 +29,7 @@ public class FormLexer extends Lexer {
 
 	public static final String[] ruleNames = {
 		"T__0", "LOWERCASE", "UPPERCASE", "CURLY_BRACKET_OPEN", "CURLY_BRACKET_CLOSE", 
-		"BRACKET_OPEN", "BRACKET_CLOSE", "PLUS", "MINUS", "TIMES", "DIV", "QUESTION_IDENTIFIER", 
+		"BRACKET_OPEN", "BRACKET_CLOSE", "PLUS", "MINUS", "TIMES", "DIV", "QUESTION_LABEL", 
 		"QUESTION_VARIABLE_SEPERATOR", "QUESTION_ANSWER_SEPERATOR", "IF", "WHITESPACE", 
 		"NEWLINE", "CHARACTERS", "NUMBERS"
 	};
@@ -40,9 +40,8 @@ public class FormLexer extends Lexer {
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, "CURLY_BRACKET_OPEN", "CURLY_BRACKET_CLOSE", "BRACKET_OPEN", 
-		"BRACKET_CLOSE", "PLUS", "MINUS", "TIMES", "DIV", "QUESTION_IDENTIFIER", 
-		"QUESTION_VARIABLE_SEPERATOR", "QUESTION_ANSWER_SEPERATOR", "IF", "WHITESPACE", 
-		"NEWLINE", "CHARACTERS"
+		"BRACKET_CLOSE", "PLUS", "MINUS", "TIMES", "DIV", "QUESTION_LABEL", "QUESTION_VARIABLE_SEPERATOR", 
+		"QUESTION_ANSWER_SEPERATOR", "IF", "WHITESPACE", "NEWLINE", "CHARACTERS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 

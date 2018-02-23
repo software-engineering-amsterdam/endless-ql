@@ -1,28 +1,37 @@
 package ql.value;
 
+import java.time.LocalDate;
+
 import ql.ast.type.Type;
 
-public class Date extends Value<java.util.Date> {
+public class Date extends Value<LocalDate> {
 
-    private java.util.Date value;
+    private LocalDate value;
     
     public Date() { 
-        this.value = new java.util.Date();
+        this.value = null;
     }
     
-    @SuppressWarnings("deprecation")
     public Date(String value) {
-        this.value = new java.util.Date(value);
+        this.value = LocalDate.parse(value);
+    }
+
+    public Date(LocalDate localDate) {
     }
 
     @Override
     public String toString() {
-        return String.format("%td-%tm-%tY", value,value,value);
+        return value.toString();
     }
 
     @Override
-    public java.util.Date getValue() {
+    public LocalDate getValue() {
         return value;
+    }
+    
+    @Override
+    public void setValue(LocalDate value) {
+        this.value = value;
     }
 
     @Override

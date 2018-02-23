@@ -10,6 +10,7 @@ public abstract class Value<T> {
     
     public abstract Type getType();
     public abstract T getValue();
+    public abstract void setValue(T value);
     
     public Value<?> equal(Value<?> secondOperand) { return new Bool(); }
     public Value<?> notEqual(Value<?> secondOperand) { return new Bool(); }

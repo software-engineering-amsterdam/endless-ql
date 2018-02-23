@@ -25,6 +25,11 @@ public class Decimal extends Value<Double> {
     }
 
     @Override
+    public void setValue(Double value) {
+        this.value = value;
+    }
+    
+    @Override
     public Type getType() {
         return new ql.ast.type.Decimal();
     }

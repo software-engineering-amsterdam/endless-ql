@@ -4,7 +4,7 @@ import ql.ast.type.Type;
 
 public class Undefined extends Value<String> {
 
-    private String value;
+    private final String value;
     
     public Undefined() { 
         this.value = null;
@@ -19,6 +19,9 @@ public class Undefined extends Value<String> {
     public String getValue() {
         return value;
     }
+    
+    @Override
+    public void setValue(String value) {}
 
     @Override
     public Type getType() {

@@ -14,6 +14,10 @@ public class Bool extends Value<Boolean> {
         this.value = Boolean.parseBoolean(value);
     }
 
+    public Bool(boolean value) {
+        this.value = value;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(value);
@@ -22,6 +26,11 @@ public class Bool extends Value<Boolean> {
     @Override
     public Boolean getValue() {
         return value;
+    }
+    
+    @Override
+    public void setValue(Boolean value) {
+        this.value = value;
     }
 
     @Override

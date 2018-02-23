@@ -23,6 +23,11 @@ public class Int extends Value<Integer> {
     public Integer getValue() {
         return value;
     }
+    
+    @Override
+    public void setValue(Integer value) {
+        this.value = value;
+    }
 
     @Override
     public Type getType() {

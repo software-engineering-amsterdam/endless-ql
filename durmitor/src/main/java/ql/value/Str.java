@@ -23,6 +23,11 @@ public class Str extends Value<String> {
     public String getValue() {
         return value;
     }
+    
+    @Override
+    public void setValue(String value) {
+        this.value = value;
+    }
 
     @Override
     public Type getType() {

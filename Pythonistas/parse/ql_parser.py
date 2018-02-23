@@ -82,13 +82,20 @@ def if_stmt():
     """
     def process(parsed):
         print(parsed)
-        (((((_, condition), _), true_stmt), false_parsed), _) = parsed
-        if false_parsed:
-            (_, false_stmt) = false_parsed
-        else:
-            false_stmt = None
-        return IfStatement(condition, true_stmt, false_stmt)
-    return keyword('if') + bexp() + keyword('{') + keyword('\n') + \
+        # (((((((('if', '('), 'hasSoldHouse'), ')'), '{'), '\n'), AssignStatement(somethingSomething, "Simewejbwe?", boolean)), '\n'), '}')
+        ((((((((_, _), condition), _), _), _), true_stmt), _), _) = parsed
+        print(condition)
+        print(true_stmt)
+        return IfStatement(condition, true_stmt)
+        # (((((_, condition), _), true_stmt), false_parsed), _) = parsed
+        # if false_parsed:
+        #     (_, false_stmt) = false_parsed
+        # else:
+        #     false_stmt = None
+        # return IfStatement(condition, true_stmt, false_stmt)
+
+    num, id, value, boolean, form = get_tags()
+    return keyword('if') + keyword('(') + id + keyword(')') + keyword('{') + keyword('\n') + \
         Lazy(stmt_list) + keyword('\n') + keyword('}') ^ process
 
 
@@ -111,7 +118,7 @@ def bexp():
 
 
 def bexp_group():
-    return keyword('(') + Lazy(bexp) + keyword(')') ^ process_group
+    return keyword('(') + keyword('id') + keyword(')') ^ process_group
 
 
 # Arithmetic expressions

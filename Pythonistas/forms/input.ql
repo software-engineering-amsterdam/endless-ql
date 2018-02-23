@@ -3,6 +3,6 @@ form Box1HouseOwning {
     hasBoughtHouse: "Did you by a house in 2010?" boolean
     hasMaintLoan: "Did you enter a loan for maintenance/reconstruction?" boolean
     if (hasSoldHouse) {
-        sellingPrice: "Price the house was sold for:" money
+        somethingSomething: "Simewejbwe?" boolean
     }
 }

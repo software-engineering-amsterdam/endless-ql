@@ -84,5 +84,6 @@ public abstract class Value {
 	public abstract BooleanValue eq(DateValue val);
 	public abstract BooleanValue eq(DecimalValue val);
 	
-
+	//to handle non-allowed operations during evaluation
+	public abstract <T extends Value> T throwException();
 }

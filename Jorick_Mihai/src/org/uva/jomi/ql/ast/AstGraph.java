@@ -30,7 +30,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitIndetifierExpr(IdentifierExpr expr) {
+	public String visit(IdentifierExpr expr) {
 		return String.format("  %s [label=\"[Ident]\nName: %s\nType: %s\nUndefined: %s\"]\n",
 				expr.getId(),
 				expr.token.getLexeme(),
@@ -39,7 +39,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitPrimaryExpr(PrimaryExpr expr) {
+	public String visit(PrimaryExpr expr) {
 		String value = null;
 		
 		switch (expr.getType()) {
@@ -64,7 +64,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitFormStmt(FormStmt stmt) {
+	public String visit(FormStmt stmt) {
 		return stmt.blockStmt.accept(this) +
 				String.format("  %s -> %s\n", stmt.getId(), stmt.blockStmt.getId()) +
 				stmt.identifier.accept(this) +
@@ -73,7 +73,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitBlockStmt(BlockStmt stmt) {
+	public String visit(BlockStmt stmt) {
 		String header = String.format("  %s [label=\"BlockStmt\"]\n", stmt.getId());
 		
 		for (Stmt statement : stmt.statements) {
@@ -86,7 +86,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitQuestionStmt(QuestionStmt stmt) {
+	public String visit(QuestionStmt stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
 			   stmt.getId(),
 			   stmt.identifier.token.getLexeme(),
@@ -99,7 +99,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 	
 	@Override
-	public String visitComputedQuestionStmt(ComputedQuestionStmt stmt) {
+	public String visit(ComputedQuestionStmt stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
 				   stmt.getId(),
 				   stmt.identifier.token.getLexeme(),
@@ -116,7 +116,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitBinaryExpr(BinaryExpr expr) {
+	public String visit(BinaryExpr expr) {
 		return expr.left.accept(this) +
 				expr.right.accept(this) +
 				String.format("  %s [label=\"%s\nType: %s\n\"]\n", expr.getId(), expr.operator.getLexeme(), expr.getType()) +
@@ -125,20 +125,20 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitGroupingExpr(GroupingExpr expr) {
+	public String visit(GroupingExpr expr) {
 		return expr.expression.accept(this) +
 				String.format("  %s [label=\"GroupingExpr\nType: %s\"]\n", expr.getId(), expr.getType()) +
 				String.format("  %s -> %s\n", expr.getId(), expr.expression.getId());
 	}
 
 	@Override
-	public String visitUnaryExpr(UnaryExpr expr) {
+	public String visit(UnaryExpr expr) {
 		return expr.right.accept(this) + String.format("  %s [label=\"%s\nType: %s\n\"]\n", expr.getId(), expr.operator.getLexeme(), expr.getType()) +
 		 		String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
-	public String visitIfStmt(IfStmt stmt) {
+	public String visit(IfStmt stmt) {
 		return stmt.expression.accept(this) +
 				String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId()) +
 				stmt.blockStmt.accept(this) +
@@ -147,7 +147,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitIfElseStmt(IfElseStmt stmt) {
+	public String visit(IfElseStmt stmt) {
 		return stmt.expression.accept(this) +
 				String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId()) +
 				stmt.ifBlockStmt.accept(this) +

@@ -1,6 +1,14 @@
-import Field from "./field/Field";
+import FieldNode from "./nodes/fields/FieldNode";
+import FormState from "./state/FormState";
 
 export default interface Form {
-  readonly name: string;
-  readonly fields: Field[];
+  getName(): string;
+
+  getFields(): FieldNode[];
+
+  getState(): FormState;
+
+  setAnswer(identifier: string, value: any): Form;
+
+  getAnswer(identifier: string): any;
 }

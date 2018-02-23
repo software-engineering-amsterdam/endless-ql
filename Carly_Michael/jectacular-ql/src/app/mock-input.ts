@@ -76,6 +76,6 @@ export const expressionQuestionForm =
   `
     form form {
       question: "Question?" integer
-      exprQuestion: "Expression?" integer = (question + 500)
+      exprQuestion: "Expression?" integer = (10 + 500)
     }
   `;

@@ -9,13 +9,12 @@ import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import nl.uva.se.sc.niro.model.QLForm;
 import nl.uva.se.sc.niro.parser.QLFormParser;
 import org.antlr.v4.runtime.CharStreams;
 
 import java.io.File;
 import java.io.IOException;
-
-import static nl.uva.se.sc.niro.model.Ast.QLForm;
 
 public class QLHomeController extends QLBaseController {
     @FXML

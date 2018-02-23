@@ -35,67 +35,67 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 	}
 
 	@Override
-	public Object visitIndetifierExpr(IdentifierExpr expr) {
+	public Object visit(IdentifierExpr expr) {
 		// TODO Interpret IndentifierExpr.
 		return null;
 	}
 
 	@Override
-	public Object visitPrimaryExpr(PrimaryExpr expr) {
+	public Object visit(PrimaryExpr expr) {
 		// TODO Interpret PrimaryExpr.
 		return null;
 	}
 
 	@Override
-	public Object visitBinaryExpr(BinaryExpr expr) {
+	public Object visit(BinaryExpr expr) {
 		// TODO Interpret BinaryExpr.
 		return null;
 	}
 
 	@Override
-	public Object visitGroupingExpr(GroupingExpr expr) {
+	public Object visit(GroupingExpr expr) {
 		// TODO Interpret GroupingExpr.
 		return null;
 	}
 
 	@Override
-	public Object visitUnaryExpr(UnaryExpr expr) {
+	public Object visit(UnaryExpr expr) {
 		// TODO Interpret UnaryExpr.
 		return null;
 	}
 
 	@Override
-	public Void visitFormStmt(FormStmt stmt) {
+	public Void visit(FormStmt stmt) {
 		// TODO Interpret FormStmt.
 		return null;
 	}
 
 	@Override
-	public Void visitBlockStmt(BlockStmt stmt) {
+	public Void visit(BlockStmt stmt) {
 		// TODO Interpret BlockStmt.
 		return null;
 	}
 
 	@Override
-	public Void visitQuestionStmt(QuestionStmt stmt) {
+	public Void visit(QuestionStmt stmt) {
 		// TODO Interpret QuestionStmt.
 		return null;
 	}
 	
 	@Override
-	public Void visitComputedQuestionStmt(ComputedQuestionStmt stmt) {
+	public Void visit(ComputedQuestionStmt stmt) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Void visitIfStmt(IfStmt stmt) {
+	public Void visit(IfStmt stmt) {
 		// TODO Interpret IfStmt.
 		return null;
 	}
 
 	@Override
-	public Void visitIfElseStmt(IfElseStmt stmt) {
+	public Void visit(IfElseStmt stmt) {
 		// TODO Auto-generated method stub
 		return null;
 	}

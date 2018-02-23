@@ -11,35 +11,46 @@ import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.util.CancelIndicator
 import org.eclipse.xtext.validation.CheckMode
 import org.eclipse.xtext.validation.IResourceValidator
-import org.uva.sc.cr.ql.qL.Form
 import org.uva.sc.cr.ql.QLStandaloneSetup
+import org.uva.sc.cr.ql.qL.Form
+import org.uva.sc.cr.ql.interpreter.service.StageService
 
 class QLJavaFxApplication extends Application {
 
 	protected var Resource astData
 
 	@Inject
-	private var StageService stageService
+	protected var StageService stageService
 
 	override init() {
 		val file = parameters.raw.get(0)
+		parseFile(file)
+		validateAST
+	}
+
+	def private void parseFile(String file) {
 		val injector = createInjector
 		val resourceSet = injector.getInstance(ResourceSet)
 		astData = resourceSet.getResource(URI.createFileURI(file), true)
+		injector.injectMembers(this)
+	}
 
-		val validator = injector.getInstance(IResourceValidator)
-		
+	def createInjector() {
+		new QLStandaloneSetup().createInjectorAndDoEMFRegistration()
+	}
+
+	def private void validateAST() {
+		val validator = createInjector.getInstance(IResourceValidator)
+
 		val issues = validator.validate(astData, CheckMode.ALL, CancelIndicator.NullImpl)
 		val errors = issues.filter[it.severity == Severity.ERROR]
-		
-		errors.forEach[
+
+		errors.forEach [
 			println(it)
 		]
 
 		if (!errors.empty)
 			System.exit(0)
-
-		injector.injectMembers(this)
 	}
 
 	override start(Stage primaryStage) {
@@ -52,11 +63,7 @@ class QLJavaFxApplication extends Application {
 		primaryStage.show()
 	}
 
-	def createInjector(){
-		new QLStandaloneSetup().createInjectorAndDoEMFRegistration()
-	}
-	
-	def getForm(){
+	def getForm() {
 		astData.allContents.head as Form
 	}
 

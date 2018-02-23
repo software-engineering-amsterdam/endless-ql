@@ -5,7 +5,7 @@ options {
 }
 
 form
-    : FORM IDENTIFIER block
+    : FORM NAME block
     ;
 
 block
@@ -18,26 +18,18 @@ statement
     ;
 
 questionStatement
-    : LIT_STRING variableInitialization
+    : LIT_STRING NAME COLON TYPE (ASSIGN expression)?
     ;
 
 ifStatement
     : IF LPAREN expression RPAREN block
     ;
 
-variableInitialization
-    : variableDeclaration (ASSIGN expression)?
-    ;
-
-variableDeclaration
-    : IDENTIFIER COLON TYPE
-    ;
-
 expression
     : LPAREN expression RPAREN
     | UNARY_OPERATOR expression
     | expression BINARY_OPERATOR expression
-    | IDENTIFIER
+    | NAME
     | literal
     ;
 

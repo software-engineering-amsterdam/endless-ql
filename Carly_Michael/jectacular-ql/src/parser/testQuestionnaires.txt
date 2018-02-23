@@ -58,3 +58,14 @@ form form {
     question7: "ifQuestion" integer
   }
 }
+
+//calculated value form
+form form {
+ q1: "test" integer
+ q2: "t3" integer = (2 * 3 + 4)
+}
+
+form form {
+ q1: "test" integer
+ q2: "t3" integer = -2 + 4 && 3
+}

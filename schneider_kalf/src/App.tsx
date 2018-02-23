@@ -1,16 +1,21 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Input from "reactstrap/lib/Input";
-import Addition from "./form/nodes/expressions/arithmetic/Addition";
-import Multiplication from "./form/nodes/expressions/arithmetic/Multiplication";
-import NumberLiteral from "./form/nodes/expressions/arithmetic/NumberLiteral";
-import { evaluate } from "./form/form_helpers";
+import { FormComponent } from "./rendering/components/form_component/FormComponent";
+import Form from "./form/Form";
+import { sampleForm } from "./mock/sampleForm";
+import { QlsTest } from "./modules/styling/rendering/components/qls_test/QlsTest";
+
+import QuestionForm from "./form/QuestionForm";
+import FormNode from "./form/nodes/FormNode";
 
 export interface AppComponentProps {
 }
 
 export interface AppComponentState {
   qlInput?: string;
+  form: Form;
+  errorMessage: string;
 }
 
 const qlParser = require("./parsing/parsers/ql_parser");
@@ -20,27 +25,43 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     super(props);
 
     this.state = {
-      qlInput: require("!raw-loader!./mock/sample.ql.txt")
+      qlInput: require("!raw-loader!./mock/sample.ql.txt"),
+      form: sampleForm,
+      errorMessage: ""
     };
+
+    this.onChange = this.onChange.bind(this);
+    this.onChangeQuestionnaire(require("!raw-loader!./mock/sample.ql.txt"));
+  }
+
+  onChangeQuestionnaire(text: string) {
+    let errorMessage: string = "";
+
+    try {
+      const formNodes: FormNode[] = qlParser.parse(text);
+
+      this.setState({
+        form: new QuestionForm(formNodes[0], this.state.form.getState()),
+        errorMessage: errorMessage,
+        qlInput: text
+      });
+    } catch (error) {
+      errorMessage = error.message;
+    }
+
+    this.setState({
+      errorMessage: errorMessage,
+      qlInput: text
+    });
+  }
+
+  onChange(identifier: string, value: any) {
+    this.setState({
+      form: this.state.form.setAnswer(identifier, value)
+    });
   }
 
   render() {
-    let form = null;
-    let errorMessage = null;
-
-    if (this.state.qlInput && this.state.qlInput.length !== 0) {
-      try {
-        form = qlParser.parse(this.state.qlInput);
-      } catch (error) {
-        errorMessage = error.message;
-      }
-    }
-
-    const sampleFormula = new Addition(
-        new Multiplication(new NumberLiteral(5), new NumberLiteral(3)),
-        new NumberLiteral(1)
-    );
-
     return (
         /**
          * The lines below only demonstrate the behaviour of the DSL and will be replaced by
@@ -48,24 +69,19 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
          */
         <div className="app container">
           <h2>Sample QL ouput</h2>
+          <QlsTest/>
           <div className="row ql-sample-output">
             <div className="col-md-6">
               <Input
                   type="textarea"
                   value={this.state.qlInput}
-                  onChange={e => this.setState({qlInput: e.target.value})}
+                  onChange={e => this.onChangeQuestionnaire(e.target.value)}
                   name="ql_input"
               />
-              {errorMessage}
+              {this.state.errorMessage}
             </div>
             <div className="col-md-6">
-              <Input type="textarea" readOnly={true} value={JSON.stringify(form, null, '\t')} name="form_tree_output"/>
-            </div>
-            <h2>Sample Expression evaluation</h2>
-
-            <div className="col-md-12">
-
-              <pre>5 * 3 + 1 = {evaluate(sampleFormula)}</pre>
+              <FormComponent onChange={this.onChange} form={this.state.form}/>
             </div>
           </div>
         </div>

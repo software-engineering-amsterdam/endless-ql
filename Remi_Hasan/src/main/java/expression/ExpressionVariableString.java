@@ -8,12 +8,15 @@ public class ExpressionVariableString extends ExpressionVariable<String> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.String;
+        return ReturnType.STRING;
     }
 
     @Override
     public void setValue(String value) {
-        this.value = value;
+        if(value.isEmpty())
+            this.value = null;
+        else
+            this.value = value;
     }
 
     @Override

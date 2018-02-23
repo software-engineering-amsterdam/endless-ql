@@ -10,8 +10,8 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
-import antlr.grammar.QLLexer;
-import antlr.grammar.QLParser;
+import antlr.grammar.trialfolderparseresult.QL_testprototypeLexer;
+import antlr.grammar.trialfolderparseresult.QL_testprototypeParser;
 import ast.AstNode;
 import ast.literal.Identifier;
 
@@ -44,8 +44,8 @@ public class Form extends AstNode{
 	}
 
 	private static Form add(CharStream cSteam) throws IOException {
-		TokenStream tokenStream = new CommonTokenStream(new QLLexer(cSteam));
-		QLParser parser = new QLParser(tokenStream);
+		TokenStream tokenStream = new CommonTokenStream(new QL_testprototypeLexer(cSteam));
+		QL_testprototypeParser parser = new QL_testprototypeParser(tokenStream);
 		return parser.form().result;
 	}
 }

@@ -165,6 +165,7 @@ class Process(Parser):
     def __call__(self, tokens, pos):
         result = self.parser(tokens, pos)
         if result:
+            print(result)
             result.value = self.function(result.value)
             return result
 

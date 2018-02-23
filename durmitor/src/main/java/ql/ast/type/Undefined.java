@@ -1,6 +1,7 @@
 package ql.ast.type;
 
 import ql.value.Value;
+import ql.visitors.interfaces.TypeVisitor;
 
 public class Undefined extends Type {
 
@@ -22,5 +23,10 @@ public class Undefined extends Type {
     @Override
     public boolean isUndefined() {
         return true;
+    }
+    
+    @Override
+    public void accept(TypeVisitor visitor) {
+        visitor.visit(this);
     }
 }

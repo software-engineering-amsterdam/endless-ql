@@ -1,6 +1,7 @@
 package ql.ast.type;
 
 import ql.value.Value;
+import ql.visitors.interfaces.TypeVisitor;
 
 public class Str extends Type {
 
@@ -28,5 +29,10 @@ public class Str extends Type {
     @Override
     public boolean isString() {
         return true;
+    }
+    
+    @Override
+    public void accept(TypeVisitor visitor) {
+        visitor.visit(this);
     }
 }

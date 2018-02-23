@@ -1,6 +1,7 @@
 package ql.ast.type;
 
 import ql.value.Value;
+import ql.visitors.interfaces.TypeVisitor;
 
 public class Int extends Numeric {
 
@@ -22,5 +23,10 @@ public class Int extends Numeric {
     @Override
     public Value<?> toValue() {
         return new ql.value.Int();
+    }
+    
+    @Override
+    public void accept(TypeVisitor visitor) {
+        visitor.visit(this);
     }
 }

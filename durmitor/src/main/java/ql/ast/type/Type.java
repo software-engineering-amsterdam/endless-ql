@@ -2,8 +2,9 @@ package ql.ast.type;
 
 import ql.ast.QLNode;
 import ql.value.Value;
+import ql.visitors.interfaces.TypeVisitable;
 
-public abstract class Type extends QLNode {
+public abstract class Type extends QLNode implements TypeVisitable {
 
     public abstract String toString();
 

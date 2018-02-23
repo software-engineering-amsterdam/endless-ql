@@ -36,8 +36,7 @@ public class Main {
         
         // Visit and build GUI from AST
         GUI gui = new GUI();
-        ASTtoGUI astToGUI = new ASTtoGUI(gui);
-        astToGUI.visit(form);
+        form.getBlock().accept(new ASTtoGUI(gui));
         // Add Action/DocumentListeners to GUI.
     }
 }

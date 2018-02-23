@@ -32,7 +32,7 @@ public class LoadMenu implements ActionListener {
             try {
                 Form form = ql.getForm();
                 ASTtoGUI astToGUI= new ASTtoGUI(gui.resetFrame());
-                astToGUI.visit(form);
+                form.getBlock().accept(astToGUI);
             } catch (Exception e) {
                 e.printStackTrace();
             }

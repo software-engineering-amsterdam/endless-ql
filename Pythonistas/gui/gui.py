@@ -47,9 +47,7 @@ class InputWindow(QWidget):
         # Parses QL that is entered in the input textbox, and generates a questionnaire GUI
         self.output = OutputWindow()
         tokens = ql_lex(self.qlInput.toPlainText())
-        print(tokens)
         result = ql_parser(tokens)
-        print(result)
         self.buildGui(result,self.output)
 
         self.output.addQuitButton()

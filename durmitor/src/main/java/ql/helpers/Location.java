@@ -48,6 +48,7 @@ public class Location {
     }
     
     public boolean precedes(Location location) {
+        if(equals(location)) return false;
         if(contains(location)) return true;
         return offset <= location.getOffset();
     }

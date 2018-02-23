@@ -1,5 +1,8 @@
 package ql.visitors;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.antlr.v4.runtime.Token;
 
 import ql.ast.QLNode;
@@ -45,6 +48,8 @@ import ql.grammar.QLParser;
 import ql.helpers.Location;
 
 public class QLVisitorToAst extends QLBaseVisitor<Object> {
+    
+    private Map<String,Identifier> identifiers = new HashMap<String,Identifier>();
     
     @Override 
     public QLNode visitForm(QLParser.FormContext ctx) { 
@@ -148,9 +153,21 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
     @Override 
     public QLNode visitIdentifier(QLParser.IdentifierContext ctx) { 
         
-        Identifier id = new Identifier(ctx.getText());
+        String name     = ctx.getText();
+        Identifier id   = new Identifier(name);
         
-        return setLocation(id, ctx.start);
+        setLocation(id,ctx.start);
+        
+        if(identifiers.containsKey(name))
+        {
+            id.setValue(identifiers.get(name).getValue());
+        }
+        else
+        {
+            identifiers.put(name, id);
+        }
+        
+        return id;
     }
     
     @Override 

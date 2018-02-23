@@ -8,13 +8,22 @@ question        : IDENTIFIER ':' STRING questionType;
 
 questionType    : type | type '=' expression;
 
-expression      : '(' expression ')' | operator expression | expression operator expression | constant;
+expression      : '(' expression ')'                    # nestedExpr
+                | operator expression                   # unaryExpr
+                | expression operator expression        # binaryExpr
+                | constant                              # constantExpr;
 
-operator        : unaryOp | binaryOp;
+operator        : unaryOp
+                | binaryOp;
 
-unaryOp         : MINUS | NOT;
+unaryOp         : MINUS
+                | NOT;
 
-binaryOp        : MUL | DIV | PLUS | MINUS | LE | LT | GE | GT | EQ | NE | AND | OR;
+binaryOp        : arithmeticOp |logicalOp;
+
+arithmeticOp    : MUL | DIV | PLUS | MINUS;
+
+logicalOp       : LE | LT | GE | GT | EQ | NE | AND | OR;
 
 constant        : INTEGER | DECIMAL | STRING | IDENTIFIER | MONEY | DATE;
 

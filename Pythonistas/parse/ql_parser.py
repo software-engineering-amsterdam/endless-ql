@@ -73,7 +73,7 @@ def assign_stmt():
         return AssignStatement(name, question, data_type)
 
     num, id, value, boolean, form = get_tags()
-    return id + keyword(':') + value + keyword('boolean') ^ process
+    return id + keyword(':') + value + (keyword('boolean') | keyword('money')) ^ process
 
 
 def if_stmt():
@@ -81,18 +81,8 @@ def if_stmt():
     if (hasSoldHouse) {...}
     """
     def process(parsed):
-        print(parsed)
-        # (((((((('if', '('), 'hasSoldHouse'), ')'), '{'), '\n'), AssignStatement(somethingSomething, "Simewejbwe?", boolean)), '\n'), '}')
         ((((((((_, _), condition), _), _), _), true_stmt), _), _) = parsed
-        print(condition)
-        print(true_stmt)
         return IfStatement(condition, true_stmt)
-        # (((((_, condition), _), true_stmt), false_parsed), _) = parsed
-        # if false_parsed:
-        #     (_, false_stmt) = false_parsed
-        # else:
-        #     false_stmt = None
-        # return IfStatement(condition, true_stmt, false_stmt)
 
     num, id, value, boolean, form = get_tags()
     return keyword('if') + keyword('(') + id + keyword(')') + keyword('{') + keyword('\n') + \

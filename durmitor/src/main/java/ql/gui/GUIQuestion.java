@@ -58,7 +58,7 @@ public class GUIQuestion extends JPanel {
         else if(variableType.isDecimal()) {
                     
         }
-        else if(variableType.isInt()) {
+        else if(variableType.isInteger()) {
             Int variable = (Int) variableType;
             textField = new IntTextField(variable);
             add(this.textField);
@@ -71,7 +71,7 @@ public class GUIQuestion extends JPanel {
         else if(variableType.isNumeric()) {
             
         }
-        else if(variableType.isStr()) {
+        else if(variableType.isString()) {
             Str variable = (Str) variableType;
             textField = new StrTextField(variable);
             add(this.textField);

@@ -60,21 +60,21 @@ class CompoundStatement(Statement):
 
 
 class IfStatement(Statement):
-    def __init__(self, condition, true_stmt, false_stmt):
+    def __init__(self, condition, true_stmt):
         self.condition = condition
         self.true_stmt = true_stmt
-        self.false_stmt = false_stmt
+        # self.false_stmt = false_stmt
 
     def __repr__(self):
-        return 'IfStatement(%s, %s, %s)' % (self.condition, self.true_stmt, self.false_stmt)
+        return 'IfStatement(%s, %s)' % (self.condition, self.true_stmt)
 
-    def eval(self, env):
-        condition_value = self.condition.eval(env)
-        if condition_value:
-            self.true_stmt.eval(env)
-        else:
-            if self.false_stmt:
-                self.false_stmt.eval(env)
+    # def eval(self, env):
+    #     condition_value = self.condition.eval(env)
+    #     if condition_value:
+    #         self.true_stmt.eval(env)
+    #     else:
+    #         if self.false_stmt:
+    #             self.false_stmt.eval(env)
 
 
 class IntAexp(Aexp):

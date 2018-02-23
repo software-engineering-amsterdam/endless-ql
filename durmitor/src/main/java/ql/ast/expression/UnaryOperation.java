@@ -1,38 +1,25 @@
 package ql.ast.expression;
 
-import ql.ast.type.Type;
 
-public class UnaryOperation extends Operation {
+public abstract class UnaryOperation extends Operator {
     
-    private final Class<? extends UnaryOperator> operator;
-    private final Class<? extends Type> expr;
+    protected Expression operand;
     
-    public UnaryOperation(UnaryOperator operator,Class<? extends Type> expr) {
-        this.operator   = operator.getClass();
-        this.expr       = expr;
+    public UnaryOperation(Expression operand) {
+        this.operand = operand;
     }
     
-    public UnaryOperation(UnaryOperator operator,Type expr) {
-        this.operator   = operator.getClass();
-        this.expr       = expr.getClass();
-    }
-    
-    public Class<? extends UnaryOperator> getOperator() {
-        return operator;
-    }
-    
-    public Class<? extends Type> getExpr() {
-        return expr;
-    }
-
-    @Override
-    public boolean equals(Operation query) {
-        return query.equals(this);
+    public Expression getOperand() {
+        return operand;
     }
     
     @Override
-    public boolean equals(UnaryOperation rule) {
-        return  rule.getOperator().isAssignableFrom(operator) && 
-                rule.getExpr().isAssignableFrom(expr);
+    public String toString() {
+        return getOperator() + operand.toString();
+    }
+    
+    @Override
+    public boolean isUnaryOperator() {
+        return true;
     }
 }

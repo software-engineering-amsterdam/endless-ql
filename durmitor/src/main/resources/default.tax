@@ -10,7 +10,7 @@ form taxFormExample {
         hasBoughtHouse: boolean
     "Did you enter a loan?"
         hasMaintLoan: boolean
-	
+
     if (hasSoldHouse) {
         "What was the selling price?"
             sellingPrice: decimal
@@ -18,14 +18,17 @@ form taxFormExample {
             privateDebt: money
         "Value residue:"
             valueResidue: money = 
-                (sellingPrice - privateDebt)
+                (sellingPrice - privateDebt * 2)
+	    if (undefined) {
+	        "Are you a minor?"
+	            old: boolean
+	    }	
     }
+    
+    if(undefined1) {}
 
-    if (undefined) {
-        "Are you a minor?"
-            old: boolean
-    }
-
+    "Undefined 1" undefined1: boolean
+    
     "Did you steal in 2010?"
         hasStolen: boolean
 
@@ -38,8 +41,10 @@ form taxFormExample {
             gotCaught: boolean
         "Did you get caught?"
             gotCaught: boolean
+    } else {
         "Did you get caught?"
             gotCaught: string = ("hello" == "world")
     }
 
+	if(!2) {}
 }

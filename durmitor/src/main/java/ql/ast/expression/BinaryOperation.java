@@ -1,46 +1,31 @@
 package ql.ast.expression;
 
-import ql.ast.type.Type;
 
-public class BinaryOperation extends Operation {
+public abstract class BinaryOperation extends Operator {
     
-    private final Class<? extends BinaryOperator> operator;
-    private final Class<? extends Type> lhs;
-    private final Class<? extends Type> rhs;
+    protected Expression firstOperand;
+    protected Expression secondOperand;
     
-    public BinaryOperation(BinaryOperator operator,Class<? extends Type> lhs,Class<? extends Type> rhs) {
-        this.operator   = operator.getClass();
-        this.lhs        = lhs;
-        this.rhs        = rhs;
+    public BinaryOperation(Expression firstOperand, Expression secondOperand) {
+        this.firstOperand   = firstOperand;
+        this.secondOperand  = secondOperand;
     }
     
-    public BinaryOperation(BinaryOperator operator, Type lhs, Type rhs) {
-        this.operator   = operator.getClass();
-        this.lhs        = lhs.getClass();
-        this.rhs        = rhs.getClass();
+    public Expression getFirstOperand() {
+        return firstOperand;
     }
     
-    public Class<? extends BinaryOperator> getOperator() {
-        return operator;
-    }
-    
-    public Class<? extends Type> getLhs() {
-        return lhs;
-    }
-    
-    public Class<? extends Type> getRhs() {
-        return rhs;
+    public Expression getSecondOperand() {
+        return secondOperand;
     }
     
     @Override
-    public boolean equals(Operation query) {
-        return query.equals(this);
+    public String toString() {
+        return firstOperand.toString() + " "+ getOperator() + " " + secondOperand.toString();
     }
     
     @Override
-    public boolean equals(BinaryOperation rule) {
-        return  rule.getOperator().isAssignableFrom(operator) && 
-                rule.getLhs().isAssignableFrom(lhs) && 
-                rule.getRhs().isAssignableFrom(rhs);
+    public boolean isBinaryOperator() {
+        return true;
     }
 }

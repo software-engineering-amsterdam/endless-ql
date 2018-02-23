@@ -17,22 +17,22 @@ public class BoolLiteral extends Literal<Boolean> {
     }
 
     @Override
-    public Type getType() {
-        return new Bool();
-    }
-
-    @Override
     public String toString() {
         return String.valueOf(value);
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(ExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override
     public Boolean getValue() {
         return value;
+    }
+    
+    @Override
+    public Type getType() {
+        return new Bool();
     }
 }

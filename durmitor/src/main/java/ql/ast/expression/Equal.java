@@ -1,23 +1,16 @@
 package ql.ast.expression;
 
-import ql.ast.type.Bool;
-import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Equal extends BinaryEquality {
+public class Equal extends BinaryOperation {
 
-    public Equal(Expression lhs, Expression rhs) {
-        super(lhs, rhs);
+    public Equal(Expression firstOperand, Expression secondOperand) {
+        super(firstOperand, secondOperand);
     }
 
     @Override
-    public Type getType() {
-        return new Bool();
-    }
-
-    @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(ExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

@@ -1,35 +1,20 @@
 package ql.ast.expression;
 
-import ql.ast.type.Money;
-import ql.ast.type.Numeric;
-import ql.ast.type.Str;
-import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Add extends BinaryOperator {
+public class Add extends BinaryOperation {
 
-    public Add(Expression lhs, Expression rhs) {
-        super(lhs, rhs);
-    }
-    
-    @Override
-    public Type getType() {
-        return new Numeric();
+    public Add(Expression firstOperand, Expression secondOperand) {
+        super(firstOperand, secondOperand);
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(ExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override
     public String getOperator() {
         return "+";
-    }
-
-    @Override
-    protected void initOperations() {
-        legalOperations.add(new BinaryOperation(this, Money.class, Money.class));
-        legalOperations.add(new BinaryOperation(this, Str.class, Str.class));
     }
 }

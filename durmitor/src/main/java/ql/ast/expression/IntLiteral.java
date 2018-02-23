@@ -16,9 +16,8 @@ public class IntLiteral extends Literal<Integer> {
         this.value = Integer.parseInt(value);
     }
 
-    @Override
-    public Type getType() {
-        return new Int();
+    public IntLiteral(int value) { 
+        this.value = value;
     }
 
     @Override
@@ -30,9 +29,14 @@ public class IntLiteral extends Literal<Integer> {
     public Integer getValue() {
         return value;
     }
+    
+    @Override
+    public Type getType() {
+        return new Int();
+    }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(ExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

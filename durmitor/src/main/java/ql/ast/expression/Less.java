@@ -1,23 +1,16 @@
 package ql.ast.expression;
 
-import ql.ast.type.Bool;
-import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Less extends BinaryRelation {
+public class Less extends BinaryOperation {
 
-    public Less(Expression lhs, Expression rhs) {
-        super(lhs, rhs);
-    }
-    
-    @Override
-    public Type getType() {
-        return new Bool();
+    public Less(Expression firstOperand, Expression secondOperand) {
+        super(firstOperand, secondOperand);
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(ExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

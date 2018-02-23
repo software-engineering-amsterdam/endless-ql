@@ -16,9 +16,8 @@ public class DecimalLiteral extends Literal<Double> {
         this.value = Double.parseDouble(value);
     }
 
-    @Override
-    public Type getType() {
-        return new Decimal();
+    public DecimalLiteral(double value) {
+        this.value = value;
     }
 
     @Override
@@ -27,12 +26,17 @@ public class DecimalLiteral extends Literal<Double> {
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(ExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override
     public Double getValue() {
         return value;
+    }
+    
+    @Override
+    public Type getType() {
+        return new Decimal();
     }
 }

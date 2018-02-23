@@ -19,22 +19,22 @@ public class DateLiteral extends Literal<Date> {
     }
 
     @Override
-    public Type getType() {
-        return new ql.ast.type.Date();
-    }
-
-    @Override
     public String toString() {
         return String.format("%td-%tm-%tY", value,value,value);
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(ExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override
     public java.util.Date getValue() {
         return value;
+    }
+    
+    @Override
+    public Type getType() {
+        return new ql.ast.type.Date();
     }
 }

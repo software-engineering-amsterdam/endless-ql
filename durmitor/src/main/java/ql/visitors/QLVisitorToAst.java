@@ -42,6 +42,7 @@ import ql.ast.type.Str;
 import ql.ast.type.Type;
 import ql.grammar.QLBaseVisitor;
 import ql.grammar.QLParser;
+import ql.helpers.Location;
 
 public class QLVisitorToAst extends QLBaseVisitor<Object> {
     
@@ -267,10 +268,12 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
     }
 
     private QLNode setLocation(QLNode n, Token t) {
-        int line   = t.getLine();
-        int column = t.getCharPositionInLine();
+        int line    = t.getLine();
+        int column  = t.getCharPositionInLine();
+        int offset  = t.getStartIndex();
+        int length  = n.toString().length();
         
-        n.setLocation(line, column);
+        n.setLocation(new Location(line, column,offset,length));
         
         return n;
     }

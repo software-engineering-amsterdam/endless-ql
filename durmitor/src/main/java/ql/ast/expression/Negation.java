@@ -1,23 +1,16 @@
 package ql.ast.expression;
 
-import ql.ast.type.Bool;
-import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Negation extends UnaryBooleanLogic {
+public class Negation extends UnaryOperation {
 
-    public Negation(Expression expr) { 
-        super.expr = expr;
-    }
- 
-    @Override
-    public Type getType() {
-        return new Bool();
+    public Negation(Expression operand) {
+        super(operand);
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(ExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

@@ -13,17 +13,18 @@ import ql.ast.statement.Statement;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorDuplicateLabels implements StatementVisitor {
-
+    
     private List<String> warnings;
     private List<String> labels;
-
+    
+    
     public StatementVisitorDuplicateLabels(List<String> warnings) {
         
-        this.warnings       = warnings;
-        this.labels         = new ArrayList<String>();
+        this.warnings   = warnings;
+        this.labels     = new ArrayList<String>();
     }
     
-    private void check(Question question) {
+    private void checkLabel(Question question) {
         
         if(!labels.contains(question.getLabel()))
         {
@@ -37,7 +38,9 @@ public class StatementVisitorDuplicateLabels implements StatementVisitor {
     
     @Override
     public void visit(Block stmts) {
-        for(Statement stmt : stmts.getStatements()) stmt.accept(this);
+        for(Statement stmt : stmts.getStatements()) {
+           stmt.accept(this);
+        }
     }
     
     @Override
@@ -53,11 +56,12 @@ public class StatementVisitorDuplicateLabels implements StatementVisitor {
 
     @Override
     public void visit(AnswerableQuestion stmt) {
-        check(stmt);
+        checkLabel(stmt);
     }
 
     @Override
     public void visit(ComputedQuestion stmt) {
-        check(stmt);
+        checkLabel(stmt);
     }
+    
 }

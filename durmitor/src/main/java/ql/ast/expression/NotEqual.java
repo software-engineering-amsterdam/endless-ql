@@ -2,14 +2,14 @@ package ql.ast.expression;
 
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class NotEqual extends BinaryOperation {
+public class NotEqual extends BinaryOperator {
 
-    public NotEqual(Expression firstOperand, Expression secondOperand) {
-        super(firstOperand, secondOperand);
+    public NotEqual(Expression lhs, Expression rhs) {
+        super(lhs, rhs);
     }
 
     @Override
-    public <T> T accept(ExpressionVisitor<T> visitor) {
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
 

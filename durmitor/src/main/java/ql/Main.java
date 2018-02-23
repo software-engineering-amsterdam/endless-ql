@@ -32,19 +32,7 @@ public class Main {
         TypeChecker checker = new TypeChecker(form);
         checker.checkForm();
         checker.printErrors();
-//        checker.checkIdentifiers(form);
-//        checker.checkReferences(form, symbolTable);
-//        checker.checkConditions(form, symbolTable);
-//        checker.checkOperands(form, symbolTable);
-//        checker.checkLabels(form);
-//        checker.printErrors();
-//        checker.printWarnings();
-//        CyclicDependencyChecker cdc = new CyclicDependencyChecker(form,symbolTable,errors);
-//        cdc.getCyclicDependencies();
-        
-//        OperandChecker rc = new OperandChecker(form,symbolTable,errors);
-//        System.out.println(rc.getIllegalOperations());
-//        System.out.println(errors);
+        checker.printWarnings();
         
         // Visit and build GUI from AST
 

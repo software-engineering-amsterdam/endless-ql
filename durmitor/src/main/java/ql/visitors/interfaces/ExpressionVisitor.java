@@ -23,37 +23,37 @@ import ql.ast.expression.Positive;
 import ql.ast.expression.StrLiteral;
 import ql.ast.expression.Subtract;
 
-public interface ExpressionVisitor<E> {
+public interface ExpressionVisitor<T> {
 
     //Unary boolean
-    E visit(Negation expr);
+    T visit(Negation expr);
     
     //Unary arithmetic
-    E visit(Negative expr);
-    E visit(Positive expr);
+    T visit(Negative expr);
+    T visit(Positive expr);
     
     //Binary boolean
-    E visit(And expr);
-    E visit(Or expr);
-    E visit(Greater expr);
-    E visit(GreaterEqual expr);
-    E visit(Less expr);
-    E visit(LessEqual expr);
-    E visit(Equal expr);
-    E visit(NotEqual expr);
+    T visit(And expr);
+    T visit(Or expr);
+    T visit(Greater expr);
+    T visit(GreaterEqual expr);
+    T visit(Less expr);
+    T visit(LessEqual expr);
+    T visit(Equal expr);
+    T visit(NotEqual expr);
     
     //Binary arithmetic
-    E visit(Add expr);
-    E visit(Subtract expr);
-    E visit(Multiply expr);
-    E visit(Divide expr);
+    T visit(Add expr);
+    T visit(Subtract expr);
+    T visit(Multiply expr);
+    T visit(Divide expr);
     
     //Primary
-    E visit(Identifier expr);
-    E visit(BoolLiteral expr);
-    E visit(IntLiteral expr);
-    E visit(StrLiteral expr);
-    E visit(DateLiteral expr);
-    E visit(DecimalLiteral expr);
-    E visit(MoneyLiteral expr);
+    T visit(Identifier expr);
+    T visit(BoolLiteral expr);
+    T visit(IntLiteral expr);
+    T visit(StrLiteral expr);
+    T visit(DateLiteral expr);
+    T visit(DecimalLiteral expr);
+    T visit(MoneyLiteral expr);
 }

@@ -8,11 +8,11 @@ import java.util.ArrayList;
 public class Form {
 
     public final String identifier;
-    public final ArrayList<BlockElement> elements;
+    public final ArrayList<Statement> statements;
 
-    public Form(String identifier, ArrayList<BlockElement> elements) {
+    public Form(String identifier, ArrayList<Statement> statements) {
         this.identifier = identifier;
-        this.elements = elements;
+        this.statements = statements;
     }
 
     @Override

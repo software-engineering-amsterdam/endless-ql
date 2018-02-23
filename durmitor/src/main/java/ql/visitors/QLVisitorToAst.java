@@ -271,9 +271,8 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         int line    = t.getLine();
         int column  = t.getCharPositionInLine();
         int offset  = t.getStartIndex();
-        int length  = n.toString().length();
         
-        n.setLocation(new Location(line, column,offset,length));
+        n.setLocation(new Location(line, column, offset, n.toString().length()));
         
         return n;
     }

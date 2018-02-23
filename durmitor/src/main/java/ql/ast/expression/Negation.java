@@ -2,14 +2,14 @@ package ql.ast.expression;
 
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Negation extends UnaryOperation {
+public class Negation extends UnaryOperator {
 
-    public Negation(Expression operand) {
-        super(operand);
+    public Negation(Expression expr) { 
+        super.operand = expr;
     }
 
     @Override
-    public <T> T accept(ExpressionVisitor<T> visitor) {
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
 

@@ -1,16 +1,14 @@
 package org.uva.sea.ql;
 
-import org.antlr.v4.gui.Trees;
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.atn.ATNConfigSet;
-import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.uva.sea.ql.parser.antlr.ErrorHandler;
 import org.uva.sea.ql.parser.antlr.QLLexer;
-import org.uva.sea.ql.parser.antlr.QLParser;;
+import org.uva.sea.ql.parser.antlr.QLParser;
 import org.uva.sea.ql.parser.elements.Form;
-import org.uva.sea.ql.parser.elements.TraverseType;
 
-import java.util.BitSet;
+;
 
 public class QLCompiler {
 
@@ -44,7 +42,10 @@ public class QLCompiler {
 
         //Do the type check
         QLTypeCheck typeChecker = new QLTypeCheck();
-        if(!typeChecker.doTypeCheck(form.result, TraverseType.TOP_DOWN)) {
+        Error errors = typeChecker.doTypeCheck(form.result);
+        if(errors.errorsPresent()) {
+            for(String error : errors.getErrors())
+                System.err.println(error);
             return null;
         }
 

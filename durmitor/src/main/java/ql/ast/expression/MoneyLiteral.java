@@ -17,6 +17,11 @@ public class MoneyLiteral extends Literal<String> {
     }
 
     @Override
+    public Type getType() {
+        return new Money();
+    }
+
+    @Override
     public String toString() {
         return value;
     }
@@ -25,14 +30,9 @@ public class MoneyLiteral extends Literal<String> {
     public String getValue() {
         return value;
     }
-    
-    @Override
-    public Type getType() {
-        return new Money();
-    }
 
     @Override
-    public <T> T accept(ExpressionVisitor<T> visitor) {
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
 }

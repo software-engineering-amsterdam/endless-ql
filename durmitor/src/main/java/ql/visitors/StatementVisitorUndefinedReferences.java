@@ -2,6 +2,7 @@ package ql.visitors;
 
 import java.util.List;
 
+import ql.ast.expression.Expression;
 import ql.ast.expression.Identifier;
 import ql.ast.statement.AnswerableQuestion;
 import ql.ast.statement.Block;
@@ -23,7 +24,9 @@ public class StatementVisitorUndefinedReferences implements StatementVisitor {
         this.errors         = errors;
     }
     
-    private void checkReferences(List<Identifier> ids) {
+    private void checkReferences(Expression expr) {
+        
+        List<Identifier> ids = expr.accept(new ExpressionVisitorIdentifier());
         
         for(Identifier id : ids)
         {
@@ -55,14 +58,14 @@ public class StatementVisitorUndefinedReferences implements StatementVisitor {
     
     @Override
     public void visit(IfThen stmt) {
-        checkReferences(stmt.getCondition().accept(new ExpressionVisitorIdentifier()));
+        checkReferences(stmt.getCondition());
         stmt.getThenStatement().accept(this);
     }
 
     
     @Override
     public void visit(IfThenElse stmt) {
-        checkReferences(stmt.getCondition().accept(new ExpressionVisitorIdentifier()));
+        checkReferences(stmt.getCondition());
         stmt.getThenStatement().accept(this);
         stmt.getElseStatement().accept(this);
     }
@@ -74,6 +77,6 @@ public class StatementVisitorUndefinedReferences implements StatementVisitor {
     
     @Override
     public void visit(ComputedQuestion stmt) {
-        checkReferences(stmt.getComputation().accept(new ExpressionVisitorIdentifier()));
+        checkReferences(stmt.getComputation());
     }
 }

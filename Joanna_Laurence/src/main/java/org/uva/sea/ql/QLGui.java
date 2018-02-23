@@ -2,8 +2,13 @@ package org.uva.sea.ql;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
+import org.uva.sea.ql.evaluate.FormEvaluator;
+import org.uva.sea.ql.evaluate.SymbolTable;
+import org.uva.sea.ql.parser.elements.Form;
+import org.uva.sea.ql.parser.elements.Question;
 
 import java.io.IOException;
+import java.util.List;
 
 public class QLGui {
 
@@ -14,7 +19,14 @@ public class QLGui {
     public void start(String guiSpecification) {
         try {
             QLCompiler compiler = new QLCompiler();
-            compiler.compileScriptFile(toCharStream(guiSpecification));
+            Form rootNode = compiler.compileScriptFile(toCharStream(guiSpecification));
+            if(rootNode == null)
+                return;
+
+            FormEvaluator evaluate = new FormEvaluator();
+            List<Question> questions = evaluate.evaluate(rootNode, new SymbolTable());
+            System.out.println("Total questions: " + questions.size());
+
         } catch (IOException e) {
             System.err.println("The gui specification cannot be found: " + guiSpecification);
             e.printStackTrace();
@@ -23,8 +35,8 @@ public class QLGui {
 
     /**
      * Convert file name to resource
-     * @param fileName
-     * @return
+     * @param fileName The location of the file
+     * @return CharStream
      * @throws IOException
      */
     private CharStream toCharStream(String fileName) throws IOException {

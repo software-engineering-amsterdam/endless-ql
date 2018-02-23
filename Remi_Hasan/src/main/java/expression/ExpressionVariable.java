@@ -22,7 +22,6 @@ public abstract class ExpressionVariable<T> extends Expression<T> {
         return true;
     }
 
-
     @Override
     public String toString() {
         return String.valueOf(value);

@@ -218,7 +218,7 @@ public class QLParser extends Parser {
 			setState(32);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__4 || _la==IDENTIFIER) {
+			while (_la==T__4 || _la==LABEL) {
 				{
 				{
 				setState(29);
@@ -307,8 +307,8 @@ public class QLParser extends Parser {
 	}
 
 	public static class QuestionStmtContext extends ParserRuleContext {
-		public TerminalNode IDENTIFIER() { return getToken(QLParser.IDENTIFIER, 0); }
 		public TerminalNode LABEL() { return getToken(QLParser.LABEL, 0); }
+		public TerminalNode IDENTIFIER() { return getToken(QLParser.IDENTIFIER, 0); }
 		public TerminalNode TYPE() { return getToken(QLParser.TYPE, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
@@ -331,11 +331,11 @@ public class QLParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(42);
-			match(IDENTIFIER);
-			setState(43);
-			match(T__3);
-			setState(44);
 			match(LABEL);
+			setState(43);
+			match(IDENTIFIER);
+			setState(44);
+			match(T__3);
 			setState(45);
 			match(TYPE);
 			setState(47);
@@ -888,7 +888,7 @@ public class QLParser extends Parser {
 		"\2\2\2\32\33\7\3\2\2\33\34\7!\2\2\34\35\5\6\4\2\35\5\3\2\2\2\36\"\7\4"+
 		"\2\2\37!\5\b\5\2 \37\3\2\2\2!$\3\2\2\2\" \3\2\2\2\"#\3\2\2\2#%\3\2\2\2"+
 		"$\"\3\2\2\2%&\7\5\2\2&\7\3\2\2\2\'+\5\n\6\2(+\5\f\7\2)+\5\16\b\2*\'\3"+
-		"\2\2\2*(\3\2\2\2*)\3\2\2\2+\t\3\2\2\2,-\7!\2\2-.\7\6\2\2./\7\35\2\2/\61"+
+		"\2\2\2*(\3\2\2\2*)\3\2\2\2+\t\3\2\2\2,-\7\35\2\2-.\7!\2\2./\7\6\2\2/\61"+
 		"\7\f\2\2\60\62\5\20\t\2\61\60\3\2\2\2\61\62\3\2\2\2\62\13\3\2\2\2\63\64"+
 		"\7\7\2\2\64\65\7\b\2\2\65\66\5\20\t\2\66\67\7\t\2\2\678\5\6\4\28\r\3\2"+
 		"\2\29:\7\7\2\2:;\7\b\2\2;<\5\20\t\2<=\7\t\2\2=>\5\6\4\2>?\7\n\2\2?@\5"+

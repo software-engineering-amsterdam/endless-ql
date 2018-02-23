@@ -2,7 +2,7 @@ package ql.ast.expression;
 
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Identifier extends Primary {
+public class Identifier extends Expression {
     
     private String name;
     
@@ -20,7 +20,7 @@ public class Identifier extends Primary {
     }
 
     @Override
-    public <T> T accept(ExpressionVisitor<T> visitor) {
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
     

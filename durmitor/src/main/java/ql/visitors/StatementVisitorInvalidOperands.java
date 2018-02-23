@@ -24,7 +24,9 @@ public class StatementVisitorInvalidOperands implements StatementVisitor {
         this.errors         = errors;
     }
     
-    public void check(Expression expr, Type exprType) {
+    public void check(Expression expr) {
+        
+        Type exprType = expr.accept(new ExpressionVisitorType(symbolTable));
         
         if(exprType.isUndefined())
         {
@@ -39,13 +41,13 @@ public class StatementVisitorInvalidOperands implements StatementVisitor {
 
     @Override
     public void visit(IfThen stmt) {
-        check(stmt.getCondition(),stmt.getCondition().accept(new ExpressionVisitorType(symbolTable)));
+        check(stmt.getCondition());
         stmt.getThenStatement().accept(this);
     }
 
     @Override
     public void visit(IfThenElse stmt) {
-        check(stmt.getCondition(),stmt.getCondition().accept(new ExpressionVisitorType(symbolTable)));
+        check(stmt.getCondition());
         stmt.getThenStatement().accept(this);
         stmt.getElseStatement().accept(this);
     }
@@ -55,6 +57,6 @@ public class StatementVisitorInvalidOperands implements StatementVisitor {
 
     @Override
     public void visit(ComputedQuestion stmt) {
-        check(stmt.getComputation(),stmt.getComputation().accept(new ExpressionVisitorType(symbolTable)));
+        check(stmt.getComputation());
     }
 }

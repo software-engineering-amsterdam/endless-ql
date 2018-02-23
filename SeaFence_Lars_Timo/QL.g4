@@ -9,28 +9,30 @@ grammar QL;
 form: 'form' form_id block EOF;
 block: '{' statement* '}';
 statement: question
-	     | conditional
-	     | assignment
-	     ;
+         | conditional
+         | assignment
+         ;
+         
 assignment: STR var ':' vartype '=' '(' expression ')';
 question: STR var ':' vartype;
 conditional: if_cond elif_cond* else_cond?;
 expression: BOOL 
-		  | STR
-		  | INT
-		  | var
-		  | '(' expression ')' 
-		  | NOT expression
-		  | expression COMPARER expression
-		  | expression OPERATOR expression
-		  | expression AND expression
-		  | expression OR expression
-		  ;
+          | STR
+          | INT
+          | var
+          | '(' expression ')'
+          | NOT expression
+          | left=expression COMPARER right=expression
+          | left=expression DIVMULOPERATOR right=expression
+          | left=expression ADDSUBOPERATOR right=expression
+          | left=expression AND right=expression
+          | left=expression OR right=expression
+          ;
 
 form_id: NAME;
 var: NAME;
 vartype: 'int'
-    | 'boolean';
+       | 'boolean';
 
 if_cond: 'if' '(' expression ')' block;
 elif_cond: 'elif' '(' expression ')' block;
@@ -44,27 +46,28 @@ BOOL: TRUE | FALSE;
 INT: NUMBER;
 NOT: '!';
 COMPARER: '<'
-	    | '>'
-	    | '<='
-	    | '>='
-	    | '!='
-	    | '=='
-	    ;
-OPERATOR: ADD
-        | DIV
-        | SUB
-        | TIMES
+        | '>'
+        | '<='
+        | '>='
+        | '!='
+        | '=='
         ;
+ADDSUBOPERATOR: ADD
+              | SUB
+              ;
+DIVMULOPERATOR: DIV
+              | MUL
+              ;
 ADD: '+';
 DIV: '/';
 SUB: '-';
-TIMES: '*';
+MUL: '*';
 AND: '&&';
 OR: 'OR';
 TRUE: 'true';
 FALSE: 'false';
 
-WS:	[ \t\n\r]+ -> skip;
+WS: [ \t\n\r]+ -> skip;
 COMMENT: '/*' .*? '*/' -> skip;
 
 NUMBER: [0-9]+;

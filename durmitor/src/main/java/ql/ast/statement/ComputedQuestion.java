@@ -9,9 +9,9 @@ public class ComputedQuestion extends Question {
     
     private Expression computation;
 
-    public ComputedQuestion(String label, Identifier id, Type type, Expression computation) {
+    public ComputedQuestion(String label, Identifier id, Type type, Expression expr) {
         super(label, id, type);
-        this.computation = computation;
+        this.computation = expr;
     }
 
     public Expression getComputation() {

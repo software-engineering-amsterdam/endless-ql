@@ -2,14 +2,14 @@ package ql.ast.expression;
 
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Subtract extends BinaryOperation {
+public class Subtract extends BinaryOperator {
 
-    public Subtract(Expression firstOperand, Expression secondOperand) {
-        super(firstOperand, secondOperand);
+    public Subtract(Expression lhs, Expression rhs) {
+        super(lhs, rhs);
     }
-    
+
     @Override
-    public <T> T accept(ExpressionVisitor<T> visitor) {
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
 

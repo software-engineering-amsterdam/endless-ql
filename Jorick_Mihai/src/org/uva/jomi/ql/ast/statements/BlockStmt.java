@@ -11,6 +11,6 @@ public class BlockStmt extends Stmt {
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visitBlockStmt(this);
+		return visitor.visit(this);
 	}
 }

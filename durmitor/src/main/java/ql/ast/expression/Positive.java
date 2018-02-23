@@ -2,14 +2,14 @@ package ql.ast.expression;
 
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Positive extends UnaryOperation {
+public class Positive extends UnaryOperator {
 
-    public Positive(Expression operand) {
-        super(operand);
+    public Positive(Expression expr) { 
+        super.operand = expr;
     }
 
     @Override
-    public <T> T accept(ExpressionVisitor<T> visitor) {
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
 

@@ -2,14 +2,14 @@ package ql.ast.expression;
 
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Or extends BinaryOperation {
+public class Or extends BinaryOperator {
 
-    public Or(Expression firstOperand, Expression secondOperand) {
-        super(firstOperand, secondOperand);
+    public Or(Expression lhs, Expression rhs) {
+        super(lhs, rhs);
     }
 
     @Override
-    public <T> T accept(ExpressionVisitor<T> visitor) {
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
 

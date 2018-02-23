@@ -205,6 +205,8 @@ Jordy_Dennis/env
 Jordy_Dennis/__pycache__
 Jordy_Dennis/LexParser
 Jordy_Dennis/*.pyc
+Jordy_Dennis/AST/__pycache__
+Jordy_Dennis/GUI/__pycache__
 
 remihasan/.idea/
 Ioana_Hisham/.idea/

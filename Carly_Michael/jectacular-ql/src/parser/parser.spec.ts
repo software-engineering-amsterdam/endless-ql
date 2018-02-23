@@ -1,5 +1,5 @@
 import {parse} from './ql-parser';
-import {QuestionType} from '../app/domain/ast/index';
+import {ArithmeticExpression, ExpressionType, Literal, QuestionType} from '../app/domain/ast/index';
 import {gen, check, property, sample, sampleOne} from 'testcheck';
 import * as mockInput from '../app/mock-input';
 
@@ -100,6 +100,5 @@ describe('The parser', () => {
     expect(output.statements[1].name).toBe('exprQuestion');
     expect(output.statements[1].label).toBe('Expression?');
     expect(output.statements[1].type).toBe(QuestionType.INT);
-    expect(output.statements[1].expression).toBe('question + 500');
   });
 });

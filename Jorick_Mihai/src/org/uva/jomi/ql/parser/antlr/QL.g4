@@ -19,7 +19,7 @@ command: questionStmt
 	   | ifElseStmt
 	   ;
 
-questionStmt: IDENTIFIER ':' LABEL TYPE (expression)? ;
+questionStmt: LABEL IDENTIFIER ':' TYPE (expression)? ;
 ifStmt: 'if' '(' expression ')' blockStmt ;
 ifElseStmt: 'if' '(' expression ')' ifBlock=blockStmt 'else' elseBlock=blockStmt;
 

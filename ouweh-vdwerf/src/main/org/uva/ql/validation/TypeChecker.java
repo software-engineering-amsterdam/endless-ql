@@ -6,10 +6,7 @@ import org.uva.ql.ast.Statement;
 import org.uva.ql.ast.expression.ParameterGroup;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.*;
-import org.uva.ql.ast.type.BooleanType;
-import org.uva.ql.ast.type.IntegerType;
-import org.uva.ql.ast.type.StringType;
-import org.uva.ql.ast.type.Type;
+import org.uva.ql.ast.type.*;
 import org.uva.ql.visitor.*;
 
 public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String>  {
@@ -142,6 +139,11 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
     @Override
     public Type visit(IntegerType integerType, String context) {
         return integerType;
+    }
+
+    @Override
+    public Type visit(MoneyType moneyType, String context) {
+        return moneyType;
     }
 
     @Override

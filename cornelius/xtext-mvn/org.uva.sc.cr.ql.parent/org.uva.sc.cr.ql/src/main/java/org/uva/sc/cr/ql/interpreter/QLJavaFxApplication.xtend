@@ -13,13 +13,14 @@ import org.eclipse.xtext.validation.CheckMode
 import org.eclipse.xtext.validation.IResourceValidator
 import org.uva.sc.cr.ql.QLStandaloneSetup
 import org.uva.sc.cr.ql.qL.Form
+import org.uva.sc.cr.ql.interpreter.service.StageService
 
 class QLJavaFxApplication extends Application {
 
 	protected var Resource astData
 
 	@Inject
-	private var StageService stageService
+	protected var StageService stageService
 
 	override init() {
 		val file = parameters.raw.get(0)

@@ -28,7 +28,6 @@ public class QuestionElement implements BaseElement, InputFieldListener {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS ));
 		
-		
 		panel.add(new JLabel(this.question));
 		
 		InputField inputField = new FieldFactory().getField(this.type);

@@ -32,7 +32,7 @@ public class StrLiteral extends Literal<String> {
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 }

@@ -100,11 +100,10 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
     @Override 
     public QLNode visitComputedQuestion(QLParser.ComputedQuestionContext ctx) { 
         
-        String label            = stripQuotations(ctx.label());
-        Type type               = (Type) visit(ctx.type());
-        Identifier id           = ((Identifier) visitIdentifier(ctx.identifier())).setType(type);
-        id                      = replaceWithOriginalIdentifier(id);
-        Expression expr         = (Expression) visit(ctx.expr());
+        String label    = stripQuotations(ctx.label());
+        Type type       = (Type) visit(ctx.type());
+        Identifier id   = replaceWithOriginalIdentifier(((Identifier) visitIdentifier(ctx.identifier())).setType(type));
+        Expression expr = (Expression) visit(ctx.expr());
         
         return setLocation(new ComputedQuestion(label,id,type,expr), ctx.start);
     }
@@ -114,8 +113,7 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         
         String label    = stripQuotations(ctx.label());
         Type type       = (Type) visit(ctx.type());
-        Identifier id   = ((Identifier) visitIdentifier(ctx.identifier())).setType(type);
-        id              = replaceWithOriginalIdentifier(id);
+        Identifier id   = replaceWithOriginalIdentifier(((Identifier) visitIdentifier(ctx.identifier())).setType(type));
         
         return setLocation(new AnswerableQuestion(label,id,type), ctx.start);
     }
@@ -152,7 +150,7 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
 
     @Override 
     public QLNode visitIdentifier(QLParser.IdentifierContext ctx) { 
-        return setLocation(new Identifier(ctx.getText()),ctx.start);
+        return setLocation(replaceWithOriginalIdentifier(new Identifier(ctx.getText())),ctx.start);
     }
     
     @Override 
@@ -293,11 +291,18 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
     
     private Identifier replaceWithOriginalIdentifier(Identifier id) {
         
-        String key = id.getName()+"."+id.getType();
+        String name = id.getName();
         
-        if(identifiers.containsKey(key)) return identifiers.get(key);
+        if(identifiers.containsKey(name))
+        {
+            Identifier original = identifiers.get(name);
+            
+            if(id.getType().isUndefined()) return original;
+            
+            if(original.getType().equals(id.getType())) return identifiers.get(name);
+        }
         
-        identifiers.put(key, id);
+        identifiers.put(name, id);
         
         return id;
     }

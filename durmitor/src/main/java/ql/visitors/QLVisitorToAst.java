@@ -103,21 +103,21 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         String label            = stripQuotations(ctx.label());
         Type type               = (Type) visit(ctx.type());
         Identifier id           = ((Identifier) visitIdentifier(ctx.identifier())).setType(type);
+        id                      = replaceWithOriginalIdentifier(id);
         Expression expr         = (Expression) visit(ctx.expr());
-        ComputedQuestion stmt   = new ComputedQuestion(label,id,type,expr);
         
-        return setLocation(stmt, ctx.start);
+        return setLocation(new ComputedQuestion(label,id,type,expr), ctx.start);
     }
 
     @Override 
     public QLNode visitAnswerableQuestion(QLParser.AnswerableQuestionContext ctx) { 
         
-        String label            = stripQuotations(ctx.label());
-        Type type               = (Type) visit(ctx.type());
-        Identifier id           = ((Identifier) visitIdentifier(ctx.identifier())).setType(type);
-        AnswerableQuestion stmt = new AnswerableQuestion(label,id,type); 
+        String label    = stripQuotations(ctx.label());
+        Type type       = (Type) visit(ctx.type());
+        Identifier id   = ((Identifier) visitIdentifier(ctx.identifier())).setType(type);
+        id              = replaceWithOriginalIdentifier(id);
         
-        return setLocation(stmt, ctx.start);
+        return setLocation(new AnswerableQuestion(label,id,type), ctx.start);
     }
     
     @Override 
@@ -152,24 +152,7 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
 
     @Override 
     public QLNode visitIdentifier(QLParser.IdentifierContext ctx) { 
-        
-        String name     = ctx.getText();
-        Identifier id   = new Identifier(name);
-        
-        setLocation(id,ctx.start);
-        
-        if(identifiers.containsKey(name))
-        {
-            Identifier original = identifiers.get(name);
-            id.setValue(original.getValue());
-            id.setType(original.getType());
-        }
-        else
-        {
-            identifiers.put(name, id);
-        }
-        
-        return id;
+        return setLocation(new Identifier(ctx.getText()),ctx.start);
     }
     
     @Override 
@@ -306,5 +289,16 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         label           = label.substring(1, endIndex);
         
         return label;
+    }
+    
+    private Identifier replaceWithOriginalIdentifier(Identifier id) {
+        
+        String key = id.getName()+"."+id.getType();
+        
+        if(identifiers.containsKey(key)) return identifiers.get(key);
+        
+        identifiers.put(key, id);
+        
+        return id;
     }
 }

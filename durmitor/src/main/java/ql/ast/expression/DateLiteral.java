@@ -29,8 +29,8 @@ public class DateLiteral extends Literal<Date> {
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

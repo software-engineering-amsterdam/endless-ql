@@ -18,10 +18,16 @@ def parser_test_helper(code, parser, expected):
 
 
 # Statements
-def test_assign_stmt():
+def test_boolean_assign_stmt():
     parser_test_helper('hasSoldHouse: "Did you sell a house in 2010?" boolean',
                        stmt_list(),
                        AssignStatement('hasSoldHouse', '"Did you sell a house in 2010?"', 'boolean'))
+
+
+def test_money_assign_stmt():
+    parser_test_helper('sellingPrice: "Price the house was sold for:" money',
+                       stmt_list(),
+                       AssignStatement('sellingPrice', '"Price the house was sold for:"', 'money'))
 
 
 def test_form_stmt():

@@ -2,18 +2,19 @@ package ql.ast.expression;
 
 import ql.ast.type.Str;
 import ql.ast.type.Type;
+import ql.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class StrLiteral extends Literal<String> {
+public class StrLiteral extends Literal {
 
-    private String value;
+    private Value<String> value;
     
     public StrLiteral() { 
-        this.value = "";
+        this.value = new ql.value.Str();
     }
     
     public StrLiteral(String value) { 
-        this.value = value;
+        this.value = new ql.value.Str(value);
     }
 
     @Override
@@ -23,11 +24,11 @@ public class StrLiteral extends Literal<String> {
 
     @Override
     public String toString() {
-        return this.value;
+        return String.valueOf(value);
     }
 
     @Override
-    public String getValue() {
+    public Value<String> getValue() {
         return value;
     }
 

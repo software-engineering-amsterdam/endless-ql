@@ -1,26 +1,26 @@
 package ql.ast.type;
 
+import ql.value.Value;
+
 public class Undefined extends Type {
-    
-    private String name = "";
-    
+
     @Override
-    public void setName(String name) {
-        this.name = name;
+    public Value<?> toValue() {
+        return new ql.value.Undefined();
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String toString() {
+        return "undefined";
     }
 
     @Override
-    public void setValue(String value) {
-        // TODO Auto-generated method stub
-        
+    public boolean equals(Type t) {
+        return t.isUndefined();
     }
 
-    @Override public String toString() { return "undefined"; }
-    @Override public boolean equals(Type t) { return t.isUndefined(); }
-    @Override public boolean isUndefined() { return true; }
+    @Override
+    public boolean isUndefined() {
+        return true;
+    }
 }

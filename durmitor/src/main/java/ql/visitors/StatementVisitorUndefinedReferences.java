@@ -1,5 +1,6 @@
 package ql.visitors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ql.ast.expression.Expression;
@@ -10,17 +11,16 @@ import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
-import ql.helpers.symboltable.SymbolTable;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorUndefinedReferences implements StatementVisitor {
 
-    private SymbolTable symbolTable;
+    private List<String> identifiers;
     private List<String> errors;
 
-    public StatementVisitorUndefinedReferences(SymbolTable symbolTable, List<String> errors) {
+    public StatementVisitorUndefinedReferences(List<String> errors) {
         
-        this.symbolTable    = symbolTable;
+        this.identifiers    = new ArrayList<String>();
         this.errors         = errors;
     }
     
@@ -30,21 +30,10 @@ public class StatementVisitorUndefinedReferences implements StatementVisitor {
         
         for(Identifier id : ids)
         {
-            int firstIndex = symbolTable.getFirstIndexOf(id.getName());
-            
-            if (firstIndex == -1) 
+            if (!identifiers.contains(id.getName())) 
             {
                 errors.add("Reference to undefined question [" + id.getName() + "] found at " + id.getLocation());
             } 
-            else 
-            {
-                Identifier firstDefinition = symbolTable.get(firstIndex).getIdentifier();
-                
-                if (id.getLocation().precedes(firstDefinition.getLocation())) 
-                {
-                    errors.add("Question [" + id.getName() + "] used before definition at " + id.getLocation());
-                }
-            }
         }
         
     }
@@ -72,11 +61,14 @@ public class StatementVisitorUndefinedReferences implements StatementVisitor {
 
     
     @Override
-    public void visit(AnswerableQuestion stmt) {}
+    public void visit(AnswerableQuestion stmt) {
+        identifiers.add(stmt.getIdentifier().getName());
+    }
 
     
     @Override
     public void visit(ComputedQuestion stmt) {
+        identifiers.add(stmt.getIdentifier().getName());
         checkReferences(stmt.getComputation());
     }
 }

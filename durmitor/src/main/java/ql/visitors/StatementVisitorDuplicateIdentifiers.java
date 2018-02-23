@@ -1,6 +1,8 @@
 package ql.visitors;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ql.ast.expression.Identifier;
 import ql.ast.statement.AnswerableQuestion;
@@ -9,25 +11,26 @@ import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
-import ql.helpers.symboltable.SymbolTable;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorDuplicateIdentifiers implements StatementVisitor {
 
-    private SymbolTable symbolTable;
+    private Map<String,Integer> frequencies;
     private List<String> errors;
     
-    public StatementVisitorDuplicateIdentifiers(SymbolTable symbolTable, List<String> errors) {
+    public StatementVisitorDuplicateIdentifiers(List<String> errors) {
         
-        this.symbolTable    = symbolTable;
+        this.frequencies    = new HashMap<String,Integer>();
         this.errors         = errors;
     }
     
     private void check(Identifier id)
     {
-        int occurences = symbolTable.getNrOccurences(id.getName());
+        String key = id.getName()+"."+id.getType();
         
-        if(occurences > 1)
+        if(!frequencies.containsKey(key)) frequencies.put(key, 1);
+        
+        if(frequencies.get(key) > 1)
         {
             errors.add("Duplicated identifier ["+id.getName()+"] found at "+id.getLocation());
         }

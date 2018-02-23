@@ -102,7 +102,7 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         
         String label            = stripQuotations(ctx.label());
         Type type               = (Type) visit(ctx.type());
-        Identifier id           = (Identifier) visitIdentifier(ctx.identifier());
+        Identifier id           = ((Identifier) visitIdentifier(ctx.identifier())).setType(type);
         Expression expr         = (Expression) visit(ctx.expr());
         ComputedQuestion stmt   = new ComputedQuestion(label,id,type,expr);
         
@@ -113,8 +113,8 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
     public QLNode visitAnswerableQuestion(QLParser.AnswerableQuestionContext ctx) { 
         
         String label            = stripQuotations(ctx.label());
-        Identifier id           = (Identifier) visitIdentifier(ctx.identifier());
         Type type               = (Type) visit(ctx.type());
+        Identifier id           = ((Identifier) visitIdentifier(ctx.identifier())).setType(type);
         AnswerableQuestion stmt = new AnswerableQuestion(label,id,type); 
         
         return setLocation(stmt, ctx.start);
@@ -160,7 +160,9 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         
         if(identifiers.containsKey(name))
         {
-            id.setValue(identifiers.get(name).getValue());
+            Identifier original = identifiers.get(name);
+            id.setValue(original.getValue());
+            id.setType(original.getType());
         }
         else
         {

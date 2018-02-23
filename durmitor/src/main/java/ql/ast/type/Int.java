@@ -1,27 +1,26 @@
 package ql.ast.type;
 
+import ql.value.Value;
+
 public class Int extends Numeric {
-    
-    private String name = "";
-    private int value = 0;
 
-    public String getName() {
-        return name;
+    @Override
+    public String toString() {
+        return "integer";
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public boolean equals(Type t) {
+        return t.isInteger();
     }
 
-    public int getValue() {
-        return value;
+    @Override
+    public boolean isInteger() {
+        return true;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    @Override
+    public Value<?> toValue() {
+        return new ql.value.Int();
     }
-    
-    @Override public String toString() { return "integer"; }
-    @Override public boolean equals(Type t) { return t.isInteger(); }
-    @Override public boolean isInteger() { return true; }
 }

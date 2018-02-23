@@ -1,17 +1,20 @@
 package ql.ast.expression;
 
-import ql.value.Undefined;
+import ql.ast.type.Type;
+import ql.ast.type.Undefined;
 import ql.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class Identifier extends Expression {
     
     private String name;
+    private Type type;
     private Value<?> value;
     
     public Identifier(String name) {
         this.name   = name;
-        this.value  = new Undefined();
+        this.type   = new Undefined();
+        this.value  = new ql.value.Undefined();
     }
     
     public String getName() {
@@ -22,8 +25,19 @@ public class Identifier extends Expression {
         return value;
     }
     
+    public Type getType() {
+        return type;
+    }
+    
     public void setValue(Value<?> value) {
         this.value = value;
+    }
+    
+    public Identifier setType(Type type) {
+        
+        this.type = type;
+        
+        return this;
     }
     
     @Override

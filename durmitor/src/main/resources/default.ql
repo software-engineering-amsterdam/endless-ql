@@ -24,7 +24,7 @@ form taxFormExample {
 	            old: boolean
 	    }	
     }
-    
+
     if(undefined1) {}
 
     "Undefined 1" undefined1: boolean
@@ -47,4 +47,5 @@ form taxFormExample {
     }
 
 	if(!2) {}
+
 }

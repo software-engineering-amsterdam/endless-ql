@@ -10,23 +10,19 @@ import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
 import ql.ast.type.Type;
-import ql.helpers.symboltable.SymbolTable;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorInvalidOperands implements StatementVisitor {
     
-    private SymbolTable symbolTable;
     private List<String> errors;
 
-    public StatementVisitorInvalidOperands(SymbolTable symbolTable, List<String> errors) {
-        
-        this.symbolTable    = symbolTable;
-        this.errors         = errors;
+    public StatementVisitorInvalidOperands(List<String> errors) {
+        this.errors = errors;
     }
     
     public void check(Expression expr) {
         
-        Type exprType = expr.accept(new ExpressionVisitorType(symbolTable));
+        Type exprType = expr.accept(new ExpressionVisitorType());
         
         if(exprType.isUndefined())
         {

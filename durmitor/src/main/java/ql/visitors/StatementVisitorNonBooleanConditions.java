@@ -10,23 +10,20 @@ import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
 import ql.ast.type.Type;
-import ql.helpers.symboltable.SymbolTable;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorNonBooleanConditions implements StatementVisitor {
     
-    private SymbolTable symbolTable;
     private List<String> errors;
 
-    public StatementVisitorNonBooleanConditions(SymbolTable symbolTable, List<String> errors) {
+    public StatementVisitorNonBooleanConditions(List<String> errors) {
         
-        this.symbolTable    = symbolTable;
-        this.errors         = errors;
+        this.errors = errors;
     }
     
     private void checkCondition(Expression condition) {
         
-        Type conditionType = condition.accept(new ExpressionVisitorType(symbolTable));
+        Type conditionType = condition.accept(new ExpressionVisitorType());
         
         if(!conditionType.isBoolean())
         {

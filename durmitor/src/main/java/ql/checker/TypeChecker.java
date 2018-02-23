@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ql.ast.form.Form;
-import ql.helpers.symboltable.SymbolTable;
 import ql.visitors.StatementVisitorDuplicateIdentifiers;
 import ql.visitors.StatementVisitorDuplicateLabels;
 import ql.visitors.StatementVisitorInvalidOperands;
@@ -14,7 +13,6 @@ import ql.visitors.StatementVisitorUndefinedReferences;
 public class TypeChecker {
 
     private Form form;
-    private SymbolTable symbolTable;
     private List<String> errors;
     private List<String> warnings;
     
@@ -22,7 +20,6 @@ public class TypeChecker {
     public TypeChecker(Form form) {
         
         this.form           = form;
-        this.symbolTable    = new SymbolTable(form);
         this.errors         = new ArrayList<String>();
         this.warnings       = new ArrayList<String>();
     }
@@ -38,22 +35,22 @@ public class TypeChecker {
     
     public void checkReferencesToUndefinedQuestions()
     {
-        form.getBlock().accept(new StatementVisitorUndefinedReferences(symbolTable, errors));
+        form.getBlock().accept(new StatementVisitorUndefinedReferences(errors));
     }
     
     public void checkIdentifiersWithMultipleTypes()
     {
-        form.getBlock().accept(new StatementVisitorDuplicateIdentifiers(symbolTable, errors));
+        form.getBlock().accept(new StatementVisitorDuplicateIdentifiers(errors));
     }
     
     public void checkNonBooleanConditions()
     {
-        form.getBlock().accept(new StatementVisitorNonBooleanConditions(symbolTable, errors));
+        form.getBlock().accept(new StatementVisitorNonBooleanConditions(errors));
     }
     
     public void checkInvalidOperands()
     {
-        form.getBlock().accept(new StatementVisitorInvalidOperands(symbolTable, errors));
+        form.getBlock().accept(new StatementVisitorInvalidOperands(errors));
     }
     
     public void checkDuplicateLabels()

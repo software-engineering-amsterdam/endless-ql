@@ -7,14 +7,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.uva.sea.ql.evaluate.Evaluator;
-import org.uva.sea.ql.evaluate.EvaluatorBoolean;
-import org.uva.sea.ql.evaluate.EvaluatorDecimal;
-import org.uva.sea.ql.evaluate.EvaluatorInteger;
+import org.uva.sea.ql.evaluate.FormEvaluator;
+import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
-import sun.misc.IOUtils;
 
 import java.io.*;
 import java.util.*;
@@ -28,16 +25,11 @@ public class QLEvaluatorTest extends TestCase {
     private int correctQuestions;
 
     private static TestFileHelper testFileHelper = new TestFileHelper();
-    private Map<NodeType, Evaluator> evaluators = new HashMap<>();
+    private FormEvaluator formEvaluator = new FormEvaluator();
 
     public QLEvaluatorTest(String testFile, int correctQuestions) {
         this.testFile = testFile;
         this.correctQuestions = correctQuestions;
-
-        evaluators.put(NodeType.BOOLEAN, new EvaluatorBoolean());
-        evaluators.put(NodeType.DECIMAL, new EvaluatorDecimal());
-        evaluators.put(NodeType.INTEGER, new EvaluatorInteger());
-
     }
 
     @Parameterized.Parameters(name = "{index}: {0}")
@@ -100,8 +92,7 @@ public class QLEvaluatorTest extends TestCase {
             if(result == null)
                 return 0;
 
-            QLEvaluator evaluate = new QLEvaluator(this.evaluators);
-            List<Question> questions = evaluate.getQuestions(result);
+            List<Question> questions = this.formEvaluator.evaluate(result, new SymbolTable());
             return questions.size();
         } catch (IOException e) {
             return 0;

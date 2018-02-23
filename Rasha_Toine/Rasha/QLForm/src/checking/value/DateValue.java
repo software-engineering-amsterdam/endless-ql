@@ -433,5 +433,10 @@ public class DateValue extends Value {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public <T extends Value> T throwException() {
+		throw new UnsupportedOperationException(getClass().getName());
+	}
 
 }

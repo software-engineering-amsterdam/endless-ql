@@ -5,6 +5,10 @@ import java.math.BigDecimal;
 public class DecimalValue extends Value {
   
 	private BigDecimal value;
+	
+	public DecimalValue(BigDecimal value) {
+		this.value = value;
+	}
 
 	public BigDecimal getValue() {
 		return value;
@@ -16,27 +20,124 @@ public class DecimalValue extends Value {
 
 	@Override
 	public Value add(Value val) {
-		// TODO Auto-generated method stub
-		return null;
+		return val.add(this);
 	}
-
+	
+	@Override
+	public Value add(DecimalValue val) {
+		BigDecimal result = this.value.add(val.value);
+		return new DecimalValue(result);
+	}
+	
 	@Override
 	public Value sub(Value val) {
-		// TODO Auto-generated method stub
-		return null;
+		return val.sub(this);
 	}
-
+	
+	@Override
+	public Value sub(DecimalValue val) {
+		BigDecimal result = this.value.subtract(val.value);
+		return new DecimalValue(result);
+	}
+	
 	@Override
 	public Value mul(Value val) {
-		// TODO Auto-generated method stub
-		return null;
+		return val.mul(this);
+	}
+	
+	@Override
+	public Value mul(DecimalValue val) {
+		BigDecimal result = this.value.multiply(val.value);
+		return new DecimalValue(result);
+	}
+	
+	@Override
+	public Value div(Value val) {
+		return val.div(this);
+	}
+	
+	@Override
+	public Value div(DecimalValue val) {
+		if (!val.value.equals(0)) {
+			BigDecimal result = this.value.divide(val.value);
+			return new DecimalValue(result);
+		} else 
+			return throwException();
+	}
+
+	
+	@Override
+	public BooleanValue eq(Value val) {
+		return val.eq(this);
+	}
+	
+	@Override
+	public BooleanValue gt(DecimalValue val) {
+		int result = this.value.compareTo(val.value);
+		if (result == 1)
+			return new BooleanValue(true);
+		else
+			return new BooleanValue(false);
 	}
 
 	@Override
-	public Value div(Value val) {
-		// TODO Auto-generated method stub
-		return null;
+	public BooleanValue gEq(Value val) {
+		return val.gt(this).or(val.eq(this));
 	}
+	
+	@Override
+	public BooleanValue gEq(DecimalValue val) {
+		int result = this.value.compareTo(val.value);
+		if (result == 2 || result == 0 )
+			return new BooleanValue(true);
+		else
+			return new BooleanValue(false);
+	}
+
+	@Override
+	public BooleanValue lt(DecimalValue val) {
+		int result = this.value.compareTo(val.value);
+		if (result == 2)
+			return new BooleanValue(true);
+		else
+			return new BooleanValue(false);
+	}
+
+	@Override
+	public BooleanValue lEq(Value val) {
+		return val.lt(this).or(val.eq(this));
+	}
+	
+	@Override
+	public BooleanValue lEq(DecimalValue val) {
+		int result = this.value.compareTo(val.value);
+		if (result == 1 || result == 0 )
+			return new BooleanValue(true);
+		else
+			return new BooleanValue(false);
+	}
+	
+	@Override
+	public DecimalValue neg() {
+		return new DecimalValue(this.value.multiply(new BigDecimal(-1)));
+	}
+
+	@Override
+	public DecimalValue pos() {
+		return new DecimalValue(this.value.multiply(new BigDecimal(+1)));
+	}
+
+	@Override
+	public BooleanValue or(Value val) {
+		return throwException();
+	}
+
+	
+	@Override
+	public BooleanValue and(Value val) {
+		return throwException();
+	}
+	
 
 	@Override
 	public Value check(String str) {
@@ -44,393 +145,32 @@ public class DecimalValue extends Value {
 		return null;
 	}
 
-	@Override
-	public Value neg() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value pos() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue and(Value val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue or(Value val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue gt(Value val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue gEq(Value val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue lt(Value val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue lEq(Value val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue or(IntegerValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue or(BooleanValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue or(StringValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue or(DateValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue or(DecimalValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue and(IntegerValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue and(BooleanValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue and(StringValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue and(DateValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue and(DecimalValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue not() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value add(IntegerValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value add(BooleanValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value add(StringValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value add(DateValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value add(DecimalValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value sub(IntegerValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value sub(BooleanValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value sub(StringValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value sub(DateValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value sub(DecimalValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value mul(IntegerValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value mul(BooleanValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value mul(StringValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value mul(DateValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value mul(DecimalValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value div(IntegerValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value div(BooleanValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value div(StringValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value div(DateValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value div(DecimalValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue gt(IntegerValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue gt(BooleanValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue gt(StringValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue gt(DateValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue gt(DecimalValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue gEq(IntegerValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue gEq(BooleanValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue gEq(StringValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue gEq(DateValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue gEq(DecimalValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue lt(IntegerValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue lt(BooleanValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue lt(StringValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue lt(DateValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue lt(DecimalValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue lEq(IntegerValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue lEq(BooleanValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue lEq(StringValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue lEq(DateValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue lEq(DecimalValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue eq(Value val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanValue eq(IntegerValue val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public BooleanValue eq(BooleanValue val) {
-		// TODO Auto-generated method stub
-		return null;
+		return BooleanValue.FALSE;
 	}
 
+	
 	@Override
 	public BooleanValue eq(StringValue val) {
-		// TODO Auto-generated method stub
-		return null;
+		return BooleanValue.FALSE;
 	}
+	
 
 	@Override
 	public BooleanValue eq(DateValue val) {
-		// TODO Auto-generated method stub
-		return null;
+		return BooleanValue.FALSE;
 	}
+	
 
 	@Override
 	public BooleanValue eq(DecimalValue val) {
-		// TODO Auto-generated method stub
-		return null;
+		return BooleanValue.FALSE;
+	}
+	
+	@Override
+	public <T extends Value> T throwException() {
+		throw new UnsupportedOperationException(getClass().getName());
 	}
 }

@@ -31,49 +31,47 @@ public class ExpressionVariableInteger extends ExpressionVariable<Integer> {
 
     @Override
     public ExpressionVariable multiply(ExpressionVariable other) {
-        if (this.value == null || other == null)
+        if (this.value == null || other.value == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableInteger((int) (Double.parseDouble(this.value.toString()) * Double.parseDouble(other.value.toString())));
     }
 
     @Override
     public ExpressionVariable subtract(ExpressionVariable other) {
-        if (this.value == null || other == null)
+        if (this.value == null || other.value == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableInteger((int) (Double.parseDouble(this.value.toString()) - Double.parseDouble(other.value.toString())));
     }
 
     @Override
     public ExpressionVariable sum(ExpressionVariable other) {
-        if (this.value == null || other == null)
-            return new ExpressionVariableUndefined();
-        return new ExpressionVariableInteger((int) (Double.parseDouble(this.value.toString()) + Double.parseDouble(other.value.toString())));
+        return new ExpressionVariableInteger(this.value + (Integer) other.value);
     }
 
     @Override
     public ExpressionVariable ge(ExpressionVariable other) {
-        if (this.value == null || other == null)
+        if (this.value == null || other.value == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(Double.parseDouble(this.value.toString()) >= Double.parseDouble(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable gt(ExpressionVariable other) {
-        if (this.value == null || other == null)
+        if (this.value == null || other.value == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(Double.parseDouble(this.value.toString()) > Double.parseDouble(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable le(ExpressionVariable other) {
-        if (this.value == null || other == null)
+        if (this.value == null || other.value == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(Double.parseDouble(this.value.toString()) <= Double.parseDouble(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable lt(ExpressionVariable other) {
-        if (this.value == null || other == null)
+        if (this.value == null || other.value == null)
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(Double.parseDouble(this.value.toString()) < Double.parseDouble(other.value.toString()));
     }

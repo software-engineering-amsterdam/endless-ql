@@ -1,14 +1,17 @@
 package org.uva.sea.ql.parser.elements;
 
+import org.antlr.v4.runtime.Token;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.Visitor;
 
 public class Form extends ASTNode {
 
     private String name;
     private Statements statements;
 
-    public Form(String name, Statements statements) {
+    public Form(Token token, String name, Statements statements) {
+        super(token);
         this.name = name;
         this.statements = statements;
     }
@@ -21,16 +24,12 @@ public class Form extends ASTNode {
         return statements;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doForm(this);
-    }
-
-    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
-        if(this.statements != null)
-            this.statements.doTraversal(traverse, traverseType);
-    }
-
     public Type getType() {
-        return new Type("undefined");
+        return new Type(NodeType.UNKNOWN);
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

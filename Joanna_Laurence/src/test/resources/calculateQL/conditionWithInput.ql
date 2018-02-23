@@ -15,6 +15,4 @@ form taxOfficeExample {
       "Did you wait to long?"
         waitedToLong2: boolean = false
     }
-
-
 }

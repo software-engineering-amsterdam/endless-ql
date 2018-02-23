@@ -19,12 +19,20 @@ public class ParseTreeVisitorTest {
     private ASTBuilder builder;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.builder = new ASTBuilder();
     }
 
     @Test
     public void visitForm() {
+        QLParser parser = builder.getQLParser("form Questions {" +
+                "\"Test?\" test: string\n" +
+                "if (\"1\" == 1) {\"Test1?\" test: integer }}");
+        Form form = builder.getForm(parser);
+        Assert.assertEquals("Form: Questions\n" +
+                "\t\"Test?\"\ttest:StringType\n" +
+                "\tIf \"1\" == 1 \n" +
+                "\t\t\"Test1?\"\ttest:IntegerType\n",form.toString());
     }
 
     @Test
@@ -36,10 +44,18 @@ public class ParseTreeVisitorTest {
 
     @Test
     public void visitIfStatement() {
+        String testCase = "if(true) { \"MyQuestion\" myInt: integer }";
+        QLParser parser = builder.getQLParser(testCase);
+        Conditional conditional = (Conditional) builder.getStatement(parser);
+        Assert.assertEquals("\"MyQuestion\"\tmyInt:IntegerType", conditional.getIfSide().get(0).toString());
     }
 
     @Test
     public void visitIfElseStatement() {
+        String testCase = "if(true) { } else { \"MyQuestion\" myInt: integer }";
+        QLParser parser = builder.getQLParser(testCase);
+        Conditional conditional = (Conditional) builder.getStatement(parser);
+        Assert.assertEquals("\"MyQuestion\"\tmyInt:IntegerType", conditional.getElseSide().get(0).toString());
     }
 
     @Test

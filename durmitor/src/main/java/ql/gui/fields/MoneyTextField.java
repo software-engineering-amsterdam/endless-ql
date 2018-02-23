@@ -7,19 +7,19 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.text.PlainDocument;
 
-import ql.ast.type.Money;
+import ql.ast.expression.Identifier;
 import ql.gui.fields.document.filters.MoneyFilter;
 
 public class MoneyTextField extends JTextField {
 
     private static final long serialVersionUID = -3141780028784984723L;
 
-    public MoneyTextField(final Money money) {
+    public MoneyTextField(final Identifier id) {
         super();
-        this.setName(money.getName());
-        this.setText("0.00");
+        this.setName(id.getName());
+        this.setText(id.getType().toValue().toString());
         PlainDocument doc = (PlainDocument) this.getDocument();
-        doc.setDocumentFilter(new MoneyFilter(money, "^[0-9]+[.]?[0-9]{0,2}$"));
+        doc.setDocumentFilter(new MoneyFilter(id.getType(), "^[0-9]+[.]?[0-9]{0,2}$"));
         
         this.addFocusListener(new FocusAdapter() {
             

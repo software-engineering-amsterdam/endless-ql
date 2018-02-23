@@ -10,14 +10,15 @@ import javax.swing.SpinnerDateModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import ql.ast.type.Date;
+import ql.ast.expression.Identifier;
+import ql.value.Date;
 
 public class DateSpinnerField extends JSpinner {
 
     private static final long serialVersionUID = 7952307978295766801L;
     ResourceBundle translations = ResourceBundle.getBundle("ql.i18n.date");
     
-    public DateSpinnerField(final Date date) {
+    public DateSpinnerField(final Identifier id) {
         super(new SpinnerDateModel());
         
         final SimpleDateFormat dateFormat = ((JSpinner.DateEditor) this.getEditor()).getFormat();
@@ -32,7 +33,7 @@ public class DateSpinnerField extends JSpinner {
             @Override
             public void stateChanged(ChangeEvent e) {
                 LocalDate localDate = (LocalDate) ((JSpinner) e.getSource()).getValue();
-                date.setDate(localDate);
+                id.setValue(new Date(localDate));
             }
         });
     }

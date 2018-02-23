@@ -28,7 +28,7 @@ public abstract class Filter extends DocumentFilter {
         
         if(test(stringBuilder.toString())) {
             super.insertString(filterBypass, offset, string, attribute);
-            type.setValue(stringBuilder.toString());
+//TODO            type.setValue(stringBuilder.toString());
         }
     }
     
@@ -52,7 +52,7 @@ public abstract class Filter extends DocumentFilter {
         
         if (test(stringBuilder.toString())) {
             super.replace(filterBypass, offset, length, text, attribute);
-            type.setValue(stringBuilder.toString());
+//TODO            type.setValue(stringBuilder.toString());
         }
     }
     
@@ -67,7 +67,7 @@ public abstract class Filter extends DocumentFilter {
         
         if(test(stringBuilder.toString())) {
             super.remove(filterBypass, offset, length);
-            type.setValue(stringBuilder.toString());
+//TODO            type.setValue(stringBuilder.toString());
         }
     }
 }

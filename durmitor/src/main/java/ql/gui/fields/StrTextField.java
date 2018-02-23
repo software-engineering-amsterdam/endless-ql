@@ -6,16 +6,16 @@ import java.awt.event.FocusEvent;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import ql.ast.type.Str;
+import ql.ast.expression.Identifier;
 
 public class StrTextField extends JTextField {
 
     private static final long serialVersionUID = -6847803454758129428L;
     
-    public StrTextField(final Str string) {
+    public StrTextField(final Identifier id) {
         super();
-        this.setName(string.getName());
-        this.setText(string.getValue());
+        this.setName(id.getName());
+        this.setText(id.getValue().toString());
         this.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent event) {

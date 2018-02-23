@@ -7,19 +7,19 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.text.PlainDocument;
 
-import ql.ast.type.Int;
+import ql.ast.expression.Identifier;
 import ql.gui.fields.document.filters.IntFilter;
 
 public class IntTextField extends JTextField {
 
     private static final long serialVersionUID = 3967414248224464413L;
 
-    public IntTextField(final Int variable) {
+    public IntTextField(final Identifier identifier) {
         super();
-        this.setName(variable.getName());
-        this.setText("0");
+        this.setName(identifier.getName());
+        this.setText(identifier.getType().toValue().toString());
         PlainDocument document = (PlainDocument) this.getDocument();
-        document.setDocumentFilter(new IntFilter(variable, "^[0-9]+$"));
+        document.setDocumentFilter(new IntFilter(identifier.getType(), "^[0-9]+$"));
         
         this.addFocusListener(new FocusAdapter() {
             @Override

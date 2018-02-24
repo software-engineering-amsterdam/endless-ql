@@ -119,8 +119,8 @@ class GrammarOneSpec extends FunSpec with BeforeAndAfter {
       assert(listener.node_count("ifBody") == 1)
     }
 
-    it("'operation' node count should be 1") {
-      assert(listener.node_count("operation") == 1)
+    it("'binOp' node count should be 1") {
+      assert(listener.node_count("binOp") == 1)
     }
   }
 }

@@ -40,7 +40,7 @@ class CountNodesListener extends QlParserBaseListener {
     node_count("ifBody") += 1;
   }
 
-  override def enterOperation(ctx: QlParser.OperationContext): Unit = {
-    node_count("operation") += 1;
+  override def enterBinOp(ctx: QlParser.BinOpContext): Unit = {
+    node_count("binOp") += 1;
   }
 }

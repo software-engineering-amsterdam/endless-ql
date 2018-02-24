@@ -1,7 +1,5 @@
 package org.uva.jomi.ql.ast.expressions;
 
-import org.uva.jomi.ql.ast.QLToken;
-
 public class UnaryNotExpr extends Expr {
 	public final Expr right;
 	

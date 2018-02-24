@@ -8,6 +8,7 @@ import org.uva.jomi.ql.ast.expressions.DivisionExpr;
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.expressions.GroupingExpr;
 import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
+import org.uva.jomi.ql.ast.expressions.LessThanExpr;
 import org.uva.jomi.ql.ast.expressions.MultiplicationExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
@@ -181,6 +182,12 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 
 	@Override
 	public String visit(DivisionExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String visit(LessThanExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}

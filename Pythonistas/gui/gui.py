@@ -59,12 +59,9 @@ class InputWindow(QWidget):
         if type(node) is parse.combinators.Result:
             self.buildGui(node.value, screen)
         elif type(node) is ql_ast.ql_ast.FormStatement:
-
             # for child in node.form:
             #     self.buildGui(child,screen)
-
             self.buildGui(node.form, screen)
-
         elif type(node) is ql_ast.ql_ast.CompoundStatement:
             self.buildGui(node.first, screen)
             self.buildGui(node.second, screen)
@@ -73,6 +70,7 @@ class InputWindow(QWidget):
 
 
 class OutputWindow(QWidget):
+    '''A questionnaire window'''
     def __init__(self):
         super(OutputWindow,self).__init__()
         self.layout = QGridLayout()
@@ -138,6 +136,7 @@ class OutputWindow(QWidget):
         self.layout.addWidget(smbtn, self.row,1)
 
     def submit(self):
+        # Writes the entries from the answers list to a text file, together with the questions
         file = open( 'output.txt', 'w')
 
         for i in range(len(self.questions)):

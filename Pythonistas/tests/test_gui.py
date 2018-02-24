@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import *
 import sys
+from pytest import *
 from gui import gui
 
 def testfunc():
@@ -22,5 +23,6 @@ def testfunc():
     assert testtext == '"Did you sell a house in 2010?"undefined\n"Did you by a house in 2010?"undefined\n"Did you enter a loan for maintenance/reconstruction?"undefined\n'
 
     sys.exit()
+
 
 testfunc()

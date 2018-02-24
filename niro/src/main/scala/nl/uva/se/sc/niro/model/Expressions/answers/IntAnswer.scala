@@ -17,8 +17,8 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
       case LTe => this <= that
       case GTe => this >= that
       case Gt => this > that
-      case Ne => neq(this, that)
-      case Eq => equ(this, that)
+      case Ne => BooleanAnswer(this.possibleValue.flatMap(x => that.possibleValue.map(y => x != y)))
+      case Eq => BooleanAnswer(this.possibleValue.flatMap(x => that.possibleValue.map(y => x == y)))
       case _ => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
     }
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")

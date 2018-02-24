@@ -7,11 +7,19 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import qlviz.QLLexer;
 import qlviz.QLParser;
+import qlviz.interpreter.FormVisitor;
+import qlviz.model.Form;
 
-public class ParserBuilder {
-	private QLParser questionParser;
+public class ModelBuilder {
 
-	public ParseTree generateParseTree(String path) {
+	private final FormVisitor formParser;
+
+	public ModelBuilder(FormVisitor formParser) {
+		this.formParser = formParser;
+	}
+
+
+	public Form createFormFromMarkup(String path) {
 		CharStream charStream = null;
 		try {
 			charStream = new FileReader(path).getStream();
@@ -21,11 +29,9 @@ public class ParserBuilder {
 		QLLexer lexer = new QLLexer(charStream);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
-		return parser.form();
+		return formParser.visitForm(parser.form());
 	}
 
-	public QLParser getQuestionParser() {
-		return questionParser;
-	}
+
 
 }

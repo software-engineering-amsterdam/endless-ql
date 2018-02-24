@@ -36,6 +36,7 @@ import qlviz.model.QuestionBlock;
 
 public class TaxForm extends Application {
 	private JavafxFormRenderer renderer;
+	private Form model;
 
 	// Example to add checkboxes to the form
 
@@ -51,31 +52,25 @@ public class TaxForm extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		this.renderer = new JavafxFormRenderer(stage, vbox -> new JavafxQuestionBlockRenderer());
-		VBox taxFormFields = new VBox();
-		addFormFields(taxFormFields);
-		Scene scene = new Scene(taxFormFields, 550, 250);
-		stage.setTitle("Tax form");
-		stage.setScene(scene);
-		stage.show();
-	}
 
-	// adds form fields
-	private void addFormFields(VBox taxFormFields) {
-		HashMap<Integer, String> checkboxList = new HashMap<Integer, String>();
-		Iterator<Map.Entry<Integer, String>> checkBoxIterator = checkboxList.entrySet().iterator();
-		ParserBuilder parseBuilder = new ParserBuilder();
-		ParseTree parseTree = parseBuilder.generateParseTree(this.getParameters().getRaw().get(0));
-		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor = new BooleanExpressionVisitor(
-				new NumericExpressionVisitor(new BinaryNumericOperatorVisitor()), new BinaryBooleanOperatorVisitor(),
-				new NumericComparisonOperatorVisitor());
-		QLBaseVisitor<QuestionBlock> questionBlockVisitor = new QuestionBlockVisitor(
-				new QuestionVisitor(new QuestionTypeVisitor()),
-				pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor));
-		Form form = new FormVisitor(questionBlockVisitor).visit(parseTree);
+		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor =
+				new BooleanExpressionVisitor(
+					new NumericExpressionVisitor(
+							new BinaryNumericOperatorVisitor()
+					),
+					new BinaryBooleanOperatorVisitor(),
+					new NumericComparisonOperatorVisitor());
+		QLBaseVisitor<QuestionBlock> questionBlockVisitor =
+				new QuestionBlockVisitor(
+						new QuestionVisitor(
+								new QuestionTypeVisitor()
+						),
+						pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor)
+				);
+		FormVisitor visitor = new FormVisitor(questionBlockVisitor);
+		this.model = new ModelBuilder(visitor).createFormFromMarkup(this.getParameters().getRaw().get(0));
 
-		List<String> questionsInBlock = getQuestions(checkboxList, form);
-
-		addFormFields(taxFormFields, checkBoxIterator, questionsInBlock);
+		this.renderer.render(this.model);
 	}
 
 	private void addFormFields(VBox taxFormFields, Iterator<Map.Entry<Integer, String>> checkBoxIterator,

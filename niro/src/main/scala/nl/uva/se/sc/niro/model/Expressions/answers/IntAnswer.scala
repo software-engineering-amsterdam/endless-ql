@@ -23,7 +23,7 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
       case Eq => this === that
       case _ => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
     }
-    case that: DecAnswer => this.toDecAnswer.applyBinaryOperator(operator, that)
+    case that: DecAnswer => toDecAnswer.applyBinaryOperator(operator, that)
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 

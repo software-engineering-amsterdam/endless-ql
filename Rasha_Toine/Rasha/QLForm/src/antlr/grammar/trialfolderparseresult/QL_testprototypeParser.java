@@ -398,7 +398,7 @@ public class QL_testprototypeParser extends Parser {
 				{
 				setState(52);
 				((ExprContext)_localctx).identifier = identifier();
-				 ((ExprContext)_localctx).result =  add(_localctx, new IdentityExpression(((ExprContext)_localctx).identifier.result)); 
+				 ((ExprContext)_localctx).result =  add(_localctx, new IdentityExpression(((ExprContext)_localctx).identifier.getText())); 
 				}
 				break;
 			case 2:

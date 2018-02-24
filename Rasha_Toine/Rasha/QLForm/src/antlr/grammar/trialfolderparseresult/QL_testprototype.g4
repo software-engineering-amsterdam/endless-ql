@@ -48,7 +48,7 @@ questionType returns [Type result]
   ; 
 
 expr returns [Expression result]
-  : identifier { $result = add($ctx, new IdentityExpression($identifier.result)); }
+  : identifier { $result = add($ctx, new IdentityExpression($identifier.text)); }
   | literal  { $result = add($ctx, new LiteralExpression($literal.result)); }
   | '!' expr { $result = add($ctx, new Not($expr.result)); }
   | '(' expr ')' { $result = $expr.result; }

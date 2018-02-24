@@ -1,4 +1,4 @@
-package qlviz.Common;
+package qlviz.common;
 
 public enum QuestionText {
 	BUY("buy"),

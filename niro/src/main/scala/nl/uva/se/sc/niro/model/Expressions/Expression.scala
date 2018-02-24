@@ -21,11 +21,11 @@ final case class UnaryOperation(unaryOperator: UnaryOperator, left: Expression) 
 
 object Answer {
   def apply(answerType: String): Answer = answerType match {
-    case "boolean" => BooleanAnswer(None)
-    case "integer" => IntAnswer(None)
-    case "string" => StringAnswer(None)
-    case "decimal" => DecAnswer(None)
-    case "money" => MoneyAnswer(None)
-    case "date" => DateAnswer(None)
+    case "boolean" => BooleanAnswer()
+    case "integer" => IntAnswer()
+    case "string" => StringAnswer()
+    case "decimal" => DecAnswer()
+    case "money" => MoneyAnswer()
+    case "date" => DateAnswer()
   }
 }

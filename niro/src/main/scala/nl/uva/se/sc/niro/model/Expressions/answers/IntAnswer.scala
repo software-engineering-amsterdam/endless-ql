@@ -3,6 +3,7 @@ package nl.uva.se.sc.niro.model.Expressions.answers
 import nl.uva.se.sc.niro.model.Expressions.Answer
 import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.Expressions.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
+import nl.uva.se.sc.niro.model.Expressions.Orderings.IntAnswerCanDoOrderings._
 
 final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
 
@@ -12,10 +13,10 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
       case Sub => minus(this, that)
       case Mul => times(this, that)
       case Div => div(this, that)
-      case Lt => BooleanAnswer(combine[Boolean](that)(_ < _))
-      case LTe => BooleanAnswer(combine[Boolean](that)(_ <= _))
-      case GTe => BooleanAnswer(combine[Boolean](that)(_ >= _))
-      case Gt => BooleanAnswer(combine[Boolean](that)(_ > _))
+      case Lt => lt(this, that)
+      case LTe => lte(this, that)
+      case GTe => gte(this, that)
+      case Gt => gt(this, that)
       case Ne => BooleanAnswer(combine[Boolean](that)(_ != _))
       case Eq => BooleanAnswer(combine[Boolean](that)(_ == _))
       case _ => throw new UnsupportedOperationException(s"Unsupported operator: $operator")

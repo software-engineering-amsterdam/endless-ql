@@ -26,3 +26,8 @@ final case class StringAnswer(possibleValue: Option[String]) extends Answer {
     thatValue <- other.possibleValue
   } yield f(thisValue, thatValue)
 }
+
+object StringAnswer {
+  def apply() = new StringAnswer(None)
+  def apply(value: String) = new StringAnswer(Some(value))
+}

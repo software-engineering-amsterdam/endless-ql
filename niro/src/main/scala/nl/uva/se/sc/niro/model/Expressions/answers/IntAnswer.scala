@@ -29,3 +29,8 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
 }
+
+object IntAnswer {
+  def apply() = new IntAnswer(None)
+  def apply(value: Int) = new IntAnswer(Some(value))
+}

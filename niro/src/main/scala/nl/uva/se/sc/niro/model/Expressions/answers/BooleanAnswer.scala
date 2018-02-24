@@ -33,3 +33,8 @@ final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
     thatValue <- other.possibleValue
   } yield f(thisValue, thatValue)
 }
+
+object BooleanAnswer {
+  def apply() = new BooleanAnswer(None)
+  def apply(value: Boolean) = new BooleanAnswer(Some(value))
+}

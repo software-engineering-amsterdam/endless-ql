@@ -28,3 +28,8 @@ final case class DecAnswer(possibleValue: Option[BigDecimal]) extends Answer {
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
 }
+
+object DecAnswer {
+  def apply() = new DecAnswer(None)
+  def apply(value: BigDecimal) = new DecAnswer(Some(value))
+}

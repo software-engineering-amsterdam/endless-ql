@@ -8,3 +8,8 @@ final case class MoneyAnswer(possibleValue: Option[String]) extends Answer {
   def applyUnaryOperator(unaryOperator: UnaryOperator): Answer = ???
   def applyBinaryOperator(binaryOperator: BinaryOperator, other: Answer): Answer = ???
 }
+
+object MoneyAnswer {
+  def apply() = new MoneyAnswer(None)
+  def apply(value: String) = new MoneyAnswer(Some(value))
+}

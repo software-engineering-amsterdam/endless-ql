@@ -6,12 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.antlr.v4.runtime.tree.ParseTree;
-
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -19,6 +16,7 @@ import qlviz.QLBaseVisitor;
 import qlviz.common.QuestionText;
 import qlviz.gui.renderer.JavafxFormRenderer;
 import qlviz.gui.renderer.JavafxQuestionBlockRenderer;
+import qlviz.gui.renderer.JavafxQuestionRenderer;
 import qlviz.interpreter.BinaryBooleanOperatorVisitor;
 import qlviz.interpreter.BinaryNumericOperatorVisitor;
 import qlviz.interpreter.BooleanExpressionVisitor;
@@ -51,7 +49,7 @@ public class QLForm extends Application {
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
-		this.renderer = new JavafxFormRenderer(stage, vbox -> new JavafxQuestionBlockRenderer());
+		this.renderer = new JavafxFormRenderer(stage, vbox -> new JavafxQuestionBlockRenderer(vbox, JavafxQuestionRenderer::new));
 
 		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor =
 				new BooleanExpressionVisitor(

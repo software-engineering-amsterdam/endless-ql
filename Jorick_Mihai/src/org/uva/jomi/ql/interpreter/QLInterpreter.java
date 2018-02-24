@@ -21,6 +21,7 @@ import org.uva.jomi.ql.ast.expressions.OrExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
 import org.uva.jomi.ql.ast.expressions.UnaryExpr;
+import org.uva.jomi.ql.ast.expressions.UnaryNotExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
 import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
 import org.uva.jomi.ql.ast.statements.FormStmt;
@@ -180,6 +181,12 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 
 	@Override
 	public Object visit(OrExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object visit(UnaryNotExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}

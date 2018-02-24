@@ -12,6 +12,7 @@ import org.uva.sc.cr.ql.qL.Form
 import org.uva.sc.cr.ql.qL.QLPackage
 import org.uva.sc.cr.ql.util.QLUtil
 import org.uva.sc.cr.ql.validation.QLExpressionValidator
+import org.uva.sc.cr.ql.qL.QuestionType
 
 @RunWith(XtextRunner)
 @InjectWith(QLInjectorProvider)
@@ -25,82 +26,82 @@ class QLExpressionValidatorTest {
 
 	@Test
 	def void testBooleanVariableValidityInExpression() {
-		assertVariableInExpressionHelper(QLUtil.OPERATION_EQUALS, QLUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT_EQUALS, QLUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_SMALLER_THAN, QLUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_SMALLER_THAN_EQUALS, QLUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_GREATER_THAN, QLUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_GREATER_THAN_EUQALS, QLUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_PLUS, QLUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_MINUS, QLUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_MUL, QLUtil.TYPE_BOOLEAN)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_DIV, QLUtil.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_EQUALS, QuestionType.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT_EQUALS, QuestionType.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_SMALLER_THAN, QuestionType.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_SMALLER_THAN_EQUALS, QuestionType.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_GREATER_THAN, QuestionType.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_GREATER_THAN_EUQALS, QuestionType.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_PLUS, QuestionType.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_MINUS, QuestionType.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_MUL, QuestionType.TYPE_BOOLEAN)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_DIV, QuestionType.TYPE_BOOLEAN)
 	}
 
 	@Test
 	def void testStringVariableValidityInExpression() {
-		assertVariableInExpressionHelper(QLUtil.OPERATION_OR, QLUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_AND, QLUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_SMALLER_THAN, QLUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_SMALLER_THAN_EQUALS, QLUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_GREATER_THAN, QLUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_GREATER_THAN_EUQALS, QLUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_MINUS, QLUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_MUL, QLUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_DIV, QLUtil.TYPE_STRING)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT, QLUtil.TYPE_STRING)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_OR, QuestionType.TYPE_STRING)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_AND, QuestionType.TYPE_STRING)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_SMALLER_THAN, QuestionType.TYPE_STRING)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_SMALLER_THAN_EQUALS, QuestionType.TYPE_STRING)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_GREATER_THAN, QuestionType.TYPE_STRING)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_GREATER_THAN_EUQALS, QuestionType.TYPE_STRING)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_MINUS, QuestionType.TYPE_STRING)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_MUL, QuestionType.TYPE_STRING)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_DIV, QuestionType.TYPE_STRING)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT, QuestionType.TYPE_STRING)
 	}
 	
 	@Test
 	def void testIntegerVariableValidityInExpression() {
-		assertVariableInExpressionHelper(QLUtil.OPERATION_OR, QLUtil.TYPE_INTEGER)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_AND, QLUtil.TYPE_INTEGER)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_EQUALS, QLUtil.TYPE_INTEGER)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT_EQUALS, QLUtil.TYPE_INTEGER)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT, QLUtil.TYPE_INTEGER)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_OR, QuestionType.TYPE_INTEGER)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_AND, QuestionType.TYPE_INTEGER)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_EQUALS, QuestionType.TYPE_INTEGER)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT_EQUALS, QuestionType.TYPE_INTEGER)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT, QuestionType.TYPE_INTEGER)
 	}
 	
 	@Test
 	def void testDecimalVariableValidityInExpression() {
-		assertVariableInExpressionHelper(QLUtil.OPERATION_OR, QLUtil.TYPE_DECIMAL)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_AND, QLUtil.TYPE_DECIMAL)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_EQUALS, QLUtil.TYPE_DECIMAL)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT_EQUALS, QLUtil.TYPE_DECIMAL)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT, QLUtil.TYPE_DECIMAL)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_OR, QuestionType.TYPE_DECIMAL)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_AND, QuestionType.TYPE_DECIMAL)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_EQUALS, QuestionType.TYPE_DECIMAL)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT_EQUALS, QuestionType.TYPE_DECIMAL)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT, QuestionType.TYPE_DECIMAL)
 	}
 	
 	@Test
 	def void testMoneyVariableValidityInExpression() {
-		assertVariableInExpressionHelper(QLUtil.OPERATION_OR, QLUtil.TYPE_MONEY)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_AND, QLUtil.TYPE_MONEY)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_EQUALS, QLUtil.TYPE_MONEY)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT_EQUALS, QLUtil.TYPE_MONEY)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT, QLUtil.TYPE_MONEY)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_OR, QuestionType.TYPE_MONEY)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_AND, QuestionType.TYPE_MONEY)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_EQUALS, QuestionType.TYPE_MONEY)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT_EQUALS, QuestionType.TYPE_MONEY)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT, QuestionType.TYPE_MONEY)
 	}
 	
 	@Test
 	def void testDateVariableValidityInExpression() {
-		assertVariableInExpressionHelper(QLUtil.OPERATION_OR, QLUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_AND, QLUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_EQUALS, QLUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT_EQUALS, QLUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_SMALLER_THAN, QLUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_SMALLER_THAN_EQUALS, QLUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_GREATER_THAN, QLUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_GREATER_THAN_EUQALS, QLUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_PLUS, QLUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_MINUS, QLUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_MUL, QLUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_DIV, QLUtil.TYPE_DATE)
-		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT, QLUtil.TYPE_DATE)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_OR, QuestionType.TYPE_DATE)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_AND, QuestionType.TYPE_DATE)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_EQUALS, QuestionType.TYPE_DATE)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT_EQUALS, QuestionType.TYPE_DATE)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_SMALLER_THAN, QuestionType.TYPE_DATE)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_SMALLER_THAN_EQUALS, QuestionType.TYPE_DATE)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_GREATER_THAN, QuestionType.TYPE_DATE)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_GREATER_THAN_EUQALS, QuestionType.TYPE_DATE)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_PLUS, QuestionType.TYPE_DATE)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_MINUS, QuestionType.TYPE_DATE)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_MUL, QuestionType.TYPE_DATE)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_DIV, QuestionType.TYPE_DATE)
+		assertVariableInExpressionHelper(QLUtil.OPERATION_NOT, QuestionType.TYPE_DATE)
 	}
 
-	def assertVariableInExpressionHelper(String op, String type) {
+	def assertVariableInExpressionHelper(String op, QuestionType type) {
 		val result = parseHelper.parse('''
 			form TestForm{
-							"Do you have a pet?" q1: «type»
-							"Do you have a house?" q2: «type»
-							"Computed" q3: «type» = («IF op != "!"»q1«ENDIF» «op» q2)
+							"Do you have a pet?" q1: «type.literal»
+							"Do you have a house?" q2: «type.literal»
+							"Computed" q3: «type.literal» = («IF op != "!"»q1«ENDIF» «op» q2)
 						}
 		''')
 		Assert.assertNotNull(result)

@@ -10,10 +10,10 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
 
   def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
     case that: IntAnswer => operator match {
-      case Add => plus(this, that)
-      case Sub => minus(this, that)
-      case Mul => times(this, that)
-      case Div => div(this, that)
+      case Add => this + that
+      case Sub => this - that
+      case Mul => this * that
+      case Div => this / that
       case Lt => lt(this, that)
       case LTe => lte(this, that)
       case GTe => gte(this, that)

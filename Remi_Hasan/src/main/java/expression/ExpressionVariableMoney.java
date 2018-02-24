@@ -76,19 +76,4 @@ public class ExpressionVariableMoney extends ExpressionVariable<BigDecimal> {
         BigDecimal otherBigDecimal = BigDecimal.valueOf(Double.parseDouble(other.evaluate().get().toString()));
         return new ExpressionVariableBoolean(this.value.compareTo(otherBigDecimal) < 0);
     }
-
-    @Override
-    public ExpressionVariable and(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
-    public ExpressionVariable or(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
-    public ExpressionVariable not() {
-        return new ExpressionVariableUndefined();
-    }
 }

@@ -41,5 +41,5 @@ public class ExpressionArithmeticTest {
         ExpressionArithmeticSum expectedExpression = new ExpressionArithmeticSum(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
         assertEquals(expectedExpression, actualExpression);
     }
-    
+
 }

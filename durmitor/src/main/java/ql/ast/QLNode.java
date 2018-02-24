@@ -1,34 +1,20 @@
 package ql.ast;
 
+import ql.helpers.Location;
+
 public class QLNode {
 
-    private int line;
-    private int column;
+    private Location location;
     
     public QLNode() {
-        this.line   = 0;
-        this.column = 0;
+        location = new Location();
     }
     
-    public QLNode(int line, int column) {
-        this.line   = line;
-        this.column = column;
+    public void setLocation(Location location) {
+        this.location = location;
     }
     
-    public int getLine() {
-        return line;
-    }
-    
-    public int getColumn() {
-        return column;
-    }
-    
-    public void setLocation(int line, int column) {
-        this.line   = line;
-        this.column = column;
-    }
-    
-    public String getLocation() {
-        return "line " + this.line + ":" + this.column;
+    public Location getLocation() {
+        return location;
     }
 }

@@ -2,18 +2,19 @@ package ql.ast.expression;
 
 import ql.ast.type.Money;
 import ql.ast.type.Type;
+import ql.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class MoneyLiteral extends Literal<String> {
+public class MoneyLiteral extends Literal {
 
-    private String value;
+    private Value<String> value;
     
     public MoneyLiteral() { 
-        this.value = "0.00";
+        this.value = new ql.value.Money();
     }
     
     public MoneyLiteral(String value) { 
-        this.value = value;
+        this.value = new ql.value.Money(value);
     }
 
     @Override
@@ -23,16 +24,16 @@ public class MoneyLiteral extends Literal<String> {
 
     @Override
     public String toString() {
+        return String.valueOf(value);
+    }
+
+    @Override
+    public Value<String> getValue() {
         return value;
     }
 
     @Override
-    public String getValue() {
-        return value;
-    }
-
-    @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 }

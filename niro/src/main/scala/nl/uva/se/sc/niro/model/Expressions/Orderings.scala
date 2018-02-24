@@ -2,6 +2,8 @@ package nl.uva.se.sc.niro.model.Expressions
 
 import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, IntAnswer, StringAnswer }
 
+import scala.language.implicitConversions
+
 object Orderings {
   trait IntAnswerCanDoOrderings extends Orderings[IntAnswer] {
     import IntAnswerCanDoOrderings._

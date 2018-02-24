@@ -2,6 +2,8 @@ package nl.uva.se.sc.niro.model.Expressions
 
 import nl.uva.se.sc.niro.model.Expressions.answers.IntAnswer
 
+import scala.language.implicitConversions
+
 object BasicArithmetics {
   trait IntAnswerCanDoBasicArithmetics extends BasicArithmetics[IntAnswer] {
     import IntAnswerCanDoBasicArithmetics._

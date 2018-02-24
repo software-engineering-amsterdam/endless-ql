@@ -4,7 +4,6 @@ import nl.uva.se.sc.niro.model.Expressions.Answer
 import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.Expressions.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
 import nl.uva.se.sc.niro.model.Expressions.Orderings.IntAnswerCanDoOrderings._
-import nl.uva.se.sc.niro.model.Expressions.Orderings.IntAnswerCanDoOrderings.{ ne => neq, eq => equ}
 
 final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
 
@@ -14,10 +13,10 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
       case Sub => this - that
       case Mul => this * that
       case Div => this / that
-      case Lt => lt(this, that)
-      case LTe => lte(this, that)
-      case GTe => gte(this, that)
-      case Gt => gt(this, that)
+      case Lt => this < that
+      case LTe => this <= that
+      case GTe => this >= that
+      case Gt => this > that
       case Ne => neq(this, that)
       case Eq => equ(this, that)
       case _ => throw new UnsupportedOperationException(s"Unsupported operator: $operator")

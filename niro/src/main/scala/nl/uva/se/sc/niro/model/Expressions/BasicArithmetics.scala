@@ -51,5 +51,5 @@ trait BasicArithmetics[SubType<:Answer] {
     def unary_-(): SubType = negate(left)
   }
 
-  implicit def mkNumericOps(lhs: SubType): Ops = new Ops(lhs)
+  implicit def mkNumericOps(left: SubType): Ops = new Ops(left)
 }

@@ -75,5 +75,5 @@ trait Orderings[SubType<:Answer] {
     def >(right: SubType): BooleanAnswer = gt(left, right)
   }
 
-  implicit def mkOrderingOps(lhs: SubType): Ops = new Ops(lhs)
+  implicit def mkOrderingOps(left: SubType): Ops = new Ops(left)
 }

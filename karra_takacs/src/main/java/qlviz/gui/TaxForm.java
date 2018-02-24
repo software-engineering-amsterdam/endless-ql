@@ -1,7 +1,9 @@
 package qlviz.gui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -11,9 +13,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import qlviz.QLBaseVisitor;
+import qlviz.Common.QuestionText;
 import qlviz.interpreter.BinaryBooleanOperatorVisitor;
 import qlviz.interpreter.BinaryNumericOperatorVisitor;
 import qlviz.interpreter.BooleanExpressionVisitor;
@@ -25,7 +30,9 @@ import qlviz.interpreter.QuestionBlockVisitor;
 import qlviz.interpreter.QuestionTypeVisitor;
 import qlviz.interpreter.QuestionVisitor;
 import qlviz.model.BooleanExpression;
+import qlviz.model.ConditionalBlock;
 import qlviz.model.Form;
+import qlviz.model.Question;
 import qlviz.model.QuestionBlock;
 
 public class TaxForm extends Application {
@@ -54,22 +61,8 @@ public class TaxForm extends Application {
 
 	// adds form fields
 	private void addFormFields(VBox taxFormFields) {
-		HashMap<Integer, String> checkboxList = getQuestions();
+		HashMap<Integer, String> checkboxList = new HashMap<Integer, String>();
 		Iterator<Map.Entry<Integer, String>> checkBoxIterator = checkboxList.entrySet().iterator();
-		while (checkBoxIterator.hasNext()) {
-			CheckBox checkBoxLabel = new CheckBox(checkBoxIterator.next().getValue());
-			checkBoxLabel.selectedProperty().addListener(new ChangeListener<Boolean>() {
-				@Override
-				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-					//todo
-				}
-			});
-			taxFormFields.getChildren().add(checkBoxLabel);
-		}
-	}
-
-	// get questions from the input file
-	private HashMap<Integer, String> getQuestions() {
 		ParserBuilder parseBuilder = new ParserBuilder();
 		ParseTree parseTree = parseBuilder.generateParseTree(this.getParameters().getRaw().get(0));
 		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor = new BooleanExpressionVisitor(
@@ -79,14 +72,46 @@ public class TaxForm extends Application {
 				new QuestionVisitor(new QuestionTypeVisitor()),
 				pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor));
 		Form form = new FormVisitor(questionBlockVisitor).visit(parseTree);
-		HashMap<Integer, String> checkboxList = new HashMap<Integer, String>();
+
+		List<String> questionsInBlock = getQuestions(checkboxList, form);
+
+		addFormFields(taxFormFields, checkBoxIterator, questionsInBlock);
+	}
+
+	private void addFormFields(VBox taxFormFields, Iterator<Map.Entry<Integer, String>> checkBoxIterator,
+			List<String> questionsInBlock) {
+		while (checkBoxIterator.hasNext()) {
+			CheckBox checkBoxLabel = new CheckBox(checkBoxIterator.next().getValue());
+			checkBoxLabel.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					if (checkBoxLabel.isSelected()) {
+						 if (checkBoxLabel.getText().contains(QuestionText.SELL.toString().toLowerCase())) {
+							new TextFieldWidget().addFields(questionsInBlock,taxFormFields);
+						} 
+					}
+				}
+			});
+			taxFormFields.getChildren().add(checkBoxLabel);
+		}
+	}
+
+	private List<String> getQuestions(HashMap<Integer, String> checkboxList, Form form) {
 		for (QuestionBlock questionBlock : form.getQuestions()) {
 			for (int j = 0; j < questionBlock.getQuestions().size(); j++) {
 				checkboxList.put(j, form.getQuestions().get(0).getQuestions().get(j).getText());
-				System.out.println(form.getQuestions().get(0).getQuestions().get(j).getText());
 			}
 		}
-		return checkboxList;
+		
+		List<String> questionsInBlock = new ArrayList<String>();
+		List<QuestionBlock> questionBlocks = form.getQuestions().get(1).getBlocks().get(0).getQuestionBlocks();
+		for (int k = 0; k < questionBlocks.size(); k++) {
+			for (Question conditionalBlockQuestions : questionBlocks.get(k).getQuestions()) {
+				questionsInBlock.add(conditionalBlockQuestions.getText());
+			}
+		}
+		return questionsInBlock;
 	}
 
 }

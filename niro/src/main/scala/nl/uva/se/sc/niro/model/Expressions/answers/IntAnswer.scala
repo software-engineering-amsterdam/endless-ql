@@ -1,9 +1,9 @@
 package nl.uva.se.sc.niro.model.Expressions.answers
 
 import nl.uva.se.sc.niro.model.Expressions.Answer
-import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.Expressions.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
 import nl.uva.se.sc.niro.model.Expressions.Orderings.IntAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.model._
 
 final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
 

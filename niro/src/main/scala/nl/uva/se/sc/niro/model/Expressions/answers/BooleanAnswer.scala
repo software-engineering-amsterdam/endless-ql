@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro.model.Expressions.answers
 
 import nl.uva.se.sc.niro.model.Expressions.Answer
-import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.Expressions.Orderings.BooleanAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.model._
 
 final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
 

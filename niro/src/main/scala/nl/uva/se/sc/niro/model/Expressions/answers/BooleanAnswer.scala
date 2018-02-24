@@ -1,6 +1,7 @@
 package nl.uva.se.sc.niro.model.Expressions.answers
 
 import nl.uva.se.sc.niro.model.Expressions.Answer
+import nl.uva.se.sc.niro.model.Expressions.Logicals.BooleanAnswerCanDoLogicals._
 import nl.uva.se.sc.niro.model.Expressions.Orderings.BooleanAnswerCanDoOrderings._
 import nl.uva.se.sc.niro.model._
 
@@ -16,15 +17,15 @@ final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
       case Gt => this > that
       case Ne => BooleanAnswer(combine[Boolean](that)(_ != _))
       case Eq => BooleanAnswer(combine[Boolean](that)(_ == _))
-      case And => BooleanAnswer(combine[Boolean](that)(_ && _))
-      case Or => BooleanAnswer(combine[Boolean](that)(_ || _))
+      case And => this && that
+      case Or => this || that
       case _ => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
     }
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
   def applyUnaryOperator(operator: UnaryOperator): Answer = operator match {
-    case Neg => BooleanAnswer(possibleValue.map(!_))
+    case Neg => !this
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
 

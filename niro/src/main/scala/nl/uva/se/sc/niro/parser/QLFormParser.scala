@@ -87,7 +87,7 @@ object QLFormParser extends Logging {
       IntAnswer(Some(ctx.IntValue().getText.toInt))
     }
     override def visitDecConst(ctx: QLParser.DecConstContext): Expression = {
-      DecAnswer(Some(ctx.DecValue().getText.toDouble))
+      DecAnswer(Some(BigDecimal(ctx.DecValue().getText)))
     }
     override def visitBool(ctx: QLParser.BoolContext): Expression = {
       BooleanAnswer(Some(ctx.getText.toBoolean))

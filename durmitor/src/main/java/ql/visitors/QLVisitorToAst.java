@@ -102,7 +102,11 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         
         String label    = stripQuotations(ctx.label());
         Type type       = (Type) visit(ctx.type());
-        Identifier id   = replaceWithOriginalIdentifier(((Identifier) visitIdentifier(ctx.identifier())).setType(type));
+        Identifier id   = new Identifier(ctx.identifier().getText()).setType(type);
+        
+        if(identifiers.containsKey(id.getName())) id = replaceWithOriginalIdentifier(id);
+        else identifiers.put(id.getName(), id);
+        
         Expression expr = (Expression) visit(ctx.expr());
         
         return setLocation(new ComputedQuestion(label,id,type,expr), ctx.start);
@@ -113,7 +117,10 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         
         String label    = stripQuotations(ctx.label());
         Type type       = (Type) visit(ctx.type());
-        Identifier id   = replaceWithOriginalIdentifier(((Identifier) visitIdentifier(ctx.identifier())).setType(type));
+        Identifier id   = new Identifier(ctx.identifier().getText()).setType(type);
+        
+        if(identifiers.containsKey(id.getName())) id = replaceWithOriginalIdentifier(id);
+        else identifiers.put(id.getName(), id);
         
         return setLocation(new AnswerableQuestion(label,id,type), ctx.start);
     }
@@ -149,8 +156,13 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
     }
 
     @Override 
-    public QLNode visitIdentifier(QLParser.IdentifierContext ctx) { 
-        return setLocation(replaceWithOriginalIdentifier(new Identifier(ctx.getText())),ctx.start);
+    public QLNode visitIdentifier(QLParser.IdentifierContext ctx) {
+        
+        Identifier id = new Identifier(ctx.getText());
+        
+        if(identifiers.containsKey(id.getName())) id = replaceWithOriginalIdentifier(id);
+
+        return setLocation(id,ctx.start);
     }
     
     @Override 
@@ -299,10 +311,8 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
             
             if(id.getType().isUndefined()) return original;
             
-            if(original.getType().equals(id.getType())) return identifiers.get(name);
+            return (original.getType().equals(id.getType()))? identifiers.get(name) : id;
         }
-        
-        identifiers.put(name, id);
         
         return id;
     }

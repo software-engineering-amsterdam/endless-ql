@@ -24,11 +24,6 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
-  private def combine[R](other: IntAnswer)(f: (Int, Int) => R): Option[R] = for {
-    thisValue <- possibleValue
-    thatValue <- other.possibleValue
-  } yield f(thisValue, thatValue)
-
   def applyUnaryOperator(operator: UnaryOperator): Answer = operator match {
     case Min => IntAnswer(possibleValue.map(-_))
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")

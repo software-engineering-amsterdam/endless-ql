@@ -104,6 +104,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 			   stmt.getId(),
 			   stmt.identifier.token.getLexeme(),
 			   stmt.type.getName());
+
 		// Visit the identifier expression
 		header += stmt.identifier.accept(this);
 		header += String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId());
@@ -117,15 +118,16 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 				   stmt.getId(),
 				   stmt.identifier.token.getLexeme(),
 				   stmt.type.getName());
-			// Visit the expression statement
-			header += stmt.expression.accept(this);
-			header += String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId());
-			
-			// Visit the identifier expression
-			header += stmt.identifier.accept(this);
-			header += String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId());
-			
-			return header;
+
+		// Visit the expression statement
+		header += stmt.expression.accept(this);
+		header += String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId());
+
+		// Visit the identifier expression
+		header += stmt.identifier.accept(this);
+		header += String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId());
+
+		return header;
 	}
 
 	@Override

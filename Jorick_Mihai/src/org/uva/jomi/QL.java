@@ -51,7 +51,7 @@ public class QL {
 			if (parser.getNumberOfSyntaxErrors() == 0) {
 
 				// Create a new identifier resolver
-				IdentifierResolver identifierResolver = new IdentifierResolver();
+				IdentifierResolver identifierResolver = new IdentifierResolver(true);
 				// Resolve the Ast
 				identifierResolver.resolve(ast);
 

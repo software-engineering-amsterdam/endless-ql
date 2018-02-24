@@ -5,7 +5,7 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from gui import gui
 from pytestqt import qtbot
 
-def testfunc(qtbot):
+def test_gui(qtbot):
     app = QApplication(sys.argv)
     screen = gui.InputWindow()
     screen.show()

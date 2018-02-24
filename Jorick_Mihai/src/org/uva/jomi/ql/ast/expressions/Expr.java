@@ -14,6 +14,7 @@ abstract public class Expr extends AstNode {
 		T visit(AdditionExpr expr);
 		T visit(SubtractionExpr expr);
 		T visit(MultiplicationExpr expr);
+		T visit(DivisionExpr expr);
 	}
 
 	public abstract <T> T accept(Visitor<T> visitor);

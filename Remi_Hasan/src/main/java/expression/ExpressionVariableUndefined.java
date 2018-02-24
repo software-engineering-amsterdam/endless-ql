@@ -73,6 +73,11 @@ public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
 
     @Override
     public ReturnType getReturnType() {
-        return ReturnType.Undefined;
+        return ReturnType.UNDEFINED;
+    }
+
+    @Override
+    public void setValue(String value) {
+        throw new UnsupportedOperationException("Cannot set undefined variable");
     }
 }

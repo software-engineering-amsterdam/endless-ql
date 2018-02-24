@@ -11,6 +11,11 @@ public abstract class Expression<T> {
     }
 
     public void setValue(String value) {
+        throw new UnsupportedOperationException("Cannot set value to non-variable expression");
+    }
 
+    @Override
+    public boolean equals(Object other){
+        return this.toString().equals(other.toString());
     }
 }

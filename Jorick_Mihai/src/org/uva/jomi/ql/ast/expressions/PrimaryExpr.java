@@ -18,6 +18,6 @@ public class PrimaryExpr extends Expr {
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visitPrimaryExpr(this);
+		return visitor.visit(this);
 	}
 }

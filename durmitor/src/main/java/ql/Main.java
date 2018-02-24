@@ -1,26 +1,22 @@
 package ql;
 
-import java.util.Map;
-
 import ql.ast.form.Form;
-import ql.ast.type.Type;
 import ql.checker.TypeChecker;
-import ql.visitors.SymbolTable;
+import ql.gui.GUI;
+import ql.visitors.ASTtoGUI;
 
 public class Main {
 
-    // private static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
 
-        // logger.info("Start");
 
         String filePath;
         QL ql;
         Form form = null;
 
         if (args.length == 0) {
-            filePath = "resources/default.tax";
+            filePath = "resources/default.ql";
         } else {
             filePath = args[0];
         }
@@ -33,18 +29,14 @@ public class Main {
         }
 
         // Visit and TypeCheck the AST
-        Map<String, Type> symbolTable   = new SymbolTable().build(form);
-        TypeChecker checker             = new TypeChecker();
-        checker.checkIdentifiers(form);
-        checker.checkReferences(form, symbolTable);
-        checker.checkConditions(form, symbolTable);
-        checker.checkOperands(form, symbolTable);
-        checker.checkLabels(form);
+        TypeChecker checker = new TypeChecker(form);
+        checker.checkForm();
         checker.printErrors();
         checker.printWarnings();
         
         // Visit and build GUI from AST
-
+        GUI gui = new GUI();
+        form.getBlock().accept(new ASTtoGUI(gui));
         // Add Action/DocumentListeners to GUI.
     }
 }

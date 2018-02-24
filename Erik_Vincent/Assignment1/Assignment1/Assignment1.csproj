@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Content.cs" />
-    <Compile Include="Controller.cs" />
+    <Compile Include="Presenter.cs" />
     <Compile Include="Model\Expression.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -62,6 +62,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\IfStatement.cs" />
     <Compile Include="Parser\QL.cs" />
     <Compile Include="Parser\QLBaseListener.cs" />
     <Compile Include="Parser\QLListener.cs" />

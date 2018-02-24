@@ -1,6 +1,6 @@
-package main.org.uva.ql.visitor;
+package org.uva.ql.visitor;
 
-import main.org.uva.ql.ast.type.*;
+import org.uva.ql.ast.type.*;
 
 public interface TypeVisitor<T, C> {
 
@@ -9,4 +9,6 @@ public interface TypeVisitor<T, C> {
     T visit(IntegerType integerType, C context);
 
     T visit(StringType stringType, C context);
+
+    T visit(MoneyType moneyType, C context);
 }

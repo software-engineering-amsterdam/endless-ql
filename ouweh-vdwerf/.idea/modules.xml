@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ouweh-vdwerf.iml" filepath="$PROJECT_DIR$/ouweh-vdwerf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ouweh-vdwerf_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ouweh-vdwerf_main.iml" group="ouweh-vdwerf" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ouweh-vdwerf_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ouweh-vdwerf_test.iml" group="ouweh-vdwerf" />
     </modules>
   </component>
 </project>

@@ -2,11 +2,25 @@ package org.uva.jomi.ql.ast;
 
 import java.util.List;
 
+import org.uva.jomi.ql.ast.expressions.AdditionExpr;
+import org.uva.jomi.ql.ast.expressions.AndExpr;
 import org.uva.jomi.ql.ast.expressions.BinaryExpr;
+import org.uva.jomi.ql.ast.expressions.DivisionExpr;
+import org.uva.jomi.ql.ast.expressions.EqualExpr;
 import org.uva.jomi.ql.ast.expressions.Expr;
+import org.uva.jomi.ql.ast.expressions.GreaterThanExpr;
+import org.uva.jomi.ql.ast.expressions.GreaterThanOrEqualExpr;
 import org.uva.jomi.ql.ast.expressions.GroupingExpr;
 import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
+import org.uva.jomi.ql.ast.expressions.LessThanExpr;
+import org.uva.jomi.ql.ast.expressions.LessThanOrEqualExpr;
+import org.uva.jomi.ql.ast.expressions.MultiplicationExpr;
+import org.uva.jomi.ql.ast.expressions.NotEqualExpr;
+import org.uva.jomi.ql.ast.expressions.OrExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
+import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
+import org.uva.jomi.ql.ast.expressions.UnaryExpr;
+import org.uva.jomi.ql.ast.expressions.UnaryNotExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
 import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
 import org.uva.jomi.ql.ast.statements.FormStmt;
@@ -14,7 +28,6 @@ import org.uva.jomi.ql.ast.statements.IfElseStmt;
 import org.uva.jomi.ql.ast.statements.IfStmt;
 import org.uva.jomi.ql.ast.statements.QuestionStmt;
 import org.uva.jomi.ql.ast.statements.Stmt;
-import org.uva.jomi.ql.ast.statements.UnaryExpr;
 
 public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 
@@ -30,7 +43,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitIndetifierExpr(IdentifierExpr expr) {
+	public String visit(IdentifierExpr expr) {
 		return String.format("  %s [label=\"[Ident]\nName: %s\nType: %s\nUndefined: %s\"]\n",
 				expr.getId(),
 				expr.token.getLexeme(),
@@ -39,7 +52,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitPrimaryExpr(PrimaryExpr expr) {
+	public String visit(PrimaryExpr expr) {
 		String value = null;
 		
 		switch (expr.getType()) {
@@ -64,7 +77,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitFormStmt(FormStmt stmt) {
+	public String visit(FormStmt stmt) {
 		return stmt.blockStmt.accept(this) +
 				String.format("  %s -> %s\n", stmt.getId(), stmt.blockStmt.getId()) +
 				stmt.identifier.accept(this) +
@@ -73,7 +86,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitBlockStmt(BlockStmt stmt) {
+	public String visit(BlockStmt stmt) {
 		String header = String.format("  %s [label=\"BlockStmt\"]\n", stmt.getId());
 		
 		for (Stmt statement : stmt.statements) {
@@ -86,7 +99,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitQuestionStmt(QuestionStmt stmt) {
+	public String visit(QuestionStmt stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
 			   stmt.getId(),
 			   stmt.identifier.token.getLexeme(),
@@ -99,7 +112,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 	
 	@Override
-	public String visitComputedQuestionStmt(ComputedQuestionStmt stmt) {
+	public String visit(ComputedQuestionStmt stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
 				   stmt.getId(),
 				   stmt.identifier.token.getLexeme(),
@@ -116,29 +129,29 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitBinaryExpr(BinaryExpr expr) {
+	public String visit(BinaryExpr expr) {
 		return expr.left.accept(this) +
-				expr.right.accept(this) +
+                expr.right.accept(this) +
 				String.format("  %s [label=\"%s\nType: %s\n\"]\n", expr.getId(), expr.operator.getLexeme(), expr.getType()) +
 				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
 				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
-	public String visitGroupingExpr(GroupingExpr expr) {
+	public String visit(GroupingExpr expr) {
 		return expr.expression.accept(this) +
 				String.format("  %s [label=\"GroupingExpr\nType: %s\"]\n", expr.getId(), expr.getType()) +
 				String.format("  %s -> %s\n", expr.getId(), expr.expression.getId());
 	}
 
 	@Override
-	public String visitUnaryExpr(UnaryExpr expr) {
+	public String visit(UnaryExpr expr) {
 		return expr.right.accept(this) + String.format("  %s [label=\"%s\nType: %s\n\"]\n", expr.getId(), expr.operator.getLexeme(), expr.getType()) +
 		 		String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
-	public String visitIfStmt(IfStmt stmt) {
+	public String visit(IfStmt stmt) {
 		return stmt.expression.accept(this) +
 				String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId()) +
 				stmt.blockStmt.accept(this) +
@@ -147,7 +160,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visitIfElseStmt(IfElseStmt stmt) {
+	public String visit(IfElseStmt stmt) {
 		return stmt.expression.accept(this) +
 				String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId()) +
 				stmt.ifBlockStmt.accept(this) +
@@ -155,5 +168,120 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 				stmt.elseBlockStmt.accept(this) +
 				String.format("  %s -> %s\n", stmt.getId(), stmt.elseBlockStmt.getId()) +
 				String.format("  %s [label=\"IfElseStmt\"]\n", stmt.getId());
+	}
+
+	@Override
+	public String visit(AdditionExpr expr) {
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"AdditionExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+	}
+
+	@Override
+	public String visit(SubtractionExpr expr) {
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"SubtractionExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+	}
+
+	@Override
+	public String visit(MultiplicationExpr expr) {
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"MultiplicationExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+	}
+
+	@Override
+	public String visit(DivisionExpr expr) {
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"DivisionExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+	}
+
+	@Override
+	public String visit(LessThanExpr expr) {
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"LessThanExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+	}
+
+	@Override
+	public String visit(LessThanOrEqualExpr expr) {
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"LessThanOrEqualExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+	}
+
+	@Override
+	public String visit(GreaterThanExpr expr) {
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"GreaterThanExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+	}
+
+	@Override
+	public String visit(GreaterThanOrEqualExpr expr) {
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"GreaterThanOrEqualExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+	}
+
+	@Override
+	public String visit(NotEqualExpr expr) {
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"NotEqualExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+	}
+
+	@Override
+	public String visit(EqualExpr expr) {
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"EqualExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+	}
+
+	@Override
+	public String visit(AndExpr expr) {
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"AndExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+	}
+
+	@Override
+	public String visit(OrExpr expr) {
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"OrExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+	}
+
+	@Override
+	public String visit(UnaryNotExpr expr) {
+		return 	expr.right.accept(this) +
+				String.format("  %s [label=\"UnaryNotExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 }

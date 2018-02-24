@@ -32,13 +32,13 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
 	
 	@Override
-	public Void visitFormStmt(FormStmt form) {
+	public Void visit(FormStmt form) {
 		form.blockStmt.accept(this);
 		return null;
 	}
 
 	@Override
-	public Void visitBlockStmt(BlockStmt block) {
+	public Void visit(BlockStmt block) {
 		for (Stmt statement : block.statements) {
 			statement.accept(this);
 		}
@@ -46,14 +46,14 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public Void visitQuestionStmt(QuestionStmt stmt) {
+	public Void visit(QuestionStmt stmt) {
 		stmt.identifier.accept(this);
 		
 		return null;
 	}
 	
 	@Override
-	public Void visitComputedQuestionStmt(ComputedQuestionStmt stmt) {
+	public Void visit(ComputedQuestionStmt stmt) {
 		stmt.identifier.accept(this);
 		stmt.expression.accept(this);
 		
@@ -70,14 +70,14 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	}	
 
 	@Override
-	public Void visitIfStmt(IfStmt stmt) {
+	public Void visit(IfStmt stmt) {
 		//TODO Check if if expression is of type boolean.
 		stmt.blockStmt.accept(this);
 		return null;
 	}
 
 	@Override
-	public Void visitIfElseStmt(IfElseStmt stmt) {
+	public Void visit(IfElseStmt stmt) {
 		//TODO Check if if expression is of type boolean.
 		stmt.ifBlockStmt.accept(this);
 		stmt.elseBlockStmt.accept(this);
@@ -85,7 +85,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public Void visitBinaryExpr(BinaryExpr expr) {
+	public Void visit(BinaryExpr expr) {
 		expr.left.accept(this);
 		expr.right.accept(this);
 		
@@ -97,24 +97,102 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public Void visitGroupingExpr(GroupingExpr expr) {
+	public Void visit(GroupingExpr expr) {
 		expr.expression.accept(this);
 		return null;
 	}
 
 	@Override
-	public Void visitUnaryExpr(UnaryExpr expr) {
+	public Void visit(UnaryExpr expr) {
 		expr.right.accept(this);
 		return null;
 	}
 	
 	@Override
-	public Void visitIndetifierExpr(IdentifierExpr expr) {
+	public Void visit(IdentifierExpr expr) {
 		return null;
 	}
 
 	@Override
-	public Void visitPrimaryExpr(PrimaryExpr expr) {
+	public Void visit(PrimaryExpr expr) {
+		return null;
+	}
+
+	@Override
+	public Void visit(AdditionExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void visit(SubtractionExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void visit(MultiplicationExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void visit(DivisionExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void visit(LessThanExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void visit(LessThanOrEqualExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void visit(GreaterThanExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void visit(GreaterThanOrEqualExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void visit(NotEqualExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void visit(EqualExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void visit(AndExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void visit(OrExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void visit(UnaryNotExpr expr) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	

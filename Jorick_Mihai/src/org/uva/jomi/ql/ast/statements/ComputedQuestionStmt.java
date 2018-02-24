@@ -16,6 +16,6 @@ public class ComputedQuestionStmt extends QuestionStmt {
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visitComputedQuestionStmt(this);
+		return visitor.visit(this);
 	}
 }

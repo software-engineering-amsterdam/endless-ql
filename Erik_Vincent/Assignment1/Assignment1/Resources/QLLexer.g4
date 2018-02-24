@@ -51,6 +51,24 @@ DECIMAL
 fragment NUMBER
 	: [0-9]+
 	;
+EQ
+	: '=='
+	;
+NEQ
+	: '!='
+	;
+GTEQ
+	: '>='
+	;
+LTEQ
+	: '<='
+	;
+GT
+	: '>'
+	;
+LT
+	: '<'
+	;
 NOT
 	: '!'
 	;
@@ -60,8 +78,17 @@ AND
 OR
 	: '||'
 	;
+ADD
+	: '+'
+	;
 SUB
 	: '-'
+	;
+MULT
+	: '*'
+	;
+DIV
+	: '/'
 	;
 ID
 	: [a-zA-Z0-9]+

@@ -15,6 +15,6 @@ public class IfElseStmt extends Stmt {
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visitIfElseStmt(this);
+		return visitor.visit(this);
 	}
 }

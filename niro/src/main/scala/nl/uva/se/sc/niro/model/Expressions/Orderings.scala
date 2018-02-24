@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model.Expressions
 
-import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, IntAnswer, StringAnswer }
+import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, DecAnswer, IntAnswer, StringAnswer }
 
 import scala.language.implicitConversions
 
@@ -14,6 +14,20 @@ object Orderings {
   }
   implicit object IntAnswerCanDoOrderings extends IntAnswerCanDoOrderings {
     private def combine(x: IntAnswer, y: IntAnswer)(f: (Int, Int) => Boolean): Option[Boolean] = for {
+      thisValue <- x.possibleValue
+      thatValue <- y.possibleValue
+    } yield f(thisValue, thatValue)
+  }
+
+  trait DecAnswerCanDoOrderings extends Orderings[DecAnswer] {
+    import DecAnswerCanDoOrderings._
+    def lt(x: DecAnswer, y: DecAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ < _))
+    def lte(x: DecAnswer, y: DecAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ <= _))
+    def gte(x: DecAnswer, y: DecAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ >= _))
+    def gt(x: DecAnswer, y: DecAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ > _))
+  }
+  implicit object DecAnswerCanDoOrderings extends DecAnswerCanDoOrderings {
+    private def combine(x: DecAnswer, y: DecAnswer)(f: (BigDecimal, BigDecimal) => Boolean): Option[Boolean] = for {
       thisValue <- x.possibleValue
       thatValue <- y.possibleValue
     } yield f(thisValue, thatValue)

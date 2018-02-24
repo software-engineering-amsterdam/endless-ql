@@ -2,7 +2,6 @@ package org.uva.jomi.ql.ast.expressions;
 
 import org.uva.jomi.ql.ast.AstNode;
 import org.uva.jomi.ql.ast.QLType;
-import org.uva.jomi.ql.ast.statements.UnaryExpr;
 
 abstract public class Expr extends AstNode {
 	public interface Visitor<T> {
@@ -13,6 +12,17 @@ abstract public class Expr extends AstNode {
 		T visit(UnaryExpr expr);
 		T visit(AdditionExpr expr);
 		T visit(SubtractionExpr expr);
+		T visit(MultiplicationExpr expr);
+		T visit(DivisionExpr expr);
+		T visit(LessThanExpr expr);
+		T visit(LessThanOrEqualExpr expr);
+		T visit(GreaterThanExpr expr);
+		T visit(GreaterThanOrEqualExpr expr);
+		T visit(NotEqualExpr expr);
+		T visit(EqualExpr expr);
+		T visit(AndExpr expr);
+		T visit(OrExpr expr);
+		T visit(UnaryNotExpr expr);
 	}
 
 	public abstract <T> T accept(Visitor<T> visitor);

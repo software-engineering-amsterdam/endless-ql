@@ -116,6 +116,47 @@
 					</execution>
 				</executions>
 	        </plugin>
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-resources-plugin</artifactId>
+			    <version>3.0.2</version>
+			    <executions>
+					<execution>
+					    <id>copy-resources-1</id>
+					    <phase>validate</phase>
+				        <goals>
+				            <goal>copy-resources</goal>
+				        </goals>
+						<configuration>
+		                    <outputDirectory>${basedir}/target/classes/ql/i18n</outputDirectory>
+		                    <includeEmtpyDirs>true</includeEmtpyDirs>
+		                    <resources>
+		                        <resource>
+		                            <directory>${basedir}/src/main/java/ql/i18n</directory>
+		                            <filtering>false</filtering>
+		                        </resource>
+		                    </resources>
+		                </configuration>
+					</execution>
+					<execution>
+					    <id>copy-resources-2</id>
+					    <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes/resources</outputDirectory>
+                            <includeEmtpyDirs>true</includeEmtpyDirs>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/resources</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+			    </executions>
+	        </plugin>
 		</plugins>
 	</build>
 </project>

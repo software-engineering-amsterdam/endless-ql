@@ -3,9 +3,7 @@ package nl.uva.se.sc.niro.gui
 import java.lang
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
-import javafx.scene.control.Label
 import javafx.scene.layout._
-import nl.uva.se.sc.niro.Evaluator._
 import nl.uva.se.sc.niro.model.Expressions.Expression
 import nl.uva.se.sc.niro.model._
 
@@ -16,18 +14,19 @@ object QuestionPopulator {
 
     statements.zipWithIndex foreach {
       case (statement, row) => statement match {
-        case question: Question => populateQuestionAtRow(grid, row, question, symbolTable)
-        case conditional: Conditional => populateConditionAtRow(grid, row, conditional, symbolTable)
+        case question: Question => populateRow(grid, row, question, symbolTable)
+        case conditional: Conditional => populateRow(grid, row, conditional, symbolTable)
       }
     }
   }
 
-  private def populateQuestionAtRow(grid: GridPane, rowNr: Int, question: Question, symbolTable: Map[String, Expression]): Unit = {
+  private def populateRow(grid: GridPane, rowNr: Int, question: Question, symbolTable: Map[String, Expression]): Unit = {
     grid.getRowConstraints.add(new RowConstraints())
-    grid.addRow(rowNr, new Label(question.label), WidgetFactory.makeWidget(evaluateExpression(question.answer, symbolTable)))
+    val widgets = WidgetFactory.makeWidget(question, symbolTable)
+    grid.addRow(rowNr, widgets.head, widgets.tail.head)
   }
 
-  private def populateConditionAtRow(grid: GridPane, rowNr: Int, conditional: Conditional, symbolTable: Map[String, Expression]): Unit = {
+  private def populateRow(grid: GridPane, rowNr: Int, conditional: Conditional, symbolTable: Map[String, Expression]): Unit = {
     val innerPane = createQuestionPaneAtRow (grid, rowNr)
     populateGridWithQuestions(innerPane, conditional.thenStatements, symbolTable)
   }
@@ -46,14 +45,10 @@ object QuestionPopulator {
     innerGrid
   }
 
-  /**
-    * By setting the preferred height to 0.0 the entire row is hidden, and by setting it to -1.0 the layout manager will
-    * recalculate the height of the row and make is visible again.
-    */
   private def bindConstraintToVisiblity(constraint: RowConstraints, pane: GridPane) = {
     pane.visibleProperty().addListener(new ChangeListener[lang.Boolean] {
-      override def changed(observable: ObservableValue[_ <: lang.Boolean], oldValue: lang.Boolean, newValue: lang.Boolean): Unit = {
-        constraint.setPrefHeight(if(newValue) { -1.0} else {0.0})
+      override def changed(observable: ObservableValue[_ <: lang.Boolean], oldValue: lang.Boolean, visible: lang.Boolean): Unit = {
+        constraint.setPrefHeight(if (visible) { Region.USE_COMPUTED_SIZE } else { 0.0 })
       }
     })
   }

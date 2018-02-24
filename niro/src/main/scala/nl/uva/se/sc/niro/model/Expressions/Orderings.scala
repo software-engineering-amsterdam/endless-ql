@@ -10,21 +10,21 @@ object Orderings {
     def gt(x: SubType, y: SubType): BooleanAnswer
     def ne(x: SubType, y: SubType): BooleanAnswer
     def eq(x: SubType, y: SubType): BooleanAnswer
+  }
 
-    trait IntAnswerCanDoOrderings extends Orderings[IntAnswer] {
-      import IntAnswerCanDoOrderings._
-      def lt(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ < _))
-      def lte(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ <= _))
-      def gte(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ >= _))
-      def gt(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ > _))
-      def ne(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ != _))
-      def eq(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ == _))
-    }
-    implicit object IntAnswerCanDoOrderings extends IntAnswerCanDoOrderings {
-      private def combine(x: IntAnswer, y: IntAnswer)(f: (Int, Int) => Boolean): Option[Boolean] = for {
-        thisValue <- x.possibleValue
-        thatValue <- y.possibleValue
-      } yield f(thisValue, thatValue)
-    }
+  trait IntAnswerCanDoOrderings extends Orderings[IntAnswer] {
+    import IntAnswerCanDoOrderings._
+    def lt(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ < _))
+    def lte(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ <= _))
+    def gte(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ >= _))
+    def gt(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ > _))
+    def ne(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ != _))
+    def eq(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ == _))
+  }
+  implicit object IntAnswerCanDoOrderings extends IntAnswerCanDoOrderings {
+    private def combine(x: IntAnswer, y: IntAnswer)(f: (Int, Int) => Boolean): Option[Boolean] = for {
+      thisValue <- x.possibleValue
+      thatValue <- y.possibleValue
+    } yield f(thisValue, thatValue)
   }
 }

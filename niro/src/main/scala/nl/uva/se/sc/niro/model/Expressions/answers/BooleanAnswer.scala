@@ -15,8 +15,8 @@ final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
       case LTe => this <= that
       case GTe => this >= that
       case Gt => this > that
-      case Ne => BooleanAnswer(this.possibleValue.flatMap(x => that.possibleValue.map(y => x != y)))
-      case Eq => BooleanAnswer(this.possibleValue.flatMap(x => that.possibleValue.map(y => x == y)))
+      case Ne => this !== that
+      case Eq => this === that
       case And => this && that
       case Or => this || that
       case _ => throw new UnsupportedOperationException(s"Unsupported operator: $operator")

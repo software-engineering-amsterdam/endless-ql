@@ -3,6 +3,7 @@ package org.uva.jomi.ql.interpreter;
 import java.util.List;
 
 import org.uva.jomi.ql.ast.*;
+import org.uva.jomi.ql.ast.expressions.AdditionExpr;
 import org.uva.jomi.ql.ast.expressions.BinaryExpr;
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.expressions.GroupingExpr;
@@ -96,6 +97,12 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 
 	@Override
 	public Void visit(IfElseStmt stmt) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object visit(AdditionExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}

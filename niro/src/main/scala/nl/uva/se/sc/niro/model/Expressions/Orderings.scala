@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.model.Expressions
 
 import nl.uva.se.sc.niro.model.Expressions.answers.BooleanAnswer
 
-trait Comparisons[SubType<:Answer] {
+trait Orderings[SubType<:Answer] {
   def lt(x: SubType, y: SubType): BooleanAnswer
   def lte(x: SubType, y: SubType): BooleanAnswer
   def gte(x: SubType, y: SubType): BooleanAnswer

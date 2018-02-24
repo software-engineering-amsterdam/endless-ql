@@ -10,8 +10,8 @@ import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
-import ql.checker.Dependencies;
-import ql.checker.Dependency;
+import ql.helpers.Dependencies;
+import ql.helpers.Dependency;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorDependencies implements StatementVisitor {

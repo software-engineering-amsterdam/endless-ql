@@ -103,11 +103,12 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         String label    = stripQuotations(ctx.label());
         Type type       = (Type) visit(ctx.type());
         Identifier id   = new Identifier(ctx.identifier().getText()).setType(type);
+        Expression expr = (Expression) visit(ctx.expr());
         
         if(identifiers.containsKey(id.getName())) id = replaceWithOriginalIdentifier(id);
         else identifiers.put(id.getName(), id);
         
-        Expression expr = (Expression) visit(ctx.expr());
+        id.setLocation(tokenToLocation(ctx.identifier().start).setLength(id.toString().length()));
         
         return setLocation(new ComputedQuestion(label,id,type,expr), ctx.start);
     }
@@ -121,6 +122,8 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         
         if(identifiers.containsKey(id.getName())) id = replaceWithOriginalIdentifier(id);
         else identifiers.put(id.getName(), id);
+        
+        id.setLocation(tokenToLocation(ctx.identifier().start).setLength(id.toString().length()));
         
         return setLocation(new AnswerableQuestion(label,id,type), ctx.start);
     }
@@ -280,13 +283,22 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
     }
 
     private QLNode setLocation(QLNode n, Token t) {
+        
+        Location l = tokenToLocation(t);
+        
+        l.setLength(n.toString().length());
+        n.setLocation(l);
+        
+        return n;
+    }
+    
+    private Location tokenToLocation(Token t) {
         int line    = t.getLine();
         int column  = t.getCharPositionInLine();
         int offset  = t.getStartIndex();
+        int length  = 1 + t.getStopIndex() - offset;
         
-        n.setLocation(new Location(line, column, offset, n.toString().length()));
-        
-        return n;
+        return new Location(line, column, offset, length);
     }
     
     private boolean isTokenType(Token t, int type) {

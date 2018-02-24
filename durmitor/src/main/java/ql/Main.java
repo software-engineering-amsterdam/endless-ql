@@ -35,8 +35,8 @@ public class Main {
         checker.printWarnings();
         
         // Visit and build GUI from AST
-        GUI gui = new GUI();
-        form.getBlock().accept(new ASTtoGUI(gui));
+//        GUI gui = new GUI();
+//        form.getBlock().accept(new ASTtoGUI(gui));
         // Add Action/DocumentListeners to GUI.
     }
 }

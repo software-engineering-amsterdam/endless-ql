@@ -1,4 +1,4 @@
-package ql.checker;
+package ql.helpers;
 
 import ql.ast.expression.Identifier;
 

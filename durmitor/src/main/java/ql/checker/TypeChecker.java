@@ -5,6 +5,7 @@ import java.util.List;
 
 import ql.ast.expression.Identifier;
 import ql.ast.form.Form;
+import ql.helpers.Dependencies;
 import ql.visitors.StatementVisitorDependencies;
 import ql.visitors.StatementVisitorDuplicateIdentifiers;
 import ql.visitors.StatementVisitorDuplicateLabels;

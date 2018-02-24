@@ -1,4 +1,4 @@
-package ql.checker;
+package ql.helpers;
 
 import java.util.ArrayList;
 import java.util.Arrays;

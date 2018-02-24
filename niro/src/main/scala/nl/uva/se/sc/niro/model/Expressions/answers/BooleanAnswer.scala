@@ -2,24 +2,25 @@ package nl.uva.se.sc.niro.model.Expressions.answers
 
 import nl.uva.se.sc.niro.model.Expressions.Answer
 import nl.uva.se.sc.niro.model._
+import nl.uva.se.sc.niro.model.Expressions.Orderings.BooleanAnswerCanDoOrderings._
 
 final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
 
   override def isTrue: Boolean = possibleValue.getOrElse(false)
 
-  def applyBinaryOperator(operator: BinaryOperator, other: Answer): Answer = other match {
-    case otherBooleanAnswer: BooleanAnswer => operator match {
-      case Lt => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ < _))
-      case LTe => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ <= _))
-      case GTe => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ >= _))
-      case Gt => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ > _))
-      case Ne => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ != _))
-      case Eq => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ == _))
-      case And => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ && _))
-      case Or => BooleanAnswer(combine[Boolean](otherBooleanAnswer)(_ || _))
+  def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
+    case that: BooleanAnswer => operator match {
+      case Lt => this < that
+      case LTe => this <= that
+      case GTe => this >= that
+      case Gt => this > that
+      case Ne => BooleanAnswer(combine[Boolean](that)(_ != _))
+      case Eq => BooleanAnswer(combine[Boolean](that)(_ == _))
+      case And => BooleanAnswer(combine[Boolean](that)(_ && _))
+      case Or => BooleanAnswer(combine[Boolean](that)(_ || _))
       case _ => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
     }
-    case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $other")
+    case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
   def applyUnaryOperator(operator: UnaryOperator): Answer = operator match {

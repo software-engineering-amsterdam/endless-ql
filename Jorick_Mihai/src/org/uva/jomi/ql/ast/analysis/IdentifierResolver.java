@@ -163,4 +163,10 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Void visit(LessThanOrEqualExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -20,6 +20,7 @@ abstract public class Expr extends AstNode {
 		T visit(GreaterThanExpr expr);
 		T visit(GreaterThanOrEqualExpr expr);
 		T visit(NotEqualExpr expr);
+		T visit(EqualExpr expr);
 	}
 
 	public abstract <T> T accept(Visitor<T> visitor);

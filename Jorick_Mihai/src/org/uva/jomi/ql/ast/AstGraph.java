@@ -5,6 +5,7 @@ import java.util.List;
 import org.uva.jomi.ql.ast.expressions.AdditionExpr;
 import org.uva.jomi.ql.ast.expressions.BinaryExpr;
 import org.uva.jomi.ql.ast.expressions.DivisionExpr;
+import org.uva.jomi.ql.ast.expressions.EqualExpr;
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.expressions.GreaterThanExpr;
 import org.uva.jomi.ql.ast.expressions.GreaterThanOrEqualExpr;
@@ -216,6 +217,12 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 
 	@Override
 	public String visit(NotEqualExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String visit(EqualExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}

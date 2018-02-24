@@ -131,7 +131,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	@Override
 	public String visit(BinaryExpr expr) {
 		return expr.left.accept(this) +
-				expr.right.accept(this) +
+                expr.right.accept(this) +
 				String.format("  %s [label=\"%s\nType: %s\n\"]\n", expr.getId(), expr.operator.getLexeme(), expr.getType()) +
 				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
 				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
@@ -172,79 +172,116 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 
 	@Override
 	public String visit(AdditionExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"AdditionExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
 	public String visit(SubtractionExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"SubtractionExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
 	public String visit(MultiplicationExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"MultiplicationExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
 	public String visit(DivisionExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"DivisionExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
 	public String visit(LessThanExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"LessThanExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
 	public String visit(LessThanOrEqualExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"LessThanOrEqualExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
 	public String visit(GreaterThanExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"GreaterThanExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
 	public String visit(GreaterThanOrEqualExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"GreaterThanOrEqualExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
 	public String visit(NotEqualExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"NotEqualExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
 	public String visit(EqualExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"EqualExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
 	public String visit(AndExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"AndExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
 	public String visit(OrExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.left.accept(this) +
+				expr.right.accept(this) +
+				String.format("  %s [label=\"OrExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 
 	@Override
 	public String visit(UnaryNotExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return 	expr.right.accept(this) +
+				String.format("  %s [label=\"UnaryNotExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
 	}
 }

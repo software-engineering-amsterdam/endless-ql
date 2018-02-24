@@ -71,7 +71,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	}
 
 	// Builds an Addition expression using the parser context.
-	@Override public Expr visitAdditionExpr(QLParser.AdditionExprContext ctx) {
+	@Override public Expr visitAdditionOrSubtractionExpr(QLParser.AdditionOrSubtractionExprContext ctx) {
 		Expr left = ctx.expression(0).accept(this);
 		Expr right = ctx.expression(1).accept(this);
 		QLToken operator = null;
@@ -143,7 +143,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	}
 
 	// Builds a Multiplication expression using the parser context.
-	@Override public Expr visitMultiplicationExpr(QLParser.MultiplicationExprContext ctx) {
+	@Override public Expr visitMultiplicationOrDivisionExpr(QLParser.MultiplicationOrDivisionExprContext ctx) {
 		Expr left = ctx.expression(0).accept(this);
 		Expr right = ctx.expression(1).accept(this);
 		QLToken operator = null;

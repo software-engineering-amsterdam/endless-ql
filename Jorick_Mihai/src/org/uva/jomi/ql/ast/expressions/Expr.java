@@ -11,6 +11,8 @@ abstract public class Expr extends AstNode {
 		T visit(BinaryExpr expr);
 		T visit(GroupingExpr expr);
 		T visit(UnaryExpr expr);
+		T visit(AdditionExpr expr);
+		T visit(SubtractionExpr expr);
 	}
 
 	public abstract <T> T accept(Visitor<T> visitor);

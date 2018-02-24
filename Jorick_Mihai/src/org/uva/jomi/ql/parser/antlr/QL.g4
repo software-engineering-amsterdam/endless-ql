@@ -29,8 +29,8 @@ expression: BOOLEAN # BooleanExpr
 		  | IDENTIFIER # IdentifierExpr
 		  | operator='!' expression # UnaryExpr
           | '(' expression ')' # GroupingExpr
-          | expression operator=('*'|'/') expression # MultiplicationExpr
- 	   	  | expression operator=('+'|'-') expression # AdditionExpr
+          | expression operator=('*'|'/') expression # MultiplicationOrDivisionExpr
+ 	   	  | expression operator=('+'|'-') expression # AdditionOrSubtractionExpr
 		  | expression operator=('>'|'>='|'<'|'<=') expression # ComparisonExpr
  	      | expression operator=('!='|'==') expression # EqualityExpr
  	      | expression operator='&&' expression # AndExpr

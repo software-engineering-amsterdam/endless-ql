@@ -21,7 +21,7 @@ object WidgetFactory {
       case s: StringAnswer => createTextField(s.possibleValue)
       case i: IntAnswer => createIntegerField(i.possibleValue)
       case d: DecAnswer => createDecimalField(d.possibleValue)
-      case m: MoneyAnswer => createDecimalField(m.possibleValue)
+      case m: MoneyAnswer => createMoneyField(m.possibleValue)
       case d: DateAnswer => createDateField(d.possibleValue)
       case other => new Label(s"Unimplemented type: $other")
     })
@@ -42,23 +42,11 @@ object WidgetFactory {
   }
 
   def createDecimalField(value: Option[Double]): Parent = {
-    createRegExField("\\d*(,\\d{0,2})?", "")
+    createRegExField("\\d*(,\\d{0,2})?", value.map(_.toString).getOrElse(""))
   }
 
-  def createMoneyField(value: Option[Double]): Parent = {
-    createRegExField("\\d*(,\\d{0,2})?", "")
-  }
-
-  def createRegExField(validPattern: String, value: String): Parent = {
-    val regexField = new TextField(value)
-    regexField.textProperty().addListener(new ChangeListener[String] {
-      override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
-        if (!newValue.matches(validPattern)) {
-          regexField.setText(oldValue)
-        }
-      }
-    })
-    regexField
+  def createMoneyField(value: Option[String]): Parent = {
+    createRegExField("\\d*(,\\d{0,2})?", value.map(_.toString).getOrElse(""))
   }
 
   def createDateField(value: Option[String]): Parent = {
@@ -75,4 +63,17 @@ object WidgetFactory {
     })
     dateField
   }
+
+  protected def createRegExField(validPattern: String, value: String): Parent = {
+    val regexField = new TextField(value)
+    regexField.textProperty().addListener(new ChangeListener[String] {
+      override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
+        if (!newValue.matches(validPattern)) {
+          regexField.setText(oldValue)
+        }
+      }
+    })
+    regexField
+  }
+
 }

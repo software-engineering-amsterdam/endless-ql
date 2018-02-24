@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model.Expressions
 
-import nl.uva.se.sc.niro.model.Expressions.answers.IntAnswer
+import nl.uva.se.sc.niro.model.Expressions.answers.{ DecAnswer, IntAnswer }
 
 import scala.language.implicitConversions
 
@@ -15,6 +15,21 @@ object BasicArithmetics {
   }
   implicit object IntAnswerCanDoBasicArithmetics extends IntAnswerCanDoBasicArithmetics {
     private def combine(x: IntAnswer, y: IntAnswer)(f: (Int, Int) => Int): Option[Int] = for {
+      thisValue <- x.possibleValue
+      thatValue <- y.possibleValue
+    } yield f(thisValue, thatValue)
+  }
+  
+  trait DecAnswerCanDoBasicArithmetics extends BasicArithmetics[DecAnswer] {
+    import DecAnswerCanDoBasicArithmetics._
+    def plus(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(combine(x, y)(_ + _))
+    def minus(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(combine(x, y)(_ - _))
+    def times(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(combine(x, y)(_ * _))
+    def div(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(combine(x, y)(_ / _))
+    def negate(x: DecAnswer) = DecAnswer(x.possibleValue.map(-_))
+  }
+  implicit object DecAnswerCanDoBasicArithmetics extends DecAnswerCanDoBasicArithmetics {
+    private def combine(x: DecAnswer, y: DecAnswer)(f: (BigDecimal, BigDecimal) => BigDecimal): Option[BigDecimal] = for {
       thisValue <- x.possibleValue
       thatValue <- y.possibleValue
     } yield f(thisValue, thatValue)

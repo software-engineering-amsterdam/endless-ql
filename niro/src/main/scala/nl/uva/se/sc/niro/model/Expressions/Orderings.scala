@@ -20,7 +20,7 @@ object Orderings {
       def ne(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ != _))
       def eq(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ == _))
     }
-    object IntAnswerCanDoOrderings extends IntAnswerCanDoOrderings {
+    implicit object IntAnswerCanDoOrderings extends IntAnswerCanDoOrderings {
       private def combine(x: IntAnswer, y: IntAnswer)(f: (Int, Int) => Boolean): Option[Boolean] = for {
         thisValue <- x.possibleValue
         thatValue <- y.possibleValue

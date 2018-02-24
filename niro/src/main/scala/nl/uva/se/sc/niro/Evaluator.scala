@@ -1,15 +1,13 @@
 package nl.uva.se.sc.niro
 
 import nl.uva.se.sc.niro.model.Expressions._
-import nl.uva.se.sc.niro.model.{ BinaryOperator, QLForm, UnaryOperator }
+import nl.uva.se.sc.niro.model._
 
 object Evaluator {
   // TODO check if it's necessary to make this call tail recursive
   def evaluateExpression(expr: Expression, symbolTable: Map[String, Expression]): Answer = expr match {
-    case answer: Answer =>
-      answer
-    case Reference(questionIdentifier) =>
-      evaluateExpression(symbolTable(questionIdentifier), symbolTable)
+    case answer: Answer => answer
+    case Reference(questionId) => evaluateExpression(symbolTable(questionId), symbolTable)
     case UnaryOperation(operator: UnaryOperator, expression) =>
       val answer = evaluateExpression(expression, symbolTable)
       answer.applyUnaryOperator(operator)
@@ -19,5 +17,30 @@ object Evaluator {
       leftAnswer.applyBinaryOperator(operator, rightAnswer)
   }
 
-  def evaluateQLForm(qLForm: QLForm): QLForm = ???
+  def evaluateQLForm(qLForm: QLForm): QLForm = {
+    val evaluatedStatements: Seq[Statement] = qLForm.statements.map(statement => evaluateStatement(statement, qLForm.symbolTable))
+
+    qLForm.copy(statements = evaluatedStatements)
+  }
+
+  def evaluateStatement(statement: Statement, symbolTable: Map[String, Expression]): Statement = {
+    statement match {
+      case q: Question => evaluateQuestion(q, symbolTable)
+      case c: Conditional => evaluateConditional(c, symbolTable)
+    }
+  }
+
+  def evaluateQuestion(question: Question, symbolTable: Map[String, Expression]): Question = {
+    val evaluatedAnswer = evaluateExpression(question.answer, symbolTable: Map[String, Expression])
+
+    question.copy(answer = evaluatedAnswer)
+  }
+
+  // Recursion is happening between evaluateStatement and evaluateConditional
+  def evaluateConditional(conditional: Conditional, symbolTable: Map[String, Expression]): Conditional = {
+    val evaluatedPredicate = evaluateExpression(conditional.predicate, symbolTable)
+    val evaluatedThenStatements = conditional.thenStatements.map(statement => evaluateStatement(statement, symbolTable))
+
+    conditional.copy(predicate = evaluatedPredicate, thenStatements = evaluatedThenStatements)
+  }
 }

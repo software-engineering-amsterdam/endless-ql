@@ -75,19 +75,4 @@ public class ExpressionVariableInteger extends ExpressionVariable<Integer> {
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(Double.parseDouble(this.value.toString()) < Double.parseDouble(other.value.toString()));
     }
-
-    @Override
-    public ExpressionVariable and(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
-    public ExpressionVariable or(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
-    public ExpressionVariable not() {
-        return new ExpressionVariableUndefined();
-    }
 }

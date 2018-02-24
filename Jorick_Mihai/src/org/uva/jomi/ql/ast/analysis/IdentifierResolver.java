@@ -42,10 +42,10 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	public void resolveQuestionIdentifier(IdentifierExpr identifier) {
 		// First check if the identifier is already present in the current scope
 		if (identifierStack.contains(identifier.getName())) {
-			errorHandler.addError(identifier.getToken(), "Read-only identifier already declared the current scope");
+			errorHandler.addIdentifierError(identifier.getToken(), "Read-only identifier already declared the current scope");
 		// Make sure the identifier is not declared in any outside scope
 		} else if (identifierStack.getIdentifier(identifier.getName()) != null) {
-			errorHandler.addError(identifier.getToken(), "Read-only identifier already declared in an outside scope");
+			errorHandler.addIdentifierError(identifier.getToken(), "Read-only identifier already declared in an outside scope");
 		// The identifier is not present in any scope, add it to the top stack;
 		} else {
 			identifierStack.add(identifier);
@@ -117,7 +117,7 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		if (retrievedIdentifier != null) {
 			identifier.updateAllFields(retrievedIdentifier);
 		} else {
-			errorHandler.addError(identifier.getToken(), "Undeclared identifier");
+			errorHandler.addIdentifierError(identifier.getToken(), "Undeclared identifier");
 		}
 
 		return null;

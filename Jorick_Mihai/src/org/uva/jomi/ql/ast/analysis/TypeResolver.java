@@ -1,33 +1,30 @@
 package org.uva.jomi.ql.ast.analysis;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.expressions.*;
 import org.uva.jomi.ql.ast.statements.*;
+import org.uva.jomi.ql.error.ErrorHandler;
 
 public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
-	private List<String> errorMessages;
+	private final ErrorHandler errorHandler;
 	
-	public TypeResolver() {
-		this.errorMessages = new ArrayList<String>();
+	public TypeResolver(boolean printErrors) {
+		this.errorHandler = new ErrorHandler(this.getClass().getSimpleName(), printErrors);
 	}
 	
-	public void check(List<Stmt> statements) {		
+	public void resolve(List<Stmt> statements) {
+		// Clear previous errors first
+		errorHandler.clearErros();
+		
 		for (Stmt statement : statements) {
 			statement.accept(this);
 		}
 	}
 	
 	public int getNumberOfErrors() {
-		return this.errorMessages.size();
-	}
-	
-	public void addError(String error) {
-		this.errorMessages.add(error);
-		System.out.println(error);
+		return errorHandler.getNumberOfErrors();
 	}
 	
 	
@@ -54,16 +51,15 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
 	@Override
 	public Void visit(ComputedQuestionStmt stmt) {
-		stmt.identifier.accept(this);
-		stmt.expression.accept(this);
-		
 		// Before traversing the Ast enforce the question type on the expression if needed
 		if (stmt.expression.getType() == null) {
 			stmt.expression.setType(stmt.getType());
+			stmt.expression.accept(this);
 		}
 		
 		if(stmt.expression.getType() != stmt.getType()) {
-			this.addError(stmt.label + " expected " + stmt.getType() + " but got " + stmt.expression.getType());
+			
+			this.errorHandler.addTypeError(stmt);
 		}
 		
 		return null;
@@ -90,7 +86,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 		expr.right.accept(this);
 		
 		if(expr.left.getType() != expr.right.getType()) {
-			this.addError("Cannot do " + expr.left.getType() + " " + expr.operator.getLexeme() + " " + expr.right.getType());
+			this.errorHandler.addTypeError(expr, expr.left, expr.right);
 		}
 		
 		return null;
@@ -120,7 +116,24 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
 	@Override
 	public Void visit(AdditionExpr expr) {
-		// TODO Auto-generated method stub
+		// Set the expected type for the left hand side expression and visit it.
+		if (expr.left.getType() == null) {
+			expr.left.setType(expr.getType());
+			expr.left.accept(this);
+		}
+		
+		// Set the expected type for the right hand side expression and visit it.
+		if (expr.right.getType() == null) {
+			expr.right.setType(expr.getType());
+			expr.right.accept(this);
+		}
+		
+		// We now assume that both the left and the right hand side expressions have a type.
+		
+		if (expr.left.getType() != expr.getType()) {
+			this.errorHandler.addTypeError(expr, expr.left, expr.right);
+		}
+		
 		return null;
 	}
 

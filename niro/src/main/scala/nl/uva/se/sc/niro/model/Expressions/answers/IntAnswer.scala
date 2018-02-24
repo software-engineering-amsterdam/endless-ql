@@ -2,24 +2,25 @@ package nl.uva.se.sc.niro.model.Expressions.answers
 
 import nl.uva.se.sc.niro.model.Expressions.Answer
 import nl.uva.se.sc.niro.model._
+import nl.uva.se.sc.niro.model.Expressions.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
 
 final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
 
-  def applyBinaryOperator(operator: BinaryOperator, other: Answer): Answer = other match {
-    case otherIntAnswer: IntAnswer => operator match {
-      case Add => IntAnswer(combine[Int](otherIntAnswer)(_ + _))
-      case Sub => IntAnswer(combine[Int](otherIntAnswer)(_ - _))
-      case Mul => IntAnswer(combine[Int](otherIntAnswer)(_ * _))
-      case Div => IntAnswer(combine[Int](otherIntAnswer)(_ / _))
-      case Lt => BooleanAnswer(combine[Boolean](otherIntAnswer)(_ < _))
-      case LTe => BooleanAnswer(combine[Boolean](otherIntAnswer)(_ <= _))
-      case GTe => BooleanAnswer(combine[Boolean](otherIntAnswer)(_ >= _))
-      case Gt => BooleanAnswer(combine[Boolean](otherIntAnswer)(_ > _))
-      case Ne => BooleanAnswer(combine[Boolean](otherIntAnswer)(_ != _))
-      case Eq => BooleanAnswer(combine[Boolean](otherIntAnswer)(_ == _))
+  def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
+    case that: IntAnswer => operator match {
+      case Add => plus(this, that)
+      case Sub => minus(this, that)
+      case Mul => times(this, that)
+      case Div => div(this, that)
+      case Lt => BooleanAnswer(combine[Boolean](that)(_ < _))
+      case LTe => BooleanAnswer(combine[Boolean](that)(_ <= _))
+      case GTe => BooleanAnswer(combine[Boolean](that)(_ >= _))
+      case Gt => BooleanAnswer(combine[Boolean](that)(_ > _))
+      case Ne => BooleanAnswer(combine[Boolean](that)(_ != _))
+      case Eq => BooleanAnswer(combine[Boolean](that)(_ == _))
       case _ => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
     }
-    case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $other")
+    case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
   private def combine[R](other: IntAnswer)(f: (Int, Int) => R): Option[R] = for {

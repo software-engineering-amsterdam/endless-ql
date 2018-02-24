@@ -97,15 +97,7 @@ namespace QL_Vizualizer.Controllers
                 return;
             }
 
-            List<QLWidget> widgets = new List<QLWidget>();
-
-            foreach (Node n in node.Children)
-                if(n.Type == NodeType.QUESTION)
-                {
-                    QuestionNode qn = n as QuestionNode;
-                    widgets.Add(WidgetFactory.CreateWidget(qn));
-                }
-
+            IEnumerable<QLWidget> widgets = WidgetFactory.CreateWidgets(node);
             DisplayForm(node.FormName, widgets.ToArray());
         }
 

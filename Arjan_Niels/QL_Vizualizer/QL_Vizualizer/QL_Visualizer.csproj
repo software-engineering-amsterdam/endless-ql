@@ -47,9 +47,13 @@
   <ItemGroup>
     <Compile Include="Controllers\Display\WidgetDisplayControllerWindows.cs" />
     <Compile Include="Controllers\WidgetController.cs" />
-    <Compile Include="Expression.cs" />
+    <Compile Include="Expression\ExpressionComposite.cs" />
+    <Compile Include="Expression\ExpressionLeaf.cs" />
+    <Compile Include="Expression\ExpressionCombiner.cs" />
+    <Compile Include="Expression\IExpression.cs" />
     <Compile Include="Factories\ControlFactory.cs" />
     <Compile Include="Factories\ElementFactory.cs" />
+    <Compile Include="Factories\ExpressionFactory.cs" />
     <Compile Include="Factories\WidgetFactory.cs" />
     <Compile Include="Style\WindowsStyleProperties.cs" />
     <Compile Include="Program.cs" />

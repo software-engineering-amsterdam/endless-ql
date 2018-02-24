@@ -7,6 +7,8 @@ import nl.uva.se.sc.niro.model._
 
 final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
 
+  def toDecAnswer = DecAnswer(possibleValue.map(BigDecimal(_)))
+
   def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
     case that: IntAnswer => operator match {
       case Add => this + that
@@ -21,6 +23,7 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
       case Eq => BooleanAnswer(this.possibleValue.flatMap(x => that.possibleValue.map(y => x == y)))
       case _ => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
     }
+    case that: DecAnswer => this.toDecAnswer.applyBinaryOperator(operator, that)
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 

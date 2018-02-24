@@ -186,21 +186,18 @@ class AstBuilderSpec extends FunSuite {
         Question(id = "hasSoldHouse", label = "Did you sell a house in 2010?", answer = BooleanAnswer(None)),
         Conditional(
           predicate = BinaryOperation(
-            binaryOperator = Div,
+            binaryOperator = Add,
             left = BinaryOperation(
-              binaryOperator = Add,
+              binaryOperator = Mul,
               left = BinaryOperation(
-                binaryOperator = Mul,
-                left = BinaryOperation(
-                  binaryOperator = Sub,
-                  left = IntAnswer(Some(10000)),
-                  right = Reference("hasSoldHouse")
-                ),
-                right = IntAnswer(Some(42))
-              ),
-              right = IntAnswer(Some(23))
-            ),
-            right = IntAnswer(Some(54))),
+                binaryOperator = Sub,
+                left = IntAnswer(Some(10000)),
+                right = Reference("hasSoldHouse")),
+              right = IntAnswer(Some(42))),
+            right = BinaryOperation(
+              binaryOperator = Div,
+              left = IntAnswer(Some(23)),
+              right = IntAnswer(Some(54)))),
           thenStatements = List(
             Question(id = "asd", label = "asd", answer = BooleanAnswer(None))
           )

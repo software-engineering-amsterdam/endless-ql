@@ -50,21 +50,6 @@ COMMENT     : '//' .*? '\n' -> skip ;
 
 bool        : FALSE | TRUE ;
 
-unaryOp     : SUB | NEG;
-compOp      : LT | LTE | GTE | GT | NE | EQ ;
-logicalOp   : OR | AND ;
-arithmOp    : SUB | ADD | DIV | MUL ;
-
-expression  : IntValue                                      # IntConst
-            | DecValue                                      # DecConst
-            | Ident                                         # Var
-            | bool                                          # BoolConst
-            | lhs=expression arithmOp rhs=expression        # ArithmExpr
-            | lhs=expression compOp rhs=expression          # CompExpr
-            | lhs=expression logicalOp rhs=expression       # LogicalExpr
-            | unaryOp expression                            # UnaryExpr
-            | BRACK_L expression BRACK_R                    # GroupExpr ;
-
 form        : FORM Ident CURLY_L statement+ CURLY_R EOF ;
 
 statement   : question
@@ -73,4 +58,24 @@ statement   : question
 question    : Ident D_COLON label=TEXT answerType ( ASSIGN BRACK_L expression BRACK_R )?;
 conditional : IF BRACK_L condition=expression BRACK_R CURLY_L thenBlock+=statement+ CURLY_R ( ELSE CURLY_L elseBlock+=statement+ CURLY_R )? ;
 
-answerType  : BOOLEAN | INTEGER | STRING | MONEY | DATE | DECIMAL | MONEY;
+answerType  : BOOLEAN | INTEGER | DECIMAL | MONEY | DATE | STRING ;
+
+unaryOp          : SUB | NEG ;
+multiplicativeOp : MUL | DIV ;
+additiveOp       : ADD | SUB ;
+relationalOp     : LT | GT | LTE | GTE ;
+equalityOp       : EQ | NE ;
+
+// Precence as specified by: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html
+expression : BRACK_L expression BRACK_R                        # GroupExpr
+           | op=unaryOp expression                             # UnaryExpr
+           | lhs=expression op=multiplicativeOp rhs=expression # MultiplicativeExpr
+           | lhs=expression op=additiveOp rhs=expression       # AdditiveExpr
+           | lhs=expression op=relationalOp rhs=expression     # RelationalExp
+           | lhs=expression op=equalityOp rhs=expression       # EqualityExpr
+           | lhs=expression op=AND rhs=expression              # LogicalAndExpr
+           | lhs=expression op=OR rhs=expression               # LogicalOrExpr
+           | Ident                                             # Var
+           | IntValue                                          # IntConst
+           | DecValue                                          # DecConst
+           | bool                                              # BoolConst ;

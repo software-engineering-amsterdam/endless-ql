@@ -59,40 +59,41 @@ object QLFormParser extends Logging {
   }
 
   object ExpressionCompiler extends QLBaseVisitor[Expression] {
+    override def visitGroupExpr(ctx: QLParser.GroupExprContext): Expression = {
+      visit(ctx.expression())
+    }
+    override def visitUnaryExpr(ctx: QLParser.UnaryExprContext): Expression = {
+      UnaryOperation(UnaryOperator(ctx.op.getText), visit(ctx.expression))
+    }
+    override def visitMultiplicativeExpr(ctx: QLParser.MultiplicativeExprContext): Expression = {
+      BinaryOperation(BinaryOperator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+    }
+    override def visitAdditiveExpr(ctx: QLParser.AdditiveExprContext): Expression = {
+      BinaryOperation(BinaryOperator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+    }
+    override def visitRelationalExp(ctx: QLParser.RelationalExpContext): Expression = {
+      BinaryOperation(BinaryOperator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+    }
+    override def visitEqualityExpr(ctx: QLParser.EqualityExprContext): Expression = {
+      BinaryOperation(BinaryOperator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+    }
+    override def visitLogicalAndExpr(ctx: QLParser.LogicalAndExprContext): Expression = {
+      BinaryOperation(BinaryOperator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+    }
+    override def visitLogicalOrExpr(ctx: QLParser.LogicalOrExprContext): Expression = {
+      BinaryOperation(BinaryOperator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+    }
     override def visitIntConst(ctx: QLParser.IntConstContext): Expression = {
       IntAnswer(Some(ctx.IntValue().getText.toInt))
     }
-
     override def visitDecConst(ctx: QLParser.DecConstContext): Expression = {
       DecAnswer(Some(ctx.DecValue().getText.toDouble))
     }
-
     override def visitBool(ctx: QLParser.BoolContext): Expression = {
       BooleanAnswer(Some(ctx.getText.toBoolean))
     }
-
     override def visitVar(ctx: QLParser.VarContext): Expression = {
       Reference(ctx.Ident().getText)
-    }
-
-    override def visitUnaryExpr(ctx: QLParser.UnaryExprContext): Expression = {
-      UnaryOperation(UnaryOperator(ctx.unaryOp().getText), visit(ctx.expression))
-    }
-
-    override def visitArithmExpr(ctx: QLParser.ArithmExprContext): Expression = {
-      BinaryOperation(BinaryOperator(ctx.arithmOp().getText), visit(ctx.lhs), visit(ctx.rhs))
-    }
-
-    override def visitCompExpr(ctx: QLParser.CompExprContext): Expression = {
-      BinaryOperation(BinaryOperator(ctx.compOp().getText), visit(ctx.lhs), visit(ctx.rhs))
-    }
-
-    override def visitLogicalExpr(ctx: QLParser.LogicalExprContext): Expression = {
-      BinaryOperation(BinaryOperator(ctx.logicalOp().getText), visit(ctx.lhs), visit(ctx.rhs))
-    }
-
-    override def visitGroupExpr(ctx: QLParser.GroupExprContext): Expression = {
-      visit(ctx.expression())
     }
   }
 

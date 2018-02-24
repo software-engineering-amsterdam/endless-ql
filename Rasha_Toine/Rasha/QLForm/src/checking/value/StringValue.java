@@ -1,14 +1,25 @@
 package checking.value;
 
-public class StringValue extends Value {
+public class StringValue extends AbstractValue {
   
 	private String value;
+
+	public StringValue(String str) {
+		this.value = str;
+	}
+	
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
 
 	@Override
 	public BooleanValue or(Value val) {
 		return throwException();
 	}
-
 	
 	@Override
 	public BooleanValue and(Value val) {
@@ -67,15 +78,15 @@ public class StringValue extends Value {
 	}
 	
 	@Override
+	public BooleanValue eq(StringValue val) {
+		return new BooleanValue(this.value.equals(val.value));
+	}
+	
+	@Override
 	public BooleanValue eq(BooleanValue val) {
 		return BooleanValue.FALSE;
 	}
 
-	
-	@Override
-	public BooleanValue eq(StringValue val) {
-		return BooleanValue.FALSE;
-	}
 	
 	@Override
 	public BooleanValue eq(IntegerValue val) {
@@ -93,18 +104,16 @@ public class StringValue extends Value {
 	public BooleanValue eq(DecimalValue val) {
 		return BooleanValue.FALSE;
 	}
+
+	
+	@Override
+	public StringValue translate(String str) {
+		return new StringValue(str);
+	}
 	
 	@Override
 	public <T extends Value> T throwException() {
 		throw new UnsupportedOperationException(getClass().getName());
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
 	}
 	
 }

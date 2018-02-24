@@ -1,18 +1,18 @@
 package checking.value;
 
-public class IntegerValue extends Value {
+public class IntegerValue extends AbstractValue {
   
 	private int value;
+	
+	public IntegerValue(int value) {
+		this.value = value;
+	}
 
 	public int getValue() {
 		return value;
 	}
 
 	public void setValue(int value) {
-		this.value = value;
-	}
-
-	public IntegerValue(int value) {
 		this.value = value;
 	}
 	
@@ -70,6 +70,40 @@ public class IntegerValue extends Value {
 	}
 	
 	@Override
+	public BooleanValue eq(IntegerValue val) {
+		boolean result = this.value == val.value;
+		return new BooleanValue(result);
+	}
+	
+	@Override
+	public BooleanValue eq(BooleanValue val) {
+		return BooleanValue.FALSE;
+	}
+
+	
+	@Override
+	public BooleanValue eq(StringValue val) {
+		return BooleanValue.FALSE;
+	}
+	
+
+	@Override
+	public BooleanValue eq(DateValue val) {
+		return BooleanValue.FALSE;
+	}
+	
+
+	@Override
+	public BooleanValue eq(DecimalValue val) {
+		return BooleanValue.FALSE;
+	}
+	
+	@Override
+	public BooleanValue gt(Value val) {
+		return val.gt(this);
+	}
+	
+	@Override
 	public BooleanValue gt(IntegerValue val) {
 		boolean result = this.value > val.value;
 		return new BooleanValue(result);
@@ -87,10 +121,16 @@ public class IntegerValue extends Value {
 	}
 
 	@Override
+	public BooleanValue lt(Value val) {
+		return val.lt(this);
+	}
+	
+	@Override
 	public BooleanValue lt(IntegerValue val) {
 		boolean result = this.value < val.value;
 		return new BooleanValue(result);
 	}
+	
 
 	@Override
 	public BooleanValue lEq(Value val) {
@@ -124,36 +164,12 @@ public class IntegerValue extends Value {
 		return throwException();
 	}
 	
-
-	@Override
-	public Value check(String str) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public BooleanValue eq(BooleanValue val) {
-		return BooleanValue.FALSE;
-	}
-
 	
 	@Override
-	public BooleanValue eq(StringValue val) {
-		return BooleanValue.FALSE;
+	public Value translate(String str) {
+		return new IntegerValue(Integer.parseUnsignedInt(str));
 	}
 	
-
-	@Override
-	public BooleanValue eq(DateValue val) {
-		return BooleanValue.FALSE;
-	}
-	
-
-	@Override
-	public BooleanValue eq(DecimalValue val) {
-		return BooleanValue.FALSE;
-	}
 	
 	@Override
 	public <T extends Value> T throwException() {

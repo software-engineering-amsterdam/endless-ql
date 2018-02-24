@@ -1,6 +1,5 @@
-package qlviz.model;
+package qlviz.model.question;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class DateQuestion extends Question {

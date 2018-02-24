@@ -4,7 +4,7 @@ import javafx.scene.layout.Pane;
 import qlviz.gui.renderer.QuestionBlockRenderer;
 import qlviz.gui.renderer.QuestionRenderer;
 import qlviz.model.ConditionalBlock;
-import qlviz.model.Question;
+import qlviz.model.question.Question;
 import qlviz.model.QuestionBlock;
 
 import java.util.function.Function;

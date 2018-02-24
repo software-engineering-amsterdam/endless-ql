@@ -1,6 +1,4 @@
-package qlviz.model;
-
-import java.math.BigDecimal;
+package qlviz.model.question;
 
 public class BooleanQuestion extends Question {
     private boolean value;

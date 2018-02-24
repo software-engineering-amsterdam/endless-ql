@@ -1,9 +1,8 @@
 package qlviz.interpreter;
 
-import org.antlr.v4.runtime.tree.TerminalNode;
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
-import qlviz.model.*;
+import qlviz.model.question.*;
 
 public class QuestionVisitor extends QLBaseVisitor<Question> {
 

@@ -2,10 +2,8 @@ package qlviz.interpreter;
 
 import org.junit.Assert;
 import org.junit.Test;
-import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
-import qlviz.model.Question;
-import qlviz.model.QuestionType;
+import qlviz.model.question.Question;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

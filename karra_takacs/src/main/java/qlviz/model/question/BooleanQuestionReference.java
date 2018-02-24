@@ -1,6 +1,6 @@
-package qlviz.model;
+package qlviz.model.question;
 
-import java.math.BigDecimal;
+import qlviz.model.BooleanExpression;
 
 public class BooleanQuestionReference extends BooleanExpression {
 

@@ -1,6 +1,6 @@
-package qlviz.model;
+package qlviz.model.question;
 
-import java.util.Date;
+import qlviz.model.NumericQuestion;
 
 public class IntegerQuestion extends NumericQuestion {
 

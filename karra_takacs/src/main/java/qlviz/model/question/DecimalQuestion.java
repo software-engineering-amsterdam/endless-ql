@@ -1,6 +1,6 @@
-package qlviz.model;
+package qlviz.model.question;
 
-import java.math.BigDecimal;
+import qlviz.model.NumericQuestion;
 
 public class DecimalQuestion extends NumericQuestion {
 

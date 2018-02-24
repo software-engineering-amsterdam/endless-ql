@@ -4,7 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import qlviz.gui.renderer.QuestionRenderer;
-import qlviz.model.Question;
+import qlviz.model.question.Question;
 
 public class JavafxQuestionRenderer implements QuestionRenderer {
 

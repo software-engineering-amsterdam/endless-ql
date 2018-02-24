@@ -1,4 +1,4 @@
-package qlviz.model;
+package qlviz.model.question;
 
 public class QuestionStub {
 }

@@ -3,6 +3,7 @@ package qlviz.interpreter;
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
 import qlviz.model.*;
+import qlviz.model.question.BooleanQuestionReference;
 
 public class BooleanExpressionVisitor extends QLBaseVisitor<BooleanExpression> {
 

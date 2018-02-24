@@ -29,7 +29,7 @@ import qlviz.interpreter.QuestionTypeVisitor;
 import qlviz.interpreter.QuestionVisitor;
 import qlviz.model.BooleanExpression;
 import qlviz.model.Form;
-import qlviz.model.Question;
+import qlviz.model.question.Question;
 import qlviz.model.QuestionBlock;
 
 public class QLForm extends Application {

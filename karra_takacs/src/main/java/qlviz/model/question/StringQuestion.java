@@ -1,4 +1,4 @@
-package qlviz.model;
+package qlviz.model.question;
 
 public class StringQuestion extends Question {
     private String value;

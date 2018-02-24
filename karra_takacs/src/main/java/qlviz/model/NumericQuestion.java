@@ -1,5 +1,8 @@
 package qlviz.model;
 
+import qlviz.model.question.Question;
+import qlviz.model.question.QuestionType;
+
 import java.math.BigDecimal;
 
 public abstract class NumericQuestion extends Question {

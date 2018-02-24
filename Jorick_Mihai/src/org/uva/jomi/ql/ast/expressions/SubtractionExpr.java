@@ -1,11 +1,10 @@
 package org.uva.jomi.ql.ast.expressions;
 
-public class AdditionExpr extends Expr {
-	
+public class SubtractionExpr extends Expr {
 	public final Expr left;
 	public final Expr right;
 	
-	public AdditionExpr(Expr left, Expr right) {
+	public SubtractionExpr(Expr left, Expr right) {
 		this.left = left;
 		this.right = right;
 	}

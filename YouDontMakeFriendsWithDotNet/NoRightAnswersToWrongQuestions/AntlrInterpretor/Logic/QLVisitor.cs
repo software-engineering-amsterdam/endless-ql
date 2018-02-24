@@ -25,19 +25,19 @@ namespace AntlrInterpretor.Logic
             return m_questionnaireAst;
         }
 
-        public override IAstNode VisitBooleancondition(QLParser.BooleanconditionContext context)
+        public override IAstNode VisitQuestionId(QLParser.QuestionIdContext context)
         {
             var questionName = context.IDENTIFIER().GetText();
             var question = m_questionnaireAst
                 .Questions
                 .FirstOrDefault(x => x.Name == questionName);
 
-            if (question?.Type != typeof(bool))
-            {
-                var message = $@"the question {questionName} is not a boolean question";
+            //if (question?.Type != typeof(bool))
+            //{
+            //    var message = $@"the question {questionName} is not a boolean question";
 
-                throw new QlParserException(message, null) { ParseErrorDetails = message };
-            }
+            //    throw new QlParserException(message, null) { ParseErrorDetails = message };
+            //}
 
             return m_questionnaireAst;
         }
@@ -67,7 +67,7 @@ namespace AntlrInterpretor.Logic
                 throw new QlParserException(message, null) { ParseErrorDetails = message };
             }
 
-            var text = context.QUESTIONTEXT().GetText();
+            var text = context.TEXT().GetText();
             Type type;
             switch (context.questiontype().qtype.Type)
             {

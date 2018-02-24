@@ -129,5 +129,11 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Void visit(MultiplicationExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

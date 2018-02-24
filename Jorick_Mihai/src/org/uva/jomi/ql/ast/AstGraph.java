@@ -7,6 +7,7 @@ import org.uva.jomi.ql.ast.expressions.BinaryExpr;
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.expressions.GroupingExpr;
 import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
+import org.uva.jomi.ql.ast.expressions.MultiplicationExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
@@ -167,6 +168,12 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 
 	@Override
 	public String visit(SubtractionExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String visit(MultiplicationExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}

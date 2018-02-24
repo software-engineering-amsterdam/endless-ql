@@ -1,6 +1,8 @@
 import ql.grammar._
 import ql.listeners._
 
+import scala.io.Source
+
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
 import org.scalatest.BeforeAndAfter
@@ -14,15 +16,12 @@ class GrammarSpec extends FunSpec with BeforeAndAfter {
     var listener: CountNodesListener = null
 
     before {
-      val form = """
-        form taxOfficeExample {
-          "Did you sell a house in 2010?"
-          hasSoldHouse: boolean
-        }
-      """
+      val source = Source.fromURL(getClass.getResource("ql/simple.ql"))
+      val sourcedLines = source.mkString
+      source.close
 
       listener = new CountNodesListener()
-      val parser = Main.getParser(form)
+      val parser = Main.getParser(sourcedLines)
       val tree = parser.root()
 
       val walker = new ParseTreeWalker()
@@ -60,27 +59,12 @@ class GrammarOneSpec extends FunSpec with BeforeAndAfter {
     var listener: CountNodesListener = null
 
     before {
-      val form = """
-        form taxOfficeExample {
-          "Did you sell a house in 2010?"
-          hasSoldHouse: boolean
-          "Did you buy a house in 2010?"
-          hasSoldHouse: boolean
-
-          if (hasSoldHouse) {
-            "What was the selling price?"
-              sellingPrice: money
-            "Private debts for the sold house:"
-              privateDebt: money
-            "Value residue:"
-              valueResidue: money =
-                (sellingPrice - privateDebt)
-          }
-        }
-      """
+      val source = Source.fromURL(getClass.getResource("ql/conditional.ql"))
+      val sourcedLines = source.mkString
+      source.close
 
       listener = new CountNodesListener()
-      val parser = Main.getParser(form)
+      val parser = Main.getParser(sourcedLines)
       val tree = parser.root()
 
       val walker = new ParseTreeWalker()

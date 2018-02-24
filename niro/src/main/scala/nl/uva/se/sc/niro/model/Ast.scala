@@ -27,3 +27,7 @@ object Statement {
     }.flatten
   }
 }
+
+object QLForm {
+  type SymbolTable = Map[String, Expression]
+}

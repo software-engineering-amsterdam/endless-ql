@@ -15,8 +15,8 @@ final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
       case LTe => this <= that
       case GTe => this >= that
       case Gt => this > that
-      case Ne => BooleanAnswer(combine[Boolean](that)(_ != _))
-      case Eq => BooleanAnswer(combine[Boolean](that)(_ == _))
+      case Ne => BooleanAnswer(this.possibleValue.flatMap(x => that.possibleValue.map(y => x != y)))
+      case Eq => BooleanAnswer(this.possibleValue.flatMap(x => that.possibleValue.map(y => x == y)))
       case And => this && that
       case Or => this || that
       case _ => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
@@ -28,11 +28,6 @@ final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
     case Neg => !this
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
-
-  private def combine[R](other: BooleanAnswer)(f: (Boolean, Boolean) => R): Option[R] = for {
-    thisValue <- possibleValue
-    thatValue <- other.possibleValue
-  } yield f(thisValue, thatValue)
 }
 
 object BooleanAnswer {

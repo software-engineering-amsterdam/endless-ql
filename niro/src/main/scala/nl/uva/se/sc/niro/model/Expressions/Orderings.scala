@@ -16,6 +16,20 @@ object Orderings {
       thatValue <- y.possibleValue
     } yield f(thisValue, thatValue)
   }
+
+  trait BooleanAnswerCanDoOrderings extends Orderings[BooleanAnswer] {
+    import BooleanAnswerCanDoOrderings._
+    def lt(x: BooleanAnswer, y: BooleanAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ < _))
+    def lte(x: BooleanAnswer, y: BooleanAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ <= _))
+    def gte(x: BooleanAnswer, y: BooleanAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ >= _))
+    def gt(x: BooleanAnswer, y: BooleanAnswer): BooleanAnswer = BooleanAnswer(combine(x, y)(_ > _))
+  }
+  implicit object BooleanAnswerCanDoOrderings extends BooleanAnswerCanDoOrderings {
+    private def combine(x: BooleanAnswer, y: BooleanAnswer)(f: (Boolean, Boolean) => Boolean): Option[Boolean] = for {
+      thisValue <- x.possibleValue
+      thatValue <- y.possibleValue
+    } yield f(thisValue, thatValue)
+  }
 }
 
 trait Orderings[SubType<:Answer] {

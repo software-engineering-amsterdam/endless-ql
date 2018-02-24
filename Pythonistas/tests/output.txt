@@ -1,3 +1,0 @@
-"Did you sell a house in 2010?"undefined
-"Did you by a house in 2010?"undefined
-"Did you enter a loan for maintenance/reconstruction?"undefined

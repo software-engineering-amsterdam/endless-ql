@@ -6,9 +6,7 @@ public class FieldFactory {
 		
 		System.out.println("Return field of type " + type);
 		
-		if(type == "string") {
-			return new TextField();
-		} else if(type == "boolean") {
+		if(type == "boolean") {
 			return new BooleanField();
 		} else if(type == "money") {
 			return new MoneyField();

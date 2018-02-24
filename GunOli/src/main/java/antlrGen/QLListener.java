@@ -68,53 +68,15 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitQuestionType(QLParser.QuestionTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code unaryExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Enter a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterUnaryExpr(QLParser.UnaryExprContext ctx);
+	void enterExpression(QLParser.ExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code unaryExpr}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * Exit a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitUnaryExpr(QLParser.UnaryExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code nestedExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNestedExpr(QLParser.NestedExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code nestedExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNestedExpr(QLParser.NestedExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code binaryExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterBinaryExpr(QLParser.BinaryExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code binaryExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitBinaryExpr(QLParser.BinaryExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code constantExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterConstantExpr(QLParser.ConstantExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code constantExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitConstantExpr(QLParser.ConstantExprContext ctx);
+	void exitExpression(QLParser.ExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#operator}.
 	 * @param ctx the parse tree
@@ -145,26 +107,6 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBinaryOp(QLParser.BinaryOpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#arithmeticOp}.
-	 * @param ctx the parse tree
-	 */
-	void enterArithmeticOp(QLParser.ArithmeticOpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#arithmeticOp}.
-	 * @param ctx the parse tree
-	 */
-	void exitArithmeticOp(QLParser.ArithmeticOpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#logicalOp}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogicalOp(QLParser.LogicalOpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#logicalOp}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogicalOp(QLParser.LogicalOpContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#constant}.
 	 * @param ctx the parse tree

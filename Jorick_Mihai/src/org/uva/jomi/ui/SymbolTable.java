@@ -38,5 +38,13 @@ public class SymbolTable {
 	public Boolean contains(String key) {
 		return this.symbolTable.containsKey(key);
 	}
-
+	
+	public int size() {
+		return this.keys().size();
+	}
+	
+	public Set<String> keys() {
+		return this.symbolTable.keySet();
+	}
+	
 }

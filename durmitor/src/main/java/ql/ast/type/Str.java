@@ -1,14 +1,38 @@
 package ql.ast.type;
 
+import ql.value.Value;
+import ql.visitors.interfaces.TypeVisitor;
+
 public class Str extends Type {
 
-    @Override public String toString() { return "string"; }
-    @Override public boolean equals(Type t) { return t.isString(); }
-    @Override public boolean isString() { return true; }
+    private ql.value.Str value;
+
+    public Value<String> getValue() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return "string";
+    }
+
+    @Override
+    public Value<?> toValue() {
+        return new ql.value.Str();
+    }
+
+    @Override
+    public boolean equals(Type t) {
+        return t.isString();
+    }
+
+    @Override
+    public boolean isString() {
+        return true;
+    }
     
-    // String as first operand
-    @Override public Type add(Type secondOperand) { return secondOperand.addTo(this); }
-    
-    // String as second operand
-    @Override public Type addTo(Str firstOperand) { return new Str(); }
+    @Override
+    public void accept(TypeVisitor visitor) {
+        visitor.visit(this);
+    }
 }

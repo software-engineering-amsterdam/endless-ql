@@ -2,21 +2,21 @@ package ql;
 
 import ql.ast.form.Form;
 import ql.checker.TypeChecker;
+import ql.gui.GUI;
+import ql.visitors.ASTtoGUI;
 
 public class Main {
 
-    // private static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
 
-        // logger.info("Start");
 
         String filePath;
         QL ql;
         Form form = null;
 
         if (args.length == 0) {
-            filePath = "resources/default.tax";
+            filePath = "resources/default.ql";
         } else {
             filePath = args[0];
         }
@@ -35,7 +35,8 @@ public class Main {
         checker.printWarnings();
         
         // Visit and build GUI from AST
-
+        GUI gui = new GUI();
+        form.getBlock().accept(new ASTtoGUI(gui));
         // Add Action/DocumentListeners to GUI.
     }
 }

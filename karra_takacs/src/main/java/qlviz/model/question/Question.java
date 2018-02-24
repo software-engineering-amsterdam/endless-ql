@@ -22,6 +22,8 @@ public abstract class Question {
         this.text = text;
         this.type = type;
     }
+
+    public abstract void accept(QuestionVisitor visitor);
 }
 
 

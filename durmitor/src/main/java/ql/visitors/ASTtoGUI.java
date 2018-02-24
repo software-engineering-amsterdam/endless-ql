@@ -1,39 +1,63 @@
 package ql.visitors;
 
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+
 import ql.ast.statement.AnswerableQuestion;
 import ql.ast.statement.Block;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
-import ql.ast.statement.Statement;
 import ql.gui.GUI;
 import ql.gui.GUIQuestion;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class ASTtoGUI implements StatementVisitor {
     
-    private GUI gui;
+    private JPanel parentPanel;
 
     public ASTtoGUI(GUI gui) {
-        this.gui = gui;
+        this.parentPanel = gui.panel;
     }
     
     @Override
     public void visit(Block block) {
-        for(Statement stmt : block.getStatements()) stmt.accept(this);
+        final JPanel panel = addContainerPanel();
+        parentPanel.add(panel);
+        parentPanel.revalidate();
+        parentPanel = panel;
+        block.getStatements().forEach(stmt -> { 
+            stmt.accept(this); 
+        });
     }
     @Override
     public void visit(IfThen stmt) {
+        final JPanel panel = addContainerPanel();
+        parentPanel.add(panel);
+        parentPanel.revalidate();
+        parentPanel = panel;
+        //stmt.getCondition().
+        //AbstractActionListener.enablePanel(panel, true);
+        stmt.getThenStatement().accept(this);
     }
     @Override
     public void visit(IfThenElse stmt) {
     }
     @Override
     public void visit(AnswerableQuestion stmt) {
-        new GUIQuestion(stmt,gui.panel);
+        parentPanel.add(new GUIQuestion(stmt));
+        parentPanel.revalidate();
     }
     @Override
     public void visit(ComputedQuestion stmt) {
-        new GUIQuestion(stmt,gui.panel);
+        parentPanel.add(new GUIQuestion(stmt));
+        parentPanel.revalidate();
+    }
+    
+    private JPanel addContainerPanel() {
+        JPanel containerPanel = new JPanel();
+        containerPanel.setLayout(
+                new BoxLayout(containerPanel, BoxLayout.PAGE_AXIS));
+        return containerPanel;
     }
 }

@@ -33,17 +33,14 @@ public class GUIQuestion extends JPanel implements TypeVisitor {
     private JTextField textField;
     private DateSpinnerField dateSpinner;
     private Question question;
-    private JPanel parentPanel;
     
-    public GUIQuestion(Question question,JPanel parentPanel) {
-//    public GUIQuestion(String label, final Type variableType) {
+    public GUIQuestion(Question question) {
         
         this.question       = question;
-        this.parentPanel    = parentPanel;
         
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setLayout(new GridLayout(1,2));
-        parentPanel.add(new JLabel(question.getLabel()));
+        add(new JLabel(question.getLabel()));
         question.getIdentifier().getType().accept(this);
     }
 
@@ -60,19 +57,19 @@ public class GUIQuestion extends JPanel implements TypeVisitor {
                 question.getIdentifier().setValue(new ql.value.Bool(checkBox.isSelected()));
             }
         });
-        parentPanel.add(this.checkBox);
+        add(this.checkBox);
     }
 
     @Override
     public void visit(Str type) {
         textField = new StrTextField(question.getIdentifier());
-        parentPanel.add(this.textField);
+        add(this.textField);
     }
 
     @Override
     public void visit(Int type) {
         textField = new IntTextField(question.getIdentifier());
-        parentPanel.add(this.textField);
+        add(this.textField);
     }
 
     @Override
@@ -84,7 +81,7 @@ public class GUIQuestion extends JPanel implements TypeVisitor {
     @Override
     public void visit(Money type) {
         textField = new MoneyTextField(question.getIdentifier());
-        parentPanel.add(this.textField);
+        add(this.textField);
     }
 
     @Override

@@ -16,7 +16,7 @@ public class Main {
         Form form = null;
 
         if (args.length == 0) {
-            filePath = "resources/example.ql";
+            filePath = "resources/default.ql";
         } else {
             filePath = args[0];
         }

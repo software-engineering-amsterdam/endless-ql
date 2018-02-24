@@ -13,6 +13,7 @@ import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
 import org.uva.jomi.ql.ast.expressions.LessThanExpr;
 import org.uva.jomi.ql.ast.expressions.LessThanOrEqualExpr;
 import org.uva.jomi.ql.ast.expressions.MultiplicationExpr;
+import org.uva.jomi.ql.ast.expressions.NotEqualExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
@@ -209,6 +210,12 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 
 	@Override
 	public String visit(GreaterThanOrEqualExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String visit(NotEqualExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}

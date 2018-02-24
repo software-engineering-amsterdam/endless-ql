@@ -19,6 +19,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import qlviz.QLBaseVisitor;
 import qlviz.Common.QuestionText;
+import qlviz.gui.renderer.JavafxFormRenderer;
+import qlviz.gui.renderer.JavafxQuestionBlockRenderer;
 import qlviz.interpreter.BinaryBooleanOperatorVisitor;
 import qlviz.interpreter.BinaryNumericOperatorVisitor;
 import qlviz.interpreter.BooleanExpressionVisitor;
@@ -36,6 +38,7 @@ import qlviz.model.Question;
 import qlviz.model.QuestionBlock;
 
 public class TaxForm extends Application {
+	private JavafxFormRenderer renderer;
 
 	// Example to add checkboxes to the form
 
@@ -50,7 +53,7 @@ public class TaxForm extends Application {
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
-
+		this.renderer = new JavafxFormRenderer(stage, vbox -> new JavafxQuestionBlockRenderer());
 		VBox taxFormFields = new VBox();
 		addFormFields(taxFormFields);
 		Scene scene = new Scene(taxFormFields, 550, 250);

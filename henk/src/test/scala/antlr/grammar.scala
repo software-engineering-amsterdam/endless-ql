@@ -1,5 +1,7 @@
+import ql.models._
 import ql.grammar._
 import ql.listeners._
+import ql.visitors._
 
 import scala.io.Source
 
@@ -24,8 +26,8 @@ class GrammarSpec extends FunSpec with BeforeAndAfter {
       val parser = Main.getParser(sourcedLines)
       val tree = parser.root()
 
-      val walker = new ParseTreeWalker()
-      walker.walk(listener, tree)
+      val paul = new ParseTreeWalker()
+      paul.walk(listener, tree)
     }
 
     it("'question' node count should be 1") {
@@ -67,8 +69,8 @@ class GrammarOneSpec extends FunSpec with BeforeAndAfter {
       val parser = Main.getParser(sourcedLines)
       val tree = parser.root()
 
-      val walker = new ParseTreeWalker()
-      walker.walk(listener, tree)
+      val paul = new ParseTreeWalker()
+      paul.walk(listener, tree)
     }
 
     it("'question' node count should be 5") {
@@ -105,6 +107,40 @@ class GrammarOneSpec extends FunSpec with BeforeAndAfter {
 
     it("'binOp' node count should be 1") {
       assert(listener.node_count("binOp") == 1)
+    }
+  }
+}
+
+class VisitorSpec extends FunSpec with BeforeAndAfter {
+
+  describe("when parsing a basic form") {
+    var result: ASTNode = null
+
+    before {
+      val source = Source.fromURL(getClass.getResource("ql/simple.ql"))
+      val sourcedLines = source.mkString
+      source.close
+
+      val visitor = new SimplifierVisitor()
+      val parser = Main.getParser(sourcedLines)
+      val tree = parser.root()
+
+      result = visitor.visit(tree)
+    }
+
+    it("root node should be of type 'ASTRoot'") {
+      val expected = ASTRoot(
+        ASTFormHeader("taxOfficeExample"),
+        ASTFormBody(
+          List(
+            ASTQuestion(
+              "Did you sell a house in 2010?", 
+              ASTVarDecl("hasSoldHouse", ASTBoolean(), null)
+              )
+            )
+          )
+        )
+      assert(result == expected)
     }
   }
 }

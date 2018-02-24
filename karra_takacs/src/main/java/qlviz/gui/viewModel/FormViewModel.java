@@ -13,23 +13,3 @@ public interface FormViewModel extends QuestionObserver {
 
 }
 
-public class FormViewModelImpl implements FormViewModel {
-    private final Form model;
-    private final FormRenderer renderer;
-    private final List<QuestionBlockViewModel> questionBlockViewModels;
-
-    public FormViewModelImpl(Form model, FormRenderer renderer, Function<QuestionBlock, QuestionBlockViewModel> viewModelFactory) {
-        this.model = model;
-        this.renderer = renderer;
-        this.questionBlockViewModels = new ArrayList<>();
-
-        for (QuestionBlock block : model.getQuestions()) {
-            this.questionBlockViewModels.add(viewModelFactory.apply(block));
-        }
-    }
-
-    @Override
-    public void notifyValueChanged(QuestionViewModel source) {
-        renderer.render(this.model);
-    }
-}

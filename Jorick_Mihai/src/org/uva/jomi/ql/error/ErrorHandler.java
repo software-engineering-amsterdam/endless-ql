@@ -8,14 +8,20 @@ import org.uva.jomi.ql.ast.QLToken;
 public class ErrorHandler {
 	
 	private class Error {
+		private final String name;
 		private final int line;
 		private final int column;
 		private final String message;
 		
-		public Error(int line, int column, String message) {
+		public Error(String name, int line, int column, String message) {
+			this.name = name;
 			this.line = line;
 			this.column = column;
 			this.message = message;
+		}
+		
+		public String getName() {
+			return name;
 		}
 
 		public int getLine() {
@@ -32,7 +38,11 @@ public class ErrorHandler {
 
 		@Override
 		public String toString() {
-			return String.format("[%s] line: %d, column: %d: %s", moduleName, getLine(), getColumn(), getMessage());
+			return String.format("[%s] line: %d, column: %d: %s: %s", moduleName,
+					getLine(),
+					getColumn(),
+					getMessage(),
+					getName());
 		}
 	}
 	
@@ -51,7 +61,7 @@ public class ErrorHandler {
 	}
 
 	public void addError(QLToken token, String errorMessage) {
-		Error error = new Error(token.getLine(), token.getColumn(), errorMessage);
+		Error error = new Error(token.getLexeme(), token.getLine(), token.getColumn(), errorMessage);
 		errorMessages.add(error);
 		if (printErrors)
 			System.err.println(error.toString());

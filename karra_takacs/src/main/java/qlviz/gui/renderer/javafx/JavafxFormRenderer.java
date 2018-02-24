@@ -1,8 +1,10 @@
-package qlviz.gui.renderer;
+package qlviz.gui.renderer.javafx;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import qlviz.gui.renderer.FormRenderer;
+import qlviz.gui.renderer.QuestionBlockRenderer;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
 

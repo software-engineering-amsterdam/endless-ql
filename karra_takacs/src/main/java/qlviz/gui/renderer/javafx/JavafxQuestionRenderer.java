@@ -1,8 +1,9 @@
-package qlviz.gui.renderer;
+package qlviz.gui.renderer.javafx;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import qlviz.gui.renderer.QuestionRenderer;
 import qlviz.model.Question;
 
 public class JavafxQuestionRenderer implements QuestionRenderer {

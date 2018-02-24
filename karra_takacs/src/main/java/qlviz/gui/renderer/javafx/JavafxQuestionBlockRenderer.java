@@ -1,6 +1,8 @@
-package qlviz.gui.renderer;
+package qlviz.gui.renderer.javafx;
 
 import javafx.scene.layout.Pane;
+import qlviz.gui.renderer.QuestionBlockRenderer;
+import qlviz.gui.renderer.QuestionRenderer;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.Question;
 import qlviz.model.QuestionBlock;

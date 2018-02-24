@@ -8,6 +8,7 @@ import org.uva.jomi.ql.ast.expressions.BinaryExpr;
 import org.uva.jomi.ql.ast.expressions.DivisionExpr;
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.expressions.GreaterThanExpr;
+import org.uva.jomi.ql.ast.expressions.GreaterThanOrEqualExpr;
 import org.uva.jomi.ql.ast.expressions.GroupingExpr;
 import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
 import org.uva.jomi.ql.ast.expressions.LessThanExpr;
@@ -145,6 +146,12 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 
 	@Override
 	public Object visit(GreaterThanExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object visit(GreaterThanOrEqualExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,5 +1,8 @@
 package ql.visitors;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.antlr.v4.runtime.Token;
 
 import ql.ast.QLNode;
@@ -42,8 +45,11 @@ import ql.ast.type.Str;
 import ql.ast.type.Type;
 import ql.grammar.QLBaseVisitor;
 import ql.grammar.QLParser;
+import ql.helpers.Location;
 
 public class QLVisitorToAst extends QLBaseVisitor<Object> {
+    
+    private Map<String,Identifier> identifiers = new HashMap<String,Identifier>();
     
     @Override 
     public QLNode visitForm(QLParser.FormContext ctx) { 
@@ -94,24 +100,22 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
     @Override 
     public QLNode visitComputedQuestion(QLParser.ComputedQuestionContext ctx) { 
         
-        String label            = stripQuotations(ctx.label());
-        Type type               = (Type) visit(ctx.type());
-        Identifier id           = (Identifier) visitIdentifier(ctx.identifier());
-        Expression expr         = (Expression) visit(ctx.expr());
-        ComputedQuestion stmt   = new ComputedQuestion(label,id,type,expr);
+        String label    = stripQuotations(ctx.label());
+        Type type       = (Type) visit(ctx.type());
+        Identifier id   = replaceWithOriginalIdentifier(((Identifier) visitIdentifier(ctx.identifier())).setType(type));
+        Expression expr = (Expression) visit(ctx.expr());
         
-        return setLocation(stmt, ctx.start);
+        return setLocation(new ComputedQuestion(label,id,type,expr), ctx.start);
     }
 
     @Override 
     public QLNode visitAnswerableQuestion(QLParser.AnswerableQuestionContext ctx) { 
         
-        String label            = stripQuotations(ctx.label());
-        Identifier id           = (Identifier) visitIdentifier(ctx.identifier());
-        Type type               = (Type) visit(ctx.type());
-        AnswerableQuestion stmt = new AnswerableQuestion(label,id,type); 
+        String label    = stripQuotations(ctx.label());
+        Type type       = (Type) visit(ctx.type());
+        Identifier id   = replaceWithOriginalIdentifier(((Identifier) visitIdentifier(ctx.identifier())).setType(type));
         
-        return setLocation(stmt, ctx.start);
+        return setLocation(new AnswerableQuestion(label,id,type), ctx.start);
     }
     
     @Override 
@@ -146,10 +150,7 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
 
     @Override 
     public QLNode visitIdentifier(QLParser.IdentifierContext ctx) { 
-        
-        Identifier id = new Identifier(ctx.getText());
-        
-        return setLocation(id, ctx.start);
+        return setLocation(replaceWithOriginalIdentifier(new Identifier(ctx.getText())),ctx.start);
     }
     
     @Override 
@@ -267,10 +268,11 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
     }
 
     private QLNode setLocation(QLNode n, Token t) {
-        int line   = t.getLine();
-        int column = t.getCharPositionInLine();
+        int line    = t.getLine();
+        int column  = t.getCharPositionInLine();
+        int offset  = t.getStartIndex();
         
-        n.setLocation(line, column);
+        n.setLocation(new Location(line, column, offset, n.toString().length()));
         
         return n;
     }
@@ -285,5 +287,23 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         label           = label.substring(1, endIndex);
         
         return label;
+    }
+    
+    private Identifier replaceWithOriginalIdentifier(Identifier id) {
+        
+        String name = id.getName();
+        
+        if(identifiers.containsKey(name))
+        {
+            Identifier original = identifiers.get(name);
+            
+            if(id.getType().isUndefined()) return original;
+            
+            if(original.getType().equals(id.getType())) return identifiers.get(name);
+        }
+        
+        identifiers.put(name, id);
+        
+        return id;
     }
 }

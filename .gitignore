@@ -222,6 +222,7 @@ Arjan_Niels/QL_Vizualizer/packages/Antlr\.3\.5\.0\.2/
 Arjan_Niels/QL_Vizualizer/packages/
 Arjan_Niels/QL_Vizualizer/QL_Parser_Tester/obj/Debug/
 Arjan_Niels/QL_Vizualizer/QL_Parser\.Tests/obj/Debug/
+Arjan_Niels/QL_Vizualizer/QL_Visualizer\.Tests/obj/Debug/
 
 PyQuest/.idea/
 
@@ -233,3 +234,5 @@ Remi_Hasan/target/
 GunOli/src/main/autoGen/
 ForcePush/.idea/workspace.xml
 ForcePush/.idea/misc.xml
+
+

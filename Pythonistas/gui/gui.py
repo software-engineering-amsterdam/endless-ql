@@ -28,16 +28,16 @@ class InputWindow(QWidget):
 
         # Adds a button to the window, which when pressed generates a questionnaire
         # GUI from QL text that is entered in the input textbox.
-        parsebutton = QPushButton('Parse', self)
-        parsebutton.clicked.connect(self.parse)
-        parsebutton.resize(parsebutton.sizeHint())
-        self.layout.addWidget(parsebutton, 12, 0)
+        self.parsebutton = QPushButton('Parse', self)
+        self.parsebutton.clicked.connect(self.parse)
+        self.parsebutton.resize(self.parsebutton.sizeHint())
+        self.layout.addWidget(self.parsebutton, 12, 0)
 
         # Adds a button which, when clicked, closes the window
-        quitbutton = QPushButton('Quit', self)
-        quitbutton.clicked.connect(QApplication.instance().quit)
-        quitbutton.resize(quitbutton.sizeHint())
-        self.layout.addWidget(quitbutton, 12, 4)
+        self.quitbutton = QPushButton('Quit', self)
+        self.quitbutton.clicked.connect(QApplication.instance().quit)
+        self.quitbutton.resize(self.quitbutton.sizeHint())
+        self.layout.addWidget(self.quitbutton, 12, 4)
 
         self.setWindowTitle('QL parser')
         self.setGeometry(300, 300, 350, 300)
@@ -59,12 +59,9 @@ class InputWindow(QWidget):
         if type(node) is parse.combinators.Result:
             self.buildGui(node.value, screen)
         elif type(node) is ql_ast.ql_ast.FormStatement:
-
             # for child in node.form:
             #     self.buildGui(child,screen)
-
             self.buildGui(node.form, screen)
-
         elif type(node) is ql_ast.ql_ast.CompoundStatement:
             self.buildGui(node.first, screen)
             self.buildGui(node.second, screen)
@@ -73,6 +70,7 @@ class InputWindow(QWidget):
 
 
 class OutputWindow(QWidget):
+    '''A questionnaire window'''
     def __init__(self):
         super(OutputWindow,self).__init__()
         self.layout = QGridLayout()
@@ -124,20 +122,21 @@ class OutputWindow(QWidget):
 
 
     def addQuitButton(self):
-        qbtn = QPushButton('Quit', self)
-        qbtn.clicked.connect(self.close)
+        quitbutton = QPushButton('Quit', self)
+        quitbutton.clicked.connect(self.close)
         # qbtn.clicked.connect(QApplication.instance().quit)
-        qbtn.resize(qbtn.sizeHint())
-        self.layout.addWidget(qbtn, self.row,2)
+        quitbutton.resize(quitbutton.sizeHint())
+        self.layout.addWidget(quitbutton, self.row,2)
         # self.row +=1
 
     def addSubmitButton(self):
-        smbtn = QPushButton('Submit', self)
-        smbtn.clicked.connect(self.submit)
-        smbtn.resize(smbtn.sizeHint())
-        self.layout.addWidget(smbtn, self.row,1)
+        self.submitbutton = QPushButton('Submit', self)
+        self.submitbutton.clicked.connect(self.submit)
+        self.submitbutton.resize(self.submitbutton.sizeHint())
+        self.layout.addWidget(self.submitbutton, self.row,1)
 
     def submit(self):
+        # Writes the entries from the answers list to a text file, together with the questions
         file = open( 'output.txt', 'w')
 
         for i in range(len(self.questions)):

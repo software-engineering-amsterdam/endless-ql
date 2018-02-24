@@ -2,6 +2,8 @@ package org.uva.sc.cr.ql.interpreter.controls
 
 import javafx.beans.binding.StringBinding
 import javafx.scene.control.TextField
+import javafx.scene.control.TextFormatter
+import javafx.util.converter.DoubleStringConverter
 import org.uva.sc.cr.ql.qL.Question
 
 class DecimalControlWrapper extends ControlWrapper {
@@ -25,6 +27,7 @@ class DecimalControlWrapper extends ControlWrapper {
 	
 	override protected buildControl() {
 		control = new TextField
+		control.textFormatter = new TextFormatter(new DoubleStringConverter)
 	}
 
 }

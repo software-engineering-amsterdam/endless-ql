@@ -50,8 +50,9 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Display\WidgetDisplayControllerWindowsTest.cs" />
-    <Compile Include="Display\WidgetDisplayControllerTest.cs" />
+    <Compile Include="Controllers\Display\WidgetDisplayControllerWindowsTest.cs" />
+    <Compile Include="Controllers\Display\WidgetDisplayControllerTest.cs" />
+    <Compile Include="Controllers\WidgetControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Elements\IElementFactoryTest.cs" />
     <Compile Include="Elements\ControlFactoryTest.cs" />

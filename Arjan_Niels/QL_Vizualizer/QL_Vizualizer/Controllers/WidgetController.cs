@@ -1,4 +1,8 @@
-﻿using QL_Vizualizer.Controllers.Display;
+﻿using QL_Parser;
+using QL_Parser.Analysis;
+using QL_Parser.AST.Nodes;
+using QL_Vizualizer.Controllers.Display;
+using QL_Vizualizer.Factories;
 using QL_Vizualizer.Widgets;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +38,7 @@ namespace QL_Vizualizer.Controllers
         /// </summary>
         /// <typeparam name="T">Element type of display controller</typeparam>
         /// <param name="displayController">Display controller to use</param>
-        public abstract void SetDisplayController<T>(WidgetDisplayController<T> displayController);
+        public abstract void SetDisplayController<T,Y>(WidgetDisplayController<T,Y> displayController);
 
         /// <summary>
         /// Updates the view of a widget
@@ -45,13 +49,31 @@ namespace QL_Vizualizer.Controllers
         /// <summary>
         /// Shows all widgets
         /// </summary>
-        public abstract void Show();
+        public abstract void ShowWidgets();
+
+        /// <summary>
+        /// Shows view to user
+        /// </summary>
+        public abstract void ShowView();
+
+        /// <summary>
+        /// Handles error display
+        /// </summary>
+        /// <param name="errors">Errors to show</param>
+        public abstract void ShowError(params string[] errors);
+
+        /// <summary>
+        /// Displays form
+        /// </summary>
+        /// <param name="title">Form title</param>
+        /// <param name="widgets">Widgets of form</param>
+        public abstract void DisplayForm(string title, QLWidget[] widgets);
 
         /// <summary>
         /// Sets all widgets, overrides existing values
         /// </summary>
         /// <param name="widgets">Widgets to assign</param>
-        public void SetWidgets(List<QLWidget> widgets)
+        public virtual void SetWidgets(QLWidget[] widgets)
         {
             // Convert list input to dictionary
             _widgets = widgets.ToDictionary(o => o.Identifyer, o => o);
@@ -59,6 +81,32 @@ namespace QL_Vizualizer.Controllers
             // Set controller for each assigned widget
             foreach (QLWidget w in _widgets.Values)
                 w.SetController(this);
+        }
+
+        /// <summary>
+        /// Handles QL-language input
+        /// </summary>
+        /// <param name="rawQL">Raw QL-language string</param>
+        public virtual void HandleQL(string rawQL)
+        {
+            Reset();
+            FormNode node = QLParserHelper.Parse(rawQL);
+            if (!Analyser.Analyse(node))
+            {
+                ShowError(Analyser.GetErrors().ToArray());
+                return;
+            }
+
+            List<QLWidget> widgets = new List<QLWidget>();
+
+            foreach (Node n in node.Children)
+                if(n.Type == NodeType.QUESTION)
+                {
+                    QuestionNode qn = n as QuestionNode;
+                    widgets.Add(WidgetFactory.CreateWidget(qn));
+                }
+
+            DisplayForm(node.FormName, widgets.ToArray());
         }
 
         /// <summary>
@@ -96,6 +144,12 @@ namespace QL_Vizualizer.Controllers
         public QLWidget GetWidget(string widgetID)
         {
             return _widgets[widgetID];
+        }
+
+        public virtual void Reset()
+        {
+            _widgets = new Dictionary<string, QLWidget>();
+            _notifyOnChange = new Dictionary<string, List<QLWidget>>();
         }
     }
 }

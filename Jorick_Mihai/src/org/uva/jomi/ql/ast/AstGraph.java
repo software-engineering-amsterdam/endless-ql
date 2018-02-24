@@ -19,6 +19,7 @@ import org.uva.jomi.ql.ast.expressions.NotEqualExpr;
 import org.uva.jomi.ql.ast.expressions.OrExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
+import org.uva.jomi.ql.ast.expressions.UnaryExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
 import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
 import org.uva.jomi.ql.ast.statements.FormStmt;
@@ -26,7 +27,6 @@ import org.uva.jomi.ql.ast.statements.IfElseStmt;
 import org.uva.jomi.ql.ast.statements.IfStmt;
 import org.uva.jomi.ql.ast.statements.QuestionStmt;
 import org.uva.jomi.ql.ast.statements.Stmt;
-import org.uva.jomi.ql.ast.statements.UnaryExpr;
 
 public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 

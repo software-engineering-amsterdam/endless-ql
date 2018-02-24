@@ -1,8 +1,6 @@
-package org.uva.jomi.ql.ast.statements;
+package org.uva.jomi.ql.ast.expressions;
 
 import org.uva.jomi.ql.ast.QLToken;
-import org.uva.jomi.ql.ast.expressions.Expr;
-import org.uva.jomi.ql.ast.expressions.Expr.Visitor;
 
 public class UnaryExpr extends Expr {
 	public final QLToken operator;

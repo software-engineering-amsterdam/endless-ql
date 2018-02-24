@@ -15,12 +15,7 @@ import org.uva.sc.cr.ql.interpreter.controls.IntegerControlWrapper
 import org.uva.sc.cr.ql.interpreter.controls.TextControlWrapper
 import org.uva.sc.cr.ql.qL.Expression
 import org.uva.sc.cr.ql.qL.Question
-import org.uva.sc.cr.ql.qL.TypeBool
-import org.uva.sc.cr.ql.qL.TypeDate
-import org.uva.sc.cr.ql.qL.TypeDecimal
-import org.uva.sc.cr.ql.qL.TypeInteger
-import org.uva.sc.cr.ql.qL.TypeMoney
-import org.uva.sc.cr.ql.qL.TypeString
+import org.uva.sc.cr.ql.qL.QuestionType
 import org.uva.sc.cr.ql.util.MissingCaseException
 
 @Singleton
@@ -39,16 +34,16 @@ class ControlService {
 	def public buildControlForQuestion(Question question, Expression visibleExpression) {
 		var ControlWrapper controlWrapper
 		switch question.type {
-			TypeBool:
+			case QuestionType.TYPE_BOOLEAN:
 				controlWrapper = buildControlForTypeBoolean(question)
-			TypeString:
+			case QuestionType.TYPE_STRING:
 				controlWrapper = buildControlForTypeString(question)
-			TypeInteger:
+			case QuestionType.TYPE_INTEGER:
 				controlWrapper = buildControlForTypeInteger(question)
-			TypeDecimal,
-			TypeMoney:
+			case QuestionType.TYPE_DECIMAL,
+			case QuestionType.TYPE_MONEY:
 				controlWrapper = buildControlForTypeDecimalAndMoney(question)
-			TypeDate:
+			case QuestionType.TYPE_DATE:
 				controlWrapper = buildControlForTypeDate(question)
 			default:
 				throw new MissingCaseException

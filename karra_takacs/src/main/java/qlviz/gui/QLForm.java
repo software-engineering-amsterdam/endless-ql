@@ -71,40 +71,4 @@ public class QLForm extends Application {
 		this.renderer.render(this.model);
 	}
 
-	private void addFormFields(VBox taxFormFields, Iterator<Map.Entry<Integer, String>> checkBoxIterator,
-			List<String> questionsInBlock) {
-		while (checkBoxIterator.hasNext()) {
-			CheckBox checkBoxLabel = new CheckBox(checkBoxIterator.next().getValue());
-			checkBoxLabel.selectedProperty().addListener(new ChangeListener<Boolean>() {
-			
-				@Override
-				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-					if (checkBoxLabel.isSelected()) {
-						 if (checkBoxLabel.getText().contains(QuestionText.SELL.toString().toLowerCase())) {
-							new TextFieldWidget().addFields(questionsInBlock,taxFormFields);
-						} 
-					}
-				}
-			});
-			taxFormFields.getChildren().add(checkBoxLabel);
-		}
-	}
-
-	private List<String> getQuestions(HashMap<Integer, String> checkboxList, Form form) {
-		for (QuestionBlock questionBlock : form.getQuestions()) {
-			for (int j = 0; j < questionBlock.getQuestions().size(); j++) {
-				checkboxList.put(j, form.getQuestions().get(0).getQuestions().get(j).getText());
-			}
-		}
-		
-		List<String> questionsInBlock = new ArrayList<String>();
-		List<QuestionBlock> questionBlocks = form.getQuestions().get(1).getBlocks().get(0).getQuestionBlocks();
-		for (int k = 0; k < questionBlocks.size(); k++) {
-			for (Question conditionalBlockQuestions : questionBlocks.get(k).getQuestions()) {
-				questionsInBlock.add(conditionalBlockQuestions.getText());
-			}
-		}
-		return questionsInBlock;
-	}
-
 }

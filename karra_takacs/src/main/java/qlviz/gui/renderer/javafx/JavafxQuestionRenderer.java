@@ -1,5 +1,6 @@
 package qlviz.gui.renderer.javafx;
 
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -21,6 +22,10 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionVisitor
 
     @Override
     public void visit(BooleanQuestion booleanQuestion) {
+        Label label = new Label(booleanQuestion.getText());
+        CheckBox checkBox = new CheckBox();
+        target.getChildren().add(label);
+        target.getChildren().add(checkBox);
 
     }
 
@@ -50,6 +55,7 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionVisitor
         TextField textField = new TextField();
         textField.setMinWidth(50);
         textField.setPrefWidth(50);
+        textField.setText(stringQuestion.getValue());
         target.getChildren().add(label);
         target.getChildren().add(textField);
 

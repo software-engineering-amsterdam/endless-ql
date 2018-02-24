@@ -9,7 +9,7 @@ form: FORM;
 formBody: stmt+;
 stmt: question | conditional;
 
-question: label varDecl typeDecl;
+question: label varDecl;
 label: STRINGLIT;
 
 conditional: ifStmt;
@@ -28,5 +28,6 @@ expr:
 binOp: (ADD | SUB | MUL | DIV);
 unOp: EM;
 
-varDecl: IDENTIFIER DD;
-typeDecl: (BOOL | MONEY) (EQ OB expr CB)?;
+varDecl: IDENTIFIER DD typeDecl valAssign?;
+valAssign: EQ OB expr CB;
+typeDecl: (BOOL | MONEY);

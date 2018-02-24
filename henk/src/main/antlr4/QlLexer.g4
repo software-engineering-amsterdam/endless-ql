@@ -28,8 +28,8 @@ IF: 'if';
 
 NUMBER: ('0' .. '9') + ('.' ('0' .. '9') +)?;
 IDENTIFIER: [A-Za-z_][A-Za-z_0-9]*;
-STRINGLIT
- : '"' ( '\\' [btnfr"'\\] | ~[\r\n\\"] )* '"'
- ;
+
+/* Escape double quoted in string in visitor */
+STRINGLIT: '"' ( '\\' [btnfr"'\\] | ~[\r\n\\"] )* '"';
 
 

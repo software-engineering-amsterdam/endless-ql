@@ -12,19 +12,14 @@ final case class StringAnswer(possibleValue: Option[String]) extends Answer {
       case LTe => this <= that
       case GTe => this >= that
       case Gt => this > that
-      case Ne => BooleanAnswer(combine[Boolean](that)(_ != _))
-      case Eq => BooleanAnswer(combine[Boolean](that)(_ == _))
+      case Ne => BooleanAnswer(this.possibleValue.flatMap(x => that.possibleValue.map(y => x != y)))
+      case Eq => BooleanAnswer(this.possibleValue.flatMap(x => that.possibleValue.map(y => x == y)))
       case _ => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
     }
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
   def applyUnaryOperator(operator: UnaryOperator): Answer = throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
-
-  private def combine[R](other: StringAnswer)(f: (String, String) => R): Option[R] = for {
-    thisValue <- possibleValue
-    thatValue <- other.possibleValue
-  } yield f(thisValue, thatValue)
 }
 
 object StringAnswer {

@@ -6,9 +6,6 @@ import java.util.List;
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
-import org.uva.jomi.ql.ast.statements.QuestionStmt;
-import org.uva.jomi.ql.ast.statements.Stmt;
-import org.uva.jomi.ui.elements.ComputedQuestionElement;
 
 public class ErrorHandler {
 	
@@ -128,7 +125,7 @@ public class ErrorHandler {
 			System.err.println(error.toString());
 	}
 	
-	public void clearErros() {
+	public void clearErrors() {
 		errorMessages.clear();
 	}
 	

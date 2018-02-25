@@ -19,7 +19,7 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	public void resolve(List<Stmt> statements) {
 		// Clear previous errors first
-		errorHandler.clearErros();
+		errorHandler.clearErrors();
 		
 		for (Stmt statment : statements) {
 			statment.accept(this);

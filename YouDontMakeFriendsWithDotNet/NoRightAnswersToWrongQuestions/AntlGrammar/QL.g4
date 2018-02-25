@@ -1,8 +1,18 @@
 grammar QL;
+//ToDo: Turkish Test
+//ToDo: Escaped Characters
+//ToDo: Clean - make sure no redundancy / orphans
+//ToDo: Make sure the names are representative of what they do
+//ToDo: Check for dangling else problem
+
+//ToDo: ?Add money format? : CurrencyUnit [0-9]+('.')?([0-9][0-9] | ([0-9][0-9][0-9]))? yen= 3decimal, what about bitcoin?)
+//ToDo: ?Should I add Exponents (^)?
+//ToDo: ?Should I add unicode formfeed to whitespace (u+000C)?
+//ToDo: ?Do I want increment decrement operators ('++','--')?
 
 questionnaire: 'form' IDENTIFIER '{' statement* '}'; 
 
-statement : question 
+statement : question (calculatedValue)?
           | conditional
           ; 
 
@@ -10,9 +20,16 @@ question: IDENTIFIER ':' TEXT questiontype
         | TEXT IDENTIFIER  ':' questiontype 
         ;
 
-questiontype: qtype=(BOOLTYPE | STRINGTYPE | INTTYPE | DATETYPE | DECIMALTYPE);
+questiontype: qtype=(BOOLTYPE     
+            | STRINGTYPE   
+            | INTTYPE      
+            | DATETYPE     
+            | DECIMALTYPE)
+			;
 
 conditional: 'if' '(' condition ')' '{' statement* '}' ('else' '{' statement* '}')?;
+
+calculatedValue: '=' mathexpression;
 
 condition : IDENTIFIER                         #questionId
 	      | TEXT                               #textLiteral
@@ -26,7 +43,7 @@ condition : IDENTIFIER                         #questionId
 		  | mathexpression                     #calcualationExpression
           ;
 
-mathexpression : IDENTIFIER                             #numberId
+mathexpression : IDENTIFIER                              #numberId
                | mathvalue                               #numberLiteral
 			   | '(' mathexpression ')'                  #mathexpressionGroup
 		       | leftExpression=mathexpression 
@@ -91,7 +108,6 @@ FALSE : ('false' | 'False' | 'FALSE');
 DATE: [0-9]?[0-9]'/'[0-9]?[0-9]'/'([0-9][0-9])?([0-9][0-9]);
 DECIMAL: '-'?[0-9]+ '.' [0-9]+;
 INTEGER: '-'?[0-9]+;
-
 
 TEXT: '"' (~'"')* '"';
 IDENTIFIER : [a-zA-Z] [a-zA-Z0-9_]* ;

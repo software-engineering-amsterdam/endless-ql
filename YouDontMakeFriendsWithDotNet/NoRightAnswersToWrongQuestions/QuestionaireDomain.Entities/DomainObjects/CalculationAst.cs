@@ -3,11 +3,11 @@ using QuestionaireDomain.Entities.API;
 
 namespace QuestionaireDomain.Entities.DomainObjects
 {
-    public class ConditionalAst : AstNodeBase, IConditionalAst
+    public class CalculationAst : AstNodeBase, ICalculationAst
     {
-        public ConditionalAst(string questionName)
+        public CalculationAst(string calculationName)
         {
-            QuestionName = questionName;
+            CalculationName = calculationName;
         }
 
         public override void Accept(IAstVisitor visitor)
@@ -15,6 +15,6 @@ namespace QuestionaireDomain.Entities.DomainObjects
             throw new NotImplementedException();
         }
 
-        public string QuestionName { get; }
+        public string CalculationName { get; }
     }
 }

@@ -85,7 +85,33 @@ form CommentFormMLX {}";
                 yield return new TestCaseData($"form NameForm {{ \"xyz\" {NewLine} x: boolean {NewLine} \"xxx\" {NewLine} y: boolean {NewLine}}}", @"x", @"xyz");
             }
         }
-        
+
+        public static IEnumerable CalculationQuestionCases
+        {
+            get
+            {
+                yield return new TestCaseData("form NameForm { x: \"xyz\" integer = 10 + 20 }", new[] {@"10+20"});
+                yield return new TestCaseData("form NameForm { x: \"xyz\" decimal = 10.5 + 20.54 }",
+                    new[] {@"10.5+20.54"});
+                yield return new TestCaseData("form NameForm {  \"xyz\" x: integer = 10/20*30 }", new[] {@"10/20*30"});
+                yield return new TestCaseData($@"form NameForm {{  
+    ""xyz"" x: integer = 10/20*30
+    a: ""abc"" decimal = 10.5 - 20.54
+}}",
+                    new[] {@"10/20*30", "10.5-20.54"});
+                yield return new TestCaseData($@"form NameForm {{  
+    ""xyz"" intQuestion: integer
+    a: ""abc"" decimal = intQuestion - 20.54
+}}",
+                    new[] {"intQuestion-20.54"});
+                yield return new TestCaseData($@"form NameForm {{  
+    ""xyz"" intQuestion: integer
+    a: ""abc"" decimal = ((intQuestion - 20.54) * (intQuestion/3))
+}}",
+                    new[] { "((intQuestion-20.54)*(intQuestion/3))" });
+            }
+        }
+
         public static IEnumerable MultipleQuestionCases
         {
             get

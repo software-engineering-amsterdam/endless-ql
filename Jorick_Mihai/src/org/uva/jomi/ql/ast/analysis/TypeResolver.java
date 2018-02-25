@@ -27,6 +27,27 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 		return errorHandler.getNumberOfErrors();
 	}
 	
+	public void resolveBinaryExpr(BinaryExpr expr) {
+		// Set the expected type for the left hand side expression and visit it.
+		if (expr.getLeftExpr().getType() == null) {
+			expr.getLeftExpr().setType(expr.getType());
+			expr.getLeftExpr().accept(this);
+		}
+		
+		// Set the expected type for the right hand side expression and visit it.
+		if (expr.getRightExpr().getType() == null) {
+			expr.getRightExpr().setType(expr.getType());
+			expr.getRightExpr().accept(this);
+		}
+		
+		// We now assume that both the left and the right hand side expressions have a type.
+		
+		if (expr.getLeftExpr().getType() != expr.getType() ||
+			expr.getRightExpr().getType() != expr.getType()) {
+			this.errorHandler.addTypeError(expr, expr.getLeftExpr(), expr.getRightExpr());
+		}
+	}
+	
 	
 	@Override
 	public Void visit(FormStmt form) {
@@ -39,6 +60,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 		for (Stmt statement : block.statements) {
 			statement.accept(this);
 		}
+		
 		return null;
 	}
 
@@ -81,26 +103,8 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public Void visit(BinaryExpr expr) {
-		expr.getRightExpr().accept(this);
-		expr.getLeftExpr().accept(this);
-		
-		if(expr.getLeftExpr().getType() != expr.getRightExpr().getType()) {
-			this.errorHandler.addTypeError(expr, expr.getLeftExpr(), expr.getRightExpr());
-		}
-		
-		return null;
-	}
-
-	@Override
 	public Void visit(GroupingExpr expr) {
 		expr.getExpression().accept(this);
-		return null;
-	}
-
-	@Override
-	public Void visit(UnaryExpr expr) {
-		expr.getRightExpr().accept(this);
 		return null;
 	}
 	
@@ -116,94 +120,73 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
 	@Override
 	public Void visit(AdditionExpr expr) {
-		// Set the expected type for the left hand side expression and visit it.
-		if (expr.getLeftExpr().getType() == null) {
-			expr.getLeftExpr().setType(expr.getType());
-			expr.getLeftExpr().accept(this);
-		}
-		
-		// Set the expected type for the right hand side expression and visit it.
-		if (expr.getRightExpr().getType() == null) {
-			expr.getRightExpr().setType(expr.getType());
-			expr.getRightExpr().accept(this);
-		}
-		
-		// We now assume that both the left and the right hand side expressions have a type.
-		
-		if (expr.getLeftExpr().getType() != expr.getType()) {
-			this.errorHandler.addTypeError(expr, expr.getLeftExpr(), expr.getRightExpr());
-		}
-		
-		if (expr.getRightExpr().getType() != expr.getType()) {
-			this.errorHandler.addTypeError(expr, expr.getLeftExpr(), expr.getRightExpr());
-		}
-		
+		resolveBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
 	public Void visit(SubtractionExpr expr) {
-		// TODO Auto-generated method stub
+		resolveBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
 	public Void visit(MultiplicationExpr expr) {
-		// TODO Auto-generated method stub
+		resolveBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
 	public Void visit(DivisionExpr expr) {
-		// TODO Auto-generated method stub
+		resolveBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
 	public Void visit(LessThanExpr expr) {
-		// TODO Auto-generated method stub
+		resolveBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
 	public Void visit(LessThanOrEqualExpr expr) {
-		// TODO Auto-generated method stub
+		resolveBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
 	public Void visit(GreaterThanExpr expr) {
-		// TODO Auto-generated method stub
+		resolveBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
 	public Void visit(GreaterThanOrEqualExpr expr) {
-		// TODO Auto-generated method stub
+		resolveBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
 	public Void visit(NotEqualExpr expr) {
-		// TODO Auto-generated method stub
+		resolveBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
 	public Void visit(EqualExpr expr) {
-		// TODO Auto-generated method stub
+		resolveBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
 	public Void visit(AndExpr expr) {
-		// TODO Auto-generated method stub
+		resolveBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
 	public Void visit(OrExpr expr) {
-		// TODO Auto-generated method stub
+		resolveBinaryExpr(expr);
 		return null;
 	}
 

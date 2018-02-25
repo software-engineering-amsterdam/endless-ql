@@ -2,7 +2,7 @@ package org.uva.jomi.ql.ast.expressions;
 
 import org.uva.jomi.ql.ast.QLToken;
 
-public class BinaryExpr extends Expr {
+public abstract class BinaryExpr extends Expr {
 	private final Expr left;
 	private final QLToken operator;
 	private final Expr right;
@@ -27,10 +27,5 @@ public class BinaryExpr extends Expr {
 
 	public Expr getRightExpr() {
 		return right;
-	}
-
-	@Override
-	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visit(this);
 	}
 }

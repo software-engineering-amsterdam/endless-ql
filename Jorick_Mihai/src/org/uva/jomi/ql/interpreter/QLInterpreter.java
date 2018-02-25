@@ -60,20 +60,8 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 	}
 
 	@Override
-	public Object visit(BinaryExpr expr) {
-		// TODO Interpret BinaryExpr.
-		return null;
-	}
-
-	@Override
 	public Object visit(GroupingExpr expr) {
 		// TODO Interpret GroupingExpr.
-		return null;
-	}
-
-	@Override
-	public Object visit(UnaryExpr expr) {
-		// TODO Interpret UnaryExpr.
 		return null;
 	}
 

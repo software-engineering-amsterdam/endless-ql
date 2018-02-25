@@ -7,9 +7,7 @@ abstract public class Expr extends AstNode {
 	public interface Visitor<T> {
 		T visit(IdentifierExpr expr);
 		T visit(PrimaryExpr expr);
-		T visit(BinaryExpr expr);
 		T visit(GroupingExpr expr);
-		T visit(UnaryExpr expr);
 		T visit(AdditionExpr expr);
 		T visit(SubtractionExpr expr);
 		T visit(MultiplicationExpr expr);

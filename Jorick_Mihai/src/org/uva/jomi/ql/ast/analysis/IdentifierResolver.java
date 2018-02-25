@@ -129,21 +129,8 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	}
 
 	@Override
-	public Void visit(BinaryExpr expr) {
-		expr.getLeftExpr().accept(this);
-		expr.getRightExpr().accept(this);
-		return null;
-	}
-
-	@Override
 	public Void visit(GroupingExpr expr) {
 		expr.getExpression().accept(this);
-		return null;
-	}
-
-	@Override
-	public Void visit(UnaryExpr expr) {
-		expr.getRightExpr().accept(this);
 		return null;
 	}
 

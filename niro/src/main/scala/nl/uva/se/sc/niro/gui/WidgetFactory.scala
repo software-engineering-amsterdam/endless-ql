@@ -41,7 +41,7 @@ object WidgetFactory {
     createRegExField("\\d*", value.map(_.toString).getOrElse(""))
   }
 
-  def createDecimalField(value: Option[Double]): Parent = {
+  def createDecimalField(value: Option[BigDecimal]): Parent = {
     createRegExField("\\d*(,\\d{0,2})?", value.map(_.toString).getOrElse(""))
   }
 

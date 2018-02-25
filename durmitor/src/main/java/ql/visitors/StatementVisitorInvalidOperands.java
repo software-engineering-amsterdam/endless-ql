@@ -9,7 +9,6 @@ import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
-import ql.ast.type.Type;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorInvalidOperands implements StatementVisitor {
@@ -21,13 +20,7 @@ public class StatementVisitorInvalidOperands implements StatementVisitor {
     }
     
     public void check(Expression expr) {
-        
-        Type exprType = expr.accept(new ExpressionVisitorType());
-        
-        if(exprType.isUndefined())
-        {
-            errors.add("Illegal operation ["+expr+"] at "+expr.getLocation());
-        }
+        expr.accept(new ExpressionVisitorType(errors));
     }
     
     @Override

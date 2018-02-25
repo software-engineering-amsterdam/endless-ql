@@ -1,26 +1,20 @@
 package ql.ast.expression;
 
-import ql.ast.type.Type;
-
 public abstract class UnaryOperator extends Operator {
     
-    protected Expression expr;
+    protected Expression operand;
         
-    public Expression getExpression() {
-        return expr;
+    public Expression getOperand() {
+        return operand;
     }
 
     @Override
     public String toString() {
-        return getOperator() + expr.toString();
+        return getOperator() + operand.toString();
     }
     
     @Override
-    public boolean isUnary() {
+    public boolean isUnaryOperator() {
         return true;
-    }
-    
-    public boolean isLegalFor(Type type) {
-        return legalOperations.contains(new UnaryOperation(this,type));
     }
 }

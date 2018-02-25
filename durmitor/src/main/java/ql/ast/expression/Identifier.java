@@ -1,35 +1,58 @@
 package ql.ast.expression;
 
-import java.util.Map;
-
 import ql.ast.type.Type;
 import ql.ast.type.Undefined;
+import ql.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class Identifier extends Expression {
     
     private String name;
+    private Type type;
+    private Value<?> value;
     
     public Identifier(String name) {
-        this.name = name;
-        super.type = new Undefined();
+        this.name   = name;
+        this.type   = new Undefined();
+        this.value  = new ql.value.Undefined();
+    }
+    
+    public Identifier(String name, Type type) {
+        this.name   = name;
+        this.type   = type;
+        this.value  = new ql.value.Undefined();
     }
     
     public String getName() {
         return name;
     }
     
-    public void setType(Type type) {
-        super.type = type;
+    public Value<?> getValue() {
+        return value;
     }
-
-    @Override
+    
     public Type getType() {
         return type;
     }
-
-    public Type getType(Map<String,Type> symbolTable) {
-        return symbolTable.getOrDefault(name, type);
+    
+    public void setValue(Value<?> value) {
+        
+        if(value.getType().equals(type))
+        {
+            this.value = value;
+        }
+        else if(!value.getType().isUndefined())
+        {
+            System.err.println("Cannot store "+value.getType()+" ["+value+"] in "+getType()+" ["+name+"]");
+        }
+            
+    }
+    
+    public Identifier setType(Type type) {
+        
+        this.type = type;
+        
+        return this;
     }
     
     @Override
@@ -38,12 +61,16 @@ public class Identifier extends Expression {
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
     
     @Override
     public boolean isIdentifier() {
         return true;
+    }
+    
+    public boolean equals(Identifier id) {
+        return name.equals(id.getName());
     }
 }

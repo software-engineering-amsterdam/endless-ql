@@ -1,24 +1,24 @@
 package ql.ast.expression;
 
-import ql.ast.type.Decimal;
 import ql.ast.type.Type;
+import ql.value.Decimal;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class DecimalLiteral extends Literal<Double> {
+public class DecimalLiteral extends Literal {
 
-    private double value;
+    private Decimal value;
     
     public DecimalLiteral() { 
-        this.value = 0.00;
+        this.value = new Decimal();
     }
     
     public DecimalLiteral(String value) { 
-        this.value = Double.parseDouble(value);
+        this.value = new Decimal(value);
     }
 
     @Override
     public Type getType() {
-        return new Decimal();
+        return new ql.ast.type.Decimal();
     }
 
     @Override
@@ -27,12 +27,12 @@ public class DecimalLiteral extends Literal<Double> {
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 
     @Override
-    public Double getValue() {
+    public Decimal getValue() {
         return value;
     }
 }

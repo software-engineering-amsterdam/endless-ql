@@ -14,11 +14,10 @@ Block:
 
 BlockBody:
 	{BlockBody} questions+=Question*
-	blocks+=Block*
-	;
+	blocks+=Block*;
 
 Question:
-	label=STRING name=ID ':'  type=QuestionType ('=' '(' expression=Expression ')')?;
+	label=STRING name=ID ':' type=QuestionType ('=' '(' expression=Expression ')')?;
 
 Expression:
 	ExpressionOr;
@@ -43,29 +42,13 @@ ExpressionMulOrDiv returns Expression:
 
 ExpressionAtomic returns Expression:
 	'(' Expression ')' |
-	{ExpressionNot} "!" expression=ExpressionAtomic | 
-	{ExpressionLiteralString} expression=STRING | 
+	{ExpressionNot} "!" expression=ExpressionAtomic |
+	{ExpressionLiteralString} expression=STRING |
 	{ExpressionLiteralInteger} expression=INT |
-	{ExpressionLiteralBoolean} expression=('true' | 'false') | 
+	{ExpressionLiteralBoolean} expression=('true' | 'false') |
 	{ExpressionQuestionRef} question=[Question];
 
-QuestionType:
-	TypeBool | TypeString | TypeInteger | TypeDecimal | TypeDate | TypeMoney;
+enum QuestionType:
+	TypeBoolean='boolean' | TypeString='string' | TypeInteger='integer' | TypeDecimal='decimal' | TypeDate='date' |
+	TypeMoney='money';
 
-TypeBool returns QuestionType:
-	{TypeBool} 'boolean';
-
-TypeString returns QuestionType:
-	{TypeString} 'string';
-
-TypeInteger returns QuestionType:
-	{TypeInteger} 'integer';
-
-TypeDecimal returns QuestionType:
-	{TypeDecimal} 'decimal';
-
-TypeDate returns QuestionType:
-	{TypeDate} 'date';
-
-TypeMoney returns QuestionType:
-	{TypeMoney} 'money' | {TypeMoney} 'currency';

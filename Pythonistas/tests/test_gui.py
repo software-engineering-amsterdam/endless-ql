@@ -1,36 +1,27 @@
 from PyQt5.QtWidgets import *
-import sys
-import parse
-import ast
+from PyQt5 import QtCore
+import os,sys
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from gui import gui
-import pytest
-import time
+from pytestqt import qtbot
 
-def testfunc():
+def test_gui(qtbot):
     app = QApplication(sys.argv)
     screen = gui.InputWindow()
     screen.show()
 
-    file = open("testoutput.txt","w")
+    file = open("output.txt","w")
     file.write("hi")
     file.close()
 
-    screen.qlInput.setText("form Box1HouseOwning \n {hasSoldHouse: \"Did you sell a house in 2010?\" boolean\n hasBoughtHouse: \"Did you by a house in 2010?\" boolean\n hasMaintLoan: \"Did you enter a loan for maintenance/reconstruction?\" boolean\n}")
-    print(screen.qlInput.toPlainText())
-    screen.parse()
+    screen.qlInput.setText("form Box1HouseOwning {\n hasSoldHouse: \"Did you sell a house in 2010?\" boolean\n hasBoughtHouse: \"Did you by a house in 2010?\" boolean\n hasMaintLoan: \"Did you enter a loan for maintenance/reconstruction?\" boolean\n}")
+    qtbot.mouseClick(screen.parsebutton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(screen.output.submitbutton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(screen.quitbutton, QtCore.Qt.LeftButton)
 
-    print(screen.output.answers)                    wa
-    print(screen.output.questions)
-
-
-    file = open("testoutput.txt")
+    file = open("output.txt")
     testtext = file.read()
     file.close()
+    os.remove("output.txt")
 
-    print(testtext)
-
-    assert testtext == "hi"
-    sys.exit(app.exec_())
-
-
-testfunc()
+    assert testtext == '"Did you sell a house in 2010?"undefined\n"Did you by a house in 2010?"undefined\n"Did you enter a loan for maintenance/reconstruction?"undefined\n'

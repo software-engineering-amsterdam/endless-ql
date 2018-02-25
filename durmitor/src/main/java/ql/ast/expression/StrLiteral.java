@@ -1,38 +1,38 @@
 package ql.ast.expression;
 
-import ql.ast.type.Str;
 import ql.ast.type.Type;
+import ql.value.Str;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class StrLiteral extends Literal<String> {
+public class StrLiteral extends Literal {
 
-    private String value;
+    private Str value;
     
     public StrLiteral() { 
-        this.value = "";
+        this.value = new Str();
     }
     
     public StrLiteral(String value) { 
-        this.value = value;
+        this.value = new Str(value);
     }
 
     @Override
     public Type getType() {
-        return new Str();
+        return new ql.ast.type.Str();
     }
 
     @Override
     public String toString() {
-        return this.value;
+        return String.valueOf(value);
     }
 
     @Override
-    public String getValue() {
+    public Str getValue() {
         return value;
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 }

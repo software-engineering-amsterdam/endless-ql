@@ -25,26 +25,19 @@ namespace AntlrInterpretor.Logic
             return m_questionnaireAst;
         }
 
-        public override IAstNode VisitBooleancondition(QLParser.BooleanconditionContext context)
+        public override IAstNode VisitCalculatedValue(QLParser.CalculatedValueContext context)
         {
-            var questionName = context.IDENTIFIER().GetText();
-            var question = m_questionnaireAst
-                .Questions
-                .FirstOrDefault(x => x.Name == questionName);
 
-            if (question?.Type != typeof(bool))
-            {
-                var message = $@"the question {questionName} is not a boolean question";
+            var calculationName = context.mathexpression().GetText();
+            var calculation = new CalculationAst(calculationName);
 
-                throw new QlParserException(message, null) { ParseErrorDetails = message };
-            }
-
+            m_questionnaireAst.Statements.Add(calculation);
+            Visit(context.mathexpression());
             return m_questionnaireAst;
         }
 
         public override IAstNode VisitConditional(QLParser.ConditionalContext context)
         {
-
             var questionName = context.condition().GetText();
             var conditional = new ConditionalAst(questionName);
             
@@ -56,18 +49,21 @@ namespace AntlrInterpretor.Logic
 
             return m_questionnaireAst;
         }
-
+        
         public override IAstNode VisitQuestion(QLParser.QuestionContext context)
         {
             var name = context.IDENTIFIER().GetText();
+
+            //ToDo: move this to the static analyzer
             var questionExists = m_questionnaireAst.Questions.Any(x => x.Name == name);
             if (questionExists)
             {
                 var message = $@"The question with the id '{name}' exists more than once";
                 throw new QlParserException(message, null) { ParseErrorDetails = message };
             }
+            
 
-            var text = context.QUESTIONTEXT().GetText();
+            var text = context.TEXT().GetText();
             Type type;
             switch (context.questiontype().qtype.Type)
             {

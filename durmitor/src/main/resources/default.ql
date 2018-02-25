@@ -1,5 +1,4 @@
 form taxFormExample { 
-
     "What is your age?"
         age: integer
     "What is your date of Birth?"
@@ -10,7 +9,7 @@ form taxFormExample {
         hasBoughtHouse: boolean
     "Did you enter a loan?"
         hasMaintLoan: boolean
-
+        
     if (hasSoldHouse) {
         "What was the selling price?"
             sellingPrice: decimal
@@ -24,8 +23,15 @@ form taxFormExample {
 	            old: boolean
 	    }	
     }
-
-    if(undefined1) {}
+    
+    if(old) {
+    		"Undefined" undefined: boolean
+    		"Did you sell a house in 2010?" hasSoldHouse: boolean
+	}
+    
+    "Index" index: integer = (index+1)
+    
+    if(undefined1 != hasSoldHouse) {}
 
     "Undefined 1" undefined1: boolean
     
@@ -47,5 +53,4 @@ form taxFormExample {
     }
 
 	if(!2) {}
-
 }

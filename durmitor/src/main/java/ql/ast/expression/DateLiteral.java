@@ -1,21 +1,19 @@
 package ql.ast.expression;
 
-import java.time.LocalDate;
-
 import ql.ast.type.Type;
-import ql.value.Value;
+import ql.value.Date;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class DateLiteral extends Literal {
 
-    private Value<LocalDate> value;
+    private Date value;
     
     public DateLiteral() { 
-        this.value = new ql.value.Date();
+        this.value = new Date();
     }
     
     public DateLiteral(String value) {
-        this.value = new ql.value.Date(value);
+        this.value = new Date(value);
     }
 
     @Override
@@ -34,7 +32,7 @@ public class DateLiteral extends Literal {
     }
     
     @Override
-    public Value<LocalDate> getValue() {
+    public Date getValue() {
         return value;
     }
 }

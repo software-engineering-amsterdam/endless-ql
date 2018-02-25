@@ -1,15 +1,13 @@
 package org.uva.jomi.ql.ast.expressions;
 
-public class LessThanExpr extends Expr {
+import org.uva.jomi.ql.ast.QLToken;
+
+public class LessThanExpr extends BinaryExpr {
 	
-	public final Expr left;
-	public final Expr right;
-	
-	public LessThanExpr(Expr left, Expr right) {
-		this.left = left;
-		this.right = right;
+	public LessThanExpr(Expr left, QLToken operator, Expr right) {
+		super(left, operator, right);
 	}
-	
+
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);

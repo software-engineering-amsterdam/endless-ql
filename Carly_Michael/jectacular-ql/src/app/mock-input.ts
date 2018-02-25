@@ -29,6 +29,14 @@ export const formWrongQuestionName =
     }
   `;
 
+export const formMissingQuestionName =
+  `
+    form form {
+      : "Question?" boolean
+      question: "Question?" boolean
+    }
+  `;
+
 export const duplicateIdentifierForm =
   `
     form form {

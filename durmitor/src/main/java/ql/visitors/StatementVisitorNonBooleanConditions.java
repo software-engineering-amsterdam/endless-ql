@@ -55,5 +55,15 @@ public class StatementVisitorNonBooleanConditions implements StatementVisitor {
 
     @Override
     public void visit(ComputedQuestion stmt) {
+        
+        Type computationType = stmt.getComputation().accept(new ExpressionVisitorType());
+        
+        if(!computationType.isUndefined())
+        {
+            if(!computationType.equals(stmt.getType()))
+            {
+                errors.add("Expected "+stmt.getType()+" but got "+computationType+" at "+stmt.getComputation().getLocation());
+            }
+        }
     }
 }

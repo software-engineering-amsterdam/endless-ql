@@ -26,13 +26,19 @@ public class StatementVisitorDuplicateIdentifiers implements StatementVisitor {
     
     private void check(Identifier id)
     {
-        String key = id.getName()+"."+id.getType();
+        String name = id.getName();
+        String key  = name+"."+id.getType();
+        int count   = frequencies.getOrDefault(name, 0);
         
-        if(!frequencies.containsKey(key)) frequencies.put(key, 1);
-        
-        if(frequencies.get(key) > 1)
+        if(!frequencies.containsKey(key))
         {
-            errors.add("Duplicated identifier ["+id.getName()+"] found at "+id.getLocation());
+            frequencies.put(key, 1);
+            frequencies.put(name, count+1);
+        }
+        
+        if(frequencies.get(name) > 1)
+        {
+            errors.add("Duplicate identifier ["+name+"] found at "+id.getLocation());
         }
     }
 

@@ -10,11 +10,21 @@ public class QLNode {
         location = new Location();
     }
     
-    public void setLocation(Location location) {
+    public QLNode setLocation(Location location) {
+        
         this.location = location;
+        
+        return this;
     }
     
     public Location getLocation() {
         return location;
+    }
+    
+    public QLNode updateLength() {
+        
+        this.location.setLength(toString().length());
+        
+        return this;
     }
 }

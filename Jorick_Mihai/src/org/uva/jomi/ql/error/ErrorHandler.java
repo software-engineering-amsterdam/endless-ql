@@ -4,18 +4,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.jomi.ql.ast.QLToken;
+import org.uva.jomi.ql.ast.QLType;
+import org.uva.jomi.ql.ast.expressions.Expr;
+import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
 
 public class ErrorHandler {
 	
 	private class Error {
-		private final int line;
-		private final int column;
 		private final String message;
 		
-		public Error(int line, int column, String message) {
+		public Error(String message) {
+			this.message = message;
+		}
+		
+		public String getMessage() {
+			return message;
+		}
+	}
+	
+	private class TypeError extends Error {
+
+		public TypeError(String message) {
+			super(message);
+		}
+		
+		@Override
+		public String toString() {
+			return super.getMessage();
+		}
+	}
+	
+	private class IdentifierError extends Error {
+
+
+		private final String name;
+		private final int line;
+		private final int column;
+		
+		public IdentifierError(String name, int line, int column, String message) {
+			super(message);
+			this.name = name;
 			this.line = line;
 			this.column = column;
-			this.message = message;
+		}
+		
+		public String getName() {
+			return name;
 		}
 
 		public int getLine() {
@@ -26,13 +60,13 @@ public class ErrorHandler {
 			return column;
 		}
 
-		public String getMessage() {
-			return message;
-		}
-
 		@Override
 		public String toString() {
-			return String.format("[%s] line: %d, column: %d: %s", moduleName, getLine(), getColumn(), getMessage());
+			return String.format("[%s] line: %d, column: %d: %s: %s", moduleName,
+					getLine(),
+					getColumn(),
+					getMessage(),
+					getName());
 		}
 	}
 	
@@ -50,14 +84,65 @@ public class ErrorHandler {
 		return errorMessages.size();
 	}
 
-	public void addError(QLToken token, String errorMessage) {
-		Error error = new Error(token.getLine(), token.getColumn(), errorMessage);
+	public void addIdentifierError(QLToken token, String message) {
+		Error error = new IdentifierError(token.getLexeme(), token.getLine(), token.getColumn(), message);
 		errorMessages.add(error);
 		if (printErrors)
 			System.err.println(error.toString());
 	}
 	
-	public void clearErros() {
+	public void addTypeError(QLType type, Expr expr) {
+		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
+				moduleName,
+				expr.getLineNumber(),
+				expr.getColumnNumber(),
+				type,
+				expr.getType());
+		
+		Error error = new TypeError(message);
+		errorMessages.add(error);
+		if (printErrors)
+			System.err.println(error.toString());
+		
+	}
+	
+	public void addTypeError(Expr parentExpr, Expr childExpr) {
+		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
+				moduleName,
+				childExpr.getLineNumber(),
+				childExpr.getColumnNumber(),
+				parentExpr.getType(),
+				childExpr.getType());
+		
+		Error error = new TypeError(message);
+		errorMessages.add(error);
+		if (printErrors)
+			System.err.println(error.toString());
+	}
+	
+	public void addTypeError(ComputedQuestionStmt stmt) {
+		
+		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
+				moduleName,
+				stmt.expression.getLineNumber(),
+				stmt.expression.getColumnNumber(),
+				stmt.getType(),
+				stmt.expression.getType());
+		
+		Error error = new TypeError(message);
+		errorMessages.add(error);
+		if (printErrors)
+			System.err.println(error.toString());
+	}
+	
+	public void addError(String errorMessage) {
+		Error error = new Error(errorMessage);
+		errorMessages.add(error);
+		if (printErrors)
+			System.err.println(error.toString());
+	}
+	
+	public void clearErrors() {
 		errorMessages.clear();
 	}
 	

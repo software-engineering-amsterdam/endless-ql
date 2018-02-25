@@ -155,7 +155,7 @@ public class ExpressionVisitorValue implements ExpressionVisitor<Value<?>> {
 
     @Override
     public Value<?> visit(Identifier expr) {
-        return expr.getType().toValue();
+        return expr.getValue();
     }
 
     @Override

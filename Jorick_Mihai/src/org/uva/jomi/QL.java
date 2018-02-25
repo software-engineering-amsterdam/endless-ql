@@ -56,8 +56,8 @@ public class QL {
 				identifierResolver.resolve(ast);
 
 				if (identifierResolver.getNumberOfErrors() == 0) {
-					TypeResolver typeResolver = new TypeResolver();
-					typeResolver.check(ast);
+					TypeResolver typeResolver = new TypeResolver(true);
+					typeResolver.resolve(ast);
 					System.out.println("Number of errors: " + typeResolver.getNumberOfErrors());
 
 					if (typeResolver.getNumberOfErrors() == 0) {

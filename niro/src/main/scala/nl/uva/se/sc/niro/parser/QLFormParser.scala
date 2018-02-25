@@ -39,8 +39,7 @@ object QLFormParser extends Logging {
     override def defaultResult(): Seq[Statement] = Seq(ErrorStatement())
 
     override def shouldVisitNextChild(node: RuleNode, currentResult: Seq[Statement]): Boolean = {
-      // TODO Replace this with more Scala/functional code. (Tried 'for (i <- 0 to node.getChildCount())...' but that failed)
-      node.getChild(0).asInstanceOf[ParserRuleContext].exception == null
+      errorListener.getParseErrors.isEmpty
     }
 
     override def visitQuestion(ctx: QLParser.QuestionContext): Seq[Statement] = {

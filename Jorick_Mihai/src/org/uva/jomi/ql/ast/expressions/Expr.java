@@ -26,12 +26,30 @@ abstract public class Expr extends AstNode {
 	public abstract <T> T accept(Visitor<T> visitor);
 
 	private QLType type;
-
+	private int lineNumber;
+	private int columnNumber;
+	
 	public QLType getType() {
 		return type;
 	}
 
 	public void setType(QLType type) {
 		this.type = type;
+	}
+
+	public int getLineNumber() {
+		return lineNumber;
+	}
+
+	public void setLineNumber(int lineNumber) {
+		this.lineNumber = lineNumber;
+	}
+
+	public int getColumnNumber() {
+		return columnNumber;
+	}
+
+	public void setColumnNumber(int columnNumber) {
+		this.columnNumber = columnNumber;
 	}
 }

@@ -1,5 +1,7 @@
 package domain;
 
+import domain.model.Question;
+
 import java.util.*;
 
 public class FormData {

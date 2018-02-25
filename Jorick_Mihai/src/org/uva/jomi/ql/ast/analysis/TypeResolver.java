@@ -28,6 +28,11 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 		return errorHandler.getNumberOfErrors();
 	}
 	
+	// This method was added for testing purposes
+	public String getErrorAtIndex(int index) {
+		return errorHandler.getErrorAtIndex(index);
+	}
+	
 	public void resolveBinaryExpr(BinaryExpr expr) {
 		// Set the expected type for the left hand side expression and visit it.
 		if (expr.getLeftExpr().getType() == null) {

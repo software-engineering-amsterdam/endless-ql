@@ -1,5 +1,6 @@
 package nl.uva.js.qlparser.logic;
 
+import lombok.SneakyThrows;
 import nl.uva.js.qlparser.antlr.QLLexer;
 import nl.uva.js.qlparser.antlr.QLParser;
 import nl.uva.js.qlparser.models.Form;
@@ -14,7 +15,8 @@ import java.nio.file.Paths;
 @Component
 public class QLIngester {
 
-    public static Form parseFormFromLocation(String location) throws IOException {
+    @SneakyThrows(IOException.class)
+    public static Form parseFormFromLocation(String location) {
         String content = new String(Files.readAllBytes(Paths.get(location)));
         return parseFormFromString(content);
     }

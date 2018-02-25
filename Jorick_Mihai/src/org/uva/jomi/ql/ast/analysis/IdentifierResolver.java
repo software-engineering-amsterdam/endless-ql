@@ -149,8 +149,8 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visit(AdditionExpr expr) {
-		expr.left.accept(this);
-		expr.right.accept(this);
+		expr.getLeftExpr().accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 

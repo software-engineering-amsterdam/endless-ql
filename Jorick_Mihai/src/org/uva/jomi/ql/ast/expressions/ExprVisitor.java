@@ -64,10 +64,11 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	@Override public Expr visitAdditionOrSubtractionExpr(QLParser.AdditionOrSubtractionExprContext ctx) {
 		Expr left = ctx.expression(0).accept(this);
 		Expr right = ctx.expression(1).accept(this);
+		QLToken operator = new QLToken(ctx.operator);
 
 		switch (ctx.operator.getType()) {
 		case QLParser.PLUS:
-			return new AdditionExpr(left, right);
+			return new AdditionExpr(left, operator, right);
 		case QLParser.MINUS:
 			return new SubtractionExpr(left, right);
 		default:

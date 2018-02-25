@@ -117,21 +117,25 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	@Override
 	public Void visit(AdditionExpr expr) {
 		// Set the expected type for the left hand side expression and visit it.
-		if (expr.left.getType() == null) {
-			expr.left.setType(expr.getType());
-			expr.left.accept(this);
+		if (expr.getLeftExpr().getType() == null) {
+			expr.getLeftExpr().setType(expr.getType());
+			expr.getLeftExpr().accept(this);
 		}
 		
 		// Set the expected type for the right hand side expression and visit it.
-		if (expr.right.getType() == null) {
-			expr.right.setType(expr.getType());
-			expr.right.accept(this);
+		if (expr.getRightExpr().getType() == null) {
+			expr.getRightExpr().setType(expr.getType());
+			expr.getRightExpr().accept(this);
 		}
 		
 		// We now assume that both the left and the right hand side expressions have a type.
 		
-		if (expr.left.getType() != expr.getType()) {
-			this.errorHandler.addTypeError(expr, expr.left, expr.right);
+		if (expr.getLeftExpr().getType() != expr.getType()) {
+			this.errorHandler.addTypeError(expr, expr.getLeftExpr(), expr.getRightExpr());
+		}
+		
+		if (expr.getRightExpr().getType() != expr.getType()) {
+			this.errorHandler.addTypeError(expr, expr.getLeftExpr(), expr.getRightExpr());
 		}
 		
 		return null;

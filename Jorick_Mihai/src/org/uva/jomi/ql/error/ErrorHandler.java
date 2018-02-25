@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.jomi.ql.ast.QLToken;
+import org.uva.jomi.ql.ast.QLType;
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
 
@@ -90,12 +91,28 @@ public class ErrorHandler {
 			System.err.println(error.toString());
 	}
 	
-	public void addTypeError(Expr main, Expr left, Expr right) {
+	public void addTypeError(QLType type, Expr expr) {
+		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
+				moduleName,
+				expr.getLineNumber(),
+				expr.getColumnNumber(),
+				type,
+				expr.getType());
 		
-		String message = String.format("Type missmatch, expected %s, but got %s and %s",
-				main.getType(),
-				left.getType(),
-				right.getType());
+		Error error = new TypeError(message);
+		errorMessages.add(error);
+		if (printErrors)
+			System.err.println(error.toString());
+		
+	}
+	
+	public void addTypeError(Expr parentExpr, Expr childExpr) {
+		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
+				moduleName,
+				childExpr.getLineNumber(),
+				childExpr.getColumnNumber(),
+				parentExpr.getType(),
+				childExpr.getType());
 		
 		Error error = new TypeError(message);
 		errorMessages.add(error);
@@ -103,12 +120,12 @@ public class ErrorHandler {
 			System.err.println(error.toString());
 	}
 	
-	
-	// this.errorHandler.addTypeError(stmt.label + " expected " + stmt.getType() + " but got " + stmt.expression.getType());
 	public void addTypeError(ComputedQuestionStmt stmt) {
 		
-		String message = String.format("%s, expected %s, but got %s and %s",
-				stmt.getIdentifier(),
+		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
+				moduleName,
+				stmt.expression.getLineNumber(),
+				stmt.expression.getColumnNumber(),
 				stmt.getType(),
 				stmt.expression.getType());
 		

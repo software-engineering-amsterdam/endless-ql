@@ -2,6 +2,7 @@ package org.uva.jomi.ql.ast.analysis;
 
 import java.util.List;
 
+import org.uva.jomi.ql.ast.QLType;
 import org.uva.jomi.ql.ast.expressions.*;
 import org.uva.jomi.ql.ast.statements.*;
 import org.uva.jomi.ql.error.ErrorHandler;
@@ -32,22 +33,31 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 		if (expr.getLeftExpr().getType() == null) {
 			expr.getLeftExpr().setType(expr.getType());
 			expr.getLeftExpr().accept(this);
+		} else if (expr.getLeftExpr().getType() != expr.getType()) {
+			// We found a type mismatch.
+			errorHandler.addTypeError(expr, expr.getLeftExpr());
 		}
 		
 		// Set the expected type for the right hand side expression and visit it.
 		if (expr.getRightExpr().getType() == null) {
 			expr.getRightExpr().setType(expr.getType());
 			expr.getRightExpr().accept(this);
-		}
-		
-		// We now assume that both the left and the right hand side expressions have a type.
-		
-		if (expr.getLeftExpr().getType() != expr.getType() ||
-			expr.getRightExpr().getType() != expr.getType()) {
-			this.errorHandler.addTypeError(expr, expr.getLeftExpr(), expr.getRightExpr());
+		} else if (expr.getRightExpr().getType() != expr.getType()) {
+			// We found a type mismatch.
+			errorHandler.addTypeError(expr, expr.getRightExpr());
 		}
 	}
 	
+	public void resolveExpr(QLType exprectedType, Expr expr) {
+		// Set the expected type for the expression and visit it.
+		if (expr.getType() == null) {
+			expr.setType(exprectedType);
+			expr.accept(this);
+		} else if (expr.getType() != exprectedType) {
+			// We found a type mismatch.
+			errorHandler.addTypeError(exprectedType, expr);
+		}
+	}
 	
 	@Override
 	public Void visit(FormStmt form) {
@@ -66,8 +76,6 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
 	@Override
 	public Void visit(QuestionStmt stmt) {
-		stmt.identifier.accept(this);
-		
 		return null;
 	}
 	
@@ -77,28 +85,31 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 		if (stmt.expression.getType() == null) {
 			stmt.expression.setType(stmt.getType());
 			stmt.expression.accept(this);
-		}
-		
-		if(stmt.expression.getType() != stmt.getType()) {
-			
+		} else if(stmt.expression.getType() != stmt.getType()) {	
 			this.errorHandler.addTypeError(stmt);
-		}
-		
+		} 
+
 		return null;
 	}	
 
 	@Override
 	public Void visit(IfStmt stmt) {
-		//TODO Check if if expression is of type boolean.
+		resolveExpr(QLType.BOOLEAN, stmt.expression);
 		stmt.blockStmt.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(IfElseStmt stmt) {
-		//TODO Check if if expression is of type boolean.
+		resolveExpr(QLType.BOOLEAN, stmt.expression);
 		stmt.ifBlockStmt.accept(this);
 		stmt.elseBlockStmt.accept(this);
+		return null;
+	}
+	
+	@Override
+	public Void visit(UnaryNotExpr expr) {
+		resolveExpr(QLType.BOOLEAN, expr);
 		return null;
 	}
 
@@ -189,11 +200,4 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 		resolveBinaryExpr(expr);
 		return null;
 	}
-
-	@Override
-	public Void visit(UnaryNotExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }

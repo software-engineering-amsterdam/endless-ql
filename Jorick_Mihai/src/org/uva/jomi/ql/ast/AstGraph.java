@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.uva.jomi.ql.ast.expressions.AdditionExpr;
 import org.uva.jomi.ql.ast.expressions.AndExpr;
-import org.uva.jomi.ql.ast.expressions.BinaryExpr;
 import org.uva.jomi.ql.ast.expressions.DivisionExpr;
 import org.uva.jomi.ql.ast.expressions.EqualExpr;
 import org.uva.jomi.ql.ast.expressions.Expr;
@@ -19,7 +18,6 @@ import org.uva.jomi.ql.ast.expressions.NotEqualExpr;
 import org.uva.jomi.ql.ast.expressions.OrExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
-import org.uva.jomi.ql.ast.expressions.UnaryExpr;
 import org.uva.jomi.ql.ast.expressions.UnaryNotExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
 import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
@@ -57,19 +55,19 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 		
 		switch (expr.getType()) {
 		case BOOLEAN:
-			value = String.format("Type: %s\nValue: %s\n", expr.getType(), expr.token.getLexeme());
+			value = String.format("Type: %s\nValue: %s\n", expr.getType(), expr.getLexeme());
 			break;
 		case STRING:
 			// Remove double quotes at from the start and end of the string
-			value = expr.token.getLexeme().substring(1, expr.token.getLexeme().length() - 1);
+			value = expr.getLexeme().substring(1, expr.getLexeme().length() - 1);
 			value = String.format("Type: %s\nValue: %s\n", expr.getType(), value);
 			break;
 		case INTEGER:
-			value = String.format("Type: %s\nValue: %s\n", expr.getType(), expr.token.getLexeme());
+			value = String.format("Type: %s\nValue: %s\n", expr.getType(), expr.getLexeme());
 			break;
 		default:
 			// TODO Improve error by displaying the location of the offending token.
-			System.err.println("[AstGraph] Unexpected literal expression: " + expr.token.getLexeme().toString());
+			System.err.println("[AstGraph] Unexpected literal expression: " + expr.getLexeme().toString());
 			break;
 		}
 		

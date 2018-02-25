@@ -6,6 +6,8 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.BitSet;
 import java.util.Collections;
@@ -13,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ErrorListener implements ANTLRErrorListener {
+	private static final Logger logger = LogManager.getLogger();
 	private List<ParseErrorInfo> parseErrors = new LinkedList<>();
 
 	@Override
@@ -26,17 +29,17 @@ public class ErrorListener implements ANTLRErrorListener {
 
 	@Override
 	public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact, BitSet ambigAlts, ATNConfigSet configs) {
-		System.err.println("reportAmbiguity");
+		logger.error("reportAmbiguity");
 	}
 
 	@Override
 	public void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts, ATNConfigSet configs) {
-		System.err.println("reportAttemptingFullContext");
+		logger.error("reportAttemptingFullContext");
 	}
 
 	@Override
 	public void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet configs) {
-		System.err.println("reportContextSensitivity");
+		logger.error("reportContextSensitivity");
 	}
 
 	public List<ParseErrorInfo> getParseErrors() {

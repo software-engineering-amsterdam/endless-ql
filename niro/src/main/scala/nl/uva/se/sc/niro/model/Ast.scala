@@ -8,6 +8,7 @@ case class QLForm(formName: String, statements: Seq[Statement]) {
 }
 
 sealed trait Statement
+case class ErrorStatement() extends Statement
 case class Question(id: String, label: String, answer: Expression) extends Statement
 case class Conditional(predicate: Expression, thenStatements: Seq[Statement]) extends Statement
 
@@ -17,6 +18,7 @@ object Statement {
     statements.flatMap {
       case q: Question => Seq(q)
       case c: Conditional => collectAllQuestions(c.thenStatements)
+      case ErrorStatement() => Seq.empty
     }
   }
 
@@ -24,6 +26,7 @@ object Statement {
     statements.collect {
       case q: Question => Seq(q)
       case c: Conditional if Evaluator.evaluateExpression(c.predicate, symbolTable).isTrue => collectAllVisibleQuestions(c.thenStatements, symbolTable)
+      case ErrorStatement() => Seq.empty
     }.flatten
   }
 }

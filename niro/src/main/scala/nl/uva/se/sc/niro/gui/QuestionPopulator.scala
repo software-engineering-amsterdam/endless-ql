@@ -16,6 +16,7 @@ object QuestionPopulator {
       case (statement, row) => statement match {
         case question: Question => populateRow(grid, row, question, symbolTable)
         case conditional: Conditional => populateRow(grid, row, conditional, symbolTable)
+        case ErrorStatement() => ()
       }
     }
   }
@@ -45,7 +46,7 @@ object QuestionPopulator {
     innerGrid
   }
 
-  private def bindConstraintToVisiblity(constraint: RowConstraints, pane: GridPane) = {
+  private def bindConstraintToVisiblity(constraint: RowConstraints, pane: GridPane): Unit = {
     pane.visibleProperty().addListener(new ChangeListener[lang.Boolean] {
       override def changed(observable: ObservableValue[_ <: lang.Boolean], oldValue: lang.Boolean, visible: lang.Boolean): Unit = {
         constraint.setPrefHeight(if (visible) { Region.USE_COMPUTED_SIZE } else { 0.0 })

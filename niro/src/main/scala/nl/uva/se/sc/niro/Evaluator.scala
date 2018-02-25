@@ -16,6 +16,7 @@ object Evaluator {
     statement match {
       case q: Question => evaluateQuestion(q, symbolTable)
       case c: Conditional => evaluateConditional(c, symbolTable)
+      case e: ErrorStatement => e
     }
   }
 

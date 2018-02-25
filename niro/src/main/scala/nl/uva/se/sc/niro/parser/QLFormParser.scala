@@ -5,9 +5,10 @@ import java.util
 import nl.uva.se.sc.niro.model.Expressions._
 import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, DecAnswer, IntAnswer }
 import nl.uva.se.sc.niro.model._
-import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
+import org.antlr.v4.runtime.{ CharStream, CommonTokenStream, ParserRuleContext }
 import org.apache.logging.log4j.scala.Logging
 import _root_.ql.{ QLBaseVisitor, QLLexer, QLParser }
+import org.antlr.v4.runtime.tree.RuleNode
 
 import scala.collection.JavaConverters
 
@@ -35,6 +36,13 @@ object QLFormParser extends Logging {
   }
 
   object StatementCompiler extends QLBaseVisitor[Seq[Statement]] {
+    override def defaultResult(): Seq[Statement] = Seq(ErrorStatement())
+
+    override def shouldVisitNextChild(node: RuleNode, currentResult: Seq[Statement]): Boolean = {
+      // TODO Replace this with more Scala/functional code. (Tried 'for (i <- 0 to node.getChildCount())...' but that failed)
+      node.getChild(0).asInstanceOf[ParserRuleContext].exception == null
+    }
+
     override def visitQuestion(ctx: QLParser.QuestionContext): Seq[Statement] = {
       val questionId = ctx.Identifier().getText
       val questionLabel = ctx.label.getText

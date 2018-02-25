@@ -1,9 +1,8 @@
 package ql.value;
 
-import ql.ast.type.Date;
-import ql.ast.type.Money;
-import ql.ast.type.Numeric;
-import ql.ast.type.Str;
+import ql.value.Date;
+import ql.value.Money;
+import ql.value.Str;
 import ql.ast.type.Type;
 
 public abstract class Value<T> {
@@ -12,9 +11,6 @@ public abstract class Value<T> {
     public abstract T getValue();
     public abstract void setValue(T value);
     
-    public Value<?> equal(Value<?> secondOperand) { return new Bool(); }
-    public Value<?> notEqual(Value<?> secondOperand) { return new Bool(); }
-
     public Value<?> negation() { return new Undefined(); }
     public Value<?> negative() { return new Undefined(); }
     public Value<?> positive() { return new Undefined(); }
@@ -26,11 +22,16 @@ public abstract class Value<T> {
     public Value<?> lessEqual(Value<?> secondOperand) { return new Undefined(); }
     public Value<?> greaterEqual(Value<?> secondOperand) { return new Undefined(); }
     public Value<?> greater(Value<?> secondOperand) { return new Undefined(); }
+    public Value<?> equal(Value<?> secondOperand) { return new Undefined(); }
+    public Value<?> notEqual(Value<?> secondOperand) { return new Undefined(); }
     public Value<?> and(Value<?> secondOperand) { return new Undefined(); }
     public Value<?> or(Value<?> secondOperand) { return new Undefined(); }
 
+
     public Value<?> multiply(Value<?> firstOperand) { return new Undefined(); }
     public Value<?> multiply(Numeric firstOperand) { return new Undefined(); }
+    public Value<?> multiply(Int firstOperand) { return new Undefined(); }
+    public Value<?> multiply(Decimal firstOperand) { return new Undefined(); }
     public Value<?> multiply(Money firstOperand) { return new Undefined(); }
     
     public Value<?> divide(Value<?> firstOperand) { return new Undefined(); }
@@ -38,12 +39,14 @@ public abstract class Value<T> {
     public Value<?> divide(Money firstOperand) { return new Undefined(); }
 
     public Value<?> addTo(Value<?> firstOperand) { return new Undefined(); }
-    public Value<?> addTo(Numeric firstOperand) { return new Undefined(); }
+    public Value<?> addTo(Int firstOperand) { return new Undefined(); }
+    public Value<?> addTo(Decimal firstOperand) { return new Undefined(); }
     public Value<?> addTo(Money firstOperand) { return new Undefined(); }
     public Value<?> addTo(Str firstOperand) { return new Undefined(); }
     
     public Value<?> subtractFrom(Value<?> firstOperand) { return new Undefined(); }
-    public Value<?> subtractFrom(Numeric firstOperand) { return new Undefined(); }
+    public Value<?> subtractFrom(Int firstOperand) { return new Undefined(); }
+    public Value<?> subtractFrom(Decimal firstOperand) { return new Undefined(); }
     public Value<?> subtractFrom(Money firstOperand) { return new Undefined(); }
 
     public Value<?> lessThan(Value<?> firstOperand) { return new Undefined(); }
@@ -71,4 +74,19 @@ public abstract class Value<T> {
 
     public Value<?> logicalOr(Value<?> firstOperand) { return new Undefined(); }
     public Value<?> logicalOr(Bool firstOperand) { return new Undefined(); }
+
+    public Value<?> equalTo(Value<?> firstOperand) { return new Bool(false); }
+    public Value<?> equalTo(Bool firstOperand) { return new Undefined(); }
+    public Value<?> equalTo(Str firstOperand) { return new Undefined(); }
+    public Value<?> equalTo(Numeric firstOperand) { return new Undefined(); }
+    public Value<?> equalTo(Money firstOperand) { return new Undefined(); }
+    public Value<?> equalTo(Date firstOperand) { return new Undefined(); }
+    
+    public Value<?> notEqualTo(Value<?> firstOperand) { return new Bool(true); }
+    public Value<?> notEqualTo(Bool firstOperand) { return new Undefined(); }
+    public Value<?> notEqualTo(Str firstOperand) { return new Undefined(); }
+    public Value<?> notEqualTo(Numeric firstOperand) { return new Undefined(); }
+    public Value<?> notEqualTo(Money firstOperand) { return new Undefined(); }
+    public Value<?> notEqualTo(Date firstOperand) { return new Undefined(); }
+
 }

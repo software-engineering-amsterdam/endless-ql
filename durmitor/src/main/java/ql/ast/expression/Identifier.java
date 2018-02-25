@@ -36,7 +36,16 @@ public class Identifier extends Expression {
     }
     
     public void setValue(Value<?> value) {
-        this.value = value;
+        
+        if(value.getType().equals(type))
+        {
+            this.value = value;
+        }
+        else if(!value.getType().isUndefined())
+        {
+            System.err.println("Cannot store "+value.getType()+" ["+value+"] in "+getType()+" ["+name+"]");
+        }
+            
     }
     
     public Identifier setType(Type type) {

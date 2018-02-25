@@ -1,25 +1,24 @@
 package ql.ast.expression;
 
-import ql.ast.type.Str;
 import ql.ast.type.Type;
-import ql.value.Value;
+import ql.value.Str;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class StrLiteral extends Literal {
 
-    private Value<String> value;
+    private Str value;
     
     public StrLiteral() { 
-        this.value = new ql.value.Str();
+        this.value = new Str();
     }
     
     public StrLiteral(String value) { 
-        this.value = new ql.value.Str(value);
+        this.value = new Str(value);
     }
 
     @Override
     public Type getType() {
-        return new Str();
+        return new ql.ast.type.Str();
     }
 
     @Override
@@ -28,7 +27,7 @@ public class StrLiteral extends Literal {
     }
 
     @Override
-    public Value<String> getValue() {
+    public Str getValue() {
         return value;
     }
 

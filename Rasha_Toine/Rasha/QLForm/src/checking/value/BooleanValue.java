@@ -43,6 +43,14 @@ public class BooleanValue extends AbstractValue {
 	}
 	
 	@Override
+	public String getValueString() {
+		if(value == true)
+			return "true";
+		else
+			return "false";
+	}
+	
+	@Override
 	public BooleanValue translate(String str) {
 		return new BooleanValue(str);
 	}

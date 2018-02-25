@@ -17,6 +17,11 @@ public class IntegerValue extends AbstractValue {
 	}
 	
 	@Override
+	public String getValueString() {
+		return new Integer(value).toString();
+	}
+	
+	@Override
 	public Value add(Value val) {
 		return val.add(this);
 	}

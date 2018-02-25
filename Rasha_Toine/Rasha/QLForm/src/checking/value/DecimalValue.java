@@ -19,6 +19,11 @@ public class DecimalValue extends AbstractValue {
 	}
 
 	@Override
+	public String getValueString() {
+		return value.toString();
+	}
+	
+	@Override
 	public Value add(Value val) {
 		return val.add(this);
 	}

@@ -10,6 +10,8 @@ public abstract class Value {
 	public abstract Value pos();
 	public abstract Value translate(String str);
 	
+	public abstract String getValueString();
+	
 	public abstract BooleanValue and(Value val);
 	public abstract BooleanValue or(Value val);
 	public abstract BooleanValue gt(Value val);

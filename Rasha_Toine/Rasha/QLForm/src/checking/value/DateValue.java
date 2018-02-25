@@ -18,6 +18,10 @@ public class DateValue extends AbstractValue {
 		this.value = value;
 	}
 	
+	@Override
+	public String getValueString() {
+		return value.toString();
+	}
 
 	@Override
 	public BooleanValue gt(Value val) {

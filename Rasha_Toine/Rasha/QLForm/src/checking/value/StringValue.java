@@ -15,6 +15,11 @@ public class StringValue extends AbstractValue {
 	public void setValue(String value) {
 		this.value = value;
 	}
+	
+	@Override
+	public String getValueString() {
+		return value;
+	}
 
 	@Override
 	public BooleanValue or(Value val) {

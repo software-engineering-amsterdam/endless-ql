@@ -35,19 +35,19 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
 	public void resolveBinaryExpr(BinaryExpr expr) {
 		// Set the expected type for the left hand side expression and visit it.
-		if (expr.getLeftExpr().getType() == null) {
-			expr.getLeftExpr().setType(expr.getType());
+		if (expr.getLeftExprType() == null) {
+			expr.setLeftExprType(expr.getType());
 			expr.getLeftExpr().accept(this);
-		} else if (expr.getLeftExpr().getType() != expr.getType()) {
+		} else if (expr.getLeftExprType() != expr.getType()) {
 			// We found a type mismatch.
 			errorHandler.addTypeError(expr, expr.getLeftExpr());
 		}
 		
 		// Set the expected type for the right hand side expression and visit it.
-		if (expr.getRightExpr().getType() == null) {
-			expr.getRightExpr().setType(expr.getType());
+		if (expr.getRightExprType() == null) {
+			expr.setRightExprType(expr.getType());
 			expr.getRightExpr().accept(this);
-		} else if (expr.getRightExpr().getType() != expr.getType()) {
+		} else if (expr.getRightExprType() != expr.getType()) {
 			// We found a type mismatch.
 			errorHandler.addTypeError(expr, expr.getRightExpr());
 		}

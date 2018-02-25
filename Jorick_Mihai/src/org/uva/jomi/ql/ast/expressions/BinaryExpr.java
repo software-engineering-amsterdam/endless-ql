@@ -1,6 +1,7 @@
 package org.uva.jomi.ql.ast.expressions;
 
 import org.uva.jomi.ql.ast.QLToken;
+import org.uva.jomi.ql.ast.QLType;
 
 public abstract class BinaryExpr extends Expr {
 	private final Expr left;
@@ -16,6 +17,26 @@ public abstract class BinaryExpr extends Expr {
 	public Expr getLeftExpr() {
 		return left;
 	}
+	
+	public QLType getLeftExprType() {
+		return left.getType();
+	}
+	
+	public void setLeftExprType(QLType type) {
+		left.setType(type);
+	}
+	
+	public Expr getRightExpr() {
+		return right;
+	}
+	
+	public QLType getRightExprType() {
+		return right.getType();
+	}
+	
+	public void setRightExprType(QLType type) {
+		right.setType(type);
+	}
 
 	public QLToken getOperator() {
 		return operator;
@@ -25,7 +46,5 @@ public abstract class BinaryExpr extends Expr {
 		return operator.getLexeme();
 	}
 
-	public Expr getRightExpr() {
-		return right;
-	}
+
 }

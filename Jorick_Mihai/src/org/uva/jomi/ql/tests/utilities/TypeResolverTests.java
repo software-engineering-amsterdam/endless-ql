@@ -10,7 +10,7 @@ import org.uva.jomi.ql.ast.statements.Stmt;
 
 public class TypeResolverTests {
 	
-	TypeResolver typeResolver = new TypeResolver(true);
+	TypeResolver typeResolver = new TypeResolver(false);
 	
 	String testSource1 =
 			"form Form1 {\n"

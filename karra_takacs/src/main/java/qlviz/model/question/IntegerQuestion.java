@@ -9,7 +9,12 @@ public class IntegerQuestion extends NumericQuestion {
     }
 
     @Override
-    public void accept(QuestionVisitor visitor) {
+    public <T> T accept(QuestionVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public void accept(VoidQuestionVisitor visitor) {
         visitor.visit(this);
     }
 }

@@ -18,7 +18,12 @@ public class DateQuestion extends Question {
     }
 
     @Override
-    public void accept(QuestionVisitor visitor) {
+    public <T> T accept(QuestionVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public void accept(VoidQuestionVisitor visitor) {
         visitor.visit(this);
     }
 }

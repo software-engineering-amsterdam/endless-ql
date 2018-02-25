@@ -5,9 +5,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import qlviz.gui.renderer.QuestionRenderer;
+import qlviz.gui.viewModel.question.*;
 import qlviz.model.question.*;
 
-public class JavafxQuestionRenderer implements QuestionRenderer, QuestionVisitor {
+
+
+public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewModelVisitor {
 
     private final Pane target;
 
@@ -16,12 +19,7 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionVisitor
     }
 
     @Override
-    public void render(Question question) {
-        question.accept(this);
-    }
-
-    @Override
-    public void visit(BooleanQuestion booleanQuestion) {
+    public void visit(BooleanQuestionViewModel booleanQuestion) {
         Label label = new Label(booleanQuestion.getText());
         CheckBox checkBox = new CheckBox();
         target.getChildren().add(label);
@@ -30,27 +28,27 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionVisitor
     }
 
     @Override
-    public void visit(DateQuestion dateQuestion) {
+    public void visit(DateQuestionViewModel dateQuestion) {
 
     }
 
     @Override
-    public void visit(DecimalQuestion decimalQuestion) {
+    public void visit(DecimalQuestionViewModel decimalQuestion) {
 
     }
 
     @Override
-    public void visit(IntegerQuestion integerQuestion) {
+    public void visit(IntegerQuestionViewModel integerQuestion) {
 
     }
 
     @Override
-    public void visit(MoneyQuestion moneyQuestion) {
+    public void visit(MoneyQuestionViewModel moneyQuestion) {
 
     }
 
     @Override
-    public void visit(StringQuestion stringQuestion) {
+    public void visit(StringQuestionViewModel stringQuestion) {
         Label label = new Label(stringQuestion.getText());
         TextField textField = new TextField();
         textField.setMinWidth(50);
@@ -59,5 +57,10 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionVisitor
         target.getChildren().add(label);
         target.getChildren().add(textField);
 
+    }
+
+    @Override
+    public void render(QuestionViewModel question) {
+       question.accept(this);
     }
 }

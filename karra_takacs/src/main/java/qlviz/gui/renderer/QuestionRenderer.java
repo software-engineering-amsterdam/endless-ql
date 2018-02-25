@@ -1,8 +1,8 @@
 package qlviz.gui.renderer;
 
-import qlviz.model.question.Question;
+import qlviz.gui.viewModel.question.QuestionViewModel;
 
 public interface QuestionRenderer {
-    void render(Question question);
+    void render(QuestionViewModel question);
 }
 

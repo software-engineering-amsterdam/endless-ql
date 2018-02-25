@@ -1,6 +1,7 @@
 package qlviz.gui.viewModel;
 
 import qlviz.gui.renderer.FormRenderer;
+import qlviz.gui.viewModel.question.QuestionViewModel;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
 
@@ -25,6 +26,16 @@ public class FormViewModelImpl implements FormViewModel {
 
     @Override
     public void notifyValueChanged(QuestionViewModel source) {
-        renderer.render(this.model);
+        renderer.render(this);
+    }
+
+    @Override
+    public String getTitle() {
+        return model.getTitle();
+    }
+
+    @Override
+    public List<QuestionBlockViewModel> getQuestions() {
+        return this.questionBlockViewModels;
     }
 }

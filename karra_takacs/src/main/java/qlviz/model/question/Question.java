@@ -23,7 +23,8 @@ public abstract class Question {
         this.type = type;
     }
 
-    public abstract void accept(QuestionVisitor visitor);
+    public abstract <T> T accept(QuestionVisitor<T> visitor);
+    public abstract void accept(VoidQuestionVisitor visitor);
 }
 
 

@@ -16,8 +16,13 @@ public class BooleanQuestion extends Question {
     }
 
     @Override
-    public void accept(QuestionVisitor visitor) {
+    public void accept(VoidQuestionVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public <T> T accept(QuestionVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }
 

@@ -5,6 +5,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import qlviz.gui.renderer.FormRenderer;
 import qlviz.gui.renderer.QuestionBlockRenderer;
+import qlviz.gui.viewModel.FormViewModel;
+import qlviz.gui.viewModel.QuestionBlockViewModel;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
 
@@ -21,13 +23,13 @@ public class JavafxFormRenderer implements FormRenderer {
     }
 
     @Override
-    public void render(Form form) {
+    public void render(FormViewModel form) {
         stage.setTitle(form.getTitle());
 
         VBox formFieldsContainer = new VBox();
 
         QuestionBlockRenderer questionBlockRenderer = questionBlockRendererFactory.apply(formFieldsContainer);
-        for (QuestionBlock questionBlock : form.getQuestions()) {
+        for (QuestionBlockViewModel questionBlock : form.getQuestions()) {
             questionBlockRenderer.render(questionBlock);
         }
         Scene scene = new Scene(formFieldsContainer, 550, 250);

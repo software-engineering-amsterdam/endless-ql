@@ -3,6 +3,9 @@ package qlviz.gui.renderer.javafx;
 import javafx.scene.layout.Pane;
 import qlviz.gui.renderer.QuestionBlockRenderer;
 import qlviz.gui.renderer.QuestionRenderer;
+import qlviz.gui.viewModel.ConditionalBlockViewModel;
+import qlviz.gui.viewModel.QuestionBlockViewModel;
+import qlviz.gui.viewModel.question.QuestionViewModel;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.question.Question;
 import qlviz.model.QuestionBlock;
@@ -18,13 +21,13 @@ public class JavafxQuestionBlockRenderer implements QuestionBlockRenderer {
     }
 
     @Override
-    public void render(QuestionBlock questionBlock) {
-        for (Question question : questionBlock.getQuestions()) {
+    public void render(QuestionBlockViewModel questionBlock) {
+        for (QuestionViewModel question : questionBlock.getQuestions()) {
             questionRenderer.render(question);
         }
-        for (ConditionalBlock block : questionBlock.getBlocks()) {
+        for (ConditionalBlockViewModel block : questionBlock.getBlocks()) {
             if (block.getCondition().evaluate()) {
-                for (QuestionBlock innerBlock : block.getQuestionBlocks()) {
+                for (QuestionBlockViewModel innerBlock : block.getQuestionBlocks()) {
                     this.render(innerBlock);
                 }
             }

@@ -11,5 +11,7 @@ import java.util.function.Function;
 
 public interface FormViewModel extends QuestionObserver {
 
-}
+    String getTitle();
 
+    List<QuestionBlockViewModel> getQuestions();
+}

@@ -1,22 +1,12 @@
 package qlviz.gui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.CheckBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import qlviz.QLBaseVisitor;
-import qlviz.common.QuestionText;
 import qlviz.gui.renderer.javafx.JavafxFormRenderer;
 import qlviz.gui.renderer.javafx.JavafxQuestionBlockRenderer;
 import qlviz.gui.renderer.javafx.JavafxQuestionRenderer;
+import qlviz.gui.viewModel.*;
 import qlviz.interpreter.BinaryBooleanOperatorVisitor;
 import qlviz.interpreter.BinaryNumericOperatorVisitor;
 import qlviz.interpreter.BooleanExpressionVisitor;
@@ -29,7 +19,6 @@ import qlviz.interpreter.QuestionTypeVisitor;
 import qlviz.interpreter.QuestionVisitor;
 import qlviz.model.BooleanExpression;
 import qlviz.model.Form;
-import qlviz.model.question.Question;
 import qlviz.model.QuestionBlock;
 
 public class QLForm extends Application {
@@ -68,7 +57,10 @@ public class QLForm extends Application {
 		FormVisitor visitor = new FormVisitor(questionBlockVisitor);
 		this.model = new ModelBuilder(visitor).createFormFromMarkup(this.getParameters().getRaw().get(0));
 
-		this.renderer.render(this.model);
+		QuestionViewModelFactoryImpl questionViewModelFactory = new QuestionViewModelFactoryImpl();
+		QuestionBlockViewModelFactory questionBlockViewModelFactory = new QuestionBlockViewModelFactory(questionViewModelFactory::create);
+		FormViewModel viewModel = new FormViewModelImpl(model, renderer, questionBlockViewModelFactory::create);
+		this.renderer.render(viewModel);
 	}
 
 }

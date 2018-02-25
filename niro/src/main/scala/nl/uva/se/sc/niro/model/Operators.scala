@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model
 
-abstract class BinaryOperator
+sealed abstract class BinaryOperator
 object BinaryOperator {
   def apply(operator: String): BinaryOperator = operator match {
     case "<" => Lt
@@ -18,7 +18,7 @@ object BinaryOperator {
   }
 }
 
-abstract class UnaryOperator
+sealed abstract class UnaryOperator
 object UnaryOperator {
   def apply(operator: String): UnaryOperator = operator match {
     case "!" => Neg

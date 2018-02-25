@@ -30,7 +30,7 @@ class QLFunnel extends QLBaseVisitor {
 
     @Override
     public Boolean visitBoolval(QLParser.BoolvalContext ctx) {
-        return ctx.getText().equals("true");
+        return Boolean.parseBoolean("true");
     }
 
     @Override

@@ -31,12 +31,19 @@ public class Main {
         // Visit and TypeCheck the AST
         TypeChecker checker = new TypeChecker(form);
         checker.checkForm();
-        checker.printErrors();
         checker.printWarnings();
+        if(checker.hasErrors())
+        {
+            checker.printErrors();
+        }
+        else
+        {
+            // Visit and build GUI from AST
+            GUI gui = new GUI();
+            form.getBlock().accept(new ASTtoGUI(gui));
+            
+            // Add Action/DocumentListeners to GUI.
+        }
         
-        // Visit and build GUI from AST
-//        GUI gui = new GUI();
-//        form.getBlock().accept(new ASTtoGUI(gui));
-        // Add Action/DocumentListeners to GUI.
     }
 }

@@ -1,6 +1,5 @@
 form ConditionQuestions {
-	"What is your first name?" firstName: string
-	if (true) {
-		"What is your middle name?" middleName: string
-	}
+    "How old are you?" age: integer
+	"How old is your friend" age2: integer
+	"The age difference is" age3: integer = (age-age2)
 }

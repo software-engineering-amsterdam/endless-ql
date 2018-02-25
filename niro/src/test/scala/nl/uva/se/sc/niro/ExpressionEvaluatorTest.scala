@@ -366,7 +366,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers {
       )
 
       val q: Seq[Question] = qlForm.statements.collect{ case q: Question => q }
-      val x =  q.map(q => evaluateExpression(q.answer, qlForm.symbolTable))
+      val x =  q.map(q => evaluateExpression(q.expression, qlForm.symbolTable))
       assert(x == Seq(IntAnswer(1000), IntAnswer(200), IntAnswer(800)))
     }
     "do error handling" should {

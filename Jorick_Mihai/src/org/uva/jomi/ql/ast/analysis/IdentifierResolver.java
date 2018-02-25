@@ -130,20 +130,20 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visit(BinaryExpr expr) {
-		expr.left.accept(this);
-		expr.right.accept(this);
+		expr.getLeftExpr().accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(GroupingExpr expr) {
-		expr.expression.accept(this);
+		expr.getExpression().accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(UnaryExpr expr) {
-		expr.right.accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 
@@ -156,64 +156,64 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visit(SubtractionExpr expr) {
-		expr.left.accept(this);
-		expr.right.accept(this);
+		expr.getLeftExpr().accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(MultiplicationExpr expr) {
-		expr.left.accept(this);
-		expr.right.accept(this);
+		expr.getLeftExpr().accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(DivisionExpr expr) {
-		expr.left.accept(this);
-		expr.right.accept(this);
+		expr.getLeftExpr().accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(LessThanExpr expr) {
-		expr.left.accept(this);
-		expr.right.accept(this);
+		expr.getLeftExpr().accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(LessThanOrEqualExpr expr) {
-		expr.left.accept(this);
-		expr.right.accept(this);
+		expr.getLeftExpr().accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(GreaterThanExpr expr) {
-		expr.left.accept(this);
-		expr.right.accept(this);
+		expr.getLeftExpr().accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(GreaterThanOrEqualExpr expr) {
-		expr.left.accept(this);
-		expr.right.accept(this);
+		expr.getLeftExpr().accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(NotEqualExpr expr) {
-		expr.left.accept(this);
-		expr.right.accept(this);
+		expr.getLeftExpr().accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(EqualExpr expr) {
-		expr.left.accept(this);
-		expr.right.accept(this);
+		expr.getLeftExpr().accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 
@@ -226,14 +226,14 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visit(OrExpr expr) {
-		expr.left.accept(this);
-		expr.right.accept(this);
+		expr.getLeftExpr().accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(UnaryNotExpr expr) {
-		expr.right.accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 }

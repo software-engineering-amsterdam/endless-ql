@@ -82,11 +82,11 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
 	@Override
 	public Void visit(BinaryExpr expr) {
-		expr.left.accept(this);
-		expr.right.accept(this);
+		expr.getRightExpr().accept(this);
+		expr.getLeftExpr().accept(this);
 		
-		if(expr.left.getType() != expr.right.getType()) {
-			this.errorHandler.addTypeError(expr, expr.left, expr.right);
+		if(expr.getLeftExpr().getType() != expr.getRightExpr().getType()) {
+			this.errorHandler.addTypeError(expr, expr.getLeftExpr(), expr.getRightExpr());
 		}
 		
 		return null;
@@ -94,13 +94,13 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
 	@Override
 	public Void visit(GroupingExpr expr) {
-		expr.expression.accept(this);
+		expr.getExpression().accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(UnaryExpr expr) {
-		expr.right.accept(this);
+		expr.getRightExpr().accept(this);
 		return null;
 	}
 	

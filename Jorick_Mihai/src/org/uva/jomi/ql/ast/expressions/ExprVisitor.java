@@ -50,10 +50,11 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	@Override public Expr visitOrExpr(QLParser.OrExprContext ctx) {
 		Expr left = ctx.expression(0).accept(this);
 		Expr right = ctx.expression(1).accept(this);
+		QLToken operator = new QLToken(ctx.operator);
 
 		switch (ctx.operator.getType()) {
 		case QLParser.OR:
-			return new OrExpr(left, right);
+			return new OrExpr(left, operator, right);
 		default:
 			// TODO - Needs to go into an Error class.
 			System.err.println("Illegal oprator found in Or expression: " + ctx.operator.getText());
@@ -71,7 +72,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		case QLParser.PLUS:
 			return new AdditionExpr(left, operator, right);
 		case QLParser.MINUS:
-			return new SubtractionExpr(left, right);
+			return new SubtractionExpr(left, operator, right);
 		default:
 			// TODO - Needs to go into an Error class.
 			System.err.println("Illegal oprator found in AdditionOrSubtraction expression: " + ctx.operator.getText());
@@ -83,12 +84,13 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	@Override public Expr visitEqualityExpr(QLParser.EqualityExprContext ctx) {
 		Expr left = ctx.expression(0).accept(this);
 		Expr right = ctx.expression(1).accept(this);
+		QLToken operator = new QLToken(ctx.operator);
 
 		switch (ctx.operator.getType()) {
 		case QLParser.EQUAL_EQUAL:
-			return new EqualExpr(left, right);
+			return new EqualExpr(left, operator, right);
 		case QLParser.BANG_EQUAL:
-			return new NotEqualExpr(left, right);
+			return new NotEqualExpr(left, operator, right);
 		default:
 			// TODO - Needs to go into an Error class.
 			System.err.println("Illegal oprator found in Equality expression: " + ctx.operator.getText());
@@ -100,16 +102,17 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	@Override public Expr visitComparisonExpr(QLParser.ComparisonExprContext ctx) {
 		Expr left = ctx.expression(0).accept(this);
 		Expr right = ctx.expression(1).accept(this);
+		QLToken operator = new QLToken(ctx.operator);
 
 		switch (ctx.operator.getType()) {
 		case QLParser.GREATER:
-			return new GreaterThanExpr(left, right);
+			return new GreaterThanExpr(left, operator, right);
 		case QLParser.GREATER_EQUAL:
-			return new GreaterThanOrEqualExpr(left, right);
+			return new GreaterThanOrEqualExpr(left, operator, right);
 		case QLParser.LESS:
-			return new LessThanExpr(left, right);
+			return new LessThanExpr(left, operator, right);
 		case QLParser.LESS_EQUAL:
-			return new LessThanOrEqualExpr(left, right);
+			return new LessThanOrEqualExpr(left, operator, right);
 		default:
 			// TODO - Needs to go into an Error class.
 			System.err.println("Illegal oprator found in Comparison expression: " + ctx.operator.getText());
@@ -121,12 +124,13 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	@Override public Expr visitMultiplicationOrDivisionExpr(QLParser.MultiplicationOrDivisionExprContext ctx) {
 		Expr left = ctx.expression(0).accept(this);
 		Expr right = ctx.expression(1).accept(this);
+		QLToken operator = new QLToken(ctx.operator);
 
 		switch (ctx.operator.getType()) {
 		case QLParser.STAR:
-			return new MultiplicationExpr(left, right);
+			return new MultiplicationExpr(left, operator, right);
 		case QLParser.SLASH:
-			return new DivisionExpr(left, right);
+			return new DivisionExpr(left, operator, right);
 		default:
 			// TODO - Needs to go into an Error class.
 			System.err.println("Illegal oprator found in MultiplicationOrDivision expression: " + ctx.operator.getText());
@@ -143,10 +147,11 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	// Builds an Unary expression using the parser context.
 	@Override public Expr visitUnaryExpr(QLParser.UnaryExprContext ctx) {
 		Expr right = ctx.expression().accept(this);
+		QLToken operator = new QLToken(ctx.operator);
 
 		switch (ctx.operator.getType()) {
 		case QLParser.BANG:
-			return new UnaryNotExpr(right);
+			return new UnaryNotExpr(operator, right);
 
 		default:
 			// TODO - Needs to go into an Error class.

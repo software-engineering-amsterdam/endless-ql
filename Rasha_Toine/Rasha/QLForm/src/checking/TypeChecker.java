@@ -125,7 +125,7 @@ public class TypeChecker {
   /**
    * detect cyclic dependency between questions in the QL form.
    * e.g. 
-   * A --> B --> C --> D
+   * A --> B --> C --> D --> A
    * @param: Form 
    * @return: void
    */

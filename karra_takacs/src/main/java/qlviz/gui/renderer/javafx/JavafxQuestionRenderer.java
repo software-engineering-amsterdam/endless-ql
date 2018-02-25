@@ -1,5 +1,6 @@
 package qlviz.gui.renderer.javafx;
 
+import javafx.event.EventType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -22,6 +23,7 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewMod
     public void visit(BooleanQuestionViewModel booleanQuestion) {
         Label label = new Label(booleanQuestion.getText());
         CheckBox checkBox = new CheckBox();
+        checkBox.selectedProperty().addListener(observable -> booleanQuestion.setValue(checkBox.isSelected()));
         target.getChildren().add(label);
         target.getChildren().add(checkBox);
 

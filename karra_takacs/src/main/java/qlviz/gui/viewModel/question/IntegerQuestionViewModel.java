@@ -1,6 +1,5 @@
 package qlviz.gui.viewModel.question;
 
-import qlviz.gui.viewModel.QuestionObserver;
 import qlviz.model.question.IntegerQuestion;
 
 public class IntegerQuestionViewModel extends BaseQuestionViewModel {
@@ -8,10 +7,6 @@ public class IntegerQuestionViewModel extends BaseQuestionViewModel {
         super(question);
     }
 
-    @Override
-    public void subscribeToPropertyChanged(QuestionObserver observer) {
-
-    }
 
     @Override
     public void accept(QuestionViewModelVisitor visitor) {

@@ -1,6 +1,5 @@
 package qlviz.gui.viewModel.question;
 
-import qlviz.gui.viewModel.QuestionObserver;
 import qlviz.model.question.BooleanQuestion;
 
 public class BooleanQuestionViewModel extends BaseQuestionViewModel {

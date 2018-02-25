@@ -20,7 +20,9 @@ public class FormViewModelImpl implements FormViewModel {
         this.questionBlockViewModels = new ArrayList<>();
 
         for (QuestionBlock block : model.getQuestions()) {
-            this.questionBlockViewModels.add(viewModelFactory.apply(block));
+            QuestionBlockViewModel questionBlockViewModel = viewModelFactory.apply(block);
+            this.questionBlockViewModels.add(questionBlockViewModel);
+            questionBlockViewModel.subscribeToPropertyChanged(this);
         }
     }
 

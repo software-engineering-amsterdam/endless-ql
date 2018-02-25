@@ -23,6 +23,7 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewMod
     public void visit(BooleanQuestionViewModel booleanQuestion) {
         Label label = new Label(booleanQuestion.getText());
         CheckBox checkBox = new CheckBox();
+        checkBox.selectedProperty().setValue(booleanQuestion.getValue());
         checkBox.selectedProperty().addListener(observable -> booleanQuestion.setValue(checkBox.isSelected()));
         target.getChildren().add(label);
         target.getChildren().add(checkBox);

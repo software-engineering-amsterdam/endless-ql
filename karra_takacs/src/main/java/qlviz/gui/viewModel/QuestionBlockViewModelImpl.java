@@ -1,5 +1,6 @@
 package qlviz.gui.viewModel;
 
+import qlviz.gui.viewModel.propertyEvents.PropertyChangedListener;
 import qlviz.gui.viewModel.question.QuestionViewModel;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.QuestionBlock;
@@ -9,11 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public class QuestionBlockViewModelImpl implements QuestionBlockViewModel, QuestionObserver {
+public class QuestionBlockViewModelImpl implements QuestionBlockViewModel, PropertyChangedListener<QuestionViewModel> {
 
     private final QuestionBlock model;
     private final List<QuestionViewModel> questionViewModels;
     private final List<ConditionalBlockViewModel> conditionalBlockViewModels;
+    private final List<PropertyChangedListener<QuestionViewModel>> propertyChangedListeners = new ArrayList<>();
 
     public QuestionBlockViewModelImpl(QuestionBlock model,
                                       Function<Question, QuestionViewModel> questionViewModelFactory,
@@ -37,6 +39,8 @@ public class QuestionBlockViewModelImpl implements QuestionBlockViewModel, Quest
 
     @Override
     public void notifyValueChanged(QuestionViewModel source) {
+        this.propertyChangedListeners.forEach(questionViewModelPropertyChangedListener ->
+                        questionViewModelPropertyChangedListener.notifyValueChanged(source));
     }
 
     @Override
@@ -47,5 +51,10 @@ public class QuestionBlockViewModelImpl implements QuestionBlockViewModel, Quest
     @Override
     public List<ConditionalBlockViewModel> getBlocks() {
         return this.conditionalBlockViewModels;
+    }
+
+    @Override
+    public void subscribeToPropertyChanged(PropertyChangedListener<QuestionViewModel> observer) {
+        propertyChangedListeners.add(observer);
     }
 }

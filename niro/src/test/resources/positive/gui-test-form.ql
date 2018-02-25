@@ -1,15 +1,15 @@
 form ConditionQuestions {
-	firstName: "What is your first name?" string
-	age: "How old are you?" integer = (10)
+	"What is your first name?" firstName: string
+	"How old are you?" age: integer = (10)
 	if (age > 10) {
-		lastName: "What is your last name?" string
-		canRead: "Can you read?" boolean
+		"What is your last name?" lastName: string
+		"Can you read?" canRead: boolean
 		if (canRead) {
-		    bookTitle: "What is the last book you read?" string
+		    "What is the last book you read?" bookTitle: string
 		}
-		salary: "What is your monthly salary?" money
+		"What is your monthly salary?" salary: money
 	} else {
-		lastName: "What is your last name of your parents?" string
+		"What is your last name of your parents?" lastName: string
 	}
-	dateOfBirth: "What is your date of birth?" date
+	"What is your date of birth?" dateOfBirth: date
 }

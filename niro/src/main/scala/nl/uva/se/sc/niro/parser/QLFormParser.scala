@@ -27,7 +27,7 @@ object QLFormParser extends Logging {
 
   object FormCompiler extends QLBaseVisitor[QLForm] {
     override def visitForm(ctx: QLParser.FormContext): QLForm = {
-      val formName = ctx.Ident().getText
+      val formName = ctx.Identifier().getText
       val statements: Seq[Statement] = JavaConverters.asScalaBuffer(ctx.statement).toList.flatMap(StatementCompiler.visit)
 
       QLForm(formName, statements)
@@ -36,7 +36,7 @@ object QLFormParser extends Logging {
 
   object StatementCompiler extends QLBaseVisitor[Seq[Statement]] {
     override def visitQuestion(ctx: QLParser.QuestionContext): Seq[Statement] = {
-      val questionId = ctx.Ident().getText
+      val questionId = ctx.Identifier().getText
       val questionLabel = ctx.label.getText
       val expression = Option(ctx.expression)
         .map(ExpressionCompiler.visit)
@@ -93,7 +93,7 @@ object QLFormParser extends Logging {
       BooleanAnswer(ctx.getText.toBoolean)
     }
     override def visitVar(ctx: QLParser.VarContext): Expression = {
-      Reference(ctx.Ident().getText)
+      Reference(ctx.Identifier().getText)
     }
   }
 

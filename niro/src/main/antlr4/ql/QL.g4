@@ -42,7 +42,7 @@ TRUE        : 'true' ;
 
 IntValue    : [1-9][0-9]* ;
 DecValue    : [1-9][0-9]* COMMA [0-9]+ ;
-Ident       : [a-zA-Z0-9_]+ ;
+Identifier  : [a-zA-Z0-9_]+ ;
 TEXT        : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); };
 
 WS          : [ \t\r\n]+ -> skip ;
@@ -50,12 +50,12 @@ COMMENT     : '//' .*? '\n' -> skip ;
 
 bool        : FALSE | TRUE ;
 
-form        : FORM Ident CURLY_L statement+ CURLY_R EOF ;
+form        : FORM Identifier CURLY_L statement+ CURLY_R EOF ;
 
 statement   : question
             | conditional ;
 
-question    : Ident D_COLON label=TEXT answerType ( ASSIGN BRACK_L expression BRACK_R )?;
+question    : label=TEXT Identifier D_COLON answerType ( ASSIGN BRACK_L expression BRACK_R )?;
 conditional : IF BRACK_L condition=expression BRACK_R CURLY_L thenBlock+=statement+ CURLY_R ( ELSE CURLY_L elseBlock+=statement+ CURLY_R )? ;
 
 answerType  : BOOLEAN | INTEGER | DECIMAL | MONEY | DATE | STRING ;
@@ -75,7 +75,7 @@ expression : BRACK_L expression BRACK_R                        # GroupExpr
            | lhs=expression op=equalityOp rhs=expression       # EqualityExpr
            | lhs=expression op=AND rhs=expression              # LogicalAndExpr
            | lhs=expression op=OR rhs=expression               # LogicalOrExpr
-           | Ident                                             # Var
+           | Identifier                                        # Var
            | IntValue                                          # IntConst
            | DecValue                                          # DecConst
            | bool                                              # BoolConst ;

@@ -34,10 +34,11 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	@Override public Expr visitAndExpr(QLParser.AndExprContext ctx) {
 		Expr left = ctx.expression(0).accept(this);
 		Expr right = ctx.expression(1).accept(this);
+		QLToken operator = new QLToken(ctx.operator);
 
 		switch (ctx.operator.getType()) {
 		case QLParser.AND:
-			return new AndExpr(left, right);
+			return new AndExpr(left, operator, right);
 		default:
 			// TODO - Needs to go into an Error class.
 			System.err.println("Illegal oprator found in And expression: " + ctx.operator.getText());

@@ -264,11 +264,11 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 
 	@Override
 	public String visit(AndExpr expr) {
-		return expr.left.accept(this) +
-				expr.right.accept(this) +
-				String.format("  %s [label=\"AndExpr\nType: %s\n\"]\n", expr.getId(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.left.getId()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.right.getId());
+		return expr.getLeftExpr().accept(this) +
+				expr.getRightExpr().accept(this) +
+				String.format("  %s [label=\"AndExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExpr().getId()) +
+				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
 	}
 
 	@Override

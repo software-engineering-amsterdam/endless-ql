@@ -41,6 +41,18 @@ public class Dependencies extends ArrayList<Dependency> {
         return matches;
     }
     
+    public Dependencies getByY(Identifier y)
+    {
+        Dependencies matches = new Dependencies();
+        
+        for(Dependency d : this)
+        {
+            if(d.endsWith(y)) matches.add(d);
+        }
+        
+        return matches;
+    }
+    
     public List<Identifier> getYsByX(Identifier x)
     {
         List<Identifier> ys = getByX(x).getRange();
@@ -84,36 +96,36 @@ public class Dependencies extends ArrayList<Dependency> {
         
         for(Dependency d : getTransitiveClosure())
         {
-            if(d.getX() == d.getY())
+            if(d.getX().equals(d.getY()))
             {
-                cyclicDependencies.add(getCircle(d.getX()));
+                cyclicDependencies.add(getCircle(d));
             }
         }
         
         return cyclicDependencies;
     }
     
-    private List<Identifier> getCircle(Identifier x)
+    private List<Identifier> getCircle(Dependency d)
     {
-        boolean nonCyclic   = true;
-        List<Identifier> circle = new ArrayList<Identifier>(Arrays.asList(x));
+        boolean nonCyclic       = true;
+        List<Identifier> circle = new ArrayList<Identifier>(Arrays.asList(d.getX()));
         
         while(nonCyclic)
         {
             for(int i = 0; i < circle.size(); i++)
             {
-                List<Identifier> ys = getYsByX(circle.get(i));
+                Dependencies ys = getByX(circle.get(i));
                 
-                if(ys.contains(x))
+                if(ys.getByY(d.getX()).isEmpty())
                 {
-                    nonCyclic   = false;
-                    circle      = circle.subList(0, i+1);
-                    circle.add(x);
-                    break;
+                    circle.addAll(i+1, ys.getRange());
                 }
                 else
                 {
-                    circle.addAll(i+1, ys);
+                    nonCyclic   = false;
+                    circle      = circle.subList(0, i+1);
+                    circle.add(d.getY());
+                    break;
                 }
             }
             
@@ -158,7 +170,6 @@ public class Dependencies extends ArrayList<Dependency> {
     
     public void print()
     {
-        for(Dependency d : this) System.out.println(d);
-        System.out.println();
+        for(Dependency d : this) d.print();
     }
 }

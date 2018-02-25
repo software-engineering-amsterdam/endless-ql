@@ -17,6 +17,12 @@ public class Identifier extends Expression {
         this.value  = new ql.value.Undefined();
     }
     
+    public Identifier(String name, Type type) {
+        this.name   = name;
+        this.type   = type;
+        this.value  = new ql.value.Undefined();
+    }
+    
     public String getName() {
         return name;
     }
@@ -53,5 +59,9 @@ public class Identifier extends Expression {
     @Override
     public boolean isIdentifier() {
         return true;
+    }
+    
+    public boolean equals(Identifier id) {
+        return name.equals(id.getName());
     }
 }

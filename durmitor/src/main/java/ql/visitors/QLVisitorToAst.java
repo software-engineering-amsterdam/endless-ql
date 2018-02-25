@@ -43,6 +43,7 @@ import ql.ast.type.Int;
 import ql.ast.type.Money;
 import ql.ast.type.Str;
 import ql.ast.type.Type;
+import ql.ast.type.Undefined;
 import ql.grammar.QLBaseVisitor;
 import ql.grammar.QLParser;
 import ql.helpers.Location;
@@ -102,13 +103,8 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         
         String label    = stripQuotations(ctx.label());
         Type type       = (Type) visit(ctx.type());
-        Identifier id   = new Identifier(ctx.identifier().getText()).setType(type);
+        Identifier id   = createIdentifier(ctx.identifier(),type);
         Expression expr = (Expression) visit(ctx.expr());
-        
-        if(identifiers.containsKey(id.getName())) id = replaceWithOriginalIdentifier(id);
-        else identifiers.put(id.getName(), id);
-        
-        id.setLocation(tokenToLocation(ctx.identifier().start).setLength(id.toString().length()));
         
         return setLocation(new ComputedQuestion(label,id,type,expr), ctx.start);
     }
@@ -118,12 +114,7 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         
         String label    = stripQuotations(ctx.label());
         Type type       = (Type) visit(ctx.type());
-        Identifier id   = new Identifier(ctx.identifier().getText()).setType(type);
-        
-        if(identifiers.containsKey(id.getName())) id = replaceWithOriginalIdentifier(id);
-        else identifiers.put(id.getName(), id);
-        
-        id.setLocation(tokenToLocation(ctx.identifier().start).setLength(id.toString().length()));
+        Identifier id   = createIdentifier(ctx.identifier(),type);
         
         return setLocation(new AnswerableQuestion(label,id,type), ctx.start);
     }
@@ -160,12 +151,7 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
 
     @Override 
     public QLNode visitIdentifier(QLParser.IdentifierContext ctx) {
-        
-        Identifier id = new Identifier(ctx.getText());
-        
-        if(identifiers.containsKey(id.getName())) id = replaceWithOriginalIdentifier(id);
-
-        return setLocation(id,ctx.start);
+        return createIdentifier(ctx);
     }
     
     @Override 
@@ -313,6 +299,22 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         return label;
     }
     
+    private Identifier createIdentifier(QLParser.IdentifierContext ctx, Type type) {
+        
+        Identifier id = new Identifier(ctx.getText(), type);
+        
+        id.setLocation(tokenToLocation(ctx.start)).updateLength();
+        
+        if(identifiers.containsKey(id.getName())) id = replaceWithOriginalIdentifier(id);
+        else identifiers.put(id.getName(), id);
+        
+        return id;
+    }
+    
+    private Identifier createIdentifier(QLParser.IdentifierContext ctx) {
+        return createIdentifier(ctx, new Undefined());
+    }
+    
     private Identifier replaceWithOriginalIdentifier(Identifier id) {
         
         String name = id.getName();
@@ -322,6 +324,12 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
             Identifier original = identifiers.get(name);
             
             if(id.getType().isUndefined()) return original;
+            
+            if(original.getType().isUndefined())
+            {
+                original.setType(id.getType());
+                original.setLocation(id.getLocation());
+            }
             
             return (original.getType().equals(id.getType()))? identifiers.get(name) : id;
         }

@@ -25,18 +25,18 @@ public class Dependency {
     
     public boolean beginsWith(Identifier x)
     {
-        return this.x == x;
+        return this.x.getName().equals(x.getName());
     }
     
     public boolean endsWith(Identifier y)
     {
-        return this.y == y;
+        return this.y.getName().equals(y.getName());
     }
     
     public boolean equals(Dependency dependency)
     {
-        return  x == dependency.getX() &&
-                y == dependency.getY();
+        return  x.getName().equals(dependency.getX().getName()) &&
+                y.getName().equals(dependency.getY().getName());
     }
     
     public String toString()

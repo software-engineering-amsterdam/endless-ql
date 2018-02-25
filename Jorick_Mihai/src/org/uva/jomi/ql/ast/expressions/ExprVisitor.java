@@ -37,9 +37,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		QLToken operator = new QLToken(ctx.operator);
 
 		left.setLineNumber(ctx.expression(0).getStart().getLine());
-		left.setLineNumber(ctx.expression(0).getStart().getCharPositionInLine());
+		left.setColumnNumber(ctx.expression(0).getStart().getCharPositionInLine());
 		right.setLineNumber(ctx.expression(1).getStart().getLine());
-		right.setLineNumber(ctx.expression(1).getStart().getCharPositionInLine());
+		right.setColumnNumber(ctx.expression(1).getStart().getCharPositionInLine());
 
 		switch (ctx.operator.getType()) {
 		case QLParser.AND:
@@ -58,9 +58,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		QLToken operator = new QLToken(ctx.operator);
 		
 		left.setLineNumber(ctx.expression(0).getStart().getLine());
-		left.setLineNumber(ctx.expression(0).getStart().getCharPositionInLine());
+		left.setColumnNumber(ctx.expression(0).getStart().getCharPositionInLine());
 		right.setLineNumber(ctx.expression(1).getStart().getLine());
-		right.setLineNumber(ctx.expression(1).getStart().getCharPositionInLine());
+		right.setColumnNumber(ctx.expression(1).getStart().getCharPositionInLine());
 
 		switch (ctx.operator.getType()) {
 		case QLParser.OR:
@@ -79,9 +79,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		QLToken operator = new QLToken(ctx.operator);
 		
 		left.setLineNumber(ctx.expression(0).getStart().getLine());
-		left.setLineNumber(ctx.expression(0).getStart().getCharPositionInLine());
+		left.setColumnNumber(ctx.expression(0).getStart().getCharPositionInLine());
 		right.setLineNumber(ctx.expression(1).getStart().getLine());
-		right.setLineNumber(ctx.expression(1).getStart().getCharPositionInLine());
+		right.setColumnNumber(ctx.expression(1).getStart().getCharPositionInLine());
 
 		switch (ctx.operator.getType()) {
 		case QLParser.PLUS:
@@ -102,9 +102,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		QLToken operator = new QLToken(ctx.operator);
 		
 		left.setLineNumber(ctx.expression(0).getStart().getLine());
-		left.setLineNumber(ctx.expression(0).getStart().getCharPositionInLine());
+		left.setColumnNumber(ctx.expression(0).getStart().getCharPositionInLine());
 		right.setLineNumber(ctx.expression(1).getStart().getLine());
-		right.setLineNumber(ctx.expression(1).getStart().getCharPositionInLine());
+		right.setColumnNumber(ctx.expression(1).getStart().getCharPositionInLine());
 
 		switch (ctx.operator.getType()) {
 		case QLParser.EQUAL_EQUAL:
@@ -125,9 +125,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		QLToken operator = new QLToken(ctx.operator);
 		
 		left.setLineNumber(ctx.expression(0).getStart().getLine());
-		left.setLineNumber(ctx.expression(0).getStart().getCharPositionInLine());
+		left.setColumnNumber(ctx.expression(0).getStart().getCharPositionInLine());
 		right.setLineNumber(ctx.expression(1).getStart().getLine());
-		right.setLineNumber(ctx.expression(1).getStart().getCharPositionInLine());
+		right.setColumnNumber(ctx.expression(1).getStart().getCharPositionInLine());
 
 		switch (ctx.operator.getType()) {
 		case QLParser.GREATER:
@@ -152,9 +152,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		QLToken operator = new QLToken(ctx.operator);
 		
 		left.setLineNumber(ctx.expression(0).getStart().getLine());
-		left.setLineNumber(ctx.expression(0).getStart().getCharPositionInLine());
+		left.setColumnNumber(ctx.expression(0).getStart().getCharPositionInLine());
 		right.setLineNumber(ctx.expression(1).getStart().getLine());
-		right.setLineNumber(ctx.expression(1).getStart().getCharPositionInLine());
+		right.setColumnNumber(ctx.expression(1).getStart().getCharPositionInLine());
 
 		switch (ctx.operator.getType()) {
 		case QLParser.STAR:
@@ -173,7 +173,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		Expr expression = ctx.expression().accept(this);
 		
 		expression.setLineNumber(ctx.expression().getStart().getLine());
-		expression.setLineNumber(ctx.expression().getStart().getCharPositionInLine());
+		expression.setColumnNumber(ctx.expression().getStart().getCharPositionInLine());
 		
 		return new GroupingExpr(expression);
 	}
@@ -184,7 +184,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		QLToken operator = new QLToken(ctx.operator);
 		
 		right.setLineNumber(ctx.expression().getStart().getLine());
-		right.setLineNumber(ctx.expression().getStart().getCharPositionInLine());
+		right.setColumnNumber(ctx.expression().getStart().getCharPositionInLine());
 
 		switch (ctx.operator.getType()) {
 		case QLParser.BANG:

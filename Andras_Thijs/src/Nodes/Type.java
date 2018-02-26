@@ -1,3 +1,5 @@
+package Nodes;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,7 +9,8 @@ public enum Type {
     INT ("integer"),
     DATE ("date"),
     DECIMAL ("decimal"),
-    MONEY ("money");
+    MONEY ("money"),
+    VARIABLE ("variable");
 
     private String value;
 

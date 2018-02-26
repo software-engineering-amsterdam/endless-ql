@@ -1,6 +1,9 @@
+package AST;
+
+import Nodes.*;
+import AST.gen.*;
 import com.sun.istack.internal.NotNull;
 import org.antlr.v4.runtime.*;
-
 import java.io.IOException;
 import java.util.List;
 

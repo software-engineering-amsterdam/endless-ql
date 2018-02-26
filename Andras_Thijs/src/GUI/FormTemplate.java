@@ -1,3 +1,8 @@
+package GUI;
+
+import Nodes.QLForm;
+import Nodes.Question;
+import Nodes.Type;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
@@ -125,7 +130,7 @@ public class FormTemplate {
 //        frame.setTitle(title);
 //    }
 //
-//    public void addQuestion(Question question){
+//    public void addQuestion(Nodes.Question question){
 //
 //        questionPanel.add(new JLabel(question.getType()));
 //

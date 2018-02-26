@@ -3,12 +3,9 @@ package nl.uva.se.sc.niro.gui
 import java.lang
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
-import javafx.scene.{ Node, Parent }
 import javafx.scene.layout._
 import nl.uva.se.sc.niro.model.Expressions.Expression
 import nl.uva.se.sc.niro.model._
-
-import scala.collection.JavaConverters
 
 object RowCreatingVisitor {
 

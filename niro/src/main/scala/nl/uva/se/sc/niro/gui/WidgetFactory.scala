@@ -23,7 +23,6 @@ object WidgetFactory {
         case d: DecAnswer => makeDecimalField(question, d.possibleValue)
         case m: MoneyAnswer => makeMoneyField(question, m.possibleValue)
         case d: DateAnswer => makeDateField(question, d.possibleValue)
-//        case other => new Label(s"Unimplemented type: $other")
       })
   }
 

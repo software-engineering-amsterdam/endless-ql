@@ -1,4 +1,4 @@
-// Generated from C:/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Joana Magalhães/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
 package org.uva.forcepushql.antlr;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -516,14 +516,16 @@ public class GrammarParser extends Parser {
 	}
 
 	public static class ExpressionContext extends ParserRuleContext {
+		public VariableContext left;
+		public VariableContext right;
+		public ArithmeticContext arithmetic() {
+			return getRuleContext(ArithmeticContext.class,0);
+		}
 		public List<VariableContext> variable() {
 			return getRuleContexts(VariableContext.class);
 		}
 		public VariableContext variable(int i) {
 			return getRuleContext(VariableContext.class,i);
-		}
-		public ArithmeticContext arithmetic() {
-			return getRuleContext(ArithmeticContext.class,0);
 		}
 		public LogicalContext logical() {
 			return getRuleContext(LogicalContext.class,0);
@@ -561,33 +563,33 @@ public class GrammarParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(48);
-				variable();
+				((ExpressionContext)_localctx).left = variable();
 				setState(49);
 				arithmetic();
 				setState(50);
-				variable();
+				((ExpressionContext)_localctx).right = variable();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(52);
-				variable();
+				((ExpressionContext)_localctx).left = variable();
 				setState(53);
 				logical();
 				setState(54);
-				variable();
+				((ExpressionContext)_localctx).right = variable();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(56);
-				variable();
+				((ExpressionContext)_localctx).left = variable();
 				setState(57);
 				comparison();
 				setState(58);
-				variable();
+				((ExpressionContext)_localctx).right = variable();
 				}
 				break;
 			}

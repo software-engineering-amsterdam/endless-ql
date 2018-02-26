@@ -7,43 +7,41 @@ import javafx.scene.layout._
 import nl.uva.se.sc.niro.model.Expressions.Expression
 import nl.uva.se.sc.niro.model._
 
-object QuestionPopulator {
+object RowCreatingVisitor {
 
-  def populateGridWithQuestions(grid: GridPane, statements: Seq[Statement], symbolTable: Map[String, Expression]): Unit = {
+  def visit(grid: GridPane, statements: Seq[Statement], symbolTable: Map[String, Expression]): Unit = {
     grid.setHgap(10)
 
     statements.zipWithIndex foreach {
       case (statement, row) => statement match {
-        case question: Question => populateRow(grid, row, question, symbolTable)
-        case conditional: Conditional => populateRow(grid, row, conditional, symbolTable)
+        case question: Question => createDoubleColumnRow(grid, row, question, symbolTable)
+        case conditional: Conditional => createSingleColumnRow(grid, row, conditional, symbolTable)
         case ErrorStatement() => ()
       }
     }
   }
 
-  private def populateRow(grid: GridPane, rowNr: Int, question: Question, symbolTable: Map[String, Expression]): Unit = {
+  private def createDoubleColumnRow(grid: GridPane, rowNr: Int, question: Question, symbolTable: Map[String, Expression]): Unit = {
+    // A row constraint is needed because other rows depend on in.
     grid.getRowConstraints.add(new RowConstraints())
-    val widgets = WidgetFactory.makeWidget(question, symbolTable)
-    grid.addRow(rowNr, widgets.head, widgets.tail.head)
+    val widgets = WidgetFactory.makeWidgets(question, symbolTable)
+    widgets.zipWithIndex foreach {
+      case (widget, columnNr) => grid.add(widget, columnNr, rowNr)
+    }
   }
 
-  private def populateRow(grid: GridPane, rowNr: Int, conditional: Conditional, symbolTable: Map[String, Expression]): Unit = {
-    val innerPane = createQuestionPaneAtRow (grid, rowNr)
-    populateGridWithQuestions(innerPane, conditional.thenStatements, symbolTable)
-  }
-
-  private def createQuestionPaneAtRow(grid: GridPane, rowNr: Int): GridPane = {
+  private def createSingleColumnRow(grid: GridPane, rowNr: Int, conditional: Conditional, symbolTable: Map[String, Expression]): Unit = {
     // A row constraint is needed for hiding and showing entire rows.
     val rowConstraint = new RowConstraints()
     grid.getRowConstraints.add(rowConstraint)
 
-    val innerGrid = new GridPane()
+    val innerGrid: GridPane = new GridPane()
     grid.add(innerGrid, 0, rowNr, 2, 1)
     // When invisible we don't occupy any space
     innerGrid.managedProperty().bind(innerGrid.visibleProperty())
     bindConstraintToVisiblity(rowConstraint, innerGrid)
 
-    innerGrid
+    visit(innerGrid, conditional.thenStatements, symbolTable)
   }
 
   private def bindConstraintToVisiblity(constraint: RowConstraints, pane: GridPane): Unit = {

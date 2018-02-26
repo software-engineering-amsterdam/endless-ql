@@ -15,7 +15,7 @@ public class Main {
         FormReader formReader = new FormReader();
 
         try {
-            QLForm form = formReader.parseFile("./src/test_grammar.txt");
+            QLForm form = formReader.parseFile("resources/test_grammar.txt");
             List<Question> questions = form.getQuestions();
             System.out.println("Form name: " + form.getName());
             Iterator<Question> iterator = questions.iterator();

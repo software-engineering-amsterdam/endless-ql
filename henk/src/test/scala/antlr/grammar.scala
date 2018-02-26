@@ -110,37 +110,3 @@ class GrammarOneSpec extends FunSpec with BeforeAndAfter {
     }
   }
 }
-
-class VisitorSpec extends FunSpec with BeforeAndAfter {
-
-  describe("when parsing a basic form") {
-    var result: ASTNode = null
-
-    before {
-      val source = Source.fromURL(getClass.getResource("ql/simple.ql"))
-      val sourcedLines = source.mkString
-      source.close
-
-      val visitor = new SimplifierVisitor()
-      val parser = Main.getParser(sourcedLines)
-      val tree = parser.root()
-
-      result = visitor.visit(tree)
-    }
-
-    it("root node should be of type 'ASTRoot'") {
-      val expected = ASTRoot(
-        ASTFormHeader("taxOfficeExample"),
-        ASTFormBody(
-          List(
-            ASTQuestion(
-              "Did you sell a house in 2010?", 
-              ASTVarDecl("hasSoldHouse", ASTBoolean(), null)
-              )
-            )
-          )
-        )
-      assert(result == expected)
-    }
-  }
-}

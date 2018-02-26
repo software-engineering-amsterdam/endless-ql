@@ -19,9 +19,9 @@ trait Logicals[SubType<:Answer] {
   def neg(x: SubType): BooleanAnswer
 
   class Ops(left: SubType) {
-    def &&(right: SubType) = and(left, right)
-    def ||(right: SubType) = or(left, right)
-    def unary_!() = neg(left)
+    def &&(right: SubType): BooleanAnswer = and(left, right)
+    def ||(right: SubType): BooleanAnswer = or(left, right)
+    def unary_!(): BooleanAnswer = neg(left)
   }
 
   implicit def mkLogicalsOp(left: SubType): Ops = new Ops(left)

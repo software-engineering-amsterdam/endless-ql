@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 public abstract class NumericQuestion extends Question {
 
-    protected BigDecimal value;
+    protected BigDecimal value = BigDecimal.ZERO;
 
     public BigDecimal getValue() {
         return value;

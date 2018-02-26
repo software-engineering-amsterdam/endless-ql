@@ -1,24 +1,24 @@
-package classes;
+package classes.question;
 
 public class Question<T> {
     private String questionText;
-    private T value;
+    private T type;
 
-    public Question(String questionText, T value){
+    public Question(String questionText, T type){
         this.questionText = questionText;
-        this.value = value;
+        this.type = type;
     }
 
     public String getText(){
         return questionText;
     }
 
-    public T getValue(){
-        return value;
+    public T getType(){
+        return type;
     }
 
     @Override
     public String toString() {
-        return value.getClass().getName() + ": " + questionText;
+        return type.getClass().getName() + ": " + questionText;
     }
 }

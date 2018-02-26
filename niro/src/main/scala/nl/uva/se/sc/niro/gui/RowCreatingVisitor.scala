@@ -3,11 +3,14 @@ package nl.uva.se.sc.niro.gui
 import java.lang
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
+import javafx.scene.{ Node, Parent }
 import javafx.scene.layout._
 import nl.uva.se.sc.niro.model.Expressions.Expression
 import nl.uva.se.sc.niro.model._
 
-object WidgetCreatingVisitor {
+import scala.collection.JavaConverters
+
+object RowCreatingVisitor {
 
   def visit(grid: GridPane, statements: Seq[Statement], symbolTable: Map[String, Expression]): Unit = {
     grid.setHgap(10)
@@ -25,6 +28,7 @@ object WidgetCreatingVisitor {
     // A row constraint is needed because other rows depend on in.
     grid.getRowConstraints.add(new RowConstraints())
     val widgets = WidgetFactory.makeWidgets(question, symbolTable)
+    // TODO convert this into a better looking piece of code
     grid.addRow(rowNr, widgets.head, widgets.tail.head)
   }
 

@@ -17,39 +17,39 @@ object WidgetFactory {
   def makeWidgets(question: Question, symbolTable: Map[String, Expression]): Seq[Parent] = {
     Seq(new Label(question.label),
       Evaluator.evaluateExpression(question.answer, symbolTable) match {
-        case b: BooleanAnswer => makeBooleanField(b.possibleValue)
-        case s: StringAnswer => makeTextField(s.possibleValue)
-        case i: IntAnswer => makeIntegerField(i.possibleValue)
-        case d: DecAnswer => makeDecimalField(d.possibleValue)
-        case m: MoneyAnswer => makeMoneyField(m.possibleValue)
-        case d: DateAnswer => makeDateField(d.possibleValue)
-        case other => new Label(s"Unimplemented type: $other")
+        case b: BooleanAnswer => makeBooleanField(question, b.possibleValue)
+        case s: StringAnswer => makeTextField(question, s.possibleValue)
+        case i: IntAnswer => makeIntegerField(question, i.possibleValue)
+        case d: DecAnswer => makeDecimalField(question, d.possibleValue)
+        case m: MoneyAnswer => makeMoneyField(question, m.possibleValue)
+        case d: DateAnswer => makeDateField(question, d.possibleValue)
+//        case other => new Label(s"Unimplemented type: $other")
       })
   }
 
-  def makeBooleanField(bool: Option[Boolean]): Parent = {
+  def makeBooleanField(question: Question, bool: Option[Boolean]): Parent = {
     val checkbox = new CheckBox()
     bool.foreach(checkbox.setSelected(_))
     checkbox
   }
 
-  def makeTextField(text: Option[String]): Parent = {
+  def makeTextField(question: Question, text: Option[String]): Parent = {
     new TextField(text.getOrElse(""))
   }
 
-  def makeIntegerField(value: Option[Int]): Parent = {
-    makeeRegExField("\\d*", value.map(_.toString).getOrElse(""))
+  def makeIntegerField(question: Question, value: Option[Int]): Parent = {
+    makeRegExField("\\d*", value.map(_.toString).getOrElse(""))
   }
 
-  def makeDecimalField(value: Option[BigDecimal]): Parent = {
-    makeeRegExField("\\d*(,\\d{0,2})?", value.map(_.toString).getOrElse(""))
+  def makeDecimalField(question: Question, value: Option[BigDecimal]): Parent = {
+    makeRegExField("\\d*(,\\d{0,2})?", value.map(_.toString).getOrElse(""))
   }
 
-  def makeMoneyField(value: Option[String]): Parent = {
-    makeeRegExField("\\d*(,\\d{0,2})?", value.map(_.toString).getOrElse(""))
+  def makeMoneyField(question: Question, value: Option[String]): Parent = {
+    makeRegExField("\\d*(,\\d{0,2})?", value.map(_.toString).getOrElse(""))
   }
 
-  def makeDateField(value: Option[String]): Parent = {
+  def makeDateField(question: Question, value: Option[String]): Parent = {
     val dateField = new DatePicker()
     dateField.setConverter(new StringConverter[LocalDate] {
 
@@ -64,7 +64,7 @@ object WidgetFactory {
     dateField
   }
 
-  protected def makeeRegExField(validPattern: String, value: String): Parent = {
+  protected def makeRegExField(validPattern: String, value: String): Parent = {
     val regexField = new TextField(value)
     regexField.textProperty().addListener(new ChangeListener[String] {
       override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {

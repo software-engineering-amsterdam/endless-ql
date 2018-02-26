@@ -1,9 +1,11 @@
 package qlviz.model.question;
 
+import qlviz.model.numericExpressions.NumericExpression;
+
 public class DecimalQuestion extends NumericQuestion {
 
-    public DecimalQuestion(String name, String text, QuestionType type) {
-        super(name, text, type);
+    public DecimalQuestion(String name, String text, QuestionType type, NumericExpression valueExpression) {
+        super(name, text, type, valueExpression);
     }
 
     @Override

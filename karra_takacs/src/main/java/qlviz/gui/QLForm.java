@@ -42,7 +42,8 @@ public class QLForm extends Application {
 		QLBaseVisitor<QuestionBlock> questionBlockVisitor =
 				new QuestionBlockVisitor(
 						new QuestionVisitor(
-								new QuestionTypeVisitor()
+								new QuestionTypeVisitor(),
+								new NumericExpressionVisitor(new BinaryNumericOperatorVisitor())
 						),
 						pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor)
 				);

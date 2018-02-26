@@ -2,6 +2,7 @@ import ply.yacc as yacc
 import src.scanparse.qllex
 
 from AST.position import Position
+from AST.expressions.variable_node import VariableNode
 from AST.expressions.binary_operators.addition_node import AdditionOperatorNode
 from AST.expressions.binary_operators.and_node import AndOperatorNode
 from AST.expressions.binary_operators.division_node import DivisionOperatorNode
@@ -99,7 +100,7 @@ class QLParser:
     @staticmethod
     def p_variable(p):
         """expression : VAR"""
-        p[0] = p[1]
+        p[0] = VariableNode(Position(p.lineno(1), p.lexpos(1)), None, p[1])
 
     # Unary operators
     @staticmethod

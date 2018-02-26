@@ -13,12 +13,13 @@ import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree._
 
 class ASTParser extends FunSpec with BeforeAndAfter {
+  // maybe extract method to general helper class
   private def getForm(location:String): ASTNode = {
     return QlFormParser.parseFromURL(getClass.getResource(location))
   }
 
-  describe("when parsing a basic form") {
-    it("root node should be of type 'ASTRoot'") {
+  describe("when parsing a form") {
+    it("should contain a single question") {
       val result = getForm("ql/simple.ql")
       val expected = ASTRoot(
         ASTFormHeader("taxOfficeExample"),
@@ -31,6 +32,26 @@ class ASTParser extends FunSpec with BeforeAndAfter {
             )
           )
         )
+      assert(result == expected)
+    }
+
+    it("should contain two questions") {
+      val result = getForm("ql/two_simple.ql")
+      val expected = ASTRoot(
+        ASTFormHeader("taxOfficeExample"),
+        ASTFormBody(
+          List(
+            ASTQuestion(
+              "Did you sell a house in 2010?", 
+              ASTVarDecl("hasSoldHouse", ASTBoolean(), null)
+            ),
+            ASTQuestion(
+              "Did you sell a house in 2011?", 
+              ASTVarDecl("hasSoldHouse", ASTBoolean(), null)
+            )
+          )
+        )
+      )
       assert(result == expected)
     }
   }

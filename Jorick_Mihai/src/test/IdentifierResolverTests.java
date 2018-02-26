@@ -1,4 +1,4 @@
-package org.uva.jomi.ql.tests.utilities;
+package test;
 
 import static org.junit.Assert.assertTrue;
 
@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.uva.jomi.ql.ast.analysis.IdentifierResolver;
 import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.tests.utilities.TestUtilities;
 
 public class IdentifierResolverTests {
 	

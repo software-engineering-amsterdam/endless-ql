@@ -7,16 +7,8 @@ import qlviz.gui.renderer.javafx.JavafxFormRenderer;
 import qlviz.gui.renderer.javafx.JavafxQuestionBlockRenderer;
 import qlviz.gui.renderer.javafx.JavafxQuestionRenderer;
 import qlviz.gui.viewModel.*;
-import qlviz.interpreter.BinaryBooleanOperatorVisitor;
-import qlviz.interpreter.BinaryNumericOperatorVisitor;
-import qlviz.interpreter.linker.BooleanExpressionVisitor;
-import qlviz.interpreter.ConditionalBlockVisitor;
-import qlviz.interpreter.FormVisitor;
-import qlviz.interpreter.NumericComparisonOperatorVisitor;
-import qlviz.interpreter.NumericExpressionVisitor;
-import qlviz.interpreter.QuestionBlockVisitor;
-import qlviz.interpreter.QuestionTypeVisitor;
-import qlviz.interpreter.QuestionVisitor;
+import qlviz.interpreter.*;
+import qlviz.interpreter.linker.QuestionLinkerImpl;
 import qlviz.model.booleanExpressions.BooleanExpression;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
@@ -55,7 +47,7 @@ public class QLForm extends Application {
 						pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor)
 				);
 		FormVisitor visitor = new FormVisitor(questionBlockVisitor);
-		this.model = new ModelBuilder(visitor).createFormFromMarkup(this.getParameters().getRaw().get(0));
+		this.model = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker())).createFormFromMarkup(this.getParameters().getRaw().get(0));
 
 		QuestionViewModelFactoryImpl questionViewModelFactory = new QuestionViewModelFactoryImpl();
 		QuestionBlockViewModelFactory questionBlockViewModelFactory = new QuestionBlockViewModelFactory(questionViewModelFactory::create);

@@ -4,18 +4,21 @@ import java.io.IOException;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 import qlviz.QLLexer;
 import qlviz.QLParser;
 import qlviz.interpreter.FormVisitor;
+import qlviz.interpreter.linker.QuestionLinker;
 import qlviz.model.Form;
 
 public class ModelBuilder {
 
 	private final FormVisitor formParser;
+	private final QuestionLinker questionLinker;
 
-	public ModelBuilder(FormVisitor formParser) {
+
+	public ModelBuilder(FormVisitor formParser, QuestionLinker questionLinker) {
 		this.formParser = formParser;
+		this.questionLinker = questionLinker;
 	}
 
 
@@ -29,7 +32,10 @@ public class ModelBuilder {
 		QLLexer lexer = new QLLexer(charStream);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
-		return formParser.visitForm(parser.form());
+		Form form = formParser.visitForm(parser.form());
+		this.questionLinker.linkQuestionStubs(form);
+
+		return form;
 	}
 
 

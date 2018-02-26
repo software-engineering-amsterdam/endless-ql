@@ -1,10 +1,10 @@
-package ql.ast;
+package ql.ast.expressions;
+
+import ql.ast.ASTVisitor;
 
 public class ExprStrNode extends ExprNode {
 
-    String symbol;
-    ExprNode first;
-    ExprNode second;
+
 
     public <T> T accept(ASTVisitor<? extends T> visitor){
         return visitor.visitExprStr(this);

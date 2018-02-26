@@ -1,26 +1,18 @@
 package ql.ast.statements;
 
+
 import ql.ast.ASTNode;
 import ql.ast.ASTVisitor;
 import ql.ast.expressions.ExprNode;
 
-public class ComputedQuestionNode extends ASTNode {
+public class AssignmentNode extends ASTNode {
 
-    private String label;
     private String id;
     private String type;
     private ExprNode expr;
 
     public <T> T accept(ASTVisitor<? extends T> visitor){
-        return visitor.visitComputedQuestion(this);
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
+        return visitor.visitAssignment(this);
     }
 
     public String getId() {

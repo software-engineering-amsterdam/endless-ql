@@ -1,6 +1,7 @@
 package expression;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 public class ExpressionVariableMoney extends ExpressionVariable<BigDecimal> {
 
@@ -17,8 +18,15 @@ public class ExpressionVariableMoney extends ExpressionVariable<BigDecimal> {
     }
 
     @Override
+    public String toString() {
+        // Print money value with 2 decimals, even if they are zero
+        // Example: 5.00 and 4.95
+        return new DecimalFormat("#0.##").format(this);
+    }
+
+    @Override
     public ReturnType getReturnType() {
-        return ReturnType.Money;
+        return ReturnType.MONEY;
     }
 
     @Override
@@ -67,20 +75,5 @@ public class ExpressionVariableMoney extends ExpressionVariable<BigDecimal> {
     public ExpressionVariable lt(ExpressionVariable other) {
         BigDecimal otherBigDecimal = BigDecimal.valueOf(Double.parseDouble(other.evaluate().get().toString()));
         return new ExpressionVariableBoolean(this.value.compareTo(otherBigDecimal) < 0);
-    }
-
-    @Override
-    public ExpressionVariable and(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
-    public ExpressionVariable or(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
-    public ExpressionVariable not() {
-        return new ExpressionVariableUndefined();
     }
 }

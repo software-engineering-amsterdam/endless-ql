@@ -157,6 +157,14 @@ namespace UnitTests.Domain.UnitTests
             Assert.AreEqual(expected: conditionCount, actual: actualCount);
         }
 
+        [TestCaseSource(typeof(TestData), nameof(TestData.ElseStatementCases))]
+        public void WhenFormHasElseConditional_CorrectNumberOfQuestionsExist(string validText, int conditionCount)
+        {
+            var createdForm = CreateForm(validText);
+            var actualCount = createdForm.Statements.Flatten().OfType<IQuestionAst>().Count();
+            Assert.AreEqual(expected: conditionCount, actual: actualCount);
+        }
+        
         [TestCaseSource(typeof(TestData), nameof(TestData.QuestionDuplicatesCases))]
         public void WhenDuplicateQuestionId_ThrowsAnError(string invalidText, string duplicateName)
         {
@@ -173,25 +181,25 @@ namespace UnitTests.Domain.UnitTests
 
             Assert.Fail("Should have thrown an exception");
         }
-        
-        [TestCaseSource(typeof(TestData), nameof(TestData.NonBooleanConditional))]
-        public void WhenANonBooleanQuestionIsUsedInAConditional_ThrowsAnError(string invalidText, string nonBooleanName)
-        {
-            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
-            try
-            {
-                questionnaireCreator.Create(invalidText);
-            }
-            catch (QlParserException exception)
-            {
-                Assert.IsTrue(exception.ParseErrorDetails.Contains(nonBooleanName));
-                return;
-            }
 
-            Assert.Fail("Should have thrown an exception");
-        }
+        //[TestCaseSource(typeof(TestData), nameof(TestData.NonBooleanConditional))]
+        //public void WhenANonBooleanQuestionIsUsedInAConditional_ThrowsAnError(string invalidText, string nonBooleanName)
+        //{
+        //    var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+        //    try
+        //    {
+        //        questionnaireCreator.Create(invalidText);
+        //    }
+        //    catch (QlParserException exception)
+        //    {
+        //        Assert.IsTrue(exception.ParseErrorDetails.Contains(nonBooleanName));
+        //        return;
+        //    }
 
-        
+        //    Assert.Fail("Should have thrown an exception");
+        //}
+
+
         [TestCaseSource(typeof(TestData), nameof(TestData.BooleanConditional))]
         public void WhenBooleanQuestionUsedInAConditional_ParsesCorrectly(string validText, IEnumerable<string> booleanNames)
         {
@@ -208,7 +216,24 @@ namespace UnitTests.Domain.UnitTests
                 Assert.Contains(expected: expectedName, actual: questionNames);
             }
         }
-        
+
+        [TestCaseSource(typeof(TestData), nameof(TestData.CalculationQuestionCases))]
+        public void WhenQuestionIsCalculation_ParsesCorrectly(string validText, IEnumerable<string> calculationNames)
+        {
+            var createdForm = CreateForm(validText);
+            var questionNames = createdForm
+                .Statements
+                .Flatten()
+                .OfType<ICalculationAst>()
+                .Select(x => x.CalculationName)
+                .ToList();
+
+            foreach (var expectedName in calculationNames)
+            {
+                Assert.Contains(expected: expectedName, actual: questionNames);
+            }
+        }
+
         [TestCaseSource(typeof(TestData), nameof(TestData.ComparisonConditional))]
         public void WhenComparisonUsedInAConditional_ParsesCorrectly(string validText, IEnumerable<string> booleanNames)
         {

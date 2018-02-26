@@ -2,19 +2,24 @@ package ast.literal;
 
 import java.math.BigDecimal;
 
+import checking.value.DecimalValue;
 import visiting.LiteralVisitor;
 
-public class MoneyLiteral extends Literal<BigDecimal> {
+public class MoneyLiteral extends Literal {
 
-	public MoneyLiteral(BigDecimal value) {
-		super(value);
-		// TODO Auto-generated constructor stub
+    private DecimalValue value;
+    
+    public MoneyLiteral(BigDecimal value) {
+    	this.value = new DecimalValue(value);
+    }
+    
+    @Override
+	public DecimalValue getValue() {
+		return value;
 	}
 
 	@Override
 	public <T, U> T accept(LiteralVisitor<T, U> visitor, U ctx) {
-		// TODO Auto-generated method stub
-		//return null;
 		return visitor.visit(this, ctx);
 	}
 }

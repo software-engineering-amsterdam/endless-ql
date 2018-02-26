@@ -3,9 +3,11 @@ package org.uva.sc.cr.ql.interpreter.controls
 import javafx.beans.binding.Binding
 import javafx.event.EventHandler
 import javafx.event.EventType
+import javafx.scene.Node
 import javafx.scene.control.Control
+import javafx.scene.control.Label
+import javafx.scene.layout.HBox
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.uva.sc.cr.ql.qL.Expression
 import org.uva.sc.cr.ql.qL.Question
 
 abstract class ControlWrapper {
@@ -13,12 +15,19 @@ abstract class ControlWrapper {
 	@Accessors(PUBLIC_GETTER)
 	val String name
 
-	val Expression expression
+	val Label label
 
 	new(Question question, Binding binding) {
 		this.name = question.name
-		this.expression = question.expression
+		this.label = new Label(question.label)
+		buildControl()
+		control.id = name
+		if (question.expression !== null) {
+			control.disable = true
+		}
 	}
+
+	def protected void buildControl()
 
 	def Object getValue()
 
@@ -28,11 +37,16 @@ abstract class ControlWrapper {
 		control.addEventHandler(EventType.ROOT, eventHandler)
 	}
 
-	protected def setDefaults() {
-		control.id = name
-		if (expression !== null) {
-			control.disable = true
-		}
+	def Node getControlWithLabel() {
+		val hbox = new HBox
+		hbox.children.add(label)
+		hbox.children.add(control)
+		return hbox
+	}
+
+	def bindVisibleProperty(Binding binding) {
+		control.visibleProperty.bind(binding)
+		label.visibleProperty.bind(binding)
 	}
 
 }

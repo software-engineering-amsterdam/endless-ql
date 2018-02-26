@@ -4,9 +4,12 @@ import ParseObjects.Expressions.BinaryExpression;
 import ParseObjects.Expressions.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
+import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 
 public class SubtractExpression extends BinaryExpression<Double> {
+
     public SubtractExpression(Expression left, Expression right) { super("-", left, right); }
+
 
     @Override
     public EvaluationType returnType() {
@@ -15,8 +18,9 @@ public class SubtractExpression extends BinaryExpression<Double> {
 
     @Override
     public Constant<Double> evaluate() {
-        //ToDo: Implement
-        return null;
+        DecimalConstant left  = (DecimalConstant) this.getExprLeft().evaluate();
+        DecimalConstant right = (DecimalConstant) this.getExprRight().evaluate();
+        return new DecimalConstant(left.getValue() - right.getValue());
     }
 
     @Override

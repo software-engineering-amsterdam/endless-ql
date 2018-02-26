@@ -2,19 +2,25 @@ package ast.literal;
 
 import java.util.Date;
 
+import checking.value.DateValue;
 import visiting.LiteralVisitor;
 
-public class DateLiteral extends Literal<Date>{
+public class DateLiteral extends Literal{
 
-	public DateLiteral(Date value) {
-		super(value);
-		// TODO Auto-generated constructor stub
+    private DateValue value;
+    
+
+    public DateLiteral(Date value){
+    	this.value = new DateValue(value);
+    }
+    
+    @Override
+	public DateValue getValue() {
+		return value;
 	}
 
 	@Override
 	public <T, U> T accept(LiteralVisitor<T, U> visitor, U ctx) {
-		// TODO Auto-generated method stub
-		//return null;
 		return visitor.visit(this, ctx);
 	}
 }

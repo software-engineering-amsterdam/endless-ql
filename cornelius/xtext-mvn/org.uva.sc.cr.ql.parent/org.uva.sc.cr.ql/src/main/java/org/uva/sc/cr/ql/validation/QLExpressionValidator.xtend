@@ -18,6 +18,7 @@ import org.uva.sc.cr.ql.qL.Question
 import org.uva.sc.cr.ql.util.MissingCaseException
 import org.uva.sc.cr.ql.qL.QLPackage
 import org.uva.sc.cr.ql.util.QLUtil
+import org.uva.sc.cr.ql.qL.QuestionType
 
 /**
  * This class contains custom validation rules. 
@@ -38,16 +39,16 @@ class QLExpressionValidator extends AbstractQLValidator {
 	public static val TYPE_NOT_EXPECTED = 'typeNotExpected'
 	public static val TYPE_NOT_EXPECTED_MESSAGE = "The resulting type does not match the expected type"
 
-	def String computeType(Expression exp) {
+	def QuestionType computeType(Expression exp) {
 		switch exp {
 			ExpressionOr:
-				QLUtil.TYPE_BOOLEAN
+				QuestionType.TYPE_BOOLEAN
 			ExpressionAnd:
-				QLUtil.TYPE_BOOLEAN
+				QuestionType.TYPE_BOOLEAN
 			ExpressionEquality:
-				QLUtil.TYPE_BOOLEAN
+				QuestionType.TYPE_BOOLEAN
 			ExpressionComparison:
-				QLUtil.TYPE_BOOLEAN
+				QuestionType.TYPE_BOOLEAN
 			ExpressionPlusOrMinus: {
 				computeType(exp.left)
 			}
@@ -55,15 +56,15 @@ class QLExpressionValidator extends AbstractQLValidator {
 				computeType(exp.left)
 			}
 			ExpressionNot:
-				QLUtil.TYPE_BOOLEAN
+				QuestionType.TYPE_BOOLEAN
 			ExpressionLiteralString:
-				QLUtil.TYPE_STRING
+				QuestionType.TYPE_STRING
 			ExpressionLiteralInteger:
-				QLUtil.TYPE_INTEGER
+				QuestionType.TYPE_INTEGER
 			ExpressionLiteralBoolean:
-				QLUtil.TYPE_BOOLEAN
+				QuestionType.TYPE_BOOLEAN
 			ExpressionQuestionRef:
-				QLUtil.getTypeForQuestionType(exp.question.type)
+				exp.question.type
 			default:
 				throw new MissingCaseException
 		}
@@ -191,7 +192,7 @@ class QLExpressionValidator extends AbstractQLValidator {
 	@Check
 	def checkBlockExpression(Block block) {
 
-		if (computeType(block.expression) != QLUtil.TYPE_BOOLEAN) {
+		if (computeType(block.expression) != QuestionType.TYPE_BOOLEAN) {
 			error(BLOCK_INVALID_EXPRESSION_MESSAGE, QLPackage.Literals.BLOCK__EXPRESSION, BLOCK_INVALID_EXPRESSION)
 		}
 
@@ -201,7 +202,7 @@ class QLExpressionValidator extends AbstractQLValidator {
 	def checkComputedQuestion(Question question) {
 
 		if (question.expression !== null) {
-			var expectedType = QLUtil.getTypeForQuestionType(question.type)
+			var expectedType = question.type
 			var computedType = computeType(question.expression)
 			if (expectedType != computedType)
 				error(TYPE_NOT_EXPECTED_MESSAGE, QLPackage.Literals.QUESTION__EXPRESSION, TYPE_NOT_EXPECTED)

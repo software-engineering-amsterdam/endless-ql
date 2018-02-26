@@ -18,35 +18,25 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 */
 	void exitVariable(GrammarParser.VariableContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link GrammarParser#decisions}.
+	 * Enter a parse tree produced by {@link GrammarParser#logical}.
 	 * @param ctx the parse tree
 	 */
-	void enterDecisions(GrammarParser.DecisionsContext ctx);
+	void enterLogical(GrammarParser.LogicalContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link GrammarParser#decisions}.
+	 * Exit a parse tree produced by {@link GrammarParser#logical}.
 	 * @param ctx the parse tree
 	 */
-	void exitDecisions(GrammarParser.DecisionsContext ctx);
+	void exitLogical(GrammarParser.LogicalContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link GrammarParser#operator}.
+	 * Enter a parse tree produced by {@link GrammarParser#conditional}.
 	 * @param ctx the parse tree
 	 */
-	void enterOperator(GrammarParser.OperatorContext ctx);
+	void enterConditional(GrammarParser.ConditionalContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link GrammarParser#operator}.
+	 * Exit a parse tree produced by {@link GrammarParser#conditional}.
 	 * @param ctx the parse tree
 	 */
-	void exitOperator(GrammarParser.OperatorContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link GrammarParser#type}.
-	 * @param ctx the parse tree
-	 */
-	void enterType(GrammarParser.TypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GrammarParser#type}.
-	 * @param ctx the parse tree
-	 */
-	void exitType(GrammarParser.TypeContext ctx);
+	void exitConditional(GrammarParser.ConditionalContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GrammarParser#arithmetic}.
 	 * @param ctx the parse tree
@@ -58,6 +48,16 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 */
 	void exitArithmetic(GrammarParser.ArithmeticContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link GrammarParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void enterType(GrammarParser.TypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void exitType(GrammarParser.TypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link GrammarParser#comparison}.
 	 * @param ctx the parse tree
 	 */
@@ -67,6 +67,16 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitComparison(GrammarParser.ComparisonContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#questionTypes}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestionTypes(GrammarParser.QuestionTypesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#questionTypes}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestionTypes(GrammarParser.QuestionTypesContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
@@ -88,15 +98,35 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 */
 	void exitQuestionFormat(GrammarParser.QuestionFormatContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link GrammarParser#conditional}.
+	 * Enter a parse tree produced by {@link GrammarParser#questionAssignValue}.
 	 * @param ctx the parse tree
 	 */
-	void enterConditional(GrammarParser.ConditionalContext ctx);
+	void enterQuestionAssignValue(GrammarParser.QuestionAssignValueContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link GrammarParser#conditional}.
+	 * Exit a parse tree produced by {@link GrammarParser#questionAssignValue}.
 	 * @param ctx the parse tree
 	 */
-	void exitConditional(GrammarParser.ConditionalContext ctx);
+	void exitQuestionAssignValue(GrammarParser.QuestionAssignValueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#conditionalConstr}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditionalConstr(GrammarParser.ConditionalConstrContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#conditionalConstr}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditionalConstr(GrammarParser.ConditionalConstrContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#questionMultiAns}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestionMultiAns(GrammarParser.QuestionMultiAnsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#questionMultiAns}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestionMultiAns(GrammarParser.QuestionMultiAnsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GrammarParser#formStructure}.
 	 * @param ctx the parse tree

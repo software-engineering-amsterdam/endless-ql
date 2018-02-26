@@ -20,10 +20,11 @@ import static org.junit.Assert.assertEquals;
 
 public class QLIngesterTest {
 
-    private static final String INPUT_LOCATION = "src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql";
+    private static final String INPUT_BASIC_FILE = "src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql";
+    private static final String INPUT_NULL_TEST = "src/test/java/nl/uva/js/qlparser/logic/testdata/null_test.jsql";
 
     @Test
-    public void getFormFromLocation() throws IOException {
+    public void testGetFormFromLocation() throws IOException {
         // Questions
         Question hasSoldHouse = Question.builder()
                 .name("hasSoldHouse")
@@ -97,7 +98,40 @@ public class QLIngesterTest {
                 .formExpressions(expectedExpressions)
                 .build();
 
-        Form actualForm = QLIngester.parseFormFromLocation(INPUT_LOCATION);
+        Form actualForm = QLIngester.parseFormFromLocation(INPUT_BASIC_FILE);
+
+        assertEquals(expectedForm.toString(), actualForm.toString());
+    }
+
+    @Test
+    public void testNullValue() throws IOException {
+        // Questions
+        Question presetValue = Question.builder()
+                .name("currentMonth")
+                .question("The current month is")
+                .dataType(DataType.STRING)
+                .value(Value.builder().dataType(DataType.STRING).value("February").build())
+                .build();
+
+        // Questions
+        Question nullValue = Question.builder()
+                .name("favoriteMonth")
+                .question("What is your favorite month?")
+                .dataType(DataType.STRING)
+                .build();
+
+        LinkedList<FormExpression> expectedExpressions =
+                new LinkedList<>(Arrays.asList(
+                        presetValue,
+                        nullValue
+                ));
+
+        Form expectedForm = Form.builder()
+                .name("nullValueTest")
+                .formExpressions(expectedExpressions)
+                .build();
+
+        Form actualForm = QLIngester.parseFormFromLocation(INPUT_NULL_TEST);
 
         assertEquals(expectedForm.toString(), actualForm.toString());
     }

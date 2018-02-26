@@ -5,15 +5,15 @@ import java.util.function.Function;
 
 public class NonNullRun {
 
-    public static <T> void consumer(T variable, Consumer<T> f) {
+    public static <T> void consumer(T variable, Consumer<T> whenNonNull) {
         if (variable != null) {
-            f.accept(variable);
+            whenNonNull.accept(variable);
         }
     }
 
-    public static <T, R> R function(T variable, Function<T, R> f) {
+    public static <T, R> R function(T variable, Function<T, R> whenNonNull) {
         if (variable != null) {
-            return f.apply(variable);
+            return whenNonNull.apply(variable);
         } else return null;
     }
 }

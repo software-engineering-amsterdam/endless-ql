@@ -1,13 +1,10 @@
 package org.uva.jomi.ui.elements;
 
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-
-import org.uva.jomi.ql.ast.statements.FormStmt;
 
 public class PanelElement implements BaseElement{
 	

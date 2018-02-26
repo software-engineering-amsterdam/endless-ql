@@ -1,22 +1,24 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
+import org.antlr.v4.runtime.Token;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.SingleNode;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.traverse.Visitor;
 
-public class Not extends SingleNode {
-    public Not(ASTNode value) {
-        super(value);
-    }
-
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doNot(this);
+public class Not extends SingleNode  {
+    public Not(Token token, ASTNode value) {
+        super(token, value);
     }
 
     public Type getType() {
-        return new Type("boolean");
+        return new Type(NodeType.BOOLEAN);
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }
 

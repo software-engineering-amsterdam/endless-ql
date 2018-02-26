@@ -1,23 +1,16 @@
 package ql.ast.expression;
 
-import ql.ast.type.Numeric;
-import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Negative extends UnaryArithmetic {
+public class Negative extends UnaryOperator {
 
     public Negative(Expression expr) { 
-        super.expr = expr;
+        super.operand = expr;
     }
 
     @Override
-    public Type getType() {
-        return new Numeric();
-    }
-    
-    @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

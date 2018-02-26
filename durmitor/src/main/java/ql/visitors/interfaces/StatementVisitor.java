@@ -8,7 +8,7 @@ import ql.ast.statement.IfThenElse;
 
 public interface StatementVisitor {
 
-    void visit(Block stmts);
+    void visit(Block block);
     void visit(IfThen stmt);
     void visit(IfThenElse stmt);
     void visit(AnswerableQuestion stmt);

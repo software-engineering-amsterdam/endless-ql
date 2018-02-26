@@ -15,7 +15,7 @@ export class AppComponent {
   form: FormGroup;
   formName: string;
   errorMessage: string;
-  payLoad: string;
+  payload: string;
 
   constructor (private questionControlService: QuestionControlService) {
 
@@ -31,6 +31,7 @@ export class AppComponent {
       this.questions = ast.toFormQuestion();
       this.form = this.questionControlService.toFormGroup(this.questions);
       this.formName = ast.name;
+      this.errorMessage = undefined;
     } catch (e) {
       this.form = undefined;
       this.formName = undefined;
@@ -40,7 +41,7 @@ export class AppComponent {
   }
 
   onSubmit() {
-    this.payLoad = JSON.stringify(this.form.value);
-    console.log(JSON.stringify(this.form.value));
+    this.payload = JSON.stringify(this.form.getRawValue());
+    console.log(JSON.stringify(this.form.getRawValue()));
   }
 }

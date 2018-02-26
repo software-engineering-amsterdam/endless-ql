@@ -1,108 +1,85 @@
 grammar org.uva.sc.cr.qsl.QSL with org.uva.sc.cr.ql.QL
 
 generate qSL "http://www.uva.org/sc/cr/qsl/QSL"
-
 import "http://www.uva.org/sc/cr/ql/QL"
 
 Model:
-	form = Form
-	(stylesheet=Stylesheet)?
-;
+	form=Form
+	(stylesheet=Stylesheet)?;
 
 Stylesheet:
 	'stylesheet' name=ID
-	(pages+=Page)*
-;
+	pages+=Page*;
 
 Page:
 	'page' name=ID '{'
-        (elements+=BlockElement)*
-	'}'
-;
-	
+	sections+=Section*
+	defaultStyles+=DefaultStyle*
+	'}';
+
 Section:
-	SectionShort | SectionExtended
-;
+	SectionShort | SectionExtended;
 
 SectionExtended returns Section:
 	'section' name=STRING '{'
-        (elements+=BlockElement)*
-    '}'
-;
+	questions+=QuestionReference*
+	sections+=Section*
+	defaultStyles+=DefaultStyle*
+	'}';
 
 SectionShort returns Section:
-	'section' name=STRING question=QuestionRef
-;
+	'section' name=STRING questions+=QuestionReference*;
 
-BlockElement:
-	QuestionRef | Section | DefaultStyle
-;
-
-QuestionRef: 
-	'question' question=[Question] (widget=Widget)?
-;
+QuestionReference:
+	'question' questionReference=[Question] (widget=Widget)?;
 
 Widget:
-	'widget' (WidgetSpinbox | WidgetCheckbox | WidgetSlider | WidgetText| WidgetRadio | WidgetDropdown)
-;
+	'widget' (WidgetSpinbox | WidgetCheckbox | WidgetSlider | WidgetText | WidgetRadio | WidgetDropdown);
 
 WidgetSpinbox:
-	type='spinbox'
-;
+	type='spinbox';
 
-WidgetCheckbox: 
-	type='checkbox'
-;
+WidgetCheckbox:
+	type='checkbox';
 
-WidgetSlider: 
-	type='slider'
-;
+WidgetSlider:
+	type='slider';
 
 WidgetText:
-	type='text'
-;
-	
+	type='text';
+
 WidgetRadio:
-	type='radio' '(' option1=STRING ',' option2=STRING ')'
-;
+	type='radio' '(' option1=STRING ',' option2=STRING ')';
 
 WidgetDropdown:
-	type='dropdown' '(' option1=STRING ',' option2=STRING ')'
-;
+	type='dropdown' '(' option1=STRING ',' option2=STRING ')';
 
 DefaultStyle:
-	DefaultStyleShort | DefaultStyleExtended
-;
+	DefaultStyleShort | DefaultStyleExtended;
 
 DefaultStyleShort returns DefaultStyle:
-	'default' type=QuestionType (widget=Widget)?
-;
-	
+	'default' questionType=QuestionType widget=Widget;
+
 DefaultStyleExtended returns DefaultStyle:
-	'default' type=QuestionType '{'
-		(styles+=StyleAttribute)*
-		widget=Widget
-	'}'
-;
+	'default' questionType=QuestionType '{'
+	styles+=StyleAttribute*
+	widget=Widget
+	'}';
 
 StyleAttribute:
-	StyleAttributeWidth | StyleAttributeFont | StyleAttributeFontSize | StyleAttributeColor
-;
- 
+	StyleAttributeWidth | StyleAttributeFont | StyleAttributeFontSize | StyleAttributeColor;
+
 StyleAttributeWidth returns StyleAttribute:
-	'width' ':' width=INT
-;
+	'width' ':' width=INT;
 
 StyleAttributeFont returns StyleAttribute:
-	'font' ':' font=STRING
-;
+	'font' ':' font=STRING;
 
 StyleAttributeFontSize returns StyleAttribute:
-	'fontsize' ':' size=INT
-;
+	'fontsize' ':' size=INT;
 
 StyleAttributeColor returns StyleAttribute:
-	'color' ':' value=HEX
-;
+	'color' ':' value=HEX;
 
-terminal HEX: '#'+('a'..'f' | 'A'..'F' | '0'..'9')*;
+terminal HEX:
+	'#'+ ('a'..'f' | 'A'..'F' | '0'..'9')*;

@@ -19,7 +19,7 @@ export class Question extends Statement {
     const options = {
       key: this.name,
       label: this.label,
-      type: this.toHtmlInputType(this.type),
+      type: Statement.toHtmlInputType(this.type),
       value: this.type === QuestionType.STRING ? '' : undefined,
       hiddenCondition: condition
     };

@@ -5,6 +5,7 @@ from pyql.ast.form.block import Block
 from pyql.ast.code_location import CodeLocation
 from pyql.ast.form.form import Form
 from pyql.ast.expression.expressions import *
+from pyql.ast.form.question_types import *
 
 
 # TODO check if can get rid of 'if getChildCount() > 1'
@@ -35,8 +36,23 @@ class ParseTreeVisitor(QLVisitor):
         return Question(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(),
                         ctx.questionType().accept(self))
 
-    def visitQuestionType(self, ctx: QLParser.QuestionTypeContext):
-        return ctx.getText()
+    def visitBooleanType(self, ctx: QLParser.BooleanTypeContext):
+        return Boolean(self.location(ctx))
+
+    def visitStringType(self, ctx: QLParser.StringTypeContext):
+        return String(self.location(ctx))
+
+    def visitIntegerType(self, ctx: QLParser.IntegerTypeContext):
+        return Integer(self.location(ctx))
+
+    def visitDateType(self, ctx: QLParser.DateTypeContext):
+        return Date(self.location(ctx))
+
+    def visitDecimalType(self, ctx: QLParser.DecimalTypeContext):
+        return Decimal(self.location(ctx))
+
+    def visitMoneyType(self, ctx: QLParser.MoneyTypeContext):
+        return Money(self.location(ctx))
 
     def visitExpression(self, ctx: QLParser.ExpressionContext):
         return self.visitChildren(ctx)
@@ -60,29 +76,15 @@ class ParseTreeVisitor(QLVisitor):
             left = ctx.addExpression(0).accept(self)
             right = ctx.addExpression(1).accept(self)
             location = self.location(ctx)
-            switcher = {
-                "<": LessThan(location, left, right),
-                ">": GreaterThan(location, left, right),
-                "<=": LessThanOrEqual(location, left, right),
-                ">=": GreaterThanOrEqual(location, left, right),
-                "==": Equals(location, left, right),
-                "!=": NotEquals(location, left, right)
-            }
-            return switcher.get(self.operator(ctx))
+            return self.binaryExpressionFactory(location, left, right, self.binaryOperator(ctx))
         return self.visitChildren(ctx)
 
     def visitAddExpression(self, ctx: QLParser.AddExpressionContext):
         if ctx.getChildCount() > 1:
-            left = ctx.mulExpression(0).accept(self)
-            right = ctx.mulExpression(1).accept(self)
             mulExpressions = [m.accept(self) for m in ctx.mulExpression()]
             operators = [o.accept(self) for o in ctx.addOperator()]
             location = self.location(ctx)
-            switcher = {
-                "+": Addition(location, left, right),
-                "-": Subtraction(location, left, right),
-            }
-            return switcher.get(self.operator(ctx))
+            return self.buildMultiaryExpression(location, mulExpressions, operators)
         return self.visitChildren(ctx)
 
     def visitAddOperator(self, ctx: QLParser.AddOperatorContext):
@@ -90,16 +92,10 @@ class ParseTreeVisitor(QLVisitor):
 
     def visitMulExpression(self, ctx: QLParser.MulExpressionContext):
         if ctx.getChildCount() > 1:
-            left = ctx.unExpression(0).accept(self)
-            right = ctx.unExpression(1).accept(self)
             unExpressions = [m.accept(self) for m in ctx.unExpression()]
             operators = [o.accept(self) for o in ctx.mulOperator()]
             location = self.location(ctx)
-            switcher = {
-                "*": Multiplication(location, left, right),
-                "/": Division(location, left, right),
-            }
-            return switcher.get(self.operator(ctx))
+            return self.buildMultiaryExpression(location, unExpressions, operators)
         return self.visitChildren(ctx)
 
     def visitMulOperator(self, ctx: QLParser.MulOperatorContext):
@@ -108,11 +104,23 @@ class ParseTreeVisitor(QLVisitor):
     def visitUnExpression(self, ctx: QLParser.UnExpressionContext):
         return self.visitChildren(ctx)
 
-    def visitLiteral(self, ctx: QLParser.LiteralContext):
-        return ctx.getText()
+    def visitMoneyLiteral(self, ctx: QLParser.MoneyLiteralContext):
+        return MoneyLiteral(self.location(ctx), ctx.getText())
+
+    def visitDecimalLiteral(self, ctx: QLParser.DecimalLiteralContext):
+        return DecimalLiteral(self.location(ctx), ctx.getText())
+
+    def visitIntLiteral(self, ctx: QLParser.IntLiteralContext):
+        return IntLiteral(self.location(ctx), ctx.getText())
+
+    def visitStringLiteral(self, ctx: QLParser.StringLiteralContext):
+        return StringLiteral(self.location(ctx), ctx.getText())
+
+    def visitBoolLiteral(self, ctx: QLParser.BoolLiteralContext):
+        return BoolLiteral(self.location(ctx), ctx.getText())
 
     def visitIdentifier(self, ctx: QLParser.IdentifierContext):
-        return ctx.getText()
+        return Identifier(ctx.getText(), self.location(ctx))
 
     def visitMoney(self, ctx: QLParser.MoneyContext):
         print("visit money")
@@ -120,5 +128,28 @@ class ParseTreeVisitor(QLVisitor):
     def location(self, context):
         return CodeLocation(context.start.line, context.start.column)
 
-    def operator(self, ctx):
+    def buildMultiaryExpression(self, location, expressions, operators):
+        if len(expressions) == 2:
+            return self.binaryExpressionFactory(location, expressions[0], expressions[1], operators[0])
+        operator = operators.pop()
+        expression = expressions.pop()
+        return self.binaryExpressionFactory(location, self.buildMultiaryExpression(location, expressions, operators),
+                                            expression, operator)
+
+    def binaryOperator(self, ctx):
         return ctx.getChild(1).getText()
+
+    def binaryExpressionFactory(self, location, left, right, operator):
+        switcher = {
+            "*": Multiplication(location, left, right),
+            "/": Division(location, left, right),
+            "+": Addition(location, left, right),
+            "-": Subtraction(location, left, right),
+            "<": LessThan(location, left, right),
+            ">": GreaterThan(location, left, right),
+            "<=": LessThanOrEqual(location, left, right),
+            ">=": GreaterThanOrEqual(location, left, right),
+            "==": Equals(location, left, right),
+            "!=": NotEquals(location, left, right)
+        }
+        return switcher.get(operator)

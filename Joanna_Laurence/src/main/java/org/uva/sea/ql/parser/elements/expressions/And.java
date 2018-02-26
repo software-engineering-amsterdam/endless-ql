@@ -1,26 +1,26 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
+import org.uva.sea.ql.parser.NodeType;
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.parser.nodeTypes.DualNode;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
+import org.uva.sea.ql.traverse.Visitor;
 
-public class And extends DualNode {
-    public And(ASTNode lhs, ASTNode rhs) {
-        super(lhs, rhs);
-    }
-
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        super.traverseNode(traverse, traverseType);
-        traverse.doLogical(this);
-        traverse.doAnd(this);
+public class And extends BinaryOperator {
+    public And(Token token, ASTNode lhs, ASTNode rhs) {
+        super(token, lhs, rhs);
     }
 
     /**
      * @return True or false is returned
      */
     public Type getType() {
-        return new Type("boolean");
+        return new Type(NodeType.BOOLEAN);
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

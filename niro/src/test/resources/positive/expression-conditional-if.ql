@@ -1,8 +1,8 @@
 form QonditionQuestions {
-	firstName: "What is your first name?" string
-	lastName: "What is your last name?" string
-	middleName: "Do you have a middle name?" boolean
+	"What is your first name?" firstName: string
+	"What is your last name?" lastName: string
+	"Do you have a middle name?" middleName: boolean
 	if (lastName != firstName && a > -10) {
-		lastName: "What is your last name?" string
+		"What is your last name?" lastName: string
 	}
 }

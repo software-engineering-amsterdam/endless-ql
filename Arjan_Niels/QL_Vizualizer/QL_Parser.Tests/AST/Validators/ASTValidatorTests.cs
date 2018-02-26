@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL_Parser.Analysis;
 using QL_Parser.AST.Nodes;
-using QL_Parser.AST.Validators;
 
 namespace QL_Parser.Tests.AST.Validators
 {
     [TestClass]
-    public class ASTValidatorTests
+    public class ASTValidatorTests : QLTest
     {
         private Node _validAST;
         private Node _invalidAST;
@@ -14,8 +14,8 @@ namespace QL_Parser.Tests.AST.Validators
         public void Initialize()
         {
             _validAST = new FormNode("ValidForm");
-            var firstQuestion = new QuestionNode("Q1", "Do you like puppies?", QuestionType.BOOLEAN);
-            var secondQuestion = new QuestionNode("Q2", "Do you like kittens?", QuestionType.BOOLEAN);
+            var firstQuestion = new QuestionNode("Q1", "Do you like puppies?", QValueType.BOOLEAN);
+            var secondQuestion = new QuestionNode("Q2", "Do you like kittens?", QValueType.BOOLEAN);
 
             _validAST.AddNode(firstQuestion);
             _validAST.AddNode(secondQuestion);
@@ -27,8 +27,8 @@ namespace QL_Parser.Tests.AST.Validators
         [TestMethod]
         public void NoErrorsForValidAST()
         {
-            ASTValidator.IsValid(_validAST);
-            var errors = ASTValidator.GetErrors();
+            Analyser.Analyse(_validAST);
+            var errors = Analyser.GetErrors();
 
             Assert.AreEqual(0, errors.Count);
         }
@@ -36,24 +36,24 @@ namespace QL_Parser.Tests.AST.Validators
         [TestMethod]
         public void ErrorForInvalidAST()
         {
-            ASTValidator.IsValid(_invalidAST);
-            var errors = ASTValidator.GetErrors();
+            Analyser.Analyse(_invalidAST);
+            var errors = Analyser.GetErrors();
             Assert.AreEqual(1, errors.Count);
         }
 
         [TestMethod]
         public void MultipleFormNodesInAST()
         {
-            ASTValidator.IsValid(_invalidAST);
-            var errors = ASTValidator.GetErrors();
-            Assert.AreEqual("This AST contains multiple 'FormNode'.", errors[0]);
+            Analyser.Analyse(_invalidAST);
+            var errors = Analyser.GetErrors();
+            Assert.AreEqual("ERROR This AST contains multiple 'FormNode'.", errors[0]);
         }
 
         [TestMethod]
         public void NoErrorsWhenLogErrorsIsFalse()
         {
-            ASTValidator.IsValid(_invalidAST, logErrors: false);
-            var errors = ASTValidator.GetErrors();
+            Analyser.Analyse(_validAST);
+            var errors = Analyser.GetErrors();
             Assert.AreEqual(0, errors.Count);
 
         }

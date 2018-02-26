@@ -47,6 +47,13 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewMod
 
     @Override
     public void visit(MoneyQuestionViewModel moneyQuestion) {
+        Label label = new Label(moneyQuestion.getText());
+        TextField textField = new TextField();
+        textField.setMinWidth(50);
+        textField.setPrefWidth(50);
+        textField.setText(moneyQuestion.getValue().toString());
+        target.getChildren().add(label);
+        target.getChildren().add(textField);
 
     }
 

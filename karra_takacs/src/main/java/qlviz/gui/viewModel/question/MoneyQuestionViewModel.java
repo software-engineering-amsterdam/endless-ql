@@ -2,7 +2,8 @@ package qlviz.gui.viewModel.question;
 
 import qlviz.model.question.MoneyQuestion;
 
-public class MoneyQuestionViewModel extends BaseQuestionViewModel {
+public class MoneyQuestionViewModel extends NumericQuestionViewModel {
+
     public MoneyQuestionViewModel(MoneyQuestion question) {
         super(question);
     }
@@ -12,4 +13,5 @@ public class MoneyQuestionViewModel extends BaseQuestionViewModel {
     public void accept(QuestionViewModelVisitor visitor) {
         visitor.visit(this);
     }
+
 }

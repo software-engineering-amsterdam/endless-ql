@@ -10,6 +10,7 @@ import qlviz.model.booleanExpressions.BooleanLiteral;
 import qlviz.model.booleanExpressions.Negation;
 import qlviz.model.question.BooleanQuestion;
 import qlviz.model.question.BooleanQuestionReference;
+import qlviz.model.question.Question;
 
 import java.util.HashMap;
 import java.util.List;

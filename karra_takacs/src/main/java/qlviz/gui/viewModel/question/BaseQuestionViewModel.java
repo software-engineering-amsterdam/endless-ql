@@ -1,6 +1,7 @@
 package qlviz.gui.viewModel.question;
 
 import qlviz.gui.viewModel.propertyEvents.PropertyChangedListener;
+import qlviz.model.NumericQuestion;
 import qlviz.model.question.Question;
 
 import java.util.ArrayList;
@@ -28,3 +29,4 @@ public abstract class BaseQuestionViewModel implements QuestionViewModel {
         this.listeners.add(observer);
     }
 }
+

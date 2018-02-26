@@ -7,12 +7,12 @@ import qlviz.model.question.NumericQuestionReference;
 
 import java.math.BigDecimal;
 
-public class NumericExpressionVisitor extends QLBaseVisitor<NumericExpression> {
+public class NumericExpressionParser extends QLBaseVisitor<NumericExpression> {
 
 
     private final BinaryNumericOperatorTranslator binaryNumericOperatorTranslator;
 
-    public NumericExpressionVisitor(BinaryNumericOperatorTranslator binaryNumericOperatorTranslator) {
+    public NumericExpressionParser(BinaryNumericOperatorTranslator binaryNumericOperatorTranslator) {
         this.binaryNumericOperatorTranslator = binaryNumericOperatorTranslator;
     }
 

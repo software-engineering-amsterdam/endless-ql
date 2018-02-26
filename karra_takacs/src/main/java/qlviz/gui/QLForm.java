@@ -33,8 +33,8 @@ public class QLForm extends Application {
 		this.renderer = new JavafxFormRenderer(stage, vbox -> new JavafxQuestionBlockRenderer(vbox, JavafxQuestionRenderer::new));
 
 		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor =
-				new qlviz.interpreter.BooleanExpressionVisitor(
-					new NumericExpressionVisitor(
+				new BooleanExpressionParser(
+					new NumericExpressionParser(
 							new BinaryNumericOperatorVisitor()
 					),
 					new BinaryBooleanOperatorVisitor(),
@@ -43,7 +43,7 @@ public class QLForm extends Application {
 				new QuestionBlockVisitor(
 						new QuestionVisitor(
 								new QuestionTypeVisitor(),
-								new NumericExpressionVisitor(new BinaryNumericOperatorVisitor())
+								new NumericExpressionParser(new BinaryNumericOperatorVisitor())
 						),
 						pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor)
 				);

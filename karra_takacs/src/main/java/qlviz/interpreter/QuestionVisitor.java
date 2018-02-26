@@ -8,11 +8,11 @@ import qlviz.model.question.*;
 public class QuestionVisitor extends QLBaseVisitor<Question> {
 
     private final QuestionTypeTranslator questionTypeTranslator;
-    private final NumericExpressionVisitor numericExpressionVisitor;
+    private final NumericExpressionParser numericExpressionParser;
 
-    public QuestionVisitor(QuestionTypeTranslator questionTypeTranslator, NumericExpressionVisitor numericExpressionVisitor) {
+    public QuestionVisitor(QuestionTypeTranslator questionTypeTranslator, NumericExpressionParser numericExpressionParser) {
         this.questionTypeTranslator = questionTypeTranslator;
-        this.numericExpressionVisitor = numericExpressionVisitor;
+        this.numericExpressionParser = numericExpressionParser;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class QuestionVisitor extends QLBaseVisitor<Question> {
         NumericExpression computedValue = null;
         if (ctx.computedValue() != null)
         {
-            computedValue = numericExpressionVisitor.visitNumericExpression(ctx.computedValue().numericExpression());
+            computedValue = numericExpressionParser.visitNumericExpression(ctx.computedValue().numericExpression());
         }
         switch (type){
             case Boolean:

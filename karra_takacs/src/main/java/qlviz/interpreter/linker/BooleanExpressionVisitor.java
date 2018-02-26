@@ -13,4 +13,3 @@ public interface BooleanExpressionVisitor {
     void visit(BooleanQuestionReference booleanQuestionReference);
     void accept(NumericComparison numericComparison);
 }
-

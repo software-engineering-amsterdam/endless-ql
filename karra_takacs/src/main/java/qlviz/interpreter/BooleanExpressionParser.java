@@ -6,15 +6,15 @@ import qlviz.model.booleanExpressions.*;
 import qlviz.model.numericExpressions.NumericExpression;
 import qlviz.model.question.BooleanQuestionReference;
 
-public class BooleanExpressionVisitor extends QLBaseVisitor<BooleanExpression> {
+public class BooleanExpressionParser extends QLBaseVisitor<BooleanExpression> {
 
     private final QLBaseVisitor<NumericExpression> numericExpressionVisitor;
     private final BinaryBooleanOperatorTranslator binaryBooleanOperatorTranslator;
     private final NumericComparisonOperatorTranslator numericComparisonOperatorTranslator;
 
-    public BooleanExpressionVisitor(QLBaseVisitor<NumericExpression> numericExpressionVisitor,
-                                    BinaryBooleanOperatorTranslator binaryBooleanOperatorTranslator,
-                                    NumericComparisonOperatorTranslator numericComparisonOperatorTranslator) {
+    public BooleanExpressionParser(QLBaseVisitor<NumericExpression> numericExpressionVisitor,
+                                   BinaryBooleanOperatorTranslator binaryBooleanOperatorTranslator,
+                                   NumericComparisonOperatorTranslator numericComparisonOperatorTranslator) {
         this.numericExpressionVisitor = numericExpressionVisitor;
         this.binaryBooleanOperatorTranslator = binaryBooleanOperatorTranslator;
         this.numericComparisonOperatorTranslator = numericComparisonOperatorTranslator;

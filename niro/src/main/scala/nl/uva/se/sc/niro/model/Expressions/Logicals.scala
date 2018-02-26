@@ -2,6 +2,8 @@ package nl.uva.se.sc.niro.model.Expressions
 
 import nl.uva.se.sc.niro.model.Expressions.answers.BooleanAnswer
 
+import scala.language.implicitConversions
+
 object Logicals {
   trait BooleanAnswerCanDoLogicals extends Logicals[BooleanAnswer] {
     def and(x: BooleanAnswer, y: BooleanAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ && _))

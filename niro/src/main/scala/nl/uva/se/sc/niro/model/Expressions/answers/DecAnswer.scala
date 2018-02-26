@@ -7,6 +7,8 @@ import nl.uva.se.sc.niro.model._
 
 final case class DecAnswer(possibleValue: Option[BigDecimal]) extends Answer {
 
+  type T = BigDecimal
+
   def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
     case that: DecAnswer => operator match {
       case Add => this + that

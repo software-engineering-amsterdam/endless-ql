@@ -6,6 +6,8 @@ import nl.uva.se.sc.niro.model._
 
 final case class StringAnswer(possibleValue: Option[String]) extends Answer {
 
+  type T = String
+
   def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
     case that: StringAnswer => operator match {
       case Lt => this < that

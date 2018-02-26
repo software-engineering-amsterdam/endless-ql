@@ -7,6 +7,8 @@ import nl.uva.se.sc.niro.model._
 
 final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
 
+  type T = Boolean
+
   override def isTrue: Boolean = possibleValue.getOrElse(false)
 
   def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {

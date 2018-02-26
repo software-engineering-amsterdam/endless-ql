@@ -25,8 +25,9 @@ object RowCreatingVisitor {
     // A row constraint is needed because other rows depend on in.
     grid.getRowConstraints.add(new RowConstraints())
     val widgets = WidgetFactory.makeWidgets(question, symbolTable)
-    // TODO convert this into a better looking piece of code
-    grid.addRow(rowNr, widgets.head, widgets.tail.head)
+    widgets.zipWithIndex foreach {
+      case (widget, columnNr) => grid.add(widget, columnNr, rowNr)
+    }
   }
 
   private def createSingleColumnRow(grid: GridPane, rowNr: Int, conditional: Conditional, symbolTable: Map[String, Expression]): Unit = {

@@ -1,4 +1,4 @@
-package qlviz.model;
+package qlviz.model.numericExpressions;
 
 public enum BinaryNumericOperator {
     Add,

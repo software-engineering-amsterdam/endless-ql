@@ -1,6 +1,6 @@
 package qlviz.gui.viewModel.question;
 
-import qlviz.model.NumericQuestion;
+import qlviz.model.question.NumericQuestion;
 
 import java.math.BigDecimal;
 

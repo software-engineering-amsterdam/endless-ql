@@ -1,4 +1,4 @@
-package qlviz.model;
+package qlviz.model.numericExpressions;
 
 import java.math.BigDecimal;
 

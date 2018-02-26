@@ -1,6 +1,6 @@
 package qlviz.interpreter.linker;
 
-import qlviz.model.NumericComparison;
+import qlviz.model.booleanExpressions.NumericComparison;
 import qlviz.model.booleanExpressions.BinaryBooleanOperation;
 import qlviz.model.booleanExpressions.BooleanLiteral;
 import qlviz.model.booleanExpressions.Negation;

@@ -3,16 +3,10 @@ package qlviz.interpreter.linker;
 import qlviz.interpreter.TypedQuestionCollector;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.Form;
-import qlviz.model.NumericQuestion;
+import qlviz.model.question.NumericQuestion;
 import qlviz.model.QuestionBlock;
-import qlviz.model.booleanExpressions.BinaryBooleanOperation;
-import qlviz.model.booleanExpressions.BooleanLiteral;
-import qlviz.model.booleanExpressions.Negation;
 import qlviz.model.question.BooleanQuestion;
-import qlviz.model.question.BooleanQuestionReference;
-import qlviz.model.question.Question;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;

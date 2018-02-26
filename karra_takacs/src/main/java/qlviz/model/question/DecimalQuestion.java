@@ -1,7 +1,5 @@
 package qlviz.model.question;
 
-import qlviz.model.NumericQuestion;
-
 public class DecimalQuestion extends NumericQuestion {
 
     public DecimalQuestion(String name, String text, QuestionType type) {

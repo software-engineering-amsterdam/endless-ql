@@ -1,7 +1,6 @@
 package qlviz.gui.viewModel.question;
 
 import qlviz.gui.viewModel.propertyEvents.PropertyChangedListener;
-import qlviz.model.NumericQuestion;
 import qlviz.model.question.Question;
 
 import java.util.ArrayList;

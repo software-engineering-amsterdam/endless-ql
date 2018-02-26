@@ -2,7 +2,7 @@ package qlviz.interpreter;
 
 import qlviz.model.ConditionalBlock;
 import qlviz.model.Form;
-import qlviz.model.NumericQuestion;
+import qlviz.model.question.NumericQuestion;
 import qlviz.model.QuestionBlock;
 import qlviz.model.question.*;
 

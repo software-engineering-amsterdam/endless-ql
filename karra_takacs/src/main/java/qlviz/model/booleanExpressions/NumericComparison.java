@@ -1,7 +1,7 @@
-package qlviz.model;
+package qlviz.model.booleanExpressions;
 
 import qlviz.interpreter.linker.BooleanExpressionVisitor;
-import qlviz.model.booleanExpressions.BooleanExpression;
+import qlviz.model.numericExpressions.NumericExpression;
 
 public class NumericComparison implements BooleanExpression {
 

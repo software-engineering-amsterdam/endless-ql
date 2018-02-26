@@ -1,4 +1,4 @@
-package qlviz.model;
+package qlviz.model.question;
 
 import qlviz.model.question.Question;
 import qlviz.model.question.QuestionType;

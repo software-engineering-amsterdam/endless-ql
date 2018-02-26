@@ -1,13 +1,12 @@
 package qlviz.interpreter.linker;
 
-import qlviz.model.NumericComparison;
+import qlviz.model.booleanExpressions.NumericComparison;
 import qlviz.model.booleanExpressions.BinaryBooleanOperation;
 import qlviz.model.booleanExpressions.BooleanLiteral;
 import qlviz.model.booleanExpressions.Negation;
 import qlviz.model.question.BooleanQuestion;
 import qlviz.model.question.BooleanQuestionReference;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class BooleanExpressionLinker implements BooleanExpressionVisitor {

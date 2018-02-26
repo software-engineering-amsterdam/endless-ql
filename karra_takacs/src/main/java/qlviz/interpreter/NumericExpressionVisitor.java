@@ -2,7 +2,8 @@ package qlviz.interpreter;
 
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
-import qlviz.model.*;
+import qlviz.model.numericExpressions.*;
+import qlviz.model.question.NumericQuestionReference;
 
 import java.math.BigDecimal;
 

@@ -37,5 +37,6 @@ object Answer {
     case "decimal" => DecAnswer()
     case "money" => MoneyAnswer()
     case "date" => DateAnswer()
+    case _ => throw new IllegalArgumentException(s"Unsupported answer type: $answerType")
   }
 }

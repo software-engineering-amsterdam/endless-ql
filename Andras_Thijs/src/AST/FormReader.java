@@ -6,6 +6,7 @@ import com.sun.istack.internal.NotNull;
 import org.antlr.v4.runtime.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.locks.Condition;
 
 import static java.util.stream.Collectors.toList;
 
@@ -82,5 +83,23 @@ public class FormReader {
 
             return new Question(questionName, questionLabel, questionType);
         }
+    }
+
+    private static class ConditionVisiitor extends QLBaseVisitor<Nodes.Condition> {
+
+        @Override
+        public Nodes.Condition visitCondition(QLParser.ConditionContext ctx) {
+            return visitChildren(ctx);
+        }
+
+    }
+
+    public static class ExpressionVisitor extends QLBaseVisitor<Expression> {
+
+        @Override
+        public Expression visitExpression(QLParser.ExpressionContext ctx) {
+            return visitChildren(ctx);
+        }
+
     }
 }

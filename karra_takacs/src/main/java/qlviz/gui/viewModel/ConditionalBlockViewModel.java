@@ -1,7 +1,6 @@
 package qlviz.gui.viewModel;
 
-import qlviz.model.BooleanExpression;
-import qlviz.model.QuestionBlock;
+import qlviz.model.booleanExpressions.BooleanExpression;
 
 import java.util.List;
 

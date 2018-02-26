@@ -1,6 +1,9 @@
 package qlviz.model;
 
-public class NumericComparison extends BooleanExpression {
+import qlviz.interpreter.linker.BooleanExpressionVisitor;
+import qlviz.model.booleanExpressions.BooleanExpression;
+
+public class NumericComparison implements BooleanExpression {
 
     private final NumericExpression leftSide;
     private final NumericExpression rightSide;
@@ -12,7 +15,6 @@ public class NumericComparison extends BooleanExpression {
         this.opeartor = opeartor;
     }
 
-    @Override
     public boolean evaluate() {
         switch (this.opeartor) {
             case Equal:
@@ -29,5 +31,10 @@ public class NumericComparison extends BooleanExpression {
                 return this.leftSide.evaluate().compareTo(this.rightSide.evaluate()) > 0 || this.leftSide.evaluate().equals(this.rightSide.evaluate());
         }
         return false;
+    }
+
+    @Override
+    public void accept(BooleanExpressionVisitor visitor) {
+        visitor.accept(this);
     }
 }

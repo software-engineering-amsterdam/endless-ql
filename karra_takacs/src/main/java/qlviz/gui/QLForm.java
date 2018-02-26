@@ -9,7 +9,7 @@ import qlviz.gui.renderer.javafx.JavafxQuestionRenderer;
 import qlviz.gui.viewModel.*;
 import qlviz.interpreter.BinaryBooleanOperatorVisitor;
 import qlviz.interpreter.BinaryNumericOperatorVisitor;
-import qlviz.interpreter.BooleanExpressionVisitor;
+import qlviz.interpreter.linker.BooleanExpressionVisitor;
 import qlviz.interpreter.ConditionalBlockVisitor;
 import qlviz.interpreter.FormVisitor;
 import qlviz.interpreter.NumericComparisonOperatorVisitor;
@@ -17,7 +17,7 @@ import qlviz.interpreter.NumericExpressionVisitor;
 import qlviz.interpreter.QuestionBlockVisitor;
 import qlviz.interpreter.QuestionTypeVisitor;
 import qlviz.interpreter.QuestionVisitor;
-import qlviz.model.BooleanExpression;
+import qlviz.model.booleanExpressions.BooleanExpression;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
 
@@ -41,7 +41,7 @@ public class QLForm extends Application {
 		this.renderer = new JavafxFormRenderer(stage, vbox -> new JavafxQuestionBlockRenderer(vbox, JavafxQuestionRenderer::new));
 
 		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor =
-				new BooleanExpressionVisitor(
+				new qlviz.interpreter.BooleanExpressionVisitor(
 					new NumericExpressionVisitor(
 							new BinaryNumericOperatorVisitor()
 					),

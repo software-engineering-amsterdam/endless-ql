@@ -1,4 +1,4 @@
-package qlviz.interpreter;
+package qlviz.interpreter.linker;
 
 import qlviz.model.Form;
 

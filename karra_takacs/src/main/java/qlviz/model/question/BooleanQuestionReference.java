@@ -1,8 +1,9 @@
 package qlviz.model.question;
 
-import qlviz.model.BooleanExpression;
+import qlviz.interpreter.linker.BooleanExpressionVisitor;
+import qlviz.model.booleanExpressions.BooleanExpression;
 
-public class BooleanQuestionReference extends BooleanExpression {
+public class BooleanQuestionReference implements BooleanExpression {
 
     private BooleanQuestion question;
     private final String questionName;
@@ -21,6 +22,23 @@ public class BooleanQuestionReference extends BooleanExpression {
         {
             return false;
         }
+    }
+
+    @Override
+    public void accept(BooleanExpressionVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    public BooleanQuestion getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(BooleanQuestion question) {
+        this.question = question;
+    }
+
+    public String getQuestionName() {
+        return questionName;
     }
 }
 

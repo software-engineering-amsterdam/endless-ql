@@ -1,6 +1,6 @@
 package qlviz.gui.viewModel;
 
-import qlviz.model.BooleanExpression;
+import qlviz.model.booleanExpressions.BooleanExpression;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.QuestionBlock;
 

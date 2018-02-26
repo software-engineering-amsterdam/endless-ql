@@ -1,4 +1,4 @@
-package qlviz.model;
+package qlviz.model.booleanExpressions;
 
 public enum BinaryBooleanOperator {
     And,

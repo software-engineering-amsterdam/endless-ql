@@ -1,8 +1,9 @@
-package qlviz.model;
+package qlviz.model.booleanExpressions;
 
 
+import qlviz.interpreter.linker.BooleanExpressionVisitor;
 
-public class BinaryBooleanOperation extends BooleanExpression {
+public class BinaryBooleanOperation implements BooleanExpression {
 
 
     private final BooleanExpression leftSide;
@@ -24,5 +25,18 @@ public class BinaryBooleanOperation extends BooleanExpression {
                 return this.leftSide.evaluate() || this.rightSide.evaluate();
         }
         return false;
+    }
+
+    @Override
+    public void accept(BooleanExpressionVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    public BooleanExpression getLeftSide() {
+        return leftSide;
+    }
+
+    public BooleanExpression getRightSide() {
+        return rightSide;
     }
 }

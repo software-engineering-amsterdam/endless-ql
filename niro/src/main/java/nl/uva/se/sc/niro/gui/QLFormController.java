@@ -21,7 +21,7 @@ public class QLFormController extends QLBaseController {
     public void populateForm(QLForm form) {
         formName.setText(form.formName().replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2"));
         questionsGrid.setPadding(new Insets(0, 20, 0, 20));
-        QuestionPopulator.populateGridWithQuestions(questionsGrid, form.statements(), form.symbolTable());
+        WidgetCreatingVisitor.visit(questionsGrid, form.statements(), form.symbolTable());
     }
 
     @FXML

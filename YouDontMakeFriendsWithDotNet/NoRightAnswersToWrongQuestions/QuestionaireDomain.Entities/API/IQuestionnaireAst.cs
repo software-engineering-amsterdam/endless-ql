@@ -4,7 +4,7 @@ using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionaireDomain.Entities.API
 {
-    public interface IQuestionnaireAst : IDomainItem, IAstNode
+    public interface IQuestionnaireAst : IAstNode
     {
         string FormName { get; set; }
         IList<IQuestionAst> Questions { get; }

@@ -128,7 +128,7 @@ namespace UnitTests.Domain.UnitTests
         public void WhenGivenValidQuestion_NameAndTextCorrect(string validText, string questionId, string questionText)
         {
             var createdForm = CreateForm(validText);
-            var question = createdForm.Statements.OfType<IQuestionAst>().FirstOrDefault();
+            var question = createdForm.ChildNodes.OfType<IQuestionAst>().FirstOrDefault();
             Assert.AreEqual(expected: questionId, actual: question.Name);
             Assert.AreEqual(expected: questionText, actual: question.Text);
         }
@@ -137,7 +137,7 @@ namespace UnitTests.Domain.UnitTests
         public void WhenGivenMultipleQuestions_CorrectNumberOfQuestions(string validText, int questionCount)
         {
             var createdForm = CreateForm(validText);
-            Assert.AreEqual(expected: questionCount, actual: createdForm.Statements.Count);
+            Assert.AreEqual(expected: questionCount, actual: createdForm.ChildNodes.Count);
         }
 
 
@@ -145,7 +145,7 @@ namespace UnitTests.Domain.UnitTests
         public void WhenQuestionsHasType_CorrectTypeOnQuestions(string validText, Type expectedType)
         {
             var createdForm = CreateForm(validText);
-            var actualType = createdForm.Statements.OfType<IQuestionAst>().FirstOrDefault()?.Type;
+            var actualType = createdForm.ChildNodes.OfType<IQuestionAst>().FirstOrDefault()?.Type;
             Assert.AreEqual(expected: expectedType, actual: actualType);
         }
 
@@ -153,7 +153,7 @@ namespace UnitTests.Domain.UnitTests
         public void WhenFormHasConditionalStatement_CorrectNumberOfConditionalCasesExist(string validText, int conditionCount)
         {
             var createdForm = CreateForm(validText);
-            var actualCount = createdForm.Statements.Flatten().OfType<IConditionalAst>().Count();
+            var actualCount = createdForm.ChildNodes.Flatten().OfType<IConditionalAst>().Count();
             Assert.AreEqual(expected: conditionCount, actual: actualCount);
         }
 
@@ -161,7 +161,7 @@ namespace UnitTests.Domain.UnitTests
         public void WhenFormHasElseConditional_CorrectNumberOfQuestionsExist(string validText, int conditionCount)
         {
             var createdForm = CreateForm(validText);
-            var actualCount = createdForm.Statements.Flatten().OfType<IQuestionAst>().Count();
+            var actualCount = createdForm.ChildNodes.Flatten().OfType<IQuestionAst>().Count();
             Assert.AreEqual(expected: conditionCount, actual: actualCount);
         }
         
@@ -205,7 +205,7 @@ namespace UnitTests.Domain.UnitTests
         {
             var createdForm = CreateForm(validText);
             var questionNames = createdForm
-                .Statements
+                .ChildNodes
                 .Flatten()
                 .OfType<IConditionalAst>()
                 .Select(x => x.QuestionName)
@@ -222,7 +222,7 @@ namespace UnitTests.Domain.UnitTests
         {
             var createdForm = CreateForm(validText);
             var questionNames = createdForm
-                .Statements
+                .ChildNodes
                 .Flatten()
                 .OfType<ICalculationAst>()
                 .Select(x => x.CalculationName)
@@ -239,7 +239,7 @@ namespace UnitTests.Domain.UnitTests
         {
             var createdForm = CreateForm(validText);
             var questionNames = createdForm
-                .Statements
+                .ChildNodes
                 .Flatten()
                 .OfType<IConditionalAst>()
                 .Select(x => x.QuestionName)
@@ -256,7 +256,7 @@ namespace UnitTests.Domain.UnitTests
     {
         public static IEnumerable<IAstNode> Flatten(this IEnumerable<IAstNode> e)
         {
-            return e.SelectMany(c => c.Statements.Flatten()).Concat(e);
+            return e.SelectMany(c => c.ChildNodes.Flatten()).Concat(e);
         }
     }
 }

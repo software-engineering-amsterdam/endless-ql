@@ -4,6 +4,12 @@ using QuestionnaireDomain.Logic.API;
 
 namespace QuestionnaireDomain.Logic.Logic
 {
+    public interface IQuestionCreator
+    {
+
+
+    }
+
     internal class QuestionnaireCreator : IQuestionnaireCreator
     {
         private readonly IQlInterpretor m_qlInterpretor;

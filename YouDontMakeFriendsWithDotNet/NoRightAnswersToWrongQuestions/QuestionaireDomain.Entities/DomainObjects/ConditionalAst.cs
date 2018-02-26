@@ -5,7 +5,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
 {
     public class ConditionalAst : AstNodeBase, IConditionalAst
     {
-        public ConditionalAst(string questionName)
+        public ConditionalAst(Guid id, string questionName) : base(id)
         {
             QuestionName = questionName;
         }

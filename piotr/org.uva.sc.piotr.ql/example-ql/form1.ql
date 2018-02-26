@@ -34,10 +34,10 @@ form taxOfficeExample {
 
   }
 
-  if (firstName + "piotr") {
+  if (firstName + "piotr" == true) {
 
       "what is tour last name?"
-          anotherLastName: string
+          lastNfame: string
 
     }
 

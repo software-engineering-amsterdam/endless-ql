@@ -19,38 +19,35 @@ public class TypeChecker extends QLBaseVisitor {
      */
 
     private Map<String, List<QLParser.DataTypeContext>> declaredFields = new HashMap<>();
-    private List<QLParser.UnaryExpressionContext> referredFields = new ArrayList<QLParser.UnaryExpressionContext>();
-
+    private List<QLParser.VariableReferenceContext> referredFields = new ArrayList<>();
+    private List<QLParser.ConditionContext> conditions = new ArrayList<>();
 
     @Override
     public Object visitFieldDefinition(QLParser.FieldDefinitionContext ctx) {
         if (this.declaredFields.containsKey(ctx.fieldName.getText())) {
             this.declaredFields.get(ctx.fieldName.getText()).add(ctx.fieldType);
         } else {
-            this.declaredFields.put(ctx.fieldName.getText(), new ArrayList<QLParser.DataTypeContext>(Arrays.asList(ctx.fieldType)));
+            this.declaredFields.put(ctx.fieldName.getText(), new ArrayList<>(Arrays.asList(ctx.fieldType)));
         }
         return super.visitFieldDefinition(ctx);
     }
 
     @Override
-    public Object visitUnaryExpression(QLParser.UnaryExpressionContext ctx) {
+    public Object visitVariableReference(QLParser.VariableReferenceContext ctx) {
         this.referredFields.add(ctx);
-        return super.visitUnaryExpression(ctx);
+        return super.visitVariableReference(ctx);
     }
 
     @Override
     public Object visitCondition(QLParser.ConditionContext ctx) {
-        // evaluate condition
-        if (ctx.innerExpression.getText() != "ff") {
-            System.out.println("YAAAY " + ctx.innerExpression.getText());
-        }
+        this.conditions.add(ctx);
         return super.visitCondition(ctx);
     }
 
     public void validate() throws QLParserException {
 
         /* reference to undefined questions */
-        for (QLParser.UnaryExpressionContext field : this.referredFields) {
+        for (QLParser.VariableReferenceContext field : this.referredFields) {
             if (!this.declaredFields.containsKey(field.getText())) {
                 throw new QLParserException("Found a reference to undeclared field \"" + field.getText() + "\" in line " + field.start.getLine() + " of the parsed form.");
             }
@@ -64,7 +61,10 @@ public class TypeChecker extends QLBaseVisitor {
             }
         }
 
-
+        /* conditions that are not of the type boolean */
+        for (QLParser.ConditionContext condition : this.conditions) {
+            System.out.println(condition.getText() + " : " + condition.children.size());
+        }
 
         System.out.println("done");
 

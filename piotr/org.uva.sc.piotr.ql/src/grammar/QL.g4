@@ -4,60 +4,94 @@ grammar QL;
  * Parser Rules
  */
 
-form        : 'form' id=Identifier '{' block+ '}';
+form            : 'form' id=Identifier '{' block+ '}';
 
-block       : question | condition;
+block           : question | ifBlock;
 
-question    : label=String fieldDefinition;
+question        : label=String fieldDefinition;
 
 fieldDefinition : fieldName=Identifier ':' fieldType=dataType assignment?;
 
-assignment  : '=' expression;
+assignment      : '=' arithmeticExpression;
 
-dataType        : TYPE_BOOLEAN | TYPE_STRING | TYPE_INTEGER | TYPE_DECIMAL | TYPE_DATE | dataTypeMoneyWithCurrency | TYPE_MONEY ;
+dataType        : TYPE_BOOLEAN | TYPE_STRING | TYPE_INTEGER | TYPE_DECIMAL | TYPE_DATE | dataTypeMoney ;
 
-dataTypeMoneyWithCurrency : TYPE_MONEY '(' currencyCode ')';
+dataTypeMoney   : TYPE_MONEY '(' currency=CurrencyCode ')'           # MoneyTypeDeclarationWithCurrency
+                | TYPE_MONEY                                # MoneyTypeDeclarationVoid
+                ;
 
-condition   : 'if' '(' innerExpression=expression ')' '{' block* '}';
+ifBlock         : 'if' '(' condition ')' '{' block* '}';
 
-expression  : value
-            | '(' expression ')'
-            | unaryExpression
-            | NOT unaryExpression
-            | NOT '(' expression ')'
-            | expression bop=(MULT|DIV) expression
-            | expression bop=(PLUS|MINUS) expression
-            | expression bop=(GT|GE|LT|LE|EQ|NEQ) expression
-            | expression bop=(AND|OR) expression
-;
+condition       : logicalExpression ;
 
-unaryExpression
-            : referenceToField = Identifier
-            ;
+logicalExpression
+                : logicalExpression AND logicalExpression   # LogicalExpressionAnd
+                | logicalExpression OR logicalExpression    # LogicalExpressionOr
+                | comparisonExpression                      # LogicalExpressionComparison
+                | NOT logicalExpression                     # LogicalExpressionNegation
+                | '(' logicalExpression ')'                 # LogicalExpressionInParen
+                | logicalEntity                             # LogicalExpressionEntity
+                ;
 
-value       : String
-            | Integer
-            | Decimal
-            | moneyValue
-            | boolValue
-            | dateValue
-            ;
+comparisonExpression
+                : comparisonOperand comparisionOperator comparisonOperand   # ComparisonExpressionWithOperator
+                | '(' comparisonExpression ')'                              # ComparisonExpressionParens
+                ;
 
-boolValue
-            : TRUE
-            | FALSE
-            ;
+comparisonOperand
+                : arithmeticExpression
+                ;
 
-moneyValue
-            : currencyCode '(' Decimal ')'
-            ;
+comparisionOperator
+                : GT
+                | GE
+                | LT
+                | LE
+                | EQ
+                | NEQ
+                ;
 
-// iso4217
-currencyCode : 'AED' | 'AFN' | 'ALL' | 'AMD' | 'ANG' | 'AOA' | 'ARS' | 'AUD' | 'AWG' | 'AZN' | 'BAM' | 'BBD' | 'BDT' | 'BGN' | 'BHD' | 'BIF' | 'BMD' | 'BND' | 'BOB' | 'BRL' | 'BSD' | 'BTN' | 'BWP' | 'BYN' | 'BZD' | 'CAD' | 'CDF' | 'CHF' | 'CLP' | 'CNY' | 'COP' | 'CRC' | 'CUC' | 'CUP' | 'CVE' | 'CZK' | 'DJF' | 'DKK' | 'DOP' | 'DZD' | 'EGP' | 'ERN' | 'ETB' | 'EUR' | 'FJD' | 'FKP' | 'GBP' | 'GEL' | 'GGP' | 'GHS' | 'GIP' | 'GMD' | 'GNF' | 'GTQ' | 'GYD' | 'HKD' | 'HNL' | 'HRK' | 'HTG' | 'HUF' | 'IDR' | 'ILS' | 'IMP' | 'INR' | 'IQD' | 'IRR' | 'ISK' | 'JEP' | 'JMD' | 'JOD' | 'JPY' | 'KES' | 'KGS' | 'KHR' | 'KMF' | 'KPW' | 'KRW' | 'KWD' | 'KYD' | 'KZT' | 'LAK' | 'LBP' | 'LKR' | 'LRD' | 'LSL' | 'LYD' | 'MAD' | 'MDL' | 'MGA' | 'MKD' | 'MMK' | 'MNT' | 'MOP' | 'MRU' | 'MUR' | 'MVR' | 'MWK' | 'MXN' | 'MYR' | 'MZN' | 'NAD' | 'NGN' | 'NIO' | 'NOK' | 'NPR' | 'NZD' | 'OMR' | 'PAB' | 'PEN' | 'PGK' | 'PHP' | 'PKR' | 'PLN' | 'PYG' | 'QAR' | 'RON' | 'RSD' | 'RUB' | 'RWF' | 'SAR' | 'SBD' | 'SCR' | 'SDG' | 'SEK' | 'SGD' | 'SHP' | 'SLL' | 'SOS' | 'SPL' | 'SRD' | 'STN' | 'SVC' | 'SYP' | 'SZL' | 'THB' | 'TJS' | 'TMT' | 'TND' | 'TOP' | 'TRY' | 'TTD' | 'TVD' | 'TWD' | 'TZS' | 'UAH' | 'UGX' | 'USD' | 'UYU' | 'UZS' | 'VEF' | 'VND' | 'VUV' | 'WST' | 'XAF' | 'XCD' | 'XDR' | 'XOF' | 'XPF' | 'YER' | 'ZAR' | 'ZMW' | 'ZWD'
-            ;
+arithmeticExpression
+                : arithmeticExpression MULT arithmeticExpression    # ArithmeticExpressionMult
+                | arithmeticExpression DIV arithmeticExpression     # ArithmeticExpressionDiv
+                | arithmeticExpression PLUS arithmeticExpression    # ArithmeticExpressionPlus
+                | arithmeticExpression MINUS arithmeticExpression   # ArithmeticExpressionMinus
+                | MINUS arithmeticExpression                        # ArithmeticExpressionNegation
+                | '(' arithmeticExpression ')'                      # ArithmeticExpressionParens
+                | numericEntity                                     # ArithmeticExpressionNumericEntity
+                | moneyEntity                                       # ArithmeticExpressionMoneyEntity
+                | stringEntity                                      # ArithmeticExpressionMoneyEntity
+                | dateEntity                                        # ArithmeticExpressionDateEntity
+                | logicalEntity                                     # ArithmeticExpressionLogicalEntity
+                ;
 
-dateValue : '@' Integer '-' Integer '-' Integer;
+logicalEntity   : (TRUE | FALSE)                    # LocicalConst
+                | Identifier                        # LogicalVariable
+                ;
 
+numericEntity   : Decimal                           # DecimalNumericConst
+                | Integer                           # IntegerNumericConst
+                | variableReference                 # NumericVariable
+                ;
+
+dateEntity      : '@' year=Integer '-' month=Integer '-' day=Integer    # DateValue
+                | variableReference                                     # DateVariable
+                ;
+
+stringEntity    : text=String                       # StringValue
+                | variableReference                 # StringVariable
+                ;
+
+moneyEntity     : CurrencyCode '(' Decimal ')'      # MoneyValue
+                | variableReference                 # MoneyVariable
+                ;
+
+variableReference
+                : name=Identifier
+                ;
+
+CurrencyCode    : 'A'..'Z''A'..'Z''A'..'Z' // iso4217
+                ;
 
 
 /*

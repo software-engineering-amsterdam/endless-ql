@@ -13,7 +13,8 @@ import nl.uva.se.sc.niro.model.Question
 
 object WidgetFactory {
   private val INTEGER_MASK = "\\d*"
-  private val DECIMAL_MASK = "\\d*(.\\d{0,2})?"
+  private val DECIMAL_MASK = "\\d*(\\.\\d*)?"
+  private val MONEY_MASK = "\\d*(\\.\\d{0,2})?"
   private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
   def makeWidgets(question: Question, symbolTable: Map[String, Expression]): Seq[Parent] = {
@@ -47,7 +48,7 @@ object WidgetFactory {
 
   def makeMoneyField(question: Question, value: Option[String]): Parent = {
     // TODO Add decimal format with fixed decimals
-    EditableDecorator.makeEditable(makeRegExField(DECIMAL_MASK, value.map(_.toString).getOrElse("")), question, value)
+    EditableDecorator.makeEditable(makeRegExField(MONEY_MASK, value.map(_.toString).getOrElse("")), question, value)
   }
 
   def makeDateField(question: Question, value: Option[String]): Parent = {

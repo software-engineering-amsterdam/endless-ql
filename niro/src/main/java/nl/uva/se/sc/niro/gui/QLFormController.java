@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import nl.uva.se.sc.niro.model.QLForm;
 
 import java.io.IOException;
@@ -26,8 +25,7 @@ public class QLFormController extends QLBaseController {
 
     @FXML
     public void cancel(ActionEvent event) throws IOException {
-        Stage stage = getActiveStage(event);
-        QLForms.openHomeScreen(stage);
+        QLForms.openHomeScreen(getActiveStage(event));
     }
 
     @FXML

@@ -6,7 +6,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
 {
     public class QuestionnaireAst : AstNodeBase, IQuestionnaireAst
     {
-        public QuestionnaireAst()
+        public QuestionnaireAst(Guid id) : base(id)
         {
             Id = Guid.NewGuid();
             Questions = new List<IQuestionAst>();

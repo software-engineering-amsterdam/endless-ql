@@ -29,8 +29,9 @@ public class Question implements FormExpression {
     private Component getQuestionnaireComponent() {
         Component component = dataType.getComponent().get();
 
-        if (component instanceof TextField)
-            NonNullRun.consumer(value.value(), v -> ((TextField) component).setValue(v.toString()));
+        if (component instanceof TextField) {
+            NonNullRun.consumer(value, v -> ((TextField) component).setValue(v.value().toString()));
+        }
 
         return addQuestionTo(component);
     }

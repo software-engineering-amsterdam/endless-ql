@@ -5,7 +5,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
 {
     public class CalculationAst : AstNodeBase, ICalculationAst
     {
-        public CalculationAst(string calculationName)
+        public CalculationAst(Guid id, string calculationName) : base(id)
         {
             CalculationName = calculationName;
         }

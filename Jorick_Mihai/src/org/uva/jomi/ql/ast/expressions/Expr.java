@@ -21,6 +21,9 @@ abstract public class Expr extends AstNode {
 		T visit(AndExpr expr);
 		T visit(OrExpr expr);
 		T visit(UnaryNotExpr expr);
+		T visit(IntegerExpr expr);
+		T visit(StringExpr expr);
+		T visit(BooleanExpr expr);
 	}
 
 	public abstract <T> T accept(Visitor<T> visitor);

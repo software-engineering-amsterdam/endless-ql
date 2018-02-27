@@ -8,7 +8,10 @@ question        : IDENTIFIER ':' STRING questionType;
 
 questionType    : type | type '=' expression;
 
-expression      : '(' expression ')' | operator expression | expression operator expression | constant;
+expression      : '(' expression ')'                                # nestedExpr
+                | operator expression                               # unaryExpr
+                | left=expression operator right=expression         # binaryExpr
+                | constant                                          # constantExpr;
 
 operator        : unaryOp | binaryOp;
 

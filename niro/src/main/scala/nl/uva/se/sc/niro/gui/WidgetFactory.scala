@@ -7,49 +7,48 @@ import javafx.scene.Parent
 import javafx.scene.control.{ CheckBox, DatePicker, Label, TextField }
 import javafx.util.StringConverter
 import nl.uva.se.sc.niro.Evaluator
-import nl.uva.se.sc.niro.model.Expressions.{ Answer, Expression }
+import nl.uva.se.sc.niro.model.Expressions.Expression
 import nl.uva.se.sc.niro.model.Expressions.answers._
 import nl.uva.se.sc.niro.model.Question
 
 object WidgetFactory {
   private val dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
-  def makeWidget(question: Question, symbolTable: Map[String, Expression]): Seq[Parent] = {
+  def makeWidgets(question: Question, symbolTable: Map[String, Expression]): Seq[Parent] = {
     Seq(new Label(question.label),
       Evaluator.evaluateExpression(question.answer, symbolTable) match {
-      case b: BooleanAnswer => createBooleanField(b.possibleValue)
-      case s: StringAnswer => createTextField(s.possibleValue)
-      case i: IntAnswer => createIntegerField(i.possibleValue)
-      case d: DecAnswer => createDecimalField(d.possibleValue)
-      case m: MoneyAnswer => createMoneyField(m.possibleValue)
-      case d: DateAnswer => createDateField(d.possibleValue)
-      case other => new Label(s"Unimplemented type: $other")
-    })
+        case b: BooleanAnswer => makeBooleanField(question, b.possibleValue)
+        case s: StringAnswer => makeTextField(question, s.possibleValue)
+        case i: IntAnswer => makeIntegerField(question, i.possibleValue)
+        case d: DecAnswer => makeDecimalField(question, d.possibleValue)
+        case m: MoneyAnswer => makeMoneyField(question, m.possibleValue)
+        case d: DateAnswer => makeDateField(question, d.possibleValue)
+      })
   }
 
-  def createBooleanField(bool: Option[Boolean]): Parent = {
+  def makeBooleanField(question: Question, bool: Option[Boolean]): Parent = {
     val checkbox = new CheckBox()
     bool.foreach(checkbox.setSelected(_))
     checkbox
   }
 
-  def createTextField(text: Option[String]): Parent = {
+  def makeTextField(question: Question, text: Option[String]): Parent = {
     new TextField(text.getOrElse(""))
   }
 
-  def createIntegerField(value: Option[Int]): Parent = {
-    createRegExField("\\d*", value.map(_.toString).getOrElse(""))
+  def makeIntegerField(question: Question, value: Option[Int]): Parent = {
+    makeRegExField("\\d*", value.map(_.toString).getOrElse(""))
   }
 
-  def createDecimalField(value: Option[BigDecimal]): Parent = {
-    createRegExField("\\d*(,\\d{0,2})?", value.map(_.toString).getOrElse(""))
+  def makeDecimalField(question: Question, value: Option[BigDecimal]): Parent = {
+    makeRegExField("\\d*(,\\d{0,2})?", value.map(_.toString).getOrElse(""))
   }
 
-  def createMoneyField(value: Option[String]): Parent = {
-    createRegExField("\\d*(,\\d{0,2})?", value.map(_.toString).getOrElse(""))
+  def makeMoneyField(question: Question, value: Option[String]): Parent = {
+    makeRegExField("\\d*(,\\d{0,2})?", value.map(_.toString).getOrElse(""))
   }
 
-  def createDateField(value: Option[String]): Parent = {
+  def makeDateField(question: Question, value: Option[String]): Parent = {
     val dateField = new DatePicker()
     dateField.setConverter(new StringConverter[LocalDate] {
 
@@ -64,7 +63,7 @@ object WidgetFactory {
     dateField
   }
 
-  protected def createRegExField(validPattern: String, value: String): Parent = {
+  protected def makeRegExField(validPattern: String, value: String): Parent = {
     val regexField = new TextField(value)
     regexField.textProperty().addListener(new ChangeListener[String] {
       override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {

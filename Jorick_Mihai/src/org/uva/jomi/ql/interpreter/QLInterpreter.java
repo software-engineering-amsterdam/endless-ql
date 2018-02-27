@@ -6,6 +6,7 @@ import org.uva.jomi.ql.ast.*;
 import org.uva.jomi.ql.ast.expressions.AdditionExpr;
 import org.uva.jomi.ql.ast.expressions.AndExpr;
 import org.uva.jomi.ql.ast.expressions.BinaryExpr;
+import org.uva.jomi.ql.ast.expressions.BooleanExpr;
 import org.uva.jomi.ql.ast.expressions.DivisionExpr;
 import org.uva.jomi.ql.ast.expressions.EqualExpr;
 import org.uva.jomi.ql.ast.expressions.Expr;
@@ -13,12 +14,14 @@ import org.uva.jomi.ql.ast.expressions.GreaterThanExpr;
 import org.uva.jomi.ql.ast.expressions.GreaterThanOrEqualExpr;
 import org.uva.jomi.ql.ast.expressions.GroupingExpr;
 import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
+import org.uva.jomi.ql.ast.expressions.IntegerExpr;
 import org.uva.jomi.ql.ast.expressions.LessThanExpr;
 import org.uva.jomi.ql.ast.expressions.LessThanOrEqualExpr;
 import org.uva.jomi.ql.ast.expressions.MultiplicationExpr;
 import org.uva.jomi.ql.ast.expressions.NotEqualExpr;
 import org.uva.jomi.ql.ast.expressions.OrExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
+import org.uva.jomi.ql.ast.expressions.StringExpr;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
 import org.uva.jomi.ql.ast.expressions.UnaryExpr;
 import org.uva.jomi.ql.ast.expressions.UnaryNotExpr;
@@ -175,6 +178,24 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 
 	@Override
 	public Object visit(UnaryNotExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object visit(IntegerExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object visit(StringExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object visit(BooleanExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -8,11 +8,13 @@ namespace AntlrInterpretor.Logic
 {
     public class QlVisitor : QLBaseVisitor<IAstNode>
     {
+        private readonly IAstFactory m_astFactory;
         private readonly IQuestionnaireAst m_questionnaireAst;
 
-        public QlVisitor()
+        public QlVisitor(IAstFactory astFactory)
         {
-            m_questionnaireAst = new QuestionnaireAst();
+            m_astFactory = astFactory;
+            m_questionnaireAst = m_astFactory.CreateQuestionnaire();
         }
 
         public override IAstNode VisitQuestionnaire(QLParser.QuestionnaireContext context)
@@ -29,9 +31,9 @@ namespace AntlrInterpretor.Logic
         {
 
             var calculationName = context.mathexpression().GetText();
-            var calculation = new CalculationAst(calculationName);
+            var calculation = m_astFactory.CreateCalculation(calculationName);
 
-            m_questionnaireAst.Statements.Add(calculation);
+            m_questionnaireAst.ChildNodes.Add(calculation);
             Visit(context.mathexpression());
             return m_questionnaireAst;
         }
@@ -39,9 +41,9 @@ namespace AntlrInterpretor.Logic
         public override IAstNode VisitConditional(QLParser.ConditionalContext context)
         {
             var questionName = context.condition().GetText();
-            var conditional = new ConditionalAst(questionName);
+            var conditional = m_astFactory.CreateConditional(questionName);
             
-            m_questionnaireAst.Statements.Add(conditional);
+            m_questionnaireAst.ChildNodes.Add(conditional);
             Visit(context.condition());
             context.statement()
                 .Select(x => Visit(x))
@@ -88,8 +90,9 @@ namespace AntlrInterpretor.Logic
                         null);
             }
 
-            var question = new QuestionAst(name, text.Replace("\"", ""), type);
-            m_questionnaireAst.Statements.Add(question);
+
+            var question = m_astFactory.CreateQuestion(name, text.Replace("\"", ""), type);
+            m_questionnaireAst.ChildNodes.Add(question);
             m_questionnaireAst.Questions.Add(question);
             return m_questionnaireAst;
         }

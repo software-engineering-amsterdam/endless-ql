@@ -223,4 +223,19 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		expr.getRightExpr().accept(this);
 		return null;
 	}
+
+	@Override
+	public Void visit(IntegerExpr expr) {
+		return null;
+	}
+
+	@Override
+	public Void visit(StringExpr expr) {
+		return null;
+	}
+
+	@Override
+	public Void visit(BooleanExpr expr) {
+		return null;
+	}
 }

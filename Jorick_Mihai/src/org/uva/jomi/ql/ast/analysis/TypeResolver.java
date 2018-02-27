@@ -205,4 +205,20 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 		resolveBinaryExpr(expr);
 		return null;
 	}
+
+	@Override
+	public Void visit(IntegerExpr expr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void visit(StringExpr expr) {
+		return null;
+	}
+
+	@Override
+	public Void visit(BooleanExpr expr) {
+		return null;
+	}
 }

@@ -22,9 +22,6 @@ public class WebUI extends UI {
     @Value("${ql.mode}")
     private String mode;
 
-    @Value("${ql.file:#{null}}")
-    private String qlFile;
-
     @Autowired
     private Reloadable<Form> qlForm;
 

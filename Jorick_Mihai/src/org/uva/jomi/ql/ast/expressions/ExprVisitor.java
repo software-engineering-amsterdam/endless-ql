@@ -15,19 +15,19 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	// Builds a Boolean expression using the parser context.
 	@Override public Expr visitBooleanExpr(QLParser.BooleanExprContext ctx) {
 		QLToken token = new QLToken(ctx.BOOLEAN().getSymbol());
-		return new PrimaryExpr(token, QLType.BOOLEAN);
+		return new BooleanExpr(token, QLType.BOOLEAN);
 	}
 
 	// Builds a String expression using the parser context.
 	@Override public Expr visitStringExpr(QLParser.StringExprContext ctx) {
 		QLToken token = new QLToken(ctx.LABEL().getSymbol());
-		return new PrimaryExpr(token, QLType.STRING);
+		return new StringExpr(token, QLType.STRING);
 	}
 
 	// Builds an Integer expression using the parser context.
 	@Override public Expr visitIntegerExpr(QLParser.IntegerExprContext ctx) {
 		QLToken token = new QLToken(ctx.INTEGER().getSymbol());
-		return new PrimaryExpr(token, QLType.INTEGER);
+		return new IntegerExpr(token, QLType.INTEGER);
 	}
 
 	// Builds an And expression using the parser context.

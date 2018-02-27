@@ -20,22 +20,23 @@ label: STRINGLIT;
 
 conditional: ifStmt;
 
-/* ifStmt: ifHeader OCB ifBody CCB; */
-ifStmt: IF OB expr CB OCB stmt+ CCB;
-/* ifHeader: IF OB exprs CB; */
-/* ifBody: stmt+; */
+ifStmt: IF OB expr CB OCB stmt* CCB;
 
 expr:
-  OB expr CB #BracketExpression |
+  OB expr CB #bracketExpression |
   lhs=expr binOp rhs=expr #binaryExpression |
   op=unOp expr #unaryExpression |
   IDENTIFIER #identifierExpression |
   NUMBER #numberExpression
 ;
 
-binOp: ADD | SUB | MUL | DIV;
-unOp: EM;
+/* binOp: ADD | SUB | MUL | DIV; */
+binOp: arithmetic | logical;
+unOp: NOT | SUB;
+
+arithmetic: ADD | SUB | MUL | DIV;
+logical: GT | LT | LTE | GTE | EQ | NEQ | CON | DIS; 
 
 varDecl: IDENTIFIER DD typeDecl;
-valAssign: EQ OB expr CB;
-typeDecl: (BOOL | MONEY);
+valAssign: ASS OB expr CB;
+typeDecl: BOOL | MONEY;

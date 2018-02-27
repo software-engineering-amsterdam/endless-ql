@@ -1,6 +1,9 @@
-package expression;
+package expression.binary;
 
-public abstract class ExpressionArithmetic extends ExpressionBinary<Double> {
+import expression.Expression;
+import expression.ReturnType;
+
+public abstract class ExpressionArithmetic extends ExpressionBinary {
     ExpressionArithmetic(Expression left, Expression right, String opString) {
         super(left, right, opString);
     }

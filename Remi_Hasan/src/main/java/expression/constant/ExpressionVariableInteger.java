@@ -1,4 +1,8 @@
-package expression;
+package expression.constant;
+
+import expression.ReturnType;
+
+import java.math.BigDecimal;
 
 public class ExpressionVariableInteger extends ExpressionVariable<Integer> {
 
@@ -45,7 +49,16 @@ public class ExpressionVariableInteger extends ExpressionVariable<Integer> {
 
     @Override
     public ExpressionVariable sum(ExpressionVariable other) {
-        return new ExpressionVariableInteger(this.value + (Integer) other.value);
+        switch(other.getReturnType()) {
+            case DECIMAL:
+                return new ExpressionVariableDecimal(this.value + (Double) other.value);
+            case INTEGER:
+                return new ExpressionVariableInteger(this.value + (Integer) other.value);
+            case MONEY:
+                return new ExpressionVariableMoney(((BigDecimal) other.value).add(new BigDecimal(this.value)));
+            default:
+                return new ExpressionVariableUndefined();
+        }
     }
 
     @Override

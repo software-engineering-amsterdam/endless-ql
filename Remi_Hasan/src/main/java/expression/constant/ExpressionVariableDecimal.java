@@ -1,4 +1,6 @@
-package expression;
+package expression.constant;
+
+import expression.ReturnType;
 
 public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
 

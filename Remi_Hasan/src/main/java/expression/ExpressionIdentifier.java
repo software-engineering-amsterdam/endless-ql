@@ -1,8 +1,9 @@
 package expression;
 
+import expression.constant.ExpressionVariable;
 import model.LookupTable;
 
-public class ExpressionIdentifier<T> extends Expression<T> {
+public class ExpressionIdentifier<T> extends Expression {
 
     private final String identifier;
 

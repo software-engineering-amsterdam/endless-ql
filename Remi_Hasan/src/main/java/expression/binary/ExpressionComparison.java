@@ -1,6 +1,9 @@
-package expression;
+package expression.binary;
 
-public abstract class ExpressionComparison extends ExpressionBinary<Boolean> {
+import expression.Expression;
+import expression.ReturnType;
+
+public abstract class ExpressionComparison extends ExpressionBinary {
 
     ExpressionComparison(Expression left, Expression right, String opString) {
         super(left, right, opString);

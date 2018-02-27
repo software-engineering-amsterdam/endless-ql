@@ -1,4 +1,6 @@
-package expression;
+package expression.constant;
+
+import expression.ReturnType;
 
 public class ExpressionVariableDate extends ExpressionVariable<String> {
     // TODO: figure out best way to save and/or validate a date

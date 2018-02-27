@@ -5,11 +5,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
-import qlviz.model.BooleanExpression;
+import qlviz.model.booleanExpressions.BooleanExpression;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.QuestionBlock;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

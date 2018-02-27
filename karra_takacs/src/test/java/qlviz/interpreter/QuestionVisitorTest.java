@@ -2,10 +2,8 @@ package qlviz.interpreter;
 
 import org.junit.Assert;
 import org.junit.Test;
-import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
-import qlviz.model.Question;
-import qlviz.model.QuestionType;
+import qlviz.model.question.Question;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -17,6 +15,7 @@ public class QuestionVisitorTest {
         // Arrange
         final String testIdentifier = "test_identifier";
         QuestionTypeTranslator typeVisitorMock = mock(QuestionTypeTranslator.class);
+        NumericExpressionParser expressionVisitorMock = mock(NumericExpressionParser.class);
         QLParser.QuestionContext contextMock = mock(QLParser.QuestionContext.class);
         QLParser.QuestionNameContext nameContext = mock(QLParser.QuestionNameContext.class);
         QLParser.QuestionTextContext textContextMock = mock(QLParser.QuestionTextContext.class);
@@ -25,7 +24,7 @@ public class QuestionVisitorTest {
         when(contextMock.questionText()).thenReturn(textContextMock);
         when(nameContext.getText()).thenReturn(testIdentifier);
 
-        QuestionVisitor visitor = new QuestionVisitor(typeVisitorMock);
+        QuestionVisitor visitor = new QuestionVisitor(typeVisitorMock, expressionVisitorMock);
 
         // Act
         Question result = visitor.visitQuestion(contextMock);

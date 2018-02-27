@@ -1,5 +1,7 @@
 package qlviz.model.numericExpressions;
 
+import qlviz.interpreter.linker.NumericExpressionVisitor;
+
 import java.math.BigDecimal;
 
 public class BinaryNumericOperation extends NumericExpression {
@@ -29,5 +31,18 @@ public class BinaryNumericOperation extends NumericExpression {
                 return this.leftSide.evaluate().divide(this.rightSide.evaluate());
         }
         return BigDecimal.ZERO;
+    }
+
+    @Override
+    public void accept(NumericExpressionVisitor numericExpressionVisitor) {
+        numericExpressionVisitor.visit(this);
+    }
+
+    public NumericExpression getLeftSide() {
+        return leftSide;
+    }
+
+    public NumericExpression getRightSide() {
+        return rightSide;
     }
 }

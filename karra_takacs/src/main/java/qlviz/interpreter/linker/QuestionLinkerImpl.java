@@ -9,6 +9,7 @@ import qlviz.model.question.BooleanQuestion;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -41,7 +42,14 @@ public class QuestionLinkerImpl implements QuestionLinker {
                 booleanQuestions
                         .stream()
                         .collect(Collectors.toMap(BooleanQuestion::getName, Function.identity())));
+        NumericExpressionLinker numericLinker = new NumericExpressionLinker(
+                numericQuestions
+                        .stream()
+                        .collect(Collectors.toMap(NumericQuestion::getName, Function.identity())));
 
+        for (NumericQuestion numericQuestion : numericQuestions) {
+            numericQuestion.accept(numericLinker);
+        }
         for (QuestionBlock block : form.getQuestions()) {
             this.linkQuestionsInBlock(block, booleanLinker);
         }

@@ -2,7 +2,7 @@ import model.StyleSheet;
 import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import visitor.VistorStyleSheet;
+import visitor.VisitorStyleSheet;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +18,7 @@ public class StyleSheetParser {
             QLSParser parser = new QLSParser(tokens);
 
             // Walk it and attach our listener
-            VistorStyleSheet visitor = new VistorStyleSheet();
+            VisitorStyleSheet visitor = new VisitorStyleSheet();
             StyleSheet styleSheet = visitor.visit(parser.root());
 
             // Debug

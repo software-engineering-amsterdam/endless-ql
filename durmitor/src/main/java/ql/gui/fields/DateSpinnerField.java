@@ -11,7 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ql.ast.expression.Identifier;
-import ql.value.Date;
+import ql.evaluator.value.Date;
 
 public class DateSpinnerField extends JSpinner {
 

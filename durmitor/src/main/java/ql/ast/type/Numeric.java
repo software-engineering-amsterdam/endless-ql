@@ -25,6 +25,16 @@ public abstract class Numeric extends Type {
     public boolean isNumeric() {
         return true;
     }
+    
+    @Override
+    public Type negative() {
+        return this;
+    }
+
+    @Override
+    public Type positive() {
+        return this;
+    }
 
     @Override
     public Type add(Type secondOperand) {

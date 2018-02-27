@@ -33,7 +33,7 @@ class ASTParser extends FunSpec with BeforeAndAfter {
     }
 
     it("should contain two questions") {
-      val result = getForm("ql/two_simple.ql")
+      val result = getForm("ql/two_statements_simple.ql")
       val expected = ASTRoot(
         ASTFormHeader(),
         ASTFormBody(

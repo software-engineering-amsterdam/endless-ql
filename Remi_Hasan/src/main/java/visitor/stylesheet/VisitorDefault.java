@@ -19,7 +19,7 @@ public class VisitorDefault extends QLSBaseVisitor<Default> {
 
         ArrayList<Widget> widgets = new ArrayList<>();
         for(QLSParser.WidgetContext widgetContext : ctx.widget()){
-            Widget widget = visitorWidget.visitWidget(widgetContext);
+            Widget widget = visitorWidget.visit(widgetContext);
             widgets.add(widget);
         }
 

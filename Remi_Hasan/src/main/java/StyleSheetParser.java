@@ -1,6 +1,7 @@
 import antlr.QLSLexer;
 import antlr.QLSParser;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.stylesheet.StyleSheet;
 import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
@@ -31,7 +32,7 @@ public class StyleSheetParser {
             Trees.inspect(parser.root(), parser);
 
             // Debug: print object
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             System.out.println(gson.toJson(styleSheet));
 
             return styleSheet;

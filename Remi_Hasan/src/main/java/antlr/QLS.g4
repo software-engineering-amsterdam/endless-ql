@@ -12,22 +12,22 @@ question        : QUESTION (IDENTIFIER | IDENTIFIER widget);
 default_        : DEFAULT type (widget | '{' widget* '}');
 
 // Widgets
-widget          : WIDGET radioWidget
-                | WIDGET checkBoxWidget
-                | WIDGET spinBoxWidget
-                | widgetWidth
-                | widgetFont
-                | widgetFontSize
-                | widgetColor
+widget          : WIDGET RADIO '(' (STRING ',')* STRING ')' # radioWidget
+                | WIDGET CHECKBOX # checkBoxWidget
+                | WIDGET SPINBOX # spinBoxWidget
+                | WIDTH ':' INTEGER # widgetWidth
+                | FONT ':' STRING # widgetFont
+                | FONTSIZE ':' INTEGER # widgetFontSize
+                | COLOR ':' HEXCOLOR # widgetColor
                 ;
 
-radioWidget     : RADIO '(' (STRING ',')* STRING ')';
-checkBoxWidget  : CHECKBOX;
-spinBoxWidget   : SPINBOX;
-widgetWidth     : WIDTH ':' INTEGER;
-widgetFont      : FONT ':' STRING; // TODO validate font family?
-widgetFontSize  : FONTSIZE ':' INTEGER;
-widgetColor     : COLOR ':' HEXCOLOR;
+//radioWidget     : ;
+//checkBoxWidget  : CHECKBOX;
+//spinBoxWidget   : SPINBOX;
+//widgetWidth     : WIDTH ':' INTEGER;
+//widgetFont      : FONT ':' STRING; // TODO validate font family?
+//widgetFontSize  : FONTSIZE ':' INTEGER;
+//widgetColor     : COLOR ':' HEXCOLOR;
 
 
 type            : BOOLEANTYPE

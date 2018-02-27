@@ -6,10 +6,10 @@ import model.stylesheet.widgets.*;
 
 public class VisitorWidget extends QLSBaseVisitor<Widget> {
 
-    @Override
-    public Widget visitWidget(QLSParser.WidgetContext ctx) {
-        return visit(ctx.WIDGET());
-    }
+//    @Override
+//    public Widget visitWidget(QLSParser.WidgetContext ctx) {
+//        return visit(ctx.WIDGET());
+//    }
 
     @Override
     public Widget visitCheckBoxWidget(QLSParser.CheckBoxWidgetContext ctx) {

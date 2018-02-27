@@ -3,6 +3,7 @@
  */
 package qlviz.interpreter;
 
+import org.antlr.v4.runtime.tree.TerminalNode;
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
 import qlviz.QLVisitor;
@@ -26,8 +27,13 @@ public class FormVisitor extends QLBaseVisitor<Form> {
 
     @Override
     public Form visitForm(QLParser.FormContext ctx) {
+        TerminalNode identifier = ctx.IDENTIFIER();
+        String name = "";
+        if (identifier != null) {
+            name = identifier.getText();
+        }
         return new Form(
-          ctx.IDENTIFIER().getText(),
+          name,
           ctx.questionBlock()
                   .stream()
                   .map(this.questionBlockVisitor::visitQuestionBlock)

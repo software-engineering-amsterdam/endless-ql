@@ -39,6 +39,10 @@ abstract public class Expr extends AstNode {
 	public void setType(QLType type) {
 		this.type = type;
 	}
+	
+	public boolean hasType(QLType expectedType) {
+		return this.getType() != expectedType;
+	}
 
 	public int getLineNumber() {
 		return lineNumber;

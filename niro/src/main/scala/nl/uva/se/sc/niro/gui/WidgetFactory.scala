@@ -7,12 +7,14 @@ import javafx.scene.Parent
 import javafx.scene.control.{ CheckBox, DatePicker, Label, TextField }
 import javafx.util.StringConverter
 import nl.uva.se.sc.niro.Evaluator
-import nl.uva.se.sc.niro.model.Expressions.Expression
+import nl.uva.se.sc.niro.model.Expressions.{ BinaryOperation, Expression, Reference, UnaryOperation }
 import nl.uva.se.sc.niro.model.Expressions.answers._
 import nl.uva.se.sc.niro.model.Question
 
 object WidgetFactory {
-  private val dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+  private val INTEGER_MASK = "\\d*"
+  private val DECIMAL_MASK = "\\d*(,\\d{0,2})?"
+  private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
   def makeWidgets(question: Question, symbolTable: Map[String, Expression]): Seq[Parent] = {
     Seq(new Label(question.label),
@@ -29,23 +31,23 @@ object WidgetFactory {
   def makeBooleanField(question: Question, bool: Option[Boolean]): Parent = {
     val checkbox = new CheckBox()
     bool.foreach(checkbox.setSelected(_))
-    checkbox
+    EditableDecorator.makeEditable(checkbox, question, bool)
   }
-
   def makeTextField(question: Question, text: Option[String]): Parent = {
-    new TextField(text.getOrElse(""))
+    EditableDecorator.makeEditable(new TextField(text.getOrElse("")), question, text)
   }
 
   def makeIntegerField(question: Question, value: Option[Int]): Parent = {
-    makeRegExField("\\d*", value.map(_.toString).getOrElse(""))
+    EditableDecorator.makeEditable(makeRegExField(INTEGER_MASK, value.map(_.toString).getOrElse("")), question, value)
   }
 
   def makeDecimalField(question: Question, value: Option[BigDecimal]): Parent = {
-    makeRegExField("\\d*(,\\d{0,2})?", value.map(_.toString).getOrElse(""))
+    EditableDecorator.makeEditable(makeRegExField(DECIMAL_MASK, value.map(_.toString).getOrElse("")), question, value)
   }
 
   def makeMoneyField(question: Question, value: Option[String]): Parent = {
-    makeRegExField("\\d*(,\\d{0,2})?", value.map(_.toString).getOrElse(""))
+    // TODO Add decimal format with fixed decimals
+    EditableDecorator.makeEditable(makeRegExField(DECIMAL_MASK, value.map(_.toString).getOrElse("")), question, value)
   }
 
   def makeDateField(question: Question, value: Option[String]): Parent = {
@@ -53,17 +55,17 @@ object WidgetFactory {
     dateField.setConverter(new StringConverter[LocalDate] {
 
       override def toString(date: LocalDate): String = {
-        if (date != null) dateFormat.format(date) else null
+        if (date != null) DATE_FORMAT.format(date) else null
       }
 
       override def fromString(string: String): LocalDate = {
-        if (string != null && !string.isEmpty) LocalDate.parse(string, dateFormat) else null
+        if (string != null && !string.isEmpty) LocalDate.parse(string, DATE_FORMAT) else null
       }
     })
-    dateField
+    EditableDecorator.makeEditable(dateField, question, value)
   }
 
-  protected def makeRegExField(validPattern: String, value: String): Parent = {
+  protected def makeRegExField(validPattern: String, value: String): TextField = {
     val regexField = new TextField(value)
     regexField.textProperty().addListener(new ChangeListener[String] {
       override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {

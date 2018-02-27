@@ -1,0 +1,42 @@
+package nl.uva.se.sc.niro.gui
+
+import javafx.scene.control.{ CheckBox, DatePicker, TextField }
+import nl.uva.se.sc.niro.model.Expressions.{ BinaryOperation, Reference, UnaryOperation }
+import nl.uva.se.sc.niro.model.Question
+
+object EditableDecorator {
+
+  def makeEditable(checkBox: CheckBox, question: Question, value: Option[Boolean]): CheckBox = {
+    question.answer match {
+      case Reference(_) => checkBox.setDisable(true)
+      case UnaryOperation(_, _) => checkBox.setDisable(true)
+      case BinaryOperation(_, _, _) => checkBox.setDisable(true)
+      case _ => checkBox.setDisable(value.isDefined)
+    }
+    checkBox
+  }
+
+  // TODO Correct Option type once the AST has settled
+  def makeEditable(textField: TextField, question: Question, value: Option[Any]): TextField = {
+    question.answer match {
+      case Reference(_) => textField.setDisable(true)
+      case UnaryOperation(_, _) => textField.setDisable(true)
+      case BinaryOperation(_, _, _) => textField.setDisable(true)
+      case _ => textField.setDisable(value.isDefined)
+    }
+    textField.setEditable(!textField.isDisabled)
+    textField
+  }
+
+  // TODO Correct Option type once the AST has settled
+  def makeEditable(textField: DatePicker, question: Question, value: Option[Any]): DatePicker = {
+    question.answer match {
+      case Reference(_) => textField.setDisable(true)
+      case UnaryOperation(_, _) => textField.setDisable(true)
+      case BinaryOperation(_, _, _) => textField.setDisable(true)
+      case _ => textField.setDisable(value.isDefined)
+    }
+    textField.setEditable(!textField.isDisabled)
+    textField
+  }
+}

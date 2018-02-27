@@ -36,21 +36,25 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
 
     @Override
     public Widget visitWidgetWidth(QLSParser.WidgetWidthContext ctx) {
-        return new WidgetWidth();
+        int width = Integer.parseInt(ctx.INTEGER().getText());
+        return new WidgetWidth(width);
     }
 
     @Override
     public Widget visitWidgetFont(QLSParser.WidgetFontContext ctx) {
-        return new WidgetFont();
+        String fontFamily = ctx.STRING().getText();
+        return new WidgetFont(fontFamily);
     }
 
     @Override
     public Widget visitWidgetFontSize(QLSParser.WidgetFontSizeContext ctx) {
-        return new WidgetFontSize();
+        int fontSize = Integer.parseInt(ctx.INTEGER().getText());
+        return new WidgetFontSize(fontSize);
     }
 
     @Override
     public Widget visitWidgetColor(QLSParser.WidgetColorContext ctx) {
-        return new WidgetColor();
+        String hexColor = ctx.HEXCOLOR().getText();
+        return new WidgetColor(hexColor);
     }
 }

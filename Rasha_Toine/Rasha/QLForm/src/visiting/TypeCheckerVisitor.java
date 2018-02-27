@@ -110,7 +110,7 @@ public class TypeCheckerVisitor
 
 	@Override
 	public Type visit(LiteralExpression node, Void ctx) {
-		return node.getObj().accept(this, ctx);
+		return node.getLiteral().accept(this, ctx);
 	}
 	
 	@Override

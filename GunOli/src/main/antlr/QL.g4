@@ -19,7 +19,13 @@ unaryOp         : MINUS | NOT;
 
 binaryOp        : MUL | DIV | PLUS | MINUS | LE | LT | GE | GT | EQ | NE | AND | OR;
 
-constant        : INTEGER | DECIMAL | STRING | IDENTIFIER | MONEY | DATE;
+constant        : INTEGER #integerConstant
+                | DECIMAL #decimalConstant
+                | STRING  #stringConstant
+                | IDENTIFIER #identifierConstant
+                | MONEY #moneyConstant
+                | DATE #dateConstant
+                ;
 
 type            : BOOLEANTYPE | STRINGTYPE | MONEYTYPE | INTEGERTYPE | DATETYPE | DECIMALTYPE;
 

@@ -79,4 +79,5 @@ expression : BRACK_L expression BRACK_R                        # GroupExpr
            | Identifier                                        # Var
            | IntValue                                          # IntConst
            | DecValue                                          # DecConst
+           | TEXT                                              # StringConst
            | bool                                              # BoolConst ;

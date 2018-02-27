@@ -73,6 +73,11 @@
 			<version>${scalatic_2_12.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.lihaoyi</groupId>
+			<artifactId>pprint_2.12</artifactId>
+			<version>0.5.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>

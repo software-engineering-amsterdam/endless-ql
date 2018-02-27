@@ -6,8 +6,8 @@ import expression.ReturnType;
 
 public class ExpressionUnaryNot extends ExpressionUnary {
 
-    public ExpressionUnaryNot(Expression v) {
-        super(v, "!");
+    public ExpressionUnaryNot(Expression e) {
+        super(e, "!");
     }
 
     @Override

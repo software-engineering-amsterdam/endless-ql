@@ -8,8 +8,8 @@ import expression.binary.ExpressionArithmeticMultiply;
 
 public class ExpressionUnaryNeg extends ExpressionUnary {
 
-    public ExpressionUnaryNeg(Expression v) {
-        super(v, "-");
+    public ExpressionUnaryNeg(Expression e) {
+        super(e, "-");
     }
 
     @Override

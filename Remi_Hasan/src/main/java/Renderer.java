@@ -179,7 +179,7 @@ public class Renderer {
                 updateField(fieldMap, statement, isTrue);
             } else {
                 Condition conditional = (Condition) statement;
-                boolean trueBlockVisible = isTrue && Boolean.TRUE.equals(conditional.condition.evaluate().get());
+                boolean trueBlockVisible = isTrue && Boolean.TRUE.equals(conditional.condition.evaluate().getValue());
                 boolean falseBlockVisible = isTrue && !trueBlockVisible;
                 updateFields(fieldMap, conditional.trueStatements, trueBlockVisible);
                 updateFields(fieldMap, conditional.falseStatements, falseBlockVisible);
@@ -195,7 +195,7 @@ public class Renderer {
         field.getControl().setVisible(isTrue);
 
         if(!question.answer.isSettable()) {
-            Object answer = question.answer.evaluate().get();
+            Object answer = question.answer.evaluate().getValue();
             if(answer == null) {
                 answer = "";
             }

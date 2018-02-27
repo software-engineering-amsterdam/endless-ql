@@ -1,6 +1,8 @@
-package expression;
+package expression.constant;
 
-public abstract class ExpressionVariable<T> extends Expression<T> {
+import expression.Expression;
+
+public abstract class ExpressionVariable<T> extends Expression {
 
     T value;
 
@@ -8,7 +10,7 @@ public abstract class ExpressionVariable<T> extends Expression<T> {
         this.value = value;
     }
 
-    public T get() {
+    public T getValue() {
         return this.value;
     }
 

@@ -1,7 +1,9 @@
-package expression;
+package expression.binary;
+
+import expression.Expression;
+import expression.constant.ExpressionVariable;
 
 public class ExpressionComparisonEq extends ExpressionComparison {
-
 
     public ExpressionComparisonEq(Expression left, Expression right) {
         super(left, right, "==");

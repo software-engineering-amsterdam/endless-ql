@@ -1,11 +1,14 @@
-package expression;
+package expression.binary;
 
-public abstract class ExpressionBinary<T> extends Expression<T> {
+import expression.Expression;
+import expression.ReturnType;
+
+public abstract class ExpressionBinary extends Expression {
     final Expression left;
     final Expression right;
     final String opString;
 
-    public ExpressionBinary(Expression left, Expression right, String opString) {
+    ExpressionBinary(Expression left, Expression right, String opString) {
         this.left = left;
         this.right = right;
         this.opString = opString;

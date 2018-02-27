@@ -1,4 +1,6 @@
-package expression;
+package expression.constant;
+
+import expression.ReturnType;
 
 public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
 

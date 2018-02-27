@@ -1,6 +1,8 @@
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import expression.*;
+import expression.binary.*;
+import expression.constant.ExpressionVariableInteger;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;

@@ -23,8 +23,6 @@ class SimplifierVisitor extends QlParserBaseVisitor[ASTNode] {
   }
 
   override def visitQuestion(ctx: QlParser.QuestionContext): ASTQuestion = {
-    // prease move this abomination to a 'pre' clean-up visitor.
-    // val label = ctx.label.getText.replace("\"", "")
     val varDecl = visit(ctx.varDecl)
     ASTQuestion(varDecl)
   }
@@ -44,7 +42,11 @@ class SimplifierVisitor extends QlParserBaseVisitor[ASTNode] {
 
   override def visitConditional(ctx: QlParser.ConditionalContext): ASTNode = {
     visit(ctx.ifStmt)
-    // ASTConditional()
+  }
+
+  override def visitIfStmt(ctx: QlParser.IfStmtContext): ASTIfStatement = {
+    val statements = ctx.stmt.map(visit).toList
+    ASTIfStatement(visit(ctx.expr), statements)
   }
 
   override def visitValAssign(ctx: QlParser.ValAssignContext): ASTNode = {
@@ -56,10 +58,20 @@ class SimplifierVisitor extends QlParserBaseVisitor[ASTNode] {
       case "-" => ASTMin()
       case "*" => ASTMul()
       case "/" => ASTDiv()
+      case "!" => ASTUnaryNot()
+      case "&&" => ASTLogicalCon()
+      case "||" => ASTLogicalDis()
+      case "<" => ASTRelationalLT()
+      case ">" => ASTRelationalGT()
+      case "<=" => ASTRelationalLTE()
+      case ">=" => ASTRelationalGTE()
+      case "!=" => ASTRelationalNE()
+      case "==" => ASTRelationalEQ()
   }
 
-  override def visitUnOp(ctx: QlParser.UnOpContext): ASTNode = {
-    ASTNegate()
+  override def visitUnOp(ctx: QlParser.UnOpContext): ASTNode = ctx.getText match {
+      case "-" => ASTUnaryMin()
+      case "!" => ASTUnaryNot()
   }
 
   override def visitIdentifierExpression(ctx: QlParser.IdentifierExpressionContext): ASTNode = {
@@ -76,10 +88,5 @@ class SimplifierVisitor extends QlParserBaseVisitor[ASTNode] {
 
   override def visitBracketExpression(ctx: QlParser.BracketExpressionContext): ASTNode = {
     visit(ctx.expr)
-  }
-
-  override def visitIfStmt(ctx: QlParser.IfStmtContext): ASTIfStatement = {
-    val statements = ctx.stmt.map(visit).toList
-    ASTIfStatement(visit(ctx.expr), statements)
   }
 }

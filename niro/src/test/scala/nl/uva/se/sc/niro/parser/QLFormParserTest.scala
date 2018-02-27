@@ -216,7 +216,7 @@ class QLFormParserTest extends FunSuite {
       QLForm(
         formName = "Box1HouseOwning",
         statements = List(
-          Question(id = "hasSoldHouse", label = "Did you sell a house in 2010?", expression = BooleanAnswer(None)),
+          Question(id = "hasSoldHouse", label = "Did you sell a house in 2010?", expression = IntAnswer(None)),
           Question(id = "houseSellingPrice", label = "What was the selling price?", expression = BinaryOperation(Sub, IntAnswer(Some(10000)), Reference("hasSoldHouse")))
         )
       )

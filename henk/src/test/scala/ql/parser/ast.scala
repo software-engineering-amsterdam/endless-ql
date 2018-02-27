@@ -22,13 +22,10 @@ class ASTParser extends FunSpec with BeforeAndAfter {
     it("should contain a single question") {
       val result = getForm("ql/simple.ql")
       val expected = ASTRoot(
-        ASTFormHeader("taxOfficeExample"),
+        ASTFormHeader(),
         ASTFormBody(
           List(
-            ASTQuestion(
-              "Did you sell a house in 2010?", 
-              ASTVarDecl("hasSoldHouse", ASTBoolean(), null)
-              )
+            ASTQuestion(ASTVarDecl(ASTBoolean()))
             )
           )
         )
@@ -38,16 +35,63 @@ class ASTParser extends FunSpec with BeforeAndAfter {
     it("should contain two questions") {
       val result = getForm("ql/two_simple.ql")
       val expected = ASTRoot(
-        ASTFormHeader("taxOfficeExample"),
+        ASTFormHeader(),
         ASTFormBody(
           List(
-            ASTQuestion(
-              "Did you sell a house in 2010?", 
-              ASTVarDecl("hasSoldHouse", ASTBoolean(), null)
-            ),
-            ASTQuestion(
-              "Did you sell a house in 2011?", 
-              ASTVarDecl("hasSoldHouse", ASTBoolean(), null)
+            ASTQuestion(ASTVarDecl(ASTBoolean())),
+            ASTQuestion(ASTVarDecl(ASTBoolean()))
+          )
+        )
+      )
+      assert(result == expected)
+    }
+
+    it("should contain conditional") {
+      val result = getForm("ql/conditional.ql")
+      val expected = ASTRoot(
+        ASTFormHeader(),
+        ASTFormBody(
+          List(
+            ASTQuestion(ASTVarDecl(ASTBoolean())),
+            ASTQuestion(ASTVarDecl(ASTBoolean())),
+
+            ASTIfStatement(
+              ASTIdentifier(),
+              List(
+                ASTQuestion(ASTVarDecl(ASTMoney())),
+                ASTQuestion(ASTVarDecl(ASTMoney())),
+
+                ASTComputation(
+                  ASTVarDecl(ASTMoney()),
+                  ASTValAssign(
+                    ASTBinary(
+                      ASTIdentifier(),
+                      ASTIdentifier(),
+                      ASTMin()
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+      assert(result == expected)
+    }
+
+    it("should skip an extra set of brackets") {
+      val result = getForm("ql/conditional_bracket.ql")
+      val expected = ASTRoot(
+        ASTFormHeader(),
+        ASTFormBody(
+          List(
+            ASTQuestion(ASTVarDecl(ASTBoolean())),
+
+            ASTIfStatement(
+              ASTIdentifier(),
+              List(
+                ASTQuestion(ASTVarDecl(ASTMoney())),
+              )
             )
           )
         )

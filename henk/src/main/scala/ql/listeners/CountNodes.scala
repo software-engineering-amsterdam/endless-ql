@@ -36,8 +36,8 @@ class CountNodesListener extends QlParserBaseListener {
     node_count("ifStmt") += 1;
   }
 
-  override def enterIfBody(ctx: QlParser.IfBodyContext): Unit = {
-    node_count("ifBody") += 1;
+  override def enterComputation(ctx: QlParser.ComputationContext): Unit = {
+    node_count("computation") += 1;
   }
 
   override def enterBinOp(ctx: QlParser.BinOpContext): Unit = {

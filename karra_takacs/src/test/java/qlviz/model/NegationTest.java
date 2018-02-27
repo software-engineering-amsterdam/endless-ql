@@ -2,8 +2,9 @@ package qlviz.model;
 
 import org.junit.Assert;
 import org.junit.Test;
+import qlviz.model.booleanExpressions.BooleanExpression;
+import qlviz.model.booleanExpressions.Negation;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

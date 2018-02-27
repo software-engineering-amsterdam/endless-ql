@@ -2,7 +2,7 @@ package qlviz.interpreter;
 
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
-import qlviz.model.BooleanExpression;
+import qlviz.model.booleanExpressions.BooleanExpression;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.QuestionBlock;
 

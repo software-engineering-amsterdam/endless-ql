@@ -1,17 +1,21 @@
 package ql.ast.type;
 
-import ql.value.Value;
+import ql.evaluator.value.Value;
 import ql.visitors.interfaces.TypeVisitor;
 
 public class Undefined extends Type {
 
     @Override
     public Value<?> toValue() {
-        return new ql.value.Undefined();
+        return new ql.evaluator.value.Undefined();
     }
 
     @Override
     public String toString() {
+        return name();
+    }
+
+    public static String name() {
         return "undefined";
     }
 
@@ -26,7 +30,11 @@ public class Undefined extends Type {
     }
     
     @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+    
+    public Value<?> parse(Value<?> value) {
+        return new ql.evaluator.value.Undefined();
     }
 }

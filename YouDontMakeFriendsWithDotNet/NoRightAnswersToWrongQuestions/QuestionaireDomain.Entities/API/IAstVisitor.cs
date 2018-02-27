@@ -1,4 +1,4 @@
-﻿namespace QuestionaireDomain.Entities.DomainObjects
+﻿namespace QuestionaireDomain.Entities.API
 {
     public interface IAstVisitor
     {

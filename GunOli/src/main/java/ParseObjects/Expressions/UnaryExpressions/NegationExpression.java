@@ -3,10 +3,11 @@ package ParseObjects.Expressions.UnaryExpressions;
 import ParseObjects.Expressions.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
+import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 import ParseObjects.Expressions.UnaryExpression;
 
 public class NegationExpression extends UnaryExpression<Double> {
-    public NegationExpression(Expression expr){
+    public NegationExpression(Expression<Double> expr){
         super("-", expr);
     }
 
@@ -17,6 +18,7 @@ public class NegationExpression extends UnaryExpression<Double> {
 
     @Override
     public Constant<Double> evaluate(){
-        return null;//change
+        DecimalConstant expr = (DecimalConstant) this.getExpression().evaluate();
+        return new DecimalConstant(expr.getValue() * -1);
     }
 }

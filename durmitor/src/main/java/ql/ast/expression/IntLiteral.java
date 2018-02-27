@@ -1,7 +1,8 @@
 package ql.ast.expression;
 
 import ql.ast.type.Type;
-import ql.value.Int;
+import ql.evaluator.value.Int;
+import ql.evaluator.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class IntLiteral extends Literal {
@@ -23,11 +24,11 @@ public class IntLiteral extends Literal {
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return value.toString();
     }
 
     @Override
-    public Int getValue() {
+    public Value<?> evaluate() {
         return value;
     }
 

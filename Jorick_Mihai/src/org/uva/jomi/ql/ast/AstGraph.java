@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.uva.jomi.ql.ast.expressions.AdditionExpr;
 import org.uva.jomi.ql.ast.expressions.AndExpr;
+import org.uva.jomi.ql.ast.expressions.BooleanExpr;
 import org.uva.jomi.ql.ast.expressions.DivisionExpr;
 import org.uva.jomi.ql.ast.expressions.EqualExpr;
 import org.uva.jomi.ql.ast.expressions.Expr;
@@ -11,12 +12,14 @@ import org.uva.jomi.ql.ast.expressions.GreaterThanExpr;
 import org.uva.jomi.ql.ast.expressions.GreaterThanOrEqualExpr;
 import org.uva.jomi.ql.ast.expressions.GroupingExpr;
 import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
+import org.uva.jomi.ql.ast.expressions.IntegerExpr;
 import org.uva.jomi.ql.ast.expressions.LessThanExpr;
 import org.uva.jomi.ql.ast.expressions.LessThanOrEqualExpr;
 import org.uva.jomi.ql.ast.expressions.MultiplicationExpr;
 import org.uva.jomi.ql.ast.expressions.NotEqualExpr;
 import org.uva.jomi.ql.ast.expressions.OrExpr;
 import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
+import org.uva.jomi.ql.ast.expressions.StringExpr;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
 import org.uva.jomi.ql.ast.expressions.UnaryNotExpr;
 import org.uva.jomi.ql.ast.statements.BlockStmt;
@@ -268,5 +271,21 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 		return 	expr.getRightExpr().accept(this) +
 				String.format("  %s [label=\"UnaryNotExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
 				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	}
+
+	@Override
+	public String visit(IntegerExpr expr) {
+		return String.format("Type: %s\nValue: %s\n", expr.getType(), expr.getLexeme());
+	}
+
+	@Override
+	public String visit(StringExpr expr) {
+		String value = expr.getLexeme().substring(1, expr.getLexeme().length() - 1);
+		return String.format("Type: %s\nValue: %s\n", expr.getType(), value);
+	}
+
+	@Override
+	public String visit(BooleanExpr expr) {
+		return String.format("Type: %s\nValue: %s\n", expr.getType(), expr.getLexeme());
 	}
 }

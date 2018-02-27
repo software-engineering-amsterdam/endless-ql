@@ -1,11 +1,12 @@
 package ql.ast.expression;
 
+import ql.evaluator.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class Equal extends BinaryOperator {
 
-    public Equal(Expression lhs, Expression rhs) {
-        super(lhs, rhs);
+    public Equal(Expression firstOperand, Expression secondOperand) {
+        super(firstOperand, secondOperand);
     }
 
     @Override
@@ -16,5 +17,10 @@ public class Equal extends BinaryOperator {
     @Override
     public String getOperator() {
         return "==";
+    }
+
+    @Override
+    public Value<?> evaluate() {
+        return firstOperand.evaluate().equal(secondOperand.evaluate());
     }
 }

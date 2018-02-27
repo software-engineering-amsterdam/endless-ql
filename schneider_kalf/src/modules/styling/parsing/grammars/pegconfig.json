@@ -1,0 +1,6 @@
+{
+  "tspegjs": {
+    "noTslint": true,
+    "customHeader": "/* tslint:disable */\nimport * as Nodes from '../../form/nodes/Nodes';"
+  }
+}

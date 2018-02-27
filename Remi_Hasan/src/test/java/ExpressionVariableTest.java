@@ -1,4 +1,6 @@
 import expression.*;
+import expression.constant.*;
+import expression.unary.ExpressionUnaryNeg;
 import model.LookupTable;
 import model.Question;
 import org.junit.Test;
@@ -17,7 +19,7 @@ public class ExpressionVariableTest {
         ExpressionVariableBoolean expectedExpression = new ExpressionVariableBoolean(true);
 
         // TODO implement real equals
-        assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
+        assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
     }
 
     @Test
@@ -27,7 +29,7 @@ public class ExpressionVariableTest {
         ExpressionVariableBoolean expectedExpression = new ExpressionVariableBoolean(false);
 
         // TODO implement real equals
-        assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
+        assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
     }
 
     @Test
@@ -37,7 +39,7 @@ public class ExpressionVariableTest {
         ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(1);
 
         // TODO implement real equals
-        assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
+        assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
     }
 
     @Test
@@ -47,7 +49,7 @@ public class ExpressionVariableTest {
         ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableInteger(1));
 
         // TODO implement real equals
-        assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
+        assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
     }
 
     @Test
@@ -57,7 +59,7 @@ public class ExpressionVariableTest {
         ExpressionVariableDecimal expectedExpression = new ExpressionVariableDecimal(1.0);
 
         // TODO implement real equals
-        assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
+        assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
     }
 
     @Test
@@ -67,7 +69,7 @@ public class ExpressionVariableTest {
         ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableDecimal(1.0));
 
         // TODO implement real equals
-        assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
+        assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
     }
 
     @Test
@@ -77,7 +79,7 @@ public class ExpressionVariableTest {
         ExpressionVariableDate expectedExpression = new ExpressionVariableDate("1-1-2018");
 
         // TODO implement real equals
-        assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
+        assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
     }
 
     @Test
@@ -87,7 +89,7 @@ public class ExpressionVariableTest {
         ExpressionVariableMoney expectedExpression = new ExpressionVariableMoney(BigDecimal.valueOf(1.99));
 
         // TODO implement real equals
-        assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
+        assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
     }
 
     @Test
@@ -97,7 +99,7 @@ public class ExpressionVariableTest {
         ExpressionVariableString expectedExpression = new ExpressionVariableString("Could you give me some value?");
 
         // TODO implement real equals
-        assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
+        assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
     }
 
     @Test
@@ -111,7 +113,7 @@ public class ExpressionVariableTest {
         ExpressionIdentifier<Integer> expectedExpression = new ExpressionIdentifier<Integer>("someQuestionIdentifier_123");
 
         // TODO implement real equals
-        assertEquals(expectedExpression.evaluate().get(), actualExpression.evaluate().get());
+        assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
     }
 
 

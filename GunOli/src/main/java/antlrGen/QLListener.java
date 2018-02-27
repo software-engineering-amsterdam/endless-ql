@@ -68,15 +68,53 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitQuestionType(QLParser.QuestionTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#expression}.
+	 * Enter a parse tree produced by the {@code unaryExpr}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpression(QLParser.ExpressionContext ctx);
+	void enterUnaryExpr(QLParser.UnaryExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#expression}.
+	 * Exit a parse tree produced by the {@code unaryExpr}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpression(QLParser.ExpressionContext ctx);
+	void exitUnaryExpr(QLParser.UnaryExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code nestedExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterNestedExpr(QLParser.NestedExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code nestedExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitNestedExpr(QLParser.NestedExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code binaryExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterBinaryExpr(QLParser.BinaryExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code binaryExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitBinaryExpr(QLParser.BinaryExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code constantExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstantExpr(QLParser.ConstantExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code constantExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstantExpr(QLParser.ConstantExprContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#operator}.
 	 * @param ctx the parse tree
@@ -108,15 +146,77 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitBinaryOp(QLParser.BinaryOpContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#constant}.
+	 * Enter a parse tree produced by the {@code integerConstant}
+	 * labeled alternative in {@link QLParser#constant}.
 	 * @param ctx the parse tree
 	 */
-	void enterConstant(QLParser.ConstantContext ctx);
+	void enterIntegerConstant(QLParser.IntegerConstantContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#constant}.
+	 * Exit a parse tree produced by the {@code integerConstant}
+	 * labeled alternative in {@link QLParser#constant}.
 	 * @param ctx the parse tree
 	 */
-	void exitConstant(QLParser.ConstantContext ctx);
+	void exitIntegerConstant(QLParser.IntegerConstantContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code decimalConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 */
+	void enterDecimalConstant(QLParser.DecimalConstantContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code decimalConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 */
+	void exitDecimalConstant(QLParser.DecimalConstantContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code stringConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 */
+	void enterStringConstant(QLParser.StringConstantContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code stringConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 */
+	void exitStringConstant(QLParser.StringConstantContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code identifierConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifierConstant(QLParser.IdentifierConstantContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code identifierConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifierConstant(QLParser.IdentifierConstantContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code moneyConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 */
+	void enterMoneyConstant(QLParser.MoneyConstantContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code moneyConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 */
+	void exitMoneyConstant(QLParser.MoneyConstantContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code dateConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 */
+	void enterDateConstant(QLParser.DateConstantContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code dateConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 */
+	void exitDateConstant(QLParser.DateConstantContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#type}.
 	 * @param ctx the parse tree

@@ -39,12 +39,4 @@ public class SymbolTable {
 		return this.symbolTable.containsKey(key);
 	}
 	
-	public int size() {
-		return this.keys().size();
-	}
-	
-	public Set<String> keys() {
-		return this.symbolTable.keySet();
-	}
-	
 }

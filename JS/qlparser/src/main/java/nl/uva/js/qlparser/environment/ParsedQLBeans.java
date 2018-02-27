@@ -2,6 +2,7 @@ package nl.uva.js.qlparser.environment;
 
 import nl.uva.js.qlparser.logic.QLIngester;
 import nl.uva.js.qlparser.models.Form;
+import nl.uva.js.qlparser.models.Reloadable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +20,9 @@ public class ParsedQLBeans {
     private String qlFile;
 
     @Bean
-    public Form parsedAndCheckedForm() throws IOException {
+    public Reloadable<Form> parsedAndCheckedForm() {
         return (mode.equals("file"))
-                ? QLIngester.parseFormFromLocation(qlFile)
+                ? new Reloadable<>(() -> QLIngester.parseFormFromLocation(qlFile))
                 : null;
     }
 }

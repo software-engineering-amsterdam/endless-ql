@@ -17,6 +17,12 @@ public class Identifier extends Expression {
         this.value  = new ql.value.Undefined();
     }
     
+    public Identifier(String name, Type type) {
+        this.name   = name;
+        this.type   = type;
+        this.value  = new ql.value.Undefined();
+    }
+    
     public String getName() {
         return name;
     }
@@ -30,7 +36,16 @@ public class Identifier extends Expression {
     }
     
     public void setValue(Value<?> value) {
-        this.value = value;
+        
+        if(value.getType().equals(type))
+        {
+            this.value = value;
+        }
+        else if(!value.getType().isUndefined())
+        {
+            System.err.println("Cannot store "+value.getType()+" ["+value+"] in "+getType()+" ["+name+"]");
+        }
+            
     }
     
     public Identifier setType(Type type) {
@@ -53,5 +68,9 @@ public class Identifier extends Expression {
     @Override
     public boolean isIdentifier() {
         return true;
+    }
+    
+    public boolean equals(Identifier id) {
+        return name.equals(id.getName());
     }
 }

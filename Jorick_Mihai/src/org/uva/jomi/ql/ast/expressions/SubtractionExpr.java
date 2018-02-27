@@ -1,14 +1,13 @@
 package org.uva.jomi.ql.ast.expressions;
 
-public class SubtractionExpr extends Expr {
-	public final Expr left;
-	public final Expr right;
+import org.uva.jomi.ql.ast.QLToken;
+
+public class SubtractionExpr extends BinaryExpr {
 	
-	public SubtractionExpr(Expr left, Expr right) {
-		this.left = left;
-		this.right = right;
+	public SubtractionExpr(Expr left, QLToken operator, Expr right) {
+		super(left, operator, right);
 	}
-	
+
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);

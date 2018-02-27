@@ -1,25 +1,24 @@
 package ql.ast.expression;
 
-import ql.ast.type.Decimal;
 import ql.ast.type.Type;
-import ql.value.Value;
+import ql.value.Decimal;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class DecimalLiteral extends Literal {
 
-    private Value<Double> value;
+    private Decimal value;
     
     public DecimalLiteral() { 
-        this.value = new ql.value.Decimal();
+        this.value = new Decimal();
     }
     
     public DecimalLiteral(String value) { 
-        this.value = new ql.value.Decimal(value);
+        this.value = new Decimal(value);
     }
 
     @Override
     public Type getType() {
-        return new Decimal();
+        return new ql.ast.type.Decimal();
     }
 
     @Override
@@ -33,7 +32,7 @@ public class DecimalLiteral extends Literal {
     }
 
     @Override
-    public Value<Double> getValue() {
+    public Decimal getValue() {
         return value;
     }
 }

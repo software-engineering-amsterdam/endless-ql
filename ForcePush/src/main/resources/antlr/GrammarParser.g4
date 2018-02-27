@@ -23,9 +23,11 @@ comparison      :(LESS|GREATER|EQUALGREATER|EQUALLESS|NOTEQUAL|ISEQUAL);
 questionTypes       : (questionFormat|conditionalConstr|questionAssignValue|questionMultiAns);
 
 //Mathematical expressions
-expression          : variable arithmetic variable
-                    | variable logical variable
-                    | variable comparison variable;
+expression          : LPAREN expression RPAREN #parensExpression
+                    | left=expression arithmetic right=expression #binaryExpression
+                    | left=expression logical right=expression #binaryExpression
+                    | left=expression comparison right=expression #binaryExpression
+                    | variable #valueExpression;
 
 
 //Question types

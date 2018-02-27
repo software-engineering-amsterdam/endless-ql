@@ -2,7 +2,7 @@ package checking.value;
 
 import java.math.BigDecimal;
 
-public class DecimalValue extends Value {
+public class DecimalValue extends AbstractValue {
   
 	private BigDecimal value;
 	
@@ -18,6 +18,11 @@ public class DecimalValue extends Value {
 		this.value = value;
 	}
 
+	@Override
+	public String getValueString() {
+		return value.toString();
+	}
+	
 	@Override
 	public Value add(Value val) {
 		return val.add(this);
@@ -72,6 +77,16 @@ public class DecimalValue extends Value {
 	}
 	
 	@Override
+	public BooleanValue eq(IntegerValue val) {
+		return throwException();
+	}
+	
+	@Override
+	public BooleanValue gt(Value val) {
+		return val.gt(this);
+	}
+	
+	@Override
 	public BooleanValue gt(DecimalValue val) {
 		int result = this.value.compareTo(val.value);
 		if (result == 1)
@@ -95,6 +110,11 @@ public class DecimalValue extends Value {
 	}
 
 	@Override
+	public BooleanValue lt(Value val) {
+		return val.lt(this);
+	}
+	
+	@Override
 	public BooleanValue lt(DecimalValue val) {
 		int result = this.value.compareTo(val.value);
 		if (result == 2)
@@ -102,7 +122,8 @@ public class DecimalValue extends Value {
 		else
 			return new BooleanValue(false);
 	}
-
+	
+	
 	@Override
 	public BooleanValue lEq(Value val) {
 		return val.lt(this).or(val.eq(this));
@@ -117,7 +138,7 @@ public class DecimalValue extends Value {
 			return new BooleanValue(false);
 	}
 	
-	@Override
+	/*@Override
 	public DecimalValue neg() {
 		return new DecimalValue(this.value.multiply(new BigDecimal(-1)));
 	}
@@ -125,7 +146,7 @@ public class DecimalValue extends Value {
 	@Override
 	public DecimalValue pos() {
 		return new DecimalValue(this.value.multiply(new BigDecimal(+1)));
-	}
+	}*/
 
 	@Override
 	public BooleanValue or(Value val) {
@@ -138,13 +159,6 @@ public class DecimalValue extends Value {
 		return throwException();
 	}
 	
-
-	@Override
-	public Value check(String str) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 	@Override
 	public BooleanValue eq(BooleanValue val) {
@@ -173,4 +187,11 @@ public class DecimalValue extends Value {
 	public <T extends Value> T throwException() {
 		throw new UnsupportedOperationException(getClass().getName());
 	}
+
+	@Override
+	public Value translate(String str) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

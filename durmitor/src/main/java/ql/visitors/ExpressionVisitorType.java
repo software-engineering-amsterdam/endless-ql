@@ -1,7 +1,11 @@
 package ql.visitors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ql.ast.expression.Add;
 import ql.ast.expression.And;
+import ql.ast.expression.BinaryOperator;
 import ql.ast.expression.BoolLiteral;
 import ql.ast.expression.DateLiteral;
 import ql.ast.expression.DecimalLiteral;
@@ -22,139 +26,212 @@ import ql.ast.expression.Or;
 import ql.ast.expression.Positive;
 import ql.ast.expression.StrLiteral;
 import ql.ast.expression.Subtract;
+import ql.ast.expression.UnaryOperator;
 import ql.ast.type.Type;
-import ql.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class ExpressionVisitorType implements ExpressionVisitor<Type> {
 
-    private ExpressionVisitorValue evv = new ExpressionVisitorValue();
+    private List<String> errors = new ArrayList<String>();
+    
+    public ExpressionVisitorType() {
+        errors = new ArrayList<String>();
+    }
+    
+    public ExpressionVisitorType(List<String> errors) {
+        this.errors = errors;
+    }
 
+    public void check(UnaryOperator op, Type opType, Type type  )
+    {
+        if(type.isUndefined())
+        {
+            errors.add("Illegal operation ["+op.getOperator()+opType+"] at "+op.getLocation());
+        }
+    }
+    
+    public void check(BinaryOperator op, Type firstOpType, Type secondOpType, Type type  )
+    {
+        if(type.isUndefined())
+        {
+            errors.add("Illegal operation ["+firstOpType+" "+op.getOperator()+" "+secondOpType+"] at "+op.getLocation());
+        }
+    }
+    
     @Override
     public Type visit(Negation expr) {
-        Value<?> opType = expr.getOperand().accept(evv);
-        return opType.negation().getType();
+        
+        Type opType = expr.getOperand().accept(this);
+        Type type   = opType.toValue().negation().getType();
+        
+        check(expr,opType,type);
+        
+        return type;
     }
 
     @Override
     public Type visit(Negative expr) {
-        Value<?> opType = expr.getOperand().accept(evv);
-        return opType.negative().getType();
+        Type opType = expr.getOperand().accept(this);
+        Type type   = opType.toValue().negative().getType();
+        
+        check(expr,opType,type);
+        
+        return type;
     }
 
     @Override
     public Type visit(Positive expr) {
-        Value<?> opType = expr.getOperand().accept(evv);
-        return opType.positive().getType();
+        Type opType = expr.getOperand().accept(this);
+        Type type   = opType.toValue().positive().getType();
+        
+        check(expr,opType,type);
+        
+        return type;
     }
 
     @Override
     public Type visit(And expr) {
         
-        Value<?> firstOpValue   = expr.getFirstOperand().accept(evv);
-        Value<?> secondOpValue  = expr.getSecondOperand().accept(evv);
-       
-        return firstOpValue.and(secondOpValue).getType();
-    }
+        Type firstOpType    = expr.getFirstOperand().accept(this);
+        Type secondOpType   = expr.getSecondOperand().accept(this);
+		Type type           = firstOpType.toValue().and(secondOpType.toValue()).getType();
 
+		check(expr,firstOpType,secondOpType,type);
+
+		return type;
+	}
+    
     @Override
     public Type visit(Or expr) {
         
-        Value<?> firstOpValue   = expr.getFirstOperand().accept(evv);
-        Value<?> secondOpValue  = expr.getSecondOperand().accept(evv);
-        
-        return firstOpValue.or(secondOpValue).getType();
-    }
+        Type firstOpType    = expr.getFirstOperand().accept(this);
+        Type secondOpType   = expr.getSecondOperand().accept(this);
+		Type type           = firstOpType.toValue().or(secondOpType.toValue()).getType();
+
+		check(expr,firstOpType,secondOpType,type);
+
+		return type;
+	}
 
     @Override
     public Type visit(Greater expr) {
         
-        Value<?> firstOpValue   = expr.getFirstOperand().accept(evv);
-        Value<?> secondOpValue  = expr.getSecondOperand().accept(evv);
-        
-        return  firstOpValue.greater(secondOpValue).getType();
-    }
+        Type firstOpType    = expr.getFirstOperand().accept(this);
+        Type secondOpType   = expr.getSecondOperand().accept(this);
+		Type type           = firstOpType.toValue().greater(secondOpType.toValue()).getType();
+
+		check(expr,firstOpType,secondOpType,type);
+
+		return type;
+	}
 
     @Override
     public Type visit(GreaterEqual expr) {
         
-        Value<?> firstOpValue   = expr.getFirstOperand().accept(evv);
-        Value<?> secondOpValue  = expr.getSecondOperand().accept(evv);
-        
-        return firstOpValue.greaterEqual(secondOpValue).getType();
-    }
+        Type firstOpType    = expr.getFirstOperand().accept(this);
+        Type secondOpType   = expr.getSecondOperand().accept(this);
+		Type type           = firstOpType.toValue().greaterEqual(secondOpType.toValue()).getType();
+
+		check(expr,firstOpType,secondOpType,type);
+
+		return type;
+	}
 
     @Override
     public Type visit(Less expr) {
         
-        Value<?> firstOpValue   = expr.getFirstOperand().accept(evv);
-        Value<?> secondOpValue  = expr.getSecondOperand().accept(evv);
-        
-        return firstOpValue.less(secondOpValue).getType();
-    }
+        Type firstOpType    = expr.getFirstOperand().accept(this);
+        Type secondOpType   = expr.getSecondOperand().accept(this);
+		Type type           = firstOpType.toValue().less(secondOpType.toValue()).getType();
+
+		check(expr,firstOpType,secondOpType,type);
+
+		return type;
+	}
 
     @Override
     public Type visit(LessEqual expr) {
         
-        Value<?> firstOpValue   = expr.getFirstOperand().accept(evv);
-        Value<?> secondOpValue  = expr.getSecondOperand().accept(evv);
-        
-        return  firstOpValue.lessEqual(secondOpValue).getType();
-    }
+        Type firstOpType    = expr.getFirstOperand().accept(this);
+        Type secondOpType   = expr.getSecondOperand().accept(this);
+		Type type           = firstOpType.toValue().lessEqual(secondOpType.toValue()).getType();
+
+		check(expr,firstOpType,secondOpType,type);
+
+		return type;
+	}
 
     @Override
     public Type visit(Equal expr) {
         
-        Value<?> firstOpValue   = expr.getFirstOperand().accept(evv);
-        Value<?> secondOpValue  = expr.getSecondOperand().accept(evv);
-        
-        return firstOpValue.equal(secondOpValue).getType();
-    }
+        Type firstOpType    = expr.getFirstOperand().accept(this);
+        Type secondOpType   = expr.getSecondOperand().accept(this);
+		Type type           = firstOpType.toValue().equal(secondOpType.toValue()).getType();
+
+		check(expr,firstOpType,secondOpType,type);
+
+		return type;
+	}
 
     @Override
     public Type visit(NotEqual expr) {
         
-        Value<?> firstOpValue   = expr.getFirstOperand().accept(evv);
-        Value<?> secondOpValue  = expr.getSecondOperand().accept(evv);
-        
-        return  firstOpValue.notEqual(secondOpValue).getType();
-    }
+        Type firstOpType    = expr.getFirstOperand().accept(this);
+        Type secondOpType   = expr.getSecondOperand().accept(this);
+		Type type           = firstOpType.toValue().notEqual(secondOpType.toValue()).getType();
+
+		check(expr,firstOpType,secondOpType,type);
+
+		return type;
+	}
 
     @Override
     public Type visit(Add expr) {
         
-        Value<?> firstOpValue   = expr.getFirstOperand().accept(evv);
-        Value<?> secondOpValue  = expr.getSecondOperand().accept(evv);
+        Type firstOpType    = expr.getFirstOperand().accept(this);
+        Type secondOpType   = expr.getSecondOperand().accept(this);
+        Type type           = firstOpType.toValue().add(secondOpType.toValue()).getType();
         
-        return  firstOpValue.add(secondOpValue).getType();
+        check(expr,firstOpType,secondOpType,type);
+        
+        return type;
     }
 
     @Override
     public Type visit(Subtract expr) {
         
-        Value<?> firstOpValue   = expr.getFirstOperand().accept(evv);
-        Value<?> secondOpValue  = expr.getSecondOperand().accept(evv);
-        
-        return firstOpValue.subtract(secondOpValue).getType();
-    }
+        Type firstOpType    = expr.getFirstOperand().accept(this);
+        Type secondOpType   = expr.getSecondOperand().accept(this);
+		Type type           = firstOpType.toValue().subtract(secondOpType.toValue()).getType();
+
+		check(expr,firstOpType,secondOpType,type);
+
+		return type;
+	}
 
     @Override
     public Type visit(Multiply expr) {
         
-        Value<?> firstOpValue   = expr.getFirstOperand().accept(evv);
-        Value<?> secondOpValue  = expr.getSecondOperand().accept(evv);
-        
-        return  firstOpValue.multiplyBy(secondOpValue).getType();
-    }
+        Type firstOpType    = expr.getFirstOperand().accept(this);
+        Type secondOpType   = expr.getSecondOperand().accept(this);
+		Type type           = firstOpType.toValue().multiplyBy(secondOpType.toValue()).getType();
+
+		check(expr,firstOpType,secondOpType,type);
+
+		return type;
+	}
 
     @Override
     public Type visit(Divide expr) {
         
-        Value<?> firstOpValue   = expr.getFirstOperand().accept(evv);
-        Value<?> secondOpValue  = expr.getSecondOperand().accept(evv);
-        
-        return firstOpValue.divideBy(secondOpValue).getType();
-    }
+        Type firstOpType    = expr.getFirstOperand().accept(this);
+        Type secondOpType   = expr.getSecondOperand().accept(this);
+		Type type           = firstOpType.toValue().divideBy(secondOpType.toValue()).getType();
+
+		check(expr,firstOpType,secondOpType,type);
+
+		return type;
+	}
 
     @Override
     public Type visit(Identifier expr) {

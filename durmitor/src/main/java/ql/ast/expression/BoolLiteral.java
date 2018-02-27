@@ -1,25 +1,24 @@
 package ql.ast.expression;
 
-import ql.ast.type.Bool;
 import ql.ast.type.Type;
-import ql.value.Value;
+import ql.value.Bool;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class BoolLiteral extends Literal {
 
-    private Value<Boolean> value;
+    private Bool value;
     
     public BoolLiteral() { 
-        this.value = new ql.value.Bool();
+        this.value = new Bool();
     }
     
     public BoolLiteral(String value) { 
-        this.value = new ql.value.Bool(value);
+        this.value = new Bool(value);
     }
 
     @Override
     public Type getType() {
-        return new Bool();
+        return new ql.ast.type.Bool();
     }
 
     @Override
@@ -33,7 +32,7 @@ public class BoolLiteral extends Literal {
     }
 
     @Override
-    public Value<Boolean> getValue() {
+    public Bool getValue() {
         return value;
     }
 }

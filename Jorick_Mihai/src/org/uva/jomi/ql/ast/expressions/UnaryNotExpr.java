@@ -1,10 +1,11 @@
 package org.uva.jomi.ql.ast.expressions;
 
-public class UnaryNotExpr extends Expr {
-	public final Expr right;
-	
-	public UnaryNotExpr(Expr right) {
-		this.right = right;
+import org.uva.jomi.ql.ast.QLToken;
+
+public class UnaryNotExpr extends UnaryExpr {
+
+	public UnaryNotExpr(QLToken operator, Expr right) {
+		super(operator, right);
 	}
 
 	@Override

@@ -24,8 +24,6 @@ public class BooleanType extends Type {
 
 	@Override
 	public <T, U> T accept(TypeVisitor<T, U> visitor, U ctx) {
-		// TODO Auto-generated method stub
-		//return null;
 		return visitor.visit(this, ctx);
 	}
 }

@@ -16,7 +16,7 @@
 
 		<maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
 		<maven.surefire.plugin.version>2.20.1</maven.surefire.plugin.version>
-		<maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
+        <javafx.maven.plugin.version>8.8.3</javafx.maven.plugin.version>
 		<google.sbt.compiler.version>1.0.0</google.sbt.compiler.version>
 
 		<scalaVersion>2.12.4</scalaVersion>
@@ -168,16 +168,12 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>${maven.jar.plugin.version}</version>
+				<groupId>com.zenjava</groupId>
+				<artifactId>javafx-maven-plugin</artifactId>
+				<version>${javafx.maven.plugin.version}</version>
 				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<mainClass>nl.uva.se.sc.niro.gui.QLForms</mainClass>
-						</manifest>
-					</archive>
+                    <vendor>Andela-Tromp</vendor>
+					<mainClass>nl.uva.se.sc.niro.gui.QLForms</mainClass>
 				</configuration>
 			</plugin>
 

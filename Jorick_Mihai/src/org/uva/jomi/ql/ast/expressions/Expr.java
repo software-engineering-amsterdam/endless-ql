@@ -7,9 +7,7 @@ abstract public class Expr extends AstNode {
 	public interface Visitor<T> {
 		T visit(IdentifierExpr expr);
 		T visit(PrimaryExpr expr);
-		T visit(BinaryExpr expr);
 		T visit(GroupingExpr expr);
-		T visit(UnaryExpr expr);
 		T visit(AdditionExpr expr);
 		T visit(SubtractionExpr expr);
 		T visit(MultiplicationExpr expr);
@@ -23,17 +21,38 @@ abstract public class Expr extends AstNode {
 		T visit(AndExpr expr);
 		T visit(OrExpr expr);
 		T visit(UnaryNotExpr expr);
+		T visit(IntegerExpr expr);
+		T visit(StringExpr expr);
+		T visit(BooleanExpr expr);
 	}
 
 	public abstract <T> T accept(Visitor<T> visitor);
 
 	private QLType type;
-
+	private int lineNumber;
+	private int columnNumber;
+	
 	public QLType getType() {
 		return type;
 	}
 
 	public void setType(QLType type) {
 		this.type = type;
+	}
+
+	public int getLineNumber() {
+		return lineNumber;
+	}
+
+	public void setLineNumber(int lineNumber) {
+		this.lineNumber = lineNumber;
+	}
+
+	public int getColumnNumber() {
+		return columnNumber;
+	}
+
+	public void setColumnNumber(int columnNumber) {
+		this.columnNumber = columnNumber;
 	}
 }

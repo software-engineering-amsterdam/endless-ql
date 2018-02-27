@@ -29,14 +29,14 @@ object EditableDecorator {
   }
 
   // TODO Correct Option type once the AST has settled
-  def makeEditable(textField: DatePicker, question: Question, value: Option[Any]): DatePicker = {
+  def makeEditable(datePicker: DatePicker, question: Question, value: Option[Any]): DatePicker = {
     question.answer match {
-      case Reference(_) => textField.setDisable(true)
-      case UnaryOperation(_, _) => textField.setDisable(true)
-      case BinaryOperation(_, _, _) => textField.setDisable(true)
-      case _ => textField.setDisable(value.isDefined)
+      case Reference(_) => datePicker.setDisable(true)
+      case UnaryOperation(_, _) => datePicker.setDisable(true)
+      case BinaryOperation(_, _, _) => datePicker.setDisable(true)
+      case _ => datePicker.setDisable(value.isDefined)
     }
-    textField.setEditable(!textField.isDisabled)
-    textField
+    datePicker.setEditable(!datePicker.isDisabled)
+    datePicker
   }
 }

@@ -13,7 +13,7 @@ import nl.uva.se.sc.niro.model.Question
 
 object WidgetFactory {
   private val INTEGER_MASK = "\\d*"
-  private val DECIMAL_MASK = "\\d*(,\\d{0,2})?"
+  private val DECIMAL_MASK = "\\d*(.\\d{0,2})?"
   private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
   def makeWidgets(question: Question, symbolTable: Map[String, Expression]): Seq[Parent] = {

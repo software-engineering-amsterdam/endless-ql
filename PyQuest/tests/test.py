@@ -5,26 +5,27 @@ import scanparse.qlyacc as qly
 from termcolor import colored
 
 
-def test_directory(directory):
-    tests_success_counter = 0
-    tests_fail_counter = 0
+def test_directory(directory, parser, lexer):
+    success_counter = 0
+    files = sorted(os.listdir(directory))
 
     print('Performing {} tests:'.format(directory[:-1]))
 
-    for file in os.listdir('parser/'):
+    for file in files:
         test = open(directory + file, 'r').read()
+        success_counter = test_parser(file, test, parser, lexer)
 
-        try:
-            parser.parser.parse(test, lexer.lexer)
-            tests_success_counter += 1
+    print('{} out of {} tests successful.\n'.format(success_counter, len(files)))
 
-            print('{} {}'.format(colored('[success]', 'green'), file))
-        except:
-            tests_fail_counter += 1
 
-            print('{} {}'.format(colored('[fail]', 'red'), file))
-
-    print('{} out of {} tests successful.\n'.format(tests_success_counter, tests_success_counter + tests_fail_counter))
+def test_parser(file, test, parser, lexer):
+    try:
+        parser.parser.parse(test, lexer.lexer)
+        print('{} {}'.format(colored('[success]', 'green'), file))
+        return 1
+    except (ValueError, EnvironmentError, EOFError, TimeoutError):
+        print('{} {}'.format(colored('[fail]', 'red'), file))
+        return 0
 
 
 if __name__ == '__main__':
@@ -33,4 +34,4 @@ if __name__ == '__main__':
     directories = ['parser/']
 
     for directory in directories:
-        test_directory(directory)
+        test_directory(directory, parser, lexer)

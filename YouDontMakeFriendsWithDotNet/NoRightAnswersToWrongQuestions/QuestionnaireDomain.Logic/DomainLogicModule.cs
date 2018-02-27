@@ -12,7 +12,7 @@ namespace QuestionnaireDomain.Logic
         {
             appRegistration.AddSingleton(typeof(IQuestionnaireCreator), typeof(QuestionnaireCreator));
             appRegistration.AddSingleton(typeof(IDomainItemLocator), typeof(DomainItemLocator));
-            appRegistration.AddSingleton(typeof(DomainItemRegistry));
+            appRegistration.AddSingleton(typeof(IDomainItemRegistry), typeof(DomainItemRegistry));
             appRegistration.AddSingleton(typeof(IIdMaker), typeof(IdMaker));
             appRegistration.AddSingleton(typeof(IAstFactory), typeof(AstFactory));
         }

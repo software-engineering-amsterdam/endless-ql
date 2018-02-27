@@ -6,8 +6,11 @@ namespace QuestionaireDomain.Entities.API
 {
     public interface IAstNode : IDomainItem
     {
-        Guid Id { get; } 
-        IList<IAstNode> ChildNodes { get; }
         void Accept(IAstVisitor visitor);
+    }
+
+    public interface IQuestionnaireAstNode : IAstNode
+    {
+        IList<IQuestionnaireAstNode> ChildNodes { get; }
     }
 }

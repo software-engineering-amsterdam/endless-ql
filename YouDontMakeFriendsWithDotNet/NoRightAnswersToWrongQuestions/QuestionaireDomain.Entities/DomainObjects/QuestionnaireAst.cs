@@ -8,13 +8,10 @@ namespace QuestionaireDomain.Entities.DomainObjects
     {
         public QuestionnaireAst(Guid id) : base(id)
         {
-            Id = Guid.NewGuid();
-            Questions = new List<IQuestionAst>();
         }
 
         public string FormName { get; set; }
-        public Guid Id { get; }
-        public IList<IQuestionAst> Questions { get; }
+        
         public override void Accept(IAstVisitor visitor)
         {
             //ToDo: something here

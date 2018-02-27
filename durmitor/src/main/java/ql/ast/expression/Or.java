@@ -1,11 +1,12 @@
 package ql.ast.expression;
 
+import ql.evaluator.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class Or extends BinaryOperator {
 
-    public Or(Expression lhs, Expression rhs) {
-        super(lhs, rhs);
+    public Or(Expression firstOperand, Expression secondOperand) {
+        super(firstOperand, secondOperand);
     }
 
     @Override
@@ -16,5 +17,10 @@ public class Or extends BinaryOperator {
     @Override
     public String getOperator() {
         return "||";
+    }
+
+    @Override
+    public Value<?> evaluate() {
+        return firstOperand.evaluate().or(secondOperand.evaluate());
     }
 }

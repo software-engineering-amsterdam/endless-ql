@@ -1,7 +1,8 @@
 package ql.ast.expression;
 
 import ql.ast.type.Type;
-import ql.value.Money;
+import ql.evaluator.value.Money;
+import ql.evaluator.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class MoneyLiteral extends Literal {
@@ -23,11 +24,11 @@ public class MoneyLiteral extends Literal {
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return value.toString();
     }
 
     @Override
-    public Money getValue() {
+    public Value<?> evaluate() {
         return value;
     }
 

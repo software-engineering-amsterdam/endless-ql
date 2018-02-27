@@ -42,15 +42,7 @@ public class QuestionLinkerImpl implements QuestionLinker {
                 booleanQuestions
                         .stream()
                         .collect(Collectors.toMap(BooleanQuestion::getName, Function.identity())));
-        NumericExpressionLinker numericLinker = new NumericExpressionLinker(
-                numericQuestions
-                        .stream()
-                        .collect(Collectors.toMap(NumericQuestion::getName, Function.identity())));
-
-        for (NumericQuestion numericQuestion : numericQuestions) {
-            numericQuestion.accept(numericLinker);
-        }
-        for (QuestionBlock block : form.getQuestions()) {
+       for (QuestionBlock block : form.getQuestions()) {
             this.linkQuestionsInBlock(block, booleanLinker);
         }
     }

@@ -7,4 +7,5 @@ public interface QuestionVisitor<T> {
     T visit(IntegerQuestion integerQuestion);
     T visit(MoneyQuestion moneyQuestion);
     T visit(StringQuestion stringQuestion);
+
 }

@@ -146,26 +146,6 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitBinaryOp(QLParser.BinaryOpContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#arithmeticOp}.
-	 * @param ctx the parse tree
-	 */
-	void enterArithmeticOp(QLParser.ArithmeticOpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#arithmeticOp}.
-	 * @param ctx the parse tree
-	 */
-	void exitArithmeticOp(QLParser.ArithmeticOpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#logicalOp}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogicalOp(QLParser.LogicalOpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#logicalOp}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogicalOp(QLParser.LogicalOpContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link QLParser#constant}.
 	 * @param ctx the parse tree
 	 */

@@ -93,18 +93,6 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBinaryOp(QLParser.BinaryOpContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#arithmeticOp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArithmeticOp(QLParser.ArithmeticOpContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QLParser#logicalOp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLogicalOp(QLParser.LogicalOpContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link QLParser#constant}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

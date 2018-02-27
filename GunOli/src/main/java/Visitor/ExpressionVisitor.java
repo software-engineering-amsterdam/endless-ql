@@ -3,22 +3,27 @@ package Visitor;
 import ParseObjects.Expressions.Expression;
 import antlrGen.QLBaseVisitor;
 import antlrGen.QLParser;
+import antlrGen.QLLexer;
 
 public class ExpressionVisitor extends QLBaseVisitor<Expression>{
 
-
-    public Expression visitBinaryExpression(QLParser.QuestionContext ctx){
-
-
-        return null;
-    }
-    public Expression visitUnaryExpression(QLParser.QuestionContext ctx){
-
+    @Override
+    public Expression visitBinaryExpr(QLParser.BinaryExprContext ctx){
+        Expression left = visit(ctx.left);
+        Expression right= visit(ctx.right);
 
         return null;
     }
 
-    public Expression visitConstants(){
+    @Override
+    public Expression visitUnaryExpr(QLParser.UnaryExprContext ctx){
+
+
+        return null;
+    }
+
+    @Override
+    public Expression visitConstantExpr(QLParser.ConstantExprContext ctx){
 
         return null;
     }

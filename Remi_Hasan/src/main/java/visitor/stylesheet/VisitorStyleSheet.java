@@ -1,9 +1,9 @@
-package visitor;
+package visitor.stylesheet;
 
 import antlr.QLSBaseVisitor;
 import antlr.QLSParser;
-import model.Page;
-import model.StyleSheet;
+import model.stylesheet.Page;
+import model.stylesheet.StyleSheet;
 
 import java.util.ArrayList;
 

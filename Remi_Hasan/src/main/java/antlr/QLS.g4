@@ -13,17 +13,22 @@ default_        : DEFAULT type (widget | '{' widget* '}');
 
 // Widgets
 widget          : WIDGET radioWidget
-                | WIDGET checkboxWidget
-                | WIDGET spinboxWidget
-                | WIDTH ':' INTEGER
-                | FONT ':' STRING // TODO validate font family?
-                | FONTSIZE ':' INTEGER
-                | COLOR ':' HEXCOLOR
+                | WIDGET checkBoxWidget
+                | WIDGET spinBoxWidget
+                | widgetWidth
+                | widgetFont
+                | widgetFontSize
+                | widgetColor
                 ;
 
 radioWidget     : RADIO '(' (STRING ',')* STRING ')';
-checkboxWidget  : CHECKBOX;
-spinboxWidget   : SPINBOX;
+checkBoxWidget  : CHECKBOX;
+spinBoxWidget   : SPINBOX;
+widgetWidth     : WIDTH ':' INTEGER;
+widgetFont      : FONT ':' STRING; // TODO validate font family?
+widgetFontSize  : FONTSIZE ':' INTEGER;
+widgetColor     : COLOR ':' HEXCOLOR;
+
 
 type            : BOOLEANTYPE
                 | STRINGTYPE

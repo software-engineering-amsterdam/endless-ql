@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import model.*;
+import model.stylesheet.StyleSheet;
 import org.yorichan.formfx.control.Input;
 import org.yorichan.formfx.field.Field;
 import org.yorichan.formfx.field.FieldGroup;
@@ -27,12 +28,18 @@ public class Renderer {
     private final StyleSheet styleSheet;
 
     Renderer(File file) {
+        this.form  = parseForm(file);
+
+        File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
+        this.styleSheet = parseStyleSheet(styleSheetFile);
+    }
+
+    private Form parseForm(File formFile){
         Form parseForm = null;
-        StyleSheet parseStyleSheet = null;
 
         // Try to parse a stylesheet, if it fails then show an error
         try {
-            parseForm = FormParser.parseForm(new FileInputStream(file));
+            parseForm = FormParser.parseForm(new FileInputStream(formFile));
         } catch (FileNotFoundException e) {
             showErrorAlert(e, "Form file not found");
         } catch (IOException e) {
@@ -42,9 +49,11 @@ public class Renderer {
             showErrorAlert(e, "Form invalid");
         }
 
-        // TODO not hardcode stylesheet , maybe use form/stylesheet file setters?
-        File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
+        return parseForm;
+    }
 
+    private StyleSheet parseStyleSheet(File styleSheetFile){
+        StyleSheet parseStyleSheet = null;
         if(styleSheetFile != null){
             // Try to parse a form, if it fails then show an error
             try {
@@ -58,9 +67,7 @@ public class Renderer {
                 showErrorAlert(e, "StyleSheet invalid");
             }
         }
-
-        this.form = parseForm;
-        this.styleSheet = parseStyleSheet;
+        return parseStyleSheet;
     }
 
     public void renderForm(Stage stage) {

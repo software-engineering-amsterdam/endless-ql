@@ -78,15 +78,41 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 */
 	void exitQuestionTypes(GrammarParser.QuestionTypesContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link GrammarParser#expression}.
+	 * Enter a parse tree produced by the {@code binaryExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpression(GrammarParser.ExpressionContext ctx);
+	void enterBinaryExpression(GrammarParser.BinaryExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link GrammarParser#expression}.
+	 * Exit a parse tree produced by the {@code binaryExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpression(GrammarParser.ExpressionContext ctx);
+	void exitBinaryExpression(GrammarParser.BinaryExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code valueExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterValueExpression(GrammarParser.ValueExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code valueExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitValueExpression(GrammarParser.ValueExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code parensExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterParensExpression(GrammarParser.ParensExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code parensExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitParensExpression(GrammarParser.ParensExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GrammarParser#questionFormat}.
 	 * @param ctx the parse tree

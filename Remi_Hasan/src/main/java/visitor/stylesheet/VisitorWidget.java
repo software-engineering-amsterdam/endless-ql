@@ -3,13 +3,11 @@ package visitor.stylesheet;
 import antlr.QLSBaseVisitor;
 import antlr.QLSParser;
 import model.stylesheet.widgets.*;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
+import java.util.ArrayList;
 
 public class VisitorWidget extends QLSBaseVisitor<Widget> {
-
-//    @Override
-//    public Widget visitWidget(QLSParser.WidgetContext ctx) {
-//        return visit(ctx.WIDGET());
-//    }
 
     @Override
     public Widget visitCheckBoxWidget(QLSParser.CheckBoxWidgetContext ctx) {
@@ -20,7 +18,14 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
     @Override
     public Widget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
         // TODO
-        return new WidgetRadio();
+        ArrayList<String> options = new ArrayList<>();
+        for(TerminalNode stringNode : ctx.STRING()){
+            String option = stringNode.getText();
+            // Strip quotes
+            option = option.substring(1, option.length() - 1);
+            options.add(option);
+        }
+        return new WidgetRadio(options);
     }
 
     @Override

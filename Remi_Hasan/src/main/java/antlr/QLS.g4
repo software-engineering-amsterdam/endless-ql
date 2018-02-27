@@ -12,7 +12,7 @@ question        : QUESTION (IDENTIFIER | IDENTIFIER widget);
 default_        : DEFAULT type (widget | '{' widget* '}');
 
 // Widgets
-widget          : WIDGET RADIO '(' (STRING ',')* STRING ')' # radioWidget
+widget          : WIDGET RADIO '(' STRING (',' STRING)* ')' # radioWidget
                 | WIDGET CHECKBOX # checkBoxWidget
                 | WIDGET SPINBOX # spinBoxWidget
                 | WIDTH ':' INTEGER # widgetWidth

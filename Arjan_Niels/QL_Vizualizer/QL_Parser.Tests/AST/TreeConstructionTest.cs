@@ -5,7 +5,7 @@ using System;
 namespace QL_Parser.Tests.AST
 {
     [TestClass]
-    public class TreeConstructionTest
+    public class TreeConstructionTest : QLTest
     {
         public Node AST { get; set; }
 
@@ -13,8 +13,8 @@ namespace QL_Parser.Tests.AST
         public void Initialize()
         {
             AST = new FormNode("TestForm");
-            var firstQuestion = new QuestionNode("Q1", "Do you like puppies?", QuestionType.BOOLEAN);
-            var secondQuestion = new QuestionNode("Q2", "Do you like kittens?", QuestionType.BOOLEAN);
+            var firstQuestion = new QuestionNode("Q1", "Do you like puppies?", QValueType.BOOLEAN);
+            var secondQuestion = new QuestionNode("Q2", "Do you like kittens?", QValueType.BOOLEAN);
 
             AST.AddNode(firstQuestion);
             AST.AddNode(secondQuestion);

@@ -13,8 +13,7 @@ expression      : '(' expression ')'                                # nestedExpr
                 | left=expression operator right=expression         # binaryExpr
                 | constant                                          # constantExpr;
 
-operator        : unaryOp
-                | binaryOp;
+operator        : unaryOp | binaryOp;
 
 unaryOp         : MINUS | NOT;
 

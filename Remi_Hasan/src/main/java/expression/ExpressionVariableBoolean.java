@@ -20,46 +20,6 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
     }
 
     @Override
-    public ExpressionVariable divide(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
-    public ExpressionVariable multiply(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
-    public ExpressionVariable subtract(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
-    public ExpressionVariable sum(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
-    public ExpressionVariable ge(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
-    public ExpressionVariable gt(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
-    public ExpressionVariable le(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
-    public ExpressionVariable lt(ExpressionVariable other) {
-        return new ExpressionVariableUndefined();
-    }
-
-    @Override
     public ExpressionVariable and(ExpressionVariable other) {
         if (this.value == null || other.value == null)
             return new ExpressionVariableUndefined();

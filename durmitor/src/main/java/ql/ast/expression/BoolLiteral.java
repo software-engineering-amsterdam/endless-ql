@@ -1,24 +1,24 @@
 package ql.ast.expression;
 
-import ql.ast.type.Bool;
 import ql.ast.type.Type;
+import ql.value.Bool;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class BoolLiteral extends Literal<Boolean> {
+public class BoolLiteral extends Literal {
 
-    private boolean value;
+    private Bool value;
     
     public BoolLiteral() { 
-        this.value = false;
+        this.value = new Bool();
     }
     
     public BoolLiteral(String value) { 
-        this.value = Boolean.parseBoolean(value);
+        this.value = new Bool(value);
     }
 
     @Override
     public Type getType() {
-        return new Bool();
+        return new ql.ast.type.Bool();
     }
 
     @Override
@@ -27,12 +27,12 @@ public class BoolLiteral extends Literal<Boolean> {
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 
     @Override
-    public Boolean getValue() {
+    public Bool getValue() {
         return value;
     }
 }

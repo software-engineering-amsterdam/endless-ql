@@ -28,6 +28,7 @@
     <orderEntry type="library" name="Gradle: org.antlr:antlr4:4.7.1" level="project" />
     <orderEntry type="library" name="Gradle: org.joda:joda-money:0.12" level="project" />
     <orderEntry type="library" name="Gradle: org.antlr:antlr4-runtime:4.7.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.7" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring-boot-starter:3.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:1.5.10.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-test:1.5.10.RELEASE" level="project" />

@@ -5,7 +5,7 @@ using System;
 namespace QL_Parser.Tests.AST
 {
     [TestClass]
-    public class FormNameTest
+    public class FormNameTest : QLTest
     {
         private readonly string _simpleForm = "form SimpleForm { }";
         private readonly string _incorrectSimpleForm = "if SimpleForm { }";

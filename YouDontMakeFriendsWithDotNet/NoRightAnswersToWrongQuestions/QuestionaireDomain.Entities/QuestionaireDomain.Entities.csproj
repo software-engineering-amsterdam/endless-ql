@@ -40,17 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\IAstFactory.cs" />
+    <Compile Include="API\IBooleanLogicAst.cs" />
+    <Compile Include="API\ICalculationAst.cs" />
     <Compile Include="API\IConditionalAst.cs" />
     <Compile Include="API\IDomainItem.cs" />
+    <Compile Include="API\IIdMaker.cs" />
     <Compile Include="API\IQlInterpretor.cs" />
     <Compile Include="API\IQuestionnaireAst.cs" />
     <Compile Include="API\QlParserException.cs" />
     <Compile Include="API\IQuestionAst.cs" />
     <Compile Include="DomainObjects\AstNodeBase.cs" />
+    <Compile Include="DomainObjects\CalculationAst.cs" />
     <Compile Include="DomainObjects\CommandObjectRegistry.cs" />
     <Compile Include="DomainObjects\ConditionalAst.cs" />
-    <Compile Include="DomainObjects\IAstNode.cs" />
-    <Compile Include="DomainObjects\IAstVisitor.cs" />
+    <Compile Include="API\IAstNode.cs" />
+    <Compile Include="API\IAstVisitor.cs" />
     <Compile Include="DomainObjects\QuestionAst.cs" />
     <Compile Include="DomainObjects\QuestionnaireAst.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

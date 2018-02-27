@@ -3,33 +3,29 @@
 /*
  * Parser Rules
 */
-formDeclaration		: 'form' formName '{' (section)* '}';
+formDeclaration		: FORM formName LCURLY (section)* RCURLY;
 section				: question | conditionalBlock;
-question			: TEXT ID ':' QTYPE;
+question			: TEXT ID COLON QTYPE;
 formName			: ID;
 
-value				: '(' statement ')' | ID; 
+value				: LPAREN statement RPAREN | ID; 
 binary				: (AND | OR);
-conditionalBlock	: 'if' statement '{' (section)* '}';
+conditionalBlock	: IF statement LCURLY (section)* RCURLY;
 statement			: value binary statement | value;
 
  /*
   * Lexer Rules
-  * Statements
  */
-
+LCURLY				: '{';
+RCURLY				: '}';
 LPAREN				: '(';
 RPAREN				: ')';
+COLON				: ':';
 NOT					: 'not';
 AND					: '&&';
 OR					: '||';
-
-
-
- /*
-  * Lexer Rules
-  * Other
- */
+IF					: 'if';
+FORM				: 'form';
 QTYPE				: 'boolean' | 'money' | 'text' | 'integer';
 ID					: [a-zA-Z0-9]+ ;
 TEXT				: '"' .*? '"' ;

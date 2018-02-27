@@ -128,7 +128,7 @@ namespace UnitTests.Domain.UnitTests
         public void WhenGivenValidQuestion_NameAndTextCorrect(string validText, string questionId, string questionText)
         {
             var createdForm = CreateForm(validText);
-            var question = createdForm.Statements.OfType<IQuestionAst>().FirstOrDefault();
+            var question = createdForm.ChildNodes.OfType<IQuestionAst>().FirstOrDefault();
             Assert.AreEqual(expected: questionId, actual: question.Name);
             Assert.AreEqual(expected: questionText, actual: question.Text);
         }
@@ -137,7 +137,7 @@ namespace UnitTests.Domain.UnitTests
         public void WhenGivenMultipleQuestions_CorrectNumberOfQuestions(string validText, int questionCount)
         {
             var createdForm = CreateForm(validText);
-            Assert.AreEqual(expected: questionCount, actual: createdForm.Statements.Count);
+            Assert.AreEqual(expected: questionCount, actual: createdForm.ChildNodes.Count);
         }
 
 
@@ -145,7 +145,7 @@ namespace UnitTests.Domain.UnitTests
         public void WhenQuestionsHasType_CorrectTypeOnQuestions(string validText, Type expectedType)
         {
             var createdForm = CreateForm(validText);
-            var actualType = createdForm.Statements.OfType<IQuestionAst>().FirstOrDefault()?.Type;
+            var actualType = createdForm.ChildNodes.OfType<IQuestionAst>().FirstOrDefault()?.Type;
             Assert.AreEqual(expected: expectedType, actual: actualType);
         }
 
@@ -153,10 +153,18 @@ namespace UnitTests.Domain.UnitTests
         public void WhenFormHasConditionalStatement_CorrectNumberOfConditionalCasesExist(string validText, int conditionCount)
         {
             var createdForm = CreateForm(validText);
-            var actualCount = createdForm.Statements.Flatten().OfType<IConditionalAst>().Count();
+            var actualCount = createdForm.ChildNodes.Flatten().OfType<IConditionalAst>().Count();
             Assert.AreEqual(expected: conditionCount, actual: actualCount);
         }
 
+        [TestCaseSource(typeof(TestData), nameof(TestData.ElseStatementCases))]
+        public void WhenFormHasElseConditional_CorrectNumberOfQuestionsExist(string validText, int conditionCount)
+        {
+            var createdForm = CreateForm(validText);
+            var actualCount = createdForm.ChildNodes.Flatten().OfType<IQuestionAst>().Count();
+            Assert.AreEqual(expected: conditionCount, actual: actualCount);
+        }
+        
         [TestCaseSource(typeof(TestData), nameof(TestData.QuestionDuplicatesCases))]
         public void WhenDuplicateQuestionId_ThrowsAnError(string invalidText, string duplicateName)
         {
@@ -173,31 +181,31 @@ namespace UnitTests.Domain.UnitTests
 
             Assert.Fail("Should have thrown an exception");
         }
-        
-        [TestCaseSource(typeof(TestData), nameof(TestData.NonBooleanConditional))]
-        public void WhenANonBooleanQuestionIsUsedInAConditional_ThrowsAnError(string invalidText, string nonBooleanName)
-        {
-            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
-            try
-            {
-                questionnaireCreator.Create(invalidText);
-            }
-            catch (QlParserException exception)
-            {
-                Assert.IsTrue(exception.ParseErrorDetails.Contains(nonBooleanName));
-                return;
-            }
 
-            Assert.Fail("Should have thrown an exception");
-        }
+        //[TestCaseSource(typeof(TestData), nameof(TestData.NonBooleanConditional))]
+        //public void WhenANonBooleanQuestionIsUsedInAConditional_ThrowsAnError(string invalidText, string nonBooleanName)
+        //{
+        //    var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+        //    try
+        //    {
+        //        questionnaireCreator.Create(invalidText);
+        //    }
+        //    catch (QlParserException exception)
+        //    {
+        //        Assert.IsTrue(exception.ParseErrorDetails.Contains(nonBooleanName));
+        //        return;
+        //    }
 
-        
+        //    Assert.Fail("Should have thrown an exception");
+        //}
+
+
         [TestCaseSource(typeof(TestData), nameof(TestData.BooleanConditional))]
         public void WhenBooleanQuestionUsedInAConditional_ParsesCorrectly(string validText, IEnumerable<string> booleanNames)
         {
             var createdForm = CreateForm(validText);
             var questionNames = createdForm
-                .Statements
+                .ChildNodes
                 .Flatten()
                 .OfType<IConditionalAst>()
                 .Select(x => x.QuestionName)
@@ -208,13 +216,30 @@ namespace UnitTests.Domain.UnitTests
                 Assert.Contains(expected: expectedName, actual: questionNames);
             }
         }
-        
+
+        [TestCaseSource(typeof(TestData), nameof(TestData.CalculationQuestionCases))]
+        public void WhenQuestionIsCalculation_ParsesCorrectly(string validText, IEnumerable<string> calculationNames)
+        {
+            var createdForm = CreateForm(validText);
+            var questionNames = createdForm
+                .ChildNodes
+                .Flatten()
+                .OfType<ICalculationAst>()
+                .Select(x => x.CalculationName)
+                .ToList();
+
+            foreach (var expectedName in calculationNames)
+            {
+                Assert.Contains(expected: expectedName, actual: questionNames);
+            }
+        }
+
         [TestCaseSource(typeof(TestData), nameof(TestData.ComparisonConditional))]
         public void WhenComparisonUsedInAConditional_ParsesCorrectly(string validText, IEnumerable<string> booleanNames)
         {
             var createdForm = CreateForm(validText);
             var questionNames = createdForm
-                .Statements
+                .ChildNodes
                 .Flatten()
                 .OfType<IConditionalAst>()
                 .Select(x => x.QuestionName)
@@ -231,7 +256,7 @@ namespace UnitTests.Domain.UnitTests
     {
         public static IEnumerable<IAstNode> Flatten(this IEnumerable<IAstNode> e)
         {
-            return e.SelectMany(c => c.Statements.Flatten()).Concat(e);
+            return e.SelectMany(c => c.ChildNodes.Flatten()).Concat(e);
         }
     }
 }

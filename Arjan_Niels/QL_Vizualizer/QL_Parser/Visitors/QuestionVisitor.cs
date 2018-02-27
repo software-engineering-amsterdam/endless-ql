@@ -11,7 +11,7 @@ namespace QL_Parser.Visitors
         {
             var id = context.ID().GetText();
             var question = context.TEXT().GetText();
-            var qtype = (QuestionType)Enum.Parse(typeof(QuestionType), context.QTYPE().GetText().ToUpper());
+            var qtype = (QValueType)Enum.Parse(typeof(QValueType), context.QTYPE().GetText().ToUpper());
 
             return new QuestionNode(id, question, qtype);
         }

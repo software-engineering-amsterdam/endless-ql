@@ -8,11 +8,13 @@ namespace AntlrInterpretor.Logic
 {
     public class QlVisitor : QLBaseVisitor<IAstNode>
     {
+        private readonly IAstFactory m_astFactory;
         private readonly IQuestionnaireAst m_questionnaireAst;
 
-        public QlVisitor()
+        public QlVisitor(IAstFactory astFactory)
         {
-            m_questionnaireAst = new QuestionnaireAst();
+            m_astFactory = astFactory;
+            m_questionnaireAst = m_astFactory.CreateQuestionnaire();
         }
 
         public override IAstNode VisitQuestionnaire(QLParser.QuestionnaireContext context)
@@ -25,30 +27,23 @@ namespace AntlrInterpretor.Logic
             return m_questionnaireAst;
         }
 
-        public override IAstNode VisitBooleancondition(QLParser.BooleanconditionContext context)
+        public override IAstNode VisitCalculatedValue(QLParser.CalculatedValueContext context)
         {
-            var questionName = context.IDENTIFIER().GetText();
-            var question = m_questionnaireAst
-                .Questions
-                .FirstOrDefault(x => x.Name == questionName);
 
-            if (question?.Type != typeof(bool))
-            {
-                var message = $@"the question {questionName} is not a boolean question";
+            var calculationName = context.mathexpression().GetText();
+            var calculation = m_astFactory.CreateCalculation(calculationName);
 
-                throw new QlParserException(message, null) { ParseErrorDetails = message };
-            }
-
+            m_questionnaireAst.ChildNodes.Add(calculation);
+            Visit(context.mathexpression());
             return m_questionnaireAst;
         }
 
         public override IAstNode VisitConditional(QLParser.ConditionalContext context)
         {
-
             var questionName = context.condition().GetText();
-            var conditional = new ConditionalAst(questionName);
+            var conditional = m_astFactory.CreateConditional(questionName);
             
-            m_questionnaireAst.Statements.Add(conditional);
+            m_questionnaireAst.ChildNodes.Add(conditional);
             Visit(context.condition());
             context.statement()
                 .Select(x => Visit(x))
@@ -56,18 +51,21 @@ namespace AntlrInterpretor.Logic
 
             return m_questionnaireAst;
         }
-
+        
         public override IAstNode VisitQuestion(QLParser.QuestionContext context)
         {
             var name = context.IDENTIFIER().GetText();
+
+            //ToDo: move this to the static analyzer
             var questionExists = m_questionnaireAst.Questions.Any(x => x.Name == name);
             if (questionExists)
             {
                 var message = $@"The question with the id '{name}' exists more than once";
                 throw new QlParserException(message, null) { ParseErrorDetails = message };
             }
+            
 
-            var text = context.QUESTIONTEXT().GetText();
+            var text = context.TEXT().GetText();
             Type type;
             switch (context.questiontype().qtype.Type)
             {
@@ -92,8 +90,9 @@ namespace AntlrInterpretor.Logic
                         null);
             }
 
-            var question = new QuestionAst(name, text.Replace("\"", ""), type);
-            m_questionnaireAst.Statements.Add(question);
+
+            var question = m_astFactory.CreateQuestion(name, text.Replace("\"", ""), type);
+            m_questionnaireAst.ChildNodes.Add(question);
             m_questionnaireAst.Questions.Add(question);
             return m_questionnaireAst;
         }

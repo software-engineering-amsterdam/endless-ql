@@ -2,7 +2,6 @@ package org.uva.jomi.ui.elements.fields;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 
 import javax.swing.BoxLayout;
@@ -36,7 +35,6 @@ public class MoneyField extends InputField<Double> implements PropertyChangeList
 			return ((Number)this.textfield.getValue()).doubleValue();
 		}
 		return null;
-		
 	}
 
 	@Override
@@ -45,5 +43,5 @@ public class MoneyField extends InputField<Double> implements PropertyChangeList
 			this.listener.valueDidChange(this);	
 		}
 	}
-
+	
 }

@@ -4,6 +4,7 @@ from AST.statements.form_node import FormNode
 from AST.statements.if_node import IfNode
 from AST.statements.question_node import QuestionNode
 from AST.expressions.expression_node import ExpressionNode
+from AST.expressions.variable_node import VariableNode
 from AST.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
 from AST.expressions.binary_operators.addition_node import AdditionOperatorNode
 from AST.expressions.binary_operators.and_node import AndOperatorNode
@@ -28,6 +29,7 @@ class ASTVisitor(object):
     # Generic method that initializes the dynamic dispatcher
     @visitor.on('node')
     def visit(self, node):
+        print('abc')
         pass
 
     # BaseNode will not be initialized directly
@@ -45,14 +47,14 @@ class ASTVisitor(object):
         for child in node.block:
             child.accept(self)
 
-        print("Found form node: " + node.get_label)
+        print("Found form node: " + node.label)
 
     @visitor.when(IfNode)
     def visit(self, node):
+        node.condition.accept(self)
+
         for child in node.block:
             child.accept(self)
-
-        print("Found form node: " + node.label)
 
     @visitor.when(QuestionNode)
     def visit(self, node):
@@ -75,6 +77,11 @@ class ASTVisitor(object):
     @visitor.when(UnaryOperatorNode)
     def visit(self, node):
         print("Unrecognized node:", node)
+
+    @visitor.when(VariableNode)
+    def visit(self, node):
+        print("Variable node.")
+
 
     @visitor.when(AdditionOperatorNode)
     def visit(self, node):

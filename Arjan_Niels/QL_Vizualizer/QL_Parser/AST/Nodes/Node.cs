@@ -8,7 +8,8 @@ namespace QL_Parser.AST.Nodes
         FORM,
         QUESTION,
         CONDITIONAL,
-        STATEMENT
+        STATEMENT,
+        VALUE
     }
 
     public abstract class Node

@@ -27,13 +27,21 @@ public abstract class ExpressionVariable<T> extends Expression<T> {
         return String.valueOf(value);
     }
 
-    public abstract ExpressionVariable divide(ExpressionVariable other);
+    public ExpressionVariable divide(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
 
-    public abstract ExpressionVariable multiply(ExpressionVariable other);
+    public ExpressionVariable multiply(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
 
-    public abstract ExpressionVariable subtract(ExpressionVariable other);
+    public ExpressionVariable subtract(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
 
-    public abstract ExpressionVariable sum(ExpressionVariable other);
+    public ExpressionVariable sum(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
 
     public ExpressionVariable equals(ExpressionVariable other) {
         if (this.value == null)
@@ -41,17 +49,31 @@ public abstract class ExpressionVariable<T> extends Expression<T> {
         return new ExpressionVariableBoolean(this.value.equals(other.value));
     }
 
-    public abstract ExpressionVariable ge(ExpressionVariable other);
+    public ExpressionVariable ge(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
 
-    public abstract ExpressionVariable gt(ExpressionVariable other);
+    public ExpressionVariable gt(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
 
-    public abstract ExpressionVariable le(ExpressionVariable other);
+    public ExpressionVariable le(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
 
-    public abstract ExpressionVariable lt(ExpressionVariable other);
+    public ExpressionVariable lt(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
 
-    public abstract ExpressionVariable and(ExpressionVariable other);
+    public ExpressionVariable and(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
 
-    public abstract ExpressionVariable or(ExpressionVariable other);
+    public ExpressionVariable or(ExpressionVariable other) {
+        return new ExpressionVariableUndefined();
+    }
 
-    public abstract ExpressionVariable not();
+    public ExpressionVariable not() {
+        return new ExpressionVariableUndefined();
+    }
 }

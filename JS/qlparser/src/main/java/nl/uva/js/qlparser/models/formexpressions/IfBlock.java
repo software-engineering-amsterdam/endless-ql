@@ -8,8 +8,9 @@ import nl.uva.js.qlparser.models.dataexpressions.DataExpression;
 import nl.uva.js.qlparser.models.enums.DataType;
 import nl.uva.js.qlparser.models.exceptions.TypeMismatchException;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 @Data
 @Builder
@@ -18,9 +19,8 @@ public class IfBlock implements FormExpression {
     private LinkedList<FormExpression> expressions;
 
     @Override
-    public ArrayList<Component> getComponents() {
-
-        return new ArrayList<>();
+    public List<Component> getComponents() {
+        return Collections.emptyList();
     }
 
     @Override

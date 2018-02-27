@@ -1,14 +1,25 @@
 package checking.value;
 
-public class BooleanValue extends Value {
+public class BooleanValue extends AbstractValue {
   
 	private boolean value;
 	public static BooleanValue FALSE = new BooleanValue(false);
 	public static BooleanValue TRUE = new BooleanValue(true);
 
 	public BooleanValue(boolean value) {
-		// TODO Auto-generated constructor stub
 		this.value = value;
+	}
+	
+	public BooleanValue(String str) {
+		if (str.equalsIgnoreCase("true") || str.equalsIgnoreCase("yes")) {
+			value = true;
+		}
+		else if (str.equalsIgnoreCase("false") || str.equalsIgnoreCase("no")) {
+			value = false;
+		}
+		else {
+			throw new IllegalArgumentException(str);
+		}
 	}
 
 	public boolean getValue() {
@@ -17,6 +28,31 @@ public class BooleanValue extends Value {
 
 	public void setValue(boolean value) {
 		this.value = value;
+	}
+	
+	public void setValue(String str) {
+		if (str.equalsIgnoreCase("true") || str.equalsIgnoreCase("yes")) {
+			this.value = true;
+		}
+		else if (str.equalsIgnoreCase("false") || str.equalsIgnoreCase("no")) {
+			this.value = false;
+		}
+		else {
+			throw new IllegalArgumentException(str);
+		}
+	}
+	
+	@Override
+	public String getValueString() {
+		if(value == true)
+			return "true";
+		else
+			return "false";
+	}
+	
+	@Override
+	public BooleanValue translate(String str) {
+		return new BooleanValue(str);
 	}
 	
 	@Override
@@ -43,7 +79,7 @@ public class BooleanValue extends Value {
 
 	@Override
 	public BooleanValue not() {
-	    return new BooleanValue(!(this.value));
+  return new BooleanValue(!(this.value));
 	}
 	
 	@Override
@@ -117,25 +153,4 @@ public class BooleanValue extends Value {
 		return throwException();
 	}
 
-	@Override
-	public Value check(String str) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Value neg() {
-		return throwException();
-	}
-
-	@Override
-	public Value pos() {
-		return throwException();
-	}
-	
-
-	@Override
-	public <T extends Value> T throwException() {
-		throw new UnsupportedOperationException(getClass().getName());
-	}
 }

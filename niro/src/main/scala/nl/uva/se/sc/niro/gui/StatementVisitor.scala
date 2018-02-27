@@ -19,6 +19,8 @@ object StatementVisitor {
         }
         case conditional: Conditional => {
           val innerGrid = RowBuilder.buildSingleColumnRow(grid, row)
+          // FIXME and make dynamic!
+//          innerGrid.setVisible(conditional.predicate.value)
           visit(innerGrid, conditional.thenStatements, symbolTable)
         }
         case ErrorStatement() => ()

@@ -3,6 +3,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
+import javafx.event.ActionEvent
 import javafx.scene.Parent
 import javafx.scene.control.{ CheckBox, DatePicker, Label, TextField }
 import javafx.util.StringConverter
@@ -31,30 +32,44 @@ object WidgetFactory {
 
   def makeBooleanField(question: Question, bool: Option[Boolean]): Parent = {
     val checkbox = new CheckBox()
+    checkbox.setOnAction(_ => println("Boolean changed"))
     bool.foreach(checkbox.setSelected(_))
     EditableDecorator.makeEditable(checkbox, question, bool)
   }
   def makeTextField(question: Question, text: Option[String]): Parent = {
-    EditableDecorator.makeEditable(new TextField(text.getOrElse("")), question, text)
+    val textField = new TextField(text.getOrElse(""))
+    textField.textProperty().addListener(new ChangeListener[String] {
+      override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
+        textField.fireEvent(new ActionEvent(textField, textField))
+      }
+    })
+    textField.setOnAction(_ => println("Text changed"))
+    EditableDecorator.makeEditable(textField, question, text)
   }
 
   def makeIntegerField(question: Question, value: Option[Int]): Parent = {
-    EditableDecorator.makeEditable(makeRegExField(INTEGER_MASK, value.map(_.toString).getOrElse("")), question, value)
+    val integerField = makeRegExField(INTEGER_MASK, value.map(_.toString).getOrElse(""))
+    integerField.setOnAction(_ => println("Integer changed"))
+    EditableDecorator.makeEditable(integerField, question, value)
   }
 
   def makeDecimalField(question: Question, value: Option[BigDecimal]): Parent = {
-    EditableDecorator.makeEditable(makeRegExField(DECIMAL_MASK, value.map(_.toString).getOrElse("")), question, value)
+    val decimalField = makeRegExField(DECIMAL_MASK, value.map(_.toString).getOrElse(""))
+    decimalField.setOnAction(_ => println("Decimal changed"))
+    EditableDecorator.makeEditable(decimalField, question, value)
   }
 
   def makeMoneyField(question: Question, value: Option[String]): Parent = {
     // TODO Add decimal format with fixed decimals
-    EditableDecorator.makeEditable(makeRegExField(MONEY_MASK, value.map(_.toString).getOrElse("")), question, value)
+    val moneyField = makeRegExField(MONEY_MASK, value.map(_.toString).getOrElse(""))
+    moneyField.setOnAction(_ => println("Amount changed"))
+    EditableDecorator.makeEditable(moneyField, question, value)
   }
 
   def makeDateField(question: Question, value: Option[String]): Parent = {
     val dateField = new DatePicker()
+    dateField.setOnAction(_ => println("Date changed"))
     dateField.setConverter(new StringConverter[LocalDate] {
-
       override def toString(date: LocalDate): String = {
         if (date != null) DATE_FORMAT.format(date) else null
       }
@@ -66,12 +81,28 @@ object WidgetFactory {
     EditableDecorator.makeEditable(dateField, question, value)
   }
 
+  /**
+    * Creates a specialized TextField that uses a regular expression when checking if a text is valid. If a text is
+    * not valid it is rejected. If a valid text is entered and that is different from the previous value an
+    * ActionEvent is fired.
+    *
+    * @param validPattern
+    * @param value
+    * @return
+    */
   protected def makeRegExField(validPattern: String, value: String): TextField = {
+    // TODO Investigate textFormatterProperty, it could replace this whole construct!
     val regexField = new TextField(value)
     regexField.textProperty().addListener(new ChangeListener[String] {
+      private var previousValue = ""
       override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
         if (!newValue.matches(validPattern)) {
           regexField.setText(oldValue)
+        } else {
+          if (previousValue != newValue) {
+            previousValue = newValue
+            regexField.fireEvent(new ActionEvent(regexField, regexField))
+          }
         }
       }
     })

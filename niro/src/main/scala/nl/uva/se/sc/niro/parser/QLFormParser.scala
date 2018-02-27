@@ -2,13 +2,13 @@ package nl.uva.se.sc.niro.parser
 
 import java.util
 
+import _root_.ql.{ QLBaseVisitor, QLLexer, QLParser }
 import nl.uva.se.sc.niro.model.Expressions._
 import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, DecAnswer, IntAnswer, StringAnswer }
 import nl.uva.se.sc.niro.model._
-import org.antlr.v4.runtime.{ CharStream, CommonTokenStream, ParserRuleContext }
-import org.apache.logging.log4j.scala.Logging
-import _root_.ql.{ QLBaseVisitor, QLLexer, QLParser }
 import org.antlr.v4.runtime.tree.RuleNode
+import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
+import org.apache.logging.log4j.scala.Logging
 
 import scala.collection.JavaConverters
 

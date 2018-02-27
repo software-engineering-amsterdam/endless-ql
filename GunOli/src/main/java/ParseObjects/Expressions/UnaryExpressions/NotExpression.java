@@ -3,10 +3,11 @@ package ParseObjects.Expressions.UnaryExpressions;
 import ParseObjects.Expressions.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
+import ParseObjects.Expressions.ExpressionConstants.BooleanConstant;
 import ParseObjects.Expressions.UnaryExpression;
 
 public class NotExpression extends UnaryExpression<Boolean> {
-    public NotExpression(Expression expr){
+    public NotExpression(Expression<Boolean> expr){
         super("!", expr);
     }
 
@@ -17,6 +18,7 @@ public class NotExpression extends UnaryExpression<Boolean> {
 
     @Override
     public Constant<Boolean> evaluate(){
-        return null;//change
+        BooleanConstant expr = (BooleanConstant) this.getExpression().evaluate();
+        return new BooleanConstant(!expr.getValue());
     }
 }

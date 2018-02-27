@@ -43,7 +43,16 @@ public class Money extends Type {
         return value.accept(new ToMoney());
     }
 
-    
+    @Override
+    public Type negative() {
+        return this;
+    }
+
+    @Override
+    public Type positive() {
+        return this;
+    }
+
     @Override
     public Type add(Type secondOperand) {
         return secondOperand.accept(new MoneyAddSubtract());

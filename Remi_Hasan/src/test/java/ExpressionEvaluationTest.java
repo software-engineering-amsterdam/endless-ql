@@ -16,8 +16,7 @@ public class ExpressionEvaluationTest {
 
     private static double DELTA = 0.001;
 
-    // Prevents E powers to be in a double's string representation, which would be parsed incorrectly
-    // 6.743240136E7 or something..
+    // Prevents E notation to be in a double's string representation, which would be parsed incorrectly
     public String doubleString(double value) {
         return new BigDecimal(value).toPlainString();
     }

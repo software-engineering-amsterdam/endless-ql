@@ -21,9 +21,11 @@ public class AST_Visitor extends QLBaseVisitor {
 
     @Override
     public Object visitQuestion(QLParser.QuestionContext ctx) {
+        String id = ctx.IDENTIFIER().getText();
+
         String questionString = ctx.STR().getText();
         Question question = new Question(questionString, visit(ctx.type()));
-        String id = ctx.IDENTIFIER().getText();
+
         memory.put(id, question);
         return memory;
     }
@@ -123,6 +125,7 @@ public class AST_Visitor extends QLBaseVisitor {
         try{
             return type.cast(value);
         }catch(ClassCastException e){
+            //TODO: print error about
             e.printStackTrace();
             System.exit(1);
         }

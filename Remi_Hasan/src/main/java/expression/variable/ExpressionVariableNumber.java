@@ -32,11 +32,11 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
         return this.value;
     }
 
-    public Integer getIntValue() {
+    public int getIntValue() {
         return this.value.intValue();
     }
 
-    public Double getDecimalValue() {
+    public double getDecimalValue() {
         return this.value.doubleValue();
     }
 

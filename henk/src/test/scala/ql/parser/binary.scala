@@ -23,7 +23,9 @@ class ArithmeticParser extends FunSpec with BeforeAndAfter {
     it("should contain one logical conjunction") {
       val result = getFlattenedForm("ql/binary/and.ql")
       val expected =
-        ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTLogicalCon())
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTLogicalCon())
 
       assert(result.filter(x => x == expected).size == 1)
     }
@@ -31,7 +33,9 @@ class ArithmeticParser extends FunSpec with BeforeAndAfter {
     it("should contain one logical disjunction") {
       val result = getFlattenedForm("ql/binary/or.ql")
       val expected =
-        ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTLogicalDis())
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTLogicalDis())
 
       assert(result.filter(x => x == expected).size == 1)
     }
@@ -39,7 +43,9 @@ class ArithmeticParser extends FunSpec with BeforeAndAfter {
     it("should contain one logical eq") {
       val result = getFlattenedForm("ql/binary/eq.ql")
       val expected =
-        ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTRelationalEQ())
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTRelationalEQ())
 
       assert(result.filter(x => x == expected).size == 1)
     }
@@ -47,7 +53,9 @@ class ArithmeticParser extends FunSpec with BeforeAndAfter {
     it("should contain one logical gt") {
       val result = getFlattenedForm("ql/binary/gt.ql")
       val expected =
-        ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTRelationalGT())
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTRelationalGT())
 
       assert(result.filter(x => x == expected).size == 1)
     }
@@ -55,7 +63,9 @@ class ArithmeticParser extends FunSpec with BeforeAndAfter {
     it("should contain one logical gte") {
       val result = getFlattenedForm("ql/binary/gte.ql")
       val expected =
-        ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTRelationalGTE())
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTRelationalGTE())
 
       assert(result.filter(x => x == expected).size == 1)
     }
@@ -63,7 +73,9 @@ class ArithmeticParser extends FunSpec with BeforeAndAfter {
     it("should contain one logical lt") {
       val result = getFlattenedForm("ql/binary/lt.ql")
       val expected =
-        ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTRelationalLT())
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTRelationalLT())
 
       assert(result.filter(x => x == expected).size == 1)
     }
@@ -71,7 +83,9 @@ class ArithmeticParser extends FunSpec with BeforeAndAfter {
     it("should contain one logical lte") {
       val result = getFlattenedForm("ql/binary/lte.ql")
       val expected =
-        ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTRelationalLTE())
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTRelationalLTE())
 
       assert(result.filter(x => x == expected).size == 1)
     }
@@ -79,7 +93,9 @@ class ArithmeticParser extends FunSpec with BeforeAndAfter {
     it("should contain one logical neq") {
       val result = getFlattenedForm("ql/binary/ne.ql")
       val expected =
-        ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTRelationalNE())
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTRelationalNE())
 
       assert(result.filter(x => x == expected).size == 1)
     }

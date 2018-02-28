@@ -22,7 +22,7 @@ class UnaryParser extends FunSpec with BeforeAndAfter {
   describe("when parsing a form containing arithmetic tokens") {
     it("should contain one unary negation") {
       val result = getFlattenedForm("ql/unary/not.ql")
-      val expected = ASTUnary(ASTIdentifier(), ASTUnaryNot())
+      val expected = ASTUnary(ASTIdentifier("hasBoughtHouse"), ASTUnaryNot())
 
       assert(result.filter(x => x == expected).size == 1)
     }
@@ -30,7 +30,7 @@ class UnaryParser extends FunSpec with BeforeAndAfter {
     it("should contain two unary negations") {
       val result = getFlattenedForm("ql/unary/notnot.ql")
       val expected = ASTUnary(
-        ASTUnary(ASTIdentifier(), ASTUnaryNot()),
+        ASTUnary(ASTIdentifier("hasBoughtHouse"), ASTUnaryNot()),
         ASTUnaryNot()
       )
 
@@ -39,7 +39,7 @@ class UnaryParser extends FunSpec with BeforeAndAfter {
 
     it("should contain an unary min") {
       val result = getFlattenedForm("ql/unary/min.ql")
-      val expected = ASTUnary(ASTIdentifier(), ASTUnaryMin())
+      val expected = ASTUnary(ASTIdentifier("hasBoughtHouse"), ASTUnaryMin())
 
       assert(result.filter(x => x == expected).size == 1)
     }

@@ -1,6 +1,7 @@
 package com.chariotit.uva.sc.qdsl;
 
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
+import main.java.com.chariotit.uva.sc.qdsl.QLFrame;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +12,17 @@ import org.antlr.v4.runtime.*;
 import com.chariotit.uva.sc.qdsl.grammar.QLLexer;
 import com.chariotit.uva.sc.qdsl.grammar.QLParser;
 
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+
 @Component
 public class ApplicationRunner implements CommandLineRunner {
+
+    /**
+     * Pull in the JFrame to be displayed.
+     */
+    @Autowired
+    private QLFrame frame;
 
     @Override
     public void run(String... args) throws Exception {
@@ -33,5 +43,8 @@ public class ApplicationRunner implements CommandLineRunner {
 
         System.out.println(visitor.visit(tree));
 
+        frame.setVisible(true);
+
     }
+
 }

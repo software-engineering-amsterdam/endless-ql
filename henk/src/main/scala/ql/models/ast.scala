@@ -1,4 +1,4 @@
-package ql.models
+package ql.models.ast
 
 sealed trait ASTNode
 

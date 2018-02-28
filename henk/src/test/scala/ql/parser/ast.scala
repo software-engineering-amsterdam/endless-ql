@@ -1,4 +1,4 @@
-import ql.models._
+import ql.models.ast._
 import ql.grammar._
 import ql.visitors._
 import ql.parsers._

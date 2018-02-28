@@ -1,7 +1,7 @@
 package ql.parsers
 
 import ql.grammar._
-import ql.models._
+import ql.models.ast._
 import ql.visitors._
 
 import scala.io.Source

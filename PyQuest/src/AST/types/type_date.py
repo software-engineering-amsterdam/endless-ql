@@ -7,6 +7,9 @@ class TypeDate(Type):
         super(TypeDate, self).__init__()
         self.operations = []
 
+    def __repr__(self):
+        return 'date'
+
     @staticmethod
     def pyqt5_default_widget():
         return QCalendarWidget()

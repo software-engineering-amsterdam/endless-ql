@@ -67,9 +67,7 @@ class ASTVisitor(object):
 
     @visitor.when(QuestionNode)
     def visit(self, node):
-        previous_parent = self.insert_graph_node('question: {}'.format(node.label))
-        # self.graph.node(node.label, node.label)
-        # self.graph.edge(self.parent, node.label)
+        previous_parent = self.insert_graph_node('question: {}\ntype: {}'.format(node.label, node.value_type))
 
         if node.expression:
             node.expression.accept(self)
@@ -80,6 +78,7 @@ class ASTVisitor(object):
     @visitor.when(ExpressionNode)
     def visit(self, node):
         pass
+
     # BinaryOperatorNode will not be initialized directly
     @visitor.when(BinaryOperatorNode)
     def visit(self, node):

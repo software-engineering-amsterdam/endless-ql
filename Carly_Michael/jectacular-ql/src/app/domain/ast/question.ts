@@ -5,6 +5,7 @@ import {TextboxQuestion} from '../angular-questions/question-textbox';
 import {QuestionType} from './question-type';
 import {Statement} from './statement';
 import {Location} from './location';
+import {Variable} from './expressions/variable';
 
 export class Question extends Statement {
   constructor(public name: string, public label: string, public type: QuestionType, location: Location) {
@@ -13,6 +14,10 @@ export class Question extends Statement {
 
   getQuestions(): Question[] {
     return [this];
+  }
+
+  getVariables(): Variable[] {
+    return [];
   }
 
   toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,

@@ -1,6 +1,7 @@
 package data.value
 
 import data.question.QuestionType
+import javafx.beans.property.SimpleBooleanProperty
 import java.math.BigDecimal
 
 class BooleanValue(var value: Boolean) : BaseSymbolValue(QuestionType.BOOLEAN) {

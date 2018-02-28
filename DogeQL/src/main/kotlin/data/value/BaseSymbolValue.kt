@@ -67,7 +67,7 @@ abstract class BaseSymbolValue(val type: QuestionType) : Comparable<BaseSymbolVa
         }
     }
 
-    private fun <O> attemptOperator(
+    private inline fun <O> attemptOperator(
             that: BaseSymbolValue, operatorString: String, operator: (BaseSymbolValue) -> O
     ): O {
         if (type == that.type) {
@@ -77,7 +77,7 @@ abstract class BaseSymbolValue(val type: QuestionType) : Comparable<BaseSymbolVa
         return castAndRetry(that, operatorString, operator)
     }
 
-    private fun <O> castAndRetry(
+    private inline fun <O> castAndRetry(
             that: BaseSymbolValue, operatorString: String, operator: (BaseSymbolValue) -> O
     ): O {
         val castedThis = castTo(that.type)

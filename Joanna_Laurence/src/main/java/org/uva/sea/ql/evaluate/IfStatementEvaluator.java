@@ -1,6 +1,5 @@
 package org.uva.sea.ql.evaluate;
 
-import org.uva.sea.ql.QLEvaluator;
 import org.uva.sea.ql.QLValueEvaluator;
 import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
@@ -15,7 +14,7 @@ public class IfStatementEvaluator extends QLValueEvaluator<Boolean> {
     /**
      * Expression evaluator
      */
-    private QLEvaluator qlEvaluator = new QLEvaluator();
+    private ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 
     /**
      * Evaluates the condition, when true the statements are returned
@@ -24,7 +23,7 @@ public class IfStatementEvaluator extends QLValueEvaluator<Boolean> {
      * @return List of all seen questions
      */
     public List<Question> evaluate(IfStatement ifStatement, SymbolTable symbolTable) {
-        Value condition = this.qlEvaluator.evaluate(ifStatement.getExpression(), symbolTable);
+        Value condition = this.expressionEvaluator.evaluate(ifStatement.getExpression(), symbolTable);
 
         //Determine condition is true
         Boolean conditionTrue = condition.accept(this);

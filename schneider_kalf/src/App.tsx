@@ -102,7 +102,6 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
                   value={this.state.form.getState().toString()}
               />
             </div>
-            div.col-,d
           </div>
         </div>
     );

@@ -17,6 +17,7 @@ export class Variable extends Expression {
   }
 
   checkType(allQuestions: Question[]): ExpressionType {
+    console.log('referenced question', this.referencedQuestion);
     return this.toExpressionType(this.referencedQuestion.type);
   }
 

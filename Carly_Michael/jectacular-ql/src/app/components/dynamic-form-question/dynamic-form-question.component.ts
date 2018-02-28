@@ -21,6 +21,9 @@ export class DynamicFormQuestionComponent implements OnInit {
   ngOnInit(): void {
     this.form.valueChanges.subscribe(() => {
       // this subscribe is necessary to have angular auto-update the hiddenCondition function
+      // if(this.question.readonly) {
+      //   this.form.controls[this.question.key].setValue(this.question.calculateValue(this.form));
+      // }
     });
   }
 }

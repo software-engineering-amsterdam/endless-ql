@@ -1,5 +1,6 @@
-from commons.test_file_finder import set_testfile_path
-set_testfile_path()
+import os
+import sys
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from lexer.ql_lexer import *
 from parse.ql_parser import *
 

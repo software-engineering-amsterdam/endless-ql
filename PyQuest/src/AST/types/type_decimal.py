@@ -7,6 +7,9 @@ class TypeDecimal(Type):
         super(TypeDecimal, self).__init__()
         self.operations = []
 
+    def __repr__(self):
+        return 'decimal'
+
     @staticmethod
     def pyqt5_default_widget():
         return QLineEdit()

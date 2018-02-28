@@ -7,6 +7,9 @@ class TypeString(Type):
         super(TypeString, self).__init__()
         self.operations = []
 
+    def __repr__(self):
+        return 'string'
+
     @staticmethod
     def pyqt5_default_widget():
         return QLineEdit()

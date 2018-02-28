@@ -1,7 +1,7 @@
 package model;
 
 import expression.Expression;
-import expression.constant.ExpressionVariableUndefined;
+import expression.variable.ExpressionVariableUndefined;
 
 import java.util.HashMap;
 import java.util.Map;

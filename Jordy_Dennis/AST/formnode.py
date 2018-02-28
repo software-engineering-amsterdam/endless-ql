@@ -3,6 +3,8 @@ This Class wraps the form into a node. It has to have a name
 and can contain statements in its block
 
 """
+
+
 class FormNode:
     def __init__(self, name, line):
         self.name = name
@@ -15,8 +17,8 @@ class FormNode:
             self.block.append(statement)
 
     def checkTypes(self):
-    	for statement in self.block:
-    		statement.checkTypes()
+        for statement in self.block:
+            statement.checkTypes()
 
-    def  __repr__(self):
+    def __repr__(self):
         return "Form: {}, block: {}".format(self.name, self.block)

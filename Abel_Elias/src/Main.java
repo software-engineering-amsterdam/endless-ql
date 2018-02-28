@@ -1,11 +1,12 @@
 import classes.Form;
-import gui.FormBuilder;
 import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
 import parsing.AST_Visitor;
 import parsing.gen.QLLexer;
 import parsing.gen.QLParser;
+import typechecking.TypeChecker;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,15 +45,20 @@ public class Main {
             }
             System.out.println("done");
 
+            //Construct the form
+            ParseTree parseTree = parser.form();
+            Form form = (Form) parseTree.accept(builder);
+
             //Call parse tree inspector: Show the tree
             Trees.inspect(tree, parser);
 
-            //TODO: Perform the typechecking
-            //TypeChecker typeChecker = new TypeChecker();
+            //Do typechecking
+            TypeChecker typeChecker = new TypeChecker();
+            //typeChecker.initTypeChecking(form);
 
-            //Build the form, pass the form from the tree
-            //Form form = tree;
-            FormBuilder formBuilder = new FormBuilder();
+            //Pass the form from the tree
+            //FormBuilder formBuilder = new FormBuilder();
+            //formBuilder.initComponents(form);
 
         } catch (IOException e) {
             e.printStackTrace();

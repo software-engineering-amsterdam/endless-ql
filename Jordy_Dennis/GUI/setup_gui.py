@@ -40,7 +40,6 @@ class Gui:
         b = Button(self.mainframe, text="OK", command=self.collect_answers)
         b.pack()
 
-
     # Execute the GUI
     def execute(self):
         self.gui.geometry("1500x1000")

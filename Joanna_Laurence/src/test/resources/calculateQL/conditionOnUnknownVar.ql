@@ -1,5 +1,5 @@
 //Q=3
-//waitDays:=integer 5
+//waitDays:=IntValue 5
 
 form taxOfficeExample {
   "What was the selling price?"

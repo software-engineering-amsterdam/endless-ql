@@ -1,14 +1,13 @@
 package nl.uva.js.qlparser.models;
 
-import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.data.HasValue;
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import nl.uva.js.qlparser.models.formexpressions.FormExpression;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.util.HtmlUtils;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -17,24 +16,15 @@ import java.util.stream.Collectors;
 
 @Data
 @Builder
-public class Form implements Expression, Expression.TypeCheckable, Expression.Visualizable {
+public class Form<T extends Component & HasValue>
+        implements Expression, Expression.TypeCheckable, Expression.Visualizable {
+
     @NonNull private String name;
     private LinkedList<FormExpression> formExpressions;
 
     @Override
-    public List<Component> getComponents() {
-        LinkedList<Component> components = new LinkedList<>();
-
-        String humanizedName = StringUtils.capitalize(
-                Arrays.stream(StringUtils.splitByCharacterTypeCamelCase(name))
-                        .map(String::toLowerCase)
-                        .filter(StringUtils::isNotBlank)
-                        .collect(Collectors.joining(" ")));
-
-        components.add(new Label(
-                "<h1>" + HtmlUtils.htmlEscape(humanizedName) + "</h1>",
-                ContentMode.HTML
-        ));
+    public List<AbstractField> getComponents() {
+        LinkedList<AbstractField> components = new LinkedList<>();
 
         formExpressions.stream()
                 .map(FormExpression::getComponents)
@@ -46,5 +36,13 @@ public class Form implements Expression, Expression.TypeCheckable, Expression.Vi
     @Override
     public void checkType() {
         formExpressions.forEach(Expression.TypeCheckable::checkType);
+    }
+
+    public String getHumanizedName() {
+        return StringUtils.capitalize(
+                Arrays.stream(StringUtils.splitByCharacterTypeCamelCase(name))
+                        .map(String::toLowerCase)
+                        .filter(StringUtils::isNotBlank)
+                        .collect(Collectors.joining(" ")));
     }
 }

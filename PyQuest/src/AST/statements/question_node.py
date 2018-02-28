@@ -1,4 +1,5 @@
 from AST.base_node import BaseNode
+from PyQt5.QtWidgets import QLabel, QLineEdit
 
 
 class QuestionNode(BaseNode):
@@ -24,3 +25,10 @@ class QuestionNode(BaseNode):
     @property
     def expression(self):
         return self._expression
+
+    def pyqt5_render(self, layout):
+        layout.addRow(QLabel(self.question), QLineEdit())
+
+        if self._value_type == str:
+            layout.addRow(QLabel(self.question), QLineEdit())
+

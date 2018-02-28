@@ -1,6 +1,8 @@
 ﻿using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
 using QL_Parser.AST.Nodes;
 using QL_Parser.Visitors;
+using System.Linq;
 using static QLanguage.QLanguageParser;
 
 namespace QL_Parser
@@ -11,11 +13,11 @@ namespace QL_Parser
 
         public override FormNode VisitFormDeclaration([NotNull] FormDeclarationContext context)
         {
-            //Get the formname
-            FormNameContext formName = context.formName();
+            if (context.children.Any(x => x.GetType() == typeof(ErrorNodeImpl)))
+                return null;
 
             // Construct FormNode object to store the results in.
-            var name = formName.GetText();
+            var name = context.formName().GetText();
             FormNode node = new FormNode(name);
 
             // Get the sections

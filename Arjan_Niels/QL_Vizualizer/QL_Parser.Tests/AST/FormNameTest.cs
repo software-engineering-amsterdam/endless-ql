@@ -18,10 +18,10 @@ namespace QL_Parser.Tests.AST
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
         public void IncorrectFormSyntexTest()
         {
             FormNode form = QLParserHelper.Parse(_incorrectSimpleForm);
+            Assert.IsNull(form);
         }
     }
 }

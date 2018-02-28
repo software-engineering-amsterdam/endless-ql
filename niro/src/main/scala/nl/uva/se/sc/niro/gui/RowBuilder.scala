@@ -29,9 +29,10 @@ object RowBuilder {
     pane
       .visibleProperty()
       .addListener(new ChangeListener[lang.Boolean] {
-        override def changed(observable: ObservableValue[_ <: lang.Boolean],
-                             oldValue: lang.Boolean,
-                             visible: lang.Boolean): Unit = {
+        override def changed(
+            observable: ObservableValue[_ <: lang.Boolean],
+            oldValue: lang.Boolean,
+            visible: lang.Boolean): Unit = {
           constraint.setPrefHeight(if (visible) { Region.USE_COMPUTED_SIZE } else { 0.0 })
         }
       })

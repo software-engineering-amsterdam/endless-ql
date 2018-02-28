@@ -16,4 +16,14 @@ public abstract class NumericQuestionViewModel extends BaseQuestionViewModel {
     public BigDecimal getValue() {
         return question.getValue();
     }
+    public void trySetValue(String input) {
+        try {
+            BigDecimal value = new BigDecimal(input);
+            this.question.setValue(value);
+            super.notifyPropertyChanged();
+        }
+        catch (NumberFormatException e) {
+            return;
+        }
+    }
 }

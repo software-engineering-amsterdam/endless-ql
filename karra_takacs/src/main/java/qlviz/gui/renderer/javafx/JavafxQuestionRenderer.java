@@ -52,6 +52,7 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewMod
         textField.setMinWidth(50);
         textField.setPrefWidth(50);
         textField.setText(moneyQuestion.getValue().toString());
+        textField.textProperty().addListener(observable -> moneyQuestion.trySetValue(textField.getText()));
         target.getChildren().add(label);
         target.getChildren().add(textField);
 

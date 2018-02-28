@@ -24,7 +24,7 @@ class QLValidator extends AbstractQLValidator {
 
 	public static val FORWARD_REFERNCE = "forwardReference"
 	public static val FORWARD_REFERNCE_MESSAGE = "The expression cannot contain a forward reference!"
-	
+
 	public static val LABEL_EXISTS = "labelExists"
 	public static val LABEL_EXISTS_MESSAGE = "The label for this question already exists!"
 
@@ -77,18 +77,18 @@ class QLValidator extends AbstractQLValidator {
 		}
 
 	}
-	
+
 	@Check
 	def checkForDuplicateLabels(Question question) {
-		
+
 		val form = getForm(question)
 
-		val labelExists = form.eAllContents.filter[it instanceof Question && it != question].exists[
+		val labelExists = form.eAllContents.filter[it instanceof Question && it != question].exists [
 			val questionToCompare = it as Question
 			question.label == questionToCompare.label
 		]
-		
-		if(labelExists) {
+
+		if (labelExists) {
 			warning(LABEL_EXISTS_MESSAGE, QLPackage.Literals.QUESTION__LABEL, LABEL_EXISTS)
 		}
 
@@ -98,9 +98,9 @@ class QLValidator extends AbstractQLValidator {
 		val parent = obj.eContainer
 		return getForm(parent)
 	}
-	
-	def dispatch getForm(Form form){
+
+	def dispatch getForm(Form form) {
 		return form
 	}
-	
+
 }

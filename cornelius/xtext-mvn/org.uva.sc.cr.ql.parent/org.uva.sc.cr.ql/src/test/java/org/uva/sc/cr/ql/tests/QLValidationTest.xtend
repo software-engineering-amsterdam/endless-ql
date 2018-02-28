@@ -1,6 +1,7 @@
 package org.uva.sc.cr.ql.tests
 
 import com.google.inject.Inject
+import org.eclipse.xtext.diagnostics.Diagnostic
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
@@ -11,7 +12,6 @@ import org.junit.runner.RunWith
 import org.uva.sc.cr.ql.qL.Form
 import org.uva.sc.cr.ql.qL.QLPackage
 import org.uva.sc.cr.ql.validation.QLValidator
-import org.eclipse.xtext.diagnostics.Diagnostic
 
 @RunWith(XtextRunner)
 @InjectWith(QLInjectorProvider)
@@ -98,7 +98,7 @@ class QLValidationTest {
 	}
 
 	@Test
-	def void testErrorOnUndefinedQuestion(){
+	def void testErrorOnUndefinedQuestion() {
 		val result = parseHelper.parse('''
 			form TestForm{
 				"Do you have a pet?" q1: boolean
@@ -110,12 +110,13 @@ class QLValidationTest {
 		''')
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
-		
-		validationTestHelper.assertError(result, QLPackage.eINSTANCE.expressionQuestionRef, Diagnostic.LINKING_DIAGNOSTIC)
+
+		validationTestHelper.assertError(result, QLPackage.eINSTANCE.expressionQuestionRef,
+			Diagnostic.LINKING_DIAGNOSTIC)
 	}
-	
+
 	@Test
-	def void testWarningOnDuplicateLabel(){
+	def void testWarningOnDuplicateLabel() {
 		val result = parseHelper.parse('''
 			form TestForm{
 				"Do you have a pet?" q1: boolean
@@ -124,7 +125,7 @@ class QLValidationTest {
 		''')
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
-		
+
 		validationTestHelper.assertWarning(result, QLPackage.eINSTANCE.question, QLValidator.LABEL_EXISTS)
 	}
 

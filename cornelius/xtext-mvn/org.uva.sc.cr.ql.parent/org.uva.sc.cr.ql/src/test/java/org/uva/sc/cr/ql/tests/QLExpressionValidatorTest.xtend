@@ -10,10 +10,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.uva.sc.cr.ql.qL.Form
 import org.uva.sc.cr.ql.qL.QLPackage
-import org.uva.sc.cr.ql.util.QLUtil
-import org.uva.sc.cr.ql.validation.QLExpressionValidator
 import org.uva.sc.cr.ql.qL.QuestionType
 import org.uva.sc.cr.ql.util.Operation
+import org.uva.sc.cr.ql.validation.QLExpressionValidator
 
 @RunWith(XtextRunner)
 @InjectWith(QLInjectorProvider)
@@ -52,7 +51,7 @@ class QLExpressionValidatorTest {
 		assertVariableInExpressionHelper(Operation.DIVISION, QuestionType.TYPE_STRING)
 		assertVariableInExpressionHelper(Operation.NOT, QuestionType.TYPE_STRING)
 	}
-	
+
 	@Test
 	def void testIntegerVariableValidityInExpression() {
 		assertVariableInExpressionHelper(Operation.OR, QuestionType.TYPE_INTEGER)
@@ -61,7 +60,7 @@ class QLExpressionValidatorTest {
 		assertVariableInExpressionHelper(Operation.NOT_EQUALS, QuestionType.TYPE_INTEGER)
 		assertVariableInExpressionHelper(Operation.NOT, QuestionType.TYPE_INTEGER)
 	}
-	
+
 	@Test
 	def void testDecimalVariableValidityInExpression() {
 		assertVariableInExpressionHelper(Operation.OR, QuestionType.TYPE_DECIMAL)
@@ -70,7 +69,7 @@ class QLExpressionValidatorTest {
 		assertVariableInExpressionHelper(Operation.NOT_EQUALS, QuestionType.TYPE_DECIMAL)
 		assertVariableInExpressionHelper(Operation.NOT, QuestionType.TYPE_DECIMAL)
 	}
-	
+
 	@Test
 	def void testMoneyVariableValidityInExpression() {
 		assertVariableInExpressionHelper(Operation.OR, QuestionType.TYPE_MONEY)
@@ -79,7 +78,7 @@ class QLExpressionValidatorTest {
 		assertVariableInExpressionHelper(Operation.NOT_EQUALS, QuestionType.TYPE_MONEY)
 		assertVariableInExpressionHelper(Operation.NOT, QuestionType.TYPE_MONEY)
 	}
-	
+
 	@Test
 	def void testDateVariableValidityInExpression() {
 		assertVariableInExpressionHelper(Operation.OR, QuestionType.TYPE_DATE)
@@ -108,7 +107,7 @@ class QLExpressionValidatorTest {
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
 		Assert.assertTrue(result.eResource.errors.isEmpty)
-		
+
 		switch operation {
 			case OR:
 				validationTestHelper.assertError(result, QLPackage.eINSTANCE.expressionOr,
@@ -139,9 +138,9 @@ class QLExpressionValidatorTest {
 					QLExpressionValidator.TYPE_NOT_ALLOWED)
 		}
 	}
-	
-	@Test 
-	def testErrorOnInvalidIfBlockExpression(){
+
+	@Test
+	def testErrorOnInvalidIfBlockExpression() {
 		val result = parseHelper.parse('''
 			form TestForm{
 							"Do you have a pet?" q1: string
@@ -154,11 +153,11 @@ class QLExpressionValidatorTest {
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
 		validationTestHelper.assertError(result, QLPackage.eINSTANCE.block,
-					QLExpressionValidator.BLOCK_INVALID_EXPRESSION)
+			QLExpressionValidator.BLOCK_INVALID_EXPRESSION)
 	}
-	
-	@Test 
-	def testErrorOnInvalidComputedQuestionReturnType(){
+
+	@Test
+	def testErrorOnInvalidComputedQuestionReturnType() {
 		val result = parseHelper.parse('''
 			form TestForm{
 							"Do you have a pet?" q1: string
@@ -168,8 +167,7 @@ class QLExpressionValidatorTest {
 		''')
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
-		validationTestHelper.assertError(result, QLPackage.eINSTANCE.question,
-					QLExpressionValidator.TYPE_NOT_EXPECTED)
+		validationTestHelper.assertError(result, QLPackage.eINSTANCE.question, QLExpressionValidator.TYPE_NOT_EXPECTED)
 	}
 
 }

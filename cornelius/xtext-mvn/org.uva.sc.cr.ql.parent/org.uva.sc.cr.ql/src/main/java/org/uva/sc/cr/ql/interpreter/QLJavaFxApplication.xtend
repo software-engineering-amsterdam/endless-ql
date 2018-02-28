@@ -12,8 +12,8 @@ import org.eclipse.xtext.util.CancelIndicator
 import org.eclipse.xtext.validation.CheckMode
 import org.eclipse.xtext.validation.IResourceValidator
 import org.uva.sc.cr.ql.QLStandaloneSetup
-import org.uva.sc.cr.ql.qL.Form
 import org.uva.sc.cr.ql.interpreter.service.StageService
+import org.uva.sc.cr.ql.qL.Form
 
 class QLJavaFxApplication extends Application {
 

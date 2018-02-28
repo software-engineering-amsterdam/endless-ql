@@ -14,12 +14,12 @@ import org.uva.sc.cr.ql.qL.ExpressionNot
 import org.uva.sc.cr.ql.qL.ExpressionOr
 import org.uva.sc.cr.ql.qL.ExpressionPlusOrMinus
 import org.uva.sc.cr.ql.qL.ExpressionQuestionRef
-import org.uva.sc.cr.ql.qL.Question
-import org.uva.sc.cr.ql.util.MissingCaseException
 import org.uva.sc.cr.ql.qL.QLPackage
-import org.uva.sc.cr.ql.util.QLUtil
+import org.uva.sc.cr.ql.qL.Question
 import org.uva.sc.cr.ql.qL.QuestionType
+import org.uva.sc.cr.ql.util.MissingCaseException
 import org.uva.sc.cr.ql.util.Operation
+import org.uva.sc.cr.ql.util.QLUtil
 
 /**
  * This class contains custom validation rules. 

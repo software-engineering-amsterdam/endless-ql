@@ -24,7 +24,7 @@ class QLUtil {
 				Operation.GREATER_THAN_EQUALS, Operation.PLUS, Operation.MINUS, Operation.MULTIPLICATION,
 				Operation.DIVISION]
 	}
-	
+
 	def private static ALLOWED_TYPES_FOR_OPERATIONS() {
 		val ret = new HashMap<Operation, List<QuestionType>>
 		ALLOWED_OPERATIONS_FOR_TYPES.forEach [ type, operations |
@@ -38,9 +38,9 @@ class QLUtil {
 		]
 		return ret;
 	}
-	
-	def static getAllowedTypesForOperation(String op){
-		ALLOWED_TYPES_FOR_OPERATIONS.filter[operation, allowedTypes|
+
+	def static getAllowedTypesForOperation(String op) {
+		ALLOWED_TYPES_FOR_OPERATIONS.filter [ operation, allowedTypes |
 			operation.literal == op
 		].entrySet.head.value
 	}

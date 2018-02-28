@@ -7,13 +7,18 @@ import qlviz.interpreter.linker.BooleanExpressionVisitor;
 public class NegationViewModel implements BooleanExpressionViewModel {
 
     private final BooleanProperty value;
+    private final BooleanExpressionViewModel operand;
 
     public NegationViewModel(BooleanExpressionViewModel operand) {
+        this.operand = operand;
         SimpleBooleanProperty property = new SimpleBooleanProperty();
         property.bind(operand.valueProperty().not());
         this.value = property;
     }
 
+    public BooleanExpressionViewModel getOperand() {
+        return operand;
+    }
 
     @Override
     public void accept(BooleanExpressionViewModelVisitor visitor) {

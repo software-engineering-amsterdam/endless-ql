@@ -3,6 +3,7 @@ package qlviz.gui.viewModel.numericExpressions;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import qlviz.gui.viewModel.linker.NumericExpressionViewModelVisitor;
 import qlviz.interpreter.linker.NumericExpressionVisitor;
 import qlviz.model.numericExpressions.BinaryNumericOperator;
 
@@ -53,5 +54,18 @@ public class BinaryNumericOperationViewModel implements NumericExpressionViewMod
     @Override
     public Property<BigDecimal> valueProperty() {
         return this.valueProperty();
+    }
+
+    @Override
+    public void accept(NumericExpressionViewModelVisitor numericExpressionViewModelVisitor) {
+        numericExpressionViewModelVisitor.visit(this);
+    }
+
+    public NumericExpressionViewModel getLeftSide() {
+        return leftSide;
+    }
+
+    public NumericExpressionViewModel getRightSide() {
+        return rightSide;
     }
 }

@@ -69,4 +69,12 @@ public class NumericComparisonViewModel implements BooleanExpressionViewModel {
     public BooleanProperty valueProperty() {
         return value;
     }
+
+    public NumericExpressionViewModel getLeftSide() {
+        return leftSide;
+    }
+
+    public NumericExpressionViewModel getRightSide() {
+        return rightSide;
+    }
 }

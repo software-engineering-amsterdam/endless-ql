@@ -6,34 +6,22 @@ import scala.language.implicitConversions
 
 object BasicArithmetics {
   trait IntAnswerCanDoBasicArithmetics extends BasicArithmetics[IntAnswer] {
-    import IntAnswerCanDoBasicArithmetics._
-    def plus(x: IntAnswer, y: IntAnswer): IntAnswer = IntAnswer(combine(x, y)(_ + _))
-    def minus(x: IntAnswer, y: IntAnswer): IntAnswer = IntAnswer(combine(x, y)(_ - _))
-    def times(x: IntAnswer, y: IntAnswer): IntAnswer = IntAnswer(combine(x, y)(_ * _))
-    def div(x: IntAnswer, y: IntAnswer): IntAnswer = IntAnswer(combine(x, y)(_ / _))
+    def plus(x: IntAnswer, y: IntAnswer): IntAnswer = IntAnswer(x.combine(y)(_ + _))
+    def minus(x: IntAnswer, y: IntAnswer): IntAnswer = IntAnswer(x.combine(y)(_ - _))
+    def times(x: IntAnswer, y: IntAnswer): IntAnswer = IntAnswer(x.combine(y)(_ * _))
+    def div(x: IntAnswer, y: IntAnswer): IntAnswer = IntAnswer(x.combine(y)(_ / _))
     def negate(x: IntAnswer) = IntAnswer(x.possibleValue.map(-_))
   }
-  implicit object IntAnswerCanDoBasicArithmetics extends IntAnswerCanDoBasicArithmetics {
-    private def combine(x: IntAnswer, y: IntAnswer)(f: (Int, Int) => Int): Option[Int] = for {
-      thisValue <- x.possibleValue
-      thatValue <- y.possibleValue
-    } yield f(thisValue, thatValue)
-  }
+  implicit object IntAnswerCanDoBasicArithmetics extends IntAnswerCanDoBasicArithmetics
   
   trait DecAnswerCanDoBasicArithmetics extends BasicArithmetics[DecAnswer] {
-    import DecAnswerCanDoBasicArithmetics._
-    def plus(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(combine(x, y)(_ + _))
-    def minus(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(combine(x, y)(_ - _))
-    def times(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(combine(x, y)(_ * _))
-    def div(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(combine(x, y)(_ / _))
+    def plus(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(x.combine(y)(_ + _))
+    def minus(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(x.combine(y)(_ - _))
+    def times(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(x.combine(y)(_ * _))
+    def div(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(x.combine(y)(_ / _))
     def negate(x: DecAnswer) = DecAnswer(x.possibleValue.map(-_))
   }
-  implicit object DecAnswerCanDoBasicArithmetics extends DecAnswerCanDoBasicArithmetics {
-    private def combine(x: DecAnswer, y: DecAnswer)(f: (BigDecimal, BigDecimal) => BigDecimal): Option[BigDecimal] = for {
-      thisValue <- x.possibleValue
-      thatValue <- y.possibleValue
-    } yield f(thisValue, thatValue)
-  }
+  implicit object DecAnswerCanDoBasicArithmetics extends DecAnswerCanDoBasicArithmetics
 }
 
 trait BasicArithmetics[SubType<:Answer] {

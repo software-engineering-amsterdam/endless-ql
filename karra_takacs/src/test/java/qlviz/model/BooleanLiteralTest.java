@@ -2,6 +2,7 @@ package qlviz.model;
 
 import org.junit.Assert;
 import org.junit.Test;
+import qlviz.model.booleanExpressions.BooleanLiteral;
 
 public class BooleanLiteralTest {
 

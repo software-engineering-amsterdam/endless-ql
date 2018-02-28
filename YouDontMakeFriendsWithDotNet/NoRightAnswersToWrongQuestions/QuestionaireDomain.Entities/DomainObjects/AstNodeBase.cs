@@ -4,7 +4,7 @@ using QuestionaireDomain.Entities.API;
 
 namespace QuestionaireDomain.Entities.DomainObjects
 {
-    public abstract class AstNodeBase : IAstNode
+    public abstract class AstNodeBase : IQuestionnaireAstNode
     {
         protected AstNodeBase(Guid id)
         {
@@ -12,7 +12,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
         }
 
         public Guid Id { get; }
-        public IList<IAstNode> ChildNodes { get; } = new List<IAstNode>();
+        public IList<IQuestionnaireAstNode> ChildNodes { get; } = new List<IQuestionnaireAstNode>();
 
         public abstract void Accept(IAstVisitor visitor);
     }

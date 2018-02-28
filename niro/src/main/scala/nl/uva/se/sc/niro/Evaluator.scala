@@ -21,9 +21,9 @@ object Evaluator {
   }
 
   def evaluateQuestion(question: Question, symbolTable: SymbolTable): Question = {
-    val evaluatedAnswer = evaluateExpression(question.answer, symbolTable: SymbolTable)
+    val evaluatedAnswer = evaluateExpression(question.expression, symbolTable: SymbolTable)
 
-    question.copy(answer = evaluatedAnswer)
+    question.copy(answer = Some(evaluatedAnswer))
   }
 
   // Recursion is happening between evaluateStatement and evaluateConditional

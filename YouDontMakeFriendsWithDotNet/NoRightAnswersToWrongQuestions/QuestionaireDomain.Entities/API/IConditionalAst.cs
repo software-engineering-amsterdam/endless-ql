@@ -2,7 +2,7 @@
 
 namespace QuestionaireDomain.Entities.API
 {
-    public interface IConditionalAst : IAstNode
+    public interface IConditionalAst : IQuestionnaireAstNode
     {
         string QuestionName { get; }
     }

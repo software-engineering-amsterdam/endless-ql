@@ -17,7 +17,8 @@
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "generate:ql": "pegjs --plugin ./node_modules/ts-pegjs -o src/parsing/parsers/ql_parser.ts --extra-options-file src/parsing/grammars/pegconfig.json src/parsing/grammars/ql_grammar.pegts"
+    "generate:ql": "pegjs --plugin ./node_modules/ts-pegjs -o src/parsing/parsers/ql_parser.ts --extra-options-file src/parsing/grammars/pegconfig.json src/parsing/grammars/ql_grammar.pegts",
+    "generate:qls": "pegjs --plugin ./node_modules/ts-pegjs -o src/modules/styling/parsing/parsers/qls_parser.ts --extra-options-file src/modules/styling/parsing/grammars/pegconfig.json src/modules/styling/parsing/grammars/qls_grammar.pegts"
   },
   "devDependencies": {
     "@types/jest": "^22.1.1",

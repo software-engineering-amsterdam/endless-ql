@@ -1,9 +1,16 @@
-﻿using QuestionaireDomain.Entities.DomainObjects;
+﻿using System;
+using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionaireDomain.Entities.API
 {
     public interface ICalculationAst : IAstNode
     {
-        string CalculationName { get; }
+        string CalculationDefinition { get; }
+        MathOperator Operator { get; set; }
+        MathValue Value { get; set; }
+        Reference<ICalculationAst> LeftChild { get; set; }
+        Reference<ICalculationAst> RightChild { get; set; }
     }
+
+
 }

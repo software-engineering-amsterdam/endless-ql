@@ -3,6 +3,12 @@ import com.pholser.junit.quickcheck.generator.InRange;
 import com.pholser.junit.quickcheck.generator.Precision;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import expression.*;
+import expression.constant.ExpressionVariableBoolean;
+import expression.constant.ExpressionVariableDecimal;
+import expression.constant.ExpressionVariableInteger;
+import expression.constant.ExpressionVariableMoney;
+import expression.unary.ExpressionUnaryNeg;
+import expression.unary.ExpressionUnaryNot;
 import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;

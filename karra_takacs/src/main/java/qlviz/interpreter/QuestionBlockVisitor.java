@@ -3,7 +3,7 @@ package qlviz.interpreter;
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
 import qlviz.model.ConditionalBlock;
-import qlviz.model.Question;
+import qlviz.model.question.Question;
 import qlviz.model.QuestionBlock;
 
 import java.util.stream.Collectors;

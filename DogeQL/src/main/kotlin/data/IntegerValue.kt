@@ -52,4 +52,8 @@ class IntegerValue(val value: Int) : BaseSymbolValue(QuestionType.INTEGER) {
         }
     }
 
+    override fun not(): BaseSymbolValue {
+        unsupportedOperation("!")
+    }
+
 }

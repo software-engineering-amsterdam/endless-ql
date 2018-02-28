@@ -76,19 +76,19 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIntegerExpr(QLParser.IntegerExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code AdditionExpr}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAdditionExpr(QLParser.AdditionExprContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code EqualityExpr}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitEqualityExpr(QLParser.EqualityExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MultiplicationOrDivisionExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiplicationOrDivisionExpr(QLParser.MultiplicationOrDivisionExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ComparisonExpr}
 	 * labeled alternative in {@link QLParser#expression}.
@@ -111,12 +111,12 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGroupingExpr(QLParser.GroupingExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MultiplicationExpr}
+	 * Visit a parse tree produced by the {@code AdditionOrSubtractionExpr}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMultiplicationExpr(QLParser.MultiplicationExprContext ctx);
+	T visitAdditionOrSubtractionExpr(QLParser.AdditionOrSubtractionExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code UnaryExpr}
 	 * labeled alternative in {@link QLParser#expression}.

@@ -1,4 +1,5 @@
 import { getTypeString } from "./typechecking/typeAssertions";
+import FieldType from "./FieldType";
 
 export class FormError extends Error {
   constructor(m: string) {
@@ -92,6 +93,21 @@ export class UnkownVariableIdentifierError extends FormError {
     const error = new UnkownVariableIdentifierError(message);
     error.variableIdentifier = identifier;
     Object.setPrototypeOf(error, UnkownVariableIdentifierError.prototype);
+    return error;
+  }
+}
+
+export class UnkownDefaultValueError extends FormError {
+  fieldType: string;
+
+  static make(type: FieldType, message?: string) {
+    if (typeof message === 'undefined') {
+      message = `No default value for type: "${type}"`;
+    }
+
+    const error = new UnkownDefaultValueError(message);
+    error.fieldType = type;
+    Object.setPrototypeOf(error, UnkownDefaultValueError.prototype);
     return error;
   }
 }

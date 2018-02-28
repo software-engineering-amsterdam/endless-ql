@@ -1,6 +1,7 @@
 import Statement from "./Statement";
 import TreeNode from "./TreeNode";
 import NodeVisitor from "./visitors/NodeVisitor";
+import FieldVisitor from "./visitors/FieldVisitor";
 
 export default class FormNode implements TreeNode {
   private _name: string;
@@ -39,7 +40,7 @@ export default class FormNode implements TreeNode {
    * @param {NodeVisitor} visitor
    * @returns {any}
    */
-  accept(visitor: NodeVisitor): any {
+  accept(visitor: FieldVisitor): any {
     return visitor.visitForm(this);
   }
 }

@@ -5,12 +5,14 @@
 
     <div *ngIf="question.hiddenCondition(form)">
       <input *ngSwitchCase="'textbox'" [formControlName]="question.key"
-             [id]="question.key" [type]="question.type" [value]="question.value">
+             [id]="question.key" [type]="question.type" [value]="question.calculateValue(form)">
     </div>
 
     <div *ngIf="question.hiddenCondition(form)">
       <input *ngSwitchCase="'checkbox'" [formControlName]="question.key"
-             [id]="question.key" [type]="question.controlType" (change)="onCheckboxChange(question, $event)">
+             [id]="question.key" [type]="question.controlType"
+             [value]="question.calculateValue(form)"
+             (change)="onCheckboxChange(question, $event)">
     </div>
 
     <div *ngIf="question.hiddenCondition(form)">
@@ -22,5 +24,5 @@
 
   </div>
 
-  <div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div>
+  <div class="errorMessage" *ngIf="isInvalid">{{question.label}} is required</div>
 </div>

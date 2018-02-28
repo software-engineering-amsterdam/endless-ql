@@ -1,4 +1,4 @@
-// Generated from C:/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Joana Magalhães/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
 package org.uva.forcepushql.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -17,23 +17,17 @@ public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariable(GrammarParser.VariableContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GrammarParser#decisions}.
+	 * Visit a parse tree produced by {@link GrammarParser#logical}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDecisions(GrammarParser.DecisionsContext ctx);
+	T visitLogical(GrammarParser.LogicalContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GrammarParser#operator}.
+	 * Visit a parse tree produced by {@link GrammarParser#conditional}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitOperator(GrammarParser.OperatorContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link GrammarParser#type}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitType(GrammarParser.TypeContext ctx);
+	T visitConditional(GrammarParser.ConditionalContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GrammarParser#arithmetic}.
 	 * @param ctx the parse tree
@@ -41,17 +35,44 @@ public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArithmetic(GrammarParser.ArithmeticContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link GrammarParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType(GrammarParser.TypeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link GrammarParser#comparison}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitComparison(GrammarParser.ComparisonContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GrammarParser#expression}.
+	 * Visit a parse tree produced by {@link GrammarParser#questionTypes}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpression(GrammarParser.ExpressionContext ctx);
+	T visitQuestionTypes(GrammarParser.QuestionTypesContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code binaryExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBinaryExpression(GrammarParser.BinaryExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code valueExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueExpression(GrammarParser.ValueExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code parensExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParensExpression(GrammarParser.ParensExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GrammarParser#questionFormat}.
 	 * @param ctx the parse tree
@@ -59,11 +80,23 @@ public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestionFormat(GrammarParser.QuestionFormatContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GrammarParser#conditional}.
+	 * Visit a parse tree produced by {@link GrammarParser#questionAssignValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitConditional(GrammarParser.ConditionalContext ctx);
+	T visitQuestionAssignValue(GrammarParser.QuestionAssignValueContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GrammarParser#conditionalConstr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditionalConstr(GrammarParser.ConditionalConstrContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GrammarParser#questionMultiAns}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestionMultiAns(GrammarParser.QuestionMultiAnsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GrammarParser#formStructure}.
 	 * @param ctx the parse tree

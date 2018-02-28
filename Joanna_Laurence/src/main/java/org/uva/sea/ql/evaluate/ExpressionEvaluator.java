@@ -1,0 +1,256 @@
+package org.uva.sea.ql.evaluate;
+
+import org.uva.sea.ql.parser.elements.*;
+import org.uva.sea.ql.parser.elements.expressions.*;
+import org.uva.sea.ql.parser.elements.types.*;
+import org.uva.sea.ql.visitor.BaseVisitor;
+import org.uva.sea.ql.value.*;
+
+public class ExpressionEvaluator extends BaseVisitor<Value> {
+
+    private SymbolTable symbolTable;
+
+    /**
+     * Evaluate the AST and get all questions
+     *
+     * @param node The base AST node
+     */
+    public Value evaluate(ASTNode node, SymbolTable symbolTable) {
+        this.symbolTable = symbolTable;
+        return node.accept(this);
+    }
+
+    @Override
+    public Value visit(Addition node) {
+        try {
+            Value left = node.getLhs().accept(this);
+            Value right = node.getRhs().accept(this);
+            return left.add(right);
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(And node) {
+        try {
+            Value left = node.getLhs().accept(this);
+            Value right = node.getRhs().accept(this);
+            return left.and(right);
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Division node) {
+        try {
+            Value left = node.getLhs().accept(this);
+            Value right = node.getRhs().accept(this);
+            return left.divide(right);
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Equal node) {
+        try {
+            Value left = node.getLhs().accept(this);
+            Value right = node.getRhs().accept(this);
+            return left.isEqual(right);
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(GreaterOrEqual node) {
+        try {
+            Value left = node.getLhs().accept(this);
+            Value right = node.getRhs().accept(this);
+            return left.isGreaterOrEqual(right);
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(GreaterThan node) {
+        try {
+            Value left = node.getLhs().accept(this);
+            Value right = node.getRhs().accept(this);
+            return left.isGreaterThan(right);
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(LessOrEqual node) {
+        try {
+            Value left = node.getLhs().accept(this);
+            Value right = node.getRhs().accept(this);
+            return left.isLessOrEqual(right);
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(LessThan node) {
+        try {
+            Value left = node.getLhs().accept(this);
+            Value right = node.getRhs().accept(this);
+            return left.isLessThan(right);
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Multiplication node) {
+        try {
+            Value left = node.getLhs().accept(this);
+            Value right = node.getRhs().accept(this);
+            return left.multiply(right);
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Negative node) {
+        try {
+            Value value = node.getValue().accept(this);
+            return value.negate();
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(NotEqual node) {
+        try {
+            Value left = node.getLhs().accept(this);
+            Value right = node.getRhs().accept(this);
+            return left.isNotEqual(right);
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Not node) {
+        try {
+            Value value = node.getValue().accept(this);
+            return value.not();
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Or node) {
+        try {
+            Value left = node.getLhs().accept(this);
+            Value right = node.getRhs().accept(this);
+            return left.or(right);
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Positive node) {
+        try {
+            Value value = node.getValue().accept(this);
+            return value.positive();
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Subtraction node) {
+        try {
+            Value left = node.getLhs().accept(this);
+            Value right = node.getRhs().accept(this);
+            return left.subtract(right);
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Bool node) {
+        try {
+            return new BooleanValue(node.isTrue());
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(DateExpr node) {
+        try {
+            return new DateValue(node.getDate());
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Decimal node) {
+        try {
+            return new DecimalValue(node.getValue());
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Money node) {
+        try {
+            return new MoneyValue(node.getCurrency(), node.getAmount());
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Int node) {
+        try {
+            return new IntValue(node.getValue());
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Str node) {
+        try {
+            return new StringValue(node.getValue());
+        } catch (Exception e) {
+            return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
+        }
+    }
+
+    @Override
+    public Value visit(Type node) {
+        return null;
+    }
+
+    @Override
+    public Value visit(Variable node) {
+        Value symbolValue = this.symbolTable.getValue(node.getVariableName());
+        if (symbolValue != null)
+            return symbolValue;
+
+        if (node.getLinkedQuestion() != null && node.getLinkedQuestion().getValue() != null) {
+            return node.getLinkedQuestion().getValue().accept(this);
+        }
+
+        return new UndefinedValue();
+    }
+}

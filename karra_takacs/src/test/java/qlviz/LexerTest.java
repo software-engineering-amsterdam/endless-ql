@@ -14,12 +14,16 @@ public class LexerTest {
 	public void testEmptyForm() {
 		QLLexer lexer = new QLLexer(new ANTLRInputStream("form { }"));
 		List<? extends Token> tokens = lexer.getAllTokens();
-		Assert.assertEquals(0, tokens.size());
+		List<Integer> expectedTokens = Lists.newArrayList(QLLexer.FORM_HEADER, QLLexer.BRACKET_OPEN, QLLexer.BRACKET_CLOSE);
+		Assert.assertEquals(3, tokens.size());
+		for (int i = 0; i < tokens.size(); i++) {
+			Assert.assertEquals((long)expectedTokens.get(i), tokens.get(i).getType());
+		}
+
 	}
 
 	@Test
 	public void testSingleQuestion() {
-		int j = 0;
 		List<Integer> tokenList = new ArrayList<Integer>();
 		QLLexer lexer = new QLLexer(
 				new ANTLRInputStream("form { " + "\"Did you sell a house in 2010?\" hasSoldHouse: boolean" + "}"));
@@ -41,7 +45,6 @@ public class LexerTest {
 
 	@Test
 	public void testComputedQuestion() {
-		int j = 0;
 		List<Integer> tokenList = new ArrayList<Integer>();
 		QLLexer lexer = new QLLexer(
 				new ANTLRInputStream("form { " + "\"Did you sell a house in 2010?\" hasSoldHouse: boolean = (a - b)" + "}"));

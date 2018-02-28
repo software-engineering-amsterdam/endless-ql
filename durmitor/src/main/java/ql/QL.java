@@ -15,11 +15,9 @@ import ql.visitors.QLVisitorToAst;
 
 public class QL {
 
-    // private static final Logger logger = LogManager.getLogger(QL.class);
     private String filePath;
 
     public QL(String filePath) {
-        // logger.info("Invoke constructor with: {}", filePath);
         this.filePath = filePath;
     }
 

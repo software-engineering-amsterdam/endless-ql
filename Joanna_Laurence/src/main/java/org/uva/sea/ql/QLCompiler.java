@@ -2,12 +2,11 @@ package org.uva.sea.ql;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.uva.sea.ql.parser.antlr.ErrorHandler;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 import org.uva.sea.ql.parser.elements.Form;
-
-;
 
 public class QLCompiler {
 
@@ -38,15 +37,6 @@ public class QLCompiler {
         if(!varChecker.addVariableInformation(form.result)) {
             return null;
         }
-
-        //Do the type check
-        QLTypeCheck typeChecker = new QLTypeCheck();
-        if(!typeChecker.doTypeCheck(form.result)) {
-            return null;
-        }
-
-        //Show the parse tree
-        //Trees.inspect(form, parser);
 
         return form.result;
     }

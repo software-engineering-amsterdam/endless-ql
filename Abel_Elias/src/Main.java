@@ -1,37 +1,75 @@
+import classes.Form;
+import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import parsing.AST_Visitor;
-import parsing.gen.*;
+import parsing.gen.QLLexer;
+import parsing.gen.QLParser;
+import typechecking.TypeChecker;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 public class Main {
+
+    /**
+     * parse and build the form file
+     * @param inputStream - input stream of the given form file
+     */
     public void parseAndBuild(InputStream inputStream){
         try{
+            //Call the lexer and get the tokens
             QLLexer lexer = new QLLexer(CharStreams.fromStream(inputStream));
             CommonTokenStream tokens = new CommonTokenStream(lexer);
-            QLParser parser = new QLParser(tokens);
-            ParseTree tree = parser.form();
 
+            //Parse the tokens/tree
+            QLParser parser = new QLParser(tokens);
+            QLParser.FormContext tree = parser.form();
+
+            //Call the visitor and build the tree
             AST_Visitor builder = new AST_Visitor();
             HashMap memory = (HashMap) builder.visit(tree);
 
+            //Test output
             Iterator it = memory.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry)it.next();
                 System.out.println(pair.getKey() + " = " + pair.getValue());
                 it.remove();
             }
+            System.out.println("done");
+
+            //Construct the form
+            ParseTree parseTree = parser.form();
+            Form form = (Form) parseTree.accept(builder);
+
+            //Call parse tree inspector: Show the tree
+            Trees.inspect(tree, parser);
+
+            //Do typechecking
+            TypeChecker typeChecker = new TypeChecker();
+            //typeChecker.initTypeChecking(form);
+
+            //Pass the form from the tree
+            //FormBuilder formBuilder = new FormBuilder();
+            //formBuilder.initComponents(form);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
-    //Main method
+    /**
+     * Main method
+     * @param args given arguments
+     */
     public static void main(String[] args) {
         try{
             if(args.length == 0){

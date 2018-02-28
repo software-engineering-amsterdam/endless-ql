@@ -13,18 +13,19 @@ ifElseStatement   : 'if' '(' expression ')' '{' block '}' 'else' '{' block '}' ;
 
 block             : statement+;
 
-statement         : question
-                  | ifStatement
-                  | ifElseStatement
-                  ;
+statement         : question | ifStatement | ifElseStatement ;
 
 question          : identifier ':' STRING questionType ;
 
-questionType      : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | money;
-
-expression        : '!' orExpression
-                  | orExpression
+questionType      : 'boolean' #booleanType
+                  | 'string' #stringType
+                  | 'integer' #integerType
+                  | 'date' #dateType
+                  | 'decimal' #decimalType
+                  | money #moneyType
                   ;
+
+expression        : '!' orExpression | orExpression ;
 
 orExpression      : andExpression ('||' andExpression)* ;
 
@@ -32,13 +33,22 @@ andExpression     : relExpression ('&&' relExpression)* ;
 
 relExpression     : addExpression (('<' | '<=' | '>' | '>=' | '==' | '!=') addExpression)* ;
 
-addExpression     : mulExpression (('+' | '-') mulExpression)*;
+addExpression     : mulExpression (addOperator mulExpression)*;
 
-mulExpression     : unExpression (('*' | '/') unExpression)*;
+addOperator       : '+' | '-' ;
+
+mulExpression     : unExpression (mulOperator unExpression)*;
+
+mulOperator       : '*' | '/' ;
 
 unExpression      : literal | identifier | '(' expression ')';
 
-literal           : MONEY | DECIMAL | INT | STRING | BOOL ;
+literal           : MONEY #moneyLiteral
+                  | DECIMAL #decimalLiteral
+                  | INT #intLiteral
+                  | STRING #stringLiteral
+                  | BOOL #boolLiteral
+                  ;
 
 identifier        : IDENTIFIER ;
 

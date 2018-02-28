@@ -1,6 +1,16 @@
 package ql.ast.expression;
 
-public abstract class Literal<T> extends Expression {
+import ql.ast.type.Type;
+import ql.ast.type.Undefined;
+
+public abstract class Literal extends Primary {
     
-    public abstract T getValue();
+    @Override
+    public boolean isLiteral() {
+        return true;
+    }
+
+    public Type getType() {
+        return new Undefined();
+    }
 }

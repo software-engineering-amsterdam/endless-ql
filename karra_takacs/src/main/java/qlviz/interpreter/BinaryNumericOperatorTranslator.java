@@ -1,6 +1,6 @@
 package qlviz.interpreter;
 
-import qlviz.model.BinaryNumericOperator;
+import qlviz.model.numericExpressions.BinaryNumericOperator;
 
 public interface BinaryNumericOperatorTranslator {
     BinaryNumericOperator translate(String s);

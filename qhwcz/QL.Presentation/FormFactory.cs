@@ -1,6 +1,6 @@
 ﻿using QL.Core.Api;
 using System.Collections.Generic;
-using System.Windows.Controls;
+using System.Windows;
 
 namespace QL.Presentation
 {
@@ -13,8 +13,13 @@ namespace QL.Presentation
             _parsingService = parsingService;            
         }
 
-        public IList<Control> CreateControls(string question)
+        public IList<UIElement> CreateControls(string question)
         {
+            if (string.IsNullOrEmpty(question))
+            {
+                return new List<UIElement>();
+            }
+
             var parsedSymbols = _parsingService.ParseQLInput(question);            
             if (parsedSymbols.Errors.Count > 0)
             {

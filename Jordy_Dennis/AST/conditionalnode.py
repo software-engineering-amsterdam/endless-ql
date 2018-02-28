@@ -1,21 +1,42 @@
+"""
+This class wraps the conditional expressions. 
+Every conditionalNode has one if, optional multiple elif and one optional else
+
+The ifConditionBlock contains a node in which the expression for the if lies, and its statements (that are called after evaluation)
+
+The elifConditionBlock contains multiple ifConditionBlocks 
+
+The else condition is a block of statements
+"""
+
 
 class ConditionalNode:
-    def __init__(self, expression):
-        self.expression = expression
-        self.ifChildren = []
-        self.elifChildren = []
-        self.elseChildren = []
+    def __init__(self, ifConditionBlock, line):
+        self.ifConditionBlock = ifConditionBlock
+        self.elifConditionBlock = []
+        self.elseBlock = None
+        self.line = line
 
-    def addIfChild(self, child):
-        for i in child:
-            self.ifChildren.append(i)
+    def addElifCondition(self, condition):
+        self.elifCondition.append(condition)
 
-    def addElifChild(self, child):
-        for i in child:
-            self.elifChildren.append(i)
+    def addElseChild(self, block):
+        self.elseBlock = block
 
-    def addElseChild(self, child):
-        self.elseChildren += child
+    # We check the types of the expressions, it does not matter if they are eventually int or bool, since they all have a default value.
+    # We also do not have to check anything else, because at this point an error would have been thrown if the types didnt match.
+    # Return the types for possible debugging
+    def checkTypes(self):
+        types = []
+        ifType = self.ifConditionBlock.checkTypes()
+        types.append(ifType)
+        for elifBlock in self.elifConditionBlock:
+            types.append(elifBlock.checkTypes())
+        if(self.elseBlock):
+            for elseblock in self.elseBlock():
+                types.append(elseBlock.checkTypes())
+        return ["Conditional:", types]
+        
 
     def __repr__(self):
-        return "Conditional: if({}): {} elif: {} else: {}".format(self.expression, self.ifChildren, self.elifChildren,self.elseChildren)
+        return "Conditional: if: {} elif: {} else: {}".format(self.ifConditionBlock, self.elifConditionBlock, self.elseBlock)

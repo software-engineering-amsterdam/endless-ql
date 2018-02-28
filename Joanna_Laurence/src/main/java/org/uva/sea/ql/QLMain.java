@@ -1,25 +1,17 @@
 package org.uva.sea.ql;
 
-import org.uva.sea.ql.evaluate.EvaluatorBoolean;
-import org.uva.sea.ql.evaluate.EvaluatorDecimal;
-import org.uva.sea.ql.evaluate.EvaluatorInteger;
-import org.uva.sea.ql.parser.NodeType;
-
 public class QLMain {
 
     /**
-     * TODO:
+     TODO:
          Date with /
-         Rename mul add etc
-         set location <- constructor
-         lhs rhs
-         rename to visit pattern << doX to visit
+         Rename lhs rhs
+         String equal and date equal. (Lesser than and greater than for date, etc)
+         Show errors in GUI
 
-         Double dispatch for evaluator?
-         int/int=decimal when needed
-         rel: add . add << will return a list not a tree. // a - b - c. << terry group
-         // Binary expression - operation as name? Instead of condition and logical? logical = binary operator
-         Support defining values to variables. See todo @ evaluator
+         cyclic dependencies between questions
+         duplicate labels (warning)
+         duplicate question declarations with different types
      */
 
     /**
@@ -27,11 +19,6 @@ public class QLMain {
      * @param args
      */
     public static void main(String[] args) {
-        QLGui gui = new QLGui();
-        gui.addEvaluator(NodeType.BOOLEAN, new EvaluatorBoolean());
-        gui.addEvaluator(NodeType.DECIMAL, new EvaluatorDecimal());
-        gui.addEvaluator(NodeType.INTEGER, new EvaluatorInteger());
-
-        gui.start("/example.ql");
+        QLFormGenerator gui = new QLFormGenerator();
     }
 }

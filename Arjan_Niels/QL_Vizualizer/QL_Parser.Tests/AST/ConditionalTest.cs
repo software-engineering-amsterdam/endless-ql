@@ -5,7 +5,7 @@ using System.Linq;
 namespace QL_Parser.Tests.AST
 {
     [TestClass]
-    public class ConditionalTest
+    public class ConditionalTest : QLTest
     {
         private FormNode node;
         private readonly string _simpleConditional = "form SimpleAND {" +

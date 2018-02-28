@@ -1,11 +1,12 @@
 package model;
 
 import expression.Expression;
-import expression.ExpressionVariableUndefined;
+import expression.variable.ExpressionVariableUndefined;
 
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: do this differently. also: lookup table per scope?
 public class LookupTable {
     private static LookupTable instance = null;
 
@@ -22,6 +23,16 @@ public class LookupTable {
         return instance;
     }
 
+    public Question getQuestion(String identifier) {
+        if (table.containsKey(identifier)) {
+            return table.get(identifier);
+        }
+
+        // TODO: throw exception?
+        return null;
+    }
+
+
     public Expression getQuestionAnswer(String identifier) {
         if (table.containsKey(identifier)) {
             // TODO: switch to getter-setter?
@@ -37,6 +48,9 @@ public class LookupTable {
             throw new IllegalArgumentException("Identifier already exists");
         }
         table.put(question.name, question);
+
+
+        LookupTable.getInstance().getQuestionAnswer("");
     }
 
 }

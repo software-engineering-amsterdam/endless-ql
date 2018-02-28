@@ -29,11 +29,24 @@ public class QLFormGenerator {
 
         List<QuestionData> questionDataList = new ArrayList<>();
         for( Question question : questions) {
-            Value value = this.expressionEvaluator.evaluate(question.getValue(), symbolTable);
+            Value value = getQuestionValue(symbolTable, question);
             questionDataList.add(new QuestionData(question, value));
         }
 
         return questionDataList;
+    }
+
+    /**
+     * Compute value or get the value from the symbol table
+     * @param symbolTable
+     * @param question
+     * @return
+     */
+    private Value getQuestionValue(SymbolTable symbolTable, Question question) {
+        if(question.getValue() != null)
+            return this.expressionEvaluator.evaluate(question.getValue(), symbolTable);
+
+        return symbolTable.getValue(question.getVariable().getVariableName());
     }
 
     /**

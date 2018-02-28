@@ -40,22 +40,28 @@ export class If extends Statement {
     return _.flattenDeep(subQuestions);
   }
 
-  toFormQuestion(formQuestions: QuestionBase<any>[], condition?: (form: FormGroup) => boolean): QuestionBase<any>[] {
+  toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
+                 condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
     const conditionQuestion = formQuestions.filter((q) => q.key === this.condition);
     if (conditionQuestion.length !== 1 || !(conditionQuestion[0].controlType === 'checkbox')) {
       throw new TypeError('condition not type of checkbox');
     }
 
+
     // generate function that should be evaluated for the condition
     const conditionFunction = ((form: FormGroup) => {
+      if (condition) {
+        return condition(form) && form.controls[conditionQuestion[0].key].value === true;
+      }
       return form.controls[conditionQuestion[0].key].value === true;
     });
 
+    let formQuestionsToReturn: QuestionBase<any>[] = [];
     // generate questions for statements in body
     for (const statement of this.statements) {
-      formQuestions = formQuestions.concat(statement.toFormQuestion([], conditionFunction));
+      formQuestionsToReturn = formQuestionsToReturn.concat(statement.toFormQuestion(formQuestions, conditionFunction));
     }
 
-    return formQuestions;
+    return formQuestionsToReturn;
   }
 }

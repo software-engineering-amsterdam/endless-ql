@@ -16,6 +16,7 @@ public class BinaryNumericOperationViewModel implements NumericExpressionViewMod
     private final NumericExpressionViewModel leftSide;
     private final NumericExpressionViewModel rightSide;
     private final BinaryNumericOperator operator;
+    private final Property<BigDecimal> value;
 
 
     private static ObjectBinding<BigDecimal> CreateBinding(Property<BigDecimal> left,
@@ -28,6 +29,11 @@ public class BinaryNumericOperationViewModel implements NumericExpressionViewMod
             }
             @Override
             protected BigDecimal computeValue() {
+                BigDecimal leftValue = left.getValue();
+                BigDecimal rightValue = right.getValue();
+                if (leftValue == null || rightValue == null) {
+                    return BigDecimal.ZERO;
+                }
                 return operator.apply(left.getValue(), right.getValue());
             }
         };
@@ -41,19 +47,23 @@ public class BinaryNumericOperationViewModel implements NumericExpressionViewMod
         switch (this.operator) {
             case Add:
                 value.bind(CreateBinding(this.leftSide.valueProperty(), this.rightSide.valueProperty(), BigDecimal::add));
+                break;
             case Subtract:
                 value.bind(CreateBinding(this.leftSide.valueProperty(), this.rightSide.valueProperty(), BigDecimal::subtract));
+                break;
             case Multiply:
                 value.bind(CreateBinding(this.leftSide.valueProperty(), this.rightSide.valueProperty(), BigDecimal::multiply));
+                break;
             case Divide:
                 value.bind(CreateBinding(this.leftSide.valueProperty(), this.rightSide.valueProperty(), BigDecimal::divide));
+                break;
         }
-
+        this.value = value;
     }
 
     @Override
     public Property<BigDecimal> valueProperty() {
-        return this.valueProperty();
+        return this.value;
     }
 
     @Override

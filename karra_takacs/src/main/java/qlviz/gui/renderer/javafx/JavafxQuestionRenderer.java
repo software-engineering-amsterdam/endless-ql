@@ -5,10 +5,12 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.util.StringConverter;
 import qlviz.gui.renderer.QuestionRenderer;
 import qlviz.gui.viewModel.question.*;
 import qlviz.model.question.*;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 
 
@@ -51,7 +53,24 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewMod
         TextField textField = new TextField();
         textField.setMinWidth(50);
         textField.setPrefWidth(50);
-        textField.textProperty().bindBidirectional(moneyQuestion.valueProperty(), NumberFormat.getCurrencyInstance());
+        textField.textProperty().bindBidirectional(moneyQuestion.valueProperty(), new StringConverter<BigDecimal>() {
+            @Override
+            public String toString(BigDecimal object) {
+                return object.toString();
+            }
+
+            @Override
+            public BigDecimal fromString(String string) {
+                try
+                {
+                    return new BigDecimal(string);
+                }
+                catch (NumberFormatException e)
+                {
+                    return BigDecimal.ZERO;
+                }
+            }
+        });
         target.getChildren().add(label);
         target.getChildren().add(textField);
 

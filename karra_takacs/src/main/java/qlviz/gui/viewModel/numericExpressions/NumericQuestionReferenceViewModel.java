@@ -25,9 +25,8 @@ public class NumericQuestionReferenceViewModel implements NumericExpressionViewM
         visitor.visit(this);
     }
 
-    public Property<BigDecimal> valueProperty()
-    {
-        return null;
+    public Property<BigDecimal> valueProperty() {
+        return this.value;
     }
 
     public String getName() {

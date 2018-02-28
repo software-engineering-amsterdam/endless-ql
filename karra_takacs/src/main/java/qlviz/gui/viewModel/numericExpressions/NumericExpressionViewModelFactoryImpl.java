@@ -10,7 +10,7 @@ import qlviz.model.question.NumericQuestionReference;
 public class NumericExpressionViewModelFactoryImpl implements NumericExpressionViewModelFactory, TypedNumericExpressionVisitor<NumericExpressionViewModel> {
     @Override
     public NumericExpressionViewModel create(NumericExpression expression) {
-        return null;
+        return expression.accept(this);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class NumericExpressionViewModelFactoryImpl implements NumericExpressionV
 
     @Override
     public NumericExpressionViewModel visit(NumericNegation numericNegation) {
-        return new NumericNegationViewModel(numericNegation.accept(this));
+        return new NumericNegationViewModel(numericNegation.getInnerExpression().accept(this));
     }
 
     @Override

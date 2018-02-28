@@ -22,6 +22,7 @@ public abstract class NumericQuestionViewModel extends BaseQuestionViewModel {
         this.value.addListener((observable, oldValue, newValue) -> this.question.setValue(newValue));
         if (question.getValueExpression() != null) {
             this.expression = viewModelFactory.apply(question.getValueExpression());
+            this.value.bind(this.expression.valueProperty());
         }
         else
         {

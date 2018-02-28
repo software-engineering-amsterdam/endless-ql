@@ -39,23 +39,29 @@ public class NumericComparisonViewModel implements BooleanExpressionViewModel {
             case Equal:
                 property.bind(
                         CreateBinding(this.leftSide.valueProperty(), this.rightSide.valueProperty(), BigDecimal::equals));
+                break;
             case NotEqual:
                 property.bind(
                         CreateBinding(this.leftSide.valueProperty(), this.rightSide.valueProperty(), (a,b) -> !a.equals(b)));
+                break;
             case Smaller:
                 property.bind(
                         CreateBinding(this.leftSide.valueProperty(), this.rightSide.valueProperty(), (a,b) -> a.compareTo(b) < 0));
+                break;
             case SmallerOrEqual:
                 property.bind(
                         CreateBinding(this.leftSide.valueProperty(), this.rightSide.valueProperty(),
                                 (a,b) -> a.compareTo(b) < 0 || a.equals(b)));
+                break;
             case Greater:
                 property.bind(
                         CreateBinding(this.leftSide.valueProperty(), this.rightSide.valueProperty(), (a,b) -> a.compareTo(b) > 0));
+                break;
             case GreaterOrEqual:
                 property.bind(
                         CreateBinding(this.leftSide.valueProperty(), this.rightSide.valueProperty(),
                                 (a,b) -> a.compareTo(b) > 0 || a.equals(b)));
+                break;
         }
         this.value = property;
     }

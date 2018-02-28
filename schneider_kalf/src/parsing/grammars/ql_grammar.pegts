@@ -79,7 +79,7 @@ type
 
 // Field for github syntax
 field
- = _ label:stringLiteral lb* name:name _ ":" _ type:type lb* expr:("=" lb* expression)? lb*{
+ = _ label:stringLiteral lb* name:name _ ":" _ type:fieldType lb* expr:("=" lb* expression)? lb*{
     if (expr)
         return new Nodes.ComputedField(name, label.value, type, expr[2]);
     return new Nodes.Question(name, label.value, type);
@@ -137,18 +137,12 @@ multiplicativeExpr
 primary
   = value
   / "("_ expr:boolExpr _ ")" { return expr; }
-  / unarryExpr
+  / unaryExpr
 
 // UnaryExpression
-unarryExpr
+unaryExpr
  = _ op:unaryOps value:primary _ {
-    return {
-        type:"UnaryExpression",
-        attributes:{
-            operator:op,
-        },
-        children: [value],
-     }
+    return new Nodes.Negation(value)
 }
 
 name
@@ -196,7 +190,7 @@ escapeSequence
   / "v"  { return "\x0B"; }
 
 // Supported types
-type = "money" / "date" / "integer" / "boolean"
+fieldType = "money" / "date" / "integer" / "boolean"
 
 value = identifier / numberLiteral / stringLiteral / booleanLiteral
 

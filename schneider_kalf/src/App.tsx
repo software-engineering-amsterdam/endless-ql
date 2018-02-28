@@ -10,6 +10,7 @@ import QuestionForm from "./form/QuestionForm";
 import FormNode from "./form/nodes/FormNode";
 import Alert from "reactstrap/lib/Alert";
 import { getParserErrorMessage } from "./parsing/parsing_helpers";
+import VisibleFieldsVisitor from "./form/evaluation/VisibleFieldsVisitor";
 
 export interface AppComponentProps {
 }
@@ -49,6 +50,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
         qlInput: text
       });
     } catch (error) {
+      console.error(error);
       this.setState({
         parserError: error,
         qlInput: text
@@ -96,6 +98,12 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
             <div className="col-md-6">
               {this.renderErrorMessage()}
               <FormComponent onChange={this.onChange} form={this.state.form}/>
+              <h2>State</h2>
+              <Input
+                  type="textarea"
+                  readOnly={true}
+                  value={this.state.form.getState().toString()}
+              />
             </div>
           </div>
         </div>

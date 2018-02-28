@@ -1,8 +1,22 @@
 import Condition from "./Condition";
-import NodeVisitor from "../visitors/NodeVisitor";
+import FormState from "../../state/FormState";
+import { evaluate } from "../../evaluation/evaluation_functions";
+import FieldVisitor from "../visitors/FieldVisitor";
 
 export default class IfCondition extends Condition {
-  accept(visitor: NodeVisitor): any {
+  accept(visitor: FieldVisitor): any {
     return visitor.visitIfCondition(this);
+  }
+
+  passes(formState: FormState): boolean {
+    try {
+      return evaluate(this.predicate, formState);
+    } catch (error) {
+      return false;
+    }
+  }
+
+  fails(formState: FormState): boolean {
+    return !this.passes(formState);
   }
 }

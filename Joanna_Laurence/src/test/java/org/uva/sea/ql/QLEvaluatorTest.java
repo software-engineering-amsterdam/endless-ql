@@ -22,17 +22,28 @@ import java.util.regex.Pattern;
 @RunWith(Parameterized.class)
 public class QLEvaluatorTest extends TestCase {
 
+    //Parameters for every test
     private String testFile;
     private int correctQuestions;
 
     private static TestFileHelper testFileHelper = new TestFileHelper();
     private FormEvaluator formEvaluator = new FormEvaluator();
 
+
+    /**
+     * Constructor for every test
+     * @param testFile
+     * @param correctQuestions
+     */
     public QLEvaluatorTest(String testFile, int correctQuestions) {
         this.testFile = testFile;
         this.correctQuestions = correctQuestions;
     }
 
+    /**
+     * Test generator
+     * @return Test parameters
+     */
     @Parameterized.Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
         return new ArrayList<>(getTestFiles("src/test/resources/calculateQL/"));
@@ -46,10 +57,6 @@ public class QLEvaluatorTest extends TestCase {
     private static Collection<Object[]> getTestFiles(String folderLocation) {
         Collection<Object[]> testFiles = new ArrayList<Object[]>();
 
-        //TODO: extract bag of variables @ evaluator
-        //waitDays:=integer 5
-        //waitDays has the value Integer("5")
-
         Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
         for(String location : locations) {
             testFiles.add(new Object[] {location, determineExpectedTests(location)});
@@ -58,6 +65,11 @@ public class QLEvaluatorTest extends TestCase {
         return testFiles;
     }
 
+    /**
+     * Extract correct tests from file
+     * @param location
+     * @return
+     */
     private static int determineExpectedTests(String location) {
         try(FileInputStream inputStream = new FileInputStream(location)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -102,6 +114,11 @@ public class QLEvaluatorTest extends TestCase {
         }
     }
 
+    /**
+     * Extracts the symbol table from the test file
+     * @param location Location of the test file
+     * @return The Symbol table
+     */
     private SymbolTable getSymbolTableForTest(String location) {
 
         SymbolTable symbolTable = new SymbolTable();

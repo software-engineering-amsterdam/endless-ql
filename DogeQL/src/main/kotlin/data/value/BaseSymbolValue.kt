@@ -3,7 +3,7 @@ package data.value
 import data.question.QuestionType
 import javax.naming.OperationNotSupportedException
 
-sealed class BaseSymbolValue(val type: QuestionType) : Comparable<BaseSymbolValue> {
+abstract class BaseSymbolValue(val type: QuestionType) : Comparable<BaseSymbolValue> {
 
     abstract fun valueString(): String
 

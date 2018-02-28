@@ -6,13 +6,27 @@ import org.apache.logging.log4j.scala.Logging
 
 object TypeChecker extends Logging {
 
+  def pipeline: QLForm => QLForm =
+    checkOperandsOfInvalidTypeToOperators _ andThen
+      checkReferences andThen
+      checkNonBooleanPredicates andThen
+      checkDuplicateQuestionDeclarationsWithDifferentTypes andThen
+      checkCyclicDependenciesBetweenQuestions andThen
+      checkDuplicateLabels
+
+  def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): QLForm = {
+    logger.debug("Checking on operands of invalid type to operators ...")
+
+    qLForm
+  }
+
   def checkReferences(qLForm: QLForm): QLForm = {
     logger.debug("Checking on references to undefined questions ...")
     val questions = Statement.collectAllQuestions(qLForm.statements)
-    val references: Seq[Reference] = questions.collect{ case Question(_,_,_,r @ Reference(_),_) => r }
+    val references: Seq[Reference] = questions.collect { case Question(_, _, _, r @ Reference(_), _) => r }
     val undefinedReferences = references.map(_.value).filterNot(qLForm.symbolTable.contains)
 
-    if(undefinedReferences.nonEmpty) {
+    if (undefinedReferences.nonEmpty) {
       throw new IllegalArgumentException(s"Undefined references $undefinedReferences")
     }
 
@@ -21,19 +35,13 @@ object TypeChecker extends Logging {
 
   def checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm: QLForm): QLForm = {
     logger.debug("Checking on duplicate question declarations with different types ...")
-    ???
+
     qLForm
   }
 
   def checkNonBooleanPredicates(qLForm: QLForm): QLForm = {
     logger.debug("Checking on predicates that are not of the type boolean ...")
-    ???
-    qLForm
-  }
 
-  def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): QLForm = {
-    logger.debug("Checking on operands of invalid type to operators ...")
-    ???
     qLForm
   }
 
@@ -48,9 +56,9 @@ object TypeChecker extends Logging {
     logger.debug("Checking on duplicate question labels ...")
     val questions = Statement.collectAllQuestions(qLForm.statements)
     val questionsWithDuplicateLabels: Iterator[Seq[Question]] =
-      questions.groupBy(_.label).valuesIterator.filter{_.size > 1 }
+      questions.groupBy(_.label).valuesIterator.filter { _.size > 1 }
 
-    if(questionsWithDuplicateLabels.nonEmpty) {
+    if (questionsWithDuplicateLabels.nonEmpty) {
       throw new IllegalArgumentException(s"Found questions with duplicate labels $questionsWithDuplicateLabels")
     }
     qLForm

@@ -10,22 +10,21 @@ class TypeCheckerTest extends WordSpec {
   "TypeCheckerTest" should {
 
     "checkDuplicateLabels" in {
-      val qlForm = QLForm("duplicateLabel",
+      val qlForm = QLForm(
+        "duplicateLabel",
         Seq(
           Question("q1", "duplicate-label", IntegerType, IntAnswer(1), None),
           Question("q2", "duplicate-label", IntegerType, IntAnswer(1), None)
-        )
-      )
+        ))
 
       assertThrows[IllegalArgumentException](TypeChecker.checkDuplicateLabels(qlForm))
     }
 
-    "checkOperandsOfInvalidTypeToOperators" in {
-
-    }
+    "checkOperandsOfInvalidTypeToOperators" in {}
 
     "checkNonBooleanPredicates" ignore {
-      val qLForm = QLForm("duplicateLabel",
+      val qLForm = QLForm(
+        "duplicateLabel",
         Seq(
           Conditional(BinaryOperation(And, BooleanAnswer(true), BooleanAnswer(false)), Seq.empty),
           Conditional(BinaryOperation(Mul, IntAnswer(5), IntAnswer(1)), Seq.empty)
@@ -35,16 +34,13 @@ class TypeCheckerTest extends WordSpec {
       assertThrows[IllegalArgumentException](TypeChecker.checkNonBooleanPredicates(qLForm))
     }
 
-    "checkDuplicateQuestionDeclarationsWithDifferentTypes" in {
+    "checkDuplicateQuestionDeclarationsWithDifferentTypes" in {}
 
-    }
-
-    "checkCyclicDependenciesBetweenQuestions" in {
-
-    }
+    "checkCyclicDependenciesBetweenQuestions" in {}
 
     "checkReferences" in {
-      val qlForm = QLForm("duplicateLabel",
+      val qlForm = QLForm(
+        "duplicateLabel",
         Seq(
           Question("q1", "questions with undefined reference", IntegerType, Reference("1"), None),
           Question("q2", "question2", IntegerType, IntAnswer(1), None),
@@ -52,6 +48,18 @@ class TypeCheckerTest extends WordSpec {
         )
       )
       assertThrows[IllegalArgumentException](TypeChecker.checkReferences(qlForm))
+    }
+
+    "pipeline" in {
+      val qLForm = QLForm(
+        "duplicateLabel",
+        Seq(
+          Question("q1", "questions with undefined reference", IntegerType, IntAnswer(1), None),
+          Question("q2", "question2", IntegerType, IntAnswer(1), None),
+          Question("q3", "question3", IntegerType, Reference("q2"), None)
+        )
+      )
+      TypeChecker.pipeline(qLForm)
     }
   }
 }

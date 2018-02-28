@@ -4,7 +4,7 @@ import javafx.scene.layout._
 import nl.uva.se.sc.niro.model.Expressions.Expression
 import nl.uva.se.sc.niro.model._
 
-object StatementVisitor {
+object GUICreationVisitor {
 
   def visit(grid: GridPane, statements: Seq[Statement], symbolTable: Map[String, Expression]): Unit = {
     grid.setHgap(10)
@@ -20,8 +20,6 @@ object StatementVisitor {
           }
           case conditional: Conditional => {
             val innerGrid = RowBuilder.buildSingleColumnRow(grid, row)
-            // FIXME and make dynamic!
-//          innerGrid.setVisible(conditional.predicate.value)
             visit(innerGrid, conditional.thenStatements, symbolTable)
           }
           case ErrorStatement() => ()

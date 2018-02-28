@@ -35,11 +35,10 @@ object WidgetFactory {
   def makeBooleanField(question: Question, bool: Option[Boolean]): Parent = {
     val checkbox = new CheckBox()
     checkbox.setOnAction(_ => println("Boolean changed"))
-    bool.foreach(checkbox.setSelected(_))
     EditableDecorator.makeEditable(checkbox, question, bool)
   }
   def makeTextField(question: Question, text: Option[String]): Parent = {
-    val textField = new TextField(text.getOrElse(""))
+    val textField = new TextField()
     textField
       .textProperty()
       .addListener(new ChangeListener[String] {
@@ -52,20 +51,20 @@ object WidgetFactory {
   }
 
   def makeIntegerField(question: Question, value: Option[Int]): Parent = {
-    val integerField = makeRegExField(INTEGER_MASK, value.map(_.toString).getOrElse(""))
+    val integerField = makeRegExField(INTEGER_MASK)
     integerField.setOnAction(_ => println("Integer changed"))
     EditableDecorator.makeEditable(integerField, question, value)
   }
 
   def makeDecimalField(question: Question, value: Option[BigDecimal]): Parent = {
-    val decimalField = makeRegExField(DECIMAL_MASK, value.map(_.toString).getOrElse(""))
+    val decimalField = makeRegExField(DECIMAL_MASK)
     decimalField.setOnAction(_ => println("Decimal changed"))
     EditableDecorator.makeEditable(decimalField, question, value)
   }
 
   def makeMoneyField(question: Question, value: Option[String]): Parent = {
     // TODO Add decimal format with fixed decimals
-    val moneyField = makeRegExField(MONEY_MASK, value.map(_.toString).getOrElse(""))
+    val moneyField = makeRegExField(MONEY_MASK)
     moneyField.setOnAction(_ => println("Amount changed"))
     EditableDecorator.makeEditable(moneyField, question, value)
   }
@@ -94,9 +93,9 @@ object WidgetFactory {
     * @param value
     * @return
     */
-  protected def makeRegExField(validPattern: String, value: String): TextField = {
+  protected def makeRegExField(validPattern: String): TextField = {
     // TODO Investigate textFormatterProperty, it could replace this whole construct!
-    val regexField = new TextField(value)
+    val regexField = new TextField()
     regexField
       .textProperty()
       .addListener(new ChangeListener[String] {

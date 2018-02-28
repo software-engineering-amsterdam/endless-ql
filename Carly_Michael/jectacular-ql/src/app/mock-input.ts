@@ -87,3 +87,11 @@ export const expressionQuestionForm =
       exprQuestion: "Expression?" integer = (10 + 500)
     }
   `;
+
+export const expressionVariableForm =
+  `
+    form form {
+      question: "Question?" integer
+      exprQuestion: "Expression?" integer = question * 5
+    }
+  `;

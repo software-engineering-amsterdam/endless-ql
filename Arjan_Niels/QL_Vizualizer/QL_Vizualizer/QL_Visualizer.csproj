@@ -64,7 +64,9 @@
     <Compile Include="Controllers\TypedWidgetController.cs" />
     <Compile Include="Widgets\Types\QLWidgetBool.cs" />
     <Compile Include="Widgets\Types\QLWidgetInt.cs" />
+    <Compile Include="Widgets\Types\QLWidgetMoney.cs" />
     <Compile Include="Widgets\Types\QLWidgetString.cs" />
+    <Compile Include="Widgets\ParsedWidgetValue.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

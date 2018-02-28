@@ -62,6 +62,8 @@ namespace QL_Vizualizer.Factories
                     return new QLWidgetInt(questionNode.ID, questionNode.Question, condition);
                 case QValueType.TEXT:
                     return new QLWidgetString(questionNode.ID, questionNode.Question, condition);
+                case QValueType.MONEY:
+                    return new QLWidgetMoney(questionNode.ID, questionNode.Question, condition);
             }
             throw new InvalidOperationException("Unsupported type: " + questionNode.ValueType);
         }

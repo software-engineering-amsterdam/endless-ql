@@ -34,6 +34,18 @@ namespace QL_Vizualizer.Widgets
         }
 
         /// <summary>
+        /// Validates the input value
+        /// </summary>
+        /// <param name="input">Input value</param>
+        /// <returns>Correct value obtained from input</returns>
+        public virtual T Validate(T input)
+        {
+            return input;
+        }
+
+        public abstract ParsedWidgetValue<T> ParseInput(string input);
+
+        /// <summary>
         /// Sets widgetcontroller and subscribes to value changes
         /// </summary>
         /// <param name="controller">Controller to use</param>
@@ -55,6 +67,9 @@ namespace QL_Vizualizer.Widgets
         {
             AnswerValue = answer;
             IsAnswered = true;
+
+            // Send update to the controller
+            _widgetController.ValueUpdate(Identifyer);
         }
 
         /// <summary>

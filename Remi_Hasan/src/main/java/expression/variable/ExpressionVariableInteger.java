@@ -1,4 +1,4 @@
-package expression.constant;
+package expression.variable;
 
 import expression.ReturnType;
 
@@ -23,28 +23,50 @@ public class ExpressionVariableInteger extends ExpressionVariable<Integer> {
             this.value = Integer.parseInt(value);
     }
 
-    // TODO
     @Override
     public ExpressionVariable divide(ExpressionVariable other) {
-        double right = Double.parseDouble(other.value.toString());
-        if (right == 0.0) {
-            throw new ArithmeticException("Cannot divide by zero.");
+        if(Double.parseDouble(other.value.toString()) == 0) {
+            throw new ArithmeticException("Division by zero");
         }
-        return new ExpressionVariableInteger((int) (Double.parseDouble(this.value.toString()) / right));
+
+        switch(other.getReturnType()) {
+            case DECIMAL:
+                return new ExpressionVariableDecimal(this.value / (Double) other.value);
+            case INTEGER:
+                return new ExpressionVariableInteger(this.value / (Integer) other.value);
+            case MONEY:
+                return new ExpressionVariableMoney(((BigDecimal) other.value).divide(new BigDecimal(this.value)));
+            default:
+                return new ExpressionVariableUndefined();
+        }
     }
 
     @Override
     public ExpressionVariable multiply(ExpressionVariable other) {
-        if (this.value == null || other.value == null)
-            return new ExpressionVariableUndefined();
-        return new ExpressionVariableInteger((int) (Double.parseDouble(this.value.toString()) * Double.parseDouble(other.value.toString())));
+        switch(other.getReturnType()) {
+            case DECIMAL:
+                return new ExpressionVariableDecimal(this.value * (Double) other.value);
+            case INTEGER:
+                return new ExpressionVariableInteger(this.value * (Integer) other.value);
+            case MONEY:
+                return new ExpressionVariableMoney(((BigDecimal) other.value).multiply(new BigDecimal(this.value)));
+            default:
+                return new ExpressionVariableUndefined();
+        }
     }
 
     @Override
     public ExpressionVariable subtract(ExpressionVariable other) {
-        if (this.value == null || other.value == null)
-            return new ExpressionVariableUndefined();
-        return new ExpressionVariableInteger((int) (Double.parseDouble(this.value.toString()) - Double.parseDouble(other.value.toString())));
+        switch(other.getReturnType()) {
+            case DECIMAL:
+                return new ExpressionVariableDecimal(this.value - (Double) other.value);
+            case INTEGER:
+                return new ExpressionVariableInteger(this.value - (Integer) other.value);
+            case MONEY:
+                return new ExpressionVariableMoney(((BigDecimal) other.value).subtract(new BigDecimal(this.value)));
+            default:
+                return new ExpressionVariableUndefined();
+        }
     }
 
     @Override

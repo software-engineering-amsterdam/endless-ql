@@ -32,7 +32,7 @@ repositories {
 
 
 ext {
-	vaadinVersion = '8.3.0'
+	vaadinVersion = '8.0.7'
 }
 
 dependencies {
@@ -41,7 +41,6 @@ dependencies {
 	compile('org.apache.commons:commons-lang3:3.7')
 	compile('com.vaadin:vaadin-spring-boot-starter')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	compile 'org.apache.commons:commons-lang3:3.6'
 
 	runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly('org.projectlombok:lombok')

@@ -5,7 +5,7 @@ import antlr.QLLexer;
 import antlr.QLParser;
 import expression.*;
 import expression.binary.*;
-import expression.constant.*;
+import expression.variable.*;
 import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
 import model.LookupTable;

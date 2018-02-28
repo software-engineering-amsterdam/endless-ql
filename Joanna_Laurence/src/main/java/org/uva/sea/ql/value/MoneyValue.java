@@ -9,6 +9,8 @@ public class MoneyValue extends Value {
     private String currency;
     private BigDecimal amount;
 
+    //TODO Add string constructor
+
     public MoneyValue(String currency, BigDecimal amount) {
         this.currency = currency;
         this.amount = amount;
@@ -44,7 +46,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value divide(Value value) {
-        return value.divide(this);
+        return value.reverseDivide(this);
     }
 
     @Override
@@ -84,7 +86,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value isGreaterOrEqual(Value value) {
-        return value.isGreaterOrEqual(this);
+        return value.isLessThan(this);
     }
 
     @Override
@@ -104,7 +106,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value isGreaterThan(Value value) {
-        return value.isGreaterThan(this);
+        return value.isLessOrEqual(this);
     }
 
     @Override
@@ -124,7 +126,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value isLessOrEqual(Value value) {
-        return value.isLessOrEqual(this);
+        return value.isGreaterThan(this);
     }
 
     @Override
@@ -144,7 +146,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value isLessThan(Value value) {
-        return value.isLessThan(this);
+        return value.isGreaterOrEqual(this);
     }
 
     @Override
@@ -204,7 +206,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value subtract(Value value) {
-        return value.subtract(this);
+        return value.reverseSubtract(this);
     }
 
     @Override
@@ -220,6 +222,36 @@ public class MoneyValue extends Value {
     @Override
     public Value subtract(DecimalValue value) {
         return new MoneyValue(this.currency, this.amount.subtract(new BigDecimal(value.getDecimalValue())));
+    }
+
+    @Override
+    public Value reverseSubtract(DecimalValue value) {
+        return value.subtract(this);
+    }
+
+    @Override
+    public Value reverseSubtract(IntValue value) {
+        return value.subtract(this);
+    }
+
+    @Override
+    public Value reverseSubtract(MoneyValue value) {
+        return value.subtract(this);
+    }
+
+    @Override
+    public Value reverseDivide(DecimalValue value) {
+        return value.divide(this);
+    }
+
+    @Override
+    public Value reverseDivide(IntValue value) {
+        return value.divide(this);
+    }
+
+    @Override
+    public Value reverseDivide(MoneyValue value) {
+        return value.divide(this);
     }
 
     @Override

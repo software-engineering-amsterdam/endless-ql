@@ -4,9 +4,10 @@ Every conditionalNode has one if, optional multiple elif and one optional else
 The If and elif are conditionals, else is just a block
 """
 
+
 class ConditionalNode:
     def __init__(self, ifCondition, line):
-        self.ifCondition= ifCondition
+        self.ifCondition = ifCondition
         self.elifCondition = []
         self.elseBlock = None
         self.line = line
@@ -19,7 +20,6 @@ class ConditionalNode:
 
     def checkTypes(self):
         print("checkingCond")
-
 
     def __repr__(self):
         return "Conditional: if: {} elif: {} else: {}".format(self.ifCondition, self.elifCondition, self.elseBlock)

@@ -18,6 +18,6 @@ public class Variable<T> implements DataExpression {
 
     @Override
     public T value() {
-        return null;
+        return (T) new Object();
     }
 }

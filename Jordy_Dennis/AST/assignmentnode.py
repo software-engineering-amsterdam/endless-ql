@@ -1,4 +1,3 @@
-
 class AssignmentNode:
     def __init__(self, question, varName, varType, expression, line):
         self.question = question
@@ -11,7 +10,7 @@ class AssignmentNode:
         pass
 
     def checkTypes(self):
-    	self.expression.checkChildTypes()
+        self.expression.checkChildTypes()
 
     def __repr__(self):
-        return "Assigment: \"{}\" {}:{} = {}".format(self.question,self.varName, self.varType, self.expression)
+        return "Assigment: \"{}\" {}:{} = {}".format(self.question, self.varName, self.varType, self.expression)

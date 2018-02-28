@@ -44,6 +44,7 @@ optional arguments:
                         Log level. Only log messages with a level higher or
                         equal than this will be printed. Default: 'warn'
   -v, --version         Prints the program version.
+  -t, --test            Runs the testsuite.
 ```
 
 example: python run_app.py forms/simple.ql

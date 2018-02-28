@@ -48,6 +48,7 @@ class TypeCheckerTest extends WordSpec {
       assertThrows[IllegalArgumentException](TypeChecker.checkReferences(qlForm))
     }
 
+    // TODO we should also write a test to check for references inside expressions. They will fail atm.
     "checkReferences" in {
       val qlForm = QLForm(
         "duplicateLabel",

@@ -20,6 +20,7 @@ object TypeChecker extends Logging {
     qLForm
   }
 
+  // TODO This function does not check for references inside expressions
   def checkReferences(qLForm: QLForm): QLForm = {
     logger.debug("Checking on references to undefined questions ...")
     val questions = Statement.collectAllQuestions(qLForm.statements)

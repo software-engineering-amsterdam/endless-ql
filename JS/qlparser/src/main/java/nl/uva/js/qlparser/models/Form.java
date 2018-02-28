@@ -1,8 +1,5 @@
 package nl.uva.js.qlparser.models;
 
-import com.vaadin.data.HasValue;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.Component;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -16,15 +13,15 @@ import java.util.stream.Collectors;
 
 @Data
 @Builder
-public class Form<T extends Component & HasValue>
+public class Form
         implements Expression, Expression.TypeCheckable, Expression.Visualizable {
 
     @NonNull private String name;
     private LinkedList<FormExpression> formExpressions;
 
     @Override
-    public List<AbstractField> getComponents() {
-        LinkedList<AbstractField> components = new LinkedList<>();
+    public List<String> getComponents() {
+        LinkedList<String> components = new LinkedList<>();
 
         formExpressions.stream()
                 .map(FormExpression::getComponents)

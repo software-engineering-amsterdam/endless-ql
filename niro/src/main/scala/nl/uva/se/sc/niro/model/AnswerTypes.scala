@@ -18,7 +18,6 @@ object AnswerType {
     case "money"   => moneyType
     case "date"    => dateType
     case _ =>
-      throw new IllegalArgumentException(
-        s"Unsupported answer type: $answerType")
+      throw new IllegalArgumentException(s"Unsupported answer type: $answerType")
   }
 }

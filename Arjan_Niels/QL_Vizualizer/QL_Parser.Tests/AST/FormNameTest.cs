@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Parser.AST.Nodes;
-using System;
 
 namespace QL_Parser.Tests.AST
 {

@@ -9,8 +9,6 @@ namespace QL_Parser
 {
     public class FormVisitor : QLanguage.QLanguageBaseVisitor<FormNode>
     {
-        public FormNode Form { get; set; }
-
         public override FormNode VisitFormDeclaration([NotNull] FormDeclarationContext context)
         {
             if (context.children.Any(x => x.GetType() == typeof(ErrorNodeImpl)))

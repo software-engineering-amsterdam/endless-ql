@@ -1,3 +1,4 @@
+from commons.logging import *
 from lexer.lexer import lex
 
 
@@ -24,4 +25,5 @@ def get_token_exprs():
 
 
 def ql_lex(characters):
+    logger.debug('Starting lexer')
     return lex(characters, get_token_exprs())

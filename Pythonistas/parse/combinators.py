@@ -1,3 +1,5 @@
+from commons.logging import *
+
 class Result:
     """
     Result of the parser, consist out of value(part of AST) and position(index of the next token in stream)
@@ -158,6 +160,9 @@ class Rep(Parser):
 
 
 class Process(Parser):
+    """
+    Processes statement if corresponding with pattern matching
+    """
     def __init__(self, parser, function):
         self.parser = parser
         self.function = function
@@ -165,6 +170,8 @@ class Process(Parser):
     def __call__(self, tokens, pos):
         result = self.parser(tokens, pos)
         if result:
+            if '\n' not in str(result):
+                logger.debug('Result Found: {}'.format(result))
             result.value = self.function(result.value)
             return result
 

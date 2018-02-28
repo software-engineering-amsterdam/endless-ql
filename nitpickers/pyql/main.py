@@ -2,7 +2,8 @@ import sys
 from antlr4 import *
 from pyql.antlr.QLLexer import QLLexer
 from pyql.antlr.QLParser import QLParser
-from pyql.ast.visitor import ParseTreeVisitor
+from pyql.ast.parse_tree_visitor import ParseTreeVisitor
+from pyql.ast.parse_tree_visitor import ASTVisitor
 
 
 def main(argv):
@@ -15,6 +16,8 @@ def main(argv):
     b = type(tree)
     visitor = ParseTreeVisitor()
     c = tree.accept(visitor)
+    vv = ASTVisitor()
+    c.accept(vv)
     print(c)
 
 

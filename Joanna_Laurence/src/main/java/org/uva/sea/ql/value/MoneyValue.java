@@ -10,7 +10,14 @@ public class MoneyValue extends Value {
     private String currency;
     private BigDecimal amount;
 
-    //TODO Add string constructor
+    public MoneyValue(String value) throws Exception {
+        String[] split = value.split(" ",2);
+        if(split.length != 2)
+            throw new Exception("Incorrect money type " + value);
+
+        this.currency = split[0];
+        this.amount = new BigDecimal(split[1]);
+    }
 
     public MoneyValue(String currency, BigDecimal amount) {
         this.currency = currency;

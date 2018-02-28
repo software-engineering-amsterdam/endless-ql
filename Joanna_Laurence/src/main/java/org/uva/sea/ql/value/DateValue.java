@@ -10,7 +10,15 @@ public class DateValue extends Value {
 
     private Calendar dateValue;
 
-    //TODO: add string constructor
+    public DateValue(String date) throws Exception {
+        String[] dateSplit = date.split(date, 3);
+        if(dateSplit.length != 3)
+            throw new Exception("Incorrect date: " + date);
+
+        this.dateValue.set(Calendar.YEAR, Integer.parseInt(dateSplit[2]));
+        this.dateValue.set(Calendar.MONTH, Integer.parseInt(dateSplit[1]));
+        this.dateValue.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateSplit[0]));
+    }
 
     public DateValue(Calendar dateValue) {
         this.dateValue = dateValue;

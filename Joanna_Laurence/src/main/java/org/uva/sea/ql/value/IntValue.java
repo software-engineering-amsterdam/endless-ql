@@ -47,7 +47,6 @@ public class IntValue extends Value {
 
     @Override
     public Value divide(IntValue value) {
-        //TODO: Check for 0
         return new IntValue(this.intValue / value.getIntValue());
     }
 

@@ -27,6 +27,5 @@ public class QLMain {
      */
     public static void main(String[] args) {
         QLFormGenerator gui = new QLFormGenerator();
-        gui.start("/example.ql");
     }
 }

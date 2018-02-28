@@ -1,4 +1,9 @@
 package parsing;
 
-public class typeChecker {
+import classes.question.Question;
+import parsing.gen.QLParser;
+
+public class TypeChecker {
+
+
 }

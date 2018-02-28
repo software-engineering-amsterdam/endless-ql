@@ -31,8 +31,8 @@ class QLParser:
             ('left', 'AND'),
             ('nonassoc', 'EQ', 'NE'),
             ('nonassoc', 'LE', 'LT', 'GE', 'GT'),
-            ('left', 'PLUS', 'MINUS'),
             ('left', 'TIMES', 'DIVIDE'),
+            ('left', 'PLUS', 'MINUS'),
             ('right', 'NOT'),
         )
         self.parser = yacc.yacc(module=self)
@@ -102,7 +102,7 @@ class QLParser:
         """expression : VAR"""
         p[0] = VariableNode(Position(p.lineno(1), p.lexpos(1)), None, p[1])
 
-    # Unary operators
+    # Unary operators TODO: unary minus
     @staticmethod
     def p_not(p):
         """expression : NOT expression"""
@@ -191,9 +191,20 @@ class QLParser:
                 | MONEY"""
         p[0] = p[1]
 
+    # Error handling
+    @staticmethod
+    def p_if_condition_error(p):
+        """if : IF LPAREN expression MINUS expression RPAREN LBRACKET statements RBRACKET"""
+        print('Condition does not evaluate to boolean.')
+        raise SyntaxError
+
+    @staticmethod
+    def p_form_error(p):
+        """form : FORM VAR LBRACKET RBRACKET"""
+        print('Empty form.')
+        raise SyntaxError
+
     def p_error(self, p):
-        print('error')
-        print(p)
         if not p:
             print("End of File!")
             return

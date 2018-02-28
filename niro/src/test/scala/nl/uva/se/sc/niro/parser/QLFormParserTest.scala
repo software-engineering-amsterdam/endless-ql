@@ -23,12 +23,12 @@ class QLFormParserTest extends FunSuite {
           Question(
             id = "hasSoldHouse",
             label = "Did you sell a house in 2010?",
-            answer = BooleanAnswer(None)
+            expression = BooleanAnswer(None)
           ),
           Question(
             id = "hasBoughtHouse",
             label = "Did you by a house in 2010?",
-            answer = BooleanAnswer(None)
+            expression = BooleanAnswer(None)
           )
         )
       )
@@ -46,12 +46,12 @@ class QLFormParserTest extends FunSuite {
           Question(
             id = "firstName",
             label = "What is your first name?",
-            answer = StringAnswer(None)
+            expression = StringAnswer(None)
           ),
           Conditional(
             predicate = BooleanAnswer(Some(true)),
             thenStatements = List(
-              Question(id = "middleName", label = "What is your middle name?", answer = StringAnswer(None))
+              Question(id = "middleName", label = "What is your middle name?", expression = StringAnswer(None))
             )
           )
         )
@@ -84,11 +84,11 @@ class QLFormParserTest extends FunSuite {
     val expected = QLForm(
       formName = "ConditionQuestions",
       statements = List(
-        Question(id = "firstName", "What is your first name?", answer = StringAnswer(None)),
+        Question(id = "firstName", "What is your first name?", expression = StringAnswer(None)),
         Conditional(
           predicate = BooleanAnswer(Some(true)),
           thenStatements = List(
-            Question(id = "middleName", label = "What is your middle name?", answer = StringAnswer(None))
+            Question(id = "middleName", label = "What is your middle name?", expression = StringAnswer(None))
           )
         ),
         Conditional(
@@ -109,11 +109,11 @@ class QLFormParserTest extends FunSuite {
     val expected = QLForm(
       formName = "QonditionQuestions",
       statements = List(
-        Question(id = "firstName", label = "What is your first name?", answer = StringAnswer(None)),
+        Question(id = "firstName", label = "What is your first name?", expression = StringAnswer(None)),
         Conditional(
           predicate = BooleanAnswer(Some(true)),
           thenStatements = List(
-            Question("lastName", "What is your last name?",answer = StringAnswer(None))
+            Question("lastName", "What is your last name?",expression = StringAnswer(None))
           )
         ),
         Conditional(
@@ -141,7 +141,7 @@ class QLFormParserTest extends FunSuite {
         Conditional(
           predicate = BinaryOperation(And, BinaryOperation(Ne, Reference("lastName"), Reference("firstName")), BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10))))),
           thenStatements = List(
-            Question(id = "lastName", label = "What is your last name?", answer = StringAnswer(None))
+            Question(id = "lastName", label = "What is your last name?", expression = StringAnswer(None))
           )
         )
       )
@@ -184,7 +184,7 @@ class QLFormParserTest extends FunSuite {
     val expected = QLForm(
       formName = "Box1HouseOwning",
       statements = List(
-        Question(id = "hasSoldHouse", label = "Did you sell a house in 2010?", answer = BooleanAnswer(None)),
+        Question(id = "hasSoldHouse", label = "Did you sell a house in 2010?", expression = BooleanAnswer(None)),
         Conditional(
           predicate = BinaryOperation(
             binaryOperator = Add,
@@ -200,7 +200,7 @@ class QLFormParserTest extends FunSuite {
               left = IntAnswer(Some(23)),
               right = IntAnswer(Some(54)))),
           thenStatements = List(
-            Question(id = "asd", label = "asd", answer = BooleanAnswer(None))
+            Question(id = "asd", label = "asd", expression = BooleanAnswer(None))
           )
         )
       )
@@ -216,8 +216,8 @@ class QLFormParserTest extends FunSuite {
       QLForm(
         formName = "Box1HouseOwning",
         statements = List(
-          Question(id = "hasSoldHouse", label = "Did you sell a house in 2010?", answer = BooleanAnswer(None)),
-          Question(id = "houseSellingPrice", label = "What was the selling price?", answer = BinaryOperation(Sub, IntAnswer(Some(10000)), Reference("hasSoldHouse")))
+          Question(id = "hasSoldHouse", label = "Did you sell a house in 2010?", expression = IntAnswer(None)),
+          Question(id = "houseSellingPrice", label = "What was the selling price?", expression = BinaryOperation(Sub, IntAnswer(Some(10000)), Reference("hasSoldHouse")))
         )
       )
 

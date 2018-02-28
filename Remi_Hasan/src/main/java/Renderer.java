@@ -8,10 +8,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
-import model.Condition;
-import model.Form;
-import model.Question;
-import model.Statement;
+import model.*;
+import model.stylesheet.StyleSheet;
 import org.yorichan.formfx.control.Input;
 import org.yorichan.formfx.field.Field;
 import org.yorichan.formfx.field.FieldGroup;
@@ -27,21 +25,49 @@ import java.util.HashMap;
 public class Renderer {
 
     private final Form form;
+    private final StyleSheet styleSheet;
 
     Renderer(File file) {
+        this.form  = parseForm(file);
+
+        File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
+        this.styleSheet = parseStyleSheet(styleSheetFile);
+    }
+
+    private Form parseForm(File formFile){
         Form parseForm = null;
+
+        // Try to parse a stylesheet, if it fails then show an error
         try {
-            parseForm = FormParser.parseForm(new FileInputStream(file));
+            parseForm = FormParser.parseForm(new FileInputStream(formFile));
         } catch (FileNotFoundException e) {
-            showErrorAlert(e, "File not found");
+            showErrorAlert(e, "Form file not found");
         } catch (IOException e) {
-            showErrorAlert(e, "File not readable, check permissions");
+            showErrorAlert(e, "Form file not readable, check permissions");
         } catch (UnsupportedOperationException e) {
             // TODO Explain why form is invalid
             showErrorAlert(e, "Form invalid");
         }
 
-        this.form = parseForm;
+        return parseForm;
+    }
+
+    private StyleSheet parseStyleSheet(File styleSheetFile){
+        StyleSheet parseStyleSheet = null;
+        if(styleSheetFile != null){
+            // Try to parse a form, if it fails then show an error
+            try {
+                parseStyleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));
+            } catch (FileNotFoundException e) {
+                showErrorAlert(e, "StyleSheet file not found");
+            } catch (IOException e) {
+                showErrorAlert(e, "StyleSheet file not readable, check permissions");
+            } catch (UnsupportedOperationException e) {
+                // TODO Explain why form is invalid
+                showErrorAlert(e, "StyleSheet invalid");
+            }
+        }
+        return parseStyleSheet;
     }
 
     public void renderForm(Stage stage) {
@@ -160,7 +186,7 @@ public class Renderer {
                 updateField(fieldMap, statement, isTrue);
             } else {
                 Condition conditional = (Condition) statement;
-                boolean trueBlockVisible = isTrue && Boolean.TRUE.equals(conditional.condition.evaluate().get());
+                boolean trueBlockVisible = isTrue && Boolean.TRUE.equals(conditional.condition.evaluate().getValue());
                 boolean falseBlockVisible = isTrue && !trueBlockVisible;
                 updateFields(fieldMap, conditional.trueStatements, trueBlockVisible);
                 updateFields(fieldMap, conditional.falseStatements, falseBlockVisible);
@@ -176,7 +202,7 @@ public class Renderer {
         field.getControl().setVisible(isTrue);
 
         if(!question.answer.isSettable()) {
-            Object answer = question.answer.evaluate().get();
+            Object answer = question.answer.evaluate().getValue();
             if(answer == null) {
                 answer = "";
             }

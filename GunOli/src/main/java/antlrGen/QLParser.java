@@ -829,27 +829,115 @@ public class QLParser extends Parser {
 	}
 
 	public static class ConstantContext extends ParserRuleContext {
-		public TerminalNode INTEGER() { return getToken(QLParser.INTEGER, 0); }
-		public TerminalNode DECIMAL() { return getToken(QLParser.DECIMAL, 0); }
-		public TerminalNode STRING() { return getToken(QLParser.STRING, 0); }
-		public TerminalNode IDENTIFIER() { return getToken(QLParser.IDENTIFIER, 0); }
-		public TerminalNode MONEY() { return getToken(QLParser.MONEY, 0); }
-		public TerminalNode DATE() { return getToken(QLParser.DATE, 0); }
 		public ConstantContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_constant; }
+	 
+		public ConstantContext() { }
+		public void copyFrom(ConstantContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class IdentifierConstantContext extends ConstantContext {
+		public TerminalNode IDENTIFIER() { return getToken(QLParser.IDENTIFIER, 0); }
+		public IdentifierConstantContext(ConstantContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterConstant(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterIdentifierConstant(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitConstant(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitIdentifierConstant(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitConstant(this);
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitIdentifierConstant(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DecimalConstantContext extends ConstantContext {
+		public TerminalNode DECIMAL() { return getToken(QLParser.DECIMAL, 0); }
+		public DecimalConstantContext(ConstantContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterDecimalConstant(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitDecimalConstant(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitDecimalConstant(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class StringConstantContext extends ConstantContext {
+		public TerminalNode STRING() { return getToken(QLParser.STRING, 0); }
+		public StringConstantContext(ConstantContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterStringConstant(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitStringConstant(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitStringConstant(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DateConstantContext extends ConstantContext {
+		public TerminalNode DATE() { return getToken(QLParser.DATE, 0); }
+		public DateConstantContext(ConstantContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterDateConstant(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitDateConstant(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitDateConstant(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IntegerConstantContext extends ConstantContext {
+		public TerminalNode INTEGER() { return getToken(QLParser.INTEGER, 0); }
+		public IntegerConstantContext(ConstantContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterIntegerConstant(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitIntegerConstant(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitIntegerConstant(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class MoneyConstantContext extends ConstantContext {
+		public TerminalNode MONEY() { return getToken(QLParser.MONEY, 0); }
+		public MoneyConstantContext(ConstantContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterMoneyConstant(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitMoneyConstant(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitMoneyConstant(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -857,20 +945,60 @@ public class QLParser extends Parser {
 	public final ConstantContext constant() throws RecognitionException {
 		ConstantContext _localctx = new ConstantContext(_ctx, getState());
 		enterRule(_localctx, 20, RULE_constant);
-		int _la;
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(87);
-			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INTEGER) | (1L << DECIMAL) | (1L << MONEY) | (1L << DATE) | (1L << STRING) | (1L << IDENTIFIER))) != 0)) ) {
-			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
+			setState(93);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case INTEGER:
+				_localctx = new IntegerConstantContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(87);
+				match(INTEGER);
+				}
+				break;
+			case DECIMAL:
+				_localctx = new DecimalConstantContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(88);
+				match(DECIMAL);
+				}
+				break;
+			case STRING:
+				_localctx = new StringConstantContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(89);
+				match(STRING);
+				}
+				break;
+			case IDENTIFIER:
+				_localctx = new IdentifierConstantContext(_localctx);
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(90);
+				match(IDENTIFIER);
+				}
+				break;
+			case MONEY:
+				_localctx = new MoneyConstantContext(_localctx);
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(91);
+				match(MONEY);
+				}
+				break;
+			case DATE:
+				_localctx = new DateConstantContext(_localctx);
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(92);
+				match(DATE);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -917,7 +1045,7 @@ public class QLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(89);
+			setState(95);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOLEANTYPE) | (1L << STRINGTYPE) | (1L << MONEYTYPE) | (1L << INTEGERTYPE) | (1L << DATETYPE) | (1L << DECIMALTYPE))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -956,28 +1084,30 @@ public class QLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3)^\4\2\t\2\4\3\t\3"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3)d\4\2\t\2\4\3\t\3"+
 		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f"+
 		"\t\f\4\r\t\r\3\2\3\2\3\2\3\2\3\2\3\3\3\3\6\3\"\n\3\r\3\16\3#\3\3\3\3\3"+
 		"\4\3\4\5\4*\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3"+
 		"\7\3\7\3\7\5\7<\n\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\bG\n\b\3\b\3"+
 		"\b\3\b\3\b\7\bM\n\b\f\b\16\bP\13\b\3\t\3\t\5\tT\n\t\3\n\3\n\3\13\3\13"+
-		"\3\f\3\f\3\r\3\r\3\r\2\3\16\16\2\4\6\b\n\f\16\20\22\24\26\30\2\6\4\2\n"+
-		"\n\25\25\3\2\t\24\4\2\36!%&\3\2\30\35\2X\2\32\3\2\2\2\4\37\3\2\2\2\6)"+
-		"\3\2\2\2\b+\3\2\2\2\n\61\3\2\2\2\f;\3\2\2\2\16F\3\2\2\2\20S\3\2\2\2\22"+
-		"U\3\2\2\2\24W\3\2\2\2\26Y\3\2\2\2\30[\3\2\2\2\32\33\7\26\2\2\33\34\7&"+
-		"\2\2\34\35\5\4\3\2\35\36\7\2\2\3\36\3\3\2\2\2\37!\7\3\2\2 \"\5\6\4\2!"+
-		" \3\2\2\2\"#\3\2\2\2#!\3\2\2\2#$\3\2\2\2$%\3\2\2\2%&\7\4\2\2&\5\3\2\2"+
-		"\2\'*\5\b\5\2(*\5\n\6\2)\'\3\2\2\2)(\3\2\2\2*\7\3\2\2\2+,\7\27\2\2,-\7"+
-		"\5\2\2-.\5\16\b\2./\7\6\2\2/\60\5\4\3\2\60\t\3\2\2\2\61\62\7&\2\2\62\63"+
-		"\7\7\2\2\63\64\7%\2\2\64\65\5\f\7\2\65\13\3\2\2\2\66<\5\30\r\2\678\5\30"+
-		"\r\289\7\b\2\29:\5\16\b\2:<\3\2\2\2;\66\3\2\2\2;\67\3\2\2\2<\r\3\2\2\2"+
-		"=>\b\b\1\2>?\7\5\2\2?@\5\16\b\2@A\7\6\2\2AG\3\2\2\2BC\5\20\t\2CD\5\16"+
-		"\b\5DG\3\2\2\2EG\5\26\f\2F=\3\2\2\2FB\3\2\2\2FE\3\2\2\2GN\3\2\2\2HI\f"+
-		"\4\2\2IJ\5\20\t\2JK\5\16\b\5KM\3\2\2\2LH\3\2\2\2MP\3\2\2\2NL\3\2\2\2N"+
-		"O\3\2\2\2O\17\3\2\2\2PN\3\2\2\2QT\5\22\n\2RT\5\24\13\2SQ\3\2\2\2SR\3\2"+
-		"\2\2T\21\3\2\2\2UV\t\2\2\2V\23\3\2\2\2WX\t\3\2\2X\25\3\2\2\2YZ\t\4\2\2"+
-		"Z\27\3\2\2\2[\\\t\5\2\2\\\31\3\2\2\2\b#);FNS";
+		"\3\f\3\f\3\f\3\f\3\f\3\f\5\f`\n\f\3\r\3\r\3\r\2\3\16\16\2\4\6\b\n\f\16"+
+		"\20\22\24\26\30\2\5\4\2\n\n\25\25\3\2\t\24\3\2\30\35\2c\2\32\3\2\2\2\4"+
+		"\37\3\2\2\2\6)\3\2\2\2\b+\3\2\2\2\n\61\3\2\2\2\f;\3\2\2\2\16F\3\2\2\2"+
+		"\20S\3\2\2\2\22U\3\2\2\2\24W\3\2\2\2\26_\3\2\2\2\30a\3\2\2\2\32\33\7\26"+
+		"\2\2\33\34\7&\2\2\34\35\5\4\3\2\35\36\7\2\2\3\36\3\3\2\2\2\37!\7\3\2\2"+
+		" \"\5\6\4\2! \3\2\2\2\"#\3\2\2\2#!\3\2\2\2#$\3\2\2\2$%\3\2\2\2%&\7\4\2"+
+		"\2&\5\3\2\2\2\'*\5\b\5\2(*\5\n\6\2)\'\3\2\2\2)(\3\2\2\2*\7\3\2\2\2+,\7"+
+		"\27\2\2,-\7\5\2\2-.\5\16\b\2./\7\6\2\2/\60\5\4\3\2\60\t\3\2\2\2\61\62"+
+		"\7&\2\2\62\63\7\7\2\2\63\64\7%\2\2\64\65\5\f\7\2\65\13\3\2\2\2\66<\5\30"+
+		"\r\2\678\5\30\r\289\7\b\2\29:\5\16\b\2:<\3\2\2\2;\66\3\2\2\2;\67\3\2\2"+
+		"\2<\r\3\2\2\2=>\b\b\1\2>?\7\5\2\2?@\5\16\b\2@A\7\6\2\2AG\3\2\2\2BC\5\20"+
+		"\t\2CD\5\16\b\5DG\3\2\2\2EG\5\26\f\2F=\3\2\2\2FB\3\2\2\2FE\3\2\2\2GN\3"+
+		"\2\2\2HI\f\4\2\2IJ\5\20\t\2JK\5\16\b\5KM\3\2\2\2LH\3\2\2\2MP\3\2\2\2N"+
+		"L\3\2\2\2NO\3\2\2\2O\17\3\2\2\2PN\3\2\2\2QT\5\22\n\2RT\5\24\13\2SQ\3\2"+
+		"\2\2SR\3\2\2\2T\21\3\2\2\2UV\t\2\2\2V\23\3\2\2\2WX\t\3\2\2X\25\3\2\2\2"+
+		"Y`\7\36\2\2Z`\7\37\2\2[`\7%\2\2\\`\7&\2\2]`\7 \2\2^`\7!\2\2_Y\3\2\2\2"+
+		"_Z\3\2\2\2_[\3\2\2\2_\\\3\2\2\2_]\3\2\2\2_^\3\2\2\2`\27\3\2\2\2ab\t\4"+
+		"\2\2b\31\3\2\2\2\t#);FNS_";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

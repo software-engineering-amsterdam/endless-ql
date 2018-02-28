@@ -43,8 +43,10 @@
     <Compile Include="API\IAstFactory.cs" />
     <Compile Include="API\IBooleanLogicAst.cs" />
     <Compile Include="API\ICalculationAst.cs" />
+    <Compile Include="API\ICalculationTerminal.cs" />
     <Compile Include="API\IConditionalAst.cs" />
     <Compile Include="API\IDomainItem.cs" />
+    <Compile Include="API\IDomainItemLocator.cs" />
     <Compile Include="API\IIdMaker.cs" />
     <Compile Include="API\IQlInterpretor.cs" />
     <Compile Include="API\IQuestionnaireAst.cs" />

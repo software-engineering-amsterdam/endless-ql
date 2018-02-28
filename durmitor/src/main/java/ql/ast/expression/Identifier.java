@@ -2,7 +2,7 @@ package ql.ast.expression;
 
 import ql.ast.type.Type;
 import ql.ast.type.Undefined;
-import ql.value.Value;
+import ql.evaluator.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class Identifier extends Expression {
@@ -14,13 +14,13 @@ public class Identifier extends Expression {
     public Identifier(String name) {
         this.name   = name;
         this.type   = new Undefined();
-        this.value  = new ql.value.Undefined();
+        this.value  = new ql.evaluator.value.Undefined();
     }
     
     public Identifier(String name, Type type) {
         this.name   = name;
         this.type   = type;
-        this.value  = new ql.value.Undefined();
+        this.value  = new ql.evaluator.value.Undefined();
     }
     
     public String getName() {
@@ -36,16 +36,7 @@ public class Identifier extends Expression {
     }
     
     public void setValue(Value<?> value) {
-        
-        if(value.getType().equals(type))
-        {
-            this.value = value;
-        }
-        else if(!value.getType().isUndefined())
-        {
-            System.err.println("Cannot store "+value.getType()+" ["+value+"] in "+getType()+" ["+name+"]");
-        }
-            
+        this.value = type.parse(value);
     }
     
     public Identifier setType(Type type) {
@@ -72,5 +63,10 @@ public class Identifier extends Expression {
     
     public boolean equals(Identifier id) {
         return name.equals(id.getName());
+    }
+
+    @Override
+    public Value<?> evaluate() {
+        return getValue();
     }
 }

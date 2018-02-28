@@ -33,10 +33,9 @@ public class TypeChecker {
    */
 	public void runChecker(Form form){
 		detectDuplicatedQuestions(form);
-		detectCyclicDependency(form);
+		detectCyclicDependencies(form);
 		detectReferenceToUndefinedQuestion(form);
-		detectInvalidOperandAndTypeMismatch(form);
-		detectNonBooleanCondition(form);
+		detectInvalidTypesAndConditions(form);
 	}
 	
 
@@ -97,21 +96,21 @@ public class TypeChecker {
 	}
 	
 
-	// get map of questions by Id (questions with shared identifier)
+	// helper: get map of questions by Id (questions with shared identifier)
 	public Map<String, List<Question>> getDataById() {
 		Map<String, List<Question>> map = new HashMap<String, List<Question>>();
 		mapIdQuestion.forEach((key, value) -> map.put(key, Collections.unmodifiableList(value)));
 		return Collections.unmodifiableMap(map);
 	}
 	
-	// get map of questions by label (questions with shared name/label)
+	// helper: get map of questions by label (questions with shared name/label)
 	public Map<String, List<Question>> getDataByName(){
 		Map<String, List<Question>> map = new HashMap<String, List<Question>>();
 		mapNameQuestion.forEach((key, value) -> map.put(key, Collections.unmodifiableList(value)));
 		return Collections.unmodifiableMap(map);
 	}
 	
-	// add the given question to the lists of relevant identifier and label in checker's maps
+	// helper: add the given question to the lists of relevant identifier and label in checker's maps
 	public void addQuestionToMaps(Question question) {
 		List<Question> idQuestionList;
 		List<Question> nameQuestionList;
@@ -123,13 +122,13 @@ public class TypeChecker {
 
 
   /**
-   * detect cyclic dependency between questions in the QL form.
+   * detect cyclic dependencies between questions in the QL form.
    * e.g. 
    * A --> B --> C --> D --> A
    * @param: Form 
    * @return: void
    */
-	public void detectCyclicDependency(Form form) {
+	public void detectCyclicDependencies(Form form) {
 
 		QuestionDependencyData dependencyTable = new QuestionDependencyData();
 	    form.getBlock().accept(new MainVisitor<Void, Void>() {
@@ -150,22 +149,42 @@ public class TypeChecker {
 	
   /**
    * detect type defects in the QL form such as:
-   *  type mismatch
-   *  invalid operand
+   *  operands of invalid type to operators (type mismatch)
+   *  invalid conditions (non-boolean)
    * @param: Form 
    * @return: void
    */
-	public void detectInvalidOperandAndTypeMismatch(Form form) {
+	public void detectInvalidTypesAndConditions(Form form) {
 		TypeCheckerVisitor typeCheckerVisitor = new TypeCheckerVisitor();
 		typeCheckerVisitor.visit(form);
 	}
-	  
-	public void detectNonBooleanCondition(Form form){
-		//TODO
-	}	
-
-
+	
+  /**
+   * detect reference to undefined question in QL form
+   * @param: Form 
+   * @return: void
+   */
 	public void detectReferenceToUndefinedQuestion(Form form) {
-		//TODO
+		QuestionDependencyData dependencyTable = new QuestionDependencyData();
+	    form.getBlock().accept(new MainVisitor<Void, Void>() {
+                         @Override
+                         public Void visit(ComputedQuestion question, Void ctx) {
+                        	 dependencyTable.add(question);
+                           return null;
+                         }
+                       }, null);
+
+	    for (QuestionDependency dependency : dependencyTable.getDependencies()) {
+	    	boolean[] found = {false}; 
+	    	mapIdQuestion.forEach((key, value) -> {
+	    		if (dependency.toString() == key) {
+	    			found[0] = true; // because we cannot change local boolean from lambda expr
+	    		}
+	    	});
+	    	if (!found[0]) {
+	    		System.out.println("Error: Reference to undefined question was found " + dependency.toString());
+	    	}
+	    }
 	}
+
 }

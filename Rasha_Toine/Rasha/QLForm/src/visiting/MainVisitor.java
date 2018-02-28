@@ -75,7 +75,7 @@ public class MainVisitor<T, U> implements ExpressionVisitor<T, U>, StatementVisi
 	/* Expressions */
 	@Override
 	public T visit(LiteralExpression node, U ctx){
-		node.getObj().accept(this, ctx);
+		node.getLiteral().accept(this, ctx);
 		return null;
 	}
 	

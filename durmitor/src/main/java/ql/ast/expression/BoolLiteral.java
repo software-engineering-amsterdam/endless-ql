@@ -1,7 +1,8 @@
 package ql.ast.expression;
 
 import ql.ast.type.Type;
-import ql.value.Bool;
+import ql.evaluator.value.Bool;
+import ql.evaluator.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class BoolLiteral extends Literal {
@@ -23,16 +24,16 @@ public class BoolLiteral extends Literal {
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return value.toString();
+    }
+
+    @Override
+    public Value<?> evaluate() {
+        return value;
     }
 
     @Override
     public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
-    }
-
-    @Override
-    public Bool getValue() {
-        return value;
     }
 }

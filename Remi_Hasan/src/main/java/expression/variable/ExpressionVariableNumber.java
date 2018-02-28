@@ -46,7 +46,7 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
     }
 
     public BigDecimal getMoneyValue() {
-        return value.setScale(2, RoundingMode.CEILING);
+        return this.value.setScale(2, RoundingMode.CEILING);
     }
 
     public ReturnType getReturnType() {

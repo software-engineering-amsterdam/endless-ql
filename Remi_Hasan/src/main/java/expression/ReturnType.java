@@ -1,7 +1,7 @@
 package expression;
 
 public enum ReturnType {
-    INTEGER, DECIMAL, BOOLEAN, STRING, MONEY, DATE, UNDEFINED;
+    INTEGER, DECIMAL, MONEY, NUMBER, BOOLEAN, STRING, DATE, UNDEFINED;
 
     public Boolean eq(ReturnType other) {
         return this.equals(other);
@@ -56,7 +56,7 @@ public enum ReturnType {
     }
 
     public Boolean isNumber(){
-        return this == INTEGER || this == DECIMAL || this == MONEY;
+        return this == INTEGER || this == DECIMAL || this == MONEY || this == NUMBER;
     }
 }
 

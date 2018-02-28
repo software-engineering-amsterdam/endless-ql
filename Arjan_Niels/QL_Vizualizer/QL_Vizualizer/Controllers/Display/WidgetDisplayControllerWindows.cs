@@ -142,7 +142,6 @@ namespace QL_Vizualizer.Controllers.Display
         /// </summary>
         private void ConstructMainWindow()
         {
-
             // Create form
             _mainForm = CreateForm();
 

@@ -15,13 +15,4 @@ form taxOfficeExample {
       valueResidue: money =
         (sellingPrice - privateDebt)
   }
-
-  if (someParamThatDoesNotExist - sellingPrice) {
-    "Where is my money?"
-      iDontHaveYour: money
-  }
-
-    "Value residuess:"
-      valueResidu1ess: money =
-        (sellingPricess - privateDebtss)
 }

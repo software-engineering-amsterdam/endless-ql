@@ -31,7 +31,6 @@ public class ExpressionChecker implements StatementVisitor<Void, String>, Expres
     private void checkForMissingParameters(SymbolTable symbolTable) {
         for (HashMap.Entry<String, List<Parameter>> entry : expressionMap.entrySet()) {
             for (Parameter parameter : entry.getValue()) {
-                System.out.println("EXPRESSIONCHECK" + parameter.toString());
                 if (!symbolTable.contains(parameter.toString())) {
                     System.out.println("Referenced parameter " + parameter + "  does not exist");
                 }
@@ -46,8 +45,6 @@ public class ExpressionChecker implements StatementVisitor<Void, String>, Expres
             return null;
         }
 
-        System.out.println("PARAM "+parameter);
-        System.out.println(expressionMap.size());
         //handle calculated questions
         if (expressionMap.containsKey(context)) {
             expressionMap.get(context).add(parameter);

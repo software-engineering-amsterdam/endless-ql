@@ -29,7 +29,7 @@
     <orderEntry type="library" name="Gradle: org.joda:joda-money:0.12" level="project" />
     <orderEntry type="library" name="Gradle: org.antlr:antlr4-runtime:4.7.1" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.7" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring-boot-starter:3.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring-boot-starter:2.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:1.5.10.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-test:1.5.10.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.antlr:ST4:4.0.8" level="project" />
@@ -38,15 +38,15 @@
     <orderEntry type="library" name="Gradle: org.abego.treelayout:org.abego.treelayout.core:1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish:javax.json:1.0.4" level="project" />
     <orderEntry type="library" name="Gradle: com.ibm.icu:icu4j:58.2" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring-boot:3.0.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-themes:8.3.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-client-compiled:8.3.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring-boot:2.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-themes:8.0.7" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-client-compiled:8.0.7" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter:1.5.10.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-tomcat:1.5.10.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-validator:5.3.6.Final" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.8.10" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-webmvc:4.3.14.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring:3.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring:2.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-web:4.3.14.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-test-autoconfigure:1.5.10.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-test:1.5.10.RELEASE" level="project" />
@@ -83,21 +83,21 @@
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" name="Gradle: org.objenesis:objenesis:2.1" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin.external.google:android-json:0.0.20131108.vaadin1" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-server:8.3.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-server:8.0.7" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.tomcat:tomcat-annotations-api:8.5.27" level="project" />
     <orderEntry type="library" name="Gradle: net.minidev:accessors-smart:1.1" level="project" />
     <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-sass-compiler:0.9.13" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-shared:8.3.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.jsoup:jsoup:1.11.2" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin.external:gentyref:1.2.0.vaadin1" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-shared:8.0.7" level="project" />
+    <orderEntry type="library" name="Gradle: org.jsoup:jsoup:1.8.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.googlecode.gentyref:gentyref:1.2.0" level="project" />
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.1.11" level="project" />
     <orderEntry type="library" name="Gradle: org.ow2.asm:asm:5.0.3" level="project" />
     <orderEntry type="library" name="Gradle: org.w3c.css:sac:1.3" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin.external.flute:flute:1.3.0.gg2" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-server:8.0.7" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-themes:8.0.7" level="project" />
     <orderEntry type="library" name="Gradle: javax.servlet:javax.servlet-api:3.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.yahoo.platform.yui:yuicompressor:2.4.8" level="project" />
+    <orderEntry type="library" name="Gradle: rhino:js:1.7R2" level="project" />
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
@@ -107,11 +107,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="Gradle: org.jsoup:jsoup:1.8.3" level="project" />
-    <orderEntry type="library" name="Gradle: com.googlecode.gentyref:gentyref:1.2.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-client-compiled:8.0.7" level="project" />
-    <orderEntry type="library" name="Gradle: com.yahoo.platform.yui:yuicompressor:2.4.8" level="project" />
-    <orderEntry type="library" name="Gradle: rhino:js:1.7R2" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring-boot-starter:2.1.0.beta2" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="qlparser_main" />

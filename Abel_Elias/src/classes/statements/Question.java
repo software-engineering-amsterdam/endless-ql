@@ -1,10 +1,13 @@
-package classes.question;
+package classes.statements;
 
-public class Question<T> {
+import classes.CodeBlock;
+
+public class Question<T> extends Statement{
     private String questionText;
     private T type;
 
-    public Question(String questionText, T type){
+    public Question(CodeBlock code, String questionText, T type){
+        super(code);
         this.questionText = questionText;
         this.type = type;
     }

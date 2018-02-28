@@ -21,9 +21,7 @@ OR             : '||';
 
 // Types
 TYPE     : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | 'money'; //TODO figuring out naming
-TRUE     : 'true';
-FALSE    : 'false';
-boolean  : TRUE | FALSE;
+BOOLEAN  : 'true' | 'false';
 STRING   : '"'[a-zA-Z0-9?.!:;()/ \t]+'"'; // TODO: allow more characters
 INTEGER  : [0-9]+;
 DECIMAL  : [0-9]+ '.' [0-9]+;
@@ -40,7 +38,7 @@ condition : 'if' expression '{' question* condition* '}';
 // Expressions: Include some basic rules about operators //TODO fix the expression not being recognised in test_grammar
 expression : '(' expression ')'
            | NOT expression // Not is special because it's unary.
-           | VARIABLE | boolean | STRING | numeral
+           | VARIABLE | BOOLEAN | STRING | numeral
            | expression operator expression;
 
 // Operators

@@ -2,6 +2,7 @@
 {
     public static class FormExamples
     {
+        public static readonly string RandomChars = "dsafjoi23590ujsdjofjoajodfj";
         public static readonly string SimpleForm = "form SimpleForm { \"Have you bought a house?\" boughtAHouse: boolean}";
         public static readonly string SimpleFormWithConditional = "form SimpleForm { " +
             "\"Have you bought a house?\"" +

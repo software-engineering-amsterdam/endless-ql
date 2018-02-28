@@ -2,7 +2,7 @@ package org.uva.sea.ql.parser.elements;
 
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.traverse.Visitor;
+import org.uva.sea.ql.visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;

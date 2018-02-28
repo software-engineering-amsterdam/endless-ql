@@ -3,6 +3,7 @@ package expression.variable;
 import expression.ReturnType;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
 public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
@@ -11,12 +12,16 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
         super(value);
     }
 
+    public ExpressionVariableNumber(String value) {
+        super(new BigDecimal(value));
+    }
+
     public ExpressionVariableNumber(int value) {
-        super(BigDecimal.valueOf(Double.valueOf(value)));
+        super(new BigDecimal(value));
     }
 
     public ExpressionVariableNumber(double value) {
-        super(BigDecimal.valueOf(value));
+        super(new BigDecimal(value));
     }
 
     @Override
@@ -50,9 +55,6 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
 
     @Override
     public ExpressionVariable divide(ExpressionVariable other) {
-        if (other.getReturnType() != ReturnType.NUMBER)
-            throw new UnsupportedOperationException("Cannot divide with non-number.");
-
         ExpressionVariableNumber otherNumber = (ExpressionVariableNumber) other;
         if (otherNumber.value.doubleValue() == 0.0)
             throw new ArithmeticException("Division by zero.");
@@ -60,7 +62,7 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
         if(this.value == null || other.value == null)
             return new ExpressionVariableUndefined();
 
-        return new ExpressionVariableNumber(this.value.divide(otherNumber.value));
+        return new ExpressionVariableNumber(this.value.divide(otherNumber.value, MathContext.DECIMAL128));
     }
 
     public ExpressionVariable multiply(ExpressionVariable other) {

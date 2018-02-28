@@ -158,13 +158,12 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitIntegerConstant(QLParser.IntegerConstantContext ctx) {
-        // TODO do we have to use integer? what if we do a sum of int + double?
-        return new ExpressionVariableNumber(Integer.parseInt(ctx.getText()));
+        return new ExpressionVariableNumber(ctx.getText());
     }
 
     @Override
     public Expression visitDecimalConstant(QLParser.DecimalConstantContext ctx) {
-        return new ExpressionVariableNumber(Double.valueOf(ctx.getText()));
+        return new ExpressionVariableNumber(ctx.getText());
     }
 
     @Override
@@ -174,9 +173,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitMoneyConstant(QLParser.MoneyConstantContext ctx) {
-        // TODO: Same as decimal?
-        BigDecimal bigDecimal = BigDecimal.valueOf(Double.valueOf(ctx.getText()));
-        return new ExpressionVariableNumber(bigDecimal);
+        return new ExpressionVariableNumber(ctx.getText());
     }
 
     // TODO do we need this?

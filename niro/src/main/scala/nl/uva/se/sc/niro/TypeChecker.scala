@@ -37,6 +37,15 @@ object TypeChecker extends Logging {
 
   def checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm: QLForm): QLForm = {
     logger.debug("Checking on duplicate question declarations with different types ...")
+    val questions = Statement.collectAllQuestions(qLForm.statements)
+    val duplicateQuestions = questions.groupBy(_.id).valuesIterator.filter { _.size > 1 }
+
+    val duplicateQuestionsWithDifferentTypes = duplicateQuestions.filter(questionsWithMultipleOccurrences =>
+      questionsWithMultipleOccurrences.map(_.answerType).toSet.size > 1)
+
+    if (duplicateQuestionsWithDifferentTypes.nonEmpty) {
+      throw new IllegalArgumentException(s"Undefined references $duplicateQuestionsWithDifferentTypes")
+    }
 
     qLForm
   }

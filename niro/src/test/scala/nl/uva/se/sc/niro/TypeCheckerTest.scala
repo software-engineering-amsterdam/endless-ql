@@ -34,7 +34,17 @@ class TypeCheckerTest extends WordSpec {
       assertThrows[IllegalArgumentException](TypeChecker.checkNonBooleanPredicates(qLForm))
     }
 
-    "checkDuplicateQuestionDeclarationsWithDifferentTypes" in {}
+    "checkDuplicateQuestionDeclarationsWithDifferentTypes" in {
+      val qLForm = QLForm(
+        "duplicateLabel",
+        Seq(
+          Question("q1", "duplicate identifier", IntegerType, IntAnswer(1), None),
+          Question("q1", "duplicate identifier", BooleanType, IntAnswer(1), None)
+        )
+      )
+
+      assertThrows[IllegalArgumentException](TypeChecker.checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm))
+    }
 
     "checkCyclicDependenciesBetweenQuestions" ignore {
       val qlForm = QLForm(

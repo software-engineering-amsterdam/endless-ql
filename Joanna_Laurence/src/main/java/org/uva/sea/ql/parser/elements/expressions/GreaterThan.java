@@ -5,7 +5,7 @@ import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
-import org.uva.sea.ql.traverse.Visitor;
+import org.uva.sea.ql.visitor.Visitor;
 
 public class GreaterThan extends BinaryOperator {
     public GreaterThan(Token token, ASTNode lhs, ASTNode rhs) {

@@ -12,6 +12,7 @@ import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.value.Value;
 
 import java.io.*;
 import java.util.*;
@@ -92,11 +93,46 @@ public class QLEvaluatorTest extends TestCase {
             if(result == null)
                 return 0;
 
-            List<Question> questions = this.formEvaluator.evaluate(result, new SymbolTable());
+            SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
+
+            List<Question> questions = this.formEvaluator.evaluate(result, symbolTable);
             return questions.size();
         } catch (IOException e) {
             return 0;
         }
+    }
+
+    private SymbolTable getSymbolTableForTest(String location) {
+
+        SymbolTable symbolTable = new SymbolTable();
+
+        try(FileInputStream inputStream = new FileInputStream(location)) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Pattern pattern = Pattern.compile("\\/\\/([a-zA-Z]+):=([a-zA-Z]+) ([0-9a-zA-Z]+)");
+                Matcher matcher = pattern.matcher(line);
+                if (matcher.find()) {
+                    String variableName = matcher.group(1);
+                    String variableType = matcher.group(2);
+                    String variableValue = matcher.group(3);
+
+                    Class dynamicClass = Class.forName("org.uva.sea.ql.value." + variableType);
+                    Value value = (Value)dynamicClass.getDeclaredConstructor(String.class).newInstance(variableValue);
+
+                    symbolTable.addOrUpdateValue(variableName, value);
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Cannot extract variable locations: " + location);
+            e.printStackTrace();
+        }
+
+        return symbolTable;
     }
 
     @Test

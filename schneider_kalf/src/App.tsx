@@ -31,6 +31,9 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     };
 
     this.onChange = this.onChange.bind(this);
+  }
+
+  componentDidMount() {
     this.onChangeQuestionnaire(require("!raw-loader!./mock/sample.ql.txt"));
   }
 

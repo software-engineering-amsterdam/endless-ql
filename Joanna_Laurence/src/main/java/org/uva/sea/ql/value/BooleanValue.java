@@ -5,6 +5,10 @@ import org.uva.sea.ql.QLValueEvaluator;
 public class BooleanValue extends Value {
     boolean booleanValue;
 
+    public BooleanValue(String value) {
+        this.booleanValue = value.equals("true") || value.equals("TRUE");
+    }
+
     public BooleanValue(boolean booleanValue) {
         this.booleanValue = booleanValue;
     }

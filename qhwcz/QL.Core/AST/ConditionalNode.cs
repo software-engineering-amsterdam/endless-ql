@@ -1,5 +1,4 @@
 ﻿using Antlr4.Runtime;
-using QL.Core.Ast.Visitors;
 
 namespace QL.Core.Ast
 {
@@ -12,7 +11,7 @@ namespace QL.Core.Ast
 
         protected override void VisitNode(IVisitor visitor)
         {
-            // TODO: Implement soon
+            visitor.Visit(this);
         }
     }
 }

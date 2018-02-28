@@ -508,21 +508,6 @@ public class QLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class AdditionExprContext extends ExpressionContext {
-		public Token operator;
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public AdditionExprContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitAdditionExpr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class EqualityExprContext extends ExpressionContext {
 		public Token operator;
 		public List<ExpressionContext> expression() {
@@ -535,6 +520,21 @@ public class QLParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitEqualityExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class MultiplicationOrDivisionExprContext extends ExpressionContext {
+		public Token operator;
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public MultiplicationOrDivisionExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitMultiplicationOrDivisionExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -573,7 +573,7 @@ public class QLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class MultiplicationExprContext extends ExpressionContext {
+	public static class AdditionOrSubtractionExprContext extends ExpressionContext {
 		public Token operator;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -581,10 +581,10 @@ public class QLParser extends Parser {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public MultiplicationExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public AdditionOrSubtractionExprContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitMultiplicationExpr(this);
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitAdditionOrSubtractionExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -722,15 +722,15 @@ public class QLParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 					case 1:
 						{
-						_localctx = new MultiplicationExprContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new MultiplicationOrDivisionExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(76);
 						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
 						setState(77);
-						((MultiplicationExprContext)_localctx).operator = _input.LT(1);
+						((MultiplicationOrDivisionExprContext)_localctx).operator = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==STAR || _la==SLASH) ) {
-							((MultiplicationExprContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
+							((MultiplicationOrDivisionExprContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
 						}
 						else {
 							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
@@ -743,15 +743,15 @@ public class QLParser extends Parser {
 						break;
 					case 2:
 						{
-						_localctx = new AdditionExprContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new AdditionOrSubtractionExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(79);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(80);
-						((AdditionExprContext)_localctx).operator = _input.LT(1);
+						((AdditionOrSubtractionExprContext)_localctx).operator = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==PLUS || _la==MINUS) ) {
-							((AdditionExprContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
+							((AdditionOrSubtractionExprContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
 						}
 						else {
 							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;

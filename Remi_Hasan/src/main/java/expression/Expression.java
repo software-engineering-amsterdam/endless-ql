@@ -1,6 +1,8 @@
 package expression;
 
-public abstract class Expression<T> {
+import expression.variable.ExpressionVariable;
+
+public abstract class Expression {
 
     public abstract ReturnType getReturnType();
 

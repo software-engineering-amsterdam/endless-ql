@@ -1,38 +1,39 @@
 package ql.ast.expression;
 
-import ql.ast.type.Int;
 import ql.ast.type.Type;
+import ql.evaluator.value.Int;
+import ql.evaluator.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class IntLiteral extends Literal<Integer> {
+public class IntLiteral extends Literal {
 
-    private int value;
+    private Int value;
     
     public IntLiteral() { 
-        this.value = 0;
+        this.value = new Int();
     }
     
     public IntLiteral(String value) { 
-        this.value = Integer.parseInt(value);
+        this.value = new Int(value);
     }
 
     @Override
     public Type getType() {
-        return new Int();
+        return new ql.ast.type.Int();
     }
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return value.toString();
     }
 
     @Override
-    public Integer getValue() {
+    public Value<?> evaluate() {
         return value;
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 }

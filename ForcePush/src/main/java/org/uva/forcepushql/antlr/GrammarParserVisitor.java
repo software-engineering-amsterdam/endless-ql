@@ -1,4 +1,4 @@
-// Generated from C:/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Joana Magalhães/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
 package org.uva.forcepushql.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -53,11 +53,26 @@ public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestionTypes(GrammarParser.QuestionTypesContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GrammarParser#expression}.
+	 * Visit a parse tree produced by the {@code binaryExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpression(GrammarParser.ExpressionContext ctx);
+	T visitBinaryExpression(GrammarParser.BinaryExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code valueExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueExpression(GrammarParser.ValueExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code parensExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParensExpression(GrammarParser.ParensExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GrammarParser#questionFormat}.
 	 * @param ctx the parse tree

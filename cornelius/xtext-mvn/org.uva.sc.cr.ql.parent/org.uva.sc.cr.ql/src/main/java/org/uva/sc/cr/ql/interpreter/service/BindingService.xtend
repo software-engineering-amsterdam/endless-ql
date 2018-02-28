@@ -33,7 +33,7 @@ class BindingService {
 		val binding = Bindings.createBooleanBinding(new Callable<Boolean>() {
 
 			override call() throws Exception {
-				evaluator.<Boolean>evalExpression(expression, getExpressionArguments(controls, expression))
+				evaluator.<Boolean>evaluateExpression(expression, getExpressionArguments(controls, expression))
 			}
 
 		})
@@ -45,7 +45,7 @@ class BindingService {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
-				evaluator.<String>evalExpression(expression, getExpressionArguments(controls, expression))
+				evaluator.<String>evaluateExpression(expression, getExpressionArguments(controls, expression))
 			}
 
 		})
@@ -57,7 +57,7 @@ class BindingService {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
-				evaluator.<Double>evalExpression(expression, getExpressionArguments(controls, expression)).intValue.
+				evaluator.<Double>evaluateExpression(expression, getExpressionArguments(controls, expression)).intValue.
 					toString
 			}
 
@@ -70,7 +70,7 @@ class BindingService {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
-				evaluator.<Double>evalExpression(expression, getExpressionArguments(controls, expression)).toString
+				evaluator.<Double>evaluateExpression(expression, getExpressionArguments(controls, expression)).toString
 			}
 
 		})

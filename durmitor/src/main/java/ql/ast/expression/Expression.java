@@ -1,24 +1,35 @@
 package ql.ast.expression;
 
-import java.util.Map;
-
 import ql.ast.QLNode;
 import ql.ast.type.Type;
+import ql.evaluator.value.Value;
 import ql.visitors.interfaces.ExpressionVisitable;
 
 public abstract class Expression extends QLNode implements ExpressionVisitable {
 
-    protected Type type;
+    public boolean isUnaryOperator() {
+        return false;
+    }
     
-    public abstract String toString();
+    public boolean isBinaryOperator() {
+        return false;
+    }
     
-    public abstract Type getType();
-
-    public Type getType(Map<String, Type> symbolTable) {
-        return this.getType();
+    public boolean isPrimary() {
+        return false;
+    }
+    
+    public boolean isLiteral() {
+        return false;
     }
     
     public boolean isIdentifier() {
         return false;
+    }
+    
+    public abstract Value<?> evaluate();
+    
+    public Type getType() {
+        return evaluate().getType();
     }
 }

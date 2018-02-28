@@ -28,38 +28,38 @@ class ExpressionEvaluator {
 		engine = manager.getEngineByName("js")
 	}
 
-	private def String buildExpression(Expression exp) {
-		switch exp {
-			ExpressionOr: '''«buildExpression(exp.left)» «exp.op» «buildExpression(exp.right)»'''
-			ExpressionAnd: '''«buildExpression(exp.left)» «exp.op» «buildExpression(exp.right)»'''
-			ExpressionEquality: '''«buildExpression(exp.left)» «exp.op» «buildExpression(exp.right)»'''
-			ExpressionComparison: '''«buildExpression(exp.left)» «exp.op» «buildExpression(exp.right)»'''
-			ExpressionPlusOrMinus: '''«buildExpression(exp.left)» «exp.op» «buildExpression(exp.right)»'''
-			ExpressionMulOrDiv: '''«buildExpression(exp.left)» «exp.op» «buildExpression(exp.right)»'''
+	private def String buildExpression(Expression expression) {
+		switch expression {
+			ExpressionOr: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionAnd: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionEquality: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionComparison: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionPlusOrMinus: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionMulOrDiv: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
 			ExpressionNot:
-				"!" + buildExpression(exp.expression)
+				"!" + buildExpression(expression.expression)
 			ExpressionLiteralString:
-				" '" + exp.expression + "' "
+				" '" + expression.expression + "' "
 			ExpressionLiteralInteger:
-				" " + exp.expression + " "
+				" " + expression.expression + " "
 			ExpressionLiteralBoolean:
-				" " + exp.expression + " "
+				" " + expression.expression + " "
 			ExpressionQuestionRef:
-				exp.question.name
+				expression.question.name
 			default: {
 				throw new MissingCaseException
 			}
 		}
 	}
 
-	def <T> evalExpression(Expression exp, Map<String, Object> arguments) {
-		val stringExp = buildExpression(exp)
+	def <T> evaluateExpression(Expression expression, Map<String, Object> arguments) {
+		val expressionAsString = buildExpression(expression)
 
 		arguments.forEach [ variableName, valueValue |
 			engine.put(variableName, valueValue)
 		]
-		println("evaluating " + stringExp + " with " + arguments)
-		var result = engine.eval(stringExp)
+		println("evaluating " + expressionAsString + " with " + arguments)
+		var result = engine.eval(expressionAsString)
 		println("result " + result)
 		return result as T
 	}

@@ -2,10 +2,12 @@ package qlviz.model;
 
 import org.junit.Assert;
 import org.junit.Test;
+import qlviz.model.booleanExpressions.NumericComparison;
+import qlviz.model.booleanExpressions.NumericComparisonOperator;
+import qlviz.model.numericExpressions.NumericExpression;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

@@ -1,22 +1,51 @@
 package nl.uva.se.sc.niro.model
 
-import nl.uva.se.sc.niro.model.Expressions.Expression._
+import nl.uva.se.sc.niro.Evaluator
+import nl.uva.se.sc.niro.model.Expressions.{ Answer, Expression }
+import nl.uva.se.sc.niro.model.Expressions.{ Answer, Expression }
 
 case class QLForm(formName: String, statements: Seq[Statement]) {
-  val symbolTable: Map[String, Expression] = Statement.collectQuestions(statements).map(q => (q.id, q.answer)).toMap
+  val symbolTable: Map[String, Expression] = Statement.collectAllQuestions(statements).map(q => (q.id, q.expression)).toMap
+
+  def save(questionId: String, answer: Answer): QLForm = {
+    val updatedStatements = Statement.saveAnswer(questionId, answer, statements)
+    QLForm(formName, updatedStatements)
+  }
 }
 
 sealed trait Statement
-case class Question(id: String, label: String, answer: Expression) extends Statement
-case class Conditional(condition: Expression, ifStatements: Seq[Statement], elseStatements: Seq[Statement]) extends Statement
+case class ErrorStatement() extends Statement
+case class Question(id: String, label: String, expression: Expression, answer: Option[Answer] = None) extends Statement
+
+case class Conditional(predicate: Expression, thenStatements: Seq[Statement]) extends Statement
 
 object Statement {
 
-  // TODO maybe only add questions of conditions with predicate true?
-  def collectQuestions(statements: Seq[Statement]): Seq[Question] = {
+  def collectAllQuestions(statements: Seq[Statement]): Seq[Question] = {
     statements.flatMap {
       case q: Question => Seq(q)
-      case c: Conditional => collectQuestions(c.ifStatements) ++ collectQuestions(c.elseStatements)
+      case c: Conditional => collectAllQuestions(c.thenStatements)
+      case ErrorStatement() => Seq.empty
     }
   }
+
+  def collectAllVisibleQuestions(statements: Seq[Statement], symbolTable: Map[String, Expression]): Seq[Question] = {
+    statements.collect {
+      case q: Question => Seq(q)
+      case c: Conditional if Evaluator.evaluateExpression(c.predicate, symbolTable).isTrue => collectAllVisibleQuestions(c.thenStatements, symbolTable)
+      case ErrorStatement() => Seq.empty
+    }.flatten
+  }
+
+  def saveAnswer(questionId: String, answer: Answer, statements: Seq[Statement]): Seq[Statement] = {
+    statements.collect {
+      case q: Question if q.id == questionId => Seq(q.copy(expression = answer))
+      case q: Question => Seq(q)
+      case c: Conditional => saveAnswer(questionId, answer, c.thenStatements)
+    }.flatten
+  }
+}
+
+object QLForm {
+  type SymbolTable = Map[String, Expression]
 }

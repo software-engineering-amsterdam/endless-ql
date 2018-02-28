@@ -1,6 +1,11 @@
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import expression.*;
+import expression.binary.ExpressionArithmeticDivide;
+import expression.binary.ExpressionArithmeticMultiply;
+import expression.binary.ExpressionArithmeticSubtract;
+import expression.binary.ExpressionArithmeticSum;
+import expression.variable.ExpressionVariableInteger;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
@@ -41,5 +46,5 @@ public class ExpressionArithmeticTest {
         ExpressionArithmeticSum expectedExpression = new ExpressionArithmeticSum(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
         assertEquals(expectedExpression, actualExpression);
     }
-    
+
 }

@@ -11,7 +11,6 @@ import nl.uva.js.qlparser.models.formexpressions.IfBlock;
 import nl.uva.js.qlparser.models.formexpressions.Question;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,7 +18,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Component("qlFunnel")
 class QLFunnel extends QLBaseVisitor {
     private Map<String, DataType> typeRegistry = new HashMap<>();
 
@@ -30,7 +28,7 @@ class QLFunnel extends QLBaseVisitor {
 
     @Override
     public Boolean visitBoolval(QLParser.BoolvalContext ctx) {
-        return ctx.getText().equals("true");
+        return Boolean.parseBoolean(ctx.getText());
     }
 
     @Override

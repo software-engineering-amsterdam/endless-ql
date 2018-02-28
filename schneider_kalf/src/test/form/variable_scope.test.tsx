@@ -20,21 +20,6 @@ it('does not allow a second declaration of a field', () => {
   }).toThrow(FieldAlreadyDeclaredError);
 });
 
-it('does not allow usage of undeclared variable', () => {
-  const visitor = new VariableScopeVisitor();
-  expectVariableNotInScope("b", () => nestedFormScopeFlawed1.accept(visitor));
-});
-
-it('does not allow usage of variable in deeper scope', () => {
-  const visitor = new VariableScopeVisitor();
-  expectVariableNotInScope("x", () => nestedFormScopeFlawed2.accept(visitor));
-});
-
-it('does not allow usage of variable in earlier scope', () => {
-  const visitor = new VariableScopeVisitor();
-  expectVariableNotInScope("a", () => nestedFormScopeFlawed3.accept(visitor));
-});
-
 const expectVariableNotInScope = (expectedIdentifier: string, action: () => void) => {
   let error: any = null;
 
@@ -50,3 +35,18 @@ const expectVariableNotInScope = (expectedIdentifier: string, action: () => void
     expect(error.identifier).toBe(expectedIdentifier);
   }
 };
+
+it('does not allow usage of undeclared variable', () => {
+  const visitor = new VariableScopeVisitor();
+  expectVariableNotInScope("b", () => nestedFormScopeFlawed1.accept(visitor));
+});
+
+it('does not allow usage of variable in deeper scope', () => {
+  const visitor = new VariableScopeVisitor();
+  expectVariableNotInScope("x", () => nestedFormScopeFlawed2.accept(visitor));
+});
+
+it('does not allow usage of variable in earlier scope', () => {
+  const visitor = new VariableScopeVisitor();
+  expectVariableNotInScope("a", () => nestedFormScopeFlawed3.accept(visitor));
+});

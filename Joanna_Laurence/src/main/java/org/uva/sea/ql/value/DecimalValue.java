@@ -2,11 +2,16 @@ package org.uva.sea.ql.value;
 
 import java.math.BigDecimal;
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.parser.elements.types.Decimal;
 
 
 public class DecimalValue extends Value {
 
     private double decimalValue;
+
+    public DecimalValue(String value) {
+        this.decimalValue = Double.parseDouble(value);
+    }
 
     public DecimalValue(double decimalValue) {
 
@@ -39,7 +44,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value divide(Value value) {
-        return value.divide(this);
+        return value.reverseDivide(this);
     }
 
     @Override
@@ -56,6 +61,7 @@ public class DecimalValue extends Value {
     public Value divide(DecimalValue value) {
         return new DecimalValue(this.decimalValue / value.getDecimalValue());
     }
+
 
     @Override
     public Value isEqual(Value value) {
@@ -79,7 +85,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isGreaterOrEqual(Value value) {
-        return value.isGreaterOrEqual(this);
+        return value.isLessThan(this);
     }
 
     @Override
@@ -99,7 +105,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isGreaterThan(Value value) {
-        return value.isGreaterThan(this);
+        return value.isLessOrEqual(this);
     }
 
     @Override
@@ -119,7 +125,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isLessOrEqual(Value value) {
-        return value.isLessOrEqual(this);
+        return value.isGreaterThan(this);
     }
 
     @Override
@@ -139,7 +145,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isLessThan(Value value) {
-        return value.isLessThan(this);
+        return value.isGreaterOrEqual(this);
     }
 
     @Override
@@ -199,7 +205,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value subtract(Value value) {
-        return value.subtract(this);
+        return value.reverseSubtract(this);
     }
 
     @Override
@@ -215,6 +221,36 @@ public class DecimalValue extends Value {
     @Override
     public Value subtract(DecimalValue value) {
         return new DecimalValue(this.decimalValue - value.getDecimalValue());
+    }
+
+    @Override
+    public Value reverseSubtract(DecimalValue value) {
+        return value.subtract(this);
+    }
+
+    @Override
+    public Value reverseSubtract(IntValue value) {
+        return value.subtract(this);
+    }
+
+    @Override
+    public Value reverseSubtract(MoneyValue value) {
+        return value.subtract(this);
+    }
+
+    @Override
+    public Value reverseDivide(DecimalValue value) {
+        return value.divide(this);
+    }
+
+    @Override
+    public Value reverseDivide(IntValue value) {
+        return value.divide(this);
+    }
+
+    @Override
+    public Value reverseDivide(MoneyValue value) {
+        return value.divide(this);
     }
 
     @Override

@@ -12,4 +12,9 @@ public class DecimalConstant extends Constant<Double> {
     public EvaluationType returnType(){
         return EvaluationType.Decimal;
     }
+
+    @Override
+    public Boolean isArithmetic(){
+        return true;
+    }
 }

@@ -65,12 +65,12 @@ public class WebUI extends UI {
     private Layout createLayoutFromFile() {
         FormLayout layout = new FormLayout();
         Form form = qlForm.getValue();
-        List<Component> components = FormInterpreter.interpret(form);
+        List<AbstractField> components = FormInterpreter.interpret(form);
 
         layout.addComponent(reloadButton);
         layout.addComponent(getTitle(form.getHumanizedName()));
 
-        components.forEach(component -> ((HasValue) component).addValueChangeListener(event -> reEvaluate(component, event.getValue())));
+        components.forEach(component -> component.addValueChangeListener(event -> reEvaluate(component, event.getValue())));
         components.forEach(layout::addComponent);
 
         return layout;
@@ -79,11 +79,11 @@ public class WebUI extends UI {
     private Layout createLayoutFromQLString(String qlInput) {
         FormLayout layout = new FormLayout();
         Form form = QLIngester.parseFormFromString(qlInput);
-        List<Component> components = FormInterpreter.interpret(form);
+        List<AbstractField> components = FormInterpreter.interpret(form);
 
         layout.addComponent(getTitle(form.getHumanizedName()));
 
-        components.forEach(component -> ((HasValue) component).addValueChangeListener(event -> reEvaluate(component, event.getValue())));
+        components.forEach(component -> component.addValueChangeListener(event -> reEvaluate(component, event.getValue())));
         components.forEach(layout::addComponent);
         return layout;
     }

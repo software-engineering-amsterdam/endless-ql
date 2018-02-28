@@ -12,6 +12,7 @@ import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.value.Value;
 
 import java.io.*;
 import java.util.*;
@@ -21,17 +22,28 @@ import java.util.regex.Pattern;
 @RunWith(Parameterized.class)
 public class QLEvaluatorTest extends TestCase {
 
+    //Parameters for every test
     private String testFile;
     private int correctQuestions;
 
     private static TestFileHelper testFileHelper = new TestFileHelper();
     private FormEvaluator formEvaluator = new FormEvaluator();
 
+
+    /**
+     * Constructor for every test
+     * @param testFile
+     * @param correctQuestions
+     */
     public QLEvaluatorTest(String testFile, int correctQuestions) {
         this.testFile = testFile;
         this.correctQuestions = correctQuestions;
     }
 
+    /**
+     * Test generator
+     * @return Test parameters
+     */
     @Parameterized.Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
         return new ArrayList<>(getTestFiles("src/test/resources/calculateQL/"));
@@ -45,10 +57,6 @@ public class QLEvaluatorTest extends TestCase {
     private static Collection<Object[]> getTestFiles(String folderLocation) {
         Collection<Object[]> testFiles = new ArrayList<Object[]>();
 
-        //TODO: extract bag of variables @ evaluator
-        //waitDays:=integer 5
-        //waitDays has the value Integer("5")
-
         Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
         for(String location : locations) {
             testFiles.add(new Object[] {location, determineExpectedTests(location)});
@@ -57,6 +65,11 @@ public class QLEvaluatorTest extends TestCase {
         return testFiles;
     }
 
+    /**
+     * Extract correct tests from file
+     * @param location
+     * @return
+     */
     private static int determineExpectedTests(String location) {
         try(FileInputStream inputStream = new FileInputStream(location)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -92,11 +105,51 @@ public class QLEvaluatorTest extends TestCase {
             if(result == null)
                 return 0;
 
-            List<Question> questions = this.formEvaluator.evaluate(result, new SymbolTable());
+            SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
+
+            List<Question> questions = this.formEvaluator.evaluate(result, symbolTable);
             return questions.size();
         } catch (IOException e) {
             return 0;
         }
+    }
+
+    /**
+     * Extracts the symbol table from the test file
+     * @param location Location of the test file
+     * @return The Symbol table
+     */
+    private SymbolTable getSymbolTableForTest(String location) {
+
+        SymbolTable symbolTable = new SymbolTable();
+
+        try(FileInputStream inputStream = new FileInputStream(location)) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Pattern pattern = Pattern.compile("\\/\\/([a-zA-Z]+):=([a-zA-Z]+) ([0-9a-zA-Z]+)");
+                Matcher matcher = pattern.matcher(line);
+                if (matcher.find()) {
+                    String variableName = matcher.group(1);
+                    String variableType = matcher.group(2);
+                    String variableValue = matcher.group(3);
+
+                    Class dynamicClass = Class.forName("org.uva.sea.ql.value." + variableType);
+                    Value value = (Value)dynamicClass.getDeclaredConstructor(String.class).newInstance(variableValue);
+
+                    symbolTable.addOrUpdateValue(variableName, value);
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Cannot extract variable locations: " + location);
+            e.printStackTrace();
+        }
+
+        return symbolTable;
     }
 
     @Test

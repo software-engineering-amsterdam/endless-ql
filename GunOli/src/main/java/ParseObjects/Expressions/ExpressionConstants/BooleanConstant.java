@@ -10,4 +10,9 @@ public class BooleanConstant extends Constant<Boolean> {
     public EvaluationType returnType(){
         return EvaluationType.Boolean;
     }
+
+    @Override
+    public Boolean isLogical(){
+        return true;
+    }
 }

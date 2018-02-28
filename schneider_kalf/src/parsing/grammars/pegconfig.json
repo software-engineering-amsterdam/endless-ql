@@ -1,6 +1,6 @@
 {
   "tspegjs": {
     "noTslint": true,
-    "customHeader": "/* tslint:disable */\nimport Nodes from '../../form/nodes/Nodes';\nimport FieldType from '../../form/field/FieldType'"
+    "customHeader": "/* tslint:disable */\nimport Nodes from '../../form/nodes/Nodes';\nimport FieldType from '../../form/FieldType';\n"
   }
 }

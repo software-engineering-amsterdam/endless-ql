@@ -1,5 +1,7 @@
 package gui;
 
+import classes.Form;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,15 +15,14 @@ public class FormBuilder {
      * constructor method
      * initializes the building process of the form
      */
-    public FormBuilder() {
-        buildForm();
+    public FormBuilder() {;
     }
 
     /**
-     * buildForm() method
+     * initComponents() method
      * initializes the building process for all widgets
      */
-    private void buildForm() {
+    public void initComponents(Form form) {
         //Build the frame and panel of the form
         buildFrame();
         buildPanel();

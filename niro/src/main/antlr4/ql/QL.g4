@@ -28,7 +28,8 @@ MUL         : '*' ;
 OR          : '||' ;
 AND         : '&&' ;
 NEG         : '!' ;
-COMMA       : ',' ;
+//COMMA       : ',' ;
+PERIOD      : '.' ;
 
 BOOLEAN     : 'boolean' ;
 INTEGER     : 'integer' ;
@@ -41,7 +42,7 @@ FALSE       : 'false' ;
 TRUE        : 'true' ;
 
 IntValue    : [1-9][0-9]* ;
-DecValue    : [1-9][0-9]* COMMA [0-9]+ ;
+DecValue    : [1-9][0-9]* PERIOD [0-9]+ ;
 Identifier  : [a-zA-Z0-9_]+ ;
 TEXT        : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); };
 
@@ -78,4 +79,5 @@ expression : BRACK_L expression BRACK_R                        # GroupExpr
            | Identifier                                        # Var
            | IntValue                                          # IntConst
            | DecValue                                          # DecConst
+           | TEXT                                              # StringConst
            | bool                                              # BoolConst ;

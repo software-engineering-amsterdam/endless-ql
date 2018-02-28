@@ -4,6 +4,10 @@ import antlr.QLBaseVisitor;
 import antlr.QLLexer;
 import antlr.QLParser;
 import expression.*;
+import expression.binary.*;
+import expression.variable.*;
+import expression.unary.ExpressionUnaryNeg;
+import expression.unary.ExpressionUnaryNot;
 import model.LookupTable;
 import model.Question;
 
@@ -42,7 +46,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
                 return new ExpressionArithmeticSubtract(left, right);
             case QLLexer.MUL:
                 if(!left.getReturnType().multiply(right.getReturnType()))
-                    throw new IllegalArgumentException("Cannot apply operator sum to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
+                    throw new IllegalArgumentException("Cannot apply operator mul to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
 
                 return new ExpressionArithmeticMultiply(left, right);
             case QLLexer.DIV:
@@ -154,13 +158,12 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitIntegerConstant(QLParser.IntegerConstantContext ctx) {
-        // TODO do we have to use integer? what if we do a sum of int + double?
-        return new ExpressionVariableInteger(Integer.parseInt(ctx.getText()));
+        return new ExpressionVariableNumber(ctx.getText());
     }
 
     @Override
     public Expression visitDecimalConstant(QLParser.DecimalConstantContext ctx) {
-        return new ExpressionVariableDecimal(Double.valueOf(ctx.getText()));
+        return new ExpressionVariableNumber(ctx.getText());
     }
 
     @Override
@@ -170,9 +173,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitMoneyConstant(QLParser.MoneyConstantContext ctx) {
-        // TODO: Same as decimal?
-        BigDecimal bigDecimal = BigDecimal.valueOf(Double.valueOf(ctx.getText()));
-        return new ExpressionVariableMoney(bigDecimal);
+        return new ExpressionVariableNumber(ctx.getText());
     }
 
     // TODO do we need this?

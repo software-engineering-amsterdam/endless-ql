@@ -1,6 +1,5 @@
 bin/
 .idea/
-classes/
 *.class
 # Package Files #
 *.war

@@ -6,11 +6,21 @@ import nl.uva.se.sc.niro.model.{ BinaryOperator, UnaryOperator }
 abstract class Expression
 
 abstract class Answer extends Expression {
+
+  type T
+
+  val possibleValue: Option[T]
+
   def applyUnaryOperator(operator: UnaryOperator): Answer
 
   def applyBinaryOperator(operator: BinaryOperator, right: Answer): Answer
 
   def isTrue: Boolean = false
+
+  def combine[R](that: Answer)(f: (T, that.T) => R): Option[R] = for {
+    thisValue <- possibleValue
+    thatValue <- that.possibleValue
+  } yield f(thisValue, thatValue)
 }
 
 final case class Reference(value: String) extends Expression
@@ -27,5 +37,6 @@ object Answer {
     case "decimal" => DecAnswer()
     case "money" => MoneyAnswer()
     case "date" => DateAnswer()
+    case _ => throw new IllegalArgumentException(s"Unsupported answer type: $answerType")
   }
 }

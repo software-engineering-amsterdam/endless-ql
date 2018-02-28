@@ -4,7 +4,7 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.types.Variable;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.visitor.BaseVisitor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,10 +66,6 @@ public class QLVariableInfo extends BaseVisitor {
     public Void visit(Question node) {
         //Questions should not already exist
         String variableName = node.getVariable().getVariableName();
-        if(variableMap.containsKey(variableName)) {
-            this.error("Question already exists", node);
-            return null;
-        }
 
         //Add new question to the lookup
         variableMap.put(variableName, node);

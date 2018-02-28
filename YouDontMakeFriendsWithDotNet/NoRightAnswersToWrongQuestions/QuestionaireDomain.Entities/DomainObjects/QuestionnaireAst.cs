@@ -6,15 +6,12 @@ namespace QuestionaireDomain.Entities.DomainObjects
 {
     public class QuestionnaireAst : AstNodeBase, IQuestionnaireAst
     {
-        public QuestionnaireAst()
+        public QuestionnaireAst(Guid id) : base(id)
         {
-            Id = Guid.NewGuid();
-            Questions = new List<IQuestionAst>();
         }
 
         public string FormName { get; set; }
-        public Guid Id { get; }
-        public IList<IQuestionAst> Questions { get; }
+        
         public override void Accept(IAstVisitor visitor)
         {
             //ToDo: something here

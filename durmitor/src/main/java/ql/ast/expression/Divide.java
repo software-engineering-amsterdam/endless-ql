@@ -1,11 +1,12 @@
 package ql.ast.expression;
 
+import ql.evaluator.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class Divide extends BinaryOperator {
 
-    public Divide(Expression lhs, Expression rhs) {
-        super(lhs, rhs);
+    public Divide(Expression firstOperand, Expression secondOperand) {
+        super(firstOperand, secondOperand);
     }
 
     @Override
@@ -16,5 +17,10 @@ public class Divide extends BinaryOperator {
     @Override
     public String getOperator() {
         return "/";
+    }
+
+    @Override
+    public Value<?> evaluate() {
+        return firstOperand.evaluate().divide(secondOperand.evaluate());
     }
 }

@@ -5,20 +5,28 @@ grammar QL;
 //ToDo: Make sure the names are representative of what they do
 //ToDo: Check for dangling else problem
 
+//ToDo: ?multiple forms?
+//ToDo: ?string concatination?
+//ToDo: ?calculated string questionText?
 //ToDo: ?Add money format? : CurrencyUnit [0-9]+('.')?([0-9][0-9] | ([0-9][0-9][0-9]))? yen= 3decimal, what about bitcoin?)
 //ToDo: ?Should I add Exponents (^)?
 //ToDo: ?Should I add unicode formfeed to whitespace (u+000C)?
 //ToDo: ?Do I want increment decrement operators ('++','--')?
 
-questionnaire: 'form' IDENTIFIER '{' statement* '}'; 
+questionnaire:  ENTRYPOINT IDENTIFIER BEGINSCOPE content=statement* ENDSCOPE; 
 
 statement : question (calculatedValue)?
           | conditional
-          ; 
+          ;		
 
 question: IDENTIFIER ':' TEXT questiontype 
         | TEXT IDENTIFIER  ':' questiontype 
         ;
+
+calculatedValue: ASSIGN BEGINGROUP mathexpression ENDGROUP;
+
+conditional: IFKEYWORD BEGINGROUP condition ENDGROUP BEGINSCOPE consequent=statement* ENDSCOPE 
+             (ELSEKEYWORD BEGINSCOPE alternative=statement* ENDSCOPE)?;
 
 questiontype: qtype=(BOOLTYPE     
             | STRINGTYPE   
@@ -27,16 +35,12 @@ questiontype: qtype=(BOOLTYPE
             | DECIMALTYPE)
 			;
 
-conditional: 'if' '(' condition ')' '{' statement* '}' ('else' '{' statement* '}')?;
-
-calculatedValue: '=' mathexpression;
-
 condition : IDENTIFIER                         #questionId
 	      | TEXT                               #textLiteral
           | conditionvalue                     #relativeLiteral
           | booleanvalue                       #booleanLiteral
-          | '(' condition ')'                  #expressionGroup
-		  | '!'condition                       #negationExpression
+          | BEGINGROUP condition ENDGROUP      #expressionGroup
+		  | NEGATE condition                   #negationExpression
           | leftExpression=condition 
               relationaloperator 
       	    rightExpression=condition          #relativeExpression
@@ -45,7 +49,7 @@ condition : IDENTIFIER                         #questionId
 
 mathexpression : IDENTIFIER                              #numberId
                | mathvalue                               #numberLiteral
-			   | '(' mathexpression ')'                  #mathexpressionGroup
+			   | BEGINGROUP mathexpression ENDGROUP      #mathexpressionGroup
 		       | leftExpression=mathexpression 
       	           operator=(MULTIPLY | DIVIDE) 
       		     rightExpression=mathexpression          #multiplyDivideExpression
@@ -54,16 +58,16 @@ mathexpression : IDENTIFIER                              #numberId
       		     rightExpression=mathexpression          #addSubtractExpression
 			   ;
 
-relationaloperator: ISGREATERTHAN 
+relationaloperator: ISEQUAL 
+                  | ISNOTEQUAL 
+                  | ISGREATERTHAN 
                   | ISGREATERTHANOREQUAL 
 				  | ISLESSTHAN 
 				  | ISLESSTHANOREQUAL 
 				  | booleanoperator
                   ;
 
-booleanoperator: ISEQUAL 
-               | ISNOTEQUAL 
-               | AND 
+booleanoperator: AND 
                | OR
                ;
 
@@ -80,6 +84,13 @@ conditionvalue: INTEGER
 			  | DATE
               ;
 
+ENTRYPOINT: 'form';
+BEGINSCOPE: '{';
+ENDSCOPE: '}';
+IFKEYWORD: 'if';
+ELSEKEYWORD: 'else';
+BEGINGROUP: '(';
+ENDGROUP: ')';
 
 BOOLTYPE: 'boolean';
 STRINGTYPE: 'string';
@@ -87,13 +98,14 @@ INTTYPE: 'integer';
 DATETYPE: 'date';
 DECIMALTYPE: 'decimal';
 
-ISNOTEQUAL : '!=';
-ISEQUAL : '==';
-ISGREATERTHAN : '>';
-ISGREATERTHANOREQUAL : '>=';
-ISLESSTHAN : '<';
-ISLESSTHANOREQUAL : '<=';
-
+ASSIGN: '=';
+ISNOTEQUAL: '!=';
+ISEQUAL: '==';
+ISGREATERTHAN: '>';
+ISGREATERTHANOREQUAL: '>=';
+ISLESSTHAN: '<';
+ISLESSTHANOREQUAL: '<=';
+NEGATE: '!';
 ADD: '+';
 MINUS: '-';
 MULTIPLY: '*';
@@ -102,17 +114,17 @@ DIVIDE: '/';
 AND: '&&';
 OR: '||';
 
-TRUE : ('true'| 'True'| 'TRUE');
-FALSE : ('false' | 'False' | 'FALSE');
+TRUE: ('true'| 'True'| 'TRUE');
+FALSE: ('false' | 'False' | 'FALSE');
 
 DATE: [0-9]?[0-9]'/'[0-9]?[0-9]'/'([0-9][0-9])?([0-9][0-9]);
 DECIMAL: '-'?[0-9]+ '.' [0-9]+;
 INTEGER: '-'?[0-9]+;
 
 TEXT: '"' (~'"')* '"';
-IDENTIFIER : [a-zA-Z] [a-zA-Z0-9_]* ;
+IDENTIFIER: [a-zA-Z] [a-zA-Z0-9_]* ;
 
-NEWLINE:'\r'? '\n' -> skip;
-WS  :   [ \t]+ -> skip ;
-LINECOMMENT :  '//' ~[\r\n]* -> skip;
-BLOCKCOMMENT :   '/*' .*? '*/' -> skip;
+NEWLINE: '\r'? '\n' -> skip;
+WS: [ \t]+ -> skip ;
+LINECOMMENT: '//' ~[\r\n]* -> skip;
+BLOCKCOMMENT: '/*' .*? '*/' -> skip;

@@ -1,11 +1,16 @@
 package org.uva.sea.ql.value;
 
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.parser.NodeType;
 
 import java.math.BigDecimal;
 
 public class IntValue extends Value {
     private int intValue;
+
+    public IntValue(String value) {
+        this.intValue = Integer.parseInt(value);
+    }
 
     public IntValue(int intValue) {
         this.intValue = intValue;
@@ -16,7 +21,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value add(Value value) {
+    public Value add(Value value) throws Exception {
         return value.add(this);
     }
 
@@ -36,13 +41,12 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value divide(Value value) {
-        return value.divide(this);
+    public Value divide(Value value) throws Exception {
+        return value.reverseDivide(this);
     }
 
     @Override
     public Value divide(IntValue value) {
-        //TODO: Check for 0
         return new IntValue(this.intValue / value.getIntValue());
     }
 
@@ -57,7 +61,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isEqual(Value value) {
+    public Value isEqual(Value value) throws Exception {
         return value.isEqual(this);
     }
 
@@ -77,8 +81,8 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isGreaterOrEqual(Value value) {
-        return value.isGreaterOrEqual(this);
+    public Value isGreaterOrEqual(Value value) throws Exception {
+        return value.isLessThan(this);
     }
 
     @Override
@@ -97,8 +101,8 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isGreaterThan(Value value) {
-        return value.isGreaterThan(this);
+    public Value isGreaterThan(Value value) throws Exception {
+        return value.isLessOrEqual(this);
     }
 
     @Override
@@ -117,8 +121,8 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isLessOrEqual(Value value) {
-        return value.isLessOrEqual(this);
+    public Value isLessOrEqual(Value value) throws Exception {
+        return value.isGreaterThan(this);
     }
 
     @Override
@@ -137,8 +141,8 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isLessThan(Value value) {
-        return value.isLessThan(this);
+    public Value isLessThan(Value value) throws Exception {
+        return value.isGreaterOrEqual(this);
     }
 
     @Override
@@ -157,7 +161,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value multiply(Value value) {
+    public Value multiply(Value value) throws Exception {
         return value.multiply(this);
     }
 
@@ -177,7 +181,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isNotEqual(Value value) {
+    public Value isNotEqual(Value value) throws Exception {
         return value.isNotEqual(this);
     }
 
@@ -197,8 +201,8 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value subtract(Value value) {
-        return value.subtract(this);
+    public Value subtract(Value value) throws Exception {
+        return value.reverseSubtract(this);
     }
 
     @Override
@@ -217,6 +221,36 @@ public class IntValue extends Value {
     }
 
     @Override
+    public Value reverseSubtract(DecimalValue value) {
+        return value.subtract(this);
+    }
+
+    @Override
+    public Value reverseSubtract(IntValue value) {
+        return value.subtract(this);
+    }
+
+    @Override
+    public Value reverseSubtract(MoneyValue value) {
+        return value.subtract(this);
+    }
+
+    @Override
+    public Value reverseDivide(DecimalValue value) {
+        return value.divide(this);
+    }
+
+    @Override
+    public Value reverseDivide(IntValue value) {
+        return value.divide(this);
+    }
+
+    @Override
+    public Value reverseDivide(MoneyValue value) {
+        return value.divide(this);
+    }
+
+    @Override
     public Value negate() {
         return new IntValue(this.intValue * (-1));
     }
@@ -229,5 +263,10 @@ public class IntValue extends Value {
     @Override
     public <T> T accept(QLValueEvaluator<T> visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.INTEGER;
     }
 }

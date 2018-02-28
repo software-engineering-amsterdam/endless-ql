@@ -6,12 +6,12 @@ import java.util.List;
 import ql.ast.expression.Identifier;
 import ql.ast.form.Form;
 import ql.helpers.Dependencies;
-import ql.visitors.StatementVisitorDependencies;
-import ql.visitors.StatementVisitorDuplicateIdentifiers;
-import ql.visitors.StatementVisitorDuplicateLabels;
-import ql.visitors.StatementVisitorInvalidOperands;
-import ql.visitors.StatementVisitorNonBooleanConditions;
-import ql.visitors.StatementVisitorUndefinedReferences;
+import ql.visitors.checker.checkers.StatementVisitorDependencies;
+import ql.visitors.checker.checkers.StatementVisitorDuplicateIdentifiers;
+import ql.visitors.checker.checkers.StatementVisitorDuplicateLabels;
+import ql.visitors.checker.checkers.StatementVisitorInvalidOperands;
+import ql.visitors.checker.checkers.StatementVisitorNonBooleanConditions;
+import ql.visitors.checker.checkers.StatementVisitorUndefinedReferences;
 
 public class TypeChecker {
 

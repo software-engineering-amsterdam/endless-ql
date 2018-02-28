@@ -5,9 +5,9 @@ using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.DomainObjects;
 using QuestionnaireDomain.Logic;
 using QuestionnaireDomain.Logic.API;
+using QuestionnaireDomain.Logic.Logic;
 using QuestionnaireInfrastructure.API;
 
 namespace UnitTests.Domain.UnitTests
@@ -16,7 +16,7 @@ namespace UnitTests.Domain.UnitTests
     public class CreateQuestionnaireTests
     {
         private IServiceProvider m_serviceProvider;
-        private static readonly string NewLine = Environment.NewLine;
+        private IDomainItemLocator m_domainItemLocator;
 
         [SetUp]
         public void Init()
@@ -25,6 +25,15 @@ namespace UnitTests.Domain.UnitTests
             services.AddModule(new AntlrModule());
             services.AddModule(new DomainLogicModule());
             m_serviceProvider = services.BuildServiceProvider();
+            m_domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
+        }
+
+        [TearDown]
+        public void Cleanup()
+        {
+            //To Do: this is a hack, should fix lifetime of service (possibly)
+            var registry = m_serviceProvider.GetService<IDomainItemRegistry>();
+            registry.Nuke();
         }
 
         [Test]
@@ -78,32 +87,43 @@ namespace UnitTests.Domain.UnitTests
         [Test]
         public void WhenGivenWellFormedDefinition_ReturnsDomainObjects()
         {
-            var createdForm = CreateForm(@"form MyForm {}");
+            CreateForm(@"form MyForm {}");
+            var createdForm = m_domainItemLocator
+                .GetAll<IQuestionnaireAst>()
+                .FirstOrDefault();
+
+            Assert.IsNotNull(createdForm);
             Assert.AreEqual(expected: "MyForm", actual: createdForm.FormName);
         }
 
-        private IQuestionnaireAst CreateForm(string validText)
+        private void CreateForm(string validText)
         {
             var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
-            var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
             var domainItemId = questionnaireCreator.Create(validText);
-            var createdForm = domainItemLocator.Get<IQuestionnaireAst>(domainItemId);
             Assert.IsNotNull(domainItemId);
-            return createdForm;
         }
 
         [TestCaseSource(typeof(TestData), nameof(TestData.CommentCases))]
         public void WhenGivenComments_ReturnsDomainObjects(string validText, string expectedName)
         {
-            var createdForm = CreateForm(validText);
-            Assert.AreEqual(expected: expectedName, actual: createdForm.FormName);
+            CreateForm(validText);
+            Assert.AreEqual(expected: expectedName, actual: GetForm().FormName);
+        }
+
+        private IQuestionnaireAst GetForm()
+        {
+            var createdForm = m_domainItemLocator
+                .GetAll<IQuestionnaireAst>()
+                .FirstOrDefault();
+            Assert.IsNotNull(createdForm);
+            return createdForm;
         }
 
         [TestCaseSource(typeof(TestData), nameof(TestData.ValidNameCases))]
         public void WhenGivenValidIdentifier_NamesTheFormCorrectly(string validText, string expectedName)
         {
-            var createdForm = CreateForm(validText);
-            Assert.AreEqual(expected: expectedName, actual: createdForm.FormName);
+            CreateForm(validText);
+            Assert.AreEqual(expected: expectedName, actual: GetForm().FormName);
         }
 
         [TestCaseSource(typeof(TestData), nameof(TestData.InvalidNameCases))]
@@ -127,41 +147,51 @@ namespace UnitTests.Domain.UnitTests
         [TestCaseSource(typeof(TestData), nameof(TestData.QuestionCases))]
         public void WhenGivenValidQuestion_NameAndTextCorrect(string validText, string questionId, string questionText)
         {
-            var createdForm = CreateForm(validText);
-            var question = createdForm.Statements.OfType<IQuestionAst>().FirstOrDefault();
-            Assert.AreEqual(expected: questionId, actual: question.Name);
+            CreateForm(validText);
+            var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
+            var question = domainItemLocator
+                .GetAll<IQuestionAst>()
+                .FirstOrDefault();
+            
+            Assert.IsNotNull(question);
             Assert.AreEqual(expected: questionText, actual: question.Text);
         }
 
         [TestCaseSource(typeof(TestData), nameof(TestData.MultipleQuestionCases))]
         public void WhenGivenMultipleQuestions_CorrectNumberOfQuestions(string validText, int questionCount)
         {
-            var createdForm = CreateForm(validText);
-            Assert.AreEqual(expected: questionCount, actual: createdForm.Statements.Count);
+            CreateForm(validText);
+            Assert.AreEqual(expected: questionCount, actual: m_domainItemLocator.GetAll<IQuestionAst>().Count());
         }
 
 
         [TestCaseSource(typeof(TestData), nameof(TestData.TypeCases))]
         public void WhenQuestionsHasType_CorrectTypeOnQuestions(string validText, Type expectedType)
         {
-            var createdForm = CreateForm(validText);
-            var actualType = createdForm.Statements.OfType<IQuestionAst>().FirstOrDefault()?.Type;
-            Assert.AreEqual(expected: expectedType, actual: actualType);
+            CreateForm(validText);
+            Assert.AreEqual(expected: expectedType, actual: GetQuestion().Type);
+        }
+
+        private IQuestionAst GetQuestion()
+        {
+            var question = m_domainItemLocator.GetAll<IQuestionAst>().FirstOrDefault();
+            Assert.IsNotNull(question);
+            return question;
         }
 
         [TestCaseSource(typeof(TestData), nameof(TestData.ConditionalStatementCases))]
         public void WhenFormHasConditionalStatement_CorrectNumberOfConditionalCasesExist(string validText, int conditionCount)
         {
-            var createdForm = CreateForm(validText);
-            var actualCount = createdForm.Statements.Flatten().OfType<IConditionalAst>().Count();
+            CreateForm(validText);
+            var actualCount = m_domainItemLocator.GetAll<IConditionalAst>().Count();
             Assert.AreEqual(expected: conditionCount, actual: actualCount);
         }
 
         [TestCaseSource(typeof(TestData), nameof(TestData.ElseStatementCases))]
         public void WhenFormHasElseConditional_CorrectNumberOfQuestionsExist(string validText, int conditionCount)
         {
-            var createdForm = CreateForm(validText);
-            var actualCount = createdForm.Statements.Flatten().OfType<IQuestionAst>().Count();
+            CreateForm(validText);
+            var actualCount = m_domainItemLocator.GetAll<IQuestionAst>().Count();
             Assert.AreEqual(expected: conditionCount, actual: actualCount);
         }
         
@@ -203,29 +233,25 @@ namespace UnitTests.Domain.UnitTests
         [TestCaseSource(typeof(TestData), nameof(TestData.BooleanConditional))]
         public void WhenBooleanQuestionUsedInAConditional_ParsesCorrectly(string validText, IEnumerable<string> booleanNames)
         {
-            var createdForm = CreateForm(validText);
-            var questionNames = createdForm
-                .Statements
-                .Flatten()
-                .OfType<IConditionalAst>()
+            CreateForm(validText);
+            var conditionNames = m_domainItemLocator
+                .GetAll<IConditionalAst>()
                 .Select(x => x.QuestionName)
                 .ToList();
 
             foreach (var expectedName in booleanNames)
             {
-                Assert.Contains(expected: expectedName, actual: questionNames);
+                Assert.Contains(expected: expectedName, actual: conditionNames);
             }
         }
 
         [TestCaseSource(typeof(TestData), nameof(TestData.CalculationQuestionCases))]
         public void WhenQuestionIsCalculation_ParsesCorrectly(string validText, IEnumerable<string> calculationNames)
         {
-            var createdForm = CreateForm(validText);
-            var questionNames = createdForm
-                .Statements
-                .Flatten()
-                .OfType<ICalculationAst>()
-                .Select(x => x.CalculationName)
+            CreateForm(validText);
+            var questionNames = m_domainItemLocator
+                .GetAll<ICalculationAst>()
+                .Select(x => x.CalculationDefinition)
                 .ToList();
 
             foreach (var expectedName in calculationNames)
@@ -237,11 +263,9 @@ namespace UnitTests.Domain.UnitTests
         [TestCaseSource(typeof(TestData), nameof(TestData.ComparisonConditional))]
         public void WhenComparisonUsedInAConditional_ParsesCorrectly(string validText, IEnumerable<string> booleanNames)
         {
-            var createdForm = CreateForm(validText);
-            var questionNames = createdForm
-                .Statements
-                .Flatten()
-                .OfType<IConditionalAst>()
+            CreateForm(validText);
+            var questionNames = m_domainItemLocator
+                .GetAll<IConditionalAst>()
                 .Select(x => x.QuestionName)
                 .ToList();
 
@@ -249,14 +273,6 @@ namespace UnitTests.Domain.UnitTests
             {
                 Assert.Contains(expected: expectedName, actual: questionNames);
             }
-        }
-    }
-
-    public static class TestHelperExtensions
-    {
-        public static IEnumerable<IAstNode> Flatten(this IEnumerable<IAstNode> e)
-        {
-            return e.SelectMany(c => c.Statements.Flatten()).Concat(e);
         }
     }
 }

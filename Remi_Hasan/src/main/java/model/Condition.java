@@ -11,10 +11,10 @@ public class Condition extends Statement {
     public ArrayList<Statement> falseStatements;
 
     // TODO force condition to be of evaluated type ExpressionVariableBoolean
-    public Condition(Expression condition, ArrayList<Statement> conditionTrueStatements, ArrayList<Statement> conditionFalseSatements) {
+    public Condition(Expression condition, ArrayList<Statement> conditionTrueStatements, ArrayList<Statement> conditionFalseStatements) {
         this.condition = condition;
         this.trueStatements = conditionTrueStatements;
-        this.falseStatements = conditionFalseSatements;
+        this.falseStatements = conditionFalseStatements;
     }
 
     @Override

@@ -10,7 +10,7 @@ import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 
 public class LessOrEqualExpression extends BinaryExpression<Boolean> {
 
-    LessOrEqualExpression(Expression left, Expression right){
+    public LessOrEqualExpression(Expression left, Expression right){
         super("<=", left, right);
     }
 
@@ -21,9 +21,9 @@ public class LessOrEqualExpression extends BinaryExpression<Boolean> {
 
     @Override
     public Constant<Boolean> evaluate() {
-        DecimalConstant left = (DecimalConstant) this.getExprLeft().evaluate();
-        DecimalConstant right = (DecimalConstant) this.getExprRight().evaluate();
-        return new BooleanConstant(left.getValue() <= right.getValue());
+        Double left = Double.parseDouble(this.getExprLeft().evaluate().toString());
+        Double right = Double.parseDouble(this.getExprRight().evaluate().toString());
+        return new BooleanConstant(left <= right);
     }
 
     @Override

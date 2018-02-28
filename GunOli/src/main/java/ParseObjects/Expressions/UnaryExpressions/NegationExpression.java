@@ -3,9 +3,11 @@ package ParseObjects.Expressions.UnaryExpressions;
 import ParseObjects.Expressions.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
+import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
+import ParseObjects.Expressions.ExpressionConstants.IntegerConstant;
 import ParseObjects.Expressions.UnaryExpression;
 
-public class NegationExpression extends UnaryExpression<Double> {
+public class NegationExpression extends UnaryExpression {
     public NegationExpression(Expression expr){
         super("-", expr);
     }
@@ -16,7 +18,17 @@ public class NegationExpression extends UnaryExpression<Double> {
     }
 
     @Override
-    public Constant<Double> evaluate(){
-        return null;//change
+    public Constant evaluate(){
+        if(!this.getExpression().isArithmetic()){
+            //Todo: Implement either exception throw or error statement with undefined value.
+        }
+
+        if(this.getExpression().returnType() == EvaluationType.Integer){
+            Integer exprValue = Integer.parseInt(this.getExpression().evaluate().getValue().toString());
+            return new IntegerConstant(exprValue * -1);
+        }
+
+        Double exprValue = Double.parseDouble(this.getExpression().evaluate().getValue().toString());
+        return new DecimalConstant(exprValue * -1);
     }
 }

@@ -21,6 +21,9 @@ abstract public class Expr extends AstNode {
 		T visit(AndExpr expr);
 		T visit(OrExpr expr);
 		T visit(UnaryNotExpr expr);
+		T visit(IntegerExpr expr);
+		T visit(StringExpr expr);
+		T visit(BooleanExpr expr);
 	}
 
 	public abstract <T> T accept(Visitor<T> visitor);
@@ -35,6 +38,10 @@ abstract public class Expr extends AstNode {
 
 	public void setType(QLType type) {
 		this.type = type;
+	}
+	
+	public boolean hasType(QLType expectedType) {
+		return this.getType() != expectedType;
 	}
 
 	public int getLineNumber() {

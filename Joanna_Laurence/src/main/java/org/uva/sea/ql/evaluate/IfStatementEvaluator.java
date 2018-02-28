@@ -10,18 +10,12 @@ import org.uva.sea.ql.value.Value;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IfStatementEvaluator extends QLValueEvaluator<List<Question>> {
-
-    /**
-     *
-     */
-    private StatementsEvaluator statementsEvaluator;
+public class IfStatementEvaluator extends QLValueEvaluator<Boolean> {
 
     /**
      * Expression evaluator
      */
     private QLEvaluator qlEvaluator = new QLEvaluator();
-
 
     /**
      * Evaluates the condition, when true the statements are returned
@@ -30,11 +24,17 @@ public class IfStatementEvaluator extends QLValueEvaluator<List<Question>> {
      * @return List of all seen questions
      */
     public List<Question> evaluate(IfStatement ifStatement, SymbolTable symbolTable) {
-        this.statementsEvaluator = new StatementsEvaluator(ifStatement.getStatements());
-
-        //Visit the condition that returns the list of questions when they should be visible
         Value condition = this.qlEvaluator.evaluate(ifStatement.getExpression(), symbolTable);
-        return condition.accept(this);
+
+        //Determine condition is true
+        Boolean conditionTrue = condition.accept(this);
+        if(!conditionTrue) {
+            return new ArrayList<>();
+        }
+
+        //Get all questions inside if statement
+        StatementsEvaluator statementsEvaluator = new StatementsEvaluator(symbolTable);
+        return statementsEvaluator.evaluate(ifStatement.getStatements());
     }
 
     /**
@@ -42,11 +42,7 @@ public class IfStatementEvaluator extends QLValueEvaluator<List<Question>> {
      * @param boolValue
      * @return
      */
-    public List<Question> visit(BooleanValue boolValue) {
-        if(boolValue.getBooleanValue()) {
-            return this.statementsEvaluator.evaluate();
-        }
-
-        return new ArrayList<>();
+    public Boolean visit(BooleanValue boolValue) {
+        return boolValue.getBooleanValue();
     }
 }

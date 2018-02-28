@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.uva.sea.ql.DataObject.QuestionData;
 import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.parser.NodeType;
@@ -97,21 +98,11 @@ public class QLEvaluatorTest extends TestCase {
      * @param fileName The location of the QL file
      * @return If the script compiles
      */
-    private int getDisplayedQuestions(String fileName) {
-        try {
-            QLCompiler compiler = new QLCompiler();
-            CharStream steam = CharStreams.fromStream(new FileInputStream(fileName));
-            Form result = compiler.compileScriptFile(steam);
-            if(result == null)
-                return 0;
-
-            SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
-
-            List<Question> questions = this.formEvaluator.evaluate(result, symbolTable);
-            return questions.size();
-        } catch (IOException e) {
-            return 0;
-        }
+    private int getDisplayedQuestions(String fileName) throws IOException {
+        SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
+        QLFormGenerator qlFormGenerator = new QLFormGenerator();
+        List<QuestionData> questions = qlFormGenerator.generate(fileName, symbolTable);
+        return questions.size();
     }
 
     /**
@@ -153,7 +144,7 @@ public class QLEvaluatorTest extends TestCase {
     }
 
     @Test
-    public void testFile() {
+    public void testFile() throws IOException {
         System.out.println("Testing: " + this.testFile);
         Assert.assertEquals(this.correctQuestions, this.getDisplayedQuestions(this.testFile));
     }

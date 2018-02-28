@@ -1,10 +1,7 @@
 package org.uva.ql.validation;
 
-import org.uva.ql.ast.Conditional;
-import org.uva.ql.ast.Form;
-import org.uva.ql.ast.Question;
+import org.uva.ql.ast.*;
 
-import org.uva.ql.ast.Statement;
 import org.uva.ql.visitor.StatementVisitor;
 
 import java.util.ArrayList;
@@ -37,6 +34,8 @@ public class Validator implements StatementVisitor<Void, String> {
         // Check if all question phrases & ID's are unique.
         findDuplicates();
 
+        ExpressionChecker expressionChecker = new ExpressionChecker(form, table);
+
         // TODO do type checking.
         //requires form and type table
         TypeChecker typeChecker = new TypeChecker();
@@ -55,11 +54,11 @@ public class Validator implements StatementVisitor<Void, String> {
 
         for (Question question : this.questions) {
             if (!questionIDs.add(question.getName())) {
-                System.out.printf("\nWARNING: (var could be overwritten) question name %s already exists.", question.getName());
+                System.out.printf("WARNING: (var could be overwritten) question name %s already exists\n", question.getName());
             }
 
             if (!questionTexts.add(question.getContent())) {
-                System.out.printf("\nWARNING: Question content %s already exists.", question.getContent());
+                System.out.printf("WARNING: Question content %s already exists\n", question.getContent());
             }
         }
         // TODO return something useful here.
@@ -84,6 +83,13 @@ public class Validator implements StatementVisitor<Void, String> {
             statement.accept(this, null);
         }
 
+        return null;
+    }
+
+    @Override
+    public Void visit(CalculatedQuestion question, String context) {
+        questions.add(question);
+        table.add(question.getName(), question.getType());
         return null;
     }
 }

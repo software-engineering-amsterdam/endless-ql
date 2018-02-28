@@ -20,7 +20,8 @@ export abstract class Statement {
 
   constructor(public location: Location) {}
 
-  abstract toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>, condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>>;
+  abstract toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
+                          condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>>;
   abstract getQuestions(): Question[];
 
   checkType(allQuestions: Question[]): void {

@@ -13,7 +13,9 @@ import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.value.ErrorValue;
 import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.visitor.BaseVisitor;
 
 import java.io.*;
 import java.util.*;
@@ -102,7 +104,33 @@ public class QLEvaluatorTest extends TestCase {
         SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
         QLFormGenerator qlFormGenerator = new QLFormGenerator();
         List<QuestionData> questions = qlFormGenerator.generate(fileName, symbolTable);
+        int questionCount = questions.size();
+
+        if(checkForErrors(questions))
+            return 0;
+
         return questions.size();
+    }
+
+    /**
+     * Check if there was an error
+     * @param questions All the questions
+     * @return
+     */
+    private boolean checkForErrors(List<QuestionData> questions) {
+        for(QuestionData question : questions) {
+            if(question.getValue() == null)
+                continue;
+
+            Boolean error = question.getValue().accept(new QLValueEvaluator<Boolean>() {
+                public Boolean visit(ErrorValue node) {
+                    return true;
+                }
+            });
+            if(error != null && error)
+                return true;
+        }
+        return false;
     }
 
     /**

@@ -8,4 +8,6 @@ public interface StatementVisitor<T, C> {
     T visit(Question question, C context);
 
     T visit(Conditional conditional, C context);
+
+    T visit(CalculatedQuestion question, C context);
 }

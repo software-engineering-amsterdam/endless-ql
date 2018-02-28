@@ -1,5 +1,4 @@
-﻿using QL_Parser.AST.Nodes;
-using QL_Vizualizer.Controllers.Display;
+﻿using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Widgets;
 using System;
 using System.Collections.Generic;
@@ -11,12 +10,12 @@ namespace QL_Vizualizer.Controllers
     /// Implements View of Widgets
     /// </summary>
     /// <typeparam name="T">Widget View Type</typeparam>
-    public class TypedWidgetController<T,Y> : WidgetController
+    public class TypedWidgetController<T, Y> : WidgetController
     {
         /// <summary>
         /// Display controller to show widgets
         /// </summary>
-        private WidgetDisplayController<T,Y> _displayController;
+        private WidgetDisplayController<T, Y> _displayController;
 
         /// <summary>
         /// Dictionary of all element styles, Key: widgetID, Value: element style
@@ -56,15 +55,15 @@ namespace QL_Vizualizer.Controllers
         /// <typeparam name="X">Element type</typeparam>
         /// <typeparam name="Z">Style type</typeparam>
         /// <param name="displayController">Display contoller, types must match with TypedWidgetController</param>
-        public override void SetDisplayController<X,Z>(WidgetDisplayController<X, Z> displayController)
+        public override void SetDisplayController<X, Z>(WidgetDisplayController<X, Z> displayController)
         {
             if (typeof(X) != typeof(T) || typeof(Y) != typeof(Z))
                 throw new InvalidOperationException("Tried to set displaycontroller with type mismatch.");
 
-            _displayController = displayController as WidgetDisplayController<T,Y>;
+            _displayController = displayController as WidgetDisplayController<T, Y>;
             UpdateDefaultStyle();
         }
-        
+
         /// <summary>
         /// Shows (main) view to user
         /// </summary>
@@ -114,10 +113,11 @@ namespace QL_Vizualizer.Controllers
             // Display all widgets, updating their position as the bottom
             // of the last displayed widget.
             foreach (QLWidget widget in _widgets.Values)
-            {
-                ElementStyleIndex[widget.Identifyer] = _displayController.UpdatePosition(widget, position, ElementStyleIndex[widget.Identifyer]);
-                position = _displayController.ShowWidget(widget, ElementStyleIndex[widget.Identifyer]);
-            }
+                if (widget.Active)
+                {
+                    ElementStyleIndex[widget.Identifyer] = _displayController.UpdatePosition(widget, position, ElementStyleIndex[widget.Identifyer]);
+                    position = _displayController.ShowWidget(widget, ElementStyleIndex[widget.Identifyer]);
+                }
         }
 
         /// <summary>
@@ -129,6 +129,10 @@ namespace QL_Vizualizer.Controllers
             _displayController.UpdateView(widget);
         }
 
+
+        /// <summary>
+        /// Resets all values that define the current state
+        /// </summary>
         public override void Reset()
         {
             base.Reset();

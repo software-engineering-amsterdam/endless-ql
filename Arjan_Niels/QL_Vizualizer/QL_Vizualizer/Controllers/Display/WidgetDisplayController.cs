@@ -80,6 +80,9 @@ namespace QL_Vizualizer.Controllers.Display
             _elementFactory.UpdateElement(widget, ElementIndex[widget.Identifyer]);
         }
 
+        /// <summary>
+        /// Resets all values that define its state
+        /// </summary>
         public virtual void Reset()
         {
             ElementIndex = new Dictionary<string, T>();

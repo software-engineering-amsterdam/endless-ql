@@ -1,11 +1,7 @@
 package classes;
 
-public class TreeNode {
+public abstract class TreeNode {
     private CodeBlock codeBlock;
-
-    public TreeNode() {
-        this.codeBlock = null;
-    }
 
     public TreeNode(CodeBlock codeBlock) {
         this.codeBlock = codeBlock;

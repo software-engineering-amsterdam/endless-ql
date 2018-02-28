@@ -7,7 +7,6 @@ public class QLMain {
          Date with /
          lhs rhs
 
-         Double dispatch for evaluator?
          int/int=decimal when needed
          rel: add . add << will return a list not a tree. // a - b - c. << terry group
          Support defining values to variables. See todo @ evaluator
@@ -27,7 +26,6 @@ public class QLMain {
      * @param args
      */
     public static void main(String[] args) {
-        QLGui gui = new QLGui();
-        gui.start("/example.ql");
+        QLFormGenerator gui = new QLFormGenerator();
     }
 }

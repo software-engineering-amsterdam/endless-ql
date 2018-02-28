@@ -105,6 +105,39 @@ public abstract class Value {
         return undefinedValue;
     }
 
+    //reverseDivide
+    public Value reverseDivide(Value value) {
+        return new ErrorValue("Reverse divide operator cannot be applied here");
+    }
+
+    public Value reverseDivide(BooleanValue value) {
+        return new ErrorValue("Reverse divide operator cannot be applied here");
+    }
+
+    public Value reverseDivide(DateValue value) {
+        return new ErrorValue("Reverse divide operator cannot be applied here");
+    }
+
+    public Value reverseDivide(DecimalValue value) {
+        return new ErrorValue("Reverse divide operator cannot be applied here");
+    }
+
+    public Value reverseDivide(IntValue value) {
+        return new ErrorValue("Reverse divide operator cannot be applied here");
+    }
+
+    public Value reverseDivide(MoneyValue value) {
+        return new ErrorValue("Reverse divide operator cannot be applied here");
+    }
+
+    public Value reverseDivide(StringValue value) {
+        return new ErrorValue("Reverse divide operator cannot be applied here");
+    }
+
+    public Value reverseDivide(UndefinedValue undefinedValue) {
+        return undefinedValue;
+    }
+
     //isEqual
     public Value isEqual(Value value) {
         return new ErrorValue("isEqual operator cannot be applied here");
@@ -417,4 +450,36 @@ public abstract class Value {
         return undefinedValue;
     }
 
+    //subtract
+    public Value reverseSubtract(Value value) {
+        return new ErrorValue("Reverse subtract operator cannot be applied here");
+    }
+
+    public Value reverseSubtract(BooleanValue value) {
+        return new ErrorValue("Reverse subtract operator cannot be applied here");
+    }
+
+    public Value reverseSubtract(DateValue value) {
+        return new ErrorValue("Reverse subtract operator cannot be applied here");
+    }
+
+    public Value reverseSubtract(DecimalValue value) {
+        return new ErrorValue("Reverse subtract operator cannot be applied here");
+    }
+
+    public Value reverseSubtract(IntValue value) {
+        return new ErrorValue("Reverse subtract operator cannot be applied here");
+    }
+
+    public Value reverseSubtract(MoneyValue value) {
+        return new ErrorValue("Reverse subtract operator cannot be applied here");
+    }
+
+    public Value reverseSubtract(StringValue value) {
+        return new ErrorValue("Reverse subtract operator cannot be applied here");
+    }
+
+    public Value reverseSubtract(UndefinedValue undefinedValue) {
+        return undefinedValue;
+    }
 }

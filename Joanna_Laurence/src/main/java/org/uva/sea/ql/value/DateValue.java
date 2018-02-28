@@ -9,8 +9,9 @@ public class DateValue extends Value {
 
     private Calendar dateValue;
 
-    public DateValue(Calendar dateValue) {
+    //TODO: add string constructor
 
+    public DateValue(Calendar dateValue) {
         this.dateValue = dateValue;
     }
 

@@ -15,7 +15,7 @@ export class Question extends Statement {
     return [this];
   }
 
-  toFormQuestion(formQuestions: QuestionBase<any>[], condition?: (form: FormGroup) => boolean): QuestionBase<any>[] {
+  toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>, condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
     const options = {
       key: this.name,
       label: this.label,
@@ -24,17 +24,19 @@ export class Question extends Statement {
       hiddenCondition: condition
     };
 
+
+    let formQuestionsToReturn: QuestionBase<any>[] = [];
     // make a checkbox for a boolean, else make an input
     switch (this.type) {
       case QuestionType.BOOLEAN: {
-        formQuestions.push(new CheckboxQuestion(options));
+        formQuestionsToReturn = [new CheckboxQuestion(options)];
         break;
       }
       default: {
-        formQuestions.push(new TextboxQuestion(options));
+        formQuestionsToReturn = [new TextboxQuestion(options)];
       }
     }
 
-    return formQuestions;
+    return formQuestionsToReturn;
   }
 }

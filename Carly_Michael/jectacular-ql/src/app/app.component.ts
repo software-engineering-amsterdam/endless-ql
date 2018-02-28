@@ -38,6 +38,7 @@ export class AppComponent {
       this.questions = undefined;
       this.errorMessage = e.message;
     }
+    this.payload = undefined;
   }
 
   onSubmit() {

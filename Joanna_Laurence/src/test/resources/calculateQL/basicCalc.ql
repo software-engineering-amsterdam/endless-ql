@@ -1,5 +1,5 @@
 //Q=3
-//otherPrice:=1
+//otherPrice:=IntValue 1
 form taxOfficeExample {
   "What was the selling price?"
       sellingPrice: decimal = 1.5 * 10

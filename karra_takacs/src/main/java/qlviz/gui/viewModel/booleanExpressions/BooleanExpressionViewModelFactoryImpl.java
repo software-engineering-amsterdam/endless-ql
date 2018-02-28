@@ -16,7 +16,7 @@ public class BooleanExpressionViewModelFactoryImpl implements BooleanExpressionV
 
     @Override
     public BooleanExpressionViewModel create(BooleanExpression booleanExpression) {
-        return null;
+        return booleanExpression.accept(this);
     }
 
     @Override

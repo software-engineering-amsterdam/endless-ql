@@ -1,5 +1,4 @@
 import classes.Form;
-import gui.FormBuilder;
 import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -55,11 +54,11 @@ public class Main {
 
             //Do typechecking
             TypeChecker typeChecker = new TypeChecker();
-            typeChecker.initTypeChecking(form);
+            //typeChecker.initTypeChecking(form);
 
             //Pass the form from the tree
-            FormBuilder formBuilder = new FormBuilder();
-            formBuilder.initComponents(form);
+            //FormBuilder formBuilder = new FormBuilder();
+            //formBuilder.initComponents(form);
 
         } catch (IOException e) {
             e.printStackTrace();

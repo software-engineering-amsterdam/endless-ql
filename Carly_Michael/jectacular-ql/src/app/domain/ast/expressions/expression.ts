@@ -4,6 +4,7 @@ import {Question} from '../question';
 import {FormGroup} from '@angular/forms';
 import {Variable} from './variable';
 import {QuestionType} from '../question-type';
+import {UnsupportedTypeError} from '../../errors';
 
 export type ArithmeticOperator = '+' | '-' | '*' | '/';
 export type ComparisonOperator = '>' | '<' | '>=' | '<=';
@@ -30,7 +31,9 @@ export abstract class Expression {
 
   protected toExpressionType(questionType: QuestionType): ExpressionType {
     switch (questionType) {
-      case QuestionType.DECIMAL || QuestionType.INT || QuestionType.MONEY:
+      case QuestionType.DECIMAL:
+      case QuestionType.INT:
+      case QuestionType.MONEY:
         return ExpressionType.NUMBER;
       case QuestionType.STRING:
         return ExpressionType.STRING;
@@ -38,6 +41,8 @@ export abstract class Expression {
         return ExpressionType.BOOLEAN;
       case QuestionType.DATE:
         return ExpressionType.DATE;
+      default:
+        throw new UnsupportedTypeError(`QuestionType ${questionType} is not supported`);
     }
   }
 }

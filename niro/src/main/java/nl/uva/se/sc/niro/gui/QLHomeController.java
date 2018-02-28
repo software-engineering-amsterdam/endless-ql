@@ -45,7 +45,7 @@ public class QLHomeController extends QLBaseController {
     }
 
     private Scene createSceneForForm(QLForm form) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/nl/uva/se/sc/niro/gui/QLForm.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(QLForms.FORM_SCREEN));
         Parent root = loader.load();
         ((QLFormController) loader.getController()).populateForm(form);
         return new Scene(root);

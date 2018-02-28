@@ -37,6 +37,13 @@ public class Location {
         return length;
     }
     
+    public Location setLength(int length) {
+        
+        this.length = length;
+        
+        return this;
+    }
+    
     public boolean equals(Location location) {
         return  offset == location.getOffset() && 
                 length == location.getLength();

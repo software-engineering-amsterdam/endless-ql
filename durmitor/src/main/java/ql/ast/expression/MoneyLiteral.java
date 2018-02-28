@@ -1,34 +1,34 @@
 package ql.ast.expression;
 
-import ql.ast.type.Money;
 import ql.ast.type.Type;
-import ql.value.Value;
+import ql.evaluator.value.Money;
+import ql.evaluator.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class MoneyLiteral extends Literal {
 
-    private Value<String> value;
+    private Money value;
     
     public MoneyLiteral() { 
-        this.value = new ql.value.Money();
+        this.value = new Money();
     }
     
     public MoneyLiteral(String value) { 
-        this.value = new ql.value.Money(value);
+        this.value = new Money(value);
     }
 
     @Override
     public Type getType() {
-        return new Money();
+        return new ql.ast.type.Money();
     }
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return value.toString();
     }
 
     @Override
-    public Value<String> getValue() {
+    public Value<?> evaluate() {
         return value;
     }
 

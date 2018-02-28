@@ -6,6 +6,15 @@ namespace AntlrInterpretor.Logic
 {
     internal class QlInterpretor : IQlInterpretor
     {
+        private readonly IAstFactory m_astFactory;
+        private readonly IDomainItemLocator m_domainItemLocator;
+
+        public QlInterpretor(IAstFactory astFactory, IDomainItemLocator domainItemLocator)
+        {
+            m_astFactory = astFactory;
+            m_domainItemLocator = domainItemLocator;
+        }
+
         public IQuestionnaireAst BuildForm(string definition)
         {
             var stream = new AntlrInputStream(definition);
@@ -21,8 +30,9 @@ namespace AntlrInterpretor.Logic
 
             var tree = parser.questionnaire();
 
-            var qlVisitor = new QlVisitor();
+            var qlVisitor = new BuildAstVisitor(m_astFactory, m_domainItemLocator);
             return (IQuestionnaireAst)qlVisitor.Visit(tree);
         }
+        
     }
 }

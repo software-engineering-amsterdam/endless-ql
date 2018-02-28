@@ -3,12 +3,15 @@ package ql.checker;
 import java.util.ArrayList;
 import java.util.List;
 
+import ql.ast.expression.Identifier;
 import ql.ast.form.Form;
-import ql.visitors.StatementVisitorDuplicateIdentifiers;
-import ql.visitors.StatementVisitorDuplicateLabels;
-import ql.visitors.StatementVisitorInvalidOperands;
-import ql.visitors.StatementVisitorNonBooleanConditions;
-import ql.visitors.StatementVisitorUndefinedReferences;
+import ql.helpers.Dependencies;
+import ql.visitors.checker.checkers.StatementVisitorDependencies;
+import ql.visitors.checker.checkers.StatementVisitorDuplicateIdentifiers;
+import ql.visitors.checker.checkers.StatementVisitorDuplicateLabels;
+import ql.visitors.checker.checkers.StatementVisitorInvalidOperands;
+import ql.visitors.checker.checkers.StatementVisitorNonBooleanConditions;
+import ql.visitors.checker.checkers.StatementVisitorUndefinedReferences;
 
 public class TypeChecker {
 
@@ -29,7 +32,7 @@ public class TypeChecker {
         checkIdentifiersWithMultipleTypes();
         checkNonBooleanConditions();
         checkInvalidOperands();
-        // TODO: Check cyclic dependencies
+        checkCyclicDependencies();
         checkDuplicateLabels();
     }
     
@@ -51,6 +54,29 @@ public class TypeChecker {
     public void checkInvalidOperands()
     {
         form.getBlock().accept(new StatementVisitorInvalidOperands(errors));
+    }
+    
+    public void checkCyclicDependencies()
+    {
+        Dependencies dependencies = new Dependencies();
+        
+        form.getBlock().accept(new StatementVisitorDependencies(dependencies));
+        
+        List<List<Identifier>> cyclicDependencies = dependencies.getCyclicDependencies();
+        
+        for(List<Identifier> cd : cyclicDependencies)
+        {
+            Identifier first    = cd.get(0);
+            String error        = "Cyclic dependency found on ["+first.getName()+"] from ";
+            error              += first.getName() + " at " + first.getLocation();
+            
+            for(int i = 1; i < cd.size(); i++)
+            {
+                error += " to "+cd.get(i).getName() + " at " + cd.get(i).getLocation();
+            }
+            
+            errors.add(error);
+        }
     }
     
     public void checkDuplicateLabels()

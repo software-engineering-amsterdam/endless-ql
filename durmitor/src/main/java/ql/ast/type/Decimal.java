@@ -1,12 +1,17 @@
 package ql.ast.type;
 
-import ql.value.Value;
+import ql.evaluator.value.Value;
+import ql.evaluator.value.parse.ToDecimal;
 import ql.visitors.interfaces.TypeVisitor;
 
 public class Decimal extends Numeric {
 
     @Override
     public String toString() {
+        return name();
+    }
+
+    public static String name() {
         return "decimal";
     }
 
@@ -22,11 +27,16 @@ public class Decimal extends Numeric {
 
     @Override
     public Value<?> toValue() {
-        return new ql.value.Decimal();
+        return new ql.evaluator.value.Decimal();
     }
     
     @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+    
+    @Override
+    public Value<?> parse(Value<?> value) {
+        return value.accept(new ToDecimal());
     }
 }

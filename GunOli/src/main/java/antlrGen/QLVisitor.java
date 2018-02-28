@@ -47,11 +47,33 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestionType(QLParser.QuestionTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#expression}.
+	 * Visit a parse tree produced by the {@code unaryExpr}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpression(QLParser.ExpressionContext ctx);
+	T visitUnaryExpr(QLParser.UnaryExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code nestedExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNestedExpr(QLParser.NestedExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code binaryExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBinaryExpr(QLParser.BinaryExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code constantExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstantExpr(QLParser.ConstantExprContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#operator}.
 	 * @param ctx the parse tree
@@ -71,11 +93,47 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBinaryOp(QLParser.BinaryOpContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#constant}.
+	 * Visit a parse tree produced by the {@code integerConstant}
+	 * labeled alternative in {@link QLParser#constant}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitConstant(QLParser.ConstantContext ctx);
+	T visitIntegerConstant(QLParser.IntegerConstantContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code decimalConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDecimalConstant(QLParser.DecimalConstantContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code stringConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringConstant(QLParser.StringConstantContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code identifierConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdentifierConstant(QLParser.IdentifierConstantContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code moneyConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMoneyConstant(QLParser.MoneyConstantContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code dateConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDateConstant(QLParser.DateConstantContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#type}.
 	 * @param ctx the parse tree

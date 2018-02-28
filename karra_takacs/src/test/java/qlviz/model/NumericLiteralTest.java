@@ -2,10 +2,9 @@ package qlviz.model;
 
 import org.junit.Assert;
 import org.junit.Test;
+import qlviz.model.numericExpressions.NumericLiteral;
 
 import java.math.BigDecimal;
-
-import static org.junit.Assert.*;
 
 public class NumericLiteralTest {
 

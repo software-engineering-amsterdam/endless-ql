@@ -1,13 +1,10 @@
 package org.uva.jomi.ql.ast.expressions;
 
-public class AdditionExpr extends Expr {
-	
-	public final Expr left;
-	public final Expr right;
-	
-	public AdditionExpr(Expr left, Expr right) {
-		this.left = left;
-		this.right = right;
+import org.uva.jomi.ql.ast.QLToken;
+
+public class AdditionExpr extends BinaryExpr {
+	public AdditionExpr(Expr left, QLToken operator, Expr right) {
+		super(left, operator, right);
 	}
 	
 	@Override

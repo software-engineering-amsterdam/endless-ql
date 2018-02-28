@@ -1,9 +1,9 @@
 form ConditionQuestions {
-	firstName: "What is your first name?" string
+	"What is your first name?" firstName: string
 	if (true) {
-		middleName: "What is your middle name?" string
+		"What is your middle name?" middleName: string
 	} else {
-		lastName: "What is your last name?" string
-		lastName: "What is your last name?" string
+		"What is your last name?" lastName: string
+		"What is your last name?" lastName: string
 	}
 }

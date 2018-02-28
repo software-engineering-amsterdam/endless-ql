@@ -1,27 +1,23 @@
 package nl.uva.js.qlparser.models.dataexpressions;
 
-import com.vaadin.ui.Component;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import nl.uva.js.qlparser.models.enums.DataType;
 
-import java.util.ArrayList;
-
 @Data
 @Builder
-public class Value implements DataExpression {
+public class Value<T> implements DataExpression {
     @NonNull private DataType dataType;
-    @NonNull private Object value;
-
-    @Override
-    public ArrayList<Component> getComponents() {
-
-        return new ArrayList<>();
-    }
+    @NonNull private T value;
 
     @Override
     public DataType checkAndReturnType() {
         return dataType;
+    }
+
+    @Override
+    public T value() {
+        return value;
     }
 }

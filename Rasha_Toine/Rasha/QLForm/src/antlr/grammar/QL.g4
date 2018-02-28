@@ -13,66 +13,89 @@ options {  language=Java; }
 	import antlr.grammar.*;
 }
 
+@parser::members {
+    private <T extends AstNode> T add(ParserRuleContext context, T node){
+        node.setLocation(new CodeReference(context));
+        return (T) node;
+    }
+}
 
 /*^^^^^^^^^^^^^^^^^^^^*
 	Parser Rules
 *^^^^^^^^^^^^^^^^^^^^*/
-literal // atom
-   : MONEY
-   | INTEGER
-   | BOOLEAN
-   | STRING
-   | DATE
-   | DECIMAL
-   | IDENT
+literal returns [Literal result] // atom
+   : MONEY { $result = add($ctx, new MoneyLiteral(BigDecimal.valueOf($MONEY.text))); }
+   | INTEGER { $result =add($ctx, new IntegerLiteral(Integer.valueOf($INTEGER.text))); }
+   | BOOLEAN { $result = add($ctx, new BooleanLiteral(Boolean.valueOf($BOOLEAN.text))); }
+   | STRING { $result = add($ctx, new StringLiteral(String.valueOf($STRING))); }
+   | DATE { $result = add($ctx, new DateLiteral(Date.valueOf($DATE.text))); }
+   | DECIMAL { $result = add($ctx, new DecimalLiteral(Double.valueOf($DECIMAL))); }
+  // | IDENT { $result = add($ctx, new Identifier($IDENT.text)); }
   ;
 
-identifier
-   : IDENT
+identifier returns [Identifier result]
+   : IDENT { $result = add($ctx, new Identifier($IDENT.text)); }
   ;
    
 
-questionType
-   : 'money'
-   | 'integer'
-   | 'boolean'
-   | 'string'
-   | 'date'
-   | 'decimal'
+questionType returns [Type result]
+   : 'money' { $result = add($ctx, new MoneyType());}
+   | 'integer' { $result = add($ctx, new IntegerType());}
+   | 'boolean' { $result = add($ctx, new BooleanType());}
+   | 'string' { $result = add($ctx, new StringType());}
+   | 'date' { $result = add($ctx, new DateType());}
+   | 'decimal' { $result = add($ctx, new DecimalType());}
   ; 
 
-expr
-  : identifier
-  | literal
-  | '!' expr
-  | '(' expr ')'
-  | expr ('&&'|'||') expr
-  | expr ('=='|'!=') expr
-  | expr ('*'|'/') expr
-  | expr ('+'|'-') expr
-  | expr ('>'|'>='|'<'|'<=') expr
+expr returns [Expression result]
+  : identifier { $result = add($ctx, new IdentityExpression($identifier.text)); }
+  | literal  { $result = add($ctx, new LiteralExpression($literal.result)); }
+  | '!' expr { $result = add($ctx, new Not($expr.result)); }
+  | '(' expr ')' { $result = $expr.result; }
+  | '+' expr { $result = add($ctx, new Pos($expr.result)); }
+  | '-' expr { $result = add($ctx, new Neg($expr.result)); }
+  | left=expr ('&&') right=expr {$result =  add($ctx, new And($left.result, $right.result));}
+  | left=expr ('||') right=expr {$result =  add($ctx, new Or($left.result, $right.result));}
+  | left=expr ('==') right=expr {$result =  add($ctx, new Eq($left.result, $right.result));}
+  | left=expr ('!=') right=expr {$result =  add($ctx, new NEq($left.result, $right.result));}
+  | left=expr ('*') right=expr {$result =  add($ctx, new Mul($left.result, $right.result));}
+  | left=expr (|'/') right=expr {$result =  add($ctx, new Div($left.result, $right.result));}
+  | left=expr ('+') right=expr {$result =  add($ctx, new Add($left.result, $right.result));}
+  | left=expr ('-') right=expr {$result =  add($ctx, new Sub($left.result, $right.result));}
+  | left=expr ('>') right=expr {$result =  add($ctx, new GT($left.result, $right.result));}
+  | left=expr ('>=') right=expr {$result =  add($ctx, new GEq($left.result, $right.result));}
+  | left=expr ('<') right=expr {$result =  add($ctx, new LT($left.result, $right.result));}
+  | left=expr ('<=') right=expr {$result =  add($ctx, new LEq($left.result, $right.result));}
  ;
 
-statement 
-  : question 
-  | ifElseStatement
+statement returns [Statement result]
+  : question { $result= add($ctx, $question.result); }
+  | ifElseStatement { $result= add($ctx, $ifElseStatement.result); }
  ;
 
-question
+question  returns [Question result]
   : identifier ':' STRING questionType  // question to be answered
-  | identifier ':' STRING questionType '(' expr ')' // question to be computed - expr eval
+    {$result = add($ctx, new NormalQuestion($identifier.result, $STRING.text, $questionType.result));}
+  | identifier ':' STRING questionType '(' expr ')' // question to be computed
+    {$result = add($ctx, new ComputedQuestion($identifier.result, $STRING.text, $questionType.result, $expr.result));}
  ;
   
-ifElseStatement //if or if-else-statement
-   : 'if' '(' expr ')' block ('else' block)?
+ifElseStatement returns [Statement result]//if or if-else-statement
+   : 'if' '(' expr ')' ifBody = block 
+      { $result = add($ctx, new IfThenStatement($expr.result, $ifBody.result));}
+   | 'if' '(' expr ')' ifBody = block 'else' elseBody = block 
+      { $result = add($ctx, new IfThenElseStatement($expr.result, $ifBody.result, $elseBody.result ));}
   ;
  
-block // block of multiple statements
-   :'{' statement* '}'
-  ; 
+block  returns [Block result] // block of multiple statements
+    locals [List<Statement> statements = new ArrayList<>();]
+    @after{ $result = add($ctx, new Block(statements));}
+    :'{' + (statement { $ctx.statements.add($statement.result); })+ '}'
+ ;
  
-form // form
-   : ('Form'|'form') identifier block
+
+form returns [Form result] // form
+   : ('Form'|'form') identifier block { $result = add($ctx, new Form($identifier.result, $block.result)); }
   ;
 
 // TODO check whether it is relevant to QL

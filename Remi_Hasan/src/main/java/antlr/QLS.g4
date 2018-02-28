@@ -12,18 +12,23 @@ question        : QUESTION (IDENTIFIER | IDENTIFIER widget);
 default_        : DEFAULT type (widget | '{' widget* '}');
 
 // Widgets
-widget          : WIDGET radioWidget
-                | WIDGET checkboxWidget
-                | WIDGET spinboxWidget
-                | WIDTH ':' INTEGER
-                | FONT ':' STRING // TODO validate font family?
-                | FONTSIZE ':' INTEGER
-                | COLOR ':' HEXCOLOR
+widget          : WIDGET RADIO '(' STRING (',' STRING)* ')' # radioWidget
+                | WIDGET CHECKBOX # checkBoxWidget
+                | WIDGET SPINBOX # spinBoxWidget
+                | WIDTH ':' INTEGER # widgetWidth
+                | FONT ':' STRING # widgetFont
+                | FONTSIZE ':' INTEGER # widgetFontSize
+                | COLOR ':' HEXCOLOR # widgetColor
                 ;
 
-radioWidget     : RADIO '(' (STRING ',')* STRING ')';
-checkboxWidget  : CHECKBOX;
-spinboxWidget   : SPINBOX;
+//radioWidget     : ;
+//checkBoxWidget  : CHECKBOX;
+//spinBoxWidget   : SPINBOX;
+//widgetWidth     : WIDTH ':' INTEGER;
+//widgetFont      : FONT ':' STRING; // TODO validate font family?
+//widgetFontSize  : FONTSIZE ':' INTEGER;
+//widgetColor     : COLOR ':' HEXCOLOR;
+
 
 type            : BOOLEANTYPE
                 | STRINGTYPE
@@ -62,9 +67,9 @@ LINE_COMMENT    : '//' ~[\r\n]* -> skip;
 
 // Literals
 INTEGER         : [0-9]+;
+MONEY           : [0-9]+ '.' [0-9] [0-9];
 DECIMAL         : [0-9]+ '.' [0-9]+;
 DATE            : ([0-9] | [0-3] [0-9]) '-' ([0-9] | [0-3] [0-9]) '-' ([0-9] [0-9] [0-9] [0-9]);
-MONEY           : ([0-9]+ '.' [0-9]+) | [0-9]+;
 STRING          : '"' .*? '"';
 IDENTIFIER      : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 HEXCOLOR        : '#' ([0-9] | 'a'..'f') ([0-9] | 'a'..'f') ([0-9] | 'a'..'f') ([0-9] | 'a'..'f') ([0-9] | 'a'..'f') ([0-9] | 'a'..'f');

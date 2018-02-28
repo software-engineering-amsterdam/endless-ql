@@ -10,7 +10,7 @@ import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 
 public class LessOrEqualExpression extends BinaryExpression<Boolean> {
 
-    LessOrEqualExpression(Expression left, Expression right){
+    public LessOrEqualExpression(Expression left, Expression right){
         super("<=", left, right);
     }
 

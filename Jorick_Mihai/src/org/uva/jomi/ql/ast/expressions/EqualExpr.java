@@ -1,15 +1,13 @@
 package org.uva.jomi.ql.ast.expressions;
 
-public class EqualExpr extends Expr {
+import org.uva.jomi.ql.ast.QLToken;
+
+public class EqualExpr extends BinaryExpr {
 	
-	public final Expr left;
-	public final Expr right;
-	
-	public EqualExpr(Expr left, Expr right) {
-		this.left = left;
-		this.right = right;
+	public EqualExpr(Expr left, QLToken operator, Expr right) {
+		super(left, operator, right);
 	}
-	
+
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);

@@ -1,11 +1,12 @@
 package ql.ast.expression;
 
+import ql.evaluator.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class Negative extends UnaryOperator {
 
-    public Negative(Expression expr) { 
-        super.operand = expr;
+    public Negative(Expression operand) { 
+        super(operand);
     }
 
     @Override
@@ -16,5 +17,10 @@ public class Negative extends UnaryOperator {
     @Override
     public String getOperator() {
         return "-";
+    }
+
+    @Override
+    public Value<?> evaluate() {
+        return operand.evaluate().negative();
     }
 }

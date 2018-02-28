@@ -33,7 +33,9 @@ public class QuestionBlockViewModelImpl implements QuestionBlockViewModel, Prope
         }
 
         for (ConditionalBlock block : model.getBlocks()) {
-            conditionalBlockViewModels.add(conditionalViewModelFactory.apply(block));
+            ConditionalBlockViewModel viewModel = conditionalViewModelFactory.apply(block);
+            conditionalBlockViewModels.add(viewModel);
+            viewModel.subscribeToPropertyChanged(this);
         }
     }
 

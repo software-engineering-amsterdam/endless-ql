@@ -65,12 +65,6 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitComparision(QLParser.ComparisionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#arithmetic}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArithmetic(QLParser.ArithmeticContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link QLParser#addsub}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -1,20 +1,26 @@
 package org.uva.forcepushql.ast;
 
-import org.uva.forcepushql.antlr.GrammarLexer;
 import org.uva.forcepushql.antlr.GrammarParser;
 import org.uva.forcepushql.antlr.GrammarParserBaseVisitor;
 
 public class BuildASTVisitor extends GrammarParserBaseVisitor{
 
 
-    public Expression visitExpression (GrammarParser context){
+    public Expression visitExpression (GrammarParser.ExpressionContext context){
 
+        if(context instanceof GrammarParser.BinaryExpressionContext)
+            return visitBinaryExpression((GrammarParser.BinaryExpressionContext)context);
 
+        else if(context instanceof GrammarParser.ParensExpressionContext)
+            return visitParensExpression((GrammarParser.ParensExpressionContext)context);
+
+        else
+            return visitValueExpression((GrammarParser.ValueExpressionContext)context);
 
     }
 
-    public ParensExpression visitParensExpression (GrammarParser.ParensExpressionContext context){
-        return new ParensExpression();
+    public Expression visitParensExpression (GrammarParser.ParensExpressionContext context){
+        return visitExpression(context.expression());
     }
 
     public ValueExpression visitValueExpression (GrammarParser.ValueExpressionContext context){
@@ -29,7 +35,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor{
 
     public BinaryExpression visitBinaryExpression(GrammarParser.BinaryExpressionContext context){
 
-        BinaryExpression node;
+        BinaryExpression node = null;
 
         switch(context.arithmetic().getRuleIndex()){
             case GrammarParser.PLUS:
@@ -88,8 +94,8 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor{
                 }
         }
 
-        node.left = visitExpression(context.left);
-        node.right = visitExpression(context.right);
+        node.setLeft(visitExpression(context.left));
+        node.setRight(visitExpression(context.right));
 
         return node;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL.Core.Api;
 
-namespace QL.Core.Test
+namespace QL.Core.Test.Parsing
 {
     [TestClass]
     public class ConditionalParseTests
@@ -48,6 +48,17 @@ namespace QL.Core.Test
 
             parsedSymbols.FormNode.Accept(_assertVisitor);
             _assertVisitor.VerifyAll();
+        }
+
+        [TestMethod]
+        public void ParseIfWithAnUnclosedBlock_WillReportError()
+        {
+            // Arrange & Act
+            var parsedSymbols = _parsingService.ParseQLInput(TestDataResolver.LoadTestFile("unclosedBlock.ql"));
+
+            // Assert
+            Assert.AreEqual("Syntax error in line 8, character 0: extraneous input '<EOF>' expecting {'if', '}', STRING}.",
+                parsedSymbols.Errors[0]);
         }
     }
 }

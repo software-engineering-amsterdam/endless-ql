@@ -1,7 +1,7 @@
 package nl.uva.js.qlparser.models.enums;
 
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.TextField;
 import lombok.Getter;
@@ -24,5 +24,9 @@ public enum DataType {
     INTEGER(Integer::valueOf, TextField::new);
 
     @NonNull @Getter private Function<String, ?> valueOf;
-    @NonNull @Getter private Supplier<Component> component;
+    @NonNull private Supplier<AbstractField> component;
+
+    public Supplier<AbstractField> getComponent() {
+        return component;
+    }
 }

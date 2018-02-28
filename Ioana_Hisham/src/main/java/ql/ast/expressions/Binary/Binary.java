@@ -1,4 +1,4 @@
-package ql.ast.expressions.Binary;
+package ql.ast.expressions.binary;
 
 import ql.ast.expressions.Expression;
 

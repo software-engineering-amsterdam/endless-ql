@@ -24,7 +24,6 @@ class ControlService {
 	@Inject
 	private var BindingService bindingService
 
-	@Accessors(PUBLIC_GETTER)
 	private val List<ControlWrapper> controls
 
 	new() {
@@ -87,6 +86,10 @@ class ControlService {
 				bindingService.invalidateBindings
 			}
 		}
+	}
+	
+	def getControlByName(String name){
+		controls.filter[it.name == name].head
 	}
 
 }

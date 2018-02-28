@@ -95,3 +95,22 @@ export const expressionVariableForm =
       exprQuestion: "Expression?" integer = question * 5
     }
   `;
+
+export const commentForm =
+  `
+  form form {
+    // q
+      question1: "IntegerQuestion?"  integer
+    // w
+      question2: "DecimalQuestion?"  decimal
+      question4: "BooleanQuestion?"  boolean
+      question5: "StringQuestion?"  string
+      question6: "DateQuestion?"  date
+      if (question4) {
+    // a
+        question7: "ifQuestion" integer
+    // d
+      }
+    // f
+    }
+`;

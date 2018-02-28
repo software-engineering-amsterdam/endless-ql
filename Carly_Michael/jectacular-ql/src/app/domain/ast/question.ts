@@ -15,7 +15,8 @@ export class Question extends Statement {
     return [this];
   }
 
-  toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>, condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
+  toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
+                 condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
     const options = {
       key: this.name,
       label: this.label,

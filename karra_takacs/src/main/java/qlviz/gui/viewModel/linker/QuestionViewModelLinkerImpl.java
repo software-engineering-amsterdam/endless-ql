@@ -5,14 +5,6 @@ import qlviz.gui.viewModel.FormViewModel;
 import qlviz.gui.viewModel.QuestionBlockViewModel;
 import qlviz.gui.viewModel.question.BooleanQuestionViewModel;
 import qlviz.gui.viewModel.question.NumericQuestionViewModel;
-import qlviz.interpreter.TypedQuestionCollector;
-import qlviz.interpreter.linker.BooleanExpressionLinker;
-import qlviz.interpreter.linker.NumericExpressionLinker;
-import qlviz.model.ConditionalBlock;
-import qlviz.model.Form;
-import qlviz.model.QuestionBlock;
-import qlviz.model.question.BooleanQuestion;
-import qlviz.model.question.NumericQuestion;
 
 import java.util.List;
 import java.util.function.Function;
@@ -41,8 +33,8 @@ public class QuestionViewModelLinkerImpl implements QuestionViewModelLinker {
 
     @Override
     public void linkQuestionStubs(FormViewModel form) {
-        List<BooleanQuestionViewModel> booleanQuestions = this.typedQuestionCollector.collectBooleanQuestions(form);
-        List<NumericQuestionViewModel> numericQuestions = this.typedQuestionCollector.collectNumericQuestions(form);
+        List<BooleanQuestionViewModel> booleanQuestions = this.typedQuestionCollector.collectBooleanQuestionViewModels(form);
+        List<NumericQuestionViewModel> numericQuestions = this.typedQuestionCollector.collectNumericQuestionViewModels(form);
 
         NumericExpressionViewModelLinker numericLinker = new NumericExpressionViewModelLinker(
             numericQuestions

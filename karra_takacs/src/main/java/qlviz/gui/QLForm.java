@@ -10,6 +10,9 @@ import qlviz.gui.renderer.javafx.JavafxQuestionRenderer;
 import qlviz.gui.viewModel.*;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactory;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactoryImpl;
+import qlviz.gui.viewModel.linker.QuestionViewModelCollectorImpl;
+import qlviz.gui.viewModel.linker.QuestionViewModelLinker;
+import qlviz.gui.viewModel.linker.QuestionViewModelLinkerImpl;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactoryImpl;
 import qlviz.interpreter.*;
@@ -69,6 +72,9 @@ public class QLForm extends Application {
 		QuestionBlockViewModelFactory questionBlockViewModelFactory =
 				new QuestionBlockViewModelFactory(questionViewModelFactory::create, booleanExpressionFactory::create);
 		FormViewModel viewModel = new FormViewModelImpl(model, renderer, questionBlockViewModelFactory::create);
+
+		QuestionViewModelLinker viewModelLinker = new QuestionViewModelLinkerImpl(new QuestionViewModelCollectorImpl());
+		viewModelLinker.linkQuestionStubs(viewModel);
 		this.renderer.render(viewModel);
 	}
 

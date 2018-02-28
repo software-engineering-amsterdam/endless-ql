@@ -1,6 +1,6 @@
 package domain.model;
 
-public class Expression extends Variable {
+public class Expression extends QuestionVariableValue {
 
     private String leftHandOperand;
     private String rightHandOperand;

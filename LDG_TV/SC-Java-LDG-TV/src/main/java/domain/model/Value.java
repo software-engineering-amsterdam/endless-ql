@@ -1,6 +1,6 @@
 package domain.model;
 
-public class Value extends Variable{
+public class Value extends QuestionVariableValue{
     private String value;
 
     public Value(String value){

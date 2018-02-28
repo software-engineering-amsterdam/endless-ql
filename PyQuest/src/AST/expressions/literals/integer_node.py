@@ -1,7 +1,7 @@
-from AST.expressions.expression_node import ExpressionNode
+from AST.expressions.literals.literal_node import LiteralNode
 
 
-class IntegerNode(ExpressionNode):
+class IntegerNode(LiteralNode):
     def __init__(self, position, expression_type, value):
         super(IntegerNode, self).__init__(position, expression_type)
         self._value = value

@@ -4,7 +4,7 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.Statements;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.visitor.BaseVisitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,35 +13,29 @@ import java.util.List;
 public class StatementsEvaluator extends BaseVisitor<List<Question>> {
 
     /**
-     * List of questions that are seen
+     *
      */
-    private List<Question> cachedQuestions = null;
+    private SymbolTable symbolTable;
 
     /**
-     * List of statements
+     *
      */
-    private Statements statements;
+    private IfStatementEvaluator ifStatementEvaluator = new IfStatementEvaluator();
 
     /**
-     * Get all questions in statements
-     * @param statements What statements have to be evaluated
+     *
+     * @param symbolTable
      */
-    public StatementsEvaluator(Statements statements) {
-        this.statements = statements;
+    public StatementsEvaluator(SymbolTable symbolTable) {
+        this.symbolTable = symbolTable;
     }
 
     /**
      * Evaluates the statements
      * @return List of all seen questions
      */
-    public List<Question> evaluate() {
-        //Return cached list when possible
-        if(cachedQuestions != null)
-            return cachedQuestions;
-
-        this.cachedQuestions = this.statements.accept(this);
-
-        return this.cachedQuestions;
+    public List<Question> evaluate(Statements statements) {
+        return statements.accept(this);
     }
 
     /**
@@ -74,6 +68,6 @@ public class StatementsEvaluator extends BaseVisitor<List<Question>> {
      * @return
      */
     public List<Question> visit(IfStatement ifStatement) {
-        return new ArrayList<>();
+        return this.ifStatementEvaluator.evaluate(ifStatement, this.symbolTable);
     }
 }

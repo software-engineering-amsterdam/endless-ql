@@ -3,7 +3,7 @@ package org.uva.sea.ql.evaluate;
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.visitor.BaseVisitor;
 import org.uva.sea.ql.value.*;
 
 public class ExpressionEvaluator extends BaseVisitor<Value> {

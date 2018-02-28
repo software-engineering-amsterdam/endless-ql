@@ -1,4 +1,4 @@
-package org.uva.sea.ql.traverse;
+package org.uva.sea.ql.visitor;
 
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;

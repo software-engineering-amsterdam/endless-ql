@@ -14,8 +14,8 @@ final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
   def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
     case that: BooleanAnswer => operator match {
       case Lt => this < that
-      case LTe => this <= that
-      case GTe => this >= that
+      case Lte => this <= that
+      case Gte => this >= that
       case Gt => this > that
       case Ne => this !== that
       case Eq => this === that

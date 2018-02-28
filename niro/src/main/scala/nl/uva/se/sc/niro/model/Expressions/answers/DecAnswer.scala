@@ -16,8 +16,8 @@ final case class DecAnswer(possibleValue: Option[BigDecimal]) extends Answer {
       case Mul => this * that
       case Div => this / that
       case Lt => this < that
-      case LTe => this <= that
-      case GTe => this >= that
+      case Lte => this <= that
+      case Gte => this >= that
       case Gt => this > that
       case Ne => this !== that
       case Eq => this === that

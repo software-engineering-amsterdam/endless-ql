@@ -114,5 +114,77 @@ describe('Expressions', () => {
       expect(() => new UnaryExpression(decimalLiteral, '!', location)
         .checkType([])).toThrowError();
     });
+
+    it('expressions should type check input literals', () => {
+      const literalArray = [stringLiteral, dateLiteral, booleanLiteral, intLiteral, decimalLiteral];
+
+      for (let i = 0; i < literalArray.length; i++) {
+        for (let j = 0; j < literalArray.length; j++) {
+          if (literalArray[i].type === ExpressionType.BOOLEAN && literalArray[j].type === ExpressionType.BOOLEAN) {
+            expect(new LogicalExpression(literalArray[i], literalArray[j], '&&', location).checkType([]));
+          } else {
+            expect(() => {
+              new LogicalExpression(literalArray[i], literalArray[j], '&&', location).checkType([]);
+            }).toThrow();
+          }
+        }
+      }
+
+      for (let i = 0; i < literalArray.length; i++) {
+        for (let j = 0; j < literalArray.length; j++) {
+          if (literalArray[i].type === ExpressionType.NUMBER && literalArray[j].type === ExpressionType.NUMBER) {
+            expect(new ArithmeticExpression(literalArray[i], literalArray[j], '+', location).checkType([]));
+          } else {
+            expect(() => {
+              new ArithmeticExpression(literalArray[i], literalArray[j], '+', location).checkType([]);
+            }).toThrow();
+          }
+        }
+      }
+
+      for (let i = 0; i < literalArray.length; i++) {
+        for (let j = 0; j < literalArray.length; j++) {
+          if (literalArray[i].type === ExpressionType.NUMBER && literalArray[j].type === ExpressionType.NUMBER) {
+            expect(new ComparisonExpression(literalArray[i], literalArray[j], '<', location).checkType([]));
+          } else {
+            expect(() => {
+              new ComparisonExpression(literalArray[i], literalArray[j], '<', location).checkType([]);
+            }).toThrow();
+          }
+        }
+      }
+
+      for (let i = 0; i < literalArray.length; i++) {
+        for (let j = 0; j < literalArray.length; j++) {
+          if (literalArray[i].type === literalArray[j].type) {
+            expect(new EqualityExpression(literalArray[i], literalArray[j], '==', location).checkType([]));
+          } else {
+            expect(() => {
+              new EqualityExpression(literalArray[i], literalArray[j], '==', location).checkType([]);
+            }).toThrow();
+          }
+        }
+      }
+
+      for (let i = 0; i < literalArray.length; i++) {
+        if (literalArray[i].type === ExpressionType.NUMBER) {
+          expect(new UnaryExpression(literalArray[i], '-', location).checkType([]));
+        } else {
+          expect(() => {
+            new UnaryExpression(literalArray[i], '-', location).checkType([]);
+          }).toThrow();
+        }
+      }
+
+      for (let i = 0; i < literalArray.length; i++) {
+        if (literalArray[i].type === ExpressionType.BOOLEAN) {
+          expect(new UnaryExpression(literalArray[i], '!', location).checkType([]));
+        } else {
+          expect(() => {
+            new UnaryExpression(literalArray[i], '!', location).checkType([]);
+          }).toThrow();
+        }
+      }
+    });
   });
 });

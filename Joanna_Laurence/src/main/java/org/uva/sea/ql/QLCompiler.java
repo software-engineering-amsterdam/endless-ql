@@ -8,8 +8,6 @@ import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 import org.uva.sea.ql.parser.elements.Form;
 
-;
-
 public class QLCompiler {
 
     /**
@@ -39,9 +37,6 @@ public class QLCompiler {
         if(!varChecker.addVariableInformation(form.result)) {
             return null;
         }
-
-        //Show the parse tree
-        //Trees.inspect(form, parser);
 
         return form.result;
     }

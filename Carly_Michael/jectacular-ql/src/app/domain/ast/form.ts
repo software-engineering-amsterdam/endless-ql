@@ -18,7 +18,7 @@ export class Form {
         continue;
       }
 
-      formQuestions = statement.toFormQuestion(formQuestions);
+      formQuestions = formQuestions.concat(statement.toFormQuestion(formQuestions));
     }
 
     return formQuestions.sort((a, b) => a.order - b.order);

@@ -5,12 +5,10 @@ import { FormComponent } from "./rendering/components/form_component/FormCompone
 import Form from "./form/Form";
 import { sampleForm } from "./mock/sampleForm";
 import { QlsTest } from "./modules/styling/rendering/components/qls_test/QlsTest";
-
 import QuestionForm from "./form/QuestionForm";
 import FormNode from "./form/nodes/FormNode";
 import Alert from "reactstrap/lib/Alert";
 import { getParserErrorMessage } from "./parsing/parsing_helpers";
-import VisibleFieldsVisitor from "./form/evaluation/VisibleFieldsVisitor";
 
 export interface AppComponentProps {
 }
@@ -83,8 +81,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
          * the real formula.
          */
         <div className="app container">
-          <h2>Sample QL ouput</h2>
-          <QlsTest/>
+          <h1>NEWSKQL</h1>
           <div className="row ql-sample-output">
             <div className="col-md-6">
               <Input
@@ -105,6 +102,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
                   value={this.state.form.getState().toString()}
               />
             </div>
+            div.col-,d
           </div>
         </div>
     );

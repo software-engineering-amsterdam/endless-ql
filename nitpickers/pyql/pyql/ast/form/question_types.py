@@ -1,5 +1,4 @@
 from pyql.ast.ast import ASTNode
-from pyql.ast.ast import code_location
 
 
 class Type(ASTNode):

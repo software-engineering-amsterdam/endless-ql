@@ -7,6 +7,9 @@ class TypeMoney(Type):
         super(TypeMoney, self).__init__()
         self.operations = []
 
+    def __repr__(self):
+        return 'money'
+
     @staticmethod
     def pyqt5_default_widget():
         return QLineEdit()

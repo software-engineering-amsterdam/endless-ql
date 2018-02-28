@@ -95,7 +95,7 @@ export const assertValidDivision = (dividend: number, divisor: number) => {
   dividend = assertNumeric(dividend);
   divisor = assertNumeric(divisor);
 
-  if (dividend !== 0 && divisor === 0) {
+  if (divisor === 0) {
     throw DivisionByZeroError.make();
   }
 

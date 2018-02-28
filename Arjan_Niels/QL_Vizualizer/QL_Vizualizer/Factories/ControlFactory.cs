@@ -157,7 +157,8 @@ namespace QL_Vizualizer.Factories
         private TextBox ConstructTextbox<T>(QLQuestionWidget<T> widget, WindowsStyleProperties style, ref Control result)
         {
             TextBox textBox = new TextBox();
-            textBox.Text = widget.AnswerValue.ToString();
+            if(widget.IsAnswered)
+                textBox.Text = widget.AnswerValue.ToString();
             textBox.Location = new Point(0, AddLabel(widget.Text, 0, style, ref result));
             textBox.Enabled = widget.Editable;
 

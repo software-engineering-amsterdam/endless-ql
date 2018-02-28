@@ -30,7 +30,7 @@ namespace QL_Vizualizer.Widgets
         {
             AnswerValue = default(T);
             IsAnswered = false;
-            _answerExpression = answerExpression;       
+            _answerExpression = answerExpression;
         }
 
         /// <summary>
@@ -69,7 +69,8 @@ namespace QL_Vizualizer.Widgets
             IsAnswered = true;
 
             // Send update to the controller
-            _widgetController.ValueUpdate(Identifyer);
+            if (_widgetController != null)
+                _widgetController.ValueUpdate(Identifyer);
         }
 
         /// <summary>

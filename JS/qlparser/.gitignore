@@ -135,6 +135,7 @@ Temporary Items
 .apdisk
 
 ### Gradle ###
+gradle
 .gradle
 **/build/
 

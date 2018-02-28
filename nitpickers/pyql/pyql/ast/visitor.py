@@ -102,6 +102,9 @@ class ParseTreeVisitor(QLVisitor):
         return ctx.getText()
 
     def visitUnExpression(self, ctx: QLParser.UnExpressionContext):
+        expression = ctx.expression()
+        if expression:
+            return expression.accept(self)
         return self.visitChildren(ctx)
 
     def visitMoneyLiteral(self, ctx: QLParser.MoneyLiteralContext):

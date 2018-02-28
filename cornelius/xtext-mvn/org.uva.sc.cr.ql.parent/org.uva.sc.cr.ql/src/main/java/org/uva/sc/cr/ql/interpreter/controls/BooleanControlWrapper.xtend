@@ -22,7 +22,7 @@ class BooleanControlWrapper extends ControlWrapper {
 	override getControl() {
 		return control
 	}
-	
+
 	override protected buildControl() {
 		control = new CheckBox
 	}

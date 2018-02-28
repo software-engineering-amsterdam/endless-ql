@@ -6,8 +6,10 @@ class QLAst:
         self.forms.append(form)
 
     def checkTypes(self):
+        types = []
         for form in self.forms:
-            form.checkTypes()
+            types.append(form.checkTypes())
+        return types
 
     def __repr__(self):
         return "FORMS: {}".format(self.forms)

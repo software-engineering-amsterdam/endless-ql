@@ -17,14 +17,6 @@ def main(argv):
     c = tree.accept(visitor)
     print(c)
 
-    # output = open("output.html", "w")
-
-    # htmlQL = HtmlQLListener(output)
-    # walker = ParseTreeWalker()
-    # walker.walk(htmlQL, tree)
-
-    # output.close()
-
 
 if __name__ == '__main__':
     main(sys.argv)

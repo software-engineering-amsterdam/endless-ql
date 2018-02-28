@@ -15,7 +15,7 @@ public class StringValue extends Value {
     }
 
     @Override
-    public Value add(Value value) {
+    public Value add(Value value) throws Exception {
         return value.add(this);
     }
 

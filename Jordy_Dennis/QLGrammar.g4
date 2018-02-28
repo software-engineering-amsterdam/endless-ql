@@ -49,7 +49,7 @@ COMPARE: '<'
         | '!='
         ;
 
-types: 'integer' | 'int' | 'boolean' | 'bool' | 'string' | 'str' | 'date' | 'money';
+types: 'integer' | 'int' | 'boolean' | 'bool' | 'string' | 'str' | 'money' | 'float';
 
 BOOL: 'true' | 'false';
 INT :   [0-9]+ ;         // match integers

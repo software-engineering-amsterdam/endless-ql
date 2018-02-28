@@ -18,7 +18,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value and(Value value) {
+    public Value and(Value value) throws Exception {
         return value.and(this);
     }
 
@@ -28,7 +28,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value isEqual(Value value) {
+    public Value isEqual(Value value) throws Exception {
         return value.isEqual(this);
     }
 
@@ -38,7 +38,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value isNotEqual(Value value) {
+    public Value isNotEqual(Value value) throws Exception {
         return value.isNotEqual(this);
     }
 
@@ -48,7 +48,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value or(Value value) {
+    public Value or(Value value) throws Exception {
         return value.or(value);
     }
 

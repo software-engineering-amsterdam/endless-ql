@@ -1,10 +1,10 @@
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import expression.*;
-import expression.variable.ExpressionVariable;
 import expression.variable.ExpressionVariableNumber;
-import org.hamcrest.core.IsEqual;
 import org.junit.runner.RunWith;
+
+import java.math.BigDecimal;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
@@ -15,6 +15,11 @@ import static org.junit.Assume.assumeThat;
 public class ExpressionEvaluationTest {
 
     private static double DELTA = 0.001;
+
+    // Prevents E notation to be in a double's string representation, which would be parsed incorrectly
+    public String doubleString(double value) {
+        return new BigDecimal(value).toPlainString();
+    }
 
     public ExpressionVariableNumber evaluateExpression(String expressionString) {
         ANTLRTester tester = new ANTLRTester(expressionString);
@@ -36,13 +41,13 @@ public class ExpressionEvaluationTest {
 
     @Property
     public void ExpressionEvaluationSum(double left, double right) {
-        ExpressionVariableNumber result = evaluateExpression(left + " + " + right);
+        ExpressionVariableNumber result = evaluateExpression(doubleString(left) + " + " + doubleString(right));
         assertEquals(left + right, result.getDecimalValue(), DELTA);
     }
 
     @Property
     public void ExpressionEvaluationSum(int left, double right) {
-        ExpressionVariableNumber result = evaluateExpression(left + " + " + right);
+        ExpressionVariableNumber result = evaluateExpression(left + " + " + doubleString(right));
         assertEquals(left + right, result.getDecimalValue(), DELTA);
     }
 
@@ -56,13 +61,13 @@ public class ExpressionEvaluationTest {
 
     @Property
     public void ExpressionEvaluationSub(double left, double right) {
-        ExpressionVariableNumber result = evaluateExpression(left + " - " + right);
+        ExpressionVariableNumber result = evaluateExpression(doubleString(left) + " - " + doubleString(right));
         assertEquals(left - right, result.getDecimalValue(), DELTA);
     }
 
     @Property
     public void ExpressionEvaluationSub(int left, double right) {
-        ExpressionVariableNumber result = evaluateExpression(left + " - " + right);
+        ExpressionVariableNumber result = evaluateExpression(left + " - " + doubleString(right));
         assertEquals(left - right, result.getDecimalValue(), DELTA);
     }
 
@@ -76,13 +81,13 @@ public class ExpressionEvaluationTest {
 
     @Property
     public void ExpressionEvaluationMul(double left, double right) {
-        ExpressionVariableNumber result = evaluateExpression(left + " * " + right);
+        ExpressionVariableNumber result = evaluateExpression(doubleString(left) + " * " + doubleString(right));
         assertEquals(left * right, result.getDecimalValue(), DELTA);
     }
 
     @Property
     public void ExpressionEvaluationMul(int left, double right) {
-        ExpressionVariableNumber result = evaluateExpression(left + " * " + right);
+        ExpressionVariableNumber result = evaluateExpression(left + " * " + doubleString(right));
         assertEquals(left * right, result.getDecimalValue(), DELTA);
     }
 
@@ -98,14 +103,14 @@ public class ExpressionEvaluationTest {
     @Property
     public void ExpressionEvaluationDiv(double left, double right) {
         assumeThat(right, not(equalTo(0)));
-        ExpressionVariableNumber result = evaluateExpression(left + " / " + right);
+        ExpressionVariableNumber result = evaluateExpression(doubleString(left) + " / " + doubleString(right));
         assertEquals(left / right, result.getDecimalValue(), DELTA);
     }
 
     @Property
     public void ExpressionEvaluationDiv(int left, double right) {
         assumeThat(right, not(equalTo(0)));
-        ExpressionVariableNumber result = evaluateExpression(left + " / " + right);
+        ExpressionVariableNumber result = evaluateExpression(left + " / " + doubleString(right));
         assertEquals(left / right, result.getDecimalValue(), DELTA);
     }
 

@@ -17,6 +17,7 @@ import org.uva.sea.ql.DataObject.QuestionData;
 import org.uva.sea.ql.QLFormGenerator;
 import org.uva.sea.ql.evaluate.SymbolTable;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,20 +109,21 @@ public class QuestionController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println(location);
+        try {
+            QLFormGenerator formGenerator = new QLFormGenerator();
+            questions = formGenerator.generate("/example.ql", symbolTable);
+            for (QuestionData question : questions) {
+                System.out.println(question.getLabel() +
+                        " " + question.getValue() +
+                        " " + question.getNodeType().name() +
+                        " " + question.isComputed());
+            }
 
-        QLFormGenerator formGenerator = new QLFormGenerator();
-        questions = formGenerator.generate("/example.ql", symbolTable);
-
-        for (QuestionData question : questions) {
-            System.out.println(question.getLabel() +
-                    " " + question.getValue() +
-                    " " + question.getNodeType().name() +
-                    " " + question.isComputed());
+            updateQuestionGUIs(questions);
+            printQuestions();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        updateQuestionGUIs(questions);
-        printQuestions();
     }
 
     private void updateQuestionGUIs(List<QuestionData> data) {

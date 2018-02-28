@@ -35,18 +35,20 @@ form      : 'form' VARIABLE '{' question* condition* '}';
 question  : VARIABLE ':' STRING TYPE expression?;
 condition : 'if' expression '{' question* condition* '}';
 
-// Expressions: Include some basic rules about operators //TODO fix the expression not being recognised in test_grammar
+// Expressions: Includes order about operators
 expression : '(' expression ')'
            | NOT expression // Not is special because it's unary.
            | VARIABLE | BOOLEAN | STRING | numeral
+           | expression factor expression
+           | expression muldiv expression
+           | expression addsub expression
            | expression operator expression;
 
 // Operators
-operator      : booloperator | equaloperator | comparision | addsub; //arithmetic;
+operator      : booloperator | equaloperator | comparision;
 booloperator  : AND | OR;
 equaloperator : EQUAL | NOTEQUAL;
 comparision   : LESS | GREATER | LESSEQ | GREATEREQ;
-//arithmetic    : factor | muldiv | addsub;
-addsub        : muldiv | ADDITION | SUBTRACTION;
-muldiv        : factor | MULTIPLICATION | DIVISION;
+addsub        : ADDITION | SUBTRACTION;
+muldiv        : MULTIPLICATION | DIVISION;
 factor        : EXPONENT;

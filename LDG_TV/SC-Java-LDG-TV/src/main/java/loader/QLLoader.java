@@ -48,18 +48,18 @@ public class QLLoader extends FormBaseListener {
             default:
         }
     }
-    private Question newQuestion(String label, String variable, String variableType, FormParser.QuestionVariableValueContext variableValue){
-        Variable constructedVariableValue = null;
+    private Question newQuestion(String label, String questionVariable, String questionVariableType, FormParser.QuestionVariableValueContext questionVariableValue){
+        Variable constructedQuestionVariableValue = null;
 
-        if(variableValue != null && variableValue.expression() != null){
-            FormParser.ExpressionContext ec = variableValue.expression();
-            constructedVariableValue = new Expression(ec.questionVariable(0).getText(), ec.questionVariable(1).getText(), ec.operator().getText());
+        if(questionVariableValue != null && questionVariableValue.expression() != null){
+            FormParser.ExpressionContext ec = questionVariableValue.expression();
+            constructedQuestionVariableValue = new Expression(ec.questionVariable(0).getText(), ec.questionVariable(1).getText(), ec.operator().getText());
         }
-        if(variableValue != null && variableValue.value() != null){
-            FormParser.ValueContext vc = variableValue.value();
-            constructedVariableValue = new Value(vc.getText());
+        if(questionVariableValue != null && questionVariableValue.value() != null){
+            FormParser.ValueContext vc = questionVariableValue.value();
+            constructedQuestionVariableValue = new Value(vc.getText());
         }
-        return new Question(label, variable, variableType, constructedVariableValue);
+        return new Question(label, questionVariable, questionVariableType, constructedQuestionVariableValue);
     }
     public FormNode getFormNode() {
         return formNode;

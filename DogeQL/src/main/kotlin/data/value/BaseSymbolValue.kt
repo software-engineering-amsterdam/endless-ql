@@ -8,27 +8,27 @@ abstract class BaseSymbolValue(val type: QuestionType) : Comparable<BaseSymbolVa
     abstract fun valueString(): String
 
     open infix fun and(that: BaseSymbolValue): BooleanValue {
-        return attemptOperator(that, "&&", { it and that })
+        return attemptOperator(that, "&&", { left, right -> left and right })
     }
 
     open infix fun or(that: BaseSymbolValue): BooleanValue {
-        return attemptOperator(that, "||", { it or that })
+        return attemptOperator(that, "||", { left, right -> left or right })
     }
 
     open operator fun plus(that: BaseSymbolValue): BaseSymbolValue {
-        return attemptOperator(that, "+", { it + that })
+        return attemptOperator(that, "+", { left, right -> left + right })
     }
 
     open operator fun minus(that: BaseSymbolValue): BaseSymbolValue {
-        return attemptOperator(that, "-", { it - that })
+        return attemptOperator(that, "-", { left, right -> left - right })
     }
 
     open operator fun times(that: BaseSymbolValue): BaseSymbolValue {
-        return attemptOperator(that, "*", { it * that })
+        return attemptOperator(that, "*", { left, right -> left * right })
     }
 
     open operator fun div(that: BaseSymbolValue): BaseSymbolValue {
-        return attemptOperator(that, "/", { it / that })
+        return attemptOperator(that, "/", { left, right -> left / right })
     }
 
     open operator fun not(): BaseSymbolValue {
@@ -36,7 +36,7 @@ abstract class BaseSymbolValue(val type: QuestionType) : Comparable<BaseSymbolVa
     }
 
     override fun compareTo(other: BaseSymbolValue): Int {
-        return attemptOperator(other, "compareTo", { it.compareTo(other) })
+        return attemptOperator(other, "compareTo", { left, right -> left.compareTo(right) })
     }
 
     open fun castTo(that: QuestionType): BaseSymbolValue? = when (that) {
@@ -68,7 +68,9 @@ abstract class BaseSymbolValue(val type: QuestionType) : Comparable<BaseSymbolVa
     }
 
     private inline fun <O> attemptOperator(
-            that: BaseSymbolValue, operatorString: String, operator: (BaseSymbolValue) -> O
+            that: BaseSymbolValue,
+            operatorString: String,
+            operator: (left: BaseSymbolValue, right: BaseSymbolValue) -> O
     ): O {
         if (type == that.type) {
             unsupportedOperation(operatorString, that)
@@ -78,13 +80,17 @@ abstract class BaseSymbolValue(val type: QuestionType) : Comparable<BaseSymbolVa
     }
 
     private inline fun <O> castAndRetry(
-            that: BaseSymbolValue, operatorString: String, operator: (BaseSymbolValue) -> O
+            that: BaseSymbolValue,
+            operatorString: String,
+            operator: (left: BaseSymbolValue, right: BaseSymbolValue) -> O
     ): O {
         val castedThis = castTo(that.type)
+        val castedThat = that.castTo(type)
 
-        return when (castedThis) {
-            null -> unsupportedOperation(operatorString, that)
-            else -> operator(castedThis)
+        return when {
+            castedThis != null && castedThat == null -> operator(castedThis, that)
+            castedThis == null && castedThat != null -> operator(this, castedThat)
+            else -> unsupportedOperation(operatorString, that)
         }
     }
 

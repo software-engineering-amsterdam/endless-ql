@@ -1,9 +1,6 @@
-import classes.Form;
-import gui.FormBuilder;
 import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 import parsing.AST_Visitor;
 import parsing.gen.QLLexer;
 import parsing.gen.QLParser;
@@ -47,19 +44,19 @@ public class Main {
             System.out.println("done");
 
             //Construct the form
-            ParseTree parseTree = parser.form();
-            Form form = (Form) parseTree.accept(builder);
+            //ParseTree parseTree = parser.form();
+            //Form form = (Form) parseTree.accept(builder);
 
             //Call parse tree inspector: Show the tree
             Trees.inspect(tree, parser);
 
             //Do typechecking
             TypeChecker typeChecker = new TypeChecker();
-            typeChecker.initTypeChecking(form);
+            //typeChecker.initTypeChecking(form);
 
             //Pass the form from the tree
-            FormBuilder formBuilder = new FormBuilder();
-            formBuilder.initComponents(form);
+            //FormBuilder formBuilder = new FormBuilder();
+            //formBuilder.initComponents(form);
 
         } catch (IOException e) {
             e.printStackTrace();

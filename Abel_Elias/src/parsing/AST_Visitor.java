@@ -1,7 +1,7 @@
 package parsing;
 
 import classes.Configuration;
-import classes.question.Question;
+import classes.statements.Question;
 
 import parsing.gen.*;
 

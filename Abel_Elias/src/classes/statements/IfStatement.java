@@ -1,4 +1,9 @@
 package classes.statements;
 
-public class IfStatement extends Statement {
+import classes.CodeBlock;
+
+public class IfStatement<T> extends Statement {
+    public IfStatement(CodeBlock code) {
+        super(code);
+    }
 }

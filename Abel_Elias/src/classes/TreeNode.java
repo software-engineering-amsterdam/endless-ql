@@ -1,6 +1,6 @@
 package classes;
 
-public class TreeNode {
+public abstract class TreeNode {
     private CodeBlock codeBlock;
 
     public TreeNode() {

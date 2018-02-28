@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.uva.sea.ql.DataObject.QuestionData;
 import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.parser.NodeType;
@@ -22,17 +23,28 @@ import java.util.regex.Pattern;
 @RunWith(Parameterized.class)
 public class QLEvaluatorTest extends TestCase {
 
+    //Parameters for every test
     private String testFile;
     private int correctQuestions;
 
     private static TestFileHelper testFileHelper = new TestFileHelper();
     private FormEvaluator formEvaluator = new FormEvaluator();
 
+
+    /**
+     * Constructor for every test
+     * @param testFile
+     * @param correctQuestions
+     */
     public QLEvaluatorTest(String testFile, int correctQuestions) {
         this.testFile = testFile;
         this.correctQuestions = correctQuestions;
     }
 
+    /**
+     * Test generator
+     * @return Test parameters
+     */
     @Parameterized.Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
         return new ArrayList<>(getTestFiles("src/test/resources/calculateQL/"));
@@ -46,10 +58,6 @@ public class QLEvaluatorTest extends TestCase {
     private static Collection<Object[]> getTestFiles(String folderLocation) {
         Collection<Object[]> testFiles = new ArrayList<Object[]>();
 
-        //TODO: extract bag of variables @ evaluator
-        //waitDays:=integer 5
-        //waitDays has the value Integer("5")
-
         Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
         for(String location : locations) {
             testFiles.add(new Object[] {location, determineExpectedTests(location)});
@@ -58,6 +66,11 @@ public class QLEvaluatorTest extends TestCase {
         return testFiles;
     }
 
+    /**
+     * Extract correct tests from file
+     * @param location
+     * @return
+     */
     private static int determineExpectedTests(String location) {
         try(FileInputStream inputStream = new FileInputStream(location)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -85,23 +98,18 @@ public class QLEvaluatorTest extends TestCase {
      * @param fileName The location of the QL file
      * @return If the script compiles
      */
-    private int getDisplayedQuestions(String fileName) {
-        try {
-            QLCompiler compiler = new QLCompiler();
-            CharStream steam = CharStreams.fromStream(new FileInputStream(fileName));
-            Form result = compiler.compileScriptFile(steam);
-            if(result == null)
-                return 0;
-
-            SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
-
-            List<Question> questions = this.formEvaluator.evaluate(result, symbolTable);
-            return questions.size();
-        } catch (IOException e) {
-            return 0;
-        }
+    private int getDisplayedQuestions(String fileName) throws IOException {
+        SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
+        QLFormGenerator qlFormGenerator = new QLFormGenerator();
+        List<QuestionData> questions = qlFormGenerator.generate(fileName, symbolTable);
+        return questions.size();
     }
 
+    /**
+     * Extracts the symbol table from the test file
+     * @param location Location of the test file
+     * @return The Symbol table
+     */
     private SymbolTable getSymbolTableForTest(String location) {
 
         SymbolTable symbolTable = new SymbolTable();
@@ -136,7 +144,7 @@ public class QLEvaluatorTest extends TestCase {
     }
 
     @Test
-    public void testFile() {
+    public void testFile() throws IOException {
         System.out.println("Testing: " + this.testFile);
         Assert.assertEquals(this.correctQuestions, this.getDisplayedQuestions(this.testFile));
     }

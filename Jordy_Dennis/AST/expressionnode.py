@@ -16,13 +16,15 @@ class BinaryNode:
 
     # check the actual expression type
     def checkChildTypes(self):
-    	leftType = self.left.checkChildTypes()
-    	rightType = self.right.checkChildTypes()
-    	# If the right type and left type are incomparible raise an exception and print line number
-    	# Else, return the type
+        leftType = self.left.checkChildTypes()
+        rightType = self.right.checkChildTypes()
+
+    # If the right type and left type are incomparible raise an exception and print line number
+    # Else, return the type
 
     def __repr__(self):
         return "Binop: {} {} {}".format(self.left, self.op, self.right)
+
 
 class UnaryNode:
     def __init__(self, left, op, line):
@@ -32,12 +34,13 @@ class UnaryNode:
 
     # Negation of a variable is always a bool, a set variable will be True and an unset variable is false
     def checkChildTypes(self):
-    	self.left.checkChildTypes()
-    	# If this is all correct, return a bool
-    	return bool
+        self.left.checkChildTypes()
+        # If this is all correct, return a bool
+        return bool
 
     def __repr__(self):
         return "Monop: {} {}".format(self.op, self.left)
+
 
 class LiteralNode:
     def __init__(self, value, _type, line):
@@ -47,7 +50,7 @@ class LiteralNode:
 
     # return the type for type checking the expression
     def checkChildTypes(self):
-    	return self.type
+        return self.type
 
     def __repr__(self):
-        return "literal: {}({}) ".format(self.value,self.type)
+        return "literal: {}({}) ".format(self.value, self.type)

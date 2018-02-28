@@ -1,6 +1,6 @@
 package expression;
 
-import expression.constant.ExpressionVariable;
+import expression.variable.ExpressionVariable;
 import model.LookupTable;
 
 public class ExpressionIdentifier<T> extends Expression {

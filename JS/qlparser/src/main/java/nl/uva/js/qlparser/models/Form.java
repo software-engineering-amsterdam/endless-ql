@@ -25,17 +25,6 @@ public class Form implements Expression, Expression.TypeCheckable, Expression.Vi
     public List<Component> getComponents() {
         LinkedList<Component> components = new LinkedList<>();
 
-        String humanizedName = StringUtils.capitalize(
-                Arrays.stream(StringUtils.splitByCharacterTypeCamelCase(name))
-                        .map(String::toLowerCase)
-                        .filter(StringUtils::isNotBlank)
-                        .collect(Collectors.joining(" ")));
-
-        components.add(new Label(
-                "<h1>" + HtmlUtils.htmlEscape(humanizedName) + "</h1>",
-                ContentMode.HTML
-        ));
-
         formExpressions.stream()
                 .map(FormExpression::getComponents)
                 .forEach(components::addAll);
@@ -46,5 +35,13 @@ public class Form implements Expression, Expression.TypeCheckable, Expression.Vi
     @Override
     public void checkType() {
         formExpressions.forEach(Expression.TypeCheckable::checkType);
+    }
+
+    public String getHumanizedName() {
+        return StringUtils.capitalize(
+                Arrays.stream(StringUtils.splitByCharacterTypeCamelCase(name))
+                        .map(String::toLowerCase)
+                        .filter(StringUtils::isNotBlank)
+                        .collect(Collectors.joining(" ")));
     }
 }

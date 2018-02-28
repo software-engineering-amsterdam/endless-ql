@@ -20,7 +20,21 @@ public class IfBlock implements FormExpression {
 
     @Override
     public List<Component> getComponents() {
-        return Collections.emptyList();
+        LinkedList<Component> components = new LinkedList<>();
+
+        expressions.stream()
+                .map(FormExpression::getComponents)
+                .forEach(components::addAll);
+
+        for (Component component : components) {
+            component.setVisible(evaluateCondition());
+        }
+
+        return components;
+    }
+
+    private boolean evaluateCondition() {
+        return false; // TODO 
     }
 
     @Override

@@ -1,6 +1,6 @@
 package expression;
 
-import expression.constant.*;
+import expression.variable.*;
 
 public class ExpressionFactory {
     public static Expression createExpression(String questionType) {

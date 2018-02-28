@@ -1,5 +1,5 @@
 import expression.*;
-import expression.constant.*;
+import expression.variable.*;
 import expression.unary.ExpressionUnaryNeg;
 import model.LookupTable;
 import model.Question;

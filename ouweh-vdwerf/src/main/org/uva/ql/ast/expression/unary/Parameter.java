@@ -6,7 +6,7 @@ import org.uva.ql.visitor.ExpressionVisitor;
 public class Parameter extends Expression {
     private final String value;
 
-    public Parameter(String value){
+    public Parameter(String value) {
         this.value = value;
     }
 

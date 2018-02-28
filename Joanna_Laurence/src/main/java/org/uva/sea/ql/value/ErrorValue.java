@@ -4,9 +4,13 @@ import org.uva.sea.ql.QLValueEvaluator;
 
 public class ErrorValue extends Value {
     private String error;
+    private int line;
+    private int colomn;
 
-    public ErrorValue(String error) {
+    public ErrorValue(String error, int line, int colomn) {
         this.error = error;
+        this.line = line;
+        this.colomn = colomn;
     }
 
     public String getError() {

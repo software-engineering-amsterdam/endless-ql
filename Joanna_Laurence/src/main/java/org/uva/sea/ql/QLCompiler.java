@@ -40,9 +40,6 @@ public class QLCompiler {
             return null;
         }
 
-        //Show the parse tree
-        //Trees.inspect(form, parser);
-
         return form.result;
     }
 }

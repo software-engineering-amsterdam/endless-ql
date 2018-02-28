@@ -20,7 +20,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value add(Value value) {
+    public Value add(Value value) throws Exception {
         return value.add(this);
     }
 
@@ -40,7 +40,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value divide(Value value) {
+    public Value divide(Value value) throws Exception {
         return value.reverseDivide(this);
     }
 
@@ -61,7 +61,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isEqual(Value value) {
+    public Value isEqual(Value value) throws Exception {
         return value.isEqual(this);
     }
 
@@ -81,7 +81,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isGreaterOrEqual(Value value) {
+    public Value isGreaterOrEqual(Value value) throws Exception {
         return value.isLessThan(this);
     }
 
@@ -101,7 +101,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isGreaterThan(Value value) {
+    public Value isGreaterThan(Value value) throws Exception {
         return value.isLessOrEqual(this);
     }
 
@@ -121,7 +121,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isLessOrEqual(Value value) {
+    public Value isLessOrEqual(Value value) throws Exception {
         return value.isGreaterThan(this);
     }
 
@@ -141,7 +141,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isLessThan(Value value) {
+    public Value isLessThan(Value value) throws Exception {
         return value.isGreaterOrEqual(this);
     }
 
@@ -161,7 +161,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value multiply(Value value) {
+    public Value multiply(Value value) throws Exception {
         return value.multiply(this);
     }
 
@@ -181,7 +181,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isNotEqual(Value value) {
+    public Value isNotEqual(Value value) throws Exception {
         return value.isNotEqual(this);
     }
 
@@ -201,7 +201,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value subtract(Value value) {
+    public Value subtract(Value value) throws Exception {
         return value.reverseSubtract(this);
     }
 

@@ -11,11 +11,11 @@ import java.util.Set;
 
 public class Validator implements StatementVisitor<Void, String> {
 
-    private SymbolTable table;
+    private SymbolTable symbolTable;
     private List<Question> questions;
 
     public Validator() {
-        this.table = new SymbolTable();
+        this.symbolTable = new SymbolTable();
         this.questions = new ArrayList<>();
     }
 
@@ -25,19 +25,19 @@ public class Validator implements StatementVisitor<Void, String> {
             statement.accept(this, null);
         }
 
-        // Add relevant data to the symbol table.
+        // Add relevant data to the symbol symbolTable.
         for (Question question : this.questions) {
             System.out.println(question);
-            this.table.add(question.getName(), question.getType());
+            this.symbolTable.add(question.getName(), question.getType());
         }
 
         // Check if all question phrases & ID's are unique.
         findDuplicates();
 
-        ExpressionChecker expressionChecker = new ExpressionChecker(form, table);
+        ParameterChecker parameterChecker = new ParameterChecker(form, symbolTable);
 
         // TODO do type checking.
-        //requires form and type table
+        //requires form and type symbolTable
         TypeChecker typeChecker = new TypeChecker();
 
 
@@ -45,7 +45,7 @@ public class Validator implements StatementVisitor<Void, String> {
 
         // TODO expressions
 
-        System.out.println("Total number of questions: " + table.size());
+        System.out.println("Total number of questions: " + symbolTable.size());
     }
 
     public boolean findDuplicates() {
@@ -89,7 +89,7 @@ public class Validator implements StatementVisitor<Void, String> {
     @Override
     public Void visit(CalculatedQuestion question, String context) {
         questions.add(question);
-        table.add(question.getName(), question.getType());
+        symbolTable.add(question.getName(), question.getType());
         return null;
     }
 }

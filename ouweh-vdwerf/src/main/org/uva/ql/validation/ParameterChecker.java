@@ -12,14 +12,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ExpressionChecker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
+public class ParameterChecker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
 
     private SymbolTable symbolTable;
-    private Map<String, List<Parameter>> expressionMap;
+    private Map<String, List<Parameter>> expressions;
 
-    ExpressionChecker(Form form, SymbolTable symbolTable) {
+    ParameterChecker(Form form, SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
-        this.expressionMap = new HashMap<>();
+        this.expressions = new HashMap<>();
 
         for (Statement statement : form.getStatements()) {
             statement.accept(this, null);
@@ -29,7 +29,7 @@ public class ExpressionChecker implements StatementVisitor<Void, String>, Expres
     }
 
     private void checkForMissingParameters(SymbolTable symbolTable) {
-        for (HashMap.Entry<String, List<Parameter>> entry : expressionMap.entrySet()) {
+        for (HashMap.Entry<String, List<Parameter>> entry : expressions.entrySet()) {
             for (Parameter parameter : entry.getValue()) {
                 if (!symbolTable.contains(parameter.toString())) {
                     System.out.println("Referenced parameter " + parameter + "  does not exist");
@@ -46,8 +46,8 @@ public class ExpressionChecker implements StatementVisitor<Void, String>, Expres
         }
 
         //handle calculated questions
-        if (expressionMap.containsKey(context)) {
-            expressionMap.get(context).add(parameter);
+        if (expressions.containsKey(context)) {
+            expressions.get(context).add(parameter);
         } else {
             assert context != null;
         }
@@ -58,8 +58,8 @@ public class ExpressionChecker implements StatementVisitor<Void, String>, Expres
     @Override
     public Void visit(CalculatedQuestion calculatedQuestion, String context) {
 
-        if (!expressionMap.containsKey(calculatedQuestion.getName())) {
-            expressionMap.put(calculatedQuestion.getName(), new ArrayList<>());
+        if (!expressions.containsKey(calculatedQuestion.getName())) {
+            expressions.put(calculatedQuestion.getName(), new ArrayList<>());
         }
 
         calculatedQuestion.getExpression().accept(this, calculatedQuestion.getName());

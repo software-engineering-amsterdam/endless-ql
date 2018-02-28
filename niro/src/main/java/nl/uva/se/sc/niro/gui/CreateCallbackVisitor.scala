@@ -21,8 +21,8 @@ object CreateCallbackVisitor {
       case (control, statement) =>
         statement match {
           case Question(questionId, _, answerType, _, _) => visitQuestion(modelUpdater, control, questionId, answerType)
-          case Conditional(_, thenStatements)        => visit(modelUpdater, control.asInstanceOf[GridPane], thenStatements)
-          case ErrorStatement()                      => ()
+          case Conditional(_, thenStatements)            => visit(modelUpdater, control.asInstanceOf[GridPane], thenStatements)
+          case ErrorStatement()                          => ()
         }
     }
   }
@@ -30,35 +30,59 @@ object CreateCallbackVisitor {
   def visitQuestion(modelUpdater: ModelUpdater, control: Node, questionId: String, answerType: AnswerType): Unit = {
     answerType match {
       case BooleanType =>
-        control.asInstanceOf[CheckBox].selectedProperty().addListener(new ChangeListener[lang.Boolean] {
-          override def changed(observable: ObservableValue[_ <: lang.Boolean], oldValue: lang.Boolean, newValue: lang.Boolean): Unit =
-            modelUpdater.updateModel(questionId, BooleanAnswer(newValue))
-        })
+        control
+          .asInstanceOf[CheckBox]
+          .selectedProperty()
+          .addListener(new ChangeListener[lang.Boolean] {
+            override def changed(
+                observable: ObservableValue[_ <: lang.Boolean],
+                oldValue: lang.Boolean,
+                newValue: lang.Boolean): Unit =
+              modelUpdater.updateModel(questionId, BooleanAnswer(newValue))
+          })
       case IntegerType =>
-        control.asInstanceOf[TextField].textProperty().addListener(new ChangeListener[String] {
-          override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
-            modelUpdater.updateModel(questionId, IntAnswer(Integer.parseInt(newValue)))
-        })
+        control
+          .asInstanceOf[TextField]
+          .textProperty()
+          .addListener(new ChangeListener[String] {
+            override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
+              modelUpdater.updateModel(questionId, IntAnswer(Integer.parseInt(newValue)))
+          })
       case DecimalType =>
-        control.asInstanceOf[TextField].textProperty().addListener(new ChangeListener[String] {
-          override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
-            modelUpdater.updateModel(questionId, DecAnswer(BigDecimal(newValue)))
-        })
+        control
+          .asInstanceOf[TextField]
+          .textProperty()
+          .addListener(new ChangeListener[String] {
+            override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
+              modelUpdater.updateModel(questionId, DecAnswer(BigDecimal(newValue)))
+          })
       case MoneyType =>
-        control.asInstanceOf[TextField].textProperty().addListener(new ChangeListener[String] {
-          override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
-            modelUpdater.updateModel(questionId, MoneyAnswer(newValue))
-        })
+        control
+          .asInstanceOf[TextField]
+          .textProperty()
+          .addListener(new ChangeListener[String] {
+            override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
+              modelUpdater.updateModel(questionId, MoneyAnswer(newValue))
+          })
       case StringType =>
-        control.asInstanceOf[TextField].textProperty().addListener(new ChangeListener[String] {
-          override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
-            modelUpdater.updateModel(questionId, StringAnswer(newValue))
-        })
+        control
+          .asInstanceOf[TextField]
+          .textProperty()
+          .addListener(new ChangeListener[String] {
+            override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
+              modelUpdater.updateModel(questionId, StringAnswer(newValue))
+          })
       case DateType =>
-        control.asInstanceOf[DatePicker].converterProperty().addListener(new ChangeListener[StringConverter[LocalDate]] {
-          override def changed(observable: ObservableValue[_ <: StringConverter[LocalDate]], oldValue: StringConverter[LocalDate], newValue: StringConverter[LocalDate]): Unit =
-            modelUpdater.updateModel(questionId, DateAnswer(""))
-        })
+        control
+          .asInstanceOf[DatePicker]
+          .converterProperty()
+          .addListener(new ChangeListener[StringConverter[LocalDate]] {
+            override def changed(
+                observable: ObservableValue[_ <: StringConverter[LocalDate]],
+                oldValue: StringConverter[LocalDate],
+                newValue: StringConverter[LocalDate]): Unit =
+              modelUpdater.updateModel(questionId, DateAnswer(""))
+          })
       case _ => ()
     }
   }

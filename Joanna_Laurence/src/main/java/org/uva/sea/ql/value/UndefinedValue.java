@@ -1,6 +1,7 @@
 package org.uva.sea.ql.value;
 
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.parser.NodeType;
 
 public class UndefinedValue extends Value {
 
@@ -370,5 +371,10 @@ public class UndefinedValue extends Value {
 
     public Value subtract(StringValue value) {
         return new UndefinedValue();
+    }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.UNKNOWN;
     }
 }

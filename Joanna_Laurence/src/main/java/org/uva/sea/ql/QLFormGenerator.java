@@ -8,10 +8,13 @@ import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.value.ErrorValue;
 import org.uva.sea.ql.value.Value;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class QLFormGenerator {
@@ -24,16 +27,26 @@ public class QLFormGenerator {
      * @param symbolTable The current state of the program
      * @return List of questions that should be displayed
      */
-    public List<QuestionData> generate(String guiSpecification, SymbolTable symbolTable) {
+    public List<QuestionData> generate(String guiSpecification, SymbolTable symbolTable) throws IOException {
         List<Question> questions = this.getQuestions(guiSpecification, symbolTable);
+        HashSet<String> existingQuestionNames = new HashSet<>();
 
         List<QuestionData> questionDataList = new ArrayList<>();
         for( Question question : questions) {
-            Value value = getQuestionValue(symbolTable, question);
+            Value value = getQuestionValueOrError(question, symbolTable, existingQuestionNames);
             questionDataList.add(new QuestionData(question, value));
         }
 
         return questionDataList;
+    }
+
+    private Value getQuestionValueOrError(Question question, SymbolTable symbolTable, HashSet<String> existingQuestionNames) {
+        Value value = getQuestionValue(symbolTable, question);
+        String name = question.getVariable().getVariableName();
+        if(existingQuestionNames.contains(name))
+            value = new ErrorValue("Question is already displayed", question.getLine(), question.getColumn());
+        existingQuestionNames.add(name);
+        return value;
     }
 
     /**
@@ -53,7 +66,7 @@ public class QLFormGenerator {
      * Generate the GUI
      * @param guiSpecification Specification of the GUI
      */
-    private List<Question> getQuestions(String guiSpecification, SymbolTable symbolTable) {
+    private List<Question> getQuestions(String guiSpecification, SymbolTable symbolTable) throws IOException {
         try {
             QLCompiler compiler = new QLCompiler();
             Form rootNode = compiler.compileScriptFile(toCharStream(guiSpecification));
@@ -64,10 +77,8 @@ public class QLFormGenerator {
             return evaluate.evaluate(rootNode, symbolTable);
         } catch (IOException e) {
             System.err.println("The gui specification cannot be found: " + guiSpecification);
-            e.printStackTrace();
+            throw e;
         }
-
-        return new ArrayList<>();
     }
 
     /**
@@ -77,6 +88,6 @@ public class QLFormGenerator {
      * @throws IOException
      */
     private CharStream toCharStream(String fileName) throws IOException {
-        return CharStreams.fromStream(getClass().getResourceAsStream(fileName));
+        return CharStreams.fromStream(new FileInputStream(fileName));
     }
 }

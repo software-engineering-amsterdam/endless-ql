@@ -66,10 +66,6 @@ public class QLVariableInfo extends BaseVisitor {
     public Void visit(Question node) {
         //Questions should not already exist
         String variableName = node.getVariable().getVariableName();
-        if(variableMap.containsKey(variableName)) {
-            this.error("Question already exists", node);
-            return null;
-        }
 
         //Add new question to the lookup
         variableMap.put(variableName, node);

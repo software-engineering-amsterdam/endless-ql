@@ -13,7 +13,6 @@ public class BooleanQuestionViewModel extends BaseQuestionViewModel {
         super(question);
         this.question = question;
         this.value = new SimpleBooleanProperty(question.getValue());
-        this.value.addListener((observable, oldValue, newValue) -> question.setValue(newValue));
     }
 
     @Override

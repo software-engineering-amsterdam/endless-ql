@@ -35,7 +35,7 @@ public class BooleanQuestionReferenceViewModel implements BooleanExpressionViewM
     }
 
     public void setQuestion(BooleanQuestionViewModel viewModel) {
-        this.value.bind(viewModel.valueProperty());
+        this.value.bindBidirectional(viewModel.valueProperty());
     }
 
     public String getQuestionName() {

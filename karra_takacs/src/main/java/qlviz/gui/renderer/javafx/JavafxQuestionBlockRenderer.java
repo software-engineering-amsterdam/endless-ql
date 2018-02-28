@@ -20,12 +20,14 @@ public class JavafxQuestionBlockRenderer implements QuestionBlockRenderer {
 
     private final QuestionRenderer questionRenderer;
     private final Function<Pane, ConditionalBlockRenderer> blockRendererFactory;
+    private final Pane target;
 
     public JavafxQuestionBlockRenderer(Pane target,
                                        Function<Pane, QuestionRenderer> questionRendererFactory,
                                        Function<Pane, ConditionalBlockRenderer> blockRendererFactory) {
         this.blockRendererFactory = blockRendererFactory;
         this.questionRenderer = questionRendererFactory.apply(target);
+        this.target = target;
     }
 
     @Override
@@ -37,6 +39,7 @@ public class JavafxQuestionBlockRenderer implements QuestionBlockRenderer {
             VBox subBlock = new VBox();
             ConditionalBlockRenderer renderer = blockRendererFactory.apply(subBlock);
             renderer.render(block);
+            target.getChildren().add(subBlock);
         }
     }
 }

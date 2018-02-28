@@ -3,8 +3,8 @@ package nl.uva.se.sc.niro.gui
 import javafx.scene.Node
 import javafx.scene.control.{ CheckBox, DatePicker, Label, TextField }
 import javafx.scene.layout.GridPane
-import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.model.Expressions.Expression
+import nl.uva.se.sc.niro.model.Expressions.answers._
 import nl.uva.se.sc.niro.model._
 
 import scala.collection.{ JavaConverters, Seq }
@@ -16,33 +16,34 @@ object GUIUpdateVisitor {
     controls.zip(statements) foreach {
       case (control, statement) =>
         statement match {
-          case Question(_, _, answerType, _, answer) => {
-            answerType match {
-              case BooleanType =>
-                answer.flatMap(_.possibleValue) match {
-                  case b: Option[Boolean] => b.foreach(control.asInstanceOf[CheckBox].setSelected(_))
-                }
-              case IntegerType =>
-                control.asInstanceOf[TextField].setText(answer.flatMap(_.possibleValue.map(_.toString)).getOrElse(""))
-              case DecimalType =>
-                control.asInstanceOf[TextField].setText(answer.flatMap(_.possibleValue.map(_.toString)).getOrElse(""))
-              case MoneyType =>
-                control.asInstanceOf[TextField].setText(answer.flatMap(_.possibleValue.map(_.toString)).getOrElse(""))
-              case StringType =>
-                control.asInstanceOf[TextField].setText(answer.flatMap(_.possibleValue.map(_.toString)).getOrElse(""))
-              case DateType =>
+          case Question(_, _, _, _, answer) => {
+            answer match {
+              case Some(BooleanAnswer(b)) =>
+                b.foreach(control.asInstanceOf[CheckBox].setSelected(_))
+              case Some(IntAnswer(i)) =>
+                control.asInstanceOf[TextField].setText(i.map(_.toString).getOrElse(""))
+              case Some(DecAnswer(d)) =>
+                control.asInstanceOf[TextField].setText(d.map(_.toString).getOrElse(""))
+              case Some(MoneyAnswer(m)) =>
+                control.asInstanceOf[TextField].setText(m.map(_.toString).getOrElse(""))
+              case Some(StringAnswer(s)) =>
+                control.asInstanceOf[TextField].setText(s.map(_.toString).getOrElse(""))
+              case Some(DateAnswer(d)) =>
                 control
                   .asInstanceOf[DatePicker]
                   .getConverter
-                  .fromString(answer.flatMap(_.possibleValue.map(_.toString)).getOrElse(""))
+                  .fromString(d.map(_.toString).getOrElse(""))
+              case _ => ()
             }
           }
           case Conditional(predicate, thenStatements) => {
-            Evaluator.evaluateExpression(predicate, symbolTable).possibleValue match {
-              case b: Option[Boolean] => b.foreach(control.asInstanceOf[GridPane].setVisible(_))
+            predicate match {
+              case BooleanAnswer(b) => b.foreach(control.asInstanceOf[GridPane].setVisible(_))
+              case _                      => ()
             }
             visit(control.asInstanceOf[GridPane], thenStatements, symbolTable)
           }
+          case ErrorStatement() => ()
         }
     }
   }

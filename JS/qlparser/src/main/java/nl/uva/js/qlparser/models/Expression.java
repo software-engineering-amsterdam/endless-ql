@@ -1,6 +1,5 @@
 package nl.uva.js.qlparser.models;
 
-import com.vaadin.ui.AbstractField;
 import nl.uva.js.qlparser.models.enums.DataType;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public interface Expression {
      * Expressions that can by itself be visualized with Vaadin components
      */
     interface Visualizable {
-        List<AbstractField> getComponents();
+        List<String> getComponents();
     }
 
     /*

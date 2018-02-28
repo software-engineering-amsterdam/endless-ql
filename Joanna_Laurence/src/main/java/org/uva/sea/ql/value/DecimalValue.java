@@ -2,6 +2,7 @@ package org.uva.sea.ql.value;
 
 import java.math.BigDecimal;
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.types.Decimal;
 
 
@@ -23,7 +24,7 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value add(Value value) {
+    public Value add(Value value) throws Exception {
         return value.add(this);
     }
 
@@ -43,7 +44,7 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value divide(Value value) {
+    public Value divide(Value value) throws Exception {
         return value.reverseDivide(this);
     }
 
@@ -64,7 +65,7 @@ public class DecimalValue extends Value {
 
 
     @Override
-    public Value isEqual(Value value) {
+    public Value isEqual(Value value) throws Exception {
         return value.isEqual(this);
     }
 
@@ -84,7 +85,7 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value isGreaterOrEqual(Value value) {
+    public Value isGreaterOrEqual(Value value) throws Exception {
         return value.isLessThan(this);
     }
 
@@ -104,7 +105,7 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value isGreaterThan(Value value) {
+    public Value isGreaterThan(Value value) throws Exception {
         return value.isLessOrEqual(this);
     }
 
@@ -124,7 +125,7 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value isLessOrEqual(Value value) {
+    public Value isLessOrEqual(Value value) throws Exception {
         return value.isGreaterThan(this);
     }
 
@@ -144,7 +145,7 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value isLessThan(Value value) {
+    public Value isLessThan(Value value) throws Exception {
         return value.isGreaterOrEqual(this);
     }
 
@@ -164,7 +165,7 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value multiply(Value value) {
+    public Value multiply(Value value) throws Exception {
         return value.multiply(this);
     }
 
@@ -184,7 +185,7 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value isNotEqual(Value value) {
+    public Value isNotEqual(Value value) throws Exception {
         return value.isNotEqual(this);
     }
 
@@ -204,7 +205,7 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value subtract(Value value) {
+    public Value subtract(Value value) throws Exception {
         return value.reverseSubtract(this);
     }
 
@@ -266,5 +267,10 @@ public class DecimalValue extends Value {
     @Override
     public <T> T accept(QLValueEvaluator<T> visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.DECIMAL;
     }
 }

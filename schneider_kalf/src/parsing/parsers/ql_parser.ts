@@ -7,7 +7,8 @@
 
 /* tslint:disable */
 import Nodes from '../../form/nodes/Nodes';
-import FieldType from '../../form/FieldType'
+import FieldType from '../../form/FieldType';
+
 export class SyntaxError extends Error {
   public static buildMessage(expected: string, found: string) {
     const DESCRIBE_EXPECTATION_FNS = {
@@ -178,8 +179,8 @@ function peg$parse(input, options) {
   const peg$c37 = "text";
   const peg$c38 = peg$literalExpectation("text", false);
   const peg$c39 = function(literalType) {
-          return types[literalType];
-      };
+      return types[literalType];
+  };
   const peg$c40 = ":";
   const peg$c41 = peg$literalExpectation(":", false);
   const peg$c42 = "=";
@@ -188,14 +189,14 @@ function peg$parse(input, options) {
       if (expr)
           return new Nodes.ComputedField(name, label.value, type, expr[2]);
       return new Nodes.Question(name, label.value, type);
-   };
+  };
   const peg$c45 = "{";
   const peg$c46 = peg$literalExpectation("{", false);
   const peg$c47 = "}";
   const peg$c48 = peg$literalExpectation("}", false);
   const peg$c49 = function(e) {
        return e;
-   };
+  };
   const peg$c50 = "form";
   const peg$c51 = peg$literalExpectation("form", false);
   const peg$c52 = function(name, block) {
@@ -208,7 +209,7 @@ function peg$parse(input, options) {
   };
   const peg$c56 = function(expr) {
       return expr;
-   };
+  };
   const peg$c57 = function(head, tail) {
       return buildExpression(head, tail)
     };
@@ -218,41 +219,35 @@ function peg$parse(input, options) {
   const peg$c61 = peg$literalExpectation(")", false);
   const peg$c62 = function(expr) { return expr; };
   const peg$c63 = function(op, value) {
-       return {
-          type:"UnaryExpression",
-          attributes:{
-              operator:op,
-          },
-          children: [value],
-       }
-    };
+      return new Nodes.Negation(value)
+  };
   const peg$c64 = /^[a-zA-Z]/;
   const peg$c65 = peg$classExpectation([["a", "z"], ["A", "Z"]], false, false);
   const peg$c66 = function(v) {
-       return v.join("")
-     };
+      return v.join("")
+  };
   const peg$c67 = function(chars) {
-       return new Nodes.VariableIdentifier(chars.join(""));
-     };
+      return new Nodes.VariableIdentifier(chars.join(""));
+  };
   const peg$c68 = "True";
   const peg$c69 = peg$literalExpectation("True", false);
   const peg$c70 = "False";
   const peg$c71 = peg$literalExpectation("False", false);
   const peg$c72 = function(Literal) {
       return new Nodes.BooleanLiteral(Literal == "True")
-    };
+  };
   const peg$c73 = /^[\-]/;
   const peg$c74 = peg$classExpectation(["-"], false, false);
   const peg$c75 = /^[0-9]/;
   const peg$c76 = peg$classExpectation([["0", "9"]], false, false);
   const peg$c77 = function(digits) {
-        return new Nodes.NumberLiteral(parseInt(digits.join(""), 10))
-    };
+      return new Nodes.NumberLiteral(parseInt(digits.join(""), 10))
+  };
   const peg$c78 = "\"";
   const peg$c79 = peg$literalExpectation("\"", false);
   const peg$c80 = function(chars) {
-       return new Nodes.StringLiteral(chars.join(''));
-   };
+      return new Nodes.StringLiteral(chars.join(''));
+  };
   const peg$c81 = "\\";
   const peg$c82 = peg$literalExpectation("\\", false);
   const peg$c83 = peg$anyExpectation();
@@ -280,10 +275,12 @@ function peg$parse(input, options) {
   const peg$c105 = function() { return "\x0B"; };
   const peg$c106 = "//";
   const peg$c107 = peg$literalExpectation("//", false);
-  const peg$c108 = /^[ \t]/;
-  const peg$c109 = peg$classExpectation([" ", "\t"], false, false);
-  const peg$c110 = /^[ \t\r\n]/;
-  const peg$c111 = peg$classExpectation([" ", "\t", "\r", "\n"], false, false);
+  const peg$c108 = /^[\n]/;
+  const peg$c109 = peg$classExpectation(["\n"], false, false);
+  const peg$c110 = /^[ \t]/;
+  const peg$c111 = peg$classExpectation([" ", "\t"], false, false);
+  const peg$c112 = /^[ \t\r\n]/;
+  const peg$c113 = peg$classExpectation([" ", "\t", "\r", "\n"], false, false);
 
   let peg$currPos = 0;
   let peg$savedPos = 0;
@@ -733,7 +730,7 @@ function peg$parse(input, options) {
               if (s6 !== peg$FAILED) {
                 s7 = peg$parse_();
                 if (s7 !== peg$FAILED) {
-                  s8 = peg$parsetype();
+                  s8 = peg$parsefieldType();
                   if (s8 !== peg$FAILED) {
                     s9 = [];
                     s10 = peg$parselb();
@@ -1528,14 +1525,14 @@ function peg$parse(input, options) {
         s0 = peg$FAILED;
       }
       if (s0 === peg$FAILED) {
-        s0 = peg$parseunarryExpr();
+        s0 = peg$parseunaryExpr();
       }
     }
 
     return s0;
   }
 
-  function peg$parseunarryExpr() {
+  function peg$parseunaryExpr() {
     let s0, s1, s2, s3, s4;
 
     s0 = peg$currPos;
@@ -1972,6 +1969,47 @@ function peg$parse(input, options) {
     return s0;
   }
 
+  function peg$parsefieldType() {
+    let s0;
+
+    if (input.substr(peg$currPos, 5) === peg$c29) {
+      s0 = peg$c29;
+      peg$currPos += 5;
+    } else {
+      s0 = peg$FAILED;
+      if (peg$silentFails === 0) { peg$fail(peg$c30); }
+    }
+    if (s0 === peg$FAILED) {
+      if (input.substr(peg$currPos, 4) === peg$c31) {
+        s0 = peg$c31;
+        peg$currPos += 4;
+      } else {
+        s0 = peg$FAILED;
+        if (peg$silentFails === 0) { peg$fail(peg$c32); }
+      }
+      if (s0 === peg$FAILED) {
+        if (input.substr(peg$currPos, 7) === peg$c33) {
+          s0 = peg$c33;
+          peg$currPos += 7;
+        } else {
+          s0 = peg$FAILED;
+          if (peg$silentFails === 0) { peg$fail(peg$c34); }
+        }
+        if (s0 === peg$FAILED) {
+          if (input.substr(peg$currPos, 7) === peg$c27) {
+            s0 = peg$c27;
+            peg$currPos += 7;
+          } else {
+            s0 = peg$FAILED;
+            if (peg$silentFails === 0) { peg$fail(peg$c28); }
+          }
+        }
+      }
+    }
+
+    return s0;
+  }
+
   function peg$parsevalue() {
     let s0;
 
@@ -2005,7 +2043,13 @@ function peg$parse(input, options) {
       s3 = peg$currPos;
       s4 = peg$currPos;
       peg$silentFails++;
-      s5 = peg$parselb();
+      if (peg$c108.test(input.charAt(peg$currPos))) {
+        s5 = input.charAt(peg$currPos);
+        peg$currPos++;
+      } else {
+        s5 = peg$FAILED;
+        if (peg$silentFails === 0) { peg$fail(peg$c109); }
+      }
       peg$silentFails--;
       if (s5 === peg$FAILED) {
         s4 = undefined;
@@ -2037,7 +2081,13 @@ function peg$parse(input, options) {
         s3 = peg$currPos;
         s4 = peg$currPos;
         peg$silentFails++;
-        s5 = peg$parselb();
+        if (peg$c108.test(input.charAt(peg$currPos))) {
+          s5 = input.charAt(peg$currPos);
+          peg$currPos++;
+        } else {
+          s5 = peg$FAILED;
+          if (peg$silentFails === 0) { peg$fail(peg$c109); }
+        }
         peg$silentFails--;
         if (s5 === peg$FAILED) {
           s4 = undefined;
@@ -2083,12 +2133,12 @@ function peg$parse(input, options) {
   function peg$parsews() {
     let s0;
 
-    if (peg$c108.test(input.charAt(peg$currPos))) {
+    if (peg$c110.test(input.charAt(peg$currPos))) {
       s0 = input.charAt(peg$currPos);
       peg$currPos++;
     } else {
       s0 = peg$FAILED;
-      if (peg$silentFails === 0) { peg$fail(peg$c109); }
+      if (peg$silentFails === 0) { peg$fail(peg$c111); }
     }
 
     return s0;
@@ -2116,33 +2166,23 @@ function peg$parse(input, options) {
   function peg$parselb() {
     let s0;
 
-    if (peg$c110.test(input.charAt(peg$currPos))) {
+    if (peg$c112.test(input.charAt(peg$currPos))) {
       s0 = input.charAt(peg$currPos);
       peg$currPos++;
     } else {
       s0 = peg$FAILED;
-      if (peg$silentFails === 0) { peg$fail(peg$c111); }
+      if (peg$silentFails === 0) { peg$fail(peg$c113); }
+    }
+    if (s0 === peg$FAILED) {
+      s0 = peg$parsecomment();
     }
 
     return s0;
   }
 
 
-    /*
-      -@Nodes.IfCondition,
-
-      -@Nodes.NumberLiteral,
-      -@Nodes.BooleanLiteral,
-      -@Nodes.StringLiteral,
-      -@Nodes.VariableIdentifier,
-
-      -@Nodes.ComputedField,
-      -@Nodes.Question,
-      -@Nodes.FormNode
-
-      -@FieldType
-    */
-     // A base type for building the main tree layout
+    // TODO: Reserve words "true" "false"
+    // A base type for building the main tree layout
     let operations = {
                 // "!"  : Node.Negation,
                 "&&" : Nodes.And,

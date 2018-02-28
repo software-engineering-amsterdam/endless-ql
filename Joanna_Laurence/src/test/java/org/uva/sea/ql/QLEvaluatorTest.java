@@ -7,12 +7,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.uva.sea.ql.DataObject.QuestionData;
 import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.value.ErrorValue;
 import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.visitor.BaseVisitor;
 
 import java.io.*;
 import java.util.*;
@@ -97,21 +100,35 @@ public class QLEvaluatorTest extends TestCase {
      * @param fileName The location of the QL file
      * @return If the script compiles
      */
-    private int getDisplayedQuestions(String fileName) {
-        try {
-            QLCompiler compiler = new QLCompiler();
-            CharStream steam = CharStreams.fromStream(new FileInputStream(fileName));
-            Form result = compiler.compileScriptFile(steam);
-            if(result == null)
-                return 0;
-
-            SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
-
-            List<Question> questions = this.formEvaluator.evaluate(result, symbolTable);
-            return questions.size();
-        } catch (IOException e) {
+    private int getDisplayedQuestions(String fileName) throws IOException {
+        SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
+        QLFormGenerator qlFormGenerator = new QLFormGenerator();
+        List<QuestionData> questions = qlFormGenerator.generate(fileName, symbolTable);
+        if(checkForErrors(questions))
             return 0;
+
+        return questions.size();
+    }
+
+    /**
+     * Check if there was an error
+     * @param questions All the questions
+     * @return
+     */
+    private boolean checkForErrors(List<QuestionData> questions) {
+        for(QuestionData question : questions) {
+            if(question.getValue() == null)
+                continue;
+
+            Boolean error = question.getValue().accept(new QLValueEvaluator<Boolean>() {
+                public Boolean visit(ErrorValue node) {
+                    return true;
+                }
+            });
+            if(error != null && error)
+                return true;
         }
+        return false;
     }
 
     /**
@@ -153,7 +170,7 @@ public class QLEvaluatorTest extends TestCase {
     }
 
     @Test
-    public void testFile() {
+    public void testFile() throws IOException {
         System.out.println("Testing: " + this.testFile);
         Assert.assertEquals(this.correctQuestions, this.getDisplayedQuestions(this.testFile));
     }

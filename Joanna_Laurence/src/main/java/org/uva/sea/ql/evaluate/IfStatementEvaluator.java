@@ -28,7 +28,7 @@ public class IfStatementEvaluator extends QLValueEvaluator<Boolean> {
 
         //Determine condition is true
         Boolean conditionTrue = condition.accept(this);
-        if(!conditionTrue) {
+        if(conditionTrue == null || !conditionTrue) {
             return new ArrayList<>();
         }
 

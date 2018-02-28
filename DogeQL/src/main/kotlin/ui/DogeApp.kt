@@ -4,6 +4,4 @@ import tornadofx.App
 
 class DogeApp: App(DogeMainView::class) {
 
-
-
 }

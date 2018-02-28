@@ -1,19 +1,21 @@
 package ui.question
 
-import data.question.Question
-import data.question.QuestionType
-import tornadofx.*
+import data.BooleanValue
+import data.QuestionType
+import tornadofx.View
+import tornadofx.checkbox
+import tornadofx.field
+import tornadofx.textfield
 
-class QuestionField(question: Question) : View(){
+class QuestionField(question: QuestionViewModel) : View(){
 
     override val root = field ()
     init{
         with(root){
-            text = question.label
             when {
-                question.value.type == QuestionType.BOOLEAN -> checkbox ()
-                question.value.type == QuestionType.INTEGER -> textfield (question.value.integerValue.value.toString()).stripNonInteger()
-                else -> textfield()
+//                question.value.value is BooleanValue -> checkbox (question.value)
+//                question.value.value.type == QuestionType.INTEGER -> textfield (question.value).stripNonInteger()
+                else -> textfield(question.label)
             }
         }
     }

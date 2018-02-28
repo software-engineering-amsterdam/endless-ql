@@ -1,32 +1,21 @@
 package ui.question
 
-import data.value.BaseSymbolValue
-import data.question.Question
-import javafx.beans.property.SimpleObjectProperty
-import javafx.beans.property.SimpleStringProperty
-import javafx.collections.ObservableList
+import data.BaseSymbolValue
+import data.Question
+import data.QuestionType
+import javafx.beans.property.*
 import tornadofx.ItemViewModel
-import tornadofx.observable
-import ui.DogeController
 
-class QuestionViewModel : ItemViewModel<Question>(){
+class QuestionViewModel(question : Question) : ItemViewModel<Question>(question){
 
-    val dogeController : DogeController by inject()
-    var questions = SimpleObjectProperty<ObservableList<Question>>()
+    var label = bind{ SimpleStringProperty(item?.label) }
 
-    val label = bind{ SimpleStringProperty(item?.label) }
-    val value = bind{ SimpleObjectProperty<BaseSymbolValue>(item?.value) }
+    var value = bind { SimpleObjectProperty<BaseSymbolValue>(item.value)}
 
+    var boolValue = bind { SimpleBooleanProperty(item.value.booleanValue.value) }
 
-    fun load (){
-        runAsync {
-            updateMessage("loading")
-            dogeController.getQuestions().observable()
-        } ui {
-            questions.set(it)
+    var integerValue = bind { SimpleIntegerProperty(item.value.integerValue.value) }
 
-        }
-    }
 }
 
 

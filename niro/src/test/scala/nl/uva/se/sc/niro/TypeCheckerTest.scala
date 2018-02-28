@@ -36,7 +36,17 @@ class TypeCheckerTest extends WordSpec {
 
     "checkDuplicateQuestionDeclarationsWithDifferentTypes" in {}
 
-    "checkCyclicDependenciesBetweenQuestions" in {}
+    "checkCyclicDependenciesBetweenQuestions" ignore {
+      val qlForm = QLForm(
+        "duplicateLabel",
+        Seq(
+          Question("q1", "question1", IntegerType, Reference("q3"), None),
+          Question("q2", "question2", IntegerType, Reference("q1"), None),
+          Question("q3", "question3", IntegerType, Reference("q2"), None)
+        )
+      )
+      assertThrows[IllegalArgumentException](TypeChecker.checkReferences(qlForm))
+    }
 
     "checkReferences" in {
       val qlForm = QLForm(
@@ -54,7 +64,7 @@ class TypeCheckerTest extends WordSpec {
       val qLForm = QLForm(
         "duplicateLabel",
         Seq(
-          Question("q1", "questions with undefined reference", IntegerType, IntAnswer(1), None),
+          Question("q1", "question1", IntegerType, IntAnswer(1), None),
           Question("q2", "question2", IntegerType, IntAnswer(1), None),
           Question("q3", "question3", IntegerType, Reference("q2"), None)
         )

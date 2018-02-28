@@ -42,3 +42,30 @@ class StatementVisitor:
     @abstractmethod
     def visit_question_type(self, question_type):
         pass
+
+
+class ExpressionVisitor:
+
+    @abstractmethod
+    def visit_expression(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_identifier(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_unary_expression(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_binary_expression(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_multiplication(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_division(self, expression):
+        pass

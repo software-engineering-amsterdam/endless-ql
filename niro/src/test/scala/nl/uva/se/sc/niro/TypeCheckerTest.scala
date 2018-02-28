@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro
 
-import nl.uva.se.sc.niro.model.Expressions.Reference
-import nl.uva.se.sc.niro.model.Expressions.answers.IntAnswer
-import nl.uva.se.sc.niro.model.{ IntegerType, QLForm, Question }
+import nl.uva.se.sc.niro.model.Expressions.{ BinaryOperation, Reference }
+import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, IntAnswer }
+import nl.uva.se.sc.niro.model._
 import org.scalatest.WordSpec
 
 class TypeCheckerTest extends WordSpec {
@@ -24,8 +24,15 @@ class TypeCheckerTest extends WordSpec {
 
     }
 
-    "checkNonBooleanPredicates" in {
+    "checkNonBooleanPredicates" ignore {
+      val qLForm = QLForm("duplicateLabel",
+        Seq(
+          Conditional(BinaryOperation(And, BooleanAnswer(true), BooleanAnswer(false)), Seq.empty),
+          Conditional(BinaryOperation(Mul, IntAnswer(5), IntAnswer(1)), Seq.empty)
+        )
+      )
 
+      assertThrows[IllegalArgumentException](TypeChecker.checkNonBooleanPredicates(qLForm))
     }
 
     "checkDuplicateQuestionDeclarationsWithDifferentTypes" in {

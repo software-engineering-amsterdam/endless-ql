@@ -21,19 +21,19 @@ object TypeChecker extends Logging {
 
   def checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm: QLForm): QLForm = {
     logger.debug("Checking on duplicate question declarations with different types ...")
-
+    ???
     qLForm
   }
 
   def checkNonBooleanPredicates(qLForm: QLForm): QLForm = {
     logger.debug("Checking on predicates that are not of the type boolean ...")
-
+    ???
     qLForm
   }
 
   def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): QLForm = {
     logger.debug("Checking on operands of invalid type to operators ...")
-
+    ???
     qLForm
   }
 

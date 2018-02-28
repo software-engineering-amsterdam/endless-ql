@@ -203,7 +203,7 @@ public enum ReturnType {
     }
 
     public Boolean neg() {
-        return this == INTEGER || this == DECIMAL || this == MONEY;
+        return this == INTEGER || this == DECIMAL || this == MONEY || this == NUMBER;
     }
 
     public Boolean not() {

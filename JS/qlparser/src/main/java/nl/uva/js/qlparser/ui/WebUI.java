@@ -2,6 +2,7 @@ package nl.uva.js.qlparser.ui;
 
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.data.HasValue;
 import com.vaadin.server.Page;
 import com.vaadin.server.UserError;
 import com.vaadin.server.VaadinRequest;
@@ -63,6 +64,7 @@ public class WebUI extends UI {
         FormLayout layout = new FormLayout();
 
         List<Component> components = FormInterpreter.interpret(qlForm.getValue());
+        addListeners(components);
 
         layout.addComponent(reloadButton);
         components.forEach(layout::addComponent);
@@ -73,9 +75,21 @@ public class WebUI extends UI {
     private Layout createLayoutFromQLString(String qlInput) {
         FormLayout formLayout = new FormLayout();
 
-        FormInterpreter.interpret(QLIngester.parseFormFromString(qlInput))
-                .forEach(formLayout::addComponent);
+        List<Component> components = FormInterpreter.interpret(QLIngester.parseFormFromString(qlInput));
+        addListeners(components);
 
+        components.forEach(formLayout::addComponent);
         return formLayout;
+    }
+
+    private void reEvaluate(Component component, Object value) {
+        showNotification(component.getId() + " is now " + value.toString()); // TODO
+    }
+
+    private void addListeners(List<Component> components) {
+        for (Component component : components) {
+            if (component instanceof HasValue)
+                ((HasValue) component).addValueChangeListener(event -> reEvaluate(component, event.getValue()));
+        }
     }
 }

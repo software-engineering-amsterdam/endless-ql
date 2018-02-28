@@ -158,8 +158,8 @@ identifier
 
 // Boolean Literal
 booleanLiteral
- = Literal:("True" / "False") {
-    return new Nodes.BooleanLiteral(Literal == "True")
+ = Literal:("true" / "false") {
+    return new Nodes.BooleanLiteral(Literal == "true")
 }
 
 // Integer
@@ -192,7 +192,7 @@ escapeSequence
 // Supported types
 fieldType = "money" / "date" / "integer" / "boolean"
 
-value = identifier / numberLiteral / stringLiteral / booleanLiteral
+value = booleanLiteral / identifier / numberLiteral / stringLiteral
 
 // Single line comments
 comment = "//" (![\n] .)*

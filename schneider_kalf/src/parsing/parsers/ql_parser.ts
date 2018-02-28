@@ -229,12 +229,12 @@ function peg$parse(input, options) {
   const peg$c67 = function(chars) {
       return new Nodes.VariableIdentifier(chars.join(""));
   };
-  const peg$c68 = "True";
-  const peg$c69 = peg$literalExpectation("True", false);
-  const peg$c70 = "False";
-  const peg$c71 = peg$literalExpectation("False", false);
+  const peg$c68 = "true";
+  const peg$c69 = peg$literalExpectation("true", false);
+  const peg$c70 = "false";
+  const peg$c71 = peg$literalExpectation("false", false);
   const peg$c72 = function(Literal) {
-      return new Nodes.BooleanLiteral(Literal == "True")
+      return new Nodes.BooleanLiteral(Literal == "true")
   };
   const peg$c73 = /^[\-]/;
   const peg$c74 = peg$classExpectation(["-"], false, false);
@@ -2013,13 +2013,13 @@ function peg$parse(input, options) {
   function peg$parsevalue() {
     let s0;
 
-    s0 = peg$parseidentifier();
+    s0 = peg$parsebooleanLiteral();
     if (s0 === peg$FAILED) {
-      s0 = peg$parsenumberLiteral();
+      s0 = peg$parseidentifier();
       if (s0 === peg$FAILED) {
-        s0 = peg$parsestringLiteral();
+        s0 = peg$parsenumberLiteral();
         if (s0 === peg$FAILED) {
-          s0 = peg$parsebooleanLiteral();
+          s0 = peg$parsestringLiteral();
         }
       }
     }

@@ -7,7 +7,7 @@
 "use strict";
 
 /* tslint:disable */ 
- import { Form, Question, ExpressionQuestion, QuestionType, If, ExpressionType, Literal, ArithmeticExpression, LogicalExpression, UnaryExpression } from '../app/domain/ast'
+ import { Form, Question, ExpressionQuestion, QuestionType, If, ExpressionType, Literal, ArithmeticExpression, LogicalExpression, UnaryExpression, Variable } from '../app/domain/ast'
 export class SyntaxError extends Error {
   public static buildMessage(expected: string, found: string) {
     const DESCRIBE_EXPECTATION_FNS = {
@@ -233,7 +233,7 @@ function peg$parse(input, options) {
       jsMonth, day[0] + day[1], 0, 0, 0, 0)), location());
   };
   const peg$c74 = function(val) { return new Literal(ExpressionType.STRING, val, location()); };
-  const peg$c75 = function(val) { return new Literal(ExpressionType.VARIABLE, val, location()); };
+  const peg$c75 = function(val) { return new Variable(val, location()); };
   const peg$c76 = /^[a-zA-Z0-9:?\\\/.,;!]/;
   const peg$c77 = peg$classExpectation([["a", "z"], ["A", "Z"], ["0", "9"], ":", "?", "\\", "/", ".", ",", ";", "!"], false, false);
   const peg$c78 = "//";

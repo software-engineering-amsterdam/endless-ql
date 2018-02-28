@@ -12,12 +12,15 @@ export class ArithmeticExpression extends BinaryExpression {
   }
 
   checkType(allQuestions: Question[]): ExpressionType {
-    if (this.left.checkType(allQuestions) === this.right.checkType(allQuestions) &&
-        this.left.checkType(allQuestions) === ExpressionType.NUMBER) {
-      return this.left.checkType(allQuestions);
+    const typeLeft = this.left.checkType(allQuestions);
+    const typeRight = this.right.checkType(allQuestions);
+
+    if (typeLeft === typeRight &&
+        typeLeft === ExpressionType.NUMBER) {
+      return typeLeft;
     } else {
       throw new TypeError(
-        `Type of expression left is different from type of expression right `
+        `Type of expression left(${typeLeft}) is different from type of expression right (${typeRight})`
         + this.getLocationErrorMessage()
       );
     }

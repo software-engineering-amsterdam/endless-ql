@@ -155,7 +155,7 @@ escapeSequence
 // Supported types
 type = "boolean" / "money" / "date" / "integer" / "float" / "text"
 
-value = identifier / numberLiteral / stringLiteral / booleanLiteral
+value = booleanLiteral / identifier / numberLiteral / stringLiteral
 
 // Single line comments
 comment = "//" (![\n] .)*

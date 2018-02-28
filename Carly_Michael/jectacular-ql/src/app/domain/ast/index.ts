@@ -11,3 +11,4 @@ export * from './expressions/comparison-expression';
 export * from './expressions/unary-expression';
 export * from './expressions/logical-expression';
 export * from './expressions/expression-type';
+export * from './expressions/variable';

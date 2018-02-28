@@ -112,7 +112,7 @@ date            = ws "d" day:([0-9][0-9]) "-" month:([0-9][0-9]) "-" year:([0-9]
     jsMonth, day[0] + day[1], 0, 0, 0, 0)), location());
 }
 string          = ws "\"" val:identifier "\"" ws { return new Literal(ExpressionType.STRING, val, location()); }
-variable        = ws val:identifier ws { return new Literal(ExpressionType.VARIABLE, val, location()); }
+variable        = ws val:identifier ws { return new Variable(val, location()); }
 word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
 comment         = "//" (!lineTerminator .)*
 lineTerminator  = "\n" / "\r\n" / "\r" / "\u2028" / "\u2029"

@@ -1,9 +1,8 @@
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
-import static org.junit.jupiter.api.Assertions.*;
+import AST.*;
 
 class TestQL {
-    @Test
     public void test() {
         FormReader formReader = new FormReader();
 

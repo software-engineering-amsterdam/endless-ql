@@ -6,14 +6,12 @@ import com.sun.istack.internal.NotNull;
 import org.antlr.v4.runtime.*;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.locks.Condition;
 
 import static java.util.stream.Collectors.toList;
 
 public class FormReader {
 
     public class FormReaderVisitor extends QLBaseVisitor<Object> {
-
 
         @Override
         public Object visitForm(QLParser.FormContext ctx) {
@@ -45,7 +43,6 @@ public class FormReader {
     }
 
     public QLForm parseCharstream (CharStream charStream){
-
 
         QLLexer lexer = new QLLexer(charStream);
         TokenStream tokens = new CommonTokenStream(lexer);
@@ -85,21 +82,21 @@ public class FormReader {
         }
     }
 
-    private static class ConditionVisiitor extends QLBaseVisitor<Nodes.Condition> {
-
-        @Override
-        public Nodes.Condition visitCondition(QLParser.ConditionContext ctx) {
-            return visitChildren(ctx);
-        }
-
-    }
-
-    public static class ExpressionVisitor extends QLBaseVisitor<Expression> {
-
-        @Override
-        public Expression visitExpression(QLParser.ExpressionContext ctx) {
-            return visitChildren(ctx);
-        }
-
-    }
+//    private static class ConditionVisitor extends QLBaseVisitor<Condition> {
+//
+//        @Override
+//        public Nodes.Condition visitCondition(QLParser.ConditionContext ctx) {
+//            return visitChildren(ctx);
+//        }
+//
+//    }
+//
+//    public static class ExpressionVisitor extends QLBaseVisitor<Expression> {
+//
+//        @Override
+//        public Expression visitExpression(QLParser.ExpressionContext ctx) {
+//            return visitChildren(ctx);
+//        }
+//
+//    }
 }

@@ -9,10 +9,6 @@ public enum NodeType {
     DATE,
     DECIMAL;
 
-    public boolean isNumber() {
-        return this == INTEGER || this == DECIMAL || this == MONEY;
-    }
-
     public boolean isBasicNumber() {
         return this == INTEGER || this == DECIMAL;
     }

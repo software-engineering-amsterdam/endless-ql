@@ -22,7 +22,7 @@ public class QuestionData {
         if(value == null)
             return true;
 
-        return value.getType() == question.getType().getNodeType();
+        return value.getType().isTypeCompatible(question.getType().getNodeType());
     }
 
     public String getLabel() {

@@ -57,9 +57,9 @@ namespace QL_Vizualizer.Factories
             switch (questionNode.ValueType)
             {
                 case QValueType.BOOLEAN:
-                    return new QLWidgetBool(questionNode.ID, questionNode.Question, condition);
+                    return new QLWidgetBool(questionNode.ID, questionNode.Text, condition);
                 case QValueType.INTEGER:
-                    return new QLWidgetInt(questionNode.ID, questionNode.Question, condition);
+                    return new QLWidgetInt(questionNode.ID, questionNode.Text, condition);
                 case QValueType.TEXT:
                     return new QLWidgetString(questionNode.ID, questionNode.Question, condition);
                 case QValueType.MONEY:

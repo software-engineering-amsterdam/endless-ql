@@ -32,7 +32,7 @@ namespace QL_Parser.Tests.AST
         {
             var form = QLParserHelper.Parse(_formRaw);
             var firstQuestion = form.Children[0] as QuestionNode;
-            Assert.AreEqual("Have you sold a house in 2010?", firstQuestion.Question);
+            Assert.AreEqual("Have you sold a house in 2010?", firstQuestion.Text);
         }
 
         [TestMethod]

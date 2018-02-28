@@ -15,4 +15,11 @@
 				seenHouseOfCards: boolean
 		}
 	}
+
+	if sellingPirce {
+		"Ik wil kaas!"
+			wantsCheese: boolean
+		"Reason:"
+			isAlsoACustomer: text = sellingPrice
+	}
 }

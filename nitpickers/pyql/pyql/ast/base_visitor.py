@@ -115,7 +115,7 @@ class ExpressionVisitor:
         pass
 
     @abstractmethod
-    def visit_literal(self, expression):
+    def visit_literal(self, literal):
         pass
 
     @abstractmethod

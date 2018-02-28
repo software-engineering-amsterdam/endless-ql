@@ -39,7 +39,7 @@ object GUIUpdateVisitor {
           case Conditional(predicate, thenStatements) => {
             predicate match {
               case BooleanAnswer(b) => b.foreach(control.asInstanceOf[GridPane].setVisible(_))
-              case _                      => ()
+              case _                => ()
             }
             visit(control.asInstanceOf[GridPane], thenStatements, symbolTable)
           }

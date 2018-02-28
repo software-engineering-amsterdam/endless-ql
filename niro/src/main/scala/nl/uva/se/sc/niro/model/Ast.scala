@@ -54,7 +54,7 @@ object Statement {
 
   def saveAnswer(questionId: String, answer: Answer, statements: Seq[Statement]): Seq[Statement] = {
     statements.collect {
-      case q: Question if q.id == questionId => Seq(q.copy(expression = answer))
+      case q: Question if q.id == questionId => Seq(q.copy(answer = Some(answer)))
       case q: Question                       => Seq(q)
       case c: Conditional                    => saveAnswer(questionId, answer, c.thenStatements)
     }.flatten

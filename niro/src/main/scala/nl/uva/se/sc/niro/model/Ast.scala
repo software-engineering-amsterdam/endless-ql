@@ -44,20 +44,20 @@ object Statement {
   }
 
   def collectAllVisibleQuestions(statements: Seq[Statement], symbolTable: Map[String, Expression]): Seq[Question] = {
-    statements.collect {
+    statements.flatMap {
       case q: Question => Seq(q)
       case c: Conditional if Evaluator.evaluateExpression(c.predicate, symbolTable).isTrue =>
         collectAllVisibleQuestions(c.thenStatements, symbolTable)
       case ErrorStatement() => Seq.empty
-    }.flatten
+    }
   }
 
   def saveAnswer(questionId: String, answer: Answer, statements: Seq[Statement]): Seq[Statement] = {
-    statements.collect {
+    statements.flatMap {
       case q: Question if q.id == questionId => Seq(q.copy(answer = Some(answer)))
       case q: Question                       => Seq(q)
       case c: Conditional                    => saveAnswer(questionId, answer, c.thenStatements)
-    }.flatten
+    }
   }
 }
 

@@ -24,6 +24,7 @@ import qlviz.model.QuestionBlock;
 public class QLForm extends Application {
 	private JavafxFormRenderer renderer;
 	private Form model;
+	private FormViewModel viewModel;
 
 	// Example to add checkboxes to the form
 
@@ -71,11 +72,11 @@ public class QLForm extends Application {
 				new QuestionViewModelFactoryImpl(numericExpressionViewModelFactory::create);
 		QuestionBlockViewModelFactory questionBlockViewModelFactory =
 				new QuestionBlockViewModelFactory(questionViewModelFactory::create, booleanExpressionFactory::create);
-		FormViewModel viewModel = new FormViewModelImpl(model, renderer, questionBlockViewModelFactory::create);
+		this.viewModel = new FormViewModelImpl(model, renderer, questionBlockViewModelFactory::create);
 
 		QuestionViewModelLinker viewModelLinker = new QuestionViewModelLinkerImpl(new QuestionViewModelCollectorImpl());
-		viewModelLinker.linkQuestionStubs(viewModel);
-		this.renderer.render(viewModel);
+		viewModelLinker.linkQuestionStubs(this.viewModel);
+		this.renderer.render(this.viewModel);
 	}
 
 }

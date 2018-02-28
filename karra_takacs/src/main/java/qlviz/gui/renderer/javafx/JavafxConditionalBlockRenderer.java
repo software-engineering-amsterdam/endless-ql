@@ -1,5 +1,6 @@
 package qlviz.gui.renderer.javafx;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.layout.Pane;
 import qlviz.gui.renderer.ConditionalBlockRenderer;
 import qlviz.gui.renderer.QuestionBlockRenderer;
@@ -27,6 +28,6 @@ public class JavafxConditionalBlockRenderer implements ConditionalBlockRenderer 
         for (QuestionBlockViewModel questionBlockViewModel : conditionalBlock.getQuestionBlocks()) {
             questionBlockRenderer.render(questionBlockViewModel);
         }
-        this.target.visibleProperty().bindBidirectional(conditionalBlock.getCondition().valueProperty());
+        this.target.visibleProperty().bind(conditionalBlock.getCondition().valueProperty());
     }
 }

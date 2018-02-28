@@ -3,9 +3,11 @@ import {ExpressionType} from './expression-type';
 import {LogicalExpression} from './logical-expression';
 import {ArithmeticExpression} from './arithmetic-expression';
 import {UnaryExpression} from './unary-expression';
-import {Location} from './location';
+import {Location} from '../location';
 import {ComparisonExpression} from './comparison-expression';
 import {EqualityExpression} from './equality-expression';
+import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
+import {Variable} from './variable';
 
 const location: Location = {
   start: {
@@ -43,42 +45,57 @@ const inEqualExpression = new EqualityExpression(booleanLiteral, booleanLiteral,
 const negativeExpression = new UnaryExpression(intLiteral, '-', location);
 const negateExpression = new UnaryExpression(booleanLiteral, '!', location);
 
+const variableExpression = new Variable('booleanQuestion', location);
+
 describe('Expressions', () => {
   describe('should evaluate', () => {
+    const formControls: {[key: string]: AbstractControl} = {};
+    formControls['booleanQuestion'] = new FormControl();
+    const form = new FormGroup(formControls);
     it('literals', () => {
-      expect(stringLiteral.evaluate()).toBe('string');
-      expect(dateLiteral.evaluate()).toEqual(new Date('01-01-1990'));
-      expect(booleanLiteral.evaluate()).toBe(true);
-      expect(intLiteral.evaluate()).toBe(5);
+      expect(stringLiteral.evaluate(form)).toBe('string');
+      expect(dateLiteral.evaluate(form)).toEqual(new Date('01-01-1990'));
+      expect(booleanLiteral.evaluate(form)).toBe(true);
+      expect(intLiteral.evaluate(form)).toBe(5);
     });
 
     it('logical expressions', () => {
-      expect(andExpression.evaluate()).toBe(true);
-      expect(orExpression.evaluate()).toBe(true);
+      expect(andExpression.evaluate(form)).toBe(true);
+      expect(orExpression.evaluate(form)).toBe(true);
     });
 
     it('arithmetic expressions', () => {
-      expect(timesExpression.evaluate()).toBe(40.0);
-      expect(divideExpression.evaluate()).toBe(1);
-      expect(addExpression.evaluate()).toBe(13.0);
-      expect(subtractExpression.evaluate()).toBe(0.0);
+      expect(timesExpression.evaluate(form)).toBe(40.0);
+      expect(divideExpression.evaluate(form)).toBe(1);
+      expect(addExpression.evaluate(form)).toBe(13.0);
+      expect(subtractExpression.evaluate(form)).toBe(0.0);
     });
 
     it('comparison expressions', () => {
-      expect(lessThanExpression.evaluate()).toBe(true);
-      expect(greaterThanExpression.evaluate()).toBe(false);
-      expect(lessEqualExpression.evaluate()).toBe(false);
-      expect(greaterEqualExpression.evaluate()).toBe(true);
+      expect(lessThanExpression.evaluate(form)).toBe(true);
+      expect(greaterThanExpression.evaluate(form)).toBe(false);
+      expect(lessEqualExpression.evaluate(form)).toBe(false);
+      expect(greaterEqualExpression.evaluate(form)).toBe(true);
     });
 
     it('equality expressions', () => {
-      expect(equalExpression.evaluate()).toBe(true);
-      expect(inEqualExpression.evaluate()).toBe(false);
+      expect(equalExpression.evaluate(form)).toBe(true);
+      expect(inEqualExpression.evaluate(form)).toBe(false);
     });
 
     it('unary expressions', () => {
-      expect(negativeExpression.evaluate()).toBe(-5);
-      expect(negateExpression.evaluate()).toBe(false);
+      expect(negativeExpression.evaluate(form)).toBe(-5);
+      expect(negateExpression.evaluate(form)).toBe(false);
+    });
+
+    it('variable expressions', () => {
+      expect(variableExpression.evaluate(form)).toBe(null);
+
+      form.controls['booleanQuestion'].setValue(true);
+      expect(variableExpression.evaluate(form)).toBe(true);
+
+      const unknownIdentifierVariableExpression = new Variable('identifier', location);
+      expect(() => unknownIdentifierVariableExpression.evaluate(form)).toThrow();
     });
   });
   describe('Should check and return type', () => {

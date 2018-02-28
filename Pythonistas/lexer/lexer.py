@@ -1,5 +1,6 @@
 import sys
 import re
+from commons.logging import *
 
 
 def lex(characters, token_exprs):
@@ -16,9 +17,11 @@ def lex(characters, token_exprs):
                 if tag:
                     token = (text, tag)
                     tokens.append(token)
+                    logger.debug('Token found: {}'.format(token))
                 break
         if not match:
-            sys.stderr.write('Illegal character: %s\n' % characters[pos])
+            sys.stderr.write('Illegal character: {}\n'.format(characters[pos]))
+            logger.error('Illegal character: {}\n'.format(characters[pos]))
             sys.exit(1)
         else:
             pos = match.end(0)

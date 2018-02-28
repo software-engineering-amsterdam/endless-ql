@@ -25,5 +25,5 @@ def get_token_exprs():
 
 
 def ql_lex(characters):
-    logger.debug('Starting lexer')
+    logger.debug('Start lexer')
     return lex(characters, get_token_exprs())

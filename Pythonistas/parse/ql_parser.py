@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from commons.logging import *
 from functools import reduce
 from parse.combinators import *
 from lexer.ql_lexer import *
@@ -8,7 +7,7 @@ from ql_ast.ql_ast import *
 
 # Top level parser
 def ql_parser(tokens):
-    logger.debug('Starting parser')
+    logger.debug('Start parser')
     ql_ast = parser()(tokens, 0)
     return ql_ast
 

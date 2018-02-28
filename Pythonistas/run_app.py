@@ -5,13 +5,11 @@ Documentation goes here:
 to run give file as arg, example:
 $ python run_app.py forms/simple.ql
 """
-import os
 import argparse
 import sys
 
 from commons.config import config
 from commons.utility import open_file
-from commons.logging import *
 from parse.ql_parser import *
 
 
@@ -39,14 +37,14 @@ def main():
         os.system("pytest")
         sys.exit(0)
 
-    logger.debug('Started {} {}'.format(config['program']['name'], config['program']['version']))
+    # Run input file
+    logger.debug('Start {} {}'.format(config['program']['name'], config['program']['version']))
 
     # openfile
     file = open_file(args.file_name)
 
     # lexer
     tokens = ql_lex(file)
-    logger.debug('Tokens found: {}'.format(tokens))
 
     # parse & ast
     result = ql_parser(tokens)

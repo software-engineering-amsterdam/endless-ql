@@ -1,5 +1,6 @@
 from commons.logging import *
 
+
 class Result:
     """
     Result of the parser, consist out of value(part of AST) and position(index of the next token in stream)
@@ -83,7 +84,8 @@ class Concat(Parser):
 
     def __call__(self, tokens, pos):
         left_result = self.left(tokens, pos)
-        # print(left_result)
+        if left_result is not None:
+            logger.debug('Result Found: {}'.format(left_result))
         if left_result:
             right_result = self.right(tokens, left_result.pos)
             if right_result:
@@ -170,8 +172,6 @@ class Process(Parser):
     def __call__(self, tokens, pos):
         result = self.parser(tokens, pos)
         if result:
-            if '\n' not in str(result):
-                logger.debug('Result Found: {}'.format(result))
             result.value = self.function(result.value)
             return result
 

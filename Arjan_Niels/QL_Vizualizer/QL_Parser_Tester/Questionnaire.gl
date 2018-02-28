@@ -5,18 +5,13 @@
 	"What was the selling price?"
 		sellingPrice: money
 
-		"What was the selling price?"
-		sellingPrice: money
-
 	// A comment which will be ignored.
-	if (sellingPrice || hasNetflix) && (piet || klaas) {
-		if secondQuestion {
-			"Have you seen House of Cards?"
-				seenHouseOfCards: boolean
-		}
+	if (soldHouseIn2010) {
+		"Have you seen House of Cards?"
+			seenHouseOfCards: boolean
 	}
 
-	if sellingPirce {
+	if sellingPrice - Piet {
 		"Ik wil kaas!"
 			wantsCheese: boolean
 		"Reason:"

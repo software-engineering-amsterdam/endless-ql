@@ -12,7 +12,7 @@ namespace QL_Parser.Analysis.Semantic
                 var conditionalNode = (ConditionalNode)node;
                 if (!AnalyseExpression(conditionalNode.Expression))
                 {
-                    Analyser.AddMessage("Invalid type on boolean operator", MessageType.ERROR);
+                    Analyser.AddMessage("This is not a boolean expression", MessageType.ERROR);
                     return false;
                 }
             }

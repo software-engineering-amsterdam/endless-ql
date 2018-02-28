@@ -2,6 +2,7 @@ package org.uva.sea.ql.value;
 
 import java.math.BigDecimal;
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.types.Decimal;
 
 
@@ -266,5 +267,10 @@ public class DecimalValue extends Value {
     @Override
     public <T> T accept(QLValueEvaluator<T> visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.DECIMAL;
     }
 }

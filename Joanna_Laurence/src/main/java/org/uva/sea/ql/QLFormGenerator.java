@@ -8,11 +8,13 @@ import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.value.ErrorValue;
 import org.uva.sea.ql.value.Value;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class QLFormGenerator {
@@ -27,14 +29,24 @@ public class QLFormGenerator {
      */
     public List<QuestionData> generate(String guiSpecification, SymbolTable symbolTable) throws IOException {
         List<Question> questions = this.getQuestions(guiSpecification, symbolTable);
+        HashSet<String> existingQuestionNames = new HashSet<>();
 
         List<QuestionData> questionDataList = new ArrayList<>();
         for( Question question : questions) {
-            Value value = getQuestionValue(symbolTable, question);
+            Value value = getQuestionValueOrError(question, symbolTable, existingQuestionNames);
             questionDataList.add(new QuestionData(question, value));
         }
 
         return questionDataList;
+    }
+
+    private Value getQuestionValueOrError(Question question, SymbolTable symbolTable, HashSet<String> existingQuestionNames) {
+        Value value = getQuestionValue(symbolTable, question);
+        String name = question.getVariable().getVariableName();
+        if(existingQuestionNames.contains(name))
+            value = new ErrorValue("Question is already displayed", question.getLine(), question.getColumn());
+        existingQuestionNames.add(name);
+        return value;
     }
 
     /**

@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.uva.sea.ql.QLCompiler;
+import org.uva.sea.ql.QLGui;
 import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.parser.NodeType;
@@ -122,42 +123,20 @@ public class QuestionController implements Initializable {
         return wrapper;
     }
 
-    public List<Question> getSampleQuestion() {
-
-        File folder = new File("/Users/joannaroczniak/Desktop/UvA/endless-ql/Joanna_Laurence/src/main/resources/gui/");
-        File file = folder.listFiles()[0];
-        System.out.println(file);
-
-        String fileName = file.getAbsolutePath();
-        FormEvaluator formEvaluator = new FormEvaluator();
-        try {
-            QLCompiler compiler = new QLCompiler();
-            CharStream steam = CharStreams.fromStream(new FileInputStream(fileName));
-            Form result = compiler.compileScriptFile(steam);
-            if (result == null)
-                return new ArrayList<>();
-            List<Question> questions = formEvaluator.evaluate(result, new SymbolTable());
-            return questions;
-        } catch (IOException e) {
-            System.err.println("IO exception");
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println(location);
 
-        questions = getSampleQuestion();
-
+        QLGui gui = new QLGui();
+        gui.start("/example.ql");
+        questions = gui.getQuestions();
+//        questions = getSampleQuestion();
         for (Question question : questions) {
             System.out.println(question.getLabel() +
                     " " + question.getValue() +
                     " " + question.getVariable().getVariableName() +
                     " " + question.getNodeType().getNodeType().name());
         }
-
         updateQuestionGUIs();
         printQuestions();
     }

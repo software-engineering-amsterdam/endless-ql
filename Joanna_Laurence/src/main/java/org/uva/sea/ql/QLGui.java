@@ -12,6 +12,8 @@ import java.util.List;
 
 public class QLGui {
 
+    List<Question> questions;
+
     /**
      * Generate the GUI
      * @param guiSpecification Specification of the GUI
@@ -24,13 +26,17 @@ public class QLGui {
                 return;
 
             FormEvaluator evaluate = new FormEvaluator();
-            List<Question> questions = evaluate.evaluate(rootNode, new SymbolTable());
+            questions = evaluate.evaluate(rootNode, new SymbolTable());
             System.out.println("Total questions: " + questions.size());
 
         } catch (IOException e) {
             System.err.println("The gui specification cannot be found: " + guiSpecification);
             e.printStackTrace();
         }
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
     }
 
     /**

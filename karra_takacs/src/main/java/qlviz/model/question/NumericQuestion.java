@@ -24,6 +24,10 @@ public abstract class NumericQuestion extends Question {
         this.value = value;
     }
 
+    public NumericExpression getValueExpression() {
+        return valueExpression;
+    }
+
     public NumericQuestion(String name, String text, QuestionType type, NumericExpression valueExpression) {
         super(name, text, type);
         this.valueExpression = valueExpression;

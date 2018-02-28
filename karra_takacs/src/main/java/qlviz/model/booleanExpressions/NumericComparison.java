@@ -9,6 +9,14 @@ public class NumericComparison implements BooleanExpression {
     private final NumericExpression rightSide;
     private final NumericComparisonOperator opeartor;
 
+    public NumericExpression getLeftSide() {
+        return leftSide;
+    }
+
+    public NumericExpression getRightSide() {
+        return rightSide;
+    }
+
     public NumericComparison(NumericExpression leftSide, NumericExpression rightSide, NumericComparisonOperator opeartor) {
         this.leftSide = leftSide;
         this.rightSide = rightSide;

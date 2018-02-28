@@ -12,9 +12,11 @@ import java.util.Map;
 public class BooleanExpressionLinker implements BooleanExpressionVisitor {
 
     private final Map<String, BooleanQuestion> questions;
+    private final NumericExpressionLinker numericExpressionLinker;
 
-    public BooleanExpressionLinker(Map<String, BooleanQuestion> questions) {
+    public BooleanExpressionLinker(Map<String, BooleanQuestion> questions, NumericExpressionLinker numericExpressionLinker) {
         this.questions = questions;
+        this.numericExpressionLinker = numericExpressionLinker;
     }
 
 
@@ -41,6 +43,7 @@ public class BooleanExpressionLinker implements BooleanExpressionVisitor {
 
     @Override
     public void accept(NumericComparison numericComparison) {
-        return;
+        numericComparison.getLeftSide().accept(this.numericExpressionLinker);
+        numericComparison.getRightSide().accept(this.numericExpressionLinker);
     }
 }

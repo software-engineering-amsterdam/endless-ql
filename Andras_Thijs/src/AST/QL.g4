@@ -42,10 +42,9 @@ expression : '(' expression ')'
            | expression factor expression
            | expression muldiv expression
            | expression addsub expression
-           | expression operator expression;
+           | expression (booloperator | equaloperator | comparision) expression;
 
 // Operators
-operator      : booloperator | equaloperator | comparision;
 booloperator  : AND | OR;
 equaloperator : EQUAL | NOTEQUAL;
 comparision   : LESS | GREATER | LESSEQ | GREATEREQ;

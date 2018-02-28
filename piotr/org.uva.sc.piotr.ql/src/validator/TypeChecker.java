@@ -56,7 +56,7 @@ public class TypeChecker extends QLBaseVisitor {
 
         /* conditions that are not of the type boolean */
 
-        System.out.println("done");
+        System.out.println("Type checker finish");
 
     }
 

@@ -2,15 +2,43 @@ package data
 
 import javax.naming.OperationNotSupportedException
 
-abstract class BaseSymbolValue(var type: QuestionType): Comparable<BaseSymbolValue> {
+abstract class BaseSymbolValue(var type: QuestionType) : Comparable<BaseSymbolValue> {
 
-    abstract infix fun and(that: BaseSymbolValue): BooleanValue
-    abstract infix fun or(that: BaseSymbolValue): BooleanValue
-    abstract operator fun plus(that: BaseSymbolValue): BaseSymbolValue
-    abstract operator fun minus(that: BaseSymbolValue): BaseSymbolValue
-    abstract operator fun times(that: BaseSymbolValue): BaseSymbolValue
-    abstract operator fun div(that: BaseSymbolValue): BaseSymbolValue
-    abstract operator fun not(): BaseSymbolValue
+    open infix fun and(that: BaseSymbolValue): BooleanValue {
+        unsupportedOperation("&&", that)
+    }
+
+    open infix fun or(that: BaseSymbolValue): BooleanValue {
+        unsupportedOperation("||", that)
+    }
+
+    open operator fun plus(that: BaseSymbolValue): BaseSymbolValue {
+        unsupportedOperation("+", that)
+    }
+
+    open operator fun minus(that: BaseSymbolValue): BaseSymbolValue {
+        unsupportedOperation("-", that)
+    }
+
+    open operator fun times(that: BaseSymbolValue): BaseSymbolValue {
+        unsupportedOperation("*", that)
+    }
+
+    open operator fun div(that: BaseSymbolValue): BaseSymbolValue {
+        unsupportedOperation("/", that)
+    }
+
+    open operator fun not(): BaseSymbolValue {
+        unsupportedOperation("!")
+    }
+
+    override fun compareTo(other: BaseSymbolValue): Int {
+        unsupportedOperation("compareTo", other)
+    }
+
+    infix fun ofSameType(that: BaseSymbolValue): Boolean {
+        return this.type == that.type
+    }
 
     val integerValue: IntegerValue
         get() = this as IntegerValue
@@ -25,5 +53,7 @@ abstract class BaseSymbolValue(var type: QuestionType): Comparable<BaseSymbolVal
             throw OperationNotSupportedException("Unable to apply '$operator' to  $type")
         }
     }
+
+    abstract fun valueString(): String
 
 }

@@ -1,0 +1,6 @@
+package expression.visitor.evaluation
+
+import data.BaseSymbolValue
+import expression.visitor.ExpressionVisitable
+
+interface EvaluationVisitable: ExpressionVisitable<EvaluationVisitor, BaseSymbolValue>

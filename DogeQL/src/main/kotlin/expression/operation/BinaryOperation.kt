@@ -1,8 +1,8 @@
-package expression
+package expression.operation
 
 import data.BaseSymbolValue
 
-enum class BinaryOperation(internal val operation: (left: BaseSymbolValue, right: BaseSymbolValue) -> BaseSymbolValue) {
+enum class BinaryOperation(private val operation: (left: BaseSymbolValue, right: BaseSymbolValue) -> BaseSymbolValue) {
 
     Greater({ left, right ->
         data.BooleanValue(left > right)
@@ -52,10 +52,10 @@ enum class BinaryOperation(internal val operation: (left: BaseSymbolValue, right
 
     Divide({ left, right ->
         left / right
-    })
+    });
 
-}
+    operator fun invoke(left: BaseSymbolValue, right: BaseSymbolValue): BaseSymbolValue {
+        return operation(left, right)
+    }
 
-operator fun BinaryOperation.invoke(left: BaseSymbolValue, right: BaseSymbolValue): BaseSymbolValue {
-    return operation.invoke(left, right)
 }

@@ -6,6 +6,7 @@ import com.vaadin.data.HasValue;
 import com.vaadin.server.Page;
 import com.vaadin.server.UserError;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 import nl.uva.js.qlparser.interpreter.FormInterpreter;
@@ -14,6 +15,7 @@ import nl.uva.js.qlparser.models.Form;
 import nl.uva.js.qlparser.models.Reloadable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
@@ -62,34 +64,38 @@ public class WebUI extends UI {
 
     private Layout createLayoutFromFile() {
         FormLayout layout = new FormLayout();
-
-        List<Component> components = FormInterpreter.interpret(qlForm.getValue());
-        addListeners(components);
+        Form form = qlForm.getValue();
+        List<Component> components = FormInterpreter.interpret(form);
 
         layout.addComponent(reloadButton);
+        layout.addComponent(getTitle(form.getHumanizedName()));
+
+        components.forEach(component -> ((HasValue) component).addValueChangeListener(event -> reEvaluate(component, event.getValue())));
         components.forEach(layout::addComponent);
 
         return layout;
     }
 
     private Layout createLayoutFromQLString(String qlInput) {
-        FormLayout formLayout = new FormLayout();
+        FormLayout layout = new FormLayout();
+        Form form = QLIngester.parseFormFromString(qlInput);
+        List<Component> components = FormInterpreter.interpret(form);
 
-        List<Component> components = FormInterpreter.interpret(QLIngester.parseFormFromString(qlInput));
-        addListeners(components);
+        layout.addComponent(getTitle(form.getHumanizedName()));
 
-        components.forEach(formLayout::addComponent);
-        return formLayout;
+        components.forEach(component -> ((HasValue) component).addValueChangeListener(event -> reEvaluate(component, event.getValue())));
+        components.forEach(layout::addComponent);
+        return layout;
     }
 
     private void reEvaluate(Component component, Object value) {
         showNotification(component.getId() + " is now " + value.toString()); // TODO
     }
 
-    private void addListeners(List<Component> components) {
-        for (Component component : components) {
-            if (component instanceof HasValue)
-                ((HasValue) component).addValueChangeListener(event -> reEvaluate(component, event.getValue()));
-        }
+    private Label getTitle(String title) {
+        return new Label(
+                "<h1>" + HtmlUtils.htmlEscape(title) + "</h1>",
+                ContentMode.HTML
+        );
     }
 }

@@ -35,7 +35,7 @@ class ConditionalNode:
         if(self.elseBlock):
             for elseblock in self.elseBlock():
                 types.append(elseBlock.checkTypes())
-        return types
+        return ["Conditional:", types]
         
 
     def __repr__(self):

@@ -1,5 +1,9 @@
 import Tree.ExpressionNode
-import data.*
+import data.question.Question
+import data.question.QuestionTable
+import data.value.BaseSymbolValue
+import data.value.BooleanValue
+import data.value.IntegerValue
 import java.util.*
 
 class FormListener : QuestionareLanguageParserBaseListener() {
@@ -27,11 +31,11 @@ class FormListener : QuestionareLanguageParserBaseListener() {
     }
 
     override fun exitExpression(ctx: QuestionareLanguageParser.ExpressionContext) {
-        if(ctx.childCount == 1){
+        if (ctx.childCount == 1) {
             val identifier = ctx.NAME().text
             val node = ExpressionNode(identifier)
             stack.push(node)
-        }else if (ctx.childCount == 3){
+        } else if (ctx.childCount == 3) {
             if (ctx.getChild(0).text == "(") {
                 return
             }
@@ -47,6 +51,6 @@ class FormListener : QuestionareLanguageParserBaseListener() {
 fun typeParser(type: String): BaseSymbolValue = when (type) {
     "boolean" -> BooleanValue(false)
     "integer" -> IntegerValue(1)
-    else      -> throw IllegalArgumentException("Fuck")
+    else -> throw IllegalArgumentException("Fuck")
 }
 

@@ -1,4 +1,7 @@
-package data
+package data.value
+
+import data.question.QuestionType
+import java.math.BigDecimal
 
 class BooleanValue(var value: Boolean) : BaseSymbolValue(QuestionType.BOOLEAN) {
 
@@ -24,6 +27,12 @@ class BooleanValue(var value: Boolean) : BaseSymbolValue(QuestionType.BOOLEAN) {
 
     override fun not(): BaseSymbolValue {
         return BooleanValue(!value)
+    }
+
+    override fun castTo(that: QuestionType): BaseSymbolValue? = when (that) {
+        QuestionType.INTEGER -> IntegerValue(if (value) 1 else 0)
+        QuestionType.DECIMAL -> DecimalValue(if (value) BigDecimal("1") else BigDecimal("0"))
+        else -> super.castTo(that)
     }
 
     override fun valueString(): String {

@@ -1,6 +1,6 @@
 package expression
 
-import data.BaseSymbolValue
+import data.value.BaseSymbolValue
 import expression.visitor.evaluation.EvaluationVisitor
 
 class LiteralExpression(private val value: BaseSymbolValue): Expression {

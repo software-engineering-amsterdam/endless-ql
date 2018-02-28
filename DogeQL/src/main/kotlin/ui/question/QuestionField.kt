@@ -1,7 +1,7 @@
 package ui.question
 
-import data.Question
-import data.QuestionType
+import data.question.Question
+import data.question.QuestionType
 import tornadofx.*
 
 class QuestionField(question: Question) : View(){

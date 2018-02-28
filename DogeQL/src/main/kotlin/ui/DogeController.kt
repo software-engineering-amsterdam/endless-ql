@@ -1,8 +1,8 @@
 package ui
 
-import data.BooleanValue
-import data.IntegerValue
-import data.Question
+import data.value.BooleanValue
+import data.value.IntegerValue
+import data.question.Question
 import tornadofx.Controller
 
 class DogeController: Controller() {

@@ -6,9 +6,9 @@ form taxOfficeExample {
  "Did you buy a house in 2010?"
    hasBoughtHouses: boolean
   "Did you enter a loan?"
-    hasMaintLoan: boolean
+    hasMainLoan: boolean
 
-  if ((A || B) && hasSoldHouse || (hasMaintLoan && ccc)) {
+  if ((A || B) && hasSoldHouse || (hasMainLoan && ccc)) {
      "Is BTC gonna crash?"
        sendHelp: boolean
    }

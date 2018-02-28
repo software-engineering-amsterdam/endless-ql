@@ -1,6 +1,6 @@
 package expression.operation
 
-import data.BaseSymbolValue
+import data.value.BaseSymbolValue
 
 enum class UnaryOperation(private val operation: (input: BaseSymbolValue) -> BaseSymbolValue) {
 

@@ -1,6 +1,6 @@
 package expression
 
-import data.BaseSymbolValue
+import data.value.BaseSymbolValue
 import expression.operation.BinaryOperation
 import expression.visitor.evaluation.EvaluationVisitor
 

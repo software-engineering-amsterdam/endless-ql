@@ -1,7 +1,7 @@
 package ui.question
 
-import data.BaseSymbolValue
-import data.Question
+import data.value.BaseSymbolValue
+import data.question.Question
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.ObservableList

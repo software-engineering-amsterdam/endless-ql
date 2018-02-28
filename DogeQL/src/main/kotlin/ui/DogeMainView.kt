@@ -1,6 +1,6 @@
 package ui
 
-import data.Question
+import data.question.Question
 import tornadofx.*
 import ui.question.QuestionField
 import ui.question.QuestionViewModel

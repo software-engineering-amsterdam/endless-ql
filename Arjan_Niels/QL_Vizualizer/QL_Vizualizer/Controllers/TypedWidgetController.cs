@@ -1,5 +1,4 @@
-﻿using QL_Parser.AST.Nodes;
-using QL_Vizualizer.Controllers.Display;
+﻿using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Widgets;
 using System;
 using System.Collections.Generic;
@@ -130,6 +129,10 @@ namespace QL_Vizualizer.Controllers
             _displayController.UpdateView(widget);
         }
 
+
+        /// <summary>
+        /// Resets all values that define the current state
+        /// </summary>
         public override void Reset()
         {
             base.Reset();

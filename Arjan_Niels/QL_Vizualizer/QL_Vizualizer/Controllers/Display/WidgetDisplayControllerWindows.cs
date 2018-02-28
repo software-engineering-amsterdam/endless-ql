@@ -118,11 +118,18 @@ namespace QL_Vizualizer.Controllers.Display
             MessageBox.Show(string.Join("\n", errors), errors.Length > 1 ? "Errors occured" : "Error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        /// <summary>
+        /// Sets title of current form
+        /// </summary>
+        /// <param name="title">Title of form</param>
         public override void SetTitle(string title)
         {
             _titleLabel.Text = title;
         }
 
+        /// <summary>
+        /// Resets all values that define its state
+        /// </summary>
         public override void Reset()
         {
             base.Reset();

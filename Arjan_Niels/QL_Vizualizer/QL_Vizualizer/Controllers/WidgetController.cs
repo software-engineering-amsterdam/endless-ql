@@ -138,6 +138,10 @@ namespace QL_Vizualizer.Controllers
             return _widgets[widgetID];
         }
 
+
+        /// <summary>
+        /// Resets all values that define the current state
+        /// </summary>
         public virtual void Reset()
         {
             _widgets = new Dictionary<string, QLWidget>();

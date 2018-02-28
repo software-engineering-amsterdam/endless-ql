@@ -1,4 +1,3 @@
-
 # Jordy Bottelier
 # Dennis Kruidenberg
 
@@ -20,6 +19,7 @@ from visitor import Visitor
 from LexParser.QLGrammarLexer import QLGrammarLexer
 from LexParser.QLGrammarParser import QLGrammarParser
 
+
 def main(argv):
     input = FileStream(argv[1])
     lexer = QLGrammarLexer(input)
@@ -27,18 +27,18 @@ def main(argv):
     parser = QLGrammarParser(stream)
     tree = parser.form()
 
-    #g = Gui()
-    #g.create_form()
+    # g = Gui()
+    # g.create_form()
     # g.create_header("Mijn Vragenlijst")
-    #g.execute()
+    # g.execute()
 
-    #pass tree to visitor
+    # pass tree to visitor
     visitor = Visitor()
     visitor.visit(tree)
     # print(visitor.QLAst)
     ast = visitor.getAst()
     ast.checkTypes()
-    
+
 
 if __name__ == '__main__':
     main(sys.argv)

@@ -5,7 +5,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
 {
     public class QuestionAst : AstNodeBase, IQuestionAst
     {
-        public QuestionAst(string name, string text, Type type)
+        public QuestionAst(Guid id, string name, string text, Type type) : base(id)
         {
             Name = name;
             Text = text;

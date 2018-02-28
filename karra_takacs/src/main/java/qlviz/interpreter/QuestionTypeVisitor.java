@@ -1,7 +1,7 @@
 package qlviz.interpreter;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
-import qlviz.model.QuestionType;
+import qlviz.model.question.QuestionType;
 
 public class QuestionTypeVisitor implements QuestionTypeTranslator {
 

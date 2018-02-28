@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionaireDomain.Entities.API
 {
-    public interface IQuestionnaireAst : IDomainItem, IAstNode
+    public interface IQuestionnaireAst : IQuestionnaireAstNode
     {
         string FormName { get; set; }
-        IList<IQuestionAst> Questions { get; }
     }
 }

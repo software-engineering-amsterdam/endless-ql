@@ -4,13 +4,13 @@ from pyql.ast import code_location
 
 class Expression(ast.ASTNode):
 
-    def __init__(self, location: code_location.CodeLocation):
+    def __init__(self, location):
         super().__init__(location)
 
 
 class Identifier(Expression):
 
-    def __init__(self, identifier: str, location: code_location.CodeLocation):
+    def __init__(self, location, identifier):
         super().__init__(location)
         self._identifier = identifier
 
@@ -21,7 +21,7 @@ class Identifier(Expression):
 
 class UnaryExpression(Expression):
 
-    def __init__(self, location: code_location.CodeLocation, expression):
+    def __init__(self, location, expression):
         super().__init__(location)
         self._expression = expression
 
@@ -30,9 +30,9 @@ class UnaryExpression(Expression):
         return self._expression
 
 
-class BinaryExpression(Expression):
+class BinaryExpression(Expression):  # abstract
 
-    def __init__(self, location: code_location.CodeLocation, left, right):
+    def __init__(self, location, left, right):
         super().__init__(location)
         self._left = left
         self._right = right
@@ -48,7 +48,7 @@ class BinaryExpression(Expression):
 
 class Multiplication(BinaryExpression):
 
-    def __init__(self, location: code_location.CodeLocation, left, right):
+    def __init__(self, location, left, right):
         super().__init__(location, left, right)
 
     def __repr__(self):
@@ -57,7 +57,7 @@ class Multiplication(BinaryExpression):
 
 class Division(BinaryExpression):
 
-    def __init__(self, location: code_location.CodeLocation, left, right):
+    def __init__(self, location, left, right):
         super().__init__(location, left, right)
 
     def __repr__(self):
@@ -66,7 +66,7 @@ class Division(BinaryExpression):
 
 class Addition(BinaryExpression):
 
-    def __init__(self, location: code_location.CodeLocation, left, right):
+    def __init__(self, location, left, right):
         super().__init__(location, left, right)
 
     def __repr__(self):
@@ -75,7 +75,7 @@ class Addition(BinaryExpression):
 
 class Subtraction(BinaryExpression):
 
-    def __init__(self, location: code_location.CodeLocation, left, right):
+    def __init__(self, location, left, right):
         super().__init__(location, left, right)
 
     def __repr__(self):
@@ -84,7 +84,7 @@ class Subtraction(BinaryExpression):
 
 class GreaterThan(BinaryExpression):
 
-    def __init__(self, location: code_location.CodeLocation, left, right):
+    def __init__(self, location, left, right):
         super().__init__(location, left, right)
 
     def __repr__(self):
@@ -93,7 +93,7 @@ class GreaterThan(BinaryExpression):
 
 class LessThan(BinaryExpression):
 
-    def __init__(self, location: code_location.CodeLocation, left, right):
+    def __init__(self, location, left, right):
         super().__init__(location, left, right)
 
     def __repr__(self):
@@ -102,7 +102,7 @@ class LessThan(BinaryExpression):
 
 class GreaterThanOrEqual(BinaryExpression):
 
-    def __init__(self, location: code_location.CodeLocation, left, right):
+    def __init__(self, location, left, right):
         super().__init__(location, left, right)
 
     def __repr__(self):
@@ -111,7 +111,7 @@ class GreaterThanOrEqual(BinaryExpression):
 
 class LessThanOrEqual(BinaryExpression):
 
-    def __init__(self, location: code_location.CodeLocation, left, right):
+    def __init__(self, location, left, right):
         super().__init__(location, left, right)
 
     def __repr__(self):
@@ -120,7 +120,7 @@ class LessThanOrEqual(BinaryExpression):
 
 class Equals(BinaryExpression):
 
-    def __init__(self, location: code_location.CodeLocation, left, right):
+    def __init__(self, location, left, right):
         super().__init__(location, left, right)
 
     def __repr__(self):
@@ -129,7 +129,7 @@ class Equals(BinaryExpression):
 
 class NotEquals(BinaryExpression):
 
-    def __init__(self, location: code_location.CodeLocation, left, right):
+    def __init__(self, location, left, right):
         super().__init__(location, left, right)
 
     def __repr__(self):
@@ -138,7 +138,7 @@ class NotEquals(BinaryExpression):
 
 class And(BinaryExpression):
 
-    def __init__(self, location: code_location.CodeLocation, left, right):
+    def __init__(self, location, left, right):
         super().__init__(location, left, right)
 
     def __repr__(self):
@@ -147,7 +147,7 @@ class And(BinaryExpression):
 
 class Or(BinaryExpression):
 
-    def __init__(self, location: code_location.CodeLocation, left, right):
+    def __init__(self, location, left, right):
         super().__init__(location, left, right)
 
     def __repr__(self):
@@ -156,16 +156,78 @@ class Or(BinaryExpression):
 
 class Not(UnaryExpression):
 
-    def __init__(self, location: code_location.CodeLocation, expression):
+    def __init__(self, location, expression):
         super().__init__(location, expression)
 
     def __repr__(self):
         return "!(" + str(self.expression) + ")"
 
 
+class Literal(Expression):
+
+    def __init__(self, location):
+        super().__init__(location)
+
+
+class StringLiteral(Literal):
+
+    def __init__(self, location, value):
+        super().__init__(location)
+        self._value = value
+
+    @property
+    def value(self):
+        return self._value
+
+
+class IntLiteral(Literal):
+
+    def __init__(self, location, value):
+        super().__init__(location)
+        self._value = int(value)
+
+    @property
+    def value(self):
+        return self._value
+
+
+class DecimalLiteral(Literal):
+
+    def __init__(self, location, value):
+        super().__init__(location)
+        self._value = float(value)
+
+    @property
+    def value(self):
+        return self._value
+
+
+class BoolLiteral(Literal):
+
+    def __init__(self, location, value):
+        super().__init__(location)
+        self._value = value == "true"
+
+    @property
+    def value(self):
+        return self._value
+
+
+class MoneyLiteral(Literal):
+
+    def __init__(self, location, value):
+        super().__init__(location)
+        self._value = value
+
+    @property
+    def value(self):
+        return self._value
+
+
 if __name__ == "__main__":
     loc = code_location.CodeLocation(2, 3)
-    b = And(loc, "left", "right")
-    c = Not(loc, b)
-    print(b)
+    b = And(2, "left", "right")
+    # c = Not(loc, b)
+    c = "True" == "True"
     print(c)
+    # print(c)

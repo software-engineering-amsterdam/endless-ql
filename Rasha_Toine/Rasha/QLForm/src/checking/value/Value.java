@@ -6,9 +6,11 @@ public abstract class Value {
 	public abstract Value sub(Value val);
 	public abstract Value mul(Value val);
 	public abstract Value div(Value val);
-	public abstract Value check(String str);
 	public abstract Value neg();
 	public abstract Value pos();
+	public abstract Value translate(String str);
+	
+	public abstract String getValueString();
 	
 	public abstract BooleanValue and(Value val);
 	public abstract BooleanValue or(Value val);
@@ -34,7 +36,6 @@ public abstract class Value {
 	
 
 	//math
-
 	public abstract Value add(IntegerValue val);
 	public abstract Value add(BooleanValue val);
 	public abstract Value add(StringValue val);
@@ -84,5 +85,6 @@ public abstract class Value {
 	public abstract BooleanValue eq(DateValue val);
 	public abstract BooleanValue eq(DecimalValue val);
 	
-
+	//to handle non-allowed operations during evaluation
+	public abstract <T extends Value> T throwException();
 }

@@ -1,19 +1,18 @@
 package ql.ast.expression;
 
-import java.util.Date;
-
 import ql.ast.type.Type;
+import ql.evaluator.value.Date;
+import ql.evaluator.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class DateLiteral extends Literal<Date> {
+public class DateLiteral extends Literal {
 
-    private java.util.Date value;
+    private Date value;
     
     public DateLiteral() { 
         this.value = new Date();
     }
     
-    @SuppressWarnings("deprecation")
     public DateLiteral(String value) {
         this.value = new Date(value);
     }
@@ -25,16 +24,16 @@ public class DateLiteral extends Literal<Date> {
 
     @Override
     public String toString() {
-        return String.format("%td-%tm-%tY", value,value,value);
+        return value.toString();
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
-    public java.util.Date getValue() {
+    public Value<?> evaluate() {
         return value;
+    }
+
+    @Override
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 }

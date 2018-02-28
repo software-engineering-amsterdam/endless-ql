@@ -1,71 +1,52 @@
 package org.uva.sea.ql.parser.elements;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.parser.elements.types.Var;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.parser.elements.types.Variable;
+import org.uva.sea.ql.traverse.Visitor;
+
 
 public class Question extends ASTNode {
+
     private String label;
-    private Var variable;
+    private Variable variable;
     private Type nodeType;
     private ASTNode value;
 
-    public Question(String label, Var variable, Type nodeType, ASTNode value) {
+    public Question(Token token, String label, Variable variable, Type nodeType, ASTNode value) {
+        super(token);
         this.label = label;
         this.variable = variable;
         this.nodeType = nodeType;
         this.value = value;
-    }
-
-    public Question() {
-        System.out.println("Question created");
     }
 
     public String getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public Var getVariable() {
+    public Variable getVariable() {
         return variable;
-    }
-
-    public void setVariable(Var variable) {
-        this.variable = variable;
     }
 
     public Type getNodeType() {
         return nodeType;
     }
 
-    public void setNodeType(Type nodeType) {
-        this.nodeType = nodeType;
-    }
-
+    /**
+     * The value that is defined in QL
+     * @return
+     */
     public ASTNode getValue() {
-        return value;
-    }
-
-    public void setValue(ASTNode value) {
-        this.value = value;
-    }
-
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doQuestion(this);
-    }
-
-    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
-        this.variable.doTraversal(traverse,traverseType);
-        this.nodeType.doTraversal(traverse,traverseType);
-
-        if(this.value != null)
-            this.value.doTraversal(traverse,traverseType);
+        return this.value;
     }
 
     public Type getType() {
         return nodeType;
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

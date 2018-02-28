@@ -1,18 +1,25 @@
 package ast.literal;
 
+import checking.value.IntegerValue;
 import visiting.LiteralVisitor;
 
-public class IntegerLiteral extends Literal<Integer>{
+public class IntegerLiteral extends Literal{
 
-	public IntegerLiteral(Integer value) {
-		super(value);
-		// TODO Auto-generated constructor stub
+    private IntegerValue value;
+    
+    public IntegerLiteral(int value) {
+    	this.value = new IntegerValue(value);
+    }
+    
+    @Override
+	public IntegerValue getValue() {
+		return value;
 	}
 
 	@Override
 	public <T, U> T accept(LiteralVisitor<T, U> visitor, U ctx) {
-		// TODO Auto-generated method stub
-		//return null;
 		return visitor.visit(this, ctx);
 	}
+
+	
 }

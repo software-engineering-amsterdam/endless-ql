@@ -1,33 +1,42 @@
 package nl.uva.se.sc.niro.model.Expressions
 
 import nl.uva.se.sc.niro.model.Expressions.answers._
-import nl.uva.se.sc.niro.model.Operators._
+import nl.uva.se.sc.niro.model.{ BinaryOperator, UnaryOperator }
 
-object Expression {
+abstract class Expression
 
-  abstract class Expression
-  abstract class Answer extends Expression {
-    def apply(operator: UnaryOperator): Answer
-    def apply(operator: BinaryOperator, right: Answer): Answer
-  }
+abstract class Answer extends Expression {
 
-  object Answer {
-    def apply(answerType: String): Answer = answerType match {
-      case "boolean" => BooleanAnswer(None)
-      case "integer" => IntAnswer(None)
-      case "string" => StringAnswer(None)
-      case "decimal" => DecAnswer(None)
-      case "money" => MoneyAnswer(None)
-      case "date" => DateAnswer(None)
-    }
-  }
+  type T
 
-  case class BinaryOperation(binaryOperator: BinaryOperator, left: Expression, right: Expression) extends Expression
-  case class UnaryOperation(unaryOperator: UnaryOperator, left: Expression) extends Expression
+  val possibleValue: Option[T]
 
-  def evaluate(expr: Expression): Answer = expr match {
-    case answer: Answer => answer
-    case UnaryOperation(operator: UnaryOperator, expression) => evaluate(expression).apply(operator)
-    case BinaryOperation(operator: BinaryOperator, leftExpression, rightExpression) => evaluate(leftExpression).apply(operator, evaluate(rightExpression))
+  def applyUnaryOperator(operator: UnaryOperator): Answer
+
+  def applyBinaryOperator(operator: BinaryOperator, right: Answer): Answer
+
+  def isTrue: Boolean = false
+
+  def combine[R](that: Answer)(f: (T, that.T) => R): Option[R] = for {
+    thisValue <- possibleValue
+    thatValue <- that.possibleValue
+  } yield f(thisValue, thatValue)
+}
+
+final case class Reference(value: String) extends Expression
+
+final case class BinaryOperation(binaryOperator: BinaryOperator, left: Expression, right: Expression) extends Expression
+
+final case class UnaryOperation(unaryOperator: UnaryOperator, left: Expression) extends Expression
+
+object Answer {
+  def apply(answerType: String): Answer = answerType match {
+    case "boolean" => BooleanAnswer()
+    case "integer" => IntAnswer()
+    case "string" => StringAnswer()
+    case "decimal" => DecAnswer()
+    case "money" => MoneyAnswer()
+    case "date" => DateAnswer()
+    case _ => throw new IllegalArgumentException(s"Unsupported answer type: $answerType")
   }
 }

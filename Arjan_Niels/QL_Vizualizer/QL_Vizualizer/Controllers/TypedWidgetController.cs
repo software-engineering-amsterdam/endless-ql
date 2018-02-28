@@ -1,4 +1,5 @@
-﻿using QL_Vizualizer.Controllers.Display;
+﻿using QL_Parser.AST.Nodes;
+using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Widgets;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,18 @@ namespace QL_Vizualizer.Controllers
         }
 
         /// <summary>
+        /// Displays form
+        /// </summary>
+        /// <param name="title">Title of form</param>
+        /// <param name="widgets">Widgets of form</param>
+        public override void DisplayForm(string title, QLWidget[] widgets)
+        {
+            _displayController.SetTitle("Form: " + title);
+            SetWidgets(widgets);
+            ShowWidgets();
+        }
+
+        /// <summary>
         /// Shows error(s) to user
         /// </summary>
         /// <param name="errors">One or more errors</param>
@@ -92,6 +105,9 @@ namespace QL_Vizualizer.Controllers
         /// </summary>
         public override void ShowWidgets()
         {
+            // Ensure styles are set
+            UpdateDefaultStyle();
+
             // Start showing widgets at specified starting position
             float position = _displayController.InitialPosition;
 
@@ -111,6 +127,13 @@ namespace QL_Vizualizer.Controllers
         public override void UpdateView(QLWidget widget)
         {
             _displayController.UpdateView(widget);
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+            _displayController.Reset();
+            ElementStyleIndex = new Dictionary<string, Y>();
         }
     }
 }

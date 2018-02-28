@@ -7,17 +7,17 @@ import nl.uva.js.qlparser.models.enums.DataType;
 
 @Data
 @Builder
-public class Variable implements DataExpression {
+public class Variable<T> implements DataExpression {
     private DataType dataType;
     @NonNull private String name;
 
     @Override
-    public void toRepresentation() {
-
+    public DataType checkAndReturnType() {
+        return dataType;
     }
 
     @Override
-    public DataType checkAndReturnType() {
-        return dataType;
+    public T value() {
+        return null;
     }
 }

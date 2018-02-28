@@ -1,5 +1,6 @@
 package nl.uva.js.qlparser.models.formexpressions;
 
+import com.vaadin.ui.Component;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -7,7 +8,9 @@ import nl.uva.js.qlparser.models.dataexpressions.DataExpression;
 import nl.uva.js.qlparser.models.enums.DataType;
 import nl.uva.js.qlparser.models.exceptions.TypeMismatchException;
 
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 @Data
 @Builder
@@ -16,8 +19,22 @@ public class IfBlock implements FormExpression {
     private LinkedList<FormExpression> expressions;
 
     @Override
-    public void toRepresentation() {
+    public List<Component> getComponents() {
+        LinkedList<Component> components = new LinkedList<>();
 
+        expressions.stream()
+                .map(FormExpression::getComponents)
+                .forEach(components::addAll);
+
+        for (Component component : components) {
+            component.setVisible(evaluateCondition());
+        }
+
+        return components;
+    }
+
+    private boolean evaluateCondition() {
+        return false; // TODO 
     }
 
     @Override

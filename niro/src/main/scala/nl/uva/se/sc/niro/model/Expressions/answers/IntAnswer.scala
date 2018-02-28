@@ -1,43 +1,41 @@
 package nl.uva.se.sc.niro.model.Expressions.answers
 
-import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
-import nl.uva.se.sc.niro.model.Operators._
-import nl.uva.se.sc.niro.model.{ Arithmetics, Comparisons }
+import nl.uva.se.sc.niro.model.Expressions.Answer
+import nl.uva.se.sc.niro.model.Expressions.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
+import nl.uva.se.sc.niro.model.Expressions.Orderings.IntAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.model._
 
-case class IntAnswer(possibleValue: Option[Int]) extends Answer with Arithmetics[IntAnswer] with Comparisons[IntAnswer] {
+final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
 
-  def add(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value + otherValue)))
-  def sub(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value - otherValue)))
-  def mul(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value * otherValue)))
-  def div(other: IntAnswer): IntAnswer = IntAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value / otherValue)))
+  type T = Int
 
-  def lt(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value < otherValue)))
-  def lTe(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value <= otherValue)))
-  def gTe(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value >= otherValue)))
-  def gt(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value > otherValue)))
-  def ne(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value != otherValue)))
-  def eq(other: IntAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(otherValue => value == otherValue)))
+  def toDecAnswer = DecAnswer(possibleValue.map(BigDecimal(_)))
 
-  def min: IntAnswer = IntAnswer(possibleValue.map(-_))
-
-  def apply(operator: BinaryOperator, other: Answer): Answer = (this, other) match {
-    case (lhs: IntAnswer, rhs: IntAnswer) => operator match {
-      case Add => add(rhs)
-      case Sub => sub(rhs)
-      case Mul => mul(rhs)
-      case Div => div(rhs)
-      case Lt => lt(rhs)
-      case LTe => lTe(rhs)
-      case GTe => gTe(rhs)
-      case Gt => gt(rhs)
-      case Ne => ne(rhs)
-      case Eq => eq(rhs)
-      case _ => throw new UnsupportedOperationException(s"Unsupported $operator")
+  def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
+    case that: IntAnswer => operator match {
+      case Add => this + that
+      case Sub => this - that
+      case Mul => this * that
+      case Div => this / that
+      case Lt => this < that
+      case LTe => this <= that
+      case GTe => this >= that
+      case Gt => this > that
+      case Ne => this !== that
+      case Eq => this === that
+      case _ => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
     }
-    case _ => throw new IllegalArgumentException(s"Can't perform operation on different types. Type ${this.getClass.getSimpleName} and ${other.getClass.getSimpleName}")
+    case that: DecAnswer => toDecAnswer.applyBinaryOperator(operator, that)
+    case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
-  def apply(operator: UnaryOperator): Answer = operator match {
-    case Min => min
+  def applyUnaryOperator(operator: UnaryOperator): Answer = operator match {
+    case Min => -this
+    case _ => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
+}
+
+object IntAnswer {
+  def apply() = new IntAnswer(None)
+  def apply(value: Int) = new IntAnswer(Some(value))
 }

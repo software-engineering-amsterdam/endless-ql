@@ -11,11 +11,6 @@ public class Negation implements DataExpression {
     private DataExpression expression;
 
     @Override
-    public void toRepresentation() {
-
-    }
-
-    @Override
     public DataType checkAndReturnType() {
         DataType expressionType = expression.checkAndReturnType();
 
@@ -23,5 +18,10 @@ public class Negation implements DataExpression {
             throw new TypeMismatchException(DataType.BOOLEAN, expressionType);
 
         return DataType.BOOLEAN;
+    }
+
+    @Override
+    public Boolean value() {
+        return !((Boolean) expression.value());
     }
 }

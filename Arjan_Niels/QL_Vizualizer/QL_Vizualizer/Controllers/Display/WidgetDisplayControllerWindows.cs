@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using QL_Vizualizer.Expression;
 using QL_Vizualizer.Factories;
 using QL_Vizualizer.Properties;
 using QL_Vizualizer.Style;
@@ -33,10 +34,11 @@ namespace QL_Vizualizer.Controllers.Display
         /// </summary>
         private Form _mainForm;
 
+        private Label _titleLabel;
+
         public WidgetDisplayControllerWindows(float topMargin, WidgetController widgetController) : base(topMargin, new ControlFactory(widgetController), widgetController, new WindowsStyleProperties { Width = 338 })
         {
             ConstructMainWindow();
-            
         }
 
         /// <summary>
@@ -91,11 +93,11 @@ namespace QL_Vizualizer.Controllers.Display
         public void DummyQL()
         {
             // Create widgets
-            _widgetController.SetWidgets(new List<QLWidget>()
+            _widgetController.SetWidgets(new QLWidget[]
             {
                 new QLWidgetInt("a", "wat is 10 + 1?"),
                 new QLWidgetInt("b", "wat is 5 + 3?"),
-                new QLWidgetInt("c", "som:", null, new Expression<int>(() => {
+                new QLWidgetInt("c", "som:", null, new ExpressionLeaf<int>(() => {
                     return (_widgetController.GetWidget("a") as QLWidgetInt).AnswerValue + (_widgetController.GetWidget("b") as QLWidgetInt).AnswerValue;
                 }, "a", "b")),
                 new QLWidgetBool("d", "This statement is False")
@@ -116,6 +118,17 @@ namespace QL_Vizualizer.Controllers.Display
             MessageBox.Show(string.Join("\n", errors), errors.Length > 1 ? "Errors occured" : "Error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        public override void SetTitle(string title)
+        {
+            _titleLabel.Text = title;
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+            _widgetContainer.Controls.Clear();
+        }
+
         #region Main window constructors
         /// <summary>
         /// Construct view and assigns it to _mainForm
@@ -130,13 +143,15 @@ namespace QL_Vizualizer.Controllers.Display
             _widgetContainer = CreateWidgetPanel();
             _qlInput = CreateQLInputPanel();
             _parseButton = CreateParseButton();
+            _titleLabel = CreateTitle();
 
             // Assign controls
             _mainForm.Controls.AddRange(new Control[]
             {
                 _widgetContainer,
                 _qlInput,
-                _parseButton
+                _parseButton,
+                _titleLabel
             });
 
             _mainForm.ResumeLayout(false);
@@ -160,6 +175,19 @@ namespace QL_Vizualizer.Controllers.Display
             };
         }
 
+        
+        /// <summary>
+        /// Creates label element for title
+        /// </summary>
+        /// <returns>Title element</returns>
+        private Label CreateTitle()
+        {
+            return new Label
+            {
+                Location = new Point(378, 12),
+                Text = "Form: -"
+            };
+        }
 
         /// <summary>
         /// Creates widget panel
@@ -169,9 +197,9 @@ namespace QL_Vizualizer.Controllers.Display
         {
             return new Panel
             {
-                Location = new Point(378, 12),
+                Location = new Point(378, 32),
                 Name = "widgetDisplayPanel",
-                Size = new Size(348, 595)
+                Size = new Size(348, 575)
             };
         }
 

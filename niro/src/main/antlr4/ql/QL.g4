@@ -28,7 +28,8 @@ MUL         : '*' ;
 OR          : '||' ;
 AND         : '&&' ;
 NEG         : '!' ;
-COMMA       : ',' ;
+//COMMA       : ',' ;
+PERIOD      : '.' ;
 
 BOOLEAN     : 'boolean' ;
 INTEGER     : 'integer' ;
@@ -41,8 +42,8 @@ FALSE       : 'false' ;
 TRUE        : 'true' ;
 
 IntValue    : [1-9][0-9]* ;
-DecValue    : [1-9][0-9]* COMMA [0-9]+ ;
-Ident       : [a-zA-Z0-9_]+ ;
+DecValue    : [1-9][0-9]* PERIOD [0-9]+ ;
+Identifier  : [a-zA-Z0-9_]+ ;
 TEXT        : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); };
 
 WS          : [ \t\r\n]+ -> skip ;
@@ -50,29 +51,33 @@ COMMENT     : '//' .*? '\n' -> skip ;
 
 bool        : FALSE | TRUE ;
 
-unaryOp     : SUB | NEG;
-compOp      : LT | LTE | GTE | GT | NE | EQ ;
-logicalOp   : OR | AND ;
-arithmOp    : SUB | ADD | DIV | MUL ;
-
-expression  : answerType                                    # AnswerTypeConst
-            | IntValue                                      # IntConst
-            | DecValue                                      # DecConst
-            | Ident                                         # Var
-            | bool                                          # BoolConst
-            | lhs=expression arithmOp rhs=expression        # ArithmExpr
-            | lhs=expression compOp rhs=expression          # CompExpr
-            | lhs=expression logicalOp rhs=expression       # LogicalExpr
-            | unaryOp expression                            # UnaryExpr
-            | BRACK_L expression BRACK_R                    # GroupExpr
-            | answerType ASSIGN BRACK_L expression BRACK_R  # ComputedField ;
-
-form        : FORM Ident CURLY_L statement+ CURLY_R EOF ;
+form        : FORM Identifier CURLY_L statement+ CURLY_R EOF ;
 
 statement   : question
             | conditional ;
 
-question    : Ident D_COLON label=TEXT expression;
+question    : label=TEXT Identifier D_COLON answerType ( ASSIGN BRACK_L expression BRACK_R )?;
 conditional : IF BRACK_L condition=expression BRACK_R CURLY_L thenBlock+=statement+ CURLY_R ( ELSE CURLY_L elseBlock+=statement+ CURLY_R )? ;
 
-answerType  : BOOLEAN | INTEGER | STRING | MONEY | DATE | DECIMAL | MONEY;
+answerType  : BOOLEAN | INTEGER | DECIMAL | MONEY | DATE | STRING ;
+
+unaryOp          : SUB | NEG ;
+multiplicativeOp : MUL | DIV ;
+additiveOp       : ADD | SUB ;
+relationalOp     : LT | GT | LTE | GTE ;
+equalityOp       : EQ | NE ;
+
+// Precence as specified by: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html
+expression : BRACK_L expression BRACK_R                        # GroupExpr
+           | op=unaryOp expression                             # UnaryExpr
+           | lhs=expression op=multiplicativeOp rhs=expression # MultiplicativeExpr
+           | lhs=expression op=additiveOp rhs=expression       # AdditiveExpr
+           | lhs=expression op=relationalOp rhs=expression     # RelationalExp
+           | lhs=expression op=equalityOp rhs=expression       # EqualityExpr
+           | lhs=expression op=AND rhs=expression              # LogicalAndExpr
+           | lhs=expression op=OR rhs=expression               # LogicalOrExpr
+           | Identifier                                        # Var
+           | IntValue                                          # IntConst
+           | DecValue                                          # DecConst
+           | TEXT                                              # StringConst
+           | bool                                              # BoolConst ;

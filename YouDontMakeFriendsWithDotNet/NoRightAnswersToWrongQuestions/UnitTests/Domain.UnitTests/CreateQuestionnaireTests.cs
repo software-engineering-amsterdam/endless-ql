@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.ComponentModel.Design;
+using System.Collections.Generic;
 using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +16,7 @@ namespace UnitTests.Domain.UnitTests
     public class CreateQuestionnaireTests
     {
         private IServiceProvider m_serviceProvider;
+        private IDomainItemLocator m_domainItemLocator;
 
         [SetUp]
         public void Init()
@@ -25,6 +25,15 @@ namespace UnitTests.Domain.UnitTests
             services.AddModule(new AntlrModule());
             services.AddModule(new DomainLogicModule());
             m_serviceProvider = services.BuildServiceProvider();
+            m_domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
+        }
+
+        [TearDown]
+        public void Cleanup()
+        {
+            //To Do: this is a hack, should fix lifetime of service (possibly)
+            var registry = m_serviceProvider.GetService<IDomainItemRegistry>();
+            registry.Nuke();
         }
 
         [Test]
@@ -40,10 +49,6 @@ namespace UnitTests.Domain.UnitTests
                 Assert.AreEqual(
                     expected: @"Parse failed. See inner exception for details.",
                     actual: exception.Message);
-
-                Assert.AreEqual(
-                    expected: @"ANTLR 4.0",
-                    actual: exception.ParserName);
 
                 Assert.AreEqual(
                     expected: @"'gobbldygook' was not recognized at line 1, position 0, giving the following error: missing 'form' at 'gobbldygook' ",
@@ -68,11 +73,7 @@ namespace UnitTests.Domain.UnitTests
                 Assert.AreEqual(
                     expected: @"Parse failed. See inner exception for details.",
                     actual: exception.Message);
-
-                Assert.AreEqual(
-                    expected: @"ANTLR 4.0",
-                    actual: exception.ParserName);
-
+                
                 Assert.AreEqual(
                     expected: @"Lexing of #$%@$ 09090 failed at line 1, position 0, giving the following error: token recognition error at: '#' ",
                     actual: exception.ParseErrorDetails);
@@ -86,73 +87,46 @@ namespace UnitTests.Domain.UnitTests
         [Test]
         public void WhenGivenWellFormedDefinition_ReturnsDomainObjects()
         {
-            var createdForm = CreateForm(@"form MyForm {}");
+            CreateForm(@"form MyForm {}");
+            var createdForm = m_domainItemLocator
+                .GetAll<IQuestionnaireAst>()
+                .FirstOrDefault();
+
+            Assert.IsNotNull(createdForm);
             Assert.AreEqual(expected: "MyForm", actual: createdForm.FormName);
         }
 
-        private IQuestionnaireAst CreateForm(string validText)
+        private void CreateForm(string validText)
         {
             var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
-            var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
             var domainItemId = questionnaireCreator.Create(validText);
-            var createdForm = domainItemLocator.Get<IQuestionnaireAst>(domainItemId);
             Assert.IsNotNull(domainItemId);
+        }
+
+        [TestCaseSource(typeof(TestData), nameof(TestData.CommentCases))]
+        public void WhenGivenComments_ReturnsDomainObjects(string validText, string expectedName)
+        {
+            CreateForm(validText);
+            Assert.AreEqual(expected: expectedName, actual: GetForm().FormName);
+        }
+
+        private IQuestionnaireAst GetForm()
+        {
+            var createdForm = m_domainItemLocator
+                .GetAll<IQuestionnaireAst>()
+                .FirstOrDefault();
+            Assert.IsNotNull(createdForm);
             return createdForm;
         }
 
-        [TestCaseSource(nameof(CommentCases))]
-        public void WhenGivenComments_ReturnsDomainObjects(string validText, string expectedName)
-        {
-            var createdForm = CreateForm(validText);
-            Assert.AreEqual(expected: expectedName, actual: createdForm.FormName);
-        }
-
-        private static IEnumerable CommentCases
-        {
-            get
-            {
-                yield return new TestCaseData(@"form CommentForm {}//", @"CommentForm");
-                yield return new TestCaseData(@"form CommentFormX {}// has comment", @"CommentFormX");
-                var comment1 = @"// has comment
-form CommentFormXYZ {}";
-                yield return new TestCaseData(comment1, @"CommentFormXYZ");
-                yield return new TestCaseData(@"form CommentFormABC {}/* . */", @"CommentFormABC");
-                yield return new TestCaseData(@"form /* inline */ CommentFormDEF {}", @"CommentFormDEF");
-                var multilineComment1 = @"/*
-some comment
-*/
-form CommentFormML {}";
-                yield return new TestCaseData(multilineComment1, @"CommentFormML");
-                var multilineComment2 = @"/*
-//some comment
-*/
-form CommentFormMLX {}";
-                yield return new TestCaseData(multilineComment2, @"CommentFormMLX");
-                yield return new TestCaseData(@"form /* //inline */ CommentFormCIC {}", @"CommentFormCIC");
-                // ToDo: Add instring comments and make sure they print
-            }
-        }
-
-        [TestCaseSource(nameof(ValidNameCases))]
+        [TestCaseSource(typeof(TestData), nameof(TestData.ValidNameCases))]
         public void WhenGivenValidIdentifier_NamesTheFormCorrectly(string validText, string expectedName)
         {
-            var createdForm = CreateForm(validText);
-            Assert.AreEqual(expected: expectedName, actual: createdForm.FormName);
+            CreateForm(validText);
+            Assert.AreEqual(expected: expectedName, actual: GetForm().FormName);
         }
 
-        private static IEnumerable ValidNameCases
-        {
-            get
-            {
-                yield return new TestCaseData(@"form NameForm {}", @"NameForm");
-                yield return new TestCaseData(@"form NameForm1 {}", @"NameForm1");
-                yield return new TestCaseData(@"form A {}", @"A");
-                yield return new TestCaseData(@"form z {}", @"z");
-                yield return new TestCaseData(@"form Name_Form1 {}", @"Name_Form1");
-            }
-        }
-
-        [TestCaseSource(nameof(InvalidNameCases))]
+        [TestCaseSource(typeof(TestData), nameof(TestData.InvalidNameCases))]
         public void WhenGivenInvalidIdentifier_ThrowsLexingError(string invalidText, string invalidName)
         {
             var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
@@ -160,7 +134,6 @@ form CommentFormMLX {}";
             {
                 questionnaireCreator.Create(invalidText);
             }
-
             catch (QlParserException exception)
             {
                 Assert.IsTrue(exception.ParseErrorDetails.Contains(invalidName));
@@ -171,84 +144,135 @@ form CommentFormMLX {}";
             Assert.Fail("Should have thrown an QlParserException exception");
         }
 
-        private static IEnumerable InvalidNameCases
-        {
-            get
-            {
-                yield return new TestCaseData(@"form 1NameForm {}", @"1NameForm");
-                yield return new TestCaseData(@"form Name$Form {}", @"Name$Form");
-                yield return new TestCaseData(@"form _NameForm {}", @"_NameForm");
-                yield return new TestCaseData(@"form % {}", @"%");
-                yield return new TestCaseData(@"form +_(# {}", @"+_(#");
-            }
-        }
-        
-        [TestCaseSource(nameof(QuestionCases))]
+        [TestCaseSource(typeof(TestData), nameof(TestData.QuestionCases))]
         public void WhenGivenValidQuestion_NameAndTextCorrect(string validText, string questionId, string questionText)
         {
-            var createdForm = CreateForm(validText);
-            var question = createdForm.Questions.FirstOrDefault();
-            Assert.AreEqual(expected: questionId, actual: question.Name);
+            CreateForm(validText);
+            var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
+            var question = domainItemLocator
+                .GetAll<IQuestionAst>()
+                .FirstOrDefault();
+            
+            Assert.IsNotNull(question);
             Assert.AreEqual(expected: questionText, actual: question.Text);
         }
 
-        private static IEnumerable QuestionCases
-        {
-            get
-            {
-                var nl = Environment.NewLine;
-                yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", @"x", @"xyz");
-                yield return new TestCaseData("form NameForm { qname : \"this is a question\"  boolean }", @"qname", @"this is a question");
-                yield return new TestCaseData(
-                    $"form NameForm {{ {nl} qname2 : \"this is a question too\"  boolean{nl}  }} ",
-                    @"qname2",
-                    @"this is a question too");
-                yield return new TestCaseData(
-                    $"form NameForm {{{nl}    qname3 : \"this is a question three\" boolean{nl}    qname4 : \"this is a question four\" boolean }} ",
-                    @"qname3",
-                    @"this is a question three");
-            }
-        }
-
-        [TestCaseSource(nameof(MultipleQuestionCases))]
+        [TestCaseSource(typeof(TestData), nameof(TestData.MultipleQuestionCases))]
         public void WhenGivenMultipleQuestions_CorrectNumberOfQuestions(string validText, int questionCount)
         {
-            var createdForm = CreateForm(validText);
-            Assert.AreEqual(expected: questionCount, actual: createdForm.Questions.Count);
+            CreateForm(validText);
+            Assert.AreEqual(expected: questionCount, actual: m_domainItemLocator.GetAll<IQuestionAst>().Count());
         }
 
-        private static IEnumerable MultipleQuestionCases
-        {
-            get
-            {
-                var nl = Environment.NewLine;
-                yield return new TestCaseData("form NameForm { x : \"xyz\" boolean }", 1);
-                yield return new TestCaseData("form NameForm { qname : \"this is a question\" boolean }", 1);
-                yield return new TestCaseData($"form NameForm {{ {nl} qname2 : \"this is a question too\"  boolean{nl} }} ", 1);
-                yield return new TestCaseData(
-                    $"form NameForm {{{nl}    qname3 : \"this is a question three\"  boolean{nl}    qname4 : \"this is a question four\"  boolean }} ",
-                    2);
-                yield return new TestCaseData(
-                    $"form NameForm {{{nl}    x : \"xyz\"  boolean{nl}    y : \"yzx\"  boolean{nl}    z : \"zxy\"  boolean }} ",
-                    3);
-            }
-        }
 
-        [TestCaseSource(nameof(TypeCases))]
+        [TestCaseSource(typeof(TestData), nameof(TestData.TypeCases))]
         public void WhenQuestionsHasType_CorrectTypeOnQuestions(string validText, Type expectedType)
         {
-            var createdForm = CreateForm(validText);
-            var actualType = createdForm.Questions.FirstOrDefault().Type;
-            Assert.AreEqual(expected: expectedType, actual: actualType);
+            CreateForm(validText);
+            Assert.AreEqual(expected: expectedType, actual: GetQuestion().Type);
         }
 
-        private static IEnumerable TypeCases
+        private IQuestionAst GetQuestion()
         {
-            get
+            var question = m_domainItemLocator.GetAll<IQuestionAst>().FirstOrDefault();
+            Assert.IsNotNull(question);
+            return question;
+        }
+
+        [TestCaseSource(typeof(TestData), nameof(TestData.ConditionalStatementCases))]
+        public void WhenFormHasConditionalStatement_CorrectNumberOfConditionalCasesExist(string validText, int conditionCount)
+        {
+            CreateForm(validText);
+            var actualCount = m_domainItemLocator.GetAll<IConditionalAst>().Count();
+            Assert.AreEqual(expected: conditionCount, actual: actualCount);
+        }
+
+        [TestCaseSource(typeof(TestData), nameof(TestData.ElseStatementCases))]
+        public void WhenFormHasElseConditional_CorrectNumberOfQuestionsExist(string validText, int conditionCount)
+        {
+            CreateForm(validText);
+            var actualCount = m_domainItemLocator.GetAll<IQuestionAst>().Count();
+            Assert.AreEqual(expected: conditionCount, actual: actualCount);
+        }
+        
+        [TestCaseSource(typeof(TestData), nameof(TestData.QuestionDuplicatesCases))]
+        public void WhenDuplicateQuestionId_ThrowsAnError(string invalidText, string duplicateName)
+        {
+            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+            try
             {
-                yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", typeof(bool));
+                questionnaireCreator.Create(invalidText);
+            }
+            catch (QlParserException exception)
+            {
+                Assert.IsTrue(exception.ParseErrorDetails.Contains(duplicateName));
+                return;
+            }
+
+            Assert.Fail("Should have thrown an exception");
+        }
+
+        //[TestCaseSource(typeof(TestData), nameof(TestData.NonBooleanConditional))]
+        //public void WhenANonBooleanQuestionIsUsedInAConditional_ThrowsAnError(string invalidText, string nonBooleanName)
+        //{
+        //    var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+        //    try
+        //    {
+        //        questionnaireCreator.Create(invalidText);
+        //    }
+        //    catch (QlParserException exception)
+        //    {
+        //        Assert.IsTrue(exception.ParseErrorDetails.Contains(nonBooleanName));
+        //        return;
+        //    }
+
+        //    Assert.Fail("Should have thrown an exception");
+        //}
+
+
+        [TestCaseSource(typeof(TestData), nameof(TestData.BooleanConditional))]
+        public void WhenBooleanQuestionUsedInAConditional_ParsesCorrectly(string validText, IEnumerable<string> booleanNames)
+        {
+            CreateForm(validText);
+            var conditionNames = m_domainItemLocator
+                .GetAll<IConditionalAst>()
+                .Select(x => x.QuestionName)
+                .ToList();
+
+            foreach (var expectedName in booleanNames)
+            {
+                Assert.Contains(expected: expectedName, actual: conditionNames);
             }
         }
 
+        [TestCaseSource(typeof(TestData), nameof(TestData.CalculationQuestionCases))]
+        public void WhenQuestionIsCalculation_ParsesCorrectly(string validText, IEnumerable<string> calculationNames)
+        {
+            CreateForm(validText);
+            var questionNames = m_domainItemLocator
+                .GetAll<ICalculationAst>()
+                .Select(x => x.CalculationDefinition)
+                .ToList();
+
+            foreach (var expectedName in calculationNames)
+            {
+                Assert.Contains(expected: expectedName, actual: questionNames);
+            }
+        }
+
+        [TestCaseSource(typeof(TestData), nameof(TestData.ComparisonConditional))]
+        public void WhenComparisonUsedInAConditional_ParsesCorrectly(string validText, IEnumerable<string> booleanNames)
+        {
+            CreateForm(validText);
+            var questionNames = m_domainItemLocator
+                .GetAll<IConditionalAst>()
+                .Select(x => x.QuestionName)
+                .ToList();
+
+            foreach (var expectedName in booleanNames)
+            {
+                Assert.Contains(expected: expectedName, actual: questionNames);
+            }
+        }
     }
 }

@@ -1,9 +1,18 @@
 package nl.uva.js.qlparser.models;
 
+import com.vaadin.ui.Component;
 import nl.uva.js.qlparser.models.enums.DataType;
 
+import java.util.List;
+
 public interface Expression {
-    void toRepresentation();
+
+    /**
+     * Expressions that can by itself be visualized with Vaadin components
+     */
+    interface Visualizable {
+        List<Component> getComponents();
+    }
 
     /*
      * Expressions that have a type and CAN have typed children

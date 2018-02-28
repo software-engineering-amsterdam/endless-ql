@@ -1,12 +1,17 @@
 package ast.expression;
 
-import ast.literal.Identifier;
 import visiting.ExpressionVisitor;
 
 public class IdentityExpression extends Expression {
+	
+	private String name;
 
-	public IdentityExpression(Identifier id) {
+	public IdentityExpression() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public IdentityExpression(String name) {
+		this.name = name;
 	}
 
 	@Override
@@ -14,5 +19,13 @@ public class IdentityExpression extends Expression {
 		// TODO Auto-generated method stub
 		//return null;
 		return visitor.visit(this, ctx);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

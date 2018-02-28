@@ -38,8 +38,10 @@ ext {
 dependencies {
 	compile('org.joda:joda-money:0.12')
 	compile('org.antlr:antlr4-runtime:4.7.1')
+	compile('org.apache.commons:commons-lang3:3.7')
 	compile('com.vaadin:vaadin-spring-boot-starter')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile 'org.apache.commons:commons-lang3:3.6'
 
 	runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly('org.projectlombok:lombok')
@@ -50,6 +52,10 @@ dependencies {
 
 generateGrammarSource {
 	arguments += ['-no-listener', '-visitor', '-package', 'nl.uva.js.qlparser.antlr']
+}
+
+bootRun {
+	systemProperties "ql.file": "input_file/ql_input.jsql", "ql.mode": "file"
 }
 
 dependencyManagement {

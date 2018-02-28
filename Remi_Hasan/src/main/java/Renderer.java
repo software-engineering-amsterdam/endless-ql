@@ -171,9 +171,11 @@ public class Renderer {
         Button submitButton = new Button("Submit (see output in console)");
         submitButton.setOnAction(e -> {
             // Debug output, shows answer to every question in console
+            System.out.println();
             for (Statement statement : form.statements) {
                 if (statement.isQuestion()) {
-                    System.out.println(((Question) statement).answer.evaluate());
+                    Question question = (Question) statement;
+                    System.out.println(question.name + " " + question.answer.evaluate());
                 }
             }
         });

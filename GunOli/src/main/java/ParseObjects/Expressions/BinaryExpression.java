@@ -39,12 +39,4 @@ public abstract class BinaryExpression<T> extends Expression<T> {
     public String toString() {
         return this.exprLeft.toString() + this.operator + this.exprRight.toString();
     }
-
-    public Boolean isArithmetic(){
-        return false;
-    }
-
-    public Boolean isLogical(){
-        return false;
-    }
 }

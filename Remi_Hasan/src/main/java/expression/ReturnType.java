@@ -4,7 +4,7 @@ public enum ReturnType {
     INTEGER {
         @Override
         public Boolean sum(ReturnType other) {
-            return other == INTEGER || other == DECIMAL || other == MONEY || other == DATE;
+            return other == INTEGER || other == DECIMAL || other == MONEY || other == NUMBER || other == DATE;
         }
 
         @Override
@@ -14,32 +14,32 @@ public enum ReturnType {
 
         @Override
         public Boolean ge(ReturnType other) {
-            return other == INTEGER || other == DECIMAL || other == MONEY;
+            return other == INTEGER || other == DECIMAL || other == MONEY || other == NUMBER;
         }
 
         @Override
         public Boolean eq(ReturnType other) {
-            return other == INTEGER || other == DECIMAL || other == MONEY;
+            return other == INTEGER || other == DECIMAL || other == MONEY || other == NUMBER;
         }
     }, DECIMAL {
         @Override
         public Boolean sum(ReturnType other) {
-            return other == INTEGER || other == DECIMAL || other == MONEY;
+            return other == INTEGER || other == DECIMAL || other == MONEY || other == NUMBER;
         }
 
         @Override
         public Boolean divide(ReturnType other) {
-            return other == INTEGER || other == DECIMAL;
+            return other == NUMBER;
         }
 
         @Override
         public Boolean ge(ReturnType other) {
-            return other == INTEGER || other == DECIMAL || other == MONEY;
+            return other == INTEGER || other == DECIMAL || other == MONEY || other == NUMBER;
         }
 
         @Override
         public Boolean eq(ReturnType other) {
-            return other == INTEGER || other == DECIMAL || other == MONEY;
+            return other == INTEGER || other == DECIMAL || other == MONEY || other == NUMBER;
         }
     }, BOOLEAN {
         @Override
@@ -84,13 +84,12 @@ public enum ReturnType {
     }, MONEY {
         @Override
         public Boolean sum(ReturnType other) {
-            return other == INTEGER || other == DECIMAL || other == MONEY;
+            return other == INTEGER || other == DECIMAL || other == MONEY || other == NUMBER;
         }
 
         @Override
         public Boolean divide(ReturnType other) {
-            return other == INTEGER || other == DECIMAL || other == MONEY;
-
+            return other == INTEGER || other == DECIMAL || other == MONEY || other == NUMBER;
         }
 
         @Override
@@ -100,7 +99,7 @@ public enum ReturnType {
 
         @Override
         public Boolean eq(ReturnType other) {
-            return other == INTEGER || other == DECIMAL || other == MONEY;
+            return other == INTEGER || other == DECIMAL || other == MONEY || other == NUMBER;
         }
     }, DATE {
         @Override
@@ -142,7 +141,30 @@ public enum ReturnType {
         public Boolean eq(ReturnType other) {
             return false;
         }
+    }, NUMBER {
+        @Override
+        public Boolean sum(ReturnType other) {
+            return true;
+        }
+
+        @Override
+        public Boolean divide(ReturnType other) {
+            return true;
+        }
+
+        @Override
+        public Boolean ge(ReturnType other) {
+            return true;
+        }
+
+        @Override
+        public Boolean eq(ReturnType other) {
+            return true;
+        }
     };
+
+    // TODO cleanup above
+
 
     public abstract Boolean sum(ReturnType other);
 
@@ -181,7 +203,7 @@ public enum ReturnType {
     }
 
     public Boolean neg() {
-        return this == INTEGER || this == DECIMAL || this == MONEY;
+        return this == INTEGER || this == DECIMAL || this == MONEY || this == NUMBER;
     }
 
     public Boolean not() {

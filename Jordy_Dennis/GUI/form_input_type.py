@@ -1,5 +1,6 @@
 from .gui_imports import *
 
+
 # class that returns the correct widget based on the input type
 class InputTypeMap:
 
@@ -9,11 +10,11 @@ class InputTypeMap:
         pass
 
     def getWidget(self, question_type):
-        q_types ={
+        q_types = {
             "bool": self.return_bool,
             "text": self.return_text,
-            "int" : self.return_int,
-            "decimal" : self.return_decimal
+            "int": self.return_int,
+            "decimal": self.return_decimal
         }
         return q_types[question_type]()
 

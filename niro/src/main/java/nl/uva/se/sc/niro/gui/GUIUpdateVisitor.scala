@@ -27,7 +27,7 @@ object GUIUpdateVisitor {
     }
   }
 
-  private def visitQuestion(control: Node, answer: Option[Answer]) = {
+  def visitQuestion(control: Node, answer: Option[Answer]) = {
 
     answer match {
       case Some(BooleanAnswer(b)) =>
@@ -50,7 +50,7 @@ object GUIUpdateVisitor {
 
   }
 
-  private def visitConditional(control: Node, predicate: Expression): Unit = {
+  def visitConditional(control: Node, predicate: Expression): Unit = {
     predicate match {
       case BooleanAnswer(b) => b.foreach(control.asInstanceOf[GridPane].setVisible(_))
       case _                => ()

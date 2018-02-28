@@ -3,11 +3,11 @@ package org.uva.sc.cr.ql.validation
 import java.util.ArrayList
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
+import org.uva.sc.cr.ql.qL.BlockBody
 import org.uva.sc.cr.ql.qL.ExpressionQuestionRef
 import org.uva.sc.cr.ql.qL.Form
-import org.uva.sc.cr.ql.qL.Question
-import org.uva.sc.cr.ql.qL.BlockBody
 import org.uva.sc.cr.ql.qL.QLPackage
+import org.uva.sc.cr.ql.qL.Question
 
 /**
  * This class contains custom validation rules. 
@@ -24,6 +24,9 @@ class QLValidator extends AbstractQLValidator {
 
 	public static val FORWARD_REFERNCE = "forwardReference"
 	public static val FORWARD_REFERNCE_MESSAGE = "The expression cannot contain a forward reference!"
+	
+	public static val LABEL_EXISTS = "labelExists"
+	public static val LABEL_EXISTS_MESSAGE = "The label for this question already exists!"
 
 	@Check
 	def checkBlockHasQuestion(BlockBody blockBody) {
@@ -71,6 +74,22 @@ class QLValidator extends AbstractQLValidator {
 		]
 		if (!questionExists) {
 			error(FORWARD_REFERNCE_MESSAGE, QLPackage.Literals.EXPRESSION_QUESTION_REF__QUESTION, FORWARD_REFERNCE)
+		}
+
+	}
+	
+	@Check
+	def checkForDuplicateLabels(Question question) {
+		
+		val form = getForm(question)
+
+		val labelExists = form.eAllContents.filter[it instanceof Question && it != question].exists[
+			val questionToCompare = it as Question
+			question.label == questionToCompare.label
+		]
+		
+		if(labelExists) {
+			warning(LABEL_EXISTS_MESSAGE, QLPackage.Literals.QUESTION__LABEL, LABEL_EXISTS)
 		}
 
 	}

@@ -51,6 +51,11 @@ class QLJavaFxApplication extends Application {
 
 		if (!errors.empty)
 			System.exit(0)
+
+		val warnings = issues.filter[it.severity == Severity.WARNING]
+		warnings.forEach [
+			println(it)
+		]
 	}
 
 	override start(Stage primaryStage) {

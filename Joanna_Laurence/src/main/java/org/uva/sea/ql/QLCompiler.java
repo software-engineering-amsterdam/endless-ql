@@ -8,8 +8,6 @@ import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 import org.uva.sea.ql.parser.elements.Form;
 
-;
-
 public class QLCompiler {
 
     /**

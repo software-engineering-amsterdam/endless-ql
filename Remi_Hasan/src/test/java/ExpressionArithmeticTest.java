@@ -5,7 +5,7 @@ import expression.binary.ExpressionArithmeticDivide;
 import expression.binary.ExpressionArithmeticMultiply;
 import expression.binary.ExpressionArithmeticSubtract;
 import expression.binary.ExpressionArithmeticSum;
-import expression.constant.ExpressionVariableInteger;
+import expression.variable.ExpressionVariableInteger;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;

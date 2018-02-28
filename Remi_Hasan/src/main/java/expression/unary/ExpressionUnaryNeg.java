@@ -1,8 +1,8 @@
 package expression.unary;
 
 import expression.Expression;
-import expression.constant.ExpressionVariable;
-import expression.constant.ExpressionVariableInteger;
+import expression.variable.ExpressionVariable;
+import expression.variable.ExpressionVariableInteger;
 import expression.ReturnType;
 import expression.binary.ExpressionArithmeticMultiply;
 

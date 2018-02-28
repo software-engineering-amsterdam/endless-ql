@@ -15,3 +15,5 @@ public interface NumericExpressionViewModelVisitor {
     void visit(NumericNegationViewModel numericNegation);
     void visit(NumericQuestionReferenceViewModel numericQuestionReference);
 }
+
+

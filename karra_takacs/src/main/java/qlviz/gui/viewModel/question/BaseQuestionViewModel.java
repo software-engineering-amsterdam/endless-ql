@@ -17,4 +17,6 @@ public abstract class BaseQuestionViewModel implements QuestionViewModel {
         return this.question.getText();
     }
 
+    public String getName(){return this.question.getName();}
+
 }

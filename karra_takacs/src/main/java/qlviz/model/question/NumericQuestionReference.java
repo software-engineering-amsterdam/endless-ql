@@ -1,11 +1,12 @@
 package qlviz.model.question;
 
 import qlviz.interpreter.linker.NumericExpressionVisitor;
+import qlviz.interpreter.linker.TypedNumericExpressionVisitor;
 import qlviz.model.numericExpressions.NumericExpression;
 
 import java.math.BigDecimal;
 
-public class NumericQuestionReference extends NumericExpression {
+public class NumericQuestionReference implements NumericExpression {
 
     private NumericQuestion question;
     private final String questionName;
@@ -40,5 +41,10 @@ public class NumericQuestionReference extends NumericExpression {
     @Override
     public void accept(NumericExpressionVisitor numericExpressionVisitor) {
         numericExpressionVisitor.visit(this);
+    }
+
+    @Override
+    public <T> T accept(TypedNumericExpressionVisitor<T> numericExpressionVisitor) {
+        return numericExpressionVisitor.visit(this);
     }
 }

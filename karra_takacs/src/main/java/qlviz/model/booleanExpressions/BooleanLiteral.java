@@ -1,6 +1,7 @@
 package qlviz.model.booleanExpressions;
 
 import qlviz.interpreter.linker.BooleanExpressionVisitor;
+import qlviz.interpreter.linker.TypedBooleanExpressionVisitor;
 
 public class BooleanLiteral implements BooleanExpression {
 
@@ -18,6 +19,11 @@ public class BooleanLiteral implements BooleanExpression {
     @Override
     public void accept(BooleanExpressionVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public <T> T accept(TypedBooleanExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }
 

@@ -1,10 +1,11 @@
 package qlviz.model.numericExpressions;
 
 import qlviz.interpreter.linker.NumericExpressionVisitor;
+import qlviz.interpreter.linker.TypedNumericExpressionVisitor;
 
 import java.math.BigDecimal;
 
-public class BinaryNumericOperation extends NumericExpression {
+public class BinaryNumericOperation implements NumericExpression {
 
 
     private final NumericExpression leftSide;
@@ -17,7 +18,6 @@ public class BinaryNumericOperation extends NumericExpression {
         this.operator = operator;
     }
 
-    @Override
     public BigDecimal evaluate() {
         switch (this.operator) {
 
@@ -33,9 +33,13 @@ public class BinaryNumericOperation extends NumericExpression {
         return BigDecimal.ZERO;
     }
 
-    @Override
     public void accept(NumericExpressionVisitor numericExpressionVisitor) {
         numericExpressionVisitor.visit(this);
+    }
+
+    @Override
+    public <T> T accept(TypedNumericExpressionVisitor<T> numericExpressionVisitor) {
+        return numericExpressionVisitor.visit(this);
     }
 
     public NumericExpression getLeftSide() {
@@ -44,5 +48,9 @@ public class BinaryNumericOperation extends NumericExpression {
 
     public NumericExpression getRightSide() {
         return rightSide;
+    }
+
+    public BinaryNumericOperator getOperator() {
+        return operator;
     }
 }

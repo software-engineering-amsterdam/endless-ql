@@ -27,6 +27,6 @@ public class JavafxConditionalBlockRenderer implements ConditionalBlockRenderer 
         for (QuestionBlockViewModel questionBlockViewModel : conditionalBlock.getQuestionBlocks()) {
             questionBlockRenderer.render(questionBlockViewModel);
         }
-        this.target.visibleProperty().setValue(conditionalBlock.getCondition().evaluate());
+        this.target.visibleProperty().bindBidirectional(conditionalBlock.getCondition().valueProperty());
     }
 }

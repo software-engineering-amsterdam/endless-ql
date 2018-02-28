@@ -1,6 +1,7 @@
 package qlviz.model.booleanExpressions;
 
 import qlviz.interpreter.linker.BooleanExpressionVisitor;
+import qlviz.interpreter.linker.TypedBooleanExpressionVisitor;
 import qlviz.model.numericExpressions.NumericExpression;
 
 public class NumericComparison implements BooleanExpression {
@@ -8,6 +9,7 @@ public class NumericComparison implements BooleanExpression {
     private final NumericExpression leftSide;
     private final NumericExpression rightSide;
     private final NumericComparisonOperator opeartor;
+    private NumericComparisonOperator operator;
 
     public NumericExpression getLeftSide() {
         return leftSide;
@@ -41,8 +43,16 @@ public class NumericComparison implements BooleanExpression {
         return false;
     }
 
+    public void accept(BooleanExpressionVisitor visitor){
+        visitor.visit(this);
+    }
+
     @Override
-    public void accept(BooleanExpressionVisitor visitor) {
-        visitor.accept(this);
+    public <T> T accept(TypedBooleanExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    public NumericComparisonOperator getOperator() {
+        return operator;
     }
 }

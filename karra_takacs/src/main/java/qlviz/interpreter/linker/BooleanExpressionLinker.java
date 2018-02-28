@@ -42,7 +42,7 @@ public class BooleanExpressionLinker implements BooleanExpressionVisitor {
     }
 
     @Override
-    public void accept(NumericComparison numericComparison) {
+    public void visit(NumericComparison numericComparison) {
         numericComparison.getLeftSide().accept(this.numericExpressionLinker);
         numericComparison.getRightSide().accept(this.numericExpressionLinker);
     }

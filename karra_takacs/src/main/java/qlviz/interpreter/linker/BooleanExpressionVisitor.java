@@ -15,5 +15,7 @@ public interface BooleanExpressionVisitor {
     void visit(BooleanLiteral literal);
     void visit(Negation negation);
     void visit(BooleanQuestionReference booleanQuestionReference);
-    void accept(NumericComparison numericComparison);
+    void visit(NumericComparison numericComparison);
+
 }
+

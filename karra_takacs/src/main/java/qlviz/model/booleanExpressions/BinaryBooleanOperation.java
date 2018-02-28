@@ -2,6 +2,7 @@ package qlviz.model.booleanExpressions;
 
 
 import qlviz.interpreter.linker.BooleanExpressionVisitor;
+import qlviz.interpreter.linker.TypedBooleanExpressionVisitor;
 
 public class BinaryBooleanOperation implements BooleanExpression {
 
@@ -32,11 +33,20 @@ public class BinaryBooleanOperation implements BooleanExpression {
         visitor.visit(this);
     }
 
+    @Override
+    public <T> T accept(TypedBooleanExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
     public BooleanExpression getLeftSide() {
         return leftSide;
     }
 
     public BooleanExpression getRightSide() {
         return rightSide;
+    }
+
+    public BinaryBooleanOperator getOperator() {
+        return operator;
     }
 }

@@ -43,12 +43,17 @@ def get_tags():
     return num, id, value, boolean, form
 
 
+# todo: make next line accept arbitrary amount
+def next_line():
+    return keyword('\n')
+
+
 # Statements
 def stmt():
     """
     Possible patterns to be recognized
     """
-    return form_stmt() | assign_stmt() #| if_stmt()
+    return form_stmt() | assign_stmt() | if_stmt()
 
 
 def form_stmt():
@@ -60,8 +65,8 @@ def form_stmt():
         return FormStatement(name, parsed_form)
 
     num, id, value, boolean, form = get_tags()
-    return form + id + keyword('{') + keyword('\n') + Lazy(stmt_list) + \
-        keyword('\n') + keyword('}') ^ process
+    return form + id + keyword('{') + next_line() + Lazy(stmt_list) + \
+        next_line() + keyword('}') ^ process
 
 
 def assign_stmt():
@@ -73,7 +78,7 @@ def assign_stmt():
         return AssignStatement(name, question, data_type)
 
     num, id, value, boolean, form = get_tags()
-    return id + keyword(':') + value + keyword('boolean') ^ process
+    return id + keyword(':') + value + (keyword('boolean') | keyword('money')) ^ process
 
 
 def if_stmt():
@@ -81,15 +86,25 @@ def if_stmt():
     if (hasSoldHouse) {...}
     """
     def process(parsed):
-        print(parsed)
-        (((((_, condition), _), true_stmt), false_parsed), _) = parsed
-        if false_parsed:
-            (_, false_stmt) = false_parsed
-        else:
-            false_stmt = None
-        return IfStatement(condition, true_stmt, false_stmt)
-    return keyword('if') + bexp() + keyword('{') + keyword('\n') + \
-        Lazy(stmt_list) + keyword('\n') + keyword('}') ^ process
+        ((((((((_, _), condition), _), _), _), true_stmt), _), _) = parsed
+        return IfStatement(condition, true_stmt)
+
+    num, id, value, boolean, form = get_tags()
+    return keyword('if') + keyword('(') + id + keyword(')') + keyword('{') + next_line() + \
+        Lazy(stmt_list) + next_line() + keyword('}') ^ process
+
+
+# todo: result_stmt
+def result_stmt():
+    """
+    valueResidue: "Value residue:" money(sellingPrice - privateDebt)
+    """
+    def process(parsed):
+        (((name, _), question), data_type) = parsed
+        return AssignStatement(name, question, data_type)
+
+    num, id, value, boolean, form = get_tags()
+    return id + keyword(':') + value + (keyword('boolean') | keyword('money') ) ^ process
 
 
 # Boolean expressions
@@ -111,7 +126,7 @@ def bexp():
 
 
 def bexp_group():
-    return keyword('(') + Lazy(bexp) + keyword(')') ^ process_group
+    return keyword('(') + keyword('id') + keyword(')') ^ process_group
 
 
 # Arithmetic expressions

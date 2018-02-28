@@ -2,10 +2,10 @@ package nl.uva.se.sc.niro.model
 
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.model.Expressions.{ Answer, Expression }
-import nl.uva.se.sc.niro.model.Expressions.{ Answer, Expression }
 
 case class QLForm(formName: String, statements: Seq[Statement]) {
-  val symbolTable: Map[String, Expression] = Statement.collectAllQuestions(statements).map(q => (q.id, q.expression)).toMap
+  val symbolTable: Map[String, Expression] =
+    Statement.collectAllQuestions(statements).map(q => (q.id, q.expression)).toMap
 
   def save(questionId: String, answer: Answer): QLForm = {
     val updatedStatements = Statement.saveAnswer(questionId, answer, statements)
@@ -23,8 +23,8 @@ object Statement {
 
   def collectAllQuestions(statements: Seq[Statement]): Seq[Question] = {
     statements.flatMap {
-      case q: Question => Seq(q)
-      case c: Conditional => collectAllQuestions(c.thenStatements)
+      case q: Question      => Seq(q)
+      case c: Conditional   => collectAllQuestions(c.thenStatements)
       case ErrorStatement() => Seq.empty
     }
   }
@@ -32,7 +32,8 @@ object Statement {
   def collectAllVisibleQuestions(statements: Seq[Statement], symbolTable: Map[String, Expression]): Seq[Question] = {
     statements.collect {
       case q: Question => Seq(q)
-      case c: Conditional if Evaluator.evaluateExpression(c.predicate, symbolTable).isTrue => collectAllVisibleQuestions(c.thenStatements, symbolTable)
+      case c: Conditional if Evaluator.evaluateExpression(c.predicate, symbolTable).isTrue =>
+        collectAllVisibleQuestions(c.thenStatements, symbolTable)
       case ErrorStatement() => Seq.empty
     }.flatten
   }
@@ -40,8 +41,8 @@ object Statement {
   def saveAnswer(questionId: String, answer: Answer, statements: Seq[Statement]): Seq[Statement] = {
     statements.collect {
       case q: Question if q.id == questionId => Seq(q.copy(expression = answer))
-      case q: Question => Seq(q)
-      case c: Conditional => saveAnswer(questionId, answer, c.thenStatements)
+      case q: Question                       => Seq(q)
+      case c: Conditional                    => saveAnswer(questionId, answer, c.thenStatements)
     }.flatten
   }
 }

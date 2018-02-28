@@ -341,14 +341,16 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers {
         answer should be(IntAnswer(125))
       }
       "nested logical operation" in {
-        val expression = BinaryOperation(And, BooleanAnswer(true), BinaryOperation(And, BooleanAnswer(true), BooleanAnswer(true)))
+        val expression =
+          BinaryOperation(And, BooleanAnswer(true), BinaryOperation(And, BooleanAnswer(true), BooleanAnswer(true)))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
         answer should be(BooleanAnswer(true))
       }
       "nested mixed operation" in {
-        val expression = BinaryOperation(And, BooleanAnswer(true), BinaryOperation(Eq, StringAnswer("Foo"), StringAnswer("Foo")))
+        val expression =
+          BinaryOperation(And, BooleanAnswer(true), BinaryOperation(Eq, StringAnswer("Foo"), StringAnswer("Foo")))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
@@ -359,14 +361,14 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers {
       val qlForm = QLForm(
         formName = "Revenue",
         statements = List(
-          Question("revenue","How much did you earn", IntAnswer(1000)),
+          Question("revenue", "How much did you earn", IntAnswer(1000)),
           Question("expenses", "How much did you spend", IntAnswer(200)),
           Question("profit", "You still have", BinaryOperation(Sub, Reference("revenue"), Reference("expenses")))
         )
       )
 
-      val q: Seq[Question] = qlForm.statements.collect{ case q: Question => q }
-      val x =  q.map(q => evaluateExpression(q.expression, qlForm.symbolTable))
+      val q: Seq[Question] = qlForm.statements.collect { case q: Question => q }
+      val x = q.map(q => evaluateExpression(q.expression, qlForm.symbolTable))
       assert(x == Seq(IntAnswer(1000), IntAnswer(200), IntAnswer(800)))
     }
     "do error handling" should {

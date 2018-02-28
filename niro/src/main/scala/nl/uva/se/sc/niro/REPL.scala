@@ -61,18 +61,20 @@ class REPL extends Application with Logging {
 
     val hbox = new HBox(inputFrame, astFrame, outputFrame)
 
-    inputTextArea.textProperty().addListener(new ChangeListener[String] {
-      def changed(p1: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
-        logger.debug("change event!")
-        parseQL(newValue)
-        astFrame.getChildren.remove(1)
-        astFrame.getChildren.add(new Label(prettyPrintQLForm(qlForm)))
+    inputTextArea
+      .textProperty()
+      .addListener(new ChangeListener[String] {
+        def changed(p1: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
+          logger.debug("change event!")
+          parseQL(newValue)
+          astFrame.getChildren.remove(1)
+          astFrame.getChildren.add(new Label(prettyPrintQLForm(qlForm)))
 
-        outputFrame.getChildren.clear()
-        outputFrame.getChildren.add(outputLabel)
-        renderQuestions(astFrame, outputFrame)
-      }
-    })
+          outputFrame.getChildren.clear()
+          outputFrame.getChildren.add(outputLabel)
+          renderQuestions(astFrame, outputFrame)
+        }
+      })
 
     primaryStage.setScene(new Scene(hbox))
     primaryStage.show()
@@ -108,37 +110,40 @@ class REPL extends Application with Logging {
   }
 
   def renderQuestions(astFrame: VBox, outputFrame: VBox): Unit = {
-      val allQuestionsInForm = Statement.collectAllQuestions(qlForm.statements)
-      val questions = allQuestionsInForm.map { case Question(id, label, expression, answer) =>
+    val allQuestionsInForm = Statement.collectAllQuestions(qlForm.statements)
+    val questions = allQuestionsInForm.map {
+      case Question(id, label, expression, answer) =>
         val idField = new Label(id)
         val labelField = new Label(label)
         val inputField = new TextField()
 
         answer foreach {
           case IntAnswer(Some(value)) => inputField.setText(value.toString)
-          case IntAnswer(None) => ()
+          case IntAnswer(None)        => ()
         }
 
-        inputField.textProperty().addListener(new ChangeListener[String] {
-          def changed(p1: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
-            logger.debug(s"change event on question: $id")
-            val intAnswer = IntAnswer(Try(newValue.toInt).toOption)
+        inputField
+          .textProperty()
+          .addListener(new ChangeListener[String] {
+            def changed(p1: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
+              logger.debug(s"change event on question: $id")
+              val intAnswer = IntAnswer(Try(newValue.toInt).toOption)
 
-            qlForm = qlForm.save(id, intAnswer)
-            qlForm = Evaluator.evaluateQLForm(qlForm)
+              qlForm = qlForm.save(id, intAnswer)
+              qlForm = Evaluator.evaluateQLForm(qlForm)
 
-            astFrame.getChildren.remove(1)
-            astFrame.getChildren.add(new Label(prettyPrintQLForm(qlForm)))
+              astFrame.getChildren.remove(1)
+              astFrame.getChildren.add(new Label(prettyPrintQLForm(qlForm)))
 
-            val outputLabel = new Label("Questions")
-            outputLabel.setFont(new Font("Arial", 20))
-            outputFrame.getChildren.clear()
-            outputFrame.getChildren.add(outputLabel)
-            renderQuestions(astFrame, outputFrame)
-          }
-        })
-        new HBox(idField, labelField , inputField)
-      }
+              val outputLabel = new Label("Questions")
+              outputLabel.setFont(new Font("Arial", 20))
+              outputFrame.getChildren.clear()
+              outputFrame.getChildren.add(outputLabel)
+              renderQuestions(astFrame, outputFrame)
+            }
+          })
+        new HBox(idField, labelField, inputField)
+    }
     questions.foreach(outputFrame.getChildren.add)
   }
 }

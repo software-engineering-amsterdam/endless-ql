@@ -29,7 +29,8 @@ object QLFormParser extends Logging {
   object FormVisitor extends QLBaseVisitor[QLForm] {
     override def visitForm(ctx: QLParser.FormContext): QLForm = {
       val formName = ctx.Identifier().getText
-      val statements: Seq[Statement] = JavaConverters.asScalaBuffer(ctx.statement).toList.flatMap(StatementVisitor.visit)
+      val statements: Seq[Statement] =
+        JavaConverters.asScalaBuffer(ctx.statement).toList.flatMap(StatementVisitor.visit)
 
       QLForm(formName, statements)
     }
@@ -55,8 +56,10 @@ object QLFormParser extends Logging {
       val predicate: Expression = ExpressionVisitor.visit(ctx.condition)
       val negatedPredicate: Expression = UnaryOperation(Neg, predicate)
 
-      val thenStatements: Seq[Statement] = JavaConverters.asScalaBuffer(ctx.thenBlock).toList.flatMap(StatementVisitor.visit)
-      val elseStatements: Seq[Statement] = JavaConverters.asScalaBuffer(ctx.elseBlock).toList.flatMap(StatementVisitor.visit)
+      val thenStatements: Seq[Statement] =
+        JavaConverters.asScalaBuffer(ctx.thenBlock).toList.flatMap(StatementVisitor.visit)
+      val elseStatements: Seq[Statement] =
+        JavaConverters.asScalaBuffer(ctx.elseBlock).toList.flatMap(StatementVisitor.visit)
 
       val ifConditional = Conditional(predicate, thenStatements)
       val elseConditional = Conditional(negatedPredicate, elseStatements)

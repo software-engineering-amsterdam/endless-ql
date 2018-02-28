@@ -59,7 +59,7 @@ export class VariableScopeStack {
   contains(identifier: string): boolean {
     return this._store.findIndex((level: string[]) => {
       return level.findIndex((_identifier: string) => {
-        return _identifier === _identifier;
+        return _identifier === identifier;
       }) !== -1;
     }) !== -1;
   }

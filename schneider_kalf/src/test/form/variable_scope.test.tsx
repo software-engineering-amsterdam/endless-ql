@@ -1,5 +1,8 @@
 import VariableScopeVisitor from "../../form/typechecking/VariableScopeVisitor";
-import { nestedForm, nestedFormFieldDeclaredTwice, nestedFormScopeFlawed2 } from "../data/testForms";
+import {
+  nestedForm, nestedFormFieldDeclaredTwice, nestedFormScopeFlawed1,
+  nestedFormScopeFlawed2, nestedFormScopeFlawed3
+} from "../data/testForms";
 import { FieldAlreadyDeclaredError, VariableNotInScopeError } from "../../form/form_errors";
 
 it('does not create an error for the variable scopes of a correct form', () => {
@@ -17,19 +20,33 @@ it('does not allow a second declaration of a field', () => {
   }).toThrow(FieldAlreadyDeclaredError);
 });
 
+it('does not allow usage of undeclared variable', () => {
+  const visitor = new VariableScopeVisitor();
+  expectVariableNotInScope("b", () => nestedFormScopeFlawed1.accept(visitor));
+});
+
 it('does not allow usage of variable in deeper scope', () => {
   const visitor = new VariableScopeVisitor();
+  expectVariableNotInScope("x", () => nestedFormScopeFlawed2.accept(visitor));
+});
+
+it('does not allow usage of variable in earlier scope', () => {
+  const visitor = new VariableScopeVisitor();
+  expectVariableNotInScope("a", () => nestedFormScopeFlawed3.accept(visitor));
+});
+
+const expectVariableNotInScope = (expectedIdentifier: string, action: () => void) => {
   let error: any = null;
 
   try {
-    nestedFormScopeFlawed2.accept(visitor);
+    action();
   } catch (_error) {
     error = _error;
   }
 
-  // expect(error).toBeInstanceOf(VariableNotInScopeError);
+  expect(error).toBeInstanceOf(VariableNotInScopeError);
 
   if (error && error instanceof VariableNotInScopeError) {
-    expect(error.identifier).toBe("a");
+    expect(error.identifier).toBe(expectedIdentifier);
   }
-});
+};

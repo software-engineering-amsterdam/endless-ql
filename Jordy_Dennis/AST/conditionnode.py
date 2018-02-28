@@ -22,7 +22,7 @@ class ConditionNodeBlock:
         types.append(ifType)
         for statement in self.block:
             types.append(statement.checkTypes())
-        return [self.expression, types]
+        return ["IF/ELIF:", types]
 
     def __repr__(self):
         return "({}) {}".format(self.expression, self.block)

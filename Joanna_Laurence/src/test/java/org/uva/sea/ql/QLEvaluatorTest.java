@@ -104,8 +104,6 @@ public class QLEvaluatorTest extends TestCase {
         SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
         QLFormGenerator qlFormGenerator = new QLFormGenerator();
         List<QuestionData> questions = qlFormGenerator.generate(fileName, symbolTable);
-        int questionCount = questions.size();
-
         if(checkForErrors(questions))
             return 0;
 

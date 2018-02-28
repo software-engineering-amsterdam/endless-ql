@@ -1,10 +1,14 @@
 ﻿using QL.Core.Api;
 using Antlr4.Runtime;
+using System.Collections.Generic;
+using QL.Core.Ast;
+using QL.Core.Symbols;
+using System.Linq;
 
 namespace QL.Core.Parsing
 {
     internal class ParsingService : IParsingService
-    {        
+    {
         private QLParser SetupParser(string text)
         {
             var inputStream = new AntlrInputStream(text);
@@ -13,13 +17,58 @@ namespace QL.Core.Parsing
             return new QLParser(commonTokenStream);
         }
 
-        public ParsedSymbols ParseQLInput(string input)
+        private Node ExtractAst(QLParser parser)
         {
-            var parser = SetupParser(input);
             var errorListener = new ErrorListener();
             parser.AddErrorListener(errorListener);
             var visitor = new ParseTreeVisitor();
-            return new ParsedSymbols(visitor.Visit(parser.form()), errorListener.Errors);
+            Node ast = visitor.Visit(parser.form());
+
+            if (errorListener.Errors.Count > 0)
+            {
+                throw new ParsingFailureException(errorListener.Errors);
+            }
+
+            return ast;
+        }
+
+        private SymbolTable ExtractSymbols(Node ast)
+        {
+            var symbolTableVisitor = new SymbolExtractingVisitor();
+            ast.Accept(symbolTableVisitor);
+            return symbolTableVisitor.SymbolTable;
+        }
+
+        private IReadOnlyList<string> HarvestDuplicateSymbolErrors(SymbolTable symbolTable)
+        {
+            var duplicateSymbolDetector = new DuplicateSymbolDetector();
+            IReadOnlyList<Symbol> duplicateSymbols = duplicateSymbolDetector.FindDuplicateSymbols(symbolTable);
+            return duplicateSymbols.Select(x => $"The symbol \"{x.Name}\" is duplicated.").ToList();
+        }
+
+        public ParsedSymbols ParseQLInput(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return new ParsedSymbols(new NullNode(),
+                                         new SymbolTable(),
+                                         new List<string>());
+            }
+
+            QLParser parser = SetupParser(input);
+
+            try
+            {
+                Node ast = ExtractAst(parser);
+                SymbolTable symbols = ExtractSymbols(ast);
+                var errors = HarvestDuplicateSymbolErrors(symbols);
+
+                return new ParsedSymbols(ast, symbols, errors);
+            }
+            catch (ParsingFailureException ex)
+            {
+                return new ParsedSymbols(new NullNode(), new SymbolTable(), ex.ParsingErrors);
+            }
         }
     }
 }

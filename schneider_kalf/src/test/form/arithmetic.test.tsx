@@ -9,10 +9,18 @@ import SmallerThan from "../../form/nodes/expressions/comparisons/SmallerThan";
 import LargerThan from "../../form/nodes/expressions/comparisons/LargerThan";
 import LargerThanOrEqual from "../../form/nodes/expressions/comparisons/LargerThanOrEqual";
 import SmallerThanOrEqual from "../../form/nodes/expressions/comparisons/SmallerThanOrEqual";
+import { DivisionByZeroError } from "../../form/form_errors";
 
 it('holds that 1 + 1 === 2', () => {
   const expression = new Addition(new NumberLiteral(1), new NumberLiteral(1));
   expect(evaluate(expression)).toBe(2);
+});
+
+it('is not possible to divide by zero', () => {
+  expect(() => {
+    const divisionByZero = new Division(new NumberLiteral(42), new NumberLiteral(0));
+    evaluate(divisionByZero);
+  }).toThrow(DivisionByZeroError);
 });
 
 it('holds that 1 - 5 === -4', () => {

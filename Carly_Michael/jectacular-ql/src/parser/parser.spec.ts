@@ -238,4 +238,14 @@ describe('The parser', () => {
     expect(output.statements[1].label).toBe('Expression?');
     expect(output.statements[1].type).toBe(QuestionType.INT);
   });
+
+  it('should parse an expression with a variable', () => {
+    const output = parse(mockInput.expressionVariableForm, {});
+    expect(output).not.toBe(null);
+  });
+
+  it('should parse a form with comments', () => {
+    const output = parse(mockInput.commentForm, {});
+    expect(output).not.toBe(null);
+  });
 });

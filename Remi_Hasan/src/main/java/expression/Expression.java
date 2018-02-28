@@ -1,6 +1,6 @@
 package expression;
 
-import expression.constant.ExpressionVariable;
+import expression.variable.ExpressionVariable;
 
 public abstract class Expression {
 

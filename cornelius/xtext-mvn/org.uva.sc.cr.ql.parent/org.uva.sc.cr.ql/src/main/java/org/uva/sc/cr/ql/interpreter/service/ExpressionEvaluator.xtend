@@ -17,6 +17,7 @@ import org.uva.sc.cr.ql.qL.ExpressionOr
 import org.uva.sc.cr.ql.qL.ExpressionPlusOrMinus
 import org.uva.sc.cr.ql.qL.ExpressionQuestionRef
 import org.uva.sc.cr.ql.util.MissingCaseException
+import org.uva.sc.cr.ql.util.Operation
 
 @Singleton
 class ExpressionEvaluator {
@@ -37,7 +38,7 @@ class ExpressionEvaluator {
 			ExpressionPlusOrMinus: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
 			ExpressionMulOrDiv: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
 			ExpressionNot:
-				"!" + buildExpression(expression.expression)
+				Operation.NOT.literal + buildExpression(expression.expression)
 			ExpressionLiteralString:
 				" '" + expression.expression + "' "
 			ExpressionLiteralInteger:

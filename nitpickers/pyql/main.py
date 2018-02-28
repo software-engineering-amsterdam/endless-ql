@@ -2,7 +2,8 @@ import sys
 from antlr4 import *
 from pyql.antlr.QLLexer import QLLexer
 from pyql.antlr.QLParser import QLParser
-from pyql.ast.visitor import ParseTreeVisitor
+from pyql.ast.parse_tree_visitor import ParseTreeVisitor
+from pyql.ast.static_analysis.type_check import TypeChecker
 
 
 def main(argv):
@@ -15,15 +16,9 @@ def main(argv):
     b = type(tree)
     visitor = ParseTreeVisitor()
     c = tree.accept(visitor)
+    vv = TypeChecker()
+    c.accept(vv)
     print(c)
-
-    # output = open("output.html", "w")
-
-    # htmlQL = HtmlQLListener(output)
-    # walker = ParseTreeWalker()
-    # walker.walk(htmlQL, tree)
-
-    # output.close()
 
 
 if __name__ == '__main__':

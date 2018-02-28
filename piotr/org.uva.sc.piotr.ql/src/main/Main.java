@@ -1,5 +1,6 @@
 package main;
 
+import ast.ASTBuilder;
 import grammar.QLLexer;
 import grammar.QLParser;
 import gui.QLGui;
@@ -19,15 +20,21 @@ public class Main {
 
         QLParser.FormContext formContext = qlParser.form();
 
-        TypeChecker checker = new TypeChecker();
+//        TypeChecker checker = new TypeChecker();
+//
+//        checker.visitForm(formContext);
+//
+//        checker.validate();
 
-        checker.visitForm(formContext);
+//        System.out.println(formContext.toStringTree(qlParser));
 
-        checker.validate();
 
-        //System.out.println(formContext.toStringTree(qlParser));
+        ASTBuilder ast = new ASTBuilder();
+        ast.visitForm(formContext);
 
-        System.out.println("done");
+        ast.getForm().print();
+
+        System.out.println("Main finish.");
 
         /* Show the GUI */
        // new QLGui();

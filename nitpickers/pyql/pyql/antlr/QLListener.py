@@ -62,12 +62,57 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#questionType.
-    def enterQuestionType(self, ctx:QLParser.QuestionTypeContext):
+    # Enter a parse tree produced by QLParser#booleanType.
+    def enterBooleanType(self, ctx:QLParser.BooleanTypeContext):
         pass
 
-    # Exit a parse tree produced by QLParser#questionType.
-    def exitQuestionType(self, ctx:QLParser.QuestionTypeContext):
+    # Exit a parse tree produced by QLParser#booleanType.
+    def exitBooleanType(self, ctx:QLParser.BooleanTypeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#stringType.
+    def enterStringType(self, ctx:QLParser.StringTypeContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#stringType.
+    def exitStringType(self, ctx:QLParser.StringTypeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#integerType.
+    def enterIntegerType(self, ctx:QLParser.IntegerTypeContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#integerType.
+    def exitIntegerType(self, ctx:QLParser.IntegerTypeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#dateType.
+    def enterDateType(self, ctx:QLParser.DateTypeContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#dateType.
+    def exitDateType(self, ctx:QLParser.DateTypeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#decimalType.
+    def enterDecimalType(self, ctx:QLParser.DecimalTypeContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#decimalType.
+    def exitDecimalType(self, ctx:QLParser.DecimalTypeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#moneyType.
+    def enterMoneyType(self, ctx:QLParser.MoneyTypeContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#moneyType.
+    def exitMoneyType(self, ctx:QLParser.MoneyTypeContext):
         pass
 
 
@@ -116,12 +161,30 @@ class QLListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by QLParser#addOperator.
+    def enterAddOperator(self, ctx:QLParser.AddOperatorContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#addOperator.
+    def exitAddOperator(self, ctx:QLParser.AddOperatorContext):
+        pass
+
+
     # Enter a parse tree produced by QLParser#mulExpression.
     def enterMulExpression(self, ctx:QLParser.MulExpressionContext):
         pass
 
     # Exit a parse tree produced by QLParser#mulExpression.
     def exitMulExpression(self, ctx:QLParser.MulExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#mulOperator.
+    def enterMulOperator(self, ctx:QLParser.MulOperatorContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#mulOperator.
+    def exitMulOperator(self, ctx:QLParser.MulOperatorContext):
         pass
 
 
@@ -134,12 +197,48 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#literal.
-    def enterLiteral(self, ctx:QLParser.LiteralContext):
+    # Enter a parse tree produced by QLParser#moneyLiteral.
+    def enterMoneyLiteral(self, ctx:QLParser.MoneyLiteralContext):
         pass
 
-    # Exit a parse tree produced by QLParser#literal.
-    def exitLiteral(self, ctx:QLParser.LiteralContext):
+    # Exit a parse tree produced by QLParser#moneyLiteral.
+    def exitMoneyLiteral(self, ctx:QLParser.MoneyLiteralContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#decimalLiteral.
+    def enterDecimalLiteral(self, ctx:QLParser.DecimalLiteralContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#decimalLiteral.
+    def exitDecimalLiteral(self, ctx:QLParser.DecimalLiteralContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#intLiteral.
+    def enterIntLiteral(self, ctx:QLParser.IntLiteralContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#intLiteral.
+    def exitIntLiteral(self, ctx:QLParser.IntLiteralContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#stringLiteral.
+    def enterStringLiteral(self, ctx:QLParser.StringLiteralContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#stringLiteral.
+    def exitStringLiteral(self, ctx:QLParser.StringLiteralContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#boolLiteral.
+    def enterBoolLiteral(self, ctx:QLParser.BoolLiteralContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#boolLiteral.
+    def exitBoolLiteral(self, ctx:QLParser.BoolLiteralContext):
         pass
 
 

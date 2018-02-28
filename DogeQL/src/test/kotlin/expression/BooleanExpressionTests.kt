@@ -8,27 +8,27 @@ import javax.naming.OperationNotSupportedException
 class BooleanExpressionTests {
 
     @Test(expected = OperationNotSupportedException::class)
-    fun when_Addition_Expect_Exception() {
+    fun `boolean addition results in exception`() {
         BooleanValue(true) + BooleanValue(true)
     }
 
     @Test(expected = OperationNotSupportedException::class)
-    fun when_Subtraction_Expect_Exception() {
+    fun `boolean subtraction results in exception`() {
         BooleanValue(true) - BooleanValue(true)
     }
 
     @Test(expected = OperationNotSupportedException::class)
-    fun when_Multiplication_Expect_Exception() {
+    fun `boolean multiplication results in exception`() {
         BooleanValue(true) * BooleanValue(true)
     }
 
     @Test(expected = OperationNotSupportedException::class)
-    fun when_Division_Expect_Exception() {
+    fun `boolean division results in exception`() {
         BooleanValue(true) / BooleanValue(true)
     }
 
     @Test
-    fun when_Equality_Expect_Success() {
+    fun `boolean equality is as expected`() {
         val result1 = BooleanValue(true) == BooleanValue(true)
         Assert.assertTrue(result1)
 
@@ -37,13 +37,13 @@ class BooleanExpressionTests {
     }
 
     @Test
-    fun when_ValidInequality_Expect_Success() {
+    fun `boolean inequality is as expected`() {
         val result = BooleanValue(false) != BooleanValue(true)
         Assert.assertTrue(result)
     }
 
     @Test
-    fun when_EqualityInverse_Expect_Success() {
+    fun `boolean equality and inequality are inverse`() {
         val resultTrue = BooleanValue(true) == BooleanValue(true)
         val resultFalse = BooleanValue(true) != BooleanValue(true)
         Assert.assertTrue(resultTrue)
@@ -51,27 +51,33 @@ class BooleanExpressionTests {
     }
 
     @Test
-    fun when_GreaterThan_Expect_Second() {
+    fun `boolean greater than behaves as expected`() {
         val result = BooleanValue(true) > BooleanValue(true)
         Assert.assertFalse(result)
     }
 
     @Test
-    fun when_LessThan_Expect_Second() {
+    fun `boolean less than behaves as expected`() {
         val result = BooleanValue(true) < BooleanValue(true)
         Assert.assertFalse(result)
     }
 
     @Test
-    fun when_GreaterThanOrEqual_Expect_First() {
+    fun `boolean greater than or equal behaves as expected`() {
         val result = BooleanValue(true) >= BooleanValue(true)
         Assert.assertTrue(result)
     }
 
     @Test
-    fun when_LessThanOrEqual_Expect_First() {
+    fun `boolean less than or equal behaves as expected`() {
         val result = BooleanValue(true) <= BooleanValue(true)
         Assert.assertTrue(result)
+    }
+
+    @Test
+    fun `boolean negation inverts input`() {
+        val result = !BooleanValue(true)
+        Assert.assertFalse(result.booleanValue.value)
     }
 
 }

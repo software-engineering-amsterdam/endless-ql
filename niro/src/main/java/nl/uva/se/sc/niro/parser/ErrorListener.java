@@ -21,22 +21,22 @@ public class ErrorListener implements ANTLRErrorListener {
 
 		List<String> stack = ((Parser) recognizer).getRuleInvocationStack();
 		Collections.reverse(stack);
-		parseErrors.add(new ParseErrorInfo(line, charPositionInLine, offendingSymbol.toString(), msg, stack, e));
+		parseErrors.add(new SyntaxErrorInfo(line, charPositionInLine, offendingSymbol.toString(), msg, stack, e));
 	}
 
 	@Override
 	public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact, BitSet ambigAlts, ATNConfigSet configs) {
-		System.err.println("reportAmbiguity");
+		parseErrors.add(new AmbiguityErrorInfo());
 	}
 
 	@Override
 	public void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts, ATNConfigSet configs) {
-		System.err.println("reportAttemptingFullContext");
+	    parseErrors.add(new AttemptingFullContextErrorInfo());
 	}
 
 	@Override
 	public void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet configs) {
-		System.err.println("reportContextSensitivity");
+	    parseErrors.add(new ContextSensitivityErrorInfo());
 	}
 
 	public List<ParseErrorInfo> getParseErrors() {

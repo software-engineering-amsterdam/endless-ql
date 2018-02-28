@@ -1,6 +1,7 @@
 package nl.uva.js.qlparser.models.formexpressions;
 
 import com.vaadin.ui.Component;
+import com.vaadin.ui.TextField;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -9,7 +10,8 @@ import nl.uva.js.qlparser.models.dataexpressions.DataExpression;
 import nl.uva.js.qlparser.models.enums.DataType;
 import nl.uva.js.qlparser.models.exceptions.TypeMismatchException;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Data
 @Builder
@@ -20,9 +22,24 @@ public class Question implements FormExpression {
     private DataExpression value;
 
     @Override
-    public ArrayList<Component> getComponents() {
+    public List<Component> getComponents() {
+        return Collections.singletonList(getQuestionnaireComponent());
+    }
 
-        return new ArrayList<>();
+    private Component getQuestionnaireComponent() {
+        Component component = dataType.getComponent().get();
+
+        if (component instanceof TextField) {
+            NonNullRun.consumer(value, v -> ((TextField) component).setValue(v.value().toString()));
+        }
+
+        return addQuestionTo(component);
+    }
+
+    private Component addQuestionTo(Component component) {
+        component.setId(name);
+        component.setCaption(question);
+        return component;
     }
 
     @Override

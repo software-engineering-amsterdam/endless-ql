@@ -4,9 +4,9 @@ using QLanguage;
 
 namespace QL_Parser.Visitors
 {
-    public class ValueVisitor : QLanguage.QLanguageBaseVisitor<StatementNode>
+    public class ValueVisitor : QLanguage.QLanguageBaseVisitor<IExpressionNode>
     {
-        public override StatementNode VisitValue([NotNull] QLanguageParser.ValueContext context)
+        public override IExpressionNode VisitValue([NotNull] QLanguageParser.ValueContext context)
         {
             var statement = context.statement();
             if (statement != null)
@@ -17,7 +17,7 @@ namespace QL_Parser.Visitors
             else
             {
                 var id = context.ID().GetText();
-                return new StatementNode(id);
+                return new ValueNode(id);
             }
         }
     }

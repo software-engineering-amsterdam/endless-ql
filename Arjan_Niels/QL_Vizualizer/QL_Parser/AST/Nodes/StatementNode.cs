@@ -1,30 +1,37 @@
 ﻿namespace QL_Parser.AST.Nodes
 {
-    public class StatementNode : Node
+    public class StatementNode : Node, IExpressionNode
     {
-        public string ID { get; private set; }
-        public StatementNode lhs { get; private set; }
-        public string opr { get; private set; }
-        public StatementNode rhs { get; private set; }
+        public IExpressionNode LeftSide { get; private set; }
+        public string Operator { get; private set; }
+        public IExpressionNode RightSide { get; private set; }
 
-        public StatementNode(string id) : base(NodeType.STATEMENT)
+        public StatementNode(IExpressionNode lhs, string opr, IExpressionNode rhs) : base(NodeType.STATEMENT)
         {
-            this.ID = id;
-        }
-
-        public StatementNode(StatementNode lhs, string opr, StatementNode rhs) : base(NodeType.STATEMENT)
-        {
-            this.lhs = lhs;
-            this.opr = opr;
-            this.rhs = rhs;
+            this.LeftSide = lhs;
+            this.Operator = opr;
+            this.RightSide = rhs;
         }
 
         public override string ToString()
         {
-            if (opr != null && rhs != null)
-                return string.Format("{0} ({1} {2} {3})", base.ToString(), lhs, opr, rhs);
+            return string.Format("{0} ({1} {2} {3})", base.ToString(), LeftSide, Operator, RightSide);
+        }
+
+        public QValueType GetQValueType()
+        {
+            var leftSideType = LeftSide.GetQValueType();
+            var rightSideType = RightSide.GetQValueType();
+
+            if (leftSideType == rightSideType)
+                return leftSideType;
             else
-                return string.Format(" {0} {1}", base.ToString(), ID);
+                return QValueType.UNKNOWN;
+        }
+
+        public NodeType GetNodeType()
+        {
+            return Type;
         }
     }
 }

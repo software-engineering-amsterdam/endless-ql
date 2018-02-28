@@ -1,13 +1,13 @@
 form QonditionQuestions {
-	firstName: "What is your first name?" string
+	"What is your first name?" firstName: string
 	if (true) {
-		lastName: "What is your last name?" string
+		"What is your last name?" lastName: string
 	} else {
-		middleName: "What is your middle name?" string
+		"What is your middle name?" middleName: string
         if (false) {
-            lastName: "What is your last name?" string
+            "What is your last name?" lastName: string
         } else {
-            middleName: "What is your middle name?" string
+            "What is your middle name?" middleName: string
         }
 	}
 }

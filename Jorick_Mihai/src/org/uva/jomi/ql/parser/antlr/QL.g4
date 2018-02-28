@@ -19,7 +19,7 @@ command: questionStmt
 	   | ifElseStmt
 	   ;
 
-questionStmt: IDENTIFIER ':' LABEL TYPE (expression)? ;
+questionStmt: LABEL IDENTIFIER ':' TYPE (expression)? ;
 ifStmt: 'if' '(' expression ')' blockStmt ;
 ifElseStmt: 'if' '(' expression ')' ifBlock=blockStmt 'else' elseBlock=blockStmt;
 
@@ -29,8 +29,8 @@ expression: BOOLEAN # BooleanExpr
 		  | IDENTIFIER # IdentifierExpr
 		  | operator='!' expression # UnaryExpr
           | '(' expression ')' # GroupingExpr
-          | expression operator=('*'|'/') expression # MultiplicationExpr
- 	   	  | expression operator=('+'|'-') expression # AdditionExpr
+          | expression operator=('*'|'/') expression # MultiplicationOrDivisionExpr
+ 	   	  | expression operator=('+'|'-') expression # AdditionOrSubtractionExpr
 		  | expression operator=('>'|'>='|'<'|'<=') expression # ComparisonExpr
  	      | expression operator=('!='|'==') expression # EqualityExpr
  	      | expression operator='&&' expression # AndExpr

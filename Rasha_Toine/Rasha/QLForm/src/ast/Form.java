@@ -10,10 +10,10 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
-import antlr.grammar.QLLexer;
-import antlr.grammar.QLParser;
 import ast.AstNode;
 import ast.literal.Identifier;
+import ast.parser.QLLexer;
+import ast.parser.QLParser;
 
 @SuppressWarnings("deprecation")
 public class Form extends AstNode{

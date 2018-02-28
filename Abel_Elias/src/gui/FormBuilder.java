@@ -1,5 +1,7 @@
 package gui;
 
+import parsing.gen.QLParser;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,16 +14,17 @@ public class FormBuilder {
     /**
      * constructor method
      * initializes the building process of the form
+     * @param tree
      */
-    public FormBuilder() {
-        buildForm();
+    public FormBuilder(QLParser.FormContext tree) {
+        initComponents();
     }
 
     /**
-     * buildForm() method
+     * initComponents() method
      * initializes the building process for all widgets
      */
-    private void buildForm() {
+    private void initComponents() {
         //Build the frame and panel of the form
         buildFrame();
         buildPanel();

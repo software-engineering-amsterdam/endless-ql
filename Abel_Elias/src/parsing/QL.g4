@@ -95,4 +95,4 @@ INT : ('-')? DIGIT+;
 BOOL : ('true' | 'false');
 MON : DIGIT+ '.' DIGIT DIGIT;
 DEC : DIGIT+  '.'  DIGIT+;
-NEWLINE : '\n';
+NEWLINE : '\r'? '\n';

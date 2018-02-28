@@ -1,6 +1,8 @@
 package expression;
 
-public abstract class Expression<T> {
+import expression.variable.ExpressionVariable;
+
+public abstract class Expression {
 
     public abstract ReturnType getReturnType();
 
@@ -11,6 +13,11 @@ public abstract class Expression<T> {
     }
 
     public void setValue(String value) {
+        throw new UnsupportedOperationException("Cannot set value to non-variable expression");
+    }
 
+    @Override
+    public boolean equals(Object other){
+        return this.toString().equals(other.toString());
     }
 }

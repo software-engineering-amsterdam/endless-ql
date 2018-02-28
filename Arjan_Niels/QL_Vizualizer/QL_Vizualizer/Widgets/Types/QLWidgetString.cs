@@ -1,15 +1,10 @@
-﻿using QL_Vizualizer.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using QL_Vizualizer.Expression;
 
 namespace QL_Vizualizer.Widgets.Types
 {
     public class QLWidgetString : QLQuestionWidget<string>
     {
-        public QLWidgetString(string identifyer, string text, Expression<bool> activationExpression = null, Expression<string> answerExpression = null) : base(identifyer, text, activationExpression, answerExpression)
+        public QLWidgetString(string identifyer, string text, IExpression<bool> activationExpression = null, IExpression<string> answerExpression = null) : base(identifyer, text, activationExpression, answerExpression)
         {
         }
     }

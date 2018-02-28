@@ -9,4 +9,6 @@ public interface TypeVisitor<T, C> {
     T visit(IntegerType integerType, C context);
 
     T visit(StringType stringType, C context);
+
+    T visit(MoneyType moneyType, C context);
 }

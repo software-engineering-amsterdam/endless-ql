@@ -22,50 +22,38 @@ import ql.ast.expression.Or;
 import ql.ast.expression.Positive;
 import ql.ast.expression.StrLiteral;
 import ql.ast.expression.Subtract;
-import ql.ast.statement.AnswerableQuestion;
-import ql.ast.statement.Block;
-import ql.ast.statement.ComputedQuestion;
-import ql.ast.statement.IfThen;
-import ql.ast.statement.IfThenElse;
 
-public interface ExpressionVisitor {
+public interface ExpressionVisitor<T> {
 
     //Unary boolean
-    void visit(Negation expr);
+    T visit(Negation expr);
     
     //Unary arithmetic
-    void visit(Negative expr);
-    void visit(Positive expr);
+    T visit(Negative expr);
+    T visit(Positive expr);
     
     //Binary boolean
-    void visit(And expr);
-    void visit(Or expr);
-    void visit(Greater expr);
-    void visit(GreaterEqual expr);
-    void visit(Less expr);
-    void visit(LessEqual expr);
-    void visit(Equal expr);
-    void visit(NotEqual expr);
+    T visit(And expr);
+    T visit(Or expr);
+    T visit(Greater expr);
+    T visit(GreaterEqual expr);
+    T visit(Less expr);
+    T visit(LessEqual expr);
+    T visit(Equal expr);
+    T visit(NotEqual expr);
     
     //Binary arithmetic
-    void visit(Add expr);
-    void visit(Subtract expr);
-    void visit(Multiply expr);
-    void visit(Divide expr);
+    T visit(Add expr);
+    T visit(Subtract expr);
+    T visit(Multiply expr);
+    T visit(Divide expr);
     
     //Primary
-    void visit(Identifier expr);
-    void visit(BoolLiteral expr);
-    void visit(IntLiteral expr);
-    void visit(StrLiteral expr);
-    void visit(DateLiteral expr);
-    void visit(DecimalLiteral expr);
-    void visit(MoneyLiteral expr);
-    
-    //Statement
-    void visit(Block block);
-    void visit(IfThen stmt);
-    void visit(IfThenElse stmt);
-    void visit(AnswerableQuestion stmt);
-    void visit(ComputedQuestion stmt);
+    T visit(Identifier expr);
+    T visit(BoolLiteral expr);
+    T visit(IntLiteral expr);
+    T visit(StrLiteral expr);
+    T visit(DateLiteral expr);
+    T visit(DecimalLiteral expr);
+    T visit(MoneyLiteral expr);
 }

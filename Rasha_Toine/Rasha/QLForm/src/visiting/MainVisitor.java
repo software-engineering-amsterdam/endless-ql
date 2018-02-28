@@ -75,7 +75,7 @@ public class MainVisitor<T, U> implements ExpressionVisitor<T, U>, StatementVisi
 	/* Expressions */
 	@Override
 	public T visit(LiteralExpression node, U ctx){
-		node.getObj().accept(this, ctx);
+		node.getLiteral().accept(this, ctx);
 		return null;
 	}
 	
@@ -203,13 +203,19 @@ public class MainVisitor<T, U> implements ExpressionVisitor<T, U>, StatementVisi
 
 	@Override
 	public T visit(Type type, U ctx) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public T visit(ParenthesesExpression parenthesesExpression, U ctx) {
-		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T visit(IfThenElseStatement node, U ctx) {
+		node.getExpression().accept(this, ctx);
+		node.getIfBody().accept(this, ctx);
+		node.getElseBody().accept(this, ctx);
 		return null;
 	}
 }

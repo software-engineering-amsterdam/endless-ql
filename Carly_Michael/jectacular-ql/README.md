@@ -7,7 +7,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 Insert QL code into the left of the application, press parse to make a form. Fill the form and press submit to see the results.
 
-Example input can be found in parser/textQuestionnaires.txt and app/mock-input.ts
+Example input can be found in src/parser/textQuestionnaires.txt and src/app/mock-input.ts
 
 ## Code scaffolding
 
@@ -20,6 +20,9 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+Run `ng test --code-coverage` to execute unit tests and get a coverage report
+(which can be found in coverage/index.html)
 
 ## Running end-to-end tests
 

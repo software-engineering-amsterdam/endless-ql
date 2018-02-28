@@ -29,6 +29,14 @@ export const formWrongQuestionName =
     }
   `;
 
+export const formMissingQuestionName =
+  `
+    form form {
+      : "Question?" boolean
+      question: "Question?" boolean
+    }
+  `;
+
 export const duplicateIdentifierForm =
   `
     form form {
@@ -76,6 +84,6 @@ export const expressionQuestionForm =
   `
     form form {
       question: "Question?" integer
-      exprQuestion: "Expression?" integer = (question + 500)
+      exprQuestion: "Expression?" integer = (10 + 500)
     }
   `;

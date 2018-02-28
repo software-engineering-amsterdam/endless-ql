@@ -28,9 +28,18 @@ public class NumericExpressionParser extends QLBaseVisitor<NumericExpression> {
                     this.binaryNumericOperatorTranslator.translate(ctx.BINARY_NUMERIC_OPERATOR().getSymbol().getText());
             return new BinaryNumericOperation(left, right, operator);
         }
-        else if (ctx.numericExpression().size() == 1) {
-            NumericExpression innerExpression = ctx.numericExpression(0).accept(this);
-            return new NumericNegation(innerExpression);
+        else if (ctx.numericExpression().size() == 1)
+        {
+            // If we have parentheses, we know based on the grammar that we have one inner expression that we parse recursively.
+            if (ctx.PAREN_OPEN() != null && ctx.PAREN_CLOSE() != null) {
+                return ctx.numericExpression(0).accept(this);
+            }
+            // If we don't have parentheses, but only have one expression, we know that we're dealing with a negation
+            else
+            {
+                NumericExpression innerExpression = ctx.numericExpression(0).accept(this);
+                return new NumericNegation(innerExpression);
+            }
         }
         else if (ctx.IDENTIFIER() != null) {
             return new NumericQuestionReference(ctx.IDENTIFIER().getText());

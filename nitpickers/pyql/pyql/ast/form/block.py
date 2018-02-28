@@ -11,6 +11,8 @@ class Block(ASTNode):
     def statements(self):
         return self._statements
 
+    def accept(self, visitor):
+        return visitor.visit_block(self)
+
     def __repr__(self):
         return str({"AST Block " + str(self.location): str(self.statements)})
-

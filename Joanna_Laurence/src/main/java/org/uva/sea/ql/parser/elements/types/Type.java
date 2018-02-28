@@ -1,29 +1,29 @@
 package org.uva.sea.ql.parser.elements.types;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.visitor.Visitor;
 
-//TODO: Override equals
-public class Type extends ASTNode {
+public class Type extends ASTNode  {
     private NodeType nodeType;
 
-    public Type(String type) {
+    public Type(Token token, String type) {
+        super(token);
         this.nodeType = NodeType.valueOf(type.toUpperCase());
+    }
+
+    public Type(NodeType type) {
+        this.nodeType = type;
     }
 
     public NodeType getNodeType() {
         return nodeType;
     }
 
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doType(this);
-    }
-
     public Type getType() {
-        return new Type("string");
-    }
+        return new Type(NodeType.STRING);
+    } //This does not have a type
 
     @Override
     public boolean equals(Object o) {
@@ -38,5 +38,10 @@ public class Type extends ASTNode {
     @Override
     public int hashCode() {
         return nodeType != null ? nodeType.hashCode() : 0;
+    }
+
+    @Override
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

@@ -1,14 +1,14 @@
 ﻿using QL.Core.Ast;
-using QL.Core.Ast.Visitors;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Media;
 
 namespace QL.Presentation
 {
-    internal class FormBuildingVisitor : IVisitor
+    internal class FormBuildingVisitor : BaseVisitor
     {
-        public IList<Control> Controls = new List<Control>();
+        public IList<UIElement> Controls = new List<UIElement>();
 
         public void Visit(FormNode node)
         {
@@ -17,12 +17,21 @@ namespace QL.Presentation
 
         public void Visit(QuestionNode node)
         {
-            Controls.Add(new Label { Content = node.Description });
-        }
+            var border = new Border { BorderBrush = Brushes.Black };
+            var stackPanel = new StackPanel { Orientation = Orientation.Vertical };
+            border.Child = stackPanel;
+            switch (node.Type)
+            {
+                case "boolean":
+                    stackPanel.Children.Add(new CheckBox { Content = node.Description });
+                    break;
+                default:
+                    stackPanel.Children.Add(new Label { Content = node.Description });
+                    stackPanel.Children.Add(new TextBox());
+                    break;
+            }            
 
-        public void Visit(EmptyNode node)
-        {
-            // Do not add any controls for an empty node
+            Controls.Add(border);
         }
     }
 }

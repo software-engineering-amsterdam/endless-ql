@@ -1,22 +1,20 @@
 package org.uva.ql.validation;
 
+import org.uva.ql.ast.CalculatedQuestion;
 import org.uva.ql.ast.Conditional;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.Statement;
 import org.uva.ql.ast.expression.ParameterGroup;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.*;
-import org.uva.ql.ast.type.BooleanType;
-import org.uva.ql.ast.type.IntegerType;
-import org.uva.ql.ast.type.StringType;
-import org.uva.ql.ast.type.Type;
+import org.uva.ql.ast.type.*;
 import org.uva.ql.visitor.*;
 
 public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String>  {
 
     private static final String BOOLEAN = "boolean";
 
-    public TypeChecker() {
+    TypeChecker() {
 
     }
 
@@ -135,6 +133,14 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
     }
 
     @Override
+    public Type visit(CalculatedQuestion question, String context) {
+        Type calculationType = question.getExpression().accept(this, null);
+        //TODO actual type checking
+
+        return question.getType();
+    }
+
+    @Override
     public Type visit(BooleanType booleanType, String context) {
         return booleanType;
     }
@@ -142,6 +148,11 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
     @Override
     public Type visit(IntegerType integerType, String context) {
         return integerType;
+    }
+
+    @Override
+    public Type visit(MoneyType moneyType, String context) {
+        return moneyType;
     }
 
     @Override

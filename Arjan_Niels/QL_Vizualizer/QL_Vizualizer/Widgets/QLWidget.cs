@@ -1,4 +1,5 @@
 ﻿using QL_Vizualizer.Controllers;
+using QL_Vizualizer.Expression;
 using System.Linq;
 
 namespace QL_Vizualizer.Widgets
@@ -23,21 +24,21 @@ namespace QL_Vizualizer.Widgets
         /// <summary>
         /// Expression for activation evaluation
         /// </summary>
-        private Expression<bool> _activationExpression;
+        private IExpression<bool> _activationExpression;
 
         /// <summary>
         /// Widget controller that this widget receives updates from
         /// </summary>
         protected WidgetController _widgetController { get; private set; }
 
-        public QLWidget(string identifyer, string text, Expression<bool> activationExpression = null)
+        public QLWidget(string identifyer, string text, IExpression<bool> activationExpression = null)
         {
             Text = text;
             Identifyer = identifyer;
 
             _activationExpression = activationExpression;
 
-            Active = (_activationExpression == null) ? true : _activationExpression.Run();
+            Active = (_activationExpression == null) ? true : _activationExpression.Validate();
         }
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace QL_Vizualizer.Widgets
 
             // Subscribe to items from the controller
             if (_activationExpression != null)
-                foreach (string id in _activationExpression.WidgetIDs)
+                foreach (string id in _activationExpression.GetWidgetIDs())
                     _widgetController.ReceiveUpdates(id, this);
         }
 
@@ -60,8 +61,8 @@ namespace QL_Vizualizer.Widgets
         /// <param name="updatedIdentifyer">Updated widgetID</param>
         public virtual void ReceiveUpdate(string updatedIdentifyer)
         {
-            if (_activationExpression != null && _activationExpression.WidgetIDs.Contains(updatedIdentifyer))
-                Active = _activationExpression.Run();
+            if (_activationExpression != null && _activationExpression.GetWidgetIDs().Contains(updatedIdentifyer))
+                Active = _activationExpression.Validate();
         }
 
     }

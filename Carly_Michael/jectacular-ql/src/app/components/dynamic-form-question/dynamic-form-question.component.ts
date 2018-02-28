@@ -10,7 +10,9 @@ export class DynamicFormQuestionComponent implements OnInit {
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
 
-  get isValid() { return this.form.controls[this.question.key].valid; }
+  get isInvalid() {
+    return this.form.controls[this.question.key].invalid;
+  }
 
   onCheckboxChange(question: QuestionBase<any>, event) {
     this.form.controls[this.question.key].setValue(event.target.checked);
@@ -19,6 +21,9 @@ export class DynamicFormQuestionComponent implements OnInit {
   ngOnInit(): void {
     this.form.valueChanges.subscribe(() => {
       // this subscribe is necessary to have angular auto-update the hiddenCondition function
+      // if(this.question.readonly) {
+      //   this.form.controls[this.question.key].setValue(this.question.calculateValue(this.form));
+      // }
     });
   }
 }

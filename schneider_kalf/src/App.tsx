@@ -1,15 +1,14 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Input from "reactstrap/lib/Input";
-import Addition from "./form/nodes/expressions/arithmetic/Addition";
-import Multiplication from "./form/nodes/expressions/arithmetic/Multiplication";
-import NumberLiteral from "./form/nodes/expressions/arithmetic/NumberLiteral";
-import { evaluate } from "./form/evaluation/evaluation_functions";
 import { FormComponent } from "./rendering/components/form_component/FormComponent";
-import Expression from "./form/nodes/expressions/Expression";
 import Form from "./form/Form";
 import { sampleForm } from "./mock/sampleForm";
-import { QlsTest } from "./modules/rendering/components/qls_test/QlsTest";
+import { QlsTest } from "./modules/styling/rendering/components/qls_test/QlsTest";
+import QuestionForm from "./form/QuestionForm";
+import FormNode from "./form/nodes/FormNode";
+import Alert from "reactstrap/lib/Alert";
+import { getParserErrorMessage } from "./parsing/parsing_helpers";
 
 export interface AppComponentProps {
 }
@@ -17,7 +16,7 @@ export interface AppComponentProps {
 export interface AppComponentState {
   qlInput?: string;
   form: Form;
-  errorMessage: string;
+  parserError: Error | null;
 }
 
 const qlParser = require("./parsing/parsers/ql_parser");
@@ -29,30 +28,32 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     this.state = {
       qlInput: require("!raw-loader!./mock/sample.ql.txt"),
       form: sampleForm,
-      errorMessage: ""
+      parserError: null
     };
 
     this.onChange = this.onChange.bind(this);
   }
 
-  onChangeQuestionnaire(text: string) {
-    let form: Form;
-    let errorMessage: string = "";
+  componentDidMount() {
+    this.onChangeQuestionnaire(require("!raw-loader!./mock/sample.ql.txt"));
+  }
 
+  onChangeQuestionnaire(text: string) {
     try {
-      form = qlParser.parse(this.state.qlInput);
+      const formNodes: FormNode[] = qlParser.parse(text);
 
       this.setState({
-        form: form,
-        errorMessage: errorMessage
+        form: new QuestionForm(formNodes[0], this.state.form.getState()),
+        parserError: null,
+        qlInput: text
       });
     } catch (error) {
-      errorMessage = error.message;
+      console.error(error);
+      this.setState({
+        parserError: error,
+        qlInput: text
+      });
     }
-
-    this.setState({
-      errorMessage: errorMessage
-    });
   }
 
   onChange(identifier: string, value: any) {
@@ -61,50 +62,47 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     });
   }
 
-  render() {
-    let form = null;
-    let errorMessage = null;
-
-    if (this.state.qlInput && this.state.qlInput.length !== 0) {
-      try {
-        form = qlParser.parse(this.state.qlInput);
-      } catch (error) {
-        errorMessage = error.message;
-      }
+  renderErrorMessage() {
+    if (!this.state.parserError) {
+      return null;
     }
 
-    const sampleExpression: Expression = new Addition(
-        new Multiplication(new NumberLiteral(5), new NumberLiteral(3)),
-        new NumberLiteral(1)
+    return (
+        <Alert color="danger">
+          {getParserErrorMessage(this.state.parserError)}
+        </Alert>
     );
+  }
 
+  render() {
     return (
         /**
          * The lines below only demonstrate the behaviour of the DSL and will be replaced by
          * the real formula.
          */
         <div className="app container">
-          <h2>Sample QL ouput</h2>
-          <QlsTest/>
+          <h1>NEWSKQL</h1>
           <div className="row ql-sample-output">
             <div className="col-md-6">
               <Input
+                  valid={!this.state.parserError}
                   type="textarea"
                   value={this.state.qlInput}
-                  onChange={e => this.setState({qlInput: e.target.value})}
+                  onChange={e => this.onChangeQuestionnaire(e.target.value)}
                   name="ql_input"
               />
-              {errorMessage}
             </div>
             <div className="col-md-6">
+              {this.renderErrorMessage()}
               <FormComponent onChange={this.onChange} form={this.state.form}/>
+              <h2>State</h2>
+              <Input
+                  type="textarea"
+                  readOnly={true}
+                  value={this.state.form.getState().toString()}
+              />
             </div>
-            <h2>Sample Expression evaluation</h2>
-
-            <div className="col-md-12">
-
-              <pre>5 * 3 + 1 = {evaluate(sampleExpression)}</pre>
-            </div>
+            div.col-,d
           </div>
         </div>
     );

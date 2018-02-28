@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Factories;
+using QL_Vizualizer.Style;
 using QL_Vizualizer.Widgets.Types;
 
 namespace QL_Visualizer.Tests.Elements
@@ -17,12 +18,14 @@ namespace QL_Visualizer.Tests.Elements
         private QLWidgetBool _boolWidget;
         private QLWidgetString _stringWidget;
 
+        private WindowsStyleProperties _style;
+
         [TestInitialize]
         public void Initialize()
         {
-            Control mainControl = new Panel();
-            _widgetController = new WidgetVisualizeController<Control>();
-            _widgetController.SetDisplayController(new WidgetDisplayControllerWindows(10f, mainControl, _widgetController));
+            _style = new WindowsStyleProperties();
+            _widgetController = new TypedWidgetController<Control, WindowsStyleProperties>();
+            _widgetController.SetDisplayController(new WidgetDisplayControllerWindows(10f, _widgetController));
 
             _controlFactory = new ControlFactory(_widgetController);
             _intWidget = new QLWidgetInt("a", "q1");
@@ -34,7 +37,7 @@ namespace QL_Visualizer.Tests.Elements
         [TestMethod]
         public void CreateBoolElementTest()
         {
-            Control c = _controlFactory.CreateElement(_boolWidget);
+            Control c = _controlFactory.CreateElement(_boolWidget, _style);
 
             // Should be one item in the control
             Assert.AreEqual(1, c.Controls.Count);
@@ -49,7 +52,7 @@ namespace QL_Visualizer.Tests.Elements
         [TestMethod]
         public void CreateIntElementTest()
         {
-            Control c = _controlFactory.CreateElement(_intWidget);
+            Control c = _controlFactory.CreateElement(_intWidget, _style);
 
             // Should be two items in the control
             Assert.AreEqual(2, c.Controls.Count);
@@ -67,7 +70,7 @@ namespace QL_Visualizer.Tests.Elements
         [TestMethod]
         public void CreateStringElementTest()
         {
-            Control c = _controlFactory.CreateElement(_stringWidget);
+            Control c = _controlFactory.CreateElement(_stringWidget, _style);
 
             // Should be two items in the control
             Assert.AreEqual(2, c.Controls.Count);
@@ -87,7 +90,7 @@ namespace QL_Visualizer.Tests.Elements
         [TestMethod]
         public void UpdateBoolElementTest()
         {
-            Control c = _controlFactory.CreateElement(_boolWidget);
+            Control c = _controlFactory.CreateElement(_boolWidget, _style);
 
             // Control should contain a checkbox at 0
             Assert.IsInstanceOfType(c.Controls[0], typeof(CheckBox));
@@ -102,7 +105,7 @@ namespace QL_Visualizer.Tests.Elements
         [TestMethod]
         public void UpdateIntElementTest()
         {
-            Control c = _controlFactory.CreateElement(_intWidget);
+            Control c = _controlFactory.CreateElement(_intWidget, _style);
 
             // Control should contain a checkbox at 0
             Assert.IsInstanceOfType(c.Controls[1], typeof(TextBox));
@@ -117,7 +120,7 @@ namespace QL_Visualizer.Tests.Elements
         [TestMethod]
         public void UpdateStringElementTest()
         {
-            Control c = _controlFactory.CreateElement(_stringWidget);
+            Control c = _controlFactory.CreateElement(_stringWidget, _style);
 
             // Control should contain a checkbox at 0
             Assert.IsInstanceOfType(c.Controls[1], typeof(TextBox));

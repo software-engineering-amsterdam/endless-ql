@@ -17,7 +17,6 @@ namespace AntlrInterpretor.Logic
             var detailsMessage = $@"'{offendingSymbol.Text}' was not recognized at line {line}, position {charPositionInLine}, giving the following error: {msg} ";
             throw new QlParserException(message, e)
             {
-                ParserName = "ANTLR 4.0",
                 ParseErrorDetails = detailsMessage
             };
         }
@@ -34,7 +33,6 @@ namespace AntlrInterpretor.Logic
             var detailsMessage = $@"Lexing of {recognizer.InputStream} failed at line {line}, position {charPositionInLine}, giving the following error: {msg} ";
             throw new QlParserException(message, e)
             {
-                ParserName = "ANTLR 4.0",
                 ParseErrorDetails = detailsMessage
             };
         }

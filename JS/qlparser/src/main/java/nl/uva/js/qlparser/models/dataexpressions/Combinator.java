@@ -1,6 +1,5 @@
 package nl.uva.js.qlparser.models.dataexpressions;
 
-import com.vaadin.ui.Component;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -10,20 +9,12 @@ import nl.uva.js.qlparser.models.enums.Operator;
 import nl.uva.js.qlparser.models.exceptions.TypeMismatchException;
 import nl.uva.js.qlparser.models.exceptions.TypeNotPossibleException;
 
-import java.util.ArrayList;
-
 @Data
 @Builder
-public class Combinator implements DataExpression {
+public class Combinator<T> implements DataExpression {
     @NonNull private Operator operator;
     @NonNull private DataExpression left;
     @NonNull private DataExpression right;
-
-    @Override
-    public ArrayList<Component> getComponents() {
-
-        return new ArrayList<>();
-    }
 
     @Override
     public DataType checkAndReturnType() {
@@ -39,5 +30,10 @@ public class Combinator implements DataExpression {
         if (operator instanceof CompOp) return DataType.BOOLEAN;
 
         return leftType;
+    }
+
+    @Override
+    public T value() {
+        return (T) new Object();
     }
 }

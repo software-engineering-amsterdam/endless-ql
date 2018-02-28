@@ -1,9 +1,6 @@
-from pyql.ast import code_location
-
-
 class ASTNode:
 
-    def __init__(self, location: code_location.CodeLocation):
+    def __init__(self, location):
         self._location = location
 
     @property
@@ -14,4 +11,4 @@ class ASTNode:
         return str({"AST node " + str(self.location)})
 
     def accept(self, visitor):
-        return visitor.visit(self)
+        return visitor.visit_ast_node(self)

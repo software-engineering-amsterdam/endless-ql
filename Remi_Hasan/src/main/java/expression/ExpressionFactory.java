@@ -1,5 +1,7 @@
 package expression;
 
+import expression.variable.*;
+
 public class ExpressionFactory {
     public static Expression createExpression(String questionType) {
         switch (questionType) {
@@ -8,13 +10,11 @@ public class ExpressionFactory {
             case "string":
                 return new ExpressionVariableString(null);
             case "integer":
-                return new ExpressionVariableInteger(null);
+            case "decimal":
+            case "money":
+                return new ExpressionVariableNumber(null);
             case "date":
                 return new ExpressionVariableDate(null);
-            case "decimal":
-                return new ExpressionVariableDecimal(null);
-            case "money":
-                return new ExpressionVariableMoney(null);
             default:
                 throw new IllegalArgumentException("Unknown question type " + questionType);
         }

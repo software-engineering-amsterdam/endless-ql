@@ -1,6 +1,6 @@
 package qlviz.interpreter;
 
-import qlviz.model.NumericComparisonOperator;
+import qlviz.model.booleanExpressions.NumericComparisonOperator;
 
 public class NumericComparisonOperatorVisitor implements NumericComparisonOperatorTranslator {
     @Override

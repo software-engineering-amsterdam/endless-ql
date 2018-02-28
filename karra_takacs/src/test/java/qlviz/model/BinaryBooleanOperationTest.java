@@ -3,9 +3,11 @@ package qlviz.model;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
-import org.apache.commons.lang3.tuple.Triple;
 import org.junit.Assert;
 import org.junit.Test;
+import qlviz.model.booleanExpressions.BinaryBooleanOperation;
+import qlviz.model.booleanExpressions.BinaryBooleanOperator;
+import qlviz.model.booleanExpressions.BooleanExpression;
 
 import java.util.List;
 import java.util.stream.Collectors;

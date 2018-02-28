@@ -1,4 +1,5 @@
 ﻿using QL_Vizualizer.Controllers;
+using QL_Vizualizer.Expression;
 using System.Linq;
 
 namespace QL_Vizualizer.Widgets
@@ -18,14 +19,14 @@ namespace QL_Vizualizer.Widgets
         /// <summary>
         /// Expression that creates the answer
         /// </summary>
-        private Expression<T> _answerExpression;
+        private IExpression<T> _answerExpression;
 
         /// <summary>
         /// Indication if the answer is editable
         /// </summary>
         public bool Editable { get { return _answerExpression == null; } }
 
-        public QLQuestionWidget(string identifyer, string text, Expression<bool> activationExpression = null, Expression<T> answerExpression = null) : base(identifyer, text, activationExpression)
+        public QLQuestionWidget(string identifyer, string text, IExpression<bool> activationExpression = null, IExpression<T> answerExpression = null) : base(identifyer, text, activationExpression)
         {
             AnswerValue = default(T);
             IsAnswered = false;
@@ -42,7 +43,7 @@ namespace QL_Vizualizer.Widgets
 
             // Subscribe for answer expressions
             if (_answerExpression != null)
-                foreach (string s in _answerExpression.WidgetIDs)
+                foreach (string s in _answerExpression.GetWidgetIDs())
                     _widgetController.ReceiveUpdates(s, this);
         }
 
@@ -63,9 +64,9 @@ namespace QL_Vizualizer.Widgets
         public override void ReceiveUpdate(string updatedIdentifyer)
         {
             base.ReceiveUpdate(updatedIdentifyer);
-            if (_answerExpression.WidgetIDs.Contains(updatedIdentifyer))
+            if (_answerExpression.GetWidgetIDs().Contains(updatedIdentifyer))
             {
-                SetAnswer(_answerExpression.Run());
+                SetAnswer(_answerExpression.Validate());
                 _widgetController.UpdateView(this);
             }
         }

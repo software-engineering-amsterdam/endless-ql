@@ -6,21 +6,7 @@ import {QuestionType} from './question-type';
 import {UnsupportedTypeError} from '../errors';
 
 export abstract class Statement {
-  constructor(public location: Location) {}
-
-  abstract toFormQuestion(formQuestions: QuestionBase<any>[], condition?: (form: FormGroup) => boolean): QuestionBase<any>[];
-  abstract getQuestions(): Question[];
-
-  checkType(allQuestions: Question[]): void {
-    return;
-  }
-
-  protected getLocationErrorMessage(): string {
-    return `between line ${this.location.start.line}` +
-      ` and col ${this.location.start.column} and line ${this.location.end.line} and col ${this.location.end.column}`;
-  }
-
-  protected toHtmlInputType(type: QuestionType): string {
+  protected static toHtmlInputType(type: QuestionType): string {
     switch (type) {
       case QuestionType.INT : return 'number';
       case QuestionType.DECIMAL: return 'number';
@@ -30,5 +16,20 @@ export abstract class Statement {
       case QuestionType.DATE: return 'date';
       default: throw new UnsupportedTypeError('QuestionType is not supported');
     }
+  }
+
+  constructor(public location: Location) {}
+
+  abstract toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
+                          condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>>;
+  abstract getQuestions(): Question[];
+
+  checkType(allQuestions: Question[]): void {
+    return;
+  }
+
+  protected getLocationErrorMessage(): string {
+    return ` between line ${this.location.start.line}` +
+      ` and col ${this.location.start.column} and line ${this.location.end.line} and col ${this.location.end.column}`;
   }
 }

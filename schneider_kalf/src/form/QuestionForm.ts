@@ -6,7 +6,9 @@ import FormState from "./state/FormState";
 import ComputedField from "./nodes/fields/ComputedField";
 import Question from "./nodes/fields/Question";
 import Maybe = jest.Maybe;
-import { UnkownFieldError } from "./form_errors";
+import { UnkownDefaultValueError, UnkownFieldError } from "./form_errors";
+import FieldVisitor from "./nodes/visitors/FieldVisitor";
+import defaultValues from "./defaultValues";
 
 export default class QuestionForm implements Form {
   private node: FormNode;
@@ -15,10 +17,41 @@ export default class QuestionForm implements Form {
   constructor(formNode: FormNode, state: FormState) {
     this.node = formNode;
     this.state = state;
+
+    this.fillDefaultValues();
+    this.computeFields();
   }
 
   getFields(): FieldNode[] {
-    return this.getComputedFields().concat(this.getQuestions());
+    return filterNodes((node) => node instanceof ComputedField || node instanceof Question, this.node);
+  }
+
+  computeFields() {
+    let state: FormState = this.state;
+
+    this.getComputedFields().forEach((field: ComputedField) => {
+      state = state.set(field.identifier, field.computeAnswer(this.state));
+    });
+
+    this.state = state;
+  }
+
+  fillDefaultValues() {
+    let state: FormState = this.state;
+
+    this.getQuestions().forEach((field: Question) => {
+      if (state.has(field.identifier)) {
+        return;
+      }
+
+      if (!defaultValues.has(field.type)) {
+        throw UnkownDefaultValueError.make(field.type);
+      }
+
+      state = state.set(field.identifier, defaultValues.get(field.type));
+    });
+
+    this.state = state;
   }
 
   getComputedFields(): ComputedField[] {
@@ -53,6 +86,11 @@ export default class QuestionForm implements Form {
     if (!field) {
       throw UnkownFieldError.make(identifier);
     }
-    return field.getAnswer(this.state);
+
+    return this.state.get(identifier);
+  }
+
+  accept(visitor: FieldVisitor) {
+    return this.node.accept(visitor);
   }
 }

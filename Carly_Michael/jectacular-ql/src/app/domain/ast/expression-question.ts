@@ -6,36 +6,66 @@ import {QuestionType} from './question-type';
 import {Statement} from './statement';
 import {Question} from './question';
 import {Location} from './location';
+import {Expression} from './expressions/expression';
+import {ExpressionType} from './expressions/expression-type';
+import {UnknownQuestionError, UnsupportedTypeError} from '../errors';
+import * as _ from 'lodash';
+import {Variable} from './expressions/variable';
 
-export class ExpressionQuestion extends Statement {
-  constructor(public name: string, public label: string, public type: QuestionType, public expression: string, location: Location) {
-    super(location);
+export class ExpressionQuestion extends Question {
+  constructor(name: string, label: string, type: QuestionType, public expression: Expression, location: Location) {
+    super(name, label, type, location);
   }
 
-  getQuestions(): Question[] {
-    return [];
+  getVariables(): Variable[] {
+    return this.expression.getVariables();
   }
 
-  toFormQuestion(formQuestions: QuestionBase<any>[], condition?: (form: FormGroup) => boolean): QuestionBase<any>[] {
+  checkType(allQuestions: Question[]) {
+    if (! this.expressionTypeValidForQuestion(this.expression.checkType(allQuestions), allQuestions)) {
+      throw new TypeError(`Expression type ${this.expression.checkType(allQuestions)} incompatible with question type ${this.type}`
+      + this.getLocationErrorMessage());
+    }
+  }
+
+  toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
+                 condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
     const options = {
       key: this.name,
       label: this.label,
-      type: this.toHtmlInputType(this.type),
-      value: this.type === QuestionType.STRING ? '' : undefined,
-      hiddenCondition: condition
+      type: Statement.toHtmlInputType(this.type),
+      value: undefined,
+      hiddenCondition: condition,
+      readonly: true
     };
 
+    let formQuestionsToReturn: QuestionBase<any>[] = [];
     // make a checkbox for a boolean, else make an input
     switch (this.type) {
       case QuestionType.BOOLEAN: {
-        formQuestions.push(new CheckboxQuestion(options));
+        formQuestionsToReturn = [new CheckboxQuestion(options)];
         break;
       }
       default: {
-        formQuestions.push(new TextboxQuestion(options));
+        formQuestionsToReturn = [new TextboxQuestion(options)];
       }
     }
 
-    return formQuestions;
+    console.log('formquestions in expression question', formQuestionsToReturn);
+    return formQuestionsToReturn;
+  }
+
+  expressionTypeValidForQuestion(expressionType: ExpressionType, allQuestions: Question[]): boolean {
+    switch (expressionType) {
+      case ExpressionType.NUMBER:
+        return this.type === QuestionType.MONEY || this.type === QuestionType.INT || this.type === QuestionType.DECIMAL;
+      case ExpressionType.BOOLEAN:
+        return this.type === QuestionType.BOOLEAN;
+      case ExpressionType.DATE:
+        return this.type === QuestionType.DATE;
+      case ExpressionType.STRING:
+        return this.type === QuestionType.STRING;
+      default: throw new UnsupportedTypeError(`ExpressionType ${expressionType} is unknown`);
+    }
   }
 }

@@ -1,17 +1,38 @@
 """
 pytest: https://docs.pytest.org/en/latest/
 """
-import sys
-import os
-
-myPath = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, myPath + '/../')
+from commons.test_file_finder import set_testfile_path
+set_testfile_path()
+from lexer.ql_lexer import *
 
 
-from lexer.ql_lexer import ql_lex
+def lexer_test_helper(code, expected):
+    actual = ql_lex(code)
+    assert expected == actual
 
 
-# todo: put \n into tests
+# Single tests
+def test_empty():
+    lexer_test_helper('', [])
+
+
+def test_id():
+    lexer_test_helper('abc', [('abc', 'id')])
+
+
+def test_keyword_first():
+    lexer_test_helper('if', [('if', 'reserved')])
+
+
+def test_space():
+    lexer_test_helper(' ', [])
+
+
+def test_id_space():
+    lexer_test_helper('abc def', [('abc', 'id'), ('def', 'id')])
+
+
+# Statement tests
 def test_form():
     form_statement = "form Box1HouseOwning {}"
     assert ql_lex(form_statement) == [('form', 'form'), ('Box1HouseOwning', 'id'), ('{', 'reserved'), ('}', 'reserved')]

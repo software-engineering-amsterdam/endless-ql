@@ -12,4 +12,20 @@ public class Question {
         this.variableType = variableType;
         this.variableValue = variableValue;
     }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public String getVariable() {
+        return variable;
+    }
+
+    public String getVariableType() {
+        return variableType;
+    }
+
+    public Variable getVariableValue() {
+        return variableValue;
+    }
 }

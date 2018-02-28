@@ -1,4 +1,4 @@
 package domain.model;
 
-public class Variable {
+public abstract class Variable {
 }

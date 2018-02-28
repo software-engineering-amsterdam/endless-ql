@@ -2,8 +2,8 @@ package loader;
 
 import antlr.FormBaseListener;
 import antlr.FormParser;
-import domain.model.Expression;
 import domain.FormNode;
+import domain.model.Expression;
 import domain.model.Question;
 import domain.model.Value;
 import domain.model.Variable;
@@ -36,7 +36,6 @@ public class QLLoader extends FormBaseListener {
     }
     @Override
     public void enterQuestionStructure(FormParser.QuestionStructureContext ctx) {
-        System.out.println(ctx.getParent().invokingState);
         switch (ctx.getParent().invokingState){
             case 27:
                 this.formNode.getFormData().addPlainQuestion(
@@ -50,17 +49,17 @@ public class QLLoader extends FormBaseListener {
         }
     }
     private Question newQuestion(String label, String variable, String variableType, FormParser.QuestionVariableValueContext variableValue){
-        Variable constructedVariable = null;
+        Variable constructedVariableValue = null;
 
         if(variableValue != null && variableValue.expression() != null){
             FormParser.ExpressionContext ec = variableValue.expression();
-            constructedVariable = new Expression(ec.questionVariable(0).getText(), ec.questionVariable(1).getText(), ec.operator().getText());
+            constructedVariableValue = new Expression(ec.questionVariable(0).getText(), ec.questionVariable(1).getText(), ec.operator().getText());
         }
         if(variableValue != null && variableValue.value() != null){
             FormParser.ValueContext vc = variableValue.value();
-            constructedVariable = new Value(vc.getText());
+            constructedVariableValue = new Value(vc.getText());
         }
-        return new Question(label, variable, variableType, constructedVariable);
+        return new Question(label, variable, variableType, constructedVariableValue);
     }
     public FormNode getFormNode() {
         return formNode;

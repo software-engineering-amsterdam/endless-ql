@@ -22,7 +22,7 @@ class TypeCheckerTest extends WordSpec {
 
     "checkOperandsOfInvalidTypeToOperators" in {}
 
-    "checkNonBooleanPredicates" ignore {
+    "checkNonBooleanPredicates" in {
       val qLForm = QLForm(
         "duplicateLabel",
         Seq(

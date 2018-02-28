@@ -1,6 +1,7 @@
 package nl.uva.se.sc.niro
 
 import nl.uva.se.sc.niro.model.Expressions.Reference
+import nl.uva.se.sc.niro.model.Expressions.answers.BooleanAnswer
 import nl.uva.se.sc.niro.model.{ QLForm, Question, Statement }
 import org.apache.logging.log4j.scala.Logging
 
@@ -40,8 +41,17 @@ object TypeChecker extends Logging {
     qLForm
   }
 
+  // TODO get rid of is instance of
   def checkNonBooleanPredicates(qLForm: QLForm): QLForm = {
     logger.debug("Checking on predicates that are not of the type boolean ...")
+    val conditionals = Statement.collectAllConditionals(qLForm.statements)
+    val nonBooleanPredicates = conditionals.collect {
+      case c if !Evaluator.evaluateExpression(c.predicate, qLForm.symbolTable).isInstanceOf[BooleanAnswer] => c
+    }
+
+    if (nonBooleanPredicates.nonEmpty) {
+      throw new IllegalArgumentException(s"Undefined references $nonBooleanPredicates")
+    }
 
     qLForm
   }

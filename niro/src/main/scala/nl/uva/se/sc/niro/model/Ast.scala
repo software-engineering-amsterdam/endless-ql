@@ -35,6 +35,14 @@ object Statement {
     }
   }
 
+  def collectAllConditionals(statements: Seq[Statement]): Seq[Conditional] = {
+    statements.flatMap {
+      case q: Question      => Seq.empty
+      case c: Conditional   => Seq(c) ++ collectAllConditionals(c.thenStatements)
+      case ErrorStatement() => Seq.empty
+    }
+  }
+
   def collectAllVisibleQuestions(statements: Seq[Statement], symbolTable: Map[String, Expression]): Seq[Question] = {
     statements.collect {
       case q: Question => Seq(q)

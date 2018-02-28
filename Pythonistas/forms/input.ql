@@ -7,3 +7,12 @@ form Box1HouseOwning {
         privateDebt: "Private debts for the sold house:" money
     }
 }
+
+
+
+
+
+
+
+
+

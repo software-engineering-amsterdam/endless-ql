@@ -1,7 +1,7 @@
 import os
 import logging
 
-file_name = 'log.txt'
+file_name = 'main.log'
 
 try:
     os.remove(file_name)

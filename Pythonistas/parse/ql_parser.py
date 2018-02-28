@@ -8,7 +8,8 @@ from ql_ast.ql_ast import *
 # Top level parser
 def ql_parser(tokens):
     logger.debug('Start parser')
-    ql_ast = parser()(tokens, 0)
+    clean_tokens = trim_newline(tokens)
+    ql_ast = parser()(clean_tokens, 0)
     return ql_ast
 
 
@@ -18,18 +19,16 @@ def parser():
 
 # Statements
 def stmt_list():
-    separator = keyword('\n') ^ (lambda x: lambda l, r: CompoundStatement(l, r))
+    separator = next_line() ^ (lambda x: lambda l, r: CompoundStatement(l, r))
     return Exp(stmt(), separator)
 
 
 # Basic parsers
-
 def keyword(kw):
     return Reserved(kw, 'reserved')
 
 
-# Helper
-
+# Helpers
 def get_tags():
     num = Tag('int') ^ (lambda i: int(i))
     id = Tag('id')
@@ -37,6 +36,22 @@ def get_tags():
     boolean = Tag('boolean')
     form = Tag('form')
     return num, id, value, boolean, form
+
+
+def trim_newline(tokens):
+    """
+    Trims the last n amount of \n from a form
+    :param tokens:
+    :return:
+    """
+    i = 0
+    for token in tokens[::-1]:
+        if token[0] is '\n':
+            i += 1
+        else:
+            break
+    del tokens[-i:]
+    return tokens
 
 
 # todo: make next line accept arbitrary amount

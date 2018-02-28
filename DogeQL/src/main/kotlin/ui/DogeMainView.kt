@@ -1,45 +1,51 @@
 package ui
 
 import data.question.Question
+import data.value.IntegerValue
 import tornadofx.*
+import ui.question.FormViewModel
 import ui.question.QuestionField
 import ui.question.QuestionViewModel
 
 
 class DogeMainView: View() {
 
-    private val questionViewModel : QuestionViewModel by inject()
+    private val formQuestions : FormViewModel by inject()
+
 
     override val root = vbox()
 
     init {
         with(root){
-            listview<Question> {
-                itemsProperty().bind(questionViewModel.questions)
-                bindSelected(questionViewModel)
+            form{
+                fieldset {
+                    children.bind(formQuestions.questions){
 
-                cellFormat {
-                    graphic = cache {
-                       form {
-                            fieldset {
-                                add(QuestionField(item))
-                            }
+                        field(it.label.value) {
+                            add(QuestionField(it))
                         }
-                    }
 
-                }
-                runAsync {
-                    questionViewModel.load()
+                    }
                 }
             }
+
             button("Save") {
                 setOnAction { save() }
             }
+        }
+        runAsync {
+            formQuestions.load()
         }
     }
 
 
     fun save(){
-        var t = questionViewModel.questions;
+        formQuestions.questions.forEach{
+            x ->
+            println("Value: ${x.value}")
+            println("Value: ${x.label.value}")
+        }
+
+        formQuestions.questions.add(QuestionViewModel( Question("sds", IntegerValue(1))))
     }
 }

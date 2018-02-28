@@ -1,6 +1,6 @@
 package ui.question
 
-import data.Question
+import data.question.Question
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import tornadofx.ItemViewModel

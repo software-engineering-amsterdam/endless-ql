@@ -1,20 +1,20 @@
 package ui.question
 
-import data.BaseSymbolValue
-import data.Question
-import data.QuestionType
-import javafx.beans.property.*
+import data.question.Question
+import data.value.IntegerValue
+import data.value.StringValue
+import javafx.beans.property.SimpleIntegerProperty
+import javafx.beans.property.SimpleStringProperty
 import tornadofx.ItemViewModel
 
 class QuestionViewModel(question : Question) : ItemViewModel<Question>(question){
 
-    var label = bind{ SimpleStringProperty(item?.label) }
+    var label = bind{ SimpleStringProperty(question.label) }
 
-    var value = bind { SimpleObjectProperty<BaseSymbolValue>(item.value)}
-
-    var boolValue = bind { SimpleBooleanProperty(item.value.booleanValue.value) }
-
-    var integerValue = bind { SimpleIntegerProperty(item.value.integerValue.value) }
+    var value = when(question.value){
+        is StringValue -> bind{ SimpleStringProperty(item.value.stringValue.value) }
+        is IntegerValue -> bind{ SimpleIntegerProperty(item.value.integerValue.value) }
+        else -> throw IllegalArgumentException("Unsupported type")}
 
 }
 

@@ -1,10 +1,5 @@
-import sys
-import os
-
-myPath = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, myPath + '/../')
-
-
+from commons.test_file_finder import set_testfile_path
+set_testfile_path()
 from lexer.ql_lexer import *
 from parse.ql_parser import *
 

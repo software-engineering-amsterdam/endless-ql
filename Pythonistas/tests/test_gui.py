@@ -1,7 +1,7 @@
+from commons.test_file_finder import set_testfile_path
+set_testfile_path()
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
-import os,sys
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from gui import gui
 
 

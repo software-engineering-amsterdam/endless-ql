@@ -46,10 +46,11 @@ object QLFormParser extends Logging {
     override def visitQuestion(ctx: QLParser.QuestionContext): Seq[Statement] = {
       val questionId = ctx.Identifier().getText
       val questionLabel = ctx.label.getText
+      val answerType = AnswerType(ctx.answerType().getText)
       val expression = Option(ctx.expression)
         .map(ExpressionVisitor.visit)
         .getOrElse(Answer(ctx.answerType.getText))
-      Seq(Question(questionId, questionLabel, expression))
+      Seq(Question(questionId, questionLabel, answerType, expression))
     }
 
     override def visitConditional(ctx: QLParser.ConditionalContext): Seq[Statement] = {

@@ -15,7 +15,13 @@ case class QLForm(formName: String, statements: Seq[Statement]) {
 
 sealed trait Statement
 case class ErrorStatement() extends Statement
-case class Question(id: String, label: String, expression: Expression, answer: Option[Answer] = None) extends Statement
+case class Question(
+    id: String,
+    label: String,
+    answerType: AnswerType,
+    expression: Expression,
+    answer: Option[Answer] = None)
+    extends Statement
 
 case class Conditional(predicate: Expression, thenStatements: Seq[Statement]) extends Statement
 

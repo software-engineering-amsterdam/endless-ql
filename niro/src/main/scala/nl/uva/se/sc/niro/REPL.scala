@@ -112,7 +112,7 @@ class REPL extends Application with Logging {
   def renderQuestions(astFrame: VBox, outputFrame: VBox): Unit = {
     val allQuestionsInForm = Statement.collectAllQuestions(qlForm.statements)
     val questions = allQuestionsInForm.map {
-      case Question(id, label, expression, answer) =>
+      case Question(id, label, answerType, expression, answer) =>
         val idField = new Label(id)
         val labelField = new Label(label)
         val inputField = new TextField()

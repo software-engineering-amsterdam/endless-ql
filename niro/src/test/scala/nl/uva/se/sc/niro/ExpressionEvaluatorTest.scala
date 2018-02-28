@@ -361,9 +361,13 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers {
       val qlForm = QLForm(
         formName = "Revenue",
         statements = List(
-          Question("revenue", "How much did you earn", IntAnswer(1000)),
-          Question("expenses", "How much did you spend", IntAnswer(200)),
-          Question("profit", "You still have", BinaryOperation(Sub, Reference("revenue"), Reference("expenses")))
+          Question("revenue", "How much did you earn", IntegerType, IntAnswer(1000)),
+          Question("expenses", "How much did you spend", IntegerType, IntAnswer(200)),
+          Question(
+            "profit",
+            "You still have",
+            IntegerType,
+            BinaryOperation(Sub, Reference("revenue"), Reference("expenses")))
         )
       )
 

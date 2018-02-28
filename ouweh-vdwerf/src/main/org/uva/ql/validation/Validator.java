@@ -88,7 +88,8 @@ public class Validator implements StatementVisitor<Void, String> {
 
     @Override
     public Void visit(CalculatedQuestion question, String context) {
-        //TODO unimplemented
+        questions.add(question);
+        table.add(question.getName(), question.getType());
         return null;
     }
 }

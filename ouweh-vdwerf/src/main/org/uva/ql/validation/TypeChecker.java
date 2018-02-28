@@ -14,7 +14,7 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
 
     private static final String BOOLEAN = "boolean";
 
-    public TypeChecker() {
+    TypeChecker() {
 
     }
 
@@ -134,8 +134,10 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
 
     @Override
     public Type visit(CalculatedQuestion question, String context) {
-        //TODO unimplemented
-        return null;
+        Type calculationType = question.getExpression().accept(this, null);
+        //TODO actual type checking
+
+        return question.getType();
     }
 
     @Override

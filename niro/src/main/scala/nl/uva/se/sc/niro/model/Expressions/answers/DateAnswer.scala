@@ -5,6 +5,8 @@ import nl.uva.se.sc.niro.model.{ BinaryOperator, UnaryOperator }
 
 final case class DateAnswer(possibleValue: Option[String]) extends Answer {
 
+  type T = String
+
   def applyUnaryOperator(unaryOperator: UnaryOperator): Answer = ???
   def applyBinaryOperator(binaryOperator: BinaryOperator, other: Answer): Answer = ???
 }

@@ -1,5 +1,7 @@
 package qlviz.model;
 
+import qlviz.model.booleanExpressions.BooleanExpression;
+
 import java.util.List;
 
 public class ConditionalBlock {

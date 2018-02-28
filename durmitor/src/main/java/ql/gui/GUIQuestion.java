@@ -25,7 +25,7 @@ import ql.gui.fields.MoneyTextField;
 import ql.gui.fields.StrTextField;
 import ql.visitors.interfaces.TypeVisitor;
 
-public class GUIQuestion extends JPanel implements TypeVisitor {
+public class GUIQuestion extends JPanel implements TypeVisitor<Void> {
 
     private static final long serialVersionUID = 2816798767896918152L;
     ResourceBundle translations = ResourceBundle.getBundle("ql.i18n.gui");
@@ -45,7 +45,7 @@ public class GUIQuestion extends JPanel implements TypeVisitor {
     }
 
     @Override
-    public void visit(Bool type) {
+    public Void visit(Bool type) {
         
         checkBox = new JCheckBox(translations.getString("jcheckbox.label"));
         checkBox.setName(question.getIdentifier().getName());
@@ -54,42 +54,48 @@ public class GUIQuestion extends JPanel implements TypeVisitor {
         checkBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                question.getIdentifier().setValue(new ql.value.Bool(checkBox.isSelected()));
+                question.getIdentifier().setValue(new ql.evaluator.value.Bool(checkBox.isSelected()));
             }
         });
         add(this.checkBox);
+        return null;
     }
 
     @Override
-    public void visit(Str type) {
+    public Void visit(Str type) {
         textField = new StrTextField(question.getIdentifier());
         add(this.textField);
+        return null;
     }
 
     @Override
-    public void visit(Int type) {
+    public Void visit(Int type) {
         textField = new IntTextField(question.getIdentifier());
         add(this.textField);
+        return null;
     }
 
     @Override
-    public void visit(Decimal type) {
-        // TODO Auto-generated method stub
-        
+    public Void visit(Decimal type) {
+        return null;
     }
 
     @Override
-    public void visit(Money type) {
+    public Void visit(Money type) {
         textField = new MoneyTextField(question.getIdentifier());
         add(this.textField);
+        return null;
     }
 
     @Override
-    public void visit(Date type) {
+    public Void visit(Date type) {
         dateSpinner = new DateSpinnerField(question.getIdentifier());
         add(this.dateSpinner);
+        return null;
     }
 
     @Override
-    public void visit(Undefined type) { }
+    public Void visit(Undefined type) {
+        return null; 
+    }
 }

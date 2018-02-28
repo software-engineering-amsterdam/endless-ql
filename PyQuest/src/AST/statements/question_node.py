@@ -19,7 +19,7 @@ class QuestionNode(BaseNode):
         return self._label
 
     @property
-    def val_type(self):
+    def value_type(self):
         return self._value_type
 
     @property

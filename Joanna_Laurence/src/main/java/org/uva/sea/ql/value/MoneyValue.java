@@ -9,6 +9,8 @@ public class MoneyValue extends Value {
     private String currency;
     private BigDecimal amount;
 
+    //TODO Add string constructor
+
     public MoneyValue(String currency, BigDecimal amount) {
         this.currency = currency;
         this.amount = amount;

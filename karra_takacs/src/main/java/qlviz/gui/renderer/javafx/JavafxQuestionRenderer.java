@@ -9,6 +9,7 @@ import qlviz.gui.renderer.QuestionRenderer;
 import qlviz.gui.viewModel.question.*;
 import qlviz.model.question.*;
 
+import java.text.NumberFormat;
 
 
 public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewModelVisitor {
@@ -23,8 +24,7 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewMod
     public void visit(BooleanQuestionViewModel booleanQuestion) {
         Label label = new Label(booleanQuestion.getText());
         CheckBox checkBox = new CheckBox();
-        checkBox.selectedProperty().setValue(booleanQuestion.getValue());
-        checkBox.selectedProperty().addListener(observable -> booleanQuestion.setValue(checkBox.isSelected()));
+        checkBox.selectedProperty().bindBidirectional(booleanQuestion.valueProperty());
         target.getChildren().add(label);
         target.getChildren().add(checkBox);
 
@@ -51,8 +51,7 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewMod
         TextField textField = new TextField();
         textField.setMinWidth(50);
         textField.setPrefWidth(50);
-        textField.setText(moneyQuestion.getValue().toString());
-        textField.textProperty().addListener(observable -> moneyQuestion.trySetValue(textField.getText()));
+        textField.textProperty().bindBidirectional(moneyQuestion.valueProperty(), NumberFormat.getCurrencyInstance());
         target.getChildren().add(label);
         target.getChildren().add(textField);
 
@@ -64,7 +63,6 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewMod
         TextField textField = new TextField();
         textField.setMinWidth(50);
         textField.setPrefWidth(50);
-        textField.setText(stringQuestion.getValue());
         target.getChildren().add(label);
         target.getChildren().add(textField);
 

@@ -115,13 +115,13 @@ class ParseTreeVisitor(QLVisitor):
         return DecimalLiteral(self.location(ctx), ctx.getText())
 
     def visitIntLiteral(self, ctx: QLParser.IntLiteralContext):
-        return IntLiteral(self.location(ctx), ctx.getText())
+        return IntegerLiteral(self.location(ctx), ctx.getText())
 
     def visitStringLiteral(self, ctx: QLParser.StringLiteralContext):
         return StringLiteral(self.location(ctx), ctx.getText())
 
     def visitBoolLiteral(self, ctx: QLParser.BoolLiteralContext):
-        return BoolLiteral(self.location(ctx), ctx.getText())
+        return BooleanLiteral(self.location(ctx), ctx.getText())
 
     def visitIdentifier(self, ctx: QLParser.IdentifierContext):
         return Identifier(ctx.getText(), self.location(ctx))

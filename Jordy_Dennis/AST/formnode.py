@@ -1,7 +1,6 @@
 """
 This Class wraps the form into a node. It has to have a name 
 and can contain statements in its block
-
 """
 
 

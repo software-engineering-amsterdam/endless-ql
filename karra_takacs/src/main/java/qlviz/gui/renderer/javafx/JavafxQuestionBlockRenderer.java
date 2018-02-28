@@ -12,6 +12,8 @@ import qlviz.model.QuestionBlock;
 
 import java.util.function.Function;
 
+
+
 public class JavafxQuestionBlockRenderer implements QuestionBlockRenderer {
 
     private final QuestionRenderer questionRenderer;

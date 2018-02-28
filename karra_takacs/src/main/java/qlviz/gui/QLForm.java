@@ -48,7 +48,8 @@ public class QLForm extends Application {
 						pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor)
 				);
 		FormVisitor visitor = new FormVisitor(questionBlockVisitor);
-		this.model = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker())).createFormFromMarkup(this.getParameters().getRaw().get(0));
+		this.model = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()))
+				.createFormFromMarkup(this.getParameters().getRaw().get(0));
 
 		QuestionViewModelFactoryImpl questionViewModelFactory = new QuestionViewModelFactoryImpl();
 		QuestionBlockViewModelFactory questionBlockViewModelFactory = new QuestionBlockViewModelFactory(questionViewModelFactory::create);

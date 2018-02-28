@@ -1,4 +1,3 @@
-//Q=3
 form taxOfficeExample {
   "What was the selling price?"
     sellingPrice: decimal = 1.5
@@ -15,4 +14,11 @@ form taxOfficeExample {
       "Do you want to have a free giftbag?"
         freeBag: boolean
     }
+
+  "Did you sell a house in 2010?"
+    hasSoldHouse: boolean
+  "Did you buy a house in 2010?"
+    hasBoughtHouse: boolean
+  "Did you enter a loan?"
+    hasMaintLoan: boolean
 }

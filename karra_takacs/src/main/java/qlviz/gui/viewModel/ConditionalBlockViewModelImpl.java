@@ -1,5 +1,6 @@
 package qlviz.gui.viewModel;
 
+import javafx.beans.value.ObservableValue;
 import qlviz.gui.viewModel.propertyEvents.NotifyPropertyChanged;
 import qlviz.gui.viewModel.propertyEvents.PropertyChangedListener;
 import qlviz.gui.viewModel.question.QuestionViewModel;

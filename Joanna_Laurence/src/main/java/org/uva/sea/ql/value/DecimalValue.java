@@ -2,11 +2,16 @@ package org.uva.sea.ql.value;
 
 import java.math.BigDecimal;
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.parser.elements.types.Decimal;
 
 
 public class DecimalValue extends Value {
 
     private double decimalValue;
+
+    public DecimalValue(String value) {
+        this.decimalValue = Double.parseDouble(value);
+    }
 
     public DecimalValue(double decimalValue) {
 

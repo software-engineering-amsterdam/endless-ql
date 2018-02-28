@@ -7,6 +7,10 @@ import java.math.BigDecimal;
 public class IntValue extends Value {
     private int intValue;
 
+    public IntValue(String value) {
+        this.intValue = Integer.parseInt(value);
+    }
+
     public IntValue(int intValue) {
         this.intValue = intValue;
     }

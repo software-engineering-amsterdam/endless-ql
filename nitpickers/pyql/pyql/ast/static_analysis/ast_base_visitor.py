@@ -69,3 +69,71 @@ class ExpressionVisitor:
     @abstractmethod
     def visit_division(self, expression):
         pass
+
+    @abstractmethod
+    def visit_addition(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_subtraction(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_greater_than(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_less_than(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_greater_than_or_equal(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_less_than_or_equal(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_equals(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_not_equals(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_and(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_or(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_not(self, unary_expression):
+        pass
+
+    @abstractmethod
+    def visit_literal(self, expression):
+        pass
+
+    @abstractmethod
+    def visit_string_literal(self, literal):
+        pass
+
+    @abstractmethod
+    def visit_int_literal(self, literal):
+        pass
+
+    @abstractmethod
+    def visit_decimal_literal(self, literal):
+        pass
+
+    @abstractmethod
+    def visit_bool_literal(self, literal):
+        pass
+
+    @abstractmethod
+    def visit_money_literal(self, literal):
+        pass

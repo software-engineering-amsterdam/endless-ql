@@ -36,7 +36,7 @@ public class ExpressionVariableTest {
     public void ExpressionIntegerPositiveTest() throws IOException {
         ANTLRTester tester = new ANTLRTester("1");
         Expression actualExpression = tester.visitor.visitIntegerConstant(tester.parser.integerConstant());
-        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(1);
+        ExpressionVariableNumber expectedExpression = new ExpressionVariableNumber(1);
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
@@ -46,7 +46,7 @@ public class ExpressionVariableTest {
     public void ExpressionIntegerNegativeTest() throws IOException {
         ANTLRTester tester = new ANTLRTester("-1");
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
-        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableInteger(1));
+        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableNumber(1));
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
@@ -56,7 +56,7 @@ public class ExpressionVariableTest {
     public void ExpressionDecimalPositiveTest() throws IOException {
         ANTLRTester tester = new ANTLRTester("1.0");
         Expression actualExpression = tester.visitor.visitDecimalConstant(tester.parser.decimalConstant());
-        ExpressionVariableDecimal expectedExpression = new ExpressionVariableDecimal(1.0);
+        ExpressionVariableNumber expectedExpression = new ExpressionVariableNumber(1.0);
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
@@ -66,7 +66,7 @@ public class ExpressionVariableTest {
     public void ExpressionDecimalNegativeTest() throws IOException {
         ANTLRTester tester = new ANTLRTester("-1.0");
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
-        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableDecimal(1.0));
+        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableNumber(1.0));
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
@@ -86,7 +86,7 @@ public class ExpressionVariableTest {
     public void ExpressionMoneyTest() throws IOException {
         ANTLRTester tester = new ANTLRTester("1.99");
         Expression actualExpression = tester.visitor.visitMoneyConstant(tester.parser.moneyConstant());
-        ExpressionVariableMoney expectedExpression = new ExpressionVariableMoney(BigDecimal.valueOf(1.99));
+        ExpressionVariableNumber expectedExpression = new ExpressionVariableNumber(BigDecimal.valueOf(1.99));
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate().getValue(), actualExpression.evaluate().getValue());
@@ -105,7 +105,7 @@ public class ExpressionVariableTest {
     @Test
     public void ExpressionIdentifierTest() throws IOException {
         // Add dummy question to lookuptable so type of identifier can be inferred
-        Question dummyQuestion = new Question(ReturnType.INTEGER,"someQuestionIdentifier_123", "", new ExpressionVariableInteger(1));
+        Question dummyQuestion = new Question(ReturnType.INTEGER,"someQuestionIdentifier_123", "", new ExpressionVariableNumber(1));
         LookupTable.getInstance().insert(dummyQuestion);
 
         ANTLRTester tester = new ANTLRTester("someQuestionIdentifier_123");
@@ -131,10 +131,10 @@ public class ExpressionVariableTest {
 //        ArrayList<Statement> statements = new ArrayList<>() {{
 //            add(new Question("q1", "Can you give me a boolean?", new ExpressionVariableBoolean(true)));
 //            add(new Question("q2", "Can you give me a string?", new ExpressionVariableString("hello")));
-//            add(new Question("q3", "Can you give me a integer?", new ExpressionVariableInteger(1)));
+//            add(new Question("q3", "Can you give me a integer?", new ExpressionVariableNumber(1)));
 //            add(new Question("q4", "Can you give me a date?", new ExpressionVariableDate("1-1-2018")));
-//            add(new Question("q5", "Can you give me a decimal?", new ExpressionVariableDecimal(1.2345)));
-//            add(new Question("q6", "Can you give me a money?", new ExpressionVariableMoney(BigDecimal.valueOf(1.99))));
+//            add(new Question("q5", "Can you give me a decimal?", new ExpressionVariableNumber(1.2345)));
+//            add(new Question("q6", "Can you give me a money?", new ExpressionVariableNumber(BigDecimal.valueOf(1.99))));
 //        }};
 //        Form expectedForm = new Form("testForm", statements);
 //        assertEquals(expectedForm.toString().trim(), actualForm.toString().trim());

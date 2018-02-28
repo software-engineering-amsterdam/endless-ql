@@ -1,13 +1,12 @@
-package org.uva.sea.ql;
+package org.uva.sea.ql.evaluate;
 
-import org.uva.sea.ql.evaluate.*;
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.visitor.BaseVisitor;
 import org.uva.sea.ql.value.*;
 
-public class QLEvaluator extends BaseVisitor<Value> {
+public class ExpressionEvaluator extends BaseVisitor<Value> {
 
     private SymbolTable symbolTable;
 
@@ -160,13 +159,13 @@ public class QLEvaluator extends BaseVisitor<Value> {
 
     @Override
     public Value visit(Variable node) {
-        if(node.getLinkedQuestion() != null && node.getLinkedQuestion().getValue() != null) {
-            return node.getLinkedQuestion().getValue().accept(this);
-        }
-
         Value symbolValue = this.symbolTable.getValue(node.getVariableName());
         if(symbolValue != null)
             return symbolValue;
+
+        if(node.getLinkedQuestion() != null && node.getLinkedQuestion().getValue() != null) {
+            return node.getLinkedQuestion().getValue().accept(this);
+        }
 
         return new UndefinedValue();
     }

@@ -1,6 +1,6 @@
 package ql.visitors;
 
-import ql.ast.expressions.Binary.*;
+import ql.ast.expressions.binary.*;
 
 public interface ExpressionVisitor<T> {
     public T visit(Addition addition);

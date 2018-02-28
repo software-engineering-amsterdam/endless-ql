@@ -40,15 +40,6 @@ public class QLCompiler {
             return null;
         }
 
-        //Do the type check
-        QLTypeCheck typeChecker = new QLTypeCheck();
-        Error errors = typeChecker.doTypeCheck(form.result);
-        if(errors.errorsPresent()) {
-            for(String error : errors.getErrors())
-                System.err.println(error);
-            return null;
-        }
-
         //Show the parse tree
         //Trees.inspect(form, parser);
 

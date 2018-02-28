@@ -67,15 +67,28 @@ class QLVisitorHelper(QLVisitor):
 
     # Visit a parse tree produced by QLParser#expression.
     def visitExpression(self, ctx):
+        expression = ctx.getText()
+        negate = False
+        if (ctx.NOT()):
+            negate = True
+
         if (ctx.left and ctx.right):
             binop = getOperator(ctx)
             left_node = self.visit(ctx.left)
             right_node = self.visit(ctx.right)
-            return BinOpNode(left_node, binop, right_node)
+            bin_op_node = BinOpNode(left_node, binop, right_node)
+            bin_op_node.negate = negate
+            return bin_op_node
+
+        elif (ctx.expression()):
+            # todo: What to do with more --> list?
+            if (len(ctx.expression()) == 1):
+                node = self.visit(ctx.expression()[0])
+            node.negate = negate
+            return node
 
         elif (ctx.var()):
             var = ctx.var().getText()
-            # print var
             return UnOpNode(var)
 
         return

@@ -12,11 +12,13 @@
     <Button onAction="#addTextField" text="Add text field" GridPane.rowIndex="1"/>
     <Button onAction="#addLabel" text="Add label" GridPane.rowIndex="2"/>
     <Button onAction="#addNewQuestion" text="Add a new question" GridPane.rowIndex="3"/>
-    <VBox fx:id="vBox" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4"/>
+    <Button onAction="#printQuestions" text="Print questions" GridPane.rowIndex="4"/>
+    <VBox fx:id="vBox" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="5"/>
     <columnConstraints>
         <ColumnConstraints/>
     </columnConstraints>
     <rowConstraints>
+        <RowConstraints/>
         <RowConstraints/>
         <RowConstraints/>
         <RowConstraints/>

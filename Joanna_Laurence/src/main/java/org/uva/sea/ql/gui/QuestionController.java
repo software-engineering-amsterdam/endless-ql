@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
@@ -18,6 +19,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.uva.sea.ql.QLCompiler;
 import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
 
@@ -32,7 +34,7 @@ import java.util.ResourceBundle;
 
 public class QuestionController implements Initializable {
 
-    private List<QuestionGUI> questionsGUI;
+    private List<QuestionGUI> questionGUIs;
     private List<Question> questions;
 
     @FXML
@@ -58,6 +60,21 @@ public class QuestionController implements Initializable {
         vBox.getChildren().add(createQuestionRow(new Label("Did you sell a house?"), new CheckBox()));
     }
 
+    @FXML
+    private void printQuestions(ActionEvent actionEvent){
+        for (QuestionGUI questionGUI: questionGUIs) {
+            vBox.getChildren().add(createQuestionRow(questionGUI));
+        }
+    }
+
+    private void printQuestions(){
+        for (QuestionGUI questionGUI: questionGUIs) {
+            if(questionGUI.isShouldBeVisible()) {
+                vBox.getChildren().add(createQuestionRow(questionGUI));
+            }
+        }
+    }
+
     private Node createBooleanQuestion(String question) {
         CheckBox checkBox = new CheckBox();
         checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -81,6 +98,18 @@ public class QuestionController implements Initializable {
         return createQuestionRow(new Label(question), label);
     }
 
+    private Node createQuestionRow(QuestionGUI questionGUI) {
+        GridPane wrapper = new GridPane();
+
+        wrapper.getColumnConstraints().add(new ColumnConstraints(350));
+        wrapper.getRowConstraints().add(new RowConstraints(40));
+
+        wrapper.add(questionGUI.getLabel(), 0, 0);
+        wrapper.add(questionGUI.getType(), 1, 0);
+
+        return wrapper;
+    }
+
     private Node createQuestionRow(final Node label, final Node input) {
         GridPane wrapper = new GridPane();
 
@@ -89,9 +118,6 @@ public class QuestionController implements Initializable {
 
         wrapper.add(label, 0, 0);
         wrapper.add(input, 1, 0);
-
-//        questions = getSampleQuestion("/src/main/java/org/uva/sea/ql/gui/basicQuestions1.ql");
-        System.out.println(getClass().getResource("gui/basicQuestions1.ql"));
 
         return wrapper;
     }
@@ -126,8 +152,45 @@ public class QuestionController implements Initializable {
         questions = getSampleQuestion();
 
         for (Question question : questions) {
-            System.out.println(question.getLabel() + " " + question.getValue() +
-                    " " + question.getVariable().getVariableName() + " " + question.getType() + " " + question.getNodeType());
+            System.out.println(question.getLabel() +
+                    " " + question.getValue() +
+                    " " + question.getVariable().getVariableName() +
+                    " " + question.getNodeType().getNodeType().name());
+        }
+
+        updateQuestionGUIs();
+        printQuestions();
+    }
+
+    private void updateQuestionGUIs(){
+        this.questionGUIs = new ArrayList<>();
+        for (Question question: this.questions) {
+
+            QuestionGUI questionGUI = new QuestionGUI(generateLabel(question.getLabel()), generateInput(question.getNodeType().getNodeType()));
+            questionGUI.setShouldBeVisible(true);
+            questionGUIs.add(questionGUI);
+        }
+    }
+
+    private Label generateLabel(String name){
+        return new Label(name);
+    }
+
+    private Control generateInput(NodeType nodeType){
+        switch (nodeType){
+            case BOOLEAN: return new CheckBox();
+            case DECIMAL:
+            case INTEGER:
+            case MONEY:
+            case STRING:
+            case DATE:
+                TextField textField = new TextField();
+                textField.setEditable(true);
+                textField.setMinWidth(100.0);
+                return textField;
+            case UNKNOWN:
+            default:
+                return new Label("UNKNOWN");
         }
     }
 }

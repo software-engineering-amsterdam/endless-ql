@@ -69,11 +69,20 @@ public class QLLoader extends FormBaseListener {
     }
     private Question newQuestion(String label, FormParser.QuestionStructureContext ctx){
         Variable constructedVariable = null;
+        //Values are null;
         if (ctx.questionVariableType().getText().equals("money") || ctx.questionVariableType().getText().equals("string") ){
-            constructedVariable = new StringVariable(ctx.questionVariable().getText(), null);
+            String stringValue = null;
+            if(ctx.questionVariableValue() != null && ctx.questionVariableValue().plainValue() != null){
+                stringValue = ctx.questionVariableValue().plainValue().getText();
+            }
+            constructedVariable = new StringVariable(ctx.questionVariable().getText(), stringValue);
         }
         if(ctx.questionVariableType().getText().equals("boolean")){
-            constructedVariable = new BooleanVariable(ctx.questionVariable().getText(), null);
+            boolean boolValue = false;
+            if(ctx.questionVariableValue() != null && ctx.questionVariableValue().plainValue() != null){
+                boolValue = Boolean.valueOf(ctx.questionVariableValue().plainValue().getText());
+            }
+            constructedVariable = new BooleanVariable(ctx.questionVariable().getText(), boolValue);
         }
         if(ctx.questionVariableValue() != null && ctx.questionVariableValue().expression() != null){
             FormParser.ExpressionContext ec = ctx.questionVariableValue().expression();
@@ -81,10 +90,7 @@ public class QLLoader extends FormBaseListener {
             Variable rightHandOperator = this.formNode.getFormData().getVariableByLabel(ec.questionVariable(1).getText());
             constructedVariable = new ExpressionVariable(ctx.questionVariable().getText(), leftHandOperator, rightHandOperator, ec.operator().getText());
         }
-        if(ctx.questionVariableValue() != null && ctx.questionVariableValue().plainValue() != null){
-            FormParser.PlainValueContext vc = ctx.questionVariableValue().plainValue();
-            constructedVariable = new StringVariable(ctx.questionVariable().getText(), vc.getText());
-        }
+
         return new Question(label, constructedVariable);
     }
     public FormNode getFormNode() {

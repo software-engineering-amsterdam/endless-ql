@@ -21,6 +21,6 @@ public class Question {
 
     @Override
     public String toString() {
-        return this.text + ' ' + this.variable;
+        return this.text;
     }
 }

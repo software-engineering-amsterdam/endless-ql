@@ -15,6 +15,6 @@ public class VariableVisitor implements Visitor {
 
     @Override
     public Node visit(StringVariable sv) {
-        return (Node) new TextField();
+        return (Node) new TextField(sv.getValue());
     }
 }

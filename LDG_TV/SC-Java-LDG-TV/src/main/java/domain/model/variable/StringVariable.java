@@ -16,7 +16,7 @@ public class StringVariable extends Variable {
 
     @Override
     public String toString() {
-        return this.getName() + ": String";
+        return this.getName() + ": String = " + this.value;
     }
 
     @Override

@@ -18,7 +18,7 @@ public class BooleanVariable extends Variable {
 
     @Override
     public String toString() {
-        return this.getName() + ": boolean";
+        return this.getName() + ": boolean = " + this.value;
     }
     @Override
     public Node getRelatedGUIElement(Visitor v){

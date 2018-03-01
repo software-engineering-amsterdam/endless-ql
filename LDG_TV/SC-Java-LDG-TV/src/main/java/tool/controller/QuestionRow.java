@@ -17,12 +17,10 @@ public class QuestionRow extends HBox {
 
     public QuestionRow(String question, Node answer) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("QuestionRow.fxml"));
-
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {
             fxmlLoader.load();
-
             this.lblQuestion.setText(question);
             this.hbAnswer.getChildren().add(answer);
         } catch (IOException e) {

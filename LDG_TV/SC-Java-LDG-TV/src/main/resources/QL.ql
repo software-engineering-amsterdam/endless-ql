@@ -2,7 +2,7 @@ form taxOfficeExample {
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean = true
   "Did you buy a house in 2010?"
-    hasBoughtHouse: string = "hello"
+    hasBoughtHouse: string
   "Did you enter a loan?"
     hasMaintLoan: boolean
   "Did you enter a loan?"

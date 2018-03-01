@@ -246,6 +246,12 @@ class QLFormParserTest extends FunSuite {
             IntegerType,
             expression = IntAnswer(None)),
           Question(
+            id = "houseBuyingPrice",
+            label = "What was the buying price?",
+            IntegerType,
+            expression = IntAnswer(Some(10000))
+          ),
+          Question(
             id = "houseSellingPrice",
             label = "What was the selling price?",
             IntegerType,

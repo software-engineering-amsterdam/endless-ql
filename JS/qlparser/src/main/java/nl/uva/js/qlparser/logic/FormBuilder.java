@@ -3,7 +3,7 @@ package nl.uva.js.qlparser.logic;
 import lombok.SneakyThrows;
 import nl.uva.js.qlparser.antlr.QLLexer;
 import nl.uva.js.qlparser.antlr.QLParser;
-import nl.uva.js.qlparser.models.Form;
+import nl.uva.js.qlparser.models.expressions.Form;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @Component
-public class QLIngester {
+public class FormBuilder {
 
     @SneakyThrows(IOException.class)
     public static Form parseFormFromLocation(String location) {
@@ -25,7 +25,7 @@ public class QLIngester {
         QLLexer lexer = new QLLexer(CharStreams.fromString(qlInput));
         QLParser parser = new QLParser(new CommonTokenStream(lexer));
 
-        Form form = new QLFunnel().visitForm(parser.form());
+        Form form = new QLVisitorImpl().visitForm(parser.form());
         form.checkType();
 
         return form;

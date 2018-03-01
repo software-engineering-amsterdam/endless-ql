@@ -3,12 +3,12 @@ package nl.uva.js.qlparser.logic;
 import nl.uva.js.qlparser.antlr.QLBaseVisitor;
 import nl.uva.js.qlparser.antlr.QLParser;
 import nl.uva.js.qlparser.helpers.NonNullRun;
-import nl.uva.js.qlparser.models.Form;
-import nl.uva.js.qlparser.models.dataexpressions.*;
+import nl.uva.js.qlparser.models.expressions.Form;
+import nl.uva.js.qlparser.models.expressions.data.*;
 import nl.uva.js.qlparser.models.enums.*;
-import nl.uva.js.qlparser.models.formexpressions.FormExpression;
-import nl.uva.js.qlparser.models.formexpressions.IfBlock;
-import nl.uva.js.qlparser.models.formexpressions.Question;
+import nl.uva.js.qlparser.models.expressions.form.FormExpression;
+import nl.uva.js.qlparser.models.expressions.form.IfBlock;
+import nl.uva.js.qlparser.models.expressions.form.Question;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -18,7 +18,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-class QLFunnel extends QLBaseVisitor {
+class QLVisitorImpl extends QLBaseVisitor {
     private Map<String, DataType> typeRegistry = new HashMap<>();
 
     @Override

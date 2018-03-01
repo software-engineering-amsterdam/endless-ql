@@ -1,8 +1,7 @@
-package nl.uva.js.qlparser.ui;
+package nl.uva.js.qlparser.ui.panes;
 
 import javafx.scene.control.TextArea;
 
-@SuppressWarnings("restriction")
 public class LogPane extends TextArea {
 
 	public LogPane() {

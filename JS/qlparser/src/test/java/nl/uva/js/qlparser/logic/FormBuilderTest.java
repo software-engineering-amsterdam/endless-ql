@@ -1,15 +1,15 @@
 package nl.uva.js.qlparser.logic;
 
-import nl.uva.js.qlparser.models.Form;
-import nl.uva.js.qlparser.models.dataexpressions.Combinator;
-import nl.uva.js.qlparser.models.dataexpressions.Value;
-import nl.uva.js.qlparser.models.dataexpressions.Variable;
+import nl.uva.js.qlparser.models.expressions.Form;
+import nl.uva.js.qlparser.models.expressions.data.Combinator;
+import nl.uva.js.qlparser.models.expressions.data.Value;
+import nl.uva.js.qlparser.models.expressions.data.Variable;
 import nl.uva.js.qlparser.models.enums.ArithOp;
 import nl.uva.js.qlparser.models.enums.CompOp;
 import nl.uva.js.qlparser.models.enums.DataType;
-import nl.uva.js.qlparser.models.formexpressions.FormExpression;
-import nl.uva.js.qlparser.models.formexpressions.IfBlock;
-import nl.uva.js.qlparser.models.formexpressions.Question;
+import nl.uva.js.qlparser.models.expressions.form.FormExpression;
+import nl.uva.js.qlparser.models.expressions.form.IfBlock;
+import nl.uva.js.qlparser.models.expressions.form.Question;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.util.LinkedList;
 
 import static org.junit.Assert.assertEquals;
 
-public class QLIngesterTest {
+public class FormBuilderTest {
 
     private static final String INPUT_BASIC_FILE = "src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql";
     private static final String INPUT_NULL_TEST = "src/test/java/nl/uva/js/qlparser/logic/testdata/null_test.jsql";
@@ -98,7 +98,7 @@ public class QLIngesterTest {
                 .formExpressions(expectedExpressions)
                 .build();
 
-        Form actualForm = QLIngester.parseFormFromLocation(INPUT_BASIC_FILE);
+        Form actualForm = FormBuilder.parseFormFromLocation(INPUT_BASIC_FILE);
 
         assertEquals(expectedForm.toString(), actualForm.toString());
     }
@@ -131,7 +131,7 @@ public class QLIngesterTest {
                 .formExpressions(expectedExpressions)
                 .build();
 
-        Form actualForm = QLIngester.parseFormFromLocation(INPUT_NULL_TEST);
+        Form actualForm = FormBuilder.parseFormFromLocation(INPUT_NULL_TEST);
 
         assertEquals(expectedForm.toString(), actualForm.toString());
     }

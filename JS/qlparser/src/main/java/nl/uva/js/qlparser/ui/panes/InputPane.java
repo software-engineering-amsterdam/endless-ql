@@ -1,4 +1,4 @@
-package nl.uva.js.qlparser.ui;
+package nl.uva.js.qlparser.ui.panes;
 
 
 import javafx.geometry.Insets;
@@ -25,7 +25,7 @@ public class InputPane extends BorderPane {
 		this.setTop(title);
 		this.setCenter(content);
 
-		String file = "input_file/ql_input.jsql";
+		String file = "input_files/ql_input.jsql";
 		File qlFile = new File(file);
 		setTextFromFile(qlFile);
 	}

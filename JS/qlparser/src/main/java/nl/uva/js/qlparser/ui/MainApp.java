@@ -9,6 +9,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import nl.uva.js.qlparser.ui.panes.FormPane;
+import nl.uva.js.qlparser.ui.panes.InputPane;
+import nl.uva.js.qlparser.ui.panes.LogPane;
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
@@ -19,11 +22,11 @@ import org.antlr.v4.runtime.dfa.DFA;
 import java.io.File;
 import java.util.BitSet;
 
-public class MainUI extends Application implements ANTLRErrorListener {
+public class MainApp extends Application implements ANTLRErrorListener {
 
-    private QuestionnairePane questionnairePane;
     private InputPane inputPane;
-    private LogPane logger;
+    private FormPane  formPane;
+    private LogPane   logger;
 
     public static void main(String[] args) {
         launch(args);
@@ -32,17 +35,17 @@ public class MainUI extends Application implements ANTLRErrorListener {
     @Override
     public void start(Stage stage) {
         inputPane = new InputPane();
-        questionnairePane = new QuestionnairePane();
-        logger = new LogPane();
+        formPane  = new FormPane();
+        logger    = new LogPane();
 
         inputPane.setMinWidth(300);
-        questionnairePane.autosize();
+        formPane.autosize();
         logger.setMinWidth(300);
 
         MenuBar menuBar = getMenuBar(stage);
 
         HBox mainPanes = new HBox();
-        mainPanes.getChildren().addAll(inputPane, questionnairePane, logger);
+        mainPanes.getChildren().addAll(inputPane, formPane, logger);
 
         Button processButton = new Button("Process QL");
         processButton.setOnAction(e -> process());
@@ -70,7 +73,7 @@ public class MainUI extends Application implements ANTLRErrorListener {
         boolean parseSuccess = true;
 
         try {
-           // Get parse tree
+            // Get parse tree
         } catch (Exception e) {
             logger.log("Parse error (See System.out)");
             parseSuccess = false;
@@ -90,10 +93,10 @@ public class MainUI extends Application implements ANTLRErrorListener {
     }
 
     private MenuBar getMenuBar(Stage stage) {
-        MenuBar menuBar = new MenuBar();
+        MenuBar  menuBar  = new MenuBar();
+        Menu     fileMenu = new Menu("File");
 
-        Menu fileMenu = new Menu("File");
-        MenuItem loadQl = new MenuItem("Load QL from file");
+        MenuItem loadQl   = new MenuItem("Load QL from file");
         loadQl.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Load QL file");
@@ -144,9 +147,11 @@ public class MainUI extends Application implements ANTLRErrorListener {
         MenuItem quit = new MenuItem("Quit");
         quit.setOnAction(e -> Platform.exit());
 
-        fileMenu.getItems().addAll(loadQl,saveQl,new SeparatorMenuItem(),
-                exportHtml, exportAnswers, new SeparatorMenuItem(),quit);
+        fileMenu.getItems().addAll(loadQl, saveQl, new SeparatorMenuItem(),
+                exportHtml, exportAnswers, new SeparatorMenuItem(), quit);
+
         menuBar.getMenus().addAll(fileMenu);
+
         return menuBar;
     }
 
@@ -155,14 +160,17 @@ public class MainUI extends Application implements ANTLRErrorListener {
     public void reportAmbiguity(Parser arg0, DFA arg1, int arg2, int arg3,
                                 boolean arg4, BitSet arg5, ATNConfigSet arg6) {
     }
+
     @Override
     public void reportAttemptingFullContext(Parser arg0, DFA arg1, int arg2,
                                             int arg3, BitSet arg4, ATNConfigSet arg5) {
     }
+
     @Override
     public void reportContextSensitivity(Parser arg0, DFA arg1, int arg2,
                                          int arg3, int arg4, ATNConfigSet arg5) {
     }
+
     @Override
     public void syntaxError(Recognizer<?, ?> arg0, Object arg1, int arg2,
                             int arg3, String arg4, RecognitionException arg5) {

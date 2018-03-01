@@ -29,7 +29,7 @@ public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
     }
 
     @Override
-    public boolean getBooleanValue() {
+    public Boolean getBooleanValue() {
         return false;
     }
 

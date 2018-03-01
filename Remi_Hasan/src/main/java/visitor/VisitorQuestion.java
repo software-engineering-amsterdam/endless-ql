@@ -11,7 +11,7 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
 
     private final Expression condition;
 
-    public VisitorQuestion(Expression condition) {
+    VisitorQuestion(Expression condition) {
         this.condition = condition;
     }
 

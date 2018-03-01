@@ -176,41 +176,18 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         return new ExpressionVariableNumber(ctx.getText());
     }
 
-    // TODO do we need this?
-//    @Override
-//    public Expression visitIdentifier(QLParser.IdentifierContext ctx) {
-//        return new ExpressionIdentifier(ctx.getText());
-//    }
-
-
     @Override
     public Expression visitStringConstant(QLParser.StringConstantContext ctx) {
         String text = ctx.STRING().toString();
-        // remove quotes from text
+
+        // remove quotes surrounding the string
         text = text.substring(1, text.length() - 1);
+
         return new ExpressionVariableString(text);
     }
 
     @Override
     public Expression visitIdentifierConstant(QLParser.IdentifierConstantContext ctx) {
-        String identifier = ctx.IDENTIFIER().getText();
-        Question referencedQuestion = LookupTable.getInstance().getQuestion(identifier);
-
-        switch (referencedQuestion.type) {
-            case INTEGER:
-                return new ExpressionIdentifier<Integer>(ctx.getText());
-            case DECIMAL:
-                return new ExpressionIdentifier<Double>(ctx.getText());
-            case BOOLEAN:
-                return new ExpressionIdentifier<Boolean>(ctx.getText());
-            case STRING:
-                return new ExpressionIdentifier<String>(ctx.getText());
-            case MONEY:
-                return new ExpressionIdentifier<Double>(ctx.getText());
-            case DATE:
-                return new ExpressionIdentifier<String>(ctx.getText());
-            default:
-                throw new IllegalArgumentException("Cannot create identifier for unknown type '" + referencedQuestion.type + "'");
-        }
+        return new ExpressionIdentifier(ctx.IDENTIFIER().getText());
     }
 }

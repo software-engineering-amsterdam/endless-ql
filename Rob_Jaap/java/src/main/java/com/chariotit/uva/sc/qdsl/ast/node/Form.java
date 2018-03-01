@@ -1,5 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.node;
 
+import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
+
 import java.util.List;
 
 public class Form extends AstNode {
@@ -26,5 +28,14 @@ public class Form extends AstNode {
 
     public void setFormElements(List<FormElement> formElements) {
         this.formElements = formElements;
+    }
+
+    @Override
+    public void acceptVisitor(NodeVisitor visitor) {
+        for (FormElement formElement : formElements) {
+            formElement.acceptVisitor(visitor);
+        }
+
+        visitor.visitForm(this);
     }
 }

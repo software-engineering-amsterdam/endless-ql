@@ -11,6 +11,7 @@ import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
+import ql.visitors.ExpressionVisitorIdentifier;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorUndefinedReferences implements StatementVisitor {

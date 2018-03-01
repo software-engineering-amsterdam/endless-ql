@@ -1,5 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.node;
 
+import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
+
 public class LineElement extends FormElement {
 
     private Label label;
@@ -34,5 +36,14 @@ public class LineElement extends FormElement {
 
     public void setTypeExpression(TypeExpression typeExpression) {
         this.typeExpression = typeExpression;
+    }
+
+    @Override
+    public void acceptVisitor(NodeVisitor visitor) {
+        label.acceptVisitor(visitor);
+        question.acceptVisitor(visitor);
+        typeExpression.acceptVisitor(visitor);
+
+        visitor.visitLineElement(this);
     }
 }

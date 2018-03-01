@@ -1,55 +1,55 @@
 package ql.evaluator.comparisons.greaterequal;
 
+import ql.ast.expression.literal.BoolLiteral;
+import ql.ast.expression.literal.DateLiteral;
+import ql.ast.expression.literal.DecimalLiteral;
+import ql.ast.expression.literal.IntLiteral;
+import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.MoneyLiteral;
+import ql.ast.expression.literal.StrLiteral;
+import ql.ast.expression.literal.UndefinedLiteral;
 import ql.evaluator.AbstractEvaluator;
-import ql.evaluator.value.Bool;
-import ql.evaluator.value.Date;
-import ql.evaluator.value.Decimal;
-import ql.evaluator.value.Int;
-import ql.evaluator.value.Money;
-import ql.evaluator.value.Str;
-import ql.evaluator.value.Undefined;
-import ql.evaluator.value.Value;
 
-public class DateGreaterEqual extends AbstractEvaluator<Date> {
+public class DateGreaterEqual extends AbstractEvaluator<DateLiteral> {
 
-    public DateGreaterEqual(Date firstOperand) {
+    public DateGreaterEqual(DateLiteral firstOperand) {
         super(firstOperand);
     }
 
     @Override
-    public Value<?> visit(Bool secondOperand) {
-        return new Undefined();
+    public Literal<?> visit(BoolLiteral secondOperand) {
+        return new UndefinedLiteral();
     }
 
     @Override
-    public Value<?> visit(Str secondOperand) {
-        return new Undefined();
+    public Literal<?> visit(StrLiteral secondOperand) {
+        return new UndefinedLiteral();
     }
 
     @Override
-    public Value<?> visit(Int secondOperand) {
-        return new Undefined();
+    public Literal<?> visit(IntLiteral secondOperand) {
+        return new UndefinedLiteral();
     }
 
     @Override
-    public Value<?> visit(Decimal secondOperand) {
-        return new Undefined();
+    public Literal<?> visit(DecimalLiteral secondOperand) {
+        return new UndefinedLiteral();
     }
 
     @Override
-    public Value<?> visit(Money secondOperand) {
-        return new Undefined();
+    public Literal<?> visit(MoneyLiteral secondOperand) {
+        return new UndefinedLiteral();
     }
 
     @Override
-    public Value<?> visit(Date secondOperand) {
+    public Literal<?> visit(DateLiteral secondOperand) {
         boolean isLessEqual =   firstOperand.getValue().isAfter(secondOperand.getValue()) ||
                                 firstOperand.getValue().isEqual(secondOperand.getValue());
-        return new Bool(isLessEqual);
+        return new BoolLiteral(isLessEqual);
     }
 
     @Override
-    public Value<?> visit(Undefined secondOperand) {
-        return new Undefined();
+    public Literal<?> visit(UndefinedLiteral secondOperand) {
+        return new UndefinedLiteral();
     }
 }

@@ -1,15 +1,24 @@
 package com.chariotit.uva.sc.qdsl.ast.node;
 
+import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
+
 import java.util.List;
 
 public class IfBlock extends BlockElement {
 
     private Expression expression;
-    private List<FormElement> formElements;
+    private List<FormElement> ifElements;
+    private List<FormElement> elseElements;
 
     public IfBlock(Expression expression, List<FormElement> formElements) {
         this.expression = expression;
-        this.formElements = formElements;
+        this.ifElements = formElements;
+    }
+
+    public IfBlock(Expression expression, List<FormElement> ifElements, List<FormElement> elseElements) {
+        this.expression = expression;
+        this.ifElements = ifElements;
+        this.elseElements = elseElements;
     }
 
     public Expression getExpression() {
@@ -20,11 +29,36 @@ public class IfBlock extends BlockElement {
         this.expression = expression;
     }
 
-    public List<FormElement> getFormElements() {
-        return formElements;
+    public List<FormElement> getIfElements() {
+        return ifElements;
     }
 
-    public void setFormElements(List<FormElement> formElements) {
-        this.formElements = formElements;
+    public void setIfElements(List<FormElement> ifElements) {
+        this.ifElements = ifElements;
+    }
+
+    public List<FormElement> getElseElements() {
+        return elseElements;
+    }
+
+    public void setElseElements(List<FormElement> elseElements) {
+        this.elseElements = elseElements;
+    }
+
+    @Override
+    public void acceptVisitor(NodeVisitor visitor) {
+        expression.acceptVisitor(visitor);
+
+        for (FormElement formElement : ifElements) {
+            formElement.acceptVisitor(visitor);
+        }
+
+        if (elseElements != null) {
+            for (FormElement formElement : elseElements) {
+                formElement.acceptVisitor(visitor);
+            }
+        }
+
+        visitor.visitIfBlock(this);
     }
 }

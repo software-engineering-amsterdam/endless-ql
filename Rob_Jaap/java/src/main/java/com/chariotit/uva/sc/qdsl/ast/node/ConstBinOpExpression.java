@@ -1,6 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.node;
 
 import com.chariotit.uva.sc.qdsl.ast.node.operator.Operator;
+import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
 
 public class ConstBinOpExpression extends Expression {
 
@@ -36,5 +37,14 @@ public class ConstBinOpExpression extends Expression {
 
     public void setExpression(Expression expression) {
         this.expression = expression;
+    }
+
+    @Override
+    public void acceptVisitor(NodeVisitor visitor) {
+        constant.acceptVisitor(visitor);
+        operator.acceptVisitor(visitor);
+        expression.acceptVisitor(visitor);
+
+        visitor.visitConstBinOpExpression(this);
     }
 }

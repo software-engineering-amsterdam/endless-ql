@@ -12,15 +12,15 @@ public abstract class ExpressionVariable<T> extends Expression {
         this.value = value;
     }
 
-    public boolean getBooleanValue() {
+    public Boolean getBooleanValue() {
         throw new UnsupportedOperationException("Cannot get boolean value");
     }
 
-    public int getIntValue() {
+    public Integer getIntValue() {
         throw new UnsupportedOperationException("Cannot get int value");
     }
 
-    public double getDecimalValue() {
+    public Double getDecimalValue() {
         throw new UnsupportedOperationException("Cannot get decimal value");
     }
 

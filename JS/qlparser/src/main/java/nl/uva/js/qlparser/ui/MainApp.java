@@ -9,6 +9,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import nl.uva.js.qlparser.logic.FormBuilder;
+import nl.uva.js.qlparser.models.expressions.Form;
+import nl.uva.js.qlparser.models.expressions.form.FormExpression;
+import nl.uva.js.qlparser.models.expressions.form.Question;
 import nl.uva.js.qlparser.ui.panes.FormPane;
 import nl.uva.js.qlparser.ui.panes.InputPane;
 import nl.uva.js.qlparser.ui.panes.LogPane;
@@ -20,6 +24,7 @@ import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.BitSet;
 
 public class MainApp extends Application implements ANTLRErrorListener {
@@ -70,16 +75,30 @@ public class MainApp extends Application implements ANTLRErrorListener {
         logger.clear();
 
         logger.log("Parsing...");
-        boolean parseSuccess = true;
 
         try {
-            // Get parse tree
-        } catch (Exception e) {
-            logger.log("Parse error (See System.out)");
-            parseSuccess = false;
-        }
+            Form form = FormBuilder.parseFormFromString(inputPane.getText());
 
-        if (parseSuccess) {
+            ArrayList<String> questions = new ArrayList<>();
+
+            for (FormExpression expression : form.getFormExpressions()) {
+                if (expression instanceof Question) {
+                    questions.add(UIBuilder.getTextInput((Question) expression));
+                }
+            }
+            String html =
+                    "<head>"
+                    + "<style type=\"text/css\">"
+                    + "label {"
+                    +   "display: inline-block;"
+                    +   "width:200px;"
+                    +   "text-align: left;"
+                    +  "}"
+                    + "</style>"
+                    + "</head>"
+                    +"<form>" + String.join("<br>", questions) + "</form>";
+            formPane.setHtml(html);
+
             logger.log("Building AST...");
 
             //Check
@@ -89,6 +108,8 @@ public class MainApp extends Application implements ANTLRErrorListener {
             logger.log("Rendering questionnaire...");
 
             logger.log("Process finished");
+        } catch (Exception e) {
+            logger.log("Parse error (See System.out)");
         }
     }
 

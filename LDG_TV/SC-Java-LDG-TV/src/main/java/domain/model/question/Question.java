@@ -1,6 +1,4 @@
-package tool.model;
-
-import tool.model.variables.Variable;
+package domain.model.question;
 
 public class Question {
     private String text;
@@ -9,6 +7,10 @@ public class Question {
     public Question(String text, Variable variable) {
         this.text = text;
         this.variable = variable;
+    }
+
+    public Variable getVariable() {
+        return variable;
     }
 
     @Override

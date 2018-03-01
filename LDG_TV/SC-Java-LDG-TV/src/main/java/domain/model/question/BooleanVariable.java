@@ -1,4 +1,4 @@
-package tool.model.variables;
+package domain.model.question;
 
 public class BooleanVariable extends Variable {
 

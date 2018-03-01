@@ -5,9 +5,8 @@ import antlr.FormParser;
 import domain.FormData;
 import domain.FormNode;
 import domain.Utilities;
-import domain.model.question.QuestionStructure;
-import domain.model.question.QuestionVariable;
-import domain.model.question.QuestionVariableType;
+import domain.model.question.Question;
+import domain.model.question.Variable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -69,27 +68,27 @@ public class ToolController implements Initializable {
         FormData data = node.getFormData();
 
 
-        List<QuestionStructure> qs = data.getPlainQuestionStructures();
+        List<Question> qs = data.getAllQuestions();
 
-        for (QuestionStructure q : qs) {
-            QuestionVariable qv =  q.getQuestionVariable();
-            QuestionVariableType qType = qv.getQuestionVariableType();
-            String qText = q.getLabel();
+        for (Question q : qs) {
+//            Variable qv =  q.getQuestionVariable();
+//            QuestionVariableType qType = qv.getQuestionVariableType();
+//            String qText = q.getLabel();
+//
+//            Node answerNode;
+//            switch (qType) {
+//                default:
+//                case MONEY:
+//                case STRING:
+//                    answerNode = new TextField();
+//                    break;
+//                case BOOLEAN:
+//                    answerNode = new CheckBox();
+//                    break;
+//            }
 
-            Node answerNode;
-            switch (qType) {
-                default:
-                case MONEY:
-                case STRING:
-                    answerNode = new TextField();
-                    break;
-                case BOOLEAN:
-                    answerNode = new CheckBox();
-                    break;
-            }
 
-
-            lvQuestionnaire.getItems().add(new QuestionRow(qText, answerNode));
+//            lvQuestionnaire.getItems().add(new QuestionRow(qText, answerNode));
         }
     }
 

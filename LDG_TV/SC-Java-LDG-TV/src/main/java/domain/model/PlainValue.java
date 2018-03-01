@@ -1,8 +1,6 @@
 package domain.model;
 
-import domain.model.question.QuestionVariableValue;
-
-public class PlainValue extends QuestionVariableValue {
+public class PlainValue {
     private String value;
 
     public PlainValue(String value){

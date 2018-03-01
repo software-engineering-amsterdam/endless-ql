@@ -1,8 +1,16 @@
 package tool;
 
 
-import tool.model.variables.BooleanVariable;
-import tool.model.Question;
+import antlr.FormLexer;
+import antlr.FormParser;
+import domain.model.question.Question;
+import loader.QLLoader;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class Main {
     public static void main(String [ ] args){
@@ -13,11 +21,8 @@ public class Main {
             FormParser.FormBuilderContext tree = parser.formBuilder();
             QLLoader loader = new QLLoader();
             ParseTreeWalker.DEFAULT.walk(loader, tree);
-            for (QuestionStructure qs : loader.getFormNode().getFormData().getAllQuestions()){
-                System.out.println(qs.getLabel());
-                System.out.println(qs.getQuestionVariable().getLabel());
-                System.out.println(qs.getQuestionVariable().getQuestionVariableType());
-
+            for (Question qs : loader.getFormNode().getFormData().getAllQuestions()){
+                System.out.println(qs.toString());
             }
         } catch (IOException e) {
             e.printStackTrace();

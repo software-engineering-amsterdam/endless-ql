@@ -1,6 +1,6 @@
-package tool.model.variables;
+package domain.model.question;
 
-public class Variable {
+public abstract class Variable {
     private final String name;
 
     public Variable(String name) {

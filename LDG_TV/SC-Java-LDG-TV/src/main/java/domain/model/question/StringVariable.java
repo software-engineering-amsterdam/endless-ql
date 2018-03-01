@@ -1,4 +1,4 @@
-package tool.model.variables;
+package domain.model.question;
 
 public class StringVariable extends Variable {
     private final String value;

@@ -1,51 +1,52 @@
 package domain;
 
-import domain.model.Condition;
-import domain.model.question.QuestionStructure;
-import domain.model.question.QuestionVariable;
+import domain.model.question.Condition;
+import domain.model.question.Question;
+import domain.model.question.Variable;
 
 import java.util.*;
 
 public class FormData {
-    private Map<List<Condition>, List<QuestionStructure>> questions;
-    private List<QuestionVariable> referencedVariables;
+    private Map<List<Variable>, List<Question>> questions;
+    private List<Variable> referencedVariables;
 
     public FormData(){
-        this.questions = new HashMap<List<Condition>, List<QuestionStructure>>();
-        this.referencedVariables = new ArrayList<QuestionVariable>();
+        this.questions = new HashMap<List<Variable>, List<Question>>();
+        this.referencedVariables = new ArrayList<Variable>();
     }
 
-    public Map<List<Condition>, List<QuestionStructure>> getQuestions(){
+    public Map<List<Variable>, List<Question>> getQuestions(){
         return this.questions;
     }
-    public void addConditionsAsKey(List<Condition> conditions){
+
+    public void addConditionsAsKey(List<Variable> conditions){
         if(!this.questions.containsKey(conditions)){
-            this.questions.put(conditions, new ArrayList<QuestionStructure>());
+            this.questions.put(conditions, new ArrayList<Question>());
         };
     }
-    public void addQuestion(List<Condition> conditions, QuestionStructure questionStructure){
+    public void addQuestion(List<Variable> conditions, Question questionStructure){
         this.questions.get(conditions).add(questionStructure); ;
     }
 
-    public List<QuestionVariable> getReferencedVariables() {
+    public List<Variable> getReferencedVariables() {
         return referencedVariables;
     }
-    public List<QuestionStructure> getAllQuestions(){
-        List<QuestionStructure> allQuestions = new ArrayList<QuestionStructure>();
-        for (Map.Entry<List<Condition>, List<QuestionStructure>> entry : this.getQuestions().entrySet()) {
-            for (QuestionStructure qs : entry.getValue()) {
+    public List<Question> getAllQuestions(){
+        List<Question> allQuestions = new ArrayList<Question>();
+        for (Map.Entry<List<Variable>, List<Question>> entry : this.getQuestions().entrySet()) {
+            for (Question qs : entry.getValue()) {
                 allQuestions.add(qs);
             }
         }
         return allQuestions;
     }
-    public QuestionVariable getQuestionVariableByLabel(String label){
-        QuestionVariable qv = null ;
+    public Variable getVariableByLabel(String label){
+        Variable qv = null ;
 
-        for (Map.Entry<List<Condition>, List<QuestionStructure>> entry : this.getQuestions().entrySet()) {
-            for (QuestionStructure qs : entry.getValue()) {
-                if (qs.getQuestionVariable().getLabel().equals(label)){
-                    qv = qs.getQuestionVariable();
+        for (Map.Entry<List<Variable>, List<Question>> entry : this.getQuestions().entrySet()) {
+            for (Question qs : entry.getValue()) {
+                if (qs.getVariable().getName().equals(label)){
+                    qv = qs.getVariable();
                 }
             }
         }

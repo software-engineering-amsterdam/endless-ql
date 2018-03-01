@@ -1,4 +1,4 @@
-/**grammar QLS;*/
+grammar QLS;
 
 
 /**
@@ -6,11 +6,11 @@
  */
 
 stylesheet      : STYLESHEET identifier page+ ;
-page            : PAGE identifier BRACKET_L section+ default? BRACKET_R ;
-section_elem    : (section | question | default) ;
+page            : PAGE identifier BRACKET_L section+ defaultdef? BRACKET_R ;
+section_elem    : (section | question | defaultdef) ;
 section         : SECTION STRING BRACKET_L section_elem+ BRACKET_R ;
 question        : QUESTION identifier widget? ;
-default         : DEFAULT identifier BRACKET_L property+ BRACKET_R
+defaultdef      : DEFAULT identifier BRACKET_L property+ BRACKET_R
                 | DEFAULT type WIDGET widget ;
 property        : WORD COLON (NUMBER | STRING | COLOR_CODE)
                 | widget ;
@@ -48,7 +48,7 @@ PARENTH_R       : ')' ;
 COLON           : ':' ;
 
 
-COLOR_CODE      : '#'[0-9]{6} ;
+COLOR_CODE      : '#'[0-9a-fA-F]+ ;
 NEWLINE         : ('\r'? '\n' | '\r')+ -> skip ;
 WHITESPACE      : (' ' | '\t') -> skip ;
 

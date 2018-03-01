@@ -15,6 +15,9 @@ namespace QL_Parser.Tests.AST.Expressions
         private readonly string _invalidFormRaw = "form testForm {" +
            "   if sellingPrice < buyingPrice < sellingPrice { }" +
             "}";
+        private readonly string _simpleComparionWithNumbersFormRaw = "form testForm {" +
+            "   if sellingPrice < 50 * 20 { }" +
+            "}";
 
         [TestMethod]
         public void SimpleComparisonFormTest()
@@ -38,9 +41,37 @@ namespace QL_Parser.Tests.AST.Expressions
         [TestMethod]
         public void InvalidComparisonTest()
         {
+            //TODO: Don't know how to detect this error yet!
             FormNode form = QLParserHelper.Parse(_invalidFormRaw);
+            Assert.Fail();
         }
 
+        [TestMethod]
+        public void SimpleComparisonWithNumbersTest()
+        {
+            FormNode form = QLParserHelper.Parse(_simpleComparionWithNumbersFormRaw);
+            var comparisonNode = form.Children
+                .Where(x => x.Type == NodeType.CONDITIONAL)
+                .Select(x => x as ConditionalNode)
+                .First().Expression as ComparisonExpressionNode;
+
+            var left = comparisonNode.Left as IdentifierNode;
+            var opr = comparisonNode.Operator;
+            var right = comparisonNode.Right as ArthimetricExpressionNode;
+
+            Assert.AreEqual("sellingPrice", left.ID);
+            Assert.AreEqual(ComparisonOperator.LT, opr);
+
+            var arthLeft = right.Left as LiteralNode;
+            var arthOpr = right.Operator;
+            var arthRight = right.Right as LiteralNode;
+
+            Assert.AreEqual("50", arthLeft.Value);
+            Assert.AreEqual(QValueType.INTEGER, arthLeft.QValueType);
+            Assert.AreEqual(ArthimetricOperator.MULT, arthOpr);
+            Assert.AreEqual("20", arthRight.Value);
+            Assert.AreEqual(QValueType.INTEGER, arthRight.QValueType);
+        }
 
         #region Operator tests
         [TestMethod]

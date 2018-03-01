@@ -23,9 +23,7 @@ comparisonExpression: LEFT=comparisonOperand OPR=comparisonOperator RIGHT=compar
 
 comparisonOperand	: artithmeticExpression;
 
-
 comparisonOperator	: GT| GE | LT | LE | EQ;
-
 
 artithmeticExpression	: LEFT=artithmeticExpression (MULT | DIV) RIGHT=artithmeticExpression
 						| LEFT=artithmeticExpression (PLUS | MINUS) RIGHT=artithmeticExpression

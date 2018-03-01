@@ -2,7 +2,7 @@
 
 namespace QL_Parser.AST.Nodes.ExpressionNodes
 {
-    public enum ArthimeticOperator
+    public enum ArthimetricOperator
     {
         MULT,
         DIV,
@@ -10,34 +10,34 @@ namespace QL_Parser.AST.Nodes.ExpressionNodes
         MINUS
     }
 
-    public class ArthimeticExpressionNode : ExpressionNode
+    public class ArthimetricExpressionNode : ExpressionNode
     {
         private const string MULT = "*";
         private const string DIV = "/";
         private const string PLUS = "+";
         private const string MINUS = "-";
 
-        public ArthimeticOperator Operator { get; set; }
+        public ArthimetricOperator Operator { get; set; }
 
-        public ArthimeticExpressionNode(IExpressionNode left, ArthimeticOperator opr, IExpressionNode right) : base(NodeType.ARTHIMETIC_EXPRESSION)
+        public ArthimetricExpressionNode(IExpressionNode left, ArthimetricOperator opr, IExpressionNode right) : base(NodeType.ARTHIMETIC_EXPRESSION)
         {
             this.Left = left;
             this.Operator = opr;
             this.Right = right;
         }
 
-        public static ArthimeticOperator ParseArthimeticOperator(string opr)
+        public static ArthimetricOperator ParseArthimeticOperator(string opr)
         {
             switch (opr)
             {
                 case MULT:
-                    return ArthimeticOperator.MULT;
+                    return ArthimetricOperator.MULT;
                 case DIV:
-                    return ArthimeticOperator.DIV;
+                    return ArthimetricOperator.DIV;
                 case PLUS:
-                    return ArthimeticOperator.PLUS;
+                    return ArthimetricOperator.PLUS;
                 case MINUS:
-                    return ArthimeticOperator.MINUS;
+                    return ArthimetricOperator.MINUS;
                 default:
                     throw new UnknownOperatorException(string.Format("We don't know wat to do with this operator: {0}", opr));
             }

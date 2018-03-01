@@ -14,9 +14,14 @@ class TypeCheckTest(unittest.TestCase):
         for filename in os.listdir(path):
             file_object = open(path + "/" + filename, "r")
             inputText = file_object.read()
-
-            self.assertRaises(Exception, getLexerFromString, inputText, filename)
             file_object.close()
+            ast = getAstFromString(inputText)
+            ast.linkVars()
+
+            with self.assertRaises(SystemExit) as cm:
+                ast.checkTypes()
+            self.assertEqual(cm.exception.code, 1)
+
 
 
 if __name__ == '__main__':

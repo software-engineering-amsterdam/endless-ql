@@ -98,7 +98,7 @@ public class ErrorHandler {
 		ArrayList<String> typeNames = new ArrayList<>();
 		Arrays.asList(allowedTypes).forEach((type) -> typeNames.add(type.getName()));
 		
-		String message = String.format("[%s] line: %d, column: %d: Type mismatch, desired type: %s, allowed types: %s",
+		String message = String.format("[%s] line: %d, column: %d: Type mismatch, requested type: %s, allowed types: %s",
 				moduleName,
 				expr.getLineNumber(),
 				expr.getColumnNumber(),

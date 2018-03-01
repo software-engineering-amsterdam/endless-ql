@@ -28,8 +28,9 @@ public class App {
             validator.execute(form);
 
             FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
-
+            
             GUIHandler guiHandler = new GUIHandler(formEvaluator);
+
         }
         catch (IOException ex) {
             System.out.println(ex.toString());

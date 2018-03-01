@@ -3,15 +3,15 @@ package visitor;
 import antlr.QLBaseVisitor;
 import antlr.QLLexer;
 import antlr.QLParser;
-import expression.*;
+import expression.Expression;
+import expression.ExpressionIdentifier;
 import expression.binary.*;
-import expression.variable.*;
 import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
-import model.LookupTable;
-import model.Question;
-
-import java.math.BigDecimal;
+import expression.variable.ExpressionVariableBoolean;
+import expression.variable.ExpressionVariableDate;
+import expression.variable.ExpressionVariableNumber;
+import expression.variable.ExpressionVariableString;
 
 public class VisitorExpression extends QLBaseVisitor<Expression> {
 

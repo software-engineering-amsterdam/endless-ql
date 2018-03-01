@@ -6,21 +6,30 @@ import {QuestionType} from './question-type';
 import * as _ from 'lodash';
 import {UnknownQuestionError, TypeError} from '../errors';
 import {Location} from './location';
+import {Expression, LiteralType} from './expressions/expression';
+import {ExpressionType} from './expressions/expression-type';
+import {Variable} from './expressions/variable';
 
 export class If extends Statement {
-  constructor(public condition: string, public statements: Statement[], public elseStatements: Statement[], location: Location) {
+  constructor(public condition: Expression, public statements: Statement[], public elseStatements: Statement[], location: Location) {
     super(location);
   }
 
+  getVariables(): Variable[] {
+    let allVariables = [];
+    const allStatements = this.statements.concat(this.elseStatements);
+    for (const statement of allStatements) {
+      allVariables.push(statement.getVariables());
+    }
+    allVariables.push(this.condition.getVariables());
+    allVariables = _.flatten(allVariables);
+    return allVariables;
+  }
+
   checkType(allQuestions: Question[]): void {
-    // find the question that is referenced to in the if condition
-    const referencedQuestion = allQuestions.find(question => question.name === this.condition);
 
     // throw errors if it is not available or if the type is wrong
-    if (referencedQuestion === undefined) {
-      throw new UnknownQuestionError(
-        `Cannot find question with identifier ${this.condition} for if statement ` + this.getLocationErrorMessage());
-    } else if (referencedQuestion.type !== QuestionType.BOOLEAN) {
+    if (this.condition.checkType(allQuestions) !== ExpressionType.BOOLEAN) {
       throw new TypeError(`Expected type boolean for ${this.condition} for usage in if statement ` + this.getLocationErrorMessage());
     }
   }
@@ -49,19 +58,14 @@ export class If extends Statement {
   }
 
   toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
-                 condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
-    const conditionQuestion = formQuestions.filter((q) => q.key === this.condition);
-    if (conditionQuestion.length !== 1 || !(conditionQuestion[0].controlType === 'checkbox')) {
-      throw new TypeError('condition not type of checkbox');
-    }
-
+                 condition?: (form: FormGroup) => LiteralType): ReadonlyArray<QuestionBase<any>> {
 
     // generate function that should be evaluated for the condition
     const conditionFunction = ((form: FormGroup) => {
       if (condition) {
-        return condition(form) && form.controls[conditionQuestion[0].key].value === true;
+        return condition(form) && this.condition.evaluate(form);
       }
-      return form.controls[conditionQuestion[0].key].value === true;
+      return this.condition.evaluate(form);
     });
 
     const elseConditionFunction = ((form: FormGroup) => {

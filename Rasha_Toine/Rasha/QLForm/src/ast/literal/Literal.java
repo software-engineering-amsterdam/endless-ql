@@ -1,8 +1,8 @@
 package ast.literal;
 
-import checking.value.*;
 import ast.AstNode;
 import visiting.LiteralVisitor;
+import visiting.value.Value;
 
 public abstract class Literal extends AstNode {
 

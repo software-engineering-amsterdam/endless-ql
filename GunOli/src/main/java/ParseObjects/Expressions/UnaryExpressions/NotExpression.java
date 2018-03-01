@@ -20,4 +20,5 @@ public class NotExpression extends UnaryExpression<Boolean> {
         BooleanConstant expr = (BooleanConstant) this.getExpression().evaluate();
         return new BooleanConstant(!expr.getValue());
     }
+
 }

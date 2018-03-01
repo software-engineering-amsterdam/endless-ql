@@ -1,5 +1,6 @@
 package expression.binary;
 
+import analysis.SymbolTable;
 import expression.Expression;
 import expression.ReturnType;
 
@@ -10,7 +11,7 @@ public abstract class ExpressionLogical extends ExpressionBinary {
     }
 
     @Override
-    public ReturnType getReturnType() {
+    public ReturnType getReturnType(SymbolTable symbolTable) {
         return ReturnType.BOOLEAN;
     }
 }

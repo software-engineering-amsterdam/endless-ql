@@ -1,14 +1,13 @@
 import unittest
 import os
 import sys
-from io import StringIO
-from antlr4.InputStream import InputStream
+
 
 Path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, Path + '/../')
 
 from parser import *
-
+from antlr4.InputStream import InputStream
 from LexParser.QLGrammarLexer import QLGrammarLexer
 from LexParser.QLGrammarParser import QLGrammarParser
 
@@ -26,39 +25,26 @@ def getLexerFromString(input):
 
 
 class LexerTest(unittest.TestCase):
-    # def testEmptyForm(self):
-    #     input = "form test {}"
-    #     lexer_str = getLexerFromString(input)
-    #     compare = str('(form form test (block { }) <EOF>)')
-    #
-    #     #self.assertEqual(lexer_str, compare, "empty form test")
-    #
-    # def testFullExample(self):
-    #     input = """
-    #     form taxOfficeExample
-    #     {
-    #       "Did you sell a house in 2010?"
-    #         hasSoldHouse: boolean
-    #       "Did you buy a house in 2010?"
-    #         hasBoughtHouse: boolean
-    #       "Did you enter a loan?"
-    #         hasMaintLoan: boolean
-    #     }
-    #     """
-    #     lexer_str = getLexerFromString(input)
-    #     output = str('(form form taxOfficeExample (block { (statement (question '
-    #                  '"Did you sell a house in 2010?" hasSoldHouse : (types boolean)))'
-    #                  ' (statement (question "Did you buy a house in 2010?" hasBoughtHouse : (types boolean)))'
-    #                  ' (statement (question "Did you enter a loan?" hasMaintLoan : (types boolean))) }) <EOF>)')
-    #     #self.assertEqual(lexer_str, output)
+    def testGoodFiles(self):
+        path = 'Testing/lexer_test_files/correct_test'
+        for filename in os.listdir(path):
+            file_object = open(path + "/" + filename, "r")
+            data = file_object.read().split("---\n")
+            input = data[0].strip("\n")
+            output = data[1].strip("\n")
+            lexer_str = getLexerFromString(input)
+            
+            self.assertEqual(lexer_str, output, filename)
+            file_object.close()
+
 
     def testErrorFiles(self):
         path = 'Testing/lexer_test_files/fail_test'
-        for filename in os.listdir('Testing/lexer_test_files/fail_test'):
+        for filename in os.listdir(path):
             file_object = open(path + "/" + filename, "r")
             input = file_object.read()
-            print(filename)
-            self.assertRaises(Exception, getLexerFromString, input)
+
+            self.assertRaises(Exception, getLexerFromString, input, filename)
             file_object.close()
 
 if __name__ == '__main__':

@@ -36,6 +36,17 @@ class ConditionalNode:
             for elseblock in self.elseBlock():
                 types.append(elseBlock.checkTypes())
         return ["Conditional:", types]
+
+    # Link all variables from the assignments/questions to the variable nodes.
+    def linkVars(self, varDict):
+        self.ifConditionBlock.linkVars(varDict)
+        for elifBlock in self.elifConditionBlock:
+            elifBlock.linkVars(varDict)
+        if(self.elseBlock):
+            for elseblock in self.elseBlock():
+                elseBlock.linkVars(varDict)
+
+
         
 
     def __repr__(self):

@@ -27,6 +27,7 @@ public class Main {
                 System.out.println(qs.getLabel());
                 System.out.println(qs.getQuestionVariable().getLabel());
                 System.out.println(qs.getQuestionVariable().getQuestionVariableType());
+
             }
         } catch (IOException e) {
             e.printStackTrace();

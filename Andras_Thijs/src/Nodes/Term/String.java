@@ -1,12 +1,12 @@
 package Nodes.Term;
 
 public class String extends Term {
-    private String value;
+    private java.lang.String value;
 
-    public String(String value) {
+    public String(java.lang.String value) {
         this.value = value;
     }
 
     @Override
-    public String getString() { return value; }
+    public java.lang.String getString() { return value; }
 }

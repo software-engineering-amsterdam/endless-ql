@@ -7,7 +7,10 @@ class TypeCheckTest(unittest.TestCase):
         for filename in os.listdir(path):
             inputText, outputText = getInputOutput(path, filename)
             ast = getAstFromString(inputText)
-            # self.assertEqual(lexer_str, outputText, filename)
+            ast.linkVars()
+            typeCheck_output = ast.checkTypes()
+
+            self.assertEqual(str(typeCheck_output), outputText, filename)
 
     def testErrorFilesTypecheck(self):
         path = 'Testing/test_files/typecheck_test_files/fail_test'
@@ -15,12 +18,15 @@ class TypeCheckTest(unittest.TestCase):
             file_object = open(path + "/" + filename, "r")
             inputText = file_object.read()
             file_object.close()
+            blockPrint()
+            file_object.close()
             ast = getAstFromString(inputText)
             ast.linkVars()
 
             with self.assertRaises(SystemExit) as cm:
                 ast.checkTypes()
             self.assertEqual(cm.exception.code, 1)
+            enablePrint()
 
 
 

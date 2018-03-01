@@ -19,9 +19,9 @@ class AssignmentNode:
         varNodeType = self.varNode.checkTypes()
 
         if(expType == int and varNodeType == float):
-            return ["Assign", float]
+            return ["Assign: " + self.varNode.varname, float]
         elif(expType == varNodeType):
-            return ["Assign", expType]
+            return ["Assign: " + self.varNode.varname, expType]
         else:
             errorstring = "Incomparible types: " + str(varNodeType) + " and " + \
              str(expType) + "; of assignment at line " + str(self.line)
@@ -31,6 +31,8 @@ class AssignmentNode:
     # We also add the assignment node, so we can set the varNode of this assignment later, to be equal
     # to a varNode which could be used elsewhere
     def linkVars(self, varDict):
+        # call for children
+        self.expression.linkVars(varDict)
         # Adding new entry
         varname = self.varNode.getVarname()
         line = self.varNode.getLine()
@@ -43,9 +45,6 @@ class AssignmentNode:
                             "assign": self
                         }
             varDict[varname] = new_entry
-
-        # call for children
-        self.expression.linkVars(varDict)
 
 
     def __repr__(self):

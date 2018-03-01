@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using QL_Parser.AST.Nodes;
 using QL_Parser.AST.Nodes.ExpressionNodes;
+using QL_Parser.Exceptions;
 using QLanguage;
 
 namespace QL_Parser.Visitors.ExpressionVisitors
@@ -21,13 +22,11 @@ namespace QL_Parser.Visitors.ExpressionVisitors
 
             var comparisonExpressionContext = context.comparisonExpression();
             if (comparisonExpressionContext != null)
-                return null;
-
+                return new ComparisonExpressionVisitor().VisitComparisonExpression(comparisonExpressionContext);
 
             var left = VisitLogicalExpression(context.LEFT);
             var opr = LogicalExpressionNode.ParseLogicalOperator(context.OPR.Text);
             var right = VisitLogicalExpression(context.RIGHT);
-
 
             return new LogicalExpressionNode(left, opr, right); ;
         }
@@ -35,9 +34,16 @@ namespace QL_Parser.Visitors.ExpressionVisitors
         public override IExpressionNode VisitLogicalEntity([NotNull] QLanguageParser.LogicalEntityContext context)
         {
             if (context.ID() != null)
-                return new ValueNode(context.ID().GetText());
+                return new IdentifierNode(context.ID().GetText());
 
-            return new ValueNode("blah");
+            if (context.TRUE() != null)
+                return new LiteralNode(context.TRUE().GetText(), QValueType.BOOLEAN);
+
+            if (context.FALSE() != null)
+                return new LiteralNode(context.FALSE().GetText(), QValueType.BOOLEAN);
+
+            // Throw an exception if we reach this line, because it should not be possible.
+            throw new UnknownLogicalEntity("We don't know what to do with this entity");
         }
     }
 }

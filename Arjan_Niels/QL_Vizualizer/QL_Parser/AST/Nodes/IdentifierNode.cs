@@ -2,11 +2,11 @@
 
 namespace QL_Parser.AST.Nodes
 {
-    public class ValueNode : Node, IExpressionNode
+    public class IdentifierNode : Node, IExpressionNode
     {
         public string ID { get; private set; }
 
-        public ValueNode(string id) : base(NodeType.VALUE)
+        public IdentifierNode(string id) : base(NodeType.IDENTIFIER)
         {
             this.ID = id;
         }

@@ -8,6 +8,9 @@
 	"What was the selling price?"
 		sellingPrice: money
 
+	"For what price have you bought the house?"
+		buyingPrice: money
+
 
 	// A comment which will be ignored.
 	if (soldHouseIn2010) {
@@ -15,9 +18,13 @@
 			seenHouseOfCards: boolean
 	}
 
-	if soldHouseIn2010 && boughtAHouseIn2010 {
+	if soldHouseIn2010 && true || false {
+	}
+
+
+	//if soldHouseIn2010 && (sellingPrice < buyingPrice) {
 		"Ik wil kaas!" 
 			wantsCheese: boolean
 
-	}
+	//}
 }

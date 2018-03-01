@@ -18,7 +18,7 @@ logicalExpression	: LEFT=logicalExpression OPR=(AND | OR) RIGHT=logicalExpressio
 					| logicalEntity;
 logicalEntity		: (ID | TRUE | FALSE);
 
-comparisonExpression: LEFT=comparisonOperand comparisonOperator RIGHT=comparisonOperand
+comparisonExpression: LEFT=comparisonOperand OPR=comparisonOperator RIGHT=comparisonOperand
 					| LPAREN comparisonExpression RPAREN;
 
 comparisonOperand	: artithmeticExpression;

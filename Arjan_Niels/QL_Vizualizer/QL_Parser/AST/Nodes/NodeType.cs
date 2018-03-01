@@ -6,10 +6,12 @@
         QUESTION,
         CONDITIONAL,
         COMPUTED,
-        VALUE,
+        IDENTIFIER,
+        LITERAL,
 
         // Expression
-        LOGICAL_EXPRESSION
+        LOGICAL_EXPRESSION,
+        COMPARISON_EXPRESSION
 
     }
 

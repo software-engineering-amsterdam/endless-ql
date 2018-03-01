@@ -38,7 +38,7 @@ namespace QL_Vizualizer.Factories
                 case NodeType.LOGICAL_EXPRESSION:
                     break;
 
-                case NodeType.VALUE:
+                case NodeType.IDENTIFIER:
                     break;
             }
 

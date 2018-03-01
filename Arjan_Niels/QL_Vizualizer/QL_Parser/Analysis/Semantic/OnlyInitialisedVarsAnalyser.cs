@@ -22,7 +22,7 @@ namespace QL_Parser.Analysis.Semantic
             return result;
         }
 
-        private bool IsIdentiierInSymbolTable(ValueNode node)
+        private bool IsIdentiierInSymbolTable(IdentifierNode node)
         {
             var valueType = SymbolTable.Get(node.ID);
             if (valueType != QValueType.UNKNOWN)
@@ -45,9 +45,15 @@ namespace QL_Parser.Analysis.Semantic
                 var rightResult = AnalyseExpression(statementNode.Right);
                 return leftResult == rightResult;
             }
+            else if (node.GetNodeType() == NodeType.LITERAL)
+            {
+                // Literals are valid in an expression.
+                return true;
+            }
+
             else
             {
-                var valueNode = (ValueNode)node;
+                var valueNode = (IdentifierNode)node;
                 return IsIdentiierInSymbolTable(valueNode);
             }
         }

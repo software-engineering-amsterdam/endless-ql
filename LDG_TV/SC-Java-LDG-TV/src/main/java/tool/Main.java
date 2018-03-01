@@ -23,9 +23,6 @@ public class Main {
             QLLoader loader = new QLLoader();
             ParseTreeWalker.DEFAULT.walk(loader, tree);
             System.out.println(loader.getFormNode().getFormData().getPlainQuestions().size());
-            for(Question q: loader.getFormNode().getFormData().getConditionQuestions().get("hasSoldHouse")){
-                System.out.println(q.getVariableValue());
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }

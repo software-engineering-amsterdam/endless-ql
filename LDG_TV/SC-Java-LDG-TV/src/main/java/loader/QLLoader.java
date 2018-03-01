@@ -7,11 +7,14 @@ import domain.model.Expression;
 import domain.model.Question;
 import domain.model.PlainValue;
 import domain.model.QuestionVariableValue;
+import exception.ReferenceUndefinedVariableException;
 
 
 public class QLLoader extends FormBaseListener {
     private FormNode formNode;
     private String ifStatementBlockVariableHolder;
+    private QLChecker qlChecker;
+
     public QLLoader(){
         this.formNode = new FormNode();
     }
@@ -21,10 +24,14 @@ public class QLLoader extends FormBaseListener {
     }
     @Override
     public void enterFormData(FormParser.FormDataContext ctx) {
-        for (FormParser.QuestionStructureContext qsc : ctx.questionStructure()){
-
-        }
     }
+    @Override
+    public void exitFormData(FormParser.FormDataContext ctx){
+        this.qlChecker = new QLChecker(formNode);
+        this.qlChecker.doChecks();
+
+    }
+
     @Override
     public void enterIfStructure(FormParser.IfStructureContext ctx) {
         this.formNode.getFormData().addQuestionVariableToConditionQuestions(ctx.statementBlockStructure().questionVariable().getText());
@@ -64,4 +71,6 @@ public class QLLoader extends FormBaseListener {
     public FormNode getFormNode() {
         return formNode;
     }
+
+
 }

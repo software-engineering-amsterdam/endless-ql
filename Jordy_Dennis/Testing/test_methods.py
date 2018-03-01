@@ -1,3 +1,15 @@
+import unittest
+import os
+import sys
+
+Path = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, Path + '/../')
+
+from parser import *
+from antlr4.InputStream import InputStream
+from LexParser.QLGrammarLexer import QLGrammarLexer
+from LexParser.QLGrammarParser import QLGrammarParser
+
 
 
 def getInputOutput(path, filename):

@@ -1,12 +1,13 @@
 package model.stylesheet.widgets;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WidgetRadio extends Widget {
 
-    private final ArrayList<String> options;
+    private final List<String> options;
 
-    public WidgetRadio(ArrayList<String> options){
+    public WidgetRadio(List<String> options){
         this.options = options;
     }
 }

@@ -5,7 +5,7 @@ All of the types are comparable with boolean operators:
 If the variable is 0 or unset, the variable will be converted to a boolean False, True otherwise (just like python does it)
 
 Only numerical values will be accepted for comparison operations such as >, <, <=, etc, Mathematical operations are can also only
-be performed on numbers (so no + for strings), the exception to this rule is the != and ==, which can be applied to any child as long 
+be performed on numbers (so no + for strings), the exception to this rule is the != and ==, which can be applied to any child as long
 as they have the same type
 
 An error will be thrown if the types are incomparible
@@ -50,7 +50,7 @@ class BinaryNode:
                 throwError(errorstring)
 
 
-        # Boolean operators can always be compared 
+        # Boolean operators can always be compared
         # (unset or set is converted to True and False) so we do not need a function to check the types serperately
         elif(self.op in self.boolOps):
             return bool
@@ -62,7 +62,6 @@ class BinaryNode:
         else:
             errorstring = "Unknown operator at line " + str(self.line)
             throwError(errorstring)
-
 
     # check if both types are numerical (int or float), return true, and if they are not of the same type,
     # return float (small conversion)
@@ -91,6 +90,11 @@ class BinaryNode:
             errorstring = "Incomparible types: " + str(leftType) + " and " + str(rightType) + "; at line " + str(self.line)
             throwError(errorstring)
 
+    # Call linkVars for children
+    def linkVars(self, varDict):
+        self.left.linkVars(varDict)
+        self.right.linkVars(varDict)
+
     def __repr__(self):
         return "Binop: {} {} {}".format(self.left, self.op, self.right)
 
@@ -108,6 +112,10 @@ class UnaryNode:
         # If this is all correct, return a bool
         return bool
 
+    # Call linkVars for children
+    def linkVars(self, varDict):
+        self.left.linkVars(varDict)
+
     def __repr__(self):
         return "Monop: {} {}".format(self.op, self.left)
 
@@ -123,21 +131,49 @@ class LiteralNode:
     def checkTypes(self):
         return self.type
 
+
+    # We do not have to modify the dict here, so we can pass this method
+    def linkVars(self, varDict):
+        pass
+
     def __repr__(self):
         return "literal: {}({}) ".format(self.value, self.type)
 
 
-""" Class for a variable created during an assignment operation, all values have a default value """
+""" Class for a variable created during an assignment or question operation, all values have a default value """
 class VarNode:
-    def __init__(self, varname, _type, line):
+    def __init__(self, varname, _type, line, assign=False):
         self.varname = varname
         self.line = line
         self.type = _type
-        self.value = self.getDefaultValue()
+        self.value = None
+        if assign:
+            self.value = self.getDefaultValue()
 
     # return the type for type checking the expression
     def checkTypes(self):
         return self.type
+
+    def getVarname(self):
+        return self.varname
+
+    def getLine(self):
+        return self.line
+
+    # Check if the variable actually exists, if so, set our own type, and now this node will be the node used in the dictionary
+    def linkVars(self, varDict):
+        if(self.varname in varDict):
+            self.type = varDict[self.varname]['type']
+            self.value = self.getDefaultValue()
+
+            # we finally link the node of the assignment (or question) to this varNode, in order to get the correct value
+            # into the node at the moment of an assignment. It does not matter if a variable is used more than once
+            # since we only use the value of the varNode in the assignment node after this. 
+            varDict[self.varname]['assign'].varNode = self
+            varDict[self.varname]['node'] = self
+        else:
+            errorstring = "Undeclared variable '" + self.varname + "' at line " + str(self.line)
+            throwError(errorstring)
 
     def getDefaultValue(self):
         default_values = {
@@ -153,6 +189,6 @@ class VarNode:
             throwError(errorstring)
 
     def __repr__(self):
-        return "literal: {}({}) ".format(self.value, self.type)
+        return "VarNode: {} {}".format(self.varname, self.type)
 
 

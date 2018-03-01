@@ -75,9 +75,9 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 	@Override
 	public BaseElement visit(ComputedQuestionStmt questionStmt) {
 		// TODO - replace comment - here we can interpret the expression;
-		Object value = questionStmt.expression.accept(interpreterVisitor);
+		Object value = questionStmt.visitExpr(interpreterVisitor);
 		
-		return new ComputedQuestionElement(questionStmt.identifier.getName(), questionStmt.label, questionStmt.type.getName(), questionStmt.expression);
+		return new ComputedQuestionElement(questionStmt.identifier.getName(), questionStmt.label, questionStmt.type.getName(), questionStmt.getExp());
 	}
 
 	@Override

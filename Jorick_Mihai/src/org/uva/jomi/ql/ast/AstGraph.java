@@ -112,8 +112,8 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 				   stmt.type.getName());
 
 		// Visit the expression statement
-		header += stmt.expression.accept(this);
-		header += String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId());
+		header += stmt.visitExpr(this);
+		header += String.format("  %s -> %s\n", stmt.getId(), stmt.getExpId());
 
 		// Visit the identifier expression
 		header += stmt.identifier.accept(this);

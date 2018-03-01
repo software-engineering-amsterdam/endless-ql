@@ -24,7 +24,7 @@ object QlFormParser {
     val sourcedLines = source.mkString
     source.close
 
-    val visitor = new SimplifierVisitor()
+    val visitor = new ASTVisitor()
     val parser = getParser(sourcedLines)
     val tree = parser.root()
 

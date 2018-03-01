@@ -5,7 +5,7 @@ import ql.models.ast._
 
 import scala.collection.JavaConversions._
 
-class SimplifierVisitor extends QlParserBaseVisitor[ASTNode] {
+class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
 
   override def visitRoot(ctx: QlParser.RootContext): ASTRoot = {
     val body = visitFormBody(ctx.formBody)

@@ -107,6 +107,15 @@ class Gui():
         self.yesNoButtons[name] = [radioButton1, radioButton2]
         self.yesNoButtonsValues[name] = var
 
+    def removeYesNoButtons(self, name):
+        if name in self.yesNoButtons:
+            self.yesNoButtons[name][0].destroy()
+            self.yesNoButtons[name][1].destroy()
+            del self.yesNoButtons[name]
+
+        if name in self.yesNoButtonsValues:
+            del self.yesNoButtonsValues[name]
+
     def showWindow(self):
         self.window.mainloop()
 

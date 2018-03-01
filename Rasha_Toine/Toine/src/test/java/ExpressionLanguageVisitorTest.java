@@ -34,7 +34,6 @@ public class ExpressionLanguageVisitorTest {
 			}
 		});
 		
-		
 		ParseTree parseTree = expressionLanguageParser.form();
 
 		System.out.println(parseTree.toStringTree(expressionLanguageParser));
@@ -43,19 +42,22 @@ public class ExpressionLanguageVisitorTest {
 		
 		myVisit.visit(parseTree);
 		
+		// simulate answer given
 		for (Map.Entry<String,Question> entry : myVisit.questions.entrySet())
 		{
 		    System.out.println(entry.getKey() + ": " + entry.getValue());
 		}
+		
 		System.out.println("------------------------");
-		// simulate answer given
 		
-		myVisit.questions.get("valueResidue2").setValue("12");
+		// simulate answers given
+		myVisit.questions.get("sellingPrice").setValue("100");
+		myVisit.questions.get("privateDebt").setValue("25");
 		
-		for (Map.Entry<String,Question> entry : myVisit.questions.entrySet())
-		{
-			System.out.println(entry.getKey() + ": " + entry.getValue());
-		}
+		myVisit.visit(parseTree);
+		
+		// show situtation
+		System.out.println(myVisit.questions.get("valueResidue").getValue());
 		
 		
 	}

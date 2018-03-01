@@ -21,8 +21,7 @@ class QLVisitorHelper(QLVisitor):
             elif (node != None):
                 form.statements.append(node)
 
-        print(form)
-        return
+        return form
 
 
     # Visit a parse tree produced by QLParser#assignment.

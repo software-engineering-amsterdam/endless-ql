@@ -8,7 +8,7 @@ form            = ws "form" ws name:identifier ws "{" ws
 
 statement       = exprQuestion / q / ifStatement
 
-ifStatement     = ws comment * ws "if" ws "(" ws condition:identifier ws ")" ws "{" ws
+ifStatement     = ws comment* ws "if" ws "(" ws condition:identifier ws ")" ws "{" ws
                   statements:statement* ws
                   ws comment* ws
                   "}" ws
@@ -16,13 +16,13 @@ ifStatement     = ws comment * ws "if" ws "(" ws condition:identifier ws ")" ws 
                     return new If(condition, statements, location());
                   }
 
-q "question"    = ws comment * ws name:identifier ":" ws "\"" ws
+q "question"    = ws comment* ws name:identifier ":" ws "\"" ws
                   label:text "\"" ws
                   type: type ws {
                     return new Question(name, label, type, location());
                   }
 
-exprQuestion    = ws comment * ws name:identifier ":" ws "\"" ws
+exprQuestion    = ws comment* ws name:identifier ":" ws "\"" ws
                   label:text "\"" ws
                   type: type ws
                   "=" ws expr:orExpression ws {

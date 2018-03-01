@@ -36,7 +36,7 @@ public class ExpressionEvaluationTest {
     @Property
     public void ExpressionEvaluationSum(int left, int right) {
         ExpressionVariableNumber result = evaluateExpression(left + " + " + right);
-        assertEquals(left + right, result.getIntValue());
+        assertEquals(Integer.valueOf(left + right), result.getIntValue());
     }
 
     @Property
@@ -56,7 +56,7 @@ public class ExpressionEvaluationTest {
     @Property
     public void ExpressionEvaluationSub(int left, int right) {
         ExpressionVariableNumber result = evaluateExpression(left + " - " + right);
-        assertEquals(left - right, result.getIntValue());
+        assertEquals(Integer.valueOf(left - right), result.getIntValue());
     }
 
     @Property
@@ -76,7 +76,7 @@ public class ExpressionEvaluationTest {
     @Property
     public void ExpressionEvaluationMul(int left, int right) {
         ExpressionVariableNumber result = evaluateExpression(left + " * " + right);
-        assertEquals(left * right, result.getIntValue());
+        assertEquals(Integer.valueOf(left * right), result.getIntValue());
     }
 
     @Property
@@ -97,7 +97,7 @@ public class ExpressionEvaluationTest {
     public void ExpressionEvaluationDiv(int left, int right) {
         assumeThat(right, not(equalTo(0)));
         ExpressionVariableNumber result = evaluateExpression(left + " / " + right);
-        assertEquals(left / right, result.getIntValue());
+        assertEquals(Integer.valueOf(left / right), result.getIntValue());
     }
 
     @Property
@@ -117,7 +117,7 @@ public class ExpressionEvaluationTest {
     @Property
     public void ExpressionEvaluationNeg(int i) {
         ExpressionVariableNumber result = evaluateExpression("-" + i);
-        assertEquals(-i, result.getIntValue());
+        assertEquals(Integer.valueOf(-1 * i), result.getIntValue());
     }
 
 }

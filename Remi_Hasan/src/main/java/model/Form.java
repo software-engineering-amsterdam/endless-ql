@@ -9,11 +9,11 @@ import java.util.List;
 public class Form {
 
     public final String identifier;
-    public final List<Statement> statements;
+    public final List<Question> questions;
 
-    public Form(String identifier, List<Statement> statements) {
+    public Form(String identifier, List<Question> questions) {
         this.identifier = identifier;
-        this.statements = statements;
+        this.questions = questions;
     }
 
     @Override

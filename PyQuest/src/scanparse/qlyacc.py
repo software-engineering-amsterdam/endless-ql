@@ -27,7 +27,6 @@ from AST.types.type_string import TypeString
 from AST.types.type_date import TypeDate
 from AST.types.type_money import TypeMoney
 from AST.types.type_decimal import TypeDecimal
-from AST.types.type import Type
 
 
 class QLParser:

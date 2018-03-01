@@ -17,7 +17,6 @@ public class ConditionVisitor extends QLBaseVisitor<Condition>{
 
         Expression condition = expressionVisitor.visit(expressionCtx);
         Block block = blockVisitor.visitBlock(blockCtx);
-
         return new Condition(condition, block);
     }
 }

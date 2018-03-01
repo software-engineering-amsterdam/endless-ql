@@ -17,12 +17,13 @@ export class Variable extends Expression {
   }
 
   checkType(allQuestions: Question[]): ExpressionType {
-    console.log('referenced question', this.referencedQuestion);
     return this.toExpressionType(this.referencedQuestion.type);
   }
 
   evaluate(form: FormGroup): LiteralType {
+    console.log('trying to evaluate with form', form.controls);
     const referencedQuestion = form.controls[this.identifier];
+    console.log(`evaluating variable ${this.identifier} with referencedQuestion`, referencedQuestion.value.value);
     if (referencedQuestion) {
       return referencedQuestion.value;
     } else {

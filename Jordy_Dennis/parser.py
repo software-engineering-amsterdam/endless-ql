@@ -18,10 +18,22 @@ main_parser(grammarName, pythonVersion, destinationFolder)
 from visitor import Visitor
 from LexParser.QLGrammarLexer import QLGrammarLexer
 from LexParser.QLGrammarParser import QLGrammarParser
+from antlr4.error.ErrorListener import ErrorListener
+from antlr4.InputStream import InputStream
+
+# https://stackoverflow.com/questions/32224980/python-2-7-antlr4-make-antlr-throw-exceptions-on-invalid-input
+class MyErrorListener(ErrorListener):
+
+    def __init__(self):
+        super(MyErrorListener, self).__init__()
+
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
+        raise Exception("SyntaxError: " + msg + " at line: " + str(line))
 
 
-def getAstFromFile(input):
-    lexer = QLGrammarLexer(input)
+def getAstFromString(input):
+    input_stream = InputStream(input)
+    lexer = QLGrammarLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = QLGrammarParser(stream)
     tree = parser.form()
@@ -32,11 +44,13 @@ def getAstFromFile(input):
     ast = visitor.getAst()
     return ast
 
+
 def main(argv):
     input = FileStream(argv[1])
     lexer = QLGrammarLexer(input)
     stream = CommonTokenStream(lexer)
     parser = QLGrammarParser(stream)
+    parser._listeners = [MyErrorListener()]
     tree = parser.form()
 
     # g = Gui()

@@ -9,8 +9,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "genParser": "./node_modules/.bin/pegjs --plugin ./node_modules/ts-pegjs/src/tspegjs --extra-options-file ./src/parser/pegconfig.json -o ./src/parser/ql-parser.ts --cache ./src/parser/ql.pegjs",
-    "check": "npm run genParser && ng lint && ng test --single-run && ng e2e && ng build --prod"
+    "genParserQl": "./node_modules/.bin/pegjs --plugin ./node_modules/ts-pegjs/src/tspegjs --extra-options-file ./src/parser/pegconfig-ql.json -o ./src/parser/ql-parser.ts --cache ./src/parser/ql.pegjs",
+    "genParserQls": "./node_modules/.bin/pegjs --plugin ./node_modules/ts-pegjs/src/tspegjs --extra-options-file ./src/parser/pegconfig-qls.json -o ./src/parser/qls-parser.ts --cache ./src/parser/qls.pegjs",
+    "check": "npm run genParserQl && npm run genParserQls && ng lint && ng test --single-run && ng e2e && ng build --prod"
   },
   "private": true,
   "dependencies": {

@@ -20,6 +20,13 @@ public class QLMain {
 
          int a = 5.0 / 3.0 << Has to be casted.
 
+        >> NOT Correct? We had one scope?
+            Scope for statements. Inner scope can have a question, do not use outside.
+            Create a list of scopes. Every new scope, push a new scoop. Link vars to current scope, or the parent scopes.
+            When no ref in any scope, error.
+            Now you can also have if {} else {} with in if and else same questions.
+        <<
+
      */
 
     /**

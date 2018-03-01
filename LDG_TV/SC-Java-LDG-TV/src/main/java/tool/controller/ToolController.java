@@ -1,32 +1,30 @@
-package tool;
+package tool.controller;
 
 import antlr.FormLexer;
 import antlr.FormParser;
 import domain.FormData;
 import domain.FormNode;
 import domain.Utilities;
-import domain.model.Question;
+import domain.model.question.QuestionStructure;
+import domain.model.question.QuestionVariable;
+import domain.model.question.QuestionVariableType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QLLoader;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.atn.ATNConfigSet;
-import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.*;
 import java.net.URL;
-import java.util.BitSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ToolController implements Initializable {
 
@@ -56,6 +54,8 @@ public class ToolController implements Initializable {
             return;
         }
 
+        lvQuestionnaire.getItems().clear();
+
         CharStream stream = CharStreams.fromString(qlSource);
         FormLexer lexer = new FormLexer(stream);
 
@@ -67,12 +67,30 @@ public class ToolController implements Initializable {
 
         FormNode node = loader.getFormNode();
         FormData data = node.getFormData();
-        List<QuestionRow> questions = data.getPlainQuestions()
-                                                .stream()
-                                                .map(q -> new QuestionRow(q.getLabel(), new TextField()))
-                                                .collect(Collectors.toList());
 
-        lvQuestionnaire.getItems().setAll(questions);
+
+        List<QuestionStructure> qs = data.getPlainQuestionStructures();
+
+        for (QuestionStructure q : qs) {
+            QuestionVariable qv =  q.getQuestionVariable();
+            QuestionVariableType qType = qv.getQuestionVariableType();
+            String qText = q.getLabel();
+
+            Node answerNode;
+            switch (qType) {
+                default:
+                case MONEY:
+                case STRING:
+                    answerNode = new TextField();
+                    break;
+                case BOOLEAN:
+                    answerNode = new CheckBox();
+                    break;
+            }
+
+
+            lvQuestionnaire.getItems().add(new QuestionRow(qText, answerNode));
+        }
     }
 
     /**

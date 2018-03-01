@@ -30,15 +30,6 @@ class MyErrorListener(ErrorListener):
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
         raise Exception("SyntaxError: " + msg + " at line: " + str(line))
 
-    def reportAmbiguity(self, recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs):
-        raise Exception("SyntaxError: " + msg + " at line: " + str(line))
-
-    def reportAttemptingFullContext(self, recognizer, dfa, startIndex, stopIndex, conflictingAlts, configs):
-        raise Exception("SyntaxError: " + msg + " at line: " + str(line))
-
-    def reportContextSensitivity(self, recognizer, dfa, startIndex, stopIndex, prediction, configs):
-        raise Exception("SyntaxError: " + msg + " at line: " + str(line))
-
 
 def getAstFromString(input):
     input_stream = InputStream(input)

@@ -35,7 +35,6 @@ class QLAst:
         for form in self.forms:
             form.linkVars(varDict)
         self.varDict = varDict
-        print(varDict)
         return self.varDict
 
     def __repr__(self):

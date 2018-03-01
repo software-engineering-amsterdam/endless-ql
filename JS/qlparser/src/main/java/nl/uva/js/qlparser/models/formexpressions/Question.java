@@ -1,7 +1,5 @@
 package nl.uva.js.qlparser.models.formexpressions;
 
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.TextField;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -22,22 +20,17 @@ public class Question implements FormExpression {
     private DataExpression value;
 
     @Override
-    public List<AbstractField> getComponents() {
+    public List<String> getComponents() {
         return Collections.singletonList(getQuestionnaireComponent());
     }
 
-    private AbstractField getQuestionnaireComponent() {
-        AbstractField component = dataType.getComponent().get();
+    private String getQuestionnaireComponent() {
+        String component = dataType.getComponent().get();
 
-        if (component instanceof TextField)
-            NonNullRun.consumer(value, v -> component.setValue(v.value().toString()));
+// TODO
+//        if (component instanceof TextField)
+//            NonNullRun.consumer(value, v -> component.setValue(v.value().toString()));
 
-        return addQuestionTo(component);
-    }
-
-    private AbstractField addQuestionTo(AbstractField component) {
-        component.setId(name);
-        component.setCaption(question);
         return component;
     }
 

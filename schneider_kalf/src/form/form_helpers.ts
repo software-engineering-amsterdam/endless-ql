@@ -1,5 +1,6 @@
 import TreeNode from "./nodes/TreeNode";
 import NodeTraveller from "./nodes/visitors/NodeTraveller";
+import VariableIdentifier from "./nodes/expressions/VariableIdentifier";
 
 export const filterNodes = (predicate: (node: TreeNode) => boolean, start: TreeNode): any[] => {
   let nodes: TreeNode[] = [];
@@ -22,4 +23,16 @@ export const findNode = (predicate: (node: TreeNode) => boolean, start: TreeNode
   }
 
   return found[0];
+};
+
+export const getUsedVariables = (start: TreeNode) => {
+  const variables: string[] = [];
+  const traveller = new NodeTraveller((node: TreeNode) => {
+    if (node instanceof VariableIdentifier) {
+      variables.push(node.identifier);
+    }
+  });
+
+  start.accept(traveller);
+  return variables;
 };

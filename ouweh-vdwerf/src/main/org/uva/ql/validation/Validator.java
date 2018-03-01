@@ -35,15 +35,8 @@ public class Validator implements StatementVisitor<Void, String> {
         findDuplicates();
 
         ParameterChecker parameterChecker = new ParameterChecker(form, symbolTable);
-
-        // TODO do type checking.
-        //requires form and type symbolTable
-        TypeChecker typeChecker = new TypeChecker();
-
-
-        // TODO dependencies
-
-        // TODO expressions
+        DependencyChecker dependencyChecker = new DependencyChecker();//form, symbolTable
+        TypeChecker typeChecker = new TypeChecker();//form, symbolTable
 
         System.out.println("Total number of questions: " + symbolTable.size());
     }

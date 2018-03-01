@@ -8,6 +8,10 @@ public class QLMain {
          Rename lhs rhs
          String equal and date equal. (Lesser than and greater than for date, etc)
          Show errors in GUI
+
+         cyclic dependencies between questions
+         duplicate labels (warning)
+         duplicate question declarations with different types
      */
 
     /**

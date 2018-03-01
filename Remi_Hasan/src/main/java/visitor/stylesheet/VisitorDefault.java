@@ -7,6 +7,7 @@ import model.stylesheet.Default;
 import model.stylesheet.widgets.Widget;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class VisitorDefault extends QLSBaseVisitor<Default> {
     @Override
@@ -17,7 +18,7 @@ public class VisitorDefault extends QLSBaseVisitor<Default> {
         // TODO
         ReturnType returnType = ReturnType.valueOf(ctx.type().getText().toUpperCase());
 
-        ArrayList<Widget> widgets = new ArrayList<>();
+        List<Widget> widgets = new ArrayList<>();
         for(QLSParser.WidgetContext widgetContext : ctx.widget()){
             Widget widget = visitorWidget.visit(widgetContext);
             widgets.add(widget);

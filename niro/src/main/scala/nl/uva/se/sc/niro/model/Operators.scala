@@ -3,16 +3,16 @@ package nl.uva.se.sc.niro.model
 sealed abstract class BinaryOperator
 object BinaryOperator {
   def apply(operator: String): BinaryOperator = operator match {
-    case "<" => Lt
-    case "<=" => LTe
+    case "<"  => Lt
+    case "<=" => Lte
     case "==" => Eq
     case "!=" => Ne
-    case ">=" => GTe
-    case ">" => Gt
-    case "-" => Sub
-    case "+" => Add
-    case "/" => Div
-    case "*" => Mul
+    case ">=" => Gte
+    case ">"  => Gt
+    case "-"  => Sub
+    case "+"  => Add
+    case "/"  => Div
+    case "*"  => Mul
     case "||" => Or
     case "&&" => And
   }
@@ -32,8 +32,8 @@ case object Mul extends BinaryOperator
 case object Div extends BinaryOperator
 
 case object Lt extends BinaryOperator
-case object LTe extends BinaryOperator
-case object GTe extends BinaryOperator
+case object Lte extends BinaryOperator
+case object Gte extends BinaryOperator
 case object Gt extends BinaryOperator
 case object Ne extends BinaryOperator
 case object Eq extends BinaryOperator

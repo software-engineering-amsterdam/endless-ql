@@ -27,8 +27,5 @@ class QuestionNode(BaseNode):
         return self._expression
 
     def pyqt5_render(self, layout):
-        layout.addRow(QLabel(self.question), QLineEdit())
-
-        if self._value_type == str:
-            layout.addRow(QLabel(self.question), QLineEdit())
+        layout.addRow(QLabel(self.question), self.value_type.pyqt5_default_widget())
 

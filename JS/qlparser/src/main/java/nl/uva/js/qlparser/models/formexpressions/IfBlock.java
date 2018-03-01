@@ -1,6 +1,5 @@
 package nl.uva.js.qlparser.models.formexpressions;
 
-import com.vaadin.ui.AbstractField;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -18,22 +17,14 @@ public class IfBlock implements FormExpression {
     private LinkedList<FormExpression> expressions;
 
     @Override
-    public List<AbstractField> getComponents() {
-        LinkedList<AbstractField> components = new LinkedList<>();
+    public List<String> getComponents() {
+        LinkedList<String> components = new LinkedList<>();
 
         expressions.stream()
                 .map(FormExpression::getComponents)
                 .forEach(components::addAll);
 
-        for (AbstractField component : components) {
-            component.setVisible(evaluateCondition());
-        }
-
         return components;
-    }
-
-    private boolean evaluateCondition() {
-        return false; // TODO 
     }
 
     @Override

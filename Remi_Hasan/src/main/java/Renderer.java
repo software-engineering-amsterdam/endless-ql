@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Renderer {
 
@@ -155,7 +156,7 @@ public class Renderer {
         return textField;
     }
 
-    private void addStatements(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, ArrayList<Statement> statements) {
+    private void addStatements(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, List<Statement> statements) {
         for (Statement statement : statements) {
             if (statement.isQuestion()) {
                 addQuestion(fieldMap, fieldGroup, (Question) statement);
@@ -182,7 +183,7 @@ public class Renderer {
         return submitButton;
     }
 
-    private void updateFields(HashMap<Question, Field> fieldMap, ArrayList<Statement> statements, boolean isTrue) {
+    private void updateFields(HashMap<Question, Field> fieldMap, List<Statement> statements, boolean isTrue) {
         for (Statement statement : statements) {
             if (statement.isQuestion()) {
                 updateField(fieldMap, statement, isTrue);

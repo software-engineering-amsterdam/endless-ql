@@ -1,6 +1,7 @@
 package org.uva.sea.ql.value;
 
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.parser.NodeType;
 
 public class ErrorValue extends Value {
     private String error;
@@ -35,5 +36,10 @@ public class ErrorValue extends Value {
     @Override
     public Value positive() {
         return this;
+    }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.UNKNOWN;
     }
 }

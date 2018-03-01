@@ -1,6 +1,7 @@
 package org.uva.sea.ql.value;
 
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.parser.NodeType;
 
 import java.math.BigDecimal;
 
@@ -9,7 +10,14 @@ public class MoneyValue extends Value {
     private String currency;
     private BigDecimal amount;
 
-    //TODO Add string constructor
+    public MoneyValue(String value) throws Exception {
+        String[] split = value.split(" ",2);
+        if(split.length != 2)
+            throw new Exception("Incorrect money type " + value);
+
+        this.currency = split[0];
+        this.amount = new BigDecimal(split[1]);
+    }
 
     public MoneyValue(String currency, BigDecimal amount) {
         this.currency = currency;
@@ -303,5 +311,10 @@ public class MoneyValue extends Value {
     @Override
     public <T> T accept(QLValueEvaluator<T> visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.MONEY;
     }
 }

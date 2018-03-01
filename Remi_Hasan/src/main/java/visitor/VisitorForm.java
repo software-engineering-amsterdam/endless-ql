@@ -6,6 +6,7 @@ import model.Form;
 import model.Statement;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class VisitorForm extends QLBaseVisitor<Form> {
 
@@ -13,7 +14,7 @@ public class VisitorForm extends QLBaseVisitor<Form> {
     public Form visitRoot(QLParser.RootContext ctx) {
         VisitorStatement visitorStatement = new VisitorStatement();
 
-        ArrayList<Statement> statements = new ArrayList<>();
+        List<Statement> statements = new ArrayList<>();
         for (QLParser.StatementContext statementContext : ctx.block().statement()) {
             Statement statement = visitorStatement.visit(statementContext);
             statements.add(statement);

@@ -14,7 +14,7 @@ public class EqualExpressionTest {
     private EqualExpression expressionTest;
 
     @Property
-    public void evaluateINT(int left, int right) {
+    public void evaluate(int left, int right) {
         IntegerConstant leftToTest = new IntegerConstant(left);
         IntegerConstant rightToTest = new IntegerConstant(right);
 
@@ -24,7 +24,7 @@ public class EqualExpressionTest {
     }
 
     @Property
-    public void evaluateBOOL(boolean left, boolean right) {
+    public void evaluate(boolean left, boolean right) {
 
         BooleanConstant leftToTest = new BooleanConstant(left);
         BooleanConstant rightToTest = new BooleanConstant(right);
@@ -35,7 +35,7 @@ public class EqualExpressionTest {
     }
 
     @Property
-    public void evaluateDOUBLE(double left, double right) {
+    public void evaluate(double left, double right) {
         DecimalConstant leftToTest = new DecimalConstant(left);
         DecimalConstant rightToTest = new DecimalConstant(right);
 
@@ -45,7 +45,7 @@ public class EqualExpressionTest {
 
     }
     @Property
-    public void evaluateDATE(@InRange(min = "01", max = "31") int day1, @InRange(min = "01", max = "12")int month1, @InRange(min = "1000", max = "3000")int year1, @InRange(min = "01", max = "31")int day2,  @InRange(min = "01", max = "31") int month2, @InRange(min = "1000", max = "3000")int year2 ) {
+    public void evaluate(@InRange(min = "01", max = "31") int day1, @InRange(min = "01", max = "12")int month1, @InRange(min = "1000", max = "3000")int year1, @InRange(min = "01", max = "31")int day2,  @InRange(min = "01", max = "31") int month2, @InRange(min = "1000", max = "3000")int year2 ) {
         String firstYear = day1  + "-" + month1 + "-" + year1;
         String secondYear = day2 + "-" + month2 + "-" + year2;
 
@@ -57,29 +57,9 @@ public class EqualExpressionTest {
         assertEquals(firstYear.equals(secondYear), expressionTest.evaluate().getValue());
 
     }
-    @Property
-    public void evaluateMoneyINT(int left, int right) {
-        MoneyConstant leftToTest = new MoneyConstant(left);
-        MoneyConstant rightToTest = new MoneyConstant(right);
-
-        expressionTest = new EqualExpression(leftToTest, rightToTest);
-
-        assertEquals((left == right), expressionTest.evaluate().getValue());
-
-    }
-    @Property
-    public void evaluateMoneyDOUBLE(double left, double right) {
-        MoneyConstant leftToTest = new MoneyConstant(left);
-        MoneyConstant rightToTest = new MoneyConstant(right);
-
-        expressionTest = new EqualExpression(leftToTest, rightToTest);
-
-        assertEquals((left == right), expressionTest.evaluate().getValue());
-
-    }
 
     @Property
-    public void evaluateSTRING(String left, String right) {
+    public void evaluate(String left, String right) {
 
         StringConstant leftToTest = new StringConstant(left);
         StringConstant rightToTest = new StringConstant(right);

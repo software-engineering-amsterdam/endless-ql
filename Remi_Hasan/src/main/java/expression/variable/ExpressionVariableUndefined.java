@@ -1,15 +1,16 @@
 package expression.variable;
 
+import analysis.SymbolTable;
 import expression.ReturnType;
 
 public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
 
-    public ExpressionVariableUndefined() {
+    ExpressionVariableUndefined() {
         super(false);
     }
 
     @Override
-    public ExpressionVariable evaluate() {
+    public ExpressionVariable evaluate(SymbolTable symbolTable) {
         return this;
     }
 
@@ -19,7 +20,7 @@ public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
     }
 
     @Override
-    public ReturnType getReturnType() {
+    public ReturnType getReturnType(SymbolTable symbolTable) {
         return ReturnType.UNDEFINED;
     }
 

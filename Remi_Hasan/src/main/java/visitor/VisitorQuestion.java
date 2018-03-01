@@ -2,11 +2,9 @@ package visitor;
 
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
-import expression.*;
-import expression.unary.ExpressionUnaryNeg;
-import expression.variable.ExpressionVariableBoolean;
-import expression.variable.ExpressionVariableUndefined;
-import model.LookupTable;
+import expression.Expression;
+import expression.ExpressionFactory;
+import expression.ReturnType;
 import model.Question;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {
@@ -29,21 +27,20 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
         ReturnType questionType = ReturnType.valueOf(questionTypeContext.type().getText().toUpperCase());
         Expression defaultAnswer = getDefaultAnswer(ctx.questionType());
 
-        Question question = new Question(questionType, questionName, questionText, defaultAnswer, this.condition);
+        // Check whether question can be edited by user, or is based on an expression
+        boolean isEditable = ctx.questionType().expression() == null;
 
-        LookupTable lookupTable = LookupTable.getInstance();
-        lookupTable.insert(question);
-
-        return question;
+        return new Question(questionType, questionName, questionText, defaultAnswer, isEditable, this.condition);
     }
 
     private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType) {
-        if (questionType.expression() != null) {
-            VisitorExpression visitorExpression = new VisitorExpression();
-            return visitorExpression.visit(questionType.expression());
+        if(questionType.expression() == null) {
+            // TODO: preferably change to undefined, but that breaks type checking
+            return ExpressionFactory.createEmptyExpression(questionType.type().getText());
         }
 
-        return new ExpressionVariableUndefined();
+        VisitorExpression visitorExpression = new VisitorExpression();
+        return visitorExpression.visit(questionType.expression());
     }
 
 }

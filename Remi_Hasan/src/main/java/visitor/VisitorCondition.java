@@ -26,11 +26,6 @@ public class VisitorCondition extends QLBaseVisitor<List<Question>> {
 
         // Chain nested conditional statements
         Expression trueExpression = new ExpressionLogicalAnd(this.condition, expression);
-
-        if(expression.getReturnType() != ReturnType.BOOLEAN) {
-            throw new UnsupportedOperationException("Condition expression not of type boolean");
-        }
-
         List<Question> questions = new ArrayList<>();
 
         VisitorStatement visitorStatementTrue = new VisitorStatement(trueExpression);

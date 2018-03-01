@@ -29,43 +29,36 @@ import ql.ast.expression.literal.MoneyLiteral;
 import ql.ast.expression.literal.StrLiteral;
 import ql.ast.expression.literal.UndefinedLiteral;
 import ql.ast.type.Type;
+import ql.exceptions.IllegalOperation;
+import ql.exceptions.QLException;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class ExpressionVisitorInvalidOperands implements ExpressionVisitor<Type> {
 
-    private List<String> errors = new ArrayList<String>();
+    private List<QLException> errors;
     
     public ExpressionVisitorInvalidOperands() {
-        errors = new ArrayList<String>();
+        errors = new ArrayList<QLException>();
     }
     
-    public ExpressionVisitorInvalidOperands(List<String> errors) {
+    public ExpressionVisitorInvalidOperands(List<QLException> errors) {
         this.errors = errors;
     }
 
-    public Type check(UnaryOperator op)
-    {
-        Type operandType    = op.getOperand().getType();
-        Type resultType     = op.getType();
+    public Type check(UnaryOperator op) {
         
-        if(resultType.isUndefined())
-        {
-            errors.add("Illegal operation ["+op.getOperator()+operandType+"] at "+op.getLocation());
-        }
+        Type resultType = op.getType();
+        
+        if(resultType.isUndefined()) errors.add(new IllegalOperation(op));
         
         return resultType;
     }
     
-    public Type check(BinaryOperator op)
-    {
-        Type firstOpType    = op.getFirstOperand().getType();
-        Type secondOpType   = op.getSecondOperand().getType();
+    public Type check(BinaryOperator op) {
+        
         Type resultType     = op.getType();
         
-        if(resultType.isUndefined())
-        {
-            errors.add("Illegal operation ["+firstOpType+" "+op.getOperator()+" "+secondOpType+"] at "+op.getLocation());
-        }
+        if(resultType.isUndefined()) errors.add(new IllegalOperation(op));
         
         return resultType;
     }

@@ -45,7 +45,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
 	public boolean exprHasAllowedType(Expr expr, QLType ... allowedTypes) {
 		
-		// If the expression is does not have an allowed type 
+		// Check whether the expression an allowed type.
 		if (!Arrays.asList(allowedTypes).contains(expr.getType())) {
 			errorHandler.addTypeError(expr, allowedTypes);
 			return false;
@@ -126,7 +126,12 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
 	@Override
 	public Void visit(IfElseStmt stmt) {
-		resolveExpr(QLType.BOOLEAN, stmt.getExpr());
+		stmt.visitExpr(this);
+		
+		if (stmt.getExprType() != null && stmt.getExprType() != QLType.BOOLEAN) {
+			this.errorHandler.addTypeError(stmt);
+		}
+		
 		stmt.visitIfBlockStmt(this);
 		stmt.visitElseBlockStmt(this);
 		return null;
@@ -134,7 +139,12 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
 	@Override
 	public Void visit(UnaryNotExpr expr) {
-		resolveExpr(QLType.BOOLEAN, expr);
+		expr.visitRightExpr(this);
+		
+		if (expr.getRightExprType() != null && expr.getRightExprType() != QLType.BOOLEAN) {
+			this.errorHandler.addTypeError(expr.getRightExpr(), QLType.BOOLEAN);
+		}
+		
 		return null;
 	}
 

@@ -95,13 +95,19 @@ public class QLEvaluatorTest extends TestCase {
      * @return If the script compiles
      */
     private int getDisplayedQuestions(String fileName) throws IOException {
-        SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
-        QLFormGenerator qlFormGenerator = new QLFormGenerator();
-        List<QuestionData> questions = qlFormGenerator.generate(fileName, symbolTable);
-        if(checkForErrors(questions))
-            return 0;
 
-        return questions.size();
+        try {
+            SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
+            QLFormGenerator qlFormGenerator = new QLFormGenerator();
+            List<QuestionData> questions = qlFormGenerator.generate(fileName, symbolTable);
+
+            if(checkForErrors(questions))
+                return 0;
+
+            return questions.size();
+        } catch (Errors errors) {
+            return 0;
+        }
     }
 
     /**

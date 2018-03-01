@@ -13,6 +13,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import org.uva.sea.ql.Errors;
 import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.QLFormGenerator;
 import org.uva.sea.ql.evaluate.SymbolTable;
@@ -123,6 +124,8 @@ public class QuestionController implements Initializable {
             printQuestions();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Errors errors) {
+            System.err.println(errors.getMessage());
         }
     }
 

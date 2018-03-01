@@ -21,7 +21,6 @@ public class QLCheckDuplicateLabels extends BaseVisitor<Void> {
 
     public Void visit(Question node) {
         super.visit(node);
-
-
+        return null;
     }
 }

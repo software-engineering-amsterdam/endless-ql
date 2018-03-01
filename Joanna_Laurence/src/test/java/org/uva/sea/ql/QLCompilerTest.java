@@ -68,7 +68,7 @@ public class QLCompilerTest extends TestCase {
             CharStream steam = CharStreams.fromStream(new FileInputStream(fileName));
             Form result = compiler.compileScriptFile(steam);
             return result != null;
-        } catch (IOException e) {
+        } catch (IOException | Errors e) {
             return false;
         }
     }

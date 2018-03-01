@@ -143,6 +143,12 @@ public class QLTypeCheck extends BaseVisitor<NodeType> {
     }
 
     @Override
+    public NodeType visit(Type node) {
+        return node.getNodeType();
+    }
+
+
+    @Override
     public NodeType visit(Or node) {
         NodeType lhsType = node.getLhs().accept(this);
         NodeType rhsType = node.getRhs().accept(this);
@@ -160,6 +166,11 @@ public class QLTypeCheck extends BaseVisitor<NodeType> {
         NodeType lhsType = node.getLhs().accept(this);
         NodeType rhsType = node.getRhs().accept(this);
         return getNodeTypeAndReportErrors(node, lhsType, rhsType);
+    }
+
+    @Override
+    public NodeType visit(Variable node) {
+        return node.getType().getNodeType();
     }
 
     @Override

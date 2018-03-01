@@ -24,6 +24,8 @@ public class SpecificationKey {
 
     @Override
     public int hashCode() {
-        return operator.hashCode() ^ leftType.hashCode() ^ rightType.hashCode();
+        return operator.hashCode() ^
+                leftType.hashCode() ^
+                rightType.hashCode();
     }
 }

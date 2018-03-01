@@ -1,26 +1,19 @@
-package nl.uva.se.sc.niro
+package nl.uva.se.sc.niro.model
 
 import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, IntAnswer }
 import nl.uva.se.sc.niro.model.Expressions.{ BinaryOperation, Reference }
-import nl.uva.se.sc.niro.model._
 import org.scalatest.WordSpec
 
-class EvaluatorTest extends WordSpec {
+class QLFormTest extends WordSpec {
 
-  "EvaluatorTest" should {
-    // TODO implement test for the evaluator
-    "evaluateConditional" in {}
+  "QLFormTest" should {
 
-    "evaluateQuestion" in {}
-
-    "evaluateStatement" in {}
-
-    "evaluateQLForm" in {
+    "save" in {
       val qLForm = QLForm(
         formName = "Revenue",
         statements = List(
-          Question("revenue", "How much did you earn", IntegerType, IntAnswer(1000)),
-          Question("expenses", "How much did you earn", IntegerType, IntAnswer(800)),
+          Question("revenue", "How much did you earn", IntegerType, IntAnswer()),
+          Question("expenses", "How much did you earn", IntegerType, IntAnswer()),
           Conditional(
             BooleanAnswer(true),
             Seq(
@@ -33,24 +26,13 @@ class EvaluatorTest extends WordSpec {
         )
       )
 
-      val result = Evaluator.evaluateQLForm(qLForm)
+      val result = qLForm.save("revenue", IntAnswer(5))
+
       val expected = QLForm(
         "Revenue",
         List(
-          Question(
-            "revenue",
-            "How much did you earn",
-            IntegerType,
-            IntAnswer(Some(1000)),
-            Some(IntAnswer(Some(1000)))
-          ),
-          Question(
-            "expenses",
-            "How much did you earn",
-            IntegerType,
-            IntAnswer(Some(800)),
-            Some(IntAnswer(Some(800)))
-          ),
+          Question("revenue", "How much did you earn", IntegerType, IntAnswer(Some(5)), None),
+          Question("expenses", "How much did you earn", IntegerType, IntAnswer(None), None),
           Conditional(
             BooleanAnswer(Some(true)),
             List(
@@ -59,7 +41,7 @@ class EvaluatorTest extends WordSpec {
                 "You still have",
                 IntegerType,
                 BinaryOperation(Sub, Reference("revenue"), Reference("expenses")),
-                Some(IntAnswer(Some(200)))
+                None
               )
             )
           )
@@ -68,5 +50,6 @@ class EvaluatorTest extends WordSpec {
 
       assert(result == expected)
     }
+
   }
 }

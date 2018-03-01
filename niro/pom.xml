@@ -28,6 +28,7 @@
 
 		<antlr4.version>4.7.1</antlr4.version>
 		<junit.version>4.12</junit.version>
+        <pprint.version>0.5.3</pprint.version>
 	</properties>
 
 	<dependencies>
@@ -53,6 +54,12 @@
 			<artifactId>antlr4-runtime</artifactId>
 			<version>${antlr4.version}</version>
 		</dependency>
+
+        <dependency>
+            <groupId>com.lihaoyi</groupId>
+            <artifactId>pprint_2.12</artifactId>
+            <version>${pprint.version}</version>
+        </dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -175,6 +182,24 @@
                     <vendor>Andela-Tromp</vendor>
 					<mainClass>nl.uva.se.sc.niro.gui.QLForms</mainClass>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.antipathy</groupId>
+				<artifactId>mvn-scalafmt</artifactId>
+				<version>0.7_1.4.0</version>
+				<configuration>
+					<parameters>--diff</parameters> <!-- Additional command line arguments -->
+					<configLocation>${project.basedir}/scalafmt.conf</configLocation>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>

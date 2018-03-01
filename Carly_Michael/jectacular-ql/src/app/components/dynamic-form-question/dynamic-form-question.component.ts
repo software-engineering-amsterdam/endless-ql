@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {AbstractControl, FormGroup} from '@angular/forms';
 import { QuestionBase } from '../../domain/angular-questions/question-base';
 
 @Component({
@@ -9,6 +9,8 @@ import { QuestionBase } from '../../domain/angular-questions/question-base';
 export class DynamicFormQuestionComponent implements OnInit {
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
+  control: AbstractControl;
+  controlValue: any;
 
   get isInvalid() {
     return this.form.controls[this.question.key].invalid;
@@ -19,8 +21,22 @@ export class DynamicFormQuestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.form.valueChanges.subscribe(() => {
+    this.control = this.form.controls[this.question.key];
+    this.controlValue = this.form.controls[this.question.key].value;
+    this.form.valueChanges.subscribe((form) => {
+      if (this.question.readonly) {
+        const currentValue = this.control.value;
+        const newValue = this.question.calculateValue(this.form);
+        console.log(`calculating value for readonly question, old = ${currentValue}, new = ${newValue}`);
+        if (currentValue !== newValue) {
+          console.log('calculating new value with the new form stuff');
+          //this.control.setValue(newValue);
+        }
+      }
       // this subscribe is necessary to have angular auto-update the hiddenCondition function
     });
+
+    this.control.valueChanges.subscribe((value) => console.log(`new value ${value} for ${this.question.key}`))
   }
+
 }

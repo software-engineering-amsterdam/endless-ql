@@ -1,0 +1,7 @@
+{
+  "tspegjs": {
+    "noTslint": false,
+    "tslintIgnores": "quotemark",
+    "customHeader": "/* tslint:disable */ \r\n import { Form, Question, ExpressionQuestion, QuestionType, If, ExpressionType, Literal, ArithmeticExpression, LogicalExpression, UnaryExpression, Variable } from '../app/domain/ast'"
+  }
+}

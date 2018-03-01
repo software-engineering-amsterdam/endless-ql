@@ -1,9 +1,14 @@
 package org.uva.sea.ql.value;
 
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.parser.NodeType;
 
 public class BooleanValue extends Value {
     boolean booleanValue;
+
+    public BooleanValue(String value) {
+        this.booleanValue = value.equals("true") || value.equals("TRUE");
+    }
 
     public BooleanValue(boolean booleanValue) {
         this.booleanValue = booleanValue;
@@ -14,7 +19,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value and(Value value) {
+    public Value and(Value value) throws Exception {
         return value.and(this);
     }
 
@@ -24,7 +29,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value isEqual(Value value) {
+    public Value isEqual(Value value) throws Exception {
         return value.isEqual(this);
     }
 
@@ -34,7 +39,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value isNotEqual(Value value) {
+    public Value isNotEqual(Value value) throws Exception {
         return value.isNotEqual(this);
     }
 
@@ -44,7 +49,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value or(Value value) {
+    public Value or(Value value) throws Exception {
         return value.or(value);
     }
 
@@ -61,5 +66,10 @@ public class BooleanValue extends Value {
     @Override
     public <T> T accept(QLValueEvaluator<T> visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.BOOLEAN;
     }
 }

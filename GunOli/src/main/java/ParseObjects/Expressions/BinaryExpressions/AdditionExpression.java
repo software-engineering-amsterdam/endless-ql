@@ -5,8 +5,12 @@ import ParseObjects.Expressions.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
+import ParseObjects.Expressions.ExpressionConstants.IntegerConstant;
 
-public class AdditionExpression extends BinaryExpression<Double> {
+import static org.antlr.v4.analysis.LeftRecursiveRuleAnalyzer.ASSOC.left;
+//import com.sun.tools.javac.comp.Todo;
+
+public class AdditionExpression extends BinaryExpression {
     public AdditionExpression(Expression left, Expression right){
         super("+", left, right);
     }
@@ -17,15 +21,21 @@ public class AdditionExpression extends BinaryExpression<Double> {
     }
 
     @Override
-    public Constant<Double> evaluate(){
-        DecimalConstant left  = (DecimalConstant) this.getExprLeft().evaluate();
-        DecimalConstant right = (DecimalConstant) this.getExprRight().evaluate();
-        return new DecimalConstant(left.getValue() + right.getValue());
+    public Constant evaluate(){
+        if(this.getExprRight().returnType().equals(this.getExprRight().returnType())
+                && this.getExprRight().returnType() == EvaluationType.Integer){
+            Integer left = Integer.parseInt(this.getExprLeft().evaluate().getValue().toString());
+            Integer right = Integer.parseInt(this.getExprRight().evaluate().getValue().toString());
+
+            return new IntegerConstant(left + right);
+        }
+        Double left = Double.parseDouble(this.getExprLeft().evaluate().getValue().toString());
+        Double right = Double.parseDouble(this.getExprRight().evaluate().getValue().toString());
+
+        return new DecimalConstant(left + right);
     }
 
     @Override
-    public Boolean isArithmetic(){
-        return true;
-    }
+    public Boolean isArithmetic(){return true;}
 }
 

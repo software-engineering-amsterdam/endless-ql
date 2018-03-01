@@ -24,7 +24,7 @@ class DecimalControlWrapper extends ControlWrapper {
 	override getControl() {
 		return control
 	}
-	
+
 	override protected buildControl() {
 		control = new TextField
 		control.textFormatter = new TextFormatter(new DoubleStringConverter)

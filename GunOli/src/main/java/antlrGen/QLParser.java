@@ -24,11 +24,11 @@ public class QLParser extends Parser {
 		DAY=32, MONTH=33, YEAR=34, STRING=35, IDENTIFIER=36, WHITESPCAE=37, MULTI_COMMENT=38, 
 		SINGLE_COMMENT=39;
 	public static final int
-		RULE_form = 0, RULE_block = 1, RULE_statement = 2, RULE_condition = 3, 
+		RULE_head = 0, RULE_block = 1, RULE_statement = 2, RULE_condition = 3, 
 		RULE_question = 4, RULE_questionType = 5, RULE_expression = 6, RULE_operator = 7, 
 		RULE_unaryOp = 8, RULE_binaryOp = 9, RULE_constant = 10, RULE_type = 11;
 	public static final String[] ruleNames = {
-		"form", "block", "statement", "condition", "question", "questionType", 
+		"head", "block", "statement", "condition", "question", "questionType", 
 		"expression", "operator", "unaryOp", "binaryOp", "constant", "type"
 	};
 
@@ -93,35 +93,35 @@ public class QLParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class FormContext extends ParserRuleContext {
+	public static class HeadContext extends ParserRuleContext {
 		public TerminalNode FORM() { return getToken(QLParser.FORM, 0); }
 		public TerminalNode IDENTIFIER() { return getToken(QLParser.IDENTIFIER, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
 		public TerminalNode EOF() { return getToken(QLParser.EOF, 0); }
-		public FormContext(ParserRuleContext parent, int invokingState) {
+		public HeadContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_form; }
+		@Override public int getRuleIndex() { return RULE_head; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterForm(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterHead(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitForm(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitHead(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitForm(this);
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitHead(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final FormContext form() throws RecognitionException {
-		FormContext _localctx = new FormContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_form);
+	public final HeadContext head() throws RecognitionException {
+		HeadContext _localctx = new HeadContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_head);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{

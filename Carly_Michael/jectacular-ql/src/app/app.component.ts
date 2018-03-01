@@ -1,5 +1,6 @@
 import { Component} from '@angular/core';
 import {parse} from '../parser/ql-parser';
+import {parse as parseQls} from '../parser/qls-parser';
 import {QuestionBase} from './domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {QuestionControlService} from './services/question-control.service';
@@ -11,6 +12,7 @@ import {QuestionControlService} from './services/question-control.service';
 })
 export class AppComponent {
   input: string;
+  inputQls: string;
   questions: QuestionBase<any>[] = [];
   form: FormGroup;
   formName: string;
@@ -23,6 +25,10 @@ export class AppComponent {
 
   parseInput() {
     try {
+      if (this.inputQls && this.inputQls !== '') {
+        const astQls = parseQls(this.inputQls, {});
+        console.log(astQls);
+      }
       // parse input to tree
       const ast = parse(this.input, {});
       // check types
@@ -38,6 +44,7 @@ export class AppComponent {
       this.questions = undefined;
       this.errorMessage = e.message;
     }
+    this.payload = undefined;
   }
 
   onSubmit() {

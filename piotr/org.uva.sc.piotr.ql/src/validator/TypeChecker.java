@@ -20,7 +20,6 @@ public class TypeChecker extends QLBaseVisitor {
 
     private Map<String, List<QLParser.DataTypeContext>> declaredFields = new HashMap<>();
     private List<QLParser.VariableReferenceContext> referredFields = new ArrayList<>();
-    private List<QLParser.ConditionContext> conditions = new ArrayList<>();
 
     @Override
     public Object visitFieldDefinition(QLParser.FieldDefinitionContext ctx) {
@@ -36,12 +35,6 @@ public class TypeChecker extends QLBaseVisitor {
     public Object visitVariableReference(QLParser.VariableReferenceContext ctx) {
         this.referredFields.add(ctx);
         return super.visitVariableReference(ctx);
-    }
-
-    @Override
-    public Object visitCondition(QLParser.ConditionContext ctx) {
-        this.conditions.add(ctx);
-        return super.visitCondition(ctx);
     }
 
     public void validate() throws QLParserException {
@@ -62,11 +55,8 @@ public class TypeChecker extends QLBaseVisitor {
         }
 
         /* conditions that are not of the type boolean */
-        for (QLParser.ConditionContext condition : this.conditions) {
-            System.out.println(condition.getText() + " : " + condition.children.size());
-        }
 
-        System.out.println("done");
+        System.out.println("Type checker finish");
 
     }
 

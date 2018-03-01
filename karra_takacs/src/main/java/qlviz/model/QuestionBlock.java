@@ -1,5 +1,7 @@
 package qlviz.model;
 
+import qlviz.model.question.Question;
+
 import java.util.List;
 
 public class QuestionBlock {

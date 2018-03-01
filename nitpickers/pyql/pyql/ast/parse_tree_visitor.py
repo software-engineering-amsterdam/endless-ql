@@ -6,7 +6,7 @@ from pyql.ast.code_location import CodeLocation
 from pyql.ast.form.form import Form
 from pyql.ast.form.ql_statements import *
 from pyql.ast.expression.expressions import *
-from pyql.ast.form.question_types import *
+from pyql.ast.expression.literals import *
 
 
 # TODO check if can get rid of 'if getChildCount() > 1'

@@ -24,5 +24,10 @@ class ConditionNodeBlock:
             types.append(statement.checkTypes())
         return ["IF/ELIF:", types]
 
+    def linkVars(self, varDict):
+        self.expression.linkVars(varDict)
+        for statement in self.block:
+            statement.linkVars(varDict)
+
     def __repr__(self):
         return "({}) {}".format(self.expression, self.block)

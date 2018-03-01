@@ -28,7 +28,6 @@ public class TypeResolverTests {
 	public void test1() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource1);
 		typeResolver.resolve(ast);
-		System.out.println(typeResolver.getNumberOfErrors());
 		assertTrue(typeResolver.getNumberOfErrors() == 7);
 		assertTrue(typeResolver.
 				getErrorAtIndex(0).equals("[TypeResolver] line: 2, column: 15: Type mismatch, expected boolean, but got integer"));
@@ -41,7 +40,7 @@ public class TypeResolverTests {
 		assertTrue(typeResolver.
 				getErrorAtIndex(4).equals("[TypeResolver] line: 6, column: 15: Type mismatch, expected decimal, but got integer"));
 		assertTrue(typeResolver.
-				getErrorAtIndex(5).equals("[TypeResolver] line: 7, column: 15: Type mismatch, desired type: integer, allowed types: boolean"));
+				getErrorAtIndex(5).equals("[TypeResolver] line: 7, column: 15: Type mismatch, requested type: integer, allowed types: boolean"));
 	}
 	
 	String testSource2 =

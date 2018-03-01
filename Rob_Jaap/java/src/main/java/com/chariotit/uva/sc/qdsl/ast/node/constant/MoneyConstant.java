@@ -1,12 +1,14 @@
 package com.chariotit.uva.sc.qdsl.ast.node.constant;
 
 import com.chariotit.uva.sc.qdsl.ast.node.Constant;
+import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
 
 public class MoneyConstant extends Constant {
 
     private Float value;
 
-    public MoneyConstant(Float value) {
+    public MoneyConstant(Float value, Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
         this.value = value;
     }
 
@@ -16,5 +18,10 @@ public class MoneyConstant extends Constant {
 
     public void setValue(Float value) {
         this.value = value;
+    }
+
+    @Override
+    public void acceptVisitor(NodeVisitor visitor) {
+        visitor.visitMoneyConstant(this);
     }
 }

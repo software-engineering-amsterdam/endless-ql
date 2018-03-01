@@ -1,5 +1,6 @@
 package expression.variable;
 
+import analysis.SymbolTable;
 import expression.ReturnType;
 
 public class ExpressionVariableDate extends ExpressionVariable<String> {
@@ -10,7 +11,7 @@ public class ExpressionVariableDate extends ExpressionVariable<String> {
     }
 
     @Override
-    public ReturnType getReturnType() {
+    public ReturnType getReturnType(SymbolTable symbolTable) {
         return ReturnType.DATE;
     }
 

@@ -1,13 +1,10 @@
 package ParseObjects.Expressions.BinaryExpressions;
 
-import ParseObjects.Expressions.BinaryExpression;
-import ParseObjects.Expressions.Constant;
+import ParseObjects.Expressions.ExpressionConstants.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 import ParseObjects.Expressions.ExpressionConstants.IntegerConstant;
-
-import static org.antlr.v4.analysis.LeftRecursiveRuleAnalyzer.ASSOC.left;
 //import com.sun.tools.javac.comp.Todo;
 
 public class AdditionExpression extends BinaryExpression {

@@ -1,5 +1,6 @@
 import pprint
 from .ast_methods import *
+import collections
 
 """ 
 AST tree used for the QL visitor
@@ -14,6 +15,7 @@ class QLAst:
     def __init__(self):
         self.forms = []
         self.types = []
+        self.varDict = collections.OrderedDict()
 
     def addForm(self, form):
         self.forms.append(form)
@@ -30,10 +32,9 @@ class QLAst:
     # We do not support variable scopes, THIS IS VERY IMPORTANT, that is why all variables can only be declared or assigned once!
     # The varDict contains all used variables along with their types and the node which will hold the variable
     def linkVars(self):
-        varDict = {}
         for form in self.forms:
-            form.linkVars(varDict)
-        return varDict
+            form.linkVars(self.varDict)
+        return self.varDict
 
     def __repr__(self):
         return "FORMS: {}".format(self.forms)

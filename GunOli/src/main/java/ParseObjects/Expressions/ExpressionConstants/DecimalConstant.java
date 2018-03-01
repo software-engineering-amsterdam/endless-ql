@@ -1,6 +1,5 @@
 package ParseObjects.Expressions.ExpressionConstants;
 
-import ParseObjects.Expressions.Constant;
 import ParseObjects.Expressions.EvaluationType;
 
 public class DecimalConstant extends Constant<Double> {

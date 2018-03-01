@@ -33,7 +33,6 @@ export abstract class Expression {
     switch (questionType) {
       case QuestionType.DECIMAL:
       case QuestionType.INT:
-      case QuestionType.MONEY:
         return ExpressionType.NUMBER;
       case QuestionType.STRING:
         return ExpressionType.STRING;

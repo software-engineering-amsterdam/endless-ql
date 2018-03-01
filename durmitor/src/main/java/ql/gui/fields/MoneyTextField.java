@@ -17,7 +17,7 @@ public class MoneyTextField extends JTextField {
     public MoneyTextField(final Identifier id) {
         super();
         this.setName(id.getName());
-        this.setText(id.getType().toValue().toString());
+        this.setText(id.getValue().getValue().toString());
         PlainDocument doc = (PlainDocument) this.getDocument();
         doc.setDocumentFilter(new MoneyFilter(id.getType(), "^[0-9]+[.]?[0-9]{0,2}$"));
         
@@ -38,9 +38,12 @@ public class MoneyTextField extends JTextField {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        String value = String.format("%.2f", Double.parseDouble(getText()));
-                        value = value.replace(",", ".");
-                        setText(value);
+                        if(!getText().isEmpty())
+                        {
+                            String value = String.format("%.2f", Double.parseDouble(getText()));
+                            value = value.replace(",", ".");
+                            setText(value);
+                        }
                     }
                 });
             }

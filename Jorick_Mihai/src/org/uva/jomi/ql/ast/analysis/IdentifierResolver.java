@@ -8,7 +8,6 @@ import org.uva.jomi.ql.error.ErrorHandler;
 
 public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
-	
 	public final IdentifierStack identifierStack;
 	private final ErrorHandler errorHandler;
 
@@ -59,7 +58,7 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visit(FormStmt stmt) {
-		stmt.blockStmt.accept(this);
+		stmt.visitBlockStmt(this);
 		return null;
 	}
 
@@ -68,8 +67,8 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		// Create a new scope for the block statement
 		identifierStack.enterScope();
 
-		// Visit every statement in the block and add it to the statements array.
-		for (Stmt statement : stmt.statements) {
+		// Visit every statement in the block.
+		for (Stmt statement : stmt.getStatements()) {
 			statement.accept(this);
 		}
 
@@ -80,7 +79,6 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visit(QuestionStmt stmt) {
-		// Make  sure the question name has not been already declared
 		resolveQuestionIdentifier(stmt.getIdentifier());
 		return null;
 	}
@@ -92,7 +90,7 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		 * Visit the expressions first in case the question identifier is used 
 		 * inside the expression.
 		 */
-		stmt.expression.accept(this);
+		stmt.visitExpr(this);
 		
 		// Make  sure the question name has not been already declared
 		resolveQuestionIdentifier(stmt.getIdentifier());
@@ -101,16 +99,16 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visit(IfStmt stmt) {
-		stmt.expression.accept(this);
-		stmt.blockStmt.accept(this);
+		stmt.visitExpr(this);
+		stmt.visitIfBlockStmt(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(IfElseStmt stmt) {
-		stmt.expression.accept(this);
-		stmt.ifBlockStmt.accept(this);
-		stmt.elseBlockStmt.accept(this);
+		stmt.visitExpr(this);
+		stmt.visitIfBlockStmt(this);
+		stmt.visitElseBlockStmt(this);
 		return null;
 	}
 

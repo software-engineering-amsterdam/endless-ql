@@ -1,30 +1,24 @@
 package ParseObjects.Expressions.BinaryExpressions;
 
 import ParseObjects.Expressions.ExpressionConstants.BooleanConstant;
-import static ParseObjects.Expressions.EvaluationType.Boolean;
-import org.junit.Test;
 
+import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
+import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
+@RunWith(JUnitQuickcheck.class)
 public class AndExpressionTest {
 
-    private BooleanConstant a = new BooleanConstant(true) ;
-    private BooleanConstant b = new BooleanConstant( true);
-    AndExpression toTest = new AndExpression(a,b);
+    @Property
+    public void evaluate(boolean left, boolean right){
 
-    @Test
-    public void returnType() {
-        assertEquals(Boolean,toTest.returnType());
+        BooleanConstant leftConst = new BooleanConstant(left);
+        BooleanConstant rightConst = new BooleanConstant(right);
+
+        AndExpression expressionTest = new AndExpression(leftConst, rightConst);
+        assertEquals((left && right), expressionTest.evaluate().getValue());
+
     }
 
-    @Test
-    public void evaluate() {
-        assertEquals(true, toTest.evaluate().getValue());
-    }
-
-    @Test
-    public void isLogical() {
-        boolean ans = true;
-        assertEquals(ans,toTest.isLogical());
-    }
 }

@@ -1,21 +1,46 @@
 package expression.variable;
 
+import analysis.SymbolTable;
 import expression.Expression;
+
+import java.math.BigDecimal;
 
 public abstract class ExpressionVariable<T> extends Expression {
 
     T value;
 
+    ExpressionVariable() {
+        this.value = null;
+    }
+
     ExpressionVariable(T value) {
         this.value = value;
     }
 
-    public T getValue() {
-        return this.value;
+    public Boolean getBooleanValue() {
+        throw new UnsupportedOperationException("Cannot get boolean value");
     }
 
+    public Integer getIntValue() {
+        throw new UnsupportedOperationException("Cannot get int value");
+    }
+
+    public Double getDecimalValue() {
+        throw new UnsupportedOperationException("Cannot get decimal value");
+    }
+
+    public BigDecimal getMoneyValue() {
+        throw new UnsupportedOperationException("Cannot get money value");
+    }
+
+    public String getStringValue() {
+        throw new UnsupportedOperationException("Cannot get string value");
+    }
+
+    // TODO: getDateValue
+
     @Override
-    public ExpressionVariable<T> evaluate() {
+    public ExpressionVariable evaluate(SymbolTable symbolTable) {
         return this;
     }
 
@@ -28,6 +53,9 @@ public abstract class ExpressionVariable<T> extends Expression {
     public String toString() {
         return String.valueOf(value);
     }
+
+    @Override
+    public void typeCheck(SymbolTable symbolTable) { }
 
     public ExpressionVariable divide(ExpressionVariable other) {
         return new ExpressionVariableUndefined();

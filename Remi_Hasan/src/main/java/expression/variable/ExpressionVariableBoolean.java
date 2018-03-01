@@ -1,5 +1,6 @@
 package expression.variable;
 
+import analysis.SymbolTable;
 import expression.ReturnType;
 
 public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
@@ -9,7 +10,12 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
     }
 
     @Override
-    public ReturnType getReturnType() {
+    public Boolean getBooleanValue() {
+        return this.value;
+    }
+
+    @Override
+    public ReturnType getReturnType(SymbolTable symbolTable) {
         return ReturnType.BOOLEAN;
     }
 

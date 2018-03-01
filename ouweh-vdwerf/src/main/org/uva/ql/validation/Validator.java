@@ -27,7 +27,7 @@ public class Validator implements StatementVisitor<Void, String> {
 
         // Add relevant data to the symbol symbolTable.
         for (Question question : this.questions) {
-            System.out.println(question);
+//            System.out.println(question);
             this.symbolTable.add(question.getName(), question.getType());
         }
 
@@ -35,7 +35,9 @@ public class Validator implements StatementVisitor<Void, String> {
         findDuplicates();
 
         ParameterChecker parameterChecker = new ParameterChecker(form, symbolTable);
-        DependencyChecker dependencyChecker = new DependencyChecker();//form, symbolTable
+
+        DependencyChecker dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());//form, symbolTable
+        dependencyChecker.execute();
         TypeChecker typeChecker = new TypeChecker();//form, symbolTable
 
         System.out.println("Total number of questions: " + symbolTable.size());

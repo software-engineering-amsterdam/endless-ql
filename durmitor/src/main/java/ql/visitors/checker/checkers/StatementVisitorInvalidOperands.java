@@ -10,18 +10,20 @@ import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
 import ql.ast.type.Type;
+import ql.exceptions.QLException;
+import ql.exceptions.UnexpectedType;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorInvalidOperands implements StatementVisitor {
     
-    private List<String> errors;
+    private List<QLException> errors;
 
-    public StatementVisitorInvalidOperands(List<String> errors) {
+    public StatementVisitorInvalidOperands(List<QLException> errors) {
         this.errors = errors;
     }
     
     public void check(Expression expr) {
-        expr.accept(new ExpressionVisitorType(errors));
+        expr.accept(new ExpressionVisitorInvalidOperands(errors));
     }
     
     @Override
@@ -48,13 +50,13 @@ public class StatementVisitorInvalidOperands implements StatementVisitor {
     @Override
     public void visit(ComputedQuestion stmt) {
         
-        Type computationType = stmt.getComputation().accept(new ExpressionVisitorType(errors));
+        Type computationType = stmt.getComputation().accept(new ExpressionVisitorInvalidOperands(errors));
         
         if(!computationType.isUndefined())
         {
             if(!computationType.equals(stmt.getType()))
             {
-                errors.add("Expected "+stmt.getType()+" but got "+computationType+" at "+stmt.getComputation().getLocation());
+                errors.add(new UnexpectedType(stmt.getType(), computationType));
             }
         }
     }

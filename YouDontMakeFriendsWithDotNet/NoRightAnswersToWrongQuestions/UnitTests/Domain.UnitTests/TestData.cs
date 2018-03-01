@@ -51,7 +51,7 @@ form CommentFormMLX {}";
             get
             {
                 yield return new TestCaseData(@"form 1NameForm {}", @"1");
-                yield return new TestCaseData(@"form Name$Form {}", @"Name$Form");
+                yield return new TestCaseData(@"form QuestionId$Form {}", @"QuestionId$Form");
                 yield return new TestCaseData(@"form _NameForm {}", @"_NameForm");
                 yield return new TestCaseData(@"form % {}", @"%");
                 yield return new TestCaseData(@"form +_(# {}", @"+_(#");
@@ -90,25 +90,42 @@ form CommentFormMLX {}";
         {
             get
             {
-                yield return new TestCaseData("form NameForm { x: \"xyz\" integer = (10 + 20) }", new[] {@"10+20"});
-                yield return new TestCaseData("form NameForm { x: \"xyz\" decimal = (10.5 + 20.54) }",
-                    new[] {@"10.5+20.54"});
-                yield return new TestCaseData("form NameForm {  \"xyz\" x: integer =(10/20*30) }", new[] {@"10/20*30"});
-                yield return new TestCaseData($@"form NameForm {{  
-    ""xyz"" x: integer = (10/20*30)
-    a: ""abc"" decimal =(10.5 - 20.54)
-}}",
-                    new[] {@"10/20*30", "10.5-20.54"});
-                yield return new TestCaseData($@"form NameForm {{  
-    ""xyz"" intQuestion: integer
-    a: ""abc"" decimal = (intQuestion - 20.54)
-}}",
-                    new[] {"intQuestion-20.54"});
-                yield return new TestCaseData($@"form NameForm {{  
-    ""xyz"" intQuestion: integer
-    a: ""abc"" decimal = ((intQuestion - 20.54) * (intQuestion/3))
-}}",
-                    new[] { "(intQuestion-20.54)*(intQuestion/3)" });
+                var noVarNames = new string[] {}; 
+                yield return new TestCaseData(
+                    "form NameForm { x: \"xyz\" integer = (10 + 20) }", 
+                    new[] {@"10+20"},
+                    new[] {10m, 20m}, noVarNames);
+//                yield return new TestCaseData(
+//                    "form NameForm { x: \"xyz\" decimal = (10.5 + 20.54) }",
+//                    new[] {@"10.5+20.54"},
+//                    new[] { 10.5m, 20.54m }, 
+//                    noVarNames);
+//                yield return new TestCaseData(
+//                    "form NameForm {  \"xyz\" x: integer =(10/20*30) }", 
+//                    new[] {@"10/20*30"},
+//                    new[] { 10m, 20m, 30m }, 
+//                    noVarNames);
+//                yield return new TestCaseData(
+//                    $@"form NameForm {{  
+//    ""xyz"" x: integer = (10/20*30)
+//    a: ""abc"" decimal =(10.5 - 20.54)
+//}}",
+//                    new[] { @"10/20*30", "10.5-20.54" },
+//                    new[] { 10m, 20m, 30m, 10.5m, 20.54m }, 
+//                    noVarNames);
+//                yield return new TestCaseData(
+//                    $@"form NameForm {{  
+//    ""xyz"" intQuestion: integer
+//    a: ""abc"" decimal = (intQuestion - 20.54)
+//}}",
+//                    new[] { "intQuestion-20.54" },
+//                    new[] { 20.54m },
+//                    new[] {"intQuestion"});
+                //                yield return new TestCaseData($@"form NameForm {{  
+                //    ""xyz"" intQuestion: integer
+                //    a: ""abc"" decimal = ((intQuestion - 20.54) * (intQuestion/3))
+                //}}",
+                //                    new[] { "(intQuestion-20.54)*(intQuestion/3)" });
             }
         }
 

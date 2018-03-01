@@ -42,7 +42,3 @@ dependencies {
 generateGrammarSource {
 	arguments += ['-no-listener', '-visitor', '-package', 'nl.uva.js.qlparser.antlr']
 }
-
-bootRun {
-	systemProperties "ql.file": "input_file/ql_input.jsql", "ql.mode": "file"
-}

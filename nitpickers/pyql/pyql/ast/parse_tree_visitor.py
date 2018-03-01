@@ -1,6 +1,5 @@
 from pyql.antlr.QLVisitor import QLVisitor
 from pyql.antlr.QLParser import QLParser
-from pyql.ast.base_visitor import StatementVisitor
 from pyql.ast.form.block import Block
 from pyql.ast.code_location import CodeLocation
 from pyql.ast.form.form import Form

@@ -9,7 +9,7 @@ class SymbolTable:
 
     def create(self, key, value):
         if key in self._dictionary:
-            raise Exception("Name already exists")
+            raise Exception("Key already exists")
         self._dictionary[key] = value
 
     def update(self, key, value):
@@ -19,12 +19,12 @@ class SymbolTable:
 
     def get(self, key):
         if key not in self._dictionary:
-            raise Exception("Key not in dictionary")
+            raise Exception("Invalid key")
         return self._dictionary[key]
 
     def remove(self, key):
         if key not in self._dictionary:
-            raise Exception("Key not in dictionary")
+            raise Exception("Invalid key")
         del self._dictionary[key]
 
 

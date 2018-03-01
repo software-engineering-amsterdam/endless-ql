@@ -27,8 +27,8 @@ comparisonOperand	: artithmeticExpression;
 comparisonOperator	: GT| GE | LT | LE | EQ;
 
 
-artithmeticExpression	: artithmeticExpression (MULT | DIV) artithmeticExpression
-						| artithmeticExpression (PLUS | MIN) artithmeticExpression
+artithmeticExpression	: LEFT=artithmeticExpression (MULT | DIV) RIGHT=artithmeticExpression
+						| LEFT=artithmeticExpression (PLUS | MINUS) RIGHT=artithmeticExpression
 						| MIN artithmeticExpression
 						| LPAREN artithmeticExpression RPAREN
 						| ID;
@@ -47,7 +47,7 @@ EQUAL				: '=';
 AND					: '&&';
 OR					: '||';
 
-MIN					: '-';
+MINUS				: '-';
 PLUS				: '+';
 MULT				: '*';
 DIV					: '/';

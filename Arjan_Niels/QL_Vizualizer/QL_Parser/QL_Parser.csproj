@@ -57,7 +57,9 @@
     <Compile Include="Analysis\Semantic\DuplicateVariableAnalyser.cs" />
     <Compile Include="AST\Nodes\ComputedNode.cs" />
     <Compile Include="AST\Nodes\ConditionalNode.cs" />
+    <Compile Include="AST\Nodes\ExpressionNodes\ArthimeticExpressionNode.cs" />
     <Compile Include="AST\Nodes\ExpressionNodes\ComparisonExpressionNode.cs" />
+    <Compile Include="AST\Nodes\ExpressionNodes\ExpressionNode.cs" />
     <Compile Include="AST\Nodes\ExpressionNodes\LogicalExpressionNode.cs" />
     <Compile Include="AST\Nodes\FormNode.cs" />
     <Compile Include="AST\Nodes\IExpressionNode.cs" />
@@ -71,7 +73,9 @@
     <Compile Include="AST\Nodes\QValueType.cs" />
     <Compile Include="AST\Nodes\IdentifierNode.cs" />
     <Compile Include="Exceptions\UnknownLogicalEntity.cs" />
+    <Compile Include="Exceptions\UnknownNodeType.cs" />
     <Compile Include="Exceptions\UnknownOperatorException.cs" />
+    <Compile Include="Visitors\ExpressionVisitors\ArthimeticExpressionVisitor.cs" />
     <Compile Include="Visitors\ComputedVariableVisitor.cs" />
     <Compile Include="Visitors\ConditionalBlockVisitor.cs" />
     <Compile Include="Visitors\ExpressionVisitors\ComparisonExpressionVisitor.cs" />
@@ -81,8 +85,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Visitors\QuestionVisitor.cs" />
     <Compile Include="Visitors\SectionVisitor.cs" />
-    <Compile Include="Visitors\StatementVisitor.cs" />
-    <Compile Include="Visitors\ValueVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

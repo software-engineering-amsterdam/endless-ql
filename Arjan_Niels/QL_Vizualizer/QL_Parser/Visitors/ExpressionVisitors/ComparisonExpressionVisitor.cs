@@ -14,12 +14,17 @@ namespace QL_Parser.Visitors.ExpressionVisitors
             if (comparisonoContext != null)
                 return VisitComparisonExpression(comparisonoContext);
 
+            var left = VisitComparisonOperand(context.LEFT);
+            var opr = ComparisonExpressionNode.ParseComparisonOperator(context.OPR.GetText());
+            var right = VisitComparisonOperand(context.RIGHT);
 
+            return new ComparisonExpressionNode(left, opr, right);
+        }
 
-            var comparisonNode = new ComparisonExpressionNode();
-
-
-            return comparisonNode;
+        public override IExpressionNode VisitComparisonOperand([NotNull] QLanguageParser.ComparisonOperandContext context)
+        {
+            var arthimeticContext = context.artithmeticExpression();
+            return new ArthimeticExpressionVisitor().VisitArtithmeticExpression(arthimeticContext);
         }
     }
 }

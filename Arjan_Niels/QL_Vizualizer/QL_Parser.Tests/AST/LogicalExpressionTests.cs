@@ -133,7 +133,6 @@ namespace QL_Parser.Tests.AST
             // Both
             Assert.AreEqual(QValueType.BOOLEAN, statement.GetQValueType());
 
-
             // Left side
             var left = statement.Left as LiteralNode;
             Assert.AreEqual("true", left.Value);

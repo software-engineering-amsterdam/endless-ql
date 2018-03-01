@@ -1,5 +1,6 @@
 ﻿using QL_Parser.AST.Nodes;
 using QL_Parser.AST.Nodes.ExpressionNodes;
+using QL_Parser.Exceptions;
 
 namespace QL_Parser.Analysis.Semantic
 {
@@ -38,23 +39,25 @@ namespace QL_Parser.Analysis.Semantic
 
         private bool AnalyseExpression(IExpressionNode node)
         {
-            if (node.GetNodeType() == NodeType.LOGICAL_EXPRESSION)
+            switch (node.GetNodeType())
             {
-                var statementNode = (LogicalExpressionNode)node;
-                var leftResult = AnalyseExpression(statementNode.Left);
-                var rightResult = AnalyseExpression(statementNode.Right);
-                return leftResult == rightResult;
-            }
-            else if (node.GetNodeType() == NodeType.LITERAL)
-            {
-                // Literals are valid in an expression.
-                return true;
-            }
+                case NodeType.LOGICAL_EXPRESSION:
+                case NodeType.COMPARISON_EXPRESSION:
+                case NodeType.ARTHIMETIC_EXPRESSION:
+                    var statementNode = (ExpressionNode)node;
+                    var leftResult = AnalyseExpression(statementNode.Left);
+                    var rightResult = AnalyseExpression(statementNode.Right);
+                    return leftResult == rightResult;
 
-            else
-            {
-                var valueNode = (IdentifierNode)node;
-                return IsIdentiierInSymbolTable(valueNode);
+                case NodeType.LITERAL:
+                    return true;
+
+                case NodeType.IDENTIFIER:
+                    var valueNode = (IdentifierNode)node;
+                    return IsIdentiierInSymbolTable(valueNode);
+
+                default:
+                    throw new UnknownNodeTypeException(string.Format("We don't know what to do with a {0} node.", node.GetNodeType()));
             }
         }
     }

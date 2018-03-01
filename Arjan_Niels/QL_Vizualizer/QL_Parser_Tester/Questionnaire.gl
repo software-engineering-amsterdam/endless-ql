@@ -22,9 +22,9 @@
 	}
 
 
-	//if soldHouseIn2010 && (sellingPrice < buyingPrice) {
+	if soldHouseIn2010 && sellingPrice < sellingPsellingPrice * sellingPrice - buyingPrice {
 		"Ik wil kaas!" 
 			wantsCheese: boolean
 
-	//}
+	}
 }

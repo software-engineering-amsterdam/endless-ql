@@ -11,7 +11,8 @@
 
         // Expression
         LOGICAL_EXPRESSION,
-        COMPARISON_EXPRESSION
+        COMPARISON_EXPRESSION,
+        ARTHIMETIC_EXPRESSION
 
     }
 

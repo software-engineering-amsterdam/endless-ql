@@ -62,12 +62,24 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
 
     @Override
     public IfBlock visitIf_block(QLParser.If_blockContext ctx) {
-        List<FormElement> elements = new ArrayList<>();
+        List<FormElement> ifElements = new ArrayList<>();
+        Expression expression = visitExpr(ctx.expr());
 
         for (int i = 0; i < ctx.elem().size(); i++) {
-            elements.add(visitElem(ctx.elem(i)));
+            ifElements.add(visitElem(ctx.elem(i)));
         }
-        return new IfBlock(visitExpr(ctx.expr()), elements);
+
+        if (ctx.ELSE() != null) {
+            List<FormElement> elseElements = new ArrayList<>();
+
+            for (int i = 0; i < ctx.else_elems().elem().size(); i++) {
+                elseElements.add(visitElem(ctx.else_elems().elem(i)));
+            }
+
+            return new IfBlock(expression, ifElements, elseElements);
+        }
+
+        return new IfBlock(expression, ifElements);
     }
 
     @Override

@@ -25,7 +25,7 @@ object TypeChecker extends Logging {
   def checkReferences(qLForm: QLForm): QLForm = {
     logger.info("Phase 2 - Checking references to undefined questions ...")
     val questions = Statement.collectAllQuestions(qLForm.statements)
-    val references: Seq[Reference] = questions.collect { case Question(_, _, _, r @ Reference(_), _) => r }
+    val references: Seq[Reference] = Statement.collectAllReferences(questions)
     val undefinedReferences = references.map(_.value).filterNot(qLForm.symbolTable.contains)
 
     if (undefinedReferences.nonEmpty) {

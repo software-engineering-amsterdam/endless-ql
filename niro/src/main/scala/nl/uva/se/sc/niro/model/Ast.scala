@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.model
 
 import nl.uva.se.sc.niro.Evaluator
-import nl.uva.se.sc.niro.model.Expressions.{ Answer, Expression }
+import nl.uva.se.sc.niro.model.Expressions._
 
 case class QLForm(formName: String, statements: Seq[Statement]) {
   val symbolTable: Map[String, Expression] =
@@ -50,6 +50,18 @@ object Statement {
         collectAllVisibleQuestions(c.thenStatements, symbolTable)
       case ErrorStatement() => Seq.empty
     }
+  }
+
+  def collectAllReferences(questions: Seq[Question]): Seq[Reference] = {
+    questions.flatMap(question => collectAllReferences(question.expression))
+  }
+
+  def collectAllReferences(expression: Expression): Seq[Reference] = expression match {
+    case r: Reference                       => Seq(r)
+    case UnaryOperation(_, rightExpression) => collectAllReferences(rightExpression)
+    case BinaryOperation(_, leftExpression, rightExpression) =>
+      collectAllReferences(leftExpression) ++ collectAllReferences(rightExpression)
+    case _ => Seq.empty
   }
 
   def saveAnswer(questionId: String, answer: Answer, statements: Seq[Statement]): Seq[Statement] = {

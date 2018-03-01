@@ -4,7 +4,7 @@ using QL_Parser.AST.Nodes.ExpressionNodes;
 using QL_Parser.Exceptions;
 using QLanguage;
 
-namespace QL_Parser.Visitors
+namespace QL_Parser.Visitors.ExpressionVisitors
 {
     public class ArthimetricExpressionVisitor : QLanguage.QLanguageBaseVisitor<IExpressionNode>
     {

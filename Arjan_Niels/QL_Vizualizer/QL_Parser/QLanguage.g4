@@ -6,7 +6,7 @@
 formDeclaration		: FORM formName LCURLY (section)* RCURLY;
 section				: computedVariable | question | conditionalBlock;
 question			: TEXT ID COLON QTYPE;
-computedVariable	: TEXT ID COLON QTYPE EQUAL artithmeticExpression;
+computedVariable	: TEXT ID COLON QTYPE EQUAL (artithmeticExpression | comparisonExpression);
 formName			: ID;
 
 conditionalBlock	: IF logicalExpression LCURLY (section)* RCURLY;

@@ -23,5 +23,8 @@
 	if soldHouseIn2010 && sellingPrice < sellingPrice * 10 - buyingPrice {
 		"Ik wil kaas!" 
 			wantsCheese: boolean
+		
+		"Debt:"
+			debt: money = buyingPrice - sellingPrice;
 	}
 }

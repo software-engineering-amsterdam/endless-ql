@@ -111,7 +111,7 @@ public class QuestionController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             QLFormGenerator formGenerator = new QLFormGenerator();
-            questions = formGenerator.generate("/example.ql", symbolTable);
+            questions = formGenerator.generate(getClass().getResource("/example.ql").getFile(), symbolTable);
             for (QuestionData question : questions) {
                 System.out.println(question.getLabel() +
                         " " + question.getValue() +

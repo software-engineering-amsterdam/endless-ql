@@ -29,7 +29,7 @@ public class StyleSheetParser {
 
             // Debug
             parser.reset();
-            Trees.inspect(parser.root(), parser);
+//            Trees.inspect(parser.root(), parser);
 
             // Debug: print object
             Gson gson = new GsonBuilder().setPrettyPrinting().create();

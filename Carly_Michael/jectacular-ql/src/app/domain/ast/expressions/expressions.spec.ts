@@ -49,9 +49,7 @@ const variableExpression = new Variable('booleanQuestion', location);
 
 describe('Expressions', () => {
   describe('should evaluate', () => {
-    const formControls: {[key: string]: AbstractControl} = {};
-    formControls['booleanQuestion'] = new FormControl();
-    const form = new FormGroup(formControls);
+    const form = new FormGroup({booleanQuestion: new FormControl({value: ''})});
     it('literals', () => {
       expect(stringLiteral.evaluate(form)).toBe('string');
       expect(dateLiteral.evaluate(form)).toEqual(new Date('01-01-1990'));
@@ -89,7 +87,7 @@ describe('Expressions', () => {
     });
 
     it('variable expressions', () => {
-      expect(variableExpression.evaluate(form)).toBe(null);
+      expect(variableExpression.evaluate(form)).toBeUndefined();
 
       form.controls['booleanQuestion'].setValue(true);
       expect(variableExpression.evaluate(form)).toBe(true);

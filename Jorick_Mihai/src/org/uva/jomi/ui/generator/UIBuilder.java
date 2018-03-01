@@ -82,15 +82,15 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 
 	@Override
 	public BaseElement visit(IfStmt stmt) {
-		BaseElement ifElement = stmt.blockStmt.accept(this);
-		return new ConditionalPanelElement(stmt.expression, ifElement, null);
+		BaseElement ifElement = stmt.visitIfBlockStmt(this);
+		return new ConditionalPanelElement(stmt.getExpr(), ifElement, null);
 	}
 
 	@Override
 	public BaseElement visit(IfElseStmt stmt) {
-		BaseElement ifElement = stmt.ifBlockStmt.accept(this);
-		BaseElement elseElement = stmt.elseBlockStmt.accept(this);
-		return new ConditionalPanelElement(stmt.expression, ifElement, elseElement);
+		BaseElement ifElement = stmt.visitIfBlockStmt(this);
+		BaseElement elseElement = stmt.visitElseBlockStmt(this);
+		return new ConditionalPanelElement(stmt.getExpr(), ifElement, elseElement);
 	}
 	
 }

@@ -19,10 +19,17 @@ namespace QL_Parser.Tests.AST.Expressions
             FormNode node = QLParserHelper.Parse(_simpleComparisonFormRaw);
 
             var comparisonNode = node.Children
-                .Where(x => x.Type == NodeType.COMPARISON_EXPRESSION)
-                .Select(x => x as ComparisonExpressionNode)
-                .First();
+                .Where(x => x.Type == NodeType.CONDITIONAL)
+                .Select(x => x as ConditionalNode)
+                .First().Expression as ComparisonExpressionNode;
 
+            var left = comparisonNode.Left as IdentifierNode;
+            var opr = comparisonNode.Operator;
+            var right = comparisonNode.Right as IdentifierNode;
+
+            Assert.AreEqual("sellingPrice", left.ID);
+            Assert.AreEqual(ComparisonOperator.LT, opr);
+            Assert.AreEqual("buyingPrice", right.ID);
         }
 
 

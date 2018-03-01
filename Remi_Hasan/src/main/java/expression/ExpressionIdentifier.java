@@ -3,7 +3,7 @@ package expression;
 import expression.variable.ExpressionVariable;
 import model.LookupTable;
 
-public class ExpressionIdentifier<T> extends Expression {
+public class ExpressionIdentifier extends Expression {
 
     private final String identifier;
 
@@ -30,4 +30,7 @@ public class ExpressionIdentifier<T> extends Expression {
     public boolean equals(Object other) {
         return evaluate().equals(other);
     }
+
+    @Override
+    public void typeCheck() { }
 }

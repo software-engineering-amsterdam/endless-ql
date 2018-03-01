@@ -7,14 +7,11 @@ public class TypeExpression extends AstNode {
     private Type type;
     private Expression expression;
 
-    public TypeExpression(Type type) {
+    public TypeExpression(Type type, Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
         this.type = type;
     }
 
-    public TypeExpression(Type type, Expression expression) {
-        this.type = type;
-        this.expression = expression;
-    }
 
     public Type getType() {
         return type;

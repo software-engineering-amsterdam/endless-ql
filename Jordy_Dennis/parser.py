@@ -65,6 +65,7 @@ def main(argv):
     ast = visitor.getAst()
     ast.linkVars()
     ast.checkTypes()
+    print("HIER")
 
 
 if __name__ == '__main__':

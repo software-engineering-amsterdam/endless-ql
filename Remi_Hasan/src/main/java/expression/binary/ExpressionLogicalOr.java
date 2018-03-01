@@ -15,4 +15,15 @@ public class ExpressionLogicalOr extends ExpressionLogical {
         ExpressionVariable rightEvaluated = this.right.evaluate();
         return leftEvaluated.or(rightEvaluated);
     }
+
+    @Override
+    public void typeCheck() {
+        this.left.typeCheck();
+        this.right.typeCheck();
+
+        if (!this.left.getReturnType().or(this.right.getReturnType())) {
+            throw new IllegalArgumentException("Cannot apply operator || to '"
+                    + this.left.getReturnType() + "' and '" + this.right.getReturnType() + "'");
+        }
+    }
 }

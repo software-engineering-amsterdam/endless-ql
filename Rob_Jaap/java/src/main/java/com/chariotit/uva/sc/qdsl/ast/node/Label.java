@@ -6,7 +6,8 @@ public class Label extends AstNode {
 
     private String label;
 
-    public Label(String label) {
+    public Label(String label, Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
         this.label = label;
     }
 

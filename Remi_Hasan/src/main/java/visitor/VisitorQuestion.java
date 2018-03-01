@@ -3,10 +3,19 @@ package visitor;
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
 import expression.*;
+import expression.unary.ExpressionUnaryNeg;
+import expression.variable.ExpressionVariableBoolean;
+import expression.variable.ExpressionVariableUndefined;
 import model.LookupTable;
 import model.Question;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {
+
+    private final Expression condition;
+
+    VisitorQuestion(Expression condition) {
+        this.condition = condition;
+    }
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
@@ -20,7 +29,7 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
         ReturnType questionType = ReturnType.valueOf(questionTypeContext.type().getText().toUpperCase());
         Expression defaultAnswer = getDefaultAnswer(ctx.questionType());
 
-        Question question = new Question(questionType, questionName, questionText, defaultAnswer);
+        Question question = new Question(questionType, questionName, questionText, defaultAnswer, this.condition);
 
         LookupTable lookupTable = LookupTable.getInstance();
         lookupTable.insert(question);
@@ -34,8 +43,7 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
             return visitorExpression.visit(questionType.expression());
         }
 
-        // Create empty expression of question type
-        return ExpressionFactory.createExpression(questionType.type().getText());
+        return new ExpressionVariableUndefined();
     }
 
 }

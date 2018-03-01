@@ -1,11 +1,9 @@
 package ParseObjects.Expressions.BinaryExpressions;
 
-import ParseObjects.Expressions.BinaryExpression;
-import ParseObjects.Expressions.Constant;
+import ParseObjects.Expressions.ExpressionConstants.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 import ParseObjects.Expressions.ExpressionConstants.BooleanConstant;
-import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 
 
 public class LessThanExpression extends BinaryExpression<Boolean> {
@@ -20,8 +18,8 @@ public class LessThanExpression extends BinaryExpression<Boolean> {
 
     @Override
     public Constant<Boolean> evaluate() {
-        Double left = Double.parseDouble(this.getExprLeft().evaluate().toString());
-        Double right = Double.parseDouble(this.getExprRight().evaluate().toString());
+        Double left = Double.parseDouble(this.getExprLeft().evaluate().getValue().toString());
+        Double right = Double.parseDouble(this.getExprRight().evaluate().getValue().toString());
         return new BooleanConstant(left < right);
     }
     @Override

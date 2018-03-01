@@ -15,7 +15,6 @@ public class QuestionVisitor extends QLBaseVisitor<Question>{
         String typeText = questionTypeCTX.type().getText();
         typeText = typeText.substring(0,1).toUpperCase() + typeText.substring(1);
         EvaluationType typeValue = EvaluationType.valueOf(typeText);
-
         //Todo: Change how the answer is initialized for the new Question
         return new Question(name, text, typeValue, null);
     }

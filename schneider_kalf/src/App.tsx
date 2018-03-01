@@ -82,6 +82,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
          */
         <div className="app container">
           <h1>NEWSKQL</h1>
+          <QlsTest/>
           <div className="row ql-sample-output">
             <div className="col-md-6">
               <Input
@@ -102,7 +103,6 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
                   value={this.state.form.getState().toString()}
               />
             </div>
-            div.col-,d
           </div>
         </div>
     );

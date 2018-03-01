@@ -55,7 +55,7 @@ class BinaryExpression(Expression):  # abstract
         return self._right
 
     def accept(self, visitor):
-        return visitor.binary_expression(self)
+        return visitor.visit_binary_expression(self)
 
 
 class Multiplication(BinaryExpression):
@@ -221,76 +221,6 @@ class Literal(Expression):
 
     def accept(self, visitor):
         return visitor.visit_literal(self)
-
-
-class StringLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = value
-
-    @property
-    def value(self):
-        return self._value
-
-    def accept(self, visitor):
-        return visitor.visit_string_literal(self)
-
-
-class IntLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = int(value)
-
-    @property
-    def value(self):
-        return self._value
-
-    def accept(self, visitor):
-        return visitor.visit_int_literal(self)
-
-
-class DecimalLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = float(value)
-
-    @property
-    def value(self):
-        return self._value
-
-    def accept(self, visitor):
-        return visitor.visit_decimal_literal(self)
-
-
-class BoolLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = value == "true"
-
-    @property
-    def value(self):
-        return self._value
-
-    def accept(self, visitor):
-        return visitor.visit_bool_literal(self)
-
-
-class MoneyLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = value
-
-    @property
-    def value(self):
-        return self._value
-
-    def accept(self, visitor):
-        return visitor.visit_money_literal(self)
 
 
 if __name__ == "__main__":

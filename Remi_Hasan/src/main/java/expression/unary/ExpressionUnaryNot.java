@@ -19,4 +19,13 @@ public class ExpressionUnaryNot extends ExpressionUnary {
     public ReturnType getReturnType() {
         return ReturnType.BOOLEAN;
     }
+
+    @Override
+    public void typeCheck() {
+        this.expression.typeCheck();
+
+        if (!this.expression.getReturnType().not()) {
+            throw new IllegalArgumentException("Cannot apply operator ! to '" + this.expression.getReturnType() + "'");
+        }
+    }
 }

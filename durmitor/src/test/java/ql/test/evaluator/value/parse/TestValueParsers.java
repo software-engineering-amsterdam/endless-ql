@@ -4,98 +4,98 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import ql.ast.expression.literal.BoolLiteral;
+import ql.ast.expression.literal.DateLiteral;
+import ql.ast.expression.literal.DecimalLiteral;
+import ql.ast.expression.literal.IntLiteral;
+import ql.ast.expression.literal.MoneyLiteral;
+import ql.ast.expression.literal.StrLiteral;
+import ql.ast.expression.literal.UndefinedLiteral;
 import ql.ast.type.Type;
-import ql.evaluator.value.Bool;
-import ql.evaluator.value.Date;
-import ql.evaluator.value.Decimal;
-import ql.evaluator.value.Int;
-import ql.evaluator.value.Money;
-import ql.evaluator.value.Str;
-import ql.evaluator.value.Undefined;
 
 public class TestValueParsers {
     
     @Test
     public void testValueToBool() {
         Type target = new ql.ast.type.Bool();
-        assertEquals(Bool.class, target.parse(new Bool()).getClass());
-        assertEquals(Bool.class, target.parse(new Str()).getClass());
-        assertEquals(Bool.class, target.parse(new Int()).getClass());
-        assertEquals(Bool.class, target.parse(new Decimal()).getClass());
-        assertEquals(Bool.class, target.parse(new Money()).getClass());
-        assertEquals(Undefined.class, target.parse(new Date()).getClass());
-        assertEquals(Bool.class, target.parse(new Undefined()).getClass());
+        assertEquals(BoolLiteral.class, target.parse(new BoolLiteral()).getClass());
+        assertEquals(BoolLiteral.class, target.parse(new StrLiteral()).getClass());
+        assertEquals(BoolLiteral.class, target.parse(new IntLiteral()).getClass());
+        assertEquals(BoolLiteral.class, target.parse(new DecimalLiteral()).getClass());
+        assertEquals(BoolLiteral.class, target.parse(new MoneyLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new DateLiteral()).getClass());
+        assertEquals(BoolLiteral.class, target.parse(new UndefinedLiteral()).getClass());
     }
     
     @Test
     public void testValueToStr() {
         Type target = new ql.ast.type.Str();
-        assertEquals(Str.class, target.parse(new Bool()).getClass());
-        assertEquals(Str.class, target.parse(new Str()).getClass());
-        assertEquals(Str.class, target.parse(new Int()).getClass());
-        assertEquals(Str.class, target.parse(new Decimal()).getClass());
-        assertEquals(Str.class, target.parse(new Money()).getClass());
-        assertEquals(Str.class, target.parse(new Date()).getClass());
-        assertEquals(Undefined.class, target.parse(new Undefined()).getClass());
+        assertEquals(StrLiteral.class, target.parse(new BoolLiteral()).getClass());
+        assertEquals(StrLiteral.class, target.parse(new StrLiteral()).getClass());
+        assertEquals(StrLiteral.class, target.parse(new IntLiteral()).getClass());
+        assertEquals(StrLiteral.class, target.parse(new DecimalLiteral()).getClass());
+        assertEquals(StrLiteral.class, target.parse(new MoneyLiteral()).getClass());
+        assertEquals(StrLiteral.class, target.parse(new DateLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new UndefinedLiteral()).getClass());
     }
     
     @Test
     public void testValueToInt() {
         Type target = new ql.ast.type.Int();
-        assertEquals(Undefined.class, target.parse(new Bool()).getClass());
-        assertEquals(Undefined.class, target.parse(new Str()).getClass());
-        assertEquals(Int.class, target.parse(new Int()).getClass());
-        assertEquals(Int.class, target.parse(new Decimal()).getClass());
-        assertEquals(Int.class, target.parse(new Money()).getClass());
-        assertEquals(Undefined.class, target.parse(new Date()).getClass());
-        assertEquals(Undefined.class, target.parse(new Undefined()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new BoolLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new StrLiteral()).getClass());
+        assertEquals(IntLiteral.class, target.parse(new IntLiteral()).getClass());
+        assertEquals(IntLiteral.class, target.parse(new DecimalLiteral()).getClass());
+        assertEquals(IntLiteral.class, target.parse(new MoneyLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new DateLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new UndefinedLiteral()).getClass());
     }
     
     @Test
     public void testValueToDecimal() {
         Type target = new ql.ast.type.Decimal();
-        assertEquals(Undefined.class, target.parse(new Bool()).getClass());
-        assertEquals(Undefined.class, target.parse(new Str()).getClass());
-        assertEquals(Decimal.class, target.parse(new Int()).getClass());
-        assertEquals(Decimal.class, target.parse(new Decimal()).getClass());
-        assertEquals(Decimal.class, target.parse(new Money()).getClass());
-        assertEquals(Undefined.class, target.parse(new Date()).getClass());
-        assertEquals(Undefined.class, target.parse(new Undefined()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new BoolLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new StrLiteral()).getClass());
+        assertEquals(DecimalLiteral.class, target.parse(new IntLiteral()).getClass());
+        assertEquals(DecimalLiteral.class, target.parse(new DecimalLiteral()).getClass());
+        assertEquals(DecimalLiteral.class, target.parse(new MoneyLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new DateLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new UndefinedLiteral()).getClass());
     }
     
     @Test
     public void testValueToMoney() {
         Type target = new ql.ast.type.Money();
-        assertEquals(Undefined.class, target.parse(new Bool()).getClass());
-        assertEquals(Undefined.class, target.parse(new Str()).getClass());
-        assertEquals(Money.class, target.parse(new Int()).getClass());
-        assertEquals(Money.class, target.parse(new Decimal()).getClass());
-        assertEquals(Money.class, target.parse(new Money()).getClass());
-        assertEquals(Undefined.class, target.parse(new Date()).getClass());
-        assertEquals(Undefined.class, target.parse(new Undefined()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new BoolLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new StrLiteral()).getClass());
+        assertEquals(MoneyLiteral.class, target.parse(new IntLiteral()).getClass());
+        assertEquals(MoneyLiteral.class, target.parse(new DecimalLiteral()).getClass());
+        assertEquals(MoneyLiteral.class, target.parse(new MoneyLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new DateLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new UndefinedLiteral()).getClass());
     }
     
     @Test
     public void testValueToDate() {
         Type target = new ql.ast.type.Date();
-        assertEquals(Undefined.class, target.parse(new Bool()).getClass());
-        assertEquals(Undefined.class, target.parse(new Str()).getClass());
-        assertEquals(Undefined.class, target.parse(new Int()).getClass());
-        assertEquals(Undefined.class, target.parse(new Decimal()).getClass());
-        assertEquals(Undefined.class, target.parse(new Money()).getClass());
-        assertEquals(Date.class, target.parse(new Date()).getClass());
-        assertEquals(Undefined.class, target.parse(new Undefined()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new BoolLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new StrLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new IntLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new DecimalLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new MoneyLiteral()).getClass());
+        assertEquals(DateLiteral.class, target.parse(new DateLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new UndefinedLiteral()).getClass());
     }
     
     @Test
     public void testValueToUndefined() {
         Type target = new ql.ast.type.Undefined();
-        assertEquals(Undefined.class, target.parse(new Bool()).getClass());
-        assertEquals(Undefined.class, target.parse(new Str()).getClass());
-        assertEquals(Undefined.class, target.parse(new Int()).getClass());
-        assertEquals(Undefined.class, target.parse(new Decimal()).getClass());
-        assertEquals(Undefined.class, target.parse(new Money()).getClass());
-        assertEquals(Undefined.class, target.parse(new Date()).getClass());
-        assertEquals(Undefined.class, target.parse(new Undefined()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new BoolLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new StrLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new IntLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new DecimalLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new MoneyLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new DateLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, target.parse(new UndefinedLiteral()).getClass());
     }
 }

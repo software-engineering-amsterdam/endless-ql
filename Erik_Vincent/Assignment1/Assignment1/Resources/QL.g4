@@ -1,7 +1,7 @@
 parser grammar QL;
 
 @header {
-using Assignment1;
+using Assignment1.Model;
 }
 
 options { tokenVocab=QLLexer; }
@@ -44,10 +44,10 @@ questionAssign returns [Question result]
 		 $result.Expression = $expression.result;}
 	;
 questionNorm returns [Question result]
-	: LABEL ID SEP BOOLEAN
-		{$result = new QuestionBool($ID.text, $LABEL.text);}
-	| LABEL ID SEP MONEY
-		{$result = new QuestionMoney($ID.text, $LABEL.text);}
+	: STRING ID SEP BOOLEAN
+		{$result = new QuestionBool($ID.text, $STRING.text);}
+	| STRING ID SEP MONEY
+		{$result = new QuestionMoney($ID.text, $STRING.text);}
 	;
 ifstatement returns [IfStatement result]
 	: IF OPEN_BR expression CLOSE_BR content1=content ELSE content2=content
@@ -57,7 +57,7 @@ ifstatement returns [IfStatement result]
 	;
 expression returns [Expression result]
 	: value
-		{$result = new Expression($value.result);}
+		{$result = new ExpressionValue($value.result);}
 	| OPEN_BR expression CLOSE_BR
 		{$result = $expression.result;}
 	| NOT expression
@@ -67,9 +67,9 @@ expression returns [Expression result]
 	| left=expression SUB right=expression
 		{$result = new ExpressionSub($left.result, $right.result);}
 	| left=expression MULT right=expression
-		{$result = new ExpressionAdd($left.result, $right.result);}
+		{$result = new ExpressionMult($left.result, $right.result);}
 	| left=expression DIV right=expression
-		{$result = new ExpressionAdd($left.result, $right.result);}
+		{$result = new ExpressionDiv($left.result, $right.result);}
 	| left=expression GTEQ right=expression
 		{$result = new ExpressionGreaterEqual($left.result, $right.result);}
 	| left=expression LTEQ right=expression
@@ -98,4 +98,6 @@ value returns [dynamic result]
 	| FALSE   {$result = false;}
 	| INTEGER {$result = int.Parse($INTEGER.text);}
 	| DECIMAL {$result = decimal.Parse($DECIMAL.text);}
+	| STRING  {$result = $STRING.text;}
+	| DATE    {$result = DateTime.Parse($DATE.text);}
 	;

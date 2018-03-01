@@ -26,25 +26,23 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
 
     @Override
     public void setValue(String value) {
-        if (value.isEmpty())
+        if (value == null || value.isEmpty())
             this.value = null;
         else
             this.value = BigDecimal.valueOf(Double.parseDouble(value));
     }
 
     @Override
-    public BigDecimal getValue() {
-        return this.value;
-    }
-
-    public int getIntValue() {
+    public Integer getIntValue() {
         return this.value.intValue();
     }
 
-    public double getDecimalValue() {
+    @Override
+    public Double getDecimalValue() {
         return this.value.doubleValue();
     }
 
+    @Override
     public BigDecimal getMoneyValue() {
         return this.value.setScale(2, RoundingMode.CEILING);
     }

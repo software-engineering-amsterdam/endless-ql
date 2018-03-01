@@ -11,7 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ql.ast.expression.Identifier;
-import ql.evaluator.value.Date;
+import ql.ast.expression.literal.DateLiteral;
 
 public class DateSpinnerField extends JSpinner {
 
@@ -33,7 +33,7 @@ public class DateSpinnerField extends JSpinner {
             @Override
             public void stateChanged(ChangeEvent e) {
                 LocalDate localDate = (LocalDate) ((JSpinner) e.getSource()).getValue();
-                id.setValue(new Date(localDate));
+                id.setValue(new DateLiteral(localDate));
             }
         });
     }

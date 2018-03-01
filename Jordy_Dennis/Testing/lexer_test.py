@@ -11,19 +11,6 @@ from antlr4.InputStream import InputStream
 from LexParser.QLGrammarLexer import QLGrammarLexer
 from LexParser.QLGrammarParser import QLGrammarParser
 
-
-def getLexerFromString(input):
-    input_stream = InputStream(input)
-    lexer = QLGrammarLexer(input_stream)
-    token_stream = CommonTokenStream(lexer)
-    parser = QLGrammarParser(token_stream)
-    parser._listeners = [MyErrorListener()]
-
-    tree = parser.form()
-    tree_str = tree.toStringTree(recog=parser)
-    return str(tree_str)
-
-
 class LexerTest(unittest.TestCase):
     def testGoodFiles(self):
         path = 'Testing/lexer_test_files/correct_test'
@@ -31,7 +18,6 @@ class LexerTest(unittest.TestCase):
             inputText, outputText = getInputOutput(path, filename)
             lexer_str = getLexerFromString(inputText)
             self.assertEqual(lexer_str, outputText, filename)
-
 
     def testErrorFiles(self):
         path = 'Testing/lexer_test_files/fail_test'
@@ -41,6 +27,7 @@ class LexerTest(unittest.TestCase):
 
             self.assertRaises(Exception, getLexerFromString, inputText, filename)
             file_object.close()
+
 
 if __name__ == '__main__':
     unittest.main()

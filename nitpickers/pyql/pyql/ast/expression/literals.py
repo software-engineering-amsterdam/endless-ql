@@ -1,5 +1,5 @@
 from pyql.ast.expression import expressions
-from pyql.ast.type import types
+from pyql.util import types
 
 
 class StringLiteral(expressions.Literal):

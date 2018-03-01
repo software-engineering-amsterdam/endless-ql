@@ -5,6 +5,8 @@ form taxOfficeExample {
     hasBoughtHouse: boolean
   "Did you enter a loan?"
     hasMaintLoan: boolean
+  "Did you enter a loan?"
+      hasMaintLoan: money
 
   if (hasSoldHouse || (hasMaintLoan == hasBoughtHouse)) {
     "What was the selling price?"

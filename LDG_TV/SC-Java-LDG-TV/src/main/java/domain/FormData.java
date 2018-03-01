@@ -40,7 +40,16 @@ public class FormData {
     public List<QuestionVariable> getReferencedVariables() {
         return referencedVariables;
     }
-
+    public List<QuestionStructure> getAllQuestions(){
+        List<QuestionStructure> allQuestions = new ArrayList<QuestionStructure>();
+        for (Map.Entry<List<Condition>, List<QuestionStructure>> entry : this.getConditionQuestions().entrySet()) {
+            for (QuestionStructure qs : entry.getValue()) {
+                allQuestions.add(qs);
+            }
+        }
+        allQuestions.addAll(this.plainQuestionStructures);
+        return allQuestions;
+    }
     public QuestionVariable getQuestionVariableByLabel(String label){
         QuestionVariable qv = null ;
 

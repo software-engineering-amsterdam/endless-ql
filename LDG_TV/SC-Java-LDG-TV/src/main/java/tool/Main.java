@@ -23,16 +23,10 @@ public class Main {
             FormParser.FormBuilderContext tree = parser.formBuilder();
             QLLoader loader = new QLLoader();
             ParseTreeWalker.DEFAULT.walk(loader, tree);
-            for (QuestionStructure qs : loader.getFormNode().getFormData().getPlainQuestionStructures()){
+            for (QuestionStructure qs : loader.getFormNode().getFormData().getAllQuestions()){
                 System.out.println(qs.getLabel());
                 System.out.println(qs.getQuestionVariable().getLabel());
-            }
-            System.out.println(loader.getFormNode().getFormData().getConditionQuestions().size());
-            for (Map.Entry<List<Condition>, List<QuestionStructure>> entry : loader.getFormNode().getFormData().getConditionQuestions().entrySet()) {
-                for (QuestionStructure qs : entry.getValue()) {
-                    System.out.println(qs.getLabel());
-                    System.out.println(qs.getQuestionVariable().getLabel());
-                }
+                System.out.println(qs.getQuestionVariable().getQuestionVariableType());
             }
         } catch (IOException e) {
             e.printStackTrace();

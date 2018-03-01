@@ -1,39 +1,37 @@
 package ParseObjects.Expressions.BinaryExpressions;
 
 import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
+import ParseObjects.Expressions.ExpressionConstants.IntegerConstant;
+import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static ParseObjects.Expressions.EvaluationType.Decimal;
 import static jdk.nashorn.internal.objects.Global.Infinity;
 import static org.junit.Assert.*;
 
+@RunWith(JUnitQuickcheck.class)
 public class DivisionExpressionTest {
 
-    private DecimalConstant a = new DecimalConstant(10.00);
-    private DecimalConstant b = new DecimalConstant(2.00);
-    private DecimalConstant c = new DecimalConstant(-10.00);
-    private DecimalConstant MAXDecimal = new DecimalConstant(Double.MAX_VALUE);
-    private DecimalConstant MINDecimal = new DecimalConstant(Double.MIN_VALUE);
-    private DivisionExpression posToTest = new DivisionExpression(a,b);
-    private DivisionExpression negToTest = new DivisionExpression(c,b);
-    private DivisionExpression maxToTest = new DivisionExpression(MINDecimal,MAXDecimal);
+    private DivisionExpression expressionTest;
+    @Property
+    public void evaluateINT(int autoA, int autoB) {
+        IntegerConstant b = new IntegerConstant( autoA);
+        IntegerConstant c = new IntegerConstant( autoB);
 
+        expressionTest  = new DivisionExpression(b,c);
+        assertEquals((autoA / autoB), expressionTest.evaluate().getValue());
 
-    @Test
-    public void evaluate() {
+    }
+    @Property
+    public void evaluateDOUBLE(double autoA, double autoB) {
+        DecimalConstant b = new DecimalConstant( autoA);
+        DecimalConstant c = new DecimalConstant( autoB);
 
+        expressionTest  = new DivisionExpression(b,c);
+        assertEquals((autoA / autoB), expressionTest.evaluate().getValue());
 
-        Double posTest = Double.parseDouble(posToTest.evaluate().getValue().toString());
-        Double negTest = Double.parseDouble(negToTest.evaluate().getValue().toString());
-        Double maxTest = Double.parseDouble(maxToTest.evaluate().getValue().toString());
-
-        Double posEXP = 5.00;
-        Double negEXP = -5.00;
-        Double maxEXP = 0.0;
-
-        assertEquals(maxEXP, maxTest);
-        assertEquals(negEXP, negTest);
-        assertEquals(posEXP, posTest);
     }
 
 }

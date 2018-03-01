@@ -1,4 +1,4 @@
-package checking.value;
+package visiting.value;
 
 public abstract class AbstractValue extends Value {
 	

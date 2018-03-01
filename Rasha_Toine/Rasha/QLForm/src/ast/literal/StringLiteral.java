@@ -1,7 +1,7 @@
 package ast.literal;
 
-import checking.value.StringValue;
 import visiting.LiteralVisitor;
+import visiting.value.StringValue;
 
 public class StringLiteral extends Literal{
 	

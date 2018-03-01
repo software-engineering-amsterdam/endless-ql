@@ -114,6 +114,7 @@ public class Renderer {
 
         switch(question.type){
             case BOOLEAN:
+                // Checkbox
                 input = createBooleanField(fieldMap, question);
                 break;
             case STRING:
@@ -126,6 +127,7 @@ public class Renderer {
                 input = createTextField(fieldMap, question, question.type);
                 break;
             case DATE:
+                // Date picker
                 input = createDateField(fieldMap, question);
                 break;
             default:
@@ -183,11 +185,6 @@ public class Renderer {
         // Add input formatters
         switch(type){
             case INTEGER:
-//                textField.textProperty().addListener((observable, oldValue, newValue) -> {
-//                    if (!newValue.matches("\\d*")) {
-//                        textField.setText(newValue.replaceAll("[^\\d]", ""));
-//                    }
-//                });
                 TextFormatter intFormatter = createTextFormatter("-?\\d*");
                 textField.setTextFormatter(intFormatter);
                 break;

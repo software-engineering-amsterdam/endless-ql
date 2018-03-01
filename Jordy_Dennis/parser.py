@@ -20,6 +20,18 @@ from LexParser.QLGrammarLexer import QLGrammarLexer
 from LexParser.QLGrammarParser import QLGrammarParser
 
 
+def getAstFromFile(input):
+    lexer = QLGrammarLexer(input)
+    stream = CommonTokenStream(lexer)
+    parser = QLGrammarParser(stream)
+    tree = parser.form()
+
+    visitor = Visitor()
+    visitor.visit(tree)
+
+    ast = visitor.getAst()
+    return ast
+
 def main(argv):
     input = FileStream(argv[1])
     lexer = QLGrammarLexer(input)

@@ -30,4 +30,7 @@ public class ExpressionIdentifier extends Expression {
     public boolean equals(Object other) {
         return evaluate().equals(other);
     }
+
+    @Override
+    public void typeCheck() { }
 }

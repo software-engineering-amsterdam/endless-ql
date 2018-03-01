@@ -83,7 +83,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
 	@Override
 	public Void visit(FormStmt form) {
-		form.blockStmt.accept(this);
+		form.visitBlockStmt(this);
 		return null;
 	}
 

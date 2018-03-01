@@ -70,11 +70,11 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 
 	@Override
 	public String visit(FormStmt stmt) {
-		return stmt.blockStmt.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.blockStmt.getId()) +
-				stmt.identifier.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId()) +
-				String.format("  %s [label=\"FormStmt\nName: %s\"]\n", stmt.getId(), stmt.identifier.token.getLexeme());
+		return stmt.visitBlockStmt(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.getBlockStmtId()) +
+				stmt.visitIndetifierExpr(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.getIndetifierExprId()) +
+				String.format("  %s [label=\"FormStmt\nName: %s\"]\n", stmt.getId(), stmt.getIdentifierName());
 	}
 
 	@Override

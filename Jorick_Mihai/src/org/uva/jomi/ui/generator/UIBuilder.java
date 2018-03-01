@@ -51,7 +51,7 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 	public BaseElement visit(FormStmt form) {
 		PanelElement panel = new PanelElement();
 		
-		panel.addElement(form.blockStmt.accept(this));
+		panel.addElement(form.visitBlockStmt(this));
 		
 		return panel;
 	}

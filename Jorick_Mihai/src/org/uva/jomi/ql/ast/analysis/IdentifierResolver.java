@@ -59,7 +59,7 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visit(FormStmt stmt) {
-		stmt.blockStmt.accept(this);
+		stmt.visitBlockStmt(this);
 		return null;
 	}
 

@@ -33,7 +33,7 @@ class LexerTest(unittest.TestCase):
             input = data[0].strip("\n")
             output = data[1].strip("\n")
             lexer_str = getLexerFromString(input)
-            
+
             self.assertEqual(lexer_str, output, filename)
             file_object.close()
 

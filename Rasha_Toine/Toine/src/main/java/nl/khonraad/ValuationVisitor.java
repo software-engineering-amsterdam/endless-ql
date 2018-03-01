@@ -1,6 +1,6 @@
 package nl.khonraad;
 
-public class MyVisitor extends ExpressionLanguageBaseVisitor<Integer> {
+public class ValuationVisitor extends ExpressionLanguageBaseVisitor<Integer> {
 
 	public Questions questions = new Questions();
 	

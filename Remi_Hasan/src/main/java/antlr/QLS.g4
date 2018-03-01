@@ -5,9 +5,9 @@
 
 grammar QLS;
 
-root            : STYLESHEET IDENTIFIER page* EOF;
-page            : PAGE IDENTIFIER '{' (section | default_)* '}';
-section         : SECTION STRING '{'? (section | question | default_)* '}'?;
+root            : STYLESHEET IDENTIFIER ('{' page* '}' | page) EOF;
+page            : PAGE IDENTIFIER ((section | default_) | '{' (section | default_)* '}');
+section         : SECTION STRING ((section | question | default_) | '{' (section | question | default_)* '}');
 question        : QUESTION (IDENTIFIER | IDENTIFIER widget);
 default_        : DEFAULT type (widget | '{' widget* '}');
 

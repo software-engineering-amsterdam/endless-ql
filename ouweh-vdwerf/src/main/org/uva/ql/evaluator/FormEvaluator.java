@@ -38,8 +38,16 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
         return this.statementTable.getQuestionsAsList();
     }
 
+    public ValueTable getValueTable() {
+        return valueTable;
+    }
+
     public void addOrUpdateValue(String id, Value value){
         this.valueTable.addOrUpdateValue(id, value);
+    }
+
+    public Conditional getConditionById(String id){
+        return this.statementTable.getConditionByQuestionID(id);
     }
 
     public boolean questionHasCondition(Question question){
@@ -48,6 +56,15 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
 
     public Value getValueById(String id) {
         return this.valueTable.getValueByID(id);
+    }
+
+    public void evaluateAllExpressions(ExpressionEvaluator expressionEvaluator){
+        for (Question question : this.getQuestionsAsList()){
+            if(this.expressionTable.questionHasExpression(question.toString())){
+                Value value = expressionEvaluator.evaluateExpression(question.getName(),this.expressionTable.getExpressionByName(question.getName()),this.valueTable);
+                this.valueTable.addOrUpdateValue(question.getName(), value);
+            }
+        }
     }
 
     @Override

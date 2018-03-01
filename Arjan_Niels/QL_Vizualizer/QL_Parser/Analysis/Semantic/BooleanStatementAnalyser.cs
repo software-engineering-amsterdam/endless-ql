@@ -27,17 +27,18 @@ namespace QL_Parser.Analysis.Semantic
 
         private bool AnalyseExpression(IExpressionNode node)
         {
-            if (node.GetNodeType() == NodeType.LOGICAL_EXPRESSION)
+            switch (node.GetNodeType())
             {
-                var statementNode = (LogicalExpressionNode)node;
-                var leftSideIsBoolean = AnalyseExpression(statementNode.Left);
-                var rightSideIsBoolean = AnalyseExpression(statementNode.Right);
+                case NodeType.LOGICAL_EXPRESSION:
+                    var statementNode = (LogicalExpressionNode)node;
+                    var leftSideIsBoolean = AnalyseExpression(statementNode.Left);
+                    var rightSideIsBoolean = AnalyseExpression(statementNode.Right);
 
-                return leftSideIsBoolean && rightSideIsBoolean;
-            }
-            else
-            {
-                return node.GetQValueType() == QValueType.BOOLEAN;
+                    return leftSideIsBoolean && rightSideIsBoolean;
+                case NodeType.COMPARISON_EXPRESSION:
+                    return true;
+                default:
+                    return node.GetQValueType() == QValueType.BOOLEAN;
             }
         }
     }

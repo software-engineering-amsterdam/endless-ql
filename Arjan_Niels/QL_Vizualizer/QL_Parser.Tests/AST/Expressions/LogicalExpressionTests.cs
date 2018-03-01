@@ -3,7 +3,7 @@ using QL_Parser.AST.Nodes;
 using QL_Parser.AST.Nodes.ExpressionNodes;
 using System.Linq;
 
-namespace QL_Parser.Tests.AST
+namespace QL_Parser.Tests.AST.Expressions
 {
     [TestClass]
     public class LogicalExpressionTests : QLTest

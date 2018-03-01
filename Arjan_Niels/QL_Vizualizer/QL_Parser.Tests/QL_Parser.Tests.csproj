@@ -51,8 +51,9 @@
     <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyserTests.cs" />
     <Compile Include="Analysis\Semantic\DuplicateVariableAnalyserTest.cs" />
     <Compile Include="AST\CommentTest.cs" />
+    <Compile Include="AST\Expressions\ComparisonExpressionTests.cs" />
     <Compile Include="AST\TreeConstructionTest.cs" />
-    <Compile Include="AST\LogicalExpressionTests.cs" />
+    <Compile Include="AST\Expressions\LogicalExpressionTests.cs" />
     <Compile Include="AST\SymbolTableTests.cs" />
     <Compile Include="AST\Validators\ASTValidatorTests.cs" />
     <Compile Include="AST\Validators\QuestionHasNoChildrenTests.cs" />
@@ -74,6 +75,7 @@
       <Name>QL_Parser</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -4,6 +4,7 @@ import org.uva.ql.ast.*;
 import org.uva.ql.evaluator.data.ExpressionTable;
 import org.uva.ql.evaluator.data.StatementTable;
 import org.uva.ql.visitor.StatementVisitor;
+import java.util.List;
 
 public class FormEvaluator implements StatementVisitor<Void, String>{
 
@@ -19,6 +20,10 @@ public class FormEvaluator implements StatementVisitor<Void, String>{
         for (Statement statement : form.getStatements()){
             statement.accept(this, null);
         }
+    }
+
+    public List<Question> getQuestionsAsList() {
+        return this.statementTable.getQuestionsAsList();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package loader;
 
 import domain.FormNode;
-import domain.model.question.Variable;
+import domain.model.variable.Variable;
 import exception.ReferenceUndefinedVariableException;
 
 public class QLChecker {

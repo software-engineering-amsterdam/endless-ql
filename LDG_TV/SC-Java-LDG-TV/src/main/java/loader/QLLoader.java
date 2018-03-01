@@ -3,11 +3,11 @@ package loader;
 import antlr.FormBaseListener;
 import antlr.FormParser;
 import domain.FormNode;
-import domain.model.question.Condition;
-import domain.model.question.ExpressionVariable;
-import domain.model.question.Question;
-import domain.model.question.StringVariable;
-import domain.model.question.Variable;
+import domain.model.variable.BooleanVariable;
+import domain.model.variable.ExpressionVariable;
+import domain.model.Question;
+import domain.model.variable.StringVariable;
+import domain.model.variable.Variable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class QLLoader extends FormBaseListener {
             c = null;
         }
         this.formNode.getFormData().addConditionsAsKey(this.conditionsHolder);
-    }
+     }
     @Override
     public void exitIfStructure(FormParser.IfStructureContext ctx){
         this.conditionsHolder = new ArrayList<Variable>(); ;
@@ -73,7 +73,7 @@ public class QLLoader extends FormBaseListener {
             constructedVariable = new StringVariable(ctx.questionVariable().getText(), null);
         }
         if(ctx.questionVariableType().getText().equals("boolean")){
-            constructedVariable = new StringVariable(ctx.questionVariable().getText(), null);
+            constructedVariable = new BooleanVariable(ctx.questionVariable().getText(), null);
         }
         if(ctx.questionVariableValue() != null && ctx.questionVariableValue().expression() != null){
             FormParser.ExpressionContext ec = ctx.questionVariableValue().expression();
@@ -85,7 +85,6 @@ public class QLLoader extends FormBaseListener {
             FormParser.PlainValueContext vc = ctx.questionVariableValue().plainValue();
             constructedVariable = new StringVariable(ctx.questionVariable().getText(), vc.getText());
         }
-        System.out.println(constructedVariable);
         return new Question(label, constructedVariable);
     }
     public FormNode getFormNode() {

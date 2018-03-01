@@ -1,4 +1,7 @@
-package domain.model.question;
+package domain.model.variable;
+
+import domain.model.visitor.Visitor;
+import javafx.scene.Node;
 
 public class StringVariable extends Variable {
     private final String value;
@@ -7,7 +10,6 @@ public class StringVariable extends Variable {
         super(name);
         this.value = value;
     }
-
     public String getValue() {
         return value;
     }
@@ -15,5 +17,10 @@ public class StringVariable extends Variable {
     @Override
     public String toString() {
         return this.getName() + ": String";
+    }
+
+    @Override
+    public Node getRelatedGUIElement(Visitor v){
+        return v.visit(this);
     }
 }

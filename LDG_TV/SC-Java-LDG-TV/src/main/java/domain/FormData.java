@@ -1,8 +1,7 @@
 package domain;
 
-import domain.model.question.Condition;
-import domain.model.question.Question;
-import domain.model.question.Variable;
+import domain.model.Question;
+import domain.model.variable.Variable;
 
 import java.util.*;
 

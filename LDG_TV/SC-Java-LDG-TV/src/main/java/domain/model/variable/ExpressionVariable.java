@@ -1,8 +1,10 @@
-package domain.model.question;
+package domain.model.variable;
 
-import domain.model.question.Variable;
+import domain.model.visitor.Visitor;
+import javafx.scene.Node;
 
-public class ExpressionVariable extends Variable{
+
+public class ExpressionVariable extends Variable {
 
     private Variable leftHandOperand;
     private Variable rightHandOperand;
@@ -15,4 +17,8 @@ public class ExpressionVariable extends Variable{
         this.operator = operator;
     }
 
+    @Override
+    public Node getRelatedGUIElement(Visitor v) {
+        return null;
+    }
 }

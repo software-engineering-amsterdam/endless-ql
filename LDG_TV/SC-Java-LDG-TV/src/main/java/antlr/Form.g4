@@ -22,13 +22,13 @@ ifStructure:
 ;
 
 statementBlockStructure: BRACKET_OPEN conditions BRACKET_CLOSE ;
+plainValue: (CHARACTERS | NUMBERS);
 
 questionLabel : QUESTION_LABEL;
 questionVariable: CHARACTERS;
 questionVariableType: 'boolean' | 'money' | 'string';
 questionVariableValue: expression | plainValue;
 
-plainValue: CHARACTERS | NUMBERS;
 expression: BRACKET_OPEN questionVariable operator questionVariable BRACKET_CLOSE;
 booleanExpression: BRACKET_OPEN questionVariable comparisonOperator questionVariable BRACKET_CLOSE;
 
@@ -44,6 +44,7 @@ operator: (PLUS | MINUS | TIMES | DIV) ;
 
 fragment LOWERCASE  : [a-z] ;
 fragment UPPERCASE  : [A-Z] ;
+fragment NUMBERS : ('0' .. '9')+  ;
 
 CURLY_BRACKET_OPEN : '{';
 CURLY_BRACKET_CLOSE : '}';
@@ -73,5 +74,4 @@ NEWLINE : ('\r'? '\n' | '\r')+ -> skip;
 
 CHARACTERS : (LOWERCASE | UPPERCASE)+;
 
-fragment NUMBERS : ('0' .. '9')+  ;
 

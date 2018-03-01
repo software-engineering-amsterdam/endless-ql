@@ -5,8 +5,10 @@ import antlr.FormParser;
 import domain.FormData;
 import domain.FormNode;
 import domain.Utilities;
-import domain.model.question.Question;
-import domain.model.question.Variable;
+import domain.model.Question;
+import domain.model.variable.Variable;
+import domain.model.visitor.VariableVisitor;
+import domain.model.visitor.Visitor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -69,26 +71,12 @@ public class ToolController implements Initializable {
 
 
         List<Question> qs = data.getAllQuestions();
-
+        VariableVisitor v = new VariableVisitor();
         for (Question q : qs) {
-//            Variable qv =  q.getQuestionVariable();
-//            QuestionVariableType qType = qv.getQuestionVariableType();
-//            String qText = q.getLabel();
-//
-//            Node answerNode;
-//            switch (qType) {
-//                default:
-//                case MONEY:
-//                case STRING:
-//                    answerNode = new TextField();
-//                    break;
-//                case BOOLEAN:
-//                    answerNode = new CheckBox();
-//                    break;
-//            }
-
-
-//            lvQuestionnaire.getItems().add(new QuestionRow(qText, answerNode));
+            Variable qv =  q.getVariable();
+            String qText = q.getText();
+            Node answerNode = qv.getRelatedGUIElement(v);
+            lvQuestionnaire.getItems().add(new QuestionRow(qText, answerNode));
         }
     }
 

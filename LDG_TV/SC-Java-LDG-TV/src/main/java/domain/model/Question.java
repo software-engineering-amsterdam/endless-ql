@@ -1,4 +1,6 @@
-package domain.model.question;
+package domain.model;
+
+import domain.model.variable.Variable;
 
 public class Question {
     private String text;
@@ -7,6 +9,10 @@ public class Question {
     public Question(String text, Variable variable) {
         this.text = text;
         this.variable = variable;
+    }
+
+    public String getText() {
+        return text;
     }
 
     public Variable getVariable() {

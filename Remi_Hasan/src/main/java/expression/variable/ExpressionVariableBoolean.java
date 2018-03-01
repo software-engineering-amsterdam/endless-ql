@@ -9,7 +9,7 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
     }
 
     @Override
-    public boolean getBooleanValue() {
+    public Boolean getBooleanValue() {
         return this.value;
     }
 

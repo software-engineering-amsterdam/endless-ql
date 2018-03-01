@@ -165,7 +165,7 @@ public class Renderer {
 
         if(!question.answer.isSettable()) {
             textField.setEditable(false);
-            textField.setText(question.evaluateAnswer().toString());
+            textField.setText(question.evaluateAnswer());
         }
 
         // If input changes some questions might need to be enabled/disabled

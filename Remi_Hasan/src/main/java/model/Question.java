@@ -26,7 +26,7 @@ public class Question {
         return this.condition.evaluate().getBooleanValue();
     }
 
-    public Object evaluateAnswer() {
+    public String evaluateAnswer() {
         ExpressionVariable evaluated = this.answer.evaluate();
 
         // If undefined, display answer as empty
@@ -36,15 +36,15 @@ public class Question {
 
         switch(this.type) {
             case INTEGER:
-                return evaluated.getIntValue();
+                return evaluated.getIntValue().toString();
             case DECIMAL:
-                return evaluated.getDecimalValue();
+                return evaluated.getDecimalValue().toString();
             case MONEY:
-                return evaluated.getMoneyValue();
+                return evaluated.getMoneyValue().toString();
             case STRING:
                 return evaluated.getStringValue();
             default:
-                return new ExpressionVariableUndefined();
+                return "";
         }
     }
 

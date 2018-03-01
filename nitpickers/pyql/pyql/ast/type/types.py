@@ -46,8 +46,3 @@ class Money(Type):
 
     def __init__(self, location):
         super().__init__(location, "Money")
-
-
-if __name__ == "__main__":
-    b = Decimal(code_location.CodeLocation(2, 3))
-    print(b.type_name)

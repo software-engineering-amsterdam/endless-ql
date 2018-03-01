@@ -7,9 +7,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebView;
-import org.w3c.dom.*;
-
-import java.util.ArrayList;
 
 public class FormPane extends BorderPane {
 

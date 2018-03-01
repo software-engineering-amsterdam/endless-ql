@@ -1,6 +1,5 @@
 package nl.uva.js.qlparser.ui;
 
-import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.models.expressions.form.Question;
 
 public class UIBuilder {
@@ -21,7 +20,7 @@ public class UIBuilder {
         return
                 question.getValue() != null
                 ? (question.getValue().value() != null
-                   ? question.getValue().value().toString()
+                   ? "A value~" //TODO
                    : "")
                 : "";
     }

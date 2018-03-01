@@ -12,18 +12,20 @@ import javafx.stage.Stage;
 import nl.uva.js.qlparser.exceptions.ParseException;
 import nl.uva.js.qlparser.logic.FormBuilder;
 import nl.uva.js.qlparser.models.expressions.Form;
+import nl.uva.js.qlparser.models.expressions.form.FormExpression;
+import nl.uva.js.qlparser.models.expressions.form.Question;
 import nl.uva.js.qlparser.ui.panes.FormPane;
 import nl.uva.js.qlparser.ui.panes.InputPane;
 import nl.uva.js.qlparser.ui.panes.LogPane;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class MainApp extends Application {
 
     private LogPane logPane;
     private InputPane inputPane;
     private FormPane  formPane;
-
 
     static void main(String[] args) {
         launch(args);
@@ -66,48 +68,47 @@ public class MainApp extends Application {
         return layout;
     }
 
-    // TODO
     private void processQL() {
+        formPane.setHtml("");
         logPane.clear();
 
         logPane.log("Parsing...");
 
         try {
             Form form = FormBuilder.parseFormFromString(inputPane.getText());
-            Form form = FormBuilder.parseFormFromString(inputPane.getText());
 
-            ArrayList<String> questions = new ArrayList<>();
-
-            for (FormExpression expression : form.getFormExpressions()) {
-                if (expression instanceof Question) {
-                    questions.add(UIBuilder.getTextInput((Question) expression));
-                }
-            }
-            String html =
-                    "<head>"
-                    + "<style type=\"text/css\">"
-                    + "label {"
-                    +   "display: inline-block;"
-                    +   "width:200px;"
-                    +   "text-align: left;"
-                    +  "}"
-                    + "</style>"
-                    + "</head>"
-                    +"<form>" + String.join("<br>", questions) + "</form>";
-            formPane.setHtml(html);
-
-            logger.log("Building AST...");
-
-            //Check
-            logger.log("Checking...");
-
-            // Evaluate / render
             logPane.log("Rendering questionnaire...");
 
-            logPane.log("Process finished");
+            formPane.setHtml(getHtmlFromForm(form));
+
+            logPane.log("Process finished succesfully");
+
         } catch (ParseException e) {
             logPane.log(e.getMessage());
         }
+    }
+
+    private String getHtmlFromForm(Form form) {
+        ArrayList<String> questions = new ArrayList<>();
+
+        for (FormExpression expression : form.getFormExpressions()) {
+            if (expression instanceof Question) {
+                questions.add(UIBuilder.getTextInput((Question) expression));
+            }
+        }
+
+        return  "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\" integrity=\"sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u\" crossorigin=\"anonymous\">\n"
+                + "<head>"
+                + "<style type=\"text/css\">"
+                + "label {"
+                +   "display: inline-block;"
+                +   "width:200px;"
+                +   "text-align: left;"
+                +  "}"
+                + "</style>"
+                + "</head>"
+                + "<h1>" + form.getHumanizedName() + "</h1>"
+                +" <form>" + String.join("<br>", questions) + "</form>";
     }
 
     private MenuBar getMenuBar(Stage stage) {

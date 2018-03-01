@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro
 
 import nl.uva.se.sc.niro.model.Expressions.Reference
 import nl.uva.se.sc.niro.model.Expressions.answers.BooleanAnswer
-import nl.uva.se.sc.niro.model.{ QLForm, Question, Statement }
+import nl.uva.se.sc.niro.model.{ Conditional, QLForm, Question, Statement }
 import org.apache.logging.log4j.scala.Logging
 
 object TypeChecker extends Logging {
@@ -18,14 +18,16 @@ object TypeChecker extends Logging {
   // TODO implement checkOperandsOfInvalidTypeToOperators
   def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): QLForm = {
     logger.info("Phase 1 - Checking operands of invalid type to operators ...")
+
     qLForm
   }
 
   def checkReferences(qLForm: QLForm): QLForm = {
     logger.info("Phase 2 - Checking references to undefined questions ...")
-    val questions = Statement.collectAllQuestions(qLForm.statements)
+
+    val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
     val references: Seq[Reference] = Statement.collectAllReferences(questions)
-    val undefinedReferences = references.map(_.value).filterNot(qLForm.symbolTable.contains)
+    val undefinedReferences: Seq[String] = references.map(_.value).filterNot(qLForm.symbolTable.contains)
 
     if (undefinedReferences.nonEmpty) {
       throw new IllegalArgumentException(s"Undefined references $undefinedReferences")
@@ -36,8 +38,9 @@ object TypeChecker extends Logging {
 
   def checkNonBooleanPredicates(qLForm: QLForm): QLForm = {
     logger.info("Phase 3 - Checking predicates that are not of the type boolean ...")
-    val conditionals = Statement.collectAllConditionals(qLForm.statements)
-    val conditionalsWithNonBooleanPredicates = conditionals filter { conditional =>
+
+    val conditionals: Seq[Conditional] = Statement.collectAllConditionals(qLForm.statements)
+    val conditionalsWithNonBooleanPredicates: Seq[Conditional] = conditionals filter { conditional =>
       Evaluator.evaluateExpression(conditional.predicate, qLForm.symbolTable) match {
         case _: BooleanAnswer => false
         case _                => true
@@ -53,11 +56,12 @@ object TypeChecker extends Logging {
 
   def checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm: QLForm): QLForm = {
     logger.info("Phase 4 - Checking duplicate question declarations with different types ...")
-    val questions = Statement.collectAllQuestions(qLForm.statements)
-    val duplicateQuestions = questions.groupBy(_.id).valuesIterator.filter(_.size > 1)
 
-    val duplicateQuestionsWithDifferentTypes = duplicateQuestions.filter(questionsWithMultipleOccurrences =>
-      questionsWithMultipleOccurrences.map(_.answerType).toSet.size > 1)
+    val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
+    val duplicateQuestions: Iterator[Seq[Question]] = questions.groupBy(_.id).valuesIterator.filter(_.size > 1)
+
+    val duplicateQuestionsWithDifferentTypes: Iterator[Seq[Question]] = duplicateQuestions.filter(
+      questionsWithMultipleOccurrences => questionsWithMultipleOccurrences.map(_.answerType).toSet.size > 1)
 
     if (duplicateQuestionsWithDifferentTypes.nonEmpty) {
       throw new IllegalArgumentException(s"Undefined references $duplicateQuestionsWithDifferentTypes")
@@ -69,13 +73,13 @@ object TypeChecker extends Logging {
   // TODO implement checkCyclicDependenciesBetweenQuestions
   def checkCyclicDependenciesBetweenQuestions(qLForm: QLForm): QLForm = {
     logger.info("Phase 5 - Checking cyclic dependencies between questions ...")
-    val questions = Statement.collectAllQuestions(qLForm.statements)
-    val dependencyGraph: Seq[(String, String)] = questions.flatMap {
-      case q @ Question(_, _, _, r @ Reference(_), _) => Seq(q.id -> r.value)
-      case q @ Question(_, _, _, expression, _)       => Statement.collectAllReferences(expression).map(r => q.id -> r.value)
-    }
 
-    val cyclicDependencies = dependencyGraph.exists(element => detectCycle(element, dependencyGraph, element))
+    val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
+
+    val dependencyGraph: Graph = buildDependencyGraph(questions)
+
+    val cyclicDependencies: Boolean = dependencyGraph.exists(element =>
+      detectCycle(element, dependencyGraph, Seq(element)))
     if (cyclicDependencies) {
       throw new IllegalArgumentException(s"Found cyclic dependency")
     }
@@ -83,19 +87,35 @@ object TypeChecker extends Logging {
     qLForm
   }
 
-  private def detectCycle(
-      follow: (String, String),
-      graph: Seq[(String, String)],
-      startingElement: (String, String)): Boolean = {
-    logger.info(s"Detecting cycles for starting element: $startingElement in graph: $graph. Now following: $follow")
+  type Edge = (String, String)
+  type Graph = Seq[Edge]
 
-    val nextElement: Option[(String, String)] = graph.find(_._1 == follow._2)
-    nextElement match {
-      case Some((from, to)) if startingElement._1 == to =>
-        logger.info(s"Detected a cycle between: $startingElement -> ${(from, to)}")
-        true
-      case Some((from, to)) => detectCycle((from, to), graph.filterNot(pair => pair == follow), startingElement)
-      case None             => false
+  private def buildDependencyGraph(questions: Seq[Question]): Graph = {
+    questions.flatMap {
+      case q @ Question(_, _, _, r @ Reference(_), _) => Seq(q.id -> r.value)
+      case q @ Question(_, _, _, expression, _)       => Statement.collectAllReferences(expression).map(r => q.id -> r.value)
+    }
+  }
+
+  private def detectCycle(currentEdge: Edge, graph: Graph, followedPath: Graph): Boolean = {
+    logger.info(
+      s"Detecting cycles for starting element: ${followedPath.head} in graph: $graph. Now following: $currentEdge")
+
+    val connectedEdges: Seq[Edge] = graph.filter(_._1 == currentEdge._2)
+
+    if (connectedEdges.isEmpty) {
+      logger.info(s"No cycle detected in ${followedPath.tail :+ currentEdge} for element ${followedPath.head}")
+      false
+    } else {
+      connectedEdges.exists { connectedEdge =>
+        if (followedPath.head._1 == connectedEdge._2) {
+          val completePath = ((followedPath.tail :+ currentEdge).map(_._1) :+ connectedEdge._2).mkString(" -> ")
+          logger.info(s"Detected a cycle: $completePath")
+          true
+        } else {
+          detectCycle(connectedEdge, graph, followedPath :+ currentEdge)
+        }
+      }
     }
   }
 
@@ -103,7 +123,7 @@ object TypeChecker extends Logging {
   def checkDuplicateLabels(qLForm: QLForm): QLForm = {
     logger.info("Phase 6 - Checking duplicate question labels ...")
 
-    val questions = Statement.collectAllQuestions(qLForm.statements)
+    val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
     val questionsWithDuplicateLabels: Iterator[Seq[Question]] =
       questions.groupBy(_.label).valuesIterator.filter(_.size > 1)
 

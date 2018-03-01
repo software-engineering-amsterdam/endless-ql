@@ -3,7 +3,6 @@ package visitor;
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
 import model.Form;
-import model.Statement;
 
 import java.util.ArrayList;
 

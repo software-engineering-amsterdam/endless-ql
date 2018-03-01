@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Form {
 
     public final String identifier;
-    public final ArrayList<Statement> statements;
+    public final List<Statement> statements;
 
     public Form(String identifier, ArrayList<Statement> statements) {
         this.identifier = identifier;

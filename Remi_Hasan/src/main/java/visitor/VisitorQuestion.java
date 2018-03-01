@@ -3,10 +3,17 @@ package visitor;
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
 import expression.*;
+import expression.variable.ExpressionVariableBoolean;
 import model.LookupTable;
 import model.Question;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {
+
+    private final Expression condition;
+
+    public VisitorQuestion(Expression condition) {
+        this.condition = condition;
+    }
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {

@@ -7,7 +7,8 @@ public class IntegerConstant extends Constant {
 
     private Integer value;
 
-    public IntegerConstant(Integer value) {
+    public IntegerConstant(Integer value, Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
         this.value = value;
     }
 

@@ -7,14 +7,11 @@ public class TypeExpression extends AstNode {
     private Type type;
     private Expression expression;
 
-    public TypeExpression(Type type) {
+    public TypeExpression(Type type, Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
         this.type = type;
     }
 
-    public TypeExpression(Type type, Expression expression) {
-        this.type = type;
-        this.expression = expression;
-    }
 
     public Type getType() {
         return type;
@@ -35,7 +32,10 @@ public class TypeExpression extends AstNode {
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
         type.acceptVisitor(visitor);
-        expression.acceptVisitor(visitor);
+
+        if (expression != null) {
+            expression.acceptVisitor(visitor);
+        }
 
         visitor.visitTypeExpression(this);
     }

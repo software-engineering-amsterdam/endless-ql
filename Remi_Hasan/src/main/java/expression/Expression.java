@@ -16,6 +16,8 @@ public abstract class Expression {
         throw new UnsupportedOperationException("Cannot set value to non-variable expression");
     }
 
+    public abstract void typeCheck();
+
     @Override
     public boolean equals(Object other){
         return this.toString().equals(other.toString());

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Assignment1
+namespace Assignment1.Model
 {
     public class IfStatement : Content
     {

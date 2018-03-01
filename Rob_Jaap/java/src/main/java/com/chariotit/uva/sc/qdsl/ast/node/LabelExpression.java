@@ -6,7 +6,8 @@ public class LabelExpression extends Expression {
 
     private Label label;
 
-    public LabelExpression(Label label) {
+    public LabelExpression(Label label, Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
 
         this.label = label;
     }

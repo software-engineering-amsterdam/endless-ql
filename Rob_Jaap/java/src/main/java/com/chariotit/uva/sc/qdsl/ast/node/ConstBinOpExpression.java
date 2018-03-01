@@ -9,7 +9,9 @@ public class ConstBinOpExpression extends Expression {
     private Operator operator;
     private Expression expression;
 
-    public ConstBinOpExpression(Constant constant, Operator operator, Expression expression) {
+    public ConstBinOpExpression(Constant constant, Operator operator, Expression expression,
+                                Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
         this.constant = constant;
         this.operator = operator;
         this.expression = expression;

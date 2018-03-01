@@ -26,10 +26,20 @@ export class Form {
     return formQuestions.sort((a, b) => a.order - b.order);
   }
 
-  checkTypes(): void {
-    let allQuestions = [];
+  checkForm(): void {
+    const allQuestions = this.getAllQuestions();
 
-    // get all questions in a list for checking on identifiers and types
+    this.checkDuplicateIdentifiers(allQuestions);
+
+    this.setVariableReferences(allQuestions);
+
+    for (const statement of this.statements) {
+      statement.checkType(allQuestions);
+    }
+  }
+
+  private getAllQuestions(): Question[] {
+    const allQuestions = [];
     for (const statement of this.statements) {
       const questions = statement.getQuestions();
 
@@ -37,9 +47,10 @@ export class Form {
         allQuestions.push(statement.getQuestions());
       }
     }
-    allQuestions = _.flatten(allQuestions);
+    return _.flatten(allQuestions);
+  }
 
-    // check if questions have duplicate identifiers
+  private checkDuplicateIdentifiers(allQuestions: Question[]): void {
     if (_.uniqBy(allQuestions, 'name').length < allQuestions.length) {
       const groupedQuestions = _.groupBy(allQuestions, 'name');
 
@@ -49,28 +60,23 @@ export class Form {
         }
       });
     }
+  }
 
-    // set referencedQuestions for variables
-    let allVariables: Variable[] = [];
-    for (const question of allQuestions) {
-      allVariables.push(question.getVariables());
+  private setVariableReferences(allQuestions: Question[]): void {
+    let allVariables = [];
+    for (const statement of this.statements) {
+      allVariables.push(statement.getVariables());
     }
-
     allVariables = _.flatten(allVariables);
 
     for (const variable of allVariables) {
       const referencedQuestion = allQuestions.find(q => q.name === variable.identifier);
-
       if (referencedQuestion) {
         variable.referencedQuestion = referencedQuestion;
       } else {
         throw new UnknownQuestionError(`Question with identifier ${variable.identifier} was not found`);
       }
     }
-
-    // check types
-    for (const statement of this.statements) {
-      statement.checkType(allQuestions);
-    }
   }
+
 }

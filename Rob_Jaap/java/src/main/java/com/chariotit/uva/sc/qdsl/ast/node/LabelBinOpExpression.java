@@ -9,7 +9,9 @@ public class LabelBinOpExpression extends Expression {
     private Operator operator;
     private Expression expression;
 
-    public LabelBinOpExpression(Label label, Operator operator, Expression expression) {
+    public LabelBinOpExpression(Label label, Operator operator, Expression expression, Integer
+            lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
         this.label = label;
         this.operator = operator;
         this.expression = expression;

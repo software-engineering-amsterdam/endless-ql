@@ -58,6 +58,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExprId()) +
 				String.format("  %s -> %s\n", expr.getId(), expr.getRightExprId());
 	}
+	
 
 	@Override
 	public String visit(IdentifierExpr expr) {
@@ -94,12 +95,12 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	public String visit(QuestionStmt stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
 			   stmt.getId(),
-			   stmt.identifier.token.getLexeme(),
-			   stmt.type.getName());
+			   stmt.getIdentifierName(),
+			   stmt.getType());
 
 		// Visit the identifier expression
-		header += stmt.identifier.accept(this);
-		header += String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId());
+		header += stmt.visitIdentifierExpr(this);
+		header += String.format("  %s -> %s\n", stmt.getId(), stmt.getIdentifierId());
 		
 		return header;
 	}
@@ -108,16 +109,16 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	public String visit(ComputedQuestionStmt stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
 				   stmt.getId(),
-				   stmt.identifier.token.getLexeme(),
-				   stmt.type.getName());
+				   stmt.getIdentifierName(),
+				   stmt.getType());
 
 		// Visit the expression statement
 		header += stmt.visitExpr(this);
 		header += String.format("  %s -> %s\n", stmt.getId(), stmt.getExpId());
 
 		// Visit the identifier expression
-		header += stmt.identifier.accept(this);
-		header += String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId());
+		header += stmt.visitIdentifierExpr(this);
+		header += String.format("  %s -> %s\n", stmt.getId(), stmt.getIdentifierId());
 
 		return header;
 	}
@@ -131,21 +132,21 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 
 	@Override
 	public String visit(IfStmt stmt) {
-		return stmt.expression.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId()) +
-				stmt.blockStmt.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.blockStmt.getId()) +
+		return stmt.visitExpr(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.getExprId()) +
+				stmt.visitIfBlockStmt(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.getIfBlockStmtId()) +
 				String.format("  %s [label=\"IfStmt\"]\n", stmt.getId());
 	}
 
 	@Override
 	public String visit(IfElseStmt stmt) {
-		return stmt.expression.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId()) +
-				stmt.ifBlockStmt.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.ifBlockStmt.getId()) +
-				stmt.elseBlockStmt.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.elseBlockStmt.getId()) +
+		return stmt.visitExpr(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.getExprId()) +
+				stmt.visitIfBlockStmt(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.getIfBlockStmtId()) +
+				stmt.visitElseBlockStmt(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.getElseBlockStmtId()) +
 				String.format("  %s [label=\"IfElseStmt\"]\n", stmt.getId());
 	}
 

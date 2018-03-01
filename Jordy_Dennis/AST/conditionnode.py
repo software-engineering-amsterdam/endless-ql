@@ -22,7 +22,7 @@ class ConditionNodeBlock:
         types.append(ifType)
         for statement in self.block:
             types.append(statement.checkTypes())
-        return ["IF/ELIF:", types]
+        return ["IF/ELIF:"+ str(self.expression), types]
 
     def linkVars(self, varDict):
         self.expression.linkVars(varDict)

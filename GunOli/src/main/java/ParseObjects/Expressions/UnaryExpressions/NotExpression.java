@@ -1,10 +1,9 @@
 package ParseObjects.Expressions.UnaryExpressions;
 
-import ParseObjects.Expressions.Constant;
+import ParseObjects.Expressions.ExpressionConstants.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 import ParseObjects.Expressions.ExpressionConstants.BooleanConstant;
-import ParseObjects.Expressions.UnaryExpression;
 
 public class NotExpression extends UnaryExpression<Boolean> {
     public NotExpression(Expression<Boolean> expr){

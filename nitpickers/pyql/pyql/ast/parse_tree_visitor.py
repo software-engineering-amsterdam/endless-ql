@@ -1,13 +1,12 @@
 from pyql.antlr.QLVisitor import QLVisitor
 from pyql.antlr.QLParser import QLParser
-from pyql.ast.base_visitor import StatementVisitor
 from pyql.ast.form.block import Block
 from pyql.ast.code_location import CodeLocation
 from pyql.ast.form.form import Form
 from pyql.ast.form.ql_statements import *
 from pyql.ast.expression.expressions import *
-from pyql.ast.form.question_types import *
-
+from pyql.ast.expression.literals import *
+from pyql.util.types import *
 
 # TODO check if can get rid of 'if getChildCount() > 1'
 
@@ -38,22 +37,22 @@ class ParseTreeVisitor(QLVisitor):
                         ctx.questionType().accept(self))
 
     def visitBooleanType(self, ctx: QLParser.BooleanTypeContext):
-        return Boolean(self.location(ctx))
+        return Boolean()
 
     def visitStringType(self, ctx: QLParser.StringTypeContext):
-        return String(self.location(ctx))
+        return String()
 
     def visitIntegerType(self, ctx: QLParser.IntegerTypeContext):
-        return Integer(self.location(ctx))
+        return Integer()
 
     def visitDateType(self, ctx: QLParser.DateTypeContext):
-        return Date(self.location(ctx))
+        return Date()
 
     def visitDecimalType(self, ctx: QLParser.DecimalTypeContext):
-        return Decimal(self.location(ctx))
+        return Decimal()
 
     def visitMoneyType(self, ctx: QLParser.MoneyTypeContext):
-        return Money(self.location(ctx))
+        return Money()
 
     def visitExpression(self, ctx: QLParser.ExpressionContext):
         return self.visitChildren(ctx)
@@ -115,16 +114,16 @@ class ParseTreeVisitor(QLVisitor):
         return DecimalLiteral(self.location(ctx), ctx.getText())
 
     def visitIntLiteral(self, ctx: QLParser.IntLiteralContext):
-        return IntLiteral(self.location(ctx), ctx.getText())
+        return IntegerLiteral(self.location(ctx), ctx.getText())
 
     def visitStringLiteral(self, ctx: QLParser.StringLiteralContext):
         return StringLiteral(self.location(ctx), ctx.getText())
 
     def visitBoolLiteral(self, ctx: QLParser.BoolLiteralContext):
-        return BoolLiteral(self.location(ctx), ctx.getText())
+        return BooleanLiteral(self.location(ctx), ctx.getText())
 
     def visitIdentifier(self, ctx: QLParser.IdentifierContext):
-        return Identifier(ctx.getText(), self.location(ctx))
+        return Identifier(self.location(ctx), ctx.getText())
 
     def visitMoney(self, ctx: QLParser.MoneyContext):
         print("visit money")

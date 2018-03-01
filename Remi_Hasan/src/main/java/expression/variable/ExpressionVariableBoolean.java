@@ -1,5 +1,6 @@
 package expression.variable;
 
+import analysis.SymbolTable;
 import expression.ReturnType;
 
 public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
@@ -9,16 +10,18 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
     }
 
     @Override
-    public ReturnType getReturnType() {
+    public Boolean getBooleanValue() {
+        return this.value;
+    }
+
+    @Override
+    public ReturnType getReturnType(SymbolTable symbolTable) {
         return ReturnType.BOOLEAN;
     }
 
     @Override
     public void setValue(String value) {
-        if(value.isEmpty())
-            this.value = null;
-        else
-            this.value = Boolean.parseBoolean(value);
+        this.value = !value.isEmpty() && Boolean.parseBoolean(value);
     }
 
     @Override

@@ -3,34 +3,30 @@ package ParseObjects.Expressions.BinaryExpressions;
 import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 import ParseObjects.Expressions.ExpressionConstants.IntegerConstant;
 
-import org.junit.Test;
+import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
+import org.junit.runner.RunWith;
 
-import static ParseObjects.Expressions.EvaluationType.Decimal;
 import static org.junit.Assert.*;
 
+@RunWith(JUnitQuickcheck.class)
 public class AdditionExpressionTest {
+    private AdditionExpression expressionTest;
+    @Property
+    public void evaluateINT(int left, int right) {
+        IntegerConstant b = new IntegerConstant( left);
+        IntegerConstant c = new IntegerConstant( right);
 
-    private IntegerConstant a = new IntegerConstant( 3);
-    private IntegerConstant b = new IntegerConstant(5);
-    private AdditionExpression ae = new AdditionExpression(a, b);
-
-    @Test
-    public void returnType() {
-        assertEquals(Decimal, ae.returnType());
+        expressionTest = new AdditionExpression(b,c);
+        assertEquals((left + right), expressionTest.evaluate().getValue());
     }
 
-    @Test
-    public void evaluate() {
-        //Todo: Make this better, look at changes to AdditionExpression
+    @Property
+    public void evaluateINT(double left, double right) {
+        DecimalConstant b = new DecimalConstant( left);
+        DecimalConstant c = new DecimalConstant( right);
 
-        //double value = (double) ae.evaluate().getValue();
-        //assertEquals(8.00, value, 0);
+        expressionTest = new AdditionExpression(b,c);
+        assertEquals((left + right), expressionTest.evaluate().getValue());
     }
-
-    @Test
-    public void isArithmetic() {
-        assertEquals(true,ae.isArithmetic());
-
-    }
-
 }

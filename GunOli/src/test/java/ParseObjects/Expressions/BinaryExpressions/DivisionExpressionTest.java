@@ -1,31 +1,37 @@
 package ParseObjects.Expressions.BinaryExpressions;
 
 import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
+import ParseObjects.Expressions.ExpressionConstants.IntegerConstant;
+import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static ParseObjects.Expressions.EvaluationType.Decimal;
+import static jdk.nashorn.internal.objects.Global.Infinity;
 import static org.junit.Assert.*;
 
+@RunWith(JUnitQuickcheck.class)
 public class DivisionExpressionTest {
 
-    private DecimalConstant a = new DecimalConstant(10.00);
-    private DecimalConstant b = new DecimalConstant(2.00);
-    private DivisionExpression toTest = new DivisionExpression(a,b);
+    private DivisionExpression expressionTest;
+    @Property
+    public void evaluateINT(int autoA, int autoB) {
+        IntegerConstant b = new IntegerConstant( autoA);
+        IntegerConstant c = new IntegerConstant( autoB);
 
-    @Test
-    public void returnType() {
-        assertEquals(Decimal, toTest.returnType());
+        expressionTest  = new DivisionExpression(b,c);
+        assertEquals((autoA / autoB), expressionTest.evaluate().getValue());
+
+    }
+    @Property
+    public void evaluateDOUBLE(double autoA, double autoB) {
+        DecimalConstant b = new DecimalConstant( autoA);
+        DecimalConstant c = new DecimalConstant( autoB);
+
+        expressionTest  = new DivisionExpression(b,c);
+        assertEquals((autoA / autoB), expressionTest.evaluate().getValue());
+
     }
 
-    @Test
-    public void evaluate() {
-        Double test = toTest.evaluate().getValue();
-        Double expected = 5.00;
-        assertEquals(expected, test);
-    }
-
-    @Test
-    public void isArithmetic() {
-        assertEquals(true,toTest.isArithmetic());
-    }
 }

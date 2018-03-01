@@ -4,7 +4,6 @@ export const validFormWithIf =
       form form {
         question1: "IntegerQuestion?"  integer
         question2: "DecimalQuestion?"  decimal
-        question3: "MoneyQuestion?"  money
         question4: "BooleanQuestion?"  boolean
         question5: "StringQuestion?"  string
  	      question6: "DateQuestion?"  date
@@ -42,7 +41,6 @@ export const duplicateIdentifierForm =
     form form {
       question1: "IntegerQuestion?"  integer
       question2: "DecimalQuestion?"  decimal
-      question3: "MoneyQuestion?"  money
       question4: "BooleanQuestion?"  boolean
       question5: "StringQuestion?"  string
       question5: "StringQuestion?"  string
@@ -76,7 +74,6 @@ export const multipleQuestionForm =
       questionOne: "Question1?" boolean
       questionTwo: "Question2?" string
       questionThree: "Question3?" date
-      questionFour: "Question4?" money
     }
   `;
 

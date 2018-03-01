@@ -98,7 +98,7 @@ public class ErrorHandler {
 		ArrayList<String> typeNames = new ArrayList<>();
 		Arrays.asList(allowedTypes).forEach((type) -> typeNames.add(type.getName()));
 		
-		String message = String.format("[%s] line: %d, column: %d: Type mismatch, desired type: %s, allowed types: %s",
+		String message = String.format("[%s] line: %d, column: %d: Type mismatch, requested type: %s, allowed types: %s",
 				moduleName,
 				expr.getLineNumber(),
 				expr.getColumnNumber(),
@@ -144,10 +144,10 @@ public class ErrorHandler {
 		
 		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
 				moduleName,
-				stmt.expression.getLineNumber(),
-				stmt.expression.getColumnNumber(),
+				stmt.getExprLineNumber(),
+				stmt.getExprColumnNumber(),
 				stmt.getType(),
-				stmt.expression.getType());
+				stmt.getExprType());
 		
 		Error error = new TypeError(message);
 		errorMessages.add(error);
@@ -159,10 +159,10 @@ public class ErrorHandler {
 		
 		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
 				moduleName,
-				stmt.expression.getLineNumber(),
-				stmt.expression.getColumnNumber(),
+				stmt.getExprLineNumber(),
+				stmt.getExprColumnNumber(),
 				QLType.BOOLEAN,
-				stmt.expression.getType());
+				stmt.getExprType());
 		
 		Error error = new TypeError(message);
 		errorMessages.add(error);

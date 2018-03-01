@@ -1,5 +1,6 @@
 package expression.unary;
 
+import analysis.SymbolTable;
 import expression.Expression;
 import expression.variable.ExpressionVariable;
 import expression.ReturnType;
@@ -11,12 +12,21 @@ public class ExpressionUnaryNot extends ExpressionUnary {
     }
 
     @Override
-    public ExpressionVariable evaluate() {
-        return this.expression.evaluate().not();
+    public ExpressionVariable evaluate(SymbolTable symbolTable) {
+        return this.expression.evaluate(symbolTable).not();
     }
 
     @Override
-    public ReturnType getReturnType() {
+    public ReturnType getReturnType(SymbolTable symbolTable) {
         return ReturnType.BOOLEAN;
+    }
+
+    @Override
+    public void typeCheck(SymbolTable symbolTable) {
+        this.expression.typeCheck(symbolTable);
+
+        if (!this.expression.getReturnType(symbolTable).not()) {
+            throw new IllegalArgumentException("Cannot apply operator ! to '" + this.expression.getReturnType(symbolTable) + "'");
+        }
     }
 }

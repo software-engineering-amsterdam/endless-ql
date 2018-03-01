@@ -1,8 +1,6 @@
-import scanparse.qlyacc as qly
-import scanparse.qllex as qll
-
-p = qly.QLParser()
-
+from scanparse.qlyacc import QLParser
+from scanparse.qllex import LexTokenizer
+from visitors.duplication_visitor import DuplicationVisitor
 
 data = """form taxOfficeExample {
   "Did you sell a house in 2010?"
@@ -21,10 +19,19 @@ data = """form taxOfficeExample {
       valueResidue: money =
         (sellingPrice - privateDebt)
   }
+  "Did you sell a house in 2010?"
+    isReachable: integer
+  "Did you sell a house in 2010?"
+    isReachable: boolean
 
-}"""
+}
+"""
 
-l = qll.LexTokenizer()
-r = p.parser.parse(data, l.lexer)
+ql_parser = QLParser()
+ql_lexer = LexTokenizer()
 
-print(r)
+parse_tree = ql_parser.parser.parse(data, ql_lexer.lexer)
+
+visitor = DuplicationVisitor()
+visitor.visit(parse_tree)
+

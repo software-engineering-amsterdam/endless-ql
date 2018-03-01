@@ -1,5 +1,6 @@
 package expression.variable;
 
+import analysis.SymbolTable;
 import expression.ReturnType;
 
 import java.math.BigDecimal;
@@ -13,7 +14,9 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
     }
 
     public ExpressionVariableNumber(String value) {
-        super(new BigDecimal(value));
+        if(!value.isEmpty()) {
+            this.value = new BigDecimal(value);
+        }
     }
 
     public ExpressionVariableNumber(int value) {
@@ -26,30 +29,27 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
 
     @Override
     public void setValue(String value) {
-        if (value.isEmpty())
-            this.value = null;
-        else
-            this.value = BigDecimal.valueOf(Double.parseDouble(value));
+        if (!value.isEmpty()) {
+            this.value = new BigDecimal(value);
+        }
     }
 
     @Override
-    public BigDecimal getValue() {
-        return this.value;
-    }
-
-    public int getIntValue() {
+    public Integer getIntValue() {
         return this.value.intValue();
     }
 
-    public double getDecimalValue() {
+    @Override
+    public Double getDecimalValue() {
         return this.value.doubleValue();
     }
 
+    @Override
     public BigDecimal getMoneyValue() {
         return this.value.setScale(2, RoundingMode.CEILING);
     }
 
-    public ReturnType getReturnType() {
+    public ReturnType getReturnType(SymbolTable symbolTable) {
         return ReturnType.NUMBER;
     }
 

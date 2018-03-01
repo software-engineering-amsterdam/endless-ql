@@ -14,6 +14,8 @@ An error will be thrown if the types are incomparible
 from .ast_methods import *
 
 """ Expressions with a left and right side, all of the operators that cause this node to exist are listed in the constructor """
+
+
 class BinaryNode:
     def __init__(self, left, right, op, line):
         self.left = left
@@ -25,38 +27,39 @@ class BinaryNode:
         self.allOps = ["!=", "=="]
         self.boolOps = ["&&", "||"]
 
-
     # check the actual expression type
     def checkTypes(self):
         leftType = self.left.checkTypes()
         rightType = self.right.checkTypes()
 
         # Compare for the numOp (check that both types are floats/ints), we always return a bool in this case
-        if(self.op in self.numOps):
+        if (self.op in self.numOps):
             goodType, expType = self.typeCompareNumOp(leftType, rightType)
-            if(goodType):
+            if (goodType):
                 return bool
             else:
-                errorstring = "Incomparible types: " + str(leftType) + " and " + str(rightType) + "; at line " + str(self.line)
+                errorstring = "Incomparible types: " + str(leftType) + " and " + str(rightType) + "; at line " + str(
+                    self.line)
                 throwError(errorstring)
 
         # Check if both children are of a numerical type, and return the type
-        elif(self.op in self.arithmeticOps):
+        elif (self.op in self.arithmeticOps):
             goodType, expType = self.typeCompareNumOp(leftType, rightType)
-            if(goodType):
+            if (goodType):
                 return expType
             else:
-                errorstring = "Incomparible types: " + str(leftType) + " and " + str(rightType) + "; at line " + str(self.line)
+                errorstring = "Incomparible types: " + str(leftType) + " and " + str(rightType) + "; at line " + str(
+                    self.line)
                 throwError(errorstring)
 
 
         # Boolean operators can always be compared
         # (unset or set is converted to True and False) so we do not need a function to check the types serperately
-        elif(self.op in self.boolOps):
+        elif (self.op in self.boolOps):
             return bool
 
         # check it for == and !=, which are boolean operators
-        elif(self.op in self.allOps):
+        elif (self.op in self.allOps):
             return self.typeCompareAllOp(leftType, rightType)
 
         else:
@@ -66,28 +69,28 @@ class BinaryNode:
     # check if both types are numerical (int or float), return true, and if they are not of the same type,
     # return float (small conversion)
     def typeCompareNumOp(self, leftType, rightType):
-        if(leftType == float and rightType == float):
+        if (leftType == float and rightType == float):
             return True, float
-        elif(leftType == float and rightType == int):
+        elif (leftType == float and rightType == int):
             return True, float
-        elif(leftType == int and rightType == float):
+        elif (leftType == int and rightType == float):
             return True, float
-        elif(leftType == int and rightType == int):
+        elif (leftType == int and rightType == int):
             return True, int
         else:
             return False, None
-
 
     # Only return the the bool if they are not the same, otherwise throw an error, the only exception are numericals
     # since we can compare an converted int to a float
     def typeCompareAllOp(self, leftType, rightType):
         goodType, _ = self.typeCompareNumOp(leftType, rightType)
-        if(goodType):
+        if (goodType):
             return bool
-        elif(leftType == rightType):
+        elif (leftType == rightType):
             return bool
         else:
-            errorstring = "Incomparible types: " + str(leftType) + " and " + str(rightType) + "; at line " + str(self.line)
+            errorstring = "Incomparible types: " + str(leftType) + " and " + str(rightType) + "; at line " + str(
+                self.line)
             throwError(errorstring)
 
     # Call linkVars for children
@@ -100,6 +103,8 @@ class BinaryNode:
 
 
 """ Class for expressions with the unary operator ! """
+
+
 class UnaryNode:
     def __init__(self, left, op, line):
         self.left = left
@@ -121,6 +126,8 @@ class UnaryNode:
 
 
 """ Class for a literal value like 4, or 'apples' """
+
+
 class LiteralNode:
     def __init__(self, value, _type, line):
         self.value = value
@@ -131,7 +138,6 @@ class LiteralNode:
     def checkTypes(self):
         return self.type
 
-
     # We do not have to modify the dict here, so we can pass this method
     def linkVars(self, varDict):
         pass
@@ -141,6 +147,8 @@ class LiteralNode:
 
 
 """ Class for a variable created during an assignment or question operation, all values have a default value """
+
+
 class VarNode:
     def __init__(self, varname, _type, line, assign=False):
         self.varname = varname
@@ -162,13 +170,13 @@ class VarNode:
 
     # Check if the variable actually exists, if so, set our own type, and now this node will be the node used in the dictionary
     def linkVars(self, varDict):
-        if(self.varname in varDict):
+        if (self.varname in varDict):
             self.type = varDict[self.varname]['type']
             self.value = self.getDefaultValue()
 
             # we finally link the node of the assignment (or question) to this varNode, in order to get the correct value
             # into the node at the moment of an assignment. It does not matter if a variable is used more than once
-            # since we only use the value of the varNode in the assignment node after this. 
+            # since we only use the value of the varNode in the assignment node after this.
             varDict[self.varname]['assign'].varNode = self
             varDict[self.varname]['node'] = self
         else:
@@ -190,5 +198,3 @@ class VarNode:
 
     def __repr__(self):
         return "VarNode: {} {}".format(self.varname, self.type)
-
-

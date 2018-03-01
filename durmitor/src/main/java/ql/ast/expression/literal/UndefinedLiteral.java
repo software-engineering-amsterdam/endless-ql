@@ -9,7 +9,7 @@ public class UndefinedLiteral extends Literal<String> {
     private final String value;
     
     public UndefinedLiteral() { 
-        this.value = null;
+        this.value = "";
     }
     
     @Override

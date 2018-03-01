@@ -4,10 +4,11 @@ import antlr.FormBaseListener;
 import antlr.FormParser;
 import domain.FormNode;
 import domain.model.Expression;
-import domain.model.Question;
+import domain.model.question.QuestionStructure;
 import domain.model.PlainValue;
-import domain.model.QuestionVariableValue;
-import exception.ReferenceUndefinedVariableException;
+import domain.model.question.QuestionVariable;
+import domain.model.question.QuestionVariableType;
+import domain.model.question.QuestionVariableValue;
 
 
 public class QLLoader extends FormBaseListener {
@@ -34,8 +35,18 @@ public class QLLoader extends FormBaseListener {
 
     @Override
     public void enterIfStructure(FormParser.IfStructureContext ctx) {
-        this.formNode.getFormData().addQuestionVariableToConditionQuestions(ctx.statementBlockStructure().questionVariable().getText());
-        this.ifStatementBlockVariableHolder = ctx.statementBlockStructure().questionVariable().getText();
+        for(FormParser.ConditionContext cc : ctx.statementBlockStructure().conditions().condition()){
+            if (cc.questionVariable() != null){
+                this.formNode.getFormData().getReferencedVariables().add(cc.questionVariable().getText());
+            }
+            if (cc.booleanExpression() != null){
+                for (FormParser.QuestionVariableContext qc : cc.booleanExpression().questionVariable()){
+                    this.formNode.getFormData().getReferencedVariables().add(qc.getText());
+                }
+            }
+        }
+        this.formNode.getFormData().addQuestionVariableToConditionQuestions(ctx.statementBlockStructure().getText());
+        this.ifStatementBlockVariableHolder = ctx.statementBlockStructure().getText();
     }
     @Override
     public void exitIfStructure(FormParser.IfStructureContext ctx){
@@ -44,29 +55,43 @@ public class QLLoader extends FormBaseListener {
     @Override
     public void enterQuestionStructure(FormParser.QuestionStructureContext ctx) {
         switch (ctx.getParent().invokingState){
-            case 27:
+            case 37:
                 this.formNode.getFormData().addPlainQuestion(
                     this.newQuestion(ctx.questionLabel().getText(), ctx.questionVariable().getText(), ctx.questionVariableType().getText(), ctx.questionVariableValue()));
                 break;
-            case 35:
+            case 45:
                 this.formNode.getFormData().addConditionQuestion(this.ifStatementBlockVariableHolder,
                     this.newQuestion(ctx.questionLabel().getText(), ctx.questionVariable().getText(), ctx.questionVariableType().getText(), ctx.questionVariableValue()));
                 break;
             default:
         }
     }
-    private Question newQuestion(String label, String questionVariable, String questionVariableType, FormParser.QuestionVariableValueContext questionVariableValue){
-        QuestionVariableValue constructedQuestionVariableValue = null;
+    private QuestionStructure newQuestion(String label, String questionVariable, String questionVariableType, FormParser.QuestionVariableValueContext questionVariableValue){
 
+        QuestionVariableValue constructedQuestionVariableValue = null;
+        QuestionVariableType constructedQuestionVariableType = null;
+        switch(questionVariableType){
+            case "boolean":
+                constructedQuestionVariableType = QuestionVariableType.BOOLEAN;
+                break;
+            case "money":
+                constructedQuestionVariableType = QuestionVariableType.MONEY;
+                break;
+            case "string":
+                constructedQuestionVariableType = QuestionVariableType.STRING;
+                break;
+        }
         if(questionVariableValue != null && questionVariableValue.expression() != null){
             FormParser.ExpressionContext ec = questionVariableValue.expression();
             constructedQuestionVariableValue = new Expression(ec.questionVariable(0).getText(), ec.questionVariable(1).getText(), ec.operator().getText());
         }
-        if(questionVariableValue != null && questionVariableValue.value() != null){
-            FormParser.ValueContext vc = questionVariableValue.value();
+        if(questionVariableValue != null && questionVariableValue.plainValue() != null){
+            FormParser.PlainValueContext vc = questionVariableValue.plainValue();
             constructedQuestionVariableValue = new PlainValue(vc.getText());
         }
-        return new Question(label, questionVariable, questionVariableType, constructedQuestionVariableValue);
+
+        QuestionVariable constructedQuestionVariable = new QuestionVariable(questionVariable, constructedQuestionVariableType, constructedQuestionVariableValue);
+        return new QuestionStructure(label, constructedQuestionVariable);
     }
     public FormNode getFormNode() {
         return formNode;

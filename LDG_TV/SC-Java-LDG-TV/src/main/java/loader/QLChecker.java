@@ -17,14 +17,14 @@ public class QLChecker {
         }
     }
     public void checkReferenceUndefinedVariable() throws ReferenceUndefinedVariableException {
-        for (String key : formNode.getFormData().getConditionQuestions().keySet()){
-            if (!formNode.getFormData().getPlainQuestions().contains(key)){
-                throw new ReferenceUndefinedVariableException("Reference to undefined variable found.");
+        for (String referencedVariable : formNode.getFormData().getReferencedVariables()){
+            if (!formNode.getFormData().getPlainQuestionStructures().contains(referencedVariable)){
+//                throw new ReferenceUndefinedVariableException("Reference to undefined variable found.");
             }
         }
     }
 
     public void checkDuplicateQuestionDeclaration() {
-        
+
     }
 }

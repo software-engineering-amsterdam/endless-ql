@@ -1,5 +1,7 @@
 package domain.model;
 
+import domain.model.question.QuestionVariableValue;
+
 public class Expression extends QuestionVariableValue {
 
     private String leftHandOperand;

@@ -38,9 +38,12 @@ public class MoneyTextField extends JTextField {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        String value = String.format("%.2f", Double.parseDouble(getText()));
-                        value = value.replace(",", ".");
-                        setText(value);
+                        if(!getText().isEmpty())
+                        {
+                            String value = String.format("%.2f", Double.parseDouble(getText()));
+                            value = value.replace(",", ".");
+                            setText(value);
+                        }
                     }
                 });
             }

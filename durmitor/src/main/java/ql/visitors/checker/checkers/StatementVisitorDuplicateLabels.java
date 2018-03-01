@@ -10,15 +10,17 @@ import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Question;
 import ql.ast.statement.Statement;
+import ql.exceptions.DuplicateLabelWarning;
+import ql.exceptions.QLException;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorDuplicateLabels implements StatementVisitor {
     
-    private List<String> warnings;
+    private List<QLException> warnings;
     private List<String> labels;
     
     
-    public StatementVisitorDuplicateLabels(List<String> warnings) {
+    public StatementVisitorDuplicateLabels(List<QLException> warnings) {
         
         this.warnings   = warnings;
         this.labels     = new ArrayList<String>();
@@ -32,7 +34,7 @@ public class StatementVisitorDuplicateLabels implements StatementVisitor {
         }
         else
         {
-            warnings.add("Duplicate label [\""+question.getLabel()+"\"] found at "+question.getLocation());
+            warnings.add(new DuplicateLabelWarning(question));
         }
     }
     
@@ -63,5 +65,4 @@ public class StatementVisitorDuplicateLabels implements StatementVisitor {
     public void visit(ComputedQuestion stmt) {
         checkLabel(stmt);
     }
-    
 }

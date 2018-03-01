@@ -8,7 +8,6 @@ import org.uva.jomi.ql.error.ErrorHandler;
 
 public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
-	
 	public final IdentifierStack identifierStack;
 	private final ErrorHandler errorHandler;
 
@@ -68,7 +67,7 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		// Create a new scope for the block statement
 		identifierStack.enterScope();
 
-		// Visit every statement in the block and add it to the statements array.
+		// Visit every statement in the block.
 		for (Stmt statement : stmt.getStatements()) {
 			statement.accept(this);
 		}
@@ -80,7 +79,6 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visit(QuestionStmt stmt) {
-		// Make  sure the question name has not been already declared
 		resolveQuestionIdentifier(stmt.getIdentifier());
 		return null;
 	}

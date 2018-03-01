@@ -1,3 +1,5 @@
+import analysis.SymbolTable;
+import analysis.TypeChecker;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -61,13 +63,17 @@ public class Main extends Application {
         try {
             Form form = FormParser.parseForm(new FileInputStream(file));
 
-            TypeChecker typeChecker = new TypeChecker(form);
+            // Build symbol table
+            SymbolTable symbolTable = new SymbolTable(form);
+
+            // Perform type checking
+            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
             typeChecker.typeCheck();
 
             File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
             StyleSheet styleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));
 
-            Renderer renderer = new Renderer(form, styleSheet);
+            Renderer renderer = new Renderer(form, symbolTable, styleSheet);
             renderer.renderForm(stage);
         } catch (FileNotFoundException e) {
             showErrorAlert(e, "Form file not found");
@@ -78,6 +84,7 @@ public class Main extends Application {
     }
 
     private void showErrorAlert(Exception e, String message) {
+        e.printStackTrace();
         Alert alert = new Alert(Alert.AlertType.ERROR, message);
         alert.setContentText(e.toString());
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

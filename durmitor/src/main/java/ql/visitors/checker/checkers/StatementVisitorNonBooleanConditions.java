@@ -9,26 +9,21 @@ import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
-import ql.ast.type.Type;
+import ql.exceptions.NonBooleanCondition;
+import ql.exceptions.QLException;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorNonBooleanConditions implements StatementVisitor {
     
-    private List<String> errors;
+    private List<QLException> errors;
 
-    public StatementVisitorNonBooleanConditions(List<String> errors) {
+    public StatementVisitorNonBooleanConditions(List<QLException> errors) {
         
         this.errors = errors;
     }
     
     private void checkCondition(Expression condition) {
-        
-        Type conditionType = condition.accept(new ExpressionVisitorInvalidOperands());
-        
-        if(!conditionType.isBoolean())
-        {
-            errors.add("Non-boolean condition ["+condition+"] found at "+condition.getLocation());
-        }
+        if(!condition.getType().isBoolean()) errors.add(new NonBooleanCondition(condition));
     }
     
     @Override

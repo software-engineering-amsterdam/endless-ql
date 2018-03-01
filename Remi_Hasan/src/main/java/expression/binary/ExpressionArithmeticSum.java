@@ -1,5 +1,6 @@
 package expression.binary;
 
+import analysis.SymbolTable;
 import expression.Expression;
 import expression.variable.ExpressionVariable;
 
@@ -10,20 +11,20 @@ public class ExpressionArithmeticSum extends ExpressionArithmetic {
     }
 
     @Override
-    public ExpressionVariable evaluate() {
-        ExpressionVariable leftEvaluated = this.left.evaluate();
-        ExpressionVariable rightEvaluated = this.right.evaluate();
+    public ExpressionVariable evaluate(SymbolTable symbolTable) {
+        ExpressionVariable leftEvaluated = this.left.evaluate(symbolTable);
+        ExpressionVariable rightEvaluated = this.right.evaluate(symbolTable);
         return leftEvaluated.sum(rightEvaluated);
     }
 
     @Override
-    public void typeCheck() {
-        this.left.typeCheck();
-        this.right.typeCheck();
+    public void typeCheck(SymbolTable symbolTable) {
+        this.left.typeCheck(symbolTable);
+        this.right.typeCheck(symbolTable);
 
-        if (!this.left.getReturnType().sum(this.right.getReturnType())) {
+        if (!this.left.getReturnType(symbolTable).sum(this.right.getReturnType(symbolTable))) {
             throw new IllegalArgumentException("Cannot apply operator + to '"
-                    + this.left.getReturnType() + "' and '" + this.right.getReturnType() + "'");
+                    + this.left.getReturnType(symbolTable) + "' and '" + this.right.getReturnType(symbolTable) + "'");
         }
     }
 }

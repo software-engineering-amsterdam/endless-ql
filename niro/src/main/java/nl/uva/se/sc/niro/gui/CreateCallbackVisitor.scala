@@ -8,6 +8,7 @@ import javafx.scene.Node
 import javafx.scene.control.{ CheckBox, DatePicker, Label, TextField }
 import javafx.scene.layout.GridPane
 import javafx.util.StringConverter
+import nl.uva.se.sc.niro.gui.util.HierarchyUtil
 import nl.uva.se.sc.niro.model.Expressions.answers._
 import nl.uva.se.sc.niro.model._
 
@@ -30,8 +31,8 @@ object CreateCallbackVisitor {
   def visitQuestion(modelUpdater: ModelUpdater, control: Node, questionId: String, answerType: AnswerType): Unit = {
     answerType match {
       case BooleanType =>
-        control
-          .asInstanceOf[CheckBox]
+        val checkbox: CheckBox = HierarchyUtil.downcast(control)
+        checkbox
           .selectedProperty()
           .addListener(new ChangeListener[lang.Boolean] {
             override def changed(
@@ -41,40 +42,40 @@ object CreateCallbackVisitor {
               modelUpdater.updateModel(questionId, BooleanAnswer(newValue))
           })
       case IntegerType =>
-        control
-          .asInstanceOf[TextField]
+        val textField: TextField = HierarchyUtil.downcast(control)
+        textField
           .textProperty()
           .addListener(new ChangeListener[String] {
             override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
-              modelUpdater.updateModel(questionId, IntAnswer(Integer.parseInt(newValue)))
+              modelUpdater.updateModel(questionId, IntAnswer(newValue))
           })
       case DecimalType =>
-        control
-          .asInstanceOf[TextField]
+        val textField: TextField = HierarchyUtil.downcast(control)
+        textField
           .textProperty()
           .addListener(new ChangeListener[String] {
             override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
-              modelUpdater.updateModel(questionId, DecAnswer(BigDecimal(newValue)))
+              modelUpdater.updateModel(questionId, DecAnswer(newValue))
           })
       case MoneyType =>
-        control
-          .asInstanceOf[TextField]
+        val textField: TextField = HierarchyUtil.downcast(control)
+        textField
           .textProperty()
           .addListener(new ChangeListener[String] {
             override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
               modelUpdater.updateModel(questionId, MoneyAnswer(newValue))
           })
       case StringType =>
-        control
-          .asInstanceOf[TextField]
+        val textField: TextField = HierarchyUtil.downcast(control)
+        textField
           .textProperty()
           .addListener(new ChangeListener[String] {
             override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
               modelUpdater.updateModel(questionId, StringAnswer(newValue))
           })
       case DateType =>
-        control
-          .asInstanceOf[DatePicker]
+        val datePicker: DatePicker = HierarchyUtil.downcast(control)
+        datePicker
           .converterProperty()
           .addListener(new ChangeListener[StringConverter[LocalDate]] {
             override def changed(

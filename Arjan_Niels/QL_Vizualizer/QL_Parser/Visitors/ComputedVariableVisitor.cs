@@ -14,8 +14,8 @@ namespace QL_Parser.Visitors
             var textRaw = context.TEXT().GetText();
             var text = textRaw.Substring(1, textRaw.Length - 2);
             var qtype = (QValueType)Enum.Parse(typeof(QValueType), context.QTYPE().GetText().ToUpper());
-            IExpressionNode expression = null;
 
+            IExpressionNode expression = null;
             if (context.artithmeticExpression() != null)
                 expression = new ArthimetricExpressionVisitor().VisitArtithmeticExpression(context.artithmeticExpression());
 

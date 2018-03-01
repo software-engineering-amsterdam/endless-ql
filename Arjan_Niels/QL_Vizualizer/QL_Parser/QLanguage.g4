@@ -61,7 +61,7 @@ LE					: '<=';
 EQ					: '==';
 
 FORM				: 'form';
-QTYPE				: 'boolean' | 'money' | 'text' | 'integer';
+QTYPE				: 'boolean' | 'money' | 'text' | 'integer' | 'double';
 TRUE				: 'true';
 FALSE				: 'false';
 ID					: [a-zA-Z][a-zA-Z0-9]+;

@@ -1,38 +1,18 @@
 package domain.model;
 
+import domain.model.question.QuestionVariable;
+import domain.model.question.QuestionVariableValue;
+
 public class Expression extends QuestionVariableValue {
 
-    private String leftHandOperand;
-    private String rightHandOperand;
+    private QuestionVariable leftHandOperand;
+    private QuestionVariable rightHandOperand;
     private String operator;
 
-    public  Expression(String leftHandOperand, String rightHandOperand, String operator){
+    public  Expression(QuestionVariable leftHandOperand, QuestionVariable rightHandOperand, String operator){
         this.leftHandOperand = leftHandOperand;
         this.rightHandOperand = rightHandOperand;
         this.operator = operator;
     }
 
-    public String getLeftHandOperand() {
-        return leftHandOperand;
-    }
-
-    public void setLeftHandOperand(String leftHandOperand) {
-        this.leftHandOperand = leftHandOperand;
-    }
-
-    public String getRightHandOperand() {
-        return rightHandOperand;
-    }
-
-    public void setRightHandOperand(String rightHandOperand) {
-        this.rightHandOperand = rightHandOperand;
-    }
-
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
 }

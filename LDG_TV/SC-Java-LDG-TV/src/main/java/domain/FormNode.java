@@ -1,5 +1,12 @@
 package domain;
 
+import domain.model.Condition;
+import domain.model.question.QuestionStructure;
+import domain.model.question.QuestionVariable;
+
+import java.util.List;
+import java.util.Map;
+
 public class FormNode {
 
     private String formIdentifier;
@@ -17,4 +24,5 @@ public class FormNode {
     public FormData getFormData() {
         return this.formData;
     }
+
 }

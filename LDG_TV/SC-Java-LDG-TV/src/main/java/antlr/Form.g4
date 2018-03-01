@@ -21,14 +21,22 @@ ifStructure:
     CURLY_BRACKET_CLOSE
 ;
 
-statementBlockStructure: BRACKET_OPEN questionVariable BRACKET_CLOSE ;
+statementBlockStructure: BRACKET_OPEN conditions BRACKET_CLOSE ;
 
 questionLabel : QUESTION_LABEL;
 questionVariable: CHARACTERS;
 questionVariableType: 'boolean' | 'money' | 'string';
 questionVariableValue: expression | plainValue;
-expression: BRACKET_OPEN questionVariable operator questionVariable BRACKET_CLOSE;
+
 plainValue: CHARACTERS | NUMBERS;
+expression: BRACKET_OPEN questionVariable operator questionVariable BRACKET_CLOSE;
+booleanExpression: BRACKET_OPEN questionVariable comparisonOperator questionVariable BRACKET_CLOSE;
+
+condition: (questionVariable | booleanExpression);
+conditions: condition |condition (booleanOperator condition)+;
+
+comparisonOperator: (GT | GTOEQ | STOEQ | ST | EQ | NEQ);
+booleanOperator:  (OR | AND);
 operator: (PLUS | MINUS | TIMES | DIV) ;
 /*
  * Lexer Rules
@@ -41,11 +49,18 @@ CURLY_BRACKET_OPEN : '{';
 CURLY_BRACKET_CLOSE : '}';
 BRACKET_OPEN : '(';
 BRACKET_CLOSE : ')';
-
+OR: '||';
+AND: '&&';
 PLUS: '+';
 MINUS: '-';
 TIMES: '*';
 DIV: '/';
+GT: '>';
+GTOEQ: '>=';
+STOEQ: '=<';
+ST: '<';
+EQ: '==';
+NEQ: '!=';
 
 QUESTION_LABEL : '"' + ((CHARACTERS | NUMBERS | ' ' | ':' | '?')+) + '"';
 QUESTION_VARIABLE_SEPERATOR : ':';

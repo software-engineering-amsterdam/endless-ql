@@ -3,16 +3,22 @@ package loader;
 import antlr.FormBaseListener;
 import antlr.FormParser;
 import domain.FormNode;
+import domain.model.BooleanExpression;
+import domain.model.Condition;
 import domain.model.Expression;
-import domain.model.Question;
+import domain.model.question.QuestionStructure;
 import domain.model.PlainValue;
-import domain.model.QuestionVariableValue;
-import exception.ReferenceUndefinedVariableException;
+import domain.model.question.QuestionVariable;
+import domain.model.question.QuestionVariableType;
+import domain.model.question.QuestionVariableValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class QLLoader extends FormBaseListener {
     private FormNode formNode;
-    private String ifStatementBlockVariableHolder;
+    private List<Condition> ifStatementBlockConditionsHolder;
     private QLChecker qlChecker;
 
     public QLLoader(){
@@ -29,44 +35,77 @@ public class QLLoader extends FormBaseListener {
     public void exitFormData(FormParser.FormDataContext ctx){
         this.qlChecker = new QLChecker(formNode);
         this.qlChecker.doChecks();
-
     }
 
     @Override
     public void enterIfStructure(FormParser.IfStructureContext ctx) {
-        this.formNode.getFormData().addQuestionVariableToConditionQuestions(ctx.statementBlockStructure().questionVariable().getText());
-        this.ifStatementBlockVariableHolder = ctx.statementBlockStructure().questionVariable().getText();
+        this.ifStatementBlockConditionsHolder = new ArrayList<Condition>();
+        Object c = null;
+        for(FormParser.ConditionContext cc : ctx.statementBlockStructure().conditions().condition()){
+            if (cc.questionVariable() != null){
+                c = this.formNode.getFormData().getQuestionVariableByLabel(cc.questionVariable().getText());
+                this.ifStatementBlockConditionsHolder.add((QuestionVariable) c);
+                this.formNode.getFormData().getReferencedVariables().add((QuestionVariable) c);
+            }
+            if (cc.booleanExpression() != null){
+                FormParser.BooleanExpressionContext bec = cc.booleanExpression();
+                QuestionVariable leftHandOperator = this.formNode.getFormData().getQuestionVariableByLabel(bec.questionVariable(0).getText());
+                QuestionVariable rightHandOperator = this.formNode.getFormData().getQuestionVariableByLabel(bec.questionVariable(1).getText());
+                c = new BooleanExpression(leftHandOperator, rightHandOperator, bec.comparisonOperator().getText());
+                this.ifStatementBlockConditionsHolder.add((BooleanExpression) c);
+                this.formNode.getFormData().getReferencedVariables().add(leftHandOperator);
+                this.formNode.getFormData().getReferencedVariables().add(rightHandOperator);
+            }
+            c = null;
+        }
+        this.formNode.getFormData().addConditionsAsKey(this.ifStatementBlockConditionsHolder);
     }
     @Override
     public void exitIfStructure(FormParser.IfStructureContext ctx){
-        this.ifStatementBlockVariableHolder = null;
+        this.ifStatementBlockConditionsHolder = null;
     }
     @Override
     public void enterQuestionStructure(FormParser.QuestionStructureContext ctx) {
         switch (ctx.getParent().invokingState){
-            case 27:
+            case 37:
                 this.formNode.getFormData().addPlainQuestion(
                     this.newQuestion(ctx.questionLabel().getText(), ctx.questionVariable().getText(), ctx.questionVariableType().getText(), ctx.questionVariableValue()));
                 break;
-            case 35:
-                this.formNode.getFormData().addConditionQuestion(this.ifStatementBlockVariableHolder,
+            case 45:
+                this.formNode.getFormData().addConditionQuestion(this.ifStatementBlockConditionsHolder,
                     this.newQuestion(ctx.questionLabel().getText(), ctx.questionVariable().getText(), ctx.questionVariableType().getText(), ctx.questionVariableValue()));
                 break;
             default:
         }
     }
-    private Question newQuestion(String label, String questionVariable, String questionVariableType, FormParser.QuestionVariableValueContext questionVariableValue){
-        QuestionVariableValue constructedQuestionVariableValue = null;
+    private QuestionStructure newQuestion(String label, String questionVariable, String questionVariableType, FormParser.QuestionVariableValueContext questionVariableValue){
 
+        QuestionVariableValue constructedQuestionVariableValue = null;
+        QuestionVariableType constructedQuestionVariableType = null;
+        switch(questionVariableType){
+            case "boolean":
+                constructedQuestionVariableType = QuestionVariableType.BOOLEAN;
+                break;
+            case "money":
+                constructedQuestionVariableType = QuestionVariableType.MONEY;
+                break;
+            case "string":
+                constructedQuestionVariableType = QuestionVariableType.STRING;
+                break;
+        }
         if(questionVariableValue != null && questionVariableValue.expression() != null){
             FormParser.ExpressionContext ec = questionVariableValue.expression();
-            constructedQuestionVariableValue = new Expression(ec.questionVariable(0).getText(), ec.questionVariable(1).getText(), ec.operator().getText());
+            QuestionVariable leftHandOperator = this.formNode.getFormData().getQuestionVariableByLabel(ec.questionVariable(0).getText());
+            QuestionVariable rightHandOperator = this.formNode.getFormData().getQuestionVariableByLabel(ec.questionVariable(1).getText());
+            constructedQuestionVariableValue = new Expression(leftHandOperator, rightHandOperator, ec.operator().getText());
         }
-        if(questionVariableValue != null && questionVariableValue.value() != null){
-            FormParser.ValueContext vc = questionVariableValue.value();
+        if(questionVariableValue != null && questionVariableValue.plainValue() != null){
+            FormParser.PlainValueContext vc = questionVariableValue.plainValue();
             constructedQuestionVariableValue = new PlainValue(vc.getText());
         }
-        return new Question(label, questionVariable, questionVariableType, constructedQuestionVariableValue);
+
+        QuestionVariable constructedQuestionVariable = new QuestionVariable(questionVariable, constructedQuestionVariableType, constructedQuestionVariableValue);
+        return new QuestionStructure(label, constructedQuestionVariable);
     }
     public FormNode getFormNode() {
         return formNode;

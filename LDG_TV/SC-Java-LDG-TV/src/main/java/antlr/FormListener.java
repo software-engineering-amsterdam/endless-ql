@@ -98,6 +98,16 @@ public interface FormListener extends ParseTreeListener {
 	 */
 	void exitQuestionVariableValue(FormParser.QuestionVariableValueContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link FormParser#plainValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterPlainValue(FormParser.PlainValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormParser#plainValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitPlainValue(FormParser.PlainValueContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link FormParser#expression}.
 	 * @param ctx the parse tree
 	 */
@@ -108,15 +118,55 @@ public interface FormListener extends ParseTreeListener {
 	 */
 	void exitExpression(FormParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FormParser#value}.
+	 * Enter a parse tree produced by {@link FormParser#booleanExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterValue(FormParser.ValueContext ctx);
+	void enterBooleanExpression(FormParser.BooleanExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FormParser#value}.
+	 * Exit a parse tree produced by {@link FormParser#booleanExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitValue(FormParser.ValueContext ctx);
+	void exitBooleanExpression(FormParser.BooleanExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void enterCondition(FormParser.ConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void exitCondition(FormParser.ConditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormParser#conditions}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditions(FormParser.ConditionsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormParser#conditions}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditions(FormParser.ConditionsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormParser#comparisonOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterComparisonOperator(FormParser.ComparisonOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormParser#comparisonOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitComparisonOperator(FormParser.ComparisonOperatorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormParser#booleanOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterBooleanOperator(FormParser.BooleanOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormParser#booleanOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitBooleanOperator(FormParser.BooleanOperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FormParser#operator}.
 	 * @param ctx the parse tree

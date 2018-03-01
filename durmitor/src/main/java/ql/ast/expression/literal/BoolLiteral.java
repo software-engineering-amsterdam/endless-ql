@@ -1,36 +1,37 @@
-package ql.evaluator.value;
+package ql.ast.expression.literal;
 
 import ql.ast.type.Type;
 import ql.evaluator.booleans.BoolAnd;
 import ql.evaluator.booleans.BoolOr;
 import ql.evaluator.comparisons.equal.BoolEqual;
 import ql.evaluator.comparisons.notequal.BoolNotEqual;
+import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.ValueVisitor;
 
-public class Bool extends Value<Boolean> {
+public class BoolLiteral extends Literal<Boolean> {
 
     private boolean value;
 
-    public Bool() {
+    public BoolLiteral() {
         this.value = false;
     }
 
-    public Bool(String value) {
+    public BoolLiteral(String value) {
         this.value = Boolean.parseBoolean(value);
     }
 
-    public Bool(boolean value) {
+    public BoolLiteral(boolean value) {
         this.value = value;
     }
-
-    @Override
-    public String toString() {
-        return String.valueOf(value);
-    }
-
+    
     @Override
     public Boolean getValue() {
         return value;
+    }
+    
+    @Override
+    public String toString() {
+        return String.valueOf(value);
     }
 
     @Override
@@ -39,32 +40,37 @@ public class Bool extends Value<Boolean> {
     }
 
     @Override
-    public Value<?> accept(ValueVisitor visitor) {
+    public Literal<?> accept(ValueVisitor visitor) {
+        return visitor.visit(this);
+    }
+    
+    @Override
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public Value<?> negation() {
-        return new Bool(!value);
+    public Literal<?> negation() {
+        return new BoolLiteral(!value);
     }
     
     @Override
-    public Value<?> and(Value<?> secondOperand) {
+    public Literal<?> and(Literal<?> secondOperand) {
         return secondOperand.accept(new BoolAnd(this));
     }
     
     @Override
-    public Value<?> or(Value<?> secondOperand) {
+    public Literal<?> or(Literal<?> secondOperand) {
         return secondOperand.accept(new BoolOr(this));
     }
 
     @Override
-    public Value<?> equal(Value<?> secondOperand) {
+    public Literal<?> equal(Literal<?> secondOperand) {
         return secondOperand.accept(new BoolEqual(this));
     }
 
     @Override
-    public Value<?> notEqual(Value<?> secondOperand) {
+    public Literal<?> notEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new BoolNotEqual(this));
     }
 }

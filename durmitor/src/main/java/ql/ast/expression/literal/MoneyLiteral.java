@@ -1,4 +1,4 @@
-package ql.evaluator.value;
+package ql.ast.expression.literal;
 
 import ql.ast.type.Type;
 import ql.evaluator.arithmetic.add.MoneyAdd;
@@ -11,21 +11,23 @@ import ql.evaluator.comparisons.greaterequal.MoneyGreaterEqual;
 import ql.evaluator.comparisons.less.MoneyLess;
 import ql.evaluator.comparisons.lessequal.MoneyLessEqual;
 import ql.evaluator.comparisons.notequal.MoneyNotEqual;
+import ql.visitors.interfaces.ExpressionVisitable;
+import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.ValueVisitor;
 
-public class Money extends Numeric {
+public class MoneyLiteral extends NumberLiteral implements ExpressionVisitable {
 
     private Double value;
 
-    public Money() {
+    public MoneyLiteral() {
         this.value = 0.0;
     }
 
-    public Money(String value) {
+    public MoneyLiteral(String value) {
         this.value = Double.valueOf(value);
     }
 
-    public Money(double value) {
+    public MoneyLiteral(double value) {
         this.value = value;
     }
 
@@ -33,7 +35,7 @@ public class Money extends Numeric {
     public String toString() {
         return String.format("%.2f", value);
     }
-
+    
     @Override
     public Double getValue() {
         return value;
@@ -45,67 +47,72 @@ public class Money extends Numeric {
     }
 
     @Override
-    public Value<?> accept(ValueVisitor visitor) {
+    public Literal<?> accept(ValueVisitor visitor) {
+        return visitor.visit(this);
+    }
+    
+    @Override
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public Value<?> negative() {
-        return new Money(value * -1);
+    public Literal<?> negative() {
+        return new MoneyLiteral(value * -1);
     }
 
     @Override
-    public Value<?> positive() {
+    public Literal<?> positive() {
         return this;
     }
 
     @Override
-    public Value<?> add(Value<?> secondOperand) {
+    public Literal<?> add(Literal<?> secondOperand) {
         return secondOperand.accept(new MoneyAdd(this));
     }
 
     @Override
-    public Value<?> subtract(Value<?> secondOperand) {
+    public Literal<?> subtract(Literal<?> secondOperand) {
         return secondOperand.accept(new MoneySubtract(this));
     }
 
     @Override
-    public Value<?> multiply(Value<?> secondOperand) {
+    public Literal<?> multiply(Literal<?> secondOperand) {
         return secondOperand.accept(new MoneyMultiply(this));
     }
 
     @Override
-    public Value<?> divide(Value<?> secondOperand) {
+    public Literal<?> divide(Literal<?> secondOperand) {
         return secondOperand.accept(new MoneyDivide(this));
     }
 
     @Override
-    public Value<?> less(Value<?> secondOperand) {
+    public Literal<?> less(Literal<?> secondOperand) {
         return secondOperand.accept(new MoneyLess(this));
     }
 
     @Override
-    public Value<?> lessEqual(Value<?> secondOperand) {
+    public Literal<?> lessEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new MoneyLessEqual(this));
     }
 
     @Override
-    public Value<?> greater(Value<?> secondOperand) {
+    public Literal<?> greater(Literal<?> secondOperand) {
         return secondOperand.accept(new MoneyGreater(this));
     }
 
     @Override
-    public Value<?> greaterEqual(Value<?> secondOperand) {
+    public Literal<?> greaterEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new MoneyGreaterEqual(this));
     }
 
     @Override
-    public Value<?> equal(Value<?> secondOperand) {
+    public Literal<?> equal(Literal<?> secondOperand) {
         return secondOperand.accept(new MoneyEqual(this));
     }
 
     @Override
-    public Value<?> notEqual(Value<?> secondOperand) {
+    public Literal<?> notEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new MoneyNotEqual(this));
     }
 }

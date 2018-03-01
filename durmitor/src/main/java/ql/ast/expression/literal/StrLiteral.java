@@ -1,20 +1,22 @@
-package ql.evaluator.value;
+package ql.ast.expression.literal;
 
 import ql.ast.type.Type;
 import ql.evaluator.arithmetic.add.StrAdd;
 import ql.evaluator.comparisons.equal.StrEqual;
 import ql.evaluator.comparisons.notequal.StrNotEqual;
+import ql.visitors.interfaces.ExpressionVisitable;
+import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.ValueVisitor;
 
-public class Str extends Value<String> {
+public class StrLiteral extends Literal<String> implements ExpressionVisitable {
 
     private String value;
 
-    public Str() {
+    public StrLiteral() {
         this.value = "";
     }
 
-    public Str(String value) {
+    public StrLiteral(String value) {
         this.value = value;
     }
 
@@ -22,7 +24,7 @@ public class Str extends Value<String> {
     public String toString() {
         return this.value;
     }
-
+    
     @Override
     public String getValue() {
         return value;
@@ -34,22 +36,27 @@ public class Str extends Value<String> {
     }
     
     @Override
-    public Value<?> accept(ValueVisitor visitor) {
+    public Literal<?> accept(ValueVisitor visitor) {
+        return visitor.visit(this);
+    }
+    
+    @Override
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public Value<?> add(Value<?> secondOperand) {
+    public Literal<?> add(Literal<?> secondOperand) {
         return secondOperand.accept(new StrAdd(this));
     }
     
     @Override
-    public Value<?> equal(Value<?> secondOperand) {
+    public Literal<?> equal(Literal<?> secondOperand) {
         return secondOperand.accept(new StrEqual(this));
     }
     
     @Override
-    public Value<?> notEqual(Value<?> secondOperand) {
+    public Literal<?> notEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new StrNotEqual(this));
     }
 }

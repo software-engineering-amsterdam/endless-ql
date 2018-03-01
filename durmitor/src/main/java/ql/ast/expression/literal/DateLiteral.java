@@ -1,4 +1,4 @@
-package ql.evaluator.value;
+package ql.ast.expression.literal;
 
 import java.time.LocalDate;
 
@@ -9,21 +9,22 @@ import ql.evaluator.comparisons.greaterequal.DateGreaterEqual;
 import ql.evaluator.comparisons.less.DateLess;
 import ql.evaluator.comparisons.lessequal.DateLessEqual;
 import ql.evaluator.comparisons.notequal.DateNotEqual;
+import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.ValueVisitor;
 
-public class Date extends Value<LocalDate> {
+public class DateLiteral extends Literal<LocalDate> {
 
     private LocalDate value;
 
-    public Date() {
+    public DateLiteral() {
         this.value = LocalDate.MIN;
     }
 
-    public Date(String value) {
+    public DateLiteral(String value) {
         this.value = LocalDate.parse(value);
     }
 
-    public Date(LocalDate value) {
+    public DateLiteral(LocalDate value) {
         this.value = value;
     }
 
@@ -43,37 +44,42 @@ public class Date extends Value<LocalDate> {
     }
 
     @Override
-    public Value<?> accept(ValueVisitor visitor) {
+    public Literal<?> accept(ValueVisitor visitor) {
+        return visitor.visit(this);
+    }
+    
+    @Override
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public Value<?> less(Value<?> secondOperand) {
+    public Literal<?> less(Literal<?> secondOperand) {
         return secondOperand.accept(new DateLess(this));
     }
 
     @Override
-    public Value<?> lessEqual(Value<?> secondOperand) {
+    public Literal<?> lessEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new DateLessEqual(this));
     }
 
     @Override
-    public Value<?> greater(Value<?> secondOperand) {
+    public Literal<?> greater(Literal<?> secondOperand) {
         return secondOperand.accept(new DateGreater(this));
     }
 
     @Override
-    public Value<?> greaterEqual(Value<?> secondOperand) {
+    public Literal<?> greaterEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new DateGreaterEqual(this));
     }
 
     @Override
-    public Value<?> equal(Value<?> secondOperand) {
+    public Literal<?> equal(Literal<?> secondOperand) {
         return secondOperand.accept(new DateEqual(this));
     }
 
     @Override
-    public Value<?> notEqual(Value<?> secondOperand) {
+    public Literal<?> notEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new DateNotEqual(this));
     }
 }

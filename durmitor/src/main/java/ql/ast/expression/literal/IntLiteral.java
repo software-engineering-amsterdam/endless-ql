@@ -1,4 +1,4 @@
-package ql.evaluator.value;
+package ql.ast.expression.literal;
 
 import ql.ast.type.Type;
 import ql.evaluator.arithmetic.add.IntAdd;
@@ -11,22 +11,29 @@ import ql.evaluator.comparisons.greaterequal.IntGreaterEqual;
 import ql.evaluator.comparisons.less.IntLess;
 import ql.evaluator.comparisons.lessequal.IntLessEqual;
 import ql.evaluator.comparisons.notequal.IntNotEqual;
+import ql.visitors.interfaces.ExpressionVisitable;
+import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.ValueVisitor;
 
-public class Int extends Numeric {
+public class IntLiteral extends NumberLiteral implements ExpressionVisitable {
 
     private int value;
 
-    public Int() {
+    public IntLiteral() {
         this.value = 0;
     }
 
-    public Int(String value) {
+    public IntLiteral(String value) {
         this.value = Integer.parseInt(value);
     }
 
-    public Int(int value) {
+    public IntLiteral(int value) {
         this.value = value;
+    }
+    
+    @Override
+    public Integer getValue() {
+        return value;
     }
 
     @Override
@@ -35,77 +42,77 @@ public class Int extends Numeric {
     }
 
     @Override
-    public Integer getValue() {
-        return value;
-    }
-
-    @Override
     public Type getType() {
         return new ql.ast.type.Int();
     }
 
     @Override
-    public Value<?> accept(ValueVisitor visitor) {
+    public Literal<?> accept(ValueVisitor visitor) {
+        return visitor.visit(this);
+    }
+    
+    @Override
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public Value<?> negative() {
-        return new Int(value * -1);
+    public Literal<?> negative() {
+        return new IntLiteral(value * -1);
     }
 
     @Override
-    public Value<?> positive() {
+    public Literal<?> positive() {
         return this;
     }
 
     @Override
-    public Value<?> add(Value<?> secondOperand) {
+    public Literal<?> add(Literal<?> secondOperand) {
         return secondOperand.accept(new IntAdd(this));
     }
 
     @Override
-    public Value<?> subtract(Value<?> secondOperand) {
+    public Literal<?> subtract(Literal<?> secondOperand) {
         return secondOperand.accept(new IntSubtract(this));
     }
 
     @Override
-    public Value<?> multiply(Value<?> secondOperand) {
+    public Literal<?> multiply(Literal<?> secondOperand) {
         return secondOperand.accept(new IntMultiply(this));
     }
 
     @Override
-    public Value<?> divide(Value<?> secondOperand) {
+    public Literal<?> divide(Literal<?> secondOperand) {
         return secondOperand.accept(new IntDivide(this));
     }
 
     @Override
-    public Value<?> less(Value<?> secondOperand) {
+    public Literal<?> less(Literal<?> secondOperand) {
         return secondOperand.accept(new IntLess(this));
     }
 
     @Override
-    public Value<?> lessEqual(Value<?> secondOperand) {
+    public Literal<?> lessEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new IntLessEqual(this));
     }
 
     @Override
-    public Value<?> greater(Value<?> secondOperand) {
+    public Literal<?> greater(Literal<?> secondOperand) {
         return secondOperand.accept(new IntGreater(this));
     }
 
     @Override
-    public Value<?> greaterEqual(Value<?> secondOperand) {
+    public Literal<?> greaterEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new IntGreaterEqual(this));
     }
 
     @Override
-    public Value<?> equal(Value<?> secondOperand) {
+    public Literal<?> equal(Literal<?> secondOperand) {
         return secondOperand.accept(new IntEqual(this));
     }
 
     @Override
-    public Value<?> notEqual(Value<?> secondOperand) {
+    public Literal<?> notEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new IntNotEqual(this));
     }
 }

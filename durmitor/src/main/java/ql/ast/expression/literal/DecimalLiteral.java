@@ -1,4 +1,4 @@
-package ql.evaluator.value;
+package ql.ast.expression.literal;
 
 import ql.ast.type.Type;
 import ql.evaluator.arithmetic.add.DecimalAdd;
@@ -11,101 +11,107 @@ import ql.evaluator.comparisons.greaterequal.DecimalGreaterEqual;
 import ql.evaluator.comparisons.less.DecimalLess;
 import ql.evaluator.comparisons.lessequal.DecimalLessEqual;
 import ql.evaluator.comparisons.notequal.DecimalNotEqual;
+import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.ValueVisitor;
 
-public class Decimal extends Numeric {
+public class DecimalLiteral extends NumberLiteral {
 
     private double value;
 
-    public Decimal() {
+    public DecimalLiteral() {
         this.value = 0.00;
     }
 
-    public Decimal(String value) {
+    public DecimalLiteral(String value) {
         this.value = Double.parseDouble(value);
     }
 
-    public Decimal(double value) {
+    public DecimalLiteral(double value) {
         this.value = value;
     }
-
+    
+    @Override
+    public Double getValue() {
+        return value;
+    }
+    
+    @Override
+    public Type getType() {
+        return new ql.ast.type.Decimal();
+    }
+    
     @Override
     public String toString() {
         return String.valueOf(value);
     }
 
     @Override
-    public Double getValue() {
-        return value;
+    public Literal<?> accept(ValueVisitor visitor) {
+        return visitor.visit(this);
     }
-
+    
     @Override
-    public Type getType() {
-        return new ql.ast.type.Decimal();
-    }
-
-    @Override
-    public Value<?> accept(ValueVisitor visitor) {
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public Value<?> negative() {
-        return new Decimal(value * -1);
+    public Literal<?> negative() {
+        return new DecimalLiteral(value * -1);
     }
 
     @Override
-    public Value<?> positive() {
+    public Literal<?> positive() {
         return this;
     }
 
     @Override
-    public Value<?> add(Value<?> secondOperand) {
+    public Literal<?> add(Literal<?> secondOperand) {
         return secondOperand.accept(new DecimalAdd(this));
     }
 
     @Override
-    public Value<?> subtract(Value<?> secondOperand) {
+    public Literal<?> subtract(Literal<?> secondOperand) {
         return secondOperand.accept(new DecimalSubtract(this));
     }
 
     @Override
-    public Value<?> multiply(Value<?> secondOperand) {
+    public Literal<?> multiply(Literal<?> secondOperand) {
         return secondOperand.accept(new DecimalMultiply(this));
     }
 
     @Override
-    public Value<?> divide(Value<?> secondOperand) {
+    public Literal<?> divide(Literal<?> secondOperand) {
         return secondOperand.accept(new DecimalDivide(this));
     }
 
     @Override
-    public Value<?> less(Value<?> secondOperand) {
+    public Literal<?> less(Literal<?> secondOperand) {
         return secondOperand.accept(new DecimalLess(this));
     }
 
     @Override
-    public Value<?> lessEqual(Value<?> secondOperand) {
+    public Literal<?> lessEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new DecimalLessEqual(this));
     }
 
     @Override
-    public Value<?> greater(Value<?> secondOperand) {
+    public Literal<?> greater(Literal<?> secondOperand) {
         return secondOperand.accept(new DecimalGreater(this));
     }
 
     @Override
-    public Value<?> greaterEqual(Value<?> secondOperand) {
+    public Literal<?> greaterEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new DecimalGreaterEqual(this));
     }
 
     @Override
-    public Value<?> equal(Value<?> secondOperand) {
+    public Literal<?> equal(Literal<?> secondOperand) {
         return secondOperand.accept(new DecimalEqual(this));
     }
 
     @Override
-    public Value<?> notEqual(Value<?> secondOperand) {
+    public Literal<?> notEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new DecimalNotEqual(this));
     }
 }

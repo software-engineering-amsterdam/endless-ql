@@ -1,13 +1,14 @@
-package ql.evaluator.value;
+package ql.ast.expression.literal;
 
 import ql.ast.type.Type;
+import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.ValueVisitor;
 
-public class Undefined extends Value<String> {
+public class UndefinedLiteral extends Literal<String> {
 
     private final String value;
     
-    public Undefined() { 
+    public UndefinedLiteral() { 
         this.value = null;
     }
     
@@ -15,7 +16,7 @@ public class Undefined extends Value<String> {
     public String toString() {
         return this.value;
     }
-
+    
     @Override
     public String getValue() {
         return value;
@@ -27,7 +28,12 @@ public class Undefined extends Value<String> {
     }
     
     @Override
-    public Value<?> accept(ValueVisitor visitor) {
+    public Literal<?> accept(ValueVisitor visitor) {
+        return visitor.visit(this);
+    }
+    
+    @Override
+    public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
 }

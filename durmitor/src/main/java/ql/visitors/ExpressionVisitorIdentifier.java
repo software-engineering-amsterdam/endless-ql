@@ -1,30 +1,31 @@
-package ql.visitors.checker.checkers;
+package ql.visitors;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ql.ast.expression.Add;
 import ql.ast.expression.And;
-import ql.ast.expression.BoolLiteral;
-import ql.ast.expression.DateLiteral;
-import ql.ast.expression.DecimalLiteral;
 import ql.ast.expression.Divide;
 import ql.ast.expression.Equal;
 import ql.ast.expression.Greater;
 import ql.ast.expression.GreaterEqual;
 import ql.ast.expression.Identifier;
-import ql.ast.expression.IntLiteral;
 import ql.ast.expression.Less;
 import ql.ast.expression.LessEqual;
-import ql.ast.expression.MoneyLiteral;
 import ql.ast.expression.Multiply;
 import ql.ast.expression.Negation;
 import ql.ast.expression.Negative;
 import ql.ast.expression.NotEqual;
 import ql.ast.expression.Or;
 import ql.ast.expression.Positive;
-import ql.ast.expression.StrLiteral;
 import ql.ast.expression.Subtract;
+import ql.ast.expression.literal.BoolLiteral;
+import ql.ast.expression.literal.DateLiteral;
+import ql.ast.expression.literal.DecimalLiteral;
+import ql.ast.expression.literal.IntLiteral;
+import ql.ast.expression.literal.MoneyLiteral;
+import ql.ast.expression.literal.StrLiteral;
+import ql.ast.expression.literal.UndefinedLiteral;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class ExpressionVisitorIdentifier implements ExpressionVisitor<List<Identifier>> {
@@ -171,6 +172,11 @@ public class ExpressionVisitorIdentifier implements ExpressionVisitor<List<Ident
 
     @Override
     public List<Identifier> visit(MoneyLiteral expr) {
+        return idents;
+    }
+
+    @Override
+    public List<Identifier> visit(UndefinedLiteral expr) {
         return idents;
     }
 }

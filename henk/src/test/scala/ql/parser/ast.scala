@@ -26,7 +26,7 @@ class ASTParser extends FunSpec with BeforeAndAfter {
   describe("when parsing a form") {
     it("should contain a single question") {
       val result = getFlattenedForm("ql/simple.ql")
-      val expected = ASTQuestion(ASTVarDecl(ASTBoolean(), "hasSoldHouse"),
+      val expected = ASTQuestion(ASTVarDecl(ASTBoolean(), ASTIdentifier("hasSoldHouse")),
                                  "Did you sell a house in 2010?")
 
       assert(result.filter(x => x == expected).size == 1)
@@ -34,9 +34,9 @@ class ASTParser extends FunSpec with BeforeAndAfter {
 
     it("should contain two questions") {
       val result = getFlattenedForm("ql/two_statements_simple.ql")
-      val q1 = ASTQuestion(ASTVarDecl(ASTBoolean(), "hasSoldHouse"),
+      val q1 = ASTQuestion(ASTVarDecl(ASTBoolean(), ASTIdentifier("hasSoldHouse")),
                            "Did you sell a house in 2010?")
-      val q2 = ASTQuestion(ASTVarDecl(ASTBoolean(), "hasSoldHouse"),
+      val q2 = ASTQuestion(ASTVarDecl(ASTBoolean(), ASTIdentifier("hasSoldHouse")),
                            "Did you sell a house in 2011?")
 
       assert(result.filter(x => x == q1 || x == q2).size == 2)
@@ -47,12 +47,12 @@ class ASTParser extends FunSpec with BeforeAndAfter {
       val expected = ASTIfStatement(
         ASTIdentifier("hasSoldHouse"),
         List(
-          ASTQuestion(ASTVarDecl(ASTMoney(), "sellingPrice"),
+          ASTQuestion(ASTVarDecl(ASTMoney(), ASTIdentifier("sellingPrice")),
                       "What was the selling price?"),
-          ASTQuestion(ASTVarDecl(ASTMoney(), "privateDebt"),
+          ASTQuestion(ASTVarDecl(ASTMoney(), ASTIdentifier("privateDebt")),
                       "Private debts for the sold house:"),
           ASTComputation(
-            ASTVarDecl(ASTMoney(), "valueResidue"),
+            ASTVarDecl(ASTMoney(), ASTIdentifier("valueResidue")),
             ASTValAssign(
               ASTBinary(
                 ASTIdentifier("sellingPrice"),
@@ -72,7 +72,7 @@ class ASTParser extends FunSpec with BeforeAndAfter {
       val expected = ASTIfStatement(
         ASTIdentifier("hasSoldHouse"),
         List(
-          ASTQuestion(ASTVarDecl(ASTMoney(), "sellingPrice"),
+          ASTQuestion(ASTVarDecl(ASTMoney(), ASTIdentifier("sellingPrice")),
                       "What was the selling price?")
         )
       )

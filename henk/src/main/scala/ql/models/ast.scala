@@ -4,14 +4,15 @@ sealed trait ASTNode
 
 case class ASTRoot(header: ASTNode, body: ASTNode) extends ASTNode
 
-case class ASTFormHeader(label: String) extends ASTNode
+// case class ASTFormHeader(label: String) extends ASTNode
+case class ASTFormHeader(identifier: ASTNode) extends ASTNode
 case class ASTFormBody(statements: List[ASTNode]) extends ASTNode
 case class ASTQuestion(varDecl: ASTNode, label: String) extends ASTNode
 case class ASTConditional() extends ASTNode
 case class ASTComputation(varDecl: ASTNode, valAssign: ASTNode, label: String)
     extends ASTNode
 
-case class ASTVarDecl(typeDecl: ASTNode, label: String) extends ASTNode
+case class ASTVarDecl(typeDecl: ASTNode, id: ASTNode) extends ASTNode
 case class ASTTypeDecl(returnType: ASTNode) extends ASTNode
 case class ASTValAssign(expression: ASTNode) extends ASTNode
 case class ASTIfStatement(expression: ASTNode, statements: List[ASTNode])
@@ -20,7 +21,7 @@ case class ASTIfStatement(expression: ASTNode, statements: List[ASTNode])
 case class ASTBoolean() extends ASTNode
 case class ASTMoney() extends ASTNode
 case class ASTNumber() extends ASTNode
-case class ASTIdentifier(name: String) extends ASTNode
+case class ASTIdentifier(id: String) extends ASTNode
 
 case class ASTLogicalCon() extends ASTNode
 case class ASTLogicalDis() extends ASTNode

@@ -15,7 +15,12 @@ class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
 
   override def visitFormHeader(
       ctx: QlParser.FormHeaderContext): ASTFormHeader = {
-    ASTFormHeader(ctx.IDENTIFIER.getText)
+    ASTFormHeader(visit(ctx.identifier))
+  }
+
+  override def visitIdentifier(
+      ctx: QlParser.IdentifierContext): ASTIdentifier = {
+    ASTIdentifier(ctx.getText)
   }
 
   override def visitFormBody(ctx: QlParser.FormBodyContext): ASTFormBody = {
@@ -36,7 +41,7 @@ class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
   }
 
   override def visitVarDecl(ctx: QlParser.VarDeclContext): ASTVarDecl = {
-    ASTVarDecl(visit(ctx.typeDecl), ctx.IDENTIFIER.getText)
+    ASTVarDecl(visit(ctx.typeDecl), visit(ctx.identifier))
   }
 
   override def visitTypeDecl(ctx: QlParser.TypeDeclContext): ASTNode =
@@ -83,7 +88,7 @@ class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
 
   override def visitIdentifierExpression(
       ctx: QlParser.IdentifierExpressionContext): ASTNode = {
-    ASTIdentifier(ctx.getText)
+    visit(ctx.identifier)
   }
 
   override def visitBinaryExpression(

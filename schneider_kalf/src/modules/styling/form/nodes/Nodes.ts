@@ -75,7 +75,7 @@ class Question implements SectionChild, PageChild {
 }
 
 // Default
-class Default implements SectionChild, PageChild, FormChild {
+class DefaultStyle implements SectionChild, PageChild, FormChild {
   readonly type: string;
   readonly children: StyleAttribuut[];
   constructor(type: string, children: StyleAttribuut[]) {
@@ -83,3 +83,18 @@ class Default implements SectionChild, PageChild, FormChild {
     this.children = children;
   }
 }
+
+/**
+ * List all available node types for easy access in the grammar.
+ * This list is not needed otherwise, but used to create according
+ * instances inside the parser.
+ */
+export default {
+  Stylesheet,
+  BaseAttribuut,
+  WidgetAttribuut,
+  Page,
+  Section,
+  Question,
+  DefaultStyle
+};

@@ -19,4 +19,6 @@ form taxOfficeExample {
     }
     "Some text here" someNumberWithExpression: decimal = ((someNumber + 2) * 2)
     "Give me a date please?" someDate: date
+    "Give me an integer please?" someInteger: integer
+    "Give me an money value please?" someMoney: money
 }

@@ -4,98 +4,99 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import ql.evaluator.value.Bool;
-import ql.evaluator.value.Date;
-import ql.evaluator.value.Decimal;
-import ql.evaluator.value.Int;
-import ql.evaluator.value.Money;
-import ql.evaluator.value.Str;
-import ql.evaluator.value.Undefined;
-import ql.evaluator.value.Value;
+import ql.ast.expression.LessEqual;
+import ql.ast.expression.literal.BoolLiteral;
+import ql.ast.expression.literal.DateLiteral;
+import ql.ast.expression.literal.DecimalLiteral;
+import ql.ast.expression.literal.IntLiteral;
+import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.MoneyLiteral;
+import ql.ast.expression.literal.StrLiteral;
+import ql.ast.expression.literal.UndefinedLiteral;
 
 public class TestLessEqual {
     
     @Test
     public void testBoolLessEqual() {
-        Value<?> firstOperand = new Bool();
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Bool()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Str()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Int()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Decimal()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Money()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Date()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Undefined()).getClass());
+        Literal<?> firstOperand = new BoolLiteral();
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new BoolLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new StrLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new IntLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new DecimalLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new MoneyLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new DateLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new UndefinedLiteral()).getClass());
     }
     
     @Test
     public void testStrLessEqual() {
-        Value<?> firstOperand = new Str();
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Bool()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Str()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Int()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Decimal()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Money()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Date()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Undefined()).getClass());
+        Literal<?> firstOperand = new StrLiteral();
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new BoolLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new StrLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new IntLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new DecimalLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new MoneyLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new DateLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new UndefinedLiteral()).getClass());
     }
     
     @Test
     public void testIntLessEqual() {
-        Value<?> firstOperand = new Int();
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Bool()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Str()).getClass());
-        assertEquals(Bool.class, firstOperand.lessEqual(new Int()).getClass());
-        assertEquals(Bool.class, firstOperand.lessEqual(new Decimal()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Money()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Date()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Undefined()).getClass());
+        Literal<?> firstOperand = new IntLiteral();
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new BoolLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new StrLiteral()).getClass());
+        assertEquals(BoolLiteral.class, new LessEqual(firstOperand, new IntLiteral()).getClass());
+        assertEquals(BoolLiteral.class, new LessEqual(firstOperand, new DecimalLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new MoneyLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new DateLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new UndefinedLiteral()).getClass());
     }
     
     @Test
     public void testDecimalLessEqual() {
-        Value<?> firstOperand = new Decimal();
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Bool()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Str()).getClass());
-        assertEquals(Bool.class, firstOperand.lessEqual(new Int()).getClass());
-        assertEquals(Bool.class, firstOperand.lessEqual(new Decimal()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Money()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Date()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Undefined()).getClass());
+        Literal<?> firstOperand = new DecimalLiteral();
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new BoolLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new StrLiteral()).getClass());
+        assertEquals(BoolLiteral.class, new LessEqual(firstOperand, new IntLiteral()).getClass());
+        assertEquals(BoolLiteral.class, new LessEqual(firstOperand, new DecimalLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new MoneyLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new DateLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new UndefinedLiteral()).getClass());
     }
     
     @Test
     public void testMoneyLessEqual() {
-        Value<?> firstOperand = new Money();
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Bool()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Str()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Int()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Decimal()).getClass());
-        assertEquals(Bool.class, firstOperand.lessEqual(new Money()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Date()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Undefined()).getClass());
+        Literal<?> firstOperand = new MoneyLiteral();
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new BoolLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new StrLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new IntLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new DecimalLiteral()).getClass());
+        assertEquals(BoolLiteral.class, new LessEqual(firstOperand, new MoneyLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new DateLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new UndefinedLiteral()).getClass());
     }
     
     @Test
     public void testDateLessEqual() {
-        Value<?> firstOperand = new Date();
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Bool()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Str()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Int()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Decimal()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Money()).getClass());
-        assertEquals(Bool.class, firstOperand.lessEqual(new Date()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Undefined()).getClass());
+        Literal<?> firstOperand = new DateLiteral();
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new BoolLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new StrLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new IntLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new DecimalLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new MoneyLiteral()).getClass());
+        assertEquals(BoolLiteral.class, new LessEqual(firstOperand, new DateLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new UndefinedLiteral()).getClass());
     }
     
     @Test
     public void testUndefinedLessEqual() {
-        Value<?> firstOperand = new Undefined();
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Bool()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Str()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Int()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Decimal()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Money()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Date()).getClass());
-        assertEquals(Undefined.class, firstOperand.lessEqual(new Undefined()).getClass());
+        Literal<?> firstOperand = new UndefinedLiteral();
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new BoolLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new StrLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new IntLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new DecimalLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new MoneyLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new DateLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new LessEqual(firstOperand, new UndefinedLiteral()).getClass());
     }
 }

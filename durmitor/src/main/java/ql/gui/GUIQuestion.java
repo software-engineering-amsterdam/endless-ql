@@ -54,7 +54,7 @@ public class GUIQuestion extends JPanel implements TypeVisitor<Void> {
         checkBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                question.getIdentifier().setValue(new ql.evaluator.value.Bool(checkBox.isSelected()));
+                question.getIdentifier().setValue(new ql.ast.expression.literal.BoolLiteral(checkBox.isSelected()));
             }
         });
         add(this.checkBox);

@@ -18,7 +18,7 @@ class AstQuestionTypeTests {
 		List<Stmt> ast = TestUtilities.buildAst(typeStringSource);
 		FormStmt form1 = (FormStmt) ast.get(0);
 		
-		QuestionStmt question1 = (QuestionStmt) form1.blockStmt.getStmtAtIndex(0);
+		QuestionStmt question1 = (QuestionStmt) form1.getBlockStmt().getStmtAtIndex(0);
 		assertEquals(question1.getType().getName(), "string");
 	}
 	
@@ -28,7 +28,7 @@ class AstQuestionTypeTests {
 		List<Stmt> ast = TestUtilities.buildAst(typeBooleanSource);
 		FormStmt form1 = (FormStmt) ast.get(0);
 		
-		QuestionStmt question1 = (QuestionStmt) form1.blockStmt.getStmtAtIndex(0);
+		QuestionStmt question1 = (QuestionStmt) form1.getBlockStmt().getStmtAtIndex(0);
 		assertEquals(question1.getType().getName(), "boolean");
 	}
 	
@@ -38,7 +38,7 @@ class AstQuestionTypeTests {
 		List<Stmt> ast = TestUtilities.buildAst(typeIntegerSource);
 		FormStmt form1 = (FormStmt) ast.get(0);
 		
-		QuestionStmt question1 = (QuestionStmt) form1.blockStmt.getStmtAtIndex(0);
+		QuestionStmt question1 = (QuestionStmt) form1.getBlockStmt().getStmtAtIndex(0);
 		assertEquals(question1.getType().getName(), "integer");
 	}
 	
@@ -48,7 +48,7 @@ class AstQuestionTypeTests {
 		List<Stmt> ast = TestUtilities.buildAst(typeDecimalSource);
 		FormStmt form1 = (FormStmt) ast.get(0);
 		
-		QuestionStmt question1 = (QuestionStmt) form1.blockStmt.getStmtAtIndex(0);
+		QuestionStmt question1 = (QuestionStmt) form1.getBlockStmt().getStmtAtIndex(0);
 		assertEquals(question1.getType().getName(), "decimal");
 	}
 	
@@ -58,7 +58,7 @@ class AstQuestionTypeTests {
 		List<Stmt> ast = TestUtilities.buildAst(typeDateSource);
 		FormStmt form1 = (FormStmt) ast.get(0);
 		
-		QuestionStmt question1 = (QuestionStmt) form1.blockStmt.getStmtAtIndex(0);
+		QuestionStmt question1 = (QuestionStmt) form1.getBlockStmt().getStmtAtIndex(0);
 		assertEquals(question1.getType().getName(), "date");
 	}
 	
@@ -68,7 +68,7 @@ class AstQuestionTypeTests {
 		List<Stmt> ast = TestUtilities.buildAst(typeMoneySource);
 		FormStmt form1 = (FormStmt) ast.get(0);
 		
-		QuestionStmt question1 = (QuestionStmt) form1.blockStmt.getStmtAtIndex(0);
+		QuestionStmt question1 = (QuestionStmt) form1.getBlockStmt().getStmtAtIndex(0);
 		assertEquals(question1.getType().getName(), "money");
 	}
 	
@@ -78,7 +78,7 @@ class AstQuestionTypeTests {
 		List<Stmt> ast = TestUtilities.buildAst(typeUnkownSource);
 		FormStmt form1 = (FormStmt) ast.get(0);
 		
-		QuestionStmt question1 = (QuestionStmt) form1.blockStmt.getStmtAtIndex(0);
+		QuestionStmt question1 = (QuestionStmt) form1.getBlockStmt().getStmtAtIndex(0);
 		assertNull(question1.getType());
 	}
 

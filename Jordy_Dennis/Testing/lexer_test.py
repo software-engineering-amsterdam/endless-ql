@@ -1,7 +1,7 @@
 import unittest
 import os
 import sys
-
+from test_methods import *
 
 Path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, Path + '/../')
@@ -28,23 +28,18 @@ class LexerTest(unittest.TestCase):
     def testGoodFiles(self):
         path = 'Testing/lexer_test_files/correct_test'
         for filename in os.listdir(path):
-            file_object = open(path + "/" + filename, "r")
-            data = file_object.read().split("---\n")
-            input = data[0].strip("\n")
-            output = data[1].strip("\n")
-            lexer_str = getLexerFromString(input)
-            
-            self.assertEqual(lexer_str, output, filename)
-            file_object.close()
+            inputText, outputText = getInputOutput(path, filename)
+            lexer_str = getLexerFromString(inputText)
+            self.assertEqual(lexer_str, outputText, filename)
 
 
     def testErrorFiles(self):
         path = 'Testing/lexer_test_files/fail_test'
         for filename in os.listdir(path):
             file_object = open(path + "/" + filename, "r")
-            input = file_object.read()
+            inputText = file_object.read()
 
-            self.assertRaises(Exception, getLexerFromString, input, filename)
+            self.assertRaises(Exception, getLexerFromString, inputText, filename)
             file_object.close()
 
 if __name__ == '__main__':

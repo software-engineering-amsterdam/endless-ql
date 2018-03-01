@@ -19,9 +19,9 @@ class AssignmentNode:
         varNodeType = self.varNode.checkTypes()
 
         if(expType == int and varNodeType == float):
-            return ["Assign", float]
+            return ["Assign: " + self.varNode.varname, float]
         elif(expType == varNodeType):
-            return ["Assign", expType]
+            return ["Assign: " + self.varNode.varname, expType]
         else:
             errorstring = "Incomparible types: " + str(varNodeType) + " and " + \
              str(expType) + "; of assignment at line " + str(self.line)

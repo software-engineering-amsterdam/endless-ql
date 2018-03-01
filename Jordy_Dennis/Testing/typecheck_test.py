@@ -7,7 +7,10 @@ class TypeCheckTest(unittest.TestCase):
         for filename in os.listdir(path):
             inputText, outputText = getInputOutput(path, filename)
             ast = getAstFromString(inputText)
-            # self.assertEqual(lexer_str, outputText, filename)
+            ast.linkVars()
+            typeCheck_output = ast.checkTypes()
+            print(typeCheck_output)
+            self.assertEqual(str(typeCheck_output), outputText, filename)
 
     def testErrorFilesTypecheck(self):
         path = 'Testing/test_files/typecheck_test_files/fail_test'

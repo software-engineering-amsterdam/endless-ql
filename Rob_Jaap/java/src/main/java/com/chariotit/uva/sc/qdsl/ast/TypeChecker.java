@@ -1,6 +1,9 @@
 package com.chariotit.uva.sc.qdsl.ast;
 
 
+import com.chariotit.uva.sc.qdsl.ast.node.AstRoot;
+import com.chariotit.uva.sc.qdsl.ast.visitor.TypeCheckVisitor;
+
 /**
  * Should check:
  *
@@ -13,5 +16,11 @@ package com.chariotit.uva.sc.qdsl.ast;
  */
 public class TypeChecker {
 
+    public void typeCheckAst(AstRoot astRoot) {
+        System.out.println("HERE");
+        TypeCheckVisitor visitor = new TypeCheckVisitor();
 
+        astRoot.acceptVisitor(visitor);
+
+    }
 }

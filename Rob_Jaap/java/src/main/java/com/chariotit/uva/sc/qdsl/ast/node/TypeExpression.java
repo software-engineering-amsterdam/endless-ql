@@ -35,7 +35,10 @@ public class TypeExpression extends AstNode {
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
         type.acceptVisitor(visitor);
-        expression.acceptVisitor(visitor);
+
+        if (expression != null) {
+            expression.acceptVisitor(visitor);
+        }
 
         visitor.visitTypeExpression(this);
     }

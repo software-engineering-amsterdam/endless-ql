@@ -8,7 +8,7 @@ public class ExpressionFactory {
     public static Expression createExpression(String questionType) {
         switch (questionType) {
             case "boolean":
-                return new ExpressionVariableBoolean(null);
+                return new ExpressionVariableBoolean(false);
             case "string":
                 return new ExpressionVariableString(null);
             case "integer":

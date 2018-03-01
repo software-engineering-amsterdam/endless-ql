@@ -1,60 +1,59 @@
 package org.uva.sea.ql.gui;
 
-import javafx.scene.control.CheckBox;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Control;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import org.uva.sea.ql.DataObject.QuestionData;
 import org.uva.sea.ql.parser.NodeType;
-import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.value.*;
 
 public class QuestionGUI extends Control {
 
-    private Label label;
+    private String label;
     //boolean - checkbox
     //numeric fields - text boxes
     //computed values - label readonly
-    private Control type;
+    private NodeType type;
     private Value value;
+    private String variableName;
     private boolean isComputed;
     private boolean shouldBeVisible = true;
 
-    public QuestionGUI(Label label, Control type) {
-        this.label = label;
-        this.type = type;
-    }
-
-    public QuestionGUI(QuestionData data) {
-        this.label = generateLabel(data.getLabel());
-        this.type = generateInput(data.getNodeType());
+    QuestionGUI(QuestionData data) {
+        this.label = data.getLabel();
+        this.type = data.getNodeType();
         this.value = data.getValue();
         this.isComputed = data.isComputed();
+        this.variableName = data.getQuestionName();
     }
 
-    private Label generateLabel(String name) {
-        return new Label(name);
-    }
-
-    private Control generateInput(NodeType nodeType) {
-        switch (nodeType) {
+    public String displayValue() {
+        switch (type) {
             case BOOLEAN:
-                CheckBox checkBox = new CheckBox();
-                checkBox.selectedProperty()
-                        .addListener((observable, oldValue, newValue) -> System.out.println("set into " + newValue));
-                return checkBox;
-            case DECIMAL:
-            case INTEGER:
-            case MONEY:
-            case STRING:
+                return String.valueOf(((BooleanValue) value).getBooleanValue());
             case DATE:
-                TextField textField = new TextField();
-                textField.setEditable(true);
-                textField.setMinWidth(100.0);
-                return textField;
+                return String.valueOf(((DateValue) value).getDateValue());
+            case DECIMAL:
+                return String.valueOf(((DecimalValue) value).getDecimalValue());
+            case INTEGER:
+                return String.valueOf(((IntValue) value).getIntValue());
+            case MONEY:
+                return String.valueOf(((MoneyValue) value).getAmount())
+                        + " " + ((MoneyValue) value).getCurrency();
+            case STRING:
+                return ((StringValue) value).getStringValue();
             case UNKNOWN:
             default:
-                return new Label("UNKNOWN");
+                return "UNKNOWN";
         }
+    }
+
+    public String getVariableName() {
+        return variableName;
+    }
+
+    public void setVariableName(String variableName) {
+        this.variableName = variableName;
     }
 
     public boolean isShouldBeVisible() {
@@ -65,19 +64,36 @@ public class QuestionGUI extends Control {
         this.shouldBeVisible = shouldBeVisible;
     }
 
-    public Label getLabel() {
+    public String getLabel() {
         return label;
     }
 
-    public void setLabel(Label label) {
+    public void setLabel(String label) {
         this.label = label;
     }
 
-    public Control getType() {
+    public NodeType getType() {
         return type;
     }
 
-    public void setType(Control type) {
+    public void setType(NodeType type) {
         this.type = type;
     }
+
+    public Value getValue() {
+        return value;
+    }
+
+    public void setValue(Value value) {
+        this.value = value;
+    }
+
+    public boolean isComputed() {
+        return isComputed;
+    }
+
+    public void setComputed(boolean computed) {
+        isComputed = computed;
+    }
+
 }

@@ -18,4 +18,5 @@ form taxOfficeExample {
         "Q7: This will only enable if someNumber <= 5" someBoolean5: boolean
     }
     "Some text here" someNumberWithExpression: decimal = ((someNumber + 2) * 2)
+    "Give me a date please?" someDate: date
 }

@@ -23,7 +23,7 @@ public class AstCommandTests {
 		FormStmt form1 = (FormStmt) ast.get(0);
 		assertTrue(form1.identifier.getName().equals("Form1"));
 		
-		QuestionStmt question1 = (QuestionStmt) form1.blockStmt.statements.get(0);
+		QuestionStmt question1 = (QuestionStmt) form1.blockStmt.getStmtAtIndex(0);
 		assertEquals(question1.label, "\"Question 1\"");
 		assertEquals(question1.identifier.getName(), "question1");
 	}
@@ -35,11 +35,11 @@ public class AstCommandTests {
 		FormStmt form1 = (FormStmt) ast.get(0);
 		assertTrue(form1.identifier.getName().equals("Form1"));
 		
-		QuestionStmt question1 = (QuestionStmt) form1.blockStmt.statements.get(0);
+		QuestionStmt question1 = (QuestionStmt) form1.blockStmt.getStmtAtIndex(0);
 		assertEquals(question1.label, "\"Question 1\"");
 		assertEquals(question1.identifier.getName(), "question1");
 		
-		QuestionStmt question2 = (QuestionStmt) form1.blockStmt.statements.get(1);
+		QuestionStmt question2 = (QuestionStmt) form1.blockStmt.getStmtAtIndex(1);
 		assertEquals(question2.label, "\"Question 2\"");
 		assertEquals(question2.identifier.getName(), "question2");
 	}
@@ -51,10 +51,10 @@ public class AstCommandTests {
 		FormStmt form1 = (FormStmt) ast.get(0);
 		assertTrue(form1.identifier.getName().equals("Form1"));
 		
-		IfStmt ifStmt = (IfStmt) form1.blockStmt.statements.get(0);
+		IfStmt ifStmt = (IfStmt) form1.blockStmt.getStmtAtIndex(0);
 		assertNotNull(ifStmt);
 		
-		QuestionStmt question1 = (QuestionStmt) ifStmt.blockStmt.statements.get(0);
+		QuestionStmt question1 = (QuestionStmt) ifStmt.blockStmt.getStmtAtIndex(0);
 		assertEquals(question1.label, "\"Question 1\"");
 		assertEquals(question1.identifier.getName(), "question1");
 	}
@@ -66,14 +66,14 @@ public class AstCommandTests {
 		FormStmt form1 = (FormStmt) ast.get(0);
 		assertTrue(form1.identifier.getName().equals("Form1"));
 		
-		IfStmt ifStmt = (IfStmt) form1.blockStmt.statements.get(0);
+		IfStmt ifStmt = (IfStmt) form1.blockStmt.getStmtAtIndex(0);
 		assertNotNull(ifStmt);
 		
-		QuestionStmt question1 = (QuestionStmt) ifStmt.blockStmt.statements.get(0);
+		QuestionStmt question1 = (QuestionStmt) ifStmt.blockStmt.getStmtAtIndex(0);
 		assertEquals(question1.label, "\"Question 1\"");
 		assertEquals(question1.identifier.getName(), "question1");
 		
-		QuestionStmt question2 = (QuestionStmt) form1.blockStmt.statements.get(1);
+		QuestionStmt question2 = (QuestionStmt) form1.blockStmt.getStmtAtIndex(1);
 		assertEquals(question2.label, "\"Question 2\"");
 		assertEquals(question2.identifier.getName(), "question2");
 	}
@@ -85,14 +85,14 @@ public class AstCommandTests {
 		FormStmt form1 = (FormStmt) ast.get(0);
 		assertTrue(form1.identifier.getName().equals("Form1"));
 		
-		IfElseStmt ifElseStmt = (IfElseStmt) form1.blockStmt.statements.get(0);
+		IfElseStmt ifElseStmt = (IfElseStmt) form1.blockStmt.getStmtAtIndex(0);
 		assertNotNull(ifElseStmt);
 		
-		QuestionStmt question1 = (QuestionStmt) ifElseStmt.ifBlockStmt.statements.get(0);
+		QuestionStmt question1 = (QuestionStmt) ifElseStmt.ifBlockStmt.getStmtAtIndex(0);
 		assertEquals(question1.label, "\"Question 1\"");
 		assertEquals(question1.identifier.getName(), "question1");
 		
-		QuestionStmt question2 = (QuestionStmt) ifElseStmt.elseBlockStmt.statements.get(0);
+		QuestionStmt question2 = (QuestionStmt) ifElseStmt.elseBlockStmt.getStmtAtIndex(0);
 		assertEquals(question2.label, "\"Question 2\"");
 		assertEquals(question2.identifier.getName(), "question2");
 	}

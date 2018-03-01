@@ -21,7 +21,6 @@ object TypeChecker extends Logging {
     qLForm
   }
 
-  // TODO This function does not check for references inside expressions
   def checkReferences(qLForm: QLForm): QLForm = {
     logger.info("Phase 2 - Checking references to undefined questions ...")
     val questions = Statement.collectAllQuestions(qLForm.statements)
@@ -70,12 +69,40 @@ object TypeChecker extends Logging {
   // TODO implement checkCyclicDependenciesBetweenQuestions
   def checkCyclicDependenciesBetweenQuestions(qLForm: QLForm): QLForm = {
     logger.info("Phase 5 - Checking cyclic dependencies between questions ...")
+    val questions = Statement.collectAllQuestions(qLForm.statements)
+    val dependencyGraph: Seq[(String, String)] = questions.flatMap {
+      case q @ Question(_, _, _, r @ Reference(_), _) => Seq(q.id -> r.value)
+      case q @ Question(_, _, _, expression, _)       => Statement.collectAllReferences(expression).map(r => q.id -> r.value)
+    }
+
+    val cyclicDependencies = dependencyGraph.exists(element => detectCycle(element, dependencyGraph, element))
+    if (cyclicDependencies) {
+      throw new IllegalArgumentException(s"Found cyclic dependency")
+    }
+
     qLForm
+  }
+
+  private def detectCycle(
+      follow: (String, String),
+      graph: Seq[(String, String)],
+      startingElement: (String, String)): Boolean = {
+    logger.info(s"Detecting cycles for starting element: $startingElement in graph: $graph. Now following: $follow")
+
+    val nextElement: Option[(String, String)] = graph.find(_._1 == follow._2)
+    nextElement match {
+      case Some((from, to)) if startingElement._1 == to =>
+        logger.info(s"Detected a cycle between: $startingElement -> ${(from, to)}")
+        true
+      case Some((from, to)) => detectCycle((from, to), graph.filterNot(pair => pair == follow), startingElement)
+      case None             => false
+    }
   }
 
   // TODO this function should not throw an error. Somehow we should give a warning when duplicate labels are detected
   def checkDuplicateLabels(qLForm: QLForm): QLForm = {
     logger.info("Phase 6 - Checking duplicate question labels ...")
+
     val questions = Statement.collectAllQuestions(qLForm.statements)
     val questionsWithDuplicateLabels: Iterator[Seq[Question]] =
       questions.groupBy(_.label).valuesIterator.filter(_.size > 1)
@@ -83,6 +110,7 @@ object TypeChecker extends Logging {
     if (questionsWithDuplicateLabels.nonEmpty) {
       throw new IllegalArgumentException(s"Found questions with duplicate labels $questionsWithDuplicateLabels")
     }
+
     qLForm
   }
 }

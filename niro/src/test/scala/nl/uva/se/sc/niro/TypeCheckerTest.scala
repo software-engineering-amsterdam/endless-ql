@@ -46,20 +46,61 @@ class TypeCheckerTest extends WordSpec {
       assertThrows[IllegalArgumentException](TypeChecker.checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm))
     }
 
-    "checkCyclicDependenciesBetweenQuestions" ignore {
-      val qlForm = QLForm(
-        "duplicateLabel",
-        Seq(
-          Question("q1", "question1", IntegerType, Reference("q3"), None),
-          Question("q2", "question2", IntegerType, Reference("q1"), None),
-          Question("q3", "question3", IntegerType, Reference("q2"), None)
+    "checkCyclicDependenciesBetweenQuestions" can {
+      "return the AST when no cyclic references are found" in {
+        val qlForm = QLForm(
+          "duplicateLabel",
+          Seq(
+            Question("q1", "question1", IntegerType, Reference("q2"), None),
+            Question("q2", "question2", IntegerType, Reference("q3"), None),
+            Question("q3", "question3", IntegerType, IntAnswer(), None)
+          )
         )
-      )
-      assertThrows[IllegalArgumentException](TypeChecker.checkReferences(qlForm))
+        val result = TypeChecker.checkCyclicDependenciesBetweenQuestions(qlForm)
+
+        assert(qlForm == result)
+      }
+
+      "and throw an error when cyclic references are found" in {
+        val qlForm = QLForm(
+          "duplicateLabel",
+          Seq(
+            Question("q1", "question1", IntegerType, Reference("q3"), None),
+            Question("q2", "question2", IntegerType, Reference("q1"), None),
+            Question("q3", "question3", IntegerType, Reference("q2"), None)
+          )
+        )
+        assertThrows[IllegalArgumentException](TypeChecker.checkCyclicDependenciesBetweenQuestions(qlForm))
+      }
+
+      "and throw an error when cyclic references are found inside expressions" in {
+        val qlForm = QLForm(
+          "duplicateLabel",
+          Seq(
+            Question("q1", "question1", IntegerType, Reference("q3"), None),
+            Question("q2", "question2", IntegerType, Reference("q1"), None),
+            Question("q3", "question3", IntegerType, UnaryOperation(Min, Reference("q2")), None)
+          )
+        )
+        assertThrows[IllegalArgumentException](TypeChecker.checkCyclicDependenciesBetweenQuestions(qlForm))
+      }
+
+      "and throw an error when cyclic references are found inside expressions with multiple paths" in {
+        val qlForm = QLForm(
+          "duplicateLabel",
+          Seq(
+            Question("q1", "question1", IntegerType, BinaryOperation(Mul, Reference("q2"), Reference("q3")), None),
+            Question("q2", "question2", IntegerType, Reference("q3"), None),
+            Question("q2", "question2", IntegerType, Reference("q1"), None),
+            Question("q3", "question3", IntegerType, UnaryOperation(Min, IntAnswer()), None)
+          )
+        )
+        assertThrows[IllegalArgumentException](TypeChecker.checkCyclicDependenciesBetweenQuestions(qlForm))
+      }
     }
 
     "checkReferences" can {
-      "throw an error when a reference to a non defined question is encountered" in {
+      "and throw an error when a reference to a non defined question is encountered" in {
         val qlForm = QLForm(
           "check references",
           Seq(
@@ -71,7 +112,7 @@ class TypeCheckerTest extends WordSpec {
         assertThrows[IllegalArgumentException](TypeChecker.checkReferences(qlForm))
       }
 
-      "throw an error when a reference to a non defined question is encountered somewhere in an expression" in {
+      "and throw an error when a reference to a non defined question is encountered somewhere in an expression" in {
         val qlForm = QLForm(
           "check references in expressions",
           Seq(

@@ -3,7 +3,7 @@ import Tkinter as tk
 class Gui():
     def __init__(self):
         self.window = tk.Tk()
-        self.window.minsize(width=200, height=200)
+        self.window.minsize(width=500, height=300)
         self.labels = {}
         self.checkBoxes = {}
         self.checkBoxValues = {}
@@ -70,8 +70,7 @@ class Gui():
             self.textBoxes[name].destroy()
             del self.textBoxes[name]
 
-    def addRadioButton(self, name, text, value):
-        var = tk.IntVar()
+    def addRadioButton(self, name, text, var, value):
         radioButton = tk.Radiobutton(self.window, text=text, variable=var, value=value)
         self.radioButtons[name] = radioButton
         self.radioButtonValues[name] = var
@@ -99,5 +98,4 @@ class Gui():
 
     def showWindow(self):
         self.window.mainloop()
-
 

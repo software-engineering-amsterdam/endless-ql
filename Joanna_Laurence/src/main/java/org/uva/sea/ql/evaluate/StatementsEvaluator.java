@@ -4,7 +4,7 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.Statements;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.visitor.BaseVisitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;

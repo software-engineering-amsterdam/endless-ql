@@ -10,7 +10,8 @@ import org.scalatest.FunSuite
 
 class QLFormParserTest extends FunSuite {
   @throws[IOException]
-  private def toCharStream(filePath: String): CharStream = CharStreams.fromStream(getClass.getResourceAsStream(filePath))
+  private def toCharStream(filePath: String): CharStream =
+    CharStreams.fromStream(getClass.getResourceAsStream(filePath))
   private def generateQLForm(filePath: String): QLForm = QLFormParser.parse(toCharStream(filePath))
 
   test("should parse simple-ql to the correct AST") {
@@ -23,11 +24,13 @@ class QLFormParserTest extends FunSuite {
           Question(
             id = "hasSoldHouse",
             label = "Did you sell a house in 2010?",
+            BooleanType,
             expression = BooleanAnswer(None)
           ),
           Question(
             id = "hasBoughtHouse",
             label = "Did you by a house in 2010?",
+            BooleanType,
             expression = BooleanAnswer(None)
           )
         )
@@ -46,17 +49,21 @@ class QLFormParserTest extends FunSuite {
           Question(
             id = "firstName",
             label = "What is your first name?",
+            StringType,
             expression = StringAnswer(None)
           ),
           Conditional(
             predicate = BooleanAnswer(Some(true)),
             thenStatements = List(
-              Question(id = "middleName", label = "What is your middle name?", expression = StringAnswer(None))
+              Question(
+                id = "middleName",
+                label = "What is your middle name?",
+                StringType,
+                expression = StringAnswer(None))
             )
           )
         )
       )
-
 
     assert(actual == expected)
   }
@@ -66,15 +73,13 @@ class QLFormParserTest extends FunSuite {
     val expected = QLForm(
       "ConditionQuestions",
       List(
-        Question("firstName","What is your first name?",StringAnswer(None)),
+        Question("firstName", "What is your first name?", StringType, StringAnswer(None)),
         Conditional(
           predicate = UnaryOperation(Neg, BooleanAnswer(Some(true))),
-          thenStatements = List(Question("middleName", "What is your middle name?", StringAnswer(None))
-          )
+          thenStatements = List(Question("middleName", "What is your middle name?", StringType, StringAnswer(None)))
         )
       )
     )
-
 
     assert(actual == expected)
   }
@@ -84,18 +89,22 @@ class QLFormParserTest extends FunSuite {
     val expected = QLForm(
       formName = "ConditionQuestions",
       statements = List(
-        Question(id = "firstName", "What is your first name?", expression = StringAnswer(None)),
+        Question(id = "firstName", "What is your first name?", StringType, expression = StringAnswer(None)),
         Conditional(
           predicate = BooleanAnswer(Some(true)),
           thenStatements = List(
-            Question(id = "middleName", label = "What is your middle name?", expression = StringAnswer(None))
+            Question(
+              id = "middleName",
+              label = "What is your middle name?",
+              StringType,
+              expression = StringAnswer(None))
           )
         ),
         Conditional(
           predicate = UnaryOperation(Neg, BooleanAnswer(Some(true))),
           thenStatements = List(
-            Question("lastName", "What is your last name?", StringAnswer(None)),
-            Question("lastName", "What is your last name?", StringAnswer(None))
+            Question("lastName", "What is your last name?", StringType, StringAnswer(None)),
+            Question("lastName", "What is your last name?", StringType, StringAnswer(None))
           )
         )
       )
@@ -109,19 +118,23 @@ class QLFormParserTest extends FunSuite {
     val expected = QLForm(
       formName = "QonditionQuestions",
       statements = List(
-        Question(id = "firstName", label = "What is your first name?", expression = StringAnswer(None)),
+        Question(id = "firstName", label = "What is your first name?", StringType, expression = StringAnswer(None)),
         Conditional(
           predicate = BooleanAnswer(Some(true)),
           thenStatements = List(
-            Question("lastName", "What is your last name?",expression = StringAnswer(None))
+            Question("lastName", "What is your last name?", StringType, expression = StringAnswer(None))
           )
         ),
         Conditional(
           predicate = UnaryOperation(Neg, BooleanAnswer(Some(true))),
           thenStatements = List(
-            Question("middleName", "What is your middle name?", StringAnswer(None)),
-            Conditional(BooleanAnswer(Some(false)), List(Question("lastName", "What is your last name?", StringAnswer(None)))),
-            Conditional(UnaryOperation(Neg, BooleanAnswer(Some(false))), List(Question("middleName", "What is your middle name?", StringAnswer(None))))
+            Question("middleName", "What is your middle name?", StringType, StringAnswer(None)),
+            Conditional(
+              BooleanAnswer(Some(false)),
+              List(Question("lastName", "What is your last name?", StringType, StringAnswer(None)))),
+            Conditional(
+              UnaryOperation(Neg, BooleanAnswer(Some(false))),
+              List(Question("middleName", "What is your middle name?", StringType, StringAnswer(None))))
           )
         )
       )
@@ -135,13 +148,16 @@ class QLFormParserTest extends FunSuite {
     val expected = QLForm(
       formName = "QonditionQuestions",
       statements = List(
-        Question("firstName", "What is your first name?", StringAnswer(None)),
-        Question("lastName", "What is your last name?", StringAnswer(None)),
-        Question("middleName", "Do you have a middle name?", BooleanAnswer(None)),
+        Question("firstName", "What is your first name?", StringType, StringAnswer(None)),
+        Question("lastName", "What is your last name?", StringType, StringAnswer(None)),
+        Question("middleName", "Do you have a middle name?", BooleanType, BooleanAnswer(None)),
         Conditional(
-          predicate = BinaryOperation(And, BinaryOperation(Ne, Reference("lastName"), Reference("firstName")), BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10))))),
+          predicate = BinaryOperation(
+            And,
+            BinaryOperation(Ne, Reference("lastName"), Reference("firstName")),
+            BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10))))),
           thenStatements = List(
-            Question(id = "lastName", label = "What is your last name?", expression = StringAnswer(None))
+            Question(id = "lastName", label = "What is your last name?", StringType, expression = StringAnswer(None))
           )
         )
       )
@@ -155,26 +171,34 @@ class QLFormParserTest extends FunSuite {
     val expected = QLForm(
       formName = "QonditionQuestions",
       statements = List(
-        Question("firstName", "What is your first name?", StringAnswer(None)),
-        Question("lastName", "What is your last name?", StringAnswer(None)),
-        Question("middleName", "Do you have a middle name?", BooleanAnswer(None)),
+        Question("firstName", "What is your first name?", StringType, StringAnswer(None)),
+        Question("lastName", "What is your last name?", StringType, StringAnswer(None)),
+        Question("middleName", "Do you have a middle name?", BooleanType, BooleanAnswer(None)),
         Conditional(
-          predicate = BinaryOperation(And, BinaryOperation(Ne, Reference("lastName"), Reference("firstName")), BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10))))),
+          predicate = BinaryOperation(
+            And,
+            BinaryOperation(Ne, Reference("lastName"), Reference("firstName")),
+            BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10))))),
           thenStatements = List(
-            Question("lastName", "What is your last name?", StringAnswer(None)),
-            Question("lastName", "What is your last name?", StringAnswer(None))
+            Question("lastName", "What is your last name?", StringType, StringAnswer(None)),
+            Question("lastName", "What is your last name?", StringType, StringAnswer(None))
           )
         ),
         Conditional(
-          predicate = UnaryOperation(Neg, BinaryOperation(And, BinaryOperation(Ne, Reference("lastName"), Reference("firstName")), BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10)))))),
+          predicate = UnaryOperation(
+            Neg,
+            BinaryOperation(
+              And,
+              BinaryOperation(Ne, Reference("lastName"), Reference("firstName")),
+              BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10)))))
+          ),
           thenStatements = List(
-            Question("middleName", "Do you have a middle name?", BooleanAnswer(None)),
-            Question("middleName", "Do you have a middle name?", BooleanAnswer(None))
+            Question("middleName", "Do you have a middle name?", BooleanType, BooleanAnswer(None)),
+            Question("middleName", "Do you have a middle name?", BooleanType, BooleanAnswer(None))
           )
         )
       )
     )
-
 
     assert(actual == expected)
   }
@@ -184,23 +208,23 @@ class QLFormParserTest extends FunSuite {
     val expected = QLForm(
       formName = "Box1HouseOwning",
       statements = List(
-        Question(id = "hasSoldHouse", label = "Did you sell a house in 2010?", expression = BooleanAnswer(None)),
+        Question(
+          id = "hasSoldHouse",
+          label = "Did you sell a house in 2010?",
+          BooleanType,
+          expression = BooleanAnswer(None)),
         Conditional(
           predicate = BinaryOperation(
             binaryOperator = Add,
             left = BinaryOperation(
               binaryOperator = Mul,
-              left = BinaryOperation(
-                binaryOperator = Sub,
-                left = IntAnswer(Some(10000)),
-                right = Reference("hasSoldHouse")),
+              left =
+                BinaryOperation(binaryOperator = Sub, left = IntAnswer(Some(10000)), right = Reference("hasSoldHouse")),
               right = IntAnswer(Some(42))),
-            right = BinaryOperation(
-              binaryOperator = Div,
-              left = IntAnswer(Some(23)),
-              right = IntAnswer(Some(54)))),
+            right = BinaryOperation(binaryOperator = Div, left = IntAnswer(Some(23)), right = IntAnswer(Some(54)))
+          ),
           thenStatements = List(
-            Question(id = "asd", label = "asd", expression = BooleanAnswer(None))
+            Question(id = "asd", label = "asd", BooleanType, expression = BooleanAnswer(None))
           )
         )
       )
@@ -216,8 +240,17 @@ class QLFormParserTest extends FunSuite {
       QLForm(
         formName = "Box1HouseOwning",
         statements = List(
-          Question(id = "hasSoldHouse", label = "Did you sell a house in 2010?", expression = IntAnswer(None)),
-          Question(id = "houseSellingPrice", label = "What was the selling price?", expression = BinaryOperation(Sub, IntAnswer(Some(10000)), Reference("hasSoldHouse")))
+          Question(
+            id = "hasSoldHouse",
+            label = "Did you sell a house in 2010?",
+            IntegerType,
+            expression = IntAnswer(None)),
+          Question(
+            id = "houseSellingPrice",
+            label = "What was the selling price?",
+            IntegerType,
+            expression = BinaryOperation(Sub, IntAnswer(Some(10000)), Reference("hasSoldHouse"))
+          )
         )
       )
 

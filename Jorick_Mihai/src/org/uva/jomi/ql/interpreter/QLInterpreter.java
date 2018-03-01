@@ -54,12 +54,6 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 	}
 
 	@Override
-	public Object visit(PrimaryExpr expr) {
-		// TODO Interpret PrimaryExpr.
-		return null;
-	}
-
-	@Override
 	public Object visit(GroupingExpr expr) {
 		// TODO Interpret GroupingExpr.
 		return null;

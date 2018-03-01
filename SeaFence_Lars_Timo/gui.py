@@ -3,7 +3,7 @@ import Tkinter as tk
 class Gui():
     def __init__(self):
         self.window = tk.Tk()
-        self.window.minsize(width=200, height=200)
+        self.window.minsize(width=500, height=300)
         self.labels = {}
         self.checkBoxes = {}
         self.checkBoxValues = {}
@@ -13,6 +13,8 @@ class Gui():
         self.radioButtons = {}
         self.radioButtonValues = {}
         self.dropDowns = {}
+        self.yesNoButtons = {}
+        self.yesNoButtonsValues = {}
 
     #add the label to the dict for destroying/changing later and then pack it in the main frame
     def addLabel(self, name, text):
@@ -70,8 +72,7 @@ class Gui():
             self.textBoxes[name].destroy()
             del self.textBoxes[name]
 
-    def addRadioButton(self, name, text, value):
-        var = tk.IntVar()
+    def addRadioButton(self, name, text, var, value):
         radioButton = tk.Radiobutton(self.window, text=text, variable=var, value=value)
         self.radioButtons[name] = radioButton
         self.radioButtonValues[name] = var
@@ -97,7 +98,24 @@ class Gui():
             self.dropDowns[name].destroy()
             del self.dropDowns[name]
 
+    def addYesNoRadioButtons(self, name, text1, text2):
+        var = tk.IntVar()
+        radioButton1 = tk.Radiobutton(self.window, text=text1, variable=var, value=0)
+        radioButton2 = tk.Radiobutton(self.window, text=text2, variable=var, value=1)
+        radioButton1.pack()
+        radioButton2.pack()
+        self.yesNoButtons[name] = [radioButton1, radioButton2]
+        self.yesNoButtonsValues[name] = var
+
+    def removeYesNoButtons(self, name):
+        if name in self.yesNoButtons:
+            self.yesNoButtons[name][0].destroy()
+            self.yesNoButtons[name][1].destroy()
+            del self.yesNoButtons[name]
+
+        if name in self.yesNoButtonsValues:
+            del self.yesNoButtonsValues[name]
+
     def showWindow(self):
         self.window.mainloop()
-
 

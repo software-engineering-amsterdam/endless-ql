@@ -1,7 +1,7 @@
 package org.uva.sea.ql.evaluate;
 
 import org.uva.sea.ql.parser.elements.*;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.visitor.BaseVisitor;
 
 import java.util.List;
 

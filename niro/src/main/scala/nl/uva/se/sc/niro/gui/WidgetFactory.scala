@@ -19,49 +19,52 @@ object WidgetFactory {
   private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
   def makeWidgets(question: Question, symbolTable: Map[String, Expression]): Seq[Parent] = {
-    Seq(new Label(question.label),
+    Seq(
+      new Label(question.label),
       Evaluator.evaluateExpression(question.expression, symbolTable) match {
         case b: BooleanAnswer => makeBooleanField(question, b.possibleValue)
-        case s: StringAnswer => makeTextField(question, s.possibleValue)
-        case i: IntAnswer => makeIntegerField(question, i.possibleValue)
-        case d: DecAnswer => makeDecimalField(question, d.possibleValue)
-        case m: MoneyAnswer => makeMoneyField(question, m.possibleValue)
-        case d: DateAnswer => makeDateField(question, d.possibleValue)
-      })
+        case s: StringAnswer  => makeTextField(question, s.possibleValue)
+        case i: IntAnswer     => makeIntegerField(question, i.possibleValue)
+        case d: DecAnswer     => makeDecimalField(question, d.possibleValue)
+        case m: MoneyAnswer   => makeMoneyField(question, m.possibleValue)
+        case d: DateAnswer    => makeDateField(question, d.possibleValue)
+      }
+    )
   }
 
   def makeBooleanField(question: Question, bool: Option[Boolean]): Parent = {
     val checkbox = new CheckBox()
     checkbox.setOnAction(_ => println("Boolean changed"))
-    bool.foreach(checkbox.setSelected(_))
     EditableDecorator.makeEditable(checkbox, question, bool)
   }
   def makeTextField(question: Question, text: Option[String]): Parent = {
-    val textField = new TextField(text.getOrElse(""))
-    textField.textProperty().addListener(new ChangeListener[String] {
-      override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
-        textField.fireEvent(new ActionEvent(textField, textField))
-      }
-    })
+    val textField = new TextField()
+    textField
+      .textProperty()
+      .addListener(new ChangeListener[String] {
+        override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
+          textField.fireEvent(new ActionEvent(textField, textField))
+        }
+      })
     textField.setOnAction(_ => println("Text changed"))
     EditableDecorator.makeEditable(textField, question, text)
   }
 
   def makeIntegerField(question: Question, value: Option[Int]): Parent = {
-    val integerField = makeRegExField(INTEGER_MASK, value.map(_.toString).getOrElse(""))
+    val integerField = makeRegExField(INTEGER_MASK)
     integerField.setOnAction(_ => println("Integer changed"))
     EditableDecorator.makeEditable(integerField, question, value)
   }
 
   def makeDecimalField(question: Question, value: Option[BigDecimal]): Parent = {
-    val decimalField = makeRegExField(DECIMAL_MASK, value.map(_.toString).getOrElse(""))
+    val decimalField = makeRegExField(DECIMAL_MASK)
     decimalField.setOnAction(_ => println("Decimal changed"))
     EditableDecorator.makeEditable(decimalField, question, value)
   }
 
   def makeMoneyField(question: Question, value: Option[String]): Parent = {
     // TODO Add decimal format with fixed decimals
-    val moneyField = makeRegExField(MONEY_MASK, value.map(_.toString).getOrElse(""))
+    val moneyField = makeRegExField(MONEY_MASK)
     moneyField.setOnAction(_ => println("Amount changed"))
     EditableDecorator.makeEditable(moneyField, question, value)
   }
@@ -90,22 +93,24 @@ object WidgetFactory {
     * @param value
     * @return
     */
-  protected def makeRegExField(validPattern: String, value: String): TextField = {
+  protected def makeRegExField(validPattern: String): TextField = {
     // TODO Investigate textFormatterProperty, it could replace this whole construct!
-    val regexField = new TextField(value)
-    regexField.textProperty().addListener(new ChangeListener[String] {
-      private var previousValue = ""
-      override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
-        if (!newValue.matches(validPattern)) {
-          regexField.setText(oldValue)
-        } else {
-          if (previousValue != newValue) {
-            previousValue = newValue
-            regexField.fireEvent(new ActionEvent(regexField, regexField))
+    val regexField = new TextField()
+    regexField
+      .textProperty()
+      .addListener(new ChangeListener[String] {
+        private var previousValue = ""
+        override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
+          if (!newValue.matches(validPattern)) {
+            regexField.setText(oldValue)
+          } else {
+            if (previousValue != newValue) {
+              previousValue = newValue
+              regexField.fireEvent(new ActionEvent(regexField, regexField))
+            }
           }
         }
-      }
-    })
+      })
     regexField
   }
 

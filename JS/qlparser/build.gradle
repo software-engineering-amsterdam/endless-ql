@@ -11,9 +11,6 @@ buildscript {
 }
 
 plugins {
-	// Tell Gradle to add Vaadin support
-	id 'com.devsoap.plugin.vaadin' version '1.2.0'
-
 	// Tell Gradle that we are working in idea
 	id 'idea'
 }
@@ -30,17 +27,10 @@ repositories {
 	mavenCentral()
 }
 
-
-ext {
-	vaadinVersion = '8.0.7'
-}
-
 dependencies {
-	compile('org.joda:joda-money:0.12')
 	compile('org.antlr:antlr4-runtime:4.7.1')
 	compile('org.apache.commons:commons-lang3:3.7')
-	compile('com.vaadin:vaadin-spring-boot-starter')
-	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter')
 
 	runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly('org.projectlombok:lombok')
@@ -51,19 +41,4 @@ dependencies {
 
 generateGrammarSource {
 	arguments += ['-no-listener', '-visitor', '-package', 'nl.uva.js.qlparser.antlr']
-}
-
-bootRun {
-	systemProperties "ql.file": "input_file/ql_input.jsql", "ql.mode": "file"
-}
-
-dependencyManagement {
-	imports {
-		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
-	}
-}
-
-// Vaadin plugin requires Gradle 4.0+
-task wrapper(type: Wrapper) {
-	gradleVersion = '4.0'
 }

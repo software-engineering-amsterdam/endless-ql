@@ -10,8 +10,8 @@ class Visitor(QLGrammarVisitor):
         self.program = {}
         self.QLAst = QLAst()
         # used to log debug self.logger.debugs
-        # set to logging.DEBUG to show debug messages
-        logging.basicConfig(level=logging.DEBUG)
+        # set to logging.DEBUG to show debug messages, logging.ERROR to not show
+        logging.basicConfig(level=logging.ERROR)
         self.logger = logging.getLogger(__name__)
 
     def getAst(self):
@@ -54,21 +54,26 @@ class Visitor(QLGrammarVisitor):
 
         # collect information about the question
         question = ctx.STRING().getText()
-        var = ctx.ID().getText()
+        varName = ctx.ID().getText()
         varType = self.visit(ctx.types())
 
-        questionN = QuestionNode(question, var, varType, ctx.start.line)
+        varNode = VarNode(varName, varType, ctx.start.line)
+        questionN = QuestionNode(question, varNode, ctx.start.line)
 
         return questionN
+
+    """ --------------------------- ASSIGNMENT AND VARIABLE DECLARATION------------------------- """
 
     # Visit a parse tree produced by QLGrammarParser#assignment.
     def visitAssignment(self, ctx: QLGrammarParser.AssignmentContext):
         self.logger.debug("ASSIGMENT")
         question = ctx.STRING().getText()
         varName = ctx.ID().getText()
-        varType = ctx.types().getText()
+        varType = mapStringToType(ctx.types().getText())
         expr = self.visit(ctx.expression())
-        assignNode = AssignmentNode(question, varName, varType, expr, ctx.start.line)
+        
+        varNode = VarNode(varName, varType, ctx.start.line, True)
+        assignNode = AssignmentNode(question, varNode, expr, ctx.start.line)
 
         return assignNode
 
@@ -136,7 +141,7 @@ class Visitor(QLGrammarVisitor):
 
         # visit condition of the if
         condition = self.visit(ctx.expression())
-        conditionN = ConditionNode(condition, ctx.start.line);
+        conditionN = ConditionNodeBlock(condition, ctx.start.line);
 
         # visit block of if
         if_questions = self.visit(ctx.block())
@@ -149,7 +154,7 @@ class Visitor(QLGrammarVisitor):
 
         # visit condition of elif
         condition = self.visit(ctx.expression())
-        conditionN = ConditionNode(condition, ctx.start.line);
+        conditionN = ConditionNodeBlock(condition, ctx.start.line);
 
         # visit block of elif
         elif_questions = self.visit(ctx.block())
@@ -167,7 +172,18 @@ class Visitor(QLGrammarVisitor):
     def visitTypes(self, ctx: QLGrammarParser.TypesContext):
         self.logger.debug("TYPES")
 
-        return ctx.getText()
+        return mapStringToType(ctx.getText())
+
+    # Visit a parse tree produced by QLGrammarParser#varnode.
+    # Type is temporarily none, this node is used to link the variables
+    # in a later stage
+    def visitVarnode(self, ctx:QLGrammarParser.VarnodeContext):
+        self.logger.debug("VARIABLE")
+        varName = ctx.ID().getText()
+
+        varNode = VarNode(varName, None, ctx.start.line, False)
+
+        return varNode
 
 
 # get operator from ctx object
@@ -176,16 +192,16 @@ def getOp(ctx):
     if (ctx.COMPARE()):
         op = ctx.COMPARE().getText()
     elif (ctx.MATH_OPERATOR_PRIO()):
-        op = ctx.MATH_OPERATOR_PRIO()
+        op = ctx.MATH_OPERATOR_PRIO().getText()
     elif (ctx.MATH_OPERATOR()):
-        op = ctx.MATH_OPERATOR()
+        op = ctx.MATH_OPERATOR().getText()
     elif (ctx.AND()):
-        op = ctx.AND()
+        op = ctx.AND().getText()
     elif (ctx.OR()):
-        op = ctx.OR()
+        op = ctx.OR().getText()
     return op
 
-
+# For a literal, change the type to a python type
 def getLiteralValue(ctx):
     litType = None
     litVal = None
@@ -205,3 +221,15 @@ def getLiteralValue(ctx):
         litType = "var"
         litVal = ctx.ID()
     return litVal, litType
+
+# Map string-type to an actual python type
+def mapStringToType(obj):
+    if obj == 'int' or obj == 'integer':
+        return int
+    elif obj == 'string' or obj == 'str':
+        return str
+    elif obj == 'money' or obj == 'float':
+        return float
+    elif obj == 'bool' or obj == 'boolean':
+        return bool
+

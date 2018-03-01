@@ -42,7 +42,7 @@ class StyleService {
 		val vbox = new VBox(10)
 		vbox.children.add(buildSectionLabel(section))
 		section.questions.forEach [ question |
-			val controlWrapper = controlService.controls.filter[it.name == question.questionReference.name].head
+			val controlWrapper = controlService.getControlByName(question.questionReference.name)
 			vbox.children.add(controlWrapper.controlWithLabel)
 		]
 		section.sections.forEach [

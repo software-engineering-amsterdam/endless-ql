@@ -3,7 +3,7 @@ package org.uva.sea.ql.parser.elements;
 import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.elements.types.Variable;
-import org.uva.sea.ql.traverse.Visitor;
+import org.uva.sea.ql.visitor.Visitor;
 
 
 public class Question extends ASTNode {

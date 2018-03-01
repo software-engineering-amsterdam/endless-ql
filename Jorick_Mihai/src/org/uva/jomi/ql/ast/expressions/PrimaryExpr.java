@@ -2,6 +2,7 @@ package org.uva.jomi.ql.ast.expressions;
 
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
+import org.uva.jomi.ql.ast.expressions.Expr.Visitor;
 
 public abstract class PrimaryExpr extends Expr {
 	private final String lexeme;
@@ -15,10 +16,5 @@ public abstract class PrimaryExpr extends Expr {
 
 	public String getLexeme() {
 		return lexeme;
-	}
-
-	@Override
-	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visit(this);
 	}
 }

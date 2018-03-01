@@ -4,6 +4,8 @@ import ParseObjects.Expressions.ExpressionConstants.IntegerConstant;
 import ParseObjects.Form;
 
 import java.io.InputStream;
+
+import Visitor.FormVisitor;
 import antlrGen.*;
 import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
@@ -16,9 +18,10 @@ public class Main {
             QLLexer lexer = new QLLexer(CharStreams.fromStream(stream));
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             QLParser parser = new QLParser(tokens);
-            Trees.inspect(parser.form(), parser);
+            Trees.inspect(parser.head(), parser);
 
-            return null;
+            FormVisitor visitor = new FormVisitor();
+            return visitor.visit(parser.head());
         }catch(Exception e){
             System.out.println(e);
 
@@ -29,7 +32,7 @@ public class Main {
     public void start(){
         String file = "example.ql";
         InputStream stream = getClass().getResourceAsStream(file);
-        //Form form = parseForm(stream);
+        Form form = parseForm(stream);
 
         //Todo: Move to tests
         /*

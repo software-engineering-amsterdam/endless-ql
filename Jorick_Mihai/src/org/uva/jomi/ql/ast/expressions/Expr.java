@@ -6,7 +6,6 @@ import org.uva.jomi.ql.ast.QLType;
 abstract public class Expr extends AstNode {
 	public interface Visitor<T> {
 		T visit(IdentifierExpr expr);
-		T visit(PrimaryExpr expr);
 		T visit(GroupingExpr expr);
 		T visit(AdditionExpr expr);
 		T visit(SubtractionExpr expr);
@@ -45,7 +44,7 @@ abstract public class Expr extends AstNode {
 	}
 
 	public int getLineNumber() {
-		return lineNumber;
+		return this.lineNumber;
 	}
 
 	public void setLineNumber(int lineNumber) {
@@ -53,10 +52,18 @@ abstract public class Expr extends AstNode {
 	}
 
 	public int getColumnNumber() {
-		return columnNumber;
+		return this.columnNumber;
 	}
 
 	public void setColumnNumber(int columnNumber) {
 		this.columnNumber = columnNumber;
+	}
+	
+	public <T> T visitExpr(Visitor<T> visitor) {
+		return this.accept(visitor);
+	}
+	
+	public int getExprId() {
+		return this.getId();
 	}
 }

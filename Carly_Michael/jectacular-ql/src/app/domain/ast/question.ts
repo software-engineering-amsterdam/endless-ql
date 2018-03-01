@@ -16,10 +16,6 @@ export class Question extends Statement {
     return [this];
   }
 
-  getVariables(): Variable[] {
-    return [];
-  }
-
   toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
                  condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
     const options = {

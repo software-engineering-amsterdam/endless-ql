@@ -52,14 +52,13 @@ export class ExpressionQuestion extends Question {
       }
     }
 
-    console.log('formquestions in expression question', formQuestionsToReturn);
     return formQuestionsToReturn;
   }
 
   expressionTypeValidForQuestion(expressionType: ExpressionType, allQuestions: Question[]): boolean {
     switch (expressionType) {
       case ExpressionType.NUMBER:
-        return this.type === QuestionType.MONEY || this.type === QuestionType.INT || this.type === QuestionType.DECIMAL;
+        return this.type === QuestionType.INT || this.type === QuestionType.DECIMAL;
       case ExpressionType.BOOLEAN:
         return this.type === QuestionType.BOOLEAN;
       case ExpressionType.DATE:

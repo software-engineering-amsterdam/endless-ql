@@ -26,7 +26,7 @@ export class Question extends Statement {
       key: this.name,
       label: this.label,
       type: Statement.toHtmlInputType(this.type),
-      value: this.type === QuestionType.STRING ? '' : undefined,
+      value: undefined,
       hiddenCondition: condition
     };
 

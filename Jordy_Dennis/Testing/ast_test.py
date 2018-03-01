@@ -1,16 +1,23 @@
-import unittest
-import sys
-import os
+from test_methods import *
 
 
-Path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, Path + '/../')
+class AstTest(unittest.TestCase):
+    def testGoodFilesLinkvars(self):
+        path = 'Testing/test_files/ast_test_files/correct_test'
+        for filename in os.listdir(path):
+            inputText, outputText = getInputOutput(path, filename)
+            ast = getAstFromString(inputText)
+            # self.assertEqual(lexer_str, outputText, filename)
 
-from parser import *
+    def testErrorFilesLinkvars(self):
+        path = 'Testing/test_files/ast_test_files/fail_test'
+        for filename in os.listdir(path):
+            file_object = open(path + "/" + filename, "r")
+            inputText = file_object.read()
+
+            self.assertRaises(Exception, getLexerFromString, inputText, filename)
+            file_object.close()
 
 
 if __name__ == '__main__':
     unittest.main()
-
-
-

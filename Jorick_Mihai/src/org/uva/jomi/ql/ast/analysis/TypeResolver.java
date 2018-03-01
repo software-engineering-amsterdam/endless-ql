@@ -83,7 +83,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
 	@Override
 	public Void visit(FormStmt form) {
-		form.blockStmt.accept(this);
+		form.visitBlockStmt(this);
 		return null;
 	}
 
@@ -103,9 +103,9 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
 	@Override
 	public Void visit(ComputedQuestionStmt stmt) {
-		stmt.expression.accept(this);
+		stmt.visitExpr(this);
 		
-		if (stmt.expression.getType() != null && stmt.getType() != stmt.expression.getType()) {
+		if (stmt.getExprType() != null && stmt.getType() != stmt.getExprType()) {
 			this.errorHandler.addTypeError(stmt);
 		}
 		
@@ -114,21 +114,21 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
 	@Override
 	public Void visit(IfStmt stmt) {
-		stmt.expression.accept(this);
+		stmt.visitExpr(this);
 		
-		if (stmt.expression.getType() != null && stmt.expression.getType() != QLType.BOOLEAN) {
+		if (stmt.getExprType() != null && stmt.getExprType() != QLType.BOOLEAN) {
 			this.errorHandler.addTypeError(stmt);
 		}
 		
-		stmt.blockStmt.accept(this);
+		stmt.visitIfBlockStmt(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(IfElseStmt stmt) {
-		resolveExpr(QLType.BOOLEAN, stmt.expression);
-		stmt.ifBlockStmt.accept(this);
-		stmt.elseBlockStmt.accept(this);
+		resolveExpr(QLType.BOOLEAN, stmt.getExpr());
+		stmt.visitIfBlockStmt(this);
+		stmt.visitElseBlockStmt(this);
 		return null;
 	}
 	

@@ -169,7 +169,7 @@ public class Renderer {
 
         if(!question.answer.isSettable()) {
             textField.setEditable(false);
-            textField.setText(question.answer.evaluate().toString());
+            textField.setText(question.evaluateAnswer());
         }
 
         // If input changes some questions might need to be enabled/disabled
@@ -235,7 +235,7 @@ public class Renderer {
             // Debug output, shows answer to every question in console
             System.out.println();
             for (Question question: form.questions) {
-                System.out.println(question.name + " " + question.answer.evaluate());
+                System.out.println(question.name + " " + question.evaluateAnswer());
             }
         });
         return submitButton;
@@ -243,8 +243,7 @@ public class Renderer {
 
     private void updateFields(HashMap<Question, Field> fieldMap, List<Question> questions) {
         for (Question question : questions) {
-            boolean visible = Boolean.TRUE.equals(question.condition.evaluate().getValue());
-            updateField(fieldMap, question, visible);
+            updateField(fieldMap, question, question.isVisible());
         }
     }
 
@@ -254,10 +253,8 @@ public class Renderer {
         field.getControl().setVisible(visible);
 
         if(!question.answer.isSettable()) {
-            Object answer = question.answer.evaluate().getValue();
-            if(answer == null) {
-                answer = "";
-            }
+            // TODO: move somwhere else
+            Object answer = question.evaluateAnswer();
 
             if (question.type == ReturnType.BOOLEAN) {
                 CheckBox checkBox = (CheckBox) field.getControl();

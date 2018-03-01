@@ -1,11 +1,10 @@
 package ParseObjects.Expressions.UnaryExpressions;
 
-import ParseObjects.Expressions.Constant;
+import ParseObjects.Expressions.ExpressionConstants.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 import ParseObjects.Expressions.ExpressionConstants.IntegerConstant;
-import ParseObjects.Expressions.UnaryExpression;
 
 public class NegationExpression extends UnaryExpression {
     public NegationExpression(Expression expr){

@@ -14,6 +14,7 @@ public class ExpressionFactory {
             case "integer":
             case "decimal":
             case "money":
+                // TODO: get rid of 0
                 return new ExpressionVariableNumber(new BigDecimal(0));
             case "date":
                 return new ExpressionVariableDate(null);

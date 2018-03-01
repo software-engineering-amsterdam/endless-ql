@@ -9,6 +9,11 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
     }
 
     @Override
+    public Boolean getBooleanValue() {
+        return this.value;
+    }
+
+    @Override
     public ReturnType getReturnType() {
         return ReturnType.BOOLEAN;
     }

@@ -48,8 +48,8 @@ class ASTVisitor(object):
 
     @visitor.when(FormNode)
     def visit(self, node):
-        self.graph.node(node.label, node.label)
-        self.parent = node.label
+        self.graph.node(node.identifier, node.identifier)
+        self.parent = node.identifier
 
         for child in node.block:
             child.accept(self)
@@ -67,7 +67,7 @@ class ASTVisitor(object):
 
     @visitor.when(QuestionNode)
     def visit(self, node):
-        previous_parent = self.insert_graph_node('question: {}\ntype: {}'.format(node.label, node.value_type))
+        previous_parent = self.insert_graph_node('question: {}\ntype: {}'.format(node.identifier, node.value_type))
 
         if node.expression:
             node.expression.accept(self)

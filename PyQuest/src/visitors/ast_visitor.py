@@ -47,7 +47,7 @@ class ASTVisitor(object):
         for child in node.block:
             child.accept(self)
 
-        print("Found form node: " + node.label)
+        print("Found form node: " + node.identifier)
 
     @visitor.when(IfNode)
     def visit(self, node):

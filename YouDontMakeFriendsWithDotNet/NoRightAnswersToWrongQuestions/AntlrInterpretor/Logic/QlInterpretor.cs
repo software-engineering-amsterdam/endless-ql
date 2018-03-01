@@ -1,6 +1,9 @@
 ﻿using AntlGrammar;
 using Antlr4.Runtime;
 using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.API.AstNodes;
+using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
+using QuestionaireDomain.Entities.DomainObjects;
 
 namespace AntlrInterpretor.Logic
 {
@@ -15,7 +18,7 @@ namespace AntlrInterpretor.Logic
             m_domainItemLocator = domainItemLocator;
         }
 
-        public IQuestionnaireAst BuildForm(string definition)
+        public Reference<IRootNode> BuildForm(string definition)
         {
             var stream = new AntlrInputStream(definition);
             var lexer = new QLLexer(stream);
@@ -31,7 +34,7 @@ namespace AntlrInterpretor.Logic
             var tree = parser.questionnaire();
 
             var qlVisitor = new BuildAstVisitor(m_astFactory, m_domainItemLocator);
-            return (IQuestionnaireAst)qlVisitor.Visit(tree);
+            return qlVisitor.Visit(tree).To<IRootNode>(m_domainItemLocator);
         }
         
     }

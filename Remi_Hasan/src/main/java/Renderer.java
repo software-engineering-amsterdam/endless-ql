@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.DateStringConverter;
 import model.Form;
 import model.Question;
 import model.stylesheet.StyleSheet;
@@ -22,6 +22,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 
 public class Renderer {
 
@@ -106,18 +108,26 @@ public class Renderer {
 
     private void addQuestion(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, Question question) {
         Control input;
+        TextFormatter formatter;
+
+        System.out.println("debug: " + question.name + " " + question.type);
 
         switch(question.type){
             case BOOLEAN:
+                // Checkbox
                 input = createBooleanField(fieldMap, question);
                 break;
             case STRING:
+                input = createTextField(fieldMap, question, question.type);
+                break;
             case INTEGER:
             case DECIMAL:
+            case MONEY:
             case NUMBER:
-                input = createTextField(fieldMap, question);
+                input = createTextField(fieldMap, question, question.type);
                 break;
             case DATE:
+                // Date picker
                 input = createDateField(fieldMap, question);
                 break;
             default:
@@ -130,6 +140,10 @@ public class Renderer {
             fieldMap.put(question, field);
         }
     }
+
+//    private Control createDecimalField(HashMap<Question, Field> fieldMap, Question question) {
+//
+//    }
 
     private Control createDateField(HashMap<Question, Field> fieldMap, Question question) {
         DatePicker datePicker = new DatePicker();
@@ -152,16 +166,8 @@ public class Renderer {
         return checkBox;
     }
 
-    private Control createTextField(HashMap<Question, Field> fieldMap, Question question) {
+    private Control createTextField(HashMap<Question, Field> fieldMap, Question question, ReturnType type) {
         TextInputControl textField = Input.textField();
-
-        if (question.type == ReturnType.INTEGER || question.type == ReturnType.DECIMAL) {
-            // NumberStringConverter
-            // CurrencyStringConverter
-            // DoubleStringConverter
-            // https://docs.oracle.com/javase/8/javafx/api/javafx/util/StringConverter.html
-            textField.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-        }
 
         if(!question.answer.isSettable()) {
             textField.setEditable(false);
@@ -176,7 +182,41 @@ public class Renderer {
             }
         });
 
+        // Add input formatters
+        switch(type){
+            case INTEGER:
+                TextFormatter intFormatter = createTextFormatter("-?\\d*");
+                textField.setTextFormatter(intFormatter);
+                break;
+            case DECIMAL:
+                TextFormatter decimalFormatter = createTextFormatter("-?\\d*(\\.\\d*)?");
+                textField.setTextFormatter(decimalFormatter);
+                break;
+            case DATE:
+                // TODO isn't date always a datepicker?, or sometimes also a textfield?
+//                textField.setTextFormatter(new TextFormatter<>(new DateStringConverter("dd/MM/yyyy")));
+                TextFormatter dateFormatter = createTextFormatter("\\d{0,2}?/?\\d{0,2}?/\\d{0,4}?");
+                textField.setTextFormatter(dateFormatter);
+                break;
+            case MONEY:
+                TextFormatter moneyFormatter = createTextFormatter("-?\\d*(\\.\\d{0,2})?");
+                textField.setTextFormatter(moneyFormatter);
+                break;
+        }
+
         return textField;
+    }
+
+    private TextFormatter createTextFormatter(String pattern){
+        Pattern decimalPattern = Pattern.compile(pattern);
+        UnaryOperator<TextFormatter.Change> filter = c -> {
+            if (decimalPattern.matcher(c.getControlNewText()).matches()) {
+                return c;
+            } else {
+                return null ;
+            }
+        };
+        return new TextFormatter<>(filter);
     }
 
     private void addStatements(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, List<Question> questions) {

@@ -26,7 +26,7 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
 
     @Override
     public void setValue(String value) {
-        if (value.isEmpty())
+        if (value == null || value.isEmpty())
             this.value = null;
         else
             this.value = BigDecimal.valueOf(Double.parseDouble(value));

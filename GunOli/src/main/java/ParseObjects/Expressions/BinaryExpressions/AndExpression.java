@@ -2,6 +2,7 @@ package ParseObjects.Expressions.BinaryExpressions;
 
 import ParseObjects.Expressions.*;
 import ParseObjects.Expressions.ExpressionConstants.BooleanConstant;
+import ParseObjects.Expressions.ExpressionConstants.Constant;
 
 public class AndExpression extends BinaryExpression<Boolean> {
     public AndExpression(Expression left, Expression right){

@@ -1,4 +1,6 @@
-package ParseObjects.Expressions;
+package ParseObjects.Expressions.ExpressionConstants;
+
+import ParseObjects.Expressions.Expression;
 
 public abstract class Constant<T> extends Expression<T> {
     private T value;

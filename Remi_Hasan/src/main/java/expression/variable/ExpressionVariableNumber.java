@@ -33,18 +33,16 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
     }
 
     @Override
-    public BigDecimal getValue() {
-        return this.value;
-    }
-
     public int getIntValue() {
         return this.value.intValue();
     }
 
+    @Override
     public double getDecimalValue() {
         return this.value.doubleValue();
     }
 
+    @Override
     public BigDecimal getMoneyValue() {
         return this.value.setScale(2, RoundingMode.CEILING);
     }

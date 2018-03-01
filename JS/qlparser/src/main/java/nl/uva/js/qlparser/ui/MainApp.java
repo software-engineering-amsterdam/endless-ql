@@ -9,46 +9,55 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import lombok.NoArgsConstructor;
+import nl.uva.js.qlparser.logic.FormBuilder;
+import nl.uva.js.qlparser.models.expressions.Form;
 import nl.uva.js.qlparser.ui.panes.FormPane;
 import nl.uva.js.qlparser.ui.panes.InputPane;
 import nl.uva.js.qlparser.ui.panes.LogPane;
-import org.antlr.v4.runtime.ANTLRErrorListener;
-import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.Recognizer;
-import org.antlr.v4.runtime.atn.ATNConfigSet;
-import org.antlr.v4.runtime.dfa.DFA;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.util.BitSet;
 
-public class MainApp extends Application implements ANTLRErrorListener {
+@NoArgsConstructor
+@Component
+public class MainApp extends Application {
+
+    @Autowired
+    private LogPane logPane;
 
     private InputPane inputPane;
     private FormPane  formPane;
-    private LogPane   logger;
 
-    public static void main(String[] args) {
+
+    static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage stage) {
+        stage.setTitle("JS QL");
+        stage.setResizable(false);
+        stage.setScene(new Scene(buildLayout(stage), 1500, 1000));
+        stage.show();
+    }
+
+    private BorderPane buildLayout(Stage stage) {
         inputPane = new InputPane();
         formPane  = new FormPane();
-        logger    = new LogPane();
 
         inputPane.setMinWidth(300);
         formPane.autosize();
-        logger.setMinWidth(300);
+        logPane.setMinWidth(300);
 
         MenuBar menuBar = getMenuBar(stage);
 
         HBox mainPanes = new HBox();
-        mainPanes.getChildren().addAll(inputPane, formPane, logger);
+        mainPanes.getChildren().addAll(inputPane, formPane, logPane);
 
         Button processButton = new Button("Process QL");
-        processButton.setOnAction(e -> process());
+        processButton.setOnAction(e -> processQL());
 
         BorderPane buttonPane = new BorderPane();
         buttonPane.setPadding(new Insets(10, 10, 10, 10));
@@ -59,36 +68,27 @@ public class MainApp extends Application implements ANTLRErrorListener {
         layout.setCenter(mainPanes);
         layout.setBottom(buttonPane);
 
-        stage.setTitle("JS QL");
-        stage.setResizable(false);
-        stage.setScene(new Scene(layout, 1500, 1000));
-        stage.show();
+        return layout;
     }
 
     // TODO
-    private void process() {
-        logger.clear();
+    private void processQL() {
+        logPane.clear();
 
-        logger.log("Parsing...");
+        logPane.log("Parsing...");
         boolean parseSuccess = true;
 
         try {
-            // Get parse tree
+            Form form = FormBuilder.parseFormFromString(inputPane.getText());
         } catch (Exception e) {
-            logger.log("Parse error (See System.out)");
             parseSuccess = false;
         }
 
         if (parseSuccess) {
-            logger.log("Building AST...");
-
-            //Check
-            logger.log("Checking...");
-
             // Evaluate / render
-            logger.log("Rendering questionnaire...");
+            logPane.log("Rendering questionnaire...");
 
-            logger.log("Process finished");
+            logPane.log("Process finished");
         }
     }
 
@@ -154,28 +154,5 @@ public class MainApp extends Application implements ANTLRErrorListener {
 
         return menuBar;
     }
-
-    // ANTLR error handling
-    @Override
-    public void reportAmbiguity(Parser arg0, DFA arg1, int arg2, int arg3,
-                                boolean arg4, BitSet arg5, ATNConfigSet arg6) {
-    }
-
-    @Override
-    public void reportAttemptingFullContext(Parser arg0, DFA arg1, int arg2,
-                                            int arg3, BitSet arg4, ATNConfigSet arg5) {
-    }
-
-    @Override
-    public void reportContextSensitivity(Parser arg0, DFA arg1, int arg2,
-                                         int arg3, int arg4, ATNConfigSet arg5) {
-    }
-
-    @Override
-    public void syntaxError(Recognizer<?, ?> arg0, Object arg1, int arg2,
-                            int arg3, String arg4, RecognitionException arg5) {
-        logger.log(arg5.toString());
-    }
-
 }
 

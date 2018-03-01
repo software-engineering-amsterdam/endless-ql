@@ -14,6 +14,9 @@ import java.nio.file.Paths;
 
 @Component
 public class FormBuilder {
+//
+//    @Autowired
+//    static ErrorListener errorListener;
 
     @SneakyThrows(IOException.class)
     public static Form parseFormFromLocation(String location) {
@@ -23,6 +26,7 @@ public class FormBuilder {
 
     public static Form parseFormFromString(String qlInput) {
         QLLexer lexer = new QLLexer(CharStreams.fromString(qlInput));
+//        lexer.addErrorListener(errorListener);
         QLParser parser = new QLParser(new CommonTokenStream(lexer));
 
         Form form = new QLVisitorImpl().visitForm(parser.form());

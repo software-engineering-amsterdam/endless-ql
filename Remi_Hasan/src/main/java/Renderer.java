@@ -100,7 +100,7 @@ public class Renderer {
         FieldGroup fieldGroup = new FieldGroup();
         HashMap<Question, Field> fieldMap = new HashMap<>();
         addStatements(fieldMap, fieldGroup, form.questions);
-        updateFields(fieldMap, form.questions, true);
+        updateFields(fieldMap, form.questions);
         return fieldGroup;
     }
 
@@ -123,7 +123,7 @@ public class Renderer {
 
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             question.answer.setValue(newValue.toString());
-            updateFields(fieldMap, form.questions, true);
+            updateFields(fieldMap, form.questions);
         });
 
         return checkBox;
@@ -149,7 +149,7 @@ public class Renderer {
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
                 question.answer.setValue(textField.getText());
-                updateFields(fieldMap, form.questions, true);
+                updateFields(fieldMap, form.questions);
             }
         });
 
@@ -175,25 +175,17 @@ public class Renderer {
         return submitButton;
     }
 
-    private void updateFields(HashMap<Question, Field> fieldMap, List<Question> questions, boolean isTrue) {
+    private void updateFields(HashMap<Question, Field> fieldMap, List<Question> questions) {
         for (Question question : questions) {
-            updateField(fieldMap, question, isTrue);
-//            if (statement.isQuestion()) {
-//                updateField(fieldMap, statement, isTrue);
-//            } else {
-//                Condition conditional = (Condition) statement;
-//                boolean trueBlockVisible = isTrue && Boolean.TRUE.equals(conditional.condition.evaluate().getValue());
-//                boolean falseBlockVisible = isTrue && !trueBlockVisible;
-//                updateFields(fieldMap, conditional.trueStatements, trueBlockVisible);
-//                updateFields(fieldMap, conditional.falseStatements, falseBlockVisible);
-//            }
+            boolean visible = Boolean.TRUE.equals(question.condition.evaluate().getValue());
+            updateField(fieldMap, question, visible);
         }
     }
 
-    private void updateField(HashMap<Question, Field> fieldMap, Question question, boolean isTrue) {
+    private void updateField(HashMap<Question, Field> fieldMap, Question question, boolean visible) {
         Field field = fieldMap.get(question);
-        field.getLabel().setVisible(isTrue);
-        field.getControl().setVisible(isTrue);
+        field.getLabel().setVisible(visible);
+        field.getControl().setVisible(visible);
 
         if(!question.answer.isSettable()) {
             Object answer = question.answer.evaluate().getValue();

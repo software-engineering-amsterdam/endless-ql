@@ -1,6 +1,7 @@
 """
 
 """
+import collections
 from .ast_methods import *
 
 
@@ -21,10 +22,10 @@ class QuestionNode:
             errorstring = "Error, double declaration of variable '" + varname + "' at line " + str(line)
             throwError(errorstring)
         else:
-            new_entry = {"type": self.varNode.checkTypes(),
-                         "node": self.varNode,
-                         "assign": self
-                         }
+            new_entry = collections.OrderedDict()
+            new_entry["type"] = self.varNode.checkTypes()
+            new_entry["node"] = self.varNode
+            new_entry["assign"] = self
             varDict[varname] = new_entry
 
     def __repr__(self):

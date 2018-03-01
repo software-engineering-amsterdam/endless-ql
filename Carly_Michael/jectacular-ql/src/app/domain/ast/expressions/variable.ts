@@ -23,7 +23,6 @@ export class Variable extends Expression {
   evaluate(form: FormGroup): LiteralType {
     const referencedControl = form.controls[this.identifier];
     if (referencedControl) {
-      console.log('in if', referencedControl.value);
       /* Angular sets the value for a form control with undefined as value to an object {value: ""}
          If there is a value, instead of the object there will be a value, which means value.value is undefined */
       return referencedControl.value.value === undefined ? referencedControl.value : undefined;

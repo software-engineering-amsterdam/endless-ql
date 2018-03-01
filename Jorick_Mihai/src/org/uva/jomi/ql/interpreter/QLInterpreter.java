@@ -80,7 +80,7 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 	@Override
 	public Void visit(ComputedQuestionStmt stmt) {
 		Object value = evaluate(stmt.getExp());
-		String name = stmt.identifier.getName();
+		String name = stmt.getIdentifierName();
 		SymbolTable.getInstance().put(name, value);
 		return null;	
 	}

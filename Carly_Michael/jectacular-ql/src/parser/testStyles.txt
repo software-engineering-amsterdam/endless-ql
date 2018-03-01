@@ -1,7 +1,7 @@
 // taken from github page on 28-02-2018
-stylesheet taxOfficeExample
+stylesheet "taxOfficeExample"
 {
-  page Housing
+  page "Housing"
   {
     section "Buying"
     {
@@ -12,7 +12,7 @@ stylesheet taxOfficeExample
       question hasMaintLoan
   }
 
-  page Selling
+  page "Selling"
   {
     section "Selling"
     {
@@ -40,7 +40,7 @@ stylesheet taxOfficeExample
 }
 
 // current working example
-stylesheet "taxOfficeExample"
+stylesheet taxOfficeExample
 {
   page "Housing"
   {

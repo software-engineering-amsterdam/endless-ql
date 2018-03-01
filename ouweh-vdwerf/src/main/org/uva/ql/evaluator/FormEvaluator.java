@@ -1,6 +1,7 @@
 package org.uva.ql.evaluator;
 
 import org.uva.ql.ast.*;
+import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.ast.type.MoneyType;
@@ -38,8 +39,33 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
         return this.statementTable.getQuestionsAsList();
     }
 
+    public ValueTable getValueTable() {
+        return valueTable;
+    }
+
+    public void addOrUpdateValue(String id, Value value){
+        this.valueTable.addOrUpdateValue(id, value);
+    }
+
+    public Expression getConditionById(String id){
+        return this.statementTable.getConditionByQuestionID(id);
+    }
+
+    public boolean questionHasCondition(Question question){
+        return this.statementTable.questionIsConditional(question.toString());
+    }
+
     public Value getValueById(String id) {
         return this.valueTable.getValueByID(id);
+    }
+
+    public void evaluateAllExpressions(ExpressionEvaluator expressionEvaluator){
+        for (Question question : this.getQuestionsAsList()){
+            if(this.expressionTable.questionHasExpression(question.toString())){
+                Value value = expressionEvaluator.evaluateExpression(question.getName(),this.expressionTable.getExpressionByName(question.getName()),this.valueTable);
+                this.valueTable.addOrUpdateValue(question.getName(), value);
+            }
+        }
     }
 
     @Override
@@ -52,11 +78,11 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
     @Override
     public Void visit(Conditional conditional, String context) {
         for (Statement statement : conditional.getIfSide()) {
-            this.statementTable.addConditional(conditional.toString(), conditional);
+            this.statementTable.addConditional(statement.toString(), conditional.getCondition());
             statement.accept(this, context);
         }
         for (Statement statement : conditional.getElseSide()) {
-            this.statementTable.addConditional(conditional.toString(), conditional);
+            this.statementTable.addConditional(statement.toString(), conditional.getCondition());
             statement.accept(this, context);
         }
         return null;

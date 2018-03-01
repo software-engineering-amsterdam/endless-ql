@@ -7,7 +7,7 @@ import ParseObjects.Expressions.ExpressionConstants.BooleanConstant;
 
 public class GreaterOrEqualExpression extends BinaryExpression<Boolean> {
     public GreaterOrEqualExpression(Expression left, Expression right){
-        super("<=", left, right);
+        super(">=", left, right);
     }
 
     @Override
@@ -17,8 +17,8 @@ public class GreaterOrEqualExpression extends BinaryExpression<Boolean> {
 
     @Override
     public Constant<Boolean> evaluate() {
-        Double left = Double.parseDouble(this.getExprLeft().evaluate().toString());
-        Double right = Double.parseDouble(this.getExprRight().evaluate().toString());
+        Double left = Double.parseDouble(this.getExprLeft().evaluate().getValue().toString());
+        Double right = Double.parseDouble(this.getExprRight().evaluate().getValue().toString());
         return new BooleanConstant(left >= right);
     }
 

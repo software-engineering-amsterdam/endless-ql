@@ -12,13 +12,16 @@ namespace QL_Parser.Tests.AST.Expressions
         private readonly string _simpleComparisonFormRaw = "form testForm {" +
             "   if sellingPrice < buyingPrice { }" +
             "}";
+        private readonly string _moreComplicatedFormRaw = "form testForm {" +
+           "   if sellingPrice < buyingPrice < sellingPrice { }" +
+            "}";
 
         [TestMethod]
         public void SimpleComparisonFormTest()
         {
-            FormNode node = QLParserHelper.Parse(_simpleComparisonFormRaw);
+            FormNode form = QLParserHelper.Parse(_simpleComparisonFormRaw);
 
-            var comparisonNode = node.Children
+            var comparisonNode = form.Children
                 .Where(x => x.Type == NodeType.CONDITIONAL)
                 .Select(x => x as ConditionalNode)
                 .First().Expression as ComparisonExpressionNode;

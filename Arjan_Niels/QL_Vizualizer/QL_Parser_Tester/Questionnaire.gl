@@ -20,10 +20,7 @@
 	if soldHouseIn2010 && true || false {
 	}
 
-	if sellingPrice < buyingPrice {
-	}
-
-	if soldHouseIn2010 && sellingPrice < sellingPrice * sellingPrice - buyingPrice {
+	if soldHouseIn2010 && sellingPrice < sellingPrice * 10 - buyingPrice {
 		"Ik wil kaas!" 
 			wantsCheese: boolean
 	}

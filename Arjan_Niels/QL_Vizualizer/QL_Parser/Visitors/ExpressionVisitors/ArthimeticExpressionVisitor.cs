@@ -13,6 +13,12 @@ namespace QL_Parser.Visitors
             if (context.ID() != null)
                 return new IdentifierNode(context.ID().GetText());
 
+            if (context.DOUBLE() != null)
+                return new LiteralNode(context.DOUBLE().GetText(), QValueType.DOUBLE);
+
+            if (context.INT() != null)
+                return new LiteralNode(context.INT().GetText(), QValueType.INTEGER);
+
             if (context.MULT() != null || context.DIV() != null || context.PLUS() != null || context.MINUS() != null)
             {
                 var left = VisitArtithmeticExpression(context.LEFT);

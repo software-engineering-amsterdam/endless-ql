@@ -26,5 +26,6 @@ class FormNode:
         for statement in self.block:
             statement.linkVars(varDict)
 
+
     def __repr__(self):
         return "Form: {}, block: {}".format(self.name, self.block)

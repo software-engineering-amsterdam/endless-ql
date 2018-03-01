@@ -1,14 +1,17 @@
 package org.uva.sea.ql.gui;
 
+import com.sun.xml.internal.rngom.parse.host.Base;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import org.uva.sea.ql.gui.model.BaseQuestionRow;
 
 public class GUIHelper {
 
-    public static Label printComputedValue(QuestionGUI questionGUI) {
-        if (questionGUI.isComputed()) {
+    public static Label printComputedValue(BaseQuestionRow questionRow) {
+        if (questionRow.isComputed()) {
             Label computedLabel = new Label();
-            if (questionGUI.getValue() != null) {
-                computedLabel.setText(questionGUI.displayValue());
+            if (questionRow.getValue() != null) {
+                computedLabel.setText(questionRow.displayValue());
                 computedLabel.setMinWidth(100.0);
                 return computedLabel;
             }
@@ -16,7 +19,7 @@ public class GUIHelper {
         return new Label();
     }
 
-    public static Label printLabel(QuestionGUI questionGUI) {
-        return new Label(questionGUI.getLabel().replace("\"", ""));
+    public static Label printLabel(BaseQuestionRow questionRow) {
+        return new Label(questionRow.getLabel().replace("\"", ""));
     }
 }

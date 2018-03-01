@@ -1,13 +1,11 @@
-package org.uva.sea.ql.gui;
+package org.uva.sea.ql.gui.model;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Control;
 import org.uva.sea.ql.DataObject.QuestionData;
 import org.uva.sea.ql.parser.NodeType;
-import org.uva.sea.ql.value.*;
+import org.uva.sea.ql.value.Value;
 
-public class QuestionGUI extends Control {
+public abstract class BaseQuestionRow extends Control implements BaseQuestionGUI {
 
     private String label;
     //boolean - checkbox
@@ -17,35 +15,13 @@ public class QuestionGUI extends Control {
     private Value value;
     private String variableName;
     private boolean isComputed;
-    private boolean shouldBeVisible = true;
 
-    QuestionGUI(QuestionData data) {
+    public BaseQuestionRow(QuestionData data) {
         this.label = data.getLabel();
         this.type = data.getNodeType();
         this.value = data.getValue();
         this.isComputed = data.isComputed();
         this.variableName = data.getQuestionName();
-    }
-
-    public String displayValue() {
-        switch (type) {
-            case BOOLEAN:
-                return String.valueOf(((BooleanValue) value).getBooleanValue());
-            case DATE:
-                return String.valueOf(((DateValue) value).getDateValue());
-            case DECIMAL:
-                return String.valueOf(((DecimalValue) value).getDecimalValue());
-            case INTEGER:
-                return String.valueOf(((IntValue) value).getIntValue());
-            case MONEY:
-                return String.valueOf(((MoneyValue) value).getAmount())
-                        + " " + ((MoneyValue) value).getCurrency();
-            case STRING:
-                return ((StringValue) value).getStringValue();
-            case UNKNOWN:
-            default:
-                return "UNKNOWN";
-        }
     }
 
     public String getVariableName() {
@@ -54,14 +30,6 @@ public class QuestionGUI extends Control {
 
     public void setVariableName(String variableName) {
         this.variableName = variableName;
-    }
-
-    public boolean isShouldBeVisible() {
-        return shouldBeVisible;
-    }
-
-    public void setShouldBeVisible(boolean shouldBeVisible) {
-        this.shouldBeVisible = shouldBeVisible;
     }
 
     public String getLabel() {
@@ -95,5 +63,4 @@ public class QuestionGUI extends Control {
     public void setComputed(boolean computed) {
         isComputed = computed;
     }
-
 }

@@ -1,5 +1,6 @@
 package org.uva.sea.ql.gui;
 
+import com.sun.xml.internal.rngom.parse.host.Base;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -13,9 +14,11 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import org.uva.sea.ql.DataObject.QuestionData;
 import org.uva.sea.ql.QLFormGenerator;
+import org.uva.sea.ql.DataObject.QuestionData;
 import org.uva.sea.ql.evaluate.SymbolTable;
+import org.uva.sea.ql.gui.model.BaseQuestionRow;
+import org.uva.sea.ql.gui.model.BooleanQuestionGUI;
 import org.uva.sea.ql.value.BooleanValue;
 import org.uva.sea.ql.value.IntValue;
 
@@ -26,13 +29,15 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
-public class QuestionController implements Initializable {
+public class FormController implements Initializable {
 
     private static final String FILE_NAME = "/example.ql";
-    private List<QuestionGUI> questionGUIs;
     private List<QuestionData> questions;
     private SymbolTable symbolTable = new SymbolTable();
     private QLFormGenerator formGenerator = new QLFormGenerator();
+
+    private List<BaseQuestionRow> questionModels;
+
 
     @FXML
     private VBox vBox;
@@ -54,49 +59,48 @@ public class QuestionController implements Initializable {
     }
 
     private void updateQuestionGUIs(List<QuestionData> data) {
-        this.questionGUIs = new ArrayList<>();
+        QuestionGuiFactory factory = new QuestionGuiFactory();
+        this.questionModels = new ArrayList<>();
         for (QuestionData question : data) {
-            QuestionGUI questionGUI = new QuestionGUI(question);
-            questionGUIs.add(questionGUI);
+            BaseQuestionRow questionRow = factory.create(question);
+            questionModels.add(questionRow);
         }
     }
 
     private void printQuestions() {
         vBox.getChildren().removeAll(vBox.getChildren());
-        for (QuestionGUI questionGUI : questionGUIs) {
-            if (questionGUI.isShouldBeVisible()) {
-                vBox.getChildren().add(createQuestionRow(questionGUI));
-            }
+        for(BaseQuestionRow questionRow: questionModels){
+            vBox.getChildren().add(createQuestionRow(questionRow));
         }
     }
 
-    private Node createQuestionRow(QuestionGUI questionGUI) {
+    private Node createQuestionRow(BaseQuestionRow questionRow) {
         GridPane wrapper = new GridPane();
 
         wrapper.getColumnConstraints().add(new ColumnConstraints(350));
         wrapper.getRowConstraints().add(new RowConstraints(40));
 
-        wrapper.add(GUIHelper.printLabel(questionGUI), 0, 0);
-        wrapper.add(generateInput(questionGUI), 1, 0);
+        wrapper.add(GUIHelper.printLabel(questionRow), 0, 0);
+        wrapper.add(generateInput(questionRow), 1, 0);
 
         return wrapper;
     }
 
-    private Control generateInput(QuestionGUI questionGUI) {
-        if (questionGUI.isComputed()) {
-            return GUIHelper.printComputedValue(questionGUI);
+    private Control generateInput(BaseQuestionRow questionRow) {
+        if (questionRow.isComputed()) {
+            return GUIHelper.printComputedValue(questionRow);
         } else {
-            switch (questionGUI.getType()) {
+            switch (questionRow.getType()) {
                 case BOOLEAN:
                     CheckBox checkBox = new CheckBox();
-                    if (questionGUI.getValue() != null) {
-                        checkBox.setSelected(((BooleanValue) questionGUI.getValue()).getBooleanValue());
+                    if (questionRow.getValue() != null) {
+                        checkBox.setSelected(((BooleanValue) questionRow.getValue()).getBooleanValue());
                     }
                     checkBox.selectedProperty()
                             .addListener((observable, oldValue, newValue) ->
                             {
                                 System.out.println("set into " + newValue);
-                                symbolTable.addOrUpdateValue(questionGUI.getVariableName(), new BooleanValue(newValue));
+                                symbolTable.addOrUpdateValue(questionRow.getVariableName(), new BooleanValue(newValue));
                                 updateQuestions();
                             });
                     return checkBox;
@@ -106,8 +110,8 @@ public class QuestionController implements Initializable {
                 case STRING:
                 case DATE:
                     TextField textField = new TextField();
-                    if (questionGUI.getValue() != null) {
-                        textField.setText(questionGUI.displayValue());
+                    if (questionRow.getValue() != null) {
+                        textField.setText(questionRow.displayValue());
                     }
                     textField.setEditable(true);
                     textField.setMinWidth(100.0);
@@ -119,7 +123,7 @@ public class QuestionController implements Initializable {
                             } else {
                                 System.out.println("Textfield out focus " + textField.getText());
                                 if (!textField.getText().equals("")) {
-                                    symbolTable.addOrUpdateValue(questionGUI.getVariableName(), new IntValue(textField.getText()));
+                                    symbolTable.addOrUpdateValue(questionRow.getVariableName(), new IntValue(textField.getText()));
                                     updateQuestions();
                                 }
                             }
@@ -142,6 +146,4 @@ public class QuestionController implements Initializable {
                     " " + question.isComputed());
         }
     }
-
-
 }

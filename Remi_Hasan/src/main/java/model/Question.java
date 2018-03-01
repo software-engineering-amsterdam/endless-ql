@@ -27,6 +27,10 @@ public class Question {
     }
 
     public void typeCheck(SymbolTable symbolTable) {
+        this.condition.typeCheck(symbolTable);
+        this.defaultAnswer.typeCheck(symbolTable);
+
+        // Compare defaultAnswer expression type to question type
         if(this.defaultAnswer.getReturnType(symbolTable) != ReturnType.UNDEFINED &&
                 (this.type == ReturnType.INTEGER || this.type == ReturnType.DECIMAL || this.type == ReturnType.MONEY)) {
             if(this.defaultAnswer.getReturnType(symbolTable) != ReturnType.NUMBER) {

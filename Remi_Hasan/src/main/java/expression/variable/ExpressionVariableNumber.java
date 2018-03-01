@@ -29,10 +29,9 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
 
     @Override
     public void setValue(String value) {
-        if (value == null || value.isEmpty())
-            this.value = null;
-        else
+        if (!value.isEmpty()) {
             this.value = new BigDecimal(value);
+        }
     }
 
     @Override

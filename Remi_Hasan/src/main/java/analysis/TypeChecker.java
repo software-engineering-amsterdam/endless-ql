@@ -14,11 +14,6 @@ public class TypeChecker {
 
     public void typeCheck() {
         for(Question question : form.questions) {
-            // Type check condition and answer expression
-            question.condition.typeCheck(this.symbolTable);
-            question.defaultAnswer.typeCheck(this.symbolTable);
-
-            // Type check question default value assignment
             question.typeCheck(this.symbolTable);
         }
     }

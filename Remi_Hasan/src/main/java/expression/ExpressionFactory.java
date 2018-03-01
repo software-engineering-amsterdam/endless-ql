@@ -2,10 +2,8 @@ package expression;
 
 import expression.variable.*;
 
-import java.math.BigDecimal;
-
 public class ExpressionFactory {
-    public static Expression createExpression(String questionType) {
+    public static Expression createEmptyExpression(String questionType) {
         switch (questionType) {
             case "boolean":
                 return new ExpressionVariableBoolean(false);

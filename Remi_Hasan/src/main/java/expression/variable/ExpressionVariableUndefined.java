@@ -5,7 +5,7 @@ import expression.ReturnType;
 
 public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
 
-    public ExpressionVariableUndefined() {
+    ExpressionVariableUndefined() {
         super(false);
     }
 

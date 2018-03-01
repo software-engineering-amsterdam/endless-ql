@@ -5,7 +5,6 @@ import antlr.QLParser;
 import expression.Expression;
 import expression.ExpressionFactory;
 import expression.ReturnType;
-import expression.variable.ExpressionVariableUndefined;
 import model.Question;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {
@@ -31,14 +30,13 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
         // Check whether question can be edited by user, or is based on an expression
         boolean isEditable = ctx.questionType().expression() == null;
 
-        return new Question(questionType, questionName, questionText, defaultAnswer,
-                isEditable, this.condition);
+        return new Question(questionType, questionName, questionText, defaultAnswer, isEditable, this.condition);
     }
 
     private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType) {
         if(questionType.expression() == null) {
             // TODO: preferably change to undefined, but that breaks type checking
-            return ExpressionFactory.createExpression(questionType.type().getText());
+            return ExpressionFactory.createEmptyExpression(questionType.type().getText());
         }
 
         VisitorExpression visitorExpression = new VisitorExpression();

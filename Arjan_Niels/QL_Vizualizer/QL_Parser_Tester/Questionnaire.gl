@@ -25,6 +25,6 @@
 			wantsCheese: boolean
 		
 		"Debt:"
-			debt: money = buyingPrice - sellingPrice;
+			debt: money = buyingPrice - sellingPrice
 	}
 }

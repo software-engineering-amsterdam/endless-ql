@@ -31,7 +31,7 @@ public class Main extends Application{
 
     public Form buildQLForm(){
         String file = "example.ql";
-        
+
         Parser Parser = new Parser();
         Form form = Parser.parseInputToForm(file);
 

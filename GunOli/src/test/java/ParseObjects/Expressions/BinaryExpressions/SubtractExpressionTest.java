@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class SubtractExpressionTest {
     private SubtractExpression expressionTest;
     @Property
-    public void evaluateINT(int left, int right) {
+    public void evaluate(int left, int right) {
         IntegerConstant b = new IntegerConstant( left);
         IntegerConstant c = new IntegerConstant( right);
 
@@ -22,7 +22,7 @@ public class SubtractExpressionTest {
     }
 
     @Property
-    public void evaluateINT(double left, double right) {
+    public void evaluate(double left, double right) {
         DecimalConstant b = new DecimalConstant( left);
         DecimalConstant c = new DecimalConstant( right);
 

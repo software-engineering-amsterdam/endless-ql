@@ -16,7 +16,7 @@ public class DivisionExpressionTest {
 
     private DivisionExpression expressionTest;
     @Property
-    public void evaluateINT(int autoA, int autoB) {
+    public void evaluate(int autoA, int autoB) {
         IntegerConstant b = new IntegerConstant( autoA);
         IntegerConstant c = new IntegerConstant( autoB);
 
@@ -25,7 +25,7 @@ public class DivisionExpressionTest {
 
     }
     @Property
-    public void evaluateDOUBLE(double autoA, double autoB) {
+    public void evaluate(double autoA, double autoB) {
         DecimalConstant b = new DecimalConstant( autoA);
         DecimalConstant c = new DecimalConstant( autoB);
 

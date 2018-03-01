@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class MultiplicationExpressionTest {
     private MultiplicationExpression expressionTest;
     @Property
-    public void evaluateINT(int left, int right) {
+    public void evaluate(int left, int right) {
         IntegerConstant leftToTest = new IntegerConstant(left);
         IntegerConstant rightToTest = new IntegerConstant(right);
 
@@ -22,7 +22,7 @@ public class MultiplicationExpressionTest {
     }
 
     @Property
-    public void evaluateINT(double left, double right) {
+    public void evaluate(double left, double right) {
         DecimalConstant leftToTest = new DecimalConstant( left);
         DecimalConstant rightToTest = new DecimalConstant( right);
 

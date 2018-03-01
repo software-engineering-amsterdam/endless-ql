@@ -1,29 +1,20 @@
 package models.ast.elements;
 
-public class QuestionBlock extends Block {
-    private String text;
+import grammar.QLParser;
+
+public class QuestionBlock implements Block {
+
+    private String label;
     private Field field;
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Field getField() {
-        return field;
-    }
-
-    public void setField(Field field) {
-        this.field = field;
+    public QuestionBlock(QLParser.QuestionContext ctx) {
+        this.label = ctx.label.getText();
     }
 
     @Override
     public void print() {
-        System.out.println("QuestionVertex block: {\n" +
-                "  text:" + this.text +
+        System.out.println("Question: {\n" +
+                "  label:" + this.label +
                 "}");
     }
 }

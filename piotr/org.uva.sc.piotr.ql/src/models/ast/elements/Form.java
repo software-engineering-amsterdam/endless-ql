@@ -5,7 +5,11 @@ import java.util.ArrayList;
 public class Form {
 
     private String name;
-    private ArrayList<Block> blockList;
+    private ArrayList<Block> blockList = new ArrayList<>();
+
+    public Form(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;

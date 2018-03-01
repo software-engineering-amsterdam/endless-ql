@@ -75,16 +75,16 @@ public class TypeChecker extends QLBaseVisitor {
                     question
             ));
         }
-
-        for (QLParser.VariableReferenceContext reference : this.referredFields) {
-            try {
-                QuestionVertex vertex = qdf.getQuestionVertexByName(reference.name.getText());
-
-            } catch (Exception e) {
-                /* reference to undefined questions */
-                throw new QLParserException("Found a reference to undeclared field \"" + reference.getText() + "\" in line " + reference.start.getLine() + " of the parsed form.");
-            }
-        }
+//
+//        for (QLParser.VariableReferenceContext reference : this.referredFields) {
+//            try {
+//                QuestionVertex vertex = qdf.getQuestionVertexByName(reference.name.getText());
+//
+//            } catch (Exception e) {
+//                /* reference to undefined questions */
+//                throw new QLParserException("Found a reference to undeclared field \"" + reference.getText() + "\" in line " + reference.start.getLine() + " of the parsed form.");
+//            }
+//        }
 
         /* TODO: duplicate labels (warning) */
 

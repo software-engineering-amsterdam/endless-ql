@@ -3,6 +3,7 @@ package main;
 import models.ast.ASTBuilder;
 import grammar.QLLexer;
 import grammar.QLParser;
+import models.ast.elements.Form;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -28,9 +29,9 @@ public class Main {
 
 
         ASTBuilder ast = new ASTBuilder();
-        ast.visitForm(formContext);
+        Form form = ast.visitForm(formContext);
 
-        ast.getForm().print();
+        form.print();
 
         System.out.println("Main finish.");
 

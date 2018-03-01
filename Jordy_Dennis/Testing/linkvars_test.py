@@ -8,6 +8,8 @@ class LinkVarsTest(unittest.TestCase):
         for filename in os.listdir(path):
             inputText, outputText = getInputOutput(path, filename)
             ast = getAstFromString(inputText)
+            varDict = ast.linkVars()
+            print(varDict)
             # self.assertEqual(lexer_str, outputText, filename)
 
     def testErrorFilesLinkvars(self):

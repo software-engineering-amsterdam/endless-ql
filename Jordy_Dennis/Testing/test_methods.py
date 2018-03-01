@@ -1,6 +1,7 @@
 import unittest
 import os
 import sys
+import pprint
 
 Path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, Path + '/../')
@@ -45,3 +46,7 @@ def getAstFromString(inputText):
 
     ast = visitor.getAst()
     return ast
+
+def printDict(dic):
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(dic)

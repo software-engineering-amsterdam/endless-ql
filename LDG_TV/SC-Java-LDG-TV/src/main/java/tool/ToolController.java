@@ -6,13 +6,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -42,25 +41,19 @@ public class ToolController implements Initializable {
      * @param event that kicked of the invocation
      */
     public void generateQuestionnaire(ActionEvent event) {
-        // TODO generate questionnaire from textarea
-        System.out.println("Build");
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("QuestionRow.fxml"));
 
-        HBox l = new HBox();
-        //l.setAlignment(Pos.BASELINE_RIGHT);
-        Label llbl = new Label("Left");
-        l.getChildren().add(llbl);
+            QuestionRow row = new QuestionRow("Some long question that needs to be answered?", new TextField());
+            fxmlLoader.setRoot(row);
+            fxmlLoader.setController(row);
+            fxmlLoader.load();
 
-        HBox r = new HBox();
-        //r.setAlignment(Pos.BASELINE_LEFT);
-        Label rlbl = new Label("Right");
-        r.getChildren().add(rlbl);
+            lvQuestionnaire.getItems().addAll(row);
 
-        HBox q = new HBox();
-        q.setAlignment(Pos.CENTER);
-        q.getChildren().addAll(l, r);
-
-        ObservableList<HBox> items = FXCollections.observableArrayList(l);
-        lvQuestionnaire.setItems(items);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
 
     }
 

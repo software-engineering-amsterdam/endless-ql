@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -19,7 +20,7 @@
                   <Font name="Courier" size="13.0" />
                </font>
             </TextArea>
-            <ListView fx:id="lvQuestionnaire" prefHeight="200.0" prefWidth="200.0" />
+            <ListView id="lv" fx:id="lvQuestionnaire" stylesheets="@Tool.css" />
         </items>
       </SplitPane>
    </children>

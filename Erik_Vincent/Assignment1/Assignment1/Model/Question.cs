@@ -1,6 +1,6 @@
 ﻿namespace Assignment1
 {
-    public class Question : Content
+    public abstract class Question : Content
     {
         public string Id { get; }
         public string Label { get; }
@@ -14,7 +14,7 @@
         public Expression Expression;
         public bool Computed;
 
-        public Question(string id, string label)
+        protected Question(string id, string label)
         {
             Id = id;
             Label = label;

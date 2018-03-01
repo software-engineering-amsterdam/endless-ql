@@ -7,13 +7,16 @@ form taxOfficeExample {
         "Q3: You can only answer this question if you answered true above" someBoolean2: boolean
         if(someString == "hello") {
             "Q4: You can only answer this question if you Q1 equals 1 and Q2 equals 'hello'" someBoolean3: boolean
+        } else {
+            "Q4: You can only answer this question if you Q1 equals 1 and Q2 does not equal 'hello'" someBoolean9: boolean
         }
     }
-    "Q5: Can you give me a number?" someNumber: decimal
+    "Q5: Can you give me a number?" someNumber: integer = 2
     if(someNumber > 5){
         "Q6: You can only answer this question if you answered Q5 > 5" someBoolean4: boolean
     } else {
         "Q7: This will only enable if someNumber <= 5" someBoolean5: boolean
     }
     "Some text here" someNumberWithExpression: decimal = ((someNumber + 2) * 2)
+    "Give me a date please?" someDate: date
 }

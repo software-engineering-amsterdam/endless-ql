@@ -11,11 +11,11 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link QLParser#form}.
+	 * Visit a parse tree produced by {@link QLParser#head}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitForm(QLParser.FormContext ctx);
+	T visitHead(QLParser.HeadContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#block}.
 	 * @param ctx the parse tree

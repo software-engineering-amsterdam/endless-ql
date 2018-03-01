@@ -3,7 +3,13 @@ from antlr4 import *
 from pyql.antlr.QLLexer import QLLexer
 from pyql.antlr.QLParser import QLParser
 from pyql.ast.parse_tree_visitor import ParseTreeVisitor
-from pyql.ast.parse_tree_visitor import TypeChecker
+
+from pyql.static_analysis.type_check import TypeChecker
+
+from pyql.ast import expression_visitor
+
+from pyql.ast.expression.expressions import *
+from pyql.ast.expression.literals import *
 
 
 def main(argv):
@@ -16,6 +22,18 @@ def main(argv):
     b = type(tree)
     visitor = ParseTreeVisitor()
     c = tree.accept(visitor)
+    print(c)
+
+    cn = Multiplication("", IntegerLiteral("", 1), IntegerLiteral("", 2))
+    e = expression_visitor.ExpressionEvaluator()
+    ee = cn.accept(e)
+    print(ee)
+
+    cn = Addition("", StringLiteral("", "1"), StringLiteral("", "2"))
+    e = expression_visitor.ExpressionEvaluator()
+    ee = cn.accept(e)
+    print(ee)
+
     vv = TypeChecker()
     c.accept(vv)
     print(c)

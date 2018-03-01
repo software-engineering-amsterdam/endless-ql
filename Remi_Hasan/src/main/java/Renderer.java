@@ -8,7 +8,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
-import model.*;
+import model.Form;
+import model.Question;
 import model.stylesheet.StyleSheet;
 import org.yorichan.formfx.control.Input;
 import org.yorichan.formfx.field.Field;
@@ -19,8 +20,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Renderer {
 
@@ -98,23 +99,46 @@ public class Renderer {
     private FieldGroup createQuestionFields(Form form) {
         FieldGroup fieldGroup = new FieldGroup();
         HashMap<Question, Field> fieldMap = new HashMap<>();
-        addStatements(fieldMap, fieldGroup, form.statements);
-        updateFields(fieldMap, form.statements, true);
+        addStatements(fieldMap, fieldGroup, form.questions);
+        updateFields(fieldMap, form.questions);
         return fieldGroup;
     }
 
     private void addQuestion(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, Question question) {
         Control input;
 
-        if (question.type == ReturnType.BOOLEAN) {
-            input = createBooleanField(fieldMap, question);
-        } else {
-            input = createTextField(fieldMap, question);
+        switch(question.type){
+            case BOOLEAN:
+                input = createBooleanField(fieldMap, question);
+                break;
+            case STRING:
+            case INTEGER:
+            case DECIMAL:
+            case NUMBER:
+                input = createTextField(fieldMap, question);
+                break;
+            case DATE:
+                input = createDateField(fieldMap, question);
+                break;
+            default:
+                throw new UnsupportedOperationException("Cannot create field for unknown field type");
         }
 
-        Field field = new Field(question.text, input);
-        fieldGroup.add(field);
-        fieldMap.put(question, field);
+        if(input != null){
+            Field field = new Field(question.text, input);
+            fieldGroup.add(field);
+            fieldMap.put(question, field);
+        }
+    }
+
+    private Control createDateField(HashMap<Question, Field> fieldMap, Question question) {
+        DatePicker datePicker = new DatePicker();
+        datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+            question.answer.setValue(newValue.toString());
+            updateFields(fieldMap, form.questions);
+        });
+//        throw new NotImplementedException();
+        return datePicker;
     }
 
     private Control createBooleanField(HashMap<Question, Field> fieldMap, Question question) {
@@ -122,7 +146,7 @@ public class Renderer {
 
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             question.answer.setValue(newValue.toString());
-            updateFields(fieldMap, form.statements, true);
+            updateFields(fieldMap, form.questions);
         });
 
         return checkBox;
@@ -141,28 +165,23 @@ public class Renderer {
 
         if(!question.answer.isSettable()) {
             textField.setEditable(false);
-            textField.setText(question.answer.evaluate().toString());
+            textField.setText(question.evaluateAnswer());
         }
 
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
                 question.answer.setValue(textField.getText());
-                updateFields(fieldMap, form.statements, true);
+                updateFields(fieldMap, form.questions);
             }
         });
 
         return textField;
     }
 
-    private void addStatements(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, ArrayList<Statement> statements) {
-        for (Statement statement : statements) {
-            if (statement.isQuestion()) {
-                addQuestion(fieldMap, fieldGroup, (Question) statement);
-            } else {
-                addStatements(fieldMap, fieldGroup, ((Condition) statement).trueStatements);
-                addStatements(fieldMap, fieldGroup, ((Condition) statement).falseStatements);
-            }
+    private void addStatements(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, List<Question> questions) {
+        for (Question question : questions) {
+            addQuestion(fieldMap, fieldGroup, question);
         }
     }
 
@@ -172,42 +191,27 @@ public class Renderer {
         submitButton.setOnAction(e -> {
             // Debug output, shows answer to every question in console
             System.out.println();
-            for (Statement statement : form.statements) {
-                if (statement.isQuestion()) {
-                    Question question = (Question) statement;
-                    System.out.println(question.name + " " + question.answer.evaluate());
-                }
+            for (Question question: form.questions) {
+                System.out.println(question.name + " " + question.evaluateAnswer());
             }
         });
         return submitButton;
     }
 
-    private void updateFields(HashMap<Question, Field> fieldMap, ArrayList<Statement> statements, boolean isTrue) {
-        for (Statement statement : statements) {
-            if (statement.isQuestion()) {
-                updateField(fieldMap, statement, isTrue);
-            } else {
-                Condition conditional = (Condition) statement;
-                boolean trueBlockVisible = isTrue && Boolean.TRUE.equals(conditional.condition.evaluate().getValue());
-                boolean falseBlockVisible = isTrue && !trueBlockVisible;
-                updateFields(fieldMap, conditional.trueStatements, trueBlockVisible);
-                updateFields(fieldMap, conditional.falseStatements, falseBlockVisible);
-            }
+    private void updateFields(HashMap<Question, Field> fieldMap, List<Question> questions) {
+        for (Question question : questions) {
+            updateField(fieldMap, question, question.isVisible());
         }
     }
 
-    private void updateField(HashMap<Question, Field> fieldMap, Statement statement, boolean isTrue) {
-        Question question = (Question) statement;
-
+    private void updateField(HashMap<Question, Field> fieldMap, Question question, boolean visible) {
         Field field = fieldMap.get(question);
-        field.getLabel().setVisible(isTrue);
-        field.getControl().setVisible(isTrue);
+        field.getLabel().setVisible(visible);
+        field.getControl().setVisible(visible);
 
         if(!question.answer.isSettable()) {
-            Object answer = question.answer.evaluate().getValue();
-            if(answer == null) {
-                answer = "";
-            }
+            // TODO: move somwhere else
+            Object answer = question.evaluateAnswer();
 
             if (question.type == ReturnType.BOOLEAN) {
                 CheckBox checkBox = (CheckBox) field.getControl();

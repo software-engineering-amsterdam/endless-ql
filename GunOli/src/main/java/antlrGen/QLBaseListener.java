@@ -16,13 +16,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterForm(QLParser.FormContext ctx) { }
+	@Override public void enterHead(QLParser.HeadContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitForm(QLParser.FormContext ctx) { }
+	@Override public void exitHead(QLParser.HeadContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

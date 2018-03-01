@@ -22,6 +22,11 @@ public class ExpressionVariableString extends ExpressionVariable<String> {
     }
 
     @Override
+    public String getStringValue() {
+        return this.value;
+    }
+
+    @Override
     public ExpressionVariable sum(ExpressionVariable other) {
         return new ExpressionVariableString(this.value + other.value);
     }

@@ -54,10 +54,11 @@ class Visitor(QLGrammarVisitor):
 
         # collect information about the question
         question = ctx.STRING().getText()
-        var = ctx.ID().getText()
+        varName = ctx.ID().getText()
         varType = self.visit(ctx.types())
 
-        questionN = QuestionNode(question, var, varType, ctx.start.line)
+        varNode = VarNode(varName, varType, ctx.start.line)
+        questionN = QuestionNode(question, varNode, ctx.start.line)
 
         return questionN
 
@@ -71,7 +72,7 @@ class Visitor(QLGrammarVisitor):
         varType = mapStringToType(ctx.types().getText())
         expr = self.visit(ctx.expression())
         
-        varNode = VarNode(varName, varType, ctx.start.line)
+        varNode = VarNode(varName, varType, ctx.start.line, True)
         assignNode = AssignmentNode(question, varNode, expr, ctx.start.line)
 
         return assignNode
@@ -171,7 +172,18 @@ class Visitor(QLGrammarVisitor):
     def visitTypes(self, ctx: QLGrammarParser.TypesContext):
         self.logger.debug("TYPES")
 
-        return ctx.getText()
+        return mapStringToType(ctx.getText())
+
+    # Visit a parse tree produced by QLGrammarParser#varnode.
+    # Type is temporarily none, this node is used to link the variables
+    # in a later stage
+    def visitVarnode(self, ctx:QLGrammarParser.VarnodeContext):
+        self.logger.debug("VARIABLE")
+        varName = ctx.ID().getText()
+
+        varNode = VarNode(varName, None, ctx.start.line, False)
+
+        return varNode
 
 
 # get operator from ctx object

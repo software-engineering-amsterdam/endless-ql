@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from pyql.ast.static_analysis import symbol_table
+from pyql.static_analysis import symbol_table
 
 
 class ExpressionVisitor:

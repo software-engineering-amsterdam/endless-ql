@@ -69,7 +69,7 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		identifierStack.enterScope();
 
 		// Visit every statement in the block and add it to the statements array.
-		for (Stmt statement : stmt.statements) {
+		for (Stmt statement : stmt.getStatements()) {
 			statement.accept(this);
 		}
 

@@ -81,7 +81,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	public String visit(BlockStmt stmt) {
 		String header = String.format("  %s [label=\"BlockStmt\"]\n", stmt.getId());
 		
-		for (Stmt statement : stmt.statements) {
+		for (Stmt statement : stmt.getStatements()) {
 			header += String.format("  %s -> %s\n", stmt.getId(), statement.getId());
 			String result = statement.accept(this);
 			header += result;

@@ -4,7 +4,7 @@ from pyql.antlr.QLLexer import QLLexer
 from pyql.antlr.QLParser import QLParser
 from pyql.ast.parse_tree_visitor import ParseTreeVisitor
 
-from pyql.ast.static_analysis.type_check import TypeChecker
+from pyql.static_analysis.type_check import TypeChecker
 
 from pyql.ast import expression_visitor
 

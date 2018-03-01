@@ -8,5 +8,9 @@ public class BooleanExpression extends Condition {
     private QuestionVariable rightHandOperator;
     private String operator;
 
-
+    public BooleanExpression(QuestionVariable leftHandOperator, QuestionVariable rightHandOperator, String operator) {
+        this.leftHandOperator = leftHandOperator;
+        this.rightHandOperator = rightHandOperator;
+        this.operator = operator;
+    }
 }

@@ -1,6 +1,8 @@
 package loader;
 
 import domain.FormNode;
+import domain.model.question.QuestionStructure;
+import domain.model.question.QuestionVariable;
 import exception.ReferenceUndefinedVariableException;
 
 public class QLChecker {
@@ -17,9 +19,11 @@ public class QLChecker {
         }
     }
     public void checkReferenceUndefinedVariable() throws ReferenceUndefinedVariableException {
-        for (String referencedVariable : formNode.getFormData().getReferencedVariables()){
-            if (!formNode.getFormData().getPlainQuestionStructures().contains(referencedVariable)){
-//                throw new ReferenceUndefinedVariableException("Reference to undefined variable found.");
+        for (QuestionVariable referencedVariable : formNode.getFormData().getReferencedVariables()){
+            for (QuestionStructure qs : formNode.getFormData().getPlainQuestionStructures()){
+                if (qs.getQuestionVariable().equals(referencedVariable)){
+                    break;
+                }
             }
         }
     }

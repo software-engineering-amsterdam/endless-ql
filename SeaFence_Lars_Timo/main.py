@@ -17,7 +17,7 @@ def main(argv):
     visitor = QLVisitorHelper()
 
     ast = visitor.visit(tree)
-    # print ast
+    print ast
 
     builder = GuiBuilder(ast)
     # gui = Gui()

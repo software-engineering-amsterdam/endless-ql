@@ -83,7 +83,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
 	@Override
 	public Void visit(FormStmt form) {
-		form.blockStmt.accept(this);
+		form.visitBlockStmt(this);
 		return null;
 	}
 
@@ -103,9 +103,9 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
 	@Override
 	public Void visit(ComputedQuestionStmt stmt) {
-		stmt.expression.accept(this);
+		stmt.visitExpr(this);
 		
-		if (stmt.expression.getType() != null && stmt.getType() != stmt.expression.getType()) {
+		if (stmt.getExprType() != null && stmt.getType() != stmt.getExprType()) {
 			this.errorHandler.addTypeError(stmt);
 		}
 		

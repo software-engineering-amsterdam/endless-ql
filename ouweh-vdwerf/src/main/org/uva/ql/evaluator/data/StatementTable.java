@@ -1,7 +1,9 @@
 package org.uva.ql.evaluator.data;
 
+
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.Conditional;
+import org.uva.ql.ast.expression.Expression;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedHashMap;
@@ -26,8 +28,8 @@ public class StatementTable {
         return new ArrayList<>(questions.values());
     }
 
-    public void addConditional(String name, Conditional expression) {
-        conditions.put(name, expression);
+    public void addConditional(String name, Conditional conditional) {
+        conditions.put(name, conditional);
     }
 
     public boolean questionIsConditional(String questionName) {

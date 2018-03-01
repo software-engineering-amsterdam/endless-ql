@@ -1,6 +1,6 @@
 grammar QL;
 
-head           : FORM IDENTIFIER block EOF;
+head            : FORM IDENTIFIER block EOF;
 block           : '{' statement+ '}';
 statement       : condition | question;
 condition       : IF '(' expression ')' block;
@@ -24,8 +24,7 @@ constant        : INTEGER                                           # integerCon
                 | STRING                                            # stringConstant
                 | IDENTIFIER                                        # identifierConstant
                 | MONEY                                             # moneyConstant
-                | DATE                                              # dateConstant
-                ;
+                | DATE                                              # dateConstant;
 
 type            : BOOLEANTYPE | STRINGTYPE | MONEYTYPE | INTEGERTYPE | DATETYPE | DECIMALTYPE;
 

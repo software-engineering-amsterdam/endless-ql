@@ -1,6 +1,8 @@
 package ql.ast.expression;
 
-import ql.evaluator.value.Value;
+import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.UndefinedLiteral;
+import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class Positive extends UnaryOperator {
@@ -18,9 +20,14 @@ public class Positive extends UnaryOperator {
     public String getOperator() {
         return "+";
     }
+    
+    @Override
+    public Type getType() {
+        return operand.getType().parse(new UndefinedLiteral()).positive().getType();
+    }
 
     @Override
-    public Value<?> evaluate() {
+    public Literal<?> evaluate() {
         return operand.evaluate().positive();
     }
 }

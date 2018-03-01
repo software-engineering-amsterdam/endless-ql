@@ -1,5 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.node;
 
+import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
+
 import java.util.List;
 
 public class IfBlock extends BlockElement {
@@ -26,5 +28,16 @@ public class IfBlock extends BlockElement {
 
     public void setFormElements(List<FormElement> formElements) {
         this.formElements = formElements;
+    }
+
+    @Override
+    public void acceptVisitor(NodeVisitor visitor) {
+        expression.acceptVisitor(visitor);
+
+        for (FormElement formElement : formElements) {
+            formElement.acceptVisitor(visitor);
+        }
+
+        visitor.visitIfBlock(this);
     }
 }

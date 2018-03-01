@@ -1,5 +1,5 @@
 from AST.base_node import BaseNode
-from PyQt5.QtWidgets import QLabel, QLineEdit
+from placeholder_name_object.question import Question
 
 
 class QuestionNode(BaseNode):
@@ -26,6 +26,5 @@ class QuestionNode(BaseNode):
     def answer(self):
         return self.__answer
 
-    def pyqt5_render(self, layout):
-        layout.addRow(QLabel(self.label), self.answer_type.pyqt5_default_widget())
-
+    def to_question(self, show):
+        return Question(self.label, self.identifier, self.answer_type, self.answer, show)

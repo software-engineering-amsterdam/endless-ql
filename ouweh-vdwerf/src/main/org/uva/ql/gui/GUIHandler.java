@@ -9,21 +9,42 @@ import org.uva.ql.gui.widgets.QuestionWidget;
 
 public class GUIHandler {
 
+    private JFrame frame;
+    private FormEvaluator formEvaluator;
+    private QuestionChangeListener questionChangeListener;
+
     public GUIHandler(FormEvaluator formEvaluator){
-        JFrame frame = new JFrame();
+        this.formEvaluator = formEvaluator;
+        this.questionChangeListener = new QuestionChangeListener(this);
+
+        frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500,  300);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        generateGUI();
+    }
 
-        WidgetFactory widgetFactory = new WidgetFactory();
+    public void onQuestionChange(String id, Value value) {
+        formEvaluator.addOrUpdateValue(id, value);
+        generateGUI();
+    }
+
+    private void generateGUI(){
+        frame.getContentPane().removeAll();
+
+        WidgetFactory widgetFactory = new WidgetFactory(this.questionChangeListener);
 
         for(Question question: formEvaluator.getQuestionsAsList()){
             Value value = formEvaluator.getValueById(question.getName());
             QuestionWidget widget = widgetFactory.makeWidget(question, value);
+
+            if(formEvaluator.questionHasCondition(question)){
+
+                widget.setVisible(true);
+            }
             frame.add(widget);
         }
         frame.setVisible(true);
-
     }
 
 }

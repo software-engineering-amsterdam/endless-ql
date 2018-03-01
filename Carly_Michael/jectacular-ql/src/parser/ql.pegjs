@@ -8,7 +8,7 @@ form            = ws "form" ws name:identifier ws "{" ws
 
 statement       = exprQuestion / q / ifElseStatement / ifStatement
 
-ifStatement     = ws comment* ws "if" ws "(" ws condition:identifier ws ")" ws "{" ws
+ifStatement     = ws comment* ws "if" ws "(" ws condition:orExpression ws ")" ws "{" ws
                   statements:statement* ws
                   ws comment* ws
                   "}" ws
@@ -16,7 +16,7 @@ ifStatement     = ws comment* ws "if" ws "(" ws condition:identifier ws ")" ws "
                     return new If(condition, statements, [], location());
                   }
 
-ifElseStatement = ws comment* ws "if" ws "(" ws condition:identifier ws ")" ws "{" ws
+ifElseStatement = ws comment* ws "if" ws "(" ws condition:orExpression ws ")" ws "{" ws
                   statements:statement* ws
                   ws comment* ws
                   "}" ws "else" ws "{" ws
@@ -107,8 +107,7 @@ type            = booleanType /
                   stringType /
                   integerType /
                   dateType /
-                  decimalType /
-                  moneyType
+                  decimalType
 
 // low-level
 
@@ -133,4 +132,3 @@ stringType      = "string" { return QuestionType.STRING; }
 integerType     = "integer" { return QuestionType.INT; }
 dateType        = "date" { return QuestionType.DATE; }
 decimalType     = "decimal" { return QuestionType.DECIMAL; }
-moneyType       = "money" { return QuestionType.MONEY; }

@@ -38,6 +38,14 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
         return this.statementTable.getQuestionsAsList();
     }
 
+    public void addOrUpdateValue(String id, Value value){
+        this.valueTable.addOrUpdateValue(id, value);
+    }
+
+    public boolean questionHasCondition(Question question){
+        return this.statementTable.questionIsConditional(question.toString());
+    }
+
     public Value getValueById(String id) {
         return this.valueTable.getValueByID(id);
     }
@@ -52,11 +60,11 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
     @Override
     public Void visit(Conditional conditional, String context) {
         for (Statement statement : conditional.getIfSide()) {
-            this.statementTable.addConditional(conditional.toString(), conditional);
+            this.statementTable.addConditional(statement.toString(), conditional);
             statement.accept(this, context);
         }
         for (Statement statement : conditional.getElseSide()) {
-            this.statementTable.addConditional(conditional.toString(), conditional);
+            this.statementTable.addConditional(statement.toString(), conditional);
             statement.accept(this, context);
         }
         return null;

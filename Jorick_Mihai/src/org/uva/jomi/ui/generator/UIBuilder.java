@@ -69,7 +69,7 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 
 	@Override
 	public BaseElement visit(QuestionStmt questionStmt) {
-		return new QuestionElement(questionStmt.identifier.getName(), questionStmt.label, questionStmt.type.getName());
+		return new QuestionElement(questionStmt.getIdentifierName(), questionStmt.getLabel(), questionStmt.getType().toString());
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 		// TODO - replace comment - here we can interpret the expression;
 		Object value = questionStmt.visitExpr(interpreterVisitor);
 		
-		return new ComputedQuestionElement(questionStmt.identifier.getName(), questionStmt.label, questionStmt.type.getName(), questionStmt.getExp());
+		return new ComputedQuestionElement(questionStmt.getIdentifierName(), questionStmt.getLabel(), questionStmt.getType().toString(), questionStmt.getExp());
 	}
 
 	@Override

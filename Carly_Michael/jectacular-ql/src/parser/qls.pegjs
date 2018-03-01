@@ -39,11 +39,9 @@ type            = booleanType /
                   stringType /
                   integerType /
                   dateType /
-                  decimalType /
-                  moneyType
+                  decimalType
 
 widgetType      = radioWidgetType /
-                  moneyWidgetType /
                   checkboxWidgetType /
                   spinboxWidgetType
 
@@ -61,9 +59,7 @@ stringType      = "string" { return QuestionType.STRING; }
 integerType     = "integer" { return QuestionType.INT; }
 dateType        = "date" { return QuestionType.DATE; }
 decimalType     = "decimal" { return QuestionType.DECIMAL; }
-moneyType       = "money" { return QuestionType.MONEY; }
 
 radioWidgetType     = "radio" { return WidgetType.RADIO; }
-moneyWidgetType     = "money" { return WidgetType.MONEY; }
 checkboxWidgetType  = "checkbox" { return WidgetType.CHECKBOX; }
 spinboxWidgetType   = "spinbox" { return WidgetType.SPINBOX; }

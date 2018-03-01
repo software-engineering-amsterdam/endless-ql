@@ -1,37 +1,40 @@
 package Application;
 
-import java.io.InputStream;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import java.io.File;
+
+
 import ParseObjects.Question;
 import ParseObjects.Condition;
 import ParseObjects.Form;
-import antlrGen.QLParser;
-import antlrGen.QLLexer;
-import Visitor.FormVisitor;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 
-public class Main {
 
-    public Form parseForm(InputStream stream){
-        try{
-            QLLexer lexer = new QLLexer(CharStreams.fromStream(stream));
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            QLParser parser = new QLParser(tokens);
-            //Trees.inspect(parser.head(), parser); Debug parse tree, change for later viewing
+public class Main extends Application{
 
-            FormVisitor visitor = new FormVisitor();
-            return visitor.visit(parser.head());
-        }catch(Exception e){
-            System.out.println(e);
+    @Override
+    public void start(Stage stage){
+       Form form = buildQLForm();
 
-            return null;
-        }
+       if(form == null) {
+           Platform.exit();
+       }
     }
 
-    public void start(){
+
+    public Form buildQLForm(){
         String file = "example.ql";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(file);
-        Form form = parseForm(stream);
+        
+        Parser Parser = new Parser();
+        Form form = Parser.parseInputToForm(file);
+
 
         //Debug form
         for(Question question : form.getBlock().getQuestions()){
@@ -43,9 +46,11 @@ public class Main {
                 System.out.println(question.getIdentifier()+ " : " + question.getText()+" : "+ question.getType());
             }
         }
+
+        return form;
     }
 
     public static void main(String[] args) {
-        new Main().start();
+        launch(args);
     }
 }

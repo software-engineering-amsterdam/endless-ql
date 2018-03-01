@@ -112,9 +112,8 @@ public class ExpressionEvaluator implements ExpressionVisitor<Value, String> {
     }
 
     @Override
-    //todo
     public Value visit(Parameter parameter, String context) {
-        return null;
+        return this.valueTable.getValueByID(parameter.getID());
     }
 
     @Override

@@ -4,6 +4,7 @@ import javax.swing.*;
 import org.uva.ql.ast.*;
 import org.uva.ql.evaluator.ExpressionEvaluator;
 import org.uva.ql.evaluator.FormEvaluator;
+import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.Value;
 import org.uva.ql.gui.widgets.QuestionWidget;
 
@@ -43,9 +44,9 @@ public class GUIHandler {
             QuestionWidget widget = widgetFactory.makeWidget(question, value);
 
             if(formEvaluator.questionHasCondition(question)){
-                //this.expressionEvaluator.evaluateExpression(question.getName(), this.formEvaluator.getConditionById(question.getName()), this.formEvaluator.getValueTable());
+                BooleanValue expressionValue =  (BooleanValue) this.expressionEvaluator.evaluateExpression(question.getName(), this.formEvaluator.getConditionById(question.toString()), this.formEvaluator.getValueTable());
 
-                widget.setVisible(true);
+                widget.setVisible(expressionValue.getValue());
             }
             frame.add(widget);
         }

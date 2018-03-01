@@ -1,6 +1,7 @@
 package org.uva.ql.evaluator;
 
 import org.uva.ql.ast.*;
+import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.ast.type.MoneyType;
@@ -46,7 +47,7 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
         this.valueTable.addOrUpdateValue(id, value);
     }
 
-    public Conditional getConditionById(String id){
+    public Expression getConditionById(String id){
         return this.statementTable.getConditionByQuestionID(id);
     }
 
@@ -77,11 +78,11 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
     @Override
     public Void visit(Conditional conditional, String context) {
         for (Statement statement : conditional.getIfSide()) {
-            this.statementTable.addConditional(statement.toString(), conditional);
+            this.statementTable.addConditional(statement.toString(), conditional.getCondition());
             statement.accept(this, context);
         }
         for (Statement statement : conditional.getElseSide()) {
-            this.statementTable.addConditional(statement.toString(), conditional);
+            this.statementTable.addConditional(statement.toString(), conditional.getCondition());
             statement.accept(this, context);
         }
         return null;

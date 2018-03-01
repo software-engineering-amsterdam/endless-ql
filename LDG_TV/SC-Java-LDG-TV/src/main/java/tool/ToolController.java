@@ -1,4 +1,4 @@
-package tool.controller;
+package tool;
 
 import antlr.FormLexer;
 import antlr.FormParser;
@@ -8,7 +8,6 @@ import domain.Utilities;
 import domain.model.Question;
 import domain.model.variable.Variable;
 import domain.model.visitor.VariableVisitor;
-import domain.model.visitor.Visitor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

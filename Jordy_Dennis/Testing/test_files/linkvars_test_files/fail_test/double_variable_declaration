@@ -1,8 +1,7 @@
-form taxOfficeExample
-{
-  "Did you sell a house in 2010?"
-    hasSoldHouse: boolean
-  if(b){
-  }
+form taxOfficeExample {
+	"Did you sell a house in 2010?"
+		a: int
 
+	"Did you sell a house in 2012?"
+		a: string
 }

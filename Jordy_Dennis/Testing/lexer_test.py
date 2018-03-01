@@ -19,7 +19,6 @@ class LexerTest(unittest.TestCase):
             lexer_str = getLexerFromString(inputText)
             self.assertEqual(lexer_str, outputText, filename)
 
-
     def testErrorFiles(self):
         path = 'Testing/lexer_test_files/fail_test'
         for filename in os.listdir(path):
@@ -28,6 +27,7 @@ class LexerTest(unittest.TestCase):
 
             self.assertRaises(Exception, getLexerFromString, inputText, filename)
             file_object.close()
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -30,7 +30,6 @@ literal returns [Literal result] // atom
    | STRING { $result = add($ctx, new StringLiteral(String.valueOf($STRING))); }
    | DATE { $result = add($ctx, new DateLiteral(Date.valueOf($DATE.text))); }
    | DECIMAL { $result = add($ctx, new DecimalLiteral(Double.valueOf($DECIMAL))); }
-  // | IDENT { $result = add($ctx, new Identifier($IDENT.text)); }
   ;
 
 identifier returns [Identifier result]
@@ -97,9 +96,6 @@ block  returns [Block result] // block of multiple statements
 form returns [Form result] // form
    : ('Form'|'form') identifier block { $result = add($ctx, new Form($identifier.result, $block.result)); }
   ;
-
-// TODO check whether it is relevant to QL
-//questionnaire: ('Questionnaire'|'questionnaire') identifier '{' form* '}';
 
 /*^^^^^^^^^^^^^^^^^^^^^^^^*
 	Lexer Rules - Tokens

@@ -5,9 +5,10 @@ class LexerTest(unittest.TestCase):
     def testGoodFilesLexer(self):
         path = 'Testing/test_files/lexer_test_files/correct_test'
         for filename in os.listdir(path):
-            print(filename)
             inputText, outputText = getInputOutput(path, filename)
+            blockPrint()
             lexer_str = getLexerFromString(inputText)
+            enablePrint()
             self.assertEqual(lexer_str, outputText, filename)
 
     def testErrorFilesLexer(self):
@@ -15,9 +16,11 @@ class LexerTest(unittest.TestCase):
         for filename in os.listdir(path):
             file_object = open(path + "/" + filename, "r")
             inputText = file_object.read()
-
-            self.assertRaises(Exception, getLexerFromString, inputText, filename)
             file_object.close()
+            blockPrint()
+            self.assertRaises(Exception, getLexerFromString, inputText, filename)
+            enablePrint()
+
 
 
 if __name__ == '__main__':

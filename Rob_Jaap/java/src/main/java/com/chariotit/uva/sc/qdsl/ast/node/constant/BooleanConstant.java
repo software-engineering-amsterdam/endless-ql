@@ -7,7 +7,8 @@ public class BooleanConstant extends Constant {
 
     private Boolean value;
 
-    public BooleanConstant(Boolean value) {
+    public BooleanConstant(Boolean value, Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
         this.value = value;
     }
 

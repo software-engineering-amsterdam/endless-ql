@@ -1,12 +1,12 @@
 import unittest
-from pyql.ast.expression import expressions
-from pyql.ast import expression_visitor
+from pyql.ast.expression import expressions, literals
+from pyql.static_analysis import expression_evaluator
 
 
 class TestExpressionEvaluator(unittest.TestCase):
 
     def setUp(self):
-        self.expression_visitor_test = expression_visitor.ExpressionEvaluator()
+        self.expression_visitor_test = expression_evaluator.ExpressionEvaluator()
 
     def test_visit_expression(self):
         self.fail()
@@ -25,10 +25,10 @@ class TestExpressionEvaluator(unittest.TestCase):
 
         for (left, right, result) in test_cases:
             test_multiplication = expressions.Multiplication("",
-                                                             expressions.IntegerLiteral("", left),
-                                                             expressions.IntegerLiteral("", right))
+                                                             literals.IntegerLiteral("", left),
+                                                             literals.IntegerLiteral("", right))
             multiplication_result = test_multiplication.accept(self.expression_visitor_test)
-            self.assertEqual(result, multiplication_result)
+            self.assertEqual(literals.IntegerLiteral("", result), multiplication_result)
 
     def test_visit_division(self):
         self.fail()

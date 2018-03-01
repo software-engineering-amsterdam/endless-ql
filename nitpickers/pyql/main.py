@@ -6,12 +6,14 @@ from pyql.ast.parse_tree_visitor import ParseTreeVisitor
 
 from pyql.static_analysis.type_check import TypeChecker
 from pyql.static_analysis.expression_evaluator import ExpressionEvaluator
+
 from pyql.static_analysis.symbol_table import *
 
 from pyql.ast.expression.expressions import *
 from pyql.ast.expression.literals import *
 
 import decimal
+
 
 def main(argv):
     input = FileStream(argv[1])
@@ -26,7 +28,6 @@ def main(argv):
     print(c)
 
     ss = SymbolTableBuilder().build(c)
-
 
     cn = Multiplication("", IntegerLiteral("", 3), IntegerLiteral("", 7))
     e = ExpressionEvaluator()
@@ -57,7 +58,6 @@ def main(argv):
     # e = ExpressionEvaluator()
     # ee = cn.accept(e)
     # print(ee)
-
 
     vv = TypeChecker()
     c.accept(vv)

@@ -35,16 +35,18 @@ object TypeChecker extends Logging {
     qLForm
   }
 
-  // TODO get rid of is instance of
   def checkNonBooleanPredicates(qLForm: QLForm): QLForm = {
     logger.info("Phase 3 - Checking predicates that are not of the type boolean ...")
     val conditionals = Statement.collectAllConditionals(qLForm.statements)
-    val nonBooleanPredicates = conditionals.collect {
-      case c if !Evaluator.evaluateExpression(c.predicate, qLForm.symbolTable).isInstanceOf[BooleanAnswer] => c
+    val conditionalsWithNonBooleanPredicates = conditionals filter { conditional =>
+      Evaluator.evaluateExpression(conditional.predicate, qLForm.symbolTable) match {
+        case _: BooleanAnswer => false
+        case _                => true
+      }
     }
 
-    if (nonBooleanPredicates.nonEmpty) {
-      throw new IllegalArgumentException(s"Undefined references $nonBooleanPredicates")
+    if (conditionalsWithNonBooleanPredicates.nonEmpty) {
+      throw new IllegalArgumentException(s"Undefined references $conditionalsWithNonBooleanPredicates")
     }
 
     qLForm

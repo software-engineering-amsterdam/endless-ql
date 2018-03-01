@@ -30,7 +30,7 @@ public class Main {
 
     public void start(){
         String file = "example.ql";
-        InputStream stream = getClass().getResourceAsStream(file);
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(file);
         Form form = parseForm(stream);
 
         //Debug form

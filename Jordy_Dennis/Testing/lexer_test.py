@@ -1,15 +1,4 @@
-import unittest
-import os
-import sys
 from test_methods import *
-
-Path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, Path + '/../')
-
-from parser import *
-from antlr4.InputStream import InputStream
-from LexParser.QLGrammarLexer import QLGrammarLexer
-from LexParser.QLGrammarParser import QLGrammarParser
 
 class LexerTest(unittest.TestCase):
     def testGoodFiles(self):

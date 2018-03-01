@@ -3,7 +3,7 @@ package org.uva.sea.ql;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Errors {
+public class Errors extends Throwable {
     private List<String> errors = new ArrayList<>();
 
     public void addError(String error) {
@@ -16,5 +16,9 @@ public class Errors {
 
     public List<String> getErrors() {
         return errors;
+    }
+
+    public void clear() {
+        this.errors.clear();
     }
 }

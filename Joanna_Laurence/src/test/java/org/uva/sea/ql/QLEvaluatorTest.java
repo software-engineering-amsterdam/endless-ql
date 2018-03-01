@@ -1,21 +1,15 @@
 package org.uva.sea.ql;
 
 import junit.framework.TestCase;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.uva.sea.ql.DataObject.QuestionData;
+import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
-import org.uva.sea.ql.parser.NodeType;
-import org.uva.sea.ql.parser.elements.Form;
-import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.value.ErrorValue;
 import org.uva.sea.ql.value.Value;
-import org.uva.sea.ql.visitor.BaseVisitor;
 
 import java.io.*;
 import java.util.*;

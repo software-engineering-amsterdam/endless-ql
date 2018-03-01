@@ -17,7 +17,7 @@ public class QLVariableInfo extends BaseVisitor {
 
     private Map<String, Question> variableMap = new HashMap<String, Question>();
 
-    private Boolean error = false;
+    private Errors errors = new Errors();
 
     /**
      *
@@ -25,8 +25,7 @@ public class QLVariableInfo extends BaseVisitor {
      * @param node
      */
     private void error(String error, ASTNode node) {
-        System.err.println(error + " on line:  " + node.getLine() + " column: " + node.getColumn());
-        this.error = true;
+        this.errors.addError(error + " on line:  " + node.getLine() + " column: " + node.getColumn());
     }
 
     /**
@@ -34,9 +33,11 @@ public class QLVariableInfo extends BaseVisitor {
      * @param node The root node of the AST that needs to be checked
      * @return If an error occurred
      */
-    public boolean addVariableInformation(Form node) {
+    public Errors addVariableInformation(Form node) {
+        this.errors.clear();
+
         node.accept(this);
-        return !error;
+        return this.errors;
     }
 
     /**

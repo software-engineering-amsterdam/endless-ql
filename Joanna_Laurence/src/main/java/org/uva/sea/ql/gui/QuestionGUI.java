@@ -4,7 +4,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import org.uva.sea.ql.DataObject.QuestionData;
+import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.value.Value;
 

@@ -2,7 +2,7 @@ package org.uva.sea.ql;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
-import org.uva.sea.ql.DataObject.QuestionData;
+import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.evaluate.ExpressionEvaluator;
 import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
@@ -27,7 +27,7 @@ public class QLFormGenerator {
      * @param symbolTable The current state of the program
      * @return List of questions that should be displayed
      */
-    public List<QuestionData> generate(String guiSpecification, SymbolTable symbolTable) throws IOException {
+    public List<QuestionData> generate(String guiSpecification, SymbolTable symbolTable) throws IOException, Errors {
         List<Question> questions = this.getQuestions(guiSpecification, symbolTable);
         HashSet<String> existingQuestionNames = new HashSet<>();
 
@@ -66,19 +66,14 @@ public class QLFormGenerator {
      * Generate the GUI
      * @param guiSpecification Specification of the GUI
      */
-    private List<Question> getQuestions(String guiSpecification, SymbolTable symbolTable) throws IOException {
-        try {
-            QLCompiler compiler = new QLCompiler();
-            Form rootNode = compiler.compileScriptFile(toCharStream(guiSpecification));
-            if(rootNode == null)
-                return new ArrayList<>();
+    private List<Question> getQuestions(String guiSpecification, SymbolTable symbolTable) throws IOException, Errors {
+        QLCompiler compiler = new QLCompiler();
+        Form rootNode = compiler.compileScriptFile(toCharStream(guiSpecification));
+        if(rootNode == null)
+            return new ArrayList<>();
 
-            FormEvaluator evaluate = new FormEvaluator();
-            return evaluate.evaluate(rootNode, symbolTable);
-        } catch (IOException e) {
-            System.err.println("The gui specification cannot be found: " + guiSpecification);
-            throw e;
-        }
+        FormEvaluator evaluate = new FormEvaluator();
+        return evaluate.evaluate(rootNode, symbolTable);
     }
 
     /**

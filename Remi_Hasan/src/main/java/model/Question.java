@@ -12,7 +12,7 @@ public class Question {
     public final String name;
     public final String text;
     public final Expression answer;
-    private final Expression condition;
+    public final Expression condition;
 
     public Question(ReturnType type, String name, String text, Expression answer, Expression condition) {
         this.type = type;
@@ -24,6 +24,21 @@ public class Question {
 
     public boolean isVisible() {
         return this.condition.evaluate().getBooleanValue();
+    }
+
+    public void typeCheck() {
+        if(this.answer.getReturnType() != ReturnType.UNDEFINED &&
+                (this.type == ReturnType.INTEGER || this.type == ReturnType.DECIMAL || this.type == ReturnType.MONEY)) {
+            if(this.answer.getReturnType() != ReturnType.NUMBER) {
+                throw new IllegalArgumentException("Cannot assign '"
+                        + this.answer.getReturnType() + "' to '" + this.type + "'");
+            }
+        } else if(this.answer.getReturnType() != ReturnType.UNDEFINED) {
+            if(this.answer.getReturnType() != this.type) {
+                throw new IllegalArgumentException("Cannot assign '"
+                        + this.answer.getReturnType() + "' to '" + this.type + "'");
+            }
+        }
     }
 
     public String evaluateAnswer() {

@@ -31,6 +31,8 @@ class AssignmentNode:
     # We also add the assignment node, so we can set the varNode of this assignment later, to be equal
     # to a varNode which could be used elsewhere
     def linkVars(self, varDict):
+        # call for children
+        self.expression.linkVars(varDict)
         # Adding new entry
         varname = self.varNode.getVarname()
         line = self.varNode.getLine()
@@ -43,9 +45,6 @@ class AssignmentNode:
                             "assign": self
                         }
             varDict[varname] = new_entry
-
-        # call for children
-        self.expression.linkVars(varDict)
 
 
     def __repr__(self):

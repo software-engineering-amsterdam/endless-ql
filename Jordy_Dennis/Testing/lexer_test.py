@@ -5,6 +5,7 @@ class LexerTest(unittest.TestCase):
     def testGoodFilesLexer(self):
         path = 'Testing/test_files/lexer_test_files/correct_test'
         for filename in os.listdir(path):
+            print(filename)
             inputText, outputText = getInputOutput(path, filename)
             lexer_str = getLexerFromString(inputText)
             self.assertEqual(lexer_str, outputText, filename)

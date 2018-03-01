@@ -5,7 +5,7 @@ All of the types are comparable with boolean operators:
 If the variable is 0 or unset, the variable will be converted to a boolean False, True otherwise (just like python does it)
 
 Only numerical values will be accepted for comparison operations such as >, <, <=, etc, Mathematical operations are can also only
-be performed on numbers (so no + for strings), the exception to this rule is the != and ==, which can be applied to any child as long 
+be performed on numbers (so no + for strings), the exception to this rule is the != and ==, which can be applied to any child as long
 as they have the same type
 
 An error will be thrown if the types are incomparible
@@ -50,7 +50,7 @@ class BinaryNode:
                 throwError(errorstring)
 
 
-        # Boolean operators can always be compared 
+        # Boolean operators can always be compared
         # (unset or set is converted to True and False) so we do not need a function to check the types serperately
         elif(self.op in self.boolOps):
             return bool

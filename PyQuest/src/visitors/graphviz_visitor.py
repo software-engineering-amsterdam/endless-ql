@@ -67,10 +67,10 @@ class ASTVisitor(object):
 
     @visitor.when(QuestionNode)
     def visit(self, node):
-        previous_parent = self.insert_graph_node('question: {}\ntype: {}'.format(node.identifier, node.value_type))
+        previous_parent = self.insert_graph_node('question: {}\ntype: {}'.format(node.identifier, node.answer_type))
 
-        if node.expression:
-            node.expression.accept(self)
+        if node.answer:
+            node.answer.accept(self)
 
         self.parent = previous_parent
 

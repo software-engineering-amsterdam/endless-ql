@@ -26,6 +26,20 @@ public class Question {
         return this.condition.evaluate().getBooleanValue();
     }
 
+    public void typeCheck() {
+        if(this.type == ReturnType.INTEGER || this.type == ReturnType.DECIMAL || this.type == ReturnType.MONEY) {
+            if(this.answer.getReturnType() != ReturnType.NUMBER) {
+                throw new IllegalArgumentException("Cannot assign '"
+                        + this.answer.getReturnType() + "' to '" + this.type + "'");
+            }
+        } else {
+            if(this.answer.getReturnType() != this.type) {
+                throw new IllegalArgumentException("Cannot assign '"
+                        + this.answer.getReturnType() + "' to '" + this.type + "'");
+            }
+        }
+    }
+
     public String evaluateAnswer() {
         ExpressionVariable evaluated = this.answer.evaluate();
 

@@ -10,9 +10,12 @@ public class TypeChecker {
 
     public void typeCheck() {
         for(Question question : form.questions) {
-            System.out.println(question.condition);
+            // Type check condition and answer expression
             question.condition.typeCheck();
             question.answer.typeCheck();
+
+            // Type check question default value assignment
+            question.typeCheck();
         }
     }
 

@@ -1,5 +1,5 @@
 from AST.types.type import Type
-from PyQt5.QtWidgets import QLineEdit
+from PyQt5.QtWidgets import QDoubleSpinBox
 
 
 class TypeMoney(Type):
@@ -12,4 +12,4 @@ class TypeMoney(Type):
 
     @staticmethod
     def pyqt5_default_widget():
-        return QLineEdit()
+        return QDoubleSpinBox()

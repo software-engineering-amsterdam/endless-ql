@@ -3,7 +3,8 @@ from antlr4 import *
 from antlr_files_2.QLLexer import QLLexer
 from antlr_files_2.QLParser import QLParser
 from antlr_files_2.QLVisitor import QLVisitor
-from Gui import Gui
+from QLVisitorHelper import QLVisitorHelper
+from GuiBuilder import GuiBuilder
 
 def main(argv):
     # input = FileStream(argv[1])
@@ -13,7 +14,7 @@ def main(argv):
 
     # tree = parser.form()
 
-    # visitor = QLVisitor()
+    # visitor = QLVisitorHelper()
 
     # ast = visitor.visit(tree)
     # print ast

@@ -61,7 +61,8 @@ class EvaluatorTest extends WordSpec {
                 BinaryOperation(Sub, Reference("revenue"), Reference("expenses")),
                 Some(IntAnswer(Some(200)))
               )
-            )
+            ),
+            Some(BooleanAnswer(Some(true)))
           )
         )
       )

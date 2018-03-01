@@ -23,7 +23,8 @@ case class Question(
     answer: Option[Answer] = None)
     extends Statement
 
-case class Conditional(predicate: Expression, thenStatements: Seq[Statement]) extends Statement
+case class Conditional(predicate: Expression, thenStatements: Seq[Statement], answer: Option[Answer] = None)
+    extends Statement
 
 object Statement {
 

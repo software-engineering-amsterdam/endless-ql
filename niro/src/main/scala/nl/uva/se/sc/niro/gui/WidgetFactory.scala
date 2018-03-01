@@ -34,7 +34,6 @@ object WidgetFactory {
 
   def makeBooleanField(question: Question, bool: Option[Boolean]): Parent = {
     val checkbox = new CheckBox()
-    checkbox.setOnAction(_ => println("Boolean changed"))
     EditableDecorator.makeEditable(checkbox, question, bool)
   }
   def makeTextField(question: Question, text: Option[String]): Parent = {
@@ -46,31 +45,26 @@ object WidgetFactory {
           textField.fireEvent(new ActionEvent(textField, textField))
         }
       })
-    textField.setOnAction(_ => println("Text changed"))
     EditableDecorator.makeEditable(textField, question, text)
   }
 
   def makeIntegerField(question: Question, value: Option[Int]): Parent = {
     val integerField = makeRegExField(INTEGER_MASK)
-    integerField.setOnAction(_ => println("Integer changed"))
     EditableDecorator.makeEditable(integerField, question, value)
   }
 
   def makeDecimalField(question: Question, value: Option[BigDecimal]): Parent = {
     val decimalField = makeRegExField(DECIMAL_MASK)
-    decimalField.setOnAction(_ => println("Decimal changed"))
     EditableDecorator.makeEditable(decimalField, question, value)
   }
 
   def makeMoneyField(question: Question, value: Option[String]): Parent = {
     val moneyField = makeRegExField(MONEY_MASK)
-    moneyField.setOnAction(_ => println("Amount changed"))
     EditableDecorator.makeEditable(moneyField, question, value)
   }
 
   def makeDateField(question: Question, value: Option[String]): Parent = {
     val dateField = new DatePicker()
-    dateField.setOnAction(_ => println("Date changed"))
     dateField.setConverter(new StringConverter[LocalDate] {
       override def toString(date: LocalDate): String = {
         if (date != null) DATE_FORMAT.format(date) else null
@@ -88,8 +82,8 @@ object WidgetFactory {
     * not valid it is rejected. If a valid text is entered and that is different from the previous value an
     * ActionEvent is fired.
     *
-    * @param validPattern
-    * @return
+    * @param validPattern defines valid text for the TextField
+    * @return a TextField that will respect the pattern when entering text.
     */
   protected def makeRegExField(validPattern: String): TextField = {
     // TODO Investigate textFormatterProperty, it could replace this whole construct!

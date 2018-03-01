@@ -29,8 +29,7 @@ public class QLFormController extends QLBaseController implements ModelUpdater {
     @Override
     public void updateModel(String questionId, Answer answer) {
         if (noUpdateInProgress()) {
-            QLForm evaluateQLForm = Evaluator.evaluateQLForm(this.form.save(questionId, answer));
-            updateGUI(evaluateQLForm);
+            updateGUI(Evaluator.evaluateQLForm(form.save(questionId, answer)));
         }
     }
 

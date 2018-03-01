@@ -1,5 +1,6 @@
 package nl.uva.se.sc.niro.model
 
+import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, IntAnswer }
 import nl.uva.se.sc.niro.model.Expressions.{ BinaryOperation, Reference }
 import org.scalatest.WordSpec
@@ -43,7 +44,44 @@ class QLFormTest extends WordSpec {
                 BinaryOperation(Sub, Reference("revenue"), Reference("expenses")),
                 None
               )
-            )
+            ),
+            None
+          )
+        )
+      )
+
+      assert(result == expected)
+    }
+
+  }
+
+  "Conditional must turn true" should {
+
+    "save" in {
+      val qLForm = QLForm(
+        formName = "ConditionMustTurnTrue",
+        statements = List(
+          Question("yesOrNo", "Yes or No", BooleanType, BooleanAnswer()),
+          Conditional(
+            predicate = Reference("yesOrNo"),
+            Seq(
+              Question("happy", "Are you happy", BooleanType, BooleanAnswer())
+            ))
+        )
+      )
+
+      val result = Evaluator.evaluateQLForm(qLForm.save("yesOrNo", BooleanAnswer(true)))
+
+      val expected = QLForm(
+        formName = "ConditionMustTurnTrue",
+        statements = List(
+          Question("yesOrNo", "Yes or No", BooleanType, BooleanAnswer(true), Some(BooleanAnswer(true))),
+          Conditional(
+            predicate = Reference("yesOrNo"),
+            Seq(
+              Question("happy", "Are you happy", BooleanType, BooleanAnswer(), Some(BooleanAnswer()))
+            ),
+            answer = Some(BooleanAnswer(true))
           )
         )
       )

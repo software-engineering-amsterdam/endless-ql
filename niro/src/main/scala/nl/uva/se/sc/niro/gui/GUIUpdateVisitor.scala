@@ -18,8 +18,8 @@ object GUIUpdateVisitor {
       case (control, statement) =>
         statement match {
           case Question(_, _, _, _, answer) => visitQuestion(control, answer)
-          case Conditional(predicate, thenStatements) => {
-            visitConditional(control, predicate)
+          case Conditional(_, thenStatements, answer) => {
+            visitConditional(control, answer)
             visit(HierarchyUtil.downcast(control), thenStatements, symbolTable)
           }
           case ErrorStatement() => ()
@@ -60,10 +60,13 @@ object GUIUpdateVisitor {
 
   }
 
-  def visitConditional(control: Node, predicate: Expression): Unit = {
+  def visitConditional(control: Node, predicate: Option[Answer]): Unit = {
     predicate match {
-      case BooleanAnswer(b) => b.foreach(control.asInstanceOf[GridPane].setVisible(_))
-      case _                => ()
+      case Some(BooleanAnswer(b)) => {
+        val bool = b.getOrElse(false)
+        control.asInstanceOf[GridPane].setVisible(bool)
+      }
+      case _ => ()
     }
   }
 

@@ -1,11 +1,8 @@
 package org.uva.ql.evaluator;
 
-import org.uva.ql.ast.Conditional;
-import org.uva.ql.ast.Question;
+import org.uva.ql.ast.*;
 import org.uva.ql.evaluator.data.ExpressionTable;
 import org.uva.ql.evaluator.data.StatementTable;
-import org.uva.ql.ast.Form;
-import org.uva.ql.ast.Statement;
 import org.uva.ql.visitor.StatementVisitor;
 
 public class FormEvaluator implements StatementVisitor<Void, String>{
@@ -33,6 +30,11 @@ public class FormEvaluator implements StatementVisitor<Void, String>{
     @Override
     public Void visit(Conditional conditional, String context) {
 
+        return null;
+    }
+
+    @Override
+    public Void visit(CalculatedQuestion question, String context) {
         return null;
     }
 }

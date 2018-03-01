@@ -63,7 +63,6 @@ object WidgetFactory {
   }
 
   def makeMoneyField(question: Question, value: Option[String]): Parent = {
-    // TODO Add decimal format with fixed decimals
     val moneyField = makeRegExField(MONEY_MASK)
     moneyField.setOnAction(_ => println("Amount changed"))
     EditableDecorator.makeEditable(moneyField, question, value)
@@ -90,7 +89,6 @@ object WidgetFactory {
     * ActionEvent is fired.
     *
     * @param validPattern
-    * @param value
     * @return
     */
   protected def makeRegExField(validPattern: String): TextField = {

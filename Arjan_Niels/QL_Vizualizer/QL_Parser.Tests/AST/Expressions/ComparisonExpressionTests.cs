@@ -12,7 +12,7 @@ namespace QL_Parser.Tests.AST.Expressions
         private readonly string _simpleComparisonFormRaw = "form testForm {" +
             "   if sellingPrice < buyingPrice { }" +
             "}";
-        private readonly string _moreComplicatedFormRaw = "form testForm {" +
+        private readonly string _invalidFormRaw = "form testForm {" +
            "   if sellingPrice < buyingPrice < sellingPrice { }" +
             "}";
 
@@ -33,6 +33,12 @@ namespace QL_Parser.Tests.AST.Expressions
             Assert.AreEqual("sellingPrice", left.ID);
             Assert.AreEqual(ComparisonOperator.LT, opr);
             Assert.AreEqual("buyingPrice", right.ID);
+        }
+
+        [TestMethod]
+        public void InvalidComparisonTest()
+        {
+            FormNode form = QLParserHelper.Parse(_invalidFormRaw);
         }
 
 

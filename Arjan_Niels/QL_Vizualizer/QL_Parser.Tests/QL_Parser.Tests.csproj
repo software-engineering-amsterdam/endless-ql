@@ -52,6 +52,7 @@
     <Compile Include="Analysis\Semantic\DuplicateVariableAnalyserTest.cs" />
     <Compile Include="AST\CommentTest.cs" />
     <Compile Include="AST\Expressions\ComparisonExpressionTests.cs" />
+    <Compile Include="AST\Expressions\LiteralTests.cs" />
     <Compile Include="AST\TreeConstructionTest.cs" />
     <Compile Include="AST\Expressions\LogicalExpressionTests.cs" />
     <Compile Include="AST\SymbolTableTests.cs" />

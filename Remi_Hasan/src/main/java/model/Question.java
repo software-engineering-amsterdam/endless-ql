@@ -2,15 +2,17 @@ package model;
 
 import expression.Expression;
 import expression.ReturnType;
+import expression.variable.ExpressionVariable;
 import expression.variable.ExpressionVariableBoolean;
+import expression.variable.ExpressionVariableUndefined;
 
-public class Question{
+public class Question {
 
     public final ReturnType type;
     public final String name;
     public final String text;
     public final Expression answer;
-    public final Expression condition;
+    private final Expression condition;
 
     public Question(ReturnType type, String name, String text, Expression answer, Expression condition) {
         this.type = type;
@@ -19,4 +21,32 @@ public class Question{
         this.answer = answer;
         this.condition = condition;
     }
+
+    public boolean isVisible() {
+        return this.condition.evaluate().getBooleanValue();
+    }
+
+    public String evaluateAnswer() {
+        ExpressionVariable evaluated = this.answer.evaluate();
+
+        // If undefined, display answer as empty
+        if(evaluated.getReturnType() == ReturnType.UNDEFINED) {
+            return "";
+        }
+
+        switch(this.type) {
+            case INTEGER:
+                return evaluated.getIntValue().toString();
+            case DECIMAL:
+                return evaluated.getDecimalValue().toString();
+            case MONEY:
+                return evaluated.getMoneyValue().toString();
+            case STRING:
+                return evaluated.getStringValue();
+            default:
+                return "";
+        }
+    }
+
+
 }

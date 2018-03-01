@@ -3,29 +3,29 @@ from PyQt5.QtWidgets import QLabel, QLineEdit
 
 
 class QuestionNode(BaseNode):
-    def __init__(self, line_number, question, label, value_type, expression):
+    def __init__(self, line_number, label, identifier, answer_type, answer):
         super(QuestionNode, self).__init__(line_number)
-        self.__question = question
         self.__label = label
-        self.__value_type = value_type
-        self.__expression = expression
-
-    @property
-    def question(self):
-        return self.__question
+        self.__identifier = identifier
+        self.__answer_type = answer_type
+        self.__answer = answer
 
     @property
     def label(self):
         return self.__label
 
     @property
-    def value_type(self):
-        return self.__value_type
+    def identifier(self):
+        return self.__identifier
 
     @property
-    def expression(self):
-        return self.__expression
+    def answer_type(self):
+        return self.__answer_type
+
+    @property
+    def answer(self):
+        return self.__answer
 
     def pyqt5_render(self, layout):
-        layout.addRow(QLabel(self.question), self.value_type.pyqt5_default_widget())
+        layout.addRow(QLabel(self.label), self.answer_type.pyqt5_default_widget())
 

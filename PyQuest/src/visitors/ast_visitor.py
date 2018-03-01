@@ -47,7 +47,7 @@ class ASTVisitor(object):
         for child in node.block:
             child.accept(self)
 
-        print("Found form node: " + node.label)
+        print("Found form node: " + node.identifier)
 
     @visitor.when(IfNode)
     def visit(self, node):
@@ -58,10 +58,10 @@ class ASTVisitor(object):
 
     @visitor.when(QuestionNode)
     def visit(self, node):
-        if node.expression:
-            node.expression.accept(self)
+        if node.answer:
+            node.answer.accept(self)
 
-        print("Found node: " + node.question)
+        print("Found node: " + node.label)
 
     # ExpressionNode will not be initialized directly
     @visitor.when(ExpressionNode)

@@ -70,11 +70,11 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 
 	@Override
 	public String visit(FormStmt stmt) {
-		return stmt.blockStmt.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.blockStmt.getId()) +
-				stmt.identifier.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId()) +
-				String.format("  %s [label=\"FormStmt\nName: %s\"]\n", stmt.getId(), stmt.identifier.token.getLexeme());
+		return stmt.visitBlockStmt(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.getBlockStmtId()) +
+				stmt.visitIndetifierExpr(this) +
+				String.format("  %s -> %s\n", stmt.getId(), stmt.getIndetifierExprId()) +
+				String.format("  %s [label=\"FormStmt\nName: %s\"]\n", stmt.getId(), stmt.getIdentifierName());
 	}
 
 	@Override
@@ -112,8 +112,8 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 				   stmt.type.getName());
 
 		// Visit the expression statement
-		header += stmt.expression.accept(this);
-		header += String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId());
+		header += stmt.visitExpr(this);
+		header += String.format("  %s -> %s\n", stmt.getId(), stmt.getExpId());
 
 		// Visit the identifier expression
 		header += stmt.identifier.accept(this);

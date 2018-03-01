@@ -40,7 +40,7 @@ public class VisitorCondition extends QLBaseVisitor<List<Question>> {
         }
 
         // Else block, so negate condition
-        Expression falseExpression = new ExpressionLogicalAnd(this.condition, new ExpressionUnaryNot(expression));
+        Expression falseExpression = new ExpressionLogicalAnd(new ExpressionUnaryNot(expression), this.condition);
 
         VisitorStatement visitorStatementFalse = new VisitorStatement(falseExpression);
         if(ctx.conditionFalseBlock != null){

@@ -1,6 +1,11 @@
 package tool;
 
+import antlr.FormLexer;
+import antlr.FormParser;
+import domain.FormData;
+import domain.FormNode;
 import domain.Utilities;
+import domain.model.Question;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,11 +13,20 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import loader.QLLoader;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.atn.ATNConfigSet;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.*;
 import java.net.URL;
+import java.util.BitSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ToolController implements Initializable {
 
@@ -35,10 +49,30 @@ public class ToolController implements Initializable {
      * @param event that kicked of the invocation
      */
     public void generateQuestionnaire(ActionEvent event) {
-        QuestionRow row1 = new QuestionRow("Some long question that needs to be answered?", new TextField());
-        QuestionRow row2 = new QuestionRow("Some other question that needs to be answered?", new CheckBox());
+        String qlSource = taSourceCode.getText();
 
-        lvQuestionnaire.getItems().addAll(row1, row2);
+        if(qlSource.isEmpty()){
+            showAlertBox("Please import or add QL code");
+            return;
+        }
+
+        CharStream stream = CharStreams.fromString(qlSource);
+        FormLexer lexer = new FormLexer(stream);
+
+        FormParser parser = new FormParser(new CommonTokenStream(lexer));
+
+        FormParser.FormBuilderContext tree = parser.formBuilder();
+        QLLoader loader = new QLLoader();
+        ParseTreeWalker.DEFAULT.walk(loader, tree);
+
+        FormNode node = loader.getFormNode();
+        FormData data = node.getFormData();
+        List<QuestionRow> questions = data.getPlainQuestions()
+                                                .stream()
+                                                .map(q -> new QuestionRow(q.getLabel(), new TextField()))
+                                                .collect(Collectors.toList());
+
+        lvQuestionnaire.getItems().setAll(questions);
     }
 
     /**
@@ -64,6 +98,7 @@ public class ToolController implements Initializable {
 
     private void showAlertBox(String errorMessage){
         Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage);
+
         alert.showAndWait();
     }
 

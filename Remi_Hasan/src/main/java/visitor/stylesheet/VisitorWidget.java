@@ -6,6 +6,7 @@ import model.stylesheet.widgets.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class VisitorWidget extends QLSBaseVisitor<Widget> {
 
@@ -18,7 +19,7 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
     @Override
     public Widget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
         // TODO
-        ArrayList<String> options = new ArrayList<>();
+        List<String> options = new ArrayList<>();
         for(TerminalNode stringNode : ctx.STRING()){
             String option = stringNode.getText();
             // Strip quotes

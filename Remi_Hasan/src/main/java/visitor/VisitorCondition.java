@@ -8,6 +8,7 @@ import model.Condition;
 import model.Statement;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class VisitorCondition extends QLBaseVisitor<Condition> {
 
@@ -21,8 +22,8 @@ public class VisitorCondition extends QLBaseVisitor<Condition> {
         }
 
         // Visit all conditionTrueStatements in the conditional body
-        ArrayList<Statement> conditionTrueStatements = new ArrayList<>();
-        ArrayList<Statement> conditionFalseStatements = new ArrayList<>();
+        List<Statement> conditionTrueStatements = new ArrayList<>();
+        List<Statement> conditionFalseStatements = new ArrayList<>();
         VisitorStatement visitorStatement = new VisitorStatement();
 
         for (QLParser.StatementContext statementContext : ctx.conditionTrueBlock.statement()) {

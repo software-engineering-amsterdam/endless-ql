@@ -23,7 +23,7 @@ public class StatementVisitorNonBooleanConditions implements StatementVisitor {
     
     private void checkCondition(Expression condition) {
         
-        Type conditionType = condition.accept(new ExpressionVisitorType());
+        Type conditionType = condition.accept(new ExpressionVisitorInvalidOperands());
         
         if(!conditionType.isBoolean())
         {

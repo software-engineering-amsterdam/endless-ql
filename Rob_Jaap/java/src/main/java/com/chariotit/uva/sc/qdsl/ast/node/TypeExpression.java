@@ -1,5 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.node;
 
+import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
+
 public class TypeExpression extends AstNode {
 
     private Type type;
@@ -28,5 +30,13 @@ public class TypeExpression extends AstNode {
 
     public void setExpression(Expression expression) {
         this.expression = expression;
+    }
+
+    @Override
+    public void acceptVisitor(NodeVisitor visitor) {
+        type.acceptVisitor(visitor);
+        expression.acceptVisitor(visitor);
+
+        visitor.visitTypeExpression(this);
     }
 }

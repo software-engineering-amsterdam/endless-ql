@@ -11,11 +11,9 @@ public class DuplicatedLabelChecker implements Stmt.Visitor<Void> {
 	
 	private final WarningHandler warningHandler;
 	private final HashMap<String, List<String>> labelMap;
-	private boolean printWarnings;
 
 	public DuplicatedLabelChecker(boolean printWarnings) {
 		warningHandler = new WarningHandler(this.getClass().getSimpleName(), printWarnings);
-		this.printWarnings = printWarnings;
 		this.labelMap = new HashMap<>();
 	}
 	
@@ -44,9 +42,7 @@ public class DuplicatedLabelChecker implements Stmt.Visitor<Void> {
 					questionNames.add(stmt.getIdentifierName());
 				} else {
 					// Print out a warning.
-					if (this.printWarnings) {
-						this.warningHandler.addWarning(stmt, questionNames);
-					}
+					this.warningHandler.addWarning(stmt, questionNames);
 					
 					questionNames.add(stmt.getIdentifierName());
 				}

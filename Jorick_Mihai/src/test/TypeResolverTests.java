@@ -40,7 +40,7 @@ public class TypeResolverTests {
 		assertTrue(typeResolver.
 				getErrorAtIndex(4).equals("[TypeResolver] line: 6, column: 15: Type mismatch, expected decimal, but got integer"));
 		assertTrue(typeResolver.
-				getErrorAtIndex(5).equals("[TypeResolver] line: 7, column: 15: Type mismatch, desired type: integer, allowed types: boolean"));
+				getErrorAtIndex(5).equals("[TypeResolver] line: 7, column: 15: Type mismatch, requested type: integer, allowed types: boolean"));
 	}
 	
 	String testSource2 =

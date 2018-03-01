@@ -11,7 +11,7 @@ import org.uva.jomi.ql.tests.utilities.TestUtilities;
 
 public class DuplicatedLabelTests {
 	
-DuplicatedLabelChecker labelChecker = new DuplicatedLabelChecker(true);
+DuplicatedLabelChecker labelChecker = new DuplicatedLabelChecker(false);
 	
 	String testSource1 =
 			"form Form1 {\n"

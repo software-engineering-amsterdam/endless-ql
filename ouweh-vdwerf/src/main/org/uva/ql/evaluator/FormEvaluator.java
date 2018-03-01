@@ -34,12 +34,21 @@ public class FormEvaluator implements StatementVisitor<Void, String>{
 
     @Override
     public Void visit(Conditional conditional, String context) {
-
+        for (Statement statement : conditional.getIfSide()) {
+            this.statementTable.addConditional(conditional.toString(), conditional);
+            statement.accept(this, context);
+        }
+        for (Statement statement : conditional.getElseSide()) {
+            this.statementTable.addConditional(conditional.toString(), conditional);
+            statement.accept(this, context);
+        }
         return null;
     }
 
     @Override
     public Void visit(CalculatedQuestion question, String context) {
+        this.statementTable.addQuestion(question.getName(), question);
+        this.expressionTable.addExpression(question.getName(), question.getExpression());
         return null;
     }
 }

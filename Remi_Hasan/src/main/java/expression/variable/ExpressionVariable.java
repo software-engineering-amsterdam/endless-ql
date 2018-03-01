@@ -2,6 +2,8 @@ package expression.variable;
 
 import expression.Expression;
 
+import java.math.BigDecimal;
+
 public abstract class ExpressionVariable<T> extends Expression {
 
     T value;
@@ -10,12 +12,30 @@ public abstract class ExpressionVariable<T> extends Expression {
         this.value = value;
     }
 
-    public T getValue() {
-        return this.value;
+    public boolean getBooleanValue() {
+        throw new UnsupportedOperationException("Cannot get boolean value");
     }
 
+    public int getIntValue() {
+        throw new UnsupportedOperationException("Cannot get int value");
+    }
+
+    public double getDecimalValue() {
+        throw new UnsupportedOperationException("Cannot get decimal value");
+    }
+
+    public BigDecimal getMoneyValue() {
+        throw new UnsupportedOperationException("Cannot get money value");
+    }
+
+    public String getStringValue() {
+        throw new UnsupportedOperationException("Cannot get string value");
+    }
+
+    // TODO: getDateValue
+
     @Override
-    public ExpressionVariable<T> evaluate() {
+    public ExpressionVariable evaluate() {
         return this;
     }
 

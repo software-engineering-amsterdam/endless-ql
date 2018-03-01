@@ -3,7 +3,7 @@ package model;
 import expression.Expression;
 import expression.ReturnType;
 
-public class Question extends Statement {
+public class Question{
 
     public final ReturnType type;
     public final String name;
@@ -15,10 +15,5 @@ public class Question extends Statement {
         this.name = name;
         this.text = text;
         this.answer = answer;
-    }
-
-    @Override
-    public boolean isQuestion() {
-        return true;
     }
 }

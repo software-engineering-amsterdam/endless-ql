@@ -8,7 +8,7 @@ import {UnknownQuestionError, TypeError} from '../errors';
 import {Location} from './location';
 
 export class If extends Statement {
-  constructor(public condition: string, public statements: Statement[], location: Location) {
+  constructor(public condition: string, public statements: Statement[], public elseStatements: Statement[], location: Location) {
     super(location);
   }
 
@@ -37,6 +37,14 @@ export class If extends Statement {
       }
     }
 
+    for (const statement of this.elseStatements) {
+      const questions = statement.getQuestions();
+
+      if (questions.length > 0) {
+        subQuestions.push(statement.getQuestions());
+      }
+    }
+
     return _.flattenDeep(subQuestions);
   }
 
@@ -56,10 +64,18 @@ export class If extends Statement {
       return form.controls[conditionQuestion[0].key].value === true;
     });
 
+    const elseConditionFunction = ((form: FormGroup) => {
+      return !conditionFunction(form);
+    });
+
     let formQuestionsToReturn: QuestionBase<any>[] = [];
     // generate questions for statements in body
     for (const statement of this.statements) {
       formQuestionsToReturn = formQuestionsToReturn.concat(statement.toFormQuestion(formQuestions, conditionFunction));
+    }
+
+    for (const statement of this.elseStatements) {
+      formQuestionsToReturn = formQuestionsToReturn.concat(statement.toFormQuestion(formQuestions, elseConditionFunction));
     }
 
     return formQuestionsToReturn;

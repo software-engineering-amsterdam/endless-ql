@@ -1,4 +1,4 @@
-package tool.controller;
+package tool;
 
 import antlr.FormLexer;
 import antlr.FormParser;
@@ -6,11 +6,9 @@ import domain.FormData;
 import domain.FormNode;
 import domain.Utilities;
 import domain.model.question.Question;
-import domain.model.question.Variable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;

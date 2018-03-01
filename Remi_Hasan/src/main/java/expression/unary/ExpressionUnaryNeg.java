@@ -1,10 +1,12 @@
 package expression.unary;
 
 import expression.Expression;
-import expression.constant.ExpressionVariable;
-import expression.constant.ExpressionVariableInteger;
+import expression.variable.ExpressionVariable;
 import expression.ReturnType;
 import expression.binary.ExpressionArithmeticMultiply;
+import expression.variable.ExpressionVariableNumber;
+
+import java.math.BigDecimal;
 
 public class ExpressionUnaryNeg extends ExpressionUnary {
 
@@ -14,7 +16,7 @@ public class ExpressionUnaryNeg extends ExpressionUnary {
 
     @Override
     public ExpressionVariable evaluate() {
-        ExpressionVariableInteger leftEvaluated = new ExpressionVariableInteger(-1);
+        ExpressionVariableNumber leftEvaluated = new ExpressionVariableNumber(new BigDecimal(-1));
         Expression rightEvaluated = this.expression.evaluate();
         return new ExpressionArithmeticMultiply(leftEvaluated, rightEvaluated).evaluate();
     }

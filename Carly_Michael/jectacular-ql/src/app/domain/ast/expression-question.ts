@@ -6,18 +6,19 @@ import {QuestionType} from './question-type';
 import {Statement} from './statement';
 import {Question} from './question';
 import {Location} from './location';
-import {Expression} from './expression';
-import {ExpressionType} from './expression-type';
+import {Expression} from './expressions/expression';
+import {ExpressionType} from './expressions/expression-type';
 import {UnknownQuestionError, UnsupportedTypeError} from '../errors';
 import * as _ from 'lodash';
+import {Variable} from './expressions/variable';
 
-export class ExpressionQuestion extends Statement {
-  constructor(public name: string, public label: string, public type: QuestionType, public expression: Expression, location: Location) {
-    super(location);
+export class ExpressionQuestion extends Question {
+  constructor(name: string, label: string, type: QuestionType, public expression: Expression, location: Location) {
+    super(name, label, type, location);
   }
 
-  getQuestions(): Question[] {
-    return [];
+  getVariables(): Variable[] {
+    return this.expression.getVariables();
   }
 
   checkType(allQuestions: Question[]) {
@@ -27,29 +28,31 @@ export class ExpressionQuestion extends Statement {
     }
   }
 
-  toFormQuestion(formQuestions: QuestionBase<any>[], condition?: (form: FormGroup) => boolean): QuestionBase<any>[] {
+  toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
+                 condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
     const options = {
       key: this.name,
       label: this.label,
       type: Statement.toHtmlInputType(this.type),
-      value: this.expression.evaluate(),
+      value: undefined,
       hiddenCondition: condition,
       readonly: true
     };
 
+    let formQuestionsToReturn: QuestionBase<any>[] = [];
     // make a checkbox for a boolean, else make an input
     switch (this.type) {
       case QuestionType.BOOLEAN: {
-        formQuestions.push(new CheckboxQuestion(options));
+        formQuestionsToReturn = [new CheckboxQuestion(options)];
         break;
       }
       default: {
-        formQuestions.push(new TextboxQuestion(options));
+        formQuestionsToReturn = [new TextboxQuestion(options)];
       }
     }
 
-    console.log('formquestions in expression question', formQuestions);
-    return formQuestions;
+    console.log('formquestions in expression question', formQuestionsToReturn);
+    return formQuestionsToReturn;
   }
 
   expressionTypeValidForQuestion(expressionType: ExpressionType, allQuestions: Question[]): boolean {
@@ -62,14 +65,6 @@ export class ExpressionQuestion extends Statement {
         return this.type === QuestionType.DATE;
       case ExpressionType.STRING:
         return this.type === QuestionType.STRING;
-      case ExpressionType.VARIABLE:
-        const q1: Question = _.find(allQuestions, { name: this.expression.evaluate() });
-
-        if (q1 === undefined) {
-          throw new UnknownQuestionError(`Question with name ${this.expression.evaluate()} not found`);
-        }
-
-        return this.type === q1.type;
       default: throw new UnsupportedTypeError(`ExpressionType ${expressionType} is unknown`);
     }
   }

@@ -19,7 +19,7 @@ class DateControlWrapper extends ControlWrapper {
 	override getControl() {
 		return control
 	}
-	
+
 	override protected buildControl() {
 		control = new DatePicker
 	}

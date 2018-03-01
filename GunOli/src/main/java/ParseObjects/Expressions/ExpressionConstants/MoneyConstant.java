@@ -11,4 +11,9 @@ public class MoneyConstant extends Constant<Double> {
     public EvaluationType returnType(){
         return EvaluationType.Money;
     }
+
+    @Override
+    public Boolean isArithmetic(){
+        return true;
+    }
 }

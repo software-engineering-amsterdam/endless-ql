@@ -1,7 +1,7 @@
 package expression.binary;
 
 import expression.Expression;
-import expression.constant.ExpressionVariable;
+import expression.variable.ExpressionVariable;
 
 public class ExpressionComparisonLE extends ExpressionComparison {
 

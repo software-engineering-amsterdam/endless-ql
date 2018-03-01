@@ -6,7 +6,6 @@ import javafx.event.Event
 import javafx.event.EventHandler
 import javax.inject.Inject
 import javax.inject.Singleton
-import org.eclipse.xtend.lib.annotations.Accessors
 import org.uva.sc.cr.ql.interpreter.controls.BooleanControlWrapper
 import org.uva.sc.cr.ql.interpreter.controls.ControlWrapper
 import org.uva.sc.cr.ql.interpreter.controls.DateControlWrapper
@@ -24,7 +23,6 @@ class ControlService {
 	@Inject
 	private var BindingService bindingService
 
-	@Accessors(PUBLIC_GETTER)
 	private val List<ControlWrapper> controls
 
 	new() {
@@ -87,6 +85,10 @@ class ControlService {
 				bindingService.invalidateBindings
 			}
 		}
+	}
+
+	def getControlByName(String name) {
+		controls.filter[it.name == name].head
 	}
 
 }

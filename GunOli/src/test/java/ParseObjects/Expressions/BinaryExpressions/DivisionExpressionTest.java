@@ -22,9 +22,10 @@ public class DivisionExpressionTest {
     @Test
     public void evaluate() {
 
-        Double posTest = posToTest.evaluate().getValue();
-        Double negTest = negToTest.evaluate().getValue();
-        Double maxTest = maxToTest.evaluate().getValue();
+
+        Double posTest = Double.parseDouble(posToTest.evaluate().getValue().toString());
+        Double negTest = Double.parseDouble(negToTest.evaluate().getValue().toString());
+        Double maxTest = Double.parseDouble(maxToTest.evaluate().getValue().toString());
 
         Double posEXP = 5.00;
         Double negEXP = -5.00;

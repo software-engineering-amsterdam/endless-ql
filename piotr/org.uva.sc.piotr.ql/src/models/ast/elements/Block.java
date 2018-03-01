@@ -1,4 +1,4 @@
-package ast.model;
+package models.ast.elements;
 
 abstract class Block {
     public void print() {

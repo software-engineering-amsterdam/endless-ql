@@ -1,7 +1,6 @@
-package ast;
+package models.ast;
 
-import ast.model.ConditionBlock;
-import ast.model.Form;
+import models.ast.elements.Form;
 import grammar.QLBaseVisitor;
 import grammar.QLParser;
 

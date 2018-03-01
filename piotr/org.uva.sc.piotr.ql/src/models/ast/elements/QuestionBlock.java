@@ -1,4 +1,4 @@
-package ast.model;
+package models.ast.elements;
 
 public class QuestionBlock extends Block {
     private String text;
@@ -22,7 +22,7 @@ public class QuestionBlock extends Block {
 
     @Override
     public void print() {
-        System.out.println("Question block: {\n" +
+        System.out.println("QuestionVertex block: {\n" +
                 "  text:" + this.text +
                 "}");
     }

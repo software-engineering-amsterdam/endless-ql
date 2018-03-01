@@ -1,4 +1,4 @@
-package ast.model;
+package models.ast.elements;
 
 import java.util.ArrayList;
 

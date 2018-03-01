@@ -21,110 +21,36 @@ assignment
     ;
 
 dataType        
-    :   TYPE_BOOLEAN | TYPE_STRING | TYPE_INTEGER | TYPE_DECIMAL | TYPE_DATE | dataTypeMoney 
-    ;
-
-dataTypeMoney   
-    :   TYPE_MONEY '(' currency=CURRENCY_CODE ')'           # MoneyTypeDeclarationWithCurrency
-    |   TYPE_MONEY                                          # MoneyTypeDeclarationVoid
+    :   TYPE_BOOLEAN | TYPE_STRING | TYPE_INTEGER | TYPE_DECIMAL
     ;
 
 ifBlock         
-    :   'if' '(' expression ')' '{' block* '}';
+    :   'if' '(' condition=expression ')' '{' block* '}' elseBlock?;
 
+elseBlock
+    :   'else' '{' block* '}'
+    ;
 
 expression
-    :   '(' expression ')'
-    |   conditionalExpression
-    ;
-
-conditionalExpression
-    :	conditionalOrExpression
-	;
-
-conditionalOrExpression
-	:	conditionalAndExpression
-	|	conditionalOrExpression OP_OR conditionalAndExpression
-	;
-
-conditionalAndExpression
-	:	equalityExpression
-	|	conditionalAndExpression OP_AND equalityExpression
-	;
-
-equalityExpression
-	:	relationalExpression
-	|	equalityExpression OP_EQ relationalExpression
-	|	equalityExpression OP_NEQ relationalExpression
-	;
-
-relationalExpression
-	:	additiveExpression
-	|	relationalExpression OP_LT additiveExpression
-	|	relationalExpression OP_GT additiveExpression
-	|	relationalExpression OP_LE additiveExpression
-	|	relationalExpression OP_GE additiveExpression
-	;
-
-additiveExpression
-	:	multiplicativeExpression
-	|	additiveExpression OP_PLUS multiplicativeExpression
-	|	additiveExpression OP_MINUS multiplicativeExpression
-	;
-
-multiplicativeExpression
-	:	unaryExpression
-	|	multiplicativeExpression OP_MULT unaryExpression
-	|	multiplicativeExpression OP_DIV unaryExpression
-	;
-
-unaryExpression
-	:   '!' unaryExpression
-	|   entity
-	;
-
-
-entity
-    :   logicalEntity
-    |   nonLogicalEntity
-    ;
-
-
-logicalEntity   
-    :   (BOOL_TRUE | BOOL_FALSE)          # LocicalConst
-    |   IDENTIFIER                        # LogicalVariable
-    ;
-
-nonLogicalEntity
-    :   numericEntity
-    |   dateEntity
-    |   stringEntity
-    |   moneyEntity
-    ;
-
-numericEntity   
-    :   DECIMAL                           # DecimalNumericConst
-    |   INTEGER                           # IntegerNumericConst
-    |   variableReference                 # NumericVariable
-    ;
-
-dateEntity      
-    :   '@' year=INTEGER '-' month=INTEGER '-' day=INTEGER    # DateValue
-    |   variableReference                                     # DateVariable
-    ;
-
-stringEntity    
-    :   text=STRING                       # StringValue
-    |   variableReference                 # StringVariable
-    ;
-
-moneyEntity     
-    :   CURRENCY_CODE '(' DECIMAL ')'      # MoneyValue
-    |   variableReference                  # MoneyVariable
-    ;
+    : value
+    | variableReference
+    | '(' expression ')'
+    | OP_NOT '(' expression ')'
+    | lhs=expression bop=(OP_MULT|OP_DIV) rhs=expression
+    | lhs=expression bop=(OP_PLUS|OP_MINUS) rhs=expression
+    | lhs=expression bop=(OP_GT|OP_GE|OP_LT|OP_LE|OP_EQ|OP_NEQ) rhs=expression
+    | lhs=expression bop=(OP_AND|OP_OR) rhs=expression
+;
 
 variableReference
-    :   name=IDENTIFIER
+    : IDENTIFIER
+    ;
+
+value
+    : STRING
+    | INTEGER
+    | DECIMAL
+    | (BOOL_TRUE | BOOL_FALSE)
     ;
 
 
@@ -153,9 +79,7 @@ OP_NEQ : '!=';
 TYPE_BOOLEAN    : 'boolean';
 TYPE_STRING     : 'string';
 TYPE_INTEGER    : 'integer';
-TYPE_DECIMAL    : 'decimal';
-TYPE_MONEY      : 'money';
-TYPE_DATE       : 'date';
+TYPE_DECIMAL    : 'decimal' | 'money';
 
 BOOL_TRUE    : 'true' | 'TRUE';
 BOOL_FALSE   : 'false' | 'FALSE';
@@ -164,7 +88,6 @@ WS  :	(' ' | '\t' | '\n' | '\r')  -> skip;
 
 COMMENT : '/*' .*? '*/'  -> skip;
 
-CURRENCY_CODE: 'A'..'Z''A'..'Z''A'..'Z'; // iso4217
 IDENTIFIER:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 INTEGER: ('0'..'9')+;
 STRING: '"' .*? '"';

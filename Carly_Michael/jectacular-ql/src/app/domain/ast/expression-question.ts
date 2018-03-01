@@ -36,6 +36,7 @@ export class ExpressionQuestion extends Question {
       type: Statement.toHtmlInputType(this.type),
       value: undefined,
       hiddenCondition: condition,
+      calculateValue: (form: FormGroup) => this.expression.evaluate(form),
       readonly: true
     };
 

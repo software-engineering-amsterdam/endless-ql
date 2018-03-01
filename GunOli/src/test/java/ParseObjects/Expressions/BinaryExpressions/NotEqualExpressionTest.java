@@ -9,18 +9,17 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnitQuickcheck.class)
-public class EqualExpressionTest {
-
-    private EqualExpression expressionTest;
+public class NotEqualExpressionTest {
+    private NotEqualExpression expressionTest;
 
     @Property
     public void evaluate(int left, int right) {
         IntegerConstant leftToTest = new IntegerConstant(left);
         IntegerConstant rightToTest = new IntegerConstant(right);
 
-        expressionTest = new EqualExpression(leftToTest, rightToTest);
+        expressionTest = new NotEqualExpression(leftToTest, rightToTest);
 
-        assertEquals((left == right), expressionTest.evaluate().getValue());
+        assertEquals((left != right), expressionTest.evaluate().getValue());
     }
 
     @Property
@@ -29,9 +28,9 @@ public class EqualExpressionTest {
         BooleanConstant leftToTest = new BooleanConstant(left);
         BooleanConstant rightToTest = new BooleanConstant(right);
 
-        expressionTest = new EqualExpression(leftToTest,rightToTest);
+        expressionTest = new NotEqualExpression(leftToTest,rightToTest);
 
-        assertEquals((left == right), expressionTest.evaluate().getValue());
+        assertEquals((left != right), expressionTest.evaluate().getValue());
     }
 
     @Property
@@ -39,22 +38,22 @@ public class EqualExpressionTest {
         DecimalConstant leftToTest = new DecimalConstant(left);
         DecimalConstant rightToTest = new DecimalConstant(right);
 
-        expressionTest = new EqualExpression(leftToTest, rightToTest);
+        expressionTest = new NotEqualExpression(leftToTest, rightToTest);
 
-        assertEquals((left == right), expressionTest.evaluate().getValue());
+        assertEquals((left != right), expressionTest.evaluate().getValue());
 
     }
     @Property
-    public void evaluate(@InRange(min = "01", max = "31") int day1, @InRange(min = "01", max = "12")int month1, @InRange(min = "1000", max = "3000")int year1, @InRange(min = "01", max = "31")int day2,  @InRange(min = "01", max = "31") int month2, @InRange(min = "1000", max = "3000")int year2 ) {
+    public void evaluate(@InRange(min = "01", max = "31") int day1, @InRange(min = "01", max = "12")int month1, @InRange(min = "1000", max = "3000")int year1, @InRange(min = "01", max = "31")int day2, @InRange(min = "01", max = "31") int month2, @InRange(min = "1000", max = "3000")int year2 ) {
         String firstYear = day1  + "-" + month1 + "-" + year1;
         String secondYear = day2 + "-" + month2 + "-" + year2;
 
         DateConstant left = new DateConstant(firstYear);
         DateConstant right = new DateConstant(secondYear);
 
-        expressionTest = new EqualExpression(left, right);
+        expressionTest = new NotEqualExpression(left, right);
 
-        assertEquals(firstYear.equals(secondYear), expressionTest.evaluate().getValue());
+        assertEquals(!firstYear.equals(secondYear), expressionTest.evaluate().getValue());
 
     }
 
@@ -64,8 +63,9 @@ public class EqualExpressionTest {
         StringConstant leftToTest = new StringConstant(left);
         StringConstant rightToTest = new StringConstant(right);
 
-        expressionTest = new EqualExpression(leftToTest, rightToTest);
+        expressionTest = new NotEqualExpression(leftToTest, rightToTest);
 
-        assertEquals((left.equals(right)), expressionTest.evaluate().getValue());
+        assertEquals(!(left.equals(right)), expressionTest.evaluate().getValue());
     }
+
 }

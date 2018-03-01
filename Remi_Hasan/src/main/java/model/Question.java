@@ -12,7 +12,7 @@ public class Question {
     public final String name;
     public final String text;
     public final Expression answer;
-    private final Expression condition;
+    public final Expression condition;
 
     public Question(ReturnType type, String name, String text, Expression answer, Expression condition) {
         this.type = type;

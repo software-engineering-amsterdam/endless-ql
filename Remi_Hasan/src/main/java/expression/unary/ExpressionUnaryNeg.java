@@ -25,4 +25,13 @@ public class ExpressionUnaryNeg extends ExpressionUnary {
     public ReturnType getReturnType() {
         return this.expression.getReturnType();
     }
+
+    @Override
+    public void typeCheck() {
+        this.expression.typeCheck();
+
+        if (!this.expression.getReturnType().neg()) {
+            throw new IllegalArgumentException("Cannot apply operator - to '" + this.expression.getReturnType() + "'");
+        }
+    }
 }

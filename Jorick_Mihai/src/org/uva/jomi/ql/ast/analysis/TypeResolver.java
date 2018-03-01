@@ -89,7 +89,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
 	@Override
 	public Void visit(BlockStmt block) {
-		for (Stmt statement : block.statements) {
+		for (Stmt statement : block.getStatements()) {
 			statement.accept(this);
 		}
 		

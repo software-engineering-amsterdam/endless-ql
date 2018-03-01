@@ -8,11 +8,14 @@ case class ASTFormHeader(label: String) extends ASTNode
 case class ASTFormBody(statements: List[ASTNode]) extends ASTNode
 case class ASTQuestion(varDecl: ASTNode, label: String) extends ASTNode
 case class ASTConditional() extends ASTNode
-case class ASTComputation(varDecl: ASTNode, valAssign: ASTNode, label: String) extends ASTNode
+case class ASTComputation(varDecl: ASTNode, valAssign: ASTNode, label: String)
+    extends ASTNode
+
 case class ASTVarDecl(typeDecl: ASTNode, label: String) extends ASTNode
 case class ASTTypeDecl(returnType: ASTNode) extends ASTNode
 case class ASTValAssign(expression: ASTNode) extends ASTNode
-case class ASTIfStatement(expression: ASTNode, statements: List[ASTNode]) extends ASTNode
+case class ASTIfStatement(expression: ASTNode, statements: List[ASTNode])
+    extends ASTNode
 
 case class ASTBoolean() extends ASTNode
 case class ASTMoney() extends ASTNode

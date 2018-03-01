@@ -1,68 +1,91 @@
 package ParseObjects.Expressions.BinaryExpressions;
 
 import ParseObjects.Expressions.ExpressionConstants.*;
-import org.junit.Test;
+import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.generator.InRange;
+import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
+import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+@RunWith(JUnitQuickcheck.class)
 public class EqualExpressionTest {
 
-    private BooleanConstant a = new BooleanConstant(true);
-    private BooleanConstant b = new BooleanConstant(true);
+    private EqualExpression expressionTest;
 
-    private IntegerConstant c = new IntegerConstant(1);
-    private IntegerConstant d = new IntegerConstant(1);
+    @Property
+    public void evaluateINT(int left, int right) {
+        IntegerConstant leftToTest = new IntegerConstant(left);
+        IntegerConstant rightToTest = new IntegerConstant(right);
 
-    private DecimalConstant e = new DecimalConstant(2.00);
-    private DecimalConstant f = new DecimalConstant(2.00);
+        expressionTest = new EqualExpression(leftToTest, rightToTest);
 
-    private DateConstant g = new DateConstant("02-02-1994");
-    private DateConstant h = new DateConstant("02-02-1994");
+        assertEquals((left == right), expressionTest.evaluate().getValue());
+    }
 
-    private MoneyConstant i = new MoneyConstant(2300.00);
-    private MoneyConstant j = new MoneyConstant(2300);
+    @Property
+    public void evaluateBOOL(boolean left, boolean right) {
 
-    private MoneyConstant k = new MoneyConstant("2300");
-    private MoneyConstant l = new MoneyConstant("2300");
+        BooleanConstant leftToTest = new BooleanConstant(left);
+        BooleanConstant rightToTest = new BooleanConstant(right);
 
-    private StringConstant m = new StringConstant("Hallo");
-    private StringConstant n = new StringConstant("Hallo");
+        expressionTest = new EqualExpression(leftToTest,rightToTest);
 
-    private EqualExpression bool = new EqualExpression(a, b);
-    private EqualExpression integers = new EqualExpression(c, d);
-    private EqualExpression dec = new EqualExpression(e, f);
-    private EqualExpression date = new EqualExpression(g,h);
-    private EqualExpression money = new EqualExpression(i, j);
-    private EqualExpression moneyString = new EqualExpression(k,l);
-    private EqualExpression strings = new EqualExpression(m,n);
+        assertEquals((left == right), expressionTest.evaluate().getValue());
+    }
 
-    private Boolean boolTest = bool.evaluate().getValue();
-    private Boolean intTest = integers.evaluate().getValue();
-    private Boolean decTest = dec.evaluate().getValue();
-    private Boolean dateTest = date.evaluate().getValue();
-    private Boolean moneyTest = money.evaluate().getValue();
-    private Boolean moneyStringTest = moneyString.evaluate().getValue();
-    private Boolean stringTest = strings.evaluate().getValue();
+    @Property
+    public void evaluateDOUBLE(double left, double right) {
+        DecimalConstant leftToTest = new DecimalConstant(left);
+        DecimalConstant rightToTest = new DecimalConstant(right);
 
+        expressionTest = new EqualExpression(leftToTest, rightToTest);
 
+        assertEquals((left == right), expressionTest.evaluate().getValue());
 
-    @Test
-    public void evaluate() {
+    }
+    @Property
+    public void evaluateDATE(@InRange(min = "01", max = "31") int day1, @InRange(min = "01", max = "12")int month1, @InRange(min = "1000", max = "3000")int year1, @InRange(min = "01", max = "31")int day2,  @InRange(min = "01", max = "31") int month2, @InRange(min = "1000", max = "3000")int year2 ) {
+        String firstYear = day1  + "-" + month1 + "-" + year1;
+        String secondYear = day2 + "-" + month2 + "-" + year2;
 
-        boolean expBool = true;
-        boolean expInt = true;
-        boolean expDec = true;
-        boolean expDate = true;
-        boolean expMoney = true;
-        boolean expMoneyString = true;
-        boolean expString = true;
+        DateConstant left = new DateConstant(firstYear);
+        DateConstant right = new DateConstant(secondYear);
 
-        assertEquals(expBool, boolTest);
-        assertEquals(expInt, intTest);
-        assertEquals(expDate, dateTest);
-        assertEquals(expDec, decTest);
-        assertEquals(expMoney, moneyTest);
-        assertEquals(expMoneyString, moneyStringTest);
-        assertEquals(expString, stringTest);
+        expressionTest = new EqualExpression(left, right);
+
+        assertEquals(firstYear.equals(secondYear), expressionTest.evaluate().getValue());
+
+    }
+    @Property
+    public void evaluateMoneyINT(int left, int right) {
+        MoneyConstant leftToTest = new MoneyConstant(left);
+        MoneyConstant rightToTest = new MoneyConstant(right);
+
+        expressionTest = new EqualExpression(leftToTest, rightToTest);
+
+        assertEquals((left == right), expressionTest.evaluate().getValue());
+
+    }
+    @Property
+    public void evaluateMoneyDOUBLE(double left, double right) {
+        MoneyConstant leftToTest = new MoneyConstant(left);
+        MoneyConstant rightToTest = new MoneyConstant(right);
+
+        expressionTest = new EqualExpression(leftToTest, rightToTest);
+
+        assertEquals((left == right), expressionTest.evaluate().getValue());
+
+    }
+
+    @Property
+    public void evaluateSTRING(String left, String right) {
+
+        StringConstant leftToTest = new StringConstant(left);
+        StringConstant rightToTest = new StringConstant(right);
+
+        expressionTest = new EqualExpression(leftToTest, rightToTest);
+
+        assertEquals((left.equals(right)), expressionTest.evaluate().getValue());
     }
 }

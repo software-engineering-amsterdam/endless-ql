@@ -112,7 +112,7 @@ public class Renderer {
     private Control createDateField(HashMap<Question, Field> fieldMap, Question question) {
         DatePicker datePicker = new DatePicker();
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-            question.answer.setValue(newValue.toString());
+            form.setAnswer(question.name, question.type, newValue.toString());
             updateFields(fieldMap, form.questions);
         });
 //        throw new NotImplementedException();
@@ -123,8 +123,10 @@ public class Renderer {
         CheckBox checkBox = new CheckBox();
 
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            question.answer.setValue(newValue.toString());
+            System.out.println("hellooooo");
+            form.setAnswer(question.name, question.type, newValue.toString());
             updateFields(fieldMap, form.questions);
+            System.out.println("hellooooo2");
         });
 
         return checkBox;
@@ -133,15 +135,15 @@ public class Renderer {
     private Control createTextField(HashMap<Question, Field> fieldMap, Question question, ReturnType type) {
         TextInputControl textField = Input.textField();
 
-        if(!question.answer.isSettable()) {
-            textField.setEditable(false);
-            textField.setText(question.evaluateAnswer());
+        if(question.answer.getReturnType() == ReturnType.UNDEFINED) {
+//            textField.setEditable(false);
+//            textField.setText(question.evaluateAnswer());
         }
 
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
-                question.answer.setValue(textField.getText());
+                form.setAnswer(question.name, question.type, textField.getText());
                 updateFields(fieldMap, form.questions);
             }
         });
@@ -213,14 +215,17 @@ public class Renderer {
         field.getLabel().setVisible(visible);
         field.getControl().setVisible(visible);
 
-        if(!question.answer.isSettable()) {
+        if(question.answer.getReturnType() == ReturnType.UNDEFINED) {
             // TODO: move somwhere else
             Object answer = question.evaluateAnswer();
 
             if (question.type == ReturnType.BOOLEAN) {
                 CheckBox checkBox = (CheckBox) field.getControl();
                 checkBox.setSelected(Boolean.TRUE.equals(answer));
-            } else {
+            } else if(question.type == ReturnType.DATE){
+                // TODO
+            }
+            else {
                 TextInputControl textField = (TextInputControl) field.getControl();
                 textField.setText(answer.toString());
             }

@@ -14,19 +14,21 @@ def main(argv):
     # tree = parser.form()
 
     # visitor = QLVisitor()
-    # visitor.visit(tree)
-    
-    # print(tree.toStringTree(recog=parser))
-    gui = Gui()
-    gui.addLabel("hey", "jaja")
-    gui.removeLabel("hey")
-    gui.addCheckBox("yes")
-    gui.addSlider("slider", 0, 100, 'horizontal')
-    gui.addSpinBox("spinbox", 0, 100)
-    gui.addTextBox("text", 3, 30)
-    gui.addRadioButton("radio", "ben je dik:", 2)
-    gui.addDropDown("drop", ["1", "2", "3"])
-    gui.showWindow()
+
+    # ast = visitor.visit(tree)
+    # print ast
+
+    builder = GuiBuilder(ast)
+    # gui = Gui()
+    # gui.addLabel("hey", "jaja")
+    # gui.removeLabel("hey")
+    # gui.addCheckBox("yes")
+    # gui.addSlider("slider", 0, 100, 'horizontal')
+    # gui.addSpinBox("spinbox", 0, 100)
+    # gui.addTextBox("text", 3, 30)
+    # gui.addRadioButton("radio", "ben je dik:", 2)
+    # gui.addDropDown("drop", ["1", "2", "3"])
+    builder.gui.window.mainloop()
 
 if __name__ == '__main__':
     main(sys.argv)

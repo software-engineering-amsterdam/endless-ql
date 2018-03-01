@@ -1,52 +1,40 @@
 import {Form, Question, QuestionType} from './';
 import {CheckboxQuestion} from '../angular-questions/question-checkbox';
 import {TextboxQuestion} from '../angular-questions/question-textbox';
-import {Location, Statement} from '../ast/index';
+import {Statement} from '../ast/index';
 import {If} from './if';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Variable} from './expressions/variable';
+import * as astMock from './ast-mock';
 
 describe('Form', () => {
 
-  const emptyLoc: Location = {
-    start:
-      {
-        offset: 0,
-        line: 0,
-        column: 0
-      },
-    end:
-      {
-        offset: 0,
-        line: 0,
-        column: 0
-      }
-  };
+
 
   const questions: Statement[] = [
-    new Question('intQuestion', 'intQuestion?', QuestionType.INT, emptyLoc),
-    new Question('decimalQuestion', 'decimalQuestion?', QuestionType.DECIMAL, emptyLoc),
-    new Question('booleanQuestion', 'booleanQuestion?', QuestionType.BOOLEAN, emptyLoc),
-    new Question('booleanQuestion2', 'booleanQuestion2?', QuestionType.BOOLEAN, emptyLoc),
-    new Question('stringQuestion', 'stringQuestion?', QuestionType.STRING, emptyLoc),
-    new Question('dateQuestion', 'dateQuestion?', QuestionType.DATE, emptyLoc)
+    new Question('intQuestion', 'intQuestion?', QuestionType.INT, astMock.emptyLoc),
+    new Question('decimalQuestion', 'decimalQuestion?', QuestionType.DECIMAL, astMock.emptyLoc),
+    new Question('booleanQuestion', 'booleanQuestion?', QuestionType.BOOLEAN, astMock.emptyLoc),
+    new Question('booleanQuestion2', 'booleanQuestion2?', QuestionType.BOOLEAN, astMock.emptyLoc),
+    new Question('stringQuestion', 'stringQuestion?', QuestionType.STRING, astMock.emptyLoc),
+    new Question('dateQuestion', 'dateQuestion?', QuestionType.DATE, astMock.emptyLoc)
   ];
 
   const ifs = [
-    new If(new Variable('booleanQuestion', emptyLoc),
+    new If(new Variable('booleanQuestion', astMock.emptyLoc),
       [
         new If
-        (new Variable('booleanQuestion2', emptyLoc),
-          [new Question('intQuestion2', 'intQuestion2?', QuestionType.INT, emptyLoc)],
+        (new Variable('booleanQuestion2', astMock.emptyLoc),
+          [new Question('intQuestion2', 'intQuestion2?', QuestionType.INT, astMock.emptyLoc)],
           [],
-          emptyLoc)
+          astMock.emptyLoc)
       ],
       [],
-      emptyLoc)
+      astMock.emptyLoc)
   ];
 
   it('should return the proper QuestionBase questions', () => {
-    const formQuestions = new Form('test', questions, emptyLoc).toFormQuestion();
+    const formQuestions = new Form('test', questions, astMock.emptyLoc).toFormQuestion();
     expect(formQuestions.length).toBe(6);
     expect(formQuestions[0].key).toBe('intQuestion');
     expect(formQuestions[0].label).toBe('intQuestion?');
@@ -61,7 +49,7 @@ describe('Form', () => {
   });
 
   it('should check condition of both ifs when nested', () => {
-    const formQuestions = new Form('test', questions.concat(ifs), emptyLoc).toFormQuestion();
+    const formQuestions = new Form('test', questions.concat(ifs), astMock.emptyLoc).toFormQuestion();
 
     expect(formQuestions.length).toBe(7);
 

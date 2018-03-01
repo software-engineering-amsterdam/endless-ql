@@ -2,6 +2,6 @@
   "tspegjs": {
     "noTslint": false,
     "tslintIgnores": "quotemark",
-    "customHeader": "/* tslint:disable */ \r\n import { Default, Page, Question, Section, Stylesheet, WidgetType } from '../app/domain/ast/qls';\r\n import { QuestionType } from '../app/domain/ast';"
+    "customHeader": "/* tslint:disable */ \r\n import { Default, Page, Question, Section, Stylesheet, WidgetType, Style } from '../app/domain/ast/qls';\r\n import { QuestionType } from '../app/domain/ast';"
   }
 }

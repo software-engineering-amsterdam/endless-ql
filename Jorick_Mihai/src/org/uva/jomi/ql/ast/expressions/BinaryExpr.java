@@ -49,4 +49,20 @@ public abstract class BinaryExpr extends Expr {
 	public String getOperatorName() {
 		return operator.getLexeme();
 	}
+	
+	public <T> T visitLeftExpr(Visitor<T> visitor) {
+		return this.left.accept(visitor);
+	}
+	
+	public <T> T visitRightExpr(Visitor<T> visitor) {
+		return this.right.accept(visitor);
+	}
+	
+	public int getLeftExprId() {
+		return this.left.getId();
+	}
+	
+	public int getRightExprId() {
+		return this.right.getId();
+	}
 }

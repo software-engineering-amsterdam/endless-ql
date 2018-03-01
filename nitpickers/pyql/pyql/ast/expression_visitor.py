@@ -1,6 +1,5 @@
 from abc import abstractmethod
-from pyql.ast.expression import expressions
-from pyql.ast.static_analysis import symbol_table
+from pyql.static_analysis import symbol_table
 
 
 class ExpressionVisitor:
@@ -117,6 +116,10 @@ class ExpressionEvaluator(ExpressionVisitor):
         left = multiplication.left.accept(self)
         right = multiplication.right.accept(self)
         print("Visiting multiplication of ", left, right)
+
+        print(left)
+        print(right)
+
         return left * right
 
     def visit_division(self, division):
@@ -195,20 +198,20 @@ class ExpressionEvaluator(ExpressionVisitor):
 
     def visit_string_literal(self, string_literal):
         print("Visiting string_literal")
-        return string_literal.value
+        return string_literal
 
     def visit_integer_literal(self, integer_literal):
         print("Visiting integer_literal")
-        return integer_literal.value
+        return integer_literal
 
     def visit_decimal_literal(self, decimal_literal):
         print("Visiting decimal_literal")
-        return decimal_literal.value
+        return decimal_literal
 
     def visit_boolean_literal(self, boolean_literal):
         print("Visiting boolean_literal")
-        return boolean_literal.value
+        return boolean_literal
 
     def visit_money_literal(self, money_literal):
         print("Visiting money_literal")
-        return money_literal.value
+        return money_literal

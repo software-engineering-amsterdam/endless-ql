@@ -60,7 +60,7 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 	public BaseElement visit(BlockStmt block) {
 		PanelElement panel = new PanelElement();
 		
-		for (Stmt statement : block.statements) {
+		for (Stmt statement : block.getStatements()) {
 			panel.addElement(statement.accept(this));
 		}
 		

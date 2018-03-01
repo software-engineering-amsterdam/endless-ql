@@ -13,6 +13,8 @@ class Gui():
         self.radioButtons = {}
         self.radioButtonValues = {}
         self.dropDowns = {}
+        self.yesNoButtons = {}
+        self.yesNoButtonsValues = {}
 
     #add the label to the dict for destroying/changing later and then pack it in the main frame
     def addLabel(self, name, text):
@@ -95,6 +97,24 @@ class Gui():
         if name in self.dropDowns:
             self.dropDowns[name].destroy()
             del self.dropDowns[name]
+
+    def addYesNoRadioButtons(self, name, text1, text2):
+        var = tk.IntVar()
+        radioButton1 = tk.Radiobutton(self.window, text=text1, variable=var, value=0)
+        radioButton2 = tk.Radiobutton(self.window, text=text2, variable=var, value=1)
+        radioButton1.pack()
+        radioButton2.pack()
+        self.yesNoButtons[name] = [radioButton1, radioButton2]
+        self.yesNoButtonsValues[name] = var
+
+    def removeYesNoButtons(self, name):
+        if name in self.yesNoButtons:
+            self.yesNoButtons[name][0].destroy()
+            self.yesNoButtons[name][1].destroy()
+            del self.yesNoButtons[name]
+
+        if name in self.yesNoButtonsValues:
+            del self.yesNoButtonsValues[name]
 
     def showWindow(self):
         self.window.mainloop()

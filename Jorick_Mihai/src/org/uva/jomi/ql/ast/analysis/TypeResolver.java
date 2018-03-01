@@ -56,11 +56,11 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	
 	public void resolveBinaryExpr(BinaryExpr expr, QLType[] validTypes) {
 		if (expr.getLeftExprType() == null) {
-			expr.getLeftExpr().accept(this);
+			expr.visitLeftExpr(this);
 		}
 		
 		if (expr.getRightExprType() == null) {
-			expr.getRightExpr().accept(this);
+			expr.visitRightExpr(this);
 		}
 		
 		if (binaryExprHasEqualTypes(expr)) {
@@ -89,7 +89,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
 	@Override
 	public Void visit(BlockStmt block) {
-		for (Stmt statement : block.statements) {
+		for (Stmt statement : block.getStatements()) {
 			statement.accept(this);
 		}
 		
@@ -140,17 +140,12 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
 	@Override
 	public Void visit(GroupingExpr expr) {
-		expr.getExpression().accept(this);
+		expr.visitInnerExpr(this);
 		return null;
 	}
 	
 	@Override
 	public Void visit(IdentifierExpr expr) {
-		return null;
-	}
-
-	@Override
-	public Void visit(PrimaryExpr expr) {
 		return null;
 	}
 

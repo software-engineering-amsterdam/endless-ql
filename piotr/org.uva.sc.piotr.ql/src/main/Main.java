@@ -1,13 +1,11 @@
 package main;
 
-import ast.ASTBuilder;
+import models.ast.ASTBuilder;
 import grammar.QLLexer;
 import grammar.QLParser;
-import gui.QLGui;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import validator.TypeChecker;
 
 
 public class Main {

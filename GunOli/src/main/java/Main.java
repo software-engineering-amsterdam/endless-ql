@@ -31,7 +31,7 @@ public class Main {
         String file = "example.ql";
         InputStream stream = getClass().getResourceAsStream(file);
         Form form = parseForm(stream);
-
+        
         //Debug form
         for(Question question : form.getBlock().getQuestions()){
             System.out.println(question.getIdentifier()+ " : " + question.getText()+" : "+ question.getType());

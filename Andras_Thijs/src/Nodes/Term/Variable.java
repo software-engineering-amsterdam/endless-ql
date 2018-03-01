@@ -11,5 +11,5 @@ public class Variable extends Term {
 
     public String getName() { return name; }
     @Override
-    public Term getValue() { return value; }
+    public Term getTerm() { return value; }
 }

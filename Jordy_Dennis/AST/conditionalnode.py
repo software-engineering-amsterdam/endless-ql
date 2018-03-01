@@ -1,10 +1,10 @@
 """
-This class wraps the conditional expressions. 
+This class wraps the conditional expressions.
 Every conditionalNode has one if, optional multiple elif and one optional else
 
 The ifConditionBlock contains a node in which the expression for the if lies, and its statements (that are called after evaluation)
 
-The elifConditionBlock contains multiple ifConditionBlocks 
+The elifConditionBlock contains multiple ifConditionBlocks
 
 The else condition is a block of statements
 """
@@ -34,7 +34,7 @@ class ConditionalNode:
             types.append(elifBlock.checkTypes())
         if(self.elseBlock):
             for elseblock in self.elseBlock():
-                types.append(elseBlock.checkTypes())
+                types.append(elseblock.checkTypes())
         return ["Conditional:", types]
 
     # Link all variables from the assignments/questions to the variable nodes.
@@ -44,10 +44,7 @@ class ConditionalNode:
             elifBlock.linkVars(varDict)
         if(self.elseBlock):
             for elseblock in self.elseBlock():
-                elseBlock.linkVars(varDict)
-
-
-        
+                elseblock.linkVars(varDict)
 
     def __repr__(self):
         return "Conditional: if: {} elif: {} else: {}".format(self.ifConditionBlock, self.elifConditionBlock, self.elseBlock)

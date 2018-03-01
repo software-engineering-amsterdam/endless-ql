@@ -3,7 +3,9 @@ package visitor;
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
 import expression.*;
+import expression.unary.ExpressionUnaryNeg;
 import expression.variable.ExpressionVariableBoolean;
+import expression.variable.ExpressionVariableUndefined;
 import model.LookupTable;
 import model.Question;
 
@@ -11,7 +13,7 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
 
     private final Expression condition;
 
-    public VisitorQuestion(Expression condition) {
+    VisitorQuestion(Expression condition) {
         this.condition = condition;
     }
 
@@ -41,8 +43,7 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
             return visitorExpression.visit(questionType.expression());
         }
 
-        // Create empty expression of question type
-        return ExpressionFactory.createExpression(questionType.type().getText());
+        return new ExpressionVariableUndefined();
     }
 
 }

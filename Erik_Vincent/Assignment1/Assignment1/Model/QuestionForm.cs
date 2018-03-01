@@ -1,11 +1,11 @@
-﻿using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 
 [assembly: InternalsVisibleTo("Assignment1Tests")]
 
-namespace Assignment1
+namespace Assignment1.Model
 {
     public class QuestionForm
     {

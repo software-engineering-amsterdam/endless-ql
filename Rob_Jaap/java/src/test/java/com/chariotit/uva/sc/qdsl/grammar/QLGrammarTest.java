@@ -55,11 +55,11 @@ public class QLGrammarTest {
         assertEquals(firstElement.getLabel().getLabel(), "hasSoldHouse");
 
         IfBlock ifBlock = (IfBlock)firstForm.getFormElements().get(3);
-        assertEquals(ifBlock.getFormElements().size(), 3);
+        assertEquals(ifBlock.getIfElements().size(), 3);
         assertEquals(((LabelExpression)(ifBlock.getExpression())).getLabel().getLabel(),
                 "hasSoldHouse");
 
-        LineElement valueResidue = (LineElement)(ifBlock.getFormElements().get(2));
+        LineElement valueResidue = (LineElement)(ifBlock.getIfElements().get(2));
         assertTrue(valueResidue.getTypeExpression().getType() instanceof MoneyType);
         assertFalse(valueResidue.getTypeExpression().getType() instanceof BooleanType);
         assertEquals(valueResidue.getQuestion().getQuestion(), "Value residue:");

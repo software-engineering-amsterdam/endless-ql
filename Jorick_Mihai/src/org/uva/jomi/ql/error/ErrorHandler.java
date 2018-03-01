@@ -159,10 +159,10 @@ public class ErrorHandler {
 		
 		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
 				moduleName,
-				stmt.expression.getLineNumber(),
-				stmt.expression.getColumnNumber(),
+				stmt.getExprLineNumber(),
+				stmt.getExprColumnNumber(),
 				QLType.BOOLEAN,
-				stmt.expression.getType());
+				stmt.getExprType());
 		
 		Error error = new TypeError(message);
 		errorMessages.add(error);

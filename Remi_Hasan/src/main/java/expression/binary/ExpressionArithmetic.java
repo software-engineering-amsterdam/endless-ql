@@ -10,9 +10,6 @@ public abstract class ExpressionArithmetic extends ExpressionBinary {
 
     @Override
     public ReturnType getReturnType() {
-        if(left.getReturnType() == ReturnType.DECIMAL || right.getReturnType() == ReturnType.DECIMAL)
-            return ReturnType.DECIMAL;
-        else
-            return ReturnType.INTEGER;
+        return ReturnType.NUMBER;
     }
 }

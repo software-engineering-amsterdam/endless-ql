@@ -6,14 +6,25 @@ form            = ws "form" ws name:identifier ws "{" ws
                   return new Form(name, statements, location());
                 }
 
-statement       = exprQuestion / q / ifStatement
+statement       = exprQuestion / q / ifElseStatement / ifStatement
 
 ifStatement     = ws comment* ws "if" ws "(" ws condition:identifier ws ")" ws "{" ws
                   statements:statement* ws
                   ws comment* ws
                   "}" ws
                   {
-                    return new If(condition, statements, location());
+                    return new If(condition, statements, [], location());
+                  }
+
+ifElseStatement = ws comment* ws "if" ws "(" ws condition:identifier ws ")" ws "{" ws
+                  statements:statement* ws
+                  ws comment* ws
+                  "}" ws "else" ws "{" ws
+                  elseStatements:statement* ws
+                  ws comment* ws
+                  "}"
+                  {
+                    return new If(condition, statements, elseStatements, location());
                   }
 
 q "question"    = ws comment* ws name:identifier ":" ws "\"" ws

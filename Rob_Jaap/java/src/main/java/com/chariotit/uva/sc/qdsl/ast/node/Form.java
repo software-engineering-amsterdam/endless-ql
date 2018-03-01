@@ -9,7 +9,10 @@ public class Form extends AstNode {
     private String label;
     private List<FormElement> formElements;
 
-    public Form(String label, List<FormElement> formElements) {
+    public Form(String label, List<FormElement> formElements, Integer lineNumber, Integer
+            columnNumber) {
+        super(lineNumber, columnNumber);
+
         this.label = label;
         this.formElements = formElements;
     }

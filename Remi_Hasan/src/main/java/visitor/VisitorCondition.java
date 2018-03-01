@@ -4,16 +4,22 @@ import antlr.QLBaseVisitor;
 import antlr.QLParser;
 import expression.Expression;
 import expression.ReturnType;
-import model.Condition;
-import model.Statement;
+import expression.unary.ExpressionUnaryNot;
+import model.Question;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisitorCondition extends QLBaseVisitor<Condition> {
+public class VisitorCondition extends QLBaseVisitor<List<Question>> {
+
+    private final Expression condition;
+
+    public VisitorCondition(Expression condition) {
+        this.condition = condition;
+    }
 
     @Override
-    public Condition visitCondition(QLParser.ConditionContext ctx) {
+    public List<Question> visitCondition(QLParser.ConditionContext ctx) {
         VisitorExpression visitorExpression = new VisitorExpression();
         Expression expression = visitorExpression.visit(ctx.expression());
 
@@ -21,24 +27,23 @@ public class VisitorCondition extends QLBaseVisitor<Condition> {
             throw new UnsupportedOperationException("Condition expression not of type boolean");
         }
 
-        // Visit all conditionTrueStatements in the conditional body
-        List<Statement> conditionTrueStatements = new ArrayList<>();
-        List<Statement> conditionFalseStatements = new ArrayList<>();
-        VisitorStatement visitorStatement = new VisitorStatement();
+        List<Question> questions = new ArrayList<>();
 
+        VisitorStatement visitorStatementTrue = new VisitorStatement(expression);
         for (QLParser.StatementContext statementContext : ctx.conditionTrueBlock.statement()) {
-            Statement statement = visitorStatement.visit(statementContext);
-            conditionTrueStatements.add(statement);
+            List<Question> trueQuestions = visitorStatementTrue.visit(statementContext);
+            questions.addAll(trueQuestions);
         }
 
+        VisitorStatement visitorStatementFalse = new VisitorStatement(new ExpressionUnaryNot(expression));
         if(ctx.conditionFalseBlock != null){
             for (QLParser.StatementContext statementContext : ctx.conditionFalseBlock.statement()) {
-                Statement statement = visitorStatement.visit(statementContext);
-                conditionFalseStatements.add(statement);
+                List<Question> falseQuestions = visitorStatementFalse.visit(statementContext);
+                questions.addAll(falseQuestions);
             }
         }
 
-        return new Condition(expression, conditionTrueStatements, conditionFalseStatements);
+        return questions;
     }
 
 }

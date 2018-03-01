@@ -2,6 +2,8 @@ package expression;
 
 import expression.variable.*;
 
+import java.math.BigDecimal;
+
 public class ExpressionFactory {
     public static Expression createExpression(String questionType) {
         switch (questionType) {
@@ -12,7 +14,7 @@ public class ExpressionFactory {
             case "integer":
             case "decimal":
             case "money":
-                return new ExpressionVariableNumber(null);
+                return new ExpressionVariableNumber(new BigDecimal(0));
             case "date":
                 return new ExpressionVariableDate(null);
             default:

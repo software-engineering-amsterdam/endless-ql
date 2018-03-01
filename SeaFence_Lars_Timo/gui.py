@@ -100,8 +100,8 @@ class Gui():
 
     def addYesNoRadioButtons(self, name, text1, text2):
         var = tk.IntVar()
-        radioButton1 = tk.Radiobutton(self.window, text=text1, variable=var, value=0)
-        radioButton2 = tk.Radiobutton(self.window, text=text2, variable=var, value=1)
+        radioButton1 = tk.Radiobutton(self.window, text=text1, variable=var, value=0, command= lambda: notifyClick(name, self.yesNoButtonsValues))
+        radioButton2 = tk.Radiobutton(self.window, text=text2, variable=var, value=1, command= lambda: notifyClick(name, self.yesNoButtonsValues))
         radioButton1.pack()
         radioButton2.pack()
         self.yesNoButtons[name] = [radioButton1, radioButton2]
@@ -119,3 +119,5 @@ class Gui():
     def showWindow(self):
         self.window.mainloop()
 
+def notifyClick(name, vars):
+    print vars[name].get()

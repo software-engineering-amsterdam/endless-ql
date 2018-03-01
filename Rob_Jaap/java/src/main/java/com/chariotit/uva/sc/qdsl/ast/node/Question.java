@@ -1,5 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.node;
 
+import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
+
 public class Question extends AstNode {
 
     private String question;
@@ -14,5 +16,10 @@ public class Question extends AstNode {
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    @Override
+    public void acceptVisitor(NodeVisitor visitor) {
+        visitor.visitQuestion(this);
     }
 }

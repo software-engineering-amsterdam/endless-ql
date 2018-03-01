@@ -1,9 +1,9 @@
 package ql.evaluator;
 
-import ql.evaluator.value.Value;
+import ql.ast.expression.literal.Literal;
 import ql.visitors.interfaces.ValueVisitor;
 
-public abstract class AbstractEvaluator<V extends Value<?>> implements ValueVisitor {
+public abstract class AbstractEvaluator<V extends Literal<?>> implements ValueVisitor {
 
     protected V firstOperand;
     

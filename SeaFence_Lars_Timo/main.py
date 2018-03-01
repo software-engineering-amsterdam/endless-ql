@@ -7,17 +7,17 @@ from QLVisitorHelper import QLVisitorHelper
 from GuiBuilder import GuiBuilder
 
 def main(argv):
-    # input = FileStream(argv[1])
-    # lexer = QLLexer(input)
-    # stream = CommonTokenStream(lexer)
-    # parser = QLParser(stream)
+    input = FileStream(argv[1])
+    lexer = QLLexer(input)
+    stream = CommonTokenStream(lexer)
+    parser = QLParser(stream)
 
-    # tree = parser.form()
+    tree = parser.form()
 
-    # visitor = QLVisitorHelper()
+    visitor = QLVisitorHelper()
 
-    # ast = visitor.visit(tree)
-    # print ast
+    ast = visitor.visit(tree)
+    print ast
 
     builder = GuiBuilder(ast)
     # gui = Gui()

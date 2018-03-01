@@ -6,7 +6,8 @@ public class Question extends AstNode {
 
     private String question;
 
-    public Question(String question) {
+    public Question(String question, Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
         this.question = question;
     }
 

@@ -8,7 +8,9 @@ public class UnOpExpression extends Expression {
     private Operator operator;
     private Expression expression;
 
-    public UnOpExpression(Operator operator, Expression expression) {
+    public UnOpExpression(Operator operator, Expression expression, Integer lineNumber, Integer
+            columnNumber) {
+        super(lineNumber, columnNumber);
         this.operator = operator;
         this.expression = expression;
     }

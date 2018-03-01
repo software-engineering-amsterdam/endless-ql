@@ -10,12 +10,16 @@ public class IfBlock extends BlockElement {
     private List<FormElement> ifElements;
     private List<FormElement> elseElements;
 
-    public IfBlock(Expression expression, List<FormElement> formElements) {
+    public IfBlock(Expression expression, List<FormElement> formElements, Integer lineNumber,
+                   Integer columnNumber) {
+        super(lineNumber, columnNumber);
         this.expression = expression;
         this.ifElements = formElements;
     }
 
-    public IfBlock(Expression expression, List<FormElement> ifElements, List<FormElement> elseElements) {
+    public IfBlock(Expression expression, List<FormElement> ifElements, List<FormElement>
+            elseElements, Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
         this.expression = expression;
         this.ifElements = ifElements;
         this.elseElements = elseElements;

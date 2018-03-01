@@ -68,7 +68,7 @@ object Statement {
     statements.flatMap {
       case q: Question if q.id == questionId => Seq(q.copy(expression = answer))
       case q: Question                       => Seq(q)
-      case c: Conditional                    => saveAnswer(questionId, answer, c.thenStatements)
+      case c: Conditional                    => Seq(c.copy(thenStatements = saveAnswer(questionId, answer, c.thenStatements)))
     }
   }
 }

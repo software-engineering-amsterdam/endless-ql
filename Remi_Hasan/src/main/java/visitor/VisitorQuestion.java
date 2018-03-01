@@ -27,7 +27,7 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
         ReturnType questionType = ReturnType.valueOf(questionTypeContext.type().getText().toUpperCase());
         Expression defaultAnswer = getDefaultAnswer(ctx.questionType());
 
-        Question question = new Question(questionType, questionName, questionText, defaultAnswer);
+        Question question = new Question(questionType, questionName, questionText, defaultAnswer, this.condition);
 
         LookupTable lookupTable = LookupTable.getInstance();
         lookupTable.insert(question);

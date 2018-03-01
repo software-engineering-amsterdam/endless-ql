@@ -105,7 +105,8 @@ public class ExpressionVariableTest {
     @Test
     public void ExpressionIdentifierTest() throws IOException {
         // Add dummy question to lookuptable so type of identifier can be inferred
-        Question dummyQuestion = new Question(ReturnType.INTEGER,"someQuestionIdentifier_123", "", new ExpressionVariableNumber(1));
+        Question dummyQuestion = new Question(ReturnType.INTEGER,"someQuestionIdentifier_123", "",
+                new ExpressionVariableNumber(1), new ExpressionVariableBoolean(true));
         LookupTable.getInstance().insert(dummyQuestion);
 
         ANTLRTester tester = new ANTLRTester("someQuestionIdentifier_123");

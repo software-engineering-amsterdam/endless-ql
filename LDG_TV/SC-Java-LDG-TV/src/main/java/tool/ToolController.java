@@ -7,9 +7,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -24,7 +27,7 @@ public class ToolController implements Initializable {
     private TextArea taSourceCode;
 
     @FXML
-    private ListView<String> lvQuestionnaire;
+    private ListView<HBox> lvQuestionnaire;
 
     public ToolController() {
         System.out.println("Class initialized");
@@ -40,6 +43,25 @@ public class ToolController implements Initializable {
      */
     public void generateQuestionnaire(ActionEvent event) {
         // TODO generate questionnaire from textarea
+        System.out.println("Build");
+
+        HBox l = new HBox();
+        //l.setAlignment(Pos.BASELINE_RIGHT);
+        Label llbl = new Label("Left");
+        l.getChildren().add(llbl);
+
+        HBox r = new HBox();
+        //r.setAlignment(Pos.BASELINE_LEFT);
+        Label rlbl = new Label("Right");
+        r.getChildren().add(rlbl);
+
+        HBox q = new HBox();
+        q.setAlignment(Pos.CENTER);
+        q.getChildren().addAll(l, r);
+
+        ObservableList<HBox> items = FXCollections.observableArrayList(l);
+        lvQuestionnaire.setItems(items);
+
     }
 
     /**

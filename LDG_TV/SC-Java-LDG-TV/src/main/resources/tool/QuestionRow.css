@@ -1,0 +1,5 @@
+.root{
+    -fx-spacing:        5 px;
+    -fx-pref-width:     inherit;
+    -fx-pref-height:    inherit;
+}

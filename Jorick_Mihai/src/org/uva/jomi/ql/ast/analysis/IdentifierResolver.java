@@ -92,7 +92,7 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		 * Visit the expressions first in case the question identifier is used 
 		 * inside the expression.
 		 */
-		stmt.expression.accept(this);
+		stmt.visitExpr(this);
 		
 		// Make  sure the question name has not been already declared
 		resolveQuestionIdentifier(stmt.getIdentifier());

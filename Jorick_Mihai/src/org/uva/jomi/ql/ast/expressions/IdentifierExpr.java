@@ -20,11 +20,11 @@ public class IdentifierExpr extends Expr {
 		return token;
 	}
 
-	public int getLine() {
+	public int getLineNumber() {
 		return token.getLine();
 	}
 
-	public int getColumn() {
+	public int getColumnNumber() {
 		return token.getColumn();
 	}
 

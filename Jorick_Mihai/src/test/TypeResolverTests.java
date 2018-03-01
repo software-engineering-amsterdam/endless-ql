@@ -28,7 +28,6 @@ public class TypeResolverTests {
 	public void test1() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource1);
 		typeResolver.resolve(ast);
-		System.out.println(typeResolver.getNumberOfErrors());
 		assertTrue(typeResolver.getNumberOfErrors() == 7);
 		assertTrue(typeResolver.
 				getErrorAtIndex(0).equals("[TypeResolver] line: 2, column: 15: Type mismatch, expected boolean, but got integer"));

@@ -28,7 +28,7 @@ public class Question {
 
     public void typeCheck() {
         if(this.answer.getReturnType() != ReturnType.UNDEFINED &&
-                this.type == ReturnType.INTEGER || this.type == ReturnType.DECIMAL || this.type == ReturnType.MONEY) {
+                (this.type == ReturnType.INTEGER || this.type == ReturnType.DECIMAL || this.type == ReturnType.MONEY)) {
             if(this.answer.getReturnType() != ReturnType.NUMBER) {
                 throw new IllegalArgumentException("Cannot assign '"
                         + this.answer.getReturnType() + "' to '" + this.type + "'");

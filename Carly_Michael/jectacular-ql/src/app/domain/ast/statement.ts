@@ -33,6 +33,10 @@ export abstract class Statement {
     return;
   }
 
+  checkDependencies(): void {
+    return;
+  }
+
   protected getLocationErrorMessage(): string {
     return ` between line ${this.location.start.line}` +
       ` and col ${this.location.start.column} and line ${this.location.end.line} and col ${this.location.end.column}`;

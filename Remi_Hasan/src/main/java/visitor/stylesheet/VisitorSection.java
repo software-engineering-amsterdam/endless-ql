@@ -6,6 +6,7 @@ import model.stylesheet.Default;
 import model.stylesheet.Section;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class VisitorSection extends QLSBaseVisitor<Section> {
 
@@ -19,7 +20,7 @@ public class VisitorSection extends QLSBaseVisitor<Section> {
         identifier = identifier.substring(1, identifier.length() - 1);
 
         // Visit subsections
-        ArrayList<Section> sections = new ArrayList<>();
+        List<Section> sections = new ArrayList<>();
         if(ctx.section() != null){
             for(QLSParser.SectionContext sectionContext : ctx.section()){
                 Section section = visitorSection.visitSection(sectionContext);
@@ -28,7 +29,7 @@ public class VisitorSection extends QLSBaseVisitor<Section> {
         }
 
         // Visit defaults
-        ArrayList<Default> defaults = new ArrayList<>();
+        List<Default> defaults = new ArrayList<>();
         if(ctx.default_() != null) {
             for (QLSParser.Default_Context default_context : ctx.default_()) {
                 Default default_ = visitorDefault.visitDefault_(default_context);

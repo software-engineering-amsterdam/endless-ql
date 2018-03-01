@@ -15,11 +15,18 @@ class FormNode:
         for statement in statements:
             self.block.append(statement)
 
+    # Check all types of child forms
     def checkTypes(self):
         types = []
         for statement in self.block:
             types.append(statement.checkTypes())
         return types
+
+    # Link all variables from the assignments/questions to the variable nodes.
+    def linkVars(self, varDict):
+        for statement in self.block:
+            statement.linkVars(varDict)
+
 
     def __repr__(self):
         return "Form: {}, block: {}".format(self.name, self.block)

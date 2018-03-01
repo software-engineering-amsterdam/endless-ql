@@ -1,6 +1,7 @@
 package org.uva.sea.ql.value;
 
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.parser.NodeType;
 
 public class StringValue extends Value {
 
@@ -29,4 +30,8 @@ public class StringValue extends Value {
         return visitor.visit(this);
     }
 
+    @Override
+    public NodeType getType() {
+        return NodeType.STRING;
+    }
 }

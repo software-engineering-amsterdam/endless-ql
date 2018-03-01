@@ -49,6 +49,7 @@ def main(argv):
     visitor.visit(tree)
     # print(visitor.QLAst)
     ast = visitor.getAst()
+    ast.linkVars()
     ast.checkTypes()
 
 

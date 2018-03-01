@@ -19,14 +19,34 @@ class AssignmentNode:
         varNodeType = self.varNode.checkTypes()
 
         if(expType == int and varNodeType == float):
-            return float
+            return ["Assign", float]
         elif(expType == varNodeType):
-            return expType
+            return ["Assign", expType]
         else:
             errorstring = "Incomparible types: " + str(varNodeType) + " and " + \
              str(expType) + "; of assignment at line " + str(self.line)
             throwError(errorstring)
 
+    # Add the newly created variable if necessary, and call linkVars for the expression children.
+    # We also add the assignment node, so we can set the varNode of this assignment later, to be equal
+    # to a varNode which could be used elsewhere
+    def linkVars(self, varDict):
+        # Adding new entry
+        varname = self.varNode.getVarname()
+        line = self.varNode.getLine()
+        if varname in varDict:
+            errorstring = "Error, double declaration of variable '" + varname + "' at line " + str(line)
+            throwError(errorstring)
+        else:
+            new_entry = {   "type": self.varNode.checkTypes(),
+                            "node": self.varNode,
+                            "assign": self
+                        }
+            varDict[varname] = new_entry
+
+        # call for children
+        self.expression.linkVars(varDict)
+
 
     def __repr__(self):
-        return "Assigment: \"{}\" {}:{} = {}".format(self.question, self.varName, self.varType, self.expression)
+        return "Assigment: \"{}\" {}:{} = {}".format(self.question, self.varNode.getVarname(), self.varNode.checkTypes(), self.expression)

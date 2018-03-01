@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import nl.uva.se.sc.niro.Evaluator;
 import nl.uva.se.sc.niro.model.QLForm;
 
 import java.io.IOException;
@@ -20,7 +21,8 @@ public class QLFormController extends QLBaseController {
     public void populateForm(QLForm form) {
         formName.setText(form.formName().replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2"));
         questionsGrid.setPadding(new Insets(0, 20, 0, 20));
-        StatementVisitor.visit(questionsGrid, form.statements(), form.symbolTable());
+        GUICreationVisitor.visit(questionsGrid, form.statements(), form.symbolTable());
+        GUIUpdateVisitor.visit(questionsGrid, Evaluator.evaluateQLForm(form).statements(), form.symbolTable());
     }
 
     @FXML

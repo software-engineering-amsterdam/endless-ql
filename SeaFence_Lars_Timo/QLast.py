@@ -28,7 +28,6 @@ class AssignmentNode:
 	def __repr__(self):
 		return "Assignment: {} {} {} = {}".format(self.name, self.vartype, self.var, self.expression)
 
-
 class BinOpNode:
 	def __init__(self, left, op, right, negate=False):
 		self.left = left

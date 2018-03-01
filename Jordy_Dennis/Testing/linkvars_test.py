@@ -1,6 +1,5 @@
-
-
 from test_methods import *
+
 
 class LinkVarsTest(unittest.TestCase):
     def testGoodFilesLinkvars(self):

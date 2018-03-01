@@ -44,6 +44,8 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
     @Override
     public Widget visitWidgetFont(QLSParser.WidgetFontContext ctx) {
         String fontFamily = ctx.STRING().getText();
+        // Strip quotes
+        fontFamily = fontFamily.substring(1, fontFamily.length() - 1);
         return new WidgetFont(fontFamily);
     }
 

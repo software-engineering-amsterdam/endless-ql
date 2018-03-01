@@ -9,4 +9,3 @@ class IfNode(BlockStatementNode):
     @property
     def condition(self):
         return self.__condition
-

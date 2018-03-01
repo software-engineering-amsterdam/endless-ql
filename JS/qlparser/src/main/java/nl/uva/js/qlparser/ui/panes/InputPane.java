@@ -21,6 +21,7 @@ public class InputPane extends BorderPane {
 		title.setPadding(new Insets(5, 5, 5, 5));
 
 		content = new TextArea();
+		content.setWrapText(true);
 
 		this.setTop(title);
 		this.setCenter(content);

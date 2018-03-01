@@ -9,24 +9,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import lombok.NoArgsConstructor;
+import nl.uva.js.qlparser.exceptions.ParseException;
 import nl.uva.js.qlparser.logic.FormBuilder;
 import nl.uva.js.qlparser.models.expressions.Form;
 import nl.uva.js.qlparser.ui.panes.FormPane;
 import nl.uva.js.qlparser.ui.panes.InputPane;
 import nl.uva.js.qlparser.ui.panes.LogPane;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 
-@NoArgsConstructor
-@Component
 public class MainApp extends Application {
 
-    @Autowired
     private LogPane logPane;
-
     private InputPane inputPane;
     private FormPane  formPane;
 
@@ -46,6 +40,7 @@ public class MainApp extends Application {
     private BorderPane buildLayout(Stage stage) {
         inputPane = new InputPane();
         formPane  = new FormPane();
+        logPane   = new LogPane();
 
         inputPane.setMinWidth(300);
         formPane.autosize();
@@ -76,19 +71,16 @@ public class MainApp extends Application {
         logPane.clear();
 
         logPane.log("Parsing...");
-        boolean parseSuccess = true;
 
         try {
             Form form = FormBuilder.parseFormFromString(inputPane.getText());
-        } catch (Exception e) {
-            parseSuccess = false;
-        }
 
-        if (parseSuccess) {
             // Evaluate / render
             logPane.log("Rendering questionnaire...");
 
             logPane.log("Process finished");
+        } catch (ParseException e) {
+            logPane.log(e.getMessage());
         }
     }
 

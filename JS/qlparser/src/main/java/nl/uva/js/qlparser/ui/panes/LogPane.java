@@ -1,14 +1,13 @@
 package nl.uva.js.qlparser.ui.panes;
 
 import javafx.scene.control.TextArea;
-import org.springframework.stereotype.Component;
 
-@Component
 public class LogPane extends TextArea {
 
     public LogPane() {
         super();
         setEditable(false);
+        setWrapText(true);
     }
 
     public void clear() {
@@ -16,6 +15,6 @@ public class LogPane extends TextArea {
     }
 
     public void log(String line) {
-        this.setText(this.getText() + "\n" + line);
+        this.setText(this.getText() + "\n" + line + "\n");
     }
 }

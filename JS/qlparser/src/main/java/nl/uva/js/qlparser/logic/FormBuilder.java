@@ -6,17 +6,12 @@ import nl.uva.js.qlparser.antlr.QLParser;
 import nl.uva.js.qlparser.models.expressions.Form;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-@Component
 public class FormBuilder {
-//
-//    @Autowired
-//    static ErrorListener errorListener;
 
     @SneakyThrows(IOException.class)
     public static Form parseFormFromLocation(String location) {
@@ -26,7 +21,7 @@ public class FormBuilder {
 
     public static Form parseFormFromString(String qlInput) {
         QLLexer lexer = new QLLexer(CharStreams.fromString(qlInput));
-//        lexer.addErrorListener(errorListener);
+        lexer.addErrorListener(new ErrorListener());
         QLParser parser = new QLParser(new CommonTokenStream(lexer));
 
         Form form = new QLVisitorImpl().visitForm(parser.form());

@@ -1,17 +1,11 @@
 package tool;
 
 import domain.Utilities;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -41,9 +35,10 @@ public class ToolController implements Initializable {
      * @param event that kicked of the invocation
      */
     public void generateQuestionnaire(ActionEvent event) {
-        QuestionRow row = new QuestionRow("Some long question that needs to be answered?", new TextField());
-        lvQuestionnaire.getItems().addAll(row);
+        QuestionRow row1 = new QuestionRow("Some long question that needs to be answered?", new TextField());
+        QuestionRow row2 = new QuestionRow("Some other question that needs to be answered?", new CheckBox());
 
+        lvQuestionnaire.getItems().addAll(row1, row2);
     }
 
     /**

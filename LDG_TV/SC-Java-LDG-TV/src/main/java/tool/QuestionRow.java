@@ -2,16 +2,12 @@ package tool;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class QuestionRow extends HBox implements Initializable {
+public class QuestionRow extends HBox {
 
     @FXML
     private Label lblQuestion;
@@ -32,11 +28,5 @@ public class QuestionRow extends HBox implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
     }
 }

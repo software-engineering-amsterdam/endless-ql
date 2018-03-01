@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.API.AstNodes;
+using QuestionaireDomain.Entities.API.AstNodes.Calculation;
+using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionnaireDomain.Logic.Logic
@@ -15,35 +19,54 @@ namespace QuestionnaireDomain.Logic.Logic
             m_registry = registry;
         }
 
-        public IQuestionnaireAst CreateQuestionnaire()
+        public Reference<IRootNode> CreateQuestionnaire(
+            string questionaireName,
+            IEnumerable<Reference<IStatementNode>> statements)
         {
-            var questionnaire = new QuestionnaireAst(m_ids.Next);
-            m_registry.Add(questionnaire);
-            return questionnaire;
+            var questionnaire = new Ast(
+                m_ids.Next,
+                questionaireName,
+                statements);
+            return AstNodeRegistration<IRootNode>(questionnaire);
         }
 
-        public ICalculationAst CreateCalculation(string calculationDefinition)
+        public Reference<ICalculationNode> CreateCalculation(string calculationDefinition)
         {
-            var calculation = new CalculationAst(m_ids.Next, calculationDefinition);
-            m_registry.Add(calculation);
-            return calculation;
+            var calculation = new CalculationNode(m_ids.Next, calculationDefinition);
+            return AstNodeRegistration<ICalculationNode>(calculation);
         }
 
-        public IConditionalAst CreateConditional(string questionDefinition)
+        public Reference<IConditionalStatementNode> CreateConditional(string questionDefinition)
         {
             var condition = new ConditionalAst(m_ids.Next, questionDefinition);
-            m_registry.Add(condition);
-            return condition;
+            return AstNodeRegistration<IConditionalStatementNode>(condition);
         }
 
-        public IQuestionAst CreateQuestion(
+        public Reference<IQuestionNode> CreateQuestion(
             string questionName, 
             string questionText, 
             Type questionType)
         {
-            var question = new QuestionAst(m_ids.Next, questionName, questionText, questionType);
-            m_registry.Add(question);
-            return question;
+            var question = new Question(m_ids.Next, questionName, questionText, questionType);
+            return AstNodeRegistration<IQuestionNode>(question);
+        }
+
+        private Reference<T> AstNodeRegistration<T>(T node) where T : IAstNode
+        {
+            m_registry.Add(node);
+            return new Reference<T> { Id = node.Id };
+        }
+
+        public Reference<INumberNode> CreateNumber(string numberText)
+        {
+            var number = new NumberNode(m_ids.Next, numberText);
+            return AstNodeRegistration<INumberNode>(number);
+        }
+
+        public Reference<IVariableNode> CreateNumberVariableName(string variableName)
+        {
+            var variable = new VariableNode(m_ids.Next, variableName);
+            return AstNodeRegistration<IVariableNode>(variable);
         }
     }
 }

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.API.AstNodes;
+using QuestionaireDomain.Entities.API.AstNodes.Calculation;
 using QuestionnaireDomain.Logic;
 using QuestionnaireDomain.Logic.API;
 using QuestionnaireInfrastructure.API;
@@ -39,11 +42,15 @@ namespace UnitTests.Domain.UnitTests
         [Test]
         public void WhenGivenSingleNumber_ReturnsSameNumber()
         {
-            var validText = "form NameForm { x: \"xyz\" integer = (1) }";
             var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
             var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
+            var validText = "form NameForm { x: \"xyz\" integer = (1 + 1) }";
             questionnaireCreator.Create(validText);
-            var value = domainItemLocator.Get<ICalculationAst>(m_ids[2]).Value?.IntValue;
+            var value = domainItemLocator
+                .GetAll<INumberNode>()
+                .FirstOrDefault()
+                ?.Value;
+
             Assert.IsNotNull(value);
             Assert.AreEqual(expected: 1,actual: value);
         }

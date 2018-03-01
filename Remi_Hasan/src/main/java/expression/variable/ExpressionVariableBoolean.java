@@ -9,16 +9,18 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
     }
 
     @Override
+    public Boolean getBooleanValue() {
+        return this.value;
+    }
+
+    @Override
     public ReturnType getReturnType() {
         return ReturnType.BOOLEAN;
     }
 
     @Override
     public void setValue(String value) {
-        if(value.isEmpty())
-            this.value = null;
-        else
-            this.value = Boolean.parseBoolean(value);
+        this.value = !value.isEmpty() && Boolean.parseBoolean(value);
     }
 
     @Override

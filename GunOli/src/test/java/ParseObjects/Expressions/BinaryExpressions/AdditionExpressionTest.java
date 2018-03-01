@@ -1,36 +1,22 @@
 package ParseObjects.Expressions.BinaryExpressions;
 
-import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 import ParseObjects.Expressions.ExpressionConstants.IntegerConstant;
 
-import org.junit.Test;
+import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
+import org.junit.runner.RunWith;
 
-import static ParseObjects.Expressions.EvaluationType.Decimal;
 import static org.junit.Assert.*;
 
+@RunWith(JUnitQuickcheck.class)
 public class AdditionExpressionTest {
 
-    private IntegerConstant a = new IntegerConstant( 3);
-    private IntegerConstant b = new IntegerConstant(5);
-    private AdditionExpression ae = new AdditionExpression(a, b);
+    @Property
+    public void evaluate(int autoA, int autoB) {
+        IntegerConstant b = new IntegerConstant( autoA);
+        IntegerConstant c = new IntegerConstant( autoB);
 
-    @Test
-    public void returnType() {
-        assertEquals(Decimal, ae.returnType());
+        AdditionExpression test  = new AdditionExpression(b,c);
+        assertEquals((autoA + autoB), test.evaluate().getValue());
     }
-
-    @Test
-    public void evaluate() {
-        //Todo: Make this better, look at changes to AdditionExpression
-
-        //double value = (double) ae.evaluate().getValue();
-        //assertEquals(8.00, value, 0);
-    }
-
-    @Test
-    public void isArithmetic() {
-        assertEquals(true,ae.isArithmetic());
-
-    }
-
 }

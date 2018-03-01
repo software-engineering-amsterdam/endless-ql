@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Assignment1.Model;
 
 namespace Assignment1
 {

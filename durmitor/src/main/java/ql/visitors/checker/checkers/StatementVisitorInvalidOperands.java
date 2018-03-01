@@ -21,7 +21,7 @@ public class StatementVisitorInvalidOperands implements StatementVisitor {
     }
     
     public void check(Expression expr) {
-        expr.accept(new ExpressionVisitorType(errors));
+        expr.accept(new ExpressionVisitorInvalidOperands(errors));
     }
     
     @Override
@@ -48,7 +48,7 @@ public class StatementVisitorInvalidOperands implements StatementVisitor {
     @Override
     public void visit(ComputedQuestion stmt) {
         
-        Type computationType = stmt.getComputation().accept(new ExpressionVisitorType(errors));
+        Type computationType = stmt.getComputation().accept(new ExpressionVisitorInvalidOperands(errors));
         
         if(!computationType.isUndefined())
         {

@@ -1,17 +1,20 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using AntlGrammar;
 using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.API.AstNodes;
+using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 using QuestionaireDomain.Entities.DomainObjects;
 
 namespace AntlrInterpretor.Logic
 {
-    public class BuildAstVisitor : QLBaseVisitor<IAstNode>
+    public class BuildAstVisitor : QLBaseVisitor<Reference<IAstNode>>
     {
         private readonly IAstFactory m_astFactory;
         private readonly IDomainItemLocator m_domainItemLocator;
-        private readonly IQuestionnaireAst m_questionnaireAst;
 
         public BuildAstVisitor(
             IAstFactory astFactory,
@@ -19,68 +22,72 @@ namespace AntlrInterpretor.Logic
         {
             m_astFactory = astFactory;
             m_domainItemLocator = domainItemLocator;
-            m_questionnaireAst = m_astFactory.CreateQuestionnaire();
         }
 
-        public override IAstNode VisitQuestionnaire(QLParser.QuestionnaireContext context)
+        public override Reference<IAstNode> VisitNumberLiteral(QLParser.NumberLiteralContext context)
         {
-            var formName = context.IDENTIFIER().GetText();
-            context.statement()
-                .Select(x => Visit(x))
-                .ToList();
-            m_questionnaireAst.FormName = formName;
-            return m_questionnaireAst;
+            return m_astFactory.CreateNumber(context.GetText());
         }
         
-        public override IAstNode VisitMathexpression(QLParser.MathexpressionContext context)
+        public override Reference<IAstNode> VisitQuestionnaire(QLParser.QuestionnaireContext context)
+        {
+            var questionnaireName = context.IDENTIFIER().GetText();
+
+            var statements = context.statement()
+                .Select(x => Visit(x))
+                .To<IStatementNode>(m_domainItemLocator);
+                
+            return m_astFactory.CreateQuestionnaire(
+                questionnaireName,
+                statements);
+        }
+        
+        public override Reference<IAstNode> VisitMathExpression(QLParser.MathExpressionContext context)
         {
             var calculationDefinition = context.GetText();
-            var calculation = m_astFactory.CreateCalculation(calculationDefinition);
-
-            return calculation;
+            return m_astFactory.CreateCalculation(calculationDefinition);
         }
 
-        public override IAstNode VisitNumberId(QLParser.NumberIdContext context)
+        public override Reference<IAstNode> VisitNumberVariableName(QLParser.NumberVariableNameContext context)
         {
-            return base.VisitNumberId(context);
+            return m_astFactory.CreateNumberVariableName(context.GetText());
         }
 
-
-        public override IAstNode VisitCalculatedValue(QLParser.CalculatedValueContext context)
+        public override Reference<IAstNode> VisitCalculatedValue(QLParser.CalculatedValueContext context)
         {
-            return VisitMathexpression(context.mathexpression());
+            return VisitMathExpression(context.mathExpression());
         }
 
-        public override IAstNode VisitConditional(QLParser.ConditionalContext context)
+        public override Reference<IAstNode> VisitConditionalStatement(QLParser.ConditionalStatementContext context)
         {
-            var questionName = context.condition().GetText();
-            var conditional = m_astFactory.CreateConditional(questionName);
-
-            m_questionnaireAst.ChildNodes.Add(conditional);
-            Visit(context.condition());
+            var questionName = context.booleanExpression().GetText();
+            var conditional = m_astFactory
+                .CreateConditional(questionName);
+            
+            Visit(context.booleanExpression());
             context.statement()
-                .Select(x => Visit(x))
+                .Select(Visit)
                 .ToList();
 
-            return m_questionnaireAst;
+            return conditional;
         }
         
-        public override IAstNode VisitQuestion(QLParser.QuestionContext context)
+        public override Reference<IAstNode> VisitQuestion(QLParser.QuestionContext context)
         {
             var name = context.IDENTIFIER().GetText();
 
             //ToDo: move this to the static analyzer
-            var questionExists = m_domainItemLocator.GetAll<IQuestionAst>().Any(x => x.Name == name);
-            if (questionExists)
-            {
-                var message = $@"The question with the id '{name}' exists more than once";
-                throw new QlParserException(message, null) { ParseErrorDetails = message };
-            }
+            //var questionExists = m_domainItemLocator.GetAll<IQuestionAst>().Any(x => x.QuestionId == name);
+            //if (questionExists)
+            //{
+            //    var message = $@"The question with the id '{name}' exists more than once";
+            //    throw new QlParserException(message, null) { ParseErrorDetails = message };
+            //}
             
 
             var text = context.TEXT().GetText();
             Type type;
-            switch (context.questiontype().qtype.Type)
+            switch (context.questionType().chosenType.Type)
             {
                 case QLParser.BOOLTYPE:
                     type = typeof(bool);
@@ -99,14 +106,32 @@ namespace AntlrInterpretor.Logic
                     break;
                 default:
                     throw new QlParserException(
-                        $@"Type '{context.questiontype().qtype.Type}' handled in the parse tree but not by the AST",
+                        $@"QuestionType '{context.questionType().chosenType.Type}' handled in the parse tree but not by the AST",
                         null);
             }
 
+            return m_astFactory.CreateQuestion(
+                name, 
+                text.Replace("\"", ""), 
+                type);
+        }
+    }
 
-            var question = m_astFactory.CreateQuestion(name, text.Replace("\"", ""), type);
+    public static class AstExtensions
+    {
+        public static IEnumerable<Reference<T>> To<T>(
+            this IEnumerable<Reference<IAstNode>> nodes,
+            IDomainItemLocator domainItemLocator) where T : IAstNode
+        {
+            return nodes.Select(x => x.To<T>(domainItemLocator)).ToList(); 
+        }
 
-            return m_questionnaireAst;
+        public static Reference<T> To<T>(
+            this Reference<IAstNode> node, 
+            IDomainItemLocator domainItemLocator) where T : IAstNode
+        {
+            var domainItem = domainItemLocator.Get<T>(node.Id);
+            return new Reference<T> {Id = domainItem.Id};
         }
     }
 }

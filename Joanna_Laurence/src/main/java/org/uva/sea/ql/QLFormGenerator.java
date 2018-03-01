@@ -29,25 +29,16 @@ public class QLFormGenerator {
      */
     public List<QuestionData> generate(String guiSpecification, SymbolTable symbolTable) throws IOException, Errors {
         List<Question> questions = this.getQuestions(guiSpecification, symbolTable);
-        HashSet<String> existingQuestionNames = new HashSet<>();
 
         List<QuestionData> questionDataList = new ArrayList<>();
         for( Question question : questions) {
-            Value value = getQuestionValueOrError(question, symbolTable, existingQuestionNames);
+            Value value = getQuestionValue(symbolTable, question);
             questionDataList.add(new QuestionData(question, value));
         }
 
         return questionDataList;
     }
 
-    private Value getQuestionValueOrError(Question question, SymbolTable symbolTable, HashSet<String> existingQuestionNames) {
-        Value value = getQuestionValue(symbolTable, question);
-        String name = question.getVariable().getVariableName();
-        if(existingQuestionNames.contains(name))
-            value = new ErrorValue("Question is already displayed", question.getLine(), question.getColumn());
-        existingQuestionNames.add(name);
-        return value;
-    }
 
     /**
      * Compute value or get the value from the symbol table

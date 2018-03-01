@@ -6,6 +6,7 @@ class GuiBuilder():
         self.gui = Gui()
         self.ast = ast
         self.parseForm()
+        self.form_variable = {}
 
 
     def parseForm(self):
@@ -23,7 +24,7 @@ class GuiBuilder():
     def parseQuestion(self, statement):
         self.gui.addLabel(statement.var, statement.question)
         if statement.vartype == "boolean":
-            self.gui.addYesNoRadioButtons(statement.var, "Yes", "No")
+            self.gui.addYesNoRadioButtons(statement.var, "No", "Yes")
         elif statement.vartype == "int":
             self.gui.addTextBox(statement.var, 1, 10)
         return

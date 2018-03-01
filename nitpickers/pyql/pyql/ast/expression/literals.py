@@ -7,7 +7,7 @@ class StringLiteral(expressions.Literal):
     def __init__(self, location, value):
         super().__init__(location)
         self._value = str(value)
-        self._type = types.String(location)
+        self._type = types.String()
 
     @property
     def value(self):
@@ -26,7 +26,7 @@ class IntegerLiteral(expressions.Literal):
     def __init__(self, location, value):
         super().__init__(location)
         self._value = int(value)
-        self._type = types.Integer(location)
+        self._type = types.Integer
 
     @property
     def value(self):
@@ -45,7 +45,7 @@ class DecimalLiteral(expressions.Literal):
     def __init__(self, location, value):
         super().__init__(location)
         self._value = value
-        self._type = types.Decimal(location)
+        self._type = types.Decimal
 
     @property
     def value(self):
@@ -63,8 +63,8 @@ class BooleanLiteral(expressions.Literal):
 
     def __init__(self, location, value):
         super().__init__(location)
-        self._value = value == "true"
-        self._type = types.Boolean(location)
+        self._value = value
+        self._type = types.Boolean()
 
     @property
     def value(self):
@@ -83,7 +83,7 @@ class MoneyLiteral(expressions.Literal):
     def __init__(self, location, value):
         super().__init__(location)
         self._value = value
-        self._type = types.Money(location)
+        self._type = types.Money()
 
     @property
     def value(self):

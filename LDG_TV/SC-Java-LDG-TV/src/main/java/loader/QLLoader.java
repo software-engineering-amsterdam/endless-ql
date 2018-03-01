@@ -5,8 +5,8 @@ import antlr.FormParser;
 import domain.FormNode;
 import domain.model.Expression;
 import domain.model.Question;
-import domain.model.Value;
-import domain.model.Variable;
+import domain.model.PlainValue;
+import domain.model.QuestionVariableValue;
 
 
 public class QLLoader extends FormBaseListener {
@@ -39,17 +39,17 @@ public class QLLoader extends FormBaseListener {
         switch (ctx.getParent().invokingState){
             case 27:
                 this.formNode.getFormData().addPlainQuestion(
-                        this.newQuestion(ctx.questionLabel().getText(), ctx.questionVariable().getText(), ctx.questionVariableType().getText(), ctx.questionVariableValue()));
+                    this.newQuestion(ctx.questionLabel().getText(), ctx.questionVariable().getText(), ctx.questionVariableType().getText(), ctx.questionVariableValue()));
                 break;
             case 35:
                 this.formNode.getFormData().addConditionQuestion(this.ifStatementBlockVariableHolder,
-                        this.newQuestion(ctx.questionLabel().getText(), ctx.questionVariable().getText(), ctx.questionVariableType().getText(), ctx.questionVariableValue()));
+                    this.newQuestion(ctx.questionLabel().getText(), ctx.questionVariable().getText(), ctx.questionVariableType().getText(), ctx.questionVariableValue()));
                 break;
             default:
         }
     }
     private Question newQuestion(String label, String questionVariable, String questionVariableType, FormParser.QuestionVariableValueContext questionVariableValue){
-        Variable constructedQuestionVariableValue = null;
+        QuestionVariableValue constructedQuestionVariableValue = null;
 
         if(questionVariableValue != null && questionVariableValue.expression() != null){
             FormParser.ExpressionContext ec = questionVariableValue.expression();
@@ -57,7 +57,7 @@ public class QLLoader extends FormBaseListener {
         }
         if(questionVariableValue != null && questionVariableValue.value() != null){
             FormParser.ValueContext vc = questionVariableValue.value();
-            constructedQuestionVariableValue = new Value(vc.getText());
+            constructedQuestionVariableValue = new PlainValue(vc.getText());
         }
         return new Question(label, questionVariable, questionVariableType, constructedQuestionVariableValue);
     }

@@ -1,9 +1,9 @@
 package domain.model;
 
-public class Value extends QuestionVariableValue{
+public class PlainValue extends QuestionVariableValue{
     private String value;
 
-    public Value(String value){
+    public PlainValue(String value){
         this.value = value;
     }
 

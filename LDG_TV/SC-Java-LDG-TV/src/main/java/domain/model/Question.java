@@ -4,9 +4,9 @@ public class Question {
     private String label;
     private String variable;
     private String variableType;
-    private Variable variableValue;
+    private QuestionVariableValue variableValue;
 
-    public Question(String label, String variable, String variableType, Variable variableValue){
+    public Question(String label, String variable, String variableType, QuestionVariableValue variableValue){
         this.label = label;
         this.variable = variable;
         this.variableType = variableType;
@@ -25,7 +25,7 @@ public class Question {
         return variableType;
     }
 
-    public Variable getVariableValue() {
+    public QuestionVariableValue getVariableValue() {
         return variableValue;
     }
 }

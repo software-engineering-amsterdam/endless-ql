@@ -32,7 +32,7 @@ public class Question {
                 throw new IllegalArgumentException("Cannot assign '"
                         + this.answer.getReturnType() + "' to '" + this.type + "'");
             }
-        } else {
+        } else if(this.answer.getReturnType() != ReturnType.UNDEFINED) {
             if(this.answer.getReturnType() != this.type) {
                 throw new IllegalArgumentException("Cannot assign '"
                         + this.answer.getReturnType() + "' to '" + this.type + "'");

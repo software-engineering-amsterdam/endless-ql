@@ -1,13 +1,18 @@
 ﻿namespace Assignment1
 {
-    public class Expression
+    public abstract class Expression
+    {
+        public abstract dynamic Evaluate();
+    }
+
+    public class ExpressionValue : Expression
     {
         private readonly object _value;
-        public Expression(object value = null)
+        public ExpressionValue(object value = null)
         {
             _value = value;
         }
-        public virtual dynamic Evaluate() => _value;
+        public override dynamic Evaluate() => _value;
     }
 
     internal class ExpressionNot : Expression

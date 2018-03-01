@@ -7,20 +7,18 @@
 
 }
 
-start = call+
-
-call = lb* stylesheet:stylesheet lb* { return stylesheet}
+start = lb* stylesheet:stylesheet lb* { return stylesheet}
 
 // Stylesheet
 stylesheet
- = _ "stylesheet" _ name:name lb* page:page*{
-    return { name, page }
+ = _ "stylesheet" _ id:identifier lb* page:page*{
+    return new Nodes.Stylesheet( id, page);
 }
 
 // Page
 page
- = _ "page" _ name:name _ block:pageBlock lb*{
-    return { name, block };
+ = _ "page" _ id:identifier _ block:pageBlock lb*{
+    return new Nodes.Page( id, block );
 }
 
 pageBlock
@@ -31,7 +29,7 @@ pageBlock
 // Section
 section
  = _ "section" _ name:stringLiteral lb* block:sectionBody{
-    return { name, block };
+    return new Nodes.Section( name, block );
 }
 
 sectionBody
@@ -49,23 +47,21 @@ sectionBlockUnquoted
 
 // Question
 question
- = _ "question" _ name:name lb* widget:widget? lb*{
-    return { name, widget };
+ = _ "question" _ id:identifier lb* widget:widget? lb*{
+    return new Nodes.Question( id, widget );
 }
-
-
 
 // Default
 default = defaultBlockQuoted / defaultBlockUnquoted
 
 defaultBlockQuoted
  = _ "default" _ type:type _ "{" lb* args:defaultBlockBody+ lb* "}" lb* {
-    return {type, args};
+    return new Nodes.DefaultStyle(type, args);
 }
 
 defaultBlockUnquoted
  = _ "default" _ type:type lb* args:defaultBlockBody lb* {
-    return {type, args};
+    return new Nodes.DefaultStyle(type, args);
 }
 
 defaultBlockBody
@@ -73,8 +69,8 @@ defaultBlockBody
 
 // Widget
 widget
- = _ "widget" _ name:name options:widgetOptions? lb* {
-    return {name, options};
+ = _ "widget" _ id:identifier options:widgetOptions? lb* {
+    return new Nodes.WidgetAttribuut("widget", id, options);
 }
 
 // WidgetOptions
@@ -90,8 +86,8 @@ arguments
 
 // Style element
 style
- = _ name:name _ ":" _ args:styleValues lb*{
-    return {name, args}
+ = _ id:identifier _ ":" _ args:styleValues lb*{
+    return new Nodes.BaseAttribuut(id, args);
 }
 
 // Style values
@@ -105,13 +101,6 @@ color
     return "#".concat(code[1].join(""))
 }
 
-// Name
-// TODO: refactor as this is just an identifier
-name
- = v:([a-zA-Z]+) {
-    return v.join("")
-}
-
 // Identifier?
 identifier
  = chars:([a-zA-Z]+) {
@@ -120,8 +109,8 @@ identifier
 
 // Boolean Literal
 booleanLiteral
-  = Literal:("True" / "False") {
-    return Literal == "True"
+  = Literal:("true" / "false") {
+    return Literal == "true"
 }
 
 // Integer

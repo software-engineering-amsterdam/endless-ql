@@ -14,6 +14,7 @@ class QLAst:
     def __init__(self):
         self.forms = []
         self.types = []
+        self.varDict = {}
 
     def addForm(self, form):
         self.forms.append(form)
@@ -33,7 +34,9 @@ class QLAst:
         varDict = {}
         for form in self.forms:
             form.linkVars(varDict)
-        return varDict
+        self.varDict = varDict
+        print(varDict)
+        return self.varDict
 
     def __repr__(self):
         return "FORMS: {}".format(self.forms)

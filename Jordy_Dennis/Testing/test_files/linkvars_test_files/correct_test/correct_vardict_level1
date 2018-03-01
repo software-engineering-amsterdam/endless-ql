@@ -1,0 +1,7 @@
+form taxOfficeExample
+{
+  "Did you sell a house in 2010?"
+    hasSoldHouse: boolean
+}
+---
+{'hasSoldHouse': {'type': <class 'bool'>, 'node': VarNode: hasSoldHouse <class 'bool'>, 'assign': Question: "Did you sell a house in 2010?", hasSoldHouse:<class 'bool'>}}

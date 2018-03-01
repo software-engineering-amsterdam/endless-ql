@@ -10,13 +10,15 @@ public class AstRoot extends AstNode {
     private List<Form> forms;
     private SymbolTable symbolTable;
 
-    private AstRoot() {
+    private AstRoot(Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
         symbolTable = new SymbolTable();
     }
 
-    public AstRoot(List<Form> forms) {
-        this();
+    public AstRoot(List<Form> forms, Integer lineNumber, Integer columnNumber) {
+        this(lineNumber, columnNumber);
         this.forms = forms;
+
     }
 
     public List<Form> getForms() {

@@ -101,16 +101,16 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visit(IfStmt stmt) {
-		stmt.expression.accept(this);
-		stmt.blockStmt.accept(this);
+		stmt.visitExpr(this);
+		stmt.visitIfBlockStmt(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(IfElseStmt stmt) {
-		stmt.expression.accept(this);
-		stmt.ifBlockStmt.accept(this);
-		stmt.elseBlockStmt.accept(this);
+		stmt.visitExpr(this);
+		stmt.visitIfBlockStmt(this);
+		stmt.visitElseBlockStmt(this);
 		return null;
 	}
 

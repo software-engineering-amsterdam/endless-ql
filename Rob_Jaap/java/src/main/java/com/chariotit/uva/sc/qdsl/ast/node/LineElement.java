@@ -8,7 +8,10 @@ public class LineElement extends FormElement {
     private Question question;
     private TypeExpression typeExpression;
 
-    public LineElement(Label label, Question question, TypeExpression typeExpression) {
+    public LineElement(Label label, Question question, TypeExpression typeExpression, Integer
+            lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
+
         this.label = label;
         this.question = question;
         this.typeExpression = typeExpression;

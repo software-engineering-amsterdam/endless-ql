@@ -7,7 +7,8 @@ public class StringConstant extends Constant {
 
     private String value;
 
-    public StringConstant(String value) {
+    public StringConstant(String value, Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
         this.value = value;
     }
 

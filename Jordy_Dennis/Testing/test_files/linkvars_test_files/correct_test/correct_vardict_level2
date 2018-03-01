@@ -1,0 +1,18 @@
+form taxOfficeExample {
+	"Did you sell a house in 2010?"
+		a: int
+
+	"Did you sell a house in 2012?"
+		b: string
+
+	"Uitkomst"
+		g: int = (a * a)
+
+	if(a && b){
+		"Did you sell a house in 2012?"
+			f: int
+	}
+
+}
+---
+{'a': {'type': <class 'int'>, 'node': VarNode: a <class 'int'>, 'assign': Question: "Did you sell a house in 2010?", a:<class 'int'>}, 'b': {'type': <class 'str'>, 'node': VarNode: b <class 'str'>, 'assign': Question: "Did you sell a house in 2012?", b:<class 'str'>}, 'g': {'type': <class 'int'>, 'node': VarNode: g <class 'int'>, 'assign': Assigment: ""Uitkomst"" g:<class 'int'> = Binop: VarNode: a <class 'int'> * VarNode: a <class 'int'>}, 'f': {'type': <class 'int'>, 'node': VarNode: f <class 'int'>, 'assign': Question: "Did you sell a house in 2012?", f:<class 'int'>}}

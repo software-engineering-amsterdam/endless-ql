@@ -1,14 +1,12 @@
+import analysis.SymbolTable;
 import expression.ReturnType;
-import javafx.css.Stylesheet;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.converter.DateStringConverter;
 import model.Form;
 import model.Question;
 import model.stylesheet.StyleSheet;
@@ -17,11 +15,6 @@ import org.yorichan.formfx.field.Field;
 import org.yorichan.formfx.field.FieldGroup;
 import org.yorichan.formfx.form.GridForm;
 
-import javax.swing.text.Style;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -30,10 +23,12 @@ import java.util.regex.Pattern;
 public class Renderer {
 
     private final Form form;
+    private final SymbolTable symbolTable;
     private final StyleSheet styleSheet;
 
-    Renderer(Form form, StyleSheet styleSheet) {
+    Renderer(Form form, SymbolTable symbolTable, StyleSheet styleSheet) {
         this.form  = form;
+        this.symbolTable = symbolTable;
         this.styleSheet = styleSheet;
     }
 
@@ -72,9 +67,6 @@ public class Renderer {
 
     private void addQuestion(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, Question question) {
         Control input;
-        TextFormatter formatter;
-
-        System.out.println("debug: " + question.name + " " + question.type);
 
         switch(question.type){
             case BOOLEAN:
@@ -112,7 +104,7 @@ public class Renderer {
     private Control createDateField(HashMap<Question, Field> fieldMap, Question question) {
         DatePicker datePicker = new DatePicker();
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-            form.setAnswer(question.name, question.type, newValue.toString());
+            symbolTable.setValue(question.name, newValue.toString(), question.type);
             updateFields(fieldMap, form.questions);
         });
 //        throw new NotImplementedException();
@@ -123,10 +115,8 @@ public class Renderer {
         CheckBox checkBox = new CheckBox();
 
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("hellooooo");
-            form.setAnswer(question.name, question.type, newValue.toString());
+            symbolTable.setValue(question.name, newValue.toString(), question.type);
             updateFields(fieldMap, form.questions);
-            System.out.println("hellooooo2");
         });
 
         return checkBox;
@@ -134,16 +124,12 @@ public class Renderer {
 
     private Control createTextField(HashMap<Question, Field> fieldMap, Question question, ReturnType type) {
         TextInputControl textField = Input.textField();
-
-        if(question.answer.getReturnType() == ReturnType.UNDEFINED) {
-//            textField.setEditable(false);
-//            textField.setText(question.evaluateAnswer());
-        }
+        textField.setEditable(question.isEditable);
 
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
-                form.setAnswer(question.name, question.type, textField.getText());
+                symbolTable.setValue(question.name, textField.getText(), question.type);
                 updateFields(fieldMap, form.questions);
             }
         });
@@ -196,17 +182,13 @@ public class Renderer {
         Button submitButton = new Button("Submit (see output in console)");
         submitButton.setOnAction(e -> {
             // Debug output, shows answer to every question in console
-            System.out.println();
-            for (Question question: form.questions) {
-                System.out.println(question.name + " " + question.evaluateAnswer());
-            }
         });
         return submitButton;
     }
 
     private void updateFields(HashMap<Question, Field> fieldMap, List<Question> questions) {
         for (Question question : questions) {
-            updateField(fieldMap, question, question.isVisible());
+            updateField(fieldMap, question, question.isVisible(this.symbolTable));
         }
     }
 
@@ -215,19 +197,19 @@ public class Renderer {
         field.getLabel().setVisible(visible);
         field.getControl().setVisible(visible);
 
-        if(question.answer.getReturnType() == ReturnType.UNDEFINED) {
-            // TODO: move somwhere else
-            Object answer = question.evaluateAnswer();
+        // If question is based on expression and cannot be set by the user, set value by evaluating its expression
+        if(!question.isEditable) {
+            String answer = symbolTable.getStringValue(question.name, question.type);
 
             if (question.type == ReturnType.BOOLEAN) {
                 CheckBox checkBox = (CheckBox) field.getControl();
-                checkBox.setSelected(Boolean.TRUE.equals(answer));
+                checkBox.setSelected(Boolean.valueOf(answer));
             } else if(question.type == ReturnType.DATE){
                 // TODO
             }
             else {
                 TextInputControl textField = (TextInputControl) field.getControl();
-                textField.setText(answer.toString());
+                textField.setText(answer);
             }
         }
     }

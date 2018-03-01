@@ -5,13 +5,11 @@
 
     <div *ngIf="question.hiddenCondition(form)">
       <input *ngSwitchCase="'textbox'" [formControl]="control"
-             [(ngModel)]="controlValue"
              [id]="question.key" [type]="question.type">
     </div>
 
     <div *ngIf="question.hiddenCondition(form)">
       <input *ngSwitchCase="'checkbox'" [formControl]="control"
-             [(ngModel)]="controlValue"
              [id]="question.key" [type]="question.controlType"
              (change)="onCheckboxChange(question, $event)">
     </div>

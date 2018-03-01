@@ -1,11 +1,11 @@
 package models.ast;
 
-import models.ast.elements.ConditionBlock;
+import models.ast.elements.block.Condition;
 import models.ast.elements.Form;
-import models.ast.elements.Block;
+import models.ast.elements.block.Block;
 import grammar.QLBaseVisitor;
 import grammar.QLParser;
-import models.ast.elements.QuestionBlock;
+import models.ast.elements.block.Question;
 
 public class ASTBuilder extends QLBaseVisitor {
 
@@ -14,8 +14,8 @@ public class ASTBuilder extends QLBaseVisitor {
 
         Form form = new Form(ctx.id.getText());
 
-        for (QLParser.BlockContext bctx: ctx.block()) {
-            Block block = visitBlock(bctx);
+        for (QLParser.BlockContext blockContext : ctx.block()) {
+            Block block = visitBlock(blockContext);
             form.addBlock(block);
         }
 
@@ -25,7 +25,7 @@ public class ASTBuilder extends QLBaseVisitor {
     @Override
     public Block visitBlock(QLParser.BlockContext ctx) {
 
-        if(ctx.ifBlock() != null) {
+        if (ctx.ifBlock() != null) {
             return visitIfBlock(ctx.ifBlock());
         } else if (ctx.question() != null) {
             return visitQuestion(ctx.question());
@@ -35,20 +35,27 @@ public class ASTBuilder extends QLBaseVisitor {
     }
 
     @Override
-    public ConditionBlock visitIfBlock(QLParser.IfBlockContext ctx) {
+    public Condition visitIfBlock(QLParser.IfBlockContext ctx) {
 
-        ConditionBlock condition = new ConditionBlock(ctx);
+        Condition condition = new Condition(ctx);
 
-        for (QLParser.BlockContext bctx: ctx.block()) {
-            Block block = visitBlock(bctx);
+        for (QLParser.BlockContext blockContext : ctx.block()) {
+            Block block = visitBlock(blockContext);
             condition.addBlock(block);
         }
+
+//        if (ctx.elseBlock() != null) {
+//
+//        }
 
         return condition;
     }
 
+
+
+
     @Override
-    public QuestionBlock visitQuestion(QLParser.QuestionContext ctx) {
-        return new QuestionBlock(ctx);
+    public Question visitQuestion(QLParser.QuestionContext ctx) {
+        return new Question(ctx);
     }
 }

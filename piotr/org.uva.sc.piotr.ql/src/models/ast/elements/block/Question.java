@@ -1,13 +1,16 @@
-package models.ast.elements;
+package models.ast.elements.block;
 
 import grammar.QLParser;
+import models.ast.elements.FieldDeclaration;
 
-public class QuestionBlock implements Block {
+public class Question implements Block {
 
     private String label;
-    private Field field;
+    private String variableName;
 
-    public QuestionBlock(QLParser.QuestionContext ctx) {
+    private FieldDeclaration fieldDeclaration;
+
+    public Question(QLParser.QuestionContext ctx) {
         this.label = ctx.label.getText();
     }
 

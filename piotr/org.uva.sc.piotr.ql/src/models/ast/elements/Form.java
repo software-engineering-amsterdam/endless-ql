@@ -1,5 +1,7 @@
 package models.ast.elements;
 
+import models.ast.elements.block.Block;
+
 import java.util.ArrayList;
 
 public class Form {

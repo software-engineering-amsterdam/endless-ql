@@ -1,15 +1,15 @@
-package models.ast.elements;
+package models.ast.elements.block;
 
 import grammar.QLParser;
 
 import java.util.ArrayList;
 
-public class ConditionBlock implements Block {
+public class Condition implements Block {
 
     private String condition;
     private ArrayList<Block> blockList = new ArrayList<>();
 
-    public ConditionBlock(QLParser.IfBlockContext ctx) {
+    public Condition(QLParser.IfBlockContext ctx) {
         this.condition = ctx.condition.getText();
     }
 

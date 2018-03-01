@@ -1,6 +1,6 @@
 package models.ast.elements;
 
-public class Field {
+public class FieldDeclaration {
 
     private String name;
 

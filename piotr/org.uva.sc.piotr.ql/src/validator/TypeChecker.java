@@ -55,7 +55,7 @@ public class TypeChecker extends QLBaseVisitor {
         /* TODO: Ask the SA if this is enough, or should I allow redeclaration of fields. */
         for (Map.Entry<String, List<QLParser.DataTypeContext>> entry : this.declaredFields.entrySet()) {
             if (entry.getValue().size() > 1) {
-                throw new QLParserException("Field declared \"" + entry.getKey() + "\" more than once at line " + entry.getValue().get(0).start.getLine() + ".");
+                throw new QLParserException("FieldDeclaration declared \"" + entry.getKey() + "\" more than once at line " + entry.getValue().get(0).start.getLine() + ".");
             }
         }
 

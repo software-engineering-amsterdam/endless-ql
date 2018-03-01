@@ -11,14 +11,7 @@ block
     :   question | ifBlock;
 
 question        
-    :   label=STRING fieldDefinition;
-
-fieldDefinition 
-    :   fieldName=IDENTIFIER ':' fieldType=dataType assignment?;
-
-assignment
-    :   assignmentOperator=OP_ASSIG expression
-    ;
+    :   label=STRING fieldName=IDENTIFIER ':' fieldType=dataType (OP_ASSIG expression)?;
 
 dataType        
     :   TYPE_BOOLEAN | TYPE_STRING | TYPE_INTEGER | TYPE_DECIMAL
@@ -36,10 +29,10 @@ expression
     | variableReference
     | '(' expression ')'
     | OP_NOT '(' expression ')'
-    | lhs=expression bop=(OP_MULT|OP_DIV) rhs=expression
-    | lhs=expression bop=(OP_PLUS|OP_MINUS) rhs=expression
-    | lhs=expression bop=(OP_GT|OP_GE|OP_LT|OP_LE|OP_EQ|OP_NEQ) rhs=expression
-    | lhs=expression bop=(OP_AND|OP_OR) rhs=expression
+    | lhs=expression binaryOperator=(OP_MULT|OP_DIV) rhs=expression
+    | lhs=expression binaryOperator=(OP_PLUS|OP_MINUS) rhs=expression
+    | lhs=expression binaryOperator=(OP_GT|OP_GE|OP_LT|OP_LE|OP_EQ|OP_NEQ) rhs=expression
+    | lhs=expression binaryOperator=(OP_AND|OP_OR) rhs=expression
 ;
 
 variableReference

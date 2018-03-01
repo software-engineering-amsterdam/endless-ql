@@ -1,4 +1,4 @@
-package domain.model;
+package domain.model.expression;
 
 import domain.model.question.QuestionVariable;
 import domain.model.question.QuestionVariableValue;

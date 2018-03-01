@@ -19,11 +19,10 @@ public class QLChecker {
         }
     }
     public void checkReferenceUndefinedVariable() throws ReferenceUndefinedVariableException {
+        boolean found = false;
         for (QuestionVariable referencedVariable : formNode.getFormData().getReferencedVariables()){
-            for (QuestionStructure qs : formNode.getFormData().getPlainQuestionStructures()){
-                if (qs.getQuestionVariable().equals(referencedVariable)){
-                    break;
-                }
+            if(referencedVariable == null){
+                throw new ReferenceUndefinedVariableException("Reference undefined variable found");
             }
         }
     }

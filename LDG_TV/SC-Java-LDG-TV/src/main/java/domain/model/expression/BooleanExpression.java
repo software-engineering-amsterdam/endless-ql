@@ -1,5 +1,6 @@
-package domain.model;
+package domain.model.expression;
 
+import domain.model.Condition;
 import domain.model.question.QuestionVariable;
 
 public class BooleanExpression extends Condition {

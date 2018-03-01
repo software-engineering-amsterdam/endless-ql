@@ -27,8 +27,6 @@ class DependencyChecker {
                 System.out.println("ERROR: " + pair.getFrom() + " depends on itself.");
             }
         }
-
-        System.out.println(dependencies);
     }
 
     private Set<Dependency> transitiveClosure (Set<Dependency> dependencyGraph) {

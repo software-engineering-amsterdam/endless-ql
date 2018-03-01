@@ -41,19 +41,8 @@ public class ToolController implements Initializable {
      * @param event that kicked of the invocation
      */
     public void generateQuestionnaire(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("QuestionRow.fxml"));
-
-            QuestionRow row = new QuestionRow("Some long question that needs to be answered?", new TextField());
-            fxmlLoader.setRoot(row);
-            fxmlLoader.setController(row);
-            fxmlLoader.load();
-
-            lvQuestionnaire.getItems().addAll(row);
-
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
+        QuestionRow row = new QuestionRow("Some long question that needs to be answered?", new TextField());
+        lvQuestionnaire.getItems().addAll(row);
 
     }
 

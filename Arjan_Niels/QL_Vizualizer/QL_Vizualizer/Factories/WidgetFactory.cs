@@ -26,7 +26,7 @@ namespace QL_Vizualizer.Factories
 
                     // Return children with new condition
                     return node.Children.SelectMany(o => CreateWidgets(o, (condition == null) ? newCondition : condition.Add(newCondition)));
-                
+
                 case NodeType.FORM:
                     // Parse all children
                     return node.Children.SelectMany(o => CreateWidgets(o, condition));
@@ -35,7 +35,7 @@ namespace QL_Vizualizer.Factories
                     // Return widget as array
                     return new QLWidget[] { CreateWidget(node as QuestionNode, condition) };
 
-                case NodeType.STATEMENT:
+                case NodeType.LOGICAL_EXPRESSION:
                     break;
 
                 case NodeType.VALUE:

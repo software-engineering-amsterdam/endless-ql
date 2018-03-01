@@ -15,10 +15,11 @@ namespace QL_Parser.Visitors
             var qtype = (QValueType)Enum.Parse(typeof(QValueType), context.QTYPE().GetText().ToUpper());
 
 
-            var statementVisitor = new StatementVisitor();
-            var expression = statementVisitor.VisitStatement(context.statement());
+            //var statementVisitor = new StatementVisitor();
+            // var expression = statementVisitor.VisitStatement(context.statement());
 
-            var computedNode = new ComputedNode(id, text, qtype, expression);
+
+            var computedNode = new ComputedNode(id, text, qtype, null);
             return computedNode;
         }
     }

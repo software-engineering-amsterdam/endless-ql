@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Parser.AST.Nodes;
+using QL_Parser.AST.Nodes.ExpressionNodes;
 using System.Linq;
 
 namespace QL_Parser.Tests.AST
@@ -68,13 +69,13 @@ namespace QL_Parser.Tests.AST
             var statement = _complexeForm.Children
                 .Where(x => x.Type == NodeType.CONDITIONAL)
                 .Select(x => x as ConditionalNode)
-                .First().Expression as StatementNode;
+                .First().Expression as LogicalExpressionNode;
 
-            var leftSide = (ValueNode)statement.LeftSide;
-            var rightSide = (ValueNode)statement.RightSide;
+            var leftSide = (ValueNode)statement.Left;
+            var rightSide = (ValueNode)statement.Right;
 
             Assert.AreEqual("soldAHouse", leftSide.ID);
-            Assert.AreEqual("&&", statement.Operator);
+            Assert.AreEqual(LogicalOperator.AND, statement.Operator);
             Assert.AreEqual("hasSeenHouseOfCards", rightSide.ID);
         }
 
@@ -84,25 +85,25 @@ namespace QL_Parser.Tests.AST
             var statement = _nestedStatementForm.Children
                 .Where(x => x.Type == NodeType.CONDITIONAL)
                 .Select(x => x as ConditionalNode)
-                .First().Expression as StatementNode;
+                .First().Expression as LogicalExpressionNode;
 
-            var leftSide = (StatementNode)statement.LeftSide;
-            var rightSide = (StatementNode)statement.RightSide;
-            Assert.AreEqual("&&", statement.Operator);
+            var leftSide = (LogicalExpressionNode)statement.Left;
+            var rightSide = (LogicalExpressionNode)statement.Right;
+            Assert.AreEqual(LogicalOperator.AND, statement.Operator);
 
             // lhs
-            var leftLeftValue = (ValueNode)leftSide.LeftSide;
-            var leftRightValue = (ValueNode)leftSide.RightSide;
+            var leftLeftValue = (ValueNode)leftSide.Left;
+            var leftRightValue = (ValueNode)leftSide.Right;
 
             Assert.AreEqual("firstArgument", leftLeftValue.ID);
-            Assert.AreEqual("||", leftSide.Operator);
+            Assert.AreEqual(LogicalOperator.OR, leftSide.Operator);
             Assert.AreEqual("secondArgument", leftRightValue.ID);
 
             // rhs
-            var rightLeftValue = (ValueNode)rightSide.LeftSide;
-            var rightRightValue = (ValueNode)rightSide.RightSide;
+            var rightLeftValue = (ValueNode)rightSide.Left;
+            var rightRightValue = (ValueNode)rightSide.Right;
             Assert.AreEqual("thirdArgument", rightLeftValue.ID);
-            Assert.AreEqual("||", rightSide.Operator);
+            Assert.AreEqual(LogicalOperator.OR, rightSide.Operator);
             Assert.AreEqual("forthArgument", rightRightValue.ID);
         }
     }

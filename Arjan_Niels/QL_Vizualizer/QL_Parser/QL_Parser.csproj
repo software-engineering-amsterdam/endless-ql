@@ -57,6 +57,7 @@
     <Compile Include="Analysis\Semantic\DuplicateVariableAnalyser.cs" />
     <Compile Include="AST\Nodes\ComputedNode.cs" />
     <Compile Include="AST\Nodes\ConditionalNode.cs" />
+    <Compile Include="AST\Nodes\ExpressionNodes\LogicalExpressionNode.cs" />
     <Compile Include="AST\Nodes\FormNode.cs" />
     <Compile Include="AST\Nodes\IExpressionNode.cs" />
     <Compile Include="AST\Nodes\Node.cs" />
@@ -68,8 +69,10 @@
     <Compile Include="Analysis\Syntactic\SingleFormValidator.cs" />
     <Compile Include="AST\Nodes\QValueType.cs" />
     <Compile Include="AST\Nodes\ValueNode.cs" />
+    <Compile Include="Exceptions\UnknownOperatorException.cs" />
     <Compile Include="Visitors\ComputedVariableVisitor.cs" />
     <Compile Include="Visitors\ConditionalBlockVisitor.cs" />
+    <Compile Include="Visitors\ExpressionVisitors\LogicalExpressionVisitor.cs" />
     <Compile Include="Visitors\FormVisitor.cs" />
     <Compile Include="QLParserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

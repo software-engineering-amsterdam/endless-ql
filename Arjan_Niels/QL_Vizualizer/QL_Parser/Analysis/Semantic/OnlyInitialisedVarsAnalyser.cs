@@ -1,4 +1,5 @@
 ﻿using QL_Parser.AST.Nodes;
+using QL_Parser.AST.Nodes.ExpressionNodes;
 
 namespace QL_Parser.Analysis.Semantic
 {
@@ -37,11 +38,11 @@ namespace QL_Parser.Analysis.Semantic
 
         private bool AnalyseExpression(IExpressionNode node)
         {
-            if (node.GetNodeType() == NodeType.STATEMENT)
+            if (node.GetNodeType() == NodeType.LOGICAL_EXPRESSION)
             {
-                var statementNode = (StatementNode)node;
-                var leftResult = AnalyseExpression(statementNode.LeftSide);
-                var rightResult = AnalyseExpression(statementNode.RightSide);
+                var statementNode = (LogicalExpressionNode)node;
+                var leftResult = AnalyseExpression(statementNode.Left);
+                var rightResult = AnalyseExpression(statementNode.Right);
                 return leftResult == rightResult;
             }
             else

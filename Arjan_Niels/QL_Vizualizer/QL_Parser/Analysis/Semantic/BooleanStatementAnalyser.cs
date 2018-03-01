@@ -1,4 +1,5 @@
 ﻿using QL_Parser.AST.Nodes;
+using QL_Parser.AST.Nodes.ExpressionNodes;
 
 namespace QL_Parser.Analysis.Semantic
 {
@@ -24,21 +25,15 @@ namespace QL_Parser.Analysis.Semantic
             return result;
         }
 
-        private bool IsBooleanOperator(string opr)
-        {
-            return opr == "&&" || opr == "||";
-        }
-
         private bool AnalyseExpression(IExpressionNode node)
         {
-            if (node.GetNodeType() == NodeType.STATEMENT)
+            if (node.GetNodeType() == NodeType.LOGICAL_EXPRESSION)
             {
-                var statementNode = (StatementNode)node;
-                var leftSideIsBoolean = AnalyseExpression(statementNode.LeftSide);
-                var rightSideIsBoolean = AnalyseExpression(statementNode.RightSide);
-                var operatorIsBoolean = IsBooleanOperator(statementNode.Operator);
+                var statementNode = (LogicalExpressionNode)node;
+                var leftSideIsBoolean = AnalyseExpression(statementNode.Left);
+                var rightSideIsBoolean = AnalyseExpression(statementNode.Right);
 
-                return leftSideIsBoolean && operatorIsBoolean && rightSideIsBoolean;
+                return leftSideIsBoolean && rightSideIsBoolean;
             }
             else
             {

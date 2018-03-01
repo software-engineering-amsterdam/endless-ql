@@ -2,8 +2,12 @@
 	"Did you sell a house in 2010?"
 		soldHouseIn2010: boolean
 
+	"Have you bought a house in 2010?"
+		boughtAHouseIn2010: boolean
+
 	"What was the selling price?"
 		sellingPrice: money
+
 
 	// A comment which will be ignored.
 	if (soldHouseIn2010) {
@@ -11,10 +15,9 @@
 			seenHouseOfCards: boolean
 	}
 
-	if sellingPrice - Piet {
-		"Ik wil kaas!"
+	if soldHouseIn2010 && boughtAHouseIn2010 {
+		"Ik wil kaas!" 
 			wantsCheese: boolean
-		"Reason:"
-			isAlsoACustomer: text = sellingPrice
+
 	}
 }

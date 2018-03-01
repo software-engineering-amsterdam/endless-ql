@@ -5,9 +5,12 @@
         FORM,
         QUESTION,
         CONDITIONAL,
-        STATEMENT,
+        COMPUTED,
         VALUE,
-        COMPUTED
+
+        // Expression
+        LOGICAL_EXPRESSION
+
     }
 
 }

@@ -26,7 +26,7 @@ namespace QL_Parser.Visitors
             }
 
             var computedVariableContext = context.computedVariable();
-            if(computedVariableContext != null)
+            if (computedVariableContext != null)
             {
                 var computedVisitor = new ComputedVariableVisitor();
                 return computedVisitor.VisitComputedVariable(computedVariableContext);

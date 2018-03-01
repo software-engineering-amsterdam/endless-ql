@@ -18,8 +18,8 @@ public class LessThanExpression extends BinaryExpression<Boolean> {
 
     @Override
     public Constant<Boolean> evaluate() {
-        Double left = Double.parseDouble(this.getExprLeft().evaluate().toString());
-        Double right = Double.parseDouble(this.getExprRight().evaluate().toString());
+        Double left = Double.parseDouble(this.getExprLeft().evaluate().getValue().toString());
+        Double right = Double.parseDouble(this.getExprRight().evaluate().getValue().toString());
         return new BooleanConstant(left < right);
     }
     @Override

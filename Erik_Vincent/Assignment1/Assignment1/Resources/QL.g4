@@ -1,7 +1,7 @@
 parser grammar QL;
 
 @header {
-using Assignment1;
+using Assignment1.Model;
 }
 
 options { tokenVocab=QLLexer; }

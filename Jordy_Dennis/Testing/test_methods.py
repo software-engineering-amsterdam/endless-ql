@@ -50,3 +50,11 @@ def getAstFromString(inputText):
 def printDict(dic):
     pp = pprint.PrettyPrinter(indent=4)
     pp.pprint(dic)
+
+# Block a function from writing to stdout
+def blockPrint():
+    sys.stdout = open(os.devnull, 'w')
+
+# Restore
+def enablePrint():
+    sys.stdout = sys.__stdout__

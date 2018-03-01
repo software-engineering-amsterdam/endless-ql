@@ -1,4 +1,4 @@
-﻿namespace Assignment1
+﻿namespace Assignment1.Model
 {
     public abstract class Expression
     {
@@ -15,7 +15,7 @@
         public override dynamic Evaluate() => _value;
     }
 
-    internal class ExpressionNot : Expression
+    public class ExpressionNot : Expression
     {
         private readonly Expression _expression;
         public ExpressionNot(Expression expression)
@@ -36,7 +36,7 @@
         public override dynamic Evaluate() => Question.Value;
     }
 
-    internal abstract class ExpressionOperatorB : Expression
+    public abstract class ExpressionOperatorB : Expression
     {
         protected readonly Expression Left, Right;
         protected ExpressionOperatorB(Expression left, Expression right)
@@ -47,62 +47,62 @@
         public abstract override dynamic Evaluate();
     }
 
-    internal class ExpressionAdd : ExpressionOperatorB
+    public class ExpressionAdd : ExpressionOperatorB
     {
         public ExpressionAdd(Expression left, Expression right) : base(left, right) { }
         public override dynamic Evaluate() => Left.Evaluate() + Right.Evaluate();
     }
-    internal class ExpressionSub : ExpressionOperatorB
+    public class ExpressionSub : ExpressionOperatorB
     {
         public ExpressionSub(Expression left, Expression right) : base(left, right) { }
         public override dynamic Evaluate() => Left.Evaluate() - Right.Evaluate();
     }
-    internal class ExpressionMult : ExpressionOperatorB
+    public class ExpressionMult : ExpressionOperatorB
     {
         public ExpressionMult(Expression left, Expression right) : base(left, right) { }
         public override dynamic Evaluate() => Left.Evaluate() * Right.Evaluate();
     }
-    internal class ExpressionDiv : ExpressionOperatorB
+    public class ExpressionDiv : ExpressionOperatorB
     {
         public ExpressionDiv(Expression left, Expression right) : base(left, right) { }
         public override dynamic Evaluate() => Left.Evaluate() / Right.Evaluate();
     }
-    internal class ExpressionGreaterEqual : ExpressionOperatorB
+    public class ExpressionGreaterEqual : ExpressionOperatorB
     {
         public ExpressionGreaterEqual(Expression left, Expression right) : base(left, right) { }
         public override dynamic Evaluate() => Left.Evaluate() >= Right.Evaluate();
     }
-    internal class ExpressionLessEqual : ExpressionOperatorB
+    public class ExpressionLessEqual : ExpressionOperatorB
     {
         public ExpressionLessEqual(Expression left, Expression right) : base(left, right) { }
         public override dynamic Evaluate() => Left.Evaluate() <= Right.Evaluate();
     }
-    internal class ExpressionGreater : ExpressionOperatorB
+    public class ExpressionGreater : ExpressionOperatorB
     {
         public ExpressionGreater(Expression left, Expression right) : base(left, right) { }
         public override dynamic Evaluate() => Left.Evaluate() > Right.Evaluate();
     }
-    internal class ExpressionLess : ExpressionOperatorB
+    public class ExpressionLess : ExpressionOperatorB
     {
         public ExpressionLess(Expression left, Expression right) : base(left, right) { }
         public override dynamic Evaluate() => Left.Evaluate() < Right.Evaluate();
     }
-    internal class ExpressionEqual : ExpressionOperatorB
+    public class ExpressionEqual : ExpressionOperatorB
     {
         public ExpressionEqual(Expression left, Expression right) : base(left, right) { }
         public override dynamic Evaluate() => Left.Evaluate() == Right.Evaluate();
     }
-    internal class ExpressionNotEqual : ExpressionOperatorB
+    public class ExpressionNotEqual : ExpressionOperatorB
     {
         public ExpressionNotEqual(Expression left, Expression right) : base(left, right) { }
         public override dynamic Evaluate() => Left.Evaluate() != Right.Evaluate();
     }
-    internal class ExpressionAnd : ExpressionOperatorB
+    public class ExpressionAnd : ExpressionOperatorB
     {
         public ExpressionAnd(Expression left, Expression right) : base(left, right) { }
         public override dynamic Evaluate() => Left.Evaluate() && Right.Evaluate();
     }
-    internal class ExpressionOr : ExpressionOperatorB
+    public class ExpressionOr : ExpressionOperatorB
     {
         public ExpressionOr(Expression left, Expression right) : base(left, right) { }
         public override dynamic Evaluate() => Left.Evaluate() || Right.Evaluate();

@@ -5,6 +5,10 @@ import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
 
 public class IntegerType extends Type {
 
+    public IntegerType(Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
+    }
+
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
         visitor.visitIntegerType(this);

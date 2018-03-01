@@ -7,7 +7,8 @@ public class MoneyConstant extends Constant {
 
     private Float value;
 
-    public MoneyConstant(Float value) {
+    public MoneyConstant(Float value, Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
         this.value = value;
     }
 

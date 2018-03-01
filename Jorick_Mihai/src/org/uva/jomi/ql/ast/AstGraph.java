@@ -95,12 +95,12 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	public String visit(QuestionStmt stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
 			   stmt.getId(),
-			   stmt.identifier.token.getLexeme(),
-			   stmt.type.getName());
+			   stmt.getIdentifierName(),
+			   stmt.getType());
 
 		// Visit the identifier expression
-		header += stmt.identifier.accept(this);
-		header += String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId());
+		header += stmt.visitIdentifierExpr(this);
+		header += String.format("  %s -> %s\n", stmt.getId(), stmt.getIdentifierId());
 		
 		return header;
 	}
@@ -109,16 +109,16 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	public String visit(ComputedQuestionStmt stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
 				   stmt.getId(),
-				   stmt.identifier.token.getLexeme(),
-				   stmt.type.getName());
+				   stmt.getIdentifierName(),
+				   stmt.getType());
 
 		// Visit the expression statement
 		header += stmt.visitExpr(this);
 		header += String.format("  %s -> %s\n", stmt.getId(), stmt.getExpId());
 
 		// Visit the identifier expression
-		header += stmt.identifier.accept(this);
-		header += String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId());
+		header += stmt.visitIdentifierExpr(this);
+		header += String.format("  %s -> %s\n", stmt.getId(), stmt.getIdentifierId());
 
 		return header;
 	}

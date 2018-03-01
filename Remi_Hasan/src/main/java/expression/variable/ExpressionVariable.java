@@ -49,6 +49,9 @@ public abstract class ExpressionVariable<T> extends Expression {
         return String.valueOf(value);
     }
 
+    @Override
+    public void typeCheck() { }
+
     public ExpressionVariable divide(ExpressionVariable other) {
         return new ExpressionVariableUndefined();
     }

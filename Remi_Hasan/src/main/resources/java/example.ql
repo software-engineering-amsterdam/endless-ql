@@ -11,6 +11,7 @@ form taxOfficeExample {
             "Q4: You can only answer this question if you Q1 equals 1 and Q2 does not equal 'hello'" someBoolean9: boolean
         }
     }
+    // TODO must be unsettable in GUI
     "Q5: Can you give me a number?" someNumber: integer = 2
     if(someNumber > 5){
         "Q6: You can only answer this question if you answered Q5 > 5" someBoolean4: boolean
@@ -18,5 +19,8 @@ form taxOfficeExample {
         "Q7: This will only enable if someNumber <= 5" someBoolean5: boolean
     }
     "Some text here" someNumberWithExpression: decimal = ((someNumber + 2) * 2)
-    "Give me a date please?" someDate: date
+    "Give me a date value please?" someDate: date
+    "Give me an integer value please?" someInteger: integer
+    "Give me an money value please?" someMoney: money
+    "Give me an decimal value please?" someDecimal: decimal
 }

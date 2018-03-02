@@ -6,7 +6,7 @@
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
-
+ 
 /**
  * This class provides an empty implementation of {@link QLListener},
  * which can be extended to create a listener which only needs to handle a subset

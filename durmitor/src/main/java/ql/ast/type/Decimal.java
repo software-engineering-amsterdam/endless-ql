@@ -34,4 +34,10 @@ public class Decimal extends Numeric {
     public Literal<?> parse(Literal<?> value) {
         return value.accept(new ToDecimal());
     }
+
+    @Override
+    public Literal<?> parse(String value) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

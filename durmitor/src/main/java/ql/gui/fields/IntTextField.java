@@ -19,7 +19,8 @@ public class IntTextField extends JTextField {
         this.setName(identifier.getName());
         this.setText(identifier.getValue().getValue().toString());
         PlainDocument document = (PlainDocument) this.getDocument();
-        document.setDocumentFilter(new IntFilter(identifier.getType(), "^[0-9]+$"));
+        document.setDocumentFilter(new IntFilter(identifier, "^[0-9]+$"));
+        
         
         this.addFocusListener(new FocusAdapter() {
             @Override

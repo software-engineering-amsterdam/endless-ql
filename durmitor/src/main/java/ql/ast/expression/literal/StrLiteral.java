@@ -1,5 +1,6 @@
 package ql.ast.expression.literal;
 
+import ql.ast.type.Str;
 import ql.ast.type.Type;
 import ql.evaluator.arithmetic.add.StrAdd;
 import ql.evaluator.comparisons.equal.StrEqual;
@@ -29,10 +30,14 @@ public class StrLiteral extends Literal<String> implements ExpressionVisitable {
     public String getValue() {
         return value;
     }
+    
+    public void setValue(String value) {
+        this.value = value;
+    }
 
     @Override
     public Type getType() {
-        return new ql.ast.type.Str();
+        return new Str();
     }
     
     @Override

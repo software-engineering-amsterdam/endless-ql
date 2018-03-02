@@ -27,12 +27,11 @@ export class AppComponent {
     try {
       if (this.inputQls && this.inputQls !== '') {
         const astQls = parseQls(this.inputQls, {});
-        console.log(astQls);
       }
       // parse input to tree
       const ast = parse(this.input, {});
-      // check types
-      ast.checkTypes();
+      // check form
+      ast.checkForm();
       // make form
       this.questions = ast.toFormQuestion();
       this.form = this.questionControlService.toFormGroup(this.questions);

@@ -19,84 +19,84 @@ public class TestAnd {
     @Test
     public void testBoolAnd() {
         Literal<?> firstOperand = new BoolLiteral();
-        assertEquals(BoolLiteral.class, new And(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(BoolLiteral.class, new And(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
     
     @Test
     public void testStrAnd() {
         Literal<?> firstOperand = new StrLiteral();
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
     
     @Test
     public void testIntAnd() {
         Literal<?> firstOperand = new IntLiteral();
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
     
     @Test
     public void testDecimalAnd() {
         Literal<?> firstOperand = new DecimalLiteral();
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
     
     @Test
     public void testMoneyAnd() {
         Literal<?> firstOperand = new MoneyLiteral();
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
     
     @Test
     public void testDateAnd() {
         Literal<?> firstOperand = new DateLiteral();
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
     
     @Test
     public void testUndefinedAnd() {
         Literal<?> firstOperand = new UndefinedLiteral();
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new And(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
 }

@@ -15,7 +15,7 @@ public class StyleSheetParser {
 
     // TODO rename StyleSheetParser and FormParser to ParserStyleSheet and ParserForm for consistency
 
-    public static StyleSheet parseStyleSheet(InputStream stream) throws IOException, IllegalArgumentException, UnsupportedOperationException{
+    public static StyleSheet parseStyleSheet(InputStream stream) throws IllegalArgumentException, UnsupportedOperationException{
         try{
             // TODO
             QLSLexer lexer = new QLSLexer(CharStreams.fromStream(stream));

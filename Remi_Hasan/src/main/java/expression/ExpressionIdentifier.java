@@ -1,7 +1,7 @@
 package expression;
 
+import analysis.SymbolTable;
 import expression.variable.ExpressionVariable;
-import model.LookupTable;
 
 public class ExpressionIdentifier extends Expression {
 
@@ -17,17 +17,15 @@ public class ExpressionIdentifier extends Expression {
     }
 
     @Override
-    public ReturnType getReturnType() {
-        return LookupTable.getInstance().getQuestion(identifier).type;
+    public ReturnType getReturnType(SymbolTable symbolTable) {
+        return symbolTable.getExpression(this.identifier).getReturnType(symbolTable);
     }
 
     @Override
-    public ExpressionVariable evaluate() {
-        return LookupTable.getInstance().getQuestionAnswer(identifier).evaluate();
+    public ExpressionVariable evaluate(SymbolTable symbolTable) {
+        return symbolTable.getExpression(this.identifier);
     }
 
     @Override
-    public boolean equals(Object other) {
-        return evaluate().equals(other);
-    }
+    public void typeCheck(SymbolTable symbolTable) { }
 }

@@ -1,12 +1,10 @@
 import antlr.QLLexer;
 import antlr.QLParser;
 import model.Form;
-import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import visitor.VisitorForm;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 public class FormParser {
@@ -25,7 +23,6 @@ public class FormParser {
             // Debug
             parser.reset();
 //            Trees.inspect(parser.root(), parser);
-
             return form;
         } catch (Exception e){
             // TODO improve exception

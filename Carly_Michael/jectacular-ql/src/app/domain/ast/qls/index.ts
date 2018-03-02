@@ -4,3 +4,4 @@ export * from './question';
 export * from './section';
 export * from './stylesheet';
 export * from './widget-type';
+export * from './style';

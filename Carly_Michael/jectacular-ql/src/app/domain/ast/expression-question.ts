@@ -8,7 +8,7 @@ import {Question} from './question';
 import {Location} from './location';
 import {Expression} from './expressions/expression';
 import {ExpressionType} from './expressions/expression-type';
-import {UnknownQuestionError, UnsupportedTypeError} from '../errors';
+import {CircularDependencyError, UnsupportedTypeError} from '../errors';
 import * as _ from 'lodash';
 import {Variable} from './expressions/variable';
 
@@ -21,10 +21,17 @@ export class ExpressionQuestion extends Question {
     return this.expression.getVariables();
   }
 
-  checkType(allQuestions: Question[]) {
+  checkType(allQuestions: Question[]): void {
     if (! this.expressionTypeValidForQuestion(this.expression.checkType(allQuestions), allQuestions)) {
       throw new TypeError(`Expression type ${this.expression.checkType(allQuestions)} incompatible with question type ${this.type}`
       + this.getLocationErrorMessage());
+    }
+  }
+
+  checkDependencies(): void {
+    const circularDependency = _.find(this.expression.getVariables(), ['identifier', this.name]);
+    if (circularDependency) {
+      throw new CircularDependencyError(`The expression of question ${this.name} references to itself`);
     }
   }
 
@@ -52,14 +59,13 @@ export class ExpressionQuestion extends Question {
       }
     }
 
-    console.log('formquestions in expression question', formQuestionsToReturn);
     return formQuestionsToReturn;
   }
 
   expressionTypeValidForQuestion(expressionType: ExpressionType, allQuestions: Question[]): boolean {
     switch (expressionType) {
       case ExpressionType.NUMBER:
-        return this.type === QuestionType.MONEY || this.type === QuestionType.INT || this.type === QuestionType.DECIMAL;
+        return this.type === QuestionType.INT || this.type === QuestionType.DECIMAL;
       case ExpressionType.BOOLEAN:
         return this.type === QuestionType.BOOLEAN;
       case ExpressionType.DATE:

@@ -18,7 +18,6 @@ import org.uva.jomi.ql.ast.expressions.LessThanOrEqualExpr;
 import org.uva.jomi.ql.ast.expressions.MultiplicationExpr;
 import org.uva.jomi.ql.ast.expressions.NotEqualExpr;
 import org.uva.jomi.ql.ast.expressions.OrExpr;
-import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
 import org.uva.jomi.ql.ast.expressions.StringExpr;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
 import org.uva.jomi.ql.ast.expressions.UnaryNotExpr;
@@ -32,7 +31,7 @@ import org.uva.jomi.ql.ast.statements.Stmt;
 import org.uva.jomi.ui.SymbolTable;
 
 
-public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
+public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<GenericValue> {
 	
 	public void interpret(List<Stmt> statements) {
 		for (Stmt statement : statements) {
@@ -49,25 +48,26 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 	}
 
 	@Override
-	public Object visit(IdentifierExpr expr) {
-		return SymbolTable.getInstance().get(expr.getName());
+	public GenericValue visit(IdentifierExpr expr) {
+		// TODO - Remove dependency on GenericValue
+		return (GenericValue) SymbolTable.getInstance().get(expr.getName());
 	}
 
 	@Override
-	public Object visit(GroupingExpr expr) {
+	public GenericValue visit(GroupingExpr expr) {
 		// TODO Interpret GroupingExpr.
 		return null;
 	}
 
 	@Override
 	public Void visit(FormStmt stmt) {
-		// TODO Interpret FormStmt.
+		stmt.visitBlockStmt(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(BlockStmt stmt) {
-		// TODO Interpret BlockStmt.
+		stmt.getStatements().forEach( statement -> statement.accept(this));
 		return null;
 	}
 
@@ -80,7 +80,7 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 	@Override
 	public Void visit(ComputedQuestionStmt stmt) {
 		Object value = evaluate(stmt.getExp());
-		String name = stmt.identifier.getName();
+		String name = stmt.getIdentifierName();
 		SymbolTable.getInstance().put(name, value);
 		return null;	
 	}
@@ -98,96 +98,99 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 	}
 
 	@Override
-	public Object visit(AdditionExpr expr) {
+	public GenericValue visit(AdditionExpr expr) {
+		GenericValue left = expr.visitLeftExpr(this);
+		GenericValue right = expr.visitRightExpr(this);
+		return left.add(right);
+	}
+
+	@Override
+	public GenericValue visit(SubtractionExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object visit(SubtractionExpr expr) {
+	public GenericValue visit(MultiplicationExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object visit(MultiplicationExpr expr) {
+	public GenericValue visit(DivisionExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object visit(DivisionExpr expr) {
+	public GenericValue visit(LessThanExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object visit(LessThanExpr expr) {
+	public GenericValue visit(LessThanOrEqualExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object visit(LessThanOrEqualExpr expr) {
+	public GenericValue visit(GreaterThanExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object visit(GreaterThanExpr expr) {
+	public GenericValue visit(GreaterThanOrEqualExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object visit(GreaterThanOrEqualExpr expr) {
+	public GenericValue visit(NotEqualExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object visit(NotEqualExpr expr) {
+	public GenericValue visit(EqualExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object visit(EqualExpr expr) {
+	public GenericValue visit(AndExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object visit(AndExpr expr) {
+	public GenericValue visit(OrExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object visit(OrExpr expr) {
+	public GenericValue visit(UnaryNotExpr expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object visit(UnaryNotExpr expr) {
-		// TODO Auto-generated method stub
+	public IntegerValue visit(IntegerExpr expr) {
+		return new IntegerValue(expr.getValue());
+	}
+
+	@Override
+	public GenericValue visit(StringExpr expr) {
+		//return expr.getValue();
 		return null;
 	}
 
 	@Override
-	public Object visit(IntegerExpr expr) {
-		return expr.getValue();
-	}
-
-	@Override
-	public Object visit(StringExpr expr) {
-		return expr.getValue();
-	}
-
-	@Override
-	public Object visit(BooleanExpr expr) {
-		return expr.getValue();
+	public GenericValue visit(BooleanExpr expr) {
+		//return expr.getValue();
+		return null;
 	}
 
 }

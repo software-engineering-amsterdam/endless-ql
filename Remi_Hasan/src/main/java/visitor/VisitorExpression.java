@@ -3,25 +3,21 @@ package visitor;
 import antlr.QLBaseVisitor;
 import antlr.QLLexer;
 import antlr.QLParser;
-import expression.*;
+import expression.Expression;
+import expression.ExpressionIdentifier;
 import expression.binary.*;
-import expression.variable.*;
 import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
-import model.LookupTable;
-import model.Question;
-
-import java.math.BigDecimal;
+import expression.variable.ExpressionVariableBoolean;
+import expression.variable.ExpressionVariableDate;
+import expression.variable.ExpressionVariableNumber;
+import expression.variable.ExpressionVariableString;
 
 public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitNotExpr(QLParser.NotExprContext ctx) {
         Expression value = visit(ctx.expr);
-
-        if(!value.getReturnType().not())
-            throw new IllegalArgumentException("Cannot apply operator not to '" + value.getReturnType() + "'");
-
         return new ExpressionUnaryNot(value);
     }
 
@@ -31,28 +27,15 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
-
         int op = ctx.op.getType();
         switch (op) {
             case QLLexer.PLUS:
-                if(!left.getReturnType().sum(right.getReturnType()))
-                    throw new IllegalArgumentException("Cannot apply operator sum to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
-
                 return new ExpressionArithmeticSum(left, right);
             case QLLexer.MINUS:
-                if(!left.getReturnType().subtract(right.getReturnType()))
-                    throw new IllegalArgumentException("Cannot apply operator subtract to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
-
                 return new ExpressionArithmeticSubtract(left, right);
             case QLLexer.MUL:
-                if(!left.getReturnType().multiply(right.getReturnType()))
-                    throw new IllegalArgumentException("Cannot apply operator mul to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
-
                 return new ExpressionArithmeticMultiply(left, right);
             case QLLexer.DIV:
-                if(!left.getReturnType().divide(right.getReturnType()))
-                    throw new IllegalArgumentException("Cannot apply operator divide to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
-
                 return new ExpressionArithmeticDivide(left, right);
             default:
                 throw new IllegalArgumentException("Cannot apply unknown operator '" + ctx.op.toString() + "'");
@@ -62,10 +45,6 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     @Override
     public Expression visitNegExpr(QLParser.NegExprContext ctx) {
         Expression value = visit(ctx.expr);
-
-        if(!value.getReturnType().neg())
-            throw new IllegalArgumentException("Cannot apply negation on '" + value.getReturnType() + "'");
-
         return new ExpressionUnaryNeg(value);
     }
 
@@ -78,14 +57,8 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
         switch (op) {
             case QLLexer.EQ:
-                if(!left.getReturnType().eq(right.getReturnType()))
-                    throw new IllegalArgumentException("Cannot apply operator eq to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
-
                 return new ExpressionComparisonEq(left, right);
             case QLLexer.NE:
-                if(!left.getReturnType().eq(right.getReturnType()))
-                    throw new IllegalArgumentException("Cannot apply operator neq to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
-
                 return new ExpressionUnaryNot(new ExpressionComparisonEq(left, right));
             default:
                 throw new IllegalArgumentException("Cannot apply unknown operator '" + ctx.op.toString() + "'");
@@ -100,14 +73,8 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
         switch (op) {
             case QLLexer.AND:
-                if(!left.getReturnType().and(right.getReturnType()))
-                    throw new IllegalArgumentException("Cannot apply operator and to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
-
                 return new ExpressionLogicalAnd(left, right);
             case QLLexer.OR:
-                if(!left.getReturnType().or(right.getReturnType()))
-                    throw new IllegalArgumentException("Cannot apply operator or to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
-
                 return new ExpressionLogicalOr(left, right);
             default:
                 throw new IllegalArgumentException("Unknown operator " + op);
@@ -122,24 +89,12 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
         switch (op) {
             case QLLexer.GT:
-                if(!left.getReturnType().gt(right.getReturnType()))
-                    throw new IllegalArgumentException("Cannot apply operator gt to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
-
                 return new ExpressionComparisonGT(left, right);
             case QLLexer.GE:
-                if(!left.getReturnType().ge(right.getReturnType()))
-                    throw new IllegalArgumentException("Cannot apply operator ge to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
-
                 return new ExpressionComparisonGE(left, right);
             case QLLexer.LT:
-                if(!left.getReturnType().lt(right.getReturnType()))
-                    throw new IllegalArgumentException("Cannot apply operator lt to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
-
                 return new ExpressionComparisonLT(left, right);
             case QLLexer.LE:
-                if(!left.getReturnType().le(right.getReturnType()))
-                    throw new IllegalArgumentException("Cannot apply operator le to '" + left.getReturnType() + "' and '" +  right.getReturnType() + "'");
-
                 return new ExpressionComparisonLE(left, right);
             default:
                 throw new IllegalArgumentException("Unknown operator " + op);

@@ -5,18 +5,15 @@ import org.uva.sea.ql.DataObject.QuestionData;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.value.Value;
 
-public abstract class BaseQuestionRow extends Control implements BaseQuestionGUI {
+public abstract class BaseQuestionModel extends Control implements BaseQuestionGUI {
 
     private String label;
-    //boolean - checkbox
-    //numeric fields - text boxes
-    //computed values - label readonly
     private NodeType type;
     private Value value;
     private String variableName;
     private boolean isComputed;
 
-    public BaseQuestionRow(QuestionData data) {
+    public BaseQuestionModel(QuestionData data) {
         this.label = data.getLabel();
         this.type = data.getNodeType();
         this.value = data.getValue();

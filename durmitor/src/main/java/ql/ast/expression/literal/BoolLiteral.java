@@ -1,5 +1,6 @@
 package ql.ast.expression.literal;
 
+import ql.ast.type.Bool;
 import ql.ast.type.Type;
 import ql.evaluator.booleans.BoolAnd;
 import ql.evaluator.booleans.BoolOr;
@@ -40,7 +41,7 @@ public class BoolLiteral extends Literal<Boolean> {
 
     @Override
     public Type getType() {
-        return new ql.ast.type.Bool();
+        return new Bool();
     }
 
     @Override

@@ -2,6 +2,7 @@ package ql.ast.expression.literal;
 
 import java.time.LocalDate;
 
+import ql.ast.type.Date;
 import ql.ast.type.Type;
 import ql.evaluator.comparisons.equal.DateEqual;
 import ql.evaluator.comparisons.greater.DateGreater;
@@ -44,7 +45,7 @@ public class DateLiteral extends Literal<LocalDate> {
 
     @Override
     public Type getType() {
-        return new ql.ast.type.Date();
+        return new Date();
     }
 
     @Override

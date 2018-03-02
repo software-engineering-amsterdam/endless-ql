@@ -11,22 +11,7 @@ import static java.util.stream.Collectors.toList;
 
 public class FormReader {
 
-    public class FormReaderVisitor extends QLBaseVisitor<Object> {
-
-        @Override
-        public Object visitForm(QLParser.FormContext ctx) {
-            return visitChildren(ctx);
-        }
-
-        @Override
-        public Object visitQuestion(QLParser.QuestionContext ctx) {
-            return visitChildren(ctx);
-        }
-
-    }
-
-
-    public QLForm parseFile (String path) throws IOException {
+    public QLForm parseFile(String path) throws IOException {
 
         CharStream charStream = CharStreams.fromFileName(path);
 
@@ -34,7 +19,7 @@ public class FormReader {
 
     }
 
-    public QLForm parseString (String s) {
+    public QLForm parseString(String s) {
 
         CharStream charStream = CharStreams.fromString(s);
 
@@ -42,7 +27,7 @@ public class FormReader {
 
     }
 
-    public QLForm parseCharstream (CharStream charStream){
+    public QLForm parseCharstream(CharStream charStream) {
 
         QLLexer lexer = new QLLexer(charStream);
         TokenStream tokens = new CommonTokenStream(lexer);
@@ -50,7 +35,7 @@ public class FormReader {
 
         FormVisitor formVisitor = new FormVisitor();
 
-        QLForm traverseResult = (QLForm) formVisitor.visit(parser.form());
+        QLForm traverseResult = formVisitor.visit(parser.form());
 
         return traverseResult;
 
@@ -77,26 +62,9 @@ public class FormReader {
             String questionName = ctx.VARIABLE().getText();
             String questionLabel = ctx.STRING().getText();
             String questionType = ctx.TYPE().getText();
+            //QLParser.ExpressionContext questionExpression = ctx.expression(); TODO
 
             return new Question(questionName, questionLabel, questionType);
         }
     }
-
-//    private static class ConditionVisitor extends QLBaseVisitor<Condition> {
-//
-//        @Override
-//        public Nodes.Condition visitCondition(QLParser.ConditionContext ctx) {
-//            return visitChildren(ctx);
-//        }
-//
-//    }
-//
-//    public static class ExpressionVisitor extends QLBaseVisitor<Expression> {
-//
-//        @Override
-//        public Expression visitExpression(QLParser.ExpressionContext ctx) {
-//            return visitChildren(ctx);
-//        }
-//
-//    }
 }

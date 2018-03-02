@@ -4,22 +4,25 @@ class Gui():
     def __init__(self):
         self.window = tk.Tk()
         self.window.minsize(width=500, height=300)
-        self.labels = {}
+        # self.labels = {}
         self.checkBoxes = {}
         self.checkBoxValues = {}
         self.sliders = {}
         self.spinBoxes = {}
-        self.textBoxes = {}
+        # self.textBoxes = {}
         self.radioButtons = {}
         self.radioButtonValues = {}
         self.dropDowns = {}
-        self.yesNoButtons = {}
-        self.yesNoButtonsValues = {}
+        # self.yesNoButtons = {}
+        # self.yesNoButtonsValues = {}
 
     #add the label to the dict for destroying/changing later and then pack it in the main frame
-    def addLabel(self, name, text):
-        self.labels[name] = tk.Label(self.window, text=text)
-        self.labels[name].pack()
+    def addLabel(self, text):
+        # self.labels[name] = tk.Label(self.window, text=text)
+        # self.labels[name].pack()
+        label = tk.Label(self.window, text=text)
+        label.pack()
+        return label
 
     def removeLabel(self, name):
         if name in self.labels:
@@ -62,10 +65,25 @@ class Gui():
             self.spinBoxes[name].destroy()
             del self.spinBoxes[name]
 
-    def addTextBox(self, name, lines, width):
+    def addTextBox(self, lines, width):
         textBox = tk.Text(self.window, height=lines, width=width)
-        self.textBoxes[name] = textBox
+        # self.textBoxes[name] = textBox
         textBox.pack()
+        return textBox
+
+    def addTextFrame(self, function):
+        var = tk.StringVar()
+        # textFrame = tk.Frame(self.window)
+        textBox = tk.Entry(self.window, textvariable=var)
+        # self.textBoxes[name] = textBox
+        def notifyChangeTextBox(*args):
+            # selection = "You selected the option " + str(entryVariable2.get())
+            # label.config(text = selection)
+            print "change"
+        textBox.pack()
+        var.trace("w", notifyChangeTextBox)
+        # textBox.pack()
+        return textBox, var
 
     def removeTextBox(self, name):
         if name in self.textBoxes:
@@ -98,14 +116,15 @@ class Gui():
             self.dropDowns[name].destroy()
             del self.dropDowns[name]
 
-    def addYesNoRadioButtons(self, name, text1, text2):
+    def addYesNoRadioButtons(self, text1, text2, command):
         var = tk.IntVar()
-        radioButton1 = tk.Radiobutton(self.window, text=text1, variable=var, value=0, command= lambda: notifyClick(name, self.yesNoButtonsValues))
-        radioButton2 = tk.Radiobutton(self.window, text=text2, variable=var, value=1, command= lambda: notifyClick(name, self.yesNoButtonsValues))
+        radioButton1 = tk.Radiobutton(self.window, text=text1, variable=var, value=1, command= command)
+        radioButton2 = tk.Radiobutton(self.window, text=text2, variable=var, value=0, command= command)
         radioButton1.pack()
         radioButton2.pack()
-        self.yesNoButtons[name] = [radioButton1, radioButton2]
-        self.yesNoButtonsValues[name] = var
+        return [radioButton1, radioButton2], var
+        # self.yesNoButtons[name] = [radioButton1, radioButton2]
+        # self.yesNoButtonsValues[name] = var
 
     def removeYesNoButtons(self, name):
         if name in self.yesNoButtons:
@@ -119,5 +138,7 @@ class Gui():
     def showWindow(self):
         self.window.mainloop()
 
-def notifyClick(name, vars):
-    print vars[name].get()
+# def notifyChangeTextBox(*args):
+#     # selection = "You selected the option " + str(entryVariable2.get())
+#     # label.config(text = selection)
+#     print "change"

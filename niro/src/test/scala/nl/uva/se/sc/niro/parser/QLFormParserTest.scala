@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.parser
 
 import java.io.IOException
 
-import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, IntAnswer, StringAnswer }
+import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, DecAnswer, IntAnswer, StringAnswer }
 import nl.uva.se.sc.niro.model.Expressions.{ BinaryOperation, Reference, UnaryOperation }
 import nl.uva.se.sc.niro.model._
 import org.antlr.v4.runtime.{ CharStream, CharStreams }
@@ -256,6 +256,34 @@ class QLFormParserTest extends FunSuite {
             label = "What was the selling price?",
             IntegerType,
             expression = BinaryOperation(Sub, IntAnswer(Some(10000)), Reference("hasSoldHouse"))
+          )
+        )
+      )
+
+    assert(actual == expected)
+  }
+
+  test("should parse dangling else to the correct AST") {
+    val actual: QLForm = generateQLForm("/positive/dangling-else.ql")
+
+    val expected: QLForm =
+      QLForm(
+        "DanglingElse",
+        List(
+          Conditional(
+            BooleanAnswer(Some(true)),
+            List(Question("firstIf", "FirstIf", DecimalType, DecAnswer(None), None)),
+            None
+          ),
+          Conditional(
+            BooleanAnswer(Some(false)),
+            List(Question("firstElseIf", "FirstElseIf", IntegerType, IntAnswer(None), None)),
+            None
+          ),
+          Conditional(
+            UnaryOperation(Neg, BooleanAnswer(Some(false))),
+            List(Question("danglingElse", "DanglingElse", BooleanType, BooleanAnswer(None), None)),
+            None
           )
         )
       )

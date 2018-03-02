@@ -43,6 +43,10 @@ object QLFormParser extends Logging {
       errorListener.getParseErrors.isEmpty
     }
 
+    override def visitBlock(ctx: QLParser.BlockContext): Seq[Statement] = {
+      JavaConverters.asScalaBuffer(ctx.statement()).toList.flatMap(StatementVisitor.visit)
+    }
+
     override def visitQuestion(ctx: QLParser.QuestionContext): Seq[Statement] = {
       val questionId = ctx.Identifier().getText
       val questionLabel = ctx.label.getText

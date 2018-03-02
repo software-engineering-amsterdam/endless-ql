@@ -55,17 +55,6 @@ form        : FORM Identifier CURLY_LEFT statement+ CURLY_RIGHT EOF ;
 statement   : question
             | conditional ;
 
-question    : label=TEXT Identifier DOUBLE_COLON answerType ( ASSIGN expression )?;
-conditional : IF BRACK_LEFT condition=expression BRACK_RIGHT CURLY_LEFT thenBlock+=statement+ CURLY_RIGHT ( ELSE CURLY_LEFT elseBlock+=statement+ CURLY_RIGHT )? ;
-
-answerType  : BOOLEAN | INTEGER | DECIMAL | MONEY | DATE | STRING ;
-
-unaryOp          : SUB | NEG ;
-multiplicativeOp : MUL | DIV ;
-additiveOp       : ADD | SUB ;
-relationalOp     : LT | GT | LTE | GTE ;
-equalityOp       : EQ | NE ;
-
 // Precedence as specified by: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html
 expression : BRACK_LEFT expression BRACK_RIGHT                 # GroupExpr
            | op=unaryOp expression                             # UnaryExpr
@@ -80,3 +69,17 @@ expression : BRACK_LEFT expression BRACK_RIGHT                 # GroupExpr
            | DecValue                                          # DecConst
            | TEXT                                              # StringConst
            | bool                                              # BoolConst ;
+
+block      : CURLY_LEFT statement+ CURLY_RIGHT
+           | statement ;
+
+question    : label=TEXT Identifier DOUBLE_COLON answerType ( ASSIGN expression )?;
+conditional : IF BRACK_LEFT condition=expression BRACK_RIGHT thenBlock+=block ( ELSE elseBlock+=block )? ;
+
+answerType  : BOOLEAN | INTEGER | DECIMAL | MONEY | DATE | STRING ;
+
+unaryOp          : SUB | NEG ;
+multiplicativeOp : MUL | DIV ;
+additiveOp       : ADD | SUB ;
+relationalOp     : LT | GT | LTE | GTE ;
+equalityOp       : EQ | NE ;

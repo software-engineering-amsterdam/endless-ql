@@ -17,7 +17,7 @@
 
         public override string ToString()
         {
-            return string.Format("{0} {1}", base.ToString(), Expression);
+            return string.Format("{0}\tID: {1}\t\t{2}\t\t{3}", base.ToString(), ID, Text, Expression);
         }
     }
 }

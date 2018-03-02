@@ -24,7 +24,7 @@ namespace QL_Parser.Visitors.ExpressionVisitors
         public override IExpressionNode VisitComparisonOperand([NotNull] QLanguageParser.ComparisonOperandContext context)
         {
             var arthimeticContext = context.artithmeticExpression();
-            return new ArthimeticExpressionVisitor().VisitArtithmeticExpression(arthimeticContext);
+            return new ArthimetricExpressionVisitor().VisitArtithmeticExpression(arthimeticContext);
         }
     }
 }

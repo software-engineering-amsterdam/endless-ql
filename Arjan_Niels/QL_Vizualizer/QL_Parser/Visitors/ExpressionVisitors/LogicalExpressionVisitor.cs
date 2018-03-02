@@ -10,7 +10,6 @@ namespace QL_Parser.Visitors.ExpressionVisitors
     {
         public override IExpressionNode VisitLogicalExpression([NotNull] QLanguageParser.LogicalExpressionContext context)
         {
-            // Leaf node
             var logicalEntityContext = context.logicalEntity();
             if (logicalEntityContext != null)
                 return VisitLogicalEntity(logicalEntityContext);

@@ -43,5 +43,11 @@
             "           (sellingPrice - privateDebt)" +
             "   }" +
             "}";
+        public static readonly string DuplicateVarsAndComputedForm = "form TestForm {" +
+            "   \"Have you sold a house in 2010?\"" +
+            "       soldHouse: boolean" +
+            "   \"Duplicate computed\"" +
+            "       soldHouse: boolean = 5 - 10" +
+            "}";
     }
 }

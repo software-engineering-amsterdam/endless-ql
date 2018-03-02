@@ -5,18 +5,22 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class Question {
 
+	boolean isComputed;
 	String variable;
 	String label;
 	String type;
 	int value;
 
-	public Question(String variable, String label, String type) {
+	public Question(boolean isComputed, String variable, String label, String type) {
+		this.isComputed = isComputed;
 		this.variable = variable;
 		this.label = label;
 		this.type = type;
 	}
 
-
+	public boolean isComputed() {
+		return isComputed;
+	}
 	public int getValue() {
 		return value;
 	}

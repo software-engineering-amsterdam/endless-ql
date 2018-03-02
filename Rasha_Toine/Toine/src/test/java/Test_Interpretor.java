@@ -35,7 +35,7 @@ public class Test_Interpretor {
 		
 		// simulate answers given
 
-		interpretingVisitor.questions.get("hasSoldHouse").setValue("true");
+		interpretingVisitor.questions.get("hasSoldHouse").setValue("322");
 		interpretingVisitor.visit(parseTree);
 
 		assertEquals("Number of questions seen", 6, interpretingVisitor.questions.size() );

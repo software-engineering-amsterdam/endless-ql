@@ -31,7 +31,7 @@ public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 		forwardReferences.remove(ctx.variable.getText());
 
 		if (!questions.containsKey(ctx.variable.getText())) {
-			Question question = new Question(ctx.variable.getText(), ctx.label.getText(), ctx.type.getText());
+			Question question = new Question(false, ctx.variable.getText(), ctx.label.getText(), ctx.type.getText());
 			questions.put(ctx.variable.getText(), question);
 			return 0;
 		}
@@ -44,7 +44,7 @@ public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 		forwardReferences.remove(ctx.variable.getText());
 
 		if (!questions.containsKey(ctx.variable.getText())) {
-			Question question = new Question(ctx.variable.getText(), ctx.label.getText(), ctx.type.getText());
+			Question question = new Question(true, ctx.variable.getText(), ctx.label.getText(), ctx.type.getText());
 			question.setValue(visit(ctx.expression()).toString());
 			questions.put(ctx.variable.getText(), question);
 			return question.getValue();

@@ -8,7 +8,7 @@ import nl.khonraad.ExpressionLanguageParser;
 import nl.khonraad.visitors.TypeCheckingVisitor;
 import utils.AbstractParserFactory;
 
-public class TypeChecker {
+public class Test_TypeChecker {
 
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();

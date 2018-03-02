@@ -21,7 +21,7 @@ public class Question {
 		return value;
 	}
 
-	public String setValue(String value) {
+	public int setValue(String value) {
 		
 		switch (type) {
 		
@@ -36,21 +36,26 @@ public class Question {
 			break;
 			
 			case "boolean": {
-				if ("true".equals(value)) {
-					this.value = 1;
-				} else {
-					if ("false".equals(value)) {
+				switch ( value.toLowerCase() ) {
+					case "true":
+						this.value = 1;
+						break;
+					case "false":
 						this.value = 0;
-					} else {
-						this.value = (Integer.parseInt(value) == 0) ? 0 : 1 ;
+						break;
+					default:
+						try {
+							this.value = Integer.parseInt(value);
+						} catch ( NumberFormatException numberFormatException ) {
+							throw new RuntimeException("What do you mean by ["+ value +"]?");
+						}
 					}
-				}
+				this.value = this.value == 0  ? 0 : 1;
 			}
 			break;
 		
 		}
-		
-		return value;
+		return this.value;
 	}
 
 

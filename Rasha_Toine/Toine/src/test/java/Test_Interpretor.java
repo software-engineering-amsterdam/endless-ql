@@ -7,7 +7,7 @@ import org.junit.Test;
 import nl.khonraad.visitors.InterpretingVisitor;
 import utils.AbstractParserFactory;
 
-public class Interpretor {
+public class Test_Interpretor {
 
 	@Test
 	public void test_Interpretor() throws Exception {
@@ -23,7 +23,7 @@ public class Interpretor {
 				"	if (hasSoldHouse) {																			"+
 				"		sellingPrice: \"Price the house was sold for:\" money										"+
 				"		privateDebt: \"Private debts for the sold house:\" money									"+
-				"  		valueResidue: \"Value residue:\" money (sellingPrice - privateDebt)						"+
+				"  		valueResidue: \"Value residue:\" money (sellingPrice - privateDebt )						"+
 				"  	}																							"+
 				"}																								";
 
@@ -31,15 +31,21 @@ public class Interpretor {
 
 		interpretingVisitor.visit(parseTree);
 
-		assertEquals("Number of questions seen", 6, interpretingVisitor.questions.size() );
-
+		assertEquals("Number of questions seen", 3, interpretingVisitor.questions.size() );
+		
 		// simulate answers given
+
+		interpretingVisitor.questions.get("hasSoldHouse").setValue("true");
+		interpretingVisitor.visit(parseTree);
+
+		assertEquals("Number of questions seen", 6, interpretingVisitor.questions.size() );
 
 		interpretingVisitor.questions.get("sellingPrice").setValue("100");
 		interpretingVisitor.questions.get("privateDebt").setValue("25");
 
 		interpretingVisitor.visit(parseTree);
 
+		assertEquals("Number of questions seen", 6, interpretingVisitor.questions.size() );
 		assertEquals("Calculated answer", 75, interpretingVisitor.questions.get("valueResidue").getValue() );
 
 	}

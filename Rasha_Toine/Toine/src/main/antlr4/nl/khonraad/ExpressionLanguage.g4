@@ -35,7 +35,7 @@ block           :   '{' part* '}'
 
 part            :   variable = ID ':' label = LABEL type = TYPE                         # LBL_Question
                 |   variable = ID ':' label = LABEL type = TYPE '(' expression ')'      # LBL_ComputedQuestion
-                |   'if' expression block                                               # LBL_ConditionalBlock
+                |   'if' '(' expression ')' block                                       # LBL_ConditionalBlock
                 ;
 
 expression      :   operator = OPERATOR_NOT expression                                  # LBL_Not_Expression

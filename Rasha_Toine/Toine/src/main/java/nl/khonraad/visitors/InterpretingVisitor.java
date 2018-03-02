@@ -48,8 +48,13 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 		String id = ctx.ID().getText();
 
 		if ( questions.containsKey(id)) {
-			return questions.get(id).getValue();
+			
+			int value = questions.get(id).getValue();
+			
+			return value;
 		}
+		
+		
 		return 0;
 
 	}
@@ -81,11 +86,14 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 	@Override
 	public Integer visitLBL_Question(ExpressionLanguageParser.LBL_QuestionContext ctx) {
 
-		if ( !questions.containsKey(ctx.variable.getText())) {
-			Question question = new Question(ctx.variable.getText(), ctx.label.getText(), ctx.type.getText() );
-			questions.put(ctx.variable.getText(), question);
-		}
-		return 0;
+		String key = ctx.variable.getText();
+		
+		if ( !questions.containsKey(key)) {
+			Question question = new Question(key, ctx.label.getText(), ctx.type.getText() );
+			questions.put(key, question);
+			return 0;
+		} 
+		return questions.get(key).getValue();
 	}
 
 	@Override
@@ -99,8 +107,13 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 
 	@Override
 	public Integer visitLBL_ConditionalBlock(ExpressionLanguageParser.LBL_ConditionalBlockContext ctx) {
-		// TODO implement logic
-		return visitChildren(ctx);
+		
+		Integer value = visit(ctx.expression());
+
+		if ( value != 0 ) {
+			visitChildren(ctx.block());
+		}
+		return value;
 	}
 
 }

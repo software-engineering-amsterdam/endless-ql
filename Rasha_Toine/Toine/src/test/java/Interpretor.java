@@ -4,15 +4,15 @@ import static org.junit.Assert.assertEquals;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 
-import nl.khonraad.visitors.ValuationVisitor;
-import utils.StaticUtils;
+import nl.khonraad.visitors.InterpretingVisitor;
+import utils.AbstractParserFactory;
 
-public class ValuationVisitorTest {
+public class Interpretor {
 
 	@Test
-	public void testValuation() throws Exception {
+	public void test_Interpretor() throws Exception {
 
-		ValuationVisitor valuationVisitor = new ValuationVisitor();
+		InterpretingVisitor interpretingVisitor = new InterpretingVisitor();
 
 		String testData =
 				"form Box1HouseOwning {																			"+
@@ -27,21 +27,20 @@ public class ValuationVisitorTest {
 				"  	}																							"+
 				"}																								";
 
-		ParseTree parseTree = StaticUtils.parseDataForTest(testData).form();
+		ParseTree parseTree = AbstractParserFactory.parseDataForTest(testData).form();
 
-		valuationVisitor.visit(parseTree);
+		interpretingVisitor.visit(parseTree);
 
-		assertEquals("Number of questions seen", 6, valuationVisitor.questions.size() );
+		assertEquals("Number of questions seen", 6, interpretingVisitor.questions.size() );
 
-		
 		// simulate answers given
 
-		valuationVisitor.questions.get("sellingPrice").setValue("100");
-		valuationVisitor.questions.get("privateDebt").setValue("25");
+		interpretingVisitor.questions.get("sellingPrice").setValue("100");
+		interpretingVisitor.questions.get("privateDebt").setValue("25");
 
-		valuationVisitor.visit(parseTree);
+		interpretingVisitor.visit(parseTree);
 
-		assertEquals("Calculated answer", 75, valuationVisitor.questions.get("valueResidue").getValue() );
+		assertEquals("Calculated answer", 75, interpretingVisitor.questions.get("valueResidue").getValue() );
 
 	}
 }

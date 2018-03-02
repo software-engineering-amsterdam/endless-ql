@@ -5,7 +5,7 @@ import nl.khonraad.ExpressionLanguageParser;
 import nl.khonraad.domain.Question;
 import nl.khonraad.domain.Questions;
 
-public class ValuationVisitor extends ExpressionLanguageBaseVisitor<Integer> {
+public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> {
 
 	public Questions questions = new Questions();
 	

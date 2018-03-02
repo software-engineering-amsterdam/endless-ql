@@ -14,9 +14,10 @@ import org.antlr.v4.runtime.Recognizer;
 import nl.khonraad.ExpressionLanguageLexer;
 import nl.khonraad.ExpressionLanguageParser;
 
-public class StaticUtils {
+public abstract class AbstractParserFactory {
+	
 	public static ExpressionLanguageParser parseDataForTest(String testData) throws IOException {
-		InputStream stream = new ByteArrayInputStream( testData.getBytes( StandardCharsets.UTF_8)  );
+		InputStream stream = new ByteArrayInputStream(testData.getBytes(StandardCharsets.UTF_8));
 
 		ExpressionLanguageLexer expressionLanguageLexer = new ExpressionLanguageLexer(
 				CharStreams.fromStream(stream, StandardCharsets.UTF_8));

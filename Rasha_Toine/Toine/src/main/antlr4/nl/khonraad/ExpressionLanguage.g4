@@ -36,6 +36,7 @@ block            :   '{' part* '}'
 part             :   variable = IDENTIFIER ':' label = LABEL type = IOTYPE                       # LBL_Question
                  |   variable = IDENTIFIER ':' label = LABEL type = IOTYPE '(' expression ')'    # LBL_ComputedQuestion
                  |   'if' '(' expression ')' block                                               # LBL_ConditionalBlock
+                 |   block                                                                       # LBL_Block
                  ;
 
 expression       :   operator = OPERATOR_NOT expression                                          # LBL_Not_Expression

@@ -1,4 +1,4 @@
-from gui import Gui
+from Gui import Gui
 from QLast import *
 
 class GuiBuilder():
@@ -6,6 +6,9 @@ class GuiBuilder():
         self.gui = Gui()
         self.ast = ast
         self.form_name = ast.name
+
+        self.values = []
+        self.submitButtonShown = False
 
         self.labels = {}
         self.textBoxes = {}
@@ -17,10 +20,10 @@ class GuiBuilder():
 
     #     return
 
-    def parseStatements(self, form):
+    def parseStatements(self, form, setSubmitButton=True):
         # print self.ast
         for statement in form.statements:
-            # print type(statement)
+            print type(statement)
             # if self.checkIfVariableExists(statement):
             #     return
             self.gui.setCurrentStatementFrame()
@@ -29,22 +32,32 @@ class GuiBuilder():
             elif type(statement) is AssignmentNode:
                 self.parseAssignment(statement)
             elif type(statement) is IfNode:
-                #hier ergens kijken naar variabeles in waar de if statement naar kijkt
-                #als die niet oke zijn, dan gaan we gewoon verder, anders kunnen we ook deze block in de parsestatements gooien
-                #de parsestatemetns functie moet eigenlijk ook de ast doorlopen als de knop na elke "block van questions" ingedrukt word
-                #dus hier zou ook een knop toegevoegd moeten worden die het herlopen van de ast triggered om zo te kijken of we latere if statemetns nu wel kunnen doen
-                self.parseIfNode(statement)
+                if(self.checkVariableStatus(statement.expression)):
+                    print statement
+                    self.parseStatements(statement, False)
+                else:
+                    print "nee"
+                #self.parseIfNode(statement)
 
-        self.gui.addFormButton()
-
+        self.gui.addFormButton(self.reEvaluateForm, self.ast)
+        self.submitButtonShown = True
         return
+
+    # This method is called from the gui class when pressing the submit button, remove the old button and 
+    # start the re-evaluation of the form based on new variable features
+    def reEvaluateForm(self, form, submitButton):
+        submitButton.destroy()
+        self.submitButtonShown = False
+        self.parseStatements(form)
 
     def parseQuestion(self, statement):
-        if statement.vartype == "boolean":
+        print statement
+        if statement.vartype == "boolean" and statement.var not in self.values:
             self.gui.addBooleanQuestion(statement.var, statement.question, "No", "Yes")
-        elif statement.vartype == "int":
+            self.values.append(statement.var)
+        elif statement.vartype == "int" and statement.var not in self.values:
             self.gui.addIntQuestion(statement.var, statement.question)
-        return
+            self.values.append(statement.var)
 
     # Parsing an assignment, quite the mental struggle
     def parseAssignment(self, statement):
@@ -63,8 +76,8 @@ class GuiBuilder():
         if type(statement.expression) == BinOpNode:
             return
         elif type(statement.expression) == UnOpNode:
-            print statement.expression
-            print statement.expression.var
+            # print statement.expression
+            # print statement.expression.var
             rv = self.parseUnOp(statement.expression)
             
         # if statement.statements != []:
@@ -105,6 +118,16 @@ class GuiBuilder():
     #     self.form_variable[name] = vars[name].get()
     #     print self.form_variable
 
+    # Function that check if the expression variables match the needed values to show the block
+    # !Currently only working on Unary!
+    def checkVariableStatus(self, expression):
+        if type(expression) == UnOpNode:
+            if not expression.negate and self.gui.values[expression.var].get() == 1:
+                return True
+            elif expression.negate and self.gui.values[expression.var].get() == 0:
+                return True
+
+        return False
 # def notifyChangeTextBox(*args):
 #     # selection = "You selected the option " + str(entryVariable2.get())
 #     # label.config(text = selection)

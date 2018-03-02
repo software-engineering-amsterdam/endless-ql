@@ -7,6 +7,9 @@ class Gui():
         self.window.minsize(width=500, height=300)
         self.frame = None
         self.frames = {}
+        self.values = {}
+
+        #deze hebben we misschien niet meer nodig, kijk naar yesno question voorbeeld
         self.labels = {}
         self.checkBoxes = {}
         self.checkBoxValues = {}
@@ -16,7 +19,7 @@ class Gui():
         self.radioButtons = {}
         self.radioButtonValues = {}
         self.dropDowns = {}
-        self.questions = {}
+        
         self.entryBoxes = {}
         self.formVariables = {}
 
@@ -144,7 +147,7 @@ class Gui():
         radioButton1.pack(side=LEFT)
         radioButton2.pack(side=LEFT)
         
-        self.questions[name] = var
+        self.values[name] = var
         self.frames[name] = frame
 
     def addIntQuestion(self, name, question):
@@ -159,7 +162,7 @@ class Gui():
         entry = tk.Entry(frame, textvariable=var)
         entry.pack(side=LEFT)
 
-        self.questions[name] = var
+        self.values[name] = var
         self.frames[name] = frame
 
     def removeQuestion(self, name):
@@ -176,12 +179,12 @@ class Gui():
         self.frame = frame
         return
 
-    def addFormButton(self):
+    def addFormButton(self, parseFunction, ast):
         frame = tk.Frame(self.frame)
         frame.pack()
 
         button = tk.Button(frame, text="Submit")
-        button.config(command= lambda: self.getVariables())
+        button.config(command= lambda: parseFunction(ast, button))
         button.pack()
 
         return
@@ -192,15 +195,16 @@ class Gui():
     # Loop through current questions and save the values on clicking the button if the input type is correct.
     # The current questions have to be overwritten with the questions of the new frame if we do this...
     def getVariables(self):
-        for question in self.questions:
-            if type(self.questions[question].get()) is int:
-                self.formVariables[question] = self.questions[question].get()
 
-            # todo: better error handling...
-            elif type(self.questions[question].get()) is str and self.questions[question].get().isdigit():
-                self.formVariables[question] = self.questions[question].get()
+        # for question in self.questions:
+        #     if type(self.questions[question].get()) is int:
+        #         self.formVariables[question] = self.questions[question].get()
 
-        print self.formVariables
+        #     # todo: better error handling...
+        #     elif type(self.questions[question].get()) is str and self.questions[question].get().isdigit():
+        #         self.formVariables[question] = self.questions[question].get()
+
+        # print self.formVariables
         return
 
 def notifyClick(name, vars):

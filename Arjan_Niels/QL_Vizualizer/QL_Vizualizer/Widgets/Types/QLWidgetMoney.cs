@@ -1,11 +1,12 @@
 ﻿using System;
 using QL_Vizualizer.Expression;
+using QL_Vizualizer.Expression.Types;
 
 namespace QL_Vizualizer.Widgets.Types
 {
     public class QLWidgetMoney : QLQuestionWidget<double>
     {
-        public QLWidgetMoney(string identifyer, string text, IExpression<bool> activationExpression = null, IExpression<double> answerExpression = null) : base(identifyer, text, activationExpression, answerExpression)
+        public QLWidgetMoney(string identifyer, string text, ExpressionBool activationExpression = null, TypedExpressionValue<double> answerExpression = null) : base(identifyer, text, activationExpression, answerExpression)
         {
         }
 

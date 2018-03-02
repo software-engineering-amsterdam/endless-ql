@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace QL_Vizualizer.Controllers.Display
 {
-    public abstract class WidgetDisplayController<T,Y>
+    public abstract class WidgetDisplayController<T, Y>
     {
         /// <summary>
         /// X-Position of first widget
@@ -19,13 +19,13 @@ namespace QL_Vizualizer.Controllers.Display
         /// <summary>
         /// Element factory that creates all elements
         /// </summary>
-        protected ElementFactory<T,Y> _elementFactory { get; private set; }
+        protected ElementFactory<T, Y> _elementFactory { get; private set; }
 
         protected WidgetController _widgetController { get; private set; }
 
         public Y DefaultStyle { get; private set; }
 
-        public WidgetDisplayController(float initialPosition, ElementFactory<T,Y> elementFactory, WidgetController controller, Y defaultStyle)
+        public WidgetDisplayController(float initialPosition, ElementFactory<T, Y> elementFactory, WidgetController controller, Y defaultStyle)
         {
             InitialPosition = initialPosition;
             _elementFactory = elementFactory;
@@ -33,6 +33,22 @@ namespace QL_Vizualizer.Controllers.Display
             _widgetController = controller;
             DefaultStyle = defaultStyle;
         }
+
+        public void RefreshWidgets()
+        {
+            foreach (T element in ElementIndex.Values)
+                RemoveFromView(element);
+
+            _widgetController.ShowWidgets();
+        }
+       
+        public void DestroyElement(string id)
+        {
+            RemoveFromView(ElementIndex[id]);
+            ElementIndex.Remove(id);
+        }
+
+        protected abstract void RemoveFromView(T element);
 
         /// <summary>
         /// Displays widget at specified position
@@ -77,7 +93,18 @@ namespace QL_Vizualizer.Controllers.Display
         /// <param name="widget">Target widget</param>
         public void UpdateView(QLWidget widget)
         {
-            _elementFactory.UpdateElement(widget, ElementIndex[widget.Identifyer]);
+            if (widget.Active == true)
+            {
+                if (!ElementIndex.ContainsKey(widget.Identifyer))
+                {
+                    // TODO: ADD WIDGET ON CORRECT POSITION IN VIEW
+                    ShowWidget(widget, DefaultStyle);
+                }
+                else
+                    _elementFactory.UpdateElement(widget, ElementIndex[widget.Identifyer]);
+            }
+            else if (ElementIndex.ContainsKey(widget.Identifyer))
+                DestroyElement(widget.Identifyer);
         }
 
         /// <summary>

@@ -120,6 +120,11 @@ namespace QL_Vizualizer.Controllers
                 }
         }
 
+        public override void RefreshWidgets()
+        {
+            _displayController.RefreshWidgets();
+        }
+
         /// <summary>
         /// Updates the widgets' view
         /// </summary>

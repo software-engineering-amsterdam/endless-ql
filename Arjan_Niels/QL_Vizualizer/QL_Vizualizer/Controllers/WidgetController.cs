@@ -52,6 +52,11 @@ namespace QL_Vizualizer.Controllers
         public abstract void ShowWidgets();
 
         /// <summary>
+        /// Removes all widgets form view and shows them again
+        /// </summary>
+        public abstract void RefreshWidgets();
+
+        /// <summary>
         /// Shows view to user
         /// </summary>
         public abstract void ShowView();
@@ -97,7 +102,7 @@ namespace QL_Vizualizer.Controllers
                 return;
             }
 
-            IEnumerable<QLWidget> widgets = WidgetFactory.CreateWidgets(node);
+            IEnumerable<QLWidget> widgets = WidgetFactory.CreateWidgets(node, this);
             DisplayForm(node.FormName, widgets.ToArray());
         }
 

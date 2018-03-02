@@ -47,10 +47,14 @@
   <ItemGroup>
     <Compile Include="Controllers\Display\WidgetDisplayControllerWindows.cs" />
     <Compile Include="Controllers\WidgetController.cs" />
-    <Compile Include="Expression\ExpressionComposite.cs" />
-    <Compile Include="Expression\ExpressionLeaf.cs" />
-    <Compile Include="Expression\ExpressionCombiner.cs" />
-    <Compile Include="Expression\IExpression.cs" />
+    <Compile Include="Expression\ExpressionExceptions.cs" />
+    <Compile Include="Expression\ExpressionOperators.cs" />
+    <Compile Include="Expression\Types\ExpressionBool.cs" />
+    <Compile Include="Expression\ExpressionOperator.cs" />
+    <Compile Include="Expression\ExpressionValue.cs" />
+    <Compile Include="Expression\TypedExpressionValue.cs" />
+    <Compile Include="Expression\Types\ExpressionDouble.cs" />
+    <Compile Include="Expression\Types\ExpressionInt.cs" />
     <Compile Include="Factories\ControlFactory.cs" />
     <Compile Include="Factories\ElementFactory.cs" />
     <Compile Include="Factories\ExpressionFactory.cs" />

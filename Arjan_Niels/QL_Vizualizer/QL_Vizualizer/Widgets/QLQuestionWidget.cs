@@ -1,5 +1,5 @@
 ﻿using QL_Vizualizer.Controllers;
-using QL_Vizualizer.Expression;
+using QL_Vizualizer.Expression.Types;
 using System.Linq;
 
 namespace QL_Vizualizer.Widgets
@@ -19,14 +19,14 @@ namespace QL_Vizualizer.Widgets
         /// <summary>
         /// Expression that creates the answer
         /// </summary>
-        private IExpression<T> _answerExpression;
+        private TypedExpressionValue<T> _answerExpression;
 
         /// <summary>
         /// Indication if the answer is editable
         /// </summary>
         public bool Editable { get { return _answerExpression == null; } }
 
-        public QLQuestionWidget(string identifyer, string text, IExpression<bool> activationExpression = null, IExpression<T> answerExpression = null) : base(identifyer, text, activationExpression)
+        public QLQuestionWidget(string identifyer, string text, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : base(identifyer, text, activationExpression)
         {
             AnswerValue = default(T);
             IsAnswered = false;
@@ -55,7 +55,7 @@ namespace QL_Vizualizer.Widgets
 
             // Subscribe for answer expressions
             if (_answerExpression != null)
-                foreach (string s in _answerExpression.GetWidgetIDs())
+                foreach (string s in _answerExpression.UsedWidgetIDs)
                     _widgetController.ReceiveUpdates(s, this);
         }
 
@@ -80,10 +80,10 @@ namespace QL_Vizualizer.Widgets
         public override void ReceiveUpdate(string updatedIdentifyer)
         {
             base.ReceiveUpdate(updatedIdentifyer);
-            if (_answerExpression.GetWidgetIDs().Contains(updatedIdentifyer))
+            if (_answerExpression != null && _answerExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
             {
-                SetAnswer(_answerExpression.Validate());
-                _widgetController.UpdateView(this);
+                SetAnswer(_answerExpression.Expression());
+                //_widgetController.UpdateView(this);
             }
         }
     }

@@ -1,10 +1,11 @@
 ﻿using QL_Vizualizer.Expression;
+using QL_Vizualizer.Expression.Types;
 
 namespace QL_Vizualizer.Widgets.Types
 {
     public class QLWidgetInt : QLQuestionWidget<int>
     {
-        public QLWidgetInt(string identifyer, string text, IExpression<bool> activationExpression = null, IExpression<int> answerExpression = null) : base(identifyer, text, activationExpression, answerExpression)
+        public QLWidgetInt(string identifyer, string text, ExpressionBool activationExpression = null, TypedExpressionValue<int> answerExpression = null) : base(identifyer, text, activationExpression, answerExpression)
         {
         }
 

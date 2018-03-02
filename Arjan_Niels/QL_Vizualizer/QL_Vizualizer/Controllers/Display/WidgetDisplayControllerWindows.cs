@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using QL_Vizualizer.Expression;
+using QL_Vizualizer.Expression.Types;
 using QL_Vizualizer.Factories;
 using QL_Vizualizer.Properties;
 using QL_Vizualizer.Style;
@@ -87,6 +88,11 @@ namespace QL_Vizualizer.Controllers.Display
             return style;
         }
 
+        protected override void RemoveFromView(Control element)
+        {
+            element.Dispose();
+        }
+
         /// <summary>
         /// Temporary function to diplay dummy widgets
         /// </summary>
@@ -97,9 +103,9 @@ namespace QL_Vizualizer.Controllers.Display
             {
                 new QLWidgetInt("a", "wat is 10 + 1?"),
                 new QLWidgetInt("b", "wat is 5 + 3?"),
-                new QLWidgetInt("c", "som:", null, new ExpressionLeaf<int>(() => {
+                new QLWidgetInt("c", "som:", null, new ExpressionInt(new string[]{"a","b" },() => {
                     return (_widgetController.GetWidget("a") as QLWidgetInt).AnswerValue + (_widgetController.GetWidget("b") as QLWidgetInt).AnswerValue;
-                }, "a", "b")),
+                })),
                 new QLWidgetBool("d", "This statement is False")
 
             });

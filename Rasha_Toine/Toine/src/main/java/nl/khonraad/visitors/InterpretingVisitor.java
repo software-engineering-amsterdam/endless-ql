@@ -3,6 +3,7 @@ package nl.khonraad.visitors;
 import nl.khonraad.ExpressionLanguageBaseVisitor;
 import nl.khonraad.ExpressionLanguageParser;
 import nl.khonraad.domain.Question;
+import nl.khonraad.domain.Question.QuestionType;
 import nl.khonraad.domain.Questions;
 
 public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> {
@@ -95,7 +96,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 		String key = ctx.variable.getText();
 		
 		if ( !questions.containsKey(key)) {
-			Question question = new Question(false, key, ctx.label.getText(), ctx.type.getText() );
+			Question question = new Question(QuestionType.NOT_COMPUTED, key, ctx.label.getText(), ctx.type.getText() );
 			questions.put(key, question);
 			return 0;
 		} 
@@ -105,7 +106,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 	@Override
 	public Integer visitLBL_ComputedQuestion(ExpressionLanguageParser.LBL_ComputedQuestionContext ctx)  {
 		
-		Question question = new Question(true,ctx.variable.getText(), ctx.label.getText(), ctx.type.getText() );
+		Question question = new Question(QuestionType.COMPUTED, ctx.variable.getText(), ctx.label.getText(), ctx.type.getText() );
 		question.setValue(visit(ctx.expression()).toString());
 		questions.put(ctx.variable.getText(), question);
 		return question.getValue();

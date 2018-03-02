@@ -5,20 +5,25 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class Question {
 
-	boolean isComputed;
+	public enum QuestionType {
+		COMPUTED,
+		NOT_COMPUTED
+	};
+	
+	QuestionType isComputed;
 	String variable;
 	String label;
 	String type;
 	int value;
 
-	public Question(boolean isComputed, String variable, String label, String type) {
+	public Question(QuestionType isComputed, String variable, String label, String type) {
 		this.isComputed = isComputed;
 		this.variable = variable;
 		this.label = label;
 		this.type = type;
 	}
 
-	public boolean isComputed() {
+	public QuestionType isComputed() {
 		return isComputed;
 	}
 	public int getValue() {

@@ -27,11 +27,11 @@ public class Question implements FormExpression {
     private String getQuestionnaireComponent() {
         String component = dataType.getComponent().get();
 
-// TODO
-//        if (component instanceof TextField)
-//            NonNullRun.consumer(value, v -> component.setValue(v.value().toString()));
-
         return component;
+    }
+    public String getHtmlType() {
+        // TODO: Map types to html type
+        return "text";
     }
 
     @Override

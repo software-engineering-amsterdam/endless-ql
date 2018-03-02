@@ -1,4 +1,4 @@
-package nl.khonraad;
+package nl.khonraad.domain;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -25,6 +25,11 @@ public class Question {
 		
 		switch (type) {
 		
+			case "money": {
+				this.value = Integer.parseInt(value);
+			}
+			break;
+
 			case "integer": {
 				this.value = Integer.parseInt(value);
 			}

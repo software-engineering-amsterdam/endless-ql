@@ -93,7 +93,7 @@ public class MainApp extends Application {
 
         for (FormExpression expression : form.getFormExpressions()) {
             if (expression instanceof Question) {
-                questions.add(UIBuilder.getTextInput((Question) expression));
+                questions.add(UIBuilder.getLabeledField((Question) expression));
             }
         }
 

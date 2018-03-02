@@ -3,16 +3,16 @@ package expression;
 import expression.variable.*;
 
 public class ExpressionFactory {
-    public static Expression createExpression(String questionType) {
+    public static Expression createEmptyExpression(String questionType) {
         switch (questionType) {
             case "boolean":
-                return new ExpressionVariableBoolean(null);
+                return new ExpressionVariableBoolean(false);
             case "string":
                 return new ExpressionVariableString(null);
             case "integer":
             case "decimal":
             case "money":
-                return new ExpressionVariableNumber(null);
+                return new ExpressionVariableNumber("");
             case "date":
                 return new ExpressionVariableDate(null);
             default:

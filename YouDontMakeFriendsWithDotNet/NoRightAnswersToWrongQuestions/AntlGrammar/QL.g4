@@ -15,71 +15,80 @@ grammar QL;
 
 questionnaire:  ENTRYPOINT IDENTIFIER BEGINSCOPE content=statement* ENDSCOPE; 
 
-statement : question (calculatedValue)?
-          | conditional
+statement : question calculatedValue    # calculatedQuestion
+          | question                    # inputQuestion
+          | conditionalStatement        # ifElseStatement
           ;		
 
-question: IDENTIFIER ':' TEXT questiontype 
-        | TEXT IDENTIFIER  ':' questiontype 
+question: IDENTIFIER ':' TEXT questionType 
+        | TEXT IDENTIFIER  ':' questionType 
         ;
 
-calculatedValue: ASSIGN BEGINGROUP mathexpression ENDGROUP;
+calculatedValue: ASSIGN BEGINGROUP mathExpression ENDGROUP;
 
-conditional: IFKEYWORD BEGINGROUP condition ENDGROUP BEGINSCOPE consequent=statement* ENDSCOPE 
-             (ELSEKEYWORD BEGINSCOPE alternative=statement* ENDSCOPE)?;
+conditionalStatement: IFKEYWORD BEGINGROUP booleanExpression ENDGROUP 
+                      BEGINSCOPE consequent=statement* ENDSCOPE 
+                      (ELSEKEYWORD BEGINSCOPE alternative=statement* ENDSCOPE)?;
 
-questiontype: qtype=(BOOLTYPE     
+questionType: chosenType=(BOOLTYPE     
             | STRINGTYPE   
             | INTTYPE      
             | DATETYPE     
             | DECIMALTYPE)
 			;
 
-condition : IDENTIFIER                         #questionId
-	      | TEXT                               #textLiteral
-          | conditionvalue                     #relativeLiteral
-          | booleanvalue                       #booleanLiteral
-          | BEGINGROUP condition ENDGROUP      #expressionGroup
-		  | NEGATE condition                   #negationExpression
-          | leftExpression=condition 
-              relationaloperator 
-      	    rightExpression=condition          #relativeExpression
-		  | mathexpression                     #calcualationExpression
-          ;
+booleanExpression : IDENTIFIER                             #questionIdentifier
+	              | booleanValue                           #booleanLiteral
+                  | BEGINGROUP booleanExpression ENDGROUP  #expressionGroup
+		          | NEGATE booleanExpression               #negationExpression
+                  | leftExpression=booleanExpression 
+                       operator=relationalOperator 
+      	            rightExpression=booleanExpression      #booleanComparison
+		          | leftText=TEXT 
+				       operator=booleanOperator 
+					rightText=TEXT                         #textComparison
+		          | leftDate=(DATE | IDENTIFIER)
+				       operator=relationalOperator 
+					rightDate=(DATE | IDENTIFIER)          #dateComparison 
+                  | leftExpression=mathExpression 
+				        operator=relationalOperator 
+					rightExpression=mathExpression         #mathComparison
+		          ;// ToDo: handle dateid > dateid vs mathid > mathid
 
-mathexpression : IDENTIFIER                              #numberId
-               | mathvalue                               #numberLiteral
-			   | BEGINGROUP mathexpression ENDGROUP      #mathexpressionGroup
-		       | leftExpression=mathexpression 
+mathExpression : IDENTIFIER                              #numberVariableName
+               | mathValue                               #numberLiteral
+			   | BEGINGROUP mathExpression ENDGROUP      #mathExpressionGroup
+		       | leftExpression=mathExpression 
       	           operator=(MULTIPLY | DIVIDE) 
-      		     rightExpression=mathexpression          #multiplyDivideExpression
-      	       | leftExpression=mathexpression 
+      		     rightExpression=mathExpression          #multiplyDivideExpression
+      	       | leftExpression=mathExpression 
       	           operator=(ADD | MINUS) 
-      		     rightExpression=mathexpression          #addSubtractExpression
+      		     rightExpression=mathExpression          #addSubtractExpression
 			   ;
 
-relationaloperator: ISEQUAL 
+relationalOperator: ISEQUAL 
                   | ISNOTEQUAL 
                   | ISGREATERTHAN 
                   | ISGREATERTHANOREQUAL 
 				  | ISLESSTHAN 
 				  | ISLESSTHANOREQUAL 
-				  | booleanoperator
+				  | booleanOperator
                   ;
 
-booleanoperator: AND 
+booleanOperator: AND 
                | OR
                ;
 
-booleanvalue: TRUE 
+booleanValue: TRUE 
             | FALSE
             ;
 
-mathvalue: INTEGER 
+mathValue: INTEGER 
          | DECIMAL
          ;
 
-conditionvalue: INTEGER 
+//ToDo: rename relational
+conditionValue: INTEGER 
               | DECIMAL 
 			  | DATE
               ;

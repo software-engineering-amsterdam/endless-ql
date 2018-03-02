@@ -1,12 +1,14 @@
 import {QuestionBase} from '../angular-questions/question-base';
 import {Statement} from './statement';
 import * as _ from 'lodash';
-import {DuplicateIdentifierError} from '../errors';
+import {DuplicateIdentifierError, UnknownQuestionError} from '../errors';
 import {Question} from './question';
 import {Location} from './location';
+import {Variable} from './expressions/variable';
 
 export class Form {
-  constructor(public name: string, public statements: Statement[], public location: Location) {}
+  constructor(public name: string, public statements: Statement[], public location: Location) {
+  }
 
   toFormQuestion(): QuestionBase<any>[] {
     let formQuestions: QuestionBase<any>[] = [];
@@ -24,10 +26,20 @@ export class Form {
     return formQuestions.sort((a, b) => a.order - b.order);
   }
 
-  checkTypes(): void {
-    let allQuestions = [];
+  checkForm(): void {
+    const allQuestions = this.getAllQuestions();
 
-    // get all questions in a list for checking on identifiers and types
+    this.checkDuplicateIdentifiers(allQuestions);
+
+    this.setVariableReferences(allQuestions);
+
+    for (const statement of this.statements) {
+      statement.checkType(allQuestions);
+    }
+  }
+
+  private getAllQuestions(): Question[] {
+    const allQuestions = [];
     for (const statement of this.statements) {
       const questions = statement.getQuestions();
 
@@ -35,22 +47,36 @@ export class Form {
         allQuestions.push(statement.getQuestions());
       }
     }
-    allQuestions = _.flatten(allQuestions);
+    return _.flatten(allQuestions);
+  }
 
-    // check if questions have duplicate identifiers
+  private checkDuplicateIdentifiers(allQuestions: Question[]): void {
     if (_.uniqBy(allQuestions, 'name').length < allQuestions.length) {
       const groupedQuestions = _.groupBy(allQuestions, 'name');
 
-      _.forEach(groupedQuestions, (value: Question[], key: string) =>  {
+      _.forEach(groupedQuestions, (value: Question[], key: string) => {
         if (value.length > 1) {
           throw new DuplicateIdentifierError(`Duplicate question with identifier ${key}`);
         }
       });
     }
+  }
 
-    // check types of if statements
+  private setVariableReferences(allQuestions: Question[]): void {
+    let allVariables = [];
     for (const statement of this.statements) {
-      statement.checkType(allQuestions);
+      allVariables.push(statement.getVariables());
+    }
+    allVariables = _.flatten(allVariables);
+
+    for (const variable of allVariables) {
+      const referencedQuestion = allQuestions.find(q => q.name === variable.identifier);
+      if (referencedQuestion) {
+        variable.referencedQuestion = referencedQuestion;
+      } else {
+        throw new UnknownQuestionError(`Question with identifier ${variable.identifier} was not found`);
+      }
     }
   }
+
 }

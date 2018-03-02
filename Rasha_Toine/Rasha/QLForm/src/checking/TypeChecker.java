@@ -26,11 +26,11 @@ public class TypeChecker {
 		
 	}
 	
-  /**
-   * Type checker to detect all problems defined in the specifications of QL interpreter
-   * @param: Form 
-   * @return: void
-   */
+	/**
+	* Type checker to detect all problems defined in the specifications of QL interpreter
+	* @param: Form 
+	* @return: void
+	*/
 	public void runChecker(Form form){
 		detectDuplicatedQuestions(form);
 		detectCyclicDependencies(form);
@@ -40,14 +40,14 @@ public class TypeChecker {
 	
 
 	
-  /**
-   * detect problems within questions in the QL form.
-   * This method will check for the following:
-   *  duplicate question declarations with different types
-   *  duplicate question labels
-   * @param: Form 
-   * @return: void
-   */
+	/**
+	* detect problems within questions in the QL form.
+	* This method will check for the following:
+	*  duplicate question declarations with different types
+	*  duplicate question labels
+	* @param: Form 
+	* @return: void
+	*/
 	public void detectDuplicatedQuestions(Form form) {
 		form.getBlock().accept(new MainVisitor<Void, Void>() { 
 				@Override
@@ -64,35 +64,35 @@ public class TypeChecker {
                }, null);
 
 
-			// detect more than one question with same label (name)
-			for (List<Question> questions : getDataByName().values()) {
-				if (questions.size() > 1) {
-					questions.forEach(question ->
-					System.out.println("Warning: Duplicated label: " + question.getName()));
-			  }
-			}
-		
+		// detect more than one question with same label (name)
+		for (List<Question> questions : getDataByName().values()) {
+			if (questions.size() > 1) {
+				questions.forEach(question ->
+				System.out.println("Warning: Duplicated label: " + question.getName()));
+		  }
+		}
+	
 			
-			// detect more than one question with same name but different types
-			for (List<Question> questions : getDataById().values()) {
-				Type type;
-				if (questions.size() > 1) {
-					type = questions.get(0).getType();
-					for (Question question : questions) {
-						// if same type, no problem
-						if (question.getType().equals(type)) {
-							continue;
-						}
-			
-						// if not the same type, report the issue
-						questions.forEach(qst ->
-						System.out.println("Error: Duplicated question declaration with different type: " + qst.getName()));
-						
-						//break inner loop, and go to next set of questions with same id
-						break;
+		// detect more than one question with same name but different types
+		for (List<Question> questions : getDataById().values()) {
+			Type type;
+			if (questions.size() > 1) {
+				type = questions.get(0).getType();
+				for (Question question : questions) {
+					// if same type, no problem
+					if (question.getType().equals(type)) {
+						continue;
 					}
+		
+					// if not the same type, report the issue
+					questions.forEach(qst ->
+					System.out.println("Error: Duplicated question declaration with different type: " + qst.getName()));
+					
+					//break inner loop, and go to next set of questions with same id
+					break;
 				}
 			}
+		}
 	}
 	
 
@@ -121,13 +121,13 @@ public class TypeChecker {
 	}
 
 
-  /**
-   * detect cyclic dependencies between questions in the QL form.
-   * e.g. 
-   * A --> B --> C --> D --> A
-   * @param: Form 
-   * @return: void
-   */
+	/**
+	* detect cyclic dependencies between questions in the QL form.
+	* e.g. 
+	* A --> B --> C --> D --> A
+	* @param: Form 
+	* @return: void
+	*/
 	public void detectCyclicDependencies(Form form) {
 
 		QuestionDependencyData dependencyTable = new QuestionDependencyData();
@@ -159,11 +159,11 @@ public class TypeChecker {
 		typeCheckerVisitor.visit(form);
 	}
 	
-  /**
-   * detect reference to undefined question in QL form
-   * @param: Form 
-   * @return: void
-   */
+	/**
+	 * detect reference to undefined question in QL form
+	* @param: Form 
+	* @return: void
+	*/
 	public void detectReferenceToUndefinedQuestion(Form form) {
 		QuestionDependencyData dependencyTable = new QuestionDependencyData();
 	    form.getBlock().accept(new MainVisitor<Void, Void>() {

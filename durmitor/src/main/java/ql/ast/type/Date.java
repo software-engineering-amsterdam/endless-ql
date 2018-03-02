@@ -1,8 +1,7 @@
 package ql.ast.type;
 
-import ql.evaluator.value.Value;
+import ql.ast.expression.literal.Literal;
 import ql.evaluator.value.parse.ToDate;
-import ql.visitors.checker.operationtypes.TypeComparison;
 import ql.visitors.interfaces.TypeVisitor;
 
 public class Date extends Type {
@@ -25,11 +24,6 @@ public class Date extends Type {
     public boolean isDate() {
         return true;
     }
-
-    @Override
-    public Value<?> toValue() {
-        return new ql.evaluator.value.Date();
-    }
     
     @Override
     public <T> T accept(TypeVisitor<T> visitor) {
@@ -37,37 +31,13 @@ public class Date extends Type {
     }
     
     @Override
-    public Value<?> parse(Value<?> value) {
+    public Literal<?> parse(Literal<?> value) {
         return value.accept(new ToDate());
     }
 
     @Override
-    public Type less(Type secondOperand) {
-        return secondOperand.accept(new TypeComparison(this));
-    }
-
-    @Override
-    public Type lessEqual(Type secondOperand) {
-        return secondOperand.accept(new TypeComparison(this));
-    }
-
-    @Override
-    public Type greater(Type secondOperand) {
-        return secondOperand.accept(new TypeComparison(this));
-    }
-
-    @Override
-    public Type greaterEqual(Type secondOperand) {
-        return secondOperand.accept(new TypeComparison(this));
-    }
-
-    @Override
-    public Type equal(Type secondOperand) {
-        return secondOperand.accept(new TypeComparison(this));
-    }
-
-    @Override
-    public Type notEqual(Type secondOperand) {
-        return secondOperand.accept(new TypeComparison(this));
+    public Literal<?> parse(String value) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

@@ -5,6 +5,7 @@ import {TextboxQuestion} from '../angular-questions/question-textbox';
 import {QuestionType} from './question-type';
 import {Statement} from './statement';
 import {Location} from './location';
+import {Variable} from './expressions/variable';
 
 export class Question extends Statement {
   constructor(public name: string, public label: string, public type: QuestionType, location: Location) {
@@ -21,7 +22,7 @@ export class Question extends Statement {
       key: this.name,
       label: this.label,
       type: Statement.toHtmlInputType(this.type),
-      value: this.type === QuestionType.STRING ? '' : undefined,
+      value: undefined,
       hiddenCondition: condition
     };
 

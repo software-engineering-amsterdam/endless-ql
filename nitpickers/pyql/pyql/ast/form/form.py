@@ -16,5 +16,8 @@ class Form(ast.ASTNode):
     def block(self):
         return self._block
 
+    def accept(self, visitor):
+        return visitor.visit_form(self)
+
     def __repr__(self):
         return str({"AST Form " + str(self.location): str(self.block)})

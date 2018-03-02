@@ -1,0 +1,17 @@
+form formName{
+    "Question"
+    answer: int = (5)
+
+    if(answer < 6){
+    }
+    if(answer < 6.5){
+    }
+    if(answer <= 6.5){
+    }
+    if(answer >= 6.5){
+    }
+    if(6.5 > answer){
+    }
+}
+---
+[[['Assign: answer', <class 'int'>], ['Conditional:', [["IF/ELIF:Binop: VarNode: answer <class 'int'> < literal: 6(<class 'int'>) ", [<class 'bool'>]]]], ['Conditional:', [["IF/ELIF:Binop: VarNode: answer <class 'int'> < literal: 6.5(<class 'float'>) ", [<class 'bool'>]]]], ['Conditional:', [["IF/ELIF:Binop: VarNode: answer <class 'int'> <= literal: 6.5(<class 'float'>) ", [<class 'bool'>]]]], ['Conditional:', [["IF/ELIF:Binop: VarNode: answer <class 'int'> >= literal: 6.5(<class 'float'>) ", [<class 'bool'>]]]], ['Conditional:', [["IF/ELIF:Binop: literal: 6.5(<class 'float'>)  > VarNode: answer <class 'int'>", [<class 'bool'>]]]]]]

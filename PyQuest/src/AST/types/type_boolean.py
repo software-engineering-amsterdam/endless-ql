@@ -7,6 +7,9 @@ class TypeBoolean(Type):
         super(TypeBoolean, self).__init__()
         self.operations = []
 
+    def __repr__(self):
+        return 'boolean'
+
     @staticmethod
     def pyqt5_default_widget():
         return QCheckBox()

@@ -54,12 +54,6 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 	}
 
 	@Override
-	public Object visit(PrimaryExpr expr) {
-		// TODO Interpret PrimaryExpr.
-		return null;
-	}
-
-	@Override
 	public Object visit(GroupingExpr expr) {
 		// TODO Interpret GroupingExpr.
 		return null;
@@ -85,8 +79,8 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<Object> {
 	
 	@Override
 	public Void visit(ComputedQuestionStmt stmt) {
-		Object value = evaluate(stmt.expression);
-		String name = stmt.identifier.getName();
+		Object value = evaluate(stmt.getExp());
+		String name = stmt.getIdentifierName();
 		SymbolTable.getInstance().put(name, value);
 		return null;	
 	}

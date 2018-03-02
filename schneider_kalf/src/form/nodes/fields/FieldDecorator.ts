@@ -33,7 +33,7 @@ export default class FieldDecorator implements Field {
     return this.fieldToBeDecorated.isReadOnly();
   }
 
-  getAnswer(state: FormState) {
-    return this.fieldToBeDecorated.getAnswer(state);
+  computeAnswer(state: FormState) {
+    return this.fieldToBeDecorated.computeAnswer(state);
   }
 }

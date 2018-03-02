@@ -7,6 +7,9 @@ class TypeInteger(Type):
         super(TypeInteger, self).__init__()
         self.operations = []
 
+    def __repr__(self):
+        return 'integer'
+
     @staticmethod
     def pyqt5_default_widget():
         return QSpinBox()

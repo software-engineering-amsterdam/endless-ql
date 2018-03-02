@@ -1,9 +1,5 @@
 package nl.uva.js.qlparser.models.enums;
 
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.TextField;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +11,19 @@ import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 public enum DataType {
-    DATE(LocalDate::parse, DateField::new),
+    // TODO
+    DATE(LocalDate::parse, String::new),
 //    To be improved at a later stage, but needed for type checking
-    MONEY(value -> BigDecimal.valueOf(Double.valueOf(value.replace(',', '.'))), TextField::new),
-    STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), TextField::new),
-    DECIMAL(Double::valueOf, TextField::new),
-    BOOLEAN(Boolean::valueOf, CheckBox::new),
-    INTEGER(Integer::valueOf, TextField::new);
+    MONEY(value -> BigDecimal.valueOf(Double.valueOf(value.replace(',', '.'))), String::new),
+    STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), String::new),
+    DECIMAL(Double::valueOf, String::new),
+    BOOLEAN(Boolean::valueOf, String::new),
+    INTEGER(Integer::valueOf, String::new);
 
     @NonNull @Getter private Function<String, ?> valueOf;
-    @NonNull private Supplier<AbstractField> component;
+    @NonNull private Supplier<String> component;
 
-    public Supplier<AbstractField> getComponent() {
+    public Supplier<String> getComponent() {
         return component;
     }
 }

@@ -1,14 +1,18 @@
 package qlviz.interpreter;
 
+import org.apache.commons.lang3.EnumUtils;
+
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
 import qlviz.model.numericExpressions.NumericExpression;
 import qlviz.model.question.*;
+import qlviz.typecheker.TypeChecker;
 
 public class QuestionVisitor extends QLBaseVisitor<Question> {
 
     private final QuestionTypeTranslator questionTypeTranslator;
     private final NumericExpressionParser numericExpressionParser;
+    public TypeChecker typeCheker = new TypeChecker() ;
 
     public QuestionVisitor(QuestionTypeTranslator questionTypeTranslator, NumericExpressionParser numericExpressionParser) {
         this.questionTypeTranslator = questionTypeTranslator;
@@ -17,6 +21,8 @@ public class QuestionVisitor extends QLBaseVisitor<Question> {
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
+    	TypeChecker typeChecker = new TypeChecker();
+		//if(typeChecker.isValidType(ctx.TYPE())){
         QuestionType type =
                 questionTypeTranslator.translate(ctx.TYPE());
         String text = ctx.questionText().getText();
@@ -40,6 +46,8 @@ public class QuestionVisitor extends QLBaseVisitor<Question> {
             case Decimal:
                 return new DecimalQuestion(name, text, type, computedValue);
         }
+		//}
         return null;
+        
     }
 }

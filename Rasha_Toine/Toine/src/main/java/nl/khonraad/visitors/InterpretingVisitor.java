@@ -45,11 +45,11 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 	@Override
 	public Integer visitLBL_Id_Expression(ExpressionLanguageParser.LBL_Id_ExpressionContext ctx) {
 
-		String id = ctx.ID().getText();
+		String identifier = ctx.IDENTIFIER().getText();
 
-		if ( questions.containsKey(id)) {
+		if ( questions.containsKey(identifier)) {
 			
-			int value = questions.get(id).getValue();
+			int value = questions.get(identifier).getValue();
 			
 			return value;
 		}
@@ -61,7 +61,13 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 
 	@Override
 	public Integer visitLBL_Integer_Expression(ExpressionLanguageParser.LBL_Integer_ExpressionContext ctx) {
-		return Integer.valueOf(ctx.INTEGER().getText());
+		return Integer.valueOf(ctx.INTEGER_CONSTANT().getText());
+	}
+
+	@Override
+	public Integer visitLBL_Boolean_Expression(ExpressionLanguageParser.LBL_Boolean_ExpressionContext ctx) {
+		int value = "False".equals(ctx.BOOLEAN_CONSTANT().getText()) ? 0 : 1;
+		return value;
 	}
 
 	@Override

@@ -40,8 +40,6 @@ public class DateLiteral extends Literal<LocalDate> {
     
     public void setValue(LocalDate value) {
         this.value = value;
-        setChanged();
-        notifyObservers();
     }
 
     @Override

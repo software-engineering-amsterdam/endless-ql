@@ -31,8 +31,6 @@ public class BoolLiteral extends Literal<Boolean> {
     
     public void setValue(Boolean value) {
         this.value = value;
-        setChanged();
-        notifyObservers();
     }
     
     @Override

@@ -1,5 +1,6 @@
 package ql.ast.expression.literal;
 
+import ql.ast.type.Money;
 import ql.ast.type.Type;
 import ql.evaluator.arithmetic.add.MoneyAdd;
 import ql.evaluator.arithmetic.divide.MoneyDivide;
@@ -43,13 +44,11 @@ public class MoneyLiteral extends NumberLiteral implements ExpressionVisitable {
     
     public void setValue(Double value) {
         this.value = value;
-        setChanged();
-        notifyObservers();
     }
 
     @Override
     public Type getType() {
-        return new ql.ast.type.Money();
+        return new Money();
     }
 
     @Override

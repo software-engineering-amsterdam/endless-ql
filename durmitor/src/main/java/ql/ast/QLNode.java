@@ -1,10 +1,8 @@
 package ql.ast;
 
-import java.util.Observable;
-
 import ql.helpers.Location;
 
-public class QLNode extends Observable {
+public class QLNode {
 
     private Location location;
     

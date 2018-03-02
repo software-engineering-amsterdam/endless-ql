@@ -37,8 +37,9 @@ namespace QL_Vizualizer.Controllers.Display
 
         private Label _titleLabel;
 
-        public WidgetDisplayControllerWindows(float topMargin, WidgetController widgetController) : base(topMargin, new ControlFactory(widgetController), widgetController, new WindowsStyleProperties { Width = 338 })
+        public WidgetDisplayControllerWindows(float topMargin) : base(topMargin, new WindowsStyleProperties { Width = 338 })
         {
+            _elementFactory = new ControlFactory(this);
             ConstructMainWindow();
         }
 
@@ -70,7 +71,7 @@ namespace QL_Vizualizer.Controllers.Display
         /// <summary>
         /// Show main form
         /// </summary>
-        public override void ShowDisplay()
+        public override void ShowView()
         {
             Application.Run(_mainForm);
         }
@@ -93,7 +94,7 @@ namespace QL_Vizualizer.Controllers.Display
             element.Dispose();
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Temporary function to diplay dummy widgets
         /// </summary>
         public void DummyQL()
@@ -112,7 +113,7 @@ namespace QL_Vizualizer.Controllers.Display
 
             // Display widgets
             _widgetController.ShowWidgets();
-        }
+        }*/
 
         /// <summary>
         /// Shows message box with error(s) to user
@@ -128,7 +129,7 @@ namespace QL_Vizualizer.Controllers.Display
         /// Sets title of current form
         /// </summary>
         /// <param name="title">Title of form</param>
-        public override void SetTitle(string title)
+        protected override void SetTitle(string title)
         {
             _titleLabel.Text = title;
         }
@@ -244,7 +245,7 @@ namespace QL_Vizualizer.Controllers.Display
             };
 
             //result.Click += delegate (object sender, EventArgs eventArgs) { DummyQL(); };
-            result.Click += delegate (object sender, EventArgs eventArgs) { _widgetController.HandleQL(_qlInput.Text); };
+            result.Click += delegate (object sender, EventArgs eventArgs) { HandleQL(_qlInput.Text); };
             return result;
         }
         #endregion

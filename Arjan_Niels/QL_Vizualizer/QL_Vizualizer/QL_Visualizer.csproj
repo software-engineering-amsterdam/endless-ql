@@ -65,7 +65,6 @@
     <Compile Include="Controllers\Display\WidgetDisplayController.cs" />
     <Compile Include="Widgets\QLQuestionWidget.cs" />
     <Compile Include="Widgets\QLWidget.cs" />
-    <Compile Include="Controllers\TypedWidgetController.cs" />
     <Compile Include="Widgets\Types\QLWidgetBool.cs" />
     <Compile Include="Widgets\Types\QLWidgetInt.cs" />
     <Compile Include="Widgets\Types\QLWidgetMoney.cs" />

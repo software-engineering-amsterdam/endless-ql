@@ -1,7 +1,6 @@
 ﻿using QL_Parser;
 using QL_Parser.Analysis;
 using QL_Parser.AST.Nodes;
-using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Factories;
 using QL_Vizualizer.Widgets;
 using System.Collections.Generic;
@@ -27,18 +26,12 @@ namespace QL_Vizualizer.Controllers
         /// </summary>
         private Dictionary<string, List<QLWidget>> _notifyOnChange;
 
+
         public WidgetController()
         {
             _widgets = new Dictionary<string, QLWidget>();
             _notifyOnChange = new Dictionary<string, List<QLWidget>>();
         }
-
-        /// <summary>
-        /// Set display controller
-        /// </summary>
-        /// <typeparam name="T">Element type of display controller</typeparam>
-        /// <param name="displayController">Display controller to use</param>
-        public abstract void SetDisplayController<T,Y>(WidgetDisplayController<T,Y> displayController);
 
         /// <summary>
         /// Updates the view of a widget
@@ -107,6 +100,15 @@ namespace QL_Vizualizer.Controllers
         }
 
         /// <summary>
+        /// Resets all values that define the current state
+        /// </summary>
+        public virtual void Reset()
+        {
+            _widgets = new Dictionary<string, QLWidget>();
+            _notifyOnChange = new Dictionary<string, List<QLWidget>>();
+        }
+
+        /// <summary>
         /// Subscribe Widget to updates of the (targetID) Widget
         /// </summary>
         /// <param name="targetID">Widgets' id that initiates updates</param>
@@ -141,16 +143,6 @@ namespace QL_Vizualizer.Controllers
         public QLWidget GetWidget(string widgetID)
         {
             return _widgets[widgetID];
-        }
-
-
-        /// <summary>
-        /// Resets all values that define the current state
-        /// </summary>
-        public virtual void Reset()
-        {
-            _widgets = new Dictionary<string, QLWidget>();
-            _notifyOnChange = new Dictionary<string, List<QLWidget>>();
         }
     }
 }

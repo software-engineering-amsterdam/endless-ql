@@ -36,7 +36,7 @@ namespace QL_Vizualizer.Factories
             switch (node.GetNodeType())
             {
                 case NodeType.ARTHIMETIC_EXPRESSION:
-                    return ParseArthimeticNode(node as ArthimeticExpressionNode);
+                    return ParseArthimeticNode(node as ArthimetricExpressionNode);
                 case NodeType.COMPARISON_EXPRESSION:
                     return ParseComparisonNode(node as ComparisonExpressionNode);
                 case NodeType.LOGICAL_EXPRESSION:
@@ -104,23 +104,23 @@ namespace QL_Vizualizer.Factories
             return leftExpressionValue.Compare(rightExpressionValue, expressionOperator);
         }
 
-        private ExpressionValue ParseArthimeticNode(ArthimeticExpressionNode arthimeticExpressionNode)
+        private ExpressionValue ParseArthimeticNode(ArthimetricExpressionNode arthimeticExpressionNode)
         {
             ExpressionValue leftExpressionValue = ParseExpressionNode(arthimeticExpressionNode.Left);
             ExpressionValue rightExpressionValue = ParseExpressionNode(arthimeticExpressionNode.Right);
             ExpressionOperator expressionOperator = ExpressionOperator.Undefined;
             switch (arthimeticExpressionNode.Operator)
             {
-                case ArthimeticOperator.DIV:
+                case ArthimetricOperator.DIV:
                     expressionOperator = ExpressionOperator.Divide;
                     break;
-                case ArthimeticOperator.MINUS:
+                case ArthimetricOperator.MINUS:
                     expressionOperator = ExpressionOperator.Minus;
                     break;
-                case ArthimeticOperator.PLUS:
+                case ArthimetricOperator.PLUS:
                     expressionOperator = ExpressionOperator.Plus;
                     break;
-                case ArthimeticOperator.MULT:
+                case ArthimetricOperator.MULT:
                     expressionOperator = ExpressionOperator.Multiply;
                     break;
                 default:

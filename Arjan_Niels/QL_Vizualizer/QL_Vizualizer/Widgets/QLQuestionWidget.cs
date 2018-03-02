@@ -82,7 +82,7 @@ namespace QL_Vizualizer.Widgets
             base.ReceiveUpdate(updatedIdentifyer);
             if (_answerExpression != null && _answerExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
             {
-                SetAnswer(_answerExpression.Expression());
+                SetAnswer(_answerExpression.Execute());
                 //_widgetController.UpdateView(this);
             }
         }

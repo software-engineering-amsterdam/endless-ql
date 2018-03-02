@@ -17,52 +17,13 @@ namespace QL_Vizualizer.Expression.Types
         {
             if(ValidCombine(expressionValue, op))
             {
-                if (expressionValue.Type == typeof(double))
-                    return CombineWithDouble(expressionValue as TypedExpressionValue<double>, op);
-                else if (expressionValue.Type == typeof(int))
-                    return CombineWithInt(expressionValue as TypedExpressionValue<int>, op);
-
-                throw ExpressionExceptions.NoCombineImplemented(Type, expressionValue.Type, op);
+                _expressionChain.Add(() => (expressionValue as ExpressionInt).Execute());
+                _operatorChain.Add(op);
+                UsedWidgetIDs = CombineWidgets(expressionValue);
+                return this;
             }
 
             throw ExpressionExceptions.NoCombine(Type, expressionValue.Type, op);
-        }
-
-        private TypedExpressionValue<int> CombineWithInt(TypedExpressionValue<int> item, ExpressionOperator op)
-        {
-            switch (op)
-            {
-                case ExpressionOperator.Plus:
-                    return new ExpressionInt(CombineWidgets(item), () => { return Expression() + item.Expression(); });
-                case ExpressionOperator.Minus:
-                    return new ExpressionInt(CombineWidgets(item), () => { return Expression() - item.Expression(); });
-                case ExpressionOperator.Multiply:
-                    return new ExpressionInt(CombineWidgets(item), () => { return Expression() * item.Expression(); });
-                case ExpressionOperator.Divide:
-                    return new ExpressionInt(CombineWidgets(item), () => { return Expression() / item.Expression(); });
-            }
-
-            // Operator was not implemented
-            throw ExpressionExceptions.NoCombineImplemented(Type, item.Type, op);
-        }
-
-        private TypedExpressionValue<double> CombineWithDouble(TypedExpressionValue<double> item, ExpressionOperator op)
-        {
-
-            switch(op)
-            {
-                case ExpressionOperator.Plus:
-                    return new ExpressionDouble(CombineWidgets(item), () => { return ((double)Expression()) + item.Expression(); });
-                case ExpressionOperator.Minus:
-                    return new ExpressionDouble(CombineWidgets(item), () => { return ((double)Expression()) - item.Expression(); });
-                case ExpressionOperator.Multiply:
-                    return new ExpressionDouble(CombineWidgets(item), () => { return ((double)Expression()) * item.Expression(); });
-                case ExpressionOperator.Divide:
-                    return new ExpressionDouble(CombineWidgets(item), () => { return ((double)Expression()) / item.Expression(); });
-            }
-
-            // Operator was not implemented
-            throw ExpressionExceptions.NoCombineImplemented(Type, item.Type, op);
         }
         #endregion
 
@@ -70,13 +31,8 @@ namespace QL_Vizualizer.Expression.Types
         public override TypedExpressionValue<bool> Compare(ExpressionValue expressionValue, ExpressionOperator op)
         {
             if(ValidCompare(expressionValue, op))
-            {
-                if (expressionValue.Type == typeof(double))
-                    return CompareDouble(expressionValue as TypedExpressionValue<double>, op);
-                else if (expressionValue.Type == typeof(int))
-                    return CompareInt(expressionValue as TypedExpressionValue<int>, op);
-                throw ExpressionExceptions.NoCompareImplemented(Type, expressionValue.Type, op);
-            }
+                return CompareDouble(expressionValue as TypedExpressionValue<double>, op);
+
             throw ExpressionExceptions.NoCompare(Type, expressionValue.Type, op);
 
         }
@@ -86,36 +42,47 @@ namespace QL_Vizualizer.Expression.Types
             switch (op)
             {
                 case ExpressionOperator.GreaterThan:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Expression() > item.Expression(); });
+                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() > item.Execute(); });
                 case ExpressionOperator.GreaterEquals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Expression() >= item.Expression(); });
+                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() >= item.Execute(); });
                 case ExpressionOperator.LessThan:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Expression() < item.Expression(); });
+                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() < item.Execute(); });
                 case ExpressionOperator.LessEquals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Expression() <= item.Expression(); });
+                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() <= item.Execute(); });
                 case ExpressionOperator.Equals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Expression() == item.Expression(); });
-            }
-            throw ExpressionExceptions.NoCompareImplemented(Type, item.Type, op);
-        }
-
-        private TypedExpressionValue<bool> CompareInt(TypedExpressionValue<int> item, ExpressionOperator op)
-        {
-            switch (op)
-            {
-                case ExpressionOperator.GreaterThan:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Expression() > item.Expression(); });
-                case ExpressionOperator.GreaterEquals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Expression() >= item.Expression(); });
-                case ExpressionOperator.LessThan:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Expression() < item.Expression(); });
-                case ExpressionOperator.LessEquals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Expression() <= item.Expression(); });
-                case ExpressionOperator.Equals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Expression() == item.Expression(); });
+                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() == item.Execute(); });
             }
             throw ExpressionExceptions.NoCompareImplemented(Type, item.Type, op);
         }
         #endregion
+
+        protected override Func<int> GetExpression()
+        {
+            Func<int> res = _expressionChain[0];
+            for (int i = 1; i < _expressionChain.Count; i++)
+                res = CombineFuncs(res, _expressionChain[i], _operatorChain[i - 1]);
+            return res;
+        }
+
+        private Func<int> CombineFuncs(Func<int> item1, Func<int> item2, ExpressionOperator op)
+        {
+            switch (op)
+            {
+                case ExpressionOperator.Plus:
+                    return () => item1() + item2();
+                case ExpressionOperator.Minus:
+                    return () => item1() - item2();
+                case ExpressionOperator.Multiply:
+                    return () => item1() * item2();
+                case ExpressionOperator.Divide:
+                    return () => item1() / item2();
+            }
+            throw new NotImplementedException();
+        }
+
+        public static implicit operator ExpressionDouble(ExpressionInt expressionInt)
+        {
+            return new ExpressionDouble(expressionInt.UsedWidgetIDs, () => (double)expressionInt.Execute());
+        }
     }
 }

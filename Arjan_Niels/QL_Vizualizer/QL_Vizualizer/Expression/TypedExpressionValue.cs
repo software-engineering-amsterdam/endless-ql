@@ -8,10 +8,18 @@ namespace QL_Vizualizer.Expression.Types
     {
         public TypedExpressionValue(Type[] compatibleTypes, ExpressionOperator[] compatibleOperators, string[] usedWidgetIDs, Func<T> expression) : base(compatibleTypes, compatibleOperators, typeof(T), usedWidgetIDs)
         {
-            Expression = expression;
+            _expressionChain = new List<Func<T>>() { expression };
+            _operatorChain = new List<ExpressionOperator>();
         }
 
-        public Func<T> Expression { get; protected set; }
+        protected List<Func<T>> _expressionChain;
+        protected List<ExpressionOperator> _operatorChain;
+        protected abstract Func<T> GetExpression();
+
+        public T Execute()
+        {
+            return GetExpression()();
+        }
 
         protected bool ValidCombine(ExpressionValue expressionValue, ExpressionOperator op)
         {

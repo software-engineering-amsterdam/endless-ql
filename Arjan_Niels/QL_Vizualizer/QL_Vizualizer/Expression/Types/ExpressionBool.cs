@@ -27,8 +27,13 @@ namespace QL_Vizualizer.Expression.Types
             if (ValidCombine(item, op))
             {
                 // Case for bool
-                if (item.GetType() == typeof(bool))
-                    return CombineWithBool(item as TypedExpressionValue<bool>, op);
+                if (item.Type == typeof(bool))
+                {
+                    UsedWidgetIDs = CombineWidgets(item);
+                    _expressionChain.Add((item as ExpressionBool).GetExpression());
+                    _operatorChain.Add(op);
+                    return this;
+                }
                 throw ExpressionExceptions.NoCombineImplemented(Type, item.Type, op);
             }
             throw ExpressionExceptions.NoCombine(Type, item.Type, op);
@@ -39,29 +44,38 @@ namespace QL_Vizualizer.Expression.Types
             if (ValidCompare(expressionValue, op))
             {
                 if (expressionValue.Type == typeof(bool))
-                    return CombineWithBool(expressionValue as TypedExpressionValue<bool>, op);
+                {
+                    UsedWidgetIDs = CombineWidgets(expressionValue);
+                    _expressionChain.Add((expressionValue as ExpressionBool).GetExpression());
+                    _operatorChain.Add(op);
+                    return this;
+                }
                 throw ExpressionExceptions.NoCompareImplemented(Type, expressionValue.Type, op);
             }
             throw ExpressionExceptions.NoCompare(Type, expressionValue.Type, op);
         }
 
-        private ExpressionBool CombineWithBool(TypedExpressionValue<bool> item, ExpressionOperator op)
+        protected override Func<bool> GetExpression()
         {
-            UsedWidgetIDs = CombineWidgets(item);
+            Func<bool> res = _expressionChain[0];
+            for (int i = 1; i < _expressionChain.Count; i++)
+                res = CombineFuncs(res, _expressionChain[i], _operatorChain[i - 1]);
+            return res;
+        }
+
+        private Func<bool> CombineFuncs(Func<bool> item1, Func<bool> item2, ExpressionOperator op)
+        {
             switch (op)
             {
                 case ExpressionOperator.And:
-                    Expression = () => { return Expression() && item.Expression(); };
-                    return this;
+                    return () => item1() && item2();
                 case ExpressionOperator.Or:
-                    Expression = () => { return Expression() || item.Expression(); };
-                    return this;
+                    return () => item1() || item2();
                 case ExpressionOperator.Equals:
-                    Expression = () => { return Expression() == item.Expression(); };
-                    return this;
+                    return () => item1() == item2(); 
             }
 
-            throw ExpressionExceptions.NoCombineImplemented(Type, item.Type, op);
+            throw ExpressionExceptions.NoCombineImplemented(Type, Type, op);
         }
     }
 }

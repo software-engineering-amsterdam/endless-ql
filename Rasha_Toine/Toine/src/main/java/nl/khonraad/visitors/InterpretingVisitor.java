@@ -11,7 +11,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 	public Questions questions = new Questions();
 	
 	@Override
-	public Integer visitBlock(ExpressionLanguageParser.BlockContext ctx) {
+	public Integer visitPartBlock(ExpressionLanguageParser.PartBlockContext ctx) {
 		return visitChildren(ctx);
 	}
 
@@ -91,12 +91,12 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 	}
 
 	@Override
-	public Integer visitLBL_Question(ExpressionLanguageParser.LBL_QuestionContext ctx) {
+	public Integer visitPartAnswerableQuestion(ExpressionLanguageParser.PartAnswerableQuestionContext ctx) {
 
-		String key = ctx.variable.getText();
+		String key = ctx.identifier.getText();
 		
 		if ( !questions.containsKey(key)) {
-			Question question = new Question(QuestionType.NOT_COMPUTED, key, ctx.label.getText(), ctx.type.getText() );
+			Question question = new Question(QuestionType.NOT_COMPUTED, key, ctx.label.getText(), ctx.iotype.getText() );
 			questions.put(key, question);
 			return 0;
 		} 
@@ -104,16 +104,21 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 	}
 
 	@Override
-	public Integer visitLBL_ComputedQuestion(ExpressionLanguageParser.LBL_ComputedQuestionContext ctx)  {
+	public Integer visitPartComputedQuestion(ExpressionLanguageParser.PartComputedQuestionContext ctx)  {
 		
-		Question question = new Question(QuestionType.COMPUTED, ctx.variable.getText(), ctx.label.getText(), ctx.type.getText() );
+		String identifier = ctx.identifier.getText();
+		String label = ctx.label.getText();
+		String type = ctx.iotype.getText();
+
+		Question question = new Question(QuestionType.COMPUTED, identifier, label, type );
 		question.setValue(visit(ctx.expression()).toString());
-		questions.put(ctx.variable.getText(), question);
+		questions.put(identifier, question);
+		
 		return question.getValue();
 	}
 
 	@Override
-	public Integer visitLBL_ConditionalBlock(ExpressionLanguageParser.LBL_ConditionalBlockContext ctx) {
+	public Integer visitPartConditionalBlock(ExpressionLanguageParser.PartConditionalBlockContext ctx) {
 		
 		Integer value = visit(ctx.expression());
 

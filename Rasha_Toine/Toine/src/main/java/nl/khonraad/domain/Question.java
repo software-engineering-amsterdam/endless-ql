@@ -11,16 +11,16 @@ public class Question {
 	};
 	
 	QuestionType isComputed;
-	String variable;
+	String identifier;
 	String label;
-	String type;
+	String iotype;
 	int value;
 
-	public Question(QuestionType isComputed, String variable, String label, String type) {
+	public Question(QuestionType isComputed, String identifier, String label, String iotype) {
 		this.isComputed = isComputed;
-		this.variable = variable;
+		this.identifier = identifier;
 		this.label = label;
-		this.type = type;
+		this.iotype = iotype;
 	}
 
 	public QuestionType isComputed() {
@@ -32,7 +32,7 @@ public class Question {
 
 	public int setValue(String value) {
 		
-		switch (type) {
+		switch (iotype) {
 		
 			case "money": {
 				this.value = Integer.parseInt(value);
@@ -71,10 +71,10 @@ public class Question {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-				.append("variable", variable)
+				.append("identifier", identifier)
 				.append("label", label)
-				.append("type", type)
-				.append("value", ("boolean".equals(type)) ? ((value != 0) ? "\"EQUIVALANCE OF TRUE\"" : "\"EQUIVALANCE OF FALSE\"" ): value)
+				.append("type", iotype)
+				.append("value", ("boolean".equals(iotype)) ? ((value != 0) ? "\"EQUIVALANCE OF TRUE\"" : "\"EQUIVALANCE OF FALSE\"" ): value)
 				.toString();
 	}
 }

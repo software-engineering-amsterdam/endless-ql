@@ -19,7 +19,9 @@ public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 
 	@Override
 	public Integer visitForm(ExpressionLanguageParser.FormContext ctx) {
+		
 		visitChildren(ctx);
+		
 		if (forwardReferences.size() == 0) {
 			return 0;
 		}
@@ -27,30 +29,44 @@ public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 	}
 
 	@Override
-	public Integer visitLBL_Question(ExpressionLanguageParser.LBL_QuestionContext ctx) {
+	public Integer visitPartAnswerableQuestion(ExpressionLanguageParser.PartAnswerableQuestionContext ctx) {
 
-		forwardReferences.remove(ctx.variable.getText());
+		String identifier = ctx.identifier.getText();
 
-		if (!questions.containsKey(ctx.variable.getText())) {
-			Question question = new Question(QuestionType.NOT_COMPUTED, ctx.variable.getText(), ctx.label.getText(), ctx.type.getText());
-			questions.put(ctx.variable.getText(), question);
+		forwardReferences.remove(identifier);
+
+		if (!questions.containsKey(identifier)) {
+
+			String label = ctx.label.getText();
+			String iotype = ctx.iotype.getText();
+
+			questions.put(identifier, new Question(QuestionType.NOT_COMPUTED, identifier, label, iotype));
+
 			return 0;
 		}
-		throw new RuntimeException(ERROR_DuplicateQuestionDeclaration + ctx.variable.getText());
+		throw new RuntimeException(ERROR_DuplicateQuestionDeclaration + identifier);
 	}
 
 	@Override
-	public Integer visitLBL_ComputedQuestion(ExpressionLanguageParser.LBL_ComputedQuestionContext ctx) {
+	public Integer visitPartComputedQuestion(ExpressionLanguageParser.PartComputedQuestionContext ctx) {
 
-		forwardReferences.remove(ctx.variable.getText());
+		String identifier = ctx.identifier.getText();
 
-		if (!questions.containsKey(ctx.variable.getText())) {
-			Question question = new Question(QuestionType.COMPUTED, ctx.variable.getText(), ctx.label.getText(), ctx.type.getText());
+		forwardReferences.remove(identifier);
+
+		if (!questions.containsKey(identifier)) {
+
+			String label = ctx.label.getText();
+			String iotype = ctx.iotype.getText();
+
+			Question question = new Question(QuestionType.COMPUTED, identifier, label, iotype);
 			question.setValue(visit(ctx.expression()).toString());
-			questions.put(ctx.variable.getText(), question);
+			
+			questions.put(identifier, question);
+			
 			return question.getValue();
 		}
-		throw new RuntimeException(ERROR_DuplicateQuestionDeclaration + ctx.variable.getText());
+		throw new RuntimeException(ERROR_DuplicateQuestionDeclaration + identifier);
 	}
 
 	@Override

@@ -37,6 +37,12 @@ public class DateLiteral extends Literal<LocalDate> {
     public LocalDate getValue() {
         return value;
     }
+    
+    public void setValue(LocalDate value) {
+        this.value = value;
+        setChanged();
+        notifyObservers();
+    }
 
     @Override
     public Type getType() {

@@ -29,6 +29,12 @@ public class StrLiteral extends Literal<String> implements ExpressionVisitable {
     public String getValue() {
         return value;
     }
+    
+    public void setValue(String value) {
+        this.value = value;
+        setChanged();
+        notifyObservers();
+    }
 
     @Override
     public Type getType() {

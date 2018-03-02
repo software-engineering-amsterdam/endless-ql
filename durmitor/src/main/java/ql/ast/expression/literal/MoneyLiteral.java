@@ -40,6 +40,12 @@ public class MoneyLiteral extends NumberLiteral implements ExpressionVisitable {
     public Double getValue() {
         return value;
     }
+    
+    public void setValue(Double value) {
+        this.value = value;
+        setChanged();
+        notifyObservers();
+    }
 
     @Override
     public Type getType() {

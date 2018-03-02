@@ -14,7 +14,7 @@ import ql.evaluator.comparisons.notequal.DecimalNotEqual;
 import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.ValueVisitor;
 
-public class DecimalLiteral extends NumberLiteral {
+public class DecimalLiteral extends Literal<Number> {
 
     private double value;
 
@@ -33,6 +33,12 @@ public class DecimalLiteral extends NumberLiteral {
     @Override
     public Double getValue() {
         return value;
+    }
+    
+    public void setValue(Double value) {
+        this.value = value;
+        setChanged();
+        notifyObservers();
     }
     
     @Override

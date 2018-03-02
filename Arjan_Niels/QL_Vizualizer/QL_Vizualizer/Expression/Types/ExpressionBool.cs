@@ -26,15 +26,15 @@ namespace QL_Vizualizer.Expression.Types
             // Validity check
             if (ValidCombine(item, op))
             {
-                // Case for bool
+                ExpressionBool expression = null;
                 if (item.Type == typeof(bool))
-                {
-                    UsedWidgetIDs = CombineWidgets(item);
-                    _expressionChain.Add((item as ExpressionBool).GetExpression());
-                    _operatorChain.Add(op);
-                    return this;
-                }
-                throw ExpressionExceptions.NoCombineImplemented(Type, item.Type, op);
+                    expression = item as ExpressionBool;
+                else
+                    throw new NotImplementedException();
+
+                AddToChain(expression.GetExpression(), op);
+                UsedWidgetIDs = CombineWidgets(item);
+                return this;
             }
             throw ExpressionExceptions.NoCombine(Type, item.Type, op);
         }
@@ -45,9 +45,8 @@ namespace QL_Vizualizer.Expression.Types
             {
                 if (expressionValue.Type == typeof(bool))
                 {
+                    AddToChain((expressionValue as ExpressionBool).GetExpression(), op);
                     UsedWidgetIDs = CombineWidgets(expressionValue);
-                    _expressionChain.Add((expressionValue as ExpressionBool).GetExpression());
-                    _operatorChain.Add(op);
                     return this;
                 }
                 throw ExpressionExceptions.NoCompareImplemented(Type, expressionValue.Type, op);
@@ -72,7 +71,7 @@ namespace QL_Vizualizer.Expression.Types
                 case ExpressionOperator.Or:
                     return () => item1() || item2();
                 case ExpressionOperator.Equals:
-                    return () => item1() == item2(); 
+                    return () => item1() == item2();
             }
 
             throw ExpressionExceptions.NoCombineImplemented(Type, Type, op);

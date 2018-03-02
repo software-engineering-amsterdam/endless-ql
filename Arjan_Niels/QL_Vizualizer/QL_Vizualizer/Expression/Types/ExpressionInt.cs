@@ -17,8 +17,15 @@ namespace QL_Vizualizer.Expression.Types
         {
             if(ValidCombine(expressionValue, op))
             {
-                _expressionChain.Add(() => (expressionValue as ExpressionInt).Execute());
-                _operatorChain.Add(op);
+                ExpressionInt expression = null;
+                if (expressionValue.Type == typeof(int))
+                    expression = expressionValue as ExpressionInt;
+                else if (expressionValue.Type == typeof(double))
+                    expression = expressionValue as ExpressionDouble;
+                else
+                    throw new NotImplementedException();
+
+                AddToChain(expression.GetExpression(), op);
                 UsedWidgetIDs = CombineWidgets(expressionValue);
                 return this;
             }
@@ -30,14 +37,18 @@ namespace QL_Vizualizer.Expression.Types
         #region Compare
         public override TypedExpressionValue<bool> Compare(ExpressionValue expressionValue, ExpressionOperator op)
         {
-            if(ValidCompare(expressionValue, op))
-                return CompareDouble(expressionValue as TypedExpressionValue<double>, op);
-
+            if (ValidCompare(expressionValue, op))
+            {
+                if (expressionValue.Type == typeof(double))
+                    return CompareValue(expressionValue as TypedExpressionValue<double>, op);
+                else if (expressionValue.Type == typeof(int))
+                    return CompareValue(expressionValue as ExpressionInt, op);
+            }
             throw ExpressionExceptions.NoCompare(Type, expressionValue.Type, op);
 
         }
 
-        private TypedExpressionValue<bool> CompareDouble(TypedExpressionValue<double> item, ExpressionOperator op)
+        private TypedExpressionValue<bool> CompareValue(TypedExpressionValue<double> item, ExpressionOperator op)
         {
             switch (op)
             {

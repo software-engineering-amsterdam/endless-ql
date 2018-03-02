@@ -28,12 +28,18 @@ namespace QL_Vizualizer.Expression.Types
 
         protected bool ValidCompare(ExpressionValue expressionValue, ExpressionOperator op)
         {
-            if (!ExpressionOperators.Logical.Contains(op))
+            if (!ExpressionOperators.Comparison.Contains(op))
                 throw new InvalidOperationException(string.Format("{0} is not a comparison operator", op));
             if (!CompatibleOperators.Contains(op))
                 throw new InvalidOperationException(string.Format("{0} is not a compatible comparisson operator for {1}", op, Type));
 
             return true;
+        }
+
+        protected void AddToChain(Func<T> expression, ExpressionOperator op)
+        {
+            _expressionChain.Add(expression);
+            _operatorChain.Add(op);
         }
 
     }

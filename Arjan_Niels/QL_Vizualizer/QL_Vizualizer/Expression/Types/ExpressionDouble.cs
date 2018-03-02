@@ -17,8 +17,15 @@ namespace QL_Vizualizer.Expression.Types
         {
             if (ValidCombine(expressionValue, op))
             {
-                _expressionChain.Add(() => (expressionValue as ExpressionDouble).Execute());
-                _operatorChain.Add(op);
+                ExpressionDouble expression = null;
+                if (expressionValue.Type == typeof(int))
+                    expression = expressionValue as ExpressionInt;
+                else if (expressionValue.Type == typeof(double))
+                    expression = expressionValue as ExpressionDouble;
+                else
+                    throw new NotImplementedException();
+
+                AddToChain(expression.GetExpression(), op);
                 UsedWidgetIDs = CombineWidgets(expressionValue);
                 return this;
             }
@@ -32,34 +39,15 @@ namespace QL_Vizualizer.Expression.Types
             if (ValidCompare(expressionValue, op))
             {
                 if (expressionValue.Type == typeof(int))
-                    return CompareWithInt(expressionValue as TypedExpressionValue<int>, op);
+                    return CompareValue(expressionValue as ExpressionInt, op);
                 else if (expressionValue.Type == typeof(double))
-                    return CompareWithDouble(expressionValue as TypedExpressionValue<double>, op);
+                    return CompareValue(expressionValue as ExpressionDouble, op);
                 throw ExpressionExceptions.NoCompareImplemented(Type, expressionValue.Type, op);
             }
             throw ExpressionExceptions.NoCompare(Type, expressionValue.Type, op);
         }
 
-        private ExpressionBool CompareWithInt(TypedExpressionValue<int> item, ExpressionOperator op)
-        {
-            switch (op)
-            {
-                case ExpressionOperator.GreaterEquals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() >= item.Execute(); });
-                case ExpressionOperator.GreaterThan:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() > item.Execute(); });
-                case ExpressionOperator.LessEquals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() <= item.Execute(); });
-                case ExpressionOperator.LessThan:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() < item.Execute(); });
-                case ExpressionOperator.Equals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() == item.Execute(); });
-            }
-
-            throw ExpressionExceptions.NoCompareImplemented(Type, item.Type, op);
-        }
-
-        private ExpressionBool CompareWithDouble(TypedExpressionValue<double> item, ExpressionOperator op)
+        private ExpressionBool CompareValue(TypedExpressionValue<double> item, ExpressionOperator op)
         {
             switch (op)
             {

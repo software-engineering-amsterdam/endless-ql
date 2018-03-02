@@ -2,19 +2,17 @@ package org.uva.sea.ql;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
-import org.uva.sea.ql.dataObject.QuestionData;
+import org.uva.sea.ql.DataObject.QuestionData;
 import org.uva.sea.ql.evaluate.ExpressionEvaluator;
 import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
-import org.uva.sea.ql.value.ErrorValue;
 import org.uva.sea.ql.value.Value;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class QLFormGenerator {

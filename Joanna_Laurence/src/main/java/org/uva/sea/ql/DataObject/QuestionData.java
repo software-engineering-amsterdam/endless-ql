@@ -1,4 +1,4 @@
-package org.uva.sea.ql.dataObject;
+package org.uva.sea.ql.DataObject;
 
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Question;

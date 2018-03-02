@@ -1,6 +1,7 @@
 package org.uva.sea.ql.gui.model;
 
 import org.uva.sea.ql.DataObject.QuestionData;
+import org.uva.sea.ql.Errors;
 import org.uva.sea.ql.QLFormGenerator;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.value.Value;
@@ -50,6 +51,9 @@ public class QuestionModel {
             questions = formGenerator.generate(getClass().getResource(questionFileName).getFile(), symbolTable);
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Errors errors) {
+            //TODO: handle this error on gui
+            errors.printStackTrace();
         }
     }
 

@@ -1,6 +1,6 @@
 package org.uva.sea.ql;
 
-import org.uva.sea.ql.dataObject.SpecificationKey;
+import org.uva.sea.ql.DataObject.SpecificationKey;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;

@@ -18,6 +18,7 @@ class Gui():
         self.dropDowns = {}
         self.questions = {}
         self.entryBoxes = {}
+        self.formVariables = {}
 
     #add the label to the dict for destroying/changing later and then pack it in the main frame
     def addLabel(self, name, text):
@@ -84,19 +85,19 @@ class Gui():
         textBox.pack()
         return textBox
 
-    def addTextFrame(self, function):
-        var = tk.StringVar()
-        # textFrame = tk.Frame(self.window)
-        textBox = tk.Entry(self.window, textvariable=var)
-        # self.textBoxes[name] = textBox
-        def notifyChangeTextBox(*args):
-            # selection = "You selected the option " + str(entryVariable2.get())
-            # label.config(text = selection)
-            print "change"
-        textBox.pack()
-        var.trace("w", notifyChangeTextBox)
-        # textBox.pack()
-        return textBox, var
+    # def addTextFrame(self, function):
+    #     var = tk.StringVar()
+    #     # textFrame = tk.Frame(self.window)
+    #     textBox = tk.Entry(self.window, textvariable=var)
+    #     # self.textBoxes[name] = textBox
+    #     def notifyChangeTextBox(*args):
+    #         # selection = "You selected the option " + str(entryVariable2.get())
+    #         # label.config(text = selection)
+    #         print "change"
+    #     textBox.pack()
+    #     var.trace("w", notifyChangeTextBox)
+    #     # textBox.pack()
+    #     return textBox, var
 
     def removeTextBox(self, name):
         if name in self.textBoxes:
@@ -132,7 +133,7 @@ class Gui():
     def addBooleanQuestion(self, name, question, text1, text2):
         var = tk.IntVar()
         
-        frame = tk.Frame(self.window, height=2)
+        frame = tk.Frame(self.frame, height=2)
         frame.pack(expand=False, fill='both')
         
         label = tk.Label(frame, text=question, height=2)
@@ -149,7 +150,7 @@ class Gui():
     def addIntQuestion(self, name, question):
         var = tk.StringVar()
 
-        frame = tk.Frame(self.window, height=2)
+        frame = tk.Frame(self.frame, height=2)
         frame.pack(expand=False, fill='both')
 
         label = tk.Label(frame, text=question, height=2)
@@ -169,8 +170,38 @@ class Gui():
         if name in self.questions:
             del self.questions[name]
 
+    def setCurrentStatementFrame(self):
+        frame = tk.Frame(self.window)
+        frame.pack(expand=False, fill='both')
+        self.frame = frame
+        return
+
+    def addFormButton(self):
+        frame = tk.Frame(self.frame)
+        frame.pack()
+
+        button = tk.Button(frame, text="Submit")
+        button.config(command= lambda: self.getVariables())
+        button.pack()
+
+        return
+
     def showWindow(self):
         self.window.mainloop()
+
+    # Loop through current questions and save the values on clicking the button if the input type is correct.
+    # The current questions have to be overwritten with the questions of the new frame if we do this...
+    def getVariables(self):
+        for question in self.questions:
+            if type(self.questions[question].get()) is int:
+                self.formVariables[question] = self.questions[question].get()
+
+            # todo: better error handling...
+            elif type(self.questions[question].get()) is str and self.questions[question].get().isdigit():
+                self.formVariables[question] = self.questions[question].get()
+
+        print self.formVariables
+        return
 
 def notifyClick(name, vars):
     print vars[name].get()

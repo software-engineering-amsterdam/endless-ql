@@ -34,7 +34,7 @@ block           :   '{' part* '}'
                 ;
 
 part            :   variable = ID ':' label = LABEL type = TYPE                         # LBL_Question
-                |   variable = ID   ':' label =  LABEL  type = TYPE '(' expression ')'  # LBL_ComputedQuestion
+                |   variable = ID ':' label =  LABEL  type = TYPE '(' expression ')'    # LBL_ComputedQuestion
                 |   'if' expression block                                               # LBL_ConditionalBlock
                 ;
 

@@ -1,13 +1,9 @@
 package nl.khonraad;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class MyVisitor extends ExpressionLanguageBaseVisitor<Integer> {
 
-	public Map<String, Integer> variables = new HashMap<String, Integer>();
-	public Map<String,Question> questions = new HashMap<String,Question>();
-
+	public Questions questions = new Questions();
+	
 	@Override
 	public Integer visitBlock(ExpressionLanguageParser.BlockContext ctx) {
 		return visitChildren(ctx);
@@ -46,8 +42,8 @@ public class MyVisitor extends ExpressionLanguageBaseVisitor<Integer> {
 
 		String id = ctx.ID().getText();
 
-		if (variables.containsKey(id)) {
-			return variables.get(id);
+		if ( questions.containsKey(id)) {
+			return questions.get(id).getValue();
 		}
 		return 0;
 
@@ -75,14 +71,15 @@ public class MyVisitor extends ExpressionLanguageBaseVisitor<Integer> {
 		if (value != 0)
 			return 0;
 		return 1;
-
 	}
 
 	@Override
 	public Integer visitLBL_Question(ExpressionLanguageParser.LBL_QuestionContext ctx) {
 
-		Question question = new Question(ctx.variable.getText(), ctx.label.getText(), ctx.type.getText() );
-		questions.put(ctx.variable.getText(), question);
+		if ( !questions.containsKey(ctx.variable.getText())) {
+			Question question = new Question(ctx.variable.getText(), ctx.label.getText(), ctx.type.getText() );
+			questions.put(ctx.variable.getText(), question);
+		}
 		return visitChildren(ctx);
 	}
 
@@ -97,6 +94,7 @@ public class MyVisitor extends ExpressionLanguageBaseVisitor<Integer> {
 
 	@Override
 	public Integer visitLBL_ConditionalBlock(ExpressionLanguageParser.LBL_ConditionalBlockContext ctx) {
+		// TODO implement logic
 		return visitChildren(ctx);
 	}
 

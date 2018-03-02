@@ -4,15 +4,17 @@ import javafx.scene.control.TextArea;
 
 public class LogPane extends TextArea {
 
-	public LogPane() {
-		super();
-		setEditable(false);
-	}
+    public LogPane() {
+        super();
+        setEditable(false);
+        setWrapText(true);
+    }
 
-	public void clear() {
-		this.setText("");
-	}
-	public void log(String line) {
-		this.setText( this.getText() + "\n" + line);
-	}
+    public void clear() {
+        this.setText("");
+    }
+
+    public void log(String line) {
+        this.setText(this.getText() + "\n" + line + "\n");
+    }
 }

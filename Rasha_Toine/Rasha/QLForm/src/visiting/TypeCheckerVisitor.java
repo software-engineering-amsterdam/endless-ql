@@ -53,7 +53,7 @@ public class TypeCheckerVisitor
 		form.getBlock().accept(this, null);
 	}
 	
-	private void checkInvalidOperands(BinaryExpression expr, Type expectedType) {
+	private void checkOperandsInvalidTypes(BinaryExpression expr, Type expectedType) {
 		checkTypeMismatch(expr.getLeft(), expectedType);
 		checkTypeMismatch(expr.getRight(), expectedType);
 	}
@@ -125,7 +125,7 @@ public class TypeCheckerVisitor
 
 
 
-	/* Literals, return type boolean */
+	/* Literals, return type */
 	@Override
 	public Type visit(BooleanLiteral node, Void ctx) {
 	   return Type.BOOLEAN;
@@ -160,26 +160,26 @@ public class TypeCheckerVisitor
 	/* Mathematical operations */
 	@Override
 	public Type visit(Add node, Void ctx) {
-		checkInvalidOperands(node, Type.INTEGER);
+		checkOperandsInvalidTypes(node, Type.INTEGER);
 		return Type.INTEGER;
 	}
 	
 	@Override
 	public Type visit(Sub node, Void ctx) {
-		checkInvalidOperands(node, Type.INTEGER);
+		checkOperandsInvalidTypes(node, Type.INTEGER);
 		return Type.INTEGER;
 	}
 
 
 	@Override
 	public Type visit(Mul node, Void ctx)  {
-		checkInvalidOperands(node, Type.INTEGER);
+		checkOperandsInvalidTypes(node, Type.INTEGER);
 		return Type.INTEGER;
 	}
 	
 	@Override
 	public Type visit(Div node, Void ctx) {
-		checkInvalidOperands(node, Type.INTEGER);
+		checkOperandsInvalidTypes(node, Type.INTEGER);
 		return Type.INTEGER;
 	}
 
@@ -200,25 +200,25 @@ public class TypeCheckerVisitor
 	/* Comparison operations */
 	@Override
 	public Type visit(GT node, Void ctx) {
-	   checkInvalidOperands(node, Type.INTEGER);
+	   checkOperandsInvalidTypes(node, Type.INTEGER);
 	   return Type.BOOLEAN;
 	}
 	
 	@Override
 	public Type visit(GEq node, Void ctx) {
-		checkInvalidOperands(node, Type.INTEGER);
+		checkOperandsInvalidTypes(node, Type.INTEGER);
 		return Type.BOOLEAN;
 	}
 	
 	@Override
 	public Type visit(LT node, Void ctx) {
-		checkInvalidOperands(node, Type.INTEGER);
+		checkOperandsInvalidTypes(node, Type.INTEGER);
 		return Type.BOOLEAN;
 	}
 
 	@Override
 	public Type visit(LEq node, Void ctx) {
-	   checkInvalidOperands(node, Type.INTEGER);
+	   checkOperandsInvalidTypes(node, Type.INTEGER);
 	   return Type.BOOLEAN;
 	}
 	
@@ -250,13 +250,13 @@ public class TypeCheckerVisitor
 	/* Logical operations */
 	@Override
 	public Type visit(And node, Void ctx) {
-	   checkInvalidOperands(node, Type.BOOLEAN);
+	   checkOperandsInvalidTypes(node, Type.BOOLEAN);
 	   return Type.BOOLEAN;
 	}
 
 	@Override
 	public Type visit(Or node, Void ctx) {
-	   checkInvalidOperands(node, Type.BOOLEAN);
+	   checkOperandsInvalidTypes(node, Type.BOOLEAN);
 	   return Type.BOOLEAN;
 	}
 

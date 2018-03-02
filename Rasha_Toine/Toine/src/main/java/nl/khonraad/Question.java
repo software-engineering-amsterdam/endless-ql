@@ -25,6 +25,11 @@ public class Question {
 		
 		switch (type) {
 		
+			case "money": {
+				this.value = Integer.parseInt(value);
+			}
+			break;
+
 			case "integer": {
 				this.value = Integer.parseInt(value);
 			}

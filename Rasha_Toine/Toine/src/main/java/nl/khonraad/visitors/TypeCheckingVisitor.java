@@ -7,6 +7,7 @@ import nl.khonraad.ExpressionLanguageBaseVisitor;
 import nl.khonraad.ExpressionLanguageParser;
 import nl.khonraad.domain.Question;
 import nl.khonraad.domain.Questions;
+import nl.khonraad.domain.Question.QuestionType;
 
 public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Integer> {
 
@@ -31,7 +32,7 @@ public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 		forwardReferences.remove(ctx.variable.getText());
 
 		if (!questions.containsKey(ctx.variable.getText())) {
-			Question question = new Question(ctx.variable.getText(), ctx.label.getText(), ctx.type.getText());
+			Question question = new Question(QuestionType.NOT_COMPUTED, ctx.variable.getText(), ctx.label.getText(), ctx.type.getText());
 			questions.put(ctx.variable.getText(), question);
 			return 0;
 		}
@@ -44,7 +45,7 @@ public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 		forwardReferences.remove(ctx.variable.getText());
 
 		if (!questions.containsKey(ctx.variable.getText())) {
-			Question question = new Question(ctx.variable.getText(), ctx.label.getText(), ctx.type.getText());
+			Question question = new Question(QuestionType.COMPUTED, ctx.variable.getText(), ctx.label.getText(), ctx.type.getText());
 			question.setValue(visit(ctx.expression()).toString());
 			questions.put(ctx.variable.getText(), question);
 			return question.getValue();
@@ -55,13 +56,13 @@ public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 	@Override
 	public Integer visitLBL_Id_Expression(ExpressionLanguageParser.LBL_Id_ExpressionContext ctx) {
 
-		String id = ctx.ID().getText();
+		String identifier = ctx.IDENTIFIER().getText();
 
-		if (!questions.containsKey(id)) {
-			forwardReferences.add(ctx.ID().getText());
+		if (!questions.containsKey(identifier)) {
+			forwardReferences.add(identifier);
 			return 0;
 		}
-		return questions.get(id).getValue();
+		return questions.get(identifier).getValue();
 	}
 
 }

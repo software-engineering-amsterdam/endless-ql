@@ -3,6 +3,7 @@ package nl.khonraad.visitors;
 import nl.khonraad.ExpressionLanguageBaseVisitor;
 import nl.khonraad.ExpressionLanguageParser;
 import nl.khonraad.domain.Question;
+import nl.khonraad.domain.Question.QuestionType;
 import nl.khonraad.domain.Questions;
 
 public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> {
@@ -45,11 +46,11 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 	@Override
 	public Integer visitLBL_Id_Expression(ExpressionLanguageParser.LBL_Id_ExpressionContext ctx) {
 
-		String id = ctx.ID().getText();
+		String identifier = ctx.IDENTIFIER().getText();
 
-		if ( questions.containsKey(id)) {
+		if ( questions.containsKey(identifier)) {
 			
-			int value = questions.get(id).getValue();
+			int value = questions.get(identifier).getValue();
 			
 			return value;
 		}
@@ -61,7 +62,13 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 
 	@Override
 	public Integer visitLBL_Integer_Expression(ExpressionLanguageParser.LBL_Integer_ExpressionContext ctx) {
-		return Integer.valueOf(ctx.INTEGER().getText());
+		return Integer.valueOf(ctx.INTEGER_CONSTANT().getText());
+	}
+
+	@Override
+	public Integer visitLBL_Boolean_Expression(ExpressionLanguageParser.LBL_Boolean_ExpressionContext ctx) {
+		int value = "False".equals(ctx.BOOLEAN_CONSTANT().getText()) ? 0 : 1;
+		return value;
 	}
 
 	@Override
@@ -89,7 +96,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 		String key = ctx.variable.getText();
 		
 		if ( !questions.containsKey(key)) {
-			Question question = new Question(key, ctx.label.getText(), ctx.type.getText() );
+			Question question = new Question(QuestionType.NOT_COMPUTED, key, ctx.label.getText(), ctx.type.getText() );
 			questions.put(key, question);
 			return 0;
 		} 
@@ -99,7 +106,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> 
 	@Override
 	public Integer visitLBL_ComputedQuestion(ExpressionLanguageParser.LBL_ComputedQuestionContext ctx)  {
 		
-		Question question = new Question(ctx.variable.getText(), ctx.label.getText(), ctx.type.getText() );
+		Question question = new Question(QuestionType.COMPUTED, ctx.variable.getText(), ctx.label.getText(), ctx.type.getText() );
 		question.setValue(visit(ctx.expression()).toString());
 		questions.put(ctx.variable.getText(), question);
 		return question.getValue();

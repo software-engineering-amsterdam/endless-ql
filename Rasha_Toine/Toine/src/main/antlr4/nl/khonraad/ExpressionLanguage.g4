@@ -21,7 +21,7 @@ IOTYPE           :   'integer'
                  |   'money'
                  ;
 
-IDENTIFIER       :   [a-zA-Z][a-zA-Z0-9]*    ;
+IDENTIFIER       :   [_a-zA-Z][_a-zA-Z0-9]*  ;
 INTEGER_CONSTANT :   [0-9]+                  ;
 BOOLEAN_CONSTANT :   TRUE | FALSE            ;
 TRUE             :   'True'                  ;

@@ -33,11 +33,20 @@ object QlFormParser {
 
   def flattenNT(node: ASTNode): List[ASTNode] = {
     node match {
-      case ASTRoot(header, body) => List(header) ++ flattenNT(body)
+      case root @ ASTRoot(header, body) => {
+        List(root) ++ flattenNT(header) ++ flattenNT(body)
+      }
+      case header @ ASTFormHeader(id) => List(header)
       case form @ ASTFormBody(statements) =>
         List(form) ++ statements.map(flattenNT).flatten
       case ifStmt @ ASTIfStatement(expr, statements) => {
         List(ifStmt) ++ statements.map(flattenNT).flatten ++ flattenNT(expr)
+      }
+      case question @ ASTQuestion(decl, label) => {
+        List(question) ++ flattenNT(decl)
+      }
+      case vardecl @ ASTVarDecl(typedecl, id) => {
+        List(vardecl) ++ flattenNT(id)
       }
       case binOp @ ASTBinary(lhs, rhs, op) => List(binOp, lhs, rhs, op)
       case other                           => List(other)

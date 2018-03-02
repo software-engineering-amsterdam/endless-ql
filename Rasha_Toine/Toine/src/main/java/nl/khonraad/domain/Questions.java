@@ -1,4 +1,4 @@
-package nl.khonraad;
+package nl.khonraad.domain;
 
 import java.util.HashMap;
 

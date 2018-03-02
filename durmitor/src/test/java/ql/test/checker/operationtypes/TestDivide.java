@@ -19,84 +19,84 @@ public class TestDivide {
     @Test
     public void testBoolDivide() {
         Literal<?> firstOperand = new BoolLiteral();
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new IntLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
     
     @Test
     public void testStrDivide() {
         Literal<?> firstOperand = new StrLiteral();
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new IntLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
     
     @Test
     public void testIntDivide() {
         Literal<?> firstOperand = new IntLiteral();
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).getClass());
-        assertEquals(DecimalLiteral.class, new Divide(firstOperand, new IntLiteral()).getClass());
-        assertEquals(DecimalLiteral.class, new Divide(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(DecimalLiteral.class, new Divide(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(DecimalLiteral.class, new Divide(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
     
     @Test
     public void testDecimalDivide() {
         Literal<?> firstOperand = new DecimalLiteral();
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).getClass());
-        assertEquals(DecimalLiteral.class, new Divide(firstOperand, new IntLiteral()).getClass());
-        assertEquals(DecimalLiteral.class, new Divide(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(DecimalLiteral.class, new Divide(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(DecimalLiteral.class, new Divide(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
     
     @Test
     public void testMoneyDivide() {
         Literal<?> firstOperand = new MoneyLiteral();
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).getClass());
-        assertEquals(MoneyLiteral.class, new Divide(firstOperand, new IntLiteral()).getClass());
-        assertEquals(MoneyLiteral.class, new Divide(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(MoneyLiteral.class, new Divide(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(MoneyLiteral.class, new Divide(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
     
     @Test
     public void testDateDivide() {
         Literal<?> firstOperand = new DateLiteral();
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new IntLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
     
     @Test
     public void testUndefinedDivide() {
         Literal<?> firstOperand = new UndefinedLiteral();
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new IntLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DecimalLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).getClass());
-        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new BoolLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new StrLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new IntLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DecimalLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new MoneyLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new DateLiteral()).evaluate().getClass());
+        assertEquals(UndefinedLiteral.class, new Divide(firstOperand, new UndefinedLiteral()).evaluate().getClass());
     }
 }

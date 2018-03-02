@@ -16,7 +16,7 @@ public class QLCompiler {
      * @param source Of the source location
      * @return The AST node that can be used by the interpreter
      */
-    public Form compileScriptFile(CharStream source) {
+    public Form compileScriptFile(CharStream source) throws Errors {
 
         //Get tokens
         QLLexer lexer = new QLLexer(source);
@@ -34,8 +34,15 @@ public class QLCompiler {
             return null;
 
         QLVariableInfo varChecker = new QLVariableInfo();
-        if(!varChecker.addVariableInformation(form.result)) {
-            return null;
+        Errors varInfoErrors = varChecker.addVariableInformation(form.result);
+        if(varInfoErrors.errorsPresent()) {
+            throw varInfoErrors;
+        }
+
+        QLTypeCheck qlTypeCheck = new QLTypeCheck();
+        Errors TypeCheckErrors = qlTypeCheck.doTypeCheck(form.result);
+        if(TypeCheckErrors.errorsPresent()) {
+            throw TypeCheckErrors;
         }
 
         return form.result;

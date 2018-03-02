@@ -1,6 +1,11 @@
-package nl.khonraad;
+package nl.khonraad.visitors;
 
-public class MyVisitor extends ExpressionLanguageBaseVisitor<Integer> {
+import nl.khonraad.ExpressionLanguageBaseVisitor;
+import nl.khonraad.ExpressionLanguageParser;
+import nl.khonraad.domain.Question;
+import nl.khonraad.domain.Questions;
+
+public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Integer> {
 
 	public Questions questions = new Questions();
 	
@@ -80,7 +85,7 @@ public class MyVisitor extends ExpressionLanguageBaseVisitor<Integer> {
 			Question question = new Question(ctx.variable.getText(), ctx.label.getText(), ctx.type.getText() );
 			questions.put(ctx.variable.getText(), question);
 		}
-		return visitChildren(ctx);
+		return 0;
 	}
 
 	@Override
@@ -89,7 +94,7 @@ public class MyVisitor extends ExpressionLanguageBaseVisitor<Integer> {
 		Question question = new Question(ctx.variable.getText(), ctx.label.getText(), ctx.type.getText() );
 		question.setValue(visit(ctx.expression()).toString());
 		questions.put(ctx.variable.getText(), question);
-		return visitChildren(ctx);
+		return question.getValue();
 	}
 
 	@Override

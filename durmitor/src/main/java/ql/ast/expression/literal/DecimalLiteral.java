@@ -1,5 +1,6 @@
 package ql.ast.expression.literal;
 
+import ql.ast.type.Decimal;
 import ql.ast.type.Type;
 import ql.evaluator.arithmetic.add.DecimalAdd;
 import ql.evaluator.arithmetic.divide.DecimalDivide;
@@ -14,7 +15,7 @@ import ql.evaluator.comparisons.notequal.DecimalNotEqual;
 import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.ValueVisitor;
 
-public class DecimalLiteral extends NumberLiteral {
+public class DecimalLiteral extends Literal<Number> {
 
     private double value;
 
@@ -35,9 +36,13 @@ public class DecimalLiteral extends NumberLiteral {
         return value;
     }
     
+    public void setValue(Double value) {
+        this.value = value;
+    }
+    
     @Override
     public Type getType() {
-        return new ql.ast.type.Decimal();
+        return new Decimal();
     }
     
     @Override

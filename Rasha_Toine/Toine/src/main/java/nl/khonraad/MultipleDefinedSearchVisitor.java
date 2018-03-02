@@ -3,7 +3,7 @@ package nl.khonraad;
 import nl.khonraad.domain.Question;
 import nl.khonraad.domain.Questions;
 
-public class ValuationVisitor extends ExpressionLanguageBaseVisitor<Integer> {
+public class MultipleDefinedSearchVisitor extends ExpressionLanguageBaseVisitor<Integer> {
 
 	public Questions questions = new Questions();
 	
@@ -82,16 +82,21 @@ public class ValuationVisitor extends ExpressionLanguageBaseVisitor<Integer> {
 		if ( !questions.containsKey(ctx.variable.getText())) {
 			Question question = new Question(ctx.variable.getText(), ctx.label.getText(), ctx.type.getText() );
 			questions.put(ctx.variable.getText(), question);
+		} else {
+			System.out.println("Multiple defined: " + ctx.variable.getText());
 		}
 		return visitChildren(ctx);
 	}
 
 	@Override
 	public Integer visitLBL_ComputedQuestion(ExpressionLanguageParser.LBL_ComputedQuestionContext ctx)  {
-		
-		Question question = new Question(ctx.variable.getText(), ctx.label.getText(), ctx.type.getText() );
-		question.setValue(visit(ctx.expression()).toString());
-		questions.put(ctx.variable.getText(), question);
+		if ( !questions.containsKey(ctx.variable.getText())) {
+			Question question = new Question(ctx.variable.getText(), ctx.label.getText(), ctx.type.getText() );
+			question.setValue(visit(ctx.expression()).toString());
+			questions.put(ctx.variable.getText(), question);
+		} else {
+			System.out.println("Multiple defined: " + ctx.variable.getText());
+		} 
 		return visitChildren(ctx);
 	}
 

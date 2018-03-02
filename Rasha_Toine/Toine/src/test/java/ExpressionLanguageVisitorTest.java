@@ -1,3 +1,4 @@
+
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -12,8 +13,9 @@ import org.junit.Test;
 
 import nl.khonraad.ExpressionLanguageLexer;
 import nl.khonraad.ExpressionLanguageParser;
+import nl.khonraad.MultipleDefinedSearchVisitor;
 import nl.khonraad.ValuationVisitor;
-import nl.khonraad.Question;
+import nl.khonraad.domain.Question;
 
 public class ExpressionLanguageVisitorTest {
 
@@ -40,25 +42,29 @@ public class ExpressionLanguageVisitorTest {
 
 		System.out.println(parseTree.toStringTree(expressionLanguageParser));
 
-		ValuationVisitor myVisit = new ValuationVisitor();
+		MultipleDefinedSearchVisitor multipleDefinedSearchVisitor = new MultipleDefinedSearchVisitor();
 
-		myVisit.visit(parseTree);
+		multipleDefinedSearchVisitor.visit(parseTree);
+
+		ValuationVisitor valuationVisitor = new ValuationVisitor();
+
+		valuationVisitor.visit(parseTree);
 
 		// simulate answer given
-		for (Map.Entry<String, Question> entry : myVisit.questions.entrySet()) {
+		for (Map.Entry<String, Question> entry : valuationVisitor.questions.entrySet()) {
 			System.out.println(entry.getKey() + ": " + entry.getValue());
 		}
 
 		System.out.println("------------------------");
 
 		// simulate answers given
-		myVisit.questions.get("sellingPrice").setValue("100");
-		myVisit.questions.get("privateDebt").setValue("25");
+		valuationVisitor.questions.get("sellingPrice").setValue("100");
+		valuationVisitor.questions.get("privateDebt").setValue("25");
 
-		myVisit.visit(parseTree);
+		valuationVisitor.visit(parseTree);
 
 		// show situtation
-		System.out.println(myVisit.questions.get("valueResidue").getValue());
+		System.out.println(valuationVisitor.questions.get("valueResidue").getValue());
 
 	}
 }

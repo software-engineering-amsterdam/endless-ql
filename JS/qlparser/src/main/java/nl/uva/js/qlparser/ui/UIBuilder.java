@@ -4,24 +4,34 @@ import nl.uva.js.qlparser.models.expressions.form.Question;
 
 public class UIBuilder {
 
-    public static String getTextInput(Question question) {
-        String id = question.getName();
-        return
-                "  <label for=\"" + id + "\">" + question.getQuestion() + "</label>\n"
+    public static String getLabeledField(Question question) {
+        String id   = question.getName();
+        String type = question.getHtmlType();
 
-                + "<input type=\"text\""
-                + " name=\""  + id + "\""
-                + " id=\""    + id + "\""
-                + " value=\"" + extractValue(question) + "\""
-                + "\\>";
+        return getLabel(id, question.getQuestion())
+               + getInput(type, getInputProperties(id, extractValue(question)));
     }
 
     private static String extractValue(Question question) {
-        return
+        return  // TODO: Question needs a proper String-returning method for this
                 question.getValue() != null
                 ? (question.getValue().value() != null
-                   ? "A value~" //TODO
+                   ? "A value~"
                    : "")
                 : "";
+    }
+
+    private static String getLabel(String id, String question) {
+        return "<label for=\"" + id + "\">" + question + "</label>";
+    }
+
+    private static String getInputProperties(String id, String value) {
+        return "name=\"" + id + "\" "
+               + "id=\"" + id + "\" "
+               + "value=\"" + value + "\"";
+    }
+
+    private static String getInput(String type, String properties) {
+        return "<input type=\"" + type + "\" " + properties + ">";
     }
 }

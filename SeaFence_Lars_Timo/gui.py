@@ -1,10 +1,13 @@
 import Tkinter as tk
+from Tkinter import *
 
 class Gui():
     def __init__(self):
         self.window = tk.Tk()
         self.window.minsize(width=500, height=300)
-        # self.labels = {}
+        self.frame = None
+        self.frames = {}
+        self.labels = {}
         self.checkBoxes = {}
         self.checkBoxValues = {}
         self.sliders = {}
@@ -13,16 +16,16 @@ class Gui():
         self.radioButtons = {}
         self.radioButtonValues = {}
         self.dropDowns = {}
-        # self.yesNoButtons = {}
-        # self.yesNoButtonsValues = {}
+        self.questions = {}
+        self.entryBoxes = {}
 
     #add the label to the dict for destroying/changing later and then pack it in the main frame
-    def addLabel(self, text):
-        # self.labels[name] = tk.Label(self.window, text=text)
-        # self.labels[name].pack()
-        label = tk.Label(self.window, text=text)
-        label.pack()
-        return label
+    def addLabel(self, name, text):
+        if self.frame: window = self.frame
+        else: window = self.window
+
+        self.labels[name] = tk.Label(window, text=text)
+        self.labels[name].pack()
 
     def removeLabel(self, name):
         if name in self.labels:
@@ -65,7 +68,17 @@ class Gui():
             self.spinBoxes[name].destroy()
             del self.spinBoxes[name]
 
-    def addTextBox(self, lines, width):
+    def addEntryBox(self, name, text):
+        entryBox = tk.Entry(self.window, text=text)
+        self.entryBoxes[name] = entryBox
+        entryBox.pack()
+
+    def removeEntryBox(self, name):
+        if name in self.entryBoxes:
+            self.entryBoxes[name].destroy()
+            del self.entryBoxes[name]
+
+    def addTextBox(self, name, lines, width):
         textBox = tk.Text(self.window, height=lines, width=width)
         # self.textBoxes[name] = textBox
         textBox.pack()
@@ -116,29 +129,51 @@ class Gui():
             self.dropDowns[name].destroy()
             del self.dropDowns[name]
 
-    def addYesNoRadioButtons(self, text1, text2, command):
+    def addBooleanQuestion(self, name, question, text1, text2):
         var = tk.IntVar()
-        radioButton1 = tk.Radiobutton(self.window, text=text1, variable=var, value=1, command= command)
-        radioButton2 = tk.Radiobutton(self.window, text=text2, variable=var, value=0, command= command)
-        radioButton1.pack()
-        radioButton2.pack()
-        return [radioButton1, radioButton2], var
-        # self.yesNoButtons[name] = [radioButton1, radioButton2]
-        # self.yesNoButtonsValues[name] = var
+        
+        frame = tk.Frame(self.window, height=2)
+        frame.pack(expand=False, fill='both')
+        
+        label = tk.Label(frame, text=question, height=2)
+        label.pack(side=LEFT)
+        
+        radioButton1 = tk.Radiobutton(frame, text=text1, variable=var, value=0, height=2)
+        radioButton2 = tk.Radiobutton(frame, text=text2, variable=var, value=1, height=2)
+        radioButton1.pack(side=LEFT)
+        radioButton2.pack(side=LEFT)
+        
+        self.questions[name] = var
+        self.frames[name] = frame
 
-    def removeYesNoButtons(self, name):
-        if name in self.yesNoButtons:
-            self.yesNoButtons[name][0].destroy()
-            self.yesNoButtons[name][1].destroy()
-            del self.yesNoButtons[name]
+    def addIntQuestion(self, name, question):
+        var = tk.StringVar()
 
-        if name in self.yesNoButtonsValues:
-            del self.yesNoButtonsValues[name]
+        frame = tk.Frame(self.window, height=2)
+        frame.pack(expand=False, fill='both')
+
+        label = tk.Label(frame, text=question, height=2)
+        label.pack(side=LEFT)
+
+        entry = tk.Entry(frame, textvariable=var)
+        entry.pack(side=LEFT)
+
+        self.questions[name] = var
+        self.frames[name] = frame
+
+    def removeQuestion(self, name):
+        if name in self.frames:
+            self.frames[name].destroy()
+            del self.frames[name]
+
+        if name in self.questions:
+            del self.questions[name]
 
     def showWindow(self):
         self.window.mainloop()
 
-# def notifyChangeTextBox(*args):
-#     # selection = "You selected the option " + str(entryVariable2.get())
-#     # label.config(text = selection)
-#     print "change"
+def notifyClick(name, vars):
+    print vars[name].get()
+
+def printUpdatedText(name, vars):
+    print vars[name].get()

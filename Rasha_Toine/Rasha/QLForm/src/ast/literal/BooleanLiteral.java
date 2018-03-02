@@ -1,7 +1,7 @@
 package ast.literal;
 
-import checking.value.BooleanValue;
 import visiting.LiteralVisitor;
+import visiting.value.BooleanValue;
 
 public class BooleanLiteral extends Literal{
 

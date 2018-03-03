@@ -38,3 +38,44 @@ stylesheet "taxOfficeExample"
     default boolean widget radio("Yes", "No")
   }
 }
+
+// example that works with "valid form with if question" from testQuestionnaires.txt
+stylesheet "taxOfficeExample"
+{
+  page "Housing"
+  {
+    section "Buying"
+    {
+      question question3
+        widget checkbox
+    }
+    section "Loaning"
+      question question4
+  }
+
+  page "Selling"
+  {
+    section "Selling"
+    {
+      question question5
+        widget radio("Yes", "No")
+      section "You sold a house"
+      {
+        question question1
+          widget spinbox
+        question question2
+          widget spinbox
+        question question6
+        default integer
+        {
+          width: 400
+          font: "Arial"
+          fontsize: 14
+          color: #999999
+          widget spinbox
+        }
+      }
+    }
+    default boolean widget radio("Yes", "No")
+  }
+}

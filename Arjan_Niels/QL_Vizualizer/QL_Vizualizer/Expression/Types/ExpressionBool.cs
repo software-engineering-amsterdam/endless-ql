@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QL_Vizualizer.Expression.Types
 {
@@ -10,20 +6,20 @@ namespace QL_Vizualizer.Expression.Types
     {
         // Define boolean in expression
         public ExpressionBool(string[] usedWidgetIDs, Func<bool> value) : base(new Type[] { typeof(bool) },
-                                                                            new ExpressionOperator[] {
-                                                                                ExpressionOperator.And,
-                                                                                ExpressionOperator.Or,
-                                                                                ExpressionOperator.Equals
-                                                                            },
+                                                                            ExpressionOperators.Logical,
                                                                             usedWidgetIDs,
                                                                             value)
         {
         }
 
-
+        /// <summary>
+        /// Combines with expressionValue
+        /// </summary>
+        /// <param name="item">Right hand side</param>
+        /// <param name="op">Operator</param>
+        /// <returns>Resulting expression</returns>
         public override ExpressionValue Combine(ExpressionValue item, ExpressionOperator op)
         {
-            // Validity check
             if (ValidCombine(item, op))
             {
                 ExpressionBool expression = null;
@@ -36,9 +32,15 @@ namespace QL_Vizualizer.Expression.Types
                 UsedWidgetIDs = CombineWidgets(item);
                 return this;
             }
-            throw ExpressionExceptions.NoCombine(Type, item.Type, op);
+            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, item.Type, op));
         }
 
+        /// <summary>
+        /// Compares with expression
+        /// </summary>
+        /// <param name="expressionValue">Expression to compare with</param>
+        /// <param name="op">Operator</param>
+        /// <returns>Boolean expression</returns>
         public override TypedExpressionValue<bool> Compare(ExpressionValue expressionValue, ExpressionOperator op)
         {
             if (ValidCompare(expressionValue, op))
@@ -49,20 +51,18 @@ namespace QL_Vizualizer.Expression.Types
                     UsedWidgetIDs = CombineWidgets(expressionValue);
                     return this;
                 }
-                throw ExpressionExceptions.NoCompareImplemented(Type, expressionValue.Type, op);
             }
-            throw ExpressionExceptions.NoCompare(Type, expressionValue.Type, op);
+            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(Type, expressionValue.Type, op));
         }
 
-        protected override Func<bool> GetExpression()
-        {
-            Func<bool> res = _expressionChain[0];
-            for (int i = 1; i < _expressionChain.Count; i++)
-                res = CombineFuncs(res, _expressionChain[i], _operatorChain[i - 1]);
-            return res;
-        }
-
-        private Func<bool> CombineFuncs(Func<bool> item1, Func<bool> item2, ExpressionOperator op)
+        /// <summary>
+        /// Combines two boolean expressions
+        /// </summary>
+        /// <param name="item1">Left hand side</param>
+        /// <param name="item2">Right hand side</param>
+        /// <param name="op">Operator</param>
+        /// <returns>Resulting delegate</returns>
+        protected override Func<bool> CombineExpressions(Func<bool> item1, Func<bool> item2, ExpressionOperator op)
         {
             switch (op)
             {
@@ -74,7 +74,7 @@ namespace QL_Vizualizer.Expression.Types
                     return () => item1() == item2();
             }
 
-            throw ExpressionExceptions.NoCombineImplemented(Type, Type, op);
+            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, Type, op));
         }
     }
 }

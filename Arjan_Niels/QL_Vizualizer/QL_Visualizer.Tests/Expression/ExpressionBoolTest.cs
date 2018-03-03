@@ -23,11 +23,11 @@ namespace QL_Visualizer.Tests.Expression
         {
             // Create inital combination
             ExpressionBool expression = _expression1.Combine(_expression2, ExpressionOperator.And) as ExpressionBool;
-            Assert.IsTrue(expression.Execute());
+            Assert.IsTrue(expression.Result);
 
             // Alter combined object
             _expression2 = _expression2.Combine(_expression3, ExpressionOperator.And) as ExpressionBool;
-            Assert.IsTrue(expression.Execute());
+            Assert.IsTrue(expression.Result);
         }
 
         [TestMethod]
@@ -35,11 +35,11 @@ namespace QL_Visualizer.Tests.Expression
         {
             // true && true
             ExpressionBool expression = _expression1.Combine(_expression2, ExpressionOperator.And) as ExpressionBool;
-            Assert.IsTrue(expression.Execute());
+            Assert.IsTrue(expression.Result);
 
             // true && true && false
             expression = expression.Combine(_expression3, ExpressionOperator.And) as ExpressionBool;
-            Assert.IsFalse(expression.Execute());
+            Assert.IsFalse(expression.Result);
         }
 
         [TestMethod]
@@ -47,11 +47,11 @@ namespace QL_Visualizer.Tests.Expression
         {
             // true || true
             ExpressionBool expression = _expression1.Combine(_expression2, ExpressionOperator.Or) as ExpressionBool;
-            Assert.IsTrue(expression.Execute());
+            Assert.IsTrue(expression.Result);
 
             // true || true || false
             expression = expression.Combine(_expression3, ExpressionOperator.Or) as ExpressionBool;
-            Assert.IsTrue(expression.Execute());
+            Assert.IsTrue(expression.Result);
         }
 
         [TestMethod]
@@ -59,11 +59,11 @@ namespace QL_Visualizer.Tests.Expression
         {
             // true == true
             ExpressionBool expression = _expression1.Combine(_expression2, ExpressionOperator.Equals) as ExpressionBool;
-            Assert.IsTrue(expression.Execute());
+            Assert.IsTrue(expression.Result);
 
             // (true == true) == false
             expression = expression.Combine(_expression3, ExpressionOperator.Equals) as ExpressionBool;
-            Assert.IsFalse(expression.Execute());
+            Assert.IsFalse(expression.Result);
         }
     }
 }

@@ -1,12 +1,10 @@
 ﻿using QL_Vizualizer.Expression.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QL_Vizualizer.Expression
 {
+    /// <summary>
+    /// Static class containing default ExpressionOperator collections
+    /// </summary>
     public static class ExpressionOperators
     {
         /// <summary>

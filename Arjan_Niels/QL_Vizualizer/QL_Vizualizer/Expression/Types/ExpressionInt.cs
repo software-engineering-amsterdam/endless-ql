@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QL_Vizualizer.Expression.Types
 {
@@ -13,10 +9,17 @@ namespace QL_Vizualizer.Expression.Types
         }
 
         #region Combine
+        /// <summary>
+        /// Combines with expressionValue
+        /// </summary>
+        /// <param name="item">Right hand side</param>
+        /// <param name="op">Operator</param>
+        /// <returns>Resulting expression</returns>
         public override ExpressionValue Combine(ExpressionValue expressionValue, ExpressionOperator op)
         {
             if(ValidCombine(expressionValue, op))
             {
+                // Convert to correct expresion type
                 ExpressionInt expression = null;
                 if (expressionValue.Type == typeof(int))
                     expression = expressionValue as ExpressionInt;
@@ -30,11 +33,17 @@ namespace QL_Vizualizer.Expression.Types
                 return this;
             }
 
-            throw ExpressionExceptions.NoCombine(Type, expressionValue.Type, op);
+            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, expressionValue.Type, op));
         }
         #endregion
 
         #region Compare
+        /// <summary>
+        /// Compares with expression
+        /// </summary>
+        /// <param name="expressionValue">Expression to compare with</param>
+        /// <param name="op">Operator</param>
+        /// <returns>Boolean expression</returns>
         public override TypedExpressionValue<bool> Compare(ExpressionValue expressionValue, ExpressionOperator op)
         {
             if (ValidCompare(expressionValue, op))
@@ -42,40 +51,45 @@ namespace QL_Vizualizer.Expression.Types
                 if (expressionValue.Type == typeof(double))
                     return CompareValue(expressionValue as TypedExpressionValue<double>, op);
                 else if (expressionValue.Type == typeof(int))
-                    return CompareValue(expressionValue as ExpressionInt, op);
+                    return CompareValue(expressionValue as ExpressionInt, op); // Uses implicit cast
             }
-            throw ExpressionExceptions.NoCompare(Type, expressionValue.Type, op);
+            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(Type, expressionValue.Type, op));
 
         }
 
+        /// <summary>
+        /// Compares expression with double expression
+        /// </summary>
+        /// <param name="item">double expression</param>
+        /// <param name="op">Compare operator</param>
+        /// <returns>Boolean expression</returns>
         private TypedExpressionValue<bool> CompareValue(TypedExpressionValue<double> item, ExpressionOperator op)
         {
             switch (op)
             {
                 case ExpressionOperator.GreaterThan:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() > item.Execute(); });
+                    return new ExpressionBool(CombineWidgets(item), () => { return Result > item.Result; });
                 case ExpressionOperator.GreaterEquals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() >= item.Execute(); });
+                    return new ExpressionBool(CombineWidgets(item), () => { return Result >= item.Result; });
                 case ExpressionOperator.LessThan:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() < item.Execute(); });
+                    return new ExpressionBool(CombineWidgets(item), () => { return Result < item.Result; });
                 case ExpressionOperator.LessEquals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() <= item.Execute(); });
+                    return new ExpressionBool(CombineWidgets(item), () => { return Result <= item.Result; });
                 case ExpressionOperator.Equals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Execute() == item.Execute(); });
+                    return new ExpressionBool(CombineWidgets(item), () => { return Result == item.Result; });
             }
-            throw ExpressionExceptions.NoCompareImplemented(Type, item.Type, op);
+            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(Type, item.Type, op));
         }
         #endregion
 
-        protected override Func<int> GetExpression()
-        {
-            Func<int> res = _expressionChain[0];
-            for (int i = 1; i < _expressionChain.Count; i++)
-                res = CombineFuncs(res, _expressionChain[i], _operatorChain[i - 1]);
-            return res;
-        }
-
-        private Func<int> CombineFuncs(Func<int> item1, Func<int> item2, ExpressionOperator op)
+        /// <summary>
+        /// Combines two expressions
+        /// </summary>
+        /// <param name="item1">Left hand side</param>
+        /// <param name="item2">Right hand side</param>
+        /// <param name="op">Operator</param>
+        /// <returns>Resulting delegate</returns>
+        protected override Func<int> CombineExpressions(Func<int> item1, Func<int> item2, ExpressionOperator op)
         {
             switch (op)
             {
@@ -91,9 +105,13 @@ namespace QL_Vizualizer.Expression.Types
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Implicit cast to integer expression
+        /// </summary>
+        /// <param name="expressionInt">Integer expression</param>
         public static implicit operator ExpressionDouble(ExpressionInt expressionInt)
         {
-            return new ExpressionDouble(expressionInt.UsedWidgetIDs, () => (double)expressionInt.Execute());
+            return new ExpressionDouble(expressionInt.UsedWidgetIDs, () => (double)expressionInt.Result);
         }
     }
 }

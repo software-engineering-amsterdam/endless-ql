@@ -71,7 +71,7 @@ namespace QL_Vizualizer.Widgets
         public virtual void ReceiveUpdate(string updatedIdentifyer)
         {
             if (_activationExpression != null && _activationExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
-                Active = _activationExpression.Execute();
+                Active = _activationExpression.Result;
             _widgetController.UpdateView(this);
         }
 

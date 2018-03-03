@@ -26,9 +26,8 @@ public class VariableInfo extends BaseASTVisitor {
     private Messages errors = new Messages();
 
     /**
-     *
      * @param error Error that occur
-     * @param node The node that caused the error
+     * @param node  The node that caused the error
      */
     private void error(String error, ASTNode node) {
         this.errors.addError(error + " on line:  " + node.getLine() + " column: " + node.getColumn());
@@ -36,6 +35,7 @@ public class VariableInfo extends BaseASTVisitor {
 
     /**
      * Checks correct variable usage and links variables to questions
+     *
      * @param node The root node of the AST that needs to be checked
      * @return If an error occurred
      */
@@ -48,6 +48,7 @@ public class VariableInfo extends BaseASTVisitor {
 
     /**
      * Variables have to be defined before used
+     *
      * @param node The var node in the AST that is traversed
      */
     @Override
@@ -56,7 +57,7 @@ public class VariableInfo extends BaseASTVisitor {
 
         //Questions should not already exist
         String variableName = node.getVariableName();
-        if(!variableMap.containsKey(variableName)) {
+        if (!variableMap.containsKey(variableName)) {
             this.error("Variable is not defined", node);
             return null;
         }
@@ -67,6 +68,7 @@ public class VariableInfo extends BaseASTVisitor {
 
     /**
      * Questions should not be defined yet. Map the question by its name
+     *
      * @param node The question node in the AST that is traversed
      */
     @Override

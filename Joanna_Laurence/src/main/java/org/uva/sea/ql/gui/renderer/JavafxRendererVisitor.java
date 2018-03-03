@@ -6,9 +6,9 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import org.uva.sea.ql.evaluate.valueTypes.*;
 import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.gui.model.*;
-import org.uva.sea.ql.evaluate.valueTypes.*;
 
 //TODO: Handle situation when newInput.getText().equals("")
 public class JavafxRendererVisitor implements QuestionRenderer, QuestionModelVisitor {

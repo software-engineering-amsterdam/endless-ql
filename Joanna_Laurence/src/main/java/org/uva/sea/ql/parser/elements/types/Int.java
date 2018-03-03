@@ -5,7 +5,7 @@ import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.visitor.IASTVisitor;
 
-public class Int extends ASTNode  {
+public class Int extends ASTNode {
     private int value;
 
     public Int(Token token, String value) {

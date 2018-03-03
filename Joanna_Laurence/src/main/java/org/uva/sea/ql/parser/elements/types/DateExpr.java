@@ -7,7 +7,7 @@ import org.uva.sea.ql.visitor.IASTVisitor;
 
 import java.util.Calendar;
 
-public class DateExpr extends ASTNode  {
+public class DateExpr extends ASTNode {
     private Calendar date = Calendar.getInstance();
 
     public DateExpr(Token token, String day, String month, String year) {

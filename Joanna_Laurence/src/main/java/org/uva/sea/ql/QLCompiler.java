@@ -33,18 +33,18 @@ public class QLCompiler {
         parser.addErrorListener(parseErrorListener);
 
         QLParser.FormContext form = parser.form();
-        if(parseErrorListener.isError() || form.result == null)
+        if (parseErrorListener.isError() || form.result == null)
             return null;
 
         VariableInfo varChecker = new VariableInfo();
         Messages varInfoErrors = varChecker.addVariableInformation(form.result);
-        if(varInfoErrors.errorsPresent()) {
+        if (varInfoErrors.errorsPresent()) {
             throw new StaticAnalysisError(varInfoErrors);
         }
 
         TypeCheck typeCheck = new TypeCheck();
         Messages TypeCheckErrors = typeCheck.doTypeCheck(form.result);
-        if(TypeCheckErrors.errorsPresent()) {
+        if (TypeCheckErrors.errorsPresent()) {
             throw new StaticAnalysisError(TypeCheckErrors);
         }
 

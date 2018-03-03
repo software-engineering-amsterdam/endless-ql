@@ -5,7 +5,7 @@ import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.visitor.IASTVisitor;
 
-public class Bool extends ASTNode  {
+public class Bool extends ASTNode {
 
     private boolean value;
 

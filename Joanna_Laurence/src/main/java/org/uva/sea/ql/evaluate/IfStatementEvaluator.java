@@ -1,10 +1,10 @@
 package org.uva.sea.ql.evaluate;
 
-import org.uva.sea.ql.visitor.BaseValueVisitor;
-import org.uva.sea.ql.parser.elements.IfStatement;
-import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.evaluate.valueTypes.BooleanValue;
 import org.uva.sea.ql.evaluate.valueTypes.Value;
+import org.uva.sea.ql.parser.elements.IfStatement;
+import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.visitor.BaseValueVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,7 @@ public class IfStatementEvaluator extends BaseValueVisitor<Boolean> {
 
     /**
      * Evaluates the condition, when true the statements are returned
+     *
      * @param ifStatement Statement that is evaluated
      * @param symbolTable Symbol table with data
      * @return List of all seen questions
@@ -27,7 +28,7 @@ public class IfStatementEvaluator extends BaseValueVisitor<Boolean> {
 
         //Determine condition is true
         Boolean conditionTrue = condition.accept(this);
-        if(conditionTrue == null || !conditionTrue) {
+        if (conditionTrue == null || !conditionTrue) {
             return new ArrayList<>();
         }
 
@@ -37,7 +38,6 @@ public class IfStatementEvaluator extends BaseValueVisitor<Boolean> {
     }
 
     /**
-     *
      * @param boolValue
      * @return
      */

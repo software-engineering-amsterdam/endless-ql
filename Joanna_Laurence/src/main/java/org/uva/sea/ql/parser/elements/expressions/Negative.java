@@ -7,7 +7,7 @@ import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.SingleNode;
 import org.uva.sea.ql.visitor.IASTVisitor;
 
-public class Negative extends SingleNode  {
+public class Negative extends SingleNode {
     public Negative(Token token, ASTNode value) {
         super(token, value);
     }

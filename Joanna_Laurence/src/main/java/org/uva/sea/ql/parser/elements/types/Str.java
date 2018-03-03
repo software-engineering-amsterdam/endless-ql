@@ -1,11 +1,11 @@
 package org.uva.sea.ql.parser.elements.types;
 
-import org.uva.sea.ql.parser.NodeType;
 import org.antlr.v4.runtime.Token;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.visitor.IASTVisitor;
 
-public class Str extends ASTNode  {
+public class Str extends ASTNode {
     private String value;
 
     public Str(Token token, String value) {

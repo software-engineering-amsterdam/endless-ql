@@ -1,8 +1,8 @@
 package org.uva.sea.ql.evaluate.valueTypes;
 
-import org.uva.sea.ql.visitor.BaseValueVisitor;
 import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
+import org.uva.sea.ql.visitor.BaseValueVisitor;
 
 public class StringValue extends Value {
 

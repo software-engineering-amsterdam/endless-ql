@@ -18,6 +18,7 @@ public class TypeCheckSpecification {
 
     /**
      * Get the type specification
+     *
      * @return
      */
     public HashMap<SpecificationKey, NodeType> getSpecification() {
@@ -69,10 +70,11 @@ public class TypeCheckSpecification {
 
     /**
      * Add element to the specification table
+     *
      * @param operatorTypes Operators
-     * @param left Left side type
-     * @param right Right side type
-     * @param returns Returns new type
+     * @param left          Left side type
+     * @param right         Right side type
+     * @param returns       Returns new type
      */
     private void add(List<Class<?>> operatorTypes, NodeType left, NodeType right, NodeType returns) {
         for (Class operatorType : operatorTypes)
@@ -81,6 +83,7 @@ public class TypeCheckSpecification {
 
     /**
      * Convert var args to list
+     *
      * @param operatorTypes Operator args
      * @return The list of operators
      */

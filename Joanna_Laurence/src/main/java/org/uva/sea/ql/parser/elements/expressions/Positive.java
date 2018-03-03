@@ -6,7 +6,7 @@ import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.SingleNode;
 import org.uva.sea.ql.visitor.IASTVisitor;
 
-public class Positive extends SingleNode  {
+public class Positive extends SingleNode {
     public Positive(Token token, ASTNode value) {
         super(token, value);
     }

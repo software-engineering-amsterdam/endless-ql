@@ -7,7 +7,7 @@ import org.uva.sea.ql.visitor.IASTVisitor;
 
 import java.math.BigDecimal;
 
-public class Money extends ASTNode  {
+public class Money extends ASTNode {
     private String currency;
     private BigDecimal amount;
 

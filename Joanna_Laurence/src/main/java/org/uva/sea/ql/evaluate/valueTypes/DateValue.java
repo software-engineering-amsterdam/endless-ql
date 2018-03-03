@@ -1,8 +1,8 @@
 package org.uva.sea.ql.evaluate.valueTypes;
 
 
-import org.uva.sea.ql.visitor.BaseValueVisitor;
 import org.uva.sea.ql.parser.NodeType;
+import org.uva.sea.ql.visitor.BaseValueVisitor;
 
 import java.security.InvalidParameterException;
 import java.util.Calendar;
@@ -13,7 +13,7 @@ public class DateValue extends Value {
 
     public DateValue(String date) {
         String[] dateSplit = date.split(date, 3);
-        if(dateSplit.length != 3)
+        if (dateSplit.length != 3)
             throw new InvalidParameterException("Incorrect date: " + date);
 
         this.dateValue.set(Calendar.YEAR, Integer.parseInt(dateSplit[2]));

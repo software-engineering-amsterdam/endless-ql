@@ -23,7 +23,7 @@ public class Messages {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return errors.toString();
     }
 }

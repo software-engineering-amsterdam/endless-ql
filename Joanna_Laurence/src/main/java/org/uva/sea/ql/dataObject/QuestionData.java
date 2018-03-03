@@ -1,9 +1,9 @@
 package org.uva.sea.ql.dataObject;
 
-import org.uva.sea.ql.parser.NodeType;
-import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.evaluate.valueTypes.ErrorValue;
 import org.uva.sea.ql.evaluate.valueTypes.Value;
+import org.uva.sea.ql.parser.NodeType;
+import org.uva.sea.ql.parser.elements.Question;
 
 public class QuestionData {
     private String label;
@@ -21,7 +21,7 @@ public class QuestionData {
     }
 
     private boolean doesValueTypeMatch(Question question, Value value) {
-        if(value == null)
+        if (value == null)
             return true;
 
         return question.getType().getNodeType().isTypeCompatible(value.getType());

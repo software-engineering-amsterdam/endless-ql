@@ -1,7 +1,7 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
-import org.uva.sea.ql.parser.NodeType;
 import org.antlr.v4.runtime.Token;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;

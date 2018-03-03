@@ -11,8 +11,7 @@ public class IfStatement extends ASTNode {
 
     private Statements statements;
 
-    public IfStatement(Token token, ASTNode expression, Statements statements)
-    {
+    public IfStatement(Token token, ASTNode expression, Statements statements) {
         super(token);
         this.statements = statements;
         this.expression = expression;

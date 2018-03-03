@@ -11,7 +11,7 @@ public class StaticAnalysisError extends Exception {
     }
 
     @Override
-    public String getMessage(){
+    public String getMessage() {
         return errors.toString();
     }
 }

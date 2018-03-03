@@ -17,17 +17,19 @@ public abstract class ASTNode {
         this.line = token.getLine();
         this.column = token.getCharPositionInLine();
     }
+
     /**
      * Get the node type
+     *
      * @return The type
      */
     public abstract Type getType();
 
-    public int getLine(){
+    public int getLine() {
         return this.line;
     }
 
-    public int getColumn(){
+    public int getColumn() {
         return this.column;
     }
 

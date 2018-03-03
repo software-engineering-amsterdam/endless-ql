@@ -1,7 +1,5 @@
 package org.uva.sea.ql.gui.model;
 
-import org.uva.sea.ql.gui.model.*;
-
 public interface QuestionModelVisitor {
 
     void visit(BooleanQuestionModel question);

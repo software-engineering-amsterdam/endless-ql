@@ -2,7 +2,9 @@ package org.uva.sea.ql.staticAnalysis;
 
 import org.uva.sea.ql.dataObject.SpecificationKey;
 import org.uva.sea.ql.parser.NodeType;
-import org.uva.sea.ql.parser.elements.*;
+import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.elements.Form;
+import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
 import org.uva.sea.ql.visitor.BaseASTVisitor;
@@ -43,17 +45,18 @@ public class TypeCheck extends BaseASTVisitor<NodeType> {
 
     /**
      * Determine new type, and return error when the operation cannot be done
-     * @param node The node that is checked
+     *
+     * @param node    The node that is checked
      * @param lhsType Left hand side type, or the first type
      * @param rhsType Right hand side type, or NodeType.UNKNOWN when only one type is needed
      * @return The new type
      */
     private NodeType getNodeTypeAndReportErrors(ASTNode node, NodeType lhsType, NodeType rhsType) {
-        if(lhsType == NodeType.INVALID || rhsType == NodeType.INVALID)
+        if (lhsType == NodeType.INVALID || rhsType == NodeType.INVALID)
             return NodeType.INVALID;
 
         NodeType returnType = this.typeCheckSpecification.get(new SpecificationKey(node.getClass(), lhsType, rhsType));
-        if(returnType == null) {
+        if (returnType == null) {
             this.error(node);
             return NodeType.INVALID;
         }
@@ -208,9 +211,9 @@ public class TypeCheck extends BaseASTVisitor<NodeType> {
         NodeType questionType = node.getType().getNodeType();
         ASTNode valueNode = node.getValue();
 
-        if(valueNode != null) {
+        if (valueNode != null) {
             NodeType valueType = valueNode.accept(this);
-            if(questionType != valueType) {
+            if (questionType != valueType) {
                 error(node);
                 return NodeType.INVALID;
             }

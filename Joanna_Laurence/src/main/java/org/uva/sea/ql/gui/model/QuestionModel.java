@@ -1,10 +1,10 @@
 package org.uva.sea.ql.gui.model;
 
-import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.QLSpecificationEvaluator;
+import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.evaluate.SymbolTable;
-import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.evaluate.valueTypes.Value;
+import org.uva.sea.ql.exceptions.StaticAnalysisError;
 
 import java.io.IOException;
 import java.util.ArrayList;

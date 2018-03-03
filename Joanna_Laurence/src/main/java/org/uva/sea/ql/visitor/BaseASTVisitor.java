@@ -8,56 +8,56 @@ import org.uva.sea.ql.parser.nodeTypes.SingleNode;
 
 public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
 
-    public T visit(Addition node)  {
-        return this.visit((BinaryOperator)node);
+    public T visit(Addition node) {
+        return this.visit((BinaryOperator) node);
     }
 
-    public T visit(And node)  {
-        return this.visit((BinaryOperator)node);
+    public T visit(And node) {
+        return this.visit((BinaryOperator) node);
     }
 
-    public T visit(Division node)  {
-        return this.visit((BinaryOperator)node);
+    public T visit(Division node) {
+        return this.visit((BinaryOperator) node);
     }
 
-    public T visit(Equal node)  {
-        return this.visit((BinaryOperator)node);
+    public T visit(Equal node) {
+        return this.visit((BinaryOperator) node);
     }
 
-    public T visit(GreaterOrEqual node)  {
-        return this.visit((BinaryOperator)node);
+    public T visit(GreaterOrEqual node) {
+        return this.visit((BinaryOperator) node);
     }
 
-    public T visit(GreaterThan node)  {
-        return this.visit((BinaryOperator)node);
+    public T visit(GreaterThan node) {
+        return this.visit((BinaryOperator) node);
     }
 
-    public T visit(LessOrEqual node)  {
-        return this.visit((BinaryOperator)node);
+    public T visit(LessOrEqual node) {
+        return this.visit((BinaryOperator) node);
     }
 
-    public T visit(LessThan node)  {
-        return this.visit((BinaryOperator)node);
+    public T visit(LessThan node) {
+        return this.visit((BinaryOperator) node);
     }
 
-    public T visit(Multiplication node)  {
-        return this.visit((BinaryOperator)node);
+    public T visit(Multiplication node) {
+        return this.visit((BinaryOperator) node);
     }
 
-    public T visit(Negative node)  {
+    public T visit(Negative node) {
         return this.visit((SingleNode) node);
     }
 
-    public T visit(NotEqual node)  {
-        return this.visit((BinaryOperator)node);
+    public T visit(NotEqual node) {
+        return this.visit((BinaryOperator) node);
     }
 
-    public T visit(Not node)  {
+    public T visit(Not node) {
         return this.visit((SingleNode) node);
     }
 
     public T visit(Or node) {
-        return this.visit((BinaryOperator)node);
+        return this.visit((BinaryOperator) node);
     }
 
     public T visit(Positive node) {
@@ -65,7 +65,7 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
     }
 
     public T visit(Subtraction node) {
-        return this.visit((BinaryOperator)node);
+        return this.visit((BinaryOperator) node);
     }
 
     public T visit(Bool node) {
@@ -110,7 +110,7 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
     }
 
     public T visit(Question node) {
-        if(node.getValue() != null)
+        if (node.getValue() != null)
             node.getValue().accept(this);
 
         node.getNodeType().accept(this);
@@ -125,7 +125,7 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
     }
 
     public T visit(Statements node) {
-        for( ASTNode statement : node.getStatementList()) {
+        for (ASTNode statement : node.getStatementList()) {
             statement.accept(this);
         }
         return null;

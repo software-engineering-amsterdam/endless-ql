@@ -5,7 +5,7 @@ import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.visitor.IASTVisitor;
 
-public class Decimal extends ASTNode  {
+public class Decimal extends ASTNode {
     private double value;
 
     public Decimal(Token token, String value) {

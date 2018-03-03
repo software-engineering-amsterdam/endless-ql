@@ -15,17 +15,6 @@ public class BooleanQuestionReference implements BooleanExpression {
     }
 
     @Override
-    public boolean evaluate() {
-        if (this.question != null) {
-            return this.question.getValue();
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    @Override
     public void accept(BooleanExpressionVisitor visitor) {
         visitor.visit(this);
     }

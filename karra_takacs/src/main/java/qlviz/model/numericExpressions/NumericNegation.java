@@ -13,10 +13,6 @@ public class NumericNegation  implements NumericExpression {
         this.innerExpression = innerExpression;
     }
 
-    @Override
-    public BigDecimal evaluate() {
-        return this.innerExpression.evaluate().multiply(BigDecimal.valueOf(-1));
-    }
 
     @Override
     public void accept(NumericExpressionVisitor numericExpressionVisitor) {

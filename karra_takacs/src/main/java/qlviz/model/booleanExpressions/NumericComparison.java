@@ -25,24 +25,6 @@ public class NumericComparison implements BooleanExpression {
         this.opeartor = opeartor;
     }
 
-    public boolean evaluate() {
-        switch (this.opeartor) {
-            case Equal:
-                return this.leftSide.evaluate().equals(this.rightSide.evaluate());
-            case NotEqual:
-                return !this.leftSide.evaluate().equals(this.rightSide.evaluate());
-            case Smaller:
-                return this.leftSide.evaluate().compareTo(this.rightSide.evaluate()) < 0;
-            case SmallerOrEqual:
-                return this.leftSide.evaluate().compareTo(this.rightSide.evaluate()) < 0 || this.leftSide.evaluate().equals(this.rightSide.evaluate());
-            case Greater:
-                return this.leftSide.evaluate().compareTo(this.rightSide.evaluate()) > 0;
-            case GreaterOrEqual:
-                return this.leftSide.evaluate().compareTo(this.rightSide.evaluate()) > 0 || this.leftSide.evaluate().equals(this.rightSide.evaluate());
-        }
-        return false;
-    }
-
     public void accept(BooleanExpressionVisitor visitor){
         visitor.visit(this);
     }

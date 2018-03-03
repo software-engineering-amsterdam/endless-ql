@@ -9,17 +9,6 @@ public abstract class NumericQuestion extends Question {
     protected final NumericExpression valueExpression;
     protected BigDecimal value = BigDecimal.ZERO;
 
-    public BigDecimal getValue() {
-        if (this.valueExpression == null)
-        {
-            return value;
-        }
-        else
-        {
-            return this.valueExpression.evaluate();
-        }
-    }
-
     public void setValue(BigDecimal value) {
         this.value = value;
     }

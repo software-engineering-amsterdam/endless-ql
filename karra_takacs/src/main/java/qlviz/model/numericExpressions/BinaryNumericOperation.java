@@ -18,20 +18,6 @@ public class BinaryNumericOperation implements NumericExpression {
         this.operator = operator;
     }
 
-    public BigDecimal evaluate() {
-        switch (this.operator) {
-
-            case Add:
-                return this.leftSide.evaluate().add(this.rightSide.evaluate());
-            case Subtract:
-                return this.leftSide.evaluate().subtract(this.rightSide.evaluate());
-            case Multiply:
-                return this.leftSide.evaluate().multiply(this.rightSide.evaluate());
-            case Divide:
-                return this.leftSide.evaluate().divide(this.rightSide.evaluate());
-        }
-        return BigDecimal.ZERO;
-    }
 
     public void accept(NumericExpressionVisitor numericExpressionVisitor) {
         numericExpressionVisitor.visit(this);

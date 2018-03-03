@@ -11,7 +11,6 @@ public class BooleanLiteral implements BooleanExpression {
         this.value = value;
     }
 
-    @Override
     public boolean evaluate() {
         return this.value;
     }

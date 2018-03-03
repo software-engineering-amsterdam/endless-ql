@@ -13,7 +13,6 @@ public class NumericLiteral implements NumericExpression {
         this.value = value;
     }
 
-    @Override
     public BigDecimal evaluate() {
         return this.value;
     }

@@ -28,17 +28,6 @@ public class NumericQuestionReference implements NumericExpression {
     }
 
     @Override
-    public BigDecimal evaluate() {
-        if (this.question != null) {
-            return this.question.getValue();
-        }
-        else
-        {
-            return BigDecimal.ZERO;
-        }
-    }
-
-    @Override
     public void accept(NumericExpressionVisitor numericExpressionVisitor) {
         numericExpressionVisitor.visit(this);
     }

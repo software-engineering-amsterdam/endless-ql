@@ -7,11 +7,6 @@ public class Negation implements BooleanExpression {
     private final BooleanExpression operand;
 
     @Override
-    public boolean evaluate() {
-        return !operand.evaluate();
-    }
-
-    @Override
     public void accept(BooleanExpressionVisitor visitor) {
         visitor.visit(this);
     }

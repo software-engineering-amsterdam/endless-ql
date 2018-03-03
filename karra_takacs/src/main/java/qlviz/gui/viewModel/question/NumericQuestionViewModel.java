@@ -18,7 +18,7 @@ public abstract class NumericQuestionViewModel extends BaseQuestionViewModel {
     protected NumericQuestionViewModel(NumericQuestion question, Function<NumericExpression, NumericExpressionViewModel> viewModelFactory) {
         super(question);
         this.question = question;
-        this.value = new SimpleObjectProperty<>(question.getValue());
+        this.value = new SimpleObjectProperty<>(BigDecimal.ZERO);
         this.value.addListener((observable, oldValue, newValue) -> this.question.setValue(newValue));
         if (question.getValueExpression() != null) {
             this.expression = viewModelFactory.apply(question.getValueExpression());

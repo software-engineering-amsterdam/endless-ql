@@ -12,7 +12,7 @@ public class BooleanQuestionViewModel extends BaseQuestionViewModel {
     public BooleanQuestionViewModel(BooleanQuestion question) {
         super(question);
         this.question = question;
-        this.value = new SimpleBooleanProperty(question.getValue());
+        this.value = new SimpleBooleanProperty();
     }
 
     @Override

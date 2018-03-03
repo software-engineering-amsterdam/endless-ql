@@ -7,7 +7,6 @@ import qlviz.interpreter.linker.TypedNumericExpressionVisitor;
 import java.math.BigDecimal;
 
 public interface NumericExpression {
-    BigDecimal evaluate();
 
     void accept(NumericExpressionVisitor numericExpressionVisitor);
     <T> T accept(TypedNumericExpressionVisitor<T> numericExpressionVisitor);

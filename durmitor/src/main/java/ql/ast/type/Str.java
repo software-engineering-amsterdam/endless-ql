@@ -41,10 +41,4 @@ public class Str extends Type {
     public Literal<?> parse(Literal<?> value) {
         return value.accept(new ToStr());
     }
-
-    @Override
-    public Literal<?> parse(String value) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

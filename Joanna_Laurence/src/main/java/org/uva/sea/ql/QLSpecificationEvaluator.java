@@ -9,7 +9,7 @@ import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
-import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.evaluate.valueTypes.Value;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class QLSpecificationEvaluator {
 
 
     /**
-     * Compute value or get the value from the symbol table
+     * Compute valueTypes or get the valueTypes from the symbol table
      * @param symbolTable
      * @param question
      * @return

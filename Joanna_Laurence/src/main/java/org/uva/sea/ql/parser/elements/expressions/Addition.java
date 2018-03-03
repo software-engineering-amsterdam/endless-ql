@@ -12,7 +12,7 @@ public class Addition extends BinaryOperator {
     }
 
     /**
-     * The value is returned, so the type of LHS
+     * The valueTypes is returned, so the type of LHS
      * @return The type
      */
     public Type getType() {

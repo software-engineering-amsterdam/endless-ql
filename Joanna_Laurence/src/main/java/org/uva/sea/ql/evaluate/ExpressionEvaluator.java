@@ -5,7 +5,7 @@ import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
 import org.uva.sea.ql.visitor.BaseASTVisitor;
-import org.uva.sea.ql.value.*;
+import org.uva.sea.ql.evaluate.valueTypes.*;
 
 public class ExpressionEvaluator extends BaseASTVisitor<Value> {
 

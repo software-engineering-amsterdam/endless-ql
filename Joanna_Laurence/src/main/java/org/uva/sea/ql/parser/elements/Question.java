@@ -34,7 +34,7 @@ public class Question extends ASTNode {
     }
 
     /**
-     * The value that is defined in QL
+     * The valueTypes that is defined in QL
      * @return
      */
     public ASTNode getValue() {

@@ -6,7 +6,7 @@ import org.uva.sea.ql.visitor.BaseASTVisitor;
 
 import java.util.HashSet;
 
-public class QLCheckDuplicateLabels extends BaseASTVisitor<Void> {
+public class CheckDuplicateLabels extends BaseASTVisitor<Void> {
 
     private Messages errors = new Messages();
 

@@ -1,7 +1,7 @@
 package org.uva.sea.ql.gui.model;
 
 import org.uva.sea.ql.dataObject.QuestionData;
-import org.uva.sea.ql.value.DecimalValue;
+import org.uva.sea.ql.evaluate.valueTypes.DecimalValue;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class DecimalQuestionModel extends BaseQuestionModel {
@@ -32,7 +32,7 @@ public class DecimalQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return String.valueOf(value.getDecimalValue());
         } else {
-            return "No value";
+            return "No valueTypes";
         }
     }
 }

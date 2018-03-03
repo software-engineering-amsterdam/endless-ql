@@ -1,7 +1,7 @@
 package org.uva.sea.ql.gui.model;
 
 import org.uva.sea.ql.dataObject.QuestionData;
-import org.uva.sea.ql.value.DateValue;
+import org.uva.sea.ql.evaluate.valueTypes.DateValue;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Calendar;
@@ -34,7 +34,7 @@ public class DateQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return value.getDateValue().toString();
         } else {
-            return "No value";
+            return "No valueTypes";
         }
     }
 }

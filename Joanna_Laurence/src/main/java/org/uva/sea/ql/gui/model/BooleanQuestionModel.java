@@ -1,7 +1,7 @@
 package org.uva.sea.ql.gui.model;
 
 import org.uva.sea.ql.dataObject.QuestionData;
-import org.uva.sea.ql.value.BooleanValue;
+import org.uva.sea.ql.evaluate.valueTypes.BooleanValue;
 
 public class BooleanQuestionModel extends BaseQuestionModel {
 
@@ -30,7 +30,7 @@ public class BooleanQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return String.valueOf(value.getBooleanValue());
         } else {
-            return "No value";
+            return "No valueTypes";
         }
     }
 }

@@ -8,8 +8,8 @@ import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.staticAnalysis.Messages;
-import org.uva.sea.ql.staticAnalysis.QLTypeCheck;
-import org.uva.sea.ql.staticAnalysis.QLVariableInfo;
+import org.uva.sea.ql.staticAnalysis.TypeCheck;
+import org.uva.sea.ql.staticAnalysis.VariableInfo;
 
 public class QLCompiler {
 
@@ -36,14 +36,14 @@ public class QLCompiler {
         if(parseErrorListener.isError() || form.result == null)
             return null;
 
-        QLVariableInfo varChecker = new QLVariableInfo();
+        VariableInfo varChecker = new VariableInfo();
         Messages varInfoErrors = varChecker.addVariableInformation(form.result);
         if(varInfoErrors.errorsPresent()) {
             throw new StaticAnalysisError(varInfoErrors);
         }
 
-        QLTypeCheck qlTypeCheck = new QLTypeCheck();
-        Messages TypeCheckErrors = qlTypeCheck.doTypeCheck(form.result);
+        TypeCheck typeCheck = new TypeCheck();
+        Messages TypeCheckErrors = typeCheck.doTypeCheck(form.result);
         if(TypeCheckErrors.errorsPresent()) {
             throw new StaticAnalysisError(TypeCheckErrors);
         }

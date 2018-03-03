@@ -4,7 +4,7 @@ import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.QLSpecificationEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.exceptions.StaticAnalysisError;
-import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.evaluate.valueTypes.Value;
 
 import java.io.IOException;
 import java.util.ArrayList;

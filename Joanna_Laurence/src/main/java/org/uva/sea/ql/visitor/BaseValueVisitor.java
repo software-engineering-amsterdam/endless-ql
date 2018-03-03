@@ -1,6 +1,6 @@
 package org.uva.sea.ql.visitor;
 
-import org.uva.sea.ql.value.*;
+import org.uva.sea.ql.evaluate.valueTypes.*;
 
 public abstract class BaseValueVisitor<T> {
 

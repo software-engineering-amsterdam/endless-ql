@@ -9,8 +9,8 @@ import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.exceptions.StaticAnalysisError;
-import org.uva.sea.ql.value.ErrorValue;
-import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.evaluate.valueTypes.ErrorValue;
+import org.uva.sea.ql.evaluate.valueTypes.Value;
 import org.uva.sea.ql.visitor.BaseValueVisitor;
 
 import java.io.*;
@@ -151,7 +151,7 @@ public class QLEvaluatorTest extends TestCase {
                     String variableType = matcher.group(2);
                     String variableValue = matcher.group(3);
 
-                    Class dynamicClass = Class.forName("org.uva.sea.ql.value." + variableType);
+                    Class dynamicClass = Class.forName("org.uva.sea.ql.evaluate.valueTypes." + variableType);
                     Value value = (Value)dynamicClass.getDeclaredConstructor(String.class).newInstance(variableValue);
 
                     symbolTable.addOrUpdateValue(variableName, value);

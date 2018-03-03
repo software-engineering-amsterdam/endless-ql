@@ -3,8 +3,8 @@ package org.uva.sea.ql.evaluate;
 import org.uva.sea.ql.visitor.BaseValueVisitor;
 import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
-import org.uva.sea.ql.value.BooleanValue;
-import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.evaluate.valueTypes.BooleanValue;
+import org.uva.sea.ql.evaluate.valueTypes.Value;
 
 import java.util.ArrayList;
 import java.util.List;

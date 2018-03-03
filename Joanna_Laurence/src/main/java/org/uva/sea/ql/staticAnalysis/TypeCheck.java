@@ -9,13 +9,13 @@ import org.uva.sea.ql.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
 
-public class QLTypeCheck extends BaseASTVisitor<NodeType> {
+public class TypeCheck extends BaseASTVisitor<NodeType> {
 
     private Messages errors = new Messages();
 
     private HashMap<SpecificationKey, NodeType> typeCheckSpecification;
 
-    public QLTypeCheck() {
+    public TypeCheck() {
         TypeCheckSpecification typeCheckSpecification = new TypeCheckSpecification();
         this.typeCheckSpecification = typeCheckSpecification.getSpecification();
     }

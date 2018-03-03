@@ -1,7 +1,7 @@
 package org.uva.sea.ql.gui.model;
 
 import org.uva.sea.ql.dataObject.QuestionData;
-import org.uva.sea.ql.value.MoneyValue;
+import org.uva.sea.ql.evaluate.valueTypes.MoneyValue;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.math.BigDecimal;
@@ -43,7 +43,7 @@ public class MoneyQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return String.valueOf(value.getAmount() + " " + value.getCurrency());
         } else {
-            return "No value";
+            return "No valueTypes";
         }
     }
 }

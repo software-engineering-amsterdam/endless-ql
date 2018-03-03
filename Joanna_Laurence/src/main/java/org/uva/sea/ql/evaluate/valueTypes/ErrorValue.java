@@ -1,4 +1,4 @@
-package org.uva.sea.ql.value;
+package org.uva.sea.ql.evaluate.valueTypes;
 
 import org.uva.sea.ql.visitor.BaseValueVisitor;
 import org.uva.sea.ql.parser.NodeType;

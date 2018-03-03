@@ -3,7 +3,7 @@ package org.uva.sea.ql.gui.model;
 import javafx.scene.control.Control;
 import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.parser.NodeType;
-import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.evaluate.valueTypes.Value;
 
 public abstract class BaseQuestionModel extends Control implements BaseQuestionGUI {
 

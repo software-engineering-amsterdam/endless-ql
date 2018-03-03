@@ -13,7 +13,7 @@ import java.util.Map;
  * Iterates over the AST and add links between variables and questions
  * Checks if variables are not used before declared
  */
-public class QLVariableInfo extends BaseASTVisitor {
+public class VariableInfo extends BaseASTVisitor {
 
     /**
      * Contain what questions is related to what variable

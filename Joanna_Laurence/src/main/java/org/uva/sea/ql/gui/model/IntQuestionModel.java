@@ -1,7 +1,7 @@
 package org.uva.sea.ql.gui.model;
 
 import org.uva.sea.ql.dataObject.QuestionData;
-import org.uva.sea.ql.value.IntValue;
+import org.uva.sea.ql.evaluate.valueTypes.IntValue;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class IntQuestionModel extends BaseQuestionModel {
@@ -32,7 +32,7 @@ public class IntQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return String.valueOf(value.getIntValue());
         } else {
-            return "No value";
+            return "No valueTypes";
         }
     }
 }

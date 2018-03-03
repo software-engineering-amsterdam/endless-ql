@@ -2,8 +2,8 @@ package org.uva.sea.ql.dataObject;
 
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Question;
-import org.uva.sea.ql.value.ErrorValue;
-import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.evaluate.valueTypes.ErrorValue;
+import org.uva.sea.ql.evaluate.valueTypes.Value;
 
 public class QuestionData {
     private String label;

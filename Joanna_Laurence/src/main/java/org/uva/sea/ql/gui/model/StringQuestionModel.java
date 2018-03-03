@@ -1,7 +1,7 @@
 package org.uva.sea.ql.gui.model;
 
 import org.uva.sea.ql.dataObject.QuestionData;
-import org.uva.sea.ql.value.StringValue;
+import org.uva.sea.ql.evaluate.valueTypes.StringValue;
 
 public class StringQuestionModel extends BaseQuestionModel {
 
@@ -16,7 +16,7 @@ public class StringQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return value.getStringValue();
         } else {
-            return "No value";
+            return "No valueTypes";
         }
     }
 
@@ -30,7 +30,7 @@ public class StringQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return value.getStringValue();
         } else {
-            return "No value";
+            return "No valueTypes";
         }
     }
 }

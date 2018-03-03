@@ -17,5 +17,10 @@ form taxOfficeExample
       valueResidue: money =
         (sellingPrice - privateDebt * ahahaha)
 
+  } else {
+
+      "Did you enter a loan?"
+        hasMaintLoan: boolean
+
   }
 }

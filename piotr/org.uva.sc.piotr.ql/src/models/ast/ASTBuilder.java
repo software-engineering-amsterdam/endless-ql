@@ -18,7 +18,8 @@ import models.ast.elements.expressions.unary.values.VariableReference;
 import models.ast.elements.statement.IfStatement;
 import models.ast.elements.statement.Question;
 import models.ast.elements.statement.Statement;
-import org.antlr.v4.runtime.tree.ParseTree;
+
+import java.util.ArrayList;
 
 
 public class ASTBuilder extends QLBaseVisitor {
@@ -43,30 +44,41 @@ public class ASTBuilder extends QLBaseVisitor {
             return visitIfStatement(ctx.ifStatement());
         } else if (ctx.question() != null) {
             return visitQuestion(ctx.question());
+        } else if (ctx.question() != null) {
+            return visitQuestion(ctx.question());
         }
 
         return null;
     }
 
     @Override
-    public Statement visitIfStatement(QLParser.IfStatementContext ctx) {
+    public IfStatement visitIfStatement(QLParser.IfStatementContext ctx) {
 
-        System.out.println("visited if statement: " + ctx.getText());
+//        ArrayList<IfStatement> statements = new ArrayList<>();
+        Expression ifConditionExpression = (Expression) visit(ctx.condition);
 
-        IfStatement ifStatement = new IfStatement((Expression) visit(ctx.condition));
+        IfStatement ifStatement = new IfStatement(ifConditionExpression);
 
         for (QLParser.StatementContext StatementContext : ctx.statement()) {
             Statement statement = visitStatement(StatementContext);
             ifStatement.addStatement(statement);
         }
 
-//        if (ctx.elseStatement() != null) {
+//        statements.add(ifStatement);
 //
+//        if (ctx.elseStatement() != null) {
+//            IfStatement elseStatement = new IfStatement(new Negation(ifConditionExpression));
+//
+//            for (QLParser.StatementContext StatementContext : ctx.elseStatement().statement()) {
+//                Statement statement = visitStatement(StatementContext);
+//                elseStatement.addStatement(statement);
+//            }
+//
+//            statements.add(elseStatement);
 //        }
 
         return ifStatement;
     }
-
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {

@@ -5,10 +5,12 @@ grammar QL;
  */
 
 form            
-    :   'form' id=IDENTIFIER '{' statement* '}';
+    :   'form' id=IDENTIFIER BEGIN statement* END;
 
 statement
-    :   question | ifStatement;
+    : question
+    | ifStatement
+    ;
 
 question        
     :   label=STRING variableName=IDENTIFIER ':' variableType=dataType (OP_ASSIG expression)?;
@@ -20,11 +22,12 @@ dataType
     | TYPE_DECIMAL  #TypeDeclarationDecimal
     ;
 
-ifStatement         
-    :   'if' '(' condition=expression ')' '{' statement* '}' elseStatement?;
+ifStatement
+    :   IF '(' condition=expression ')' BEGIN statement* END elseStatement?
+    ;
 
 elseStatement
-    :   'else' '{' statement* '}'
+    : ELSE BEGIN statement* END
     ;
 
 expression
@@ -76,6 +79,12 @@ OP_LT : '<' ;
 OP_LE : '<=' ;
 OP_EQ : '==' ;
 OP_NEQ : '!=';
+
+IF      : 'if';
+ELSE    : 'else';
+
+BEGIN   : '{';
+END     : '}';
 
 TYPE_BOOLEAN    : 'boolean';
 TYPE_STRING     : 'string';

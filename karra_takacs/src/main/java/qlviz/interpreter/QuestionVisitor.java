@@ -21,8 +21,6 @@ public class QuestionVisitor extends QLBaseVisitor<Question> {
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
-    	TypeChecker typeChecker = new TypeChecker();
-		//if(typeChecker.isValidType(ctx.TYPE())){
         QuestionType type =
                 questionTypeTranslator.translate(ctx.TYPE());
         String text = ctx.questionText().getText();
@@ -46,7 +44,6 @@ public class QuestionVisitor extends QLBaseVisitor<Question> {
             case Decimal:
                 return new DecimalQuestion(name, text, type, computedValue);
         }
-		//}
         return null;
         
     }

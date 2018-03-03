@@ -9,20 +9,26 @@ public class IfStatement extends ASTNode {
 
     private ASTNode expression;
 
-    private Statements statements;
+    private Statements then;
+    private Statements otherwise;
 
-    public IfStatement(Token token, ASTNode expression, Statements statements) {
+    public IfStatement(Token token, ASTNode expression, Statements then, Statements otherwise) {
         super(token);
-        this.statements = statements;
+        this.then = then;
         this.expression = expression;
+        this.otherwise = otherwise;
     }
 
     public ASTNode getExpression() {
         return expression;
     }
 
-    public Statements getStatements() {
-        return statements;
+    public Statements getThen() {
+        return then;
+    }
+
+    public Statements getOtherwise() {
+        return otherwise;
     }
 
     public Type getType() {

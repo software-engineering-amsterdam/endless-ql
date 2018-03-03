@@ -54,16 +54,16 @@ type returns [Type result]
     };
 
 condition returns [IfStatement result]
-    : i='if' '(' expr=expression ')' block {
-        $result = new IfStatement($i, $expr.result, $block.result);
+    : i='if' '(' expr=expression ')' then=block (e='else' elseBlock=block)? {
+        Statements elseBlock = $elseBlock.text != null ? $elseBlock.result : null;
+        $result = new IfStatement($i, $expr.result, $then.result, elseBlock);
     };
-
 
 block returns [Statements result]
     @init  { Statements statements = new Statements(); }
     @after { $result = statements; }
     : '{' stms=statements '}' {statements = $stms.result; }
-    | stm=statement {statements.addStatement($stm.result);}
+    //| stm=statement {statements.addStatement($stm.result);}
     ;
 
 expression returns [ASTNode result]

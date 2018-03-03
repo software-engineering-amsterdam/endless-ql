@@ -2,8 +2,10 @@ package org.uva.sea.ql.evaluate;
 
 import org.uva.sea.ql.evaluate.valueTypes.BooleanValue;
 import org.uva.sea.ql.evaluate.valueTypes.Value;
+import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.parser.elements.Statements;
 import org.uva.sea.ql.visitor.BaseValueVisitor;
 
 import java.util.ArrayList;
@@ -28,13 +30,18 @@ public class IfStatementEvaluator extends BaseValueVisitor<Boolean> {
 
         //Determine condition is true
         Boolean conditionTrue = condition.accept(this);
-        if (conditionTrue == null || !conditionTrue) {
+        if (conditionTrue == null) {
             return new ArrayList<>();
         }
 
-        //Get all questions inside if statement
+        //Get all questions inside the targeted block
+        Statements execute = conditionTrue ? ifStatement.getThen() : ifStatement.getOtherwise();
+        if(execute == null) {
+            return new ArrayList<>();
+        }
+
         StatementsEvaluator statementsEvaluator = new StatementsEvaluator(symbolTable);
-        return statementsEvaluator.evaluate(ifStatement.getStatements());
+        return statementsEvaluator.evaluate(execute);
     }
 
     /**

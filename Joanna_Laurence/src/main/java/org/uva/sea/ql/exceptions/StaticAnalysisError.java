@@ -4,14 +4,14 @@ import org.uva.sea.ql.staticAnalysis.helpers.Messages;
 
 public class StaticAnalysisError extends Exception {
 
-    Messages errors;
+    private Messages messages;
 
     public StaticAnalysisError(Messages errors) {
-        this.errors = errors;
+        this.messages = errors;
     }
 
     @Override
     public String getMessage() {
-        return errors.toString();
+        return messages.toString();
     }
 }

@@ -10,20 +10,17 @@ import org.junit.runners.Parameterized;
 import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.parser.elements.Form;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @RunWith(Parameterized.class)
 public class QLCompilerTest extends TestCase {
 
+    private static TestFileHelper testFileHelper = new TestFileHelper();
     private String testFile;
     private Boolean shouldCompile;
-
-    private static TestFileHelper testFileHelper = new TestFileHelper();
 
 
     public QLCompilerTest(String testFile, Boolean shouldCompile) {
@@ -42,17 +39,16 @@ public class QLCompilerTest extends TestCase {
     }
 
     /**
-     *
      * @param folderLocation Location of the QL files
-     * @param shouldCompile Should the file compile?
+     * @param shouldCompile  Should the file compile?
      * @return Map of test files and if they should compile
      */
     private static Collection<Object[]> getTestFiles(String folderLocation, Boolean shouldCompile) {
         Collection<Object[]> testFiles = new ArrayList<Object[]>();
 
         Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
-        for(String location : locations) {
-            testFiles.add(new Object[] {location,shouldCompile});
+        for (String location : locations) {
+            testFiles.add(new Object[]{location, shouldCompile});
         }
 
         return testFiles;
@@ -60,6 +56,7 @@ public class QLCompilerTest extends TestCase {
 
     /**
      * Compiles the file and checks result
+     *
      * @param fileName The location of the QL file
      * @return If the script compiles
      */

@@ -7,7 +7,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import org.uva.sea.ql.evaluate.valueTypes.*;
-import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.gui.model.*;
 
 //TODO: Handle situation when newInput.getText().equals("")

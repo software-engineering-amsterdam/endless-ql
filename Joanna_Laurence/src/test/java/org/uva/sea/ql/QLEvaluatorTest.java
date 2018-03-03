@@ -6,30 +6,34 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.uva.sea.ql.dataObject.QuestionData;
-import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
-import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.evaluate.valueTypes.ErrorValue;
 import org.uva.sea.ql.evaluate.valueTypes.Value;
+import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.visitor.BaseValueVisitor;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RunWith(Parameterized.class)
 public class QLEvaluatorTest extends TestCase {
 
+    private static TestFileHelper testFileHelper = new TestFileHelper();
     //Parameters for every test
     private String testFile;
     private int correctQuestions;
     private boolean hasRuntimeError;
 
-    private static TestFileHelper testFileHelper = new TestFileHelper();
-
     /**
      * Constructor for every test
+     *
      * @param testFile
      * @param correctQuestions
      */
@@ -41,6 +45,7 @@ public class QLEvaluatorTest extends TestCase {
 
     /**
      * Test generator
+     *
      * @return Test parameters
      */
     @Parameterized.Parameters(name = "{index}: {0}")
@@ -53,7 +58,6 @@ public class QLEvaluatorTest extends TestCase {
     }
 
     /**
-     *
      * @param folderLocation Location of the QL files
      * @return Map of test files and if they should compile
      */
@@ -61,8 +65,8 @@ public class QLEvaluatorTest extends TestCase {
         Collection<Object[]> testFiles = new ArrayList<Object[]>();
 
         Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
-        for(String location : locations) {
-            testFiles.add(new Object[] {location, determineExpectedTests(location), hasRuntimeError});
+        for (String location : locations) {
+            testFiles.add(new Object[]{location, determineExpectedTests(location), hasRuntimeError});
         }
 
         return testFiles;
@@ -70,11 +74,12 @@ public class QLEvaluatorTest extends TestCase {
 
     /**
      * Extract correct tests from file
+     *
      * @param location
      * @return
      */
     private static int determineExpectedTests(String location) {
-        try(FileInputStream inputStream = new FileInputStream(location)) {
+        try (FileInputStream inputStream = new FileInputStream(location)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String firstLine = reader.readLine();
 
@@ -93,6 +98,7 @@ public class QLEvaluatorTest extends TestCase {
 
     /**
      * Extracts the symbol table from the test file
+     *
      * @param location Location of the test file
      * @return The Symbol table
      */
@@ -113,7 +119,7 @@ public class QLEvaluatorTest extends TestCase {
                 String variableValue = matcher.group(3);
 
                 Class dynamicClass = Class.forName("org.uva.sea.ql.evaluate.valueTypes." + variableType);
-                Value value = (Value)dynamicClass.getDeclaredConstructor(String.class).newInstance(variableValue);
+                Value value = (Value) dynamicClass.getDeclaredConstructor(String.class).newInstance(variableValue);
 
                 symbolTable.addOrUpdateValue(variableName, value);
             }
@@ -125,6 +131,7 @@ public class QLEvaluatorTest extends TestCase {
 
     /**
      * Compiles the file and checks result
+     *
      * @param fileName The location of the QL file
      * @return If the script compiles
      */
@@ -134,7 +141,7 @@ public class QLEvaluatorTest extends TestCase {
         QLSpecificationEvaluator qlSpecificationEvaluator = new QLSpecificationEvaluator();
         List<QuestionData> questions = qlSpecificationEvaluator.generate(fileName, symbolTable);
 
-        if(checkForRuntimeErrors(questions)) {
+        if (checkForRuntimeErrors(questions)) {
             throw new RuntimeException();
         }
 
@@ -143,12 +150,13 @@ public class QLEvaluatorTest extends TestCase {
 
     /**
      * Check if there was an error
+     *
      * @param questions All the questions
      * @return
      */
     private boolean checkForRuntimeErrors(List<QuestionData> questions) {
-        for(QuestionData question : questions) {
-            if(question.getValue() == null)
+        for (QuestionData question : questions) {
+            if (question.getValue() == null)
                 continue;
 
             Boolean error = question.getValue().accept(new BaseValueVisitor<Boolean>() {
@@ -156,7 +164,7 @@ public class QLEvaluatorTest extends TestCase {
                     return true;
                 }
             });
-            if(error != null && error)
+            if (error != null && error)
                 return true;
         }
         return false;

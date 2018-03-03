@@ -5,7 +5,6 @@ import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.visitor.BaseValueVisitor;
 
-import java.math.BigDecimal;
 import java.security.InvalidParameterException;
 import java.util.Calendar;
 

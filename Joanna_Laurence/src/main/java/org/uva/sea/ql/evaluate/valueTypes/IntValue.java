@@ -4,8 +4,6 @@ import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.visitor.BaseValueVisitor;
 
-import java.math.BigDecimal;
-
 public class IntValue extends Value {
     private int intValue;
 
@@ -43,15 +41,15 @@ public class IntValue extends Value {
 
     @Override
     public Value divide(IntValue value) {
-        if(value.getIntValue() == 0)
+        if (value.getIntValue() == 0)
             throw new RuntimeException("Divide by 0 error");
 
-        return new DecimalValue((double)this.intValue / value.getIntValue());
+        return new DecimalValue((double) this.intValue / value.getIntValue());
     }
 
     @Override
     public Value divide(DecimalValue value) {
-        if(value.getDecimalValue() == 0.0)
+        if (value.getDecimalValue() == 0.0)
             throw new RuntimeException("Divide by 0 error");
 
         return new DecimalValue(this.intValue / value.getDecimalValue());

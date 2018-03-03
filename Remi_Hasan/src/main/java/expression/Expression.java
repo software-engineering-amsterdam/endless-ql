@@ -1,18 +1,19 @@
 package expression;
 
-public abstract class Expression<T> {
+import analysis.SymbolTable;
+import expression.variable.ExpressionVariable;
 
-    public abstract ReturnType getReturnType();
+public abstract class Expression {
 
-    public abstract ExpressionVariable evaluate();
+    public abstract ReturnType getReturnType(SymbolTable symbolTable);
 
-    public boolean isSettable() {
-        return false;
-    }
+    public abstract ExpressionVariable evaluate(SymbolTable symbolTable);
 
     public void setValue(String value) {
         throw new UnsupportedOperationException("Cannot set value to non-variable expression");
     }
+
+    public abstract void typeCheck(SymbolTable symbolTable);
 
     @Override
     public boolean equals(Object other){

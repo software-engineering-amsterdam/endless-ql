@@ -1,7 +1,9 @@
 package qlviz.gui.renderer;
 
+import qlviz.gui.viewModel.QuestionBlockViewModel;
 import qlviz.model.QuestionBlock;
 
 public interface QuestionBlockRenderer {
-   void render(QuestionBlock questionBlock);
+   void render(QuestionBlockViewModel questionBlock);
 }
+

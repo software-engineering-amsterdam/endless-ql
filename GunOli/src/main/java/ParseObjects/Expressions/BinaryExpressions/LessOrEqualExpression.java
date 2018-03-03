@@ -1,16 +1,14 @@
 package ParseObjects.Expressions.BinaryExpressions;
 
-import ParseObjects.Expressions.BinaryExpression;
-import ParseObjects.Expressions.Constant;
+import ParseObjects.Expressions.ExpressionConstants.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 import ParseObjects.Expressions.ExpressionConstants.BooleanConstant;
-import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 
 
 public class LessOrEqualExpression extends BinaryExpression<Boolean> {
 
-    LessOrEqualExpression(Expression left, Expression right){
+    public LessOrEqualExpression(Expression left, Expression right){
         super("<=", left, right);
     }
 
@@ -21,9 +19,9 @@ public class LessOrEqualExpression extends BinaryExpression<Boolean> {
 
     @Override
     public Constant<Boolean> evaluate() {
-        DecimalConstant left = (DecimalConstant) this.getExprLeft().evaluate();
-        DecimalConstant right = (DecimalConstant) this.getExprRight().evaluate();
-        return new BooleanConstant(left.getValue() <= right.getValue());
+        Double left = Double.parseDouble(this.getExprLeft().evaluate().getValue().toString());
+        Double right = Double.parseDouble(this.getExprRight().evaluate().getValue().toString());
+        return new BooleanConstant(left <= right);
     }
 
     @Override

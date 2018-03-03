@@ -1,8 +1,8 @@
 package ql.ast.expression;
 
 import ql.ast.QLNode;
-import ql.value.Value;
-import ql.visitors.ExpressionVisitorValue;
+import ql.ast.expression.literal.Literal;
+import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitable;
 
 public abstract class Expression extends QLNode implements ExpressionVisitable {
@@ -27,7 +27,7 @@ public abstract class Expression extends QLNode implements ExpressionVisitable {
         return false;
     }
     
-    public Value<?> evaluate() {
-        return accept(new ExpressionVisitorValue());
-    }
+    public abstract Type getType();
+    
+    public abstract Literal<?> evaluate();
 }

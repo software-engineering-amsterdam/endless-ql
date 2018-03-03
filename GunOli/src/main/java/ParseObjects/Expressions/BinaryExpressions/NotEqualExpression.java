@@ -1,13 +1,12 @@
 package ParseObjects.Expressions.BinaryExpressions;
 
-import ParseObjects.Expressions.BinaryExpression;
-import ParseObjects.Expressions.Constant;
+import ParseObjects.Expressions.ExpressionConstants.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 import ParseObjects.Expressions.ExpressionConstants.BooleanConstant;
 
 public class NotEqualExpression extends BinaryExpression<Boolean> {
-    NotEqualExpression(Expression left, Expression right){
+    public NotEqualExpression(Expression left, Expression right){
         super("!=",left, right);
     }
 

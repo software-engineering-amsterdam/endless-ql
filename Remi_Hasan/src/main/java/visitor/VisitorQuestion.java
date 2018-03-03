@@ -2,11 +2,18 @@ package visitor;
 
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
-import expression.*;
-import model.LookupTable;
+import expression.Expression;
+import expression.ReturnType;
+import expression.variable.ExpressionVariableUndefined;
 import model.Question;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {
+
+    private final Expression condition;
+
+    VisitorQuestion(Expression condition) {
+        this.condition = condition;
+    }
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
@@ -18,24 +25,22 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
 
         QLParser.QuestionTypeContext questionTypeContext = ctx.questionType();
         ReturnType questionType = ReturnType.valueOf(questionTypeContext.type().getText().toUpperCase());
-        Expression defaultAnswer = getDefaultAnswer(ctx.questionType());
 
-        Question question = new Question(questionType, questionName, questionText, defaultAnswer);
+        // Check whether answer can be filled in by user, or is based on an expression
+        boolean isEditable = ctx.questionType().expression() == null;
+        Expression defaultAnswer = getDefaultAnswer(ctx.questionType(), isEditable);
 
-        LookupTable lookupTable = LookupTable.getInstance();
-        lookupTable.insert(question);
-
-        return question;
+        return new Question(questionType, questionName, questionText, defaultAnswer, isEditable, this.condition);
     }
 
-    private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType) {
-        if (questionType.expression() != null) {
-            VisitorExpression visitorExpression = new VisitorExpression();
-            return visitorExpression.visit(questionType.expression());
+    private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType, boolean isEditable) {
+        // If answer can be filled in by user, create empty (undefined) expression of correct type (for type checking)
+        if(isEditable) {
+            return new ExpressionVariableUndefined(ReturnType.valueOf(questionType.type().getText().toUpperCase()));
         }
 
-        // Create empty expression of question type
-        return ExpressionFactory.createExpression(questionType.type().getText());
+        VisitorExpression visitorExpression = new VisitorExpression();
+        return visitorExpression.visit(questionType.expression());
     }
 
 }

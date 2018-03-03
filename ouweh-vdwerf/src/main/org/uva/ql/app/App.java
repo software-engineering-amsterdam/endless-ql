@@ -1,6 +1,11 @@
 package org.uva.ql.app;
 
 import org.uva.ql.ast.Form;
+import org.uva.ql.evaluator.FormEvaluator;
+import org.uva.ql.evaluator.data.ExpressionTable;
+import org.uva.ql.evaluator.data.StatementTable;
+import org.uva.ql.evaluator.data.ValueTable;
+import org.uva.ql.gui.GUIHandler;
 import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.Validator;
 
@@ -21,6 +26,11 @@ public class App {
 
             Validator validator = new Validator();
             validator.execute(form);
+
+            FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
+            
+            GUIHandler guiHandler = new GUIHandler(formEvaluator);
+
         }
         catch (IOException ex) {
             System.out.println(ex.toString());

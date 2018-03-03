@@ -1,12 +1,17 @@
 package ql.ast.type;
 
-import ql.value.Value;
+import ql.ast.expression.literal.Literal;
+import ql.evaluator.value.parse.ToBool;
 import ql.visitors.interfaces.TypeVisitor;
 
 public class Bool extends Type {
 
     @Override
     public String toString() {
+        return name();
+    }
+
+    public static String name() {
         return "boolean";
     }
 
@@ -19,14 +24,13 @@ public class Bool extends Type {
     public boolean isBoolean() {
         return true;
     }
-
-    @Override
-    public Value<?> toValue() {
-        return new ql.value.Bool();
-    }
     
     @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+    
+    public Literal<?> parse(Literal<?> value) {
+        return value.accept(new ToBool());
     }
 }

@@ -1,6 +1,8 @@
 ﻿using QL.Core.Ast;
 using static QL.Core.QLParser;
 using Antlr4.Runtime.Tree;
+using QL.Core.Types;
+using System;
 
 namespace QL.Core.Parsing
 {
@@ -27,7 +29,7 @@ namespace QL.Core.Parsing
 
         public override Node VisitBlock(BlockContext context)
         {
-            var blockNode = new EmptyNode(context.Start);
+            var blockNode = new BlockNode(context.Start);
             foreach (StatementContext x in context.statement())
             {
                 blockNode.AddChild(Visit(x));
@@ -52,10 +54,11 @@ namespace QL.Core.Parsing
 
         public override Node VisitQuestion(QuestionContext context)
         {
+            
             var question = new QuestionNode(context.Start,
                 context.STRING().GetText().Replace("\"", string.Empty),
                 context.LABEL().GetText(),
-                context.type().GetText());
+                QLTypes.FromStringTypeToQLType(context.type().GetText()));
             question.AddChild(Visit(context.expression()));
 
             return question;
@@ -83,14 +86,13 @@ namespace QL.Core.Parsing
 
         public override Node VisitVariableExpression(VariableExpressionContext context)
         {
-            var variable = new VariableNode(context.Start, context.LABEL().GetText());
-            return variable;
+            return new VariableNode(context.Start, context.LABEL().GetText());
         }
 
         public override Node VisitLiteralExpression(LiteralExpressionContext context)
         {
-            var literal = new LiteralNode(context.Start, context.literal().GetText());
-            return literal;
+            QLType type = QLTypes.FromTokenTypeToQLType(context.Start);
+            return new LiteralNode(context.Start, context.literal().GetText(), type);
         }
 
         public override Node VisitUnaryExpression(UnaryExpressionContext context)

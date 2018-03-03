@@ -1,26 +1,30 @@
 from AST.base_node import BaseNode
+from placeholder_name_object.question import Question
 
 
 class QuestionNode(BaseNode):
-    def __init__(self, line_number, question, label, value_type, expression):
+    def __init__(self, line_number, label, identifier, answer_type, answer):
         super(QuestionNode, self).__init__(line_number)
-        self._question = question
-        self._label = label
-        self._value_type = value_type
-        self._expression = expression
-
-    @property
-    def question(self):
-        return self._question
+        self.__label = label
+        self.__identifier = identifier
+        self.__answer_type = answer_type
+        self.__answer = answer
 
     @property
     def label(self):
-        return self._label
+        return self.__label
 
     @property
-    def val_type(self):
-        return self._value_type
+    def identifier(self):
+        return self.__identifier
 
     @property
-    def expression(self):
-        return self._expression
+    def answer_type(self):
+        return self.__answer_type
+
+    @property
+    def answer(self):
+        return self.__answer
+
+    def to_question(self, show):
+        return Question(self.label, self.identifier, self.answer_type, self.answer, show)

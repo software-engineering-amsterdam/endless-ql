@@ -1,7 +1,6 @@
 package qlviz.interpreter;
 
-import qlviz.QLBaseVisitor;
-import qlviz.model.BinaryBooleanOperator;
+import qlviz.model.booleanExpressions.BinaryBooleanOperator;
 
 public class BinaryBooleanOperatorVisitor implements BinaryBooleanOperatorTranslator {
 

@@ -1,30 +1,38 @@
 package ql.checker;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import ql.ast.expression.Identifier;
 import ql.ast.form.Form;
+import ql.exceptions.CyclicDependency;
 import ql.helpers.Dependencies;
-import ql.visitors.StatementVisitorDependencies;
-import ql.visitors.StatementVisitorDuplicateIdentifiers;
-import ql.visitors.StatementVisitorDuplicateLabels;
-import ql.visitors.StatementVisitorInvalidOperands;
-import ql.visitors.StatementVisitorNonBooleanConditions;
-import ql.visitors.StatementVisitorUndefinedReferences;
+import ql.helpers.MessageBag;
+import ql.visitors.checker.checkers.StatementVisitorDependencies;
+import ql.visitors.checker.checkers.StatementVisitorDuplicateIdentifiers;
+import ql.visitors.checker.checkers.StatementVisitorDuplicateLabels;
+import ql.visitors.checker.checkers.StatementVisitorInvalidOperands;
+import ql.visitors.checker.checkers.StatementVisitorNonBooleanConditions;
+import ql.visitors.checker.checkers.StatementVisitorUndefinedReferences;
 
 public class TypeChecker {
 
     private Form form;
-    private List<String> errors;
-    private List<String> warnings;
-    
+    private MessageBag errors;
+    private MessageBag warnings;
     
     public TypeChecker(Form form) {
         
         this.form           = form;
-        this.errors         = new ArrayList<String>();
-        this.warnings       = new ArrayList<String>();
+        this.errors         = new MessageBag();
+        this.warnings       = new MessageBag();
+    }
+    
+    public TypeChecker(Form form, MessageBag errors) {
+        
+        this.form           = form;
+        this.errors         = errors;
+        this.warnings       = new MessageBag();
     }
     
     public void checkForm() {
@@ -62,21 +70,9 @@ public class TypeChecker {
         
         form.getBlock().accept(new StatementVisitorDependencies(dependencies));
         
-        List<List<Identifier>> cyclicDependencies = dependencies.getCyclicDependencies();
+        List<LinkedList<Identifier>> cyclicDependencies = dependencies.getCyclicDependencies();
         
-        for(List<Identifier> cd : cyclicDependencies)
-        {
-            Identifier first    = cd.get(0);
-            String error        = "Cyclic dependency found on ["+first.getName()+"] from ";
-            error              += first.getName() + " at " + first.getLocation();
-            
-            for(int i = 1; i < cd.size(); i++)
-            {
-                error += " to "+cd.get(i).getName() + " at " + cd.get(i).getLocation();
-            }
-            
-            errors.add(error);
-        }
+        for(LinkedList<Identifier> cd : cyclicDependencies) errors.add(new CyclicDependency(cd));
     }
     
     public void checkDuplicateLabels()
@@ -88,7 +84,7 @@ public class TypeChecker {
         return !errors.isEmpty();
     }
     
-    public List<String> getErrors() {
+    public MessageBag getErrors() {
         return errors;
     }
     
@@ -96,15 +92,7 @@ public class TypeChecker {
         return !errors.isEmpty();
     }
     
-    public List<String> getWarnings() {
+    public MessageBag getWarnings() {
         return warnings;
-    }
-
-    public void printErrors() {
-        for(String msg : errors) System.err.println("ERROR: " + msg);
-    }
-    
-    public void printWarnings() {
-        for(String msg : warnings) System.out.println("WARNING: " + msg);
     }
 }

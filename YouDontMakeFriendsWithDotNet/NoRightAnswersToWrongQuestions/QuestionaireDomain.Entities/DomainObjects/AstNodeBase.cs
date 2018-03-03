@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.API.AstNodes;
 
 namespace QuestionaireDomain.Entities.DomainObjects
 {
@@ -12,8 +12,6 @@ namespace QuestionaireDomain.Entities.DomainObjects
         }
 
         public Guid Id { get; }
-        public IList<IAstNode> ChildNodes { get; } = new List<IAstNode>();
-
         public abstract void Accept(IAstVisitor visitor);
     }
 }

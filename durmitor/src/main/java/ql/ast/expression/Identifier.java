@@ -1,33 +1,33 @@
 package ql.ast.expression;
 
+import ql.ast.expression.literal.Literal;
 import ql.ast.type.Type;
 import ql.ast.type.Undefined;
-import ql.value.Value;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class Identifier extends Expression {
     
     private String name;
     private Type type;
-    private Value<?> value;
+    private Literal<?> value;
     
     public Identifier(String name) {
         this.name   = name;
         this.type   = new Undefined();
-        this.value  = new ql.value.Undefined();
+        this.value  = new ql.ast.expression.literal.UndefinedLiteral();
     }
     
     public Identifier(String name, Type type) {
         this.name   = name;
         this.type   = type;
-        this.value  = new ql.value.Undefined();
+        this.value  = new ql.ast.expression.literal.UndefinedLiteral();
     }
     
     public String getName() {
         return name;
     }
     
-    public Value<?> getValue() {
+    public Literal<?> getValue() {
         return value;
     }
     
@@ -35,17 +35,8 @@ public class Identifier extends Expression {
         return type;
     }
     
-    public void setValue(Value<?> value) {
-        
-        if(value.getType().equals(type))
-        {
-            this.value = value;
-        }
-        else if(!value.getType().isUndefined())
-        {
-            System.err.println("Cannot store "+value.getType()+" ["+value+"] in "+getType()+" ["+name+"]");
-        }
-            
+    public void setValue(Literal<?> value) {
+        this.value = type.parse(value);
     }
     
     public Identifier setType(Type type) {
@@ -72,5 +63,10 @@ public class Identifier extends Expression {
     
     public boolean equals(Identifier id) {
         return name.equals(id.getName());
+    }
+
+    @Override
+    public Literal<?> evaluate() {
+        return getValue();
     }
 }

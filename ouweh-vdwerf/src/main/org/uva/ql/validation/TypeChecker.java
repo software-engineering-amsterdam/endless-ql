@@ -1,5 +1,6 @@
 package org.uva.ql.validation;
 
+import org.uva.ql.ast.CalculatedQuestion;
 import org.uva.ql.ast.Conditional;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.Statement;
@@ -13,7 +14,7 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
 
     private static final String BOOLEAN = "boolean";
 
-    public TypeChecker() {
+    TypeChecker() {
 
     }
 
@@ -129,6 +130,14 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
         }
 
         return new BooleanType();
+    }
+
+    @Override
+    public Type visit(CalculatedQuestion question, String context) {
+        Type calculationType = question.getExpression().accept(this, null);
+        //TODO actual type checking
+
+        return question.getType();
     }
 
     @Override

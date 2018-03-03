@@ -1,12 +1,17 @@
 package ql.ast.type;
 
-import ql.value.Value;
+import ql.ast.expression.literal.Literal;
+import ql.evaluator.value.parse.ToInt;
 import ql.visitors.interfaces.TypeVisitor;
 
 public class Int extends Numeric {
 
     @Override
     public String toString() {
+        return name();
+    }
+
+    public static String name() {
         return "integer";
     }
 
@@ -19,14 +24,14 @@ public class Int extends Numeric {
     public boolean isInteger() {
         return true;
     }
-
+    
     @Override
-    public Value<?> toValue() {
-        return new ql.value.Int();
+    public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
     
     @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
+    public Literal<?> parse(Literal<?> value) {
+        return value.accept(new ToInt());
     }
 }

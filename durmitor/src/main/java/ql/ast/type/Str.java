@@ -1,24 +1,25 @@
 package ql.ast.type;
 
-import ql.value.Value;
+import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.StrLiteral;
+import ql.evaluator.value.parse.ToStr;
 import ql.visitors.interfaces.TypeVisitor;
 
 public class Str extends Type {
 
-    private ql.value.Str value;
+    private StrLiteral value;
 
-    public Value<String> getValue() {
+    public Literal<String> getValue() {
         return value;
     }
 
     @Override
     public String toString() {
-        return "string";
+        return name();
     }
 
-    @Override
-    public Value<?> toValue() {
-        return new ql.value.Str();
+    public static String name() {
+        return "string";
     }
 
     @Override
@@ -32,7 +33,12 @@ public class Str extends Type {
     }
     
     @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+    
+    @Override
+    public Literal<?> parse(Literal<?> value) {
+        return value.accept(new ToStr());
     }
 }

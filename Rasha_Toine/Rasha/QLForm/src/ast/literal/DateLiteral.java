@@ -2,8 +2,8 @@ package ast.literal;
 
 import java.util.Date;
 
-import checking.value.DateValue;
 import visiting.LiteralVisitor;
+import visiting.value.DateValue;
 
 public class DateLiteral extends Literal{
 

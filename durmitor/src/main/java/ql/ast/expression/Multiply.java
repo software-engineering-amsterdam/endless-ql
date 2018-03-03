@@ -1,11 +1,14 @@
 package ql.ast.expression;
 
+import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.UndefinedLiteral;
+import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class Multiply extends BinaryOperator {
 
-    public Multiply(Expression lhs, Expression rhs) {
-        super(lhs, rhs);
+    public Multiply(Expression firstOperand, Expression secondOperand) {
+        super(firstOperand, secondOperand);
     }
 
     @Override
@@ -16,5 +19,15 @@ public class Multiply extends BinaryOperator {
     @Override
     public String getOperator() {
         return "*";
+    }
+    
+    @Override
+    public Type getType() {
+        return firstOperand.getType().parse(new UndefinedLiteral()).multiply(secondOperand.getType().parse(new UndefinedLiteral())).getType();
+    }
+
+    @Override
+    public Literal<?> evaluate() {
+        return firstOperand.evaluate().multiply(secondOperand.evaluate());
     }
 }

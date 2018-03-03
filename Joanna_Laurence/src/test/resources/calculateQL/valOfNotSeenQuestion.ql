@@ -1,4 +1,4 @@
-//Q=2
+//Q=3
 form taxOfficeExample {
   "What was the selling price?"
     sellingPrice: decimal = 1.5
@@ -12,7 +12,7 @@ form taxOfficeExample {
     }
 
     if (waitedTooLong) {
-      "Did you wait too long?"
+      "Did you wait too long2?"
         waitedTooLong3: boolean
     }
 }

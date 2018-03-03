@@ -12,6 +12,10 @@ public abstract class BinaryExpr extends Expr {
 		this.left = left;
 		this.operator = operator;
 		this.right = right;
+		
+		// Store the location of the left hand side expression for error messages.
+		this.setLineNumber(left.getLineNumber());
+		this.setColumnNumber(left.getColumnNumber());
 	}
 	
 	public Expr getLeftExpr() {
@@ -45,6 +49,20 @@ public abstract class BinaryExpr extends Expr {
 	public String getOperatorName() {
 		return operator.getLexeme();
 	}
-
-
+	
+	public <T> T visitLeftExpr(Visitor<T> visitor) {
+		return this.left.accept(visitor);
+	}
+	
+	public <T> T visitRightExpr(Visitor<T> visitor) {
+		return this.right.accept(visitor);
+	}
+	
+	public int getLeftExprId() {
+		return this.left.getId();
+	}
+	
+	public int getRightExprId() {
+		return this.right.getId();
+	}
 }

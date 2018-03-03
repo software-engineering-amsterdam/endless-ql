@@ -64,28 +64,28 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers {
         answer should be(BooleanAnswer(false))
       }
       "on strings LTe positive" in {
-        val expression = BinaryOperation(LTe, StringAnswer("A"), StringAnswer("A"))
+        val expression = BinaryOperation(Lte, StringAnswer("A"), StringAnswer("A"))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
         answer should be(BooleanAnswer(true))
       }
       "on strings LTe negative" in {
-        val expression = BinaryOperation(LTe, StringAnswer("B"), StringAnswer("A"))
+        val expression = BinaryOperation(Lte, StringAnswer("B"), StringAnswer("A"))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
         answer should be(BooleanAnswer(false))
       }
       "on strings GTe positive" in {
-        val expression = BinaryOperation(GTe, StringAnswer("B"), StringAnswer("B"))
+        val expression = BinaryOperation(Gte, StringAnswer("B"), StringAnswer("B"))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
         answer should be(BooleanAnswer(true))
       }
       "on strings GTe negative" in {
-        val expression = BinaryOperation(GTe, StringAnswer("A"), StringAnswer("B"))
+        val expression = BinaryOperation(Gte, StringAnswer("A"), StringAnswer("B"))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
@@ -148,28 +148,28 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers {
         answer should be(BooleanAnswer(false))
       }
       "on integers LTe positive" in {
-        val expression = BinaryOperation(LTe, IntAnswer(1), IntAnswer(1))
+        val expression = BinaryOperation(Lte, IntAnswer(1), IntAnswer(1))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
         answer should be(BooleanAnswer(true))
       }
       "on integers LTe negative" in {
-        val expression = BinaryOperation(LTe, IntAnswer(2), IntAnswer(1))
+        val expression = BinaryOperation(Lte, IntAnswer(2), IntAnswer(1))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
         answer should be(BooleanAnswer(false))
       }
       "on integers GTe positive" in {
-        val expression = BinaryOperation(GTe, IntAnswer(5), IntAnswer(3))
+        val expression = BinaryOperation(Gte, IntAnswer(5), IntAnswer(3))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
         answer should be(BooleanAnswer(true))
       }
       "on integers GTe negative" in {
-        val expression = BinaryOperation(GTe, IntAnswer(3), IntAnswer(5))
+        val expression = BinaryOperation(Gte, IntAnswer(3), IntAnswer(5))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
@@ -232,28 +232,28 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers {
         answer should be(BooleanAnswer(false))
       }
       "on booleans LTe positive" in {
-        val expression = BinaryOperation(LTe, BooleanAnswer(true), BooleanAnswer(true))
+        val expression = BinaryOperation(Lte, BooleanAnswer(true), BooleanAnswer(true))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
         answer should be(BooleanAnswer(true))
       }
       "on booleans LTe negative" in {
-        val expression = BinaryOperation(LTe, BooleanAnswer(true), BooleanAnswer(false))
+        val expression = BinaryOperation(Lte, BooleanAnswer(true), BooleanAnswer(false))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
         answer should be(BooleanAnswer(false))
       }
       "on booleans GTe positive" in {
-        val expression = BinaryOperation(GTe, BooleanAnswer(true), BooleanAnswer(true))
+        val expression = BinaryOperation(Gte, BooleanAnswer(true), BooleanAnswer(true))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
         answer should be(BooleanAnswer(true))
       }
       "on booleans GTe negative" in {
-        val expression = BinaryOperation(GTe, BooleanAnswer(false), BooleanAnswer(true))
+        val expression = BinaryOperation(Gte, BooleanAnswer(false), BooleanAnswer(true))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
@@ -341,14 +341,16 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers {
         answer should be(IntAnswer(125))
       }
       "nested logical operation" in {
-        val expression = BinaryOperation(And, BooleanAnswer(true), BinaryOperation(And, BooleanAnswer(true), BooleanAnswer(true)))
+        val expression =
+          BinaryOperation(And, BooleanAnswer(true), BinaryOperation(And, BooleanAnswer(true), BooleanAnswer(true)))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
         answer should be(BooleanAnswer(true))
       }
       "nested mixed operation" in {
-        val expression = BinaryOperation(And, BooleanAnswer(true), BinaryOperation(Eq, StringAnswer("Foo"), StringAnswer("Foo")))
+        val expression =
+          BinaryOperation(And, BooleanAnswer(true), BinaryOperation(Eq, StringAnswer("Foo"), StringAnswer("Foo")))
 
         val answer: Answer = evaluateExpression(expression, Map.empty)
 
@@ -359,14 +361,18 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers {
       val qlForm = QLForm(
         formName = "Revenue",
         statements = List(
-          Question("revenue","How much did you earn", IntAnswer(1000)),
-          Question("expenses", "How much did you spend", IntAnswer(200)),
-          Question("profit", "You still have", BinaryOperation(Sub, Reference("revenue"), Reference("expenses")))
+          Question("revenue", "How much did you earn", IntegerType, IntAnswer(1000)),
+          Question("expenses", "How much did you spend", IntegerType, IntAnswer(200)),
+          Question(
+            "profit",
+            "You still have",
+            IntegerType,
+            BinaryOperation(Sub, Reference("revenue"), Reference("expenses")))
         )
       )
 
-      val q: Seq[Question] = qlForm.statements.collect{ case q: Question => q }
-      val x =  q.map(q => evaluateExpression(q.answer, qlForm.symbolTable))
+      val q: Seq[Question] = qlForm.statements.collect { case q: Question => q }
+      val x = q.map(q => evaluateExpression(q.expression, qlForm.symbolTable))
       assert(x == Seq(IntAnswer(1000), IntAnswer(200), IntAnswer(800)))
     }
     "do error handling" should {

@@ -2,8 +2,7 @@ package org.uva.sea.ql.parser.nodeTypes;
 
 import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.traverse.Visitable;
-import org.uva.sea.ql.traverse.Visitor;
+import org.uva.sea.ql.visitor.IASTVisitor;
 
 public abstract class BinaryOperator extends ASTNode {
     private ASTNode lhs;
@@ -24,7 +23,7 @@ public abstract class BinaryOperator extends ASTNode {
     }
 
     @Override
-    public <T> T accept(Visitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

@@ -1,12 +1,13 @@
 """
 This Class of used for the If and Elif conditional.
-Both types need a condition that has to be evaluated
+Both types need a expression that has to be evaluated
 and a block which can contain statements.
 """
 
-class ConditionNode:
-    def __init__(self, condition, line):
-        self.condition = condition
+
+class ConditionNodeBlock:
+    def __init__(self, expression, line):
+        self.expression = expression
         self.block = []
         self.line = line
 
@@ -14,9 +15,19 @@ class ConditionNode:
         for i in block:
             self.block.append(i)
 
+    # Check types of children, return them for the sake of possible debugging
     def checkTypes(self):
-        print("checkingCond")
+        types = []
+        ifType = self.expression.checkTypes()
+        types.append(ifType)
+        for statement in self.block:
+            types.append(statement.checkTypes())
+        return ["IF/ELIF:"+ str(self.expression), types]
+
+    def linkVars(self, varDict):
+        self.expression.linkVars(varDict)
+        for statement in self.block:
+            statement.linkVars(varDict)
 
     def __repr__(self):
-        return "({}) {}".format(self.condition, self.block)
-
+        return "({}) {}".format(self.expression, self.block)

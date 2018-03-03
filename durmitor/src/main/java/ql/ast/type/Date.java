@@ -1,12 +1,17 @@
 package ql.ast.type;
 
-import ql.value.Value;
+import ql.ast.expression.literal.Literal;
+import ql.evaluator.value.parse.ToDate;
 import ql.visitors.interfaces.TypeVisitor;
 
 public class Date extends Type {
 
     @Override
     public String toString() {
+        return name();
+    }
+
+    public static String name() {
         return "date";
     }
 
@@ -19,14 +24,14 @@ public class Date extends Type {
     public boolean isDate() {
         return true;
     }
-
+    
     @Override
-    public Value<?> toValue() {
-        return new ql.value.Date();
+    public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
     
     @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
+    public Literal<?> parse(Literal<?> value) {
+        return value.accept(new ToDate());
     }
 }

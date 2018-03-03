@@ -1,11 +1,14 @@
 package ql.ast.expression;
 
+import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.UndefinedLiteral;
+import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class Equal extends BinaryOperator {
 
-    public Equal(Expression lhs, Expression rhs) {
-        super(lhs, rhs);
+    public Equal(Expression firstOperand, Expression secondOperand) {
+        super(firstOperand, secondOperand);
     }
 
     @Override
@@ -16,5 +19,15 @@ public class Equal extends BinaryOperator {
     @Override
     public String getOperator() {
         return "==";
+    }
+    
+    @Override
+    public Type getType() {
+        return firstOperand.getType().parse(new UndefinedLiteral()).equal(secondOperand.getType().parse(new UndefinedLiteral())).getType();
+    }
+
+    @Override
+    public Literal<?> evaluate() {
+        return firstOperand.evaluate().equal(secondOperand.evaluate());
     }
 }

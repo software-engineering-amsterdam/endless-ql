@@ -4,9 +4,9 @@ import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.Question;
-import org.uva.sea.ql.traverse.Visitor;
+import org.uva.sea.ql.visitor.IASTVisitor;
 
-public class Variable extends ASTNode  {
+public class Variable extends ASTNode {
     private String variableName;
 
     private Question linkedQuestion = null;
@@ -29,7 +29,7 @@ public class Variable extends ASTNode  {
     }
 
     public Type getType() {
-        if(this.linkedQuestion == null) {
+        if (this.linkedQuestion == null) {
             System.out.println("Variable information should be set before requesting type information");
             return new Type(NodeType.UNKNOWN);
         }
@@ -38,7 +38,7 @@ public class Variable extends ASTNode  {
     }
 
     @Override
-    public <T> T accept(Visitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

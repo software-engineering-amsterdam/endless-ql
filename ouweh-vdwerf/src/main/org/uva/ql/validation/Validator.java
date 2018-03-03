@@ -1,10 +1,7 @@
 package org.uva.ql.validation;
 
-import org.uva.ql.ast.Conditional;
-import org.uva.ql.ast.Form;
-import org.uva.ql.ast.Question;
+import org.uva.ql.ast.*;
 
-import org.uva.ql.ast.Statement;
 import org.uva.ql.visitor.StatementVisitor;
 
 import java.util.ArrayList;
@@ -14,11 +11,11 @@ import java.util.Set;
 
 public class Validator implements StatementVisitor<Void, String> {
 
-    private SymbolTable table;
+    private SymbolTable symbolTable;
     private List<Question> questions;
 
     public Validator() {
-        this.table = new SymbolTable();
+        this.symbolTable = new SymbolTable();
         this.questions = new ArrayList<>();
     }
 
@@ -28,25 +25,22 @@ public class Validator implements StatementVisitor<Void, String> {
             statement.accept(this, null);
         }
 
-        // Add relevant data to the symbol table.
+        // Add relevant data to the symbol symbolTable.
         for (Question question : this.questions) {
-            System.out.println(question);
-            this.table.add(question.getName(), question.getType());
+//            System.out.println(question);
+            this.symbolTable.add(question.getName(), question.getType());
         }
 
         // Check if all question phrases & ID's are unique.
         findDuplicates();
 
-        // TODO do type checking.
-        //requires form and type table
-        TypeChecker typeChecker = new TypeChecker();
+        ParameterChecker parameterChecker = new ParameterChecker(form, symbolTable);
 
+        DependencyChecker dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());//form, symbolTable
+        dependencyChecker.execute();
+        TypeChecker typeChecker = new TypeChecker();//form, symbolTable
 
-        // TODO dependencies
-
-        // TODO expressions
-
-        System.out.println("Total number of questions: " + table.size());
+        System.out.println("Total number of questions: " + symbolTable.size());
     }
 
     public boolean findDuplicates() {
@@ -55,11 +49,11 @@ public class Validator implements StatementVisitor<Void, String> {
 
         for (Question question : this.questions) {
             if (!questionIDs.add(question.getName())) {
-                System.out.printf("\nWARNING: (var could be overwritten) question name %s already exists.", question.getName());
+                System.out.printf("WARNING: (var could be overwritten) question name %s already exists\n", question.getName());
             }
 
             if (!questionTexts.add(question.getContent())) {
-                System.out.printf("\nWARNING: Question content %s already exists.", question.getContent());
+                System.out.printf("WARNING: Question content %s already exists\n", question.getContent());
             }
         }
         // TODO return something useful here.
@@ -84,6 +78,13 @@ public class Validator implements StatementVisitor<Void, String> {
             statement.accept(this, null);
         }
 
+        return null;
+    }
+
+    @Override
+    public Void visit(CalculatedQuestion question, String context) {
+        questions.add(question);
+        symbolTable.add(question.getName(), question.getType());
         return null;
     }
 }

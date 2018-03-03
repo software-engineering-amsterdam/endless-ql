@@ -1,8 +1,7 @@
 package org.uva.sea.ql.value;
 
 
-import org.uva.sea.ql.QLValueEvaluator;
-import org.uva.sea.ql.exceptions.EvaluationException;
+import org.uva.sea.ql.visitor.QLValueEvaluator;
 import org.uva.sea.ql.parser.NodeType;
 
 import java.security.InvalidParameterException;

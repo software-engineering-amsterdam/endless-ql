@@ -1,10 +1,9 @@
 package org.uva.sea.ql.value;
 
 import java.math.BigDecimal;
-import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.visitor.QLValueEvaluator;
 import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
-import org.uva.sea.ql.parser.elements.types.Decimal;
 
 
 public class DecimalValue extends Value {

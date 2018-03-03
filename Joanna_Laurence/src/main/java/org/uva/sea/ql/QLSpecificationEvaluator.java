@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QLFormGenerator {
+public class QLSpecificationEvaluator {
 
     private ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 

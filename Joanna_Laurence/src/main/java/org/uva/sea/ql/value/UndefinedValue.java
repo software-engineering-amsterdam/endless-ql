@@ -1,6 +1,6 @@
 package org.uva.sea.ql.value;
 
-import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.visitor.QLValueEvaluator;
 import org.uva.sea.ql.parser.NodeType;
 
 public class UndefinedValue extends Value {

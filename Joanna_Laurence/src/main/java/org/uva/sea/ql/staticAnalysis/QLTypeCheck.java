@@ -1,4 +1,4 @@
-package org.uva.sea.ql;
+package org.uva.sea.ql.staticAnalysis;
 
 import org.uva.sea.ql.dataObject.SpecificationKey;
 import org.uva.sea.ql.parser.NodeType;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class QLTypeCheck extends BaseVisitor<NodeType> {
 
-    private Errors errors = new Errors();
+    private Messages errors = new Messages();
 
     private HashMap<SpecificationKey, NodeType> typeCheckSpecification;
 
@@ -35,7 +35,7 @@ public class QLTypeCheck extends BaseVisitor<NodeType> {
      *
      * @param node Do the type check for the node
      */
-    public Errors doTypeCheck(Form node) {
+    public Messages doTypeCheck(Form node) {
         this.errors.clear();
         node.accept(this);
         return this.errors;

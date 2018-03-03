@@ -11,9 +11,9 @@ import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.value.ErrorValue;
 import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.visitor.QLValueEvaluator;
 
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -97,8 +97,8 @@ public class QLEvaluatorTest extends TestCase {
 
         try {
             SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
-            QLFormGenerator qlFormGenerator = new QLFormGenerator();
-            List<QuestionData> questions = qlFormGenerator.generate(fileName, symbolTable);
+            QLSpecificationEvaluator qlSpecificationEvaluator = new QLSpecificationEvaluator();
+            List<QuestionData> questions = qlSpecificationEvaluator.generate(fileName, symbolTable);
 
             if(checkForErrors(questions))
                 return 0;

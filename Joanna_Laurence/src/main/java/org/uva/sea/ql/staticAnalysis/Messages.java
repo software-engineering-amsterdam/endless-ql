@@ -1,9 +1,9 @@
-package org.uva.sea.ql;
+package org.uva.sea.ql.staticAnalysis;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Errors {
+public class Messages {
     private List<String> errors = new ArrayList<>();
 
     public void addError(String error) {

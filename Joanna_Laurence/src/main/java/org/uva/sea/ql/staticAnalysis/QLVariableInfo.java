@@ -1,4 +1,4 @@
-package org.uva.sea.ql;
+package org.uva.sea.ql.staticAnalysis;
 
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.Form;
@@ -15,14 +15,20 @@ import java.util.Map;
  */
 public class QLVariableInfo extends BaseVisitor {
 
+    /**
+     * Contain what questions is related to what variable
+     */
     private Map<String, Question> variableMap = new HashMap<String, Question>();
 
-    private Errors errors = new Errors();
+    /**
+     * Messages that occur during this process
+     */
+    private Messages errors = new Messages();
 
     /**
      *
-     * @param error
-     * @param node
+     * @param error Error that occur
+     * @param node The node that caused the error
      */
     private void error(String error, ASTNode node) {
         this.errors.addError(error + " on line:  " + node.getLine() + " column: " + node.getColumn());
@@ -33,7 +39,7 @@ public class QLVariableInfo extends BaseVisitor {
      * @param node The root node of the AST that needs to be checked
      * @return If an error occurred
      */
-    public Errors addVariableInformation(Form node) {
+    public Messages addVariableInformation(Form node) {
         this.errors.clear();
 
         node.accept(this);

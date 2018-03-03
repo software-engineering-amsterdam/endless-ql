@@ -1,4 +1,4 @@
-package org.uva.sea.ql;
+package org.uva.sea.ql.staticAnalysis;
 
 import org.uva.sea.ql.dataObject.SpecificationKey;
 import org.uva.sea.ql.parser.NodeType;

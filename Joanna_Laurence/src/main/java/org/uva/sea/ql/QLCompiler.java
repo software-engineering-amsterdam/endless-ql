@@ -2,12 +2,14 @@ package org.uva.sea.ql;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.parser.antlr.ErrorHandler;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 import org.uva.sea.ql.parser.elements.Form;
+import org.uva.sea.ql.staticAnalysis.Messages;
+import org.uva.sea.ql.staticAnalysis.QLTypeCheck;
+import org.uva.sea.ql.staticAnalysis.QLVariableInfo;
 
 public class QLCompiler {
 
@@ -35,13 +37,13 @@ public class QLCompiler {
             return null;
 
         QLVariableInfo varChecker = new QLVariableInfo();
-        Errors varInfoErrors = varChecker.addVariableInformation(form.result);
+        Messages varInfoErrors = varChecker.addVariableInformation(form.result);
         if(varInfoErrors.errorsPresent()) {
             throw new StaticAnalysisError(varInfoErrors);
         }
 
         QLTypeCheck qlTypeCheck = new QLTypeCheck();
-        Errors TypeCheckErrors = qlTypeCheck.doTypeCheck(form.result);
+        Messages TypeCheckErrors = qlTypeCheck.doTypeCheck(form.result);
         if(TypeCheckErrors.errorsPresent()) {
             throw new StaticAnalysisError(TypeCheckErrors);
         }

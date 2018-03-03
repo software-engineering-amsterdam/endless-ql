@@ -1,7 +1,7 @@
 package org.uva.sea.ql.gui.model;
 
 import org.uva.sea.ql.dataObject.QuestionData;
-import org.uva.sea.ql.QLFormGenerator;
+import org.uva.sea.ql.QLSpecificationEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.value.Value;
@@ -13,14 +13,14 @@ import java.util.List;
 public class QuestionModel {
 
     private final SymbolTable symbolTable;
-    private final QLFormGenerator formGenerator;
+    private final QLSpecificationEvaluator formGenerator;
     private final String questionFileName;
     private List<QuestionData> questions = new ArrayList<>();
     private List<ValueChangeListener> listeners = new ArrayList<>();
 
 
     public QuestionModel(String questionFileName) {
-        this.formGenerator = new QLFormGenerator();
+        this.formGenerator = new QLSpecificationEvaluator();
         this.questionFileName = questionFileName;
         this.symbolTable = new SymbolTable();
         generateQuestions();

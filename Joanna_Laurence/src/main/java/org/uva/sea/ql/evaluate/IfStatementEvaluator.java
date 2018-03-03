@@ -1,6 +1,6 @@
 package org.uva.sea.ql.evaluate;
 
-import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.visitor.QLValueEvaluator;
 import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.value.BooleanValue;

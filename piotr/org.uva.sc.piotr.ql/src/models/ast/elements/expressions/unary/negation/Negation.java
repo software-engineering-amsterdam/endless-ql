@@ -6,6 +6,10 @@ public class Negation {
 
     private Expression expression;
 
+    public Negation(Expression expression) {
+        this.expression = expression;
+    }
+
     public Expression getExpression() {
         return expression;
     }

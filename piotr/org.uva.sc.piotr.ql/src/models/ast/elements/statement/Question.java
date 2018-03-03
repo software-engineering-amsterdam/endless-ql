@@ -1,16 +1,16 @@
 package models.ast.elements.statement;
 
-import models.ast.elements.datatypes.DataType;
+import models.ast.elements.datatypes.TypeDeclaration;
 import models.ast.elements.expressions.Expression;
 
 public class Question implements Statement {
 
     private String label;
     private String variableName;
-    private DataType variableType;
+    private TypeDeclaration variableType;
     private Expression assignedExpression;
 
-    public Question(String label, String variableName, DataType variableType) {
+    public Question(String label, String variableName, TypeDeclaration variableType) {
         this.label = label;
         this.variableName = variableName;
         this.variableType = variableType;
@@ -32,11 +32,11 @@ public class Question implements Statement {
         this.variableName = variableName;
     }
 
-    public DataType getVariableType() {
+    public TypeDeclaration getVariableType() {
         return variableType;
     }
 
-    public void setVariableType(DataType variableType) {
+    public void setVariableType(TypeDeclaration variableType) {
         this.variableType = variableType;
     }
 

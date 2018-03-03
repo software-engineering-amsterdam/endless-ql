@@ -6,6 +6,10 @@ public class VariableReference extends UnaryExpression {
 
     private String name;
 
+    public VariableReference(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

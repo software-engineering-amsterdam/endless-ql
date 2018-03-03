@@ -28,19 +28,23 @@ elseStatement
     ;
 
 expression
-    : value                                                                                 #ExpressionSingleValue
-    | variableReference                                                                     #ExpressionVariabeReference
-    | '(' expression ')'                                                                    #ExpressionParenthesises
-    | OP_NOT '(' expression ')'                                                             #ExpressionNegation
-    | lhs=expression binaryOperator=(OP_MULT|OP_DIV) rhs=expression                         #ExpressionPlusMinOperation
-    | lhs=expression binaryOperator=(OP_PLUS|OP_MINUS) rhs=expression                       #ExpressionMultDivOperation
-    | lhs=expression binaryOperator=(OP_GT|OP_GE|OP_LT|OP_LE|OP_EQ|OP_NEQ) rhs=expression   #ExpressionCompareOperation
-    | lhs=expression binaryOperator=(OP_AND|OP_OR) rhs=expression                           #ExpressionLogcalOperation
+    : value                                                     #ExpressionSingleValue
+    | variableReference=IDENTIFIER                              #ExpressionVariableReference
+    | '(' expression ')'                                        #ExpressionParenthesises
+    | OP_NOT '(' expression ')'                                 #ExpressionNegation
+    | lhs=expression binaryOperator=OP_MULT rhs=expression      #ExpressionArithmeticMultiplication
+    | lhs=expression binaryOperator=OP_DIV rhs=expression       #ExpressionArithmeticDivision
+    | lhs=expression binaryOperator=OP_PLUS rhs=expression      #ExpressionArithmeticAddition
+    | lhs=expression binaryOperator=OP_MINUS rhs=expression     #ExpressionArithmeticSubtraction
+    | lhs=expression binaryOperator=OP_GT rhs=expression        #ExpressionComparisionGreaterThan
+    | lhs=expression binaryOperator=OP_GE rhs=expression        #ExpressionComparisionGreaterEqual
+    | lhs=expression binaryOperator=OP_LT rhs=expression        #ExpressionComparisionLessThan
+    | lhs=expression binaryOperator=OP_LE rhs=expression        #ExpressionComparisionLessEqual
+    | lhs=expression binaryOperator=OP_EQ rhs=expression        #ExpressionComparisionEqual
+    | lhs=expression binaryOperator=OP_NEQ rhs=expression       #ExpressionComparisionNotEqual
+    | lhs=expression binaryOperator=OP_AND rhs=expression       #ExpressionLogicalAnd
+    | lhs=expression binaryOperator=OP_OR rhs=expression        #ExpressionLogicalOr
 ;
-
-variableReference
-    : IDENTIFIER
-    ;
 
 value
     : STRING                    #TypeValueString

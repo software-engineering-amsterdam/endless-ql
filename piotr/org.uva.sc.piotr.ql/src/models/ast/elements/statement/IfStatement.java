@@ -1,16 +1,17 @@
 package models.ast.elements.statement;
 
 import grammar.QLParser;
+import models.ast.elements.expressions.Expression;
 
 import java.util.ArrayList;
 
-public class Condition implements Statement {
+public class IfStatement implements Statement {
 
-    private String condition;
+    private Expression conditionExpression;
     private ArrayList<Statement> statementList = new ArrayList<>();
 
-    public Condition(QLParser.IfStatementContext ctx) {
-        this.condition = ctx.condition.getText();
+    public IfStatement(Expression conditionExpression) {
+        this.conditionExpression = conditionExpression;
     }
 
     public boolean addStatement(Statement statement) {
@@ -19,7 +20,7 @@ public class Condition implements Statement {
 
     @Override
     public void debugPrint() {
-        System.out.println("Condition statement: " + this.condition);
+        System.out.println("Condition statement: " + this.conditionExpression);
         System.out.println("Contains : " + this.statementList.size() + " statements:");
         if (this.statementList.size() > 0) {
             for (Statement statement: this.statementList) {

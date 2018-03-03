@@ -1,5 +1,6 @@
 package ql.ast.type;
 
+import ql.ast.expression.literal.BoolLiteral;
 import ql.ast.expression.literal.Literal;
 import ql.evaluator.value.parse.ToBool;
 import ql.visitors.interfaces.TypeVisitor;
@@ -32,5 +33,10 @@ public class Bool extends Type {
     
     public Literal<?> parse(Literal<?> value) {
         return value.accept(new ToBool());
+    }
+
+    @Override
+    public Literal<?> parse(String value) {
+        return new BoolLiteral(value);
     }
 }

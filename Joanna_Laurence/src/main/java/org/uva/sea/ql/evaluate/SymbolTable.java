@@ -1,6 +1,6 @@
 package org.uva.sea.ql.evaluate;
 
-import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.evaluate.valueTypes.Value;
 
 import java.util.HashMap;
 

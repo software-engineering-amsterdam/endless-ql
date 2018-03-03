@@ -2,11 +2,14 @@ package org.uva.sea.ql;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.parser.antlr.ErrorHandler;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 import org.uva.sea.ql.parser.elements.Form;
+import org.uva.sea.ql.staticAnalysis.Messages;
+import org.uva.sea.ql.staticAnalysis.TypeCheck;
+import org.uva.sea.ql.staticAnalysis.VariableInfo;
 
 public class QLCompiler {
 
@@ -16,7 +19,7 @@ public class QLCompiler {
      * @param source Of the source location
      * @return The AST node that can be used by the interpreter
      */
-    public Form compileScriptFile(CharStream source) {
+    public Form compileScriptFile(CharStream source) throws StaticAnalysisError {
 
         //Get tokens
         QLLexer lexer = new QLLexer(source);
@@ -30,12 +33,19 @@ public class QLCompiler {
         parser.addErrorListener(parseErrorListener);
 
         QLParser.FormContext form = parser.form();
-        if(parseErrorListener.isError() || form.result == null)
+        if (parseErrorListener.isError() || form.result == null)
             return null;
 
-        QLVariableInfo varChecker = new QLVariableInfo();
-        if(!varChecker.addVariableInformation(form.result)) {
-            return null;
+        VariableInfo varChecker = new VariableInfo();
+        Messages varInfoErrors = varChecker.addVariableInformation(form.result);
+        if (varInfoErrors.errorsPresent()) {
+            throw new StaticAnalysisError(varInfoErrors);
+        }
+
+        TypeCheck typeCheck = new TypeCheck();
+        Messages TypeCheckErrors = typeCheck.doTypeCheck(form.result);
+        if (TypeCheckErrors.errorsPresent()) {
+            throw new StaticAnalysisError(TypeCheckErrors);
         }
 
         return form.result;

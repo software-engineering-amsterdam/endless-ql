@@ -5,7 +5,7 @@ import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
-import org.uva.sea.ql.visitor.Visitor;
+import org.uva.sea.ql.visitor.IASTVisitor;
 
 public class GreaterOrEqual extends BinaryOperator {
     public GreaterOrEqual(Token token, ASTNode lhs, ASTNode rhs) {
@@ -20,7 +20,7 @@ public class GreaterOrEqual extends BinaryOperator {
     }
 
     @Override
-    public <T> T accept(Visitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

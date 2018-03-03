@@ -1,15 +1,18 @@
 package org.uva.sea.ql.evaluate;
 
-import org.uva.sea.ql.parser.elements.*;
-import org.uva.sea.ql.visitor.BaseVisitor;
+import org.uva.sea.ql.parser.elements.Form;
+import org.uva.sea.ql.parser.elements.Question;
+import org.uva.sea.ql.parser.elements.Statements;
+import org.uva.sea.ql.visitor.BaseASTVisitor;
 
 import java.util.List;
 
-public class FormEvaluator extends BaseVisitor<List<Question>> {
+public class FormEvaluator extends BaseASTVisitor<List<Question>> {
 
     /**
      * Evaluates the form
-     * @param form Form that is evaluated
+     *
+     * @param form        Form that is evaluated
      * @param symbolTable Symbol table with data
      * @return List of all seen questions
      */

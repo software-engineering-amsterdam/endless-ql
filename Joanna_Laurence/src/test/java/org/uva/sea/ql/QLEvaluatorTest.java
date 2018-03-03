@@ -24,19 +24,19 @@ public class QLEvaluatorTest extends TestCase {
     //Parameters for every test
     private String testFile;
     private int correctQuestions;
+    private boolean hasRuntimeError;
 
     private static TestFileHelper testFileHelper = new TestFileHelper();
-    private FormEvaluator formEvaluator = new FormEvaluator();
-
 
     /**
      * Constructor for every test
      * @param testFile
      * @param correctQuestions
      */
-    public QLEvaluatorTest(String testFile, int correctQuestions) {
+    public QLEvaluatorTest(String testFile, int correctQuestions, boolean hasRuntimeError) {
         this.testFile = testFile;
         this.correctQuestions = correctQuestions;
+        this.hasRuntimeError = hasRuntimeError;
     }
 
     /**
@@ -45,7 +45,11 @@ public class QLEvaluatorTest extends TestCase {
      */
     @Parameterized.Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
-        return new ArrayList<>(getTestFiles("src/test/resources/calculateQL/"));
+        Collection<Object[]> testFiles = new ArrayList<Object[]>();
+        testFiles.addAll(getTestFiles("src/test/resources/calculateQL/", false));
+        testFiles.addAll(getTestFiles("src/test/resources/runtimeErrorsQl/", true));
+        return testFiles;
+
     }
 
     /**
@@ -53,12 +57,12 @@ public class QLEvaluatorTest extends TestCase {
      * @param folderLocation Location of the QL files
      * @return Map of test files and if they should compile
      */
-    private static Collection<Object[]> getTestFiles(String folderLocation) {
+    private static Collection<Object[]> getTestFiles(String folderLocation, boolean hasRuntimeError) {
         Collection<Object[]> testFiles = new ArrayList<Object[]>();
 
         Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
         for(String location : locations) {
-            testFiles.add(new Object[] {location, determineExpectedTests(location)});
+            testFiles.add(new Object[] {location, determineExpectedTests(location), hasRuntimeError});
         }
 
         return testFiles;
@@ -87,26 +91,54 @@ public class QLEvaluatorTest extends TestCase {
         return 0;
     }
 
+    /**
+     * Extracts the symbol table from the test file
+     * @param location Location of the test file
+     * @return The Symbol table
+     */
+    private SymbolTable getSymbolTableForTest(String location) throws ReflectiveOperationException, IOException {
+
+        SymbolTable symbolTable = new SymbolTable();
+
+        FileInputStream inputStream = new FileInputStream(location);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            Pattern pattern = Pattern.compile("\\/\\/([a-zA-Z]+):=([a-zA-Z]+) ([0-9a-zA-Z]+)");
+            Matcher matcher = pattern.matcher(line);
+            if (matcher.find()) {
+                String variableName = matcher.group(1);
+                String variableType = matcher.group(2);
+                String variableValue = matcher.group(3);
+
+                Class dynamicClass = Class.forName("org.uva.sea.ql.evaluate.valueTypes." + variableType);
+                Value value = (Value)dynamicClass.getDeclaredConstructor(String.class).newInstance(variableValue);
+
+                symbolTable.addOrUpdateValue(variableName, value);
+            }
+        }
+
+        return symbolTable;
+    }
+
 
     /**
      * Compiles the file and checks result
      * @param fileName The location of the QL file
      * @return If the script compiles
      */
-    private int getDisplayedQuestions(String fileName) throws IOException {
+    private int getDisplayedQuestions(String fileName) throws IOException, RuntimeException, StaticAnalysisError, ReflectiveOperationException {
 
-        try {
-            SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
-            QLSpecificationEvaluator qlSpecificationEvaluator = new QLSpecificationEvaluator();
-            List<QuestionData> questions = qlSpecificationEvaluator.generate(fileName, symbolTable);
+        SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
+        QLSpecificationEvaluator qlSpecificationEvaluator = new QLSpecificationEvaluator();
+        List<QuestionData> questions = qlSpecificationEvaluator.generate(fileName, symbolTable);
 
-            if(checkForErrors(questions))
-                return 0;
-
-            return questions.size();
-        } catch (StaticAnalysisError errors) {
-            return 0;
+        if(checkForRuntimeErrors(questions)) {
+            throw new RuntimeException();
         }
+
+        return questions.size();
     }
 
     /**
@@ -114,7 +146,7 @@ public class QLEvaluatorTest extends TestCase {
      * @param questions All the questions
      * @return
      */
-    private boolean checkForErrors(List<QuestionData> questions) {
+    private boolean checkForRuntimeErrors(List<QuestionData> questions) {
         for(QuestionData question : questions) {
             if(question.getValue() == null)
                 continue;
@@ -130,48 +162,15 @@ public class QLEvaluatorTest extends TestCase {
         return false;
     }
 
-    /**
-     * Extracts the symbol table from the test file
-     * @param location Location of the test file
-     * @return The Symbol table
-     */
-    private SymbolTable getSymbolTableForTest(String location) {
-
-        SymbolTable symbolTable = new SymbolTable();
-
-        try(FileInputStream inputStream = new FileInputStream(location)) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                Pattern pattern = Pattern.compile("\\/\\/([a-zA-Z]+):=([a-zA-Z]+) ([0-9a-zA-Z]+)");
-                Matcher matcher = pattern.matcher(line);
-                if (matcher.find()) {
-                    String variableName = matcher.group(1);
-                    String variableType = matcher.group(2);
-                    String variableValue = matcher.group(3);
-
-                    Class dynamicClass = Class.forName("org.uva.sea.ql.evaluate.valueTypes." + variableType);
-                    Value value = (Value)dynamicClass.getDeclaredConstructor(String.class).newInstance(variableValue);
-
-                    symbolTable.addOrUpdateValue(variableName, value);
-                }
-            }
-
-        } catch (IOException e) {
-            System.out.println("File error: " + e.getMessage());
-            e.printStackTrace();
-        } catch (ReflectiveOperationException e) {
-            System.out.println("Class cannot be resolved: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return symbolTable;
-    }
 
     @Test
-    public void testFile() throws IOException {
-        System.out.println("Testing: " + this.testFile);
-        Assert.assertEquals(this.correctQuestions, this.getDisplayedQuestions(this.testFile));
+    public void testFile() throws IOException, ReflectiveOperationException, StaticAnalysisError {
+        try {
+            System.out.println("Testing: " + this.testFile);
+            Assert.assertEquals(this.correctQuestions, this.getDisplayedQuestions(this.testFile));
+            Assert.assertEquals(this.hasRuntimeError, false);
+        } catch (RuntimeException e) {
+            Assert.assertEquals(this.hasRuntimeError, true);
+        }
     }
 }

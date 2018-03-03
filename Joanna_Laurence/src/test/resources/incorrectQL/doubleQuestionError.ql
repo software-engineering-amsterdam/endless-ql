@@ -1,5 +1,3 @@
-//Q=0
-
 form taxOfficeExample {
     if (true) {
       "Did you wait to long?"

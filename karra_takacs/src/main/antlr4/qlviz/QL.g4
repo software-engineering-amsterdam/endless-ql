@@ -11,7 +11,7 @@ questionBlock:  question+
 questionName: IDENTIFIER;
 conditionalBlock:  IF  PAREN_OPEN (booleanExpression | IDENTIFIER)PAREN_CLOSE
                   BRACKET_OPEN questionBlock+ BRACKET_CLOSE;
-computedValue: '=' numericExpression;
+computedValue: '=' numericExpression | booleanExpression;
 
 //expressions
 numericExpression : NUMBER

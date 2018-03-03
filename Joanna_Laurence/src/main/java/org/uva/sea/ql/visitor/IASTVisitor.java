@@ -6,7 +6,7 @@ import org.uva.sea.ql.parser.elements.types.*;
 import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.ql.parser.nodeTypes.SingleNode;
 
-public interface Visitor<T> {
+public interface IASTVisitor<T> {
     T visit(Addition node);
 
     T visit(And node);

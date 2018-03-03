@@ -1,7 +1,7 @@
 package org.uva.sea.ql.value;
 
 import java.math.BigDecimal;
-import org.uva.sea.ql.visitor.QLValueEvaluator;
+import org.uva.sea.ql.visitor.BaseValueVisitor;
 import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
 
@@ -265,7 +265,7 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public <T> T accept(QLValueEvaluator<T> visitor) {
+    public <T> T accept(BaseValueVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

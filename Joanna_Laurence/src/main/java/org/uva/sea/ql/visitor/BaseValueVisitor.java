@@ -2,7 +2,7 @@ package org.uva.sea.ql.visitor;
 
 import org.uva.sea.ql.value.*;
 
-public abstract class QLValueEvaluator<T> {
+public abstract class BaseValueVisitor<T> {
 
     public T visit(BooleanValue node) {
         return null;

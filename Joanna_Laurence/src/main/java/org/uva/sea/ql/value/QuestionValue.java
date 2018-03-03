@@ -1,6 +1,6 @@
 package org.uva.sea.ql.value;
 
-import org.uva.sea.ql.visitor.QLValueEvaluator;
+import org.uva.sea.ql.visitor.BaseValueVisitor;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Question;
 
@@ -17,7 +17,7 @@ public class QuestionValue extends Value {
     }
 
     @Override
-    public <T> T accept(QLValueEvaluator<T> visitor) {
+    public <T> T accept(BaseValueVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

@@ -2,11 +2,11 @@ package org.uva.sea.ql.staticAnalysis;
 
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
-import org.uva.sea.ql.visitor.BaseVisitor;
+import org.uva.sea.ql.visitor.BaseASTVisitor;
 
 import java.util.HashSet;
 
-public class QLCheckDuplicateLabels extends BaseVisitor<Void> {
+public class QLCheckDuplicateLabels extends BaseASTVisitor<Void> {
 
     private Messages errors = new Messages();
 

@@ -3,7 +3,7 @@ package org.uva.sea.ql.parser.elements.types;
 import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.visitor.Visitor;
+import org.uva.sea.ql.visitor.IASTVisitor;
 
 public class Int extends ASTNode  {
     private int value;
@@ -23,7 +23,7 @@ public class Int extends ASTNode  {
     }
 
     @Override
-    public <T> T accept(Visitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

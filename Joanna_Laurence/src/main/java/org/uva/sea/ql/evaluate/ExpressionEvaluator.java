@@ -1,15 +1,13 @@
 package org.uva.sea.ql.evaluate;
 
-import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.exceptions.EvaluationException;
-import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
-import org.uva.sea.ql.visitor.BaseVisitor;
+import org.uva.sea.ql.visitor.BaseASTVisitor;
 import org.uva.sea.ql.value.*;
 
-public class ExpressionEvaluator extends BaseVisitor<Value> {
+public class ExpressionEvaluator extends BaseASTVisitor<Value> {
 
     private SymbolTable symbolTable;
 

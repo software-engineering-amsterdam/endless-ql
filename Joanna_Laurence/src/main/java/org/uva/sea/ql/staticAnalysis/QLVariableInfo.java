@@ -4,7 +4,7 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.types.Variable;
-import org.uva.sea.ql.visitor.BaseVisitor;
+import org.uva.sea.ql.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Map;
  * Iterates over the AST and add links between variables and questions
  * Checks if variables are not used before declared
  */
-public class QLVariableInfo extends BaseVisitor {
+public class QLVariableInfo extends BaseASTVisitor {
 
     /**
      * Contain what questions is related to what variable

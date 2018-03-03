@@ -1,12 +1,12 @@
 package org.uva.sea.ql.value;
 
-import org.uva.sea.ql.visitor.QLValueEvaluator;
+import org.uva.sea.ql.visitor.BaseValueVisitor;
 import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
 
 public abstract class Value {
 
-    public abstract <T> T accept(QLValueEvaluator<T> visitor);
+    public abstract <T> T accept(BaseValueVisitor<T> visitor);
 
     public abstract NodeType getType();
 

@@ -11,7 +11,7 @@ import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.value.ErrorValue;
 import org.uva.sea.ql.value.Value;
-import org.uva.sea.ql.visitor.QLValueEvaluator;
+import org.uva.sea.ql.visitor.BaseValueVisitor;
 
 import java.io.*;
 import java.util.*;
@@ -119,7 +119,7 @@ public class QLEvaluatorTest extends TestCase {
             if(question.getValue() == null)
                 continue;
 
-            Boolean error = question.getValue().accept(new QLValueEvaluator<Boolean>() {
+            Boolean error = question.getValue().accept(new BaseValueVisitor<Boolean>() {
                 public Boolean visit(ErrorValue node) {
                     return true;
                 }

@@ -5,11 +5,11 @@ import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.*;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
-import org.uva.sea.ql.visitor.BaseVisitor;
+import org.uva.sea.ql.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
 
-public class QLTypeCheck extends BaseVisitor<NodeType> {
+public class QLTypeCheck extends BaseASTVisitor<NodeType> {
 
     private Messages errors = new Messages();
 

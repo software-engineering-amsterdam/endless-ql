@@ -6,7 +6,7 @@ import org.uva.sea.ql.parser.elements.types.*;
 import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.ql.parser.nodeTypes.SingleNode;
 
-public abstract class BaseVisitor<T> implements Visitor<T> {
+public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
 
     public T visit(Addition node)  {
         return this.visit((BinaryOperator)node);

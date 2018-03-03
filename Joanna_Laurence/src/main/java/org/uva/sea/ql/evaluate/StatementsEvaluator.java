@@ -4,13 +4,13 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.Statements;
-import org.uva.sea.ql.visitor.BaseVisitor;
+import org.uva.sea.ql.visitor.BaseASTVisitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class StatementsEvaluator extends BaseVisitor<List<Question>> {
+public class StatementsEvaluator extends BaseASTVisitor<List<Question>> {
 
     /**
      *

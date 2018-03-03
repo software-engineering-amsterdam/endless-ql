@@ -2,7 +2,7 @@ package org.uva.sea.ql.parser.elements;
 
 import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.visitor.Visitor;
+import org.uva.sea.ql.visitor.IASTVisitor;
 
 public abstract class ASTNode {
 
@@ -35,5 +35,5 @@ public abstract class ASTNode {
         return token;
     }
 
-    public abstract <T> T accept(Visitor<T> visitor);
+    public abstract <T> T accept(IASTVisitor<T> visitor);
 }

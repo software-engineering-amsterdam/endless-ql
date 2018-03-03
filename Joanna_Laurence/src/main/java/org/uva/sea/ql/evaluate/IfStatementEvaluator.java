@@ -1,6 +1,6 @@
 package org.uva.sea.ql.evaluate;
 
-import org.uva.sea.ql.visitor.QLValueEvaluator;
+import org.uva.sea.ql.visitor.BaseValueVisitor;
 import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.value.BooleanValue;
@@ -9,7 +9,7 @@ import org.uva.sea.ql.value.Value;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IfStatementEvaluator extends QLValueEvaluator<Boolean> {
+public class IfStatementEvaluator extends BaseValueVisitor<Boolean> {
 
     /**
      * Expression evaluator

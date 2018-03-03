@@ -1,5 +1,7 @@
 package main;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import models.ast.ASTBuilder;
 import grammar.QLLexer;
 import grammar.QLParser;
@@ -29,6 +31,11 @@ public class Main {
 
         ASTBuilder ast = new ASTBuilder();
         Form form = ast.visitForm(formContext);
+
+        Gson gsonBuilder = new GsonBuilder().create();
+        String jsonForm = gsonBuilder.toJson(form);
+
+        System.out.println(jsonForm);
 
         //form.debugPrint();
 

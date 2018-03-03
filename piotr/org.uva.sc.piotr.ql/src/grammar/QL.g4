@@ -11,7 +11,7 @@ statement
     :   question | ifStatement;
 
 question        
-    :   label=STRING variableName=IDENTIFIER ':' variableType=dataType (OP_ASSIG expression)?;
+    :   label=STRING variableName=IDENTIFIER ':' variableType=dataType (OP_ASSIG rhs=expression)?;
 
 dataType
     : TYPE_BOOLEAN  #TypeDeclarationBoolean

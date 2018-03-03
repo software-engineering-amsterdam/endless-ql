@@ -75,7 +75,11 @@ public class ASTBuilder extends QLBaseVisitor {
         );
 
         if (ctx.expression() != null) {
-            question.setAssignedExpression((Expression) visit(ctx.expression()));
+
+            System.out.println("Visiting assignment, "+ctx.rhs.getText());
+//            Object x = visitMainExpression(ctx.rhs);
+
+            question.setAssignedExpression((Expression) visit(ctx.rhs));
         }
 
         return question;

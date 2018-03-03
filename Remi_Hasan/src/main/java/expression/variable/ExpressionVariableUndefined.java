@@ -7,7 +7,7 @@ public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
 
     private ReturnType returnType = ReturnType.UNDEFINED;
 
-    public ExpressionVariableUndefined() {
+    ExpressionVariableUndefined() {
         super(false);
     }
 

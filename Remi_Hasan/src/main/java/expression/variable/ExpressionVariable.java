@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 public abstract class ExpressionVariable<T> extends Expression {
 
-    public T value;
+    T value;
 
     ExpressionVariable() {
         this.value = null;

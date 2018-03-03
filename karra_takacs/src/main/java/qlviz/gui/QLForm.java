@@ -3,6 +3,8 @@ package qlviz.gui;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import qlviz.QLBaseVisitor;
+import qlviz.gui.renderer.ErrorRenderer;
+import qlviz.gui.renderer.JavafxErrorRenderer;
 import qlviz.gui.renderer.javafx.JavafxConditionalBlockRenderer;
 import qlviz.gui.renderer.javafx.JavafxFormRenderer;
 import qlviz.gui.renderer.javafx.JavafxQuestionBlockRenderer;
@@ -20,6 +22,12 @@ import qlviz.interpreter.linker.QuestionLinkerImpl;
 import qlviz.model.booleanExpressions.BooleanExpression;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
+import qlviz.typecheker.AnalysisResult;
+import qlviz.typecheker.DuplicateQuestionChecker;
+import qlviz.typecheker.Severity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class QLForm extends Application {
 	private JavafxFormRenderer renderer;
@@ -66,17 +74,31 @@ public class QLForm extends Application {
 		this.model = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()))
 				.createFormFromMarkup(this.getParameters().getRaw().get(0));
 
-		NumericExpressionViewModelFactory numericExpressionViewModelFactory = new NumericExpressionViewModelFactoryImpl();
-		BooleanExpressionViewModelFactory booleanExpressionFactory = new BooleanExpressionViewModelFactoryImpl(numericExpressionViewModelFactory);
-		QuestionViewModelFactoryImpl questionViewModelFactory =
-				new QuestionViewModelFactoryImpl(numericExpressionViewModelFactory::create);
-		QuestionBlockViewModelFactory questionBlockViewModelFactory =
-				new QuestionBlockViewModelFactory(questionViewModelFactory::create, booleanExpressionFactory::create);
-		this.viewModel = new FormViewModelImpl(model, renderer, questionBlockViewModelFactory::create);
+		DuplicateQuestionChecker duplicateQuestionChecker = new DuplicateQuestionChecker();
+		duplicateQuestionChecker.initialize(this.model);
+		List<AnalysisResult> staticCheckResults = new ArrayList<>();
+		staticCheckResults.addAll(duplicateQuestionChecker.analyze());
 
-		QuestionViewModelLinker viewModelLinker = new QuestionViewModelLinkerImpl(new QuestionViewModelCollectorImpl());
-		viewModelLinker.linkQuestionStubs(this.viewModel);
-		this.renderer.render(this.viewModel);
+		if (staticCheckResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
+			ErrorRenderer errorRenderer = new JavafxErrorRenderer(stage);
+			errorRenderer.render(staticCheckResults);
+		}
+		else
+		{
+            NumericExpressionViewModelFactory numericExpressionViewModelFactory = new NumericExpressionViewModelFactoryImpl();
+            BooleanExpressionViewModelFactory booleanExpressionFactory = new BooleanExpressionViewModelFactoryImpl(numericExpressionViewModelFactory);
+            QuestionViewModelFactoryImpl questionViewModelFactory =
+                    new QuestionViewModelFactoryImpl(numericExpressionViewModelFactory::create);
+            QuestionBlockViewModelFactory questionBlockViewModelFactory =
+                    new QuestionBlockViewModelFactory(questionViewModelFactory::create, booleanExpressionFactory::create);
+
+
+            this.viewModel = new FormViewModelImpl(model, renderer, questionBlockViewModelFactory::create);
+
+            QuestionViewModelLinker viewModelLinker = new QuestionViewModelLinkerImpl(new QuestionViewModelCollectorImpl());
+            viewModelLinker.linkQuestionStubs(this.viewModel);
+            this.renderer.render(this.viewModel);
+		}
 	}
 
 }

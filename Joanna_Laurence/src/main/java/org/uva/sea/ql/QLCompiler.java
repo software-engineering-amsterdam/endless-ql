@@ -3,6 +3,7 @@ package org.uva.sea.ql;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.parser.antlr.ErrorHandler;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
@@ -16,7 +17,7 @@ public class QLCompiler {
      * @param source Of the source location
      * @return The AST node that can be used by the interpreter
      */
-    public Form compileScriptFile(CharStream source) throws Errors {
+    public Form compileScriptFile(CharStream source) throws StaticAnalysisError {
 
         //Get tokens
         QLLexer lexer = new QLLexer(source);
@@ -36,13 +37,13 @@ public class QLCompiler {
         QLVariableInfo varChecker = new QLVariableInfo();
         Errors varInfoErrors = varChecker.addVariableInformation(form.result);
         if(varInfoErrors.errorsPresent()) {
-            throw varInfoErrors;
+            throw new StaticAnalysisError(varInfoErrors);
         }
 
         QLTypeCheck qlTypeCheck = new QLTypeCheck();
         Errors TypeCheckErrors = qlTypeCheck.doTypeCheck(form.result);
         if(TypeCheckErrors.errorsPresent()) {
-            throw TypeCheckErrors;
+            throw new StaticAnalysisError(TypeCheckErrors);
         }
 
         return form.result;

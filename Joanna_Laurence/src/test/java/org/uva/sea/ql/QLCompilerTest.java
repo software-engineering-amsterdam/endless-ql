@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.parser.elements.Form;
 
 import java.io.File;
@@ -68,7 +69,7 @@ public class QLCompilerTest extends TestCase {
             CharStream steam = CharStreams.fromStream(new FileInputStream(fileName));
             Form result = compiler.compileScriptFile(steam);
             return result != null;
-        } catch (IOException | Errors e) {
+        } catch (IOException | StaticAnalysisError e) {
             return false;
         }
     }

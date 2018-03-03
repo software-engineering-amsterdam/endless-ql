@@ -1,9 +1,9 @@
 package org.uva.sea.ql.gui.model;
 
-import org.uva.sea.ql.DataObject.QuestionData;
-import org.uva.sea.ql.Errors;
+import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.QLFormGenerator;
 import org.uva.sea.ql.evaluate.SymbolTable;
+import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.value.Value;
 
 import java.io.IOException;
@@ -51,7 +51,7 @@ public class QuestionModel {
             questions = formGenerator.generate(getClass().getResource(questionFileName).getFile(), symbolTable);
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (Errors errors) {
+        } catch (StaticAnalysisError errors) {
             //TODO: handle this error on gui
             errors.printStackTrace();
         }

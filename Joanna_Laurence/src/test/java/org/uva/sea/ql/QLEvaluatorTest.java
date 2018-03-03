@@ -5,9 +5,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.uva.sea.ql.DataObject.QuestionData;
+import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
+import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.value.ErrorValue;
 import org.uva.sea.ql.value.Value;
 
@@ -105,7 +106,7 @@ public class QLEvaluatorTest extends TestCase {
                 return 0;
 
             return questions.size();
-        } catch (Errors errors) {
+        } catch (StaticAnalysisError errors) {
             return 0;
         }
     }

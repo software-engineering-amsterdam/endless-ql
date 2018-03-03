@@ -2,10 +2,11 @@ package org.uva.sea.ql;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
-import org.uva.sea.ql.DataObject.QuestionData;
+import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.evaluate.ExpressionEvaluator;
 import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
+import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.value.Value;
@@ -25,7 +26,7 @@ public class QLFormGenerator {
      * @param symbolTable The current state of the program
      * @return List of questions that should be displayed
      */
-    public List<QuestionData> generate(String guiSpecification, SymbolTable symbolTable) throws IOException, Errors {
+    public List<QuestionData> generate(String guiSpecification, SymbolTable symbolTable) throws IOException, StaticAnalysisError {
         List<Question> questions = this.getQuestions(guiSpecification, symbolTable);
 
         List<QuestionData> questionDataList = new ArrayList<>();
@@ -55,7 +56,7 @@ public class QLFormGenerator {
      * Generate the GUI
      * @param guiSpecification Specification of the GUI
      */
-    private List<Question> getQuestions(String guiSpecification, SymbolTable symbolTable) throws IOException, Errors {
+    private List<Question> getQuestions(String guiSpecification, SymbolTable symbolTable) throws IOException, StaticAnalysisError {
         QLCompiler compiler = new QLCompiler();
         Form rootNode = compiler.compileScriptFile(toCharStream(guiSpecification));
         if(rootNode == null)

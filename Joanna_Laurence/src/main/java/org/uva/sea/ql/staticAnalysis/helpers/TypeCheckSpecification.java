@@ -1,4 +1,4 @@
-package org.uva.sea.ql.staticAnalysis;
+package org.uva.sea.ql.staticAnalysis.helpers;
 
 import org.uva.sea.ql.dataObject.SpecificationKey;
 import org.uva.sea.ql.parser.NodeType;
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class TypeCheckSpecification {
+public class TypeCheckSpecification  {
 
     private HashMap<SpecificationKey, NodeType> specification;
 

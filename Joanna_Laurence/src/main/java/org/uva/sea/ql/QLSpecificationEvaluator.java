@@ -2,13 +2,14 @@ package org.uva.sea.ql;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
+import org.uva.sea.ql.dataObject.ASTResult;
+import org.uva.sea.ql.dataObject.InterpreterResult;
 import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.evaluate.ExpressionEvaluator;
 import org.uva.sea.ql.evaluate.FormEvaluator;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.evaluate.valueTypes.Value;
 import org.uva.sea.ql.exceptions.StaticAnalysisError;
-import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
 
 import java.io.FileInputStream;
@@ -27,25 +28,40 @@ public class QLSpecificationEvaluator {
      * @param symbolTable      The current state of the program
      * @return List of questions that should be displayed
      */
-    public List<QuestionData> generate(String guiSpecification, SymbolTable symbolTable) throws IOException, StaticAnalysisError {
-        List<Question> questions = this.getQuestions(guiSpecification, symbolTable);
+    public InterpreterResult generate(String guiSpecification, SymbolTable symbolTable) throws IOException, StaticAnalysisError {
 
+        ASTResult astResult = this.generateAST(guiSpecification);
+        if (astResult.getAST() == null)
+            return new InterpreterResult(new ArrayList<>(), astResult.getWarnings());
+
+        FormEvaluator evaluate = new FormEvaluator();
+        List<Question> questions = evaluate.evaluate(astResult.getAST(), symbolTable);
+        List<QuestionData> questionDataList = interpreterQuestions(questions, symbolTable);
+
+        return new InterpreterResult(questionDataList, astResult.getWarnings());
+    }
+
+    /**
+     * Interpreter questions, and return results
+     * @param symbolTable Symbol table
+     * @param questions questions that are converted
+     * @return Interpreted questions
+     */
+    private List<QuestionData> interpreterQuestions(List<Question> questions, SymbolTable symbolTable) {
         List<QuestionData> questionDataList = new ArrayList<>();
         for (Question question : questions) {
             Value value = getQuestionValue(symbolTable, question);
             questionDataList.add(new QuestionData(question, value));
         }
-
         return questionDataList;
     }
-
 
     /**
      * Compute valueTypes or get the valueTypes from the symbol table
      *
-     * @param symbolTable
-     * @param question
-     * @return
+     * @param symbolTable Symbol table
+     * @param question Questions
+     * @return Value of the question
      */
     private Value getQuestionValue(SymbolTable symbolTable, Question question) {
         if (question.getValue() != null)
@@ -55,18 +71,13 @@ public class QLSpecificationEvaluator {
     }
 
     /**
-     * Generate the GUI
+     * Generate the AST
      *
      * @param guiSpecification Specification of the GUI
      */
-    private List<Question> getQuestions(String guiSpecification, SymbolTable symbolTable) throws IOException, StaticAnalysisError {
-        QLCompiler compiler = new QLCompiler();
-        Form rootNode = compiler.compileScriptFile(toCharStream(guiSpecification));
-        if (rootNode == null)
-            return new ArrayList<>();
-
-        FormEvaluator evaluate = new FormEvaluator();
-        return evaluate.evaluate(rootNode, symbolTable);
+    private ASTResult generateAST(String guiSpecification) throws IOException, StaticAnalysisError {
+        ASTGenerator astGenerator = new ASTGenerator();
+        return astGenerator.interpreterScriptFile(toCharStream(guiSpecification));
     }
 
     /**

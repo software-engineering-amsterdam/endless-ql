@@ -9,6 +9,7 @@ public class QLMain {
      Date with /
      Rename lhs rhs
      Show errors in GUI
+     Show warnings in GUI
 
      cyclic dependencies between questions
      duplicate labels (warning)

@@ -1,6 +1,6 @@
 package org.uva.sea.ql.exceptions;
 
-import org.uva.sea.ql.staticAnalysis.Messages;
+import org.uva.sea.ql.staticAnalysis.helpers.Messages;
 
 public class StaticAnalysisError extends Exception {
 

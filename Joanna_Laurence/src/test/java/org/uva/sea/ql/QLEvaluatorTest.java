@@ -5,10 +5,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.uva.sea.ql.dataObject.InterpreterResult;
 import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.evaluate.valueTypes.ErrorValue;
 import org.uva.sea.ql.evaluate.valueTypes.Value;
+import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.visitor.BaseValueVisitor;
 
@@ -59,7 +61,7 @@ public class QLEvaluatorTest extends TestCase {
 
     /**
      * @param folderLocation Location of the QL files
-     * @return Map of test files and if they should compile
+     * @return Map of test files and if they should be interpretable
      */
     private static Collection<Object[]> getTestFiles(String folderLocation, boolean hasRuntimeError) {
         Collection<Object[]> testFiles = new ArrayList<Object[]>();
@@ -133,19 +135,19 @@ public class QLEvaluatorTest extends TestCase {
      * Compiles the file and checks result
      *
      * @param fileName The location of the QL file
-     * @return If the script compiles
+     * @return If the script is interpretable
      */
-    private int getDisplayedQuestions(String fileName) throws IOException, RuntimeException, StaticAnalysisError, ReflectiveOperationException {
+    private int getDisplayedQuestions(String fileName) throws IOException, EvaluationException, StaticAnalysisError, ReflectiveOperationException {
 
         SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
         QLSpecificationEvaluator qlSpecificationEvaluator = new QLSpecificationEvaluator();
-        List<QuestionData> questions = qlSpecificationEvaluator.generate(fileName, symbolTable);
+        InterpreterResult questions = qlSpecificationEvaluator.generate(fileName, symbolTable);
 
-        if (checkForRuntimeErrors(questions)) {
-            throw new RuntimeException();
+        if (checkForRuntimeErrors(questions.getQuestions())) {
+            throw new EvaluationException("Execption during evaluation");
         }
 
-        return questions.size();
+        return questions.getQuestions().size();
     }
 
     /**
@@ -177,7 +179,7 @@ public class QLEvaluatorTest extends TestCase {
             System.out.println("Testing: " + this.testFile);
             Assert.assertEquals(this.correctQuestions, this.getDisplayedQuestions(this.testFile));
             Assert.assertEquals(this.hasRuntimeError, false);
-        } catch (RuntimeException e) {
+        } catch (EvaluationException e) {
             Assert.assertEquals(this.hasRuntimeError, true);
         }
     }

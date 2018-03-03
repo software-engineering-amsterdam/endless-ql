@@ -1,5 +1,6 @@
 package org.uva.sea.ql.staticAnalysis;
 
+import org.uva.sea.ql.dataObject.MessageTypes;
 import org.uva.sea.ql.dataObject.SpecificationKey;
 import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
@@ -7,13 +8,15 @@ import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.expressions.*;
 import org.uva.sea.ql.parser.elements.types.*;
+import org.uva.sea.ql.staticAnalysis.helpers.Messages;
+import org.uva.sea.ql.staticAnalysis.helpers.TypeCheckSpecification;
 import org.uva.sea.ql.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
 
-public class TypeCheck extends BaseASTVisitor<NodeType> {
+public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalysis {
 
-    private Messages errors = new Messages();
+    private Messages errors = new Messages(MessageTypes.ERROR);
 
     private HashMap<SpecificationKey, NodeType> typeCheckSpecification;
 
@@ -28,7 +31,7 @@ public class TypeCheck extends BaseASTVisitor<NodeType> {
      * -
      */
     private void error(ASTNode node) {
-        this.errors.addError("Incorrect type on line:" + node.getLine() + " column: " + node.getColumn());
+        this.errors.addMessage("Incorrect type on line:" + node.getLine() + " column: " + node.getColumn());
     }
 
     /**
@@ -37,7 +40,7 @@ public class TypeCheck extends BaseASTVisitor<NodeType> {
      *
      * @param node Do the type check for the node
      */
-    public Messages doTypeCheck(Form node) {
+    public Messages doCheck(Form node) {
         this.errors.clear();
         node.accept(this);
         return this.errors;

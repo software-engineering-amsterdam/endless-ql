@@ -20,6 +20,7 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
 
     /**
      * Report warning
+     *
      * @param node The node that caused the warning
      */
     private void error(Question node) {
@@ -28,6 +29,7 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
 
     /**
      * Perform the check
+     *
      * @param node The form node
      * @return Warnings
      */
@@ -38,6 +40,7 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
 
     /**
      * Check the questions
+     *
      * @param node
      * @return
      */
@@ -47,7 +50,7 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
         String labelLink = this.labels.get(node.getLabel());
         boolean labelLinkedToOtherVariable = labelLink != null && !labelLink.equals(node.getVariable().getVariableName());
 
-        if(labelLinkedToOtherVariable) {
+        if (labelLinkedToOtherVariable) {
             this.error(node);
             return null;
         }
@@ -58,6 +61,7 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
 
     /**
      * Link label to variable
+     *
      * @param node
      */
     private void linkQuestionVariableToLabel(Question node) {

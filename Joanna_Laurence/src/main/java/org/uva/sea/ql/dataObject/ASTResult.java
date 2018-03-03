@@ -1,10 +1,7 @@
 package org.uva.sea.ql.dataObject;
 
 import org.uva.sea.ql.parser.elements.Form;
-import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.staticAnalysis.helpers.Messages;
-
-import java.util.List;
 
 public class ASTResult {
 

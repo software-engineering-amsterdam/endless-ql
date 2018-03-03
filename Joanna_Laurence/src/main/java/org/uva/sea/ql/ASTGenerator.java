@@ -3,8 +3,8 @@ package org.uva.sea.ql;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.uva.sea.ql.dataObject.MessageTypes;
 import org.uva.sea.ql.dataObject.ASTResult;
+import org.uva.sea.ql.dataObject.MessageTypes;
 import org.uva.sea.ql.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.parser.antlr.ErrorHandler;
 import org.uva.sea.ql.parser.antlr.QLLexer;
@@ -17,12 +17,12 @@ import java.util.List;
 
 public class ASTGenerator {
 
-    private List<IStaticAnalysis> staticAnalyses = Arrays.asList(new IStaticAnalysis[] {
+    private List<IStaticAnalysis> staticAnalyses = Arrays.asList(new IStaticAnalysis[]{
             new VariableInfo(),
             new TypeCheck(),
             new CheckDuplicateLabels(),
             new CheckIncorrectDuplicateQuestions()
-    } );
+    });
 
     /**
      * Compile a form specification
@@ -37,10 +37,10 @@ public class ASTGenerator {
             return new ASTResult(null, new Messages(MessageTypes.UNKNOWN));
 
         Messages warnings = new Messages(MessageTypes.WARNING);
-        for(IStaticAnalysis staticAnalysis : this.staticAnalyses) {
+        for (IStaticAnalysis staticAnalysis : this.staticAnalyses) {
             Messages messages = staticAnalysis.doCheck(AST);
-            if(messages.hasMessagePresent()) {
-                if(messages.getMessageTypes() == MessageTypes.ERROR) {
+            if (messages.hasMessagePresent()) {
+                if (messages.getMessageTypes() == MessageTypes.ERROR) {
                     throw new StaticAnalysisError(messages);
                 } else if (messages.getMessageTypes() == MessageTypes.WARNING) {
                     warnings.addMessageList(messages.getMessages());
@@ -53,6 +53,7 @@ public class ASTGenerator {
 
     /**
      * Create AST for specification
+     *
      * @param source
      * @return
      */

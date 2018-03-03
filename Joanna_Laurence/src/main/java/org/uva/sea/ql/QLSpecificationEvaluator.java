@@ -43,8 +43,9 @@ public class QLSpecificationEvaluator {
 
     /**
      * Interpreter questions, and return results
+     *
      * @param symbolTable Symbol table
-     * @param questions questions that are converted
+     * @param questions   questions that are converted
      * @return Interpreted questions
      */
     private List<QuestionData> interpreterQuestions(List<Question> questions, SymbolTable symbolTable) {
@@ -60,7 +61,7 @@ public class QLSpecificationEvaluator {
      * Compute valueTypes or get the valueTypes from the symbol table
      *
      * @param symbolTable Symbol table
-     * @param question Questions
+     * @param question    Questions
      * @return Value of the question
      */
     private Value getQuestionValue(SymbolTable symbolTable, Question question) {

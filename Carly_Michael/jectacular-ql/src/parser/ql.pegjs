@@ -1,5 +1,5 @@
 // pegjs parser definition
-form            = ws "form" ws name:identifier ws "{" ws
+form            = ws comment* ws "form" ws name:identifier ws "{" ws
                   statements: statement*
                   ws comment* ws
                 "}" ws {
@@ -11,8 +11,7 @@ statement       = exprQuestion / q / ifElseStatement / ifStatement
 ifStatement     = ws comment* ws "if" ws "(" ws condition:orExpression ws ")" ws "{" ws
                   statements:statement* ws
                   ws comment* ws
-                  "}" ws
-                  {
+                  "}" ws {
                     return new If(condition, statements, [], location());
                   }
 
@@ -22,8 +21,7 @@ ifElseStatement = ws comment* ws "if" ws "(" ws condition:orExpression ws ")" ws
                   "}" ws "else" ws "{" ws
                   elseStatements:statement* ws
                   ws comment* ws
-                  "}"
-                  {
+                  "}" {
                     return new If(condition, statements, elseStatements, location());
                   }
 

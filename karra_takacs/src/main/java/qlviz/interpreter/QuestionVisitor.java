@@ -12,7 +12,6 @@ public class QuestionVisitor extends QLBaseVisitor<Question> {
 
     private final QuestionTypeTranslator questionTypeTranslator;
     private final NumericExpressionParser numericExpressionParser;
-    public TypeChecker typeCheker = new TypeChecker() ;
 
     public QuestionVisitor(QuestionTypeTranslator questionTypeTranslator, NumericExpressionParser numericExpressionParser) {
         this.questionTypeTranslator = questionTypeTranslator;

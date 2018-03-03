@@ -12,12 +12,18 @@ public class IntegerValue implements GenericValue {
 	}
 
 	@Override
-	public GenericValue add(IntegerValue value) {
-		return new IntegerValue(this.getValue() + value.getValue());
+	public GenericValue add(IntegerValue leftHandSideValue) {
+		return new IntegerValue(leftHandSideValue.getValue() + this.getValue());
 	}
 
 	@Override
-	public GenericValue add(GenericValue value) {
-		return value.add(this);
+	public GenericValue add(GenericValue rightHandSideValue) {
+		return rightHandSideValue.add(this);
+	}
+
+	@Override
+	public GenericValue add(StringValue leftHandSideValue) {
+		addError(leftHandSideValue.getClass(), this.getClass());
+		return null;
 	}
 }

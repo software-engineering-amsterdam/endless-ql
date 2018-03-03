@@ -32,6 +32,7 @@ public class QLEvaluatorTest extends TestCase {
     private String testFile;
     private int correctQuestions;
     private boolean hasRuntimeError;
+    private boolean hasWarnings;
 
     /**
      * Constructor for every test
@@ -39,10 +40,11 @@ public class QLEvaluatorTest extends TestCase {
      * @param testFile
      * @param correctQuestions
      */
-    public QLEvaluatorTest(String testFile, int correctQuestions, boolean hasRuntimeError) {
+    public QLEvaluatorTest(String testFile, int correctQuestions, boolean hasRuntimeError, boolean hasWarnings) {
         this.testFile = testFile;
         this.correctQuestions = correctQuestions;
         this.hasRuntimeError = hasRuntimeError;
+        this.hasWarnings = hasWarnings;
     }
 
     /**
@@ -53,8 +55,10 @@ public class QLEvaluatorTest extends TestCase {
     @Parameterized.Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
         Collection<Object[]> testFiles = new ArrayList<Object[]>();
-        testFiles.addAll(getTestFiles("src/test/resources/calculateQL/", false));
-        testFiles.addAll(getTestFiles("src/test/resources/runtimeErrorsQl/", true));
+        testFiles.addAll(getTestFiles("src/test/resources/calculateQL/", false, false));
+        testFiles.addAll(getTestFiles("src/test/resources/runtimeErrorsQl/", true, false));
+        testFiles.addAll(getTestFiles("src/test/resources/runtimeWarningsQl/", false, true));
+
         return testFiles;
 
     }
@@ -63,12 +67,12 @@ public class QLEvaluatorTest extends TestCase {
      * @param folderLocation Location of the QL files
      * @return Map of test files and if they should be interpretable
      */
-    private static Collection<Object[]> getTestFiles(String folderLocation, boolean hasRuntimeError) {
+    private static Collection<Object[]> getTestFiles(String folderLocation, boolean hasRuntimeError, boolean hasWarnings) {
         Collection<Object[]> testFiles = new ArrayList<Object[]>();
 
         Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
         for (String location : locations) {
-            testFiles.add(new Object[]{location, determineExpectedTests(location), hasRuntimeError});
+            testFiles.add(new Object[]{location, determineExpectedTests(location), hasRuntimeError, hasWarnings});
         }
 
         return testFiles;
@@ -137,17 +141,17 @@ public class QLEvaluatorTest extends TestCase {
      * @param fileName The location of the QL file
      * @return If the script is interpretable
      */
-    private int getDisplayedQuestions(String fileName) throws IOException, EvaluationException, StaticAnalysisError, ReflectiveOperationException {
+    private InterpreterResult getDisplayedQuestions(String fileName) throws IOException, EvaluationException, StaticAnalysisError, ReflectiveOperationException {
 
         SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
         QLSpecificationEvaluator qlSpecificationEvaluator = new QLSpecificationEvaluator();
         InterpreterResult questions = qlSpecificationEvaluator.generate(fileName, symbolTable);
 
         if (checkForRuntimeErrors(questions.getQuestions())) {
-            throw new EvaluationException("Execption during evaluation");
+            throw new EvaluationException("Exception during evaluation");
         }
 
-        return questions.getQuestions().size();
+        return questions;
     }
 
     /**
@@ -177,8 +181,11 @@ public class QLEvaluatorTest extends TestCase {
     public void testFile() throws IOException, ReflectiveOperationException, StaticAnalysisError {
         try {
             System.out.println("Testing: " + this.testFile);
-            Assert.assertEquals(this.correctQuestions, this.getDisplayedQuestions(this.testFile));
+            InterpreterResult interpreterResult = this.getDisplayedQuestions(this.testFile);
+
+            Assert.assertEquals(this.correctQuestions, interpreterResult.getQuestions().size());
             Assert.assertEquals(this.hasRuntimeError, false);
+            Assert.assertEquals(this.hasWarnings, interpreterResult.getWarnings().hasMessagePresent());
         } catch (EvaluationException e) {
             Assert.assertEquals(this.hasRuntimeError, true);
         }

@@ -39,7 +39,7 @@ public class ASTGenerator {
         Messages warnings = new Messages(MessageTypes.WARNING);
         for(IStaticAnalysis staticAnalysis : this.staticAnalyses) {
             Messages messages = staticAnalysis.doCheck(AST);
-            if(messages.messagePresent()) {
+            if(messages.hasMessagePresent()) {
                 if(messages.getMessageTypes() == MessageTypes.ERROR) {
                     throw new StaticAnalysisError(messages);
                 } else if (messages.getMessageTypes() == MessageTypes.WARNING) {

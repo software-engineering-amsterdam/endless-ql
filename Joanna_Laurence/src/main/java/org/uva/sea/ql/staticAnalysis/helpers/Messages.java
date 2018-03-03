@@ -22,7 +22,7 @@ public class Messages {
         this.messages.add(message);
     }
 
-    public boolean messagePresent() {
+    public boolean hasMessagePresent() {
         return !this.messages.isEmpty();
     }
 

@@ -8,15 +8,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface QLListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link QLParser#form}.
+	 * Enter a parse tree produced by {@link QLParser#head}.
 	 * @param ctx the parse tree
 	 */
-	void enterForm(QLParser.FormContext ctx);
+	void enterHead(QLParser.HeadContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#form}.
+	 * Exit a parse tree produced by {@link QLParser#head}.
 	 * @param ctx the parse tree
 	 */
-	void exitForm(QLParser.FormContext ctx);
+	void exitHead(QLParser.HeadContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#block}.
 	 * @param ctx the parse tree

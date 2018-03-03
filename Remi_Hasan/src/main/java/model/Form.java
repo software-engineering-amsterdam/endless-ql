@@ -3,16 +3,16 @@ package model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Form {
 
     public final String identifier;
-    public final ArrayList<Statement> statements;
+    public final List<Question> questions;
 
-    public Form(String identifier, ArrayList<Statement> statements) {
+    public Form(String identifier, List<Question> questions) {
         this.identifier = identifier;
-        this.statements = statements;
+        this.questions = questions;
     }
 
     @Override

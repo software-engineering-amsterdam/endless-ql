@@ -1,9 +1,9 @@
 form taxOfficeExample {
   "What was the selling price?"
-    sellingPrice: decimal = 1.5
+    sellingPrice: integer
 
   "How many days did you wait?"
-    waitDays: integer = 5
+    waitDays: integer
 
     if (sellingPrice * waitDays > 5) {
       "Did you wait to long?"
@@ -15,10 +15,13 @@ form taxOfficeExample {
         freeBag: boolean
     }
 
-  "Did you sell a house in 2010?"
-    hasSoldHouse: boolean
-  "Did you buy a house in 2010?"
-    hasBoughtHouse: boolean
-  "Did you enter a loan?"
-    hasMaintLoan: boolean
+    if (freeBag) {
+      "Do you want to have a second free giftbag?"
+        freeBag2: boolean
+      }
+
+    if(freeBag2) {
+        "Number of free giftbags: "
+           nbfreeBags: integer = 2
+        }
 }

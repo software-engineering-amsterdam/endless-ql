@@ -1,5 +1,6 @@
 package expression.variable;
 
+import analysis.SymbolTable;
 import expression.ReturnType;
 
 public class ExpressionVariableString extends ExpressionVariable<String> {
@@ -9,7 +10,7 @@ public class ExpressionVariableString extends ExpressionVariable<String> {
     }
 
     @Override
-    public ReturnType getReturnType() {
+    public ReturnType getReturnType(SymbolTable symbolTable) {
         return ReturnType.STRING;
     }
 
@@ -19,6 +20,11 @@ public class ExpressionVariableString extends ExpressionVariable<String> {
             this.value = null;
         else
             this.value = value;
+    }
+
+    @Override
+    public String getStringValue() {
+        return this.value;
     }
 
     @Override

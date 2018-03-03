@@ -1,4 +1,5 @@
 ﻿using QL.Core.Ast;
+using QL.Core.Types;
 using System;
 
 namespace QL.Core.Symbols
@@ -7,10 +8,9 @@ namespace QL.Core.Symbols
     {
         public SymbolTable SymbolTable = new SymbolTable();
 
-        public override void Visit(QuestionNode node)
+        public override void VisitEnter(QuestionNode node)
         {
-            var type = (SymbolType)Enum.Parse(typeof(SymbolType), node.Type, ignoreCase: true);
-            SymbolTable.Add(new Symbol(node.Label, type));
+            SymbolTable.Add(new Symbol(node.Label, node.Type, node.Token));
         }
     }
 }

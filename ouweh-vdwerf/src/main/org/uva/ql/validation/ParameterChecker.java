@@ -28,11 +28,15 @@ public class ParameterChecker implements StatementVisitor<Void, String>, Express
         checkForMissingParameters(symbolTable);
     }
 
+    public Map<String, List<Parameter>> getExpressions() {
+        return this.expressions;
+    }
+
     private void checkForMissingParameters(SymbolTable symbolTable) {
         for (HashMap.Entry<String, List<Parameter>> entry : expressions.entrySet()) {
             for (Parameter parameter : entry.getValue()) {
-                if (!symbolTable.contains(parameter.toString())) {
-                    System.out.println("Referenced parameter " + parameter + "  does not exist");
+                if (!symbolTable.contains(parameter.getID())) {
+                    System.out.println("Referenced parameter " + parameter + " does not exist");
                 }
             }
         }
@@ -40,7 +44,7 @@ public class ParameterChecker implements StatementVisitor<Void, String>, Express
 
     @Override
     public Void visit(Parameter parameter, String context) {
-        if (!symbolTable.contains(parameter.toString())) {
+        if (!symbolTable.contains(parameter.getID())) {
             System.out.println("Referenced parameter \"" + parameter + "\" does not exist");
             return null;
         }
@@ -74,7 +78,7 @@ public class ParameterChecker implements StatementVisitor<Void, String>, Express
 
     @Override
     public Void visit(Conditional conditional, String context) {
-        conditional.getCondition().accept(this, "If Condition");
+        conditional.getCondition().accept(this, "Condition");
         return null;
     }
 

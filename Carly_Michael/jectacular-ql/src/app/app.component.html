@@ -6,7 +6,8 @@
 
     <span id="error-message" *ngIf="errorMessage" class="error"> {{errorMessage}}</span>
 
-    <textarea id="input" rows="25" cols="100" [(ngModel)]="input"></textarea>
+    <textarea id="input" rows="25" cols="70" [(ngModel)]="input"></textarea><br />
+    <textarea id="inputQls" rows="25" cols="70" [(ngModel)]="inputQls"></textarea>
 
     <button id="parse-button" (click)="parseInput()">Parse</button>
 

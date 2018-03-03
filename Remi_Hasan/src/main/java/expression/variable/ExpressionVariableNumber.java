@@ -1,5 +1,6 @@
 package expression.variable;
 
+import analysis.SymbolTable;
 import expression.ReturnType;
 
 import java.math.BigDecimal;
@@ -13,7 +14,9 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
     }
 
     public ExpressionVariableNumber(String value) {
-        super(new BigDecimal(value));
+        if(!value.isEmpty()) {
+            this.value = new BigDecimal(value);
+        }
     }
 
     public ExpressionVariableNumber(int value) {
@@ -26,30 +29,27 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
 
     @Override
     public void setValue(String value) {
-        if (value.isEmpty())
-            this.value = null;
-        else
-            this.value = BigDecimal.valueOf(Double.parseDouble(value));
+        if (!value.isEmpty()) {
+            this.value = new BigDecimal(value);
+        }
     }
 
     @Override
-    public BigDecimal getValue() {
-        return this.value;
-    }
-
-    public int getIntValue() {
+    public Integer getIntValue() {
         return this.value.intValue();
     }
 
-    public double getDecimalValue() {
+    @Override
+    public Double getDecimalValue() {
         return this.value.doubleValue();
     }
 
+    @Override
     public BigDecimal getMoneyValue() {
         return this.value.setScale(2, RoundingMode.CEILING);
     }
 
-    public ReturnType getReturnType() {
+    public ReturnType getReturnType(SymbolTable symbolTable) {
         return ReturnType.NUMBER;
     }
 
@@ -59,14 +59,14 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
         if (otherNumber.value.doubleValue() == 0.0)
             throw new ArithmeticException("Division by zero.");
 
-        if(this.value == null || other.value == null)
+        if (this.isUndefined() || other.isUndefined())
             return new ExpressionVariableUndefined();
 
         return new ExpressionVariableNumber(this.value.divide(otherNumber.value, MathContext.DECIMAL128));
     }
 
     public ExpressionVariable multiply(ExpressionVariable other) {
-        if(this.value == null || other.value == null)
+        if (this.isUndefined() || other.isUndefined())
             return new ExpressionVariableUndefined();
 
         ExpressionVariableNumber otherNumber = (ExpressionVariableNumber) other;
@@ -74,7 +74,7 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
     }
 
     public ExpressionVariable subtract(ExpressionVariable other) {
-        if(this.value == null || other.value == null)
+        if (this.isUndefined() || other.isUndefined())
             return new ExpressionVariableUndefined();
 
         ExpressionVariableNumber otherNumber = (ExpressionVariableNumber) other;
@@ -82,7 +82,7 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
     }
 
     public ExpressionVariable sum(ExpressionVariable other) {
-        if(this.value == null || other.value == null)
+        if (this.isUndefined() || other.isUndefined())
             return new ExpressionVariableUndefined();
 
         ExpressionVariableNumber otherNumber = (ExpressionVariableNumber) other;
@@ -90,7 +90,7 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
     }
 
     public ExpressionVariable ge(ExpressionVariable other) {
-        if(this.value == null || other.value == null)
+        if (this.isUndefined() || other.isUndefined())
             return new ExpressionVariableUndefined();
 
         ExpressionVariableNumber otherNumber = (ExpressionVariableNumber) other;
@@ -98,7 +98,7 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
     }
 
     public ExpressionVariable gt(ExpressionVariable other) {
-        if(this.value == null || other.value == null)
+        if (this.isUndefined() || other.isUndefined())
             return new ExpressionVariableUndefined();
 
         ExpressionVariableNumber otherNumber = (ExpressionVariableNumber) other;
@@ -106,7 +106,7 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
     }
 
     public ExpressionVariable le(ExpressionVariable other) {
-        if(this.value == null || other.value == null)
+        if (this.isUndefined() || other.isUndefined())
             return new ExpressionVariableUndefined();
 
         ExpressionVariableNumber otherNumber = (ExpressionVariableNumber) other;
@@ -114,7 +114,7 @@ public class ExpressionVariableNumber extends ExpressionVariable<BigDecimal> {
     }
 
     public ExpressionVariable lt(ExpressionVariable other) {
-        if(this.value == null || other.value == null)
+        if (this.isUndefined() || other.isUndefined())
             return new ExpressionVariableUndefined();
 
         ExpressionVariableNumber otherNumber = (ExpressionVariableNumber) other;

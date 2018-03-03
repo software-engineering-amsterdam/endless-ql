@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using QL.Core.Ast;
 using QL.Core.Symbols;
 using System.Linq;
+using QL.Core.Scopes;
+using QL.Core.Errors;
 
 namespace QL.Core.Parsing
 {
@@ -39,11 +41,24 @@ namespace QL.Core.Parsing
             return symbolTableVisitor.SymbolTable;
         }
 
-        private IReadOnlyList<string> HarvestDuplicateSymbolErrors(SymbolTable symbolTable)
+        private IReadOnlyList<string> HarvestParsingErrors(SymbolTable symbolTable, Node ast)
         {
             var duplicateSymbolDetector = new DuplicateSymbolDetector();
-            IReadOnlyList<Symbol> duplicateSymbols = duplicateSymbolDetector.FindDuplicateSymbols(symbolTable);
-            return duplicateSymbols.Select(x => $"The symbol \"{x.Name}\" is duplicated.").ToList();
+            var errors = new List<Error>();
+
+            errors.AddRange(duplicateSymbolDetector.FindDuplicateSymbols(symbolTable));
+
+            var scopeTreeVisitor = new ScopeExtractingVisitor(symbolTable);
+            ast.Accept(scopeTreeVisitor);
+            var Validator = new ScopeTreeValidator();
+            errors.AddRange(Validator.CheckReferencesScope(scopeTreeVisitor.ScopeTree));
+
+            var textErrors = new List<string>();
+            foreach (Error error in errors)
+            {
+                textErrors.Add(error.ToString());
+            }
+            return textErrors;
         }
 
         public ParsedSymbols ParseQLInput(string input)
@@ -61,7 +76,7 @@ namespace QL.Core.Parsing
             {
                 Node ast = ExtractAst(parser);
                 SymbolTable symbols = ExtractSymbols(ast);
-                var errors = HarvestDuplicateSymbolErrors(symbols);
+                var errors = HarvestParsingErrors(symbols, ast);
 
                 return new ParsedSymbols(ast, symbols, errors);
             }

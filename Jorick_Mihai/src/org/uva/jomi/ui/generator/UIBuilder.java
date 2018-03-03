@@ -51,7 +51,7 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 	public BaseElement visit(FormStmt form) {
 		PanelElement panel = new PanelElement();
 		
-		panel.addElement(form.blockStmt.accept(this));
+		panel.addElement(form.visitBlockStmt(this));
 		
 		return panel;
 	}
@@ -60,7 +60,7 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 	public BaseElement visit(BlockStmt block) {
 		PanelElement panel = new PanelElement();
 		
-		for (Stmt statement : block.statements) {
+		for (Stmt statement : block.getStatements()) {
 			panel.addElement(statement.accept(this));
 		}
 		
@@ -69,28 +69,28 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 
 	@Override
 	public BaseElement visit(QuestionStmt questionStmt) {
-		return new QuestionElement(questionStmt.identifier.getName(), questionStmt.label, questionStmt.type.getName());
+		return new QuestionElement(questionStmt.getIdentifierName(), questionStmt.getLabel(), questionStmt.getType().toString());
 	}
 
 	@Override
 	public BaseElement visit(ComputedQuestionStmt questionStmt) {
 		// TODO - replace comment - here we can interpret the expression;
-		Object value = questionStmt.expression.accept(interpreterVisitor);
+		Object value = questionStmt.visitExpr(interpreterVisitor);
 		
-		return new ComputedQuestionElement(questionStmt.identifier.getName(), questionStmt.label, questionStmt.type.getName(), questionStmt.expression);
+		return new ComputedQuestionElement(questionStmt.getIdentifierName(), questionStmt.getLabel(), questionStmt.getType().toString(), questionStmt.getExp());
 	}
 
 	@Override
 	public BaseElement visit(IfStmt stmt) {
-		BaseElement ifElement = stmt.blockStmt.accept(this);
-		return new ConditionalPanelElement(stmt.expression, ifElement, null);
+		BaseElement ifElement = stmt.visitIfBlockStmt(this);
+		return new ConditionalPanelElement(stmt.getExpr(), ifElement, null);
 	}
 
 	@Override
 	public BaseElement visit(IfElseStmt stmt) {
-		BaseElement ifElement = stmt.ifBlockStmt.accept(this);
-		BaseElement elseElement = stmt.elseBlockStmt.accept(this);
-		return new ConditionalPanelElement(stmt.expression, ifElement, elseElement);
+		BaseElement ifElement = stmt.visitIfBlockStmt(this);
+		BaseElement elseElement = stmt.visitElseBlockStmt(this);
+		return new ConditionalPanelElement(stmt.getExpr(), ifElement, elseElement);
 	}
 	
 }

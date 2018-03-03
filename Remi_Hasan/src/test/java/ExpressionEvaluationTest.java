@@ -1,3 +1,4 @@
+import analysis.SymbolTable;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import expression.*;
@@ -25,8 +26,10 @@ public class ExpressionEvaluationTest {
         ANTLRTester tester = new ANTLRTester(expressionString);
         Expression expression = tester.visitor.visit(tester.parser.expression());
 
-        Expression evaluated = expression.evaluate();
-        assertEquals(evaluated.getReturnType(), ReturnType.NUMBER);
+        SymbolTable symbolTable = new SymbolTable();
+
+        Expression evaluated = expression.evaluate(symbolTable);
+        assertEquals(evaluated.getReturnType(symbolTable), ReturnType.NUMBER);
 
         return (ExpressionVariableNumber) evaluated;
     }
@@ -36,7 +39,7 @@ public class ExpressionEvaluationTest {
     @Property
     public void ExpressionEvaluationSum(int left, int right) {
         ExpressionVariableNumber result = evaluateExpression(left + " + " + right);
-        assertEquals(left + right, result.getIntValue());
+        assertEquals(Integer.valueOf(left + right), result.getIntValue());
     }
 
     @Property
@@ -56,7 +59,7 @@ public class ExpressionEvaluationTest {
     @Property
     public void ExpressionEvaluationSub(int left, int right) {
         ExpressionVariableNumber result = evaluateExpression(left + " - " + right);
-        assertEquals(left - right, result.getIntValue());
+        assertEquals(Integer.valueOf(left - right), result.getIntValue());
     }
 
     @Property
@@ -76,7 +79,7 @@ public class ExpressionEvaluationTest {
     @Property
     public void ExpressionEvaluationMul(int left, int right) {
         ExpressionVariableNumber result = evaluateExpression(left + " * " + right);
-        assertEquals(left * right, result.getIntValue());
+        assertEquals(Integer.valueOf(left * right), result.getIntValue());
     }
 
     @Property
@@ -97,7 +100,7 @@ public class ExpressionEvaluationTest {
     public void ExpressionEvaluationDiv(int left, int right) {
         assumeThat(right, not(equalTo(0)));
         ExpressionVariableNumber result = evaluateExpression(left + " / " + right);
-        assertEquals(left / right, result.getIntValue());
+        assertEquals(Integer.valueOf(left / right), result.getIntValue());
     }
 
     @Property
@@ -117,7 +120,7 @@ public class ExpressionEvaluationTest {
     @Property
     public void ExpressionEvaluationNeg(int i) {
         ExpressionVariableNumber result = evaluateExpression("-" + i);
-        assertEquals(-i, result.getIntValue());
+        assertEquals(Integer.valueOf(-1 * i), result.getIntValue());
     }
 
 }

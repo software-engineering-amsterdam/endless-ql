@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ql.ast.expression.literal.BoolLiteral;
 import ql.ast.statement.Question;
 import ql.ast.type.Bool;
 import ql.ast.type.Date;
@@ -54,7 +55,7 @@ public class GUIQuestion extends JPanel implements TypeVisitor<Void> {
         checkBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                question.getIdentifier().setValue(new ql.evaluator.value.Bool(checkBox.isSelected()));
+                question.getIdentifier().setValue(new BoolLiteral(checkBox.isSelected()));
             }
         });
         add(this.checkBox);

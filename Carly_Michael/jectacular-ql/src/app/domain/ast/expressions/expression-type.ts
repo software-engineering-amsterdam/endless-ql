@@ -3,5 +3,4 @@ export enum ExpressionType {
   BOOLEAN = 2,
   STRING = 3,
   DATE = 4,
-  VARIABLE = 5
 }

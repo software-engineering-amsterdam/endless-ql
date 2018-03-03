@@ -35,11 +35,6 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value add(MoneyValue value) {
-        return new MoneyValue(value.getCurrency(), (new BigDecimal(this.decimalValue)).add(value.getAmount()));
-    }
-
-    @Override
     public Value add(DecimalValue value) {
         return new DecimalValue(this.decimalValue + value.getDecimalValue());
     }
@@ -51,19 +46,19 @@ public class DecimalValue extends Value {
 
     @Override
     public Value divide(IntValue value) {
+        if(value.getIntValue() == 0)
+            throw new RuntimeException("Divide by 0 error");
+
         return new DecimalValue(this.decimalValue / value.getIntValue());
     }
 
     @Override
-    public Value divide(MoneyValue value) {
-        return new MoneyValue(value.getCurrency(), (new BigDecimal(this.decimalValue)).divide(value.getAmount()));
-    }
-
-    @Override
     public Value divide(DecimalValue value) {
+        if(value.getDecimalValue() == 0)
+            throw new RuntimeException("Divide by 0 error");
+
         return new DecimalValue(this.decimalValue / value.getDecimalValue());
     }
-
 
     @Override
     public Value isEqual(Value value) throws EvaluationException {
@@ -73,11 +68,6 @@ public class DecimalValue extends Value {
     @Override
     public Value isEqual(IntValue value) {
         return new BooleanValue(this.decimalValue == value.getIntValue());
-    }
-
-    @Override
-    public Value isEqual(MoneyValue value) {
-        return new BooleanValue((new BigDecimal(this.decimalValue)).equals(value.getAmount()));
     }
 
     @Override
@@ -96,11 +86,6 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value isGreaterOrEqual(MoneyValue value) {
-        return new BooleanValue((new BigDecimal(this.decimalValue)).compareTo(value.getAmount()) >= 0);
-    }
-
-    @Override
     public Value isGreaterOrEqual(DecimalValue value) {
         return new BooleanValue(this.decimalValue >= value.getDecimalValue());
     }
@@ -113,11 +98,6 @@ public class DecimalValue extends Value {
     @Override
     public Value isGreaterThan(IntValue value) {
         return new BooleanValue(this.decimalValue > value.getIntValue());
-    }
-
-    @Override
-    public Value isGreaterThan(MoneyValue value) {
-        return new BooleanValue((new BigDecimal(this.decimalValue)).compareTo(value.getAmount()) > 0);
     }
 
     @Override
@@ -136,11 +116,6 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value isLessOrEqual(MoneyValue value) {
-        return new BooleanValue((new BigDecimal(this.decimalValue)).compareTo(value.getAmount()) <= 0);
-    }
-
-    @Override
     public Value isLessOrEqual(DecimalValue value) {
         return new BooleanValue(this.decimalValue <= value.getDecimalValue());
     }
@@ -153,11 +128,6 @@ public class DecimalValue extends Value {
     @Override
     public Value isLessThan(IntValue value) {
         return new BooleanValue(this.decimalValue < value.getIntValue());
-    }
-
-    @Override
-    public Value isLessThan(MoneyValue value) {
-        return new BooleanValue((new BigDecimal(this.decimalValue)).compareTo(value.getAmount()) < 0);
     }
 
     @Override
@@ -176,11 +146,6 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value multiply(MoneyValue value) {
-        return new MoneyValue(value.getCurrency(), (new BigDecimal(this.decimalValue)).multiply(value.getAmount()));
-    }
-
-    @Override
     public Value multiply(DecimalValue value) {
         return new DecimalValue(this.decimalValue * value.getDecimalValue());
     }
@@ -193,11 +158,6 @@ public class DecimalValue extends Value {
     @Override
     public Value isNotEqual(IntValue value) {
         return new BooleanValue(this.decimalValue != value.getIntValue());
-    }
-
-    @Override
-    public Value isNotEqual(MoneyValue value) {
-        return new BooleanValue(!((new BigDecimal(this.decimalValue)).equals(value.getAmount())));
     }
 
     @Override
@@ -216,11 +176,6 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value subtract(MoneyValue value) {
-        return new MoneyValue(value.getCurrency(), (new BigDecimal(this.decimalValue)).subtract(value.getAmount()));
-    }
-
-    @Override
     public Value subtract(DecimalValue value) {
         return new DecimalValue(this.decimalValue - value.getDecimalValue());
     }
@@ -232,11 +187,6 @@ public class DecimalValue extends Value {
 
     @Override
     public Value reverseSubtract(IntValue value) {
-        return value.subtract(this);
-    }
-
-    @Override
-    public Value reverseSubtract(MoneyValue value) {
         return value.subtract(this);
     }
 

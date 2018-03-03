@@ -79,11 +79,7 @@ public class JavafxRendererVisitor implements QuestionRenderer, QuestionModelVis
         TextField newInput = printTextField(question);
         newInput.focusedProperty().addListener((observable, oldIsFocused, newIsFocused) -> {
             if (!newIsFocused) {
-                try {
-                    model.updateQuestion(question.getVariableName(), new MoneyValue(newInput.getText()));
-                } catch (EvaluationException e) {
-                    e.printStackTrace();
-                }
+                model.updateQuestion(question.getVariableName(), new MoneyValue(newInput.getText()));
             }
         });
         parent.getChildren().add(createQuestionRow(printLabel(question.getLabel()), newInput));

@@ -12,7 +12,7 @@ public class MoneyValue extends Value {
     private String currency;
     private BigDecimal amount;
 
-    public MoneyValue(String value) throws EvaluationException {
+    public MoneyValue(String value) throws InvalidParameterException {
         String[] split = value.split(" ", 2);
         if (split.length != 2)
             throw new InvalidParameterException("Incorrect money type " + value);
@@ -64,7 +64,10 @@ public class MoneyValue extends Value {
 
     @Override
     public Value divide(IntValue value) {
-        return new MoneyValue(this.currency, this.amount.divide(new BigDecimal(value.getIntValue())));
+        if(value.getIntValue() == 0)
+            throw new RuntimeException("Divide by 0 error");
+
+        return new MoneyValue(this.currency, this.amount.divide(new BigDecimal(value.getIntValue()), BigDecimal.ROUND_UNNECESSARY));
     }
 
     @Override
@@ -72,12 +75,18 @@ public class MoneyValue extends Value {
         if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
-        return new MoneyValue(this.currency, this.amount.divide(value.getAmount()));
+        if(value.getAmount().doubleValue() == 0.0)
+            throw new RuntimeException("Divide by 0 error");
+
+        return new DecimalValue(this.amount.divide(value.getAmount(), BigDecimal.ROUND_UNNECESSARY).doubleValue());
     }
 
     @Override
     public Value divide(DecimalValue value) {
-        return new MoneyValue(this.currency, this.amount.divide(new BigDecimal(value.getDecimalValue())));
+        if(value.getDecimalValue() == 0)
+            throw new RuntimeException("Divide by 0 error");
+
+        return new MoneyValue(this.currency, this.amount.divide(new BigDecimal(value.getDecimalValue()), BigDecimal.ROUND_UNNECESSARY));
     }
 
     @Override
@@ -86,21 +95,11 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isEqual(IntValue value) {
-        return new BooleanValue(this.amount.equals(new BigDecimal(value.getIntValue())));
-    }
-
-    @Override
     public Value isEqual(MoneyValue value) throws EvaluationException {
-        if (this.getCurrency() != value.getCurrency())
+        if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
         return new BooleanValue(this.amount.equals(value.getAmount()));
-    }
-
-    @Override
-    public Value isEqual(DecimalValue value) {
-        return new BooleanValue(this.amount.equals(new BigDecimal(value.getDecimalValue())));
     }
 
     @Override
@@ -109,21 +108,11 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isGreaterOrEqual(IntValue value) {
-        return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getIntValue())) >= 0);
-    }
-
-    @Override
     public Value isGreaterOrEqual(MoneyValue value) throws EvaluationException {
-        if (this.getCurrency() != value.getCurrency())
+        if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
         return new BooleanValue(this.amount.compareTo(value.getAmount()) >= 0);
-    }
-
-    @Override
-    public Value isGreaterOrEqual(DecimalValue value) {
-        return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getDecimalValue())) >= 0);
     }
 
     @Override
@@ -132,21 +121,11 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isGreaterThan(IntValue value) {
-        return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getIntValue())) > 0);
-    }
-
-    @Override
     public Value isGreaterThan(MoneyValue value) throws EvaluationException {
-        if (this.getCurrency() != value.getCurrency())
+        if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
         return new BooleanValue(this.amount.compareTo(value.getAmount()) > 0);
-    }
-
-    @Override
-    public Value isGreaterThan(DecimalValue value) {
-        return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getDecimalValue())) > 0);
     }
 
     @Override
@@ -155,21 +134,11 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isLessOrEqual(IntValue value) {
-        return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getIntValue())) <= 0);
-    }
-
-    @Override
     public Value isLessOrEqual(MoneyValue value) throws EvaluationException {
-        if (this.getCurrency() != value.getCurrency())
+        if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
         return new BooleanValue(this.amount.compareTo(value.getAmount()) <= 0);
-    }
-
-    @Override
-    public Value isLessOrEqual(DecimalValue value) {
-        return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getDecimalValue())) <= 0);
     }
 
     @Override
@@ -178,21 +147,11 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isLessThan(IntValue value) {
-        return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getIntValue())) < 0);
-    }
-
-    @Override
     public Value isLessThan(MoneyValue value) throws EvaluationException {
-        if (this.getCurrency() != value.getCurrency())
+        if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
         return new BooleanValue(this.amount.compareTo(value.getAmount()) < 0);
-    }
-
-    @Override
-    public Value isLessThan(DecimalValue value) {
-        return new BooleanValue(this.amount.compareTo(new BigDecimal(value.getDecimalValue())) < 0);
     }
 
     @Override
@@ -207,7 +166,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value multiply(MoneyValue value) throws EvaluationException {
-        if (this.getCurrency() != value.getCurrency())
+        if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
         return new MoneyValue(this.currency, this.amount.multiply(value.getAmount()));
@@ -224,21 +183,11 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isNotEqual(IntValue value) {
-        return new BooleanValue(!this.amount.equals(new BigDecimal(value.getIntValue())));
-    }
-
-    @Override
     public Value isNotEqual(MoneyValue value) throws EvaluationException {
-        if (this.getCurrency() != value.getCurrency())
+        if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
         return new BooleanValue(!this.amount.equals(value.getAmount()));
-    }
-
-    @Override
-    public Value isNotEqual(DecimalValue value) {
-        return new BooleanValue(!this.amount.equals(new BigDecimal(value.getDecimalValue())));
     }
 
     @Override
@@ -253,7 +202,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value subtract(MoneyValue value) throws EvaluationException {
-        if (this.getCurrency() != value.getCurrency())
+        if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
         return new MoneyValue(this.currency, this.amount.subtract(value.getAmount()));
@@ -265,36 +214,36 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value reverseSubtract(DecimalValue value) {
+    public Value reverseSubtract(DecimalValue value) throws EvaluationException {
         return value.subtract(this);
     }
 
     @Override
-    public Value reverseSubtract(IntValue value) {
+    public Value reverseSubtract(IntValue value) throws EvaluationException {
         return value.subtract(this);
     }
 
     @Override
     public Value reverseSubtract(MoneyValue value) throws EvaluationException {
-        if (this.getCurrency() != value.getCurrency())
+        if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
         return value.subtract(this);
     }
 
     @Override
-    public Value reverseDivide(DecimalValue value) {
+    public Value reverseDivide(DecimalValue value) throws EvaluationException {
         return value.divide(this);
     }
 
     @Override
-    public Value reverseDivide(IntValue value) {
+    public Value reverseDivide(IntValue value) throws EvaluationException {
         return value.divide(this);
     }
 
     @Override
     public Value reverseDivide(MoneyValue value) throws EvaluationException {
-        if (this.getCurrency() != value.getCurrency())
+        if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
         return value.divide(this);
@@ -307,7 +256,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value positive() {
-        return new MoneyValue(this.currency, this.amount);
+        return new MoneyValue(this.currency, this.amount.abs());
     }
 
     @Override

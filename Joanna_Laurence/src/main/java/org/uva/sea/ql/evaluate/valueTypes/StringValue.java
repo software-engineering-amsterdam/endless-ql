@@ -17,13 +17,23 @@ public class StringValue extends Value {
     }
 
     @Override
-    public Value add(Value value) throws EvaluationException {
-        return value.add(this);
+    public Value isEqual(Value value) throws EvaluationException {
+        return value.isEqual(this);
     }
 
     @Override
-    public Value add(StringValue value) {
-        return new StringValue(this.getStringValue().concat(value.getStringValue()));
+    public Value isEqual(StringValue value) {
+        return new BooleanValue(this.stringValue.equals(value.getStringValue()));
+    }
+
+    @Override
+    public Value isNotEqual(Value value) throws EvaluationException {
+        return value.isNotEqual(this);
+    }
+
+    @Override
+    public Value isNotEqual(StringValue value) {
+        return new BooleanValue(!this.stringValue.equals(value.getStringValue()));
     }
 
     @Override

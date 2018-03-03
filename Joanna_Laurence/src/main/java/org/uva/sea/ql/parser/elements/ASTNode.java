@@ -2,7 +2,7 @@ package org.uva.sea.ql.parser.elements;
 
 import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.visitor.Visitor;
+import org.uva.sea.ql.visitor.IASTVisitor;
 
 public abstract class ASTNode {
 
@@ -17,17 +17,19 @@ public abstract class ASTNode {
         this.line = token.getLine();
         this.column = token.getCharPositionInLine();
     }
+
     /**
      * Get the node type
+     *
      * @return The type
      */
     public abstract Type getType();
 
-    public int getLine(){
+    public int getLine() {
         return this.line;
     }
 
-    public int getColumn(){
+    public int getColumn() {
         return this.column;
     }
 
@@ -35,5 +37,5 @@ public abstract class ASTNode {
         return token;
     }
 
-    public abstract <T> T accept(Visitor<T> visitor);
+    public abstract <T> T accept(IASTVisitor<T> visitor);
 }

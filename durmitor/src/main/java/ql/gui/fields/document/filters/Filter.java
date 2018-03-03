@@ -5,15 +5,15 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
-import ql.ast.type.Type;
+import ql.ast.expression.Identifier;
 
 public abstract class Filter extends DocumentFilter {
 
-    private Type type;
+    private Identifier identifier;
     private String regex;
     
-    public Filter(Type type, String regex) {
-        this.type = type;
+    public Filter(Identifier identifier, String regex) {
+        this.identifier = identifier;
         this.regex = regex;
     }
     
@@ -28,7 +28,7 @@ public abstract class Filter extends DocumentFilter {
         
         if(test(stringBuilder.toString())) {
             super.insertString(filterBypass, offset, string, attribute);
-//TODO            type.setValue(stringBuilder.toString());
+            identifier.setValue(stringBuilder.toString());
         }
     }
     
@@ -52,7 +52,7 @@ public abstract class Filter extends DocumentFilter {
         
         if (test(stringBuilder.toString())) {
             super.replace(filterBypass, offset, length, text, attribute);
-//TODO            type.setValue(stringBuilder.toString());
+            identifier.setValue(stringBuilder.toString());
         }
     }
     
@@ -67,7 +67,7 @@ public abstract class Filter extends DocumentFilter {
         
         if(test(stringBuilder.toString())) {
             super.remove(filterBypass, offset, length);
-//TODO            type.setValue(stringBuilder.toString());
+            identifier.setValue(stringBuilder.toString());
         }
     }
 }

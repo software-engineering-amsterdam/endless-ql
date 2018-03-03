@@ -45,7 +45,7 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	 */
 	public void resolveQuestionIdentifier(IdentifierExpr identifier) {
 		// First check if the identifier is already present in the current scope
-		if (identifierStack.contains(identifier.getName())) {
+		if (identifierStack.isInCurrentScope(identifier.getName())) {
 			errorHandler.addIdentifierError(identifier.getToken(), "Read-only identifier already declared the current scope");
 		// Make sure the identifier is not declared in any outside scope
 		} else if (identifierStack.getIdentifier(identifier.getName()) != null) {
@@ -68,9 +68,7 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		identifierStack.enterScope();
 
 		// Visit every statement in the block.
-		for (Stmt statement : stmt.getStatements()) {
-			statement.accept(this);
-		}
+		stmt.getStatements().forEach( statement -> statement.accept(this));
 
 		// Remove the innermost scope
 		identifierStack.leaveScope();

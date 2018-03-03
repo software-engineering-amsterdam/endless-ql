@@ -1,11 +1,11 @@
 package ql.gui.fields.document.filters;
 
-import ql.ast.type.Type;
+import ql.ast.expression.Identifier;
 
 public class MoneyFilter extends Filter {
 
-    public MoneyFilter(Type type, String regex) {
-        super(type, regex);
+    public MoneyFilter(Identifier identifier, String regex) {
+        super(identifier, regex);
     }
 
 }

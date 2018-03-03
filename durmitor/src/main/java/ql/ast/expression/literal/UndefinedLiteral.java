@@ -1,6 +1,7 @@
 package ql.ast.expression.literal;
 
 import ql.ast.type.Type;
+import ql.ast.type.Undefined;
 import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.ValueVisitor;
 
@@ -24,7 +25,7 @@ public class UndefinedLiteral extends Literal<String> {
     
     @Override
     public Type getType() {
-        return new ql.ast.type.Undefined();
+        return new Undefined();
     }
     
     @Override

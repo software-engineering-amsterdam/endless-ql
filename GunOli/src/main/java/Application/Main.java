@@ -16,6 +16,7 @@ import ParseObjects.Question;
 import ParseObjects.Condition;
 import ParseObjects.Form;
 
+
 public class Main extends Application{
 
     @Override
@@ -30,8 +31,10 @@ public class Main extends Application{
 
     public Form buildQLForm(){
         String file = "example.ql";
+
         Parser Parser = new Parser();
         Form form = Parser.parseInputToForm(file);
+
 
         //Debug form
         for(Question question : form.getBlock().getQuestions()){

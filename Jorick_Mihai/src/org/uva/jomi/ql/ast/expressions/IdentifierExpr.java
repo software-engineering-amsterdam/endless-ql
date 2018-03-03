@@ -42,6 +42,7 @@ public class IdentifierExpr extends Expr {
 
 	public void updateAllFields(IdentifierExpr idetifier) {
 		this.undefined = idetifier.undefined;
+		this.setType(idetifier.getType());
 	}
 
 	@Override

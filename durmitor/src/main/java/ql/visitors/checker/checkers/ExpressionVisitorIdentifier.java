@@ -1,4 +1,4 @@
-package ql.visitors;
+package ql.visitors.checker.checkers;
 
 import java.util.ArrayList;
 import java.util.List;

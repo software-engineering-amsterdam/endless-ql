@@ -12,7 +12,6 @@ import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
 import ql.helpers.Dependencies;
 import ql.helpers.Dependency;
-import ql.visitors.ExpressionVisitorIdentifier;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorDependencies implements StatementVisitor {

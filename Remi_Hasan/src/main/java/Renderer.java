@@ -124,7 +124,7 @@ public class Renderer {
 
     private Control createTextField(HashMap<Question, Field> fieldMap, Question question, ReturnType type) {
         TextInputControl textField = Input.textField();
-        textField.setEditable(question.isEditable);
+        textField.setEditable(question.isEditable());
 
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
@@ -198,7 +198,7 @@ public class Renderer {
         field.getControl().setVisible(visible);
 
         // If question is based on expression and cannot be set by the user, set value by evaluating its expression
-        if(!question.isEditable) {
+        if(!question.isEditable()) {
             String answer = symbolTable.getStringValue(question.name, question.type);
 
             if (question.type == ReturnType.BOOLEAN) {

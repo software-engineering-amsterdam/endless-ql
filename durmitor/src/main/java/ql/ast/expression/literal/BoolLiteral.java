@@ -30,10 +30,6 @@ public class BoolLiteral extends Literal<Boolean> {
         return value;
     }
     
-    public void setValue(Boolean value) {
-        this.value = value;
-    }
-    
     @Override
     public String toString() {
         return String.valueOf(value);

@@ -36,10 +36,6 @@ public class DecimalLiteral extends Literal<Number> {
         return value;
     }
     
-    public void setValue(Double value) {
-        this.value = value;
-    }
-    
     @Override
     public Type getType() {
         return new Decimal();

@@ -3,8 +3,8 @@ package visitor;
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
 import expression.Expression;
-import expression.ExpressionFactory;
 import expression.ReturnType;
+import expression.variable.ExpressionVariableUndefined;
 import model.Question;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {
@@ -25,18 +25,18 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
 
         QLParser.QuestionTypeContext questionTypeContext = ctx.questionType();
         ReturnType questionType = ReturnType.valueOf(questionTypeContext.type().getText().toUpperCase());
-        Expression defaultAnswer = getDefaultAnswer(ctx.questionType());
 
-        // Check whether question can be edited by user, or is based on an expression
+        // Check whether answer can be filled in by user, or is based on an expression
         boolean isEditable = ctx.questionType().expression() == null;
+        Expression defaultAnswer = getDefaultAnswer(ctx.questionType(), isEditable);
 
         return new Question(questionType, questionName, questionText, defaultAnswer, isEditable, this.condition);
     }
 
-    private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType) {
-        if(questionType.expression() == null) {
-            // TODO: preferably change to undefined, but that breaks type checking
-            return ExpressionFactory.createEmptyExpression(questionType.type().getText());
+    private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType, boolean isEditable) {
+        // If answer can be filled in by user, create empty (undefined) expression of correct type (for type checking)
+        if(isEditable) {
+            return new ExpressionVariableUndefined(ReturnType.valueOf(questionType.type().getText().toUpperCase()));
         }
 
         VisitorExpression visitorExpression = new VisitorExpression();

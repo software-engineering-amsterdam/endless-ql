@@ -21,7 +21,7 @@ public class QuestionViewModelCollectorImpl implements QuestionViewModelCollecto
 
         for (ConditionalBlockViewModel conditionalBlock : block.getBlocks()) {
             for (QuestionBlockViewModel innerBlock : conditionalBlock.getQuestionBlocks()) {
-                this.collectBooleanQuestionViewModels(innerBlock);
+                this.collectNumericQuestionViewModels(innerBlock);
             }
         }
     }

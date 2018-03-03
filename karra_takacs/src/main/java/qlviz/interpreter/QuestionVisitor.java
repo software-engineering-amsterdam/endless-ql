@@ -31,17 +31,17 @@ public class QuestionVisitor extends QLBaseVisitor<Question> {
         }
         switch (type){
             case Boolean:
-                return new BooleanQuestion(name, text, type);
+                return new BooleanQuestion(name, text, type, ctx);
             case Money:
-                return new MoneyQuestion(name, text, type, computedValue);
+                return new MoneyQuestion(name, text, type, computedValue, ctx);
             case String:
-                return new StringQuestion(name, text, type);
+                return new StringQuestion(name, text, type, ctx);
             case Integer:
-                return new IntegerQuestion(name, text, type, computedValue);
+                return new IntegerQuestion(name, text, type, computedValue, ctx);
             case Date:
-                return new DateQuestion(name, text, type);
+                return new DateQuestion(name, text, type, ctx);
             case Decimal:
-                return new DecimalQuestion(name, text, type, computedValue);
+                return new DecimalQuestion(name, text, type, computedValue, ctx);
         }
         return null;
         

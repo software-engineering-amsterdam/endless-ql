@@ -5,7 +5,6 @@ public class QLMain {
     /**
      TODO:
      Add tests
-     add else statement
 
      Date with /
      Rename lhs rhs

@@ -12,8 +12,7 @@ public class QLMain {
      Show warnings in GUI
 
      cyclic dependencies between questions
-     duplicate labels (warning)
-     duplicate question declarations with different types
+     No double questions in ql file. Only in if - else allowed
 
      */
 

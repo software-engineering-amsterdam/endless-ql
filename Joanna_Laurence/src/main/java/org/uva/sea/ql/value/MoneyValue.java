@@ -1,19 +1,18 @@
 package org.uva.sea.ql.value;
 
 import org.uva.sea.ql.QLValueEvaluator;
-import org.uva.sea.ql.evaluate.EvaluationException;
+import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
 
 import java.math.BigDecimal;
 import java.security.InvalidParameterException;
-import java.util.concurrent.ExecutionException;
 
 public class MoneyValue extends Value {
 
     private String currency;
     private BigDecimal amount;
 
-    public MoneyValue(String value) throws Exception {
+    public MoneyValue(String value) throws EvaluationException {
         String[] split = value.split(" ",2);
         if(split.length != 2)
             throw new InvalidParameterException("Incorrect money type " + value);
@@ -36,7 +35,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value add(Value value) throws Exception {
+    public Value add(Value value) throws EvaluationException {
         return value.add(this);
     }
 
@@ -46,7 +45,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value add(MoneyValue value) throws Exception {
+    public Value add(MoneyValue value) throws EvaluationException {
         if(!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
@@ -59,7 +58,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value divide(Value value) throws Exception {
+    public Value divide(Value value) throws EvaluationException {
         return value.reverseDivide(this);
     }
 
@@ -69,7 +68,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value divide(MoneyValue value) throws Exception {
+    public Value divide(MoneyValue value) throws EvaluationException {
         if(!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
@@ -82,7 +81,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isEqual(Value value) throws Exception {
+    public Value isEqual(Value value) throws EvaluationException {
         return value.isEqual(this);
     }
 
@@ -92,7 +91,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isEqual(MoneyValue value) throws Exception {
+    public Value isEqual(MoneyValue value) throws EvaluationException {
         if(this.getCurrency() != value.getCurrency())
             throw new EvaluationException("Currencies mismatch");
 
@@ -105,7 +104,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isGreaterOrEqual(Value value) throws Exception {
+    public Value isGreaterOrEqual(Value value) throws EvaluationException {
         return value.isLessThan(this);
     }
 
@@ -115,7 +114,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isGreaterOrEqual(MoneyValue value) throws Exception {
+    public Value isGreaterOrEqual(MoneyValue value) throws EvaluationException {
         if(this.getCurrency() != value.getCurrency())
             throw new EvaluationException("Currencies mismatch");
 
@@ -128,7 +127,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isGreaterThan(Value value) throws Exception {
+    public Value isGreaterThan(Value value) throws EvaluationException {
         return value.isLessOrEqual(this);
     }
 
@@ -138,7 +137,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isGreaterThan(MoneyValue value) throws Exception {
+    public Value isGreaterThan(MoneyValue value) throws EvaluationException {
         if(this.getCurrency() != value.getCurrency())
             throw new EvaluationException("Currencies mismatch");
 
@@ -151,7 +150,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isLessOrEqual(Value value) throws Exception {
+    public Value isLessOrEqual(Value value) throws EvaluationException {
         return value.isGreaterThan(this);
     }
 
@@ -161,7 +160,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isLessOrEqual(MoneyValue value) throws Exception {
+    public Value isLessOrEqual(MoneyValue value) throws EvaluationException {
         if(this.getCurrency() != value.getCurrency())
             throw new EvaluationException("Currencies mismatch");
 
@@ -174,7 +173,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isLessThan(Value value) throws Exception {
+    public Value isLessThan(Value value) throws EvaluationException {
         return value.isGreaterOrEqual(this);
     }
 
@@ -184,7 +183,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isLessThan(MoneyValue value) throws Exception {
+    public Value isLessThan(MoneyValue value) throws EvaluationException {
         if(this.getCurrency() != value.getCurrency())
             throw new EvaluationException("Currencies mismatch");
 
@@ -197,7 +196,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value multiply(Value value) throws Exception {
+    public Value multiply(Value value) throws EvaluationException {
         return value.multiply(this);
     }
 
@@ -207,7 +206,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value multiply(MoneyValue value) throws Exception {
+    public Value multiply(MoneyValue value) throws EvaluationException {
         if(this.getCurrency() != value.getCurrency())
             throw new EvaluationException("Currencies mismatch");
 
@@ -220,7 +219,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isNotEqual(Value value) throws Exception {
+    public Value isNotEqual(Value value) throws EvaluationException {
         return value.isNotEqual(this);
     }
 
@@ -230,7 +229,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value isNotEqual(MoneyValue value) throws Exception {
+    public Value isNotEqual(MoneyValue value) throws EvaluationException {
         if(this.getCurrency() != value.getCurrency())
             throw new EvaluationException("Currencies mismatch");
 
@@ -243,7 +242,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value subtract(Value value) throws Exception {
+    public Value subtract(Value value) throws EvaluationException {
         return value.reverseSubtract(this);
     }
 
@@ -253,7 +252,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value subtract(MoneyValue value) throws Exception {
+    public Value subtract(MoneyValue value) throws EvaluationException {
         if(this.getCurrency() != value.getCurrency())
             throw new EvaluationException("Currencies mismatch");
         
@@ -276,7 +275,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value reverseSubtract(MoneyValue value) throws Exception {
+    public Value reverseSubtract(MoneyValue value) throws EvaluationException {
         if(this.getCurrency() != value.getCurrency())
             throw new EvaluationException("Currencies mismatch");
         
@@ -294,7 +293,7 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value reverseDivide(MoneyValue value) throws Exception {
+    public Value reverseDivide(MoneyValue value) throws EvaluationException {
         if(this.getCurrency() != value.getCurrency())
             throw new EvaluationException("Currencies mismatch");
         

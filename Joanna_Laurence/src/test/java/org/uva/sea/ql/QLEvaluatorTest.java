@@ -13,6 +13,7 @@ import org.uva.sea.ql.value.ErrorValue;
 import org.uva.sea.ql.value.Value;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -79,10 +80,7 @@ public class QLEvaluatorTest extends TestCase {
                 String match = matcher.group(1);
                 return Integer.parseInt(match);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("Cannot find number of tests in: " + location);
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -160,10 +158,11 @@ public class QLEvaluatorTest extends TestCase {
                 }
             }
 
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+            System.out.println("File error: " + e.getMessage());
             e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("Cannot extract variable locations: " + location);
+        } catch (ReflectiveOperationException e) {
+            System.out.println("Class cannot be resolved: " + e.getMessage());
             e.printStackTrace();
         }
 

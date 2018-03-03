@@ -1,6 +1,7 @@
 package org.uva.sea.ql.value;
 
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
 
 public class StringValue extends Value {
@@ -16,7 +17,7 @@ public class StringValue extends Value {
     }
 
     @Override
-    public Value add(Value value) throws Exception {
+    public Value add(Value value) throws EvaluationException {
         return value.add(this);
     }
 

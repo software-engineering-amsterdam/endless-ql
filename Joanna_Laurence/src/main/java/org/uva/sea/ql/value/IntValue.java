@@ -1,6 +1,7 @@
 package org.uva.sea.ql.value;
 
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
 
 import java.math.BigDecimal;
@@ -21,7 +22,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value add(Value value) throws Exception {
+    public Value add(Value value) throws EvaluationException {
         return value.add(this);
     }
 
@@ -41,7 +42,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value divide(Value value) throws Exception {
+    public Value divide(Value value) throws EvaluationException {
         return value.reverseDivide(this);
     }
 
@@ -61,7 +62,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isEqual(Value value) throws Exception {
+    public Value isEqual(Value value) throws EvaluationException {
         return value.isEqual(this);
     }
 
@@ -81,7 +82,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isGreaterOrEqual(Value value) throws Exception {
+    public Value isGreaterOrEqual(Value value) throws EvaluationException {
         return value.isLessThan(this);
     }
 
@@ -101,7 +102,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isGreaterThan(Value value) throws Exception {
+    public Value isGreaterThan(Value value) throws EvaluationException {
         return value.isLessOrEqual(this);
     }
 
@@ -121,7 +122,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isLessOrEqual(Value value) throws Exception {
+    public Value isLessOrEqual(Value value) throws EvaluationException {
         return value.isGreaterThan(this);
     }
 
@@ -141,7 +142,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isLessThan(Value value) throws Exception {
+    public Value isLessThan(Value value) throws EvaluationException {
         return value.isGreaterOrEqual(this);
     }
 
@@ -161,7 +162,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value multiply(Value value) throws Exception {
+    public Value multiply(Value value) throws EvaluationException {
         return value.multiply(this);
     }
 
@@ -181,7 +182,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value isNotEqual(Value value) throws Exception {
+    public Value isNotEqual(Value value) throws EvaluationException {
         return value.isNotEqual(this);
     }
 
@@ -201,7 +202,7 @@ public class IntValue extends Value {
     }
 
     @Override
-    public Value subtract(Value value) throws Exception {
+    public Value subtract(Value value) throws EvaluationException {
         return value.reverseSubtract(this);
     }
 

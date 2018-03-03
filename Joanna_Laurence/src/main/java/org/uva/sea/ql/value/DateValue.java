@@ -2,6 +2,7 @@ package org.uva.sea.ql.value;
 
 
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
 
 import java.security.InvalidParameterException;
@@ -11,7 +12,7 @@ public class DateValue extends Value {
 
     private Calendar dateValue;
 
-    public DateValue(String date) throws Exception {
+    public DateValue(String date) {
         String[] dateSplit = date.split(date, 3);
         if(dateSplit.length != 3)
             throw new InvalidParameterException("Incorrect date: " + date);

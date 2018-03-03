@@ -6,6 +6,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.gui.model.*;
 import org.uva.sea.ql.value.*;
 
@@ -40,11 +41,7 @@ public class JavafxRendererVisitor implements QuestionRenderer, QuestionModelVis
         TextField newInput = printTextField(question);
         newInput.focusedProperty().addListener((observable, oldIsFocused, newIsFocused) -> {
             if (!newIsFocused) {
-                try {
-                    model.updateQuestion(question.getVariableName(), new DateValue(newInput.getText()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                model.updateQuestion(question.getVariableName(), new DateValue(newInput.getText()));
             }
         });
         parent.getChildren().add(createQuestionRow(printLabel(question.getLabel()), newInput));
@@ -84,7 +81,7 @@ public class JavafxRendererVisitor implements QuestionRenderer, QuestionModelVis
             if (!newIsFocused) {
                 try {
                     model.updateQuestion(question.getVariableName(), new MoneyValue(newInput.getText()));
-                } catch (Exception e) {
+                } catch (EvaluationException e) {
                     e.printStackTrace();
                 }
             }

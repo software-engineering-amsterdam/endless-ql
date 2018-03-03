@@ -3,7 +3,7 @@ package org.uva.sea.ql;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Errors extends Exception {
+public class Errors {
     private List<String> errors = new ArrayList<>();
 
     public void addError(String error) {
@@ -23,7 +23,7 @@ public class Errors extends Exception {
     }
 
     @Override
-    public String getMessage(){
+    public String toString(){
         return errors.toString();
     }
 }

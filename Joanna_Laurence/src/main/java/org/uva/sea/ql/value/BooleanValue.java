@@ -1,6 +1,7 @@
 package org.uva.sea.ql.value;
 
 import org.uva.sea.ql.QLValueEvaluator;
+import org.uva.sea.ql.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
 
 public class BooleanValue extends Value {
@@ -19,7 +20,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value and(Value value) throws Exception {
+    public Value and(Value value) throws EvaluationException {
         return value.and(this);
     }
 
@@ -29,7 +30,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value isEqual(Value value) throws Exception {
+    public Value isEqual(Value value) throws EvaluationException {
         return value.isEqual(this);
     }
 
@@ -39,7 +40,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value isNotEqual(Value value) throws Exception {
+    public Value isNotEqual(Value value) throws EvaluationException {
         return value.isNotEqual(this);
     }
 
@@ -49,7 +50,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value or(Value value) throws Exception {
+    public Value or(Value value) throws EvaluationException {
         return value.or(value);
     }
 

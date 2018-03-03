@@ -5,12 +5,12 @@ using QuestionaireDomain.Entities.API.AstNodes.Calculation;
 
 namespace QuestionaireDomain.Entities.DomainObjects
 {
-    public class VariableNode : AstNodeBase, IVariableNode
+    public class CalculationVariableNode : AstNodeBase, IVariableNode
     {
         public string VariableName { get; }
         public string CalculationDefinition { get; }
 
-        public VariableNode(Guid id, string variableName) : base(id)
+        public CalculationVariableNode(Guid id, string variableName) : base(id)
         {
             CalculationDefinition = variableName;
             VariableName = variableName;

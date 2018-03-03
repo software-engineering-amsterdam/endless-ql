@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace UnitTests.Domain.UnitTests
@@ -8,7 +9,28 @@ namespace UnitTests.Domain.UnitTests
     {
         private static readonly string NewLine = Environment.NewLine;
 
-        public static IEnumerable CommentCases
+        public static IEnumerable GoodFormCases
+        {
+            get
+            {
+                yield return new TestCaseData(@"form MyForm {}", @"MyForm");
+                yield return new TestCaseData($@"// has comment{NewLine}form MyForm2 {{}}", @"MyForm2");
+                yield return new TestCaseData($@"form MyForm_3 {{{NewLine}}}", @"MyForm_3");
+            }
+        }
+
+        public static IEnumerable BadFormCases
+        {
+            get
+            {
+                yield return new TestCaseData(@"forx MyForm {}");
+                yield return new TestCaseData(@"form MyForm {");
+                yield return new TestCaseData($@"form MyFo$rm_3 {{{NewLine}}}");
+                yield return new TestCaseData(@"form MyForm {form MyForm2 {}}");
+            }
+        }
+        
+        public static IEnumerable GoodCommentCases
         {
             get
             {
@@ -33,6 +55,22 @@ form CommentFormMLX {}";
                 // ToDo: Add instring comments and make sure they print
             }
         }
+
+        public static IEnumerable BadCommentCases
+        {
+            get
+            {
+                yield return new TestCaseData(@"//form CommentForm {}//");
+                yield return new TestCaseData(@"form CommentFormX {/}/ has comment");
+                yield return new TestCaseData(@"form /* inline * CommentFormDEF {}");
+                var multilineComment1 = @"/*
+some comment
+
+form CommentFormML {}";
+                yield return new TestCaseData(multilineComment1);
+            }
+        }
+
 
         public static IEnumerable ValidNameCases
         {
@@ -62,27 +100,41 @@ form CommentFormMLX {}";
         {
             get
             {
-                yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", @"x", @"xyz");
-                yield return new TestCaseData("form NameForm { qname : \"this is a question\"  boolean }", @"qname", @"this is a question");
                 yield return new TestCaseData(
-                    $"form NameForm {{ {NewLine} qname2 : \"this is a question too\"  boolean{NewLine}  }} ",
+                    "form NameForm { x : \"xyz\"  boolean }", 
+                    @"x", 
+                    @"xyz",
+                    typeof(bool));
+                yield return new TestCaseData(
+                    "form NameForm { qname : \"this is a question\"  string }", 
+                    @"qname", 
+                    @"this is a question",
+                    typeof(string));
+                yield return new TestCaseData(
+                    $"form NameForm {{ {NewLine} qname2 : \"this is a question too\"  decimal{NewLine}  }} ",
                     @"qname2",
-                    @"this is a question too");
+                    @"this is a question too",
+                    typeof(decimal));
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    qname3 : \"this is a question three\" date{NewLine}    qname4 : \"this is a question four\" boolean }} ",
+                    @"qname3",
+                    @"this is a question three",
+                    typeof(DateTime));
+                yield return new TestCaseData(
+                    $"form NameForm {{{NewLine}    whoop : \"this is a question three\" integer{NewLine}    qname4 : \"this is a question four\" boolean }} ",
+                    @"whoop",
+                    @"this is a question three",
+                    typeof(int));
                 yield return new TestCaseData(
                     $"form NameForm {{{NewLine}    qname3 : \"this is a question three\" boolean{NewLine}    qname4 : \"this is a question four\" boolean }} ",
                     @"qname3",
-                    @"this is a question three");
+                    @"this is a question three",
+                    typeof(bool));
                 yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    qname3 : \"this is a question three\" boolean{NewLine}    qname4 : \"this is a question four\" boolean }} ",
-                    @"qname3",
-                    @"this is a question three");
-                yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    qname3 : \"this is a question three\" boolean{NewLine}    qname4 : \"this is a question four\" boolean }} ",
-                    @"qname3",
-                    @"this is a question three");
-                yield return new TestCaseData("form NameForm { x: \"xyz\" boolean }", @"x", @"xyz");
-                yield return new TestCaseData("form NameForm { \"xyz\"  x: boolean }", @"x", @"xyz");
-                yield return new TestCaseData($"form NameForm {{ \"xyz\" {NewLine} x: boolean {NewLine} \"xxx\" {NewLine} y: boolean {NewLine}}}", @"x", @"xyz");
+                    $"form NameForm {{ \"xyz\" {NewLine} x: boolean {NewLine} \"xxx\" {NewLine} y: boolean {NewLine}}}", 
+                    @"x", 
+                    @"xyz",
+                    typeof(bool));
             }
         }
 
@@ -226,19 +278,132 @@ form CommentFormMLX {}";
             }
         }
 
+        //string validText,
+        //IEnumerable<string> expectedDefinitions,
+        //IEnumerable<bool> expectedLiterals,
+        //IEnumerable<string> expectedVariables,
+        //OperatorCount operatorCount)
+
         public static IEnumerable BooleanConditional
         {
             get
             {
-                yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", new[] { "boolQuestion" });
-                yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    boolQuestion1 : \"xyz\"  boolean{NewLine}    if (boolQuestion1) {{{NewLine}    aName : \"zxy\"  boolean }} {NewLine}    if (boolQuestion1) {{{NewLine}    aName2 : \"zxy\"  boolean }} }} ", new[] { "boolQuestion1" });
-                yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    boolQuestion2 : \"xyz\"  boolean{NewLine}    if (boolQuestion2) {{{NewLine}    aName : \"zxy\"  boolean {NewLine}    if (aName) {{{NewLine}    aName2 : \"zxy\"  boolean }}  }} }} ", new[] { "boolQuestion2", "aName" });
+                //test processes if statement
+                yield return BooleanTestCaseData(
+                    formText: $"form NameForm {{{NewLine}    boolQuestion : \"xyz\"  boolean{NewLine}    if (boolQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", 
+                    definitions: new[] { "boolQuestion" });
+
+                //test AND and multiple boolean variables
+                yield return BooleanTestCaseData(
+                    formText: $"form NameForm {{{NewLine}    boolQuestion1 : \"xyz1\"  boolean{NewLine}    boolQuestion2 : \"xyz2\"  boolean{NewLine}    if (boolQuestion1 && boolQuestion2) {{{NewLine}    aName : \"zxy\"  boolean }} }} ",
+                    definitions: new[] { "boolQuestion1&&boolQuestion2" },
+                    variables: new[] { "boolQuestion1", "boolQuestion2" },
+                    operators: new OperatorCount { AndCount = 1 });
+
+                //test multiple if statements and OR
+                yield return BooleanTestCaseData(
+                    formText: $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if (bq1 && bq2) {{ x : \"xx\"  date }}  if (bq3 || bq4) {{ y : \"yy\"  date }} }} ",
+                    definitions: new[] { "bq1&&bq2", "bq3||bq4" },
+                    variables: new[] { "bq1", "bq2", "bq3", "bq4" },
+                    operators: new OperatorCount { AndCount = 1, OrCount = 1 });
+
+                //test multiple AND with variables
+                yield return BooleanTestCaseData(
+                    formText: $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if (bq1 && bq2 && bq3 && bq4) {{ x : \"xx\"  date }} }} ",
+                    definitions: new[] { "bq1&&bq2&&bq3&&bq4" },
+                    variables: new[] { "bq1", "bq2", "bq3", "bq4" },
+                    operators: new OperatorCount { AndCount = 3 });
+
+                //test multiple OR with variables
+                yield return BooleanTestCaseData(
+                    formText: $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if (bq1 || bq2 || bq3 || bq4) {{ x : \"xx\"  date }} }} ",
+                    definitions: new[] { "bq1||bq2||bq3||bq4" },
+                    variables: new[] { "bq1", "bq2", "bq3", "bq4" },
+                    operators: new OperatorCount { OrCount = 3 });
+
+                // test bracketed grouping
+                yield return BooleanTestCaseData(
+                    formText: $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if ((bq1 || bq2) && (bq3 || bq4)) {{ x : \"xx\"  date }} }} ",
+                    definitions: new[] { "(bq1||bq2)&&(bq3||bq4)" },
+                    variables: new[] { "bq1", "bq2", "bq3", "bq4" },
+                    operators: new OperatorCount { AndCount = 1, OrCount = 2 });
+
+                // test the various Boolean True Literals
+                yield return BooleanTestCaseData(
+                    formText: $"form NameForm {{bq1 : \"1\"  boolean if (true && True && TRUE) {{ x : \"xx\"  date }} }} ",
+                    definitions: new[] { "true&&True&&TRUE" },
+                    values: new[] { true, true, true },
+                    operators: new OperatorCount { AndCount = 2 });
+
+                // test the various Boolean False Literals
+                yield return BooleanTestCaseData(
+                    formText:
+                    $"form NameForm {{bq1 : \"1\"  boolean if (bq1 || false || False || FALSE) {{ x : \"xx\"  date }} }} ",
+                    definitions: new[] {"bq1||false||False||FALSE"},
+                    values: new[] {false, false, false},
+                    operators: new OperatorCount {OrCount = 3});
+
+                // test Negate
+                yield return BooleanTestCaseData(
+                    formText: $"form NameForm {{bq1 : \"1\"  boolean if (!bq1 || !(false && False) || !(FALSE)) {{ x : \"xx\"  date }} }} ",
+                    definitions: new[] { "!bq1||!(false&&False)||!(FALSE)" },
+                    variables: new[] { "bq1" },
+                    operators: new OperatorCount { NegateCount = 3, AndCount = 1, OrCount = 2 });
+
+                // test Equality
+                yield return BooleanTestCaseData(
+                    formText: $"form NameForm {{bq1 : \"1\"  boolean if (true == true) {{ x : \"xx\"  date }} }} ",
+                    definitions: new[] { "true==true" },
+                    operators: new OperatorCount { EqualityCount = 1},
+                    subdefinitions: new[] { "true==true" });
+
+                // test Inequality
+                yield return BooleanTestCaseData(
+                    formText: $"form NameForm {{bq1 : \"1\"  boolean if (false != true) {{ x : \"xx\"  date }} }} ",
+                    definitions: new[] { "false!=true" },
+                    operators: new OperatorCount { InequalityCount = 1 },
+                    subdefinitions: new[] { "false!=true" });
+
+
+                //yield return new TestCaseData(
+                //    $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if ((bq1 && bq2) || bq3) {{ x : \"xx\"  date }}  if ((bq3 || bq4) && (bq1 && bq2 && bq3)) {{ y : \"yy\"  date }} }} ",
+                //    new[] { "(bq1&&bq2)||bq3", "(bq3||bq4)&&(bq1&&bq2&&bq3)" },
+                //    emptyLiterals,
+                //    new[] { "bq1", "bq2", "bq3", "bq4" },
+                //    new OperatorCount() { AndCount = 4, OrCount = 2 }, emptySubDefinitions);
+
+                //yield return new TestCaseData(
+                //    $"form NameForm {{{NewLine}    boolQuestion1 : \"xyz\"  boolean{NewLine}    if (boolQuestion1) {{{NewLine}    aName : \"zxy\"  boolean }} {NewLine}    if (boolQuestion1) {{{NewLine}    aName2 : \"zxy\"  boolean }} }} ", 
+                //    new[] { "boolQuestion1" }, emptySubDefinitions);
+                //yield return new TestCaseData(
+                //    $"form NameForm {{{NewLine}    boolQuestion2 : \"xyz\"  boolean{NewLine}    if (boolQuestion2) {{{NewLine}    aName : \"zxy\"  boolean {NewLine}    if (aName) {{{NewLine}    aName2 : \"zxy\"  boolean }}  }} }} ", 
+                //    new[] { "boolQuestion2", "aName" }, emptySubDefinitions);
             }
         }
 
+        private static TestCaseData BooleanTestCaseData(
+            string formText,
+            IEnumerable<string> definitions = null,
+            IEnumerable<bool> values = null,
+            IEnumerable<string> variables = null,
+            OperatorCount operators = new OperatorCount(),
+            IEnumerable<string> subdefinitions = null)
+        {
+            definitions = definitions ?? new List<string>();
+            values = values ?? new List<bool>();
+            variables = variables ?? new List<string>();
+            subdefinitions = subdefinitions ?? new List<string>();
+
+            return new TestCaseData(
+                formText, 
+                definitions, 
+                values, 
+                variables, 
+                operators, 
+                subdefinitions);
+
+        }
+        
         public static IEnumerable ComparisonConditional
         {
             get

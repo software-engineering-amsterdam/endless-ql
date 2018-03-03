@@ -9,9 +9,16 @@ namespace QuestionaireDomain.Entities.DomainObjects
 {
     public class ConditionalAst : AstNodeBase, IConditionalStatementNode
     {
-        public ConditionalAst(Guid id, string conditionDefinition) : base(id)
+        public ConditionalAst(Guid id, 
+            string conditionDefinition,
+            Reference<IBooleanLogicNode> predicate,
+            IEnumerable<Reference<IStatementNode>> consequent,
+            IEnumerable<Reference<IStatementNode>> alternative) : base(id)
         {
             ConditionDefinition = conditionDefinition;
+            Predicate = predicate;
+            Consequent = consequent;
+            Alternative = alternative;
         }
 
         public override void Accept(IAstVisitor visitor)
@@ -20,8 +27,8 @@ namespace QuestionaireDomain.Entities.DomainObjects
         }
 
         public string ConditionDefinition { get; }
-        public IBooleanLogicNode Predicate { get; }
-        public IList<IQuestionnaireNode> Consequent { get; }
-        public IList<IQuestionnaireNode> Alternative { get; }
+        public Reference<IBooleanLogicNode> Predicate { get; }
+        public IEnumerable<Reference<IStatementNode>> Consequent { get; }
+        public IEnumerable<Reference<IStatementNode>> Alternative { get; }
     }
 }

@@ -1,6 +1,7 @@
 package org.uva.sea.ql.gui.model;
 
 import org.uva.sea.ql.QLSpecificationEvaluator;
+import org.uva.sea.ql.dataObject.InterpreterResult;
 import org.uva.sea.ql.dataObject.QuestionData;
 import org.uva.sea.ql.evaluate.SymbolTable;
 import org.uva.sea.ql.evaluate.valueTypes.Value;
@@ -15,7 +16,7 @@ public class QuestionModel {
     private final SymbolTable symbolTable;
     private final QLSpecificationEvaluator formGenerator;
     private final String questionFileName;
-    private List<QuestionData> questions = new ArrayList<>();
+    private InterpreterResult questions;
     private List<ValueChangeListener> listeners = new ArrayList<>();
 
 
@@ -31,7 +32,7 @@ public class QuestionModel {
     }
 
     public List<QuestionData> getQuestions() {
-        return questions;
+        return questions.getQuestions();
     }
 
     public void add(QuestionData questionRow) {

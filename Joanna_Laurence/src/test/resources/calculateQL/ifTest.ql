@@ -11,7 +11,7 @@ form taxOfficeExample {
          otherPrice: decimal
 
     } else {
-             "What was the costprice?"
+             "What was the costprice2?"
                  otherPrice2: decimal
     }
 

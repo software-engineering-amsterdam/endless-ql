@@ -6,9 +6,9 @@ using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 
 namespace QuestionaireDomain.Entities.DomainObjects
 {
-    public class Ast : AstNodeBase, IRootNode
+    public class AstNode : AstNodeBase, IRootNode
     {
-        public Ast(
+        public AstNode(
             Guid id, 
             string questionnaireName, 
             IEnumerable<Reference<IStatementNode>> statements) 

@@ -13,7 +13,7 @@ public class FormEvaluator extends BaseASTVisitor<List<Question>> {
      * Evaluates the form
      *
      * @param form        Form that is evaluated
-     * @param symbolTable Symbol table with data
+     * @param symbolTable Symbol table with helpers
      * @return List of all seen questions
      */
     public List<Question> evaluate(Form form, SymbolTable symbolTable) {

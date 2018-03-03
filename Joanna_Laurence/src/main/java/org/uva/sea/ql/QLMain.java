@@ -9,10 +9,10 @@ public class QLMain {
      Date with /
      Rename lhs rhs
      Show errors in GUI
+     Show warnings in GUI
 
      cyclic dependencies between questions
-     duplicate labels (warning)
-     duplicate question declarations with different types
+     No double questions in ql file. Only in if - else allowed
 
      */
 

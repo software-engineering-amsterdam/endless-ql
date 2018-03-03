@@ -21,7 +21,7 @@ public class IfStatementEvaluator extends BaseValueVisitor<Boolean> {
      * Evaluates the condition, when true the statements are returned
      *
      * @param ifStatement Statement that is evaluated
-     * @param symbolTable Symbol table with data
+     * @param symbolTable Symbol table with helpers
      * @return List of all seen questions
      */
     public List<Question> evaluate(IfStatement ifStatement, SymbolTable symbolTable) {

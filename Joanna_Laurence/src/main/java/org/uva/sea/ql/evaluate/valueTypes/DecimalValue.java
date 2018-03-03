@@ -43,17 +43,17 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value divide(IntValue value) {
+    public Value divide(IntValue value) throws EvaluationException {
         if (value.getIntValue() == 0)
-            throw new RuntimeException("Divide by 0 error");
+            throw new EvaluationException("Divide by 0 error");
 
         return new DecimalValue(this.decimalValue / value.getIntValue());
     }
 
     @Override
-    public Value divide(DecimalValue value) {
+    public Value divide(DecimalValue value) throws EvaluationException {
         if (value.getDecimalValue() == 0)
-            throw new RuntimeException("Divide by 0 error");
+            throw new EvaluationException("Divide by 0 error");
 
         return new DecimalValue(this.decimalValue / value.getDecimalValue());
     }
@@ -189,17 +189,17 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value reverseDivide(DecimalValue value) {
+    public Value reverseDivide(DecimalValue value) throws EvaluationException {
         return value.divide(this);
     }
 
     @Override
-    public Value reverseDivide(IntValue value) {
+    public Value reverseDivide(IntValue value) throws EvaluationException {
         return value.divide(this);
     }
 
     @Override
-    public Value reverseDivide(MoneyValue value) {
+    public Value reverseDivide(MoneyValue value) throws EvaluationException {
         return value.divide(this);
     }
 

@@ -7,8 +7,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.uva.sea.ql.dataObject.ASTResult;
 import org.uva.sea.ql.exceptions.StaticAnalysisError;
-import org.uva.sea.ql.parser.elements.Form;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,14 +16,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class QLCompilerTest extends TestCase {
+public class ASTGeneratorTest extends TestCase {
 
     private static TestFileHelper testFileHelper = new TestFileHelper();
     private String testFile;
     private Boolean shouldCompile;
 
 
-    public QLCompilerTest(String testFile, Boolean shouldCompile) {
+    public ASTGeneratorTest(String testFile, Boolean shouldCompile) {
         this.testFile = testFile;
         this.shouldCompile = shouldCompile;
     }
@@ -40,8 +40,8 @@ public class QLCompilerTest extends TestCase {
 
     /**
      * @param folderLocation Location of the QL files
-     * @param shouldCompile  Should the file compile?
-     * @return Map of test files and if they should compile
+     * @param shouldCompile  Should the file be interpretable?
+     * @return Map of test files and if they should be interpretable
      */
     private static Collection<Object[]> getTestFiles(String folderLocation, Boolean shouldCompile) {
         Collection<Object[]> testFiles = new ArrayList<Object[]>();
@@ -58,14 +58,14 @@ public class QLCompilerTest extends TestCase {
      * Compiles the file and checks result
      *
      * @param fileName The location of the QL file
-     * @return If the script compiles
+     * @return If the script is interpretable
      */
-    private boolean doesCompile(String fileName) {
+    private boolean doesInterpreter(String fileName) {
         try {
-            QLCompiler compiler = new QLCompiler();
+            ASTGenerator ASTGenerator = new ASTGenerator();
             CharStream steam = CharStreams.fromStream(new FileInputStream(fileName));
-            Form result = compiler.compileScriptFile(steam);
-            return result != null;
+            ASTResult result = ASTGenerator.interpreterScriptFile(steam);
+            return result.getAST() != null;
         } catch (IOException | StaticAnalysisError e) {
             return false;
         }
@@ -75,6 +75,6 @@ public class QLCompilerTest extends TestCase {
     @Test
     public void testFile() {
         System.out.println("Testing: " + this.testFile);
-        Assert.assertEquals(this.shouldCompile, this.doesCompile(this.testFile));
+        Assert.assertEquals(this.shouldCompile, this.doesInterpreter(this.testFile));
     }
 }

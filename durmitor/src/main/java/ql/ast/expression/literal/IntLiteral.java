@@ -37,10 +37,6 @@ public class IntLiteral extends NumberLiteral implements ExpressionVisitable {
         return value;
     }
     
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
     @Override
     public String toString() {
         return String.valueOf(value);

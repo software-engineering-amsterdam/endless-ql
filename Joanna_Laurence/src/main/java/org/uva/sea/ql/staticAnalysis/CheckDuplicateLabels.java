@@ -45,7 +45,7 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
         super.visit(node);
 
         String labelLink = this.labels.get(node.getLabel());
-        boolean labelLinkedToOtherVariable = labelLink != null && labelLink != node.getVariable().getVariableName();
+        boolean labelLinkedToOtherVariable = labelLink != null && !labelLink.equals(node.getVariable().getVariableName());
 
         if(labelLinkedToOtherVariable) {
             this.error(node);

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 public abstract class ExpressionVariable<T> extends Expression {
 
-    T value;
+    public T value;
 
     ExpressionVariable() {
         this.value = null;
@@ -37,16 +37,15 @@ public abstract class ExpressionVariable<T> extends Expression {
         throw new UnsupportedOperationException("Cannot get string value");
     }
 
+    public boolean isUndefined() {
+        return false;
+    }
+
     // TODO: getDateValue
 
     @Override
     public ExpressionVariable evaluate(SymbolTable symbolTable) {
         return this;
-    }
-
-    @Override
-    public boolean isSettable() {
-        return true;
     }
 
     @Override

@@ -23,7 +23,7 @@ public class ExpressionIdentifier extends Expression {
 
     @Override
     public ExpressionVariable evaluate(SymbolTable symbolTable) {
-        return symbolTable.getExpression(this.identifier);
+        return symbolTable.getExpression(this.identifier).evaluate(symbolTable);
     }
 
     @Override

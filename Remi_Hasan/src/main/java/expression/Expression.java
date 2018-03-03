@@ -9,10 +9,6 @@ public abstract class Expression {
 
     public abstract ExpressionVariable evaluate(SymbolTable symbolTable);
 
-    public boolean isSettable() {
-        return false;
-    }
-
     public void setValue(String value) {
         throw new UnsupportedOperationException("Cannot set value to non-variable expression");
     }

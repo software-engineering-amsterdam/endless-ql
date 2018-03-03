@@ -7,9 +7,14 @@ public class Expression {
     private Expression left;
     private Expression right;
     private Operator op;
+    private Term term;
 
     // Default needed for Term class
     public Expression(){}
+
+    public Expression(Term term){
+        this.term = term;
+    }
 
     public Expression(Expression right, Not op) {
         this.left = null; // Dirty, but Not is a unary operation.

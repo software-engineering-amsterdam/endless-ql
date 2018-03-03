@@ -1,11 +1,14 @@
 package models.ast;
 
-import models.ast.elements.block.Condition;
 import models.ast.elements.Form;
-import models.ast.elements.block.Block;
 import grammar.QLBaseVisitor;
 import grammar.QLParser;
-import models.ast.elements.block.Question;
+import models.ast.elements.datatypes.*;
+import models.ast.elements.expressions.Expression;
+import models.ast.elements.statement.Condition;
+import models.ast.elements.statement.Question;
+import models.ast.elements.statement.Statement;
+
 
 public class ASTBuilder extends QLBaseVisitor {
 
@@ -14,19 +17,19 @@ public class ASTBuilder extends QLBaseVisitor {
 
         Form form = new Form(ctx.id.getText());
 
-        for (QLParser.BlockContext blockContext : ctx.block()) {
-            Block block = visitBlock(blockContext);
-            form.addBlock(block);
+        for (QLParser.StatementContext StatementContext : ctx.statement()) {
+            Statement statement = visitStatement(StatementContext);
+            form.addStatement(statement);
         }
 
         return form;
     }
 
     @Override
-    public Block visitBlock(QLParser.BlockContext ctx) {
+    public Statement visitStatement(QLParser.StatementContext ctx) {
 
-        if (ctx.ifBlock() != null) {
-            return visitIfBlock(ctx.ifBlock());
+        if (ctx.ifStatement() != null) {
+            return visitIfStatement(ctx.ifStatement());
         } else if (ctx.question() != null) {
             return visitQuestion(ctx.question());
         }
@@ -35,16 +38,16 @@ public class ASTBuilder extends QLBaseVisitor {
     }
 
     @Override
-    public Condition visitIfBlock(QLParser.IfBlockContext ctx) {
+    public Statement visitIfStatement(QLParser.IfStatementContext ctx) {
 
         Condition condition = new Condition(ctx);
 
-        for (QLParser.BlockContext blockContext : ctx.block()) {
-            Block block = visitBlock(blockContext);
-            condition.addBlock(block);
+        for (QLParser.StatementContext StatementContext : ctx.statement()) {
+            Statement statement = visitStatement(StatementContext);
+            condition.addStatement(statement);
         }
 
-//        if (ctx.elseBlock() != null) {
+//        if (ctx.elseStatement() != null) {
 //
 //        }
 
@@ -52,10 +55,45 @@ public class ASTBuilder extends QLBaseVisitor {
     }
 
 
-
-
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
-        return new Question(ctx);
+
+        Question question = new Question(
+                ctx.label.getText(),
+                ctx.variableName.getText(),
+                (DataType) visit(ctx.dataType())
+        );
+
+        if (ctx.expression() != null) {
+            question.setAssignedExpression((Expression) visit(ctx.expression()));
+        }
+
+        return question;
     }
+
+    @Override
+    public Object visitTypeDeclarationBoolean(QLParser.TypeDeclarationBooleanContext ctx) {
+        return super.visitTypeDeclarationBoolean(ctx);
+    }
+
+    @Override
+    public Object visitTypeDeclarationDecimal(QLParser.TypeDeclarationDecimalContext ctx) {
+        return super.visitTypeDeclarationDecimal(ctx);
+    }
+
+    @Override
+    public Object visitTypeDeclarationInteger(QLParser.TypeDeclarationIntegerContext ctx) {
+        return super.visitTypeDeclarationInteger(ctx);
+    }
+
+    @Override
+    public Object visitTypeDeclarationString(QLParser.TypeDeclarationStringContext ctx) {
+        return super.visitTypeDeclarationString(ctx);
+    }
+
+//    @Override
+//    public Expression visitExpression(QLParser.ExpressionContext ctx) {
+//        super.visitExpression(ctx);
+//        return new Expression();
+//    }
 }

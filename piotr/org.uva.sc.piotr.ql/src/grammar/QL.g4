@@ -5,34 +5,37 @@ grammar QL;
  */
 
 form            
-    :   'form' id=IDENTIFIER '{' block+ '}';
+    :   'form' id=IDENTIFIER '{' statement* '}';
 
-block           
-    :   question | ifBlock;
+statement
+    :   question | ifStatement;
 
 question        
-    :   label=STRING fieldName=IDENTIFIER ':' fieldType=dataType (OP_ASSIG expression)?;
+    :   label=STRING variableName=IDENTIFIER ':' variableType=dataType (OP_ASSIG expression)?;
 
-dataType        
-    :   TYPE_BOOLEAN | TYPE_STRING | TYPE_INTEGER | TYPE_DECIMAL
+dataType
+    : TYPE_BOOLEAN  #TypeDeclarationBoolean
+    | TYPE_STRING   #TypeDeclarationString
+    | TYPE_INTEGER  #TypeDeclarationInteger
+    | TYPE_DECIMAL  #TypeDeclarationDecimal
     ;
 
-ifBlock         
-    :   'if' '(' condition=expression ')' '{' block* '}' elseBlock?;
+ifStatement         
+    :   'if' '(' condition=expression ')' '{' statement* '}' elseStatement?;
 
-elseBlock
-    :   'else' '{' block* '}'
+elseStatement
+    :   'else' '{' statement* '}'
     ;
 
 expression
-    : value
-    | variableReference
-    | '(' expression ')'
-    | OP_NOT '(' expression ')'
-    | lhs=expression binaryOperator=(OP_MULT|OP_DIV) rhs=expression
-    | lhs=expression binaryOperator=(OP_PLUS|OP_MINUS) rhs=expression
-    | lhs=expression binaryOperator=(OP_GT|OP_GE|OP_LT|OP_LE|OP_EQ|OP_NEQ) rhs=expression
-    | lhs=expression binaryOperator=(OP_AND|OP_OR) rhs=expression
+    : value                                                                                 #ExpressionSingleValue
+    | variableReference                                                                     #ExpressionVariabeReference
+    | '(' expression ')'                                                                    #ExpressionParenthesises
+    | OP_NOT '(' expression ')'                                                             #ExpressionNegation
+    | lhs=expression binaryOperator=(OP_MULT|OP_DIV) rhs=expression                         #ExpressionPlusMinOperation
+    | lhs=expression binaryOperator=(OP_PLUS|OP_MINUS) rhs=expression                       #ExpressionMultDivOperation
+    | lhs=expression binaryOperator=(OP_GT|OP_GE|OP_LT|OP_LE|OP_EQ|OP_NEQ) rhs=expression   #ExpressionCompareOperation
+    | lhs=expression binaryOperator=(OP_AND|OP_OR) rhs=expression                           #ExpressionLogcalOperation
 ;
 
 variableReference
@@ -40,10 +43,10 @@ variableReference
     ;
 
 value
-    : STRING
-    | INTEGER
-    | DECIMAL
-    | (BOOL_TRUE | BOOL_FALSE)
+    : STRING                    #TypeValueString
+    | INTEGER                   #TypeValueInteger
+    | DECIMAL                   #TypeValueDecimal
+    | (BOOL_TRUE | BOOL_FALSE)  #TypeValueBoolean
     ;
 
 

@@ -1,13 +1,13 @@
 package models.ast.elements;
 
-import models.ast.elements.block.Block;
+import models.ast.elements.statement.Statement;
 
 import java.util.ArrayList;
 
 public class Form {
 
     private String name;
-    private ArrayList<Block> blockList = new ArrayList<>();
+    private ArrayList<Statement> statementList = new ArrayList<>();
 
     public Form(String name) {
         this.name = name;
@@ -21,22 +21,22 @@ public class Form {
         this.name = name;
     }
 
-    public ArrayList<Block> getBlockList() {
-        return blockList;
+    public ArrayList<Statement> getStatementList() {
+        return statementList;
     }
 
-    public void setBlockList(ArrayList<Block> blockList) {
-        this.blockList = blockList;
+    public void setStatementList(ArrayList<Statement> statementList) {
+        this.statementList = statementList;
     }
 
-    public boolean addBlock(Block block) {
-        return this.blockList.add(block);
+    public boolean addStatement(Statement statement) {
+        return this.statementList.add(statement);
     }
 
-    public void print() {
+    public void debugPrint() {
         System.out.println("Form: " + this.name);
-        for (Block block : this.blockList) {
-            block.print();
+        for (Statement statement : this.statementList) {
+            statement.debugPrint();
         }
     }
 

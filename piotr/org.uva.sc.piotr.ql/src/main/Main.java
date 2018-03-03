@@ -8,7 +8,6 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-
 public class Main {
     public static void main(String[] args) throws Exception {
 
@@ -31,7 +30,7 @@ public class Main {
         ASTBuilder ast = new ASTBuilder();
         Form form = ast.visitForm(formContext);
 
-        form.print();
+        //form.debugPrint();
 
         System.out.println("Main finish.");
 

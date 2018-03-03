@@ -38,7 +38,7 @@ condition : 'if' expression '{' question* condition* '}';
 // Expressions: Includes order about operators
 expression : '(' expression ')'
            | NOT expression // Not is special because it's unary.
-           | VARIABLE | BOOLEAN | STRING | numeral
+           | term
            | expression factor expression
            | expression muldiv expression
            | expression addsub expression
@@ -51,3 +51,4 @@ comparision   : LESS | GREATER | LESSEQ | GREATEREQ;
 addsub        : ADDITION | SUBTRACTION;
 muldiv        : MULTIPLICATION | DIVISION;
 factor        : EXPONENT;
+term          : VARIABLE | BOOLEAN | STRING | numeral;

@@ -34,4 +34,8 @@ public class QLForm {
     public void addQuestion(Question question){
         this.questions.add(question);
     }
+
+    public List<Condition> getConditions() {
+        return conditions;
+    }
 }

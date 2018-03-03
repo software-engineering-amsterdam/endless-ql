@@ -18,6 +18,7 @@ import models.ast.elements.expressions.unary.values.VariableReference;
 import models.ast.elements.statement.IfStatement;
 import models.ast.elements.statement.Question;
 import models.ast.elements.statement.Statement;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 
 public class ASTBuilder extends QLBaseVisitor {
@@ -50,6 +51,8 @@ public class ASTBuilder extends QLBaseVisitor {
     @Override
     public Statement visitIfStatement(QLParser.IfStatementContext ctx) {
 
+        System.out.println("visited if statement: " + ctx.getText());
+
         IfStatement ifStatement = new IfStatement((Expression) visit(ctx.condition));
 
         for (QLParser.StatementContext StatementContext : ctx.statement()) {
@@ -75,11 +78,7 @@ public class ASTBuilder extends QLBaseVisitor {
         );
 
         if (ctx.expression() != null) {
-
-            System.out.println("Visiting assignment, "+ctx.rhs.getText());
-//            Object x = visitMainExpression(ctx.rhs);
-
-            question.setAssignedExpression((Expression) visit(ctx.rhs));
+            question.setAssignedExpression((Expression) visit(ctx.expression()));
         }
 
         return question;
@@ -105,6 +104,13 @@ public class ASTBuilder extends QLBaseVisitor {
     @Override
     public TypeDeclarationString visitTypeDeclarationString(QLParser.TypeDeclarationStringContext ctx) {
         return new TypeDeclarationString(ctx.getText());
+    }
+
+    // Parenthesis
+
+    @Override
+    public Expression visitExpressionParenthesises(QLParser.ExpressionParenthesisesContext ctx) {
+        return (Expression) this.visit(ctx.expression());
     }
 
     // Unary expressions, values and references

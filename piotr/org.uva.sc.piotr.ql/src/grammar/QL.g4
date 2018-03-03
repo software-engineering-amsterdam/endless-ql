@@ -11,7 +11,7 @@ statement
     :   question | ifStatement;
 
 question        
-    :   label=STRING variableName=IDENTIFIER ':' variableType=dataType (OP_ASSIG rhs=expression)?;
+    :   label=STRING variableName=IDENTIFIER ':' variableType=dataType (OP_ASSIG expression)?;
 
 dataType
     : TYPE_BOOLEAN  #TypeDeclarationBoolean
@@ -28,10 +28,9 @@ elseStatement
     ;
 
 expression
-    : value                                                     #ExpressionSingleValue
-    | variableReference=IDENTIFIER                              #ExpressionVariableReference
-    | '(' expression ')'                                        #ExpressionParenthesises
-    | OP_NOT '(' expression ')'                                 #ExpressionNegation
+    : '(' expression ')'                                        #ExpressionParenthesises
+    | OP_NOT expression                                         #ExpressionNegation
+    | OP_MINUS expression                                       #ExpressionArithmeticMinus
     | lhs=expression binaryOperator=OP_MULT rhs=expression      #ExpressionArithmeticMultiplication
     | lhs=expression binaryOperator=OP_DIV rhs=expression       #ExpressionArithmeticDivision
     | lhs=expression binaryOperator=OP_PLUS rhs=expression      #ExpressionArithmeticAddition
@@ -44,6 +43,8 @@ expression
     | lhs=expression binaryOperator=OP_NEQ rhs=expression       #ExpressionComparisionNotEqual
     | lhs=expression binaryOperator=OP_AND rhs=expression       #ExpressionLogicalAnd
     | lhs=expression binaryOperator=OP_OR rhs=expression        #ExpressionLogicalOr
+    | variableReference=IDENTIFIER                              #ExpressionVariableReference
+    | value                                                     #ExpressionSingleValue
 ;
 
 value

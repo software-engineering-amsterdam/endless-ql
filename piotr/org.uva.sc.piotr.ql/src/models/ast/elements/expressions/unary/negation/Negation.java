@@ -1,8 +1,9 @@
 package models.ast.elements.expressions.unary.negation;
 
 import models.ast.elements.expressions.Expression;
+import models.ast.elements.expressions.unary.UnaryExpression;
 
-public class Negation {
+public class Negation extends UnaryExpression{
 
     private Expression expression;
 

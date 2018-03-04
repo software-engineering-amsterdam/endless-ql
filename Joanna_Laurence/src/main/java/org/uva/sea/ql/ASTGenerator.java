@@ -36,6 +36,17 @@ public class ASTGenerator {
         if (AST == null)
             return new ASTResult(null, new Messages(MessageTypes.UNKNOWN));
 
+        Messages messages = executeStaticAnalysis(AST);
+        return new ASTResult(AST, messages);
+    }
+
+    /**
+     * Throws an exception when an error is present.
+     * @param AST
+     * @return
+     * @throws StaticAnalysisError
+     */
+    private Messages executeStaticAnalysis(Form AST) throws StaticAnalysisError {
         Messages warnings = new Messages(MessageTypes.WARNING);
         for (IStaticAnalysis staticAnalysis : this.staticAnalyses) {
             Messages messages = staticAnalysis.doCheck(AST);
@@ -47,8 +58,7 @@ public class ASTGenerator {
                 }
             }
         }
-
-        return new ASTResult(AST, warnings);
+        return warnings;
     }
 
     /**

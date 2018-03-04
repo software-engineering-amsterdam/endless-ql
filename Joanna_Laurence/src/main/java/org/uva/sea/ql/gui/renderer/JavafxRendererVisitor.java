@@ -38,23 +38,15 @@ public class JavafxRendererVisitor implements QuestionRenderer, QuestionModelVis
     @Override
     public void visit(DateQuestionModel question) {
         TextField newInput = printTextField(question);
-        newInput.focusedProperty().addListener((observable, oldIsFocused, newIsFocused) -> {
-            if (!newIsFocused) {
-                model.updateQuestion(question.getVariableName(), new DateValue(newInput.getText()));
-            }
-        });
-        parent.getChildren().add(createQuestionRow(printLabel(question.getLabel()), newInput));
+        DateValue value = new DateValue(newInput.getText());
+        addGUIListener(question, newInput, value);
     }
 
     @Override
     public void visit(DecimalQuestionModel question) {
         TextField newInput = printTextField(question);
-        newInput.focusedProperty().addListener((observable, oldIsFocused, newIsFocused) -> {
-            if (!newIsFocused) {
-                model.updateQuestion(question.getVariableName(), new DecimalValue(newInput.getText()));
-            }
-        });
-        parent.getChildren().add(createQuestionRow(printLabel(question.getLabel()), newInput));
+        DecimalValue value = new DecimalValue(newInput.getText());
+        addGUIListener(question, newInput, value);
     }
 
     @Override
@@ -65,34 +57,31 @@ public class JavafxRendererVisitor implements QuestionRenderer, QuestionModelVis
     @Override
     public void visit(IntQuestionModel question) {
         TextField newInput = printTextField(question);
-        newInput.focusedProperty().addListener((observable, oldIsFocused, newIsFocused) -> {
-            if (!newIsFocused) {
-                model.updateQuestion(question.getVariableName(), new IntValue(newInput.getText()));
-            }
-        });
-        parent.getChildren().add(createQuestionRow(printLabel(question.getLabel()), newInput));
+        IntValue value = new IntValue(newInput.getText());
+        addGUIListener(question, newInput, value);
     }
 
     @Override
     public void visit(MoneyQuestionModel question) {
         TextField newInput = printTextField(question);
-        newInput.focusedProperty().addListener((observable, oldIsFocused, newIsFocused) -> {
-            if (!newIsFocused) {
-                model.updateQuestion(question.getVariableName(), new MoneyValue(newInput.getText()));
-            }
-        });
-        parent.getChildren().add(createQuestionRow(printLabel(question.getLabel()), newInput));
+        MoneyValue value = new MoneyValue(newInput.getText());
+        addGUIListener(question, newInput, value);
     }
 
     @Override
     public void visit(StringQuestionModel question) {
         TextField newInput = printTextField(question);
-        newInput.focusedProperty().addListener((observable, oldIsFocused, newIsFocused) -> {
+        StringValue value = new StringValue(newInput.getText());
+        addGUIListener(question, newInput, value);
+    }
+
+    private void addGUIListener(BaseQuestionModel questionModel, TextField textField, Value value) {
+        textField.focusedProperty().addListener((observable, oldIsFocused, newIsFocused) -> {
             if (!newIsFocused) {
-                model.updateQuestion(question.getVariableName(), new StringValue(newInput.getText()));
+                model.updateQuestion(questionModel.getVariableName(), value);
             }
         });
-        parent.getChildren().add(createQuestionRow(printLabel(question.getLabel()), newInput));
+        parent.getChildren().add(createQuestionRow(printLabel(questionModel.getLabel()), textField));
     }
 
     @Override

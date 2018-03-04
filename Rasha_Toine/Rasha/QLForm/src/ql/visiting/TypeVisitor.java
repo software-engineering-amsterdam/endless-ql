@@ -10,5 +10,5 @@ public interface TypeVisitor<T, U> {
 	public T visit(IntegerType type, U ctx);
 	public T visit(MoneyType type, U ctx);
 	public T visit(DecimalType type, U ctx);
-	public T visit(UndefinedType type, U context);
+	public T visit(UndefinedType type, U ctx);
 }

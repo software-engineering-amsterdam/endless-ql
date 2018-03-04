@@ -162,4 +162,30 @@ public class BooleanValue implements GenericValue {
 	public GenericValue or(BooleanValue leftHandSideValue) {
 		return new BooleanValue(leftHandSideValue.getValue() || this.getValue());
 	}
+	
+	// Less than operation.
+
+	@Override
+	public GenericValue less(GenericValue rightHandSideValue) {
+		compareError(this.getClass(), rightHandSideValue.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue less(IntegerValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue less(StringValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue less(BooleanValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
 }

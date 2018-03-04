@@ -37,6 +37,12 @@ public interface GenericValue {
 	GenericValue or(StringValue leftHandSideValue);
 	GenericValue or(BooleanValue leftHandSideValue);
 	
+	// less than operation.
+	GenericValue less(GenericValue rightHandSideValue);
+	GenericValue less(IntegerValue leftHandSideValue);
+	GenericValue less(StringValue leftHandSideValue);
+	GenericValue less(BooleanValue leftHandSideValue);
+	
 	default public void additionError(Class<?> left, Class<?> right) {
 		error(left, right, "add");
 	}
@@ -59,6 +65,10 @@ public interface GenericValue {
 	
 	default public void  orOperationError(Class<?> left, Class<?> right) {
 		error(left, right, "perform an Or operation using");
+	}
+	
+	default public void  compareError(Class<?> left, Class<?> right) {
+		error(left, right, "compare");
 	}
 	
 	default public void error(Class<?> left, Class<?> right, String type) {

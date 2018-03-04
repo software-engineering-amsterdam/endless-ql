@@ -151,7 +151,6 @@ public class InterpreterTests {
 	public void test10() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource10);
 		interpreter.interpret(ast);
-		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 	
@@ -164,7 +163,6 @@ public class InterpreterTests {
 	public void test11() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource11);
 		interpreter.interpret(ast);
-		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 	
@@ -177,7 +175,6 @@ public class InterpreterTests {
 	public void test12() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource12);
 		interpreter.interpret(ast);
-		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 	
@@ -190,7 +187,6 @@ public class InterpreterTests {
 	public void test13() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource13);
 		interpreter.interpret(ast);
-		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 	
@@ -205,7 +201,6 @@ public class InterpreterTests {
 	public void test14() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource14);
 		interpreter.interpret(ast);
-		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 	
@@ -218,7 +213,6 @@ public class InterpreterTests {
 	public void test15() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource15);
 		interpreter.interpret(ast);
-		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 	
@@ -231,7 +225,6 @@ public class InterpreterTests {
 	public void test16() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource16);
 		interpreter.interpret(ast);
-		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 	
@@ -244,7 +237,30 @@ public class InterpreterTests {
 	public void test17() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource17);
 		interpreter.interpret(ast);
-		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
+	}
+	
+	String testSource18 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean 1 < 2\n"
+			+ "}";
+	
+	@Test
+	public void test18() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource18);
+		interpreter.interpret(ast);
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
+	}
+	
+	String testSource19 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean 2 < 1\n"
+			+ "}";
+	
+	@Test
+	public void test19() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource19);
+		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 	
@@ -759,52 +775,52 @@ public class InterpreterTests {
 //			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a StringValue"));
 //		}
 //	}
-//
-//	String generatedSource35 = "form Form1 {\"\" q0: integer 1 < true }";
-//
-//	@Test
-//	public void generatedTest35() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource35);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a IntegerValue and a BooleanValue"));
-//		}
-//	}
-//
-//	String generatedSource36 = "form Form1 {\"\" q0: integer true < true }";
-//
-//	@Test
-//	public void generatedTest36() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource36);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a BooleanValue"));
-//		}
-//	}
-//
-//	String generatedSource37 = "form Form1 {\"\" q0: integer true < \"string\" }";
-//
-//	@Test
-//	public void generatedTest37() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource37);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a StringValue"));
-//		}
-//	}
-//
+
+	String generatedSource35 = "form Form1 {\"\" q0: integer 1 < true }";
+
+	@Test
+	public void generatedTest35() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource35);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a IntegerValue and a BooleanValue"));
+		}
+	}
+
+	String generatedSource36 = "form Form1 {\"\" q0: integer true < true }";
+
+	@Test
+	public void generatedTest36() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource36);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a BooleanValue"));
+		}
+	}
+
+	String generatedSource37 = "form Form1 {\"\" q0: integer true < \"string\" }";
+
+	@Test
+	public void generatedTest37() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource37);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a StringValue"));
+		}
+	}
+
 //	String generatedSource38 = "form Form1 {\"\" q0: integer 1 <= true }";
 //
 //	@Test
@@ -840,6 +856,96 @@ public class InterpreterTests {
 //	@Test
 //	public void generatedTest40() throws Exception {
 //		List<Stmt> ast = TestUtilities.buildAst(generatedSource40);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource41 = "form Form1 {\"\" q0: integer 1 == true }";
+//
+//	@Test
+//	public void generatedTest41() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource41);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a IntegerValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource42 = "form Form1 {\"\" q0: integer 1 == \"string\" }";
+//
+//	@Test
+//	public void generatedTest42() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource42);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a IntegerValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource43 = "form Form1 {\"\" q0: integer true == \"string\" }";
+//
+//	@Test
+//	public void generatedTest43() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource43);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource44 = "form Form1 {\"\" q0: integer 1 != true }";
+//
+//	@Test
+//	public void generatedTest44() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource44);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a IntegerValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource45 = "form Form1 {\"\" q0: integer 1 != \"string\" }";
+//
+//	@Test
+//	public void generatedTest45() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource45);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a IntegerValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource46 = "form Form1 {\"\" q0: integer true != \"string\" }";
+//
+//	@Test
+//	public void generatedTest46() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource46);
 //		try {
 //			interpreter.interpret(ast);
 //			fail("Test Failed");

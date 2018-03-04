@@ -83,13 +83,13 @@ public class IntegerValue implements GenericValue {
 		return null;
 	}
 
+	// Division.
+	
 	@Override
 	public GenericValue divide(GenericValue rightHandSideValue) {
 		return rightHandSideValue.divide(this);
 	}
 	
-	// Division.
-
 	@Override
 	public GenericValue divide(IntegerValue leftHandSideValue) {
 		return new IntegerValue(leftHandSideValue.getValue() / this.getValue());
@@ -156,6 +156,30 @@ public class IntegerValue implements GenericValue {
 	@Override
 	public GenericValue or(BooleanValue leftHandSideValue) {
 		orOperationError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+	
+	// Less than operation.
+
+	@Override
+	public GenericValue less(GenericValue rightHandSideValue) {
+		return rightHandSideValue.less(this);
+	}
+
+	@Override
+	public GenericValue less(IntegerValue leftHandSideValue) {
+		return new BooleanValue(leftHandSideValue.getValue() < this.getValue());
+	}
+
+	@Override
+	public GenericValue less(StringValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue less(BooleanValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}	
 }

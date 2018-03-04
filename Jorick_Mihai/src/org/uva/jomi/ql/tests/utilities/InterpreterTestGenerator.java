@@ -95,7 +95,13 @@ public class InterpreterTestGenerator {
 				"form Form1 {\"\" q0: integer true < \"string\" }",
 				"form Form1 {\"\" q0: integer 1 <= true }",
 				"form Form1 {\"\" q0: integer true <= true }",
-				"form Form1 {\"\" q0: integer true <= \"string\" }", 
+				"form Form1 {\"\" q0: integer true <= \"string\" }",
+				"form Form1 {\"\" q0: integer 1 == true }",
+				"form Form1 {\"\" q0: integer 1 == \"string\" }",
+				"form Form1 {\"\" q0: integer true == \"string\" }",
+				"form Form1 {\"\" q0: integer 1 != true }",
+				"form Form1 {\"\" q0: integer 1 != \"string\" }",
+				"form Form1 {\"\" q0: integer true != \"string\" }", 
 				};
 		
 		InterpreterTestGenerator testGenerator = new InterpreterTestGenerator(testSources);

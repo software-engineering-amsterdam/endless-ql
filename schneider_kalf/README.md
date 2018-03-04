@@ -97,4 +97,5 @@ Result will be written into the `/build` folder
 * TODO: Allow float literals (5.1 and 5.0)
 * TODO: Identifiers that start with keyword are not accepted (e.g. trueTwo)
 * TODO: money = (50 + 10) results in Addition(NumberLiteral(5), NumberLiteral(10))
+* TODO: Every character of changed field is in state (Maybe kill state when form changes?)
 * TODO improve naming

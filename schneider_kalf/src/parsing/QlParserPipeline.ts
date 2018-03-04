@@ -1,6 +1,8 @@
 import FormNode from "../form/nodes/FormNode";
 import { VariableScopeVisitor } from "../form/typechecking/VariableScopeVisitor";
 import { VariableInformation } from "../form/VariableIntformation";
+import { TypeCheckVisitor } from "../form/typechecking/TypeCheckVisitor";
+import { type } from "os";
 
 const qlParser = require("./parsers/ql_parser");
 
@@ -27,8 +29,11 @@ export class QlParserPipeline {
   }
 
   private processFormNode(node: FormNode): QlParserResult {
-    const variableScope: VariableScopeVisitor = new VariableScopeVisitor();
-    const scopeResult = variableScope.run(node);
+    const scopeVisitor: VariableScopeVisitor = new VariableScopeVisitor();
+    const scopeResult = scopeVisitor.run(node);
+
+    const typeCheckVisitor = new TypeCheckVisitor(scopeResult.variables);
+    node.accept(typeCheckVisitor);
 
     return {
       node: node,

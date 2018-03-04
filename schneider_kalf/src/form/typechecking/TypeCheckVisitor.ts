@@ -17,16 +17,39 @@ import SmallerThan from "../nodes/expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../nodes/expressions/comparisons/SmallerThanOrEqual";
 import StringLiteral from "../nodes/expressions/string/StringLiteral";
 import { VariablesInformation, VariableInformation } from "../VariableIntformation";
-import { NotComparableError, TypeCheckError, UnkownFieldError } from "../form_errors";
+import { NotComparableError, UnkownFieldError } from "../form_errors";
 import { FieldType, getCommonNumericFieldType, isNumericFieldType } from "../FieldType";
-import { assertBoolean, assertFieldType, assertNumericFieldType } from "./typeAssertions";
+import { assertFieldType, assertNumericFieldType } from "./typeAssertions";
 import BinaryOperator from "../nodes/expressions/BinaryOperator";
+import NodeVisitor from "../nodes/visitors/NodeVisitor";
+import FormNode from "../nodes/FormNode";
+import IfCondition from "../nodes/conditions/IfCondition";
+import ComputedField from "../nodes/fields/ComputedField";
+import Question from "../nodes/fields/Question";
 
-export class TypeCheckingVisitor implements ExpressionVisitor {
+export class TypeCheckVisitor implements NodeVisitor {
   private _variables: VariablesInformation;
 
   constructor(variables: VariablesInformation) {
     this._variables = variables;
+  }
+
+  visitForm(form: FormNode) {
+    form.statements.forEach(statement => statement.accept(this));
+  }
+
+  visitIfCondition(ifCondition: IfCondition) {
+    const predicateType = ifCondition.predicate.accept(this);
+    assertFieldType(predicateType, FieldType.Boolean);
+  }
+
+  visitComputedField(computedField: ComputedField) {
+    const formulaType = computedField.formula.accept(this);
+    assertFieldType(formulaType, computedField.type);
+  }
+
+  visitQuestion(question: Question) {
+    return question.type;
   }
 
   visitAddition(addition: Addition): any {
@@ -80,27 +103,27 @@ export class TypeCheckingVisitor implements ExpressionVisitor {
   }
 
   visitEquals(equals: Equals): any {
-    return undefined;
+    return this.visitCompareOperator(equals);
   }
 
   visitNotEqual(notEquals: NotEqual): any {
-    return undefined;
+    return this.visitCompareOperator(notEquals);
   }
 
   visitLargerThan(largerThan: LargerThan): any {
-    return undefined;
+    return this.visitCompareOperator(largerThan);
   }
 
   visitLargerThanOrEqual(largerThanOrEqual: LargerThanOrEqual): any {
-    return undefined;
+    return this.visitCompareOperator(largerThanOrEqual);
   }
 
   visitSmallerThan(smallerThan: SmallerThan): any {
-    return undefined;
+    return this.visitCompareOperator(smallerThan);
   }
 
   visitSmallerThanOrEqual(smallerThanOrEqual: SmallerThanOrEqual): any {
-    return undefined;
+    return this.visitCompareOperator(smallerThanOrEqual);
   }
 
   visitStringLiteral(stringLiteral: StringLiteral): any {

@@ -7,10 +7,12 @@ $ python run_app.py forms/simple.ql
 """
 import argparse
 import sys
+import os
 
+from antlr.run_antlr import run_antrl
+from visitor.visitor import *
 from commons.config import config
-from commons.utility import open_file
-from parse.ql_parser import *
+from gui.gui import *
 
 
 def main():
@@ -37,29 +39,22 @@ def main():
         os.system("pytest")
         sys.exit(0)
 
-    # Run input file
-    logger.debug('Start {} {}'.format(config['program']['name'], config['program']['version']))
+    # Antlr4
+    os.system('java -jar {} -Dlanguage=Python3 antlr/QL.g4 -o {} -visitor'.format(
+        '/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
 
-    # openfile
-    file = open_file(args.file_name)
+    tree = run_antrl(args.file_name)
+    # print(tree.toStringTree(recog=parser))
 
-    # lexer
-    tokens = ql_lex(file)
+    # Visit
+    visit(tree)
 
-    # parse & ast
-    result = ql_parser(tokens)
-    logger.debug('Result AST: {}'.format(result))
+    # Gui
+    app = QApplication(sys.argv)
+    screen = InputWindow(tree)
+    screen.show()
 
-    # todo: maybe to a json inbetween to have a good look at ast instead of cli
-    # view(source_code=result)
-    # static checker
-    #   - https://github.com/titusjan/astviewer
-    # expression eval
-
-    # gui
-    # gui.buildWidget(result)
-    #
-    # sys.exit()
+    sys.exit(app.exec_())
 
 
 if __name__ == '__main__':

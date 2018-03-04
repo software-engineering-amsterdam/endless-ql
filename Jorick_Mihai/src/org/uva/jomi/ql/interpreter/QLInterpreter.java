@@ -121,8 +121,9 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<GenericVa
 
 	@Override
 	public GenericValue visit(MultiplicationExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		GenericValue left = expr.visitLeftExpr(this);
+		GenericValue right = expr.visitRightExpr(this);
+		return left.multiply(right);
 	}
 
 	@Override

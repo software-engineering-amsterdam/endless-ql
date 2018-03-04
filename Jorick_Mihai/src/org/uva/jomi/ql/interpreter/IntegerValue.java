@@ -10,28 +10,32 @@ public class IntegerValue implements GenericValue {
 	public Integer getValue() {
 		return value;
 	}
+	
+	// Addition.
 
+	@Override
+	public GenericValue add(GenericValue rightHandSideValue) {
+		return rightHandSideValue.add(this);
+	}
+	
 	@Override
 	public GenericValue add(IntegerValue leftHandSideValue) {
 		return new IntegerValue(leftHandSideValue.getValue() + this.getValue());
 	}
 
 	@Override
-	public GenericValue add(GenericValue rightHandSideValue) {
-		return rightHandSideValue.add(this);
-	}
-
-	@Override
 	public GenericValue add(StringValue leftHandSideValue) {
-		addError(leftHandSideValue.getClass(), this.getClass());
+		additionError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
 
 	@Override
 	public GenericValue add(BooleanValue leftHandSideValue) {
-		addError(leftHandSideValue.getClass(), this.getClass());
+		additionError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
+	
+	// Subtraction.
 
 	@Override
 	public GenericValue subtract(GenericValue rightHandSideValue) {
@@ -45,13 +49,37 @@ public class IntegerValue implements GenericValue {
 
 	@Override
 	public GenericValue subtract(StringValue leftHandSideValue) {
-		subtractError(leftHandSideValue.getClass(), this.getClass());
+		subtractionError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
 
 	@Override
 	public GenericValue subtract(BooleanValue leftHandSideValue) {
-		subtractError(leftHandSideValue.getClass(), this.getClass());
+		subtractionError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
+	
+	// Multiplication.
+
+	@Override
+	public GenericValue multiply(GenericValue rightHandSideValue) {
+		return rightHandSideValue.multiply(this);
+	}
+
+	@Override
+	public GenericValue multiply(IntegerValue leftHandSideValue) {
+		return new IntegerValue(leftHandSideValue.getValue() * this.getValue());
+	}
+
+	@Override
+	public GenericValue multiply(StringValue leftHandSideValue) {
+		multiplicationError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue multiply(BooleanValue leftHandSideValue) {
+		multiplicationError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}	
 }

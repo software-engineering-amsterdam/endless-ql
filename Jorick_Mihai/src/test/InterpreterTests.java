@@ -22,7 +22,7 @@ public class InterpreterTests {
 	
 	QLInterpreter interpreter = new QLInterpreter();
 	
-	// Addition tests
+	// Addition tests.
 	
 	String testSource1 =
 			"form Form1 {\n"
@@ -61,22 +61,62 @@ public class InterpreterTests {
 		assertTrue(((StringValue) SymbolTable.getInstance().get("q1")).getValue().equals("one plus two"));
 	}
 	
+	// Subtraction tests.
+	
 	String testSource4 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 2 + \"\"\n"
+			+ "\"question1\" q1: integer 2 - 1\n"
 			+ "}";
-	
-
 	
 	@Test
 	public void test4() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource4);
-		try {
-			interpreter.interpret(ast);
-		} catch (Exception e) {
-			assertTrue(e.getMessage().equals("RuntimeError: Cannot add a IntegerValue and a StringValue"));
-		}
+		interpreter.interpret(ast);
+		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(1));
 	}
+	
+	String testSource5 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: integer 1 - 2\n"
+			+ "}";
+	
+	@Test
+	public void test5() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource5);
+		interpreter.interpret(ast);
+		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(-1));
+	}
+	
+	// Multiplication tests.
+	
+	String testSource6 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: integer 1 * 2\n"
+			+ "}";
+	
+	@Test
+	public void test6() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource6);
+		interpreter.interpret(ast);
+		System.out.println("Tada: " + ((IntegerValue) SymbolTable.getInstance().get("q1")).getValue());
+		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(2));
+	}
+	
+	String testSource7 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: integer 2 * 4 - 1\n"
+			+ "}";
+	
+	@Test
+	public void test7() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource7);
+		interpreter.interpret(ast);
+		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(7));
+	}
+	
+	// Division tests.
+	
+	// Automatically generated negative tests.
 	
 	String generatedSource1 = "form Form1 {\"\" q0: integer 1 + true }";
 
@@ -198,81 +238,81 @@ public class InterpreterTests {
 		}
 	}
 
-//	String generatedSource9 = "form Form1 {\"\" q0: integer 1 * true }";
-//
-//	@Test
-//	public void generatedTest9() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource9);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a IntegerValue and a BooleanValue"));
-//		}
-//	}
+	String generatedSource9 = "form Form1 {\"\" q0: integer 1 * true }";
 
-//	String generatedSource10 = "form Form1 {\"\" q0: integer 1 * \"string\" }";
-//
-//	@Test
-//	public void generatedTest10() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource10);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a IntegerValue and a StringValue"));
-//		}
-//	}
-//
-//	String generatedSource11 = "form Form1 {\"\" q0: integer true * true }";
-//
-//	@Test
-//	public void generatedTest11() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource11);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a BooleanValue and a BooleanValue"));
-//		}
-//	}
-//
-//	String generatedSource12 = "form Form1 {\"\" q0: integer true * \"string\" }";
-//
-//	@Test
-//	public void generatedTest12() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource12);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a BooleanValue and a StringValue"));
-//		}
-//	}
-//
-//	String generatedSource13 = "form Form1 {\"\" q0: integer \"string\" * \"string\" }";
-//
-//	@Test
-//	public void generatedTest13() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource13);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a StringValue and a StringValue"));
-//		}
-//	}
-//
+	@Test
+	public void generatedTest9() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource9);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a IntegerValue and a BooleanValue"));
+		}
+	}
+
+	String generatedSource10 = "form Form1 {\"\" q0: integer 1 * \"string\" }";
+
+	@Test
+	public void generatedTest10() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource10);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a IntegerValue and a StringValue"));
+		}
+	}
+
+	String generatedSource11 = "form Form1 {\"\" q0: integer true * true }";
+
+	@Test
+	public void generatedTest11() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource11);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a BooleanValue and a BooleanValue"));
+		}
+	}
+
+	String generatedSource12 = "form Form1 {\"\" q0: integer true * \"string\" }";
+
+	@Test
+	public void generatedTest12() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource12);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a BooleanValue and a StringValue"));
+		}
+	}
+
+	String generatedSource13 = "form Form1 {\"\" q0: integer \"string\" * \"string\" }";
+
+	@Test
+	public void generatedTest13() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource13);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a StringValue and a StringValue"));
+		}
+	}
+
 //	String generatedSource14 = "form Form1 {\"\" q0: integer 1 / true }";
 //
 //	@Test

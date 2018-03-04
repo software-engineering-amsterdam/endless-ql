@@ -1,31 +1,39 @@
 package org.uva.jomi.ql.interpreter;
 
-import javax.management.RuntimeErrorException;
-
 public interface GenericValue {
-	// Addition
-	GenericValue add(GenericValue value);
-	GenericValue add(IntegerValue value);
-	GenericValue add(StringValue value);
-	GenericValue add(BooleanValue value);
+	// Addition.
+	GenericValue add(GenericValue rightHandSideValue);
+	GenericValue add(IntegerValue leftHandSideValue);
+	GenericValue add(StringValue leftHandSideValue);
+	GenericValue add(BooleanValue leftHandSideValue);
 	
-	// Subtraction
-	GenericValue subtract(GenericValue value);
-	GenericValue subtract(IntegerValue value);
-	GenericValue subtract(StringValue value);
-	GenericValue subtract(BooleanValue value);
+	// Subtraction.
+	GenericValue subtract(GenericValue rightHandSideValue);
+	GenericValue subtract(IntegerValue leftHandSideValue);
+	GenericValue subtract(StringValue leftHandSideValue);
+	GenericValue subtract(BooleanValue leftHandSideValue);
 	
-	default public void addError(Class<?> left, Class<?> right){
+	// Multiplication.
+	GenericValue multiply(GenericValue rightHandSideValue);
+	GenericValue multiply(IntegerValue leftHandSideValue);
+	GenericValue multiply(StringValue leftHandSideValue);
+	GenericValue multiply(BooleanValue leftHandSideValue);
+	
+	default public void additionError(Class<?> left, Class<?> right) {
 		error(left, right, "add");
 	}
 	
-	default public void subtractError(Class<?> left, Class<?> right) {
+	default public void subtractionError(Class<?> left, Class<?> right) {
 		error(left, right, "subtract");
+	}
+	
+	default public void multiplicationError(Class<?> left, Class<?> right) {
+		error(left, right, "multiply");
 	}
 	
 	default public void error(Class<?> left, Class<?> right, String type) {
 		String error = String.format("RuntimeError: Cannot %s a %s and a %s", type, left.getSimpleName(), right.getSimpleName());
-		//System.err.println(error);
+		System.err.println(error);
 		throw new RuntimeException(error);
 	}
 }

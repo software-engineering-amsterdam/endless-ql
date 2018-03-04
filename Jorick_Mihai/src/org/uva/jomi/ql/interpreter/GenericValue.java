@@ -49,6 +49,12 @@ public interface GenericValue {
 	GenericValue lessOrEqual(StringValue leftHandSideValue);
 	GenericValue lessOrEqual(BooleanValue leftHandSideValue);
 	
+	// greater than operation.
+	GenericValue greater(GenericValue rightHandSideValue);
+	GenericValue greater(IntegerValue leftHandSideValue);
+	GenericValue greater(StringValue leftHandSideValue);
+	GenericValue greater(BooleanValue leftHandSideValue);
+	
 	default public void additionError(Class<?> left, Class<?> right) {
 		error(left, right, "add");
 	}

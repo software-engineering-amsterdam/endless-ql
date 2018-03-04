@@ -205,5 +205,29 @@ public class IntegerValue implements GenericValue {
 	public GenericValue lessOrEqual(BooleanValue leftHandSideValue) {
 		compareError(leftHandSideValue.getClass(), this.getClass());
 		return null;
+	}
+	
+	// Greater than operation.
+
+	@Override
+	public GenericValue greater(GenericValue rightHandSideValue) {
+		return rightHandSideValue.greater(this);
+	}
+
+	@Override
+	public GenericValue greater(IntegerValue leftHandSideValue) {
+		return new BooleanValue(leftHandSideValue.getValue() > this.getValue());
+	}
+
+	@Override
+	public GenericValue greater(StringValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue greater(BooleanValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
+		return null;
 	}	
 }

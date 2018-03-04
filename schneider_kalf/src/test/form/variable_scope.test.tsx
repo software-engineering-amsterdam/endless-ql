@@ -1,8 +1,8 @@
-import { VariableScopeResult, VariableScopeVisitor } from "../../form/typechecking/VariableScopeVisitor";
+import { VariableScopeResult, VariableScopeVisitor } from "../../form/type_checking/VariableScopeVisitor";
 import {
   nestedForm, nestedFormFieldDeclaredTwice, nestedFormScopeFlawed1,
   nestedFormScopeFlawed2, nestedFormScopeFlawed3
-} from "../data/testForms";
+} from "../data/test_scope_forms";
 import { FieldAlreadyDeclaredError, VariableNotInScopeError } from "../../form/form_errors";
 
 it('does not create an error for the variable scopes of a correct form', () => {

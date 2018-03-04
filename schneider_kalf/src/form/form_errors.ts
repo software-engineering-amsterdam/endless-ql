@@ -1,4 +1,4 @@
-import { getTypeString } from "./typechecking/typeAssertions";
+import { getTypeString } from "./type_checking/type_assertions";
 import { FieldType } from "./FieldType";
 import FieldNode from "./nodes/fields/FieldNode";
 import Expression from "./nodes/expressions/Expression";
@@ -20,6 +20,7 @@ export class TypeCheckError extends FormError {
     }
 
     const error = new TypeCheckError(message);
+    Object.setPrototypeOf(error, TypeCheckError.prototype);
 
     error.expectedType = expectedType;
     error.receivedType = receivedType;
@@ -168,7 +169,7 @@ export class VariableNotInScopeError extends FormError {
 
   static make(expression: Expression, identifier: string, message?: string) {
     if (typeof message === 'undefined') {
-      message = `Uknown identifier "${identifier}" used in expression.`;
+      message = `Unknown identifier "${identifier}" used in expression.`;
     }
 
     const error = new VariableNotInScopeError(message);

@@ -18,7 +18,7 @@ import StringLiteral from "../nodes/expressions/string/StringLiteral";
 import { VariablesInformation, VariableInformation } from "../VariableIntformation";
 import { UnkownFieldError, TypesNotComparableError } from "../form_errors";
 import { FieldType, fieldTypesSortable, getCommonNumericFieldType, isNumericFieldType } from "../FieldType";
-import { assertFieldType, assertNumericFieldType } from "./typeAssertions";
+import { assertFieldType, assertNumericFieldType } from "./type_assertions";
 import BinaryOperator from "../nodes/expressions/BinaryOperator";
 import NodeVisitor from "../nodes/visitors/NodeVisitor";
 import FormNode from "../nodes/FormNode";
@@ -29,7 +29,11 @@ import Question from "../nodes/fields/Question";
 export class TypeCheckVisitor implements NodeVisitor {
   private _variables: VariablesInformation;
 
-  constructor(variables: VariablesInformation) {
+  constructor(variables?: VariablesInformation) {
+    if (!variables) {
+      variables = new Map();
+    }
+
     this._variables = variables;
   }
 
@@ -39,12 +43,12 @@ export class TypeCheckVisitor implements NodeVisitor {
 
   visitIfCondition(ifCondition: IfCondition) {
     const predicateType = ifCondition.predicate.accept(this);
-    assertFieldType(predicateType, FieldType.Boolean);
+    return assertFieldType(predicateType, FieldType.Boolean);
   }
 
   visitComputedField(computedField: ComputedField) {
     const formulaType = computedField.formula.accept(this);
-    assertFieldType(formulaType, computedField.type);
+    return assertFieldType(formulaType, computedField.type);
   }
 
   visitQuestion(question: Question) {
@@ -56,6 +60,8 @@ export class TypeCheckVisitor implements NodeVisitor {
   }
 
   visitNumberLiteral(literal: NumberLiteral): any {
+    // TODO: Replace this simple integer check with solution in parser, differentiate between 10 and 10.0
+    // TODO: Allow money and date literal
     if (Math.round(literal.getValue()) === literal.getValue()) {
       return FieldType.Integer;
     }

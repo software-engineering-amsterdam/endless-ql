@@ -1,7 +1,7 @@
 import FormNode from "../form/nodes/FormNode";
-import { VariableScopeVisitor } from "../form/typechecking/VariableScopeVisitor";
+import { VariableScopeVisitor } from "../form/type_checking/VariableScopeVisitor";
 import { VariableInformation } from "../form/VariableIntformation";
-import { TypeCheckVisitor } from "../form/typechecking/TypeCheckVisitor";
+import { TypeCheckVisitor } from "../form/type_checking/TypeCheckVisitor";
 
 const qlParser = require("./parsers/ql_parser");
 

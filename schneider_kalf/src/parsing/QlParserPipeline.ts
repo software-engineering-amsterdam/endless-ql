@@ -2,8 +2,7 @@ import FormNode from "../form/nodes/FormNode";
 import { VariableScopeVisitor } from "../form/type_checking/VariableScopeVisitor";
 import { VariableInformation } from "../form/VariableIntformation";
 import { TypeCheckVisitor } from "../form/type_checking/TypeCheckVisitor";
-
-const qlParser = require("./parsers/ql_parser");
+import { getQlParser } from "./parsing_helpers";
 
 export interface QlParserResult {
   node: FormNode;
@@ -20,7 +19,7 @@ export class QlParserPipeline {
   }
 
   run(): QlParserResult[] {
-    const formNodes: FormNode[] = qlParser.parse(this._qlInput);
+    const formNodes: FormNode[] = getQlParser().parse(this._qlInput);
 
     this.processFormNode(formNodes[0]);
 

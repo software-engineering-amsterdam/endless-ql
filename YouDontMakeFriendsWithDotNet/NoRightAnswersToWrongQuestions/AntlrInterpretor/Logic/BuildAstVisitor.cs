@@ -163,6 +163,34 @@ namespace AntlrInterpretor.Logic
             return Visit(context.mathExpression());
         }
 
+        public override Reference<IAstNode> VisitAddSubtractExpression(QLParser.AddSubtractExpressionContext context)
+        {
+            var leftExpression = Visit(context.leftExpression)
+                .To<ICalculationNode>(m_domainItemLocator);
+
+            var rightExpression = Visit(context.rightExpression)
+                .To<ICalculationNode>(m_domainItemLocator);
+
+            var addSubtract = context.@operator.Type;
+            switch (addSubtract)
+            {
+                case QLParser.ADD:
+                    return m_astFactory.CreateAdditionOperation(
+                        context.GetText(),
+                        leftExpression,
+                        rightExpression);
+                case QLParser.MINUS:
+                    return m_astFactory.CreateSubtractionOperation(
+                        context.GetText(),
+                        leftExpression,
+                        rightExpression);
+                default:
+                    throw new QlParserException(
+                        $"The provided operator '{context.@operator.Text}' is not handled within add or subtract in the statement {context.GetText()}.",
+                        null);
+            }
+        }
+
         public override Reference<IAstNode> VisitMultiplyDivideExpression(QLParser.MultiplyDivideExpressionContext context)
         {
             var leftExpression = Visit(context.leftExpression)
@@ -181,7 +209,7 @@ namespace AntlrInterpretor.Logic
                         leftExpression,
                         rightExpression);
                 case QLParser.DIVIDE:
-                    return m_astFactory.CreateDivision(
+                    return m_astFactory.CreateDivisionOperation(
                         context.GetText(),
                         leftExpression,
                         rightExpression);

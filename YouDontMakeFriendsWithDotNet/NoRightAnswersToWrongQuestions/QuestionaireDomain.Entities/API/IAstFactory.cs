@@ -62,8 +62,18 @@ namespace QuestionaireDomain.Entities.API
             Reference<ICalculationNode> leftExpression, 
             Reference<ICalculationNode> rightExpression);
 
-        Reference<IAstNode> CreateDivision(
+        Reference<IAstNode> CreateDivisionOperation(
             string definition,
+            Reference<ICalculationNode> leftExpression, 
+            Reference<ICalculationNode> rightExpression);
+
+        Reference<IAstNode> CreateAdditionOperation(
+            string definition, 
+            Reference<ICalculationNode> leftExpression, 
+            Reference<ICalculationNode> rightExpression);
+
+        Reference<IAstNode> CreateSubtractionOperation(
+            string definition, 
             Reference<ICalculationNode> leftExpression, 
             Reference<ICalculationNode> rightExpression);
     }

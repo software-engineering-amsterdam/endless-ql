@@ -150,31 +150,59 @@ namespace QuestionnaireDomain.Logic.Logic
         }
 
         public Reference<IAstNode> CreateMultiplicationOperation(
-            string defintion,
+            string definition,
             Reference<ICalculationNode> leftExpression, 
             Reference<ICalculationNode> rightExpression)
         {
             var multiplicationNode = new MultiplyNode(
                 m_ids.Next,
-                defintion,
+                definition,
                 leftExpression,
                 rightExpression);
 
             return AstNodeRegistration<IMultiplyNode>(multiplicationNode);
         }
 
-        public Reference<IAstNode> CreateDivision(
-            string defintion,
+        public Reference<IAstNode> CreateDivisionOperation(
+            string definition,
             Reference<ICalculationNode> leftExpression, 
             Reference<ICalculationNode> rightExpression)
         {
             var divisionNode = new DivideNode(
                 m_ids.Next,
-                defintion,
+                definition,
                 leftExpression,
                 rightExpression);
 
             return AstNodeRegistration<IDivideNode>(divisionNode);
+        }
+
+        public Reference<IAstNode> CreateAdditionOperation(
+            string definition, 
+            Reference<ICalculationNode> leftExpression, 
+            Reference<ICalculationNode> rightExpression)
+        {
+            var addNode = new AddNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<IAddNode>(addNode);
+        }
+
+        public Reference<IAstNode> CreateSubtractionOperation(
+            string definition, 
+            Reference<ICalculationNode> leftExpression, 
+            Reference<ICalculationNode> rightExpression)
+        {
+            var subtractNode = new SubtractNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<ISubtractNode>(subtractNode);
         }
     }
 }

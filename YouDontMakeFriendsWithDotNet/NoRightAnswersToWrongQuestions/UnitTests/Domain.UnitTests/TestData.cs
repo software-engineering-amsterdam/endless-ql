@@ -420,6 +420,23 @@ form CommentFormML {}";
                     formText: string.Format(formTemplate, "(6 / 9) / (6 / 2)"),
                     values: new[] { 6m, 9m, 6m, 2m },
                     operators: new MathOperatorCount { DivisionCount = 3 });
+
+                //test Add
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "(1.2 + 3.4 + 5.6)"),
+                    values: new[] { 1.2m, 3.4m, 5.6m },
+                    operators: new MathOperatorCount { AdditionCount = 2 });
+
+                //test minus
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "(10 - 8 - 5 - 4)"),
+                    values: new[] { 10m, 8m, 5m, 4m },
+                    operators: new MathOperatorCount { SubtractionCount = 3 });
+                
+                //test variable
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "(intVar - 8 * decVar + 4)"),
+                    variables: new []{"intVar","decVar"});
             }
         }
 

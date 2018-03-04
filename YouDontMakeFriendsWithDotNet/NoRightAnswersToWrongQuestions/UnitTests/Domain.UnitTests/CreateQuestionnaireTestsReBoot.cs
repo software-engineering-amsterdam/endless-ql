@@ -23,8 +23,6 @@ namespace UnitTests.Domain.UnitTests
     [TestFixture]
     public class CreateQuestionnaireTests
     {
-        #region reboot done
-
         private IServiceProvider m_serviceProvider;
         private IDomainItemLocator m_domainItemLocator;
 
@@ -69,7 +67,7 @@ namespace UnitTests.Domain.UnitTests
             var domainItemId = questionnaireCreator.
                 Create(validText);
 
-            Assert.IsNotNull(domainItemId);
+            Assert.IsNotNull(domainItemId, "should have created a for from a valid definition");
         }
 
         [TestCaseSource(
@@ -82,7 +80,8 @@ namespace UnitTests.Domain.UnitTests
             CreateForm(validDescription);
             Assert.AreEqual(
                 expected: expectedId, 
-                actual: GetForm().QuestionnaireName);
+                actual: GetForm().QuestionnaireName,
+                message: $"should have created a form from this definition: '{validDescription}'");
         }
 
         [TestCaseSource(
@@ -91,7 +90,9 @@ namespace UnitTests.Domain.UnitTests
         public void WhenGivenBadlyFormedForm_ThrowsException(
             string invalidDescription)
         {
-            Assert.Throws<QlParserException>(() => CreateForm(invalidDescription));
+            Assert.Throws<QlParserException>(
+                code: () => CreateForm(invalidDescription),
+                message:$"Should not have created a form from this definition: '{invalidDescription}'");
         }
 
         [TestCaseSource(
@@ -102,7 +103,10 @@ namespace UnitTests.Domain.UnitTests
             string expectedName)
         {
             CreateForm(validText);
-            Assert.AreEqual(expected: expectedName, actual: GetForm().QuestionnaireName);
+            Assert.AreEqual(
+                expected: expectedName, 
+                actual: GetForm().QuestionnaireName,
+                message: $"The following definition with comments should have parsed correctly: '{validText}'" );
         }
 
         [TestCaseSource(
@@ -111,7 +115,9 @@ namespace UnitTests.Domain.UnitTests
         public void WhenGivenBadlyFormedComments_ThrowsException(
             string invalidDescription)
         {
-            Assert.Throws<QlParserException>(() => CreateForm(invalidDescription));
+            Assert.Throws<QlParserException>(
+                code:() => CreateForm(invalidDescription),
+                message: $"the following description with comments should not have parsed correctly: '{invalidDescription}'");
         }
 
         [TestCaseSource(
@@ -124,7 +130,8 @@ namespace UnitTests.Domain.UnitTests
             CreateForm(validText);
             Assert.AreEqual(
                 expected: expectedName, 
-                actual: GetForm().QuestionnaireName);
+                actual: GetForm().QuestionnaireName,
+                message: $"the questionnaire name '{expectedName}' was not created from the following desctiption: '{validText}'");
         }
 
         [TestCaseSource(
@@ -140,9 +147,11 @@ namespace UnitTests.Domain.UnitTests
                 .Property(nameof(QlParserException.ParseErrorDetails))
                 .Contains(invalidName);
 
-            Assert.Throws(constraint, () => CreateForm(invalidText));
+            Assert.Throws(
+                expression: constraint, 
+                code: () => CreateForm(invalidText),
+                message: $"The questionnaire identifier '{invalidName}' should not be parsed");
         }
-
 
         private IRootNode GetForm()
         {
@@ -150,11 +159,10 @@ namespace UnitTests.Domain.UnitTests
                 .GetAll<IRootNode>()
                 .FirstOrDefault();
 
-            Assert.IsNotNull(createdForm);
+            Assert.IsNotNull(createdForm, "could not find a questionnaire node");
+
             return createdForm;
         }
-
-        #endregion
 
         [TestCaseSource(
             typeof(TestData), 
@@ -170,10 +178,22 @@ namespace UnitTests.Domain.UnitTests
                 .GetAll<IQuestionNode>()
                 .FirstOrDefault();
 
-            Assert.IsNotNull(question);
-            Assert.AreEqual(expected: expectedId, actual: question.QuestionId);
-            Assert.AreEqual(expected: expectedText, actual: question.QuestionText);
-            Assert.AreEqual(expected: expectedType, actual: question.QuestionType);
+            Assert.IsNotNull(question, "could not find a question node");
+
+            Assert.AreEqual(
+                expected: expectedId, 
+                actual: question.QuestionId,
+                message: "The question name did not match");
+
+            Assert.AreEqual(
+                expected: expectedText, 
+                actual: question.QuestionText,
+                message: "The question text did not match");
+
+            Assert.AreEqual(
+                expected: expectedType, 
+                actual: question.QuestionType,
+                message: "The question type did not match");
         }
 
         [TestCaseSource(
@@ -181,10 +201,17 @@ namespace UnitTests.Domain.UnitTests
             nameof(TestData.MultipleQuestionCases))]
         public void WhenGivenMultipleQuestions_CorrectNumberOfQuestions(
             string validText,
-            int questionCount)
+            int expectedQuestionCount)
         {
             CreateForm(validText);
-            Assert.AreEqual(expected: questionCount, actual: m_domainItemLocator.GetAll<IQuestionNode>().Count());
+            var actualQuestionCount = m_domainItemLocator
+                .GetAll<IQuestionNode>()
+                .Count();
+
+            Assert.AreEqual(
+                expected: expectedQuestionCount, 
+                actual: actualQuestionCount,
+                message: "an incorrect number of questions was created");
         }
 
         [TestCaseSource(
@@ -201,7 +228,8 @@ namespace UnitTests.Domain.UnitTests
 
             Assert.AreEqual(
                 expected: conditionCount, 
-                actual: actualCount);
+                actual: actualCount,
+                message: "an incorrect number of If Then Else conditions were created");
         }
 
         [TestCaseSource(
@@ -218,7 +246,8 @@ namespace UnitTests.Domain.UnitTests
 
             Assert.AreEqual(
                 expected: conditionCount, 
-                actual: actualCount);
+                actual: actualCount,
+                message: "question statements in the else block have not been correctly created");
         }
 
         [TestCaseSource(
@@ -253,11 +282,13 @@ namespace UnitTests.Domain.UnitTests
 
             Assert.AreEqual(
                 expected: expectedLiterals.Count(x => x),
-                actual: literals.Count(x => x));
+                actual: literals.Count(x => x),
+                message: "There is an incorrect number of true boolean literals");
 
             Assert.AreEqual(
                 expected: expectedLiterals.Count(x => !x),
-                actual: literals.Count(x => !x));
+                actual: literals.Count(x => !x),
+                message: "There is an incorrect number of false boolean literals");
         }
 
         private void ValidateVariableNames(
@@ -272,13 +303,14 @@ namespace UnitTests.Domain.UnitTests
             {
                 Assert.Contains(
                     expected: expectedVariable, 
-                    actual: conditionVariable);
+                    actual: conditionVariable,
+                    message: "There is an incorrect number of boolean variable nodes");
             }
         }
 
         private void ValidateConditionalDefinitions(IEnumerable<string> expectedDefinitions)
         {
-            var conditionNames = m_domainItemLocator
+            var conditionDefinitions = m_domainItemLocator
                 .GetAll<IConditionalStatementNode>()
                 .Select(x => x.Definition)
                 .ToList();
@@ -287,7 +319,8 @@ namespace UnitTests.Domain.UnitTests
             {
                 Assert.Contains(
                     expected: expectedDefinition, 
-                    actual: conditionNames);
+                    actual: conditionDefinitions,
+                    message: $"The conditions '{expectedDefinition}' was not created.  The created definitions were: '{string.Join("','", conditionDefinitions)}'");
             }
         }
 
@@ -295,35 +328,43 @@ namespace UnitTests.Domain.UnitTests
         {
             Assert.AreEqual(
                 expected: operatorCount.OrCount, 
-                actual: NodeCount<IOrNode>());
+                actual: NodeCount<IOrNode>(),
+                message: "there is an incorrect number of created '||' Nodes");
 
             Assert.AreEqual(
                 expected: operatorCount.AndCount, 
-                actual: NodeCount<IAndNode>());
+                actual: NodeCount<IAndNode>(),
+                message: "there is an incorrect number of created '&&' Nodes");
 
             Assert.AreEqual(
                 expected: operatorCount.EqualityCount, 
-                actual: NodeCount<IEqualityNode>());
+                actual: NodeCount<IEqualityNode>(),
+                message: "there is an incorrect number of created '==' Nodes");
 
             Assert.AreEqual(
                 expected: operatorCount.InequalityCount, 
-                actual: NodeCount<IInequalityNode>());
+                actual: NodeCount<IInequalityNode>(),
+                message: "there is an incorrect number of created '!=' Nodes");
 
             Assert.AreEqual(
                 expected: operatorCount.GreaterThanCount, 
-                actual: NodeCount<IGreaterThanNode>());
+                actual: NodeCount<IGreaterThanNode>(),
+                message: "there is an incorrect number of created '>' Nodes");
 
             Assert.AreEqual(
                 expected: operatorCount.GreaterOrEqualCount, 
-                actual: NodeCount<IGreaterOrEqualNode>());
+                actual: NodeCount<IGreaterOrEqualNode>(),
+                message: "there is an incorrect number of created '>=' Nodes");
 
             Assert.AreEqual(
                 expected: operatorCount.LessThanCount, 
-                actual: NodeCount<ILessThanNode>());
+                actual: NodeCount<ILessThanNode>(),
+                message: "there is an incorrect number of created '<' Nodes");
 
             Assert.AreEqual(
                 expected: operatorCount.LessOrEqualCount, 
-                actual: NodeCount<ILessOrEqualNode>());
+                actual: NodeCount<ILessOrEqualNode>(),
+                message: "there is an incorrect number of created '<=' Nodes");
         }
 
         [TestCaseSource(
@@ -349,25 +390,25 @@ namespace UnitTests.Domain.UnitTests
                 return;
             }
 
-            var actualLiteralsList = m_domainItemLocator
+            var actualLiterals = m_domainItemLocator
                 .GetAll<INumberNode>()
-                .Select(x => x.Value)
-                .ToList();
+                .Select(x => x.Value);
 
-            actualLiteralsList.Sort();
-            var expectedLiteralsList = expectedLiterals
-                .ToList();
+            var createdNotExpected = actualLiterals.Except(expectedLiterals);
+            Assert.IsEmpty(
+                collection: createdNotExpected,
+                message: $"numbers created but not expected: {string.Join(",", createdNotExpected)}.");
 
-            expectedLiteralsList.Sort();
-
-            Assert.AreEqual(
-                expected: actualLiteralsList,
-                actual: expectedLiteralsList);
+            var expectedNotCreated = expectedLiterals.Except(actualLiterals);
+            Assert.IsEmpty(
+                collection: expectedNotCreated,
+                message: $"numbers expected but not created: {string.Join(",",expectedNotCreated)}");
         }
+
         private void ValidateMathVariableNames(
             IEnumerable<string> expectedVariables)
         {
-            var conditionVariable = m_domainItemLocator
+            var calculationVariables = m_domainItemLocator
                 .GetAll<ICalculationVariableNode>()
                 .Select(x => x.VariableName)
                 .ToList();
@@ -376,7 +417,8 @@ namespace UnitTests.Domain.UnitTests
             {
                 Assert.Contains(
                     expected: expectedVariable,
-                    actual: conditionVariable);
+                    actual: calculationVariables,
+                    message: $"calculation variables expected: {expectedVariable} not in {string.Join(",",calculationVariables)}");
             }
         }
 
@@ -384,19 +426,23 @@ namespace UnitTests.Domain.UnitTests
         {
             Assert.AreEqual(
                 expected: operatorCount.AdditionCount,
-                actual: NodeCount<IAddNode>());
+                actual: NodeCount<IAddNode>(),
+                message: "incorrect number of addition operations");
 
             Assert.AreEqual(
                 expected: operatorCount.SubtractionCount,
-                actual: NodeCount<ISubtractNode>());
+                actual: NodeCount<ISubtractNode>(),
+                message: "incorrect number of subtraction operations");
 
             Assert.AreEqual(
                 expected: operatorCount.MultiplicationCount,
-                actual: NodeCount<IMultiplyNode>());
+                actual: NodeCount<IMultiplyNode>(),
+                message: "incorrect number of multiplication operations");
 
             Assert.AreEqual(
                 expected: operatorCount.DivisionCount,
-                actual: NodeCount<IDivideNode>());
+                actual: NodeCount<IDivideNode>(),
+                message: "incorrect number of division operations");
         }
 
         private int NodeCount<T>() where T : IAstNode
@@ -405,27 +451,5 @@ namespace UnitTests.Domain.UnitTests
                 .GetAll<T>()
                 .Count();
         }
-    }
-
-
-    public struct BooleanOperatorCount
-    {
-        public int AndCount;
-        public int OrCount;
-        public int NegateCount;
-        public int EqualityCount;
-        public int InequalityCount;
-        public int GreaterOrEqualCount;
-        public int GreaterThanCount;
-        public int LessOrEqualCount;
-        public int LessThanCount;
-    }
-
-    public struct MathOperatorCount
-    {
-        public int AdditionCount;
-        public int SubtractionCount;
-        public int MultiplicationCount;
-        public int DivisionCount;
     }
 }

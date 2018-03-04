@@ -183,12 +183,66 @@ public class InterpreterTests {
 	
 	String testSource13 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true && false\n"
+			+ "\"question1\" q1: boolean false && false\n"
 			+ "}";
 	
 	@Test
 	public void test13() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource13);
+		interpreter.interpret(ast);
+		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
+	}
+	
+	// Or operation tests.
+	
+	String testSource14 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean true || true\n"
+			+ "}";
+	
+	@Test
+	public void test14() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource14);
+		interpreter.interpret(ast);
+		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
+	}
+	
+	String testSource15 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean false || true\n"
+			+ "}";
+	
+	@Test
+	public void test15() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource15);
+		interpreter.interpret(ast);
+		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
+	}
+	
+	String testSource16 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean true || false\n"
+			+ "}";
+	
+	@Test
+	public void test16() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource16);
+		interpreter.interpret(ast);
+		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
+	}
+	
+	String testSource17 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean false || false\n"
+			+ "}";
+	
+	@Test
+	public void test17() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource17);
 		interpreter.interpret(ast);
 		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
@@ -541,81 +595,81 @@ public class InterpreterTests {
 		}
 	}
 
-//	String generatedSource24 = "form Form1 {\"\" q0: integer 1 || 1 }";
-//
-//	@Test
-//	public void generatedTest24() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource24);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a IntegerValue and a IntegerValue"));
-//		}
-//	}
+	String generatedSource24 = "form Form1 {\"\" q0: integer 1 || 1 }";
 
-//	String generatedSource25 = "form Form1 {\"\" q0: integer 1 || true }";
-//
-//	@Test
-//	public void generatedTest25() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource25);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a IntegerValue and a BooleanValue"));
-//		}
-//	}
-//
-//	String generatedSource26 = "form Form1 {\"\" q0: integer 1 || \"string\" }";
-//
-//	@Test
-//	public void generatedTest26() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource26);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a IntegerValue and a StringValue"));
-//		}
-//	}
-//
-//	String generatedSource27 = "form Form1 {\"\" q0: integer true || \"string\" }";
-//
-//	@Test
-//	public void generatedTest27() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource27);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a BooleanValue and a StringValue"));
-//		}
-//	}
-//
-//	String generatedSource28 = "form Form1 {\"\" q0: integer \"string\" || \"string\" }";
-//
-//	@Test
-//	public void generatedTest28() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource28);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a StringValue and a StringValue"));
-//		}
-//	}
-//
+	@Test
+	public void generatedTest24() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource24);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a IntegerValue and a IntegerValue"));
+		}
+	}
+
+	String generatedSource25 = "form Form1 {\"\" q0: integer 1 || true }";
+
+	@Test
+	public void generatedTest25() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource25);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a IntegerValue and a BooleanValue"));
+		}
+	}
+
+	String generatedSource26 = "form Form1 {\"\" q0: integer 1 || \"string\" }";
+
+	@Test
+	public void generatedTest26() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource26);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a IntegerValue and a StringValue"));
+		}
+	}
+
+	String generatedSource27 = "form Form1 {\"\" q0: integer true || \"string\" }";
+
+	@Test
+	public void generatedTest27() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource27);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a BooleanValue and a StringValue"));
+		}
+	}
+
+	String generatedSource28 = "form Form1 {\"\" q0: integer \"string\" || \"string\" }";
+
+	@Test
+	public void generatedTest28() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource28);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a StringValue and a StringValue"));
+		}
+	}
+
 //	String generatedSource29 = "form Form1 {\"\" q0: integer 1 > true }";
 //
 //	@Test

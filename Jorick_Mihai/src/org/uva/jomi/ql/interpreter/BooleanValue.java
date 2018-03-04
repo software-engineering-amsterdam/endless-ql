@@ -138,4 +138,28 @@ public class BooleanValue implements GenericValue {
 	public GenericValue and(BooleanValue leftHandSideValue) {
 		return new BooleanValue(leftHandSideValue.getValue() && this.getValue());
 	}
+	
+	// Or operation.
+
+	@Override
+	public GenericValue or(GenericValue rightHandSideValue) {
+		return rightHandSideValue.or(this);
+	}
+
+	@Override
+	public GenericValue or(IntegerValue leftHandSideValue) {
+		orOperationError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue or(StringValue leftHandSideValue) {
+		orOperationError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue or(BooleanValue leftHandSideValue) {
+		return new BooleanValue(leftHandSideValue.getValue() || this.getValue());
+	}
 }

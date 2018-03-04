@@ -113,7 +113,7 @@ public class StringValue implements GenericValue {
 		return null;
 	}
 	
-	// And operation
+	// And operation.
 
 	@Override
 	public GenericValue and(GenericValue rightHandSideValue) {
@@ -136,6 +136,32 @@ public class StringValue implements GenericValue {
 	@Override
 	public GenericValue and(BooleanValue leftHandSideValue) {
 		andOperationError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+	
+	// Or operation.
+
+	@Override
+	public GenericValue or(GenericValue rightHandSideValue) {
+		orOperationError(this.getClass(), rightHandSideValue.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue or(IntegerValue leftHandSideValue) {
+		orOperationError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue or(StringValue leftHandSideValue) {
+		orOperationError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue or(BooleanValue leftHandSideValue) {
+		orOperationError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
 }

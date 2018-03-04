@@ -3,6 +3,11 @@ import FormNode from "../../form/nodes/FormNode";
 import Addition from "../../form/nodes/expressions/arithmetic/Addition";
 import ComputedField from "../../form/nodes/fields/ComputedField";
 import NumberLiteral from "../../form/nodes/expressions/arithmetic/NumberLiteral";
+import { getFirstFormNode, getFirstStatement } from "./parsing_test_helpers";
+import BooleanLiteral from "../../form/nodes/expressions/boolean_expressions/BooleanLiteral";
+import Or from "../../form/nodes/expressions/boolean_expressions/Or";
+import IfCondition from "../../form/nodes/conditions/IfCondition";
+import VariableIdentifier from "../../form/nodes/expressions/VariableIdentifier";
 
 const qlParser = getQlParser();
 
@@ -12,14 +17,14 @@ it("can parse number literals", () => {
                    hasSoldHouse: integer = 
                     (51 + 10)
                    }`;
-  const forms: FormNode[] = qlParser.parse(input);
 
-  expect(forms.length).toBe(1);
-  expect(forms[0]).toBeInstanceOf(FormNode);
-  expect(forms[0].statements.length).toBe(1);
-  expect(forms[0].statements[0]).toBeInstanceOf(ComputedField);
+  const form = getFirstFormNode(input);
 
-  const field: any = forms[0].statements[0];
+  expect(form).toBeInstanceOf(FormNode);
+  expect(form.statements.length).toBe(1);
+  expect(form.statements[0]).toBeInstanceOf(ComputedField);
+
+  const field: any = form.statements[0];
   expect(field.formula).toBeInstanceOf(Addition);
 
   const left: NumberLiteral = field.formula.left;
@@ -28,4 +33,47 @@ it("can parse number literals", () => {
   expect(right).toBeInstanceOf(NumberLiteral);
   expect(left.getValue()).toBe(51);
   expect(right.getValue()).toBe(10);
+});
+
+it("can parse boolean literals", () => {
+  const input = `form taxOfficeExample {
+                  "Did you sell a house in 2010?"
+                   hasSoldHouse: boolean = 
+                    (true || false)
+                   }`;
+
+  const form = getFirstFormNode(input);
+  const field: any = form.statements[0];
+  expect(field).toBeInstanceOf(ComputedField);
+  expect(field.formula).toBeInstanceOf(Or);
+
+  const left: BooleanLiteral = field.formula.left;
+  const right: BooleanLiteral = field.formula.right;
+
+  expect(left).toBeInstanceOf(BooleanLiteral);
+  expect(right).toBeInstanceOf(BooleanLiteral);
+  expect(left.getValue()).toBe(true);
+  expect(right.getValue()).toBe(false);
+});
+
+it("can parse variables that start with reserved keyword", () => {
+  const input = `form taxOfficeExample {
+                  if(trueVariable){
+                      "Did you sell a house in 2010?"
+                      trueTwo: boolean 
+                  }
+                 }`;
+
+  let ifCondition: any = null;
+
+  expect(() => {
+    ifCondition = getFirstStatement(input);
+  }).not.toThrow(Error);
+
+  expect(ifCondition).not.toBe(null);
+  expect(ifCondition).toBeInstanceOf(IfCondition);
+
+  const booleanVariable: VariableIdentifier = ifCondition.predicate;
+  expect(booleanVariable).toBeInstanceOf(VariableIdentifier);
+  expect(booleanVariable.identifier).toBe("trueVariable");
 });

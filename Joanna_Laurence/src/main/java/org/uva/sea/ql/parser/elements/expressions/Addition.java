@@ -17,7 +17,7 @@ public class Addition extends BinaryOperator {
      * @return The type
      */
     public Type getType() {
-        return this.getLhs().getType();
+        return this.getLeftHandSide().getType();
     }
 
     @Override

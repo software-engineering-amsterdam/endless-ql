@@ -12,7 +12,7 @@ public class Subtraction extends BinaryOperator {
     }
 
     public Type getType() {
-        return this.getLhs().getType();
+        return this.getLeftHandSide().getType();
     }
 
     @Override

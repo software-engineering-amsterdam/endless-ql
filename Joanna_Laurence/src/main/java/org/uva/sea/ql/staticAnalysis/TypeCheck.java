@@ -68,64 +68,64 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
 
     @Override
     public NodeType visit(Addition node) {
-        NodeType lhsType = node.getLhs().accept(this);
-        NodeType rhsType = node.getRhs().accept(this);
+        NodeType lhsType = node.getLeftHandSide().accept(this);
+        NodeType rhsType = node.getRightHandSide().accept(this);
         return getNodeTypeAndReportErrors(node, lhsType, rhsType);
     }
 
     @Override
     public NodeType visit(And node) {
-        NodeType lhsType = node.getLhs().accept(this);
-        NodeType rhsType = node.getRhs().accept(this);
+        NodeType lhsType = node.getLeftHandSide().accept(this);
+        NodeType rhsType = node.getRightHandSide().accept(this);
         return getNodeTypeAndReportErrors(node, lhsType, rhsType);
     }
 
     @Override
     public NodeType visit(Division node) {
-        NodeType lhsType = node.getLhs().accept(this);
-        NodeType rhsType = node.getRhs().accept(this);
+        NodeType lhsType = node.getLeftHandSide().accept(this);
+        NodeType rhsType = node.getRightHandSide().accept(this);
         return getNodeTypeAndReportErrors(node, lhsType, rhsType);
     }
 
     @Override
     public NodeType visit(Equal node) {
-        NodeType lhsType = node.getLhs().accept(this);
-        NodeType rhsType = node.getRhs().accept(this);
+        NodeType lhsType = node.getLeftHandSide().accept(this);
+        NodeType rhsType = node.getRightHandSide().accept(this);
         return getNodeTypeAndReportErrors(node, lhsType, rhsType);
     }
 
     @Override
     public NodeType visit(GreaterOrEqual node) {
-        NodeType lhsType = node.getLhs().accept(this);
-        NodeType rhsType = node.getRhs().accept(this);
+        NodeType lhsType = node.getLeftHandSide().accept(this);
+        NodeType rhsType = node.getRightHandSide().accept(this);
         return getNodeTypeAndReportErrors(node, lhsType, rhsType);
     }
 
     @Override
     public NodeType visit(GreaterThan node) {
-        NodeType lhsType = node.getLhs().accept(this);
-        NodeType rhsType = node.getRhs().accept(this);
+        NodeType lhsType = node.getLeftHandSide().accept(this);
+        NodeType rhsType = node.getRightHandSide().accept(this);
         return getNodeTypeAndReportErrors(node, lhsType, rhsType);
     }
 
     @Override
     public NodeType visit(LessOrEqual node) {
-        NodeType lhsType = node.getLhs().accept(this);
-        NodeType rhsType = node.getRhs().accept(this);
+        NodeType lhsType = node.getLeftHandSide().accept(this);
+        NodeType rhsType = node.getRightHandSide().accept(this);
         return getNodeTypeAndReportErrors(node, lhsType, rhsType);
     }
 
     @Override
     public NodeType visit(LessThan node) {
-        NodeType lhsType = node.getLhs().accept(this);
-        NodeType rhsType = node.getRhs().accept(this);
+        NodeType lhsType = node.getLeftHandSide().accept(this);
+        NodeType rhsType = node.getRightHandSide().accept(this);
         return getNodeTypeAndReportErrors(node, lhsType, rhsType);
     }
 
     @Override
     public NodeType visit(Multiplication node) {
-        NodeType lhsType = node.getLhs().accept(this);
-        NodeType rhsType = node.getRhs().accept(this);
+        NodeType lhsType = node.getLeftHandSide().accept(this);
+        NodeType rhsType = node.getRightHandSide().accept(this);
         return getNodeTypeAndReportErrors(node, lhsType, rhsType);
     }
 
@@ -137,8 +137,8 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
 
     @Override
     public NodeType visit(NotEqual node) {
-        NodeType lhsType = node.getLhs().accept(this);
-        NodeType rhsType = node.getRhs().accept(this);
+        NodeType lhsType = node.getLeftHandSide().accept(this);
+        NodeType rhsType = node.getRightHandSide().accept(this);
         return getNodeTypeAndReportErrors(node, lhsType, rhsType);
     }
 
@@ -156,8 +156,8 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
 
     @Override
     public NodeType visit(Or node) {
-        NodeType lhsType = node.getLhs().accept(this);
-        NodeType rhsType = node.getRhs().accept(this);
+        NodeType lhsType = node.getLeftHandSide().accept(this);
+        NodeType rhsType = node.getRightHandSide().accept(this);
         return getNodeTypeAndReportErrors(node, lhsType, rhsType);
     }
 
@@ -169,8 +169,8 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
 
     @Override
     public NodeType visit(Subtraction node) {
-        NodeType lhsType = node.getLhs().accept(this);
-        NodeType rhsType = node.getRhs().accept(this);
+        NodeType lhsType = node.getLeftHandSide().accept(this);
+        NodeType rhsType = node.getRightHandSide().accept(this);
         return getNodeTypeAndReportErrors(node, lhsType, rhsType);
     }
 

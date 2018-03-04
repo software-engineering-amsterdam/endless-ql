@@ -17,7 +17,7 @@ public class Division extends BinaryOperator {
      * @return The type
      */
     public Type getType() {
-        return super.getLhs().getType();
+        return super.getLeftHandSide().getType();
     }
 
     @Override

@@ -163,14 +163,16 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<GenericVa
 
 	@Override
 	public GenericValue visit(NotEqualExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		GenericValue left = expr.visitLeftExpr(this);
+		GenericValue right = expr.visitRightExpr(this);
+		return left.notEqual(right);
 	}
 
 	@Override
 	public GenericValue visit(EqualExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		GenericValue left = expr.visitLeftExpr(this);
+		GenericValue right = expr.visitRightExpr(this);
+		return left.equal(right);
 	}
 
 	@Override

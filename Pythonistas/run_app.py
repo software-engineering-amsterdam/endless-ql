@@ -44,7 +44,7 @@ def main():
         '/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
 
     tree = run_antrl(args.file_name)
-    # print(tree.toStringTree(recog=parser))
+    print(tree.toStringTree())
 
     # Visit
     # visit(tree)

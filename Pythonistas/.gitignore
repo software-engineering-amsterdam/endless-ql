@@ -20,3 +20,6 @@ __pycache__/
 # Logging
 log.txt
 main.log
+
+# QL
+QL_output.txt

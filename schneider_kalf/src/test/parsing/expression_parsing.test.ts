@@ -10,7 +10,7 @@ it("can parse number literals", () => {
   const input = `form taxOfficeExample {
                   "Did you sell a house in 2010?"
                    hasSoldHouse: integer = 
-                    (50 + 10)
+                    (51 + 10)
                    }`;
   const forms: FormNode[] = qlParser.parse(input);
 
@@ -26,6 +26,6 @@ it("can parse number literals", () => {
   const right: NumberLiteral = field.formula.right;
   expect(left).toBeInstanceOf(NumberLiteral);
   expect(right).toBeInstanceOf(NumberLiteral);
-  expect(left.getValue()).toBe(50);
+  expect(left.getValue()).toBe(51);
   expect(right.getValue()).toBe(10);
 });

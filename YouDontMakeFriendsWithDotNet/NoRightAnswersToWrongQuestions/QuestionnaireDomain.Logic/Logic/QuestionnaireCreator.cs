@@ -1,15 +1,12 @@
 ﻿using System;
 using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
+using QuestionaireDomain.Entities.API.AstNodes.Relational;
+using QuestionaireDomain.Entities.DomainObjects;
 using QuestionnaireDomain.Logic.API;
 
 namespace QuestionnaireDomain.Logic.Logic
 {
-    public interface IQuestionCreator
-    {
-
-
-    }
-
     internal class QuestionnaireCreator : IQuestionnaireCreator
     {
         private readonly IQlInterpretor m_qlInterpretor;
@@ -19,10 +16,9 @@ namespace QuestionnaireDomain.Logic.Logic
             m_qlInterpretor = qlInterpretor;
         }
 
-        public Guid Create(string definition)
+        public Reference<IRootNode> Create(string definition)
         {
-            var form =  m_qlInterpretor.BuildForm(definition);
-            return form.Id;
+            return m_qlInterpretor.BuildForm(definition);
         }
     }
 }

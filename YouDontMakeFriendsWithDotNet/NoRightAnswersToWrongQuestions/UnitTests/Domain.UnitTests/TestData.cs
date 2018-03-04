@@ -277,13 +277,7 @@ form CommentFormML {}";
                     $"form NameForm {{{NewLine}    dateQuestion : \"xyz\"  date{NewLine}    if (dateQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", "dateQuestion");
             }
         }
-
-        //string validText,
-        //IEnumerable<string> expectedDefinitions,
-        //IEnumerable<bool> expectedLiterals,
-        //IEnumerable<string> expectedVariables,
-        //OperatorCount operatorCount)
-
+        
         public static IEnumerable BooleanConditional
         {
             get
@@ -298,42 +292,42 @@ form CommentFormML {}";
                     formText: $"form NameForm {{{NewLine}    boolQuestion1 : \"xyz1\"  boolean{NewLine}    boolQuestion2 : \"xyz2\"  boolean{NewLine}    if (boolQuestion1 && boolQuestion2) {{{NewLine}    aName : \"zxy\"  boolean }} }} ",
                     definitions: new[] { "boolQuestion1&&boolQuestion2" },
                     variables: new[] { "boolQuestion1", "boolQuestion2" },
-                    operators: new OperatorCount { AndCount = 1 });
+                    operators: new BooleanOperatorCount { AndCount = 1 });
 
                 //test multiple if statements and OR
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if (bq1 && bq2) {{ x : \"xx\"  date }}  if (bq3 || bq4) {{ y : \"yy\"  date }} }} ",
                     definitions: new[] { "bq1&&bq2", "bq3||bq4" },
                     variables: new[] { "bq1", "bq2", "bq3", "bq4" },
-                    operators: new OperatorCount { AndCount = 1, OrCount = 1 });
+                    operators: new BooleanOperatorCount { AndCount = 1, OrCount = 1 });
 
                 //test multiple AND with variables
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if (bq1 && bq2 && bq3 && bq4) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] { "bq1&&bq2&&bq3&&bq4" },
                     variables: new[] { "bq1", "bq2", "bq3", "bq4" },
-                    operators: new OperatorCount { AndCount = 3 });
+                    operators: new BooleanOperatorCount { AndCount = 3 });
 
                 //test multiple OR with variables
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if (bq1 || bq2 || bq3 || bq4) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] { "bq1||bq2||bq3||bq4" },
                     variables: new[] { "bq1", "bq2", "bq3", "bq4" },
-                    operators: new OperatorCount { OrCount = 3 });
+                    operators: new BooleanOperatorCount { OrCount = 3 });
 
                 // test bracketed grouping
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if ((bq1 || bq2) && (bq3 || bq4)) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] { "(bq1||bq2)&&(bq3||bq4)" },
                     variables: new[] { "bq1", "bq2", "bq3", "bq4" },
-                    operators: new OperatorCount { AndCount = 1, OrCount = 2 });
+                    operators: new BooleanOperatorCount { AndCount = 1, OrCount = 2 });
 
                 // test the various Boolean True Literals
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean if (true && True && TRUE) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] { "true&&True&&TRUE" },
                     values: new[] { true, true, true },
-                    operators: new OperatorCount { AndCount = 2 });
+                    operators: new BooleanOperatorCount { AndCount = 2 });
 
                 // test the various Boolean False Literals
                 yield return BooleanTestCaseData(
@@ -341,43 +335,30 @@ form CommentFormML {}";
                     $"form NameForm {{bq1 : \"1\"  boolean if (bq1 || false || False || FALSE) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] {"bq1||false||False||FALSE"},
                     values: new[] {false, false, false},
-                    operators: new OperatorCount {OrCount = 3});
+                    operators: new BooleanOperatorCount {OrCount = 3});
 
                 // test Negate
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean if (!bq1 || !(false && False) || !(FALSE)) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] { "!bq1||!(false&&False)||!(FALSE)" },
                     variables: new[] { "bq1" },
-                    operators: new OperatorCount { NegateCount = 3, AndCount = 1, OrCount = 2 });
+                    operators: new BooleanOperatorCount { NegateCount = 3, AndCount = 1, OrCount = 2 });
 
                 // test Equality
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean if (true == true) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] { "true==true" },
-                    operators: new OperatorCount { EqualityCount = 1},
+                    operators: new BooleanOperatorCount { EqualityCount = 1},
                     subdefinitions: new[] { "true==true" });
 
-                // test Inequality
-                yield return BooleanTestCaseData(
-                    formText: $"form NameForm {{bq1 : \"1\"  boolean if (false != true) {{ x : \"xx\"  date }} }} ",
-                    definitions: new[] { "false!=true" },
-                    operators: new OperatorCount { InequalityCount = 1 },
-                    subdefinitions: new[] { "false!=true" });
-
-
-                //yield return new TestCaseData(
-                //    $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if ((bq1 && bq2) || bq3) {{ x : \"xx\"  date }}  if ((bq3 || bq4) && (bq1 && bq2 && bq3)) {{ y : \"yy\"  date }} }} ",
-                //    new[] { "(bq1&&bq2)||bq3", "(bq3||bq4)&&(bq1&&bq2&&bq3)" },
-                //    emptyLiterals,
-                //    new[] { "bq1", "bq2", "bq3", "bq4" },
-                //    new OperatorCount() { AndCount = 4, OrCount = 2 }, emptySubDefinitions);
-
-                //yield return new TestCaseData(
-                //    $"form NameForm {{{NewLine}    boolQuestion1 : \"xyz\"  boolean{NewLine}    if (boolQuestion1) {{{NewLine}    aName : \"zxy\"  boolean }} {NewLine}    if (boolQuestion1) {{{NewLine}    aName2 : \"zxy\"  boolean }} }} ", 
-                //    new[] { "boolQuestion1" }, emptySubDefinitions);
-                //yield return new TestCaseData(
-                //    $"form NameForm {{{NewLine}    boolQuestion2 : \"xyz\"  boolean{NewLine}    if (boolQuestion2) {{{NewLine}    aName : \"zxy\"  boolean {NewLine}    if (aName) {{{NewLine}    aName2 : \"zxy\"  boolean }}  }} }} ", 
-                //    new[] { "boolQuestion2", "aName" }, emptySubDefinitions);
+                //ToDo: move this to relational test
+                //// test Inequality
+                //yield return BooleanTestCaseData(
+                //    formText: $"form NameForm {{bq1 : \"1\"  boolean if (false != true) {{ x : \"xx\"  date }} }} ",
+                //    definitions: new[] { "false!=true" },
+                //    operators: new BooleanOperatorCount { InequalityCount = 1 },
+                //    subdefinitions: new[] { "false!=true" });
+                //ToDo: continue conversion of old tests
             }
         }
 
@@ -386,7 +367,7 @@ form CommentFormML {}";
             IEnumerable<string> definitions = null,
             IEnumerable<bool> values = null,
             IEnumerable<string> variables = null,
-            OperatorCount operators = new OperatorCount(),
+            BooleanOperatorCount operators = new BooleanOperatorCount(),
             IEnumerable<string> subdefinitions = null)
         {
             definitions = definitions ?? new List<string>();
@@ -401,9 +382,65 @@ form CommentFormML {}";
                 variables, 
                 operators, 
                 subdefinitions);
-
         }
-        
+
+        public static IEnumerable MathStatements
+        {
+            get
+            {
+                var formTemplate = "form NameForm {{ intq: \"iii\"  integer=({0})}}";
+                //test single number
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "1"),
+                    values: new[] { 1m });
+
+                //test single decimal number
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "2.1"),
+                    values: new[] { 2.1m });
+                
+                //test single variable name
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "intVar"),
+                    variables: new [] {"intVar"});
+
+                //test bracketed single decimal number
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "(3.14)"),
+                    values: new[] { 3.14m });
+
+                //test Multiply
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "(6 * 9)"),
+                    values: new[] { 6m, 9m },
+                    operators: new MathOperatorCount { MultiplicationCount = 1 });
+
+                //test divide
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "(6 / 9) / (6 / 2)"),
+                    values: new[] { 6m, 9m, 6m, 2m },
+                    operators: new MathOperatorCount { DivisionCount = 3 });
+            }
+        }
+
+        private static TestCaseData MathTestCaseData(
+            string formText,
+            IEnumerable<decimal> values = null,
+            IEnumerable<string> variables = null,
+            MathOperatorCount operators = new MathOperatorCount())
+        {
+            values = values ?? new List<decimal>();
+            variables = variables ?? new List<string>();
+
+            return new TestCaseData(
+                formText,
+                values,
+                variables,
+                operators);
+        }
+
+
+
         public static IEnumerable ComparisonConditional
         {
             get

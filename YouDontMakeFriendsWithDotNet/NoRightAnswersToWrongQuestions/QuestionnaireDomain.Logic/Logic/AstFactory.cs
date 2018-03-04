@@ -35,11 +35,13 @@ namespace QuestionnaireDomain.Logic.Logic
             return AstNodeRegistration<IRootNode>(questionnaire);
         }
 
-        public Reference<ICalculationNode> CreateCalculation(string calculationDefinition)
-        {
-            var calculation = new CalculationNode(m_ids.Next, calculationDefinition);
-            return AstNodeRegistration<ICalculationNode>(calculation);
-        }
+        //public Reference<ICalculationNode> CreateCalculation(string calculationDefinition)
+        //{
+        //    var calculation = new CalculationNode(
+        //        m_ids.Next, 
+        //        calculationDefinition);
+        //    return AstNodeRegistration<ICalculationNode>(calculation);
+        //}
 
         public Reference<IConditionalStatementNode> CreateConditional(
             string questionDefinition, 
@@ -53,25 +55,33 @@ namespace QuestionnaireDomain.Logic.Logic
                 predicate,
                 consequent,
                 alternative);
+
             return AstNodeRegistration<IConditionalStatementNode>(condition);
         }
         
-        public Reference<IQuestionNode> CreateUserInputQuestion(
+        public Reference<IUserInputQuestionNode> CreateUserInputQuestion(
             string questionName, 
             string questionText, 
             Type questionType)
         {
             var question = new UserInputQuestion(m_ids.Next, questionName, questionText, questionType);
-            return AstNodeRegistration<IQuestionNode>(question);
+            return AstNodeRegistration<IUserInputQuestionNode>(question);
         }
 
-        public Reference<IQuestionNode> CreateCalculatedQuestion(
+        public Reference<ICalculatedQuestionNode> CreateCalculatedQuestion(
             string questionName, 
             string questionText, 
             Type questionType,
             Reference<ICalculationNode> calculation)
         {
-            throw new NotImplementedException();
+            var question = new CalculatedQuestion(
+                m_ids.Next, 
+                questionName, 
+                questionText, 
+                questionType,
+                calculation);
+
+            return AstNodeRegistration<ICalculatedQuestionNode>(question);
         }
 
         private Reference<T> AstNodeRegistration<T>(T node) where T : IAstNode
@@ -120,14 +130,14 @@ namespace QuestionnaireDomain.Logic.Logic
             return AstNodeRegistration<IOrNode>(orNode);
         }
 
-        public Reference<INegateNode> CreateNegation(
+        public Reference<INegateNode> CreateNegationOperation(
             Reference<IBooleanLogicNode> childExpression)
         {
             var negateNode = new NegateNode(m_ids.Next, childExpression);
             return AstNodeRegistration<INegateNode>(negateNode);
         }
 
-        public Reference<IEqualityNode> CreateEquality(
+        public Reference<IEqualityNode> CreateEqualityOperation(
             Reference<IAstNode> leftExpression, 
             Reference<IAstNode> rightExpression)
         {
@@ -137,6 +147,34 @@ namespace QuestionnaireDomain.Logic.Logic
                 rightExpression);
 
             return AstNodeRegistration<IEqualityNode>(equalityNode);
+        }
+
+        public Reference<IAstNode> CreateMultiplicationOperation(
+            string defintion,
+            Reference<ICalculationNode> leftExpression, 
+            Reference<ICalculationNode> rightExpression)
+        {
+            var multiplicationNode = new MultiplyNode(
+                m_ids.Next,
+                defintion,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<IMultiplyNode>(multiplicationNode);
+        }
+
+        public Reference<IAstNode> CreateDivision(
+            string defintion,
+            Reference<ICalculationNode> leftExpression, 
+            Reference<ICalculationNode> rightExpression)
+        {
+            var divisionNode = new DivideNode(
+                m_ids.Next,
+                defintion,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<IDivideNode>(divisionNode);
         }
     }
 }

@@ -16,8 +16,8 @@ namespace QuestionaireDomain.Entities.API
             string questionaireName,
             IEnumerable<Reference<IStatementNode>> statements);
 
-        Reference<ICalculationNode> CreateCalculation(
-            string calculationDefinition);
+        //Reference<ICalculationNode> CreateCalculation(
+        //    string calculationDefinition);
 
         Reference<IConditionalStatementNode> CreateConditional(
             string questionDefinition,
@@ -25,9 +25,9 @@ namespace QuestionaireDomain.Entities.API
             IEnumerable<Reference<IStatementNode>> consequent,
             IEnumerable<Reference<IStatementNode>> alternative);
 
-        Reference<IQuestionNode> CreateUserInputQuestion(string questionName, string questionText, Type questionType);
+        Reference<IUserInputQuestionNode> CreateUserInputQuestion(string questionName, string questionText, Type questionType);
 
-        Reference<IQuestionNode> CreateCalculatedQuestion(
+        Reference<ICalculatedQuestionNode> CreateCalculatedQuestion(
             string questionName,
             string questionText,
             Type questionType,
@@ -50,11 +50,21 @@ namespace QuestionaireDomain.Entities.API
             Reference<IBooleanLogicNode> leftExpression,
             Reference<IBooleanLogicNode> rightExpression);
 
-        Reference<INegateNode> CreateNegation(
+        Reference<INegateNode> CreateNegationOperation(
             Reference<IBooleanLogicNode> childExpression);
 
-        Reference<IEqualityNode> CreateEquality(
+        Reference<IEqualityNode> CreateEqualityOperation(
             Reference<IAstNode> leftExpression, 
             Reference<IAstNode> rightExpression);
+
+        Reference<IAstNode> CreateMultiplicationOperation(
+            string definition,
+            Reference<ICalculationNode> leftExpression, 
+            Reference<ICalculationNode> rightExpression);
+
+        Reference<IAstNode> CreateDivision(
+            string definition,
+            Reference<ICalculationNode> leftExpression, 
+            Reference<ICalculationNode> rightExpression);
     }
 }

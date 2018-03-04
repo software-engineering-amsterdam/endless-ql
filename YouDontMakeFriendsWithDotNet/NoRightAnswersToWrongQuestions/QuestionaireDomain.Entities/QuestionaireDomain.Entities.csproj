@@ -86,7 +86,10 @@
     <Compile Include="DomainObjects\AndNode.cs" />
     <Compile Include="DomainObjects\BooleanLiteralNode.cs" />
     <Compile Include="DomainObjects\BooleanVariableNode.cs" />
+    <Compile Include="DomainObjects\CalculatedQuestion.cs" />
     <Compile Include="DomainObjects\EqualityNode.cs" />
+    <Compile Include="DomainObjects\MultiplyNode.cs" />
+    <Compile Include="DomainObjects\NegateNode.cs" />
     <Compile Include="DomainObjects\NumberNode.cs" />
     <Compile Include="DomainObjects\CalculationVariableNode.cs" />
     <Compile Include="API\QlParserException.cs" />

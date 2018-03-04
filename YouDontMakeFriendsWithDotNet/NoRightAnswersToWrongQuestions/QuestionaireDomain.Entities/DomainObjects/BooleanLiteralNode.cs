@@ -31,7 +31,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
 
         public override void Accept(IAstVisitor visitor)
         {
-            throw new NotImplementedException();
+            (visitor as IAstVisitor<ILiteralNode>)?.Visit(this);
         }
 
         public bool Value { get; }

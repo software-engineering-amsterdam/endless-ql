@@ -7,12 +7,16 @@ using NUnit.Framework;
 using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.API.AstNodes;
 using QuestionaireDomain.Entities.API.AstNodes.Boolean;
+using QuestionaireDomain.Entities.API.AstNodes.Calculation;
 using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 using QuestionaireDomain.Entities.API.AstNodes.Relational;
 using QuestionnaireDomain.Logic;
 using QuestionnaireDomain.Logic.API;
 using QuestionnaireDomain.Logic.Logic;
 using QuestionnaireInfrastructure.API;
+using IBooleanVariableNode = QuestionaireDomain.Entities.API.AstNodes.Boolean.IVariableNode;
+using ICalculationVariableNode = QuestionaireDomain.Entities.API.AstNodes.Calculation.IVariableNode;
+
 
 namespace UnitTests.Domain.UnitTests
 {
@@ -20,6 +24,7 @@ namespace UnitTests.Domain.UnitTests
     public class CreateQuestionnaireTests
     {
         #region reboot done
+
         private IServiceProvider m_serviceProvider;
         private IDomainItemLocator m_domainItemLocator;
 
@@ -58,51 +63,81 @@ namespace UnitTests.Domain.UnitTests
 
         private void CreateForm(string validText)
         {
-            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
-            var domainItemId = questionnaireCreator.Create(validText);
+            var questionnaireCreator = m_serviceProvider
+                .GetService<IQuestionnaireCreator>();
+
+            var domainItemId = questionnaireCreator.
+                Create(validText);
+
             Assert.IsNotNull(domainItemId);
         }
 
-        [TestCaseSource(typeof(TestData), nameof(TestData.GoodFormCases))]
+        [TestCaseSource(
+            typeof(TestData), 
+            nameof(TestData.GoodFormCases))]
         public void WhenGivenWellFormedDefinition_ReturnsAFormObjects(
             string validDescription,
             string expectedId)
         {
             CreateForm(validDescription);
-            Assert.AreEqual(expected: expectedId, actual: GetForm().QuestionnaireName);
+            Assert.AreEqual(
+                expected: expectedId, 
+                actual: GetForm().QuestionnaireName);
         }
 
-        [TestCaseSource(typeof(TestData), nameof(TestData.BadFormCases))]
-        public void WhenGivenBadlyFormedForm_ThrowsException(string invalidDescription)
+        [TestCaseSource(
+            typeof(TestData), 
+            nameof(TestData.BadFormCases))]
+        public void WhenGivenBadlyFormedForm_ThrowsException(
+            string invalidDescription)
         {
             Assert.Throws<QlParserException>(() => CreateForm(invalidDescription));
         }
 
-        [TestCaseSource(typeof(TestData), nameof(TestData.GoodCommentCases))]
-        public void WhenGivenComments_ReturnsDomainObjects(string validText, string expectedName)
+        [TestCaseSource(
+            typeof(TestData), 
+            nameof(TestData.GoodCommentCases))]
+        public void WhenGivenComments_ReturnsDomainObjects(
+            string validText, 
+            string expectedName)
         {
             CreateForm(validText);
             Assert.AreEqual(expected: expectedName, actual: GetForm().QuestionnaireName);
         }
 
-        [TestCaseSource(typeof(TestData), nameof(TestData.BadCommentCases))]
-        public void WhenGivenBadlyFormedComments_ThrowsException(string invalidDescription)
+        [TestCaseSource(
+            typeof(TestData), 
+            nameof(TestData.BadCommentCases))]
+        public void WhenGivenBadlyFormedComments_ThrowsException(
+            string invalidDescription)
         {
             Assert.Throws<QlParserException>(() => CreateForm(invalidDescription));
         }
 
-        [TestCaseSource(typeof(TestData), nameof(TestData.ValidNameCases))]
-        public void WhenGivenValidIdentifier_NamesTheFormCorrectly(string validText, string expectedName)
+        [TestCaseSource(
+            typeof(TestData), 
+            nameof(TestData.ValidNameCases))]
+        public void WhenGivenValidIdentifier_NamesTheFormCorrectly(
+            string validText, 
+            string expectedName)
         {
             CreateForm(validText);
-            Assert.AreEqual(expected: expectedName, actual: GetForm().QuestionnaireName);
+            Assert.AreEqual(
+                expected: expectedName, 
+                actual: GetForm().QuestionnaireName);
         }
 
-        [TestCaseSource(typeof(TestData), nameof(TestData.InvalidNameCases))]
-        public void WhenGivenInvalidIdentifier_ThrowsLexingError(string invalidText, string invalidName)
+        [TestCaseSource(
+            typeof(TestData), 
+            nameof(TestData.InvalidNameCases))]
+        public void WhenGivenInvalidIdentifier_ThrowsLexingError(
+            string invalidText, 
+            string invalidName)
         {
-            var constraint = Is.TypeOf<QlParserException>()
-                .And.Property(nameof(QlParserException.ParseErrorDetails))
+            var constraint = Is
+                .TypeOf<QlParserException>()
+                .And
+                .Property(nameof(QlParserException.ParseErrorDetails))
                 .Contains(invalidName);
 
             Assert.Throws(constraint, () => CreateForm(invalidText));
@@ -114,15 +149,19 @@ namespace UnitTests.Domain.UnitTests
             var createdForm = m_domainItemLocator
                 .GetAll<IRootNode>()
                 .FirstOrDefault();
+
             Assert.IsNotNull(createdForm);
             return createdForm;
         }
+
         #endregion
 
-        [TestCaseSource(typeof(TestData), nameof(TestData.QuestionCases))]
+        [TestCaseSource(
+            typeof(TestData), 
+            nameof(TestData.QuestionCases))]
         public void WhenGivenValidQuestion_NameTextAndTypeCorrect(
-            string validText, 
-            string expectedId, 
+            string validText,
+            string expectedId,
             string expectedText,
             Type expectedType)
         {
@@ -137,97 +176,239 @@ namespace UnitTests.Domain.UnitTests
             Assert.AreEqual(expected: expectedType, actual: question.QuestionType);
         }
 
-        [TestCaseSource(typeof(TestData), nameof(TestData.MultipleQuestionCases))]
+        [TestCaseSource(
+            typeof(TestData), 
+            nameof(TestData.MultipleQuestionCases))]
         public void WhenGivenMultipleQuestions_CorrectNumberOfQuestions(
-            string validText, 
+            string validText,
             int questionCount)
         {
             CreateForm(validText);
             Assert.AreEqual(expected: questionCount, actual: m_domainItemLocator.GetAll<IQuestionNode>().Count());
         }
-        
-        [TestCaseSource(typeof(TestData), nameof(TestData.ConditionalStatementCases))]
+
+        [TestCaseSource(
+            typeof(TestData), 
+            nameof(TestData.ConditionalStatementCases))]
         public void WhenFormHasConditionalStatement_CorrectNumberOfConditionalCasesExist(
-            string validText, 
+            string validText,
             int conditionCount)
         {
             CreateForm(validText);
-            var actualCount = m_domainItemLocator.GetAll<IConditionalStatementNode>().Count();
-            Assert.AreEqual(expected: conditionCount, actual: actualCount);
+            var actualCount = m_domainItemLocator
+                .GetAll<IConditionalStatementNode>()
+                .Count();
+
+            Assert.AreEqual(
+                expected: conditionCount, 
+                actual: actualCount);
         }
 
-        [TestCaseSource(typeof(TestData), nameof(TestData.ElseStatementCases))]
+        [TestCaseSource(
+            typeof(TestData), 
+            nameof(TestData.ElseStatementCases))]
         public void WhenFormHasElseConditional_CorrectNumberOfQuestionsExist(
-            string validText, 
+            string validText,
             int conditionCount)
         {
             CreateForm(validText);
-            var actualCount = m_domainItemLocator.GetAll<IQuestionNode>().Count();
-            Assert.AreEqual(expected: conditionCount, actual: actualCount);
+            var actualCount = m_domainItemLocator
+                .GetAll<IQuestionNode>()
+                .Count();
+
+            Assert.AreEqual(
+                expected: conditionCount, 
+                actual: actualCount);
         }
 
-        [TestCaseSource(typeof(TestData), nameof(TestData.BooleanConditional))]
+        [TestCaseSource(
+            typeof(TestData), 
+            nameof(TestData.BooleanConditional))]
         public void WhenBooleanQuestionUsedInAConditional_ParsesCorrectly(
-            string validText, 
+            string validText,
             IEnumerable<string> expectedDefinitions,
             IEnumerable<bool> expectedLiterals,
             IEnumerable<string> expectedVariables,
-            OperatorCount operatorCount,
+            BooleanOperatorCount operatorCount,
             IEnumerable<string> expectedSubDefinitions)
         {
             CreateForm(validText);
-            var conditionNames = m_domainItemLocator
-                .GetAll<IConditionalStatementNode>()
-                .Select(x => x.ConditionDefinition)
-                .ToList();
+            ValidateConditionalDefinitions(expectedDefinitions);
+            ValidateVariableNames(expectedVariables);
+            ValidateLiterals(expectedLiterals);
+            ValidateBooleanOperators(operatorCount);
+        }
 
-            foreach (var expectedDefinition in expectedDefinitions)
+        private void ValidateLiterals(IEnumerable<bool> expectedLiterals)
+        {
+            if (!expectedLiterals.Any())
             {
-                Assert.Contains(expected: expectedDefinition, actual: conditionNames);
+                return;
             }
 
+            var literals = m_domainItemLocator
+                .GetAll<ILiteralNode>()
+                .Select(x => x.Value)
+                .ToList();
+
+            Assert.AreEqual(
+                expected: expectedLiterals.Count(x => x),
+                actual: literals.Count(x => x));
+
+            Assert.AreEqual(
+                expected: expectedLiterals.Count(x => !x),
+                actual: literals.Count(x => !x));
+        }
+
+        private void ValidateVariableNames(
+            IEnumerable<string> expectedVariables)
+        {
             var conditionVariable = m_domainItemLocator
-                .GetAll<IVariableNode>()
+                .GetAll<IBooleanVariableNode>()
                 .Select(x => x.VariableName)
                 .ToList();
 
             foreach (var expectedVariable in expectedVariables)
             {
-                Assert.Contains(expected: expectedVariable, actual: conditionVariable);
+                Assert.Contains(
+                    expected: expectedVariable, 
+                    actual: conditionVariable);
             }
-
-            ValidateOperators(operatorCount);
         }
 
-        private void ValidateOperators(OperatorCount operatorCount)
+        private void ValidateConditionalDefinitions(IEnumerable<string> expectedDefinitions)
         {
-            var orCount = m_domainItemLocator.GetAll<IOrNode>().Count();
-            Assert.AreEqual(expected: operatorCount.OrCount, actual: orCount);
+            var conditionNames = m_domainItemLocator
+                .GetAll<IConditionalStatementNode>()
+                .Select(x => x.Definition)
+                .ToList();
 
-            var andCount = m_domainItemLocator.GetAll<IAndNode>().Count();
-            Assert.AreEqual(expected: operatorCount.AndCount, actual: andCount);
+            foreach (var expectedDefinition in expectedDefinitions)
+            {
+                Assert.Contains(
+                    expected: expectedDefinition, 
+                    actual: conditionNames);
+            }
+        }
 
-            var equalityCount = m_domainItemLocator.GetAll<IEqualityNode>().Count();
-            Assert.AreEqual(expected: operatorCount.EqualityCount, actual: equalityCount);
+        private void ValidateBooleanOperators(BooleanOperatorCount operatorCount)
+        {
+            Assert.AreEqual(
+                expected: operatorCount.OrCount, 
+                actual: NodeCount<IOrNode>());
 
-            var inequalityCount = m_domainItemLocator.GetAll<IInequalityNode>().Count();
-            Assert.AreEqual(expected: operatorCount.InequalityCount, actual: inequalityCount);
+            Assert.AreEqual(
+                expected: operatorCount.AndCount, 
+                actual: NodeCount<IAndNode>());
 
-            var greaterCount = m_domainItemLocator.GetAll<IGreaterThanNode>().Count();
-            Assert.AreEqual(expected: operatorCount.GreaterThanCount, actual: greaterCount);
+            Assert.AreEqual(
+                expected: operatorCount.EqualityCount, 
+                actual: NodeCount<IEqualityNode>());
 
-            var greaterEqualCount = m_domainItemLocator.GetAll<IGreaterOrEqualNode>().Count();
-            Assert.AreEqual(expected: operatorCount.GreaterOrEqualCount, actual: greaterEqualCount);
+            Assert.AreEqual(
+                expected: operatorCount.InequalityCount, 
+                actual: NodeCount<IInequalityNode>());
 
-            var lessCount = m_domainItemLocator.GetAll<ILessThanNode>().Count();
-            Assert.AreEqual(expected: operatorCount.LessThanCount, actual: lessCount);
+            Assert.AreEqual(
+                expected: operatorCount.GreaterThanCount, 
+                actual: NodeCount<IGreaterThanNode>());
 
-            var lessEqualCount = m_domainItemLocator.GetAll<ILessOrEqualNode>().Count();
-            Assert.AreEqual(expected: operatorCount.LessOrEqualCount, actual: lessEqualCount);
+            Assert.AreEqual(
+                expected: operatorCount.GreaterOrEqualCount, 
+                actual: NodeCount<IGreaterOrEqualNode>());
+
+            Assert.AreEqual(
+                expected: operatorCount.LessThanCount, 
+                actual: NodeCount<ILessThanNode>());
+
+            Assert.AreEqual(
+                expected: operatorCount.LessOrEqualCount, 
+                actual: NodeCount<ILessOrEqualNode>());
+        }
+
+        [TestCaseSource(
+            typeof(TestData),
+            nameof(TestData.MathStatements))]
+        public void WhenCalculationUsedInACalcualtedQuestion_ParsesCorrectly(
+            string validText,
+            IEnumerable<decimal> expectedLiterals,
+            IEnumerable<string> expectedVariables,
+            MathOperatorCount operatorCount)
+        {
+            CreateForm(validText);
+            ValidateMathVariableNames(expectedVariables);
+            ValidateMathLiterals(expectedLiterals);
+            ValidateMathOperators(operatorCount);
+        }
+
+        private void ValidateMathLiterals(
+            IEnumerable<decimal> expectedLiterals)
+        {
+            if (!expectedLiterals.Any())
+            {
+                return;
+            }
+
+            var actualLiteralsList = m_domainItemLocator
+                .GetAll<INumberNode>()
+                .Select(x => x.Value)
+                .ToList();
+
+            actualLiteralsList.Sort();
+            var expectedLiteralsList = expectedLiterals
+                .ToList();
+
+            expectedLiteralsList.Sort();
+
+            Assert.AreEqual(
+                expected: actualLiteralsList,
+                actual: expectedLiteralsList);
+        }
+        private void ValidateMathVariableNames(
+            IEnumerable<string> expectedVariables)
+        {
+            var conditionVariable = m_domainItemLocator
+                .GetAll<ICalculationVariableNode>()
+                .Select(x => x.VariableName)
+                .ToList();
+
+            foreach (var expectedVariable in expectedVariables)
+            {
+                Assert.Contains(
+                    expected: expectedVariable,
+                    actual: conditionVariable);
+            }
+        }
+
+        private void ValidateMathOperators(MathOperatorCount operatorCount)
+        {
+            Assert.AreEqual(
+                expected: operatorCount.AdditionCount,
+                actual: NodeCount<IAddNode>());
+
+            Assert.AreEqual(
+                expected: operatorCount.SubtractionCount,
+                actual: NodeCount<ISubtractNode>());
+
+            Assert.AreEqual(
+                expected: operatorCount.MultiplicationCount,
+                actual: NodeCount<IMultiplyNode>());
+
+            Assert.AreEqual(
+                expected: operatorCount.DivisionCount,
+                actual: NodeCount<IDivideNode>());
+        }
+
+        private int NodeCount<T>() where T : IAstNode
+        {
+            return m_domainItemLocator
+                .GetAll<T>()
+                .Count();
         }
     }
 
-    public struct OperatorCount
+
+    public struct BooleanOperatorCount
     {
         public int AndCount;
         public int OrCount;
@@ -238,5 +419,13 @@ namespace UnitTests.Domain.UnitTests
         public int GreaterThanCount;
         public int LessOrEqualCount;
         public int LessThanCount;
+    }
+
+    public struct MathOperatorCount
+    {
+        public int AdditionCount;
+        public int SubtractionCount;
+        public int MultiplicationCount;
+        public int DivisionCount;
     }
 }

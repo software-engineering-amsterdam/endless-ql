@@ -15,7 +15,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
             IEnumerable<Reference<IStatementNode>> consequent,
             IEnumerable<Reference<IStatementNode>> alternative) : base(id)
         {
-            ConditionDefinition = conditionDefinition;
+            Definition = conditionDefinition;
             Predicate = predicate;
             Consequent = consequent;
             Alternative = alternative;
@@ -26,7 +26,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
             throw new NotImplementedException();
         }
 
-        public string ConditionDefinition { get; }
+        public string Definition { get; }
         public Reference<IBooleanLogicNode> Predicate { get; }
         public IEnumerable<Reference<IStatementNode>> Consequent { get; }
         public IEnumerable<Reference<IStatementNode>> Alternative { get; }

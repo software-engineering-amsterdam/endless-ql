@@ -17,7 +17,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
 
         public override void Accept(IAstVisitor visitor)
         {
-            throw new NotImplementedException();
+            (visitor as IAstVisitor<IVariableNode>)?.Visit(this);
         }
     }
 }

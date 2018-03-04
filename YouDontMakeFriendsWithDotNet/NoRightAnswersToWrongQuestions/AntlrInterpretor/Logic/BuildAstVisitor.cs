@@ -151,13 +151,6 @@ namespace AntlrInterpretor.Logic
             }
         }
         
-        public override Reference<IAstNode> VisitMathExpression(
-            QLParser.MathExpressionContext context)
-        {
-            var calculationDefinition = context.GetText();
-            return m_astFactory.CreateCalculation(calculationDefinition);
-        }
-
         public override Reference<IAstNode> VisitNumberVariableName(
             QLParser.NumberVariableNameContext context)
         {
@@ -167,9 +160,43 @@ namespace AntlrInterpretor.Logic
         public override Reference<IAstNode> VisitCalculatedValue(
             QLParser.CalculatedValueContext context)
         {
-            return VisitMathExpression(context.mathExpression());
+            return Visit(context.mathExpression());
         }
-        
+
+        public override Reference<IAstNode> VisitMultiplyDivideExpression(QLParser.MultiplyDivideExpressionContext context)
+        {
+            var leftExpression = Visit(context.leftExpression)
+                .To<ICalculationNode>(m_domainItemLocator);
+
+            var rightExpression = Visit(context.rightExpression)
+                .To<ICalculationNode>(m_domainItemLocator);
+
+
+            var multiplyDivideOperator = context.@operator.Type;
+            switch (multiplyDivideOperator)
+            {
+                case QLParser.MULTIPLY:
+                    return m_astFactory.CreateMultiplicationOperation(
+                        context.GetText(),
+                        leftExpression,
+                        rightExpression);
+                case QLParser.DIVIDE:
+                    return m_astFactory.CreateDivision(
+                        context.GetText(),
+                        leftExpression,
+                        rightExpression);
+                default:
+                    throw new QlParserException(
+                        $"The provided operator '{context.@operator.Text}' is not handled within multiply or divide in the statement {context.GetText()}.", 
+                        null);
+            }
+        }
+
+        public override Reference<IAstNode> VisitMathExpressionGroup(QLParser.MathExpressionGroupContext context)
+        {
+            return Visit(context.mathExpression());
+        }
+
         public override Reference<IAstNode> VisitNumberLiteral(
             QLParser.NumberLiteralContext context)
         {
@@ -178,11 +205,10 @@ namespace AntlrInterpretor.Logic
 
         public override Reference<IAstNode> VisitNegationExpression(QLParser.NegationExpressionContext context)
         {
-
             var childExpression = Visit(context.booleanExpression())
                 .To<IBooleanLogicNode>(m_domainItemLocator);
 
-            return m_astFactory.CreateNegation(childExpression);
+            return m_astFactory.CreateNegationOperation(childExpression);
         }
 
         public override Reference<IAstNode> VisitBooleanComparison(QLParser.BooleanComparisonContext context)
@@ -197,32 +223,33 @@ namespace AntlrInterpretor.Logic
             switch (relationalOperator)
             {//to do: factory for each
                 case QLParser.ISEQUAL:
-                    return m_astFactory.CreateEquality(
+                    return m_astFactory.CreateEqualityOperation(
                         leftExpression, 
                         rightExpression);
                 case QLParser.ISNOTEQUAL:
-                    return m_astFactory.CreateEquality(
+                    return m_astFactory.CreateEqualityOperation(
                         leftExpression, 
                         rightExpression);
                 case QLParser.ISGREATERTHAN:
-                    return m_astFactory.CreateEquality(
+                    return m_astFactory.CreateEqualityOperation(
                         leftExpression, 
                         rightExpression);
                 case QLParser.ISGREATERTHANOREQUAL:
-                    return m_astFactory.CreateEquality(
+                    return m_astFactory.CreateEqualityOperation(
                         leftExpression, 
                         rightExpression);
                 case QLParser.ISLESSTHAN:
-                    return m_astFactory.CreateEquality(
+                    return m_astFactory.CreateEqualityOperation(
                         leftExpression, 
                         rightExpression);
                 case QLParser.ISLESSTHANOREQUAL:
-                    return m_astFactory.CreateEquality(
+                    return m_astFactory.CreateEqualityOperation(
                         leftExpression, 
                         rightExpression);
                 default:
                     throw new QlParserException($"The relative operator '{context.@operator.chosenOperator.Text}' is not recognized.",null);
             }
         }
+        
     }
 }

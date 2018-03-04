@@ -3,19 +3,18 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Input from "reactstrap/lib/Input";
 import { FormComponent } from "./rendering/components/form_component/FormComponent";
 import Form from "./form/Form";
-import { sampleForm } from "./mock/sampleForm";
 import QuestionForm from "./form/QuestionForm";
-import FormNode from "./form/nodes/FormNode";
 import Alert from "reactstrap/lib/Alert";
 import { getParserErrorMessage } from "./parsing/parsing_helpers";
 import { QlParserPipeline, QlParserResult } from "./parsing/QlParserPipeline";
+import FormState from "./form/state/FormState";
 
 export interface AppComponentProps {
 }
 
 export interface AppComponentState {
   qlInput?: string;
-  form: Form;
+  form: Form | null;
   parserError: Error | null;
 }
 
@@ -25,7 +24,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
 
     this.state = {
       qlInput: require("!raw-loader!./mock/sample.ql.txt"),
-      form: sampleForm,
+      form: null,
       parserError: null
     };
 
@@ -40,10 +39,8 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     try {
       const parseResults: QlParserResult[] = (new QlParserPipeline(text)).run();
 
-      console.log(parseResults[0]);
-
       this.setState({
-        form: new QuestionForm(parseResults[0].node, this.state.form.getState()),
+        form: new QuestionForm(parseResults[0].node, this.getFormState()),
         parserError: null,
         qlInput: text
       });
@@ -56,7 +53,20 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     }
   }
 
+  getFormState() {
+    if (!this.state.form) {
+      return new FormState();
+    }
+
+    return this.state.form.getState();
+
+  }
+
   onChange(identifier: string, value: any) {
+    if (!this.state.form) {
+      return;
+    }
+
     this.setState({
       form: this.state.form.setAnswer(identifier, value)
     });
@@ -71,6 +81,18 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
         <Alert color="danger">
           {getParserErrorMessage(this.state.parserError)}
         </Alert>
+    );
+  }
+
+  renderForm() {
+    if (!this.state.form) {
+      return (
+          <span>Form not yet parsed</span>
+      );
+    }
+
+    return (
+        <FormComponent onChange={this.onChange} form={this.state.form}/>
     );
   }
 
@@ -94,12 +116,12 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
             </div>
             <div className="col-md-6">
               {this.renderErrorMessage()}
-              <FormComponent onChange={this.onChange} form={this.state.form}/>
+              {this.renderForm()}
               <h2>State</h2>
               <Input
                   type="textarea"
                   readOnly={true}
-                  value={this.state.form.getState().toString()}
+                  value={this.getFormState().toString()}
               />
             </div>
           </div>

@@ -22,13 +22,13 @@ public class DuplicateChecker {
 
 	public boolean containsUniqueQuestions() {
 		List<String> allQuestions = new ArrayList<>();
-		allQuestions = getQuestionList();
+		allQuestions = getallQuestion();
 		HashSet<String> uniqueQuestions = new HashSet<>(allQuestions); 
 		return (uniqueQuestions.size()==allQuestions.size());
 
 	}
 
-	private List<String> getQuestionList() {
+	private List<String> getallQuestion() {
 		for (QuestionBlock questionBlocks : form.getQuestions()) {
 			getQuestions(questionBlocks);
 

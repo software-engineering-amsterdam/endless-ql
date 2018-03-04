@@ -33,8 +33,8 @@ export const FormComponent: React.SFC<FormComponentProps> = (props) => {
   };
 
   return (
-      <div>
-        <h1>FORM: {props.form.getName()}</h1>
+      <div className="ql-form">
+        <h1>Form ({props.form.getName()})</h1>
         {renderFields()}
       </div>
   );

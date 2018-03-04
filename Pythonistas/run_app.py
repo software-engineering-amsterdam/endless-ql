@@ -47,7 +47,7 @@ def main():
     # print(tree.toStringTree(recog=parser))
 
     # Visit
-    visit(tree)
+    # visit(tree)
 
     # Gui
     app = QApplication(sys.argv)

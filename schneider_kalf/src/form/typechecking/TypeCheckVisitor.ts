@@ -1,4 +1,3 @@
-import ExpressionVisitor from "../nodes/visitors/ExpressionVisitor";
 import Addition from "../nodes/expressions/arithmetic/Addition";
 import NumberLiteral from "../nodes/expressions/arithmetic/NumberLiteral";
 import Multiplication from "../nodes/expressions/arithmetic/Multiplication";
@@ -17,8 +16,8 @@ import SmallerThan from "../nodes/expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../nodes/expressions/comparisons/SmallerThanOrEqual";
 import StringLiteral from "../nodes/expressions/string/StringLiteral";
 import { VariablesInformation, VariableInformation } from "../VariableIntformation";
-import { NotComparableError, UnkownFieldError } from "../form_errors";
-import { FieldType, getCommonNumericFieldType, isNumericFieldType } from "../FieldType";
+import { UnkownFieldError, TypesNotComparableError } from "../form_errors";
+import { FieldType, fieldTypesSortable, getCommonNumericFieldType, isNumericFieldType } from "../FieldType";
 import { assertFieldType, assertNumericFieldType } from "./typeAssertions";
 import BinaryOperator from "../nodes/expressions/BinaryOperator";
 import NodeVisitor from "../nodes/visitors/NodeVisitor";
@@ -103,11 +102,11 @@ export class TypeCheckVisitor implements NodeVisitor {
   }
 
   visitEquals(equals: Equals): any {
-    return this.visitCompareOperator(equals);
+    return this.visitEqualOperator(equals);
   }
 
   visitNotEqual(notEquals: NotEqual): any {
-    return this.visitCompareOperator(notEquals);
+    return this.visitEqualOperator(notEquals);
   }
 
   visitLargerThan(largerThan: LargerThan): any {
@@ -143,7 +142,7 @@ export class TypeCheckVisitor implements NodeVisitor {
     return getCommonNumericFieldType(leftType, rightType);
   }
 
-  private visitCompareOperator(operator: BinaryOperator) {
+  private visitEqualOperator(operator: BinaryOperator) {
     const leftType = operator.left.accept(this);
     const rightType = operator.right.accept(this);
 
@@ -151,13 +150,24 @@ export class TypeCheckVisitor implements NodeVisitor {
       const commonType = getCommonNumericFieldType(leftType, rightType);
 
       if (!isNumericFieldType(commonType)) {
-        throw NotComparableError.make(leftType.toString(), rightType.toString());
+        throw TypesNotComparableError.make(leftType.toString(), rightType.toString());
       }
 
       return FieldType.Boolean;
     }
 
     assertFieldType(leftType, rightType);
+
+    return FieldType.Boolean;
+  }
+
+  private visitCompareOperator(operator: BinaryOperator) {
+    const leftType = operator.left.accept(this);
+    const rightType = operator.right.accept(this);
+
+    if (!fieldTypesSortable(leftType, rightType)) {
+      throw TypesNotComparableError.make(leftType.toString(), rightType.toString());
+    }
 
     return FieldType.Boolean;
   }

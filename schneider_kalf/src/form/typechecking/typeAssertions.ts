@@ -1,5 +1,5 @@
 import {
-  CannotFindCommonFieldTypeError, DivisionByZeroError, NotComparableError,
+  CannotFindCommonFieldTypeError, DivisionByZeroError, ValuesNotComparableError,
   TypeCheckError
 } from "../form_errors";
 import { FieldType, getCommonNumericFieldType, isNumericFieldType, numericFieldTypes } from "../FieldType";
@@ -56,18 +56,6 @@ export const assertAnyFieldType = (actualType: FieldType, allowedTypes: FieldTyp
   }
 
   return actualType;
-};
-
-export const getResultingType = (left: FieldType, right: FieldType): FieldType => {
-  if (left === right) {
-    return left;
-  }
-
-  if (isNumericFieldType(left) && isNumericFieldType(right)) {
-    return getCommonNumericFieldType(left, right);
-  }
-
-  throw CannotFindCommonFieldTypeError.make(left, right);
 };
 
 /**
@@ -140,7 +128,7 @@ export const assertValidDivision = (dividend: number, divisor: number) => {
 
 export const assertSameType = (left: any, right: any) => {
   if (typeof left !== typeof right) {
-    throw NotComparableError.make(left, right);
+    throw ValuesNotComparableError.make(left, right);
   }
 
   return {left, right};

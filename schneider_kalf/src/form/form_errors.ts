@@ -16,7 +16,7 @@ export class TypeCheckError extends FormError {
 
   static make(expectedType: string, receivedType: string, message?: string) {
     if (typeof message === 'undefined') {
-      message = `Type check failed. Expected "${expectedType}" but received "${receivedType}`;
+      message = `Type check failed. Expected "${expectedType}" but received "${receivedType}.`;
     }
 
     const error = new TypeCheckError(message);
@@ -28,20 +28,38 @@ export class TypeCheckError extends FormError {
   }
 }
 
-export class NotComparableError extends FormError {
+export class ValuesNotComparableError extends FormError {
   left: any;
   right: any;
 
   static make(left: string, right: string, message?: string) {
     if (typeof message === 'undefined') {
-      message = `Cannot compare ${left} [${getTypeString(left)}] to  ${right} [${getTypeString(right)}]`;
+      message = `Cannot compare ${left} [${getTypeString(left)}] to  ${right} [${getTypeString(right)}].`;
     }
 
-    const error = new NotComparableError(message);
-    Object.setPrototypeOf(error, NotComparableError.prototype);
+    const error = new ValuesNotComparableError(message);
+    Object.setPrototypeOf(error, ValuesNotComparableError.prototype);
 
     error.left = left;
     error.right = right;
+
+    return error;
+  }
+}
+
+export class TypesNotComparableError extends FormError {
+  left: FieldType;
+  right: FieldType;
+
+  static make(left: FieldType, right: FieldType, message?: string) {
+    if (typeof message === 'undefined') {
+      message = `Cannot compare type ${left} to  ${right}.`;
+    }
+
+    const error = new TypesNotComparableError(message);
+    error.left = left;
+    error.right = right;
+    Object.setPrototypeOf(error, TypesNotComparableError.prototype);
 
     return error;
   }
@@ -62,7 +80,7 @@ export class DivisionByZeroError extends FormError {
 export class NotImplementedYetError extends Error {
   static make(feature: string, message?: string) {
     if (typeof message === 'undefined') {
-      message = `Feature not implemented yet: "${feature}"`;
+      message = `Feature not implemented yet: "${feature}".`;
     }
 
     return new NotImplementedYetError(message);

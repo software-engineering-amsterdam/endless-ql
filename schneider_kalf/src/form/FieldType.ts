@@ -27,3 +27,15 @@ export const getCommonNumericFieldType = (typeOne: FieldType, typeTwo: FieldType
 
   return numericFieldTypeOrder[Math.max(indexOne, indexTwo)];
 };
+
+export const fieldTypesSortable = (typeOne: FieldType, typeTwo: FieldType): boolean => {
+  if (isNumericFieldType(typeOne) && isNumericFieldType(typeTwo)) {
+    return true;
+  }
+
+  if (typeOne === FieldType.Date && typeTwo === FieldType.Date) {
+    return true;
+  }
+
+  return false;
+};

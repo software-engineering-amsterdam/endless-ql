@@ -1,5 +1,5 @@
 import { getTypeString } from "./typechecking/typeAssertions";
-import FieldType from "./FieldType";
+import { FieldType } from "./FieldType";
 import FieldNode from "./nodes/fields/FieldNode";
 import Expression from "./nodes/expressions/Expression";
 
@@ -157,6 +157,23 @@ export class VariableNotInScopeError extends FormError {
     error.identifier = identifier;
     error.expression = expression;
     Object.setPrototypeOf(error, VariableNotInScopeError.prototype);
+    return error;
+  }
+}
+
+export class CannotFindCommonFieldTypeError extends FormError {
+  left: FieldType;
+  right: FieldType;
+
+  static make(left: FieldType, right: FieldType, message?: string) {
+    if (typeof message === 'undefined') {
+      message = `Cannot find common field type for ${left} and ${right}.`;
+    }
+
+    const error = new CannotFindCommonFieldTypeError(message);
+    error.left = left;
+    error.right = right;
+    Object.setPrototypeOf(error, CannotFindCommonFieldTypeError.prototype);
     return error;
   }
 }

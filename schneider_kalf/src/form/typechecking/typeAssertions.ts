@@ -1,4 +1,8 @@
-import { DivisionByZeroError, NotComparableError, TypeCheckError } from "../form_errors";
+import {
+  CannotFindCommonFieldTypeError, DivisionByZeroError, NotComparableError,
+  TypeCheckError
+} from "../form_errors";
+import { FieldType, getCommonNumericFieldType, isNumericFieldType, numericFieldTypes } from "../FieldType";
 
 /**
  * Returns the type of a given value including the classname if it is
@@ -38,6 +42,34 @@ export const assertType = (value: any, expectedType: string) => {
   return value;
 };
 
+export const assertFieldType = (actualType: FieldType, expectedType: FieldType): FieldType => {
+  if (actualType !== expectedType) {
+    throw TypeCheckError.make(expectedType, actualType);
+  }
+
+  return expectedType;
+};
+
+export const assertAnyFieldType = (actualType: FieldType, allowedTypes: FieldType[]): FieldType => {
+  if (allowedTypes.indexOf(actualType) === -1) {
+    throw TypeCheckError.make(allowedTypes.join(' or '), actualType);
+  }
+
+  return actualType;
+};
+
+export const getResultingType = (left: FieldType, right: FieldType): FieldType => {
+  if (left === right) {
+    return left;
+  }
+
+  if (isNumericFieldType(left) && isNumericFieldType(right)) {
+    return getCommonNumericFieldType(left, right);
+  }
+
+  throw CannotFindCommonFieldTypeError.make(left, right);
+};
+
 /**
  * Assert that the types of the value is "boolean" or fail otherwise.
  *
@@ -66,6 +98,10 @@ export const assertString = (value: any) => {
  */
 export const assertNumeric = (value: any) => {
   return assertType(value, "number");
+};
+
+export const assertNumericFieldType = (fieldType: FieldType): FieldType => {
+  return assertAnyFieldType(fieldType, numericFieldTypes);
 };
 
 /**

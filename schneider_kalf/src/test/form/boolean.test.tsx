@@ -4,7 +4,7 @@ import { evaluate } from "../../form/evaluation/evaluation_functions";
 import NotEqual from "../../form/nodes/expressions/comparisons/NotEqual";
 import Negation from "../../form/nodes/expressions/boolean_expressions/Negation";
 import NumberLiteral from "../../form/nodes/expressions/arithmetic/NumberLiteral";
-import FieldType from "../../form/FieldType";
+import { FieldType } from "../../form/FieldType";
 import { NotComparableError } from "../../form/form_errors";
 
 it('holds that the same boolean literals are equal', () => {

@@ -16,46 +16,67 @@ import LargerThanOrEqual from "../nodes/expressions/comparisons/LargerThanOrEqua
 import SmallerThan from "../nodes/expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../nodes/expressions/comparisons/SmallerThanOrEqual";
 import StringLiteral from "../nodes/expressions/string/StringLiteral";
+import { VariablesInformation, VariableInformation } from "../VariableIntformation";
+import { NotComparableError, TypeCheckError, UnkownFieldError } from "../form_errors";
+import { FieldType, getCommonNumericFieldType, isNumericFieldType } from "../FieldType";
+import { assertBoolean, assertFieldType, assertNumericFieldType } from "./typeAssertions";
+import BinaryOperator from "../nodes/expressions/BinaryOperator";
 
 export class TypeCheckingVisitor implements ExpressionVisitor {
+  private _variables: VariablesInformation;
+
+  constructor(variables: VariablesInformation) {
+    this._variables = variables;
+  }
+
   visitAddition(addition: Addition): any {
-    return undefined;
+    return this.visitNumericOperator(addition);
   }
 
   visitNumberLiteral(literal: NumberLiteral): any {
-    return undefined;
+    if (Math.round(literal.getValue()) === literal.getValue()) {
+      return FieldType.Integer;
+    }
+
+    return FieldType.Float;
   }
 
   visitMultiplication(multiplication: Multiplication): any {
-    return undefined;
+    return this.visitNumericOperator(multiplication);
   }
 
   visitOr(or: Or): any {
-    return undefined;
+    return this.visitBooleanOperator(or);
   }
 
   visitAnd(and: And): any {
-    return undefined;
+    return this.visitBooleanOperator(and);
   }
 
   visitNegation(negation: Negation): any {
-    return undefined;
+    return assertFieldType(negation.expression.accept(this), FieldType.Boolean);
   }
 
   visitVariableIdentifier(variable: VariableIdentifier): any {
-    return undefined;
+    const variableInformation: VariableInformation | undefined = this._variables.get(variable.identifier);
+
+    if (!variableInformation) {
+      throw UnkownFieldError.make(variable.identifier);
+    }
+
+    return variableInformation.type;
   }
 
   visitDivision(division: Division): any {
-    return undefined;
+    return this.visitNumericOperator(division);
   }
 
   visitBooleanLiteral(literal: BooleanLiteral): any {
-    return undefined;
+    return FieldType.Boolean;
   }
 
   visitSubtraction(subtraction: Subtraction): any {
-    return undefined;
+    return this.visitNumericOperator(subtraction);
   }
 
   visitEquals(equals: Equals): any {
@@ -83,7 +104,38 @@ export class TypeCheckingVisitor implements ExpressionVisitor {
   }
 
   visitStringLiteral(stringLiteral: StringLiteral): any {
-    return undefined;
+    return FieldType.Text;
   }
 
+  private visitBooleanOperator(operator: BinaryOperator): FieldType {
+    assertFieldType(operator.left.accept(this), FieldType.Boolean);
+    assertFieldType(operator.right.accept(this), FieldType.Boolean);
+    return FieldType.Boolean;
+  }
+
+  private visitNumericOperator(operator: BinaryOperator): FieldType {
+    const leftType = assertNumericFieldType(operator.left.accept(this));
+    const rightType = assertNumericFieldType(operator.right.accept(this));
+
+    return getCommonNumericFieldType(leftType, rightType);
+  }
+
+  private visitCompareOperator(operator: BinaryOperator) {
+    const leftType = operator.left.accept(this);
+    const rightType = operator.right.accept(this);
+
+    if (isNumericFieldType(leftType) || isNumericFieldType(rightType)) {
+      const commonType = getCommonNumericFieldType(leftType, rightType);
+
+      if (!isNumericFieldType(commonType)) {
+        throw NotComparableError.make(leftType.toString(), rightType.toString());
+      }
+
+      return FieldType.Boolean;
+    }
+
+    assertFieldType(leftType, rightType);
+
+    return FieldType.Boolean;
+  }
 }

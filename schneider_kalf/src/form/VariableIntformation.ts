@@ -1,5 +1,7 @@
 import FieldNode from "./nodes/fields/FieldNode";
-import FieldType from "./FieldType";
+import { FieldType } from "./FieldType";
+
+export type VariablesInformation = Map<string, VariableInformation>;
 
 export interface VariableInformation {
   identifier: string;

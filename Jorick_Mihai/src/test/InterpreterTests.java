@@ -98,7 +98,6 @@ public class InterpreterTests {
 	public void test6() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource6);
 		interpreter.interpret(ast);
-		System.out.println("Tada: " + ((IntegerValue) SymbolTable.getInstance().get("q1")).getValue());
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(2));
 	}
 	
@@ -115,6 +114,30 @@ public class InterpreterTests {
 	}
 	
 	// Division tests.
+	
+	String testSource8 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: integer 4 / 2\n"
+			+ "}";
+	
+	@Test
+	public void test8() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource8);
+		interpreter.interpret(ast);
+		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(2));
+	}
+	
+	String testSource9 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: integer 2 / 4\n"
+			+ "}";
+	
+	@Test
+	public void test9() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource9);
+		interpreter.interpret(ast);
+		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(0));
+	}
 	
 	// Automatically generated negative tests.
 	
@@ -313,81 +336,81 @@ public class InterpreterTests {
 		}
 	}
 
-//	String generatedSource14 = "form Form1 {\"\" q0: integer 1 / true }";
-//
-//	@Test
-//	public void generatedTest14() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource14);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a IntegerValue and a BooleanValue"));
-//		}
-//	}
-//
-//	String generatedSource15 = "form Form1 {\"\" q0: integer 1 / \"string\" }";
-//
-//	@Test
-//	public void generatedTest15() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource15);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a IntegerValue and a StringValue"));
-//		}
-//	}
-//
-//	String generatedSource16 = "form Form1 {\"\" q0: integer true / true }";
-//
-//	@Test
-//	public void generatedTest16() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource16);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a BooleanValue and a BooleanValue"));
-//		}
-//	}
-//
-//	String generatedSource17 = "form Form1 {\"\" q0: integer true / \"string\" }";
-//
-//	@Test
-//	public void generatedTest17() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource17);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a BooleanValue and a StringValue"));
-//		}
-//	}
-//
-//	String generatedSource18 = "form Form1 {\"\" q0: integer \"string\" / \"string\" }";
-//
-//	@Test
-//	public void generatedTest18() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource18);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a StringValue and a StringValue"));
-//		}
-//	}
-//
+	String generatedSource14 = "form Form1 {\"\" q0: integer 1 / true }";
+
+	@Test
+	public void generatedTest14() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource14);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a IntegerValue and a BooleanValue"));
+		}
+	}
+
+	String generatedSource15 = "form Form1 {\"\" q0: integer 1 / \"string\" }";
+
+	@Test
+	public void generatedTest15() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource15);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a IntegerValue and a StringValue"));
+		}
+	}
+
+	String generatedSource16 = "form Form1 {\"\" q0: integer true / true }";
+
+	@Test
+	public void generatedTest16() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource16);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a BooleanValue and a BooleanValue"));
+		}
+	}
+
+	String generatedSource17 = "form Form1 {\"\" q0: integer true / \"string\" }";
+
+	@Test
+	public void generatedTest17() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource17);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a BooleanValue and a StringValue"));
+		}
+	}
+
+	String generatedSource18 = "form Form1 {\"\" q0: integer \"string\" / \"string\" }";
+
+	@Test
+	public void generatedTest18() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource18);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a StringValue and a StringValue"));
+		}
+	}
+
 //	String generatedSource19 = "form Form1 {\"\" q0: integer 1 && 1 }";
 //
 //	@Test

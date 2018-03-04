@@ -19,6 +19,12 @@ public interface GenericValue {
 	GenericValue multiply(StringValue leftHandSideValue);
 	GenericValue multiply(BooleanValue leftHandSideValue);
 	
+	// Division.
+	GenericValue divide(GenericValue rightHandSideValue);
+	GenericValue divide(IntegerValue leftHandSideValue);
+	GenericValue divide(StringValue leftHandSideValue);
+	GenericValue divide(BooleanValue leftHandSideValue);
+	
 	default public void additionError(Class<?> left, Class<?> right) {
 		error(left, right, "add");
 	}
@@ -29,6 +35,10 @@ public interface GenericValue {
 	
 	default public void multiplicationError(Class<?> left, Class<?> right) {
 		error(left, right, "multiply");
+	}
+	
+	default public void  divisionError(Class<?> left, Class<?> right) {
+		error(left, right, "divide");
 	}
 	
 	default public void error(Class<?> left, Class<?> right, String type) {

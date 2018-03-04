@@ -86,4 +86,30 @@ public class StringValue implements GenericValue {
 		multiplicationError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
+	
+	// Division.
+
+	@Override
+	public GenericValue divide(GenericValue rightHandSideValue) {
+		divisionError(this.getClass(), rightHandSideValue.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue divide(IntegerValue leftHandSideValue) {
+		divisionError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue divide(StringValue leftHandSideValue) {
+		divisionError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue divide(BooleanValue leftHandSideValue) {
+		divisionError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
 }

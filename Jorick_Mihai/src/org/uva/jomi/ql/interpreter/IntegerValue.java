@@ -81,5 +81,29 @@ public class IntegerValue implements GenericValue {
 	public GenericValue multiply(BooleanValue leftHandSideValue) {
 		multiplicationError(leftHandSideValue.getClass(), this.getClass());
 		return null;
+	}
+
+	@Override
+	public GenericValue divide(GenericValue rightHandSideValue) {
+		return rightHandSideValue.divide(this);
+	}
+	
+	// Division.
+
+	@Override
+	public GenericValue divide(IntegerValue leftHandSideValue) {
+		return new IntegerValue(leftHandSideValue.getValue() / this.getValue());
+	}
+
+	@Override
+	public GenericValue divide(StringValue leftHandSideValue) {
+		divisionError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue divide(BooleanValue leftHandSideValue) {
+		divisionError(leftHandSideValue.getClass(), this.getClass());
+		return null;
 	}	
 }

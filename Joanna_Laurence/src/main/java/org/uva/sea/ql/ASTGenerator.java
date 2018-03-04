@@ -18,7 +18,7 @@ import java.util.List;
 public class ASTGenerator {
 
     private List<IStaticAnalysis> staticAnalyses = Arrays.asList(new IStaticAnalysis[]{
-            new VariableInfo(),
+            new LinkAndCheckUsageVariable(),
             new TypeCheck(),
             new CheckDuplicateLabels(),
             new CheckIncorrectDuplicateQuestions()

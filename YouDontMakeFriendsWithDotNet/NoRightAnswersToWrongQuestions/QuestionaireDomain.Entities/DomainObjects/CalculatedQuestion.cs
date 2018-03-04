@@ -7,12 +7,18 @@ namespace QuestionaireDomain.Entities.DomainObjects
 {
     public class CalculatedQuestion : AstNodeBase, ICalculatedQuestionNode
     {
+        public string QuestionId { get; }
+        public string QuestionText { get; }
+        public Type QuestionType { get; }
+        public Reference<ICalculationNode> CalculatedValue { get; }
+
         public CalculatedQuestion(
             Guid id, 
+            string definition,
             string questionId, 
             string questionText, 
             Type questionType,
-            Reference<ICalculationNode> calculation) : base(id)
+            Reference<ICalculationNode> calculation) : base(id, definition)
         {
             QuestionId = questionId;
             QuestionText = questionText;
@@ -20,15 +26,9 @@ namespace QuestionaireDomain.Entities.DomainObjects
             CalculatedValue = calculation;
         }
 
-        public string QuestionId { get; }
-        public string QuestionText { get; }
-        public Type QuestionType { get; }
-
         public override void Accept(IAstVisitor visitor)
         {
             //ToDo: Do something here
         }
-
-        public Reference<ICalculationNode> CalculatedValue { get; }
     }
 }

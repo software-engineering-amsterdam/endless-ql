@@ -263,7 +263,7 @@ namespace UnitTests.Domain.UnitTests
         {
             CreateForm(validText);
             ValidateConditionalDefinitions(expectedDefinitions);
-            ValidateVariableNames(expectedVariables);
+            ValidateBooleanVariableNames(expectedVariables);
             ValidateLiterals(expectedLiterals);
             ValidateBooleanOperators(operatorCount);
         }
@@ -291,7 +291,7 @@ namespace UnitTests.Domain.UnitTests
                 message: "There is an incorrect number of false boolean literals");
         }
 
-        private void ValidateVariableNames(
+        private void ValidateBooleanVariableNames(
             IEnumerable<string> expectedVariables)
         {
             var conditionVariable = m_domainItemLocator
@@ -451,5 +451,72 @@ namespace UnitTests.Domain.UnitTests
                 .GetAll<T>()
                 .Count();
         }
+
+        [TestCaseSource(
+            typeof(TestData),
+            nameof(TestData.ComparisonConditional))]
+        public void WhenComparisonUsedInACalcualtedQuestion_ParsesCorrectly(
+            string validText,
+            IEnumerable<string> expectedCalculationDefinitions,
+            IEnumerable<bool> expectedLiterals,
+            IEnumerable<string> expectedVariables,
+            RelationalOperatorCount operatorCount)
+        {
+            CreateForm(validText);
+            ValidateRelationalDefinition(expectedCalculationDefinitions);
+            ValidateBooleanVariableNames(expectedVariables);
+            ValidateLiterals(expectedLiterals);
+            ValidateRelationalOperators(operatorCount);
+        }
+
+        private void ValidateRelationalOperators(RelationalOperatorCount operatorCount)
+        {
+            Assert.AreEqual(
+                expected: operatorCount.EqualityCount,
+                actual: NodeCount<IEqualityNode>(),
+                message: "incorrect number of '==' operations");
+
+            Assert.AreEqual(
+                expected: operatorCount.InEqualityCount,
+                actual: NodeCount<IInequalityNode>(),
+                message: "incorrect number of '!=' operations");
+
+            Assert.AreEqual(
+                expected: operatorCount.GreaterThanCount,
+                actual: NodeCount<IGreaterThanNode>(),
+                message: "incorrect number of '>' operations");
+
+            Assert.AreEqual(
+                expected: operatorCount.GreaterOrEqualCount,
+                actual: NodeCount<IGreaterOrEqualNode>(),
+                message: "incorrect number of '>=' operations");
+
+            Assert.AreEqual(
+                expected: operatorCount.LessThanCount,
+                actual: NodeCount<ILessThanNode>(),
+                message: "incorrect number of '<' operations");
+
+            Assert.AreEqual(
+                expected: operatorCount.LessOrEqualCount,
+                actual: NodeCount<ILessOrEqualNode>(),
+                message: "incorrect number of '<=' operations");
+        }
+
+        private void ValidateRelationalDefinition(IEnumerable<string> expectedDefinitions)
+        {
+            var conditionDefinitions = m_domainItemLocator
+                .GetAll<IRelationalLogicNode>()
+                .Select(x => x.Definition)
+                .ToList();
+
+            foreach (var expectedDefinition in expectedDefinitions)
+            {
+                Assert.Contains(
+                    expected: expectedDefinition,
+                    actual: conditionDefinitions,
+                    message: $"The conditions '{expectedDefinition}' was not created.  The created definitions were: '{string.Join("','", conditionDefinitions)}'");
+            }
+        }
+
     }
 }

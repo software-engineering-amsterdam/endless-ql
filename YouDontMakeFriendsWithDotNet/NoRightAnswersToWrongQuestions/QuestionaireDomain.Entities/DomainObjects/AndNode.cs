@@ -12,8 +12,9 @@ namespace QuestionaireDomain.Entities.DomainObjects
     {
         public AndNode(
             Guid id,
+            string definition,
             Reference<IBooleanLogicNode> leftExpression,
-            Reference<IBooleanLogicNode> rightExpression) : base(id)
+            Reference<IBooleanLogicNode> rightExpression) : base(id, definition)
         {
             LeftExpression = leftExpression;
             RightExpression = rightExpression;

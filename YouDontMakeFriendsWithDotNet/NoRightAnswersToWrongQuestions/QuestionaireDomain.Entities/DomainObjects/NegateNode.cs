@@ -8,7 +8,8 @@ namespace QuestionaireDomain.Entities.DomainObjects
     {
         public NegateNode(
             Guid id,
-            Reference<IBooleanLogicNode> childExpression) : base(id)
+            string definition,
+            Reference<IBooleanLogicNode> childExpression) : base(id, definition)
         {
             Expression = childExpression;
         }

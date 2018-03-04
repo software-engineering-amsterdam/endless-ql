@@ -7,11 +7,9 @@ namespace QuestionaireDomain.Entities.DomainObjects
     public class BooleanVariableNode : AstNodeBase, IVariableNode
     {
         public string VariableName { get; }
-        public string BooleanDefinition { get; }
 
-        public BooleanVariableNode(Guid id, string variableName) : base(id)
+        public BooleanVariableNode(Guid id, string variableName) : base(id, variableName)
         {
-            BooleanDefinition = variableName;
             VariableName = variableName;
         }
 

@@ -25,33 +25,28 @@ namespace QuestionnaireDomain.Logic.Logic
         }
 
         public Reference<IRootNode> CreateQuestionnaire(
+            string definition,
             string questionaireName,
             IEnumerable<Reference<IStatementNode>> statements)
         {
-            var questionnaire = new AstNode(
+            var questionnaire = new QuestionnaireRootNode(
                 m_ids.Next,
+                definition,
                 questionaireName,
                 statements);
+
             return AstNodeRegistration<IRootNode>(questionnaire);
         }
-
-        //public Reference<ICalculationNode> CreateCalculation(string calculationDefinition)
-        //{
-        //    var calculation = new CalculationNode(
-        //        m_ids.Next, 
-        //        calculationDefinition);
-        //    return AstNodeRegistration<ICalculationNode>(calculation);
-        //}
-
+        
         public Reference<IConditionalStatementNode> CreateConditional(
-            string questionDefinition, 
+            string definition, 
             Reference<IBooleanLogicNode> predicate, 
             IEnumerable<Reference<IStatementNode>> consequent,
             IEnumerable<Reference<IStatementNode>> alternative)
         {
             var condition = new ConditionalAst(
                 m_ids.Next, 
-                questionDefinition,
+                definition,
                 predicate,
                 consequent,
                 alternative);
@@ -60,15 +55,23 @@ namespace QuestionnaireDomain.Logic.Logic
         }
         
         public Reference<IUserInputQuestionNode> CreateUserInputQuestion(
+            string definition,
             string questionName, 
             string questionText, 
             Type questionType)
         {
-            var question = new UserInputQuestion(m_ids.Next, questionName, questionText, questionType);
+            var question = new UserInputQuestion(
+                m_ids.Next, 
+                definition,
+                questionName, 
+                questionText, 
+                questionType);
+
             return AstNodeRegistration<IUserInputQuestionNode>(question);
         }
 
         public Reference<ICalculatedQuestionNode> CreateCalculatedQuestion(
+            string definition,
             string questionName, 
             string questionText, 
             Type questionType,
@@ -76,6 +79,7 @@ namespace QuestionnaireDomain.Logic.Logic
         {
             var question = new CalculatedQuestion(
                 m_ids.Next, 
+                definition,
                 questionName, 
                 questionText, 
                 questionType,
@@ -83,13 +87,7 @@ namespace QuestionnaireDomain.Logic.Logic
 
             return AstNodeRegistration<ICalculatedQuestionNode>(question);
         }
-
-        private Reference<T> AstNodeRegistration<T>(T node) where T : IAstNode
-        {
-            m_registry.Add(node);
-            return new Reference<T>(node.Id);
-        }
-
+        
         public Reference<INumberNode> CreateNumber(string numberText)
         {
             var number = new NumberNode(m_ids.Next, numberText);
@@ -110,39 +108,58 @@ namespace QuestionnaireDomain.Logic.Logic
 
         public Reference<ILiteralNode> CreateBooleanLiteral(string booleanString)
         {
-            var literal = new BooleanLiteralNode(m_ids.Next, booleanString);
+            var literal = new BooleanLiteralNode(m_ids.Next,booleanString);
             return AstNodeRegistration<ILiteralNode>(literal);
         }
 
         public Reference<IAndNode> CreateAndOperation(
+            string definition,
             Reference<IBooleanLogicNode> leftExpression,
             Reference<IBooleanLogicNode> rightExpression)
         {
-            var andNode = new AndNode(m_ids.Next, leftExpression, rightExpression);
+            var andNode = new AndNode(
+                m_ids.Next, 
+                definition,
+                leftExpression, 
+                rightExpression);
+
             return AstNodeRegistration<IAndNode>(andNode);
         }
 
         public Reference<IOrNode> CreateOrOperation(
+            string definition,
             Reference<IBooleanLogicNode> leftExpression,
             Reference<IBooleanLogicNode> rightExpression)
         {
-            var orNode = new OrNode(m_ids.Next, leftExpression, rightExpression);
+            var orNode = new OrNode(
+                m_ids.Next, 
+                definition,
+                leftExpression, 
+                rightExpression);
+
             return AstNodeRegistration<IOrNode>(orNode);
         }
 
         public Reference<INegateNode> CreateNegationOperation(
+            string definition,
             Reference<IBooleanLogicNode> childExpression)
         {
-            var negateNode = new NegateNode(m_ids.Next, childExpression);
+            var negateNode = new NegateNode(
+                m_ids.Next, 
+                definition,
+                childExpression);
+
             return AstNodeRegistration<INegateNode>(negateNode);
         }
 
         public Reference<IEqualityNode> CreateEqualityOperation(
+            string definition,
             Reference<IAstNode> leftExpression, 
             Reference<IAstNode> rightExpression)
         {
             var equalityNode = new EqualityNode(
                 m_ids.Next, 
+                definition,
                 leftExpression, 
                 rightExpression);
 
@@ -203,6 +220,12 @@ namespace QuestionnaireDomain.Logic.Logic
                 rightExpression);
 
             return AstNodeRegistration<ISubtractNode>(subtractNode);
+        }
+
+        private Reference<T> AstNodeRegistration<T>(T node) where T : IAstNode
+        {
+            m_registry.Add(node);
+            return new Reference<T>(node.Id);
         }
     }
 }

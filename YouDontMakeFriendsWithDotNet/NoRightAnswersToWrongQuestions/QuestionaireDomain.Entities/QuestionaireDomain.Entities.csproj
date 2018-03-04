@@ -102,7 +102,7 @@
     <Compile Include="API\IAstVisitor.cs" />
     <Compile Include="DomainObjects\OrNode.cs" />
     <Compile Include="DomainObjects\UserInputQuestion.cs" />
-    <Compile Include="DomainObjects\AstNode.cs" />
+    <Compile Include="DomainObjects\QuestionnaireRootNode.cs" />
     <Compile Include="DomainObjects\Reference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

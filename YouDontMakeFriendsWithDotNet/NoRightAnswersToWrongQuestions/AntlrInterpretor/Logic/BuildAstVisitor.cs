@@ -35,6 +35,7 @@ namespace AntlrInterpretor.Logic
                 .To<IStatementNode>(m_domainItemLocator);
                 
             return m_astFactory.CreateQuestionnaire(
+                context.GetText(),
                 questionnaireName,
                 statements);
         }
@@ -49,6 +50,7 @@ namespace AntlrInterpretor.Logic
                 .To<ICalculationNode>(m_domainItemLocator);
 
             return m_astFactory.CreateCalculatedQuestion(
+                context.GetText(),
                 questionName, 
                 questionText, 
                 questionType,
@@ -67,6 +69,7 @@ namespace AntlrInterpretor.Logic
             var questionType = GetQuestionType(context.question());
 
             return m_astFactory.CreateUserInputQuestion(
+                context.GetText(),
                 questionName,
                 questionText,
                 questionType);
@@ -125,9 +128,15 @@ namespace AntlrInterpretor.Logic
             switch (context.booleanOperator().chosenOperator.Type)
             {
                 case QLParser.AND:
-                    return m_astFactory.CreateAndOperation(leftExpression, rightExpression);
+                    return m_astFactory.CreateAndOperation(
+                        context.GetText(), 
+                        leftExpression, 
+                        rightExpression);
                 case QLParser.OR:
-                    return m_astFactory.CreateOrOperation(leftExpression, rightExpression);
+                    return m_astFactory.CreateOrOperation(
+                        context.GetText(), 
+                        leftExpression, 
+                        rightExpression);
                 default:
                     throw new QlParserException(
                         $@"Boolean Type '{context.booleanOperator().chosenOperator.Type}' handled in the parse tree but not by the AST",
@@ -224,7 +233,8 @@ namespace AntlrInterpretor.Logic
         {
             return Visit(context.mathExpression());
         }
-
+        //booleanComparison
+        
         public override Reference<IAstNode> VisitNumberLiteral(
             QLParser.NumberLiteralContext context)
         {
@@ -236,7 +246,9 @@ namespace AntlrInterpretor.Logic
             var childExpression = Visit(context.booleanExpression())
                 .To<IBooleanLogicNode>(m_domainItemLocator);
 
-            return m_astFactory.CreateNegationOperation(childExpression);
+            return m_astFactory.CreateNegationOperation(
+                context.GetText(),
+                childExpression);
         }
 
         public override Reference<IAstNode> VisitBooleanComparison(QLParser.BooleanComparisonContext context)
@@ -252,26 +264,32 @@ namespace AntlrInterpretor.Logic
             {//to do: factory for each
                 case QLParser.ISEQUAL:
                     return m_astFactory.CreateEqualityOperation(
+                        context.GetText(),
                         leftExpression, 
                         rightExpression);
                 case QLParser.ISNOTEQUAL:
                     return m_astFactory.CreateEqualityOperation(
+                        context.GetText(),
                         leftExpression, 
                         rightExpression);
                 case QLParser.ISGREATERTHAN:
                     return m_astFactory.CreateEqualityOperation(
+                        context.GetText(),
                         leftExpression, 
                         rightExpression);
                 case QLParser.ISGREATERTHANOREQUAL:
                     return m_astFactory.CreateEqualityOperation(
+                        context.GetText(),
                         leftExpression, 
                         rightExpression);
                 case QLParser.ISLESSTHAN:
                     return m_astFactory.CreateEqualityOperation(
+                        context.GetText(),
                         leftExpression, 
                         rightExpression);
                 case QLParser.ISLESSTHANOREQUAL:
                     return m_astFactory.CreateEqualityOperation(
+                        context.GetText(),
                         leftExpression, 
                         rightExpression);
                 default:

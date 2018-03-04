@@ -8,17 +8,15 @@ namespace QuestionaireDomain.Entities.DomainObjects
 
     public class DivideNode : AstNodeBase, IDivideNode
     {
-        public string CalculationDefinition { get; }
         public Reference<ICalculationNode> LeftCalculation { get; }
         public Reference<ICalculationNode> RightCalculation { get; }
 
         public DivideNode(
             Guid id,
-            string calculationDefinition,
+            string definition,
             Reference<ICalculationNode> leftCalculation,
-            Reference<ICalculationNode> rightCalculation) : base(id)
+            Reference<ICalculationNode> rightCalculation) : base(id, definition)
         {
-            CalculationDefinition = calculationDefinition;
             LeftCalculation = leftCalculation;
             RightCalculation = rightCalculation;
         }
@@ -31,17 +29,15 @@ namespace QuestionaireDomain.Entities.DomainObjects
 
     public class AddNode : AstNodeBase, IAddNode
     {
-        public string CalculationDefinition { get; }
         public Reference<ICalculationNode> LeftCalculation { get; }
         public Reference<ICalculationNode> RightCalculation { get; }
 
         public AddNode(
             Guid id,
-            string calculationDefinition,
+            string definition,
             Reference<ICalculationNode> leftCalculation,
-            Reference<ICalculationNode> rightCalculation) : base(id)
+            Reference<ICalculationNode> rightCalculation) : base(id, definition)
         {
-            CalculationDefinition = calculationDefinition;
             LeftCalculation = leftCalculation;
             RightCalculation = rightCalculation;
         }
@@ -54,17 +50,15 @@ namespace QuestionaireDomain.Entities.DomainObjects
 
     public class SubtractNode : AstNodeBase, ISubtractNode
     {
-        public string CalculationDefinition { get; }
         public Reference<ICalculationNode> LeftCalculation { get; }
         public Reference<ICalculationNode> RightCalculation { get; }
 
         public SubtractNode(
             Guid id,
-            string calculationDefinition,
+            string definition,
             Reference<ICalculationNode> leftCalculation,
-            Reference<ICalculationNode> rightCalculation) : base(id)
+            Reference<ICalculationNode> rightCalculation) : base(id, definition)
         {
-            CalculationDefinition = calculationDefinition;
             LeftCalculation = leftCalculation;
             RightCalculation = rightCalculation;
         }

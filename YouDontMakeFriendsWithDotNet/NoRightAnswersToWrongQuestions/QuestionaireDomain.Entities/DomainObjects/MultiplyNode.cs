@@ -6,17 +6,15 @@ namespace QuestionaireDomain.Entities.DomainObjects
 {
     public class MultiplyNode : AstNodeBase, IMultiplyNode
     {
-        public string CalculationDefinition { get; }
         public Reference<ICalculationNode> LeftCalculation { get; }
         public Reference<ICalculationNode> RightCalculation { get; }
 
         public MultiplyNode(
             Guid id,
-            string calculationDefinition,
+            string definition,
             Reference<ICalculationNode> leftCalculation,
-            Reference<ICalculationNode> rightCalculation) : base(id)
+            Reference<ICalculationNode> rightCalculation) : base(id, definition)
         {
-            CalculationDefinition = calculationDefinition;
             LeftCalculation = leftCalculation;
             RightCalculation = rightCalculation;
         }

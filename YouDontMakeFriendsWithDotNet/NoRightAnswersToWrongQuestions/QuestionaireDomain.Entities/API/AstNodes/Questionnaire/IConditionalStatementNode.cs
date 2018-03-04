@@ -4,7 +4,7 @@ using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionaireDomain.Entities.API.AstNodes.Questionnaire
 {
-    public interface IConditionalStatementNode : IStatementNode, INonTerminal, IHasDefinition
+    public interface IConditionalStatementNode : IStatementNode, INonTerminal
     {
         Reference<IBooleanLogicNode> Predicate { get; }
         IEnumerable<Reference<IStatementNode>> Consequent { get; }

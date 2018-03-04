@@ -48,8 +48,9 @@ booleanExpression : IDENTIFIER                             #booleanQuestionIdent
 				  | leftExpression=booleanExpression
 					   operator=booleanOperator
 				    rightExpression=booleanExpression      #andOrStatement
+				  
 				  | leftExpression=booleanExpression 
-                         operator=equalityOperator 
+                       operator=equalityOperator 
       	            rightExpression=booleanExpression      #booleanComparison
 				  | relationalExpression                   #relativeExpression
                   ;

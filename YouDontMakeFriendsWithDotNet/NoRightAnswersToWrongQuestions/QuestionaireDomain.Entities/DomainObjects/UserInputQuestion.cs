@@ -6,16 +6,21 @@ namespace QuestionaireDomain.Entities.DomainObjects
 {
     public class UserInputQuestion : AstNodeBase, IUserInputQuestionNode
     {
-        public UserInputQuestion(Guid id, string questionId, string questionText, Type questionType) : base(id)
+        public string QuestionId { get; }
+        public string QuestionText { get; }
+        public Type QuestionType { get; }
+
+        public UserInputQuestion(
+            Guid id, 
+            string definition,
+            string questionId, 
+            string questionText, 
+            Type questionType) : base(id, definition)
         {
             QuestionId = questionId;
             QuestionText = questionText;
             QuestionType = questionType;
         }
-
-        public string QuestionId { get; }
-        public string QuestionText { get; }
-        public Type QuestionType { get; }
 
         public override void Accept(IAstVisitor visitor)
         {

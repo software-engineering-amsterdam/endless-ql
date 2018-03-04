@@ -292,4 +292,28 @@ public class StringValue implements GenericValue {
 		compareError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
+	
+	// Not equal operation.
+
+	@Override
+	public GenericValue notEqual(GenericValue rightHandSideValue) {
+		return rightHandSideValue.notEqual(this);
+	}
+
+	@Override
+	public GenericValue notEqual(IntegerValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue notEqual(StringValue leftHandSideValue) {
+		return new BooleanValue(!leftHandSideValue.getValue().equals(this.value));
+	}
+
+	@Override
+	public GenericValue notEqual(BooleanValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
 }

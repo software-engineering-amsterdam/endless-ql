@@ -288,4 +288,28 @@ public class BooleanValue implements GenericValue {
 	public GenericValue equal(BooleanValue leftHandSideValue) {
 		return new BooleanValue(leftHandSideValue.getValue().equals(this.getValue()));
 	}
+	
+	// Not equal operation.
+
+	@Override
+	public GenericValue notEqual(GenericValue rightHandSideValue) {
+		return rightHandSideValue.notEqual(this);
+	}
+
+	@Override
+	public GenericValue notEqual(IntegerValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue notEqual(StringValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue notEqual(BooleanValue leftHandSideValue) {
+		return new BooleanValue(!leftHandSideValue.getValue().equals(this.getValue()));
+	}
 }

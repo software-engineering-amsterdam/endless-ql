@@ -166,8 +166,11 @@ booleanLiteral
 
 // Integer
 numberLiteral
- = digits:([-]?[0-9]+) {
-    return new Nodes.NumberLiteral(parseInt(digits.join(""), 10))
+ = minus:[-]? digits:([0-9]+) {
+    var amount = digits.join("");
+    if (minus)
+        amount = minus.concat(amount);
+    return new Nodes.NumberLiteral(parseInt(amount))
 }
 
 // String Literal, Currently only support double quoted String

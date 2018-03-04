@@ -6,16 +6,8 @@ using Assignment1.Model;
 
 options { tokenVocab=QLLexer; }
 
-file returns [List<QuestionForm> result]
-	@init {
-	$result = new List<QuestionForm>();
-	}
-	: (form
-		{$result.Add($form.result);}
-		)* EOF
-	;
 form returns [QuestionForm result]
-	: FORM ID content
+	: FORM ID content EOF
 		{$result = new QuestionForm($ID.text, $content.result);}
 	;	
 content returns [List<Content> result]
@@ -44,10 +36,18 @@ questionAssign returns [Question result]
 		 $result.Expression = $expression.result;}
 	;
 questionNorm returns [Question result]
-	: STRING ID SEP BOOLEAN
+	: STRING ID SEP BOOLEAN_TYPE
 		{$result = new QuestionBool($ID.text, $STRING.text);}
-	| STRING ID SEP MONEY
+	| STRING ID SEP DATE_TYPE
+		{$result = new QuestionDate($ID.text, $STRING.text);}
+	| STRING ID SEP DECIMAL_TYPE
+		{$result = new QuestionDecimal($ID.text, $STRING.text);}
+	| STRING ID SEP INTEGER_TYPE
+		{$result = new QuestionInt($ID.text, $STRING.text);}
+	| STRING ID SEP MONEY_TYPE
 		{$result = new QuestionMoney($ID.text, $STRING.text);}
+	| STRING ID SEP STRING_TYPE
+		{$result = new QuestionString($ID.text, $STRING.text);}
 	;
 ifstatement returns [IfStatement result]
 	: IF OPEN_BR expression CLOSE_BR content1=content ELSE content2=content
@@ -96,8 +96,8 @@ expressionId returns [ExpressionId result]
 value returns [dynamic result]
 	: TRUE    {$result = true;}
 	| FALSE   {$result = false;}
-	| INTEGER {$result = int.Parse($INTEGER.text);}
-	| DECIMAL {$result = decimal.Parse($DECIMAL.text);}
-	| STRING  {$result = $STRING.text;}
 	| DATE    {$result = DateTime.Parse($DATE.text);}
+	| DECIMAL {$result = decimal.Parse($DECIMAL.text);}
+	| INTEGER {$result = int.Parse($INTEGER.text);}
+	| STRING  {$result = $STRING.text;}
 	;

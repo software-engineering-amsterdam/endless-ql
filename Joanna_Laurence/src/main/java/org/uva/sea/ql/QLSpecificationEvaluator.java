@@ -51,7 +51,7 @@ public class QLSpecificationEvaluator {
     private List<QuestionData> interpreterQuestions(List<Question> questions, SymbolTable symbolTable) {
         List<QuestionData> questionDataList = new ArrayList<>();
         for (Question question : questions) {
-            Value value = getQuestionValue(symbolTable, question);
+            Value value = getQuestionValue(question, symbolTable);
             questionDataList.add(new QuestionData(question, value));
         }
         return questionDataList;
@@ -64,7 +64,7 @@ public class QLSpecificationEvaluator {
      * @param question    Questions
      * @return Value of the question
      */
-    private Value getQuestionValue(SymbolTable symbolTable, Question question) {
+    private Value getQuestionValue(Question question, SymbolTable symbolTable) {
         if (question.getValue() != null)
             return this.expressionEvaluator.evaluate(question.getValue(), symbolTable);
 

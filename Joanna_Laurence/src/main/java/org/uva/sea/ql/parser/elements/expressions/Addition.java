@@ -7,8 +7,8 @@ import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.ql.visitor.IASTVisitor;
 
 public class Addition extends BinaryOperator {
-    public Addition(Token token, ASTNode lhs, ASTNode rhs) {
-        super(token, lhs, rhs);
+    public Addition(Token token, ASTNode leftHandSide, ASTNode rightHandSide) {
+        super(token, leftHandSide, rightHandSide);
     }
 
     /**
@@ -17,7 +17,7 @@ public class Addition extends BinaryOperator {
      * @return The type
      */
     public Type getType() {
-        return this.getLhs().getType();
+        return this.getLeftHandSide().getType();
     }
 
     @Override

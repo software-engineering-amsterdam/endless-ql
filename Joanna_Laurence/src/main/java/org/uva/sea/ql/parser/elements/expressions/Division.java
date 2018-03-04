@@ -7,8 +7,8 @@ import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.ql.visitor.IASTVisitor;
 
 public class Division extends BinaryOperator {
-    public Division(Token token, ASTNode lhs, ASTNode rhs) {
-        super(token, lhs, rhs);
+    public Division(Token token, ASTNode leftHandSide, ASTNode rightHandSide) {
+        super(token, leftHandSide, rightHandSide);
     }
 
     /**
@@ -17,7 +17,7 @@ public class Division extends BinaryOperator {
      * @return The type
      */
     public Type getType() {
-        return super.getLhs().getType();
+        return super.getLeftHandSide().getType();
     }
 
     @Override

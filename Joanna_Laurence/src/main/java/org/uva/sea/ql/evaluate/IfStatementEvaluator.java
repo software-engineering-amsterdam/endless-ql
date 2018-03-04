@@ -1,7 +1,7 @@
 package org.uva.sea.ql.evaluate;
 
-import org.uva.sea.ql.evaluate.valueTypes.BooleanValue;
 import org.uva.sea.ql.evaluate.valueTypes.Value;
+import org.uva.sea.ql.evaluate.visitor.LookupBooleanValue;
 import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.Statements;
@@ -28,7 +28,7 @@ public class IfStatementEvaluator extends BaseValueVisitor<Boolean> {
         Value condition = this.expressionEvaluator.evaluate(ifStatement.getExpression(), symbolTable);
 
         //Determine condition is true
-        Boolean conditionTrue = condition.accept(this);
+        Boolean conditionTrue = condition.accept(new LookupBooleanValue());
         if (conditionTrue == null) {
             return new ArrayList<>();
         }
@@ -41,13 +41,5 @@ public class IfStatementEvaluator extends BaseValueVisitor<Boolean> {
 
         StatementsEvaluator statementsEvaluator = new StatementsEvaluator(symbolTable);
         return statementsEvaluator.evaluate(execute);
-    }
-
-    /**
-     * @param boolValue
-     * @return
-     */
-    public Boolean visit(BooleanValue boolValue) {
-        return boolValue.getBooleanValue();
     }
 }

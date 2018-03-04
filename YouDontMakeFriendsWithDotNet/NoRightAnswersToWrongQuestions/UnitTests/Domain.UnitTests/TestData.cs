@@ -277,13 +277,7 @@ form CommentFormML {}";
                     $"form NameForm {{{NewLine}    dateQuestion : \"xyz\"  date{NewLine}    if (dateQuestion) {{{NewLine}    aName : \"zxy\"  boolean }} }} ", "dateQuestion");
             }
         }
-
-        //string validText,
-        //IEnumerable<string> expectedDefinitions,
-        //IEnumerable<bool> expectedLiterals,
-        //IEnumerable<string> expectedVariables,
-        //OperatorCount operatorCount)
-
+        
         public static IEnumerable BooleanConditional
         {
             get
@@ -298,42 +292,42 @@ form CommentFormML {}";
                     formText: $"form NameForm {{{NewLine}    boolQuestion1 : \"xyz1\"  boolean{NewLine}    boolQuestion2 : \"xyz2\"  boolean{NewLine}    if (boolQuestion1 && boolQuestion2) {{{NewLine}    aName : \"zxy\"  boolean }} }} ",
                     definitions: new[] { "boolQuestion1&&boolQuestion2" },
                     variables: new[] { "boolQuestion1", "boolQuestion2" },
-                    operators: new OperatorCount { AndCount = 1 });
+                    operators: new BooleanOperatorCount { AndCount = 1 });
 
                 //test multiple if statements and OR
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if (bq1 && bq2) {{ x : \"xx\"  date }}  if (bq3 || bq4) {{ y : \"yy\"  date }} }} ",
                     definitions: new[] { "bq1&&bq2", "bq3||bq4" },
                     variables: new[] { "bq1", "bq2", "bq3", "bq4" },
-                    operators: new OperatorCount { AndCount = 1, OrCount = 1 });
+                    operators: new BooleanOperatorCount { AndCount = 1, OrCount = 1 });
 
                 //test multiple AND with variables
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if (bq1 && bq2 && bq3 && bq4) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] { "bq1&&bq2&&bq3&&bq4" },
                     variables: new[] { "bq1", "bq2", "bq3", "bq4" },
-                    operators: new OperatorCount { AndCount = 3 });
+                    operators: new BooleanOperatorCount { AndCount = 3 });
 
                 //test multiple OR with variables
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if (bq1 || bq2 || bq3 || bq4) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] { "bq1||bq2||bq3||bq4" },
                     variables: new[] { "bq1", "bq2", "bq3", "bq4" },
-                    operators: new OperatorCount { OrCount = 3 });
+                    operators: new BooleanOperatorCount { OrCount = 3 });
 
                 // test bracketed grouping
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if ((bq1 || bq2) && (bq3 || bq4)) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] { "(bq1||bq2)&&(bq3||bq4)" },
                     variables: new[] { "bq1", "bq2", "bq3", "bq4" },
-                    operators: new OperatorCount { AndCount = 1, OrCount = 2 });
+                    operators: new BooleanOperatorCount { AndCount = 1, OrCount = 2 });
 
                 // test the various Boolean True Literals
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean if (true && True && TRUE) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] { "true&&True&&TRUE" },
                     values: new[] { true, true, true },
-                    operators: new OperatorCount { AndCount = 2 });
+                    operators: new BooleanOperatorCount { AndCount = 2 });
 
                 // test the various Boolean False Literals
                 yield return BooleanTestCaseData(
@@ -341,43 +335,30 @@ form CommentFormML {}";
                     $"form NameForm {{bq1 : \"1\"  boolean if (bq1 || false || False || FALSE) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] {"bq1||false||False||FALSE"},
                     values: new[] {false, false, false},
-                    operators: new OperatorCount {OrCount = 3});
+                    operators: new BooleanOperatorCount {OrCount = 3});
 
                 // test Negate
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean if (!bq1 || !(false && False) || !(FALSE)) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] { "!bq1||!(false&&False)||!(FALSE)" },
                     variables: new[] { "bq1" },
-                    operators: new OperatorCount { NegateCount = 3, AndCount = 1, OrCount = 2 });
+                    operators: new BooleanOperatorCount { NegateCount = 3, AndCount = 1, OrCount = 2 });
 
                 // test Equality
                 yield return BooleanTestCaseData(
                     formText: $"form NameForm {{bq1 : \"1\"  boolean if (true == true) {{ x : \"xx\"  date }} }} ",
                     definitions: new[] { "true==true" },
-                    operators: new OperatorCount { EqualityCount = 1},
+                    operators: new BooleanOperatorCount { EqualityCount = 1},
                     subdefinitions: new[] { "true==true" });
 
-                // test Inequality
-                yield return BooleanTestCaseData(
-                    formText: $"form NameForm {{bq1 : \"1\"  boolean if (false != true) {{ x : \"xx\"  date }} }} ",
-                    definitions: new[] { "false!=true" },
-                    operators: new OperatorCount { InequalityCount = 1 },
-                    subdefinitions: new[] { "false!=true" });
-
-
-                //yield return new TestCaseData(
-                //    $"form NameForm {{bq1 : \"1\"  boolean bq2 : \"2\"  boolean bq3 : \"3\"  boolean bq4 : \"4\"  boolean  if ((bq1 && bq2) || bq3) {{ x : \"xx\"  date }}  if ((bq3 || bq4) && (bq1 && bq2 && bq3)) {{ y : \"yy\"  date }} }} ",
-                //    new[] { "(bq1&&bq2)||bq3", "(bq3||bq4)&&(bq1&&bq2&&bq3)" },
-                //    emptyLiterals,
-                //    new[] { "bq1", "bq2", "bq3", "bq4" },
-                //    new OperatorCount() { AndCount = 4, OrCount = 2 }, emptySubDefinitions);
-
-                //yield return new TestCaseData(
-                //    $"form NameForm {{{NewLine}    boolQuestion1 : \"xyz\"  boolean{NewLine}    if (boolQuestion1) {{{NewLine}    aName : \"zxy\"  boolean }} {NewLine}    if (boolQuestion1) {{{NewLine}    aName2 : \"zxy\"  boolean }} }} ", 
-                //    new[] { "boolQuestion1" }, emptySubDefinitions);
-                //yield return new TestCaseData(
-                //    $"form NameForm {{{NewLine}    boolQuestion2 : \"xyz\"  boolean{NewLine}    if (boolQuestion2) {{{NewLine}    aName : \"zxy\"  boolean {NewLine}    if (aName) {{{NewLine}    aName2 : \"zxy\"  boolean }}  }} }} ", 
-                //    new[] { "boolQuestion2", "aName" }, emptySubDefinitions);
+                //ToDo: move this to relational test
+                //// test Inequality
+                //yield return BooleanTestCaseData(
+                //    formText: $"form NameForm {{bq1 : \"1\"  boolean if (false != true) {{ x : \"xx\"  date }} }} ",
+                //    definitions: new[] { "false!=true" },
+                //    operators: new BooleanOperatorCount { InequalityCount = 1 },
+                //    subdefinitions: new[] { "false!=true" });
+                //ToDo: continue conversion of old tests
             }
         }
 
@@ -386,7 +367,7 @@ form CommentFormML {}";
             IEnumerable<string> definitions = null,
             IEnumerable<bool> values = null,
             IEnumerable<string> variables = null,
-            OperatorCount operators = new OperatorCount(),
+            BooleanOperatorCount operators = new BooleanOperatorCount(),
             IEnumerable<string> subdefinitions = null)
         {
             definitions = definitions ?? new List<string>();
@@ -401,207 +382,282 @@ form CommentFormML {}";
                 variables, 
                 operators, 
                 subdefinitions);
-
         }
-        
+
+        public static IEnumerable MathStatements
+        {
+            get
+            {
+                var formTemplate = "form NameForm {{ intq: \"iii\"  integer=({0})}}";
+                //test single number
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "1"),
+                    values: new[] { 1m });
+
+                //test single decimal number
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "2.1"),
+                    values: new[] { 2.1m });
+
+                //test single variable name
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "intVar"),
+                    variables: new[] { "intVar" });
+
+                //test bracketed single decimal number
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "(3.14)"),
+                    values: new[] { 3.14m });
+
+                //test Multiply
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "(6 * 9)"),
+                    values: new[] { 6m, 9m },
+                    operators: new MathOperatorCount { MultiplicationCount = 1 });
+
+                //test divide
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "(6 / 9) / (6 / 2)"),
+                    values: new[] { 6m, 9m, 6m, 2m },
+                    operators: new MathOperatorCount { DivisionCount = 3 });
+
+                //test Add
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "(1.2 + 3.4 + 5.6)"),
+                    values: new[] { 1.2m, 3.4m, 5.6m },
+                    operators: new MathOperatorCount { AdditionCount = 2 });
+
+                //test minus
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "(10 - 8 - 5 - 4)"),
+                    values: new[] { 10m, 8m, 5m, 4m },
+                    operators: new MathOperatorCount { SubtractionCount = 3 });
+
+                //test variable
+                yield return MathTestCaseData(
+                    formText: string.Format(formTemplate, "(intVar + 8 + decVar + 4)"),
+                    variables: new[] { "intVar", "decVar" },
+                    operators: new MathOperatorCount { AdditionCount = 3 });
+            }
+        }
+
+        private static TestCaseData MathTestCaseData(
+            string formText,
+            IEnumerable<decimal> values = null,
+            IEnumerable<string> variables = null,
+            MathOperatorCount operators = new MathOperatorCount())
+        {
+            values = values ?? new List<decimal>();
+            variables = variables ?? new List<string>();
+
+            return new TestCaseData(
+                formText,
+                values,
+                variables,
+                operators);
+        }
+
         public static IEnumerable ComparisonConditional
         {
             get
             {
-                var formTemplate = $"form NameForm {{{{{NewLine} {{0}}: \"xyz\"  {{1}}{NewLine}    if ({{2}}) {{{{{NewLine}    aName : \"zxy\"  boolean }}}} }}}}" ;
+                var formTemplate = "form NameForm {{ bq1: \"xx\" boolean if ({0}) {{aq : \"yy\"  boolean }} }}" ;
 
                 yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion == true"), 
-                    new[] { "boolQuestion==true" });
+                    string.Format(formTemplate, "bq1 == true"), 
+                    new[] { "bq1==true" },
+                    new[] { true },
+                    new[] { "bq1" },
+                    new RelationalOperatorCount() {EqualityCount = 1});
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion == True"), 
-                    new[] { "boolQuestion==True" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion == True"), 
+//                    new[] { "boolQuestion==True" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion == TRUE"), 
-                    new[] { "boolQuestion==TRUE" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion == TRUE"), 
+//                    new[] { "boolQuestion==TRUE" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion == false"),
-                    new[] { "boolQuestion==false" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion == false"),
+//                    new[] { "boolQuestion==false" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion == False"),
-                    new[] { "boolQuestion==False" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion == False"),
+//                    new[] { "boolQuestion==False" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion == FALSE"),
-                    new[] { "boolQuestion==FALSE" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion == FALSE"),
+//                    new[] { "boolQuestion==FALSE" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion != TRUE"),
-                    new[] { "boolQuestion!=TRUE" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion != TRUE"),
+//                    new[] { "boolQuestion!=TRUE" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion != false"),
-                    new[] { "boolQuestion!=false" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion != false"),
+//                    new[] { "boolQuestion!=false" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "intQuestion", "integer", "intQuestion > 10"),
-                    new[] { "intQuestion>10" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "intQuestion", "integer", "intQuestion > 10"),
+//                    new[] { "intQuestion>10" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "intQuestion", "integer", "intQuestion > 999"),
-                    new[] { "intQuestion>999" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "intQuestion", "integer", "intQuestion > 999"),
+//                    new[] { "intQuestion>999" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "intQuestion", "integer", "intQuestion > -1234"),
-                    new[] { "intQuestion>-1234" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "intQuestion", "integer", "intQuestion > -1234"),
+//                    new[] { "intQuestion>-1234" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "decimalQuestion", "decimal", "decimalQuestion > 10.1"),
-                    new[] { "decimalQuestion>10.1" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "decimalQuestion", "decimal", "decimalQuestion > 10.1"),
+//                    new[] { "decimalQuestion>10.1" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "decimalQuestion", "decimal", "decimalQuestion > 999.999"),
-                    new[] { "decimalQuestion>999.999" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "decimalQuestion", "decimal", "decimalQuestion > 999.999"),
+//                    new[] { "decimalQuestion>999.999" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "decimalQuestion", "decimal", "decimalQuestion > -1234.5678"),
-                    new[] { "decimalQuestion>-1234.5678" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "decimalQuestion", "decimal", "decimalQuestion > -1234.5678"),
+//                    new[] { "decimalQuestion>-1234.5678" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "dateQuestion", "date", "dateQuestion > 1/1/2011"),
-                    new[] { "dateQuestion>1/1/2011" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "dateQuestion", "date", "dateQuestion > 1/1/2011"),
+//                    new[] { "dateQuestion>1/1/2011" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "dateQuestion", "date", "dateQuestion > 15/11/1975"),
-                    new[] { "dateQuestion>15/11/1975" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "dateQuestion", "date", "dateQuestion > 15/11/1975"),
+//                    new[] { "dateQuestion>15/11/1975" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "dateQuestion", "date", "dateQuestion > 5/12/66"),
-                    new[] { "dateQuestion>5/12/66" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "dateQuestion", "date", "dateQuestion > 5/12/66"),
+//                    new[] { "dateQuestion>5/12/66" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "TRUE == True"),
-                    new[] { "TRUE==True" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "boolQuestion", "boolean", "TRUE == True"),
+//                    new[] { "TRUE==True" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "false == False"),
-                    new[] { "false==False" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "boolQuestion", "boolean", "false == False"),
+//                    new[] { "false==False" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "false == boolQuestion"),
-                    new[] { "false==boolQuestion" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "boolQuestion", "boolean", "false == boolQuestion"),
+//                    new[] { "false==boolQuestion" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "intQuestion", "integer", "intQuestion >= 10"),
-                    new[] { "intQuestion>=10" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "intQuestion", "integer", "intQuestion >= 10"),
+//                    new[] { "intQuestion>=10" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "decimalQuestion", "decimal", "9.876 < decimalQuestion"),
-                    new[] { "9.876<decimalQuestion" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "decimalQuestion", "decimal", "9.876 < decimalQuestion"),
+//                    new[] { "9.876<decimalQuestion" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "dateQuestion", "date", "3/8/1963 <= dateQuestion"),
-                    new[] { "3/8/1963<=dateQuestion" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "dateQuestion", "date", "3/8/1963 <= dateQuestion"),
+//                    new[] { "3/8/1963<=dateQuestion" });
 
-                yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    intQuestion1 : \"xyz\"  integer{NewLine}    intQuestion2 : \"abc\"  integer{NewLine}    if (intQuestion1 >= intQuestion2) {{{NewLine}    aName : \"zxy\"  boolean {NewLine}    if (aName) {{{NewLine}    aName2 : \"zxy\"  boolean }}  }} }} ",
-                    new[] { "intQuestion1>=intQuestion2", "aName" });
+//                yield return new TestCaseData(
+//                    $"form NameForm {{{NewLine}    intQuestion1 : \"xyz\"  integer{NewLine}    intQuestion2 : \"abc\"  integer{NewLine}    if (intQuestion1 >= intQuestion2) {{{NewLine}    aName : \"zxy\"  boolean {NewLine}    if (aName) {{{NewLine}    aName2 : \"zxy\"  boolean }}  }} }} ",
+//                    new[] { "intQuestion1>=intQuestion2", "aName" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "intQuestion", "integer", "(intQuestion >= 10) == TRUE"),
-                    new[] { "(intQuestion>=10)==TRUE" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "intQuestion", "integer", "(intQuestion >= 10) == TRUE"),
+//                    new[] { "(intQuestion>=10)==TRUE" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "intQuestion", "integer", "FALSE != (intQuestion < -100)"),
-                    new[] { "FALSE!=(intQuestion<-100)" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "intQuestion", "integer", "FALSE != (intQuestion < -100)"),
+//                    new[] { "FALSE!=(intQuestion<-100)" });
 
-                yield return new TestCaseData(
-                    $"form NameForm {{{NewLine}    intQuestion1 : \"xyz\"  integer{NewLine}    intQuestion2 : \"abc\"  integer{NewLine}    dateQuestion1 : \"321\"  date{NewLine}    dateQuestion2 : \"123\"  date{NewLine}    if ((intQuestion1 >= intQuestion2) != (dateQuestion1 == dateQuestion2)) {{{NewLine}    aName : \"zxy\"  boolean {NewLine} }} }} ",
-                    new[] { "(intQuestion1>=intQuestion2)!=(dateQuestion1==dateQuestion2)" });
+//                yield return new TestCaseData(
+//                    $"form NameForm {{{NewLine}    intQuestion1 : \"xyz\"  integer{NewLine}    intQuestion2 : \"abc\"  integer{NewLine}    dateQuestion1 : \"321\"  date{NewLine}    dateQuestion2 : \"123\"  date{NewLine}    if ((intQuestion1 >= intQuestion2) != (dateQuestion1 == dateQuestion2)) {{{NewLine}    aName : \"zxy\"  boolean {NewLine} }} }} ",
+//                    new[] { "(intQuestion1>=intQuestion2)!=(dateQuestion1==dateQuestion2)" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "intQuestion", "integer", "(intQuestion + 5) > 10"),
-                    new[] { "(intQuestion+5)>10" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "intQuestion", "integer", "(intQuestion + 5) > 10"),
+//                    new[] { "(intQuestion+5)>10" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "intQuestion", "integer", "intQuestion > (10 - 5)"),
-                    new[] { "intQuestion>(10-5)" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "intQuestion", "integer", "intQuestion > (10 - 5)"),
+//                    new[] { "intQuestion>(10-5)" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "intQuestion", "integer", "(10 * 5) > intQuestion"),
-                    new[] { "(10*5)>intQuestion" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "intQuestion", "integer", "(10 * 5) > intQuestion"),
+//                    new[] { "(10*5)>intQuestion" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "intQuestion", "integer", "(51 / intQuestion) > 10"),
-                    new[] { "(51/intQuestion)>10" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "intQuestion", "integer", "(51 / intQuestion) > 10"),
+//                    new[] { "(51/intQuestion)>10" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "intQuestion", "integer", "(10 + intQuestion / 4) > 10"),
-                    new[] { "(10+intQuestion/4)>10" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "intQuestion", "integer", "(10 + intQuestion / 4) > 10"),
+//                    new[] { "(10+intQuestion/4)>10" });
 
-                yield return new TestCaseData(
-                    $@"form NameForm {{
-    intQuestion1 : ""xyz""  integer
-    intQuestion2 : ""abc""  integer
-    boolQuestion1 : ""bbb""  boolean
-    if ((intQuestion1 + intQuestion2) != boolQuestion1) {{
-        aName : ""zxy""  boolean 
-    }} 
-}} ",
-                    new[] { "(intQuestion1+intQuestion2)!=boolQuestion1" });
+//                yield return new TestCaseData(
+//                    $@"form NameForm {{
+//    intQuestion1 : ""xyz""  integer
+//    intQuestion2 : ""abc""  integer
+//    boolQuestion1 : ""bbb""  boolean
+//    if ((intQuestion1 + intQuestion2) != boolQuestion1) {{
+//        aName : ""zxy""  boolean 
+//    }} 
+//}} ",
+//                    new[] { "(intQuestion1+intQuestion2)!=boolQuestion1" });
 
-                yield return new TestCaseData(
-                    $@"form NameForm {{
-    intQuestion1 : ""xyz""  integer
-    intQuestion2 : ""abc""  integer
-    boolQuestion1 : ""ccc""  boolean
-    if (boolQuestion1 == (intQuestion1 - intQuestion2)) {{
-        aName : ""zxy""  boolean 
-    }} 
-}} ",
-                    new[] { "boolQuestion1==(intQuestion1-intQuestion2)" });
+//                yield return new TestCaseData(
+//                    $@"form NameForm {{
+//    intQuestion1 : ""xyz""  integer
+//    intQuestion2 : ""abc""  integer
+//    boolQuestion1 : ""ccc""  boolean
+//    if (boolQuestion1 == (intQuestion1 - intQuestion2)) {{
+//        aName : ""zxy""  boolean 
+//    }} 
+//}} ",
+//                    new[] { "boolQuestion1==(intQuestion1-intQuestion2)" });
 
-                yield return new TestCaseData(
-                    $@"form NameForm {{
-    intQuestion1 : ""xyz""  integer
-    intQuestion2 : ""abc""  integer
-    if (1000 > (intQuestion1 - intQuestion2)) {{
-        aName : ""zxy""  boolean 
-    }} 
-}} ",
-                    new[] { "1000>(intQuestion1-intQuestion2)" });
+//                yield return new TestCaseData(
+//                    $@"form NameForm {{
+//    intQuestion1 : ""xyz""  integer
+//    intQuestion2 : ""abc""  integer
+//    if (1000 > (intQuestion1 - intQuestion2)) {{
+//        aName : ""zxy""  boolean 
+//    }} 
+//}} ",
+//                    new[] { "1000>(intQuestion1-intQuestion2)" });
 
-                yield return new TestCaseData(
-                    $@"form NameForm {{
-    intQuestion1 : ""xyz""  integer
-    intQuestion2 : ""abc""  integer
-    if ((intQuestion1 + intQuestion2) <= -209) {{
-        aName : ""zxy""  boolean 
-    }} 
-}} ",
-                    new[] { "(intQuestion1+intQuestion2)<=-209" });
+//                yield return new TestCaseData(
+//                    $@"form NameForm {{
+//    intQuestion1 : ""xyz""  integer
+//    intQuestion2 : ""abc""  integer
+//    if ((intQuestion1 + intQuestion2) <= -209) {{
+//        aName : ""zxy""  boolean 
+//    }} 
+//}} ",
+//                    new[] { "(intQuestion1+intQuestion2)<=-209" });
 
-                yield return new TestCaseData(
-    $@"form NameForm {{
-    intQuestion1 : ""xyz""  integer
-    intQuestion2 : ""abc""  integer
-    intQuestion3 : ""ijk""  integer
-    if ((intQuestion1 + (intQuestion2 - intQuestion3)) <= -1234) {{
-        aName : ""zxy""  boolean 
-    }} 
-}} ",
-                    new[] { "(intQuestion1+(intQuestion2-intQuestion3))<=-1234" });
+//                yield return new TestCaseData(
+//    $@"form NameForm {{
+//    intQuestion1 : ""xyz""  integer
+//    intQuestion2 : ""abc""  integer
+//    intQuestion3 : ""ijk""  integer
+//    if ((intQuestion1 + (intQuestion2 - intQuestion3)) <= -1234) {{
+//        aName : ""zxy""  boolean 
+//    }} 
+//}} ",
+//                    new[] { "(intQuestion1+(intQuestion2-intQuestion3))<=-1234" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion && TRUE"),
-                    new[] { "boolQuestion&&TRUE" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "boolQuestion", "boolean", "boolQuestion && TRUE"),
+//                    new[] { "boolQuestion&&TRUE" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "False || boolQuestion"),
-                    new[] { "False||boolQuestion" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "boolQuestion", "boolean", "False || boolQuestion"),
+//                    new[] { "False||boolQuestion" });
 
-                yield return new TestCaseData(
-                    string.Format(formTemplate, "boolQuestion", "boolean", "!boolQuestion"),
-                    new[] { "!boolQuestion" });
+//                yield return new TestCaseData(
+//                    string.Format(formTemplate, "boolQuestion", "boolean", "!boolQuestion"),
+//                    new[] { "!boolQuestion" });
             }
         }
     }

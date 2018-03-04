@@ -54,7 +54,6 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression right = visit(ctx.right);
 
         int op = ctx.op.getType();
-
         switch (op) {
             case QLLexer.EQ:
                 return new ExpressionComparisonEq(left, right);
@@ -67,10 +66,10 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitAndOrExpr(QLParser.AndOrExprContext ctx) {
-        int op = ctx.op.getType();
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
+        int op = ctx.op.getType();
         switch (op) {
             case QLLexer.AND:
                 return new ExpressionLogicalAnd(left, right);
@@ -83,10 +82,10 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitBoolExpr(QLParser.BoolExprContext ctx) {
-        int op = ctx.op.getType();
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
+        int op = ctx.op.getType();
         switch (op) {
             case QLLexer.GT:
                 return new ExpressionComparisonGT(left, right);

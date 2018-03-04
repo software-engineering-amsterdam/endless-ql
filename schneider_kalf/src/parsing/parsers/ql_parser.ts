@@ -7,7 +7,7 @@
 
 /* tslint:disable */
 import Nodes from '../../form/nodes/Nodes';
-import FieldType from '../../form/FieldType';
+import { FieldType } from '../../form/FieldType';
 
 export class SyntaxError extends Error {
   public static buildMessage(expected: string, found: string) {

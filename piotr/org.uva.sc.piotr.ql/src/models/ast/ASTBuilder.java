@@ -19,6 +19,8 @@ import models.ast.elements.statement.IfStatement;
 import models.ast.elements.statement.Question;
 import models.ast.elements.statement.Statement;
 
+import java.util.ArrayList;
+
 
 public class ASTBuilder extends QLBaseVisitor {
 
@@ -42,28 +44,41 @@ public class ASTBuilder extends QLBaseVisitor {
             return visitIfStatement(ctx.ifStatement());
         } else if (ctx.question() != null) {
             return visitQuestion(ctx.question());
+        } else if (ctx.question() != null) {
+            return visitQuestion(ctx.question());
         }
 
         return null;
     }
 
     @Override
-    public Statement visitIfStatement(QLParser.IfStatementContext ctx) {
+    public IfStatement visitIfStatement(QLParser.IfStatementContext ctx) {
 
-        IfStatement ifStatement = new IfStatement((Expression) visit(ctx.condition));
+//        ArrayList<IfStatement> statements = new ArrayList<>();
+        Expression ifConditionExpression = (Expression) visit(ctx.condition);
+
+        IfStatement ifStatement = new IfStatement(ifConditionExpression);
 
         for (QLParser.StatementContext StatementContext : ctx.statement()) {
             Statement statement = visitStatement(StatementContext);
             ifStatement.addStatement(statement);
         }
 
-//        if (ctx.elseStatement() != null) {
+//        statements.add(ifStatement);
 //
+//        if (ctx.elseStatement() != null) {
+//            IfStatement elseStatement = new IfStatement(new Negation(ifConditionExpression));
+//
+//            for (QLParser.StatementContext StatementContext : ctx.elseStatement().statement()) {
+//                Statement statement = visitStatement(StatementContext);
+//                elseStatement.addStatement(statement);
+//            }
+//
+//            statements.add(elseStatement);
 //        }
 
         return ifStatement;
     }
-
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
@@ -75,11 +90,7 @@ public class ASTBuilder extends QLBaseVisitor {
         );
 
         if (ctx.expression() != null) {
-
-            System.out.println("Visiting assignment, "+ctx.rhs.getText());
-//            Object x = visitMainExpression(ctx.rhs);
-
-            question.setAssignedExpression((Expression) visit(ctx.rhs));
+            question.setAssignedExpression((Expression) visit(ctx.expression()));
         }
 
         return question;
@@ -105,6 +116,13 @@ public class ASTBuilder extends QLBaseVisitor {
     @Override
     public TypeDeclarationString visitTypeDeclarationString(QLParser.TypeDeclarationStringContext ctx) {
         return new TypeDeclarationString(ctx.getText());
+    }
+
+    // Parenthesis
+
+    @Override
+    public Expression visitExpressionParenthesises(QLParser.ExpressionParenthesisesContext ctx) {
+        return (Expression) this.visit(ctx.expression());
     }
 
     // Unary expressions, values and references

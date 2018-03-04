@@ -5,13 +5,15 @@ grammar QL;
  */
 
 form            
-    :   'form' id=IDENTIFIER '{' statement* '}';
+    :   'form' id=IDENTIFIER BEGIN statement* END;
 
 statement
-    :   question | ifStatement;
+    : question
+    | ifStatement
+    ;
 
 question        
-    :   label=STRING variableName=IDENTIFIER ':' variableType=dataType (OP_ASSIG rhs=expression)?;
+    :   label=STRING variableName=IDENTIFIER ':' variableType=dataType (OP_ASSIG expression)?;
 
 dataType
     : TYPE_BOOLEAN  #TypeDeclarationBoolean
@@ -20,18 +22,18 @@ dataType
     | TYPE_DECIMAL  #TypeDeclarationDecimal
     ;
 
-ifStatement         
-    :   'if' '(' condition=expression ')' '{' statement* '}' elseStatement?;
+ifStatement
+    :   IF '(' condition=expression ')' BEGIN statement* END elseStatement?
+    ;
 
 elseStatement
-    :   'else' '{' statement* '}'
+    : ELSE BEGIN statement* END
     ;
 
 expression
-    : value                                                     #ExpressionSingleValue
-    | variableReference=IDENTIFIER                              #ExpressionVariableReference
-    | '(' expression ')'                                        #ExpressionParenthesises
-    | OP_NOT '(' expression ')'                                 #ExpressionNegation
+    : '(' expression ')'                                        #ExpressionParenthesises
+    | OP_NOT expression                                         #ExpressionNegation
+    | OP_MINUS expression                                       #ExpressionArithmeticMinus
     | lhs=expression binaryOperator=OP_MULT rhs=expression      #ExpressionArithmeticMultiplication
     | lhs=expression binaryOperator=OP_DIV rhs=expression       #ExpressionArithmeticDivision
     | lhs=expression binaryOperator=OP_PLUS rhs=expression      #ExpressionArithmeticAddition
@@ -44,6 +46,8 @@ expression
     | lhs=expression binaryOperator=OP_NEQ rhs=expression       #ExpressionComparisionNotEqual
     | lhs=expression binaryOperator=OP_AND rhs=expression       #ExpressionLogicalAnd
     | lhs=expression binaryOperator=OP_OR rhs=expression        #ExpressionLogicalOr
+    | variableReference=IDENTIFIER                              #ExpressionVariableReference
+    | value                                                     #ExpressionSingleValue
 ;
 
 value
@@ -75,6 +79,12 @@ OP_LT : '<' ;
 OP_LE : '<=' ;
 OP_EQ : '==' ;
 OP_NEQ : '!=';
+
+IF      : 'if';
+ELSE    : 'else';
+
+BEGIN   : '{';
+END     : '}';
 
 TYPE_BOOLEAN    : 'boolean';
 TYPE_STRING     : 'string';

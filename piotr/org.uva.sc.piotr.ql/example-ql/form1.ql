@@ -7,7 +7,7 @@ form taxOfficeExample
   "Did you enter a loan?"
     hasMaintLoan: boolean
 
-  if (hasSoldHouse)
+  if (!hasSoldHouse || hasBoughtHouse)
   {
     "What was the selling price?"
       sellingPrice: money
@@ -16,6 +16,11 @@ form taxOfficeExample
     "Value residue:"
       valueResidue: money =
         (sellingPrice - privateDebt * ahahaha)
-  }
 
+  } else {
+
+      "Did you enter a loan?"
+        hasMaintLoan: boolean
+
+  }
 }

@@ -27,10 +27,11 @@ public class SymbolTable {
         return table.get(identifier).evaluate(this);
     }
 
-    // TODO: move to expression
+    // TODO: move to expression?
     public String getStringValue(String identifier, ReturnType type) {
         ExpressionVariable evaluated = this.getExpression(identifier).evaluate(this);
 
+        // Undefined values should display nothing
         if(evaluated.isUndefined()) {
             return "";
         }

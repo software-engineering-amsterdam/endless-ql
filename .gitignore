@@ -54,10 +54,10 @@ local.properties
 .worksheet
 
 ### Eclipse Patch ###
-# Eclipse Core		
+# Eclipse Core
 
 
-# JDT-specific (Eclipse Java Development Tools)		
+# JDT-specific (Eclipse Java Development Tools)
 
 
 ### Git ###
@@ -235,4 +235,4 @@ GunOli/src/main/autoGen/
 ForcePush/.idea/workspace.xml
 ForcePush/.idea/misc.xml
 
-
+.DS_Store

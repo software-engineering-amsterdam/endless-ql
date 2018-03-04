@@ -1,4 +1,4 @@
-import FieldType from "./FieldType";
+import { FieldType } from "./FieldType";
 
 const defaultValues: [FieldType, any][] = [
   [FieldType.Boolean, false],

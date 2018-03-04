@@ -1,12 +1,14 @@
 package nl.uva.se.sc.niro.gui
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.function.UnaryOperator
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.event.ActionEvent
 import javafx.scene.Parent
-import javafx.scene.control.{ CheckBox, DatePicker, Label, TextField }
+import javafx.scene.control._
 import javafx.util.StringConverter
+import javafx.util.converter.{ BigDecimalStringConverter, IntegerStringConverter }
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.model.Expressions.Expression
 import nl.uva.se.sc.niro.model.Expressions.answers._
@@ -49,20 +51,40 @@ object WidgetFactory {
   }
 
   def makeIntegerField(question: Question, value: Option[Int]): Parent = {
-    val integerField = makeRegExField(INTEGER_MASK)
+    val integerField = new TextField()
+    integerField.setTextFormatter(
+      new TextFormatter[java.lang.Integer](new IntegerStringConverter, null, createRegExFilter(INTEGER_MASK)))
+    integerField
+      .textProperty()
+      .addListener(new ChangeListener[String] {
+        override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
+          if (oldValue != newValue) integerField.fireEvent(new ActionEvent(integerField, integerField))
+        }
+      })
     EditableDecorator.makeEditable(integerField, question, value)
   }
 
   def makeDecimalField(question: Question, value: Option[BigDecimal]): Parent = {
-    val decimalField = makeRegExField(DECIMAL_MASK)
+    val decimalField = new TextField()
+    decimalField.setTextFormatter(
+      new TextFormatter[java.math.BigDecimal](new BigDecimalStringConverter, null, createRegExFilter(DECIMAL_MASK)))
+    decimalField
+      .textProperty()
+      .addListener(new ChangeListener[String] {
+        override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
+          if (oldValue != newValue) decimalField.fireEvent(new ActionEvent(decimalField, decimalField))
+        }
+      })
     EditableDecorator.makeEditable(decimalField, question, value)
   }
 
   def makeMoneyField(question: Question, value: Option[String]): Parent = {
-    val moneyField = makeRegExField(MONEY_MASK)
+    val moneyField = new TextField()
+    moneyField.setTextFormatter(new TextFormatter[String](createRegExFilter(MONEY_MASK)))
     EditableDecorator.makeEditable(moneyField, question, value)
   }
 
+  // TODO Change into using LocalDateFormatter or something like that!
   def makeDateField(question: Question, value: Option[String]): Parent = {
     val dateField = new DatePicker()
     dateField.setConverter(new StringConverter[LocalDate] {
@@ -77,33 +99,13 @@ object WidgetFactory {
     EditableDecorator.makeEditable(dateField, question, value)
   }
 
-  /**
-    * Creates a specialized TextField that uses a regular expression when checking if a text is valid. If a text is
-    * not valid it is rejected. If a valid text is entered and that is different from the previous value an
-    * ActionEvent is fired.
-    *
-    * @param validPattern defines valid text for the TextField
-    * @return a TextField that will respect the pattern when entering text.
-    */
-  protected def makeRegExField(validPattern: String): TextField = {
-    // TODO Investigate textFormatterProperty, it could replace this whole construct!
-    val regexField = new TextField()
-    regexField
-      .textProperty()
-      .addListener(new ChangeListener[String] {
-        private var previousValue = ""
-        override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
-          if (!newValue.matches(validPattern)) {
-            regexField.setText(oldValue)
-          } else {
-            if (previousValue != newValue) {
-              previousValue = newValue
-              regexField.fireEvent(new ActionEvent(regexField, regexField))
-            }
-          }
-        }
-      })
-    regexField
+  private def createRegExFilter(validPattern: String): UnaryOperator[TextFormatter.Change] = {
+    val filter = new UnaryOperator[TextFormatter.Change]() {
+      override def apply(change: TextFormatter.Change): TextFormatter.Change = {
+        if (change.getControlNewText.matches(validPattern)) change else null
+      }
+    }
+    filter
   }
 
 }

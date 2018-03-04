@@ -9,9 +9,7 @@ import Addition from "../../form/nodes/expressions/arithmetic/Addition";
 import Division from "../../form/nodes/expressions/arithmetic/Division";
 import Subtraction from "../../form/nodes/expressions/arithmetic/Subtraction";
 import VariableIdentifier from "../../form/nodes/expressions/VariableIdentifier";
-import FormNode from "../../form/nodes/FormNode";
-import Question from "../../form/nodes/fields/Question";
-import { mapToVariablesInformation, VariableInformation, variablesToMap } from "../../form/VariableIntformation";
+import { VariableInformation, variablesToMap } from "../../form/VariableIntformation";
 
 it("allows booleans in if conditions", () => {
   const expression = new IfCondition(new BooleanLiteral(true), []);
@@ -68,3 +66,5 @@ it("uses the lowest possible numeric type", () => {
   expect(typeCheck(floatAddition)).toBe(FieldType.Float);
   expect(typeCheck(moneySubtraction, variablesToMap(moneyVariables))).toBe(FieldType.Money);
 });
+
+// TODO: Add test cases for more complex formulas

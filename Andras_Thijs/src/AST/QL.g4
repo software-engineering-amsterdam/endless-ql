@@ -42,13 +42,14 @@ expression : '(' expression ')'
            | expression factor expression
            | expression muldiv expression
            | expression addsub expression
-           | expression (booloperator | equaloperator | comparision) expression;
+           | expression operator expression;
 
 // Operators
+operator      : booloperator | equaloperator | comparision;
 booloperator  : AND | OR;
 equaloperator : EQUAL | NOTEQUAL;
 comparision   : LESS | GREATER | LESSEQ | GREATEREQ;
 addsub        : ADDITION | SUBTRACTION;
 muldiv        : MULTIPLICATION | DIVISION;
-factor        : EXPONENT;
+factor        : EXPONENT; //TODO
 term          : VARIABLE | BOOLEAN | STRING | numeral;

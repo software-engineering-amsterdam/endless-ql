@@ -2,7 +2,7 @@ import FormNode from "../form/nodes/FormNode";
 import { VariableScopeVisitor } from "../form/typechecking/VariableScopeVisitor";
 import { VariableInformation } from "../form/VariableIntformation";
 
-const qlParser = require("./parsing/parsers/ql_parser");
+const qlParser = require("./parsers/ql_parser");
 
 export interface QlParserResult {
   node: FormNode;

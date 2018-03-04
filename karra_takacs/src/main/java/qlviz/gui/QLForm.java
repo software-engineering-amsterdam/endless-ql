@@ -23,6 +23,7 @@ import qlviz.model.booleanExpressions.BooleanExpression;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
 import qlviz.typecheker.AnalysisResult;
+import qlviz.typecheker.CircularReferenceChecker;
 import qlviz.typecheker.DuplicateQuestionChecker;
 import qlviz.typecheker.Severity;
 
@@ -81,10 +82,12 @@ public class QLForm extends Application {
 
 		DuplicateQuestionChecker duplicateQuestionChecker = new DuplicateQuestionChecker();
 		duplicateQuestionChecker.initialize(this.model);
+		CircularReferenceChecker circularReferenceChecker = new CircularReferenceChecker();
+		circularReferenceChecker.initialize(this.model);
 
-		List<AnalysisResult> staticCheckResults = new ArrayList<>(
-				duplicateQuestionChecker.analyze()
-		);
+		List<AnalysisResult> staticCheckResults = new ArrayList<>();
+		staticCheckResults.addAll(duplicateQuestionChecker.analyze());
+		staticCheckResults.addAll(circularReferenceChecker.analyze());
 
 		if (staticCheckResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
 			ErrorRenderer errorRenderer = new JavafxErrorRenderer(stage);

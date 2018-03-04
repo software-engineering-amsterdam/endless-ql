@@ -33,7 +33,7 @@ public class ModelBuilder {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
 		Form form = formParser.visitForm(parser.form());
-
+		questionLinker.linkQuestionStubs(form);
 		return form;
 	}
 

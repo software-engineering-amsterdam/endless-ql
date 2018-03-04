@@ -55,14 +55,10 @@ class ExpressionEvaluator {
 
 	def <T> evaluateExpression(Expression expression, Map<String, Object> arguments, Class<T> clazz) {
 		val expressionAsString = buildExpression(expression)
-
 		arguments.forEach [ variableName, valueValue |
 			engine.put(variableName, valueValue)
 		]
-		println("evaluating " + expressionAsString + " with " + arguments)
 		var result = engine.eval(expressionAsString)
-		println("result " + result)
-
 		return result as T
 	}
 

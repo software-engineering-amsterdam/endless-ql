@@ -10,15 +10,15 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import org.uva.sc.cr.ql.interpreter.controls.ControlWrapper
 import org.uva.sc.cr.ql.interpreter.evaluator.ExpressionEvaluator
-import org.uva.sc.cr.ql.qL.Expression
 import org.uva.sc.cr.ql.interpreter.evaluator.ExpressionEvaluatorMoney
+import org.uva.sc.cr.ql.qL.Expression
 
 @Singleton
 class BindingService {
 
 	@Inject
 	private var ExpressionEvaluator evaluator
-	
+
 	@Inject
 	private var ExpressionEvaluatorMoney evaluatorMoney
 
@@ -71,11 +71,26 @@ class BindingService {
 		return binding
 	}
 
-	def buildBindingForTypeDecimalAndMoney(List<ControlWrapper> controls, Expression expression) {
+	def buildBindingForTypeDecimal(List<ControlWrapper> controls, Expression expression) {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
 				evaluator.evaluateExpression(expression, getExpressionArguments(controls, expression), Double).toString
+			}
+
+		})
+		bindings.add(binding)
+		return binding
+	}
+
+	def buildBindingForTypeMoney(List<ControlWrapper> controls, Expression expression) {
+		val binding = Bindings.createStringBinding(new Callable<String>() {
+
+			override call() throws Exception {
+				evaluatorMoney.evaluateExpression(
+					expression,
+					getExpressionArguments(controls, expression)
+				).amount.toString
 			}
 
 		})

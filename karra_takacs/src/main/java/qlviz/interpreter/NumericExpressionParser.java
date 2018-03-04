@@ -19,14 +19,14 @@ public class NumericExpressionParser extends QLBaseVisitor<NumericExpression> {
     @Override
     public NumericExpression visitNumericExpression(QLParser.NumericExpressionContext ctx) {
         if (ctx.NUMBER() != null) {
-           return new NumericLiteral(new BigDecimal(ctx.NUMBER().getText()));
+           return new NumericLiteral(new BigDecimal(ctx.NUMBER().getText()), ctx);
         }
         else if (ctx.numericExpression().size() == 2) {
             NumericExpression left = ctx.numericExpression(0).accept(this);
             NumericExpression right = ctx.numericExpression(1).accept(this);
             BinaryNumericOperator operator =
                     this.binaryNumericOperatorTranslator.translate(ctx.BINARY_NUMERIC_OPERATOR().getSymbol().getText());
-            return new BinaryNumericOperation(left, right, operator);
+            return new BinaryNumericOperation(left, right, operator, ctx);
         }
         else if (ctx.numericExpression().size() == 1)
         {
@@ -38,7 +38,7 @@ public class NumericExpressionParser extends QLBaseVisitor<NumericExpression> {
             else
             {
                 NumericExpression innerExpression = ctx.numericExpression(0).accept(this);
-                return new NumericNegation(innerExpression);
+                return new NumericNegation(innerExpression, ctx);
             }
         }
         else if (ctx.IDENTIFIER() != null) {

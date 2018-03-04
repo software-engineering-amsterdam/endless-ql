@@ -1,10 +1,12 @@
 package qlviz.model.booleanExpressions;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import qlviz.interpreter.linker.BooleanExpressionVisitor;
 import qlviz.interpreter.linker.TypedBooleanExpressionVisitor;
+import qlviz.model.Node;
 import qlviz.model.numericExpressions.NumericExpression;
 
-public class NumericComparison implements BooleanExpression {
+public class NumericComparison extends Node implements BooleanExpression {
 
     private final NumericExpression leftSide;
     private final NumericExpression rightSide;
@@ -19,7 +21,8 @@ public class NumericComparison implements BooleanExpression {
         return rightSide;
     }
 
-    public NumericComparison(NumericExpression leftSide, NumericExpression rightSide, NumericComparisonOperator opeartor) {
+    public NumericComparison(NumericExpression leftSide, NumericExpression rightSide, NumericComparisonOperator opeartor, ParserRuleContext context) {
+        super(context);
         this.leftSide = leftSide;
         this.rightSide = rightSide;
         this.opeartor = opeartor;

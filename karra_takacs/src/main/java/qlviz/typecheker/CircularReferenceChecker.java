@@ -1,6 +1,5 @@
 package qlviz.typecheker;
 
-import org.omg.CORBA.ARG_IN;
 import qlviz.interpreter.TypedQuestionCollector;
 import qlviz.interpreter.TypedQuestionWalker;
 import qlviz.interpreter.linker.BooleanExpressionVisitor;

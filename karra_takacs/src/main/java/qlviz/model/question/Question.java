@@ -1,8 +1,9 @@
 package qlviz.model.question;
 
 import qlviz.QLParser;
+import qlviz.model.Node;
 
-public abstract class Question {
+public abstract class Question extends Node {
     private String name;
     private String text;
     private QuestionType type;
@@ -21,6 +22,7 @@ public abstract class Question {
     }
 
     public Question(String name, String text, QuestionType type, QLParser.QuestionContext questionContext) {
+        super(questionContext);
         this.name = name;
         this.text = text;
         this.type = type;

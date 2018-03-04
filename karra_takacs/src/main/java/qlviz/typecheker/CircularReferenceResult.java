@@ -1,21 +1,21 @@
 package qlviz.typecheker;
 
+import qlviz.model.Node;
 import qlviz.model.question.Question;
 
 public class CircularReferenceResult implements AnalysisResult {
 
-    private final Question question;
+    private final Node node;
 
-    public CircularReferenceResult(Question question) {
-        this.question = question;
+    public CircularReferenceResult(Node node) {
+        this.node = node;
     }
 
     @Override
     public String getDescription() {
-        return "Circular dependency detected in the expression of question \""
-                + question.getName()
-                + "\" on line "
-                + question.getQuestionContext().getStart().getLine();
+        return "Circular dependency detected in the expression "
+                + "on line "
+                + node.getContext().getStart().getLine();
     }
 
     @Override

@@ -1,15 +1,18 @@
 package qlviz.model.numericExpressions;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import qlviz.interpreter.linker.NumericExpressionVisitor;
 import qlviz.interpreter.linker.TypedNumericExpressionVisitor;
+import qlviz.model.Node;
 
 import java.math.BigDecimal;
 
-public class NumericNegation  implements NumericExpression {
+public class NumericNegation extends Node implements NumericExpression {
 
     private final NumericExpression innerExpression;
 
-    public NumericNegation(NumericExpression innerExpression) {
+    public NumericNegation(NumericExpression innerExpression, ParserRuleContext context) {
+        super(context);
         this.innerExpression = innerExpression;
     }
 

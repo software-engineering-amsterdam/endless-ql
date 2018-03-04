@@ -39,6 +39,14 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<GenericVa
 		}
 	}
 	
+	public void catchException() {
+		try {
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+	}
+	
 	private Object evaluate(Expr expr) {
 		return expr.accept(this);
 	}
@@ -106,8 +114,9 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<GenericVa
 
 	@Override
 	public GenericValue visit(SubtractionExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		GenericValue left = expr.visitLeftExpr(this);
+		GenericValue right = expr.visitRightExpr(this);
+		return left.subtract(right);
 	}
 
 	@Override

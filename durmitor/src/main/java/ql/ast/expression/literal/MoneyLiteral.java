@@ -12,24 +12,44 @@ import ql.evaluator.comparisons.greaterequal.MoneyGreaterEqual;
 import ql.evaluator.comparisons.less.MoneyLess;
 import ql.evaluator.comparisons.lessequal.MoneyLessEqual;
 import ql.evaluator.comparisons.notequal.MoneyNotEqual;
+import ql.helpers.Currency;
 import ql.visitors.interfaces.ExpressionVisitable;
 import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.ValueVisitor;
 
 public class MoneyLiteral extends NumberLiteral implements ExpressionVisitable {
 
+    private Currency currency = Currency.defaultCurrency;
     private Double value;
 
     public MoneyLiteral() {
-        this.value = 0.0;
+        setValue("");
     }
 
     public MoneyLiteral(String value) {
-        this.value = Double.valueOf(value);
+        setValue(value);
+    }
+    
+    public MoneyLiteral(Currency currency, String value) {
+        setCurrency(currency);
+        setValue(value);
     }
 
-    public MoneyLiteral(double value) {
-        this.value = value;
+    public MoneyLiteral(Number value) {
+        setValue(value);
+    }
+    
+    public MoneyLiteral(Currency currency, Number value) {
+        setCurrency(currency);
+        setValue(value);
+    }
+    
+    private void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+    
+    private void setValue(String value) {
+        this.value = (value == null || value.isEmpty())? 0.0 : Double.valueOf(value);
     }
 
     @Override
@@ -42,8 +62,12 @@ public class MoneyLiteral extends NumberLiteral implements ExpressionVisitable {
         return value;
     }
     
-    public void setValue(Double value) {
-        this.value = value;
+    public Currency getCurrency() {
+        return currency;
+    }
+    
+    public void setValue(Number value) {
+        this.value = value.doubleValue();
     }
 
     @Override

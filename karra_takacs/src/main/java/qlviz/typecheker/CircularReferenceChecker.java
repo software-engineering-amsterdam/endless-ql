@@ -1,12 +1,15 @@
 package qlviz.typecheker;
 
+import org.omg.CORBA.ARG_IN;
 import qlviz.interpreter.TypedQuestionCollector;
 import qlviz.interpreter.TypedQuestionWalker;
 import qlviz.interpreter.linker.BooleanExpressionVisitor;
 import qlviz.interpreter.linker.NumericExpressionVisitor;
 import qlviz.interpreter.linker.TypedBooleanExpressionVisitor;
 import qlviz.interpreter.linker.TypedNumericExpressionVisitor;
+import qlviz.model.ConditionalBlock;
 import qlviz.model.Form;
+import qlviz.model.QuestionBlock;
 import qlviz.model.booleanExpressions.*;
 import qlviz.model.numericExpressions.BinaryNumericOperation;
 import qlviz.model.numericExpressions.NumericExpression;
@@ -147,6 +150,23 @@ public class CircularReferenceChecker implements
     @Override
     public void initialize(Form form) {
         this.form = form;
+    }
+
+    private List<AnalysisResult> analyzeConditionalBlock(ConditionalBlock conditionalBlock) {
+        List<AnalysisResult> analysisResults = new ArrayList<>();
+
+        if (this.hasCircularReference(conditionalBlock.getCondition())) {
+            analysisResults.add(new CircularReferenceResult(conditionalBlock));
+        }
+
+        for (QuestionBlock innerBlock : conditionalBlock.getQuestionBlocks()) {
+            innerBlock.getBlocks()
+                    .stream()
+                    .map(this::analyzeConditionalBlock)
+                    .forEach(analysisResults::addAll);
+        }
+
+        return analysisResults;
     }
 
     @Override

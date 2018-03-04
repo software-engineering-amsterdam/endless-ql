@@ -33,7 +33,7 @@ class EvaluatorTest extends WordSpec {
         )
       )
 
-      val result = Evaluator.evaluateQLForm(qLForm)
+      val result = Evaluator.evaluate(qLForm)
       val expected = QLForm(
         "Revenue",
         List(

@@ -130,7 +130,7 @@ class REPL extends Application with Logging {
               val intAnswer = IntAnswer(Try(newValue.toInt).toOption)
 
               qlForm = qlForm.save(id, intAnswer)
-              qlForm = Evaluator.evaluateQLForm(qlForm)
+              qlForm = Evaluator.evaluate(qlForm)
 
               astFrame.getChildren.remove(1)
               astFrame.getChildren.add(new Label(prettyPrintQLForm(qlForm)))

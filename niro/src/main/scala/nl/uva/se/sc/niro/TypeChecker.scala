@@ -70,7 +70,6 @@ object TypeChecker extends Logging {
     qLForm
   }
 
-  // TODO implement checkCyclicDependenciesBetweenQuestions
   def checkCyclicDependenciesBetweenQuestions(qLForm: QLForm): QLForm = {
     logger.info("Phase 5 - Checking cyclic dependencies between questions ...")
 

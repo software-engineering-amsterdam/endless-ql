@@ -70,7 +70,7 @@ class QLFormTest extends WordSpec {
         )
       )
 
-      val result = Evaluator.evaluateQLForm(qLForm.save("yesOrNo", BooleanAnswer(true)))
+      val result = Evaluator.evaluate(qLForm.save("yesOrNo", BooleanAnswer(true)))
 
       val expected = QLForm(
         formName = "ConditionMustTurnTrue",

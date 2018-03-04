@@ -6,31 +6,31 @@ import nl.uva.se.sc.niro.model._
 
 object Evaluator {
 
-  def evaluateQLForm(qLForm: QLForm): QLForm = {
+  def evaluate(qLForm: QLForm): QLForm = {
     val evaluatedStatements: Seq[Statement] =
-      qLForm.statements.map(statement => evaluateStatement(statement, qLForm.symbolTable))
+      qLForm.statements.map(statement => evaluate(statement, qLForm.symbolTable))
 
     qLForm.copy(statements = evaluatedStatements)
   }
 
-  def evaluateStatement(statement: Statement, symbolTable: SymbolTable): Statement = {
+  def evaluate(statement: Statement, symbolTable: SymbolTable): Statement = {
     statement match {
-      case q: Question       => evaluateQuestion(q, symbolTable)
-      case c: Conditional    => evaluateConditional(c, symbolTable)
+      case q: Question       => evaluate(q, symbolTable)
+      case c: Conditional    => evaluate(c, symbolTable)
       case e: ErrorStatement => e
     }
   }
 
-  def evaluateQuestion(question: Question, symbolTable: SymbolTable): Question = {
+  def evaluate(question: Question, symbolTable: SymbolTable): Question = {
     val evaluatedAnswer = evaluateExpression(question.expression, symbolTable: SymbolTable)
 
     question.copy(answer = Some(evaluatedAnswer))
   }
 
   // Recursion is happening between evaluateStatement and evaluateConditional
-  def evaluateConditional(conditional: Conditional, symbolTable: SymbolTable): Conditional = {
+  def evaluate(conditional: Conditional, symbolTable: SymbolTable): Conditional = {
     val evaluatedPredicate = evaluateExpression(conditional.predicate, symbolTable)
-    val evaluatedThenStatements = conditional.thenStatements.map(statement => evaluateStatement(statement, symbolTable))
+    val evaluatedThenStatements = conditional.thenStatements.map(statement => evaluate(statement, symbolTable))
 
     conditional.copy(answer = Option(evaluatedPredicate), thenStatements = evaluatedThenStatements)
   }
@@ -42,6 +42,7 @@ object Evaluator {
     case UnaryOperation(operator: UnaryOperator, expression) =>
       val answer = evaluateExpression(expression, symbolTable)
       answer.applyUnaryOperator(operator)
+
     case BinaryOperation(operator: BinaryOperator, leftExpression, rightExpression) =>
       val leftAnswer = evaluateExpression(leftExpression, symbolTable)
       val rightAnswer = evaluateExpression(rightExpression, symbolTable)

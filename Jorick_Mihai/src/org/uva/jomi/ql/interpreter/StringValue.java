@@ -242,4 +242,30 @@ public class StringValue implements GenericValue {
 		compareError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
+	
+	// Greater than or equal operation.
+
+	@Override
+	public GenericValue greaterOrEqual(GenericValue rightHandSideValue) {
+		compareError(this.getClass(), rightHandSideValue.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue greaterOrEqual(IntegerValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue greaterOrEqual(StringValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue greaterOrEqual(BooleanValue leftHandSideValue) {
+		compareError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
 }

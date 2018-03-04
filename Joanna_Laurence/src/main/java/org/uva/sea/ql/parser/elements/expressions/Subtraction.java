@@ -7,8 +7,8 @@ import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.ql.visitor.IASTVisitor;
 
 public class Subtraction extends BinaryOperator {
-    public Subtraction(Token token, ASTNode lhs, ASTNode rhs) {
-        super(token, lhs, rhs);
+    public Subtraction(Token token, ASTNode leftHandSide, ASTNode rightHandSide) {
+        super(token, leftHandSide, rightHandSide);
     }
 
     public Type getType() {

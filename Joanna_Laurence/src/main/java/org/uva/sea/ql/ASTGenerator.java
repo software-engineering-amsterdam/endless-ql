@@ -42,6 +42,7 @@ public class ASTGenerator {
 
     /**
      * Throws an exception when an error is present.
+     *
      * @param AST
      * @return
      * @throws StaticAnalysisError

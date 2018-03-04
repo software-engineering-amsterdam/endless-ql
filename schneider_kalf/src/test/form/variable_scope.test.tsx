@@ -11,7 +11,7 @@ it('does not create an error for the variable scopes of a correct form', () => {
 
   const identifiers = Array.from(result.variables.keys()).sort();
 
-  expect(identifiers).toBe(['a', 'b', 'c', 'd', 'e', 'x', 'y']);
+  expect(identifiers).toEqual(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'x', 'y']);
 });
 
 it('does not allow a second declaration of a field', () => {

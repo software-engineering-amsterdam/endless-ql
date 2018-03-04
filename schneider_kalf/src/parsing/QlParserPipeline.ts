@@ -1,9 +1,15 @@
 import FormNode from "../form/nodes/FormNode";
 import { VariableScopeVisitor } from "../form/typechecking/VariableScopeVisitor";
+import { VariableInformation } from "../form/VariableIntformation";
 
 const qlParser = require("./parsing/parsers/ql_parser");
 
-export default class ParserPipeline {
+export interface QlParserResult {
+  node: FormNode;
+  variables: Map<string, VariableInformation>;
+}
+
+export class QlParserPipeline {
   private readonly _qlInput: string;
 
   constructor(qlInput: string) {
@@ -12,7 +18,7 @@ export default class ParserPipeline {
     this.processFormNode = this.processFormNode.bind(this);
   }
 
-  run() {
+  run(): QlParserResult[] {
     const formNodes: FormNode[] = qlParser.parse(this._qlInput);
 
     this.processFormNode(formNodes[0]);
@@ -20,13 +26,13 @@ export default class ParserPipeline {
     return formNodes.map(this.processFormNode);
   }
 
-  processFormNode(node: FormNode) {
+  private processFormNode(node: FormNode): QlParserResult {
     const variableScope: VariableScopeVisitor = new VariableScopeVisitor();
-
-    variableScope.run(node);
+    const scopeResult = variableScope.run(node);
 
     return {
-      node: node
+      node: node,
+      variables: scopeResult.variables
     };
   }
 }

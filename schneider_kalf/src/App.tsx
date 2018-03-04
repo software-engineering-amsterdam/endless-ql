@@ -8,6 +8,7 @@ import QuestionForm from "./form/QuestionForm";
 import FormNode from "./form/nodes/FormNode";
 import Alert from "reactstrap/lib/Alert";
 import { getParserErrorMessage } from "./parsing/parsing_helpers";
+import { QlParserPipeline, QlParserResult } from "./parsing/QlParserPipeline";
 
 export interface AppComponentProps {
 }
@@ -37,10 +38,12 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
 
   onChangeQuestionnaire(text: string) {
     try {
-      const formNodes: FormNode[] = qlParser.parse(text);
+      const parseResults: QlParserResult[] = (new QlParserPipeline(text)).run();
+
+      console.log(parseResults[0]);
 
       this.setState({
-        form: new QuestionForm(formNodes[0], this.state.form.getState()),
+        form: new QuestionForm(parseResults[0].node, this.state.form.getState()),
         parserError: null,
         qlInput: text
       });

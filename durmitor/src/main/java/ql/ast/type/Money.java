@@ -9,6 +9,10 @@ public class Money extends Type {
 
     private Currency currency;
     
+    public Money() {
+        this.currency = Currency.defaultCurrency;
+    }
+    
     public Money(Currency currency) {
         this.currency = currency;
     }

@@ -54,7 +54,7 @@ public class MoneyLiteral extends NumberLiteral implements ExpressionVisitable {
 
     @Override
     public String toString() {
-        return String.format("%.2f", value);
+        return String.format("%s %."+currency.getDecimalPlaces()+"f", currency,value);
     }
     
     @Override
@@ -72,7 +72,7 @@ public class MoneyLiteral extends NumberLiteral implements ExpressionVisitable {
 
     @Override
     public Type getType() {
-        return new Money();
+        return new Money(currency);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class MoneyLiteral extends NumberLiteral implements ExpressionVisitable {
 
     @Override
     public Literal<?> negative() {
-        return new MoneyLiteral(value * -1);
+        return new MoneyLiteral(currency, value * -1);
     }
 
     @Override

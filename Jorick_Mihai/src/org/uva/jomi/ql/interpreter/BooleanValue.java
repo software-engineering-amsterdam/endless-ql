@@ -1,19 +1,20 @@
 package org.uva.jomi.ql.interpreter;
 
-public class StringValue implements GenericValue {
-	private final String value;
+public class BooleanValue implements GenericValue {
+	private final Boolean value;
 	
-	public StringValue(String value) {
+	public BooleanValue(Boolean value) {
 		this.value = value;
 	}
 	
-	public String getValue() {
+	public Boolean getValue() {
 		return value;
 	}
 
 	@Override
 	public GenericValue add(GenericValue rightHandSideValue) {
-		return rightHandSideValue.add(this);
+		addError(this.getClass(), rightHandSideValue.getClass());
+		return null;
 	}
 
 	@Override
@@ -23,12 +24,13 @@ public class StringValue implements GenericValue {
 	}
 
 	@Override
-	public GenericValue add(StringValue leftHandSideValue) {
-		return new StringValue(leftHandSideValue.getValue().concat(this.getValue()));
+	public GenericValue add(BooleanValue leftHandSideValue) {
+		addError(leftHandSideValue.getClass(), this.getClass());
+		return null;
 	}
 
 	@Override
-	public GenericValue add(BooleanValue leftHandSideValue) {
+	public GenericValue add(StringValue leftHandSideValue) {
 		addError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}

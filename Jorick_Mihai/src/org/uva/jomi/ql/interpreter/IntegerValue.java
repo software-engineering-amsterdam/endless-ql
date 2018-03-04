@@ -26,4 +26,10 @@ public class IntegerValue implements GenericValue {
 		addError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
+
+	@Override
+	public GenericValue add(BooleanValue leftHandSideValue) {
+		addError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
 }

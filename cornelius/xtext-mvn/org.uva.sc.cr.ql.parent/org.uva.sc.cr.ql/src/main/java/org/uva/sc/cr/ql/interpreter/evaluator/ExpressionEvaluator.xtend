@@ -1,4 +1,4 @@
-package org.uva.sc.cr.ql.interpreter.service
+package org.uva.sc.cr.ql.interpreter.evaluator
 
 import java.util.Map
 import javax.inject.Singleton
@@ -53,7 +53,7 @@ class ExpressionEvaluator {
 		}
 	}
 
-	def <T> evaluateExpression(Expression expression, Map<String, Object> arguments) {
+	def <T> evaluateExpression(Expression expression, Map<String, Object> arguments, Class<T> clazz) {
 		val expressionAsString = buildExpression(expression)
 
 		arguments.forEach [ variableName, valueValue |
@@ -62,6 +62,7 @@ class ExpressionEvaluator {
 		println("evaluating " + expressionAsString + " with " + arguments)
 		var result = engine.eval(expressionAsString)
 		println("result " + result)
+
 		return result as T
 	}
 

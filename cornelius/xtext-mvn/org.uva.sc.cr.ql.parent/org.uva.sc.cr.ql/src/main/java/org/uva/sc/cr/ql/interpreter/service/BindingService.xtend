@@ -9,13 +9,18 @@ import javafx.beans.binding.Bindings
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.uva.sc.cr.ql.interpreter.controls.ControlWrapper
+import org.uva.sc.cr.ql.interpreter.evaluator.ExpressionEvaluator
 import org.uva.sc.cr.ql.qL.Expression
+import org.uva.sc.cr.ql.interpreter.evaluator.ExpressionEvaluatorMoney
 
 @Singleton
 class BindingService {
 
 	@Inject
 	private var ExpressionEvaluator evaluator
+	
+	@Inject
+	private var ExpressionEvaluatorMoney evaluatorMoney
 
 	private List<Binding> bindings;
 
@@ -33,7 +38,7 @@ class BindingService {
 		val binding = Bindings.createBooleanBinding(new Callable<Boolean>() {
 
 			override call() throws Exception {
-				evaluator.<Boolean>evaluateExpression(expression, getExpressionArguments(controls, expression))
+				evaluator.evaluateExpression(expression, getExpressionArguments(controls, expression), Boolean)
 			}
 
 		})
@@ -45,7 +50,7 @@ class BindingService {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
-				evaluator.<String>evaluateExpression(expression, getExpressionArguments(controls, expression))
+				evaluator.evaluateExpression(expression, getExpressionArguments(controls, expression), String)
 			}
 
 		})
@@ -57,7 +62,7 @@ class BindingService {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
-				evaluator.<Double>evaluateExpression(expression, getExpressionArguments(controls, expression)).intValue.
+				evaluator.evaluateExpression(expression, getExpressionArguments(controls, expression), Double).intValue.
 					toString
 			}
 
@@ -70,7 +75,7 @@ class BindingService {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
-				evaluator.<Double>evaluateExpression(expression, getExpressionArguments(controls, expression)).toString
+				evaluator.evaluateExpression(expression, getExpressionArguments(controls, expression), Double).toString
 			}
 
 		})

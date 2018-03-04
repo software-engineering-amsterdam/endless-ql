@@ -4,7 +4,6 @@ import Input from "reactstrap/lib/Input";
 import { FormComponent } from "./rendering/components/form_component/FormComponent";
 import Form from "./form/Form";
 import { sampleForm } from "./mock/sampleForm";
-import { QlsTest } from "./modules/styling/rendering/components/qls_test/QlsTest";
 import QuestionForm from "./form/QuestionForm";
 import FormNode from "./form/nodes/FormNode";
 import Alert from "reactstrap/lib/Alert";
@@ -18,8 +17,6 @@ export interface AppComponentState {
   form: Form;
   parserError: Error | null;
 }
-
-const qlParser = require("./parsing/parsers/ql_parser");
 
 class App extends React.Component<AppComponentProps, AppComponentState> {
   constructor(props: AppComponentProps) {

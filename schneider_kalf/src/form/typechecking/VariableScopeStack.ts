@@ -1,13 +1,14 @@
 import { EmptyVariableScopeStackError } from "../form_errors";
+import { VariableInformation } from "../VariableIntformation";
 
 export class VariableScopeStack {
   private _store: string[][];
 
-  private _history: Set<string>;
+  private _history: Map<string, VariableInformation>;
 
   constructor() {
     this._store = [];
-    this._history = new Set();
+    this._history = new Map();
   }
 
   /**
@@ -36,18 +37,18 @@ export class VariableScopeStack {
   /**
    * Add an identifier to the current (deepest) scope level.
    *
-   * @param {string} identifier
+   * @param {VariableInformation} variableInformation
    */
-  add(identifier: string): void {
+  add(variableInformation: VariableInformation): void {
     if (this._store.length === 0) {
-      throw EmptyVariableScopeStackError.make(identifier);
+      throw EmptyVariableScopeStackError.make(variableInformation.identifier);
     }
 
     const lowestLevel = this._store[this.depth() - 1];
 
-    this._history.add(identifier);
+    this._history.set(variableInformation.identifier, variableInformation);
 
-    lowestLevel.push(identifier);
+    lowestLevel.push(variableInformation.identifier);
   }
 
   /**
@@ -83,5 +84,14 @@ export class VariableScopeStack {
    */
   wasAlreadyDeclared(identifier: string): boolean {
     return this._history.has(identifier);
+  }
+
+  /**
+   * Returns a map of all declared variables.
+   *
+   * @returns {Map<string, VariableInformation>}
+   */
+  getDeclaredVariables(): Map<string, VariableInformation> {
+    return new Map(this._history);
   }
 }

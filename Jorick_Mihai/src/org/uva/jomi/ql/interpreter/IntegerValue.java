@@ -32,4 +32,26 @@ public class IntegerValue implements GenericValue {
 		addError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
+
+	@Override
+	public GenericValue subtract(GenericValue rightHandSideValue) {
+		return rightHandSideValue.subtract(this);
+	}
+
+	@Override
+	public GenericValue subtract(IntegerValue leftHandSideValue) {
+		return new IntegerValue(leftHandSideValue.getValue() - this.getValue());
+	}
+
+	@Override
+	public GenericValue subtract(StringValue leftHandSideValue) {
+		subtractError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue subtract(BooleanValue leftHandSideValue) {
+		subtractError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
 }

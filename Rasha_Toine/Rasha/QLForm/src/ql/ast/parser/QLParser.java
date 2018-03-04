@@ -213,9 +213,8 @@ public class QLParser extends Parser {
 		return _localctx;
 	}
 
-	private BigDecimal BigDecimal(Double valueOf) {
-		// TODO Auto-generated method stub
-		return null;
+	private BigDecimal BigDecimal(Double value) {
+		return BigDecimal.valueOf(value);
 	}
 	public static class IdentifierContext extends ParserRuleContext {
 		public Identifier result;

@@ -39,10 +39,6 @@ public class Identifier extends Expression {
         this.value = type.parse(value);
     }
     
-    public void setValue(String value) {
-        this.value = type.parse(value);
-    }
-    
     public Identifier setType(Type type) {
         
         this.type = type;

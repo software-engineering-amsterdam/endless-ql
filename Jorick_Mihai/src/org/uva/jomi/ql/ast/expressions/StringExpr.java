@@ -11,7 +11,7 @@ public class StringExpr extends PrimaryExpr {
 	}
 	
 	public String getValue() {
-		return this.getLexeme();
+		return this.getLexeme().substring(1, this.getLexeme().length() -1);
 	}
 	
 	@Override

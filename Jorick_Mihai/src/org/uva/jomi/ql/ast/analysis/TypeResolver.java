@@ -19,10 +19,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	public void resolve(List<Stmt> statements) {
 		// Clear previous errors first
 		errorHandler.clearErrors();
-		
-		for (Stmt statement : statements) {
-			statement.accept(this);
-		}
+		statements.forEach( statement -> statement.accept(this));
 	}
 	
 	public int getNumberOfErrors() {
@@ -70,17 +67,6 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 		}
 	}
 	
-	public void resolveExpr(QLType exprectedType, Expr expr) {
-		// Set the expected type for the expression and visit it.
-		if (expr.getType() == null) {
-			expr.setType(exprectedType);
-			expr.accept(this);
-		} else if (expr.getType() != exprectedType) {
-			// We found a type mismatch.
-			//errorHandler.addTypeError(exprectedType, expr);
-		}
-	}
-	
 	@Override
 	public Void visit(FormStmt form) {
 		form.visitBlockStmt(this);
@@ -89,10 +75,7 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
 	@Override
 	public Void visit(BlockStmt block) {
-		for (Stmt statement : block.getStatements()) {
-			statement.accept(this);
-		}
-		
+		block.getStatements().forEach( statement -> statement.accept(this));
 		return null;
 	}
 

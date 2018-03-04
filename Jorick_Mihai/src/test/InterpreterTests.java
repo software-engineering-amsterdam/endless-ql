@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.uva.jomi.ql.ast.statements.Stmt;
 import org.uva.jomi.ql.interpreter.IntegerValue;
 import org.uva.jomi.ql.interpreter.QLInterpreter;
+import org.uva.jomi.ql.interpreter.StringValue;
 import org.uva.jomi.ql.tests.utilities.TestUtilities;
 import org.uva.jomi.ui.SymbolTable;
 
@@ -38,5 +39,18 @@ public class InterpreterTests {
 		List<Stmt> ast = TestUtilities.buildAst(testSource2);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q2")).getValue().equals(3));
+	}
+	
+	String testSource3 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: string \"one\" + \" plus \" + \"two\"\n"
+			+ "}";
+
+	@Test
+	public void test3() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource3);
+		interpreter.interpret(ast);
+		assertTrue(((StringValue) SymbolTable.getInstance().get("q1")).getValue().equals("one plus two"));
+		
 	}
 }

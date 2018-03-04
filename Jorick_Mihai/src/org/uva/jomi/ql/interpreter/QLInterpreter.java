@@ -183,14 +183,12 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<GenericVa
 
 	@Override
 	public GenericValue visit(StringExpr expr) {
-		//return expr.getValue();
-		return null;
+		return new StringValue(expr.getValue());
 	}
 
 	@Override
 	public GenericValue visit(BooleanExpr expr) {
-		//return expr.getValue();
-		return null;
+		return new BooleanValue(expr.getValue());
 	}
 
 }

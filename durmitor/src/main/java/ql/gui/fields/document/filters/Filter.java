@@ -6,6 +6,7 @@ import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
 import ql.ast.expression.Identifier;
+import ql.ast.expression.literal.Literal;
 
 public abstract class Filter extends DocumentFilter {
 
@@ -28,7 +29,7 @@ public abstract class Filter extends DocumentFilter {
         
         if(test(stringBuilder.toString())) {
             super.insertString(filterBypass, offset, string, attribute);
-            identifier.setValue(stringBuilder.toString());
+            identifier.setValue(Literal.create(identifier.getType(), stringBuilder.toString()));
         }
     }
     
@@ -52,7 +53,7 @@ public abstract class Filter extends DocumentFilter {
         
         if (test(stringBuilder.toString())) {
             super.replace(filterBypass, offset, length, text, attribute);
-            identifier.setValue(stringBuilder.toString());
+            identifier.setValue(Literal.create(identifier.getType(), stringBuilder.toString()));
         }
     }
     
@@ -67,7 +68,7 @@ public abstract class Filter extends DocumentFilter {
         
         if(test(stringBuilder.toString())) {
             super.remove(filterBypass, offset, length);
-            identifier.setValue(stringBuilder.toString());
+            identifier.setValue(Literal.create(identifier.getType(), stringBuilder.toString()));
         }
     }
 }

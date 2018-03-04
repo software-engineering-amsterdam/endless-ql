@@ -154,15 +154,19 @@ unaryExpr
 
 // Identifier
 identifier
- = chars:([a-zA-Z]+) {
-    return new Nodes.VariableIdentifier(chars.join(""));
+ = !keywords alphabet {
+    return new Nodes.VariableIdentifier(text());
 }
 
 // Boolean Literal
 booleanLiteral
- = Literal:("true" / "false") {
-    return new Nodes.BooleanLiteral(Literal == "true")
+ = booleanToken {
+    return new Nodes.BooleanLiteral(text() == "true")
 }
+
+// Alphabet characters
+alphabet
+ = [a-zA-Z]+
 
 // Integer
 numberLiteral
@@ -199,8 +203,13 @@ escapeSequence
 // Supported types
 fieldType = "money" / "date" / "integer" / "boolean"
 
-// Values
-value = booleanLiteral / identifier / numberLiteral / stringLiteral
+// Value
+value = identifier / numberLiteral / stringLiteral / booleanLiteral
+
+booleanToken = "true"  !alphabet
+             / "false" !alphabet
+
+keywords = booleanToken
 
 // Single line comments
 comment = "//" (![\n] .)*

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assignment1;
+using Assignment1.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Assignment1Tests
@@ -19,7 +19,7 @@ namespace Assignment1Tests
         [TestMethod]
         public void TestCreateQuestion()
         {
-            Question testQ = new Question(TestQuestionId, TestQuestionLabel);
+            Question testQ = new QuestionBool(TestQuestionId, TestQuestionLabel);
 
             Assert.AreEqual(TestQuestionId, testQ.Id);
             Assert.AreEqual(TestQuestionLabel, testQ.Label);
@@ -28,7 +28,7 @@ namespace Assignment1Tests
         [TestMethod]
         public void TestAddQuestionToForm()
         {
-            Question testQ = new Question(TestQuestionId, TestQuestionLabel);
+            Question testQ = new QuestionBool(TestQuestionId, TestQuestionLabel);
             List<Content> contentList = new List<Content>() { testQ };
             QuestionForm testF = new QuestionForm(TestFormId, contentList);
 
@@ -41,18 +41,29 @@ namespace Assignment1Tests
         public void TestBinaryExpression()
         {
             // Create expression with + operator
+            int leftInt = 1;
+            int rightInt = 2;
+            Expression leftExpr = new ExpressionValue(leftInt);
+            Expression rightExpr = new ExpressionValue(rightInt);
+            ExpressionAdd addExpr = new ExpressionAdd(leftExpr, rightExpr);
 
-            // Run evaluator
-            
             // Left and right operands should be integers
+            //Assert.AreEqual(leftInt, leftExpr.Evaluate());
+            //Assert.AreEqual(rightInt, rightExpr.Evaluate());
 
             // Sum should be the sum of the left and right operands
+            //Assert.AreEqual(leftInt + rightInt, addExpr.Evaluate());
         }
 
         [TestMethod]
         public void TestLogicalExpressionBothTrue()
         {
             // Create epression with && operator with left and right as true
+            bool leftBool = true;
+            bool rightBool = true;
+            Expression leftExpr = new ExpressionValue(leftBool);
+            Expression rightExpr = new ExpressionValue(rightBool);
+            ExpressionAnd andExpr = new ExpressionAnd(leftExpr, rightExpr);
 
             // Run evaluator
             
@@ -65,9 +76,14 @@ namespace Assignment1Tests
         public void TestLogicalExpressionLeftFalse()
         {
             // Create epression with && operator with left as false and right as true
+            bool leftBool = false;
+            bool rightBool = true;
+            Expression leftExpr = new ExpressionValue(leftBool);
+            Expression rightExpr = new ExpressionValue(rightBool);
+            ExpressionAnd andExpr = new ExpressionAnd(leftExpr, rightExpr);
 
             // Run evaluator
-            
+
             // Left and right operands should be boolean
 
             // Result should be false
@@ -77,9 +93,14 @@ namespace Assignment1Tests
         public void TestLogicalExpressionRightFalse()
         {
             // Create epression with && operator with left as true and right as false
+            bool leftBool = true;
+            bool rightBool = false;
+            Expression leftExpr = new ExpressionValue(leftBool);
+            Expression rightExpr = new ExpressionValue(rightBool);
+            ExpressionAnd andExpr = new ExpressionAnd(leftExpr, rightExpr);
 
             // Run evaluator
-            
+
             // Left and right operands should be boolean
 
             // Result should be false
@@ -89,6 +110,11 @@ namespace Assignment1Tests
         public void TestLogicalExpressionInvalidOperand()
         {
             // Create epression with && operator with left as true and right as integer
+            int leftInt = 1;
+            int rightInt = 2;
+            Expression leftExpr = new ExpressionValue(leftInt);
+            Expression rightExpr = new ExpressionValue(rightInt);
+            ExpressionAnd andExpr = new ExpressionAnd(leftExpr, rightExpr);
 
             // Run evaluator
 

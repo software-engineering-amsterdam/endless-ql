@@ -15,71 +15,90 @@ grammar QL;
 
 questionnaire:  ENTRYPOINT IDENTIFIER BEGINSCOPE content=statement* ENDSCOPE; 
 
-statement : question (calculatedValue)?
-          | conditional
+statement : question calculatedValue    # calculatedQuestion
+          | question                    # inputQuestion
+          | conditionalStatement        # ifElseStatement
           ;		
 
-question: IDENTIFIER ':' TEXT questiontype 
-        | TEXT IDENTIFIER  ':' questiontype 
+question: IDENTIFIER ':' TEXT questionType 
+        | TEXT IDENTIFIER  ':' questionType 
         ;
 
-calculatedValue: ASSIGN BEGINGROUP mathexpression ENDGROUP;
+calculatedValue: ASSIGN BEGINGROUP mathExpression ENDGROUP;
 
-conditional: IFKEYWORD BEGINGROUP condition ENDGROUP BEGINSCOPE consequent=statement* ENDSCOPE 
-             (ELSEKEYWORD BEGINSCOPE alternative=statement* ENDSCOPE)?;
+conditionalStatement: IFKEYWORD BEGINGROUP booleanExpression ENDGROUP 
+                      BEGINSCOPE consequentStatement ENDSCOPE 
+                      (ELSEKEYWORD BEGINSCOPE alternativeStatement ENDSCOPE)?;
 
-questiontype: qtype=(BOOLTYPE     
+consequentStatement: statement*;
+
+alternativeStatement: statement*;
+
+questionType: chosenType=(BOOLTYPE     
             | STRINGTYPE   
             | INTTYPE      
             | DATETYPE     
             | DECIMALTYPE)
 			;
 
-condition : IDENTIFIER                         #questionId
-	      | TEXT                               #textLiteral
-          | conditionvalue                     #relativeLiteral
-          | booleanvalue                       #booleanLiteral
-          | BEGINGROUP condition ENDGROUP      #expressionGroup
-		  | NEGATE condition                   #negationExpression
-          | leftExpression=condition 
-              relationaloperator 
-      	    rightExpression=condition          #relativeExpression
-		  | mathexpression                     #calcualationExpression
-          ;
+booleanExpression : IDENTIFIER                             #booleanQuestionIdentifier
+	              | booleanValue                           #booleanLiteral
+                  | BEGINGROUP booleanExpression ENDGROUP  #booleanExpressionGroup
+		          | NEGATE booleanExpression               #negationExpression
+				  | leftExpression=booleanExpression
+					   operator=booleanOperator
+				    rightExpression=booleanExpression      #andOrStatement
+				  
+				  | leftExpression=booleanExpression 
+                       operator=equalityOperator 
+      	            rightExpression=booleanExpression      #booleanComparison
+				  | relationalExpression                   #relativeExpression
+                  ;
 
-mathexpression : IDENTIFIER                              #numberId
-               | mathvalue                               #numberLiteral
-			   | BEGINGROUP mathexpression ENDGROUP      #mathexpressionGroup
-		       | leftExpression=mathexpression 
+relationalExpression: leftExpression=mathExpression 
+				         operator=relationalOperator 
+					  rightExpression=mathExpression            #mathComparison
+		            | leftText=TEXT 
+				         operator=equalityOperator 
+					  rightText=TEXT                            #textComparison
+		            | leftDate=(DATE | IDENTIFIER)
+				         operator=equalityOperator 
+					  rightDate=(DATE | IDENTIFIER)             #dateComparison 
+		            ;
+
+mathExpression : IDENTIFIER                              #numberVariableName
+               | mathValue                               #numberLiteral
+			   | BEGINGROUP mathExpression ENDGROUP      #mathExpressionGroup
+		       | leftExpression=mathExpression 
       	           operator=(MULTIPLY | DIVIDE) 
-      		     rightExpression=mathexpression          #multiplyDivideExpression
-      	       | leftExpression=mathexpression 
+      		     rightExpression=mathExpression          #multiplyDivideExpression
+      	       | leftExpression=mathExpression 
       	           operator=(ADD | MINUS) 
-      		     rightExpression=mathexpression          #addSubtractExpression
+      		     rightExpression=mathExpression          #addSubtractExpression
 			   ;
 
-relationaloperator: ISEQUAL 
+relationalOperator: chosenOperator=(ISEQUAL 
                   | ISNOTEQUAL 
                   | ISGREATERTHAN 
                   | ISGREATERTHANOREQUAL 
 				  | ISLESSTHAN 
-				  | ISLESSTHANOREQUAL 
-				  | booleanoperator
+				  | ISLESSTHANOREQUAL)
                   ;
 
-booleanoperator: AND 
-               | OR
-               ;
+equalityOperator: chosenOperator=(ISEQUAL | ISNOTEQUAL);
 
-booleanvalue: TRUE 
+booleanOperator: chosenOperator=(AND | OR);
+
+booleanValue: TRUE 
             | FALSE
             ;
 
-mathvalue: INTEGER 
+mathValue: INTEGER 
          | DECIMAL
          ;
 
-conditionvalue: INTEGER 
+//ToDo: rename relational
+conditionValue: INTEGER 
               | DECIMAL 
 			  | DATE
               ;

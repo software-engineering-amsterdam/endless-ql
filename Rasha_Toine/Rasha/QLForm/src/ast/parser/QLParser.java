@@ -105,7 +105,7 @@ public class QLParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-    private <T extends AstNode> T add(ParserRuleContext context, T node){
+    private <T extends AstNode> T addCodeReference(ParserRuleContext context, T node){
         node.setLocation(new CodeReference(context));
         return (T) node;
     }
@@ -155,7 +155,7 @@ public class QLParser extends Parser {
 				{
 				setState(18);
 				((LiteralContext)_localctx).MONEY = match(MONEY);
-				 ((LiteralContext)_localctx).result =  add(_localctx, new MoneyLiteral(BigDecimal(Double.valueOf(((LiteralContext)_localctx).DECIMAL.getText())))); 
+				 ((LiteralContext)_localctx).result =  addCodeReference(_localctx, new MoneyLiteral(BigDecimal(Double.valueOf(((LiteralContext)_localctx).DECIMAL.getText())))); 
 				}
 				break;
 			case INTEGER:
@@ -163,7 +163,7 @@ public class QLParser extends Parser {
 				{
 				setState(20);
 				((LiteralContext)_localctx).INTEGER = match(INTEGER);
-				 ((LiteralContext)_localctx).result = add(_localctx, new IntegerLiteral(Integer.valueOf((((LiteralContext)_localctx).INTEGER!=null?((LiteralContext)_localctx).INTEGER.getText():null)))); 
+				 ((LiteralContext)_localctx).result = addCodeReference(_localctx, new IntegerLiteral(Integer.valueOf((((LiteralContext)_localctx).INTEGER!=null?((LiteralContext)_localctx).INTEGER.getText():null)))); 
 				}
 				break;
 			case BOOLEAN:
@@ -171,7 +171,7 @@ public class QLParser extends Parser {
 				{
 				setState(22);
 				((LiteralContext)_localctx).BOOLEAN = match(BOOLEAN);
-				 ((LiteralContext)_localctx).result =  add(_localctx, new BooleanLiteral(Boolean.valueOf((((LiteralContext)_localctx).BOOLEAN!=null?((LiteralContext)_localctx).BOOLEAN.getText():null)))); 
+				 ((LiteralContext)_localctx).result =  addCodeReference(_localctx, new BooleanLiteral(Boolean.valueOf((((LiteralContext)_localctx).BOOLEAN!=null?((LiteralContext)_localctx).BOOLEAN.getText():null)))); 
 				}
 				break;
 			case STRING:
@@ -179,7 +179,7 @@ public class QLParser extends Parser {
 				{
 				setState(24);
 				((LiteralContext)_localctx).STRING = match(STRING);
-				 ((LiteralContext)_localctx).result =  add(_localctx, new StringLiteral(String.valueOf(((LiteralContext)_localctx).STRING))); 
+				 ((LiteralContext)_localctx).result =  addCodeReference(_localctx, new StringLiteral(String.valueOf(((LiteralContext)_localctx).STRING))); 
 				}
 				break;
 			case DATE:
@@ -187,7 +187,7 @@ public class QLParser extends Parser {
 				{
 				setState(26);
 				((LiteralContext)_localctx).DATE = match(DATE);
-				 ((LiteralContext)_localctx).result =  add(_localctx, new DateLiteral(new Date((((LiteralContext)_localctx).DATE.getText().toString())))); 
+				 ((LiteralContext)_localctx).result =  addCodeReference(_localctx, new DateLiteral(new Date((((LiteralContext)_localctx).DATE.getText().toString())))); 
 				}
 				break;
 			case DECIMAL:
@@ -195,7 +195,7 @@ public class QLParser extends Parser {
 				{
 				setState(28);
 				((LiteralContext)_localctx).DECIMAL = match(DECIMAL);
-				 ((LiteralContext)_localctx).result =  add(_localctx, new DecimalLiteral(Double.valueOf(((LiteralContext)_localctx).DECIMAL.getText()))); 
+				 ((LiteralContext)_localctx).result =  addCodeReference(_localctx, new DecimalLiteral(Double.valueOf(((LiteralContext)_localctx).DECIMAL.getText()))); 
 				}
 				break;
 			default:
@@ -243,7 +243,7 @@ public class QLParser extends Parser {
 			{
 			setState(34);
 			((IdentifierContext)_localctx).IDENT = match(IDENT);
-			 ((IdentifierContext)_localctx).result =  add(_localctx, new Identifier((((IdentifierContext)_localctx).IDENT!=null?((IdentifierContext)_localctx).IDENT.getText():null))); 
+			 ((IdentifierContext)_localctx).result =  addCodeReference(_localctx, new Identifier((((IdentifierContext)_localctx).IDENT!=null?((IdentifierContext)_localctx).IDENT.getText():null))); 
 			}
 		}
 		catch (RecognitionException re) {
@@ -285,7 +285,7 @@ public class QLParser extends Parser {
 				{
 				setState(37);
 				match(T__0);
-				 ((QuestionTypeContext)_localctx).result =  add(_localctx, new MoneyType());
+				 ((QuestionTypeContext)_localctx).result =  addCodeReference(_localctx, new MoneyType());
 				}
 				break;
 			case T__1:
@@ -293,7 +293,7 @@ public class QLParser extends Parser {
 				{
 				setState(39);
 				match(T__1);
-				 ((QuestionTypeContext)_localctx).result =  add(_localctx, new IntegerType());
+				 ((QuestionTypeContext)_localctx).result =  addCodeReference(_localctx, new IntegerType());
 				}
 				break;
 			case T__2:
@@ -301,7 +301,7 @@ public class QLParser extends Parser {
 				{
 				setState(41);
 				match(T__2);
-				 ((QuestionTypeContext)_localctx).result =  add(_localctx, new BooleanType());
+				 ((QuestionTypeContext)_localctx).result =  addCodeReference(_localctx, new BooleanType());
 				}
 				break;
 			case T__3:
@@ -309,7 +309,7 @@ public class QLParser extends Parser {
 				{
 				setState(43);
 				match(T__3);
-				 ((QuestionTypeContext)_localctx).result =  add(_localctx, new StringType());
+				 ((QuestionTypeContext)_localctx).result =  addCodeReference(_localctx, new StringType());
 				}
 				break;
 			case T__4:
@@ -317,7 +317,7 @@ public class QLParser extends Parser {
 				{
 				setState(45);
 				match(T__4);
-				 ((QuestionTypeContext)_localctx).result =  add(_localctx, new DateType());
+				 ((QuestionTypeContext)_localctx).result =  addCodeReference(_localctx, new DateType());
 				}
 				break;
 			case T__5:
@@ -325,7 +325,7 @@ public class QLParser extends Parser {
 				{
 				setState(47);
 				match(T__5);
-				 ((QuestionTypeContext)_localctx).result =  add(_localctx, new DecimalType());
+				 ((QuestionTypeContext)_localctx).result =  addCodeReference(_localctx, new DecimalType());
 				}
 				break;
 			default:
@@ -398,14 +398,14 @@ public class QLParser extends Parser {
 				{
 				setState(52);
 				((ExprContext)_localctx).identifier = identifier();
-				 ((ExprContext)_localctx).result =  add(_localctx, new IdentityExpression(((ExprContext)_localctx).identifier.getText())); 
+				 ((ExprContext)_localctx).result =  addCodeReference(_localctx, new IdentityExpression(((ExprContext)_localctx).identifier.getText())); 
 				}
 				break;
 			case 2:
 				{
 				setState(55);
 				((ExprContext)_localctx).literal = literal();
-				 ((ExprContext)_localctx).result =  add(_localctx, new LiteralExpression(((ExprContext)_localctx).literal.result)); 
+				 ((ExprContext)_localctx).result =  addCodeReference(_localctx, new LiteralExpression(((ExprContext)_localctx).literal.result)); 
 				}
 				break;
 			case 3:
@@ -414,7 +414,7 @@ public class QLParser extends Parser {
 				match(T__6);
 				setState(59);
 				((ExprContext)_localctx).expr = expr(16);
-				 ((ExprContext)_localctx).result =  add(_localctx, new Not(((ExprContext)_localctx).expr.result)); 
+				 ((ExprContext)_localctx).result =  addCodeReference(_localctx, new Not(((ExprContext)_localctx).expr.result)); 
 				}
 				break;
 			case 4:
@@ -434,7 +434,7 @@ public class QLParser extends Parser {
 				match(T__9);
 				setState(68);
 				((ExprContext)_localctx).expr = expr(14);
-				 ((ExprContext)_localctx).result =  add(_localctx, new Pos(((ExprContext)_localctx).expr.result)); 
+				 ((ExprContext)_localctx).result =  addCodeReference(_localctx, new Pos(((ExprContext)_localctx).expr.result)); 
 				}
 				break;
 			case 6:
@@ -443,7 +443,7 @@ public class QLParser extends Parser {
 				match(T__10);
 				setState(72);
 				((ExprContext)_localctx).expr = expr(13);
-				 ((ExprContext)_localctx).result =  add(_localctx, new Neg(((ExprContext)_localctx).expr.result)); 
+				 ((ExprContext)_localctx).result =  addCodeReference(_localctx, new Neg(((ExprContext)_localctx).expr.result)); 
 				}
 				break;
 			}
@@ -473,7 +473,7 @@ public class QLParser extends Parser {
 						}
 						setState(79);
 						((ExprContext)_localctx).right = ((ExprContext)_localctx).expr = expr(13);
-						((ExprContext)_localctx).result =   add(_localctx, new And(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
+						((ExprContext)_localctx).result =   addCodeReference(_localctx, new And(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
 						}
 						break;
 					case 2:
@@ -490,7 +490,7 @@ public class QLParser extends Parser {
 						}
 						setState(84);
 						((ExprContext)_localctx).right = ((ExprContext)_localctx).expr = expr(12);
-						((ExprContext)_localctx).result =   add(_localctx, new Or(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
+						((ExprContext)_localctx).result =   addCodeReference(_localctx, new Or(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
 						}
 						break;
 					case 3:
@@ -507,7 +507,7 @@ public class QLParser extends Parser {
 						}
 						setState(89);
 						((ExprContext)_localctx).right = ((ExprContext)_localctx).expr = expr(11);
-						((ExprContext)_localctx).result =   add(_localctx, new Eq(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
+						((ExprContext)_localctx).result =   addCodeReference(_localctx, new Eq(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
 						}
 						break;
 					case 4:
@@ -524,7 +524,7 @@ public class QLParser extends Parser {
 						}
 						setState(94);
 						((ExprContext)_localctx).right = ((ExprContext)_localctx).expr = expr(10);
-						((ExprContext)_localctx).result =   add(_localctx, new NEq(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
+						((ExprContext)_localctx).result =   addCodeReference(_localctx, new NEq(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
 						}
 						break;
 					case 5:
@@ -541,7 +541,7 @@ public class QLParser extends Parser {
 						}
 						setState(99);
 						((ExprContext)_localctx).right = ((ExprContext)_localctx).expr = expr(9);
-						((ExprContext)_localctx).result =   add(_localctx, new Mul(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
+						((ExprContext)_localctx).result =   addCodeReference(_localctx, new Mul(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
 						}
 						break;
 					case 6:
@@ -580,7 +580,7 @@ public class QLParser extends Parser {
 						}
 						setState(107);
 						((ExprContext)_localctx).right = ((ExprContext)_localctx).expr = expr(8);
-						((ExprContext)_localctx).result =   add(_localctx, new Div(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
+						((ExprContext)_localctx).result =   addCodeReference(_localctx, new Div(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
 						}
 						break;
 					case 7:
@@ -597,7 +597,7 @@ public class QLParser extends Parser {
 						}
 						setState(112);
 						((ExprContext)_localctx).right = ((ExprContext)_localctx).expr = expr(7);
-						((ExprContext)_localctx).result =   add(_localctx, new Add(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
+						((ExprContext)_localctx).result =   addCodeReference(_localctx, new Add(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
 						}
 						break;
 					case 8:
@@ -614,7 +614,7 @@ public class QLParser extends Parser {
 						}
 						setState(117);
 						((ExprContext)_localctx).right = ((ExprContext)_localctx).expr = expr(6);
-						((ExprContext)_localctx).result =   add(_localctx, new Sub(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
+						((ExprContext)_localctx).result =   addCodeReference(_localctx, new Sub(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
 						}
 						break;
 					case 9:
@@ -631,7 +631,7 @@ public class QLParser extends Parser {
 						}
 						setState(122);
 						((ExprContext)_localctx).right = ((ExprContext)_localctx).expr = expr(5);
-						((ExprContext)_localctx).result =   add(_localctx, new GT(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
+						((ExprContext)_localctx).result =   addCodeReference(_localctx, new GT(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
 						}
 						break;
 					case 10:
@@ -648,7 +648,7 @@ public class QLParser extends Parser {
 						}
 						setState(127);
 						((ExprContext)_localctx).right = ((ExprContext)_localctx).expr = expr(4);
-						((ExprContext)_localctx).result =   add(_localctx, new GEq(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
+						((ExprContext)_localctx).result =   addCodeReference(_localctx, new GEq(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
 						}
 						break;
 					case 11:
@@ -665,7 +665,7 @@ public class QLParser extends Parser {
 						}
 						setState(132);
 						((ExprContext)_localctx).right = ((ExprContext)_localctx).expr = expr(3);
-						((ExprContext)_localctx).result =   add(_localctx, new LT(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
+						((ExprContext)_localctx).result =   addCodeReference(_localctx, new LT(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
 						}
 						break;
 					case 12:
@@ -682,7 +682,7 @@ public class QLParser extends Parser {
 						}
 						setState(137);
 						((ExprContext)_localctx).right = ((ExprContext)_localctx).expr = expr(2);
-						((ExprContext)_localctx).result =   add(_localctx, new LEq(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
+						((ExprContext)_localctx).result =   addCodeReference(_localctx, new LEq(((ExprContext)_localctx).left.result, ((ExprContext)_localctx).right.result));
 						}
 						break;
 					}
@@ -741,7 +741,7 @@ public class QLParser extends Parser {
 				{
 				setState(145);
 				((StatementContext)_localctx).question = question();
-				 ((StatementContext)_localctx).result =  add(_localctx, ((StatementContext)_localctx).question.result); 
+				 ((StatementContext)_localctx).result =  addCodeReference(_localctx, ((StatementContext)_localctx).question.result); 
 				}
 				break;
 			case T__22:
@@ -749,7 +749,7 @@ public class QLParser extends Parser {
 				{
 				setState(148);
 				((StatementContext)_localctx).ifElseStatement = ifElseStatement();
-				 ((StatementContext)_localctx).result =  add(_localctx, ((StatementContext)_localctx).ifElseStatement.result); 
+				 ((StatementContext)_localctx).result =  addCodeReference(_localctx, ((StatementContext)_localctx).ifElseStatement.result); 
 				}
 				break;
 			default:
@@ -815,7 +815,7 @@ public class QLParser extends Parser {
 				((QuestionContext)_localctx).STRING = match(STRING);
 				setState(156);
 				((QuestionContext)_localctx).questionType = questionType();
-				((QuestionContext)_localctx).result =  add(_localctx, new NormalQuestion(((QuestionContext)_localctx).identifier.result, (((QuestionContext)_localctx).STRING!=null?((QuestionContext)_localctx).STRING.getText():null), ((QuestionContext)_localctx).questionType.result, null));
+				((QuestionContext)_localctx).result =  addCodeReference(_localctx, new NormalQuestion(((QuestionContext)_localctx).identifier.result, (((QuestionContext)_localctx).STRING!=null?((QuestionContext)_localctx).STRING.getText():null), ((QuestionContext)_localctx).questionType.result, null));
 				}
 				break;
 			case 2:
@@ -835,7 +835,7 @@ public class QLParser extends Parser {
 				((QuestionContext)_localctx).expr = expr(0);
 				setState(165);
 				match(T__8);
-				((QuestionContext)_localctx).result =  add(_localctx, new ComputedQuestion(((QuestionContext)_localctx).identifier.result, (((QuestionContext)_localctx).STRING!=null?((QuestionContext)_localctx).STRING.getText():null), ((QuestionContext)_localctx).questionType.result, ((QuestionContext)_localctx).expr.result, null));
+				((QuestionContext)_localctx).result =  addCodeReference(_localctx, new ComputedQuestion(((QuestionContext)_localctx).identifier.result, (((QuestionContext)_localctx).STRING!=null?((QuestionContext)_localctx).STRING.getText():null), ((QuestionContext)_localctx).questionType.result, ((QuestionContext)_localctx).expr.result, null));
 				}
 				break;
 			}
@@ -900,7 +900,7 @@ public class QLParser extends Parser {
 				match(T__8);
 				setState(174);
 				((IfElseStatementContext)_localctx).block = block();
-				 ((IfElseStatementContext)_localctx).result =  add(_localctx, new IfThenStatement(((IfElseStatementContext)_localctx).expr.result, ((IfElseStatementContext)_localctx).block.result, null));
+				 ((IfElseStatementContext)_localctx).result =  addCodeReference(_localctx, new IfThenStatement(((IfElseStatementContext)_localctx).expr.result, ((IfElseStatementContext)_localctx).block.result, null));
 				}
 				break;
 			case 2:
@@ -920,7 +920,7 @@ public class QLParser extends Parser {
 				match(T__23);
 				setState(183);
 				((IfElseStatementContext)_localctx).elseBody = block();
-				 ((IfElseStatementContext)_localctx).result =  add(_localctx, new IfThenElseStatement(((IfElseStatementContext)_localctx).expr.result, ((IfElseStatementContext)_localctx).ifBody.result, ((IfElseStatementContext)_localctx).elseBody.result, null ));
+				 ((IfElseStatementContext)_localctx).result =  addCodeReference(_localctx, new IfThenElseStatement(((IfElseStatementContext)_localctx).expr.result, ((IfElseStatementContext)_localctx).ifBody.result, ((IfElseStatementContext)_localctx).elseBody.result, null ));
 				}
 				break;
 			}
@@ -1001,7 +1001,7 @@ public class QLParser extends Parser {
 			}
 			_ctx.stop = _input.LT(-1);
 			 List<Statement> statements = _localctx.statements;
-			((BlockContext)_localctx).result =  add(_localctx, new Block(statements ));
+			((BlockContext)_localctx).result =  addCodeReference(_localctx, new Block(statements ));
 		}
 		catch (RecognitionException re) {
 			_localctx.exception = re;
@@ -1059,7 +1059,7 @@ public class QLParser extends Parser {
 			((FormContext)_localctx).identifier = identifier();
 			setState(204);
 			((FormContext)_localctx).block = block();
-			 ((FormContext)_localctx).result =  add(_localctx, new Form(((FormContext)_localctx).identifier.result, ((FormContext)_localctx).block.result)); 
+			 ((FormContext)_localctx).result =  addCodeReference(_localctx, new Form(((FormContext)_localctx).identifier.result, ((FormContext)_localctx).block.result)); 
 			}
 		}
 		catch (RecognitionException re) {

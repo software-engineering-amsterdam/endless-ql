@@ -16,17 +16,13 @@ export class Question extends Statement {
     return [this];
   }
 
-  getVariables(): Variable[] {
-    return [];
-  }
-
   toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
                  condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
     const options = {
       key: this.name,
       label: this.label,
       type: Statement.toHtmlInputType(this.type),
-      value: this.type === QuestionType.STRING ? '' : undefined,
+      value: undefined,
       hiddenCondition: condition
     };
 

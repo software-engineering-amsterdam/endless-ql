@@ -3,13 +3,16 @@ package ql.visitors;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import ql.ast.expression.literal.BoolLiteral;
 import ql.ast.statement.AnswerableQuestion;
 import ql.ast.statement.Block;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
+import ql.ast.type.Bool;
 import ql.gui.GUI;
 import ql.gui.GUIQuestion;
+import ql.gui.fields.actionlisteners.AbstractActionListener;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class ASTtoGUI implements StatementVisitor {
@@ -36,8 +39,8 @@ public class ASTtoGUI implements StatementVisitor {
         parentPanel.add(panel);
         parentPanel.revalidate();
         parentPanel = panel;
-        //stmt.getCondition().
-        //AbstractActionListener.enablePanel(panel, true);
+        BoolLiteral res = (BoolLiteral) new Bool().parse(stmt.getCondition().evaluate());
+        AbstractActionListener.enablePanel(panel, res.getValue());
         stmt.getThenStatement().accept(this);
     }
     @Override

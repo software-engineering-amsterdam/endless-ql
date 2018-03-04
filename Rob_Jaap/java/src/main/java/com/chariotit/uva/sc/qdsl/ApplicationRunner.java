@@ -1,5 +1,7 @@
 package com.chariotit.uva.sc.qdsl;
 
+import com.chariotit.uva.sc.qdsl.ast.TypeChecker;
+import com.chariotit.uva.sc.qdsl.ast.node.AstRoot;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -31,7 +33,12 @@ public class ApplicationRunner implements CommandLineRunner {
         ParseTree tree = parser.forms();
         QLVisitor visitor = new QLVisitor();
 
-        System.out.println(visitor.visit(tree));
+        AstRoot astRoot = (AstRoot)visitor.visit(tree);
+
+        TypeChecker typeChecker = new TypeChecker();
+        typeChecker.typeCheckAst(astRoot);
+
+        System.out.println(astRoot);
 
     }
 }

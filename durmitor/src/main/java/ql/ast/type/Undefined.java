@@ -1,14 +1,10 @@
 package ql.ast.type;
 
-import ql.evaluator.value.Value;
+import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.UndefinedLiteral;
 import ql.visitors.interfaces.TypeVisitor;
 
 public class Undefined extends Type {
-
-    @Override
-    public Value<?> toValue() {
-        return new ql.evaluator.value.Undefined();
-    }
 
     @Override
     public String toString() {
@@ -34,7 +30,7 @@ public class Undefined extends Type {
         return visitor.visit(this);
     }
     
-    public Value<?> parse(Value<?> value) {
-        return new ql.evaluator.value.Undefined();
+    public Literal<?> parse(Literal<?> value) {
+        return new UndefinedLiteral();
     }
 }

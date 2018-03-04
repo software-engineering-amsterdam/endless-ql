@@ -1,28 +1,37 @@
 // pegjs parser definition
-form            = ws "form" ws name:identifier ws "{" ws
+form            = ws comment* ws "form" ws name:identifier ws "{" ws
                   statements: statement*
                   ws comment* ws
                 "}" ws {
                   return new Form(name, statements, location());
                 }
 
-statement       = exprQuestion / q / ifStatement
+statement       = exprQuestion / q / ifElseStatement / ifStatement
 
-ifStatement     = ws comment * ws "if" ws "(" ws condition:identifier ws ")" ws "{" ws
+ifStatement     = ws comment* ws "if" ws "(" ws condition:orExpression ws ")" ws "{" ws
                   statements:statement* ws
                   ws comment* ws
-                  "}" ws
-                  {
-                    return new If(condition, statements, location());
+                  "}" ws {
+                    return new If(condition, statements, [], location());
                   }
 
-q "question"    = ws comment * ws name:identifier ":" ws "\"" ws
+ifElseStatement = ws comment* ws "if" ws "(" ws condition:orExpression ws ")" ws "{" ws
+                  statements:statement* ws
+                  ws comment* ws
+                  "}" ws "else" ws "{" ws
+                  elseStatements:statement* ws
+                  ws comment* ws
+                  "}" {
+                    return new If(condition, statements, elseStatements, location());
+                  }
+
+q "question"    = ws comment* ws name:identifier ":" ws "\"" ws
                   label:text "\"" ws
                   type: type ws {
                     return new Question(name, label, type, location());
                   }
 
-exprQuestion    = ws comment * ws name:identifier ":" ws "\"" ws
+exprQuestion    = ws comment* ws name:identifier ":" ws "\"" ws
                   label:text "\"" ws
                   type: type ws
                   "=" ws expr:orExpression ws {
@@ -96,8 +105,7 @@ type            = booleanType /
                   stringType /
                   integerType /
                   dateType /
-                  decimalType /
-                  moneyType
+                  decimalType
 
 // low-level
 
@@ -122,4 +130,3 @@ stringType      = "string" { return QuestionType.STRING; }
 integerType     = "integer" { return QuestionType.INT; }
 dateType        = "date" { return QuestionType.DATE; }
 decimalType     = "decimal" { return QuestionType.DECIMAL; }
-moneyType       = "money" { return QuestionType.MONEY; }

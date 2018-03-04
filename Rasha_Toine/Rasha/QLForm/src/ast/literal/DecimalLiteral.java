@@ -2,8 +2,8 @@ package ast.literal;
 
 import java.math.BigDecimal;
 
-import checking.value.DecimalValue;
 import visiting.LiteralVisitor;
+import visiting.value.DecimalValue;
 
 public class DecimalLiteral extends Literal{
 

@@ -1,130 +1,201 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Assignment1.Model;
 
 namespace Assignment1
 {
-    internal class Presenter
+    internal class Presenter : IContentVisitor
     {
-        private List<QuestionForm> _forms = new List<QuestionForm>();
-        private readonly FlowLayoutPanel _panel = new FlowLayoutPanel { FlowDirection = FlowDirection.TopDown, AutoScroll = true, WrapContents = false, Dock = DockStyle.Fill };
-        private readonly Dictionary<object, Content> _controlContents = new Dictionary<object, Content>();
-        private readonly Dictionary<Content, CheckBox> _checkBoxes = new Dictionary<Content, CheckBox>();
-        private readonly Dictionary<Content, TextBox> _textBoxes = new Dictionary<Content, TextBox>();
-        private readonly Dictionary<Content, Panel> _panels = new Dictionary<Content, Panel>();
-
-        public Control GetControls()
+        public readonly Panel Panel = new FlowLayoutPanel
         {
-            _forms = QuestionForm.ParseString(System.IO.File.ReadAllText("test.txt"));
-            foreach (dynamic content in _forms[0].Content)
-            {
-                _panel.Controls.Add(CreateControl(content));
-            }
-            return _panel;
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            FlowDirection = FlowDirection.TopDown
+        };
+
+        private readonly QuestionForm _form;
+
+        public Presenter()
+        {
+            _form = QuestionForm.ParseString(System.IO.File.ReadAllText("test.txt"));
+            UpdateControls();
         }
 
-        private Control CreateControl(QuestionBool question)
+        private void UpdateControls()
         {
-            var result = new CheckBox
+            Panel.SuspendLayout();
+            Panel.Controls.Clear();
+            foreach (var content in _form.Content)
+            {
+                content.Accept(this);
+            }
+            Panel.ResumeLayout();
+        }
+
+        public void Visit(QuestionBool question)
+        {
+            var checkbox = new CheckBox
             {
                 Text = question.Label,
                 AutoSize = true,
                 Checked = question.Value,
                 Enabled = !question.Computed
             };
-            result.CheckedChanged += UpdateControls;
-            _controlContents.Add(result, question);
-            _checkBoxes.Add(question, result);
-            return result;
-        }
-
-        private void UpdateControl(QuestionBool question)
-        {
-            _checkBoxes[question].Checked = question.Value;
-        }
-
-        private void UpdateInModel(QuestionBool question)
-        {
-            var checkBox = _checkBoxes[question];
-            question.Value = checkBox.Checked;
-        }
-
-        private Control CreateControl(QuestionMoney question)
-        {
-            var result = new FlowLayoutPanel
+            if (!question.Computed)
             {
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                FlowDirection = FlowDirection.TopDown
+                checkbox.CheckedChanged += (sender, e) =>
+                {
+                    question.Value = ((CheckBox)sender).Checked;
+                    UpdateControls();
+                };
+            }
+            Panel.Controls.Add(checkbox);
+        }
 
-            };
-            result.Controls.Add(new Label
+        public void Visit(QuestionInt question)
+        {
+            Panel.Controls.Add(new Label
             {
                 Text = question.Label,
                 AutoSize = true
             });
-            var textBox = (new TextBox()
+            var numericUpDown = new NumericUpDown
             {
-                Text = question.Value.ToString(),
-                Enabled = !question.Computed
-            });
-            textBox.TextChanged += UpdateControls;
-            result.Controls.Add(textBox);
-            _controlContents.Add(textBox, question);
-            _textBoxes.Add(question, textBox);
-            return result;
-        }
-
-        private void UpdateControl(QuestionMoney question)
-        {
-            _textBoxes[question].Text = question.Value.ToString();
-        }
-
-        private void UpdateInModel(QuestionMoney question)
-        {
-            var textBox = _textBoxes[question];
-            try
-            {
-                question.Value = decimal.Parse(textBox.Text);
-            }
-            catch (Exception e)
-            {
-                //TODO: Handle exception
-            }
-        }
-
-        private Control CreateControl(IfStatement ifStatement)
-        {
-            var result = new FlowLayoutPanel
-            {
-                FlowDirection = FlowDirection.TopDown,
-                AutoSize = true
+                Minimum = int.MinValue,
+                Maximum = int.MaxValue,
+                DecimalPlaces = 0,
+                Value = question.Value,
+                ReadOnly = question.Computed
             };
-            foreach (dynamic content in ifStatement.ThenContent)
+            if (!question.Computed)
             {
-                result.Controls.Add(CreateControl(content));
+                numericUpDown.ValueChanged += (sender, e) =>
+                {
+                    question.Value = (int)((NumericUpDown)sender).Value;
+                    UpdateControls();
+                };
             }
-            result.Visible = ifStatement.Expression.Evaluate();
-            _controlContents.Add(result, ifStatement);
-            _panels.Add(ifStatement, result);
-            return result;
+            Panel.Controls.Add(numericUpDown);
         }
 
-        private void UpdateControl(IfStatement ifStatement)
+        public void Visit(QuestionDate question)
         {
-            _panels[ifStatement].Visible = ifStatement.Expression.Evaluate();
-            foreach (dynamic content in ifStatement.ThenContent)
+            Panel.Controls.Add(new Label
             {
-                UpdateControl(content);
+                Text = question.Label,
+                AutoSize = true
+            });
+            var dateTimePicker = new DateTimePicker
+            {
+                MinDate = DateTime.MinValue,
+                MaxDate = DateTime.MaxValue,
+                Value = question.Value,
+                Enabled = !question.Computed
+            };
+            if (!question.Computed)
+            {
+                dateTimePicker.ValueChanged += (sender, e) =>
+                {
+                    question.Value = ((DateTimePicker)sender).Value;
+                    UpdateControls();
+                };
+            }
+            Panel.Controls.Add(dateTimePicker);
+        }
+
+        public void Visit(QuestionDecimal question)
+        {
+            Panel.Controls.Add(new Label
+            {
+                Text = question.Label,
+                AutoSize = true
+            });
+            var numericUpDown = new NumericUpDown
+            {
+                Minimum = decimal.MinValue,
+                Maximum = decimal.MaxValue,
+                DecimalPlaces = 4,
+                Value = question.Value,
+                ReadOnly = question.Computed
+            };
+            if (!question.Computed)
+            {
+                numericUpDown.ValueChanged += (sender, e) =>
+                {
+                    question.Value = ((NumericUpDown)sender).Value;
+                    UpdateControls();
+                };
+            }
+            Panel.Controls.Add(numericUpDown);
+        }
+
+        public void Visit(QuestionMoney question)
+        {
+            Panel.Controls.Add(new Label
+            {
+                Text = question.Label,
+                AutoSize = true
+            });
+            var numericUpDown = new NumericUpDown
+            {
+                Minimum = decimal.MinValue,
+                Maximum = decimal.MaxValue,
+                DecimalPlaces = 2,
+                Value = question.Value,
+                ReadOnly = question.Computed
+            };
+            if (!question.Computed)
+            {
+                numericUpDown.ValueChanged += (sender, e) =>
+                {
+                    question.Value = ((NumericUpDown)sender).Value;
+                    UpdateControls();
+                };
+            }
+            Panel.Controls.Add(numericUpDown);
+        }
+
+        public void Visit(QuestionString question)
+        {
+            Panel.Controls.Add(new Label
+            {
+                Text = question.Label,
+                AutoSize = true
+            });
+            var textBox = new TextBox
+            {
+                Text = question.Value,
+                ReadOnly = question.Computed
+            };
+            if (!question.Computed)
+            {
+                textBox.TextChanged += (sender, e) =>
+                {
+                    question.Value = ((TextBox)sender).Text;
+                    UpdateControls();
+                };
+            }
+            Panel.Controls.Add(textBox);
+        }
+
+        public void Visit(IfStatement ifStatement)
+        {
+            if (!ifStatement.Expression.Evaluate()) return;
+            foreach (var content in ifStatement.ThenContent)
+            {
+                content.Accept(this);
             }
         }
 
-        private void UpdateControls(dynamic sender, System.EventArgs e)
+        public void Visit(IfElseStatement ifElseStatement)
         {
-            UpdateInModel(_controlContents[sender]);
-            foreach (dynamic content in _forms[0].Content)
+            var contents = ifElseStatement.Expression.Evaluate()
+                ? ifElseStatement.ThenContent
+                : ifElseStatement.ElseContent;
+            foreach (var content in contents)
             {
-                UpdateControl(content);
+                content.Accept(this);
             }
         }
     }

@@ -1,12 +1,20 @@
+import analysis.SymbolTable;
+import analysis.TypeChecker;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.Form;
+import model.stylesheet.StyleSheet;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class Main extends Application {
 
@@ -44,11 +52,42 @@ public class Main extends Application {
         openButton.setOnAction((event) -> {
             File file = fileChooser.showOpenDialog(stage);
             if (file != null) {
-                Renderer renderer = new Renderer(file);
-                renderer.renderForm(stage);
+                loadForm(stage, file);
             }
         });
 
         return openButton;
+    }
+
+    private void loadForm(Stage stage, File file) {
+        try {
+            Form form = FormParser.parseForm(new FileInputStream(file));
+
+            // Build symbol table
+            SymbolTable symbolTable = new SymbolTable(form);
+
+            // Perform type checking
+            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
+            typeChecker.typeCheck();
+
+            File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
+            StyleSheet styleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));
+
+            Renderer renderer = new Renderer(form, symbolTable, styleSheet);
+            renderer.renderForm(stage);
+        } catch (FileNotFoundException e) {
+            showErrorAlert(e, "Form file not found");
+        } catch (UnsupportedOperationException|IllegalArgumentException e) {
+            // TODO Explain why form is invalid
+            showErrorAlert(e, "Form invalid");
+        }
+    }
+
+    private void showErrorAlert(Exception e, String message) {
+        e.printStackTrace();
+        Alert alert = new Alert(Alert.AlertType.ERROR, message);
+        alert.setContentText(e.toString());
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.showAndWait();
     }
 }

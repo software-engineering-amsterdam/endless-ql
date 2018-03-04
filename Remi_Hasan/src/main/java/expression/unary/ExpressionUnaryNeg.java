@@ -1,5 +1,6 @@
 package expression.unary;
 
+import analysis.SymbolTable;
 import expression.Expression;
 import expression.variable.ExpressionVariable;
 import expression.ReturnType;
@@ -15,14 +16,24 @@ public class ExpressionUnaryNeg extends ExpressionUnary {
     }
 
     @Override
-    public ExpressionVariable evaluate() {
+    public ExpressionVariable evaluate(SymbolTable symbolTable) {
         ExpressionVariableNumber leftEvaluated = new ExpressionVariableNumber(new BigDecimal(-1));
-        Expression rightEvaluated = this.expression.evaluate();
-        return new ExpressionArithmeticMultiply(leftEvaluated, rightEvaluated).evaluate();
+        Expression rightEvaluated = this.expression.evaluate(symbolTable);
+        return new ExpressionArithmeticMultiply(leftEvaluated, rightEvaluated).evaluate(symbolTable);
     }
 
     @Override
-    public ReturnType getReturnType() {
-        return this.expression.getReturnType();
+    public ReturnType getReturnType(SymbolTable symbolTable) {
+        return this.expression.getReturnType(symbolTable);
+    }
+
+    @Override
+    public void typeCheck(SymbolTable symbolTable) {
+        this.expression.typeCheck(symbolTable);
+
+        if (!this.expression.getReturnType(symbolTable).neg()) {
+            throw new IllegalArgumentException("Cannot apply operator - to '"
+                    + this.expression.getReturnType(symbolTable) + "'");
+        }
     }
 }

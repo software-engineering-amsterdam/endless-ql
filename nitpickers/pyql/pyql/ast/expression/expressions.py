@@ -24,6 +24,9 @@ class Identifier(Expression):
     def accept(self, visitor):
         return visitor.visit_identifier(self)
 
+    def __repr__(self):
+        return str(self.identifier)
+
 
 class UnaryExpression(Expression):
 
@@ -216,81 +219,28 @@ class Not(UnaryExpression):
 
 class Literal(Expression):
 
-    def __init__(self, location):
+    def __init__(self, location, type, value):
         super().__init__(location)
+        self._value = value
+        self._type = type
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        self._value = value
+
+    @property
+    def type(self):
+        return self._type
 
     def accept(self, visitor):
         return visitor.visit_literal(self)
 
-
-class StringLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = value
-
-    @property
-    def value(self):
-        return self._value
-
-    def accept(self, visitor):
-        return visitor.visit_string_literal(self)
-
-
-class IntegerLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = int(value)
-
-    @property
-    def value(self):
-        return self._value
-
-    def accept(self, visitor):
-        return visitor.visit_integer_literal(self)
-
-
-class DecimalLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = float(value)
-
-    @property
-    def value(self):
-        return self._value
-
-    def accept(self, visitor):
-        return visitor.visit_decimal_literal(self)
-
-
-class BooleanLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = value == "true"
-
-    @property
-    def value(self):
-        return self._value
-
-    def accept(self, visitor):
-        return visitor.visit_boolean_literal(self)
-
-
-class MoneyLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = value
-
-    @property
-    def value(self):
-        return self._value
-
-    def accept(self, visitor):
-        return visitor.visit_money_literal(self)
+    def __repr__(self):
+        return str(self._value)
 
 
 if __name__ == "__main__":

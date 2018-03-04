@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.interpreter.BooleanValue;
 import org.uva.jomi.ql.interpreter.IntegerValue;
 import org.uva.jomi.ql.interpreter.QLInterpreter;
 import org.uva.jomi.ql.interpreter.StringValue;
@@ -137,6 +138,60 @@ public class InterpreterTests {
 		List<Stmt> ast = TestUtilities.buildAst(testSource9);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(0));
+	}
+	
+	// And operation tests.
+	
+	String testSource10 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean true && true\n"
+			+ "}";
+	
+	@Test
+	public void test10() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource10);
+		interpreter.interpret(ast);
+		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
+	}
+	
+	String testSource11 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean false && true\n"
+			+ "}";
+	
+	@Test
+	public void test11() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource11);
+		interpreter.interpret(ast);
+		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
+	}
+	
+	String testSource12 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean true && false\n"
+			+ "}";
+	
+	@Test
+	public void test12() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource12);
+		interpreter.interpret(ast);
+		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
+	}
+	
+	String testSource13 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean true && false\n"
+			+ "}";
+	
+	@Test
+	public void test13() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource13);
+		interpreter.interpret(ast);
+		System.out.println(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue());
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 	
 	// Automatically generated negative tests.
@@ -411,81 +466,81 @@ public class InterpreterTests {
 		}
 	}
 
-//	String generatedSource19 = "form Form1 {\"\" q0: integer 1 && 1 }";
-//
-//	@Test
-//	public void generatedTest19() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource19);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a IntegerValue and a IntegerValue"));
-//		}
-//	}
-//
-//	String generatedSource20 = "form Form1 {\"\" q0: integer 1 && true }";
-//
-//	@Test
-//	public void generatedTest20() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource20);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a IntegerValue and a BooleanValue"));
-//		}
-//	}
-//
-//	String generatedSource21 = "form Form1 {\"\" q0: integer 1 && \"string\" }";
-//
-//	@Test
-//	public void generatedTest21() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource21);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a IntegerValue and a StringValue"));
-//		}
-//	}
-//
-//	String generatedSource22 = "form Form1 {\"\" q0: integer true && \"string\" }";
-//
-//	@Test
-//	public void generatedTest22() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource22);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a BooleanValue and a StringValue"));
-//		}
-//	}
-//
-//	String generatedSource23 = "form Form1 {\"\" q0: integer \"string\" && \"string\" }";
-//
-//	@Test
-//	public void generatedTest23() throws Exception {
-//		List<Stmt> ast = TestUtilities.buildAst(generatedSource23);
-//		try {
-//			interpreter.interpret(ast);
-//			fail("Test Failed");
-//		}
-//
-//		catch (Exception e) {
-//			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a StringValue and a StringValue"));
-//		}
-//	}
-//
+	String generatedSource19 = "form Form1 {\"\" q0: integer 1 && 1 }";
+
+	@Test
+	public void generatedTest19() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource19);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a IntegerValue and a IntegerValue"));
+		}
+	}
+
+	String generatedSource20 = "form Form1 {\"\" q0: integer 1 && true }";
+
+	@Test
+	public void generatedTest20() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource20);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a IntegerValue and a BooleanValue"));
+		}
+	}
+
+	String generatedSource21 = "form Form1 {\"\" q0: integer 1 && \"string\" }";
+
+	@Test
+	public void generatedTest21() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource21);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a IntegerValue and a StringValue"));
+		}
+	}
+
+	String generatedSource22 = "form Form1 {\"\" q0: integer true && \"string\" }";
+
+	@Test
+	public void generatedTest22() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource22);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a BooleanValue and a StringValue"));
+		}
+	}
+
+	String generatedSource23 = "form Form1 {\"\" q0: integer \"string\" && \"string\" }";
+
+	@Test
+	public void generatedTest23() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource23);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a StringValue and a StringValue"));
+		}
+	}
+
 //	String generatedSource24 = "form Form1 {\"\" q0: integer 1 || 1 }";
 //
 //	@Test
@@ -500,7 +555,7 @@ public class InterpreterTests {
 //			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a IntegerValue and a IntegerValue"));
 //		}
 //	}
-//
+
 //	String generatedSource25 = "form Form1 {\"\" q0: integer 1 || true }";
 //
 //	@Test

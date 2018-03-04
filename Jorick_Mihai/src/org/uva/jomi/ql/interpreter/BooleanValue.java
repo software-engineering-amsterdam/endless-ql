@@ -47,19 +47,19 @@ public class BooleanValue implements GenericValue {
 
 	@Override
 	public GenericValue subtract(IntegerValue leftHandSideValue) {
-		subtractionError( leftHandSideValue.getClass(), this.getClass());
+		subtractionError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
 
 	@Override
 	public GenericValue subtract(StringValue leftHandSideValue) {
-		subtractionError( leftHandSideValue.getClass(), this.getClass());
+		subtractionError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
 
 	@Override
 	public GenericValue subtract(BooleanValue leftHandSideValue) {
-		subtractionError( leftHandSideValue.getClass(), this.getClass());
+		subtractionError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
 	
@@ -73,19 +73,19 @@ public class BooleanValue implements GenericValue {
 
 	@Override
 	public GenericValue multiply(IntegerValue leftHandSideValue) {
-		multiplicationError( leftHandSideValue.getClass(), this.getClass());
+		multiplicationError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
 
 	@Override
 	public GenericValue multiply(StringValue leftHandSideValue) {
-		multiplicationError( leftHandSideValue.getClass(), this.getClass());
+		multiplicationError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
 
 	@Override
 	public GenericValue multiply(BooleanValue leftHandSideValue) {
-		multiplicationError( leftHandSideValue.getClass(), this.getClass());
+		multiplicationError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
 	
@@ -99,19 +99,43 @@ public class BooleanValue implements GenericValue {
 
 	@Override
 	public GenericValue divide(IntegerValue leftHandSideValue) {
-		divisionError( leftHandSideValue.getClass(), this.getClass());
+		divisionError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
 
 	@Override
 	public GenericValue divide(StringValue leftHandSideValue) {
-		divisionError( leftHandSideValue.getClass(), this.getClass());
+		divisionError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
 
 	@Override
 	public GenericValue divide(BooleanValue leftHandSideValue) {
-		divisionError( leftHandSideValue.getClass(), this.getClass());
+		divisionError(leftHandSideValue.getClass(), this.getClass());
 		return null;
+	}
+	
+	// And operation.
+
+	@Override
+	public GenericValue and(GenericValue rightHandSideValue) {
+		return rightHandSideValue.and(this);
+	}
+
+	@Override
+	public GenericValue and(IntegerValue leftHandSideValue) {
+		andOperationError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue and(StringValue leftHandSideValue) {
+		andOperationError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue and(BooleanValue leftHandSideValue) {
+		return new BooleanValue(leftHandSideValue.getValue() && this.getValue());
 	}
 }

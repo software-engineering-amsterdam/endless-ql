@@ -25,6 +25,12 @@ public interface GenericValue {
 	GenericValue divide(StringValue leftHandSideValue);
 	GenericValue divide(BooleanValue leftHandSideValue);
 	
+	// And operation.
+	GenericValue and(GenericValue rightHandSideValue);
+	GenericValue and(IntegerValue leftHandSideValue);
+	GenericValue and(StringValue leftHandSideValue);
+	GenericValue and(BooleanValue leftHandSideValue);
+	
 	default public void additionError(Class<?> left, Class<?> right) {
 		error(left, right, "add");
 	}
@@ -39,6 +45,10 @@ public interface GenericValue {
 	
 	default public void  divisionError(Class<?> left, Class<?> right) {
 		error(left, right, "divide");
+	}
+	
+	default public void  andOperationError(Class<?> left, Class<?> right) {
+		error(left, right, "peform an And operation using");
 	}
 	
 	default public void error(Class<?> left, Class<?> right, String type) {

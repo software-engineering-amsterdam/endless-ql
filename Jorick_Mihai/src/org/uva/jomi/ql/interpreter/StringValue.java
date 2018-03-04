@@ -112,4 +112,30 @@ public class StringValue implements GenericValue {
 		divisionError(leftHandSideValue.getClass(), this.getClass());
 		return null;
 	}
+	
+	// And operation
+
+	@Override
+	public GenericValue and(GenericValue rightHandSideValue) {
+		andOperationError(this.getClass(), rightHandSideValue.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue and(IntegerValue leftHandSideValue) {
+		andOperationError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue and(StringValue leftHandSideValue) {
+		andOperationError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
+
+	@Override
+	public GenericValue and(BooleanValue leftHandSideValue) {
+		andOperationError(leftHandSideValue.getClass(), this.getClass());
+		return null;
+	}
 }

@@ -1,4 +1,6 @@
-enum FieldType {
+import { CannotFindCommonFieldTypeError } from "./form_errors";
+
+export enum FieldType {
   Boolean = "boolean",
   Money = "money",
   Date = "date",
@@ -7,4 +9,33 @@ enum FieldType {
   Text = "text"
 }
 
-export default FieldType;
+export const numericFieldTypes = [FieldType.Integer, FieldType.Float, FieldType.Money];
+
+export const numericFieldTypeOrder = [FieldType.Integer, FieldType.Float, FieldType.Money];
+
+export const isNumericFieldType = (fieldType: FieldType) => {
+  return numericFieldTypes.indexOf(fieldType) !== -1;
+};
+
+export const getCommonNumericFieldType = (typeOne: FieldType, typeTwo: FieldType): FieldType => {
+  const indexOne = numericFieldTypeOrder.indexOf(typeOne);
+  const indexTwo = numericFieldTypeOrder.indexOf(typeTwo);
+
+  if (indexOne === -1 || indexTwo === -1) {
+    throw CannotFindCommonFieldTypeError.make(typeOne, typeTwo);
+  }
+
+  return numericFieldTypeOrder[Math.max(indexOne, indexTwo)];
+};
+
+export const fieldTypesSortable = (typeOne: FieldType, typeTwo: FieldType): boolean => {
+  if (isNumericFieldType(typeOne) && isNumericFieldType(typeTwo)) {
+    return true;
+  }
+
+  if (typeOne === FieldType.Date && typeTwo === FieldType.Date) {
+    return true;
+  }
+
+  return false;
+};

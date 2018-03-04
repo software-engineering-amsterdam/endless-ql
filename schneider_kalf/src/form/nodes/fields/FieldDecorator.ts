@@ -1,5 +1,5 @@
 import Field from "./FieldNode";
-import FieldType from "../../FieldType";
+import { FieldType } from "../../FieldType";
 import NodeVisitor from "../visitors/NodeVisitor";
 import FormState from "../../state/FormState";
 

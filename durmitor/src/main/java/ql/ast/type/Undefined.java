@@ -33,10 +33,4 @@ public class Undefined extends Type {
     public Literal<?> parse(Literal<?> value) {
         return new UndefinedLiteral();
     }
-
-    @Override
-    public Literal<?> parse(String value) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

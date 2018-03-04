@@ -72,61 +72,61 @@ expression returns [ASTNode result]
     };
 
 orExpr returns [ASTNode result]
-    : lhs=andExpr { $result = $lhs.result; } ( or='||' rhs=andExpr {
-        $result = new Or($or, $result, $rhs.result);
+    : leftHandSide=andExpr { $result = $leftHandSide.result; } ( or='||' rightHandSide=andExpr {
+        $result = new Or($or, $result, $rightHandSide.result);
        })*
     ;
 
 andExpr returns [ASTNode result]
-    :   lhs=relExpr { $result=$lhs.result; } ( and='&&' rhs=relExpr {
-        $result = new And($and, $result, $rhs.result);
+    :   leftHandSide=relExpr { $result=$leftHandSide.result; } ( and='&&' rightHandSide=relExpr {
+        $result = new And($and, $result, $rightHandSide.result);
     } )*
     ;
 
 relExpr returns [ASTNode result]
-    :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr
+    :   leftHandSide=addExpr { $result=$leftHandSide.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rightHandSide=addExpr
     {
       if ($op.text.equals("<")) {
-        $result = new LessThan($op, $result, $rhs.result);
+        $result = new LessThan($op, $result, $rightHandSide.result);
       }
       if ($op.text.equals("<=")) {
-        $result = new LessOrEqual($op, $result, $rhs.result);
+        $result = new LessOrEqual($op, $result, $rightHandSide.result);
       }
       if ($op.text.equals(">")) {
-        $result = new GreaterThan($op, $result, $rhs.result);
+        $result = new GreaterThan($op, $result, $rightHandSide.result);
       }
       if ($op.text.equals(">=")) {
-        $result = new GreaterOrEqual($op, $result, $rhs.result);
+        $result = new GreaterOrEqual($op, $result, $rightHandSide.result);
       }
       if ($op.text.equals("==")) {
-        $result = new Equal($op, $result, $rhs.result);
+        $result = new Equal($op, $result, $rightHandSide.result);
       }
       if ($op.text.equals("!=")) {
-        $result = new NotEqual($op, $result, $rhs.result);
+        $result = new NotEqual($op, $result, $rightHandSide.result);
       }
     })*
     ;
 
 addExpr returns [ASTNode result]
-    :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
+    :   leftHandSide=mulExpr { $result=$leftHandSide.result; } ( op=('+' | '-') rightHandSide=mulExpr
     {
       if ($op.text.equals("+")) {
-        $result = new Addition($op, $result, $rhs.result);
+        $result = new Addition($op, $result, $rightHandSide.result);
       }
       if ($op.text.equals("-")) {
-        $result = new Subtraction($op, $result, $rhs.result);
+        $result = new Subtraction($op, $result, $rightHandSide.result);
       }
     })*
     ;
 
 mulExpr returns [ASTNode result]
-    :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr
+    :   leftHandSide=unExpr { $result=$leftHandSide.result; } ( op=( '*' | '/' ) rightHandSide=unExpr
     {
       if ($op.text.equals("*")) {
-        $result = new Multiplication($op, $result, $rhs.result);
+        $result = new Multiplication($op, $result, $rightHandSide.result);
       }
       if ($op.text.equals("/")) {
-        $result = new Division($op, $result, $rhs.result);
+        $result = new Division($op, $result, $rightHandSide.result);
       }
     })*
     ;

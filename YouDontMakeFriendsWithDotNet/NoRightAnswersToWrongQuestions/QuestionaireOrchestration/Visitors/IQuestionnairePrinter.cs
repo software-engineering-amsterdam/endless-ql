@@ -1,12 +1,17 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using QuestionaireDomain.Entities.API.AstNodes;
-using QuestionaireDomain.Entities.API.AstNodes.Boolean;
+using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 
 namespace QuestionaireOrchestration.Visitors
 {
-    public interface IQuestionnairePrinter
+    public interface IPrinter<T> where T : IAstNode
     {
-        void Print(IAstNode node);
+        void Print(T node);
         TextWriter Writer { get; set; }
+    }
+
+    public interface IQuestionnairePrinter : IPrinter<IQuestionnaireNode>
+    {
     }
 }

@@ -1,8 +1,10 @@
-﻿namespace QuestionaireDomain.Entities.API.AstNodes.Calculation
+﻿using QuestionaireDomain.Entities.DomainObjects;
+
+namespace QuestionaireDomain.Entities.API.AstNodes.Calculation
 {
     public interface IBinaryExpressionNode : IExpressionNode
     {
-        ICalculationNode LeftCalculation { get; set; }
-        ICalculationNode RightCalculation { get; set; }
+        Reference<ICalculationNode> LeftCalculation { get; }
+        Reference<ICalculationNode> RightCalculation { get; }
     }
 }

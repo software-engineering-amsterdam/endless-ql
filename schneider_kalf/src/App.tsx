@@ -117,12 +117,16 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
             <div className="col-md-6">
               {this.renderErrorMessage()}
               {this.renderForm()}
-              <h2>State</h2>
-              <Input
-                  type="textarea"
-                  readOnly={true}
-                  value={this.getFormState().toString()}
-              />
+              <hr/>
+              <div className="state-output-container">
+                <h2>State</h2>
+                <Input
+                    type="textarea"
+                    readOnly={true}
+                    value={this.getFormState().toString()}
+                />
+              </div>
+
             </div>
           </div>
         </div>

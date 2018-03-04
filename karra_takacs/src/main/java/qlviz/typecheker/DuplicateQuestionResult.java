@@ -3,6 +3,7 @@ package qlviz.typecheker;
 import qlviz.model.question.Question;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DuplicateQuestionResult implements AnalysisResult {
 
@@ -14,7 +15,12 @@ public class DuplicateQuestionResult implements AnalysisResult {
 
     @Override
     public String getDescription() {
-        return "Duplicate questions detected.";
+        return "Duplicate questions detected on lines: " +
+                String.join(", ",
+                        instances
+                                .stream()
+                                .map(question -> ((Integer)question.getQuestionContext().getStart().getLine()).toString())
+                                .collect(Collectors.toList()));
     }
 
     @Override

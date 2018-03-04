@@ -25,7 +25,9 @@ public class DuplicateQuestionChecker implements  Analyzer {
         HashMap<String, List<Question>> questionsByName = new HashMap<>();
         for (Question question : questions) {
             if (!questionsByName.containsKey(question.getName())) {
-                questionsByName.put(question.getName(), List.of(question));
+                List<Question> firstQuestion = new ArrayList<>();
+                firstQuestion.add(question);
+                questionsByName.put(question.getName(), firstQuestion);
             }
             else {
                 questionsByName.get(question.getName()).add(question);

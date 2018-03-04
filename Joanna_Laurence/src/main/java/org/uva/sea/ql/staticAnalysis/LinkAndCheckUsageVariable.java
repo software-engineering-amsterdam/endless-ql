@@ -75,10 +75,7 @@ public class LinkAndCheckUsageVariable extends BaseASTVisitor implements IStatic
      */
     @Override
     public Void visit(Question node) {
-        //Questions should not already exist
         String variableName = node.getVariable().getVariableName();
-
-        //Add new question to the lookup
         variableMap.put(variableName, node);
 
         //Visit all siblings

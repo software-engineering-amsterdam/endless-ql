@@ -1,14 +1,14 @@
 package main;
 
-import ast.ASTBuilder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import models.ast.ASTBuilder;
 import grammar.QLLexer;
 import grammar.QLParser;
-import gui.QLGui;
+import models.ast.elements.Form;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import validator.TypeChecker;
-
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -30,9 +30,14 @@ public class Main {
 
 
         ASTBuilder ast = new ASTBuilder();
-        ast.visitForm(formContext);
+        Form form = ast.visitForm(formContext);
 
-        ast.getForm().print();
+        Gson gsonBuilder = new GsonBuilder().create();
+        String jsonForm = gsonBuilder.toJson(form);
+
+        System.out.println(jsonForm);
+
+        //form.debugPrint();
 
         System.out.println("Main finish.");
 

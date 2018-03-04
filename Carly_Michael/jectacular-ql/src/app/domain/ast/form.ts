@@ -38,7 +38,7 @@ export class Form {
     }
   }
 
-  private getAllQuestions(): Question[] {
+  getAllQuestions(): Question[] {
     const allQuestions = [];
     for (const statement of this.statements) {
       const questions = statement.getQuestions();
@@ -48,6 +48,17 @@ export class Form {
       }
     }
     return _.flatten(allQuestions);
+  }
+
+  getQlQuestionByName(name: string): Question {
+    for (const q of this.getAllQuestions()) {
+      if (q.name === name) {
+        return q;
+      }
+    }
+
+    // TODO make proper error
+    throw new Error(`question by name ${name} not found`);
   }
 
   private checkDuplicateIdentifiers(allQuestions: Question[]): void {

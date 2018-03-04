@@ -1,9 +1,7 @@
 package parsing;
-
-import classes.question.Question;
-import parsing.gen.QLParser;
+import classes.Form;
 
 public class TypeChecker {
-
-
+    public void initTypeChecking(Form form) {
+    }
 }

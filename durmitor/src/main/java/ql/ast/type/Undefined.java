@@ -1,6 +1,7 @@
 package ql.ast.type;
 
 import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.UndefinedLiteral;
 import ql.visitors.interfaces.TypeVisitor;
 
 public class Undefined extends Type {
@@ -30,6 +31,6 @@ public class Undefined extends Type {
     }
     
     public Literal<?> parse(Literal<?> value) {
-        return new ql.ast.expression.literal.UndefinedLiteral();
+        return new UndefinedLiteral();
     }
 }

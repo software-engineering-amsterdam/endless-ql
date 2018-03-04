@@ -1,4 +1,4 @@
-import FieldType from "../../FieldType";
+import { FieldType } from "../../FieldType";
 import Field from "./FieldNode";
 import Expression from "../expressions/Expression";
 import FormState from "../../state/FormState";

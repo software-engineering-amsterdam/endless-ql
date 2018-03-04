@@ -1,23 +1,20 @@
-from PyQt5.QtWidgets import *
-import sys
-import parse
-import ql_ast
-
-from parse.ql_parser import *
-
-'''
+"""
 This file contains two widget windows. If this file is run, the first, InputWindow, opens.
 In this window QL text can be typed or pasted. When pressing the "Parse" button, this text
 is parsed, and a second window, OutputWindow opens. The Outputwindow contains an interactive
  questionnaire, encoded by the input text.
-'''
+"""
+import sys
+from visitor.visitor import *
+from PyQt5.QtWidgets import *
 
 
 class InputWindow(QWidget):
-    def __init__(self):
-        super(InputWindow,self).__init__()
+    def __init__(self, tree):
+        super(InputWindow, self).__init__()
         self.layout = QGridLayout()
         self.layout.setSpacing(10)
+        self.tree = tree
 
         # Creates a textbox for input of QL text.
         # This QL text can later be parsed into a questionnaire.
@@ -46,16 +43,16 @@ class InputWindow(QWidget):
     def parse(self):
         # Parses QL that is entered in the input textbox, and generates a questionnaire GUI
         self.output = OutputWindow()
-        tokens = ql_lex(self.qlInput.toPlainText())
-        result = ql_parser(tokens)
-        self.buildGui(result,self.output)
+        self.buildGui(self.tree, self.output)
 
         self.output.addQuitButton()
         self.output.addSubmitButton()
 
         self.output.show()
 
-    def buildGui(self, node, screen):
+    def build_gui(self, tree, screen):
+        visit(tree, screen)
+
         if type(node) is parse.combinators.Result:
             self.buildGui(node.value, screen)
         elif type(node) is ql_ast.ql_ast.FormStatement:
@@ -70,9 +67,9 @@ class InputWindow(QWidget):
 
 
 class OutputWindow(QWidget):
-    '''A questionnaire window'''
+    """A questionnaire window"""
     def __init__(self):
-        super(OutputWindow,self).__init__()
+        super(OutputWindow, self).__init__()
         self.layout = QGridLayout()
         self.setLayout(self.layout)
         self.row = 0
@@ -82,7 +79,7 @@ class OutputWindow(QWidget):
 
         self.setWindowTitle('Questionnaire')
 
-    def addQuestion(self,question, datatype='boolean',choices = ['Yes','No']):
+    def add_question(self,question, datatype='boolean',choices = ['Yes','No']):
         # Adds questions and corresponding buttons or textboxes to the questionnaire window,
         # as instructed by QL text.
 
@@ -115,13 +112,13 @@ class OutputWindow(QWidget):
 
         self.row += 1
 
-    def writeAnswer(self):
+    def write_answer(self):
         # Writes the new answer to a question to the list of answers.
         sender = self.sender()
         self.answers[self.questions.index(sender.question)] = sender.answer
 
 
-    def addQuitButton(self):
+    def add_quit_button(self):
         quitbutton = QPushButton('Quit', self)
         quitbutton.clicked.connect(self.close)
         # qbtn.clicked.connect(QApplication.instance().quit)
@@ -129,7 +126,7 @@ class OutputWindow(QWidget):
         self.layout.addWidget(quitbutton, self.row,2)
         # self.row +=1
 
-    def addSubmitButton(self):
+    def add_submit_button(self):
         self.submitbutton = QPushButton('Submit', self)
         self.submitbutton.clicked.connect(self.submit)
         self.submitbutton.resize(self.submitbutton.sizeHint())
@@ -142,12 +139,3 @@ class OutputWindow(QWidget):
         for i in range(len(self.questions)):
             file.write(self.questions[i]+str(self.answers[i])+"\n")
         file.close()
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-
-    screen = InputWindow()
-    screen.show()
-
-    sys.exit(app.exec_())

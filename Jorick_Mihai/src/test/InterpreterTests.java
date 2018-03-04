@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -14,7 +15,14 @@ import org.uva.jomi.ui.SymbolTable;
 
 public class InterpreterTests {
 	
+	/*
+	 * The question type should be ignored (the type resolver module in in charge if detecting type inconsistencies).
+	 * The interpreter detects inconsistencies based on the operation type and values of the operands.  
+	 */
+	
 	QLInterpreter interpreter = new QLInterpreter();
+	
+	// Addition tests
 	
 	String testSource1 =
 			"form Form1 {\n"
@@ -51,6 +59,622 @@ public class InterpreterTests {
 		List<Stmt> ast = TestUtilities.buildAst(testSource3);
 		interpreter.interpret(ast);
 		assertTrue(((StringValue) SymbolTable.getInstance().get("q1")).getValue().equals("one plus two"));
-		
 	}
+	
+	String testSource4 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: integer 2 + \"\"\n"
+			+ "}";
+	
+
+	
+	@Test
+	public void test4() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource4);
+		try {
+			interpreter.interpret(ast);
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot add a IntegerValue and a StringValue"));
+		}
+	}
+	
+	String generatedSource1 = "form Form1 {\"\" q0: integer 1 + true }";
+
+	@Test
+	public void generatedTest1() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource1);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot add a IntegerValue and a BooleanValue"));
+		}
+	}
+
+	String generatedSource2 = "form Form1 {\"\" q0: integer true + true }";
+
+	@Test
+	public void generatedTest2() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource2);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot add a BooleanValue and a BooleanValue"));
+		}
+	}
+
+	String generatedSource3 = "form Form1 {\"\" q0: integer true + \"string\" }";
+
+	@Test
+	public void generatedTest3() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource3);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot add a BooleanValue and a StringValue"));
+		}
+	}
+
+	String generatedSource4 = "form Form1 {\"\" q0: integer 1 - true }";
+
+	@Test
+	public void generatedTest4() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource4);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot subtract a IntegerValue and a BooleanValue"));
+		}
+	}
+
+	String generatedSource5 = "form Form1 {\"\" q0: integer 1 - \"string\" }";
+
+	@Test
+	public void generatedTest5() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource5);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot subtract a IntegerValue and a StringValue"));
+		}
+	}
+
+	String generatedSource6 = "form Form1 {\"\" q0: integer true - true }";
+
+	@Test
+	public void generatedTest6() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource6);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot subtract a BooleanValue and a BooleanValue"));
+		}
+	}
+
+	String generatedSource7 = "form Form1 {\"\" q0: integer true - \"string\" }";
+
+	@Test
+	public void generatedTest7() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource7);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot subtract a BooleanValue and a StringValue"));
+		}
+	}
+
+	String generatedSource8 = "form Form1 {\"\" q0: integer \"string\" - \"string\" }";
+
+	@Test
+	public void generatedTest8() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(generatedSource8);
+		try {
+			interpreter.interpret(ast);
+			fail("Test Failed");
+		}
+
+		catch (Exception e) {
+			assertTrue(e.getMessage().equals("RuntimeError: Cannot subtract a StringValue and a StringValue"));
+		}
+	}
+
+//	String generatedSource9 = "form Form1 {\"\" q0: integer 1 * true }";
+//
+//	@Test
+//	public void generatedTest9() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource9);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a IntegerValue and a BooleanValue"));
+//		}
+//	}
+
+//	String generatedSource10 = "form Form1 {\"\" q0: integer 1 * \"string\" }";
+//
+//	@Test
+//	public void generatedTest10() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource10);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a IntegerValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource11 = "form Form1 {\"\" q0: integer true * true }";
+//
+//	@Test
+//	public void generatedTest11() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource11);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a BooleanValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource12 = "form Form1 {\"\" q0: integer true * \"string\" }";
+//
+//	@Test
+//	public void generatedTest12() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource12);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a BooleanValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource13 = "form Form1 {\"\" q0: integer \"string\" * \"string\" }";
+//
+//	@Test
+//	public void generatedTest13() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource13);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot multiply a StringValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource14 = "form Form1 {\"\" q0: integer 1 / true }";
+//
+//	@Test
+//	public void generatedTest14() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource14);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a IntegerValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource15 = "form Form1 {\"\" q0: integer 1 / \"string\" }";
+//
+//	@Test
+//	public void generatedTest15() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource15);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a IntegerValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource16 = "form Form1 {\"\" q0: integer true / true }";
+//
+//	@Test
+//	public void generatedTest16() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource16);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a BooleanValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource17 = "form Form1 {\"\" q0: integer true / \"string\" }";
+//
+//	@Test
+//	public void generatedTest17() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource17);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a BooleanValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource18 = "form Form1 {\"\" q0: integer \"string\" / \"string\" }";
+//
+//	@Test
+//	public void generatedTest18() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource18);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot divide a StringValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource19 = "form Form1 {\"\" q0: integer 1 && 1 }";
+//
+//	@Test
+//	public void generatedTest19() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource19);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a IntegerValue and a IntegerValue"));
+//		}
+//	}
+//
+//	String generatedSource20 = "form Form1 {\"\" q0: integer 1 && true }";
+//
+//	@Test
+//	public void generatedTest20() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource20);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a IntegerValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource21 = "form Form1 {\"\" q0: integer 1 && \"string\" }";
+//
+//	@Test
+//	public void generatedTest21() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource21);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a IntegerValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource22 = "form Form1 {\"\" q0: integer true && \"string\" }";
+//
+//	@Test
+//	public void generatedTest22() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource22);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a BooleanValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource23 = "form Form1 {\"\" q0: integer \"string\" && \"string\" }";
+//
+//	@Test
+//	public void generatedTest23() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource23);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot peform an And operation using a StringValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource24 = "form Form1 {\"\" q0: integer 1 || 1 }";
+//
+//	@Test
+//	public void generatedTest24() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource24);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a IntegerValue and a IntegerValue"));
+//		}
+//	}
+//
+//	String generatedSource25 = "form Form1 {\"\" q0: integer 1 || true }";
+//
+//	@Test
+//	public void generatedTest25() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource25);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a IntegerValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource26 = "form Form1 {\"\" q0: integer 1 || \"string\" }";
+//
+//	@Test
+//	public void generatedTest26() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource26);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a IntegerValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource27 = "form Form1 {\"\" q0: integer true || \"string\" }";
+//
+//	@Test
+//	public void generatedTest27() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource27);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a BooleanValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource28 = "form Form1 {\"\" q0: integer \"string\" || \"string\" }";
+//
+//	@Test
+//	public void generatedTest28() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource28);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot perform an Or operation using a StringValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource29 = "form Form1 {\"\" q0: integer 1 > true }";
+//
+//	@Test
+//	public void generatedTest29() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource29);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a IntegerValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource30 = "form Form1 {\"\" q0: integer true > true }";
+//
+//	@Test
+//	public void generatedTest30() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource30);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource31 = "form Form1 {\"\" q0: integer true > \"string\" }";
+//
+//	@Test
+//	public void generatedTest31() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource31);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource32 = "form Form1 {\"\" q0: integer 1 >= true }";
+//
+//	@Test
+//	public void generatedTest32() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource32);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a IntegerValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource33 = "form Form1 {\"\" q0: integer true >= true }";
+//
+//	@Test
+//	public void generatedTest33() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource33);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource34 = "form Form1 {\"\" q0: integer true >= \"string\" }";
+//
+//	@Test
+//	public void generatedTest34() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource34);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource35 = "form Form1 {\"\" q0: integer 1 < true }";
+//
+//	@Test
+//	public void generatedTest35() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource35);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a IntegerValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource36 = "form Form1 {\"\" q0: integer true < true }";
+//
+//	@Test
+//	public void generatedTest36() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource36);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource37 = "form Form1 {\"\" q0: integer true < \"string\" }";
+//
+//	@Test
+//	public void generatedTest37() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource37);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a StringValue"));
+//		}
+//	}
+//
+//	String generatedSource38 = "form Form1 {\"\" q0: integer 1 <= true }";
+//
+//	@Test
+//	public void generatedTest38() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource38);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a IntegerValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource39 = "form Form1 {\"\" q0: integer true <= true }";
+//
+//	@Test
+//	public void generatedTest39() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource39);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a BooleanValue"));
+//		}
+//	}
+//
+//	String generatedSource40 = "form Form1 {\"\" q0: integer true <= \"string\" }";
+//
+//	@Test
+//	public void generatedTest40() throws Exception {
+//		List<Stmt> ast = TestUtilities.buildAst(generatedSource40);
+//		try {
+//			interpreter.interpret(ast);
+//			fail("Test Failed");
+//		}
+//
+//		catch (Exception e) {
+//			assertTrue(e.getMessage().equals("RuntimeError: Cannot compare a BooleanValue and a StringValue"));
+//		}
+//	}
 }

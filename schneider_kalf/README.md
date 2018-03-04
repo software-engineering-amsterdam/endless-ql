@@ -94,5 +94,6 @@ Result will be written into the `/build` folder
 
 * TODO: Replace this simple integer check with solution in parser, differentiate between 10 and 10.0 (See typecheck visitor visitNumberLiteral)
 * TODO: Allow money and date literal (See typecheck visitor visitNumberLiteral)
+* TODO: Allow float literals (5.1 and 5.0)
 
 * TODO improve naming

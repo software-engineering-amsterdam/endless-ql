@@ -55,6 +55,7 @@ public class QLForm extends Application {
 										JavafxQuestionRenderer::new,
 										pane2 -> conditionalBlockRenderer))));
 
+		NumericExpressionParser numericExpressionParser = new NumericExpressionParser(new BinaryNumericOperatorVisitor());
 		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor =
 				new BooleanExpressionParser(
 					new NumericExpressionParser(
@@ -66,7 +67,11 @@ public class QLForm extends Application {
 				new QuestionBlockVisitor(
 						new QuestionVisitor(
 								new QuestionTypeVisitor(),
-								new NumericExpressionParser(new BinaryNumericOperatorVisitor())
+								numericExpressionParser,
+								new BooleanExpressionParser(
+										numericExpressionParser,
+										new BinaryBooleanOperatorVisitor(),
+										new NumericComparisonOperatorVisitor())
 						),
 						pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor)
 				);
@@ -76,8 +81,10 @@ public class QLForm extends Application {
 
 		DuplicateQuestionChecker duplicateQuestionChecker = new DuplicateQuestionChecker();
 		duplicateQuestionChecker.initialize(this.model);
-		List<AnalysisResult> staticCheckResults = new ArrayList<>();
-		staticCheckResults.addAll(duplicateQuestionChecker.analyze());
+
+		List<AnalysisResult> staticCheckResults = new ArrayList<>(
+				duplicateQuestionChecker.analyze()
+		);
 
 		if (staticCheckResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
 			ErrorRenderer errorRenderer = new JavafxErrorRenderer(stage);

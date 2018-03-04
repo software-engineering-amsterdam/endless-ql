@@ -9,8 +9,6 @@ import Or from "../../form/nodes/expressions/boolean_expressions/Or";
 import IfCondition from "../../form/nodes/conditions/IfCondition";
 import VariableIdentifier from "../../form/nodes/expressions/VariableIdentifier";
 
-const qlParser = getQlParser();
-
 it("can parse number literals", () => {
   const input = `form taxOfficeExample {
                   "Did you sell a house in 2010?"

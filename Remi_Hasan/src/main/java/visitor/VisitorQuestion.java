@@ -20,7 +20,7 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
         String questionName = ctx.identifier().getText();
         String questionText = ctx.questionString().getText();
 
-        // remove quotes from text
+        // Remove quotes surrounding the string
         questionText = questionText.substring(1, questionText.length() - 1);
 
         QLParser.QuestionTypeContext questionTypeContext = ctx.questionType();

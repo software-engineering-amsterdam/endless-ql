@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
 using Assignment1.Model;
 
@@ -15,11 +14,11 @@ namespace Assignment1
             FlowDirection = FlowDirection.TopDown
         };
 
-        private readonly List<QuestionForm> _forms;
+        private readonly QuestionForm _form;
 
         public Presenter()
         {
-            _forms = QuestionForm.ParseString(System.IO.File.ReadAllText("test.txt"));
+            _form = QuestionForm.ParseString(System.IO.File.ReadAllText("test.txt"));
             UpdateControls();
         }
 
@@ -27,7 +26,7 @@ namespace Assignment1
         {
             Panel.SuspendLayout();
             Panel.Controls.Clear();
-            foreach (var content in _forms[0].Content)
+            foreach (var content in _form.Content)
             {
                 content.Accept(this);
             }

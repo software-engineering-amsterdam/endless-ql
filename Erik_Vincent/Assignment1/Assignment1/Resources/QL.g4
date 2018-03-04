@@ -6,16 +6,8 @@ using Assignment1.Model;
 
 options { tokenVocab=QLLexer; }
 
-file returns [List<QuestionForm> result]
-	@init {
-	$result = new List<QuestionForm>();
-	}
-	: (form
-		{$result.Add($form.result);}
-		)* EOF
-	;
 form returns [QuestionForm result]
-	: FORM ID content
+	: FORM ID content EOF
 		{$result = new QuestionForm($ID.text, $content.result);}
 	;	
 content returns [List<Content> result]

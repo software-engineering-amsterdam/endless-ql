@@ -2,10 +2,13 @@ package AST;
 
 import Nodes.*;
 import AST.gen.*;
+import Nodes.Operator.*;
 import Nodes.Term.Boolean;
 import Nodes.Term.Term;
 import com.sun.istack.internal.NotNull;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -75,7 +78,11 @@ public class FormReader {
 
             ExpressionVisitor expressionVisitor = new ExpressionVisitor();
 
-            Expression expression = expressionVisitor.visitExpression(ctx.expression());
+
+            Expression expression = null;
+            
+            if(ctx.expression() != null)
+                expression = expressionVisitor.visitExpression(ctx.expression());
 
             return new Question(questionName, questionLabel, questionType, expression);
         }
@@ -85,6 +92,7 @@ public class FormReader {
 
         @Override
         public Condition visitCondition(@NotNull QLParser.ConditionContext ctx){
+
             QuestionVisitor questionVisitor = new QuestionVisitor();
             ConditionVisitor conditionVisitor = new ConditionVisitor();
             ExpressionVisitor expressionVisitor = new ExpressionVisitor();
@@ -111,19 +119,46 @@ public class FormReader {
 
         @Override
         public Expression visitExpression(@NotNull QLParser.ExpressionContext ctx) {
+
             ExpressionVisitor expressionVisitor = new ExpressionVisitor();
             TermVisitor termVisitor = new TermVisitor();
+            ArithmeticVisitor arithmeticVisitor = new ArithmeticVisitor();
+            OperatorVisitor operatorVisitor = new OperatorVisitor();
+
 
             List<QLParser.ExpressionContext> expressions = ctx.expression();
+            QLParser.TermContext termContext = ctx.term();
+            TerminalNode notNode = ctx.NOT();
+            QLParser.FactorContext factorContext = ctx.factor();
+            QLParser.MuldivContext muldivContext = ctx.muldiv();
+            QLParser.AddsubContext addsubContext = ctx.addsub();
+            QLParser.OperatorContext operatorContext = ctx.operator();
 
-            if(expressions.size() <= 0)
+
+
+            if(termContext != null)
                 return new Expression(termVisitor.visitTerm(ctx.term()));
 
-            // TODO return appropriate elements
+            if(notNode != null)
+                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), new Not());
 
+            if(factorContext != null) {
+                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), arithmeticVisitor.visitFactor(factorContext));
+            }
 
+            if(muldivContext != null) {
+                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), arithmeticVisitor.visitMuldiv(muldivContext));
+            }
 
-            Expression expression = new Expression(); //TODO
+            if(addsubContext != null) {
+                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), arithmeticVisitor.visitAddsub(addsubContext));
+            }
+
+            if(operatorContext != null) {
+                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), operatorVisitor.visitOperator(operatorContext));
+            }
+
+            return new Expression(); //TODO
         }
     }
 
@@ -131,7 +166,33 @@ public class FormReader {
 
         @Override
         public Term visitTerm(@NotNull QLParser.TermContext ctx) {
-            return new Boolean(true); //TODO
+            return new Boolean(true); //TODO return fitting value
+        }
+
+    }
+
+    private static class ArithmeticVisitor extends QLBaseVisitor<Operator>{
+
+        @Override
+        public Operator visitFactor(@NotNull QLParser.FactorContext ctx) {
+            return new Exponent(); //TODO
+        }
+
+        public Operator visitMuldiv(@NotNull QLParser.MuldivContext ctx) {
+            return new Division(); //TODO
+        }
+
+        public Operator visitAddsub(@NotNull QLParser.AddsubContext ctx) {
+            return new Addition(); //TODO
+        }
+
+    }
+
+    private static class OperatorVisitor extends QLBaseVisitor<Operator>{
+
+        @Override
+        public Operator visitOperator(@NotNull QLParser.OperatorContext ctx) {
+            return new Exponent(); //TODO return fitting operator
         }
 
     }

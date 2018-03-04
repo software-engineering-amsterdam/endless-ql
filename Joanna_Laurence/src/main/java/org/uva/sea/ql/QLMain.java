@@ -7,7 +7,6 @@ public class QLMain {
      Add tests
 
      Date with /
-     Rename lhs rhs
      Show errors in GUI
      Show warnings in GUI
 

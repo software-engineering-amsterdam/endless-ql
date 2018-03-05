@@ -12,18 +12,18 @@ import java.util.function.Supplier;
 @RequiredArgsConstructor
 public enum DataType {
     // TODO
-    DATE(LocalDate::parse, String::new),
+    DATE(LocalDate::parse, "date"),
 //    To be improved at a later stage, but needed for type checking
-    MONEY(value -> BigDecimal.valueOf(Double.valueOf(value.replace(',', '.'))), String::new),
-    STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), String::new),
-    DECIMAL(Double::valueOf, String::new),
-    BOOLEAN(Boolean::valueOf, String::new),
-    INTEGER(Integer::valueOf, String::new);
+    MONEY(value -> BigDecimal.valueOf(Double.valueOf(value.replace(',', '.'))), "money"),
+    STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), "string"),
+    DECIMAL(Double::valueOf, "decimal"),
+    BOOLEAN(Boolean::valueOf, "boolean"),
+    INTEGER(Integer::valueOf, "integer");
 
     @NonNull @Getter private Function<String, ?> valueOf;
-    @NonNull private Supplier<String> component;
+    @NonNull private String typeString;
 
-    public Supplier<String> getComponent() {
-        return component;
+    public String getTypeString() {
+        return typeString;
     }
 }

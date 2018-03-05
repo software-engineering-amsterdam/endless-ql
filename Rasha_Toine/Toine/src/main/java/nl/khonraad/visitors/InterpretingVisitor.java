@@ -12,6 +12,7 @@ import nl.khonraad.domain.AsnwerableQuestions;
 import nl.khonraad.domain.ComputedQuestion;
 import nl.khonraad.domain.ComputedQuestions;
 import nl.khonraad.domain.Value;
+import nl.khonraad.domain.Type;
 
 public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
@@ -43,7 +44,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 				return expression;
 
 			case "!":
-				if (!"boolean".equals(expression.getType()))
+				if (! Type.Boolean.equals( expression.getType()))
 					throw new RuntimeException(
 							"Operator not allowed " + ctx.unaryOperator().getText() + " on " + expression.getType());
 				return new Value(expression.getType(), (expression.getValue() != 0) ? 0 : 1);
@@ -62,6 +63,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 		String operator = ctx.binaryOperator().getText();
 
 		if (!allowdOperation(left.getType(), right.getType(), operator)) {
+			
 			throw new RuntimeException(
 					"Operation not allowed: \"" + left.getType() + " " + operator + " " + right.getType());
 		}
@@ -92,6 +94,22 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 				int rv = (left.getValue() | right.getValue()) != 0 ? 1 : 0;
 				return new Value(resultType(left.getType(), right.getType(), operator), rv);
 
+			case "==":
+				return new Value(resultType(left.getType(), right.getType(), operator),
+						left.getValue() == right.getValue() ? 1 : 0);
+			case "<=":
+				return new Value(resultType(left.getType(), right.getType(), operator),
+						left.getValue() <= right.getValue() ? 1 : 0);
+			case ">=":
+				return new Value(resultType(left.getType(), right.getType(), operator),
+						left.getValue() >= right.getValue() ? 1 : 0);
+			case "<":
+				return new Value(resultType(left.getType(), right.getType(), operator),
+						left.getValue() < right.getValue() ? 1 : 0);
+			case ">":
+				return new Value(resultType(left.getType(), right.getType(), operator),
+						left.getValue() > right.getValue() ? 1 : 0);
+
 			default:
 				throw new RuntimeException(
 						"Check Antlr grammar. You defined an operator that isn't implemented here: \""
@@ -108,23 +126,23 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 			return answerableQuestions.get(identifier);
 		}
-		return new Value("undefined", 0);
+		return null;
 	}
 
 	@Override
 	public Value visitExpressionMoneyConstant(ExpressionLanguageParser.ExpressionMoneyConstantContext ctx) {
 
-		return new Value("money", ctx.MoneyConstant().getText());
+		return new Value(Type.Money, ctx.MoneyConstant().getText());
 	}
 
 	@Override
 	public Value visitExpressionIntegerConstant(ExpressionLanguageParser.ExpressionIntegerConstantContext ctx) {
-		return new Value("integer", ctx.IntegerConstant().getText());
+		return new Value(Type.Integer, ctx.IntegerConstant().getText());
 	}
 
 	@Override
 	public Value visitExpressionBooleanConstant(ExpressionLanguageParser.ExpressionBooleanConstantContext ctx) {
-		return new Value("boolean", ctx.BooleanConstant().getText());
+		return new Value(Type.Boolean, ctx.BooleanConstant().getText());
 	}
 
 	@Override
@@ -139,7 +157,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 		if (!answerableQuestions.containsKey(key)) {
 			AnswerableQuestion question = new AnswerableQuestion(key, ctx.QuotedString().getText(),
-					ctx.Type().getText());
+					Type.fromString(ctx.Type().getText()));
 			answerableQuestions.put(key, question);
 			return question;
 		}
@@ -151,7 +169,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 		String identifier = ctx.Identifier().getText();
 		String label = ctx.QuotedString().getText();
-		String type = ctx.Type().getText();
+		Type type = Type.fromString(ctx.Type().getText());
 
 		Value expression = visit(ctx.expression());
 
@@ -174,7 +192,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 		return value;
 	}
 
-	private boolean allowdOperation(String type1, String type2, String operator) {
+	private boolean allowdOperation(Type type1, Type type2, String operator) {
 
 		List<String> product = Arrays.asList("*", "/");
 		List<String> addition = Arrays.asList("+", "-");
@@ -183,42 +201,42 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 		Set<String> allowedOperators = new HashSet<String>();
 
-		switch (type1 + "-" + type2) {
+		switch (type1.toString() + "-" + type2.toString()) {
 
-			case "integer-integer":
+			case "Integer-Integer":
 				allowedOperators.addAll(product);
 				allowedOperators.addAll(addition);
 				allowedOperators.addAll(comparison);
 				break;
 
-			case "integer-money":
+			case "Integer-Money":
 				allowedOperators.addAll(product);
 				allowedOperators.addAll(comparison);
 				break;
 
-			case "integer-boolean":
+			case "Integer-Boolean":
 				break;
 
-			case "money-integer":
+			case "Money-Integer":
 				allowedOperators.addAll(product);
 				allowedOperators.addAll(comparison);
 				break;
 
-			case "money-money":
+			case "Money-Money":
 				allowedOperators.addAll(addition);
 				allowedOperators.addAll(comparison);
 				break;
 
-			case "money-boolean":
+			case "Money-Boolean":
 				break;
 
-			case "boolean-integer":
+			case "Boolean-Integer":
 				break;
 
-			case "boolean-money":
+			case "Boolean-Money":
 				break;
 
-			case "boolean-boolean":
+			case "Boolean-Boolean":
 				allowedOperators.addAll(logical);
 				allowedOperators.addAll(comparison);
 				break;
@@ -228,40 +246,40 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 	}
 
-	private String resultType(String type1, String type2, String operator) {
+	private Type resultType(Type type1, Type type2, String operator) {
 
 		List<String> addition = Arrays.asList("+", "-");
 
-		switch (type1 + "-" + type2) {
+		switch (type1.toString() + "-" + type2.toString()) {
 
-			case "integer-integer":
-				return "integer";
+			case "Integer-Integer":
+				return Type.Integer;
 
-			case "integer-money":
-				return "money";
+			case "Integer-Money":
+				return Type.Money;
 
-			case "integer-boolean":
-				return "undefined";
+			case "Integer-Boolean":
+				break;
 
-			case "money-integer":
-				return "money";
+			case "Money-Integer":
+				return Type.Money;
 
-			case "money-money":
+			case "Money-Money":
 				if (addition.contains(operator))
-					return "money";
-				return "boolean";
+					return Type.Money;
+				return Type.Boolean;
 
-			case "money-boolean":
+			case "Money-Boolean":
 				break;
 
-			case "boolean-integer":
+			case "Boolean-Integer":
 				break;
 
-			case "boolean-money":
+			case "Boolean-Money":
 				break;
 
-			case "boolean-boolean":
-				return "boolean";
+			case "Boolean-Boolean":
+				return Type.Boolean;
 		}
 		throw new RuntimeException("Check Antlr grammar. Operation impossible: " + type1 + " " + operator + type2);
 	}

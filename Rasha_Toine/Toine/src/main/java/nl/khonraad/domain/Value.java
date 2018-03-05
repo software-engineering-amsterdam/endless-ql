@@ -4,40 +4,40 @@ import java.math.BigDecimal;
 
 public class Value {
 
-	private String type;
+	private Type type;
 	private int value;
 
-	public String getType() {
+	public Type getType() {
 		return type;
 	}
-	
+
 	public int getValue() {
 		return value;
 	}
 
-	public Value(String type, int value) {
-		
+	public Value(Type type, int value) {
+
 		this.type = type;
 		this.value = value;
 	}
 
-	public Value(String type, String string) {
+	public Value(Type type, String string) {
 
 		this.type = type;
 
 		switch (type) {
 
-			case "money": {
+			case Money: {
 				value = (int) (Double.valueOf(string) * 100);
 				break;
 			}
 
-			case "integer": {
+			case Integer: {
 				value = Integer.parseInt(string);
 				break;
 			}
 
-			case "boolean": {
+			case Boolean: {
 				switch (string) {
 					case "True":
 						value = 1;
@@ -51,7 +51,7 @@ public class Value {
 	}
 
 	public Value parseAndSetValue(String s) {
-		
+
 		this.value = parseValue(s);
 		return this;
 	}
@@ -60,16 +60,16 @@ public class Value {
 
 		switch (type) {
 
-			case "money": {
+			case Money: {
 				BigDecimal d = new BigDecimal(s);
 				return (int) (d.doubleValue() * 100);
 			}
 
-			case "integer": {
+			case Integer: {
 				return Integer.parseInt(s);
 			}
 
-			case "boolean": {
+			case Boolean: {
 				switch (s) {
 					case "True":
 						return 1;

@@ -5,7 +5,7 @@ public class AnswerableQuestion extends Value {
 	String identifier;
 	String label;
 
-	public AnswerableQuestion(String identifier, String label, String type) {
+	public AnswerableQuestion(String identifier, String label, Type type) {
 		
 		super(type, 0);
 		

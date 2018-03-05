@@ -72,5 +72,15 @@ public class Test_Interpretor {
 		interpretingVisitor.visit(parseTree2);
 		assertEquals("x",1, interpretingVisitor.computedQuestions.get("x").getValue() );
 
+		s = "form x { x: \"x:\" boolean (True == False)   }";
+		ParseTree parseTree3 = AbstractParserFactory.parseDataForTest(s).form();
+		interpretingVisitor.visit(parseTree3);
+		assertEquals("x",0, interpretingVisitor.computedQuestions.get("x").getValue() );
+
+		s = "form x { x: \"x:\" boolean (2.50 >= (5.50 - 3.00 * 1))   }";
+		ParseTree parseTree4 = AbstractParserFactory.parseDataForTest(s).form();
+		interpretingVisitor.visit(parseTree4);
+		assertEquals("x",1, interpretingVisitor.computedQuestions.get("x").getValue() );
+		
 	}
 }

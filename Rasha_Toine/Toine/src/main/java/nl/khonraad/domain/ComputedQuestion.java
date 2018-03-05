@@ -5,7 +5,7 @@ public class ComputedQuestion extends Value {
 	String identifier;
 	String label;
 
-	public ComputedQuestion(String identifier, String label, String type) {
+	public ComputedQuestion(String identifier, String label, Type type) {
 		
 		super(type, 0);
 		

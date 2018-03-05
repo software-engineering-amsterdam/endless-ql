@@ -10,6 +10,7 @@ import nl.khonraad.domain.AsnwerableQuestions;
 import nl.khonraad.domain.ComputedQuestion;
 import nl.khonraad.domain.ComputedQuestions;
 import nl.khonraad.domain.Value;
+import nl.khonraad.domain.Type;
 
 public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
@@ -30,7 +31,7 @@ public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 			forwardReferences.remove(s);
 		}
 		if (forwardReferences.size() == 0) {
-			return new Value("form",0);
+			return null;
 		}
 		throw new RuntimeException(ERROR_ReferenceToUndefinedQuestion + forwardReferences.get(0));
 	}
@@ -46,7 +47,7 @@ public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 			foundReferences.add(identifier);
 
 			String label = ctx.QuotedString().getText();
-			String type = ctx.Type().getText();
+			Type type = Type.fromString(ctx.Type().getText());
 
 			AnswerableQuestion question = new AnswerableQuestion(identifier, label, type);
 			answerableQuestions.put(identifier, question);
@@ -63,7 +64,7 @@ public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 		
 		String identifier = ctx.Identifier().getText();
 		String label = ctx.QuotedString().getText();
-		String type = ctx.Type().getText();
+		Type type = Type.fromString(ctx.Type().getText());
 
 		if (!computedQuestions.containsKey(identifier)) {
 

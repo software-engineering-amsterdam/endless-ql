@@ -3,12 +3,21 @@ package ast.model.expressions.unary.values;
 import ast.model.expressions.unary.UnaryExpression;
 import ast.visitors.ASTNodeVisitor;
 
-public class SingleValue extends UnaryExpression {
+public class Literal extends UnaryExpression {
+
+    public enum Type {
+        STRING,
+        BOOLEAN,
+        INTEGER,
+        DECIMAL
+    }
 
     private String value;
+    private Type type;
 
-    public SingleValue(String value) {
+    public Literal(String value, Type type) {
         this.value = value;
+        this.type = type;
     }
 
     public String getValue() {
@@ -17,6 +26,14 @@ public class SingleValue extends UnaryExpression {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     @Override

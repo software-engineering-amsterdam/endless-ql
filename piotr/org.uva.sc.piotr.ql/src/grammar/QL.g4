@@ -31,32 +31,24 @@ elseStatement
     ;
 
 expression
-    : '(' expression ')'                                        #ExpressionParenthesises
-    | OP_NOT expression                                         #ExpressionNegation
-    | OP_MINUS expression                                       #ExpressionArithmeticMinus
-    | lhs=expression binaryOperator=OP_MULT rhs=expression      #ExpressionArithmeticMultiplication
-    | lhs=expression binaryOperator=OP_DIV rhs=expression       #ExpressionArithmeticDivision
-    | lhs=expression binaryOperator=OP_PLUS rhs=expression      #ExpressionArithmeticAddition
-    | lhs=expression binaryOperator=OP_MINUS rhs=expression     #ExpressionArithmeticSubtraction
-    | lhs=expression binaryOperator=OP_GT rhs=expression        #ExpressionComparisionGreaterThan
-    | lhs=expression binaryOperator=OP_GE rhs=expression        #ExpressionComparisionGreaterEqual
-    | lhs=expression binaryOperator=OP_LT rhs=expression        #ExpressionComparisionLessThan
-    | lhs=expression binaryOperator=OP_LE rhs=expression        #ExpressionComparisionLessEqual
-    | lhs=expression binaryOperator=OP_EQ rhs=expression        #ExpressionComparisionEqual
-    | lhs=expression binaryOperator=OP_NEQ rhs=expression       #ExpressionComparisionNotEqual
-    | lhs=expression binaryOperator=OP_AND rhs=expression       #ExpressionLogicalAnd
-    | lhs=expression binaryOperator=OP_OR rhs=expression        #ExpressionLogicalOr
-    | variableReference=IDENTIFIER                              #ExpressionVariableReference
-    | value                                                     #ExpressionSingleValue
+    : '(' expression ')'                                            #ExpressionParenthesises
+    | OP_NOT expression                                             #ExpressionNegation
+    | OP_MINUS expression                                           #ExpressionArithmeticMinus
+    | lhs=expression binaryOperator=OP_MULT rhs=expression          #ExpressionArithmeticMultiplication
+    | lhs=expression binaryOperator=OP_DIV rhs=expression           #ExpressionArithmeticDivision
+    | lhs=expression binaryOperator=OP_PLUS rhs=expression          #ExpressionArithmeticAddition
+    | lhs=expression binaryOperator=OP_MINUS rhs=expression         #ExpressionArithmeticSubtraction
+    | lhs=expression binaryOperator=OP_GT rhs=expression            #ExpressionComparisionGreaterThan
+    | lhs=expression binaryOperator=OP_GE rhs=expression            #ExpressionComparisionGreaterEqual
+    | lhs=expression binaryOperator=OP_LT rhs=expression            #ExpressionComparisionLessThan
+    | lhs=expression binaryOperator=OP_LE rhs=expression            #ExpressionComparisionLessEqual
+    | lhs=expression binaryOperator=OP_EQ rhs=expression            #ExpressionComparisionEqual
+    | lhs=expression binaryOperator=OP_NEQ rhs=expression           #ExpressionComparisionNotEqual
+    | lhs=expression binaryOperator=OP_AND rhs=expression           #ExpressionLogicalAnd
+    | lhs=expression binaryOperator=OP_OR rhs=expression            #ExpressionLogicalOr
+    | variableReference=IDENTIFIER                                  #ExpressionVariableReference
+    | value=(STRING | INTEGER | DECIMAL | BOOL_TRUE | BOOL_FALSE)   #ExpressionSingleValue
 ;
-
-value
-    : STRING                    #TypeValueString
-    | INTEGER                   #TypeValueInteger
-    | DECIMAL                   #TypeValueDecimal
-    | (BOOL_TRUE | BOOL_FALSE)  #TypeValueBoolean
-    ;
-
 
 /*
  * Lexer Rules

@@ -1,5 +1,9 @@
 form taxOfficeExample
 {
+  "What is your name?"
+    name: string
+  "How old are you?"
+    age: integer
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
   "Did you buy a house in 2010?"
@@ -19,8 +23,11 @@ form taxOfficeExample
 
   } else {
 
-      "Did you enter a loan?"
-        hasMaintLoan: boolean
+    if (name == "Piotr" && age == 32)
+    {
+      "What is the password?"
+        password: string
+    }
 
   }
 }

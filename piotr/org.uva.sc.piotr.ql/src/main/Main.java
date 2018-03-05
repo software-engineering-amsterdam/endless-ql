@@ -20,11 +20,11 @@ public class Main {
 
         QLParser.FormContext formContext = qlParser.form();
 
-        ASTBuilder ast = new ASTBuilder();
-        Form form = ast.visitForm(formContext);
+        ASTBuilder astBuilder = new ASTBuilder();
+        Form form = astBuilder.visitForm(formContext);
 
         // Type checker
-        
+//        form.accept(TypeChecker);
 
 
         Gson gsonBuilder = new GsonBuilder().create();

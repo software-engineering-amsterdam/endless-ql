@@ -14,11 +14,14 @@ import ast.model.expressions.binary.logical.LogicalAnd;
 import ast.model.expressions.binary.logical.LogicalOr;
 import ast.model.expressions.unary.arithmetics.Minus;
 import ast.model.expressions.unary.logical.Negation;
-import ast.model.expressions.unary.values.SingleValue;
+import ast.model.expressions.unary.values.Literal;
 import ast.model.expressions.unary.values.VariableReference;
 import ast.model.statement.IfStatement;
 import ast.model.statement.Question;
 import ast.model.statement.Statement;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 
 public class ASTBuilder extends QLBaseVisitor {
@@ -119,12 +122,26 @@ public class ASTBuilder extends QLBaseVisitor {
         return (Expression) this.visit(ctx.expression());
     }
 
-    // Unary expressions, values and references
+    // Values
 
     @Override
-    public SingleValue visitExpressionSingleValue(QLParser.ExpressionSingleValueContext ctx) {
-        return new SingleValue(ctx.value().getText());
+    public Literal visitExpressionSingleValue(QLParser.ExpressionSingleValueContext ctx) {
+
+        Literal.Type type = Literal.Type.STRING;
+
+        if (ctx.BOOL_FALSE() != null || ctx.BOOL_TRUE() != null)
+            type = Literal.Type.BOOLEAN;
+
+        if (ctx.DECIMAL() != null)
+            type = Literal.Type.DECIMAL;
+
+        if (ctx.INTEGER() != null)
+            type = Literal.Type.INTEGER;
+
+        return new Literal(ctx.value.getText(), type);
     }
+
+    // References
 
     @Override
     public VariableReference visitExpressionVariableReference(QLParser.ExpressionVariableReferenceContext ctx) {

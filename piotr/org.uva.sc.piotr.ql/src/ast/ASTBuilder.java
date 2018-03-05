@@ -20,16 +20,13 @@ import ast.model.statement.IfStatement;
 import ast.model.statement.Question;
 import ast.model.statement.Statement;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-
 
 public class ASTBuilder extends QLBaseVisitor {
 
     @Override
     public Form visitForm(QLParser.FormContext ctx) {
 
-        Form form = new Form(ctx.id.getText());
+        Form form = new Form(ctx.id.getText(), ctx.getStart().getLine(), ctx.getStop().getLine());
 
         for (QLParser.StatementContext StatementContext : ctx.statement()) {
             Statement statement = visitStatement(StatementContext);
@@ -58,7 +55,11 @@ public class ASTBuilder extends QLBaseVisitor {
 
         Expression ifConditionExpression = (Expression) visit(ctx.condition);
 
-        IfStatement ifStatement = new IfStatement(ifConditionExpression);
+        IfStatement ifStatement = new IfStatement(
+                ifConditionExpression,
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
 
         for (QLParser.StatementContext StatementContext : ctx.statement()) {
             Statement statement = visitStatement(StatementContext);
@@ -83,12 +84,17 @@ public class ASTBuilder extends QLBaseVisitor {
         Question question = new Question(
                 ctx.label.getText(),
                 ctx.variableName.getText(),
-                (TypeDeclaration) visit(ctx.dataType())
+                (TypeDeclaration) visit(ctx.dataType()),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
         );
 
         if (ctx.expression() != null) {
             question.setAssignedExpression((Expression) visit(ctx.expression()));
         }
+
+        question.setStartLine(ctx.getStart().getLine());
+        question.setEndLine(ctx.getStop().getLine());
 
         return question;
     }
@@ -97,22 +103,38 @@ public class ASTBuilder extends QLBaseVisitor {
 
     @Override
     public TypeDeclarationBoolean visitTypeDeclarationBoolean(QLParser.TypeDeclarationBooleanContext ctx) {
-        return new TypeDeclarationBoolean(ctx.getText());
+        return new TypeDeclarationBoolean(
+                ctx.getText(),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public TypeDeclarationDecimal visitTypeDeclarationDecimal(QLParser.TypeDeclarationDecimalContext ctx) {
-        return new TypeDeclarationDecimal(ctx.getText());
+        return new TypeDeclarationDecimal(
+                ctx.getText(),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public TypeDeclarationInteger visitTypeDeclarationInteger(QLParser.TypeDeclarationIntegerContext ctx) {
-        return new TypeDeclarationInteger(ctx.getText());
+        return new TypeDeclarationInteger(
+                ctx.getText(),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public TypeDeclarationString visitTypeDeclarationString(QLParser.TypeDeclarationStringContext ctx) {
-        return new TypeDeclarationString(ctx.getText());
+        return new TypeDeclarationString(
+                ctx.getText(),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     // Parenthesis
@@ -138,89 +160,160 @@ public class ASTBuilder extends QLBaseVisitor {
         if (ctx.INTEGER() != null)
             type = Literal.Type.INTEGER;
 
-        return new Literal(ctx.value.getText(), type);
+        return new Literal(
+                ctx.value.getText(),
+                type,
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     // References
 
     @Override
     public VariableReference visitExpressionVariableReference(QLParser.ExpressionVariableReferenceContext ctx) {
-        return new VariableReference(ctx.variableReference.getText());
+        return new VariableReference(
+                ctx.variableReference.getText(),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public Negation visitExpressionNegation(QLParser.ExpressionNegationContext ctx) {
-        return new Negation((Expression) visit(ctx.expression()));
+        return new Negation(
+                (Expression) visit(ctx.expression()),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     // Arithmetic expressions
 
     @Override
     public Object visitExpressionArithmeticMinus(QLParser.ExpressionArithmeticMinusContext ctx) {
-        return new Minus((Expression) visit(ctx.expression()));
+        return new Minus(
+                (Expression) visit(ctx.expression()),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public Multiplication visitExpressionArithmeticMultiplication(QLParser.ExpressionArithmeticMultiplicationContext ctx) {
-        return new Multiplication((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
+        return new Multiplication(
+                (Expression) visit(ctx.lhs),
+                (Expression) visit(ctx.rhs),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public Division visitExpressionArithmeticDivision(QLParser.ExpressionArithmeticDivisionContext ctx) {
-        return new Division((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
+        return new Division(
+                (Expression) visit(ctx.lhs),
+                (Expression) visit(ctx.rhs),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public Addition visitExpressionArithmeticAddition(QLParser.ExpressionArithmeticAdditionContext ctx) {
-        return new Addition((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
+        return new Addition(
+                (Expression) visit(ctx.lhs),
+                (Expression) visit(ctx.rhs),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public Subtraction visitExpressionArithmeticSubtraction(QLParser.ExpressionArithmeticSubtractionContext ctx) {
-        return new Subtraction((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
+        return new Subtraction(
+                (Expression) visit(ctx.lhs),
+                (Expression) visit(ctx.rhs),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     // Expressions comparisons
 
     @Override
     public GreaterThan visitExpressionComparisionGreaterThan(QLParser.ExpressionComparisionGreaterThanContext ctx) {
-        return new GreaterThan((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
+        return new GreaterThan(
+                (Expression) visit(ctx.lhs),
+                (Expression) visit(ctx.rhs),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public GreaterEqual visitExpressionComparisionGreaterEqual(QLParser.ExpressionComparisionGreaterEqualContext ctx) {
-        return new GreaterEqual((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
+        return new GreaterEqual(
+                (Expression) visit(ctx.lhs),
+                (Expression) visit(ctx.rhs),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public LessThan visitExpressionComparisionLessThan(QLParser.ExpressionComparisionLessThanContext ctx) {
-        return new LessThan((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
+        return new LessThan(
+                (Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public LessEqual visitExpressionComparisionLessEqual(QLParser.ExpressionComparisionLessEqualContext ctx) {
-        return new LessEqual((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
+        return new LessEqual(
+                (Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public Equal visitExpressionComparisionEqual(QLParser.ExpressionComparisionEqualContext ctx) {
-        return new Equal((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
+        return new Equal(
+                (Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public NotEqual visitExpressionComparisionNotEqual(QLParser.ExpressionComparisionNotEqualContext ctx) {
-        return new NotEqual((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
+        return new NotEqual(
+                (Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     // Binary logical operations
 
     @Override
     public LogicalAnd visitExpressionLogicalAnd(QLParser.ExpressionLogicalAndContext ctx) {
-        return new LogicalAnd((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
+        return new LogicalAnd(
+                (Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 
     @Override
     public LogicalOr visitExpressionLogicalOr(QLParser.ExpressionLogicalOrContext ctx) {
-        return new LogicalOr((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
+        return new LogicalOr(
+                (Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs),
+                ctx.getStart().getLine(),
+                ctx.getStop().getLine()
+        );
     }
 }

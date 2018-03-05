@@ -4,14 +4,15 @@ import ast.model.datatypes.TypeDeclaration;
 import ast.model.expressions.Expression;
 import ast.visitors.ASTNodeVisitor;
 
-public class Question implements Statement {
+public class Question extends Statement {
 
     private String label;
     private String variableName;
     private TypeDeclaration variableType;
     private Expression assignedExpression;
 
-    public Question(String label, String variableName, TypeDeclaration variableType) {
+    public Question(String label, String variableName, TypeDeclaration variableType, Integer startLine, Integer endLine) {
+        super(startLine, endLine);
         this.label = label;
         this.variableName = variableName;
         this.variableType = variableType;
@@ -54,10 +55,5 @@ public class Question implements Statement {
         visitor.visit(this);
     }
 
-    @Override
-    public void debugPrint() {
-        System.out.println("Question: {\n" +
-                "  label:" + this.label +
-                "}");
-    }
+
 }

@@ -8,7 +8,8 @@ public class Negation extends UnaryExpression{
 
     private Expression expression;
 
-    public Negation(Expression expression) {
+    public Negation(Expression expression, Integer startLine, Integer endLine) {
+        super(startLine, endLine);
         this.expression = expression;
     }
 

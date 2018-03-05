@@ -5,14 +5,15 @@ import ast.visitors.ASTNodeVisitor;
 
 import java.util.ArrayList;
 
-public class IfStatement implements Statement {
+public class IfStatement extends Statement {
 
-    private Expression conditionExpression;
+    private Expression condition;
     private ArrayList<Statement> statementList = new ArrayList<>();
     private ArrayList<Statement> elseStatementList = new ArrayList<>();
 
-    public IfStatement(Expression conditionExpression) {
-        this.conditionExpression = conditionExpression;
+    public IfStatement(Expression condition, Integer startLine, Integer endLine) {
+        super(startLine, endLine);
+        this.condition = condition;
     }
 
     public boolean addStatement(Statement statement) {
@@ -23,19 +24,21 @@ public class IfStatement implements Statement {
         return this.elseStatementList.add(statement);
     }
 
+    public Expression getCondition() {
+        return condition;
+    }
+
+    public ArrayList<Statement> getElseStatementList() {
+        return elseStatementList;
+    }
+
+    public ArrayList<Statement> getStatementList() {
+        return statementList;
+    }
+
     @Override
     public void accept(ASTNodeVisitor visitor) {
         visitor.visit(this);
     }
 
-    @Override
-    public void debugPrint() {
-        System.out.println("Condition statement: " + this.conditionExpression);
-        System.out.println("Contains : " + this.statementList.size() + " statements:");
-        if (this.statementList.size() > 0) {
-            for (Statement statement: this.statementList) {
-                statement.debugPrint();
-            }
-        }
-    }
 }

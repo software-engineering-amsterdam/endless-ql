@@ -5,12 +5,13 @@ import ast.visitors.ASTNodeVisitor;
 
 import java.util.ArrayList;
 
-public class Form implements VisitableASTNode {
+public class Form extends ASTNode {
 
     private String name;
     private ArrayList<Statement> statementList = new ArrayList<>();
 
-    public Form(String name) {
+    public Form(String name, Integer startLine, Integer endLine) {
+        super(startLine, endLine);
         this.name = name;
     }
 
@@ -32,13 +33,6 @@ public class Form implements VisitableASTNode {
 
     public boolean addStatement(Statement statement) {
         return this.statementList.add(statement);
-    }
-
-    public void debugPrint() {
-        System.out.println("Form: " + this.name);
-        for (Statement statement : this.statementList) {
-            statement.debugPrint();
-        }
     }
 
     @Override

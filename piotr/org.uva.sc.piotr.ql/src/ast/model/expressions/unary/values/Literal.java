@@ -15,7 +15,8 @@ public class Literal extends UnaryExpression {
     private String value;
     private Type type;
 
-    public Literal(String value, Type type) {
+    public Literal(String value, Type type, Integer startLine, Integer endLine) {
+        super(startLine, endLine);
         this.value = value;
         this.type = type;
     }

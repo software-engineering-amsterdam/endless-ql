@@ -7,7 +7,8 @@ public class VariableReference extends UnaryExpression {
 
     private String name;
 
-    public VariableReference(String name) {
+    public VariableReference(String name, Integer startLine, Integer endLine) {
+        super(startLine, endLine);
         this.name = name;
     }
 

@@ -1,7 +1,9 @@
 package ast.model.statement;
 
-import ast.model.VisitableASTNode;
+import ast.model.ASTNode;
 
-public interface Statement extends VisitableASTNode {
-    public void debugPrint();
+public abstract class Statement extends ASTNode {
+    public Statement(Integer startLine, Integer endLine) {
+        super(startLine, endLine);
+    }
 }

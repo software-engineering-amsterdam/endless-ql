@@ -8,7 +8,8 @@ public class Minus extends UnaryExpression{
 
     private Expression expression;
 
-    public Minus(Expression expression) {
+    public Minus(Expression expression, Integer startLine, Integer endLine) {
+        super(startLine, endLine);
         this.expression = expression;
     }
 

@@ -1,6 +1,8 @@
 package GUI;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 
 import ParseObjects.Form;
 import javafx.application.Application;
@@ -18,42 +20,46 @@ import Application.Parser;
 import javafx.event.EventHandler;
 
 public class QLUserInterface {
-
-    private Stage stage;
-
-
-    public QLUserInterface(Stage InboundStage){
-        this.stage = InboundStage;
-
-        //Button fileBrowseBtn = createBrowseButton(stage);
-        Button fileBrowseBtn = new Button("Browse");
-
-        fileBrowseBtn.setOnAction((event) ->{
-            final FileChooser fileChooser = new FileChooser();
-            File file = fileChooser.showOpenDialog(stage);
-            if (!file.equals(null)) {
-                Parser parser = new Parser();
-                Form form = parser.parseInputToForm(file.getPath());
-                parser.printQLForm(form);
-
-                if (form.equals(null)) {
-                    Platform.exit();
-                }
-
-            }
-
-        });
-
-
-
-
-        StackPane layout = new StackPane();
-        layout.getChildren().add(fileBrowseBtn);
-        Scene scene = new Scene(layout, 300, 300);
+    public QLUserInterface(Stage stage){
+        VBox vBox = new VBox(5);
+        createBrowseButton(stage, vBox);
+        createDebugButton(stage, vBox);
+        vBox.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(vBox, 300, 300);
         stage.setScene(scene);
         stage.show();
-
-
     }
 
+    private void createDebugButton(Stage stage, VBox layout){
+        Button debugBtn = new Button("Debug");
+
+        debugBtn.setOnAction((event) ->{
+            String filePath = "./src/main/resources/example.ql";
+            Parser parser = new Parser();
+            Form form = parser.parseInputToForm(filePath);
+            parser.printQLForm(form); //debug print the form questions in console
+        });
+
+        layout.getChildren().add(debugBtn);
+    }
+
+    private void createBrowseButton(Stage stage, VBox layout){
+        Button browseBtn = new Button("Browse");
+
+        browseBtn.setOnAction((event) ->{
+            final FileChooser fileChooser = new FileChooser();
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                Parser parser = new Parser();
+                Form form = parser.parseInputToForm(file.getPath());
+                if (form == null) { Platform.exit(); }
+                else { 
+                    FormBuilder formBuilder = new FormBuilder();
+                    formBuilder.renderForm(form);
+                }
+            }
+        });
+
+        layout.getChildren().add(browseBtn);
+    }
 }

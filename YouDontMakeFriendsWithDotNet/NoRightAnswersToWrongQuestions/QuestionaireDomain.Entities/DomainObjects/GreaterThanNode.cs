@@ -5,17 +5,17 @@ using QuestionaireDomain.Entities.API.AstNodes.Relational;
 
 namespace QuestionaireDomain.Entities.DomainObjects
 {
-    public class EqualityNode : RelationalOperationNode, IEqualityNode
+    public class GreaterThanNode : RelationalOperationNode, IGreaterThanNode
     {
-        public EqualityNode(
+        public GreaterThanNode(
             Guid id,
             string definition,
             Reference<IAstNode> leftExpression,
-            Reference<IAstNode> rightExpression) 
+            Reference<IAstNode> rightExpression)
             : base(id, definition, leftExpression, rightExpression)
         {
         }
-        
+
         public override void Accept(IAstVisitor visitor)
         {
             throw new NotImplementedException();

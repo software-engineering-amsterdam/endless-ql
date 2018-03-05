@@ -4,7 +4,7 @@ using QuestionaireDomain.Entities.API.AstNodes.Boolean;
 
 namespace QuestionaireDomain.Entities.DomainObjects
 {
-    public class BooleanVariableNode : AstNodeBase, IVariableNode
+    public class BooleanVariableNode : AstNodeBase, IBooleanVariableNode
     {
         public string VariableName { get; }
 
@@ -15,7 +15,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
 
         public override void Accept(IAstVisitor visitor)
         {
-            (visitor as IAstVisitor<IVariableNode>)?.Visit(this);
+            (visitor as IAstVisitor<IBooleanVariableNode>)?.Visit(this);
         }
     }
 }

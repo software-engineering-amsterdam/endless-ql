@@ -45,6 +45,10 @@ public abstract class Literal<T>  extends Primary implements ValueVisitable, Ope
         observers.add(observer);
     }
     
+    public boolean isUndefined() {
+        return false;
+    }
+    
     @Override
     public Literal<?> evaluate() {
         return this;

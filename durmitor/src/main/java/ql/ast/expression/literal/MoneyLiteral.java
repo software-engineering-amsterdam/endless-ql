@@ -13,6 +13,7 @@ import ql.evaluator.comparisons.less.MoneyLess;
 import ql.evaluator.comparisons.lessequal.MoneyLessEqual;
 import ql.evaluator.comparisons.notequal.MoneyNotEqual;
 import ql.helpers.Currency;
+import ql.helpers.Exchange;
 import ql.visitors.interfaces.ExpressionVisitable;
 import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.ValueVisitor;
@@ -143,5 +144,14 @@ public class MoneyLiteral extends NumberLiteral implements ExpressionVisitable {
     @Override
     public Literal<?> notEqual(Literal<?> secondOperand) {
         return secondOperand.accept(new MoneyNotEqual(this));
+    }
+
+    public Literal<?> convertTo(Currency target) {
+        
+        if(Exchange.hasRateFor(currency,target))
+        {
+            return new MoneyLiteral(target, value * Exchange.getExchangeRate(currency,target));
+        }
+        return new UndefinedLiteral();
     }
 }

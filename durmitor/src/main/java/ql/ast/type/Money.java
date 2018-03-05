@@ -47,6 +47,6 @@ public class Money extends Type {
     
     @Override
     public Literal<?> parse(Literal<?> value) {
-        return value.accept(new ToMoney());
+        return value.accept(new ToMoney(currency));
     }
 }

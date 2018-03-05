@@ -10,8 +10,8 @@ public class Question {
     public final String name;
     public final String text;
     public final Expression defaultAnswer;
-    public final Expression condition;
-    public final boolean isEditable;
+    private final Expression condition;
+    private final boolean isEditable;
 
     public Question(ReturnType type, String name, String text, Expression defaultAnswer, boolean isEditable, Expression condition) {
         this.type = type;
@@ -26,22 +26,23 @@ public class Question {
         return this.condition.evaluate(symbolTable).getBooleanValue();
     }
 
+    public boolean isEditable() {
+        return isEditable;
+    }
+
     public void typeCheck(SymbolTable symbolTable) {
         this.condition.typeCheck(symbolTable);
         this.defaultAnswer.typeCheck(symbolTable);
 
         // Compare defaultAnswer expression type to question type
-        if(this.defaultAnswer.getReturnType(symbolTable) != ReturnType.UNDEFINED &&
-                (this.type == ReturnType.INTEGER || this.type == ReturnType.DECIMAL || this.type == ReturnType.MONEY)) {
+        if(this.type == ReturnType.INTEGER || this.type == ReturnType.DECIMAL || this.type == ReturnType.MONEY) {
             if(this.defaultAnswer.getReturnType(symbolTable) != ReturnType.NUMBER) {
                 throw new IllegalArgumentException("Cannot assign '"
                         + this.defaultAnswer.getReturnType(symbolTable) + "' to '" + this.type + "'");
             }
-        } else if(this.defaultAnswer.getReturnType(symbolTable) != ReturnType.UNDEFINED) {
-            if(this.defaultAnswer.getReturnType(symbolTable) != this.type) {
-                throw new IllegalArgumentException("Cannot assign '"
-                        + this.defaultAnswer.getReturnType(symbolTable) + "' to '" + this.type + "'");
-            }
+        } else if(this.defaultAnswer.getReturnType(symbolTable) != this.type) {
+            throw new IllegalArgumentException("Cannot assign '"
+                    + this.defaultAnswer.getReturnType(symbolTable) + "' to '" + this.type + "'");
         }
     }
 }

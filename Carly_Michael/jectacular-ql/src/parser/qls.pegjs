@@ -1,5 +1,5 @@
 // pegjs parser definition
-stylesheet      = ws "stylesheet" ws "\"" name:text "\"" ws "{" ws
+stylesheet      = ws comment* ws "stylesheet" ws "\"" name:text "\"" ws "{" ws
                   pages: page*
                   ws comment* ws
                   "}" ws {
@@ -40,20 +40,20 @@ question        = ws comment* ws "question" ws name:identifier ws type:defaultWi
                     return new Question(name, type, location());
                   } /
                   ws comment* ws "question" ws name:identifier {
-                    return new Question(name, WidgetType.NONE, location());
+                    return new Question(name, new Widget(WidgetType.NONE, []), location());
                   }
 
 default         = ws comment* ws "default" ws type:type ws "{" ws
                   styles:style*
-                  widgetType: defaultWidget
+                  widget: defaultWidget
                   ws comment* ws
                   "}" {
-                    return new Default(type, widgetType, styles, location());
-                  } / ws comment* ws "default" ws type:type ws widgetType:defaultWidget {
-                    return new Default(type, widgetType, [], location());
+                    return new Default(type, widget, styles, location());
+                  } / ws comment* ws "default" ws type:type ws widget:defaultWidget {
+                    return new Default(type, widget, [], location());
                   }
 
-defaultWidget   = ws comment* ws "widget" ws type:widgetType {
+defaultWidget   = ws comment* ws "widget" ws type:widget {
                     return type;
                   }
 
@@ -73,7 +73,7 @@ type            = booleanType /
                   dateType /
                   decimalType
 
-widgetType      = radioWidgetType /
+widget          = radioWidgetType /
                   checkboxWidgetType /
                   spinboxWidgetType
 
@@ -95,6 +95,6 @@ integerType     = "integer" { return QuestionType.INT; }
 dateType        = "date" { return QuestionType.DATE; }
 decimalType     = "decimal" { return QuestionType.DECIMAL; }
 
-radioWidgetType     = "radio" { return WidgetType.RADIO; }
-checkboxWidgetType  = "checkbox" { return WidgetType.CHECKBOX; }
-spinboxWidgetType   = "spinbox" { return WidgetType.SPINBOX; }
+radioWidgetType     = "radio" ws "(\"" yesValue:identifier "\"," ws "\"" noValue:identifier "\")" { return new Widget(WidgetType.RADIO, [yesValue, noValue]); }
+checkboxWidgetType  = "checkbox" { return new Widget(WidgetType.RADIO, []); }
+spinboxWidgetType   = "spinbox" { return new Widget(WidgetType.RADIO, []); }

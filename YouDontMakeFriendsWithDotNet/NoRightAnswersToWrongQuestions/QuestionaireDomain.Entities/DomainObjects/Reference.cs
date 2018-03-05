@@ -6,11 +6,21 @@ namespace QuestionaireDomain.Entities.DomainObjects
 {
     public class Reference<T> where T : IAstNode
     {
-        public Guid Id { get; set; }
+        public Reference(Guid id)
+        {
+            Id = id;
+        }
+
+        public Guid Id { get; }
 
         public static implicit operator Reference<IAstNode>(Reference<T> d)
         {
-            return new Reference<IAstNode> {Id = d.Id};
+            return new Reference<IAstNode>(d.Id);
+        }
+
+        public T ToDomainItem(IDomainItemLocator domainItemLocator)
+        {
+            return domainItemLocator.Get<T>(Id);
         }
     }
 }

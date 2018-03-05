@@ -8,10 +8,6 @@ public class Date extends Type {
 
     @Override
     public String toString() {
-        return name();
-    }
-
-    public static String name() {
         return "date";
     }
 

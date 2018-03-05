@@ -3,6 +3,7 @@ package ql.visitors;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import ql.ast.expression.literal.BoolLiteral;
 import ql.ast.statement.AnswerableQuestion;
 import ql.ast.statement.Block;
 import ql.ast.statement.ComputedQuestion;
@@ -38,7 +39,7 @@ public class ASTtoGUI implements StatementVisitor {
         parentPanel.add(panel);
         parentPanel.revalidate();
         parentPanel = panel;
-        ql.ast.expression.literal.BoolLiteral res = (ql.ast.expression.literal.BoolLiteral) new Bool().parse(stmt.getCondition().evaluate());
+        BoolLiteral res = (BoolLiteral) new Bool().parse(stmt.getCondition().evaluate());
         AbstractActionListener.enablePanel(panel, res.getValue());
         stmt.getThenStatement().accept(this);
     }

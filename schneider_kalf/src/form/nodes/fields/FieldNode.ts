@@ -1,4 +1,4 @@
-import FieldType from "../../FieldType";
+import { FieldType } from "../../FieldType";
 import Statement from "../Statement";
 import FormState from "../../state/FormState";
 

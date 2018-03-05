@@ -2,10 +2,7 @@ package analysis;
 
 import expression.Expression;
 import expression.ReturnType;
-import expression.variable.ExpressionVariable;
-import expression.variable.ExpressionVariableBoolean;
-import expression.variable.ExpressionVariableNumber;
-import expression.variable.ExpressionVariableString;
+import expression.variable.*;
 import model.Form;
 import model.Question;
 
@@ -30,11 +27,12 @@ public class SymbolTable {
         return table.get(identifier).evaluate(this);
     }
 
+    // TODO: move to expression?
     public String getStringValue(String identifier, ReturnType type) {
-        ExpressionVariable evaluated = this.getExpression(identifier);
+        ExpressionVariable evaluated = this.getExpression(identifier).evaluate(this);
 
-        // Value might not yet have been set by the user, so return empty string
-        if(evaluated.getReturnType(this) == ReturnType.UNDEFINED) {
+        // Undefined values should display nothing
+        if(evaluated.isUndefined()) {
             return "";
         }
 
@@ -54,7 +52,13 @@ public class SymbolTable {
         }
     }
 
+    // TODO: fails when number value is '-'
     public void setValue(String identifier, String value, ReturnType type) {
+        if(value.isEmpty()) {
+            this.table.put(identifier, new ExpressionVariableUndefined(type));
+            return;
+        }
+
         switch(type) {
             case INTEGER:
             case DECIMAL:

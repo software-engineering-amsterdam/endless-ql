@@ -10,7 +10,7 @@ import BooleanLiteral from "../form/nodes/expressions/boolean_expressions/Boolea
 import IfCondition from "../form/nodes/conditions/IfCondition";
 import Negation from "../form/nodes/expressions/boolean_expressions/Negation";
 import ComputedField from "../form/nodes/fields/ComputedField";
-import FieldType from "../form/FieldType";
+import { FieldType } from "../form/FieldType";
 
 export const testExpressionStuff = () => {
   const formula = new Multiplication(

@@ -1,6 +1,8 @@
 package ql.visitors;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.antlr.v4.runtime.Token;
@@ -44,11 +46,26 @@ import ql.ast.type.Money;
 import ql.ast.type.Str;
 import ql.ast.type.Type;
 import ql.ast.type.Undefined;
+import ql.exceptions.ANTLRError;
+import ql.exceptions.QLException;
 import ql.grammar.QLBaseVisitor;
 import ql.grammar.QLParser;
+import ql.grammar.QLParser.MoneyContext;
+import ql.grammar.QLParser.MoneyTypeContext;
+import ql.helpers.Currency;
 import ql.helpers.Location;
 
 public class QLVisitorToAst extends QLBaseVisitor<Object> {
+    
+    List<QLException> errors;
+    
+    public QLVisitorToAst() {
+        errors = new ArrayList<QLException>();
+    }
+    
+    public QLVisitorToAst(List<QLException> errors) {
+        this.errors = errors;
+    }
     
     private Map<String,Identifier> identifiers = new HashMap<String,Identifier>();
     
@@ -139,9 +156,9 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         return setLocation(new DecimalLiteral(ctx.getText()), ctx.start);
     }
 
-    @Override 
-    public QLNode visitMoneyLiteral(QLParser.MoneyLiteralContext ctx) {
-        return setLocation(new MoneyLiteral(ctx.getText()), ctx.start);
+    @Override
+    public Object visitMoney(MoneyContext ctx) {
+        return setLocation(new MoneyLiteral(Currency.valueOf(ctx.currency().getText()), ctx.value.getText()), ctx.start);
     }
 
     @Override 
@@ -258,9 +275,19 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         return setLocation(new Decimal(), ctx.start); 
     }
 
-    @Override 
-    public QLNode visitMoneyType(QLParser.MoneyTypeContext ctx) { 
-        return setLocation(new Money(), ctx.start); 
+    @Override
+    public QLNode visitMoneyType(MoneyTypeContext ctx) {
+        
+        Currency currency;
+        
+        if(Currency.exists(ctx.getText())) {
+            currency = Currency.valueOf(ctx.getText());
+        } else {
+            currency = Currency.defaultCurrency;
+            errors.add(new ANTLRError("Unknown currency "+ctx.getText(), ctx.start.getLine(), ctx.start.getCharPositionInLine()));
+        }
+        
+        return setLocation(new Money(currency), ctx.start);
     }
 
     @Override 

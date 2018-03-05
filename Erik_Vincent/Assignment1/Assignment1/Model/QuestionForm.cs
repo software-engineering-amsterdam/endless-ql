@@ -18,17 +18,17 @@ namespace Assignment1.Model
             Content = content;
         }
 
-        public static List<QuestionForm> ParseString(string input)
+        public static QuestionForm ParseString(string input)
         {
             ICharStream stream = CharStreams.fromstring(input);
             ITokenSource lexer = new QLLexer(stream);
             ITokenStream tokens = new CommonTokenStream(lexer);
             QL parser = new QL(tokens);
-            QL.FileContext context = parser.file();
+            QL.FormContext context = parser.form();
             QLListener listener = new QLListener();
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.Walk(listener, context);
-            return listener.Forms;
+            return listener.Form;
         }
     }
 }

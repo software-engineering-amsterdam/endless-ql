@@ -4,18 +4,19 @@ namespace QL.Core.Ast
 {
     public class ExpressionNode : Node
     {
-        public ExpressionNode(IToken token, string opperator) : base(token)
+        public ExpressionNode(IToken token, string @operator) : base(token)
         {
-            Opperator = opperator;
+            Operator = @operator;
         }
 
-        public string Opperator { get; }
+        public string Operator { get; }
+        public bool IsBinary => ChildNodes.Count == 2;
 
-        protected override void VisitNode(IVisitor visitor)
+        protected override T VisitNode<T>(IVisitor<T> visitor)
         {
-            visitor.VisitEnter(this);
+            var returnValue = visitor.Visit(this);
             VisitChildren(visitor);
-            visitor.VisitExit(this);
+            return returnValue;
         }
     }
 }

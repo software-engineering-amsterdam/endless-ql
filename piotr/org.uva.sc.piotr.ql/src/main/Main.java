@@ -2,10 +2,10 @@ package main;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import models.ast.ASTBuilder;
+import ast.ASTBuilder;
 import grammar.QLLexer;
 import grammar.QLParser;
-import models.ast.elements.Form;
+import ast.model.Form;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -20,24 +20,19 @@ public class Main {
 
         QLParser.FormContext formContext = qlParser.form();
 
-//        TypeChecker checker = new TypeChecker();
-//
-//        checker.visitForm(formContext);
-//
-//        checker.validate();
-
-//        System.out.println(formContext.toStringTree(qlParser));
-
-
         ASTBuilder ast = new ASTBuilder();
         Form form = ast.visitForm(formContext);
+
+        // Type checker
+        
+
 
         Gson gsonBuilder = new GsonBuilder().create();
         String jsonForm = gsonBuilder.toJson(form);
 
         System.out.println(jsonForm);
 
-        //form.debugPrint();
+
 
         System.out.println("Main finish.");
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Abel_Elias/Abel_Elias.iml" filepath="$PROJECT_DIR$/Abel_Elias/Abel_Elias.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Alireza/Alireza.iml" filepath="$PROJECT_DIR$/Alireza/Alireza.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Andras_Thijs/Andras_Thijs.iml" filepath="$PROJECT_DIR$/Andras_Thijs/Andras_Thijs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ForcePush/ForcePush.iml" filepath="$PROJECT_DIR$/ForcePush/ForcePush.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GunOli/GunOli.iml" filepath="$PROJECT_DIR$/GunOli/GunOli.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Jorick_Mihai/Jorick_Mihai.iml" filepath="$PROJECT_DIR$/Jorick_Mihai/Jorick_Mihai.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Rasha_Toine/Rasha/QLForm/QLForm.iml" filepath="$PROJECT_DIR$/Rasha_Toine/Rasha/QLForm/QLForm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Alireza/prototypes/QLJava/QLJava.iml" filepath="$PROJECT_DIR$/Alireza/prototypes/QLJava/QLJava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/prototypes/QLJava/QLJava1.iml" filepath="$PROJECT_DIR$/prototypes/QLJava/QLJava1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Rasha_Toine/Rasha/QLJava/QLJava2.iml" filepath="$PROJECT_DIR$/Rasha_Toine/Rasha/QLJava/QLJava2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Rasha_Toine/Toine/QLJava/QLJava3.iml" filepath="$PROJECT_DIR$/Rasha_Toine/Toine/QLJava/QLJava3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Joanna_Laurence/src/main/main.iml" filepath="$PROJECT_DIR$/Joanna_Laurence/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GunOli/src/main/main1.iml" filepath="$PROJECT_DIR$/GunOli/src/main/main1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ForcePush/src/main/main10.iml" filepath="$PROJECT_DIR$/ForcePush/src/main/main10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/durmitor/src/main/main11.iml" filepath="$PROJECT_DIR$/durmitor/src/main/main11.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JS/qlparser/src/main/main2.iml" filepath="$PROJECT_DIR$/JS/qlparser/src/main/main2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Remi_Hasan/src/main/main3.iml" filepath="$PROJECT_DIR$/Remi_Hasan/src/main/main3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/karra_takacs/src/main/main4.iml" filepath="$PROJECT_DIR$/karra_takacs/src/main/main4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Kazan/src/main/main5.iml" filepath="$PROJECT_DIR$/Kazan/src/main/main5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Rob_Jaap/java/src/main/main6.iml" filepath="$PROJECT_DIR$/Rob_Jaap/java/src/main/main6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LDG_TV/src/main/main7.iml" filepath="$PROJECT_DIR$/LDG_TV/src/main/main7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Ioana_Hisham/src/main/main8.iml" filepath="$PROJECT_DIR$/Ioana_Hisham/src/main/main8.iml" />
+      <module fileurl="file://$PROJECT_DIR$/niro/src/main/main9.iml" filepath="$PROJECT_DIR$/niro/src/main/main9.iml" />
+      <module fileurl="file://$PROJECT_DIR$/piotr/org.uva.sc.piotr.ql/org.uva.sc.piotr.ql.iml" filepath="$PROJECT_DIR$/piotr/org.uva.sc.piotr.ql/org.uva.sc.piotr.ql.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ouweh-vdwerf/ouweh-vdwerf.iml" filepath="$PROJECT_DIR$/ouweh-vdwerf/ouweh-vdwerf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Rob_Jaap/java/src/main/antlr4/com/chariotit/uva/sc/sc.iml" filepath="$PROJECT_DIR$/Rob_Jaap/java/src/main/antlr4/com/chariotit/uva/sc/sc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/karra_takacs/src/test/test.iml" filepath="$PROJECT_DIR$/karra_takacs/src/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Remi_Hasan/src/test/test1.iml" filepath="$PROJECT_DIR$/Remi_Hasan/src/test/test1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Kazan/src/test/test2.iml" filepath="$PROJECT_DIR$/Kazan/src/test/test2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JS/qlparser/src/test/test3.iml" filepath="$PROJECT_DIR$/JS/qlparser/src/test/test3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/niro/src/test/test4.iml" filepath="$PROJECT_DIR$/niro/src/test/test4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ForcePush/src/test/test5.iml" filepath="$PROJECT_DIR$/ForcePush/src/test/test5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Joanna_Laurence/src/test/test6.iml" filepath="$PROJECT_DIR$/Joanna_Laurence/src/test/test6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ForcePush/src/main/java/org/uva/uva.iml" filepath="$PROJECT_DIR$/ForcePush/src/main/java/org/uva/uva.iml" />
+    </modules>
+  </component>
+</project>

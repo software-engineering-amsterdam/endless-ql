@@ -24,13 +24,13 @@ public class DuplicateQuestionChecker implements  Analyzer {
 		List<Question> questions = QuestionCollector.collect(this.form);
         HashMap<String, List<Question>> questionsByName = new HashMap<>();
         for (Question question : questions) {
-            if (!questionsByName.containsKey(question.getName())) {
+            if (!questionsByName.containsKey(question.getText())) {
                 List<Question> firstQuestion = new ArrayList<>();
                 firstQuestion.add(question);
-                questionsByName.put(question.getName(), firstQuestion);
+                questionsByName.put(question.getText(), firstQuestion);
             }
             else {
-                questionsByName.get(question.getName()).add(question);
+               questionsByName.get(question.getText()).add(question);
             }
         }
         List<AnalysisResult> analysisResults = new ArrayList<>();

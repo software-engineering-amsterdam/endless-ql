@@ -8,6 +8,7 @@ public class IfStatement implements Statement {
 
     private Expression conditionExpression;
     private ArrayList<Statement> statementList = new ArrayList<>();
+    private ArrayList<Statement> elseStatementList = new ArrayList<>();
 
     public IfStatement(Expression conditionExpression) {
         this.conditionExpression = conditionExpression;
@@ -15,6 +16,10 @@ public class IfStatement implements Statement {
 
     public boolean addStatement(Statement statement) {
         return this.statementList.add(statement);
+    }
+
+    public boolean addElseStatement(Statement statement) {
+        return this.elseStatementList.add(statement);
     }
 
     @Override

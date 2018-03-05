@@ -54,7 +54,6 @@ public class ASTBuilder extends QLBaseVisitor {
     @Override
     public IfStatement visitIfStatement(QLParser.IfStatementContext ctx) {
 
-//        ArrayList<IfStatement> statements = new ArrayList<>();
         Expression ifConditionExpression = (Expression) visit(ctx.condition);
 
         IfStatement ifStatement = new IfStatement(ifConditionExpression);
@@ -64,18 +63,14 @@ public class ASTBuilder extends QLBaseVisitor {
             ifStatement.addStatement(statement);
         }
 
-//        statements.add(ifStatement);
-//
-//        if (ctx.elseStatement() != null) {
-//            IfStatement elseStatement = new IfStatement(new Negation(ifConditionExpression));
-//
-//            for (QLParser.StatementContext StatementContext : ctx.elseStatement().statement()) {
-//                Statement statement = visitStatement(StatementContext);
-//                elseStatement.addStatement(statement);
-//            }
-//
-//            statements.add(elseStatement);
-//        }
+        if (ctx.elseStatement() != null) {
+
+            for (QLParser.StatementContext StatementContext : ctx.elseStatement().statement()) {
+                Statement statement = visitStatement(StatementContext);
+                ifStatement.addElseStatement(statement);
+            }
+
+        }
 
         return ifStatement;
     }

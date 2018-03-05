@@ -14,8 +14,17 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Reads in a QL from in text format and returns a parsed QLForm object
+ */
 public class FormReader {
 
+    /**
+     * Reads a QL form from a text file located at the path and returns a parsed QLForm object
+     * @param path
+     * @return A parsed QLForm object
+     * @throws IOException
+     */
     public QLForm parseFile(String path) throws IOException {
 
         CharStream charStream = CharStreams.fromFileName(path);
@@ -24,6 +33,11 @@ public class FormReader {
 
     }
 
+    /**
+     * Reads a QL form from a string and returns a parsed QLForm object
+     * @param s
+     * @return A parsed QLForm object
+     */
     public QLForm parseString(String s) {
 
         CharStream charStream = CharStreams.fromString(s);
@@ -32,6 +46,11 @@ public class FormReader {
 
     }
 
+    /**
+     * Reads a QL form from a Charstream and returns a parsed QLForm object
+     * @param charStream
+     * @return A parsed QLForm object
+     */
     public QLForm parseCharstream(CharStream charStream) {
 
         QLLexer lexer = new QLLexer(charStream);

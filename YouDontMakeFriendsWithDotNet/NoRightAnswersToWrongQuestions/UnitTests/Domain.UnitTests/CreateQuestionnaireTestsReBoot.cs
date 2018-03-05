@@ -14,8 +14,6 @@ using QuestionnaireDomain.Logic;
 using QuestionnaireDomain.Logic.API;
 using QuestionnaireDomain.Logic.Logic;
 using QuestionnaireInfrastructure.API;
-using IBooleanVariableNode = QuestionaireDomain.Entities.API.AstNodes.Boolean.IVariableNode;
-using ICalculationVariableNode = QuestionaireDomain.Entities.API.AstNodes.Calculation.IVariableNode;
 
 
 namespace UnitTests.Domain.UnitTests
@@ -263,12 +261,12 @@ namespace UnitTests.Domain.UnitTests
         {
             CreateForm(validText);
             ValidateConditionalDefinitions(expectedDefinitions);
-            ValidateBooleanVariableNames(expectedVariables);
-            ValidateLiterals(expectedLiterals);
+            ValidateVariableNames(expectedVariables);
+            ValidateBooleanLiterals(expectedLiterals);
             ValidateBooleanOperators(operatorCount);
         }
 
-        private void ValidateLiterals(IEnumerable<bool> expectedLiterals)
+        private void ValidateBooleanLiterals(IEnumerable<bool> expectedLiterals)
         {
             if (!expectedLiterals.Any())
             {
@@ -290,24 +288,7 @@ namespace UnitTests.Domain.UnitTests
                 actual: literals.Count(x => !x),
                 message: "There is an incorrect number of false boolean literals");
         }
-
-        private void ValidateBooleanVariableNames(
-            IEnumerable<string> expectedVariables)
-        {
-            var conditionVariable = m_domainItemLocator
-                .GetAll<IBooleanVariableNode>()
-                .Select(x => x.VariableName)
-                .ToList();
-
-            foreach (var expectedVariable in expectedVariables)
-            {
-                Assert.Contains(
-                    expected: expectedVariable, 
-                    actual: conditionVariable,
-                    message: "There is an incorrect number of boolean variable nodes");
-            }
-        }
-
+        
         private void ValidateConditionalDefinitions(IEnumerable<string> expectedDefinitions)
         {
             var conditionDefinitions = m_domainItemLocator
@@ -377,7 +358,7 @@ namespace UnitTests.Domain.UnitTests
             MathOperatorCount operatorCount)
         {
             CreateForm(validText);
-            ValidateMathVariableNames(expectedVariables);
+            ValidateVariableNames(expectedVariables);
             ValidateMathLiterals(expectedLiterals);
             ValidateMathOperators(operatorCount);
         }
@@ -404,24 +385,7 @@ namespace UnitTests.Domain.UnitTests
                 collection: expectedNotCreated,
                 message: $"numbers expected but not created: {string.Join(",",expectedNotCreated)}");
         }
-
-        private void ValidateMathVariableNames(
-            IEnumerable<string> expectedVariables)
-        {
-            var calculationVariables = m_domainItemLocator
-                .GetAll<ICalculationVariableNode>()
-                .Select(x => x.VariableName)
-                .ToList();
-
-            foreach (var expectedVariable in expectedVariables)
-            {
-                Assert.Contains(
-                    expected: expectedVariable,
-                    actual: calculationVariables,
-                    message: $"calculation variables expected: {expectedVariable} not in {string.Join(",",calculationVariables)}");
-            }
-        }
-
+        
         private void ValidateMathOperators(MathOperatorCount operatorCount)
         {
             Assert.AreEqual(
@@ -455,7 +419,7 @@ namespace UnitTests.Domain.UnitTests
         [TestCaseSource(
             typeof(TestData),
             nameof(TestData.ComparisonConditional))]
-        public void WhenComparisonUsedInACalcualtedQuestion_ParsesCorrectly(
+        public void WhenComparisonUsedInACondition_ParsesCorrectly(
             string validText,
             IEnumerable<string> expectedCalculationDefinitions,
             IEnumerable<bool> expectedLiterals,
@@ -464,8 +428,8 @@ namespace UnitTests.Domain.UnitTests
         {
             CreateForm(validText);
             ValidateRelationalDefinition(expectedCalculationDefinitions);
-            ValidateBooleanVariableNames(expectedVariables);
-            ValidateLiterals(expectedLiterals);
+            ValidateVariableNames(expectedVariables);
+            ValidateBooleanLiterals(expectedLiterals);
             ValidateRelationalOperators(operatorCount);
         }
 
@@ -477,7 +441,7 @@ namespace UnitTests.Domain.UnitTests
                 message: "incorrect number of '==' operations");
 
             Assert.AreEqual(
-                expected: operatorCount.InEqualityCount,
+                expected: operatorCount.InequalityCount,
                 actual: NodeCount<IInequalityNode>(),
                 message: "incorrect number of '!=' operations");
 
@@ -502,6 +466,46 @@ namespace UnitTests.Domain.UnitTests
                 message: "incorrect number of '<=' operations");
         }
 
+        [TestCaseSource(
+            typeof(TestData),
+            nameof(TestData.DateComparisonConditional))]
+        public void WhenDateComparisonUsedInACondition_ParsesCorrectly(
+            string validText,
+            IEnumerable<string> expectedCalculationDefinitions,
+            IEnumerable<DateTime> expectedLiterals,
+            IEnumerable<string> expectedVariables,
+            RelationalOperatorCount operatorCount)
+        {
+            CreateForm(validText);
+            ValidateRelationalDefinition(expectedCalculationDefinitions);
+            ValidateVariableNames(expectedVariables);
+            ValidateDateLiterals(expectedLiterals);
+            ValidateRelationalOperators(operatorCount);
+        }
+        
+        private void ValidateDateLiterals(
+            IEnumerable<DateTime> expectedLiterals)
+        {
+            if (!expectedLiterals.Any())
+            {
+                return;
+            }
+
+            var actualLiterals = m_domainItemLocator
+                .GetAll<IDateNode>()
+                .Select(x => x.Value);
+
+            var createdNotExpected = actualLiterals.Except(expectedLiterals);
+            Assert.IsEmpty(
+                collection: createdNotExpected,
+                message: $"dates created but not expected: {string.Join(",", createdNotExpected)}.");
+
+            var expectedNotCreated = expectedLiterals.Except(actualLiterals);
+            Assert.IsEmpty(
+                collection: expectedNotCreated,
+                message: $"dates expected but not created: {string.Join(",", expectedNotCreated)}");
+        }
+
         private void ValidateRelationalDefinition(IEnumerable<string> expectedDefinitions)
         {
             var conditionDefinitions = m_domainItemLocator
@@ -517,6 +521,103 @@ namespace UnitTests.Domain.UnitTests
                     message: $"The conditions '{expectedDefinition}' was not created.  The created definitions were: '{string.Join("','", conditionDefinitions)}'");
             }
         }
+        [TestCaseSource(
+            typeof(TestData),
+            nameof(TestData.TextEqualityConditional))]
+        public void WhenTextComparisonUsedInACondition_ParsesCorrectly(
+            string validText,
+            IEnumerable<string> expectedCalculationDefinitions,
+            IEnumerable<string> expectedLiterals,
+            IEnumerable<string> expectedVariables,
+            RelationalOperatorCount operatorCount)
+        {
+            CreateForm(validText);
+            ValidateRelationalDefinition(expectedCalculationDefinitions);
+            ValidateVariableNames(expectedVariables);
+            ValidateTextLiterals(expectedLiterals);
+            ValidateRelationalOperators(operatorCount);
+        }
 
+
+        private void ValidateTextLiterals(
+            IEnumerable<string> expectedLiterals)
+        {
+            if (!expectedLiterals.Any())
+            {
+                return;
+            }
+
+            var actualLiterals = m_domainItemLocator
+                .GetAll<ITextNode>()
+                .Select(x => x.Value);
+
+            var createdNotExpected = actualLiterals.Except(expectedLiterals);
+            Assert.IsEmpty(
+                collection: createdNotExpected,
+                message: $"numbers created but not expected: {string.Join(",", createdNotExpected)}.");
+
+            var expectedNotCreated = expectedLiterals.Except(actualLiterals);
+            Assert.IsEmpty(
+                collection: expectedNotCreated,
+                message: $"numbers expected but not created: {string.Join(",", expectedNotCreated)}");
+        }
+
+        private void ValidateVariableNames(
+            IEnumerable<string> expectedVariables)
+        {
+            var conditionVariable = m_domainItemLocator
+                .GetAll<IVariableNode>()
+                .Select(x => x.VariableName)
+                .ToList();
+
+            foreach (var expectedVariable in expectedVariables)
+            {
+                Assert.Contains(
+                    expected: expectedVariable,
+                    actual: conditionVariable,
+                    message: "There is an incorrect number of text variable nodes");
+            }
+        }
+
+
+        [TestCaseSource(
+            typeof(TestData),
+            nameof(TestData.CalculationRelationalConditional))]
+        public void WhenCalculationUsedInACondition_ParsesCorrectly(
+            string validText,
+            IEnumerable<string> expectedCalculationDefinitions,
+            IEnumerable<string> expectedExpressions,
+            IEnumerable<string> expectedVariables,
+            RelationalOperatorCount operatorCount)
+        {
+            CreateForm(validText);
+            ValidateRelationalDefinition(expectedCalculationDefinitions);
+            ValidateVariableNames(expectedVariables);
+            ValidateMathExpressions(expectedExpressions);
+            ValidateRelationalOperators(operatorCount);
+        }
+
+        private void ValidateMathExpressions(IEnumerable<string> expectedExpressions)
+        {
+            if (!expectedExpressions.Any())
+            {
+                return;
+            }
+
+            var actualLiterals = m_domainItemLocator
+                .GetAll<ICalculationNode>()
+                .Select(x => x.Definition);
+
+            var createdNotExpected = actualLiterals.Except(expectedExpressions);
+            Assert.IsEmpty(
+                collection: createdNotExpected,
+                message: $"expression created but not expected: {string.Join(",", createdNotExpected)}.");
+
+            var expectedNotCreated = expectedExpressions.Except(actualLiterals);
+            Assert.IsEmpty(
+                collection: expectedNotCreated,
+                message: $"expression expected but not created: {string.Join(",", expectedNotCreated)}");
+
+        }
     }
 }

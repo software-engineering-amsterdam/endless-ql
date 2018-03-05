@@ -7,9 +7,7 @@ using QuestionaireDomain.Entities.API.AstNodes.Calculation;
 using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 using QuestionaireDomain.Entities.API.AstNodes.Relational;
 using QuestionaireDomain.Entities.DomainObjects;
-using ICalculationVariableNode = QuestionaireDomain.Entities.API.AstNodes.Calculation.IVariableNode;
-using IBooleanVariableNode = QuestionaireDomain.Entities.API.AstNodes.Boolean.IVariableNode;
- 
+
 //ToDO split into questionairre, boolean logic and calcualtion ast nodes
 namespace QuestionnaireDomain.Logic.Logic
 {
@@ -94,10 +92,10 @@ namespace QuestionnaireDomain.Logic.Logic
             return AstNodeRegistration<INumberNode>(number);
         }
 
-        public Reference<ICalculationVariableNode> CreateNumberVariableName(string variableName)
+        public Reference<ICalcualtionVariableNode> CreateNumberVariableName(string variableName)
         {
             var variable = new CalculationVariableNode(m_ids.Next, variableName);
-            return AstNodeRegistration<ICalculationVariableNode>(variable);
+            return AstNodeRegistration<ICalcualtionVariableNode>(variable);
         }
 
         public Reference<IBooleanVariableNode> CreateBooleanVariableName(string variableName)
@@ -220,6 +218,105 @@ namespace QuestionnaireDomain.Logic.Logic
                 rightExpression);
 
             return AstNodeRegistration<ISubtractNode>(subtractNode);
+        }
+
+        public Reference<IAstNode> CreateInequalityOperation(
+            string definition, Reference<IAstNode> leftExpression, 
+            Reference<IAstNode> rightExpression)
+        {
+            var inequalityNode = new InequalityNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<IInequalityNode>(inequalityNode);
+        }
+
+        public Reference<IAstNode> CreateDate(string dateText)
+        {
+            var dateNode = new DateNode(
+                m_ids.Next,
+                dateText);
+
+            return AstNodeRegistration<IDateNode>(dateNode);
+        }
+
+        public Reference<IAstNode> CreateDateVariableName(string variableName)
+        {
+            var dateNode = new DateVariableNode(
+                m_ids.Next,
+                variableName);
+
+            return AstNodeRegistration<IDateVariableNode>(dateNode);
+        }
+
+        public Reference<IAstNode> CreateText(string text)
+        {
+            var dateNode = new TextNode(
+                m_ids.Next,
+                text);
+
+            return AstNodeRegistration<ITextNode>(dateNode);
+        }
+
+        public Reference<IAstNode> CreateTextVariableName(string variableName)
+        {
+            var textNode = new TextVariableNode(
+                m_ids.Next,
+                variableName);
+
+            return AstNodeRegistration<ITextVariableNode>(textNode);
+        }
+
+        public Reference<IAstNode> CreateGreaterThanOperation(
+            string definition, 
+            Reference<IAstNode> leftExpression, 
+            Reference<IAstNode> rightExpression)
+        {
+            var greaterThanNode = new GreaterThanNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<IGreaterThanNode>(greaterThanNode);
+        }
+
+        public Reference<IAstNode> CreateGreaterOrEqualOperation(
+            string definition, 
+            Reference<IAstNode> leftExpression, 
+            Reference<IAstNode> rightExpression)
+        {
+            var greaterOrEqualNode = new GreaterOrEqualNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<IGreaterOrEqualNode>(greaterOrEqualNode);
+        }
+
+        public Reference<IAstNode> CreateLessThanOperation(string definition, Reference<IAstNode> leftExpression, Reference<IAstNode> rightExpression)
+        {
+            var lessThanNode = new LessThanNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<ILessThanNode>(lessThanNode);
+        }
+
+        public Reference<IAstNode> CreateLessOrEqualOperation(string definition, Reference<IAstNode> leftExpression, Reference<IAstNode> rightExpression)
+        {
+            var lessOrEqualNode = new LessOrEqualNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<ILessOrEqualNode>(lessOrEqualNode);
         }
 
         private Reference<T> AstNodeRegistration<T>(T node) where T : IAstNode

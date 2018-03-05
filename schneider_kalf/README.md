@@ -95,7 +95,8 @@ Result will be written into the `/build` folder
 * TODO: Replace this simple integer check with solution in parser, differentiate between 10 and 10.0 (See type check visitor visitNumberLiteral)
 * TODO: Allow money and date literal (See type check visitor visitNumberLiteral)
 * TODO: Allow float literals (5.1 and 5.0)
-* TODO: Identifiers that start with keyword are not accepted (e.g. trueTwo)
 * TODO: money = (50 + 10) results in Addition(NumberLiteral(5), NumberLiteral(10))
 * TODO: Every character of changed field is in state (Maybe kill state when form changes?)
+* TODO: Divide money by money transformed to float
+* TODO: SellingPrice: boolean = (1 / 10) is not a problem
 * TODO improve naming

@@ -18,7 +18,7 @@ namespace Assignment1.Model
             Content = content;
         }
 
-        public static QuestionForm ParseString(string input)
+        internal static QLListener ParseString(string input)
         {
             ICharStream stream = CharStreams.fromstring(input);
             ITokenSource lexer = new QLLexer(stream);
@@ -28,7 +28,7 @@ namespace Assignment1.Model
             QLListener listener = new QLListener();
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.Walk(listener, context);
-            return listener.Form;
+            return listener;
         }
     }
 }

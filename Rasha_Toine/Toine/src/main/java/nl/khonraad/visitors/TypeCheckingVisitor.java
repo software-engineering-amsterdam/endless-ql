@@ -5,80 +5,85 @@ import java.util.List;
 
 import nl.khonraad.ExpressionLanguageBaseVisitor;
 import nl.khonraad.ExpressionLanguageParser;
-import nl.khonraad.domain.Question;
-import nl.khonraad.domain.Questions;
-import nl.khonraad.domain.Question.QuestionType;
+import nl.khonraad.domain.AnswerableQuestion;
+import nl.khonraad.domain.AsnwerableQuestions;
+import nl.khonraad.domain.ComputedQuestion;
+import nl.khonraad.domain.ComputedQuestions;
+import nl.khonraad.domain.Value;
 
-public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Integer> {
+public class TypeCheckingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
-	public Questions questions = new Questions();
+	public AsnwerableQuestions answerableQuestions = new AsnwerableQuestions();
+	public ComputedQuestions computedQuestions = new ComputedQuestions();
 	public List<String> forwardReferences = new ArrayList<String>();
+	public List<String> foundReferences = new ArrayList<String>();
 
 	public static final String ERROR_ReferenceToUndefinedQuestion = "Reference to undefined question: ";
 	public static final String ERROR_DuplicateQuestionDeclaration = "Duplicate question declaration: ";
 
 	@Override
-	public Integer visitForm(ExpressionLanguageParser.FormContext ctx) {
+	public Value visitForm(ExpressionLanguageParser.FormContext ctx) {
 		
 		visitChildren(ctx);
 		
+		for ( String s : foundReferences ) {
+			forwardReferences.remove(s);
+		}
 		if (forwardReferences.size() == 0) {
-			return 0;
+			return new Value("form",0);
 		}
 		throw new RuntimeException(ERROR_ReferenceToUndefinedQuestion + forwardReferences.get(0));
 	}
 
 	@Override
-	public Integer visitPartAnswerableQuestion(ExpressionLanguageParser.PartAnswerableQuestionContext ctx) {
+	public Value visitPartAnswerableQuestion(ExpressionLanguageParser.PartAnswerableQuestionContext ctx) {
 
-		String identifier = ctx.identifier.getText();
+		String identifier = ctx.Identifier().getText();
 
-		forwardReferences.remove(identifier);
 
-		if (!questions.containsKey(identifier)) {
+		if (!answerableQuestions.containsKey(identifier)) {
 
-			String label = ctx.label.getText();
-			String iotype = ctx.iotype.getText();
+			foundReferences.add(identifier);
 
-			questions.put(identifier, new Question(QuestionType.NOT_COMPUTED, identifier, label, iotype));
+			String label = ctx.QuotedString().getText();
+			String type = ctx.Type().getText();
 
-			return 0;
+			AnswerableQuestion question = new AnswerableQuestion(identifier, label, type);
+			answerableQuestions.put(identifier, question);
+
+			return question;
 		}
 		throw new RuntimeException(ERROR_DuplicateQuestionDeclaration + identifier);
 	}
 
 	@Override
-	public Integer visitPartComputedQuestion(ExpressionLanguageParser.PartComputedQuestionContext ctx) {
+	public Value visitPartComputedQuestion(ExpressionLanguageParser.PartComputedQuestionContext ctx) {
 
-		String identifier = ctx.identifier.getText();
+		visitChildren(ctx);
+		
+		String identifier = ctx.Identifier().getText();
+		String label = ctx.QuotedString().getText();
+		String type = ctx.Type().getText();
 
-		forwardReferences.remove(identifier);
+		if (!computedQuestions.containsKey(identifier)) {
 
-		if (!questions.containsKey(identifier)) {
-
-			String label = ctx.label.getText();
-			String iotype = ctx.iotype.getText();
-
-			Question question = new Question(QuestionType.COMPUTED, identifier, label, iotype);
-			question.setValue(visit(ctx.expression()).toString());
+			foundReferences.add(identifier);
 			
-			questions.put(identifier, question);
+			ComputedQuestion question = new ComputedQuestion(identifier, label, type);
 			
-			return question.getValue();
+			computedQuestions.put(identifier, question);
+
+			return question;
 		}
 		throw new RuntimeException(ERROR_DuplicateQuestionDeclaration + identifier);
 	}
 
 	@Override
-	public Integer visitLBL_Id_Expression(ExpressionLanguageParser.LBL_Id_ExpressionContext ctx) {
-
-		String identifier = ctx.IDENTIFIER().getText();
-
-		if (!questions.containsKey(identifier)) {
-			forwardReferences.add(identifier);
-			return 0;
-		}
-		return questions.get(identifier).getValue();
+	public Value visitIdentifier(ExpressionLanguageParser.IdentifierContext ctx) {
+		
+		String identifier = ctx.Identifier().getText();
+		forwardReferences.add(identifier);
+		return null;
 	}
 
 }

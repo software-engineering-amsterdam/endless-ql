@@ -38,6 +38,12 @@ public class MoneyDivide extends AbstractEvaluator<MoneyLiteral> {
 
     @Override
     public Literal<?> visit(MoneyLiteral secondOperand) {
+        
+        if(firstOperand.getCurrency().equals(secondOperand.getCurrency()))
+        {
+            return new DecimalLiteral(firstOperand.getValue() / secondOperand.getValue());
+        }
+        
         return new UndefinedLiteral();
     }
 

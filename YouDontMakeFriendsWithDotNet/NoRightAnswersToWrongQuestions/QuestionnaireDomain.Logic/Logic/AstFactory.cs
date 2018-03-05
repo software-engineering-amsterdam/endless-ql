@@ -7,9 +7,7 @@ using QuestionaireDomain.Entities.API.AstNodes.Calculation;
 using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 using QuestionaireDomain.Entities.API.AstNodes.Relational;
 using QuestionaireDomain.Entities.DomainObjects;
-using ICalculationVariableNode = QuestionaireDomain.Entities.API.AstNodes.Calculation.IVariableNode;
-using IBooleanVariableNode = QuestionaireDomain.Entities.API.AstNodes.Boolean.IVariableNode;
- 
+
 //ToDO split into questionairre, boolean logic and calcualtion ast nodes
 namespace QuestionnaireDomain.Logic.Logic
 {
@@ -25,71 +23,79 @@ namespace QuestionnaireDomain.Logic.Logic
         }
 
         public Reference<IRootNode> CreateQuestionnaire(
+            string definition,
             string questionaireName,
             IEnumerable<Reference<IStatementNode>> statements)
         {
-            var questionnaire = new AstNode(
+            var questionnaire = new QuestionnaireRootNode(
                 m_ids.Next,
+                definition,
                 questionaireName,
                 statements);
+
             return AstNodeRegistration<IRootNode>(questionnaire);
         }
-
-        public Reference<ICalculationNode> CreateCalculation(string calculationDefinition)
-        {
-            var calculation = new CalculationNode(m_ids.Next, calculationDefinition);
-            return AstNodeRegistration<ICalculationNode>(calculation);
-        }
-
+        
         public Reference<IConditionalStatementNode> CreateConditional(
-            string questionDefinition, 
+            string definition, 
             Reference<IBooleanLogicNode> predicate, 
             IEnumerable<Reference<IStatementNode>> consequent,
             IEnumerable<Reference<IStatementNode>> alternative)
         {
             var condition = new ConditionalAst(
                 m_ids.Next, 
-                questionDefinition,
+                definition,
                 predicate,
                 consequent,
                 alternative);
+
             return AstNodeRegistration<IConditionalStatementNode>(condition);
         }
         
-        public Reference<IQuestionNode> CreateUserInputQuestion(
+        public Reference<IUserInputQuestionNode> CreateUserInputQuestion(
+            string definition,
             string questionName, 
             string questionText, 
             Type questionType)
         {
-            var question = new UserInputQuestion(m_ids.Next, questionName, questionText, questionType);
-            return AstNodeRegistration<IQuestionNode>(question);
+            var question = new UserInputQuestion(
+                m_ids.Next, 
+                definition,
+                questionName, 
+                questionText, 
+                questionType);
+
+            return AstNodeRegistration<IUserInputQuestionNode>(question);
         }
 
-        public Reference<IQuestionNode> CreateCalculatedQuestion(
+        public Reference<ICalculatedQuestionNode> CreateCalculatedQuestion(
+            string definition,
             string questionName, 
             string questionText, 
             Type questionType,
             Reference<ICalculationNode> calculation)
         {
-            throw new NotImplementedException();
-        }
+            var question = new CalculatedQuestion(
+                m_ids.Next, 
+                definition,
+                questionName, 
+                questionText, 
+                questionType,
+                calculation);
 
-        private Reference<T> AstNodeRegistration<T>(T node) where T : IAstNode
-        {
-            m_registry.Add(node);
-            return new Reference<T>(node.Id);
+            return AstNodeRegistration<ICalculatedQuestionNode>(question);
         }
-
+        
         public Reference<INumberNode> CreateNumber(string numberText)
         {
             var number = new NumberNode(m_ids.Next, numberText);
             return AstNodeRegistration<INumberNode>(number);
         }
 
-        public Reference<ICalculationVariableNode> CreateNumberVariableName(string variableName)
+        public Reference<ICalcualtionVariableNode> CreateNumberVariableName(string variableName)
         {
             var variable = new CalculationVariableNode(m_ids.Next, variableName);
-            return AstNodeRegistration<ICalculationVariableNode>(variable);
+            return AstNodeRegistration<ICalcualtionVariableNode>(variable);
         }
 
         public Reference<IBooleanVariableNode> CreateBooleanVariableName(string variableName)
@@ -100,43 +106,223 @@ namespace QuestionnaireDomain.Logic.Logic
 
         public Reference<ILiteralNode> CreateBooleanLiteral(string booleanString)
         {
-            var literal = new BooleanLiteralNode(m_ids.Next, booleanString);
+            var literal = new BooleanLiteralNode(m_ids.Next,booleanString);
             return AstNodeRegistration<ILiteralNode>(literal);
         }
 
         public Reference<IAndNode> CreateAndOperation(
+            string definition,
             Reference<IBooleanLogicNode> leftExpression,
             Reference<IBooleanLogicNode> rightExpression)
         {
-            var andNode = new AndNode(m_ids.Next, leftExpression, rightExpression);
+            var andNode = new AndNode(
+                m_ids.Next, 
+                definition,
+                leftExpression, 
+                rightExpression);
+
             return AstNodeRegistration<IAndNode>(andNode);
         }
 
         public Reference<IOrNode> CreateOrOperation(
+            string definition,
             Reference<IBooleanLogicNode> leftExpression,
             Reference<IBooleanLogicNode> rightExpression)
         {
-            var orNode = new OrNode(m_ids.Next, leftExpression, rightExpression);
+            var orNode = new OrNode(
+                m_ids.Next, 
+                definition,
+                leftExpression, 
+                rightExpression);
+
             return AstNodeRegistration<IOrNode>(orNode);
         }
 
-        public Reference<INegateNode> CreateNegation(
+        public Reference<INegateNode> CreateNegationOperation(
+            string definition,
             Reference<IBooleanLogicNode> childExpression)
         {
-            var negateNode = new NegateNode(m_ids.Next, childExpression);
+            var negateNode = new NegateNode(
+                m_ids.Next, 
+                definition,
+                childExpression);
+
             return AstNodeRegistration<INegateNode>(negateNode);
         }
 
-        public Reference<IEqualityNode> CreateEquality(
+        public Reference<IEqualityNode> CreateEqualityOperation(
+            string definition,
             Reference<IAstNode> leftExpression, 
             Reference<IAstNode> rightExpression)
         {
             var equalityNode = new EqualityNode(
                 m_ids.Next, 
+                definition,
                 leftExpression, 
                 rightExpression);
 
             return AstNodeRegistration<IEqualityNode>(equalityNode);
+        }
+
+        public Reference<IAstNode> CreateMultiplicationOperation(
+            string definition,
+            Reference<ICalculationNode> leftExpression, 
+            Reference<ICalculationNode> rightExpression)
+        {
+            var multiplicationNode = new MultiplyNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<IMultiplyNode>(multiplicationNode);
+        }
+
+        public Reference<IAstNode> CreateDivisionOperation(
+            string definition,
+            Reference<ICalculationNode> leftExpression, 
+            Reference<ICalculationNode> rightExpression)
+        {
+            var divisionNode = new DivideNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<IDivideNode>(divisionNode);
+        }
+
+        public Reference<IAstNode> CreateAdditionOperation(
+            string definition, 
+            Reference<ICalculationNode> leftExpression, 
+            Reference<ICalculationNode> rightExpression)
+        {
+            var addNode = new AddNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<IAddNode>(addNode);
+        }
+
+        public Reference<IAstNode> CreateSubtractionOperation(
+            string definition, 
+            Reference<ICalculationNode> leftExpression, 
+            Reference<ICalculationNode> rightExpression)
+        {
+            var subtractNode = new SubtractNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<ISubtractNode>(subtractNode);
+        }
+
+        public Reference<IAstNode> CreateInequalityOperation(
+            string definition, Reference<IAstNode> leftExpression, 
+            Reference<IAstNode> rightExpression)
+        {
+            var inequalityNode = new InequalityNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<IInequalityNode>(inequalityNode);
+        }
+
+        public Reference<IAstNode> CreateDate(string dateText)
+        {
+            var dateNode = new DateNode(
+                m_ids.Next,
+                dateText);
+
+            return AstNodeRegistration<IDateNode>(dateNode);
+        }
+
+        public Reference<IAstNode> CreateDateVariableName(string variableName)
+        {
+            var dateNode = new DateVariableNode(
+                m_ids.Next,
+                variableName);
+
+            return AstNodeRegistration<IDateVariableNode>(dateNode);
+        }
+
+        public Reference<IAstNode> CreateText(string text)
+        {
+            var dateNode = new TextNode(
+                m_ids.Next,
+                text);
+
+            return AstNodeRegistration<ITextNode>(dateNode);
+        }
+
+        public Reference<IAstNode> CreateTextVariableName(string variableName)
+        {
+            var textNode = new TextVariableNode(
+                m_ids.Next,
+                variableName);
+
+            return AstNodeRegistration<ITextVariableNode>(textNode);
+        }
+
+        public Reference<IAstNode> CreateGreaterThanOperation(
+            string definition, 
+            Reference<IAstNode> leftExpression, 
+            Reference<IAstNode> rightExpression)
+        {
+            var greaterThanNode = new GreaterThanNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<IGreaterThanNode>(greaterThanNode);
+        }
+
+        public Reference<IAstNode> CreateGreaterOrEqualOperation(
+            string definition, 
+            Reference<IAstNode> leftExpression, 
+            Reference<IAstNode> rightExpression)
+        {
+            var greaterOrEqualNode = new GreaterOrEqualNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<IGreaterOrEqualNode>(greaterOrEqualNode);
+        }
+
+        public Reference<IAstNode> CreateLessThanOperation(string definition, Reference<IAstNode> leftExpression, Reference<IAstNode> rightExpression)
+        {
+            var lessThanNode = new LessThanNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<ILessThanNode>(lessThanNode);
+        }
+
+        public Reference<IAstNode> CreateLessOrEqualOperation(string definition, Reference<IAstNode> leftExpression, Reference<IAstNode> rightExpression)
+        {
+            var lessOrEqualNode = new LessOrEqualNode(
+                m_ids.Next,
+                definition,
+                leftExpression,
+                rightExpression);
+
+            return AstNodeRegistration<ILessOrEqualNode>(lessOrEqualNode);
+        }
+
+        private Reference<T> AstNodeRegistration<T>(T node) where T : IAstNode
+        {
+            m_registry.Add(node);
+            return new Reference<T>(node.Id);
         }
     }
 }

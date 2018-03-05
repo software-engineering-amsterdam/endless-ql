@@ -19,4 +19,9 @@ public class AnswerableQuestion extends Question {
     public void accept(StatementVisitor visitor) {
         visitor.visit(this);
     }
+    
+    @Override
+    public boolean isAnswerable() {
+        return true;
+    }
 }

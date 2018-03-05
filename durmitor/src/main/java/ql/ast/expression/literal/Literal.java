@@ -1,14 +1,18 @@
 package ql.ast.expression.literal;
 
-import ql.ast.expression.Observer;
 import ql.ast.expression.Primary;
+import ql.ast.type.Money;
 import ql.ast.type.Type;
 import ql.evaluator.Operations;
 import ql.visitors.interfaces.ValueVisitable;
 
-public abstract class Literal<T>  extends Primary implements ValueVisitable, Operations<Literal<?>>, Observable {
+public abstract class Literal<T>  extends Primary implements ValueVisitable, Operations<Literal<?>> {
 
     public abstract T getValue();
+    
+    public static Literal<?> create(Type type) {
+        return create(type,null);
+    }
     
     public static Literal<?> create(Type type, String value) {
         
@@ -21,7 +25,7 @@ public abstract class Literal<T>  extends Primary implements ValueVisitable, Ope
         } else if(type.isDecimal()) {
             return new DecimalLiteral(value);
         } else if(type.isMoney()) {
-            return new MoneyLiteral(value);
+            return new MoneyLiteral(((Money) type).getCurrency(),value);
         } else if(type.isDate()) {
             return new DateLiteral(value);
         } else {
@@ -29,16 +33,8 @@ public abstract class Literal<T>  extends Primary implements ValueVisitable, Ope
         }
     }
     
-    @Override
-    public void notifyObservers() {
-        observers.forEach(observer -> {
-            observer.update();
-        });
-    }
-
-    @Override
-    public void addObserver(Observer observer) {
-        observers.add(observer);
+    public boolean isUndefined() {
+        return false;
     }
     
     @Override

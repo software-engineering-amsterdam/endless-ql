@@ -1,3 +1,5 @@
+const qlParser = require("./parsers/ql_parser");
+
 export const getParserErrorMessage = (error: Error | any) => {
   let message = error.message;
 
@@ -6,4 +8,8 @@ export const getParserErrorMessage = (error: Error | any) => {
   }
 
   return message;
+};
+
+export const getQlParser = () => {
+  return qlParser;
 };

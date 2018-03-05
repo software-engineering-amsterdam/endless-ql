@@ -11,9 +11,11 @@ namespace QuestionaireDomain.Entities.DomainObjects
         private static readonly string[] TruthValues = { "true", "True", "TRUE" };
         private static readonly string[] FalseValues = { "false", "False", "FALSE" };
 
+        public bool Value { get; }
+
         public BooleanLiteralNode(
             Guid id,
-            string booleanString) : base(id)
+            string booleanString) : base(id, booleanString)
         {
             if (TruthValues.Contains(booleanString))
             {
@@ -31,9 +33,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
 
         public override void Accept(IAstVisitor visitor)
         {
-            throw new NotImplementedException();
+            (visitor as IAstVisitor<ILiteralNode>)?.Visit(this);
         }
-
-        public bool Value { get; }
     }
 }

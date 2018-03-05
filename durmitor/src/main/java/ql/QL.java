@@ -37,7 +37,7 @@ public class QL {
     public Form getForm() throws Exception { 
         
         InputStream inputStream         = getClass().getClassLoader().getResourceAsStream(filePath);
-        QLVisitorToAst visitor          = new QLVisitorToAst();
+        QLVisitorToAst visitor          = new QLVisitorToAst(errors);
         QLErrorListener errorListener   = new QLErrorListener(errors);
         
         CharStream charStream;

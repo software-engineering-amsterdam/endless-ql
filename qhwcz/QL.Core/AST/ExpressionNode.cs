@@ -11,12 +11,11 @@ namespace QL.Core.Ast
 
         public string Operator { get; }
         public bool IsBinary => ChildNodes.Count == 2;
+        public bool IsUnary => ChildNodes.Count == 1;
 
         protected override T VisitNode<T>(IVisitor<T> visitor)
         {
-            var returnValue = visitor.Visit(this);
-            VisitChildren(visitor);
-            return returnValue;
+            return visitor.Visit(this);
         }
     }
 }

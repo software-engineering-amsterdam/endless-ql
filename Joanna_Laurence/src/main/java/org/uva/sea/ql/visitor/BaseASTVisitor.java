@@ -135,8 +135,8 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
     }
 
     public T visit(BinaryOperator node) {
-        node.getLhs().accept(this);
-        node.getRhs().accept(this);
+        node.getLeftHandSide().accept(this);
+        node.getRightHandSide().accept(this);
         return null;
     }
 

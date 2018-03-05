@@ -5,23 +5,20 @@ using QuestionaireDomain.Entities.API.AstNodes.Relational;
 
 namespace QuestionaireDomain.Entities.DomainObjects
 {
-    public class EqualityNode : AstNodeBase, IEqualityNode
+    public class EqualityNode : RelationalOperationNode, IEqualityNode
     {
-        public EqualityNode
-            (Guid id,
+        public EqualityNode(
+            Guid id,
+            string definition,
             Reference<IAstNode> leftExpression,
-            Reference<IAstNode> rightExpression) : base(id)
+            Reference<IAstNode> rightExpression) 
+            : base(id, definition, leftExpression, rightExpression)
         {
-            LeftExpression = leftExpression;
-            RightExpression = rightExpression;
         }
-
+        
         public override void Accept(IAstVisitor visitor)
         {
             throw new NotImplementedException();
         }
-
-        public Reference<IAstNode> LeftExpression { get; }
-        public Reference<IAstNode> RightExpression { get; }
     }
 }

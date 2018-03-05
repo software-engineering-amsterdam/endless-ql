@@ -34,21 +34,15 @@ public class Question {
         this.condition.typeCheck(symbolTable);
         this.defaultAnswer.typeCheck(symbolTable);
 
-//        if (this.defaultAnswer.getReturnType(symbolTable) == ReturnType.UNDEFINED) {
-//            return;
-//        }
-
         // Compare defaultAnswer expression type to question type
         if(this.type == ReturnType.INTEGER || this.type == ReturnType.DECIMAL || this.type == ReturnType.MONEY) {
             if(this.defaultAnswer.getReturnType(symbolTable) != ReturnType.NUMBER) {
                 throw new IllegalArgumentException("Cannot assign '"
                         + this.defaultAnswer.getReturnType(symbolTable) + "' to '" + this.type + "'");
             }
-        } else {
-            if(this.defaultAnswer.getReturnType(symbolTable) != this.type) {
-                throw new IllegalArgumentException("Cannot assign '"
-                        + this.defaultAnswer.getReturnType(symbolTable) + "' to '" + this.type + "'");
-            }
+        } else if(this.defaultAnswer.getReturnType(symbolTable) != this.type) {
+            throw new IllegalArgumentException("Cannot assign '"
+                    + this.defaultAnswer.getReturnType(symbolTable) + "' to '" + this.type + "'");
         }
     }
 }

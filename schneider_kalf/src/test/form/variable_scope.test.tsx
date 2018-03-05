@@ -1,15 +1,17 @@
-import VariableScopeVisitor from "../../form/typechecking/VariableScopeVisitor";
+import { VariableScopeResult, VariableScopeVisitor } from "../../form/type_checking/VariableScopeVisitor";
 import {
   nestedForm, nestedFormFieldDeclaredTwice, nestedFormScopeFlawed1,
   nestedFormScopeFlawed2, nestedFormScopeFlawed3
-} from "../data/testForms";
+} from "../data/test_scope_forms";
 import { FieldAlreadyDeclaredError, VariableNotInScopeError } from "../../form/form_errors";
 
 it('does not create an error for the variable scopes of a correct form', () => {
-  const visitor = new VariableScopeVisitor();
-  nestedForm.accept(visitor);
+  const visitor: VariableScopeVisitor = new VariableScopeVisitor();
+  const result: VariableScopeResult = visitor.run(nestedForm);
 
-  expect(true).toBeTruthy();
+  const identifiers = Array.from(result.variables.keys()).sort();
+
+  expect(identifiers).toEqual(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'x', 'y']);
 });
 
 it('does not allow a second declaration of a field', () => {

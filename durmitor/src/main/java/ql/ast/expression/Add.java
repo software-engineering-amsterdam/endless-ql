@@ -1,8 +1,6 @@
 package ql.ast.expression;
 
 import ql.ast.expression.literal.Literal;
-import ql.ast.expression.literal.UndefinedLiteral;
-import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class Add extends BinaryOperator {
@@ -21,11 +19,6 @@ public class Add extends BinaryOperator {
         return "+";
     }
     
-    @Override
-    public Type getType() {
-        return firstOperand.getType().parse(new UndefinedLiteral()).add(secondOperand.getType().parse(new UndefinedLiteral())).getType();
-    }
-
     @Override
     public Literal<?> evaluate() {
         return firstOperand.evaluate().add(secondOperand.evaluate());

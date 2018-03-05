@@ -1,5 +1,7 @@
 package main;
 
+import ast.visitors.QuestionsGraph;
+import ast.visitors.ReferencesList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ast.ASTBuilder;
@@ -23,16 +25,28 @@ public class Main {
         ASTBuilder astBuilder = new ASTBuilder();
         Form form = astBuilder.visitForm(formContext);
 
-        // Type checker
-//        form.accept(TypeChecker);
+        // questions graph for type validator
+        QuestionsGraph graph = new QuestionsGraph();
+        form.accept(graph);
 
+        // list of references (?)
+        ReferencesList referencesList = new ReferencesList();
+        form.accept(referencesList);
 
-        Gson gsonBuilder = new GsonBuilder().create();
-        String jsonForm = gsonBuilder.toJson(form);
+        // Type checking
 
-        System.out.println(jsonForm);
+        // undeclared variables usage
+        referencesList.validateWithGraph(graph);
 
+        // duplicate question declarations with different types
+        graph.validateDuplicates();
 
+        // duplicate labels (warning)
+        try {
+            graph.validateLabels();
+        } catch (Exception e) {
+            System.out.println("Warning: " + e.getMessage());
+        }
 
         System.out.println("Main finish.");
 

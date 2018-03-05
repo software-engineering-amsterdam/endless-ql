@@ -1,166 +1,57 @@
 package ast.visitors;
 
-import ast.model.Form;
-import ast.model.datatypes.*;
-import ast.model.expressions.Expression;
-import ast.model.expressions.binary.BinaryExpression;
-import ast.model.expressions.binary.arithmetics.Addition;
-import ast.model.expressions.binary.arithmetics.Division;
-import ast.model.expressions.binary.arithmetics.Multiplication;
-import ast.model.expressions.binary.arithmetics.Subtraction;
-import ast.model.expressions.binary.comparision.*;
-import ast.model.expressions.binary.logical.LogicalAnd;
-import ast.model.expressions.binary.logical.LogicalOr;
-import ast.model.expressions.unary.UnaryExpression;
-import ast.model.expressions.unary.arithmetics.Minus;
-import ast.model.expressions.unary.logical.Negation;
-import ast.model.expressions.unary.values.Literal;
-import ast.model.expressions.unary.values.VariableReference;
-import ast.model.statement.IfStatement;
 import ast.model.statement.Question;
-import ast.model.statement.Statement;
 
-public class QuestionsGraph implements ASTNodeVisitor {
+import java.util.ArrayList;
+import java.util.Objects;
 
+public class QuestionsGraph extends ASTNodeAbstractVisitor {
 
+    private ArrayList<Question> questions = new ArrayList<>();
 
-    @Override
-    public void visit(Form form) {
-
-    }
-
-    @Override
-    public void visit(Statement statement) {
-
+    public ArrayList<Question> getQuestions() {
+        return questions;
     }
 
     @Override
     public void visit(Question question) {
-
+        this.questions.add(question);
+        super.visit(question);
     }
 
-    @Override
-    public void visit(IfStatement ifStatement) {
-
+    public void validateDuplicates() throws RuntimeException {
+        for (Question question1 : questions) {
+            for (Question question2 : questions) {
+                if (!Objects.equals(question1, question2)
+                        && Objects.equals(question1.getVariableName(), question2.getVariableName())
+                        && !Objects.equals(question1.getVariableType().getIdentifier(), question2.getVariableType().getIdentifier())
+                        ) {
+                    throw new RuntimeException("Duplicate question declarations with different types in lines : "
+                            + question1.getStartLine()
+                            + "-"
+                            + question1.getEndLine()
+                            + " and "
+                            + question2.getStartLine()
+                            + "-"
+                            + question2.getEndLine()
+                    );
+                }
+            }
+        }
     }
 
-    @Override
-    public void visit(Expression expression) {
-
-    }
-
-    @Override
-    public void visit(UnaryExpression unaryExpression) {
-
-    }
-
-    @Override
-    public void visit(Literal literal) {
-
-    }
-
-    @Override
-    public void visit(VariableReference variableReference) {
-
-    }
-
-    @Override
-    public void visit(Negation negation) {
-
-    }
-
-    @Override
-    public void visit(Minus minus) {
-
-    }
-
-    @Override
-    public void visit(BinaryExpression binaryExpression) {
-
-    }
-
-    @Override
-    public void visit(Addition addition) {
-
-    }
-
-    @Override
-    public void visit(Subtraction subtraction) {
-
-    }
-
-    @Override
-    public void visit(Division division) {
-
-    }
-
-    @Override
-    public void visit(Multiplication multiplication) {
-
-    }
-
-    @Override
-    public void visit(Equal equal) {
-
-    }
-
-    @Override
-    public void visit(GreaterEqual greaterEqual) {
-
-    }
-
-    @Override
-    public void visit(GreaterThan greaterThan) {
-
-    }
-
-    @Override
-    public void visit(LessEqual lessEqual) {
-
-    }
-
-    @Override
-    public void visit(LessThan lessThan) {
-
-    }
-
-    @Override
-    public void visit(NotEqual notEqual) {
-
-    }
-
-    @Override
-    public void visit(LogicalAnd logicalAnd) {
-
-    }
-
-    @Override
-    public void visit(LogicalOr logicalOr) {
-
-    }
-
-    @Override
-    public void visit(TypeDeclaration typeDeclaration) {
-
-    }
-
-    @Override
-    public void visit(TypeDeclarationBoolean typeDeclarationBoolean) {
-
-    }
-
-    @Override
-    public void visit(TypeDeclarationDecimal typeDeclarationDecimal) {
-
-    }
-
-    @Override
-    public void visit(TypeDeclarationInteger typeDeclarationInteger) {
-
-    }
-
-    @Override
-    public void visit(TypeDeclarationString typeDeclarationString) {
-
+    public void validateLabels() throws Exception {
+        for (Question question1 : questions) {
+            for (Question question2 : questions) {
+                if (!Objects.equals(question1, question2)
+                        && Objects.equals(question1.getLabel(), question2.getLabel())) {
+                    throw new Exception("Duplicate label declarations in lines : "
+                            + question1.getStartLine()
+                            + " and "
+                            + question2.getStartLine()
+                    );
+                }
+            }
+        }
     }
 }

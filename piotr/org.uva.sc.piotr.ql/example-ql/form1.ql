@@ -11,15 +11,17 @@ form taxOfficeExample
   "Did you enter a loan?"
     hasMaintLoan: boolean
 
-  if (!hasSoldHouse || hasBoughtHouse)
+  if (!hasSoldHouse || hasBoughtHouse )
   {
     "What was the selling price?"
       sellingPrice: money
+    "What is your name?"
+      name: string
     "Private debts for the sold house:"
       privateDebt: money
     "Value residue:"
       valueResidue: money =
-        (sellingPrice - privateDebt * ahahaha)
+        (sellingPrice - privateDebt * 654)
 
   } else {
 

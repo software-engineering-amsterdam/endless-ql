@@ -3,7 +3,7 @@ package ast.model.expressions.binary;
 import ast.model.expressions.Expression;
 import ast.visitors.ASTNodeVisitor;
 
-public class BinaryExpression extends Expression {
+public abstract class BinaryExpression extends Expression {
 
     private Expression leftSide;
     private Expression rightSide;

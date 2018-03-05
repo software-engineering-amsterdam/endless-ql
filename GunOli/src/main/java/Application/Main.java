@@ -15,7 +15,7 @@ public class Main extends Application{
         stage.setTitle("QL displayer");
         QLUserInterface qlGui = new QLUserInterface(stage);
     }
-    
+
 
     public static void main(String[] args) {
         launch(args);

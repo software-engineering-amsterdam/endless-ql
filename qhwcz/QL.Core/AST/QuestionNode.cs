@@ -5,22 +5,22 @@ namespace QL.Core.Ast
 {
     public class QuestionNode : Node
     {
-        public QuestionNode(IToken token, string description, string label, QLType type) : base(token)
+        public QuestionNode(IToken token, string description, string label, bool isEvaluated, QLType type) : base(token)
         {
             Description = description;
             Label = label;
             Type = type;
+            IsEvaluated = isEvaluated;
         }
 
         public string Description { get; }
         public QLType Type { get; }
         public string Label { get; }
+        public bool IsEvaluated { get; }
 
-        protected override void VisitNode(IVisitor visitor)
+        protected override T VisitNode<T>(IVisitor<T> visitor)
         {
-            visitor.VisitEnter(this);
-            VisitChildren(visitor);
-            visitor.VisitExit(this);
+            return visitor.Visit(this);
         }
     }
 }

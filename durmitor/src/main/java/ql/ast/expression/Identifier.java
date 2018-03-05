@@ -3,24 +3,26 @@ package ql.ast.expression;
 import ql.ast.expression.literal.Literal;
 import ql.ast.type.Type;
 import ql.ast.type.Undefined;
+import ql.helpers.Observable;
+import ql.helpers.Observer;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Identifier extends Expression {
+public class Identifier extends Expression implements Observable {
     
     private String name;
     private Type type;
     private Literal<?> value;
     
     public Identifier(String name) {
-        this.name   = name;
-        this.type   = new Undefined();
-        this.value  = new ql.ast.expression.literal.UndefinedLiteral();
+        this.name       = name;
+        this.type       = new Undefined();
+        this.value      = new ql.ast.expression.literal.UndefinedLiteral();
     }
     
     public Identifier(String name, Type type) {
-        this.name   = name;
-        this.type   = type;
-        this.value  = new ql.ast.expression.literal.UndefinedLiteral();
+        this.name       = name;
+        this.type       = type;
+        this.value      = new ql.ast.expression.literal.UndefinedLiteral();
     }
     
     public String getName() {
@@ -36,7 +38,13 @@ public class Identifier extends Expression {
     }
     
     public void setValue(Literal<?> value) {
-        this.value = type.parse(value);
+        
+        if(!this.value.toString().equals(value.toString()))
+        {
+            this.value = type.parse(value);
+            
+            notifyObservers();
+        }
     }
     
     public Identifier setType(Type type) {
@@ -68,5 +76,15 @@ public class Identifier extends Expression {
     @Override
     public Literal<?> evaluate() {
         return getValue();
+    }
+
+    @Override
+    public void notifyObservers() {
+        for(Observer o : observers) o.update();
+    }
+
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
     }
 }

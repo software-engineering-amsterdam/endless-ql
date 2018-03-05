@@ -1,8 +1,6 @@
 package ql.ast.expression;
 
 import ql.ast.expression.literal.Literal;
-import ql.ast.expression.literal.UndefinedLiteral;
-import ql.ast.type.Type;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class NotEqual extends BinaryOperator {
@@ -19,11 +17,6 @@ public class NotEqual extends BinaryOperator {
     @Override
     public String getOperator() {
         return "!=";
-    }
-    
-    @Override
-    public Type getType() {
-        return firstOperand.getType().parse(new UndefinedLiteral()).notEqual(secondOperand.getType().parse(new UndefinedLiteral())).getType();
     }
 
     @Override

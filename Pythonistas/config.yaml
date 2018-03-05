@@ -2,3 +2,6 @@ program:
   name: Python Questionaire Language
   version: 0.1
   python_version: 3.4.6.
+
+antlr:
+  directory: processed

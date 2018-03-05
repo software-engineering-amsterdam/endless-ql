@@ -2,7 +2,6 @@
 using static QL.Core.QLParser;
 using Antlr4.Runtime.Tree;
 using QL.Core.Types;
-using System;
 
 namespace QL.Core.Parsing
 {
@@ -12,7 +11,7 @@ namespace QL.Core.Parsing
         {
             if (tree == null)
             {
-                return new NullNode();
+                return null;
             }
 
             return base.Visit(tree);
@@ -27,14 +26,18 @@ namespace QL.Core.Parsing
             return form;
         }
 
+        private int _blockDepth = 0;
         public override Node VisitBlock(BlockContext context)
         {
-            var blockNode = new BlockNode(context.Start);
+            _blockDepth++;
+
+            var blockNode = new BlockNode(context.Start, _blockDepth);
             foreach (StatementContext x in context.statement())
             {
                 blockNode.AddChild(Visit(x));
             }
 
+            _blockDepth--;
             return blockNode;
         }
 
@@ -54,12 +57,13 @@ namespace QL.Core.Parsing
 
         public override Node VisitQuestion(QuestionContext context)
         {
-            
+            var expressionNode = Visit(context.expression());
             var question = new QuestionNode(context.Start,
                 context.STRING().GetText().Replace("\"", string.Empty),
                 context.LABEL().GetText(),
+                expressionNode != null,
                 QLTypes.FromStringTypeToQLType(context.type().GetText()));
-            question.AddChild(Visit(context.expression()));
+            question.AddChild(expressionNode);
 
             return question;
         }

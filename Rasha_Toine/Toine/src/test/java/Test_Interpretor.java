@@ -24,7 +24,7 @@ public class Test_Interpretor {
 				"	if (_hasSoldHouse) {																			"+
 				"		sellingPrice: \"Price the house was sold for:\" money										"+
 				"		privateDebt: \"Private debts for the sold house:\" money									"+
-				"  		valueResidue: \"Value residue:\" money (sellingPrice - privateDebt )						"+
+				"  		valueResidue: \"Value residue:\" money (sellingPrice - privateDebt - 0.01)						"+
 				"  	}																							"+
 				"}	THIS IS IGNORED																							";
 
@@ -32,22 +32,45 @@ public class Test_Interpretor {
 
 		interpretingVisitor.visit(parseTree);
 
-		assertEquals("Number of questions seen", 3, interpretingVisitor.questions.size() );
+		assertEquals("Number of answerableQuestions seen", 3, interpretingVisitor.answerableQuestions.size() );
+		assertEquals("Number of computedQuestions seen", 0, interpretingVisitor.computedQuestions.size() );
 		
 		// simulate answers given
 
-		interpretingVisitor.questions.get("_hasSoldHouse").setValue("True");
+		interpretingVisitor.answerableQuestions.get("_hasSoldHouse").parseAndSetValue("True") ;
 		interpretingVisitor.visit(parseTree);
 
-		assertEquals("Number of questions seen", 6, interpretingVisitor.questions.size() );
+		assertEquals("Number of answerableQuestions seen", 5, interpretingVisitor.answerableQuestions.size() );
+		assertEquals("Number of computedQuestions seen", 1, interpretingVisitor.computedQuestions.size() );
 
-		interpretingVisitor.questions.get("sellingPrice").setValue("100");
-		interpretingVisitor.questions.get("privateDebt").setValue("25");
+		interpretingVisitor.answerableQuestions.get("sellingPrice").parseAndSetValue( "100.03" );
+		interpretingVisitor.answerableQuestions.get("privateDebt").parseAndSetValue(   "25.00" );
 
 		interpretingVisitor.visit(parseTree);
 
-		assertEquals("Number of questions seen", 6, interpretingVisitor.questions.size() );
-		assertEquals("Calculated answer", 75, interpretingVisitor.questions.get("valueResidue").getValue() );
+		assertEquals("Number of answerableQuestions seen", 5, interpretingVisitor.answerableQuestions.size() );
+		assertEquals("Number of computedQuestions seen", 1, interpretingVisitor.computedQuestions.size() );
+
+		assertEquals("Calculated answer", 750200, interpretingVisitor.computedQuestions.get("valueResidue").getValue() );
+
+	}
+	
+	@Test
+	public void test_Operators() throws Exception {
+
+		InterpretingVisitor interpretingVisitor = new InterpretingVisitor();
+
+		String s = "";
+		
+		s = "form x { x: \"x:\" integer (4+5)   }";
+		ParseTree parseTree = AbstractParserFactory.parseDataForTest(s).form();
+		interpretingVisitor.visit(parseTree);
+		assertEquals("x",9, interpretingVisitor.computedQuestions.get("x").getValue() );
+
+		s = "form x { x: \"x:\" integer (True || False)   }";
+		ParseTree parseTree2 = AbstractParserFactory.parseDataForTest(s).form();
+		interpretingVisitor.visit(parseTree2);
+		assertEquals("x",1, interpretingVisitor.computedQuestions.get("x").getValue() );
 
 	}
 }

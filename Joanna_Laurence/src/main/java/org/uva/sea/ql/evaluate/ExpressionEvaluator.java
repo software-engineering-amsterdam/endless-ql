@@ -24,8 +24,8 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
     @Override
     public Value visit(Addition node) {
         try {
-            Value left = node.getLhs().accept(this);
-            Value right = node.getRhs().accept(this);
+            Value left = node.getLeftHandSide().accept(this);
+            Value right = node.getRightHandSide().accept(this);
             return left.add(right);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
@@ -35,8 +35,8 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
     @Override
     public Value visit(And node) {
         try {
-            Value left = node.getLhs().accept(this);
-            Value right = node.getRhs().accept(this);
+            Value left = node.getLeftHandSide().accept(this);
+            Value right = node.getRightHandSide().accept(this);
             return left.and(right);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
@@ -46,8 +46,8 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
     @Override
     public Value visit(Division node) {
         try {
-            Value left = node.getLhs().accept(this);
-            Value right = node.getRhs().accept(this);
+            Value left = node.getLeftHandSide().accept(this);
+            Value right = node.getRightHandSide().accept(this);
             return left.divide(right);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
@@ -57,8 +57,8 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
     @Override
     public Value visit(Equal node) {
         try {
-            Value left = node.getLhs().accept(this);
-            Value right = node.getRhs().accept(this);
+            Value left = node.getLeftHandSide().accept(this);
+            Value right = node.getRightHandSide().accept(this);
             return left.isEqual(right);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
@@ -68,8 +68,8 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
     @Override
     public Value visit(GreaterOrEqual node) {
         try {
-            Value left = node.getLhs().accept(this);
-            Value right = node.getRhs().accept(this);
+            Value left = node.getLeftHandSide().accept(this);
+            Value right = node.getRightHandSide().accept(this);
             return left.isGreaterOrEqual(right);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
@@ -79,8 +79,8 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
     @Override
     public Value visit(GreaterThan node) {
         try {
-            Value left = node.getLhs().accept(this);
-            Value right = node.getRhs().accept(this);
+            Value left = node.getLeftHandSide().accept(this);
+            Value right = node.getRightHandSide().accept(this);
             return left.isGreaterThan(right);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
@@ -90,8 +90,8 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
     @Override
     public Value visit(LessOrEqual node) {
         try {
-            Value left = node.getLhs().accept(this);
-            Value right = node.getRhs().accept(this);
+            Value left = node.getLeftHandSide().accept(this);
+            Value right = node.getRightHandSide().accept(this);
             return left.isLessOrEqual(right);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
@@ -101,8 +101,8 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
     @Override
     public Value visit(LessThan node) {
         try {
-            Value left = node.getLhs().accept(this);
-            Value right = node.getRhs().accept(this);
+            Value left = node.getLeftHandSide().accept(this);
+            Value right = node.getRightHandSide().accept(this);
             return left.isLessThan(right);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
@@ -112,8 +112,8 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
     @Override
     public Value visit(Multiplication node) {
         try {
-            Value left = node.getLhs().accept(this);
-            Value right = node.getRhs().accept(this);
+            Value left = node.getLeftHandSide().accept(this);
+            Value right = node.getRightHandSide().accept(this);
             return left.multiply(right);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
@@ -133,8 +133,8 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
     @Override
     public Value visit(NotEqual node) {
         try {
-            Value left = node.getLhs().accept(this);
-            Value right = node.getRhs().accept(this);
+            Value left = node.getLeftHandSide().accept(this);
+            Value right = node.getRightHandSide().accept(this);
             return left.isNotEqual(right);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
@@ -154,8 +154,8 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
     @Override
     public Value visit(Or node) {
         try {
-            Value left = node.getLhs().accept(this);
-            Value right = node.getRhs().accept(this);
+            Value left = node.getLeftHandSide().accept(this);
+            Value right = node.getRightHandSide().accept(this);
             return left.or(right);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
@@ -175,8 +175,8 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
     @Override
     public Value visit(Subtraction node) {
         try {
-            Value left = node.getLhs().accept(this);
-            Value right = node.getRhs().accept(this);
+            Value left = node.getLeftHandSide().accept(this);
+            Value right = node.getRightHandSide().accept(this);
             return left.subtract(right);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());

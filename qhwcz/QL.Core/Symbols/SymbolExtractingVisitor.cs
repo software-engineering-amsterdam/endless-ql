@@ -1,16 +1,16 @@
 ﻿using QL.Core.Ast;
-using QL.Core.Types;
-using System;
 
 namespace QL.Core.Symbols
 {
-    public class SymbolExtractingVisitor : BaseVisitor
+    public class SymbolExtractingVisitor : BaseVisitor<Symbol>
     {
         public SymbolTable SymbolTable = new SymbolTable();
 
-        public override void VisitEnter(QuestionNode node)
+        public override Symbol Visit(QuestionNode node)
         {
+            var symbol = new Symbol(node.Label, node.Type, node.Token);
             SymbolTable.Add(new Symbol(node.Label, node.Type, node.Token));
+            return symbol;
         }
     }
 }

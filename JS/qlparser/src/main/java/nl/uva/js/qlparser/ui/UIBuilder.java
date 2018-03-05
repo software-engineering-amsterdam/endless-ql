@@ -32,6 +32,6 @@ public class UIBuilder {
     }
 
     private static String getInput(String type, String properties) {
-        return "<input type=\"" + type + "\" " + properties + ">";
+        return "<input type=" + type + properties + ">";
     }
 }

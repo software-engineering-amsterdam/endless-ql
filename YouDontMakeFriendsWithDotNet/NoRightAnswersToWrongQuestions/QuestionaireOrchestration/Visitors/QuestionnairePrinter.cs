@@ -1,11 +1,8 @@
 ﻿using System.CodeDom.Compiler;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.API.AstNodes;
 using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
-using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionaireOrchestration.Visitors
 {
@@ -24,8 +21,8 @@ namespace QuestionaireOrchestration.Visitors
         {
             m_domainItemLocator = domainItemLocator;
         }
-        
-        public void Print(IAstNode node)
+
+        public void Print(IQuestionnaireNode node)
         {
             dynamic d = node;
             this.Visit(d);
@@ -40,22 +37,22 @@ namespace QuestionaireOrchestration.Visitors
                 VisitSubExpression(statement);
             }
         }
-        
+
         private void Visit(IUserInputQuestionNode question)
         {
             m_writer.WriteLine($"Question{{ Id: {question.QuestionId}, Type: {question.QuestionType}, Text: {question.QuestionText} }}");
         }
-        
+
         private void Visit(IConditionalStatementNode conditionalStatement)
         {
-            m_writer.WriteLine($"IF  ({conditionalStatement.ConditionDefinition})");
+            m_writer.WriteLine($"IF  ({conditionalStatement.Definition})");
             m_writer.WriteLine("THEN");
             foreach (var statement in conditionalStatement.Consequent)
             {
-                VisitSubExpression(statement.FromLocator(m_domainItemLocator));
+                VisitSubExpression(statement.ToDomainItem(m_domainItemLocator));
             }
 
-            if (!conditionalStatement.Alternative.Any())
+            if (conditionalStatement.Alternative == null)
             {
                 return;
             }
@@ -63,7 +60,7 @@ namespace QuestionaireOrchestration.Visitors
             m_writer.WriteLine("ELSE");
             foreach (var statement in conditionalStatement.Alternative)
             {
-                VisitSubExpression(statement.FromLocator(m_domainItemLocator));
+                VisitSubExpression(statement.ToDomainItem(m_domainItemLocator));
             }
         }
 
@@ -74,16 +71,6 @@ namespace QuestionaireOrchestration.Visitors
             dynamic d = exp;
             this.Visit(d);
             m_writer.Indent--;
-        }
-    }
-
-    public static class AstExtensions2
-    {
-        public static T FromLocator<T>(
-            this Reference<T> astReference,
-            IDomainItemLocator domainItemLocator) where T : IAstNode
-        {
-            return domainItemLocator.Get<T>(astReference.Id);
         }
     }
 }

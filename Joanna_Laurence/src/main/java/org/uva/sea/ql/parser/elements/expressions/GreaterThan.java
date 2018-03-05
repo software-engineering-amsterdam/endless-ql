@@ -8,8 +8,8 @@ import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.ql.visitor.IASTVisitor;
 
 public class GreaterThan extends BinaryOperator {
-    public GreaterThan(Token token, ASTNode lhs, ASTNode rhs) {
-        super(token, lhs, rhs);
+    public GreaterThan(Token token, ASTNode leftHandSide, ASTNode rightHandSide) {
+        super(token, leftHandSide, rightHandSide);
     }
 
     /**

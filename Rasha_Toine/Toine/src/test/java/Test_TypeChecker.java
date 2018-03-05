@@ -27,7 +27,7 @@ public class Test_TypeChecker {
 				"	if (hasSoldHouse) {																			"+
 				"		sellingPrice: \"Price the house was sold for:\" money										"+
 				"		privateDebt: \"Private debts for the sold house:\" money									"+
-				"  		valueResidue: \"Value residue:\" money (sellingPrice - privateDebt)						"+
+				"  		valueResidue: \"Value residue:\" money  (sellingPrice - privateDebt)						"+
 				"  	}																							"+
 				"}																								";
 		
@@ -38,7 +38,7 @@ public class Test_TypeChecker {
 		// 
 		// Expect the visit NOT to throw an exception
 		//
-		typeCheckingVisitor.visit(parseTree).intValue();
+		typeCheckingVisitor.visit(parseTree);
 
 	}
 	
@@ -73,14 +73,13 @@ public class Test_TypeChecker {
 		
 		String testData = ""+
 				"form formId {																					"+
-				"  	forward: \"Some label:\" money (undefinedQuestionId)											"+
+				"  	forward: \"Some label:\" money  (undefinedQuestionId)											"+
 				"   questionId: \"label\" boolean																"+
 				"}																								";
 		
 		ExpressionLanguageParser expressionLanguageParser = AbstractParserFactory.parseDataForTest(testData);
 		
 		ParseTree parseTree = expressionLanguageParser.form();
-		
 		//
 		// Expect the coming visit to throw this exception
 		//

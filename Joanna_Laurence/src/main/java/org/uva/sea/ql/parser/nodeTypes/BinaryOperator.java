@@ -5,21 +5,21 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.visitor.IASTVisitor;
 
 public abstract class BinaryOperator extends ASTNode {
-    private ASTNode lhs;
-    private ASTNode rhs;
+    private ASTNode leftHandSide;
+    private ASTNode rightHandSide;
 
-    public BinaryOperator(Token token, ASTNode lhs, ASTNode rhs) {
+    public BinaryOperator(Token token, ASTNode leftHandSide, ASTNode rightHandSide) {
         super(token);
-        this.lhs = lhs;
-        this.rhs = rhs;
+        this.leftHandSide = leftHandSide;
+        this.rightHandSide = rightHandSide;
     }
 
-    public ASTNode getLhs() {
-        return lhs;
+    public ASTNode getLeftHandSide() {
+        return leftHandSide;
     }
 
-    public ASTNode getRhs() {
-        return rhs;
+    public ASTNode getRightHandSide() {
+        return rightHandSide;
     }
 
     @Override

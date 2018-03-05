@@ -18,7 +18,7 @@ import java.util.List;
 public class ASTGenerator {
 
     private List<IStaticAnalysis> staticAnalyses = Arrays.asList(new IStaticAnalysis[]{
-            new VariableInfo(),
+            new LinkAndCheckUsageVariable(),
             new TypeCheck(),
             new CheckDuplicateLabels(),
             new CheckIncorrectDuplicateQuestions()
@@ -36,6 +36,18 @@ public class ASTGenerator {
         if (AST == null)
             return new ASTResult(null, new Messages(MessageTypes.UNKNOWN));
 
+        Messages messages = executeStaticAnalysis(AST);
+        return new ASTResult(AST, messages);
+    }
+
+    /**
+     * Throws an exception when an error is present.
+     *
+     * @param AST
+     * @return
+     * @throws StaticAnalysisError
+     */
+    private Messages executeStaticAnalysis(Form AST) throws StaticAnalysisError {
         Messages warnings = new Messages(MessageTypes.WARNING);
         for (IStaticAnalysis staticAnalysis : this.staticAnalyses) {
             Messages messages = staticAnalysis.doCheck(AST);
@@ -47,8 +59,7 @@ public class ASTGenerator {
                 }
             }
         }
-
-        return new ASTResult(AST, warnings);
+        return warnings;
     }
 
     /**

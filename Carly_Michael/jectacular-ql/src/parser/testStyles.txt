@@ -1,4 +1,4 @@
-// taken from github page on 28-02-2018
+// taken and modified from github page on 28-02-2018
 stylesheet "taxOfficeExample"
 {
   page "Housing"
@@ -25,7 +25,7 @@ stylesheet "taxOfficeExample"
         question privateDebt
           widget spinbox
         question valueResidue
-        default money
+        default integer
         {
           width: 400
           font: "Arial"
@@ -39,32 +39,43 @@ stylesheet "taxOfficeExample"
   }
 }
 
-// current working example
-stylesheet taxOfficeExample
+// example that works with "valid form with if question" from testQuestionnaires.txt
+stylesheet "taxOfficeExample"
 {
   page "Housing"
   {
     section "Buying"
     {
-      question hasBoughtHouse
+      question question3
         widget checkbox
     }
     section "Loaning"
-      question hasMaintLoan
+      question question4
   }
 
   page "Selling"
   {
     section "Selling"
     {
-      question hasSoldHouse
-        widget radio
-      question sellingPrice
-        widget spinbox
-      question privateDebt
-        widget spinbox
-      question valueResidue
+      question question5
+        widget radio("Yes", "No")
+      section "You sold a house"
+      {
+        question question1
+          widget spinbox
+        question question2
+          widget spinbox
+        question question6
+        default integer
+        {
+          width: 400
+          font: "Arial"
+          fontsize: 14
+          color: #999999
+          widget spinbox
+        }
+      }
     }
+    default boolean widget radio("Yes", "No")
   }
 }
-

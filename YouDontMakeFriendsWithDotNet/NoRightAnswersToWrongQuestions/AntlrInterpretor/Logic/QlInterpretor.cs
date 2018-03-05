@@ -1,9 +1,12 @@
-﻿using AntlGrammar;
+﻿using System.Linq;
+using AntlGrammar;
 using Antlr4.Runtime;
 using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.API.AstNodes;
+using QuestionaireDomain.Entities.API.AstNodes.Boolean;
 using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 using QuestionaireDomain.Entities.DomainObjects;
+
 
 namespace AntlrInterpretor.Logic
 {
@@ -12,13 +15,30 @@ namespace AntlrInterpretor.Logic
         private readonly IAstFactory m_astFactory;
         private readonly IDomainItemLocator m_domainItemLocator;
 
-        public QlInterpretor(IAstFactory astFactory, IDomainItemLocator domainItemLocator)
+        public QlInterpretor(
+            IAstFactory astFactory, 
+            IDomainItemLocator domainItemLocator)
         {
             m_astFactory = astFactory;
             m_domainItemLocator = domainItemLocator;
         }
-
+        
         public Reference<IRootNode> BuildForm(string definition)
+        {
+            return BuildAstTree<IRootNode>(definition);
+        }
+
+        public Reference<IBooleanLogicNode> BuildPredicate(string definition)
+        {
+            definition = $"form FakeForm {{ if ({definition}) {{ fakeVar: \"fakeText\" date }} }}";
+            BuildForm(definition);
+            return m_domainItemLocator
+                .GetAll<IConditionalStatementNode>()
+                .FirstOrDefault()
+                ?.Predicate;
+        }
+
+        private Reference<T> BuildAstTree<T>(string definition) where T : IAstNode
         {
             var stream = new AntlrInputStream(definition);
             var lexer = new QLLexer(stream);
@@ -34,8 +54,7 @@ namespace AntlrInterpretor.Logic
             var tree = parser.questionnaire();
 
             var qlVisitor = new BuildAstVisitor(m_astFactory, m_domainItemLocator);
-            return qlVisitor.Visit(tree).To<IRootNode>(m_domainItemLocator);
+            return qlVisitor.Visit(tree).To<T>(m_domainItemLocator);
         }
-        
     }
 }

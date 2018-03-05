@@ -49,20 +49,20 @@ booleanExpression : IDENTIFIER                             #booleanQuestionIdent
 					   operator=booleanOperator
 				    rightExpression=booleanExpression      #andOrStatement
 				  | leftExpression=booleanExpression 
-                         operator=equalityOperator 
+                       operator=equalityOperator 
       	            rightExpression=booleanExpression      #booleanComparison
 				  | relationalExpression                   #relativeExpression
                   ;
 
-relationalExpression: leftExpression=mathExpression 
+relationalExpression: leftText=(TEXT | IDENTIFIER) 
+				         operator=equalityOperator 
+					  rightText=(TEXT | IDENTIFIER)             #textComparison
+		            | leftDate=(DATE | IDENTIFIER)
+				         operator=relationalOperator 
+					  rightDate=(DATE | IDENTIFIER)             #dateComparison 
+		            | leftExpression=mathExpression 
 				         operator=relationalOperator 
 					  rightExpression=mathExpression            #mathComparison
-		            | leftText=TEXT 
-				         operator=equalityOperator 
-					  rightText=TEXT                            #textComparison
-		            | leftDate=(DATE | IDENTIFIER)
-				         operator=equalityOperator 
-					  rightDate=(DATE | IDENTIFIER)             #dateComparison 
 		            ;
 
 mathExpression : IDENTIFIER                              #numberVariableName

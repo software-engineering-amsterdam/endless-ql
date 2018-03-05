@@ -1,13 +1,13 @@
-package models.ast.elements.expressions.unary.negation;
+package models.ast.elements.expressions.unary.arithmetics;
 
 import models.ast.elements.expressions.Expression;
 import models.ast.elements.expressions.unary.UnaryExpression;
 
-public class Negation extends UnaryExpression{
+public class Minus extends UnaryExpression{
 
     private Expression expression;
 
-    public Negation(Expression expression) {
+    public Minus(Expression expression) {
         this.expression = expression;
     }
 

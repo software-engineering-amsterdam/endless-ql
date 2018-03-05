@@ -12,14 +12,13 @@ import models.ast.elements.expressions.binary.arithmetics.Subtraction;
 import models.ast.elements.expressions.binary.comparision.*;
 import models.ast.elements.expressions.binary.logical.LogicalAnd;
 import models.ast.elements.expressions.binary.logical.LogicalOr;
-import models.ast.elements.expressions.unary.negation.Negation;
+import models.ast.elements.expressions.unary.arithmetics.Minus;
+import models.ast.elements.expressions.unary.logical.Negation;
 import models.ast.elements.expressions.unary.values.SingleValue;
 import models.ast.elements.expressions.unary.values.VariableReference;
 import models.ast.elements.statement.IfStatement;
 import models.ast.elements.statement.Question;
 import models.ast.elements.statement.Statement;
-
-import java.util.ArrayList;
 
 
 public class ASTBuilder extends QLBaseVisitor {
@@ -138,6 +137,11 @@ public class ASTBuilder extends QLBaseVisitor {
     }
 
     // Arithmetic expressions
+    
+    @Override
+    public Object visitExpressionArithmeticMinus(QLParser.ExpressionArithmeticMinusContext ctx) {
+        return new Minus((Expression) visit(ctx.expression()));
+    }
 
     @Override
     public Multiplication visitExpressionArithmeticMultiplication(QLParser.ExpressionArithmeticMultiplicationContext ctx) {
@@ -159,7 +163,7 @@ public class ASTBuilder extends QLBaseVisitor {
         return new Subtraction((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
     }
 
-    // Comparision expressions
+    // Expressions comparisons
 
     @Override
     public GreaterThan visitExpressionComparisionGreaterThan(QLParser.ExpressionComparisionGreaterThanContext ctx) {
@@ -191,7 +195,7 @@ public class ASTBuilder extends QLBaseVisitor {
         return new NotEqual((Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs));
     }
 
-    // Binary logical operation
+    // Binary logical operations
 
     @Override
     public LogicalAnd visitExpressionLogicalAnd(QLParser.ExpressionLogicalAndContext ctx) {

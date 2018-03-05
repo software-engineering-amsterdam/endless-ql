@@ -38,7 +38,7 @@ public class MoneyDivide extends AbstractEvaluator<MoneyLiteral> {
 
     @Override
     public Literal<?> visit(MoneyLiteral secondOperand) {
-        return new UndefinedLiteral();
+        return new DecimalLiteral(firstOperand.getValue() / secondOperand.getValue());
     }
 
     @Override

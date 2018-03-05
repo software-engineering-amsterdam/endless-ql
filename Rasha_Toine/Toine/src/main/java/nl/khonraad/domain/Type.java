@@ -6,18 +6,14 @@ public enum Type {
 
 	private String text;
 
-	Type(String conversionType) {
-		this.text = conversionType;
-	}
-
-	public String getText() {
-		return this.text;
+	Type(String text) {
+		this.text = text;
 	}
 
 	public static Type fromString(String text) {
-		for (Type b : Type.values()) {
-			if (b.text.equalsIgnoreCase(text)) {
-				return b;
+		for (Type type : Type.values()) {
+			if (type.text.equalsIgnoreCase(text)) {
+				return type;
 			}
 		}
 		return null;

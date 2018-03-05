@@ -1,4 +1,6 @@
-﻿namespace Assignment1.Model
+﻿using System;
+
+namespace Assignment1.Model
 {
     public abstract class Question : Content
     {
@@ -21,19 +23,81 @@
         }
     }
 
-    internal class QuestionBool : Question
+    public class QuestionBool : Question
     {
         public QuestionBool(string id, string label) : base(id, label)
         {
             Value = false;
         }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 
-    internal class QuestionMoney : Question
+    public class QuestionDate : Question
+    {
+        public QuestionDate(string id, string label) : base(id, label)
+        {
+            Value = DateTime.Today;
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionDecimal : Question
+    {
+        public QuestionDecimal(string id, string label) : base(id, label)
+        {
+            Value = 0;
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionInt : Question
+    {
+        public QuestionInt(string id, string label) : base(id, label)
+        {
+            Value = 0;
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionMoney : Question
     {
         public QuestionMoney(string id, string label) : base(id, label)
         {
-            Value = 0.0;
+            Value = 0;
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionString : Question
+    {
+        public QuestionString(string id, string label) : base(id, label)
+        {
+            Value = "";
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

@@ -29,6 +29,11 @@ public class UndefinedLiteral extends Literal<String> {
     }
     
     @Override
+    public boolean isUndefined() {
+        return true;
+    }
+    
+    @Override
     public Literal<?> accept(ValueVisitor visitor) {
         return visitor.visit(this);
     }

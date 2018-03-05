@@ -17,7 +17,9 @@ need to do
 
 Requirements:
 - pyenv (brew install pyenv)
+- antlr4
 
+pyenv:
 navigate to folder
 
 ```
@@ -26,6 +28,15 @@ pyenv virtualenv 3.6.4 pythonistas3
 pyenv local pythonistas3
 pip install -r requirements.txt
 python run.py
+```
+
+antlr:
+```
+cd /usr/local/lib
+curl -O http://www.antlr.org/download/antlr-4.7.1-complete.jar
+export CLASSPATH=".:/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH"
+alias antlr4='java -Xmx500M -cp "/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH" org.antlr.v4.Tool'
+alias grun='java org.antlr.v4.gui.TestRig'
 ```
 
 # Running
@@ -44,6 +55,7 @@ optional arguments:
                         Log level. Only log messages with a level higher or
                         equal than this will be printed. Default: 'warn'
   -v, --version         Prints the program version.
+  -t, --test            Runs the testsuite.
 ```
 
 example: python run_app.py forms/simple.ql

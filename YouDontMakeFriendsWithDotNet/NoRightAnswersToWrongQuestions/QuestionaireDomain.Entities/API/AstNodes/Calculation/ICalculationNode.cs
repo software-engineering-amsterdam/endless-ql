@@ -2,6 +2,5 @@
 {
     public interface ICalculationNode : IAstNode
     {
-        string CalculationDefinition { get; }
     }
 }

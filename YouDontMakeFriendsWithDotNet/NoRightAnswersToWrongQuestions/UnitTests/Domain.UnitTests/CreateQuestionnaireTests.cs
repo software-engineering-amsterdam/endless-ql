@@ -27,7 +27,7 @@
 //            //}
 
 //            //var actualVariableNames = m_domainItemLocator
-//            //    .GetAll<IVariableNode>()
+//            //    .GetAll<ICalcualtionVariableNode>()
 //            //    .Select(x => x.VariableName)
 //            //    .ToList();
 
@@ -43,7 +43,7 @@
 //            CreateForm(validText);
 //            var questionNames = m_domainItemLocator
 //                .GetAll<IConditionalStatementNode>()
-//                .Select(x => x.ConditionDefinition)
+//                .Select(x => x.Definition)
 //                .ToList();
 
 //            foreach (var expectedName in booleanNames)

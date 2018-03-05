@@ -9,13 +9,6 @@ namespace AntlrInterpretor.Logic
 {
     public static class AstExtensions
     {
-        public static T FromLocator<T>(
-            this Reference<T> astReference, 
-            IDomainItemLocator domainItemLocator) where T : IAstNode
-        {
-            return domainItemLocator.Get<T>(astReference.Id);
-        }
-
         public static IEnumerable<Reference<T>> To<T>(
             this IEnumerable<Reference<IAstNode>> nodes,
             IDomainItemLocator domainItemLocator) where T : IAstNode

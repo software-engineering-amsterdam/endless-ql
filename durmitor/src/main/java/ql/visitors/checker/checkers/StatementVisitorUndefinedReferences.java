@@ -13,7 +13,6 @@ import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
 import ql.exceptions.QLException;
 import ql.exceptions.ReferenceToUndefinedQuestion;
-import ql.visitors.ExpressionVisitorIdentifier;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorUndefinedReferences implements StatementVisitor {

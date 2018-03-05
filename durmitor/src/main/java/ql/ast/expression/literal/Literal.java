@@ -10,6 +10,10 @@ public abstract class Literal<T>  extends Primary implements ValueVisitable, Ope
 
     public abstract T getValue();
     
+    public static Literal<?> create(Type type) {
+        return create(type,null);
+    }
+    
     public static Literal<?> create(Type type, String value) {
         
         if(type.isBoolean()) {
@@ -39,6 +43,10 @@ public abstract class Literal<T>  extends Primary implements ValueVisitable, Ope
     @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
+    }
+    
+    public boolean isUndefined() {
+        return false;
     }
     
     @Override

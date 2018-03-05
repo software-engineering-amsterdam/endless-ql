@@ -12,14 +12,14 @@ import java.util.List;
 public class VisitorStatement extends QLBaseVisitor<List<Question>> {
 
     private final Expression condition;
-    VisitorStatement(){
+
+    VisitorStatement() {
         this.condition = new ExpressionVariableBoolean(true);
     }
 
-    VisitorStatement(Expression condition){
+    VisitorStatement(Expression condition) {
         this.condition = condition;
     }
-
 
     @Override
     public List<Question> visitCondition(QLParser.ConditionContext ctx) {

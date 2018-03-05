@@ -14,7 +14,7 @@ namespace Assignment1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Controls.Add(_presenter.GetControls());
+            Controls.Add(_presenter.Panel);
         }
     }
 }

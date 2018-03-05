@@ -15,6 +15,7 @@ namespace QuestionaireOrchestration
             appRegistration.AddTransient(typeof(ICommandQueryService), typeof(CommandQueryService));
             appRegistration.AddTransient(typeof(ICommandObjectRegistry), typeof(CommandObjectRegistry));
             appRegistration.AddTransient(typeof(IQuestionnairePrinter), typeof(QuestionnairePrinter));
+            appRegistration.AddTransient(typeof(IBooleanLogicPrinter), typeof(BooleanLogicPrinter));
         }
     }
 }

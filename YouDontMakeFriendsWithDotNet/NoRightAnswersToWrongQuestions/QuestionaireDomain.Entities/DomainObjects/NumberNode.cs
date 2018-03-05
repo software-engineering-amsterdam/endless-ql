@@ -7,9 +7,10 @@ namespace QuestionaireDomain.Entities.DomainObjects
 {
     public class NumberNode : AstNodeBase, INumberNode
     {
-        public NumberNode(Guid id, string numberText) : base(id)
+        public decimal Value { get; }
+
+        public NumberNode(Guid id, string numberText) : base(id, numberText)
         {
-            CalculationDefinition = numberText;
             Value = decimal.Parse(numberText);
         }
 
@@ -17,8 +18,5 @@ namespace QuestionaireDomain.Entities.DomainObjects
         {
             throw new NotImplementedException();
         }
-
-        public decimal Value { get; }
-        public string CalculationDefinition { get; }
     }
 }

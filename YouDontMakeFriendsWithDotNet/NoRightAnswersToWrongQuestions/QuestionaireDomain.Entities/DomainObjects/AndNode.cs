@@ -12,8 +12,9 @@ namespace QuestionaireDomain.Entities.DomainObjects
     {
         public AndNode(
             Guid id,
+            string definition,
             Reference<IBooleanLogicNode> leftExpression,
-            Reference<IBooleanLogicNode> rightExpression) : base(id)
+            Reference<IBooleanLogicNode> rightExpression) : base(id, definition)
         {
             LeftExpression = leftExpression;
             RightExpression = rightExpression;
@@ -21,7 +22,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
 
         public override void Accept(IAstVisitor visitor)
         {
-            throw new NotImplementedException();
+            (visitor as IAstVisitor<IAndNode>)?.Visit(this);
         }
 
         public Reference<IBooleanLogicNode> LeftExpression { get; }

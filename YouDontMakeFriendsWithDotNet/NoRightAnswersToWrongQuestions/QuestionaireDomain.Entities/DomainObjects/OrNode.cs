@@ -4,29 +4,13 @@ using QuestionaireDomain.Entities.API.AstNodes.Boolean;
 
 namespace QuestionaireDomain.Entities.DomainObjects
 {
-    public class NegateNode : AstNodeBase, INegateNode
-    {
-        public NegateNode(
-            Guid id,
-            Reference<IBooleanLogicNode> childExpression) : base(id)
-        {
-            Expression = childExpression;
-        }
-
-        public override void Accept(IAstVisitor visitor)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Reference<IBooleanLogicNode> Expression { get; set; }
-    }
-
     public class OrNode : AstNodeBase, IOrNode
     {
         public OrNode(
             Guid id,
+            string definition,
             Reference<IBooleanLogicNode> leftExpression,
-            Reference<IBooleanLogicNode> rightExpression) : base(id)
+            Reference<IBooleanLogicNode> rightExpression) : base(id, definition)
         {
             LeftExpression = leftExpression;
             RightExpression = rightExpression;
@@ -34,7 +18,7 @@ namespace QuestionaireDomain.Entities.DomainObjects
 
         public override void Accept(IAstVisitor visitor)
         {
-            throw new NotImplementedException();
+            (visitor as IAstVisitor<IOrNode>)?.Visit(this);
         }
 
         public Reference<IBooleanLogicNode> LeftExpression { get; }

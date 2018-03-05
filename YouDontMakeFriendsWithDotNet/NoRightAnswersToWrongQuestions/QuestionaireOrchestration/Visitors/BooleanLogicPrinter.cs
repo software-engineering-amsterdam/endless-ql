@@ -3,14 +3,13 @@ using System.IO;
 using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.API.AstNodes.Boolean;
 using QuestionaireDomain.Entities.API.AstNodes.Calculation;
-using IVariableNode = QuestionaireDomain.Entities.API.AstNodes.Boolean.IVariableNode;
 
 namespace QuestionaireOrchestration.Visitors
 {
     public class BooleanLogicPrinter : 
         IBooleanLogicPrinter,
         IAstVisitor,
-        IAstVisitor<IVariableNode>,
+        IAstVisitor<IBooleanVariableNode>,
         IAstVisitor<IAndNode>,
         IAstVisitor<IOrNode>,
         IAstVisitor<INegateNode>,
@@ -37,7 +36,7 @@ namespace QuestionaireOrchestration.Visitors
             VisitSubExpression(d);
         }
 
-        public void Visit(IVariableNode andNode)
+        public void Visit(IBooleanVariableNode andNode)
         {
             m_writer.WriteLine(andNode.VariableName);
         }

@@ -1,34 +1,26 @@
 package ql.ast.expression;
 
-import ql.ast.type.Bool;
-import ql.ast.type.Int;
-import ql.ast.type.Numeric;
-import ql.ast.type.Type;
+import ql.ast.expression.literal.Literal;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class And extends BinaryBooleanLogic {
+public class And extends BinaryOperator {
 
-    public And(Expression lhs, Expression rhs) {
-        super(lhs, rhs);
-    }
-    
-    @Override
-    public Type getType() {
-        return new Bool();
+    public And(Expression firstOperand, Expression secondOperand) {
+        super(firstOperand, secondOperand);
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
     
     @Override
     public String getOperator() {
         return "&&";
     }
-
+    
     @Override
-    protected void initOperations() {
-        legalOperations.add(new BinaryOperation(this, Int.class, Numeric.class));
+    public Literal<?> evaluate() {
+        return firstOperand.evaluate().and(secondOperand.evaluate());
     }
 }

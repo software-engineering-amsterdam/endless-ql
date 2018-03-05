@@ -1,27 +1,26 @@
 package ql.ast.expression;
 
-import ql.ast.type.Numeric;
-import ql.ast.type.Type;
+import ql.ast.expression.literal.Literal;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Positive extends UnaryArithmetic {
+public class Positive extends UnaryOperator {
 
-    public Positive(Expression expr) { 
-        super.expr = expr;
+    public Positive(Expression operand) { 
+        super(operand);
     }
 
     @Override
-    public Type getType() {
-        return new Numeric();
-    }
-
-    @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 
     @Override
     public String getOperator() {
         return "+";
+    }
+    
+    @Override
+    public Literal<?> evaluate() {
+        return operand.evaluate().positive();
     }
 }

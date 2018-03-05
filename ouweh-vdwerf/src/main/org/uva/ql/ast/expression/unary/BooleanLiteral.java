@@ -1,6 +1,7 @@
-package main.org.uva.ql.ast.expression.unary;
+package org.uva.ql.ast.expression.unary;
 
-import main.org.uva.ql.ast.expression.Expression;
+import org.uva.ql.ast.expression.Expression;
+import org.uva.ql.visitor.ExpressionVisitor;
 
 public class BooleanLiteral extends Expression {
     private final Boolean value;
@@ -9,8 +10,17 @@ public class BooleanLiteral extends Expression {
         this.value = Boolean.parseBoolean(value);
     }
 
+    public boolean getValue() {
+        return this.value;
+    }
+
     @Override
     public String toString() {
         return this.value.toString();
+    }
+
+    @Override
+    public <T, C> T accept(ExpressionVisitor<T, C> visitor, C context) {
+        return visitor.visit(this, context);
     }
 }

@@ -1,6 +1,6 @@
-package main.org.uva.ql.visitor;
+package org.uva.ql.visitor;
 
-import main.org.uva.ql.ast.*;
+import org.uva.ql.ast.*;
 
 
 public interface StatementVisitor<T, C> {
@@ -8,4 +8,6 @@ public interface StatementVisitor<T, C> {
     T visit(Question question, C context);
 
     T visit(Conditional conditional, C context);
+
+    T visit(CalculatedQuestion question, C context);
 }

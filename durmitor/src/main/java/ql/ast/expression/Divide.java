@@ -1,24 +1,17 @@
 package ql.ast.expression;
 
-import ql.ast.type.Money;
-import ql.ast.type.Numeric;
-import ql.ast.type.Type;
+import ql.ast.expression.literal.Literal;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Divide extends BinaryArithmetic {
+public class Divide extends BinaryOperator {
 
-    public Divide(Expression lhs, Expression rhs) {
-        super(lhs, rhs);
+    public Divide(Expression firstOperand, Expression secondOperand) {
+        super(firstOperand, secondOperand);
     }
 
     @Override
-    public Type getType() {
-        return new Numeric();
-    }
-
-    @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 
     @Override
@@ -27,7 +20,7 @@ public class Divide extends BinaryArithmetic {
     }
 
     @Override
-    protected void initOperations() {
-        legalOperations.add(new BinaryOperation(this, Money.class, Numeric.class));
+    public Literal<?> evaluate() {
+        return firstOperand.evaluate().divide(secondOperand.evaluate());
     }
 }

@@ -1,13 +1,15 @@
 package org.uva.sea.ql.parser.elements.types;
 
+import org.antlr.v4.runtime.Token;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.visitor.IASTVisitor;
 
 public class Str extends ASTNode {
     private String value;
 
-    public Str(String value) {
+    public Str(Token token, String value) {
+        super(token);
         this.value = value;
     }
 
@@ -15,15 +17,12 @@ public class Str extends ASTNode {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doStr(this);
-    }
-
     public Type getType() {
-        return new Type("string");
+        return new Type(NodeType.STRING);
+    }
+
+    @Override
+    public <T> T accept(IASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

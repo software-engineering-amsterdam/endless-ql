@@ -1,18 +1,6 @@
-import EvaluationVisitor from "./nodes/visitors/EvaluationVisitor";
-import Expression from "./nodes/expressions/Expression";
 import TreeNode from "./nodes/TreeNode";
 import NodeTraveller from "./nodes/visitors/NodeTraveller";
-
-/**
- * Alias to evaluate a form using the EvaluationVisitor
- *
- * @param {Expression} expression
- * @returns {any}
- */
-export const evaluate = (expression: Expression): any => {
-  const evaluationVisitor = new EvaluationVisitor();
-  return expression.accept(evaluationVisitor);
-};
+import VariableIdentifier from "./nodes/expressions/VariableIdentifier";
 
 export const filterNodes = (predicate: (node: TreeNode) => boolean, start: TreeNode): any[] => {
   let nodes: TreeNode[] = [];
@@ -35,4 +23,16 @@ export const findNode = (predicate: (node: TreeNode) => boolean, start: TreeNode
   }
 
   return found[0];
+};
+
+export const getUsedVariables = (start: TreeNode) => {
+  const variables: string[] = [];
+  const traveller = new NodeTraveller((node: TreeNode) => {
+    if (node instanceof VariableIdentifier) {
+      variables.push(node.identifier);
+    }
+  });
+
+  start.accept(traveller);
+  return variables;
 };

@@ -4,7 +4,7 @@ using QL_Parser.AST.Nodes;
 namespace QL_Parser.Tests.AST
 {
     [TestClass]
-    public class CommentTest
+    public class CommentTest : QLTest
     {
         private FormNode _commentForm;
         private readonly string _simpleFormWithCommentsRaw = "" +

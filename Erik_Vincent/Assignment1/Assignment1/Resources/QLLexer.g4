@@ -21,10 +21,22 @@ SEP
 SEMICOLON
 	: ';'
 	;
-BOOLEAN
+BOOLEAN_TYPE
 	: 'boolean'
 	;
-MONEY
+DATE_TYPE
+	: 'date'
+	;
+DECIMAL_TYPE
+	: 'decimal'
+	;
+INTEGER_TYPE
+	: 'integer'
+	;
+STRING_TYPE
+	: 'string'
+	;
+MONEY_TYPE
 	: 'money'
 	;
 ASSIGN
@@ -51,6 +63,24 @@ DECIMAL
 fragment NUMBER
 	: [0-9]+
 	;
+EQ
+	: '=='
+	;
+NEQ
+	: '!='
+	;
+GTEQ
+	: '>='
+	;
+LTEQ
+	: '<='
+	;
+GT
+	: '>'
+	;
+LT
+	: '<'
+	;
 NOT
 	: '!'
 	;
@@ -60,13 +90,25 @@ AND
 OR
 	: '||'
 	;
+ADD
+	: '+'
+	;
 SUB
 	: '-'
+	;
+MULT
+	: '*'
+	;
+DIV
+	: '/'
 	;
 ID
 	: [a-zA-Z0-9]+
 	;
-LABEL
+DATE
+	: '"' NUMBER '-' NUMBER '-' NUMBER '"'
+	;
+STRING
 	: '"' ~'"'*? '"'
 	;
 COMMENT

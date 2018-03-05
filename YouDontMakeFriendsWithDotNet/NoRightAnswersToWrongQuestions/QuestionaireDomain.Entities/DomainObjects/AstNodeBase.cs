@@ -1,16 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.API.AstNodes;
 
 namespace QuestionaireDomain.Entities.DomainObjects
 {
     public abstract class AstNodeBase : IAstNode
     {
-        protected AstNodeBase()
+        protected AstNodeBase(
+            Guid id,
+            string definition)
         {
-            Questions = new List<IAstNode>();
+            Id = id;
+            Definition = definition;
         }
-        
-        public IList<IAstNode> Questions { get; }
 
+        public Guid Id { get; }
+        public string Definition { get; }
         public abstract void Accept(IAstVisitor visitor);
     }
 }

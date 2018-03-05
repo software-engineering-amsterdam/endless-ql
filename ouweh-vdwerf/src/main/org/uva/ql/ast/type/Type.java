@@ -1,7 +1,7 @@
-package main.org.uva.ql.ast.type;
+package org.uva.ql.ast.type;
 
-import main.org.uva.ql.ast.TreeNode;
-import main.org.uva.ql.visitor.TypeVisitor;
+import org.uva.ql.ast.TreeNode;
+import org.uva.ql.visitor.TypeVisitor;
 
 public abstract class Type extends TreeNode {
 

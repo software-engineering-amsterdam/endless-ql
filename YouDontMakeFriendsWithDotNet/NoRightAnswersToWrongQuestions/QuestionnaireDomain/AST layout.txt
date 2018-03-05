@@ -1,0 +1,145 @@
+form AST
+--------
+evaluates to:
+   Form
+Scope:
+Terminals: 
+   booleanASTs (in condition)
+   mathASTs (in calculated field)
+   questiontype ('boolean', 'string', 'integer',  'date', 'decimal')
+   questiontext
+   questionId
+   formId
+   
+NonTerminals:
+   entrypoint ('form')
+   branch ('if-body', 'else-body')
+   questionNode
+   
+   
+definition:
+entrynode = {id,statement*}
+branchnode = {condition, if-body,else-body?)
+questionNode = {id,text,type,calulatedvalue?)
+
+
+Boolean AST
+-----------
+evaluates to:
+  booleanValue [TRUE/FALSE]
+Scope:
+Terminals : 
+   boolvalues (true / false)
+   relationalvalues (decimal/integer/date)
+   variable
+   mathASTs
+   
+NonTerminals:
+   booleanoperators (&&,||,!)
+   relationaloperators (==,!=,>,>=,<,<=)
+
+definition:
+node = {operation?, boolvalue?, leftchild?, rightchild?}
+
+examples:
+True
+rt  = {∅,T,∅,∅}
+
+
+True && joeblogs
+     &&
+    /  \
+   T   jb
+
+      
+rt  = {&&,∅,lc1,rc1}
+lc1 = {∅,True,∅,∅}
+rc1 = {∅,joeblogs,∅}
+   
+   
+((1/1/2012 >= bdayDate) && myBool) || FALSE 
+          ||
+         /  \
+        &&   FALSE
+       /  \
+     >=    mb
+    /  \   
+   dt  bd  
+      
+rt  = {||,∅,lc1,rc1}
+lc1 = {&&,∅,lc2,rc2}
+rc1 = {∅,FALSE,∅,∅}
+lc2 = {>=,∅,lc3,rc3}
+rc2 = {∅,myBool,∅,∅}
+lc3 = {∅,1/1/2012,∅,∅}
+rc3 = {∅,bdayDate,∅,∅}
+
+
+(!myBool && (myInt == (1+2*(3/2) + myInt))
+              &&
+             /  \
+           !     ==
+          /     /  \
+         mb    mi  EQ
+                  /
+            '(1+2*(3/2) + myInt)'
+            
+where EQ is parsing the formula into a mathAST  
+ 
+rt  = {&&,∅,lc1,rc1}
+lc1 = {!,∅,lc2,∅}
+rc1 = {==,∅,lc3,rc3}
+lc2 = {∅,myBool,∅,∅}
+lc3 = {∅,myInt,∅,∅}
+rc3 = {EQ,∅,lc4,∅}
+lc4 = {∅,'(1+2*(3/2) + myInt)',∅,∅}
+
+
+Math AST
+--------
+evaluates to: 
+   Number [decimal/integer]
+Scope:
+Terminals : 
+   variable
+   mathvalues (decimal/integer)
+   
+NonTerminals:
+   mathoperators (+,-,*,/)
+
+definition:
+node = {operation?, numericvalue?, leftchild?, rightchild?}
+
+examples:
+1
+rt  = {∅,1,∅,∅}
+
+1+2
+   +
+   ^
+ 1   2
+  
+rt  = {+,∅,lc1,rc1}
+lc1 = {∅,1,∅,∅}
+lc2 = {∅,2,∅,∅}
+
+1 * (2+3) / intVar + 5
+          +
+          ^
+        /   5
+        ^
+      *   iv       
+      ^
+    1   +
+        ^
+      2   3
+   
+rt  = {+,∅,lc1,rc1}
+lc1 = {/,∅,lc2,rc2}
+rc1 = {∅,5,∅,∅}
+lc2 = {*,∅,lc3,rc3}
+rc2 = {∅,intVar,∅,∅}
+lc3 = {∅,1,∅,∅}
+rc3 = {+,∅,lc4,rc4}
+lc4 = {∅,2,∅,∅}
+rc4 = {∅,3,∅,∅}

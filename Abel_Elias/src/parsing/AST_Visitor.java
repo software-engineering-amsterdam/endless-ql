@@ -1,7 +1,8 @@
 package parsing;
 
+import classes.CodeBlock;
 import classes.Configuration;
-import classes.Question;
+import classes.statements.Question;
 
 import parsing.gen.*;
 
@@ -21,10 +22,10 @@ public class AST_Visitor extends QLBaseVisitor {
 
     @Override
     public Object visitQuestion(QLParser.QuestionContext ctx) {
-        String questionString = ctx.STR().getText();
-        Question question = new Question(questionString, visit(ctx.type()));
         String id = ctx.IDENTIFIER().getText();
-
+        CodeBlock codeBlock = CodeBlock.getCodeBlock(ctx);
+        String questionString = ctx.STR().getText();
+        Question question = new Question(codeBlock, questionString, visit(ctx.type()));
         memory.put(id, question);
         return memory;
     }
@@ -33,7 +34,7 @@ public class AST_Visitor extends QLBaseVisitor {
     public Object visitBoolIdentifier(QLParser.BoolIdentifierContext ctx) {
         String id = ctx.getText();
         Question question = getQuestion(id);
-        return castToType(question.getValue(), Boolean.class);
+        return castToType(question.getType(), Boolean.class);
     }
 
     @Override
@@ -124,6 +125,7 @@ public class AST_Visitor extends QLBaseVisitor {
         try{
             return type.cast(value);
         }catch(ClassCastException e){
+            //TODO: print error about
             e.printStackTrace();
             System.exit(1);
         }

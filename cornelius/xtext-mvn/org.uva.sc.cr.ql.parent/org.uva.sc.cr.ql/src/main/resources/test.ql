@@ -4,8 +4,8 @@ form Box1HouseOwning {
 	"Did you enter a loan for maintenance/reconstruction?" hasMaintLoan: boolean
 	"What is your first name?" firstName: string
 	"What is your last name?" lastName: string
-	"Integer 1: " int1: integer
-	"Integer 2: " int2: integer
+	"Integer: " int1: integer
+	"Integer: " int2: integer
 	"Integer MultiResult: " int3: integer = (int1 * int2)
 	if (hasSoldHouse && hasBoughtHouse) {
 		"Price the house was sold for:" sellingPrice: money

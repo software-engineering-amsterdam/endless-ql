@@ -1,38 +1,26 @@
-<<<<<<< HEAD
 /* This is some comment*/
 /* TODO come up with cases with conditions where some value is undefined, duplicate variables or nonexistent variables in conditions */
 form taxOfficeExample {
-    someString: "Q1: Give me the word 'hello'?" string
-    someBoolean1: "Q2: Give me true or false?" boolean
+    "Q1: Give me the word 'hello'?" someString: string
+    "Q2: Give me true or false?" someBoolean1: boolean
     if(someBoolean1) {
-        someBoolean2: "Q3: You can only answer this question if you answered true above" boolean
+        "Q3: You can only answer this question if you answered true above" someBoolean2: boolean
         if(someString == "hello") {
-            someBoolean3: "Q4: You can only answer this question if you Q1 equals 1 and Q2 equals 'hello'" boolean
+            "Q4: You can only answer this question if you Q1 equals 1 and Q2 equals 'hello'" someBoolean3: boolean
+        } else {
+            "Q4: You can only answer this question if you Q1 equals 1 and Q2 does not equal 'hello'" someBoolean9: boolean
         }
     }
-    someNumber: "Q5: Can you give me a number?" decimal
+    // TODO must be unsettable in GUI
+    "Q5: Can you give me a number?" someNumber: integer = 2
     if(someNumber > 5){
-        someBoolean4: "Q6: You can only answer this question if you answered Q5 > 5" boolean
+        "Q6: You can only answer this question if you answered Q5 > 5" someBoolean4: boolean
     } else {
-        someBoolean5: "Q7: This will only enable if someNumber <= 5" boolean
+        "Q7: This will only enable if someNumber <= 5" someBoolean5: boolean
     }
-    someNumberWithExpression: "Some text here" decimal = ((someNumber + 2) * 2)
-=======
-/* This is some comment*/
-/* TODO come up with cases with conditions where some value is undefined, duplicate variables or nonexistent variables in conditions */
-form taxOfficeExample {
-    someString: "Q1: Give me the word 'hello'?" string
-    someBoolean1: "Q2: Give me true or false?" boolean
-    if(someBoolean1) {
-        someBoolean2: "Q3: You can only answer this question if you answered true above" boolean
-        if(someString == "hello") {
-            someBoolean3: "Q4: You can only answer this question if you Q1 equals 1 and Q2 equals 'hello'" boolean
-        }
-    }
-    someNumber: "Q5: Can you give me a number?" decimal
-    if(someNumber > 5){
-        someBoolean4: "Q6: You can only answer this question if you answered Q5 > 5" boolean
-    }
-    someNumberWithExpression: "Some text here" decimal = ((someNumber + 2) * 2)
->>>>>>> 3c171d077d7945c6cc73b62beb833d1ee457800c
+    "Some text here" someNumberWithExpression: decimal = ((someNumber + 2) * 2)
+    "Give me a date value please?" someDate: date
+    "Give me an integer value please?" someInteger: integer
+    "Give me an money value please?" someMoney: money
+    "Give me an decimal value please?" someDecimal: decimal
 }

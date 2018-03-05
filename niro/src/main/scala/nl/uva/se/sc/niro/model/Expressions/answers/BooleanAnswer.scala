@@ -1,41 +1,39 @@
 package nl.uva.se.sc.niro.model.Expressions.answers
 
-import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
-import nl.uva.se.sc.niro.model.Operators._
-import nl.uva.se.sc.niro.model.{ Comparisons, Logicals }
+import nl.uva.se.sc.niro.model.Expressions.Answer
+import nl.uva.se.sc.niro.model.Expressions.Logicals.BooleanAnswerCanDoLogicals._
+import nl.uva.se.sc.niro.model.Expressions.Orderings.BooleanAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.model._
 
-case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer with Comparisons[BooleanAnswer] with Logicals[BooleanAnswer] {
+final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
 
-  def lt(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value < _)))
-  def lTe(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value <= _)))
-  def gTe(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value >= _)))
-  def gt(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value > _)))
-  def ne(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value != _)))
-  def eq(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(value == _)))
+  type T = Boolean
 
+  override def isTrue: Boolean = possibleValue.getOrElse(false)
 
-  def and(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ && value)))
-  def or(other: BooleanAnswer): BooleanAnswer = BooleanAnswer(possibleValue.flatMap(value => other.possibleValue.map(_ || value)))
-
-  def neg: BooleanAnswer = BooleanAnswer(possibleValue.map(!_))
-
-  def apply(operator: BinaryOperator, right: Answer): Answer = right match {
-    case rhs: BooleanAnswer => operator match {
-      case Lt => lt(rhs)
-      case LTe => lTe(rhs)
-      case GTe => gTe(rhs)
-      case Gt => gt(rhs)
-      case Ne => ne(rhs)
-      case Eq => eq(rhs)
-      case And => and(rhs)
-      case Or => or(rhs)
-      case _ => throw new UnsupportedOperationException(s"Unsupported $operator")
-    }
-    case _ => throw new IllegalArgumentException(s"Can't perform operation on different types")
+  def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
+    case that: BooleanAnswer =>
+      operator match {
+        case Lt  => this < that
+        case Lte => this <= that
+        case Gte => this >= that
+        case Gt  => this > that
+        case Ne  => this !== that
+        case Eq  => this === that
+        case And => this && that
+        case Or  => this || that
+        case _   => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
+      }
+    case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
-  def apply(operator: UnaryOperator): Answer = operator match {
-    case Neg => neg
-    case _ => throw new UnsupportedOperationException(s"Cant perform $operator on BooleanAnswer")
+  def applyUnaryOperator(operator: UnaryOperator): Answer = operator match {
+    case Neg => !this
+    case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
+}
+
+object BooleanAnswer {
+  def apply() = new BooleanAnswer(None)
+  def apply(value: Boolean) = new BooleanAnswer(Some(value))
 }

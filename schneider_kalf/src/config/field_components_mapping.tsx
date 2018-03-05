@@ -1,21 +1,19 @@
 import { BooleanField } from "../rendering/components/field/BooleanField";
 import { MoneyField } from "../rendering/components/field/MoneyField";
 import { TextField } from "../rendering/components/field/TextField";
-import BooleanWrapper from "../form/values/BooleanWrapper";
-import MoneyWrapper from "../form/values/MoneyWrapper";
-import StringWrapper from "../form/values/StringWrapper";
+import { FieldType } from "../form/FieldType";
 
-export const fieldComponentsMapping = [
+export const fieldComponentsMapping: { type: FieldType, component: any }[] = [
   {
-    value: BooleanWrapper,
+    type: FieldType.Boolean,
     component: BooleanField
   },
   {
-    value: MoneyWrapper,
+    type: FieldType.Money,
     component: MoneyField
   },
   {
-    value: StringWrapper,
+    type: FieldType.Text,
     component: TextField
   }
 ];

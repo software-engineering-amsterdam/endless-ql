@@ -6,7 +6,7 @@ import { QuestionBase } from '../domain/angular-questions/question-base';
 export class QuestionControlService {
   constructor() { }
 
-  toFormGroup(questions: QuestionBase<any>[] ) {
+  toFormGroup(questions: ReadonlyArray<QuestionBase<any>>) {
     const group: any = {};
 
     questions.forEach(question => {

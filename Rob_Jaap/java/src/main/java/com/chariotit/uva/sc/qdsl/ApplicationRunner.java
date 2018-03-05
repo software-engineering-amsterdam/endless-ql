@@ -1,6 +1,8 @@
 package com.chariotit.uva.sc.qdsl;
 
-import com.chariotit.uva.sc.qdsl.parser.GLVisitor;
+import com.chariotit.uva.sc.qdsl.ast.TypeChecker;
+import com.chariotit.uva.sc.qdsl.ast.node.AstRoot;
+import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -24,15 +26,19 @@ public class ApplicationRunner implements CommandLineRunner {
 
         String filePath = args[0];
 
-
         CharStream input = CharStreams.fromFileName(filePath);
         QLLexer lexer = new QLLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(tokens);
         ParseTree tree = parser.forms();
-        GLVisitor visitor = new GLVisitor();
-//
-        System.out.println(visitor.visit(tree));
+        QLVisitor visitor = new QLVisitor();
+
+        AstRoot astRoot = (AstRoot)visitor.visit(tree);
+
+        TypeChecker typeChecker = new TypeChecker();
+        typeChecker.typeCheckAst(astRoot);
+
+        System.out.println(astRoot);
 
     }
 }

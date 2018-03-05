@@ -6,49 +6,49 @@ import org.junit.Test
 class StringLiteralTests {
 
     @Test
-    fun when_ValidString_Expect_Success() {
+    fun `quoted text should be parsed as string`() {
         val input = "\"Hello\""
         val result = ParserHost(input).parser.literal().LIT_STRING()
         ParseAssert.assertNotNullAndEqual(input, result)
     }
 
     @Test
-    fun when_SpacesInString_Expect_Success() {
+    fun `quoted text with whitespace should be parsed as string`() {
         val input = "\"Hello World\""
         val result = ParserHost(input).parser.literal().LIT_STRING()
         ParseAssert.assertNotNullAndEqual(input, result)
     }
 
     @Test
-    fun when_EmptyString_Expect_Success() {
+    fun `quoted empty text should e parsed as string`() {
         val input = "\"\""
         val result = ParserHost(input).parser.literal().LIT_STRING()
         ParseAssert.assertNotNullAndEqual(input, result)
     }
 
     @Test
-    fun when_OnlySpacesInString_Expect_Success() {
+    fun `quoted whitespace should be parsed as string`() {
         val input = "\"                    \""
         val result = ParserHost(input).parser.literal().LIT_STRING()
         ParseAssert.assertNotNullAndEqual(input, result)
     }
 
     @Test
-    fun when_NumberInString_Expect_Success() {
+    fun `quoted integer should be parsed as string`() {
         val input = "\"1\""
         val result = ParserHost(input).parser.literal().LIT_STRING()
         ParseAssert.assertNotNullAndEqual(input, result)
     }
 
     @Test
-    fun when_MissingQuoteInString_Expect_Failure() {
+    fun `mismatched quotes should not parse`() {
         val input = "\""
         val result = ParserHost(input).parser.literal().LIT_STRING()
         Assert.assertNull(result)
     }
 
     @Test
-    fun when_UnquotedString_Expect_Failure() {
+    fun `no quotes should not parse`() {
         val input = "Hello"
         val result = ParserHost(input, expectError = true).parser.literal().LIT_STRING()
         Assert.assertNull(result)

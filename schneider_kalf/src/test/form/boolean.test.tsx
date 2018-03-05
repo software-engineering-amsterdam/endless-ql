@@ -1,11 +1,11 @@
 import Equals from "../../form/nodes/expressions/comparisons/Equals";
 import BooleanLiteral from "../../form/nodes/expressions/boolean_expressions/BooleanLiteral";
-import { evaluate } from "../../form/form_helpers";
+import { evaluate } from "../../form/evaluation/evaluation_functions";
 import NotEqual from "../../form/nodes/expressions/comparisons/NotEqual";
 import Negation from "../../form/nodes/expressions/boolean_expressions/Negation";
 import NumberLiteral from "../../form/nodes/expressions/arithmetic/NumberLiteral";
-import FieldType from "../../form/FieldType";
-import { NotComparableError } from "../../form/errors";
+import { FieldType } from "../../form/FieldType";
+import { ValuesNotComparableError } from "../../form/form_errors";
 
 it('holds that the same boolean literals are equal', () => {
   const trueIsTrue = new Equals(new BooleanLiteral(true), new BooleanLiteral(true));
@@ -35,5 +35,5 @@ it('throws and exception if 1 === true is evaluated', () => {
   expect(() => {
     const oneIsEqualToTrue = new Equals(new BooleanLiteral(true), new NumberLiteral(1));
     evaluate(oneIsEqualToTrue);
-  }).toThrow(NotComparableError);
+  }).toThrow(ValuesNotComparableError);
 });

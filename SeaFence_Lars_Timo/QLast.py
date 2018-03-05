@@ -1,88 +1,71 @@
-<<<<<<< HEAD
-class QLast:
+class QLast(object):
     pass
 
-class formNode(QLast):
+class FormNode(QLast):
     def __init__(self, name):
         self.name = name
+        self.statements = []
 
     def __repr__(self):
-        return "Form: {}".format(self.name)
+        return "Form: {}, statements: {}".format(self.name, self.statements)
 
-class questionNode(QLast):
-	def __init__(self, question, var, vartype):
-		self.question = question
-		self.var = var
-		self.vartype = vartype
+class QuestionNode(QLast):
+    def __init__(self, question, var, vartype):
+        self.question = question
+        self.var = var
+        self.vartype = vartype
 
-	def __repr__(self):
-		return "Question({}, {}, {})".format(self.question, self.var, self.vartype)
+    def __repr__(self):
+        return "Question({}, {}, {})".format(self.question, self.var, self.vartype)
 
-class assignmentNode:
-	def __init__(self, name, var, vartype, expression):
-		self.name = name
-		self.var = var
-		self.vartype = vartype
-		self.expression = expression
-
-	def __repr__(self):
-		return "Assignment: {} {} {} = {}".format(self.name, self.vartype, self.var, sefl.expression)
-
-# Can either be a solo value or an binary operator?
-class expressionNode:
-	def __init__(self, node):
-		self.node = node
-
-	def __repr__(self):
-		return "Node: {}".format(self.node)
-
-class binOpNode:
-	def __init__(self, left, op, right):
-		self.left = left
-		self.op = op
-		self.right = right
-		pass
-
-	def __repr__(self):
-		return "binop: {} {} {}".format(self.left, self.op, self.right)
-
-class ifNode:
-	def __init__(self, expression):
-		self.expression = expression
-
-	def __repr__(self):
-		return "Expression: {}".format(self.expression)
-
-class numberNode:
-	def __init__(self, number):
-		self.number = number
-
-	def __repr__(self):
-		return "Number: {}".format(self.number)
-=======
-class QLast:
-    pass
-
-class formNode(QLast):
-    def __init__(self, name):
+class AssignmentNode(QLast):
+    def __init__(self, name, var, vartype, expression):
         self.name = name
+        self.var = var
+        self.vartype = vartype
+        self.expression = expression
 
     def __repr__(self):
-        return "Form: {}".format(self.name)
+        return "Assignment: {} {} {} = {}".format(self.name, self.vartype, self.var, self.expression)
 
-class questionNode(QLast):
-	def __init__(self, question, var, vartype):
-		self.question = question
-		self.var = var
-		self.vartype = vartype
 
-	def __repr__(self):
-		return "Question({}, {}, {})".format(self.question, self.var, self.vartype)
+class BinOpNode(QLast):
+    def __init__(self, left, op, right, negate=False):
+        self.left = left
+        self.op = op
+        self.right = right
+        self.negate = negate
 
-class ifNode:
-	def __init__(self, expression):
-		self.expression = expression
+    def __repr__(self):
+        return "binop: negate:{} {} {} {}".format(self.negate, self.left, self.op, self.right)
 
-	def __repr__(self):
-		return "Expression: {}".format(self.expression)
->>>>>>> 968270c7646140394a067945eb033ac1de4aff1f
+class UnOpNode(QLast):
+    def __init__(self, var, negate=False):
+        self.var = var
+        self.negate = negate
+
+    def __repr__(self):
+        return "unop: negate:{} {}".format(self.negate, self.var)
+
+class IfNode(QLast):
+    def __init__(self, expression):
+        self.expression = expression
+        self.statements = []
+
+    def __repr__(self):
+        return "If expression: {}, statements: {}".format(self.expression, self.statements)
+
+class ElifNode(QLast):
+    def __init__(self, expression):
+        self.expression = expression
+        self.statements = []
+
+    def __repr__(self):
+        return "Elif expression: {}, statements: {}".format(self.expression, self.statements)
+
+class ElseNode(QLast):
+    def __init__(self):
+        self.statements = []
+
+    def __repr__(self):
+        return "Else statements: {}".format(self.statements)

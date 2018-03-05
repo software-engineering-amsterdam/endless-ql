@@ -1,5 +1,8 @@
 ﻿using System;
 using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
+using QuestionaireDomain.Entities.API.AstNodes.Relational;
+using QuestionaireDomain.Entities.DomainObjects;
 using QuestionnaireDomain.Logic.API;
 
 namespace QuestionnaireDomain.Logic.Logic
@@ -7,21 +10,15 @@ namespace QuestionnaireDomain.Logic.Logic
     internal class QuestionnaireCreator : IQuestionnaireCreator
     {
         private readonly IQlInterpretor m_qlInterpretor;
-        private readonly DomainItemRegistry m_domainItemRegistry;
 
-        public QuestionnaireCreator(
-            IQlInterpretor qlInterpretor,
-            DomainItemRegistry domainItemRegistry)
+        public QuestionnaireCreator(IQlInterpretor qlInterpretor)
         {
             m_qlInterpretor = qlInterpretor;
-            m_domainItemRegistry = domainItemRegistry;
         }
 
-        public Guid Create(string definition)
+        public Reference<IRootNode> Create(string definition)
         {
-            var form =  m_qlInterpretor.BuildForm(definition);
-            m_domainItemRegistry.Add(form);
-            return form.Id;
+            return m_qlInterpretor.BuildForm(definition);
         }
     }
 }

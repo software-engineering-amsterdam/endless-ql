@@ -13,6 +13,8 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.uva.jomi.ql.ast.AstBuilder;
+import org.uva.jomi.ql.ast.analysis.DuplicatedLabelChecker;
+import org.uva.jomi.ql.ast.analysis.IdentifierResolver;
 import org.uva.jomi.ql.ast.analysis.TypeResolver;
 import org.uva.jomi.ql.ast.statements.Stmt;
 import org.uva.jomi.ql.ast.*;
@@ -47,35 +49,41 @@ public class QL {
 
 			// Make sure there are no parsing errors before we use the Ast.
 			// TODO - Extend the Antlr lexer in order to identify if lexical errors occurred.
-			if (parser.getNumberOfSyntaxErrors() == 0 &&
-				astBuilder.getNumberOfBuildErrors() == 0) {
-
-				TypeResolver typeResolver = new TypeResolver();
-				typeResolver.check(ast);
-				System.out.println("Number of errors: " + typeResolver.getNumberOfErrors());
+			if (parser.getNumberOfSyntaxErrors() == 0) {
 				
-				if (typeResolver.getNumberOfErrors() == 0) { 
-					UIBuilder builder = new UIBuilder();
-					List<JPanel>panels = builder.build(ast);
-					
-					JFrame frame = new JFrame();
-//				    frame.setLayout(new BoxLayout(frame, BoxLayout.PAGE_AXIS));
-				    
-					for (JPanel panel : panels) {
-					    frame.add(panel);
+				// Check for duplicated labels
+				DuplicatedLabelChecker labelChecker = new DuplicatedLabelChecker(true);
+				labelChecker.check(ast);
+				
+				// Create a new identifier resolver
+				IdentifierResolver identifierResolver = new IdentifierResolver(true);
+				// Resolve the Ast
+				identifierResolver.resolve(ast);
+
+				if (identifierResolver.getNumberOfErrors() == 0) {
+					TypeResolver typeResolver = new TypeResolver(true);
+					typeResolver.resolve(ast);
+
+					if (typeResolver.getNumberOfErrors() == 0) {
+						UIBuilder builder = new UIBuilder();
+						List<JPanel>panels = builder.build(ast);
+
+						JFrame frame = new JFrame();
+					    //frame.setLayout(new BoxLayout(frame, BoxLayout.PAGE_AXIS));
+
+						for (JPanel panel : panels) {
+						    frame.add(panel);
+						}
+
+						frame.setVisible(true);
+						// Show Panels
 					}
-					
-					frame.setVisible(true);
-					// Show Panels
+
+					// Output the Ast in GraphViz dot format.
+					java.io.PrintStream outStream = new java.io.PrintStream("graph.txt");
+					outStream.println(new AstGraph().getGraph(ast));
+					outStream.close();
 				}
-				
-				
-
-
-				// Output the Ast in GraphViz dot format.
-				java.io.PrintStream outStream = new java.io.PrintStream("graph.txt");
-				outStream.println(new AstGraph().getGraph(ast));
-				outStream.close();
 			}
 
 		} catch (IOException e) {

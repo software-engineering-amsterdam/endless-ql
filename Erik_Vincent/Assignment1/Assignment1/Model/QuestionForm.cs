@@ -1,36 +1,34 @@
-﻿using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 
 [assembly: InternalsVisibleTo("Assignment1Tests")]
 
-namespace Assignment1
+namespace Assignment1.Model
 {
-    internal class QuestionForm
+    public class QuestionForm
     {
         public string Id { get; }
-        public List<Content> Content { get; } = new List<Content>();
-        public Dictionary<string, Question> Questions { get; } = new Dictionary<string, Question>();
+        public List<Content> Content { get; }
 
-        public QuestionForm(string id)
+        public QuestionForm(string id, List<Content> content)
         {
             Id = id;
+            Content = content;
         }
 
-        public void AddQuestion(Question question)
+        public static QuestionForm ParseString(string input)
         {
-            Content.Add(question);
-            Questions.Add(question.Id, question);
-        }
-
-        public void AddStatement()
-        {
-            
+            ICharStream stream = CharStreams.fromstring(input);
+            ITokenSource lexer = new QLLexer(stream);
+            ITokenStream tokens = new CommonTokenStream(lexer);
+            QL parser = new QL(tokens);
+            QL.FormContext context = parser.form();
+            QLListener listener = new QLListener();
+            ParseTreeWalker walker = new ParseTreeWalker();
+            walker.Walk(listener, context);
+            return listener.Form;
         }
     }
 }

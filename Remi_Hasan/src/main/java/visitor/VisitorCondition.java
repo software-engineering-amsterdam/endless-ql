@@ -1,72 +1,50 @@
-<<<<<<< HEAD
 package visitor;
 
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
 import expression.Expression;
-import expression.ReturnType;
-import model.Condition;
-import model.Statement;
+import expression.binary.ExpressionLogicalAnd;
+import expression.unary.ExpressionUnaryNot;
+import model.Question;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class VisitorCondition extends QLBaseVisitor<Condition> {
+public class VisitorCondition extends QLBaseVisitor<List<Question>> {
+
+    private final Expression condition;
+
+    VisitorCondition(Expression condition) {
+        this.condition = condition;
+    }
 
     @Override
-    public Condition visitCondition(QLParser.ConditionContext ctx) {
+    public List<Question> visitCondition(QLParser.ConditionContext ctx) {
         VisitorExpression visitorExpression = new VisitorExpression();
         Expression expression = visitorExpression.visit(ctx.expression());
 
-        if(expression.getReturnType() != ReturnType.Boolean)
-            throw new IllegalArgumentException("Type mismatch");
+        List<Question> questions = new ArrayList<>();
 
-        // Visit all conditionTrueStatements in the conditional body
-        ArrayList<Statement> conditionTrueStatements = new ArrayList<>();
-        ArrayList<Statement> conditionFalseStatements = new ArrayList<>();
-        VisitorStatement visitorStatement = new VisitorStatement();
-        for (QLParser.StatementContext statementContext : ctx.conditionTrueBlock.statement()) {
-            Statement statement = visitorStatement.visit(statementContext);
-            conditionTrueStatements.add(statement);
-        }
-        if(ctx.conditionFalseBlock != null){
-            for (QLParser.StatementContext statementContext : ctx.conditionFalseBlock.statement()) {
-                Statement statement = visitorStatement.visit(statementContext);
-                conditionFalseStatements.add(statement);
-            }
+        // Chain nested conditional statements
+        Expression trueExpression = new ExpressionLogicalAnd(this.condition, expression);
+        addQuestions(questions, ctx.conditionTrueBlock.statement(), trueExpression);
+
+        if (ctx.conditionFalseBlock == null) {
+            return questions;
         }
 
-        return new Condition(expression, conditionTrueStatements, conditionFalseStatements);
+        // Else block, so negate condition (and again, chain nested conditional statements)
+        Expression falseExpression = new ExpressionLogicalAnd(new ExpressionUnaryNot(expression), this.condition);
+        addQuestions(questions, ctx.conditionFalseBlock.statement(), falseExpression);
+
+        return questions;
+    }
+
+    private void addQuestions(List<Question> questions, List<QLParser.StatementContext> statements, Expression condition) {
+        VisitorStatement visitorStatement = new VisitorStatement(condition);
+        for (QLParser.StatementContext statementContext : statements) {
+            questions.addAll(visitorStatement.visit(statementContext));
+        }
     }
 
 }
-=======
-package visitor;
-
-import antlr.QLBaseVisitor;
-import antlr.QLParser;
-import expression.Expression;
-import model.Condition;
-import model.Statement;
-
-import java.util.ArrayList;
-
-public class VisitorCondition extends QLBaseVisitor<Condition> {
-
-    @Override
-    public Condition visitCondition(QLParser.ConditionContext ctx) {
-        VisitorExpression visitorExpression = new VisitorExpression();
-        Expression expression = visitorExpression.visit(ctx.expression());
-
-        // Visit all statements in the conditional body
-        ArrayList<Statement> statements = new ArrayList<>();
-        VisitorStatement visitorStatement = new VisitorStatement();
-        for (QLParser.StatementContext statementContext : ctx.block().statement()) {
-            Statement statement = visitorStatement.visit(statementContext);
-            statements.add(statement);
-        }
-
-        return new Condition(expression, statements);
-    }
-
-}
->>>>>>> 3c171d077d7945c6cc73b62beb833d1ee457800c

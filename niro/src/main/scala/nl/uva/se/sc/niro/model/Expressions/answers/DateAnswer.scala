@@ -1,9 +1,17 @@
 package nl.uva.se.sc.niro.model.Expressions.answers
 
-import nl.uva.se.sc.niro.model.Expressions.Expression.Answer
-import nl.uva.se.sc.niro.model.Operators.{ BinaryOperator, UnaryOperator }
+import nl.uva.se.sc.niro.model.Expressions.Answer
+import nl.uva.se.sc.niro.model.{ BinaryOperator, UnaryOperator }
 
-case class DateAnswer(possibleValue: Option[String]) extends Answer {
-  def apply(unaryOperator: UnaryOperator): Answer = ???
-  def apply(binaryOperator: BinaryOperator, other: Answer): Answer = ???
+final case class DateAnswer(possibleValue: Option[String]) extends Answer {
+
+  type T = String
+
+  def applyUnaryOperator(unaryOperator: UnaryOperator): Answer = ???
+  def applyBinaryOperator(binaryOperator: BinaryOperator, other: Answer): Answer = ???
+}
+
+object DateAnswer {
+  def apply() = new DateAnswer(None)
+  def apply(value: String) = new DateAnswer(Some(value))
 }

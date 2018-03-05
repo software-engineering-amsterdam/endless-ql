@@ -1,50 +1,103 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace Assignment1
+namespace Assignment1.Model
 {
-    internal class Question : Content
+    public abstract class Question : Content
     {
         public string Id { get; }
         public string Label { get; }
-        public Expression Expression { get; set; }
+        public dynamic Value
+        {
+            get => Computed ? Expression.Evaluate() : _value;
+            set => _value = value;
+        }
 
-        public Question(string id, string label)
+        private dynamic _value;
+        public Expression Expression;
+        public bool Computed;
+
+        protected Question(string id, string label)
         {
             Id = id;
             Label = label;
         }
-
-        public virtual Control CreateControl() => new Label() { Text = Label, AutoSize = true };
     }
 
-    internal class QuestionBool : Question
+    public class QuestionBool : Question
     {
         public QuestionBool(string id, string label) : base(id, label)
         {
-            Expression = new Expression(false);
+            Value = false;
         }
 
-        public override Control CreateControl() => new CheckBox() { Text = Label, AutoSize = true, Checked = Expression.Evaluate() };
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 
-    internal class QuestionMoney : Question
+    public class QuestionDate : Question
+    {
+        public QuestionDate(string id, string label) : base(id, label)
+        {
+            Value = DateTime.Today;
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionDecimal : Question
+    {
+        public QuestionDecimal(string id, string label) : base(id, label)
+        {
+            Value = 0;
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionInt : Question
+    {
+        public QuestionInt(string id, string label) : base(id, label)
+        {
+            Value = 0;
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionMoney : Question
     {
         public QuestionMoney(string id, string label) : base(id, label)
         {
-            Expression = new Expression(0.0);
+            Value = 0;
         }
 
-        public override Control CreateControl()
+        public override void Accept(IContentVisitor visitor)
         {
-            var panel = new FlowLayoutPanel() { AutoSize = true, AutoSizeMode = AutoSizeMode.GrowAndShrink, FlowDirection = FlowDirection.TopDown};
-            panel.Controls.Add(base.CreateControl());
-            panel.Controls.Add(new TextBox(){Text = Expression.Evaluate().ToString()});
-            return panel;
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionString : Question
+    {
+        public QuestionString(string id, string label) : base(id, label)
+        {
+            Value = "";
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

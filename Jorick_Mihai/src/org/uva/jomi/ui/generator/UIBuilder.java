@@ -12,6 +12,7 @@ import org.uva.jomi.ql.ast.statements.IfElseStmt;
 import org.uva.jomi.ql.ast.statements.IfStmt;
 import org.uva.jomi.ql.ast.statements.QuestionStmt;
 import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.interpreter.QLInterpreter;
 import org.uva.jomi.ui.elements.BaseElement;
 import org.uva.jomi.ui.elements.ComputedQuestionElement;
 import org.uva.jomi.ui.elements.ConditionalPanelElement;
@@ -19,6 +20,12 @@ import org.uva.jomi.ui.elements.PanelElement;
 import org.uva.jomi.ui.elements.QuestionElement;
 
 public class UIBuilder implements Stmt.Visitor<BaseElement> {
+	
+	private final QLInterpreter interpreterVisitor;
+	
+	public UIBuilder() {
+		interpreterVisitor = new QLInterpreter();
+	}
 
 	private List<BaseElement> generate(List<Stmt> statements) {
 		List<BaseElement> elements = new ArrayList<BaseElement>();
@@ -41,19 +48,19 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 	}
 	
 	@Override
-	public BaseElement visitFormStmt(FormStmt form) {
+	public BaseElement visit(FormStmt form) {
 		PanelElement panel = new PanelElement();
 		
-		panel.addElement(form.blockStmt.accept(this));
+		panel.addElement(form.visitBlockStmt(this));
 		
 		return panel;
 	}
 
 	@Override
-	public BaseElement visitBlockStmt(BlockStmt block) {
+	public BaseElement visit(BlockStmt block) {
 		PanelElement panel = new PanelElement();
 		
-		for (Stmt statement : block.statements) {
+		for (Stmt statement : block.getStatements()) {
 			panel.addElement(statement.accept(this));
 		}
 		
@@ -61,26 +68,29 @@ public class UIBuilder implements Stmt.Visitor<BaseElement> {
 	}
 
 	@Override
-	public BaseElement visitQuestionStmt(QuestionStmt questionStmt) {
-		return new QuestionElement(questionStmt);
+	public BaseElement visit(QuestionStmt questionStmt) {
+		return new QuestionElement(questionStmt.getIdentifierName(), questionStmt.getLabel(), questionStmt.getType().toString());
 	}
 
 	@Override
-	public BaseElement visitComputedQuestionStmt(ComputedQuestionStmt questionStmt) {
-		return new ComputedQuestionElement(questionStmt);
+	public BaseElement visit(ComputedQuestionStmt questionStmt) {
+		// TODO - replace comment - here we can interpret the expression;
+		Object value = questionStmt.visitExpr(interpreterVisitor);
+		
+		return new ComputedQuestionElement(questionStmt.getIdentifierName(), questionStmt.getLabel(), questionStmt.getType().toString(), questionStmt.getExp());
 	}
 
 	@Override
-	public BaseElement visitIfStmt(IfStmt stmt) {
-		BaseElement ifElement = stmt.blockStmt.accept(this);
-		return new ConditionalPanelElement(stmt.expression, ifElement, null);
+	public BaseElement visit(IfStmt stmt) {
+		BaseElement ifElement = stmt.visitIfBlockStmt(this);
+		return new ConditionalPanelElement(stmt.getExpr(), ifElement, null);
 	}
 
 	@Override
-	public BaseElement visitIfElseStmt(IfElseStmt stmt) {
-		BaseElement ifElement = stmt.ifBlockStmt.accept(this);
-		BaseElement elseElement = stmt.elseBlockStmt.accept(this);
-		return new ConditionalPanelElement(stmt.expression, ifElement, elseElement);
+	public BaseElement visit(IfElseStmt stmt) {
+		BaseElement ifElement = stmt.visitIfBlockStmt(this);
+		BaseElement elseElement = stmt.visitElseBlockStmt(this);
+		return new ConditionalPanelElement(stmt.getExpr(), ifElement, elseElement);
 	}
 	
 }

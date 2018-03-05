@@ -1,13 +1,14 @@
 package org.uva.sea.ql.parser.nodeTypes;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.visitor.IASTVisitor;
 
 public abstract class SingleNode extends ASTNode {
     private ASTNode value;
 
-    public SingleNode(ASTNode value) {
+    public SingleNode(Token token, ASTNode value) {
+        super(token);
         this.value = value;
     }
 
@@ -15,11 +16,8 @@ public abstract class SingleNode extends ASTNode {
         return value;
     }
 
-    public void setValue(ASTNode value) {
-        this.value = value;
-    }
-
-    public void traverseChildren(Traverse traverse, TraverseType traverseType) {
-        this.value.doTraversal(traverse, traverseType);
+    @Override
+    public <T> T accept(IASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

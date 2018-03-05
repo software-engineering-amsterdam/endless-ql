@@ -1,52 +1,61 @@
 lexer grammar GrammarLexer;
 
 
-//Whitespace
-WHITESPACE : [ \t\r\n]+ -> skip;
+//Whitespace and comments
+WHITESPACE      : [ \t\r\n]+ -> skip;
+COMMENT         :   '/*' .*? '*/' -> skip;
+LINE_COMMENT    :   '//' ~[\r\n]* -> skip;
 
-//Keywords
-FORM : 'form';
+//Class types
+FORM            : 'form';
 
 //Types
-BOOL : 'boolean';
-STR : 'string';
-INT : 'integer';
-DATE : 'date';
-DECIMAL : 'decimal';
-MONEY : 'money' | 'currency';
+BOOL            : 'boolean';
+STR             : 'string';
+INT             : 'integer';
+DATE            : 'date';
+DECIMAL         : 'decimal';
+MULTIPLEANSWER  : 'multipleAnswer';
+MONEY           : 'money' | 'currency';
 
 //Operators
-ASSIGN : ':';
-LPAREN : '(';
-RPAREN : ')';
-LCURLYBRAKET : '{';
-RCURLYBRAKET : '}';
-IF : 'if';
-ELSE : 'else';
-IFELSE : 'ifelse';
+ASSIGN          : ':';
+IF              : 'if';
+ELSE            : 'else';
+IFELSE          : 'ifelse';
+
+//Separators
+LPAREN          : '(';
+RPAREN          : ')';
+LBRACE          : '{';
+RBRACE          : '}';
+SEMI            : ';';
+COMMA           : ',';
+DOT             : '.';
 
 //Arithmetic
-PLUS : '+';
-MINUS : '-';
-ASTERISK : '*';
-DIVISION : '/';
-EQUAL : '=';
+PLUS            : '+';
+MINUS           : '-';
+MULTIPLY        : '*';
+DIVIDE          : '/';
+EQUAL           : '=';
 
 //Comparisons
-LESS : '<';
-HIGHER : '>';
-EQUALHIGHER : '>=';
-EQUALLESS : '<=';
-DIFF : '!=';
-ISEQUAL : '==';
+LESS            : '<';
+GREATER         : '>';
+EQUALGREATER    : '>=';
+EQUALLESS       : '<=';
+NOTEQUAL        : '!=';
+ISEQUAL         : '==';
 
 //Booleans
-AND : '&&';
-OR : '||';
-NOT : '!';
+AND             : '&&';
+OR              : '||';
+NOT             : '!';
 
 //Variables
-VAR : [_]*[A-Za-z][A-Za-z0-9]*;
-LABEL : '"'[A-Za-z0-9 ,.?/:]+'"';
+NUM             : [0-9]+;
+VAR             : [A-Za-z][A-Za-z0-9]*;
+LABEL           : '"'[A-Za-z0-9 ,.?/:]+'"';
 
 

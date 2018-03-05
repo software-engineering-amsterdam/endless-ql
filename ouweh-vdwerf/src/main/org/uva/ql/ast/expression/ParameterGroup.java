@@ -1,4 +1,6 @@
-package main.org.uva.ql.ast.expression;
+package org.uva.ql.ast.expression;
+
+import org.uva.ql.visitor.ExpressionVisitor;
 
 public class ParameterGroup extends Expression {
 
@@ -14,6 +16,11 @@ public class ParameterGroup extends Expression {
 
     @Override
     public String toString() {
-        return this.expression.toString();
+        return String.format("( %s )",this.expression.toString());
+    }
+
+    @Override
+    public <T, C> T accept(ExpressionVisitor<T, C> visitor, C context) {
+        return visitor.visit(this, context);
     }
 }

@@ -1,31 +1,36 @@
 package ql.visitors;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.antlr.v4.runtime.Token;
 
 import ql.ast.QLNode;
 import ql.ast.expression.Add;
 import ql.ast.expression.And;
-import ql.ast.expression.BoolLiteral;
-import ql.ast.expression.DateLiteral;
-import ql.ast.expression.DecimalLiteral;
 import ql.ast.expression.Divide;
 import ql.ast.expression.Equal;
 import ql.ast.expression.Expression;
 import ql.ast.expression.Greater;
 import ql.ast.expression.GreaterEqual;
 import ql.ast.expression.Identifier;
-import ql.ast.expression.IntLiteral;
 import ql.ast.expression.Less;
 import ql.ast.expression.LessEqual;
-import ql.ast.expression.MoneyLiteral;
 import ql.ast.expression.Multiply;
 import ql.ast.expression.Negation;
 import ql.ast.expression.Negative;
 import ql.ast.expression.NotEqual;
 import ql.ast.expression.Or;
 import ql.ast.expression.Positive;
-import ql.ast.expression.StrLiteral;
 import ql.ast.expression.Subtract;
+import ql.ast.expression.literal.BoolLiteral;
+import ql.ast.expression.literal.DateLiteral;
+import ql.ast.expression.literal.DecimalLiteral;
+import ql.ast.expression.literal.IntLiteral;
+import ql.ast.expression.literal.MoneyLiteral;
+import ql.ast.expression.literal.StrLiteral;
 import ql.ast.form.Form;
 import ql.ast.statement.AnswerableQuestion;
 import ql.ast.statement.Block;
@@ -40,10 +45,29 @@ import ql.ast.type.Int;
 import ql.ast.type.Money;
 import ql.ast.type.Str;
 import ql.ast.type.Type;
+import ql.ast.type.Undefined;
+import ql.exceptions.ANTLRError;
+import ql.exceptions.QLException;
 import ql.grammar.QLBaseVisitor;
 import ql.grammar.QLParser;
+import ql.grammar.QLParser.MoneyContext;
+import ql.grammar.QLParser.MoneyTypeContext;
+import ql.helpers.Currency;
+import ql.helpers.Location;
 
 public class QLVisitorToAst extends QLBaseVisitor<Object> {
+    
+    List<QLException> errors;
+    
+    public QLVisitorToAst() {
+        errors = new ArrayList<QLException>();
+    }
+    
+    public QLVisitorToAst(List<QLException> errors) {
+        this.errors = errors;
+    }
+    
+    private Map<String,Identifier> identifiers = new HashMap<String,Identifier>();
     
     @Override 
     public QLNode visitForm(QLParser.FormContext ctx) { 
@@ -94,24 +118,22 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
     @Override 
     public QLNode visitComputedQuestion(QLParser.ComputedQuestionContext ctx) { 
         
-        String label            = stripQuotations(ctx.label());
-        Type type               = (Type) visit(ctx.type());
-        Identifier id           = (Identifier) visitIdentifier(ctx.identifier());
-        Expression expr         = (Expression) visit(ctx.expr());
-        ComputedQuestion stmt   = new ComputedQuestion(label,id,type,expr);
+        String label    = stripQuotations(ctx.label());
+        Type type       = (Type) visit(ctx.type());
+        Identifier id   = createIdentifier(ctx.identifier(),type);
+        Expression expr = (Expression) visit(ctx.expr());
         
-        return setLocation(stmt, ctx.start);
+        return setLocation(new ComputedQuestion(label,id,type,expr), ctx.start);
     }
 
     @Override 
     public QLNode visitAnswerableQuestion(QLParser.AnswerableQuestionContext ctx) { 
         
-        String label            = stripQuotations(ctx.label());
-        Identifier id           = (Identifier) visitIdentifier(ctx.identifier());
-        Type type               = (Type) visit(ctx.type());
-        AnswerableQuestion stmt = new AnswerableQuestion(label,id,type); 
+        String label    = stripQuotations(ctx.label());
+        Type type       = (Type) visit(ctx.type());
+        Identifier id   = createIdentifier(ctx.identifier(),type);
         
-        return setLocation(stmt, ctx.start);
+        return setLocation(new AnswerableQuestion(label,id,type), ctx.start);
     }
     
     @Override 
@@ -134,9 +156,9 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         return setLocation(new DecimalLiteral(ctx.getText()), ctx.start);
     }
 
-    @Override 
-    public QLNode visitMoneyLiteral(QLParser.MoneyLiteralContext ctx) {
-        return setLocation(new MoneyLiteral(ctx.getText()), ctx.start);
+    @Override
+    public Object visitMoney(MoneyContext ctx) {
+        return setLocation(new MoneyLiteral(Currency.valueOf(ctx.currency().getText()), ctx.value.getText()), ctx.start);
     }
 
     @Override 
@@ -145,11 +167,8 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
     }
 
     @Override 
-    public QLNode visitIdentifier(QLParser.IdentifierContext ctx) { 
-        
-        Identifier id = new Identifier(ctx.getText());
-        
-        return setLocation(id, ctx.start);
+    public QLNode visitIdentifier(QLParser.IdentifierContext ctx) {
+        return createIdentifier(ctx);
     }
     
     @Override 
@@ -256,9 +275,19 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         return setLocation(new Decimal(), ctx.start); 
     }
 
-    @Override 
-    public QLNode visitMoneyType(QLParser.MoneyTypeContext ctx) { 
-        return setLocation(new Money(), ctx.start); 
+    @Override
+    public QLNode visitMoneyType(MoneyTypeContext ctx) {
+        
+        Currency currency;
+        
+        if(Currency.exists(ctx.getText())) {
+            currency = Currency.valueOf(ctx.getText());
+        } else {
+            currency = Currency.defaultCurrency;
+            errors.add(new ANTLRError("Unknown currency "+ctx.getText(), ctx.start.getLine(), ctx.start.getCharPositionInLine()));
+        }
+        
+        return setLocation(new Money(currency), ctx.start);
     }
 
     @Override 
@@ -267,12 +296,22 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
     }
 
     private QLNode setLocation(QLNode n, Token t) {
-        int line   = t.getLine();
-        int column = t.getCharPositionInLine();
         
-        n.setLocation(line, column);
+        Location l = tokenToLocation(t);
+        
+        l.setLength(n.toString().length());
+        n.setLocation(l);
         
         return n;
+    }
+    
+    private Location tokenToLocation(Token t) {
+        int line    = t.getLine();
+        int column  = t.getCharPositionInLine();
+        int offset  = t.getStartIndex();
+        int length  = 1 + t.getStopIndex() - offset;
+        
+        return new Location(line, column, offset, length);
     }
     
     private boolean isTokenType(Token t, int type) {
@@ -285,5 +324,43 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         label           = label.substring(1, endIndex);
         
         return label;
+    }
+    
+    private Identifier createIdentifier(QLParser.IdentifierContext ctx, Type type) {
+        
+        Identifier id = new Identifier(ctx.getText(), type);
+        
+        id.setLocation(tokenToLocation(ctx.start)).updateLength();
+        
+        if(identifiers.containsKey(id.getName())) id = replaceWithOriginalIdentifier(id);
+        else identifiers.put(id.getName(), id);
+        
+        return id;
+    }
+    
+    private Identifier createIdentifier(QLParser.IdentifierContext ctx) {
+        return createIdentifier(ctx, new Undefined());
+    }
+    
+    private Identifier replaceWithOriginalIdentifier(Identifier id) {
+        
+        String name = id.getName();
+        
+        if(identifiers.containsKey(name))
+        {
+            Identifier original = identifiers.get(name);
+            
+            if(id.getType().isUndefined()) return original;
+            
+            if(original.getType().isUndefined())
+            {
+                original.setType(id.getType());
+                original.setLocation(id.getLocation());
+            }
+            
+            return (original.getType().equals(id.getType()))? identifiers.get(name) : id;
+        }
+        
+        return id;
     }
 }

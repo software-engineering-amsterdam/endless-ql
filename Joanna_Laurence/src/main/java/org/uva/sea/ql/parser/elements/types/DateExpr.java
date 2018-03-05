@@ -1,49 +1,32 @@
 package org.uva.sea.ql.parser.elements.types;
 
+import org.antlr.v4.runtime.Token;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.parser.elements.TraverseType;
-import org.uva.sea.ql.traverse.Traverse;
+import org.uva.sea.ql.visitor.IASTVisitor;
+
+import java.util.Calendar;
 
 public class DateExpr extends ASTNode {
-    private int day;
-    private int month;
-    private int year;
+    private Calendar date = Calendar.getInstance();
 
-    public DateExpr(int day, int month, int year) {
-        this.day = day;
-        this.month = month;
-        this.year = year;
+    public DateExpr(Token token, String day, String month, String year) {
+        super(token);
+        this.date.set(Calendar.YEAR, Integer.parseInt(year));
+        this.date.set(Calendar.MONTH, Integer.parseInt(month));
+        this.date.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day));
     }
 
-    public int getDay() {
-        return day;
-    }
-
-    public void setDay(int day) {
-        this.day = day;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public void traverseNode(Traverse traverse, TraverseType traverseType) {
-        traverse.doDateExpr(this);
+    public Calendar getDate() {
+        return date;
     }
 
     public Type getType() {
-        return new Type("date");
+        return new Type(NodeType.DATE);
+    }
+
+    @Override
+    public <T> T accept(IASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

@@ -4,7 +4,7 @@ using QL_Parser.AST.Nodes;
 namespace QL_Parser.Tests.AST
 {
     [TestClass]
-    public class QuestionTest
+    public class QuestionTest : QLTest
     {
         private readonly string _formRaw = "form simpleForm { " +
             "   \"Have you sold a house in 2010?\"" +
@@ -48,7 +48,7 @@ namespace QL_Parser.Tests.AST
         {
             var form = QLParserHelper.Parse(_formRaw);
             var firstQuestion = form.Children[0] as QuestionNode;
-            Assert.AreEqual(QuestionType.BOOLEAN, firstQuestion.QuestionType);
+            Assert.AreEqual(QValueType.BOOLEAN, firstQuestion.ValueType);
         }
         #endregion
 

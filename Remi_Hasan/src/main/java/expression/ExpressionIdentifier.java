@@ -1,8 +1,9 @@
 package expression;
 
-import model.LookupTable;
+import analysis.SymbolTable;
+import expression.variable.ExpressionVariable;
 
-public class ExpressionIdentifier<T> extends Expression<T> {
+public class ExpressionIdentifier extends Expression {
 
     private final String identifier;
 
@@ -16,12 +17,15 @@ public class ExpressionIdentifier<T> extends Expression<T> {
     }
 
     @Override
-    public ReturnType getReturnType() {
-        return evaluate().getReturnType();
+    public ReturnType getReturnType(SymbolTable symbolTable) {
+        return symbolTable.getExpression(this.identifier).getReturnType(symbolTable);
     }
 
     @Override
-    public ExpressionVariable evaluate() {
-        return LookupTable.getInstance().getQuestionAnswer(identifier).evaluate();
+    public ExpressionVariable evaluate(SymbolTable symbolTable) {
+        return symbolTable.getExpression(this.identifier).evaluate(symbolTable);
     }
+
+    @Override
+    public void typeCheck(SymbolTable symbolTable) { }
 }

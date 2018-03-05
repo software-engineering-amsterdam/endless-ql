@@ -3,83 +3,121 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Antlr4.Runtime;
+using Antlr4.Runtime.Misc;
+using Assignment1.Model;
 
 namespace Assignment1
 {
     internal class QLListener : QLBaseListener
     {
-        public IEnumerable<QuestionForm> Forms => _forms.Reverse();
-
-        private readonly Stack<QuestionForm> _forms = new Stack<QuestionForm>();
-        private readonly Stack<Question> _questions = new Stack<Question>();
-        private readonly Stack<Expression> _expressions = new Stack<Expression>();
-
-        public override void EnterForm(QL.FormContext context)
+        public QuestionForm Form { get; private set; }
+        private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
+        public List<string> Errors = new List<string>();
+        public List<string> Warnings = new List<string>();
+        public bool FormHasErrors
         {
-            _forms.Push(new QuestionForm(context.ID().ToString()));
+            get
+            {
+                return Errors.Count > 0;
+            }
         }
 
-        public override void EnterQuestionBool(QL.QuestionBoolContext context)
+        private bool QuestionIdExists(string questionId)
         {
-            var id = context.ID().ToString();
-            var label = context.LABEL().ToString();
-            Question question = new QuestionBool(id, label);
-            _questions.Push(question);
+            return _questions.ContainsKey(questionId);
         }
 
-        public override void EnterQuestionMoney(QL.QuestionMoneyContext context)
+        private bool QuestionLabelExists(string questionLabel)
         {
-            var id = context.ID().ToString();
-            var label = context.LABEL().ToString();
-            Question question = new QuestionMoney(id, label);
-            _questions.Push(question);
+            List<Question> questionList = _questions.Values.ToList();
+            foreach (Question questionItem in questionList)
+            {
+                if (questionItem.Label.Equals(questionLabel))
+                    return true;
+            }
+            return false;
         }
 
-        public override void ExitQuestionAssign(QL.QuestionAssignContext context)
+        private void AddError(ParserRuleContext context, string message)
         {
-            _questions.Peek().Expression = _expressions.Pop();
+            Errors.Add("Line " + context.Start.Line + ": " + message);
+        }
+
+        public override void ExitForm(QL.FormContext context)
+        {
+            Console.WriteLine(Errors.Count + " errors found.");
+            foreach (string error in Errors)
+            {
+                Console.WriteLine(error);
+            }
+            Form = context.result;
+        }
+
+        public override void EnterQuestion(QL.QuestionContext context)
+        {
+            string questionLabel = context.result.Label;
+
+            // Should be warnings, move to separate list
+            if (QuestionLabelExists(questionLabel))
+            {
+                AddError(context, "The question label '" + questionLabel + "' has already been used.");
+            }
         }
 
         public override void ExitQuestion(QL.QuestionContext context)
         {
-            _forms.Peek().AddQuestion(_questions.Pop());
+            string questionId = context.result.Id;
+            
+            if (QuestionIdExists(questionId))
+            {
+                AddError(context, "The question id '" + questionId + "' already exists in the current context.");
+            } else
+            {
+                _questions.Add(context.result.Id, context.result);
+            }
         }
 
-        public override void ExitBool(QL.BoolContext context)
+        /* Check for each if statement if the expression in the condition is of type boolean.
+         */
+        public override void ExitIfstatement(QL.IfstatementContext context)
         {
-            _expressions.Push(new Expression(context.TRUE() != null));
+            object conditionType = context.result.Expression.Evaluate();
+            if (!(conditionType is bool))
+            {
+                AddError(context, "The expression '" + context._expression.GetText() + "' is not of type boolean.");
+            }
         }
 
-        public override void ExitInteger(QL.IntegerContext context)
-        {
-            _expressions.Push(new Expression(int.Parse(context.INTEGER().GetText())));
-        }
-
-        public override void ExitDecimal(QL.DecimalContext context)
-        {
-            _expressions.Push(new Expression(Decimal.Parse(context.DECIMAL().GetText())));
-        }
-
-        public override void ExitId(QL.IdContext context)
-        {
-            _expressions.Push(new ExpressionId(context.ID().GetText(), _forms.Peek().Questions));
-        }
-
+        /* Check for each expression if the left and right operands are of the correct type.
+         * For example, for an arithmetic expression the left and right operands should be numeric.
+         */
         public override void ExitExpression(QL.ExpressionContext context)
         {
-            var opFunc = GetOpFunc(context);
-            if (opFunc == null) return;
-            var right = _expressions.Pop();
-            var left = _expressions.Pop();
-            _expressions.Push(new ExpressionOperatorB(left, right, GetOpFunc(context)));
+            Expression expression = context.result;
+            try
+            {
+                var expressionType = expression.Evaluate();
+            } catch (Exception exception)
+            {
+                AddError(context, exception.Message);
+            }
         }
 
-        private static Func<Expression, Expression, dynamic> GetOpFunc(QL.ExpressionContext context)
+        /* Check for each expressionId if the referenced questionId exists. Adds an error message
+         * if this is not the case.
+         */
+        public override void ExitExpressionId(QL.ExpressionIdContext context)
         {
-            if (context.AND() != null) return (l, r) => l.Evaluate() && r.Evaluate();
-            if (context.OR() != null) return (l, r) => l.Evaluate() || r.Evaluate();
-            if (context.SUB() != null) return (l, r) => l.Evaluate() - r.Evaluate();
-            return null;
+            try
+            {
+                context.result.Question = _questions[context.result.Id];
+            }
+            catch (KeyNotFoundException e)
+            {
+                AddError(context, "The question id '" + context.result.Id + "' does not exist in the current context.");
+                //throw;
+            }
         }
     }
 }

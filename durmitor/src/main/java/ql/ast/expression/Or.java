@@ -1,27 +1,26 @@
 package ql.ast.expression;
 
-import ql.ast.type.Bool;
-import ql.ast.type.Type;
+import ql.ast.expression.literal.Literal;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Or extends BinaryBooleanLogic {
+public class Or extends BinaryOperator {
 
-    public Or(Expression lhs, Expression rhs) {
-        super(lhs, rhs);
+    public Or(Expression firstOperand, Expression secondOperand) {
+        super(firstOperand, secondOperand);
     }
 
     @Override
-    public Type getType() {
-        return new Bool();
-    }
-
-    @Override
-    public void accept(ExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <E> E accept(ExpressionVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 
     @Override
     public String getOperator() {
         return "||";
+    }
+    
+    @Override
+    public Literal<?> evaluate() {
+        return firstOperand.evaluate().or(secondOperand.evaluate());
     }
 }

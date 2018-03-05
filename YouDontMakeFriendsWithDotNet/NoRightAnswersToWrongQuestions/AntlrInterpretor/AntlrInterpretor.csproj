@@ -164,9 +164,10 @@
       <Link>GeneratedCode\QLVisitor.cs</Link>
     </Compile>
     <Compile Include="AntlrModule.cs" />
+    <Compile Include="Logic\AstExtensions.cs" />
     <Compile Include="Logic\QlErrorListener.cs" />
     <Compile Include="Logic\QlInterpretor.cs" />
-    <Compile Include="Logic\QLVisitor.cs" />
+    <Compile Include="Logic\BuildAstVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

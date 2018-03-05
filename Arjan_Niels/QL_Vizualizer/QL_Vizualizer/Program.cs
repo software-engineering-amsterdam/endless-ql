@@ -1,4 +1,7 @@
-﻿using System;
+﻿using QL_Vizualizer.Controllers;
+using QL_Vizualizer.Controllers.Display;
+using QL_Vizualizer.Style;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +19,11 @@ namespace QL_Vizualizer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Visualizer());
+
+            // Initialize widget controller
+            WidgetController widgetController = new TypedWidgetController<Control, WindowsStyleProperties>();
+            widgetController.SetDisplayController(new WidgetDisplayControllerWindows(10, widgetController));
+            widgetController.ShowView();
         }
     }
 }

@@ -4,9 +4,9 @@ using QLanguage;
 
 namespace QL_Parser.Visitors
 {
-    public class StatementVisitor : QLanguageBaseVisitor<StatementNode>
+    public class StatementVisitor : QLanguageBaseVisitor<IExpressionNode>
     {
-        public override StatementNode VisitStatement([NotNull] QLanguageParser.StatementContext context)
+        public override IExpressionNode VisitStatement([NotNull] QLanguageParser.StatementContext context)
         {
             var valueVisitor = new ValueVisitor();
             var lhs = valueVisitor.VisitValue(context.value());

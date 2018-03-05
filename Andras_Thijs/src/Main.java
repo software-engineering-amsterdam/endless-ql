@@ -1,14 +1,7 @@
 import AST.FormReader;
-import GUI.FormTemplate;
-import Nodes.Condition;
 import Nodes.QLForm;
-import Nodes.Question;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
+
 
 public class Main {
     public static void main (String[] args){

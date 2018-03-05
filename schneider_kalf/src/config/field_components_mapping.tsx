@@ -2,6 +2,7 @@ import { BooleanField } from "../rendering/components/field/BooleanField";
 import { MoneyField } from "../rendering/components/field/MoneyField";
 import { TextField } from "../rendering/components/field/TextField";
 import { FieldType } from "../form/FieldType";
+import { NumberField } from "../rendering/components/field/NumberField";
 
 export const fieldComponentsMapping: { type: FieldType, component: any }[] = [
   {
@@ -14,6 +15,18 @@ export const fieldComponentsMapping: { type: FieldType, component: any }[] = [
   },
   {
     type: FieldType.Text,
+    component: TextField
+  },
+  {
+    type: FieldType.Integer,
+    component: NumberField
+  },
+  {
+    type: FieldType.Float,
+    component: NumberField
+  },
+  {
+    type: FieldType.Date,
     component: TextField
   }
 ];

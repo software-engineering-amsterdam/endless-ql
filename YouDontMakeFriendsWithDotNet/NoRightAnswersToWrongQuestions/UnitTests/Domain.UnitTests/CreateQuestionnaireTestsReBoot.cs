@@ -498,12 +498,12 @@ namespace UnitTests.Domain.UnitTests
             var createdNotExpected = actualLiterals.Except(expectedLiterals);
             Assert.IsEmpty(
                 collection: createdNotExpected,
-                message: $"numbers created but not expected: {string.Join(",", createdNotExpected)}.");
+                message: $"dates created but not expected: {string.Join(",", createdNotExpected)}.");
 
             var expectedNotCreated = expectedLiterals.Except(actualLiterals);
             Assert.IsEmpty(
                 collection: expectedNotCreated,
-                message: $"numbers expected but not created: {string.Join(",", expectedNotCreated)}");
+                message: $"dates expected but not created: {string.Join(",", expectedNotCreated)}");
         }
 
         private void ValidateRelationalDefinition(IEnumerable<string> expectedDefinitions)

@@ -74,3 +74,22 @@ it("can parse variables that start with reserved keyword", () => {
   expect(booleanVariable).toBeInstanceOf(VariableIdentifier);
   expect(booleanVariable.identifier).toBe("trueVariable");
 });
+
+it("can parse floating numbers", () => {
+  const input = `form taxOfficeExample {
+                    "Did you sell a house in 2010?"
+                      hasSoldHouse: integer = (2.5)
+                 }`;
+
+  let computedField: any = null;
+
+  expect(() => {
+    computedField = getFirstStatement(input);
+  }).not.toThrow(Error);
+
+  expect(computedField).toBeInstanceOf(ComputedField);
+
+  const numberLiteral: NumberLiteral = computedField.formula;
+  expect(numberLiteral).toBeInstanceOf(NumberLiteral);
+  expect(numberLiteral.getValue()).toBe(2.5);
+});

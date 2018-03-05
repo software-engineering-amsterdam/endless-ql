@@ -22,8 +22,8 @@ public class Int extends Numeric {
     }
     
     @Override
-    public <T> T accept(TypeVisitor<T> visitor) {
-        return visitor.visit(this);
+    public void accept(TypeVisitor visitor) {
+        visitor.visit(this);
     }
     
     @Override

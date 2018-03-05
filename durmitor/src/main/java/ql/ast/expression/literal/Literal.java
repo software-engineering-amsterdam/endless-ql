@@ -1,13 +1,12 @@
 package ql.ast.expression.literal;
 
-import ql.ast.expression.Observer;
 import ql.ast.expression.Primary;
 import ql.ast.type.Money;
 import ql.ast.type.Type;
 import ql.evaluator.Operations;
 import ql.visitors.interfaces.ValueVisitable;
 
-public abstract class Literal<T>  extends Primary implements ValueVisitable, Operations<Literal<?>>, Observable {
+public abstract class Literal<T>  extends Primary implements ValueVisitable, Operations<Literal<?>> {
 
     public abstract T getValue();
     
@@ -32,18 +31,6 @@ public abstract class Literal<T>  extends Primary implements ValueVisitable, Ope
         } else {
             return new UndefinedLiteral();
         }
-    }
-    
-    @Override
-    public void notifyObservers() {
-        observers.forEach(observer -> {
-            observer.update();
-        });
-    }
-
-    @Override
-    public void addObserver(Observer observer) {
-        observers.add(observer);
     }
     
     public boolean isUndefined() {

@@ -26,7 +26,7 @@ import ql.gui.fields.MoneyTextField;
 import ql.gui.fields.StrTextField;
 import ql.visitors.interfaces.TypeVisitor;
 
-public class GUIQuestion extends JPanel implements TypeVisitor<Void> {
+public class GUIQuestion extends JPanel implements TypeVisitor {
 
     private static final long serialVersionUID = 2816798767896918152L;
     ResourceBundle translations = ResourceBundle.getBundle("ql.i18n.gui");
@@ -34,10 +34,12 @@ public class GUIQuestion extends JPanel implements TypeVisitor<Void> {
     private JTextField textField;
     private DateSpinnerField dateSpinner;
     private Question question;
+    private boolean answerable;
     
     public GUIQuestion(Question question) {
         
-        this.question       = question;
+        this.question   = question;
+        this.answerable = question.isAnswerable();
         
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setLayout(new GridLayout(1,2));
@@ -46,12 +48,14 @@ public class GUIQuestion extends JPanel implements TypeVisitor<Void> {
     }
 
     @Override
-    public Void visit(Bool type) {
+    public void visit(Bool type) {
+        
+        BoolLiteral checked = (BoolLiteral) new Bool().parse(question.getIdentifier().getValue());
         
         checkBox = new JCheckBox(translations.getString("jcheckbox.label"));
         checkBox.setName(question.getIdentifier().getName());
-        checkBox.setSelected(false);
-        checkBox.setEnabled(true);
+        checkBox.setSelected(checked.getValue());
+        checkBox.setFocusable(answerable);
         checkBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,44 +63,43 @@ public class GUIQuestion extends JPanel implements TypeVisitor<Void> {
             }
         });
         add(this.checkBox);
-        return null;
     }
 
     @Override
-    public Void visit(Str type) {
+    public void visit(Str type) {
         textField = new StrTextField(question.getIdentifier());
+        textField.setEnabled(answerable);
+        textField.setFocusable(answerable);
         add(this.textField);
-        return null;
     }
 
     @Override
-    public Void visit(Int type) {
+    public void visit(Int type) {
         textField = new IntTextField(question.getIdentifier());
+        textField.setEnabled(answerable);
+        textField.setFocusable(answerable);
         add(this.textField);
-        return null;
     }
 
     @Override
-    public Void visit(Decimal type) {
-        return null;
+    public void visit(Decimal type) {
     }
 
     @Override
-    public Void visit(Money type) {
+    public void visit(Money type) {
         textField = new MoneyTextField(question.getIdentifier());
+        textField.setEnabled(answerable);
+        textField.setFocusable(answerable);
         add(this.textField);
-        return null;
     }
 
     @Override
-    public Void visit(Date type) {
+    public void visit(Date type) {
         dateSpinner = new DateSpinnerField(question.getIdentifier());
         add(this.dateSpinner);
-        return null;
     }
 
     @Override
-    public Void visit(Undefined type) {
-        return null; 
+    public void visit(Undefined type) {
     }
 }

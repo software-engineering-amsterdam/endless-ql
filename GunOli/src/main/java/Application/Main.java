@@ -21,6 +21,16 @@ public class Main extends Application{
 
     @Override
     public void start(Stage stage){
+       //BuildGUI; <- 2 buttons (browse, debug)
+            //Browse <- returns form from file
+            //Debug  <- example.ql
+
+       //Parse selected form
+        // Build form object
+        // display questions in GUI <- implement submit button
+        // handle user input
+
+
        Form form = buildQLForm();
 
        if(form == null) {

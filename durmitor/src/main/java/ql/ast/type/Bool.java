@@ -8,10 +8,6 @@ public class Bool extends Type {
 
     @Override
     public String toString() {
-        return name();
-    }
-
-    public static String name() {
         return "boolean";
     }
 

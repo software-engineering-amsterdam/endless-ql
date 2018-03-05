@@ -1,5 +1,5 @@
 package nl.uva.se.sc.niro.gui
-import java.time.LocalDate
+import java.lang
 import java.time.format.DateTimeFormatter
 import java.util.function.UnaryOperator
 
@@ -7,8 +7,7 @@ import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.event.ActionEvent
 import javafx.scene.Parent
 import javafx.scene.control._
-import javafx.util.StringConverter
-import javafx.util.converter.{ BigDecimalStringConverter, IntegerStringConverter }
+import javafx.util.converter.{ BigDecimalStringConverter, IntegerStringConverter, LocalDateStringConverter }
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.model.Expressions.Expression
 import nl.uva.se.sc.niro.model.Expressions.answers._
@@ -41,10 +40,13 @@ object WidgetFactory {
   def makeTextField(question: Question, text: Option[String]): Parent = {
     val textField = new TextField()
     textField
-      .textProperty()
-      .addListener(new ChangeListener[String] {
-        override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
-          textField.fireEvent(new ActionEvent(textField, textField))
+      .focusedProperty()
+      .addListener(new ChangeListener[lang.Boolean] {
+        override def changed(
+            observable: ObservableValue[_ <: lang.Boolean],
+            oldValue: lang.Boolean,
+            newValue: lang.Boolean): Unit = {
+          if (!newValue) textField.fireEvent(new ActionEvent(textField, textField))
         }
       })
     EditableDecorator.makeEditable(textField, question, text)
@@ -55,10 +57,13 @@ object WidgetFactory {
     integerField.setTextFormatter(
       new TextFormatter[java.lang.Integer](new IntegerStringConverter, null, createRegExFilter(INTEGER_MASK)))
     integerField
-      .textProperty()
-      .addListener(new ChangeListener[String] {
-        override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
-          if (oldValue != newValue) integerField.fireEvent(new ActionEvent(integerField, integerField))
+      .focusedProperty()
+      .addListener(new ChangeListener[lang.Boolean] {
+        override def changed(
+            observable: ObservableValue[_ <: lang.Boolean],
+            oldValue: lang.Boolean,
+            newValue: lang.Boolean): Unit = {
+          if (!newValue) integerField.fireEvent(new ActionEvent(integerField, integerField))
         }
       })
     EditableDecorator.makeEditable(integerField, question, value)
@@ -69,10 +74,13 @@ object WidgetFactory {
     decimalField.setTextFormatter(
       new TextFormatter[java.math.BigDecimal](new BigDecimalStringConverter, null, createRegExFilter(DECIMAL_MASK)))
     decimalField
-      .textProperty()
-      .addListener(new ChangeListener[String] {
-        override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
-          if (oldValue != newValue) decimalField.fireEvent(new ActionEvent(decimalField, decimalField))
+      .focusedProperty()
+      .addListener(new ChangeListener[lang.Boolean] {
+        override def changed(
+            observable: ObservableValue[_ <: lang.Boolean],
+            oldValue: lang.Boolean,
+            newValue: lang.Boolean): Unit = {
+          if (!newValue) decimalField.fireEvent(new ActionEvent(decimalField, decimalField))
         }
       })
     EditableDecorator.makeEditable(decimalField, question, value)
@@ -84,28 +92,18 @@ object WidgetFactory {
     EditableDecorator.makeEditable(moneyField, question, value)
   }
 
-  // TODO Change into using LocalDateFormatter or something like that!
   def makeDateField(question: Question, value: Option[String]): Parent = {
     val dateField = new DatePicker()
-    dateField.setConverter(new StringConverter[LocalDate] {
-      override def toString(date: LocalDate): String = {
-        if (date != null) DATE_FORMAT.format(date) else null
-      }
-
-      override def fromString(string: String): LocalDate = {
-        if (string != null && !string.isEmpty) LocalDate.parse(string, DATE_FORMAT) else null
-      }
-    })
+    dateField.setConverter(new LocalDateStringConverter())
     EditableDecorator.makeEditable(dateField, question, value)
   }
 
   private def createRegExFilter(validPattern: String): UnaryOperator[TextFormatter.Change] = {
-    val filter = new UnaryOperator[TextFormatter.Change]() {
+    new UnaryOperator[TextFormatter.Change]() {
       override def apply(change: TextFormatter.Change): TextFormatter.Change = {
         if (change.getControlNewText.matches(validPattern)) change else null
       }
     }
-    filter
   }
 
 }

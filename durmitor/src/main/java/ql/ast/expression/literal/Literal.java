@@ -10,6 +10,10 @@ public abstract class Literal<T>  extends Primary implements ValueVisitable, Ope
 
     public abstract T getValue();
     
+    public static Literal<?> create(Type type) {
+        return create(type,null);
+    }
+    
     public static Literal<?> create(Type type, String value) {
         
         if(type.isBoolean()) {

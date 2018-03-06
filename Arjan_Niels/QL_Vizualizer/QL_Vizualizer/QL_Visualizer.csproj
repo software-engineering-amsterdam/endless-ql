@@ -47,10 +47,13 @@
   <ItemGroup>
     <Compile Include="Controllers\Display\WidgetDisplayControllerWindows.cs" />
     <Compile Include="Controllers\WidgetController.cs" />
-    <Compile Include="Expression\ExpressionComposite.cs" />
-    <Compile Include="Expression\ExpressionLeaf.cs" />
-    <Compile Include="Expression\ExpressionCombiner.cs" />
-    <Compile Include="Expression\IExpression.cs" />
+    <Compile Include="Expression\ExpressionOperators.cs" />
+    <Compile Include="Expression\Types\ExpressionBool.cs" />
+    <Compile Include="Expression\ExpressionOperator.cs" />
+    <Compile Include="Expression\ExpressionValue.cs" />
+    <Compile Include="Expression\TypedExpressionValue.cs" />
+    <Compile Include="Expression\Types\ExpressionDouble.cs" />
+    <Compile Include="Expression\Types\ExpressionInt.cs" />
     <Compile Include="Factories\ControlFactory.cs" />
     <Compile Include="Factories\ElementFactory.cs" />
     <Compile Include="Factories\ExpressionFactory.cs" />
@@ -59,12 +62,14 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\Display\WidgetDisplayController.cs" />
+    <Compile Include="UserMessages.cs" />
     <Compile Include="Widgets\QLQuestionWidget.cs" />
     <Compile Include="Widgets\QLWidget.cs" />
-    <Compile Include="Controllers\TypedWidgetController.cs" />
     <Compile Include="Widgets\Types\QLWidgetBool.cs" />
     <Compile Include="Widgets\Types\QLWidgetInt.cs" />
+    <Compile Include="Widgets\Types\QLWidgetMoney.cs" />
     <Compile Include="Widgets\Types\QLWidgetString.cs" />
+    <Compile Include="Widgets\ParsedWidgetValue.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

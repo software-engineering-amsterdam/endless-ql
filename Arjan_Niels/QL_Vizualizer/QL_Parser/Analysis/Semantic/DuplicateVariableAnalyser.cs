@@ -17,15 +17,21 @@ namespace QL_Parser.Analysis.Semantic
         public bool Analyse(Node node)
         {
             var result = true;
-
+            string id = "";
+            QValueType type = QValueType.UNKNOWN;
             if (node.Type == NodeType.QUESTION)
             {
                 var questionNode = (QuestionNode)node;
-                if (!SymbolTable.Add(questionNode.ID, questionNode.ValueType))
-                {
-                    Analyser.AddMessage(string.Format("Duplicate identifier {0} {1}", questionNode.ID, questionNode.ValueType), MessageType.ERROR);
-                    return false;
-                }
+                id = questionNode.ID;
+                type = questionNode.ValueType;
+                return AddVariable(id, type);
+            }
+            else if (node.Type == NodeType.COMPUTED)
+            {
+                var computedNode = (ComputedNode)node;
+                id = computedNode.ID;
+                type = computedNode.ValueType;
+                return AddVariable(id, type);
             }
 
             // Set result to false if any of the children encounters an error.
@@ -34,6 +40,17 @@ namespace QL_Parser.Analysis.Semantic
                     result = false;
 
             return result;
+        }
+
+        public bool AddVariable(string id, QValueType type)
+        {
+            if (!SymbolTable.Add(id, type))
+            {
+                Analyser.AddMessage(string.Format("Duplicate identifier {0} {1}", id, type), MessageType.ERROR);
+                return false;
+            }
+
+            return true;
         }
     }
 }

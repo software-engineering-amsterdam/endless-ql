@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using QL_Vizualizer.Expression;
+using QL_Vizualizer.Expression.Types;
 using QL_Vizualizer.Factories;
 using QL_Vizualizer.Properties;
 using QL_Vizualizer.Style;
@@ -36,8 +37,9 @@ namespace QL_Vizualizer.Controllers.Display
 
         private Label _titleLabel;
 
-        public WidgetDisplayControllerWindows(float topMargin, WidgetController widgetController) : base(topMargin, new ControlFactory(widgetController), widgetController, new WindowsStyleProperties { Width = 338 })
+        public WidgetDisplayControllerWindows(float topMargin) : base(topMargin, new WindowsStyleProperties { Width = 338 })
         {
+            _elementFactory = new ControlFactory(this);
             ConstructMainWindow();
         }
 
@@ -69,7 +71,7 @@ namespace QL_Vizualizer.Controllers.Display
         /// <summary>
         /// Show main form
         /// </summary>
-        public override void ShowDisplay()
+        public override void ShowView()
         {
             Application.Run(_mainForm);
         }
@@ -87,7 +89,12 @@ namespace QL_Vizualizer.Controllers.Display
             return style;
         }
 
-        /// <summary>
+        protected override void RemoveFromView(Control element)
+        {
+            element.Dispose();
+        }
+
+        /*/// <summary>
         /// Temporary function to diplay dummy widgets
         /// </summary>
         public void DummyQL()
@@ -97,16 +104,16 @@ namespace QL_Vizualizer.Controllers.Display
             {
                 new QLWidgetInt("a", "wat is 10 + 1?"),
                 new QLWidgetInt("b", "wat is 5 + 3?"),
-                new QLWidgetInt("c", "som:", null, new ExpressionLeaf<int>(() => {
+                new QLWidgetInt("c", "som:", null, new ExpressionInt(new string[]{"a","b" },() => {
                     return (_widgetController.GetWidget("a") as QLWidgetInt).AnswerValue + (_widgetController.GetWidget("b") as QLWidgetInt).AnswerValue;
-                }, "a", "b")),
+                })),
                 new QLWidgetBool("d", "This statement is False")
 
             });
 
             // Display widgets
             _widgetController.ShowWidgets();
-        }
+        }*/
 
         /// <summary>
         /// Shows message box with error(s) to user
@@ -118,11 +125,18 @@ namespace QL_Vizualizer.Controllers.Display
             MessageBox.Show(string.Join("\n", errors), errors.Length > 1 ? "Errors occured" : "Error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        public override void SetTitle(string title)
+        /// <summary>
+        /// Sets title of current form
+        /// </summary>
+        /// <param name="title">Title of form</param>
+        protected override void SetTitle(string title)
         {
             _titleLabel.Text = title;
         }
 
+        /// <summary>
+        /// Resets all values that define its state
+        /// </summary>
         public override void Reset()
         {
             base.Reset();
@@ -135,7 +149,6 @@ namespace QL_Vizualizer.Controllers.Display
         /// </summary>
         private void ConstructMainWindow()
         {
-
             // Create form
             _mainForm = CreateForm();
 
@@ -232,7 +245,7 @@ namespace QL_Vizualizer.Controllers.Display
             };
 
             //result.Click += delegate (object sender, EventArgs eventArgs) { DummyQL(); };
-            result.Click += delegate (object sender, EventArgs eventArgs) { _widgetController.HandleQL(_qlInput.Text); };
+            result.Click += delegate (object sender, EventArgs eventArgs) { HandleQL(_qlInput.Text); };
             return result;
         }
         #endregion

@@ -1,4 +1,5 @@
 ﻿using QL_Parser.AST.Nodes;
+using QL_Parser.AST.Nodes.ExpressionNodes;
 
 namespace QL_Parser.Analysis.Semantic
 {
@@ -12,7 +13,7 @@ namespace QL_Parser.Analysis.Semantic
                 var conditionalNode = (ConditionalNode)node;
                 if (!AnalyseExpression(conditionalNode.Expression))
                 {
-                    Analyser.AddMessage("Invalid type on boolean operator", MessageType.ERROR);
+                    Analyser.AddMessage("This is not a boolean expression", MessageType.ERROR);
                     return false;
                 }
             }
@@ -24,25 +25,20 @@ namespace QL_Parser.Analysis.Semantic
             return result;
         }
 
-        private bool IsBooleanOperator(string opr)
-        {
-            return opr == "&&" || opr == "||";
-        }
-
         private bool AnalyseExpression(IExpressionNode node)
         {
-            if (node.GetNodeType() == NodeType.STATEMENT)
+            switch (node.GetNodeType())
             {
-                var statementNode = (StatementNode)node;
-                var leftSideIsBoolean = AnalyseExpression(statementNode.LeftSide);
-                var rightSideIsBoolean = AnalyseExpression(statementNode.RightSide);
-                var operatorIsBoolean = IsBooleanOperator(statementNode.Operator);
+                case NodeType.LOGICAL_EXPRESSION:
+                    var statementNode = (LogicalExpressionNode)node;
+                    var leftSideIsBoolean = AnalyseExpression(statementNode.Left);
+                    var rightSideIsBoolean = AnalyseExpression(statementNode.Right);
 
-                return leftSideIsBoolean && operatorIsBoolean && rightSideIsBoolean;
-            }
-            else
-            {
-                return node.GetQValueType() == QValueType.BOOLEAN;
+                    return leftSideIsBoolean && rightSideIsBoolean;
+                case NodeType.COMPARISON_EXPRESSION:
+                    return true;
+                default:
+                    return node.GetQValueType() == QValueType.BOOLEAN;
             }
         }
     }

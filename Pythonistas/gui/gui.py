@@ -4,22 +4,21 @@ In this window QL text can be typed or pasted. When pressing the "Parse" button,
 is parsed, and a second window, OutputWindow opens. The Outputwindow contains an interactive
  questionnaire, encoded by the input text.
 """
-import sys
 import visitor.visitor as visitorscript
 from PyQt5.QtWidgets import *
-from antlr.run_antlr import run_antrl
+from grammar.run_antlr import run_antrl
 
 
 class InputWindow(QWidget):
-    def __init__(self, tree=None):
+    def __init__(self):
         super(InputWindow, self).__init__()
         self.layout = QGridLayout()
         self.layout.setSpacing(10)
-        self.tree = tree
+        self.tree = None
+        self.outputWindow = OutputWindow()
 
         # Creates textbox
-        titlelabel = QLabel("Input your QL text here")
-        self.layout.addWidget(titlelabel)
+        self.layout.addWidget(QLabel("Input your QL text here"))
         self.qlInput = QTextEdit()
         self.layout.addWidget(self.qlInput)
 
@@ -40,14 +39,8 @@ class InputWindow(QWidget):
         self.setGeometry(600, 600, 700, 600)
         self.setLayout(self.layout)
 
-    def set_tree(self, tree):
-        # todo: review whether this function can be actually useful
-        self.tree = tree
-
     def parse(self):
         # Parses QL input
-        self.outputWindow = OutputWindow()
-
         if self.qlInput.toPlainText():
             self.tree = run_antrl(self.qlInput.toPlainText())
             self.build_gui(self.tree)
@@ -57,14 +50,11 @@ class InputWindow(QWidget):
             # else:
             #     self.outputWindow.no_tree_label()
             # self.outputWindow.add_submit_button()
-        # print('below is tree')
-        # print(type(self.tree))
-        # print((self.tree))
-        # print(self.tree.depth())
-        # elif self.tree.depth() > 1:
-        elif self.tree:  # todo: bad input handling of the building of the tree
-            self.build_gui(self.tree)
-            self.outputWindow.add_submit_button()
+            # print('below is tree')
+            # print(type(self.tree))
+            # print((self.tree))
+            # print(self.tree.depth())
+            # elif self.tree.depth() > 1:
         else:
             self.outputWindow.no_tree_message()
 
@@ -127,6 +117,7 @@ class OutputWindow(QWidget):
         self.answers[self.questions.index(sender.question)] = sender.answer
 
     def add_quit_button(self):
+        # todo: fix bug: clear inputscreen when close is pushed (parse -> close -> parse)
         close_button = QPushButton('Close', self)
         close_button.clicked.connect(self.close)
         close_button.resize(close_button.sizeHint())

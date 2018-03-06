@@ -1,4 +1,4 @@
-# Generated from antlr/QL.g4 by ANTLR 4.7.1
+# Generated from grammar/QL.g4 by ANTLR 4.7.1
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .QLParser import QLParser
@@ -54,8 +54,8 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#types.
-    def visitTypes(self, ctx:QLParser.TypesContext):
+    # Visit a parse tree produced by QLParser#typeDeclaration.
+    def visitTypeDeclaration(self, ctx:QLParser.TypeDeclarationContext):
         return self.visitChildren(ctx)
 
 

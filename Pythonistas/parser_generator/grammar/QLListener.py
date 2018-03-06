@@ -1,4 +1,4 @@
-# Generated from antlr/QL.g4 by ANTLR 4.7.1
+# Generated from grammar/QL.g4 by ANTLR 4.7.1
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .QLParser import QLParser
@@ -89,12 +89,12 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#types.
-    def enterTypes(self, ctx:QLParser.TypesContext):
+    # Enter a parse tree produced by QLParser#typeDeclaration.
+    def enterTypeDeclaration(self, ctx:QLParser.TypeDeclarationContext):
         pass
 
-    # Exit a parse tree produced by QLParser#types.
-    def exitTypes(self, ctx:QLParser.TypesContext):
+    # Exit a parse tree produced by QLParser#typeDeclaration.
+    def exitTypeDeclaration(self, ctx:QLParser.TypeDeclarationContext):
         pass
 
 

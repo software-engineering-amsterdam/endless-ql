@@ -2,16 +2,14 @@
 """
 Documentation goes here:
 
-to run give file as arg, example:
-$ python run_app.py forms/simple.ql
+to run:
+$ python run_app.py
 """
 import argparse
-import sys
-import platform
 import os
+import sys
 
-from antlr.run_antlr import run_antrl
-from visitor.visitor import *
+from grammar.run_antlr import run_antlr_parse_gen
 from commons.config import config
 from gui.gui import *
 
@@ -39,17 +37,10 @@ def main():
         os.system("pytest")
         sys.exit(0)
 
-    # Antlr4
-    if sys.platform == 'win32':
-        # todo: make sure classpath always works
-        os.system('SET CLASSPATH=.;C:\\Javalib\\antlr-4.7.1-complete.jar;')
-        os.system('java org.antlr.v4.Tool -Dlanguage=Python3 -visitor')#.format('/usr/local/lib/antlr-4.7.1-complete.jar',
-                                                        #           config['antlr']['directory']))
+    # Generate antlr parser
+    run_antlr_parse_gen()
 
-    else:
-        os.system('java -jar {} -Dlanguage=Python3 antlr/QlParser.g4 -o {} -visitor'.format(
-            '/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
-
+    # GUI
     app = QApplication(sys.argv)
     screen = InputWindow()
     screen.show()

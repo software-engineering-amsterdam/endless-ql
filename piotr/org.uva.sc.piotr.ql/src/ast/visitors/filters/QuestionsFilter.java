@@ -20,6 +20,7 @@ import java.util.Objects;
 
 public class QuestionsFilter extends ASTNodeAbstractVisitor {
 
+    // AST node as key
     private HashMap<Question, ArrayList<VariableReference>> questionsMap = new HashMap<>();
 
     public ArrayList<Question> getQuestions() {

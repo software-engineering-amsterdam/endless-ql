@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CharStream charStream = CharStreams.fromFileName("./example-ql/form1.qlform");
+        CharStream charStream = CharStreams.fromFileName("./example-ql/form2.qlform");
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
         QLParser qlParser = new QLParser(commonTokenStream);

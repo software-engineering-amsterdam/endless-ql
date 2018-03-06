@@ -1,15 +1,16 @@
 package validators;
 
+import ast.model.expressions.unary.values.VariableReference;
 import ast.model.statements.Question;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class QuestionsDependencyValidator {
 
-    private ArrayList<Question> questions;
-    private HashMap<String, Node> nodes = new HashMap<>();
+    private HashMap<Question, Node> nodes = new HashMap<>();
 
     static class Node {
         private final Question question;
@@ -51,8 +52,25 @@ public class QuestionsDependencyValidator {
         }
     }
 
-    public QuestionsDependencyValidator(ArrayList<Question> questions) {
-        this.questions = questions;
+    public QuestionsDependencyValidator(HashMap<Question, ArrayList<VariableReference>> questionsMap) {
+
+        // create nodes
+        for (Question question : questionsMap.keySet()) {
+            this.nodes.put(question, new Node(question));
+        }
+
+        // create edges
+        for (Map.Entry<Question, ArrayList<VariableReference>> entry : questionsMap.entrySet()) {
+
+            // 
+
+            for (VariableReference reference : entry.getValue()) {
+                //this.nodes.get();
+            }
+        }
+
     }
+
+
 
 }

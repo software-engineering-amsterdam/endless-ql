@@ -1,6 +1,6 @@
 package ast.model;
 
-import ast.model.statement.Statement;
+import ast.model.statements.Statement;
 import ast.visitors.ASTNodeVisitor;
 
 import java.util.ArrayList;

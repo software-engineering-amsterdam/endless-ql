@@ -1,6 +1,6 @@
 package ast.visitors.filters;
 
-import ast.model.statement.Question;
+import ast.model.statements.Question;
 import ast.visitors.ASTNodeAbstractVisitor;
 
 import java.util.ArrayList;

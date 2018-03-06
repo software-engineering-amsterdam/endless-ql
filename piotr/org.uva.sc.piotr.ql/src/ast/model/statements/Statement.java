@@ -1,4 +1,4 @@
-package ast.model.statement;
+package ast.model.statements;
 
 import ast.model.ASTNode;
 

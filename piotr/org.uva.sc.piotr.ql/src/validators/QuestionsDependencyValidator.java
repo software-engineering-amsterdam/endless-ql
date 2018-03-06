@@ -1,13 +1,14 @@
 package validators;
 
-import ast.model.statement.Question;
-import ast.visitors.ASTNodeAbstractVisitor;
+import ast.model.statements.Question;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class QuestionsReferencesValidator extends ASTNodeAbstractVisitor {
+public class QuestionsDependencyValidator {
 
+    private ArrayList<Question> questions;
     private HashMap<String, Node> nodes = new HashMap<>();
 
     static class Node {
@@ -50,17 +51,8 @@ public class QuestionsReferencesValidator extends ASTNodeAbstractVisitor {
         }
     }
 
-    @Override
-    public void visit(Question question) {
-
-        Node node = new Node(question);
-
-        this.nodes.put(
-                question.getVariableName() + ":" + question.getVariableType().getIdentifier(),
-                node
-        );
-
-        super.visit(question);
+    public QuestionsDependencyValidator(ArrayList<Question> questions) {
+        this.questions = questions;
     }
 
 }

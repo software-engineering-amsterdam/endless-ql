@@ -40,8 +40,10 @@ def main():
         sys.exit(0)
 
     # Antlr4
-    os.system('java -jar {} -Dlanguage=Python3 antlr/QlParser.g4 -o {} -visitor'.format(
-        '/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
+    # os.system('java -jar {} -Dlanguage=Python3 antlr/QlParser.g4 -o {} -visitor'.format(
+    #     '/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
+
+    os.system('java -Dlanguage=Python3 antlr4 -visitor'.format('/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
 
     tree = run_antrl(args.file_name)
     print(tree.toStringTree())

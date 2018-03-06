@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-//TODO define classes for binary and unary operations. When constructing the ql.ast, make sure that each ExprNum is replaced with a ExprNumUnary, or ExprNumBinary. Do the same
-//for boolean and strings. With booleans, we might have fiddle with the comparisons to make sure they are recognized as boolean expressions.
-
+/**
+ * Constructs a Form AST from ANTLR CST
+ */
 public class ASTConstructionVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
@@ -168,7 +168,7 @@ public class ASTConstructionVisitor extends QLBaseVisitor<ASTNode> {
     public ASTNode visitDateLiteral(QLParser.DateLiteralContext ctx) {
         try {
             return new DateLiteral(ctx.getText());
-        } catch  (ParseException e) {
+        } catch (ParseException e) {
             throw new IllegalArgumentException(String.format("Invalid date: %s", ctx.getText()));
         }
     }

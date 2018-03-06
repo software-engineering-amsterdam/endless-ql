@@ -5,13 +5,16 @@ import ql.gui.FormView;
 import ql.parser.ASTBuilder;
 import ql.validator.Validator;
 
+/**
+ * This program parses an input file following QL DSL specification, for which it renders a graphical form
+ */
 public class Main {
     public static void main(String[] args) {
         String fileName = "src/input/ql/formIf.ql";
 
         ASTBuilder astBuilder = new ASTBuilder();
         Form form = astBuilder.buildASTFromFile(fileName);
-        
+
         Validator validator = new Validator();
         if (!validator.passesTypeChecks(form)) {
             System.err.println("Form not passing validation");

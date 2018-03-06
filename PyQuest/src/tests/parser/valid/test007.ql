@@ -1,6 +1,7 @@
 form label {
-  "Question 1?"
+  "Question?"
     var: boolean
-  "Question 2?"
+
+  "Question?"
     var: boolean
 }

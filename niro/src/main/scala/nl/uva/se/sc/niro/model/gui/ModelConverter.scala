@@ -6,14 +6,14 @@ import nl.uva.se.sc.niro.model.{ Conditional, QLForm, Question, Statement }
 import nl.uva.se.sc.niro.util.StringUtil
 
 object ModelConverter {
-  def convert(form: QLForm): GUIModels = {
-    new GUIModels(StringUtil.addSpaceOnCaseChange(form.formName), convert(BooleanAnswer(true), form.statements))
+  def convert(form: QLForm): GUIModel = {
+    new GUIModel(StringUtil.addSpaceOnCaseChange(form.formName), convert(BooleanAnswer(true), form.statements))
   }
 
-  def convert(visible: Expression, statements: Seq[Statement]): Seq[QuestionInfo] = {
+  def convert(visible: Expression, statements: Seq[Statement]): Seq[GUIQuestion] = {
     statements.flatMap(statement =>
       statement match {
-        case question: Question       => Seq(QuestionInfo(visible, question))
+        case question: Question       => Seq(GUIQuestion(visible, question))
         case conditional: Conditional => convert(conditional.predicate, conditional.thenStatements)
         case _                        => Seq.empty
     })

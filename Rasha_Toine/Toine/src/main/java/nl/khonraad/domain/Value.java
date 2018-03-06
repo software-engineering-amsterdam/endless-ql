@@ -90,7 +90,7 @@ public class Value {
 			}
 			default:
 				throw new RuntimeException(
-						"Check Antlr grammar. You defined an type that isn't implemented here: \"" + type + "\"");
+						"Check Antlr grammar. You defined a type there that isn't implemented here: \"" + type + "\"");
 		}
 	}
 

@@ -7,6 +7,8 @@ import nl.uva.js.qlparser.models.expressions.data.DataExpression;
 import nl.uva.js.qlparser.models.enums.DataType;
 import nl.uva.js.qlparser.exceptions.TypeMismatchException;
 
+import java.awt.*;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,14 +19,15 @@ public class IfBlock implements FormExpression {
     private LinkedList<FormExpression> expressions;
 
     @Override
-    public List<String> getComponents() {
-        LinkedList<String> components = new LinkedList<>();
+    public List<Component> getComponents() {
+        LinkedList<Component> components = new LinkedList<>();
 
         expressions.stream()
                 .map(FormExpression::getComponents)
                 .forEach(components::addAll);
 
-        return components;
+//        return components;
+        return Collections.emptyList();
     }
 
     @Override

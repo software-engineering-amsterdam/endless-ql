@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Arjan_Niels",
+    "\\Arjan_Niels\\QL_Vizualizer",
+    "\\Arjan_Niels\\QL_Vizualizer\\QL_Parser",
+    "\\Arjan_Niels\\QL_Vizualizer\\QL_Parser\\Visitors"
+  ],
+  "SelectedNode": "\\Arjan_Niels\\QL_Vizualizer\\QL_Parser\\Visitors\\ComputedVariableVisitor.cs",
+  "PreviewInSolutionExplorer": false
+}

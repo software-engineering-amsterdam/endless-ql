@@ -53,7 +53,7 @@ public class QLUserInterface {
                 Parser parser = new Parser();
                 Form form = parser.parseInputToForm(file.getPath());
                 if (form == null) { Platform.exit(); }
-                else { 
+                else {
                     FormBuilder formBuilder = new FormBuilder();
                     formBuilder.renderForm(form);
                 }

@@ -73,7 +73,7 @@ class QLVisitorImpl extends QLBaseVisitor {
     }
 
     @Override
-    public Operator visitOper(QLParser.OperContext ctx) {
+    public Operator visitOp(QLParser.OpContext ctx) {
         if (ctx.boolOp() != null) return visitBoolOp(ctx.boolOp());
         else if (ctx.compOp() != null) return visitCompOp(ctx.compOp());
         else return visitArithOp(ctx.arithOp());
@@ -123,10 +123,10 @@ class QLVisitorImpl extends QLBaseVisitor {
         else if (ctx.value() != null)
             return visitValue(ctx.value());
 
-        else if (ctx.oper() != null)
+        else if (ctx.op() != null)
             return Combinator.builder()
                     .left(visitExpression(ctx.expression(0)))
-                    .operator(visitOper(ctx.oper()))
+                    .operator(visitOp(ctx.op()))
                     .right(visitExpression(ctx.expression(1)))
                     .build();
 

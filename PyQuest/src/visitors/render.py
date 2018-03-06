@@ -5,7 +5,7 @@ from AST.expressions.literals.boolean_node import BooleanNode
 from AST.types.type_boolean import TypeBoolean
 from AST.position import Position
 from src.visitors.visitor_helper import when, on
-from placeholder_name_object.form import Form
+from render.form import Form
 
 
 class Render(object):

@@ -48,33 +48,33 @@ public class Test_Interpretor {
 		assertEquals("Calculated answer", new Value( Type.Money, 7502), interpretingVisitor.computedQuestions.get("valueResidue").getValue() );
 	}
 	
-//	@Test
-//	public void test_Operators() throws Exception {
-//
-//		InterpretingVisitor interpretingVisitor = new InterpretingVisitor();
-//
-//		String s = "";
-//		
-//		s = "form x { x: \"x:\" integer (4+5)   }";
-//		ParseTree parseTree = AbstractParserFactory.parseDataForTest(s).form();
-//		interpretingVisitor.visit(parseTree);
-//		assertEquals("x", new Value( Type.Integer, 9), interpretingVisitor.computedQuestions.get("x").getValue() );
-//
-//		s = "form x { x: \"x:\" boolean (True || False)   }";
-//		ParseTree parseTree2 = AbstractParserFactory.parseDataForTest(s).form();
-//		interpretingVisitor.visit(parseTree2);
-//		assertEquals("x",new Value( Type.Boolean, 1), interpretingVisitor.computedQuestions.get("x").getValue() );
-//
-//		s = "form x { x: \"x:\" boolean (True == False)   }";
-//		ParseTree parseTree3 = AbstractParserFactory.parseDataForTest(s).form();
-//		interpretingVisitor.visit(parseTree3);
-//		assertEquals("x",new Value( Type.Boolean, 0), interpretingVisitor.computedQuestions.get("x").getValue() );
-//
-//		s = "form x { x: \"x:\" boolean (2.50 >= (5.50 - 3.00 * 1))   }";
-//		ParseTree parseTree4 = AbstractParserFactory.parseDataForTest(s).form();
-//		interpretingVisitor.visit(parseTree4);
-//		assertEquals("x",new Value( Type.Boolean, 4242), interpretingVisitor.computedQuestions.get("x").getValue() );
-//		
-//	}
+	@Test
+	public void test_Operators() throws Exception {
+
+		InterpretingVisitor interpretingVisitor = new InterpretingVisitor();
+
+		String s = "";
+		
+		s = "form x { x: \"x:\" integer (4+5)   }";
+		ParseTree parseTree = AbstractParserFactory.parseDataForTest(s).form();
+		interpretingVisitor.visit(parseTree);
+		assertEquals("x", new Value( Type.Integer, 9), interpretingVisitor.computedQuestions.get("x").getValue() );
+
+		s = "form x { x: \"x:\" boolean (True || False)   }";
+		ParseTree parseTree2 = AbstractParserFactory.parseDataForTest(s).form();
+		interpretingVisitor.visit(parseTree2);
+		assertEquals("x",new Value( Type.Boolean, 1), interpretingVisitor.computedQuestions.get("x").getValue() );
+
+		s = "form x { x: \"x:\" boolean (True == False)   }";
+		ParseTree parseTree3 = AbstractParserFactory.parseDataForTest(s).form();
+		interpretingVisitor.visit(parseTree3);
+		assertEquals("x",new Value( Type.Boolean, 0), interpretingVisitor.computedQuestions.get("x").getValue() );
+
+		s = "form x { x: \"x:\" boolean (2.50 >= (5.50 - 3.00 * 1))   }";
+		ParseTree parseTree4 = AbstractParserFactory.parseDataForTest(s).form();
+		interpretingVisitor.visit(parseTree4);
+		assertEquals("x",new Value( Type.Boolean, 4242), interpretingVisitor.computedQuestions.get("x").getValue() );
+		
+	}
 
 }

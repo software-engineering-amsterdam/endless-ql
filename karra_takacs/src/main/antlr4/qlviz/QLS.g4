@@ -56,4 +56,4 @@ IDENTIFIER	: [a-zA-Z0-1_]+;
 NUMBER		: [0-9]+(.[0-9]+)?;
 BOOLEAN		: 'true' | 'false';
 STRING		: '"' .*? '"';
-COLOR       : '#' [a-fA-F0-9]{6};
+COLOR       : '#' [a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9];

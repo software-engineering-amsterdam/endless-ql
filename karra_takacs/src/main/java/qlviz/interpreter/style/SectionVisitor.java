@@ -29,7 +29,8 @@ public class SectionVisitor extends QLSBaseVisitor<Section> {
                ctx.defaultWidgetDeclaration()
                     .stream()
                     .map(defaultWidgetVisitor::visitDefaultWidgetDeclaration)
-                    .collect(Collectors.toList())
+                    .collect(Collectors.toList()),
+                ctx
         );
     }
 }

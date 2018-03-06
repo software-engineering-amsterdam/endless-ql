@@ -1,4 +1,12 @@
 package qlviz.model.style;
 
-public class WidgetType {
+import org.antlr.v4.runtime.ParserRuleContext;
+import qlviz.model.Node;
+
+public abstract class WidgetType extends Node {
+
+
+    public WidgetType(ParserRuleContext context) {
+        super(context);
+    }
 }

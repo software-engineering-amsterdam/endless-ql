@@ -16,13 +16,14 @@ public class QuestionVisitor extends QLSBaseVisitor<Question> {
     @Override
     public Question visitQuestion(QLSParser.QuestionContext ctx) {
         if (ctx.widgetType() == null) {
-            return new Question(ctx.IDENTIFIER().getText());
+            return new Question(ctx.IDENTIFIER().getText(), ctx);
         }
         else
         {
             return new Question(
                     ctx.IDENTIFIER().getText(),
-                    widgetTypeVisitor.visitWidgetType(ctx.widgetType())
+                    widgetTypeVisitor.visitWidgetType(ctx.widgetType()),
+                    ctx
             );
         }
     }

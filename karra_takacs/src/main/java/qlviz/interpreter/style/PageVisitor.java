@@ -22,7 +22,8 @@ public class PageVisitor extends QLSBaseVisitor<Page> {
                 ctx.section()
                         .stream()
                         .map(sectionVisitor::visitSection)
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()),
+                ctx
         );
     }
 }

@@ -1,5 +1,6 @@
 ﻿using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Expression;
+using QL_Vizualizer.Expression.Types;
 using System.Linq;
 
 namespace QL_Vizualizer.Widgets
@@ -24,21 +25,29 @@ namespace QL_Vizualizer.Widgets
         /// <summary>
         /// Expression for activation evaluation
         /// </summary>
-        private IExpression<bool> _activationExpression;
+        private ExpressionBool _activationExpression;
 
         /// <summary>
         /// Widget controller that this widget receives updates from
         /// </summary>
         protected WidgetController _widgetController { get; private set; }
 
-        public QLWidget(string identifyer, string text, IExpression<bool> activationExpression = null)
+        public QLWidget(string identifyer, string text, ExpressionBool activationExpression = null)
         {
             Text = text;
             Identifyer = identifyer;
 
             _activationExpression = activationExpression;
+            if (_activationExpression == null)
+                Active = true;
+            else
+            {
+                Active = false;
+//                foreach(string id in _activationExpression.UsedWidgetIDs)
+//                _widgetController.ReceiveUpdates()
+            }
 
-            Active = (_activationExpression == null) ? true : _activationExpression.Validate();
+//            Active = (_activationExpression == null);// ? true : _activationExpression.Expression();
         }
 
         /// <summary>
@@ -51,7 +60,7 @@ namespace QL_Vizualizer.Widgets
 
             // Subscribe to items from the controller
             if (_activationExpression != null)
-                foreach (string id in _activationExpression.GetWidgetIDs())
+                foreach (string id in _activationExpression.UsedWidgetIDs)
                     _widgetController.ReceiveUpdates(id, this);
         }
 
@@ -61,8 +70,9 @@ namespace QL_Vizualizer.Widgets
         /// <param name="updatedIdentifyer">Updated widgetID</param>
         public virtual void ReceiveUpdate(string updatedIdentifyer)
         {
-            if (_activationExpression != null && _activationExpression.GetWidgetIDs().Contains(updatedIdentifyer))
-                Active = _activationExpression.Validate();
+            if (_activationExpression != null && _activationExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
+                Active = _activationExpression.Result;
+            _widgetController.UpdateView(this);
         }
 
     }

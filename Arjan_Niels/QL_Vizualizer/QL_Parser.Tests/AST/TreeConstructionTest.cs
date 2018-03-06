@@ -45,5 +45,12 @@ namespace QL_Parser.Tests.AST
         {
             AST.AddNode(null);
         }
+
+        [TestMethod]
+        public void GitHubExampleTest()
+        {
+            FormNode node = QLParserHelper.Parse(FormExamples.GitHubExampleForm);
+            Assert.IsNotNull(node);
+        }
     }
 }

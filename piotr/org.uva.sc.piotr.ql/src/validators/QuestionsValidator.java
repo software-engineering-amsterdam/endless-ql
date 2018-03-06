@@ -1,6 +1,6 @@
 package validators;
 
-import ast.model.statement.Question;
+import ast.model.statements.Question;
 
 import java.util.ArrayList;
 import java.util.Objects;

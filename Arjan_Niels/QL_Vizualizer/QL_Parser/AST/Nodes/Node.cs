@@ -3,15 +3,6 @@ using System.Collections.Generic;
 
 namespace QL_Parser.AST.Nodes
 {
-    public enum NodeType
-    {
-        FORM,
-        QUESTION,
-        CONDITIONAL,
-        STATEMENT,
-        VALUE
-    }
-
     public abstract class Node
     {
         public NodeType Type { get; private set; }
@@ -24,7 +15,7 @@ namespace QL_Parser.AST.Nodes
         }
 
         public void AddNode(Node node)
-        {
+        { 
             if (node == null)
                 throw new ArgumentNullException("A node can't be null");
             else

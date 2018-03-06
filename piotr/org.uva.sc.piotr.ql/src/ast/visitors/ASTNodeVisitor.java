@@ -14,9 +14,9 @@ import ast.model.expressions.unary.arithmetics.Minus;
 import ast.model.expressions.unary.logical.Negation;
 import ast.model.expressions.unary.values.Literal;
 import ast.model.expressions.unary.values.VariableReference;
-import ast.model.statement.IfStatement;
-import ast.model.statement.Question;
-import ast.model.statement.Statement;
+import ast.model.statements.IfStatement;
+import ast.model.statements.Question;
+import ast.model.statements.Statement;
 
 public interface ASTNodeVisitor {
 

@@ -15,7 +15,7 @@ namespace QL_Visualizer.Tests.Controllers.Display
         {
             _widgetStyle = new WindowsStyleProperties();
 
-            _widgetDisplayController = new WidgetDisplayControllerWindows(0f, new TypedWidgetController<Control, WindowsStyleProperties>());
+            _widgetDisplayController = new WidgetDisplayControllerWindows(10);
             _intWidget = new QLWidgetInt("a", "q1");
             _boolWidget = new QLWidgetBool("b", "q2");
             _stringWidget = new QLWidgetString("c", "q3");

@@ -1,7 +1,7 @@
 package main;
 
-import ast.visitors.QuestionsList;
-import ast.visitors.ReferencesList;
+import ast.visitors.filters.QuestionsFilter;
+import ast.visitors.filters.ReferencesFilter;
 import ast.ASTBuilder;
 import grammar.QLLexer;
 import grammar.QLParser;
@@ -9,6 +9,8 @@ import ast.model.Form;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import validators.QuestionsValidator;
+import validators.VariablesReferencesValidator;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -24,24 +26,27 @@ public class Main {
         Form form = astBuilder.visitForm(formContext);
 
         // questions graph for type validator
-        QuestionsList questionsList = new QuestionsList();
-        form.accept(questionsList);
+        QuestionsFilter questionsFilter = new QuestionsFilter();
+        form.accept(questionsFilter);
 
         // list of references (?)
-        ReferencesList referencesList = new ReferencesList();
-        form.accept(referencesList);
+        ReferencesFilter referencesFilter = new ReferencesFilter();
+        form.accept(referencesFilter);
 
         // Type checking
 
         // undeclared variables usage
-        referencesList.validateWithGraph(questionsList);
+        VariablesReferencesValidator.validateVariablesUsage(
+                questionsFilter.getQuestions(),
+                referencesFilter.getVariableReferences()
+        );
 
         // duplicate question declarations with different types
-        questionsList.validateDuplicates();
+        QuestionsValidator.validateDuplicates(questionsFilter.getQuestions());
 
         // duplicate labels (warning)
         try {
-            questionsList.validateLabels();
+            QuestionsValidator.validateLabels(questionsFilter.getQuestions());
         } catch (Exception e) {
             System.out.println("Warning: " + e.getMessage());
         }

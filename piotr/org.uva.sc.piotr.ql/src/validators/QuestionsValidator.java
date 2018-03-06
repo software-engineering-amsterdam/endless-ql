@@ -1,25 +1,13 @@
-package ast.visitors;
+package validators;
 
 import ast.model.statement.Question;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class QuestionsList extends ASTNodeAbstractVisitor {
+public final class QuestionsValidator {
 
-    private ArrayList<Question> questions = new ArrayList<>();
-
-    public ArrayList<Question> getQuestions() {
-        return questions;
-    }
-
-    @Override
-    public void visit(Question question) {
-        this.questions.add(question);
-        super.visit(question);
-    }
-
-    public void validateDuplicates() throws RuntimeException {
+    public static void validateDuplicates(ArrayList<Question> questions) throws RuntimeException {
         for (Question question1 : questions) {
             for (Question question2 : questions) {
                 if (!Objects.equals(question1, question2)
@@ -40,7 +28,7 @@ public class QuestionsList extends ASTNodeAbstractVisitor {
         }
     }
 
-    public void validateLabels() throws Exception {
+    public static  void validateLabels(ArrayList<Question> questions) throws Exception {
         for (Question question1 : questions) {
             for (Question question2 : questions) {
                 if (!Objects.equals(question1, question2)
@@ -54,4 +42,5 @@ public class QuestionsList extends ASTNodeAbstractVisitor {
             }
         }
     }
+
 }

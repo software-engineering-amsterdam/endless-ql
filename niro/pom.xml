@@ -200,7 +200,7 @@
 				<version>${javafx.maven.plugin.version}</version>
 				<configuration>
                     <vendor>Andela-Tromp</vendor>
-					<mainClass>nl.uva.se.sc.niro.gui.QLForms</mainClass>
+					<mainClass>nl.uva.se.sc.niro.gui.application.QLForms</mainClass>
 				</configuration>
 			</plugin>
 

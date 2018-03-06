@@ -20,6 +20,10 @@ object WidgetFactory {
   private val MONEY_MASK = "\\d*(\\.\\d{0,2})?"
   private val DATE_FORMAT = "yyyy-MM-dd"
 
+  def makeWidget(visible: Expression, question: Question): Control = {
+    new Label(question.label)
+  }
+
   def makeWidgets(question: Question, symbolTable: Map[String, Expression]): Seq[Parent] = {
     Seq(
       new Label(question.label),

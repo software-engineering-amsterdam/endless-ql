@@ -7,6 +7,7 @@ $ python run_app.py forms/simple.ql
 """
 import argparse
 import sys
+import platform
 import os
 
 from antlr.run_antlr import run_antrl
@@ -40,8 +41,12 @@ def main():
         sys.exit(0)
 
     # Antlr4
-    os.system('java -jar {} -Dlanguage=Python3 antlr/QlParser.g4 -o {} -visitor'.format(
-        '/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
+    if sys.platform is 'win32':
+        # todo: find command to execute antlr on windows
+        os.system('')
+    else:
+        os.system('java -jar {} -Dlanguage=Python3 antlr/QlParser.g4 -o {} -visitor'.format(
+            '/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
 
     tree = run_antrl(args.file_name)
     print(tree.toStringTree())

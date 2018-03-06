@@ -214,3 +214,10 @@ class OutputWindow(QWidget):
         for i in range(len(self.questions)):
             file.write(self.questions[i]+str(self.answers[i])+"\n")
         file.close()
+
+if __name__ == '__main__':
+    screen = InputWindow()
+
+
+
+    sys.exit()

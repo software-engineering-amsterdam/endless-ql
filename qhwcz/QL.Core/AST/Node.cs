@@ -10,12 +10,17 @@ namespace QL.Core.Ast
 
         public void AddChild(Node node)
         {
+            if (node == null)
+            {
+                return;
+            }
+
             _childNodes.Add(node);
         }
 
-        public void Accept(IVisitor visitor)
+        public T Accept<T>(IVisitor<T> visitor)
         {
-            VisitNode(visitor);
+            return VisitNode(visitor);
         }
 
         protected Node(IToken token)
@@ -23,16 +28,9 @@ namespace QL.Core.Ast
             _token = token;
         }
 
-        protected abstract void VisitNode(IVisitor visitor);
-
-        protected void VisitChildren(IVisitor visitor)
-        {
-            foreach (Node child in _childNodes)
-            {
-                child.Accept(visitor);
-            }
-        }
+        protected abstract T VisitNode<T>(IVisitor<T> visitor);
 
         public IToken Token => _token;
+        public IList<Node> ChildNodes => _childNodes;
     }
 }

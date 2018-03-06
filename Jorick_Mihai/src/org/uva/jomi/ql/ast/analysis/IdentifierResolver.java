@@ -8,7 +8,6 @@ import org.uva.jomi.ql.error.ErrorHandler;
 
 public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
-	
 	public final IdentifierStack identifierStack;
 	private final ErrorHandler errorHandler;
 
@@ -46,7 +45,7 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	 */
 	public void resolveQuestionIdentifier(IdentifierExpr identifier) {
 		// First check if the identifier is already present in the current scope
-		if (identifierStack.contains(identifier.getName())) {
+		if (identifierStack.isInCurrentScope(identifier.getName())) {
 			errorHandler.addIdentifierError(identifier.getToken(), "Read-only identifier already declared the current scope");
 		// Make sure the identifier is not declared in any outside scope
 		} else if (identifierStack.getIdentifier(identifier.getName()) != null) {
@@ -68,10 +67,8 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		// Create a new scope for the block statement
 		identifierStack.enterScope();
 
-		// Visit every statement in the block and add it to the statements array.
-		for (Stmt statement : stmt.getStatements()) {
-			statement.accept(this);
-		}
+		// Visit every statement in the block.
+		stmt.getStatements().forEach( statement -> statement.accept(this));
 
 		// Remove the innermost scope
 		identifierStack.leaveScope();
@@ -80,7 +77,6 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visit(QuestionStmt stmt) {
-		// Make  sure the question name has not been already declared
 		resolveQuestionIdentifier(stmt.getIdentifier());
 		return null;
 	}

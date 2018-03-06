@@ -4,21 +4,25 @@ public class QLMain {
 
     /**
      TODO:
-         Date with /
-         Rename lhs rhs
-         String equal and date equal. (Lesser than and greater than for date, etc)
-         Show errors in GUI
+     Add tests
 
-         cyclic dependencies between questions
-         duplicate labels (warning)
-         duplicate question declarations with different types
+     Date with /
+     Show errors in GUI
+     Show warnings in GUI
+
+     Use correct types @ parsing. Leafs in AST should have other types?
+
+     cyclic dependencies between questions
+     No double questions in ql file. Only in if - else allowed
+
      */
 
     /**
      * Run the application in example.ql
+     *
      * @param args
      */
     public static void main(String[] args) {
-        QLFormGenerator gui = new QLFormGenerator();
+        QLSpecificationEvaluator gui = new QLSpecificationEvaluator();
     }
 }

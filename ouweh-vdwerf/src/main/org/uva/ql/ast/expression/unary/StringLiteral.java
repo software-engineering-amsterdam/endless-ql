@@ -10,6 +10,10 @@ public class StringLiteral extends Expression {
         this.value = value;
     }
 
+    public String getValue() {
+        return this.value;
+    }
+
     @Override
     public String toString() {
         return this.value;

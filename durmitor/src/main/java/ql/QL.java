@@ -2,6 +2,7 @@ package ql;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.List;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -9,22 +10,35 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import ql.ast.form.Form;
+import ql.exceptions.QLException;
 import ql.grammar.QLLexer;
 import ql.grammar.QLParser;
+import ql.helpers.MessageBag;
+import ql.listeners.QLErrorListener;
 import ql.visitors.QLVisitorToAst;
 
 public class QL {
 
     private String filePath;
+    private List<QLException> errors;
 
     public QL(String filePath) {
-        this.filePath = filePath;
+        
+        this.filePath   = filePath;
+        this.errors     = new MessageBag();
     }
-
+    
+    public QL(String filePath, List<QLException> errors) {
+        
+        this.filePath   = filePath;
+        this.errors     = errors;
+    }
+    
     public Form getForm() throws Exception { 
         
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
-        QLVisitorToAst visitor  = new QLVisitorToAst();
+        InputStream inputStream         = getClass().getClassLoader().getResourceAsStream(filePath);
+        QLVisitorToAst visitor          = new QLVisitorToAst(errors);
+        QLErrorListener errorListener   = new QLErrorListener(errors);
         
         CharStream charStream;
         QLParser parser;
@@ -38,9 +52,12 @@ public class QL {
         }
 
         parser  = new QLParser(new CommonTokenStream(new QLLexer(charStream)));
+        parser.removeErrorListeners();
+        parser.addErrorListener(errorListener);
+        
         tree    = parser.form();
-        form    = (Form) visitor.visit(tree);
-        System.out.println(form.toString());
+        form    = (Form) tree.accept(visitor);
+        
         return form;
     }
 }

@@ -1,12 +1,41 @@
 package ql.ast.expression.literal;
 
 import ql.ast.expression.Primary;
+import ql.ast.type.Money;
+import ql.ast.type.Type;
 import ql.evaluator.Operations;
 import ql.visitors.interfaces.ValueVisitable;
 
 public abstract class Literal<T>  extends Primary implements ValueVisitable, Operations<Literal<?>> {
 
     public abstract T getValue();
+    
+    public static Literal<?> create(Type type) {
+        return create(type,null);
+    }
+    
+    public static Literal<?> create(Type type, String value) {
+        
+        if(type.isBoolean()) {
+            return new BoolLiteral(value);
+        } else if(type.isString()) {
+            return new StrLiteral(value);
+        } else if(type.isInteger()) {
+            return new IntLiteral(value);
+        } else if(type.isDecimal()) {
+            return new DecimalLiteral(value);
+        } else if(type.isMoney()) {
+            return new MoneyLiteral(((Money) type).getCurrency(),value);
+        } else if(type.isDate()) {
+            return new DateLiteral(value);
+        } else {
+            return new UndefinedLiteral();
+        }
+    }
+    
+    public boolean isUndefined() {
+        return false;
+    }
     
     @Override
     public Literal<?> evaluate() {

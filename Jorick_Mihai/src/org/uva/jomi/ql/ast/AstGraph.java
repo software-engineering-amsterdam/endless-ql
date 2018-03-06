@@ -64,7 +64,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	public String visit(IdentifierExpr expr) {
 		return String.format("  %s [label=\"[Ident]\nName: %s\nType: %s\nUndefined: %s\"]\n",
 				expr.getId(),
-				expr.token.getLexeme(),
+				expr.getName(),
 				expr.getType(),
 				expr.isUndefined());
 	}

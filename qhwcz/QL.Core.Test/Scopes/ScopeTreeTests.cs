@@ -2,13 +2,14 @@
 using QL.Core.Api;
 using QL.Core.Scopes;
 using QL.Core.Symbols;
+using QL.Core.Types;
 
 namespace QL.Core.Test.Scopes
 {
     [TestClass]
     public class ScopeTreeTests
     {
-        private readonly IParsingService _parsingService;
+        private readonly IParserService _parsingService;
 
         public ScopeTreeTests()
         {
@@ -25,28 +26,28 @@ namespace QL.Core.Test.Scopes
             var scopeExtractor = new ScopeExtractingVisitor(symbolExtractor.SymbolTable);
             parsedSymbols.FormNode.Accept(scopeExtractor);
 
-            Scope scope = scopeExtractor.ScopeTree;
+            Scope scope = scopeExtractor.GetTopLevelScope();
             Assert.AreEqual(1, scope.Variables.Count);
             Assert.AreEqual("whatIsMeaning", scope.Variables[0].Name);
-            Assert.AreEqual(SymbolType.Money, scope.Variables[0].Type);
+            Assert.AreEqual(QLType.Money, scope.Variables[0].Type);
             Assert.AreEqual(1, scope.References.Count);
             Assert.AreEqual("whatIsMeaning", scope.References[0].Name);
-            Assert.AreEqual(SymbolType.Money, scope.References[0].Type);
-            Assert.AreEqual(1, scope.Childeren.Count);
-            scope = scope.Childeren[0];
+            Assert.AreEqual(QLType.Money, scope.References[0].Type);
+            Assert.AreEqual(1, scope.Children.Count);
+            scope = scope.Children[0];
             Assert.AreEqual(1, scope.Variables.Count);
             Assert.AreEqual("hasSoldHouse", scope.Variables[0].Name);
-            Assert.AreEqual(SymbolType.Boolean, scope.Variables[0].Type);
+            Assert.AreEqual(QLType.Boolean, scope.Variables[0].Type);
             Assert.AreEqual(1, scope.References.Count);
             Assert.AreEqual("whatIsMeaning", scope.References[0].Name);
-            Assert.AreEqual(SymbolType.Money, scope.References[0].Type);
-            Assert.AreEqual(1, scope.Childeren.Count);
-            scope = scope.Childeren[0];
+            Assert.AreEqual(QLType.Money, scope.References[0].Type);
+            Assert.AreEqual(1, scope.Children.Count);
+            scope = scope.Children[0];
             Assert.AreEqual(1, scope.Variables.Count);
             Assert.AreEqual("dayToday", scope.Variables[0].Name);
-            Assert.AreEqual(SymbolType.Date, scope.Variables[0].Type);
+            Assert.AreEqual(QLType.Date, scope.Variables[0].Type);
             Assert.AreEqual(0, scope.References.Count);
-            Assert.AreEqual(0, scope.Childeren.Count);
+            Assert.AreEqual(0, scope.Children.Count);
         }
     }
 }

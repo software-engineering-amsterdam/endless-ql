@@ -1,74 +1,63 @@
 grammar QL;
 
-FORM        : 'form' ;
-IF          : 'if' ;
-ELSE        : 'else' ;
-ASSIGN      : '=' ;
+FORM         : 'form' ;
+IF           : 'if' ;
+ELSE         : 'else' ;
+ASSIGN       : '=' ;
 
-CURLY_L     : '{' ;
-CURLY_R     : '}' ;
+BOOLEAN      : 'boolean' ;
+INTEGER      : 'integer' ;
+STRING       : 'string' ;
+DECIMAL      : 'decimal' ;
+MONEY        : 'money' ;
+DATE         : 'date' ;
 
-BRACK_L     : '(' ;
-BRACK_R     : ')' ;
+FALSE        : 'false' ;
+TRUE         : 'true' ;
 
-D_COLON     : ':' ;
+CURLY_LEFT   : '{' ;
+CURLY_RIGHT  : '}' ;
 
-LT          : '<' ;
-LTE         : '<=' ;
-EQ          : '==' ;
-NE          : '!=' ;
-GTE         : '>=' ;
-GT          : '>' ;
+BRACK_LEFT   : '(' ;
+BRACK_RIGHT  : ')' ;
 
-SUB         : '-' ;
-ADD         : '+' ;
-DIV         : '/' ;
-MUL         : '*' ;
+DOUBLE_COLON : ':' ;
 
-OR          : '||' ;
-AND         : '&&' ;
-NEG         : '!' ;
-//COMMA       : ',' ;
-PERIOD      : '.' ;
+LT           : '<' ;
+LTE          : '<=' ;
+EQ           : '==' ;
+NE           : '!=' ;
+GTE          : '>=' ;
+GT           : '>' ;
 
-BOOLEAN     : 'boolean' ;
-INTEGER     : 'integer' ;
-STRING      : 'string' ;
-DECIMAL     : 'decimal' ;
-MONEY       : 'money' ;
-DATE        : 'date' ;
+SUB          : '-' ;
+ADD          : '+' ;
+DIV          : '/' ;
+MUL          : '*' ;
 
-FALSE       : 'false' ;
-TRUE        : 'true' ;
+OR           : '||' ;
+AND          : '&&' ;
+NEG          : '!' ;
+PERIOD       : '.' ;
 
-IntValue    : [1-9][0-9]* ;
-DecValue    : [1-9][0-9]* PERIOD [0-9]+ ;
-Identifier  : [a-zA-Z0-9_]+ ;
-TEXT        : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); };
+DateValue    : [0-9][0-9][0-9][0-9] '-' [0-9][0-9] '-' [0-9][0-9] ;
+IntValue     : [1-9][0-9]* ;
+DecValue     : [1-9][0-9]* PERIOD [0-9]+ ;
+Identifier   : [a-zA-Z0-9_]+ ;
+TEXT         : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); };
 
-WS          : [ \t\r\n]+ -> skip ;
-COMMENT     : '//' .*? '\n' -> skip ;
+WS           : [ \t\r\n]+ -> skip ;
+COMMENT      : '//' .*? '\n' -> skip ;
 
 bool        : FALSE | TRUE ;
 
-form        : FORM Identifier CURLY_L statement+ CURLY_R EOF ;
+form        : FORM Identifier CURLY_LEFT statement+ CURLY_RIGHT EOF ;
 
 statement   : question
             | conditional ;
 
-question    : label=TEXT Identifier D_COLON answerType ( ASSIGN BRACK_L expression BRACK_R )?;
-conditional : IF BRACK_L condition=expression BRACK_R CURLY_L thenBlock+=statement+ CURLY_R ( ELSE CURLY_L elseBlock+=statement+ CURLY_R )? ;
-
-answerType  : BOOLEAN | INTEGER | DECIMAL | MONEY | DATE | STRING ;
-
-unaryOp          : SUB | NEG ;
-multiplicativeOp : MUL | DIV ;
-additiveOp       : ADD | SUB ;
-relationalOp     : LT | GT | LTE | GTE ;
-equalityOp       : EQ | NE ;
-
-// Precence as specified by: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html
-expression : BRACK_L expression BRACK_R                        # GroupExpr
+// Precedence as specified by: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html
+expression : BRACK_LEFT expression BRACK_RIGHT                 # GroupExpr
            | op=unaryOp expression                             # UnaryExpr
            | lhs=expression op=multiplicativeOp rhs=expression # MultiplicativeExpr
            | lhs=expression op=additiveOp rhs=expression       # AdditiveExpr
@@ -79,5 +68,20 @@ expression : BRACK_L expression BRACK_R                        # GroupExpr
            | Identifier                                        # Var
            | IntValue                                          # IntConst
            | DecValue                                          # DecConst
+           | DateValue                                         # DateConst
            | TEXT                                              # StringConst
            | bool                                              # BoolConst ;
+
+block      : CURLY_LEFT statement+ CURLY_RIGHT
+           | statement ;
+
+question    : label=TEXT Identifier DOUBLE_COLON answerType ( ASSIGN expression )?;
+conditional : IF BRACK_LEFT condition=expression BRACK_RIGHT thenBlock+=block ( ELSE elseBlock+=block )? ;
+
+answerType  : BOOLEAN | INTEGER | DECIMAL | MONEY | DATE | STRING ;
+
+unaryOp          : SUB | NEG ;
+multiplicativeOp : MUL | DIV ;
+additiveOp       : ADD | SUB ;
+relationalOp     : LT | GT | LTE | GTE ;
+equalityOp       : EQ | NE ;

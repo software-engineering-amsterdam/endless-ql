@@ -1,20 +1,17 @@
-﻿namespace QL.Core.Ast
+﻿using System.Linq;
+
+namespace QL.Core.Ast
 {
-    public abstract class BaseVisitor : IVisitor
-    {
-        public virtual void VisitEnter(FormNode node) { }
-        public virtual void VisitEnter(VariableNode node) { }
-        public virtual void VisitEnter(ConditionalNode node) { }
-        public virtual void VisitEnter(LiteralNode node) { }
-        public virtual void VisitEnter(ExpressionNode node) { }
-        public virtual void VisitEnter(QuestionNode node) { }
-        public virtual void VisitEnter(BlockNode node) { }
-        public virtual void VisitExit(FormNode node) { }
-        public virtual void VisitExit(VariableNode node) { }
-        public virtual void VisitExit(ConditionalNode node) { }
-        public virtual void VisitExit(LiteralNode node) { }
-        public virtual void VisitExit(ExpressionNode node) { }
-        public virtual void VisitExit(QuestionNode node) { }
-        public virtual void VisitExit(BlockNode node) { }
+    public abstract class BaseVisitor<T> : IVisitor<T>
+    {        
+        protected virtual T VisitChildren(Node node) { return node.ChildNodes.Select(x => x.Accept(this)).LastOrDefault();  }
+
+        public virtual T Visit(FormNode node) { return VisitChildren(node); }
+        public virtual T Visit(VariableNode node) { return VisitChildren(node); }
+        public virtual T Visit(ConditionalNode node) { return VisitChildren(node); }
+        public virtual T Visit(LiteralNode node) { return VisitChildren(node); }
+        public virtual T Visit(ExpressionNode node) { return VisitChildren(node); }
+        public virtual T Visit(QuestionNode node) { return VisitChildren(node); }
+        public virtual T Visit(BlockNode node) { return VisitChildren(node); }        
     }
 }

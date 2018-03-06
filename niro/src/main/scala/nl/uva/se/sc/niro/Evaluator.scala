@@ -32,7 +32,7 @@ object Evaluator {
     val evaluatedPredicate = evaluateExpression(conditional.predicate, symbolTable)
     val evaluatedThenStatements = conditional.thenStatements.map(statement => evaluateStatement(statement, symbolTable))
 
-    conditional.copy(predicate = evaluatedPredicate, thenStatements = evaluatedThenStatements)
+    conditional.copy(answer = Option(evaluatedPredicate), thenStatements = evaluatedThenStatements)
   }
 
   // TODO check if it's necessary to make this call tail recursive

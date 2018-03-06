@@ -27,8 +27,12 @@ question: IDENTIFIER ':' TEXT questionType
 calculatedValue: ASSIGN BEGINGROUP mathExpression ENDGROUP;
 
 conditionalStatement: IFKEYWORD BEGINGROUP booleanExpression ENDGROUP 
-                      BEGINSCOPE consequent=statement* ENDSCOPE 
-                      (ELSEKEYWORD BEGINSCOPE alternative=statement* ENDSCOPE)?;
+                      BEGINSCOPE consequentStatement ENDSCOPE 
+                      (ELSEKEYWORD BEGINSCOPE alternativeStatement ENDSCOPE)?;
+
+consequentStatement: statement*;
+
+alternativeStatement: statement*;
 
 questionType: chosenType=(BOOLTYPE     
             | STRINGTYPE   
@@ -37,23 +41,29 @@ questionType: chosenType=(BOOLTYPE
             | DECIMALTYPE)
 			;
 
-booleanExpression : IDENTIFIER                             #questionIdentifier
+booleanExpression : IDENTIFIER                             #booleanQuestionIdentifier
 	              | booleanValue                           #booleanLiteral
-                  | BEGINGROUP booleanExpression ENDGROUP  #expressionGroup
+                  | BEGINGROUP booleanExpression ENDGROUP  #booleanExpressionGroup
 		          | NEGATE booleanExpression               #negationExpression
-                  | leftExpression=booleanExpression 
-                       operator=relationalOperator 
+				  | leftExpression=booleanExpression
+					   operator=booleanOperator
+				    rightExpression=booleanExpression      #andOrStatement
+				  | leftExpression=booleanExpression 
+                       operator=equalityOperator 
       	            rightExpression=booleanExpression      #booleanComparison
-		          | leftText=TEXT 
-				       operator=booleanOperator 
-					rightText=TEXT                         #textComparison
-		          | leftDate=(DATE | IDENTIFIER)
-				       operator=relationalOperator 
-					rightDate=(DATE | IDENTIFIER)          #dateComparison 
-                  | leftExpression=mathExpression 
-				        operator=relationalOperator 
-					rightExpression=mathExpression         #mathComparison
-		          ;// ToDo: handle dateid > dateid vs mathid > mathid
+				  | relationalExpression                   #relativeExpression
+                  ;
+
+relationalExpression: leftText=(TEXT | IDENTIFIER) 
+				         operator=equalityOperator 
+					  rightText=(TEXT | IDENTIFIER)             #textComparison
+		            | leftDate=(DATE | IDENTIFIER)
+				         operator=relationalOperator 
+					  rightDate=(DATE | IDENTIFIER)             #dateComparison 
+		            | leftExpression=mathExpression 
+				         operator=relationalOperator 
+					  rightExpression=mathExpression            #mathComparison
+		            ;
 
 mathExpression : IDENTIFIER                              #numberVariableName
                | mathValue                               #numberLiteral
@@ -66,18 +76,17 @@ mathExpression : IDENTIFIER                              #numberVariableName
       		     rightExpression=mathExpression          #addSubtractExpression
 			   ;
 
-relationalOperator: ISEQUAL 
+relationalOperator: chosenOperator=(ISEQUAL 
                   | ISNOTEQUAL 
                   | ISGREATERTHAN 
                   | ISGREATERTHANOREQUAL 
 				  | ISLESSTHAN 
-				  | ISLESSTHANOREQUAL 
-				  | booleanOperator
+				  | ISLESSTHANOREQUAL)
                   ;
 
-booleanOperator: AND 
-               | OR
-               ;
+equalityOperator: chosenOperator=(ISEQUAL | ISNOTEQUAL);
+
+booleanOperator: chosenOperator=(AND | OR);
 
 booleanValue: TRUE 
             | FALSE

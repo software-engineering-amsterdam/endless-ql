@@ -1,13 +1,13 @@
-﻿using QL.Core.Symbols; 
+﻿using QL.Core.Errors;
+using QL.Core.Symbols;
+using QL.Core.Types;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace QL.Core.Scopes
 {
-    class ScopeTreeValidator
+    internal class ScopeTreeValidator
     {
-        public List<Symbol> UndeclaredVariables = new List<Symbol>();
-        public List<Symbol> VariablesDeclaredOutOfScope = new List<Symbol>();
-
         private bool FindReference(Scope scope, string referenceName)
         {
             if (scope.ContainsDefenition(referenceName))
@@ -20,23 +20,27 @@ namespace QL.Core.Scopes
                 : false;
         }
 
-        public void CheckReferencesScope(Scope scope)
+        public List<Error> CheckReferencesScope(Scope scope)
         {
+            var ScopeErrors = new List<Error>();
             foreach (Symbol reference in scope.References)
             {
-                if (reference.Type == SymbolType.Undefined)
+                if (reference.Type == QLType.Undefined)
                 {
-                    UndeclaredVariables.Add(reference);
+                    ScopeErrors.Add(new VariableUndeclared(reference.Name, reference.Token?.Line ?? 0));
                 }
                 else if (!FindReference(scope, reference.Name))
                 {
-                    VariablesDeclaredOutOfScope.Add(reference);
+                    ScopeErrors.Add(new VariableDeclaredOutOfScope(reference.Name, reference.Token?.Line ?? 0));
                 }
             }
-            foreach (Scope child in scope.Childeren)
+
+            foreach (Scope child in scope.Children)
             {
-                CheckReferencesScope(child);
+                ScopeErrors.Concat(CheckReferencesScope(child));
             }
+
+            return ScopeErrors;
         }
     }
 }

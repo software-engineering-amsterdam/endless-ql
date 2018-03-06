@@ -10,6 +10,10 @@ public class Parameter extends Expression {
         this.value = value;
     }
 
+    public String getID() {
+        return this.value;
+    }
+
     @Override
     public String toString() {
         return this.value;

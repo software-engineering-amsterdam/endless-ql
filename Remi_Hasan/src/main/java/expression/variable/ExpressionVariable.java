@@ -1,5 +1,6 @@
 package expression.variable;
 
+import analysis.SymbolTable;
 import expression.Expression;
 
 import java.math.BigDecimal;
@@ -7,6 +8,10 @@ import java.math.BigDecimal;
 public abstract class ExpressionVariable<T> extends Expression {
 
     T value;
+
+    ExpressionVariable() {
+        this.value = null;
+    }
 
     ExpressionVariable(T value) {
         this.value = value;
@@ -32,16 +37,15 @@ public abstract class ExpressionVariable<T> extends Expression {
         throw new UnsupportedOperationException("Cannot get string value");
     }
 
+    public boolean isUndefined() {
+        return false;
+    }
+
     // TODO: getDateValue
 
     @Override
-    public ExpressionVariable evaluate() {
+    public ExpressionVariable evaluate(SymbolTable symbolTable) {
         return this;
-    }
-
-    @Override
-    public boolean isSettable() {
-        return true;
     }
 
     @Override
@@ -50,7 +54,7 @@ public abstract class ExpressionVariable<T> extends Expression {
     }
 
     @Override
-    public void typeCheck() { }
+    public void typeCheck(SymbolTable symbolTable) { }
 
     public ExpressionVariable divide(ExpressionVariable other) {
         return new ExpressionVariableUndefined();

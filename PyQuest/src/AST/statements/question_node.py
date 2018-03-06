@@ -1,5 +1,5 @@
 from AST.base_node import BaseNode
-from placeholder_name_object.question import Question
+from render.question import Question
 
 
 class QuestionNode(BaseNode):

@@ -16,7 +16,8 @@ WIDGET_TYPE : 'spinbox'
             | 'checkbox'
             | 'text'
             | 'dropdown'
-            | 'slider';
+            | 'slider'
+            | 'radio';
 
 // Keywords
 PROPERTY_KEY : 'width'

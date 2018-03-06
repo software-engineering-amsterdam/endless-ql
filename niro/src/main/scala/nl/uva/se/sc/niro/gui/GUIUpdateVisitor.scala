@@ -52,8 +52,7 @@ object GUIUpdateVisitor {
       }
       case Some(DateAnswer(d)) => {
         val datePicker: DatePicker = HierarchyUtil.downcast(control)
-        datePicker.getConverter
-          .fromString(d.map(_.toString).getOrElse(""))
+        datePicker.setValue(datePicker.getConverter.fromString(d.map(_.toString).getOrElse("")))
       }
       case _ => ()
     }

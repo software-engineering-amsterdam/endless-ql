@@ -49,7 +49,7 @@ object CreateCallbackVisitor {
       }
       case DateType => {
         val datePicker: DatePicker = HierarchyUtil.downcast(control)
-        datePicker.setOnAction(_ => modelUpdater.updateModel(questionId, DateAnswer("")))
+        datePicker.setOnAction(_ => modelUpdater.updateModel(questionId, DateAnswer(datePicker.getConverter.toString(datePicker.getValue))))
       }
       case _ => ()
     }

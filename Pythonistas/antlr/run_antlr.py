@@ -5,12 +5,9 @@ from processed.antlr.QLParser import QLParser
 
 
 # todo: delete processed/antlr after computation
-def run_antrl(input, isFile = True):
-    if isFile:
-        QLinput = antlr4.FileStream(input)
-    else:
-        QLinput = antlr4.InputStream(input)
-    lexer = QLLexer(QLinput)
+def run_antrl(txt_input):
+    ql_input = antlr4.InputStream(txt_input)
+    lexer = QLLexer(ql_input)
     stream = antlr4.CommonTokenStream(lexer)
     parser = QLParser(stream)
     return parser.form()

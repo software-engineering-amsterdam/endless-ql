@@ -54,9 +54,6 @@ def main():
     screen = InputWindow()
     screen.show()
 
-    tree = run_antrl(args.file_name)
-    screen.setTree(tree)
-
     sys.exit(app.exec_())
 
 

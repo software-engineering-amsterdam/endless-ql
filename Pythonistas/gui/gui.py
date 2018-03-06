@@ -49,7 +49,7 @@ class InputWindow(QWidget):
         self.outputWindow = OutputWindow()
 
         if self.qlInput.toPlainText():
-            self.tree = run_antrl(self.qlInput.toPlainText(), isFile=False)
+            self.tree = run_antrl(self.qlInput.toPlainText())
             self.build_gui(self.tree)
             self.outputWindow.add_submit_button()
             # if self.tree:

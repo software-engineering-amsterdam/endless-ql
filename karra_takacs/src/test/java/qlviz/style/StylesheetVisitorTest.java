@@ -1,5 +1,6 @@
 package qlviz.style;
 
+import org.antlr.v4.runtime.tree.TerminalNode;
 import org.junit.Assert;
 import org.junit.Test;
 import qlviz.QLSBaseVisitor;
@@ -22,7 +23,9 @@ public class StylesheetVisitorTest {
         QLSBaseVisitor<Page> pageVisitorMock = mock(QLSBaseVisitor.class);
         QLSParser.StylesheetContext contextMock = mock(QLSParser.StylesheetContext.class);
         StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(pageVisitorMock);
+        TerminalNode identifierMock = mock(TerminalNode.class);
 
+        when(contextMock.IDENTIFIER()).thenReturn(identifierMock);
         when(contextMock.page()).thenReturn(List.of(mock(QLSParser.PageContext.class), mock(QLSParser.PageContext.class)));
         when(pageVisitorMock.visitPage(any())).thenReturn(mock(Page.class));
 
@@ -31,5 +34,26 @@ public class StylesheetVisitorTest {
 
         // Assert
         Assert.assertEquals(2, result.getPages().size());
+    }
+
+    @Test
+    public void testName() {
+        // Arrange
+        final String name = "test_name";
+        QLSBaseVisitor<Page> pageVisitorMock = mock(QLSBaseVisitor.class);
+        QLSParser.StylesheetContext contextMock = mock(QLSParser.StylesheetContext.class);
+        StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(pageVisitorMock);
+        TerminalNode identifierMock = mock(TerminalNode.class);
+
+        when(contextMock.page()).thenReturn(List.of(mock(QLSParser.PageContext.class), mock(QLSParser.PageContext.class)));
+        when(contextMock.IDENTIFIER()).thenReturn(identifierMock);
+        when(pageVisitorMock.visitPage(any())).thenReturn(mock(Page.class));
+        when(identifierMock.getText()).thenReturn(name);
+
+        // Act
+        Stylesheet result = stylesheetVisitor.visitStylesheet(contextMock);
+
+        // Assert
+        Assert.assertEquals(name, result.getName());
     }
 }

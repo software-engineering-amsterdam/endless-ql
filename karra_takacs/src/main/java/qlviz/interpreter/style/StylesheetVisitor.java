@@ -21,7 +21,7 @@ public class StylesheetVisitor extends QLSBaseVisitor<Stylesheet> {
                 ctx.page()
                         .stream()
                         .map(pageVisitor::visitPage)
-                        .collect(Collectors.toList())
-        );
+                        .collect(Collectors.toList()),
+                ctx.IDENTIFIER().getText());
     }
 }

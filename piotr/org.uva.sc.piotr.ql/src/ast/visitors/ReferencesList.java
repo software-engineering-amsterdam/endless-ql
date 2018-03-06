@@ -20,7 +20,7 @@ public class ReferencesList extends ASTNodeAbstractVisitor {
         super.visit(variableReference);
     }
 
-    public void validateWithGraph(QuestionsGraph graph) throws RuntimeException {
+    public void validateWithGraph(QuestionsList graph) throws RuntimeException {
         for (VariableReference reference : this.variableReferences) {
             boolean found = false;
             for (Question question : graph.getQuestions()) {

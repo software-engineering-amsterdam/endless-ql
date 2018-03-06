@@ -5,7 +5,7 @@ import ast.model.statement.Question;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class QuestionsGraph extends ASTNodeAbstractVisitor {
+public class QuestionsList extends ASTNodeAbstractVisitor {
 
     private ArrayList<Question> questions = new ArrayList<>();
 

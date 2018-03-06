@@ -1,9 +1,7 @@
 package main;
 
-import ast.visitors.QuestionsGraph;
+import ast.visitors.QuestionsList;
 import ast.visitors.ReferencesList;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import ast.ASTBuilder;
 import grammar.QLLexer;
 import grammar.QLParser;
@@ -15,7 +13,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CharStream charStream = CharStreams.fromFileName("./example-ql/form1.ql");
+        CharStream charStream = CharStreams.fromFileName("./example-ql/form1.qlform");
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
         QLParser qlParser = new QLParser(commonTokenStream);
@@ -26,8 +24,8 @@ public class Main {
         Form form = astBuilder.visitForm(formContext);
 
         // questions graph for type validator
-        QuestionsGraph graph = new QuestionsGraph();
-        form.accept(graph);
+        QuestionsList questionsList = new QuestionsList();
+        form.accept(questionsList);
 
         // list of references (?)
         ReferencesList referencesList = new ReferencesList();
@@ -36,14 +34,14 @@ public class Main {
         // Type checking
 
         // undeclared variables usage
-        referencesList.validateWithGraph(graph);
+        referencesList.validateWithGraph(questionsList);
 
         // duplicate question declarations with different types
-        graph.validateDuplicates();
+        questionsList.validateDuplicates();
 
         // duplicate labels (warning)
         try {
-            graph.validateLabels();
+            questionsList.validateLabels();
         } catch (Exception e) {
             System.out.println("Warning: " + e.getMessage());
         }

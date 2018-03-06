@@ -32,7 +32,6 @@ booleanExpression : BOOLEAN
 expression: numericExpression | booleanExpression;
 
 //To skip New Lines, White spaces and comments
-FORM_HEADER :  'form';
 NEWLINE: ('\n' | '\r' | '\r\n') -> skip;
 WHITESPACE : (' ' | '\n' | '\r' | '\t') -> skip;
 COMMENT			: ('/*' .*? '*/') ->skip;
@@ -44,6 +43,7 @@ PAREN_CLOSE: ')';
 
 QUESTION_DELIMITER: ':';
 
+//keywords
 TYPE : 'boolean'
      | 'money'
      | 'string'
@@ -51,13 +51,13 @@ TYPE : 'boolean'
      | 'date'
      | 'decimal'
      ;
-     
-//keywords
 IF	:'if';
+FORM_HEADER :  'form';
+
 
 //literals
 IDENTIFIER	: [a-zA-Z0-1_]+;
-NUMBER		: [0-9]+;
+NUMBER		: [0-9]+(.[0-9]+)?;
 BOOLEAN		: 'true' | 'false';
 STRING		: '"' .*? '"';
 

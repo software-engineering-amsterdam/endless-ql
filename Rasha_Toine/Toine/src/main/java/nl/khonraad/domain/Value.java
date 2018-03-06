@@ -19,7 +19,7 @@ public class Value {
 	public Value(Type type, int units) {
 
 		this.type = type;
-		if (type == Type.Boolean) {
+		if (type.equals( Type.Boolean)) {
 			this.units = units != 0 ? 1 : 0;
 			return;
 		}
@@ -34,25 +34,30 @@ public class Value {
 
 			case Money: {
 				units = (int) (Double.valueOf(string) * 100);
-				break;
+				return;
 			}
 
 			case Integer: {
 				units = Integer.parseInt(string);
-				break;
+				return;
 			}
 
 			case Boolean: {
+
 				switch (string) {
+				
+					/*
+					 * Boolean.parseBoolean(string) is caseINsensitive.
+					 */
 					case "True":
-						units = 1;
-						break;
 					case "False":
-						units = 0;
-						break;
+						units = Boolean.parseBoolean(string) ? 1 : 0;
+						return;
 				}
+				throw new RuntimeException("Not a defined boolean value: " + string);
 			}
 		}
+		throw new RuntimeException("Check your grammar: you defined a type there that is not implemented here." + type);
 	}
 
 	@Override

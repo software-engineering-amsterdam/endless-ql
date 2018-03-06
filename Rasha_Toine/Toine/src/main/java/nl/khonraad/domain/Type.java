@@ -10,7 +10,7 @@ public enum Type {
 		this.text = text;
 	}
 
-	public static Type fromString(String text) {
+	public static Type parseType(String text) {
 		
 		for (Type type : Type.values()) {
 		

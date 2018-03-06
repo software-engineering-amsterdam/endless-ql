@@ -1,26 +1,25 @@
 package ql.ast;
 
-import java.util.ArrayList;
-
 public abstract class ASTNode {
 
-    ASTNode parent;
-    ArrayList<ASTNode> children;
+    private int line;
+    private int column;
 
-    public ASTNode(){
-        children = new ArrayList();
+    public ASTNode() {
+
     }
 
-    public int getChildCount() {
-        return children.size();
+    public ASTNode(int line, int column) {
+        this.line = line;
+        this.column = column;
     }
 
-    public ASTNode getChild(int i) {
-        return children.get(i);
+    public int getLine() {
+        return this.line;
     }
 
-    //implementations should call 'visitDeclaration' if they are declarations in the ASTVisitor class.
-    //To make sure these methods exist, we will declare a method for each node type in the ASTVisitor class.
-    public abstract <T> T accept(ASTVisitor<? extends T> visitor);
+    public int getColumn() {
+        return this.column;
+    }
 
 }

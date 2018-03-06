@@ -1,13 +1,12 @@
 package ParseObjects.Expressions.BinaryExpressions;
 
-import ParseObjects.Expressions.BinaryExpression;
-import ParseObjects.Expressions.Constant;
+import ParseObjects.Expressions.ExpressionConstants.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 import ParseObjects.Expressions.ExpressionConstants.BooleanConstant;
-import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
+import ParseObjects.Expressions.ExpressionConstants.UndefinedConstant;
 
-public class GreaterThanExpression extends BinaryExpression<Boolean> {
+public class GreaterThanExpression extends BinaryExpression {
 
     public GreaterThanExpression(Expression left, Expression right){
         super(">", left, right);
@@ -19,10 +18,17 @@ public class GreaterThanExpression extends BinaryExpression<Boolean> {
     }
 
     @Override
-    public Constant<Boolean> evaluate() {
-        DecimalConstant left = (DecimalConstant) this.getExprLeft().evaluate();
-        DecimalConstant right = (DecimalConstant) this.getExprRight().evaluate();
-        return new BooleanConstant(left.getValue() > right.getValue());
+    public Constant evaluate() {
+        Expression rightExpr = this.getExprRight();
+        Expression leftExpr = this.getExprLeft();
+
+        if(!rightExpr.isArithmetic() || !leftExpr.isArithmetic()){
+            return new UndefinedConstant();
+        }
+
+        Double left = Double.parseDouble(this.getExprLeft().evaluate().getValue().toString());
+        Double right = Double.parseDouble(this.getExprRight().evaluate().getValue().toString());
+        return new BooleanConstant(left > right);
     }
 
     @Override

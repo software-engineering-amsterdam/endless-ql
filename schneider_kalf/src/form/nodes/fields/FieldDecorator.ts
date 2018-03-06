@@ -1,5 +1,5 @@
 import Field from "./FieldNode";
-import FieldType from "../../FieldType";
+import { FieldType } from "../../FieldType";
 import NodeVisitor from "../visitors/NodeVisitor";
 import FormState from "../../state/FormState";
 
@@ -33,7 +33,7 @@ export default class FieldDecorator implements Field {
     return this.fieldToBeDecorated.isReadOnly();
   }
 
-  getAnswer(state: FormState) {
-    return this.fieldToBeDecorated.getAnswer(state);
+  computeAnswer(state: FormState) {
+    return this.fieldToBeDecorated.computeAnswer(state);
   }
 }

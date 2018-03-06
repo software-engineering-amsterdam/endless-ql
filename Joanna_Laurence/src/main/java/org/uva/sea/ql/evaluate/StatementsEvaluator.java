@@ -4,56 +4,51 @@ import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.parser.elements.Statements;
-import org.uva.sea.ql.traverse.BaseVisitor;
+import org.uva.sea.ql.visitor.BaseASTVisitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class StatementsEvaluator extends BaseVisitor<List<Question>> {
+public class StatementsEvaluator extends BaseASTVisitor<List<Question>> {
 
     /**
-     * List of questions that are seen
+     *
      */
-    private List<Question> cachedQuestions = null;
+    private SymbolTable symbolTable;
 
     /**
-     * List of statements
+     *
      */
-    private Statements statements;
+    private IfStatementEvaluator ifStatementEvaluator = new IfStatementEvaluator();
 
     /**
-     * Get all questions in statements
-     * @param statements What statements have to be evaluated
+     * @param symbolTable
      */
-    public StatementsEvaluator(Statements statements) {
-        this.statements = statements;
+    public StatementsEvaluator(SymbolTable symbolTable) {
+        this.symbolTable = symbolTable;
     }
 
     /**
      * Evaluates the statements
+     *
      * @return List of all seen questions
      */
-    public List<Question> evaluate() {
-        //Return cached list when possible
-        if(cachedQuestions != null)
-            return cachedQuestions;
-
-        this.cachedQuestions = this.statements.accept(this);
-
-        return this.cachedQuestions;
+    public List<Question> evaluate(Statements statements) {
+        return statements.accept(this);
     }
 
     /**
      * Merge all questions from all statements
+     *
      * @param node Statement node
      * @return Questions
      */
     public List<Question> visit(Statements node) {
         List<Question> questions = new ArrayList<>();
-        for(ASTNode statement : node.getStatementList()) {
+        for (ASTNode statement : node.getStatementList()) {
             List<Question> subQuestions = statement.accept(this);
-            if(subQuestions != null)
+            if (subQuestions != null)
                 questions.addAll(subQuestions);
         }
         return questions;
@@ -61,19 +56,21 @@ public class StatementsEvaluator extends BaseVisitor<List<Question>> {
 
     /**
      * Extract questions for AST
+     *
      * @param question The questions in the AST
      * @return The questions in a list
      */
     public List<Question> visit(Question question) {
-        return Arrays.asList(new Question[] {question});
+        return Arrays.asList(new Question[]{question});
     }
 
     /**
      * Do not evaluate if statements
+     *
      * @param ifStatement
      * @return
      */
     public List<Question> visit(IfStatement ifStatement) {
-        return new ArrayList<>();
+        return this.ifStatementEvaluator.evaluate(ifStatement, this.symbolTable);
     }
 }

@@ -1,7 +1,11 @@
 export default class FormState {
   store: Map<string, any>;
 
-  constructor(store: Map<string, any>) {
+  constructor(store?: Map<string, any>) {
+    if (!store) {
+      store = new Map();
+    }
+
     this.store = store;
   }
 
@@ -18,5 +22,15 @@ export default class FormState {
 
   has(identifier: string): boolean {
     return this.store.has(identifier);
+  }
+
+  toString() {
+    const lines: string[] = [];
+
+    this.store.forEach((value: any, name: string) => {
+      lines.push(`${name}: ${value}`);
+    });
+
+    return lines.join("\n");
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {AbstractControl, FormGroup} from '@angular/forms';
 import { QuestionBase } from '../../domain/angular-questions/question-base';
 
 @Component({
@@ -9,6 +9,7 @@ import { QuestionBase } from '../../domain/angular-questions/question-base';
 export class DynamicFormQuestionComponent implements OnInit {
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
+  control: AbstractControl;
 
   get isInvalid() {
     return this.form.controls[this.question.key].invalid;
@@ -19,8 +20,17 @@ export class DynamicFormQuestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.control = this.form.controls[this.question.key];
     this.form.valueChanges.subscribe(() => {
-      // this subscribe is necessary to have angular auto-update the hiddenCondition function
+      if (this.question.readonly) {
+        // only recalculate new value if the control is an expressionQuestion, values are different and value is a valid value
+        const currentValue = this.control.value;
+        const newValue = this.question.calculateValue(this.form);
+        if (currentValue !== newValue && !Number.isNaN(newValue)) {
+          this.control.setValue(newValue);
+        }
+      }
     });
   }
+
 }

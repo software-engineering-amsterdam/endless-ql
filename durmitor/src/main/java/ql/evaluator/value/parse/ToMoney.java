@@ -1,49 +1,56 @@
 package ql.evaluator.value.parse;
 
-import ql.evaluator.value.Bool;
-import ql.evaluator.value.Date;
-import ql.evaluator.value.Decimal;
-import ql.evaluator.value.Int;
-import ql.evaluator.value.Money;
-import ql.evaluator.value.Str;
-import ql.evaluator.value.Undefined;
-import ql.evaluator.value.Value;
+import ql.ast.expression.literal.BoolLiteral;
+import ql.ast.expression.literal.DateLiteral;
+import ql.ast.expression.literal.DecimalLiteral;
+import ql.ast.expression.literal.IntLiteral;
+import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.MoneyLiteral;
+import ql.ast.expression.literal.StrLiteral;
+import ql.ast.expression.literal.UndefinedLiteral;
+import ql.helpers.Currency;
 import ql.visitors.interfaces.ValueVisitor;
 
 public class ToMoney implements ValueVisitor {
 
+    private Currency currency;
+    
+    public ToMoney(Currency currency) {
+        this.currency = currency;
+    }
+    
     @Override
-    public Value<?> visit(Bool value) {
-        return new Undefined();
+    public Literal<?> visit(BoolLiteral value) {
+        return new UndefinedLiteral();
     }
 
     @Override
-    public Value<?> visit(Str value) {
-        return new Undefined();
+    public Literal<?> visit(StrLiteral value) {
+        return new UndefinedLiteral();
     }
 
     @Override
-    public Value<?> visit(Int value) {
-        return new Money(value.getValue().doubleValue());
+    public Literal<?> visit(IntLiteral value) {
+        return new MoneyLiteral(value.getValue().doubleValue());
     }
 
     @Override
-    public Value<?> visit(Decimal value) {
-        return new Money(value.getValue());
+    public Literal<?> visit(DecimalLiteral value) {
+        return new MoneyLiteral(value.getValue());
     }
 
     @Override
-    public Value<?> visit(Money value) {
-        return value;
+    public Literal<?> visit(MoneyLiteral value) {
+        return (currency.equals(value.getCurrency()))? value : value.convertTo(currency);
     }
 
     @Override
-    public Value<?> visit(Date value) {
-        return new Undefined();
+    public Literal<?> visit(DateLiteral value) {
+        return new UndefinedLiteral();
     }
 
     @Override
-    public Value<?> visit(Undefined value) {
-        return value;
+    public Literal<?> visit(UndefinedLiteral value) {
+        return new MoneyLiteral();
     }
 }

@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntlGrammar", "AntlGrammar\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{2537D2E5-3CB9-4A4E-80A5-121BF92473C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionaireConsoleApp", "QuestionaireConsoleApp\QuestionaireConsoleApp.csproj", "{D0A33CD6-41E6-4A46-9977-1F2955013D42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{2537D2E5-3CB9-4A4E-80A5-121BF92473C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2537D2E5-3CB9-4A4E-80A5-121BF92473C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2537D2E5-3CB9-4A4E-80A5-121BF92473C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0A33CD6-41E6-4A46-9977-1F2955013D42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0A33CD6-41E6-4A46-9977-1F2955013D42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0A33CD6-41E6-4A46-9977-1F2955013D42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0A33CD6-41E6-4A46-9977-1F2955013D42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,23 +4,24 @@ import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
-import org.uva.sea.ql.traverse.Visitor;
+import org.uva.sea.ql.visitor.IASTVisitor;
 
 public class Division extends BinaryOperator {
-    public Division(Token token, ASTNode lhs, ASTNode rhs) {
-        super(token, lhs, rhs);
+    public Division(Token token, ASTNode leftHandSide, ASTNode rightHandSide) {
+        super(token, leftHandSide, rightHandSide);
     }
 
     /**
-     * The value is returned, so the type of LHS
+     * The valueTypes is returned, so the type of LHS
+     *
      * @return The type
      */
     public Type getType() {
-        return super.getLhs().getType();
+        return super.getLeftHandSide().getType();
     }
 
     @Override
-    public <T> T accept(Visitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

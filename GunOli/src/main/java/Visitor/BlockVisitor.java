@@ -18,7 +18,7 @@ public class BlockVisitor extends QLBaseVisitor<Block> {
         ArrayList<Question> questions = new ArrayList<Question>();
         ArrayList<Condition> conditions = new ArrayList<Condition>();
         for(QLParser.StatementContext statementCtx : ctx.statement()){
-            if (!statementCtx.question().isEmpty()) {
+            if (statementCtx.question() != null) {
                 Question question = questionVisitor.visitQuestion(statementCtx.question());
                 questions.add(question);
             }  else {

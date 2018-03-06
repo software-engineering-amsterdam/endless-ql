@@ -2,11 +2,13 @@
 
 <div class="page-container">
   <div class="input">
-    <span class="header">Input</span>
+    <span class="header">Input QL</span>
 
     <span id="error-message" *ngIf="errorMessage" class="error"> {{errorMessage}}</span>
 
-    <textarea id="input" rows="25" cols="100" [(ngModel)]="input"></textarea>
+    <textarea id="input" rows="25" cols="70" [(ngModel)]="input"></textarea><br />
+    <span class="header">Input QLS</span>
+    <textarea id="inputQls" rows="25" cols="70" [(ngModel)]="inputQls"></textarea>
 
     <button id="parse-button" (click)="parseInput()">Parse</button>
 
@@ -16,9 +18,22 @@
     <span class="header">{{formName}}</span>
     <form id="form" (ngSubmit)="onSubmit()" [formGroup]="form">
 
-      <div *ngFor="let question of questions" class="form-row">
-        <app-question [question]="question" [form]="form"></app-question>
-      </div>
+      <mat-tab-group>
+        <mat-tab *ngFor="let page of astQls.pages">
+          <ng-template mat-tab-label>
+            {{page.name}}
+          </ng-template>
+          <mat-list>
+            <div *ngFor="let section of page.sections">
+              <h3 mat-subheader>{{section.name}}</h3>
+              <mat-list-item *ngFor="let question of getQlQuestionsForSection(section)" class="form-row">
+                <app-question [question]="question" [form]="form"></app-question>
+              </mat-list-item>
+              <mat-divider></mat-divider>
+            </div>
+          </mat-list>
+        </mat-tab>
+      </mat-tab-group>
 
       <div class="form-row">
         <button id="form-submit" type="submit">Save</button>

@@ -23,12 +23,11 @@ form form {
 form form {
   question1: "IntegerQuestion?"  integer
   question2: "DecimalQuestion?"  decimal
-  question3: "MoneyQuestion?"  money
-  question4: "BooleanQuestion?"  boolean
-  question5: "StringQuestion?"  string
-  question6: "DateQuestion?"  date
-  if (question4) {
-    question7: "ifQuestion" integer
+  question3: "BooleanQuestion?"  boolean
+  question4: "StringQuestion?"  string
+  question5: "DateQuestion?"  date
+  if (question3) {
+    question6: "ifQuestion" integer
   }
 }
 
@@ -50,12 +49,11 @@ form form {
 form form {
   question1: "IntegerQuestion?"  integer
   question2: "DecimalQuestion?"  decimal
-  question3: "MoneyQuestion?"  money
-  question4: "BooleanQuestion?"  boolean
-  question5: "StringQuestion?"  string
-  question6: "DateQuestion?"  date
-  if (question5) {
-    question7: "ifQuestion" integer
+  question3: "BooleanQuestion?"  boolean
+  question4: "StringQuestion?"  string
+  question5: "DateQuestion?"  date
+  if (question4) {
+    question6: "ifQuestion" integer
   }
 }
 
@@ -65,7 +63,15 @@ form form {
  q2: "t3" integer = (2 * 3 + 4)
 }
 
+//calculated value form with wrongly typed boolean condition
 form form {
  q1: "test" integer
  q2: "t3" integer = -2 + 4 && 3
+}
+
+//calculated value form with variable dependency
+form form {
+   salaryQuestion: "What do you earn on a day?" money
+   workHourQuestion: "How many hours do you work in a week?" integer
+   weeklyEarnings: "In a week you earn:" integer = salaryQuestion * workHourQuestion
 }

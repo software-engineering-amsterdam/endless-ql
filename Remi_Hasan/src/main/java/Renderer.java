@@ -1,73 +1,35 @@
+import analysis.SymbolTable;
 import expression.ReturnType;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.converter.DoubleStringConverter;
-import model.*;
+import model.Form;
+import model.Question;
 import model.stylesheet.StyleSheet;
 import org.yorichan.formfx.control.Input;
 import org.yorichan.formfx.field.Field;
 import org.yorichan.formfx.field.FieldGroup;
 import org.yorichan.formfx.form.GridForm;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 
 public class Renderer {
 
     private final Form form;
+    private final SymbolTable symbolTable;
     private final StyleSheet styleSheet;
 
-    Renderer(File file) {
-        this.form  = parseForm(file);
-
-        File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
-        this.styleSheet = parseStyleSheet(styleSheetFile);
-    }
-
-    private Form parseForm(File formFile){
-        Form parseForm = null;
-
-        // Try to parse a stylesheet, if it fails then show an error
-        try {
-            parseForm = FormParser.parseForm(new FileInputStream(formFile));
-        } catch (FileNotFoundException e) {
-            showErrorAlert(e, "Form file not found");
-        } catch (IOException e) {
-            showErrorAlert(e, "Form file not readable, check permissions");
-        } catch (UnsupportedOperationException e) {
-            // TODO Explain why form is invalid
-            showErrorAlert(e, "Form invalid");
-        }
-
-        return parseForm;
-    }
-
-    private StyleSheet parseStyleSheet(File styleSheetFile){
-        StyleSheet parseStyleSheet = null;
-        if(styleSheetFile != null){
-            // Try to parse a form, if it fails then show an error
-            try {
-                parseStyleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));
-            } catch (FileNotFoundException e) {
-                showErrorAlert(e, "StyleSheet file not found");
-            } catch (IOException e) {
-                showErrorAlert(e, "StyleSheet file not readable, check permissions");
-            } catch (UnsupportedOperationException e) {
-                // TODO Explain why form is invalid
-                showErrorAlert(e, "StyleSheet invalid");
-            }
-        }
-        return parseStyleSheet;
+    Renderer(Form form, SymbolTable symbolTable, StyleSheet styleSheet) {
+        this.form  = form;
+        this.symbolTable = symbolTable;
+        this.styleSheet = styleSheet;
     }
 
     public void renderForm(Stage stage) {
@@ -98,71 +60,120 @@ public class Renderer {
     private FieldGroup createQuestionFields(Form form) {
         FieldGroup fieldGroup = new FieldGroup();
         HashMap<Question, Field> fieldMap = new HashMap<>();
-        addStatements(fieldMap, fieldGroup, form.statements);
-        updateFields(fieldMap, form.statements, true);
+        addStatements(fieldMap, fieldGroup, form.questions);
+        updateFields(fieldMap, form.questions);
         return fieldGroup;
     }
 
     private void addQuestion(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, Question question) {
         Control input;
 
-        if (question.type == ReturnType.BOOLEAN) {
-            input = createBooleanField(fieldMap, question);
-        } else {
-            input = createTextField(fieldMap, question);
+        switch(question.type){
+            case BOOLEAN:
+                // Checkbox
+                input = createBooleanField(fieldMap, question);
+                break;
+            case STRING:
+                input = createTextField(fieldMap, question, question.type);
+                break;
+            case INTEGER:
+            case DECIMAL:
+            case MONEY:
+            case NUMBER:
+                input = createTextField(fieldMap, question, question.type);
+                break;
+            case DATE:
+                // Date picker
+                input = createDateField(fieldMap, question);
+                break;
+            default:
+                throw new UnsupportedOperationException("Cannot create field for unknown field type");
         }
 
-        Field field = new Field(question.text, input);
-        fieldGroup.add(field);
-        fieldMap.put(question, field);
+        if(input != null){
+            Field field = new Field(question.text, input);
+            fieldGroup.add(field);
+            fieldMap.put(question, field);
+        }
+    }
+
+//    private Control createDecimalField(HashMap<Question, Field> fieldMap, Question question) {
+//
+//    }
+
+    private Control createDateField(HashMap<Question, Field> fieldMap, Question question) {
+        DatePicker datePicker = new DatePicker();
+        datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+            symbolTable.setValue(question.name, newValue.toString(), question.type);
+            updateFields(fieldMap, form.questions);
+        });
+//        throw new NotImplementedException();
+        return datePicker;
     }
 
     private Control createBooleanField(HashMap<Question, Field> fieldMap, Question question) {
         CheckBox checkBox = new CheckBox();
 
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            question.answer.setValue(newValue.toString());
-            updateFields(fieldMap, form.statements, true);
+            symbolTable.setValue(question.name, newValue.toString(), question.type);
+            updateFields(fieldMap, form.questions);
         });
 
         return checkBox;
     }
 
-    private Control createTextField(HashMap<Question, Field> fieldMap, Question question) {
+    private Control createTextField(HashMap<Question, Field> fieldMap, Question question, ReturnType type) {
         TextInputControl textField = Input.textField();
-
-        if (question.type == ReturnType.INTEGER || question.type == ReturnType.DECIMAL) {
-            // NumberStringConverter
-            // CurrencyStringConverter
-            // DoubleStringConverter
-            // https://docs.oracle.com/javase/8/javafx/api/javafx/util/StringConverter.html
-            textField.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-        }
-
-        if(!question.answer.isSettable()) {
-            textField.setEditable(false);
-            textField.setText(question.answer.evaluate().toString());
-        }
+        textField.setEditable(question.isEditable());
 
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
-                question.answer.setValue(textField.getText());
-                updateFields(fieldMap, form.statements, true);
+                symbolTable.setValue(question.name, textField.getText(), question.type);
+                updateFields(fieldMap, form.questions);
             }
         });
+
+        // Add input formatters
+        switch(type){
+            case INTEGER:
+                TextFormatter intFormatter = createTextFormatter("-?\\d*");
+                textField.setTextFormatter(intFormatter);
+                break;
+            case DECIMAL:
+                TextFormatter decimalFormatter = createTextFormatter("-?\\d*(\\.\\d*)?");
+                textField.setTextFormatter(decimalFormatter);
+                break;
+            case DATE:
+                // TODO isn't date always a datepicker?, or sometimes also a textfield?
+//                textField.setTextFormatter(new TextFormatter<>(new DateStringConverter("dd/MM/yyyy")));
+                TextFormatter dateFormatter = createTextFormatter("\\d{0,2}?/?\\d{0,2}?/\\d{0,4}?");
+                textField.setTextFormatter(dateFormatter);
+                break;
+            case MONEY:
+                TextFormatter moneyFormatter = createTextFormatter("-?\\d*(\\.\\d{0,2})?");
+                textField.setTextFormatter(moneyFormatter);
+                break;
+        }
 
         return textField;
     }
 
-    private void addStatements(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, ArrayList<Statement> statements) {
-        for (Statement statement : statements) {
-            if (statement.isQuestion()) {
-                addQuestion(fieldMap, fieldGroup, (Question) statement);
+    private TextFormatter createTextFormatter(String pattern){
+        Pattern decimalPattern = Pattern.compile(pattern);
+        UnaryOperator<TextFormatter.Change> filter = c -> {
+            if (decimalPattern.matcher(c.getControlNewText()).matches()) {
+                return c;
             } else {
-                addStatements(fieldMap, fieldGroup, ((Condition) statement).trueStatements);
-                addStatements(fieldMap, fieldGroup, ((Condition) statement).falseStatements);
+                return null ;
             }
+        };
+        return new TextFormatter<>(filter);
+    }
+
+    private void addStatements(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, List<Question> questions) {
+        for (Question question : questions) {
+            addQuestion(fieldMap, fieldGroup, question);
         }
     }
 
@@ -171,57 +182,35 @@ public class Renderer {
         Button submitButton = new Button("Submit (see output in console)");
         submitButton.setOnAction(e -> {
             // Debug output, shows answer to every question in console
-            for (Statement statement : form.statements) {
-                if (statement.isQuestion()) {
-                    System.out.println(((Question) statement).answer.evaluate());
-                }
-            }
         });
         return submitButton;
     }
 
-    private void updateFields(HashMap<Question, Field> fieldMap, ArrayList<Statement> statements, boolean isTrue) {
-        for (Statement statement : statements) {
-            if (statement.isQuestion()) {
-                updateField(fieldMap, statement, isTrue);
-            } else {
-                Condition conditional = (Condition) statement;
-                boolean trueBlockVisible = isTrue && Boolean.TRUE.equals(conditional.condition.evaluate().getValue());
-                boolean falseBlockVisible = isTrue && !trueBlockVisible;
-                updateFields(fieldMap, conditional.trueStatements, trueBlockVisible);
-                updateFields(fieldMap, conditional.falseStatements, falseBlockVisible);
-            }
+    private void updateFields(HashMap<Question, Field> fieldMap, List<Question> questions) {
+        for (Question question : questions) {
+            updateField(fieldMap, question, question.isVisible(this.symbolTable));
         }
     }
 
-    private void updateField(HashMap<Question, Field> fieldMap, Statement statement, boolean isTrue) {
-        Question question = (Question) statement;
-
+    private void updateField(HashMap<Question, Field> fieldMap, Question question, boolean visible) {
         Field field = fieldMap.get(question);
-        field.getLabel().setVisible(isTrue);
-        field.getControl().setVisible(isTrue);
+        field.getLabel().setVisible(visible);
+        field.getControl().setVisible(visible);
 
-        if(!question.answer.isSettable()) {
-            Object answer = question.answer.evaluate().getValue();
-            if(answer == null) {
-                answer = "";
-            }
+        // If question is based on expression and cannot be set by the user, set value by evaluating its expression
+        if(!question.isEditable()) {
+            String answer = symbolTable.getStringValue(question.name, question.type);
 
             if (question.type == ReturnType.BOOLEAN) {
                 CheckBox checkBox = (CheckBox) field.getControl();
-                checkBox.setSelected(Boolean.TRUE.equals(answer));
-            } else {
+                checkBox.setSelected(Boolean.valueOf(answer));
+            } else if(question.type == ReturnType.DATE){
+                // TODO
+            }
+            else {
                 TextInputControl textField = (TextInputControl) field.getControl();
-                textField.setText(answer.toString());
+                textField.setText(answer);
             }
         }
-    }
-
-    private void showErrorAlert(Exception e, String message) {
-        e.printStackTrace();
-        Alert alert = new Alert(Alert.AlertType.ERROR, message);
-        alert.setContentText(e.toString());
-        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        alert.showAndWait();
     }
 }

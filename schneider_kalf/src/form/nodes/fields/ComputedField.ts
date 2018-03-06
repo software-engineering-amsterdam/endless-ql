@@ -1,9 +1,9 @@
-import FieldType from "../../FieldType";
+import { FieldType } from "../../FieldType";
 import Field from "./FieldNode";
 import Expression from "../expressions/Expression";
-import NodeVisitor from "../visitors/NodeVisitor";
 import FormState from "../../state/FormState";
 import { canBeEvaluated, evaluate } from "../../evaluation/evaluation_functions";
+import FieldVisitor from "../visitors/FieldVisitor";
 
 export default class ComputedField implements Field {
   readonly label: string;
@@ -27,7 +27,7 @@ export default class ComputedField implements Field {
     this.formula = formula;
   }
 
-  accept(visitor: NodeVisitor): any {
+  accept(visitor: FieldVisitor): any {
     return visitor.visitComputedField(this);
   }
 
@@ -35,7 +35,7 @@ export default class ComputedField implements Field {
     return true;
   }
 
-  getAnswer(state: FormState) {
+  computeAnswer(state: FormState) {
     if (!canBeEvaluated(this.formula, state)) {
       return null;
     }

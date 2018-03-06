@@ -11,7 +11,7 @@ form taxOfficeExample {
         waitedToLong: boolean = true
 
             if (sellingPrice * waitDays > 6) {
-              "Did you wait to long?"
+              "Did you wait to long2?"
                 waitedToLong2: boolean = true
             }
     }

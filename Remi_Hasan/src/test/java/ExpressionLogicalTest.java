@@ -3,7 +3,7 @@ import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import expression.Expression;
 import expression.binary.ExpressionLogicalAnd;
 import expression.binary.ExpressionLogicalOr;
-import expression.constant.ExpressionVariableBoolean;
+import expression.variable.ExpressionVariableBoolean;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;

@@ -43,12 +43,19 @@ namespace QL_Parser_Tester
             Console.WriteLine(question);
         }
 
+        public static void PrintSection(ComputedNode computed)
+        {
+            Console.WriteLine(computed);
+        }
+
         public static void PrintSection(ConditionalNode conditional)
         {
             Console.WriteLine("\n" + conditional);
             foreach (Node section in conditional.Children)
                 if (section.GetType() == typeof(QuestionNode))
                     PrintSection(section as QuestionNode);
+                else if (section.GetType() == typeof(ComputedNode))
+                    PrintSection(section as ComputedNode);
                 else
                     PrintSection(section as ConditionalNode);
         }

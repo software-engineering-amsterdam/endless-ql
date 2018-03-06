@@ -3,7 +3,6 @@ package ast.visitors;
 import ast.model.Form;
 import ast.model.datatypes.*;
 import ast.model.expressions.Expression;
-import ast.model.expressions.binary.BinaryExpression;
 import ast.model.expressions.binary.arithmetics.Addition;
 import ast.model.expressions.binary.arithmetics.Division;
 import ast.model.expressions.binary.arithmetics.Multiplication;
@@ -11,7 +10,6 @@ import ast.model.expressions.binary.arithmetics.Subtraction;
 import ast.model.expressions.binary.comparision.*;
 import ast.model.expressions.binary.logical.LogicalAnd;
 import ast.model.expressions.binary.logical.LogicalOr;
-import ast.model.expressions.unary.UnaryExpression;
 import ast.model.expressions.unary.arithmetics.Minus;
 import ast.model.expressions.unary.logical.Negation;
 import ast.model.expressions.unary.values.Literal;
@@ -32,8 +30,6 @@ public interface ASTNodeVisitor {
 
     void visit(Expression expression);
 
-    void visit(UnaryExpression unaryExpression);
-
     void visit(Literal literal);
 
     void visit(VariableReference variableReference);
@@ -41,8 +37,6 @@ public interface ASTNodeVisitor {
     void visit(Negation negation);
 
     void visit(Minus minus);
-
-    void visit(BinaryExpression binaryExpression);
 
     void visit(Addition addition);
 

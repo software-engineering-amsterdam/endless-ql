@@ -44,9 +44,10 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 				return expression;
 
 			case "!":
-				if (! Type.Boolean.equals( expression.getType()))
+				if (!Type.Boolean.equals(expression.getType())) {
 					throw new RuntimeException(
 							"Operator not allowed " + ctx.unaryOperator().getText() + " on " + expression.getType());
+				}
 				return new Value(expression.getType(), (expression.getValue() != 0) ? 0 : 1);
 
 			default:
@@ -63,7 +64,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 		String operator = ctx.binaryOperator().getText();
 
 		if (!allowdOperation(left.getType(), right.getType(), operator)) {
-			
+
 			throw new RuntimeException(
 					"Operation not allowed: \"" + left.getType() + " " + operator + " " + right.getType());
 		}

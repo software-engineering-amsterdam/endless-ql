@@ -1,9 +1,7 @@
 package main;
 
-import ast.visitors.QuestionsGraph;
-import ast.visitors.ReferencesList;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import ast.visitors.filters.QuestionsFilter;
+import ast.visitors.filters.ReferencesFilter;
 import ast.ASTBuilder;
 import grammar.QLLexer;
 import grammar.QLParser;
@@ -11,11 +9,13 @@ import ast.model.Form;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import validators.QuestionsValidator;
+import validators.VariablesReferencesValidator;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CharStream charStream = CharStreams.fromFileName("./example-ql/form1.ql");
+        CharStream charStream = CharStreams.fromFileName("./example-ql/form1.qlform");
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
         QLParser qlParser = new QLParser(commonTokenStream);
@@ -26,24 +26,27 @@ public class Main {
         Form form = astBuilder.visitForm(formContext);
 
         // questions graph for type validator
-        QuestionsGraph graph = new QuestionsGraph();
-        form.accept(graph);
+        QuestionsFilter questionsFilter = new QuestionsFilter();
+        form.accept(questionsFilter);
 
         // list of references (?)
-        ReferencesList referencesList = new ReferencesList();
-        form.accept(referencesList);
+        ReferencesFilter referencesFilter = new ReferencesFilter();
+        form.accept(referencesFilter);
 
         // Type checking
 
         // undeclared variables usage
-        referencesList.validateWithGraph(graph);
+        VariablesReferencesValidator.validateVariablesUsage(
+                questionsFilter.getQuestions(),
+                referencesFilter.getVariableReferences()
+        );
 
         // duplicate question declarations with different types
-        graph.validateDuplicates();
+        QuestionsValidator.validateDuplicates(questionsFilter.getQuestions());
 
         // duplicate labels (warning)
         try {
-            graph.validateLabels();
+            QuestionsValidator.validateLabels(questionsFilter.getQuestions());
         } catch (Exception e) {
             System.out.println("Warning: " + e.getMessage());
         }

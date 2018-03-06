@@ -29,6 +29,7 @@
 		<antlr4.version>4.7.1</antlr4.version>
 		<junit.version>4.12</junit.version>
         <pprint.version>0.5.3</pprint.version>
+		<scalafmt.version>0.7_1.4.0</scalafmt.version>
 	</properties>
 
 	<dependencies>
@@ -98,6 +99,24 @@
 						<id>antlr</id>
 						<goals>
 							<goal>antlr4</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.antipathy</groupId>
+				<artifactId>mvn-scalafmt</artifactId>
+				<version>${scalafmt.version}</version>
+				<configuration>
+					<parameters>--diff</parameters> <!-- Additional command line arguments -->
+					<configLocation>${project.basedir}/scalafmt.conf</configLocation>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>format</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -182,24 +201,6 @@
                     <vendor>Andela-Tromp</vendor>
 					<mainClass>nl.uva.se.sc.niro.gui.QLForms</mainClass>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.antipathy</groupId>
-				<artifactId>mvn-scalafmt</artifactId>
-				<version>0.7_1.4.0</version>
-				<configuration>
-					<parameters>--diff</parameters> <!-- Additional command line arguments -->
-					<configLocation>${project.basedir}/scalafmt.conf</configLocation>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>format</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 		</plugins>

@@ -3,7 +3,6 @@ package ast.visitors;
 import ast.model.Form;
 import ast.model.datatypes.*;
 import ast.model.expressions.Expression;
-import ast.model.expressions.binary.BinaryExpression;
 import ast.model.expressions.binary.arithmetics.Addition;
 import ast.model.expressions.binary.arithmetics.Division;
 import ast.model.expressions.binary.arithmetics.Multiplication;
@@ -11,7 +10,6 @@ import ast.model.expressions.binary.arithmetics.Subtraction;
 import ast.model.expressions.binary.comparision.*;
 import ast.model.expressions.binary.logical.LogicalAnd;
 import ast.model.expressions.binary.logical.LogicalOr;
-import ast.model.expressions.unary.UnaryExpression;
 import ast.model.expressions.unary.arithmetics.Minus;
 import ast.model.expressions.unary.logical.Negation;
 import ast.model.expressions.unary.values.Literal;
@@ -35,13 +33,12 @@ public class ASTNodeAbstractVisitor implements ASTNodeVisitor {
 
         System.out.println("Visiting statement :" + statement.getStartLine());
 
-        switch (statement.getClass().getSimpleName()) {
-            case "Question":
-                visit((Question) statement);
-                break;
-            case "IfStatement":
-                visit((IfStatement) statement);
+        if (statement instanceof Question) {
+            visit((Question) statement);
+        } else if (statement instanceof IfStatement) {
+            visit((IfStatement) statement);
         }
+
     }
 
     @Override
@@ -75,58 +72,37 @@ public class ASTNodeAbstractVisitor implements ASTNodeVisitor {
 
         System.out.println("Visiting expression " + expression.getClass().getSimpleName() + " :" + expression.getStartLine());
 
-        switch (expression.getClass().getSimpleName()) {
-            case "Negation":
-                visit((Negation) expression);
-                break;
-            case "Minus":
-                visit((Minus) expression);
-                break;
-            case "Multiplication":
-                visit((Multiplication) expression);
-                break;
-            case "Division":
-                visit((Division) expression);
-                break;
-            case "Addition":
-                visit((Addition) expression);
-                break;
-            case "Subtraction":
-                visit((Subtraction) expression);
-                break;
-            case "GreaterThan":
-                visit((GreaterThan) expression);
-                break;
-            case "GreaterEqual":
-                visit((GreaterEqual) expression);
-                break;
-            case "LessEqual":
-                visit((LessEqual) expression);
-                break;
-            case "Equal":
-                visit((Equal) expression);
-                break;
-            case "NotEqual":
-                visit((NotEqual) expression);
-                break;
-            case "LogicalAnd":
-                visit((LogicalAnd) expression);
-                break;
-            case "LogicalOr":
-                visit((LogicalOr) expression);
-                break;
-            case "VariableReference":
-                visit((VariableReference) expression);
-                break;
-            case "Literal":
-                visit((Literal) expression);
-                break;
+        if (expression instanceof Negation) {
+            visit((Negation) expression);
+        } else if (expression instanceof Minus) {
+            visit((Minus) expression);
+        } else if (expression instanceof Multiplication) {
+            visit((Multiplication) expression);
+        } else if (expression instanceof Division) {
+            visit((Division) expression);
+        } else if (expression instanceof Addition) {
+            visit((Addition) expression);
+        } else if (expression instanceof Subtraction) {
+            visit((Subtraction) expression);
+        } else if (expression instanceof GreaterThan) {
+            visit((GreaterThan) expression);
+        } else if (expression instanceof GreaterEqual) {
+            visit((GreaterEqual) expression);
+        } else if (expression instanceof LessEqual) {
+            visit((LessEqual) expression);
+        } else if (expression instanceof Equal) {
+            visit((Equal) expression);
+        } else if (expression instanceof NotEqual) {
+            visit((NotEqual) expression);
+        } else if (expression instanceof LogicalAnd) {
+            visit((LogicalAnd) expression);
+        } else if (expression instanceof LogicalOr) {
+            visit((LogicalOr) expression);
+        } else if (expression instanceof VariableReference) {
+            visit((VariableReference) expression);
+        } else if (expression instanceof Literal) {
+            visit((Literal) expression);
         }
-    }
-
-    @Override
-    public void visit(UnaryExpression unaryExpression) {
-        System.out.println("Visiting unary expression " + unaryExpression.getClass().getSimpleName() + " :"  + unaryExpression.getStartLine());
     }
 
     @Override
@@ -149,13 +125,6 @@ public class ASTNodeAbstractVisitor implements ASTNodeVisitor {
     public void visit(Minus minus) {
         System.out.println("Visiting minus " + minus.getClass().getSimpleName() + " :" + minus.getStartLine());
         visit(minus.getExpression());
-    }
-
-    @Override
-    public void visit(BinaryExpression binaryExpression) {
-        System.out.println("Visiting binary expression " + binaryExpression.getClass().getSimpleName() + " :" + binaryExpression.getStartLine());
-        visit(binaryExpression.getLeftSide());
-        visit(binaryExpression.getRightSide());
     }
 
     @Override

@@ -4,7 +4,7 @@ import java.util
 
 import _root_.ql.{ QLBaseVisitor, QLLexer, QLParser }
 import nl.uva.se.sc.niro.model.Expressions._
-import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, DecAnswer, IntAnswer, StringAnswer }
+import nl.uva.se.sc.niro.model.Expressions.answers._
 import nl.uva.se.sc.niro.model._
 import org.antlr.v4.runtime.tree.RuleNode
 import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
@@ -104,7 +104,9 @@ object QLFormParser extends Logging {
     override def visitDecConst(ctx: QLParser.DecConstContext): Expression = {
       DecAnswer(BigDecimal(ctx.DecValue().getText))
     }
-
+    override def visitDateConst(ctx: QLParser.DateConstContext): Expression = {
+      DateAnswer(ctx.DateValue().getText)
+    }
     override def visitStringConst(ctx: QLParser.StringConstContext): Expression = {
       StringAnswer(ctx.TEXT().getText)
     }

@@ -40,6 +40,7 @@ AND          : '&&' ;
 NEG          : '!' ;
 PERIOD       : '.' ;
 
+DateValue    : [0-9][0-9][0-9][0-9] '-' [0-9][0-9] '-' [0-9][0-9] ;
 IntValue     : [1-9][0-9]* ;
 DecValue     : [1-9][0-9]* PERIOD [0-9]+ ;
 Identifier   : [a-zA-Z0-9_]+ ;
@@ -67,6 +68,7 @@ expression : BRACK_LEFT expression BRACK_RIGHT                 # GroupExpr
            | Identifier                                        # Var
            | IntValue                                          # IntConst
            | DecValue                                          # DecConst
+           | DateValue                                         # DateConst
            | TEXT                                              # StringConst
            | bool                                              # BoolConst ;
 

@@ -1,4 +1,5 @@
 package nl.uva.se.sc.niro.gui
+
 import java.lang
 import java.time.format.DateTimeFormatter
 import java.util.function.UnaryOperator
@@ -17,7 +18,7 @@ object WidgetFactory {
   private val INTEGER_MASK = "\\d*"
   private val DECIMAL_MASK = "\\d*(\\.\\d*)?"
   private val MONEY_MASK = "\\d*(\\.\\d{0,2})?"
-  private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+  private val DATE_FORMAT = "yyyy-MM-dd"
 
   def makeWidgets(question: Question, symbolTable: Map[String, Expression]): Seq[Parent] = {
     Seq(
@@ -94,7 +95,8 @@ object WidgetFactory {
 
   def makeDateField(question: Question, value: Option[String]): Parent = {
     val dateField = new DatePicker()
-    dateField.setConverter(new LocalDateStringConverter())
+    val dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT)
+    dateField.setConverter(new LocalDateStringConverter(dateFormatter, dateFormatter))
     EditableDecorator.makeEditable(dateField, question, value)
   }
 

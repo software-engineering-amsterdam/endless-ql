@@ -22,7 +22,6 @@ def main():
     """
     # CLI
     parser = argparse.ArgumentParser(description='Python Questionnaire Language')
-    parser.add_argument(dest='file_name', help='Python input file', nargs='?')
     parser.add_argument('-v', '--version', action='store_true',
                         help="Prints the program version.")
     parser.add_argument('-t', '--test', action='store_true',
@@ -55,19 +54,8 @@ def main():
     screen = InputWindow()
     screen.show()
 
-    if args.file_name:
-        tree = run_antrl(args.file_name)
-        screen.setTree(tree)
-    else:
-        pass
-        # tree = run_antlr()
-        # print(tree.toStringTree())
-
-    # Visit
-    # visit(tree)
-
-    # Gui
-
+    tree = run_antrl(args.file_name)
+    screen.setTree(tree)
 
     sys.exit(app.exec_())
 

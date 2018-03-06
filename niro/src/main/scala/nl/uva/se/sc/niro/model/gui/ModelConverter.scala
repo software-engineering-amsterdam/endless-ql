@@ -7,7 +7,7 @@ import nl.uva.se.sc.niro.util.StringUtil
 
 object ModelConverter {
   def convert(form: QLForm): GUIModels = {
-    new GUIModels(StringUtil.splitCamelCase(form.formName), convert(BooleanAnswer(true), form.statements))
+    new GUIModels(StringUtil.addSpaceOnCaseChange(form.formName), convert(BooleanAnswer(true), form.statements))
   }
 
   def convert(visible: Expression, statements: Seq[Statement]): Seq[QuestionInfo] = {

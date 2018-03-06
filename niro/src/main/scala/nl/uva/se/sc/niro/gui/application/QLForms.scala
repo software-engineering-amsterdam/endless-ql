@@ -15,7 +15,7 @@ object QLForms {
 
   @throws[IOException]
   def openHomeScreen(stage: Stage): Unit = {
-    val root = FXMLLoader.load(classOf[QLForms].getResource(HOME_SCREEN)).asInstanceOf[Parent]
+    val root = FXMLLoader.load[Parent](classOf[QLForms].getResource(HOME_SCREEN))
     val scene = new Scene(root)
     stage.setTitle("QL Forms")
     stage.setScene(scene)

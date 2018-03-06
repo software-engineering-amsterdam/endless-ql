@@ -42,7 +42,7 @@ class QLHomeController extends QLBaseController {
   @throws[IOException]
   private def createSceneForForm(form: QLForm) = {
     val loader = new FXMLLoader(getClass.getResource(QLForms.FORM_SCREEN))
-    val root = loader.load.asInstanceOf[Parent]
+    val root: Parent = loader.load[Parent]
     loader.getController.asInstanceOf[QLFormController].populateForm(form)
     new Scene(root)
   }

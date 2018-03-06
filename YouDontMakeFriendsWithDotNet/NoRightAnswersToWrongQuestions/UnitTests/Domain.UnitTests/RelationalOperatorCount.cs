@@ -3,7 +3,7 @@
     public struct RelationalOperatorCount
     {
         public int EqualityCount;
-        public int InEqualityCount;
+        public int InequalityCount;
         public int GreaterThanCount;
         public int GreaterOrEqualCount;
         public int LessThanCount;

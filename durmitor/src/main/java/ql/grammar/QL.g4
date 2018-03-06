@@ -13,21 +13,17 @@ BOOLEAN     : 'true'
 
 STRING      : '"' (.)*? '"';
 
-DATE        : TWO_DIGITS'-'TWO_DIGITS'-'FOUR_DIGITS;
-
-MONEY       : DIGIT+ [.] TWO_DIGITS;
-
-DECIMAL     : DIGIT* [.] DIGIT+;
-
-INTEGER     : DIGIT+;
-
-FOUR_DIGITS : TWO_DIGITS TWO_DIGITS;
-
-TWO_DIGITS  : DIGIT DIGIT;
+DATE        : DIGIT DIGIT '-'DIGIT DIGIT'-'DIGIT DIGIT DIGIT DIGIT;
 
 DIGIT       : ('0'..'9');
 
-ID          : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+LOWERCASE   : ('a'..'z');
+UPPERCASE   : ('A'..'Z');
+LETTER      : (LOWERCASE | UPPERCASE);
+
+UPPERCASE3  : UPPERCASE UPPERCASE UPPERCASE;
+
+ID          : LETTER (LETTER | DIGIT | '_')*;
 
 AND         : '&&';
 OR          : '||';
@@ -62,21 +58,34 @@ computedQuestion    : label identifier ':' type '=' '(' expr ')';
 
 answerableQuestion  : label identifier ':' type;
 
+currency            : UPPERCASE3;
+
 type                : 'boolean' #BooleanType
                     | 'string'  #StringType
                     | 'integer' #IntegerType
                     | 'decimal' #DecimalType
-                    | 'money'   #MoneyType
+                    | currency  #MoneyType
                     | 'date'    #DateType
                     ;
 
 label               : STRING;
 
+digit               : DIGIT;
+
+integer             : digit+;
+
+decimal             : integer '.' digit+;
+
+number              : integer #IntegerLiteral
+                    | decimal #DecimalLiteral
+                    ;
+                    
+money               : currency value=integer('.' digit (digit)?)?;
+                    
 literal             : BOOLEAN   #BooleanLiteral
                     | STRING    #StringLiteral
-                    | INTEGER   #IntegerLiteral
-                    | DECIMAL   #DecimalLiteral
-                    | MONEY     #MoneyLiteral
+                    | money     #MoneyLiteral
+                    | number    #NumberLiteral
                     | DATE      #DateLiteral
                     ;
 

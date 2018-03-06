@@ -10,6 +10,7 @@ namespace QL_Parser.Tests.Analysis.Semantic
     {
         private FormNode _validForm;
         private FormNode _invalidForm;
+        private FormNode _duplicateComputedForm;
 
 
         [TestInitialize]
@@ -17,6 +18,7 @@ namespace QL_Parser.Tests.Analysis.Semantic
         {
             _validForm = QLParserHelper.Parse(FormExamples.SimpleForm);
             _invalidForm = QLParserHelper.Parse(FormExamples.SimpleFormWithDuplicateVars);
+            _duplicateComputedForm = QLParserHelper.Parse(FormExamples.DuplicateVarsAndComputedForm);
         }
 
         [TestMethod]
@@ -39,6 +41,16 @@ namespace QL_Parser.Tests.Analysis.Semantic
             Assert.IsFalse(hasSucceded);
             Assert.AreEqual(1, Analyser.GetErrors().Count);
             Assert.AreEqual("ERROR Duplicate identifier boughtAHouse BOOLEAN", Analyser.GetErrors()[0]);
+        }
+
+        [TestMethod]
+        public void DuplicateVariableInComputedTest()
+        {
+            var analyser = new DuplicateVariableAnalyser();
+            var hasSucceded = analyser.Analyse(_duplicateComputedForm);
+
+            Assert.IsFalse(hasSucceded);
+            Assert.AreEqual(1, Analyser.GetErrors().Count);
         }
     }
 }

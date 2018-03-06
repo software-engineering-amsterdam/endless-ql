@@ -1,4 +1,3 @@
-import { getQlParser } from "../../parsing/parsing_helpers";
 import FormNode from "../../form/nodes/FormNode";
 import Addition from "../../form/nodes/expressions/arithmetic/Addition";
 import ComputedField from "../../form/nodes/fields/ComputedField";
@@ -8,8 +7,6 @@ import BooleanLiteral from "../../form/nodes/expressions/boolean_expressions/Boo
 import Or from "../../form/nodes/expressions/boolean_expressions/Or";
 import IfCondition from "../../form/nodes/conditions/IfCondition";
 import VariableIdentifier from "../../form/nodes/expressions/VariableIdentifier";
-
-const qlParser = getQlParser();
 
 it("can parse number literals", () => {
   const input = `form taxOfficeExample {
@@ -76,4 +73,23 @@ it("can parse variables that start with reserved keyword", () => {
   const booleanVariable: VariableIdentifier = ifCondition.predicate;
   expect(booleanVariable).toBeInstanceOf(VariableIdentifier);
   expect(booleanVariable.identifier).toBe("trueVariable");
+});
+
+it("can parse floating numbers", () => {
+  const input = `form taxOfficeExample {
+                    "Did you sell a house in 2010?"
+                      hasSoldHouse: integer = (2.5)
+                 }`;
+
+  let computedField: any = null;
+
+  expect(() => {
+    computedField = getFirstStatement(input);
+  }).not.toThrow(Error);
+
+  expect(computedField).toBeInstanceOf(ComputedField);
+
+  const numberLiteral: NumberLiteral = computedField.formula;
+  expect(numberLiteral).toBeInstanceOf(NumberLiteral);
+  expect(numberLiteral.getValue()).toBe(2.5);
 });

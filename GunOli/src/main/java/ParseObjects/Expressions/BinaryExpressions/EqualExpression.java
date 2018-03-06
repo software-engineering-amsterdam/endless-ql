@@ -5,7 +5,7 @@ import ParseObjects.Expressions.Expression;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.ExpressionConstants.BooleanConstant;
 
-public class EqualExpression extends BinaryExpression<Boolean> {
+public class EqualExpression extends BinaryExpression {
 
     public EqualExpression(Expression left, Expression right){
         super("==", left, right);
@@ -17,7 +17,7 @@ public class EqualExpression extends BinaryExpression<Boolean> {
     }
 
     @Override
-    public Constant<Boolean> evaluate() {
+    public Constant evaluate() {
         Constant left = this.getExprLeft().evaluate();
         Constant right = this.getExprRight().evaluate();
         return new BooleanConstant(left.getValue().equals(right.getValue()));

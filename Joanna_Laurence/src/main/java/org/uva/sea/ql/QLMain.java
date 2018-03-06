@@ -10,6 +10,8 @@ public class QLMain {
      Show errors in GUI
      Show warnings in GUI
 
+     Use correct types @ parsing. Leafs in AST should have other types?
+
      cyclic dependencies between questions
      No double questions in ql file. Only in if - else allowed
 

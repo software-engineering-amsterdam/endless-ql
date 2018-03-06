@@ -8,10 +8,6 @@ public class Decimal extends Numeric {
 
     @Override
     public String toString() {
-        return name();
-    }
-
-    public static String name() {
         return "decimal";
     }
 
@@ -26,8 +22,8 @@ public class Decimal extends Numeric {
     }
     
     @Override
-    public <T> T accept(TypeVisitor<T> visitor) {
-        return visitor.visit(this);
+    public void accept(TypeVisitor visitor) {
+        visitor.visit(this);
     }
     
     @Override

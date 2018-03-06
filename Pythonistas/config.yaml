@@ -4,4 +4,4 @@ program:
   python_version: 3.4.6.
 
 antlr:
-  directory: processed
+  directory: parser_generator

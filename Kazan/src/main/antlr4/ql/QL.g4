@@ -2,48 +2,16 @@ grammar QL;
 
 /* Requirements
 
-- grouping construct (for assigning characteristics to a group of questions, like style)
-- question
-    - id,
-    - label (actual question)
-    - type
-    - (optional) associated to an expression
-
-// Boolean expressions, e.g.
-&&
-||
-!
-
-// Comparisons
-<
->
->=
-<=
-!=
-==
-
-// Required types
-BOOL
-STRING
-INTEGER
-DATE
-DECIMAL
-MONEY
-
-// Additional options. Only requirement is the data type can be automatically mapped to a widget
-ENUMERATION //(e.g. good, bad, don't know)
-INTEGER_RANGE // (e.g. 1..5)
-
-
-
 TODO:
-- Refactor lexer/parser divisiion
-- Reconsider money / decimal separation
-- Implement DATE type
+- Refactor lexer/parser division
+- Remove MONEY / DECIMAL ambiguity (add money-specific symbols in front such as $ ?)
+- replace "INT" in the line valNum with INT | DECIMAL | MONEY_LITERAL to allow using numericals interchangeably (?)
+
 */
 
 
-form            : 'form'  ID  block;
+
+form            : 'form' IDENTIFIER block;
 
 block           : '{'(statement)*'}';
 statement       : question
@@ -52,74 +20,67 @@ statement       : question
                 ;
 
 
-question        : STRLIT declaration;
-declaration     : ID ':' TYPE;
+question        : STRINGLITERAL declaration;
+declaration     : IDENTIFIER ':' type;
 
-computedQuestion: STRLIT assignment;
-assignment      : (declaration | ID) '=' expr;
+computedQuestion: STRINGLITERAL declaration '=' expression;
 
-ifStatement          : 'if' '(' exprBool ')' block elseBlock?;
+ifStatement     : 'if' '(' expression ')' block elseBlock?;
 elseBlock       : 'else' block;
 
-
-expr            : exprBool
-                | exprNum
-                | exprStr
+expression      : '('expression')'                              #nestedExpression
+                | unaryOperation                                #unaryExpression
+                | left=expression ARITHMETIC right=expression   #arithMeticBinary
+                | left=expression RELATIONAL right=expression   #relationalBinary
+                | left=expression LOGICAL right=expression      #logicalBinary
+                | value                                         #expressionValue
                 ;
 
-exprBool        : '(' exprBool ')'
-                | '!' exprBool
-                | exprBool '&&' exprBool
-                | exprBool '||' exprBool
-                | exprBool '==' exprBool
-                | exprBool '!=' exprBool
-                | compNum
-                | compStr
-                | valBool
+unaryOperation  : UNARY expression
                 ;
 
-// Compare Numerical
-compNum         : exprNum COMPNUMSYM exprNum;
-compStr         : exprStr '==' exprStr
-                | exprStr '!=' exprStr
-                ;
-valBool         : BOOLLIT | ID;
-
-exprNum	        : exprNum '+' exprNum
-                | exprNum '-' exprNum
-                | exprNum '/' exprNum
-                | exprNum '*' exprNum
-                | '-' exprNum
-                | '(' exprNum ')'
-                | valNum
-                ;
-valNum	        : INTLIT | ID;
-
-exprStr	        : exprStr '+' exprStr
-                | '(' exprStr ')'
-                | valStr
+value           : BOOLEANLITERAL                                #booleanLiteral
+                | INTEGERLITERAL                                #integerLiteral
+                | STRINGLITERAL                                 #stringLiteral
+                | MONEYLITERAL                                  #moneyLiteral
+                | DECIMALLITERAL                                #decimalLiteral
+                | DATELITERAL                                   #dateLiteral
+                | IDENTIFIER                                    #variable
                 ;
 
-valStr	        : STRLIT | ID;
+
+type            : 'boolean'                                     #booleanType
+                | 'integer'                                     #integerType
+                | 'string'                                      #stringType
+                | 'money'                                       #moneyType
+                | 'decimal'                                     #decimalType
+                | 'date'                                        #dateType
+                ;
 
 
-//Types
-TYPE            : ('boolean' | 'money' | 'int' | 'float' | 'string');
-STRLIT       : '"' ('a'..'z'|'A'..'Z'|'0'..'9'|' '|'?'|'.'|','|':')* '"';
-INTLIT             : ('0'..'9')+;
-//TODO replace "INT" in the line valNum with INT | DECIMAL | MONEY_LITERAL. This will allow using numericals interchangeably. Test this thoroughly.
 
-//TODO the line which defines MONLIT is incorrect. The two INTLIT terms would allow integers of any length at these positions. We could either reuse a DIGIT term, or inline this.
-//MONLIT   : '-'? INTLIT+ '.' INTLIT INTLIT;
-DECLIT : '-'? INTLIT+ '.' INTLIT+;
-BOOLLIT : ('true' | 'false');
+//Literals
+BOOLEANLITERAL  : ('true' | 'false');
+INTEGERLITERAL  : DIGIT+;
+STRINGLITERAL   : '"' ('a'..'z'|'A'..'Z'|'0'..'9'|' '|'?'|'.'|','|':')* '"';
+MONEYLITERAL    : '-'? DIGIT+ ',' DIGIT DIGIT;
+DECIMALLITERAL  : '-'? DIGIT+ '.' DIGIT+;
+DATELITERAL     : DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT DIGIT DIGIT;
+
+IDENTIFIER      : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+DIGIT           : [0-9];
+
+//Binary Operators
+ARITHMETIC      : ('+'|'-'|'/'|'*');
+RELATIONAL      : ('<'|'<='|'>'|'>='|'=='|'!=');
+LOGICAL         : ('&&'|'||');
+
+//Unary Operators
+UNARY           : ('!'|'-');
 
 
-//Other terms
-COMPNUMSYM      : ('<'|'<='|'>'|'>='|'=='|'!=');
-ID              : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 WHITESPACE      : (' ' | '\t' | '\n' | '\r')+ -> skip;
 
-MULTI_COMMENT   : '/*' .*? '*/' -> skip;
+MULTICOMMENT    : '/*' .*? '*/' -> skip;
 
-SINGLE_COMMENT  : '//' ~[\r\n]* '\r'? '\n' -> skip;
+SINGLECOMMENT   : '//' ~[\r\n]* '\r'? '\n' -> skip;

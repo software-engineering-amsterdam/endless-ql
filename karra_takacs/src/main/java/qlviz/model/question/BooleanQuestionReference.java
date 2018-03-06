@@ -1,6 +1,7 @@
 package qlviz.model.question;
 
 import qlviz.interpreter.linker.BooleanExpressionVisitor;
+import qlviz.interpreter.linker.TypedBooleanExpressionVisitor;
 import qlviz.model.booleanExpressions.BooleanExpression;
 
 public class BooleanQuestionReference implements BooleanExpression {
@@ -14,19 +15,13 @@ public class BooleanQuestionReference implements BooleanExpression {
     }
 
     @Override
-    public boolean evaluate() {
-        if (this.question != null) {
-            return this.question.getValue();
-        }
-        else
-        {
-            return false;
-        }
+    public void accept(BooleanExpressionVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
-    public void accept(BooleanExpressionVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(TypedBooleanExpressionVisitor<T> visitor) {
+       return visitor.visit(this);
     }
 
     public BooleanQuestion getQuestion() {

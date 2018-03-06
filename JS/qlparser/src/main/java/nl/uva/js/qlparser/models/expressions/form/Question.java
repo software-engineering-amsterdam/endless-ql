@@ -3,11 +3,13 @@ package nl.uva.js.qlparser.models.expressions.form;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-import nl.uva.js.qlparser.helpers.NonNullRun;
-import nl.uva.js.qlparser.models.expressions.data.DataExpression;
-import nl.uva.js.qlparser.models.enums.DataType;
 import nl.uva.js.qlparser.exceptions.TypeMismatchException;
+import nl.uva.js.qlparser.helpers.NonNullRun;
+import nl.uva.js.qlparser.models.enums.DataType;
+import nl.uva.js.qlparser.models.expressions.data.DataExpression;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,18 +22,15 @@ public class Question implements FormExpression {
     private DataExpression value;
 
     @Override
-    public List<String> getComponents() {
-        return Collections.singletonList(getQuestionnaireComponent());
-    }
+    public List<Component> getComponents() {
+        Panel panel = new Panel();
+        panel.setLayout(new GridLayout(1,2));
 
-    private String getQuestionnaireComponent() {
-        String component = dataType.getComponent().get();
+        JLabel label = new JLabel(question, JLabel.TRAILING);
+        panel.add(label);
+        panel.add(dataType.getComponent().get());
 
-        return component;
-    }
-    public String getHtmlType() {
-        // TODO: Map types to html type
-        return "text";
+        return Collections.singletonList(panel);
     }
 
     @Override

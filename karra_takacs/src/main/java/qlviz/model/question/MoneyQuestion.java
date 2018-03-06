@@ -1,11 +1,12 @@
 package qlviz.model.question;
 
+import qlviz.QLParser;
 import qlviz.model.numericExpressions.NumericExpression;
 
 public class MoneyQuestion extends NumericQuestion {
 
-   public MoneyQuestion(String name, String text, QuestionType type, NumericExpression valueExpression) {
-        super(name, text, type, valueExpression);
+   public MoneyQuestion(String name, String text, QuestionType type, NumericExpression valueExpression, QLParser.QuestionContext context) {
+        super(name, text, type, valueExpression, context);
     }
 
     @Override

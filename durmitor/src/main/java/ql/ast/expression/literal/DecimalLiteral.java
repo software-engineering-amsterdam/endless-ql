@@ -24,7 +24,7 @@ public class DecimalLiteral extends Literal<Number> {
     }
 
     public DecimalLiteral(String value) {
-        this.value = Double.parseDouble(value);
+        this.value = (value == null || value.isEmpty())? 0.0 : Double.valueOf(value);
     }
 
     public DecimalLiteral(double value) {

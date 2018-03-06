@@ -25,7 +25,7 @@ public class IntLiteral extends NumberLiteral implements ExpressionVisitable {
     }
 
     public IntLiteral(String value) {
-        this.value = Integer.parseInt(value);
+        this.value = (value == null || value.isEmpty())? 0 : Integer.valueOf(value);
     }
 
     public IntLiteral(int value) {

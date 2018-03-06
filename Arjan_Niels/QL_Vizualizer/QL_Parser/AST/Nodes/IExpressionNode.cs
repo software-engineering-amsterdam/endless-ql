@@ -3,6 +3,7 @@
     public interface IExpressionNode
     {
         NodeType GetNodeType();
+
         QValueType GetQValueType();
     }
 }

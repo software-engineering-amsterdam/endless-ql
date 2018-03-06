@@ -103,7 +103,7 @@ arithOp
     | MULT
     ;
 
-oper
+op
     : boolOp
     | compOp
     | arithOp
@@ -129,7 +129,7 @@ expression
     | value
     | LP expression RP
     | NOT expression
-    | expression oper expression
+    | expression op expression
     ;
 
 question

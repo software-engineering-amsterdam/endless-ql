@@ -1,19 +1,16 @@
-import classes.Form;
 import gui.FormBuilder;
-import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parsing.AST_Visitor;
 import parsing.gen.QLLexer;
 import parsing.gen.QLParser;
+import typechecking.TypeChecker;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class Main {
 
@@ -36,23 +33,28 @@ public class Main {
             HashMap memory = (HashMap) builder.visit(tree);
 
             //Test output
-            Iterator it = memory.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry)it.next();
-                System.out.println(pair.getKey() + " = " + pair.getValue());
-                it.remove();
-            }
+            //Iterator it = memory.entrySet().iterator();
+            //while (it.hasNext()) {
+            //      Map.Entry pair = (Map.Entry)it.next();
+            //      System.out.println(pair.getKey() + " = " + pair.getValue());
+            //      it.remove();
+            //}
             System.out.println("done");
 
+            //Construct the form
+            //ParseTree parseTree = parser.form();
+            //Form form = (Form) parseTree.accept(builder);
+
             //Call parse tree inspector: Show the tree
-            Trees.inspect(tree, parser);
+            //Trees.inspect(tree, parser);
 
-            //TODO: Perform the typechecking
-            //TypeChecker typeChecker = new TypeChecker();
+            //Do typechecking
+            TypeChecker typeChecker = new TypeChecker();
+            //typeChecker.initTypeChecking(form);
 
-            //Build the form, pass the form from the tree
-            //Form form = tree;
+            //Pass the relevant questions to the UI builder
             FormBuilder formBuilder = new FormBuilder();
+            formBuilder.initComponents(memory);
 
         } catch (IOException e) {
             e.printStackTrace();

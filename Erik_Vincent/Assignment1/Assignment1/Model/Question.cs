@@ -1,6 +1,8 @@
-﻿namespace Assignment1
+﻿using System;
+
+namespace Assignment1.Model
 {
-    public class Question : Content
+    public abstract class Question : Content
     {
         public string Id { get; }
         public string Label { get; }
@@ -14,26 +16,88 @@
         public Expression Expression;
         public bool Computed;
 
-        public Question(string id, string label)
+        protected Question(string id, string label)
         {
             Id = id;
             Label = label;
         }
     }
 
-    internal class QuestionBool : Question
+    public class QuestionBool : Question
     {
         public QuestionBool(string id, string label) : base(id, label)
         {
             Value = false;
         }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 
-    internal class QuestionMoney : Question
+    public class QuestionDate : Question
+    {
+        public QuestionDate(string id, string label) : base(id, label)
+        {
+            Value = DateTime.Today;
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionDecimal : Question
+    {
+        public QuestionDecimal(string id, string label) : base(id, label)
+        {
+            Value = 0;
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionInt : Question
+    {
+        public QuestionInt(string id, string label) : base(id, label)
+        {
+            Value = 0;
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionMoney : Question
     {
         public QuestionMoney(string id, string label) : base(id, label)
         {
-            Value = 0.0;
+            Value = 0;
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionString : Question
+    {
+        public QuestionString(string id, string label) : base(id, label)
+        {
+            Value = "";
+        }
+
+        public override void Accept(IContentVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

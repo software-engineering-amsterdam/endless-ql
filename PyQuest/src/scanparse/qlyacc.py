@@ -21,6 +21,12 @@ from AST.expressions.unary_operators.negation import NegationOperatorNode
 from AST.statements.form_node import FormNode
 from AST.statements.if_node import IfNode
 from AST.statements.question_node import QuestionNode
+from AST.types.type_boolean import TypeBoolean
+from AST.types.type_integer import TypeInteger
+from AST.types.type_string import TypeString
+from AST.types.type_date import TypeDate
+from AST.types.type_money import TypeMoney
+from AST.types.type_decimal import TypeDecimal
 
 
 class QLParser:
@@ -44,7 +50,7 @@ class QLParser:
     @staticmethod
     def p_form(p):
         """form : FORM VAR LBRACKET statements RBRACKET"""
-        p[0] = FormNode(p.lineno(1), p[4], p[2])
+        p[0] = FormNode(Position(p.lineno(1), p.lexpos(1)), p[4], p[2])
 
     @staticmethod
     def p_statements(p):
@@ -180,16 +186,36 @@ class QLParser:
         """expression : FLOAT"""
         p[0] = DecimalNode(Position(p.lineno(1), p.lexpos(1)), int, p[1])
 
-    # Other
+    # Types
     @staticmethod
-    def p_type(p):
-        """type : INTEGER
-                | DECIMAL
-                | BOOLEAN
-                | STRING
-                | DATE
-                | MONEY"""
-        p[0] = p[1]
+    def p_boolean(p):
+        """type : BOOLEAN"""
+        p[0] = TypeBoolean()
+
+    @staticmethod
+    def p_decimal(p):
+        """type : DECIMAL"""
+        p[0] = TypeDecimal()
+
+    @staticmethod
+    def p_string(p):
+        """type : STRING"""
+        p[0] = TypeString()
+
+    @staticmethod
+    def p_date(p):
+        """type : DATE"""
+        p[0] = TypeDate()
+
+    @staticmethod
+    def p_money(p):
+        """type : MONEY"""
+        p[0] = TypeMoney()
+
+    @staticmethod
+    def p_integer(p):
+        """type : INTEGER"""
+        p[0] = TypeInteger()
 
     # Error handling
     @staticmethod

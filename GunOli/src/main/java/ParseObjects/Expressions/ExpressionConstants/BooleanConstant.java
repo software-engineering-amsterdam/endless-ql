@@ -1,6 +1,5 @@
 package ParseObjects.Expressions.ExpressionConstants;
 
-import ParseObjects.Expressions.Constant;
 import ParseObjects.Expressions.EvaluationType;
 
 public class BooleanConstant extends Constant<Boolean> {
@@ -9,5 +8,10 @@ public class BooleanConstant extends Constant<Boolean> {
 
     public EvaluationType returnType(){
         return EvaluationType.Boolean;
+    }
+
+    @Override
+    public Boolean isLogical(){
+        return true;
     }
 }

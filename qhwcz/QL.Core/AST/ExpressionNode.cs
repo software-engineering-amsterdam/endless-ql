@@ -1,20 +1,21 @@
 ﻿using Antlr4.Runtime;
-using QL.Core.Ast.Visitors;
 
 namespace QL.Core.Ast
 {
     public class ExpressionNode : Node
     {
-        public ExpressionNode(IToken token, string opperator) : base(token)
+        public ExpressionNode(IToken token, string @operator) : base(token)
         {
-            Opperator = opperator;
+            Operator = @operator;
         }
 
-        public string Opperator { get; }
+        public string Operator { get; }
+        public bool IsBinary => ChildNodes.Count == 2;
+        public bool IsUnary => ChildNodes.Count == 1;
 
-        protected override void VisitNode(IVisitor visitor)
+        protected override T VisitNode<T>(IVisitor<T> visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
     }
 }

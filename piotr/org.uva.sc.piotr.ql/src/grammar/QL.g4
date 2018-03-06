@@ -4,136 +4,93 @@ grammar QL;
  * Parser Rules
  */
 
-form            : 'form' id=Identifier '{' block+ '}';
+form            
+    :   'form' id=IDENTIFIER BEGIN statement* END;
 
-block           : question | ifBlock;
+statement
+    : question
+    | ifStatement
+    ;
 
-question        : label=String fieldDefinition;
+question        
+    :   label=STRING variableName=IDENTIFIER ':' variableType=dataType (OP_ASSIG expression)?;
 
-fieldDefinition : fieldName=Identifier ':' fieldType=dataType assignment?;
+dataType
+    : TYPE_BOOLEAN  #TypeDeclarationBoolean
+    | TYPE_STRING   #TypeDeclarationString
+    | TYPE_INTEGER  #TypeDeclarationInteger
+    | TYPE_DECIMAL  #TypeDeclarationDecimal
+    ;
 
-assignment      : '=' arithmeticExpression;
+ifStatement
+    :   IF '(' condition=expression ')' BEGIN statement* END elseStatement?
+    ;
 
-dataType        : TYPE_BOOLEAN | TYPE_STRING | TYPE_INTEGER | TYPE_DECIMAL | TYPE_DATE | dataTypeMoney ;
+elseStatement
+    : ELSE BEGIN statement* END
+    ;
 
-dataTypeMoney   : TYPE_MONEY '(' currency=CurrencyCode ')'           # MoneyTypeDeclarationWithCurrency
-                | TYPE_MONEY                                # MoneyTypeDeclarationVoid
-                ;
-
-ifBlock         : 'if' '(' condition ')' '{' block* '}';
-
-condition       : logicalExpression ;
-
-logicalExpression
-                : logicalExpression AND logicalExpression   # LogicalExpressionAnd
-                | logicalExpression OR logicalExpression    # LogicalExpressionOr
-                | comparisonExpression                      # LogicalExpressionComparison
-                | NOT logicalExpression                     # LogicalExpressionNegation
-                | '(' logicalExpression ')'                 # LogicalExpressionInParen
-                | logicalEntity                             # LogicalExpressionEntity
-                ;
-
-comparisonExpression
-                : comparisonOperand comparisionOperator comparisonOperand   # ComparisonExpressionWithOperator
-                | '(' comparisonExpression ')'                              # ComparisonExpressionParens
-                ;
-
-comparisonOperand
-                : arithmeticExpression
-                ;
-
-comparisionOperator
-                : GT
-                | GE
-                | LT
-                | LE
-                | EQ
-                | NEQ
-                ;
-
-arithmeticExpression
-                : arithmeticExpression MULT arithmeticExpression    # ArithmeticExpressionMult
-                | arithmeticExpression DIV arithmeticExpression     # ArithmeticExpressionDiv
-                | arithmeticExpression PLUS arithmeticExpression    # ArithmeticExpressionPlus
-                | arithmeticExpression MINUS arithmeticExpression   # ArithmeticExpressionMinus
-                | MINUS arithmeticExpression                        # ArithmeticExpressionNegation
-                | '(' arithmeticExpression ')'                      # ArithmeticExpressionParens
-                | numericEntity                                     # ArithmeticExpressionNumericEntity
-                | moneyEntity                                       # ArithmeticExpressionMoneyEntity
-                | stringEntity                                      # ArithmeticExpressionMoneyEntity
-                | dateEntity                                        # ArithmeticExpressionDateEntity
-                | logicalEntity                                     # ArithmeticExpressionLogicalEntity
-                ;
-
-logicalEntity   : (TRUE | FALSE)                    # LocicalConst
-                | Identifier                        # LogicalVariable
-                ;
-
-numericEntity   : Decimal                           # DecimalNumericConst
-                | Integer                           # IntegerNumericConst
-                | variableReference                 # NumericVariable
-                ;
-
-dateEntity      : '@' year=Integer '-' month=Integer '-' day=Integer    # DateValue
-                | variableReference                                     # DateVariable
-                ;
-
-stringEntity    : text=String                       # StringValue
-                | variableReference                 # StringVariable
-                ;
-
-moneyEntity     : CurrencyCode '(' Decimal ')'      # MoneyValue
-                | variableReference                 # MoneyVariable
-                ;
-
-variableReference
-                : name=Identifier
-                ;
-
-CurrencyCode    : 'A'..'Z''A'..'Z''A'..'Z' // iso4217
-                ;
-
+expression
+    : '(' expression ')'                                            #ExpressionParenthesises
+    | OP_NOT expression                                             #ExpressionNegation
+    | OP_MINUS expression                                           #ExpressionArithmeticMinus
+    | lhs=expression binaryOperator=OP_MULT rhs=expression          #ExpressionArithmeticMultiplication
+    | lhs=expression binaryOperator=OP_DIV rhs=expression           #ExpressionArithmeticDivision
+    | lhs=expression binaryOperator=OP_PLUS rhs=expression          #ExpressionArithmeticAddition
+    | lhs=expression binaryOperator=OP_MINUS rhs=expression         #ExpressionArithmeticSubtraction
+    | lhs=expression binaryOperator=OP_GT rhs=expression            #ExpressionComparisionGreaterThan
+    | lhs=expression binaryOperator=OP_GE rhs=expression            #ExpressionComparisionGreaterEqual
+    | lhs=expression binaryOperator=OP_LT rhs=expression            #ExpressionComparisionLessThan
+    | lhs=expression binaryOperator=OP_LE rhs=expression            #ExpressionComparisionLessEqual
+    | lhs=expression binaryOperator=OP_EQ rhs=expression            #ExpressionComparisionEqual
+    | lhs=expression binaryOperator=OP_NEQ rhs=expression           #ExpressionComparisionNotEqual
+    | lhs=expression binaryOperator=OP_AND rhs=expression           #ExpressionLogicalAnd
+    | lhs=expression binaryOperator=OP_OR rhs=expression            #ExpressionLogicalOr
+    | variableReference=IDENTIFIER                                  #ExpressionVariableReference
+    | value=(STRING | INTEGER | DECIMAL | BOOL_TRUE | BOOL_FALSE)   #ExpressionSingleValue
+;
 
 /*
  * Lexer Rules
  */
 
-AND : '&&' ;
-OR  : '||' ;
+OP_AND : '&&' ;
+OP_OR  : '||' ;
 
-NOT : '!';  
-ASSIG : '=';
+OP_NOT : '!';  
+OP_ASSIG : '=';
 
-MULT  : '*' ;
-DIV   : '/' ;
-PLUS  : '+' ;
-MINUS : '-' ;
+OP_MULT  : '*' ;
+OP_DIV   : '/' ;
+OP_PLUS  : '+' ;
+OP_MINUS : '-' ;
 
-GT : '>' ;
-GE : '>=' ;
-LT : '<' ;
-LE : '<=' ;
-EQ : '==' ;
-NEQ : '!=';
+OP_GT : '>' ;
+OP_GE : '>=' ;
+OP_LT : '<' ;
+OP_LE : '<=' ;
+OP_EQ : '==' ;
+OP_NEQ : '!=';
+
+IF      : 'if';
+ELSE    : 'else';
+
+BEGIN   : '{';
+END     : '}';
 
 TYPE_BOOLEAN    : 'boolean';
 TYPE_STRING     : 'string';
 TYPE_INTEGER    : 'integer';
-TYPE_DECIMAL    : 'decimal';
-TYPE_MONEY      : 'money';
-TYPE_DATE       : 'date';
+TYPE_DECIMAL    : 'decimal' | 'money';
 
-TRUE    : 'true' | 'TRUE';
-FALSE   : 'false' | 'FALSE';
+BOOL_TRUE    : 'true' | 'TRUE';
+BOOL_FALSE   : 'false' | 'FALSE';
 
 WS  :	(' ' | '\t' | '\n' | '\r')  -> skip;
 
 COMMENT : '/*' .*? '*/'  -> skip;
 
-Identifier:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-
-Integer: ('0'..'9')+;
-String: '"' .*? '"';
-Decimal: [0-9]+'.'[0-9]+;
-
-
+IDENTIFIER:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+INTEGER: ('0'..'9')+;
+STRING: '"' .*? '"';
+DECIMAL: [0-9]+'.'[0-9]+;

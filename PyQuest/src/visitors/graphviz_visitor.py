@@ -39,22 +39,20 @@ class ASTVisitor(object):
     # BaseNode will not be initialized directly
     @visitor.when(BaseNode)
     def visit(self, node):
-        print("Unrecognized node:", node)
+        pass
 
     # BlockStatementNode will not be initialized directly
     @visitor.when(BlockStatementNode)
     def visit(self, node):
-        print("Unrecognized node:", node)
+        pass
 
     @visitor.when(FormNode)
     def visit(self, node):
-        self.graph.node(node.label, node.label)
-        self.parent = node.label
+        self.graph.node(node.identifier, node.identifier)
+        self.parent = node.identifier
 
         for child in node.block:
             child.accept(self)
-
-        print("Found form node: " + node.label)
 
     @visitor.when(IfNode)
     def visit(self, node):
@@ -69,35 +67,33 @@ class ASTVisitor(object):
 
     @visitor.when(QuestionNode)
     def visit(self, node):
-        self.graph.node(node.label, node.label)
-        self.graph.edge(self.parent, node.label)
+        previous_parent = self.insert_graph_node('question: {}\ntype: {}'.format(node.identifier, node.answer_type))
 
-        if node.expression:
-            node.expression.accept(self)
+        if node.answer:
+            node.answer.accept(self)
 
-        print("Found node: " + node.question)
+        self.parent = previous_parent
 
     # ExpressionNode will not be initialized directly
     @visitor.when(ExpressionNode)
     def visit(self, node):
-        print("Unrecognized node:", node)
+        pass
 
     # BinaryOperatorNode will not be initialized directly
     @visitor.when(BinaryOperatorNode)
     def visit(self, node):
-        print("Unrecognized node:", node)
+        pass
 
     # UnaryOperatorNode will not be initialized directly
     @visitor.when(UnaryOperatorNode)
     def visit(self, node):
-        print("Unrecognized node:", node)
+        pass
 
     @visitor.when(VariableNode)
     def visit(self, node):
         identifier = str(uuid4())
-        self.graph.node(identifier, node.identifier)
+        self.graph.node(identifier, 'var: {}'.format(node.identifier))
         self.graph.edge(self.parent, identifier)
-        print("Variable node.")
 
     @visitor.when(AdditionOperatorNode)
     def visit(self, node):
@@ -212,14 +208,12 @@ class ASTVisitor(object):
         identifier = str(uuid4())
         self.graph.node(identifier, 'int: {}'.format(node.value))
         self.graph.edge(self.parent, identifier)
-        print(node.value)
 
     @visitor.when(DecimalNode)
     def visit(self, node):
-        # identifier = str(uuid4())
-        # self.graph.node(identifier, node.value)
-        # self.graph.edge(self.parent, identifier)
-        print(node.value)
+        identifier = str(uuid4())
+        self.graph.node(identifier, 'int: {}'.format(node.value))
+        self.graph.edge(self.parent, identifier)
 
     def insert_graph_node(self, label):
         identifier = str(uuid4())

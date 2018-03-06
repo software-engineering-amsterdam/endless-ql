@@ -67,8 +67,8 @@ public class GUI {
                     
                     @Override
                     public void run() {
-                        panel.setPreferredSize(new Dimension(frame.getWidth(), frame.getHeight()));
-                        panel.revalidate();
+//                        panel.setPreferredSize(new Dimension(frame.getWidth(), frame.getHeight()));
+//                        panel.revalidate();
                     }
                 });
             }

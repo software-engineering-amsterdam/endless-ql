@@ -8,9 +8,9 @@ import Or from "../nodes/expressions/boolean_expressions/Or";
 import {
   assertBoolean, assertComparable, assertNumeric, assertSameType, assertString,
   assertValidDivision
-} from "../typechecking/typeAssertions";
+} from "../type_checking/type_assertions";
 import Variable from "../nodes/expressions/VariableIdentifier";
-import { NotImplementedYetError, UnkownFieldError, UnkownVariableIdentifierError } from "../form_errors";
+import { UnkownVariableIdentifierError } from "../form_errors";
 import BooleanLiteral from "../nodes/expressions/boolean_expressions/BooleanLiteral";
 import Division from "../nodes/expressions/arithmetic/Division";
 import Subtraction from "../nodes/expressions/arithmetic/Subtraction";

@@ -1,9 +1,8 @@
 ﻿using Antlr4.Runtime;
-using QL.Core.Ast.Visitors;
 using System.Collections.Generic;
 
 namespace QL.Core.Ast
-{ 
+{
     public abstract class Node
     {
         protected readonly IToken _token;
@@ -11,13 +10,17 @@ namespace QL.Core.Ast
 
         public void AddChild(Node node)
         {
+            if (node == null)
+            {
+                return;
+            }
+
             _childNodes.Add(node);
         }
 
-        public void Accept(IVisitor visitor)
+        public T Accept<T>(IVisitor<T> visitor)
         {
-            VisitNode(visitor);
-            VisitChildren(visitor);
+            return VisitNode(visitor);
         }
 
         protected Node(IToken token)
@@ -25,14 +28,9 @@ namespace QL.Core.Ast
             _token = token;
         }
 
-        protected abstract void VisitNode(IVisitor visitor);
+        protected abstract T VisitNode<T>(IVisitor<T> visitor);
 
-        private void VisitChildren(IVisitor visitor)
-        {
-            foreach (Node child in _childNodes)
-            {
-                child.Accept(visitor);
-            }
-        }
+        public IToken Token => _token;
+        public IList<Node> ChildNodes => _childNodes;
     }
 }

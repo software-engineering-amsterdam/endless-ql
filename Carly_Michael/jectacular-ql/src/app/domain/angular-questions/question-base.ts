@@ -1,4 +1,5 @@
 import { FormGroup } from '@angular/forms';
+import {LiteralType} from '../ast';
 
 export class QuestionBase<T> {
   value: T;
@@ -7,7 +8,8 @@ export class QuestionBase<T> {
   required: boolean;
   order: number;
   controlType: string;
-  hiddenCondition: (form: FormGroup) => boolean;
+  hiddenCondition: (form: FormGroup) => LiteralType;
+  calculateValue: (form: FormGroup) => T;
   readonly: boolean;
 
   constructor(options: {
@@ -17,7 +19,8 @@ export class QuestionBase<T> {
     required?: boolean,
     order?: number,
     controlType?: string,
-    hiddenCondition?: (form: FormGroup) => boolean
+    hiddenCondition?: (form: FormGroup) => LiteralType,
+    calculateValue?: (form: FormGroup) => T
     readonly?: boolean
   } = {}) {
     this.value = options.value;
@@ -27,6 +30,7 @@ export class QuestionBase<T> {
     this.order = options.order === undefined ? 1 : options.order;
     this.controlType = options.controlType || '';
     this.hiddenCondition = options.hiddenCondition || (() => true);
+    this.calculateValue = options.calculateValue || (() => this.value);
     this.readonly = options.readonly || false;
   }
 }

@@ -3,15 +3,15 @@ package nl.uva.js.qlparser.models.expressions.form;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-import nl.uva.js.qlparser.helpers.NonNullRun;
-import nl.uva.js.qlparser.models.expressions.data.DataExpression;
-import nl.uva.js.qlparser.models.enums.DataType;
 import nl.uva.js.qlparser.exceptions.TypeMismatchException;
+import nl.uva.js.qlparser.helpers.NonNullRun;
+import nl.uva.js.qlparser.models.enums.DataType;
+import nl.uva.js.qlparser.models.expressions.data.DataExpression;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Builder
@@ -21,24 +21,16 @@ public class Question implements FormExpression {
     @NonNull private DataType dataType;
     private DataExpression value;
 
-    private static final Map<String, String> mapDataTypeToHtml = new HashMap<String, String>() {
-        {
-            put(DataType.BOOLEAN.getTypeString(), "\"checkbox\"");
-            put(DataType.DATE.getTypeString(),    "\"date\"");
-            put(DataType.DECIMAL.getTypeString(), "\"number\" step=\".1\"");
-            put(DataType.MONEY.getTypeString(),   "\"number\" step=\".01\"");
-            put(DataType.INTEGER.getTypeString(), "\"number\"");
-            put(DataType.STRING.getTypeString(),  "\"text\"");
-        }
-    };
-
     @Override
-    public List<String> getComponents() {
-        return Collections.singletonList(dataType.getTypeString());
-    }
+    public List<Component> getComponents() {
+        Panel panel = new Panel();
+        panel.setLayout(new GridLayout(1,2));
 
-    public String getHtmlType() {
-        return mapDataTypeToHtml.get(dataType.getTypeString());
+        JLabel label = new JLabel(question, JLabel.TRAILING);
+        panel.add(label);
+        panel.add(dataType.getComponent().get());
+
+        return Collections.singletonList(panel);
     }
 
     @Override

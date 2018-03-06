@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.gui.util
 
-import nl.uva.se.sc.niro.parser.ParseErrorInfo
+import nl.uva.se.sc.niro.parser.errors.ParseErrorInfo
 
 import scala.collection.mutable.ListBuffer
 

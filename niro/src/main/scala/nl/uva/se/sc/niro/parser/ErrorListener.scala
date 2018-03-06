@@ -3,6 +3,7 @@ package nl.uva.se.sc.niro.parser
 import java.util
 import java.util.Collections
 
+import nl.uva.se.sc.niro.parser.errors.{ ParseErrorInfo, SyntaxErrorInfo }
 import org.antlr.v4.runtime.atn.ATNConfigSet
 import org.antlr.v4.runtime.dfa.DFA
 import org.antlr.v4.runtime.misc.Interval

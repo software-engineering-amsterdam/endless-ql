@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.parser
+package nl.uva.se.sc.niro.parser.errors
 
 import org.antlr.v4.runtime.RecognitionException
 

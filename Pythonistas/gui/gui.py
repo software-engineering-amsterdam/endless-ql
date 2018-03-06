@@ -80,8 +80,8 @@ class OutputWindow(QWidget):
 
     def add_question(self, question):
         # Adds questions and answer option
-        datatype = question.split(":", 1)[1]
-        question = question.split('"')[1]
+        datatype = question  # .split(":", 1)[1]
+        question = question  # .split('"')[1]
         choices = ['Yes', 'No']
 
         self.layout.addWidget(QLabel(question))

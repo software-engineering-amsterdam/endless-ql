@@ -1,43 +1,55 @@
 package main;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import models.ast.ASTBuilder;
+import ast.visitors.filters.QuestionsFilter;
+import ast.visitors.filters.ReferencesFilter;
+import ast.ASTBuilder;
 import grammar.QLLexer;
 import grammar.QLParser;
-import models.ast.elements.Form;
+import ast.model.Form;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import validators.QuestionsValidator;
+import validators.VariablesReferencesValidator;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CharStream charStream = CharStreams.fromFileName("./example-ql/form1.ql");
+        CharStream charStream = CharStreams.fromFileName("./example-ql/form1.qlform");
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
         QLParser qlParser = new QLParser(commonTokenStream);
 
         QLParser.FormContext formContext = qlParser.form();
 
-//        TypeChecker checker = new TypeChecker();
-//
-//        checker.visitForm(formContext);
-//
-//        checker.validate();
+        ASTBuilder astBuilder = new ASTBuilder();
+        Form form = astBuilder.visitForm(formContext);
 
-//        System.out.println(formContext.toStringTree(qlParser));
+        // questions graph for type validator
+        QuestionsFilter questionsFilter = new QuestionsFilter();
+        form.accept(questionsFilter);
 
+        // list of references (?)
+        ReferencesFilter referencesFilter = new ReferencesFilter();
+        form.accept(referencesFilter);
 
-        ASTBuilder ast = new ASTBuilder();
-        Form form = ast.visitForm(formContext);
+        // Type checking
 
-        Gson gsonBuilder = new GsonBuilder().create();
-        String jsonForm = gsonBuilder.toJson(form);
+        // undeclared variables usage
+        VariablesReferencesValidator.validateVariablesUsage(
+                questionsFilter.getQuestions(),
+                referencesFilter.getVariableReferences()
+        );
 
-        System.out.println(jsonForm);
+        // duplicate question declarations with different types
+        QuestionsValidator.validateDuplicates(questionsFilter.getQuestions());
 
-        //form.debugPrint();
+        // duplicate labels (warning)
+        try {
+            QuestionsValidator.validateLabels(questionsFilter.getQuestions());
+        } catch (Exception e) {
+            System.out.println("Warning: " + e.getMessage());
+        }
 
         System.out.println("Main finish.");
 

@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro;
 
-import nl.uva.se.sc.niro.gui.ErrorUtil;
+import nl.uva.se.sc.niro.gui.util.ErrorUtil;
 import nl.uva.se.sc.niro.parser.QLFormParser;
 import org.junit.Test;
 import org.junit.runner.RunWith;

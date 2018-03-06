@@ -9,6 +9,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import nl.uva.se.sc.niro.gui.util.ErrorUtil;
 import nl.uva.se.sc.niro.model.QLForm;
 import nl.uva.se.sc.niro.parser.QLFormParser;
 import org.antlr.v4.runtime.CharStreams;

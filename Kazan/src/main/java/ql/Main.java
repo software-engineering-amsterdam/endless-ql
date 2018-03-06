@@ -1,11 +1,26 @@
 package ql;
 
+import ql.ast.Form;
+import ql.gui.FormView;
 import ql.parser.ASTBuilder;
+import ql.validator.Validator;
 
 public class Main {
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         String fileName = "src/input/ql/formIf.ql";
-        ASTBuilder formGenerator = new ASTBuilder();
-        formGenerator.loadFile(fileName);
+
+        ASTBuilder astBuilder = new ASTBuilder();
+        Form form = astBuilder.buildASTFromFile(fileName);
+        
+        Validator validator = new Validator();
+        if (!validator.passesTypeChecks(form)) {
+            System.err.println("Form not passing validation");
+            System.exit(1);
+        } else {
+            System.out.println("Successfully passed all checks");
+        }
+
+        FormView formViewer = new FormView();
+        // formViewer.start(form);
     }
 }

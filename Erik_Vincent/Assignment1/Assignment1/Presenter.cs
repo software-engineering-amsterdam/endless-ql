@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using Assignment1.Model;
 
@@ -18,8 +19,39 @@ namespace Assignment1
 
         public Presenter()
         {
-            _form = QuestionForm.ParseString(System.IO.File.ReadAllText("test.txt"));
-            UpdateControls();
+            QLListener listener = QuestionForm.ParseString(System.IO.File.ReadAllText("test.txt"));
+            if (listener.FormHasErrors)
+            {
+                ReportFormErrors(listener.Errors);
+            } else
+            {
+                _form = listener.Form;
+                UpdateControls();
+            }
+        }
+
+        private void ReportFormErrors(List<string> errors)
+        {
+            var header = new Label
+            {
+                Text = "Provided form is invalid!",
+                Width = 1000,
+                Height = 30,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Arial", 12, FontStyle.Bold)
+            };
+            Panel.Controls.Add(header);
+            foreach (string error in errors)
+            {
+                var label = new Label
+                {
+                    Text = error,
+                    Width = 1000,
+                    Font = new Font("Arial", 10),
+                    ForeColor = Color.Red
+                };
+                Panel.Controls.Add(label);
+            }
         }
 
         private void UpdateControls()

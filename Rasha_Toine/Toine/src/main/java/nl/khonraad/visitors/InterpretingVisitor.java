@@ -1,23 +1,23 @@
 package nl.khonraad.visitors;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import nl.khonraad.ExpressionLanguageBaseVisitor;
 import nl.khonraad.ExpressionLanguageParser;
 import nl.khonraad.domain.AnswerableQuestion;
-import nl.khonraad.domain.AsnwerableQuestions;
 import nl.khonraad.domain.ComputedQuestion;
-import nl.khonraad.domain.ComputedQuestions;
-import nl.khonraad.domain.Value;
 import nl.khonraad.domain.Type;
+import nl.khonraad.domain.Value;
 
 public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
-	public AsnwerableQuestions answerableQuestions = new AsnwerableQuestions();
-	public ComputedQuestions computedQuestions = new ComputedQuestions();
+	public Map<String,AnswerableQuestion> answerableQuestions = new HashMap<String,AnswerableQuestion>();
+	public Map<String,ComputedQuestion> computedQuestions = new HashMap<String,ComputedQuestion>();
 
 	@Override
 	public Value visitPartBlock(ExpressionLanguageParser.PartBlockContext ctx) {
@@ -38,7 +38,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 		switch (operator) {
 
 			case "-":
-				return new Value(expression.getType(), -expression.getValue());
+				return new Value(expression.getType(), -expression.getUnits());
 
 			case "+":
 				return expression;
@@ -48,7 +48,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 					throw new RuntimeException(
 							"Operator not allowed " + ctx.unaryOperator().getText() + " on " + expression.getType());
 				}
-				return new Value(expression.getType(), (expression.getValue() != 0) ? 0 : 1);
+				return new Value(expression.getType(), (expression.getUnits() != 0) ? 0 : 1);
 
 			default:
 				throw new RuntimeException("Undefined operator: \"" + ctx.unaryOperator().getText() + "\"");
@@ -73,43 +73,43 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 			case "*":
 				return new Value(resultType(left.getType(), right.getType(), operator),
-						left.getValue() * right.getValue());
+						left.getUnits() * right.getUnits());
 
 			case "/":
 				return new Value(resultType(left.getType(), right.getType(), operator),
-						left.getValue() / right.getValue());
+						left.getUnits() / right.getUnits());
 
 			case "+":
 				return new Value(resultType(left.getType(), right.getType(), operator),
-						left.getValue() + right.getValue());
+						left.getUnits() + right.getUnits());
 
 			case "-":
 				return new Value(resultType(left.getType(), right.getType(), operator),
-						left.getValue() - right.getValue());
+						left.getUnits() - right.getUnits());
 
 			case "&&":
 				return new Value(resultType(left.getType(), right.getType(), operator),
-						(left.getValue() & right.getValue()) != 0 ? 1 : 0);
+						(left.getUnits() & right.getUnits()) != 0 ? 1 : 0);
 
 			case "||":
-				int rv = (left.getValue() | right.getValue()) != 0 ? 1 : 0;
+				int rv = (left.getUnits() | right.getUnits()) != 0 ? 1 : 0;
 				return new Value(resultType(left.getType(), right.getType(), operator), rv);
 
 			case "==":
 				return new Value(resultType(left.getType(), right.getType(), operator),
-						left.getValue() == right.getValue() ? 1 : 0);
+						left.getUnits() == right.getUnits() ? 1 : 0);
 			case "<=":
 				return new Value(resultType(left.getType(), right.getType(), operator),
-						left.getValue() <= right.getValue() ? 1 : 0);
+						left.getUnits() <= right.getUnits() ? 1 : 0);
 			case ">=":
 				return new Value(resultType(left.getType(), right.getType(), operator),
-						left.getValue() >= right.getValue() ? 1 : 0);
+						left.getUnits() >= right.getUnits() ? 1 : 0);
 			case "<":
 				return new Value(resultType(left.getType(), right.getType(), operator),
-						left.getValue() < right.getValue() ? 1 : 0);
+						left.getUnits() < right.getUnits() ? 1 : 0);
 			case ">":
 				return new Value(resultType(left.getType(), right.getType(), operator),
-						left.getValue() > right.getValue() ? 1 : 0);
+						left.getUnits() > right.getUnits() ? 1 : 0);
 
 			default:
 				throw new RuntimeException(
@@ -125,7 +125,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 		if (answerableQuestions.containsKey(identifier)) {
 
-			return answerableQuestions.get(identifier);
+			return answerableQuestions.get(identifier).getValue();
 		}
 		return null;
 	}
@@ -160,9 +160,8 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 			AnswerableQuestion question = new AnswerableQuestion(key, ctx.QuotedString().getText(),
 					Type.fromString(ctx.Type().getText()));
 			answerableQuestions.put(key, question);
-			return question;
 		}
-		return answerableQuestions.get(key);
+		return answerableQuestions.get(key).getValue();
 	}
 
 	@Override
@@ -172,14 +171,12 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 		String label = ctx.QuotedString().getText();
 		Type type = Type.fromString(ctx.Type().getText());
 
-		Value expression = visit(ctx.expression());
 
-		ComputedQuestion question = new ComputedQuestion(identifier, label, type);
-		question.parseAndSetValue(String.valueOf(expression.getValue()));
+		ComputedQuestion question = new ComputedQuestion(identifier, label, new Value( type, visit(ctx.expression() ).getUnits()));
 
 		computedQuestions.put(identifier, question);
 
-		return new Value(expression.getType(), expression.getValue());
+		return question.getValue();
 	}
 
 	@Override
@@ -187,7 +184,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 		Value value = visit(ctx.expression());
 
-		if (value.getValue() != 0) {
+		if (value.getUnits() != 0) {
 			visitChildren(ctx.block());
 		}
 		return value;

@@ -22,4 +22,5 @@ public enum Type {
 		throw new RuntimeException(
 				"CHeck your grammar. Do not know how to instantiate a Type from \"" + text + "\"" );
 	}
+	
 }

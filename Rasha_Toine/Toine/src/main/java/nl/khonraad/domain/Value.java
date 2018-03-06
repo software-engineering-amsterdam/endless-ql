@@ -1,24 +1,29 @@
 package nl.khonraad.domain;
 
-import java.math.BigDecimal;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 public class Value {
 
 	private Type type;
-	private int value;
+	private int units;
 
 	public Type getType() {
 		return type;
 	}
 
-	public int getValue() {
-		return value;
+	public int getUnits() {
+		return units;
 	}
 
-	public Value(Type type, int value) {
+	public Value(Type type, int units) {
 
 		this.type = type;
-		this.value = value;
+		if (type == Type.Boolean) {
+			this.units = units != 0 ? 1 : 0;
+			return;
+		}
+		this.units = units;
 	}
 
 	public Value(Type type, String string) {
@@ -28,70 +33,57 @@ public class Value {
 		switch (type) {
 
 			case Money: {
-				value = (int) (Double.valueOf(string) * 100);
+				units = (int) (Double.valueOf(string) * 100);
 				break;
 			}
 
 			case Integer: {
-				value = Integer.parseInt(string);
+				units = Integer.parseInt(string);
 				break;
 			}
 
 			case Boolean: {
 				switch (string) {
 					case "True":
-						value = 1;
+						units = 1;
 						break;
 					case "False":
-						value = 0;
+						units = 0;
 						break;
 				}
 			}
 		}
 	}
 
-	public Value parseAndSetValue(String s) {
-
-		this.value = parseValue(s);
-		return this;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + units;
+		return result;
 	}
 
-	private int parseValue(String s) {
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Value other = (Value) obj;
+		if (type != other.type)
+			return false;
+		if (units != other.units)
+			return false;
+		return true;
+	}
 
-		switch (type) {
-
-			case Money: {
-				BigDecimal d = new BigDecimal(s);
-				return (int) (d.doubleValue() * 100);
-			}
-
-			case Integer: {
-				return Integer.parseInt(s);
-			}
-
-			case Boolean: {
-				switch (s) {
-					case "True":
-						return 1;
-					case "False":
-						return 0;
-					default: {
-						try {
-							int i = Integer.parseInt(s);
-							if (i != 0) {
-								i = 1;
-							}
-							return i;
-						} catch (NumberFormatException numberFormatException) {
-							throw new RuntimeException("What do you mean by [" + s + "]?");
-						}
-					}
-				}
-			}
-			default:
-				throw new RuntimeException(
-						"Check Antlr grammar. You defined a type there that isn't implemented here: \"" + type + "\"");
-		}
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE).append("type", type).append("value", units)
+				.toString();
 	}
 
 }

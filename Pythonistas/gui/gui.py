@@ -5,14 +5,14 @@ is parsed, and a second window, OutputWindow opens. The Outputwindow contains an
  questionnaire, encoded by the input text.
 """
 import sys
-from visitor.visitor import *
+import visitor.visitor as visitorscript
 from PyQt5.QtWidgets import *
+from antlr.run_antlr import run_antrl
 
 
 class InputWindow(QWidget):
-    def __init__(self, tree):
+    def __init__(self, tree=None):
         super(InputWindow, self).__init__()
-        self.output = OutputWindow()
         self.layout = QGridLayout()
         self.layout.setSpacing(10)
         self.tree = tree
@@ -29,7 +29,7 @@ class InputWindow(QWidget):
         self.parsebutton.resize(self.parsebutton.sizeHint())
         self.layout.addWidget(self.parsebutton)
 
-        # Adds close button
+        # Adds quit button
         self.quitbutton = QPushButton('Quit', self)
         self.quitbutton.clicked.connect(QApplication.instance().quit)
         self.quitbutton.resize(self.quitbutton.sizeHint())
@@ -40,107 +40,39 @@ class InputWindow(QWidget):
         self.setGeometry(600, 600, 700, 600)
         self.setLayout(self.layout)
 
+    def set_tree(self, tree):
+        # todo: review whether this function can be actually useful
+        self.tree = tree
+
     def parse(self):
         # Parses QL input
-        self.build_gui(self.tree, self.output)
-        self.output.add_quit_button()
-        self.output.add_submit_button()
-        self.output.show()
+        self.outputWindow = OutputWindow()
 
-    def build_gui(self, tree, screen):
-        # todo: move this another py file (cleanup general)
-        def visit(tree, ):
-            ql = QLListener(tree)
-            walker = ParseTreeWalker()
-            walker.walk(ql, tree)
+        if self.qlInput.toPlainText():
+            self.tree = run_antrl(self.qlInput.toPlainText(), isFile=False)
+            self.build_gui(self.tree)
+            self.outputWindow.add_submit_button()
+            # if self.tree:
+            #     self.build_gui(self.tree)
+            # else:
+            #     self.outputWindow.no_tree_label()
+            # self.outputWindow.add_submit_button()
+        # print('below is tree')
+        # print(type(self.tree))
+        # print((self.tree))
+        # print(self.tree.depth())
+        # elif self.tree.depth() > 1:
+        elif self.tree:  # todo: bad input handling of the building of the tree
+            self.build_gui(self.tree)
+            self.outputWindow.add_submit_button()
+        else:
+            self.outputWindow.no_tree_message()
 
-        class QLListener(ParseTreeListener):
-            def __init__(self, output):
-                self.output = output
+        self.outputWindow.add_quit_button()
+        self.outputWindow.show()
 
-            # Enter a parse tree produced by QLParser#form.
-            def enterForm(self, ctx: QLParser.FormContext):
-                print('Found form')
-                print(ctx.getText())
-
-            # Exit a parse tree produced by QLParser#form.
-            def exitForm(self, ctx: QLParser.FormContext):
-                pass
-
-            # Enter a parse tree produced by QLParser#block.
-            def enterBlock(self, ctx: QLParser.BlockContext):
-                pass
-
-            # Exit a parse tree produced by QLParser#block.
-            def exitBlock(self, ctx: QLParser.BlockContext):
-                pass
-
-            # Enter a parse tree produced by QLParser#statement.
-            def enterStatement(self, ctx: QLParser.StatementContext):
-                print(ctx.getText())
-
-            # Exit a parse tree produced by QLParser#statement.
-            def exitStatement(self, ctx: QLParser.StatementContext):
-                pass
-
-            # Enter a parse tree produced by QLParser#question.
-            def enterQuestion(self, ctx: QLParser.QuestionContext):
-                screen.add_question(ctx.getText())
-
-            # Exit a parse tree produced by QLParser#question.
-            def exitQuestion(self, ctx: QLParser.QuestionContext):
-                pass
-
-            # Enter a parse tree produced by QLParser#assignment.
-            def enterAssignment(self, ctx: QLParser.AssignmentContext):
-                print(ctx.getText())
-
-            # Exit a parse tree produced by QLParser#assignment.
-            def exitAssignment(self, ctx: QLParser.AssignmentContext):
-                pass
-
-            # Enter a parse tree produced by QLParser#expression.
-            def enterExpression(self, ctx: QLParser.ExpressionContext):
-                pass
-
-            # Exit a parse tree produced by QLParser#expression.
-            def exitExpression(self, ctx: QLParser.ExpressionContext):
-                pass
-
-            # Enter a parse tree produced by QLParser#conditional.
-            def enterConditional(self, ctx: QLParser.ConditionalContext):
-                pass
-
-            # Exit a parse tree produced by QLParser#conditional.
-            def exitConditional(self, ctx: QLParser.ConditionalContext):
-                pass
-
-            # Enter a parse tree produced by QLParser#if_conditional.
-            def enterIf_conditional(self, ctx: QLParser.If_conditionalContext):
-                print('Found if')
-                print(ctx.getText())
-
-            # Exit a parse tree produced by QLParser#if_conditional.
-            def exitIf_conditional(self, ctx: QLParser.If_conditionalContext):
-                pass
-
-            # Enter a parse tree produced by QLParser#else_conditional.
-            def enterElse_conditional(self, ctx: QLParser.Else_conditionalContext):
-                pass
-
-            # Exit a parse tree produced by QLParser#else_conditional.
-            def exitElse_conditional(self, ctx: QLParser.Else_conditionalContext):
-                pass
-
-            # Enter a parse tree produced by QLParser#types.
-            def enterTypes(self, ctx: QLParser.TypesContext):
-                pass
-
-            # Exit a parse tree produced by QLParser#types.
-            def exitTypes(self, ctx: QLParser.TypesContext):
-                pass
-
-        visit(tree)
+    def build_gui(self, tree):
+        visitorscript.visit(tree, self.outputWindow)
 
 
 class OutputWindow(QWidget):
@@ -195,10 +127,10 @@ class OutputWindow(QWidget):
         self.answers[self.questions.index(sender.question)] = sender.answer
 
     def add_quit_button(self):
-        quit_button = QPushButton('Quit', self)
-        quit_button.clicked.connect(self.close)
-        quit_button.resize(quit_button.sizeHint())
-        self.layout.addWidget(quit_button)
+        close_button = QPushButton('Close', self)
+        close_button.clicked.connect(self.close)
+        close_button.resize(close_button.sizeHint())
+        self.layout.addWidget(close_button)
         # self.row +=1
 
     def add_submit_button(self):
@@ -215,9 +147,5 @@ class OutputWindow(QWidget):
             file.write(self.questions[i]+str(self.answers[i])+"\n")
         file.close()
 
-if __name__ == '__main__':
-    screen = InputWindow()
-
-
-
-    sys.exit()
+    def no_tree_message(self):
+        self.layout.addWidget(QLabel('Invalid input'))

@@ -4,20 +4,26 @@ from processed.antlr.QLListener import *
 from processed.antlr.QLParser import QLParser
 
 
-def visit(tree, ):
-    ql = QLListener(tree)
+def visit(tree, outputWindow):
+    ql = QLListener(outputWindow)
     walker = ParseTreeWalker()
     walker.walk(ql, tree)
 
+# def visit(tree, ):
+#     ql = QLListener(tree)
+#     walker = ParseTreeWalker()
+#     walker.walk(ql, tree)
+
 
 class QLListener(ParseTreeListener):
-    def __init__(self, output):
-        self.output = output
+    def __init__(self, outputWindow):
+        self.outputWindow = outputWindow
 
     # Enter a parse tree produced by QLParser#form.
     def enterForm(self, ctx: QLParser.FormContext):
-        print('Found form')
-        print(ctx.getText())
+        # print('Found form')
+        # print(ctx.getText())
+        pass
 
     # Exit a parse tree produced by QLParser#form.
     def exitForm(self, ctx:QLParser.FormContext):
@@ -35,7 +41,8 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#statement.
     def enterStatement(self, ctx:QLParser.StatementContext):
-        print(ctx.getText())
+        # print(ctx.getText())
+        pass
 
     # Exit a parse tree produced by QLParser#statement.
     def exitStatement(self, ctx:QLParser.StatementContext):
@@ -44,7 +51,8 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#question.
     def enterQuestion(self, ctx:QLParser.QuestionContext):
-        print(ctx.getText())
+        self.outputWindow.add_question(ctx.getText())
+        # print(ctx.getText())
 
     # Exit a parse tree produced by QLParser#question.
     def exitQuestion(self, ctx:QLParser.QuestionContext):
@@ -53,7 +61,8 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#assignment.
     def enterAssignment(self, ctx:QLParser.AssignmentContext):
-        print(ctx.getText())
+        # print(ctx.getText())
+        pass
 
     # Exit a parse tree produced by QLParser#assignment.
     def exitAssignment(self, ctx:QLParser.AssignmentContext):

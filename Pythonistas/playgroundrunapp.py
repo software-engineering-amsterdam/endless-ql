@@ -1,3 +1,5 @@
+
+
 # -*- coding: utf-8 -*-
 """
 Documentation goes here:
@@ -46,18 +48,13 @@ def main():
         os.system('SET CLASSPATH=.;C:\\Javalib\\antlr-4.7.1-complete.jar;')
         os.system('java org.antlr.v4.Tool -Dlanguage=Python3 -visitor')#.format('/usr/local/lib/antlr-4.7.1-complete.jar',
                                                         #           config['antlr']['directory']))
-
     else:
         os.system('java -jar {} -Dlanguage=Python3 antlr/QlParser.g4 -o {} -visitor'.format(
             '/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
 
-    app = QApplication(sys.argv)
-    screen = InputWindow()
-    screen.show()
 
     if args.file_name:
         tree = run_antrl(args.file_name)
-        screen.setTree(tree)
     else:
         pass
         # tree = run_antlr()
@@ -67,7 +64,9 @@ def main():
     # visit(tree)
 
     # Gui
-
+    app = QApplication(sys.argv)
+    screen = InputWindow(tree)
+    screen.show()
 
     sys.exit(app.exec_())
 

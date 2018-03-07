@@ -29,17 +29,6 @@ class FormNode:
         for statement in self.block:
             statement.linkVars(varDict)
 
-    """
-    Traversal called after linkVars is called, this one is used to return a dictionary that holds the questions
-    of the program along with their scope (if they are in a conditional or not). The output will be used to
-    generate questions
-    
-    """
-    def getQLOrder(self):
-        for statement in self.block:
-            self.qlOrder[statement.getQLName()] = statement.getQLOrder()
-        return self.qlOrder
-
     def getQLName(self):
         return self.name
 

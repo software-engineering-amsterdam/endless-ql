@@ -73,8 +73,8 @@ def main(argv):
     # pass tree to visitor
     qlVisitor = QLVisitor()
     qlVisitor.visit(qlTree)
-    # print(visitor.QLAst)
 
+    # Get and validate AST -------------------
     ast = qlVisitor.getAst()
     ast.linkVars()
     ast.checkTypes()

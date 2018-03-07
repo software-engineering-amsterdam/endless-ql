@@ -22,8 +22,6 @@ class Question_Generator:
     def prepare_questions(self):
         questions = []
         qtypes = []
-        f = self.ast.getQLOrder()
-        printDict(f)
         # for var in self.varDict:
         #     cur_node = self.varDict[var]['assign']
         #     if cur_node.getNodeType() == "Question":

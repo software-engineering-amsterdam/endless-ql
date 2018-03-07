@@ -28,16 +28,10 @@ class QuestionNode:
             new_entry["assign"] = self
             varDict[varname] = new_entry
 
-    # Traversal called after linkVars is called, this one is used to return a dictionary that holds the questions
-    # of the program along with their scope (if they are in a conditional or not). The output will be used to
-    # generate questions
-    def getQLOrder(self):
-        return self.question
-
     def getNodeType(self):
         return self.nodeType
 
-    def getQLName(self):
+    def getVarName(self):
         return self.varNode.getVarname()
 
     def getQuestion(self):

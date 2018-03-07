@@ -24,6 +24,7 @@ import BinaryOperator from "../expressions/BinaryOperator";
 import VisitorCallback from "./VisitorCallback";
 import TreeNode from "../TreeNode";
 import Statement from "../Statement";
+import DateLiteral from "../expressions/literals/DateLiteral";
 
 export default class NodeTraveller implements NodeVisitor {
   private post: VisitorCallback;
@@ -149,6 +150,10 @@ export default class NodeTraveller implements NodeVisitor {
 
   visitStringLiteral(stringLiteral: StringLiteral): any {
     return this.visitPreAndPost(stringLiteral);
+  }
+
+  visitDateLiteral(dateLiteral: DateLiteral): any {
+    return this.visitPreAndPost(dateLiteral);
   }
 
 }

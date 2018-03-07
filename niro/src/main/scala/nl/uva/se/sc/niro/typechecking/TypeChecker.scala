@@ -9,8 +9,9 @@ import org.apache.logging.log4j.scala.Logging
 import CycleDetection._
 
 object TypeChecker extends Logging {
+
   /** Performs all type checking tasks. Early aborts when one of the tasks returns a TypeCheckError
-  * */
+    * */
   def pipeline(qLForm: QLForm): Either[TypeCheckError, QLForm] =
     for {
       _ <- checkOperandsOfInvalidTypeToOperators(qLForm)

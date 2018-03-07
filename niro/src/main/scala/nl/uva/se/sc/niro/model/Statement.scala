@@ -3,16 +3,6 @@ package nl.uva.se.sc.niro.model
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.model.expressions._
 
-case class QLForm(formName: String, statements: Seq[Statement]) {
-  val symbolTable: Map[String, Expression] =
-    Statement.collectAllQuestions(statements).map(q => (q.id, q.expression)).toMap
-
-  def save(questionId: String, answer: Answer): QLForm = {
-    val updatedStatements = Statement.saveAnswer(questionId, answer, statements)
-    QLForm(formName, updatedStatements)
-  }
-}
-
 sealed trait Statement
 case class Question(
     id: String,
@@ -68,8 +58,4 @@ object Statement {
       case c: Conditional                    => Seq(c.copy(thenStatements = saveAnswer(questionId, answer, c.thenStatements)))
     }
   }
-}
-
-object QLForm {
-  type SymbolTable = Map[String, Expression]
 }

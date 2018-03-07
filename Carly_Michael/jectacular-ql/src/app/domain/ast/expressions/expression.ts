@@ -22,7 +22,7 @@ export abstract class Expression {
       ` and col ${this.location.start.column} and line ${this.location.end.line} and col ${this.location.end.column}`;
   }
 
-  //TODO: see if switch can be deleted
+  // TODO: see if switch can be deleted
   protected toExpressionType(questionType: QuestionType): ExpressionType {
     switch (questionType) {
       case QuestionType.DECIMAL:

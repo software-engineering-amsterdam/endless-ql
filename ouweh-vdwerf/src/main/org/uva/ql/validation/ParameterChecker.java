@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class ParameterChecker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
+public class ParameterChecker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String>, Checker {
 
     private SymbolTable symbolTable;
     private Map<String, List<Parameter>> expressions;
@@ -28,15 +28,10 @@ public class ParameterChecker implements StatementVisitor<Void, String>, Express
         for (Statement statement : form.getStatements()) {
             statement.accept(this, null);
         }
-
-        checkForMissingParameters(symbolTable);
     }
 
-    public Map<String, List<Parameter>> getExpressions() {
-        return this.expressions;
-    }
-
-    private void checkForMissingParameters(SymbolTable symbolTable) {
+    @Override
+    public void runCheck() {
         for (HashMap.Entry<String, List<Parameter>> entry : expressions.entrySet()) {
             for (Parameter parameter : entry.getValue()) {
                 if (!symbolTable.contains(parameter.getID())) {
@@ -44,6 +39,10 @@ public class ParameterChecker implements StatementVisitor<Void, String>, Express
                 }
             }
         }
+    }
+
+    public Map<String, List<Parameter>> getExpressions() {
+        return this.expressions;
     }
 
     @Override

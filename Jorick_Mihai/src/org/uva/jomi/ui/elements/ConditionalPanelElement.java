@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.interpreter.BooleanValue;
+import org.uva.jomi.ql.interpreter.EmptyValue;
 import org.uva.jomi.ql.interpreter.GenericValue;
 import org.uva.jomi.ui.QLInterpreter;
 import org.uva.jomi.ui.SymbolTable;
@@ -51,10 +52,11 @@ public class ConditionalPanelElement implements BaseElement, ComputingInterface{
 	public void update() {
 		QLInterpreter interpreter = new QLInterpreter();
 				
-		BooleanValue value = (BooleanValue) this.expression.visitExpr(interpreter);;
-		if(value == null) {
+		GenericValue genericValue = this.expression.visitExpr(interpreter);
+		if(genericValue instanceof EmptyValue) {
 			return;
 		}
+		BooleanValue value = (BooleanValue) genericValue;
 		
 		this.ifPanel.setVisible(value.getValue());
 		this.elsePanel.setVisible(!value.getValue());

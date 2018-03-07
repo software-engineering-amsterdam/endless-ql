@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.uva.jomi.ql.interpreter.EmptyValue;
 import org.uva.jomi.ql.interpreter.GenericValue;
 import org.uva.jomi.ui.elements.ComputingInterface;
 
@@ -32,11 +33,11 @@ public class SymbolTable {
 		}
 	}
 	
-	public Object get(String key) {
+	public GenericValue get(String key) {
 		if(this.contains(key)) {
 			return this.symbolTable.get(key);	
 		}
-		return null;
+		return new EmptyValue();
 	}
 	
 	public void remove(String key) {

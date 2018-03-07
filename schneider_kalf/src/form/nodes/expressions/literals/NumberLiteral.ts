@@ -9,12 +9,12 @@ export default class NumberLiteral extends AbstractTreeNode implements Expressio
   private value: number;
 
   static fromString(text: string) {
+    if (Number.isNaN(Number(text))) {
+      throw ValueIsNaNError.make(text);
+    }
+
     let type: FieldType = FieldType.Float;
     let value: number = parseFloat(text);
-
-    if (isNaN(value)) {
-      throw ValueIsNaNError.make(value);
-    }
 
     if (text.indexOf('.') === -1) {
       type = FieldType.Integer;

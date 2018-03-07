@@ -3,18 +3,11 @@ package nl.uva.js.qlparser.models.expressions.form;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import nl.uva.js.qlparser.exceptions.TypeMismatchException;
-import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.models.enums.DataType;
-import nl.uva.js.qlparser.models.expressions.data.DataExpression;
 import nl.uva.js.qlparser.models.expressions.data.Variable;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ItemEvent;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,17 +22,26 @@ public class Question implements FormExpression {
     @Override
     public List<Component> getComponents() {
         Panel panel = new Panel();
-        panel.setLayout(new GridLayout(1,2));
+        GridLayout layout = new GridLayout(1,2);
 
-        JComponent component = dataType.getComponent().get();
+        layout.setHgap(10);
+        panel.setLayout(layout);
 
-        if (component instanceof JTextField)
-            ((JTextField) component).getDocument().addDocumentListener(new TextChangeListener((JTextField) component));
-        else if (component instanceof JCheckBox)
-            ((JCheckBox) component).addItemListener(e -> variable.setValue(e.getStateChange() == ItemEvent.SELECTED));
+        JComponent component = dataType.getComponent().apply(variable);
 
-        panel.add(new JLabel(question, JLabel.TRAILING));
+//        if (component instanceof JTextField)
+//            ((JTextField) component).getDocument().addDocumentListener(new TextChangeListener((JTextField) component));
+//        else if (component instanceof JCheckBox)
+//            ((JCheckBox) component).addItemListener(e -> variable.setValue(e.getStateChange() == ItemEvent.SELECTED));
+
+        JLabel label = new JLabel(question, JLabel.LEFT);
+
+        panel.add(label);
         panel.add(component);
+        panel.setSize(new Dimension(600, 40));
+        panel.setPreferredSize(new Dimension(600, 40));
+        panel.setMaximumSize(new Dimension(600, 40));
+        panel.setMinimumSize(new Dimension(600, 40));
 
         return Collections.singletonList(panel);
     }
@@ -47,29 +49,5 @@ public class Question implements FormExpression {
     @Override
     public void checkType() {
         variable.checkAndReturnType();
-    }
-
-    @RequiredArgsConstructor
-    class TextChangeListener implements DocumentListener {
-        @NonNull private JTextField textField;
-
-        private void updateValue() {
-            variable.setValue(variable.getDataType().getValueOf().apply(textField.getText()));
-        }
-
-        @Override
-        public void insertUpdate(DocumentEvent documentEvent) {
-            updateValue();
-        }
-
-        @Override
-        public void removeUpdate(DocumentEvent documentEvent) {
-            updateValue();
-        }
-
-        @Override
-        public void changedUpdate(DocumentEvent documentEvent) {
-
-        }
     }
 }

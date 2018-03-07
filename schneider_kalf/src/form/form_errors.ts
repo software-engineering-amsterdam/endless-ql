@@ -211,3 +211,18 @@ export class CannotFindCommonFieldTypeError extends FormError {
     return error;
   }
 }
+
+export class ValueIsInvalidDateError extends FormError {
+  value: string;
+
+  static make(value: string, message?: string) {
+    if (typeof message === 'undefined') {
+      message = `Cannot parse date since it is invalid ${value}.`;
+    }
+
+    const error = new ValueIsInvalidDateError(message);
+    error.value = value;
+    Object.setPrototypeOf(error, ValueIsInvalidDateError.prototype);
+    return error;
+  }
+}

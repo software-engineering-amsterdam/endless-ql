@@ -15,6 +15,7 @@ import LargerThanOrEqual from "../expressions/comparisons/LargerThanOrEqual";
 import SmallerThan from "../expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../expressions/comparisons/SmallerThanOrEqual";
 import StringLiteral from "../expressions/literals/StringLiteral";
+import DateLiteral from "../expressions/literals/DateLiteral";
 
 /**
  * Visitor that visits every node that extends the Expression class.
@@ -53,6 +54,8 @@ interface ExpressionVisitor {
   visitSmallerThanOrEqual(smallerThanOrEqual: SmallerThanOrEqual): any;
 
   visitStringLiteral(stringLiteral: StringLiteral): any;
+
+  visitDateLiteral(dateLiteral: DateLiteral): any;
 }
 
 export default ExpressionVisitor;

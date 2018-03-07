@@ -46,6 +46,7 @@ export default class SetParentsVisitor implements StyleNodeVisitor {
 
   private setParent(node: StyleTreeNode, children: StyleTreeNode[]) {
     node.setParent(this.parent);
+    // TODO: Fix wrong implementation, previous element will be set as parent
     this.parent = node;
     children.forEach(child => this.queue.push(child));
     this.workQueue();

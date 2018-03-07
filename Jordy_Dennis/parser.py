@@ -6,14 +6,11 @@
 import sys
 import pprint
 from antlr4 import *
-<<<<<<< HEAD
 from parse_grammar import main_parser
 from question_generator import Question_Generator
-=======
 from parse_grammar import generateParsers
 import logging
 from GUI import Gui
->>>>>>> 28712ee8a903b8277f9a674895c2bb1f7c46386b
 
 # Generate the lexer and parser for the grammar
 generateParsers()
@@ -78,18 +75,11 @@ def main(argv):
     qlVisitor = QLVisitor()
     qlVisitor.visit(qlTree)
     # print(visitor.QLAst)
-<<<<<<< HEAD
-    ast = visitor.getAst()
-    varDict = ast.linkVars()
-    # printDict(varDict)
-    ast.checkTypes()
-    qg = Question_Generator(varDict, ast)
 
-=======
     ast = qlVisitor.getAst()
     ast.linkVars()
     ast.checkTypes()
-
+    qg = Question_Generator(varDict, ast)
     # QLS
     if len(argv)>2:
         input_file = argv[2]

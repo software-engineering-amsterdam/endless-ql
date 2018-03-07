@@ -1,7 +1,7 @@
 package org.uva.sea.gui.model;
 
-import org.uva.sea.dataObject.QuestionData;
-import org.uva.sea.evaluate.valueTypes.StringValue;
+import org.uva.sea.ql.interpreter.dataObject.QuestionData;
+import org.uva.sea.ql.interpreter.evaluate.valueTypes.StringValue;
 
 public class StringQuestionModel extends BaseQuestionModel {
 

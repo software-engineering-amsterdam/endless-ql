@@ -5,14 +5,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.uva.sea.dataObject.InterpreterResult;
-import org.uva.sea.dataObject.QuestionData;
-import org.uva.sea.evaluate.valueTypes.ErrorValue;
-import org.uva.sea.evaluate.valueTypes.Value;
-import org.uva.sea.exceptions.EvaluationException;
-import org.uva.sea.exceptions.StaticAnalysisError;
-import org.uva.sea.evaluate.SymbolTable;
-import org.uva.sea.visitor.BaseValueVisitor;
+import org.uva.sea.ql.interpreter.Interpreter;
+import org.uva.sea.ql.interpreter.dataObject.InterpreterResult;
+import org.uva.sea.ql.interpreter.dataObject.QuestionData;
+import org.uva.sea.ql.interpreter.evaluate.valueTypes.ErrorValue;
+import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
+import org.uva.sea.ql.interpreter.exceptions.EvaluationException;
+import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
+import org.uva.sea.ql.interpreter.evaluate.SymbolTable;
+import org.uva.sea.ql.interpreter.visitor.BaseValueVisitor;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -124,7 +125,7 @@ public class QLEvaluatorTest extends TestCase {
                 String variableType = matcher.group(2);
                 String variableValue = matcher.group(3);
 
-                Class dynamicClass = Class.forName("org.uva.sea.evaluate.valueTypes." + variableType);
+                Class dynamicClass = Class.forName("org.uva.sea.ql.interpreter.evaluate.valueTypes." + variableType);
                 Value value = (Value) dynamicClass.getDeclaredConstructor(String.class).newInstance(variableValue);
 
                 symbolTable.addOrUpdateValue(variableName, value);
@@ -144,7 +145,7 @@ public class QLEvaluatorTest extends TestCase {
     private InterpreterResult getDisplayedQuestions(String fileName) throws IOException, EvaluationException, StaticAnalysisError, ReflectiveOperationException {
 
         SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
-        QLSpecificationEvaluator qlSpecificationEvaluator = new QLSpecificationEvaluator();
+        Interpreter qlSpecificationEvaluator = new Interpreter();
         InterpreterResult questions = qlSpecificationEvaluator.generate(fileName, symbolTable);
 
         if (checkForRuntimeErrors(questions.getQuestions())) {

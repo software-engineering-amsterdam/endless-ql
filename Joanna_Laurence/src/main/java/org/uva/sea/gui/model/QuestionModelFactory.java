@@ -1,6 +1,6 @@
 package org.uva.sea.gui.model;
 
-import org.uva.sea.dataObject.QuestionData;
+import org.uva.sea.ql.interpreter.dataObject.QuestionData;
 
 public interface QuestionModelFactory {
 

@@ -1,7 +1,7 @@
 package org.uva.sea.gui.model;
 
-import org.uva.sea.dataObject.QuestionData;
-import org.uva.sea.evaluate.valueTypes.ErrorValue;
+import org.uva.sea.ql.interpreter.dataObject.QuestionData;
+import org.uva.sea.ql.interpreter.evaluate.valueTypes.ErrorValue;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class ErrorQuestionModel extends BaseQuestionModel {

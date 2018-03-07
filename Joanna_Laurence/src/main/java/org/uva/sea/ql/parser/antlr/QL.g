@@ -2,15 +2,15 @@ grammar QL;
 
 @parser::header
 {
-    package org.uva.sea.ql.parser.antlr;
-    import org.uva.sea.ql.parser.elements.*;
-    import org.uva.sea.ql.parser.elements.expressions.*;
-    import org.uva.sea.ql.parser.elements.types.*;
+    package org.uva.sea.ql.antlr;
+    import org.uva.sea.ql.elements.*;
+    import org.uva.sea.ql.elements.expressions.*;
+    import org.uva.sea.ql.elements.types.*;
 }
 
 @lexer::header
 {
-    package org.uva.sea.ql.parser.antlr;
+    package org.uva.sea.ql.antlr;
 }
 
 form returns [Form result]

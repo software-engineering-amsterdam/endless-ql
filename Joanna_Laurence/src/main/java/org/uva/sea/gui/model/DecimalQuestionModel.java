@@ -1,7 +1,7 @@
 package org.uva.sea.gui.model;
 
-import org.uva.sea.dataObject.QuestionData;
-import org.uva.sea.evaluate.valueTypes.DecimalValue;
+import org.uva.sea.ql.interpreter.dataObject.QuestionData;
+import org.uva.sea.ql.interpreter.evaluate.valueTypes.DecimalValue;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class DecimalQuestionModel extends BaseQuestionModel {

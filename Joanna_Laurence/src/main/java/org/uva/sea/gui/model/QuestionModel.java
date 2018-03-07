@@ -1,11 +1,11 @@
 package org.uva.sea.gui.model;
 
-import org.uva.sea.dataObject.InterpreterResult;
-import org.uva.sea.exceptions.StaticAnalysisError;
-import org.uva.sea.QLSpecificationEvaluator;
-import org.uva.sea.dataObject.QuestionData;
-import org.uva.sea.evaluate.SymbolTable;
-import org.uva.sea.evaluate.valueTypes.Value;
+import org.uva.sea.ql.interpreter.dataObject.InterpreterResult;
+import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
+import org.uva.sea.ql.interpreter.Interpreter;
+import org.uva.sea.ql.interpreter.dataObject.QuestionData;
+import org.uva.sea.ql.interpreter.evaluate.SymbolTable;
+import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,14 +14,14 @@ import java.util.List;
 public class QuestionModel {
 
     private final SymbolTable symbolTable;
-    private final QLSpecificationEvaluator formGenerator;
+    private final Interpreter formGenerator;
     private final String questionFileName;
     private InterpreterResult questions;
     private List<ValueChangeListener> listeners = new ArrayList<>();
 
 
     public QuestionModel(String questionFileName) {
-        this.formGenerator = new QLSpecificationEvaluator();
+        this.formGenerator = new Interpreter();
         this.questionFileName = questionFileName;
         this.symbolTable = new SymbolTable();
         generateQuestions();

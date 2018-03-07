@@ -3,7 +3,7 @@ package org.uva.sea.gui;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-import org.uva.sea.dataObject.QuestionData;
+import org.uva.sea.ql.interpreter.dataObject.QuestionData;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.model.QuestionModel;
 import org.uva.sea.gui.model.QuestionModelFactoryImpl;

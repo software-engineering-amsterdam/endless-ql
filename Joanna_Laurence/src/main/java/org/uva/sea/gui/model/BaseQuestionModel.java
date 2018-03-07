@@ -1,9 +1,9 @@
 package org.uva.sea.gui.model;
 
 import javafx.scene.control.Control;
-import org.uva.sea.dataObject.QuestionData;
-import org.uva.sea.evaluate.valueTypes.Value;
-import org.uva.sea.ql.NodeType;
+import org.uva.sea.ql.interpreter.dataObject.QuestionData;
+import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
+import org.uva.sea.ql.parser.NodeType;
 
 public abstract class BaseQuestionModel extends Control implements BaseQuestionGUI {
 

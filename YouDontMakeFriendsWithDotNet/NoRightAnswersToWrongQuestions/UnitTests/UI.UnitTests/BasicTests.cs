@@ -48,7 +48,6 @@ namespace UnitTests.UI.UnitTests
             Assert.Throws(constraint, () => new QuestionaireWrapper(null));
         }
 
-
         [Test]
         public void WhenQuestionnaireNameIsNull_ShouldThrowArgumentNullException()
         {
@@ -59,6 +58,34 @@ namespace UnitTests.UI.UnitTests
 
             m_questionnaire.Name = null;
             Assert.Throws(constraint, () => new QuestionaireWrapper(m_questionnaire));
+        }
+
+
+        [Test]
+        public void WhenCalculatedQuestionTextIsNull_ShouldThrowArgumentNullException()
+        {
+            var constraint = Is.TypeOf<ArgumentNullException>()
+                .And
+                .Property(nameof(ArgumentNullException.ParamName))
+                .EqualTo("text");
+
+            m_questionnaire.Name = null;
+            var id = Guid.NewGuid();
+            Assert.Throws(constraint, () => new CalculatedQuestionWrapper(id,null,"123"));
+        }
+
+
+        [Test]
+        public void WhenCalculatedQuestionValueIsNull_ShouldThrowArgumentNullException()
+        {
+            var constraint = Is.TypeOf<ArgumentNullException>()
+                .And
+                .Property(nameof(ArgumentNullException.ParamName))
+                .EqualTo("value");
+
+            m_questionnaire.Name = null;
+            var id = Guid.NewGuid();
+            Assert.Throws(constraint, () => new CalculatedQuestionWrapper(id, "rewtr", null));
         }
     }
 }

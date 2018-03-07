@@ -10,6 +10,6 @@ public class Variable extends Term {
     }
 
     public String getName() { return name; }
-    @Override
+
     public Term getTerm() { return value; }
 }

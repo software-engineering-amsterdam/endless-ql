@@ -7,6 +7,5 @@ public class Boolean extends Term {
         this.value = value;
     }
 
-    @Override
     public boolean getBoolean() { return value; }
 }

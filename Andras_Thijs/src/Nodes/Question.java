@@ -14,11 +14,7 @@ public class Question {
     private Expression expression;
     //TODO: private boolean condition;
 
-    //Possible values, only one is used in each expression.
-    private float value_float;
-    private boolean value_boolean;
-    private String value_string;
-    private Date value_date;
+    private Term result;
 
     /**
      * Creates a question with name, label, and type
@@ -78,17 +74,7 @@ public class Question {
     public void getExpressionValue() throws UnsupportedOperationException {
         Term result = expression.getValue();
         if(type.toString() == result.toString() || ((type.toString() == "money" || type.toString() == "integer") && result.toString() == "float")) {
-            switch (result.toString()) {
-                case "float":
-                    this.value_float = result.getFloat();
-                    break;
-                case "boolean":
-                    this.value_boolean = result.getBoolean();
-                    break;
-                case "string":
-                    this.value_string = result.getString();
-                    break;
-            }
+            this.result = result;
         } else {
             throw new UnsupportedOperationException(); // TODO: Change to some type error
         }

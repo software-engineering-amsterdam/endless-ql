@@ -8,9 +8,13 @@ from pyql.ast.form.ql_statements import IfElse
 from pyql.ast.ast import ASTNode
 from pyql.ast.expression.expressions import Identifier
 from pyql.util.types import Type
+from pyql.static_analysis.expression_visitor import ExpressionVisitor
 
 
 class TypeChecker:
+
+    def __init__(self):
+        self._expression_visitor = ExpressionVisitor()
 
     @multimethod(Form)
     def visit(self, form):
@@ -41,16 +45,17 @@ class TypeChecker:
         print("Visiting if else statement")
         if_else_statement.if_block.accept(self)
         if_else_statement.else_block.accept(self)
+        if_else_statement.expression.accept(self._expression_visitor)
 
     @multimethod(If)
     def visit(self, if_statement):
         print("Visiting if statement")
         if_statement.block.accept(self)
+        if_statement.expression.accept(self._expression_visitor)
 
     @multimethod(Identifier)
     def visit(self, identifier):
         print("Visiting identifier {0}".format(identifier))
-        pass
 
     @multimethod(Type)
     def visit(self, type):
@@ -59,4 +64,3 @@ class TypeChecker:
     @multimethod(ASTNode)
     def visit(self, node):
         print("ASTNode: {0}".format(node))
-        pass

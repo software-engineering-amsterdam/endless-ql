@@ -28,9 +28,9 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
 
         val context = ctx!!
 
-        context.NAME()?.let {
-            println("Name ${ctx.text}")
+        println(ctx.text)
 
+        context.NAME()?.let {
             return
         }
 
@@ -105,6 +105,8 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         requireNotNull(ctx)
 
         val context = ctx!!
+
+        println(ctx.text)
 
         context.LIT_BOOLEAN()?.let {
             println("Boolean ${ctx.text}")

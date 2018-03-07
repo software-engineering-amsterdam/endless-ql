@@ -52,30 +52,6 @@ public class GrammarParserBaseListener implements GrammarParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLogical(GrammarParser.LogicalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLogical(GrammarParser.LogicalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterArithmetic(GrammarParser.ArithmeticContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArithmetic(GrammarParser.ArithmeticContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterType(GrammarParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -83,18 +59,6 @@ public class GrammarParserBaseListener implements GrammarParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitType(GrammarParser.TypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterComparison(GrammarParser.ComparisonContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitComparison(GrammarParser.ComparisonContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -112,37 +76,37 @@ public class GrammarParserBaseListener implements GrammarParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBinaryExpression(GrammarParser.BinaryExpressionContext ctx) { }
+	@Override public void enterInfixExpression(GrammarParser.InfixExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBinaryExpression(GrammarParser.BinaryExpressionContext ctx) { }
+	@Override public void exitInfixExpression(GrammarParser.InfixExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterValueExpression(GrammarParser.ValueExpressionContext ctx) { }
+	@Override public void enterNumberExpression(GrammarParser.NumberExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitValueExpression(GrammarParser.ValueExpressionContext ctx) { }
+	@Override public void exitNumberExpression(GrammarParser.NumberExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParensExpression(GrammarParser.ParensExpressionContext ctx) { }
+	@Override public void enterParenthesisExpression(GrammarParser.ParenthesisExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParensExpression(GrammarParser.ParensExpressionContext ctx) { }
+	@Override public void exitParenthesisExpression(GrammarParser.ParenthesisExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -155,6 +119,18 @@ public class GrammarParserBaseListener implements GrammarParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitComparisonExpression(GrammarParser.ComparisonExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterUnaryExpression(GrammarParser.UnaryExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUnaryExpression(GrammarParser.UnaryExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

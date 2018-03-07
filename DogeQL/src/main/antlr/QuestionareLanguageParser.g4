@@ -34,8 +34,8 @@ expression
     | expression AND expression
     | expression OR expression
     | LPAREN expression RPAREN
-    | NAME
     | literal
+    | NAME
     ;
 
 literal

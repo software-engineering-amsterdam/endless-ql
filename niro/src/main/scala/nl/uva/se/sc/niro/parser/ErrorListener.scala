@@ -3,7 +3,7 @@ package nl.uva.se.sc.niro.parser
 import java.util
 import java.util.Collections
 
-import nl.uva.se.sc.niro.parser.errors.{ ParseErrorInfo, SyntaxErrorInfo }
+import nl.uva.se.sc.niro.errors.Errors._
 import org.antlr.v4.runtime.atn.ATNConfigSet
 import org.antlr.v4.runtime.dfa.DFA
 import org.antlr.v4.runtime.misc.Interval
@@ -15,24 +15,25 @@ import scala.collection.JavaConverters
 import scala.collection.mutable.ListBuffer
 
 class ErrorListener extends Logging with ANTLRErrorListener {
-  var parseErrors = new ListBuffer[ParseErrorInfo]
+  var parseErrors = new ListBuffer[Error]
 
   override def syntaxError(
       recognizer: Recognizer[_, _],
-      offendingSymbol: scala.Any,
+      offendingSymbol: Any,
       line: Int,
       charPositionInLine: Int,
       msg: String,
       e: RecognitionException): Unit = {
     val stack = recognizer.asInstanceOf[Parser].getRuleInvocationStack
     Collections.reverse(stack)
-    parseErrors += new SyntaxErrorInfo(
+    parseErrors += SyntaxErrorInfo(
       line,
       charPositionInLine,
       offendingSymbol.toString,
       msg,
       JavaConverters.asScalaBuffer(stack).toList,
       e)
+    ()
   }
 
   override def reportAmbiguity(

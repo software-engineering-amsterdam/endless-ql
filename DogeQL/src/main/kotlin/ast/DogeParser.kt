@@ -15,7 +15,7 @@ class DogeParser {
         val lexer = QuestionareLanguageLexer(stream)
         val tokens = CommonTokenStream(lexer)
         val parser = QuestionareLanguageParser(tokens)
-        val walker = ParseTreeWalker()
+        val walker = ParseTreeWalker.DEFAULT
 
         walker.walk(DogeListener(), parser.form())
     }

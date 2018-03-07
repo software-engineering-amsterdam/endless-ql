@@ -15,15 +15,15 @@ class EvaluationVisitor: ExpressionVisitor<BaseSymbolValue> {
     }
 
     override fun visit(literal: LiteralExpression): BaseSymbolValue {
-        return literal.accept(this)
+        return literal.value
     }
 
     override fun visit(unary: UnaryExpression): BaseSymbolValue {
-        return unary.accept(this)
+        return unary.operation(unary.next.accept(this))
     }
 
     override fun visit(binary: BinaryExpression): BaseSymbolValue {
-        return binary.accept(this)
+        return binary.operation(binary.left.accept(this), binary.right.accept(this))
     }
 
 }

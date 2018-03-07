@@ -1,4 +1,4 @@
 form taxOfficeExample {
     "Is BTC gonna crash?"
-        sendHelp: int = 1 + sendHelp
+        sendHelp: int = true || (!true || false) && true
 }

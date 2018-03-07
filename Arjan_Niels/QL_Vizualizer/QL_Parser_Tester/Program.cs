@@ -32,10 +32,20 @@ namespace QL_Parser_Tester
         {
             Console.WriteLine(form);
             foreach (Node section in form.Children)
-                if (section.GetType() == typeof(QuestionNode))
-                    PrintSection(section as QuestionNode);
-                else
-                    PrintSection(section as ConditionalNode);
+                switch (section.GetNodeType())
+                {
+                    case NodeType.QUESTION:
+                        PrintSection(section as QuestionNode);
+                        break;
+                    case NodeType.COMPUTED:
+                        PrintSection(section as ComputedNode);
+                        break;
+                    case NodeType.CONDITIONAL:
+                        PrintSection(section as ConditionalNode);
+                        break;
+                    default:
+                        return;
+                }
         }
 
         public static void PrintSection(QuestionNode question)

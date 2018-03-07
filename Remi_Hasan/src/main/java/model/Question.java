@@ -1,6 +1,7 @@
 package model;
 
 import analysis.SymbolTable;
+import astvisitor.InterpreterVisitor;
 import expression.Expression;
 import expression.ReturnType;
 
@@ -23,7 +24,8 @@ public class Question {
     }
 
     public boolean isVisible(SymbolTable symbolTable) {
-        return true;
+        InterpreterVisitor interpreterVisitor = new InterpreterVisitor(symbolTable);
+        return interpreterVisitor.visit(this.condition).getBooleanValue();
     }
 
     public boolean isEditable() {

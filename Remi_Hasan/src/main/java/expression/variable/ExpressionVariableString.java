@@ -19,6 +19,6 @@ public class ExpressionVariableString extends ExpressionVariable<String> {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return null;
+        return visitor.visit(this);
     }
 }

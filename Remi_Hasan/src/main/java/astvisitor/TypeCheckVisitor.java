@@ -1,6 +1,7 @@
 package astvisitor;
 
 import expression.Expression;
+import expression.ExpressionIdentifier;
 import expression.ReturnType;
 import expression.binary.*;
 import expression.unary.ExpressionUnaryNeg;
@@ -19,6 +20,11 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
     private boolean childrenTypeCheckSucceeeds(Expression left) {
         BoolValue leftTypeCheckSucceed = left.accept(this);
         return leftTypeCheckSucceed.value;
+    }
+
+    @Override
+    public BoolValue visit(Expression e) {
+        return e.accept(this);
     }
 
     @Override
@@ -159,6 +165,16 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
 
     @Override
     public BoolValue visit(ExpressionVariableString e) {
+        return new BoolValue(true);
+    }
+
+    @Override
+    public BoolValue visit(ExpressionVariableUndefined e) {
+        return new BoolValue(true);
+    }
+
+    @Override
+    public BoolValue visit(ExpressionIdentifier e) {
         return new BoolValue(true);
     }
 }

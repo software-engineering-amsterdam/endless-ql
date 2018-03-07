@@ -5,6 +5,7 @@ import antlr.QLParser;
 import expression.Expression;
 import expression.ReturnType;
 import expression.variable.ExpressionVariableInteger;
+import expression.variable.ExpressionVariableUndefined;
 import model.Question;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {
@@ -36,9 +37,7 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
     private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType, boolean isEditable) {
         // If answer can be filled in by user, create empty (undefined) value of correct type (for type checking)
         if(isEditable) {
-            return new ExpressionVariableInteger(1);
-            // TODO remove dummy line above
-//            return new ExpressionVariableUndefined(ReturnType.valueOf(questionType.type().getText().toUpperCase()));
+            return new ExpressionVariableUndefined(ReturnType.valueOf(questionType.type().getText().toUpperCase()));
         }
 
         VisitorExpression visitorExpression = new VisitorExpression();

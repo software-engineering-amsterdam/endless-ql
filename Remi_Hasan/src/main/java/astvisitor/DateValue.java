@@ -1,10 +1,35 @@
 package astvisitor;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 public class DateValue extends Value<String>{
     DateValue(String value) {
         super(value);
+    }
+
+    @Override
+    public Boolean getBooleanValue() {
+        return null;
+    }
+
+    @Override
+    public Integer getIntValue() {
+        return null;
+    }
+
+    @Override
+    public Double getDecimalValue() {
+        return null;
+    }
+
+    @Override
+    public BigDecimal getMoneyValue() {
+        return null;
+    }
+
+    @Override
+    public String getStringValue() {
+        return null;
     }
 
     @Override
@@ -73,11 +98,8 @@ public class DateValue extends Value<String>{
     }
 
     @Override
-    public boolean equals(Object other){
-        if(other instanceof DateValue){
-            DateValue otherValue = (DateValue) other;
-            return otherValue.value.equals(otherValue.value);
-        }
+    public boolean equals(Object other) {
+        // TODO
         return false;
     }
 }

@@ -4,6 +4,7 @@ import antlr.QLBaseVisitor;
 import antlr.QLLexer;
 import antlr.QLParser;
 import expression.Expression;
+import expression.ExpressionIdentifier;
 import expression.binary.*;
 import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
@@ -125,7 +126,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitMoneyConstant(QLParser.MoneyConstantContext ctx) {
-        return new ExpressionVariableMoney(new BigDecimal(ctx.getText()));
+        return new ExpressionVariableMoney(ctx.getText());
     }
 
     @Override
@@ -140,7 +141,6 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitIdentifierConstant(QLParser.IdentifierConstantContext ctx) {
-        throw new UnsupportedOperationException("Not implemeneted");
-        //return new ExpressionIdentifier(ctx.IDENTIFIER().getText());
+        return new ExpressionIdentifier(ctx.IDENTIFIER().getText());
     }
 }

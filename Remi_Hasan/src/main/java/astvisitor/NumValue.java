@@ -2,90 +2,122 @@ package astvisitor;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 public class NumValue extends Value<BigDecimal> {
 
     NumValue(BigDecimal value) {
         super(value);
     }
-    public NumValue(Integer value) {
+
+    public NumValue(String value) {
+        super(new BigDecimal(value));
+    }
+
+    NumValue(Integer value) {
         super(new BigDecimal(value.toString()));
     }
+
     NumValue(Double value) {
         super(new BigDecimal(value.toString()));
     }
 
     @Override
-    public NumValue divide(Value right) {
+    public Boolean getBooleanValue() {
+        throw new UnsupportedOperationException("Cannot cast number to boolean");
+    }
+
+    @Override
+    public Integer getIntValue() {
+        return this.value.intValue();
+    }
+
+    @Override
+    public Double getDecimalValue() {
+        return this.value.doubleValue();
+    }
+
+    @Override
+    public BigDecimal getMoneyValue() {
+        return this.value.setScale(2, RoundingMode.CEILING);
+    }
+
+    @Override
+    public String getStringValue() {
+        throw new UnsupportedOperationException("Cannot cast number to string");
+    }
+
+    @Override
+    public Value divide(Value right) {
         NumValue rightValue = (NumValue) right;
         return new NumValue(this.value.divide(rightValue.value, MathContext.DECIMAL128));
     }
 
     @Override
-    public NumValue multiply(Value right) {
+    public Value multiply(Value right) {
         NumValue rightValue = (NumValue) right;
         return new NumValue(this.value.multiply(rightValue.value));
     }
 
     @Override
-    public NumValue subtract(Value right) {
+    public Value subtract(Value right) {
         NumValue rightValue = (NumValue) right;
         return new NumValue(this.value.subtract(rightValue.value));
     }
 
     @Override
-    public NumValue sum(Value right) {
+    public Value sum(Value right) {
         NumValue rightValue = (NumValue) right;
         return new NumValue(this.value.add(rightValue.value));
     }
 
     @Override
-    public BoolValue eq(Value right) {
+    public Value eq(Value right) {
         NumValue rightValue = (NumValue) right;
         return new BoolValue(this.value.equals(rightValue.value));
     }
 
     @Override
-    public BoolValue ge(Value right) {
+    public Value ge(Value right) {
         NumValue rightValue = (NumValue) right;
         return new BoolValue(this.value.compareTo(rightValue.value) >= 0);
     }
 
     @Override
-    public BoolValue gt(Value right) {
+    public Value gt(Value right) {
         NumValue rightValue = (NumValue) right;
         return new BoolValue(this.value.compareTo(rightValue.value) > 0);
     }
 
     @Override
-    public BoolValue le(Value right) {
+    public Value le(Value right) {
         NumValue rightValue = (NumValue) right;
         return new BoolValue(this.value.compareTo(rightValue.value) <= 0);
     }
 
     @Override
-    public BoolValue lt(Value right) {
+    public Value lt(Value right) {
         NumValue rightValue = (NumValue) right;
         return new BoolValue(this.value.compareTo(rightValue.value) < 0);
     }
 
     @Override
-    public BoolValue and(Value right) {
+    public Value and(Value right) {
         throw new UnsupportedOperationException("Cannot perform and on integer.");
     }
 
     @Override
-    public BoolValue or(Value right) {
+    public Value or(Value right) {
         throw new UnsupportedOperationException("Cannot perform or on integer.");
     }
 
     @Override
-    public BoolValue not() {
+    public Value not() {
         throw new UnsupportedOperationException("Cannot perform not on integer.");
     }
 
     @Override
-    public NumValue neg() {
+    public Value neg() {
         return new NumValue(this.value.multiply(new BigDecimal(-1.0)));
     }
 

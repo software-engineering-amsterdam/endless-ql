@@ -1,11 +1,25 @@
 package astvisitor;
 
+import analysis.SymbolTable;
+import expression.Expression;
+import expression.ExpressionIdentifier;
 import expression.binary.*;
 import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
 import expression.variable.*;
 
 public class InterpreterVisitor implements IASTVisitor<Value> {
+
+    private SymbolTable symbolTable;
+
+    public InterpreterVisitor(SymbolTable lookupTable) {
+        this.symbolTable = lookupTable;
+    }
+
+    @Override
+    public Value visit(Expression e) {
+        return e.accept(this);
+    }
 
     @Override
     public Value visit(ExpressionArithmeticDivide e) {
@@ -123,6 +137,16 @@ public class InterpreterVisitor implements IASTVisitor<Value> {
 
     @Override
     public Value visit(ExpressionVariableString e) {
-        return e.accept(this);
+        return new StringValue(e.value);
+    }
+
+    @Override
+    public Value visit(ExpressionVariableUndefined e) {
+        return new UndefinedValue(false);
+    }
+
+    @Override
+    public Value visit(ExpressionIdentifier e) {
+        return this.symbolTable.getExpression(e.identifier).accept(this);
     }
 }

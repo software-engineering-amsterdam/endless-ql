@@ -1,7 +1,7 @@
 import AbstractStyleNode from "../AbstractStyleNode";
 import SectionChild from "./SectionChild";
 import PageChild from "./PageChild";
-import FormChild from "../FormChild";
+import FormChild from "./StyleSheetChild";
 import StyleAttribute from "../StyleAttribute";
 import StyleNodeVisitor from "../../visitors/StyleNodeVisitor";
 

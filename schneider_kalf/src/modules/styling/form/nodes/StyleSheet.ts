@@ -1,12 +1,12 @@
 import AbstractStyleNode from "./AbstractStyleNode";
-import FormChild from "./FormChild";
+import StyleSheetChild from "./children/StyleSheetChild";
 import StyleNodeVisitor from "../visitors/StyleNodeVisitor";
 
 export default class Stylesheet extends AbstractStyleNode {
   readonly name: string;
-  readonly children: FormChild[];
+  readonly children: StyleSheetChild[];
 
-  constructor(name: string, children: FormChild[]) {
+  constructor(name: string, children: StyleSheetChild[]) {
     super();
     this.name = name;
     this.children = children;

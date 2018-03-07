@@ -1,5 +1,7 @@
 package astvisitor;
 
+import java.util.Date;
+
 public class DateValue extends Value<String>{
     DateValue(String value) {
         super(value);
@@ -68,5 +70,14 @@ public class DateValue extends Value<String>{
     @Override
     public NumValue neg() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object other){
+        if(other instanceof DateValue){
+            DateValue otherValue = (DateValue) other;
+            return otherValue.value.equals(otherValue.value);
+        }
+        return false;
     }
 }

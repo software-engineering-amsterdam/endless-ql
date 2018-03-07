@@ -8,7 +8,7 @@ public class NumValue extends Value<BigDecimal> {
     NumValue(BigDecimal value) {
         super(value);
     }
-    NumValue(Integer value) {
+    public NumValue(Integer value) {
         super(new BigDecimal(value.toString()));
     }
     NumValue(Double value) {
@@ -87,5 +87,14 @@ public class NumValue extends Value<BigDecimal> {
     @Override
     public NumValue neg() {
         return new NumValue(this.value.multiply(new BigDecimal(-1.0)));
+    }
+
+    @Override
+    public boolean equals(Object other){
+        if(other instanceof NumValue){
+            NumValue otherValue = (NumValue) other;
+            return otherValue.value.equals(otherValue.value);
+        }
+        return false;
     }
 }

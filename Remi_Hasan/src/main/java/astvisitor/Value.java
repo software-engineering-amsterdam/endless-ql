@@ -22,6 +22,9 @@ public abstract class Value<T> {
 
     public abstract BoolValue not();
     public abstract NumValue neg();
+
+    @Override
+    public abstract boolean equals(Object other);
 }
 
 

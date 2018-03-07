@@ -170,11 +170,11 @@ alphabet
 
 // Integer
 numberLiteral
- = minus:[-]? digits:([0-9]+) {
+ = minus:[-]? digits:([0-9\.]+) {
     var amount = digits.join("");
     if (minus)
         amount = minus.concat(amount);
-    return new Nodes.NumberLiteral(parseInt(amount))
+    return Nodes.NumberLiteral.fromString(amount);
 }
 
 // String Literal, Currently only support double quoted String

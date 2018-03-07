@@ -19,7 +19,7 @@
     <form id="form" (ngSubmit)="onSubmit()" [formGroup]="form">
 
       <mat-tab-group>
-        <mat-tab *ngFor="let page of astQls.pages">
+        <mat-tab *ngFor="let page of qlsStylesheet.pages">
           <ng-template mat-tab-label>
             {{page.name}}
           </ng-template>

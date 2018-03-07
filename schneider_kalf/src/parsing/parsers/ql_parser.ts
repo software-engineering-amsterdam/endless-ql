@@ -228,13 +228,13 @@ function peg$parse(input, options) {
   const peg$c63 = peg$classExpectation([["a", "z"], ["A", "Z"]], false, false);
   const peg$c64 = /^[\-]/;
   const peg$c65 = peg$classExpectation(["-"], false, false);
-  const peg$c66 = /^[0-9]/;
-  const peg$c67 = peg$classExpectation([["0", "9"]], false, false);
+  const peg$c66 = /^[0-9.]/;
+  const peg$c67 = peg$classExpectation([["0", "9"], "."], false, false);
   const peg$c68 = function(minus, digits) {
       var amount = digits.join("");
       if (minus)
           amount = minus.concat(amount);
-      return new Nodes.NumberLiteral(parseInt(amount))
+      return Nodes.NumberLiteral.fromString(amount);
   };
   const peg$c69 = "\"";
   const peg$c70 = peg$literalExpectation("\"", false);

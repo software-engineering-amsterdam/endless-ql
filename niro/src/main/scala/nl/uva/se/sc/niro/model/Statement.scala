@@ -4,6 +4,7 @@ import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.model.expressions._
 
 sealed trait Statement
+
 case class Question(
     id: String,
     label: String,

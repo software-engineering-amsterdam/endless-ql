@@ -1,8 +1,8 @@
-from pyql.ast import ast
+from pyql.ast.ast import ASTNode
 from pyql.ast import code_location
 
 
-class Expression(ast.ASTNode):
+class Expression(ASTNode):
 
     def __init__(self, location):
         super().__init__(location)
@@ -32,9 +32,6 @@ class UnaryExpression(Expression):
     def expression(self):
         return self._expression
 
-    def accept(self, visitor):
-        return visitor.visit_unary_expression(self)
-
 
 class BinaryExpression(Expression):  # abstract
 
@@ -51,9 +48,6 @@ class BinaryExpression(Expression):  # abstract
     def right(self):
         return self._right
 
-    def accept(self, visitor):
-        return visitor.visit_binary_expression(self)
-
 
 class Multiplication(BinaryExpression):
 
@@ -62,9 +56,6 @@ class Multiplication(BinaryExpression):
 
     def __repr__(self):
         return str(self.left) + " * " + str(self.right)
-
-    def accept(self, visitor):
-        return visitor.visit_multiplication(self)
 
 
 class Division(BinaryExpression):
@@ -75,9 +66,6 @@ class Division(BinaryExpression):
     def __repr__(self):
         return str(self.left) + " / " + str(self.right)
 
-    def accept(self, visitor):
-        return visitor.visit_division(self)
-
 
 class Addition(BinaryExpression):
 
@@ -86,9 +74,6 @@ class Addition(BinaryExpression):
 
     def __repr__(self):
         return str(self.left) + " + " + str(self.right)
-
-    def accept(self, visitor):
-        return visitor.visit_addition(self)
 
 
 class Subtraction(BinaryExpression):
@@ -99,9 +84,6 @@ class Subtraction(BinaryExpression):
     def __repr__(self):
         return str(self.left) + " - " + str(self.right)
 
-    def accept(self, visitor):
-        return visitor.visit_subtraction(self)
-
 
 class GreaterThan(BinaryExpression):
 
@@ -110,9 +92,6 @@ class GreaterThan(BinaryExpression):
 
     def __repr__(self):
         return str(self.left) + " > " + str(self.right)
-
-    def accept(self, visitor):
-        return visitor.visit_greater_than(self)
 
 
 class LessThan(BinaryExpression):
@@ -123,9 +102,6 @@ class LessThan(BinaryExpression):
     def __repr__(self):
         return str(self.left) + " < " + str(self.right)
 
-    def accept(self, visitor):
-        return visitor.visit_less_than(self)
-
 
 class GreaterThanOrEqual(BinaryExpression):
 
@@ -134,9 +110,6 @@ class GreaterThanOrEqual(BinaryExpression):
 
     def __repr__(self):
         return str(self.left) + " >= " + str(self.right)
-
-    def accept(self, visitor):
-        return visitor.visit_greater_than_or_equal(self)
 
 
 class LessThanOrEqual(BinaryExpression):
@@ -147,9 +120,6 @@ class LessThanOrEqual(BinaryExpression):
     def __repr__(self):
         return str(self.left) + " <= " + str(self.right)
 
-    def accept(self, visitor):
-        return visitor.visit_less_than_or_equal(self)
-
 
 class Equals(BinaryExpression):
 
@@ -158,9 +128,6 @@ class Equals(BinaryExpression):
 
     def __repr__(self):
         return str(self.left) + " == " + str(self.right)
-
-    def accept(self, visitor):
-        return visitor.visit_equals(self)
 
 
 class NotEquals(BinaryExpression):
@@ -171,9 +138,6 @@ class NotEquals(BinaryExpression):
     def __repr__(self):
         return str(self.left) + " != " + str(self.right)
 
-    def accept(self, visitor):
-        return visitor.visit_not_equals(self)
-
 
 class And(BinaryExpression):
 
@@ -182,9 +146,6 @@ class And(BinaryExpression):
 
     def __repr__(self):
         return str(self.left) + " && " + str(self.right)
-
-    def accept(self, visitor):
-        return visitor.visit_and(self)
 
 
 class Or(BinaryExpression):
@@ -195,9 +156,6 @@ class Or(BinaryExpression):
     def __repr__(self):
         return str(self.left) + " || " + str(self.right)
 
-    def accept(self, visitor):
-        return visitor.visit_or(self)
-
 
 class Not(UnaryExpression):
 
@@ -206,9 +164,6 @@ class Not(UnaryExpression):
 
     def __repr__(self):
         return "!(" + str(self.expression) + ")"
-
-    def accept(self, visitor):
-        return visitor.visit_not(self)
 
 
 class Literal(Expression):
@@ -230,8 +185,8 @@ class Literal(Expression):
     def type(self):
         return self._type
 
-    def accept(self, visitor):
-        return visitor.visit_literal(self)
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
     def __repr__(self):
         return str(self._value)

@@ -1,11 +1,11 @@
 package ParseObjects.Expressions.UnaryExpressions;
 
-import ParseObjects.Expressions.Constant;
+import ParseObjects.Expressions.ExpressionConstants.Constant;
 import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 import ParseObjects.Expressions.ExpressionConstants.DecimalConstant;
 import ParseObjects.Expressions.ExpressionConstants.IntegerConstant;
-import ParseObjects.Expressions.UnaryExpression;
+import ParseObjects.Expressions.ExpressionConstants.UndefinedConstant;
 
 public class NegationExpression extends UnaryExpression {
     public NegationExpression(Expression expr){
@@ -20,7 +20,7 @@ public class NegationExpression extends UnaryExpression {
     @Override
     public Constant evaluate(){
         if(!this.getExpression().isArithmetic()){
-            //Todo: Implement either exception throw or error statement with undefined value.
+            return new UndefinedConstant();
         }
 
         if(this.getExpression().returnType() == EvaluationType.Integer){

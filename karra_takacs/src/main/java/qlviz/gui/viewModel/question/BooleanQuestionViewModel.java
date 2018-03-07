@@ -1,14 +1,18 @@
 package qlviz.gui.viewModel.question;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import qlviz.model.question.BooleanQuestion;
 
 public class BooleanQuestionViewModel extends BaseQuestionViewModel {
 
     private final BooleanQuestion question;
+    private final BooleanProperty value;
 
     public BooleanQuestionViewModel(BooleanQuestion question) {
         super(question);
         this.question = question;
+        this.value = new SimpleBooleanProperty();
     }
 
     @Override
@@ -16,12 +20,9 @@ public class BooleanQuestionViewModel extends BaseQuestionViewModel {
         visitor.visit(this);
     }
 
-    public boolean getValue() {return question.getValue();}
-    public void setValue(boolean value) {
-        this.question.setValue(value);
-        super.notifyPropertyChanged();
+    public BooleanProperty valueProperty() {
+        return value;
     }
-
 }
 
 

@@ -13,6 +13,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.uva.jomi.ql.ast.AstBuilder;
+import org.uva.jomi.ql.ast.analysis.DuplicatedLabelChecker;
 import org.uva.jomi.ql.ast.analysis.IdentifierResolver;
 import org.uva.jomi.ql.ast.analysis.TypeResolver;
 import org.uva.jomi.ql.ast.statements.Stmt;
@@ -49,7 +50,11 @@ public class QL {
 			// Make sure there are no parsing errors before we use the Ast.
 			// TODO - Extend the Antlr lexer in order to identify if lexical errors occurred.
 			if (parser.getNumberOfSyntaxErrors() == 0) {
-
+				
+				// Check for duplicated labels
+				DuplicatedLabelChecker labelChecker = new DuplicatedLabelChecker(true);
+				labelChecker.check(ast);
+				
 				// Create a new identifier resolver
 				IdentifierResolver identifierResolver = new IdentifierResolver(true);
 				// Resolve the Ast
@@ -58,7 +63,6 @@ public class QL {
 				if (identifierResolver.getNumberOfErrors() == 0) {
 					TypeResolver typeResolver = new TypeResolver(true);
 					typeResolver.resolve(ast);
-					System.out.println("Number of errors: " + typeResolver.getNumberOfErrors());
 
 					if (typeResolver.getNumberOfErrors() == 0) {
 						UIBuilder builder = new UIBuilder();

@@ -12,4 +12,9 @@ public class BooleanExpr extends PrimaryExpr {
 	public boolean getValue() {
 		return Boolean.parseBoolean(this.getLexeme());
 	}
+
+	@Override
+	public <T> T accept(Visitor<T> visitor) {
+		return visitor.visit(this);
+	}
 }

@@ -1,11 +1,11 @@
-﻿using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 
 [assembly: InternalsVisibleTo("Assignment1Tests")]
 
-namespace Assignment1
+namespace Assignment1.Model
 {
     public class QuestionForm
     {
@@ -18,17 +18,17 @@ namespace Assignment1
             Content = content;
         }
 
-        public static List<QuestionForm> ParseString(string input)
+        internal static QLListener ParseString(string input)
         {
             ICharStream stream = CharStreams.fromstring(input);
             ITokenSource lexer = new QLLexer(stream);
             ITokenStream tokens = new CommonTokenStream(lexer);
             QL parser = new QL(tokens);
-            QL.FileContext context = parser.file();
+            QL.FormContext context = parser.form();
             QLListener listener = new QLListener();
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.Walk(listener, context);
-            return listener.Forms;
+            return listener;
         }
     }
 }

@@ -7,27 +7,30 @@ options { tokenVocab=GrammarLexer; }
 
 //RULES
 
+compileUnit     :formStructure EOF;
+mathUnit        :expression EOF;
+
 //Variables and operators
 variable        :VAR
+                |DEC
                 |NUM
                 |NOT VAR;
 
 
 logical         :(AND|OR);
-conditional     :(IF|ELSE|IFELSE);
-arithmetic      :(PLUS|MINUS|MULTIPLY|DIVIDE);
+arithmetic      :(MULTIPLY|DIVIDE);
 type            :(BOOL|STR|DATE|DECIMAL|MONEY);
 comparison      :(LESS|GREATER|EQUALGREATER|EQUALLESS|NOTEQUAL|ISEQUAL);
 
 //Shortcuts
-questionTypes       : (questionFormat|conditionalConstr|questionAssignValue|questionMultiAns);
+questionTypes       : (questionFormat|conditionalIf|questionAssignValue|questionMultiAns);
 
 //Mathematical expressions
 expression          : LPAREN expression RPAREN #parensExpression
-                    | left=expression arithmetic right=expression #binaryExpression
-                    | left=expression logical right=expression #binaryExpression
-                    | left=expression comparison right=expression #binaryExpression
-                    | variable #valueExpression;
+                    | left=expression op=(PLUS|MINUS) right=expression #binaryExpression
+                    | left=expression logical right=expression #logicalExpression
+                    | left=expression comparison right=expression #comparisonExpression
+                    | value=NUM #valueExpression;
 
 
 //Question types
@@ -35,7 +38,11 @@ questionFormat      : LABEL variable ASSIGN type;
 
 questionAssignValue : questionFormat EQUAL LPAREN* expression RPAREN*;
 
-conditionalConstr   : conditional LPAREN (variable|expression) RPAREN LBRACE questionTypes+ RBRACE;
+conditionalIf       : IF LPAREN (variable|expression) RPAREN LBRACE questionTypes+ RBRACE (conditionalElse|conditionalIfElse)*;
+
+conditionalIfElse   : IFELSE LPAREN (variable|expression) RPAREN LBRACE questionTypes+ RBRACE (conditionalElse|conditionalElse)+;
+
+conditionalElse     : ELSE LBRACE questionTypes+ RBRACE;
 
 questionMultiAns    : LABEL variable ASSIGN MULTIPLEANSWER LPAREN (variable) (COMMA variable)+ RPAREN;
 

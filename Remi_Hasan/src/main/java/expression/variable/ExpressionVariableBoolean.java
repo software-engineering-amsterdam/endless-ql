@@ -1,5 +1,6 @@
 package expression.variable;
 
+import analysis.SymbolTable;
 import expression.ReturnType;
 
 public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
@@ -9,35 +10,37 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
     }
 
     @Override
-    public ReturnType getReturnType() {
+    public Boolean getBooleanValue() {
+        return this.value;
+    }
+
+    @Override
+    public ReturnType getReturnType(SymbolTable symbolTable) {
         return ReturnType.BOOLEAN;
     }
 
     @Override
     public void setValue(String value) {
-        if(value.isEmpty())
-            this.value = null;
-        else
-            this.value = Boolean.parseBoolean(value);
+        this.value = !value.isEmpty() && Boolean.parseBoolean(value);
     }
 
     @Override
     public ExpressionVariable and(ExpressionVariable other) {
-        if (this.value == null || other.value == null)
+        if (this.isUndefined() || other.isUndefined())
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(this.value && Boolean.parseBoolean(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable or(ExpressionVariable other) {
-        if (this.value == null || other.value == null)
+        if (this.isUndefined() || other.isUndefined())
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(this.value || Boolean.parseBoolean(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable not() {
-        if (this.value == null)
+        if (this.isUndefined())
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(!this.value);
     }

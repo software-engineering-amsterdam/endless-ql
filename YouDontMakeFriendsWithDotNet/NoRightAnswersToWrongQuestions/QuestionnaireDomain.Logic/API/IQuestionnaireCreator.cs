@@ -1,9 +1,11 @@
 ﻿using System;
+using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
+using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionnaireDomain.Logic.API
 {
     public interface IQuestionnaireCreator
     {
-        Guid Create(string definition);
+        Reference<IRootNode> Create(string definition);
     }
 }

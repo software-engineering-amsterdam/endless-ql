@@ -1,5 +1,6 @@
 package expression.binary;
 
+import analysis.SymbolTable;
 import expression.Expression;
 import expression.ReturnType;
 
@@ -9,10 +10,7 @@ public abstract class ExpressionArithmetic extends ExpressionBinary {
     }
 
     @Override
-    public ReturnType getReturnType() {
-        if(left.getReturnType() == ReturnType.DECIMAL || right.getReturnType() == ReturnType.DECIMAL)
-            return ReturnType.DECIMAL;
-        else
-            return ReturnType.INTEGER;
+    public ReturnType getReturnType(SymbolTable symbolTable) {
+        return ReturnType.NUMBER;
     }
 }

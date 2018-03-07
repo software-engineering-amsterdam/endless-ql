@@ -3,13 +3,11 @@ export const validFormWithIf =
   `
       form form {
         question1: "IntegerQuestion?"  integer
-        question2: "DecimalQuestion?"  decimal
-        question3: "MoneyQuestion?"  money
-        question4: "BooleanQuestion?"  boolean
-        question5: "StringQuestion?"  string
- 	      question6: "DateQuestion?"  date
- 	      if (question4) {
- 	        question7: "ifQuestion" integer
+        question2: "BooleanQuestion?"  boolean
+        question3: "StringQuestion?"  string
+ 	      question4: "DateQuestion?"  date
+ 	      if (question2) {
+ 	        question5: "ifQuestion" integer
  	      }
       }
   `;
@@ -41,14 +39,12 @@ export const duplicateIdentifierForm =
   `
     form form {
       question1: "IntegerQuestion?"  integer
-      question2: "DecimalQuestion?"  decimal
-      question3: "MoneyQuestion?"  money
-      question4: "BooleanQuestion?"  boolean
-      question5: "StringQuestion?"  string
-      question5: "StringQuestion?"  string
-      question6: "DateQuestion?"  date
-      if (question4) {
-        question7: "ifQuestion" integer
+      question2: "BooleanQuestion?"  boolean
+      question3: "StringQuestion?"  string
+      question3: "StringQuestion?"  string
+      question4: "DateQuestion?"  date
+      if (question2) {
+        question5: "ifQuestion" integer
       }
   }
   `;
@@ -76,7 +72,6 @@ export const multipleQuestionForm =
       questionOne: "Question1?" boolean
       questionTwo: "Question2?" string
       questionThree: "Question3?" date
-      questionFour: "Question4?" money
     }
   `;
 
@@ -102,13 +97,12 @@ export const commentForm =
     // q
       question1: "IntegerQuestion?"  integer
     // w
-      question2: "DecimalQuestion?"  decimal
-      question4: "BooleanQuestion?"  boolean
-      question5: "StringQuestion?"  string
-      question6: "DateQuestion?"  date
-      if (question4) {
+      question2: "BooleanQuestion?"  boolean
+      question3: "StringQuestion?"  string
+      question4: "DateQuestion?"  date
+      if (question5) {
     // a
-        question7: "ifQuestion" integer
+        question6: "ifQuestion" integer
     // d
       }
     // f

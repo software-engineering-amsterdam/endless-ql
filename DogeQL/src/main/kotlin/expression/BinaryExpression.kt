@@ -1,14 +1,17 @@
 package expression
 
+import data.value.BaseSymbolValue
+import expression.operation.BinaryOperation
+import expression.visitor.evaluation.EvaluationVisitor
+
 class BinaryExpression(
-        private val left: BinaryExpression,
-        private val right: BinaryExpression,
-        private val operation: BinaryOperation
+        val left: Expression,
+        val right: Expression,
+        val operation: BinaryOperation
 ) : Expression {
 
-    override fun accept(visitor: ExpressionVisitor) {
-        visitor.visit(left)
-        visitor.visit(right)
+    override fun accept(visitor: EvaluationVisitor): BaseSymbolValue {
+        return visitor.visit(this)
     }
 
 }

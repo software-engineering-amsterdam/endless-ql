@@ -2,9 +2,11 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.3.
 
+Please remember to always run `npm install` before running the code to ensure you're working with the latest specified tools, libraries and frameworks.
+
 ## Development
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 Insert QL code into the left of the application, press parse to make a form. Fill the form and press submit to see the results.
 
 Example input can be found in src/parser/textQuestionnaires.txt and src/app/mock-input.ts
@@ -29,7 +31,8 @@ Run `ng test --code-coverage` to execute unit tests and get a coverage report
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 ## Generating a new parser
-Run `npm run genParser` to generate a new parser (for example if the grammar has changed)
+Run `npm run genParserQl` to generate a new QL parser (for example if the grammar has changed)
+Run `npm run genParserQls` to generate a new QLS parser (for example if the grammar has changed)
 
 ## Before committing
 Run `npm run check` before committing to make sure the code is correct. It wil automatically generate a new parser, run linting and tests.

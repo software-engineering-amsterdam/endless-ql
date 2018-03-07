@@ -79,17 +79,24 @@ Result will be written into the `/build` folder
 
 ## Doubts
 
-* Can we have escape charachters in string \"?
-* Are comments Allowed (And which comments?)?
+* Can we have escape characters in string \"?
+* Are comments allowed (and which comments?)?
 * Are new lines required by the syntax?
 * Double and single string support?
 
 * What's the date format?
 * What's the money format?
 * Or just call everything Literal (as JS does)?
-* support multiple minusses --3 (python does)?
+* support multiple minuses --3 (python does)?
 
 * (FIXED) minus numbers
 * (FIXED) unary !
 
+* TODO: Replace this simple integer check with solution in parser, differentiate between 10 and 10.0 (See type check visitor visitNumberLiteral)
+* TODO: Allow money and date literal (See type check visitor visitNumberLiteral)
+* TODO: Allow float literals (5.1 and 5.0)
+* TODO: money = (50 + 10) results in Addition(NumberLiteral(5), NumberLiteral(10))
+* TODO: Every character of changed field is in state (Maybe kill state when form changes?)
+* TODO: Divide money by money transformed to float
+* TODO: SellingPrice: boolean = (1 / 10) is not a problem
 * TODO improve naming

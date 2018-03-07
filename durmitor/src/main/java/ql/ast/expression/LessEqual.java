@@ -1,6 +1,6 @@
 package ql.ast.expression;
 
-import ql.evaluator.value.Value;
+import ql.ast.expression.literal.Literal;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class LessEqual extends BinaryOperator {
@@ -18,9 +18,9 @@ public class LessEqual extends BinaryOperator {
     public String getOperator() {
         return "<=";
     }
-
+    
     @Override
-    public Value<?> evaluate() {
+    public Literal<?> evaluate() {
         return firstOperand.evaluate().lessEqual(secondOperand.evaluate());
     }
 }

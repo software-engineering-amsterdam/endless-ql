@@ -2,13 +2,14 @@ package qlviz.model.numericExpressions;
 
 import qlviz.interpreter.linker.NumericExpressionLinker;
 import qlviz.interpreter.linker.NumericExpressionVisitor;
+import qlviz.interpreter.linker.TypedNumericExpressionVisitor;
 
 import java.math.BigDecimal;
 
-public abstract class NumericExpression {
-    public abstract BigDecimal evaluate();
+public interface NumericExpression {
 
-    public abstract void accept(NumericExpressionVisitor numericExpressionVisitor);
+    void accept(NumericExpressionVisitor numericExpressionVisitor);
+    <T> T accept(TypedNumericExpressionVisitor<T> numericExpressionVisitor);
 }
 
 

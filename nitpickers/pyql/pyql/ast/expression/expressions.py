@@ -18,6 +18,9 @@ class Identifier(Expression):
     def identifier(self):
         return self._identifier
 
+    def __repr__(self):
+        return str(self.identifier)
+
 
 class UnaryExpression(Expression):
 
@@ -28,6 +31,9 @@ class UnaryExpression(Expression):
     @property
     def expression(self):
         return self._expression
+
+    def accept(self, visitor):
+        return visitor.visit_unary_expression(self)
 
 
 class BinaryExpression(Expression):  # abstract
@@ -45,6 +51,9 @@ class BinaryExpression(Expression):  # abstract
     def right(self):
         return self._right
 
+    def accept(self, visitor):
+        return visitor.visit_binary_expression(self)
+
 
 class Multiplication(BinaryExpression):
 
@@ -53,6 +62,9 @@ class Multiplication(BinaryExpression):
 
     def __repr__(self):
         return str(self.left) + " * " + str(self.right)
+
+    def accept(self, visitor):
+        return visitor.visit_multiplication(self)
 
 
 class Division(BinaryExpression):
@@ -63,6 +75,9 @@ class Division(BinaryExpression):
     def __repr__(self):
         return str(self.left) + " / " + str(self.right)
 
+    def accept(self, visitor):
+        return visitor.visit_division(self)
+
 
 class Addition(BinaryExpression):
 
@@ -71,6 +86,9 @@ class Addition(BinaryExpression):
 
     def __repr__(self):
         return str(self.left) + " + " + str(self.right)
+
+    def accept(self, visitor):
+        return visitor.visit_addition(self)
 
 
 class Subtraction(BinaryExpression):
@@ -81,6 +99,9 @@ class Subtraction(BinaryExpression):
     def __repr__(self):
         return str(self.left) + " - " + str(self.right)
 
+    def accept(self, visitor):
+        return visitor.visit_subtraction(self)
+
 
 class GreaterThan(BinaryExpression):
 
@@ -89,6 +110,9 @@ class GreaterThan(BinaryExpression):
 
     def __repr__(self):
         return str(self.left) + " > " + str(self.right)
+
+    def accept(self, visitor):
+        return visitor.visit_greater_than(self)
 
 
 class LessThan(BinaryExpression):
@@ -99,6 +123,9 @@ class LessThan(BinaryExpression):
     def __repr__(self):
         return str(self.left) + " < " + str(self.right)
 
+    def accept(self, visitor):
+        return visitor.visit_less_than(self)
+
 
 class GreaterThanOrEqual(BinaryExpression):
 
@@ -107,6 +134,9 @@ class GreaterThanOrEqual(BinaryExpression):
 
     def __repr__(self):
         return str(self.left) + " >= " + str(self.right)
+
+    def accept(self, visitor):
+        return visitor.visit_greater_than_or_equal(self)
 
 
 class LessThanOrEqual(BinaryExpression):
@@ -117,6 +147,9 @@ class LessThanOrEqual(BinaryExpression):
     def __repr__(self):
         return str(self.left) + " <= " + str(self.right)
 
+    def accept(self, visitor):
+        return visitor.visit_less_than_or_equal(self)
+
 
 class Equals(BinaryExpression):
 
@@ -125,6 +158,9 @@ class Equals(BinaryExpression):
 
     def __repr__(self):
         return str(self.left) + " == " + str(self.right)
+
+    def accept(self, visitor):
+        return visitor.visit_equals(self)
 
 
 class NotEquals(BinaryExpression):
@@ -135,6 +171,9 @@ class NotEquals(BinaryExpression):
     def __repr__(self):
         return str(self.left) + " != " + str(self.right)
 
+    def accept(self, visitor):
+        return visitor.visit_not_equals(self)
+
 
 class And(BinaryExpression):
 
@@ -143,6 +182,9 @@ class And(BinaryExpression):
 
     def __repr__(self):
         return str(self.left) + " && " + str(self.right)
+
+    def accept(self, visitor):
+        return visitor.visit_and(self)
 
 
 class Or(BinaryExpression):
@@ -153,6 +195,9 @@ class Or(BinaryExpression):
     def __repr__(self):
         return str(self.left) + " || " + str(self.right)
 
+    def accept(self, visitor):
+        return visitor.visit_or(self)
+
 
 class Not(UnaryExpression):
 
@@ -162,66 +207,34 @@ class Not(UnaryExpression):
     def __repr__(self):
         return "!(" + str(self.expression) + ")"
 
+    def accept(self, visitor):
+        return visitor.visit_not(self)
+
 
 class Literal(Expression):
 
-    def __init__(self, location):
+    def __init__(self, location, type, value):
         super().__init__(location)
+        self._value = value
+        self._type = type
 
+    @property
+    def value(self):
+        return self._value
 
-class StringLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
+    @value.setter
+    def value(self, value):
         self._value = value
 
     @property
-    def value(self):
-        return self._value
+    def type(self):
+        return self._type
 
+    def accept(self, visitor):
+        return visitor.visit_literal(self)
 
-class IntLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = int(value)
-
-    @property
-    def value(self):
-        return self._value
-
-
-class DecimalLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = float(value)
-
-    @property
-    def value(self):
-        return self._value
-
-
-class BoolLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = value == "true"
-
-    @property
-    def value(self):
-        return self._value
-
-
-class MoneyLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = value
-
-    @property
-    def value(self):
-        return self._value
+    def __repr__(self):
+        return str(self._value)
 
 
 if __name__ == "__main__":

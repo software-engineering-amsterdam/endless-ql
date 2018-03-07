@@ -43,6 +43,9 @@ namespace QL_Parser.Analysis
 
         public static bool Analyse(Node node)
         {
+            if (node == null)
+                return false;
+
             var result = true;
             foreach (IAnalyser analyser in Instance._analysers)
                 if (!analyser.Analyse(node) && result)

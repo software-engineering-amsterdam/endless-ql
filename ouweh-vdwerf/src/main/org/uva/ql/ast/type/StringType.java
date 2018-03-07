@@ -5,6 +5,11 @@ import org.uva.ql.visitor.TypeVisitor;
 public class StringType extends Type {
 
     @Override
+    public boolean isCompatible(Type type) {
+        return "StringType".equals(type.toString());
+    }
+
+    @Override
     public <T, C> T accept(TypeVisitor<T, C> visitor, C context) {
         return visitor.visit(this, context);
     }

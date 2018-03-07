@@ -10,5 +10,6 @@ export * from './expressions/arithmetic-expression';
 export * from './expressions/comparison-expression';
 export * from './expressions/unary-expression';
 export * from './expressions/logical-expression';
+export * from './expressions/equality-expression';
 export * from './expressions/expression-type';
 export * from './expressions/variable';

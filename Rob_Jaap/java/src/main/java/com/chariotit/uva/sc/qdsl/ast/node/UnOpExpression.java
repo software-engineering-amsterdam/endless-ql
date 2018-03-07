@@ -1,13 +1,16 @@
 package com.chariotit.uva.sc.qdsl.ast.node;
 
 import com.chariotit.uva.sc.qdsl.ast.node.operator.Operator;
+import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
 
 public class UnOpExpression extends Expression {
 
     private Operator operator;
     private Expression expression;
 
-    public UnOpExpression(Operator operator, Expression expression) {
+    public UnOpExpression(Operator operator, Expression expression, Integer lineNumber, Integer
+            columnNumber) {
+        super(lineNumber, columnNumber);
         this.operator = operator;
         this.expression = expression;
     }
@@ -26,5 +29,13 @@ public class UnOpExpression extends Expression {
 
     public void setExpression(Expression expression) {
         this.expression = expression;
+    }
+
+    @Override
+    public void acceptVisitor(NodeVisitor visitor) {
+        operator.acceptVisitor(visitor);
+        expression.acceptVisitor(visitor);
+
+        visitor.visitUnOpExpression(this);
     }
 }

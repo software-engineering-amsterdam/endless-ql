@@ -22,7 +22,8 @@ public class QuestionBlockVisitor extends QLBaseVisitor<QuestionBlock> {
     public QuestionBlock visitQuestionBlock(QLParser.QuestionBlockContext ctx) {
         return new QuestionBlock(
                ctx.question().stream().map(questionVisitor::visitQuestion).collect(Collectors.toList()),
-               ctx.conditionalBlock().stream().map(conditionalBlockVisitor::visitConditionalBlock).collect(Collectors.toList())
+               ctx.conditionalBlock().stream().map(conditionalBlockVisitor::visitConditionalBlock).collect(Collectors.toList()),
+               ctx
         );
     }
 }

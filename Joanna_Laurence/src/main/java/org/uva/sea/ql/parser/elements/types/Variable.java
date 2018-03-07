@@ -1,10 +1,10 @@
 package org.uva.sea.ql.parser.elements.types;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
+import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Question;
-import org.uva.sea.ql.visitor.IASTVisitor;
+import org.uva.sea.ql.interpreter.visitor.IASTVisitor;
 
 public class Variable extends ASTNode {
     private String variableName;

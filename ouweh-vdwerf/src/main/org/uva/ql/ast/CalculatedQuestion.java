@@ -18,8 +18,6 @@ public class CalculatedQuestion extends Question {
 
     @Override
     public String toString() {
-        String content = this.getContent();
-        //return content;
         return String.format("%s\t%s:%s = %s", this.getContent(), this.getName(), this.getType(), this.expression);
     }
 

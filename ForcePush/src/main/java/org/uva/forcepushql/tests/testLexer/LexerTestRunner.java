@@ -1,4 +1,4 @@
-package org.uva.forcepushql.tests.testLexer;
+/*package org.uva.forcepushql.tests.testLexer;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -16,3 +16,4 @@ public class LexerTestRunner {
         System.out.println(result.wasSuccessful());
     }
 }
+*/

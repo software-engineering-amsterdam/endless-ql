@@ -6,6 +6,9 @@ import {FormGroup} from '@angular/forms';
 import {QuestionControlService} from './services/question-control.service';
 import {Page, Question as QlsQuestion, Section, Stylesheet, Widget, WidgetType} from './domain/ast/qls';
 import {emptyLoc, Form, QuestionType, Question as QlQuestion} from './domain/ast';
+import {ParseQlWithQlsFactoryService} from './services/parse-ql-with-qls-factory.service';
+import {ParseFactoryInterface} from './services/parse-factory-interface';
+import {ParseQlWithDefaultStylingFactoryService} from './services/parse-ql-with-default-styling-factory.service';
 
 @Component({
   selector: 'app-root',
@@ -20,27 +23,11 @@ export class AppComponent {
   formName: string;
   errorMessage: string;
   payload: string;
-  astQl: Form;
-  astQls: Stylesheet;
+  qlForm: Form;
+  qlsStylesheet: Stylesheet;
 
   constructor (private questionControlService: QuestionControlService) {
 
-  }
-
-  // TODO move into factory pattern mentioned below
-  qlQuestionTypeToQlsType(qlType: QuestionType): WidgetType {
-    switch (qlType) {
-      case QuestionType.INT:
-      case QuestionType.DECIMAL:
-        return WidgetType.SPINBOX;
-      case QuestionType.BOOLEAN:
-        return WidgetType.CHECKBOX;
-      case QuestionType.DATE:
-      case QuestionType.STRING:
-      default:
-        return WidgetType.NONE;
-        // throw new Error('TODO implementation');
-    }
   }
 
   getQuestionBaseByName(name: string): QuestionBase<any> {
@@ -66,32 +53,22 @@ export class AppComponent {
 
   parseInput() {
     try {
-      // parse input to tree
-      this.astQl = parse(this.input, {});
-      // check form
-      this.astQl.checkForm();
-
+      let factory: ParseFactoryInterface;
       if (this.inputQls && this.inputQls !== '') {
-        this.astQls = parseQls(this.inputQls, {});
+        factory = new ParseQlWithQlsFactoryService(this.input, this.inputQls);
       } else {
-        // generate default styling for all questions in case input is empty
-        // TODO move this into factory pattern
-        const qlsQuestions: QlsQuestion[] = [];
-
-        for (const qlQuestion of this.astQl.getAllQuestions()) {
-          const widget = new Widget(this.qlQuestionTypeToQlsType(qlQuestion.type), []);
-          qlsQuestions.push(new QlsQuestion(qlQuestion.name, widget, emptyLoc));
-        }
-
-        const section = new Section('default section', [], qlsQuestions, emptyLoc);
-        const page = new Page('default page', [section], emptyLoc);
-        this.astQls = new Stylesheet('default implementation', [page], emptyLoc);
+        factory = new ParseQlWithDefaultStylingFactoryService(this.input);
       }
 
+      const parseResult = factory.parse();
+      this.formName = parseResult.formName;
+      this.qlForm = parseResult.qlForm;
+      this.qlsStylesheet = parseResult.qlsStylesheet;
+
       // make form
-      this.questions = this.astQl.toFormQuestion();
+      this.questions = this.qlForm.toFormQuestion();
       this.form = this.questionControlService.toFormGroup(this.questions);
-      this.formName = this.astQl.name;
+      this.formName = this.qlForm.name;
       this.errorMessage = undefined;
     } catch (e) {
       this.form = undefined;

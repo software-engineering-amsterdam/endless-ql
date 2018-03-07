@@ -1,9 +1,7 @@
 package org.uva.ql.validation;
 
-import org.uva.ql.ast.CalculatedQuestion;
-import org.uva.ql.ast.Conditional;
-import org.uva.ql.ast.Question;
-import org.uva.ql.ast.Statement;
+import com.sun.istack.internal.NotNull;
+import org.uva.ql.ast.*;
 import org.uva.ql.ast.expression.ParameterGroup;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.*;
@@ -12,11 +10,41 @@ import org.uva.ql.visitor.*;
 
 public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String>  {
 
-    private static final String BOOLEAN = "boolean";
     private SymbolTable symbolTable;
+    private Form form;
 
-    TypeChecker(SymbolTable symbolTable) {
+    TypeChecker(Form form, SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
+        this.form = form;
+    }
+
+    public void execute() {
+        for (Statement statement : form.getStatements()) {
+            statement.accept(this, null);
+        }
+    }
+
+    @NotNull
+    private Type validateBooleanExpression(BinaryOperation operation) {
+        Type left = operation.getLeft().accept(this, null);
+        Type right = operation.getRight().accept(this, null);
+
+        if (!new BooleanType().isCompatible(left) || !new BooleanType().isCompatible(right)) {
+            System.out.println("ERROR: Type checker at: " + left + operation + right);
+        }
+
+        return new BooleanType();
+    }
+
+    private Type validateType(BinaryOperation operation) {
+        Type left = operation.getLeft().accept(this, null);
+        Type right = operation.getRight().accept(this, null);
+
+        if (!left.isCompatible(right)) {
+            System.out.println("ERROR: Type checker at: " + left + operation + right);
+        }
+
+        return left;
     }
 
     @Override
@@ -38,8 +66,8 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
             statement.accept(this, null);
         }
 
-        if (!BOOLEAN.equals(type.toString())) {
-            System.out.println("Type is not correct");
+        if (!new BooleanType().isCompatible(type)) {
+            System.out.println("ERROR: Type checker at: " + type);
         }
 
         return new BooleanType();
@@ -58,87 +86,84 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
 
     @Override
     public Type visit(Addition addition, String context) {
-        return null;
+        return validateType(addition);
     }
 
     @Override
     public Type visit(Division division, String context) {
-        return null;
-    }
-
-    @Override
-    public Type visit(Equal equal, String context) {
-        return null;
-    }
-
-    @Override
-    public Type visit(GreaterThan greaterThan, String context) {
-        return null;
-    }
-
-    @Override
-    public Type visit(GreaterThanEqualTo greaterThanEqualTo, String context) {
-        return null;
-    }
-
-    @Override
-    public Type visit(LessThan lessThan, String context) {
-        return null;
-    }
-
-    @Override
-    public Type visit(LessThanEqualTo lessThanEqualTo, String context) {
-        return null;
+        return validateType(division);
     }
 
     @Override
     public Type visit(Multiplication multiplication, String context) {
-        return null;
-    }
-
-    @Override
-    public Type visit(NotEqual notEqual, String context) {
-        return null;
+        return validateType(multiplication);
     }
 
     @Override
     public Type visit(Subtraction subtraction, String context) {
-        return null;
+        return validateType(subtraction);
     }
 
     @Override
+    public Type visit(Equal equal, String context) {
+        validateType(equal);
+        return new BooleanType();
+    }
+
+    @Override
+    public Type visit(GreaterThan greaterThan, String context) {
+        validateType(greaterThan);
+        return new BooleanType();
+    }
+
+    @Override
+    public Type visit(GreaterThanEqualTo greaterThanEqualTo, String context) {
+        validateType(greaterThanEqualTo);
+        return new BooleanType();
+    }
+
+    @Override
+    public Type visit(LessThan lessThan, String context) {
+        validateType(lessThan);
+        return new BooleanType();
+    }
+
+    @Override
+    public Type visit(LessThanEqualTo lessThanEqualTo, String context) {
+        validateType(lessThanEqualTo);
+        return new BooleanType();
+    }
+
+    @Override
+    public Type visit(NotEqual notEqual, String context) {
+        validateType(notEqual);
+        return new BooleanType();
+    }
+
+
+    @Override
     public Type visit(Or or, String context) {
-        return null;
+        return validateBooleanExpression(or);
     }
 
     @Override
     public Type visit(And and, String context) {
-        return null;
+        return validateBooleanExpression(and);
     }
 
     @Override
     public Type visit(ParameterGroup parameterGroup, String context) {
-        return null;
-    }
-
-    @Override
-    public Type visit(StringLiteral stringLiteral, String context) {
-        return null;
-    }
-
-    @Override
-    public Type visit(IntegerLiteral integerLiteral, String Context) {
-        return null;
+        return parameterGroup.getExpression().accept(this, null);
     }
 
     @Override
     public Type visit(Negation negation, String Context) {
-        return null;
-    }
+        Type type = negation.getExpression().accept(this, null);
 
-    @Override
-    public Type visit(BooleanLiteral booleanLiteral, String context) {
-        return null;
+        if (!new BooleanType().isCompatible(type)) {
+            System.out.println("ERROR: Type checker at: " + negation);
+        }
+        return type;
     }
 
     @Override
@@ -164,5 +189,20 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
     @Override
     public Type visit(StringType stringType, String context) {
         return stringType;
+    }
+
+    @Override
+    public Type visit(StringLiteral stringLiteral, String context) {
+        return new StringType();
+    }
+
+    @Override
+    public Type visit(IntegerLiteral integerLiteral, String Context) {
+        return new IntegerType();
+    }
+
+    @Override
+    public Type visit(BooleanLiteral booleanLiteral, String context) {
+        return new BooleanType();
     }
 }

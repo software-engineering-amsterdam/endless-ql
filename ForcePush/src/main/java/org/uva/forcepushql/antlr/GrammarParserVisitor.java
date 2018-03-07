@@ -1,4 +1,4 @@
-// Generated from C:/Users/Joana Magalhães/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
+// Generated from C:/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
 package org.uva.forcepushql.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -10,6 +10,18 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  * operations with no return type.
  */
 public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
+	/**
+	 * Visit a parse tree produced by {@link GrammarParser#compileUnit}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompileUnit(GrammarParser.CompileUnitContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GrammarParser#mathUnit}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMathUnit(GrammarParser.MathUnitContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GrammarParser#variable}.
 	 * @param ctx the parse tree
@@ -67,6 +79,20 @@ public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParensExpression(GrammarParser.ParensExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code comparisonExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComparisonExpression(GrammarParser.ComparisonExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code logicalExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicalExpression(GrammarParser.LogicalExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GrammarParser#questionFormat}.
 	 * @param ctx the parse tree

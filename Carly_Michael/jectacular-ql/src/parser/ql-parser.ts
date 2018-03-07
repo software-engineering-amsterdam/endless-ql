@@ -6,7 +6,7 @@
 
 "use strict";
 
-/* tslint:disable */ 
+/* tslint:disable */
  import * as ast from '../app/domain/ast';
 export class SyntaxError extends Error {
   public static buildMessage(expected: string, found: string) {

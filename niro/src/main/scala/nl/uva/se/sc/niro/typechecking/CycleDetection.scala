@@ -7,7 +7,7 @@ object CycleDetection extends Logging {
   case class Edge(from: String, to: String)
   type Graph = Seq[Edge]
 
-  /** Returns a sequence of dectected cycles or an empty sequence if no cycles are found.
+  /** Returns a sequence of detected cycles or an empty sequence if no cycles are found.
     * */
   def detectCycles(graph: Graph, followedPath: Graph): Seq[Graph] = {
     logger.info(s"Detecting cycles in graph: $graph. Now traversing: $followedPath")

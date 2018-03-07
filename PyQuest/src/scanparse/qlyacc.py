@@ -112,18 +112,18 @@ class QLParser:
     @staticmethod
     def p_not(p):
         """expression : NOT expression"""
-        p[0] = NegationOperatorNode(Position(p.lineno(1), p.lexpos(1)), bool, p[2])
+        p[0] = NegationOperatorNode(Position(p.lineno(1), p.lexpos(1)), TypeBoolean, p[2])
 
     # Binary operators
     @staticmethod
     def p_and(p):
         """expression : expression AND expression"""
-        p[0] = AndOperatorNode(Position(p.lineno(2), p.lexpos(2)), None, p[1], p[3])
+        p[0] = AndOperatorNode(Position(p.lineno(2), p.lexpos(2)), TypeBoolean, p[1], p[3])
 
     @staticmethod
     def p_or(p):
         """expression : expression OR expression"""
-        p[0] = OrOperatorNode(Position(p.lineno(2), p.lexpos(2)), None, p[1], p[3])
+        p[0] = OrOperatorNode(Position(p.lineno(2), p.lexpos(2)), TypeBoolean, p[1], p[3])
 
     @staticmethod
     def p_plus(p):
@@ -148,32 +148,32 @@ class QLParser:
     @staticmethod
     def p_equals(p):
         """expression : expression EQ expression"""
-        p[0] = EqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), None, p[1], p[3])
+        p[0] = EqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), TypeBoolean, p[1], p[3])
 
     @staticmethod
     def p_not_equals(p):
         """expression : expression NE expression"""
-        p[0] = NotEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), None, p[1], p[3])
+        p[0] = NotEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), TypeBoolean, p[1], p[3])
 
     @staticmethod
     def p_less_equals(p):
         """expression : expression LE expression"""
-        p[0] = LessEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), None, p[1], p[3])
+        p[0] = LessEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), TypeBoolean, p[1], p[3])
 
     @staticmethod
     def p_less_than(p):
         """expression : expression LT expression"""
-        p[0] = LessThanOperatorNode(Position(p.lineno(2), p.lexpos(2)), None, p[1], p[3])
+        p[0] = LessThanOperatorNode(Position(p.lineno(2), p.lexpos(2)), TypeBoolean, p[1], p[3])
 
     @staticmethod
     def p_greater_equals(p):
         """expression : expression GE expression"""
-        p[0] = GreaterEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), None, p[1], p[3])
+        p[0] = GreaterEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), TypeBoolean, p[1], p[3])
 
     @staticmethod
     def p_greater_than(p):
         """expression : expression GT expression"""
-        p[0] = GreaterThanOperatorNode(Position(p.lineno(2), p.lexpos(2)), None, p[1], p[3])
+        p[0] = GreaterThanOperatorNode(Position(p.lineno(2), p.lexpos(2)), TypeBoolean, p[1], p[3])
 
     # Literals
     @staticmethod

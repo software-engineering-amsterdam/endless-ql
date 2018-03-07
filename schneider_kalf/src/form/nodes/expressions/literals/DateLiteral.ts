@@ -12,7 +12,7 @@ export default class DateLiteral extends AbstractTreeNode implements Expression 
   static fromString(value: string) {
     const date = moment(value, constants.DEFAULT_DATE_FORMAT);
 
-    if (date.isValid()) {
+    if (!date.isValid()) {
       throw ValueIsInvalidDateError.make(value);
     }
 

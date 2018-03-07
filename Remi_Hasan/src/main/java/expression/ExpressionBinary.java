@@ -1,6 +1,6 @@
 package expression;
 
-public abstract class ExpressionBinary<T> extends Expression<T> {
+public abstract class ExpressionBinary<T> extends Expression {
     public final Expression left;
     public final Expression right;
 

@@ -117,6 +117,11 @@ public class InterpreterVisitor implements IASTVisitor<Value> {
     }
 
     @Override
+    public Value visit(ExpressionVariableMoney e) {
+        return new NumValue(e.value);
+    }
+
+    @Override
     public Value visit(ExpressionVariableString e) {
         return e.accept(this);
     }

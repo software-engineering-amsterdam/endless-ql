@@ -1,17 +1,18 @@
 package expression.variable;
 
+import astvisitor.IASTVisitor;
 import astvisitor.StringValue;
 import expression.ExpressionVariable;
 
 public class ExpressionVariableString extends ExpressionVariable<String> {
 
-    ExpressionVariableString(String value) {
+    public ExpressionVariableString(String value) {
         super(value);
     }
 
 
     @Override
-    public StringValue accept(BaseASTVisitor visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return null;
     }
 }

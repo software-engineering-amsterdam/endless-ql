@@ -4,14 +4,12 @@ import antlr.QLBaseVisitor;
 import antlr.QLLexer;
 import antlr.QLParser;
 import expression.Expression;
-import expression.ExpressionIdentifier;
 import expression.binary.*;
 import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
-import expression.variable.ExpressionVariableBoolean;
-import expression.variable.ExpressionVariableDate;
-import expression.variable.ExpressionVariableInteger;
-import expression.variable.ExpressionVariableString;
+import expression.variable.*;
+
+import java.math.BigDecimal;
 
 public class VisitorExpression extends QLBaseVisitor<Expression> {
 
@@ -112,12 +110,12 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitIntegerConstant(QLParser.IntegerConstantContext ctx) {
-        return new ExpressionVariableInteger(ctx.getText());
+        return new ExpressionVariableInteger(Integer.parseInt(ctx.getText()));
     }
 
     @Override
     public Expression visitDecimalConstant(QLParser.DecimalConstantContext ctx) {
-        return new ExpressionVariableInteger(ctx.getText());
+        return new ExpressionVariableDecimal(Double.parseDouble(ctx.getText()));
     }
 
     @Override
@@ -127,7 +125,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitMoneyConstant(QLParser.MoneyConstantContext ctx) {
-        return new ExpressionVariableInteger(ctx.getText());
+        return new ExpressionVariableMoney(new BigDecimal(ctx.getText()));
     }
 
     @Override
@@ -142,6 +140,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitIdentifierConstant(QLParser.IdentifierConstantContext ctx) {
-        return new ExpressionIdentifier(ctx.IDENTIFIER().getText());
+        throw new UnsupportedOperationException("Not implemeneted");
+        //return new ExpressionIdentifier(ctx.IDENTIFIER().getText());
     }
 }

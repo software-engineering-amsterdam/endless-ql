@@ -1,17 +1,18 @@
 package expression.binary;
 
 import astvisitor.BoolValue;
+import astvisitor.IASTVisitor;
 import expression.Expression;
 import expression.ExpressionBinary;
 
 public class ExpressionComparisonLT extends ExpressionBinary<Boolean> {
 
-    protected ExpressionComparisonLT(Expression left, Expression right) {
+    public ExpressionComparisonLT(Expression left, Expression right) {
         super(left, right);
     }
 
     @Override
-    public BoolValue accept(BaseASTVisitor visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

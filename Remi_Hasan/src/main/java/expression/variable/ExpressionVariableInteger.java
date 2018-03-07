@@ -5,7 +5,7 @@ import expression.ExpressionVariable;
 
 public class ExpressionVariableInteger extends ExpressionVariable<Integer> {
 
-    ExpressionVariableInteger(Integer value) {
+    public ExpressionVariableInteger(Integer value) {
         super(value);
     }
 

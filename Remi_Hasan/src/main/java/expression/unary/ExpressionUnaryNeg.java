@@ -1,17 +1,17 @@
 package expression.unary;
 
-import astvisitor.NumValue;
+import astvisitor.IASTVisitor;
 import expression.Expression;
 import expression.ExpressionUnary;
 
 public class ExpressionUnaryNeg extends ExpressionUnary {
 
-    ExpressionUnaryNeg(Expression expression) {
+    public ExpressionUnaryNeg(Expression expression) {
         super(expression);
     }
 
     @Override
-    public NumValue accept(BaseASTVisitor visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

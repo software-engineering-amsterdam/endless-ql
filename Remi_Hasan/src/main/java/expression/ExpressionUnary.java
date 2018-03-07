@@ -1,6 +1,6 @@
 package expression;
 
-public abstract class ExpressionUnary<T> extends Expression<T> {
+public abstract class ExpressionUnary<T> extends Expression {
     public final Expression value;
 
     public ExpressionUnary(Expression expression) {

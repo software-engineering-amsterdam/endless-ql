@@ -1,20 +1,21 @@
 package expression.variable;
 
+import astvisitor.IASTVisitor;
 import expression.ExpressionVariable;
 
 public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
 
-    ExpressionVariableDecimal(Double value) {
+    public ExpressionVariableDecimal(Double value) {
         super(value);
     }
 
 //    @Override
-//    public Value<Double> accept(BaseASTVisitor visitor) {
+//    public <T> T accept(IASTVisitor<T> visitor) {
 //        return null;
 //    }
 
     @Override
-    public DecimalValue accept(BaseASTVisitor visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

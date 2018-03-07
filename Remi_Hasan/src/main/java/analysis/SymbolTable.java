@@ -2,6 +2,7 @@ package analysis;
 
 import expression.Expression;
 import expression.ExpressionVariable;
+import expression.ReturnType;
 import expression.variable.*;
 import model.Form;
 import model.Question;
@@ -23,54 +24,51 @@ public class SymbolTable {
         }
     }
 
-    public ExpressionVariable getExpression(String identifier) {
-        return table.get(identifier).evaluate(this);
-    }
-
     // TODO: move to value?
     public String getStringValue(String identifier, ReturnType type) {
-        ExpressionVariable evaluated = this.getExpression(identifier).evaluate(this);
-
-        // Undefined values should display nothing
-        if(evaluated.isUndefined()) {
-            return "";
-        }
-
-        switch(type) {
-            case INTEGER:
-                return evaluated.getIntValue().toString();
-            case DECIMAL:
-                return evaluated.getDecimalValue().toString();
-            case MONEY:
-                return evaluated.getMoneyValue().toString();
-            case STRING:
-                return evaluated.getStringValue();
-            case BOOLEAN:
-                return evaluated.getBooleanValue().toString();
-            default:
-                return "";
-        }
+//        ExpressionVariable evaluated = this.getExpression(identifier).evaluate(this);
+//
+//        // Undefined values should display nothing
+//        if(evaluated.isUndefined()) {
+//            return "";
+//        }
+//
+//        switch(type) {
+//            case INTEGER:
+//                return evaluated.getIntValue().toString();
+//            case DECIMAL:
+//                return evaluated.getDecimalValue().toString();
+//            case MONEY:
+//                return evaluated.getMoneyValue().toString();
+//            case STRING:
+//                return evaluated.getStringValue();
+//            case BOOLEAN:
+//                return evaluated.getBooleanValue().toString();
+//            default:
+//                return "";
+//        }
+        return "";
     }
 
     // TODO: fails when number value is '-'
     public void setValue(String identifier, String value, ReturnType type) {
-        if(value.isEmpty()) {
-            this.table.put(identifier, new ExpressionVariableUndefined(type));
-            return;
-        }
-
-        switch(type) {
-            case INTEGER:
-            case DECIMAL:
-            case MONEY:
-                this.table.put(identifier, new ExpressionVariableInteger(value));
-                break;
-            case STRING:
-                this.table.put(identifier, new ExpressionVariableString(value));
-                break;
-            case BOOLEAN:
-                this.table.put(identifier, new ExpressionVariableBoolean(Boolean.valueOf(value)));
-                break;
-        }
+//        if(value.isEmpty()) {
+//            this.table.put(identifier, new ExpressionVariableUndefined(type));
+//            return;
+//        }
+//
+//        switch(type) {
+//            case INTEGER:
+//            case DECIMAL:
+//            case MONEY:
+//                this.table.put(identifier, new ExpressionVariableInteger(value));
+//                break;
+//            case STRING:
+//                this.table.put(identifier, new ExpressionVariableString(value));
+//                break;
+//            case BOOLEAN:
+//                this.table.put(identifier, new ExpressionVariableBoolean(Boolean.valueOf(value)));
+//                break;
+//        }
     }
 }

@@ -28,6 +28,7 @@ public interface IASTVisitor<T> {
     T visit(ExpressionVariableDate e);
     T visit(ExpressionVariableInteger e);
     T visit(ExpressionVariableDecimal e);
+    T visit(ExpressionVariableMoney e);
     T visit(ExpressionVariableString e);
 
     // TODO remove?

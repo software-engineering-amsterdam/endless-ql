@@ -3,9 +3,11 @@ package expression.variable;
 import astvisitor.IASTVisitor;
 import expression.ExpressionVariable;
 
-public class ExpressionVariableDate extends ExpressionVariable<String> {
+import java.math.BigDecimal;
 
-    public ExpressionVariableDate(String value) {
+public class ExpressionVariableMoney extends ExpressionVariable<BigDecimal> {
+
+    public ExpressionVariableMoney(BigDecimal value) {
         super(value);
     }
 

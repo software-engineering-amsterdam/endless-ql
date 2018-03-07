@@ -1,4 +1,5 @@
 import analysis.SymbolTable;
+import expression.ReturnType;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;

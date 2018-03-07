@@ -1,17 +1,18 @@
 package expression.binary;
 
+import astvisitor.IASTVisitor;
 import astvisitor.NumValue;
 import expression.Expression;
 import expression.ExpressionBinary;
 
 public class ExpressionArithmeticSubtract extends ExpressionBinary<Number> {
 
-    protected ExpressionArithmeticSubtract(Expression left, Expression right) {
+    public ExpressionArithmeticSubtract(Expression left, Expression right) {
         super(left, right);
     }
 
     @Override
-    public NumValue accept(BaseASTVisitor visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

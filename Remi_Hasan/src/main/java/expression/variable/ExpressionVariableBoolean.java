@@ -1,18 +1,18 @@
 package expression.variable;
 
-import astvisitor.BoolValue;
+import astvisitor.IASTVisitor;
 import expression.Expression;
 
-public class ExpressionVariableBoolean extends Expression<Boolean> {
+public class ExpressionVariableBoolean extends Expression {
 
     public Boolean value;
 
-    ExpressionVariableBoolean(Boolean value) {
+    public ExpressionVariableBoolean(Boolean value) {
         this.value = value;
     }
 
     @Override
-    public BoolValue accept(BaseASTVisitor visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

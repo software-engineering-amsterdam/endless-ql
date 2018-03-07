@@ -6,9 +6,7 @@ import qlviz.QLBaseVisitor;
 import qlviz.QLSBaseVisitor;
 import qlviz.gui.renderer.ErrorRenderer;
 import qlviz.gui.renderer.JavafxErrorRenderer;
-import qlviz.gui.renderer.javafx.JavafxConditionalBlockRenderer;
 import qlviz.gui.renderer.javafx.JavafxFormRenderer;
-import qlviz.gui.renderer.javafx.JavafxQuestionBlockRenderer;
 import qlviz.gui.renderer.javafx.JavafxQuestionRenderer;
 import qlviz.gui.viewModel.*;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactory;
@@ -71,22 +69,10 @@ public class QLForm extends Application {
 
 		if (this.getParameters().getRaw().size() > 1) {
 			Stylesheet stylesheet = styleBuilder.createFromMarkup(this.getParameters().getRaw().get(1));
-			this.renderer = new JavafxFormRenderer(stage,
-                    vbox -> new JavafxQuestionBlockRenderer(vbox, JavafxQuestionRenderer::new,
-                            pane -> new JavafxConditionalBlockRenderer(pane,
-                                    (pane1, conditionalBlockRenderer) -> new JavafxQuestionBlockRenderer(
-                                            pane1,
-                                            JavafxQuestionRenderer::new,
-                                            pane2 -> conditionalBlockRenderer))));
+			this.renderer = new JavafxFormRenderer(stage, JavafxQuestionRenderer::new);
 		}
 		else {
-            this.renderer = new JavafxFormRenderer(stage,
-                    vbox -> new JavafxQuestionBlockRenderer(vbox, JavafxQuestionRenderer::new,
-                            pane -> new JavafxConditionalBlockRenderer(pane,
-                                    (pane1, conditionalBlockRenderer) -> new JavafxQuestionBlockRenderer(
-                                            pane1,
-                                            JavafxQuestionRenderer::new,
-                                            pane2 -> conditionalBlockRenderer))));
+			this.renderer = new JavafxFormRenderer(stage, JavafxQuestionRenderer::new);
 		}
 
 
@@ -137,11 +123,8 @@ public class QLForm extends Application {
                     		numericExpressionViewModelFactory::create,
 							booleanExpressionFactory::create,
 							conditionCollector::getConditions);
-            QuestionBlockViewModelFactory questionBlockViewModelFactory =
-                    new QuestionBlockViewModelFactory(questionViewModelFactory::create, booleanExpressionFactory::create);
 
-
-            this.viewModel = new FormViewModelImpl(model, renderer, questionBlockViewModelFactory::create);
+            this.viewModel = new FormViewModelImpl(model, questionViewModelFactory::create);
 
             QuestionViewModelLinker viewModelLinker = new QuestionViewModelLinkerImpl(new QuestionViewModelCollectorImpl());
             viewModelLinker.linkQuestionStubs(this.viewModel);

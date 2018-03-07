@@ -4,22 +4,20 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import qlviz.gui.renderer.FormRenderer;
-import qlviz.gui.renderer.QuestionBlockRenderer;
+import qlviz.gui.renderer.QuestionRenderer;
 import qlviz.gui.viewModel.FormViewModel;
-import qlviz.gui.viewModel.QuestionBlockViewModel;
-import qlviz.model.Form;
-import qlviz.model.QuestionBlock;
+import qlviz.gui.viewModel.question.QuestionViewModel;
 
 import java.util.function.Function;
 
 public class JavafxFormRenderer implements FormRenderer {
 
     private final Stage stage;
-    private final Function<VBox, QuestionBlockRenderer> questionBlockRendererFactory;
+    private final Function<VBox, QuestionRenderer> questionRendererFactory;
 
-    public JavafxFormRenderer(Stage stage, Function<VBox, QuestionBlockRenderer> questionBlockRendererFactory) {
+    public JavafxFormRenderer(Stage stage, Function<VBox, QuestionRenderer> questionRendererFactory) {
         this.stage = stage;
-        this.questionBlockRendererFactory = questionBlockRendererFactory;
+        this.questionRendererFactory = questionRendererFactory;
     }
 
     @Override
@@ -28,9 +26,9 @@ public class JavafxFormRenderer implements FormRenderer {
 
         VBox formFieldsContainer = new VBox();
 
-        QuestionBlockRenderer questionBlockRenderer = questionBlockRendererFactory.apply(formFieldsContainer);
-        for (QuestionBlockViewModel questionBlock : form.getQuestions()) {
-            questionBlockRenderer.render(questionBlock);
+        QuestionRenderer questionRenderer = questionRendererFactory.apply(formFieldsContainer);
+        for (QuestionViewModel question : form.getQuestions()) {
+            questionRenderer.render(question);
         }
         Scene scene = new Scene(formFieldsContainer, 550, 250);
         stage.setScene(scene);

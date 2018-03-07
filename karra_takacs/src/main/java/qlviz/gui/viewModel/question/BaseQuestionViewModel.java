@@ -37,11 +37,11 @@ public abstract class BaseQuestionViewModel implements QuestionViewModel {
 
     public String getName(){return this.question.getName();}
 
-    public boolean isIsEnabled() {
-        return isEnabled.get();
-    }
-
     public BooleanProperty isEnabledProperty() {
         return isEnabled;
+    }
+
+    public List<BooleanExpressionViewModel> getEnabledConditions() {
+        return this.conditions;
     }
 }

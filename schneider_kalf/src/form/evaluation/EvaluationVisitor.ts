@@ -11,7 +11,7 @@ import {
 } from "../type_checking/type_assertions";
 import Variable from "../nodes/expressions/VariableIdentifier";
 import { UnkownVariableIdentifierError } from "../form_errors";
-import BooleanLiteral from "../nodes/expressions/boolean_expressions/BooleanLiteral";
+import BooleanLiteral from "../nodes/expressions/literals/BooleanLiteral";
 import Division from "../nodes/expressions/arithmetic/Division";
 import Subtraction from "../nodes/expressions/arithmetic/Subtraction";
 import Equals from "../nodes/expressions/comparisons/Equals";

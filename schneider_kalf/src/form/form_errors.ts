@@ -180,6 +180,21 @@ export class VariableNotInScopeError extends FormError {
   }
 }
 
+export class ValueIsNaNError extends FormError {
+  value: any;
+
+  static make(value: any, message?: string) {
+    if (typeof message === 'undefined') {
+      message = `Value cannot be parsed as a number: ${value}.`;
+    }
+
+    const error = new ValueIsNaNError(message);
+    error.value = value;
+    Object.setPrototypeOf(error, ValueIsNaNError.prototype);
+    return error;
+  }
+}
+
 export class CannotFindCommonFieldTypeError extends FormError {
   left: FieldType;
   right: FieldType;

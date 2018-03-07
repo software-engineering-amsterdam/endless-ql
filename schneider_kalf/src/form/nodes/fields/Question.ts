@@ -2,8 +2,9 @@ import { FieldType } from "../../FieldType";
 import Field from "./FieldNode";
 import FormState from "../../state/FormState";
 import FieldVisitor from "../visitors/FieldVisitor";
+import Locateable from "../location/Locateable";
 
-export default class Question implements Field {
+export default class Question implements Locateable, Field {
   readonly label: string;
   readonly identifier: string;
   readonly type: FieldType;

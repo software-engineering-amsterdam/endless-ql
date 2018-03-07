@@ -6,7 +6,7 @@ import And from "../expressions/boolean_expressions/And";
 import Negation from "../expressions/boolean_expressions/Negation";
 import Variable from "../expressions/VariableIdentifier";
 import Division from "../expressions/arithmetic/Division";
-import BooleanLiteral from "../expressions/boolean_expressions/BooleanLiteral";
+import BooleanLiteral from "../expressions/literals/BooleanLiteral";
 import Subtraction from "../expressions/arithmetic/Subtraction";
 import Equals from "../expressions/comparisons/Equals";
 import NotEquals from "../expressions/comparisons/NotEqual";

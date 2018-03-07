@@ -6,6 +6,7 @@ import nl.uva.se.sc.niro.model.expressions.Reference
 import nl.uva.se.sc.niro.model.expressions.answers.BooleanAnswer
 import nl.uva.se.sc.niro.model.{ Conditional, QLForm, Question, Statement }
 import org.apache.logging.log4j.scala.Logging
+import CycleDetection._
 
 object TypeChecker extends Logging {
 
@@ -94,40 +95,11 @@ object TypeChecker extends Logging {
     }
   }
 
-  case class Edge(from: String, to: String)
-  type Graph = Seq[Edge]
-  private def graphToString(followedPath: Graph): String = {
-    (followedPath.init.map(_.from) :+ followedPath.last.from :+ followedPath.last.to).mkString(" -> ")
-  }
-
   private def buildDependencyGraph(questions: Seq[Question]): Graph = {
     questions.flatMap {
       case q @ Question(_, _, _, r @ Reference(_), _) => Seq(Edge(q.id, r.value))
       case q @ Question(_, _, _, expression, _) =>
         Statement.collectAllReferences(expression).map(r => Edge(q.id, r.value))
-    }
-  }
-
-  private def detectCycles(graph: Graph, followedPath: Graph): Seq[Graph] = {
-    logger.info(s"Detecting cycles in graph: $graph. Now traversing: $followedPath")
-
-    val currentEdge = followedPath.last
-    val connectedEdges: Seq[Edge] = graph.filter { _.from == currentEdge.to }
-
-    if (connectedEdges.isEmpty) {
-      logger.info(s"No cycle detected in $followedPath")
-      Seq.empty
-    } else {
-      connectedEdges.flatMap { connectedEdge =>
-        val currentPath = followedPath :+ connectedEdge
-        if (followedPath.head.from == connectedEdge.to) {
-          val completePath = graphToString(currentPath)
-          logger.info(s"Detected a cycle: $completePath")
-          Seq(followedPath :+ connectedEdge)
-        } else {
-          detectCycles(graph, currentPath)
-        }
-      }
     }
   }
 

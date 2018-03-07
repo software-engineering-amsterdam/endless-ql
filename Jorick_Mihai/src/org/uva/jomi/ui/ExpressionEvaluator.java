@@ -1,7 +1,5 @@
 package org.uva.jomi.ui;
 
-import java.util.List;
-
 import org.uva.jomi.ql.ast.expressions.AdditionExpr;
 import org.uva.jomi.ql.ast.expressions.AndExpr;
 import org.uva.jomi.ql.ast.expressions.BooleanExpr;
@@ -21,90 +19,35 @@ import org.uva.jomi.ql.ast.expressions.OrExpr;
 import org.uva.jomi.ql.ast.expressions.StringExpr;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
 import org.uva.jomi.ql.ast.expressions.UnaryNotExpr;
-import org.uva.jomi.ql.ast.statements.BlockStmt;
-import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
-import org.uva.jomi.ql.ast.statements.FormStmt;
-import org.uva.jomi.ql.ast.statements.IfElseStmt;
-import org.uva.jomi.ql.ast.statements.IfStmt;
-import org.uva.jomi.ql.ast.statements.QuestionStmt;
-import org.uva.jomi.ql.ast.statements.Stmt;
 import org.uva.jomi.ql.interpreter.BooleanValue;
 import org.uva.jomi.ql.interpreter.GenericValue;
 import org.uva.jomi.ql.interpreter.IntegerValue;
 import org.uva.jomi.ql.interpreter.StringValue;
 
 
-public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<GenericValue> {
-	
-	public void interpret(List<Stmt> statements) {
-		for (Stmt statement : statements) {
-			execute(statement);
-		}
+public class ExpressionEvaluator implements Expr.Visitor<GenericValue> {
+
+	public GenericValue execute(Expr expression) {
+		return expression.accept(this);
 	}
-	
+
 	public void catchException() {
 		try {
-			
+
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
-	}
-	
-	private GenericValue evaluate(Expr expr) {
-		return expr.accept(this);
-	}
-	
-	private void execute(Stmt stmt) {
-		stmt.accept(this);
 	}
 
 	@Override
 	public GenericValue visit(IdentifierExpr expr) {
 		// TODO - Remove dependency on GenericValue
-		return (GenericValue) SymbolTable.getInstance().get(expr.getName());
+		return SymbolTable.getInstance().get(expr.getName());
 	}
 
 	@Override
 	public GenericValue visit(GroupingExpr expr) {
 		return expr.visitInnerExpr(this);
-	}
-
-	@Override
-	public Void visit(FormStmt stmt) {
-		stmt.visitBlockStmt(this);
-		return null;
-	}
-
-	@Override
-	public Void visit(BlockStmt stmt) {
-		stmt.getStatements().forEach( statement -> statement.accept(this));
-		return null;
-	}
-
-	@Override
-	public Void visit(QuestionStmt stmt) {
-		// TODO Interpret QuestionStmt.
-		return null;
-	}
-	
-	@Override
-	public Void visit(ComputedQuestionStmt stmt) {
-		GenericValue value = evaluate(stmt.getExp());
-		String name = stmt.getIdentifierName();
-		SymbolTable.getInstance().put(name, value);
-		return null;	
-	}
-
-	@Override
-	public Void visit(IfStmt stmt) {
-		// TODO Interpret IfStmt.
-		return null;
-	}
-
-	@Override
-	public Void visit(IfElseStmt stmt) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

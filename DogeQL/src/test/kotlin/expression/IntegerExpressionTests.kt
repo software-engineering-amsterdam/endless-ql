@@ -1,6 +1,6 @@
 package expression
 
-import data.IntegerValue
+import data.value.IntegerValue
 import org.junit.Assert
 import org.junit.Test
 import javax.naming.OperationNotSupportedException

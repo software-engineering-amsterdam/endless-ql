@@ -26,9 +26,14 @@ ifStatement
     ;
 
 expression
-    : LPAREN expression RPAREN
-    | UNARY_OPERATOR expression
-    | expression BINARY_OPERATOR expression
+    : NOT expression
+    | expression (MUL | DIV) expression
+    | expression (ADD | SUB) expression
+    | expression (LT | GT | LE | GE) expression
+    | expression (EQUAL | NOTEQUAL) expression
+    | expression AND expression
+    | expression OR expression
+    | LPAREN expression RPAREN
     | NAME
     | literal
     ;

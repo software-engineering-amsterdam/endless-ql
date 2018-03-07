@@ -1,10 +1,10 @@
 form taxOfficeExample
 {
-  "What is your name?"
-     name: string
-   "What is your name?"
-      name: string
+  "What is your first name?"
+     firstName: string
+   "What is your last name?"
+      lastName: string
     "What is your name?"
-       name: string
+       name: string = firstName + lastName
 
 }

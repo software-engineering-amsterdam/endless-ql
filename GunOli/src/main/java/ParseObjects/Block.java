@@ -26,12 +26,4 @@ public class Block {
     public void setConditions(ArrayList<Condition> conditions) {
         this.conditions = conditions;
     }
-
-    public void addQuestion(Question q){
-        questions.add(q);
-    }
-
-    public void addCondition(Condition c){
-        conditions.add(c);
-    }
 }

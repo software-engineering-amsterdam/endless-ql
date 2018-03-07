@@ -143,21 +143,6 @@ UNARY_OPERATOR
     : NOT
     ;
 
-BINARY_OPERATOR
-    : GT
-    | LT
-    | EQUAL
-    | LE
-    | GE
-    | NOTEQUAL
-    | AND
-    | OR
-    | ADD
-    | SUB
-    | MUL
-    | DIV
-    ;
-
 ASSIGN
     : '='
     ;

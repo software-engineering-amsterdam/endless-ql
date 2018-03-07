@@ -55,13 +55,17 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
         return this.statementTable.questionIsConditional(question.toString());
     }
 
+    public boolean questionIsCalculated(Question question){
+        return this.expressionTable.questionHasExpression(question.getName());
+    }
+
     public Value getValueById(String id) {
         return this.valueTable.getValueByID(id);
     }
 
     public void evaluateAllExpressions(ExpressionEvaluator expressionEvaluator){
         for (Question question : this.getQuestionsAsList()){
-            if(this.expressionTable.questionHasExpression(question.toString())){
+            if(this.expressionTable.questionHasExpression(question.getName())){
                 Value value = expressionEvaluator.evaluateExpression(question.getName(),this.expressionTable.getExpressionByName(question.getName()),this.valueTable);
                 this.valueTable.addOrUpdateValue(question.getName(), value);
             }

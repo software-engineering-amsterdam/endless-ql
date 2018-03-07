@@ -28,6 +28,7 @@ import qlviz.model.QuestionBlock;
 import qlviz.model.style.Stylesheet;
 import qlviz.typecheker.AnalysisResult;
 import qlviz.typecheker.CircularReferenceChecker;
+import qlviz.typecheker.DuplicateLabelChecker;
 import qlviz.typecheker.DuplicateQuestionChecker;
 import qlviz.typecheker.Severity;
 
@@ -38,7 +39,7 @@ public class QLForm extends Application {
 	private JavafxFormRenderer renderer;
 	private Form model;
 	private FormViewModel viewModel;
-
+	private boolean containsDuplicates = false;
 
 
 
@@ -110,18 +111,29 @@ public class QLForm extends Application {
 						),
 						pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor)
 				);
+		List<AnalysisResult> staticCheckResults = new ArrayList<>();
 		FormVisitor visitor = new FormVisitor(questionBlockVisitor);
 		this.model = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()))
 				.createFormFromMarkup(this.getParameters().getRaw().get(0));
-
+		try {
+			this.model = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()))
+					.linkQuestions(this.model);
+			}catch(IllegalStateException e) {
+				containsDuplicates = true;
+	       }
+		
 		DuplicateQuestionChecker duplicateQuestionChecker = new DuplicateQuestionChecker();
 		duplicateQuestionChecker.initialize(this.model);
+		DuplicateLabelChecker duplicateLabelChecker = new DuplicateLabelChecker();
+		duplicateLabelChecker.initialize(this.model);
+		staticCheckResults.addAll(duplicateQuestionChecker.analyze());
+		staticCheckResults.addAll(duplicateLabelChecker.analyze());
+		if(staticCheckResults == null) {
 		CircularReferenceChecker circularReferenceChecker = new CircularReferenceChecker();
 		circularReferenceChecker.initialize(this.model);
-
-		List<AnalysisResult> staticCheckResults = new ArrayList<>();
-		staticCheckResults.addAll(duplicateQuestionChecker.analyze());
 		staticCheckResults.addAll(circularReferenceChecker.analyze());
+		}
+		
 
 		if (staticCheckResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
 			ErrorRenderer errorRenderer = new JavafxErrorRenderer(stage);

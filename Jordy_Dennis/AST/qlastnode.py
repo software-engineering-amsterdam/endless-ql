@@ -1,6 +1,6 @@
 import pprint
 from .ast_methods import *
-import collections
+
 
 """ 
 AST tree used for the QL visitor
@@ -16,6 +16,7 @@ class QLAst:
         self.forms = []
         self.types = []
         self.varDict = collections.OrderedDict()
+        self.qlOrder = collections.OrderedDict()
 
     def addForm(self, form):
         self.forms.append(form)
@@ -35,6 +36,17 @@ class QLAst:
         for form in self.forms:
             form.linkVars(self.varDict)
         return self.varDict
+
+    def getVarDict(self):
+        return self.varDict
+
+    # Traversal called after linkVars is called, this one is used to return a dictionary that holds the questions
+    # of the program along with their scope (if they are in a conditional or not). The output will be used to
+    # generate questions
+    def getQLOrder(self):
+        for form in self.forms:
+            self.qlOrder[form.getQLName()] = form.getQLOrder()
+        return self.qlOrder
 
     def __repr__(self):
         return "FORMS: {}".format(self.forms)

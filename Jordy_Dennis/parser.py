@@ -7,9 +7,10 @@ pythonVersion = "Python3"
 destinationFolder = "LexParser"
 
 import sys
+import pprint
 from antlr4 import *
 from parse_grammar import main_parser
-from GUI import Gui
+from question_generator import Question_Generator
 
 # Generate the lexer and parser for the grammar
 main_parser(grammarName, pythonVersion, destinationFolder)
@@ -29,6 +30,10 @@ class MyErrorListener(ErrorListener):
 
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
         raise Exception("SyntaxError: " + msg + " at line: " + str(line))
+
+def printDict(dic):
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(dic)
 
 
 def getAstFromString(input):
@@ -53,19 +58,16 @@ def main(argv):
     parser._listeners = [MyErrorListener()]
     tree = parser.form()
 
-    # g = Gui()
-    # g.create_form()
-    # g.create_header("Mijn Vragenlijst")
-    # g.execute()
-
     # pass tree to visitor
     visitor = Visitor()
     visitor.visit(tree)
     # print(visitor.QLAst)
     ast = visitor.getAst()
-    ast.linkVars()
+    varDict = ast.linkVars()
+    # printDict(varDict)
     ast.checkTypes()
-    print("HIER")
+    qg = Question_Generator(varDict, ast)
+
 
 
 if __name__ == '__main__':

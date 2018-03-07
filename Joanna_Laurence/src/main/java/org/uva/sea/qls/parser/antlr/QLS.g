@@ -34,7 +34,6 @@ stylesheet returns [Stylesheet result]
         }
     ;
 
-
 pages returns [List<Page> result]
     @init  { List<Page> pages = new ArrayList<>(); }
     @after { $result = pages; }
@@ -64,14 +63,14 @@ specification returns [Specification result]
     ;
 
 section returns [Section result]
-    :   s='section' IDENT '{' specifications '}' {
-            $result = new Section($s, $IDENT.text, $specifications.result);
+    :   s='section' STR '{' specifications '}' {
+            $result = new Section($s, $STR.text, $specifications.result);
         }
     |
-        s='section' IDENT specification {
+        s='section' STR specification {
             List<Specification> specifications = new ArrayList<>();
             specifications.add($specification.result);
-            $result = new Section($s, $IDENT.text, specifications);
+            $result = new Section($s, $STR.text, specifications);
         }
     ;
 
@@ -87,43 +86,64 @@ question returns [Question result]
     ;
 
 widget returns [Widget result]
-    :   w='widget' name=IDENT parameters {
-        $result = new Widget($w, $name.text, $parameters.result);
+    :   w='widget' name=IDENT ('(' parameters ')')? {
+        $result = new Widget($w, $name.text, $parameters.text != null ? $parameters.result : new ArrayList<>());
     };
 
 
 parameters returns [List<Parameter> result]
     @init  { List<Parameter> parameters = new ArrayList<>(); }
     @after { $result = parameters; }
-    : parameter (',' parameters)? {
+    : (parameter (',' parameters)? {
         parameters.add($parameter.result);
-        parameters.addAll($parameters.result);
-    }
+
+        if($parameters.text != null) {
+            parameters.addAll($parameters.result);
+        }
+    })?
     ;
 
 parameter returns [Parameter result]
-    : p='"' IDENT '"' {
-        $result = new Parameter($p, $IDENT.text);
+    : p=STR {
+        $result = new Parameter($p, $p.text);
     };
 
 defaultStyle returns [DefaultStyle result]
-    : d= '{' styleSpecifications '}' {
-        $result = new DefaultStyle($d, $styleSpecifications.result);
+    : d='default' type=IDENT styleSpecifications {
+        $result = new DefaultStyle($d, $type.text, $styleSpecifications.result);
     };
 
 styleSpecifications returns [List<StyleSpecification> result]
      @init  { List<StyleSpecification> specifications = new ArrayList<>(); }
      @after { $result = specifications; }
-     : s='width' ':' NUM { specifications.add(new Width($s, $NUM.text)); }
-     | s='font' ':' '"' IDENT '"' { specifications.add(new Font($s, $IDENT.text)); }
-     | s='fontsize' ':' '"' IDENT '"' { specifications.add(new FontSize($s, $IDENT.text)); }
-     | s='color' ':' '#' '"' IDENT '"' { specifications.add(new Color($s, $IDENT.text)); }
-     | widget { specifications.add($widget.result); }
+     : '{' (styleSpecification {
+                specifications.add($styleSpecification.result);
+           })* '}'
+     | styleSpecification { specifications.add($styleSpecification.result); }
      ;
 
+styleSpecification returns [StyleSpecification result]
+    :  s='width' ':' NUM { $result = new Width($s, $NUM.text); }
+     | s='font' ':' STR { $result = new Font($s, $STR.text); }
+     | s='fontsize' ':' NUM { $result = new FontSize($s, $NUM.text); }
+     | s='color' ':' COLOR_CODE { $result = new Color($s, $COLOR_CODE.text); }
+     | widget { $result = $widget.result; }
+     ;
+
+string returns [String result]
+   :  '"' IDENT '"' { $result = $IDENT.text; }
+   ;
 
 IDENT:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
-NUM: [0-9]+;
+NUM: ('0'..'9')+;
 
+COLOR_CODE: '#'('a'..'f'|'A'..'F'|'0'..'9')+;
 
+STR: '"' .*? '"';
+
+WS  :	(' ' | '\t' | '\n' | '\r') -> skip;
+
+COMMENT : '/*' .*? '*/'  -> skip;
+
+SINGLE_COMMENT : '//'  ~[\r\n]*  -> skip;

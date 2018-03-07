@@ -8,15 +8,21 @@ import java.util.List;
 
 public class DefaultStyle extends Specification {
 
+    private String typeName;
     private List<StyleSpecification> styleSpecificationList;
 
-    public DefaultStyle(Token token, List<StyleSpecification> styleSpecificationList) {
+    public DefaultStyle(Token token, String typeName, List<StyleSpecification> styleSpecificationList) {
         super(token);
         this.styleSpecificationList = styleSpecificationList;
+        this.typeName = typeName;
     }
 
     public List<StyleSpecification> getStyleSpecificationList() {
         return styleSpecificationList;
+    }
+
+    public String getTypeName() {
+        return typeName;
     }
 
     @Override

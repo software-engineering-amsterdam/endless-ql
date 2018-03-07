@@ -5,14 +5,14 @@ import org.uva.sea.qls.parser.visitor.IStyleASTVisitor;
 
 public class Color extends StyleSpecification {
 
-    private int colorCode;
+    private String colorCode;
 
     public Color(Token token, String colorCode) {
         super(token);
-        this.colorCode = Integer.parseInt(colorCode);
+        this.colorCode = colorCode;
     }
 
-    public int getColorCode() {
+    public String getColorCode() {
         return colorCode;
     }
 

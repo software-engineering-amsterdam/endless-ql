@@ -1,16 +1,34 @@
 package qlviz.gui.viewModel.question;
 
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModel;
 import qlviz.model.question.Question;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseQuestionViewModel implements QuestionViewModel {
 
     private final Question question;
+    private final List<BooleanExpressionViewModel> conditions;
+    private final BooleanProperty isEnabled;
+    private BooleanBinding isEnabledBinding;
 
-    protected BaseQuestionViewModel(Question question) {
+    protected BaseQuestionViewModel(Question question, List<BooleanExpressionViewModel> conditions) {
         this.question = question;
+        this.conditions = conditions;
+        this.isEnabledBinding = new BooleanBinding() {
+            @Override
+            protected boolean computeValue() {
+                return true;
+            }
+        };
+        for (BooleanExpressionViewModel booleanExpressionViewModel : conditions) {
+            isEnabledBinding = booleanExpressionViewModel.valueProperty().and(isEnabledBinding);
+        }
+        this.isEnabled = new SimpleBooleanProperty(true);
+        this.isEnabled.bind(isEnabledBinding);
     }
 
     public String getText() {
@@ -19,4 +37,11 @@ public abstract class BaseQuestionViewModel implements QuestionViewModel {
 
     public String getName(){return this.question.getName();}
 
+    public boolean isIsEnabled() {
+        return isEnabled.get();
+    }
+
+    public BooleanProperty isEnabledProperty() {
+        return isEnabled;
+    }
 }

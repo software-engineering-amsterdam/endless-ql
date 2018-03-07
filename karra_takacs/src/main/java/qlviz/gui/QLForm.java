@@ -131,8 +131,12 @@ public class QLForm extends Application {
 		{
             NumericExpressionViewModelFactory numericExpressionViewModelFactory = new NumericExpressionViewModelFactoryImpl();
             BooleanExpressionViewModelFactory booleanExpressionFactory = new BooleanExpressionViewModelFactoryImpl(numericExpressionViewModelFactory);
+			ConditionCollector conditionCollector = new CachingConditionCollector(this.model);
             QuestionViewModelFactoryImpl questionViewModelFactory =
-                    new QuestionViewModelFactoryImpl(numericExpressionViewModelFactory::create);
+                    new QuestionViewModelFactoryImpl(
+                    		numericExpressionViewModelFactory::create,
+							booleanExpressionFactory::create,
+							conditionCollector::getConditions);
             QuestionBlockViewModelFactory questionBlockViewModelFactory =
                     new QuestionBlockViewModelFactory(questionViewModelFactory::create, booleanExpressionFactory::create);
 

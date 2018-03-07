@@ -1,6 +1,9 @@
 package org.uva.jomi.ql.interpreter;
 
 public interface GenericValue {
+	
+	Object getValue();
+	
 	// Addition.
 	GenericValue add(GenericValue rightHandSideValue);
 	GenericValue add(IntegerValue leftHandSideValue);

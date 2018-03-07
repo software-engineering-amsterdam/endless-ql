@@ -12,7 +12,7 @@ import org.uva.jomi.ql.ast.statements.IfElseStmt;
 import org.uva.jomi.ql.ast.statements.IfStmt;
 import org.uva.jomi.ql.ast.statements.QuestionStmt;
 import org.uva.jomi.ql.ast.statements.Stmt;
-import org.uva.jomi.ql.interpreter.QLInterpreter;
+import org.uva.jomi.ui.QLInterpreter;
 import org.uva.jomi.ui.elements.BaseElement;
 import org.uva.jomi.ui.elements.ComputedQuestionElement;
 import org.uva.jomi.ui.elements.ConditionalPanelElement;

@@ -20,7 +20,6 @@ public class ParameterChecker extends Checker implements StatementVisitor<Void, 
     private final String ERROR_MESSAGE = "Referenced parameter does not exist: ";
 
     ParameterChecker(Form form, SymbolTable symbolTable) {
-
         this.symbolTable = symbolTable;
         this.expressions = new HashMap<>();
 

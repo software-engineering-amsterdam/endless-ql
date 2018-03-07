@@ -13,6 +13,7 @@ import org.uva.ql.validation.Validator;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.LogManager;
 
 import java.util.logging.Logger;
 
@@ -21,6 +22,10 @@ public class App {
 
     private App() {
         try {
+            Logger logger = Logger.getGlobal();
+            LogManager.getLogManager().reset();
+            logger.addHandler(new LogHandler());
+
             byte[] a = Files.readAllBytes(Paths.get("input/default.ql"));
             String input = new String(a);
 
@@ -29,9 +34,6 @@ public class App {
 
             Validator validator = new Validator();
             validator.execute(form);
-
-            Logger logger = Logger.getGlobal();
-            logger.addHandler(new LogHandler());
 
             FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
             

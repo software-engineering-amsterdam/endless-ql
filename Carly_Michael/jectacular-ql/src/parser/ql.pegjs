@@ -3,7 +3,7 @@ form            = ws comment* ws "form" ws name:identifier ws "{" ws
                   statements: statement*
                   ws comment* ws
                 "}" ws {
-                  return new Form(name, statements, location());
+                  return new ast.Form(name, statements, location());
                 }
 
 statement       = exprQuestion / q / ifElseStatement / ifStatement
@@ -12,7 +12,7 @@ ifStatement     = ws comment* ws "if" ws "(" ws condition:orExpression ws ")" ws
                   statements:statement* ws
                   ws comment* ws
                   "}" ws {
-                    return new If(condition, statements, [], location());
+                    return new ast.If(condition, statements, [], location());
                   }
 
 ifElseStatement = ws comment* ws "if" ws "(" ws condition:orExpression ws ")" ws "{" ws
@@ -22,20 +22,20 @@ ifElseStatement = ws comment* ws "if" ws "(" ws condition:orExpression ws ")" ws
                   elseStatements:statement* ws
                   ws comment* ws
                   "}" {
-                    return new If(condition, statements, elseStatements, location());
+                    return new ast.If(condition, statements, elseStatements, location());
                   }
 
 q "question"    = ws comment* ws name:identifier ":" ws "\"" ws
                   label:text "\"" ws
                   type: type ws {
-                    return new Question(name, label, type, location());
+                    return new ast.Question(name, label, type, location());
                   }
 
 exprQuestion    = ws comment* ws name:identifier ":" ws "\"" ws
                   label:text "\"" ws
                   type: type ws
                   "=" ws expr:orExpression ws {
-                    return new ExpressionQuestion(name, label, type, expr, location());
+                    return new ast.ExpressionQuestion(name, label, type, expr, location());
                   }
 
 // precedence:
@@ -49,49 +49,63 @@ exprQuestion    = ws comment* ws name:identifier ":" ws "\"" ws
 
 orExpression
   = head:andExpression tail:(ws "||" ws orExpression) {
-      return new LogicalExpression(head, tail[3], tail[1], location());
+      return new ast.LogicalExpression(head, tail[3], tail[1], location());
 } / v:andExpression {
         return v;
       }
 
 andExpression
   = head:equalityExpression tail:(ws "&&" ws andExpression) {
-      return new LogicalExpression(head, tail[3], tail[1], location());
+      return new ast.LogicalExpression(head, tail[3], tail[1], location());
 } / v:equalityExpression {
         return v;
       }
 
 equalityExpression
   = head:comparisonExpression tail:(ws ("==" / "!=") ws equalityExpression) {
-      return new LogicalExpression(head, tail[3], tail[1], location());
+      return new ast.LogicalExpression(head, tail[3], tail[1], location());
 } / v:comparisonExpression {
         return v;
       }
 
 comparisonExpression
   = head:addExpression tail:(ws (">" / "<" / ">=" / "<=") ws comparisonExpression) {
-      return new LogicalExpression(head, tail[3], tail[1], location());
+      return new ast.LogicalExpression(head, tail[3], tail[1], location());
 } / v:addExpression {
         return v;
       }
 
 addExpression
-  = head:mulExpression tail:(ws ("+" / "-") ws addExpression) {
-      return new ArithmeticExpression(head, tail[3], tail[1], location());
-} / v:mulExpression {
+  = head:subtractExpression tail:(ws ("+") ws addExpression) {
+      return new ast.AddExpression(head, tail[3], location());
+} / v:subtractExpression {
         return v;
       }
 
-mulExpression
-  = head:unaryExpression tail:(ws ("*" / "/") ws mulExpression) {
-      return new ArithmeticExpression(head, tail[3], tail[1], location());
+subtractExpression
+  = head:multiplyExpression tail:(ws ("-") ws subtractExpression) {
+      return new ast.SubtractExpression(head, tail[3], location());
+} / v:multiplyExpression {
+        return v;
+      }
+
+multiplyExpression
+  = head:divideExpression tail:(ws ("*") ws multiplyExpression) {
+      return new ast.MultiplyExpression(head, tail[3], location());
+} / v:divideExpression {
+        return v;
+      }
+
+divideExpression
+  = head:unaryExpression tail:(ws ("/") ws divideExpression) {
+      return new ast.DivideExpression(head, tail[3], location());
 } / v:unaryExpression {
         return v;
       }
 
 unaryExpression
   = head:(ws ("!" / "-") ws unaryExpression) {
-      return new UnaryExpression(head[3], head[1], location());
+      return new ast.UnaryExpression(head[3], head[1], location());
 } / v:primitive {
         return v;
       }
@@ -112,21 +126,21 @@ type            = booleanType /
 ws "whitespace" = [ \t\n\r]* { return; }
 identifier 		  = [a-zA-Z0-9]+ {return text();}
 expression 		  = [a-zA-Z0-9 +\-\/*><=]+ {return text();}
-integer         = ws [0-9]+ ws { return new Literal(ExpressionType.NUMBER, parseInt(text(), 10), location()); }
-boolean         = ws val:("true" / "false") ws { return new Literal(ExpressionType.BOOLEAN, val, location()); }
+integer         = ws [0-9]+ ws { return new ast.Literal(ast.ExpressionType.NUMBER, parseInt(text(), 10), location()); }
+boolean         = ws val:("true" / "false") ws { return new ast.Literal(ast.ExpressionType.BOOLEAN, val, location()); }
 date            = ws "d" day:([0-9][0-9]) "-" month:([0-9][0-9]) "-" year:([0-9][0-9][0-9][0-9]) {
   let jsMonth = parseInt(month[0] + month[1], 10)-1;
-  return new Literal(ExpressionType.DATE, new Date(Date.UTC(year[0] + year[1] + year[2] + year[3],
+  return new ast.Literal(ast.ExpressionType.DATE, new Date(Date.UTC(year[0] + year[1] + year[2] + year[3],
     jsMonth, day[0] + day[1], 0, 0, 0, 0)), location());
 }
-string          = ws "\"" val:identifier "\"" ws { return new Literal(ExpressionType.STRING, val, location()); }
-variable        = ws val:identifier ws { return new Variable(val, location()); }
+string          = ws "\"" val:identifier "\"" ws { return new ast.Literal(ast.ExpressionType.STRING, val, location()); }
+variable        = ws val:identifier ws { return new ast.Variable(val, location()); }
 word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
 comment         = "//" (!lineTerminator .)*
 lineTerminator  = "\n" / "\r\n" / "\r" / "\u2028" / "\u2029"
 
-booleanType     = "boolean" { return QuestionType.BOOLEAN; }
-stringType      = "string" { return QuestionType.STRING; }
-integerType     = "integer" { return QuestionType.INT; }
-dateType        = "date" { return QuestionType.DATE; }
-decimalType     = "decimal" { return QuestionType.DECIMAL; }
+booleanType     = "boolean" { return ast.QuestionType.BOOLEAN; }
+stringType      = "string" { return ast.QuestionType.STRING; }
+integerType     = "integer" { return ast.QuestionType.INT; }
+dateType        = "date" { return ast.QuestionType.DATE; }
+decimalType     = "decimal" { return ast.QuestionType.DECIMAL; }

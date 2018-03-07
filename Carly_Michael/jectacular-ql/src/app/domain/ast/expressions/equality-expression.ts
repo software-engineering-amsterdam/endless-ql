@@ -8,8 +8,8 @@ import {Variable} from './variable';
 import {BinaryExpression} from './binary-expression';
 
 export class EqualityExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, operator: EqualityOperator, location: Location) {
-    super(left, right, operator, location);
+  constructor(left: Expression, right: Expression, private operator: EqualityOperator, location: Location) {
+    super(left, right, location);
   }
 
   checkType(allQuestions: Question[]): ExpressionType {

@@ -8,8 +8,8 @@ import {Variable} from './variable';
 import {BinaryExpression} from './binary-expression';
 
 export class LogicalExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, operator: LogicalOperator, location: Location) {
-    super(left, right, operator, location);
+  constructor(left: Expression, right: Expression, private operator: LogicalOperator, location: Location) {
+    super(left, right, location);
   }
 
   getVariables(): Variable[] {

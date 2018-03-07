@@ -1,7 +1,7 @@
 import {Literal} from './expression';
 import {ExpressionType} from './expression-type';
 import {LogicalExpression} from './logical-expression';
-import {ArithmeticExpression} from './arithmetic-expression';
+import {AddExpression, ArithmeticExpression, DivideExpression, MultiplyExpression, SubtractExpression} from './arithmetic-expression';
 import {UnaryExpression} from './unary-expression';
 import {Location} from '../location';
 import {ComparisonExpression} from './comparison-expression';
@@ -30,10 +30,10 @@ const decimalLiteral = new Literal(ExpressionType.NUMBER, 8.0, location);
 const andExpression = new LogicalExpression(booleanLiteral, booleanLiteral, '&&', location);
 const orExpression = new LogicalExpression(booleanLiteral, booleanLiteral, '||', location);
 
-const timesExpression = new ArithmeticExpression(intLiteral, decimalLiteral, '*', location);
-const divideExpression = new ArithmeticExpression(intLiteral, intLiteral, '/', location);
-const addExpression = new ArithmeticExpression(decimalLiteral, intLiteral, '+', location);
-const subtractExpression = new ArithmeticExpression(decimalLiteral, decimalLiteral, '-', location);
+const timesExpression = new MultiplyExpression(intLiteral, decimalLiteral, location);
+const divideExpression = new DivideExpression(intLiteral, intLiteral, location);
+const addExpression = new AddExpression(decimalLiteral, intLiteral, location);
+const subtractExpression = new SubtractExpression(decimalLiteral, decimalLiteral,  location);
 const lessThanExpression = new ComparisonExpression(intLiteral, decimalLiteral, '<', location);
 const greaterThanExpression = new ComparisonExpression(intLiteral, intLiteral, '>', location);
 const lessEqualExpression = new ComparisonExpression(decimalLiteral, intLiteral, '<=', location);
@@ -105,7 +105,7 @@ describe('Expressions', () => {
 
     it('arithmetic expressions', () => {
       expect(timesExpression.checkType([])).toBe(ExpressionType.NUMBER);
-      expect(() => new ArithmeticExpression(intLiteral, booleanLiteral, '/', location)
+      expect(() => new DivideExpression(intLiteral, booleanLiteral, location)
         .checkType([])).toThrowError();
     });
 
@@ -148,10 +148,10 @@ describe('Expressions', () => {
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
           if (literalArray[i].type === ExpressionType.NUMBER && literalArray[j].type === ExpressionType.NUMBER) {
-            expect(new ArithmeticExpression(literalArray[i], literalArray[j], '+', location).checkType([]));
+            expect(new AddExpression(literalArray[i], literalArray[j],  location).checkType([]));
           } else {
             expect(() => {
-              new ArithmeticExpression(literalArray[i], literalArray[j], '+', location).checkType([]);
+              new AddExpression(literalArray[i], literalArray[j],  location).checkType([]);
             }).toThrow();
           }
         }

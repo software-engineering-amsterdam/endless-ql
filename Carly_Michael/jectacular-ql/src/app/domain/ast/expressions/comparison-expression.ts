@@ -7,8 +7,8 @@ import {FormGroup} from '@angular/forms';
 import {BinaryExpression} from './binary-expression';
 
 export class ComparisonExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, operator: ComparisonOperator, location: Location) {
-    super(left, right, operator, location);
+  constructor(left: Expression, right: Expression, private operator: ComparisonOperator, location: Location) {
+    super(left, right, location);
   }
 
   checkType(allQuestions: Question[]): ExpressionType {

@@ -4,7 +4,10 @@ import Nodes.*;
 import AST.gen.*;
 import Nodes.Operator.*;
 import Nodes.Term.Boolean;
+import Nodes.Term.Float;
+import Nodes.Term.QLString;
 import Nodes.Term.Term;
+import Nodes.Term.Variable;
 import com.sun.istack.internal.NotNull;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -89,11 +92,16 @@ public class FormReader {
 
     private static class QuestionVisitor extends QLBaseVisitor<Question> {
 
+
+
         @Override
         public Question visitQuestion(@NotNull QLParser.QuestionContext ctx) {
+
             String questionName = ctx.VARIABLE().getText();
             String questionLabel = ctx.STRING().getText();
             String questionType = ctx.TYPE().getText();
+
+
 
             ExpressionVisitor expressionVisitor = new ExpressionVisitor();
 
@@ -154,6 +162,8 @@ public class FormReader {
             QLParser.OperatorContext operatorContext = ctx.operator();
 
 
+            if(expressions.size() == 1 && notNode == null)
+                return new Expression(expressionVisitor.visitExpression(expressions.get(0)));
 
             if(termContext != null)
                 return new Expression(termVisitor.visitTerm(ctx.term()));
@@ -185,6 +195,29 @@ public class FormReader {
 
         @Override
         public Term visitTerm(@NotNull QLParser.TermContext ctx) {
+            TerminalNode bool = ctx.BOOLEAN();
+            TerminalNode qlstring = ctx.STRING();
+            TerminalNode variable = ctx.VARIABLE();
+            TerminalNode integer = ctx.INTEGER();
+            TerminalNode decimal = ctx.DECIMAL();
+
+
+            if(bool != null)
+                return new Boolean(java.lang.Boolean.parseBoolean(bool.toString()));
+
+            if(qlstring != null)
+                return new QLString((String) qlstring.toString());
+
+            if(variable != null)
+                return new Variable((String) variable.toString());
+
+            if(integer != null)
+                System.out.println("Term is integer"); //TODO create Integer class
+
+            if(decimal != null)
+                return new Float((java.lang.Float.parseFloat(decimal.toString())));
+
+
             return new Boolean(true); //TODO return fitting value
         }
 

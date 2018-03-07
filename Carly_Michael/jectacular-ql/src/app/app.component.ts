@@ -100,6 +100,7 @@ export class AppComponent {
       this.formName = undefined;
       this.questions = undefined;
       this.errorMessage = e.message;
+      console.log(e);
     }
     this.payload = undefined;
   }

@@ -81,6 +81,7 @@ export class Form {
     allVariables = _.flatten(allVariables);
 
     for (const variable of allVariables) {
+      console.log('checking variable...', variable);
       const referencedQuestion = allQuestions.find(q => q.name === variable.identifier);
       if (referencedQuestion) {
         variable.referencedQuestion = referencedQuestion;

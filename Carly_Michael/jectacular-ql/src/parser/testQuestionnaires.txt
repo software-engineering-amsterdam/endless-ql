@@ -76,7 +76,11 @@ form form {
    weeklyEarnings: "In a week you earn:" integer = salaryQuestion * workHourQuestion
    monthlyEarnings: "In a month you earn:" integer = weeklyEarnings * 4
    holidaySalary: "Do you get holiday money?" boolean
-   if ( holidaySalary) {
-      yearlyEarnings: "In a year you earn: " decimal = monthlyEarnings * 12 + monthlyEarnings
+   if (holidaySalary) {
+      yearlyEarnings: "In a year you earn: " integer = monthlyEarnings * 12 + monthlyEarnings
+   } else {
+      yearlyEarnings2: "in a year you earn: " integer = monthlyEarnings * 12
    }
+
+   salaryMoreThanAverage: "Your salary bigger than average" boolean = yearlyEarnings > 30000 || yearlyEarnings2 > 30000
 }

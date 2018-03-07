@@ -12,10 +12,6 @@ export abstract class LogicalExpression extends BinaryExpression {
     super(left, right, location);
   }
 
-  getVariables(): Variable[] {
-    return undefined;
-  }
-
   checkType(allQuestions: Question[]): ExpressionType {
     if (this.left.checkType(allQuestions) === ExpressionType.BOOLEAN &&
       this.right.checkType(allQuestions) === ExpressionType.BOOLEAN) {

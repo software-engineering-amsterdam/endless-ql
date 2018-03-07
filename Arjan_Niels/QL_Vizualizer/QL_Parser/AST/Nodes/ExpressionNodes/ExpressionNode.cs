@@ -9,11 +9,6 @@
         {
         }
 
-        public NodeType GetNodeType()
-        {
-            return this.Type;
-        }
-
         public QValueType GetQValueType()
         {
             var leftSideType = Left.GetQValueType();

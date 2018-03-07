@@ -15,7 +15,7 @@ namespace QL_Parser.AST.Nodes
         }
 
         public void AddNode(Node node)
-        { 
+        {
             if (node == null)
                 throw new ArgumentNullException("A node can't be null");
             else
@@ -25,6 +25,11 @@ namespace QL_Parser.AST.Nodes
         public override string ToString()
         {
             return string.Format("{0}", Type);
+        }
+
+        public NodeType GetNodeType()
+        {
+            return this.Type;
         }
     }
 }

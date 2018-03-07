@@ -1,32 +1,23 @@
 package ParseObjects;
 
-import ParseObjects.Expressions.Expression;
-import ParseObjects.Expressions.ExpressionConstants.Constant;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class QuestionMap {
-    private Map<String, Expression> questionMap;
+    private Map<String, Question> questionMap;
 
     public QuestionMap(Form form){
         this.questionMap = new HashMap<>();
-        populateMapFromForm(form);
+        populateMap(form);
     }
 
-    private void populateMapFromForm(Form form) {
-        for (Question question : form.getBlock().getQuestions()) {
-            this.questionMap.put(question.getIdentifier(), question.getAnswer());
-        }
-
-        for (Condition condition : form.getBlock().getConditions()) {
-            for (Question question : condition.getBlock().getQuestions()) {
-                this.questionMap.put(question.getIdentifier(), question.getAnswer());
-            }
+    private void populateMap(Form form){
+        for(Question question : form.getBlock().getQuestions()){
+            this.questionMap.put(question.getIdentifier(), question);
         }
     }
 
-    public Expression getQuestion(String id){
-        return questionMap.get(id);
+    public Question getQuestion(String id){
+        return this.questionMap.get(id);
     }
 }

@@ -2,16 +2,14 @@ package Application;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.zip.InflaterInputStream;
 
-import ParseObjects.Question;
-import ParseObjects.Condition;
-import ParseObjects.Form;
 import ParseObjects.QuestionMap;
+import Visitor.ExpressionTable;
+import ParseObjects.Question;
+import ParseObjects.Form;
 import antlrGen.QLParser;
 import antlrGen.QLLexer;
 import Visitor.FormVisitor;
-import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -24,8 +22,11 @@ public class Parser {
             QLLexer lexer = new QLLexer(CharStreams.fromStream(stream));
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             QLParser parser = new QLParser(tokens);
+
             //Trees.inspect(parser.head(), parser); //Debug parse tree, change for later viewing
-            FormVisitor visitor = new FormVisitor();
+
+            ExpressionTable expressionTable = new ExpressionTable();
+            FormVisitor visitor = new FormVisitor(expressionTable);
             return visitor.visit(parser.head());
         }catch(Exception e){
             System.out.println("Unable to Parse Selected File");
@@ -36,19 +37,11 @@ public class Parser {
     public void printQLForm(Form form, QuestionMap qm){
         //Debug form
         for(Question question : form.getBlock().getQuestions()){
-            System.out.println( question.getIdentifier()+ " : " +
-                                question.getText()+" : "+
-                                question.getType()+" : "+
-                                qm.getQuestion(question.getIdentifier()).evaluate().getValue());
-        }
-
-        for(Condition condition : form.getBlock().getConditions()){
-            for(Question question : condition.getBlock().getQuestions()){
-                System.out.println( question.getIdentifier()+ " : " +
-                                    question.getText()+" : "+
-                                    question.getType()+" : "+
-                                    qm.getQuestion(question.getIdentifier()).evaluate().getValue());
-            }
+            String questionName = question.getIdentifier();
+            System.out.println( qm.getQuestion(questionName).getIdentifier() + " : " +
+                                qm.getQuestion(questionName).getText()+" : "+
+                                qm.getQuestion(questionName).getType()+" : "+
+                                qm.getQuestion(questionName).getAnswer().evaluate().getValue());
         }
     }
 }

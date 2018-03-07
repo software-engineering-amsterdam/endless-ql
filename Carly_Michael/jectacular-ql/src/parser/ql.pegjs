@@ -154,9 +154,9 @@ expression 		  = [a-zA-Z0-9 +\-\/*><=]+ {return text();}
 integer         = ws [0-9]+ ws { return new ast.Literal(ast.ExpressionType.NUMBER, parseInt(text(), 10), location()); }
 boolean         = ws val:("true" / "false") ws { return new ast.Literal(ast.ExpressionType.BOOLEAN, val, location()); }
 date            = ws "d" day:([0-9][0-9]) "-" month:([0-9][0-9]) "-" year:([0-9][0-9][0-9][0-9]) {
-  let jsMonth = parseInt(month[0] + month[1], 10)-1;
+  let javascriptMonth = parseInt(month[0] + month[1], 10)-1;
   return new ast.Literal(ast.ExpressionType.DATE, new Date(Date.UTC(year[0] + year[1] + year[2] + year[3],
-    jsMonth, day[0] + day[1], 0, 0, 0, 0)), location());
+    javascriptMonth, day[0] + day[1], 0, 0, 0, 0)), location());
 }
 string          = ws "\"" val:identifier "\"" ws { return new ast.Literal(ast.ExpressionType.STRING, val, location()); }
 variable        = ws val:identifier ws { return new ast.Variable(val, location()); }

@@ -30,7 +30,7 @@ object TypeChecker extends Logging {
     val undefinedReferences: Seq[String] = references.map(_.value).filterNot(qLForm.symbolTable.contains)
 
     if (undefinedReferences.nonEmpty) {
-      throw new IllegalArgumentException(s"Undefined references $undefinedReferences")
+      throw new IllegalArgumentException(s"Undefined references: $undefinedReferences")
     }
 
     qLForm
@@ -48,7 +48,7 @@ object TypeChecker extends Logging {
     }
 
     if (conditionalsWithNonBooleanPredicates.nonEmpty) {
-      throw new IllegalArgumentException(s"Undefined references $conditionalsWithNonBooleanPredicates")
+      throw new IllegalArgumentException(s"Non boolean predicate: $conditionalsWithNonBooleanPredicates")
     }
 
     qLForm
@@ -60,11 +60,13 @@ object TypeChecker extends Logging {
     val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
     val duplicateQuestions: Iterator[Seq[Question]] = questions.groupBy(_.id).valuesIterator.filter(_.size > 1)
 
-    val duplicateQuestionsWithDifferentTypes: Iterator[Seq[Question]] = duplicateQuestions.filter(
-      questionsWithMultipleOccurrences => questionsWithMultipleOccurrences.map(_.answerType).toSet.size > 1)
+    val duplicateQuestionsWithDifferentTypes: Seq[Seq[Question]] = duplicateQuestions
+      .filter(questionsWithMultipleOccurrences => questionsWithMultipleOccurrences.map(_.answerType).toSet.size > 1)
+      .toList
 
     if (duplicateQuestionsWithDifferentTypes.nonEmpty) {
-      throw new IllegalArgumentException(s"Undefined references $duplicateQuestionsWithDifferentTypes")
+      throw new IllegalArgumentException(
+        s"Duplicate question declarations with different types: $duplicateQuestionsWithDifferentTypes")
     }
 
     qLForm
@@ -123,8 +125,8 @@ object TypeChecker extends Logging {
     logger.info("Phase 6 - Checking duplicate question labels ...")
 
     val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
-    val questionsWithDuplicateLabels: Iterator[Seq[Question]] =
-      questions.groupBy(_.label).valuesIterator.filter(_.size > 1)
+    val questionsWithDuplicateLabels: Seq[Seq[Question]] =
+      questions.groupBy(_.label).valuesIterator.filter(_.size > 1).toList
 
     if (questionsWithDuplicateLabels.nonEmpty) {
       throw new IllegalArgumentException(s"Found questions with duplicate labels $questionsWithDuplicateLabels")

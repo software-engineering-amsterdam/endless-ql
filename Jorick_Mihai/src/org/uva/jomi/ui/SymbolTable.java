@@ -1,15 +1,22 @@
 package org.uva.jomi.ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
+
+import org.uva.jomi.ql.interpreter.GenericValue;
+import org.uva.jomi.ui.elements.ComputingInterface;
 
 public class SymbolTable {
 
 	private static SymbolTable singleton = new SymbolTable();
-	private HashMap<String, Object> symbolTable;
+	private HashMap<String, GenericValue> symbolTable;
+	
+	public List<ComputingInterface> watchers = new ArrayList<ComputingInterface>();
 	
 	private SymbolTable() {
-		this.symbolTable = new HashMap<String, Object>();
+		this.symbolTable = new HashMap<String, GenericValue>();
 	}
 	
 	public static SymbolTable getInstance() {
@@ -17,9 +24,12 @@ public class SymbolTable {
 	}
 	
 	
-	public void put(String key, Object value) {
-		System.out.println("Set " + key + " to " + value);
+	public void put(String key, GenericValue value) {
 		this.symbolTable.put(key, value);
+		
+		for(ComputingInterface element : this.watchers) {
+			element.update();
+		}
 	}
 	
 	public Object get(String key) {

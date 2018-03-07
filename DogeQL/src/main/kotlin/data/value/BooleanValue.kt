@@ -5,6 +5,8 @@ import java.math.BigDecimal
 
 class BooleanValue(var value: Boolean) : BaseSymbolValue(QuestionType.BOOLEAN) {
 
+    constructor(value: String) : this(value.toBoolean())
+
     override fun and(that: BaseSymbolValue): BooleanValue = when (that) {
         is BooleanValue -> BooleanValue(value && that.value)
         else -> super.and(that)

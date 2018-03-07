@@ -61,9 +61,9 @@ abstract class BaseSymbolValue(val type: QuestionType) : Comparable<BaseSymbolVa
 
     private fun unsupportedOperation(operator: String, that: BaseSymbolValue? = null): Nothing {
         that?.let {
-            throw OperationNotSupportedException("Unable to apply '$operator' to  $type and ${that.type}")
+            throw OperationNotSupportedException("Unable to apply '$operator' to $type and ${that.type}")
         } ?: run {
-            throw OperationNotSupportedException("Unable to apply '$operator' to  $type")
+            throw OperationNotSupportedException("Unable to apply '$operator' to $type")
         }
     }
 

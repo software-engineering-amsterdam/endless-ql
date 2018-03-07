@@ -5,6 +5,8 @@ import java.math.BigDecimal
 
 class IntegerValue(var value: Int) : BaseSymbolValue(QuestionType.INTEGER) {
 
+    constructor(value: String) : this(value.toInt())
+
     override fun plus(that: BaseSymbolValue): BaseSymbolValue = when (that) {
         is IntegerValue -> IntegerValue(value + that.value)
         else -> super.plus(that)

@@ -59,4 +59,22 @@ enum class BinaryOperation(private val operation: (left: BaseSymbolValue, right:
         return operation(left, right)
     }
 
+    companion object {
+        fun fromString(value: String): BinaryOperation? = when (value) {
+            ">" -> Greater
+            "<" -> Less
+            ">=" -> GreaterOrEqual
+            "<=" -> LessOrEqual
+            "==" -> Equal
+            "!=" -> NotEqual
+            "&&" -> And
+            "||" -> Or
+            "+" -> Add
+            "-" -> Subtract
+            "*" -> Multiply
+            "/" -> Divide
+            else -> null
+        }
+    }
+
 }

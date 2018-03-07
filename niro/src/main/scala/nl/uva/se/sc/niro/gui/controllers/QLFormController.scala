@@ -10,15 +10,17 @@ import javafx.scene.layout.VBox
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.gui._
 import nl.uva.se.sc.niro.gui.application.QLForms
-import nl.uva.se.sc.niro.model.expressions.Answer
+import nl.uva.se.sc.niro.gui.converters.ModelConverter
+import nl.uva.se.sc.niro.gui.widgets.ComponentFactory
 import nl.uva.se.sc.niro.model.QLForm
-import nl.uva.se.sc.niro.model.gui.{ GUIForm, ModelConverter }
+import nl.uva.se.sc.niro.model.expressions.Answer
+import nl.uva.se.sc.niro.model.gui.GUIForm
 
 import scala.collection.JavaConverters
 
 class QLFormController extends QLBaseController with ModelUpdater {
   @FXML var formName: Label = _
-  @FXML var questions: VBox = null
+  @FXML var questions: VBox = _
   private var qlForm: QLForm = _
   private var guiForm: GUIForm = _
 
@@ -39,8 +41,8 @@ class QLFormController extends QLBaseController with ModelUpdater {
 
     formName.setText(guiForm.name)
 
-    questions.setPadding(new Insets(0, 20, 0, 20))
-    val guiQuestions = guiForm.questions.map(WidgetFactory.makeWidget)
+//    questions.setPadding(new Insets(0, 20, 0, 20))
+    val guiQuestions = guiForm.questions.map(ComponentFactory.make)
     questions.getChildren.addAll(JavaConverters.seqAsJavaList(guiQuestions))
 //    CreateCallbackVisitor.visit(this, questionsGrid, form.statements)
 //    updateGUI(Evaluator.evaluate(form))

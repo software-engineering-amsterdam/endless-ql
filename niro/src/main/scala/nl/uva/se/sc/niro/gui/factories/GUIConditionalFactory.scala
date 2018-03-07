@@ -1,14 +1,18 @@
-package nl.uva.se.sc.niro.model.gui
+package nl.uva.se.sc.niro.gui.factories
 
+import nl.uva.se.sc.niro.gui.converters.ModelConverter
 import nl.uva.se.sc.niro.model.expressions.{ BinaryOperation, Expression }
+import nl.uva.se.sc.niro.model.gui.GUIQuestion
 import nl.uva.se.sc.niro.model.{ And, Conditional }
 
 object GUIConditionalFactory {
+
   def makeGUIConditional(visible: Expression, conditional: Conditional): Seq[GUIQuestion] = {
     ModelConverter.convert(combineConditions(visible, conditional.predicate), conditional.thenStatements)
   }
 
-  private def combineConditions(visible: Expression, predicate: Expression): Expression =
+  private def combineConditions(visible: Expression, predicate: Expression): Expression = {
     BinaryOperation(And, visible, predicate)
+  }
 
 }

@@ -22,7 +22,7 @@ object WidgetFactory {
   private val DATE_FORMAT = "yyyy-MM-dd"
 
   def makeWidget(question: GUIQuestion): Control = {
-    new Label(s"${question.label} ${question.isReadOnly}")
+    new Label(s"${question.isReadOnly}")
   }
 
   // TODO Replace all the code below this line

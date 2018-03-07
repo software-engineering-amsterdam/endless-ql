@@ -8,14 +8,19 @@ import org.uva.ql.ast.expression.unary.*;
 import org.uva.ql.ast.type.*;
 import org.uva.ql.visitor.*;
 
+import java.util.logging.Logger;
+
 public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String>  {
 
     private SymbolTable symbolTable;
     private Form form;
+    private Logger logger;
+    private final String ERROR_MESSAGE = "Type checking error at: ";
 
     TypeChecker(Form form, SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
         this.form = form;
+        this.logger = Logger.getGlobal();
     }
 
     public void execute() {
@@ -30,7 +35,7 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
         Type right = operation.getRight().accept(this, null);
 
         if (!new BooleanType().isCompatible(left) || !new BooleanType().isCompatible(right)) {
-            System.out.println("ERROR: Type checker at: " + left + operation + right);
+            logger.severe(ERROR_MESSAGE + operation);
         }
 
         return new BooleanType();
@@ -41,7 +46,7 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
         Type right = operation.getRight().accept(this, null);
 
         if (!left.isCompatible(right)) {
-            System.out.println("ERROR: Type checker at: " + left + operation + right);
+            logger.severe(ERROR_MESSAGE + operation);
         }
 
         return left;
@@ -67,7 +72,7 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
         }
 
         if (!new BooleanType().isCompatible(type)) {
-            System.out.println("ERROR: Type checker at: " + type);
+            logger.severe(ERROR_MESSAGE + conditional);
         }
 
         return new BooleanType();
@@ -78,7 +83,7 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
         Type calculationType = question.getExpression().accept(this, null);
 
         if (!question.getType().isCompatible(calculationType)) {
-            System.out.println("ERROR: Type checker at: " + question);
+            logger.severe(ERROR_MESSAGE + question);
         }
 
         return question.getType();
@@ -161,8 +166,9 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
         Type type = negation.getExpression().accept(this, null);
 
         if (!new BooleanType().isCompatible(type)) {
-            System.out.println("ERROR: Type checker at: " + negation);
+            System.out.println(ERROR_MESSAGE + negation);
         }
+
         return type;
     }
 

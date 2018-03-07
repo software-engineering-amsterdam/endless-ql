@@ -1,14 +1,13 @@
 import {ExpressionType} from './expression-type';
-import {ComparisonOperator, Expression, LiteralType} from './expression';
+import {Expression, LiteralType} from './expression';
 import {Location} from '../location';
-import {UnknownOperatorError} from '../../errors';
 import {Question} from '../question';
 import {FormGroup} from '@angular/forms';
 import {BinaryExpression} from './binary-expression';
 
-export class ComparisonExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, operator: ComparisonOperator, location: Location) {
-    super(left, right, operator, location);
+export abstract class ComparisonExpression extends BinaryExpression {
+  constructor(left: Expression, right: Expression, location: Location) {
+    super(left, right, location);
   }
 
   checkType(allQuestions: Question[]): ExpressionType {
@@ -23,19 +22,47 @@ export class ComparisonExpression extends BinaryExpression {
     }
   }
 
+  abstract evaluate(form: FormGroup): LiteralType;
+}
+
+export class GreaterThanExpression extends ComparisonExpression {
+  constructor(left: Expression, right: Expression, location: Location) {
+    super(left, right, location);
+  }
+
   evaluate(form: FormGroup): LiteralType {
-    switch (this.operator) {
-      case '>':
-        return <number>this.left.evaluate(form) > <number>this.right.evaluate(form);
-      case '<':
-        return <number>this.left.evaluate(form) < <number>this.right.evaluate(form);
-      case '>=':
-        return <number>this.left.evaluate(form) >= <number>this.right.evaluate(form);
-      case '<=':
-        return <number>this.left.evaluate(form) <= <number>this.right.evaluate(form);
-      default:
-        throw new UnknownOperatorError(`Operator ${this.operator} is unknown` +
-          this.getLocationErrorMessage());
-    }
+    return this.left.evaluate(form) > this.right.evaluate(form);
   }
 }
+
+export class GreaterThanEqualExpression extends ComparisonExpression {
+  constructor(left: Expression, right: Expression, location: Location) {
+    super(left, right, location);
+  }
+
+  evaluate(form: FormGroup): LiteralType {
+    return this.left.evaluate(form) >= this.right.evaluate(form);
+  }
+}
+
+export class LessThanExpression extends ComparisonExpression {
+  constructor(left: Expression, right: Expression, location: Location) {
+    super(left, right, location);
+  }
+
+  evaluate(form: FormGroup): LiteralType {
+    return this.left.evaluate(form) < this.right.evaluate(form);
+  }
+}
+
+export class LessThanEqualExpression extends ComparisonExpression {
+  constructor(left: Expression, right: Expression, location: Location) {
+    super(left, right, location);
+  }
+
+  evaluate(form: FormGroup): LiteralType {
+    return this.left.evaluate(form) <= this.right.evaluate(form);
+  }
+}
+
+

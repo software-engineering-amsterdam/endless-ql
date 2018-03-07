@@ -11,13 +11,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class ParameterChecker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
 
     private SymbolTable symbolTable;
     private Map<String, List<Parameter>> expressions;
+    private Logger logger;
+    private final String ERROR_MESSAGE = "Referenced parameter does not exist: ";
 
     ParameterChecker(Form form, SymbolTable symbolTable) {
+        this.logger = Logger.getGlobal();
         this.symbolTable = symbolTable;
         this.expressions = new HashMap<>();
 
@@ -36,7 +40,7 @@ public class ParameterChecker implements StatementVisitor<Void, String>, Express
         for (HashMap.Entry<String, List<Parameter>> entry : expressions.entrySet()) {
             for (Parameter parameter : entry.getValue()) {
                 if (!symbolTable.contains(parameter.getID())) {
-                    System.out.println("Referenced parameter " + parameter + " does not exist");
+                    logger.severe(ERROR_MESSAGE + parameter);
                 }
             }
         }
@@ -45,7 +49,7 @@ public class ParameterChecker implements StatementVisitor<Void, String>, Express
     @Override
     public Void visit(Parameter parameter, String context) {
         if (!symbolTable.contains(parameter.getID())) {
-            System.out.println("Referenced parameter \"" + parameter + "\" does not exist");
+            logger.severe(ERROR_MESSAGE + parameter);
             return null;
         }
 

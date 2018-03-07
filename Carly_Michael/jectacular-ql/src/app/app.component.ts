@@ -25,30 +25,39 @@ export class AppComponent {
   payload: string;
   qlForm: Form;
   qlsStylesheet: Stylesheet;
+  qlsToQlQuestionDictionary: Map<string, QuestionBase<any>> = new Map<string, QuestionBase<any>>();
 
   constructor (private questionControlService: QuestionControlService) {
 
   }
 
   getQuestionBaseByName(name: string): QuestionBase<any> {
-    for (const question of this.questions) {
-      if (question.key === name) {
-        return question;
-      }
+    const question = this.qlsToQlQuestionDictionary[name];
+
+    if (!question) {
+      throw new Error(`Couldn't get question '${name}'`);
     }
 
-    throw new Error(`Couldn't get question '${name}'`);
+    return question;
   }
 
-  getQlQuestionsForSection(section: Section): QuestionBase<any>[] {
-    const qlsQuestions = section.getQuestions();
-    const questions: QuestionBase<any>[] = [];
+  createQuestionMappingCache() {
+    for (const qlsQuestion of this.qlsStylesheet.getQuestions()) {
+      let questionBase: QuestionBase<any>;
 
-    for (const qlsQuestion of qlsQuestions) {
-      questions.push(this.getQuestionBaseByName(qlsQuestion.name));
+      for (const q of this.questions) {
+        if (q.key === qlsQuestion.name) {
+          questionBase = q;
+          break;
+        }
+      }
+
+      if (!questionBase) {
+        throw new Error(`Couldn't find question ${qlsQuestion.name}`);
+      }
+
+      this.qlsToQlQuestionDictionary[qlsQuestion.name] = questionBase;
     }
-
-    return questions;
   }
 
   parseInput() {
@@ -70,6 +79,8 @@ export class AppComponent {
       this.form = this.questionControlService.toFormGroup(this.questions);
       this.formName = this.qlForm.name;
       this.errorMessage = undefined;
+
+      this.createQuestionMappingCache();
     } catch (e) {
       this.form = undefined;
       this.formName = undefined;

@@ -3,7 +3,7 @@ import {Location} from '../location';
 import {Question} from '../question';
 import {FormGroup} from '@angular/forms';
 import {Variable} from './variable';
-import {QuestionType} from '../question-type';
+import {QuestionType, QuestionTypeUtil} from '../question-type';
 import {UnsupportedTypeError} from '../../errors';
 
 export type ArithmeticOperator = '+' | '-' | '*' | '/';
@@ -41,7 +41,7 @@ export abstract class Expression {
       case QuestionType.DATE:
         return ExpressionType.DATE;
       default:
-        throw new UnsupportedTypeError(`QuestionType ${questionType} is not supported`);
+        throw new UnsupportedTypeError(`QuestionType ${QuestionTypeUtil.toString(questionType)} is not supported`);
     }
   }
 }

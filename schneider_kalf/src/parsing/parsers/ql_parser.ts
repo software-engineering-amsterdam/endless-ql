@@ -239,10 +239,10 @@ function peg$parse(input, options) {
   const peg$c69 = /^[0-9]/;
   const peg$c70 = peg$classExpectation([["0", "9"]], false, false);
   const peg$c71 = function() {
-      return new Nodes.DateLiteral(text());
+      return Nodes.DateLiteral.fromString(text());
   };
-  const peg$c72 = /^[\-\/.]/;
-  const peg$c73 = peg$classExpectation(["-", "/", "."], false, false);
+  const peg$c72 = /^[.]/;
+  const peg$c73 = peg$classExpectation(["."], false, false);
   const peg$c74 = "\"";
   const peg$c75 = peg$literalExpectation("\"", false);
   const peg$c76 = function(chars) {
@@ -1730,7 +1730,7 @@ function peg$parse(input, options) {
   }
 
   function peg$parsedateLiteral() {
-    let s0, s1, s2, s3, s4, s5, s6, s7, s8;
+    let s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10;
 
     s0 = peg$currPos;
     if (peg$c69.test(input.charAt(peg$currPos))) {
@@ -1785,9 +1785,33 @@ function peg$parse(input, options) {
                     if (peg$silentFails === 0) { peg$fail(peg$c70); }
                   }
                   if (s8 !== peg$FAILED) {
-                    peg$savedPos = s0;
-                    s1 = peg$c71();
-                    s0 = s1;
+                    if (peg$c69.test(input.charAt(peg$currPos))) {
+                      s9 = input.charAt(peg$currPos);
+                      peg$currPos++;
+                    } else {
+                      s9 = peg$FAILED;
+                      if (peg$silentFails === 0) { peg$fail(peg$c70); }
+                    }
+                    if (s9 !== peg$FAILED) {
+                      if (peg$c69.test(input.charAt(peg$currPos))) {
+                        s10 = input.charAt(peg$currPos);
+                        peg$currPos++;
+                      } else {
+                        s10 = peg$FAILED;
+                        if (peg$silentFails === 0) { peg$fail(peg$c70); }
+                      }
+                      if (s10 !== peg$FAILED) {
+                        peg$savedPos = s0;
+                        s1 = peg$c71();
+                        s0 = s1;
+                      } else {
+                        peg$currPos = s0;
+                        s0 = peg$FAILED;
+                      }
+                    } else {
+                      peg$currPos = s0;
+                      s0 = peg$FAILED;
+                    }
                   } else {
                     peg$currPos = s0;
                     s0 = peg$FAILED;

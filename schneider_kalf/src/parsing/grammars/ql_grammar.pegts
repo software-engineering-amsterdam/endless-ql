@@ -48,6 +48,11 @@
     }
     , head);
   }
+
+  function processNode(node){
+    node.setLocation(location())
+    return node;
+  }
 }
 
 // Start node
@@ -181,17 +186,17 @@ numberLiteral
     let amount = digits.join("");
     if (minus)
         amount = minus.concat(amount);
-    return Nodes.NumberLiteral.fromString(amount);
+    return processNode(Nodes.NumberLiteral.fromString(amount));
 }
 
 //Date
 dateLiteral
  = [0-9][0-9] dateSeparator [0-9][0-9] dateSeparator [0-9][0-9][0-9][0-9]{
-    return new Nodes.DateLiteral(text());
+    return Nodes.DateLiteral.fromString(text());
 }
 
 dateSeparator
- = [.]
+ = [\.]
 
 // String Literal, Currently only support double quoted String
 stringLiteral

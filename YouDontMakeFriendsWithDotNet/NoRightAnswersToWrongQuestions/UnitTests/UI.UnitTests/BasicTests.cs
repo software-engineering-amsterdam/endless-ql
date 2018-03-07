@@ -36,5 +36,29 @@ namespace UnitTests.UI.UnitTests
             var wrapper = new QuestionaireWrapper(m_questionnaire);
             Assert.AreEqual(expected: m_questionnaire, actual: wrapper.Model);
         }
+
+        [Test]
+        public void WhenGivenNullModel_ShouldThrowArgumentNullException()
+        {
+            var constraint = Is.TypeOf<ArgumentNullException>()
+                .And
+                .Property(nameof(ArgumentNullException.ParamName))
+                .EqualTo("questionnaire");
+
+            Assert.Throws(constraint, () => new QuestionaireWrapper(null));
+        }
+
+
+        [Test]
+        public void WhenQuestionnaireNameIsNull_ShouldThrowArgumentNullException()
+        {
+            var constraint = Is.TypeOf<ArgumentException>()
+                .And
+                .Message
+                .EqualTo("questionnaire name cannot be null");
+
+            m_questionnaire.Name = null;
+            Assert.Throws(constraint, () => new QuestionaireWrapper(m_questionnaire));
+        }
     }
 }

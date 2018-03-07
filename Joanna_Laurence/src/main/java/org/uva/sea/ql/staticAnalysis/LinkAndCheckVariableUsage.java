@@ -14,8 +14,9 @@ import java.util.Map;
 /**
  * Iterates over the AST and add links between variables and questions
  * Checks if variables are not used before declared
+ * Determine if variables are not double defined. Only in if and else can be the same question.
  */
-public class LinkAndCheckUsageVariable extends BaseASTVisitor implements IStaticAnalysis {
+public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStaticAnalysis {
 
     /**
      * Contain what questions is related to what variable

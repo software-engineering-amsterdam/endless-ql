@@ -196,7 +196,7 @@ public class Renderer {
         field.getLabel().setVisible(visible);
         field.getControl().setVisible(visible);
 
-        // If question is based on expression and cannot be set by the user, set value by evaluating its expression
+        // If question is based on value and cannot be set by the user, set value by evaluating its value
         if(!question.isEditable()) {
             String answer = symbolTable.getStringValue(question.name, question.type);
 

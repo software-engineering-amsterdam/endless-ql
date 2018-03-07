@@ -10,7 +10,7 @@ import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
 import expression.variable.ExpressionVariableBoolean;
 import expression.variable.ExpressionVariableDate;
-import expression.variable.ExpressionVariableNumber;
+import expression.variable.ExpressionVariableInteger;
 import expression.variable.ExpressionVariableString;
 
 public class VisitorExpression extends QLBaseVisitor<Expression> {
@@ -112,12 +112,12 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitIntegerConstant(QLParser.IntegerConstantContext ctx) {
-        return new ExpressionVariableNumber(ctx.getText());
+        return new ExpressionVariableInteger(ctx.getText());
     }
 
     @Override
     public Expression visitDecimalConstant(QLParser.DecimalConstantContext ctx) {
-        return new ExpressionVariableNumber(ctx.getText());
+        return new ExpressionVariableInteger(ctx.getText());
     }
 
     @Override
@@ -127,7 +127,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitMoneyConstant(QLParser.MoneyConstantContext ctx) {
-        return new ExpressionVariableNumber(ctx.getText());
+        return new ExpressionVariableInteger(ctx.getText());
     }
 
     @Override

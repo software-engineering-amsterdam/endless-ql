@@ -1,8 +1,5 @@
 package expression.variable;
 
-import astvisitor.BaseASTVisitor;
-import expression.ExpressionVariable;
-
 // TODO remove this class?
 
 //public class ExpressionVariableUndefined extends ExpressionVariable<Object> {

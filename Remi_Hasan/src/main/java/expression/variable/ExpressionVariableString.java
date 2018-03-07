@@ -1,6 +1,6 @@
 package expression.variable;
 
-import astvisitor.BaseASTVisitor;
+import astvisitor.StringValue;
 import expression.ExpressionVariable;
 
 public class ExpressionVariableString extends ExpressionVariable<String> {
@@ -9,8 +9,9 @@ public class ExpressionVariableString extends ExpressionVariable<String> {
         super(value);
     }
 
+
     @Override
-    public String accept(BaseASTVisitor<String> visitor) {
-        return visitor.visit(this);
+    public StringValue accept(BaseASTVisitor visitor) {
+        return null;
     }
 }

@@ -1,7 +1,5 @@
 package expression.binary;
 
-import analysis.SymbolTable;
-import astvisitor.BaseASTVisitor;
 import astvisitor.BoolValue;
 import expression.Expression;
 import expression.ExpressionBinary;

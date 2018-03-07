@@ -33,7 +33,7 @@ public class Question {
         this.condition.typeCheck(symbolTable);
         this.defaultAnswer.typeCheck(symbolTable);
 
-        // Compare defaultAnswer expression type to question type
+        // Compare defaultAnswer value type to question type
         if(this.type == ReturnType.INTEGER || this.type == ReturnType.DECIMAL || this.type == ReturnType.MONEY) {
             if(this.defaultAnswer.getReturnType(symbolTable) != ReturnType.NUMBER) {
                 throw new IllegalArgumentException("Cannot assign '"

@@ -27,7 +27,7 @@ public class SymbolTable {
         return table.get(identifier).evaluate(this);
     }
 
-    // TODO: move to expression?
+    // TODO: move to value?
     public String getStringValue(String identifier, ReturnType type) {
         ExpressionVariable evaluated = this.getExpression(identifier).evaluate(this);
 
@@ -63,7 +63,7 @@ public class SymbolTable {
             case INTEGER:
             case DECIMAL:
             case MONEY:
-                this.table.put(identifier, new ExpressionVariableNumber(value));
+                this.table.put(identifier, new ExpressionVariableInteger(value));
                 break;
             case STRING:
                 this.table.put(identifier, new ExpressionVariableString(value));

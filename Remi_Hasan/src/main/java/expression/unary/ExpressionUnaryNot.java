@@ -1,16 +1,17 @@
 package expression.unary;
 
-import astvisitor.BaseASTVisitor;
+import astvisitor.BoolValue;
 import expression.Expression;
 import expression.ExpressionUnary;
 
-public class ExpressionUnaryNot extends ExpressionUnary {
+public class ExpressionUnaryNot extends ExpressionUnary<Boolean> {
+
     ExpressionUnaryNot(Expression expression) {
         super(expression);
     }
 
     @Override
-    public <T> T accept(BaseASTVisitor<T> visitor) {
+    public BoolValue accept(BaseASTVisitor visitor) {
         return visitor.visit(this);
     }
 }

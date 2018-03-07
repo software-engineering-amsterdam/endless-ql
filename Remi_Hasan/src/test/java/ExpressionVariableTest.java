@@ -38,7 +38,7 @@ public class ExpressionVariableTest {
     public void ExpressionIntegerPositiveTest() {
         ANTLRTester tester = new ANTLRTester("1");
         Expression actualExpression = tester.visitor.visitIntegerConstant(tester.parser.integerConstant());
-        ExpressionVariableNumber expectedExpression = new ExpressionVariableNumber(1);
+        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(1);
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate(symbolTable).getIntValue(), 
@@ -49,7 +49,7 @@ public class ExpressionVariableTest {
     public void ExpressionIntegerNegativeTest() {
         ANTLRTester tester = new ANTLRTester("-1");
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
-        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableNumber(1));
+        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableInteger(1));
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate(symbolTable).getIntValue(),
@@ -60,7 +60,7 @@ public class ExpressionVariableTest {
     public void ExpressionDecimalPositiveTest() {
         ANTLRTester tester = new ANTLRTester("1.0");
         Expression actualExpression = tester.visitor.visitDecimalConstant(tester.parser.decimalConstant());
-        ExpressionVariableNumber expectedExpression = new ExpressionVariableNumber(1.0);
+        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(1.0);
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate(symbolTable).getDecimalValue(), 
@@ -71,7 +71,7 @@ public class ExpressionVariableTest {
     public void ExpressionDecimalNegativeTest() {
         ANTLRTester tester = new ANTLRTester("-1.0");
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
-        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableNumber(1.0));
+        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableInteger(1.0));
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate(symbolTable).getDecimalValue(), 
@@ -82,7 +82,7 @@ public class ExpressionVariableTest {
     public void ExpressionMoneyTest() {
         ANTLRTester tester = new ANTLRTester("1.99");
         Expression actualExpression = tester.visitor.visitMoneyConstant(tester.parser.moneyConstant());
-        ExpressionVariableNumber expectedExpression = new ExpressionVariableNumber(BigDecimal.valueOf(1.99));
+        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(BigDecimal.valueOf(1.99));
 
         // TODO implement real equals
         assertEquals(expectedExpression.evaluate(symbolTable).getMoneyValue(),

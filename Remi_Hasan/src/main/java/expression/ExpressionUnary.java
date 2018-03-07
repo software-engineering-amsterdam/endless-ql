@@ -1,10 +1,10 @@
 package expression;
 
 public abstract class ExpressionUnary<T> extends Expression<T> {
-    public final Expression expression;
+    public final Expression value;
 
-    ExpressionUnary(Expression expression) {
-        this.expression = expression;
+    public ExpressionUnary(Expression expression) {
+        this.value = expression;
     }
 
 }

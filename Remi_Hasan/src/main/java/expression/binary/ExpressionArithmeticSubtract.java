@@ -1,6 +1,5 @@
 package expression.binary;
 
-import astvisitor.BaseASTVisitor;
 import astvisitor.NumValue;
 import expression.Expression;
 import expression.ExpressionBinary;

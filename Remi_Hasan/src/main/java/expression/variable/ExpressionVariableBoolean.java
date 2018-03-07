@@ -1,14 +1,11 @@
 package expression.variable;
 
-import astvisitor.BaseASTVisitor;
 import astvisitor.BoolValue;
-import com.sun.jdi.BooleanValue;
 import expression.Expression;
-import expression.ExpressionVariable;
 
-public class ExpressionVariableBoolean extends Expression<BoolValue> {
+public class ExpressionVariableBoolean extends Expression<Boolean> {
 
-    Boolean value;
+    public Boolean value;
 
     ExpressionVariableBoolean(Boolean value) {
         this.value = value;

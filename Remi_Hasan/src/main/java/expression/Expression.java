@@ -1,10 +1,9 @@
 package expression;
 
-import astvisitor.BaseASTVisitor;
-import astvisitor.Value;
+import astvisitor.IASTVisitor;
 
-public abstract class Expression<T> {
+public abstract class Expression {
 
-    public abstract Value<T> accept(BaseASTVisitor visitor);
+    public abstract <T> T accept(IASTVisitor<T> visitor);
 
 }

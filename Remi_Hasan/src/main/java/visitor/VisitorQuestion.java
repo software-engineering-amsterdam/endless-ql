@@ -25,7 +25,7 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
         QLParser.QuestionTypeContext questionTypeContext = ctx.questionType();
         ReturnType questionType = ReturnType.valueOf(questionTypeContext.type().getText().toUpperCase());
 
-        // Check whether answer can be filled in by user, or is based on an expression
+        // Check whether answer can be filled in by user, or is based on an value
         boolean isEditable = ctx.questionType().expression() == null;
         Expression defaultAnswer = getDefaultAnswer(ctx.questionType(), isEditable);
 
@@ -33,7 +33,7 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
     }
 
     private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType, boolean isEditable) {
-        // If answer can be filled in by user, create empty (undefined) expression of correct type (for type checking)
+        // If answer can be filled in by user, create empty (undefined) value of correct type (for type checking)
         if(isEditable) {
             return new ExpressionVariableUndefined(ReturnType.valueOf(questionType.type().getText().toUpperCase()));
         }

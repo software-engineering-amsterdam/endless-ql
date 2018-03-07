@@ -106,4 +106,6 @@ it("does not allow malformed floating numbers", () => {
   expect(() => {
     computedField = getFirstStatement(input);
   }).toThrow(ValueIsNaNError);
+
+
 });

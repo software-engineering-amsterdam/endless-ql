@@ -4,7 +4,7 @@ import IfCondition from './conditions/IfCondition';
 import Addition from './expressions/arithmetic/Addition';
 import Division from './expressions/arithmetic/Division';
 import Multiplication from './expressions/arithmetic/Multiplication';
-import NumberLiteral from './expressions/arithmetic/NumberLiteral';
+import NumberLiteral from './expressions/literals/NumberLiteral';
 import Subtraction from './expressions/arithmetic/Subtraction';
 import And from './expressions/boolean_expressions/And';
 import BooleanLiteral from './expressions/boolean_expressions/BooleanLiteral';
@@ -18,7 +18,7 @@ import NotEqual from './expressions/comparisons/NotEqual';
 import SmallerThanOrEqual from './expressions/comparisons/SmallerThanOrEqual';
 import VariableIdentifier from './expressions/VariableIdentifier';
 import ComputedField from "./fields/ComputedField";
-import StringLiteral from "./expressions/string/StringLiteral";
+import StringLiteral from "./expressions/literals/StringLiteral";
 
 /**
  * List all available node types for easy access in the grammar.

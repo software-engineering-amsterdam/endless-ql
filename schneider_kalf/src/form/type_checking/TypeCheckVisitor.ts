@@ -1,5 +1,5 @@
 import Addition from "../nodes/expressions/arithmetic/Addition";
-import NumberLiteral from "../nodes/expressions/arithmetic/NumberLiteral";
+import NumberLiteral from "../nodes/expressions/literals/NumberLiteral";
 import Multiplication from "../nodes/expressions/arithmetic/Multiplication";
 import Or from "../nodes/expressions/boolean_expressions/Or";
 import And from "../nodes/expressions/boolean_expressions/And";
@@ -14,7 +14,7 @@ import LargerThan from "../nodes/expressions/comparisons/LargerThan";
 import LargerThanOrEqual from "../nodes/expressions/comparisons/LargerThanOrEqual";
 import SmallerThan from "../nodes/expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../nodes/expressions/comparisons/SmallerThanOrEqual";
-import StringLiteral from "../nodes/expressions/string/StringLiteral";
+import StringLiteral from "../nodes/expressions/literals/StringLiteral";
 import { VariablesInformation, VariableInformation } from "../VariableIntformation";
 import { UnkownFieldError, TypesNotComparableError } from "../form_errors";
 import { FieldType, fieldTypesSortable, getCommonNumericFieldType, isNumericFieldType } from "../FieldType";

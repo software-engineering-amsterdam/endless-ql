@@ -1,7 +1,11 @@
 from QLast import *
 import sys
 
-class TypeChecker(object):
+BOOLEAN_UNICODE = u'boolean'
+INTEGER_UNICODE = u'int'
+
+class TypeChecker(object):    
+
     def __init__(self, ast):
         self.ast = ast
         self.questions = {}
@@ -20,6 +24,9 @@ class TypeChecker(object):
                 if type(statement.expression) is UnOpNode:
                     self.checkUndefinedQuestions(statement)
                     self.checkConditionals(statement)
+                elif type(statement.expression) is BinOpNode:
+                    self.checkInvalidOperations(statement.expression)
+                self.conditionals[statement.expression] = statement.statements
             # elif type(statement) is AssignmentNode:
             #     self.assignments[statement.name] = [statement.var, statement.vartype, statement.expression]
         # print self.questions
@@ -36,6 +43,7 @@ class TypeChecker(object):
             if variable_exists:
                 return
 
+        # todo: Proper error handling?
         print "Variable {} is referenced, but does not exist.".format(statement.expression.var)
         return
 
@@ -52,7 +60,7 @@ class TypeChecker(object):
     # Check for conditions that are not of the type boolean.
     def checkConditionals(self, statement):
         for key, value in self.questions.iteritems():
-            if statement.expression.var in value and value[1] != u'boolean':
+            if statement.expression.var in value and value[1] != BOOLEAN_UNICODE:
                 # todo: Proper error handling?
                 print "Condition {} is not of type boolean.".format(statement.expression.var)
                 
@@ -60,7 +68,36 @@ class TypeChecker(object):
 
 
     # Check for operands of invalid type with regard to operators.
-    def checkInvalidOperations(self):
+    def checkInvalidOperations(self, statement):
+        left_type = ""
+        right_type = ""
+        # print "Checking operation: {}".format(statement)
+        if type(statement.left) is UnOpNode and type(statement.right) is UnOpNode:
+            operator = statement.op
+            for key, value in self.questions.iteritems():
+                if statement.left.var in value:
+                    left_type = value[1]
+                if statement.right.var in value:
+                    right_type = value[1]
+
+            if operator == "&&" or operator == "||":
+                if left_type != BOOLEAN_UNICODE or right_type != BOOLEAN_UNICODE:
+                    # todo: Proper error handling?
+                    print "Operation ({} {} {}) has invalid types.".format(statement.left.var, statement.op, statement.right.var)
+                    sys.exit()
+
+            elif operator == "==" or operator == "!=":
+                if left_type != right_type:
+                    # todo: Proper error handling?
+                    print "Operation ({} {} {}) has invalid types.".format(statement.left.var, statement.op, statement.right.var)
+                    sys.exit()
+
+            else:
+                if left_type != INTEGER_UNICODE or right_type != INTEGER_UNICODE:
+                    # todo: Proper error handling?
+                    print "Operation ({} {} {}) has invalid types.".format(statement.left.var, statement.op, statement.right.var)
+                    sys.exit()
+
         return
 
 

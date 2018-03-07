@@ -15,6 +15,6 @@ export default class QuestionStyle extends AbstractStyleNode implements SectionC
   }
 
   accept(visitor: StyleNodeVisitor) {
-    return visitor.visitQuestion(this);
+    return visitor.visitQuestionStyle(this);
   }
 }

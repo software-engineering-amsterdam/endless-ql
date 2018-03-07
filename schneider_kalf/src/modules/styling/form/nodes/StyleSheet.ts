@@ -1,3 +1,7 @@
+import AbstractStyleNode from "./AbstractStyleNode";
+import FormChild from "./FormChild";
+import StyleNodeVisitor from "../visitors/StyleNodeVisitor";
+
 export default class Stylesheet extends AbstractStyleNode {
   readonly name: string;
   readonly children: FormChild[];

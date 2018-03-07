@@ -1,6 +1,7 @@
 package ast.model;
 
-import com.sun.istack.internal.NotNull;
+
+import ast.visitors.ASTNodeVisitor;
 
 abstract public class ASTNode implements VisitableASTNode {
 
@@ -27,4 +28,5 @@ abstract public class ASTNode implements VisitableASTNode {
     public void setEndLine(Integer endLine) {
         this.endLine = endLine;
     }
+
 }

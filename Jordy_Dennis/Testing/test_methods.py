@@ -41,7 +41,7 @@ def getAstFromString(inputText):
     parser = QLGrammarParser(stream)
     tree = parser.form()
 
-    visitor = Visitor()
+    visitor = QLVisitor()
     visitor.visit(tree)
 
     ast = visitor.getAst()

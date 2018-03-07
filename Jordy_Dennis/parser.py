@@ -4,7 +4,9 @@
 
 
 import sys
+import pprint
 from antlr4 import *
+from question_generator import Question_Generator
 from parse_grammar import generateParsers
 import logging
 from GUI import Gui
@@ -30,6 +32,10 @@ class MyErrorListener(ErrorListener):
 
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
         raise Exception("SyntaxError: " + msg + " at line: " + str(line))
+
+def printDict(dic):
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(dic)
 
 
 def getAstFromString(input):
@@ -64,19 +70,14 @@ def main(argv):
     parser._listeners = [MyErrorListener()]
     qlTree = parser.form()
 
-    # g = Gui()
-    # g.create_form()
-    # g.create_header("Mijn Vragenlijst")
-    # g.execute()
-
     # pass tree to visitor
     qlVisitor = QLVisitor()
     qlVisitor.visit(qlTree)
-    # print(visitor.QLAst)
+
+    # Get and validate AST -------------------
     ast = qlVisitor.getAst()
     ast.linkVars()
     ast.checkTypes()
-
     # QLS
     if len(argv)>2:
         input_file = argv[2]

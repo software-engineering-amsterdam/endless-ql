@@ -1,9 +1,8 @@
 package org.uva.ql.validation;
 
+import java.util.ArrayList;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
-
-import java.util.*;
 
 public class LogHandler extends Handler {
 
@@ -22,6 +21,11 @@ public class LogHandler extends Handler {
     @Override
     public void close() throws SecurityException {
 
+    }
+
+    public boolean hasErrors() {
+        // TODO info may not break this
+        return logs.size() > 0;
     }
 
     public ArrayList<LogRecord> getLogs() {

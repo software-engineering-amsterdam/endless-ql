@@ -6,15 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
-class DependencyChecker implements Checker {
+class DependencyChecker extends Checker {
 
     private Set<Dependency> dependencies;
-    private Logger logger;
 
     DependencyChecker(Map<String, List<Parameter>> expressions) {
-        this.logger = Logger.getGlobal();
         this.dependencies = new HashSet<>();
 
         for (Map.Entry<String, List<Parameter>> entry : expressions.entrySet()) {
@@ -33,7 +30,7 @@ class DependencyChecker implements Checker {
         }
     }
 
-    private Set<Dependency> transitiveClosure (Set<Dependency> dependencyGraph) {
+    private Set<Dependency> transitiveClosure(Set<Dependency> dependencyGraph) {
         Set<Dependency> closure = new HashSet<>(dependencyGraph);
         Set<Dependency> reach = initializeMatrix(closure);
 
@@ -44,7 +41,7 @@ class DependencyChecker implements Checker {
         return reach;
     }
 
-    private Set<Dependency> initializeMatrix (Set<Dependency> dependencyGraph) {
+    private Set<Dependency> initializeMatrix(Set<Dependency> dependencyGraph) {
         Set<Dependency> matrix = new HashSet<>();
 
         for (Dependency i : dependencyGraph) {

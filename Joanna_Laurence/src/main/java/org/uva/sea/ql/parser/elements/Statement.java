@@ -2,7 +2,7 @@ package org.uva.sea.ql.parser.elements;
 
 import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.NodeType;
-import org.uva.sea.ql.interpreter.visitor.IASTVisitor;
+import org.uva.sea.ql.parser.visitor.IASTVisitor;
 
 public class Statement extends ASTNode {
     private Question question;

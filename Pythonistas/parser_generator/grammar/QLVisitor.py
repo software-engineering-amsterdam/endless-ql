@@ -19,8 +19,8 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#statement.
-    def visitStatement(self, ctx:QLParser.StatementContext):
+    # Visit a parse tree produced by QLParser#stmt.
+    def visitStmt(self, ctx:QLParser.StmtContext):
         return self.visitChildren(ctx)
 
 
@@ -29,8 +29,8 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#assignment.
-    def visitAssignment(self, ctx:QLParser.AssignmentContext):
+    # Visit a parse tree produced by QLParser#declaration.
+    def visitDeclaration(self, ctx:QLParser.DeclarationContext):
         return self.visitChildren(ctx)
 
 
@@ -39,23 +39,13 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#conditional.
-    def visitConditional(self, ctx:QLParser.ConditionalContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by QLParser#if_conditional.
     def visitIf_conditional(self, ctx:QLParser.If_conditionalContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#else_conditional.
-    def visitElse_conditional(self, ctx:QLParser.Else_conditionalContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLParser#typeDeclaration.
-    def visitTypeDeclaration(self, ctx:QLParser.TypeDeclarationContext):
+    # Visit a parse tree produced by QLParser#type_declaration.
+    def visitType_declaration(self, ctx:QLParser.Type_declarationContext):
         return self.visitChildren(ctx)
 
 

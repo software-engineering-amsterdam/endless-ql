@@ -26,46 +26,53 @@ public class ASTtoGUI implements StatementVisitor {
     @Override
     public void visit(Block block) {
         
-        final JPanel panel = addContainerPanel();
-        parentPanel.add(panel);
-        parentPanel.revalidate();
-        parentPanel = panel;
-        block.getStatements().forEach(stmt -> { 
-            stmt.accept(this); 
+        final JPanel blockParentPanel = parentPanel;
+        
+        block.getStatements().forEach(stmt -> {
+            parentPanel = blockParentPanel;
+            stmt.accept(this);
         });
+        
+        parentPanel = blockParentPanel;
     }
+    
     @Override
     public void visit(IfThen stmt) {
         
-        boolean render      = ((BoolLiteral) new Bool().parse(stmt.getCondition().evaluate())).getValue();
-        final JPanel panel  = addContainerPanel();
+        System.out.println("parentPanel ifthen    : "+parentPanel.hashCode());
+        boolean render          = ((BoolLiteral) new Bool().parse(stmt.getCondition().evaluate())).getValue();
+        final JPanel thenPanel  = createContainerPanel();
         
-        parentPanel.add(panel);
+        parentPanel.add(thenPanel);
+        
+        parentPanel = thenPanel;
+        stmt.getThenStatement().accept(this);
+        AbstractActionListener.setVisibility(thenPanel, render);
+        thenPanel.revalidate();
+        
         parentPanel.revalidate();
-        parentPanel = panel;
-        AbstractActionListener.enablePanel(panel, render);
-        
-        if(render) stmt.getThenStatement().accept(this);
     }
     @Override
     public void visit(IfThenElse stmt) {
         
-        boolean render      = ((BoolLiteral) new Bool().parse(stmt.getCondition().evaluate())).getValue();
-        final JPanel panel  = addContainerPanel();
+        boolean render          = ((BoolLiteral) new Bool().parse(stmt.getCondition().evaluate())).getValue();
+        final JPanel thenPanel  = createContainerPanel();
+        final JPanel elsePanel  = createContainerPanel();
         
-        parentPanel.add(panel);
+        parentPanel.add(thenPanel);
+        parentPanel.add(elsePanel);
+        
+        parentPanel = thenPanel;
+        stmt.getThenStatement().accept(this);
+        AbstractActionListener.setVisibility(thenPanel, render);
+        thenPanel.revalidate();
+        
+        parentPanel = elsePanel;
+        stmt.getElseStatement().accept(this);
+        AbstractActionListener.setVisibility(elsePanel, !render);
+        elsePanel.revalidate();
+        
         parentPanel.revalidate();
-        parentPanel = panel;
-        AbstractActionListener.enablePanel(panel, render);
-        
-        if(render)
-        {
-            stmt.getThenStatement().accept(this);
-        } 
-        else
-        {
-            stmt.getElseStatement().accept(this);
-        }
     }
     @Override
     public void visit(AnswerableQuestion stmt) {
@@ -76,16 +83,18 @@ public class ASTtoGUI implements StatementVisitor {
     @Override
     public void visit(ComputedQuestion stmt) {
         
-        stmt.evaluate();
+        boolean render              = !stmt.getComputation().evaluate().isUndefined();
+        final JPanel questionPanel  = createContainerPanel();
         
-        if(!stmt.getIdentifier().getValue().isUndefined())
-        {
-            parentPanel.add(new GUIQuestion(stmt));
-            parentPanel.revalidate();
-        }
+        parentPanel.add(questionPanel);
+        questionPanel.add(new GUIQuestion(stmt));
+        AbstractActionListener.setVisibility(questionPanel, render);
+        questionPanel.revalidate();
+        
+        parentPanel.revalidate();
     }
     
-    private JPanel addContainerPanel() {
+    private JPanel createContainerPanel() {
         JPanel containerPanel = new JPanel();
         containerPanel.setLayout(
                 new BoxLayout(containerPanel, BoxLayout.PAGE_AXIS));

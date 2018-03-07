@@ -34,7 +34,7 @@ def main():
 
     # Run testsuite
     if args.test:
-        os.system("pytest")
+        os.system("pytest -vv")
         sys.exit(0)
 
     # Generate antlr parser

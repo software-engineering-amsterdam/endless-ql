@@ -14,11 +14,11 @@ public class Question extends Statement {
         this.type = type;
     }
 
-    public String getName () {
+    public String getName() {
         return this.name;
     }
 
-    public String getContent () {
+    public String getContent() {
         return this.content;
     }
 
@@ -33,6 +33,6 @@ public class Question extends Statement {
 
     @Override
     public String toString() {
-        return String.format("%s\t%s:%s",this.content, this.name, this.type);
+        return String.format("%s\t%s:%s", this.content, this.name, this.type);
     }
 }

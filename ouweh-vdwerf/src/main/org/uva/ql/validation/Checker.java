@@ -1,6 +1,15 @@
 package org.uva.ql.validation;
 
-@FunctionalInterface
-interface Checker {
-    void runCheck();
+
+import java.util.logging.Logger;
+
+abstract class Checker {
+
+    Logger logger;
+
+    Checker() {
+        this.logger = Logger.getGlobal();
+    }
+
+    abstract void runCheck();
 }

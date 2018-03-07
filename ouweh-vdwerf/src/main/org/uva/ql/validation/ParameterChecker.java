@@ -11,17 +11,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
-public class ParameterChecker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String>, Checker {
+public class ParameterChecker extends Checker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
 
+    private final String ERROR_MESSAGE = "Referenced parameter does not exist: ";
     private SymbolTable symbolTable;
     private Map<String, List<Parameter>> expressions;
-    private Logger logger;
-    private final String ERROR_MESSAGE = "Referenced parameter does not exist: ";
 
     ParameterChecker(Form form, SymbolTable symbolTable) {
-        this.logger = Logger.getGlobal();
         this.symbolTable = symbolTable;
         this.expressions = new HashMap<>();
 

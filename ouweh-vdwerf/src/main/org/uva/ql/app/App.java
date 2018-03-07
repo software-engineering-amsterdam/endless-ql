@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.LogManager;
-
 import java.util.logging.Logger;
 
 
@@ -26,26 +25,25 @@ public class App {
             LogManager.getLogManager().reset();
             logger.addHandler(new LogHandler());
 
-            byte[] a = Files.readAllBytes(Paths.get("input/default  .ql"));
+            byte[] a = Files.readAllBytes(Paths.get("input/default.ql"));
             String input = new String(a);
 
             ASTBuilder builder = new ASTBuilder();
             Form form = builder.buildAST(input);
 
-            Validator validator = new Validator();
-            validator.execute(form);
+            Validator validator = new Validator(form);
+            validator.run();
 
             FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
-            
+
             GUIHandler guiHandler = new GUIHandler(formEvaluator);
 
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             System.out.println(ex.toString());
         }
     }
 
-    public static void main (String [] args) {
+    public static void main(String[] args) {
         new App();
     }
 }

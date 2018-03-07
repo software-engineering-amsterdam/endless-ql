@@ -120,4 +120,13 @@ public class NumValue extends Value<BigDecimal> {
     public Value neg() {
         return new NumValue(this.value.multiply(new BigDecimal(-1.0)));
     }
+
+    @Override
+    public boolean equals(Object other){
+        if(other instanceof NumValue){
+            NumValue otherValue = (NumValue) other;
+            return otherValue.value.equals(otherValue.value);
+        }
+        return false;
+    }
 }

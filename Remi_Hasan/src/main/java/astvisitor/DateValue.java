@@ -96,4 +96,10 @@ public class DateValue extends Value<String>{
     public NumValue neg() {
         return null;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        // TODO
+        return false;
+    }
 }

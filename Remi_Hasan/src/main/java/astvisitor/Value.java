@@ -32,6 +32,9 @@ public abstract class Value<T> {
     public abstract Value neg();
 
     public boolean isUndefined() { return false; }
+
+    @Override
+    public abstract boolean equals(Object other);
 }
 
 

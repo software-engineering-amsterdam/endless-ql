@@ -14,6 +14,11 @@ public class UndefinedValue extends Value<Boolean> {
     }
 
     @Override
+    public boolean equals(Object other) {
+        return false;
+    }
+
+    @Override
     public Boolean getBooleanValue() {
         return false;
     }

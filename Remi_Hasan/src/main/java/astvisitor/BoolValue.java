@@ -96,4 +96,13 @@ public class BoolValue extends Value<Boolean>{
     public NumValue neg() {
         throw new UnsupportedOperationException("Cannot perform neg on boolean.");
     }
+
+    @Override
+    public boolean equals(Object other){
+        if(other instanceof BoolValue){
+            BoolValue otherValue = (BoolValue) other;
+            return otherValue.value.equals(otherValue.value);
+        }
+        return false;
+    }
 }

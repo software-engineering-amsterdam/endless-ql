@@ -97,4 +97,13 @@ public class StringValue extends Value<String>{
     public NumValue neg() {
         throw new UnsupportedOperationException("Cannot perform neg on string.");
     }
+
+    @Override
+    public boolean equals(Object other){
+        if(other instanceof StringValue){
+            StringValue otherValue = (StringValue) other;
+            return otherValue.value.equals(otherValue.value);
+        }
+        return false;
+    }
 }

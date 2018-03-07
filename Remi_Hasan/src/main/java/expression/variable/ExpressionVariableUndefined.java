@@ -11,6 +11,11 @@ public class ExpressionVariableUndefined extends ExpressionVariable<ReturnType> 
     }
 
     @Override
+    public ReturnType getReturnType() {
+        return ReturnType.UNDEFINED;
+    }
+
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }

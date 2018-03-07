@@ -1,4 +1,10 @@
-from pyql.ast.base_visitor import StatementVisitor
+from multimethods import multimethod
+from pyql.ast.form.form import Form
+from pyql.ast.form.block import Block
+from pyql.ast.form.ql_statements import Question
+from pyql.ast.form.ql_statements import If
+from pyql.ast.form.ql_statements import IfElse
+from pyql.ast.ast import ASTNode
 
 
 class SymbolTable:
@@ -31,7 +37,7 @@ class SymbolTable:
         del self._dictionary[key]
 
 
-class SymbolTableBuilder(StatementVisitor):
+class SymbolTableBuilder:
 
     def __init__(self):
         self.symbol_table = SymbolTable()
@@ -40,33 +46,29 @@ class SymbolTableBuilder(StatementVisitor):
         tree.accept(self)
         return self.symbol_table
 
-    def visit_form(self, form):
+    @multimethod(Form)
+    def visit(self, form):
         form.block.accept(self)
 
-    def visit_block(self, block):
-        [q.accept(self) for q in block.statements]
+    @multimethod(Block)
+    def visit(self, block):
+        for q in block.statements:
+            q.accept(self)
 
-    def visit_statement(self, statement):
-        pass
-
-    def visit_question(self, question):
+    @multimethod(Question)
+    def visit(self, question):
         self.symbol_table.create(question.identifier.identifier, question)
 
-    def visit_computed_question(self, question):
-        print(question.identifier)
-
-    def visit_if(self, if_statement):
-        if_statement.block.accept(self)
-
-    def visit_if_else(self, if_else_statement):
+    @multimethod(IfElse)
+    def visit(self, if_else_statement):
         if_else_statement.if_block.accept(self)
         if_else_statement.else_block.accept(self)
 
-    def visit_ast_node(self, node):
-        pass
+    @multimethod(If)
+    def visit(self, if_statement):
+        if_statement.block.accept(self)
 
-    def visit_identifier(self, identifier):
-        pass
-
-    def visit_question_type(self, question_type):
+    @multimethod(ASTNode)
+    def visit(self, node):
+        print("ASTNode: {0}".format(node))
         pass

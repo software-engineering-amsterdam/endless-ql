@@ -1,7 +1,5 @@
-from pyql.ast.base_visitor import StatementVisitor
 from multimethods import multimethod
 from pyql.ast.form.form import Form
-from pyql.ast.form.statement import Statement
 from pyql.ast.form.block import Block
 from pyql.ast.form.ql_statements import Question
 from pyql.ast.form.ql_statements import ComputedQuestion
@@ -10,7 +8,6 @@ from pyql.ast.form.ql_statements import IfElse
 from pyql.ast.ast import ASTNode
 from pyql.ast.expression.expressions import Identifier
 from pyql.util.types import Type
-# from pyql.ast.base_visitor import BaseVisitor
 
 
 class TypeChecker:
@@ -27,6 +24,11 @@ class TypeChecker:
         for q in questions:
             q.accept(self)
 
+    @multimethod(ComputedQuestion)
+    def visit(self, question):
+        print("Visiting computed questions")
+        print(question.identifier)
+
     @multimethod(Question)
     def visit(self, question):
         print("Visiting questions")
@@ -34,21 +36,16 @@ class TypeChecker:
         question.identifier.accept(self)
         question.question_type.accept(self)
 
-    @multimethod(ComputedQuestion)
-    def visit(self, question):
-        print("Visiting computed questions")
-        print(question.identifier)
-
-    @multimethod(If)
-    def visit(self, if_statement):
-        print("Visiting if statement")
-        if_statement.block.accept(self)
-
     @multimethod(IfElse)
     def visit(self, if_else_statement):
         print("Visiting if else statement")
         if_else_statement.if_block.accept(self)
         if_else_statement.else_block.accept(self)
+
+    @multimethod(If)
+    def visit(self, if_statement):
+        print("Visiting if statement")
+        if_statement.block.accept(self)
 
     @multimethod(Identifier)
     def visit(self, identifier):

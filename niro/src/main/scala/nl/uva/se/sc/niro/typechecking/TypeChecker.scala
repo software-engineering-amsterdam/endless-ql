@@ -9,8 +9,9 @@ import org.apache.logging.log4j.scala.Logging
 
 object TypeChecker extends Logging {
 
-  def pipeline(qLForm: QLForm) =
+  def pipeline(qLForm: QLForm): Either[TypeCheckError, QLForm] =
     for {
+      _ <- checkOperandsOfInvalidTypeToOperators(qLForm)
       _ <- checkReferences(qLForm)
       _ <- checkNonBooleanPredicates(qLForm)
       _ <- checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm)
@@ -83,45 +84,52 @@ object TypeChecker extends Logging {
 
     val dependencyGraph: Graph = buildDependencyGraph(questions)
 
-    val cyclicDependencies: Boolean =
-      dependencyGraph.exists(element => detectCycle(element, dependencyGraph, Seq(element)))
-    if (cyclicDependencies) {
-      Left(TypeCheckError(message = s"Found cyclic dependency"))
+    val cyclicDependencies: Seq[Graph] =
+      dependencyGraph.flatMap(element => detectCycles(dependencyGraph, Seq(element)))
+
+    if (cyclicDependencies.nonEmpty) {
+      Left(TypeCheckError(message = s"Found cyclic dependencies: $cyclicDependencies"))
     } else {
       Right(qLForm)
     }
   }
 
-  type Edge = (String, String)
+  case class Edge(from: String, to: String)
   type Graph = Seq[Edge]
 
   private def buildDependencyGraph(questions: Seq[Question]): Graph = {
     questions.flatMap {
-      case q @ Question(_, _, _, r @ Reference(_), _) => Seq(q.id -> r.value)
-      case q @ Question(_, _, _, expression, _)       => Statement.collectAllReferences(expression).map(r => q.id -> r.value)
+      case q @ Question(_, _, _, r @ Reference(_), _) => Seq(Edge(q.id, r.value))
+      case q @ Question(_, _, _, expression, _) =>
+        Statement.collectAllReferences(expression).map(r => Edge(q.id, r.value))
     }
   }
 
-  private def detectCycle(currentEdge: Edge, graph: Graph, followedPath: Graph): Boolean = {
-    logger.info(
-      s"Detecting cycles for starting element: ${followedPath.head} in graph: $graph. Now following: $currentEdge")
+  private def detectCycles(graph: Graph, followedPath: Graph): Seq[Graph] = {
+    logger.info(s"Detecting cycles in graph: $graph. Now traversing: $followedPath")
 
-    val connectedEdges: Seq[Edge] = graph.filter { case (from, _) => from == currentEdge._2 }
+    val currentEdge = followedPath.last
+    val connectedEdges: Seq[Edge] = graph.filter { _.from == currentEdge.to }
 
     if (connectedEdges.isEmpty) {
-      logger.info(s"No cycle detected in ${followedPath.tail :+ currentEdge} for element ${followedPath.head}")
-      false
+      logger.info(s"No cycle detected in $followedPath")
+      Seq.empty
     } else {
-      connectedEdges.exists { connectedEdge =>
-        if (followedPath.head._1 == connectedEdge._2) {
-          val completePath = ((followedPath.tail :+ currentEdge).map(_._1) :+ connectedEdge._2).mkString(" -> ")
+      connectedEdges.flatMap { connectedEdge =>
+        val currentPath = followedPath :+ connectedEdge
+        if (followedPath.head.from == connectedEdge.to) {
+          val completePath = graphToString(currentPath)
           logger.info(s"Detected a cycle: $completePath")
-          true
+          Seq(followedPath :+ connectedEdge)
         } else {
-          detectCycle(connectedEdge, graph, followedPath :+ currentEdge)
+          detectCycles(graph, currentPath)
         }
       }
     }
+  }
+
+  private def graphToString(followedPath: Graph): String = {
+    (followedPath.init.map(_.from) :+ followedPath.last.from :+ followedPath.last.to).mkString(" -> ")
   }
 
   // TODO this function should not throw an error. Somehow we should give a warning when duplicate labels are detected

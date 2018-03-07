@@ -10,18 +10,16 @@ import org.uva.ql.visitor.*;
 
 import java.util.logging.Logger;
 
-public class TypeChecker
-        implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String>, Checker  {
+public class TypeChecker  extends Checker
+        implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String>  {
 
     private SymbolTable symbolTable;
     private Form form;
-    private Logger logger;
     private final String ERROR_MESSAGE = "Type checking error at: ";
 
     TypeChecker(Form form, SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
         this.form = form;
-        this.logger = Logger.getGlobal();
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-public class QuestionChecker implements StatementVisitor<Void, String>, Checker {
+public class QuestionChecker extends Checker implements StatementVisitor<Void, String> {
 
     private SymbolTable symbolTable;
     private List<Question> questions;

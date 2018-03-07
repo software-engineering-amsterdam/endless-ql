@@ -8,13 +8,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-class DependencyChecker implements Checker {
+class DependencyChecker  extends Checker {
 
     private Set<Dependency> dependencies;
-    private Logger logger;
 
     DependencyChecker(Map<String, List<Parameter>> expressions) {
-        this.logger = Logger.getGlobal();
         this.dependencies = new HashSet<>();
 
         for (Map.Entry<String, List<Parameter>> entry : expressions.entrySet()) {

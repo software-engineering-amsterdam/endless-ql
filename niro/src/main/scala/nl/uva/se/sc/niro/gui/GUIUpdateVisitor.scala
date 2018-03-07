@@ -22,7 +22,6 @@ object GUIUpdateVisitor {
             visitConditional(control, answer)
             visit(HierarchyUtil.downcast(control), thenStatements, symbolTable)
           }
-          case ErrorStatement() => ()
         }
     }
   }

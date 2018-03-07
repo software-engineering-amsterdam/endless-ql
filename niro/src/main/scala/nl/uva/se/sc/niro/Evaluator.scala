@@ -15,9 +15,8 @@ object Evaluator {
 
   def evaluateStatement(statement: Statement, symbolTable: SymbolTable): Statement = {
     statement match {
-      case q: Question       => evaluateQuestion(q, symbolTable)
-      case c: Conditional    => evaluateConditional(c, symbolTable)
-      case e: ErrorStatement => e
+      case q: Question    => evaluateQuestion(q, symbolTable)
+      case c: Conditional => evaluateConditional(c, symbolTable)
     }
   }
 

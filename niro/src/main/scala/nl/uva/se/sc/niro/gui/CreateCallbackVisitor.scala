@@ -18,7 +18,6 @@ object CreateCallbackVisitor {
         statement match {
           case Question(questionId, _, answerType, _, _) => visitQuestion(modelUpdater, control, questionId, answerType)
           case Conditional(_, thenStatements, _)         => visit(modelUpdater, HierarchyUtil.downcast(control), thenStatements)
-          case ErrorStatement()                          => ()
         }
     }
   }

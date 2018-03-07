@@ -15,7 +15,7 @@ import org.antlr.v4.runtime.CharStreams
 
 class QLHomeController extends QLBaseController {
   @FXML
-  private val errorMessages: TextArea = null
+  private var errorMessages: TextArea = _
 
   @FXML
   def openForm(event: ActionEvent): Unit = {

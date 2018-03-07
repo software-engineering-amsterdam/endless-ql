@@ -22,7 +22,6 @@ object GUICreationVisitor {
           case conditional: Conditional => {
             visit(RowBuilder.buildSingleColumnRow(grid, row), conditional.thenStatements, symbolTable)
           }
-          case ErrorStatement() => ()
         }
     }
   }

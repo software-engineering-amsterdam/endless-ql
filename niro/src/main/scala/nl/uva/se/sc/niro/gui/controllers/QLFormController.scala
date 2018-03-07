@@ -14,9 +14,9 @@ import nl.uva.se.sc.niro.model.Expressions.Answer
 import nl.uva.se.sc.niro.model.QLForm
 
 class QLFormController extends QLBaseController with ModelUpdater {
-  private var form: QLForm = null
-  @FXML private var formName: Label = null
-  @FXML private var questionsGrid: GridPane = null
+  private var form: QLForm = _
+  @FXML private var formName: Label = _
+  @FXML private var questionsGrid: GridPane = _
 
   @FXML
   @throws[IOException]

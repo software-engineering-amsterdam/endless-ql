@@ -27,17 +27,24 @@ object QLFormParser extends Logging {
   }
 
   object FormVisitor extends QLBaseVisitor[QLForm] {
+    override def defaultResult(): QLForm = QLForm("Unparseable form definition!", Seq.empty)
+
+    override def shouldVisitNextChild(node: RuleNode, currentResult: QLForm): Boolean = {
+      errorListener.parseErrors.isEmpty
+    }
+
     override def visitForm(ctx: QLParser.FormContext): QLForm = {
       val formName = ctx.Identifier().getText
-      val statements: Seq[Statement] =
-        JavaConverters.asScalaBuffer(ctx.statement).toList.flatMap(StatementVisitor.visit)
+      val statements: Seq[Statement] = JavaConverters.asScalaBuffer(ctx.statement).toList.flatMap(StatementVisitor.visit)
 
       QLForm(formName, statements)
     }
   }
 
   object StatementVisitor extends QLBaseVisitor[Seq[Statement]] {
-    override def defaultResult(): Seq[Statement] = Seq(ErrorStatement())
+    override def defaultResult(): Seq[Statement] =
+      Seq(
+        Question("error", "There is a serious error in a question or if-else statement!", BooleanType, BooleanAnswer()))
 
     override def shouldVisitNextChild(node: RuleNode, currentResult: Seq[Statement]): Boolean = {
       errorListener.parseErrors.isEmpty
@@ -74,6 +81,12 @@ object QLFormParser extends Logging {
   }
 
   object ExpressionVisitor extends QLBaseVisitor[Expression] {
+    override def defaultResult(): Expression = BooleanAnswer(false)
+
+    override def shouldVisitNextChild(node: RuleNode, currentResult: Expression): Boolean = {
+      errorListener.parseErrors.isEmpty
+    }
+
     override def visitGroupExpr(ctx: QLParser.GroupExprContext): Expression = {
       visit(ctx.expression())
     }

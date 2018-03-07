@@ -7,59 +7,48 @@ from pyql.util import types
 class ExpressionEvaluator(expression_visitor.ExpressionVisitor):
 
     def visit_expression(self, expression):
-        print("Visiting expression")
+        pass
 
     def visit_identifier(self, identifier):
-        print("Visiting identifier")
         print(symbol_table.get(identifier))
 
     def visit_unary_expression(self, unary_expression):
-        print("Visiting unary_expression")
+        pass
 
     def visit_binary_expression(self, binary_expression):
-        print("Visiting binary_expression")
+        pass
 
     def visit_multiplication(self, multiplication):
         return self.visit_arithmetic_binary_expression(multiplication, "*")
 
     def visit_division(self, division):
-        print("Visiting division")
         return self.visit_arithmetic_binary_expression(division, "/")
 
     def visit_addition(self, addition):
-        print("Visiting addition")
         return self.visit_arithmetic_binary_expression(addition, "+")
 
     def visit_subtraction(self, subtraction):
-        print("Visiting subtraction")
         return self.visit_arithmetic_binary_expression(subtraction, "-")
 
     def visit_greater_than(self, greater_than):
-        print("Visiting greater_than")
         return self.visit_conditional_binary_expression(greater_than, ">")
 
     def visit_less_than(self, less_than):
-        print("Visiting less_than")
         return self.visit_conditional_binary_expression(less_than, "<")
 
     def visit_greater_than_or_equal(self, greater_than_or_equal):
-        print("Visiting greater_than_or_equal")
         return self.visit_conditional_binary_expression(greater_than_or_equal, ">=")
 
     def visit_less_than_or_equal(self, less_than_or_equal):
-        print("Visiting less_than_or_equal")
         return self.visit_conditional_binary_expression(less_than_or_equal, "<=")
 
     def visit_equals(self, equals):
-        print("Visiting equals")
         return self.visit_conditional_binary_expression(equals, "==")
 
     def visit_not_equals(self, not_equals):
-        print("Visiting not_equals")
         return self.visit_conditional_binary_expression(not_equals, "!=")
 
     def visit_and(self, and_expression):
-        print("Visiting and_expression")
         left = and_expression.left.accept(self)
         right = and_expression.right.accept(self)
 
@@ -69,7 +58,6 @@ class ExpressionEvaluator(expression_visitor.ExpressionVisitor):
         return left and right
 
     def visit_or(self, or_expression):
-        print("Visiting or_expression")
         left = or_expression.left.accept(self)
         right = or_expression.right.accept(self)
 
@@ -88,32 +76,26 @@ class ExpressionEvaluator(expression_visitor.ExpressionVisitor):
         return not expression
 
     def visit_literal(self, literal):
-        print("Visiting literal")
+        pass
 
     def visit_string_literal(self, string_literal):
-        print("Visiting string_literal")
         return string_literal
 
     def visit_integer_literal(self, integer_literal):
-        print("Visiting integer_literal")
         return integer_literal
 
     def visit_decimal_literal(self, decimal_literal):
-        print("Visiting decimal_literal")
         return decimal_literal
 
     def visit_boolean_literal(self, boolean_literal):
-        print("Visiting boolean_literal")
         return boolean_literal
 
     def visit_money_literal(self, money_literal):
-        print("Visiting money_literal")
         return money_literal
 
     def visit_arithmetic_binary_expression(self, expression, operator):
         left = expression.left.accept(self)
         right = expression.right.accept(self)
-        print("Visiting arithmetic binary expression of ", left, operator, right)
 
         self.assert_valid_operand_types(operator, left.type, right.type)
         literal_class = self.determine_arithmetic_result_type(left.type, right.type)
@@ -131,7 +113,6 @@ class ExpressionEvaluator(expression_visitor.ExpressionVisitor):
     def visit_conditional_binary_expression(self, expression, operator):
         left = expression.left.accept(self)
         right = expression.right.accept(self)
-        print("Visiting conditional binary expression of ", left, operator, right)
 
         self.assert_valid_operand_types(operator, left.type, right.type)
 

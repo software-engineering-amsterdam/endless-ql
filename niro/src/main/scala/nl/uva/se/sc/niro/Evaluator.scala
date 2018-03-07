@@ -34,7 +34,6 @@ object Evaluator {
     conditional.copy(answer = Option(evaluatedPredicate), thenStatements = evaluatedThenStatements)
   }
 
-  // TODO check if it's necessary to make this call tail recursive
   def evaluateExpression(expr: Expression, symbolTable: SymbolTable): Answer = expr match {
     case answer: Answer        => answer
     case Reference(questionId) => evaluateExpression(symbolTable(questionId), symbolTable)

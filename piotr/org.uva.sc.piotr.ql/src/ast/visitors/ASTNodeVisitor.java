@@ -21,13 +21,9 @@ public interface ASTNodeVisitor {
 
     void visit(Form form);
 
-    void visit(Statement statement);
-
     void visit(Question question);
 
     void visit(IfStatement ifStatement);
-
-  //  void visit(Expression expression);
 
     void visit(Literal literal);
 
@@ -60,8 +56,6 @@ public interface ASTNodeVisitor {
     void visit(LogicalAnd logicalAnd);
 
     void visit(LogicalOr logicalOr);
-
-    void visit(TypeDeclaration typeDeclaration);
 
     void visit(TypeDeclarationBoolean typeDeclarationBoolean);
 

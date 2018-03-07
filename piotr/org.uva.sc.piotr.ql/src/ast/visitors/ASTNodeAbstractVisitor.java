@@ -20,7 +20,7 @@ import ast.model.statements.Statement;
 public class ASTNodeAbstractVisitor implements ASTNodeVisitor {
     @Override
     public void visit(Form form) {
-        // System.out.println("Visiting form :" + form.getStartLine());
+        System.out.println("Visiting form :" + form.getStartLine());
 
         for (Statement statement : form.getStatementList()) {
             statement.accept(this);
@@ -28,17 +28,8 @@ public class ASTNodeAbstractVisitor implements ASTNodeVisitor {
     }
 
     @Override
-    public void visit(Statement statement) {
-
-        // System.out.println("Visiting statement :" + statement.getStartLine());
-
-        statement.accept(this);
-
-    }
-
-    @Override
     public void visit(Question question) {
-        // System.out.println("Visiting question :" + question.getStartLine());
+        System.out.println("Visiting question :" + question.getStartLine());
 
         question.getVariableType().accept(this);
 
@@ -50,7 +41,7 @@ public class ASTNodeAbstractVisitor implements ASTNodeVisitor {
     @Override
     public void visit(IfStatement ifStatement) {
 
-        // System.out.println("Visiting if statement " + ifStatement.getStartLine());
+        System.out.println("Visiting if statement " + ifStatement.getStartLine());
 
         ifStatement.getCondition().accept(this);
 
@@ -62,185 +53,129 @@ public class ASTNodeAbstractVisitor implements ASTNodeVisitor {
         }
     }
 
-//    public void visit(Expression expression, String className) {
-//        this.getClass().getMethod("visit", );
-//    }
-
-//    @Override
-//    public void visit(Expression expression) {
-
-//        // System.out.println("Visiting expression " + expression.getClass().getSimpleName() + " :" + expression.getStartLine());
-
-//        expression, expression.getClass().getSimpleName().accept(this);
-
-//        try {
-//            Method method = this.getClass().getMethod("visit", expression.getClass());
-//            method.invoke(this, expression);
-//        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-
-//        if (expression instanceof Negation) {
-//            (Negation) expression.accept(this);
-//        } else if (expression instanceof Minus) {
-//            (Minus) expression.accept(this);
-//        } else if (expression instanceof Multiplication) {
-//            (Multiplication) expression.accept(this);
-//        } else if (expression instanceof Division) {
-//            (Division) expression.accept(this);
-//        } else if (expression instanceof Addition) {
-//            (Addition) expression.accept(this);
-//        } else if (expression instanceof Subtraction) {
-//            (Subtraction) expression.accept(this);
-//        } else if (expression instanceof GreaterThan) {
-//            (GreaterThan) expression.accept(this);
-//        } else if (expression instanceof GreaterEqual) {
-//            (GreaterEqual) expression.accept(this);
-//        } else if (expression instanceof LessEqual) {
-//            (LessEqual) expression.accept(this);
-//        } else if (expression instanceof Equal) {
-//            (Equal) expression.accept(this);
-//        } else if (expression instanceof NotEqual) {
-//            (NotEqual) expression.accept(this);
-//        } else if (expression instanceof LogicalAnd) {
-//            (LogicalAnd) expression.accept(this);
-//        } else if (expression instanceof LogicalOr) {
-//            (LogicalOr) expression.accept(this);
-//        } else if (expression instanceof VariableReference) {
-//            (VariableReference) expression.accept(this);
-//        } else if (expression instanceof Literal) {
-//            (Literal) expression.accept(this);
-//        }
-//    }
-    
     @Override
     public void visit(Literal literal) {
-        // System.out.println("Visiting literal " + literal.getClass().getSimpleName() + " :" + literal.getStartLine());
+        System.out.println("Visiting literal " + literal.getClass().getSimpleName() + " :" + literal.getStartLine());
     }
 
     @Override
     public void visit(VariableReference variableReference) {
-        // System.out.println("Visiting variable reference " + variableReference.getClass().getSimpleName() + " :" + variableReference.getStartLine());
+        System.out.println("Visiting variable reference " + variableReference.getClass().getSimpleName() + " :" + variableReference.getStartLine());
     }
 
     @Override
     public void visit(Negation negation) {
-        // System.out.println("Visiting negation " + negation.getClass().getSimpleName() + " :" + negation.getStartLine());
+        System.out.println("Visiting negation " + negation.getClass().getSimpleName() + " :" + negation.getStartLine());
         negation.getExpression().accept(this);
     }
 
     @Override
     public void visit(Minus minus) {
-        // System.out.println("Visiting minus " + minus.getClass().getSimpleName() + " :" + minus.getStartLine());
+        System.out.println("Visiting minus " + minus.getClass().getSimpleName() + " :" + minus.getStartLine());
         minus.getExpression().accept(this);
     }
 
     @Override
     public void visit(Addition addition) {
-        // System.out.println("Visiting addition " + addition.getClass().getSimpleName() + " :" + addition.getStartLine());
+        System.out.println("Visiting addition " + addition.getClass().getSimpleName() + " :" + addition.getStartLine());
         addition.getLeftSide().accept(this);
         addition.getRightSide().accept(this);
     }
 
     @Override
     public void visit(Subtraction subtraction) {
-        // System.out.println("Visiting subtraction " + subtraction.getClass().getSimpleName() + " :" + subtraction.getStartLine());
+        System.out.println("Visiting subtraction " + subtraction.getClass().getSimpleName() + " :" + subtraction.getStartLine());
         subtraction.getLeftSide().accept(this);
         subtraction.getRightSide().accept(this);
     }
 
     @Override
     public void visit(Division division) {
-        // System.out.println("Visiting divistion " + division.getClass().getSimpleName() + " :" + division.getStartLine());
+        System.out.println("Visiting divistion " + division.getClass().getSimpleName() + " :" + division.getStartLine());
         division.getLeftSide().accept(this);
         division.getRightSide().accept(this);
     }
 
     @Override
     public void visit(Multiplication multiplication) {
-        // System.out.println("Visiting multiplication " + multiplication.getClass().getSimpleName() + " :" + multiplication.getStartLine());
+        System.out.println("Visiting multiplication " + multiplication.getClass().getSimpleName() + " :" + multiplication.getStartLine());
         multiplication.getLeftSide().accept(this);
         multiplication.getRightSide().accept(this);
     }
 
     @Override
     public void visit(Equal equal) {
-        // System.out.println("Visiting equal " + equal.getClass().getSimpleName() + " :" + equal.getStartLine());
+        System.out.println("Visiting equal " + equal.getClass().getSimpleName() + " :" + equal.getStartLine());
         equal.getLeftSide().accept(this);
         equal.getRightSide().accept(this);
     }
 
     @Override
     public void visit(GreaterEqual greaterEqual) {
-        // System.out.println("Visiting greaterEqual " + greaterEqual.getClass().getSimpleName() + " :" + greaterEqual.getStartLine());
+        System.out.println("Visiting greaterEqual " + greaterEqual.getClass().getSimpleName() + " :" + greaterEqual.getStartLine());
         greaterEqual.getLeftSide().accept(this);
         greaterEqual.getRightSide().accept(this);
     }
 
     @Override
     public void visit(GreaterThan greaterThan) {
-        // System.out.println("Visiting greaterThan " + greaterThan.getClass().getSimpleName() + " :" + greaterThan.getStartLine());
+        System.out.println("Visiting greaterThan " + greaterThan.getClass().getSimpleName() + " :" + greaterThan.getStartLine());
         greaterThan.getLeftSide().accept(this);
         greaterThan.getRightSide().accept(this);
     }
 
     @Override
     public void visit(LessEqual lessEqual) {
-        // System.out.println("Visiting lessEqual " + lessEqual.getClass().getSimpleName() + " :" + lessEqual.getStartLine());
+        System.out.println("Visiting lessEqual " + lessEqual.getClass().getSimpleName() + " :" + lessEqual.getStartLine());
         lessEqual.getLeftSide().accept(this);
         lessEqual.getRightSide().accept(this);
     }
 
     @Override
     public void visit(LessThan lessThan) {
-        // System.out.println("Visiting lessThan " + lessThan.getClass().getSimpleName() + " :" + lessThan.getStartLine());
+        System.out.println("Visiting lessThan " + lessThan.getClass().getSimpleName() + " :" + lessThan.getStartLine());
         lessThan.getLeftSide().accept(this);
         lessThan.getRightSide().accept(this);
     }
 
     @Override
     public void visit(NotEqual notEqual) {
-        // System.out.println("Visiting notEqual " + notEqual.getClass().getSimpleName() + " :" + notEqual.getStartLine());
+        System.out.println("Visiting notEqual " + notEqual.getClass().getSimpleName() + " :" + notEqual.getStartLine());
         notEqual.getLeftSide().accept(this);
         notEqual.getRightSide().accept(this);
     }
 
     @Override
     public void visit(LogicalAnd logicalAnd) {
-        // System.out.println("Visiting logicalAnd " + logicalAnd.getClass().getSimpleName() + " :" + logicalAnd.getStartLine());
+        System.out.println("Visiting logicalAnd " + logicalAnd.getClass().getSimpleName() + " :" + logicalAnd.getStartLine());
         logicalAnd.getLeftSide().accept(this);
         logicalAnd.getRightSide().accept(this);
     }
 
     @Override
     public void visit(LogicalOr logicalOr) {
-        // System.out.println("Visiting logicalOr " + logicalOr.getClass().getSimpleName() + " :" + logicalOr.getStartLine());
+        System.out.println("Visiting logicalOr " + logicalOr.getClass().getSimpleName() + " :" + logicalOr.getStartLine());
         logicalOr.getLeftSide().accept(this);
         logicalOr.getRightSide().accept(this);
     }
 
     @Override
-    public void visit(TypeDeclaration typeDeclaration) {
-        // System.out.println("Visiting typeDeclaration " + typeDeclaration.getClass().getSimpleName() + " :" + typeDeclaration.getStartLine());
-    }
-
-    @Override
     public void visit(TypeDeclarationBoolean typeDeclarationBoolean) {
-        // System.out.println("Visiting typeDeclarationBoolean " + typeDeclarationBoolean.getClass().getSimpleName() + " :" + typeDeclarationBoolean.getStartLine());
+        System.out.println("Visiting typeDeclarationBoolean " + typeDeclarationBoolean.getClass().getSimpleName() + " :" + typeDeclarationBoolean.getStartLine());
     }
 
     @Override
     public void visit(TypeDeclarationDecimal typeDeclarationDecimal) {
-        // System.out.println("Visiting typeDeclarationDecimal " + typeDeclarationDecimal.getClass().getSimpleName() + " :" + typeDeclarationDecimal.getStartLine());
+        System.out.println("Visiting typeDeclarationDecimal " + typeDeclarationDecimal.getClass().getSimpleName() + " :" + typeDeclarationDecimal.getStartLine());
     }
 
     @Override
     public void visit(TypeDeclarationInteger typeDeclarationInteger) {
-        // System.out.println("Visiting typeDeclarationInteger " + typeDeclarationInteger.getClass().getSimpleName() + " :" + typeDeclarationInteger.getStartLine());
+        System.out.println("Visiting typeDeclarationInteger " + typeDeclarationInteger.getClass().getSimpleName() + " :" + typeDeclarationInteger.getStartLine());
     }
 
     @Override
     public void visit(TypeDeclarationString typeDeclarationString) {
-        // System.out.println("Visiting typeDeclarationString " + typeDeclarationString.getClass().getSimpleName() + " :" + typeDeclarationString.getStartLine());
+        System.out.println("Visiting typeDeclarationString " + typeDeclarationString.getClass().getSimpleName() + " :" + typeDeclarationString.getStartLine());
     }
 }

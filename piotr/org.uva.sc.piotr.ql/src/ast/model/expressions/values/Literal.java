@@ -38,5 +38,7 @@ public class Literal extends Expression {
     }
 
     @Override
-    public void accept(ASTNodeVisitor visitor) {}
+    public void accept(ASTNodeVisitor visitor) {
+        visitor.visit(this);
+    }
 }

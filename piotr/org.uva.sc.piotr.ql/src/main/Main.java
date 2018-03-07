@@ -2,6 +2,7 @@ package main;
 
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
+import ast.visitors.TestVisitor;
 import ast.visitors.filters.QuestionsFilter;
 import ast.visitors.filters.ReferencesFilter;
 import ast.ASTBuilder;
@@ -29,6 +30,10 @@ public class Main {
 
         ASTBuilder astBuilder = new ASTBuilder();
         Form form = astBuilder.visitForm(formContext);
+
+        TestVisitor testVisitor = new TestVisitor();
+        testVisitor.visit(form);
+
 
 //        // questions graph for type validator
 //        QuestionsFilter questionsFilter = new QuestionsFilter();

@@ -1,6 +1,8 @@
 package ast.model;
 
 
+import ast.visitors.ASTNodeVisitor;
+
 abstract public class ASTNode implements VisitableASTNode {
 
     private Integer startLine;
@@ -26,4 +28,5 @@ abstract public class ASTNode implements VisitableASTNode {
     public void setEndLine(Integer endLine) {
         this.endLine = endLine;
     }
+
 }

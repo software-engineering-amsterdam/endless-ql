@@ -20,6 +20,4 @@ abstract public class UnaryExpression extends Expression {
         this.expression = expression;
     }
 
-    @Override
-    public void accept(ASTNodeVisitor visitor) {}
 }

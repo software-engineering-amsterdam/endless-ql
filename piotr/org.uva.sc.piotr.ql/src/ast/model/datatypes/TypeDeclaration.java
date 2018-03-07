@@ -19,9 +19,4 @@ public abstract class TypeDeclaration extends ASTNode {
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
-
-    @Override
-    public void accept(ASTNodeVisitor visitor) {
-        this.accept(visitor);
-    }
 }

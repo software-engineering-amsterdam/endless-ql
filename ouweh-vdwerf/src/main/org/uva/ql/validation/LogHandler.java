@@ -24,6 +24,11 @@ public class LogHandler extends Handler {
 
     }
 
+    public boolean hasErrors() {
+        // TODO info may not break this
+        return logs.size() > 0;
+    }
+
     public ArrayList<LogRecord> getLogs() {
         return logs;
     }

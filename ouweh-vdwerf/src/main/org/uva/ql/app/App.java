@@ -7,18 +7,26 @@ import org.uva.ql.evaluator.data.StatementTable;
 import org.uva.ql.evaluator.data.ValueTable;
 import org.uva.ql.gui.GUIHandler;
 import org.uva.ql.parsing.ASTBuilder;
+import org.uva.ql.validation.LogHandler;
 import org.uva.ql.validation.Validator;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.LogManager;
+
+import java.util.logging.Logger;
 
 
 public class App {
 
     private App() {
         try {
-            byte[] a = Files.readAllBytes(Paths.get("input/default.ql"));
+            Logger logger = Logger.getGlobal();
+            LogManager.getLogManager().reset();
+            logger.addHandler(new LogHandler());
+
+            byte[] a = Files.readAllBytes(Paths.get("input/default  .ql"));
             String input = new String(a);
 
             ASTBuilder builder = new ASTBuilder();

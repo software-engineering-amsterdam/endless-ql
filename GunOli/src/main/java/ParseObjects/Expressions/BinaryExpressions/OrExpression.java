@@ -21,7 +21,7 @@ public class OrExpression extends BinaryExpression {
         Expression rightExpr = this.getExprRight();
         Expression leftExpr = this.getExprLeft();
 
-        if(!rightExpr.isLogical() || !leftExpr.isLogical()){
+        if(!rightExpr.evaluate().isLogical() || !leftExpr.evaluate().isLogical()){
             return new UndefinedConstant();
         }
 

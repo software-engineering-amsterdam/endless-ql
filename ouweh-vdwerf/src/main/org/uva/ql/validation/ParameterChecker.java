@@ -11,41 +11,44 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
-public class ParameterChecker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
+public class ParameterChecker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String>, Checker {
 
     private SymbolTable symbolTable;
     private Map<String, List<Parameter>> expressions;
+    private Logger logger;
+    private final String ERROR_MESSAGE = "Referenced parameter does not exist: ";
 
     ParameterChecker(Form form, SymbolTable symbolTable) {
+        this.logger = Logger.getGlobal();
         this.symbolTable = symbolTable;
         this.expressions = new HashMap<>();
 
         for (Statement statement : form.getStatements()) {
             statement.accept(this, null);
         }
+    }
 
-        checkForMissingParameters(symbolTable);
+    @Override
+    public void runCheck() {
+        for (HashMap.Entry<String, List<Parameter>> entry : expressions.entrySet()) {
+            for (Parameter parameter : entry.getValue()) {
+                if (!symbolTable.contains(parameter.getID())) {
+                    logger.severe(ERROR_MESSAGE + parameter);
+                }
+            }
+        }
     }
 
     public Map<String, List<Parameter>> getExpressions() {
         return this.expressions;
     }
 
-    private void checkForMissingParameters(SymbolTable symbolTable) {
-        for (HashMap.Entry<String, List<Parameter>> entry : expressions.entrySet()) {
-            for (Parameter parameter : entry.getValue()) {
-                if (!symbolTable.contains(parameter.getID())) {
-                    System.out.println("Referenced parameter " + parameter + " does not exist");
-                }
-            }
-        }
-    }
-
     @Override
     public Void visit(Parameter parameter, String context) {
         if (!symbolTable.contains(parameter.getID())) {
-            System.out.println("Referenced parameter \"" + parameter + "\" does not exist");
+            logger.severe(ERROR_MESSAGE + parameter);
             return null;
         }
 

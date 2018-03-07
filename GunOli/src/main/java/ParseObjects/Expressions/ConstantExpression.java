@@ -1,14 +1,15 @@
 package ParseObjects.Expressions;
 
+import Visitor.ExpressionTable;
 import ParseObjects.Expressions.ExpressionConstants.Constant;
-import ParseObjects.Expressions.ExpressionConstants.UndefinedConstant;
-import ParseObjects.QuestionMap;
 
 public class ConstantExpression extends Expression {
     private String identifier;
+    private ExpressionTable expressionTable;
 
-    public ConstantExpression(String id){
+    public ConstantExpression(String id, ExpressionTable expressionTable){
         setIdentifier(id);
+        this.expressionTable = expressionTable;
     }
 
     public void setIdentifier(String id){
@@ -19,20 +20,20 @@ public class ConstantExpression extends Expression {
     //Todo: Need to find a better way to build the constant expressions with the QuestionMap
     @Override
     public EvaluationType returnType(){
-        return EvaluationType.Undefined;
+        return expressionTable.getExpression(this.identifier).returnType();
     }
 
     @Override
     public Constant evaluate(){
-        return new UndefinedConstant();
+        return expressionTable.getExpression(this.identifier).evaluate();
     }
 
     // Overloaded methods for when parsing is complete and Question Map is populated
-    public EvaluationType returnType(QuestionMap questionMap){
+   /* public EvaluationType returnType(QuestionMap questionMap){
         return questionMap.getQuestion(this.identifier).returnType();
     }
 
     public Constant evaluate(QuestionMap questionMap){
         return questionMap.getQuestion(this.identifier).evaluate();
-    }
+    }*/
 }

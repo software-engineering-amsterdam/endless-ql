@@ -38,7 +38,13 @@ public class IfStatement extends Statement {
 
     @Override
     public void accept(ASTNodeVisitor visitor) {
-        visitor.visit(this);
+        this.condition.accept(visitor);
+        for (Statement statement : this.statementList) {
+            statement.accept(visitor);
+        }
+        for (Statement statement : this.elseStatementList) {
+            statement.accept(visitor);
+        }
     }
 
 }

@@ -1,6 +1,5 @@
 package ast.model;
 
-import com.sun.istack.internal.NotNull;
 
 abstract public class ASTNode implements VisitableASTNode {
 

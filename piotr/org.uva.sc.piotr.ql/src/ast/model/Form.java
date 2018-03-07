@@ -37,6 +37,6 @@ public class Form extends ASTNode {
 
     @Override
     public void accept(ASTNodeVisitor visitor) {
-        visitor.visit(this);
+        this.accept(visitor);
     }
 }

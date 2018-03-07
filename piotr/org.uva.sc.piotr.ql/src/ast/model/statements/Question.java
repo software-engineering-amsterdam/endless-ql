@@ -52,7 +52,10 @@ public class Question extends Statement {
 
     @Override
     public void accept(ASTNodeVisitor visitor) {
-        visitor.visit(this);
+        this.variableType.accept(visitor);
+        if (this.assignedExpression != null) {
+            this.assignedExpression.accept(visitor);
+        }
     }
 
 

@@ -1,9 +1,9 @@
-package ast.model.expressions.unary.values;
+package ast.model.expressions.values;
 
-import ast.model.expressions.unary.UnaryExpression;
+import ast.model.expressions.Expression;
 import ast.visitors.ASTNodeVisitor;
 
-public class VariableReference extends UnaryExpression {
+public class VariableReference extends Expression {
 
     private String name;
 
@@ -21,7 +21,6 @@ public class VariableReference extends UnaryExpression {
     }
 
     @Override
-    public void accept(ASTNodeVisitor visitor) {
-        visitor.visit(this);
-    }
+    public void accept(ASTNodeVisitor visitor) {}
+
 }

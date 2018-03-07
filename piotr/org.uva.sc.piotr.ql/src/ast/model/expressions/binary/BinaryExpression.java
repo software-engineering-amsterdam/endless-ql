@@ -32,7 +32,8 @@ public abstract class BinaryExpression extends Expression {
 
     @Override
     public void accept(ASTNodeVisitor visitor) {
-        visitor.visit(this);
+        this.leftSide.accept(visitor);
+        this.rightSide.accept(visitor);
     }
 
 }

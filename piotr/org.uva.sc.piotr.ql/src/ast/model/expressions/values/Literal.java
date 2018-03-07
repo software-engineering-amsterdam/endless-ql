@@ -1,9 +1,9 @@
-package ast.model.expressions.unary.values;
+package ast.model.expressions.values;
 
-import ast.model.expressions.unary.UnaryExpression;
+import ast.model.expressions.Expression;
 import ast.visitors.ASTNodeVisitor;
 
-public class Literal extends UnaryExpression {
+public class Literal extends Expression {
 
     public enum Type {
         STRING,
@@ -38,7 +38,5 @@ public class Literal extends UnaryExpression {
     }
 
     @Override
-    public void accept(ASTNodeVisitor visitor) {
-        visitor.visit(this);
-    }
+    public void accept(ASTNodeVisitor visitor) {}
 }

@@ -25,6 +25,7 @@ import FormNode from "../nodes/FormNode";
 import IfCondition from "../nodes/conditions/IfCondition";
 import ComputedField from "../nodes/fields/ComputedField";
 import Question from "../nodes/fields/Question";
+import DateLiteral from "../nodes/expressions/literals/DateLiteral";
 
 export class TypeCheckVisitor implements NodeVisitor {
   private _variables: VariablesInformation;
@@ -140,6 +141,10 @@ export class TypeCheckVisitor implements NodeVisitor {
 
   visitStringLiteral(stringLiteral: StringLiteral): any {
     return FieldType.Text;
+  }
+
+  visitDateLiteral(dateLiteral: DateLiteral): any {
+    return FieldType.Date;
   }
 
   private visitBooleanOperator(operator: BinaryOperator): FieldType {

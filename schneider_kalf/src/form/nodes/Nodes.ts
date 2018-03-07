@@ -19,6 +19,7 @@ import SmallerThanOrEqual from './expressions/comparisons/SmallerThanOrEqual';
 import VariableIdentifier from './expressions/VariableIdentifier';
 import ComputedField from "./fields/ComputedField";
 import StringLiteral from "./expressions/literals/StringLiteral";
+import DateLiteral from "./expressions/literals/DateLiteral";
 
 /**
  * List all available node types for easy access in the grammar.
@@ -46,5 +47,6 @@ export default {
   VariableIdentifier,
   ComputedField,
   Question,
-  FormNode
+  FormNode,
+  DateLiteral
 };

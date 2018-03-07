@@ -80,9 +80,16 @@ type
     return types[literalType];
 }
 
+// Supported types
+fieldType
+ = "money"
+ / "date"
+ / "integer"
+ / "boolean"
+
 // Returns a tsc Field object
 field
- = _ label:stringLiteral lb* id:identifier _ ":" _ type:fieldType lb* expr:("=" lb* expression)? lb*{
+ = _ label:stringLiteral lb* id:identifier _ ":" _ type:type lb* expr:("=" lb* expression)? lb*{
     var name = id.identifier;
     if (expr)
         return new Nodes.ComputedField(name, label.value, type, expr[2]);
@@ -171,11 +178,20 @@ alphabet
 // Integer
 numberLiteral
  = minus:[-]? digits:([0-9\.]+) {
-    var amount = digits.join("");
+    let amount = digits.join("");
     if (minus)
         amount = minus.concat(amount);
     return Nodes.NumberLiteral.fromString(amount);
 }
+
+//Date
+dateLiteral
+ = [0-9][0-9] dateSeparator [0-9][0-9] dateSeparator [0-9][0-9][0-9][0-9]{
+    return new Nodes.DateLiteral(text());
+}
+
+dateSeparator
+ = [.]
 
 // String Literal, Currently only support double quoted String
 stringLiteral
@@ -200,14 +216,17 @@ escapeSequence
   / "t"  { return "\t";   }
   / "v"  { return "\x0B"; }
 
-// Supported types
-fieldType = "money" / "date" / "integer" / "boolean"
-
 // Value
-value = identifier / numberLiteral / stringLiteral / booleanLiteral
+value
+ = identifier
+ / dateLiteral
+ / numberLiteral
+ / stringLiteral
+ / booleanLiteral
 
-booleanToken = "true"  !alphabet
-             / "false" !alphabet
+booleanToken
+ = "true"  !alphabet
+ / "false" !alphabet
 
 ifToken = "if" !alphabet
 

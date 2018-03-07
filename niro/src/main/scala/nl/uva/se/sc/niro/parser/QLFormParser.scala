@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro.parser
 
 import _root_.ql.{ QLBaseVisitor, QLLexer, QLParser }
-import nl.uva.se.sc.niro.model.Expressions._
-import nl.uva.se.sc.niro.model.Expressions.answers._
+import nl.uva.se.sc.niro.model.expressions._
+import nl.uva.se.sc.niro.model.expressions.answers._
 import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.parser.errors.ParseErrorInfo
 import org.antlr.v4.runtime.tree.RuleNode

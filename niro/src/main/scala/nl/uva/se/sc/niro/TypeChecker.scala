@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro
 
-import nl.uva.se.sc.niro.model.Expressions.Reference
-import nl.uva.se.sc.niro.model.Expressions.answers.BooleanAnswer
+import nl.uva.se.sc.niro.model.expressions.Reference
+import nl.uva.se.sc.niro.model.expressions.answers.BooleanAnswer
 import nl.uva.se.sc.niro.model.{ Conditional, QLForm, Question, Statement }
 import org.apache.logging.log4j.scala.Logging
 

@@ -10,7 +10,7 @@ import javafx.scene.layout.GridPane
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.gui._
 import nl.uva.se.sc.niro.gui.application.QLForms
-import nl.uva.se.sc.niro.model.Expressions.Answer
+import nl.uva.se.sc.niro.model.expressions.Answer
 import nl.uva.se.sc.niro.model.QLForm
 
 class QLFormController extends QLBaseController with ModelUpdater {

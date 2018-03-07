@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.gui
 
 import javafx.scene.control.TextField
 import javafx.scene.layout._
-import nl.uva.se.sc.niro.model.Expressions.Expression
+import nl.uva.se.sc.niro.model.expressions.Expression
 import nl.uva.se.sc.niro.model._
 
 object GUICreationVisitor {

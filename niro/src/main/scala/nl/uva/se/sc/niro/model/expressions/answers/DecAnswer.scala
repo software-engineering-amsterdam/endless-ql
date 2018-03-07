@@ -1,8 +1,8 @@
-package nl.uva.se.sc.niro.model.Expressions.answers
+package nl.uva.se.sc.niro.model.expressions.answers
 
-import nl.uva.se.sc.niro.model.Expressions.Answer
-import nl.uva.se.sc.niro.model.Expressions.BasicArithmetics.DecAnswerCanDoBasicArithmetics._
-import nl.uva.se.sc.niro.model.Expressions.Orderings.DecAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.model.expressions.Answer
+import nl.uva.se.sc.niro.model.expressions.BasicArithmetics.DecAnswerCanDoBasicArithmetics._
+import nl.uva.se.sc.niro.model.expressions.Orderings.DecAnswerCanDoOrderings._
 import nl.uva.se.sc.niro.model._
 
 final case class DecAnswer(possibleValue: Option[BigDecimal]) extends Answer {

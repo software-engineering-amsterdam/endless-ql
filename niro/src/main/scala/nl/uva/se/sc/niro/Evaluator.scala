@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro
 
-import nl.uva.se.sc.niro.model.Expressions._
+import nl.uva.se.sc.niro.model.expressions._
 import nl.uva.se.sc.niro.model.QLForm.SymbolTable
 import nl.uva.se.sc.niro.model._
 

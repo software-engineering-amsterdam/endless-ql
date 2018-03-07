@@ -10,7 +10,7 @@ import ast.model.expressions.binary.logical.LogicalAnd;
 import ast.model.expressions.binary.logical.LogicalOr;
 import ast.model.expressions.unary.arithmetics.Minus;
 import ast.model.expressions.unary.logical.Negation;
-import ast.model.expressions.unary.values.VariableReference;
+import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
 import ast.visitors.ASTNodeAbstractVisitor;
 

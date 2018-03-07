@@ -7,9 +7,6 @@ class Expression(ast.ASTNode):
     def __init__(self, location):
         super().__init__(location)
 
-    def accept(self, visitor):
-        return visitor.visit_expression(self)
-
 
 class Identifier(Expression):
 
@@ -20,9 +17,6 @@ class Identifier(Expression):
     @property
     def identifier(self):
         return self._identifier
-
-    def accept(self, visitor):
-        return visitor.visit_identifier(self)
 
     def __repr__(self):
         return str(self.identifier)

@@ -230,4 +230,8 @@ def mapStringToType(obj):
         return float
     elif obj == 'bool' or obj == 'boolean':
         return bool
+    else:
+        print("QL Interpreter error:")
+        print("Unknown type " + obj)
+        sys.exit(1)
 

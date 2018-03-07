@@ -1,5 +1,5 @@
 from AST.types.type import Type
-from PyQt5.QtWidgets import QDoubleSpinBox
+from render.widgets import DoubleSpinBox
 
 
 class TypeDecimal(Type):
@@ -13,6 +13,6 @@ class TypeDecimal(Type):
     @staticmethod
     def pyqt5_default_widget():
         number_of_decimals = 16
-        widget = QDoubleSpinBox()
+        widget = DoubleSpinBox()
         widget.setDecimals(number_of_decimals)
         return widget

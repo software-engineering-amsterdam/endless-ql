@@ -14,12 +14,12 @@ public class MoneyTextField extends JTextField {
 
     private static final long serialVersionUID = -3141780028784984723L;
 
-    public MoneyTextField(final Identifier id) {
+    public MoneyTextField(final Identifier identifier) {
         super();
-        this.setName(id.getName());
-        this.setText(id.getValue().getValue().toString());
+        this.setName(identifier.getName());
+        this.setText(identifier.getValue().getValue().toString());
         PlainDocument doc = (PlainDocument) this.getDocument();
-        doc.setDocumentFilter(new MoneyFilter(id.getType(), "^[0-9]+[.]?[0-9]{0,2}$"));
+        doc.setDocumentFilter(new MoneyFilter(identifier, "^[0-9]+[.]?[0-9]{0,2}$"));
         
         this.addFocusListener(new FocusAdapter() {
             
@@ -38,9 +38,12 @@ public class MoneyTextField extends JTextField {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        String value = String.format("%.2f", Double.parseDouble(getText()));
-                        value = value.replace(",", ".");
-                        setText(value);
+                        if(!getText().isEmpty())
+                        {
+                            String value = String.format("%.2f", Double.parseDouble(getText()));
+                            value = value.replace(",", ".");
+                            setText(value);
+                        }
                     }
                 });
             }

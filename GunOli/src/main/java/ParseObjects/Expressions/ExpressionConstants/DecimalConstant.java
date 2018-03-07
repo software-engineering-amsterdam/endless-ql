@@ -4,10 +4,8 @@ import ParseObjects.Expressions.EvaluationType;
 
 public class DecimalConstant extends Constant<Double> {
     public DecimalConstant(Double value){
-        super(value);
+        super(value == null ? 0.0 : value);
     }
-    public DecimalConstant(String value) { super(Double.parseDouble(value)); }
-
     public EvaluationType returnType(){
         return EvaluationType.Decimal;
     }

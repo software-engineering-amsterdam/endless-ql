@@ -13,7 +13,7 @@ import java.util.Map;
 public class StatementTable {
 
     private final Map<String, Question> questions;
-    private final Map<String, Conditional> conditions;
+    private final Map<String, Expression> conditions;
 
     public StatementTable() {
         questions = new LinkedHashMap<>();
@@ -28,15 +28,15 @@ public class StatementTable {
         return new ArrayList<>(questions.values());
     }
 
-    public void addConditional(String name, Conditional conditional) {
-        conditions.put(name, conditional);
+    public void addConditional(String name, Expression expression) {
+        conditions.put(name, expression);
     }
 
     public boolean questionIsConditional(String questionName) {
         return conditions.containsKey(questionName);
     }
 
-    public Conditional getConditionByQuestionID(String questionName) {
+    public Expression getConditionByQuestionID(String questionName) {
         return conditions.get(questionName);
     }
 

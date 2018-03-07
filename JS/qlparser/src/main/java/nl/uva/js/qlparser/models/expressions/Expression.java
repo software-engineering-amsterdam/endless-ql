@@ -2,6 +2,7 @@ package nl.uva.js.qlparser.models.expressions;
 
 import nl.uva.js.qlparser.models.enums.DataType;
 
+import java.awt.*;
 import java.util.List;
 
 public interface Expression {
@@ -10,7 +11,7 @@ public interface Expression {
      * Expressions that can by itself be visualized as a questionnaire component in html
      */
     interface Visualizable {
-        List<String> getComponents();
+        List<Component> getComponents();
     }
 
     /*

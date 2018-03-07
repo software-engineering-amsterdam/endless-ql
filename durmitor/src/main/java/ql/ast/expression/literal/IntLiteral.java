@@ -1,5 +1,6 @@
 package ql.ast.expression.literal;
 
+import ql.ast.type.Int;
 import ql.ast.type.Type;
 import ql.evaluator.arithmetic.add.IntAdd;
 import ql.evaluator.arithmetic.divide.IntDivide;
@@ -24,7 +25,7 @@ public class IntLiteral extends NumberLiteral implements ExpressionVisitable {
     }
 
     public IntLiteral(String value) {
-        this.value = Integer.parseInt(value);
+        this.value = (value == null || value.isEmpty())? 0 : Integer.valueOf(value);
     }
 
     public IntLiteral(int value) {
@@ -35,7 +36,7 @@ public class IntLiteral extends NumberLiteral implements ExpressionVisitable {
     public Integer getValue() {
         return value;
     }
-
+    
     @Override
     public String toString() {
         return String.valueOf(value);
@@ -43,7 +44,7 @@ public class IntLiteral extends NumberLiteral implements ExpressionVisitable {
 
     @Override
     public Type getType() {
-        return new ql.ast.type.Int();
+        return new Int();
     }
 
     @Override

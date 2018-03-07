@@ -17,10 +17,11 @@ abstract class Answer extends Expression {
 
   def isTrue: Boolean = false
 
-  def combine[R](that: Answer)(f: (T, that.T) => R): Option[R] = for {
-    thisValue <- possibleValue
-    thatValue <- that.possibleValue
-  } yield f(thisValue, thatValue)
+  def combine[R](that: Answer)(f: (T, that.T) => R): Option[R] =
+    for {
+      thisValue <- possibleValue
+      thatValue <- that.possibleValue
+    } yield f(thisValue, thatValue)
 }
 
 final case class Reference(value: String) extends Expression
@@ -33,10 +34,10 @@ object Answer {
   def apply(answerType: String): Answer = answerType match {
     case "boolean" => BooleanAnswer()
     case "integer" => IntAnswer()
-    case "string" => StringAnswer()
+    case "string"  => StringAnswer()
     case "decimal" => DecAnswer()
-    case "money" => MoneyAnswer()
-    case "date" => DateAnswer()
-    case _ => throw new IllegalArgumentException(s"Unsupported answer type: $answerType")
+    case "money"   => MoneyAnswer()
+    case "date"    => DateAnswer()
+    case _         => throw new IllegalArgumentException(s"Unsupported answer type: $answerType")
   }
 }

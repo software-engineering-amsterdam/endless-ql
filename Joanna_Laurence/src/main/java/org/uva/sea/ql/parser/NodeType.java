@@ -1,6 +1,7 @@
 package org.uva.sea.ql.parser;
 
 public enum NodeType {
+    INVALID,
     UNKNOWN,
     MONEY,
     BOOLEAN,

@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.uva.se.sc.niro.gui.QLFormController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.uva.se.sc.niro.gui.controllers.QLFormController">
    <top>
       <Label fx:id="formName" text="FormName" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <font>

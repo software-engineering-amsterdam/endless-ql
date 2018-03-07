@@ -1,4 +1,4 @@
-// Generated from C:/Users/Joana Magalhães/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
+// Generated from C:/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
 package org.uva.forcepushql.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -11,6 +11,18 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link GrammarParser#compileUnit}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompileUnit(GrammarParser.CompileUnitContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GrammarParser#mathUnit}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMathUnit(GrammarParser.MathUnitContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link GrammarParser#variable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -22,12 +34,6 @@ public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLogical(GrammarParser.LogicalContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link GrammarParser#conditional}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConditional(GrammarParser.ConditionalContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GrammarParser#arithmetic}.
 	 * @param ctx the parse tree
@@ -74,6 +80,20 @@ public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParensExpression(GrammarParser.ParensExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code comparisonExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComparisonExpression(GrammarParser.ComparisonExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code logicalExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicalExpression(GrammarParser.LogicalExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link GrammarParser#questionFormat}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -86,11 +106,23 @@ public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestionAssignValue(GrammarParser.QuestionAssignValueContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GrammarParser#conditionalConstr}.
+	 * Visit a parse tree produced by {@link GrammarParser#conditionalIf}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitConditionalConstr(GrammarParser.ConditionalConstrContext ctx);
+	T visitConditionalIf(GrammarParser.ConditionalIfContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GrammarParser#conditionalIfElse}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditionalIfElse(GrammarParser.ConditionalIfElseContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GrammarParser#conditionalElse}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditionalElse(GrammarParser.ConditionalElseContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GrammarParser#questionMultiAns}.
 	 * @param ctx the parse tree

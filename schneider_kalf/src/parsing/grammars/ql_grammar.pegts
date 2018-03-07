@@ -51,7 +51,7 @@
 }
 
 // Start node
-start = forms:form+ _ lb* { return forms }
+start = lb* forms:form+ _ lb* { return forms }
 
 // Unary operation
 unaryOps = "!"
@@ -97,13 +97,13 @@ block
 
 // Returns a tsc FormNode object
 form
- = _ "form" _ id:identifier _ block:block lb*{
+ = formToken _ id:identifier _ block:block lb*{
      return new Nodes.FormNode(id.identifier, block)
 }
 
 // Returns a tsc IfCondition object
 if
- = _ "if" _ predicate:expression _ block:block lb* {
+ = _ ifToken _ predicate:expression _ block:block lb* {
      return new Nodes.IfCondition(predicate, block);
 }
 
@@ -154,20 +154,27 @@ unaryExpr
 
 // Identifier
 identifier
- = chars:([a-zA-Z]+) {
-    return new Nodes.VariableIdentifier(chars.join(""));
+ = !keywords alphabet {
+    return new Nodes.VariableIdentifier(text());
 }
 
 // Boolean Literal
 booleanLiteral
- = Literal:("true" / "false") {
-    return new Nodes.BooleanLiteral(Literal == "true")
+ = booleanToken {
+    return new Nodes.BooleanLiteral(text() == "true")
 }
+
+// Alphabet characters
+alphabet
+ = [a-zA-Z]+
 
 // Integer
 numberLiteral
- = digits:([-]?[0-9]+) {
-    return new Nodes.NumberLiteral(parseInt(digits.join(""), 10))
+ = minus:[-]? digits:([0-9\.]+) {
+    var amount = digits.join("");
+    if (minus)
+        amount = minus.concat(amount);
+    return Nodes.NumberLiteral.fromString(amount);
 }
 
 // String Literal, Currently only support double quoted String
@@ -196,8 +203,17 @@ escapeSequence
 // Supported types
 fieldType = "money" / "date" / "integer" / "boolean"
 
-// Values
-value = booleanLiteral / identifier / numberLiteral / stringLiteral
+// Value
+value = identifier / numberLiteral / stringLiteral / booleanLiteral
+
+booleanToken = "true"  !alphabet
+             / "false" !alphabet
+
+ifToken = "if" !alphabet
+
+formToken = "form" !alphabet
+
+keywords = booleanToken
 
 // Single line comments
 comment = "//" (![\n] .)*

@@ -35,6 +35,13 @@ public class QuestionStmt extends Stmt {
 		return this.identifier.getName();
 	}
 	
+	public int getIdentifierLineNumber() {
+		return this.identifier.getLineNumber();
+	}
+	public int getIdentifierColumnNumber() {
+		return this.identifier.getColumnNumber();
+	}
+	
 	public <T> T visitIdentifierExpr(Expr.Visitor<T> visitor) {
 		return this.identifier.accept(visitor);
 	}

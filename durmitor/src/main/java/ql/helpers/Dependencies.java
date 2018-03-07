@@ -2,6 +2,7 @@ package ql.helpers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import ql.ast.expression.Identifier;
@@ -90,9 +91,9 @@ public class Dependencies extends ArrayList<Dependency> {
         return domains;
     }
     
-    public List<List<Identifier>> getCyclicDependencies() 
+    public List<LinkedList<Identifier>> getCyclicDependencies() 
     {
-        List<List<Identifier>> cyclicDependencies = new ArrayList<List<Identifier>>();
+        List<LinkedList<Identifier>> cyclicDependencies = new ArrayList<LinkedList<Identifier>>();
         
         for(Dependency d : getTransitiveClosure())
         {
@@ -105,10 +106,10 @@ public class Dependencies extends ArrayList<Dependency> {
         return cyclicDependencies;
     }
     
-    private List<Identifier> getCircle(Dependency d)
+    private LinkedList<Identifier> getCircle(Dependency d)
     {
-        boolean nonCyclic       = true;
-        List<Identifier> circle = new ArrayList<Identifier>(Arrays.asList(d.getX()));
+        boolean nonCyclic               = true;
+        LinkedList<Identifier> circle   = new LinkedList<>(Arrays.asList(d.getX()));
         
         while(nonCyclic)
         {
@@ -123,7 +124,7 @@ public class Dependencies extends ArrayList<Dependency> {
                 else
                 {
                     nonCyclic   = false;
-                    circle      = circle.subList(0, i+1);
+                    circle      = new LinkedList<Identifier>(circle.subList(0, i+1));
                     circle.add(d.getY());
                     break;
                 }

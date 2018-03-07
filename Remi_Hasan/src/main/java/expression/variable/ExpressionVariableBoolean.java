@@ -1,5 +1,6 @@
 package expression.variable;
 
+import analysis.SymbolTable;
 import expression.ReturnType;
 
 public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
@@ -14,7 +15,7 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
     }
 
     @Override
-    public ReturnType getReturnType() {
+    public ReturnType getReturnType(SymbolTable symbolTable) {
         return ReturnType.BOOLEAN;
     }
 
@@ -25,21 +26,21 @@ public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
 
     @Override
     public ExpressionVariable and(ExpressionVariable other) {
-        if (this.value == null || other.value == null)
+        if (this.isUndefined() || other.isUndefined())
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(this.value && Boolean.parseBoolean(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable or(ExpressionVariable other) {
-        if (this.value == null || other.value == null)
+        if (this.isUndefined() || other.isUndefined())
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(this.value || Boolean.parseBoolean(other.value.toString()));
     }
 
     @Override
     public ExpressionVariable not() {
-        if (this.value == null)
+        if (this.isUndefined())
             return new ExpressionVariableUndefined();
         return new ExpressionVariableBoolean(!this.value);
     }

@@ -22,13 +22,7 @@ public class FormViewModelImpl implements FormViewModel {
         for (QuestionBlock block : model.getQuestions()) {
             QuestionBlockViewModel questionBlockViewModel = viewModelFactory.apply(block);
             this.questionBlockViewModels.add(questionBlockViewModel);
-            questionBlockViewModel.subscribeToPropertyChanged(this);
         }
-    }
-
-    @Override
-    public void notifyValueChanged(QuestionViewModel source) {
-        renderer.render(this);
     }
 
     @Override

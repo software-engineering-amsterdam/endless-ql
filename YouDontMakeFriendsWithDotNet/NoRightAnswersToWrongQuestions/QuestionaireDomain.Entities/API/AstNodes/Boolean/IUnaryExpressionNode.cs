@@ -1,7 +1,9 @@
-﻿namespace QuestionaireDomain.Entities.API.AstNodes.Boolean
+﻿using QuestionaireDomain.Entities.DomainObjects;
+
+namespace QuestionaireDomain.Entities.API.AstNodes.Boolean
 {
     public interface IUnaryExpressionNode : IExpressionNode
     {
-        IBooleanLogicNode Expression { get; set; }
+        Reference<IBooleanLogicNode> Expression { get; set; }
     }
 }

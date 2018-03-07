@@ -3,15 +3,15 @@ package visitor;
 import antlr.QLBaseVisitor;
 import antlr.QLLexer;
 import antlr.QLParser;
-import expression.*;
+import expression.Expression;
+import expression.ExpressionIdentifier;
 import expression.binary.*;
-import expression.variable.*;
 import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
-import model.LookupTable;
-import model.Question;
-
-import java.math.BigDecimal;
+import expression.variable.ExpressionVariableBoolean;
+import expression.variable.ExpressionVariableDate;
+import expression.variable.ExpressionVariableNumber;
+import expression.variable.ExpressionVariableString;
 
 public class VisitorExpression extends QLBaseVisitor<Expression> {
 
@@ -54,7 +54,6 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression right = visit(ctx.right);
 
         int op = ctx.op.getType();
-
         switch (op) {
             case QLLexer.EQ:
                 return new ExpressionComparisonEq(left, right);
@@ -67,10 +66,10 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitAndOrExpr(QLParser.AndOrExprContext ctx) {
-        int op = ctx.op.getType();
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
+        int op = ctx.op.getType();
         switch (op) {
             case QLLexer.AND:
                 return new ExpressionLogicalAnd(left, right);
@@ -83,10 +82,10 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitBoolExpr(QLParser.BoolExprContext ctx) {
-        int op = ctx.op.getType();
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
+        int op = ctx.op.getType();
         switch (op) {
             case QLLexer.GT:
                 return new ExpressionComparisonGT(left, right);

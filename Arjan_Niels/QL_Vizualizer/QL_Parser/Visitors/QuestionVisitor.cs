@@ -10,7 +10,9 @@ namespace QL_Parser.Visitors
         public override QuestionNode VisitQuestion([NotNull] QLanguageParser.QuestionContext context)
         {
             var id = context.ID().GetText();
-            var question = context.TEXT().GetText();
+            var questionRaw = context.TEXT().GetText();
+            var question = questionRaw.Substring(1, questionRaw.Length - 2);
+
             var qtype = (QValueType)Enum.Parse(typeof(QValueType), context.QTYPE().GetText().ToUpper());
 
             return new QuestionNode(id, question, qtype);

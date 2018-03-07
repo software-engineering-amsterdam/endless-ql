@@ -8,7 +8,7 @@ import {Question} from './question';
 import {Location} from './location';
 import {Expression} from './expressions/expression';
 import {ExpressionType} from './expressions/expression-type';
-import {UnknownQuestionError, UnsupportedTypeError} from '../errors';
+import {CircularDependencyError, UnsupportedTypeError} from '../errors';
 import * as _ from 'lodash';
 import {Variable} from './expressions/variable';
 
@@ -21,10 +21,17 @@ export class ExpressionQuestion extends Question {
     return this.expression.getVariables();
   }
 
-  checkType(allQuestions: Question[]) {
+  checkType(allQuestions: Question[]): void {
     if (! this.expressionTypeValidForQuestion(this.expression.checkType(allQuestions), allQuestions)) {
       throw new TypeError(`Expression type ${this.expression.checkType(allQuestions)} incompatible with question type ${this.type}`
       + this.getLocationErrorMessage());
+    }
+  }
+
+  checkDependencies(): void {
+    const circularDependency = _.find(this.expression.getVariables(), ['identifier', this.name]);
+    if (circularDependency) {
+      throw new CircularDependencyError(`The expression of question ${this.name} references to itself`);
     }
   }
 

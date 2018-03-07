@@ -1,45 +1,72 @@
 ﻿using QL.Core.Ast;
 using QL.Core.Symbols;
+using QL.Core.Types;
 using System.Collections.Generic;
 
 namespace QL.Core.Scopes
 {
-    public class ScopeExtractingVisitor : BaseVisitor
+    public class ScopeExtractingVisitor : BaseVisitor<Scope>
     {
-        public Scope ScopeTree;
-        private Scope CurrentScope;
-        public SymbolTable SymbolTable;
+        private Stack<Scope> _scopes = new Stack<Scope>();
+        private SymbolTable _symbolTable;
+        private int _currentDepth;
 
         public ScopeExtractingVisitor(SymbolTable symbolTable)
         {
-            SymbolTable = symbolTable;
+            _symbolTable = symbolTable;
+        }
+        
+        public Scope GetTopLevelScope()
+        {
+            var scope = _scopes.Peek();
+            while (scope.Parent != null)
+            {
+                scope = scope.Parent;
+            }
+            return scope;
         }
 
-        public override void VisitExit(FormNode node)
+        public override Scope Visit(BlockNode node)
         {
-            ScopeTree = CurrentScope;
+            ++_currentDepth;
+
+            if (_currentDepth > node.Depth)
+            {
+                for (int i = 0; i < _currentDepth - node.Depth; ++i)
+                {
+                    _scopes.Pop();
+                }
+
+                CreateChildScope();
+                _currentDepth = node.Depth;
+            }
+            else if (_currentDepth == node.Depth)
+            {
+                var childScope = CreateChildScope();
+                _scopes.Push(childScope);
+            }
+
+            return VisitChildren(node);
         }
 
-        public override void VisitEnter(BlockNode node)
+        public override Scope Visit(QuestionNode node)
         {
-            var newScope = new Scope(CurrentScope);
-            CurrentScope?.Childeren.Add(newScope);
-            CurrentScope = newScope;
+            _scopes.Peek().AddVariable(_symbolTable[node.Label]);
+            return VisitChildren(node);
         }
 
-        public override void VisitExit(BlockNode node)
+        public override Scope Visit(VariableNode node)
         {
-            CurrentScope = CurrentScope.Parent ?? CurrentScope;
+            _scopes.Peek().AddReference(_symbolTable[node.Label] ?? new Symbol(node.Label, QLType.Undefined, node.Token));
+            return _scopes.Peek();
         }
 
-        public override void VisitEnter(QuestionNode node)
+        private Scope CreateChildScope()
         {
-            CurrentScope.AddVariable(SymbolTable[node.Label]);
-        }
-
-        public override void VisitEnter(VariableNode node)
-        {
-            CurrentScope.AddReference(SymbolTable[node.Label] ?? new Symbol(node.Label, SymbolType.Undefined, node.Token));
+            Scope parentScope = _scopes.Count > 0 ? _scopes.Peek() : null;
+            var newScope = new Scope(parentScope);
+            parentScope?.Children.Add(newScope);
+            return newScope;
         }
     }
 }

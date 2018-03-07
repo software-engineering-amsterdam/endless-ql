@@ -1,6 +1,8 @@
 package Visitor;
 
 import ParseObjects.Expressions.EvaluationType;
+import ParseObjects.Expressions.Expression;
+import ParseObjects.Expressions.ExpressionConstants.*;
 import ParseObjects.Question;
 import antlrGen.QLBaseVisitor;
 import antlrGen.QLParser;
@@ -14,8 +16,35 @@ public class QuestionVisitor extends QLBaseVisitor<Question>{
         QLParser.QuestionTypeContext questionTypeCTX = ctx.questionType();
         String typeText = questionTypeCTX.type().getText();
         typeText = typeText.substring(0,1).toUpperCase() + typeText.substring(1);
+        //Format text of type to match EvaluationType declarations
         EvaluationType typeValue = EvaluationType.valueOf(typeText);
-        //Todo: Change how the answer is initialized for the new Question
-        return new Question(name, text, typeValue, null);
+
+        Expression initialAnswer = initializeAnswer(questionTypeCTX, typeValue);
+
+        return new Question(name, text, typeValue, initialAnswer);
+    }
+
+    private Expression initializeAnswer(QLParser.QuestionTypeContext ctx, EvaluationType type){
+        if(ctx.expression() != null) {
+            ExpressionVisitor expressionVisitor = new ExpressionVisitor();
+            return expressionVisitor.visit(ctx.expression());
+        }
+
+        switch(type){
+            case Boolean:
+                return new BooleanConstant(null);
+            case Date:
+                return new DateConstant(null);
+            case Decimal:
+                return new DecimalConstant(null);
+            case Integer:
+                return new IntegerConstant(null);
+            case Money:
+                return new MoneyConstant(null);
+            case String:
+                return new StringConstant(null);
+            default:
+                return new UndefinedConstant(type);
+        }
     }
 }

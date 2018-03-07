@@ -9,7 +9,7 @@ public abstract class Type extends QLNode implements TypeVisitable {
     public abstract String toString();
     
     public abstract Literal<?> parse(Literal<?> value);
-
+    
     public abstract boolean equals(Type t);
 
     public boolean isBoolean() {

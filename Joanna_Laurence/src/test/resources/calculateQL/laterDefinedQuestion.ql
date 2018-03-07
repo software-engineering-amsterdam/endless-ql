@@ -12,12 +12,12 @@ form taxOfficeExample {
     }
 
     if (waitedToLong) {
-      "Did you wait to long?"
+      "Did you wait to long2?"
         waitedToLong2: boolean
     }
 
     if (!waitedToLong) {
-      "Did you wait to long?"
+      "Did you wait to long3?"
         waitedToLong3: boolean
     }
 }

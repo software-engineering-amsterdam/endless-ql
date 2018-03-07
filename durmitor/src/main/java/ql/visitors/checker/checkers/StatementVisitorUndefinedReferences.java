@@ -11,15 +11,16 @@ import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
-import ql.visitors.ExpressionVisitorIdentifier;
+import ql.exceptions.QLException;
+import ql.exceptions.ReferenceToUndefinedQuestion;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorUndefinedReferences implements StatementVisitor {
 
     private List<String> identifiers;
-    private List<String> errors;
+    private List<QLException> errors;
 
-    public StatementVisitorUndefinedReferences(List<String> errors) {
+    public StatementVisitorUndefinedReferences(List<QLException> errors) {
         
         this.identifiers    = new ArrayList<String>();
         this.errors         = errors;
@@ -33,7 +34,7 @@ public class StatementVisitorUndefinedReferences implements StatementVisitor {
         {
             if (!identifiers.contains(id.getName())) 
             {
-                errors.add("Reference to undefined question [" + id.getName() + "] found at " + id.getLocation());
+                errors.add(new ReferenceToUndefinedQuestion(id));
             } 
         }
         

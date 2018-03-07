@@ -38,7 +38,13 @@ public class MoneyAdd extends AbstractEvaluator<MoneyLiteral> {
 
     @Override
     public Literal<?> visit(MoneyLiteral secondOperand) {
-        return new MoneyLiteral(firstOperand.getValue() + secondOperand.getValue());
+        
+        if(firstOperand.getCurrency().equals(secondOperand.getCurrency()))
+        {
+            return new MoneyLiteral(firstOperand.getCurrency(), firstOperand.getValue() + secondOperand.getValue());
+        }
+        
+        return new UndefinedLiteral();
     }
 
     @Override

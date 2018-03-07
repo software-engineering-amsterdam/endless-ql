@@ -39,7 +39,8 @@
     </properties>
   </component>
   <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/input_files/ql_input.jsql" />
+    <file url="file://$PROJECT_DIR$/input_file/ql_input.jsql" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/ql_input.jsql" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

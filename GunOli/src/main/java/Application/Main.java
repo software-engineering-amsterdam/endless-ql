@@ -1,51 +1,35 @@
 package Application;
 
-import java.io.InputStream;
-import ParseObjects.Question;
-import ParseObjects.Condition;
-import ParseObjects.Form;
-import antlrGen.QLParser;
-import antlrGen.QLLexer;
-import Visitor.FormVisitor;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
+import GUI.QLUserInterface;
+import ParseObjects.Expressions.BinaryExpressions.SubtractExpression;
+import ParseObjects.Expressions.Expression;
+import ParseObjects.Expressions.ExpressionConstants.IntegerConstant;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.stage.Stage;
 
-public class Main {
 
-    public Form parseForm(InputStream stream){
-        try{
-            QLLexer lexer = new QLLexer(CharStreams.fromStream(stream));
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            QLParser parser = new QLParser(tokens);
-            //Trees.inspect(parser.head(), parser); Debug parse tree, change for later viewing
+public class Main extends Application{
 
-            FormVisitor visitor = new FormVisitor();
-            return visitor.visit(parser.head());
-        }catch(Exception e){
-            System.out.println(e);
 
-            return null;
-        }
+    @Override
+    public void start(Stage stage){
+       //BuildGUI; <- 2 buttons (browse, debug)
+            //Browse <- returns form from file
+            //Debug  <- example.ql
+
+       //Parse selected form
+        // Build form object
+        // display questions in GUI <- implement submit button
+        // handle user input
+
+        stage.setTitle("QL displayer");
+        QLUserInterface qlGui = new QLUserInterface(stage);
     }
 
-    public void start(){
-        String file = "example.ql";
-        InputStream stream = getClass().getResourceAsStream(file);
-        Form form = parseForm(stream);
-
-        //Debug form
-        for(Question question : form.getBlock().getQuestions()){
-            System.out.println(question.getIdentifier()+ " : " + question.getText()+" : "+ question.getType());
-        }
-
-        for(Condition condition : form.getBlock().getConditions()){
-            for(Question question : condition.getBlock().getQuestions()){
-                System.out.println(question.getIdentifier()+ " : " + question.getText()+" : "+ question.getType());
-            }
-        }
-    }
 
     public static void main(String[] args) {
-        new Main().start();
+        launch(args);
     }
 }

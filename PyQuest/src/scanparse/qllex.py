@@ -62,7 +62,7 @@ class LexTokenizer(object):
     t_LPAREN   = r'\('
     t_RPAREN   = r'\)'
 
-    t_QUESTION = r'\"(.+?)\"'
+    # t_QUESTION = r'\"(.+?)\"'
 
     # Define a rule so we can track line numbers
     @staticmethod
@@ -81,6 +81,12 @@ class LexTokenizer(object):
     @staticmethod
     def t_FLOAT(t):
         r'\d+\.(\d+)'
+        return t
+
+    @staticmethod
+    def t_QUESTION(t):
+        r'\"(.+?)\"'
+        t.value = t.value[1:-1]
         return t
 
     # Define a rule for handling erroneous characters

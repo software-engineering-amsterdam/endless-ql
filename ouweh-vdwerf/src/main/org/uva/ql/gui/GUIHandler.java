@@ -25,6 +25,9 @@ public class GUIHandler {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500,  300);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+
+        // Initialize formEvaluator
+        this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
         generateGUI();
     }
 
@@ -41,11 +44,14 @@ public class GUIHandler {
 
         for(Question question: formEvaluator.getQuestionsAsList()){
             Value value = formEvaluator.getValueById(question.getName());
-            QuestionWidget widget = widgetFactory.makeWidget(question, value);
+            QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
 
             if(formEvaluator.questionHasCondition(question)){
-                BooleanValue expressionValue =  (BooleanValue) this.expressionEvaluator.evaluateExpression(question.getName(), this.formEvaluator.getConditionById(question.toString()), this.formEvaluator.getValueTable());
-
+                BooleanValue expressionValue = (BooleanValue) this.expressionEvaluator.evaluateExpression(
+                        question.getName(),
+                        this.formEvaluator.getConditionById(question.toString()),
+                        this.formEvaluator.getValueTable()
+                );
                 widget.setVisible(expressionValue.getValue());
             }
             frame.add(widget);

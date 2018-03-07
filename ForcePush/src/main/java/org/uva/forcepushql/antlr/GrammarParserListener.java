@@ -8,6 +8,26 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface GrammarParserListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by {@link GrammarParser#compileUnit}.
+	 * @param ctx the parse tree
+	 */
+	void enterCompileUnit(GrammarParser.CompileUnitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#compileUnit}.
+	 * @param ctx the parse tree
+	 */
+	void exitCompileUnit(GrammarParser.CompileUnitContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#mathUnit}.
+	 * @param ctx the parse tree
+	 */
+	void enterMathUnit(GrammarParser.MathUnitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#mathUnit}.
+	 * @param ctx the parse tree
+	 */
+	void exitMathUnit(GrammarParser.MathUnitContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link GrammarParser#variable}.
 	 * @param ctx the parse tree
 	 */
@@ -27,16 +47,6 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLogical(GrammarParser.LogicalContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link GrammarParser#conditional}.
-	 * @param ctx the parse tree
-	 */
-	void enterConditional(GrammarParser.ConditionalContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GrammarParser#conditional}.
-	 * @param ctx the parse tree
-	 */
-	void exitConditional(GrammarParser.ConditionalContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GrammarParser#arithmetic}.
 	 * @param ctx the parse tree
@@ -114,6 +124,30 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 */
 	void exitParensExpression(GrammarParser.ParensExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code comparisonExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterComparisonExpression(GrammarParser.ComparisonExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code comparisonExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitComparisonExpression(GrammarParser.ComparisonExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code logicalExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalExpression(GrammarParser.LogicalExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code logicalExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalExpression(GrammarParser.LogicalExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link GrammarParser#questionFormat}.
 	 * @param ctx the parse tree
 	 */
@@ -134,15 +168,35 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 */
 	void exitQuestionAssignValue(GrammarParser.QuestionAssignValueContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link GrammarParser#conditionalConstr}.
+	 * Enter a parse tree produced by {@link GrammarParser#conditionalIf}.
 	 * @param ctx the parse tree
 	 */
-	void enterConditionalConstr(GrammarParser.ConditionalConstrContext ctx);
+	void enterConditionalIf(GrammarParser.ConditionalIfContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link GrammarParser#conditionalConstr}.
+	 * Exit a parse tree produced by {@link GrammarParser#conditionalIf}.
 	 * @param ctx the parse tree
 	 */
-	void exitConditionalConstr(GrammarParser.ConditionalConstrContext ctx);
+	void exitConditionalIf(GrammarParser.ConditionalIfContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#conditionalIfElse}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditionalIfElse(GrammarParser.ConditionalIfElseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#conditionalIfElse}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditionalIfElse(GrammarParser.ConditionalIfElseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#conditionalElse}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditionalElse(GrammarParser.ConditionalElseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#conditionalElse}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditionalElse(GrammarParser.ConditionalElseContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GrammarParser#questionMultiAns}.
 	 * @param ctx the parse tree

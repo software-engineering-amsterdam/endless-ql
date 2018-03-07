@@ -11,12 +11,14 @@ import java.awt.event.ItemListener;
 
 public class BooleanWidget extends QuestionWidget {
 
-    public BooleanWidget(Question question, Value value, QuestionChangeListener questionChangeListener) {
+    private JCheckBox checkBox = new JCheckBox();
+
+    public BooleanWidget(Question question, Value value, boolean readOnly, QuestionChangeListener questionChangeListener) {
         super(question);
 
-        JCheckBox checkBox = new JCheckBox();
         checkBox.setSelected(Boolean.valueOf(value.toString()));
         checkBox.setHorizontalAlignment(JCheckBox.CENTER);
+        checkBox.setEnabled(readOnly);
 
         checkBox.addItemListener(new ItemListener() {
             @Override
@@ -24,6 +26,7 @@ public class BooleanWidget extends QuestionWidget {
                 questionChangeListener.onQuestionChanged(question.getName(), new BooleanValue(checkBox.isSelected()));
             }
         });
+
 
         this.add(checkBox, 1);
     }

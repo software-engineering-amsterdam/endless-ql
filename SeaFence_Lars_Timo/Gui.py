@@ -4,7 +4,9 @@ from Tkinter import *
 class Gui():
     def __init__(self):
         self.window = tk.Tk()
-        self.window.minsize(width=500, height=300)
+        self.window.geometry('%sx%s' % (self.window.winfo_screenwidth()/3, self.window.winfo_screenheight()))
+        self.window.maxsize(self.window.winfo_screenwidth()/3, self.window.winfo_screenheight())
+   
         self.frame = None
         self.frames = {}
         self.values = {}
@@ -22,6 +24,12 @@ class Gui():
         
         self.entryBoxes = {}
         self.formVariables = {}
+
+    def configureContent(self, event):
+        self.canvas.itemconfig(self.window, width=event.width)
+
+    def configureCanvas(self, event):
+        self.canvas.configure(scrollregion=self.canvas.bbox('all'))
 
     #add the label to the dict for destroying/changing later and then pack it in the main frame
     def addLabel(self, name, text):
@@ -177,13 +185,10 @@ class Gui():
         frame = tk.Frame(self.window)
         frame.pack(expand=False, fill='both')
         self.frame = frame
-        return
+        return frame
 
     def addFormButton(self, parseFunction, ast):
-        frame = tk.Frame(self.frame)
-        frame.pack()
-
-        button = tk.Button(frame, text="Submit")
+        button = tk.Button(self.window, text="Submit")
         button.config(command= lambda: parseFunction(ast, button))
         button.pack()
 

@@ -3,56 +3,68 @@ package org.uva.forcepushql.ast;
 import org.uva.forcepushql.antlr.GrammarParser;
 import org.uva.forcepushql.antlr.GrammarParserBaseVisitor;
 
-public class BuildASTVisitor extends GrammarParserBaseVisitor{
+public class BuildASTVisitor extends GrammarParserBaseVisitor<BinaryExpression>{
 
 
-    public Expression visitExpression (GrammarParser.ExpressionContext context){
-
-        if(context instanceof GrammarParser.BinaryExpressionContext)
-            return visitBinaryExpression((GrammarParser.BinaryExpressionContext)context);
-
-        else if(context instanceof GrammarParser.ParensExpressionContext)
-            return visitParensExpression((GrammarParser.ParensExpressionContext)context);
-
-        else
-            return visitValueExpression((GrammarParser.ValueExpressionContext)context);
-
+    @Override
+    public BinaryExpression visitMathUnit(GrammarParser.MathUnitContext ctx) {
+        return super.visitMathUnit(ctx);
     }
 
-    public Expression visitParensExpression (GrammarParser.ParensExpressionContext context){
-        return visitExpression(context.expression());
+    @Override
+    public BinaryExpression visitParensExpression(GrammarParser.ParensExpressionContext ctx) {
+        return super.visitParensExpression(ctx);
     }
 
-    public ValueExpression visitValueExpression (GrammarParser.ValueExpressionContext context){
-        return new ValueExpression();
+    @Override
+    public BinaryExpression visitValueExpression(GrammarParser.ValueExpressionContext ctx) {
+        return super.visitValueExpression(ctx);
     }
 
-
-    public Variable visitVariable (GrammarParser.VariableContext context){
-        return new Variable();
-    }
-
-
+    @Override
     public BinaryExpression visitBinaryExpression(GrammarParser.BinaryExpressionContext context){
 
-        BinaryExpression node = null;
-
-        switch(context.arithmetic().getRuleIndex()){
+        InfixExpressionNode node;
+        System.out.println("Context.op is " + context.op.getType() + " and GrammarParser.PLUS is " + GrammarParser.PLUS);
+        switch(context.op.getType()){
             case GrammarParser.PLUS:
-                node = new PlusExpression();
+                node = new AdditionNode();
                 break;
 
             case GrammarParser.MINUS:
-                node = new MinusExpression();
+                node = new SubtractionNode();
                 break;
 
             case GrammarParser.MULTIPLY:
-                node = new MultiplyExpression();
+                node = new MultiplicationNode();
                 break;
-
             case GrammarParser.DIVIDE:
-                node = new DivideExpression();
+                node = new DivisionNode();
                 break;
+            default:
+                node = new AdditionNode();
+                /*try {
+                    throw new Exception();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }*/
+        }
+
+        node.setLeft(visit(context.left));
+        node.setRight(visit(context.right));
+        node.getLeft();
+        node.getRight();
+        System.out.println("And finally node.Left is " + node.Left);
+
+        return node;
+
+    }
+}
+
+
+
+/* To be used later
+
 
             case GrammarParser.AND:
                 node = new AndExpression();
@@ -85,19 +97,4 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor{
             case GrammarParser.ISEQUAL:
                 node = new IsEqualExpression();
                 break;
-
-            default:
-                try {
-                    throw new Exception();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-        }
-
-        node.setLeft(visitExpression(context.left));
-        node.setRight(visitExpression(context.right));
-
-        return node;
-
-    }
-}
+*/

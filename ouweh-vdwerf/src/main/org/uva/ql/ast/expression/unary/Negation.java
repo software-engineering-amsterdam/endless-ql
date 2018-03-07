@@ -7,7 +7,11 @@ public class Negation extends Expression {
     private final Expression expression;
 
     public Negation(Expression expression){
-        this.expression = expression    ;
+        this.expression = expression;
+    }
+
+    public Expression getExpression() {
+        return expression;
     }
 
     @Override

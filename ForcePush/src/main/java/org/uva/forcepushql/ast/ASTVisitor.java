@@ -2,7 +2,7 @@ package org.uva.forcepushql.ast;
 
 abstract class ASTVisitor<T> extends  BuildASTVisitor{
 
-    public T Visit(BuildASTVisitor node)
+   /* public T Visit(BuildASTVisitor node)
     {
         if(node is PlusExpression)
         {
@@ -12,5 +12,5 @@ abstract class ASTVisitor<T> extends  BuildASTVisitor{
         {
             return Visit((MinusExpression) node);
         }
-    }
+    }*/
 }

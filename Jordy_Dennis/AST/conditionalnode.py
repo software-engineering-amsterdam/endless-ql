@@ -8,7 +8,7 @@ The elifConditionBlock contains multiple ifConditionBlocks
 
 The else condition is a block of statements
 """
-
+from .ast_methods import *
 
 class ConditionalNode:
     def __init__(self, ifConditionBlock, line):
@@ -16,6 +16,8 @@ class ConditionalNode:
         self.elifConditionBlock = []
         self.elseBlock = None
         self.line = line
+        self.qlOrder = collections.OrderedDict()
+        self.nodeType = "Conditional"
 
     def addElifCondition(self, condition):
         self.elifCondition.append(condition)
@@ -45,6 +47,10 @@ class ConditionalNode:
         if(self.elseBlock):
             for elseblock in self.elseBlock():
                 elseblock.linkVars(varDict)
+
+    def getNodeType(self):
+        return self.nodeType
+
 
     def __repr__(self):
         return "Conditional: if: {} elif: {} else: {}".format(self.ifConditionBlock, self.elifConditionBlock, self.elseBlock)

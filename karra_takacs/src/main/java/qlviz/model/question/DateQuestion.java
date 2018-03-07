@@ -1,5 +1,7 @@
 package qlviz.model.question;
 
+import qlviz.QLParser;
+
 import java.util.Date;
 
 public class DateQuestion extends Question {
@@ -13,8 +15,8 @@ public class DateQuestion extends Question {
         this.value = value;
     }
 
-    public DateQuestion(String name, String text, QuestionType type) {
-        super(name, text, type);
+    public DateQuestion(String name, String text, QuestionType type, QLParser.QuestionContext context) {
+        super(name, text, type, context);
     }
 
     @Override

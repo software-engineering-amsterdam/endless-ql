@@ -19,15 +19,15 @@
     <form id="form" (ngSubmit)="onSubmit()" [formGroup]="form">
 
       <mat-tab-group>
-        <mat-tab *ngFor="let page of astQls.pages">
+        <mat-tab *ngFor="let page of qlsStylesheet.pages">
           <ng-template mat-tab-label>
             {{page.name}}
           </ng-template>
           <mat-list>
             <div *ngFor="let section of page.sections">
               <h3 mat-subheader>{{section.name}}</h3>
-              <mat-list-item *ngFor="let question of getQlQuestionsForSection(section)" class="form-row">
-                <app-question [question]="question" [form]="form"></app-question>
+              <mat-list-item *ngFor="let question of section.getQuestions()" class="form-row">
+                <app-question [question]="getQuestionBaseByName(question.name)" [form]="form"></app-question>
               </mat-list-item>
               <mat-divider></mat-divider>
             </div>

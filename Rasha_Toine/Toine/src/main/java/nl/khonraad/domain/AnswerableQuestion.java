@@ -1,20 +1,32 @@
 package nl.khonraad.domain;
 
-public class AnswerableQuestion extends Value {
+public class AnswerableQuestion {
 
-	String identifier;
-	String label;
-
-	// An undefined boolean will therefore be considered False, a date as EPOCH.
-
-	private static int UNDEFINED_VALUE = 0;
+	private String identifier;
+	private String label;
+	private Value value;
 
 	public AnswerableQuestion(String identifier, String label, Type type) {
 
-		super(type, UNDEFINED_VALUE);
-
 		this.identifier = identifier;
 		this.label = label;
+		this.value = new Value(type, 0);
 	}
 
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public Value getValue() {
+		return value;
+	}
+
+	public void parseThenSetValue(String s) {
+
+		this.value = new Value(value.getType(), s);
+	}
 }

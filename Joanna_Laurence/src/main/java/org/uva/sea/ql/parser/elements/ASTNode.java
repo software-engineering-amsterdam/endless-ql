@@ -2,20 +2,17 @@ package org.uva.sea.ql.parser.elements;
 
 import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.visitor.IASTVisitor;
+import org.uva.sea.ql.parser.visitor.IASTVisitor;
 
 public abstract class ASTNode {
 
-    private int line;
-    private int column;
     private Token token;
 
     public ASTNode() {
     }
 
     public ASTNode(Token token) {
-        this.line = token.getLine();
-        this.column = token.getCharPositionInLine();
+        this.token = token;
     }
 
     /**
@@ -26,15 +23,11 @@ public abstract class ASTNode {
     public abstract Type getType();
 
     public int getLine() {
-        return this.line;
+        return token.getLine();
     }
 
     public int getColumn() {
-        return this.column;
-    }
-
-    public Token getToken() {
-        return token;
+        return token.getCharPositionInLine();
     }
 
     public abstract <T> T accept(IASTVisitor<T> visitor);

@@ -3,7 +3,7 @@ import BooleanLiteral from "../../form/nodes/expressions/boolean_expressions/Boo
 import { evaluate } from "../../form/evaluation/evaluation_functions";
 import NotEqual from "../../form/nodes/expressions/comparisons/NotEqual";
 import Negation from "../../form/nodes/expressions/boolean_expressions/Negation";
-import NumberLiteral from "../../form/nodes/expressions/arithmetic/NumberLiteral";
+import NumberLiteral from "../../form/nodes/expressions/literals/NumberLiteral";
 import { FieldType } from "../../form/FieldType";
 import { ValuesNotComparableError } from "../../form/form_errors";
 

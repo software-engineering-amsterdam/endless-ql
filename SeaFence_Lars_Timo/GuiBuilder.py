@@ -8,6 +8,7 @@ class GuiBuilder():
         self.form_name = ast.name
 
         self.values = []
+        self.trueExpressions = {}
         self.submitButtonShown = False
 
         self.labels = {}
@@ -17,41 +18,38 @@ class GuiBuilder():
         self.parseStatements(ast)
 
     # def updateVariable():
-
     #     return
 
     def parseStatements(self, form, setSubmitButton=True):
-        # print self.ast
         for statement in form.statements:
-            print type(statement)
-            # if self.checkIfVariableExists(statement):
-            #     return
-            self.gui.setCurrentStatementFrame()
             if type(statement) is QuestionNode:
                 self.parseQuestion(statement)
             elif type(statement) is AssignmentNode:
                 self.parseAssignment(statement)
             elif type(statement) is IfNode:
-                if(self.checkVariableStatus(statement.expression)):
-                    print statement
+                if self.checkVariableStatus(statement.expression):                 
+                    if statement.expression not in self.trueExpressions:
+                        self.trueExpressions[statement.expression] = self.gui.setCurrentStatementFrame()
                     self.parseStatements(statement, False)
-                else:
-                    print "nee"
-                #self.parseIfNode(statement)
 
-        self.gui.addFormButton(self.reEvaluateForm, self.ast)
-        self.submitButtonShown = True
+                elif not self.checkVariableStatus(statement.expression) and statement.expression in self.trueExpressions:
+                    self.removeIfBlock(statement)
+                else:
+                    continue
+
+        if setSubmitButton:
+            self.gui.addFormButton(self.reEvaluateForm, self.ast)
+            self.submitButtonShown = True
         return
 
     # This method is called from the gui class when pressing the submit button, remove the old button and 
     # start the re-evaluation of the form based on new variable features
     def reEvaluateForm(self, form, submitButton):
         submitButton.destroy()
-        self.submitButtonShown = False
         self.parseStatements(form)
 
     def parseQuestion(self, statement):
-        print statement
+        # print statement
         if statement.vartype == "boolean" and statement.var not in self.values:
             self.gui.addBooleanQuestion(statement.var, statement.question, "No", "Yes")
             self.values.append(statement.var)
@@ -104,6 +102,14 @@ class GuiBuilder():
             print value
         # self.gui.addLabel(statement.var, statement.var)
         return
+
+    def removeIfBlock(self, statement):
+        self.trueExpressions[statement.expression].destroy()
+        del self.trueExpressions[statement.expression]
+
+        for stmnt in statement.statements:
+            if stmnt.var in self.values:
+                self.values.remove(stmnt.var)
 
     # def checkIfVariableExists(self, statement):
     #     print "Checking questions"

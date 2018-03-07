@@ -1,7 +1,7 @@
 import FormNode from "../../form/nodes/FormNode";
 import Addition from "../../form/nodes/expressions/arithmetic/Addition";
 import ComputedField from "../../form/nodes/fields/ComputedField";
-import NumberLiteral from "../../form/nodes/expressions/arithmetic/NumberLiteral";
+import NumberLiteral from "../../form/nodes/expressions/literals/NumberLiteral";
 import { getFirstFormNode, getFirstStatement } from "./parsing_test_helpers";
 import BooleanLiteral from "../../form/nodes/expressions/boolean_expressions/BooleanLiteral";
 import Or from "../../form/nodes/expressions/boolean_expressions/Or";

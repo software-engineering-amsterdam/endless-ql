@@ -10,6 +10,7 @@ import org.uva.ql.gui.widgets.QuestionWidget;
 import org.uva.ql.validation.LogHandler;
 
 import java.util.logging.*;
+import java.util.*;
 import java.awt.event.WindowEvent;
 
 
@@ -25,21 +26,12 @@ public class GUIHandler {
         this.questionChangeListener = new QuestionChangeListener(this);
         this.expressionEvaluator = new ExpressionEvaluator();
 
-        frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(500,  300);
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-
-        Logger logger = Logger.getGlobal();
-        LogHandler handler = (LogHandler) logger.getHandlers()[0];
-        if(handler.getLogs().size() > 0) {
-            JOptionPane.showMessageDialog(frame, "Info", "Error", JOptionPane.ERROR_MESSAGE);
-            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-            return;
-        }
+        initializeFrame();
+        checkForErrors();
 
         // Initialize formEvaluator
         this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
+
         generateGUI();
     }
 
@@ -69,6 +61,23 @@ public class GUIHandler {
             frame.add(widget);
         }
         frame.setVisible(true);
+    }
+
+    private void initializeFrame(){
+        this.frame = new JFrame();
+        this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.frame.setSize(500,  300);
+        this.frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+    }
+
+    private void checkForErrors(){
+        Logger logger = Logger.getGlobal();
+        LogHandler handler = (LogHandler) logger.getHandlers()[0];
+        ArrayList<LogRecord> logs = handler.getLogs();
+        if(logs.size() > 0) {
+            JOptionPane.showMessageDialog(frame, logs.get(0).getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        }
     }
 
 }

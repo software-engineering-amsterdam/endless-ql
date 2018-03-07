@@ -26,7 +26,7 @@ public class App {
             LogManager.getLogManager().reset();
             logger.addHandler(new LogHandler());
 
-            byte[] a = Files.readAllBytes(Paths.get("input/default.ql"));
+            byte[] a = Files.readAllBytes(Paths.get("input/default  .ql"));
             String input = new String(a);
 
             ASTBuilder builder = new ASTBuilder();

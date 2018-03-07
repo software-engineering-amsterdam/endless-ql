@@ -1,6 +1,6 @@
 import FormNode from "../../form/nodes/FormNode";
 import IfCondition from "../../form/nodes/conditions/IfCondition";
-import BooleanLiteral from "../../form/nodes/expressions/boolean_expressions/BooleanLiteral";
+import BooleanLiteral from "../../form/nodes/literals/BooleanLiteral";
 import Question from "../../form/nodes/fields/Question";
 import { FieldType } from "../../form/FieldType";
 import VariableIdentifier from "../../form/nodes/expressions/VariableIdentifier";

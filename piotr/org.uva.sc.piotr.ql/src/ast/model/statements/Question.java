@@ -55,5 +55,4 @@ public class Question extends Statement {
         visitor.visit(this);
     }
 
-
 }

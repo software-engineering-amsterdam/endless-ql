@@ -10,6 +10,12 @@ import antlrGen.QLBaseVisitor;
 import antlrGen.QLParser;
 
 public class ExpressionVisitor extends QLBaseVisitor<Expression> {
+    private ExpressionTable expressionTable;
+
+    public ExpressionVisitor(ExpressionTable exprTable){
+        super();
+        this.expressionTable = exprTable;
+    }
 
     @Override
     public Expression visitBinaryExpr(QLParser.BinaryExprContext ctx) {
@@ -109,9 +115,9 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
         return new MoneyConstant(Double.parseDouble(ctx.getText()));
     }
 
-    //Todo: Boolean Constant? Identifier Constant?
+    //Todo: Boolean Constant?
     @Override
     public Expression visitIdentifierConstant(QLParser.IdentifierConstantContext ctx){
-        return new ConstantExpression(ctx.IDENTIFIER().getText());
+        return new ConstantExpression(ctx.IDENTIFIER().getText(), expressionTable);
     }
 }

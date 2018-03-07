@@ -70,7 +70,7 @@ defaultBlockBody
 // Widget
 widget
  = _ "widget" _ id:identifier options:widgetOptions? lb* {
-    return new Nodes.WidgetAttribuut("widget", id, options);
+    return new Nodes.WidgetAttribute("widget", id, options);
 }
 
 // WidgetOptions
@@ -87,7 +87,7 @@ arguments
 // Style element
 style
  = _ id:identifier _ ":" _ args:styleValues lb*{
-    return new Nodes.BaseAttribuut(id, args);
+    return new Nodes.BaseAttribute(id, args);
 }
 
 // Style values

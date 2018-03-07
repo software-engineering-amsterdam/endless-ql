@@ -123,7 +123,7 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         Identifier id   = createIdentifier(ctx.identifier(),type);
         Expression expr = (Expression) visit(ctx.expr());
         
-        return setLocation(new ComputedQuestion(label,id,type,expr), ctx.start);
+        return setLocation(new ComputedQuestion(label,id,expr), ctx.start);
     }
 
     @Override 
@@ -133,7 +133,7 @@ public class QLVisitorToAst extends QLBaseVisitor<Object> {
         Type type       = (Type) visit(ctx.type());
         Identifier id   = createIdentifier(ctx.identifier(),type);
         
-        return setLocation(new AnswerableQuestion(label,id,type), ctx.start);
+        return setLocation(new AnswerableQuestion(label,id), ctx.start);
     }
     
     @Override 

@@ -1,12 +1,9 @@
 package validators;
 
-import ast.model.expressions.unary.values.VariableReference;
+import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 public class QuestionsDependencyValidator {
 
@@ -54,23 +51,51 @@ public class QuestionsDependencyValidator {
 
     public QuestionsDependencyValidator(HashMap<Question, ArrayList<VariableReference>> questionsMap) {
 
+        Set<Question> questions = questionsMap.keySet();
+
         // create nodes
         for (Question question : questionsMap.keySet()) {
             this.nodes.put(question, new Node(question));
         }
 
-        // create edges
         for (Map.Entry<Question, ArrayList<VariableReference>> entry : questionsMap.entrySet()) {
 
-            // 
-
-            for (VariableReference reference : entry.getValue()) {
-                //this.nodes.get();
-            }
         }
 
-    }
 
+        // find in questionsMap all references to a question
+
+        // find the node containing a question with the exact same name as referenceVar
+
+        // for each node
+        // get all references
+        // for each reference
+        // find all ref.nodes
+        // create edge node <-> ref.node
+
+
+//
+//
+//
+//            // create edges
+//            for (Map.Entry<Question, ArrayList<VariableReference>> entry : questionsMap.entrySet()) {
+//
+//                for (VariableReference reference : entry.getValue()) {
+//
+//                    // find all ref.nodes
+//                    for (Map.Entry<Question, Node> nodeEntry : this.nodes.entrySet()) {
+//                        if (question.getVariableName().equals(reference.getName())) {
+//                            Node referredNode = this.nodes.get(question);
+//                            entry
+//                        }
+//                    }
+//
+//
+//                }
+//            }
+//
+
+    }
 
 
 }

@@ -4,11 +4,6 @@ public class Form {
     private String name;
     private Block block;
 
-    public Form(){
-        setName("");
-        setBlock(null);
-    }
-
     public Form(String s, Block b){
         setName(s);
         setBlock(b);

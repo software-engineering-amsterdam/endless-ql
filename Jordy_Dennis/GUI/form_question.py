@@ -5,7 +5,7 @@ from .form_input_type import InputTypeMap
 # A question is a frame which consists of a label (question text) and the input_user all packed in one frame
 class Question:
 
-    def __init__(self, parent, question_text="Hi mom", question_type="bool", input_user=[]):
+    def __init__(self, parent, question_text="Hi mom", question_type=bool, input_user=[]):
         self.frame = create_frame(parent)
         self.frame.pack(fill="both", anchor=NW, expand=True)
         self.map = InputTypeMap(self.frame)

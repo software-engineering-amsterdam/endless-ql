@@ -4,10 +4,10 @@ import IfCondition from './conditions/IfCondition';
 import Addition from './expressions/arithmetic/Addition';
 import Division from './expressions/arithmetic/Division';
 import Multiplication from './expressions/arithmetic/Multiplication';
-import NumberLiteral from './expressions/literals/NumberLiteral';
+import NumberLiteral from './literals/NumberLiteral';
 import Subtraction from './expressions/arithmetic/Subtraction';
 import And from './expressions/boolean_expressions/And';
-import BooleanLiteral from './expressions/boolean_expressions/BooleanLiteral';
+import BooleanLiteral from './literals/BooleanLiteral';
 import Negation from './expressions/boolean_expressions/Negation';
 import Or from './expressions/boolean_expressions/Or';
 import Equals from './expressions/comparisons/Equals';
@@ -18,7 +18,8 @@ import NotEqual from './expressions/comparisons/NotEqual';
 import SmallerThanOrEqual from './expressions/comparisons/SmallerThanOrEqual';
 import VariableIdentifier from './expressions/VariableIdentifier';
 import ComputedField from "./fields/ComputedField";
-import StringLiteral from "./expressions/literals/StringLiteral";
+import StringLiteral from "./literals/StringLiteral";
+import DateLiteral from "./literals/DateLiteral";
 
 /**
  * List all available node types for easy access in the grammar.
@@ -46,5 +47,6 @@ export default {
   VariableIdentifier,
   ComputedField,
   Question,
-  FormNode
+  FormNode,
+  DateLiteral
 };

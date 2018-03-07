@@ -22,11 +22,6 @@ class LeftPanel extends BoxPanel(Orientation.Vertical) {
 class RightPanel extends BoxPanel(Orientation.Vertical) {
   border = Swing.EmptyBorder(10, 10, 10, 10)
 
-  contents += new BoxPanel(Orientation.Horizontal) {
-    contents += Swing.HGlue
-    contents += Button("Report") { println("Report") }
-  }
-
   List("Did you sell a house in 2010", "Did you sell a house in 2010", "Did you enter a loan for maintenance/reconstruction?").map(
     labels =>
       this.contents += new BoxPanel(Orientation.Horizontal) {
@@ -37,8 +32,10 @@ class RightPanel extends BoxPanel(Orientation.Vertical) {
       }
     )
 
-  // for (e <- contents)
-  //   e.xLayoutAlignment = 1.0
+    contents += new BoxPanel(Orientation.Horizontal) {
+      contents += Swing.HGlue
+      contents += Button("Report") { println("Report") }
+    }
 }
 
 class Window extends MainFrame {

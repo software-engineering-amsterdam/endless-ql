@@ -6,7 +6,6 @@ import {DynamicFormQuestionComponent} from './components/dynamic-form-question/d
 import {BrowserModule} from '@angular/platform-browser';
 import * as mockData from './mock-input';
 import {MatListModule, MatTabsModule} from '@angular/material';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('AppComponent', () => {
   let app: AppComponent;

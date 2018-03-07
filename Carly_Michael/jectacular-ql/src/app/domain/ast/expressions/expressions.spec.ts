@@ -2,7 +2,7 @@ import {Literal} from './expression';
 import {ExpressionType} from './expression-type';
 import {AndExpression, LogicalExpression, OrExpression} from './logical-expression';
 import {AddExpression, ArithmeticExpression, DivideExpression, MultiplyExpression, SubtractExpression} from './arithmetic-expression';
-import {UnaryExpression} from './unary-expression';
+import {NegateExpression, NegativeExpression, UnaryExpression} from './unary-expression';
 import {Location} from '../location';
 import {
   ComparisonExpression, GreaterThanEqualExpression, GreaterThanExpression, LessThanEqualExpression,
@@ -45,8 +45,8 @@ const greaterEqualExpression = new GreaterThanEqualExpression(decimalLiteral, de
 const equalExpression = new EqualExpression(intLiteral, intLiteral, location);
 const inEqualExpression = new InEqualExpression(booleanLiteral, booleanLiteral,  location);
 
-const negativeExpression = new UnaryExpression(intLiteral, '-', location);
-const negateExpression = new UnaryExpression(booleanLiteral, '!', location);
+const negativeExpression = new NegativeExpression(intLiteral, location);
+const negateExpression = new NegateExpression(booleanLiteral, location);
 
 const variableExpression = new Variable('booleanQuestion', location);
 
@@ -127,9 +127,9 @@ describe('Expressions', () => {
     it('unary expressions', () => {
       expect(negativeExpression.checkType([])).toBe(ExpressionType.NUMBER);
       expect(negateExpression.checkType([])).toBe(ExpressionType.BOOLEAN);
-      expect(() => new UnaryExpression(booleanLiteral, '-', location)
+      expect(() => new NegativeExpression(booleanLiteral,  location)
         .checkType([])).toThrowError();
-      expect(() => new UnaryExpression(decimalLiteral, '!', location)
+      expect(() => new NegateExpression(decimalLiteral, location)
         .checkType([])).toThrowError();
     });
 
@@ -186,20 +186,20 @@ describe('Expressions', () => {
 
       for (let i = 0; i < literalArray.length; i++) {
         if (literalArray[i].type === ExpressionType.NUMBER) {
-          expect(new UnaryExpression(literalArray[i], '-', location).checkType([]));
+          expect(new NegativeExpression(literalArray[i], location).checkType([]));
         } else {
           expect(() => {
-            new UnaryExpression(literalArray[i], '-', location).checkType([]);
+            new NegativeExpression(literalArray[i], location).checkType([]);
           }).toThrow();
         }
       }
 
       for (let i = 0; i < literalArray.length; i++) {
         if (literalArray[i].type === ExpressionType.BOOLEAN) {
-          expect(new UnaryExpression(literalArray[i], '!', location).checkType([]));
+          expect(new NegateExpression(literalArray[i],  location).checkType([]));
         } else {
           expect(() => {
-            new UnaryExpression(literalArray[i], '!', location).checkType([]);
+            new NegateExpression(literalArray[i],  location).checkType([]);
           }).toThrow();
         }
       }

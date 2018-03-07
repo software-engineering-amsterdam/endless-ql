@@ -1,7 +1,6 @@
 import {ExpressionType} from './expression-type';
-import {ComparisonOperator, Expression, LiteralType} from './expression';
+import {Expression, LiteralType} from './expression';
 import {Location} from '../location';
-import {UnknownOperatorError} from '../../errors';
 import {Question} from '../question';
 import {FormGroup} from '@angular/forms';
 import {BinaryExpression} from './binary-expression';

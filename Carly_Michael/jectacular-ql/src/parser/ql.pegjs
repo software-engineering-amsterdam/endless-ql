@@ -53,76 +53,83 @@ andExpression
       }
 
 equalExpression
-  = head:inEqualExpression tail:(whitespace ("==") whitespace equalExpression) {
+  = head:inEqualExpression tail:(whitespace "==" whitespace equalExpression) {
       return new ast.EqualExpression(head, tail[3], location());
 } / v:inEqualExpression {
         return v;
       }
 
 inEqualExpression
-  = head:greaterThanExpression tail:(whitespace ("!=") whitespace inEqualExpression) {
+  = head:greaterThanExpression tail:(whitespace "!=" whitespace inEqualExpression) {
       return new ast.InEqualExpression(head, tail[3], location());
 } / v:greaterThanExpression {
         return v;
       }
 
 greaterThanExpression
-  = head:greaterThanEqualExpression tail:(whitespace (">") whitespace greaterThanExpression) {
+  = head:greaterThanEqualExpression tail:(whitespace ">" whitespace greaterThanExpression) {
       return new ast.GreaterThanExpression(head, tail[3], location());
 } / v:greaterThanEqualExpression {
         return v;
       }
 greaterThanEqualExpression
-  = head:lessThanExpression tail:(whitespace (">=") whitespace greaterThanEqualExpression) {
+  = head:lessThanExpression tail:(whitespace ">=" whitespace greaterThanEqualExpression) {
       return new ast.GreaterThanEqualExpression(head, tail[3], location());
 } / v:lessThanExpression {
         return v;
       }
 
 lessThanExpression
-  = head:lessThanEqualExpression tail:(whitespace ("<") whitespace lessThanExpression) {
+  = head:lessThanEqualExpression tail:(whitespace "<" whitespace lessThanExpression) {
       return new ast.LessThanExpression(head, tail[3], location());
 } / v:lessThanEqualExpression {
         return v;
       }
 
 lessThanEqualExpression
-  = head:addExpression tail:(whitespace ("<=") whitespace lessThanEqualExpression) {
+  = head:addExpression tail:(whitespace "<=" whitespace lessThanEqualExpression) {
       return new ast.LessThanEqualExpression(head, tail[3], location());
 } / v:addExpression {
         return v;
       }
 addExpression
-  = head:subtractExpression tail:(whitespace ("+") whitespace addExpression) {
+  = head:subtractExpression tail:(whitespace "+" whitespace addExpression) {
       return new ast.AddExpression(head, tail[3], location());
 } / v:subtractExpression {
         return v;
       }
 
 subtractExpression
-  = head:multiplyExpression tail:(whitespace ("-") whitespace subtractExpression) {
+  = head:multiplyExpression tail:(whitespace "-" whitespace subtractExpression) {
       return new ast.SubtractExpression(head, tail[3], location());
 } / v:multiplyExpression {
         return v;
       }
 
 multiplyExpression
-  = head:divideExpression tail:(whitespace ("*") whitespace multiplyExpression) {
+  = head:divideExpression tail:(whitespace "*" whitespace multiplyExpression) {
       return new ast.MultiplyExpression(head, tail[3], location());
 } / v:divideExpression {
         return v;
       }
 
 divideExpression
-  = head:unaryExpression tail:(whitespace ("/") whitespace divideExpression) {
+  = head:negativeExpression tail:(whitespace "/" whitespace divideExpression) {
       return new ast.DivideExpression(head, tail[3], location());
-} / v:unaryExpression {
+} / v:negativeExpression {
         return v;
       }
 
-unaryExpression
-  = head:(whitespace ("!" / "-") whitespace unaryExpression) {
-      return new ast.UnaryExpression(head[3], head[1], location());
+negativeExpression
+  = head:(whitespace "-" whitespace negativeExpression) {
+      return new ast.NegativeExpression(head[3], location());
+} / v:negateExpression {
+        return v;
+      }
+
+negateExpression
+  = head:(whitespace "!" whitespace negateExpression) {
+      return new ast.NegateExpression(head[3], location());
 } / v:primitive {
         return v;
       }

@@ -5,13 +5,6 @@ import {FormGroup} from '@angular/forms';
 import {Variable} from './variable';
 import {QuestionType, QuestionTypeUtil} from '../question-type';
 import {UnsupportedTypeError} from '../../errors';
-
-export type ArithmeticOperator = '+' | '-' | '*' | '/';
-export type ComparisonOperator = '>' | '<' | '>=' | '<=';
-export type UnaryOperator = '!' | '-';
-export type LogicalOperator = '&&' | '||';
-export type EqualityOperator = '==' | '!=';
-export type BinaryOperator = ArithmeticOperator | ComparisonOperator | LogicalOperator | EqualityOperator;
 export type LiteralType = boolean | number | string | Date;
 
 export abstract class Expression {
@@ -29,6 +22,7 @@ export abstract class Expression {
       ` and col ${this.location.start.column} and line ${this.location.end.line} and col ${this.location.end.column}`;
   }
 
+  //TODO: see if switch can be deleted
   protected toExpressionType(questionType: QuestionType): ExpressionType {
     switch (questionType) {
       case QuestionType.DECIMAL:

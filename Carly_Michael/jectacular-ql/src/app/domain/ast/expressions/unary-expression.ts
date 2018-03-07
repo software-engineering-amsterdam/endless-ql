@@ -1,13 +1,12 @@
 import {ExpressionType} from './expression-type';
-import {Expression, LiteralType, UnaryOperator} from './expression';
+import {Expression, LiteralType} from './expression';
 import {Location} from '../location';
-import {UnknownOperatorError, UnsupportedTypeError} from '../../errors';
 import {Question} from '../question';
 import {FormGroup} from '@angular/forms';
 import {Variable} from './variable';
 
-export class UnaryExpression extends Expression {
-  constructor(public right: Expression, public operator: UnaryOperator, location: Location) {
+export abstract class UnaryExpression extends Expression {
+  constructor(public right: Expression, location: Location) {
     super(location);
   }
 
@@ -15,25 +14,49 @@ export class UnaryExpression extends Expression {
     return this.right.getVariables();
   }
 
+  abstract checkType(allQuestions: Question[]): ExpressionType;
+
+  abstract evaluate(form: FormGroup): LiteralType;
+}
+
+export class NegativeExpression extends UnaryExpression {
+  constructor(right: Expression, location: Location) {
+    super(right, location);
+  }
+
   checkType(allQuestions: Question[]): ExpressionType {
-    if (this.operator === '-' && this.right.checkType(allQuestions) === ExpressionType.NUMBER) {
+    if (this.right.checkType(allQuestions) === ExpressionType.NUMBER) {
       return ExpressionType.NUMBER;
-    } else if (this.operator === '!' && this.right.checkType(allQuestions) === ExpressionType.BOOLEAN) {
-      return ExpressionType.BOOLEAN;
-    } else {
-      throw new TypeError(
-        `Type of expression does not match operator ${this.operator}`
-        + this.getLocationErrorMessage()
-      );
     }
+
+    throw new TypeError(
+      `Type of expression does not match operator - (negative)`
+      + this.getLocationErrorMessage()
+    );
   }
 
   evaluate(form: FormGroup): LiteralType {
-    switch (this.operator) {
-      case '-': return - this.right.evaluate(form);
-      case '!': return ! this.right.evaluate(form);
-      default: throw new UnknownOperatorError(`Unknown operator ${this.operator}` +
-      this.getLocationErrorMessage());
+    return - this.right.evaluate(form);
+  }
+}
+
+export class NegateExpression extends UnaryExpression {
+  constructor(right: Expression, location: Location) {
+    super(right, location);
+  }
+
+  checkType(allQuestions: Question[]): ExpressionType {
+    if (this.right.checkType(allQuestions) === ExpressionType.BOOLEAN) {
+      return ExpressionType.BOOLEAN;
     }
+
+    throw new TypeError(
+      `Type of expression does not match operator ! (negate)`
+      + this.getLocationErrorMessage()
+    );
+  }
+
+  evaluate(form: FormGroup): LiteralType {
+    return ! this.right.evaluate(form);
   }
 }

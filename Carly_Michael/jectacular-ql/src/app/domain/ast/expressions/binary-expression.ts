@@ -1,4 +1,4 @@
-import {BinaryOperator, Expression} from './expression';
+import {Expression} from './expression';
 import {Variable} from './variable';
 import {Location} from '../location';
 import * as _ from 'lodash';

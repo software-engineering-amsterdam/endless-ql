@@ -1,5 +1,6 @@
 import StyleTreeNode from "./StyleTreeNode";
+import StyleNodeVisitor from "../visitors/StyleNodeVisitor";
 
-export default class AbstractStyleNode implements StyleTreeNode {
-
+export default abstract class AbstractStyleNode implements StyleTreeNode {
+  abstract accept(visitor: StyleNodeVisitor);
 }

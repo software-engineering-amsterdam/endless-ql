@@ -1,6 +1,9 @@
 package org.uva.ql.visitor;
 
-import org.uva.ql.ast.type.*;
+import org.uva.ql.ast.type.BooleanType;
+import org.uva.ql.ast.type.IntegerType;
+import org.uva.ql.ast.type.MoneyType;
+import org.uva.ql.ast.type.StringType;
 
 public interface TypeVisitor<T, C> {
 

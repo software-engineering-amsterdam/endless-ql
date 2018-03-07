@@ -36,9 +36,11 @@ public class Validator implements StatementVisitor<Void, String> {
 
         ParameterChecker parameterChecker = new ParameterChecker(form, symbolTable);
 
-        DependencyChecker dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());//form, symbolTable
+        DependencyChecker dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());
         dependencyChecker.execute();
-        TypeChecker typeChecker = new TypeChecker();//form, symbolTable
+
+        TypeChecker typeChecker = new TypeChecker(form, symbolTable);
+        typeChecker.execute();
 
         System.out.println("Total number of questions: " + symbolTable.size());
     }

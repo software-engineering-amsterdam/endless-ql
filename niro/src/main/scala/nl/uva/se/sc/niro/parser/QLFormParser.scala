@@ -35,7 +35,8 @@ object QLFormParser extends Logging {
 
     override def visitForm(ctx: QLParser.FormContext): QLForm = {
       val formName = ctx.Identifier().getText
-      val statements: Seq[Statement] = JavaConverters.asScalaBuffer(ctx.statement).toList.flatMap(StatementVisitor.visit)
+      val statements: Seq[Statement] =
+        JavaConverters.asScalaBuffer(ctx.statement).toList.flatMap(StatementVisitor.visit)
 
       QLForm(formName, statements)
     }

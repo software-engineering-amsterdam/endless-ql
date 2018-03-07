@@ -36,7 +36,7 @@ object Statement {
 
   def collectAllConditionals(statements: Seq[Statement]): Seq[Conditional] = {
     statements.flatMap {
-      case q: Question    => Seq.empty
+      case _: Question    => Seq.empty
       case c: Conditional => Seq(c) ++ collectAllConditionals(c.thenStatements)
     }
   }

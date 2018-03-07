@@ -5,7 +5,7 @@ import javafx.scene.Node;
 
 public class BooleanVariable extends Variable {
 
-    private final Boolean value;
+    private Boolean value;
 
     public BooleanVariable(String text, Boolean value) {
         super(text);
@@ -14,6 +14,10 @@ public class BooleanVariable extends Variable {
 
     public Boolean getValue() {
         return value;
+    }
+    @Override
+    public void setValue(PlainValue value){
+        this.value = Boolean.valueOf(value.getValue());
     }
 
     @Override

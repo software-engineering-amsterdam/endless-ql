@@ -18,9 +18,9 @@ public class Question extends ASTNode {
 
     /**
      * Creates a question with name, label, and type
-     * @param name
-     * @param label
-     * @param type
+     * @param name contains the name of a Question (which will act as a variable)
+     * @param label contains the label of a Question
+     * @param type contains the Type of a Question
      */
     public Question(String name, String label, String type) {
         this.name = name;
@@ -30,10 +30,10 @@ public class Question extends ASTNode {
 
     /**
      * Creates a question with name, label, type, and expression
-     * @param name
-     * @param label
-     * @param type
-     * @param expression
+     * @param name contains the name of a Question (which will act as a variable)
+     * @param label contains the label of a Question
+     * @param type contains the Type of a Question
+     * @param expression contains an Expression of a Question
      */
     public Question(String name, String label, String type, Expression expression) {
         this.name = name;
@@ -68,7 +68,7 @@ public class Question extends ASTNode {
 
     /**
      * Evaluates the expression of the question
-     * @throws UnsupportedOperationException
+     * @throws UnsupportedOperationException when the Types don't match
      */
     // This function evaluates the expression (which also does typechecking) and stores the resulting value
     public void getExpressionValue() throws UnsupportedOperationException {

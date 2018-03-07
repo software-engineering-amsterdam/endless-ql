@@ -12,7 +12,7 @@ public class Condition extends ASTNode {
 
     /**
      * Creates an empty condition with just an expression
-     * @param expression
+     * @param expression contains an Expression
      */
     public Condition(Expression expression){
         this.expression = expression;
@@ -20,8 +20,8 @@ public class Condition extends ASTNode {
 
     /**
      * Creates a condition with an expression and a list of questions or conditions
-     * @param expression
-     * @param nodes
+     * @param expression contains an Expression
+     * @param nodes contains either a list of Questions, or a list of Conditions
      */
     public Condition(Expression expression, List<? extends ASTNode> nodes){
         this.expression = expression;
@@ -37,9 +37,9 @@ public class Condition extends ASTNode {
 
     /**
      * Creates a condition with an expression, a list of questions, and a list of conditions
-     * @param expression
-     * @param questions
-     * @param conditions
+     * @param expression contains an Expression
+     * @param questions contains a list of Questions
+     * @param conditions contains a list of Conditions
      */
     public Condition(Expression expression, List<Question> questions, List<Condition> conditions){
         this.expression = expression;

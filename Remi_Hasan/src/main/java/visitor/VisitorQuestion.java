@@ -3,7 +3,6 @@ package visitor;
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
 import expression.Expression;
-import expression.ReturnType;
 import expression.variable.ExpressionVariableUndefined;
 import model.Question;
 

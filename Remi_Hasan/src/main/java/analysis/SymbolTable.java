@@ -1,7 +1,7 @@
 package analysis;
 
 import expression.Expression;
-import expression.ReturnType;
+import expression.ExpressionVariable;
 import expression.variable.*;
 import model.Form;
 import model.Question;

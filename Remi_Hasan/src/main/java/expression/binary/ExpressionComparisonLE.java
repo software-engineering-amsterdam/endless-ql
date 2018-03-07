@@ -1,30 +1,19 @@
 package expression.binary;
 
-import analysis.SymbolTable;
+import astvisitor.BaseASTVisitor;
+import astvisitor.BoolValue;
 import expression.Expression;
-import expression.variable.ExpressionVariable;
+import expression.ExpressionBinary;
 
-public class ExpressionComparisonLE extends ExpressionComparison {
+public class ExpressionComparisonLE extends ExpressionBinary<BoolValue> {
 
-    public ExpressionComparisonLE(Expression left, Expression right) {
-        super(left, right, "<=");
+
+    protected ExpressionComparisonLE(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override
-    public ExpressionVariable evaluate(SymbolTable symbolTable) {
-        ExpressionVariable leftEvaluated = this.left.evaluate(symbolTable);
-        ExpressionVariable rightEvaluated = this.right.evaluate(symbolTable);
-        return leftEvaluated.le(rightEvaluated);
-    }
-
-    @Override
-    public void typeCheck(SymbolTable symbolTable) {
-        this.left.typeCheck(symbolTable);
-        this.right.typeCheck(symbolTable);
-
-        if (!this.left.getReturnType(symbolTable).le(this.right.getReturnType(symbolTable))) {
-            throw new IllegalArgumentException("Cannot apply operator <= to '"
-                    + this.left.getReturnType(symbolTable) + "' and '" + this.right.getReturnType(symbolTable) + "'");
-        }
+    public BoolValue accept(BaseASTVisitor<BoolValue> visitor) {
+        return visitor.visit(this);
     }
 }

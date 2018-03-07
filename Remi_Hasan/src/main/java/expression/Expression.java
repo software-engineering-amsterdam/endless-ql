@@ -1,22 +1,10 @@
 package expression;
 
-import analysis.SymbolTable;
-import expression.variable.ExpressionVariable;
+import astvisitor.BaseASTVisitor;
+import astvisitor.Value;
 
-public abstract class Expression {
+public abstract class Expression<T> {
 
-    public abstract ReturnType getReturnType(SymbolTable symbolTable);
+    public abstract Value accept(BaseASTVisitor visitor);
 
-    public abstract ExpressionVariable evaluate(SymbolTable symbolTable);
-
-    public void setValue(String value) {
-        throw new UnsupportedOperationException("Cannot set value to non-variable expression");
-    }
-
-    public abstract void typeCheck(SymbolTable symbolTable);
-
-    @Override
-    public boolean equals(Object other){
-        return this.toString().equals(other.toString());
-    }
 }

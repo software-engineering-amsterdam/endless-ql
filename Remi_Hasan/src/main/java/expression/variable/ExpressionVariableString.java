@@ -1,34 +1,16 @@
 package expression.variable;
 
-import analysis.SymbolTable;
-import expression.ReturnType;
+import astvisitor.BaseASTVisitor;
+import expression.ExpressionVariable;
 
 public class ExpressionVariableString extends ExpressionVariable<String> {
 
-    public ExpressionVariableString(String value) {
+    ExpressionVariableString(String value) {
         super(value);
     }
 
     @Override
-    public ReturnType getReturnType(SymbolTable symbolTable) {
-        return ReturnType.STRING;
-    }
-
-    @Override
-    public void setValue(String value) {
-        if(value.isEmpty())
-            this.value = null;
-        else
-            this.value = value;
-    }
-
-    @Override
-    public String getStringValue() {
-        return this.value;
-    }
-
-    @Override
-    public ExpressionVariable sum(ExpressionVariable other) {
-        return new ExpressionVariableString(this.value + other.value);
+    public String accept(BaseASTVisitor<String> visitor) {
+        return visitor.visit(this);
     }
 }

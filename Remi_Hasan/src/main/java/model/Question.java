@@ -2,7 +2,6 @@ package model;
 
 import analysis.SymbolTable;
 import expression.Expression;
-import expression.ReturnType;
 
 public class Question {
 

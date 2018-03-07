@@ -1,7 +1,6 @@
 package expression;
 
 import analysis.SymbolTable;
-import expression.variable.ExpressionVariable;
 
 public class ExpressionIdentifier extends Expression {
 

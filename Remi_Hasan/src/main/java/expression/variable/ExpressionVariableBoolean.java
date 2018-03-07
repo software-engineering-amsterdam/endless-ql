@@ -1,47 +1,21 @@
 package expression.variable;
 
-import analysis.SymbolTable;
-import expression.ReturnType;
+import astvisitor.BaseASTVisitor;
+import astvisitor.BoolValue;
+import com.sun.jdi.BooleanValue;
+import expression.Expression;
+import expression.ExpressionVariable;
 
-public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
+public class ExpressionVariableBoolean extends Expression<BoolValue> {
 
-    public ExpressionVariableBoolean(Boolean value) {
-        super(value);
+    Boolean value;
+
+    ExpressionVariableBoolean(Boolean value) {
+        this.value = value;
     }
 
     @Override
-    public Boolean getBooleanValue() {
-        return this.value;
-    }
-
-    @Override
-    public ReturnType getReturnType(SymbolTable symbolTable) {
-        return ReturnType.BOOLEAN;
-    }
-
-    @Override
-    public void setValue(String value) {
-        this.value = !value.isEmpty() && Boolean.parseBoolean(value);
-    }
-
-    @Override
-    public ExpressionVariable and(ExpressionVariable other) {
-        if (this.isUndefined() || other.isUndefined())
-            return new ExpressionVariableUndefined();
-        return new ExpressionVariableBoolean(this.value && Boolean.parseBoolean(other.value.toString()));
-    }
-
-    @Override
-    public ExpressionVariable or(ExpressionVariable other) {
-        if (this.isUndefined() || other.isUndefined())
-            return new ExpressionVariableUndefined();
-        return new ExpressionVariableBoolean(this.value || Boolean.parseBoolean(other.value.toString()));
-    }
-
-    @Override
-    public ExpressionVariable not() {
-        if (this.isUndefined())
-            return new ExpressionVariableUndefined();
-        return new ExpressionVariableBoolean(!this.value);
+    public BoolValue accept(BaseASTVisitor<BoolValue> visitor) {
+        return visitor.visit(this);
     }
 }

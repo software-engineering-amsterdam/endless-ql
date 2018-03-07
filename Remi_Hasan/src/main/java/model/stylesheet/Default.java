@@ -1,9 +1,7 @@
 package model.stylesheet;
 
-import expression.ReturnType;
 import model.stylesheet.widgets.Widget;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Default {

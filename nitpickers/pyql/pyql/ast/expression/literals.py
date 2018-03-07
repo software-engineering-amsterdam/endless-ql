@@ -42,7 +42,7 @@ class BooleanLiteral(Literal):
 class MoneyLiteral(Literal):
 
     def __init__(self, location, value):
-        super().__init__(location, types.Money, decimal.Decimal(value))
+        super().__init__(location, types.Money, round(decimal.Decimal(value), 2))
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__

@@ -7,18 +7,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 public class QuestionChecker extends Checker implements StatementVisitor<Void, String> {
 
     private SymbolTable symbolTable;
     private List<Question> questions;
-    private Form form;
 
     QuestionChecker(Form form){
         this.symbolTable = new SymbolTable();
         this.questions = new ArrayList<>();
-        this.form = form;
 
         for (Statement statement : form.getStatements()) {
             statement.accept(this, null);
@@ -36,11 +33,11 @@ public class QuestionChecker extends Checker implements StatementVisitor<Void, S
 
         for (Question question : this.questions) {
             if (!questionIDs.add(question.getName())) {
-                Logger.getGlobal().info("WARNING: (var could be overwritten) question name "+question.getName()+" already exists");
+                logger.info("WARNING: (var could be overwritten) question name "+question.getName()+" already exists");
             }
 
             if (!questionTexts.add(question.getContent())) {
-                Logger.getGlobal().info("WARNING: Question content "+question.getContent()+" already exists");
+                logger.info("WARNING: Question content "+question.getContent()+" already exists");
             }
         }
     }

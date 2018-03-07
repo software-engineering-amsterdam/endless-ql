@@ -187,11 +187,11 @@ numberLiteral
 //Date
 dateLiteral
  = [0-9][0-9] dateSeparator [0-9][0-9] dateSeparator [0-9][0-9][0-9][0-9]{
-    return new Nodes.DateLiteral(text());
+    return Nodes.DateLiteral.fromString(text());
 }
 
 dateSeparator
- = [.]
+ = [\.]
 
 // String Literal, Currently only support double quoted String
 stringLiteral

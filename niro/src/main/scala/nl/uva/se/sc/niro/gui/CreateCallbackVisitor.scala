@@ -4,7 +4,7 @@ import javafx.scene.Node
 import javafx.scene.control.{ CheckBox, DatePicker, Label, TextField }
 import javafx.scene.layout.GridPane
 import nl.uva.se.sc.niro.gui.util.HierarchyUtil
-import nl.uva.se.sc.niro.model.Expressions.answers._
+import nl.uva.se.sc.niro.model.expressions.answers._
 import nl.uva.se.sc.niro.model._
 
 import scala.collection.JavaConverters

@@ -1,6 +1,6 @@
-package nl.uva.se.sc.niro.model.Expressions
+package nl.uva.se.sc.niro.model.expressions
 
-import nl.uva.se.sc.niro.model.Expressions.answers._
+import nl.uva.se.sc.niro.model.expressions.answers._
 import nl.uva.se.sc.niro.model.{ BinaryOperator, UnaryOperator }
 
 abstract class Expression

@@ -1,17 +1,16 @@
 package nl.uva.se.sc.niro.gui.controllers
 
-import java.io.IOException
+import java.io.{ File, IOException }
 
 import javafx.event.ActionEvent
 import javafx.fxml.{ FXML, FXMLLoader }
 import javafx.scene.control.TextArea
 import javafx.scene.{ Parent, Scene }
 import javafx.stage.FileChooser
+import nl.uva.se.sc.niro.QLFormService
+import nl.uva.se.sc.niro.errors.Errors
 import nl.uva.se.sc.niro.gui.application.QLForms
-import nl.uva.se.sc.niro.gui.util.ErrorUtil
 import nl.uva.se.sc.niro.model.QLForm
-import nl.uva.se.sc.niro.parser.QLFormParser
-import org.antlr.v4.runtime.CharStreams
 
 class QLHomeController extends QLBaseController {
   @FXML
@@ -23,15 +22,16 @@ class QLHomeController extends QLBaseController {
     fileChooser.setTitle("Select QL form")
     fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("QL Form files", "*.ql"))
     val stage = getActiveStage(event)
-    val selectedFile = fileChooser.showOpenDialog(stage)
+    val selectedFile: File = fileChooser.showOpenDialog(stage)
     if (selectedFile != null) try {
-      val form = QLFormParser.parse(CharStreams.fromFileName(selectedFile.getAbsolutePath))
-      if (QLFormParser.getParseErrors.isEmpty) {
-        val formScene = createSceneForForm(form)
-        stage.setScene(formScene)
-      } else {
-        errorMessages.setText(ErrorUtil.toString(QLFormParser.getParseErrors))
-        errorMessages.setVisible(true)
+      val formOrErrors: Either[QLForm, Seq[Errors.Error]] = QLFormService.importQLSpecification(selectedFile)
+      formOrErrors match {
+        case Left(form) =>
+          val formScene = createSceneForForm(form)
+          stage.setScene(formScene)
+        case Right(errors) =>
+          errorMessages.setText(errors.toString)
+          errorMessages.setVisible(true)
       }
     } catch {
       case e: IOException =>

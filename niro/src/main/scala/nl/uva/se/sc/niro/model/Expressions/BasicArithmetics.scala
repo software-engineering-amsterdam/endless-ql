@@ -13,7 +13,7 @@ object BasicArithmetics {
     def negate(x: IntAnswer) = IntAnswer(x.possibleValue.map(-_))
   }
   implicit object IntAnswerCanDoBasicArithmetics extends IntAnswerCanDoBasicArithmetics
-  
+
   trait DecAnswerCanDoBasicArithmetics extends BasicArithmetics[DecAnswer] {
     def plus(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(x.combine(y)(_ + _))
     def minus(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(x.combine(y)(_ - _))
@@ -24,7 +24,7 @@ object BasicArithmetics {
   implicit object DecAnswerCanDoBasicArithmetics extends DecAnswerCanDoBasicArithmetics
 }
 
-trait BasicArithmetics[SubType<:Answer] {
+trait BasicArithmetics[SubType <: Answer] {
   def plus(x: SubType, y: SubType): SubType
   def minus(x: SubType, y: SubType): SubType
   def times(x: SubType, y: SubType): SubType

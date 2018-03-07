@@ -84,6 +84,7 @@
 	</dependencies>
 
 	<build>
+
 		<plugins>
 
 			<plugin>
@@ -109,7 +110,7 @@
 				<artifactId>mvn-scalafmt</artifactId>
 				<version>${scalafmt.version}</version>
 				<configuration>
-					<parameters>--diff</parameters> <!-- Additional command line arguments -->
+					<parameters>${project.basedir}/src/main/scala ${project.basedir}/src/test/scala</parameters>
 					<configLocation>${project.basedir}/scalafmt.conf</configLocation>
 				</configuration>
 				<executions>
@@ -199,7 +200,7 @@
 				<version>${javafx.maven.plugin.version}</version>
 				<configuration>
                     <vendor>Andela-Tromp</vendor>
-					<mainClass>nl.uva.se.sc.niro.gui.QLForms</mainClass>
+					<mainClass>nl.uva.se.sc.niro.gui.application.QLForms</mainClass>
 				</configuration>
 			</plugin>
 

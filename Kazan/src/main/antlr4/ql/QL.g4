@@ -4,8 +4,7 @@ grammar QL;
 
 TODO:
 - Refactor lexer/parser division
-- Reconsider money / decimal separation
-- Implement DATE type
+- Remove MONEY / DECIMAL ambiguity (add money-specific symbols in front such as $ ?)
 - replace "INT" in the line valNum with INT | DECIMAL | MONEY_LITERAL to allow using numericals interchangeably (?)
 
 */
@@ -22,7 +21,7 @@ statement       : question
 
 
 question        : STRINGLITERAL declaration;
-declaration     : IDENTIFIER ':' TYPE;
+declaration     : IDENTIFIER ':' type;
 
 computedQuestion: STRINGLITERAL declaration '=' expression;
 
@@ -50,21 +49,26 @@ value           : BOOLEANLITERAL                                #booleanLiteral
                 ;
 
 
-TYPE            : ('boolean' | 'money' | 'int' | 'float' | 'string');
+type            : 'boolean'                                     #booleanType
+                | 'integer'                                     #integerType
+                | 'string'                                      #stringType
+                | 'money'                                       #moneyType
+                | 'decimal'                                     #decimalType
+                | 'date'                                        #dateType
+                ;
 
-DIGIT           : ('0'..'9');
+
 
 //Literals
 BOOLEANLITERAL  : ('true' | 'false');
 INTEGERLITERAL  : DIGIT+;
 STRINGLITERAL   : '"' ('a'..'z'|'A'..'Z'|'0'..'9'|' '|'?'|'.'|','|':')* '"';
-MONEYLITERAL    : '-'? DIGIT+ '.' DIGIT DIGIT;
+MONEYLITERAL    : '-'? DIGIT+ ',' DIGIT DIGIT;
 DECIMALLITERAL  : '-'? DIGIT+ '.' DIGIT+;
 DATELITERAL     : DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT DIGIT DIGIT;
 
-
 IDENTIFIER      : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-
+DIGIT           : [0-9];
 
 //Binary Operators
 ARITHMETIC      : ('+'|'-'|'/'|'*');

@@ -1,10 +1,13 @@
 package GUI;
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.net.URL;
 
 import ParseObjects.Form;
+import ParseObjects.QuestionMap;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -35,9 +38,11 @@ public class QLUserInterface {
 
         debugBtn.setOnAction((event) ->{
             String filePath = "./src/main/resources/example.ql";
+            File file = new File(filePath);
             Parser parser = new Parser();
-            Form form = parser.parseInputToForm(filePath);
-            parser.printQLForm(form); //debug print the form questions in console
+            Form form = parser.parseInputToForm(file.getPath());
+            QuestionMap questionMap = new QuestionMap(form);
+            parser.printQLForm(form, questionMap); //debug print the form questions in console
         });
 
         layout.getChildren().add(debugBtn);

@@ -98,7 +98,7 @@ namespace Assignment1
                 Maximum = int.MaxValue,
                 DecimalPlaces = 0,
                 Value = question.Value,
-                ReadOnly = question.Computed
+                Enabled = !question.Computed
             };
             if (!question.Computed)
             {
@@ -149,7 +149,7 @@ namespace Assignment1
                 Maximum = decimal.MaxValue,
                 DecimalPlaces = 4,
                 Value = question.Value,
-                ReadOnly = question.Computed
+                Enabled = !question.Computed
             };
             if (!question.Computed)
             {
@@ -175,7 +175,7 @@ namespace Assignment1
                 Maximum = decimal.MaxValue,
                 DecimalPlaces = 2,
                 Value = question.Value,
-                ReadOnly = question.Computed
+                Enabled = !question.Computed
             };
             if (!question.Computed)
             {

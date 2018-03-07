@@ -46,7 +46,7 @@ object Orderings {
   implicit object StringAnswerCanDoOrderings extends StringAnswerCanDoOrderings
 }
 
-trait Orderings[SubType<:Answer] {
+trait Orderings[SubType <: Answer] {
   def lt(x: SubType, y: SubType): BooleanAnswer
   def lte(x: SubType, y: SubType): BooleanAnswer
   def gte(x: SubType, y: SubType): BooleanAnswer

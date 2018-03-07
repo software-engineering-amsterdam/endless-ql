@@ -7,6 +7,10 @@ import org.uva.ql.evaluator.FormEvaluator;
 import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.Value;
 import org.uva.ql.gui.widgets.QuestionWidget;
+import org.uva.ql.validation.LogHandler;
+
+import java.util.logging.*;
+import java.awt.event.WindowEvent;
 
 
 public class GUIHandler {
@@ -25,6 +29,17 @@ public class GUIHandler {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500,  300);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+
+        Logger logger = Logger.getGlobal();
+        LogHandler handler = (LogHandler) logger.getHandlers()[0];
+        if(handler.getLogs().size() > 0) {
+            JOptionPane.showMessageDialog(frame, "Info", "Error", JOptionPane.ERROR_MESSAGE);
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            return;
+        }
+
+        // Initialize formEvaluator
+        this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
         generateGUI();
     }
 
@@ -41,11 +56,14 @@ public class GUIHandler {
 
         for(Question question: formEvaluator.getQuestionsAsList()){
             Value value = formEvaluator.getValueById(question.getName());
-            QuestionWidget widget = widgetFactory.makeWidget(question, value);
+            QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
 
             if(formEvaluator.questionHasCondition(question)){
-                BooleanValue expressionValue =  (BooleanValue) this.expressionEvaluator.evaluateExpression(question.getName(), this.formEvaluator.getConditionById(question.toString()), this.formEvaluator.getValueTable());
-
+                BooleanValue expressionValue = (BooleanValue) this.expressionEvaluator.evaluateExpression(
+                        question.getName(),
+                        this.formEvaluator.getConditionById(question.toString()),
+                        this.formEvaluator.getValueTable()
+                );
                 widget.setVisible(expressionValue.getValue());
             }
             frame.add(widget);

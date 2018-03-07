@@ -13,7 +13,7 @@ object Logicals {
   implicit object BooleanAnswerCanDoLogicals extends BooleanAnswerCanDoLogicals
 }
 
-trait Logicals[SubType<:Answer] {
+trait Logicals[SubType <: Answer] {
   def and(x: SubType, y: SubType): BooleanAnswer
   def or(x: SubType, y: SubType): BooleanAnswer
   def neg(x: SubType): BooleanAnswer

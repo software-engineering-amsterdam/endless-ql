@@ -8,12 +8,17 @@ import javax.swing.*;
 
 public class StringWidget extends QuestionWidget {
 
-    public StringWidget(Question question, Value value, QuestionChangeListener questionChangeListener) {
+    private JTextField textField = new JTextField();
+
+    public StringWidget(Question question, Value value, boolean readOnly, QuestionChangeListener questionChangeListener) {
         super(question);
 
-        JTextField textField = new JTextField(value.getValue().toString());
+        textField.setText(value.getValue().toString());
         textField.setHorizontalAlignment(JTextField.CENTER);
+        textField.setEnabled(readOnly);
+
         textField.addActionListener(e -> questionChangeListener.onQuestionChanged(question.getName(), value));
+
         this.add(textField, 1);
     }
 }

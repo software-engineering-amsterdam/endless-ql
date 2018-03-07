@@ -19,22 +19,20 @@ public class QuestionChecker extends Checker implements StatementVisitor<Void, S
         this.symbolTable = new SymbolTable();
         this.questions = new ArrayList<>();
         this.form = form;
+
+        for (Statement statement : form.getStatements()) {
+            statement.accept(this, null);
+        }
+
+        for (Question question : this.questions) {
+            this.symbolTable.add(question.getName(), question.getType());
+        }
     }
 
     @Override
     public void runCheck() {
         Set<String> questionIDs = new HashSet<>();
         Set<String> questionTexts = new HashSet<>();
-
-        // Collect all questions from the form & add them to the list.
-        for (Statement statement : form.getStatements()) {
-            statement.accept(this, null);
-        }
-
-        // Add relevant data to the symbol symbolTable.
-        for (Question question : this.questions) {
-            this.symbolTable.add(question.getName(), question.getType());
-        }
 
         for (Question question : this.questions) {
             if (!questionIDs.add(question.getName())) {
@@ -50,13 +48,11 @@ public class QuestionChecker extends Checker implements StatementVisitor<Void, S
     @Override
     public Void visit(Question question, String context) {
         this.questions.add(question);
-
         return null;
     }
 
     @Override
     public Void visit(Conditional conditional, String context) {
-
         for (Statement statement : conditional.getIfSide()) {
             statement.accept(this, null);
         }

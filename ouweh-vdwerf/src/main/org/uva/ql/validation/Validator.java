@@ -4,19 +4,22 @@ import org.uva.ql.ast.Form;
 
 public class Validator {
 
-    public void execute(Form form) {
-        QuestionChecker questionChecker = new QuestionChecker(form);
+    private final QuestionChecker questionChecker;
+    private final ParameterChecker parameterChecker;
+    private final DependencyChecker dependencyChecker;
+    private final TypeChecker typeChecker;
+
+    public Validator(Form form) {
+        this.questionChecker = new QuestionChecker(form);
+        this.parameterChecker = new ParameterChecker(form, questionChecker.getSymbolTable());
+        this.dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());
+        this.typeChecker = new TypeChecker(form, questionChecker.getSymbolTable());
+    }
+
+    public void run() {
         questionChecker.runCheck();
-
-        SymbolTable symbolTable = questionChecker.getSymbolTable();
-
-        ParameterChecker parameterChecker = new ParameterChecker(form, symbolTable);
         parameterChecker.runCheck();
-
-        DependencyChecker dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());
         dependencyChecker.runCheck();
-
-        TypeChecker typeChecker = new TypeChecker(form, symbolTable);
         typeChecker.runCheck();
     }
 }

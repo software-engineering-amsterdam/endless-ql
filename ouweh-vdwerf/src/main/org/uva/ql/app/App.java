@@ -32,8 +32,8 @@ public class App {
             ASTBuilder builder = new ASTBuilder();
             Form form = builder.buildAST(input);
 
-            Validator validator = new Validator();
-            validator.execute(form);
+            Validator validator = new Validator(form);
+            validator.run();
 
             FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
             

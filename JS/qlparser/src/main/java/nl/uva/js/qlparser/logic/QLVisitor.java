@@ -2,10 +2,12 @@ package nl.uva.js.qlparser.logic;
 
 import nl.uva.js.qlparser.antlr.QLBaseVisitor;
 import nl.uva.js.qlparser.antlr.QLParser;
+import nl.uva.js.qlparser.exceptions.VariableAlreadyExistsException;
+import nl.uva.js.qlparser.exceptions.VariableNotFoundException;
 import nl.uva.js.qlparser.helpers.NonNullRun;
+import nl.uva.js.qlparser.models.enums.*;
 import nl.uva.js.qlparser.models.expressions.Form;
 import nl.uva.js.qlparser.models.expressions.data.*;
-import nl.uva.js.qlparser.models.enums.*;
 import nl.uva.js.qlparser.models.expressions.form.FormExpression;
 import nl.uva.js.qlparser.models.expressions.form.IfBlock;
 import nl.uva.js.qlparser.models.expressions.form.Question;
@@ -18,8 +20,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-class QLVisitorImpl extends QLBaseVisitor {
-    private Map<String, DataType> typeRegistry = new HashMap<>();
+class QLVisitor extends QLBaseVisitor {
+    private Map<String, Variable> variableRegistry = new HashMap<>();
 
     @Override
     public DataType visitDatatype(QLParser.DatatypeContext ctx) {
@@ -109,13 +111,17 @@ class QLVisitorImpl extends QLBaseVisitor {
 
     @Override
     public DataExpression visitExpression(QLParser.ExpressionContext ctx) {
-        if (ctx.NAME() != null)
-            return Variable.builder()
-                    .name(ctx.NAME().getText())
-                    .dataType(typeRegistry.get(ctx.NAME().getText()))
-                    .build();
+        if (ctx.NAME() != null) {
+            String varName = ctx.NAME().getText();
 
-        else if (ctx.NOT() != null)
+            if (!variableRegistry.containsKey(varName))
+                throw new VariableNotFoundException(varName,
+                        ctx.NAME().getSymbol().getLine(),
+                        ctx.NAME().getSymbol().getCharPositionInLine());
+
+            return variableRegistry.get(varName);
+
+        } else if (ctx.NOT() != null)
             return Negation.builder()
                     .expression(visitExpression(ctx.expression(0)))
                     .build();
@@ -137,15 +143,28 @@ class QLVisitorImpl extends QLBaseVisitor {
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
-        Question question = Question.builder()
-                .name(ctx.NAME().getText())
-                .question((String) DataType.STRING.getValueOf().apply(ctx.STRVAL().getText()))
+        String varName = ctx.NAME().getText();
+
+        if (variableRegistry.containsKey(varName))
+            throw new VariableAlreadyExistsException(varName,
+                ctx.NAME().getSymbol().getLine(),
+                ctx.NAME().getSymbol().getCharPositionInLine());
+
+        Variable variable = Variable.builder()
                 .dataType(visitDatatype(ctx.datatype()))
+                .name(varName)
 //                As the value is optional, only apply the visitExpression function if there is something to visit.
                 .value(NonNullRun.function(ctx.expression(), this::visitExpression))
                 .build();
 
-        typeRegistry.putIfAbsent(question.getName(), question.getDataType());
+        Question question = Question.builder()
+                .name(varName)
+                .question((String) DataType.STRING.getValueOf().apply(ctx.STRVAL().getText()))
+                .dataType(variable.getDataType())
+                .variable(variable)
+                .build();
+
+        variableRegistry.put(varName, variable);
 
         return question;
     }

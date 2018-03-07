@@ -3,6 +3,7 @@ package qlviz.gui;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import qlviz.QLBaseVisitor;
+import qlviz.QLSBaseVisitor;
 import qlviz.gui.renderer.ErrorRenderer;
 import qlviz.gui.renderer.JavafxErrorRenderer;
 import qlviz.gui.renderer.javafx.JavafxConditionalBlockRenderer;
@@ -18,10 +19,13 @@ import qlviz.gui.viewModel.linker.QuestionViewModelLinkerImpl;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactoryImpl;
 import qlviz.interpreter.*;
+import qlviz.interpreter.QuestionVisitor;
 import qlviz.interpreter.linker.QuestionLinkerImpl;
+import qlviz.interpreter.style.*;
 import qlviz.model.booleanExpressions.BooleanExpression;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
+import qlviz.model.style.Stylesheet;
 import qlviz.typecheker.AnalysisResult;
 import qlviz.typecheker.CircularReferenceChecker;
 import qlviz.typecheker.DuplicateQuestionChecker;
@@ -35,7 +39,8 @@ public class QLForm extends Application {
 	private Form model;
 	private FormViewModel viewModel;
 
-	// Example to add checkboxes to the form
+
+
 
 	public static void main(String[] args) {
 		launch(args);
@@ -48,13 +53,41 @@ public class QLForm extends Application {
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
-		this.renderer = new JavafxFormRenderer(stage,
-				vbox -> new JavafxQuestionBlockRenderer(vbox, JavafxQuestionRenderer::new,
-						pane -> new JavafxConditionalBlockRenderer(pane,
-								(pane1, conditionalBlockRenderer) -> new JavafxQuestionBlockRenderer(
-										pane1,
-										JavafxQuestionRenderer::new,
-										pane2 -> conditionalBlockRenderer))));
+		QLSBaseVisitor<Stylesheet> stylesheetVisitor = new StylesheetVisitor(
+				new PageVisitor(
+						new SectionVisitor(
+								new qlviz.interpreter.style.QuestionVisitor(
+										new WidgetVisitor(
+												new WidgetTypeTranslator(),
+												new ParameterVisitor()
+										)
+								),
+								new DefaultWidgetVisitor()
+						)
+				)
+		);
+		StyleModelBuilder styleBuilder = new StyleModelBuilder(stylesheetVisitor);
+
+		if (this.getParameters().getRaw().size() > 1) {
+			Stylesheet stylesheet = styleBuilder.createFromMarkup(this.getParameters().getRaw().get(1));
+			this.renderer = new JavafxFormRenderer(stage,
+                    vbox -> new JavafxQuestionBlockRenderer(vbox, JavafxQuestionRenderer::new,
+                            pane -> new JavafxConditionalBlockRenderer(pane,
+                                    (pane1, conditionalBlockRenderer) -> new JavafxQuestionBlockRenderer(
+                                            pane1,
+                                            JavafxQuestionRenderer::new,
+                                            pane2 -> conditionalBlockRenderer))));
+		}
+		else {
+            this.renderer = new JavafxFormRenderer(stage,
+                    vbox -> new JavafxQuestionBlockRenderer(vbox, JavafxQuestionRenderer::new,
+                            pane -> new JavafxConditionalBlockRenderer(pane,
+                                    (pane1, conditionalBlockRenderer) -> new JavafxQuestionBlockRenderer(
+                                            pane1,
+                                            JavafxQuestionRenderer::new,
+                                            pane2 -> conditionalBlockRenderer))));
+		}
+
 
 		NumericExpressionParser numericExpressionParser = new NumericExpressionParser(new BinaryNumericOperatorVisitor());
 		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor =

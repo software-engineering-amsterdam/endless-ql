@@ -8,7 +8,7 @@ widget: simpleWidget | parametrizedWidget;
 question: QUESTION IDENTIFIER (WIDGET widget)?;
 propertySetting: PROPERTY_KEY PROPERTY_SEPARATOR parameter;
 defaultWidgetDeclaration: DEFAULT TYPE BRACKET_OPEN propertySetting* widget propertySetting* BRACKET_CLOSE;
-section: SECTION STRING (BRACKET_OPEN (question | defaultWidgetDeclaration)* BRACKET_CLOSE | question);
+section: SECTION STRING (BRACKET_OPEN (question | defaultWidgetDeclaration | section)* BRACKET_CLOSE | question | section);
 page: PAGE IDENTIFIER BRACKET_OPEN section* BRACKET_CLOSE;
 stylesheet: STYLESHEET IDENTIFIER BRACKET_OPEN page* BRACKET_CLOSE;
 

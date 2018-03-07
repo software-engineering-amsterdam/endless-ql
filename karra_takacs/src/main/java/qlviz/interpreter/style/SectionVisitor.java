@@ -30,7 +30,10 @@ public class SectionVisitor extends QLSBaseVisitor<Section> {
                     .stream()
                     .map(defaultWidgetVisitor::visitDefaultWidgetDeclaration)
                     .collect(Collectors.toList()),
-                ctx
+                ctx.section()
+                    .stream()
+                    .map(this::visitSection)
+                    .collect(Collectors.toList()), ctx
         );
     }
 }

@@ -10,15 +10,17 @@ public class Section extends Node {
     private final String name;
     private final List<Question> questions;
     private final List<DefaultWidgetDeclaration> defaultWidgetDeclarations;
+    private final List<Section> sections;
 
     public Section(String name,
                    List<Question> questions,
                    List<DefaultWidgetDeclaration> defaultWidgetDeclarations,
-                   ParserRuleContext context) {
+                   List<Section> sections, ParserRuleContext context) {
         super(context);
         this.name = name;
         this.questions = questions;
         this.defaultWidgetDeclarations = defaultWidgetDeclarations;
+        this.sections = sections;
     }
 
     public String getName() {

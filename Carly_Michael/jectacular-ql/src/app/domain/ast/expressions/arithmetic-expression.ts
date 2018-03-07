@@ -1,14 +1,13 @@
 import {ExpressionType, ExpressionTypeUtil} from './expression-type';
-import {ArithmeticOperator, Expression, LiteralType} from './expression';
+import {Expression, LiteralType} from './expression';
 import {Location} from '../location';
-import {UnknownOperatorError} from '../../errors';
 import {Question} from '../question';
 import {FormGroup} from '@angular/forms';
 import {BinaryExpression} from './binary-expression';
 
-export class ArithmeticExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, operator: ArithmeticOperator, location: Location) {
-    super(left, right, operator, location);
+export abstract class ArithmeticExpression extends BinaryExpression {
+  constructor(left: Expression, right: Expression, location: Location) {
+    super(left, right, location);
   }
 
   checkType(allQuestions: Question[]): ExpressionType {
@@ -27,14 +26,45 @@ export class ArithmeticExpression extends BinaryExpression {
     }
   }
 
+  abstract evaluate(form: FormGroup): LiteralType;
+}
+
+export class MultiplyExpression extends ArithmeticExpression {
+  constructor(left: Expression, right: Expression, location: Location) {
+    super(left, right, location);
+  }
+
   evaluate(form: FormGroup): LiteralType {
-    switch (this.operator) {
-      case '*': return <number>this.left.evaluate(form) * <number>this.right.evaluate(form);
-      case '/': return <number>this.left.evaluate(form) / <number>this.right.evaluate(form);
-      case '+': return <number>this.left.evaluate(form) + <number>this.right.evaluate(form);
-      case '-': return <number>this.left.evaluate(form) - <number>this.right.evaluate(form);
-      default: throw new UnknownOperatorError(`Operator ${this.operator} is unknown` +
-      this.getLocationErrorMessage());
-    }
+    return <number>this.left.evaluate(form) * <number>this.right.evaluate(form);
+  }
+}
+
+export class DivideExpression extends ArithmeticExpression {
+  constructor(left: Expression, right: Expression, location: Location) {
+    super(left, right, location);
+  }
+
+  evaluate(form: FormGroup): LiteralType {
+    return <number>this.left.evaluate(form) / <number>this.right.evaluate(form);
+  }
+}
+
+export class AddExpression extends ArithmeticExpression {
+  constructor(left: Expression, right: Expression, location: Location) {
+    super(left, right, location);
+  }
+
+  evaluate(form: FormGroup): LiteralType {
+    return <number>this.left.evaluate(form) + <number>this.right.evaluate(form);
+  }
+}
+
+export class SubtractExpression extends ArithmeticExpression {
+  constructor(left: Expression, right: Expression, location: Location) {
+    super(left, right, location);
+  }
+
+  evaluate(form: FormGroup): LiteralType {
+    return <number>this.left.evaluate(form) - <number>this.right.evaluate(form);
   }
 }

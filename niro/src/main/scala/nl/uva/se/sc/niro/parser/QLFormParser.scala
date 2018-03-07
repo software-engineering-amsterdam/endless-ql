@@ -1,10 +1,10 @@
 package nl.uva.se.sc.niro.parser
 
 import _root_.ql.{ QLBaseVisitor, QLLexer, QLParser }
+import nl.uva.se.sc.niro.errors.Errors._
+import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.expressions._
 import nl.uva.se.sc.niro.model.expressions.answers._
-import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.parser.errors.ParseErrorInfo
 import org.antlr.v4.runtime.tree.RuleNode
 import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
 import org.apache.logging.log4j.scala.Logging
@@ -15,7 +15,7 @@ import scala.collection.mutable.ListBuffer
 object QLFormParser extends Logging {
   private val errorListener = new ErrorListener
 
-  def getParseErrors: ListBuffer[ParseErrorInfo] = errorListener.parseErrors
+  def getParseErrors: ListBuffer[Error] = errorListener.parseErrors
 
   def parse(formSource: CharStream): QLForm = {
     logger.traceEntry()

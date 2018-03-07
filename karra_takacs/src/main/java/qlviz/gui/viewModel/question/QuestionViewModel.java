@@ -9,6 +9,7 @@ import java.util.List;
 public interface QuestionViewModel {
     void accept(QuestionViewModelVisitor visitor);
     String getText();
+    String getName();
     BooleanProperty isEnabledProperty();
     List<BooleanExpressionViewModel> getEnabledConditions();
 }

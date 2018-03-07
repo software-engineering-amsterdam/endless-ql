@@ -31,6 +31,10 @@ public class Section extends Node {
         return questions;
     }
 
+    public List<Section> getSections() {
+        return sections;
+    }
+
     public List<DefaultWidgetDeclaration> getDefaultWidgetDeclarations() {
         return defaultWidgetDeclarations;
     }

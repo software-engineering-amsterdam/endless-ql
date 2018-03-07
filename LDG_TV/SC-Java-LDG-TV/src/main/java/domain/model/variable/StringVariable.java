@@ -20,7 +20,7 @@ public class StringVariable extends Variable {
     }
 
     @Override
-    public Node getRelatedGUIElement(Visitor v){
+    public Node getRelatedUIElement(Visitor v){
         return v.visit(this);
     }
 }

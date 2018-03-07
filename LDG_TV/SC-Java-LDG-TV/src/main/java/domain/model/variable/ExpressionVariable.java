@@ -21,7 +21,7 @@ public class ExpressionVariable extends Variable {
         return leftHandOperand.getName() + " " + operator + " " + rightHandOperand.getName();
     }
     @Override
-    public Node getRelatedGUIElement(Visitor v) {
-        return null;
+    public Node getRelatedUIElement(Visitor v) {
+        return v.visit(this);
     }
 }

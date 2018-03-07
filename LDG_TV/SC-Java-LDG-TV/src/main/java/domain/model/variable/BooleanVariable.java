@@ -21,7 +21,7 @@ public class BooleanVariable extends Variable {
         return this.getName() + ": boolean = " + this.value;
     }
     @Override
-    public Node getRelatedGUIElement(Visitor v){
+    public Node getRelatedUIElement(Visitor v){
         return v.visit(this);
     }
 }

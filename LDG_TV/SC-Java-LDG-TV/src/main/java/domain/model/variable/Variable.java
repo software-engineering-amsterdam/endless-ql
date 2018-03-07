@@ -14,6 +14,6 @@ public abstract class Variable {
         return name;
     }
 
-    public abstract Node getRelatedGUIElement(Visitor v);
+    public abstract Node getRelatedUIElement(Visitor v);
 
 }

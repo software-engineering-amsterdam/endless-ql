@@ -7,7 +7,7 @@ import domain.FormNode;
 import domain.Utilities;
 import domain.model.Question;
 import domain.model.variable.Variable;
-import domain.model.visitor.VariableVisitor;
+import domain.model.visitor.UIVisitor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -70,11 +70,11 @@ public class ToolController implements Initializable {
 
 
         List<Question> qs = data.getAllQuestions();
-        VariableVisitor v = new VariableVisitor();
+        UIVisitor v = new UIVisitor();
         for (Question q : qs) {
             Variable qv =  q.getVariable();
             String qText = q.getText();
-            Node answerNode = qv.getRelatedGUIElement(v);
+            Node answerNode = qv.getRelatedUIElement(v);
             lvQuestionnaire.getItems().add(new QuestionRow(qText, answerNode));
         }
     }

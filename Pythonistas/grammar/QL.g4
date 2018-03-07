@@ -12,7 +12,9 @@ expression: BOOLEAN | INT | ID | PARL expression PARR | NOT expression
             | expression BOOL_OPERATOR expression
             | expression MATH_OPERATOR expression
             | expression AND expression
-            | expression OR expression;
+            | expression OR expression
+            | OTHER {print("unknown char: " + $OTHER.text)}
+            ;
 
 conditional: if_conditional | (if_conditional else_conditional);
 if_conditional: IF_TOKEN PARL expression PARR block;
@@ -56,5 +58,8 @@ GTE: '>=';
 EQ: '==';
 NEQ: '!=';
 
-WHITESPACE: [ \t]+ -> skip;
+SPACE: [ \t\r\n]+ -> skip;
 NEWLINE: '\r'? '\n' -> skip;
+
+
+OTHER: .;

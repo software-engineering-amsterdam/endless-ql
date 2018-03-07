@@ -78,8 +78,8 @@ object TypeChecker extends Logging {
 
     val dependencyGraph: Graph = buildDependencyGraph(questions)
 
-    val cyclicDependencies: Boolean = dependencyGraph.exists(element =>
-      detectCycle(element, dependencyGraph, Seq(element)))
+    val cyclicDependencies: Boolean =
+      dependencyGraph.exists(element => detectCycle(element, dependencyGraph, Seq(element)))
     if (cyclicDependencies) {
       throw new IllegalArgumentException(s"Found cyclic dependency")
     }

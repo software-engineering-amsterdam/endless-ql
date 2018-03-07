@@ -218,4 +218,9 @@ public class MainVisitor<T, U> implements ExpressionVisitor<T, U>, StatementVisi
 		node.getElseBody().accept(this, ctx);
 		return null;
 	}
+
+	@Override
+	public T visit(UndefinedType type, U ctx) {
+		return null;
+	}
 }

@@ -10,7 +10,7 @@ public enum Type {
 		this.text = text;
 	}
 
-	public static Type fromString(String text) {
+	public static Type parseType(String text) {
 		
 		for (Type type : Type.values()) {
 		
@@ -22,4 +22,5 @@ public enum Type {
 		throw new RuntimeException(
 				"CHeck your grammar. Do not know how to instantiate a Type from \"" + text + "\"" );
 	}
+	
 }

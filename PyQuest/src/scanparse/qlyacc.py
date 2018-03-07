@@ -179,65 +179,59 @@ class QLParser:
     @staticmethod
     def p_number(p):
         """expression : NUMBER"""
-        p[0] = IntegerNode(Position(p.lineno(1), p.lexpos(1)), int, p[1])
+        p[0] = IntegerNode(Position(p.lineno(1), p.lexpos(1)), TypeInteger, p[1])
 
     @staticmethod
     def p_float(p):
         """expression : FLOAT"""
-        p[0] = DecimalNode(Position(p.lineno(1), p.lexpos(1)), int, p[1])
+        p[0] = DecimalNode(Position(p.lineno(1), p.lexpos(1)), TypeDecimal, p[1])
 
     # Types
     @staticmethod
     def p_boolean(p):
         """type : BOOLEAN"""
-        p[0] = TypeBoolean()
+        p[0] = TypeBoolean
 
     @staticmethod
     def p_decimal(p):
         """type : DECIMAL"""
-        p[0] = TypeDecimal()
+        p[0] = TypeDecimal
 
     @staticmethod
     def p_string(p):
         """type : STRING"""
-        p[0] = TypeString()
+        p[0] = TypeString
 
     @staticmethod
     def p_date(p):
         """type : DATE"""
-        p[0] = TypeDate()
+        p[0] = TypeDate
 
     @staticmethod
     def p_money(p):
         """type : MONEY"""
-        p[0] = TypeMoney()
+        p[0] = TypeMoney
 
     @staticmethod
     def p_integer(p):
         """type : INTEGER"""
-        p[0] = TypeInteger()
+        p[0] = TypeInteger
 
     # Error handling
     @staticmethod
     def p_if_condition_error(p):
-        """if : IF LPAREN expression MINUS expression RPAREN LBRACKET statements RBRACKET"""
-        print('Condition does not evaluate to boolean.')
+        """if   : IF LPAREN expression PLUS expression RPAREN LBRACKET statements RBRACKET
+                | IF LPAREN expression MINUS expression RPAREN LBRACKET statements RBRACKET
+                | IF LPAREN expression TIMES expression RPAREN LBRACKET statements RBRACKET
+                | IF LPAREN expression DIVIDE expression RPAREN LBRACKET statements RBRACKET"""
+        print('Condition of if statement does not evaluate to boolean.')
         raise SyntaxError
 
-    @staticmethod
-    def p_form_error(p):
-        """form : FORM VAR LBRACKET RBRACKET"""
-        print('Empty form.')
-        raise SyntaxError
+    # @staticmethod
+    # def p_form_error(p):
+    #     """form : FORM VAR LBRACKET RBRACKET"""
+    #     print('Empty form.')
+    #     raise SyntaxError
 
     def p_error(self, p):
-        if not p:
-            print("End of File!")
-            return
-
-        # Read ahead looking for a closing '}'
-        while True:
-            tok = self.parser.token()  # Get the next token
-            if not tok or tok.type == 'RBRACE':
-                break
-        self.parser.restart()
+        raise SyntaxError

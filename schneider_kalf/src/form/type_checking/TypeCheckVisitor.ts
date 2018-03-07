@@ -96,7 +96,14 @@ export class TypeCheckVisitor implements NodeVisitor {
   }
 
   visitDivision(division: Division): any {
-    return this.visitNumericOperator(division);
+    const leftType = assertNumericFieldType(division.left.accept(this));
+    const rightType = assertNumericFieldType(division.right.accept(this));
+
+    if (leftType === FieldType.Money && rightType === FieldType.Money) {
+      return FieldType.Float;
+    }
+
+    return getCommonNumericFieldType(leftType, rightType);
   }
 
   visitBooleanLiteral(literal: BooleanLiteral): any {

@@ -7,7 +7,7 @@ import Multiplication from './expressions/arithmetic/Multiplication';
 import NumberLiteral from './expressions/literals/NumberLiteral';
 import Subtraction from './expressions/arithmetic/Subtraction';
 import And from './expressions/boolean_expressions/And';
-import BooleanLiteral from './expressions/boolean_expressions/BooleanLiteral';
+import BooleanLiteral from './expressions/literals/BooleanLiteral';
 import Negation from './expressions/boolean_expressions/Negation';
 import Or from './expressions/boolean_expressions/Or';
 import Equals from './expressions/comparisons/Equals';
@@ -19,6 +19,7 @@ import SmallerThanOrEqual from './expressions/comparisons/SmallerThanOrEqual';
 import VariableIdentifier from './expressions/VariableIdentifier';
 import ComputedField from "./fields/ComputedField";
 import StringLiteral from "./expressions/literals/StringLiteral";
+import DateLiteral from "./expressions/literals/DateLiteral";
 
 /**
  * List all available node types for easy access in the grammar.
@@ -46,5 +47,6 @@ export default {
   VariableIdentifier,
   ComputedField,
   Question,
-  FormNode
+  FormNode,
+  DateLiteral
 };

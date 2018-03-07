@@ -5,13 +5,11 @@ import logging
 import sys
 
 
-class Visitor(QLGrammarVisitor):
+class QLVisitor(QLGrammarVisitor):
     def __init__(self):
         self.program = {}
         self.QLAst = QLAst()
-        # used to log debug self.logger.debugs
-        # set to logging.DEBUG to show debug messages, logging.ERROR to not show
-        logging.basicConfig(level=logging.ERROR)
+
         self.logger = logging.getLogger(__name__)
 
     def getAst(self):
@@ -71,7 +69,7 @@ class Visitor(QLGrammarVisitor):
         varName = ctx.ID().getText()
         varType = mapStringToType(ctx.types().getText())
         expr = self.visit(ctx.expression())
-        
+
         varNode = VarNode(varName, varType, ctx.start.line, True)
         assignNode = AssignmentNode(question, varNode, expr, ctx.start.line)
 

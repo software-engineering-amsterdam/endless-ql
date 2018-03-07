@@ -1,7 +1,7 @@
-from AST.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
+from AST.expressions.unary_operators.unary_operator import UnaryOperatorNode
 
 
-class NegationOperatorNode(BinaryOperatorNode):
-    def __init__(self, position, expression_type, expression):
-        super(NegationOperatorNode, self).__init__(position, expression_type, expression)
+class NegationOperatorNode(UnaryOperatorNode):
+    def __init__(self, position, expression_type, expression, value):
+        super(NegationOperatorNode, self).__init__(position, expression_type, expression, value)
 

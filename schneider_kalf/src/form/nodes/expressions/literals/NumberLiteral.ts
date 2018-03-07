@@ -1,12 +1,18 @@
 import ExpressionVisitor from "../../visitors/ExpressionVisitor";
 import Expression from "../Expression";
 import { FieldType } from "../../../FieldType";
+import { ValueIsNaNError } from "../../../form_errors";
+import AbstractTreeNode from "../../AbstractTreeNode";
 
-export default class NumberLiteral implements Expression {
+export default class NumberLiteral extends AbstractTreeNode implements Expression {
   private type: FieldType;
   private value: number;
 
   static fromString(text: string) {
+    if (Number.isNaN(Number(text))) {
+      throw ValueIsNaNError.make(text);
+    }
+
     let type: FieldType = FieldType.Float;
     let value: number = parseFloat(text);
 
@@ -19,6 +25,8 @@ export default class NumberLiteral implements Expression {
   }
 
   constructor(value: number, type?: FieldType) {
+    super();
+
     if (!type) {
       type = FieldType.Float;
     }

@@ -6,7 +6,7 @@ import And from "../nodes/expressions/boolean_expressions/And";
 import Negation from "../nodes/expressions/boolean_expressions/Negation";
 import VariableIdentifier from "../nodes/expressions/VariableIdentifier";
 import Division from "../nodes/expressions/arithmetic/Division";
-import BooleanLiteral from "../nodes/expressions/boolean_expressions/BooleanLiteral";
+import BooleanLiteral from "../nodes/expressions/literals/BooleanLiteral";
 import Subtraction from "../nodes/expressions/arithmetic/Subtraction";
 import Equals from "../nodes/expressions/comparisons/Equals";
 import NotEqual from "../nodes/expressions/comparisons/NotEqual";
@@ -25,6 +25,7 @@ import FormNode from "../nodes/FormNode";
 import IfCondition from "../nodes/conditions/IfCondition";
 import ComputedField from "../nodes/fields/ComputedField";
 import Question from "../nodes/fields/Question";
+import DateLiteral from "../nodes/expressions/literals/DateLiteral";
 
 export class TypeCheckVisitor implements NodeVisitor {
   private _variables: VariablesInformation;
@@ -96,7 +97,14 @@ export class TypeCheckVisitor implements NodeVisitor {
   }
 
   visitDivision(division: Division): any {
-    return this.visitNumericOperator(division);
+    const leftType = assertNumericFieldType(division.left.accept(this));
+    const rightType = assertNumericFieldType(division.right.accept(this));
+
+    if (leftType === FieldType.Money && rightType === FieldType.Money) {
+      return FieldType.Float;
+    }
+
+    return getCommonNumericFieldType(leftType, rightType);
   }
 
   visitBooleanLiteral(literal: BooleanLiteral): any {
@@ -133,6 +141,10 @@ export class TypeCheckVisitor implements NodeVisitor {
 
   visitStringLiteral(stringLiteral: StringLiteral): any {
     return FieldType.Text;
+  }
+
+  visitDateLiteral(dateLiteral: DateLiteral): any {
+    return FieldType.Date;
   }
 
   private visitBooleanOperator(operator: BinaryOperator): FieldType {

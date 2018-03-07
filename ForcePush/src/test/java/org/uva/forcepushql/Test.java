@@ -3,6 +3,8 @@ package org.uva.forcepushql;
 import org.antlr.v4.runtime.*;
 import org.uva.forcepushql.antlr.GrammarLexer;
 import org.uva.forcepushql.antlr.GrammarParser;
+import org.uva.forcepushql.ast.BuildASTVisitor;
+import org.uva.forcepushql.ast.EvaluateExpressionVisitor;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,6 +25,8 @@ public class Test
         // create a parser that feeds off the tokens buffer
         GrammarParser parser = new GrammarParser(tokens);
         // begin parsing at rule x
-        parser.formStructure();
+        double value = new EvaluateExpressionVisitor().Visit(new BuildASTVisitor().visitMathUnit(parser.mathUnit()));
+        System.out.println(value);
+
     }
 }

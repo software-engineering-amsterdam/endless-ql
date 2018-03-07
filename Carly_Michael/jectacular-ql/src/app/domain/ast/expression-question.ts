@@ -2,12 +2,12 @@ import {QuestionBase} from '../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {CheckboxQuestion} from '../angular-questions/question-checkbox';
 import {TextboxQuestion} from '../angular-questions/question-textbox';
-import {QuestionType} from './question-type';
+import {QuestionType, QuestionTypeUtil} from './question-type';
 import {Statement} from './statement';
 import {Question} from './question';
 import {Location} from './location';
 import {Expression} from './expressions/expression';
-import {ExpressionType} from './expressions/expression-type';
+import {ExpressionType, ExpressionTypeUtil} from './expressions/expression-type';
 import {CircularDependencyError, UnsupportedTypeError} from '../errors';
 import * as _ from 'lodash';
 import {Variable} from './expressions/variable';
@@ -22,8 +22,10 @@ export class ExpressionQuestion extends Question {
   }
 
   checkType(allQuestions: Question[]): void {
-    if (! this.expressionTypeValidForQuestion(this.expression.checkType(allQuestions), allQuestions)) {
-      throw new TypeError(`Expression type ${this.expression.checkType(allQuestions)} incompatible with question type ${this.type}`
+    const expressionType = this.expression.checkType(allQuestions);
+    if (! this.expressionTypeValidForQuestion(expressionType)) {
+      throw new TypeError(`Expression type ${ExpressionTypeUtil.toString(expressionType)} ` +
+        `incompatible with question type ${QuestionTypeUtil.toString(this.type)}`
       + this.getLocationErrorMessage());
     }
   }
@@ -62,7 +64,8 @@ export class ExpressionQuestion extends Question {
     return formQuestionsToReturn;
   }
 
-  expressionTypeValidForQuestion(expressionType: ExpressionType, allQuestions: Question[]): boolean {
+  // TODO: look at switch statement!
+  expressionTypeValidForQuestion(expressionType: ExpressionType): boolean {
     switch (expressionType) {
       case ExpressionType.NUMBER:
         return this.type === QuestionType.INT || this.type === QuestionType.DECIMAL;
@@ -72,7 +75,7 @@ export class ExpressionQuestion extends Question {
         return this.type === QuestionType.DATE;
       case ExpressionType.STRING:
         return this.type === QuestionType.STRING;
-      default: throw new UnsupportedTypeError(`ExpressionType ${expressionType} is unknown`);
+      default: throw new UnsupportedTypeError(`ExpressionType ${ExpressionTypeUtil.toString(expressionType)} is unknown`);
     }
   }
 }

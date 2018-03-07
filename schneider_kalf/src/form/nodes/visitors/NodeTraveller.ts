@@ -11,7 +11,7 @@ import And from "../expressions/boolean_expressions/And";
 import Negation from "../expressions/boolean_expressions/Negation";
 import VariableIdentifier from "../expressions/VariableIdentifier";
 import Division from "../expressions/arithmetic/Division";
-import BooleanLiteral from "../expressions/boolean_expressions/BooleanLiteral";
+import BooleanLiteral from "../expressions/literals/BooleanLiteral";
 import Subtraction from "../expressions/arithmetic/Subtraction";
 import Equals from "../expressions/comparisons/Equals";
 import NotEqual from "../expressions/comparisons/NotEqual";
@@ -24,6 +24,7 @@ import BinaryOperator from "../expressions/BinaryOperator";
 import VisitorCallback from "./VisitorCallback";
 import TreeNode from "../TreeNode";
 import Statement from "../Statement";
+import DateLiteral from "../expressions/literals/DateLiteral";
 
 export default class NodeTraveller implements NodeVisitor {
   private post: VisitorCallback;
@@ -149,6 +150,10 @@ export default class NodeTraveller implements NodeVisitor {
 
   visitStringLiteral(stringLiteral: StringLiteral): any {
     return this.visitPreAndPost(stringLiteral);
+  }
+
+  visitDateLiteral(dateLiteral: DateLiteral): any {
+    return this.visitPreAndPost(dateLiteral);
   }
 
 }

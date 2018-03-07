@@ -1,90 +1,25 @@
 package org.uva.ql.validation;
 
-import org.uva.ql.ast.*;
+import org.uva.ql.ast.Form;
 
-import org.uva.ql.visitor.StatementVisitor;
+public class Validator {
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+    private final QuestionChecker questionChecker;
+    private final ParameterChecker parameterChecker;
+    private final DependencyChecker dependencyChecker;
+    private final TypeChecker typeChecker;
 
-public class Validator implements StatementVisitor<Void, String> {
-
-    private SymbolTable symbolTable;
-    private List<Question> questions;
-
-    public Validator() {
-        this.symbolTable = new SymbolTable();
-        this.questions = new ArrayList<>();
+    public Validator(Form form) {
+        this.questionChecker = new QuestionChecker(form);
+        this.parameterChecker = new ParameterChecker(form, questionChecker.getSymbolTable());
+        this.dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());
+        this.typeChecker = new TypeChecker(form, questionChecker.getSymbolTable());
     }
 
-    public void execute (Form form) {
-        // Collect all questions from the form & add them to the list.
-        for (Statement statement : form.getStatements()) {
-            statement.accept(this, null);
-        }
-
-        // Add relevant data to the symbol symbolTable.
-        for (Question question : this.questions) {
-//            System.out.println(question);
-            this.symbolTable.add(question.getName(), question.getType());
-        }
-
-        // Check if all question phrases & ID's are unique.
-        findDuplicates();
-
-        ParameterChecker parameterChecker = new ParameterChecker(form, symbolTable);
-
-        DependencyChecker dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());//form, symbolTable
-        dependencyChecker.execute();
-        TypeChecker typeChecker = new TypeChecker();//form, symbolTable
-
-        System.out.println("Total number of questions: " + symbolTable.size());
-    }
-
-    public boolean findDuplicates() {
-        Set<String> questionIDs = new HashSet<>();
-        Set<String> questionTexts = new HashSet<>();
-
-        for (Question question : this.questions) {
-            if (!questionIDs.add(question.getName())) {
-                System.out.printf("WARNING: (var could be overwritten) question name %s already exists\n", question.getName());
-            }
-
-            if (!questionTexts.add(question.getContent())) {
-                System.out.printf("WARNING: Question content %s already exists\n", question.getContent());
-            }
-        }
-        // TODO return something useful here.
-        return false;
-    }
-
-    @Override
-    public Void visit(Question question, String context) {
-        this.questions.add(question);
-
-        return null;
-    }
-
-    @Override
-    public Void visit(Conditional conditional, String context) {
-
-        for (Statement statement : conditional.getIfSide()) {
-            statement.accept(this, null);
-        }
-
-        for (Statement statement : conditional.getElseSide()) {
-            statement.accept(this, null);
-        }
-
-        return null;
-    }
-
-    @Override
-    public Void visit(CalculatedQuestion question, String context) {
-        questions.add(question);
-        symbolTable.add(question.getName(), question.getType());
-        return null;
+    public void run() {
+        questionChecker.runCheck();
+        parameterChecker.runCheck();
+        dependencyChecker.runCheck();
+        typeChecker.runCheck();
     }
 }

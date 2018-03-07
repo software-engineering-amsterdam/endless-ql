@@ -1,4 +1,4 @@
-package org.uva.jomi.ql.interpreter;
+package org.uva.jomi.ui;
 
 import java.util.List;
 
@@ -28,7 +28,10 @@ import org.uva.jomi.ql.ast.statements.IfElseStmt;
 import org.uva.jomi.ql.ast.statements.IfStmt;
 import org.uva.jomi.ql.ast.statements.QuestionStmt;
 import org.uva.jomi.ql.ast.statements.Stmt;
-import org.uva.jomi.ui.SymbolTable;
+import org.uva.jomi.ql.interpreter.BooleanValue;
+import org.uva.jomi.ql.interpreter.GenericValue;
+import org.uva.jomi.ql.interpreter.IntegerValue;
+import org.uva.jomi.ql.interpreter.StringValue;
 
 
 public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<GenericValue> {
@@ -47,7 +50,7 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<GenericVa
 		}
 	}
 	
-	private Object evaluate(Expr expr) {
+	private GenericValue evaluate(Expr expr) {
 		return expr.accept(this);
 	}
 	
@@ -63,8 +66,7 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<GenericVa
 
 	@Override
 	public GenericValue visit(GroupingExpr expr) {
-		// TODO Interpret GroupingExpr.
-		return null;
+		return expr.visitInnerExpr(this);
 	}
 
 	@Override
@@ -87,7 +89,7 @@ public class QLInterpreter implements Stmt.Visitor<Void>, Expr.Visitor<GenericVa
 	
 	@Override
 	public Void visit(ComputedQuestionStmt stmt) {
-		Object value = evaluate(stmt.getExp());
+		GenericValue value = evaluate(stmt.getExp());
 		String name = stmt.getIdentifierName();
 		SymbolTable.getInstance().put(name, value);
 		return null;	

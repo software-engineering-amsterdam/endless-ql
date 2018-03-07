@@ -1,7 +1,8 @@
 import Expression from "./Expression";
 import ExpressionVisitor from "../visitors/ExpressionVisitor";
+import AbstractTreeNode from "../AbstractTreeNode";
 
-export default abstract class BinaryOperator implements Expression {
+export default abstract class BinaryOperator extends AbstractTreeNode implements Expression {
   get right(): Expression {
     return this._right;
   }
@@ -20,6 +21,7 @@ export default abstract class BinaryOperator implements Expression {
    * @param {Expression} right
    */
   constructor(left: Expression, right: Expression) {
+    super();
     this._left = left;
     this._right = right;
   }

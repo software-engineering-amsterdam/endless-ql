@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.uva.jomi.ql.ast.statements.Stmt;
 import org.uva.jomi.ql.interpreter.BooleanValue;
 import org.uva.jomi.ql.interpreter.IntegerValue;
-import org.uva.jomi.ql.interpreter.QLInterpreter;
 import org.uva.jomi.ql.interpreter.StringValue;
 import org.uva.jomi.ql.tests.utilities.TestUtilities;
+import org.uva.jomi.ui.QLInterpreter;
 import org.uva.jomi.ui.SymbolTable;
 
 public class InterpreterTests {

@@ -11,7 +11,7 @@ import {
 } from "../type_checking/type_assertions";
 import Variable from "../nodes/expressions/VariableIdentifier";
 import { UnkownVariableIdentifierError } from "../form_errors";
-import BooleanLiteral from "../nodes/expressions/boolean_expressions/BooleanLiteral";
+import BooleanLiteral from "../nodes/expressions/literals/BooleanLiteral";
 import Division from "../nodes/expressions/arithmetic/Division";
 import Subtraction from "../nodes/expressions/arithmetic/Subtraction";
 import Equals from "../nodes/expressions/comparisons/Equals";
@@ -22,6 +22,7 @@ import LargerThanOrEqual from "../nodes/expressions/comparisons/LargerThanOrEqua
 import SmallerThan from "../nodes/expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../nodes/expressions/comparisons/SmallerThanOrEqual";
 import StringLiteral from "../nodes/expressions/literals/StringLiteral";
+import DateLiteral from "../nodes/expressions/literals/DateLiteral";
 import FormState from "../state/FormState";
 
 /**
@@ -174,6 +175,14 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @returns {any}
    */
   visitStringLiteral(literal: StringLiteral): any {
+    return assertString(literal.getValue());
+  }
+  /**
+   * Ends a .accept chain by returning a the string value of a string literal.
+   * @param {DateLiteral} literal
+   * @returns {any}
+   */
+  visitDateLiteral(literal: DateLiteral): any {
     return assertString(literal.getValue());
   }
 

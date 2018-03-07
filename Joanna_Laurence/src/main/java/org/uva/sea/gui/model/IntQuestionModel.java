@@ -32,7 +32,7 @@ public class IntQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return String.valueOf(value.getIntValue());
         } else {
-            return "No valueTypes";
+            return "No value";
         }
     }
 }

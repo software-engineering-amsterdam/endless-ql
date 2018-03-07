@@ -6,7 +6,7 @@ import And from "../expressions/boolean_expressions/And";
 import Negation from "../expressions/boolean_expressions/Negation";
 import Variable from "../expressions/VariableIdentifier";
 import Division from "../expressions/arithmetic/Division";
-import BooleanLiteral from "../expressions/boolean_expressions/BooleanLiteral";
+import BooleanLiteral from "../expressions/literals/BooleanLiteral";
 import Subtraction from "../expressions/arithmetic/Subtraction";
 import Equals from "../expressions/comparisons/Equals";
 import NotEquals from "../expressions/comparisons/NotEqual";
@@ -15,6 +15,7 @@ import LargerThanOrEqual from "../expressions/comparisons/LargerThanOrEqual";
 import SmallerThan from "../expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../expressions/comparisons/SmallerThanOrEqual";
 import StringLiteral from "../expressions/literals/StringLiteral";
+import DateLiteral from "../expressions/literals/DateLiteral";
 
 /**
  * Visitor that visits every node that extends the Expression class.
@@ -53,6 +54,8 @@ interface ExpressionVisitor {
   visitSmallerThanOrEqual(smallerThanOrEqual: SmallerThanOrEqual): any;
 
   visitStringLiteral(stringLiteral: StringLiteral): any;
+
+  visitDateLiteral(dateLiteral: DateLiteral): any;
 }
 
 export default ExpressionVisitor;

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "moment": "^2.21.0",
     "pegjs": "^0.10.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -33,6 +34,5 @@
     "raw-loader": "^0.5.1",
     "typescript": "^2.7.1"
   },
-  "jest": {
-  }
+  "jest": {}
 }

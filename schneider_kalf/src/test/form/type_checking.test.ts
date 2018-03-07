@@ -1,5 +1,5 @@
 import IfCondition from "../../form/nodes/conditions/IfCondition";
-import BooleanLiteral from "../../form/nodes/expressions/boolean_expressions/BooleanLiteral";
+import BooleanLiteral from "../../form/nodes/expressions/literals/BooleanLiteral";
 import { typeCheck } from "../../form/type_checking/type_check_functions";
 import { FieldType } from "../../form/FieldType";
 import NumberLiteral from "../../form/nodes/expressions/literals/NumberLiteral";

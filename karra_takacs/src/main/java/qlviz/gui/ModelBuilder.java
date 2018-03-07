@@ -26,7 +26,7 @@ public class ModelBuilder {
 	}
 
 
-	public Form createFormFromMarkup(String path) {
+	public Form createFormFromMarkup(String path){
 		CharStream charStream = null;
 		try {
 			charStream = new FileReader(path).getStream();
@@ -37,6 +37,11 @@ public class ModelBuilder {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
 		Form form = formParser.visitForm(parser.form());
+		return form;
+	}
+
+
+	public Form linkQuestions(Form form){
 		questionLinker.linkQuestionStubs(form);
 		return form;
 	}

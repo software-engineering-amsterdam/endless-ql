@@ -1,9 +1,8 @@
 package org.uva.ql.validation;
 
+import java.util.ArrayList;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
-
-import java.util.*;
 
 public class LogHandler extends Handler {
 

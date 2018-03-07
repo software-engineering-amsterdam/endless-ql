@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class ParameterChecker extends Checker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
 

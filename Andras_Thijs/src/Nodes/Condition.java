@@ -22,6 +22,7 @@ public class Condition extends ASTNode {
      * Creates a condition with an expression and a list of questions or conditions
      * @param expression contains an Expression
      * @param nodes contains either a list of Questions, or a list of Conditions
+     * @throws UnsupportedOperationException when the type is not Question or Condition
      */
     public Condition(Expression expression, List<? extends ASTNode> nodes){
         this.expression = expression;

@@ -22,11 +22,19 @@ public class QLForm extends ASTNode {
     /**
      * Creates a QL form with a name and a set of questions
      * @param name contains the name of the form
-     * @param questions contains a list of Questions
+     * @param nodes contains either a list of Questions or a list of Conditions
+     * @throws UnsupportedOperationException when the type is not Questions or Conditions
      */
-    public QLForm(String name, List<Question> questions) {
+    public QLForm(String name, List<? extends ASTNode> nodes) {
         this.name = name;
-        this.questions = questions;
+        ASTNode first = nodes.get(0);
+        if (first instanceof Question) {
+            this.questions = (List<Question>) nodes;
+        } else if (first instanceof Condition) {
+            this.conditions = (List<Condition>) nodes;
+        } else {
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**

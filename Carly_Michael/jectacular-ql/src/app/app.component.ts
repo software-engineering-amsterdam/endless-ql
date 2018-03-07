@@ -88,8 +88,6 @@ export class AppComponent {
         this.astQls = new Stylesheet('default implementation', [page], emptyLoc);
       }
 
-      console.log(this.astQls);
-
       // make form
       this.questions = this.astQl.toFormQuestion();
       this.form = this.questionControlService.toFormGroup(this.questions);
@@ -100,7 +98,6 @@ export class AppComponent {
       this.formName = undefined;
       this.questions = undefined;
       this.errorMessage = e.message;
-      console.log(e);
     }
     this.payload = undefined;
   }

@@ -1,18 +1,26 @@
 from abc import abstractmethod
+from multimethods import multimethod
+from pyql.ast.form.form import Form
+from pyql.ast.form.statement import Statement
+from pyql.ast.form.block import Block
+from pyql.ast.ast import ASTNode
 
 
 class StatementVisitor:
 
     @abstractmethod
-    def visit_form(self, form):
+    @multimethod(Form)
+    def visit(self, form):
         pass
 
     @abstractmethod
-    def visit_block(self, block):
+    @multimethod(Statement)
+    def visit(self, statement):
         pass
 
     @abstractmethod
-    def visit_statement(self, statement):
+    @multimethod(Block)
+    def visit(self, block):
         pass
 
     @abstractmethod

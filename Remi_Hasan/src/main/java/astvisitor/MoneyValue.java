@@ -2,9 +2,8 @@ package astvisitor;
 
 import java.math.BigDecimal;
 
-class MoneyValue extends Value<BigDecimal>{
-    final BigDecimal value;
-    MoneyValue(Number value){
-        this.value = new BigDecimal(value.toString());
+class MoneyValue extends NumValue<BigDecimal>{
+    MoneyValue(BigDecimal value) {
+        super(value);
     }
 }

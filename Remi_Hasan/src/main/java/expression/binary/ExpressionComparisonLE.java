@@ -5,7 +5,7 @@ import astvisitor.BoolValue;
 import expression.Expression;
 import expression.ExpressionBinary;
 
-public class ExpressionComparisonLE extends ExpressionBinary<BoolValue> {
+public class ExpressionComparisonLE extends ExpressionBinary<Boolean> {
 
 
     protected ExpressionComparisonLE(Expression left, Expression right) {
@@ -13,7 +13,7 @@ public class ExpressionComparisonLE extends ExpressionBinary<BoolValue> {
     }
 
     @Override
-    public BoolValue accept(BaseASTVisitor<BoolValue> visitor) {
+    public BoolValue accept(BaseASTVisitor visitor) {
         return visitor.visit(this);
     }
 }

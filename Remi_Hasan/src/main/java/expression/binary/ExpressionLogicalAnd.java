@@ -5,7 +5,7 @@ import astvisitor.BoolValue;
 import expression.Expression;
 import expression.ExpressionBinary;
 
-public class ExpressionLogicalAnd extends ExpressionBinary<BoolValue> {
+public class ExpressionLogicalAnd extends ExpressionBinary<Boolean> {
 
 
     protected ExpressionLogicalAnd(Expression left, Expression right) {
@@ -13,7 +13,7 @@ public class ExpressionLogicalAnd extends ExpressionBinary<BoolValue> {
     }
 
     @Override
-    public BoolValue accept(BaseASTVisitor<BoolValue> visitor) {
+    public BoolValue accept(BaseASTVisitor visitor) {
         return visitor.visit(this);
     }
 }

@@ -5,99 +5,92 @@ import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
 import expression.variable.*;
 
-public class InterperterVisitor extends BaseASTVisitor<Value> {
+public class InterperterVisitor extends BaseASTVisitor {
 
     @Override
-    public IntValue visit(ExpressionVariableNumber e) {
-        return new IntValue(e.value);
-    }
-
-    @Override
-    public Value visit(ExpressionVariableString e) {
-        return new StringValue(e.value);
-    }
-
-    @Override
-    public Value visit(ExpressionVariableUndefined e) {
-        return null;
-    }
-
-    @Override
-    public Value visit(ExpressionArithmeticDivide e) {
+    public NumValue visit(ExpressionArithmeticDivide e) {
         Value leftInterpreted = e.left.accept(this);
         Value rightInterpreted = e.right.accept(this);
-        return leftInterpreted.accept(this, rightInterpreted);
+        return leftInterpreted.divide(rightInterpreted);
     }
 
     @Override
-    public Value visit(ExpressionArithmeticMultiply e) {
+    public NumValue visit(ExpressionArithmeticMultiply e) {
         return null;
     }
 
     @Override
-    public Value visit(ExpressionArithmeticSubtract e) {
+    public NumValue visit(ExpressionArithmeticSubtract e) {
         return null;
     }
 
     @Override
-    public Value visit(ExpressionArithmeticSum e) {
+    public NumValue visit(ExpressionArithmeticSum e) {
         return null;
     }
 
     @Override
     public BoolValue visit(ExpressionComparisonEq e) {
-        Value leftInterpreted = e.left.accept(this);
-        Value rightInterpreted = e.right.accept(this);
-        return new BoolValue(leftInterpreted.equals(rightInterpreted));
-    }
-
-    @Override
-    public Value visit(ExpressionComparisonGE e) {
         return null;
     }
 
     @Override
-    public Value visit(ExpressionComparisonGT e) {
+    public BoolValue visit(ExpressionComparisonGE e) {
         return null;
     }
 
     @Override
-    public Value visit(ExpressionComparisonLE e) {
+    public BoolValue visit(ExpressionComparisonGT e) {
         return null;
     }
 
     @Override
-    public Value visit(ExpressionComparisonLT e) {
+    public BoolValue visit(ExpressionComparisonLE e) {
         return null;
     }
 
     @Override
-    public Value visit(ExpressionLogicalAnd e) {
+    public BoolValue visit(ExpressionComparisonLT e) {
         return null;
     }
 
     @Override
-    public Value visit(ExpressionLogicalOr e) {
+    public BoolValue visit(ExpressionLogicalAnd e) {
         return null;
     }
 
     @Override
-    public Value visit(ExpressionUnaryNot e) {
+    public BoolValue visit(ExpressionLogicalOr e) {
         return null;
     }
 
     @Override
-    public Value visit(ExpressionUnaryNeg e) {
+    public BoolValue visit(ExpressionUnaryNot e) {
         return null;
     }
 
     @Override
-    public Value visit(ExpressionVariableBoolean e) {
+    public NumValue visit(ExpressionUnaryNeg e) {
         return null;
     }
 
     @Override
-    public Value visit(ExpressionVariableDate e) {
+    public BoolValue visit(ExpressionVariableBoolean e) {
+        return null;
+    }
+
+    @Override
+    public DateValue visit(ExpressionVariableDate e) {
+        return null;
+    }
+
+    @Override
+    public NumValue visit(ExpressionVariableNumber e) {
+        return null;
+    }
+
+    @Override
+    public StringValue visit(ExpressionVariableString e) {
         return null;
     }
 }

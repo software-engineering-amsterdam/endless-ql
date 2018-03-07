@@ -1,8 +1,7 @@
 package astvisitor;
 
-public class DecimalValue extends Value{
-    final Number value;
-    DecimalValue(Number value){
-        this.value = value;
+public class DecimalValue extends NumValue<Integer>{
+    DecimalValue(Integer value) {
+        super(value);
     }
 }

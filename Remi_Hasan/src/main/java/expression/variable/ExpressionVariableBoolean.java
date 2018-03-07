@@ -15,7 +15,7 @@ public class ExpressionVariableBoolean extends Expression<BoolValue> {
     }
 
     @Override
-    public BoolValue accept(BaseASTVisitor<BoolValue> visitor) {
+    public BoolValue accept(BaseASTVisitor visitor) {
         return visitor.visit(this);
     }
 }

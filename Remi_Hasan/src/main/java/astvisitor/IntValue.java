@@ -1,8 +1,7 @@
 package astvisitor;
 
-public class IntValue extends Value<Integer>{
-    final Number value;
-    IntValue(Number value){
-        this.value = value;
+public class IntValue extends NumValue<Integer>{
+    IntValue(Integer value) {
+        super(value);
     }
 }

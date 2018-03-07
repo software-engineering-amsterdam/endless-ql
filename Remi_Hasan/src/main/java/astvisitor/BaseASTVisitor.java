@@ -5,100 +5,90 @@ import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
 import expression.variable.*;
 
-public class BaseASTVisitor<T> implements IASTVisitor<T>, IArithmeticValue {
+public class BaseASTVisitor<T> implements IASTVisitor {
 
     @Override
-    public T visit(ExpressionArithmeticDivide e) {
+    public NumValue visit(ExpressionArithmeticDivide e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionArithmeticMultiply e) {
+    public NumValue visit(ExpressionArithmeticMultiply e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionArithmeticSubtract e) {
+    public NumValue visit(ExpressionArithmeticSubtract e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionArithmeticSum e) {
+    public NumValue visit(ExpressionArithmeticSum e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionComparisonEq e) {
+    public BoolValue visit(ExpressionComparisonEq e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionComparisonGE e) {
+    public BoolValue visit(ExpressionComparisonGE e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionComparisonGT e) {
+    public BoolValue visit(ExpressionComparisonGT e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionComparisonLE e) {
+    public BoolValue visit(ExpressionComparisonLE e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionComparisonLT e) {
+    public BoolValue visit(ExpressionComparisonLT e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionLogicalAnd e) {
+    public BoolValue visit(ExpressionLogicalAnd e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionLogicalOr e) {
+    public BoolValue visit(ExpressionLogicalOr e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionUnaryNot e) {
+    public BoolValue visit(ExpressionUnaryNot e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionUnaryNeg e) {
+    public NumValue visit(ExpressionUnaryNeg e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionVariableBoolean e) {
+    public BoolValue visit(ExpressionVariableBoolean e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionVariableDate e) {
+    public DateValue visit(ExpressionVariableDate e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionVariableNumber e) {
+    public NumValue visit(ExpressionVariableNumber e) {
         return this.visit(e);
     }
 
     @Override
-    public T visit(ExpressionVariableString e) {
+    public StringValue visit(ExpressionVariableString e) {
         return this.visit(e);
-    }
-
-    @Override
-    public T visit(ExpressionVariableUndefined e) {
-        return this.visit(e);
-    }
-
-    @Override
-    public IntValue divide(IntValue left, IntValue right) {
-        return new IntValue(left.value.intValue() / right.value.intValue());
     }
 }

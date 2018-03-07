@@ -6,14 +6,14 @@ import astvisitor.BoolValue;
 import expression.Expression;
 import expression.ExpressionBinary;
 
-public class ExpressionComparisonGT extends ExpressionBinary<BoolValue> {
+public class ExpressionComparisonGT extends ExpressionBinary<Boolean> {
 
     protected ExpressionComparisonGT(Expression left, Expression right) {
         super(left, right);
     }
 
     @Override
-    public BoolValue accept(BaseASTVisitor<BoolValue> visitor) {
+    public BoolValue accept(BaseASTVisitor visitor) {
         return visitor.visit(this);
     }
 }

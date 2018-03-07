@@ -1,9 +1,12 @@
 package astvisitor;
 
 public abstract class Value<T> {
+    public final T value;
+    Value(T value){
+        this.value = value;
+    }
 
-    public abstract Value divide(BaseASTVisitor visitor, Value other);
-
+    public abstract NumValue divide(Value right);
 }
 
 

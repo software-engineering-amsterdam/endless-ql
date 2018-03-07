@@ -10,8 +10,8 @@ import org.uva.ql.visitor.*;
 
 import java.util.logging.Logger;
 
-public class TypeChecker extends Checker
-        implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String>  {
+public class TypeChecker
+        implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String>, Checker  {
 
     private SymbolTable symbolTable;
     private Form form;

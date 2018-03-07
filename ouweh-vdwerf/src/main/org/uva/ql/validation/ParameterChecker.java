@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class ParameterChecker extends Checker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
+public class ParameterChecker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String>, Checker {
 
     private SymbolTable symbolTable;
     private Map<String, List<Parameter>> expressions;

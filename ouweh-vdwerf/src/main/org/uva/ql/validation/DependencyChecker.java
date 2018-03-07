@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-class DependencyChecker extends Checker {
+class DependencyChecker implements Checker {
 
     private Set<Dependency> dependencies;
     private Logger logger;

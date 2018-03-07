@@ -6,12 +6,12 @@ formBuilder  : 'form' CHARACTERS CURLY_BRACKET_OPEN formData CURLY_BRACKET_CLOSE
 formData : (questionStructure)+ (ifStructure)+?;
 
 questionStructure:
-    questionLabel
-    questionVariable
+    label
+    variable
     QUESTION_VARIABLE_SEPERATOR
-    questionVariableType
+    variableType
     QUESTION_VARIABLE_VALUE_SEPERATOR?
-    questionVariableValue?
+    variableValue?
 ;
 ifStructure:
     IF
@@ -22,22 +22,38 @@ ifStructure:
 ;
 
 statementBlockStructure: BRACKET_OPEN conditions BRACKET_CLOSE ;
-plainValue: (CHARACTERS | NUMBERS);
+value: (CHARACTERS | NUMBERS);
 
-questionLabel : QUESTION_LABEL;
-questionVariable: CHARACTERS;
-questionVariableType: 'boolean' | 'money' | 'string';
-questionVariableValue: expression | plainValue;
+label : QUESTION_LABEL;
+variable: CHARACTERS;
+variableType: 'boolean' | 'money' | 'string';
+variableValue: expression | value;
 
-expression: BRACKET_OPEN questionVariable operator questionVariable BRACKET_CLOSE;
-booleanExpression: BRACKET_OPEN questionVariable comparisonOperator questionVariable BRACKET_CLOSE;
 
-condition: (questionVariable | booleanExpression);
-conditions: condition |condition (booleanOperator condition)+;
+expression: BRACKET_OPEN (booleanExpression | aritmaticExpression) BRACKET_CLOSE;
 
-comparisonOperator: (GT | GTOEQ | STOEQ | ST | EQ | NEQ);
+booleanExpression: unaryBooleanExpression | gteoqExpression | gtExpression | stExpression | stoeqExpression | eqExpression | neqExpression;
+
+unaryBooleanExpression: '!' value;
+gtExpression: variable GT variable ;
+gteoqExpression: variable GTOEQ variable ;
+stExpression: variable ST variable ;
+stoeqExpression: variable STOEQ variable ;
+eqExpression: variable EQ variable ;
+neqExpression: variable NEQ variable ;
+
+aritmaticExpression : (mulExpression| divExpression | addExpression | minExpression);
+
+mulExpression: variable TIMES variable ;
+addExpression: variable PLUS variable;
+minExpression: variable MINUS variable;
+divExpression: variable DIV variable;
+
+condition: (value | expression);
+conditions: (condition booleanOperator? condition?)+;
+
 booleanOperator:  (OR | AND);
-operator: (PLUS | MINUS | TIMES | DIV) ;
+
 /*
  * Lexer Rules
  */

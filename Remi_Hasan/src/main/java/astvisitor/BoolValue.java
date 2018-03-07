@@ -98,11 +98,7 @@ public class BoolValue extends Value<Boolean>{
     }
 
     @Override
-    public boolean equals(Object other){
-        if(other instanceof BoolValue){
-            BoolValue otherValue = (BoolValue) other;
-            return otherValue.value.equals(otherValue.value);
-        }
-        return false;
+    public boolean equals(Value other){
+        return this.value.equals(other.value);
     }
 }

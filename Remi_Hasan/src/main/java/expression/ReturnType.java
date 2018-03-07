@@ -56,6 +56,7 @@ public enum ReturnType {
     }
 
     public Boolean isNumber(){
-        return this == NUMBER;
+        // TODO: do we still need NUMBER?
+        return this == NUMBER || this == INTEGER || this == DECIMAL || this == MONEY;
     }
 }

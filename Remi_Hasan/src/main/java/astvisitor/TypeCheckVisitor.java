@@ -10,14 +10,14 @@ import expression.variable.*;
 
 public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
 
-    private boolean childrenTypeCheckSucceeeds(Expression left, Expression right) {
+    private boolean childrenTypeCheckSucceeds(Expression left, Expression right) {
         BoolValue leftTypeCheckSucceed = left.accept(this);
         BoolValue rightTypeCheckSucceed = right.accept(this);
 
         return leftTypeCheckSucceed.value && rightTypeCheckSucceed.value;
     }
 
-    private boolean childrenTypeCheckSucceeeds(Expression left) {
+    private boolean childrenTypeCheckSucceeds(Expression left) {
         BoolValue leftTypeCheckSucceed = left.accept(this);
         return leftTypeCheckSucceed.value;
     }
@@ -30,7 +30,7 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
     @Override
     public BoolValue visit(ExpressionArithmeticDivide e) {
         return new BoolValue(
-                childrenTypeCheckSucceeeds(e.left, e.right)
+                childrenTypeCheckSucceeds(e.left, e.right)
                         && e.left.getReturnType().isNumber()
                         && e.right.getReturnType().isNumber()
         );
@@ -39,7 +39,7 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
     @Override
     public BoolValue visit(ExpressionArithmeticMultiply e) {
         return new BoolValue(
-                childrenTypeCheckSucceeeds(e.left, e.right)
+                childrenTypeCheckSucceeds(e.left, e.right)
                         && e.left.getReturnType().isNumber()
                         && e.right.getReturnType().isNumber()
         );
@@ -48,7 +48,7 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
     @Override
     public BoolValue visit(ExpressionArithmeticSubtract e) {
         return new BoolValue(
-                childrenTypeCheckSucceeeds(e.left, e.right)
+                childrenTypeCheckSucceeds(e.left, e.right)
                         && e.left.getReturnType().isNumber()
                         && e.right.getReturnType().isNumber()
         );
@@ -57,7 +57,7 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
     @Override
     public BoolValue visit(ExpressionArithmeticSum e) {
         return new BoolValue(
-                childrenTypeCheckSucceeeds(e.left, e.right)
+                childrenTypeCheckSucceeds(e.left, e.right)
                         && e.left.getReturnType().isNumber()
                         && e.right.getReturnType().isNumber()
         );
@@ -65,13 +65,13 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
 
     @Override
     public BoolValue visit(ExpressionComparisonEq e) {
-        return new BoolValue(childrenTypeCheckSucceeeds(e.left, e.right));
+        return new BoolValue(childrenTypeCheckSucceeds(e.left, e.right));
     }
 
     @Override
     public BoolValue visit(ExpressionComparisonGE e) {
         return new BoolValue(
-                childrenTypeCheckSucceeeds(e.left, e.right)
+                childrenTypeCheckSucceeds(e.left, e.right)
                         && e.left.getReturnType().isNumber()
                         && e.right.getReturnType().isNumber()
         );
@@ -80,7 +80,7 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
     @Override
     public BoolValue visit(ExpressionComparisonGT e) {
         return new BoolValue(
-                childrenTypeCheckSucceeeds(e.left, e.right)
+                childrenTypeCheckSucceeds(e.left, e.right)
                         && e.left.getReturnType().isNumber()
                         && e.right.getReturnType().isNumber()
         );
@@ -89,7 +89,7 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
     @Override
     public BoolValue visit(ExpressionComparisonLE e) {
         return new BoolValue(
-                childrenTypeCheckSucceeeds(e.left, e.right)
+                childrenTypeCheckSucceeds(e.left, e.right)
                         && e.left.getReturnType().isNumber()
                         && e.right.getReturnType().isNumber()
         );
@@ -98,7 +98,7 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
     @Override
     public BoolValue visit(ExpressionComparisonLT e) {
         return new BoolValue(
-                childrenTypeCheckSucceeeds(e.left, e.right)
+                childrenTypeCheckSucceeds(e.left, e.right)
                         && e.left.getReturnType().isNumber()
                         && e.right.getReturnType().isNumber()
         );
@@ -107,7 +107,7 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
     @Override
     public BoolValue visit(ExpressionLogicalAnd e) {
         return new BoolValue(
-                childrenTypeCheckSucceeeds(e.left, e.right)
+                childrenTypeCheckSucceeds(e.left, e.right)
                         && e.left.getReturnType() == ReturnType.BOOLEAN
                         && e.right.getReturnType() == ReturnType.BOOLEAN
         );
@@ -116,7 +116,7 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
     @Override
     public BoolValue visit(ExpressionLogicalOr e) {
         return new BoolValue(
-                childrenTypeCheckSucceeeds(e.left, e.right)
+                childrenTypeCheckSucceeds(e.left, e.right)
                         && e.left.getReturnType() == ReturnType.BOOLEAN
                         && e.right.getReturnType() == ReturnType.BOOLEAN
         );
@@ -125,7 +125,7 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
     @Override
     public BoolValue visit(ExpressionUnaryNot e) {
         return new BoolValue(
-                childrenTypeCheckSucceeeds(e.value)
+                childrenTypeCheckSucceeds(e.value)
                         && e.value.getReturnType() == ReturnType.BOOLEAN
         );
     }
@@ -133,7 +133,7 @@ public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
     @Override
     public BoolValue visit(ExpressionUnaryNeg e) {
         return new BoolValue(
-                childrenTypeCheckSucceeeds(e.value)
+                childrenTypeCheckSucceeds(e.value)
                         && e.value.getReturnType().isNumber()
         );
     }

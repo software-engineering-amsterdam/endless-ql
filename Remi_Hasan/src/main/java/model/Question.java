@@ -11,7 +11,7 @@ public class Question {
     public final String name;
     public final String text;
     public final Expression defaultAnswer;
-    private final Expression condition;
+    public final Expression condition;
     private final boolean isEditable;
 
     public Question(ReturnType type, String name, String text, Expression defaultAnswer, boolean isEditable, Expression condition) {

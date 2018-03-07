@@ -12,8 +12,8 @@ public class InterpreterVisitor implements IASTVisitor<Value> {
 
     private SymbolTable symbolTable;
 
-    public InterpreterVisitor(SymbolTable lookupTable) {
-        this.symbolTable = lookupTable;
+    public InterpreterVisitor(SymbolTable symbolTable) {
+        this.symbolTable = symbolTable;
     }
 
     @Override
@@ -142,7 +142,7 @@ public class InterpreterVisitor implements IASTVisitor<Value> {
 
     @Override
     public Value visit(ExpressionVariableUndefined e) {
-        return new UndefinedValue(false);
+        return new UndefinedValue();
     }
 
     @Override

@@ -1,5 +1,6 @@
 import analysis.SymbolTable;
 import analysis.TypeChecker;
+import astvisitor.TypeCheckVisitor;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Form;
+import model.Question;
 import model.stylesheet.StyleSheet;
 
 import java.io.File;
@@ -64,8 +66,15 @@ public class Main extends Application {
             Form form = FormParser.parseForm(new FileInputStream(file));
 
             SymbolTable symbolTable = new SymbolTable(form);
-            symbolTable.printValues();
+//            symbolTable.printValues();
 
+            TypeCheckVisitor typeChecker = new TypeCheckVisitor();
+            for(Question q : form.questions) {
+                if(!q.isEditable()) {
+                    System.out.println(typeChecker.visit(q.defaultAnswer).getBooleanValue());
+                }
+                System.out.println(typeChecker.visit(q.condition).getBooleanValue());
+            }
 //            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
 //            typeChecker.typeCheck();
 

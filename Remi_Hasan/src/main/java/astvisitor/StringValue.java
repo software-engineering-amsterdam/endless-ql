@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class StringValue extends Value<String>{
 
-    public StringValue(String value) {
+    StringValue(String value) {
         super(value);
     }
 
@@ -99,11 +99,7 @@ public class StringValue extends Value<String>{
     }
 
     @Override
-    public boolean equals(Object other){
-        if(other instanceof StringValue){
-            StringValue otherValue = (StringValue) other;
-            return otherValue.value.equals(otherValue.value);
-        }
-        return false;
+    public boolean equals(Value other){
+        return this.value.equals(other.value);
     }
 }

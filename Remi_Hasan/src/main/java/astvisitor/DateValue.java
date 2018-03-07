@@ -98,7 +98,7 @@ public class DateValue extends Value<String>{
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(Value other) {
         // TODO
         return false;
     }

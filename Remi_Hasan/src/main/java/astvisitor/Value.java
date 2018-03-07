@@ -33,8 +33,7 @@ public abstract class Value<T> {
 
     public boolean isUndefined() { return false; }
 
-    @Override
-    public abstract boolean equals(Object other);
+    public abstract boolean equals(Value other);
 }
 
 

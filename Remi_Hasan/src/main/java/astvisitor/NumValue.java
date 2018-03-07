@@ -49,54 +49,81 @@ public class NumValue extends Value<BigDecimal> {
 
     @Override
     public Value divide(Value right) {
+        if(right.isUndefined())
+            return new UndefinedValue();
+
         NumValue rightValue = (NumValue) right;
         return new NumValue(this.value.divide(rightValue.value, MathContext.DECIMAL128));
     }
 
     @Override
     public Value multiply(Value right) {
+        if(right.isUndefined())
+            return new UndefinedValue();
+
         NumValue rightValue = (NumValue) right;
         return new NumValue(this.value.multiply(rightValue.value));
     }
 
     @Override
     public Value subtract(Value right) {
+        if(right.isUndefined())
+            return new UndefinedValue();
+
         NumValue rightValue = (NumValue) right;
         return new NumValue(this.value.subtract(rightValue.value));
     }
 
     @Override
     public Value sum(Value right) {
+        if(right.isUndefined())
+            return new UndefinedValue();
+
         NumValue rightValue = (NumValue) right;
         return new NumValue(this.value.add(rightValue.value));
     }
 
     @Override
     public Value eq(Value right) {
+        if(right.isUndefined())
+            return new UndefinedValue();
+
         NumValue rightValue = (NumValue) right;
         return new BoolValue(this.value.equals(rightValue.value));
     }
 
     @Override
     public Value ge(Value right) {
+        if(right.isUndefined())
+            return new UndefinedValue();
+
         NumValue rightValue = (NumValue) right;
         return new BoolValue(this.value.compareTo(rightValue.value) >= 0);
     }
 
     @Override
     public Value gt(Value right) {
+        if(right.isUndefined())
+            return new UndefinedValue();
+
         NumValue rightValue = (NumValue) right;
         return new BoolValue(this.value.compareTo(rightValue.value) > 0);
     }
 
     @Override
     public Value le(Value right) {
+        if(right.isUndefined())
+            return new UndefinedValue();
+
         NumValue rightValue = (NumValue) right;
         return new BoolValue(this.value.compareTo(rightValue.value) <= 0);
     }
 
     @Override
     public Value lt(Value right) {
+        if(right.isUndefined())
+            return new UndefinedValue();
+
         NumValue rightValue = (NumValue) right;
         return new BoolValue(this.value.compareTo(rightValue.value) < 0);
     }
@@ -122,11 +149,7 @@ public class NumValue extends Value<BigDecimal> {
     }
 
     @Override
-    public boolean equals(Object other){
-        if(other instanceof NumValue){
-            NumValue otherValue = (NumValue) other;
-            return otherValue.value.equals(otherValue.value);
-        }
-        return false;
+    public boolean equals(Value other){
+        return this.value.equals(other.value);
     }
 }

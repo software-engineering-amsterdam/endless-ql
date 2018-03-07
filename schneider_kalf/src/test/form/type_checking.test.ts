@@ -2,7 +2,7 @@ import IfCondition from "../../form/nodes/conditions/IfCondition";
 import BooleanLiteral from "../../form/nodes/expressions/boolean_expressions/BooleanLiteral";
 import { typeCheck } from "../../form/type_checking/type_check_functions";
 import { FieldType } from "../../form/FieldType";
-import NumberLiteral from "../../form/nodes/expressions/arithmetic/NumberLiteral";
+import NumberLiteral from "../../form/nodes/expressions/literals/NumberLiteral";
 import { TypeCheckError } from "../../form/form_errors";
 import Equals from "../../form/nodes/expressions/comparisons/Equals";
 import Addition from "../../form/nodes/expressions/arithmetic/Addition";

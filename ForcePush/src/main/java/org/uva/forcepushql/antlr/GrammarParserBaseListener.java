@@ -40,18 +40,6 @@ public class GrammarParserBaseListener implements GrammarParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterConditional(GrammarParser.ConditionalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitConditional(GrammarParser.ConditionalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterArithmetic(GrammarParser.ArithmeticContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -160,13 +148,37 @@ public class GrammarParserBaseListener implements GrammarParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterConditionalConstr(GrammarParser.ConditionalConstrContext ctx) { }
+	@Override public void enterConditionalIf(GrammarParser.ConditionalIfContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitConditionalConstr(GrammarParser.ConditionalConstrContext ctx) { }
+	@Override public void exitConditionalIf(GrammarParser.ConditionalIfContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterConditionalIfElse(GrammarParser.ConditionalIfElseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConditionalIfElse(GrammarParser.ConditionalIfElseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterConditionalElse(GrammarParser.ConditionalElseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConditionalElse(GrammarParser.ConditionalElseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

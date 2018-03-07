@@ -1,5 +1,5 @@
 import Addition from "../expressions/arithmetic/Addition";
-import NumberLiteral from "../expressions/arithmetic/NumberLiteral";
+import NumberLiteral from "../expressions/literals/NumberLiteral";
 import Multiplication from "../expressions/arithmetic/Multiplication";
 import Or from "../expressions/boolean_expressions/Or";
 import And from "../expressions/boolean_expressions/And";
@@ -14,7 +14,7 @@ import LargerThan from "../expressions/comparisons/LargerThan";
 import LargerThanOrEqual from "../expressions/comparisons/LargerThanOrEqual";
 import SmallerThan from "../expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../expressions/comparisons/SmallerThanOrEqual";
-import StringLiteral from "../expressions/string/StringLiteral";
+import StringLiteral from "../expressions/literals/StringLiteral";
 
 /**
  * Visitor that visits every node that extends the Expression class.

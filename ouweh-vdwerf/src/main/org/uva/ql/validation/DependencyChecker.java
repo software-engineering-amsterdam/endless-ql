@@ -6,12 +6,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 class DependencyChecker {
 
     private Set<Dependency> dependencies;
+    private Logger logger;
 
     DependencyChecker(Map<String, List<Parameter>> expressions) {
+        this.logger = Logger.getGlobal();
         this.dependencies = new HashSet<>();
 
         for (Map.Entry<String, List<Parameter>> entry : expressions.entrySet()) {
@@ -24,7 +27,7 @@ class DependencyChecker {
     public void execute() {
         for (Dependency pair : transitiveClosure(dependencies)) {
             if (pair.isReflexive()) {
-                System.out.println("ERROR: " + pair.getFrom() + " depends on itself.");
+                logger.severe("Circular dependency detected at: " + pair.getFrom());
             }
         }
     }

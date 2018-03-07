@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public class Validator implements StatementVisitor<Void, String> {
 
@@ -27,7 +28,6 @@ public class Validator implements StatementVisitor<Void, String> {
 
         // Add relevant data to the symbol symbolTable.
         for (Question question : this.questions) {
-//            System.out.println(question);
             this.symbolTable.add(question.getName(), question.getType());
         }
 
@@ -41,8 +41,6 @@ public class Validator implements StatementVisitor<Void, String> {
 
         TypeChecker typeChecker = new TypeChecker(form, symbolTable);
         typeChecker.execute();
-
-        System.out.println("Total number of questions: " + symbolTable.size());
     }
 
     public boolean findDuplicates() {
@@ -51,11 +49,11 @@ public class Validator implements StatementVisitor<Void, String> {
 
         for (Question question : this.questions) {
             if (!questionIDs.add(question.getName())) {
-                System.out.printf("WARNING: (var could be overwritten) question name %s already exists\n", question.getName());
+                Logger.getGlobal().info("WARNING: (var could be overwritten) question name "+question.getName()+" already exists");
             }
 
             if (!questionTexts.add(question.getContent())) {
-                System.out.printf("WARNING: Question content %s already exists\n", question.getContent());
+                Logger.getGlobal().info("WARNING: Question content "+question.getContent()+" already exists");
             }
         }
         // TODO return something useful here.

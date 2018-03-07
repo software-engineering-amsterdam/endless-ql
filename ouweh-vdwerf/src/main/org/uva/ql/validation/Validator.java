@@ -4,9 +4,6 @@ import org.uva.ql.ast.Form;
 
 public class Validator {
 
-    public Validator() {
-    }
-
     public void execute(Form form) {
         QuestionChecker questionChecker = new QuestionChecker(form);
         questionChecker.runCheck();

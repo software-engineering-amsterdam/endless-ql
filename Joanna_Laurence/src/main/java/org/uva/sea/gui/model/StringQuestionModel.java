@@ -16,7 +16,7 @@ public class StringQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return value.getStringValue();
         } else {
-            return "No valueTypes";
+            return "No value";
         }
     }
 
@@ -30,7 +30,7 @@ public class StringQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return value.getStringValue();
         } else {
-            return "No valueTypes";
+            return "No value";
         }
     }
 }

@@ -8,12 +8,16 @@ import javax.swing.BoxLayout;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 
-public class MoneyField extends InputField<Double> implements PropertyChangeListener  {
+import org.uva.jomi.ql.interpreter.BooleanValue;
+import org.uva.jomi.ql.interpreter.GenericValue;
+import org.uva.jomi.ql.interpreter.IntegerValue;
+
+public class IntegerField extends InputField implements PropertyChangeListener  {
 
 	private JFormattedTextField textfield;
 	private NumberFormat numberFormat;
 	
-	public MoneyField() {
+	public IntegerField() {
 		NumberFormat numberFormat = NumberFormat.getNumberInstance();
 		this.textfield = new JFormattedTextField(numberFormat);
 		this.textfield.addPropertyChangeListener("value", this);
@@ -30,18 +34,29 @@ public class MoneyField extends InputField<Double> implements PropertyChangeList
 	}
 
 	@Override
-	public Double getValue() {
+	public GenericValue getValue() {
 		if(this.textfield.getValue() != null) {
-			return ((Number)this.textfield.getValue()).doubleValue();
+			return new IntegerValue(((Number)this.textfield.getValue()).intValue());
 		}
 		return null;
 	}
-
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(this.listener != null && this.getValue() != null) {
 			this.listener.valueDidChange(this);	
 		}
+	}
+	
+	@Override
+	public void setValue(GenericValue value) {
+		IntegerValue integerValue = (IntegerValue) value;
+		this.textfield.setValue(integerValue.getValue());
+	}
+
+	@Override
+	public void setEnabled(boolean enabled) {
+		this.textfield.setEnabled(enabled);
 	}
 	
 }

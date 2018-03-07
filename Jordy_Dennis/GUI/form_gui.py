@@ -32,7 +32,7 @@ class FormGui:
         text.pack(anchor=NW)
         self.header_frame = header_frame
 
-    def add_question(self, question_text="Hi mom", question_type="bool"):
+    def add_question(self, question_text="Hi mom", question_type=bool):
         q = Question(self.contents, question_text, question_type)
         self.questions.append(q)
 

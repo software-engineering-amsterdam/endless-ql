@@ -32,7 +32,7 @@ public class DecimalQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return String.valueOf(value.getDecimalValue());
         } else {
-            return "No valueTypes";
+            return "No value";
         }
     }
 }

@@ -7,6 +7,9 @@ options { tokenVocab=GrammarLexer; }
 
 //RULES
 
+compileUnit     :formStructure EOF;
+mathUnit        :expression EOF;
+
 //Variables and operators
 variable        :VAR
                 |DEC
@@ -15,7 +18,7 @@ variable        :VAR
 
 
 logical         :(AND|OR);
-arithmetic      :(PLUS|MINUS|MULTIPLY|DIVIDE);
+arithmetic      :(MULTIPLY|DIVIDE);
 type            :(BOOL|STR|DATE|DECIMAL|MONEY);
 comparison      :(LESS|GREATER|EQUALGREATER|EQUALLESS|NOTEQUAL|ISEQUAL);
 
@@ -24,10 +27,10 @@ questionTypes       : (questionFormat|conditionalIf|questionAssignValue|question
 
 //Mathematical expressions
 expression          : LPAREN expression RPAREN #parensExpression
-                    | left=expression arithmetic right=expression #binaryExpression
-                    | left=expression logical right=expression #binaryExpression
-                    | left=expression comparison right=expression #binaryExpression
-                    | variable #valueExpression;
+                    | left=expression op=(PLUS|MINUS) right=expression #binaryExpression
+                    | left=expression logical right=expression #logicalExpression
+                    | left=expression comparison right=expression #comparisonExpression
+                    | value=NUM #valueExpression;
 
 
 //Question types

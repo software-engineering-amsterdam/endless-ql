@@ -1,6 +1,6 @@
 import pprint
 from .ast_methods import *
-import collections
+
 
 """ 
 AST tree used for the QL visitor
@@ -34,6 +34,9 @@ class QLAst:
     def linkVars(self):
         for form in self.forms:
             form.linkVars(self.varDict)
+        return self.varDict
+
+    def getVarDict(self):
         return self.varDict
 
     def __repr__(self):

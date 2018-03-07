@@ -1,7 +1,6 @@
 """
 
 """
-import collections
 from .ast_methods import *
 
 
@@ -10,6 +9,7 @@ class QuestionNode:
         self.question = question
         self.varNode = varNode
         self.line = line
+        self.nodeType = "Question"
 
     def checkTypes(self):
         return ["Question", self.varNode.checkTypes()]
@@ -27,6 +27,15 @@ class QuestionNode:
             new_entry["node"] = self.varNode
             new_entry["assign"] = self
             varDict[varname] = new_entry
+
+    def getNodeType(self):
+        return self.nodeType
+
+    def getVarName(self):
+        return self.varNode.getVarname()
+
+    def getQuestion(self):
+        return self.question
 
     def __repr__(self):
         return "Question: {}, {}:{}".format(self.question, self.varNode.getVarname(), self.varNode.checkTypes())

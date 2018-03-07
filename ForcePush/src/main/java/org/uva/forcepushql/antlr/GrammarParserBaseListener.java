@@ -1,4 +1,4 @@
-// Generated from C:/Users/Joana Magalhães/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
+// Generated from C:/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
 package org.uva.forcepushql.antlr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -11,6 +11,30 @@ import org.antlr.v4.runtime.tree.TerminalNode;
  * of the available methods.
  */
 public class GrammarParserBaseListener implements GrammarParserListener {
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCompileUnit(GrammarParser.CompileUnitContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCompileUnit(GrammarParser.CompileUnitContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMathUnit(GrammarParser.MathUnitContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMathUnit(GrammarParser.MathUnitContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -119,6 +143,30 @@ public class GrammarParserBaseListener implements GrammarParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParensExpression(GrammarParser.ParensExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterComparisonExpression(GrammarParser.ComparisonExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComparisonExpression(GrammarParser.ComparisonExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLogicalExpression(GrammarParser.LogicalExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogicalExpression(GrammarParser.LogicalExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -32,7 +32,7 @@ public class SymbolTable {
 		}
 	}
 	
-	public Object get(String key) {
+	public GenericValue get(String key) {
 		if(this.contains(key)) {
 			return this.symbolTable.get(key);	
 		}

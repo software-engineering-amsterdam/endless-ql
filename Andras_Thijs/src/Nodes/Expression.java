@@ -1,12 +1,13 @@
 package Nodes;
 
-import Nodes.Operator.*;
+import Nodes.Operator.Operator;
+import Nodes.Operator.Not;
 import Nodes.Term.Term;
 
 /**
  * Contains a parsed, evaluable expression
  */
-public class Expression {
+public class Expression extends ASTNode {
     private Expression left;
     private Expression right;
     private Operator op;

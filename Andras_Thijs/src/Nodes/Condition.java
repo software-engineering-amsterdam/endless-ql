@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * A parsed condition that can contain questions and other conditions
  */
-public class Condition {
+public class Condition extends ASTNode {
     private Expression expression;
     private List<Question> questions;
     private List<Condition> conditions;
@@ -19,13 +19,20 @@ public class Condition {
     }
 
     /**
-     * Creates a condition with an expression and a list of questions
+     * Creates a condition with an expression and a list of questions or conditions
      * @param expression
-     * @param questions
+     * @param nodes
      */
-    public Condition(Expression expression, List<Question> questions){
+    public Condition(Expression expression, List<? extends ASTNode> nodes){
         this.expression = expression;
-        this.questions = questions;
+        ASTNode first = nodes.get(0);
+        if(first instanceof Question) {
+            this.questions = (List<Question>) nodes;
+        } else if(first instanceof Condition) {
+            this.conditions = (List<Condition>) nodes;
+        } else {
+            throw new UnsupportedOperationException(); //TODO: Maybe change this?
+        }
     }
 
     /**

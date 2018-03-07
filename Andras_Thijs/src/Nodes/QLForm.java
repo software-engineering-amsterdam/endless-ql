@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Contains a parsed QL form with the appropriate questions and conditions
  */
-public class QLForm {
+public class QLForm extends ASTNode {
     private String name;
     private List<Question> questions;
     private List<Condition> conditions;

@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Contains a parsed question with name, label, type, and an expression if applicable
  */
-public class Question {
+public class Question extends ASTNode {
     private String name;
     private String label;
     private Type type;

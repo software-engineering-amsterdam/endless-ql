@@ -42,7 +42,7 @@ public class QLLoader extends FormBaseListener {
         for(FormParser.ConditionContext cc : ctx.statementBlockStructure().conditions().condition()){
             if (cc.questionVariable() != null){
                 c = this.formNode.getFormData().getVariableByLabel(cc.questionVariable().getText());
-                this.conditionsHolder.add((Variable) c);
+                this.conditionsHolder.add((BooleanVariable) c);
                 this.formNode.getFormData().getReferencedVariables().add((Variable) c);
             }
             if (cc.booleanExpression() != null){

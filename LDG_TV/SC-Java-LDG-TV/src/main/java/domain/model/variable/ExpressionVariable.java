@@ -16,12 +16,11 @@ public class ExpressionVariable extends Variable {
         this.rightHandOperand = rightHandOperand;
         this.operator = operator;
     }
+
     @Override
     public String toString(){
         return leftHandOperand.getName() + " " + operator + " " + rightHandOperand.getName();
     }
     @Override
-    public Node getRelatedUIElement(Visitor v) {
-        return v.visit(this);
-    }
+    public Node getRelatedUIElement(Visitor v) { return v.visit(this); }
 }

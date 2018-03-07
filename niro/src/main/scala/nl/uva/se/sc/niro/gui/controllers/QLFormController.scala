@@ -1,7 +1,6 @@
 package nl.uva.se.sc.niro.gui.controllers
 
 import java.io.IOException
-import java.util.concurrent.Semaphore
 
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
@@ -15,7 +14,6 @@ import nl.uva.se.sc.niro.model.Expressions.Answer
 import nl.uva.se.sc.niro.model.QLForm
 
 class QLFormController extends QLBaseController with ModelUpdater {
-  private val updateInProgress = new Semaphore(1)
   private var form: QLForm = null
   @FXML private var formName: Label = null
   @FXML private var questionsGrid: GridPane = null
@@ -25,7 +23,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
   def cancel(event: ActionEvent): Unit = QLForms.openHomeScreen(getActiveStage(event))
 
   override def updateModel(questionId: String, answer: Answer): Unit =
-    if (noUpdateInProgress) updateGUI(Evaluator.evaluateQLForm(form.save(questionId, answer)))
+    updateGUI(Evaluator.evaluateQLForm(form.save(questionId, answer)))
 
   @FXML def saveData(event: ActionEvent): Unit = System.out.println("Data is saved....")
 
@@ -38,15 +36,8 @@ class QLFormController extends QLBaseController with ModelUpdater {
   }
 
   private def updateGUI(form: QLForm) = {
-    if (updateInProgress.tryAcquire) {
-      try {
-        GUIUpdateVisitor.visit(questionsGrid, form.statements, form.symbolTable)
-        this.form = form
-      } finally {
-        updateInProgress.release()
-      }
-    }
+    GUIUpdateVisitor.visit(questionsGrid, form.statements, form.symbolTable)
+    this.form = form
   }
 
-  private def noUpdateInProgress = updateInProgress.availablePermits > 0
 }

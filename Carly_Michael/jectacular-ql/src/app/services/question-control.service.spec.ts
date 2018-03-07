@@ -21,33 +21,26 @@ describe('The question control service', () => {
       value: undefined,
       order: 1
     }),
-    new TextboxQuestion({
-      key: 'moneyQuestion',
-      label: 'moneyQuestion?',
-      type: 'number',
-      value: undefined,
-      order: 2
-    }),
     new CheckboxQuestion({
       key: 'booleanQuestion',
       label: 'booleanQuestion?',
       type: 'boolean',
       value: undefined,
-      order: 3
+      order: 2
     }),
     new TextboxQuestion({
       key: 'stringQuestion',
       label: 'stringQuestion?',
       type: 'text',
       value: '',
-      order: 4
+      order: 3
     }),
     new TextboxQuestion({
       key: 'dateQuestion',
       label: 'dateQuestion?',
       type: 'date',
       value: undefined,
-      order: 5
+      order: 4
     })
   ];
 
@@ -65,7 +58,6 @@ describe('The question control service', () => {
     const result = service.toFormGroup(questions);
     expect(result.get('intQuestion')).toBeDefined();
     expect(result.get('decimalQuestion')).toBeDefined();
-    expect(result.get('moneyQuestion')).toBeDefined();
     expect(result.get('booleanQuestion')).toBeDefined();
     expect(result.get('stringQuestion')).toBeDefined();
     expect(result.get('stringQuestion').value).toBe('');

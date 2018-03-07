@@ -24,7 +24,7 @@ public class FormBuilder {
         lexer.addErrorListener(new ErrorListener());
         QLParser parser = new QLParser(new CommonTokenStream(lexer));
 
-        Form form = new QLVisitorImpl().visitForm(parser.form());
+        Form form = new QLVisitor().visitForm(parser.form());
         form.checkType();
 
         return form;

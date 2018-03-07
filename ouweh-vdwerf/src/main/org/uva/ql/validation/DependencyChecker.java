@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-class DependencyChecker {
+class DependencyChecker extends Checker {
 
     private Set<Dependency> dependencies;
 
@@ -21,15 +21,16 @@ class DependencyChecker {
         }
     }
 
-    public void execute() {
+    @Override
+    public void runCheck() {
         for (Dependency pair : transitiveClosure(dependencies)) {
             if (pair.isReflexive()) {
-                System.out.println("ERROR: " + pair.getFrom() + " depends on itself.");
+                logger.severe("Circular dependency detected at: " + pair.getFrom());
             }
         }
     }
 
-    private Set<Dependency> transitiveClosure (Set<Dependency> dependencyGraph) {
+    private Set<Dependency> transitiveClosure(Set<Dependency> dependencyGraph) {
         Set<Dependency> closure = new HashSet<>(dependencyGraph);
         Set<Dependency> reach = initializeMatrix(closure);
 
@@ -40,7 +41,7 @@ class DependencyChecker {
         return reach;
     }
 
-    private Set<Dependency> initializeMatrix (Set<Dependency> dependencyGraph) {
+    private Set<Dependency> initializeMatrix(Set<Dependency> dependencyGraph) {
         Set<Dependency> matrix = new HashSet<>();
 
         for (Dependency i : dependencyGraph) {

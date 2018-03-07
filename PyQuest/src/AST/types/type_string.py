@@ -1,5 +1,5 @@
 from AST.types.type import Type
-from PyQt5.QtWidgets import QLineEdit
+from render.widgets import LineEdit
 
 
 class TypeString(Type):
@@ -12,4 +12,4 @@ class TypeString(Type):
 
     @staticmethod
     def pyqt5_default_widget():
-        return QLineEdit()
+        return LineEdit()

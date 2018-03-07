@@ -8,6 +8,7 @@ class Question:
         self.__answer_type = answer_type
         self.__answer = answer
         self.__show = show
+        self.__widget = None
 
     @property
     def label(self):
@@ -37,5 +38,14 @@ class Question:
     def show(self, value):
         self.__show = value
 
+    @property
+    def widget(self):
+        return self.__widget
+
+    @widget.setter
+    def widget(self, value):
+        self.__widget = value
+
     def pyqt5_render(self, layout):
-        layout.addRow(QLabel(self.label), self.answer_type.pyqt5_default_widget())
+        self.widget = self.answer_type.pyqt5_default_widget()
+        layout.addRow(QLabel(self.label), self.widget)

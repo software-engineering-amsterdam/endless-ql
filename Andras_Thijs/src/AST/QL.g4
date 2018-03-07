@@ -25,7 +25,6 @@ BOOLEAN  : 'true' | 'false';
 STRING   : '"'[a-zA-Z0-9?.!:;()/ \t]+'"'; // TODO: allow more characters
 INTEGER  : [0-9]+;
 DECIMAL  : [0-9]+ '.' [0-9]+;
-numeral  : INTEGER | DECIMAL;
 VARIABLE : [a-zA-Z][a-zA-Z0-9_]+;
 // For now don't specify DATE, because we don't allow operators on them (yet?).
 //DATE     : [0-9]{1,2}'-'[0-9]{1,2}'-'[0-9]{1,4} | [0-9]{1,4}'-'[0-9]{1,2}'-'[0-9]{1,2}; // Dates currently allow dd?-mm?-yy?y?y? yy?y?y?-mm?-dd?
@@ -52,4 +51,4 @@ comparision   : LESS | GREATER | LESSEQ | GREATEREQ;
 addsub        : ADDITION | SUBTRACTION;
 muldiv        : MULTIPLICATION | DIVISION;
 factor        : EXPONENT; //TODO
-term          : VARIABLE | BOOLEAN | STRING | numeral;
+term          : VARIABLE | BOOLEAN | STRING | INTEGER | DECIMAL;

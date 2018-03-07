@@ -38,7 +38,7 @@ class SymbolTableTest {
 		assertEquals(SymbolTable.getInstance().get("removeTest").getValue(), 1);
 		
 		SymbolTable.getInstance().remove("removeTest");
-		assertEquals(SymbolTable.getInstance().get("removeTest"), null);
+		assertEquals(SymbolTable.getInstance().get("removeTest").getValue(), null);
 		assertFalse(SymbolTable.getInstance().contains("removeTest"));
 	}
 

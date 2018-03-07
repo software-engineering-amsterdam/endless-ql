@@ -172,6 +172,10 @@
     <Compile Include="Domain.UnitTests\TestData.cs" />
     <Compile Include="Orchestration.UnitTests\CreateQuestionnaireCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI.UnitTests\BasicTests.cs" />
+    <Compile Include="UI.UnitTests\CalculatedQuestionModel.cs" />
+    <Compile Include="UI.UnitTests\QuestionaireWrapper.cs" />
+    <Compile Include="UI.UnitTests\QuestionnaireModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

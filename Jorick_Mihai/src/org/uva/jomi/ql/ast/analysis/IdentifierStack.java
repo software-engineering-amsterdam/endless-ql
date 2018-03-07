@@ -25,7 +25,7 @@ public class IdentifierStack {
 
 	// Add a new element to the inner most scope
 	public void add(IdentifierExpr identifier) {
-		identifierStack.peek().put(identifier.token.getLexeme(), identifier);
+		identifierStack.peek().put(identifier.getName(), identifier);
 	}
 
 	// Try to add a new element to the top most scope
@@ -39,7 +39,7 @@ public class IdentifierStack {
 	}
 
 	// Check if a particular identifier is present in the inner most scope
-	public boolean contains(String identifierName) {
+	public boolean isInCurrentScope(String identifierName) {
 		if (identifierStack.peek().containsKey(identifierName)) {
 			return true;
 		} else {

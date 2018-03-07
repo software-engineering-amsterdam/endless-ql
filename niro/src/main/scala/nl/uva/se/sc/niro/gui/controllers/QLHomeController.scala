@@ -6,7 +6,7 @@ import javafx.event.ActionEvent
 import javafx.fxml.{ FXML, FXMLLoader }
 import javafx.scene.control.TextArea
 import javafx.scene.{ Parent, Scene }
-import javafx.stage.FileChooser
+import javafx.stage.{ FileChooser, Stage }
 import nl.uva.se.sc.niro.QLFormService
 import nl.uva.se.sc.niro.errors.Errors
 import nl.uva.se.sc.niro.gui.application.QLForms
@@ -24,19 +24,24 @@ class QLHomeController extends QLBaseController {
     val stage = getActiveStage(event)
     val selectedFile: File = fileChooser.showOpenDialog(stage)
     if (selectedFile != null) try {
-      val formOrErrors: Either[QLForm, Seq[Errors.Error]] = QLFormService.importQLSpecification(selectedFile)
+      val formOrErrors: Either[Seq[Errors.Error], QLForm] = QLFormService.importQLSpecification(selectedFile)
       formOrErrors match {
-        case Left(form) =>
-          val formScene = createSceneForForm(form)
-          stage.setScene(formScene)
-        case Right(errors) =>
-          errorMessages.setText(errors.toString)
-          errorMessages.setVisible(true)
+        case Right(form)  => handleSuccess(stage, form)
+        case Left(errors) => handleErrors(errors)
       }
     } catch {
-      case e: IOException =>
-        e.printStackTrace()
+      case e: IOException => e.printStackTrace()
     }
+  }
+
+  private def handleSuccess(stage: Stage, form: QLForm) = {
+    val formScene = createSceneForForm(form)
+    stage.setScene(formScene)
+  }
+
+  private def handleErrors(errors: Seq[Errors.Error]) = {
+    errorMessages.setText(errors.toString)
+    errorMessages.setVisible(true)
   }
 
   @throws[IOException]

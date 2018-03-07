@@ -4,12 +4,14 @@ Both types need a expression that has to be evaluated
 and a block which can contain statements.
 """
 
+from .ast_methods import *
 
 class ConditionNodeBlock:
     def __init__(self, expression, line):
         self.expression = expression
         self.block = []
         self.line = line
+        self.qlOrder = collections.OrderedDict()
 
     def addQuestions(self, block):
         for i in block:
@@ -22,7 +24,15 @@ class ConditionNodeBlock:
         types.append(ifType)
         for statement in self.block:
             types.append(statement.checkTypes())
-        return ["IF/ELIF:", types]
+        return ["IF/ELIF:"+ str(self.expression), types]
+
+    def linkVars(self, varDict):
+        self.expression.linkVars(varDict)
+        for statement in self.block:
+            statement.linkVars(varDict)
+
+    def getName(self):
+        return self.expression.getName()
 
     def __repr__(self):
         return "({}) {}".format(self.expression, self.block)

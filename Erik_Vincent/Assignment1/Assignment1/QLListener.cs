@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
+using Assignment1.Model;
 
 namespace Assignment1
 {
     internal class QLListener : QLBaseListener
     {
-        public List<QuestionForm> Forms { get; private set; }
+        public QuestionForm Form { get; private set; }
         private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
         public List<string> Errors = new List<string>();
         public List<string> Warnings = new List<string>();
@@ -43,14 +44,14 @@ namespace Assignment1
             Errors.Add("Line " + context.Start.Line + ": " + message);
         }
 
-        public override void ExitFile(QL.FileContext context)
+        public override void ExitForm(QL.FormContext context)
         {
-            Console.WriteLine(Errors.Count + " errors found.");
+            Console.WriteLine(Errors.Count + " error(s) found.");
             foreach (string error in Errors)
             {
                 Console.WriteLine(error);
             }
-            Forms = context.result;
+            Form = context.result;
         }
 
         public override void EnterQuestion(QL.QuestionContext context)
@@ -60,7 +61,7 @@ namespace Assignment1
             // Should be warnings, move to separate list
             if (QuestionLabelExists(questionLabel))
             {
-                AddError(context, "The question label '" + questionLabel + "' has already been used.");
+                //AddError(context, "The question label '" + questionLabel + "' has already been used.");
             }
         }
 

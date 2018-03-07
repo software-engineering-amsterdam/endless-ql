@@ -1,11 +1,19 @@
 package ast.model;
 
+import ast.model.statements.Statement;
+import ast.visitors.ASTNodeVisitor;
+
 import java.util.ArrayList;
 
-public class Form {
+public class Form extends ASTNode {
 
     private String name;
-    private ArrayList<Block> blockList;
+    private ArrayList<Statement> statementList = new ArrayList<>();
+
+    public Form(String name, Integer startLine, Integer endLine) {
+        super(startLine, endLine);
+        this.name = name;
+    }
 
     public String getName() {
         return name;
@@ -15,23 +23,22 @@ public class Form {
         this.name = name;
     }
 
-    public ArrayList<Block> getBlockList() {
-        return blockList;
+    public ArrayList<Statement> getStatementList() {
+        return statementList;
     }
 
-    public void setBlockList(ArrayList<Block> blockList) {
-        this.blockList = blockList;
+    public void setStatementList(ArrayList<Statement> statementList) {
+        this.statementList = statementList;
     }
 
-    public boolean addBlock(Block block) {
-        return this.blockList.add(block);
+    public boolean addStatement(Statement statement) {
+        return this.statementList.add(statement);
     }
 
-    public void print() {
-        System.out.println("Form: " + this.name);
-        for (Block block : this.blockList) {
-            block.print();
+    @Override
+    public void accept(ASTNodeVisitor visitor) {
+        for (Statement statement : statementList) {
+            statement.accept(visitor);
         }
     }
-
 }

@@ -1,6 +1,6 @@
 package ql.ast.expression;
 
-import ql.evaluator.value.Value;
+import ql.ast.expression.literal.Literal;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class Negation extends UnaryOperator {
@@ -18,9 +18,9 @@ public class Negation extends UnaryOperator {
     public String getOperator() {
         return "!";
     }
-
+    
     @Override
-    public Value<?> evaluate() {
+    public Literal<?> evaluate() {
         return operand.evaluate().negation();
     }
 }

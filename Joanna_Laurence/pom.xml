@@ -18,6 +18,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>4.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
             <version>4.7.1</version>
@@ -43,7 +49,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>8.8.3</version>
                 <configuration>
-                    <mainClass>org.uva.sea.ql.gui.MainGUI</mainClass>
+                    <mainClass>org.uva.sea.gui.MainGUI</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -51,7 +57,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <version>1.6.0</version>
                 <configuration>
-                    <mainClass>org.uva.sea.ql.QLMain</mainClass>
+                    <mainClass>org.uva.sea.QLMain</mainClass>
                 </configuration>
                 <executions>
                     <execution>

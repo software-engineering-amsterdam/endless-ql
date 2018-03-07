@@ -1,16 +1,16 @@
-form taxOfficeExample { 
-  "Did you sell a house in 2010?"
-    a: int = ((3 + 4))
+form taxOfficeExample {
+	"This is an int"
+		a: int
 
-  "Did you sell a house in 2010?2"
-    b: int = ((3 + 4))
+	"This is a string"
+		b: string
 
-   if(a && b){
-   	"Did you sell a house in 2010?3" d: int = ((3 + 4))
-   		if(a && b){
-   		"Did you sell a house in 2010?3" d: int = ((3 + 4))
-   }
-   }
+	"Assignment Var"
+		g: int = (a * a)
+
+	if(a && b){
+		"Q3 Within the if (int)"
+			f: int
+	}
 
 }
-

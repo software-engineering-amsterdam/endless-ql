@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tool.ToolController">
+   <children>
+      <ToolBar prefHeight="40.0" prefWidth="200.0">
+        <items>
+          <Button mnemonicParsing="false" onAction="#generateQuestionnaire"  text="Build" />
+            <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#importQLFile" text="Import" />
+        </items>
+      </ToolBar>
+      <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
+        <items>
+            <TextArea fx:id="taSourceCode" prefHeight="200.0" prefWidth="200.0" promptText="Write or import questionair language..." wrapText="true">
+                <font>
+                    <Font name="Courier" size="13.0" />
+                </font>
+            </TextArea>
+            <ListView id="lv" fx:id="lvQuestionnaire" stylesheets="@Tool.css" />
+        </items>
+      </SplitPane>
+   </children>
+</VBox>

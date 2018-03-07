@@ -5,128 +5,50 @@ grammar QL;
  */
 
 form            
-    :   'form' id=IDENTIFIER '{' block+ '}';
+    :   'form' id=IDENTIFIER BEGIN statement* END;
 
-block           
-    :   question | ifBlock;
+statement
+    : question
+    | ifStatement
+    ;
 
 question        
-    :   label=STRING fieldDefinition;
+    :   label=STRING variableName=IDENTIFIER ':' variableType=dataType (OP_ASSIG expression)?;
 
-fieldDefinition 
-    :   fieldName=IDENTIFIER ':' fieldType=dataType assignment?;
-
-assignment
-    :   assignmentOperator=OP_ASSIG expression
+dataType
+    : TYPE_BOOLEAN  #TypeDeclarationBoolean
+    | TYPE_STRING   #TypeDeclarationString
+    | TYPE_INTEGER  #TypeDeclarationInteger
+    | TYPE_DECIMAL  #TypeDeclarationDecimal
     ;
 
-dataType        
-    :   TYPE_BOOLEAN | TYPE_STRING | TYPE_INTEGER | TYPE_DECIMAL | TYPE_DATE | dataTypeMoney 
+ifStatement
+    :   IF '(' condition=expression ')' BEGIN statement* END elseStatement?
     ;
 
-dataTypeMoney   
-    :   TYPE_MONEY '(' currency=CURRENCY_CODE ')'           # MoneyTypeDeclarationWithCurrency
-    |   TYPE_MONEY                                          # MoneyTypeDeclarationVoid
+elseStatement
+    : ELSE BEGIN statement* END
     ;
-
-ifBlock         
-    :   'if' '(' expression ')' '{' block* '}';
-
 
 expression
-    :   '(' expression ')'
-    |   conditionalExpression
-    ;
-
-conditionalExpression
-    :	conditionalOrExpression
-	;
-
-conditionalOrExpression
-	:	conditionalAndExpression
-	|	conditionalOrExpression OP_OR conditionalAndExpression
-	;
-
-conditionalAndExpression
-	:	equalityExpression
-	|	conditionalAndExpression OP_AND equalityExpression
-	;
-
-equalityExpression
-	:	relationalExpression
-	|	equalityExpression OP_EQ relationalExpression
-	|	equalityExpression OP_NEQ relationalExpression
-	;
-
-relationalExpression
-	:	additiveExpression
-	|	relationalExpression OP_LT additiveExpression
-	|	relationalExpression OP_GT additiveExpression
-	|	relationalExpression OP_LE additiveExpression
-	|	relationalExpression OP_GE additiveExpression
-	;
-
-additiveExpression
-	:	multiplicativeExpression
-	|	additiveExpression OP_PLUS multiplicativeExpression
-	|	additiveExpression OP_MINUS multiplicativeExpression
-	;
-
-multiplicativeExpression
-	:	unaryExpression
-	|	multiplicativeExpression OP_MULT unaryExpression
-	|	multiplicativeExpression OP_DIV unaryExpression
-	;
-
-unaryExpression
-	:   '!' unaryExpression
-	|   entity
-	;
-
-
-entity
-    :   logicalEntity
-    |   nonLogicalEntity
-    ;
-
-
-logicalEntity   
-    :   (BOOL_TRUE | BOOL_FALSE)          # LocicalConst
-    |   IDENTIFIER                        # LogicalVariable
-    ;
-
-nonLogicalEntity
-    :   numericEntity
-    |   dateEntity
-    |   stringEntity
-    |   moneyEntity
-    ;
-
-numericEntity   
-    :   DECIMAL                           # DecimalNumericConst
-    |   INTEGER                           # IntegerNumericConst
-    |   variableReference                 # NumericVariable
-    ;
-
-dateEntity      
-    :   '@' year=INTEGER '-' month=INTEGER '-' day=INTEGER    # DateValue
-    |   variableReference                                     # DateVariable
-    ;
-
-stringEntity    
-    :   text=STRING                       # StringValue
-    |   variableReference                 # StringVariable
-    ;
-
-moneyEntity     
-    :   CURRENCY_CODE '(' DECIMAL ')'      # MoneyValue
-    |   variableReference                  # MoneyVariable
-    ;
-
-variableReference
-    :   name=IDENTIFIER
-    ;
-
+    : '(' expression ')'                                            #ExpressionParenthesises
+    | OP_NOT expression                                             #ExpressionNegation
+    | OP_MINUS expression                                           #ExpressionArithmeticMinus
+    | lhs=expression binaryOperator=OP_MULT rhs=expression          #ExpressionArithmeticMultiplication
+    | lhs=expression binaryOperator=OP_DIV rhs=expression           #ExpressionArithmeticDivision
+    | lhs=expression binaryOperator=OP_PLUS rhs=expression          #ExpressionArithmeticAddition
+    | lhs=expression binaryOperator=OP_MINUS rhs=expression         #ExpressionArithmeticSubtraction
+    | lhs=expression binaryOperator=OP_GT rhs=expression            #ExpressionComparisionGreaterThan
+    | lhs=expression binaryOperator=OP_GE rhs=expression            #ExpressionComparisionGreaterEqual
+    | lhs=expression binaryOperator=OP_LT rhs=expression            #ExpressionComparisionLessThan
+    | lhs=expression binaryOperator=OP_LE rhs=expression            #ExpressionComparisionLessEqual
+    | lhs=expression binaryOperator=OP_EQ rhs=expression            #ExpressionComparisionEqual
+    | lhs=expression binaryOperator=OP_NEQ rhs=expression           #ExpressionComparisionNotEqual
+    | lhs=expression binaryOperator=OP_AND rhs=expression           #ExpressionLogicalAnd
+    | lhs=expression binaryOperator=OP_OR rhs=expression            #ExpressionLogicalOr
+    | variableReference=IDENTIFIER                                  #ExpressionVariableReference
+    | value=(STRING | INTEGER | DECIMAL | BOOL_TRUE | BOOL_FALSE)   #ExpressionSingleValue
+;
 
 /*
  * Lexer Rules
@@ -150,12 +72,16 @@ OP_LE : '<=' ;
 OP_EQ : '==' ;
 OP_NEQ : '!=';
 
+IF      : 'if';
+ELSE    : 'else';
+
+BEGIN   : '{';
+END     : '}';
+
 TYPE_BOOLEAN    : 'boolean';
 TYPE_STRING     : 'string';
 TYPE_INTEGER    : 'integer';
-TYPE_DECIMAL    : 'decimal';
-TYPE_MONEY      : 'money';
-TYPE_DATE       : 'date';
+TYPE_DECIMAL    : 'decimal' | 'money';
 
 BOOL_TRUE    : 'true' | 'TRUE';
 BOOL_FALSE   : 'false' | 'FALSE';
@@ -164,7 +90,6 @@ WS  :	(' ' | '\t' | '\n' | '\r')  -> skip;
 
 COMMENT : '/*' .*? '*/'  -> skip;
 
-CURRENCY_CODE: 'A'..'Z''A'..'Z''A'..'Z'; // iso4217
 IDENTIFIER:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 INTEGER: ('0'..'9')+;
 STRING: '"' .*? '"';

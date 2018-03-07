@@ -54,10 +54,10 @@ local.properties
 .worksheet
 
 ### Eclipse Patch ###
-# Eclipse Core		
+# Eclipse Core
 
 
-# JDT-specific (Eclipse Java Development Tools)		
+# JDT-specific (Eclipse Java Development Tools)
 
 
 ### Git ###
@@ -73,6 +73,8 @@ local.properties
 .idea/dictionaries
 ForcePush/.idea/workspace.xml
 ForcePush/.idea/misc.xml
+LDG_TV/.idea/workspace.xml
+LDG_TV/.idea/misc.xml
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
@@ -235,4 +237,4 @@ GunOli/src/main/autoGen/
 ForcePush/.idea/workspace.xml
 ForcePush/.idea/misc.xml
 
-
+.DS_Store

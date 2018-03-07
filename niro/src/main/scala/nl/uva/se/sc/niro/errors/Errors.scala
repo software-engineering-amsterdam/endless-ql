@@ -30,4 +30,6 @@ object Errors {
     override def toString: String =
       String.format(s"At line $line, column $column the following error occurred : $errorMessage")
   }
+
+  case class TypeCheckError(key: String = "TypeCheckError", message: String) extends Error
 }

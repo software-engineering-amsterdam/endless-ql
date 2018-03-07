@@ -1,33 +1,17 @@
-﻿namespace QL.Core.Ast
+﻿using System.Linq;
+
+namespace QL.Core.Ast
 {
-    public abstract class BaseVisitor : IVisitor
-    {
-        public virtual void Visit(FormNode node)
-        {
-        }
+    public abstract class BaseVisitor<T> : IVisitor<T>
+    {        
+        protected virtual T VisitChildren(Node node) { return node.ChildNodes.Select(x => x.Accept(this)).LastOrDefault();  }
 
-        public virtual void Visit(VariableNode node)
-        {
-        }
-
-        public virtual void Visit(ConditionalNode node)
-        {
-        }
-
-        public virtual void Visit(LiteralNode node)
-        {
-        }
-
-        public virtual void Visit(ExpressionNode node)
-        {
-        }
-
-        public virtual void Visit(QuestionNode node)
-        {
-        }
-
-        public virtual void Visit(EmptyNode node)
-        {
-        }
+        public virtual T Visit(FormNode node) { return VisitChildren(node); }
+        public virtual T Visit(VariableNode node) { return VisitChildren(node); }
+        public virtual T Visit(ConditionalNode node) { return VisitChildren(node); }
+        public virtual T Visit(LiteralNode node) { return VisitChildren(node); }
+        public virtual T Visit(ExpressionNode node) { return VisitChildren(node); }
+        public virtual T Visit(QuestionNode node) { return VisitChildren(node); }
+        public virtual T Visit(BlockNode node) { return VisitChildren(node); }        
     }
 }

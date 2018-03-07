@@ -20,10 +20,10 @@ namespace QuestionaireOrchestration.CommandHandlers
         
         public void Execute(CreateQuestionnaireCommandMessage command)
         {
-            var createdId = m_questionnaireCreator.Create(command.Text);
-            if (createdId != Guid.Empty) 
+            var questionnaire = m_questionnaireCreator.Create(command.Text);
+            if (questionnaire.Id != Guid.Empty) 
             {
-                m_commandObjectRegistry.Add(command, createdId);
+                m_commandObjectRegistry.Add(command, questionnaire.Id);
             }
         }
     }

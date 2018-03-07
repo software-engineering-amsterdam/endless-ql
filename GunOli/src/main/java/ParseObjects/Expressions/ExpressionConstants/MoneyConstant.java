@@ -1,13 +1,11 @@
 package ParseObjects.Expressions.ExpressionConstants;
 
-import ParseObjects.Expressions.Constant;
 import ParseObjects.Expressions.EvaluationType;
 
 public class MoneyConstant extends Constant<Double> {
-    public MoneyConstant(Double value){
-        super(value);
+    public MoneyConstant(Number value){
+        super(value == null ? 0.0 : value.doubleValue());
     }
-    public MoneyConstant(String value) { super(Double.parseDouble(value)); }
 
     public EvaluationType returnType(){
         return EvaluationType.Money;

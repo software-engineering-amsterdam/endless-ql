@@ -62,13 +62,19 @@ class LexTokenizer(object):
     t_LPAREN   = r'\('
     t_RPAREN   = r'\)'
 
-    t_QUESTION = r'\"(.+?)\"'
+    # t_QUESTION = r'\"(.+?)\"'
 
     # Define a rule so we can track line numbers
     @staticmethod
     def t_newline(t):
         r'\n+'
         t.lexer.lineno += len(t.value)
+
+    # Define a rule for detecting decimal numbers
+    @staticmethod
+    def t_FLOAT(t):
+        r'\d+[.]\d+'
+        return t
 
     # Define a rule for detecting round numbers
     @staticmethod
@@ -77,10 +83,10 @@ class LexTokenizer(object):
         t.value = int(t.value)
         return t
 
-    # Define a rule for detecting decimal numbers
     @staticmethod
-    def t_FLOAT(t):
-        r'\d+\.(\d+)'
+    def t_QUESTION(t):
+        r'\"(.+?)\"'
+        t.value = t.value[1:-1]
         return t
 
     # Define a rule for handling erroneous characters

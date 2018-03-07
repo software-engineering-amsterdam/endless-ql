@@ -7,7 +7,23 @@ public class Condition {
     Block block;
 
     public Condition(Expression condition, Block block){
-        this.block = block;
+        setBlock(block);
+        setCondition(condition);
+    }
+
+    public Expression getCondition() {
+        return condition;
+    }
+
+    public void setCondition(Expression condition) {
         this.condition = condition;
+    }
+
+    public Block getBlock() {
+        return block;
+    }
+
+    public void setBlock(Block block) {
+        this.block = block;
     }
 }

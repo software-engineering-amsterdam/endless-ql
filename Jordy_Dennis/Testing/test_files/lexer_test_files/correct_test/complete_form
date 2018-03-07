@@ -1,0 +1,32 @@
+form taxOfficeExample
+{
+  "Did you sell a house in 2010?"
+    hasSoldHouse: boolean
+  "Did you buy a house in 2010?"
+    hasBoughtHouse: boolean
+  "Did you enter a loan?"
+    hasMaintLoan: boolean
+
+  if (hasSoldHouse)
+  {
+    "What was the selling price?"
+      sellingPrice: money
+    "Private debts for the sold house:"
+      privateDebt: money
+    "Value residue:"
+      valueResidue: money =
+        (sellingPrice - privateDebt)
+  }
+  elif(hasMaintLoan)
+  {
+      "What was the selling price?"
+      sellingPrice: money
+  }
+  else{
+      "What was the selling price?"
+      sellingPrice: money
+  }
+
+}
+---
+(form form taxOfficeExample (block { (statement (question "Did you sell a house in 2010?" hasSoldHouse : (types boolean))) (statement (question "Did you buy a house in 2010?" hasBoughtHouse : (types boolean))) (statement (question "Did you enter a loan?" hasMaintLoan : (types boolean))) (statement (conditional (if_conditional if ( (expression (varnode hasSoldHouse)) ) (block { (statement (question "What was the selling price?" sellingPrice : (types money))) (statement (question "Private debts for the sold house:" privateDebt : (types money))) (statement (assignment "Value residue:" valueResidue : (types money) = ( (expression (expression (varnode sellingPrice)) - (expression (varnode privateDebt))) ))) })) (elif_conditional elif ( (expression (varnode hasMaintLoan)) ) (block { (statement (question "What was the selling price?" sellingPrice : (types money))) })) (else_conditional else (block { (statement (question "What was the selling price?" sellingPrice : (types money))) })))) }) <EOF>)

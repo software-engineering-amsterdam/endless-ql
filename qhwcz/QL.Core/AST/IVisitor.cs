@@ -1,13 +1,13 @@
 ﻿namespace QL.Core.Ast
 {
-    public interface IVisitor
+    public interface IVisitor<T>
     {
-        void Visit(EmptyNode node);
-        void Visit(QuestionNode node);
-        void Visit(FormNode node);
-        void Visit(ExpressionNode node);
-        void Visit(VariableNode node);
-        void Visit(LiteralNode node);
-        void Visit(ConditionalNode node);
+        T Visit(BlockNode node);
+        T Visit(QuestionNode node);
+        T Visit(FormNode node);
+        T Visit(ExpressionNode node);
+        T Visit(VariableNode node);
+        T Visit(LiteralNode node);
+        T Visit(ConditionalNode node);      
     }
 }

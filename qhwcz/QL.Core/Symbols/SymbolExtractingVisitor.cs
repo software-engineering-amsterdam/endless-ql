@@ -1,16 +1,16 @@
 ﻿using QL.Core.Ast;
-using System;
 
 namespace QL.Core.Symbols
 {
-    public class SymbolExtractingVisitor : BaseVisitor
+    public class SymbolExtractingVisitor : BaseVisitor<Symbol>
     {
         public SymbolTable SymbolTable = new SymbolTable();
 
-        public override void Visit(QuestionNode node)
+        public override Symbol Visit(QuestionNode node)
         {
-            var type = (SymbolType)Enum.Parse(typeof(SymbolType), node.Type, ignoreCase: true);
-            SymbolTable.Add(new Symbol(node.Label, type));
+            var symbol = new Symbol(node.Label, node.Type, node.Token);
+            SymbolTable.Add(new Symbol(node.Label, node.Type, node.Token));
+            return symbol;
         }
     }
 }

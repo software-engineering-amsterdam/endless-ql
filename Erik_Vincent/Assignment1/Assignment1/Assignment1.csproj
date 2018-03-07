@@ -53,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Content.cs" />
+    <Compile Include="Model\IContent.cs" />
     <Compile Include="Presenter.cs" />
     <Compile Include="Model\Expression.cs" />
     <Compile Include="Form1.cs">
@@ -96,6 +96,7 @@
     </Compile>
     <None Include="Resources\QLLexer.g4" />
     <None Include="Resources\QL.g4" />
+    <None Include="Resources\QLS.g4" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

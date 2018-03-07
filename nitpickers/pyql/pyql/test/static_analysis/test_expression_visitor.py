@@ -1,12 +1,12 @@
 import unittest
 from pyql.ast.expression import expressions, literals
-from pyql.static_analysis import expression_evaluator
+from pyql.static_analysis.expression_visitor import ExpressionVisitor
 
 
-class TestExpressionEvaluator(unittest.TestCase):
+class TestExpressionVisitor(unittest.TestCase):
 
     def setUp(self):
-        self.expression_visitor_test = expression_evaluator.ExpressionEvaluator()
+        self.expression_visitor_test = ExpressionVisitor()
 
     def test_visit_expression(self):
         self.fail()

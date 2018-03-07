@@ -1,9 +1,9 @@
-package nl.uva.se.sc.niro
+package nl.uva.se.sc.niro.typechecking
 
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model.expressions.{ BinaryOperation, Reference, UnaryOperation }
-import nl.uva.se.sc.niro.model.expressions.answers.{ BooleanAnswer, IntAnswer }
 import nl.uva.se.sc.niro.model._
+import nl.uva.se.sc.niro.model.expressions.answers.{ BooleanAnswer, IntAnswer }
+import nl.uva.se.sc.niro.model.expressions.{ BinaryOperation, Reference, UnaryOperation }
 import org.scalatest.WordSpec
 
 class TypeCheckerTest extends WordSpec {

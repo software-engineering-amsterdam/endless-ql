@@ -6,6 +6,7 @@ import nl.uva.se.sc.niro.model.QLForm
 import nl.uva.se.sc.niro.parser.QLFormParser
 import org.antlr.v4.runtime.CharStreams
 import nl.uva.se.sc.niro.errors.Errors._
+import nl.uva.se.sc.niro.typechecking.TypeChecker
 
 import scala.util.{ Failure, Success, Try }
 

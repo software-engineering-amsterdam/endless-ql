@@ -1,5 +1,6 @@
-package nl.uva.se.sc.niro
+package nl.uva.se.sc.niro.typechecking
 
+import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.model.expressions.Reference
 import nl.uva.se.sc.niro.model.expressions.answers.BooleanAnswer

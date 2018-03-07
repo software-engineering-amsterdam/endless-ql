@@ -1,7 +1,6 @@
-import astvisitor.BoolValue;
-import astvisitor.TypeCheckVisitor;
+import astvisitor.InterpreterVisitor;
+import astvisitor.NumValue;
 import expression.binary.ExpressionArithmeticSum;
-import expression.variable.ExpressionVariableBoolean;
 import expression.variable.ExpressionVariableInteger;
 import org.junit.Test;
 
@@ -10,22 +9,12 @@ import static org.junit.Assert.assertEquals;
 public class InterperationTest {
 
     @Test
-    public void SomeHappyTypeCheckTest() {
+    public void SomeInterpTest() {
         ExpressionVariableInteger intExpression = new ExpressionVariableInteger(1);
         ExpressionArithmeticSum sumExpression = new ExpressionArithmeticSum(intExpression, intExpression);
 
-        TypeCheckVisitor visitor = new TypeCheckVisitor();
+        InterpreterVisitor visitor = new InterpreterVisitor();
 
-        assertEquals(visitor.visit(sumExpression), new BoolValue(true));
-    }
-
-    @Test
-    public void SomeSadTypeCheckTest() {
-        ExpressionVariableInteger intExpression = new ExpressionVariableInteger(1);
-        ExpressionVariableBoolean boolExpression = new ExpressionVariableBoolean(true);
-        ExpressionArithmeticSum sumExpression = new ExpressionArithmeticSum(intExpression, boolExpression);
-
-        TypeCheckVisitor visitor = new TypeCheckVisitor();
-        assertEquals(visitor.visit(sumExpression), new BoolValue(false));
+        assertEquals(visitor.visit(sumExpression), new NumValue(2));
     }
 }

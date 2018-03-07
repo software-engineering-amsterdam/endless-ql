@@ -1,5 +1,8 @@
 package qlviz.model.style;
 
-public class Parameter {
+import java.math.BigDecimal;
+
+public abstract class Parameter {
 
 }
+

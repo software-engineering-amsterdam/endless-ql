@@ -6,6 +6,7 @@ import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
 import org.uva.jomi.ql.ast.statements.QuestionStmt;
 import org.uva.jomi.ql.interpreter.BooleanValue;
+import org.uva.jomi.ql.interpreter.EmptyValue;
 import org.uva.jomi.ql.interpreter.GenericValue;
 import org.uva.jomi.ui.QLInterpreter;
 import org.uva.jomi.ui.SymbolTable;
@@ -33,14 +34,14 @@ public class ComputedQuestionElement extends QuestionElement implements Computin
 		
 		QLInterpreter interpreter = new QLInterpreter();
 		
-		GenericValue value = this.expression.visitExpr(interpreter);
-		if(value == null) {
+		GenericValue genericValue = this.expression.visitExpr(interpreter);
+		if(genericValue instanceof EmptyValue) {
 			return;
 		}
 		
 //		SymbolTable.getInstance().put(this.identifier, value);
 		
-		this.inputField.setValue(value);
+		this.inputField.setValue(genericValue);
 	}
 	
 }

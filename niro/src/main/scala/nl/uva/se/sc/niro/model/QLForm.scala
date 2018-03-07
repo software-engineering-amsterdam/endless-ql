@@ -1,6 +1,7 @@
 package nl.uva.se.sc.niro.model
 
 import nl.uva.se.sc.niro.model.expressions._
+import nl.uva.se.sc.niro.model.expressions.answers.Answer
 
 case class QLForm(formName: String, statements: Seq[Statement]) {
   val symbolTable: Map[String, Expression] =

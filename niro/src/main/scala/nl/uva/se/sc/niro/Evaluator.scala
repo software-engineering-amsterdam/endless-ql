@@ -3,6 +3,7 @@ package nl.uva.se.sc.niro
 import nl.uva.se.sc.niro.model.expressions._
 import nl.uva.se.sc.niro.model.QLForm.SymbolTable
 import nl.uva.se.sc.niro.model._
+import nl.uva.se.sc.niro.model.expressions.answers.Answer
 
 object Evaluator {
 

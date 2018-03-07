@@ -2,6 +2,7 @@ package nl.uva.se.sc.niro.model
 
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.model.expressions._
+import nl.uva.se.sc.niro.model.expressions.answers.Answer
 
 sealed trait Statement
 

@@ -7,18 +7,18 @@ import tornadofx.ItemViewModel
 import tornadofx.observable
 import ui.controller.DogeController
 
-class QuestionFormModel : ItemViewModel<QuestionModel>(){
+class QuestionFormModel : ItemViewModel<QuestionModel>() {
 
     var questions: ObservableList<QuestionModel> = FXCollections.observableArrayList<QuestionModel>()
 
     private var dataQuestions = FXCollections.observableArrayList<Question>()
 
-    private val dogeController : DogeController by inject()
+    private val dogeController: DogeController by inject()
 
-    fun load(){
+    fun load() {
         runAsync {
             dogeController.getQuestions().observable()
-        }ui {
+        } ui {
             convertToViewModel(it)
             dataQuestions.addAll(it)
         }

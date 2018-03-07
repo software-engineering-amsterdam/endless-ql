@@ -8,6 +8,7 @@ import qlviz.gui.renderer.ErrorRenderer;
 import qlviz.gui.renderer.JavafxErrorRenderer;
 import qlviz.gui.renderer.javafx.JavafxFormRenderer;
 import qlviz.gui.renderer.javafx.JavafxQuestionRenderer;
+import qlviz.gui.renderer.javafx.StyledJavafxFormRenderer;
 import qlviz.gui.viewModel.*;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactory;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactoryImpl;
@@ -69,7 +70,7 @@ public class QLForm extends Application {
 
 		if (this.getParameters().getRaw().size() > 1) {
 			Stylesheet stylesheet = styleBuilder.createFromMarkup(this.getParameters().getRaw().get(1));
-			this.renderer = new JavafxFormRenderer(stage, JavafxQuestionRenderer::new);
+			this.renderer = new StyledJavafxFormRenderer(stage, JavafxQuestionRenderer::new, stylesheet);
 		}
 		else {
 			this.renderer = new JavafxFormRenderer(stage, JavafxQuestionRenderer::new);

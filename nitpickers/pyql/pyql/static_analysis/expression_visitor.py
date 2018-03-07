@@ -11,25 +11,25 @@ class ExpressionVisitor:
     def visit(self, identifier):
         print(symbol_table.get(identifier))
 
-    @multimethod(StringLiteral)
-    def visit(self, string_literal):
-        return string_literal
-
-    @multimethod(IntegerLiteral)
-    def visit(self, integer_literal):
-        return integer_literal
+    @multimethod(MoneyLiteral)
+    def visit(self, money_literal):
+        return money_literal
 
     @multimethod(DecimalLiteral)
     def visit(self, decimal_literal):
         return decimal_literal
 
-    @multimethod(MoneyLiteral)
-    def visit(self, money_literal):
-        return money_literal
+    @multimethod(IntegerLiteral)
+    def visit(self, integer_literal):
+        return integer_literal
 
     @multimethod(BooleanLiteral)
     def visit(self, boolean_literal):
         return boolean_literal
+
+    @multimethod(StringLiteral)
+    def visit(self, string_literal):
+        return string_literal
 
     @multimethod(Literal)
     def visit(self, literal):

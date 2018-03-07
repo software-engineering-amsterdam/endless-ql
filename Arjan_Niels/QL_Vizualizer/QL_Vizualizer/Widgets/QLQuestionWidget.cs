@@ -83,7 +83,9 @@ namespace QL_Vizualizer.Widgets
             if (_answerExpression != null && _answerExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
             {
                 SetAnswer(_answerExpression.Result);
-                //_widgetController.UpdateView(this);
+
+                // Update view of this widget since the value is calculated
+                _widgetController.UpdateView(this);
             }
         }
     }

@@ -13,7 +13,6 @@ import StyleTreeNode from "../nodes/StyleTreeNode";
  * This structure will be used to merge default styles with concrete styles.
  */
 export default class SetParentsVisitor implements StyleNodeVisitor {
-  private parent: StyleTreeNode;
   private queue: StyleTreeNode[];
 
   visitDefaultStyle(defaultStyle: DefaultStyle): any {
@@ -45,10 +44,11 @@ export default class SetParentsVisitor implements StyleNodeVisitor {
   }
 
   private setParent(node: StyleTreeNode, children: StyleTreeNode[]) {
-    node.setParent(this.parent);
-    // TODO: Fix wrong implementation, previous element will be set as parent
-    this.parent = node;
-    children.forEach(child => this.queue.push(child));
+    children.forEach(child => {
+      this.queue.push(child);
+      child.setParent(node);
+    });
+
     this.workQueue();
   }
 

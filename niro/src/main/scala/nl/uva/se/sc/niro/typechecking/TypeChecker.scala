@@ -96,6 +96,9 @@ object TypeChecker extends Logging {
 
   case class Edge(from: String, to: String)
   type Graph = Seq[Edge]
+  private def graphToString(followedPath: Graph): String = {
+    (followedPath.init.map(_.from) :+ followedPath.last.from :+ followedPath.last.to).mkString(" -> ")
+  }
 
   private def buildDependencyGraph(questions: Seq[Question]): Graph = {
     questions.flatMap {
@@ -126,10 +129,6 @@ object TypeChecker extends Logging {
         }
       }
     }
-  }
-
-  private def graphToString(followedPath: Graph): String = {
-    (followedPath.init.map(_.from) :+ followedPath.last.from :+ followedPath.last.to).mkString(" -> ")
   }
 
   // TODO this function should not throw an error. Somehow we should give a warning when duplicate labels are detected

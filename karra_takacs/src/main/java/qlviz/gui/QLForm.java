@@ -63,7 +63,8 @@ public class QLForm extends Application {
 										)
 								),
 								new DefaultWidgetVisitor()
-						)
+						),
+						new DefaultWidgetVisitor()
 				)
 		);
 		StyleModelBuilder styleBuilder = new StyleModelBuilder(stylesheetVisitor);

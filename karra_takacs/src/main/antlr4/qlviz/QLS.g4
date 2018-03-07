@@ -7,9 +7,10 @@ simpleWidget: WIDGET_TYPE;
 widget: simpleWidget | parametrizedWidget;
 question: QUESTION IDENTIFIER (WIDGET widget)?;
 propertySetting: PROPERTY_KEY PROPERTY_SEPARATOR parameter;
-defaultWidgetDeclaration: DEFAULT TYPE BRACKET_OPEN propertySetting* widget propertySetting* BRACKET_CLOSE;
+defaultWidgetDeclaration: DEFAULT TYPE BRACKET_OPEN propertySetting* WIDGET widget propertySetting* BRACKET_CLOSE
+                        | DEFAULT TYPE WIDGET widget;
 section: SECTION STRING (BRACKET_OPEN (question | defaultWidgetDeclaration | section)* BRACKET_CLOSE | question | section);
-page: PAGE IDENTIFIER BRACKET_OPEN section* BRACKET_CLOSE;
+page: PAGE IDENTIFIER BRACKET_OPEN (section | defaultWidgetDeclaration)* BRACKET_CLOSE;
 stylesheet: STYLESHEET IDENTIFIER BRACKET_OPEN page* BRACKET_CLOSE;
 
 WIDGET_TYPE : 'spinbox'

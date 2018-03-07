@@ -9,10 +9,15 @@ public class Page extends Node {
 
     private final String name;
     private final List<Section> sections;
+    private final List<DefaultWidgetDeclaration> defaultWidgetDeclarations;
 
-    public Page(String name, List<Section> sections, ParserRuleContext context) {
+    public Page(String name,
+                List<Section> sections,
+                List<DefaultWidgetDeclaration> defaultWidgetDeclarations,
+                ParserRuleContext context) {
         super(context);
         this.name = name;
+        this.defaultWidgetDeclarations = defaultWidgetDeclarations;
         this.sections = sections;
     }
 
@@ -22,5 +27,9 @@ public class Page extends Node {
 
     public List<Section> getSections() {
         return sections;
+    }
+
+    public List<DefaultWidgetDeclaration> getDefaultWidgetDeclarations() {
+        return defaultWidgetDeclarations;
     }
 }

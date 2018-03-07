@@ -13,12 +13,19 @@ import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.model.Expressions.Expression
 import nl.uva.se.sc.niro.model.Expressions.answers._
 import nl.uva.se.sc.niro.model.Question
+import nl.uva.se.sc.niro.model.gui.GUIQuestion
 
 object WidgetFactory {
   private val INTEGER_MASK = "\\d*"
   private val DECIMAL_MASK = "\\d*(\\.\\d*)?"
   private val MONEY_MASK = "\\d*(\\.\\d{0,2})?"
   private val DATE_FORMAT = "yyyy-MM-dd"
+
+  def makeWidget(question: GUIQuestion): Control = {
+    new Label(s"${question.label} ${question.isReadOnly}")
+  }
+
+  // TODO Replace all the code below this line
 
   def makeWidget(visible: Expression, question: Question): Control = {
     new Label(question.label)

@@ -6,38 +6,49 @@ import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.geometry.Insets
 import javafx.scene.control.Label
-import javafx.scene.layout.GridPane
+import javafx.scene.layout.VBox
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.gui._
 import nl.uva.se.sc.niro.gui.application.QLForms
 import nl.uva.se.sc.niro.model.Expressions.Answer
 import nl.uva.se.sc.niro.model.QLForm
+import nl.uva.se.sc.niro.model.gui.{ GUIForm, ModelConverter }
+
+import scala.collection.JavaConverters
 
 class QLFormController extends QLBaseController with ModelUpdater {
-  private var form: QLForm = null
-  @FXML private var formName: Label = null
-  @FXML private var questionsGrid: GridPane = null
+  @FXML var formName: Label = null
+  @FXML var questions: VBox = null
+  private var qlForm: QLForm = null
+  private var guiForm: GUIForm = null
 
   @FXML
   @throws[IOException]
-  def cancel(event: ActionEvent): Unit = QLForms.openHomeScreen(getActiveStage(event))
+  def cancel(event: ActionEvent): Unit =
+    QLForms.openHomeScreen(getActiveStage(event))
 
   override def updateModel(questionId: String, answer: Answer): Unit =
-    updateGUI(Evaluator.evaluateQLForm(form.save(questionId, answer)))
+    updateGUI(Evaluator.evaluateQLForm(qlForm.save(questionId, answer)))
 
-  @FXML def saveData(event: ActionEvent): Unit = System.out.println("Data is saved....")
+  @FXML def saveData(event: ActionEvent): Unit =
+    println("Data is saved....")
 
   def populateForm(form: QLForm): Unit = {
-    formName.setText(form.formName.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2"))
-    questionsGrid.setPadding(new Insets(0, 20, 0, 20))
-    GUICreationVisitor.visit(questionsGrid, form.statements, form.symbolTable)
-    CreateCallbackVisitor.visit(this, questionsGrid, form.statements)
-    updateGUI(Evaluator.evaluateQLForm(form))
+    this.qlForm = form
+    guiForm = ModelConverter.convert(this.qlForm)
+
+    formName.setText(guiForm.name)
+
+    questions.setPadding(new Insets(0, 20, 0, 20))
+    val guiQuestions = guiForm.questions.map(WidgetFactory.makeWidget)
+    questions.getChildren.addAll(JavaConverters.seqAsJavaList(guiQuestions))
+//    CreateCallbackVisitor.visit(this, questionsGrid, form.statements)
+//    updateGUI(Evaluator.evaluateQLForm(form))
   }
 
   private def updateGUI(form: QLForm) = {
-    GUIUpdateVisitor.visit(questionsGrid, form.statements, form.symbolTable)
-    this.form = form
+//    GUIUpdateVisitor.visit(questionsGrid, form.statements, form.symbolTable)
+    this.qlForm = form
   }
 
 }

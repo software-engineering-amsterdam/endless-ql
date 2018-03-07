@@ -4,12 +4,13 @@ import AbstractTreeNode from "../../AbstractTreeNode";
 import * as moment from "moment";
 import { Moment } from "moment";
 import { ValueIsInvalidDateError } from "../../../form_errors";
+import constants from "../../../../config/constants";
 
 export default class DateLiteral extends AbstractTreeNode implements Expression {
   private value: Moment;
 
   static fromString(value: string) {
-    const date = moment(value, "DD.MM.YYYY");
+    const date = moment(value, constants.DEFAULT_DATE_FORMAT);
 
     if (date.isValid()) {
       throw ValueIsInvalidDateError.make(value);

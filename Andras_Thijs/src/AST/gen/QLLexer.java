@@ -1,4 +1,4 @@
-// Generated from C:/Users/Gebruiker/IdeaProjects/SC/endless-ql/Andras_Thijs/src/AST\QL.g4 by ANTLR 4.7
+// Generated from C:/Users/Gebruiker/IdeaProjects/endless-ql/Andras_Thijs/src/AST\QL.g4 by ANTLR 4.7
 package AST.gen;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

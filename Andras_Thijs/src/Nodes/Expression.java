@@ -1,12 +1,13 @@
 package Nodes;
 
-import Nodes.Operator.*;
+import Nodes.Operator.Operator;
+import Nodes.Operator.Not;
 import Nodes.Term.Term;
 
 /**
  * Contains a parsed, evaluable expression
  */
-public class Expression {
+public class Expression extends ASTNode {
     private Expression left;
     private Expression right;
     private Operator op;
@@ -20,7 +21,7 @@ public class Expression {
 
     /**
      * Creates an expression containing a single term
-     * @param term
+     * @param term contains a instance of the abstract Term class
      */
     public Expression(Term term){
         this.term = term;
@@ -28,8 +29,8 @@ public class Expression {
 
     /**
      * Create an expression with a negated term
-     * @param right
-     * @param op
+     * @param right contains the right side of a Not Expression
+     * @param op contains the Not Operator
      */
     public Expression(Expression right, Not op) {
         this.left = null; // Dirty, but Not is a unary operation.
@@ -39,9 +40,9 @@ public class Expression {
 
     /**
      * Creates an expression with left and right expressions, and an operator
-     * @param left
-     * @param right
-     * @param op
+     * @param left contains the left Expression of an Expression
+     * @param right contains the right Expression of an Expression
+     * @param op contains an instance of the abstract Operator class
      */
     public Expression(Expression left, Expression right, Operator op) {
         this.left = left;

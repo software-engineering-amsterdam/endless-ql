@@ -2,7 +2,6 @@ package ql.ast.statement;
 
 import ql.ast.expression.Expression;
 import ql.ast.expression.Identifier;
-import ql.ast.type.Type;
 import ql.helpers.Observer;
 import ql.visitors.interfaces.StatementVisitor;
 
@@ -10,8 +9,8 @@ public class ComputedQuestion extends Question implements Observer {
     
     private Expression computation;
 
-    public ComputedQuestion(String label, Identifier id, Type type, Expression expr) {
-        super(label, id, type);
+    public ComputedQuestion(String label, Identifier id, Expression expr) {
+        super(label, id);
         this.computation = expr;
     }
 
@@ -21,7 +20,7 @@ public class ComputedQuestion extends Question implements Observer {
 
     @Override
     public String toString() {
-        return "\"" + label.toString() + "\" " + id.toString() + ": " + type.toString() + "( " + computation.toString() + " )";
+        return "\"" + label.toString() + "\" " + id + ": " + id.getType() + "( " + computation.toString() + " )";
     }
     
     @Override

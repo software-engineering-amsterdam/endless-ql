@@ -51,4 +51,10 @@ comparision   : LESS | GREATER | LESSEQ | GREATEREQ;
 addsub        : ADDITION | SUBTRACTION;
 muldiv        : MULTIPLICATION | DIVISION;
 factor        : EXPONENT; //TODO
-term          : VARIABLE | BOOLEAN | STRING | INTEGER | DECIMAL;
+bool          : BOOLEAN;
+variable      : VARIABLE;
+string        : STRING;
+integer       : INTEGER;
+decimal       : DECIMAL;
+
+term          : bool | variable | string | integer | decimal;

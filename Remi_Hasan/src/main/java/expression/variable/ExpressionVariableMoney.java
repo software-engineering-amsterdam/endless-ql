@@ -7,8 +7,8 @@ import java.math.BigDecimal;
 
 public class ExpressionVariableMoney extends ExpressionVariable<BigDecimal> {
 
-    public ExpressionVariableMoney(BigDecimal value) {
-        super(value);
+    public ExpressionVariableMoney(String value) {
+        super(new BigDecimal(value));
     }
 
     @Override

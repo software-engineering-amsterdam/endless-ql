@@ -64,9 +64,10 @@ public class Main extends Application {
             Form form = FormParser.parseForm(new FileInputStream(file));
 
             SymbolTable symbolTable = new SymbolTable(form);
+            symbolTable.printValues();
 
-            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-            typeChecker.typeCheck();
+//            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
+//            typeChecker.typeCheck();
 
             File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
             StyleSheet styleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));

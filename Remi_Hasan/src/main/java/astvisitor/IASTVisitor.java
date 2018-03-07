@@ -1,11 +1,15 @@
 package astvisitor;
 
+import expression.Expression;
+import expression.ExpressionIdentifier;
 import expression.binary.*;
 import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
 import expression.variable.*;
 
 public interface IASTVisitor<T> {
+    T visit(Expression e);
+
     T visit(ExpressionArithmeticDivide e);
     T visit(ExpressionArithmeticMultiply e);
     T visit(ExpressionArithmeticSubtract e);
@@ -20,7 +24,6 @@ public interface IASTVisitor<T> {
     T visit(ExpressionLogicalAnd e);
     T visit(ExpressionLogicalOr e);
 
-
     T visit(ExpressionUnaryNot e);
     T visit(ExpressionUnaryNeg e);
 
@@ -30,7 +33,7 @@ public interface IASTVisitor<T> {
     T visit(ExpressionVariableDecimal e);
     T visit(ExpressionVariableMoney e);
     T visit(ExpressionVariableString e);
+    T visit(ExpressionVariableUndefined e);
 
-    // TODO remove?
-//    T visit(ExpressionVariableUndefined e);
+    T visit(ExpressionIdentifier e);
 }

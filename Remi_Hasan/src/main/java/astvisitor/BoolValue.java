@@ -1,9 +1,37 @@
 package astvisitor;
 
+import java.math.BigDecimal;
+
 public class BoolValue extends Value<Boolean>{
-    BoolValue(Boolean value){
+    public BoolValue(Boolean value){
         super(value);
     }
+
+    @Override
+    public Boolean getBooleanValue() {
+        return this.value;
+    }
+
+    @Override
+    public Integer getIntValue() {
+        throw new UnsupportedOperationException("Cannot cast boolean to integer");
+    }
+
+    @Override
+    public Double getDecimalValue() {
+        throw new UnsupportedOperationException("Cannot cast boolean to decimal");
+    }
+
+    @Override
+    public BigDecimal getMoneyValue() {
+        throw new UnsupportedOperationException("Cannot cast boolean to money");
+    }
+
+    @Override
+    public String getStringValue() {
+        throw new UnsupportedOperationException("Cannot cast boolean to string");
+    }
+
     @Override
     public NumValue divide(Value right) {
         throw new UnsupportedOperationException("Cannot perform divide on boolean.");
@@ -51,19 +79,17 @@ public class BoolValue extends Value<Boolean>{
 
     @Override
     public BoolValue and(Value right) {
-        BoolValue rightValue = (BoolValue) right;
-        return new BoolValue(this.value && rightValue.value);
+        return new BoolValue(this.getBooleanValue() && right.getBooleanValue());
     }
 
     @Override
     public BoolValue or(Value right) {
-        BoolValue rightValue = (BoolValue) right;
-        return new BoolValue(this.value || rightValue.value);
+        return new BoolValue(this.getBooleanValue() || right.getBooleanValue());
     }
 
     @Override
     public BoolValue not() {
-        return new BoolValue(!this.value);
+        return new BoolValue(!this.getBooleanValue());
     }
 
     @Override

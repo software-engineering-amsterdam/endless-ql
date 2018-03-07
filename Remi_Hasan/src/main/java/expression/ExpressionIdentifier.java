@@ -1,30 +1,22 @@
 package expression;
 
-import analysis.SymbolTable;
+import astvisitor.IASTVisitor;
 
-//public class ExpressionIdentifier extends Expression {
-//
-//    private final String identifier;
-//
-//    public ExpressionIdentifier(String identifier) {
-//        this.identifier = identifier;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return identifier;
-//    }
-//
-//    @Override
-//    public ReturnType getReturnType(SymbolTable symbolTable) {
-//        return symbolTable.getExpression(this.identifier).getReturnType(symbolTable);
-//    }
-//
-//    @Override
-//    public ExpressionVariable evaluate(SymbolTable symbolTable) {
-//        return symbolTable.getExpression(this.identifier).evaluate(symbolTable);
-//    }
-//
-//    @Override
-//    public void typeCheck(SymbolTable symbolTable) { }
-//}
+public class ExpressionIdentifier extends Expression {
+
+    public final String identifier;
+
+    public ExpressionIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    @Override
+    public String toString() {
+        return identifier;
+    }
+
+    @Override
+    public <T> T accept(IASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+}

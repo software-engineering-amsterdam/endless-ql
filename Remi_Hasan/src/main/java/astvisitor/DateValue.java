@@ -1,8 +1,35 @@
 package astvisitor;
 
+import java.math.BigDecimal;
+
 public class DateValue extends Value<String>{
     DateValue(String value) {
         super(value);
+    }
+
+    @Override
+    public Boolean getBooleanValue() {
+        return null;
+    }
+
+    @Override
+    public Integer getIntValue() {
+        return null;
+    }
+
+    @Override
+    public Double getDecimalValue() {
+        return null;
+    }
+
+    @Override
+    public BigDecimal getMoneyValue() {
+        return null;
+    }
+
+    @Override
+    public String getStringValue() {
+        return null;
     }
 
     @Override

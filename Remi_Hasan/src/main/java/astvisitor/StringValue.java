@@ -1,9 +1,36 @@
 package astvisitor;
 
+import java.math.BigDecimal;
+
 public class StringValue extends Value<String>{
 
-    StringValue(String value) {
+    public StringValue(String value) {
         super(value);
+    }
+
+    @Override
+    public Boolean getBooleanValue() {
+        throw new UnsupportedOperationException("Cannot cast string to boolean");
+    }
+
+    @Override
+    public Integer getIntValue() {
+        throw new UnsupportedOperationException("Cannot cast string to integer");
+    }
+
+    @Override
+    public Double getDecimalValue() {
+        throw new UnsupportedOperationException("Cannot cast string to decimal");
+    }
+
+    @Override
+    public BigDecimal getMoneyValue() {
+        throw new UnsupportedOperationException("Cannot cast string to money");
+    }
+
+    @Override
+    public String getStringValue() {
+        return this.value;
     }
 
     @Override

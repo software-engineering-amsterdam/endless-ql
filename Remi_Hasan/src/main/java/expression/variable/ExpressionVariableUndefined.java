@@ -1,15 +1,17 @@
 package expression.variable;
 
-// TODO remove this class?
+import astvisitor.IASTVisitor;
+import expression.ExpressionVariable;
+import expression.ReturnType;
 
-//public class ExpressionVariableUndefined extends ExpressionVariable<Object> {
-//
-//    ExpressionVariableUndefined(Object value) {
-//        super(value);
-//    }
-//
-//    @Override
-//    public Object accept(BaseASTVisitor<Object> visitor) {
-//        return visitor.visit(this);
-//    }
-//}
+public class ExpressionVariableUndefined extends ExpressionVariable<ReturnType> {
+
+    public ExpressionVariableUndefined(ReturnType value) {
+        super(value);
+    }
+
+    @Override
+    public <T> T accept(IASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+}

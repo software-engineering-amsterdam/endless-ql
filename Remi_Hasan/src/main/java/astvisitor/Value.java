@@ -1,27 +1,37 @@
 package astvisitor;
 
+import java.math.BigDecimal;
+
 public abstract class Value<T> {
     public final T value;
     Value(T value){
         this.value = value;
     }
 
-    public abstract NumValue divide(Value right);
-    public abstract NumValue multiply(Value right);
-    public abstract NumValue subtract(Value right);
-    public abstract NumValue sum(Value right);
+    public abstract Boolean getBooleanValue();
+    public abstract Integer getIntValue();
+    public abstract Double getDecimalValue();
+    public abstract BigDecimal getMoneyValue();
+    public abstract String getStringValue();
 
-    public abstract BoolValue eq(Value right);
+    public abstract Value divide(Value right);
+    public abstract Value multiply(Value right);
+    public abstract Value subtract(Value right);
+    public abstract Value sum(Value right);
 
-    public abstract BoolValue ge(Value right);
-    public abstract BoolValue gt(Value right);
-    public abstract BoolValue le(Value right);
-    public abstract BoolValue lt(Value right);
-    public abstract BoolValue and(Value right);
-    public abstract BoolValue or(Value right);
+    public abstract Value eq(Value right);
 
-    public abstract BoolValue not();
-    public abstract NumValue neg();
+    public abstract Value ge(Value right);
+    public abstract Value gt(Value right);
+    public abstract Value le(Value right);
+    public abstract Value lt(Value right);
+    public abstract Value and(Value right);
+    public abstract Value or(Value right);
+
+    public abstract Value not();
+    public abstract Value neg();
+
+    public boolean isUndefined() { return false; }
 }
 
 

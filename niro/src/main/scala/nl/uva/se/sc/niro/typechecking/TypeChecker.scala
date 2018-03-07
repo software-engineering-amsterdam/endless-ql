@@ -88,7 +88,7 @@ object TypeChecker extends Logging {
       dependencyGraph.flatMap(element => detectCycles(dependencyGraph, Seq(element)))
 
     if (cyclicDependencies.nonEmpty) {
-      Left(TypeCheckError(message = s"Found cyclic dependencies: $cyclicDependencies"))
+      Left(TypeCheckError(message = s"Found cyclic dependencies: ${cyclicDependencies.map(graphToString)}"))
     } else {
       Right(qLForm)
     }

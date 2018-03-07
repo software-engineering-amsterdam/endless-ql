@@ -82,7 +82,7 @@ class TypeCheckerTest extends WordSpec {
           )
         )
         val result = TypeChecker.pipeline(qlForm)
-        assert(result === Left(TypeCheckError("TypeCheckError", "Found cyclic dependencies: List(List(Edge(q1,q3), Edge(q3,q2), Edge(q2,q1)), List(Edge(q2,q1), Edge(q1,q3), Edge(q3,q2)), List(Edge(q3,q2), Edge(q2,q1), Edge(q1,q3)))")))
+        assert(result === Left(TypeCheckError("TypeCheckError", "Found cyclic dependencies: List(q1 -> q3 -> q2 -> q1, q2 -> q1 -> q3 -> q2, q3 -> q2 -> q1 -> q3)")))
       }
 
       "and throw an error when cyclic references are found inside expressions" in {
@@ -96,7 +96,7 @@ class TypeCheckerTest extends WordSpec {
         )
 
         val result = TypeChecker.pipeline(qlForm)
-        assert(result === Left(TypeCheckError("TypeCheckError", "Found cyclic dependencies: List(List(Edge(q1,q3), Edge(q3,q2), Edge(q2,q1)), List(Edge(q2,q1), Edge(q1,q3), Edge(q3,q2)), List(Edge(q3,q2), Edge(q2,q1), Edge(q1,q3)))")))
+        assert(result === Left(TypeCheckError("TypeCheckError", "Found cyclic dependencies: List(q1 -> q3 -> q2 -> q1, q2 -> q1 -> q3 -> q2, q3 -> q2 -> q1 -> q3)")))
       }
 
       "and throw an error when cyclic references are found inside expressions with multiple paths" in {
@@ -111,7 +111,7 @@ class TypeCheckerTest extends WordSpec {
         )
 
         val result = TypeChecker.pipeline(qlForm)
-        assert(result === Left(TypeCheckError("TypeCheckError", "Found cyclic dependencies: List(List(Edge(q1,q2), Edge(q2,q1)), List(Edge(q2,q1), Edge(q1,q2)))")))
+        assert(result === Left(TypeCheckError("TypeCheckError", "Found cyclic dependencies: List(q1 -> q2 -> q1, q2 -> q1 -> q2)")))
       }
 
       "and throw an error when multiple cyclic references are found" in {
@@ -127,7 +127,7 @@ class TypeCheckerTest extends WordSpec {
         )
 
         val result = TypeChecker.pipeline(qlForm)
-        assert(result === Left(TypeCheckError("TypeCheckError", "Found cyclic dependencies: List(List(Edge(q2,q3), Edge(q3,q2)), List(Edge(q3,q2), Edge(q2,q3)), List(Edge(q4,q5), Edge(q5,q4)), List(Edge(q5,q4), Edge(q4,q5)))")))
+        assert(result === Left(TypeCheckError("TypeCheckError", "Found cyclic dependencies: List(q2 -> q3 -> q2, q3 -> q2 -> q3, q4 -> q5 -> q4, q5 -> q4 -> q5)")))
       }
     }
 

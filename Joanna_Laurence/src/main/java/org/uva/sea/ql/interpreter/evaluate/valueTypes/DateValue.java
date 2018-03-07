@@ -3,7 +3,7 @@ package org.uva.sea.ql.interpreter.evaluate.valueTypes;
 
 import org.uva.sea.ql.interpreter.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
-import org.uva.sea.ql.interpreter.visitor.BaseValueVisitor;
+import org.uva.sea.ql.parser.visitor.BaseValueVisitor;
 
 import java.security.InvalidParameterException;
 import java.util.Calendar;

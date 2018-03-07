@@ -1,7 +1,7 @@
 package org.uva.sea.ql.interpreter.evaluate.valueTypes;
 
 import org.uva.sea.ql.parser.NodeType;
-import org.uva.sea.ql.interpreter.visitor.BaseValueVisitor;
+import org.uva.sea.ql.parser.visitor.BaseValueVisitor;
 
 public class ErrorValue extends Value {
     private String error;

@@ -1,16 +1,4 @@
 form taxOfficeExample {
-  "Did you sell a house in 2010?"
-    hasSoldHouse: boolean
-  "Did you buy a house in 2010?"
-    hasBoughtHouse: boolean
- "Did you buy a house in 2010?"
-   hasBoughtHouses: boolean
-  "Did you enter a loan?"
-    hasMaintLoan: boolean
-
-  if ((A || B) && hasSoldHouse || (hasMaintLoan && ccc)) {
-     "Is BTC gonna crash?"
-       sendHelp: boolean
-   }
-
+    "Is BTC gonna crash?"
+        sendHelp: int = true || (!true || false) && true
 }

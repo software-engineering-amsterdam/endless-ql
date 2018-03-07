@@ -30,7 +30,7 @@ public class BooleanQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return String.valueOf(value.getBooleanValue());
         } else {
-            return "No valueTypes";
+            return "No value";
         }
     }
 }

@@ -5,7 +5,7 @@ import org.uva.sea.ql.parser.elements.Statements;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.ql.interpreter.evaluate.visitor.LookupBooleanValue;
 import org.uva.sea.ql.parser.elements.Question;
-import org.uva.sea.ql.interpreter.visitor.BaseValueVisitor;
+import org.uva.sea.ql.parser.visitor.BaseValueVisitor;
 
 import java.util.ArrayList;
 import java.util.List;

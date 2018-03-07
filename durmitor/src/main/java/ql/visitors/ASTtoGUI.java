@@ -26,13 +26,15 @@ public class ASTtoGUI implements StatementVisitor {
     @Override
     public void visit(Block block) {
         
-        final JPanel panel = addContainerPanel();
-        parentPanel.add(panel);
+        final JPanel child = addContainerPanel();
+        parentPanel.add(child);
         parentPanel.revalidate();
-        parentPanel = panel;
+        final JPanel tempParent = parentPanel;
+        parentPanel = child;
         block.getStatements().forEach(stmt -> { 
             stmt.accept(this); 
         });
+        parentPanel = tempParent;
     }
     @Override
     public void visit(IfThen stmt) {

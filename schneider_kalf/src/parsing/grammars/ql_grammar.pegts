@@ -21,8 +21,8 @@
               "/"  : Nodes.Division
             }
 
-    // Dictionary of types to their tsc definition
-    let types = {
+  // Dictionary of types to their tsc definition
+  let types = {
                   "boolean" : FieldType.Boolean,
                   "date" : FieldType.Date,
                   "money" : FieldType.Money,
@@ -30,15 +30,6 @@
                   "float" : FieldType.Float,
                   "text" : FieldType.Text,
                 }
-
-  // Base template for nodes
-  function base(type, rest){
-    return (<any>Object).assign({
-        type:type,
-        //location:location(),
-    },
-    rest)
-  }
 
   // Building an expression
   function buildExpression(head, tail) {
@@ -49,8 +40,9 @@
     , head);
   }
 
+  // Add location to every node
   function processNode(node){
-    node.setLocation(location())
+    node.setLocation(location());
     return node;
   }
 }
@@ -98,7 +90,8 @@ field
     var name = id.identifier;
     if (expr)
         return new Nodes.ComputedField(name, label.value, type, expr[2]);
-    return new Nodes.Question(name, label.value, type);
+    let fieldNode = new Nodes.Question(name, label.value, type);
+    return processNode(fieldNode);
 }
 
 // Returns a list of fields and/or if statements
@@ -110,13 +103,15 @@ block
 // Returns a tsc FormNode object
 form
  = formToken _ id:identifier _ block:block lb*{
-     return new Nodes.FormNode(id.identifier, block)
+     let formNode = new Nodes.FormNode(id.identifier, block);
+     return processNode(formNode);
 }
 
 // Returns a tsc IfCondition object
 if
  = _ ifToken _ predicate:expression _ block:block lb* {
-     return new Nodes.IfCondition(predicate, block);
+     let ifNode = new Nodes.IfCondition(predicate, block);
+     return processNode(ifNode);
 }
 
 // Initiates an expression
@@ -128,28 +123,33 @@ expression
 // BooleanExpression
 boolExpr
   = _ head:compExpr _ tail:(_(boolOps)_ compExpr)+ _{
-    return buildExpression(head, tail)
+    let boolExprNode = buildExpression(head, tail);
+    return processNode(boolExprNode);
+
   }
   / compExpr
 
 // ComparisonExpression
 compExpr
   = _ head:additiveExpr _ tail:(_(compOps)_ additiveExpr)+ _{
-    return buildExpression(head, tail)
+    let compExprNode = buildExpression(head, tail);
+    return processNode(compExprNode);
   }
   / additiveExpr
 
 // AdditiveExpression
 additiveExpr
   = _ head:multiplicativeExpr _ tail:(_(addOps)_ multiplicativeExpr)+ _{
-    return buildExpression(head, tail)
+    let additiveExprNode = buildExpression(head, tail);
+    return processNode(additiveExprNode);
   }
   / multiplicativeExpr
 
 // MultiplicativeExpression
 multiplicativeExpr
   = _ head:primary _ tail:(_(multOps)_ primary)+ _{
-    return buildExpression(head, tail)
+    let multiplicativeExprNode = buildExpression(head, tail);
+    return processNode(multiplicativeExprNode);
   }
   / primary
 
@@ -161,19 +161,22 @@ primary
 // UnaryExpression
 unaryExpr
  = _ op:unaryOps value:primary _ {
-    return new Nodes.Negation(value)
+    let unaryExprNode = new Nodes.Negation(value);
+    return processNode(unaryExprNode);
 }
 
 // Identifier
 identifier
  = !keywords alphabet {
-    return new Nodes.VariableIdentifier(text());
+    let identifierNode = new Nodes.VariableIdentifier(text());
+    return processNode(identifierNode);
 }
 
 // Boolean Literal
 booleanLiteral
  = booleanToken {
-    return new Nodes.BooleanLiteral(text() == "true")
+    let booleanLiteralNode = new Nodes.BooleanLiteral(text() == "true");
+    return processNode(booleanLiteralNode);
 }
 
 // Alphabet characters
@@ -186,13 +189,15 @@ numberLiteral
     let amount = digits.join("");
     if (minus)
         amount = minus.concat(amount);
-    return processNode(Nodes.NumberLiteral.fromString(amount));
+    let numberLiteralNode = Nodes.NumberLiteral.fromString(amount);
+    return processNode(numberLiteralNode);
 }
 
 //Date
 dateLiteral
  = [0-9][0-9] dateSeparator [0-9][0-9] dateSeparator [0-9][0-9][0-9][0-9]{
-    return Nodes.DateLiteral.fromString(text());
+    let dateLiteralNode = Nodes.DateLiteral.fromString(text());
+    return processNode(dateLiteralNode);
 }
 
 dateSeparator
@@ -201,7 +206,8 @@ dateSeparator
 // String Literal, Currently only support double quoted String
 stringLiteral
  = '"' chars:doubleQuotedString* '"'{
-    return new Nodes.StringLiteral(chars.join(''));
+    let stringLiteralNode = new Nodes.StringLiteral(chars.join(''));
+    return processNode(stringLiteralNode);
 }
 
 // Double quoted string pattern

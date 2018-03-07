@@ -5,20 +5,8 @@ import ast.model.expressions.unary.UnaryExpression;
 import ast.visitors.ASTNodeVisitor;
 
 public class Negation extends UnaryExpression{
-
-    private Expression expression;
-
     public Negation(Expression expression, Integer startLine, Integer endLine) {
-        super(startLine, endLine);
-        this.expression = expression;
-    }
-
-    public Expression getExpression() {
-        return expression;
-    }
-
-    public void setExpression(Expression expression) {
-        this.expression = expression;
+        super(expression, startLine, endLine);
     }
 
     @Override

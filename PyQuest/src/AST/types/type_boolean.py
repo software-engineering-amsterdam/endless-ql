@@ -1,5 +1,5 @@
 from AST.types.type import Type
-from PyQt5.QtWidgets import QCheckBox
+from render.widgets import CheckBox
 
 
 class TypeBoolean(Type):
@@ -12,4 +12,4 @@ class TypeBoolean(Type):
 
     @staticmethod
     def pyqt5_default_widget():
-        return QCheckBox()
+        return CheckBox()

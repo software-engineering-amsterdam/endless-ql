@@ -11,10 +11,10 @@ class InputTypeMap:
 
     def getWidget(self, question_type):
         q_types = {
-            "bool": self.return_bool,
-            "text": self.return_text,
-            "int": self.return_int,
-            "decimal": self.return_decimal
+            bool: self.return_bool,
+            str: self.return_text,
+            int: self.return_int,
+            float: self.return_decimal
         }
         return q_types[question_type]()
 

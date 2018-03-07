@@ -16,7 +16,7 @@ public class TypeCheckerTest {
 
         TypeCheckVisitor visitor = new TypeCheckVisitor();
 
-        assertEquals(visitor.visit(sumExpression), new BoolValue(true));
+        assertEquals(visitor.visit(sumExpression).value, true);
     }
 
     @Test
@@ -26,6 +26,6 @@ public class TypeCheckerTest {
         ExpressionArithmeticSum sumExpression = new ExpressionArithmeticSum(intExpression, boolExpression);
 
         TypeCheckVisitor visitor = new TypeCheckVisitor();
-        assertEquals(visitor.visit(sumExpression), new BoolValue(false));
+        assertEquals(visitor.visit(sumExpression).value, false);
     }
 }

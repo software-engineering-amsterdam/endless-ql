@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using QuestionnaireUI;
 
 namespace UnitTests.UI.UnitTests
 {
@@ -8,6 +9,7 @@ namespace UnitTests.UI.UnitTests
     {
         private QuestionnaireModel m_questionnaire;
         private Guid m_questionnaireId;
+        private CalculatedQuestionModel m_calculatedQuestion;
 
         [SetUp]
         public void Init()
@@ -19,14 +21,14 @@ namespace UnitTests.UI.UnitTests
                 Id= m_questionnaireId
             };
             
-            var calculatedQuestion = new CalculatedQuestionModel()
+            m_calculatedQuestion = new CalculatedQuestionModel()
             {
                 Id = new Guid("50536A6C-CD2E-4C5E-9669-3CAAA09AD6E1"),
                 Text = "Test Question Text",
                 Value = "1234"
             };
 
-            m_questionnaire.Statements.Add(calculatedQuestion);
+            m_questionnaire.Statements.Add(m_calculatedQuestion);
         }
 
 
@@ -35,6 +37,10 @@ namespace UnitTests.UI.UnitTests
         {
             var wrapper = new QuestionaireWrapper(m_questionnaire);
             Assert.AreEqual(expected: m_questionnaire, actual: wrapper.Model);
+
+            var calculateQuestionWrapper = new CalculatedQuestionWrapper(m_calculatedQuestion);
+            Assert.AreEqual(expected: m_calculatedQuestion, actual: calculateQuestionWrapper.Model);
+
         }
 
         [Test]
@@ -67,13 +73,11 @@ namespace UnitTests.UI.UnitTests
             var constraint = Is.TypeOf<ArgumentNullException>()
                 .And
                 .Property(nameof(ArgumentNullException.ParamName))
-                .EqualTo("text");
+                .EqualTo("Text");
 
-            m_questionnaire.Name = null;
-            var id = Guid.NewGuid();
-            Assert.Throws(constraint, () => new CalculatedQuestionWrapper(id,null,"123"));
+            m_calculatedQuestion.Text = null;
+            Assert.Throws(constraint, () => new CalculatedQuestionWrapper(m_calculatedQuestion));
         }
-
 
         [Test]
         public void WhenCalculatedQuestionValueIsNull_ShouldThrowArgumentNullException()
@@ -81,11 +85,33 @@ namespace UnitTests.UI.UnitTests
             var constraint = Is.TypeOf<ArgumentNullException>()
                 .And
                 .Property(nameof(ArgumentNullException.ParamName))
-                .EqualTo("value");
+                .EqualTo("Value");
+            
+            m_calculatedQuestion.Value = null;
+            Assert.Throws(constraint, () => new CalculatedQuestionWrapper(m_calculatedQuestion));
+        }
 
-            m_questionnaire.Name = null;
-            var id = Guid.NewGuid();
-            Assert.Throws(constraint, () => new CalculatedQuestionWrapper(id, "rewtr", null));
+
+        [Test]
+        public void WhenAskingForUnderlyinModelsName_ShouldReturnCorrectValue()
+        {
+            var questionaireName = "Fred";
+            m_questionnaire.Name = questionaireName;
+            var wrapper = new QuestionaireWrapper(m_questionnaire);
+            Assert.AreEqual(
+                expected: questionaireName,
+                actual: wrapper.Name);
+        }
+
+        [Test]
+        public void WhenAskingForUnderlyinModelsCalculatedValue_ShouldReturnCorrectValue()
+        {
+            var calculatedValue = "987";
+            m_calculatedQuestion.Value = calculatedValue;
+            var wrapper = new CalculatedQuestionWrapper(m_calculatedQuestion);
+            Assert.AreEqual(
+                expected: calculatedValue,
+                actual: wrapper.Value);
         }
     }
 }

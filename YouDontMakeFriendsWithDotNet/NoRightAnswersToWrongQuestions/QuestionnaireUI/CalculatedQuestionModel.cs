@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnitTests.UI.UnitTests
+namespace QuestionnaireUI
 {
     public class CalculatedQuestionModel
     {

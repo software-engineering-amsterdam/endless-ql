@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnitTests.UI.UnitTests
+namespace QuestionnaireUI
 {
     public class QuestionaireWrapper
     {
@@ -20,5 +20,6 @@ namespace UnitTests.UI.UnitTests
         }
 
         public QuestionnaireModel Model { get; set; }
+        public string Name => Model.Name;
     }
 }

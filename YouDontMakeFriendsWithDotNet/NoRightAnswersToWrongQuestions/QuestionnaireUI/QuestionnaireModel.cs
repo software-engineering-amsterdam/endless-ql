@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace UnitTests.UI.UnitTests
+namespace QuestionnaireUI
 {
     public class QuestionnaireModel
     {

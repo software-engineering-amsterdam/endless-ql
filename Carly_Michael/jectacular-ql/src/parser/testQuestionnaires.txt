@@ -8,7 +8,6 @@ form form {
 form form {
   question1: "IntegerQuestion?"  integer
   question2: "DecimalQuestion?"  decimal
-  question3: "MoneyQuestion?"  money
   question4: "BooleanQuestion?"  boolean
   question5: "StringQuestion?"  string
  	question6: "DateQuestion?"  date
@@ -35,7 +34,6 @@ form form {
 form form {
    question1: "IntegerQuestion?"  integer
    question2: "DecimalQuestion?"  decimal
-   question3: "MoneyQuestion?"  money
    question4: "BooleanQuestion?"  boolean
    question5: "StringQuestion?"  string
    question5: "StringQuestion?"  string
@@ -71,7 +69,7 @@ form form {
 
 //calculated value form with variable dependency
 form form {
-   salaryQuestion: "What do you earn on a day?" money
+   salaryQuestion: "What do you earn on a day?" integer
    workHourQuestion: "How many hours do you work in a week?" integer
    weeklyEarnings: "In a week you earn:" integer = salaryQuestion * workHourQuestion
 }

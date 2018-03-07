@@ -7,7 +7,7 @@ import {UnsupportedTypeError} from '../errors';
 import {LiteralType} from './expressions/expression';
 import {Variable} from './expressions/variable';
 
-export abstract class Statement {
+  export abstract class Statement {
   protected static toHtmlInputType(type: QuestionType): string {
     switch (type) {
       case QuestionType.INT : return 'number';

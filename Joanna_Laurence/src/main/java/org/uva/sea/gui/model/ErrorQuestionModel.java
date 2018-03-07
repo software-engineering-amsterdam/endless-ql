@@ -32,7 +32,7 @@ public class ErrorQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return value.getError();
         } else {
-            return "No valueTypes";
+            return "No value";
         }
     }
 }

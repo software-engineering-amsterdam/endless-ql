@@ -1,4 +1,4 @@
-import {ExpressionType} from './expression-type';
+import {ExpressionType, ExpressionTypeUtil} from './expression-type';
 import {ArithmeticOperator, Expression, LiteralType} from './expression';
 import {Location} from '../location';
 import {UnknownOperatorError} from '../../errors';
@@ -20,7 +20,8 @@ export class ArithmeticExpression extends BinaryExpression {
       return typeLeft;
     } else {
       throw new TypeError(
-        `Type of expression left(${typeLeft}) is different from type of expression right (${typeRight})`
+        `Type of expression left(${ExpressionTypeUtil.toString(typeLeft)}) is` +
+        `different from type of expression right (${ExpressionTypeUtil.toString(typeRight)})`
         + this.getLocationErrorMessage()
       );
     }

@@ -1,5 +1,6 @@
 package nl.uva.se.sc.niro
 
+import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.model.expressions.Reference
 import nl.uva.se.sc.niro.model.expressions.answers.BooleanAnswer
 import nl.uva.se.sc.niro.model.{ Conditional, QLForm, Question, Statement }
@@ -7,22 +8,23 @@ import org.apache.logging.log4j.scala.Logging
 
 object TypeChecker extends Logging {
 
-  def pipeline: QLForm => QLForm =
-    checkOperandsOfInvalidTypeToOperators _ andThen
-      checkReferences andThen
-      checkNonBooleanPredicates andThen
-      checkDuplicateQuestionDeclarationsWithDifferentTypes andThen
-      checkCyclicDependenciesBetweenQuestions andThen
-      checkDuplicateLabels
+  def pipeline(qLForm: QLForm) =
+    for {
+      _ <- checkReferences(qLForm)
+      _ <- checkNonBooleanPredicates(qLForm)
+      _ <- checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm)
+      _ <- checkCyclicDependenciesBetweenQuestions(qLForm)
+      _ <- checkDuplicateLabels(qLForm)
+    } yield qLForm
 
   // TODO implement checkOperandsOfInvalidTypeToOperators
-  def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): QLForm = {
+  private def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
     logger.info("Phase 1 - Checking operands of invalid type to operators ...")
 
-    qLForm
+    Right(qLForm)
   }
 
-  def checkReferences(qLForm: QLForm): QLForm = {
+  private def checkReferences(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
     logger.info("Phase 2 - Checking references to undefined questions ...")
 
     val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
@@ -30,13 +32,13 @@ object TypeChecker extends Logging {
     val undefinedReferences: Seq[String] = references.map(_.value).filterNot(qLForm.symbolTable.contains)
 
     if (undefinedReferences.nonEmpty) {
-      throw new IllegalArgumentException(s"Undefined references: $undefinedReferences")
+      Left(TypeCheckError(message = s"Undefined references: $undefinedReferences"))
+    } else {
+      Right(qLForm)
     }
-
-    qLForm
   }
 
-  def checkNonBooleanPredicates(qLForm: QLForm): QLForm = {
+  private def checkNonBooleanPredicates(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
     logger.info("Phase 3 - Checking predicates that are not of the type boolean ...")
 
     val conditionals: Seq[Conditional] = Statement.collectAllConditionals(qLForm.statements)
@@ -48,13 +50,13 @@ object TypeChecker extends Logging {
     }
 
     if (conditionalsWithNonBooleanPredicates.nonEmpty) {
-      throw new IllegalArgumentException(s"Non boolean predicate: $conditionalsWithNonBooleanPredicates")
+      Left(TypeCheckError(message = s"Non boolean predicate: $conditionalsWithNonBooleanPredicates"))
+    } else {
+      Right(qLForm)
     }
-
-    qLForm
   }
 
-  def checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm: QLForm): QLForm = {
+  private def checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
     logger.info("Phase 4 - Checking duplicate question declarations with different types ...")
 
     val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
@@ -65,14 +67,15 @@ object TypeChecker extends Logging {
       .toList
 
     if (duplicateQuestionsWithDifferentTypes.nonEmpty) {
-      throw new IllegalArgumentException(
-        s"Duplicate question declarations with different types: $duplicateQuestionsWithDifferentTypes")
+      Left(
+        TypeCheckError(
+          message = s"Duplicate question declarations with different types: $duplicateQuestionsWithDifferentTypes"))
+    } else {
+      Right(qLForm)
     }
-
-    qLForm
   }
 
-  def checkCyclicDependenciesBetweenQuestions(qLForm: QLForm): QLForm = {
+  private def checkCyclicDependenciesBetweenQuestions(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
     logger.info("Phase 5 - Checking cyclic dependencies between questions ...")
 
     val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
@@ -82,10 +85,10 @@ object TypeChecker extends Logging {
     val cyclicDependencies: Boolean =
       dependencyGraph.exists(element => detectCycle(element, dependencyGraph, Seq(element)))
     if (cyclicDependencies) {
-      throw new IllegalArgumentException(s"Found cyclic dependency")
+      Left(TypeCheckError(message = s"Found cyclic dependency"))
+    } else {
+      Right(qLForm)
     }
-
-    qLForm
   }
 
   type Edge = (String, String)
@@ -102,7 +105,7 @@ object TypeChecker extends Logging {
     logger.info(
       s"Detecting cycles for starting element: ${followedPath.head} in graph: $graph. Now following: $currentEdge")
 
-    val connectedEdges: Seq[Edge] = graph.filter(_._1 == currentEdge._2)
+    val connectedEdges: Seq[Edge] = graph.filter { case (from, _) => from == currentEdge._2 }
 
     if (connectedEdges.isEmpty) {
       logger.info(s"No cycle detected in ${followedPath.tail :+ currentEdge} for element ${followedPath.head}")
@@ -121,7 +124,7 @@ object TypeChecker extends Logging {
   }
 
   // TODO this function should not throw an error. Somehow we should give a warning when duplicate labels are detected
-  def checkDuplicateLabels(qLForm: QLForm): QLForm = {
+  private def checkDuplicateLabels(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
     logger.info("Phase 6 - Checking duplicate question labels ...")
 
     val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
@@ -129,9 +132,9 @@ object TypeChecker extends Logging {
       questions.groupBy(_.label).valuesIterator.filter(_.size > 1).toList
 
     if (questionsWithDuplicateLabels.nonEmpty) {
-      throw new IllegalArgumentException(s"Found questions with duplicate labels $questionsWithDuplicateLabels")
+      Left(TypeCheckError(message = s"Found questions with duplicate labels"))
+    } else {
+      Right(qLForm)
     }
-
-    qLForm
   }
 }

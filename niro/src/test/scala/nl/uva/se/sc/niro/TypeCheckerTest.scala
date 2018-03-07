@@ -1,5 +1,6 @@
 package nl.uva.se.sc.niro
 
+import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.model.expressions.{ BinaryOperation, Reference, UnaryOperation }
 import nl.uva.se.sc.niro.model.expressions.answers.{ BooleanAnswer, IntAnswer }
 import nl.uva.se.sc.niro.model._
@@ -17,7 +18,8 @@ class TypeCheckerTest extends WordSpec {
           Question("q2", "duplicate-label", IntegerType, IntAnswer(1), None)
         ))
 
-      assertThrows[IllegalArgumentException](TypeChecker.checkDuplicateLabels(qlForm))
+      val result = TypeChecker.pipeline(qlForm)
+      assert(result === Left(TypeCheckError("TypeCheckError","Found questions with duplicate labels")))
     }
 
     "checkOperandsOfInvalidTypeToOperators" in {}
@@ -31,7 +33,11 @@ class TypeCheckerTest extends WordSpec {
         )
       )
 
-      assertThrows[IllegalArgumentException](TypeChecker.checkNonBooleanPredicates(qLForm))
+      val result = TypeChecker.pipeline(qLForm)
+      assert(
+        result === Left(TypeCheckError(
+          "TypeCheckError",
+          "Non boolean predicate: List(Conditional(BinaryOperation(Mul,IntAnswer(Some(5)),IntAnswer(Some(1))),List(),None))")))
     }
 
     "checkDuplicateQuestionDeclarationsWithDifferentTypes" in {
@@ -43,7 +49,8 @@ class TypeCheckerTest extends WordSpec {
         )
       )
 
-      assertThrows[IllegalArgumentException](TypeChecker.checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm))
+      val result = TypeChecker.pipeline(qLForm)
+      assert(result === Left(TypeCheckError("TypeCheckError","Duplicate question declarations with different types: List(List(Question(q1,duplicate identifier,IntegerType,IntAnswer(Some(1)),None), Question(q1,duplicate identifier,BooleanType,IntAnswer(Some(1)),None)))")))
     }
 
     "checkCyclicDependenciesBetweenQuestions" can {
@@ -56,9 +63,9 @@ class TypeCheckerTest extends WordSpec {
             Question("q3", "question3", IntegerType, IntAnswer(), None)
           )
         )
-        val result = TypeChecker.checkCyclicDependenciesBetweenQuestions(qlForm)
+        val result = TypeChecker.pipeline(qlForm)
 
-        assert(qlForm == result)
+        assert(Right(qlForm) === result)
       }
 
       "and throw an error when cyclic references are found" in {
@@ -70,7 +77,8 @@ class TypeCheckerTest extends WordSpec {
             Question("q3", "question3", IntegerType, Reference("q2"), None)
           )
         )
-        assertThrows[IllegalArgumentException](TypeChecker.checkCyclicDependenciesBetweenQuestions(qlForm))
+        val result = TypeChecker.pipeline(qlForm)
+        assert(result === Left(TypeCheckError("TypeCheckError","Found cyclic dependency")))
       }
 
       "and throw an error when cyclic references are found inside expressions" in {
@@ -82,7 +90,9 @@ class TypeCheckerTest extends WordSpec {
             Question("q3", "question3", IntegerType, UnaryOperation(Min, Reference("q2")), None)
           )
         )
-        assertThrows[IllegalArgumentException](TypeChecker.checkCyclicDependenciesBetweenQuestions(qlForm))
+
+        val result = TypeChecker.pipeline(qlForm)
+        assert(result === Left(TypeCheckError("TypeCheckError", "Found cyclic dependency")))
       }
 
       "and throw an error when cyclic references are found inside expressions with multiple paths" in {
@@ -95,7 +105,9 @@ class TypeCheckerTest extends WordSpec {
             Question("q3", "question3", IntegerType, UnaryOperation(Min, IntAnswer()), None)
           )
         )
-        assertThrows[IllegalArgumentException](TypeChecker.checkCyclicDependenciesBetweenQuestions(qlForm))
+
+        val result = TypeChecker.pipeline(qlForm)
+        assert(result === Left(TypeCheckError("TypeCheckError","Found cyclic dependency")))
       }
     }
 
@@ -109,7 +121,8 @@ class TypeCheckerTest extends WordSpec {
             Question("q3", "question3", IntegerType, Reference("q2"), None)
           )
         )
-        assertThrows[IllegalArgumentException](TypeChecker.checkReferences(qlForm))
+        val result = TypeChecker.pipeline(qlForm)
+        assert(result === Left(TypeCheckError("TypeCheckError","Undefined references: List(1)")))
       }
 
       "and throw an error when a reference to a non defined question is encountered somewhere in an expression" in {
@@ -126,20 +139,9 @@ class TypeCheckerTest extends WordSpec {
             Question("q3", "question3", IntegerType, Reference("q2"), None)
           )
         )
-        assertThrows[IllegalArgumentException](TypeChecker.checkReferences(qlForm))
+        val result = TypeChecker.pipeline(qlForm)
+        assert(result === Left(TypeCheckError("TypeCheckError","Undefined references: List(1)")))
       }
-    }
-
-    "pipeline" in {
-      val qLForm = QLForm(
-        "duplicateLabel",
-        Seq(
-          Question("q1", "question1", IntegerType, IntAnswer(1), None),
-          Question("q2", "question2", IntegerType, IntAnswer(1), None),
-          Question("q3", "question3", IntegerType, Reference("q2"), None)
-        )
-      )
-      TypeChecker.pipeline(qLForm)
     }
   }
 }

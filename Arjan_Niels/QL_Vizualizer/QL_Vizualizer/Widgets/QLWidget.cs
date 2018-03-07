@@ -64,9 +64,14 @@ namespace QL_Vizualizer.Widgets
         /// <param name="updatedIdentifyer">Updated widgetID</param>
         public virtual void ReceiveUpdate(string updatedIdentifyer)
         {
+            bool _oldActive = Active;
             if (_activationExpression != null && _activationExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
                 Active = _activationExpression.Result;
             _widgetController.UpdateView(this);
+
+            // Value is changed
+            if (_oldActive != Active)
+                _widgetController.ActiveChanged();
         }
 
         public abstract string ToXML();

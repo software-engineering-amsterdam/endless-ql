@@ -135,6 +135,11 @@ namespace QL_Vizualizer.Controllers
                     w.ReceiveUpdate(widgetID);
         }
 
+        public void ActiveChanged()
+        {
+            RefreshWidgets();
+        }
+
         /// <summary>
         /// Get Widget by ID
         /// </summary>

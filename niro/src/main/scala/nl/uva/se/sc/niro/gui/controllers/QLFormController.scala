@@ -23,7 +23,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
   def cancel(event: ActionEvent): Unit = QLForms.openHomeScreen(getActiveStage(event))
 
   override def updateModel(questionId: String, answer: Answer): Unit =
-    updateGUI(Evaluator.evaluateQLForm(form.save(questionId, answer)))
+    updateGUI(Evaluator.evaluate(form.save(questionId, answer)))
 
   @FXML def saveData(event: ActionEvent): Unit = System.out.println("Data is saved....")
 
@@ -32,7 +32,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
     questionsGrid.setPadding(new Insets(0, 20, 0, 20))
     GUICreationVisitor.visit(questionsGrid, form.statements, form.symbolTable)
     CreateCallbackVisitor.visit(this, questionsGrid, form.statements)
-    updateGUI(Evaluator.evaluateQLForm(form))
+    updateGUI(Evaluator.evaluate(form))
   }
 
   private def updateGUI(form: QLForm) = {

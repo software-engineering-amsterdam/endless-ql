@@ -38,16 +38,7 @@ namespace QL_Vizualizer.Widgets
             Identifyer = identifyer;
 
             _activationExpression = activationExpression;
-            if (_activationExpression == null)
-                Active = true;
-            else
-            {
-                Active = false;
-//                foreach(string id in _activationExpression.UsedWidgetIDs)
-//                _widgetController.ReceiveUpdates()
-            }
-
-//            Active = (_activationExpression == null);// ? true : _activationExpression.Expression();
+            Active = activationExpression == null;
         }
 
         /// <summary>
@@ -60,8 +51,11 @@ namespace QL_Vizualizer.Widgets
 
             // Subscribe to items from the controller
             if (_activationExpression != null)
+            {
                 foreach (string id in _activationExpression.UsedWidgetIDs)
                     _widgetController.ReceiveUpdates(id, this);
+                Active = _activationExpression.Result;
+            }
         }
 
         /// <summary>
@@ -74,6 +68,8 @@ namespace QL_Vizualizer.Widgets
                 Active = _activationExpression.Result;
             _widgetController.UpdateView(this);
         }
+
+        public abstract string ToXML();
 
     }
 }

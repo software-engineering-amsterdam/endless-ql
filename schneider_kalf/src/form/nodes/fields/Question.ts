@@ -2,9 +2,9 @@ import { FieldType } from "../../FieldType";
 import Field from "./FieldNode";
 import FormState from "../../state/FormState";
 import FieldVisitor from "../visitors/FieldVisitor";
-import Locateable from "../location/Locateable";
+import AbstractTreeNode from "../AbstractTreeNode";
 
-export default class Question implements Locateable, Field {
+export default class Question extends AbstractTreeNode implements Field {
   readonly label: string;
   readonly identifier: string;
   readonly type: FieldType;
@@ -17,6 +17,7 @@ export default class Question implements Locateable, Field {
    * @param {FieldType} type
    */
   constructor(identifier: string, label: string, type: FieldType) {
+    super();
     this.label = label;
     this.identifier = identifier;
     this.type = type;

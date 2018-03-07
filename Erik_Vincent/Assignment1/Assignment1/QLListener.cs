@@ -46,7 +46,7 @@ namespace Assignment1
 
         public override void ExitForm(QL.FormContext context)
         {
-            Console.WriteLine(Errors.Count + " errors found.");
+            Console.WriteLine(Errors.Count + " error(s) found.");
             foreach (string error in Errors)
             {
                 Console.WriteLine(error);
@@ -61,7 +61,7 @@ namespace Assignment1
             // Should be warnings, move to separate list
             if (QuestionLabelExists(questionLabel))
             {
-                AddError(context, "The question label '" + questionLabel + "' has already been used.");
+                //AddError(context, "The question label '" + questionLabel + "' has already been used.");
             }
         }
 

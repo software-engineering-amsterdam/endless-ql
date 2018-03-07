@@ -2,19 +2,17 @@
 using QL_Parser.Analysis;
 using QL_Parser.AST.Nodes;
 using QLanguage;
-using System;
 
 namespace QL_Parser
 {
     public class QLParserHelper
     {
-        public static FormNode Parse(String file)
+        public static FormNode Parse(string qlCode)
         {
-            SymbolTable.Reset();
-            Analyser.Reset();
+            // Prepare the environment before we start parsing a new questionnaire.
+            Prepare();
 
-
-            AntlrInputStream inputStream = new AntlrInputStream(file);
+            AntlrInputStream inputStream = new AntlrInputStream(qlCode);
             QLanguageLexer qLanguageLexer = new QLanguageLexer(inputStream);
             CommonTokenStream commonTokenStream = new CommonTokenStream(qLanguageLexer);
             QLanguageParser qLanguageParser = new QLanguageParser(commonTokenStream);
@@ -23,6 +21,12 @@ namespace QL_Parser
             FormVisitor visitor = new FormVisitor();
 
             return visitor.VisitFormDeclaration(formContext);
+        }
+
+        private static void Prepare()
+        {
+            SymbolTable.Reset();
+            Analyser.Reset();
         }
     }
 }

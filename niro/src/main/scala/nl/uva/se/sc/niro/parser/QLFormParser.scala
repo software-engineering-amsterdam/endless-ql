@@ -1,25 +1,25 @@
 package nl.uva.se.sc.niro.parser
 
-import java.util
-
 import _root_.ql.{ QLBaseVisitor, QLLexer, QLParser }
 import nl.uva.se.sc.niro.model.Expressions._
-import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, DecAnswer, IntAnswer, StringAnswer }
+import nl.uva.se.sc.niro.model.Expressions.answers._
 import nl.uva.se.sc.niro.model._
+import nl.uva.se.sc.niro.parser.errors.ParseErrorInfo
 import org.antlr.v4.runtime.tree.RuleNode
 import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
 import org.apache.logging.log4j.scala.Logging
 
 import scala.collection.JavaConverters
+import scala.collection.mutable.ListBuffer
 
 object QLFormParser extends Logging {
   private val errorListener = new ErrorListener
 
-  def getParseErrors: util.List[ParseErrorInfo] = errorListener.getParseErrors
+  def getParseErrors: ListBuffer[ParseErrorInfo] = errorListener.parseErrors
 
   def parse(formSource: CharStream): QLForm = {
     logger.traceEntry()
-    errorListener.getParseErrors.clear()
+    errorListener.parseErrors.clear()
     val parser = new QLParser(new CommonTokenStream(new QLLexer(formSource)))
     parser.removeErrorListeners()
     parser.addErrorListener(errorListener)
@@ -40,7 +40,11 @@ object QLFormParser extends Logging {
     override def defaultResult(): Seq[Statement] = Seq(ErrorStatement())
 
     override def shouldVisitNextChild(node: RuleNode, currentResult: Seq[Statement]): Boolean = {
-      errorListener.getParseErrors.isEmpty
+      errorListener.parseErrors.isEmpty
+    }
+
+    override def visitBlock(ctx: QLParser.BlockContext): Seq[Statement] = {
+      JavaConverters.asScalaBuffer(ctx.statement()).toList.flatMap(StatementVisitor.visit)
     }
 
     override def visitQuestion(ctx: QLParser.QuestionContext): Seq[Statement] = {
@@ -100,7 +104,9 @@ object QLFormParser extends Logging {
     override def visitDecConst(ctx: QLParser.DecConstContext): Expression = {
       DecAnswer(BigDecimal(ctx.DecValue().getText))
     }
-
+    override def visitDateConst(ctx: QLParser.DateConstContext): Expression = {
+      DateAnswer(ctx.DateValue().getText)
+    }
     override def visitStringConst(ctx: QLParser.StringConstContext): Expression = {
       StringAnswer(ctx.TEXT().getText)
     }

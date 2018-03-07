@@ -12,11 +12,6 @@ public class StringQuestionViewModel extends BaseQuestionViewModel {
         this.question = question;
     }
 
-    public String getValue() {
-        return this.question.getValue();
-    }
-
-
     @Override
     public void accept(QuestionViewModelVisitor visitor) {
         visitor.visit(this);

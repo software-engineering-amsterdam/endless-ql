@@ -1,5 +1,5 @@
 from AST.base_node import BaseNode
-from placeholder_name_object.question import Question
+from render.question import Question
 
 
 class QuestionNode(BaseNode):
@@ -25,6 +25,12 @@ class QuestionNode(BaseNode):
     @property
     def answer(self):
         return self.__answer
+
+    def __eq__(self, other):
+        return self.__label == other.__label and \
+               self.__identifier == other.__identifier and \
+               self.__answer_type == other.__answer_type and \
+               self.__answer == other.answer
 
     def to_question(self, show):
         return Question(self.label, self.identifier, self.answer_type, self.answer, show)

@@ -3,15 +3,20 @@ package nl.uva.js.qlparser.models.expressions.form;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-import nl.uva.js.qlparser.helpers.NonNullRun;
-import nl.uva.js.qlparser.models.expressions.data.DataExpression;
-import nl.uva.js.qlparser.models.enums.DataType;
+import lombok.RequiredArgsConstructor;
 import nl.uva.js.qlparser.exceptions.TypeMismatchException;
+import nl.uva.js.qlparser.helpers.NonNullRun;
+import nl.uva.js.qlparser.models.enums.DataType;
+import nl.uva.js.qlparser.models.expressions.data.DataExpression;
+import nl.uva.js.qlparser.models.expressions.data.Variable;
 
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Builder
@@ -19,34 +24,52 @@ public class Question implements FormExpression {
     @NonNull private String name;
     @NonNull private String question;
     @NonNull private DataType dataType;
-    private DataExpression value;
-
-    private static final Map<String, String> mapDataTypeToHtml = new HashMap<String, String>() {
-        {
-            put(DataType.BOOLEAN.getTypeString(), "\"checkbox\"");
-            put(DataType.DATE.getTypeString(),    "\"date\"");
-            put(DataType.DECIMAL.getTypeString(), "\"number\" step=\".1\"");
-            put(DataType.MONEY.getTypeString(),   "\"number\" step=\".01\"");
-            put(DataType.INTEGER.getTypeString(), "\"number\"");
-            put(DataType.STRING.getTypeString(),  "\"text\"");
-        }
-    };
+    @NonNull private Variable variable;
 
     @Override
-    public List<String> getComponents() {
-        return Collections.singletonList(dataType.getTypeString());
-    }
+    public List<Component> getComponents() {
+        Panel panel = new Panel();
+        panel.setLayout(new GridLayout(1,2));
 
-    public String getHtmlType() {
-        return mapDataTypeToHtml.get(dataType.getTypeString());
+        JComponent component = dataType.getComponent().get();
+
+        if (component instanceof JTextField)
+            ((JTextField) component).getDocument().addDocumentListener(new TextChangeListener((JTextField) component));
+        else if (component instanceof JCheckBox)
+            ((JCheckBox) component).addItemListener(e -> variable.setValue(e.getStateChange() == ItemEvent.SELECTED));
+
+        panel.add(new JLabel(question, JLabel.TRAILING));
+        panel.add(component);
+
+        return Collections.singletonList(panel);
     }
 
     @Override
     public void checkType() {
-        NonNullRun.consumer(value, v -> {
-            DataType inferredType = v.checkAndReturnType();
-            if (inferredType != dataType)
-                throw new TypeMismatchException(dataType, inferredType);
-        });
+        variable.checkAndReturnType();
+    }
+
+    @RequiredArgsConstructor
+    class TextChangeListener implements DocumentListener {
+        @NonNull private JTextField textField;
+
+        private void updateValue() {
+            variable.setValue(variable.getDataType().getValueOf().apply(textField.getText()));
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent documentEvent) {
+            updateValue();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent documentEvent) {
+            updateValue();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent documentEvent) {
+
+        }
     }
 }

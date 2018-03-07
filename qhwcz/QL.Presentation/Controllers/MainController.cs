@@ -1,5 +1,8 @@
 ﻿using QL.Core.Api;
 using QL.Core.Ast;
+using QL.Core.Interpreting;
+using QL.Core.Symbols;
+using QL.Core.Types;
 using QL.Presentation.ViewModels;
 using System;
 using System.Linq;
@@ -10,7 +13,9 @@ namespace QL.Presentation.Controllers
     {        
         private readonly IParserService _parsingService;
         private readonly IInterpreterService _interpretingService;
-        private MainViewModel _mainViewModel;
+        private readonly MainViewModel _mainViewModel;
+        private MemorySystem _memory;
+        private SymbolTable _symbols;
 
         public MainController(MainViewModel viewModel, IParserService parsingService, IInterpreterService interpretingService)
         {
@@ -31,24 +36,36 @@ namespace QL.Presentation.Controllers
                 (err, acc) => err + Environment.NewLine + acc);
                 return;
             }
+            _symbols = parsedSymbols.Symbols;
             _mainViewModel.QuestionnaireValidation = "Validation succeeded! Enjoy your questionnaire";
 
-            Node evaluatedAst = _interpretingService.EvaluateAst(parsedSymbols.FormNode);
-            var formBuildingVisitor = new FormBuildingVisitor();
-            evaluatedAst.Accept(formBuildingVisitor);
-            _mainViewModel.Form = formBuildingVisitor.Form;
-            _mainViewModel.Form.QuestionValueAssignedCommand = new RelayCommand<QuestionViewModel>(QuestionValueAssignedCommand_Execute);
+            _memory = new MemorySystem();
+            RebuildQuestionnaire(parsedSymbols.FormNode);
         }
 
         private void QuestionValueAssignedCommand_Execute(object target)
         {
             var questionViewModel = target as QuestionViewModel;
 
-            var formBuildingVisitor = new FormBuildingVisitor();
-            var newForm = _interpretingService.AssignValue(questionViewModel.Id, string.Empty, null);
-            newForm.Accept(formBuildingVisitor);
+            Value memoryValue;
+            if(!_memory.TryRetrieveValue(questionViewModel.Id, out memoryValue))
+            {
+                memoryValue = new Value(_symbols[questionViewModel.Id].Type);
+            }
+            _memory.AssignValue(questionViewModel.Id, new Value(questionViewModel.Value, memoryValue.Type));
 
-            _mainViewModel.Form.Reconcile(formBuildingVisitor.Form);            
+            Node ast = _parsingService.ParseQLInput(_mainViewModel.QuestionnaireInput).FormNode;
+            RebuildQuestionnaire(ast);
+        }
+
+        private void RebuildQuestionnaire(Node ast)
+        {
+            Node evaluatedAst = _interpretingService.EvaluateQuestionnaire(ast, _memory, _symbols);
+
+            var formBuildingVisitor = new FormViewModelBuildingVisitor();
+            evaluatedAst.Accept(formBuildingVisitor);
+            _mainViewModel.Form = formBuildingVisitor.Form;
+            _mainViewModel.Form.QuestionValueAssignedCommand = new RelayCommand<QuestionViewModel>(QuestionValueAssignedCommand_Execute);
         }
     }
 }

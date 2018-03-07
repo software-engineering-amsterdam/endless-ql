@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.API.AstNodes.Relational;
 
@@ -14,7 +15,9 @@ namespace QuestionaireDomain.Entities.DomainObjects
             : base(id, dateText)
         {
             DateTime parsedDateTime;
-            if (!DateTime.TryParse(dateText, out parsedDateTime))
+            var culture = new CultureInfo("en-GB");
+            var styles = DateTimeStyles.None;
+            if (!DateTime.TryParse(dateText, culture, styles, out parsedDateTime))
             {
                 throw new QlParserException($"could not parse '{dateText}' into a date", null);
             }

@@ -34,7 +34,7 @@ public class DateQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return value.getDateValue().toString();
         } else {
-            return "No valueTypes";
+            return "No value";
         }
     }
 }

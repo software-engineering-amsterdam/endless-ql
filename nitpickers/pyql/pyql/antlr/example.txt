@@ -6,7 +6,7 @@ form Box1HouseOwning {
    if (true || false && 2 + 2 == 4) {
       sellingPrice: "Price the house was sold for:" money
       privateDebt: "Private debts for the sold house:" money
-      if (1 + 2 * (3 - 2) + 4 * 5 / 6) {
+      if (0.5 + 0.3 * (3.0 - 2.0) + 4.0 * 5.0 / 6.0) {
          bigQuestion: "What's your name?" string
       }
       valueResidue: "Value residue:" money(sellingPrice - privateDebt)

@@ -7,18 +7,19 @@ public class Validator {
     public Validator() {
     }
 
-    public void execute (Form form) {
-        QuestionChecker questionChecker = new QuestionChecker();
-        questionChecker.findDuplicates(form);
+    public void execute(Form form) {
+        QuestionChecker questionChecker = new QuestionChecker(form);
+        questionChecker.runCheck();
 
         SymbolTable symbolTable = questionChecker.getSymbolTable();
 
         ParameterChecker parameterChecker = new ParameterChecker(form, symbolTable);
+        parameterChecker.runCheck();
 
         DependencyChecker dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());
-        dependencyChecker.execute();
+        dependencyChecker.runCheck();
 
         TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-        typeChecker.execute();
+        typeChecker.runCheck();
     }
 }

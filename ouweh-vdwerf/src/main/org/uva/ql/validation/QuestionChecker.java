@@ -9,17 +9,20 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-public class QuestionChecker implements StatementVisitor<Void, String> {
+public class QuestionChecker extends Checker implements StatementVisitor<Void, String> {
 
     private SymbolTable symbolTable;
     private List<Question> questions;
+    private Form form;
 
-    QuestionChecker(){
+    QuestionChecker(Form form){
         this.symbolTable = new SymbolTable();
         this.questions = new ArrayList<>();
+        this.form = form;
     }
 
-    public boolean findDuplicates(Form form) {
+    @Override
+    public void runCheck() {
         Set<String> questionIDs = new HashSet<>();
         Set<String> questionTexts = new HashSet<>();
 
@@ -42,10 +45,7 @@ public class QuestionChecker implements StatementVisitor<Void, String> {
                 Logger.getGlobal().info("WARNING: Question content "+question.getContent()+" already exists");
             }
         }
-        // TODO return something useful here.
-        return false;
     }
-
 
     @Override
     public Void visit(Question question, String context) {

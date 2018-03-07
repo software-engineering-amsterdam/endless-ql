@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-class DependencyChecker {
+class DependencyChecker extends Checker {
 
     private Set<Dependency> dependencies;
     private Logger logger;
@@ -24,7 +24,8 @@ class DependencyChecker {
         }
     }
 
-    public void execute() {
+    @Override
+    public void runCheck() {
         for (Dependency pair : transitiveClosure(dependencies)) {
             if (pair.isReflexive()) {
                 logger.severe("Circular dependency detected at: " + pair.getFrom());

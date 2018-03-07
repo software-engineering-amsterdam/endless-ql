@@ -10,7 +10,8 @@ import org.uva.ql.visitor.*;
 
 import java.util.logging.Logger;
 
-public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String>  {
+public class TypeChecker extends Checker
+        implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String>  {
 
     private SymbolTable symbolTable;
     private Form form;
@@ -23,7 +24,8 @@ public class TypeChecker implements StatementVisitor<Type, String>, ExpressionVi
         this.logger = Logger.getGlobal();
     }
 
-    public void execute() {
+    @Override
+    public void runCheck() {
         for (Statement statement : form.getStatements()) {
             statement.accept(this, null);
         }

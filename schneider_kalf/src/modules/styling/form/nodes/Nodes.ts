@@ -1,4 +1,4 @@
-import NodeVisitor from "../../../../form/nodes/visitors/NodeVisitor";
+import StyleNodeVisitor from "../visitors/StyleNodeVisitor";
 
 class Stylesheet {
   readonly name: string;
@@ -10,15 +10,16 @@ class Stylesheet {
   }
 }
 
-interface FormChild {}
+interface FormChild {
+}
 
 // Style
-interface StyleAttribuut {
+interface StyleAttribute {
   readonly name: string;
   readonly value: string;
 }
 
-class BaseAttribuut implements StyleAttribuut {
+class BaseAttribute implements StyleAttribute {
   readonly name: string;
   readonly value: string;
 
@@ -28,7 +29,7 @@ class BaseAttribuut implements StyleAttribuut {
   }
 }
 
-class WidgetAttribuut implements StyleAttribuut {
+class WidgetAttribute implements StyleAttribute {
   readonly name: string;
   readonly value: string;
   readonly options: string[] | undefined;
@@ -44,31 +45,36 @@ class WidgetAttribuut implements StyleAttribuut {
 class Page implements FormChild {
   readonly body: PageChild[];
   readonly name: string;
+
   constructor(name: string, body: PageChild[]) {
     this.name = name;
     this.body = body;
   }
 }
 
-interface PageChild {}
+interface PageChild {
+}
 
 // Section
 class Section implements PageChild {
   readonly body: SectionChild[];
   readonly name: string;
+
   constructor(name: string, body: SectionChild[]) {
     this.name = name;
     this.body = body;
   }
 }
 
-interface SectionChild {}
+interface SectionChild {
+}
 
 // Question
 class Question implements SectionChild, PageChild {
   readonly identifier: string;
-  readonly children: StyleAttribuut[];
-  constructor(identifier: string, children: StyleAttribuut[]) {
+  readonly children: StyleAttribute[];
+
+  constructor(identifier: string, children: StyleAttribute[]) {
     this.identifier = identifier;
     this.children = children;
   }
@@ -77,8 +83,9 @@ class Question implements SectionChild, PageChild {
 // Default
 class DefaultStyle implements SectionChild, PageChild, FormChild {
   readonly type: string;
-  readonly children: StyleAttribuut[];
-  constructor(type: string, children: StyleAttribuut[]) {
+  readonly children: StyleAttribute[];
+
+  constructor(type: string, children: StyleAttribute[]) {
     this.type = type;
     this.children = children;
   }
@@ -91,8 +98,8 @@ class DefaultStyle implements SectionChild, PageChild, FormChild {
  */
 export default {
   Stylesheet,
-  BaseAttribuut,
-  WidgetAttribuut,
+  BaseAttribuut: BaseAttribute,
+  WidgetAttribuut: WidgetAttribute,
   Page,
   Section,
   Question,

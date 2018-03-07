@@ -1,6 +1,6 @@
-package nl.uva.se.sc.niro.model.Expressions
+package nl.uva.se.sc.niro.model.expressions
 
-import nl.uva.se.sc.niro.model.Expressions.answers.{ DecAnswer, IntAnswer }
+import nl.uva.se.sc.niro.model.expressions.answers.{ DecAnswer, IntAnswer }
 
 import scala.language.implicitConversions
 

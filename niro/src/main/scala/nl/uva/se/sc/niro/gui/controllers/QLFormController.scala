@@ -10,17 +10,17 @@ import javafx.scene.layout.VBox
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.gui._
 import nl.uva.se.sc.niro.gui.application.QLForms
-import nl.uva.se.sc.niro.model.Expressions.Answer
+import nl.uva.se.sc.niro.model.expressions.Answer
 import nl.uva.se.sc.niro.model.QLForm
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, ModelConverter }
 
 import scala.collection.JavaConverters
 
 class QLFormController extends QLBaseController with ModelUpdater {
-  @FXML var formName: Label = null
+  @FXML var formName: Label = _
   @FXML var questions: VBox = null
-  private var qlForm: QLForm = null
-  private var guiForm: GUIForm = null
+  private var qlForm: QLForm = _
+  private var guiForm: GUIForm = _
 
   @FXML
   @throws[IOException]
@@ -28,7 +28,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
     QLForms.openHomeScreen(getActiveStage(event))
 
   override def updateModel(questionId: String, answer: Answer): Unit =
-    updateGUI(Evaluator.evaluateQLForm(qlForm.save(questionId, answer)))
+    updateGUI(Evaluator.evaluate(qlForm.save(questionId, answer)))
 
   @FXML def saveData(event: ActionEvent): Unit =
     println("Data is saved....")
@@ -43,7 +43,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
     val guiQuestions = guiForm.questions.map(WidgetFactory.makeWidget)
     questions.getChildren.addAll(JavaConverters.seqAsJavaList(guiQuestions))
 //    CreateCallbackVisitor.visit(this, questionsGrid, form.statements)
-//    updateGUI(Evaluator.evaluateQLForm(form))
+//    updateGUI(Evaluator.evaluate(form))
   }
 
   private def updateGUI(form: QLForm) = {

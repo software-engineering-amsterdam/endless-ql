@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.model
 
 import nl.uva.se.sc.niro.Evaluator
-import nl.uva.se.sc.niro.model.Expressions._
+import nl.uva.se.sc.niro.model.expressions._
 
 case class QLForm(formName: String, statements: Seq[Statement]) {
   val symbolTable: Map[String, Expression] =
@@ -14,7 +14,6 @@ case class QLForm(formName: String, statements: Seq[Statement]) {
 }
 
 sealed trait Statement
-case class ErrorStatement() extends Statement
 case class Question(
     id: String,
     label: String,
@@ -30,17 +29,15 @@ object Statement {
 
   def collectAllQuestions(statements: Seq[Statement]): Seq[Question] = {
     statements.flatMap {
-      case q: Question      => Seq(q)
-      case c: Conditional   => collectAllQuestions(c.thenStatements)
-      case ErrorStatement() => Seq.empty
+      case q: Question    => Seq(q)
+      case c: Conditional => collectAllQuestions(c.thenStatements)
     }
   }
 
   def collectAllConditionals(statements: Seq[Statement]): Seq[Conditional] = {
     statements.flatMap {
-      case q: Question      => Seq.empty
-      case c: Conditional   => Seq(c) ++ collectAllConditionals(c.thenStatements)
-      case ErrorStatement() => Seq.empty
+      case q: Question    => Seq.empty
+      case c: Conditional => Seq(c) ++ collectAllConditionals(c.thenStatements)
     }
   }
 
@@ -49,7 +46,6 @@ object Statement {
       case q: Question => Seq(q)
       case c: Conditional if Evaluator.evaluateExpression(c.predicate, symbolTable).isTrue =>
         collectAllVisibleQuestions(c.thenStatements, symbolTable)
-      case ErrorStatement() => Seq.empty
     }
   }
 

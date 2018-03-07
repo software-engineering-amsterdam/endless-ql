@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model.gui
 
-import nl.uva.se.sc.niro.model.Expressions.{ BinaryOperation, Expression }
+import nl.uva.se.sc.niro.model.expressions.{ BinaryOperation, Expression }
 import nl.uva.se.sc.niro.model.{ And, Conditional }
 
 object GUIConditionalFactory {

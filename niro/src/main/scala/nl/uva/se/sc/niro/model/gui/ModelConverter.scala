@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.model.gui
 
-import nl.uva.se.sc.niro.model.Expressions.Expression
-import nl.uva.se.sc.niro.model.Expressions.answers.BooleanAnswer
+import nl.uva.se.sc.niro.model.expressions.Expression
+import nl.uva.se.sc.niro.model.expressions.answers.BooleanAnswer
 import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.util.StringUtil
 

@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model.gui
 
-import nl.uva.se.sc.niro.model.Expressions._
+import nl.uva.se.sc.niro.model.expressions._
 import nl.uva.se.sc.niro.model.Question
 import org.apache.logging.log4j.scala.Logging
 

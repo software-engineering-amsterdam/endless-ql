@@ -1,8 +1,8 @@
-import ExpressionVisitor from "../../visitors/ExpressionVisitor";
-import Expression from "../Expression";
-import { FieldType } from "../../../FieldType";
-import { ValueIsNaNError } from "../../../form_errors";
-import AbstractTreeNode from "../../AbstractTreeNode";
+import ExpressionVisitor from "../visitors/ExpressionVisitor";
+import Expression from "../expressions/Expression";
+import { FieldType } from "../../FieldType";
+import { ValueIsNaNError } from "../../form_errors";
+import AbstractTreeNode from "../AbstractTreeNode";
 
 export default class NumberLiteral extends AbstractTreeNode implements Expression {
   private type: FieldType;

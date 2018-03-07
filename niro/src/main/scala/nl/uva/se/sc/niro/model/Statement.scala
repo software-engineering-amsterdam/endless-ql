@@ -40,15 +40,7 @@ object Statement {
   }
 
   def collectAllReferences(questions: Seq[Question]): Seq[Reference] = {
-    questions.flatMap(question => collectAllReferences(question.expression))
-  }
-
-  def collectAllReferences(expression: Expression): Seq[Reference] = expression match {
-    case r: Reference                       => Seq(r)
-    case UnaryOperation(_, rightExpression) => collectAllReferences(rightExpression)
-    case BinaryOperation(_, leftExpression, rightExpression) =>
-      collectAllReferences(leftExpression) ++ collectAllReferences(rightExpression)
-    case _ => Seq.empty
+    questions.flatMap(question => Expression.collectAllReferences(question.expression))
   }
 
   def saveAnswer(questionId: String, answer: Answer, statements: Seq[Statement]): Seq[Statement] = {

@@ -41,3 +41,13 @@ object Answer {
     case _         => throw new IllegalArgumentException(s"Unsupported answer type: $answerType")
   }
 }
+
+object Expression {
+  def collectAllReferences(expression: Expression): Seq[Reference] = expression match {
+    case r: Reference                       => Seq(r)
+    case UnaryOperation(_, rightExpression) => collectAllReferences(rightExpression)
+    case BinaryOperation(_, leftExpression, rightExpression) =>
+      collectAllReferences(leftExpression) ++ collectAllReferences(rightExpression)
+    case _ => Seq.empty
+  }
+}

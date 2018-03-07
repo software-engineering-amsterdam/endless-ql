@@ -73,7 +73,7 @@ public class Question extends ASTNode {
     // This function evaluates the expression (which also does typechecking) and stores the resulting value
     public void getExpressionValue() throws UnsupportedOperationException {
         Term result = expression.getValue();
-        if(type.toString() == result.toString() || ((type.toString() == "money" || type.toString() == "integer") && result.toString() == "float")) {
+        if(type.toString().equals(result.toString()) || ((type.toString().equals("money") || type.toString().equals("integer")) && result.toString().equals("float"))) {
             this.result = result;
         } else {
             throw new UnsupportedOperationException(); // TODO: Change to some type error

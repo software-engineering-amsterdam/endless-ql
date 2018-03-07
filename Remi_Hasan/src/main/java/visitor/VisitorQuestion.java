@@ -2,11 +2,9 @@ package visitor;
 
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
-import expression.*;
-import expression.unary.ExpressionUnaryNeg;
-import expression.variable.ExpressionVariableBoolean;
+import expression.Expression;
+import expression.ReturnType;
 import expression.variable.ExpressionVariableUndefined;
-import model.LookupTable;
 import model.Question;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {
@@ -22,28 +20,27 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
         String questionName = ctx.identifier().getText();
         String questionText = ctx.questionString().getText();
 
-        // remove quotes from text
+        // Remove quotes surrounding the string
         questionText = questionText.substring(1, questionText.length() - 1);
 
         QLParser.QuestionTypeContext questionTypeContext = ctx.questionType();
         ReturnType questionType = ReturnType.valueOf(questionTypeContext.type().getText().toUpperCase());
-        Expression defaultAnswer = getDefaultAnswer(ctx.questionType());
 
-        Question question = new Question(questionType, questionName, questionText, defaultAnswer, this.condition);
+        // Check whether answer can be filled in by user, or is based on an expression
+        boolean isEditable = ctx.questionType().expression() == null;
+        Expression defaultAnswer = getDefaultAnswer(ctx.questionType(), isEditable);
 
-        LookupTable lookupTable = LookupTable.getInstance();
-        lookupTable.insert(question);
-
-        return question;
+        return new Question(questionType, questionName, questionText, defaultAnswer, isEditable, this.condition);
     }
 
-    private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType) {
-        if (questionType.expression() != null) {
-            VisitorExpression visitorExpression = new VisitorExpression();
-            return visitorExpression.visit(questionType.expression());
+    private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType, boolean isEditable) {
+        // If answer can be filled in by user, create empty (undefined) expression of correct type (for type checking)
+        if(isEditable) {
+            return new ExpressionVariableUndefined(ReturnType.valueOf(questionType.type().getText().toUpperCase()));
         }
 
-        return new ExpressionVariableUndefined();
+        VisitorExpression visitorExpression = new VisitorExpression();
+        return visitorExpression.visit(questionType.expression());
     }
 
 }

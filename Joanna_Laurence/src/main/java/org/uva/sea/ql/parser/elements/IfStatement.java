@@ -1,29 +1,34 @@
 package org.uva.sea.ql.parser.elements;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.visitor.Visitor;
+import org.uva.sea.ql.parser.NodeType;
+import org.uva.sea.ql.interpreter.visitor.IASTVisitor;
 
 public class IfStatement extends ASTNode {
 
     private ASTNode expression;
 
-    private Statements statements;
+    private Statements then;
+    private Statements otherwise;
 
-    public IfStatement(Token token, ASTNode expression, Statements statements)
-    {
+    public IfStatement(Token token, ASTNode expression, Statements then, Statements otherwise) {
         super(token);
-        this.statements = statements;
+        this.then = then;
         this.expression = expression;
+        this.otherwise = otherwise;
     }
 
     public ASTNode getExpression() {
         return expression;
     }
 
-    public Statements getStatements() {
-        return statements;
+    public Statements getThen() {
+        return then;
+    }
+
+    public Statements getOtherwise() {
+        return otherwise;
     }
 
     public Type getType() {
@@ -31,7 +36,7 @@ public class IfStatement extends ASTNode {
     }
 
     @Override
-    public <T> T accept(Visitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

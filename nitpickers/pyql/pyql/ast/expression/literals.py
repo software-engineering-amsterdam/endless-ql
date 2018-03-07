@@ -1,97 +1,67 @@
-from pyql.ast.expression import expressions
+from pyql.ast.expression.expressions import Literal
 from pyql.util import types
 
 
-class StringLiteral(expressions.Literal):
+class StringLiteral(Literal):
 
     def __init__(self, location, value):
-        super().__init__(location)
-        self._value = str(value)
-        self._type = types.String()
+        super().__init__(location, types.String, str(value))
 
-    @property
-    def value(self):
-        return self._value
-
-    @property
-    def type(self):
-        return self._type
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
     def accept(self, visitor):
         return visitor.visit_string_literal(self)
 
 
-class IntegerLiteral(expressions.Literal):
+class IntegerLiteral(Literal):
 
     def __init__(self, location, value):
-        super().__init__(location)
-        self._value = int(value)
-        self._type = types.Integer
+        super().__init__(location, types.Integer, int(value))
 
-    @property
-    def value(self):
-        return self._value
-
-    @property
-    def type(self):
-        return self._type
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
     def accept(self, visitor):
         return visitor.visit_integer_literal(self)
 
 
-class DecimalLiteral(expressions.Literal):
+class DecimalLiteral(Literal):
 
     def __init__(self, location, value):
-        super().__init__(location)
-        self._value = value
-        self._type = types.Decimal
+        super().__init__(location, types.Decimal, value)
 
-    @property
-    def value(self):
-        return self._value
-
-    @property
-    def type(self):
-        return self._type
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
     def accept(self, visitor):
         return visitor.visit_decimal_literal(self)
 
 
-class BooleanLiteral(expressions.Literal):
+class BooleanLiteral(Literal):
 
     def __init__(self, location, value):
-        super().__init__(location)
-        self._value = value
-        self._type = types.Boolean()
+        super().__init__(location, types.Boolean, value)
 
-    @property
-    def value(self):
-        return self._value
-
-    @property
-    def type(self):
-        return self._type
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
     def accept(self, visitor):
         return visitor.visit_boolean_literal(self)
 
 
-class MoneyLiteral(expressions.Literal):
+class MoneyLiteral(Literal):
 
     def __init__(self, location, value):
-        super().__init__(location)
-        self._value = value
-        self._type = types.Money()
+        super().__init__(location, types.Money, value)
 
-    @property
-    def value(self):
-        return self._value
-
-    @property
-    def type(self):
-        return self._type
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
     def accept(self, visitor):
         return visitor.visit_money_literal(self)
+
+
+if __name__ == "__main__":
+    d = DecimalLiteral(None, 34.3)
+    print(d)

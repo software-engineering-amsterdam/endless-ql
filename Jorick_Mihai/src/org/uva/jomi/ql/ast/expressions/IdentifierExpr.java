@@ -4,7 +4,7 @@ import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
 
 public class IdentifierExpr extends Expr {
-	public final QLToken token;
+	private final QLToken token;
 	private boolean undefined = true;
 
 	public IdentifierExpr(QLToken token) {
@@ -20,11 +20,11 @@ public class IdentifierExpr extends Expr {
 		return token;
 	}
 
-	public int getLine() {
+	public int getLineNumber() {
 		return token.getLine();
 	}
 
-	public int getColumn() {
+	public int getColumnNumber() {
 		return token.getColumn();
 	}
 
@@ -40,8 +40,9 @@ public class IdentifierExpr extends Expr {
 		this.undefined = undefined;
 	}
 
-	public void updateAllFields(IdentifierExpr indetifier) {
-		this.undefined = indetifier.undefined;
+	public void updateAllFields(IdentifierExpr idetifier) {
+		this.undefined = idetifier.undefined;
+		this.setType(idetifier.getType());
 	}
 
 	@Override

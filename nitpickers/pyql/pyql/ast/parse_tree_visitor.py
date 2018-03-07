@@ -123,7 +123,7 @@ class ParseTreeVisitor(QLVisitor):
         return BooleanLiteral(self.location(ctx), ctx.getText())
 
     def visitIdentifier(self, ctx: QLParser.IdentifierContext):
-        return Identifier(ctx.getText(), self.location(ctx))
+        return Identifier(self.location(ctx), ctx.getText())
 
     def visitMoney(self, ctx: QLParser.MoneyContext):
         print("visit money")

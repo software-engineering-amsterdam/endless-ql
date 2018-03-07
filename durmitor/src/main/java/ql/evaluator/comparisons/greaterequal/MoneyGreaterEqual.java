@@ -38,7 +38,13 @@ public class MoneyGreaterEqual extends AbstractEvaluator<MoneyLiteral> {
 
     @Override
     public Literal<?> visit(MoneyLiteral secondOperand) {
-        return new BoolLiteral(firstOperand.getValue() >= secondOperand.getValue());
+        
+        if(firstOperand.getCurrency().equals(secondOperand.getCurrency()))
+        {
+            return new BoolLiteral(firstOperand.getValue() >= secondOperand.getValue());
+        }
+        
+        return new UndefinedLiteral();
     }
 
     @Override

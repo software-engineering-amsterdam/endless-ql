@@ -9,14 +9,20 @@ import org.uva.ql.gui.widgets.StringWidget;
 
 public class WidgetFactory {
 
-    QuestionWidget makeWidget(Question question, Value value){
+    private final QuestionChangeListener questionChangeListener;
+
+    public WidgetFactory(QuestionChangeListener questionChangeListener) {
+        this.questionChangeListener = questionChangeListener;
+    }
+
+    QuestionWidget makeWidget(Question question, Value value, Boolean readOnly){
         switch (value.getTypeAsString()){
             case "BOOLEAN":
-                return new BooleanWidget(question, value);
+                return new BooleanWidget(question, value, readOnly, questionChangeListener);
             case "STRING":
-                return new StringWidget(question, value);
+                return new StringWidget(question, value, readOnly, questionChangeListener);
             default:
-                return new IntegerWidget(question, value);
+                return new IntegerWidget(question, value, readOnly, questionChangeListener);
         }
     }
 }

@@ -30,4 +30,8 @@ public abstract class Question extends Statement {
     public boolean equals(Question question) {
         return this.toString().equals(question.toString());
     }
+
+    public boolean isAnswerable() {
+        return false;
+    }
 }

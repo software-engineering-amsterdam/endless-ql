@@ -1,12 +1,13 @@
 package ql.ast.type;
 
 import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.StrLiteral;
 import ql.evaluator.value.parse.ToStr;
 import ql.visitors.interfaces.TypeVisitor;
 
 public class Str extends Type {
 
-    private ql.ast.expression.literal.StrLiteral value;
+    private StrLiteral value;
 
     public Literal<String> getValue() {
         return value;
@@ -14,10 +15,6 @@ public class Str extends Type {
 
     @Override
     public String toString() {
-        return name();
-    }
-
-    public static String name() {
         return "string";
     }
 
@@ -32,8 +29,8 @@ public class Str extends Type {
     }
     
     @Override
-    public <T> T accept(TypeVisitor<T> visitor) {
-        return visitor.visit(this);
+    public void accept(TypeVisitor visitor) {
+        visitor.visit(this);
     }
     
     @Override

@@ -1,5 +1,5 @@
-import { getTypeString } from "./typechecking/typeAssertions";
-import FieldType from "./FieldType";
+import { getTypeString } from "./type_checking/type_assertions";
+import { FieldType } from "./FieldType";
 import FieldNode from "./nodes/fields/FieldNode";
 import Expression from "./nodes/expressions/Expression";
 
@@ -16,10 +16,11 @@ export class TypeCheckError extends FormError {
 
   static make(expectedType: string, receivedType: string, message?: string) {
     if (typeof message === 'undefined') {
-      message = `Type check failed. Expected "${expectedType}" but received "${receivedType}`;
+      message = `Type check failed. Expected "${expectedType}" but received "${receivedType}".`;
     }
 
     const error = new TypeCheckError(message);
+    Object.setPrototypeOf(error, TypeCheckError.prototype);
 
     error.expectedType = expectedType;
     error.receivedType = receivedType;
@@ -28,20 +29,38 @@ export class TypeCheckError extends FormError {
   }
 }
 
-export class NotComparableError extends FormError {
+export class ValuesNotComparableError extends FormError {
   left: any;
   right: any;
 
   static make(left: string, right: string, message?: string) {
     if (typeof message === 'undefined') {
-      message = `Cannot compare ${left} [${getTypeString(left)}] to  ${right} [${getTypeString(right)}]`;
+      message = `Cannot compare ${left} [${getTypeString(left)}] to  ${right} [${getTypeString(right)}].`;
     }
 
-    const error = new NotComparableError(message);
-    Object.setPrototypeOf(error, NotComparableError.prototype);
+    const error = new ValuesNotComparableError(message);
+    Object.setPrototypeOf(error, ValuesNotComparableError.prototype);
 
     error.left = left;
     error.right = right;
+
+    return error;
+  }
+}
+
+export class TypesNotComparableError extends FormError {
+  left: FieldType;
+  right: FieldType;
+
+  static make(left: FieldType, right: FieldType, message?: string) {
+    if (typeof message === 'undefined') {
+      message = `Cannot compare type ${left} to  ${right}.`;
+    }
+
+    const error = new TypesNotComparableError(message);
+    error.left = left;
+    error.right = right;
+    Object.setPrototypeOf(error, TypesNotComparableError.prototype);
 
     return error;
   }
@@ -62,7 +81,7 @@ export class DivisionByZeroError extends FormError {
 export class NotImplementedYetError extends Error {
   static make(feature: string, message?: string) {
     if (typeof message === 'undefined') {
-      message = `Feature not implemented yet: "${feature}"`;
+      message = `Feature not implemented yet: "${feature}".`;
     }
 
     return new NotImplementedYetError(message);
@@ -150,13 +169,60 @@ export class VariableNotInScopeError extends FormError {
 
   static make(expression: Expression, identifier: string, message?: string) {
     if (typeof message === 'undefined') {
-      message = `Uknown identifier "${identifier}" used in expression.`;
+      message = `Unknown identifier "${identifier}" used in expression.`;
     }
 
     const error = new VariableNotInScopeError(message);
     error.identifier = identifier;
     error.expression = expression;
     Object.setPrototypeOf(error, VariableNotInScopeError.prototype);
+    return error;
+  }
+}
+
+export class ValueIsNaNError extends FormError {
+  value: any;
+
+  static make(value: any, message?: string) {
+    if (typeof message === 'undefined') {
+      message = `Value cannot be parsed as a number: ${value}.`;
+    }
+
+    const error = new ValueIsNaNError(message);
+    error.value = value;
+    Object.setPrototypeOf(error, ValueIsNaNError.prototype);
+    return error;
+  }
+}
+
+export class CannotFindCommonFieldTypeError extends FormError {
+  left: FieldType;
+  right: FieldType;
+
+  static make(left: FieldType, right: FieldType, message?: string) {
+    if (typeof message === 'undefined') {
+      message = `Cannot find common field type for ${left} and ${right}.`;
+    }
+
+    const error = new CannotFindCommonFieldTypeError(message);
+    error.left = left;
+    error.right = right;
+    Object.setPrototypeOf(error, CannotFindCommonFieldTypeError.prototype);
+    return error;
+  }
+}
+
+export class ValueIsInvalidDateError extends FormError {
+  value: string;
+
+  static make(value: string, message?: string) {
+    if (typeof message === 'undefined') {
+      message = `Cannot parse date since it is invalid ${value}.`;
+    }
+
+    const error = new ValueIsInvalidDateError(message);
+    error.value = value;
+    Object.setPrototypeOf(error, ValueIsInvalidDateError.prototype);
     return error;
   }
 }

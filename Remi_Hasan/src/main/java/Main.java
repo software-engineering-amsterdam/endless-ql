@@ -1,3 +1,5 @@
+import analysis.SymbolTable;
+import analysis.TypeChecker;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,6 +15,7 @@ import model.stylesheet.StyleSheet;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Main extends Application {
 
@@ -24,7 +27,6 @@ public class Main extends Application {
     public void start(Stage stage) {
         stage.setTitle("QL form file selector");
 
-        // Build file selector
         Button fileSelectorButton = createFileSelectorButton(stage);
 
         // Put button inside a box with spacing
@@ -61,23 +63,28 @@ public class Main extends Application {
         try {
             Form form = FormParser.parseForm(new FileInputStream(file));
 
-            TypeChecker typeChecker = new TypeChecker(form);
+            SymbolTable symbolTable = new SymbolTable(form);
+
+            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
             typeChecker.typeCheck();
 
             File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
             StyleSheet styleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));
 
-            Renderer renderer = new Renderer(form, styleSheet);
+            Renderer renderer = new Renderer(form, symbolTable, styleSheet);
             renderer.renderForm(stage);
         } catch (FileNotFoundException e) {
             showErrorAlert(e, "Form file not found");
-        } catch (UnsupportedOperationException|IllegalArgumentException e) {
+        } catch (UnsupportedOperationException | IllegalArgumentException e) {
             // TODO Explain why form is invalid
             showErrorAlert(e, "Form invalid");
+        } catch (IOException e) {
+            showErrorAlert(e, "IO exception while lexing form file");
         }
     }
 
     private void showErrorAlert(Exception e, String message) {
+        e.printStackTrace();
         Alert alert = new Alert(Alert.AlertType.ERROR, message);
         alert.setContentText(e.toString());
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

@@ -9,13 +9,17 @@ page
     : PAGE ID OPEN_CB section+ CLOSE_CB
     ;
 section
-    : SECTION LABEL content | 'section' LABEL OPEN_CB content* CLOSE_CB
+    : SECTION LABEL content 
+    | SECTION LABEL OPEN_CB content* CLOSE_CB
     ;
 content
-    : section | question | default_style
+    : section 
+    | question 
+    | default_style
     ;
 question
-    : QUESTION ID | QUESTION ID widget
+    : QUESTION ID 
+    | QUESTION ID widget
     ;
 widget
     : WIDGET CHECKBOX

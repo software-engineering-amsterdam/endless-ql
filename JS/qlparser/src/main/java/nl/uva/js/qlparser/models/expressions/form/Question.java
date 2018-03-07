@@ -3,11 +3,11 @@ package nl.uva.js.qlparser.models.expressions.form;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-import nl.uva.js.qlparser.helpers.NonNullRun;
-import nl.uva.js.qlparser.models.expressions.data.DataExpression;
 import nl.uva.js.qlparser.models.enums.DataType;
-import nl.uva.js.qlparser.exceptions.TypeMismatchException;
+import nl.uva.js.qlparser.models.expressions.data.Variable;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,29 +17,37 @@ public class Question implements FormExpression {
     @NonNull private String name;
     @NonNull private String question;
     @NonNull private DataType dataType;
-    private DataExpression value;
+    @NonNull private Variable variable;
 
     @Override
-    public List<String> getComponents() {
-        return Collections.singletonList(getQuestionnaireComponent());
-    }
+    public List<Component> getComponents() {
+        Panel panel = new Panel();
+        GridLayout layout = new GridLayout(1,2);
 
-    private String getQuestionnaireComponent() {
-        String component = dataType.getComponent().get();
+        layout.setHgap(10);
+        panel.setLayout(layout);
 
-// TODO
-//        if (component instanceof TextField)
-//            NonNullRun.consumer(value, v -> component.setValue(v.value().toString()));
+        JComponent component = dataType.getComponent().apply(variable);
 
-        return component;
+//        if (component instanceof JTextField)
+//            ((JTextField) component).getDocument().addDocumentListener(new TextChangeListener((JTextField) component));
+//        else if (component instanceof JCheckBox)
+//            ((JCheckBox) component).addItemListener(e -> variable.setValue(e.getStateChange() == ItemEvent.SELECTED));
+
+        JLabel label = new JLabel(question, JLabel.LEFT);
+
+        panel.add(label);
+        panel.add(component);
+        panel.setSize(new Dimension(600, 40));
+        panel.setPreferredSize(new Dimension(600, 40));
+        panel.setMaximumSize(new Dimension(600, 40));
+        panel.setMinimumSize(new Dimension(600, 40));
+
+        return Collections.singletonList(panel);
     }
 
     @Override
     public void checkType() {
-        NonNullRun.consumer(value, v -> {
-            DataType inferredType = v.checkAndReturnType();
-            if (inferredType != dataType)
-                throw new TypeMismatchException(dataType, inferredType);
-        });
+        variable.checkAndReturnType();
     }
 }

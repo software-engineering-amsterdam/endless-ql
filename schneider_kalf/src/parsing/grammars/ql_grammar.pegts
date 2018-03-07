@@ -21,8 +21,8 @@
               "/"  : Nodes.Division
             }
 
-    // Dictionary of types to their tsc definition
-    let types = {
+  // Dictionary of types to their tsc definition
+  let types = {
                   "boolean" : FieldType.Boolean,
                   "date" : FieldType.Date,
                   "money" : FieldType.Money,
@@ -30,15 +30,6 @@
                   "float" : FieldType.Float,
                   "text" : FieldType.Text,
                 }
-
-  // Base template for nodes
-  function base(type, rest){
-    return (<any>Object).assign({
-        type:type,
-        //location:location(),
-    },
-    rest)
-  }
 
   // Building an expression
   function buildExpression(head, tail) {
@@ -48,10 +39,16 @@
     }
     , head);
   }
+
+  // Add location to every node
+  function processNode(node){
+    node.setLocation(location());
+    return node;
+  }
 }
 
 // Start node
-start = forms:form+ _ lb* { return forms }
+start = lb* forms:form+ _ lb* { return forms }
 
 // Unary operation
 unaryOps = "!"
@@ -80,13 +77,21 @@ type
     return types[literalType];
 }
 
+// Supported types
+fieldType
+ = "money"
+ / "date"
+ / "integer"
+ / "boolean"
+
 // Returns a tsc Field object
 field
- = _ label:stringLiteral lb* id:identifier _ ":" _ type:fieldType lb* expr:("=" lb* expression)? lb*{
+ = _ label:stringLiteral lb* id:identifier _ ":" _ type:type lb* expr:("=" lb* expression)? lb*{
     var name = id.identifier;
     if (expr)
         return new Nodes.ComputedField(name, label.value, type, expr[2]);
-    return new Nodes.Question(name, label.value, type);
+    let fieldNode = new Nodes.Question(name, label.value, type);
+    return processNode(fieldNode);
 }
 
 // Returns a list of fields and/or if statements
@@ -97,14 +102,16 @@ block
 
 // Returns a tsc FormNode object
 form
- = _ "form" _ id:identifier _ block:block lb*{
-     return new Nodes.FormNode(id.identifier, block)
+ = formToken _ id:identifier _ block:block lb*{
+     let formNode = new Nodes.FormNode(id.identifier, block);
+     return processNode(formNode);
 }
 
 // Returns a tsc IfCondition object
 if
- = _ "if" _ predicate:expression _ block:block lb* {
-     return new Nodes.IfCondition(predicate, block);
+ = _ ifToken _ predicate:expression _ block:block lb* {
+     let ifNode = new Nodes.IfCondition(predicate, block);
+     return processNode(ifNode);
 }
 
 // Initiates an expression
@@ -116,28 +123,33 @@ expression
 // BooleanExpression
 boolExpr
   = _ head:compExpr _ tail:(_(boolOps)_ compExpr)+ _{
-    return buildExpression(head, tail)
+    let boolExprNode = buildExpression(head, tail);
+    return processNode(boolExprNode);
+
   }
   / compExpr
 
 // ComparisonExpression
 compExpr
   = _ head:additiveExpr _ tail:(_(compOps)_ additiveExpr)+ _{
-    return buildExpression(head, tail)
+    let compExprNode = buildExpression(head, tail);
+    return processNode(compExprNode);
   }
   / additiveExpr
 
 // AdditiveExpression
 additiveExpr
   = _ head:multiplicativeExpr _ tail:(_(addOps)_ multiplicativeExpr)+ _{
-    return buildExpression(head, tail)
+    let additiveExprNode = buildExpression(head, tail);
+    return processNode(additiveExprNode);
   }
   / multiplicativeExpr
 
 // MultiplicativeExpression
 multiplicativeExpr
   = _ head:primary _ tail:(_(multOps)_ primary)+ _{
-    return buildExpression(head, tail)
+    let multiplicativeExprNode = buildExpression(head, tail);
+    return processNode(multiplicativeExprNode);
   }
   / primary
 
@@ -149,31 +161,53 @@ primary
 // UnaryExpression
 unaryExpr
  = _ op:unaryOps value:primary _ {
-    return new Nodes.Negation(value)
+    let unaryExprNode = new Nodes.Negation(value);
+    return processNode(unaryExprNode);
 }
 
 // Identifier
 identifier
- = chars:([a-zA-Z]+) {
-    return new Nodes.VariableIdentifier(chars.join(""));
+ = !keywords alphabet {
+    let identifierNode = new Nodes.VariableIdentifier(text());
+    return processNode(identifierNode);
 }
 
 // Boolean Literal
 booleanLiteral
- = Literal:("true" / "false") {
-    return new Nodes.BooleanLiteral(Literal == "true")
+ = booleanToken {
+    let booleanLiteralNode = new Nodes.BooleanLiteral(text() == "true");
+    return processNode(booleanLiteralNode);
 }
+
+// Alphabet characters
+alphabet
+ = [a-zA-Z]+
 
 // Integer
 numberLiteral
- = digits:([-]?[0-9]+) {
-    return new Nodes.NumberLiteral(parseInt(digits.join(""), 10))
+ = minus:[-]? digits:([0-9\.]+) {
+    let amount = digits.join("");
+    if (minus)
+        amount = minus.concat(amount);
+    let numberLiteralNode = Nodes.NumberLiteral.fromString(amount);
+    return processNode(numberLiteralNode);
 }
+
+//Date
+dateLiteral
+ = [0-9][0-9] dateSeparator [0-9][0-9] dateSeparator [0-9][0-9][0-9][0-9]{
+    let dateLiteralNode = Nodes.DateLiteral.fromString(text());
+    return processNode(dateLiteralNode);
+}
+
+dateSeparator
+ = [\.]
 
 // String Literal, Currently only support double quoted String
 stringLiteral
  = '"' chars:doubleQuotedString* '"'{
-    return new Nodes.StringLiteral(chars.join(''));
+    let stringLiteralNode = new Nodes.StringLiteral(chars.join(''));
+    return processNode(stringLiteralNode);
 }
 
 // Double quoted string pattern
@@ -193,11 +227,23 @@ escapeSequence
   / "t"  { return "\t";   }
   / "v"  { return "\x0B"; }
 
-// Supported types
-fieldType = "money" / "date" / "integer" / "boolean"
+// Value
+value
+ = identifier
+ / dateLiteral
+ / numberLiteral
+ / stringLiteral
+ / booleanLiteral
 
-// Values
-value = booleanLiteral / identifier / numberLiteral / stringLiteral
+booleanToken
+ = "true"  !alphabet
+ / "false" !alphabet
+
+ifToken = "if" !alphabet
+
+formToken = "form" !alphabet
+
+keywords = booleanToken
 
 // Single line comments
 comment = "//" (![\n] .)*

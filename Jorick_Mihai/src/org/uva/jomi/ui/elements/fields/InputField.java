@@ -1,19 +1,27 @@
 package org.uva.jomi.ui.elements.fields;
 
+import org.uva.jomi.ql.interpreter.BooleanValue;
+import org.uva.jomi.ql.interpreter.GenericValue;
+import org.uva.jomi.ql.interpreter.IntegerValue;
+import org.uva.jomi.ql.interpreter.StringValue;
 import org.uva.jomi.ui.elements.BaseElement;
 
-public abstract class InputField<T> implements BaseElement{
+public abstract class InputField implements BaseElement{
 	
 	protected InputFieldListener listener;
 	
-	public abstract T getValue();
+	public abstract GenericValue getValue();
+	
+	public abstract void setValue(GenericValue value);
+	
+	public abstract void setEnabled(boolean enabled);
 	
 	public void setFieldListener(InputFieldListener listener) {
 		this.listener = listener;
 	}
 	
 	public interface InputFieldListener {
-		void valueDidChange(InputField<?> field);
+		void valueDidChange(InputField field);
 	}
 
 	

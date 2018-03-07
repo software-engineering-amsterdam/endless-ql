@@ -1,16 +1,16 @@
 import Addition from "../form/nodes/expressions/arithmetic/Addition";
-import NumberLiteral from "../form/nodes/expressions/arithmetic/NumberLiteral";
+import NumberLiteral from "../form/nodes/expressions/literals/NumberLiteral";
 import Multiplication from "../form/nodes/expressions/arithmetic/Multiplication";
 import Equals from "../form/nodes/expressions/comparisons/Equals";
 import FormNode from "../form/nodes/FormNode";
 import EvaluationVisitor from "../form/evaluation/EvaluationVisitor";
 import Question from "../form/nodes/fields/Question";
 import Variable from "../form/nodes/expressions/VariableIdentifier";
-import BooleanLiteral from "../form/nodes/expressions/boolean_expressions/BooleanLiteral";
+import BooleanLiteral from "../form/nodes/expressions/literals/BooleanLiteral";
 import IfCondition from "../form/nodes/conditions/IfCondition";
 import Negation from "../form/nodes/expressions/boolean_expressions/Negation";
 import ComputedField from "../form/nodes/fields/ComputedField";
-import FieldType from "../form/FieldType";
+import { FieldType } from "../form/FieldType";
 
 export const testExpressionStuff = () => {
   const formula = new Multiplication(

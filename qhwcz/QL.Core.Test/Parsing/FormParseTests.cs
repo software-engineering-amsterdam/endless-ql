@@ -7,7 +7,7 @@ namespace QL.Core.Test.Parsing
     [TestClass]
     public sealed class FormParseTests
     {
-        private readonly IParsingService _parsingService;
+        private readonly IParserService _parsingService;
         private readonly AssertVisitor _assertVisitor;
 
         public FormParseTests()
@@ -40,12 +40,12 @@ namespace QL.Core.Test.Parsing
         }
 
         [TestMethod]
-        public void ParseEmptyString_WillReturnEmptyNode()
+        public void ParseEmptyString_WillReturnEmptyFormNode()
         {
             // Arrange & Act
             var parsedSymbols = _parsingService.ParseQLInput("");
 
-            Assert.IsTrue(parsedSymbols.FormNode is NullNode);
+            Assert.IsTrue(parsedSymbols.FormNode.Token == null);
         }
     }
 }

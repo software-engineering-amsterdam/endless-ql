@@ -1,24 +1,30 @@
 # Jordy Bottelier
 # Dennis Kruidenberg
 
-# Needed variable declarations
-grammarName = "QLGrammar"
-pythonVersion = "Python3"
-destinationFolder = "LexParser"
+
 
 import sys
 import pprint
 from antlr4 import *
+<<<<<<< HEAD
 from parse_grammar import main_parser
 from question_generator import Question_Generator
+=======
+from parse_grammar import generateParsers
+import logging
+from GUI import Gui
+>>>>>>> 28712ee8a903b8277f9a674895c2bb1f7c46386b
 
 # Generate the lexer and parser for the grammar
-main_parser(grammarName, pythonVersion, destinationFolder)
+generateParsers()
 
 # Import the generated files
-from visitor import Visitor
+from qlVisitor import QLVisitor
+from qlsVisitor import QLSVisitor
 from LexParser.QLGrammarLexer import QLGrammarLexer
 from LexParser.QLGrammarParser import QLGrammarParser
+from LexParser.QLSGrammarLexer import QLSGrammarLexer
+from LexParser.QLSGrammarParser import QLSGrammarParser
 from antlr4.error.ErrorListener import ErrorListener
 from antlr4.InputStream import InputStream
 
@@ -43,31 +49,64 @@ def getAstFromString(input):
     parser = QLGrammarParser(stream)
     tree = parser.form()
 
-    visitor = Visitor()
-    visitor.visit(tree)
+    qlVisitor = QLVisitor()
+    qlVisitor.visit(tree)
 
-    ast = visitor.getAst()
+    ast = qlVisitor.getAst()
     return ast
 
 
 def main(argv):
-    input = FileStream(argv[1])
+    # used to log debug self.logger.debugs
+    # set to logging.DEBUG to show debug messages, logging.ERROR to not show
+    logging.basicConfig(level=logging.DEBUG)
+    logger = logging.getLogger(__name__)
+    # QL
+    if len(argv)>1:
+        input_file = argv[1]
+        print(input_file)
+    else:
+        input_file = 'test_ql'
+    input = FileStream(input_file)
     lexer = QLGrammarLexer(input)
     stream = CommonTokenStream(lexer)
     parser = QLGrammarParser(stream)
     parser._listeners = [MyErrorListener()]
-    tree = parser.form()
+    qlTree = parser.form()
 
     # pass tree to visitor
-    visitor = Visitor()
-    visitor.visit(tree)
+    qlVisitor = QLVisitor()
+    qlVisitor.visit(qlTree)
     # print(visitor.QLAst)
+<<<<<<< HEAD
     ast = visitor.getAst()
     varDict = ast.linkVars()
     # printDict(varDict)
     ast.checkTypes()
     qg = Question_Generator(varDict, ast)
 
+=======
+    ast = qlVisitor.getAst()
+    ast.linkVars()
+    ast.checkTypes()
+
+    # QLS
+    if len(argv)>2:
+        input_file = argv[2]
+    else:
+        input_file = 'test_qls'
+    input = FileStream(input_file)
+    lexer = QLSGrammarLexer(input)
+    stream = CommonTokenStream(lexer)
+    parser = QLSGrammarParser(stream)
+    parser._listeners = [MyErrorListener()]
+    qlsTree = parser.stylesheet()
+
+    # pass tree to visitor
+    qlsVisitor = QLSVisitor()
+    qlsVisitor.visit(qlsTree)
+    print(qlsTree.toStringTree())
+>>>>>>> 28712ee8a903b8277f9a674895c2bb1f7c46386b
 
 
 if __name__ == '__main__':

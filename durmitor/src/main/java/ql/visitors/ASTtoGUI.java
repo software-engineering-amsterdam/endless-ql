@@ -3,6 +3,7 @@ package ql.visitors;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import ql.ast.expression.literal.BoolLiteral;
 import ql.ast.statement.AnswerableQuestion;
 import ql.ast.statement.Block;
 import ql.ast.statement.ComputedQuestion;
@@ -24,6 +25,7 @@ public class ASTtoGUI implements StatementVisitor {
     
     @Override
     public void visit(Block block) {
+        
         final JPanel panel = addContainerPanel();
         parentPanel.add(panel);
         parentPanel.revalidate();
@@ -34,26 +36,53 @@ public class ASTtoGUI implements StatementVisitor {
     }
     @Override
     public void visit(IfThen stmt) {
-        final JPanel panel = addContainerPanel();
+        
+        boolean render      = ((BoolLiteral) new Bool().parse(stmt.getCondition().evaluate())).getValue();
+        final JPanel panel  = addContainerPanel();
+        
         parentPanel.add(panel);
         parentPanel.revalidate();
         parentPanel = panel;
-        ql.ast.expression.literal.BoolLiteral res = (ql.ast.expression.literal.BoolLiteral) new Bool().parse(stmt.getCondition().evaluate());
-        AbstractActionListener.enablePanel(panel, res.getValue());
-        stmt.getThenStatement().accept(this);
+        AbstractActionListener.enablePanel(panel, render);
+        
+        if(render) stmt.getThenStatement().accept(this);
     }
     @Override
     public void visit(IfThenElse stmt) {
+        
+        boolean render      = ((BoolLiteral) new Bool().parse(stmt.getCondition().evaluate())).getValue();
+        final JPanel panel  = addContainerPanel();
+        
+        parentPanel.add(panel);
+        parentPanel.revalidate();
+        parentPanel = panel;
+        AbstractActionListener.enablePanel(panel, render);
+        
+        if(render)
+        {
+            stmt.getThenStatement().accept(this);
+        } 
+        else
+        {
+            stmt.getElseStatement().accept(this);
+        }
     }
     @Override
     public void visit(AnswerableQuestion stmt) {
+        
         parentPanel.add(new GUIQuestion(stmt));
         parentPanel.revalidate();
     }
     @Override
     public void visit(ComputedQuestion stmt) {
-        parentPanel.add(new GUIQuestion(stmt));
-        parentPanel.revalidate();
+        
+        stmt.evaluate();
+        
+        if(!stmt.getIdentifier().getValue().isUndefined())
+        {
+            parentPanel.add(new GUIQuestion(stmt));
+            parentPanel.revalidate();
+        }
     }
     
     private JPanel addContainerPanel() {

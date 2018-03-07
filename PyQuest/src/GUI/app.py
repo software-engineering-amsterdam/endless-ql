@@ -1,3 +1,7 @@
+from src.scanparse.qllex import LexTokenizer
+from src.scanparse.qlyacc import QLParser
+from visitors.render import Render
+from GUI.form import Dialog
 from PyQt5.QtWidgets import QTextEdit
 from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QMainWindow
@@ -5,22 +9,18 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QAction
 from PyQt5.QtWidgets import QMessageBox
-
 from PyQt5.QtGui import QIcon
-
 from PyQt5.QtCore import pyqtSlot
-
 from screeninfo import get_monitors
+from sys import exit, argv
 
-import sys
 
 class MainApp(QMainWindow):
-
     def __init__(self):
         super().__init__()
 
         # calculate proper window width and position on screen
-        self.title = 'QL PyQuest'
+        self.title = 'PyQuest'
         self.width = get_monitors()[0].width / 2
         self.height = get_monitors()[0].height / 2
         self.left = (get_monitors()[0].width - self.width) / 2
@@ -62,10 +62,20 @@ class MainApp(QMainWindow):
 
     @pyqtSlot()
     def on_click(self):
-        textboxValue = self.textbox.toPlainText()
-        QMessageBox.question(self, 'Form Created!', "You typed: " + textboxValue, QMessageBox.Ok,
-                             QMessageBox.Ok)
-        self.textbox.setText("")
+        textbox_value = self.textbox.toPlainText()
+        parser = QLParser()
+        lexer = LexTokenizer()
+        ast = parser.parser.parse(textbox_value, lexer.lexer)
+
+        visitor = Render()
+        visitor.visit(ast)
+
+        dialog = Dialog(visitor.form)
+        dialog.exec_()
+
+        # QMessageBox.question(self, 'Form Created!', "You typed: " + textbox_value, QMessageBox.Ok,
+        #                      QMessageBox.Ok)
+        # self.textbox.setText("")
 
     # opens a .txt file and fills the text field with its content
     def showOpenFileDialog(self):
@@ -76,6 +86,6 @@ class MainApp(QMainWindow):
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
+    app = QApplication(argv)
     ex = MainApp()
-    sys.exit(app.exec_())
+    exit(app.exec_())

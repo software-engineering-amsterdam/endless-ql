@@ -2,7 +2,7 @@ package classes.statements;
 
 import classes.CodeBlock;
 
-public class Question<T> extends Statement{
+public class Question<T> extends Statement {
     private String questionText;
     private T type;
 

@@ -1,7 +1,11 @@
 export default class FormState {
   store: Map<string, any>;
 
-  constructor(store: Map<string, any>) {
+  constructor(store?: Map<string, any>) {
+    if (!store) {
+      store = new Map();
+    }
+
     this.store = store;
   }
 

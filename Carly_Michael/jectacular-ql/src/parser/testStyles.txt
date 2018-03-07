@@ -1,45 +1,4 @@
-// taken from github page on 28-02-2018
-stylesheet taxOfficeExample
-{
-  page Housing
-  {
-    section "Buying"
-    {
-      question hasBoughtHouse
-        widget checkbox
-    }
-    section "Loaning"
-      question hasMaintLoan
-  }
-
-  page Selling
-  {
-    section "Selling"
-    {
-      question hasSoldHouse
-        widget radio("Yes", "No")
-      section "You sold a house"
-      {
-        question sellingPrice
-          widget spinbox
-        question privateDebt
-          widget spinbox
-        question valueResidue
-        default money
-        {
-          width: 400
-          font: "Arial"
-          fontsize: 14
-          color: #999999
-          widget spinbox
-        }
-      }
-    }
-    default boolean widget radio("Yes", "No")
-  }
-}
-
-// current working example
+// taken and modified from github page on 28-02-2018
 stylesheet "taxOfficeExample"
 {
   page "Housing"
@@ -58,13 +17,65 @@ stylesheet "taxOfficeExample"
     section "Selling"
     {
       question hasSoldHouse
-        widget radio
-      question sellingPrice
-        widget spinbox
-      question privateDebt
-        widget spinbox
-      question valueResidue
+        widget radio("Yes", "No")
+      section "You sold a house"
+      {
+        question sellingPrice
+          widget spinbox
+        question privateDebt
+          widget spinbox
+        question valueResidue
+        default integer
+        {
+          width: 400
+          font: "Arial"
+          fontsize: 14
+          color: #999999
+          widget spinbox
+        }
+      }
     }
+    default boolean widget radio("Yes", "No")
   }
 }
 
+// example that works with "valid form with if question" from testQuestionnaires.txt
+stylesheet "taxOfficeExample"
+{
+  page "Housing"
+  {
+    section "Buying"
+    {
+      question question3
+        widget checkbox
+    }
+    section "Loaning"
+      question question4
+  }
+
+  page "Selling"
+  {
+    section "Selling"
+    {
+      question question5
+        widget radio("Yes", "No")
+      section "You sold a house"
+      {
+        question question1
+          widget spinbox
+        question question2
+          widget spinbox
+        question question6
+        default integer
+        {
+          width: 400
+          font: "Arial"
+          fontsize: 14
+          color: #999999
+          widget spinbox
+        }
+      }
+    }
+    default boolean widget radio("Yes", "No")
+  }
+}

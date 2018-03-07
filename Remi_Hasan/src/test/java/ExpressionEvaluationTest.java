@@ -1,3 +1,4 @@
+import analysis.SymbolTable;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import expression.*;
@@ -25,8 +26,10 @@ public class ExpressionEvaluationTest {
         ANTLRTester tester = new ANTLRTester(expressionString);
         Expression expression = tester.visitor.visit(tester.parser.expression());
 
-        Expression evaluated = expression.evaluate();
-        assertEquals(evaluated.getReturnType(), ReturnType.NUMBER);
+        SymbolTable symbolTable = new SymbolTable();
+
+        Expression evaluated = expression.evaluate(symbolTable);
+        assertEquals(evaluated.getReturnType(symbolTable), ReturnType.NUMBER);
 
         return (ExpressionVariableNumber) evaluated;
     }

@@ -9,7 +9,12 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class TextField extends InputField<String> implements DocumentListener {
+import org.uva.jomi.ql.interpreter.BooleanValue;
+import org.uva.jomi.ql.interpreter.GenericValue;
+import org.uva.jomi.ql.interpreter.IntegerValue;
+import org.uva.jomi.ql.interpreter.StringValue;
+
+public class TextField extends InputField implements DocumentListener {
 
 	private JTextField textfield;
 	
@@ -29,8 +34,8 @@ public class TextField extends InputField<String> implements DocumentListener {
 	}
 
 	@Override
-	public String getValue() {
-		return this.textfield.getText();
+	public GenericValue getValue() {
+		return new StringValue(this.textfield.getText());
 	}
 
 	@Override
@@ -54,4 +59,14 @@ public class TextField extends InputField<String> implements DocumentListener {
 		}		
 	}
 
+	@Override
+	public void setValue(GenericValue value) {
+		StringValue stringValue = (StringValue) value;
+		this.textfield.setText(stringValue.getValue());
+	}
+
+	@Override
+	public void setEnabled(boolean enabled) {
+		this.textfield.setEnabled(enabled);
+	}
 }

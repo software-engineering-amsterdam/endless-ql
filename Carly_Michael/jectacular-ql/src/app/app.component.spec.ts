@@ -37,7 +37,7 @@ describe('AppComponent', () => {
     app.input = mockData.validFormWithIf;
     app.parseInput();
     expect(app.formName).toBe('form');
-    expect(app.questions.length).toBe(6);
+    expect(app.questions.length).toBe(5);
     expect(app.form).toBeDefined();
     expect(app.errorMessage).toBeUndefined();
   });

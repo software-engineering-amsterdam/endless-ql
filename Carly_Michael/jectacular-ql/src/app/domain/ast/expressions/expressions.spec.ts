@@ -1,11 +1,14 @@
 import {Literal} from './expression';
 import {ExpressionType} from './expression-type';
-import {LogicalExpression} from './logical-expression';
+import {AndExpression, LogicalExpression, OrExpression} from './logical-expression';
 import {AddExpression, ArithmeticExpression, DivideExpression, MultiplyExpression, SubtractExpression} from './arithmetic-expression';
 import {UnaryExpression} from './unary-expression';
 import {Location} from '../location';
-import {ComparisonExpression} from './comparison-expression';
-import {EqualityExpression} from './equality-expression';
+import {
+  ComparisonExpression, GreaterThanEqualExpression, GreaterThanExpression, LessThanEqualExpression,
+  LessThanExpression
+} from './comparison-expression';
+import {EqualExpression, EqualityExpression, InEqualExpression} from './equality-expression';
 import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
 import {Variable} from './variable';
 
@@ -27,20 +30,20 @@ const booleanLiteral = new Literal(ExpressionType.BOOLEAN, true, location);
 const intLiteral = new Literal(ExpressionType.NUMBER, 5, location);
 const decimalLiteral = new Literal(ExpressionType.NUMBER, 8.0, location);
 
-const andExpression = new LogicalExpression(booleanLiteral, booleanLiteral, '&&', location);
-const orExpression = new LogicalExpression(booleanLiteral, booleanLiteral, '||', location);
+const andExpression = new AndExpression(booleanLiteral, booleanLiteral,  location);
+const orExpression = new OrExpression(booleanLiteral, booleanLiteral,  location);
 
 const timesExpression = new MultiplyExpression(intLiteral, decimalLiteral, location);
 const divideExpression = new DivideExpression(intLiteral, intLiteral, location);
 const addExpression = new AddExpression(decimalLiteral, intLiteral, location);
 const subtractExpression = new SubtractExpression(decimalLiteral, decimalLiteral,  location);
-const lessThanExpression = new ComparisonExpression(intLiteral, decimalLiteral, '<', location);
-const greaterThanExpression = new ComparisonExpression(intLiteral, intLiteral, '>', location);
-const lessEqualExpression = new ComparisonExpression(decimalLiteral, intLiteral, '<=', location);
-const greaterEqualExpression = new ComparisonExpression(decimalLiteral, decimalLiteral, '>=', location);
+const lessThanExpression = new LessThanExpression(intLiteral, decimalLiteral, location);
+const greaterThanExpression = new GreaterThanExpression(intLiteral, intLiteral,  location);
+const lessEqualExpression = new LessThanEqualExpression(decimalLiteral, intLiteral,  location);
+const greaterEqualExpression = new GreaterThanEqualExpression(decimalLiteral, decimalLiteral, location);
 
-const equalExpression = new EqualityExpression(intLiteral, intLiteral, '==', location);
-const inEqualExpression = new EqualityExpression(booleanLiteral, booleanLiteral, '!=', location);
+const equalExpression = new EqualExpression(intLiteral, intLiteral, location);
+const inEqualExpression = new InEqualExpression(booleanLiteral, booleanLiteral,  location);
 
 const negativeExpression = new UnaryExpression(intLiteral, '-', location);
 const negateExpression = new UnaryExpression(booleanLiteral, '!', location);
@@ -99,7 +102,7 @@ describe('Expressions', () => {
   describe('Should check and return type', () => {
     it('logical expressions', () => {
       expect(andExpression.checkType([])).toBe(ExpressionType.BOOLEAN);
-      expect(() => new LogicalExpression(intLiteral, booleanLiteral, '&&', location)
+      expect(() => new AndExpression(intLiteral, booleanLiteral, location)
         .checkType([])).toThrowError();
     });
 
@@ -111,13 +114,13 @@ describe('Expressions', () => {
 
     it('comparison expressions', () => {
       expect(lessThanExpression.checkType([])).toBe(ExpressionType.BOOLEAN);
-      expect(() => new ComparisonExpression(intLiteral, booleanLiteral, '>', location)
+      expect(() => new GreaterThanExpression(intLiteral, booleanLiteral, location)
         .checkType([])).toThrowError();
     });
 
     it('equality expressions', () => {
       expect(equalExpression.checkType([])).toBe(ExpressionType.BOOLEAN);
-      expect(() => new EqualityExpression(intLiteral, booleanLiteral, '==', location)
+      expect(() => new EqualExpression(intLiteral, booleanLiteral, location)
         .checkType([])).toThrowError();
     });
 
@@ -136,10 +139,10 @@ describe('Expressions', () => {
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
           if (literalArray[i].type === ExpressionType.BOOLEAN && literalArray[j].type === ExpressionType.BOOLEAN) {
-            expect(new LogicalExpression(literalArray[i], literalArray[j], '&&', location).checkType([]));
+            expect(new AndExpression(literalArray[i], literalArray[j], location).checkType([]));
           } else {
             expect(() => {
-              new LogicalExpression(literalArray[i], literalArray[j], '&&', location).checkType([]);
+              new AndExpression(literalArray[i], literalArray[j],  location).checkType([]);
             }).toThrow();
           }
         }
@@ -160,10 +163,10 @@ describe('Expressions', () => {
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
           if (literalArray[i].type === ExpressionType.NUMBER && literalArray[j].type === ExpressionType.NUMBER) {
-            expect(new ComparisonExpression(literalArray[i], literalArray[j], '<', location).checkType([]));
+            expect(new LessThanExpression(literalArray[i], literalArray[j],  location).checkType([]));
           } else {
             expect(() => {
-              new ComparisonExpression(literalArray[i], literalArray[j], '<', location).checkType([]);
+              new LessThanExpression(literalArray[i], literalArray[j],  location).checkType([]);
             }).toThrow();
           }
         }
@@ -172,10 +175,10 @@ describe('Expressions', () => {
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
           if (literalArray[i].type === literalArray[j].type) {
-            expect(new EqualityExpression(literalArray[i], literalArray[j], '==', location).checkType([]));
+            expect(new EqualExpression(literalArray[i], literalArray[j],  location).checkType([]));
           } else {
             expect(() => {
-              new EqualityExpression(literalArray[i], literalArray[j], '==', location).checkType([]);
+              new EqualExpression(literalArray[i], literalArray[j], location).checkType([]);
             }).toThrow();
           }
         }

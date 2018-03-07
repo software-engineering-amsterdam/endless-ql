@@ -49,32 +49,58 @@ exprQuestion    = ws comment* ws name:identifier ":" ws "\"" ws
 
 orExpression
   = head:andExpression tail:(ws "||" ws orExpression) {
-      return new ast.LogicalExpression(head, tail[3], tail[1], location());
+      return new ast.OrExpression(head, tail[3], location());
 } / v:andExpression {
         return v;
       }
 
 andExpression
-  = head:equalityExpression tail:(ws "&&" ws andExpression) {
-      return new ast.LogicalExpression(head, tail[3], tail[1], location());
-} / v:equalityExpression {
+  = head:equalExpression tail:(ws "&&" ws andExpression) {
+      return new ast.AndExpression(head, tail[3], location());
+} / v:equalExpression {
         return v;
       }
 
-equalityExpression
-  = head:comparisonExpression tail:(ws ("==" / "!=") ws equalityExpression) {
-      return new ast.LogicalExpression(head, tail[3], tail[1], location());
-} / v:comparisonExpression {
+equalExpression
+  = head:inEqualExpression tail:(ws ("==") ws equalExpression) {
+      return new ast.EqualExpression(head, tail[3], location());
+} / v:inEqualExpression {
         return v;
       }
 
-comparisonExpression
-  = head:addExpression tail:(ws (">" / "<" / ">=" / "<=") ws comparisonExpression) {
-      return new ast.LogicalExpression(head, tail[3], tail[1], location());
+inEqualExpression
+  = head:greaterThanExpression tail:(ws ("!=") ws inEqualExpression) {
+      return new ast.InEqualExpression(head, tail[3], location());
+} / v:greaterThanExpression {
+        return v;
+      }
+
+greaterThanExpression
+  = head:greaterThanEqualExpression tail:(ws (">") ws greaterThanExpression) {
+      return new ast.GreaterThanExpression(head, tail[3], location());
+} / v:greaterThanEqualExpression {
+        return v;
+      }
+greaterThanEqualExpression
+  = head:lessThanExpression tail:(ws (">=") ws greaterThanEqualExpression) {
+      return new ast.GreaterThanEqualExpression(head, tail[3], location());
+} / v:lessThanExpression {
+        return v;
+      }
+
+lessThanExpression
+  = head:lessThanEqualExpression tail:(ws ("<") ws lessThanExpression) {
+      return new ast.LessThanExpression(head, tail[3], location());
+} / v:lessThanEqualExpression {
+        return v;
+      }
+
+lessThanEqualExpression
+  = head:addExpression tail:(ws ("<=") ws lessThanEqualExpression) {
+      return new ast.LessThanEqualExpression(head, tail[3], location());
 } / v:addExpression {
         return v;
       }
-
 addExpression
   = head:subtractExpression tail:(ws ("+") ws addExpression) {
       return new ast.AddExpression(head, tail[3], location());
@@ -118,8 +144,7 @@ text            = (ws word ws)+ {return text();}
 type            = booleanType /
                   stringType /
                   integerType /
-                  dateType /
-                  decimalType
+                  dateType
 
 // low-level
 
@@ -143,4 +168,3 @@ booleanType     = "boolean" { return ast.QuestionType.BOOLEAN; }
 stringType      = "string" { return ast.QuestionType.STRING; }
 integerType     = "integer" { return ast.QuestionType.INT; }
 dateType        = "date" { return ast.QuestionType.DATE; }
-decimalType     = "decimal" { return ast.QuestionType.DECIMAL; }

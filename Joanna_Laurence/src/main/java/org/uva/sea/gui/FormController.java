@@ -19,7 +19,8 @@ import java.util.ResourceBundle;
 
 public class FormController implements Initializable {
 
-    private String defaultQlLocation = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/example.ql";
+    //TODO: set a relative path
+    private String defaultQlLocation = "/Users/joannaroczniak/Desktop/UvA/endless-ql/Joanna_Laurence/src/main/resources/example.ql";
 
     private GuiModel guiModel;
 

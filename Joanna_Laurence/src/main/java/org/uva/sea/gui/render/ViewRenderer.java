@@ -33,49 +33,69 @@ public class ViewRenderer {
         this.modelRenderer = new ModelRenderer(this);
     }
 
-    public void drawQuestionRow(BaseQuestionModel questionModel) {
-        //TODO: refactor for widget
-        //This is the implementation for a text
-        TextField textField = this.createTextField(questionModel);
-        textField.focusedProperty().addListener((observable, oldIsFocused, newIsFocused) -> {
-            if (!newIsFocused) {
-                TextToValueVisitor textToValueVisitor = new TextToValueVisitor(textField.getText());
-                Value value = questionModel.accept(textToValueVisitor);
-
-                controller.updateGuiModel(questionModel.getVariableName(), value);
-            }
-        });
-
-        questionBox.getChildren().add(createQuestionRow(createLabel(questionModel.getLabel()), textField));
+    public void displayQuestionRow(BaseQuestionModel questionModel) {
+        questionBox.getChildren().add(createQuestionRow(questionModel));
     }
 
-    public void drawBooleanQuestionRow(BooleanQuestionModel questionModel) {
-        //TODO: add widget support. Remove this because this is a different widget
-        //This is the implementation for a checkbox
-        CheckBox checkBox = new CheckBox();
-        if (questionModel.getValue() != null) {
-            checkBox.setSelected(questionModel.getBasicValue());
+    public void displayQuestions(List<BaseQuestionModel> questionGUIs) {
+        questionBox.getChildren().removeAll(questionBox.getChildren());
+        for (BaseQuestionModel questionRow : questionGUIs) {
+            questionRow.accept(this.modelRenderer);
         }
-
-        checkBox.selectedProperty()
-                .addListener((observable, oldIsFocused, newIsFocused) ->
-                {
-                    System.out.println("Checkbox set into " + newIsFocused + " " + questionModel.getVariableName());
-                    controller.updateGuiModel(questionModel.getVariableName(), new BooleanValue(newIsFocused));
-                });
-
-        questionBox.getChildren().add(createQuestionRow(createLabel(questionModel.getLabel()), checkBox));
     }
 
+    public void displayWarning(String message) {
+        this.displayMessage("Warning: ", message);
+    }
 
-    private Node createQuestionRow(Label label, Control input) {
+    public void displayError(String message) {
+        this.displayMessage("Error: ", message);
+    }
+
+    private void displayMessage(String prependMessage, String warningMessage) {
+        messageBox.getChildren().add(createMessageRow(new Label(prependMessage + warningMessage)));
+    }
+
+    private Control createWidget(BaseQuestionModel questionModel) {
+        //TODO: Refactor this to classes to be able to call: widget.draw()
+        switch (questionModel.getWidgetType()) {
+            case CHECKBOX:
+                CheckBox checkBox = new CheckBox();
+                if (questionModel.getValue() != null) {
+                    System.out.println("Computed boolean value " + questionModel.displayValue());
+                    checkBox.setSelected(new BooleanValue(questionModel.displayValue()).getBooleanValue());
+                }
+                checkBox.selectedProperty()
+                        .addListener((observable, oldIsFocused, newIsFocused) ->
+                        {
+                            controller.updateGuiModel(questionModel.getVariableName(), new BooleanValue(newIsFocused));
+                        });
+                return checkBox;
+            case SLIDER:
+            case RADIOBUTTON:
+            default:
+            case TEXTFIELD:
+                TextField textField = this.createTextField(questionModel);
+                textField.focusedProperty().addListener((observable, oldIsFocused, newIsFocused) -> {
+                    if (!newIsFocused) {
+                        TextToValueVisitor textToValueVisitor = new TextToValueVisitor(textField.getText());
+                        Value value = questionModel.accept(textToValueVisitor);
+
+                        controller.updateGuiModel(questionModel.getVariableName(), value);
+                    }
+                });
+                return textField;
+        }
+    }
+
+    private Node createQuestionRow(BaseQuestionModel questionModel) {
         GridPane wrapper = new GridPane();
 
         wrapper.getColumnConstraints().add(new ColumnConstraints(350));
         wrapper.getRowConstraints().add(new RowConstraints(40));
 
-        wrapper.add(label, 0, 0);
-        wrapper.add(input, 1, 0);
+        wrapper.add(createLabel(questionModel.getLabel()), 0, 0);
+        wrapper.add(createWidget(questionModel), 1, 0);
 
         return wrapper;
     }
@@ -108,24 +128,5 @@ public class ViewRenderer {
         }
 
         return textField;
-    }
-
-    public void displayQuestions(List<BaseQuestionModel> questionGUIs) {
-        questionBox.getChildren().removeAll(questionBox.getChildren());
-        for (BaseQuestionModel questionRow : questionGUIs) {
-            questionRow.accept(this.modelRenderer);
-        }
-    }
-
-    public void displayWarning(String message) {
-        this.displayMessage("Warning: ", message);
-    }
-
-    public void displayError(String message) {
-        this.displayMessage("Error: ", message);
-    }
-
-    private void displayMessage(String prependMessage, String warningMessage) {
-        messageBox.getChildren().add(createMessageRow(new Label(prependMessage + warningMessage)));
     }
 }

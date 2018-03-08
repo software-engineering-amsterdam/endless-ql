@@ -13,19 +13,19 @@ public class ModelRenderer implements QuestionModelVisitor {
 
     @Override
     public Void visit(BooleanQuestionModel question) {
-        this.viewRenderer.drawBooleanQuestionRow(question);
+        this.viewRenderer.displayQuestionRow(question);
         return null;
     }
 
     @Override
     public Void visit(DateQuestionModel question) {
-        this.viewRenderer.drawQuestionRow(question);
+        this.viewRenderer.displayQuestionRow(question);
         return null;
     }
 
     @Override
     public Void visit(DecimalQuestionModel question) {
-        this.viewRenderer.drawQuestionRow(question);
+        this.viewRenderer.displayQuestionRow(question);
         return null;
     }
 
@@ -37,19 +37,19 @@ public class ModelRenderer implements QuestionModelVisitor {
 
     @Override
     public Void visit(IntQuestionModel question) {
-        this.viewRenderer.drawQuestionRow(question);
+        this.viewRenderer.displayQuestionRow(question);
         return null;
     }
 
     @Override
     public Void visit(MoneyQuestionModel question) {
-        this.viewRenderer.drawQuestionRow(question);
+        this.viewRenderer.displayQuestionRow(question);
         return null;
     }
 
     @Override
     public Void visit(StringQuestionModel question) {
-        this.viewRenderer.drawQuestionRow(question);
+        this.viewRenderer.displayQuestionRow(question);
         return null;
     }
 }

@@ -67,7 +67,7 @@ case class DateComponent(id: String, label: Label, control: QLWidget[LocalDate])
   override def setValue(value: Option[LocalDate]): Unit = control.setValue(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
     setValue(dictionary.get(id).flatMap(_.possibleValue.asInstanceOf[Option[LocalDate]]))
-  private def fromOption(value: Option[LocalDate]): LocalDate = if (value.isDefined) value.get else null
+  private def fromOption(value: Option[LocalDate]): LocalDate = value.orNull
 }
 
 case class IntegerComponent(id: String, label: Label, control: QLWidget[Integer])
@@ -76,8 +76,7 @@ case class IntegerComponent(id: String, label: Label, control: QLWidget[Integer]
   override def setValue(value: Option[Int]): Unit = control.setValue(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
     setValue(dictionary.get(id).flatMap(_.possibleValue.asInstanceOf[Option[Int]]))
-  private def fromOption(value: Option[Int]): java.lang.Integer =
-    if (value.isDefined) value.get else null
+  private def fromOption(value: Option[Int]): java.lang.Integer = value.map(new Integer(_)).orNull
 }
 
 case class DecimalComponent(id: String, label: Label, control: QLWidget[java.math.BigDecimal])
@@ -86,8 +85,7 @@ case class DecimalComponent(id: String, label: Label, control: QLWidget[java.mat
   override def setValue(value: Option[BigDecimal]): Unit = control.setValue(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
     setValue(dictionary.get(id).flatMap(_.possibleValue.asInstanceOf[Option[BigDecimal]]))
-  private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal =
-    if (value.isDefined) value.get.bigDecimal else null
+  private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal = value.map(_.bigDecimal).orNull
 }
 
 case class MoneyComponent(id: String, label: Label, control: QLWidget[java.math.BigDecimal])
@@ -96,8 +94,7 @@ case class MoneyComponent(id: String, label: Label, control: QLWidget[java.math.
   override def setValue(value: Option[BigDecimal]): Unit = control.setValue(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
     setValue(dictionary.get(id).flatMap(_.possibleValue.asInstanceOf[Option[BigDecimal]]))
-  private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal =
-    if (value.isDefined) value.get.bigDecimal else null
+  private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal = value.map(_.bigDecimal).orNull
 }
 
 object ComponentFactory {

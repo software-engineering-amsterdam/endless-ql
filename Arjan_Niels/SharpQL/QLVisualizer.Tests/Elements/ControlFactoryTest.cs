@@ -24,12 +24,12 @@ namespace QLVisualizer.Tests.Elements
         public void Initialize()
         {
             _style = new WindowsStyleProperties();
-            _widgetController = new ElementManagerDisplayContollerWindows(10);
+            _widgetController = new ElementManagerDisplayContollerWindows(null, 10);
 
             _controlFactory = new ControlFactory(_widgetController);
-            _intWidget = new IntQuestionManager("a", "q1", null);
-            _boolWidget = new BoolQuestionManager("b", "q2", null);
-            _stringWidget = new StringQuestionManager("c", "q3", null);
+            _intWidget = new IntQuestionManager("a", "q1", null, _widgetController);
+            _boolWidget = new BoolQuestionManager("b", "q2", null, _widgetController);
+            _stringWidget = new StringQuestionManager("c", "q3", null, _widgetController);
         }
 
         #region Create

@@ -26,7 +26,8 @@ namespace QLVisualizer.ElementManagers
         /// </summary>
         public bool Editable { get { return _answerExpression == null; } }
 
-        public QuestionElementManager(string identifyer, string text, ElementManager parent,ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : base(identifyer, text, "question", parent, activationExpression)
+        public QuestionElementManager(string identifyer, string text, ElementManager parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : 
+            base(identifyer, text, "question", parent, controller, activationExpression)
         {
             Answer = new QuestionElementValue<T>(default(T), false);
             IsAnswered = false;
@@ -47,20 +48,6 @@ namespace QLVisualizer.ElementManagers
         public abstract QuestionElementValue<T> ParseInput(string input);
 
         /// <summary>
-        /// Sets widgetcontroller and subscribes to value changes
-        /// </summary>
-        /// <param name="controller">Controller to use</param>
-        public override void SetController(ElementManagerController controller)
-        {
-            base.SetController(controller);
-
-            // Subscribe for answer expressions
-            if (_answerExpression != null)
-                foreach (string s in _answerExpression.UsedWidgetIDs)
-                    _widgetController.ReceiveUpdates(s, this);
-        }
-
-        /// <summary>
         /// Set the value of the AnswerValue
         /// </summary>
         /// <param name="answer"></param>
@@ -70,23 +57,23 @@ namespace QLVisualizer.ElementManagers
             IsAnswered = true;
 
             // Send update to the controller
-            if (_widgetController != null)
-                _widgetController.ValueUpdate(Identifier);
+            if (_elementManagerController != null)
+                _elementManagerController.ValueUpdate(Identifier);
         }
 
         /// <summary>
         /// Handles incoming updates for Answer values
         /// </summary>
         /// <param name="updatedIdentifyer">Updated widgetID</param>
-        public override void ReceiveUpdate(string updatedIdentifyer)
+        public override void NotifyChange(string updatedIdentifyer)
         {
-            base.ReceiveUpdate(updatedIdentifyer);
+            base.NotifyChange(updatedIdentifyer);
             if (_answerExpression != null && _answerExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
             {
                 SetAnswer(_answerExpression.Result);
 
                 // Update view of this widget since the value is calculated
-                _widgetController.UpdateView(this);
+                _elementManagerController.UpdateView(this);
             }
         }
 

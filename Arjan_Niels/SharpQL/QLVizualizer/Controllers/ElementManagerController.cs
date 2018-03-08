@@ -5,7 +5,7 @@ using QLVisualizer.Factories;
 using QLVisualizer.ElementManagers;
 using System.Collections.Generic;
 using System.Linq;
-
+using QLVisualizer.ElementManagers.CollectionTypes;
 
 namespace QLVisualizer.Controllers
 {
@@ -19,18 +19,11 @@ namespace QLVisualizer.Controllers
         /// <summary>
         /// Collection of widgets, dictionary on widget identifyer
         /// </summary>
-        protected Dictionary<string, ElementManager> _widgets;
+        protected FormManager _form;
 
-        /// <summary>
-        /// Collection of widgets, subscribed to a widget (subscribed to widgetID is stored in the key)
-        /// </summary>
-        private Dictionary<string, List<ElementManager>> _notifyOnChange;
-
-
-        public ElementManagerController()
+        public ElementManagerController(FormManager formManager)
         {
-            _widgets = new Dictionary<string, ElementManager>();
-            _notifyOnChange = new Dictionary<string, List<ElementManager>>();
+            _form = formManager;
         }
 
         /// <summary>
@@ -65,21 +58,7 @@ namespace QLVisualizer.Controllers
         /// </summary>
         /// <param name="title">Form title</param>
         /// <param name="widgets">Widgets of form</param>
-        public abstract void DisplayForm(string title, ElementManager[] widgets);
-
-        /// <summary>
-        /// Sets all widgets, overrides existing values
-        /// </summary>
-        /// <param name="widgets">Widgets to assign</param>
-        public virtual void SetWidgets(ElementManager[] widgets)
-        {
-            // Convert list input to dictionary
-            _widgets = widgets.ToDictionary(o => o.Identifier, o => o);
-
-            // Set controller for each assigned widget
-            foreach (ElementManager w in _widgets.Values)
-                w.SetController(this);
-        }
+        public abstract void DisplayForm(string title, FormManager form);
 
         /// <summary>
         /// Handles QL-language input
@@ -87,7 +66,6 @@ namespace QLVisualizer.Controllers
         /// <param name="rawQL">Raw QL-language string</param>
         public virtual void HandleQL(string rawQL)
         {
-            Reset();
             FormNode node = QLParserHelper.Parse(rawQL);
             if (!Analyser.Analyse(node))
             {
@@ -95,44 +73,17 @@ namespace QLVisualizer.Controllers
                 return;
             }
 
-            IEnumerable<ElementManager> widgets = ElementManagerFactory.CreateWidgets(node, this);
-            DisplayForm(node.FormName, widgets.ToArray());
-        }
-
-        /// <summary>
-        /// Resets all values that define the current state
-        /// </summary>
-        public virtual void Reset()
-        {
-            _widgets = new Dictionary<string, ElementManager>();
-            _notifyOnChange = new Dictionary<string, List<ElementManager>>();
-        }
-
-        /// <summary>
-        /// Subscribe Widget to updates of the (targetID) Widget
-        /// </summary>
-        /// <param name="targetID">Widgets' id that initiates updates</param>
-        /// <param name="widget">Widget to receive updates</param>
-        public void ReceiveUpdates(string targetID, ElementManager widget)
-        {
-            // Create value in dictonary if it does not exist
-            if (!_notifyOnChange.ContainsKey(targetID))
-                _notifyOnChange.Add(targetID, new List<ElementManager>());
-
-            // Add value to targetID
-            if (!_notifyOnChange[targetID].Contains(widget))
-                _notifyOnChange[targetID].Add(widget);
+            //IEnumerable<ElementManager> widgets = ElementManagerFactory.CreateWidgets(node, this);
+            //DisplayForm(node.FormName, widgets.ToArray());
         }
 
         /// <summary>
         /// Start notifying subscribed that the value of the widget has changed
         /// </summary>
-        /// <param name="widgetID">ID of the changed widgets' value</param>
-        public void ValueUpdate(string widgetID)
+        /// <param name="elementManagerID">ID of the changed elementManagers value</param>
+        public void ValueUpdate(string elementManagerID)
         {
-            if (_notifyOnChange.ContainsKey(widgetID))
-                foreach (ElementManager w in _notifyOnChange[widgetID])
-                    w.ReceiveUpdate(widgetID);
+            _form.NotifyChange(elementManagerID);
         }
 
         public void ActiveChanged()
@@ -141,25 +92,21 @@ namespace QLVisualizer.Controllers
         }
 
         /// <summary>
-        /// Get Widget by ID
-        /// </summary>
-        /// <param name="widgetID">ID of the widget</param>
-        /// <returns>Widget associated with the given ID</returns>
-        public ElementManager GetWidget(string widgetID)
-        {
-            return _widgets[widgetID];
-        }
-
-        /// <summary>
         /// Exports all widget answers to xml
         /// </summary>
         /// <returns>XML string conaining answers</returns>
         public string AnswersToXml()
         {
-            string res = "<answers>";
-            foreach (ElementManager widget in _widgets.Values)
-                res += widget.ToXML();
-            return res + "</answers>";
+            return _form.ToXML();
+        }
+
+        // TODO: check if class is status -sensitive
+        public abstract void Reset();
+
+        public ElementManager GetElementManager(string elementID)
+        {
+            // TODO: Get elementmanager by id
+            return null;
         }
     }
 }

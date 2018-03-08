@@ -8,6 +8,7 @@ using QLVisualizer.Factories;
 using QLVisualizer.Properties;
 using QLVisualizer.Style;
 using QLVisualizer.ElementManagers;
+using QLVisualizer.ElementManagers.CollectionTypes;
 
 namespace QLVisualizer.Controllers.Display
 {
@@ -35,7 +36,7 @@ namespace QLVisualizer.Controllers.Display
 
         private Label _titleLabel;
 
-        public ElementManagerDisplayContollerWindows(float topMargin) : base(topMargin, new WindowsStyleProperties { Width = 338 })
+        public ElementManagerDisplayContollerWindows(FormManager form, float topMargin) : base(form, topMargin, new WindowsStyleProperties { Width = 338 })
         {
             _elementFactory = new ControlFactory(this);
             ConstructMainWindow();

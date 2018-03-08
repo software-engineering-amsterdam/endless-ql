@@ -15,10 +15,10 @@ namespace QLVisualizer.Tests.Controllers.Display
         {
             _widgetStyle = new WindowsStyleProperties();
 
-            _widgetDisplayController = new ElementManagerDisplayContollerWindows(10);
-            _intWidget = new IntQuestionManager("a", "q1", null);
-            _boolWidget = new BoolQuestionManager("b", "q2", null);
-            _stringWidget = new StringQuestionManager("c", "q3", null);
+            _widgetDisplayController = new ElementManagerDisplayContollerWindows(null, 10);
+            _intWidget = new IntQuestionManager("a", "q1", null, _widgetDisplayController);
+            _boolWidget = new BoolQuestionManager("b", "q2", null, _widgetDisplayController);
+            _stringWidget = new StringQuestionManager("c", "q3", null, _widgetDisplayController);
         }
 
         [TestMethod]

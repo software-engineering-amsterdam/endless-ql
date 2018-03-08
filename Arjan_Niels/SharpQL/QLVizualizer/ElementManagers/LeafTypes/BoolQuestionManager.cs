@@ -1,10 +1,12 @@
-﻿using QLVisualizer.Expression.Types;
+﻿using QLVisualizer.Controllers;
+using QLVisualizer.Expression.Types;
 
 namespace QLVisualizer.ElementManagers.LeafTypes
 {
     public class BoolQuestionManager : QuestionElementManager<bool>
     {
-        public BoolQuestionManager(string identifyer, string text, ElementManager parent, ExpressionBool activationExpression = null, TypedExpressionValue<bool> answerExpression = null) : base(identifyer, text, parent, activationExpression, answerExpression)
+        public BoolQuestionManager(string identifyer, string text, ElementManager parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<bool> answerExpression = null) : 
+            base(identifyer, text, parent, controller, activationExpression, answerExpression)
         {
         }
 

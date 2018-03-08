@@ -3,6 +3,7 @@ using QLVisualizer.ElementManagers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using QLVisualizer.ElementManagers.CollectionTypes;
 
 namespace QLVisualizer.Controllers.Display
 {
@@ -35,7 +36,7 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         public Y DefaultStyle { get; private set; }
 
-        public WidgetDisplayController(float initialPosition, Y defaultStyle)
+        public WidgetDisplayController(FormManager form, float initialPosition, Y defaultStyle) : base(form)
         {
             InitialPosition = initialPosition;
             ElementIndex = new Dictionary<string, T>();
@@ -68,12 +69,13 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         private void UpdateDefaultStyle()
         {
-            if (ElementStyleIndex == null)      // Case no styles set
-                ElementStyleIndex = _widgets.Keys.ToDictionary(o => o, o => DefaultStyle);
+            // TODO: ASSIGN STYLE
+            /*if (ElementStyleIndex == null)      // Case no styles set
+                ElementStyleIndex = _form.Keys.ToDictionary(o => o, o => DefaultStyle);
             else                                // Case styles already set
-                foreach (string s in _widgets.Keys)
+                foreach (string s in _form.Keys)
                     if (!ElementStyleIndex.ContainsKey(s))
-                        ElementStyleIndex.Add(s, DefaultStyle);
+                        ElementStyleIndex.Add(s, DefaultStyle);*/
         }
 
         /// <summary>
@@ -108,10 +110,10 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         /// <param name="title">Tile of form</param>
         /// <param name="widgets">Widgets on form</param>
-        public override void DisplayForm(string title, ElementManager[] widgets)
+        public override void DisplayForm(string title, FormManager form)
         {
             SetTitle(title);
-            SetWidgets(widgets);
+            _form = form;
             ShowWidgets();
         }
 
@@ -120,6 +122,8 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         public override void ShowWidgets()
         {
+            // TODO: Make show widgets recursive
+
             // Ensure styles are set
             UpdateDefaultStyle();
 
@@ -130,12 +134,7 @@ namespace QLVisualizer.Controllers.Display
 
             // Display all widgets, updating their position as the bottom
             // of the last displayed widget.
-            foreach (ElementManager widget in _widgets.Values)
-                if (widget.Active)
-                {
-                    _tempStyle[widget.Identifier] = UpdatePosition(widget, position, _tempStyle[widget.Identifier]);
-                    position = ShowWidget(widget, _tempStyle[widget.Identifier]);
-                }
+            ShowWidget(_form, DefaultStyle);
         }
 
         /// <summary>
@@ -191,7 +190,6 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         public override void Reset()
         {
-            base.Reset();
             ElementIndex = new Dictionary<string, T>();
             ElementStyleIndex = new Dictionary<string, Y>();
         }

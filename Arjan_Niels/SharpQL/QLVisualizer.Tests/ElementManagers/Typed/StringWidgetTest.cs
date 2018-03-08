@@ -9,7 +9,7 @@ namespace QLVisualizer.Tests.ElementManagers.Typed
         [TestInitialize]
         public void Initialize()
         {
-            Widget = new StringQuestionManager("id", "question", null);
+            Widget = new StringQuestionManager("id", "question", null, null);
         }
 
         [TestMethod]

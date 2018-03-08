@@ -75,21 +75,21 @@ object TypeChecker extends Logging {
         operand match {
           case _: IntegerAnswer => None
           case _: DecimalAnswer => None
-          case _ => Some(TypeCheckError(message = "Operand of invalid type"))
+          case _                => Some(TypeCheckError(message = "Operand of invalid type"))
         }
       case _: BooleanOperator =>
         operand match {
           case _: IntegerAnswer => None
           case _: DecimalAnswer => None
-          case _: MoneyAnswer => None
+          case _: MoneyAnswer   => None
           case _: BooleanAnswer => None
-          case _: DateAnswer => None
-          case _ => Some(TypeCheckError(message = "Operand of invalid type"))
+          case _: DateAnswer    => None
+          case _                => Some(TypeCheckError(message = "Operand of invalid type"))
         }
       case _: LogicalOperator =>
         operand match {
           case _: BooleanAnswer => None
-          case _ => Some(TypeCheckError(message = "Operand of invalid type"))
+          case _                => Some(TypeCheckError(message = "Operand of invalid type"))
         }
       case _ => Some(TypeCheckError(message = "Operator not implemented yet"))
     }
@@ -116,7 +116,7 @@ object TypeChecker extends Logging {
     val conditionalsWithNonBooleanPredicates: Seq[Conditional] = conditionals filter { conditional =>
       Evaluator.evaluateExpression(conditional.predicate, qLForm.symbolTable, Map.empty) match {
         case _: BooleanAnswer => false
-        case _ => true
+        case _                => true
       }
     }
 
@@ -165,8 +165,8 @@ object TypeChecker extends Logging {
 
   private def buildDependencyGraph(questions: Seq[Question]): Graph = {
     questions.flatMap {
-      case q@Question(_, _, _, r@Reference(_)) => Seq(Edge(q.id, r.value))
-      case q@Question(_, _, _, expression) =>
+      case q @ Question(_, _, _, r @ Reference(_)) => Seq(Edge(q.id, r.value))
+      case q @ Question(_, _, _, expression) =>
         Expression.collectAllReferences(expression).map(r => Edge(q.id, r.value))
     }
   }
@@ -179,9 +179,11 @@ object TypeChecker extends Logging {
       questions.groupBy(_.label).valuesIterator.filter(_.size > 1).toList
 
     val warnings = questionsWithDuplicateLabels
-      .map(qg => Warning(
-        s"Warning: questions ${qg.map(_.id).mkString(", ")} have duplicate label: ${qg.head.label}"
-      ))
+      .map(
+        qg =>
+          Warning(
+            s"Warning: questions ${qg.map(_.id).mkString(", ")} have duplicate label: ${qg.head.label}"
+        ))
 
     qLForm.copy(warnings = warnings)
   }

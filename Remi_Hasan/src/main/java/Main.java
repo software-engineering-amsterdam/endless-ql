@@ -1,7 +1,4 @@
-import analysis.CycleDetector;
-import analysis.ReferencedIdentifiersVisitor;
-import analysis.SymbolTable;
-import analysis.TypeChecker;
+import analysis.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -70,8 +67,8 @@ public class Main extends Application {
 
             SymbolTable symbolTable = new SymbolTable(form);
 
-            ReferencedIdentifiersVisitor referencedIdentifiersVisitor = new ReferencedIdentifiersVisitor(form);
-            List<String> unknownReferencedIdentifiers = referencedIdentifiersVisitor.getUnknownReferencedIdentifiers();
+            UnknownIdentifierDetector unknownIdentifierDetector = new UnknownIdentifierDetector(form);
+            List<String> unknownReferencedIdentifiers = unknownIdentifierDetector.detectUnknownIdentifiers();
             if(!unknownReferencedIdentifiers.isEmpty()){
                 showErrorAlert("Unknown variable(s):", unknownReferencedIdentifiers);
                 return;
@@ -84,7 +81,6 @@ public class Main extends Application {
                 showErrorAlert("Cycles detected in the following variable(s):", cycles);
                 return;
             }
-
 
             TypeChecker typeChecker = new TypeChecker(form, symbolTable);
 

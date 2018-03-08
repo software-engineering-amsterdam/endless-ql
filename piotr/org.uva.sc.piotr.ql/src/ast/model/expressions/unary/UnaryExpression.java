@@ -7,8 +7,8 @@ abstract public class UnaryExpression extends Expression {
 
     private Expression expression;
 
-    public UnaryExpression(Expression expression, Integer startLine, Integer endLine) {
-        super(startLine, endLine);
+    public UnaryExpression(Expression expression, MetaInformation metaInformation) {
+        super(metaInformation);
         this.expression = expression;
     }
 

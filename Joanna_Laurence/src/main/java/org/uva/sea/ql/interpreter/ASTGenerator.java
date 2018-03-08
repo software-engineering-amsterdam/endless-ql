@@ -21,7 +21,8 @@ public class ASTGenerator {
             new LinkAndCheckVariableUsage(),
             new TypeCheck(),
             new CheckDuplicateLabels(),
-            new CheckIncorrectDuplicateQuestions()
+            new CheckIncorrectDuplicateQuestions(),
+            new CircularDependencies()
     });
 
     /**

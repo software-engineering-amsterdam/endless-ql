@@ -1,22 +1,23 @@
 package domain.model.variable;
 
-import domain.model.expression.Expression;
+import domain.model.value.ExpressionValue;
+import domain.model.value.PlainValue;
 import domain.model.visitor.Visitor;
 import javafx.scene.Node;
 
 
 public abstract class Variable {
-    private final String name;
+    private final String identifier;
 
-    public Variable(String name) {
-        this.name = name;
+    public Variable(String identifier) {
+        this.identifier = identifier;
     }
 
-    public String getName() {
-        return name;
+    public String getIdentifier() {
+        return identifier;
     }
     public void setValue(PlainValue value){};
-    public void setValue(Expression value){};
+    public void setValue(ExpressionValue value){};
     public abstract Node getRelatedUIElement(Visitor v);
 
 }

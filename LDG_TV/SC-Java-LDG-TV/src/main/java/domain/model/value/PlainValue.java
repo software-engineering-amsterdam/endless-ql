@@ -1,4 +1,4 @@
-package domain.model.variable;
+package domain.model.value;
 
 public class PlainValue extends Value{
     private String value;

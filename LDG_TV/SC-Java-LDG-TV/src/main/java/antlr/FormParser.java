@@ -33,7 +33,7 @@ public class FormParser extends Parser {
 		RULE_condition = 24, RULE_conditions = 25, RULE_booleanOperator = 26;
 	public static final String[] ruleNames = {
 		"formBuilder", "formData", "questionStructure", "ifStructure", "statementBlockStructure", 
-		"value", "label", "variable", "variableType", "variableValue", "expression", 
+		"value", "label", "variable", "variableType", "variableValue", "value",
 		"booleanExpression", "unaryBooleanExpression", "gtExpression", "gteoqExpression", 
 		"stExpression", "stoeqExpression", "eqExpression", "neqExpression", "aritmaticExpression", 
 		"mulExpression", "addExpression", "minExpression", "divExpression", "condition", 

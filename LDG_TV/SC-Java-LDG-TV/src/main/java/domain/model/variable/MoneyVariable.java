@@ -1,15 +1,16 @@
 package domain.model.variable;
 
-import domain.model.expression.Expression;
+import domain.model.value.ExpressionValue;
+import domain.model.value.PlainValue;
+import domain.model.value.Value;
 import domain.model.visitor.Visitor;
 import javafx.scene.Node;
 
 public class MoneyVariable extends Variable {
     private Value value;
 
-    public MoneyVariable(String name, Value value) {
-        super(name);
-        this.value = value;
+    public MoneyVariable(String identifier) {
+        super(identifier);
     }
     public Value getValue() {
         return value;
@@ -19,12 +20,8 @@ public class MoneyVariable extends Variable {
         this.value = value;
     }
     @Override
-    public void setValue(Expression e){
+    public void setValue(ExpressionValue e){
         this.value = e;
-    }
-    @Override
-    public String toString() {
-        return this.getName() + ": String = " + this.value;
     }
 
     @Override

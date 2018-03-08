@@ -1,22 +1,54 @@
 package ql.models.ast
 
-sealed trait ASTNode
+sealed trait ASTNode {
+  def flatten(): List[ASTNode] = {
+    List(null)
+  }
+}
 
-case class ASTRoot(header: ASTNode, body: ASTNode) extends ASTNode
+sealed trait ASTNonTerminal extends ASTNode
 
-// case class ASTFormHeader(label: String) extends ASTNode
-case class ASTFormHeader(identifier: ASTNode) extends ASTNode
-case class ASTFormBody(statements: List[ASTNode]) extends ASTNode
-case class ASTQuestion(varDecl: ASTNode, label: String) extends ASTNode
-case class ASTConditional() extends ASTNode
+case class ASTRoot(header: ASTNode, body: ASTNode) extends ASTNonTerminal {
+  override def flatten(): List[ASTNode] = {
+    List(header, body)
+  }
+}
+
+case class ASTFormHeader(identifier: ASTNode) extends ASTNonTerminal {
+  override def flatten(): List[ASTNode] = {
+    List(identifier)
+  }
+}
+
+case class ASTFormBody(statements: List[ASTNode]) extends ASTNonTerminal {
+  override def flatten(): List[ASTNode] = {
+    statements
+  }
+}
+
+case class ASTQuestion(varDecl: ASTNode, label: String) extends ASTNonTerminal {
+  override def flatten(): List[ASTNode] = {
+    List(varDecl)
+  }
+}
+
 case class ASTComputation(varDecl: ASTNode, valAssign: ASTNode, label: String)
-    extends ASTNode
+    extends ASTNonTerminal
 
-case class ASTVarDecl(typeDecl: ASTNode, id: ASTNode) extends ASTNode
+case class ASTVarDecl(typeDecl: ASTNode, id: ASTNode) extends ASTNonTerminal {
+  override def flatten(): List[ASTNode] = {
+    List(typeDecl, id)
+  }
+}
+
 case class ASTTypeDecl(returnType: ASTNode) extends ASTNode
-case class ASTValAssign(expression: ASTNode) extends ASTNode
+case class ASTValAssign(expression: ASTNode) extends ASTNonTerminal
 case class ASTIfStatement(expression: ASTNode, statements: List[ASTNode])
-    extends ASTNode
+    extends ASTNonTerminal {
+  override def flatten(): List[ASTNode] = {
+    List(expression) ++ statements
+  }
+}
 
 case class ASTBoolean() extends ASTNode
 case class ASTMoney() extends ASTNode
@@ -41,5 +73,14 @@ case class ASTMin() extends ASTNode
 case class ASTMul() extends ASTNode
 case class ASTDiv() extends ASTNode
 
-case class ASTBinary(rhs: ASTNode, lhs: ASTNode, op: ASTNode) extends ASTNode
-case class ASTUnary(expr: ASTNode, op: ASTNode) extends ASTNode
+case class ASTBinary(rhs: ASTNode, lhs: ASTNode, op: ASTNode) extends ASTNonTerminal {
+  // todo: exprs that contain exprs aren't traversed.
+  override def flatten(): List[ASTNode] = {
+    List(lhs, rhs, op)
+  }
+}
+case class ASTUnary(expr: ASTNode, op: ASTNode) extends ASTNonTerminal {
+  override def flatten(): List[ASTNode] = {
+    List(expr, op)
+  }
+}

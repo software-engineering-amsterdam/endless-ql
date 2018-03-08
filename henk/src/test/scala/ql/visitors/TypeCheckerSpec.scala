@@ -35,7 +35,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     val filename = "ql/typechecking/single_undeclared_identifier.ql"
     val typechecker = new TypeChecker(getForm(filename))
 
-    it("check method should return true") {
+    it("check method should return false") {
       assert(typechecker.check() == false)
     }
 
@@ -57,7 +57,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     val filename = "ql/typechecking/multiple_undeclared_identifiers.ql"
     val typechecker = new TypeChecker(getForm(filename))
 
-    it("check method should return true") {
+    it("check method should return false") {
       assert(typechecker.check() == false)
     }
 

@@ -1,5 +1,5 @@
 // Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/java/antlr\Form.g4 by ANTLR 4.7
-package antlr;
+package antlr.ql;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**

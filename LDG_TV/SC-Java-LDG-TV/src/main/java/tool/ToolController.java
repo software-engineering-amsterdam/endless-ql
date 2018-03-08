@@ -1,7 +1,7 @@
 package tool;
 
-import antlr.FormLexer;
-import antlr.FormParser;
+import antlr.ql.FormLexer;
+import antlr.ql.FormParser;
 import domain.FormData;
 import domain.FormNode;
 import domain.Utilities;

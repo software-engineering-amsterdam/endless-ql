@@ -1,4 +1,5 @@
 import analysis.SymbolTable;
+import javafx.event.ActionEvent;
 import model.expression.Expression;
 import model.expression.ReturnType;
 import model.expression.variable.*;
@@ -19,6 +20,7 @@ import org.yorichan.formfx.form.GridForm;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
@@ -118,12 +120,13 @@ public class Renderer {
 
     private Control createBooleanField(HashMap<Question, Field> fieldMap, Question question) {
         CheckBox checkBox = new CheckBox();
-
+        checkBox.setDisable(!question.isEditable());
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            Expression expression = new ExpressionVariableBoolean(question.defaultAnswer.getToken(),
-                    Boolean.parseBoolean(newValue.toString()));
-            symbolTable.setExpression(question.name, expression);
-            updateFields(fieldMap, form.questions);
+            if (!checkBox.isDisabled()){
+                Expression expression = new ExpressionVariableBoolean(question.defaultAnswer.getToken(), Boolean.parseBoolean(newValue.toString()));
+                symbolTable.setExpression(question.name, expression);
+                updateFields(fieldMap, form.questions);
+            }
         });
 
         return checkBox;
@@ -243,8 +246,11 @@ public class Renderer {
     private Button createSubmitButton(Form form) {
         // TODO save answers to file
         Button submitButton = new Button("Submit (see output in console)");
-        submitButton.setOnAction(e -> {
+        submitButton.setOnAction((ActionEvent e) -> {
             // Debug output, shows answer to every question in console
+            for(Map.Entry<String, Expression> answer : symbolTable.getAllAnswers().entrySet()){
+                System.out.println(answer.getKey() + " " + answer.getValue().toString());
+            }
         });
         return submitButton;
     }

@@ -6,7 +6,9 @@ import org.uva.sea.ql.parser.elements.types.Variable;
 import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.ql.parser.visitor.BaseASTVisitor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +22,12 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
      * Contain what questions is related to what variable
      */
     private Map<String, Question> variableMap = new HashMap<>();
+
+    /**
+     * Contains variables that are used in the program. They are linked to questions
+     * at the send of the evaluation
+     */
+    private List<Variable> usedVariables = new ArrayList<>();
 
     /**
      *
@@ -44,7 +52,26 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
         this.messages.clear();
 
         node.accept(this);
+
+        linkVariableInformation();
+
         return this.messages;
+    }
+
+    /**
+     * Link all variables to the correct question
+     * Add error when it is not defined
+     */
+    private void linkVariableInformation() {
+        for(Variable variable : this.usedVariables) {
+            String variableName = variable.getVariableName();
+            if (!variableMap.containsKey(variableName)) {
+                this.error("Variable is not defined", variable);
+                return;
+            }
+
+            variable.setLinkedQuestion(variableMap.get(variableName));
+        }
     }
 
     /**
@@ -55,15 +82,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
     @Override
     public Void visit(Variable node) {
         super.visit(node);
-
-        //Questions should not already exist
-        String variableName = node.getVariableName();
-        if (!variableMap.containsKey(variableName)) {
-            this.error("Variable is not defined", node);
-            return null;
-        }
-
-        node.setLinkedQuestion(variableMap.get(variableName));
+        this.usedVariables.add(node);
         return null;
     }
 

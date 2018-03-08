@@ -483,7 +483,7 @@ public class QLSParser extends Parser {
 
 				            List<Specification> specifications = new ArrayList<>();
 				            specifications.add(((SectionContext)_localctx).specification.result);
-				            ((SectionContext)_localctx).result =  new Section(((SectionContext)_localctx).s, (((SectionContext)_localctx).STR!=null?((SectionContext)_localctx).STR.getText():null).Substring(1,(((SectionContext)_localctx).STR!=null?((SectionContext)_localctx).STR.getText():null)-2), specifications);
+				            ((SectionContext)_localctx).result =  new Section(((SectionContext)_localctx).s, (((SectionContext)_localctx).STR!=null?((SectionContext)_localctx).STR.getText():null), specifications);
 				        
 				}
 				break;

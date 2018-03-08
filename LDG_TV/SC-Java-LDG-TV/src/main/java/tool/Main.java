@@ -23,11 +23,6 @@ public class Main {
             QLLoader loader = new QLLoader();
             UIVisitor visitor = new UIVisitor();
             ParseTreeWalker.DEFAULT.walk(loader, tree);
-            for (QuestionNode qs : loader.getFormNode().getFormData().getAllQuestions()){
-                if (qs.getVariable().getValue() != null){
-                    System.out.println(qs.getVariable().getValue().getValue());
-                }
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -24,12 +24,10 @@ class Gui:
         self.mainframe = create_frame(self.gui, background='pink')
         self.mainframe.pack(expand=True, fill='both')
         self.form = None
-
         self.ast = ast
         self.varDict = ast.varDict
-
         self.questionsGenerator = Question_Generator(self.varDict, self.ast)
-        self.questions = self.questionsGenerator.getQuestionsFromAst()
+        self.questions = self.questionsGenerator.updateQuestions()
         self.create_form()
         self.execute()
 
@@ -37,22 +35,23 @@ class Gui:
     # For every form, create the header frame and questions frame and fill the questions frame
     # with questions
     def create_form(self):
-        form = FormGui(self.mainframe, "idk lol")
-        content_frame = form.get_contents()
-        sfg = ScrollFrameGui(content_frame)
-        sfg_content = sfg.get_contents()
+        form = FormGui(self.mainframe, self.questionsGenerator, self.ast.getName())
 
-        for q in range(0, 10):
-            # form.add_question()
-            q = Question(sfg_content)
+        for var in self.questions:
+            label = self.questions[var].getQuestion()
+            type = self.varDict[var]['node'].checkTypes()
+            print(label)
+            print(type)
+            form.add_question(var, label, type)
+
         self.form = form
 
-        b = Button(self.mainframe, text="OK", command=self.collect_answers)
+        b = Button(self.mainframe, text="SUBMIT", command=self.collect_answers)
         b.pack()
 
     # Execute the GUI
     def execute(self):
-        self.gui.geometry("1500x1000")
+        self.gui.geometry("600x400")
         self.gui.mainloop()
 
     def collect_answers(self):

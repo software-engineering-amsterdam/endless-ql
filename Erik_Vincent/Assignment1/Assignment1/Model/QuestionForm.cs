@@ -10,12 +10,12 @@ namespace Assignment1.Model
     public class QuestionForm
     {
         public string Id { get; }
-        public List<Content> Content { get; }
+        public List<Question> Questions { get; }
 
-        public QuestionForm(string id, List<Content> content)
+        public QuestionForm(string id, List<Question> questions)
         {
             Id = id;
-            Content = content;
+            Questions = questions;
         }
 
         internal static QLListener ParseString(string input)

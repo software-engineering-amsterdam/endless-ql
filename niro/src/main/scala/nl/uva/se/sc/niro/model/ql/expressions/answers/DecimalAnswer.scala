@@ -3,6 +3,7 @@ package nl.uva.se.sc.niro.model.ql.expressions.answers
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.BasicArithmetics.DecAnswerCanDoBasicArithmetics._
 import nl.uva.se.sc.niro.model.ql.expressions.Orderings.DecAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.model.ql.expressions.MoneyArithmetics.MoneyCanDoArithmetics.{ times => moneyTimes }
 
 final case class DecimalAnswer(possibleValue: Option[BigDecimal]) extends Answer {
 
@@ -21,6 +22,11 @@ final case class DecimalAnswer(possibleValue: Option[BigDecimal]) extends Answer
         case Gt  => this > that
         case Ne  => this !== that
         case Eq  => this === that
+        case _   => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
+      }
+    case that: MoneyAnswer =>
+      operator match {
+        case Mul => moneyTimes(this, that)
         case _   => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
       }
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")

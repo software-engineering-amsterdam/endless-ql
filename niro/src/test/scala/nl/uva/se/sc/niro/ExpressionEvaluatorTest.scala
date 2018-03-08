@@ -44,6 +44,44 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
           evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
         }
       }
+
+      "on money" in {
+        val table = Table(
+          ("Operator", "Left", "Right", "Expected Answer"),
+          (Add, MoneyAnswer(5), MoneyAnswer(3), MoneyAnswer(8)),
+          (Sub, MoneyAnswer(5), MoneyAnswer(3), MoneyAnswer(2)),
+          (Div, MoneyAnswer(10), MoneyAnswer(5), DecimalAnswer(2))
+        )
+
+        forAll(table) { (operator, left, right, expectedAnswer) =>
+          val expression = BinaryOperation(operator, left, right)
+          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+        }
+      }
+
+      // TODO implement type widening for left hand side of the expression
+      "on different types" in {
+        val table = Table(
+          ("Operator", "Left", "Right", "Expected Answer"),
+          (Mul, MoneyAnswer(5), IntegerAnswer(3), MoneyAnswer(15)),
+          (Mul, MoneyAnswer(5), DecimalAnswer(3), MoneyAnswer(15)),
+          (Div, MoneyAnswer(10), IntegerAnswer(5), MoneyAnswer(2)),
+          (Div, MoneyAnswer(10), DecimalAnswer(5), MoneyAnswer(2)),
+          (Add, IntegerAnswer(10), DecimalAnswer(5), DecimalAnswer(15)),
+//            (Add, DecimalAnswer(10), IntegerAnswer(5), DecimalAnswer(15)),
+          (Sub, IntegerAnswer(10), DecimalAnswer(6), DecimalAnswer(4)),
+//            (Sub, DecimalAnswer(10), IntegerAnswer(6), DecimalAnswer(4)),
+          (Mul, IntegerAnswer(10), DecimalAnswer(5), DecimalAnswer(50)),
+//            (Mul, DecimalAnswer(10), IntegerAnswer(5), DecimalAnswer(50)),
+          (Div, IntegerAnswer(10), DecimalAnswer(5), DecimalAnswer(2))
+//            (Div, DecimalAnswer(10), IntegerAnswer(5), DecimalAnswer(2))
+        )
+
+        forAll(table) { (operator, left, right, expectedAnswer) =>
+          val expression = BinaryOperation(operator, left, right)
+          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+        }
+      }
     }
 
     "do comparison operations" should {
@@ -122,7 +160,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
         }
       }
 
-      "on money" in {
+      "on dates" in {
         val table = Table(
           ("Operator", "Left", "Right", "Expected Answer"),
           // format: off
@@ -141,6 +179,31 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
           (Eq, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-08")), BooleanAnswer(true)),
           (Eq, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-09")), BooleanAnswer(false))
           // format: on
+        )
+
+        forAll(table) { (operator, left, right, expectedAnswer) =>
+          val expression = BinaryOperation(operator, left, right)
+          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+        }
+      }
+
+      "on money" in {
+        val table = Table(
+          ("Operator", "Left", "Right", "Expected Answer"),
+          (Lt, MoneyAnswer(1), MoneyAnswer(2), BooleanAnswer(true)),
+          (Lt, MoneyAnswer(2), MoneyAnswer(1), BooleanAnswer(false)),
+          (Lte, MoneyAnswer(1), MoneyAnswer(2), BooleanAnswer(true)),
+          (Lte, MoneyAnswer(1), MoneyAnswer(1), BooleanAnswer(true)),
+          (Lte, MoneyAnswer(2), MoneyAnswer(1), BooleanAnswer(false)),
+          (Gte, MoneyAnswer(5), MoneyAnswer(3), BooleanAnswer(true)),
+          (Gte, MoneyAnswer(5), MoneyAnswer(5), BooleanAnswer(true)),
+          (Gte, MoneyAnswer(3), MoneyAnswer(5), BooleanAnswer(false)),
+          (Gt, MoneyAnswer(5), MoneyAnswer(3), BooleanAnswer(true)),
+          (Gt, MoneyAnswer(3), MoneyAnswer(5), BooleanAnswer(false)),
+          (Ne, MoneyAnswer(5), MoneyAnswer(3), BooleanAnswer(true)),
+          (Ne, MoneyAnswer(5), MoneyAnswer(5), BooleanAnswer(false)),
+          (Eq, MoneyAnswer(5), MoneyAnswer(5), BooleanAnswer(true)),
+          (Eq, MoneyAnswer(5), MoneyAnswer(3), BooleanAnswer(false))
         )
 
         forAll(table) { (operator, left, right, expectedAnswer) =>

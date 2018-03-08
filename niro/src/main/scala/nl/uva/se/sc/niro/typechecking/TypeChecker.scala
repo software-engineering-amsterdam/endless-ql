@@ -179,7 +179,8 @@ object TypeChecker extends Logging {
       questions.groupBy(_.label).valuesIterator.filter(_.size > 1).toList
 
     val warnings = questionsWithDuplicateLabels
-      .map(duplicates =>
+      .map(
+        duplicates =>
           Warning(
             s"Warning: questions ${duplicates.map(_.id).mkString(", ")} have duplicate label: ${duplicates.head.label}"
         ))

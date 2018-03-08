@@ -4,10 +4,15 @@ from .gui_imports import *
 # class that returns the correct widget based on the input type
 class InputTypeMap:
 
-    def __init__(self, parent):
+    def __init__(self, parent, questionGenerator, varName, value):
         self.parent = parent
         self.old_value = None
-        pass
+        self.value = value
+        print(varName)
+        print(value)
+        self.questionGenerator = questionGenerator
+        self.varDict = self.questionGenerator.getVarDict()
+        self.varName = varName
 
     def getWidget(self, question_type):
         q_types = {
@@ -21,6 +26,7 @@ class InputTypeMap:
     # return boolean textbox widget
     def return_bool(self):
         var = IntVar()
+        var.set(self.value)
         button = Checkbutton(self.parent, variable=var, background="white")
         button.pack(fill='x')
         return button, var
@@ -33,6 +39,7 @@ class InputTypeMap:
 
     def return_int(self):
         sv = StringVar()
+        sv.set(self.value)
         self.old_value = 0
         sv.trace('w', lambda nm, idx, mode, var=sv: self.validateInt(var))
         e = Entry(self.parent, textvariable=sv)
@@ -49,16 +56,33 @@ class InputTypeMap:
 
     def validateInt(self, var):
         new_val = var.get()
-        try:
-            new_val == '' or int(new_val)
-            self.old_value = new_val
-        except:
-            var.set(self.old_value)
+        # try:
+        new_val == '' or int(new_val)
+        if(new_val == ''):
+            new_val = 0
+        new_val = int(new_val)
+        # save value in vardict
+        varNode = self.varDict[self.varName]['node']
+        varNode.setVar(new_val)
+        # update_questions
+        self.questionGenerator.updateQuestions()
+
+        self.old_value = new_val
+        # except:
+        #     print("EXCEPT")
+        #     var.set(self.old_value)
 
     def validateFloat(self, var):
         new_val = var.get()
         try:
             new_val == '' or float(new_val)
+            new_val = float(new_val)
+            # save value in vardict
+            varNode = self.varDict[self.varName]['node']
+            varNode.setVar(new_val)
+            # update_questions
+            self.questionGenerator.updateQuestions()
+
             self.old_value = new_val
         except:
             var.set(self.old_value)

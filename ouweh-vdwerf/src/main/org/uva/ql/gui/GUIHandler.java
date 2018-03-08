@@ -11,6 +11,7 @@ import org.uva.ql.validation.LogHandler;
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
@@ -73,8 +74,9 @@ public class GUIHandler {
 
     private void checkForErrors() {
         Logger logger = Logger.getGlobal();
+        logger.info("Hallo");
         LogHandler handler = (LogHandler) logger.getHandlers()[0];
-        ArrayList<LogRecord> logs = handler.getLogs();
+        ArrayList<LogRecord> logs = handler.getLogs(Level.WARNING);
         if (logs.size() > 0) {
             JOptionPane.showMessageDialog(frame, logs.get(0).getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             this.frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));

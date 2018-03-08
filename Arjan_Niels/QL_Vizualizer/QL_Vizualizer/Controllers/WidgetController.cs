@@ -135,6 +135,11 @@ namespace QL_Vizualizer.Controllers
                     w.ReceiveUpdate(widgetID);
         }
 
+        public void ActiveChanged()
+        {
+            RefreshWidgets();
+        }
+
         /// <summary>
         /// Get Widget by ID
         /// </summary>
@@ -143,6 +148,18 @@ namespace QL_Vizualizer.Controllers
         public QLWidget GetWidget(string widgetID)
         {
             return _widgets[widgetID];
+        }
+
+        /// <summary>
+        /// Exports all widget answers to xml
+        /// </summary>
+        /// <returns>XML string conaining answers</returns>
+        public string AnswersToXml()
+        {
+            string res = "<answers>";
+            foreach (QLWidget widget in _widgets.Values)
+                res += widget.ToXML();
+            return res + "</answers>";
         }
     }
 }

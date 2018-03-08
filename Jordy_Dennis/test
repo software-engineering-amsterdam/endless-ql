@@ -1,14 +1,8 @@
 form taxOfficeExample {
 	"This is an int"
-		a: int
+		b: int
 
-	"This is a string"
-		b: string
-
-	"Assignment Var"
-		g: int = (a * a)
-
-	if(a && b){
+	if(b){
 		"Q3 Within the if (int)"
 			f: int
 	}

@@ -27,12 +27,16 @@ class ConditionNodeBlock:
         return ["IF/ELIF:"+ str(self.expression), types]
 
     def linkVars(self, varDict):
+        print(self.expression)
         self.expression.linkVars(varDict)
         for statement in self.block:
             statement.linkVars(varDict)
 
     def getName(self):
         return self.expression.getName()
+
+    def getExpression(self):
+        return self.expression
 
     def __repr__(self):
         return "({}) {}".format(self.expression, self.block)

@@ -15,5 +15,10 @@ namespace QL_Vizualizer.Widgets.Types
             bool valid = bool.TryParse(input, out result);
             return new ParsedWidgetValue<bool>(Validate(result), valid);
         }
+
+        public override string ToXML()
+        {
+            return string.Format("<boolValue>{0}</boolValue>", AnswerValue);
+        }
     }
 }

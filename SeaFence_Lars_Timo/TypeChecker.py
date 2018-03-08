@@ -98,6 +98,7 @@ class TypeChecker(object):
         elif type(statement.left) is UnOpNode:
             self.checkUndefinedVariables(statement.left)
             left_type = self.getVariableTypes(statement.left)
+            # self.checkNegation(statement.left, left_type)
 
         if type(statement.right) is BinOpNode:
             right_type = self.checkInvalidOperations(statement.right)
@@ -105,6 +106,11 @@ class TypeChecker(object):
         elif type(statement.right) is UnOpNode:
             self.checkUndefinedVariables(statement.right)
             right_type = self.getVariableTypes(statement.right)
+            # self.checkNegation(statement.right, right_type)
+
+        self.checkNegation(statement.left, left_type)
+        self.checkNegation(statement.right, right_type)
+        self.checkNegation(statement, left_type)
 
         self.checkOperation(statement, left_type, right_type, operator)
 
@@ -119,11 +125,9 @@ class TypeChecker(object):
         return
 
 
-    # todo: check negation of binop
-    def checkNegation(self, statement):
-        for value in self.questions.values():
-            if statement.expression.var == value[0] and value[1] != BOOLEAN_UNICODE:
-                exitProgram("Negation on variable {} is not allowed.".format(statement.expression.var))
+    def checkNegation(self, statement, variable_type):
+        if statement.negate and variable_type == INTEGER_UNICODE:
+            exitProgram("Negation on {} is not allowed.".format(statement))
         return
 
 

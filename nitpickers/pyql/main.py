@@ -21,7 +21,8 @@ def main(argv):
     c = tree.accept(visitor)
     print(c)
 
-    ss = SymbolTableBuilder().build(c)
+    stb = SymbolTableBuilder()
+    stb.build(c)
 
     vv = TypeChecker()
     c.accept(vv)

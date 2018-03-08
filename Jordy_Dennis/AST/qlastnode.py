@@ -34,5 +34,8 @@ class QLAst:
     def getVarDict(self):
         return self.varDict
 
+    def getName(self):
+        return self.form.name
+
     def __repr__(self):
         return "FORMS: {}".format(self.forms)

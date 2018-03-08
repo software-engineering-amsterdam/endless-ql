@@ -29,11 +29,10 @@ object QLFormService {
     }
   }
 
-  def saveMemoryTableToCSV(memoryTable: Map[String, Answer]): Unit = {
+  def saveMemoryTableToCSV(memoryTable: Map[String, Answer], file: File): Unit = {
     val table: Seq[List[String]] = memoryTable.mapValues(answerToString).map(tuple2ToList).toList
 
-    val f = new File("out.csv")
-    val writer = CSVWriter.open(f)
+    val writer = CSVWriter.open(file)
     writer.writeAll(table)
     writer.close()
   }

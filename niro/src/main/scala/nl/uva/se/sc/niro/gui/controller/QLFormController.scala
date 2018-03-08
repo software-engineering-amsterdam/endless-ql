@@ -6,7 +6,8 @@ import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.{ Button, Label }
 import javafx.scene.layout.{ BorderPane, VBox }
-import nl.uva.se.sc.niro.Evaluator
+import javafx.stage.FileChooser
+import nl.uva.se.sc.niro.{ Evaluator, QLFormService }
 import nl.uva.se.sc.niro.gui.application.QLForms
 import nl.uva.se.sc.niro.gui.control.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.gui.converter.ModelConverter
@@ -51,9 +52,17 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
     QLForms.openHomeScreen(getActiveStage(event))
 
   @FXML
-  def saveData(event: ActionEvent): Unit =
-    // TODO Implement
+  def saveData(event: ActionEvent): Unit = {
+    val stage = getActiveStage(event)
+
+    val fileChooser = new FileChooser
+    fileChooser.setTitle("Save file")
+    fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("CSV", "*.csv"))
+    val file = fileChooser.showSaveDialog(stage)
+
+    QLFormService.saveMemoryTableToCSV(dictionary.toMap, file)
     println("Data is saved....")
+  }
 
   @FXML
   def previousPage(event: ActionEvent): Unit = {

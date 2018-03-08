@@ -1,8 +1,8 @@
 package tool;
 
 
-import antlr.FormLexer;
-import antlr.FormParser;
+import antlr.ql.FormLexer;
+import antlr.ql.FormParser;
 import domain.model.visitor.UIVisitor;
 import loader.QLLoader;
 import org.antlr.v4.runtime.ANTLRInputStream;

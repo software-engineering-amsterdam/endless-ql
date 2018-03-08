@@ -1,7 +1,7 @@
 package loader;
 
-import antlr.FormBaseListener;
-import antlr.FormParser;
+import antlr.ql.FormBaseListener;
+import antlr.ql.FormParser;
 import domain.FormNode;
 import domain.model.IfASTNode;
 import domain.model.value.ExpressionValue;

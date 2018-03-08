@@ -3,7 +3,7 @@ package tool;
 
 import antlr.FormLexer;
 import antlr.FormParser;
-import domain.model.Question;
+import domain.model.QuestionNode;
 import domain.model.visitor.UIVisitor;
 import loader.QLLoader;
 import org.antlr.v4.runtime.ANTLRInputStream;

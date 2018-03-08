@@ -5,19 +5,14 @@ import antlr.FormParser;
 import domain.FormData;
 import domain.FormNode;
 import domain.Utilities;
-import domain.model.Question;
+import domain.model.QuestionNode;
 import domain.model.variable.Variable;
 import domain.model.visitor.UIVisitor;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QLLoader;
@@ -55,13 +50,14 @@ public class ToolController implements Initializable {
     public void generateQuestionnaire(ActionEvent event) {
         String qlSource = taSourceCode.getText();
 
-//        if(qlSource.isEmpty()){
-//            showAlertBox("Please import or add QL code");
-//            return;
-//        }
+        if(qlSource.isEmpty()){
+            showAlertBox("Please import or add QL code");
+            return;
+        }
 
         lvQuestionnaire.getItems().clear();
 
+        // Parse input field and create AST
         CharStream stream = CharStreams.fromString(qlSource);
         FormLexer lexer = new FormLexer(stream);
 
@@ -74,22 +70,26 @@ public class ToolController implements Initializable {
         FormNode node = loader.getFormNode();
         FormData data = node.getFormData();
 
+        UIVisitor v = new UIVisitor();
+        for (domain.model.Node n : node.getNodes()){
 
-//
-//
-//        List<Question> qs = data.getAllQuestions();
-//        UIVisitor v = new UIVisitor();
-//        for (Question q : qs) {
-//            Variable qv =  q.getVariable();
-//            String qText = q.getText();
-//            Node answerNode = qv.getRelatedUIElement(v);
-//            lvQuestionnaire.getItems().add(new QuestionRow(qText, answerNode));
-//
-//        }
+            if(!(n instanceof QuestionNode)){
+                break;
+            }
 
+            QuestionNode qn = (QuestionNode) n;
 
-        this.lvQuestionnaire.getItems().setAll(dummyRows());
+            Variable qv = qn.getVariable();
+            String qt = qn.getText();
+
+            Node answerNode = qv.getRelatedUIElement(v);
+            lvQuestionnaire.getItems().add(new QuestionRow(qt, answerNode, false));
+        }
+
+        //this.lvQuestionnaire.getItems().setAll(dummyRows());
     }
+
+
 
 
     private List<Row> dummyRows(){

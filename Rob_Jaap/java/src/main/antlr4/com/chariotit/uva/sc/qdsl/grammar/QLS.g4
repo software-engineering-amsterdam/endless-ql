@@ -11,13 +11,13 @@ section_elem    : (section | question | defaultdef) ;
 section         : SECTION STRING BRACKET_L section_elem+ BRACKET_R ;
 question        : QUESTION identifier widget? ;
 defaultdef      : DEFAULT identifier BRACKET_L property+ BRACKET_R
-                | DEFAULT type WIDGET widget ;
+                | DEFAULT typeNode WIDGET widget ;
 property        : WORD COLON (NUMBER | STRING | COLOR_CODE)
                 | widget ;
 widget          : WIDGET widget_type ;
 widget_type     : RADIO | SPINBOX | CHECKBOX | TEXT | SLIDER | DROPDOWN ;
 
-type            : BOOLEAN_TYPE | STRING_TYPE | INTEGER_TYPE | MONEY_TYPE ;
+typeNode            : BOOLEAN_TYPE | STRING_TYPE | INTEGER_TYPE | MONEY_TYPE ;
 identifier      : WORD ;
 
 /**

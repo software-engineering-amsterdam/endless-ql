@@ -5,6 +5,7 @@ from pyql.ast.form.ql_statements import Question
 from pyql.ast.form.ql_statements import If
 from pyql.ast.form.ql_statements import IfElse
 from pyql.ast.ast import ASTNode
+from pyql.util import message
 
 
 class SymbolTable:
@@ -18,37 +19,45 @@ class SymbolTable:
 
     def create(self, key, value):
         if key in self._dictionary:
-            raise Exception("Key {0} already exists".format(key))
+            raise KeyError("Key {0} already exists".format(key))
         self._dictionary[key] = value
 
     def update(self, key, value):
         if key not in self._dictionary:
-            raise Exception("Invalid key: {0}".format(key))
+            raise KeyError("Invalid key: {0}".format(key))
         self._dictionary[key] = value
 
     def get(self, key):
         if key not in self._dictionary:
-            raise Exception("Invalid key: {0}".format(key))
+            raise KeyError("Invalid key: {0}".format(key))
         return self._dictionary[key]
 
     def remove(self, key):
         if key not in self._dictionary:
-            raise Exception("Invalid key: {0}".format(key))
+            raise KeyError("Invalid key: {0}".format(key))
         del self._dictionary[key]
 
 
 class SymbolTableBuilder:
 
     def __init__(self):
-        self.symbol_table = SymbolTable()
+        self._symbol_table = SymbolTable()
+        self._messages = []
 
     def build(self, tree):
         tree.accept(self)
-        return self.symbol_table
+
+    @property
+    def messages(self):
+        return self._messages
+
+    @property
+    def symbol_table(self):
+        return self._symbol_table
 
     @multimethod(Form)
     def visit(self, form):
-        form.block.accept(self)
+        return form.block.accept(self)
 
     @multimethod(Block)
     def visit(self, block):
@@ -57,7 +66,12 @@ class SymbolTableBuilder:
 
     @multimethod(Question)
     def visit(self, question):
-        self.symbol_table.create(question.identifier.identifier, question)
+        if self._label_exists(question):
+            self._messages.append(message.Warning("Duplicate label: {0}".format(question.text)))
+        try:
+            self._symbol_table.create(question.identifier.identifier, question)
+        except KeyError:
+            self._messages.append(message.Error("Duplicate question: {0}".format(question.identifier.identifier)))
 
     @multimethod(IfElse)
     def visit(self, if_else_statement):
@@ -72,3 +86,10 @@ class SymbolTableBuilder:
     def visit(self, node):
         print("ASTNode: {0}".format(node))
         pass
+
+    def _label_exists(self, question):
+        for q in self._symbol_table.dictionary.items():
+            if str(q[1].text) == str(question.text):
+                print("EQUALS")
+                return True
+        return False

@@ -4,6 +4,7 @@ from termcolor import colored
 def error(line, message):
     tag = colored('[error]', 'red')
     print('{} [line:{}] {}'.format(tag, line, message))
+    exit()
 
 
 def warning(line, message):

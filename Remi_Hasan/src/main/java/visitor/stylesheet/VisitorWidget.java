@@ -20,7 +20,7 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
     public Widget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
         // TODO
         List<String> options = new ArrayList<>();
-        for(TerminalNode stringNode : ctx.STRING()){
+        for (TerminalNode stringNode : ctx.STRING()) {
             String option = stringNode.getText();
             // Strip quotes
             option = option.substring(1, option.length() - 1);

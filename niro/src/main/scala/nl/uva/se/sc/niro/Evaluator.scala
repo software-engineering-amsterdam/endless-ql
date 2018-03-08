@@ -48,7 +48,10 @@ object Evaluator {
       case answer: Answer => answer
       case Reference(questionId) =>
         evaluateExpression(
-          memoryLookup(questionId, symbolTable.get(questionId).map(_.expression).getOrElse(dictionary(questionId)), dictionary),
+          memoryLookup(
+            questionId,
+            symbolTable.get(questionId).map(_.expression).getOrElse(dictionary(questionId)),
+            dictionary),
           symbolTable,
           dictionary
         )

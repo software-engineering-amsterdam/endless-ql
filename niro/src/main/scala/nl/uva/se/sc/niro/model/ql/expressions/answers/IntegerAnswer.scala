@@ -48,4 +48,5 @@ final case class IntegerAnswer(possibleValue: Option[Int]) extends Answer {
 object IntegerAnswer {
   def apply() = new IntegerAnswer(None)
   def apply(value: Int) = new IntegerAnswer(Option(value))
+  def apply(value: java.lang.Integer) = new IntegerAnswer(Option(value).map(_.toInt))
 }

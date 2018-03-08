@@ -73,7 +73,7 @@ public class Main extends Application {
             ReferencedIdentifiersVisitor referencedIdentifiersVisitor = new ReferencedIdentifiersVisitor(form);
             List<String> unknownReferencedIdentifiers = referencedIdentifiersVisitor.getUnknownReferencedIdentifiers();
             if(!unknownReferencedIdentifiers.isEmpty()){
-                showErrorAlert("Unknown variables detected for the following variables:", unknownReferencedIdentifiers);
+                showErrorAlert("Unknown variable(s):", unknownReferencedIdentifiers);
                 return;
             }
 
@@ -81,7 +81,7 @@ public class Main extends Application {
             Set<String> cycles = cycleDetector.detectCycles();
 
             if (!cycles.isEmpty()) {
-                showErrorAlert("Cycles detected in the following variables:", cycles);
+                showErrorAlert("Cycles detected in the following variable(s):", cycles);
                 return;
             }
 
@@ -89,7 +89,7 @@ public class Main extends Application {
             Set<String> typeCheckErrors = typeChecker.typeCheck();
 
             if (!typeCheckErrors.isEmpty()) {
-                showErrorAlert("Type checking errors:", typeCheckErrors);
+                showErrorAlert("Type checking error(s):", typeCheckErrors);
                 return;
             }
 

@@ -1,14 +1,14 @@
 ﻿using QLParser.AST.Nodes;
-using QLVizualizer.Controllers;
-using QLVizualizer.Expression;
-using QLVizualizer.Expression.Types;
-using QLVizualizer.ElementManagers;
-using QLVizualizer.ElementManagers.Types;
+using QLVisualizer.Controllers;
+using QLVisualizer.Expression;
+using QLVisualizer.Expression.Types;
+using QLVisualizer.ElementManagers;
+using QLVisualizer.ElementManagers.LeafTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QLVizualizer.Factories
+namespace QLVisualizer.Factories
 {
     public static class ElementManagerFactory
     {
@@ -18,7 +18,7 @@ namespace QLVizualizer.Factories
         /// <param name="node">Node to parse</param>
         /// <param name="condition">Base condition, optional</param>
         /// <returns>Collection of widgets</returns>
-        public static IEnumerable<ElementManager> CreateWidgets(Node node, ElementManagerController widgetController, ExpressionBool condition = null)
+        public static IEnumerable<ElementManagerLeaf> CreateWidgets(Node node, ElementManagerController widgetController, ExpressionBool condition = null)
         {
             switch (node.Type)
             {
@@ -36,10 +36,10 @@ namespace QLVizualizer.Factories
 
                 case NodeType.QUESTION:
                     // Return widget as array
-                    return new ElementManager[] { CreateWidget(node as QuestionNode, condition) };
+                    return new ElementManagerLeaf[] { CreateWidget(node as QuestionNode, condition) };
 
                 case NodeType.COMPUTED:
-                    return new ElementManager[] { CreateComputedWidget(node as ComputedNode, condition, widgetController) };
+                    return new ElementManagerLeaf[] { CreateComputedWidget(node as ComputedNode, condition, widgetController) };
 
                 case NodeType.LOGICAL_EXPRESSION:
                     break;
@@ -49,7 +49,7 @@ namespace QLVizualizer.Factories
             }
 
             // Nothing found, return empty array
-            return new ElementManager[0];
+            return new ElementManagerLeaf[0];
         }
 
         /// <summary>
@@ -57,18 +57,18 @@ namespace QLVizualizer.Factories
         /// </summary>
         /// <param name="questionNode">Node to parse</param>
         /// <returns>Parsed widget</returns>
-        private static ElementManager CreateWidget(QuestionNode questionNode, ExpressionBool condition)
+        private static ElementManagerLeaf CreateWidget(QuestionNode questionNode, ExpressionBool condition)
         {
             switch (questionNode.ValueType)
             {
                 case QValueType.BOOLEAN:
-                    return new BoolElementManager(questionNode.ID, questionNode.Text, condition);
+                    return new BoolQuestionManager(questionNode.ID, questionNode.Text, null, condition);
                 case QValueType.INTEGER:
-                    return new IntElementManager(questionNode.ID, questionNode.Text, condition);
+                    return new IntQuestionManager(questionNode.ID, questionNode.Text, null, condition);
                 case QValueType.TEXT:
-                    return new StringElementManager(questionNode.ID, questionNode.Text, condition);
+                    return new StringQuestionManager(questionNode.ID, questionNode.Text, null, condition);
                 case QValueType.MONEY:
-                    return new MoneyElementManager(questionNode.ID, questionNode.Text, condition);
+                    return new MoneyQuestionManager(questionNode.ID, questionNode.Text, null, condition);
             }
             throw new InvalidOperationException("Unsupported type: " + questionNode.ValueType);
         }
@@ -80,18 +80,18 @@ namespace QLVizualizer.Factories
         /// <param name="condition">Condition of widget</param>
         /// <param name="widgetController">Widget controller</param>
         /// <returns></returns>
-        private static ElementManager CreateComputedWidget(ComputedNode node, ExpressionBool condition, ElementManagerController widgetController)
+        private static ElementManagerLeaf CreateComputedWidget(ComputedNode node, ExpressionBool condition, ElementManagerController widgetController)
         {
             ExpressionFactory expressionFactory = new ExpressionFactory(widgetController);
             ExpressionValue expression = expressionFactory.ParseExpressionNode(node.Expression);
             switch (node.Expression.GetQValueType())
             {
                 case QValueType.BOOLEAN:
-                    return new BoolElementManager(node.ID, node.Text, condition, expression as ExpressionBool);
+                    return new BoolQuestionManager(node.ID, node.Text, null, condition, expression as ExpressionBool);
                 case QValueType.INTEGER:
-                    return new IntElementManager(node.ID, node.Text, condition, expression as ExpressionInt);
+                    return new IntQuestionManager(node.ID, node.Text, null, condition, expression as ExpressionInt);
                 case QValueType.MONEY:
-                    return new MoneyElementManager(node.ID, node.Text, condition, expression as ExpressionDouble);
+                    return new MoneyQuestionManager(node.ID, node.Text, null, condition, expression as ExpressionDouble);
             }
             throw new NotImplementedException();
         }

@@ -1,13 +1,13 @@
 ﻿using QLParser;
 using QLParser.Analysis;
 using QLParser.AST.Nodes;
-using QLVizualizer.Factories;
-using QLVizualizer.ElementManagers;
+using QLVisualizer.Factories;
+using QLVisualizer.ElementManagers;
 using System.Collections.Generic;
 using System.Linq;
 
 
-namespace QLVizualizer.Controllers
+namespace QLVisualizer.Controllers
 {
     /// <summary>
     /// Stores used Widgets
@@ -74,7 +74,7 @@ namespace QLVizualizer.Controllers
         public virtual void SetWidgets(ElementManager[] widgets)
         {
             // Convert list input to dictionary
-            _widgets = widgets.ToDictionary(o => o.Identifyer, o => o);
+            _widgets = widgets.ToDictionary(o => o.Identifier, o => o);
 
             // Set controller for each assigned widget
             foreach (ElementManager w in _widgets.Values)

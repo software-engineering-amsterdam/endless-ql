@@ -1,15 +1,15 @@
-﻿using QLVizualizer.Controllers;
-using QLVizualizer.Expression.Types;
+﻿using QLVisualizer.Controllers;
+using QLVisualizer.Expression.Types;
 using System.Linq;
 
-namespace QLVizualizer.ElementManagers
+namespace QLVisualizer.ElementManagers
 {
-    public abstract class QuestionElementManager<T> : ElementManager
+    public abstract class QuestionElementManager<T> : ElementManagerLeaf
     {
         /// <summary>
         /// Contains given answer, if not answered contains default value for T
         /// </summary>
-        public T AnswerValue { get; private set; }
+        public QuestionElementValue<T> Answer { get; private set; }
 
         /// <summary>
         /// Indication if user gave an answer for this QLWidget
@@ -26,9 +26,9 @@ namespace QLVizualizer.ElementManagers
         /// </summary>
         public bool Editable { get { return _answerExpression == null; } }
 
-        public QuestionElementManager(string identifyer, string text, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : base(identifyer, text, activationExpression)
+        public QuestionElementManager(string identifyer, string text, ElementManager parent,ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : base(identifyer, text, "question", parent, activationExpression)
         {
-            AnswerValue = default(T);
+            Answer = new QuestionElementValue<T>(default(T), false);
             IsAnswered = false;
             _answerExpression = answerExpression;
         }
@@ -38,9 +38,10 @@ namespace QLVizualizer.ElementManagers
         /// </summary>
         /// <param name="input">Input value</param>
         /// <returns>Correct value obtained from input</returns>
-        public virtual T Validate(T input)
+        public virtual QuestionElementValue<T> Validate(T input)
         {
-            return input;
+            // Default accepts all
+            return new QuestionElementValue<T>(input, true);
         }
 
         public abstract QuestionElementValue<T> ParseInput(string input);
@@ -65,12 +66,12 @@ namespace QLVizualizer.ElementManagers
         /// <param name="answer"></param>
         public void SetAnswer(T answer)
         {
-            AnswerValue = answer;
+            Answer = Validate(answer);
             IsAnswered = true;
 
             // Send update to the controller
             if (_widgetController != null)
-                _widgetController.ValueUpdate(Identifyer);
+                _widgetController.ValueUpdate(Identifier);
         }
 
         /// <summary>
@@ -87,6 +88,11 @@ namespace QLVizualizer.ElementManagers
                 // Update view of this widget since the value is calculated
                 _widgetController.UpdateView(this);
             }
+        }
+
+        public override string ToXML()
+        {
+            return string.Format("<{0} identifier=\"{1}\" type=\"{2}\" valid=\"{3}\">{4}</{0}>", XMLElementName, Identifier, typeof(T), Answer.IsValid, Answer.Value);
         }
     }
 }

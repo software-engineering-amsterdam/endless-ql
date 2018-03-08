@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using QLVizualizer.Expression;
-using QLVizualizer.Expression.Types;
-using QLVizualizer.Factories;
-using QLVizualizer.Properties;
-using QLVizualizer.Style;
-using QLVizualizer.ElementManagers;
-using QLVizualizer.ElementManagers.Types;
+using QLVisualizer.Expression;
+using QLVisualizer.Factories;
+using QLVisualizer.Properties;
+using QLVisualizer.Style;
+using QLVisualizer.ElementManagers;
 
-namespace QLVizualizer.Controllers.Display
+namespace QLVisualizer.Controllers.Display
 {
     public class ElementManagerDisplayContollerWindows : WidgetDisplayController<Control, WindowsStyleProperties>
     {
@@ -53,9 +51,9 @@ namespace QLVizualizer.Controllers.Display
         {
             // Create control
             Control control = null;
-            if (ElementIndex.ContainsKey(widget.Identifyer))
+            if (ElementIndex.ContainsKey(widget.Identifier))
             {
-                control = ElementIndex[widget.Identifyer];
+                control = ElementIndex[widget.Identifier];
                 control.Location = new Point(0, style.YPosition);
             }
             else
@@ -189,7 +187,7 @@ namespace QLVizualizer.Controllers.Display
                 AutoScaleDimensions = new SizeF(6f, 13f),
                 AutoScaleMode = AutoScaleMode.Font,
                 ClientSize = new Size(738, 673),
-                Icon = (Icon)Resources.ResourceManager.GetObject("programIcon"),
+                Icon = (Icon)Resources.ResourceManager.GetObject("MainIcon"),
                 Name = "Visualizer",
                 Text = "Sharp QL"
             };

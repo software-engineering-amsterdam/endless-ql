@@ -1,12 +1,12 @@
-﻿using QLVizualizer.Controllers;
-using QLVizualizer.Style;
-using QLVizualizer.ElementManagers;
-using QLVizualizer.ElementManagers.Types;
+﻿using QLVisualizer.Controllers;
+using QLVisualizer.Style;
+using QLVisualizer.ElementManagers;
+using QLVisualizer.ElementManagers.LeafTypes;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace QLVizualizer.Factories
+namespace QLVisualizer.Factories
 {
     public class ControlFactory : ElementFactory<Control, WindowsStyleProperties>
     {
@@ -24,16 +24,16 @@ namespace QLVizualizer.Factories
 
             switch (widget)
             {
-                case IntElementManager intWidget:
+                case IntQuestionManager intWidget:
                     CreateIntWidget(intWidget, style, ref result);
                     break;
-                case BoolElementManager boolWidget:
+                case BoolQuestionManager boolWidget:
                     CreateBoolWidget(boolWidget, style, ref result);
                     break;
-                case StringElementManager stringWidget:
+                case StringQuestionManager stringWidget:
                     CreateStringWidget(stringWidget, style, ref result);
                     break;
-                case MoneyElementManager moneyWidget:
+                case MoneyQuestionManager moneyWidget:
                     CreateMoneyWidget(moneyWidget, style, ref result);
                     break;
             }
@@ -53,16 +53,16 @@ namespace QLVizualizer.Factories
         {
             switch (widget)
             {
-                case IntElementManager intWidget:
+                case IntQuestionManager intWidget:
                     UpdateIntWidget(intWidget, control);
                     break;
-                case BoolElementManager boolWidget:
+                case BoolQuestionManager boolWidget:
                     UpdateBoolWidget(boolWidget, control);
                     break;
-                case StringElementManager stringWidget:
+                case StringQuestionManager stringWidget:
                     UpdateStringWidget(stringWidget, control);
                     break;
-                case MoneyElementManager moneyWidget:
+                case MoneyQuestionManager moneyWidget:
                     UpdateMoneyWidget(moneyWidget, control);
                     break;
             }
@@ -104,32 +104,32 @@ namespace QLVizualizer.Factories
 
         #region Updaters
 
-        private void UpdateIntWidget(IntElementManager widget, Control control)
+        private void UpdateIntWidget(IntQuestionManager widget, Control control)
         {
             foreach (Control b in control.Controls)
                 if (b.GetType() == typeof(TextBox))
-                    b.Text = widget.AnswerValue.ToString();
+                    b.Text = widget.Answer.Value.ToString();
         }
 
-        private void UpdateBoolWidget(BoolElementManager widget, Control control)
+        private void UpdateBoolWidget(BoolQuestionManager widget, Control control)
         {
             foreach (Control c in control.Controls)
                 if (c.GetType() == typeof(CheckBox))
-                    ((CheckBox)c).Checked = widget.AnswerValue;
+                    ((CheckBox)c).Checked = widget.Answer.Value;
         }
 
-        private void UpdateStringWidget(StringElementManager widget, Control control)
+        private void UpdateStringWidget(StringQuestionManager widget, Control control)
         {
             foreach (Control c in control.Controls)
                 if (c.GetType() == typeof(TextBox))
-                    ((TextBox)c).Text = widget.AnswerValue;
+                    ((TextBox)c).Text = widget.Answer.Value;
         }
 
-        private void UpdateMoneyWidget(MoneyElementManager widget, Control control)
+        private void UpdateMoneyWidget(MoneyQuestionManager widget, Control control)
         {
             foreach (Control c in control.Controls)
                 if (c.GetType() == typeof(TextBox))
-                    ((TextBox)c).Text = widget.AnswerValue.ToString();
+                    ((TextBox)c).Text = widget.Answer.Value.ToString();
         }
         #endregion
 
@@ -168,7 +168,7 @@ namespace QLVizualizer.Factories
         {
             TextBox textBox = new TextBox();
             if(widget.IsAnswered)
-                textBox.Text = widget.AnswerValue.ToString();
+                textBox.Text = widget.Answer.Value.ToString();
             textBox.Location = new Point(0, AddLabel(widget.Text, 0, style, ref result));
             textBox.Enabled = widget.Editable;
 
@@ -184,7 +184,7 @@ namespace QLVizualizer.Factories
         /// <param name="widget">Widget settings</param>
         /// <param name="style">Style for the widget</param>
         /// <param name="result">Styled Widget</param>
-        private void CreateIntWidget(IntElementManager widget, WindowsStyleProperties style, ref Control result)
+        private void CreateIntWidget(IntQuestionManager widget, WindowsStyleProperties style, ref Control result)
         {
             // Create textbox for integers
             TextBox input = ConstructTextbox<int>(widget, style, ref result);
@@ -199,14 +199,14 @@ namespace QLVizualizer.Factories
         /// <param name="widget">Widget settings</param>
         /// <param name="style">Style for the widget</param>
         /// <param name="result">Styled Widget</param>
-        private void CreateBoolWidget(BoolElementManager widget, WindowsStyleProperties style, ref Control result)
+        private void CreateBoolWidget(BoolQuestionManager widget, WindowsStyleProperties style, ref Control result)
         {
             // Create checkbox
             CheckBox checkbox = new CheckBox();
             checkbox.Text = widget.Text;
             checkbox.CheckedChanged += delegate (object sender, EventArgs e) { ChangedBoolWidget(widget, checkbox); };
             checkbox.Enabled = widget.Editable;
-            checkbox.Checked = widget.AnswerValue;
+            checkbox.Checked = widget.Answer.Value;
 
             // Add to result
             result.Controls.Add(ApplyControlStyle(checkbox, style));
@@ -218,7 +218,7 @@ namespace QLVizualizer.Factories
         /// <param name="widget">Widget settings</param>
         /// <param name="style">Style for the widget</param>
         /// <param name="result">Styled Widget</param>
-        private void CreateStringWidget(StringElementManager widget, WindowsStyleProperties style, ref Control result)
+        private void CreateStringWidget(StringQuestionManager widget, WindowsStyleProperties style, ref Control result)
         {
             // Create textbox
             TextBox input = ConstructTextbox<string>(widget, style, ref result);
@@ -228,7 +228,7 @@ namespace QLVizualizer.Factories
         }
 
 
-        private void CreateMoneyWidget(MoneyElementManager widget, WindowsStyleProperties style, ref Control result)
+        private void CreateMoneyWidget(MoneyQuestionManager widget, WindowsStyleProperties style, ref Control result)
         {
             TextBox input = ConstructTextbox<double>(widget, style, ref result);
 
@@ -244,7 +244,7 @@ namespace QLVizualizer.Factories
         /// </summary>
         /// <param name="intWidget">Sending widget</param>
         /// <param name="input">Input textbox</param>
-        private void ChangedIntWidget(IntElementManager intWidget, TextBox input)
+        private void ChangedIntWidget(IntQuestionManager intWidget, TextBox input)
         {
             // Parse value
             QuestionElementValue<int> value = intWidget.ParseInput(input.Text);
@@ -266,9 +266,9 @@ namespace QLVizualizer.Factories
         /// </summary>
         /// <param name="boolWidget">Sending widget</param>
         /// <param name="input">Input checkbox</param>
-        private void ChangedBoolWidget(BoolElementManager boolWidget, CheckBox input)
+        private void ChangedBoolWidget(BoolQuestionManager boolWidget, CheckBox input)
         {
-            bool value = boolWidget.Validate(input.Checked);
+            bool value = boolWidget.Validate(input.Checked).Value;
             boolWidget.SetAnswer(value);
             input.Checked = value;
         }
@@ -278,7 +278,7 @@ namespace QLVizualizer.Factories
         /// </summary>
         /// <param name="stringWidget">Sending widget</param>
         /// <param name="input">Input textbox</param>
-        private void ChangedStringWidget(StringElementManager stringWidget, TextBox input)
+        private void ChangedStringWidget(StringQuestionManager stringWidget, TextBox input)
         {
             QuestionElementValue<string> value = stringWidget.ParseInput(input.Text);
             if (value.IsValid)
@@ -291,7 +291,7 @@ namespace QLVizualizer.Factories
         }
 
 
-        private void ChangedMoneyWidget(MoneyElementManager moneyWidget, TextBox input)
+        private void ChangedMoneyWidget(MoneyQuestionManager moneyWidget, TextBox input)
         {
             QuestionElementValue<double> value = moneyWidget.ParseInput(input.Text);
 
@@ -301,7 +301,7 @@ namespace QLVizualizer.Factories
                 moneyWidget.SetAnswer(value.Value);
             }
             else if (input.Text != "")
-                input.Text = moneyWidget.AnswerValue.ToString();
+                input.Text = moneyWidget.Answer.ToString();
 
         }
         #endregion

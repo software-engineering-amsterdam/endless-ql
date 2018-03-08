@@ -1,10 +1,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLVizualizer.ElementManagers;
+using QLVisualizer.ElementManagers;
 
 namespace QLVisualizer.Tests.ElementManagers
 {
     [TestClass]
-    public abstract class ElementManagerTest<T> where T : ElementManager
+    public abstract class ElementManagerTest<T> where T : ElementManagerLeaf
     {
         protected T Widget;
 

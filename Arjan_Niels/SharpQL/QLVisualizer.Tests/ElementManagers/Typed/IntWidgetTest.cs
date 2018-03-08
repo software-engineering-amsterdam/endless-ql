@@ -1,28 +1,28 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLVizualizer.ElementManagers.Types;
+using QLVisualizer.ElementManagers.LeafTypes;
 
 namespace QLVisualizer.Tests.ElementManagers.Typed
 {
     [TestClass]
-    public class IntWidgetTest : QuestionWidget<IntElementManager, int>
+    public class IntWidgetTest : QuestionWidget<IntQuestionManager, int>
     {
         [TestInitialize]
         public void Initialize()
         {
-            Widget = new IntElementManager("id", "question", null, null);
+            Widget = new IntQuestionManager("id", "question", null, null);
         }
 
         [TestMethod]
         public override void ValueTest()
         {
-            Assert.AreEqual(0, Widget.AnswerValue);
+            Assert.AreEqual(0, Widget.Answer.Value);
         }
 
         [TestMethod]
         public override void AssignTest()
         {
             Widget.SetAnswer(10);
-            Assert.AreEqual(10, Widget.AnswerValue);
+            Assert.AreEqual(10, Widget.Answer.Value);
         }
     }
 }

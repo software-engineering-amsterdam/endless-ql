@@ -1,10 +1,10 @@
 ﻿using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLVizualizer.Controllers;
-using QLVizualizer.Controllers.Display;
-using QLVizualizer.Factories;
-using QLVizualizer.Style;
-using QLVizualizer.ElementManagers.Types;
+using QLVisualizer.Controllers;
+using QLVisualizer.Controllers.Display;
+using QLVisualizer.Factories;
+using QLVisualizer.Style;
+using QLVisualizer.ElementManagers.LeafTypes;
 
 namespace QLVisualizer.Tests.Elements
 {
@@ -14,9 +14,9 @@ namespace QLVisualizer.Tests.Elements
         private ControlFactory _controlFactory;
         private ElementManagerController _widgetController;
 
-        private IntElementManager _intWidget;
-        private BoolElementManager _boolWidget;
-        private StringElementManager _stringWidget;
+        private IntQuestionManager _intWidget;
+        private BoolQuestionManager _boolWidget;
+        private StringQuestionManager _stringWidget;
 
         private WindowsStyleProperties _style;
 
@@ -27,9 +27,9 @@ namespace QLVisualizer.Tests.Elements
             _widgetController = new ElementManagerDisplayContollerWindows(10);
 
             _controlFactory = new ControlFactory(_widgetController);
-            _intWidget = new IntElementManager("a", "q1");
-            _boolWidget = new BoolElementManager("b", "q2");
-            _stringWidget = new StringElementManager("c", "q3");
+            _intWidget = new IntQuestionManager("a", "q1", null);
+            _boolWidget = new BoolQuestionManager("b", "q2", null);
+            _stringWidget = new StringQuestionManager("c", "q3", null);
         }
 
         #region Create
@@ -98,7 +98,7 @@ namespace QLVisualizer.Tests.Elements
             ((CheckBox)c.Controls[0]).Checked = true;
 
             // Answer must now be updated
-            Assert.IsTrue(_boolWidget.AnswerValue);
+            Assert.IsTrue(_boolWidget.Answer.Value);
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace QLVisualizer.Tests.Elements
             ((TextBox)c.Controls[1]).Text = 100.ToString();
 
             // Answer must now be updated
-            Assert.AreEqual(100, _intWidget.AnswerValue);
+            Assert.AreEqual(100, _intWidget.Answer.Value);
         }
 
         [TestMethod]
@@ -128,7 +128,7 @@ namespace QLVisualizer.Tests.Elements
             ((TextBox)c.Controls[1]).Text = "unittest";
 
             // Answer must now be updated
-            Assert.AreEqual("unittest", _stringWidget.AnswerValue);
+            Assert.AreEqual("unittest", _stringWidget.Answer.Value);
         }
         #endregion
     }

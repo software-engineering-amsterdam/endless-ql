@@ -1,13 +1,13 @@
 ﻿using QLParser.AST.Nodes;
 using QLParser.AST.Nodes.ExpressionNodes;
-using QLVizualizer.Controllers;
-using QLVizualizer.Expression;
-using QLVizualizer.Expression.Types;
-using QLVizualizer.ElementManagers.Types;
+using QLVisualizer.Controllers;
+using QLVisualizer.Expression;
+using QLVisualizer.Expression.Types;
 using System;
 using QLParser.AST.Nodes.ExpressionNodes.Enums;
+using QLVisualizer.ElementManagers.LeafTypes;
 
-namespace QLVizualizer.Factories
+namespace QLVisualizer.Factories
 {
     public class ExpressionFactory
     {
@@ -137,11 +137,11 @@ namespace QLVizualizer.Factories
             switch (identifierNode.GetQValueType())
             {
                 case QValueType.BOOLEAN:
-                    return new ExpressionBool(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as BoolElementManager).AnswerValue; });
+                    return new ExpressionBool(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as BoolQuestionManager).Answer.Value; });
                 case QValueType.INTEGER:
-                    return new ExpressionInt(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as IntElementManager).AnswerValue; });
+                    return new ExpressionInt(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as IntQuestionManager).Answer.Value; });
                 case QValueType.MONEY:
-                    return new ExpressionDouble(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as MoneyElementManager).AnswerValue; });
+                    return new ExpressionDouble(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as MoneyQuestionManager).Answer.Value; });
                 default:
                     throw new NotImplementedException();
             }

@@ -1,7 +1,7 @@
-﻿using QLVizualizer.Controllers;
-using QLVizualizer.ElementManagers;
+﻿using QLVisualizer.Controllers;
+using QLVisualizer.ElementManagers;
 
-namespace QLVizualizer.Factories
+namespace QLVisualizer.Factories
 {
     public abstract class ElementFactory<T,Y>
     {

@@ -12,7 +12,9 @@ import org.uva.qls.ast.Segment.Question;
 import org.uva.qls.ast.Segment.Section;
 import org.uva.qls.ast.Segment.Segment;
 import org.uva.qls.ast.Style.Style;
+import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 import org.uva.qls.ast.Widget.Widget;
+import org.uva.qls.ast.Widget.WidgetTypes.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,9 +69,9 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
     @Override
     public Object visitSegment(QLSParser.SegmentContext ctx) {
         if(ctx.section() != null) {
-            return (Section) visit(ctx.section());
+            return visit(ctx.section());
         }
-        return (Question) visit(ctx.question());
+        return visit(ctx.question());
     }
 
     @Override
@@ -98,57 +100,61 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
 
     @Override
     public Object visitWidget(QLSParser.WidgetContext ctx) {
-        return super.visitWidget(ctx);
+        return new Widget((WidgetType) visit(ctx.widgetType()));
     }
 
     @Override
     public Object visitRadioType(QLSParser.RadioTypeContext ctx) {
-        return super.visitRadioType(ctx);
+        return new RadioType(ctx.yes.getText(), ctx.no.getText());
     }
 
     @Override
     public Object visitCheckboxType(QLSParser.CheckboxTypeContext ctx) {
-        return super.visitCheckboxType(ctx);
+        return new CheckboxType(ctx.yes.getText());
     }
 
     @Override
     public Object visitDropdownType(QLSParser.DropdownTypeContext ctx) {
-        return super.visitDropdownType(ctx);
+        return new DropDownType(ctx.yes.getText(), ctx.no.getText());
     }
 
     @Override
     public Object visitSliderType(QLSParser.SliderTypeContext ctx) {
-        return super.visitSliderType(ctx);
+        return new SliderType(ctx.start.getText(), ctx.end.getText(), ctx.step.getText());
     }
 
     @Override
     public Object visitTextType(QLSParser.TextTypeContext ctx) {
-        return super.visitTextType(ctx);
+        return new TextType();
     }
 
     @Override
     public Object visitBooleanType(QLSParser.BooleanTypeContext ctx) {
-        return super.visitBooleanType(ctx);
+        return new BooleanType();
     }
 
     @Override
     public Object visitIntegerType(QLSParser.IntegerTypeContext ctx) {
-        return super.visitIntegerType(ctx);
+        return new IntegerType();
     }
 
     @Override
     public Object visitMoneyType(QLSParser.MoneyTypeContext ctx) {
-        return super.visitMoneyType(ctx);
+        return new MoneyType();
     }
 
     @Override
     public Object visitStringType(QLSParser.StringTypeContext ctx) {
-        return super.visitStringType(ctx);
+        return new StringType();
     }
 
     @Override
     public Object visitStyle(QLSParser.StyleContext ctx) {
-        return super.visitStyle(ctx);
+        List<StyleProperty> styleProperties = new ArrayList<>();
+        for (QLSParser.StylePropertyContext stylePropertyContext : ctx.styleProperty()) {
+            styleProperties.add((StyleProperty) visit(stylePropertyContext));
+        }
+        return new Style(styleProperties);
     }
 
     @Override

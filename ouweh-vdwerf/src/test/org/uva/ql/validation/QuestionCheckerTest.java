@@ -6,6 +6,7 @@ import org.uva.ql.app.InputHandler;
 import org.uva.ql.ast.Form;
 import org.uva.ql.parsing.ASTBuilder;
 
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.assertEquals;
@@ -16,7 +17,11 @@ public class QuestionCheckerTest {
 
     @Before
     public void setUp() {
-        String input = new InputHandler().readFile("input/test.questionChecker.ql");
+        Logger logger = Logger.getGlobal();
+        LogManager.getLogManager().reset();
+        logger.addHandler(new LogHandler());
+
+        String input = new InputHandler().readFile("input/test/questionChecker.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
         questionChecker = new QuestionChecker(form);
@@ -24,14 +29,18 @@ public class QuestionCheckerTest {
 
     @Test
     public void runCheck() {
-        LogHandler handler = (LogHandler) Logger.getGlobal().getHandlers()[0];
+        LogHandler logHandler = (LogHandler) Logger.getGlobal().getHandlers()[0];
         questionChecker.runCheck();
-        assertEquals(false, handler.hasErrors());
+        assertEquals(true, logHandler.hasWarnings());
     }
-
 
     @Test
     public void getSymbolTable() {
-        // TODO final expected shape of the symbol table, and compare with the results.
+        final int EXPECTED_ENTRIES = 3;
+        final String EXPECTED_TABLE = "{v1=BooleanType, v2=IntegerType, v3=StringType}";
+
+        SymbolTable symbolTable = questionChecker.getSymbolTable();
+        assertEquals(EXPECTED_ENTRIES, symbolTable.size());
+        assertEquals(EXPECTED_TABLE, symbolTable.toString());
     }
 }

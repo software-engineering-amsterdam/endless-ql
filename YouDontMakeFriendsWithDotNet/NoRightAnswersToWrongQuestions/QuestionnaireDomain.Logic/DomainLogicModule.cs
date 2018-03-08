@@ -14,7 +14,6 @@ namespace QuestionnaireDomain.Logic
             appRegistration.AddSingleton(typeof(IQuestionnaireCreator), typeof(QuestionnaireCreator));
             appRegistration.AddSingleton(typeof(IPredicateCreator), typeof(PredicateCreator));
             appRegistration.AddSingleton(typeof(IDomainItemLocator), typeof(DomainItemLocator));
-            appRegistration.AddSingleton(typeof(IIdMaker), typeof(IdMaker));
         }
     }
 }

@@ -20,33 +20,18 @@ abstract public class ASTNode implements VisitableASTNode {
             return startLine;
         }
 
-        public void setStartLine(Integer startLine) {
-            this.startLine = startLine;
-        }
-
         public Integer getEndLine() {
             return endLine;
-        }
-
-        public void setEndLine(Integer endLine) {
-            this.endLine = endLine;
         }
 
         public Integer getColumn() {
             return column;
         }
 
-        public void setColumn(Integer column) {
-            this.column = column;
-        }
-
         public String getText() {
             return text;
         }
 
-        public void setText(String text) {
-            this.text = text;
-        }
     }
 
     private MetaInformation metaInformation;

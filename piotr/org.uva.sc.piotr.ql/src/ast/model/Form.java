@@ -36,9 +36,7 @@ public class Form extends ASTNode {
     }
 
     @Override
-    public void accept(ASTNodeVisitor visitor) {
-        for (Statement statement : statementList) {
-            statement.accept(visitor);
-        }
+    public <T> T accept(ASTNodeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

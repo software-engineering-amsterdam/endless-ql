@@ -11,6 +11,7 @@ public class QuestionData {
     private boolean isComputed;
     private NodeType nodeType;
     private String questionName;
+    private WidgetType widgetType;
 
     public QuestionData(Question question, Value value) {
         this.label = question.getLabel();
@@ -18,6 +19,8 @@ public class QuestionData {
         this.isComputed = question.getValue() != null;
         this.nodeType = question.getNodeType().getNodeType();
         this.questionName = question.getVariable().getVariableName();
+        //TODO: handle setting widget type depending on QLS
+        this.widgetType = nodeType.isTypeCompatible(NodeType.BOOLEAN) ? WidgetType.CHECKBOX : WidgetType.TEXTFIELD;
     }
 
     private boolean doesValueTypeMatch(Question question, Value value) {
@@ -45,5 +48,9 @@ public class QuestionData {
 
     public String getQuestionName() {
         return questionName;
+    }
+
+    public WidgetType getWidgetType() {
+        return widgetType;
     }
 }

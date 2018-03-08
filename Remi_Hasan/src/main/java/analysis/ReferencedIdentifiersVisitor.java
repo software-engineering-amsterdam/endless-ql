@@ -1,8 +1,6 @@
 package analysis;
 
 import evaluation.IASTVisitor;
-import model.Form;
-import model.Question;
 import model.expression.Expression;
 import model.expression.ExpressionIdentifier;
 import model.expression.binary.*;
@@ -14,30 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReferencedIdentifiersVisitor implements IASTVisitor<List<String>> {
-
-    private final Form form;
-
-    public ReferencedIdentifiersVisitor(Form form){
-        this.form = form;
-    }
-
-    public List<String> getUnknownReferencedIdentifiers(){
-        List<String> formQuestionIdentifiers = new ArrayList<>();
-        List<String> referencedIdentifiers = new ArrayList<>();
-        for(Question question : form.questions){
-            formQuestionIdentifiers.add(question.name);
-            referencedIdentifiers.addAll(this.visit(question.defaultAnswer));
-            referencedIdentifiers.addAll(this.visit(question.condition));
-        }
-
-        // Determine which identifiers are referenced but no question exists with such identifier
-        // Subtraction of formQuestionIdentifiers - referencedIdentifiers
-        List<String> unknownReferencedIdentifiers = new ArrayList<>();
-        unknownReferencedIdentifiers.addAll(referencedIdentifiers);
-        unknownReferencedIdentifiers.removeAll(formQuestionIdentifiers);
-
-        return unknownReferencedIdentifiers;
-    }
 
     private List<String> visitLeftRight(Expression left, Expression right) {
         List<String> identifiers = left.accept(this);

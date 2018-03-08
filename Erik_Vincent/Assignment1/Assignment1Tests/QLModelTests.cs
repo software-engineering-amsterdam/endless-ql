@@ -11,7 +11,7 @@ namespace Assignment1Tests
         [TestMethod]
         public void TestCreateForm()
         {
-            QuestionForm testF = new QuestionForm(TestFormId, new List<Content>());
+            QuestionForm testF = new QuestionForm(TestFormId, new List<Question>());
 
             Assert.AreEqual(TestFormId, testF.Id);
         }
@@ -29,12 +29,12 @@ namespace Assignment1Tests
         public void TestAddQuestionToForm()
         {
             Question testQ = new QuestionBool(TestQuestionId, TestQuestionLabel);
-            List<Content> contentList = new List<Content>() { testQ };
-            QuestionForm testF = new QuestionForm(TestFormId, contentList);
+            List<Question> questions = new List<Question>() { testQ };
+            QuestionForm testF = new QuestionForm(TestFormId, questions);
 
-            Assert.IsNotNull(testF.Content);
-            Assert.AreEqual(1, testF.Content.Count);
-            Assert.AreSame(testQ, testF.Content[0]);
+            Assert.IsNotNull(testF.Questions);
+            Assert.AreEqual(1, testF.Questions.Count);
+            Assert.AreSame(testQ, testF.Questions[0]);
         }
 
         [TestMethod]

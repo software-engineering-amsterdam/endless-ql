@@ -23,7 +23,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
   private var guiForm: GUIForm = _
   // TODO check if 'mutable' in the definition is needed.
   //                          |
-  private val symbolTable: mutable.Map[String, Answer] = mutable.Map()
+  private val symbolTable = mutable.Map[String, Answer]()
 
   @FXML
   @throws[IOException]

@@ -70,7 +70,7 @@ object MoneyWidgetFactory extends AbstractWidgetFactory {
   }
 }
 
-object DateWidgetFactory {
+object DateWidgetFactory extends AbstractWidgetFactory  {
   def make(question: GUIQuestion): Control = {
     val dateField = new DatePicker()
     val dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT)

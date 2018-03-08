@@ -166,9 +166,10 @@ public class QLSParser extends Parser {
 	}
 
 	public static class PageContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(QLSParser.ID, 0); }
+		public Token id;
 		public TerminalNode OPEN_BRACKET() { return getToken(QLSParser.OPEN_BRACKET, 0); }
 		public TerminalNode CLOSE_BRACKET() { return getToken(QLSParser.CLOSE_BRACKET, 0); }
+		public TerminalNode ID() { return getToken(QLSParser.ID, 0); }
 		public List<SegmentContext> segment() {
 			return getRuleContexts(SegmentContext.class);
 		}
@@ -210,7 +211,7 @@ public class QLSParser extends Parser {
 			setState(34);
 			match(T__1);
 			setState(35);
-			match(ID);
+			((PageContext)_localctx).id = match(ID);
 			setState(36);
 			match(OPEN_BRACKET);
 			setState(38); 
@@ -257,9 +258,10 @@ public class QLSParser extends Parser {
 	}
 
 	public static class SectionContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(QLSParser.ID, 0); }
+		public Token id;
 		public TerminalNode OPEN_BRACKET() { return getToken(QLSParser.OPEN_BRACKET, 0); }
 		public TerminalNode CLOSE_BRACKET() { return getToken(QLSParser.CLOSE_BRACKET, 0); }
+		public TerminalNode ID() { return getToken(QLSParser.ID, 0); }
 		public List<SegmentContext> segment() {
 			return getRuleContexts(SegmentContext.class);
 		}
@@ -301,7 +303,7 @@ public class QLSParser extends Parser {
 			setState(50);
 			match(T__2);
 			setState(51);
-			match(ID);
+			((SectionContext)_localctx).id = match(ID);
 			setState(52);
 			match(OPEN_BRACKET);
 			setState(54); 
@@ -481,6 +483,7 @@ public class QLSParser extends Parser {
 	}
 
 	public static class QuestionContext extends ParserRuleContext {
+		public Token id;
 		public TerminalNode ID() { return getToken(QLSParser.ID, 0); }
 		public WidgetContext widget() {
 			return getRuleContext(WidgetContext.class,0);
@@ -521,7 +524,7 @@ public class QLSParser extends Parser {
 				setState(80);
 				match(T__4);
 				setState(81);
-				match(ID);
+				((QuestionContext)_localctx).id = match(ID);
 				setState(83);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
@@ -540,7 +543,7 @@ public class QLSParser extends Parser {
 				setState(85);
 				match(T__4);
 				setState(86);
-				match(ID);
+				((QuestionContext)_localctx).id = match(ID);
 				setState(88);
 				_errHandler.sync(this);
 				_la = _input.LA(1);

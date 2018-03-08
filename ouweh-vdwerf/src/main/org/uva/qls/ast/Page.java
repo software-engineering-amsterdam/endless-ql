@@ -6,7 +6,13 @@ import java.util.List;
 
 public class Page extends TreeNode {
 
-    public Page(String id, List<Segment> segments, List<DefaultStatement> defaultStatements){
+    private String id;
+    private List<Segment> segments;
+    private List<DefaultStatement> defaultStatements;
 
+    public Page(String id, List<Segment> segments, List<DefaultStatement> defaultStatements){
+        this.id = id;
+        this.segments = segments;
+        this.defaultStatements = defaultStatements;
     }
 }

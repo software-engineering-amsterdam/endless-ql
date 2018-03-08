@@ -50,10 +50,8 @@ public class GuiModel {
         notifyListeners();
     }
 
-    public void updateQuestion(String questionName, Value value) throws IOException, StaticAnalysisError {
+    public void updateQuestion(String questionName, Value value) {
         symbolTable.addOrUpdateValue(questionName, value);
-        generateQuestions();
-        notifyListeners();
     }
 
     private void generateQuestions() throws IOException, StaticAnalysisError {

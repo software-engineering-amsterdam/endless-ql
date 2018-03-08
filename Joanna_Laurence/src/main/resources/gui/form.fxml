@@ -15,7 +15,7 @@
     </ScrollPane>
     <ScrollPane prefHeight="100.0" prefWidth="400.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1"
                 GridPane.vgrow="ALWAYS">
-        <VBox fx:id="warningBox" prefHeight="50.0" prefWidth="200.0" GridPane.rowIndex="1"/>
+        <VBox fx:id="messageBox" prefHeight="50.0" prefWidth="200.0" GridPane.rowIndex="1"/>
     </ScrollPane>
     <GridPane GridPane.rowIndex="3">
         <columnConstraints>

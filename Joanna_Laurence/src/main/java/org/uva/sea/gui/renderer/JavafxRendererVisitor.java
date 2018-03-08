@@ -2,27 +2,26 @@ package org.uva.sea.gui.renderer;
 
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.*;
 import org.uva.sea.gui.model.*;
 import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 //TODO: Handle situation when newInput.getText().equals("")
-public class JavafxRendererVisitor implements QuestionRenderer, WarningRenderer, QuestionModelVisitor {
+public class JavafxRendererVisitor implements QuestionModelVisitor {
 
     private final VBox questionBox;
-    private final VBox warningBox;
+    private final VBox messageBox;
     private final FormController controller;
 
-    public JavafxRendererVisitor(VBox questionBox, VBox warningBox, FormController formController) {
+    public JavafxRendererVisitor(VBox questionBox, VBox messageBox, FormController formController) {
         this.questionBox = questionBox;
-        this.warningBox = warningBox;
+        this.messageBox = messageBox;
         this.controller = formController;
     }
 
@@ -36,14 +35,7 @@ public class JavafxRendererVisitor implements QuestionRenderer, WarningRenderer,
                 .addListener((observable, oldIsFocused, newIsFocused) ->
                 {
                     System.out.println("Checkbox set into " + newIsFocused + " " + question.getVariableName());
-                    try {
-                        controller.updateGuiModel(question.getVariableName(), new BooleanValue(newIsFocused));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (StaticAnalysisError staticAnalysisError) {
-                        staticAnalysisError.printStackTrace();
-                        alertError(staticAnalysisError.getMessage());
-                    }
+                    controller.updateGuiModel(question.getVariableName(), new BooleanValue(newIsFocused));
                 });
         questionBox.getChildren().add(createQuestionRow(printLabel(question.getLabel()), checkBox));
     }
@@ -64,14 +56,14 @@ public class JavafxRendererVisitor implements QuestionRenderer, WarningRenderer,
 
     @Override
     public void visit(ErrorQuestionModel question) {
-        alertError(question.displayValue());
+        displayErrors(Arrays.asList(question.displayValue()));
     }
 
     @Override
     public void visit(IntQuestionModel question) {
         TextField newInput = printTextField(question);
         if (newInput.getText().equals("")) {
-//            alertError("Value cannot be an empty string");
+            displayError("Value cannot be an empty string");
             System.out.println("Error");
         } else {
             IntValue value = new IntValue(newInput.getText());
@@ -96,28 +88,12 @@ public class JavafxRendererVisitor implements QuestionRenderer, WarningRenderer,
     private void addGUIListener(BaseQuestionModel questionModel, TextField textField, Value value) {
         textField.focusedProperty().addListener((observable, oldIsFocused, newIsFocused) -> {
             if (!newIsFocused) {
-                try {
-                    controller.updateGuiModel(questionModel.getVariableName(), value);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (StaticAnalysisError staticAnalysisError) {
-                    staticAnalysisError.printStackTrace();
-                    alertError(staticAnalysisError.getMessage());
-                }
+                controller.updateGuiModel(questionModel.getVariableName(), value);
             }
         });
         questionBox.getChildren().add(createQuestionRow(printLabel(questionModel.getLabel()), textField));
     }
 
-    @Override
-    public void render(BaseQuestionModel questionRow) {
-        questionRow.accept(this);
-    }
-
-    @Override
-    public void render(String warningMessage) {
-        warningBox.getChildren().add(new Label(warningMessage));
-    }
 
     private Node createQuestionRow(Label label, Control input) {
         GridPane wrapper = new GridPane();
@@ -150,21 +126,34 @@ public class JavafxRendererVisitor implements QuestionRenderer, WarningRenderer,
         return textField;
     }
 
-    private Label printComputedValue(BaseQuestionModel question) {
-        Label computedLabel = new Label();
-        if (question.getValue() != null) {
-            computedLabel.setText(question.displayValue());
-            computedLabel.setMinWidth(100.0);
-            return computedLabel;
+    public void displayQuestions(List<BaseQuestionModel> questionGUIs) {
+        questionBox.getChildren().removeAll(questionBox.getChildren());
+        for (BaseQuestionModel questionRow : questionGUIs) {
+            questionRow.accept(this);
         }
-        return new Label();
     }
 
-    public void alertError(String errorMessage) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("Error Alert");
-        alert.setContentText(errorMessage);
-        alert.show();
+    public void displayWarnings(List<String> warnings) {
+        for (String warning : warnings) {
+            displayWarning(warning);
+        }
+    }
+
+    public void displayErrors(List<String> errors) {
+        for (String error : errors) {
+            displayError(error);
+        }
+    }
+
+    public void displayWarning(String message) {
+        this.displayMessage("Warning: ", message);
+    }
+
+    public void displayError(String message) {
+        this.displayMessage("Error: ", message);
+    }
+
+    private void displayMessage(String prependMessage, String warningMessage) {
+        messageBox.getChildren().add(new Label(prependMessage + warningMessage));
     }
 }

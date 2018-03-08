@@ -70,16 +70,18 @@ public class Main extends Application {
 
             TypeCheckVisitor typeChecker = new TypeCheckVisitor(symbolTable);
             for(Question q : form.questions) {
+                typeChecker.visit(q.condition);
+
                 if(!q.isEditable()) {
                     typeChecker.visit(q.defaultAnswer);
                 }
-
-                typeChecker.visit(q.condition);
             }
 
             for(String s : typeChecker.errors) {
                 System.out.println(s);
             }
+
+            System.exit(0);
 
             File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
             StyleSheet styleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));

@@ -22,15 +22,7 @@ public class TypeCheckVisitor implements IASTVisitor<ReturnType> {
         this.symbolTable = symbolTable;
     }
 
-    // Checks whether the left and right expressions are correct individually
-    private void checkLeftRightExpression(Expression left, Expression right) {
-        left.accept(this);
-        right.accept(this);
-    }
-
     private ReturnType checkBinaryNumeric(ExpressionBinary e, String operation) {
-        checkLeftRightExpression(e.left, e.right);
-
         // Check whether operation can be applied to left and right expression
         boolean selfValid = e.left.accept(this).isNumber() && e.right.accept(this).isNumber();
 
@@ -42,8 +34,6 @@ public class TypeCheckVisitor implements IASTVisitor<ReturnType> {
     }
 
     private ReturnType checkBinaryBoolean(ExpressionBinary e, String operation) {
-        checkLeftRightExpression(e.left, e.right);
-
         // Check whether operation can be applied to left and right expression
         boolean selfValid = e.left.accept(this) == ReturnType.BOOLEAN
                 && e.right.accept(this) == ReturnType.BOOLEAN;
@@ -82,7 +72,6 @@ public class TypeCheckVisitor implements IASTVisitor<ReturnType> {
 
     @Override
     public ReturnType visit(ExpressionComparisonEq e) {
-        checkLeftRightExpression(e.left, e.right);
         boolean selfValid = e.left.accept(this) == e.right.accept(this);
 
         if (!selfValid) {

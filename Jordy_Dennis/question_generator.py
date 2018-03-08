@@ -31,20 +31,46 @@ class Question_Generator:
         #         qtypes.append(self.varDict[var]["type"])
         # return questions, qtypes
 
-    def get_questions(self):
-        printDict(self.varDict)
+    def getQuestionsFromAst(self):
         for form in self.ast.forms:
-            for statement in form.block:
-                if type(statement) == QuestionNode:
-                    print("QUESTION")
-                    self.questions[statement.getVarName()] = statement
-                elif type(statement) == AssignmentNode:
-                    exp = statement.getExpression()
-                    print(exp.evaluate())
-                    
+            self.get_questions(form.block)
 
-                elif type(statement) == ConditionalNode:
-                    print("CONDITIONAL")
+    def get_questions(self, block):
+        for statement in block:
+            if type(statement) == QuestionNode:
+                print("QUESTION")
+                self.questions[statement.getVarName()] = statement
+            elif type(statement) == AssignmentNode:
+                exp = statement.getExpression()
+                print(exp.evaluate())
+
+
+            elif type(statement) == ConditionalNode:
+                print("CONDITIONAL")
+                visited = False
+                # check if block
+                ifblock = statement.getIf();
+                if_exp = ifblock.getExpression()
+                if(if_exp.evaluate()):
+                    self.get_questions(ifblock.block)
+                    visited = True
+
+                # check elif block
+                if(not visited):
+                    elifBlocks = statement.getElIf()
+                    for elifBlock in elifBlocks:
+                        elif_exp = elifBlock.getExpression()
+                        if(elif_exp.evaluate()):
+                            self.get_questions(elifBlock.block)
+                            visited = True
+                            break
+
+                # check else block
+                elseBlock = statement.getElse()
+                if(elseBlock and not visited):
+                    self.get_questions(elseBlock)
+
+
 
 
         # for statement in ast.statements():

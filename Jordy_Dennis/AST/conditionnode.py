@@ -34,5 +34,8 @@ class ConditionNodeBlock:
     def getName(self):
         return self.expression.getName()
 
+    def getExpression(self):
+        return self.expression
+
     def __repr__(self):
         return "({}) {}".format(self.expression, self.block)

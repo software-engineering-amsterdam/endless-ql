@@ -82,7 +82,7 @@ def main(argv):
     ast.checkTypes()
 
     q = Question_Generator(ast.getVarDict(), ast)
-    q.get_questions()
+    q.getQuestionsFromAst()
     exit()
 
     # QLS

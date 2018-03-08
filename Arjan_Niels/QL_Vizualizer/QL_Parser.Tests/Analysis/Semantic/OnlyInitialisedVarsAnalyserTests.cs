@@ -10,12 +10,14 @@ namespace QL_Parser.Tests.Analysis.Semantic
     {
         private FormNode _simpleFormWithConditional;
         private FormNode _simpleFormWithNotInitialisedVar;
+        private FormNode _simpleFormWithComputedNode;
 
         [TestInitialize]
         public void Initialize()
         {
             _simpleFormWithConditional = QLParserHelper.Parse(FormExamples.SimpleFormWithConditional);
             _simpleFormWithNotInitialisedVar = QLParserHelper.Parse(FormExamples.SimpleFormWithConditionalNotInitialised);
+            _simpleFormWithComputedNode = QLParserHelper.Parse(FormExamples.SimpleFormWithComputedNode);
         }
 
         [TestMethod]
@@ -43,7 +45,20 @@ namespace QL_Parser.Tests.Analysis.Semantic
             Assert.IsFalse(result);
             Assert.AreEqual(1, Analyser.GetErrors().Count);
             Assert.AreEqual("ERROR Unknown identifier 'notInitialisedVar' in statement", Analyser.GetErrors()[0]);
+        }
 
+        [TestMethod]
+        public void NotAllVarsInitialisedInComputed()
+        {
+            var variableAnalyser = new DuplicateVariableAnalyser();
+            variableAnalyser.Analyse(_simpleFormWithComputedNode);
+
+            var onlyIdentifiedVarsAnalyser = new OnlyInitialisedVarsAnalyser();
+            var result = onlyIdentifiedVarsAnalyser.Analyse(_simpleFormWithComputedNode);
+
+            Assert.IsFalse(result);
+            Assert.AreEqual(1, Analyser.GetErrors().Count);
+            Assert.AreEqual("ERROR Unknown identifier 'notInitialisedVar' in statement", Analyser.GetErrors()[0]);
         }
     }
 }

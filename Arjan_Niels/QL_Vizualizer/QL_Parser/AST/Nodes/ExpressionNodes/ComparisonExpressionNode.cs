@@ -1,16 +1,8 @@
-﻿using QL_Parser.Exceptions;
+﻿using QL_Parser.AST.Nodes.ExpressionNodes.Enums;
+using QL_Parser.Exceptions;
 
 namespace QL_Parser.AST.Nodes.ExpressionNodes
 {
-    public enum ComparisonOperator
-    {
-        GT,
-        GE,
-        LT,
-        LE,
-        EQ
-    }
-
     public class ComparisonExpressionNode : ExpressionNode, IExpressionNode
     {
         private const string GT = ">";

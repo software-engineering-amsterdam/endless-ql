@@ -8,14 +8,11 @@ namespace QL_Parser.Analysis.Semantic
         public bool Analyse(Node node)
         {
             var result = true;
-            if (node.Type == NodeType.CONDITIONAL)
+            var expression = GetExpression(node);
+            if (expression != null && !AnalyseExpression(expression))
             {
-                var conditionalNode = (ConditionalNode)node;
-                if (!AnalyseExpression(conditionalNode.Expression))
-                {
-                    Analyser.AddMessage("This is not a boolean expression", MessageType.ERROR);
-                    return false;
-                }
+                Analyser.AddMessage("This expression isn't valid.", MessageType.ERROR);
+                return false;
             }
 
             foreach (Node child in node.Children)
@@ -38,6 +35,21 @@ namespace QL_Parser.Analysis.Semantic
                     return true;
                 default:
                     return node.GetQValueType() == QValueType.BOOLEAN;
+            }
+        }
+
+        private IExpressionNode GetExpression(Node node)
+        {
+            switch (node.GetNodeType())
+            {
+                case NodeType.CONDITIONAL:
+                    var conditional = (ConditionalNode)node;
+                    return conditional.Expression;
+                case NodeType.COMPUTED:
+                    var computed = (ComputedNode)node;
+                    return computed.Expression;
+                default:
+                    return null;
             }
         }
     }

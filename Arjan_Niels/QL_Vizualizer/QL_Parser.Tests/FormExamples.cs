@@ -49,5 +49,13 @@
             "   \"Duplicate computed\"" +
             "       soldHouse: boolean = 5 - 10" +
             "}";
+        public static readonly string SimpleFormWithComputedNode = "form TestForm {" +
+            "   \"Have you sold a house in 2010?\"" +
+            "       soldHouse: boolean" +
+            "   \"Have you bought a house in 2010?\"" +
+            "       boughtHouse: boolean" +
+            "   \"Has done something with houses:\"" +
+            "       somethignWithHouse: boolean = soldHouse - notInitialisedVar" +
+            "}";
     }
 }

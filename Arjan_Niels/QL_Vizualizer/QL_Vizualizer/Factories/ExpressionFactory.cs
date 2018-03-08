@@ -5,6 +5,7 @@ using QL_Vizualizer.Expression;
 using QL_Vizualizer.Expression.Types;
 using QL_Vizualizer.ElementManagers.Types;
 using System;
+using QL_Parser.AST.Nodes.ExpressionNodes.Enums;
 
 namespace QL_Vizualizer.Factories
 {

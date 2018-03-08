@@ -1,15 +1,8 @@
-﻿using QL_Parser.Exceptions;
+﻿using QL_Parser.AST.Nodes.ExpressionNodes.Enums;
+using QL_Parser.Exceptions;
 
 namespace QL_Parser.AST.Nodes.ExpressionNodes
 {
-    public enum ArthimetricOperator
-    {
-        MULT,
-        DIV,
-        PLUS,
-        MINUS
-    }
-
     public class ArthimetricExpressionNode : ExpressionNode
     {
         private const string MULT = "*";

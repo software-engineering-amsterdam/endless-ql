@@ -58,7 +58,6 @@ namespace QL_Parser.Analysis.Semantic
                 case NodeType.IDENTIFIER:
                     var valueNode = (IdentifierNode)node;
                     return IsIdentiierInSymbolTable(valueNode);
-
                 default:
                     throw new UnknownNodeTypeException(string.Format("We don't know what to do with a {0} node.", node.GetNodeType()));
             }

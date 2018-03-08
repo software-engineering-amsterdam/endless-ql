@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using QL_Parser.AST.Nodes;
 using QL_Parser.AST.Nodes.ExpressionNodes;
+using QL_Parser.AST.Nodes.ExpressionNodes.Enums;
 using QL_Parser.Exceptions;
 using QLanguage;
 

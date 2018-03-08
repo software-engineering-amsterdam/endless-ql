@@ -3,7 +3,7 @@ grammar Form;
  * Parser Rules
  */
 formBuilder  : 'form' CHARACTERS CURLY_BRACKET_OPEN formData CURLY_BRACKET_CLOSE;
-formData : (questionStructure)+ (ifStructure)+?;
+formData : (questionStructure)+ ((ifStructure)+)?;
 
 questionStructure:
     label

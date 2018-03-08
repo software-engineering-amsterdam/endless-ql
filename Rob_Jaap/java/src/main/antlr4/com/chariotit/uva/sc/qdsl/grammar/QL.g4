@@ -29,9 +29,9 @@ boolean_constant    : TRUE | FALSE ;
 integer_constant    : NUMBER ;
 binop               : (MINUS | PLUS | MULTIPLY | DIVIDE | EQ | NEQ | GTE | GT | LTE | LT) ;
 unop                : (MINUS | PLUS | NOT) ;
-type_expr           : type
-                    | type PARENTH_L expr PARENTH_R ;
-type                : (BOOLEAN_TYPE | MONEY_TYPE | INTEGER_TYPE | STRING_TYPE) ;
+type_expr           : typeNode
+                    | typeNode PARENTH_L expr PARENTH_R ;
+typeNode                : (BOOLEAN_TYPE | MONEY_TYPE | INTEGER_TYPE | STRING_TYPE) ;
 
 
 /**

@@ -6,10 +6,9 @@ import com.chariotit.uva.sc.qdsl.ast.node.constant.IntegerConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.constant.MoneyConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.constant.StringConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.operator.*;
-import com.chariotit.uva.sc.qdsl.ast.node.type.BooleanType;
-import com.chariotit.uva.sc.qdsl.ast.node.type.IntegerType;
-import com.chariotit.uva.sc.qdsl.ast.node.type.MoneyType;
-import com.chariotit.uva.sc.qdsl.ast.node.type.StringType;
+import com.chariotit.uva.sc.qdsl.ast.node.type.*;
+import com.chariotit.uva.sc.qdsl.ast.node.type.BooleanTypeNode;
+import com.chariotit.uva.sc.qdsl.ast.node.type.StringTypeNode;
 import com.chariotit.uva.sc.qdsl.grammar.QLBaseVisitor;
 import com.chariotit.uva.sc.qdsl.grammar.QLParser;
 import com.chariotit.uva.sc.qdsl.parser.exception.UnknownOptionException;
@@ -218,15 +217,15 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
     }
 
     @Override
-    public Type visitType(QLParser.TypeContext ctx) {
+    public TypeNode visitType(QLParser.TypeContext ctx) {
         if (ctx.BOOLEAN_TYPE() != null) {
-            return new BooleanType(lineNumber(ctx), columnNumber(ctx));
+            return new BooleanTypeNode(lineNumber(ctx), columnNumber(ctx));
         } else if (ctx.INTEGER_TYPE() != null) {
-            return new IntegerType(lineNumber(ctx), columnNumber(ctx));
+            return new IntegerTypeNode(lineNumber(ctx), columnNumber(ctx));
         } else if (ctx.MONEY_TYPE() != null) {
-            return new MoneyType(lineNumber(ctx), columnNumber(ctx));
+            return new MoneyTypeNode(lineNumber(ctx), columnNumber(ctx));
         } else if (ctx.STRING_TYPE() != null) {
-            return new StringType(lineNumber(ctx), columnNumber(ctx));
+            return new StringTypeNode(lineNumber(ctx), columnNumber(ctx));
         } else {
             throw new UnknownOptionException();
         }

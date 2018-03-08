@@ -6,10 +6,9 @@ import com.chariotit.uva.sc.qdsl.ast.node.constant.IntegerConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.constant.MoneyConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.constant.StringConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.operator.*;
-import com.chariotit.uva.sc.qdsl.ast.node.type.BooleanType;
-import com.chariotit.uva.sc.qdsl.ast.node.type.IntegerType;
-import com.chariotit.uva.sc.qdsl.ast.node.type.MoneyType;
-import com.chariotit.uva.sc.qdsl.ast.node.type.StringType;
+import com.chariotit.uva.sc.qdsl.ast.node.type.*;
+import com.chariotit.uva.sc.qdsl.ast.node.type.IntegerTypeNode;
+import com.chariotit.uva.sc.qdsl.ast.node.type.MoneyTypeNode;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -60,8 +59,8 @@ public class QLGrammarTest {
                 "hasSoldHouse");
 
         LineElement valueResidue = (LineElement)(ifBlock.getIfElements().get(2));
-        assertTrue(valueResidue.getTypeExpression().getType() instanceof MoneyType);
-        assertFalse(valueResidue.getTypeExpression().getType() instanceof BooleanType);
+        assertTrue(valueResidue.getTypeExpression().getType() instanceof MoneyTypeNode);
+        assertFalse(valueResidue.getTypeExpression().getType() instanceof BooleanTypeNode);
         assertEquals(valueResidue.getQuestion().getQuestion(), "Value residue:");
 
         assertTrue(valueResidue.getTypeExpression().getExpression() instanceof
@@ -76,13 +75,13 @@ public class QLGrammarTest {
         List<FormElement> elements = astRoot.getForms().get(0).getFormElements();
 
         assertTrue(((LineElement)elements.get(0)).getTypeExpression().getType() instanceof
-                BooleanType);
+                BooleanTypeNode);
         assertTrue(((LineElement)elements.get(1)).getTypeExpression().getType() instanceof
-                IntegerType);
+                IntegerTypeNode);
         assertTrue(((LineElement)elements.get(2)).getTypeExpression().getType() instanceof
-                MoneyType);
+                MoneyTypeNode);
         assertTrue(((LineElement)elements.get(3)).getTypeExpression().getType() instanceof
-                StringType);
+                StringTypeNode);
     }
 
     @Test

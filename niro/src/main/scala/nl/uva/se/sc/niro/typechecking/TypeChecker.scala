@@ -1,6 +1,5 @@
 package nl.uva.se.sc.niro.typechecking
 
-import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.errors.Warning
 import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
@@ -9,6 +8,7 @@ import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import nl.uva.se.sc.niro.typechecking.CycleDetection._
 import org.apache.logging.log4j.scala.Logging
+import nl.uva.se.sc.niro.ExpressionEvaluator._
 
 object TypeChecker extends Logging {
 
@@ -117,7 +117,7 @@ object TypeChecker extends Logging {
 
     val conditionals: Seq[Conditional] = Statement.collectAllConditionals(qLForm.statements)
     val conditionalsWithNonBooleanPredicates: Seq[Conditional] = conditionals filter { conditional =>
-      Evaluator.evaluateExpression(conditional.predicate, qLForm.symbolTable, Map.empty) match {
+      conditional.predicate.evaluate(qLForm.symbolTable, Map.empty) match {
         case _: BooleanAnswer => false
         case _                => true
       }

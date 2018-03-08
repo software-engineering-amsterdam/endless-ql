@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model.ql
 
-import nl.uva.se.sc.niro.Evaluator
+import nl.uva.se.sc.niro.ExpressionEvaluator._
 import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
@@ -30,7 +30,7 @@ object Statement {
   def collectAllVisibleQuestions(statements: Seq[Statement], symbolTable: SymbolTable): Seq[Question] = {
     statements.flatMap {
       case q: Question => Seq(q)
-      case c: Conditional if Evaluator.evaluateExpression(c.predicate, symbolTable, Map.empty).isTrue =>
+      case c: Conditional if c.predicate.evaluate(symbolTable, Map.empty).isTrue =>
         collectAllVisibleQuestions(c.thenStatements, symbolTable)
     }
   }

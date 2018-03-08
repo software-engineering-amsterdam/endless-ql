@@ -3,10 +3,10 @@ package org.uva.sc.cr.ql.interpreter.controls
 import javafx.beans.binding.StringBinding
 import javafx.scene.control.TextField
 import javafx.scene.control.TextFormatter
-import javafx.util.converter.BigDecimalStringConverter
+import javafx.util.converter.IntegerStringConverter
 import org.uva.sc.cr.ql.qL.Question
 
-class MoneyControlWrapper extends ControlWrapper {
+class ControlWrapperInteger extends ControlWrapper {
 
 	private var TextField control
 
@@ -27,7 +27,7 @@ class MoneyControlWrapper extends ControlWrapper {
 
 	override protected buildControl() {
 		control = new TextField
-		control.textFormatter = new TextFormatter(new BigDecimalStringConverter)
+		control.textFormatter = new TextFormatter(new IntegerStringConverter)
 	}
 
 }

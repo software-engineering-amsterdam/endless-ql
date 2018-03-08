@@ -2,9 +2,11 @@ package org.uva.sc.cr.ql.interpreter.controls
 
 import javafx.beans.binding.StringBinding
 import javafx.scene.control.TextField
+import javafx.scene.control.TextFormatter
+import javafx.util.converter.BigDecimalStringConverter
 import org.uva.sc.cr.ql.qL.Question
 
-class TextControlWrapper extends ControlWrapper {
+class ControlWrapperMoney extends ControlWrapper {
 
 	private var TextField control
 
@@ -25,6 +27,7 @@ class TextControlWrapper extends ControlWrapper {
 
 	override protected buildControl() {
 		control = new TextField
+		control.textFormatter = new TextFormatter(new BigDecimalStringConverter)
 	}
 
 }

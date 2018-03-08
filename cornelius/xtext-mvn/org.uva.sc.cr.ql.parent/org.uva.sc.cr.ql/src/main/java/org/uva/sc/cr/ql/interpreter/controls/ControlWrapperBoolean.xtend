@@ -4,7 +4,7 @@ import javafx.beans.binding.BooleanBinding
 import javafx.scene.control.CheckBox
 import org.uva.sc.cr.ql.qL.Question
 
-class BooleanControlWrapper extends ControlWrapper {
+class ControlWrapperBoolean extends ControlWrapper {
 
 	private var CheckBox control
 

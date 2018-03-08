@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro
 
 import nl.uva.se.sc.niro.Evaluator.evaluateExpression
-import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, IntAnswer, StringAnswer }
-import nl.uva.se.sc.niro.model.Expressions.{ Answer, BinaryOperation, Reference }
+import nl.uva.se.sc.niro.model.expressions.answers.{ BooleanAnswer, IntAnswer, StringAnswer }
+import nl.uva.se.sc.niro.model.expressions.{ Answer, BinaryOperation, Reference }
 import nl.uva.se.sc.niro.model._
 import org.scalatest.{ Matchers, WordSpec }
 

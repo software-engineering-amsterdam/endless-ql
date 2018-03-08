@@ -6,7 +6,7 @@ public class ParameterGroup extends Expression {
 
     private final Expression expression;
 
-    public ParameterGroup(Expression expression){
+    public ParameterGroup(Expression expression) {
         this.expression = expression;
     }
 
@@ -16,7 +16,7 @@ public class ParameterGroup extends Expression {
 
     @Override
     public String toString() {
-        return String.format("( %s )",this.expression.toString());
+        return String.format("( %s )", this.expression.toString());
     }
 
     @Override

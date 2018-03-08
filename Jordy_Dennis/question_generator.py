@@ -11,7 +11,7 @@ class Question_Generator:
         self.ast = ast
         self.gui = Gui()
         self.create_form()
-        
+
     def create_form(self):
         # questions, qtypes = self.prepare_questions()
         self.prepare_questions()
@@ -28,6 +28,20 @@ class Question_Generator:
         #         questions.append(cur_node.getQuestion())
         #         qtypes.append(self.varDict[var]["type"])
         # return questions, qtypes
+
+    def get_questions(self):
+        for statement in ast.statements():
+            if statement is question:
+                # voeg toe aan ordered dict
+                # key = variable name, value = QuestionNode
+            if statement is assignment:
+                # voer uit en zet in self.vardict ( afhankelijk van vardict)
+            if statement is conditional:
+                #check if condition expression
+                    # is True, get_questions(children)
+                    # if False, check elif and else (opt) and do the same
+        # this generates a ordered dict (variable name: QuestionNode). This dict is used to look up nodes when
+        # looking at the QLS to generate question.
 
 
 

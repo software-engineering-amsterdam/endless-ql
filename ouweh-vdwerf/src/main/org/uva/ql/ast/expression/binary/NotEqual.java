@@ -5,8 +5,8 @@ import org.uva.ql.visitor.ExpressionVisitor;
 
 public class NotEqual extends BinaryOperation {
 
-    public NotEqual(Expression left, Expression right){
-        super(left,right);
+    public NotEqual(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override

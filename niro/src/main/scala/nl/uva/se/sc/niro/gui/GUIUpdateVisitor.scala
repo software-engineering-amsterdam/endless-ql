@@ -4,8 +4,8 @@ import javafx.scene.Node
 import javafx.scene.control.{ CheckBox, DatePicker, Label, TextField }
 import javafx.scene.layout.GridPane
 import nl.uva.se.sc.niro.gui.util.HierarchyUtil
-import nl.uva.se.sc.niro.model.Expressions.answers._
-import nl.uva.se.sc.niro.model.Expressions.{ Answer, Expression }
+import nl.uva.se.sc.niro.model.expressions.answers._
+import nl.uva.se.sc.niro.model.expressions.{ Answer, Expression }
 import nl.uva.se.sc.niro.model._
 
 import scala.collection.{ JavaConverters, Seq }
@@ -22,7 +22,6 @@ object GUIUpdateVisitor {
             visitConditional(control, answer)
             visit(HierarchyUtil.downcast(control), thenStatements, symbolTable)
           }
-          case ErrorStatement() => ()
         }
     }
   }

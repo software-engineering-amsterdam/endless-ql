@@ -26,12 +26,12 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#statement.
-    def enterStatement(self, ctx:QLParser.StatementContext):
+    # Enter a parse tree produced by QLParser#stmt.
+    def enterStmt(self, ctx:QLParser.StmtContext):
         pass
 
-    # Exit a parse tree produced by QLParser#statement.
-    def exitStatement(self, ctx:QLParser.StatementContext):
+    # Exit a parse tree produced by QLParser#stmt.
+    def exitStmt(self, ctx:QLParser.StmtContext):
         pass
 
 
@@ -44,12 +44,12 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#assignment.
-    def enterAssignment(self, ctx:QLParser.AssignmentContext):
+    # Enter a parse tree produced by QLParser#declaration.
+    def enterDeclaration(self, ctx:QLParser.DeclarationContext):
         pass
 
-    # Exit a parse tree produced by QLParser#assignment.
-    def exitAssignment(self, ctx:QLParser.AssignmentContext):
+    # Exit a parse tree produced by QLParser#declaration.
+    def exitDeclaration(self, ctx:QLParser.DeclarationContext):
         pass
 
 
@@ -62,15 +62,6 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#conditional.
-    def enterConditional(self, ctx:QLParser.ConditionalContext):
-        pass
-
-    # Exit a parse tree produced by QLParser#conditional.
-    def exitConditional(self, ctx:QLParser.ConditionalContext):
-        pass
-
-
     # Enter a parse tree produced by QLParser#if_conditional.
     def enterIf_conditional(self, ctx:QLParser.If_conditionalContext):
         pass
@@ -80,21 +71,12 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#else_conditional.
-    def enterElse_conditional(self, ctx:QLParser.Else_conditionalContext):
+    # Enter a parse tree produced by QLParser#type_declaration.
+    def enterType_declaration(self, ctx:QLParser.Type_declarationContext):
         pass
 
-    # Exit a parse tree produced by QLParser#else_conditional.
-    def exitElse_conditional(self, ctx:QLParser.Else_conditionalContext):
-        pass
-
-
-    # Enter a parse tree produced by QLParser#typeDeclaration.
-    def enterTypeDeclaration(self, ctx:QLParser.TypeDeclarationContext):
-        pass
-
-    # Exit a parse tree produced by QLParser#typeDeclaration.
-    def exitTypeDeclaration(self, ctx:QLParser.TypeDeclarationContext):
+    # Exit a parse tree produced by QLParser#type_declaration.
+    def exitType_declaration(self, ctx:QLParser.Type_declarationContext):
         pass
 
 

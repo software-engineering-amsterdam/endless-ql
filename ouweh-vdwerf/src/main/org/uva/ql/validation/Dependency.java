@@ -5,7 +5,7 @@ class Dependency {
     private String from;
     private String to;
 
-    Dependency(String left, String right){
+    Dependency(String left, String right) {
         this.from = left;
         this.to = right;
     }

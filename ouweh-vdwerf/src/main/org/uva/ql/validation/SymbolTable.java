@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 public class SymbolTable {
 
-    private final HashMap <String, Type> table;
+    private final HashMap<String, Type> table;
 
-    public SymbolTable () {
+    public SymbolTable() {
 
         this.table = new HashMap<>();
     }
@@ -17,15 +17,15 @@ public class SymbolTable {
         return this.table.size();
     }
 
-    public void add (String name, Type type) {
+    public void add(String name, Type type) {
         this.table.put(name, type);
     }
 
-    public Type getTypeByName (String name) {
+    public Type getTypeByName(String name) {
         return this.table.get(name);
     }
 
-    public boolean contains (String name) {
+    public boolean contains(String name) {
         return this.table.containsKey(name);
     }
 }

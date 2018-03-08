@@ -25,6 +25,21 @@ object TypeChecker extends Logging {
       qlFormWithPossibleWarnings = checkDuplicateLabels(qLForm)
     } yield qlFormWithPossibleWarnings
 
+  // TODO implement checkOperandsOfInvalidTypeToOperators
+  private def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
+    logger.info("Phase 3 - Checking operands of invalid type to operators ...")
+
+    val questions = Statement.collectAllQuestions(qLForm.statements)
+    val conditionals = Statement.collectAllConditionals(qLForm.statements)
+    val expressions = questions.map(_.expression) ++ conditionals.map(_.predicate)
+
+    expressions
+      .map(expression => checkExpression(expression, qLForm.symbolTable))
+      .foldLeft(Right(qLForm): Either[TypeCheckError, QLForm])(
+        (acc: Either[TypeCheckError, QLForm], either: Either[TypeCheckError, Answer]) =>
+          acc.flatMap(form => either.map(_ => qLForm)))
+  }
+
   // TODO clean up this mess
   def checkExpression(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, Answer] = expr match {
     case a: Answer => Right(a)
@@ -51,21 +66,6 @@ object TypeChecker extends Logging {
             answer,
             checkOperandsAndOperator(operator, answer).get))
       leftAnswer.flatMap(la => rightAnswer.flatMap(ra => Right(la.applyBinaryOperator(operator, ra))))
-  }
-
-  // TODO implement checkOperandsOfInvalidTypeToOperators
-  private def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
-    logger.info("Phase 3 - Checking operands of invalid type to operators ...")
-
-    val questions = Statement.collectAllQuestions(qLForm.statements)
-    val conditionals = Statement.collectAllConditionals(qLForm.statements)
-    val expressions = questions.map(_.expression) ++ conditionals.map(_.predicate)
-
-    expressions
-      .map(expression => checkExpression(expression, qLForm.symbolTable))
-      .foldLeft(Right(qLForm): Either[TypeCheckError, QLForm])(
-        (acc: Either[TypeCheckError, QLForm], either: Either[TypeCheckError, Answer]) =>
-          acc.flatMap(form => either.map(_ => qLForm)))
   }
 
   // TODO make typecheckable type class

@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QL_Visualizer", "QL_Vizuali
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLParser", "QL_Parser\QLParser.csproj", "{AED597D7-3472-4D95-9D15-7BA9B8BBE89E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QL_Parser_Tester", "QL_Parser_Tester\QL_Parser_Tester.csproj", "{A013C465-F47B-44B4-9196-9549AA92EAA7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLParserTester", "QL_Parser_Tester\QLParserTester.csproj", "{A013C465-F47B-44B4-9196-9549AA92EAA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QL_Parser.Tests", "QL_Parser.Tests\QL_Parser.Tests.csproj", "{048419AA-BEF6-4E2C-95F2-17C323BCC207}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLParser.Tests", "QL_Parser.Tests\QLParser.Tests.csproj", "{048419AA-BEF6-4E2C-95F2-17C323BCC207}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QL_Visualizer.Tests", "QL_Visualizer.Tests\QL_Visualizer.Tests.csproj", "{9ED7D288-A597-4527-ACE3-5DF811D95023}"
 EndProject

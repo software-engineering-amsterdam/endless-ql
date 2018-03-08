@@ -4,7 +4,7 @@ using QLParser.AST.Nodes;
 using System;
 using System.Text;
 
-namespace QL_Parser_Tester
+namespace QLParserTester
 {
     class Program
     {

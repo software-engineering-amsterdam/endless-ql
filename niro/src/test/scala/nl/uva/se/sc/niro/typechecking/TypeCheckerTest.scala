@@ -3,7 +3,7 @@ package nl.uva.se.sc.niro.typechecking
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.errors.Warning
 import nl.uva.se.sc.niro.model.ql._
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, IntegerAnswer, StringAnswer }
+import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Reference, UnaryOperation }
 import org.scalatest.WordSpec
 
@@ -46,6 +46,7 @@ class TypeCheckerTest extends WordSpec {
 
         assert(result === Left(List(TypeCheckError("TypeCheckError", "Operand: StringType of invalid type to operator: Mul"))))
       }
+
       "return error for operands of invalid type to eachother" in {
         val qlForm = QLForm(
           "invalidTypes",
@@ -55,7 +56,31 @@ class TypeCheckerTest extends WordSpec {
 
         val result = TypeChecker.pipeline(qlForm)
 
-        assert(result === Left(List(TypeCheckError("TypeCheckError","Operands of invalid type StringType, IntegerType"))))
+        assert(result === Left(List(TypeCheckError("TypeCheckError","Operands of invalid type: StringType, IntegerType"))))
+      }
+
+      "return no error for operands of different types but valid: Decimal and Integer" ignore {
+        val qlForm = QLForm(
+          "invalidTypes",
+          Seq(
+            Question("q1", "duplicate-label", IntegerType, BinaryOperation(Eq, DecimalAnswer(), IntegerAnswer()))
+          ))
+
+        val result = TypeChecker.pipeline(qlForm)
+
+        assert(result === Right(qlForm))
+      }
+
+      "return no error for operands of different types but valid: Money and Integer" ignore {
+        val qlForm = QLForm(
+          "invalidTypes",
+          Seq(
+            Question("q1", "duplicate-label", IntegerType, BinaryOperation(Eq, MoneyAnswer(), IntegerAnswer()))
+          ))
+
+        val result = TypeChecker.pipeline(qlForm)
+
+        assert(result === Right(qlForm))
       }
     }
 

@@ -67,6 +67,7 @@ object TypeChecker extends Logging {
     case _: DateAnswer    => DateType.asRight
   }
 
+  // TODO implement type widener
   def checkLeftRight(leftType: AnswerType, rightType: AnswerType): Either[TypeCheckError, AnswerType] = {
     if (leftType != rightType)
       TypeCheckError(message = s"Operands of invalid type: $leftType, $rightType").asLeft

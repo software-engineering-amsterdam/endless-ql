@@ -16,7 +16,7 @@ class ArithmeticParser extends FunSpec with BeforeAndAfter {
   // maybe extract method to general helper class
   private def getFlattenedForm(location: String): List[ASTNode] = {
     val form = QlFormParser.parseFromURL(getClass.getResource(location))
-    QlFormParser.flattenNT(form)
+    ASTCollector.flattenNT(form)
   }
 
   describe("when parsing a form containing arithmetic tokens") {

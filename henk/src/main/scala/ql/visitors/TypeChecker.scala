@@ -2,6 +2,7 @@ package ql.visitors
 
 import ql.models.ast._
 import ql.parsers._
+import ql.visitors._
 
 import scala.collection.JavaConversions._
 
@@ -10,12 +11,12 @@ case class IdentifierNotDeclared(label: String) extends Exception(label)
 class TypeChecker(val node: ASTNode) {
 
   var errorMessage = ""
-  val flattened = QlFormParser.flattenNT(node)
   val ast = node
 
   def check(): Boolean = {
     try {
       checkVarDecls()
+      // checkConditions()
       true
     } catch {
       case ex: IdentifierNotDeclared => {
@@ -25,21 +26,17 @@ class TypeChecker(val node: ASTNode) {
     }
   }
 
-  def collectFormBody(flat: List[ASTNode]): List[ASTNode] = {
-    flat.collect { case body: ASTFormBody => body }
-  }
-
   def checkVarDecls(): Unit = {
-    val forms = collectFormBody(flattened)
-    val formVarDecls = forms.map(QlFormParser.retrieveVarDecls)
-    val formTerminals = forms.map(QlFormParser.retrieveTerminals)
+    val forms = ASTCollector.getFormBody(ast)
+    val formVarDecls = forms.map(ASTCollector.getVarDecls)
+    val formTerminals = forms.map(ASTCollector.getTerminals)
 
     (formVarDecls, formTerminals).zipped.foreach(checkScope)
   }
 
   def checkScope(varDecls: List[ASTNode], terminals: List[ASTNode]): Unit = {
     val declaredIdentifiers =
-      varDecls.map(QlFormParser.retrieveIdentifiers).flatten
+      varDecls.map(ASTCollector.getIdentifiers).flatten
     terminals.foreach {
       case node: ASTIdentifier if !declaredIdentifiers.contains(node) => {
         throw new IdentifierNotDeclared(node.id)

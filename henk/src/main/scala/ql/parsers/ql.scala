@@ -31,43 +31,4 @@ object QlFormParser {
     return visitor.visit(tree)
   }
 
-  def retrieveTerminals(node: ASTNode): List[ASTNode] = {
-    node match {
-      case nt: ASTNonTerminal => traverseChildren(nt, retrieveTerminals)
-      case other              => List(other)
-    }
-  }
-
-  def retrieveIdentifiers(node: ASTNode): List[ASTNode] = {
-    node match {
-      case nt: ASTNonTerminal => traverseChildren(nt, retrieveIdentifiers)
-      case id: ASTIdentifier  => List(id)
-      case other              => List()
-    }
-  }
-
-  def retrieveVarDecls(node: ASTNode): List[ASTNode] = {
-    val flattened = flattenNT(node)
-    flattened.collect { case varDecl: ASTVarDecl => varDecl }
-  }
-
-  // get ifConditionals from Root
-  //   get non terminals -> collect conditionals
-  // get identifiers without looking at formHeader
-  //   get non terminals -> filter formHeader -> get terminals
-  // get questions
-  //   get non terminals -> collect questions
-  // get identifier from vardec
-  //   get non terminals -> collect vardec -> collect identifiers
-  def traverseChildren(parent: ASTNode,
-                       trav: (ASTNode) => List[ASTNode]): List[ASTNode] = {
-    parent.flatten.map(trav).flatten
-  }
-
-  def flattenNT(node: ASTNode): List[ASTNode] = {
-    node match {
-      case nt: ASTNonTerminal => List(nt) ++ traverseChildren(nt, flattenNT)
-      case other              => List()
-    }
-  }
 }

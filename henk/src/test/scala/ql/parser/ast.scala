@@ -20,7 +20,7 @@ class ASTParser extends FunSpec with BeforeAndAfter {
 
   private def getFlattenedForm(location: String): List[ASTNode] = {
     val form = QlFormParser.parseFromURL(getClass.getResource(location))
-    QlFormParser.flattenNT(form)
+    ASTCollector.flattenNT(form)
   }
 
   describe("when parsing a form") {

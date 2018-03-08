@@ -7,44 +7,40 @@ import nl.uva.se.sc.niro.model.expressions.answers.Answer
 
 object Evaluator {
 
-  def evaluate(qLForm: QLForm): QLForm = {
-    val evaluatedStatements: Seq[Statement] =
-      qLForm.statements.map(statement => evaluate(statement, qLForm.symbolTable))
+  type Dictionary = Map[String, Answer]
 
-    qLForm.copy(statements = evaluatedStatements)
+  def evaluate(qLForm: QLForm, dictionary: Dictionary): Dictionary = {
+    qLForm.statements.flatMap(statement => evaluate(statement, qLForm.symbolTable, dictionary)).toMap
   }
 
-  def evaluate(statement: Statement, symbolTable: SymbolTable): Statement = {
+  def evaluate(statement: Statement, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
     statement match {
-      case q: Question    => evaluate(q, symbolTable)
-      case c: Conditional => evaluate(c, symbolTable)
+      case q: Question    => evaluate(q, symbolTable, dictionary)
+      case c: Conditional => evaluate(c, symbolTable, dictionary)
     }
   }
 
-  def evaluate(question: Question, symbolTable: SymbolTable): Question = {
-    val evaluatedAnswer = evaluateExpression(question.expression, symbolTable: SymbolTable)
-
-    question.copy(answer = Some(evaluatedAnswer))
+  def evaluate(question: Question, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
+    val answer = evaluateExpression(question.expression, symbolTable: SymbolTable, dictionary)
+    dictionary + (question.id -> answer)
   }
 
   // Recursion is happening between evaluateStatement and evaluateConditional
-  def evaluate(conditional: Conditional, symbolTable: SymbolTable): Conditional = {
-    val evaluatedPredicate = evaluateExpression(conditional.predicate, symbolTable)
-    val evaluatedThenStatements = conditional.thenStatements.map(statement => evaluate(statement, symbolTable))
-
-    conditional.copy(answer = Option(evaluatedPredicate), thenStatements = evaluatedThenStatements)
+  def evaluate(conditional: Conditional, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
+    conditional.thenStatements.flatMap(statement => evaluate(statement, symbolTable, dictionary)).toMap
   }
 
-  def evaluateExpression(expr: Expression, symbolTable: SymbolTable): Answer = expr match {
-    case answer: Answer        => answer
-    case Reference(questionId) => evaluateExpression(symbolTable(questionId), symbolTable)
+  def evaluateExpression(expr: Expression, symbolTable: SymbolTable, dictionary: Dictionary): Answer = expr match {
+    case answer: Answer => answer
+    case Reference(questionId) =>
+      evaluateExpression(dictionary.get(questionId).orElse(symbolTable.get(questionId)).get, symbolTable, dictionary)
     case UnaryOperation(operator: UnaryOperator, expression) =>
-      val answer = evaluateExpression(expression, symbolTable)
+      val answer = evaluateExpression(expression, symbolTable, dictionary)
       answer.applyUnaryOperator(operator)
 
     case BinaryOperation(operator: BinaryOperator, leftExpression, rightExpression) =>
-      val leftAnswer = evaluateExpression(leftExpression, symbolTable)
-      val rightAnswer = evaluateExpression(rightExpression, symbolTable)
+      val leftAnswer = evaluateExpression(leftExpression, symbolTable, dictionary)
+      val rightAnswer = evaluateExpression(rightExpression, symbolTable, dictionary)
       leftAnswer.applyBinaryOperator(operator, rightAnswer)
   }
 }

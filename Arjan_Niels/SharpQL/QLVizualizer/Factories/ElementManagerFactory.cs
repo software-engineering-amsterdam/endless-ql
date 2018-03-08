@@ -3,7 +3,7 @@ using QLVisualizer.Controllers;
 using QLVisualizer.Expression;
 using QLVisualizer.Expression.Types;
 using QLVisualizer.ElementManagers;
-using QLVisualizer.ElementManagers.Types;
+using QLVisualizer.ElementManagers.LeafTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

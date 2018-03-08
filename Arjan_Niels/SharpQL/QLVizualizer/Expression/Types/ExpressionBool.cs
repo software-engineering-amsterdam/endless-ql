@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QLVisualizer.Expression.Types
+namespace QLVisualizer.Expression.LeafTypes
 {
     public class ExpressionBool : TypedExpressionValue<bool>
     {

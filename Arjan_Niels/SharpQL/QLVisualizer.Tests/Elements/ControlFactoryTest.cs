@@ -4,7 +4,7 @@ using QLVisualizer.Controllers;
 using QLVisualizer.Controllers.Display;
 using QLVisualizer.Factories;
 using QLVisualizer.Style;
-using QLVisualizer.ElementManagers.Types;
+using QLVisualizer.ElementManagers.LeafTypes;
 
 namespace QLVisualizer.Tests.Elements
 {

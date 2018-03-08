@@ -4,12 +4,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using QLVisualizer.Expression;
-using QLVisualizer.Expression.Types;
 using QLVisualizer.Factories;
 using QLVisualizer.Properties;
 using QLVisualizer.Style;
 using QLVisualizer.ElementManagers;
-using QLVisualizer.ElementManagers.Types;
 
 namespace QLVisualizer.Controllers.Display
 {

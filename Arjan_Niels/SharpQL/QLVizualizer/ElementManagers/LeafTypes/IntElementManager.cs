@@ -1,7 +1,4 @@
-﻿using QLVisualizer.Expression;
-using QLVisualizer.Expression.Types;
-
-namespace QLVisualizer.ElementManagers.Types
+﻿namespace QLVisualizer.ElementManagers.LeafTypes
 {
     public class IntElementManager : QuestionElementManager<int>
     {

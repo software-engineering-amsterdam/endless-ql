@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLVisualizer.Controllers;
 using QLVisualizer.Controllers.Display;
 using QLVisualizer.Style;
-using QLVisualizer.ElementManagers.Types;
+using QLVisualizer.ElementManagers.LeafTypes;
 
 namespace QLVisualizer.Tests.Controllers.Display
 {

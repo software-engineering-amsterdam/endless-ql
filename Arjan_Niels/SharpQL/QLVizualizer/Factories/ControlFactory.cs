@@ -1,7 +1,7 @@
 ﻿using QLVisualizer.Controllers;
 using QLVisualizer.Style;
 using QLVisualizer.ElementManagers;
-using QLVisualizer.ElementManagers.Types;
+using QLVisualizer.ElementManagers.LeafTypes;
 using System;
 using System.Drawing;
 using System.Windows.Forms;

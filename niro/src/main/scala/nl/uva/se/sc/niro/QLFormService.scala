@@ -2,8 +2,10 @@ package nl.uva.se.sc.niro
 
 import java.io.File
 
+import com.github.tototoshi.csv._
 import nl.uva.se.sc.niro.errors.Errors._
 import nl.uva.se.sc.niro.model.ql.QLForm
+import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
 import nl.uva.se.sc.niro.parser.QLFormParser
 import nl.uva.se.sc.niro.typechecking.TypeChecker
 import org.antlr.v4.runtime.CharStreams
@@ -25,5 +27,21 @@ object QLFormService {
     } else {
       Left(parseErrors)
     }
+  }
+
+  def saveMemoryTableToCSV(memoryTable: Map[String, Answer]): Unit = {
+    val table: Seq[List[String]] = memoryTable.mapValues(answerToString).map(tuple2ToList).toList
+
+    val f = new File("out.csv")
+    val writer = CSVWriter.open(f)
+    writer.writeAll(table)
+    writer.close()
+  }
+
+  // To retain type-information when converting tuples to lists
+  def tuple2ToList[T](t: (T,T)): List[T] = List(t._1, t._2)
+
+  def answerToString(answer: Answer): String = {
+    answer.possibleValue.map(_.toString).getOrElse("")
   }
 }

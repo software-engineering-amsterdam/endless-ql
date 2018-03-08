@@ -81,6 +81,13 @@
 			<version>${scalatic_2_12.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.github.tototoshi</groupId>
+			<artifactId>scala-csv_2.12</artifactId>
+			<version>1.3.5</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

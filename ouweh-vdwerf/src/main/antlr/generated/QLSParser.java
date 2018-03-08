@@ -623,7 +623,27 @@ public class QLSParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class SliderContext extends WidgetTypeContext {
+	public static class CheckboxTypeContext extends WidgetTypeContext {
+		public Token yes;
+		public TerminalNode OPEN_PARENTH() { return getToken(QLSParser.OPEN_PARENTH, 0); }
+		public TerminalNode CLOSE_PARENTH() { return getToken(QLSParser.CLOSE_PARENTH, 0); }
+		public TerminalNode STRING() { return getToken(QLSParser.STRING, 0); }
+		public CheckboxTypeContext(WidgetTypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterCheckboxType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitCheckboxType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitCheckboxType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class SliderTypeContext extends WidgetTypeContext {
 		public Token start;
 		public Token end;
 		public Token step;
@@ -633,58 +653,38 @@ public class QLSParser extends Parser {
 		public TerminalNode NUMBER(int i) {
 			return getToken(QLSParser.NUMBER, i);
 		}
-		public SliderContext(WidgetTypeContext ctx) { copyFrom(ctx); }
+		public SliderTypeContext(WidgetTypeContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterSlider(this);
+			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterSliderType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitSlider(this);
+			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitSliderType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitSlider(this);
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitSliderType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class CheckboxContext extends WidgetTypeContext {
-		public Token yes;
-		public TerminalNode OPEN_PARENTH() { return getToken(QLSParser.OPEN_PARENTH, 0); }
-		public TerminalNode CLOSE_PARENTH() { return getToken(QLSParser.CLOSE_PARENTH, 0); }
-		public TerminalNode STRING() { return getToken(QLSParser.STRING, 0); }
-		public CheckboxContext(WidgetTypeContext ctx) { copyFrom(ctx); }
+	public static class TextTypeContext extends WidgetTypeContext {
+		public TextTypeContext(WidgetTypeContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterCheckbox(this);
+			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterTextType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitCheckbox(this);
+			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitTextType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitCheckbox(this);
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitTextType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class TextContext extends WidgetTypeContext {
-		public TextContext(WidgetTypeContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterText(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitText(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitText(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class DropdownContext extends WidgetTypeContext {
+	public static class RadioTypeContext extends WidgetTypeContext {
 		public Token yes;
 		public Token no;
 		public TerminalNode OPEN_PARENTH() { return getToken(QLSParser.OPEN_PARENTH, 0); }
@@ -693,22 +693,22 @@ public class QLSParser extends Parser {
 		public TerminalNode STRING(int i) {
 			return getToken(QLSParser.STRING, i);
 		}
-		public DropdownContext(WidgetTypeContext ctx) { copyFrom(ctx); }
+		public RadioTypeContext(WidgetTypeContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterDropdown(this);
+			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterRadioType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitDropdown(this);
+			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitRadioType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitDropdown(this);
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitRadioType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class RadioContext extends WidgetTypeContext {
+	public static class DropdownTypeContext extends WidgetTypeContext {
 		public Token yes;
 		public Token no;
 		public TerminalNode OPEN_PARENTH() { return getToken(QLSParser.OPEN_PARENTH, 0); }
@@ -717,18 +717,18 @@ public class QLSParser extends Parser {
 		public TerminalNode STRING(int i) {
 			return getToken(QLSParser.STRING, i);
 		}
-		public RadioContext(WidgetTypeContext ctx) { copyFrom(ctx); }
+		public DropdownTypeContext(WidgetTypeContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterRadio(this);
+			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterDropdownType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitRadio(this);
+			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitDropdownType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitRadio(this);
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitDropdownType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -741,7 +741,7 @@ public class QLSParser extends Parser {
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__6:
-				_localctx = new RadioContext(_localctx);
+				_localctx = new RadioTypeContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(95);
@@ -749,17 +749,17 @@ public class QLSParser extends Parser {
 				setState(96);
 				match(OPEN_PARENTH);
 				setState(97);
-				((RadioContext)_localctx).yes = match(STRING);
+				((RadioTypeContext)_localctx).yes = match(STRING);
 				setState(98);
 				match(T__7);
 				setState(99);
-				((RadioContext)_localctx).no = match(STRING);
+				((RadioTypeContext)_localctx).no = match(STRING);
 				setState(100);
 				match(CLOSE_PARENTH);
 				}
 				break;
 			case T__8:
-				_localctx = new CheckboxContext(_localctx);
+				_localctx = new CheckboxTypeContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(101);
@@ -767,13 +767,13 @@ public class QLSParser extends Parser {
 				setState(102);
 				match(OPEN_PARENTH);
 				setState(103);
-				((CheckboxContext)_localctx).yes = match(STRING);
+				((CheckboxTypeContext)_localctx).yes = match(STRING);
 				setState(104);
 				match(CLOSE_PARENTH);
 				}
 				break;
 			case T__9:
-				_localctx = new DropdownContext(_localctx);
+				_localctx = new DropdownTypeContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(105);
@@ -781,17 +781,17 @@ public class QLSParser extends Parser {
 				setState(106);
 				match(OPEN_PARENTH);
 				setState(107);
-				((DropdownContext)_localctx).yes = match(STRING);
+				((DropdownTypeContext)_localctx).yes = match(STRING);
 				setState(108);
 				match(T__7);
 				setState(109);
-				((DropdownContext)_localctx).no = match(STRING);
+				((DropdownTypeContext)_localctx).no = match(STRING);
 				setState(110);
 				match(CLOSE_PARENTH);
 				}
 				break;
 			case T__10:
-				_localctx = new SliderContext(_localctx);
+				_localctx = new SliderTypeContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(111);
@@ -799,21 +799,21 @@ public class QLSParser extends Parser {
 				setState(112);
 				match(OPEN_PARENTH);
 				setState(113);
-				((SliderContext)_localctx).start = match(NUMBER);
+				((SliderTypeContext)_localctx).start = match(NUMBER);
 				setState(114);
 				match(T__7);
 				setState(115);
-				((SliderContext)_localctx).end = match(NUMBER);
+				((SliderTypeContext)_localctx).end = match(NUMBER);
 				setState(116);
 				match(T__7);
 				setState(117);
-				((SliderContext)_localctx).step = match(NUMBER);
+				((SliderTypeContext)_localctx).step = match(NUMBER);
 				setState(118);
 				match(CLOSE_PARENTH);
 				}
 				break;
 			case T__11:
-				_localctx = new TextContext(_localctx);
+				_localctx = new TextTypeContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(119);

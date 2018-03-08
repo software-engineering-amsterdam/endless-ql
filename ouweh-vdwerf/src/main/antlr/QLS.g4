@@ -26,11 +26,11 @@ question: 'question' ID widget?
 
 widget: 'widget' widgetType;
 
-widgetType: 'radio' OPEN_PARENTH yes=STRING',' no=STRING CLOSE_PARENTH                     # radio
-          | 'checkbock' OPEN_PARENTH yes=STRING CLOSE_PARENTH                              # checkbox
-          | 'dropdown' OPEN_PARENTH yes=STRING',' no=STRING CLOSE_PARENTH                  # dropdown
-          | 'slider' OPEN_PARENTH start=NUMBER',' end=NUMBER',' step=NUMBER CLOSE_PARENTH  # slider
-          | 'text'                                                                         # text
+widgetType: 'radio' OPEN_PARENTH yes=STRING',' no=STRING CLOSE_PARENTH                     # radioType
+          | 'checkbock' OPEN_PARENTH yes=STRING CLOSE_PARENTH                              # checkboxType
+          | 'dropdown' OPEN_PARENTH yes=STRING',' no=STRING CLOSE_PARENTH                  # dropdownType
+          | 'slider' OPEN_PARENTH start=NUMBER',' end=NUMBER',' step=NUMBER CLOSE_PARENTH  # sliderType
+          | 'text'                                                                         # textType
           ;
 
 type

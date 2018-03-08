@@ -15,13 +15,10 @@ import java.util.List;
 public class QLLoader extends FormBaseListener {
     private FormNode formNode;
 
-    private ASTFormNode fn;
-
     private List<Variable> conditionsHolder;
     private QLChecker qlChecker;
     private Variable constructedVariable;
     public QLLoader(){
-        this.fn = new ASTFormNode();
         this.formNode = new FormNode();
         this.conditionsHolder = new ArrayList<Variable>();
     }

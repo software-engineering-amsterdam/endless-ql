@@ -10,10 +10,7 @@ import javafx.scene.layout.VBox;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.render.visitor.ModelRenderer;
-import org.uva.sea.gui.widget.CheckBoxWidget;
-import org.uva.sea.gui.widget.RadioButtonWidget;
-import org.uva.sea.gui.widget.SliderWidget;
-import org.uva.sea.gui.widget.TextFieldWidget;
+import org.uva.sea.gui.widget.*;
 
 import java.util.List;
 
@@ -67,21 +64,35 @@ public class ViewRenderer {
     }
 
     private Control createWidget(BaseQuestionModel questionModel) {
+        Widget widget;
         switch (questionModel.getWidgetType()) {
             case CHECKBOX:
-                return new CheckBoxWidget().draw(questionModel, controller);
-            case SLIDER:
-                return new SliderWidget().draw(questionModel, controller);
+                widget = new CheckBoxWidget();
+                break;
+            case CHOICEBOX:
+                widget = new ChoiceBoxWidget();
+                break;
             case RADIOBUTTON:
-                return new RadioButtonWidget().draw(questionModel, controller);
+                widget = new RadioButtonWidget();
+                break;
+            case SLIDER:
+                widget = new SliderWidget();
+                break;
+            case SPINNER:
+                widget = new SpinnerWidget();
+                break;
             default:
             case TEXTFIELD:
-                return new TextFieldWidget().draw(questionModel, controller);
+                widget = new TextFieldWidget();
+                break;
         }
+        return widget.draw(questionModel, controller);
     }
 
     private Label createQuestionLabel(String string) {
-        return new Label(string.replace("\"", ""));
+        Label label = new Label(string.replace("\"", ""));
+        label.setWrapText(true);
+        return label;
     }
 
     private Node createMessageRow(String message) {
@@ -90,7 +101,9 @@ public class ViewRenderer {
         wrapper.getColumnConstraints().add(new ColumnConstraints(600));
         wrapper.getRowConstraints().add(new RowConstraints(40));
 
-        wrapper.add(new Label(message), 0, 0);
+        Label label = new Label(message);
+        label.setWrapText(true);
+        wrapper.add(label, 0, 0);
 
         return wrapper;
     }

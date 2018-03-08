@@ -3,7 +3,9 @@ package org.uva.sea.ql.interpreter.dataObject;
 public enum WidgetType {
 
     CHECKBOX,
-    TEXTFIELD,
+    CHOICEBOX,
+    RADIOBUTTON,
     SLIDER,
-    RADIOBUTTON
+    SPINNER,
+    TEXTFIELD
 }

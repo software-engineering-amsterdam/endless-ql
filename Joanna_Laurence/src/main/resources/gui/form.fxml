@@ -10,12 +10,14 @@
         <Insets bottom="40" left="40" right="40" top="40"/>
     </padding>
 
-    <ScrollPane prefHeight="300.0" prefWidth="400.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+    <ScrollPane prefHeight="300.0" prefWidth="400.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0"
+                GridPane.vgrow="ALWAYS">
         <VBox fx:id="questionBox" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1"/>
     </ScrollPane>
     <ScrollPane prefHeight="100.0" prefWidth="400.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1"
                 GridPane.vgrow="ALWAYS">
-        <VBox fx:id="messageBox" prefHeight="50.0" prefWidth="200.0" GridPane.rowIndex="1"/>
+        <VBox fx:id="messageBox" prefHeight="50.0" prefWidth="200.0" GridPane.rowIndex="1">
+        </VBox>
     </ScrollPane>
     <GridPane GridPane.rowIndex="3">
         <columnConstraints>

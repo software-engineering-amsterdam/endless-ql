@@ -5,7 +5,7 @@ import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.visitor.BaseValueVisitor;
 
 public class IntValue extends Value {
-    private int intValue = 0;
+    private int intValue;
 
     public IntValue(String value) {
         if(!value.equals(""))

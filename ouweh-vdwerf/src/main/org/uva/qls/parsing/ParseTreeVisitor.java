@@ -3,20 +3,59 @@ package org.uva.qls.parsing;
 import antlr.generated.QLSBaseVisitor;
 import antlr.generated.QLSParser;
 
+import org.uva.qls.ast.*;
+import org.uva.qls.ast.DefaultStatement.DefaultStatement;
+import org.uva.qls.ast.Segment.Section;
+import org.uva.qls.ast.Segment.Segment;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ParseTreeVisitor extends QLSBaseVisitor {
     @Override
     public Object visitStylesheet(QLSParser.StylesheetContext ctx) {
-        return super.visitStylesheet(ctx);
+        String styleSheetId = ctx.id.getText();
+        List<Page> pages = new ArrayList<>();
+
+        for (QLSParser.PageContext pageContext : ctx.page()) {
+            pages.add((Page) visit(pageContext));
+        }
+
+        return new Stylesheet(styleSheetId, pages);
     }
 
     @Override
     public Object visitPage(QLSParser.PageContext ctx) {
-        return super.visitPage(ctx);
+        String pageId = ctx.id.getText();
+
+        List<Segment> segments = new ArrayList<>();
+        for (QLSParser.SegmentContext segmentContext : ctx.segment()) {
+            segments.add((Segment) visit(segmentContext));
+        }
+
+        List<DefaultStatement> defaultStatements = new ArrayList<>();
+        for (QLSParser.DefaultStatementContext defaultStatementContext : ctx.defaultStatement()) {
+            defaultStatements.add((DefaultStatement) visit(defaultStatementContext));
+        }
+
+        return new Page(pageId, segments, defaultStatements);
     }
 
     @Override
     public Object visitSection(QLSParser.SectionContext ctx) {
-        return super.visitSection(ctx);
+        String pageId = ctx.id.getText();
+
+        List<Segment> segments = new ArrayList<>();
+        for (QLSParser.SegmentContext segmentContext : ctx.segment()) {
+            segments.add((Segment) visit(segmentContext));
+        }
+
+        List<DefaultStatement> defaultStatements = new ArrayList<>();
+        for (QLSParser.DefaultStatementContext defaultStatementContext : ctx.defaultStatement()) {
+            defaultStatements.add((DefaultStatement) visit(defaultStatementContext));
+        }
+
+        return new Section(pageId, segments, defaultStatements);
     }
 
     @Override
@@ -40,28 +79,28 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
     }
 
     @Override
-    public Object visitRadio(QLSParser.RadioContext ctx) {
-        return super.visitRadio(ctx);
+    public Object visitRadioType(QLSParser.RadioTypeContext ctx) {
+        return super.visitRadioType(ctx);
     }
 
     @Override
-    public Object visitCheckbox(QLSParser.CheckboxContext ctx) {
-        return super.visitCheckbox(ctx);
+    public Object visitCheckboxType(QLSParser.CheckboxTypeContext ctx) {
+        return super.visitCheckboxType(ctx);
     }
 
     @Override
-    public Object visitDropdown(QLSParser.DropdownContext ctx) {
-        return super.visitDropdown(ctx);
+    public Object visitDropdownType(QLSParser.DropdownTypeContext ctx) {
+        return super.visitDropdownType(ctx);
     }
 
     @Override
-    public Object visitSlider(QLSParser.SliderContext ctx) {
-        return super.visitSlider(ctx);
+    public Object visitSliderType(QLSParser.SliderTypeContext ctx) {
+        return super.visitSliderType(ctx);
     }
 
     @Override
-    public Object visitText(QLSParser.TextContext ctx) {
-        return super.visitText(ctx);
+    public Object visitTextType(QLSParser.TextTypeContext ctx) {
+        return super.visitTextType(ctx);
     }
 
     @Override

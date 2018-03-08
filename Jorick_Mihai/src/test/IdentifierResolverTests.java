@@ -10,9 +10,9 @@ import org.uva.jomi.ql.ast.statements.Stmt;
 import org.uva.jomi.ql.tests.utilities.TestUtilities;
 
 public class IdentifierResolverTests {
-	
+
 	IdentifierResolver identifierResolver = new IdentifierResolver(false);
-	
+
 	String questionNameSelfRefereceTest =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean q1\n"
@@ -26,12 +26,12 @@ public class IdentifierResolverTests {
 		assertTrue(identifierResolver.
 				getErrorAtIndex(0).equals("[IdentifierResolver] line: 2, column: 24: Undeclared identifier: q1"));
 	}
-	
+
 	String undeclaredQuestionName1 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean q2\n"
 			+ "}";
-	
+
 	@Test
 	public void undeclaredQuestionName1() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(undeclaredQuestionName1);
@@ -40,13 +40,13 @@ public class IdentifierResolverTests {
 		assertTrue(identifierResolver.
 				getErrorAtIndex(0).equals("[IdentifierResolver] line: 2, column: 24: Undeclared identifier: q2"));
 	}
-	
+
 	String undefinedQuestionName2 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean\n"
 			+ "if (q2) {}\n"
 			+ "}";
-	
+
 	@Test
 	public void undeclaredQuestionName2() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(undefinedQuestionName2);
@@ -55,7 +55,7 @@ public class IdentifierResolverTests {
 		assertTrue(identifierResolver.
 				getErrorAtIndex(0).equals("[IdentifierResolver] line: 3, column: 4: Undeclared identifier: q2"));
 	}
-	
+
 	String readOnlyQuestionName1 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean\n"
@@ -63,7 +63,7 @@ public class IdentifierResolverTests {
 			+ "\"question2\" q1: boolean q1\n"
 			+ "}\n"
 			+ "}";
-	
+
 	@Test
 	public void readOnlyQuestionName1() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(readOnlyQuestionName1);
@@ -72,13 +72,13 @@ public class IdentifierResolverTests {
 		assertTrue(identifierResolver.
 				getErrorAtIndex(0).equals("[IdentifierResolver] line: 4, column: 12: Read-only identifier already declared in an outside scope: q1"));
 	}
-	
+
 	String readOnlyQuestionName2 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean\n"
 			+ "\"question1\" q1: boolean\n"
 			+ "}";
-	
+
 	@Test
 	public void readOnlyQuestionName2() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(readOnlyQuestionName2);
@@ -87,7 +87,7 @@ public class IdentifierResolverTests {
 		assertTrue(identifierResolver.
 				getErrorAtIndex(0).equals("[IdentifierResolver] line: 3, column: 12: Read-only identifier already declared the current scope: q1"));
 	}
-	
+
 	String readOnlyQuestionName3 =
 			"form Form1 {\n"
 			+ "if (true) {\n"
@@ -95,7 +95,7 @@ public class IdentifierResolverTests {
 			+ "\"question1\" q1: boolean\n"
 			+ "}\n"
 			+ "}";
-	
+
 	@Test
 	public void readOnlyQuestionName3() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(readOnlyQuestionName3);
@@ -104,7 +104,7 @@ public class IdentifierResolverTests {
 		assertTrue(identifierResolver.
 				getErrorAtIndex(0).equals("[IdentifierResolver] line: 4, column: 12: Read-only identifier already declared the current scope: q1"));
 	}
-	
+
 	String readOnlyQuestionName4 =
 			"form Form1 {\n"
 			+ "if (true) {\n"
@@ -113,7 +113,7 @@ public class IdentifierResolverTests {
 			+ "\"question1\" q1: boolean\n"
 			+ "}\n"
 			+ "}";
-	
+
 	@Test
 	public void readOnlyQuestionName4() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(readOnlyQuestionName4);
@@ -122,7 +122,7 @@ public class IdentifierResolverTests {
 		assertTrue(identifierResolver.
 				getErrorAtIndex(0).equals("[IdentifierResolver] line: 4, column: 12: Read-only identifier already declared the current scope: q1"));
 	}
-	
+
 	String readOnlyQuestionName5 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean\n"
@@ -131,7 +131,7 @@ public class IdentifierResolverTests {
 			+ "\"question2\" q1: boolean q1\n"
 			+ "}\n"
 			+ "}";
-	
+
 	@Test
 	public void readOnlyQuestionName5() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(readOnlyQuestionName5);
@@ -140,7 +140,29 @@ public class IdentifierResolverTests {
 		assertTrue(identifierResolver.
 				getErrorAtIndex(0).equals("[IdentifierResolver] line: 5, column: 12: Read-only identifier already declared in an outside scope: q1"));
 	}
-	
+
+	String cyclicDependencyTest	 =
+			"form Form1 {\n"
+			+ "if (x) {\n"
+			+ "\"y?\" x: boolean\n"
+			+ "}\n"
+
+			+ "if (y) {\n"
+			+ "\"x?\" y: boolean\n"
+			+ "}\n"
+			+ "}";
+
+	@Test
+	public void cyclicDependencyTest() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(cyclicDependencyTest);
+		identifierResolver.resolve(ast);
+		assertTrue(identifierResolver.getNumberOfErrors() == 2);
+		assertTrue(identifierResolver.
+				getErrorAtIndex(0).equals("[IdentifierResolver] line: 2, column: 4: Undeclared identifier: x"));
+		assertTrue(identifierResolver.
+				getErrorAtIndex(1).equals("[IdentifierResolver] line: 5, column: 4: Undeclared identifier: y"));
+	}
+
 	String positiveTest1 =
 			"form Form1 {\n"
 			+ "\"question 1\" q1: integer 1"
@@ -151,7 +173,7 @@ public class IdentifierResolverTests {
 			+ "\"question 4\" q4: integer q1 - q2"
 			+ "}\n"
 			+ "}";
-	
+
 	@Test
 	public void positiveTest1() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(positiveTest1);

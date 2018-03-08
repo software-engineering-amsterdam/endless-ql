@@ -28,7 +28,7 @@ class Render(object):
     @when(IfNode)
     def visit(self, node):
         previous_condition = self.condition
-        self.condition = node.condition
+        self.condition = self.condition and node.condition
 
         for child in node.block:
             child.accept(self)

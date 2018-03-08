@@ -210,7 +210,7 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
 
     @Override
     public NodeType visit(Money node) {
-        return NodeType.MONEY;
+        return node.getType().getNodeType();
     }
 
     @Override

@@ -10,9 +10,9 @@ form taxOfficeExample {
 
   if (hasSoldHouse) {
     "What was the selling price?"
-      sellingPrice: money
+      sellingPrice: money_euro
 
     "Private debts for the sold house:"
-      privateDebt: money
+      privateDebt: money_euro
   }
 }

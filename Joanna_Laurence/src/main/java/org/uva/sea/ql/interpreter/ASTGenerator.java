@@ -7,11 +7,12 @@ import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.interpreter.dataObject.ASTResult;
 import org.uva.sea.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.ql.parser.antlr.ErrorHandler;
-import org.uva.sea.ql.parser.antlr.QLLexer;
-import org.uva.sea.ql.parser.antlr.QLParser;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.interpreter.staticAnalysis.*;
 import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
+
+import org.uva.sea.ql.antlr.QLLexer;
+import org.uva.sea.ql.antlr.QLParser;
 
 import java.util.List;
 

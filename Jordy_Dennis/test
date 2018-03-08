@@ -1,6 +1,6 @@
 form taxOfficeExample {
 	"This is an int"
-		a: bool = (true && true)
+		a: int = (4)
 
 	"This is a string"
 		b: int

@@ -205,16 +205,16 @@ def getLiteralValue(ctx):
     litVal = None
     if (ctx.INT()):
         litType = int
-        litVal = ctx.INT()
+        litVal = int(ctx.INT().getText())
     elif (ctx.BOOL()):
         litType = bool
-        litVal = str(ctx.BOOL()).capitalize()
+        litVal = eval(str(ctx.BOOL()).capitalize())
     elif (ctx.STRING()):
         litType = str
-        litVal = ctx.STRING()
+        litVal = ctx.STRING().getText()
     elif (ctx.FLOAT()):
         litType = float
-        litVal = ctx.FLOAT()
+        litVal = float(ctx.FLOAT().getText())
     elif (ctx.ID()):
         litType = "var"
         litVal = ctx.ID()

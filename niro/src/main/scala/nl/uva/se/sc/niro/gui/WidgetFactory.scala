@@ -22,11 +22,11 @@ object WidgetFactory extends AbstractWidgetFactory {
   override def make(question: GUIQuestion): Control = {
     question.answerType match {
       case BooleanType => BooleanWidgetFactory.make(question)
-      case StringType => StringWidgetFactory.make(question)
+      case StringType  => StringWidgetFactory.make(question)
       case IntegerType => IntegerWidgetFactory.make(question)
       case DecimalType => DecimalWidgetFactory.make(question)
-      case MoneyType => MoneyWidgetFactory.make(question)
-      case DateType => DateWidgetFactory.make(question)
+      case MoneyType   => MoneyWidgetFactory.make(question)
+      case DateType    => DateWidgetFactory.make(question)
     }
   }
 }
@@ -46,7 +46,8 @@ object StringWidgetFactory extends AbstractWidgetFactory {
 object IntegerWidgetFactory extends AbstractWidgetFactory {
   def make(question: GUIQuestion): Control = {
     val integerField = new TextField()
-    integerField.setTextFormatter(TextFormatterBuilder[java.lang.Integer]().buildInputFilter(INTEGER_MASK).buildIntegerConverter().build())
+    integerField.setTextFormatter(
+      TextFormatterBuilder[java.lang.Integer]().buildInputFilter(INTEGER_MASK).buildIntegerConverter().build())
     integerField
   }
 }
@@ -54,7 +55,8 @@ object IntegerWidgetFactory extends AbstractWidgetFactory {
 object DecimalWidgetFactory extends AbstractWidgetFactory {
   def make(question: GUIQuestion): Control = {
     val decimalField = new TextField()
-    decimalField.setTextFormatter(TextFormatterBuilder[java.math.BigDecimal]().buildInputFilter(DECIMAL_MASK).buildDecimalConverter().build())
+    decimalField.setTextFormatter(
+      TextFormatterBuilder[java.math.BigDecimal]().buildInputFilter(DECIMAL_MASK).buildDecimalConverter().build())
     decimalField
   }
 }
@@ -62,7 +64,8 @@ object DecimalWidgetFactory extends AbstractWidgetFactory {
 object MoneyWidgetFactory extends AbstractWidgetFactory {
   def make(question: GUIQuestion): Control = {
     val moneyField = new TextField()
-    moneyField.setTextFormatter(TextFormatterBuilder[java.math.BigDecimal]().buildInputFilter(MONEY_MASK).buildDecimalConverter().build())
+    moneyField.setTextFormatter(
+      TextFormatterBuilder[java.math.BigDecimal]().buildInputFilter(MONEY_MASK).buildDecimalConverter().build())
     moneyField
   }
 }

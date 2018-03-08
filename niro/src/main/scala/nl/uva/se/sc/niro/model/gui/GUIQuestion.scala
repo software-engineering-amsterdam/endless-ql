@@ -9,4 +9,4 @@ case class GUIQuestion(
     label: String,
     isReadOnly: Boolean,
     isVisible: Expression // Holds the accumulated if-conditions.
-  )
+)

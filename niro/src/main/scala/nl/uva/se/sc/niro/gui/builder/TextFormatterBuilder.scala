@@ -29,7 +29,8 @@ class TextFormatterBuilder[T] {
     this
   }
 
-  def build(): TextFormatter[T] = new TextFormatter[T](converter.asInstanceOf[StringConverter[T]], null.asInstanceOf[T], inputFilter)
+  def build(): TextFormatter[T] =
+    new TextFormatter[T](converter.asInstanceOf[StringConverter[T]], null.asInstanceOf[T], inputFilter)
 }
 
 object TextFormatterBuilder {

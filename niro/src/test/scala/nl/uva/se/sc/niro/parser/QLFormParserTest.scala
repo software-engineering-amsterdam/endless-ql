@@ -2,10 +2,9 @@ package nl.uva.se.sc.niro.parser
 
 import java.io.IOException
 
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, DecimalAnswer, IntegerAnswer, StringAnswer }
-import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Reference, UnaryOperation }
-import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.model.ql.expressions.answers._
+import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Reference, UnaryOperation }
 import org.antlr.v4.runtime.{ CharStream, CharStreams }
 import org.scalatest.FunSuite
 
@@ -13,6 +12,7 @@ class QLFormParserTest extends FunSuite {
   @throws[IOException]
   private def toCharStream(filePath: String): CharStream =
     CharStreams.fromStream(getClass.getResourceAsStream(filePath))
+
   private def generateQLForm(filePath: String): QLForm = QLFormParser.parse(toCharStream(filePath))
 
   test("should parse simple-ql to the correct AST") {
@@ -289,6 +289,29 @@ class QLFormParserTest extends FunSuite {
           )
         )
       )
+
+    assert(actual == expected)
+  }
+
+  test("should parse money to the correct AST") {
+    val actual: QLForm = generateQLForm("/positive/money.ql")
+    pprint.pprintln(actual)
+
+    val expected: QLForm =  QLForm(
+      "Box1HouseOwning",
+      List(
+        Question("money1", "Money1:", MoneyType, MoneyAnswer(None)),
+        Question("money2", "Money2:", MoneyType, MoneyAnswer(1)),
+        Question(
+          "money3",
+          "Money3",
+          MoneyType,
+          BinaryOperation(Add, Reference("money1"), Reference("money2"))
+        ),
+        Question("money2", "Money4:", MoneyType, MoneyAnswer(1.0))
+      ),
+      List()
+    )
 
     assert(actual == expected)
   }

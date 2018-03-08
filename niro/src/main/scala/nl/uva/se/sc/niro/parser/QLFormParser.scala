@@ -58,11 +58,21 @@ object QLFormParser extends Logging {
     override def visitQuestion(ctx: QLParser.QuestionContext): Seq[Statement] = {
       val questionId = ctx.Identifier().getText
       val questionLabel = ctx.label.getText
-      val answerType = AnswerType(ctx.answerType().getText)
+      val definedAnswerType = ctx.answerType().getText
+      val answerType = AnswerType(definedAnswerType)
       val expression = Option(ctx.expression)
         .map(ExpressionVisitor.visit)
-        .getOrElse(Answer(ctx.answerType.getText))
+        .map(expression => answerTypeConversion(expression, answerType))
+        .getOrElse(Answer(definedAnswerType))
       Seq(Question(questionId, questionLabel, answerType, expression))
+    }
+
+    def answerTypeConversion(expression: Expression, answerType: AnswerType) = {
+      (expression, answerType) match {
+        case (IntegerAnswer(value), MoneyType) => MoneyAnswer(value.map(BigDecimal.apply))
+        case (DecimalAnswer(value), MoneyType) => MoneyAnswer(value)
+        case _ => expression
+      }
     }
 
     override def visitConditional(ctx: QLParser.ConditionalContext): Seq[Statement] = {

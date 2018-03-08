@@ -68,15 +68,18 @@ public class Main extends Application {
             SymbolTable symbolTable = new SymbolTable(form);
 //            symbolTable.printValues();
 
-            TypeCheckVisitor typeChecker = new TypeCheckVisitor();
+            TypeCheckVisitor typeChecker = new TypeCheckVisitor(symbolTable);
             for(Question q : form.questions) {
                 if(!q.isEditable()) {
-                    System.out.println(typeChecker.visit(q.defaultAnswer).getBooleanValue());
+                    typeChecker.visit(q.defaultAnswer);
                 }
-                System.out.println(typeChecker.visit(q.condition).getBooleanValue());
+
+                typeChecker.visit(q.condition);
             }
-//            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-//            typeChecker.typeCheck();
+
+            for(String s : typeChecker.errors) {
+                System.out.println(s);
+            }
 
             File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
             StyleSheet styleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));

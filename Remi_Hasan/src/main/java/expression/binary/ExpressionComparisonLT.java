@@ -13,11 +13,6 @@ public class ExpressionComparisonLT extends ExpressionBinary<Boolean> {
     }
 
     @Override
-    public ReturnType getReturnType() {
-        return ReturnType.BOOLEAN;
-    }
-
-    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }

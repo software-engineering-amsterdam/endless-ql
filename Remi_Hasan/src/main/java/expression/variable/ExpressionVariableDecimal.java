@@ -10,13 +10,6 @@ public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
         super(value);
     }
 
-
-    @Override
-    public ReturnType getReturnType() {
-        return ReturnType.DECIMAL;
-    }
-
-
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);

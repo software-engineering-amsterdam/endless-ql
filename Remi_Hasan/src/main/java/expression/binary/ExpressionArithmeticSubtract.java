@@ -13,11 +13,6 @@ public class ExpressionArithmeticSubtract extends ExpressionBinary<Number> {
     }
 
     @Override
-    public ReturnType getReturnType() {
-        return ReturnType.NUMBER;
-    }
-
-    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }

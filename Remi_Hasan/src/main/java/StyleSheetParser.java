@@ -33,7 +33,7 @@ public class StyleSheetParser {
 
             // Debug: print object
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            System.out.println(gson.toJson(styleSheet));
+//            System.out.println(gson.toJson(styleSheet));
 
             return styleSheet;
         } catch (Exception e){

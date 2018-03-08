@@ -13,11 +13,6 @@ public class ExpressionVariableMoney extends ExpressionVariable<BigDecimal> {
     }
 
     @Override
-    public ReturnType getReturnType() {
-        return ReturnType.MONEY;
-    }
-
-    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }

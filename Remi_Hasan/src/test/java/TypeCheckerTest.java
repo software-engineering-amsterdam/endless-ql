@@ -1,4 +1,3 @@
-import astvisitor.BoolValue;
 import astvisitor.TypeCheckVisitor;
 import expression.binary.ExpressionArithmeticSum;
 import expression.variable.ExpressionVariableBoolean;
@@ -14,9 +13,10 @@ public class TypeCheckerTest {
         ExpressionVariableInteger intExpression = new ExpressionVariableInteger(1);
         ExpressionArithmeticSum sumExpression = new ExpressionArithmeticSum(intExpression, intExpression);
 
-        TypeCheckVisitor visitor = new TypeCheckVisitor();
+        TypeCheckVisitor typeChecker = new TypeCheckVisitor(null);
+        typeChecker.visit(sumExpression);
 
-        assertEquals(visitor.visit(sumExpression).value, true);
+        assertEquals(typeChecker.errors.size(), 0);
     }
 
     @Test
@@ -25,7 +25,9 @@ public class TypeCheckerTest {
         ExpressionVariableBoolean boolExpression = new ExpressionVariableBoolean(true);
         ExpressionArithmeticSum sumExpression = new ExpressionArithmeticSum(intExpression, boolExpression);
 
-        TypeCheckVisitor visitor = new TypeCheckVisitor();
-        assertEquals(visitor.visit(sumExpression).value, false);
+        TypeCheckVisitor typeChecker = new TypeCheckVisitor(null);
+        typeChecker.visit(sumExpression);
+
+        assertEquals(typeChecker.errors.size(), 1);
     }
 }

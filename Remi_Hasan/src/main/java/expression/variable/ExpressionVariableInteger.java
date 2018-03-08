@@ -11,11 +11,6 @@ public class ExpressionVariableInteger extends ExpressionVariable<Integer> {
     }
 
     @Override
-    public ReturnType getReturnType() {
-        return ReturnType.INTEGER;
-    }
-
-    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }

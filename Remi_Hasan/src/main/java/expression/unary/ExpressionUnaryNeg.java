@@ -12,11 +12,6 @@ public class ExpressionUnaryNeg extends ExpressionUnary {
     }
 
     @Override
-    public ReturnType getReturnType() {
-        return ReturnType.NUMBER;
-    }
-
-    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }

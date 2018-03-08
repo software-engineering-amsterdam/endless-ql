@@ -1,6 +1,8 @@
 package astvisitor;
 
+import analysis.SymbolTable;
 import expression.Expression;
+import expression.ExpressionBinary;
 import expression.ExpressionIdentifier;
 import expression.ReturnType;
 import expression.binary.*;
@@ -8,173 +10,177 @@ import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
 import expression.variable.*;
 
-public class TypeCheckVisitor implements IASTVisitor<BoolValue> {
+import java.util.ArrayList;
+import java.util.List;
 
-    private boolean childrenTypeCheckSucceeds(Expression left, Expression right) {
-        BoolValue leftTypeCheckSucceed = left.accept(this);
-        BoolValue rightTypeCheckSucceed = right.accept(this);
+public class TypeCheckVisitor implements IASTVisitor<ReturnType> {
 
-        return leftTypeCheckSucceed.value && rightTypeCheckSucceed.value;
+    private SymbolTable symbolTable;
+    public List<String> errors = new ArrayList<>();
+
+    public TypeCheckVisitor(SymbolTable symbolTable) {
+        this.symbolTable = symbolTable;
     }
 
-    private boolean childrenTypeCheckSucceeds(Expression left) {
-        BoolValue leftTypeCheckSucceed = left.accept(this);
-        return leftTypeCheckSucceed.value;
+    // Checks whether the left and right expressions are correct individually
+    private void checkLeftRightExpression(Expression left, Expression right) {
+        left.accept(this);
+        right.accept(this);
+    }
+
+    private ReturnType checkBinaryNumeric(ExpressionBinary e, String operation) {
+        checkLeftRightExpression(e.left, e.right);
+
+        // Check whether operation can be applied to left and right expression
+        boolean selfValid = e.left.accept(this).isNumber() && e.right.accept(this).isNumber();
+
+        if (!selfValid) {
+            errors.add("Invalid " + operation + ": non-numeric value in expression");
+        }
+
+        return ReturnType.NUMBER;
+    }
+
+    private ReturnType checkBinaryBoolean(ExpressionBinary e, String operation) {
+        checkLeftRightExpression(e.left, e.right);
+
+        // Check whether operation can be applied to left and right expression
+        boolean selfValid = e.left.accept(this) == ReturnType.BOOLEAN
+                && e.right.accept(this) == ReturnType.BOOLEAN;
+
+        if (!selfValid) {
+            errors.add("Invalid " + operation + ": non-boolean value in expression");
+        }
+
+        return ReturnType.BOOLEAN;
     }
 
     @Override
-    public BoolValue visit(Expression e) {
+    public ReturnType visit(Expression e) {
         return e.accept(this);
     }
 
     @Override
-    public BoolValue visit(ExpressionArithmeticDivide e) {
-        return new BoolValue(
-                childrenTypeCheckSucceeds(e.left, e.right)
-                        && e.left.getReturnType().isNumber()
-                        && e.right.getReturnType().isNumber()
-        );
+    public ReturnType visit(ExpressionArithmeticDivide e) {
+        return checkBinaryNumeric(e, "division");
     }
 
     @Override
-    public BoolValue visit(ExpressionArithmeticMultiply e) {
-        return new BoolValue(
-                childrenTypeCheckSucceeds(e.left, e.right)
-                        && e.left.getReturnType().isNumber()
-                        && e.right.getReturnType().isNumber()
-        );
+    public ReturnType visit(ExpressionArithmeticMultiply e) {
+        return checkBinaryNumeric(e, "multiplication");
     }
 
     @Override
-    public BoolValue visit(ExpressionArithmeticSubtract e) {
-        return new BoolValue(
-                childrenTypeCheckSucceeds(e.left, e.right)
-                        && e.left.getReturnType().isNumber()
-                        && e.right.getReturnType().isNumber()
-        );
+    public ReturnType visit(ExpressionArithmeticSubtract e) {
+        return checkBinaryNumeric(e, "subtraction");
     }
 
     @Override
-    public BoolValue visit(ExpressionArithmeticSum e) {
-        return new BoolValue(
-                childrenTypeCheckSucceeds(e.left, e.right)
-                        && e.left.getReturnType().isNumber()
-                        && e.right.getReturnType().isNumber()
-        );
+    public ReturnType visit(ExpressionArithmeticSum e) {
+        return checkBinaryNumeric(e, "addition");
     }
 
     @Override
-    public BoolValue visit(ExpressionComparisonEq e) {
-        return new BoolValue(childrenTypeCheckSucceeds(e.left, e.right));
+    public ReturnType visit(ExpressionComparisonEq e) {
+        checkLeftRightExpression(e.left, e.right);
+        boolean selfValid = e.left.accept(this) == e.right.accept(this);
+
+        if (!selfValid) {
+            errors.add("Invalid EQ: comparing values of different types");
+        }
+
+        return ReturnType.BOOLEAN;
     }
 
     @Override
-    public BoolValue visit(ExpressionComparisonGE e) {
-        return new BoolValue(
-                childrenTypeCheckSucceeds(e.left, e.right)
-                        && e.left.getReturnType().isNumber()
-                        && e.right.getReturnType().isNumber()
-        );
+    public ReturnType visit(ExpressionComparisonGE e) {
+        return checkBinaryNumeric(e, "GE");
     }
 
     @Override
-    public BoolValue visit(ExpressionComparisonGT e) {
-        return new BoolValue(
-                childrenTypeCheckSucceeds(e.left, e.right)
-                        && e.left.getReturnType().isNumber()
-                        && e.right.getReturnType().isNumber()
-        );
+    public ReturnType visit(ExpressionComparisonGT e) {
+        return checkBinaryNumeric(e, "GT");
     }
 
     @Override
-    public BoolValue visit(ExpressionComparisonLE e) {
-        return new BoolValue(
-                childrenTypeCheckSucceeds(e.left, e.right)
-                        && e.left.getReturnType().isNumber()
-                        && e.right.getReturnType().isNumber()
-        );
+    public ReturnType visit(ExpressionComparisonLE e) {
+        return checkBinaryNumeric(e, "LE");
     }
 
     @Override
-    public BoolValue visit(ExpressionComparisonLT e) {
-        return new BoolValue(
-                childrenTypeCheckSucceeds(e.left, e.right)
-                        && e.left.getReturnType().isNumber()
-                        && e.right.getReturnType().isNumber()
-        );
+    public ReturnType visit(ExpressionComparisonLT e) {
+        return checkBinaryNumeric(e, "LT");
     }
 
     @Override
-    public BoolValue visit(ExpressionLogicalAnd e) {
-        return new BoolValue(
-                childrenTypeCheckSucceeds(e.left, e.right)
-                        && e.left.getReturnType() == ReturnType.BOOLEAN
-                        && e.right.getReturnType() == ReturnType.BOOLEAN
-        );
+    public ReturnType visit(ExpressionLogicalAnd e) {
+        return checkBinaryBoolean(e, "AND");
     }
 
     @Override
-    public BoolValue visit(ExpressionLogicalOr e) {
-        return new BoolValue(
-                childrenTypeCheckSucceeds(e.left, e.right)
-                        && e.left.getReturnType() == ReturnType.BOOLEAN
-                        && e.right.getReturnType() == ReturnType.BOOLEAN
-        );
+    public ReturnType visit(ExpressionLogicalOr e) {
+        return checkBinaryBoolean(e, "OR");
     }
 
     @Override
-    public BoolValue visit(ExpressionUnaryNot e) {
-        return new BoolValue(
-                childrenTypeCheckSucceeds(e.value)
-                        && e.value.getReturnType() == ReturnType.BOOLEAN
-        );
+    public ReturnType visit(ExpressionUnaryNot e) {
+        boolean selfValid = e.value.accept(this) == ReturnType.BOOLEAN;
+
+        if (!selfValid) {
+            errors.add("Invalid NOT: non-boolean expression");
+        }
+
+        return ReturnType.BOOLEAN;
     }
 
     @Override
-    public BoolValue visit(ExpressionUnaryNeg e) {
-        return new BoolValue(
-                childrenTypeCheckSucceeds(e.value)
-                        && e.value.getReturnType().isNumber()
-        );
+    public ReturnType visit(ExpressionUnaryNeg e) {
+        boolean selfValid = e.value.accept(this) == ReturnType.NUMBER;
+
+        if (!selfValid) {
+            errors.add("Invalid NEG: non-numeric expression");
+        }
+
+        return ReturnType.NUMBER;
     }
 
     @Override
-    public BoolValue visit(ExpressionVariableBoolean e) {
-        return new BoolValue(true);
+    public ReturnType visit(ExpressionVariableBoolean e) {
+        return ReturnType.BOOLEAN;
     }
 
     @Override
-    public BoolValue visit(ExpressionVariableDate e) {
-        return new BoolValue(true);
+    public ReturnType visit(ExpressionVariableDate e) {
+        return ReturnType.DATE;
     }
 
     @Override
-    public BoolValue visit(ExpressionVariableInteger e) {
-        return new BoolValue(true);
+    public ReturnType visit(ExpressionVariableInteger e) {
+        return ReturnType.NUMBER;
     }
 
     @Override
-    public BoolValue visit(ExpressionVariableDecimal e) {
-        return new BoolValue(true);
+    public ReturnType visit(ExpressionVariableDecimal e) {
+        return ReturnType.NUMBER;
     }
 
     @Override
-    public BoolValue visit(ExpressionVariableMoney e) {
-        return new BoolValue(true);
+    public ReturnType visit(ExpressionVariableMoney e) {
+        return ReturnType.NUMBER;
     }
 
     @Override
-    public BoolValue visit(ExpressionVariableString e) {
-        return new BoolValue(true);
+    public ReturnType visit(ExpressionVariableString e) {
+        return ReturnType.STRING;
     }
 
     @Override
-    public BoolValue visit(ExpressionVariableUndefined e) {
-        return new BoolValue(true);
+    public ReturnType visit(ExpressionVariableUndefined e) {
+        return e.getReturnType();
     }
 
     @Override
-    public BoolValue visit(ExpressionIdentifier e) {
-        return new BoolValue(true);
+    public ReturnType visit(ExpressionIdentifier e) {
+        return this.symbolTable.getExpression(e.identifier).accept(this);
     }
 }

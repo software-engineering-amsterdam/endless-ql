@@ -12,12 +12,6 @@ public class ExpressionVariableString extends ExpressionVariable<String> {
     }
 
     @Override
-    public ReturnType getReturnType() {
-        return ReturnType.STRING;
-    }
-
-
-    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }

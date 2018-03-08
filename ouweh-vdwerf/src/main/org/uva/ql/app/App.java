@@ -20,27 +20,33 @@ import java.util.logging.Logger;
 public class App {
 
     private App() {
+        Logger logger = Logger.getGlobal();
+        LogManager.getLogManager().reset();
+        logger.addHandler(new LogHandler());
+
+
+        String input = readFile("input/default.ql");
+
+        ASTBuilder builder = new ASTBuilder();
+        Form form = builder.buildAST(input);
+
+        Validator validator = new Validator(form);
+        validator.run();
+
+        FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
+
+        GUIHandler guiHandler = new GUIHandler(formEvaluator);
+
+    }
+
+    private String readFile(String location) {
         try {
-            Logger logger = Logger.getGlobal();
-            LogManager.getLogManager().reset();
-            logger.addHandler(new LogHandler());
-
-            byte[] a = Files.readAllBytes(Paths.get("input/default.ql"));
-            String input = new String(a);
-
-            ASTBuilder builder = new ASTBuilder();
-            Form form = builder.buildAST(input);
-
-            Validator validator = new Validator(form);
-            validator.run();
-
-            FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
-
-            GUIHandler guiHandler = new GUIHandler(formEvaluator);
-
-        } catch (IOException ex) {
-            System.out.println(ex.toString());
+            byte[] a = Files.readAllBytes(Paths.get(location));
+            return new String(a);
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e);
         }
+        return null;
     }
 
     public static void main(String[] args) {

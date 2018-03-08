@@ -11,7 +11,7 @@ import com.chariotit.uva.sc.qdsl.ast.node.type.BooleanTypeNode;
 import com.chariotit.uva.sc.qdsl.ast.node.type.IntegerTypeNode;
 import com.chariotit.uva.sc.qdsl.ast.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.symboltable.SymbolTableEntry;
-import com.chariotit.uva.sc.qdsl.ast.symboltable.exception.DuplicateSymbolException;
+import com.chariotit.uva.sc.qdsl.ast.symboltable.exception.DuplicateSymbolMismatchException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,7 +127,7 @@ public class SymbolTableBuilderVisitor extends NodeVisitor {
             symbolTable.addEntry(new SymbolTableEntry(
                     form.getLabel(),
                     form));
-        } catch (DuplicateSymbolException exception) {
+        } catch (DuplicateSymbolMismatchException exception) {
             addError(form, exception.getMessage());
         }
     }
@@ -165,7 +165,7 @@ public class SymbolTableBuilderVisitor extends NodeVisitor {
                     lineElement,
                     lineElement.getTypeExpression().getTypeNode().getType()
             ));
-        } catch (DuplicateSymbolException exception) {
+        } catch (DuplicateSymbolMismatchException exception) {
             addError(lineElement, exception.getMessage());
         }
     }

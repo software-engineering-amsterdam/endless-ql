@@ -89,11 +89,9 @@ public class QLLoader extends FormBaseListener {
         Variable left = null;
         Variable right = null;
         if (fe.aritmaticExpression().divExpression() instanceof FormParser.DivExpressionContext){
-
             left = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().divExpression().variable(0).getText());
             right = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().divExpression().variable(1).getText());
             operator = "/";
-            System.out.println(fe.aritmaticExpression().divExpression().variable(0).getText());
         }
         if (fe.aritmaticExpression().mulExpression() instanceof FormParser.MulExpressionContext){
             left = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().mulExpression().variable(0).getText());
@@ -104,7 +102,6 @@ public class QLLoader extends FormBaseListener {
             left = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().minExpression().variable(0).getText());
             right = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().minExpression().variable(1).getText());
             operator = "-";
-            System.out.println(fe.aritmaticExpression().minExpression().variable(0).getText());
         }
         if (fe.aritmaticExpression().addExpression() instanceof FormParser.AddExpressionContext){
             left = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().addExpression().variable(0).getText());

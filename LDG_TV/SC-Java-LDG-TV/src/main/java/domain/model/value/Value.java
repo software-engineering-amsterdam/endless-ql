@@ -1,5 +1,6 @@
 package domain.model.value;
 
-public class Value {
+public abstract class Value<T> {
 
+    public abstract T getValue();
 }

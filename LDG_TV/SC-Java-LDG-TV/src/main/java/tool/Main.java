@@ -24,6 +24,9 @@ public class Main {
             UIVisitor visitor = new UIVisitor();
             ParseTreeWalker.DEFAULT.walk(loader, tree);
             for (Question qs : loader.getFormNode().getFormData().getAllQuestions()){
+                if (qs.getVariable().getValue() != null){
+                    System.out.println(qs.getVariable().getValue().getValue());
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

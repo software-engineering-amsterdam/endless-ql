@@ -60,7 +60,7 @@ booleanOperator:  (OR | AND);
 
 fragment LOWERCASE  : [a-z] ;
 fragment UPPERCASE  : [A-Z] ;
-fragment NUMBERS : ('0' .. '9')+  ;
+NUMBERS : ('0' .. '9')+  ;
 
 CURLY_BRACKET_OPEN : '{';
 CURLY_BRACKET_CLOSE : '}';

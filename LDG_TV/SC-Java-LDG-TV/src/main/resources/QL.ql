@@ -10,9 +10,9 @@ form taxOfficeExample
   if (hasSoldHouse)
   {
     "What was the selling price?"
-      sellingPrice: money
+      sellingPrice: money = 500
     "Private debts for the sold house:"
-      privateDebt: money
+      privateDebt: money = 300
     "Value residue:"
       valueResidue: money =
         (sellingPrice - privateDebt)

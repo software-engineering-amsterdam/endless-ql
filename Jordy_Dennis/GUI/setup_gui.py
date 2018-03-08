@@ -1,10 +1,10 @@
 # Jordy Bottelier & Dennis Kruidenberg
 #
-# GUI class; 
+# GUI class;
 #
-# Each form gets its own frame. Each form_frame consists of a header frame, and a questions frame. 
+# Each form gets its own frame. Each form_frame consists of a header frame, and a questions frame.
 # The header simply contains the title, and the questions frame contains all of the questions defined
-# by the programmer. 
+# by the programmer.
 #
 # Each question has 2 frames, namely the label frame and the input frame (text and input)
 #
@@ -19,14 +19,17 @@ from .form_question import Question
 
 class Gui:
 
-    def __init__(self, varDict, questions):
+    def __init__(self, ast):
         self.gui = Tk()
         self.mainframe = create_frame(self.gui, background='pink')
         self.mainframe.pack(expand=True, fill='both')
         self.form = None
-        self.varDict = varDict
-        self.questions = questions
-        
+        self.ast = ast
+        self.varDict = ast.varDict
+
+        self.questionsGenerator = Question_Generator(self.varDict, self.ast)
+        self.questions = self.questionsGenerator.getQuestionsFromAst()
+
 
     # Upon creating a new form, create a new frame which is a child from the mainframe.
     # For every form, create the header frame and questions frame and fill the questions frame

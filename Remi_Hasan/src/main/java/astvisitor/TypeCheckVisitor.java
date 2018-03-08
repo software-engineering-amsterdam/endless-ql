@@ -11,27 +11,27 @@ import expression.unary.ExpressionUnaryNot;
 import expression.variable.*;
 import model.Form;
 import model.Question;
-
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TypeCheckVisitor implements IASTVisitor<ReturnType> {
 
     private final Form form;
     private final SymbolTable symbolTable;
-    private final List<String> errors;
+    private final Set<String> errors;
 
     public TypeCheckVisitor(Form form, SymbolTable symbolTable) {
         this.form = form;
         this.symbolTable = symbolTable;
-        this.errors = new ArrayList<>();
+        this.errors = new HashSet<>();
     }
 
-    public List<String> getErrors() {
+    public Set<String> getErrors() {
         return this.errors;
     }
 
-    public List<String> typeCheck() {
+    public Set<String> typeCheck() {
         for(Question q : form.questions) {
             this.visit(q.condition);
 

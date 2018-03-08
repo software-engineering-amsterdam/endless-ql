@@ -25,6 +25,7 @@ class Question_Generator:
         tmp_dict = self.questions.copy()
         tmp_bool = False
         if self.form:
+            printDict(self.ast)
             # self.form.empty_frame()
             for varName in self.questions:
                 label = self.questions[varName].getQuestion()

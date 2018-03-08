@@ -6,11 +6,11 @@ import model.Question;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnknownIdentifierDetector {
+public class UnknownIdentifiersDetector {
 
     private final Form form;
 
-    public UnknownIdentifierDetector(Form form){
+    public UnknownIdentifiersDetector(Form form){
         this.form = form;
     }
 

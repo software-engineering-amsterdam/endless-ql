@@ -67,8 +67,8 @@ public class Main extends Application {
 
             SymbolTable symbolTable = new SymbolTable(form);
 
-            UnknownIdentifierDetector unknownIdentifierDetector = new UnknownIdentifierDetector(form);
-            List<String> unknownReferencedIdentifiers = unknownIdentifierDetector.detectUnknownIdentifiers();
+            UnknownIdentifiersDetector unknownIdentifiersDetector = new UnknownIdentifiersDetector(form);
+            List<String> unknownReferencedIdentifiers = unknownIdentifiersDetector.detectUnknownIdentifiers();
             if(!unknownReferencedIdentifiers.isEmpty()){
                 showErrorAlert("Unknown variable(s):", unknownReferencedIdentifiers);
                 return;

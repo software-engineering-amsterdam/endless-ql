@@ -1,47 +1,45 @@
 package com.chariotit.uva.sc.qdsl.ast.visitor;
 
-import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
-import com.chariotit.uva.sc.qdsl.ast.node.type.*;
-import com.chariotit.uva.sc.qdsl.ast.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.node.*;
 import com.chariotit.uva.sc.qdsl.ast.node.constant.BooleanConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.constant.IntegerConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.constant.MoneyConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.constant.StringConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.operator.*;
+import com.chariotit.uva.sc.qdsl.ast.node.type.*;
+import com.chariotit.uva.sc.qdsl.ast.node.type.BooleanTypeNode;
 import com.chariotit.uva.sc.qdsl.ast.node.type.IntegerTypeNode;
-import com.chariotit.uva.sc.qdsl.ast.node.type.StringTypeNode;
+import com.chariotit.uva.sc.qdsl.ast.symboltable.SymbolTable;
+import com.chariotit.uva.sc.qdsl.ast.symboltable.SymbolTableFormEntry;
+import com.chariotit.uva.sc.qdsl.ast.symboltable.SymbolTableQuestionEntry;
+import com.chariotit.uva.sc.qdsl.ast.symboltable.exception.DuplicateSymbolException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TypeCheckVisitor extends NodeVisitor {
+public class SymbolTableBuilderVisitor extends NodeVisitor {
 
     private List<TypeCheckError> errors = new ArrayList<>();
-    private SymbolTable symbolTable;
-
-    public TypeCheckVisitor(SymbolTable symbolTable) {
-        this.symbolTable = symbolTable;
-    }
+    private SymbolTable symbolTable = new SymbolTable();
 
     @Override
     public void visitBooleanConstant(BooleanConstant booleanConstant) {
-        booleanConstant.setExpressionType(ExpressionType.BOOLEAN);
+
     }
 
     @Override
     public void visitIntegerConstant(IntegerConstant integerConstant) {
-        integerConstant.setExpressionType(ExpressionType.INTEGER);
+
     }
 
     @Override
     public void visitMoneyConstant(MoneyConstant moneyConstant) {
-        moneyConstant.setExpressionType(ExpressionType.MONEY);
+
     }
 
     @Override
     public void visitStringConstant(StringConstant stringConstant) {
-        stringConstant.setExpressionType(ExpressionType.STRING);
+
     }
 
     @Override
@@ -126,7 +124,13 @@ public class TypeCheckVisitor extends NodeVisitor {
 
     @Override
     public void visitForm(Form form) {
-
+        try {
+            symbolTable.addEntry(new SymbolTableFormEntry(
+                    form.getLabel(),
+                    form));
+        } catch (DuplicateSymbolException exception) {
+            addError(form, exception.getMessage());
+        }
     }
 
     @Override
@@ -151,10 +155,21 @@ public class TypeCheckVisitor extends NodeVisitor {
 
     @Override
     public void visitLabelExpression(LabelExpression labelExpression) {
+
     }
 
     @Override
     public void visitLineElement(LineElement lineElement) {
+
+        try {
+            symbolTable.addEntry(new SymbolTableQuestionEntry(
+                    lineElement.getLabel().getLabel(),
+                    lineElement,
+                    lineElement.getTypeExpression().getExpression().getExpressionType()
+            ));
+        } catch (DuplicateSymbolException exception) {
+            addError(lineElement, exception.getMessage());
+        }
     }
 
     @Override
@@ -164,62 +179,16 @@ public class TypeCheckVisitor extends NodeVisitor {
 
     @Override
     public void visitTypeExpression(TypeExpression typeExpression) {
-        if (typeExpression.getExpression() != null) {
-            switch (typeExpression.getExpression().getExpressionType()) {
-                case BOOLEAN:
-                    if (!(typeExpression.getTypeNode() instanceof BooleanTypeNode)) {
-                        addError(typeExpression, "TypeNode and expression mismatch");
-                    }
-                    break;
-                case INTEGER:
-                    if (!(typeExpression.getTypeNode() instanceof IntegerTypeNode)) {
-                        addError(typeExpression, "TypeNode and expression mismatch");
-                    }
-                    break;
-                case MONEY:
-                    if (!(typeExpression.getTypeNode() instanceof MoneyTypeNode)) {
-                        addError(typeExpression, "TypeNode and expression mismatch");
-                    }
-                    break;
-                case STRING:
-                    if (!(typeExpression.getTypeNode() instanceof StringTypeNode)) {
-                        addError(typeExpression, "TypeNode and expression mismatch");
-                    }
-                    break;
-                default:
-                    throw new RuntimeException("Missing type");
-            }
-        }
+
     }
 
     @Override
     public void visitUnOpExpression(UnOpExpression unOpExpression) {
 
-        if (!checkOperatorType(unOpExpression.getExpression().getExpressionType(),
-                               unOpExpression.getOperator())) {
-
-            addError(unOpExpression, "Expression and operator type mismatch");
-
-        }
     }
 
     private void addError(AstNode node, String message) {
         errors.add(new TypeCheckError(message, node.getLineNumber(), node.getColumnNumber()));
-    }
-
-    private boolean checkOperatorType(ExpressionType type, Operator operator) {
-        switch (type) {
-            case BOOLEAN:
-                return operator instanceof BooleanOperator;
-            case INTEGER:
-                return operator instanceof IntegerOperator;
-            case MONEY:
-                return operator instanceof MoneyOperator;
-            case STRING:
-                return operator instanceof StringOperator;
-            default:
-                throw new RuntimeException("Missing operator type");
-        }
     }
 
     public List<TypeCheckError> getErrors() {

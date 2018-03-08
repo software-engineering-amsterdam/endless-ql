@@ -6,7 +6,7 @@ import ParseObjects.Expressions.Expression;
 public class Question {
     private String identifier;
     private String text;
-    EvaluationType type;
+    private EvaluationType type;
     private Expression answer;
 
     public Question(String id, String text, EvaluationType type, Expression answer){

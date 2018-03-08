@@ -1,6 +1,6 @@
 package ast.model;
 
-import ast.model.statement.Statement;
+import ast.model.statements.Statement;
 import ast.visitors.ASTNodeVisitor;
 
 import java.util.ArrayList;
@@ -37,6 +37,8 @@ public class Form extends ASTNode {
 
     @Override
     public void accept(ASTNodeVisitor visitor) {
-        visitor.visit(this);
+        for (Statement statement : statementList) {
+            statement.accept(visitor);
+        }
     }
 }

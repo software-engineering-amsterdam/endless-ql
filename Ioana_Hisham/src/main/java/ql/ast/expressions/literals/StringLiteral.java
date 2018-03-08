@@ -1,6 +1,7 @@
 package ql.ast.expressions.literals;
 
 import ql.ast.expressions.Expression;
+import ql.visitors.ExpressionVisitor;
 
 public class StringLiteral extends Expression {
 
@@ -13,5 +14,10 @@ public class StringLiteral extends Expression {
 
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public <T> T accept(ExpressionVisitor<T> expressionVisitor) {
+        return expressionVisitor.visit(this);
     }
 }

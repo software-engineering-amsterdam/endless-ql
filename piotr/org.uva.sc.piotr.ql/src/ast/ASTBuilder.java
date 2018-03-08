@@ -14,11 +14,11 @@ import ast.model.expressions.binary.logical.LogicalAnd;
 import ast.model.expressions.binary.logical.LogicalOr;
 import ast.model.expressions.unary.arithmetics.Minus;
 import ast.model.expressions.unary.logical.Negation;
-import ast.model.expressions.unary.values.Literal;
-import ast.model.expressions.unary.values.VariableReference;
-import ast.model.statement.IfStatement;
-import ast.model.statement.Question;
-import ast.model.statement.Statement;
+import ast.model.expressions.values.Literal;
+import ast.model.expressions.values.VariableReference;
+import ast.model.statements.IfStatement;
+import ast.model.statements.Question;
+import ast.model.statements.Statement;
 
 
 public class ASTBuilder extends QLBaseVisitor {
@@ -41,8 +41,6 @@ public class ASTBuilder extends QLBaseVisitor {
 
         if (ctx.ifStatement() != null) {
             return visitIfStatement(ctx.ifStatement());
-        } else if (ctx.question() != null) {
-            return visitQuestion(ctx.question());
         } else if (ctx.question() != null) {
             return visitQuestion(ctx.question());
         }
@@ -137,13 +135,6 @@ public class ASTBuilder extends QLBaseVisitor {
         );
     }
 
-    // Parenthesis
-
-    @Override
-    public Expression visitExpressionParenthesises(QLParser.ExpressionParenthesisesContext ctx) {
-        return (Expression) this.visit(ctx.expression());
-    }
-
     // Values
 
     @Override
@@ -191,7 +182,7 @@ public class ASTBuilder extends QLBaseVisitor {
     // Arithmetic expressions
 
     @Override
-    public Object visitExpressionArithmeticMinus(QLParser.ExpressionArithmeticMinusContext ctx) {
+    public Minus visitExpressionArithmeticMinus(QLParser.ExpressionArithmeticMinusContext ctx) {
         return new Minus(
                 (Expression) visit(ctx.expression()),
                 ctx.getStart().getLine(),

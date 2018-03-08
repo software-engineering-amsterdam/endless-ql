@@ -10,7 +10,7 @@ public class QuestionChangeListener {
         this.guiHandler = guiHandler;
     }
 
-    public void onQuestionChanged(String id, Value value){
-        this.guiHandler.onQuestionChange(id,value);
+    public void onQuestionChanged(String id, Value value) {
+        this.guiHandler.onQuestionChange(id, value);
     }
 }

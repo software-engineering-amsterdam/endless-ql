@@ -10,3 +10,10 @@ class Form:
     @property
     def block(self):
         return self.__block
+
+    def find_question_of_widget(self, widget):
+        for question in self.block:
+            if question.widget == widget:
+                return question.identifier
+
+        return None

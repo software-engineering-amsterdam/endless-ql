@@ -10,8 +10,8 @@ import javafx.scene.Parent
 import javafx.scene.control._
 import javafx.util.converter.{ BigDecimalStringConverter, IntegerStringConverter, LocalDateStringConverter }
 import nl.uva.se.sc.niro.Evaluator
-import nl.uva.se.sc.niro.model.Expressions.Expression
-import nl.uva.se.sc.niro.model.Expressions.answers._
+import nl.uva.se.sc.niro.model.expressions.Expression
+import nl.uva.se.sc.niro.model.expressions.answers._
 import nl.uva.se.sc.niro.model.Question
 
 object WidgetFactory {
@@ -19,6 +19,10 @@ object WidgetFactory {
   private val DECIMAL_MASK = "\\d*(\\.\\d*)?"
   private val MONEY_MASK = "\\d*(\\.\\d{0,2})?"
   private val DATE_FORMAT = "yyyy-MM-dd"
+
+  def makeWidget(visible: Expression, question: Question): Control = {
+    new Label(question.label)
+  }
 
   def makeWidgets(question: Question, symbolTable: Map[String, Expression]): Seq[Parent] = {
     Seq(

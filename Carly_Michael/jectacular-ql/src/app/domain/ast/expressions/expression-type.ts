@@ -4,3 +4,9 @@ export enum ExpressionType {
   STRING = 3,
   DATE = 4,
 }
+
+export class ExpressionTypeUtil {
+  static toString(type: ExpressionType): string {
+    return ExpressionType[type];
+  }
+}

@@ -5,3 +5,9 @@ export enum QuestionType {
   STRING = 4,
   DATE = 5
 }
+
+export class QuestionTypeUtil {
+  static toString(type: QuestionType): string {
+    return QuestionType[type];
+  }
+}

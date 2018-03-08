@@ -11,10 +11,10 @@ import org.uva.jomi.ql.ast.statements.Stmt;
 import org.uva.jomi.ql.tests.utilities.TestUtilities;
 
 public class TypeResolverTests {
-	
+
 	TypeResolver typeResolver = new TypeResolver(false);
 	IdentifierResolver identifierResolver = new IdentifierResolver(false);
-	
+
 	String testSource1 =
 			"form Form1 {\n"
 			+ "\"\" q1: boolean true && \"string\" \n"
@@ -28,7 +28,7 @@ public class TypeResolverTests {
 		assertTrue(typeResolver.
 				getErrorAtIndex(0).equals("[TypeResolver] line: 2, column: 20: Operator && is undefined for types: boolean and string"));
 	}
-	
+
 	String testSource2 =
 			"form Form1 {\n"
 			+ "\"\" q1: integer 1 + 2 + 3 + \"string\"\n"
@@ -38,12 +38,14 @@ public class TypeResolverTests {
 	public void test2() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource2);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 				getErrorAtIndex(0).equals("[TypeResolver] line: 2, column: 25: Operator + is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+				getErrorAtIndex(1).equals("[TypeResolver] line: 2, column: 15: Type mismatch, expected integer, but got unknown type"));
 	}
-	
-	
+
+
 	String testSource3 =
 			"form Form1 {\n"
 			+ "\"\" q1: integer 1\n"
@@ -60,8 +62,8 @@ public class TypeResolverTests {
 		assertTrue(typeResolver.
 				getErrorAtIndex(0).equals("[TypeResolver] line: 3, column: 15: Type mismatch, expected boolean, but got integer"));
 	}
-	
-	
+
+
 	/*
 	 *  The test bellow have been generated automatically.
 	 */
@@ -83,9 +85,11 @@ public class TypeResolverTests {
 	public void generatedTest2() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource2);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator + is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource3 = "form Form1 {\"\" q0: string 1 + \"string\"}";
@@ -94,9 +98,11 @@ public class TypeResolverTests {
 	public void generatedTest3() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource3);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator + is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource4 = "form Form1 {\"\" q0: string true + true}";
@@ -105,9 +111,11 @@ public class TypeResolverTests {
 	public void generatedTest4() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource4);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: boolean, allowed types: integer or string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource5 = "form Form1 {\"\" q0: string true + \"string\"}";
@@ -116,9 +124,11 @@ public class TypeResolverTests {
 	public void generatedTest5() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource5);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 31: Operator + is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource6 = "form Form1 {\"\" q0: string \"string\" + \"string\"}";
@@ -147,9 +157,11 @@ public class TypeResolverTests {
 	public void generatedTest8() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource8);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator - is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource9 = "form Form1 {\"\" q0: string 1 - \"string\"}";
@@ -158,9 +170,11 @@ public class TypeResolverTests {
 	public void generatedTest9() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource9);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator - is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource10 = "form Form1 {\"\" q0: string true - true}";
@@ -169,9 +183,11 @@ public class TypeResolverTests {
 	public void generatedTest10() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource10);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: boolean, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource11 = "form Form1 {\"\" q0: string true - \"string\"}";
@@ -180,9 +196,11 @@ public class TypeResolverTests {
 	public void generatedTest11() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource11);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 31: Operator - is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource12 = "form Form1 {\"\" q0: string \"string\" - \"string\"}";
@@ -191,9 +209,11 @@ public class TypeResolverTests {
 	public void generatedTest12() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource12);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: string, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource13 = "form Form1 {\"\" q0: string 1 * 1}";
@@ -213,9 +233,11 @@ public class TypeResolverTests {
 	public void generatedTest14() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource14);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator * is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource15 = "form Form1 {\"\" q0: string 1 * \"string\"}";
@@ -224,9 +246,11 @@ public class TypeResolverTests {
 	public void generatedTest15() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource15);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator * is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource16 = "form Form1 {\"\" q0: string true * true}";
@@ -235,9 +259,11 @@ public class TypeResolverTests {
 	public void generatedTest16() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource16);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: boolean, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource17 = "form Form1 {\"\" q0: string true * \"string\"}";
@@ -246,9 +272,11 @@ public class TypeResolverTests {
 	public void generatedTest17() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource17);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 31: Operator * is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource18 = "form Form1 {\"\" q0: string \"string\" * \"string\"}";
@@ -257,9 +285,11 @@ public class TypeResolverTests {
 	public void generatedTest18() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource18);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: string, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource19 = "form Form1 {\"\" q0: string 1 / 1}";
@@ -279,9 +309,11 @@ public class TypeResolverTests {
 	public void generatedTest20() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource20);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator / is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource21 = "form Form1 {\"\" q0: string 1 / \"string\"}";
@@ -290,9 +322,11 @@ public class TypeResolverTests {
 	public void generatedTest21() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource21);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator / is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource22 = "form Form1 {\"\" q0: string true / true}";
@@ -301,9 +335,11 @@ public class TypeResolverTests {
 	public void generatedTest22() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource22);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: boolean, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource23 = "form Form1 {\"\" q0: string true / \"string\"}";
@@ -312,9 +348,11 @@ public class TypeResolverTests {
 	public void generatedTest23() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource23);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 31: Operator / is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource24 = "form Form1 {\"\" q0: string \"string\" / \"string\"}";
@@ -323,9 +361,11 @@ public class TypeResolverTests {
 	public void generatedTest24() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource24);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: string, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got unknown type"));
 	}
 
 	String generatedSource25 = "form Form1 {\"\" q0: string 1 && 1}";
@@ -334,9 +374,11 @@ public class TypeResolverTests {
 	public void generatedTest25() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource25);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: integer, allowed types: boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource26 = "form Form1 {\"\" q0: string 1 && true}";
@@ -345,9 +387,11 @@ public class TypeResolverTests {
 	public void generatedTest26() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource26);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator && is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource27 = "form Form1 {\"\" q0: string 1 && \"string\"}";
@@ -356,9 +400,11 @@ public class TypeResolverTests {
 	public void generatedTest27() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource27);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator && is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource28 = "form Form1 {\"\" q0: string true && true}";
@@ -378,9 +424,11 @@ public class TypeResolverTests {
 	public void generatedTest29() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource29);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 31: Operator && is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource30 = "form Form1 {\"\" q0: string \"string\" && \"string\"}";
@@ -389,9 +437,11 @@ public class TypeResolverTests {
 	public void generatedTest30() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource30);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: string, allowed types: boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource31 = "form Form1 {\"\" q0: string 1 || 1}";
@@ -400,9 +450,11 @@ public class TypeResolverTests {
 	public void generatedTest31() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource31);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: integer, allowed types: boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource32 = "form Form1 {\"\" q0: string 1 || true}";
@@ -411,9 +463,11 @@ public class TypeResolverTests {
 	public void generatedTest32() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource32);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator || is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource33 = "form Form1 {\"\" q0: string 1 || \"string\"}";
@@ -422,9 +476,11 @@ public class TypeResolverTests {
 	public void generatedTest33() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource33);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator || is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource34 = "form Form1 {\"\" q0: string true || true}";
@@ -444,9 +500,11 @@ public class TypeResolverTests {
 	public void generatedTest35() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource35);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 31: Operator || is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource36 = "form Form1 {\"\" q0: string \"string\" || \"string\"}";
@@ -455,9 +513,11 @@ public class TypeResolverTests {
 	public void generatedTest36() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource36);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: string, allowed types: boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource37 = "form Form1 {\"\" q0: string 1 > 1}";
@@ -764,7 +824,7 @@ public class TypeResolverTests {
 		typeResolver.resolve(ast);
 		assertTrue(typeResolver.getNumberOfErrors() == 1);
 		assertTrue(typeResolver.
-			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: integer, allowed types: boolean"));
+			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource62 = "form Form1 {\"\" q0: string 1 == true}";
@@ -773,9 +833,11 @@ public class TypeResolverTests {
 	public void generatedTest62() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource62);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator == is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource63 = "form Form1 {\"\" q0: string 1 == \"string\"}";
@@ -784,9 +846,11 @@ public class TypeResolverTests {
 	public void generatedTest63() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource63);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 28: Operator == is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource64 = "form Form1 {\"\" q0: string true == true}";
@@ -806,9 +870,11 @@ public class TypeResolverTests {
 	public void generatedTest65() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource65);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 31: Operator == is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource66 = "form Form1 {\"\" q0: string \"string\" == \"string\"}";
@@ -819,7 +885,7 @@ public class TypeResolverTests {
 		typeResolver.resolve(ast);
 		assertTrue(typeResolver.getNumberOfErrors() == 1);
 		assertTrue(typeResolver.
-			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: string, allowed types: boolean"));
+			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource67 = "form Form1 {\"\" q0: string 1 != 1}";
@@ -865,11 +931,9 @@ public class TypeResolverTests {
 	public void generatedTest70() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource70);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 2);
+		assertTrue(typeResolver.getNumberOfErrors() == 1);
 		assertTrue(typeResolver.
-			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, requested type: boolean, allowed types: integer or string"));
-		assertTrue(typeResolver.
-			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
+			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 26: Type mismatch, expected string, but got boolean"));
 	}
 
 	String generatedSource71 = "form Form1 {\"\" q0: string true != \"string\"}";
@@ -911,9 +975,11 @@ public class TypeResolverTests {
 	public void generatedTest74() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource74);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator + is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource75 = "form Form1 {\"\" q0: integer 1 + \"string\"}";
@@ -922,9 +988,11 @@ public class TypeResolverTests {
 	public void generatedTest75() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource75);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator + is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource76 = "form Form1 {\"\" q0: integer true + true}";
@@ -933,9 +1001,11 @@ public class TypeResolverTests {
 	public void generatedTest76() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource76);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: boolean, allowed types: integer or string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource77 = "form Form1 {\"\" q0: integer true + \"string\"}";
@@ -944,9 +1014,11 @@ public class TypeResolverTests {
 	public void generatedTest77() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource77);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 32: Operator + is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource78 = "form Form1 {\"\" q0: integer \"string\" + \"string\"}";
@@ -975,9 +1047,11 @@ public class TypeResolverTests {
 	public void generatedTest80() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource80);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator - is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource81 = "form Form1 {\"\" q0: integer 1 - \"string\"}";
@@ -986,9 +1060,11 @@ public class TypeResolverTests {
 	public void generatedTest81() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource81);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator - is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource82 = "form Form1 {\"\" q0: integer true - true}";
@@ -997,9 +1073,11 @@ public class TypeResolverTests {
 	public void generatedTest82() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource82);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: boolean, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource83 = "form Form1 {\"\" q0: integer true - \"string\"}";
@@ -1008,9 +1086,11 @@ public class TypeResolverTests {
 	public void generatedTest83() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource83);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 32: Operator - is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource84 = "form Form1 {\"\" q0: integer \"string\" - \"string\"}";
@@ -1019,9 +1099,11 @@ public class TypeResolverTests {
 	public void generatedTest84() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource84);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: string, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource85 = "form Form1 {\"\" q0: integer 1 * 1}";
@@ -1039,9 +1121,11 @@ public class TypeResolverTests {
 	public void generatedTest86() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource86);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator * is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource87 = "form Form1 {\"\" q0: integer 1 * \"string\"}";
@@ -1050,9 +1134,11 @@ public class TypeResolverTests {
 	public void generatedTest87() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource87);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator * is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource88 = "form Form1 {\"\" q0: integer true * true}";
@@ -1061,9 +1147,11 @@ public class TypeResolverTests {
 	public void generatedTest88() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource88);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: boolean, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource89 = "form Form1 {\"\" q0: integer true * \"string\"}";
@@ -1072,9 +1160,11 @@ public class TypeResolverTests {
 	public void generatedTest89() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource89);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 32: Operator * is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource90 = "form Form1 {\"\" q0: integer \"string\" * \"string\"}";
@@ -1083,9 +1173,11 @@ public class TypeResolverTests {
 	public void generatedTest90() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource90);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: string, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource91 = "form Form1 {\"\" q0: integer 1 / 1}";
@@ -1103,9 +1195,11 @@ public class TypeResolverTests {
 	public void generatedTest92() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource92);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator / is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource93 = "form Form1 {\"\" q0: integer 1 / \"string\"}";
@@ -1114,9 +1208,11 @@ public class TypeResolverTests {
 	public void generatedTest93() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource93);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator / is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource94 = "form Form1 {\"\" q0: integer true / true}";
@@ -1125,9 +1221,11 @@ public class TypeResolverTests {
 	public void generatedTest94() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource94);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: boolean, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource95 = "form Form1 {\"\" q0: integer true / \"string\"}";
@@ -1136,9 +1234,11 @@ public class TypeResolverTests {
 	public void generatedTest95() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource95);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 32: Operator / is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource96 = "form Form1 {\"\" q0: integer \"string\" / \"string\"}";
@@ -1147,9 +1247,11 @@ public class TypeResolverTests {
 	public void generatedTest96() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource96);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: string, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got unknown type"));
 	}
 
 	String generatedSource97 = "form Form1 {\"\" q0: integer 1 && 1}";
@@ -1158,9 +1260,11 @@ public class TypeResolverTests {
 	public void generatedTest97() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource97);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: integer, allowed types: boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource98 = "form Form1 {\"\" q0: integer 1 && true}";
@@ -1169,9 +1273,11 @@ public class TypeResolverTests {
 	public void generatedTest98() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource98);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator && is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource99 = "form Form1 {\"\" q0: integer 1 && \"string\"}";
@@ -1180,9 +1286,11 @@ public class TypeResolverTests {
 	public void generatedTest99() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource99);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator && is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource100 = "form Form1 {\"\" q0: integer true && true}";
@@ -1202,9 +1310,11 @@ public class TypeResolverTests {
 	public void generatedTest101() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource101);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 32: Operator && is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource102 = "form Form1 {\"\" q0: integer \"string\" && \"string\"}";
@@ -1213,9 +1323,11 @@ public class TypeResolverTests {
 	public void generatedTest102() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource102);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: string, allowed types: boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource103 = "form Form1 {\"\" q0: integer 1 || 1}";
@@ -1224,9 +1336,11 @@ public class TypeResolverTests {
 	public void generatedTest103() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource103);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: integer, allowed types: boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource104 = "form Form1 {\"\" q0: integer 1 || true}";
@@ -1235,9 +1349,11 @@ public class TypeResolverTests {
 	public void generatedTest104() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource104);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator || is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource105 = "form Form1 {\"\" q0: integer 1 || \"string\"}";
@@ -1246,9 +1362,11 @@ public class TypeResolverTests {
 	public void generatedTest105() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource105);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator || is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource106 = "form Form1 {\"\" q0: integer true || true}";
@@ -1268,9 +1386,11 @@ public class TypeResolverTests {
 	public void generatedTest107() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource107);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 32: Operator || is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource108 = "form Form1 {\"\" q0: integer \"string\" || \"string\"}";
@@ -1279,9 +1399,11 @@ public class TypeResolverTests {
 	public void generatedTest108() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource108);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: string, allowed types: boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource109 = "form Form1 {\"\" q0: integer 1 > 1}";
@@ -1588,7 +1710,7 @@ public class TypeResolverTests {
 		typeResolver.resolve(ast);
 		assertTrue(typeResolver.getNumberOfErrors() == 1);
 		assertTrue(typeResolver.
-			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: integer, allowed types: boolean"));
+			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource134 = "form Form1 {\"\" q0: integer 1 == true}";
@@ -1597,9 +1719,11 @@ public class TypeResolverTests {
 	public void generatedTest134() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource134);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator == is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource135 = "form Form1 {\"\" q0: integer 1 == \"string\"}";
@@ -1608,9 +1732,11 @@ public class TypeResolverTests {
 	public void generatedTest135() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource135);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator == is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource136 = "form Form1 {\"\" q0: integer true == true}";
@@ -1630,9 +1756,11 @@ public class TypeResolverTests {
 	public void generatedTest137() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource137);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 32: Operator == is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource138 = "form Form1 {\"\" q0: integer \"string\" == \"string\"}";
@@ -1643,7 +1771,7 @@ public class TypeResolverTests {
 		typeResolver.resolve(ast);
 		assertTrue(typeResolver.getNumberOfErrors() == 1);
 		assertTrue(typeResolver.
-			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: string, allowed types: boolean"));
+			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource139 = "form Form1 {\"\" q0: integer 1 != 1}";
@@ -1689,11 +1817,9 @@ public class TypeResolverTests {
 	public void generatedTest142() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource142);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 2);
+		assertTrue(typeResolver.getNumberOfErrors() == 1);
 		assertTrue(typeResolver.
-			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: boolean, allowed types: integer or string"));
-		assertTrue(typeResolver.
-			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
+			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected integer, but got boolean"));
 	}
 
 	String generatedSource143 = "form Form1 {\"\" q0: integer true != \"string\"}";
@@ -1737,9 +1863,11 @@ public class TypeResolverTests {
 	public void generatedTest146() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource146);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator + is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource147 = "form Form1 {\"\" q0: boolean 1 + \"string\"}";
@@ -1748,9 +1876,11 @@ public class TypeResolverTests {
 	public void generatedTest147() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource147);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator + is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource148 = "form Form1 {\"\" q0: boolean true + true}";
@@ -1759,9 +1889,11 @@ public class TypeResolverTests {
 	public void generatedTest148() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource148);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: boolean, allowed types: integer or string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource149 = "form Form1 {\"\" q0: boolean true + \"string\"}";
@@ -1770,9 +1902,11 @@ public class TypeResolverTests {
 	public void generatedTest149() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource149);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 32: Operator + is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource150 = "form Form1 {\"\" q0: boolean \"string\" + \"string\"}";
@@ -1803,9 +1937,11 @@ public class TypeResolverTests {
 	public void generatedTest152() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource152);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator - is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource153 = "form Form1 {\"\" q0: boolean 1 - \"string\"}";
@@ -1814,9 +1950,11 @@ public class TypeResolverTests {
 	public void generatedTest153() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource153);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator - is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource154 = "form Form1 {\"\" q0: boolean true - true}";
@@ -1825,9 +1963,11 @@ public class TypeResolverTests {
 	public void generatedTest154() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource154);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: boolean, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource155 = "form Form1 {\"\" q0: boolean true - \"string\"}";
@@ -1836,9 +1976,11 @@ public class TypeResolverTests {
 	public void generatedTest155() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource155);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 32: Operator - is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource156 = "form Form1 {\"\" q0: boolean \"string\" - \"string\"}";
@@ -1847,9 +1989,11 @@ public class TypeResolverTests {
 	public void generatedTest156() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource156);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: string, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource157 = "form Form1 {\"\" q0: boolean 1 * 1}";
@@ -1869,9 +2013,11 @@ public class TypeResolverTests {
 	public void generatedTest158() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource158);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator * is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource159 = "form Form1 {\"\" q0: boolean 1 * \"string\"}";
@@ -1880,9 +2026,11 @@ public class TypeResolverTests {
 	public void generatedTest159() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource159);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator * is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource160 = "form Form1 {\"\" q0: boolean true * true}";
@@ -1891,9 +2039,11 @@ public class TypeResolverTests {
 	public void generatedTest160() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource160);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: boolean, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource161 = "form Form1 {\"\" q0: boolean true * \"string\"}";
@@ -1902,9 +2052,11 @@ public class TypeResolverTests {
 	public void generatedTest161() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource161);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 32: Operator * is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource162 = "form Form1 {\"\" q0: boolean \"string\" * \"string\"}";
@@ -1913,9 +2065,11 @@ public class TypeResolverTests {
 	public void generatedTest162() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource162);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: string, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource163 = "form Form1 {\"\" q0: boolean 1 / 1}";
@@ -1935,9 +2089,11 @@ public class TypeResolverTests {
 	public void generatedTest164() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource164);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator / is undefined for types: integer and boolean"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource165 = "form Form1 {\"\" q0: boolean 1 / \"string\"}";
@@ -1946,9 +2102,11 @@ public class TypeResolverTests {
 	public void generatedTest165() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource165);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 29: Operator / is undefined for types: integer and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource166 = "form Form1 {\"\" q0: boolean true / true}";
@@ -1957,9 +2115,11 @@ public class TypeResolverTests {
 	public void generatedTest166() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource166);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: boolean, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource167 = "form Form1 {\"\" q0: boolean true / \"string\"}";
@@ -1968,9 +2128,11 @@ public class TypeResolverTests {
 	public void generatedTest167() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource167);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 32: Operator / is undefined for types: boolean and string"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource168 = "form Form1 {\"\" q0: boolean \"string\" / \"string\"}";
@@ -1979,9 +2141,11 @@ public class TypeResolverTests {
 	public void generatedTest168() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource168);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.getNumberOfErrors() == 2);
 		assertTrue(typeResolver.
 			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: string, allowed types: integer"));
+		assertTrue(typeResolver.
+			getErrorAtIndex(1).equals("[TypeResolver] line: 1, column: 27: Type mismatch, expected boolean, but got unknown type"));
 	}
 
 	String generatedSource169 = "form Form1 {\"\" q0: boolean 1 && 1}";
@@ -2366,9 +2530,7 @@ public class TypeResolverTests {
 	public void generatedTest205() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource205);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
-		assertTrue(typeResolver.
-			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: integer, allowed types: boolean"));
+		assertTrue(typeResolver.getNumberOfErrors() == 0);
 	}
 
 	String generatedSource206 = "form Form1 {\"\" q0: boolean 1 == true}";
@@ -2419,9 +2581,7 @@ public class TypeResolverTests {
 	public void generatedTest210() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource210);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
-		assertTrue(typeResolver.
-			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: string, allowed types: boolean"));
+		assertTrue(typeResolver.getNumberOfErrors() == 0);
 	}
 
 	String generatedSource211 = "form Form1 {\"\" q0: boolean 1 != 1}";
@@ -2461,9 +2621,7 @@ public class TypeResolverTests {
 	public void generatedTest214() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(generatedSource214);
 		typeResolver.resolve(ast);
-		assertTrue(typeResolver.getNumberOfErrors() == 1);
-		assertTrue(typeResolver.
-			getErrorAtIndex(0).equals("[TypeResolver] line: 1, column: 27: Type mismatch, requested type: boolean, allowed types: integer or string"));
+		assertTrue(typeResolver.getNumberOfErrors() == 0);
 	}
 
 	String generatedSource215 = "form Form1 {\"\" q0: boolean true != \"string\"}";

@@ -10,8 +10,4 @@ public class DateConstant extends Constant<String> {
     public EvaluationType returnType(){
         return EvaluationType.Date;
     }
-
-    public String getDate(){
-        return this.getValue();
-    }
 }

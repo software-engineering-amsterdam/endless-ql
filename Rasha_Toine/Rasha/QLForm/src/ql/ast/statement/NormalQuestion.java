@@ -14,8 +14,6 @@ public class NormalQuestion extends Question {
 
 	@Override
 	public <T, U> T accept(StatementVisitor<T, U> visitor, U ctx) {
-		// TODO Auto-generated method stub
-		//return null;
 		return visitor.visit(this, ctx);
 	}
 }

@@ -4,7 +4,7 @@ import javafx.scene.Node
 import javafx.scene.control.{ CheckBox, DatePicker, Label, TextField }
 import javafx.scene.layout.GridPane
 import nl.uva.se.sc.niro.gui.util.HierarchyUtil
-import nl.uva.se.sc.niro.model.Expressions.answers._
+import nl.uva.se.sc.niro.model.expressions.answers._
 import nl.uva.se.sc.niro.model._
 
 import scala.collection.JavaConverters
@@ -18,7 +18,6 @@ object CreateCallbackVisitor {
         statement match {
           case Question(questionId, _, answerType, _, _) => visitQuestion(modelUpdater, control, questionId, answerType)
           case Conditional(_, thenStatements, _)         => visit(modelUpdater, HierarchyUtil.downcast(control), thenStatements)
-          case ErrorStatement()                          => ()
         }
     }
   }
@@ -49,7 +48,8 @@ object CreateCallbackVisitor {
       }
       case DateType => {
         val datePicker: DatePicker = HierarchyUtil.downcast(control)
-        datePicker.setOnAction(_ => modelUpdater.updateModel(questionId, DateAnswer(datePicker.getConverter.toString(datePicker.getValue))))
+        datePicker.setOnAction(_ =>
+          modelUpdater.updateModel(questionId, DateAnswer(datePicker.getConverter.toString(datePicker.getValue))))
       }
       case _ => ()
     }

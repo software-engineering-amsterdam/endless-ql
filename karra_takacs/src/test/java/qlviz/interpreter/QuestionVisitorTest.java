@@ -18,6 +18,7 @@ public class QuestionVisitorTest {
         // Arrange
         final String testIdentifier = "test_identifier";
         NumericExpressionParser expressionVisitorMock = mock(NumericExpressionParser.class);
+        BooleanExpressionParser booleanParserMock = mock(BooleanExpressionParser.class);
         QLParser.QuestionContext contextMock = mock(QLParser.QuestionContext.class);
         QLParser.QuestionNameContext nameContext = mock(QLParser.QuestionNameContext.class);
         QLParser.QuestionTextContext textContextMock = mock(QLParser.QuestionTextContext.class);
@@ -28,7 +29,7 @@ public class QuestionVisitorTest {
         when(nameContext.getText()).thenReturn(testIdentifier);
         when(translatorMock.translate(null)).thenReturn(QuestionType.Integer);
 
-        QuestionVisitor visitor = new QuestionVisitor(translatorMock, expressionVisitorMock);
+        QuestionVisitor visitor = new QuestionVisitor(translatorMock, expressionVisitorMock, booleanParserMock);
 
         // Act
         Question result = visitor.visitQuestion(contextMock);

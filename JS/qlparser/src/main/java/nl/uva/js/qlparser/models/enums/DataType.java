@@ -3,27 +3,24 @@ package nl.uva.js.qlparser.models.enums;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import nl.uva.js.qlparser.ui.ComponentBuilder;
+import nl.uva.js.qlparser.models.expressions.data.Variable;
 
+import javax.swing.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 public enum DataType {
-    // TODO
-    DATE(LocalDate::parse, "date"),
+    DATE(LocalDate::parse, ComponentBuilder::buildTextField),
 //    To be improved at a later stage, but needed for type checking
-    MONEY(value -> BigDecimal.valueOf(Double.valueOf(value.replace(',', '.'))), "money"),
-    STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), "string"),
-    DECIMAL(Double::valueOf, "decimal"),
-    BOOLEAN(Boolean::valueOf, "boolean"),
-    INTEGER(Integer::valueOf, "integer");
+    MONEY(value -> BigDecimal.valueOf(Double.valueOf(value.replace(',', '.'))), ComponentBuilder::buildTextField),
+    STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), ComponentBuilder::buildTextField),
+    DECIMAL(Double::valueOf, ComponentBuilder::buildTextField),
+    BOOLEAN(Boolean::valueOf, ComponentBuilder::buildTextField),
+    INTEGER(Integer::valueOf, ComponentBuilder::buildTextField);
 
-    @NonNull @Getter private Function<String, ?> valueOf;
-    @NonNull private String typeString;
-
-    public String getTypeString() {
-        return typeString;
-    }
+    @NonNull @Getter private Function<String, ?>                      valueOf;
+    @NonNull @Getter private Function<Variable, ? extends JComponent> component;
 }

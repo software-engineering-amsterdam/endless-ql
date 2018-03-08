@@ -1,77 +1,77 @@
 lexer grammar QLSLexer;
 
 STYLESHEET
-    : 'stylesheet'
-    ;
+	: 'stylesheet'
+	;
 PAGE
-    : 'page'
-    ;
+	: 'page'
+	;
 SECTION
-    : 'section'
-    ;
+	: 'section'
+	;
 QUESTION
-    : 'question'
-    ;
+	: 'question'
+	;
 WIDGET
-    : 'widget'
-    ;
+	: 'widget'
+	;
 RADIO
-    : 'radio'
-    ;
+	: 'radio'
+	;
 CHECKBOX
-    : 'checkbox'
-    ;
+	: 'checkbox'
+	;
 SLIDER
-    : 'slider'
-    ;
+	: 'slider'
+	;
 SPINBOX
-    : 'spinbox'
-    ;
+	: 'spinbox'
+	;
 TEXTBOX
-    : 'textbox'
-    ;
+	: 'textbox'
+	;
 DROPDOWN
-    : 'dropdown'
-    ;
+	: 'dropdown'
+	;
 DEFAULT
-    : 'default'
-    ;
+	: 'default'
+	;
 WIDTH
-    : 'width'
-    ;
+	: 'width'
+	;
 FONT
-    : 'font'
-    ;
+	: 'font'
+	;
 FONTSIZE
-    : 'fontsize'
-    ;
+	: 'fontsize'
+	;
 COLOR
-    : 'color'
-    ;
+	: 'color'
+	;
 HEXCOLORCODE
-    : '#' HEXCHAR HEXCHAR HEXCHAR HEXCHAR HEXCHAR HEXCHAR
-    ;
+	: '#' HEXCHAR HEXCHAR HEXCHAR HEXCHAR HEXCHAR HEXCHAR
+	;
 fragment HEXCHAR
 	: ([a-f] | [0-9])
 	;
 OPEN_BR
-    : '('
-    ;
+	: '('
+	;
 CLOSE_BR
-    : ')'
-    ;
+	: ')'
+	;
 OPEN_CB
-    : '{'
-    ;
+	: '{'
+	;
 CLOSE_CB
-    : '}'
-    ;
+	: '}'
+	;
 SEP
-    : ':'
-    ;
+	: ':'
+	;
 COMMA
-    : ','
-    ;
+	: ','
+	;
 BOOLEAN_TYPE
 	: 'boolean'
 	;
@@ -91,17 +91,17 @@ MONEY_TYPE
 	: 'money'
 	;
 NUMBER
-    : [0-9]+
-    ;
+	: [0-9]+
+	;
 ID
-    : [a-zA-Z0-9]+
-    ;
-LABEL
-    : '"' ~'"'*? '"'
-    ;
+	: [a-zA-Z0-9]+
+	;
+STRING
+	: '"' (~'"' | '""')* '"'
+	;
 COMMENT
-    : '//' ~'\n'*? '\n' -> skip
-    ;
+	: '//' ~'\n'*? '\n' -> skip
+	;
 WHITESPACE
-    : [ \n\t\r]+ -> skip
-    ;
+	: [ \n\t\r]+ -> skip
+	;

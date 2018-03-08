@@ -35,10 +35,11 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
         for (Question question : form.questions) {
             this.visit(question.condition);
 
-            // Only check model.expression when it is a predefined model.expression
+            // Only check model.expression when it is a predefined expression
             if (!question.isEditable()) {
                 ReturnType defaultAnswerType = this.visit(question.defaultAnswer);
 
+                // Check if question type is same as assigned expression type
                 ReturnType questionType = question.type;
                 if(questionType.isNumber()) {
                     questionType = ReturnType.NUMBER;

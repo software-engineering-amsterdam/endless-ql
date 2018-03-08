@@ -14,7 +14,7 @@ public class QuestionsDependencyValidator {
         private final HashSet<Edge> inEdges;
         private final HashSet<Edge> outEdges;
 
-        public Node(Question question) {
+        Node(Question question) {
             this.question = question;
             this.inEdges = new HashSet<>();
             this.outEdges = new HashSet<>();

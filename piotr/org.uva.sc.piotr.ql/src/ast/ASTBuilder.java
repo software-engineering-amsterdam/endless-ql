@@ -2,8 +2,6 @@ package ast;
 
 import ast.model.ASTNode;
 import ast.model.Form;
-import grammar.QLBaseVisitor;
-import grammar.QLParser;
 import ast.model.datatypes.*;
 import ast.model.expressions.Expression;
 import ast.model.expressions.binary.arithmetics.Addition;
@@ -20,6 +18,8 @@ import ast.model.expressions.values.VariableReference;
 import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
 import ast.model.statements.Statement;
+import grammar.QLBaseVisitor;
+import grammar.QLParser;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 

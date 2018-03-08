@@ -1,7 +1,6 @@
 package ast.model.expressions.unary;
 
 import ast.model.expressions.Expression;
-import ast.visitors.ASTNodeVisitor;
 
 abstract public class UnaryExpression extends Expression {
 

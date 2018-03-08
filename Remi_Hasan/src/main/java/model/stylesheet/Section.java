@@ -8,7 +8,7 @@ public class Section {
     // TODO add question
     public final List<Default> defaults;
 
-    public Section(String identifier, List<Section> sections, List<Default> defaults){
+    public Section(String identifier, List<Section> sections, List<Default> defaults) {
         this.identifier = identifier;
         this.sections = sections;
         this.defaults = defaults;

@@ -27,51 +27,63 @@ public class ExpressionParsingTest {
         assertEquals(expressionContext.getChild(2).getText(), String.valueOf(right));
     }
 
-    @Property public void expressionAdd(int left, int right) {
+    @Property
+    public void expressionAdd(int left, int right) {
         basicExpression(left, right, "+");
     }
 
-    @Property public void expressionSub(int left, int right) {
+    @Property
+    public void expressionSub(int left, int right) {
         basicExpression(left, right, "-");
     }
 
-    @Property public void expressionMul(int left, int right) {
+    @Property
+    public void expressionMul(int left, int right) {
         basicExpression(left, right, "*");
     }
 
-    @Property public void expressionDiv(int left, int right) {
+    @Property
+    public void expressionDiv(int left, int right) {
         basicExpression(left, right, "/");
     }
 
-    @Property public void expressionGT(int left, int right) {
+    @Property
+    public void expressionGT(int left, int right) {
         basicExpression(left, right, ">");
     }
 
-    @Property public void expressionGE(int left, int right) {
+    @Property
+    public void expressionGE(int left, int right) {
         basicExpression(left, right, ">=");
     }
 
-    @Property public void expressionLT(int left, int right) {
+    @Property
+    public void expressionLT(int left, int right) {
         basicExpression(left, right, "<");
     }
 
-    @Property public void expressionLE(int left, int right) {
+    @Property
+    public void expressionLE(int left, int right) {
         basicExpression(left, right, "<=");
     }
 
-    @Property public void expressionEQ(int left, int right) {
+    @Property
+    public void expressionEQ(int left, int right) {
         basicExpression(left, right, "==");
     }
 
-    @Property public void expressionNE(int left, int right) {
+    @Property
+    public void expressionNE(int left, int right) {
         basicExpression(left, right, "!=");
     }
 
-    @Property public void expressionAND(int left, int right) {
+    @Property
+    public void expressionAND(int left, int right) {
         basicExpression(left, right, "&&");
     }
 
-    @Property public void expressionOR(int left, int right) {
+    @Property
+    public void expressionOR(int left, int right) {
         basicExpression(left, right, "||");
     }
 }

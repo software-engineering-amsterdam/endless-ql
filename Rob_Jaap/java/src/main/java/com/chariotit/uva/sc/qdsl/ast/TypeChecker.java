@@ -11,12 +11,11 @@ import java.util.List;
 /**
  * Should check:
  *
- * reference to undefined questions
- * duplicate question declarations with different types
- * conditions that are not of the type boolean
- * operands of invalid type to operators
- * cyclic dependencies between questions
- * duplicate labels (warning)
+ * cyclic dependencies between questions -> Need Symboltable
+ * duplicate labels (warning) -> Can do
+ *
+ * Check BINOP booleans: >= etc
+ * Check cyclic dependencies
  */
 public class TypeChecker {
 

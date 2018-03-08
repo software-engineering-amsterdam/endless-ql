@@ -1,5 +1,7 @@
 import analysis.SymbolTable;
-import expression.ReturnType;
+import model.expression.Expression;
+import model.expression.ReturnType;
+import model.expression.variable.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -27,12 +29,12 @@ public class Renderer {
     private final StyleSheet styleSheet;
 
     Renderer(Form form, SymbolTable symbolTable, StyleSheet styleSheet) {
-        this.form  = form;
+        this.form = form;
         this.symbolTable = symbolTable;
         this.styleSheet = styleSheet;
     }
 
-    public void renderForm(Stage stage) {
+    void renderForm(Stage stage) {
         // Create a group of fields composed of our form questions
         FieldGroup fieldGroup = createQuestionFields(form);
 
@@ -68,20 +70,26 @@ public class Renderer {
     private void addQuestion(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, Question question) {
         Control input;
 
-        switch(question.type){
+        switch (question.type) {
             case BOOLEAN:
                 // Checkbox
                 input = createBooleanField(fieldMap, question);
                 break;
             case STRING:
-                input = createTextField(fieldMap, question, question.type);
+                input = createTextField(fieldMap, question);
                 break;
             case INTEGER:
-            case DECIMAL:
-            case MONEY:
-            case NUMBER:
-                input = createTextField(fieldMap, question, question.type);
+                input = createIntField(fieldMap, question);
                 break;
+            case DECIMAL:
+                input = createDecimalField(fieldMap, question);
+                break;
+            case MONEY:
+                input = createMoneyField(fieldMap, question);
+                break;
+//            case NUMBER:
+//                input = createIntField(fieldMap, question, question.type);
+//                break;
             case DATE:
                 // Date picker
                 input = createDateField(fieldMap, question);
@@ -90,21 +98,18 @@ public class Renderer {
                 throw new UnsupportedOperationException("Cannot create field for unknown field type");
         }
 
-        if(input != null){
+        if (input != null) {
             Field field = new Field(question.text, input);
             fieldGroup.add(field);
             fieldMap.put(question, field);
         }
     }
 
-//    private Control createDecimalField(HashMap<Question, Field> fieldMap, Question question) {
-//
-//    }
-
     private Control createDateField(HashMap<Question, Field> fieldMap, Question question) {
         DatePicker datePicker = new DatePicker();
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-            symbolTable.setValue(question.name, newValue.toString(), question.type);
+            Expression expression = new ExpressionVariableDate(question.defaultAnswer.getToken(), newValue.toString());
+            symbolTable.setExpression(question.name, expression);
             updateFields(fieldMap, form.questions);
         });
 //        throw new NotImplementedException();
@@ -115,57 +120,115 @@ public class Renderer {
         CheckBox checkBox = new CheckBox();
 
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            symbolTable.setValue(question.name, newValue.toString(), question.type);
+            Expression expression = new ExpressionVariableBoolean(question.defaultAnswer.getToken(),
+                    Boolean.parseBoolean(newValue.toString()));
+            symbolTable.setExpression(question.name, expression);
             updateFields(fieldMap, form.questions);
         });
 
         return checkBox;
     }
 
-    private Control createTextField(HashMap<Question, Field> fieldMap, Question question, ReturnType type) {
+    private Control createTextField(HashMap<Question, Field> fieldMap, Question question) {
         TextInputControl textField = Input.textField();
         textField.setEditable(question.isEditable());
 
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
-                symbolTable.setValue(question.name, textField.getText(), question.type);
+                Expression expression = new ExpressionVariableString(question.defaultAnswer.getToken(),
+                        textField.getText());
+                symbolTable.setExpression(question.name, expression);
                 updateFields(fieldMap, form.questions);
             }
         });
 
-        // Add input formatters
-        switch(type){
-            case INTEGER:
-                TextFormatter intFormatter = createTextFormatter("-?\\d*");
-                textField.setTextFormatter(intFormatter);
-                break;
-            case DECIMAL:
-                TextFormatter decimalFormatter = createTextFormatter("-?\\d*(\\.\\d*)?");
-                textField.setTextFormatter(decimalFormatter);
-                break;
-            case DATE:
-                // TODO isn't date always a datepicker?, or sometimes also a textfield?
-//                textField.setTextFormatter(new TextFormatter<>(new DateStringConverter("dd/MM/yyyy")));
-                TextFormatter dateFormatter = createTextFormatter("\\d{0,2}?/?\\d{0,2}?/\\d{0,4}?");
-                textField.setTextFormatter(dateFormatter);
-                break;
-            case MONEY:
-                TextFormatter moneyFormatter = createTextFormatter("-?\\d*(\\.\\d{0,2})?");
-                textField.setTextFormatter(moneyFormatter);
-                break;
-        }
+        return textField;
+    }
+
+    private Control createIntField(HashMap<Question, Field> fieldMap, Question question) {
+        TextInputControl textField = Input.textField();
+        textField.setEditable(question.isEditable());
+
+        // If input changes some questions might need to be enabled/disabled
+        textField.setOnKeyTyped(e -> {
+            if (textField.isEditable() || !textField.isDisabled()) {
+                Expression expression = new ExpressionVariableUndefined(question.defaultAnswer.getToken(), question.type);
+                if (!textField.getText().isEmpty()) {
+                    expression = new ExpressionVariableInteger(question.defaultAnswer.getToken(),
+                            Integer.parseInt(textField.getText()));
+                    TextFormatter intFormatter = createTextFormatter("-?\\d*");
+                    textField.setTextFormatter(intFormatter);
+                }
+
+                symbolTable.setExpression(question.name, expression);
+                updateFields(fieldMap, form.questions);
+            }
+        });
+
+        // Add input formatter
+        TextFormatter intFormatter = createTextFormatter("-?\\d*");
+        textField.setTextFormatter(intFormatter);
 
         return textField;
     }
 
-    private TextFormatter createTextFormatter(String pattern){
-        Pattern decimalPattern = Pattern.compile(pattern);
+    private Control createDecimalField(HashMap<Question, Field> fieldMap, Question question) {
+        TextInputControl textField = Input.textField();
+        textField.setEditable(question.isEditable());
+
+        // If input changes some questions might need to be enabled/disabled
+        textField.setOnKeyTyped(e -> {
+            if (textField.isEditable() || !textField.isDisabled()) {
+                Expression expression = new ExpressionVariableUndefined(question.defaultAnswer.getToken(), question.type);
+                if (!textField.getText().isEmpty()) {
+                    expression = new ExpressionVariableDecimal(question.defaultAnswer.getToken(),
+                            Double.parseDouble(textField.getText()));
+                }
+
+                symbolTable.setExpression(question.name, expression);
+                updateFields(fieldMap, form.questions);
+            }
+        });
+
+        // Add input formatter
+        TextFormatter decimalFormatter = createTextFormatter("-?\\d*(\\.\\d*)?");
+        textField.setTextFormatter(decimalFormatter);
+
+        return textField;
+    }
+
+    private Control createMoneyField(HashMap<Question, Field> fieldMap, Question question) {
+        TextInputControl textField = Input.textField();
+        textField.setEditable(question.isEditable());
+
+        // If input changes some questions might need to be enabled/disabled
+        textField.setOnKeyTyped(e -> {
+            if (textField.isEditable() || !textField.isDisabled()) {
+                Expression expression = new ExpressionVariableUndefined(question.defaultAnswer.getToken(), question.type);
+                if (!textField.getText().isEmpty()) {
+                    expression = new ExpressionVariableString(question.defaultAnswer.getToken(), textField.getText());
+                }
+
+                symbolTable.setExpression(question.name, expression);
+                updateFields(fieldMap, form.questions);
+            }
+        });
+
+        // Add input formatter
+        TextFormatter moneyFormatter = createTextFormatter("-?\\d*(\\.\\d{0,2})?");
+        textField.setTextFormatter(moneyFormatter);
+
+        return textField;
+    }
+
+    private TextFormatter createTextFormatter(String pattern) {
+        Pattern textPattern = Pattern.compile(pattern);
         UnaryOperator<TextFormatter.Change> filter = c -> {
-            if (decimalPattern.matcher(c.getControlNewText()).matches()) {
+            if (textPattern.matcher(c.getControlNewText()).matches()) {
                 return c;
             } else {
-                return null ;
+                return null;
             }
         };
         return new TextFormatter<>(filter);
@@ -197,17 +260,16 @@ public class Renderer {
         field.getLabel().setVisible(visible);
         field.getControl().setVisible(visible);
 
-        // If question is based on expression and cannot be set by the user, set value by evaluating its expression
-        if(!question.isEditable()) {
+        // If question is based on value and cannot be set by the user, set value by evaluating its value
+        if (!question.isEditable()) {
             String answer = symbolTable.getStringValue(question.name, question.type);
 
             if (question.type == ReturnType.BOOLEAN) {
                 CheckBox checkBox = (CheckBox) field.getControl();
                 checkBox.setSelected(Boolean.valueOf(answer));
-            } else if(question.type == ReturnType.DATE){
+            } else if (question.type == ReturnType.DATE) {
                 // TODO
-            }
-            else {
+            } else {
                 TextInputControl textField = (TextInputControl) field.getControl();
                 textField.setText(answer);
             }

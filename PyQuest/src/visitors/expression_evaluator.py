@@ -31,7 +31,7 @@ class ExpressionEvaluator:
         # TODO symbol table value lookup
         for question in self.form.block:
             if node.identifier == question.identifier:
-                node.value = question.answer
+                node.value = question.answer.value
 
     @when(AdditionOperatorNode)
     def visit(self, node):

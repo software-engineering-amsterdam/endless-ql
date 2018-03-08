@@ -253,7 +253,7 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
 
     @Override
     public LabelExpression visitLabel_expr(QLParser.Label_exprContext ctx) {
-        return new LabelExpression(visitLabel(ctx.label()), lineNumber(ctx), columnNumber(ctx));
+        return new LabelExpression(ctx.WORD().getSymbol().getText(), lineNumber(ctx), columnNumber(ctx));
     }
 
     @Override
@@ -264,7 +264,7 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
     @Override
     public LabelBinOpExpression visitLabel_binop_expr(QLParser.Label_binop_exprContext ctx) {
         return new LabelBinOpExpression(
-                visitLabel(ctx.label()),
+                visitLabel_expr(ctx.label_expr()),
                 visitBinop(ctx.binop()),
                 visitExpr(ctx.expr()),
                 lineNumber(ctx),

@@ -13,14 +13,6 @@ public class StringQuestionModel extends BaseQuestionModel {
         this.value = (StringValue) data.getValue();
     }
 
-    public String getBasicValue() {
-        if (value != null) {
-            return value.getStringValue();
-        } else {
-            return "No value";
-        }
-    }
-
     @Override
     public <T> T accept(QuestionModelVisitor<T> visitor) {
         return visitor.visit(this);
@@ -28,10 +20,6 @@ public class StringQuestionModel extends BaseQuestionModel {
 
     @Override
     public String displayValue() {
-        if (value != null) {
-            return value.getStringValue();
-        } else {
-            return "No value";
-        }
+        return value != null ? value.getStringValue() : "No value";
     }
 }

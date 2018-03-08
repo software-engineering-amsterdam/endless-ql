@@ -3,7 +3,6 @@ package org.uva.sea.gui.model;
 import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
 import org.uva.sea.ql.interpreter.dataObject.QuestionData;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.ErrorValue;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class ErrorQuestionModel extends BaseQuestionModel {
 
@@ -14,15 +13,6 @@ public class ErrorQuestionModel extends BaseQuestionModel {
         this.value = (ErrorValue) data.getValue();
     }
 
-    public String getBasicValue() {
-        if (value != null) {
-            return value.getError();
-        } else {
-            //TODO
-            throw new NotImplementedException();
-        }
-    }
-
     @Override
     public <T> T accept(QuestionModelVisitor<T> visitor) {
         return visitor.visit(this);
@@ -30,10 +20,6 @@ public class ErrorQuestionModel extends BaseQuestionModel {
 
     @Override
     public String displayValue() {
-        if (value != null) {
-            return value.getError();
-        } else {
-            return "No value";
-        }
+        return value != null ? value.getError() : "No value";
     }
 }

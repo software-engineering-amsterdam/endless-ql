@@ -15,4 +15,8 @@ public class SymbolTable {
             entries.put(entry.getLabel(), entry);
         }
     }
+
+    public SymbolTableEntry getEntry(String key) {
+        return entries.get(key);
+    }
 }

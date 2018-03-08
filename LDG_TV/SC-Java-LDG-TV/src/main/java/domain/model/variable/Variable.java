@@ -18,7 +18,7 @@ public abstract class Variable {
     public String getIdentifier() {
         return identifier;
     }
-    public Value getValue(){ return null;};
+    public abstract Value getValue();
 
     public void setValue(PlainValue value){};
     public void setValue(BooleanValue value){};

@@ -7,6 +7,7 @@ import domain.model.value.ExpressionValue;
 import domain.model.value.PlainValue;
 import domain.model.variable.*;
 import domain.model.Question;
+import exception.InvalidVariableTypeException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,12 @@ public class QLLoader extends FormBaseListener {
                 constructedVariable = new StringVariable(ctx.variable().getText());
                 break;
             default:
-
+                try{
+                    throw new InvalidVariableTypeException("Invalid variable type definition found.");
+                }catch(InvalidVariableTypeException e){
+                    e.printStackTrace();
+                }
+                break;
         }
     }
     @Override

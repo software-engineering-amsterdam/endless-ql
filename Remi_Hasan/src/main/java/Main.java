@@ -1,4 +1,5 @@
 import analysis.CycleDetector;
+import analysis.ReferencedIdentifiersVisitor;
 import analysis.SymbolTable;
 import analysis.TypeChecker;
 import javafx.application.Application;
@@ -17,6 +18,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 public class Main extends Application {
@@ -67,10 +70,17 @@ public class Main extends Application {
 
             SymbolTable symbolTable = new SymbolTable(form);
 
+            ReferencedIdentifiersVisitor referencedIdentifiersVisitor = new ReferencedIdentifiersVisitor(form);
+            List<String> unknownReferencedIdentifiers = referencedIdentifiersVisitor.getUnknownReferencedIdentifiers();
+            if(!unknownReferencedIdentifiers.isEmpty()){
+                showErrorAlert("Unknown variables detected for the following variables:", unknownReferencedIdentifiers);
+                return;
+            }
+
             CycleDetector cycleDetector = new CycleDetector(form);
             Set<String> cycles = cycleDetector.detectCycles();
 
-            if (cycles.size() > 0) {
+            if (!cycles.isEmpty()) {
                 showErrorAlert("Cycles detected in the following variables:", cycles);
                 return;
             }
@@ -78,7 +88,7 @@ public class Main extends Application {
             TypeChecker typeChecker = new TypeChecker(form, symbolTable);
             Set<String> typeCheckErrors = typeChecker.typeCheck();
 
-            if (typeCheckErrors.size() > 0) {
+            if (!typeCheckErrors.isEmpty()) {
                 showErrorAlert("Type checking errors:", typeCheckErrors);
                 return;
             }
@@ -98,7 +108,7 @@ public class Main extends Application {
         }
     }
 
-    private void showErrorAlert(String description, Set<String> messages) {
+    private void showErrorAlert(String description, Collection<String> messages) {
         Alert alert = new Alert(Alert.AlertType.ERROR, description);
         alert.setContentText(description + "\n" + String.join("\n", messages));
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

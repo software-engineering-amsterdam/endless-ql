@@ -25,22 +25,31 @@ public class CycleDetector implements IASTVisitor<List<String>> {
         this.form = form;
     }
 
-    public Set<String> detectCycles() {
-        Graph<String, DefaultEdge> referenceGraph = new DefaultDirectedGraph<>(DefaultEdge.class);
+    private Graph<String, DefaultEdge> createVerticeGraph() {
+        Graph<String, DefaultEdge> graph = new DefaultDirectedGraph<>(DefaultEdge.class);
         for (Question question : form.questions) {
-            referenceGraph.addVertex(question.name);
+            graph.addVertex(question.name);
         }
 
+        return graph;
+    }
+
+    private void addReferenceEdges(Graph<String, DefaultEdge> graph) {
         for (Question question : form.questions) {
             // Only check expression when it is a predefined expression
             if (!question.isEditable()) {
                 // For each question, add references to other questions to the graph
                 List<String> referencedIdentifiers = this.visit(question.defaultAnswer);
                 for (String identifier : referencedIdentifiers) {
-                    referenceGraph.addEdge(question.name, identifier);
+                    graph.addEdge(question.name, identifier);
                 }
             }
         }
+    }
+
+    public Set<String> detectCycles() {
+        Graph<String, DefaultEdge> referenceGraph = createVerticeGraph();
+        addReferenceEdges(referenceGraph);
 
         org.jgrapht.alg.CycleDetector<String, DefaultEdge> jGraphTCycleDetector
                 = new org.jgrapht.alg.CycleDetector<>(referenceGraph);

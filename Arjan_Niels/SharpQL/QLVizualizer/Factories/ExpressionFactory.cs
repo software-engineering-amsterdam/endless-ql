@@ -3,9 +3,9 @@ using QLParser.AST.Nodes.ExpressionNodes;
 using QLVisualizer.Controllers;
 using QLVisualizer.Expression;
 using QLVisualizer.Expression.Types;
-using QLVisualizer.ElementManagers.Types;
 using System;
 using QLParser.AST.Nodes.ExpressionNodes.Enums;
+using QLVisualizer.ElementManagers.LeafTypes;
 
 namespace QLVisualizer.Factories
 {
@@ -137,11 +137,11 @@ namespace QLVisualizer.Factories
             switch (identifierNode.GetQValueType())
             {
                 case QValueType.BOOLEAN:
-                    return new ExpressionBool(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as BoolElementManager).AnswerValue; });
+                    return new ExpressionBool(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as BoolElementManager).Answer.Value; });
                 case QValueType.INTEGER:
-                    return new ExpressionInt(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as IntElementManager).AnswerValue; });
+                    return new ExpressionInt(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as IntElementManager).Answer.Value; });
                 case QValueType.MONEY:
-                    return new ExpressionDouble(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as MoneyElementManager).AnswerValue; });
+                    return new ExpressionDouble(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as MoneyElementManager).Answer.Value; });
                 default:
                     throw new NotImplementedException();
             }

@@ -108,28 +108,28 @@ namespace QLVisualizer.Factories
         {
             foreach (Control b in control.Controls)
                 if (b.GetType() == typeof(TextBox))
-                    b.Text = widget.AnswerValue.ToString();
+                    b.Text = widget.Answer.Value.ToString();
         }
 
         private void UpdateBoolWidget(BoolElementManager widget, Control control)
         {
             foreach (Control c in control.Controls)
                 if (c.GetType() == typeof(CheckBox))
-                    ((CheckBox)c).Checked = widget.AnswerValue;
+                    ((CheckBox)c).Checked = widget.Answer.Value;
         }
 
         private void UpdateStringWidget(StringElementManager widget, Control control)
         {
             foreach (Control c in control.Controls)
                 if (c.GetType() == typeof(TextBox))
-                    ((TextBox)c).Text = widget.AnswerValue;
+                    ((TextBox)c).Text = widget.Answer.Value;
         }
 
         private void UpdateMoneyWidget(MoneyElementManager widget, Control control)
         {
             foreach (Control c in control.Controls)
                 if (c.GetType() == typeof(TextBox))
-                    ((TextBox)c).Text = widget.AnswerValue.ToString();
+                    ((TextBox)c).Text = widget.Answer.Value.ToString();
         }
         #endregion
 
@@ -168,7 +168,7 @@ namespace QLVisualizer.Factories
         {
             TextBox textBox = new TextBox();
             if(widget.IsAnswered)
-                textBox.Text = widget.AnswerValue.ToString();
+                textBox.Text = widget.Answer.Value.ToString();
             textBox.Location = new Point(0, AddLabel(widget.Text, 0, style, ref result));
             textBox.Enabled = widget.Editable;
 
@@ -206,7 +206,7 @@ namespace QLVisualizer.Factories
             checkbox.Text = widget.Text;
             checkbox.CheckedChanged += delegate (object sender, EventArgs e) { ChangedBoolWidget(widget, checkbox); };
             checkbox.Enabled = widget.Editable;
-            checkbox.Checked = widget.AnswerValue;
+            checkbox.Checked = widget.Answer.Value;
 
             // Add to result
             result.Controls.Add(ApplyControlStyle(checkbox, style));
@@ -268,7 +268,7 @@ namespace QLVisualizer.Factories
         /// <param name="input">Input checkbox</param>
         private void ChangedBoolWidget(BoolElementManager boolWidget, CheckBox input)
         {
-            bool value = boolWidget.Validate(input.Checked);
+            bool value = boolWidget.Validate(input.Checked).Value;
             boolWidget.SetAnswer(value);
             input.Checked = value;
         }
@@ -301,7 +301,7 @@ namespace QLVisualizer.Factories
                 moneyWidget.SetAnswer(value.Value);
             }
             else if (input.Text != "")
-                input.Text = moneyWidget.AnswerValue.ToString();
+                input.Text = moneyWidget.Answer.ToString();
 
         }
         #endregion

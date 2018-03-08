@@ -13,18 +13,20 @@ namespace QLVisualizer.ElementManagers.LeafTypes
         {
             double inputValue = 0;
             bool valid = double.TryParse(input, out inputValue);
-
-            return new QuestionElementValue<double>(Validate(inputValue), valid);
+            if (valid)
+                return Validate(inputValue);
+            else
+                return new QuestionElementValue<double>(0, false);
         }
 
-        public override double Validate(double input)
+        public override QuestionElementValue<double> Validate(double input)
         {
-            return Math.Round(input, 2);
+            return new QuestionElementValue<double>(Math.Round(input, 2), true);
         }
 
         public override string ToXML()
         {
-            return string.Format("<moneyValue>{0}</moneyValue>", AnswerValue);
+            return string.Format("<moneyValue>{0}</moneyValue>", Answer);
         }
     }
 }

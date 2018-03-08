@@ -98,7 +98,7 @@ namespace QLVisualizer.Tests.Elements
             ((CheckBox)c.Controls[0]).Checked = true;
 
             // Answer must now be updated
-            Assert.IsTrue(_boolWidget.AnswerValue);
+            Assert.IsTrue(_boolWidget.Answer.Value);
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace QLVisualizer.Tests.Elements
             ((TextBox)c.Controls[1]).Text = 100.ToString();
 
             // Answer must now be updated
-            Assert.AreEqual(100, _intWidget.AnswerValue);
+            Assert.AreEqual(100, _intWidget.Answer.Value);
         }
 
         [TestMethod]
@@ -128,7 +128,7 @@ namespace QLVisualizer.Tests.Elements
             ((TextBox)c.Controls[1]).Text = "unittest";
 
             // Answer must now be updated
-            Assert.AreEqual("unittest", _stringWidget.AnswerValue);
+            Assert.AreEqual("unittest", _stringWidget.Answer.Value);
         }
         #endregion
     }

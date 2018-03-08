@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLVisualizer.Controllers.Display;
-using QLVisualizer.Style;
-using QLVisualizer.ElementManagers.Types;
+using QLVisualizer.ElementManagers.LeafTypes;
 using System;
 
 namespace QLVisualizer.Tests.Controllers.Display

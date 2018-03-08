@@ -9,7 +9,7 @@ namespace QLVisualizer.ElementManagers
         /// <summary>
         /// Contains given answer, if not answered contains default value for T
         /// </summary>
-        public T AnswerValue { get; private set; }
+        public QuestionElementValue<T> Answer { get; private set; }
 
         /// <summary>
         /// Indication if user gave an answer for this QLWidget
@@ -28,7 +28,7 @@ namespace QLVisualizer.ElementManagers
 
         public QuestionElementManager(string identifyer, string text, ElementManager parent, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : base(identifyer, text, parent, activationExpression)
         {
-            AnswerValue = default(T);
+            Answer = new QuestionElementValue<T>(default(T), false);
             IsAnswered = false;
             _answerExpression = answerExpression;
         }
@@ -38,9 +38,10 @@ namespace QLVisualizer.ElementManagers
         /// </summary>
         /// <param name="input">Input value</param>
         /// <returns>Correct value obtained from input</returns>
-        public virtual T Validate(T input)
+        public virtual QuestionElementValue<T> Validate(T input)
         {
-            return input;
+            // Default accepts all
+            return new QuestionElementValue<T>(input, true);
         }
 
         public abstract QuestionElementValue<T> ParseInput(string input);
@@ -65,7 +66,7 @@ namespace QLVisualizer.ElementManagers
         /// <param name="answer"></param>
         public void SetAnswer(T answer)
         {
-            AnswerValue = answer;
+            Answer = Validate(answer);
             IsAnswered = true;
 
             // Send update to the controller

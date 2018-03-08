@@ -1,4 +1,6 @@
-﻿namespace QLVisualizer.ElementManagers.LeafTypes
+﻿using QLVisualizer.Expression.Types;
+
+namespace QLVisualizer.ElementManagers.LeafTypes
 {
     public class IntElementManager : QuestionElementManager<int>
     {
@@ -10,12 +12,12 @@
         {
             int result = 0;
             bool valid = int.TryParse(input, out result);
-            return new QuestionElementValue<int>(Validate(result), valid);
+            return new QuestionElementValue<int>(result, valid);
         }
 
         public override string ToXML()
         {
-            return string.Format("<intValue>{0}</intValue>", AnswerValue);
+            return string.Format("<intValue>{0}</intValue>", Answer);
         }
     }
 }

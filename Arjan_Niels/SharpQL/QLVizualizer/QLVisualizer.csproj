@@ -67,10 +67,10 @@
     <Compile Include="UserMessages.cs" />
     <Compile Include="ElementManagers\QuestionElementManager.cs" />
     <Compile Include="ElementManagers\ElementManagerLeaf.cs" />
-    <Compile Include="ElementManagers\Types\BoolElementManager.cs" />
-    <Compile Include="ElementManagers\Types\IntElementManager.cs" />
-    <Compile Include="ElementManagers\Types\MoneyElementManager.cs" />
-    <Compile Include="ElementManagers\Types\StringElementManager.cs" />
+    <Compile Include="ElementManagers\LeafTypes\BoolElementManager.cs" />
+    <Compile Include="ElementManagers\LeafTypes\IntElementManager.cs" />
+    <Compile Include="ElementManagers\LeafTypes\MoneyElementManager.cs" />
+    <Compile Include="ElementManagers\LeafTypes\StringElementManager.cs" />
     <Compile Include="ElementManagers\QuestionElementValue.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

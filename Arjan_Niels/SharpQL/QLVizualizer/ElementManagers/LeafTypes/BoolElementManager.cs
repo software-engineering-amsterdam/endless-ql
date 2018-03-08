@@ -12,12 +12,15 @@ namespace QLVisualizer.ElementManagers.LeafTypes
         {
             bool result = false;
             bool valid = bool.TryParse(input, out result);
-            return new QuestionElementValue<bool>(Validate(result), valid);
+            if (valid)
+                return Validate(result);
+            else
+                return new QuestionElementValue<bool>(false, false);
         }
 
         public override string ToXML()
         {
-            return string.Format("<boolValue>{0}</boolValue>", AnswerValue);
+            return string.Format("<boolValue>{0}</boolValue>", Answer);
         }
     }
 }

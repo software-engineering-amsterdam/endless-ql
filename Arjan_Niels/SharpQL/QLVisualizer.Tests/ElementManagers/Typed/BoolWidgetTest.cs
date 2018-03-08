@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLVisualizer.ElementManagers.Types;
+using QLVisualizer.ElementManagers.LeafTypes;
 
 namespace QLVisualizer.Tests.ElementManagers.Typed
 {
@@ -16,13 +16,13 @@ namespace QLVisualizer.Tests.ElementManagers.Typed
         public override void AssignTest()
         {
             Widget.SetAnswer(true);
-            Assert.IsTrue(Widget.AnswerValue);
+            Assert.IsTrue(Widget.Answer.Value);
         }
 
         [TestMethod]
         public override void ValueTest()
         {
-            Assert.AreEqual(false, Widget.AnswerValue);
+            Assert.AreEqual(false, Widget.Answer.Value);
         }
     }
 }

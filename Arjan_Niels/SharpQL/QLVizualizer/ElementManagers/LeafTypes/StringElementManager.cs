@@ -15,7 +15,7 @@ namespace QLVisualizer.ElementManagers.LeafTypes
 
         public override string ToXML()
         {
-            return string.Format("<stringValue>{0}</stringValue>", AnswerValue);
+            return string.Format("<stringValue>{0}</stringValue>", Answer);
         }
     }
 }

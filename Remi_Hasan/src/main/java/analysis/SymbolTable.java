@@ -63,6 +63,10 @@ public class SymbolTable {
         }
     }
 
+    public Map<String, Expression> getAllAnswers(){
+        return table;
+    }
+
     public void setExpression(String identifier, Expression value) {
         this.table.put(identifier, value);
     }

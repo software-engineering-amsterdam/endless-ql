@@ -36,6 +36,11 @@ public class QuestionCheckerTest {
 
     @Test
     public void getSymbolTable() {
-        // TODO final expected shape of the symbol table, and compare with the results.
+        final int EXPECTED_ENTRIES = 3;
+        final String EXPECTED_TABLE = "{v1=BooleanType, v2=IntegerType, v3=StringType}";
+
+        SymbolTable symbolTable = questionChecker.getSymbolTable();
+        assertEquals(EXPECTED_ENTRIES, symbolTable.size());
+        assertEquals(EXPECTED_TABLE, symbolTable.toString());
     }
 }

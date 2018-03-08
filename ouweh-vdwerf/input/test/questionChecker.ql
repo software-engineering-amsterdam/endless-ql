@@ -1,15 +1,15 @@
 form exampleForm {
-  "Did you sell a house in 2010?"
-    hasSoldHouse: boolean
-  "Did you buy a house in 2010?"
-    hasBoughtHouse: boolean
-  "Did you enter a loan?"
-    hasMaintLoan: boolean
+  "q1"
+    v1: boolean
+  "q2"
+    v2: integer
+  "q3"
+    v3: string
 
-  "Did you sell a house in 2010?"
-    hasSoldHouse: boolean
-  "Did you buy a house in 2010?"
-    hasBoughtHouse: boolean
-  "Did you enter a loan?"
-    hasMaintLoan: boolean
+  "q1"
+    v1: boolean
+  "q2"
+    v2: integer
+  "q3"
+    v3: string
 }

@@ -2,23 +2,36 @@ package org.uva.ql.validation;
 
 import org.uva.ql.ast.Form;
 
+import java.util.ArrayList;
+import java.util.logging.Logger;
+
 public class Validator {
 
-    public Validator() {
-    }
+    private final LogHandler handler;
+    private ArrayList<Checker> checkers = new ArrayList<>();
 
-    public void execute (Form form) {
-        QuestionChecker questionChecker = new QuestionChecker();
-        questionChecker.findDuplicates(form);
+    public Validator(Form form) {
+        QuestionChecker questionChecker = new QuestionChecker(form);
+        checkers.add(questionChecker);
 
-        SymbolTable symbolTable = questionChecker.getSymbolTable();
-
-        ParameterChecker parameterChecker = new ParameterChecker(form, symbolTable);
+        ParameterChecker parameterChecker = new ParameterChecker(form, questionChecker.getSymbolTable());
+        checkers.add(parameterChecker);
 
         DependencyChecker dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());
-        dependencyChecker.execute();
+        checkers.add(dependencyChecker);
 
-        TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-        typeChecker.execute();
+        TypeChecker typeChecker = new TypeChecker(form, questionChecker.getSymbolTable());
+        checkers.add(typeChecker);
+
+        this.handler = (LogHandler) Logger.getGlobal().getHandlers()[0];
+    }
+
+    public void run() {
+        for (Checker checker : checkers) {
+            if (handler.hasErrors()) {
+                break;
+            }
+            checker.runCheck();
+        }
     }
 }

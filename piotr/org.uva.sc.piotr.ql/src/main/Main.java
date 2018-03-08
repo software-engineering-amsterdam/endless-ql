@@ -1,7 +1,8 @@
 package main;
 
-import ast.model.expressions.unary.values.VariableReference;
+import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
+import ast.visitors.TestVisitor;
 import ast.visitors.filters.QuestionsFilter;
 import ast.visitors.filters.ReferencesFilter;
 import ast.ASTBuilder;
@@ -20,7 +21,7 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CharStream charStream = CharStreams.fromFileName("./example-ql/form2.qlform");
+        CharStream charStream = CharStreams.fromFileName("./example-ql/form1.qlform");
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
         QLParser qlParser = new QLParser(commonTokenStream);

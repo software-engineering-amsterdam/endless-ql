@@ -23,7 +23,7 @@ public class AdditionExpression extends BinaryExpression {
         Expression rightExpr = this.getExprRight();
         Expression leftExpr = this.getExprLeft();
 
-        if(!rightExpr.isArithmetic() || !leftExpr.isArithmetic()){
+        if(!rightExpr.evaluate().isArithmetic() || !leftExpr.evaluate().isArithmetic()){
             return new UndefinedConstant();
         }
 

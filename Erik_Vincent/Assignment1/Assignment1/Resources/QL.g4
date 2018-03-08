@@ -10,14 +10,14 @@ form returns [QuestionForm result]
 	: FORM ID content EOF
 		{$result = new QuestionForm($ID.text, $content.result);}
 	;	
-content returns [List<Content> result]
+content returns [List<Question> result]
 	@init {
-	$result = new List<Content>();
+	$result = new List<Question>();
 	}
 	: OPEN_CB (question
 		{$result.Add($question.result);}
 		| ifstatement
-		{$result.Add($ifstatement.result);}
+		{$result.AddRange($ifstatement.result);}
 		)* CLOSE_CB
 	;
 question returns [Question result]
@@ -32,8 +32,7 @@ questionAssign returns [Question result]
 		 $result.Value = $value.result;}
 	| questionNorm ASSIGN expression
 		{$result = $questionNorm.result;
-		 $result.Computed = true;
-		 $result.Expression = $expression.result;}
+		 $result.Computation = $expression.result;}
 	;
 questionNorm returns [Question result]
 	: STRING ID SEP BOOLEAN_TYPE
@@ -49,11 +48,21 @@ questionNorm returns [Question result]
 	| STRING ID SEP STRING_TYPE
 		{$result = new QuestionString($ID.text, $STRING.text);}
 	;
-ifstatement returns [IfStatement result]
+ifstatement returns [List<Question> result]
+	@init {
+	$result = new List<Question>();
+	}
 	: IF OPEN_BR expression CLOSE_BR content1=content ELSE content2=content
-		{$result = new IfElseStatement($expression.result, $content1.result, $content2.result);}
+		{foreach (var content in $content1.result)
+            content.AddCondition($expression.result);
+		foreach (var content in $content2.result)
+            content.AddCondition(new ExpressionNot($expression.result));
+		$result.AddRange($content1.result);
+		$result.AddRange($content2.result);}
 	| IF OPEN_BR expression CLOSE_BR content
-		{$result = new IfStatement($expression.result, $content.result);}
+		{foreach (var content in $content.result)
+            content.AddCondition($expression.result);
+		$result.AddRange($content.result);}
 	;
 expression returns [Expression result]
 	: value

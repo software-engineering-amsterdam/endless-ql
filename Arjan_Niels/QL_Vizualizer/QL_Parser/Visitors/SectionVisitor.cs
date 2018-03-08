@@ -33,7 +33,7 @@ namespace QL_Parser.Visitors
             }
 
             //If it manages to reach this line; throw an exception, because it should not be possible.
-            throw new InvalidOperationException("We don't know how to process this section.");
+             throw new InvalidOperationException("We don't know how to process this section.");
         }
     }
 }

@@ -55,9 +55,9 @@ public class StatementVisitorInvalidOperands implements StatementVisitor {
         
         if(!computationType.isUndefined())
         {
-            if(stmt.getType().parse(Literal.create(computationType)).isUndefined())
+            if(stmt.getIdentifier().getType().parse(Literal.create(computationType)).isUndefined())
             {
-                errors.add(new Inconvertible(stmt.getType(), computationType));
+                errors.add(new Inconvertible(stmt.getIdentifier().getType(), computationType));
             }
         }
     }

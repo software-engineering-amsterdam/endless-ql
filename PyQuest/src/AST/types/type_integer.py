@@ -1,5 +1,5 @@
 from AST.types.type import Type
-from PyQt5.QtWidgets import QSpinBox
+from render.widgets import SpinBox
 
 
 class TypeInteger(Type):
@@ -12,4 +12,4 @@ class TypeInteger(Type):
 
     @staticmethod
     def pyqt5_default_widget():
-        return QSpinBox()
+        return SpinBox()

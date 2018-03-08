@@ -1,6 +1,6 @@
 package validators;
 
-import ast.model.expressions.unary.values.VariableReference;
+import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public final class VariablesReferencesValidator {
                 }
             }
             if (!found) {
-                throw new RuntimeException("Reference to undeclared variable \"" + reference.getName() + "\" on line " + reference.getStartLine() + ".");
+                throw new RuntimeException("Reference to undeclared variable \"" + reference.getName() + "\" on line " + reference.getMetaInformation().getStartLine() + ".");
             }
         }
     }

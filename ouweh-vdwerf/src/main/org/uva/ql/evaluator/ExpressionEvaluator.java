@@ -1,5 +1,6 @@
 package org.uva.ql.evaluator;
 
+import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.ParameterGroup;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.*;
@@ -9,13 +10,12 @@ import org.uva.ql.evaluator.value.IntegerValue;
 import org.uva.ql.evaluator.value.StringValue;
 import org.uva.ql.evaluator.value.Value;
 import org.uva.ql.visitor.ExpressionVisitor;
-import org.uva.ql.ast.expression.Expression;
 
 public class ExpressionEvaluator implements ExpressionVisitor<Value, String> {
 
     private ValueTable valueTable;
 
-    public Value evaluateExpression(String id, Expression expression, ValueTable valueTable){
+    public Value evaluateExpression(String id, Expression expression, ValueTable valueTable) {
         this.valueTable = valueTable;
 
         return expression.accept(this, id);

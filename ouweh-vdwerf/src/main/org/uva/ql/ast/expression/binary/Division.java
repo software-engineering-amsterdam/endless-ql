@@ -5,8 +5,8 @@ import org.uva.ql.visitor.ExpressionVisitor;
 
 public class Division extends BinaryOperation {
 
-    public Division(Expression left, Expression right){
-        super(left,right);
+    public Division(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override

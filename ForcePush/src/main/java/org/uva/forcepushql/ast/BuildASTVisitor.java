@@ -3,29 +3,36 @@ package org.uva.forcepushql.ast;
 import org.uva.forcepushql.antlr.GrammarParser;
 import org.uva.forcepushql.antlr.GrammarParserBaseVisitor;
 
-public class BuildASTVisitor extends GrammarParserBaseVisitor<BinaryExpression>{
+public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
 
 
     @Override
-    public BinaryExpression visitMathUnit(GrammarParser.MathUnitContext ctx) {
+    public ExpressionNode visitMathUnit(GrammarParser.MathUnitContext ctx) {
         return super.visitMathUnit(ctx);
     }
 
+
     @Override
-    public BinaryExpression visitParensExpression(GrammarParser.ParensExpressionContext ctx) {
-        return super.visitParensExpression(ctx);
+    public ExpressionNode visitNumberExpression(GrammarParser.NumberExpressionContext ctx) {
+        System.out.println("I visited this leaf with value = " + ctx.value.getText());
+        NumberNode number = new NumberNode();
+        number.setValue(Double.valueOf(ctx.value.getText()));
+        number.getValue();
+        System.out.println("I now end my visit and return a Number Node with value = " + number.Value);
+        return number;
     }
 
     @Override
-    public BinaryExpression visitValueExpression(GrammarParser.ValueExpressionContext ctx) {
-        return super.visitValueExpression(ctx);
+    public ExpressionNode visitParenthesisExpression(GrammarParser.ParenthesisExpressionContext ctx) {
+        return super.visitParenthesisExpression(ctx);
     }
 
     @Override
-    public BinaryExpression visitBinaryExpression(GrammarParser.BinaryExpressionContext context){
+    public ExpressionNode visitInfixExpression(GrammarParser.InfixExpressionContext context){
 
         InfixExpressionNode node;
         System.out.println("Context.op is " + context.op.getType() + " and GrammarParser.PLUS is " + GrammarParser.PLUS);
+
         switch(context.op.getType()){
             case GrammarParser.PLUS:
                 node = new AdditionNode();
@@ -50,15 +57,39 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<BinaryExpression>{
                 }*/
         }
 
-        node.setLeft(visit(context.left));
-        node.setRight(visit(context.right));
-        node.getLeft();
-        node.getRight();
-        System.out.println("And finally node.Left is " + node.Left);
+        System.out.println("\nStart of node.Left");
+        node.Left = visit(context.left);
+        System.out.println("End of node.Left \n");
+
+        System.out.println("\nStart of node.Right");
+        node.Right = visit(context.right);
+        System.out.println("End of node.Right \n");
+
+        System.out.println("node.Left is " + node.Left);
+        System.out.println("node.Right is " + node.Right);
 
         return node;
 
     }
+
+    @Override
+    public ExpressionNode visitUnaryExpression(GrammarParser.UnaryExpressionContext ctx) {
+        switch (ctx.op.getType()){
+            case GrammarParser.PLUS:
+                return visit(ctx.expression());
+            case GrammarParser.MINUS:
+            {
+                NegateNode negateNode = new NegateNode();
+                negateNode.setInnerNode(visit(ctx.expression()));
+                negateNode.getInnerNode();
+                return negateNode;
+            }
+            default:
+                return null;
+        }
+    }
+
+
 }
 
 

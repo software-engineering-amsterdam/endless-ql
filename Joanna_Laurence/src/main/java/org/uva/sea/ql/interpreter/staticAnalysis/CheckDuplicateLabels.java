@@ -4,7 +4,7 @@ import org.uva.sea.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
-import org.uva.sea.ql.interpreter.visitor.BaseASTVisitor;
+import org.uva.sea.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
 

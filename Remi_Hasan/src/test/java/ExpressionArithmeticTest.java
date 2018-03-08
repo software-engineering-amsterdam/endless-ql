@@ -1,5 +1,3 @@
-import antlr.QLLexer;
-import antlr.QLParser;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.generator.InRange;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
@@ -10,21 +8,12 @@ import model.expression.binary.ExpressionArithmeticSubtract;
 import model.expression.binary.ExpressionArithmeticSum;
 import model.expression.unary.ExpressionUnaryNeg;
 import model.expression.variable.ExpressionVariableInteger;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnitQuickcheck.class)
 public class ExpressionArithmeticTest {
-//
-//    private QLParser.ExpressionContext getExpressionContext(String expression) {
-//        QLLexer lexer = new QLLexer(CharStreams.fromString(expression));
-//        QLParser parser = new QLParser(new CommonTokenStream(lexer));
-//
-//        return parser.expression();
-//    }
 
     @Property
     public void ExpressionArithmeticDividePositive(@InRange(min="0") int left, @InRange(min="0") int right) {

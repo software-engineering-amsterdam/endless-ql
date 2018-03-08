@@ -55,7 +55,6 @@ namespace QLParser.Tests.AST.Validators
             Analyser.Analyse(_validAST);
             var errors = Analyser.GetErrors();
             Assert.AreEqual(0, errors.Count);
-
         }
     }
 }

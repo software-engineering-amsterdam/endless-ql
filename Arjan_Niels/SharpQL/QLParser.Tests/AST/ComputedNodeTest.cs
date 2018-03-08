@@ -26,7 +26,7 @@ namespace QLParser.Tests.AST
             Assert.AreEqual("simpleSum", computed.ID);
             Assert.AreEqual("Simple sum:", computed.Text);
             Assert.AreEqual(QValueType.DOUBLE, computed.ValueType);
-            Assert.AreEqual(NodeType.ARTHIMETIC_EXPRESSION, computed.Expression.GetNodeType());
+            Assert.AreEqual(NodeType.ARTHIMETRIC_EXPRESSION, computed.Expression.GetNodeType());
             Assert.AreEqual(QValueType.DOUBLE, computed.Expression.GetQValueType());
         }
     }

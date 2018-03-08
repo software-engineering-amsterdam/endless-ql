@@ -76,8 +76,9 @@
     <Compile Include="AST\Nodes\QValueType.cs" />
     <Compile Include="AST\Nodes\IdentifierNode.cs" />
     <Compile Include="Exceptions\UnknownLogicalEntity.cs" />
-    <Compile Include="Exceptions\UnknownNodeType.cs" />
+    <Compile Include="Exceptions\UnknownNodeTypeException.cs" />
     <Compile Include="Exceptions\UnknownOperatorException.cs" />
+    <Compile Include="Exceptions\UnknownQValueTypeException.cs" />
     <Compile Include="Visitors\ExpressionVisitors\ArthimetricExpressionVisitor.cs" />
     <Compile Include="Visitors\ComputedVariableVisitor.cs" />
     <Compile Include="Visitors\ConditionalBlockVisitor.cs" />

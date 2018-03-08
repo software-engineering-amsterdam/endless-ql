@@ -10,9 +10,6 @@ import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.LogHandler;
 import org.uva.ql.validation.Validator;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -24,9 +21,7 @@ public class App {
         LogManager.getLogManager().reset();
         logger.addHandler(new LogHandler());
 
-
-        String input = readFile("input/default.ql");
-
+        String input = new InputHandler().readFile("input/default.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
@@ -36,17 +31,6 @@ public class App {
         FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
 
         GUIHandler guiHandler = new GUIHandler(formEvaluator);
-
-    }
-
-    private String readFile(String location) {
-        try {
-            byte[] a = Files.readAllBytes(Paths.get(location));
-            return new String(a);
-        } catch (IOException e) {
-            System.out.println("Error reading file: " + e);
-        }
-        return null;
     }
 
     public static void main(String[] args) {

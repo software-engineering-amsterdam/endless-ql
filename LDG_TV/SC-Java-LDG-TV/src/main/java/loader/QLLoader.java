@@ -14,6 +14,7 @@ import java.util.List;
 
 public class QLLoader extends FormBaseListener {
     private FormNode formNode;
+
     private List<Variable> conditionsHolder;
     private QLChecker qlChecker;
     private Variable constructedVariable;

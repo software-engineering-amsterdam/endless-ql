@@ -8,6 +8,10 @@ import domain.Utilities;
 import domain.model.Question;
 import domain.model.variable.Variable;
 import domain.model.visitor.UIVisitor;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,14 +21,14 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QLLoader;
-import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.*;
 import java.net.URL;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ToolController implements Initializable {
 
@@ -32,7 +36,9 @@ public class ToolController implements Initializable {
     private TextArea taSourceCode;
 
     @FXML
-    private ListView<HBox> lvQuestionnaire;
+    private ListView<Row> lvQuestionnaire;
+
+    private List<Row> data = new ArrayList<>();
 
     public ToolController() {
         System.out.println("Class initialized");
@@ -49,10 +55,10 @@ public class ToolController implements Initializable {
     public void generateQuestionnaire(ActionEvent event) {
         String qlSource = taSourceCode.getText();
 
-        if(qlSource.isEmpty()){
-            showAlertBox("Please import or add QL code");
-            return;
-        }
+//        if(qlSource.isEmpty()){
+//            showAlertBox("Please import or add QL code");
+//            return;
+//        }
 
         lvQuestionnaire.getItems().clear();
 
@@ -69,14 +75,33 @@ public class ToolController implements Initializable {
         FormData data = node.getFormData();
 
 
-        List<Question> qs = data.getAllQuestions();
-        UIVisitor v = new UIVisitor();
-        for (Question q : qs) {
-            Variable qv =  q.getVariable();
-            String qText = q.getText();
-            Node answerNode = qv.getRelatedUIElement(v);
-            lvQuestionnaire.getItems().add(new QuestionRow(qText, answerNode));
-        }
+//
+//
+//        List<Question> qs = data.getAllQuestions();
+//        UIVisitor v = new UIVisitor();
+//        for (Question q : qs) {
+//            Variable qv =  q.getVariable();
+//            String qText = q.getText();
+//            Node answerNode = qv.getRelatedUIElement(v);
+//            lvQuestionnaire.getItems().add(new QuestionRow(qText, answerNode));
+//
+//        }
+
+
+        this.lvQuestionnaire.getItems().setAll(dummyRows());
+    }
+
+
+    private List<Row> dummyRows(){
+        QuestionRow row1_1 = new QuestionRow("Man or woman", new TextField(), true);
+        QuestionRow row1_2 = new QuestionRow("Where do you work?", new TextField(), true);
+
+        IfRow row1 = new IfRow("Older than 18?", new CheckBox(), Arrays.asList(row1_1, row1_2));
+
+        row1_1.visibleProperty().bindBidirectional(row1.selectedProp());
+        row1_2.visibleProperty().bindBidirectional(row1.selectedProp());
+
+        return Arrays.asList(row1, row1_1, row1_2);
     }
 
     /**

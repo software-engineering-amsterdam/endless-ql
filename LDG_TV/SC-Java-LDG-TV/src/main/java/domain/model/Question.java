@@ -19,6 +19,8 @@ public class Question {
         return variable;
     }
 
+
+
     @Override
     public String toString() {
         return this.text;

@@ -1,6 +1,6 @@
 import {Form, Question, QuestionType} from './';
-import {CheckboxQuestion} from '../angular-questions/question-checkbox';
-import {TextboxQuestion} from '../angular-questions/question-textbox';
+import {CheckboxQuestion} from '../angular-questions/checkbox-question';
+import {TextboxQuestion} from '../angular-questions/textbox-question';
 import {Statement} from '../ast/index';
 import {If} from './if';
 import {FormControl, FormGroup} from '@angular/forms';

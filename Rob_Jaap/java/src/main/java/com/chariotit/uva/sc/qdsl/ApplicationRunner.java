@@ -49,6 +49,8 @@ public class ApplicationRunner implements CommandLineRunner {
 
         QLFormBuilder builder = new QLFormBuilder();
 
+        builder.addQuestion("Test question");
+
         builder.showForm();
 
         // AST is initialised here.

@@ -10,6 +10,9 @@ class TypeDate(Type):
     def __repr__(self):
         return 'date'
 
+    def __eq__(self, other):
+        return type(self) == type(other)
+
     @staticmethod
     def pyqt5_default_widget():
         return CalendarWidget()

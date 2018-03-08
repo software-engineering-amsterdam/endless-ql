@@ -19,49 +19,6 @@ public class QLFrame extends JFrame {
         setDefaultSize(36);
     }
 
-    public QLFrame() {
-
-        // used for scaling on 4K monitors
-        setDefaultSize(36);
-
-//        addQuestion("What is your name?");
-//        addQuestion("Do you own a house?");
-//        addQuestion("Do you have children?");
-//
-//        JPasswordField ps=new JPasswordField(10);
-//
-//        JButton but=new JButton();
-//        but.setText("Submit");
-//        add(ps);
-//        add(but);
-//
-//
-//        but.addActionListener( new ActionListener(){
-//            public void actionPerformed( ActionEvent e){
-////                l.setText("Button clicked");
-//                System.out.println("Clicked on the button");
-//            }
-//        });
-//
-////        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-//
-//        setLayout(new FlowLayout());
-//        setSize(1000,1600);
-//        setVisible(true);
-//        setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-    }
-
-//    public void addQuestion(String question) {
-//        JLabel label = new JLabel();
-//        label.setText(question);
-//        JTextField txt = new JTextField();
-//        txt.setText("Dit is een test");
-//
-//        add(label);
-//        add(txt);
-//    }
-
     public static void setDefaultSize(int size) {
 
         Set<Object> keySet = UIManager.getLookAndFeelDefaults().keySet();

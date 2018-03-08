@@ -11,8 +11,24 @@ stylesheet
 
 page: 'page' ID OPEN_BRACKET * CLOSE_BRACKET;
 
-section:
+section: 'section' STRING OPEN_BRACKET * CLOSE_BRACKET;
 
+segment: question
+       | section
+       ;
+
+question: 'question' ID widget*;
+
+widget: 'widget' widgetType style*;
+
+widgetType: 'slider'
+          | 'spinbox'
+          | 'text'
+          | 'radio'
+          | 'checkbox'
+          ;
+
+style: OPEN_BRACKET * CLOSE_BRACKET;
 
 
 

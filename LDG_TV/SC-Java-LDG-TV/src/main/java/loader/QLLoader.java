@@ -65,6 +65,8 @@ public class QLLoader extends FormBaseListener {
             case "string":
                 constructedVariable = new StringVariable(ctx.variable().getText());
                 break;
+            default:
+
         }
     }
     @Override

@@ -1,5 +1,6 @@
 package org.uva.sea.gui.model;
 
+import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
 import org.uva.sea.ql.interpreter.dataObject.QuestionData;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.BooleanValue;
 
@@ -13,11 +14,7 @@ public class BooleanQuestionModel extends BaseQuestionModel {
     }
 
     public boolean getBasicValue() {
-        if (value != null) {
-            return value.getBooleanValue();
-        } else {
-            return false;
-        }
+        return value != null && value.getBooleanValue();
     }
 
     @Override
@@ -27,10 +24,6 @@ public class BooleanQuestionModel extends BaseQuestionModel {
 
     @Override
     public String displayValue() {
-        if (value != null) {
-            return String.valueOf(value.getBooleanValue());
-        } else {
-            return "No value";
-        }
+        return value != null ? String.valueOf(value.getBooleanValue()) : "No value";
     }
 }

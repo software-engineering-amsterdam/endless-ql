@@ -43,7 +43,7 @@ public class MoneyQuestionModel extends BaseQuestionModel {
         if (value != null) {
             return String.valueOf(value.getAmount() + " " + value.getCurrency());
         } else {
-            return "No valueTypes";
+            return "No value";
         }
     }
 }

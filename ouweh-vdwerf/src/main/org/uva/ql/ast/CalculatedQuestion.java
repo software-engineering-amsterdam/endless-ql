@@ -8,7 +8,7 @@ public class CalculatedQuestion extends Question {
     private Expression expression;
 
     public CalculatedQuestion(String name, String content, Type type, Expression expression) {
-        super(name,content,type);
+        super(name, content, type);
         this.expression = expression;
     }
 

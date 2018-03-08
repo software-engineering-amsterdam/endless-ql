@@ -16,7 +16,7 @@ export class TypeCheckError extends FormError {
 
   static make(expectedType: string, receivedType: string, message?: string) {
     if (typeof message === 'undefined') {
-      message = `Type check failed. Expected "${expectedType}" but received "${receivedType}.`;
+      message = `Type check failed. Expected "${expectedType}" but received "${receivedType}".`;
     }
 
     const error = new TypeCheckError(message);

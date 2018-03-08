@@ -1,18 +1,22 @@
 package Visitor;
 
-import ParseObjects.Question;
-import ParseObjects.Condition;
-import ParseObjects.Block;
-import ParseObjects.Form;
+import ParseObjects.*;
 import antlrGen.QLBaseVisitor;
 import antlrGen.QLParser;
 
-import java.util.ArrayList;
+public class FormVisitor extends QLBaseVisitor<Form> {
+    private ExpressionTable expressionTable;
 
-public class FormVisitor extends QLBaseVisitor<Form> {    @Override
+    public FormVisitor(ExpressionTable exprTable){
+        super();
+        this.expressionTable = exprTable;
+    }
+
+    @Override
     public Form visitHead(QLParser.HeadContext ctx) {
-        BlockVisitor blockVisitor = new BlockVisitor();
+        BlockVisitor blockVisitor = new BlockVisitor(expressionTable);
         Block block = blockVisitor.visitBlock(ctx.block());
+
         return new Form(ctx.IDENTIFIER().getText(), block);
     }
 }

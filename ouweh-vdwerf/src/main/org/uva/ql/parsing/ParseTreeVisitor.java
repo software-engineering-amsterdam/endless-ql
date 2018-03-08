@@ -12,7 +12,8 @@ import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.ast.expression.unary.StringLiteral;
 import org.uva.ql.ast.type.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ParseTreeVisitor extends QLBaseVisitor {
 
@@ -21,7 +22,7 @@ public class ParseTreeVisitor extends QLBaseVisitor {
         String formId = ctx.id.getText();
         List<Statement> statements = new ArrayList<>();
 
-        for(QLParser.StatementContext statementContext : ctx.statement()){
+        for (QLParser.StatementContext statementContext : ctx.statement()) {
             statements.add((Statement) visit(statementContext));
         }
         return new Form(formId, statements);
@@ -31,9 +32,9 @@ public class ParseTreeVisitor extends QLBaseVisitor {
     public TreeNode visitQuestion(QLParser.QuestionContext ctx) {
         String questionName = ctx.ID().getText();
         String questionContent = ctx.text.getText();
-        Type questionType = (Type)visit(ctx.type());
+        Type questionType = (Type) visit(ctx.type());
 
-        if(ctx.calculatedValue() != null){
+        if (ctx.calculatedValue() != null) {
             Expression calculation = (Expression) visit(ctx.calculatedValue());
             return new CalculatedQuestion(questionName, questionContent, questionType, calculation);
         } else {
@@ -93,10 +94,10 @@ public class ParseTreeVisitor extends QLBaseVisitor {
     }
 
     @Override
-    public TreeNode visitComparation(QLParser.ComparationContext ctx){
+    public TreeNode visitComparation(QLParser.ComparationContext ctx) {
         String operation = ctx.op.getText();
 
-        switch (operation){
+        switch (operation) {
             case ">":
                 return new GreaterThan((Expression) visit(ctx.left), (Expression) visit(ctx.right));
             case "<":
@@ -164,7 +165,7 @@ public class ParseTreeVisitor extends QLBaseVisitor {
 
     @Override
     public TreeNode visitCalculatedValue(QLParser.CalculatedValueContext ctx) {
-        return (Expression)visit(ctx.expression());
+        return (Expression) visit(ctx.expression());
     }
 
     @Override

@@ -8,6 +8,7 @@ import Alert from "reactstrap/lib/Alert";
 import { getParserErrorMessage } from "./parsing/parsing_helpers";
 import { QlParserPipeline, QlParserResult } from "./parsing/QlParserPipeline";
 import FormState from "./form/state/FormState";
+import { QlsTest } from "./modules/styling/rendering/components/qls_test/QlsTest";
 
 export interface AppComponentProps {
 }
@@ -106,6 +107,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
           <h1>NEWSKQL</h1>
           <div className="row ql-sample-output">
             <div className="col-md-6">
+              <QlsTest/>
               <Input
                   valid={!this.state.parserError}
                   type="textarea"

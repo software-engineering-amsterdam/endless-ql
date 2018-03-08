@@ -13,7 +13,7 @@ import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.ql.interpreter.exceptions.EvaluationException;
 import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.interpreter.evaluate.SymbolTable;
-import org.uva.sea.ql.interpreter.visitor.BaseValueVisitor;
+import org.uva.sea.ql.parser.visitor.BaseValueVisitor;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

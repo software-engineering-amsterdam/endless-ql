@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import {TypeError} from '../errors';
 import {Location} from './location';
 import {Expression, LiteralType} from './expressions/expression';
-import {ExpressionType} from './expressions/expression-type';
+import {ExpressionType, ExpressionTypeUtil} from './expressions/expression-type';
 import {Variable} from './expressions/variable';
 
 export class If extends Statement {
@@ -26,10 +26,12 @@ export class If extends Statement {
   }
 
   checkType(allQuestions: Question[]): void {
+    const expressionType = this.condition.checkType(allQuestions);
 
     // throw errors if it is not available or if the type is wrong
-    if (this.condition.checkType(allQuestions) !== ExpressionType.BOOLEAN) {
-      throw new TypeError(`Expected type boolean for ${this.condition} for usage in if statement ` + this.getLocationErrorMessage());
+    if (expressionType !== ExpressionType.BOOLEAN) {
+      throw new TypeError(`Expected type boolean for ${ExpressionTypeUtil.toString(expressionType)} for usage in if statement `
+        + this.getLocationErrorMessage());
     }
   }
 

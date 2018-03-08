@@ -21,5 +21,7 @@ namespace QuestionnaireUI
 
         public QuestionnaireModel Model { get; set; }
         public string Name => Model.Name;
+        public Guid Id => Model.Id;
+        public string DisplayValue => "Placeholder Name";
     }
 }

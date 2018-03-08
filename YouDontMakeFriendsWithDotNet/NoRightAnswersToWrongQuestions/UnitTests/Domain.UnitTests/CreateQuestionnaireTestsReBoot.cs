@@ -4,6 +4,7 @@ using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using QuestionaireDomain.Entities;
 using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.API.AstNodes;
 using QuestionaireDomain.Entities.API.AstNodes.Boolean;
@@ -29,6 +30,7 @@ namespace UnitTests.Domain.UnitTests
         {
             var services = new ServiceCollection();
             services.AddModule(new AntlrModule());
+            services.AddModule(new EntitiesModule());
             services.AddModule(new DomainLogicModule());
             m_serviceProvider = services.BuildServiceProvider();
             m_domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();

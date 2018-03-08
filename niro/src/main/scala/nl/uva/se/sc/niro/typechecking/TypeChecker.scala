@@ -179,10 +179,9 @@ object TypeChecker extends Logging {
       questions.groupBy(_.label).valuesIterator.filter(_.size > 1).toList
 
     val warnings = questionsWithDuplicateLabels
-      .map(
-        qg =>
+      .map(duplicates =>
           Warning(
-            s"Warning: questions ${qg.map(_.id).mkString(", ")} have duplicate label: ${qg.head.label}"
+            s"Warning: questions ${duplicates.map(_.id).mkString(", ")} have duplicate label: ${duplicates.head.label}"
         ))
 
     qLForm.copy(warnings = warnings)

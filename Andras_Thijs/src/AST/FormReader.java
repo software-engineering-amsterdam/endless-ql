@@ -5,6 +5,7 @@ import AST.gen.*;
 import Nodes.Operator.*;
 import Nodes.Term.Boolean;
 import Nodes.Term.Float;
+import Nodes.Term.Integer;
 import Nodes.Term.QLString;
 import Nodes.Term.Term;
 import Nodes.Term.Variable;
@@ -212,13 +213,15 @@ public class FormReader {
                 return new Variable((String) variable.toString());
 
             if(integer != null)
-                System.out.println("Term is integer"); //TODO create Integer class
+                return new Integer((java.lang.Integer.parseInt(integer.toString())));
 
             if(decimal != null)
                 return new Float((java.lang.Float.parseFloat(decimal.toString())));
 
 
-            return new Boolean(true); //TODO return fitting value
+            // TODO throw error
+
+            return new Boolean(true);
         }
 
     }
@@ -244,6 +247,18 @@ public class FormReader {
 
         @Override
         public Operator visitOperator(@NotNull QLParser.OperatorContext ctx) {
+
+            QLParser.BooloperatorContext booloperatorContext = ctx.booloperator();
+            QLParser.EqualoperatorContext equaloperatorContext = ctx.equaloperator();
+            QLParser.ComparisionContext comparisionContext = ctx.comparision();
+
+            if(booloperatorContext != null){
+                System.out.println(booloperatorContext.getText());
+            }
+
+
+
+
             return new Exponent(); //TODO return fitting operator
         }
 

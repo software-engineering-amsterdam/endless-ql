@@ -32,8 +32,7 @@ questionAssign returns [Question result]
 		 $result.Value = $value.result;}
 	| questionNorm ASSIGN expression
 		{$result = $questionNorm.result;
-		 $result.Computed = true;
-		 $result.Expression = $expression.result;}
+		 $result.Computation = $expression.result;}
 	;
 questionNorm returns [Question result]
 	: STRING ID SEP BOOLEAN_TYPE

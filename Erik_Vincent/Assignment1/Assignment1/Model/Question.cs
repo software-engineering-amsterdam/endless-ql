@@ -8,13 +8,14 @@ namespace Assignment1.Model
         public string Label { get; }
         public dynamic Value
         {
-            get => Computed ? Expression.Evaluate() : _value;
+            get => Computed ? Computation.Evaluate() : _value;
             set => _value = value;
         }
 
         private dynamic _value;
-        public Expression Expression;
-        public bool Computed;
+        public Expression Computation;
+        public bool Computed => Computation != null;
+        public Expression Condition;
 
         protected Question(string id, string label)
         {

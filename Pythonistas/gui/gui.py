@@ -32,14 +32,16 @@ class MainWindow(QWidget):
         # self.outputlayout = QGridLayout()
         # self.outputFrame.setLayout(self.outputlayout)
 
-
         # Initialize inputFrame
         self.inputFrame = QFrame()
         self.inputlayout = QGridLayout()
         self.inputFrame.setLayout(self.inputlayout)
+        self.inputFrame.resize(10000,100)
         # Creates textbox
         self.inputlayout.addWidget(QLabel("Input your QL text here"))
         self.qlInput = QTextEdit()
+        # self.qlInput.resize(10000,10000)
+        # self.qlInput.textChanged.connect(self.qlInput.sizeChange())
         self.inputlayout.addWidget(self.qlInput)
 
         # Adds parse button
@@ -53,7 +55,6 @@ class MainWindow(QWidget):
         self.quitbutton.clicked.connect(QApplication.instance().quit)
         self.quitbutton.resize(self.quitbutton.sizeHint())
         self.inputlayout.addWidget(self.quitbutton)
-
 
         self.splitter = QSplitter(Qt.Horizontal)
         self.splitter.addWidget(self.inputFrame)
@@ -129,7 +130,6 @@ class MainWindow(QWidget):
             textbox.answer = textbox.text()
             textbox.question = question
             textbox.textEdited.connect(self.write_answer)
-            textbox.textEdited
             self.outputlayout.addWidget(textbox, self.row, 1)
 
         self.row += 1
@@ -143,19 +143,11 @@ class MainWindow(QWidget):
             pass
         self.answers[self.questions.index(sender.question)] = sender.answer
 
-    def add_close_button(self):
-        # todo: fix bug: clear inputscreen when close is pushed (parse -> close -> parse)
-        close_button = QPushButton('Close', self)
-        close_button.clicked.connect(self.close)
-        close_button.resize(close_button.sizeHint())
-        self.outputlayout.addWidget(close_button)
-        # self.row +=1
-
     def add_submit_button(self):
-        submit_button = QPushButton('Submit', self)
-        submit_button.clicked.connect(self.submit)
-        submit_button.resize(submit_button.sizeHint())
-        self.outputlayout.addWidget(submit_button,self.row,1)
+        self.submit_button = QPushButton('Submit', self)
+        self.submit_button.clicked.connect(self.submit)
+        self.submit_button.resize(self.submit_button.sizeHint())
+        self.outputlayout.addWidget(self.submit_button,self.row,1)
 
     def submit(self):
         # Writes answers to txt

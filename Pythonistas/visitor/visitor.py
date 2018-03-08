@@ -11,7 +11,7 @@ def listen(tree, outputWindow):
 
 
 def visit(tree, outputWindow):
-    print(tree.toStringTree())
+    # print(tree.toStringTree())
     ql = QLVisitor(outputWindow)
     walker = ParseTreeVisitor()
     walker.visit(tree)
@@ -41,8 +41,8 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#question.
     def enterQuestion(self, ctx:QLParser.QuestionContext):
-        print('Found Question')
-        print(ctx.getText())
+        # print('Found Question')
+        # print(ctx.getText())
         self.outputWindow.add_question(ctx.getText())
 
     # Exit a parse tree produced by QLParser#question.
@@ -59,8 +59,9 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#declaration.
     def enterDeclaration(self, ctx: QLParser.DeclarationContext):
-        print('Found Declaration')
-        print(ctx.getText())
+        # print('Found Declaration')
+        # print(ctx.getText())
+        pass
 
     # Exit a parse tree produced by QLParser#declaration.
     def exitDeclaration(self, ctx: QLParser.DeclarationContext):
@@ -68,8 +69,9 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#type_declaration.
     def enterType_declaration(self, ctx: QLParser.Type_declarationContext):
-        print('Found Type_declaration')
-        print(ctx.getText())
+        # print('Found Type_declaration')
+        # print(ctx.getText())
+        pass
 
     # Exit a parse tree produced by QLParser#type_declaration.
     def exitType_declaration(self, ctx: QLParser.Type_declarationContext):
@@ -77,8 +79,9 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#if_conditional.
     def enterIf_conditional(self, ctx:QLParser.If_conditionalContext):
-        print('Found if')
-        print(ctx.getText())
+        # print('Found if')
+        # print(ctx.getText())
+        pass
 
     # Exit a parse tree produced by QLParser#if_conditional.
     def exitIf_conditional(self, ctx:QLParser.If_conditionalContext):

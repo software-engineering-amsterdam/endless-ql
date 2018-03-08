@@ -5,8 +5,8 @@ import ast.model.expressions.unary.UnaryExpression;
 import ast.visitors.ASTNodeVisitor;
 
 public class Minus extends UnaryExpression{
-    public Minus(Expression expression, Integer startLine, Integer endLine) {
-        super(expression, startLine, endLine);
+    public Minus(Expression expression, MetaInformation metaInformation) {
+        super(expression, metaInformation);
     }
 
     @Override

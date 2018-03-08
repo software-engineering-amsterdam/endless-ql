@@ -1,10 +1,10 @@
 # Jordy Bottelier & Dennis Kruidenberg
 #
-# GUI class; 
+# GUI class;
 #
-# Each form gets its own frame. Each form_frame consists of a header frame, and a questions frame. 
+# Each form gets its own frame. Each form_frame consists of a header frame, and a questions frame.
 # The header simply contains the title, and the questions frame contains all of the questions defined
-# by the programmer. 
+# by the programmer.
 #
 # Each question has 2 frames, namely the label frame and the input frame (text and input)
 #
@@ -19,27 +19,33 @@ from .form_question import Question
 
 class Gui:
 
-    def __init__(self):
+    def __init__(self, ast):
         self.gui = Tk()
         self.mainframe = create_frame(self.gui, background='pink')
         self.mainframe.pack(expand=True, fill='both')
-        self.forms = {}
+        self.form = None
+        self.ast = ast
+        self.varDict = ast.varDict
+        self.questionsGenerator = Question_Generator(self.varDict, self.ast)
+        self.questions = self.questionsGenerator.getQuestionsFromAst()
+        self.create_form()
+        self.execute()
 
     # Upon creating a new form, create a new frame which is a child from the mainframe.
     # For every form, create the header frame and questions frame and fill the questions frame
     # with questions
-    def create_form(self, header="No Header Text", questions=["Wie is je moeder", "sup", "daaag"], qtypes=[int, int, int]):
-        form = FormGui(self.mainframe, header)
+    def create_form(self):
+        form = FormGui(self.mainframe, self.ast.getName())
         content_frame = form.get_contents()
         # sfg = ScrollFrameGui(content_frame)
-        q = Question(content_frame)
-        for q in range(0, len(questions)):
-            form.add_question(questions[q], qtypes[q])
-        self.forms[header] = form
+
+        for q in range(0, 30):
+            form.add_question()
+            # q = Question(sfg_content)
+        self.form = form
 
         b = Button(self.mainframe, text="OK", command=self.collect_answers)
         b.pack()
-
 
     # Execute the GUI
     def execute(self):
@@ -47,7 +53,5 @@ class Gui:
         self.gui.mainloop()
 
     def collect_answers(self):
-        answers = {}
-        for f in self.forms:
-            answers[self.forms[f].get_text()] = self.forms[f].get_answers()
+        answers = self.form.get_answers()
         print(answers)

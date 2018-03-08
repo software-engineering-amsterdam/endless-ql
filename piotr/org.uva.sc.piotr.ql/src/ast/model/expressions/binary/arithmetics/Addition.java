@@ -5,8 +5,8 @@ import ast.model.expressions.binary.BinaryExpression;
 import ast.visitors.ASTNodeVisitor;
 
 public class Addition extends BinaryExpression {
-    public Addition(Expression leftSide, Expression rightSide, Integer startLine, Integer endLine) {
-        super(leftSide, rightSide, startLine, endLine);
+    public Addition(Expression leftSide, Expression rightSide, MetaInformation metaInformation) {
+        super(leftSide, rightSide, metaInformation);
     }
 
     @Override

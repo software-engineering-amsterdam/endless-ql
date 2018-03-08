@@ -1,9 +1,6 @@
 import {QuestionBase} from '../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
-import {CheckboxQuestion} from '../angular-questions/checkbox-question';
-import {TextboxQuestion} from '../angular-questions/textbox-question';
 import {QuestionType, QuestionTypeUtil} from './question-type';
-import {Statement} from './statement';
 import {Question} from './question';
 import {Location} from './location';
 import {Expression} from './expressions/expression';
@@ -11,6 +8,7 @@ import {ExpressionType, ExpressionTypeUtil} from './expressions/expression-type'
 import {CircularDependencyError, UnsupportedTypeError} from '../errors';
 import * as _ from 'lodash';
 import {Variable} from './expressions/variable';
+import {QuestionFactory} from '../../factories/question-factory';
 
 export class ExpressionQuestion extends Question {
   constructor(name: string, label: string, type: QuestionType, public expression: Expression, location: Location) {
@@ -39,29 +37,10 @@ export class ExpressionQuestion extends Question {
 
   toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
                  condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
-    const options = {
-      key: this.name,
-      label: this.label,
-      type: Statement.toHtmlInputType(this.type),
-      value: undefined,
-      hiddenCondition: condition,
-      calculateValue: (form: FormGroup) => this.expression.evaluate(form),
-      readonly: true
-    };
 
-    let formQuestionsToReturn: QuestionBase<any>[] = [];
-    // make a checkbox for a boolean, else make an input
-    switch (this.type) {
-      case QuestionType.BOOLEAN: {
-        formQuestionsToReturn = [new CheckboxQuestion(options)];
-        break;
-      }
-      default: {
-        formQuestionsToReturn = [new TextboxQuestion(options)];
-      }
-    }
-
-    return formQuestionsToReturn;
+    const question = QuestionFactory.toFormQuestion(this, condition);
+    question.toCalculatedQuestion((form: FormGroup) => this.expression.evaluate(form));
+    return [question];
   }
 
   // TODO: look at switch statement!

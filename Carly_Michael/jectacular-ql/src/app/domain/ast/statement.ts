@@ -11,7 +11,6 @@ import {Variable} from './expressions/variable';
   protected static toHtmlInputType(type: QuestionType): string {
     switch (type) {
       case QuestionType.INT : return 'number';
-      case QuestionType.DECIMAL: return 'number';
       case QuestionType.BOOLEAN: return 'boolean';
       case QuestionType.STRING: return 'text';
       case QuestionType.DATE: return 'date';

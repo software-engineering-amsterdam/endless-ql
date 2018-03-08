@@ -172,6 +172,7 @@
     <Compile Include="Domain.UnitTests\TestData.cs" />
     <Compile Include="Orchestration.UnitTests\CreateQuestionnaireCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI.UnitTests\BasicTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -197,6 +198,10 @@
     <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
       <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>
       <Name>QuestionnaireInfrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QuestionnaireUI\QuestionnaireUI.csproj">
+      <Project>{AAB9C576-34E5-4CBA-88D1-4E8674E3C117}</Project>
+      <Name>QuestionnaireUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro.gui
 
 import javafx.scene.control.Control
-import nl.uva.se.sc.niro.model.Expressions.Expression
-import nl.uva.se.sc.niro.model.Expressions.answers.BooleanAnswer
+import nl.uva.se.sc.niro.model.expressions.Expression
+import nl.uva.se.sc.niro.model.expressions.answers.BooleanAnswer
 import nl.uva.se.sc.niro.model.{ Conditional, QLForm, Question, Statement }
 
 object GUIFactory {

@@ -14,9 +14,9 @@ import java.util.Map;
 
 public class ParameterChecker extends Checker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
 
+    private final String ERROR_MESSAGE = "Referenced parameter does not exist: ";
     private SymbolTable symbolTable;
     private Map<String, List<Parameter>> expressions;
-    private final String ERROR_MESSAGE = "Referenced parameter does not exist: ";
 
     ParameterChecker(Form form, SymbolTable symbolTable) {
         this.symbolTable = symbolTable;

@@ -19,23 +19,26 @@ from .form_question import Question
 
 class Gui:
 
-    def __init__(self):
+    def __init__(self, varDict, questions):
         self.gui = Tk()
         self.mainframe = create_frame(self.gui, background='pink')
         self.mainframe.pack(expand=True, fill='both')
-        self.forms = {}
+        self.form = None
+        self.varDict = varDict
+        self.questions = questions
+        
 
     # Upon creating a new form, create a new frame which is a child from the mainframe.
     # For every form, create the header frame and questions frame and fill the questions frame
     # with questions
-    def create_form(self, header="No Header Text", questions=["Wie is je moeder", "sup", "daaag"], qtypes=[int, int, int]):
+    def create_form(self):
         form = FormGui(self.mainframe, header)
         content_frame = form.get_contents()
         # sfg = ScrollFrameGui(content_frame)
         q = Question(content_frame)
-        for q in range(0, len(questions)):
-            form.add_question(questions[q], qtypes[q])
-        self.forms[header] = form
+        # for q in range(0, len(questions)):
+        #     form.add_question(questions[q], qtypes[q])
+        self.form = form
 
         b = Button(self.mainframe, text="OK", command=self.collect_answers)
         b.pack()
@@ -47,7 +50,5 @@ class Gui:
         self.gui.mainloop()
 
     def collect_answers(self):
-        answers = {}
-        for f in self.forms:
-            answers[self.forms[f].get_text()] = self.forms[f].get_answers()
+        answers = self.form.get_answers()
         print(answers)

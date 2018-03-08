@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 
 public class Validator {
 
-    private ArrayList<Checker> checkers = new ArrayList<>();
     private final LogHandler handler;
+    private ArrayList<Checker> checkers = new ArrayList<>();
 
     public Validator(Form form) {
         QuestionChecker questionChecker = new QuestionChecker(form);
@@ -28,7 +28,7 @@ public class Validator {
 
     public void run() {
         for (Checker checker : checkers) {
-            if(handler.hasErrors()) {
+            if (handler.hasErrors()) {
                 break;
             }
             checker.runCheck();

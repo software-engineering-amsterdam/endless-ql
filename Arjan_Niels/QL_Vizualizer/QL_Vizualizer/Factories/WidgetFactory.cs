@@ -38,6 +38,9 @@ namespace QL_Vizualizer.Factories
                     // Return widget as array
                     return new QLWidget[] { CreateWidget(node as QuestionNode, condition) };
 
+                case NodeType.COMPUTED:
+                    return new QLWidget[] { CreateComputedWidget(node as ComputedNode, condition, widgetController) };
+
                 case NodeType.LOGICAL_EXPRESSION:
                     break;
 
@@ -56,7 +59,6 @@ namespace QL_Vizualizer.Factories
         /// <returns>Parsed widget</returns>
         private static QLWidget CreateWidget(QuestionNode questionNode, ExpressionBool condition)
         {
-
             switch (questionNode.ValueType)
             {
                 case QValueType.BOOLEAN:
@@ -69,6 +71,29 @@ namespace QL_Vizualizer.Factories
                     return new QLWidgetMoney(questionNode.ID, questionNode.Text, condition);
             }
             throw new InvalidOperationException("Unsupported type: " + questionNode.ValueType);
+        }
+
+        /// <summary>
+        /// Creates widget with computed value
+        /// </summary>
+        /// <param name="node">Node</param>
+        /// <param name="condition">Condition of widget</param>
+        /// <param name="widgetController">Widget controller</param>
+        /// <returns></returns>
+        private static QLWidget CreateComputedWidget(ComputedNode node, ExpressionBool condition, WidgetController widgetController)
+        {
+            ExpressionFactory expressionFactory = new ExpressionFactory(widgetController);
+            ExpressionValue expression = expressionFactory.ParseExpressionNode(node.Expression);
+            switch (node.Expression.GetQValueType())
+            {
+                case QValueType.BOOLEAN:
+                    return new QLWidgetBool(node.ID, node.Text, condition, expression as ExpressionBool);
+                case QValueType.INTEGER:
+                    return new QLWidgetInt(node.ID, node.Text, condition, expression as ExpressionInt);
+                case QValueType.MONEY:
+                    return new QLWidgetMoney(node.ID, node.Text, condition, expression as ExpressionDouble);
+            }
+            throw new NotImplementedException();
         }
     }
 }

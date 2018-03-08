@@ -1,7 +1,7 @@
 package typechecker
 
-import data.BooleanValue
-import data.Question
+import data.value.BooleanValue
+import data.question.Question
 import org.amshove.kluent.shouldEqual
 import org.junit.Test
 

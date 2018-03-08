@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.LogManager;
-
 import java.util.logging.Logger;
 
 
@@ -36,16 +35,15 @@ public class App {
             validator.run();
 
             FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
-            
+
             GUIHandler guiHandler = new GUIHandler(formEvaluator);
 
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             System.out.println(ex.toString());
         }
     }
 
-    public static void main (String [] args) {
+    public static void main(String[] args) {
         new App();
     }
 }

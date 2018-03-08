@@ -6,16 +6,16 @@ import org.uva.ql.ast.expression.ParameterGroup;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.*;
 import org.uva.ql.ast.type.*;
-import org.uva.ql.visitor.*;
+import org.uva.ql.visitor.ExpressionVisitor;
+import org.uva.ql.visitor.StatementVisitor;
+import org.uva.ql.visitor.TypeVisitor;
 
-import java.util.logging.Logger;
+public class TypeChecker extends Checker
+        implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String> {
 
-public class TypeChecker  extends Checker
-        implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String>  {
-
+    private final String ERROR_MESSAGE = "Type checking error at: ";
     private SymbolTable symbolTable;
     private Form form;
-    private final String ERROR_MESSAGE = "Type checking error at: ";
 
     TypeChecker(Form form, SymbolTable symbolTable) {
         this.symbolTable = symbolTable;

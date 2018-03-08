@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import QDialogButtonBox
 from PyQt5.QtWidgets import QFormLayout
 from PyQt5.QtWidgets import QGroupBox
 from PyQt5.QtWidgets import QVBoxLayout
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QLineEdit
 from PyQt5.QtWidgets import QCheckBox
@@ -54,31 +55,21 @@ class Dialog(QDialog):
             key = self.form.find_question_of_widget(child)
 
             if key:
-                result[key] = self.retrieveValue(child)
+                result[key] = child.value()
+
+        print(result)
 
         with open('out.json', 'w') as file:
             file.write(dumps(result))
 
         self.close()
+        QMessageBox.information(self, 'Submission', 'Your answers have been submitted successfully.', QMessageBox.Ok, QMessageBox.Ok)
+        # self.close()
 
     @pyqtSlot()
     def reject(self):
+        # QMessageBox.warning(self, 'Warning', 'Are you sure you want to cancel the questionnaire?', QMessageBox.Ok, QMessageBox.Ok)
         self.hide()
-
-    @staticmethod
-    # TODO find alternative to isinstance
-    def retrieveValue(widget):
-        if isinstance(widget, QCheckBox):
-            return widget.isChecked()
-        elif isinstance(widget, (QSpinBox, QDoubleSpinBox)):
-            return widget.value()
-        elif isinstance(widget, (QLabel, QLineEdit)):
-            return widget.text()
-        elif isinstance(widget, QCalendarWidget):
-            date = widget.selectedDate()
-            return date.day(), date.month(), date.year()
-        else:
-            return
 
 
 if __name__ == '__main__':

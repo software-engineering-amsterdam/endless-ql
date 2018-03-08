@@ -66,6 +66,10 @@ class BinaryNode:
             errorstring = "Unknown operator at line " + str(self.line)
             throwError(errorstring)
 
+    # Return string representation of expression
+    def getName(self):
+        return str(self.left.getName()) + self.op + str(self.right.getName())
+
     # check if both types are numerical (int or float), return true, and if they are not of the same type,
     # return float (small conversion)
     def typeCompareNumOp(self, leftType, rightType):
@@ -121,6 +125,10 @@ class UnaryNode:
     def linkVars(self, varDict):
         self.left.linkVars(varDict)
 
+    # Return string representation of expression
+    def getName(self):
+        return self.op + str(self.left.getName())
+
     def __repr__(self):
         return "Monop: {} {}".format(self.op, self.left)
 
@@ -141,6 +149,10 @@ class LiteralNode:
     # We do not have to modify the dict here, so we can pass this method
     def linkVars(self, varDict):
         pass
+
+    # Return string representation of expression
+    def getName(self):
+        return str(self.value)
 
     def __repr__(self):
         return "literal: {}({}) ".format(self.value, self.type)
@@ -195,6 +207,10 @@ class VarNode:
         except KeyError:
             errorstring = "Invalid default type: " + str(self.type) + "; at line " + str(self.line)
             throwError(errorstring)
+
+    # Return string representation of expression
+    def getName(self):
+        return self.varname
 
     def __repr__(self):
         return "VarNode: {} {}".format(self.varname, self.type)

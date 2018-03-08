@@ -1,9 +1,9 @@
 import FormNode from "../../form/nodes/FormNode";
 import Addition from "../../form/nodes/expressions/arithmetic/Addition";
 import ComputedField from "../../form/nodes/fields/ComputedField";
-import NumberLiteral from "../../form/nodes/expressions/literals/NumberLiteral";
+import NumberLiteral from "../../form/nodes/literals/NumberLiteral";
 import { getFirstFormNode, getFirstStatement } from "./parsing_test_helpers";
-import BooleanLiteral from "../../form/nodes/expressions/literals/BooleanLiteral";
+import BooleanLiteral from "../../form/nodes/literals/BooleanLiteral";
 import Or from "../../form/nodes/expressions/boolean_expressions/Or";
 import IfCondition from "../../form/nodes/conditions/IfCondition";
 import VariableIdentifier from "../../form/nodes/expressions/VariableIdentifier";
@@ -106,6 +106,4 @@ it("does not allow malformed floating numbers", () => {
   expect(() => {
     computedField = getFirstStatement(input);
   }).toThrow(ValueIsNaNError);
-
-
 });

@@ -5,8 +5,8 @@ import org.uva.ql.visitor.ExpressionVisitor;
 
 public class And extends BinaryOperation {
 
-    public And(Expression left, Expression right){
-        super(left,right);
+    public And(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override

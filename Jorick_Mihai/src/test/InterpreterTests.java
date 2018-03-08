@@ -6,25 +6,84 @@ import static org.junit.Assert.fail;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.ast.statements.*;
 import org.uva.jomi.ql.interpreter.BooleanValue;
+import org.uva.jomi.ql.interpreter.GenericValue;
 import org.uva.jomi.ql.interpreter.IntegerValue;
 import org.uva.jomi.ql.interpreter.StringValue;
 import org.uva.jomi.ql.tests.utilities.TestUtilities;
-import org.uva.jomi.ui.QLInterpreter;
+import org.uva.jomi.ui.ExpressionEvaluator;
 import org.uva.jomi.ui.SymbolTable;
 
 public class InterpreterTests {
-	
+
+	private class StmtInterpreter implements Stmt.Visitor<Void> {
+
+		private ExpressionEvaluator exprEvaluator;
+
+		public StmtInterpreter() {
+			exprEvaluator = new ExpressionEvaluator();
+		}
+
+		public void interpret(List<Stmt> statements) {
+			for (Stmt statement : statements) {
+				execute(statement);
+			}
+		}
+
+		private void execute(Stmt stmt) {
+			stmt.accept(this);
+		}
+
+
+		@Override
+		public Void visit(FormStmt stmt) {
+			stmt.visitBlockStmt(this);
+			return null;
+		}
+
+		@Override
+		public Void visit(BlockStmt stmt) {
+			stmt.getStatements().forEach( statement -> statement.accept(this));
+			return null;
+		}
+
+		@Override
+		public Void visit(QuestionStmt stmt) {
+			// TODO Interpret QuestionStmt.
+			return null;
+		}
+
+		@Override
+		public Void visit(ComputedQuestionStmt stmt) {
+			GenericValue value = stmt.getExp().accept(exprEvaluator);
+			String name = stmt.getIdentifierName();
+			SymbolTable.getInstance().put(name, value);
+			return null;
+		}
+
+		@Override
+		public Void visit(IfStmt stmt) {
+			// TODO Interpret IfStmt.
+			return null;
+		}
+
+		@Override
+		public Void visit(IfElseStmt stmt) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+	}
+
 	/*
 	 * The question type should be ignored (the type resolver module in in charge if detecting type inconsistencies).
-	 * The interpreter detects inconsistencies based on the operation type and values of the operands.  
+	 * The interpreter detects inconsistencies based on the operation type and values of the operands.
 	 */
-	
-	QLInterpreter interpreter = new QLInterpreter();
-	
+
+	StmtInterpreter interpreter = new StmtInterpreter();
+
 	// Addition tests.
-	
+
 	String testSource1 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: integer 1 + 2\n"
@@ -36,7 +95,7 @@ public class InterpreterTests {
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(3));
 	}
-	
+
 	String testSource2 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: integer 1\n"
@@ -49,7 +108,7 @@ public class InterpreterTests {
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q2")).getValue().equals(3));
 	}
-	
+
 	String testSource3 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: string \"one\" + \" plus \" + \"two\"\n"
@@ -61,502 +120,502 @@ public class InterpreterTests {
 		interpreter.interpret(ast);
 		assertTrue(((StringValue) SymbolTable.getInstance().get("q1")).getValue().equals("one plus two"));
 	}
-	
+
 	// Subtraction tests.
-	
+
 	String testSource4 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: integer 2 - 1\n"
 			+ "}";
-	
+
 	@Test
 	public void test4() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource4);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(1));
 	}
-	
+
 	String testSource5 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: integer 1 - 2\n"
 			+ "}";
-	
+
 	@Test
 	public void test5() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource5);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(-1));
 	}
-	
+
 	// Multiplication tests.
-	
+
 	String testSource6 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: integer 1 * 2\n"
 			+ "}";
-	
+
 	@Test
 	public void test6() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource6);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(2));
 	}
-	
+
 	String testSource7 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: integer 2 * 4 - 1\n"
 			+ "}";
-	
+
 	@Test
 	public void test7() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource7);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(7));
 	}
-	
+
 	// Division tests.
-	
+
 	String testSource8 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: integer 4 / 2\n"
 			+ "}";
-	
+
 	@Test
 	public void test8() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource8);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(2));
 	}
-	
+
 	String testSource9 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: integer 2 / 4\n"
 			+ "}";
-	
+
 	@Test
 	public void test9() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource9);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(0));
 	}
-	
+
 	// And operation tests.
-	
+
 	String testSource10 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean true && true\n"
 			+ "}";
-	
+
 	@Test
 	public void test10() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource10);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource11 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean false && true\n"
 			+ "}";
-	
+
 	@Test
 	public void test11() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource11);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	String testSource12 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean true && false\n"
 			+ "}";
-	
+
 	@Test
 	public void test12() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource12);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	String testSource13 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean false && false\n"
 			+ "}";
-	
+
 	@Test
 	public void test13() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource13);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	// Or operation tests.
-	
+
 	String testSource14 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean true || true\n"
 			+ "}";
-	
+
 	@Test
 	public void test14() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource14);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource15 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean false || true\n"
 			+ "}";
-	
+
 	@Test
 	public void test15() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource15);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource16 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean true || false\n"
 			+ "}";
-	
+
 	@Test
 	public void test16() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource16);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource17 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean false || false\n"
 			+ "}";
-	
+
 	@Test
 	public void test17() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource17);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	// Less than operation tests.
-	
+
 	String testSource18 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 1 < 2\n"
 			+ "}";
-	
+
 	@Test
 	public void test18() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource18);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource19 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 2 < 1\n"
 			+ "}";
-	
+
 	@Test
 	public void test19() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource19);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	String testSource20 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 2 < 2\n"
 			+ "}";
-	
+
 	@Test
 	public void test20() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource20);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	// Less than or equal operation tests.
-	
+
 	String testSource21 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 1 <= 2\n"
 			+ "}";
-	
+
 	@Test
 	public void test21() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource21);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource22 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 2 <= 1\n"
 			+ "}";
-	
+
 	@Test
 	public void test22() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource22);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	String testSource23 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 2 <= 2\n"
 			+ "}";
-	
+
 	@Test
 	public void test23() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource23);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	// Greater than operation tests.
-	
+
 	String testSource24 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 1 > 2\n"
 			+ "}";
-	
+
 	@Test
 	public void test24() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource24);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	String testSource25 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 2 > 1\n"
 			+ "}";
-	
+
 	@Test
 	public void test25() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource25);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource26 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 2 > 2\n"
 			+ "}";
-	
+
 	@Test
 	public void test26() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource26);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	// Greater than or equal operation tests.
-	
+
 	String testSource27 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 1 >= 2\n"
 			+ "}";
-	
+
 	@Test
 	public void test27() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource27);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	String testSource28 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 2 >= 1\n"
 			+ "}";
-	
+
 	@Test
 	public void test28() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource28);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource29 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 2 >= 2\n"
 			+ "}";
-	
+
 	@Test
 	public void test29() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource29);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	// Equal operation tests.
-	
+
 	String testSource30 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 1 == 1\n"
 			+ "}";
-	
+
 	@Test
 	public void test30() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource30);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource31 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 1 == 2\n"
 			+ "}";
-	
+
 	@Test
 	public void test31() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource31);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	String testSource32 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean true == false\n"
 			+ "}";
-	
+
 	@Test
 	public void test32() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource32);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	String testSource33 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean true == true\n"
 			+ "}";
-	
+
 	@Test
 	public void test33() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource33);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource34 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean false == false\n"
 			+ "}";
-	
+
 	@Test
 	public void test34() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource34);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource35 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean \"one\" == \"one\"\n"
 			+ "}";
-	
+
 	@Test
 	public void test35() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource35);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource36 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean \"one\" == \"two\"\n"
 			+ "}";
-	
+
 	@Test
 	public void test36() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource36);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	// Not equal operation tests.
-	
+
 	String testSource37 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 1 != 1\n"
 			+ "}";
-	
+
 	@Test
 	public void test37() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource37);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	String testSource38 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean 1 != 2\n"
 			+ "}";
-	
+
 	@Test
 	public void test38() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource38);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource39 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean true != false\n"
 			+ "}";
-	
+
 	@Test
 	public void test39() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource39);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
-	
+
 	String testSource40 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean true != true\n"
 			+ "}";
-	
+
 	@Test
 	public void test40() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource40);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	String testSource41 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean false != false\n"
 			+ "}";
-	
+
 	@Test
 	public void test41() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource41);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	String testSource42 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean \"one\" != \"one\"\n"
 			+ "}";
-	
+
 	@Test
 	public void test42() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource42);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
-	
+
 	String testSource43 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean \"one\" != \"two\"\n"
 			+ "}";
-	
+
 	@Test
 	public void test43() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(testSource43);
@@ -565,7 +624,7 @@ public class InterpreterTests {
 	}
 
 	// Automatically generated negative tests.
-	
+
 	String generatedSource1 = "form Form1 {\"\" q0: integer 1 + true }";
 
 	@Test

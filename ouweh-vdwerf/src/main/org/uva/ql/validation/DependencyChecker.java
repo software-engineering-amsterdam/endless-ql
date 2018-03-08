@@ -6,9 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
-class DependencyChecker  extends Checker {
+class DependencyChecker extends Checker {
 
     private Set<Dependency> dependencies;
 
@@ -31,7 +30,7 @@ class DependencyChecker  extends Checker {
         }
     }
 
-    private Set<Dependency> transitiveClosure (Set<Dependency> dependencyGraph) {
+    private Set<Dependency> transitiveClosure(Set<Dependency> dependencyGraph) {
         Set<Dependency> closure = new HashSet<>(dependencyGraph);
         Set<Dependency> reach = initializeMatrix(closure);
 
@@ -42,7 +41,7 @@ class DependencyChecker  extends Checker {
         return reach;
     }
 
-    private Set<Dependency> initializeMatrix (Set<Dependency> dependencyGraph) {
+    private Set<Dependency> initializeMatrix(Set<Dependency> dependencyGraph) {
         Set<Dependency> matrix = new HashSet<>();
 
         for (Dependency i : dependencyGraph) {

@@ -1,5 +1,6 @@
 import antlr4
 import os
+import subprocess
 import sys
 
 from commons.config import config
@@ -15,6 +16,12 @@ def run_antlr_parse_gen():
             'java org.antlr.v4.Tool -Dlanguage=Python3 -visitor'.format('/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
 
     else:
+        # subprocess.run(["java", "-jar", "/usr/local/lib/antlr-4.7.1-complete.jar", "-Dlanguage=Python3",
+        #                 "grammar/QL.g4", "-o", "{}".format(config['antlr']['directory']), "-visitor"], shell=True)
+        # subprocess.run(["ls", "-l"])
+        # subprocess.check_output(['pwd'])
+        # subprocess.run('java -jar {} -Dlanguage=Python3 grammar/QL.g4 -o {} -visitor'.format(
+        #     '/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']), shell=True)
         os.system('java -jar {} -Dlanguage=Python3 grammar/QL.g4 -o {} -visitor'.format(
             '/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
 

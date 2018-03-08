@@ -3,11 +3,11 @@ package org.uva.ql.validation;
 
 import java.util.logging.Logger;
 
-public abstract class Checker {
+abstract class Checker {
 
     Logger logger;
 
-    public Checker(){
+    Checker() {
         this.logger = Logger.getGlobal();
     }
 

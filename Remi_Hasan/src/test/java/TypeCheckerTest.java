@@ -13,10 +13,10 @@ public class TypeCheckerTest {
         ExpressionVariableInteger intExpression = new ExpressionVariableInteger(1);
         ExpressionArithmeticSum sumExpression = new ExpressionArithmeticSum(intExpression, intExpression);
 
-        TypeCheckVisitor typeChecker = new TypeCheckVisitor(null);
+        TypeCheckVisitor typeChecker = new TypeCheckVisitor(null, null);
         typeChecker.visit(sumExpression);
 
-        assertEquals(typeChecker.errors.size(), 0);
+        assertEquals(typeChecker.getErrors().size(), 0);
     }
 
     @Test
@@ -25,9 +25,9 @@ public class TypeCheckerTest {
         ExpressionVariableBoolean boolExpression = new ExpressionVariableBoolean(true);
         ExpressionArithmeticSum sumExpression = new ExpressionArithmeticSum(intExpression, boolExpression);
 
-        TypeCheckVisitor typeChecker = new TypeCheckVisitor(null);
+        TypeCheckVisitor typeChecker = new TypeCheckVisitor(null,null);
         typeChecker.visit(sumExpression);
 
-        assertEquals(typeChecker.errors.size(), 1);
+        assertEquals(typeChecker.getErrors().size(), 1);
     }
 }

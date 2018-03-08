@@ -18,6 +18,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main extends Application {
 
@@ -68,17 +70,12 @@ public class Main extends Application {
             SymbolTable symbolTable = new SymbolTable(form);
 //            symbolTable.printValues();
 
-            TypeCheckVisitor typeChecker = new TypeCheckVisitor(symbolTable);
-            for(Question q : form.questions) {
-                if(!q.isEditable()) {
-                    typeChecker.visit(q.defaultAnswer);
-                }
+            TypeCheckVisitor typeChecker = new TypeCheckVisitor(form, symbolTable);
+            List<String> typeCheckErrors = typeChecker.typeCheck();
 
-                typeChecker.visit(q.condition);
-            }
-
-            for(String s : typeChecker.errors) {
-                System.out.println(s);
+            if(typeCheckErrors.size() > 0) {
+                showErrorAlert(typeCheckErrors);
+                return;
             }
 
             File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
@@ -94,6 +91,13 @@ public class Main extends Application {
         } catch (IOException e) {
             showErrorAlert(e, "IO exception while lexing form file");
         }
+    }
+
+    private void showErrorAlert(List<String> messages) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Type checking error");
+        alert.setContentText(String.join("\n", messages));
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.showAndWait();
     }
 
     private void showErrorAlert(Exception e, String message) {

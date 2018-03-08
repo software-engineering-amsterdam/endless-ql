@@ -9,28 +9,42 @@ import expression.binary.*;
 import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
 import expression.variable.*;
+import model.Form;
+import model.Question;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TypeCheckVisitor implements IASTVisitor<ReturnType> {
 
-    private SymbolTable symbolTable;
-    public List<String> errors = new ArrayList<>();
+    private final Form form;
+    private final SymbolTable symbolTable;
+    private final List<String> errors;
 
-    public TypeCheckVisitor(SymbolTable symbolTable) {
+    public TypeCheckVisitor(Form form, SymbolTable symbolTable) {
+        this.form = form;
         this.symbolTable = symbolTable;
+        this.errors = new ArrayList<>();
     }
 
-    // Checks whether the left and right expressions are correct individually
-    private void checkLeftRightExpression(Expression left, Expression right) {
-        left.accept(this);
-        right.accept(this);
+    public List<String> getErrors() {
+        return this.errors;
     }
 
-    private ReturnType checkBinaryNumeric(ExpressionBinary e, String operation) {
-        checkLeftRightExpression(e.left, e.right);
+    public List<String> typeCheck() {
+        for(Question q : form.questions) {
+            this.visit(q.condition);
 
+            // Only check expression when it is a predefined expression
+            if(!q.isEditable()) {
+                this.visit(q.defaultAnswer);
+            }
+        }
+
+        return this.errors;
+    }
+
+    private ReturnType checkBinaryArithmetic(ExpressionBinary e, String operation) {
         // Check whether operation can be applied to left and right expression
         boolean selfValid = e.left.accept(this).isNumber() && e.right.accept(this).isNumber();
 
@@ -41,9 +55,18 @@ public class TypeCheckVisitor implements IASTVisitor<ReturnType> {
         return ReturnType.NUMBER;
     }
 
-    private ReturnType checkBinaryBoolean(ExpressionBinary e, String operation) {
-        checkLeftRightExpression(e.left, e.right);
+    private ReturnType checkBinaryComparison(ExpressionBinary e, String operation) {
+        // Check whether operation can be applied to left and right expression
+        boolean selfValid = e.left.accept(this).isNumber() && e.right.accept(this).isNumber();
 
+        if (!selfValid) {
+            errors.add("Invalid " + operation + ": non-numeric value in expression");
+        }
+
+        return ReturnType.BOOLEAN;
+    }
+
+    private ReturnType checkBinaryBoolean(ExpressionBinary e, String operation) {
         // Check whether operation can be applied to left and right expression
         boolean selfValid = e.left.accept(this) == ReturnType.BOOLEAN
                 && e.right.accept(this) == ReturnType.BOOLEAN;
@@ -62,27 +85,26 @@ public class TypeCheckVisitor implements IASTVisitor<ReturnType> {
 
     @Override
     public ReturnType visit(ExpressionArithmeticDivide e) {
-        return checkBinaryNumeric(e, "division");
+        return checkBinaryArithmetic(e, "division");
     }
 
     @Override
     public ReturnType visit(ExpressionArithmeticMultiply e) {
-        return checkBinaryNumeric(e, "multiplication");
+        return checkBinaryArithmetic(e, "multiplication");
     }
 
     @Override
     public ReturnType visit(ExpressionArithmeticSubtract e) {
-        return checkBinaryNumeric(e, "subtraction");
+        return checkBinaryArithmetic(e, "subtraction");
     }
 
     @Override
     public ReturnType visit(ExpressionArithmeticSum e) {
-        return checkBinaryNumeric(e, "addition");
+        return checkBinaryArithmetic(e, "addition");
     }
 
     @Override
     public ReturnType visit(ExpressionComparisonEq e) {
-        checkLeftRightExpression(e.left, e.right);
         boolean selfValid = e.left.accept(this) == e.right.accept(this);
 
         if (!selfValid) {
@@ -94,22 +116,22 @@ public class TypeCheckVisitor implements IASTVisitor<ReturnType> {
 
     @Override
     public ReturnType visit(ExpressionComparisonGE e) {
-        return checkBinaryNumeric(e, "GE");
+        return checkBinaryComparison(e, "GE");
     }
 
     @Override
     public ReturnType visit(ExpressionComparisonGT e) {
-        return checkBinaryNumeric(e, "GT");
+        return checkBinaryComparison(e, "GT");
     }
 
     @Override
     public ReturnType visit(ExpressionComparisonLE e) {
-        return checkBinaryNumeric(e, "LE");
+        return checkBinaryComparison(e, "LE");
     }
 
     @Override
     public ReturnType visit(ExpressionComparisonLT e) {
-        return checkBinaryNumeric(e, "LT");
+        return checkBinaryComparison(e, "LT");
     }
 
     @Override

@@ -125,6 +125,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
       "on money" in {
         val table = Table(
           ("Operator", "Left", "Right", "Expected Answer"),
+          // format: off
           (Lt, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-09")), BooleanAnswer(true)),
           (Lt, DateAnswer(LocalDate.parse("2018-03-09")), DateAnswer(LocalDate.parse("2018-03-08")), BooleanAnswer(false)),
           (Lte, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-09")), BooleanAnswer(true)),
@@ -139,6 +140,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
           (Ne, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-08")), BooleanAnswer(false)),
           (Eq, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-08")), BooleanAnswer(true)),
           (Eq, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-09")), BooleanAnswer(false))
+          // format: on
         )
 
         forAll(table) { (operator, left, right, expectedAnswer) =>

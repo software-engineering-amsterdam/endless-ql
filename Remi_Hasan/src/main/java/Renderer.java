@@ -29,12 +29,10 @@ public class Renderer {
 
     private final Form form;
     private final SymbolTable symbolTable;
-    private final StyleSheet styleSheet;
 
-    Renderer(Form form, SymbolTable symbolTable, StyleSheet styleSheet) {
+    Renderer(Form form, SymbolTable symbolTable) {
         this.form = form;
         this.symbolTable = symbolTable;
-        this.styleSheet = styleSheet;
     }
 
     void renderForm(Stage stage) {

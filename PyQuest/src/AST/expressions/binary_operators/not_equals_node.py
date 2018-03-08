@@ -24,3 +24,7 @@ class NotEqualsOperatorNode(BinaryOperatorNode):
         if (type1, type2) or (type2, type1) in self.__valid_types:
             return True
         return False
+
+    def evaluate(self):
+        if self.left_expression.value and self.right_expression.value:
+            self.value = self.left_expression.value != self.right_expression.value

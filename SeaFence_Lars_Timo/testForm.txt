@@ -6,6 +6,8 @@ form taxOfficeExample
     hasBoughtHouse: boolean
   "Did you enter a loan?"
     hasMaintLoan: int
+
+  "Value residue:" valueResidue: boolean = (hasSoldHouse == hasBoughtHouse)
     
   if ((hasMaintLoan == hasMaintLoan))
   {

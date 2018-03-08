@@ -10,7 +10,6 @@ class TypeChecker(object):
         self.ast = ast
         self.questions = {}
         self.conditionals = {}
-        self.assignments = {}
         self.getVariables()
         # self.checkUndefinedVariables()
 
@@ -30,10 +29,16 @@ class TypeChecker(object):
                     self.checkConditionals(statement)
 
                 elif type(statement.expression) is BinOpNode:
-                    self.checkInvalidOperations(statement.expression)
+                    conditional_type = self.checkInvalidOperations(statement.expression)
+                    if conditional_type != BOOLEAN_UNICODE:
+                        exitProgram("Condition {} is not of type boolean.".format(statement.expression))
                 self.conditionals[statement.expression] = statement.statements
-            # elif type(statement) is AssignmentNode:
-            #     self.assignments[statement.name] = [statement.var, statement.vartype, statement.expression]
+
+            elif type(statement) is AssignmentNode:
+                assignment_type = self.checkInvalidOperations(statement.expression)
+                if assignment_type != statement.vartype:
+                    exitProgram("Assignment expression type does not match variable type at {}".format(statement))
+                self.questions[statement.name] = [statement.var, statement.vartype, statement.expression]
         # print self.questions
         return
 

@@ -12,7 +12,7 @@ form taxOfficeExample {
         }
     }
     // TODO must be unsettable in GUI
-    "Q5: Can you give me a number?" someNumber: integer = 2
+    "Q5: Can you give me a number?" someNumber: integer
     if(someNumber > 5){
         "Q6: You can only answer this question if you answered Q5 > 5" someBoolean4: boolean
     } else {

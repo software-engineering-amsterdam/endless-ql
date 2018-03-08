@@ -103,7 +103,7 @@ object TypeChecker extends Logging {
       .collectAllExpressions(qLForm.statements)
       .flatMap(Expression.collectAllReferences)
 
-    val undefinedReferences: Seq[String] = references.map(_.value).filterNot(qLForm.symbolTable.contains)
+    val undefinedReferences: Seq[String] = references.map(_.questionId).filterNot(qLForm.symbolTable.contains)
 
     if (undefinedReferences.nonEmpty) {
       Left(TypeCheckError(message = s"Undefined references: $undefinedReferences"))
@@ -168,9 +168,9 @@ object TypeChecker extends Logging {
 
   private def buildDependencyGraph(questions: Seq[Question]): Graph = {
     questions.flatMap {
-      case q @ Question(_, _, _, r @ Reference(_)) => Seq(Edge(q.id, r.value))
+      case q @ Question(_, _, _, r @ Reference(_)) => Seq(Edge(q.id, r.questionId))
       case q @ Question(_, _, _, expression) =>
-        Expression.collectAllReferences(expression).map(r => Edge(q.id, r.value))
+        Expression.collectAllReferences(expression).map(r => Edge(q.id, r.questionId))
     }
   }
 

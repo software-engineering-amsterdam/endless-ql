@@ -176,6 +176,44 @@ class EvaluatorTest extends WordSpec {
 
         assert(alteredResult == alteredExpected, "Second pass")
       }
+
+      "re-evaluate expression 2" in {
+        val qlForm = QLForm(
+          "EditOrNotToEdit",
+          List(
+            Question("a", "a", IntegerType, IntegerAnswer()),
+            Question("b", "b", IntegerType, Reference("a")),
+            Question("c", "c", IntegerType, Reference("b"))
+          )
+        )
+
+        val inputs: Dictionary = Map(
+          "a" -> IntegerAnswer(1)
+        )
+
+        val result = Evaluator.evaluate(qlForm, inputs)
+        val expected: Dictionary =
+          Map(
+            "a" -> IntegerAnswer(1),
+            "b" -> IntegerAnswer(1),
+            "c" -> IntegerAnswer(1)
+          )
+
+        assert(result == expected, "First pass")
+
+        val alteredInput: Dictionary =
+          Map(
+            "a" -> IntegerAnswer(None),
+            "b" -> IntegerAnswer(1),
+            "c" -> IntegerAnswer(1)
+          )
+
+        val alteredResult = Evaluator.evaluate(qlForm, alteredInput)
+        val alteredExpected: Dictionary =
+          Map()
+
+        assert(alteredResult == alteredExpected, "Second pass")
+      }
     }
   }
 }

@@ -10,7 +10,16 @@ object Evaluator {
   type Dictionary = Map[String, Answer]
 
   def evaluate(qLForm: QLForm, dictionary: Dictionary): Dictionary = {
-    qLForm.statements.flatMap(statement => evaluate(statement, qLForm.symbolTable, dictionary)).toMap
+    evaluate(qLForm.statements, qLForm.symbolTable, dictionary)
+  }
+
+  def evaluate(statements: Seq[Statement], symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
+    if (statements.isEmpty) {
+      dictionary
+    } else {
+      val newDictionary: Dictionary = evaluate(statements.head, symbolTable, dictionary)
+      evaluate(statements.tail, symbolTable, newDictionary)
+    }
   }
 
   def evaluate(statement: Statement, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
@@ -21,34 +30,43 @@ object Evaluator {
   }
 
   def evaluate(question: Question, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
-    val answer = evaluateExpression(question.expression, symbolTable: SymbolTable, dictionary)
-    if (answer.possibleValue.isDefined) {
-      dictionary + (question.id -> answer)
+    val expression = memoryLookup(question.id, question.expression, dictionary)
+    val evaluatedAnswer = evaluateExpression(expression, symbolTable: SymbolTable, dictionary)
+    if (evaluatedAnswer.possibleValue.isDefined) {
+      dictionary + (question.id -> evaluatedAnswer)
     } else
       dictionary - question.id
   }
 
   // Recursion is happening between evaluateStatement and evaluateConditional
   def evaluate(conditional: Conditional, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
-    conditional.thenStatements.flatMap(statement => evaluate(statement, symbolTable, dictionary)).toMap
+    evaluate(conditional.thenStatements, symbolTable, dictionary)
   }
 
-  def evaluateExpression(expr: Expression, symbolTable: SymbolTable, dictionary: Dictionary): Answer = expr match {
-    case answer: Answer => answer
-    case Reference(questionId) =>
-      evaluateExpression(
-        // We can perform the unsafe get operation on the option here because we are sure there are no references in
-        // expressions that are not defined in the symbol table
-        dictionary.get(questionId).orElse(symbolTable.get(questionId).map(_.expression)).get,
-        symbolTable,
-        dictionary
-      )
-    case UnaryOperation(operator: Operator, expression) =>
-      val answer = evaluateExpression(expression, symbolTable, dictionary)
-      answer.applyUnaryOperator(operator)
-    case BinaryOperation(operator: Operator, leftExpression, rightExpression) =>
-      val leftAnswer = evaluateExpression(leftExpression, symbolTable, dictionary)
-      val rightAnswer = evaluateExpression(rightExpression, symbolTable, dictionary)
-      leftAnswer.applyBinaryOperator(operator, rightAnswer)
+  def evaluateExpression(expression: Expression, symbolTable: SymbolTable, dictionary: Dictionary): Answer =
+    expression match {
+      case answer: Answer => answer
+      case Reference(questionId) =>
+        evaluateExpression(
+          memoryLookup(questionId, symbolTable(questionId).expression, dictionary),
+          symbolTable,
+          dictionary
+        )
+      case UnaryOperation(operator: Operator, leftExpression) =>
+        val answer = evaluateExpression(leftExpression, symbolTable, dictionary)
+        answer.applyUnaryOperator(operator)
+      case BinaryOperation(operator: Operator, leftExpression, rightExpression) =>
+        val leftAnswer = evaluateExpression(leftExpression, symbolTable, dictionary)
+        val rightAnswer = evaluateExpression(rightExpression, symbolTable, dictionary)
+        leftAnswer.applyBinaryOperator(operator, rightAnswer)
+    }
+
+  /**
+    * Only expressions that are defined to be a variable (answer) will be retrieved from the dictionary if exist.
+    * This is done so values of calculated fields won't be retrieved from the dictionary
+    */
+  private def memoryLookup(questionId: String, expression: Expression, dictionary: Dictionary) = expression match {
+    case _: Answer => dictionary.getOrElse(questionId, expression)
+    case _         => expression
   }
 }

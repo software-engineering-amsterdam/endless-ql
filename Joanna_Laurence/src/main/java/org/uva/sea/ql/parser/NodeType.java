@@ -3,7 +3,8 @@ package org.uva.sea.ql.parser;
 public enum NodeType {
     INVALID,
     UNKNOWN,
-    MONEY,
+    MONEY_EURO,
+    MONEY_DOLLAR,
     BOOLEAN,
     STRING,
     INTEGER,

@@ -95,6 +95,7 @@
     <None Include="Resources\QLLexer.g4" />
     <None Include="Resources\QL.g4" />
     <None Include="Resources\QLS.g4" />
+    <None Include="Resources\QLSLexer.g4" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

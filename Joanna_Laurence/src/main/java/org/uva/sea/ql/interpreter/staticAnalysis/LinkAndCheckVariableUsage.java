@@ -35,6 +35,23 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
     private Messages messages = new Messages(MessageTypes.ERROR);
 
     /**
+     * Hide constructor
+     */
+    private  LinkAndCheckVariableUsage() {
+    }
+
+    /**
+     * Hide the visitor, make only doCheck visible
+     */
+    public static class Checker implements IStaticAnalysis {
+        @Override
+        public Messages doCheck(Form node) {
+            IStaticAnalysis checker = new LinkAndCheckVariableUsage();
+            return checker.doCheck(node);
+        }
+    }
+
+    /**
      * @param error Error that occur
      * @param node  The node that caused the error
      */

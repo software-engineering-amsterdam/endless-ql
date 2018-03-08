@@ -1,10 +1,8 @@
 package ql.ast.expressions.literals;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.Before;
 import org.junit.Test;
 import ql.QLParser;
-import ql.ast.statements.Question;
 import ql.parser.ASTBuilder;
 
 import static org.junit.Assert.assertEquals;
@@ -19,51 +17,51 @@ public class LiteralTest {
     }
 
     @Test
-    public void CanParseBooleanLiteral() {
+    public void canParseBooleanLiteral() {
         final Boolean EXPECTED_RESULT = true;
         QLParser parser = astBuilder.createParser("true");
         BooleanLiteral booleanLiteral = (BooleanLiteral) astBuilder.getExpression(parser);
 
-        assertEquals(booleanLiteral.getValue(), EXPECTED_RESULT);
+        assertEquals(EXPECTED_RESULT, booleanLiteral.getValue());
     }
 
 
     @Test
-    public void CanParseIntegerLiteral() {
+    public void canParseIntegerLiteral() {
         final int EXPECTED_RESULT = 123;
         QLParser parser = astBuilder.createParser(Integer.toString(EXPECTED_RESULT));
         IntegerLiteral integerLiteral = (IntegerLiteral) astBuilder.getExpression(parser);
 
-        assertEquals(integerLiteral.getValue(), EXPECTED_RESULT);
+        assertEquals(EXPECTED_RESULT, integerLiteral.getValue());
     }
 
     @Test
-    public void CanParseDecimalLiteral() {
+    public void canParseDecimalLiteral() {
         final double DELTA = 1e-15;
         final double EXPECTED_RESULT = 123.45;
         QLParser parser = astBuilder.createParser(Double.toString(EXPECTED_RESULT));
         DecimalLiteral decimalLiteral = (DecimalLiteral) astBuilder.getExpression(parser);
 
-        assertEquals(decimalLiteral.getValue(), EXPECTED_RESULT, DELTA);
+        assertEquals(EXPECTED_RESULT, decimalLiteral.getValue(), DELTA);
     }
 
     @Test
-    public void CanParseMoneyLiteral() {
+    public void canParseMoneyLiteral() {
         final double DELTA = 1e-15;
         final double EXPECTED_RESULT = 123.45;
         QLParser parser = astBuilder.createParser("123,45");
         MoneyLiteral moneyLiteral = (MoneyLiteral) astBuilder.getExpression(parser);
 
-        assertEquals(moneyLiteral.getValue(), EXPECTED_RESULT, DELTA);
+        assertEquals(EXPECTED_RESULT, moneyLiteral.getValue(), DELTA);
     }
 
     @Test
-    public void CanParseStringLiteral() {
+    public void canParseStringLiteral() {
         final String EXPECTED_RESULT = "\"testString\"";
         QLParser parser = astBuilder.createParser(EXPECTED_RESULT);
         StringLiteral stringLiteral = (StringLiteral) astBuilder.getExpression(parser);
 
-        assertEquals(stringLiteral.getValue(), EXPECTED_RESULT);
+        assertEquals(EXPECTED_RESULT, stringLiteral.getValue());
     }
 
 }

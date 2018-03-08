@@ -39,8 +39,8 @@ public class SymbolTable {
 
     // TODO: move to value?
     public String getStringValue(String identifier, ReturnType type) {
-        ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(this);
-        Value evaluated = interpreterVisitor.visit(table.get(identifier));
+        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(this);
+        Value evaluated = expressionEvaluator.visit(table.get(identifier));
 
         // Undefined values should display nothing
         if (evaluated.isUndefined()) {
@@ -61,6 +61,10 @@ public class SymbolTable {
             default:
                 return "";
         }
+    }
+
+    public Map<String, Expression> getAllAnswers(){
+        return table;
     }
 
     public void setExpression(String identifier, Expression value) {

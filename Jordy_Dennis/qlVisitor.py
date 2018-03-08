@@ -194,9 +194,9 @@ def getOp(ctx):
     elif (ctx.MATH_OPERATOR()):
         op = ctx.MATH_OPERATOR().getText()
     elif (ctx.AND()):
-        op = ctx.AND().getText()
+        op = "and"
     elif (ctx.OR()):
-        op = ctx.OR().getText()
+        op = "or"
     return op
 
 # For a literal, change the type to a python type
@@ -208,7 +208,7 @@ def getLiteralValue(ctx):
         litVal = ctx.INT()
     elif (ctx.BOOL()):
         litType = bool
-        litVal = ctx.BOOL()
+        litVal = str(ctx.BOOL()).capitalize()
     elif (ctx.STRING()):
         litType = str
         litVal = ctx.STRING()

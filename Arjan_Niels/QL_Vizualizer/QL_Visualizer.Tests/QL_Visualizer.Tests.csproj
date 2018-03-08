@@ -59,11 +59,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Elements\IElementFactoryTest.cs" />
     <Compile Include="Elements\ControlFactoryTest.cs" />
-    <Compile Include="Widgets\QuestionWidget.cs" />
-    <Compile Include="Widgets\Typed\IntWidgetTest.cs" />
-    <Compile Include="Widgets\Typed\BoolWidgetTest.cs" />
-    <Compile Include="Widgets\Typed\StringWidgetTest.cs" />
-    <Compile Include="Widgets\WidgetTest.cs" />
+    <Compile Include="ElementManagers\QuestionWidget.cs" />
+    <Compile Include="ElementManagers\Typed\IntWidgetTest.cs" />
+    <Compile Include="ElementManagers\Typed\BoolWidgetTest.cs" />
+    <Compile Include="ElementManagers\Typed\StringWidgetTest.cs" />
+    <Compile Include="ElementManagers\ElementManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

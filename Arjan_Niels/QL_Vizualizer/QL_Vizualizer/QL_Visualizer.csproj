@@ -45,8 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Display\WidgetDisplayControllerWindows.cs" />
-    <Compile Include="Controllers\WidgetController.cs" />
+    <Compile Include="Controllers\Display\ElementManagerDisplayContollerWindows.cs" />
+    <Compile Include="Controllers\ElementManagerController.cs" />
     <Compile Include="Expression\ExpressionOperators.cs" />
     <Compile Include="Expression\Types\ExpressionBool.cs" />
     <Compile Include="Expression\ExpressionOperator.cs" />
@@ -55,21 +55,21 @@
     <Compile Include="Expression\Types\ExpressionDouble.cs" />
     <Compile Include="Expression\Types\ExpressionInt.cs" />
     <Compile Include="Factories\ControlFactory.cs" />
-    <Compile Include="Factories\ElementFactory.cs" />
-    <Compile Include="Factories\ExpressionFactory.cs" />
     <Compile Include="Factories\WidgetFactory.cs" />
+    <Compile Include="Factories\ExpressionFactory.cs" />
+    <Compile Include="Factories\ElementManagerFactory.cs" />
     <Compile Include="Style\WindowsStyleProperties.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\Display\WidgetDisplayController.cs" />
+    <Compile Include="Controllers\Display\ElementManagerDisplayController.cs" />
     <Compile Include="UserMessages.cs" />
-    <Compile Include="Widgets\QLQuestionWidget.cs" />
-    <Compile Include="Widgets\QLWidget.cs" />
-    <Compile Include="Widgets\Types\QLWidgetBool.cs" />
-    <Compile Include="Widgets\Types\QLWidgetInt.cs" />
-    <Compile Include="Widgets\Types\QLWidgetMoney.cs" />
-    <Compile Include="Widgets\Types\QLWidgetString.cs" />
-    <Compile Include="Widgets\ParsedWidgetValue.cs" />
+    <Compile Include="ElementManagers\QuestionElementManager.cs" />
+    <Compile Include="ElementManagers\ElementManager.cs" />
+    <Compile Include="ElementManagers\Types\BoolElementManager.cs" />
+    <Compile Include="ElementManagers\Types\IntElementManager.cs" />
+    <Compile Include="ElementManagers\Types\MoneyElementManager.cs" />
+    <Compile Include="ElementManagers\Types\StringElementManager.cs" />
+    <Compile Include="ElementManagers\QuestionElementValue.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

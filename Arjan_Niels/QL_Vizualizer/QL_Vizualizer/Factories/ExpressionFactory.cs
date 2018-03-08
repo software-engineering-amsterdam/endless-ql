@@ -3,16 +3,16 @@ using QL_Parser.AST.Nodes.ExpressionNodes;
 using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Expression;
 using QL_Vizualizer.Expression.Types;
-using QL_Vizualizer.Widgets.Types;
+using QL_Vizualizer.ElementManagers.Types;
 using System;
 
 namespace QL_Vizualizer.Factories
 {
     public class ExpressionFactory
     {
-        private WidgetController _widgetController;
+        private ElementManagerController _widgetController;
 
-        public ExpressionFactory(WidgetController widgetController)
+        public ExpressionFactory(ElementManagerController widgetController)
         {
             _widgetController = widgetController;
         }
@@ -136,11 +136,11 @@ namespace QL_Vizualizer.Factories
             switch (identifierNode.GetQValueType())
             {
                 case QValueType.BOOLEAN:
-                    return new ExpressionBool(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as QLWidgetBool).AnswerValue; });
+                    return new ExpressionBool(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as BoolElementManager).AnswerValue; });
                 case QValueType.INTEGER:
-                    return new ExpressionInt(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as QLWidgetInt).AnswerValue; });
+                    return new ExpressionInt(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as IntElementManager).AnswerValue; });
                 case QValueType.MONEY:
-                    return new ExpressionDouble(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as QLWidgetMoney).AnswerValue; });
+                    return new ExpressionDouble(new string[] { identifierNode.ID }, () => { return (_widgetController.GetWidget(identifierNode.ID) as MoneyElementManager).AnswerValue; });
                 default:
                     throw new NotImplementedException();
             }

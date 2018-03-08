@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Style;
-using QL_Vizualizer.Widgets.Types;
+using QL_Vizualizer.ElementManagers.Types;
 using System;
 
 namespace QL_Visualizer.Tests.Controllers.Display
@@ -13,9 +13,9 @@ namespace QL_Visualizer.Tests.Controllers.Display
         protected WidgetDisplayController<T, Y> _widgetDisplayController;
         //protected ElementFactory<T> _elementFactory;
 
-        protected QLWidgetInt _intWidget;
-        protected QLWidgetBool _boolWidget;
-        protected QLWidgetString _stringWidget;
+        protected IntElementManager _intWidget;
+        protected BoolElementManager _boolWidget;
+        protected StringElementManager _stringWidget;
 
         protected Y _widgetStyle;
 

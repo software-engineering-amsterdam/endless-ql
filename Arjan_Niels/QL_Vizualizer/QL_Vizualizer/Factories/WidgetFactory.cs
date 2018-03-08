@@ -1,99 +1,34 @@
-﻿using QL_Parser.AST.Nodes;
-using QL_Vizualizer.Controllers;
-using QL_Vizualizer.Expression;
-using QL_Vizualizer.Expression.Types;
-using QL_Vizualizer.Widgets;
-using QL_Vizualizer.Widgets.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using QL_Vizualizer.Controllers;
+using QL_Vizualizer.ElementManagers;
 
 namespace QL_Vizualizer.Factories
 {
-    public static class WidgetFactory
+    public abstract class ElementFactory<T,Y>
     {
         /// <summary>
-        /// Parses (AST)Node recursively
+        /// Widget controller that contains all widgets
         /// </summary>
-        /// <param name="node">Node to parse</param>
-        /// <param name="condition">Base condition, optional</param>
-        /// <returns>Collection of widgets</returns>
-        public static IEnumerable<QLWidget> CreateWidgets(Node node, WidgetController widgetController, ExpressionBool condition = null)
+        protected ElementManagerController _widgetController { get; private set; }
+
+        public ElementFactory(ElementManagerController widgetController)
         {
-            switch (node.Type)
-            {
-                case NodeType.CONDITIONAL:
-                    ExpressionFactory expressionFactory = new ExpressionFactory(widgetController);
-                    // Parse condition
-                    ExpressionBool newCondition = expressionFactory.GetCondition(node as ConditionalNode);
-
-                    // Return children with new condition
-                    return node.Children.SelectMany(o => CreateWidgets(o, widgetController, (condition == null) ? newCondition : condition.Combine(newCondition, ExpressionOperator.And) as ExpressionBool));
-
-                case NodeType.FORM:
-                    // Parse all children
-                    return node.Children.SelectMany(o => CreateWidgets(o, widgetController, condition));
-
-                case NodeType.QUESTION:
-                    // Return widget as array
-                    return new QLWidget[] { CreateWidget(node as QuestionNode, condition) };
-
-                case NodeType.COMPUTED:
-                    return new QLWidget[] { CreateComputedWidget(node as ComputedNode, condition, widgetController) };
-
-                case NodeType.LOGICAL_EXPRESSION:
-                    break;
-
-                case NodeType.IDENTIFIER:
-                    break;
-            }
-
-            // Nothing found, return empty array
-            return new QLWidget[0];
+            _widgetController = widgetController;
         }
 
         /// <summary>
-        /// Creates widget from QuestionNode
+        /// Creates (display) Element
         /// </summary>
-        /// <param name="questionNode">Node to parse</param>
-        /// <returns>Parsed widget</returns>
-        private static QLWidget CreateWidget(QuestionNode questionNode, ExpressionBool condition)
-        {
-            switch (questionNode.ValueType)
-            {
-                case QValueType.BOOLEAN:
-                    return new QLWidgetBool(questionNode.ID, questionNode.Text, condition);
-                case QValueType.INTEGER:
-                    return new QLWidgetInt(questionNode.ID, questionNode.Text, condition);
-                case QValueType.TEXT:
-                    return new QLWidgetString(questionNode.ID, questionNode.Text, condition);
-                case QValueType.MONEY:
-                    return new QLWidgetMoney(questionNode.ID, questionNode.Text, condition);
-            }
-            throw new InvalidOperationException("Unsupported type: " + questionNode.ValueType);
-        }
+        /// <param name="widget">Widget to create Element for</param>
+        /// <param name="style">Style of the widget to be created</param>
+        /// <returns>Element</returns>
+        public abstract T CreateElement(ElementManager widget, Y style);
 
         /// <summary>
-        /// Creates widget with computed value
+        /// Updates specified element for widget
         /// </summary>
-        /// <param name="node">Node</param>
-        /// <param name="condition">Condition of widget</param>
-        /// <param name="widgetController">Widget controller</param>
-        /// <returns></returns>
-        private static QLWidget CreateComputedWidget(ComputedNode node, ExpressionBool condition, WidgetController widgetController)
-        {
-            ExpressionFactory expressionFactory = new ExpressionFactory(widgetController);
-            ExpressionValue expression = expressionFactory.ParseExpressionNode(node.Expression);
-            switch (node.Expression.GetQValueType())
-            {
-                case QValueType.BOOLEAN:
-                    return new QLWidgetBool(node.ID, node.Text, condition, expression as ExpressionBool);
-                case QValueType.INTEGER:
-                    return new QLWidgetInt(node.ID, node.Text, condition, expression as ExpressionInt);
-                case QValueType.MONEY:
-                    return new QLWidgetMoney(node.ID, node.Text, condition, expression as ExpressionDouble);
-            }
-            throw new NotImplementedException();
-        }
+        /// <param name="widget">Widget associated with the element</param>
+        /// <param name="element">Element to update</param>
+        /// <returns>Updated element</returns>
+        public abstract T UpdateElement(ElementManager widget, T element);
     }
 }

@@ -4,7 +4,7 @@ using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Factories;
 using QL_Vizualizer.Style;
-using QL_Vizualizer.Widgets.Types;
+using QL_Vizualizer.ElementManagers.Types;
 
 namespace QL_Visualizer.Tests.Elements
 {
@@ -12,11 +12,11 @@ namespace QL_Visualizer.Tests.Elements
     public class ControlFactoryTest : IElementFactoryTest
     {
         private ControlFactory _controlFactory;
-        private WidgetController _widgetController;
+        private ElementManagerController _widgetController;
 
-        private QLWidgetInt _intWidget;
-        private QLWidgetBool _boolWidget;
-        private QLWidgetString _stringWidget;
+        private IntElementManager _intWidget;
+        private BoolElementManager _boolWidget;
+        private StringElementManager _stringWidget;
 
         private WindowsStyleProperties _style;
 
@@ -24,12 +24,12 @@ namespace QL_Visualizer.Tests.Elements
         public void Initialize()
         {
             _style = new WindowsStyleProperties();
-            _widgetController = new WidgetDisplayControllerWindows(10);
+            _widgetController = new ElementManagerDisplayContollerWindows(10);
 
             _controlFactory = new ControlFactory(_widgetController);
-            _intWidget = new QLWidgetInt("a", "q1");
-            _boolWidget = new QLWidgetBool("b", "q2");
-            _stringWidget = new QLWidgetString("c", "q3");
+            _intWidget = new IntElementManager("a", "q1");
+            _boolWidget = new BoolElementManager("b", "q2");
+            _stringWidget = new StringElementManager("c", "q3");
         }
 
         #region Create

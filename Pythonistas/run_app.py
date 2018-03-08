@@ -42,7 +42,7 @@ def main():
 
     # GUI
     app = QApplication(sys.argv)
-    screen = InputWindow()
+    screen = MainWindow()
     screen.show()
 
     sys.exit(app.exec_())

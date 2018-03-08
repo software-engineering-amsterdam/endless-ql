@@ -12,6 +12,7 @@ public class MoneyVariable extends Variable {
     public MoneyVariable(String identifier) {
         super(identifier);
     }
+    @Override
     public Value getValue() {
         return value;
     }

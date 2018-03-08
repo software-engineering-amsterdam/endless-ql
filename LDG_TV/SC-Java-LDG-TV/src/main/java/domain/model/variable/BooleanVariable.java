@@ -1,23 +1,25 @@
 package domain.model.variable;
 
+import domain.model.value.BooleanValue;
 import domain.model.value.PlainValue;
+import domain.model.value.Value;
 import domain.model.visitor.Visitor;
 import javafx.scene.Node;
 
 public class BooleanVariable extends Variable {
 
-    private Boolean value;
+    private Value value;
 
     public BooleanVariable(String identifier) {
         super(identifier);
     }
-
-    public Boolean getValue() {
+    @Override
+    public Value getValue() {
         return value;
     }
     @Override
-    public void setValue(PlainValue value){
-        this.value = Boolean.valueOf(value.getValue());
+    public void setValue(BooleanValue value){
+        this.value = value;
     }
 
     @Override

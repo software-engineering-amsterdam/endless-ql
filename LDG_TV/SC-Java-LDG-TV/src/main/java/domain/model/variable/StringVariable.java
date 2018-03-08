@@ -11,6 +11,8 @@ public class StringVariable extends Variable {
     public StringVariable(String identifier) {
         super(identifier);
     }
+
+    @Override
     public Value getValue() {
         return value;
     }

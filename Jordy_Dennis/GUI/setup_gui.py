@@ -37,14 +37,13 @@ class Gui:
     # For every form, create the header frame and questions frame and fill the questions frame
     # with questions
     def create_form(self):
-        form = FormGui(self.mainframe, "idk lol")
+        form = FormGui(self.mainframe, self.ast.getName())
         content_frame = form.get_contents()
         sfg = ScrollFrameGui(content_frame)
         sfg_content = sfg.get_contents()
 
-        for q in range(0, 10):
-            # form.add_question()
-            q = Question(sfg_content)
+        for question in self.questions:
+
         self.form = form
 
         b = Button(self.mainframe, text="OK", command=self.collect_answers)

@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Parser.AST.Nodes;
-using QL_Parser.AST.Nodes.ExpressionNodes;
-using QL_Parser.AST.Nodes.ExpressionNodes.Enums;
-using QL_Parser.Exceptions;
+using QLParser.AST.Nodes;
+using QLParser.AST.Nodes.ExpressionNodes;
+using QLParser.AST.Nodes.ExpressionNodes.Enums;
+using QLParser.Exceptions;
 using System.Linq;
 
-namespace QL_Parser.Tests.AST.Expressions
+namespace QLParser.Tests.AST.Expressions
 {
     [TestClass]
     public class ComparisonExpressionTests : QLTest

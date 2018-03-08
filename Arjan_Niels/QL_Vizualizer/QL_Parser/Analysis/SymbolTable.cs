@@ -1,7 +1,7 @@
-﻿using QL_Parser.AST.Nodes;
+﻿using QLParser.AST.Nodes;
 using System.Collections.Generic;
 
-namespace QL_Parser.Analysis
+namespace QLParser.Analysis
 {
     /// <summary>
     /// The SymbolTable keeps track of all the variables in the parse tree.

@@ -1,4 +1,4 @@
-﻿namespace QL_Parser.Analysis
+﻿namespace QLParser.Analysis
 {
     public enum MessageType
     {

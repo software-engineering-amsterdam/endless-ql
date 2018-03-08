@@ -1,4 +1,4 @@
-﻿namespace QL_Parser.Tests
+﻿namespace QLParser.Tests
 {
     public static class FormExamples
     {

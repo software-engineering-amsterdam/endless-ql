@@ -1,10 +1,10 @@
 ﻿using Antlr4.Runtime.Misc;
-using QL_Parser.AST.Nodes;
-using QL_Parser.Visitors.ExpressionVisitors;
+using QLParser.AST.Nodes;
+using QLParser.Visitors.ExpressionVisitors;
 using QLanguage;
 using System;
 
-namespace QL_Parser.Visitors
+namespace QLParser.Visitors
 {
     public class ComputedVariableVisitor : QLanguage.QLanguageBaseVisitor<ComputedNode>
     {

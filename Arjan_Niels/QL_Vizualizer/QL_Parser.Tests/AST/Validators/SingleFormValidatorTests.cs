@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Parser.Analysis.Syntactic;
-using QL_Parser.AST.Nodes;
+using QLParser.Analysis.Syntactic;
+using QLParser.AST.Nodes;
 
-namespace QL_Parser.Tests.AST
+namespace QLParser.Tests.AST
 {
     [TestClass]
     public class SingleFormValidatorTest : QLTest

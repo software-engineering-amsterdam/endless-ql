@@ -1,7 +1,7 @@
-﻿using QL_Parser.AST.Nodes.ExpressionNodes.Enums;
-using QL_Parser.Exceptions;
+﻿using QLParser.AST.Nodes.ExpressionNodes.Enums;
+using QLParser.Exceptions;
 
-namespace QL_Parser.AST.Nodes.ExpressionNodes
+namespace QLParser.AST.Nodes.ExpressionNodes
 {
     public class LogicalExpressionNode : ExpressionNode
     {

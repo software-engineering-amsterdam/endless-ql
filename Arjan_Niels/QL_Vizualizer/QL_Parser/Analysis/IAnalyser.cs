@@ -1,6 +1,6 @@
-﻿using QL_Parser.AST.Nodes;
+﻿using QLParser.AST.Nodes;
 
-namespace QL_Parser.Analysis
+namespace QLParser.Analysis
 {
     public interface IAnalyser
     {

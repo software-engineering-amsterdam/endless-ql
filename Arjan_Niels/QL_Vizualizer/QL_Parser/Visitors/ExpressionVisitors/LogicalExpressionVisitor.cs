@@ -1,10 +1,10 @@
 ﻿using Antlr4.Runtime.Misc;
-using QL_Parser.AST.Nodes;
-using QL_Parser.AST.Nodes.ExpressionNodes;
-using QL_Parser.Exceptions;
+using QLParser.AST.Nodes;
+using QLParser.AST.Nodes.ExpressionNodes;
+using QLParser.Exceptions;
 using QLanguage;
 
-namespace QL_Parser.Visitors.ExpressionVisitors
+namespace QLParser.Visitors.ExpressionVisitors
 {
     public class LogicalExpressionVisitor : QLanguage.QLanguageBaseVisitor<IExpressionNode>
     {

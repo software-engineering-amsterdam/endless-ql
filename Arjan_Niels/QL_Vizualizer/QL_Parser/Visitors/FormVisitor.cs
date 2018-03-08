@@ -1,11 +1,11 @@
 ﻿using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
-using QL_Parser.AST.Nodes;
-using QL_Parser.Visitors;
+using QLParser.AST.Nodes;
+using QLParser.Visitors;
 using System.Linq;
 using static QLanguage.QLanguageParser;
 
-namespace QL_Parser
+namespace QLParser
 {
     public class FormVisitor : QLanguage.QLanguageBaseVisitor<FormNode>
     {

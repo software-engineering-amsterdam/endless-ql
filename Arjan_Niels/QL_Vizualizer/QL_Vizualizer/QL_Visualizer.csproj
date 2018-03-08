@@ -95,9 +95,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\QL_Parser\QL_Parser.csproj">
+    <ProjectReference Include="..\QL_Parser\QLParser.csproj">
       <Project>{aed597d7-3472-4d95-9d15-7ba9b8bbe89e}</Project>
-      <Name>QL_Parser</Name>
+      <Name>QLParser</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

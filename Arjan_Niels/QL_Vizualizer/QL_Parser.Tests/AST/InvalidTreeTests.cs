@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Parser.Analysis;
-using QL_Parser.AST.Nodes;
+using QLParser.Analysis;
+using QLParser.AST.Nodes;
 
-namespace QL_Parser.Tests
+namespace QLParser.Tests
 {
     [TestClass]
     public class InvalidTreeTests : QLTest

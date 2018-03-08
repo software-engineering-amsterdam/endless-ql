@@ -1,10 +1,10 @@
-﻿using QL_Parser.Analysis.Semantic;
-using QL_Parser.Analysis.Syntactic;
-using QL_Parser.AST.Nodes;
+﻿using QLParser.Analysis.Semantic;
+using QLParser.Analysis.Syntactic;
+using QLParser.AST.Nodes;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QL_Parser.Analysis
+namespace QLParser.Analysis
 {
     public class Analyser
     {

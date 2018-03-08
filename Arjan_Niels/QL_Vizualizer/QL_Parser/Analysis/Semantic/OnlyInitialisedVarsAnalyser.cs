@@ -1,8 +1,8 @@
-﻿using QL_Parser.AST.Nodes;
-using QL_Parser.AST.Nodes.ExpressionNodes;
-using QL_Parser.Exceptions;
+﻿using QLParser.AST.Nodes;
+using QLParser.AST.Nodes.ExpressionNodes;
+using QLParser.Exceptions;
 
-namespace QL_Parser.Analysis.Semantic
+namespace QLParser.Analysis.Semantic
 {
     public class OnlyInitialisedVarsAnalyser : IAnalyser
     {

@@ -1,9 +1,9 @@
 ﻿using Antlr4.Runtime.Misc;
-using QL_Parser.AST.Nodes;
+using QLParser.AST.Nodes;
 using System;
 using static QLanguage.QLanguageParser;
 
-namespace QL_Parser.Visitors
+namespace QLParser.Visitors
 {
     public class SectionVisitor : QLanguage.QLanguageBaseVisitor<Node>
     {

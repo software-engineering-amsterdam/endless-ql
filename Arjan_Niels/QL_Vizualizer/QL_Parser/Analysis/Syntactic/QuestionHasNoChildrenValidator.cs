@@ -1,6 +1,6 @@
-﻿using QL_Parser.AST.Nodes;
+﻿using QLParser.AST.Nodes;
 
-namespace QL_Parser.Analysis.Syntactic
+namespace QLParser.Analysis.Syntactic
 {
     public class QuestionHasNoChildrenValidator : IAnalyser
     {

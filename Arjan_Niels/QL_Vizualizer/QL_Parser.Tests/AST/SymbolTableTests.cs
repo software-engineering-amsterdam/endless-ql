@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Parser.Analysis;
-using QL_Parser.Analysis.Semantic;
-using QL_Parser.AST.Nodes;
+using QLParser.Analysis;
+using QLParser.Analysis.Semantic;
+using QLParser.AST.Nodes;
 using System.Linq;
 
-namespace QL_Parser.Tests.AST
+namespace QLParser.Tests.AST
 {
     [TestClass]
     public class SymbolTableTests : QLTest

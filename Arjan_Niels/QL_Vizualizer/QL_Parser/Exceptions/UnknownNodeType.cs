@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace QL_Parser.Exceptions
+namespace QLParser.Exceptions
 {
     public class UnknownNodeTypeException : Exception
     {

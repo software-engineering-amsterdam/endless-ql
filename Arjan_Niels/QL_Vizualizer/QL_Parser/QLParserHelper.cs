@@ -1,9 +1,9 @@
 ﻿using Antlr4.Runtime;
-using QL_Parser.Analysis;
-using QL_Parser.AST.Nodes;
+using QLParser.Analysis;
+using QLParser.AST.Nodes;
 using QLanguage;
 
-namespace QL_Parser
+namespace QLParser
 {
     public class QLParserHelper
     {

@@ -1,4 +1,4 @@
-﻿using QL_Parser.AST.Nodes;
+﻿using QLParser.AST.Nodes;
 using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Expression;
 using QL_Vizualizer.Expression.Types;

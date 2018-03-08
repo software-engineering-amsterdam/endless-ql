@@ -1,4 +1,4 @@
-﻿namespace QL_Parser.AST.Nodes
+﻿namespace QLParser.AST.Nodes
 {
     public class StatementNode : Node, IExpressionNode
     {

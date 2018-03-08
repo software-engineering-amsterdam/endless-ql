@@ -1,9 +1,9 @@
 ﻿using Antlr4.Runtime.Misc;
-using QL_Parser.AST.Nodes;
+using QLParser.AST.Nodes;
 using QLanguage;
 using System;
 
-namespace QL_Parser.Visitors
+namespace QLParser.Visitors
 {
     public class QuestionVisitor : QLanguageBaseVisitor<QuestionNode>
     {

@@ -1,6 +1,6 @@
-﻿using QL_Parser.Analysis;
+﻿using QLParser.Analysis;
 
-namespace QL_Parser.AST.Nodes
+namespace QLParser.AST.Nodes
 {
     public class IdentifierNode : Node, IExpressionNode
     {

@@ -1,6 +1,6 @@
-﻿using QL_Parser;
-using QL_Parser.Analysis;
-using QL_Parser.AST.Nodes;
+﻿using QLParser;
+using QLParser.Analysis;
+using QLParser.AST.Nodes;
 using System;
 using System.Text;
 

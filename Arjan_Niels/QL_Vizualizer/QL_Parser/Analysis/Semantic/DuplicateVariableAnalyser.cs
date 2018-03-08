@@ -1,6 +1,6 @@
-﻿using QL_Parser.AST.Nodes;
+﻿using QLParser.AST.Nodes;
 
-namespace QL_Parser.Analysis.Semantic
+namespace QLParser.Analysis.Semantic
 {
     /// <summary>
     /// The TypeAnalyser walks over the tree and looks if all the variable type

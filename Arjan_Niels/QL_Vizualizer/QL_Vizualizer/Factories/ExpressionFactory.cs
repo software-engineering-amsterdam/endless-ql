@@ -1,11 +1,11 @@
-﻿using QL_Parser.AST.Nodes;
-using QL_Parser.AST.Nodes.ExpressionNodes;
+﻿using QLParser.AST.Nodes;
+using QLParser.AST.Nodes.ExpressionNodes;
 using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Expression;
 using QL_Vizualizer.Expression.Types;
 using QL_Vizualizer.ElementManagers.Types;
 using System;
-using QL_Parser.AST.Nodes.ExpressionNodes.Enums;
+using QLParser.AST.Nodes.ExpressionNodes.Enums;
 
 namespace QL_Vizualizer.Factories
 {

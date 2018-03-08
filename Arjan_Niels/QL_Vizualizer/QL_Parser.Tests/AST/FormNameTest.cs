@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Parser.AST.Nodes;
+using QLParser.AST.Nodes;
 
-namespace QL_Parser.Tests.AST
+namespace QLParser.Tests.AST
 {
     [TestClass]
     public class FormNameTest : QLTest

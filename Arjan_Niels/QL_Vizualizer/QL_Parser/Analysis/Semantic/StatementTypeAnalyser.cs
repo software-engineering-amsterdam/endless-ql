@@ -1,7 +1,7 @@
-﻿using QL_Parser.AST.Nodes;
-using QL_Parser.AST.Nodes.ExpressionNodes;
+﻿using QLParser.AST.Nodes;
+using QLParser.AST.Nodes.ExpressionNodes;
 
-namespace QL_Parser.Analysis.Semantic
+namespace QLParser.Analysis.Semantic
 {
     public class BooleanStatementnalyser : IAnalyser
     {

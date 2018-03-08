@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Parser.Analysis;
+using QLParser.Analysis;
 
-namespace QL_Parser.Tests
+namespace QLParser.Tests
 {
     public abstract class QLTest
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Parser.Analysis;
-using QL_Parser.Analysis.Semantic;
-using QL_Parser.AST.Nodes;
+using QLParser.Analysis;
+using QLParser.Analysis.Semantic;
+using QLParser.AST.Nodes;
 
-namespace QL_Parser.Tests.Analysis.Semantic
+namespace QLParser.Tests.Analysis.Semantic
 {
     [TestClass]
     public class OnlyInitialisedVarsAnalyserTests : QLTest

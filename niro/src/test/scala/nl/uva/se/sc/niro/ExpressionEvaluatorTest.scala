@@ -1,5 +1,7 @@
 package nl.uva.se.sc.niro
 
+import java.time.LocalDate
+
 import nl.uva.se.sc.niro.Evaluator.evaluateExpression
 import nl.uva.se.sc.niro.model.{ Div, Mul, Sub, _ }
 import nl.uva.se.sc.niro.model.expressions.answers._
@@ -106,6 +108,31 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
           (Ne, BooleanAnswer(true), BooleanAnswer(true), BooleanAnswer(false)),
           (Eq, BooleanAnswer(true), BooleanAnswer(true), BooleanAnswer(true)),
           (Eq, BooleanAnswer(true), BooleanAnswer(false), BooleanAnswer(false))
+        )
+
+        forAll(table) { (operator, left, right, expectedAnswer) =>
+          val expression = BinaryOperation(operator, left, right)
+          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+        }
+      }
+
+      "on money" in {
+        val table = Table(
+          ("Operator", "Left", "Right", "Expected Answer"),
+          (Lt, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-09")), BooleanAnswer(true)),
+          (Lt, DateAnswer(LocalDate.parse("2018-03-09")), DateAnswer(LocalDate.parse("2018-03-08")), BooleanAnswer(false)),
+          (Lte, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-09")), BooleanAnswer(true)),
+          (Lte, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-08")), BooleanAnswer(true)),
+          (Lte, DateAnswer(LocalDate.parse("2018-03-09")), DateAnswer(LocalDate.parse("2018-03-08")), BooleanAnswer(false)),
+          (Gte, DateAnswer(LocalDate.parse("2018-03-09")), DateAnswer(LocalDate.parse("2018-03-08")), BooleanAnswer(true)),
+          (Gte, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-08")), BooleanAnswer(true)),
+          (Gte, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-09")), BooleanAnswer(false)),
+          (Gt, DateAnswer(LocalDate.parse("2018-03-09")), DateAnswer(LocalDate.parse("2018-03-08")), BooleanAnswer(true)),
+          (Gt, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-09")), BooleanAnswer(false)),
+          (Ne, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-09")), BooleanAnswer(true)),
+          (Ne, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-08")), BooleanAnswer(false)),
+          (Eq, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-08")), BooleanAnswer(true)),
+          (Eq, DateAnswer(LocalDate.parse("2018-03-08")), DateAnswer(LocalDate.parse("2018-03-09")), BooleanAnswer(false))
         )
 
         forAll(table) { (operator, left, right, expectedAnswer) =>

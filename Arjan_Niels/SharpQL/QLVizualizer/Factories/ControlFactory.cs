@@ -1,12 +1,12 @@
-﻿using QLVizualizer.Controllers;
-using QLVizualizer.Style;
-using QLVizualizer.ElementManagers;
-using QLVizualizer.ElementManagers.Types;
+﻿using QLVisualizer.Controllers;
+using QLVisualizer.Style;
+using QLVisualizer.ElementManagers;
+using QLVisualizer.ElementManagers.Types;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace QLVizualizer.Factories
+namespace QLVisualizer.Factories
 {
     public class ControlFactory : ElementFactory<Control, WindowsStyleProperties>
     {

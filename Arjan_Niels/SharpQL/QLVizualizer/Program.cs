@@ -1,9 +1,9 @@
-﻿using QLVizualizer.Controllers;
-using QLVizualizer.Controllers.Display;
+﻿using QLVisualizer.Controllers;
+using QLVisualizer.Controllers.Display;
 using System;
 using System.Windows.Forms;
 
-namespace QLVizualizer
+namespace QLVisualizer
 {
     static class Program
     {

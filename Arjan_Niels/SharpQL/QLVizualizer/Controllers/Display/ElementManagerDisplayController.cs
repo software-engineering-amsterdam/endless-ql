@@ -1,10 +1,10 @@
-﻿using QLVizualizer.Factories;
-using QLVizualizer.ElementManagers;
+﻿using QLVisualizer.Factories;
+using QLVisualizer.ElementManagers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QLVizualizer.Controllers.Display
+namespace QLVisualizer.Controllers.Display
 {
     public abstract class WidgetDisplayController<T, Y> : ElementManagerController where Y : ICloneable
     {

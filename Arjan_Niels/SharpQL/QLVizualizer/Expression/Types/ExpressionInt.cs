@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QLVizualizer.Expression.Types
+namespace QLVisualizer.Expression.Types
 {
     public class ExpressionInt : TypedExpressionValue<int>
     {

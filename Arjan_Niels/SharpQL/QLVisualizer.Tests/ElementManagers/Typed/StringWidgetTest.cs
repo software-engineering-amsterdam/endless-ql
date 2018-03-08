@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLVizualizer.ElementManagers.Types;
+using QLVisualizer.ElementManagers.Types;
 
 namespace QLVisualizer.Tests.ElementManagers.Typed
 {
@@ -9,7 +9,7 @@ namespace QLVisualizer.Tests.ElementManagers.Typed
         [TestInitialize]
         public void Initialize()
         {
-            Widget = new StringElementManager("id", "question");
+            Widget = new StringElementManager("id", "question", null);
         }
 
         [TestMethod]

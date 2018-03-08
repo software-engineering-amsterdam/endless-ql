@@ -1,10 +1,10 @@
 ﻿using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLVizualizer.Controllers;
-using QLVizualizer.Controllers.Display;
-using QLVizualizer.Factories;
-using QLVizualizer.Style;
-using QLVizualizer.ElementManagers.Types;
+using QLVisualizer.Controllers;
+using QLVisualizer.Controllers.Display;
+using QLVisualizer.Factories;
+using QLVisualizer.Style;
+using QLVisualizer.ElementManagers.Types;
 
 namespace QLVisualizer.Tests.Elements
 {
@@ -27,9 +27,9 @@ namespace QLVisualizer.Tests.Elements
             _widgetController = new ElementManagerDisplayContollerWindows(10);
 
             _controlFactory = new ControlFactory(_widgetController);
-            _intWidget = new IntElementManager("a", "q1");
-            _boolWidget = new BoolElementManager("b", "q2");
-            _stringWidget = new StringElementManager("c", "q3");
+            _intWidget = new IntElementManager("a", "q1", null);
+            _boolWidget = new BoolElementManager("b", "q2", null);
+            _stringWidget = new StringElementManager("c", "q3", null);
         }
 
         #region Create

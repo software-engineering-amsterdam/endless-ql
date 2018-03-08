@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLVizualizer.Expression.Types;
+using QLVisualizer.Expression.Types;
 
 namespace QLVisualizer.Tests.Expression
 {

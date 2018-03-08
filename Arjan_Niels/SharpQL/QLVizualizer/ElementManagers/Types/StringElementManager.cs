@@ -1,11 +1,11 @@
-﻿using QLVizualizer.Expression;
-using QLVizualizer.Expression.Types;
+﻿using QLVisualizer.Expression;
+using QLVisualizer.Expression.Types;
 
-namespace QLVizualizer.ElementManagers.Types
+namespace QLVisualizer.ElementManagers.Types
 {
     public class StringElementManager : QuestionElementManager<string>
     {
-        public StringElementManager(string identifyer, string text, ExpressionBool activationExpression = null, TypedExpressionValue<string> answerExpression = null) : base(identifyer, text, activationExpression, answerExpression)
+        public StringElementManager(string identifyer, string text, ElementManager parent, ExpressionBool activationExpression = null, TypedExpressionValue<string> answerExpression = null) : base(identifyer, text, parent, activationExpression, answerExpression)
         {
         }
 

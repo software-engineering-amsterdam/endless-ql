@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using QLVizualizer.Controllers;
-using QLVizualizer.Expression.Types;
+using QLVisualizer.Controllers;
+using QLVisualizer.Expression.Types;
 
-namespace QLVizualizer.ElementManagers
+namespace QLVisualizer.ElementManagers
 {
     public abstract class ElementManagerCollection : ElementManager
     {
         /// <summary>
         /// Children of this ElementManager
         /// </summary>
-        protected List<ElementManager> _children { get; private set; }
+        protected List<ElementManagerLeaf> _children { get; private set; }
 
         public ElementManagerCollection(string identifyer, string text, ExpressionBool activationExpression = null) : base(identifyer, text, activationExpression)
         {
@@ -22,7 +22,7 @@ namespace QLVizualizer.ElementManagers
         /// Add child, set parent of ElementManager
         /// </summary>
         /// <param name="elementManager">ElementManager to add as child</param>
-        public void AddChild(ElementManager elementManager)
+        public void AddChild(ElementManagerLeaf elementManager)
         {
             _children.Add(elementManager);
             elementManager.SetParent(this);
@@ -30,10 +30,10 @@ namespace QLVizualizer.ElementManagers
 
         public override void SetController(ElementManagerController controller)
         {
-            base.SetController(controller);
+            base.SetController(controller); 
 
             // Forward call to children
-            foreach (ElementManager manager in _children)
+            foreach (ElementManagerLeaf manager in _children)
                 manager.SetController(controller);
         }
 
@@ -46,7 +46,7 @@ namespace QLVizualizer.ElementManagers
 
             // Only send to children if parent is active
             if (Active)
-                foreach (ElementManager manager in _children)
+                foreach (ElementManagerLeaf manager in _children)
                     manager.ReceiveUpdate(updatedIdentifyer);
         }
 

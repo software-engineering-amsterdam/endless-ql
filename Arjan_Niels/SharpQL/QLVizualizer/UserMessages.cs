@@ -1,11 +1,11 @@
-﻿using QLVizualizer.Expression.Types;
+﻿using QLVisualizer.Expression.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QLVizualizer
+namespace QLVisualizer
 {
     /// <summary>
     /// Class containing all messages that can be displayed to the user

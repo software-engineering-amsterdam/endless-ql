@@ -1,10 +1,9 @@
-﻿using QLVizualizer.Controllers;
-using QLVizualizer.Expression;
-using QLVizualizer.Expression.Types;
+﻿using QLVisualizer.Controllers;
+using QLVisualizer.Expression.Types;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QLVizualizer.ElementManagers
+namespace QLVisualizer.ElementManagers
 {
     public abstract class ElementManager
     {
@@ -24,19 +23,10 @@ namespace QLVizualizer.ElementManagers
         public bool Active { get; protected set; }
 
         /// <summary>
-        /// Expression for activation evaluation
+        /// Parent of this manager
         /// </summary>
-        protected ExpressionBool _activationExpression;
+        public ElementManager Parent { get; protected set; }
 
-        /// <summary>
-        /// ElementManager controller that this ElementManager receives updates from
-        /// </summary>
-        protected ElementManagerController _widgetController;
-
-        /// <summary>
-        /// Parent of this ElementManager
-        /// </summary>
-        protected ElementManager _parent { get; private set; }
 
         public ElementManager(string identifyer, string text, ExpressionBool activationExpression = null)
         {
@@ -47,10 +37,8 @@ namespace QLVizualizer.ElementManagers
             Active = activationExpression == null;
         }
 
-        public virtual IEnumerable<string> GetNotifyWidgetIDs()
-        {
-            return _activationExpression.UsedWidgetIDs;
-        }
+
+        public abstract IEnumerable<string> GetNotifyWidgetIDs();
 
         /// <summary>
         /// Sets widgetcontroller and subscribes to value changes
@@ -85,11 +73,31 @@ namespace QLVizualizer.ElementManagers
                 _widgetController.ActiveChanged();
         }
 
+
+        /// <summary>
+        /// Exports Element to XML
+        /// </summary>
+        /// <returns>XML representation of the element</returns>
         public abstract string ToXML();
 
+        /// <summary>
+        /// Sets parent of IElementManager
+        /// </summary>
+        /// <param name="parent">Parent manager</param>
         public void SetParent(ElementManager parent)
         {
-            _parent = parent;
+            Parent = parent;
         }
+
+        /// <summary>
+        /// Expression for activation evaluation
+        /// </summary>
+        protected ExpressionBool _activationExpression { get; private set; }
+
+        /// <summary>
+        /// ElementManager controller that this ElementManager receives updates from
+        /// </summary>
+        protected ElementManagerController _widgetController;
+
     }
 }

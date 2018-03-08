@@ -1,12 +1,12 @@
 ﻿using System;
-using QLVizualizer.Expression;
-using QLVizualizer.Expression.Types;
+using QLVisualizer.Expression;
+using QLVisualizer.Expression.Types;
 
-namespace QLVizualizer.ElementManagers.Types
+namespace QLVisualizer.ElementManagers.Types
 {
     public class MoneyElementManager : QuestionElementManager<double>
     {
-        public MoneyElementManager(string identifyer, string text, ExpressionBool activationExpression = null, TypedExpressionValue<double> answerExpression = null) : base(identifyer, text, activationExpression, answerExpression)
+        public MoneyElementManager(string identifyer, string text, ElementManager parent, ExpressionBool activationExpression = null, TypedExpressionValue<double> answerExpression = null) : base(identifyer, text, parent, activationExpression, answerExpression)
         {
         }
 

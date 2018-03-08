@@ -1,10 +1,10 @@
-﻿using QLVizualizer.Controllers;
-using QLVizualizer.Expression.Types;
+﻿using QLVisualizer.Controllers;
+using QLVisualizer.Expression.Types;
 using System.Linq;
 
-namespace QLVizualizer.ElementManagers
+namespace QLVisualizer.ElementManagers
 {
-    public abstract class QuestionElementManager<T> : ElementManager
+    public abstract class QuestionElementManager<T> : ElementManagerLeaf
     {
         /// <summary>
         /// Contains given answer, if not answered contains default value for T
@@ -26,7 +26,7 @@ namespace QLVizualizer.ElementManagers
         /// </summary>
         public bool Editable { get { return _answerExpression == null; } }
 
-        public QuestionElementManager(string identifyer, string text, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : base(identifyer, text, activationExpression)
+        public QuestionElementManager(string identifyer, string text, ElementManager parent, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : base(identifyer, text, parent, activationExpression)
         {
             AnswerValue = default(T);
             IsAnswered = false;

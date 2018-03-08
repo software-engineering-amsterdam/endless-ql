@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QLVizualizer.Properties {
+namespace QLVisualizer.Properties {
     using System;
     
     
@@ -63,9 +63,9 @@ namespace QLVizualizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon programIcon {
+        internal static System.Drawing.Icon MainIcon {
             get {
-                object obj = ResourceManager.GetObject("programIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("MainIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

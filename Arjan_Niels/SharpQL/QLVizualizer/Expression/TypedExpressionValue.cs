@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QLVizualizer.Expression.Types
+namespace QLVisualizer.Expression.Types
 {
     public abstract class TypedExpressionValue<T> : ExpressionValue
     {

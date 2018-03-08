@@ -1,3 +1,4 @@
+import analysis.CycleDetector;
 import analysis.SymbolTable;
 import analysis.TypeChecker;
 import javafx.application.Application;
@@ -65,13 +66,20 @@ public class Main extends Application {
             Form form = FormParser.parseForm(new FileInputStream(file));
 
             SymbolTable symbolTable = new SymbolTable(form);
-//            symbolTable.printValues();
+
+            CycleDetector cycleDetector = new CycleDetector(form);
+            Set<String> cycles = cycleDetector.detectCycles();
+
+            if (cycles.size() > 0) {
+                showErrorAlert("Cycles detected in the following variables:", cycles);
+                return;
+            }
 
             TypeChecker typeChecker = new TypeChecker(form, symbolTable);
             Set<String> typeCheckErrors = typeChecker.typeCheck();
 
             if (typeCheckErrors.size() > 0) {
-                showErrorAlert(typeCheckErrors);
+                showErrorAlert("Type checking errors:", typeCheckErrors);
                 return;
             }
 
@@ -90,9 +98,9 @@ public class Main extends Application {
         }
     }
 
-    private void showErrorAlert(Set<String> messages) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "Type checking error");
-        alert.setContentText(String.join("\n", messages));
+    private void showErrorAlert(String description, Set<String> messages) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, description);
+        alert.setContentText(description + "\n" + String.join("\n", messages));
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }

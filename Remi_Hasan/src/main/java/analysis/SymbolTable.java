@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SymbolTable {
-    public Map<String, Expression> table;
+    private Map<String, Expression> table;
 
     public SymbolTable() {
         this.table = new HashMap<>();

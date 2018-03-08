@@ -26,7 +26,7 @@ namespace QLVisualizer.ElementManagers
         /// </summary>
         public bool Editable { get { return _answerExpression == null; } }
 
-        public QuestionElementManager(string identifyer, string text, ElementManager parent, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : base(identifyer, text, parent, activationExpression)
+        public QuestionElementManager(string identifyer, string text, ElementManager parent,ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : base(identifyer, text, "question", parent, activationExpression)
         {
             Answer = new QuestionElementValue<T>(default(T), false);
             IsAnswered = false;
@@ -71,7 +71,7 @@ namespace QLVisualizer.ElementManagers
 
             // Send update to the controller
             if (_widgetController != null)
-                _widgetController.ValueUpdate(Identifyer);
+                _widgetController.ValueUpdate(Identifier);
         }
 
         /// <summary>
@@ -88,6 +88,11 @@ namespace QLVisualizer.ElementManagers
                 // Update view of this widget since the value is calculated
                 _widgetController.UpdateView(this);
             }
+        }
+
+        public override string ToXML()
+        {
+            return string.Format("<{0} identifier=\"{1}\" type=\"{2}\" valid=\"{3}\">{4}</{0}>", XMLElementName, Identifier, typeof(T), Answer.IsValid, Answer.Value);
         }
     }
 }

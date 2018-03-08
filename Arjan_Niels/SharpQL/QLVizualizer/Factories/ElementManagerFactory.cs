@@ -62,13 +62,13 @@ namespace QLVisualizer.Factories
             switch (questionNode.ValueType)
             {
                 case QValueType.BOOLEAN:
-                    return new BoolElementManager(questionNode.ID, questionNode.Text, null, condition);
+                    return new BoolQuestionManager(questionNode.ID, questionNode.Text, null, condition);
                 case QValueType.INTEGER:
-                    return new IntElementManager(questionNode.ID, questionNode.Text, null, condition);
+                    return new IntQuestionManager(questionNode.ID, questionNode.Text, null, condition);
                 case QValueType.TEXT:
-                    return new StringElementManager(questionNode.ID, questionNode.Text, null, condition);
+                    return new StringQuestionManager(questionNode.ID, questionNode.Text, null, condition);
                 case QValueType.MONEY:
-                    return new MoneyElementManager(questionNode.ID, questionNode.Text, null, condition);
+                    return new MoneyQuestionManager(questionNode.ID, questionNode.Text, null, condition);
             }
             throw new InvalidOperationException("Unsupported type: " + questionNode.ValueType);
         }
@@ -87,11 +87,11 @@ namespace QLVisualizer.Factories
             switch (node.Expression.GetQValueType())
             {
                 case QValueType.BOOLEAN:
-                    return new BoolElementManager(node.ID, node.Text, null, condition, expression as ExpressionBool);
+                    return new BoolQuestionManager(node.ID, node.Text, null, condition, expression as ExpressionBool);
                 case QValueType.INTEGER:
-                    return new IntElementManager(node.ID, node.Text, null, condition, expression as ExpressionInt);
+                    return new IntQuestionManager(node.ID, node.Text, null, condition, expression as ExpressionInt);
                 case QValueType.MONEY:
-                    return new MoneyElementManager(node.ID, node.Text, null, condition, expression as ExpressionDouble);
+                    return new MoneyQuestionManager(node.ID, node.Text, null, condition, expression as ExpressionDouble);
             }
             throw new NotImplementedException();
         }

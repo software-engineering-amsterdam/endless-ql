@@ -14,7 +14,7 @@ namespace QLVisualizer.ElementManagers
         /// </summary>
         protected List<ElementManagerLeaf> _children { get; private set; }
 
-        public ElementManagerCollection(string identifyer, string text, ExpressionBool activationExpression = null) : base(identifyer, text, activationExpression)
+        public ElementManagerCollection(string identifyer, string text, string xmlName, ExpressionBool activationExpression = null) : base(identifyer, text, xmlName, activationExpression)
         {
         }
 
@@ -54,6 +54,11 @@ namespace QLVisualizer.ElementManagers
         {
             // Return children and self
             return _children.SelectMany(o => o.GetNotifyWidgetIDs()).Concat(_activationExpression.UsedWidgetIDs);
+        }
+
+        public override string ToXML()
+        {
+            return string.Format("<{0} identifier=\"{1}\">{2}</{0}>", XMLElementName, Identifier, string.Join("", _children.Select(o => o.ToXML())));
         }
     }
 }

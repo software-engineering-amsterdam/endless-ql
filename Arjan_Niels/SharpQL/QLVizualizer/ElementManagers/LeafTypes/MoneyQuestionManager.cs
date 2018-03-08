@@ -3,9 +3,9 @@ using QLVisualizer.Expression.Types;
 
 namespace QLVisualizer.ElementManagers.LeafTypes
 {
-    public class MoneyElementManager : QuestionElementManager<double>
+    public class MoneyQuestionManager : QuestionElementManager<double>
     {
-        public MoneyElementManager(string identifyer, string text, ElementManager parent, ExpressionBool activationExpression = null, TypedExpressionValue<double> answerExpression = null) : base(identifyer, text, parent, activationExpression, answerExpression)
+        public MoneyQuestionManager(string identifyer, string text, ElementManager parent, ExpressionBool activationExpression = null, TypedExpressionValue<double> answerExpression = null) : base(identifyer, text, parent, activationExpression, answerExpression)
         {
         }
 
@@ -22,11 +22,6 @@ namespace QLVisualizer.ElementManagers.LeafTypes
         public override QuestionElementValue<double> Validate(double input)
         {
             return new QuestionElementValue<double>(Math.Round(input, 2), true);
-        }
-
-        public override string ToXML()
-        {
-            return string.Format("<moneyValue>{0}</moneyValue>", Answer);
         }
     }
 }

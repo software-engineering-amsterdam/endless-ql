@@ -10,7 +10,12 @@ namespace QLVisualizer.ElementManagers
         /// <summary>
         /// Unique identifyer of the Element & ElementManager
         /// </summary>
-        public string Identifyer { get; private set; }
+        public string Identifier { get; private set; }
+
+        /// <summary>
+        /// Name of XML tag for this manager
+        /// </summary>
+        protected string XMLElementName { get; private set; }
 
         /// <summary>
         /// Text of the ElementManager
@@ -28,10 +33,12 @@ namespace QLVisualizer.ElementManagers
         public ElementManager Parent { get; protected set; }
 
 
-        public ElementManager(string identifyer, string text, ExpressionBool activationExpression = null)
+        public ElementManager(string identifyer, string text, string xmlName, ExpressionBool activationExpression = null)
         {
             Text = text;
-            Identifyer = identifyer;
+            Identifier = identifyer;
+            XMLElementName = xmlName;
+
 
             _activationExpression = activationExpression;
             Active = activationExpression == null;

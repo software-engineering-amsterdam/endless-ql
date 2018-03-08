@@ -12,9 +12,9 @@ namespace QLVisualizer.Tests.Controllers.Display
         protected WidgetDisplayController<T, Y> _widgetDisplayController;
         //protected ElementFactory<T> _elementFactory;
 
-        protected IntElementManager _intWidget;
-        protected BoolElementManager _boolWidget;
-        protected StringElementManager _stringWidget;
+        protected IntQuestionManager _intWidget;
+        protected BoolQuestionManager _boolWidget;
+        protected StringQuestionManager _stringWidget;
 
         protected Y _widgetStyle;
 
@@ -23,15 +23,15 @@ namespace QLVisualizer.Tests.Controllers.Display
         {
             // when int widget is added, the element must be there
             _widgetDisplayController.ShowWidget(_intWidget, _widgetStyle);
-            Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_intWidget.Identifyer));
+            Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_intWidget.Identifier));
 
             // when string widget is added, the element must be there
             _widgetDisplayController.ShowWidget(_stringWidget, _widgetStyle);
-            Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_stringWidget.Identifyer));
+            Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_stringWidget.Identifier));
 
             // when bool widget is added, the element must be there
             _widgetDisplayController.ShowWidget(_boolWidget, _widgetStyle);
-            Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_boolWidget.Identifyer));
+            Assert.IsTrue(_widgetDisplayController.ElementIndex.ContainsKey(_boolWidget.Identifier));
 
             // there must now be a total of three elements
             Assert.AreEqual(3, _widgetDisplayController.ElementIndex.Count);

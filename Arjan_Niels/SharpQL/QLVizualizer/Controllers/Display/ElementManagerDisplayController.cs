@@ -133,8 +133,8 @@ namespace QLVisualizer.Controllers.Display
             foreach (ElementManager widget in _widgets.Values)
                 if (widget.Active)
                 {
-                    _tempStyle[widget.Identifyer] = UpdatePosition(widget, position, _tempStyle[widget.Identifyer]);
-                    position = ShowWidget(widget, _tempStyle[widget.Identifyer]);
+                    _tempStyle[widget.Identifier] = UpdatePosition(widget, position, _tempStyle[widget.Identifier]);
+                    position = ShowWidget(widget, _tempStyle[widget.Identifier]);
                 }
         }
 
@@ -162,7 +162,7 @@ namespace QLVisualizer.Controllers.Display
         protected T CreateElement(ElementManager widget, Y style)
         {
             T element = _elementFactory.CreateElement(widget, style);
-            ElementIndex.Add(widget.Identifyer, element);
+            ElementIndex.Add(widget.Identifier, element);
             return element;
         }
 
@@ -174,16 +174,16 @@ namespace QLVisualizer.Controllers.Display
         {
             if (widget.Active == true)
             {
-                if (!ElementIndex.ContainsKey(widget.Identifyer))
+                if (!ElementIndex.ContainsKey(widget.Identifier))
                 {
                     // TODO: ADD WIDGET ON CORRECT POSITION IN VIEW
                     ShowWidget(widget, DefaultStyle);
                 }
                 else
-                    _elementFactory.UpdateElement(widget, ElementIndex[widget.Identifyer]);
+                    _elementFactory.UpdateElement(widget, ElementIndex[widget.Identifier]);
             }
-            else if (ElementIndex.ContainsKey(widget.Identifyer))
-                DestroyElement(widget.Identifyer);
+            else if (ElementIndex.ContainsKey(widget.Identifier))
+                DestroyElement(widget.Identifier);
         }
 
         /// <summary>

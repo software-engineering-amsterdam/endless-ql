@@ -74,7 +74,7 @@ namespace QLVisualizer.Controllers
         public virtual void SetWidgets(ElementManager[] widgets)
         {
             // Convert list input to dictionary
-            _widgets = widgets.ToDictionary(o => o.Identifyer, o => o);
+            _widgets = widgets.ToDictionary(o => o.Identifier, o => o);
 
             // Set controller for each assigned widget
             foreach (ElementManager w in _widgets.Values)

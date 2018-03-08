@@ -51,9 +51,9 @@ namespace QLVisualizer.Controllers.Display
         {
             // Create control
             Control control = null;
-            if (ElementIndex.ContainsKey(widget.Identifyer))
+            if (ElementIndex.ContainsKey(widget.Identifier))
             {
-                control = ElementIndex[widget.Identifyer];
+                control = ElementIndex[widget.Identifier];
                 control.Location = new Point(0, style.YPosition);
             }
             else

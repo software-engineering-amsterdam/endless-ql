@@ -14,9 +14,9 @@ namespace QLVisualizer.Tests.Elements
         private ControlFactory _controlFactory;
         private ElementManagerController _widgetController;
 
-        private IntElementManager _intWidget;
-        private BoolElementManager _boolWidget;
-        private StringElementManager _stringWidget;
+        private IntQuestionManager _intWidget;
+        private BoolQuestionManager _boolWidget;
+        private StringQuestionManager _stringWidget;
 
         private WindowsStyleProperties _style;
 
@@ -27,9 +27,9 @@ namespace QLVisualizer.Tests.Elements
             _widgetController = new ElementManagerDisplayContollerWindows(10);
 
             _controlFactory = new ControlFactory(_widgetController);
-            _intWidget = new IntElementManager("a", "q1", null);
-            _boolWidget = new BoolElementManager("b", "q2", null);
-            _stringWidget = new StringElementManager("c", "q3", null);
+            _intWidget = new IntQuestionManager("a", "q1", null);
+            _boolWidget = new BoolQuestionManager("b", "q2", null);
+            _stringWidget = new StringQuestionManager("c", "q3", null);
         }
 
         #region Create

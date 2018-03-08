@@ -4,12 +4,12 @@ using QLVisualizer.ElementManagers.LeafTypes;
 namespace QLVisualizer.Tests.ElementManagers.Typed
 {
     [TestClass]
-    public class BoolWidgetTest : QuestionWidget<BoolElementManager, bool>
+    public class BoolWidgetTest : QuestionWidget<BoolQuestionManager, bool>
     {    
         [TestInitialize]
         public void Initialize()
         {
-            Widget = new BoolElementManager("id", "question", null, null);
+            Widget = new BoolQuestionManager("id", "question", null, null);
         }
 
         [TestMethod]

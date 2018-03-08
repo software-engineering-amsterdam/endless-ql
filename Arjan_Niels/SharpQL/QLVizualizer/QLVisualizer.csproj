@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2282F3C9-F91F-49BF-84EB-5584558A5B78}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>QL_Vizualizer</RootNamespace>
-    <AssemblyName>QL_Vizualizer</AssemblyName>
+    <RootNamespace>QLVisualizer</RootNamespace>
+    <AssemblyName>QLVisualizer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -47,6 +47,10 @@
   <ItemGroup>
     <Compile Include="Controllers\Display\ElementManagerDisplayContollerWindows.cs" />
     <Compile Include="Controllers\ElementManagerController.cs" />
+    <Compile Include="ElementManagers\CollectionTypes\ElementManagerSubCollection.cs" />
+    <Compile Include="ElementManagers\CollectionTypes\FormManager.cs" />
+    <Compile Include="ElementManagers\CollectionTypes\PageManager.cs" />
+    <Compile Include="ElementManagers\CollectionTypes\SectionManager.cs" />
     <Compile Include="ElementManagers\ElementManagerCollection.cs" />
     <Compile Include="ElementManagers\ElementManager.cs" />
     <Compile Include="Expression\ExpressionOperators.cs" />
@@ -67,10 +71,10 @@
     <Compile Include="UserMessages.cs" />
     <Compile Include="ElementManagers\QuestionElementManager.cs" />
     <Compile Include="ElementManagers\ElementManagerLeaf.cs" />
-    <Compile Include="ElementManagers\LeafTypes\BoolElementManager.cs" />
-    <Compile Include="ElementManagers\LeafTypes\IntElementManager.cs" />
-    <Compile Include="ElementManagers\LeafTypes\MoneyElementManager.cs" />
-    <Compile Include="ElementManagers\LeafTypes\StringElementManager.cs" />
+    <Compile Include="ElementManagers\LeafTypes\BoolQuestionManager.cs" />
+    <Compile Include="ElementManagers\LeafTypes\IntQuestionManager.cs" />
+    <Compile Include="ElementManagers\LeafTypes\MoneyQuestionManager.cs" />
+    <Compile Include="ElementManagers\LeafTypes\StringQuestionManager.cs" />
     <Compile Include="ElementManagers\QuestionElementValue.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

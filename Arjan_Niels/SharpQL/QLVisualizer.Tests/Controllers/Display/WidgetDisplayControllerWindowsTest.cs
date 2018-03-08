@@ -16,9 +16,9 @@ namespace QLVisualizer.Tests.Controllers.Display
             _widgetStyle = new WindowsStyleProperties();
 
             _widgetDisplayController = new ElementManagerDisplayContollerWindows(10);
-            _intWidget = new IntElementManager("a", "q1", null);
-            _boolWidget = new BoolElementManager("b", "q2", null);
-            _stringWidget = new StringElementManager("c", "q3", null);
+            _intWidget = new IntQuestionManager("a", "q1", null);
+            _boolWidget = new BoolQuestionManager("b", "q2", null);
+            _stringWidget = new StringQuestionManager("c", "q3", null);
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace QLVisualizer.Tests.Controllers.Display
             _intWidget.SetAnswer(20);
 
             // Element value does not equal origional value
-            Assert.AreNotEqual(_widgetDisplayController.ElementIndex[_intWidget.Identifyer], 10);
+            Assert.AreNotEqual(_widgetDisplayController.ElementIndex[_intWidget.Identifier], 10);
         }
 
         [TestMethod]
@@ -50,7 +50,7 @@ namespace QLVisualizer.Tests.Controllers.Display
             _boolWidget.SetAnswer(false);
 
             // Element value does not equal origional value
-            Assert.AreNotEqual(_widgetDisplayController.ElementIndex[_boolWidget.Identifyer], true);
+            Assert.AreNotEqual(_widgetDisplayController.ElementIndex[_boolWidget.Identifier], true);
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace QLVisualizer.Tests.Controllers.Display
             _stringWidget.SetAnswer("pass");
 
             // Element value does not equal origional value
-            Assert.AreNotEqual(_widgetDisplayController.ElementIndex[_stringWidget.Identifyer], "fail");
+            Assert.AreNotEqual(_widgetDisplayController.ElementIndex[_stringWidget.Identifier], "fail");
         }
     }
 }

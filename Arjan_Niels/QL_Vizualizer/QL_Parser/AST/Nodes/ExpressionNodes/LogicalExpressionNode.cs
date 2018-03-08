@@ -1,13 +1,8 @@
-﻿using QL_Parser.Exceptions;
+﻿using QL_Parser.AST.Nodes.ExpressionNodes.Enums;
+using QL_Parser.Exceptions;
 
 namespace QL_Parser.AST.Nodes.ExpressionNodes
 {
-    public enum LogicalOperator
-    {
-        AND,
-        OR
-    }
-
     public class LogicalExpressionNode : ExpressionNode
     {
         private const string AND = "&&";

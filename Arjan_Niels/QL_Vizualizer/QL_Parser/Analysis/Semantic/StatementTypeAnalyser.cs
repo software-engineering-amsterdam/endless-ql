@@ -40,5 +40,8 @@ namespace QL_Parser.Analysis.Semantic
                     return node.GetQValueType() == QValueType.BOOLEAN;
             }
         }
+
+
+
     }
 }

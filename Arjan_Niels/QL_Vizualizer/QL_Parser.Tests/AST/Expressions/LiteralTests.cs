@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Parser.AST.Nodes;
 using QL_Parser.AST.Nodes.ExpressionNodes;
+using QL_Parser.AST.Nodes.ExpressionNodes.Enums;
 using System.Linq;
 
 namespace QL_Parser.Tests.AST.Expressions

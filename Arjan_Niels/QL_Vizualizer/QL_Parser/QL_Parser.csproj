@@ -58,7 +58,10 @@
     <Compile Include="AST\Nodes\ComputedNode.cs" />
     <Compile Include="AST\Nodes\ConditionalNode.cs" />
     <Compile Include="AST\Nodes\ExpressionNodes\ArthimetricExpressionNode.cs" />
+    <Compile Include="AST\Nodes\ExpressionNodes\Enums\ArthimetricOperator.cs" />
     <Compile Include="AST\Nodes\ExpressionNodes\ComparisonExpressionNode.cs" />
+    <Compile Include="AST\Nodes\ExpressionNodes\Enums\ComparisonOperator.cs" />
+    <Compile Include="AST\Nodes\ExpressionNodes\Enums\LogicalOperator.cs" />
     <Compile Include="AST\Nodes\ExpressionNodes\ExpressionNode.cs" />
     <Compile Include="AST\Nodes\ExpressionNodes\LogicalExpressionNode.cs" />
     <Compile Include="AST\Nodes\FormNode.cs" />

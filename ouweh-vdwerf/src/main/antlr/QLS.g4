@@ -9,17 +9,17 @@ stylesheet
     ;
 
 
-page: 'page' ID OPEN_BRACKET * CLOSE_BRACKET;
+page: 'page' ID OPEN_BRACKET segment+ CLOSE_BRACKET;
 
-section: 'section' STRING OPEN_BRACKET * CLOSE_BRACKET;
+section: 'section' ID OPEN_BRACKET segment+ CLOSE_BRACKET;
 
 segment: question
        | section
        ;
 
-question: 'question' ID widget*;
+question: 'question' ID widget?;
 
-widget: 'widget' widgetType style*;
+widget: 'widget' widgetType style?;
 
 widgetType: 'slider'
           | 'spinbox'

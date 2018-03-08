@@ -1,10 +1,8 @@
 package nl.uva.se.sc.niro.gui.factory
 
-import java.time.format.DateTimeFormatter
+import java.time.LocalDate
 
-import javafx.scene.control._
-import javafx.util.converter.LocalDateStringConverter
-import nl.uva.se.sc.niro.gui.builder.TextFormatterBuilder
+import nl.uva.se.sc.niro.gui.control._
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
 
 trait WidgetFactory {
@@ -15,49 +13,25 @@ trait WidgetFactory {
 }
 
 object BooleanWidgetFactory extends WidgetFactory {
-  def make(question: GUIQuestion): Control = {
-    new CheckBox()
-  }
+  def make(question: GUIQuestion): QLWidget[Boolean] = new QLBooleanField()
 }
 
 object StringWidgetFactory extends WidgetFactory {
-  def make(question: GUIQuestion): Control = {
-    new TextField()
-  }
+  def make(question: GUIQuestion): QLWidget[String] = new QLTextField()
 }
 
 object IntegerWidgetFactory extends WidgetFactory {
-  def make(question: GUIQuestion): Control = {
-    val integerField = new TextField()
-    integerField.setTextFormatter(
-      TextFormatterBuilder[java.lang.Integer]().buildInputFilter(INTEGER_MASK).buildIntegerConverter().build())
-    integerField
-  }
+  def make(question: GUIQuestion): QLWidget[java.lang.Integer] = new QLIntegerField()
 }
 
 object DecimalWidgetFactory extends WidgetFactory {
-  def make(question: GUIQuestion): Control = {
-    val decimalField = new TextField()
-    decimalField.setTextFormatter(
-      TextFormatterBuilder[java.math.BigDecimal]().buildInputFilter(DECIMAL_MASK).buildDecimalConverter().build())
-    decimalField
-  }
+  def make(question: GUIQuestion): QLWidget[java.math.BigDecimal] = new QLDecimalField()
 }
 
 object MoneyWidgetFactory extends WidgetFactory {
-  def make(question: GUIQuestion): Control = {
-    val moneyField = new TextField()
-    moneyField.setTextFormatter(
-      TextFormatterBuilder[java.math.BigDecimal]().buildInputFilter(MONEY_MASK).buildDecimalConverter().build())
-    moneyField
-  }
+  def make(question: GUIQuestion): QLWidget[java.math.BigDecimal] = new QLMoneyField()
 }
 
 object DateWidgetFactory extends WidgetFactory {
-  def make(question: GUIQuestion): Control = {
-    val dateField = new DatePicker()
-    val dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT)
-    dateField.setConverter(new LocalDateStringConverter(dateFormatter, dateFormatter))
-    dateField
-  }
+  def make(question: GUIQuestion): QLWidget[LocalDate] = new QLDateField()
 }

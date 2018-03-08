@@ -4,6 +4,7 @@ import java.time.LocalDate
 
 import javafx.scene.control._
 import javafx.scene.layout.HBox
+import nl.uva.se.sc.niro.gui.control.QLWidget
 import nl.uva.se.sc.niro.gui.factory._
 import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.expressions.answers._
@@ -11,7 +12,7 @@ import nl.uva.se.sc.niro.model.gui.GUIQuestion
 
 import scala.collection.mutable
 
-abstract class Component[T](id: String, label: Label, control: Control) extends HBox {
+abstract class Component[T](id: String, label: Label, control: QLWidget[_]) extends HBox {
   getChildren.addAll(label, control)
   managedProperty().bind(visibleProperty())
 
@@ -26,9 +27,9 @@ abstract class Component[T](id: String, label: Label, control: Control) extends 
   def setValue(value: Option[T]): Unit
 }
 
-case class StringComponent(id: String, label: Label, control: Control) extends Component[String](id, label, control) {
-  override def getValue: Option[String] = toOption(control.asInstanceOf[TextField].getText)
-  override def setValue(value: Option[String]): Unit = control.asInstanceOf[TextField].setText(fromOption(value))
+case class StringComponent(id: String, label: Label, control: QLWidget[String]) extends Component[String](id, label, control) {
+  override def getValue: Option[String] = toOption(control.getValue)
+  override def setValue(value: Option[String]): Unit = control.setValue(fromOption(value))
   override def update(dictionary: mutable.Map[String, Answer]): Unit = {
     setValue(dictionary(id).possibleValue.map(_.toString))
   }
@@ -36,9 +37,9 @@ case class StringComponent(id: String, label: Label, control: Control) extends C
   private def toOption(value: String): Option[String] = Option(value)
 }
 
-case class BooleanComponent(id: String, label: Label, control: Control) extends Component[Boolean](id, label, control) {
-  override def getValue: Option[Boolean] = toOption(control.asInstanceOf[CheckBox].isSelected)
-  override def setValue(value: Option[Boolean]): Unit = control.asInstanceOf[CheckBox].setSelected(fromOption(value))
+case class BooleanComponent(id: String, label: Label, control: QLWidget[Boolean]) extends Component[Boolean](id, label, control) {
+  override def getValue: Option[Boolean] = toOption(control.getValue)
+  override def setValue(value: Option[Boolean]): Unit = control.setValue(fromOption(value))
   override def update(dictionary: mutable.Map[String, Answer]): Unit = {
     setValue(dictionary(id).possibleValue.asInstanceOf[Option[Boolean]])
   }
@@ -46,9 +47,9 @@ case class BooleanComponent(id: String, label: Label, control: Control) extends 
   private def toOption(value: Boolean): Option[Boolean] = Option(value)
 }
 
-case class DateComponent(id: String, label: Label, control: Control) extends Component[LocalDate](id, label, control) {
-  override def getValue: Option[LocalDate] = toOption(control.asInstanceOf[DatePicker].getValue)
-  override def setValue(value: Option[LocalDate]): Unit = control.asInstanceOf[DatePicker].setValue(fromOption(value))
+case class DateComponent(id: String, label: Label, control: QLWidget[LocalDate]) extends Component[LocalDate](id, label, control) {
+  override def getValue: Option[LocalDate] = toOption(control.getValue)
+  override def setValue(value: Option[LocalDate]): Unit = control.setValue(fromOption(value))
   override def update(dictionary: mutable.Map[String, Answer]): Unit = {
     setValue(dictionary(id).possibleValue.asInstanceOf[Option[LocalDate]])
   }
@@ -56,15 +57,9 @@ case class DateComponent(id: String, label: Label, control: Control) extends Com
   private def toOption(value: LocalDate): Option[LocalDate] = Option(value)
 }
 
-case class IntegerComponent(id: String, label: Label, control: Control) extends Component[Int](id, label, control) {
-  override def getValue: Option[Int] =
-    toOption(control.asInstanceOf[TextField].getTextFormatter.asInstanceOf[TextFormatter[java.lang.Integer]].getValue())
-  override def setValue(value: Option[Int]): Unit =
-    control
-      .asInstanceOf[TextField]
-      .getTextFormatter
-      .asInstanceOf[TextFormatter[java.lang.Integer]]
-      .setValue(fromOption(value))
+case class IntegerComponent(id: String, label: Label, control: QLWidget[Integer]) extends Component[Int](id, label, control) {
+  override def getValue: Option[Int] = toOption(control.getValue)
+  override def setValue(value: Option[Int]): Unit = control.setValue(fromOption(value))
   override def update(dictionary: mutable.Map[String, Answer]): Unit = {
     setValue(dictionary(id).possibleValue.asInstanceOf[Option[Int]])
   }
@@ -72,17 +67,10 @@ case class IntegerComponent(id: String, label: Label, control: Control) extends 
   private def toOption(value: Int): Option[Int] = Option(value)
 }
 
-case class DecimalComponent(id: String, label: Label, control: Control)
+case class DecimalComponent(id: String, label: Label, control: QLWidget[java.math.BigDecimal])
     extends Component[BigDecimal](id, label, control) {
-  override def getValue: Option[BigDecimal] =
-    toOption(
-      control.asInstanceOf[TextField].getTextFormatter.asInstanceOf[TextFormatter[java.math.BigDecimal]].getValue())
-  override def setValue(value: Option[BigDecimal]): Unit =
-    control
-      .asInstanceOf[TextField]
-      .getTextFormatter
-      .asInstanceOf[TextFormatter[java.math.BigDecimal]]
-      .setValue(fromOption(value))
+  override def getValue: Option[BigDecimal] = toOption(control.getValue)
+  override def setValue(value: Option[BigDecimal]): Unit = control.setValue(fromOption(value))
   override def update(dictionary: mutable.Map[String, Answer]): Unit = {
     setValue(dictionary(id).possibleValue.asInstanceOf[Option[BigDecimal]])
   }
@@ -91,23 +79,16 @@ case class DecimalComponent(id: String, label: Label, control: Control)
   private def toOption(value: BigDecimal): Option[BigDecimal] = Option(value)
 }
 
-case class MoneyComponent(id: String, label: Label, control: Control)
+case class MoneyComponent(id: String, label: Label, control: QLWidget[java.math.BigDecimal])
     extends Component[BigDecimal](id, label, control) {
-  override def getValue: Option[BigDecimal] =
-    toOption(
-      control.asInstanceOf[TextField].getTextFormatter.asInstanceOf[TextFormatter[java.math.BigDecimal]].getValue())
-  override def setValue(value: Option[BigDecimal]): Unit =
-    control
-      .asInstanceOf[TextField]
-      .getTextFormatter
-      .asInstanceOf[TextFormatter[java.math.BigDecimal]]
-      .setValue(fromOption(value))
+  override def getValue: Option[BigDecimal] = toOption(control.getValue)
+  override def setValue(value: Option[BigDecimal]): Unit = control.setValue(fromOption(value))
   override def update(dictionary: mutable.Map[String, Answer]): Unit = {
     setValue(dictionary(id).possibleValue.asInstanceOf[Option[BigDecimal]])
   }
   private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal =
     if (value.isDefined) value.get.bigDecimal else null
-  private def toOption(value: BigDecimal): Option[BigDecimal] = Option(value)
+  private def toOption(value: java.math.BigDecimal): Option[BigDecimal] = Option(value)
 }
 
 object ComponentFactory {

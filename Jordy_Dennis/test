@@ -3,12 +3,12 @@ form taxOfficeExample {
 		a: int
 
 	"This is a string"
-		b: string
+		b: int
 
 	"Assignment Var"
-		g: int = (a * a)
+		g: float = (a * b)
 
-	if(a && b){
+	if(!a){
 		"Q3 Within the if (int)"
 			f: int
 	}

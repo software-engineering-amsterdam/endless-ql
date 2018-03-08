@@ -85,9 +85,6 @@ def main(argv):
     q.get_questions()
     exit()
 
-
-
-
     # QLS
     if len(argv)>2:
         input_file = argv[2]
@@ -103,7 +100,7 @@ def main(argv):
     # pass tree to visitor
     qlsVisitor = QLSVisitor()
     qlsVisitor.visit(qlsTree)
-    print(qlsTree.toStringTree())
+    # print(qlsTree.toStringTree())
 
 
 if __name__ == '__main__':

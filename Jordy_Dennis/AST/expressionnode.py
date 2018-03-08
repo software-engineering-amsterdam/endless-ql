@@ -102,6 +102,11 @@ class BinaryNode:
         self.left.linkVars(varDict)
         self.right.linkVars(varDict)
 
+    def evaluate(self):
+        left_exp = self.left.evaluate()
+        right_exp = self.right.evaluate()
+        return eval(str(left_exp) + self.op + str(right_exp))
+
     def __repr__(self):
         return "Binop: {} {} {}".format(self.left, self.op, self.right)
 
@@ -129,6 +134,10 @@ class UnaryNode:
     def getName(self):
         return self.op + str(self.left.getName())
 
+    def evaluate(self):
+        left_exp = self.left.evaluate()
+        return eval("not " + str(left_exp))
+
     def __repr__(self):
         return "Monop: {} {}".format(self.op, self.left)
 
@@ -153,6 +162,9 @@ class LiteralNode:
     # Return string representation of expression
     def getName(self):
         return str(self.value)
+
+    def evaluate(self):
+        return self.value
 
     def __repr__(self):
         return "literal: {}({}) ".format(self.value, self.type)
@@ -211,6 +223,9 @@ class VarNode:
     # Return string representation of expression
     def getName(self):
         return self.varname
+
+    def evaluate(self):
+        return self.value
 
     def __repr__(self):
         return "VarNode: {} {}".format(self.varname, self.type)

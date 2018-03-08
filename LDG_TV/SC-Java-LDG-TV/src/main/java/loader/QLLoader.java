@@ -3,6 +3,9 @@ package loader;
 import antlr.FormBaseListener;
 import antlr.FormParser;
 import domain.FormNode;
+import domain.model.ast.ASTFormNode;
+import domain.model.ast.QuestionNode;
+import domain.model.ast.VariableNode;
 import domain.model.expression.Expression;
 import domain.model.variable.*;
 import domain.model.Question;
@@ -13,10 +16,14 @@ import java.util.List;
 
 public class QLLoader extends FormBaseListener {
     private FormNode formNode;
+
+    private ASTFormNode fn;
+
     private List<Variable> conditionsHolder;
     private QLChecker qlChecker;
     private Variable constructedVariable;
     public QLLoader(){
+        this.fn = new ASTFormNode();
         this.formNode = new FormNode();
         this.conditionsHolder = new ArrayList<Variable>();
     }
@@ -58,6 +65,7 @@ public class QLLoader extends FormBaseListener {
     @Override
     public void exitQuestionStructure(FormParser.QuestionStructureContext ctx) {
         this.formNode.getFormData().addQuestion(this.conditionsHolder, new Question(ctx.label().getText(), constructedVariable));
+        this.formNode.addQuestion(new Question(ctx.label().getText(), constructedVariable));
     }
     @Override
     public void enterVariableType(FormParser.VariableTypeContext ctx){

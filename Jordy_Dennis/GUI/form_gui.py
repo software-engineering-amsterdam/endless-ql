@@ -44,6 +44,11 @@ class FormGui:
         self.contents = self.sfg.get_contents()
         return self.contents
 
+    def remove_question(self, varName):
+        for question in self.questions:
+            if question.getVarName == varName:
+                question.empty_frame()
+
     def get_header(self):
         return self.header_frame
 

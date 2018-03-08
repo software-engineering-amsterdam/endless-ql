@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-import src.scanparse.qllex
+from scanparse import qllex
 
 from AST.position import Position
 from AST.expressions.variable_node import VariableNode
@@ -33,7 +33,7 @@ from AST.types.type_undefined import TypeUndefined
 
 class QLParser:
     def __init__(self):
-        self.tokens = src.scanparse.qllex.LexTokenizer.tokens
+        self.tokens = qllex.LexTokenizer.tokens
         self.precedence = (
             ('left', 'OR'),
             ('left', 'AND'),

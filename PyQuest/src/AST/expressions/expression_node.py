@@ -11,6 +11,9 @@ class ExpressionNode(BaseNode):
     def expression_type(self):
         return self.__expression_type
 
+    def set_expression_type(self, expression_type):
+        self.__expression_type = expression_type
+
     @property
     def value(self):
         return self.__value

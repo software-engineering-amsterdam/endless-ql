@@ -20,24 +20,28 @@ class Question_Generator:
 
     # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
     def updateQuestions(self):
-        print("update questions")
         self.questions = collections.OrderedDict()
         self.get_questions(self.ast.form.block)
+        tmp_bool = False
         if self.form:
             print("-------------------")
-            # printDict(self.ast)
-            # printDict(self.varDict)
+            printDict(self.ast)
+            printDict(self.varDict)
             # self.form.empty_frame()
             for varName in self.questions:
+                print(varName)
                 label = self.questions[varName].getQuestion()
                 type = self.varDict[varName]['node'].checkTypes()
                 value = self.varDict[varName]['node'].evaluate()
                 if(not checkQuestions(self.form.questions,label)):
                     self.form.add_question(varName, label, type, value)
+                    # pack to previous iteration
 
+            # remove if question if no longer valid
             for question in self.form.questions:
                 if(question.varName not in self.questions):
                     question.frame.destroy()
+                    self.form.questions.remove(question)
 
         return self.questions
 

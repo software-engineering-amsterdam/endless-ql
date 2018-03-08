@@ -3,10 +3,11 @@ package loader;
 import antlr.FormBaseListener;
 import antlr.FormParser;
 import domain.FormNode;
+import domain.model.IfNode;
 import domain.model.value.ExpressionValue;
 import domain.model.value.PlainValue;
 import domain.model.variable.*;
-import domain.model.Question;
+import domain.model.QuestionNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ public class QLLoader extends FormBaseListener {
     private List<Variable> conditionsHolder;
     private QLChecker qlChecker;
     private Variable constructedVariable;
+    private boolean inIfNode = false;
+
     public QLLoader(){
         this.formNode = new FormNode();
         this.conditionsHolder = new ArrayList<Variable>();
@@ -38,6 +41,10 @@ public class QLLoader extends FormBaseListener {
 
     @Override
     public void enterIfStructure(FormParser.IfStructureContext ctx) {
+
+        System.out.println("Entering if");
+        this.formNode.addIfNode(new IfNode());
+        this.inIfNode = true;
 //        Object c = null;
 //        for(FormParser.ConditionContext cc : ctx.statementBlockStructure().conditions().condition()){
 //            if (cc.value() instanceof FormParser.ValueContext){
@@ -51,6 +58,9 @@ public class QLLoader extends FormBaseListener {
      }
     @Override
     public void exitIfStructure(FormParser.IfStructureContext ctx){
+        System.out.println("Exit if");
+        this.inIfNode = false;
+
         this.conditionsHolder = new ArrayList<Variable>(); ;
     }
     @Override
@@ -74,8 +84,18 @@ public class QLLoader extends FormBaseListener {
     public void exitQuestionStructure(FormParser.QuestionStructureContext ctx) {
         String questionText = ctx.label().getText();
 
-        this.formNode.getFormData().addQuestion(this.conditionsHolder, new Question(questionText, constructedVariable));
-        this.formNode.addQuestion(new Question(questionText, constructedVariable));
+        this.formNode.getFormData().addQuestion(this.conditionsHolder, new QuestionNode(questionText, constructedVariable));
+
+
+        QuestionNode q = new QuestionNode(questionText, constructedVariable);
+        if(this.inIfNode) {
+            this.formNode.addToLastIf(q);
+            System.out.println("  Q: " + questionText);
+            return;
+        }
+
+        this.formNode.addQuestion(q);
+        System.out.println("Q: " + questionText);
     }
     @Override
     public void enterVariableValue(FormParser.VariableValueContext ctx){

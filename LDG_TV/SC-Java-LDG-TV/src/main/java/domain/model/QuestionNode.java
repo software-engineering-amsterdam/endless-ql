@@ -2,11 +2,11 @@ package domain.model;
 
 import domain.model.variable.Variable;
 
-public class Question {
+public class QuestionNode extends Node {
     private String text;
     private Variable variable;
 
-    public Question(String text, Variable variable) {
+    public QuestionNode(String text, Variable variable) {
         this.text = text;
         this.variable = variable;
     }

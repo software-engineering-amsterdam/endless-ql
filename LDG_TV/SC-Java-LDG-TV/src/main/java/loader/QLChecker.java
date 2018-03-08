@@ -1,7 +1,8 @@
 package loader;
 
 import domain.FormNode;
-import domain.model.Question;
+import domain.model.QuestionNode;
+import domain.model.value.Value;
 import domain.model.variable.Variable;
 import exception.InvalidAritmaticExpressionException;
 import exception.ReferenceUndefinedVariableException;
@@ -29,10 +30,11 @@ public class QLChecker {
         }
     }
     public void checkInvalidArithmaticExpression() throws InvalidAritmaticExpressionException{
-        for (Question qs : formNode.getFormData().getAllQuestions()){
-            if (qs.getVariable().getValue() != null){
+        for (QuestionNode qs : formNode.getFormData().getAllQuestions()){
+            Value qVal = qs.getVariable().getValue();
+            if (qVal != null){
                 try{
-                    qs.getVariable().getValue().getValue();
+                    qVal.getValue();
                 }catch(NumberFormatException nfe){
                     throw new InvalidAritmaticExpressionException("Invalid arithmatic expression found.");
                 }

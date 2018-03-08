@@ -3,9 +3,9 @@ grammar Form;
  * Parser Rules
  */
 formBuilder  : 'form' CHARACTERS CURLY_BRACKET_OPEN formData CURLY_BRACKET_CLOSE;
-formData : (questionStructure)+ ((ifStructure)+)?;
+formData : (questionNodeStructure)+ ((ifStructure)+)?;
 
-questionStructure:
+questionNodeStructure:
     label
     variable
     QUESTION_VARIABLE_SEPERATOR
@@ -17,7 +17,7 @@ ifStructure:
     IF
     statementBlockStructure
     CURLY_BRACKET_OPEN
-    (questionStructure)+
+    (questionNodeStructure)+
     CURLY_BRACKET_CLOSE
 ;
 

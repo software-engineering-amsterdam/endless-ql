@@ -1,6 +1,8 @@
 package domain;
 
-import domain.model.Question;
+import domain.model.IfNode;
+import domain.model.Node;
+import domain.model.QuestionNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +11,12 @@ public class FormNode {
 
     private String formIdentifier;
     private FormData formData;
-    private List<Question> questions;
+    private List<Node> nodes;
+    private int lastIfIndex;
 
     public FormNode(){
         this.formData = new FormData();
-        this.questions = new ArrayList<>();
+        this.nodes = new ArrayList<>();
     }
 
     public void setFormIdentifier(String formIdentifier) {
@@ -26,11 +29,21 @@ public class FormNode {
         return this.formData;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
+    public List<Node> getNodes() {
+        return this.nodes;
     }
 
-    public void addQuestion(Question q){
-        this.questions.add(q);
+    public void addQuestion(QuestionNode q){
+        this.nodes.add(q);
+    }
+
+    public void addIfNode(IfNode ifNode){
+        this.nodes.add(ifNode);
+        this.lastIfIndex = this.nodes.size() - 1;
+    }
+
+    public void addToLastIf(QuestionNode q){
+        IfNode ifNode = (IfNode) this.nodes.get(this.lastIfIndex); // TODO check for instance of and not out of bounds
+        ifNode.addQuestion(q);
     }
 }

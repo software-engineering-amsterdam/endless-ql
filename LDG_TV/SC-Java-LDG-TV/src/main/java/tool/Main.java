@@ -3,7 +3,7 @@ package tool;
 
 import antlr.FormLexer;
 import antlr.FormParser;
-import domain.model.Question;
+import domain.model.QuestionNode;
 import domain.model.visitor.UIVisitor;
 import loader.QLLoader;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -23,7 +23,7 @@ public class Main {
             QLLoader loader = new QLLoader();
             UIVisitor visitor = new UIVisitor();
             ParseTreeWalker.DEFAULT.walk(loader, tree);
-            for (Question qs : loader.getFormNode().getFormData().getAllQuestions()){
+            for (QuestionNode qs : loader.getFormNode().getFormData().getAllQuestions()){
                 if (qs.getVariable().getValue() != null){
                     System.out.println(qs.getVariable().getValue().getValue());
                 }

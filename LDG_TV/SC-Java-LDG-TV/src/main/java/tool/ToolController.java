@@ -5,19 +5,14 @@ import antlr.FormParser;
 import domain.FormData;
 import domain.FormNode;
 import domain.Utilities;
-import domain.model.Question;
+import domain.model.QuestionNode;
 import domain.model.variable.Variable;
 import domain.model.visitor.UIVisitor;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QLLoader;
@@ -76,9 +71,16 @@ public class ToolController implements Initializable {
         FormData data = node.getFormData();
 
         UIVisitor v = new UIVisitor();
-        for (Question q : node.getQuestions()){
-            Variable qv = q.getVariable();
-            String qt = q.getText();
+        for (domain.model.Node n : node.getNodes()){
+
+            if(!(n instanceof QuestionNode)){
+                break;
+            }
+
+            QuestionNode qn = (QuestionNode) n;
+
+            Variable qv = qn.getVariable();
+            String qt = qn.getText();
 
             Node answerNode = qv.getRelatedUIElement(v);
             lvQuestionnaire.getItems().add(new QuestionRow(qt, answerNode, false));

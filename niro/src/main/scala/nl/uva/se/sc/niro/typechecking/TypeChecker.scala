@@ -69,7 +69,7 @@ object TypeChecker extends Logging {
 
   def checkLeftRight(leftType: AnswerType, rightType: AnswerType): Either[TypeCheckError, AnswerType] = {
     if (leftType != rightType)
-      TypeCheckError(message = s"Operands of invalid type $leftType, $rightType").asLeft
+      TypeCheckError(message = s"Operands of invalid type: $leftType, $rightType").asLeft
     else
       rightType.asRight
   }

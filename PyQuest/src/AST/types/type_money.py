@@ -10,6 +10,9 @@ class TypeMoney(Type):
     def __repr__(self):
         return 'money'
 
+    def __eq__(self, other):
+        return type(self) == type(other)
+
     @staticmethod
     def pyqt5_default_widget():
         return DoubleSpinBox()

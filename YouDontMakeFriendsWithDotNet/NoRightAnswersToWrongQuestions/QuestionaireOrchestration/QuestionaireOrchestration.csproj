@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\ICommandQueryService.cs" />
+    <Compile Include="API\IQuestionnaireQueryService.cs" />
     <Compile Include="CommandHandlers\ICommandObjectRegistry.cs" />
     <Compile Include="CommandHandlers\ParseTextCommandHandler.cs" />
     <Compile Include="OrchestrationModule.cs" />

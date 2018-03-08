@@ -10,6 +10,9 @@ class TypeString(Type):
     def __repr__(self):
         return 'string'
 
+    def __eq__(self, other):
+        return type(self) == type(other)
+
     @staticmethod
     def pyqt5_default_widget():
         return LineEdit()

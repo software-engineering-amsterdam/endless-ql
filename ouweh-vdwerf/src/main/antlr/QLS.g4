@@ -8,17 +8,17 @@ stylesheet
     :   'stylesheet' id=ID OPEN_BRACKET page+ CLOSE_BRACKET
     ;
 
-page: 'page' ID OPEN_BRACKET segment+ default* CLOSE_BRACKET;
+page: 'page' ID OPEN_BRACKET segment+ defaultStatement* CLOSE_BRACKET;
 
-section: 'section' ID OPEN_BRACKET segment+ default* CLOSE_BRACKET;
+section: 'section' ID OPEN_BRACKET segment+ defaultStatement* CLOSE_BRACKET;
 
 segment: question
        | section
        ;
 
-default: 'default' type widget
-       | 'default' type style
-       ;
+defaultStatement: 'default' type widget
+                | 'default' type style
+                ;
 
 question: 'question' ID widget?
         | 'question' ID style?

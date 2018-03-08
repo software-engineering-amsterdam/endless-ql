@@ -1,7 +1,7 @@
 import {QuestionBase} from '../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
-import {CheckboxQuestion} from '../angular-questions/question-checkbox';
-import {TextboxQuestion} from '../angular-questions/question-textbox';
+import {CheckboxQuestion} from '../angular-questions/checkbox-question';
+import {TextboxQuestion} from '../angular-questions/textbox-question';
 import {QuestionType, QuestionTypeUtil} from './question-type';
 import {Statement} from './statement';
 import {Question} from './question';

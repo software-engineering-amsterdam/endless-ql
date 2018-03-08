@@ -10,15 +10,15 @@ class TypeChecker(object):
         self.ast = ast
         self.questions = {}
         self.conditionals = {}
-        self.getVariables()
+        self.getVariables(self.ast.statements)
         # self.checkUndefinedVariables()
 
     # Retrieve the variables/questions/etc from the ast and keep track of them.
-    def getVariables(self):
-        for statement in self.ast.statements:
+    def getVariables(self, statements):
+        for statement in statements:
             if type(statement) is QuestionNode:
                 self.checkDuplicateVariables(statement)
-                statement.question = self.checkDuplicateQuestions(statement)
+                statement.question = self.checkDuplicateQuestions(statement.question)
                 self.questions[statement.question] = [statement.var, statement.vartype]
             
             elif type(statement) is IfNode or type(statement) is ElifNode:
@@ -32,14 +32,24 @@ class TypeChecker(object):
                     conditional_type = self.checkInvalidOperations(statement.expression)
                     if conditional_type != BOOLEAN_UNICODE:
                         exitProgram("Condition {} is not of type boolean.".format(statement.expression))
+
                 self.conditionals[statement.expression] = statement.statements
+                self.getVariables(statement.statements)
+
+            elif type(statement) is ElseNode:
+                self.conditionals["else"] = statement.statements
+                self.getVariables(statement.statements)
 
             elif type(statement) is AssignmentNode:
                 assignment_type = self.checkInvalidOperations(statement.expression)
+                statement.name = self.checkDuplicateQuestions(statement.name)
+
                 if assignment_type != statement.vartype:
                     exitProgram("Assignment expression type does not match variable type at {}".format(statement))
+                
                 self.questions[statement.name] = [statement.var, statement.vartype, statement.expression]
-        # print self.questions
+        
+        print len(self.questions)
         return
 
 
@@ -58,13 +68,13 @@ class TypeChecker(object):
 
 
     # Check for duplicate question declarations with different types.
-    def checkDuplicateQuestions(self, statement):
-        if statement.question in self.questions.keys():
+    def checkDuplicateQuestions(self, question):
+        if question in self.questions.keys():
             # todo: Proper error handling?
-            print "Warning: question {} is asked twice.".format(statement.question)
-            return statement.question + "dup"
+            print "Warning: question {} is asked twice.".format(question)
+            return question + "dup"
 
-        return statement.question
+        return question
 
 
     # Check for conditionals that are not of the type boolean.

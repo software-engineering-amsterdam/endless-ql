@@ -33,9 +33,8 @@ class QLFormController extends QLBaseController with ModelUpdater {
 
   override def updateModel(questionId: String, answer: Answer): Unit = {
     dictionary(questionId) = answer
-    evaluateAnswers()
-    updateQuestionControls()
-    updateVisibility()
+    evaluateAnswers
+    updateView
   }
 
   @FXML def saveData(event: ActionEvent): Unit =
@@ -50,13 +49,17 @@ class QLFormController extends QLBaseController with ModelUpdater {
     formName.setText(guiForm.name)
     questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
 
-    evaluateAnswers()
-    updateQuestionControls()
-    updateVisibility()
+    evaluateAnswers
+    updateView
   }
 
   private def evaluateAnswers(): Unit = {
     dictionary ++= Evaluator.evaluate(qlForm, dictionary.toMap)
+  }
+
+  private def updateView = {
+    updateQuestionControls()
+    updateVisibility()
   }
 
   private def updateQuestionControls(): Unit = {
@@ -67,6 +70,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
     guiForm.questions.foreach(question => {
       Evaluator.evaluateExpression(question.visibility, qlForm.symbolTable, dictionary.toMap) match {
         case b: BooleanAnswer => question.component.foreach(_.setVisible(b.possibleValue.getOrElse(false)))
+        case _                => throw new IllegalArgumentException("A if-condition did not result in a boolean expression!")
       }
     })
   }

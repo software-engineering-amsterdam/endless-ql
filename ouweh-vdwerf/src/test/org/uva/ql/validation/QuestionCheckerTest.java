@@ -2,11 +2,9 @@ package org.uva.ql.validation;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.uva.ql.app.InputHandler;
 import org.uva.ql.ast.Form;
 import org.uva.ql.parsing.ASTBuilder;
-
-import java.io.File;
-import java.io.FileReader;
 
 public class QuestionCheckerTest {
 
@@ -15,10 +13,9 @@ public class QuestionCheckerTest {
 
     @Before
     public void setUp() {
-        ASTBuilder parser = new ASTBuilder();
-        FileReader reader = new FileReader();
-
-
+        String input = new InputHandler().readFile("input/test.questionChecker.ql");
+        ASTBuilder builder = new ASTBuilder();
+        form = builder.buildAST(input);
         questionChecker = new QuestionChecker(form);
     }
 

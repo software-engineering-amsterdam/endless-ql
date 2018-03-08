@@ -12,7 +12,7 @@ public class VisitorForm extends QLBaseVisitor<Form> {
 
     @Override
     public Form visitRoot(QLParser.RootContext ctx) {
-        VisitorStatement visitorStatement = new VisitorStatement();
+        VisitorStatement visitorStatement = new VisitorStatement(ctx.getStart());
 
         List<Question> questions = new ArrayList<>();
         for (QLParser.StatementContext statementContext : ctx.block().statement()) {
@@ -20,7 +20,7 @@ public class VisitorForm extends QLBaseVisitor<Form> {
             questions.addAll(blockQuestions);
         }
 
-        return new Form(ctx.IDENTIFIER().getText(), questions);
+        return new Form(ctx.getStart(), ctx.IDENTIFIER().getText(), questions);
     }
 
 }

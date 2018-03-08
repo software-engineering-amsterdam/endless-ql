@@ -35,7 +35,7 @@ namespace UnitTests.UI.UnitTests
         [Test]
         public void WhenGivenModel_ShouldbeContainedInModelProperty()
         {
-            var wrapper = new QuestionaireWrapper(m_questionnaire);
+            var wrapper = new QuestionnaireWrapper(m_questionnaire);
             Assert.AreEqual(expected: m_questionnaire, actual: wrapper.Model);
 
             var calculateQuestionWrapper = new CalculatedQuestionWrapper(m_calculatedQuestion);
@@ -51,7 +51,7 @@ namespace UnitTests.UI.UnitTests
                 .Property(nameof(ArgumentNullException.ParamName))
                 .EqualTo("questionnaire");
 
-            Assert.Throws(constraint, () => new QuestionaireWrapper(null));
+            Assert.Throws(constraint, () => new QuestionnaireWrapper(null));
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace UnitTests.UI.UnitTests
                 .EqualTo("questionnaire name cannot be null");
 
             m_questionnaire.Name = null;
-            Assert.Throws(constraint, () => new QuestionaireWrapper(m_questionnaire));
+            Assert.Throws(constraint, () => new QuestionnaireWrapper(m_questionnaire));
         }
 
 
@@ -97,7 +97,7 @@ namespace UnitTests.UI.UnitTests
         {
             var questionaireName = "Fred";
             m_questionnaire.Name = questionaireName;
-            var wrapper = new QuestionaireWrapper(m_questionnaire);
+            var wrapper = new QuestionnaireWrapper(m_questionnaire);
             Assert.AreEqual(
                 expected: questionaireName,
                 actual: wrapper.Name);

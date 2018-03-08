@@ -38,4 +38,4 @@ class QLAst:
         return self.form.name
 
     def __repr__(self):
-        return "FORMS: {}".format(self.forms)
+        return "FORM: {}".format(self.form)

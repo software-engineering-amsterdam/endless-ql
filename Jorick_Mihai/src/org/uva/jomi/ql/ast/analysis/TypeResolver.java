@@ -133,6 +133,8 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 			this.errorHandler.addTypeError(expr.getRightExpr(), QLType.BOOLEAN);
 		}
 
+		expr.setType(expressionType);
+
 		return expressionType;
 	}
 

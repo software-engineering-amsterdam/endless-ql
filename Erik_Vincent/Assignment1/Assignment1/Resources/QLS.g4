@@ -1,4 +1,10 @@
-grammar QLS;
+parser grammar QLS;
+
+@header {
+using Assignment1.Model;
+}
+
+options { tokenVocab=QLSLexer; }
 
 // Add instructions to generate appropriate classes
 
@@ -40,99 +46,10 @@ style
     | COLOR SEP HEXCOLORCODE
     ;
 type
-    : BOOLEAN
-    | MONEY
-    ;
-
-// Move (merge) necessary keywords to lexer file
-
-STYLESHEET
-    : 'stylesheet'
-    ;
-PAGE
-    : 'page'
-    ;
-SECTION
-    : 'section'
-    ;
-QUESTION
-    : 'question'
-    ;
-WIDGET
-    : 'widget'
-    ;
-RADIO
-    : 'radio'
-    ;
-CHECKBOX
-    : 'checkbox'
-    ;
-SLIDER
-    : 'slider'
-    ;
-SPINBOX
-    : 'spinbox'
-    ;
-TEXTBOX
-    : 'textbox'
-    ;
-DROPDOWN
-    : 'dropdown'
-    ;
-DEFAULT
-    : 'default'
-    ;
-WIDTH
-    : 'width'
-    ;
-FONT
-    : 'font'
-    ;
-FONTSIZE
-    : 'fontsize'
-    ;
-COLOR
-    : 'color'
-    ;
-HEXCOLORCODE
-    : '#' ([0..9] | [a-f]) ([0..9] | [a-f]) ([0..9] | [a-f]) ([0..9] | [a-f]) ([0..9] | [a-f]) ([0..9] | [a-f])
-    ;
-OPEN_BR
-    : '('
-    ;
-CLOSE_BR
-    : ')'
-    ;
-OPEN_CB
-    : '{'
-    ;
-CLOSE_CB
-    : '}'
-    ;
-SEP
-    : ':'
-    ;
-COMMA
-    : ','
-    ;
-BOOLEAN
-    : 'boolean'
-    ;
-MONEY
-    : 'money'
-    ;
-fragment NUMBER
-    : [0-9]+
-    ;
-ID
-    : [a-zA-Z0-9]+
-    ;
-LABEL
-    : '"' ~'"'*? '"'
-    ;
-COMMENT
-    : '//' ~'\n'*? '\n' -> skip
-    ;
-WHITESPACE
-    : [ \n\t\r]+ -> skip
+    : BOOLEAN_TYPE
+    | DATE_TYPE
+	| DECIMAL_TYPE
+	| INTEGER_TYPE
+	| MONEY_TYPE
+	| STRING_TYPE
     ;

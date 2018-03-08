@@ -5,13 +5,19 @@ from .form_input_type import InputTypeMap
 # A question is a frame which consists of a label (question text) and the input_user all packed in one frame
 class Question:
 
-    def __init__(self, parent, question_text, question_type, input_user=[]):
+    def __init__(self, parent, questionGenerator, varName, question_text, question_type, value):
         self.frame = create_frame(parent)
+        self.questionGenerator = questionGenerator
         self.frame.pack(fill="both", anchor=NW, expand=True)
-        self.map = InputTypeMap(self.frame)
+        self.varName = varName
+        self.map = InputTypeMap(self.frame, self.questionGenerator, varName, value)
         self.create_header_label(question_text)
         self.answer = None
+        self.value = value
+        self.question_type = question_type
         self.create_input_user(question_type)
+        self.varName = varName
+
 
         self.question_text = question_text
 
@@ -25,11 +31,20 @@ class Question:
     def create_input_user(self, question_type):
         widget, self.answer = self.map.getWidget(question_type)
 
+    def empty_frame(self):
+        self.frame.destroy()
+
+    def getVarName(self):
+        return self.varName
+
     def get_frame(self):
         return self.frame
 
     def get_answer(self):
-        return self.answer.get()
+        if((self.question_type == float or self.question_type == int) and (self.answer.get() == "")):
+            return 0
+        else:
+            return self.answer.get()
 
     def get_text(self):
         return self.question_text

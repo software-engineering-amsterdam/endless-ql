@@ -12,9 +12,9 @@ def run_antlr_parse_gen():
     if sys.platform == 'win32':
         pass
         # todo: make sure classpath always works
-        # os.system('SET CLASSPATH=.;C:\\Javalib\\antlr-4.7.1-complete.jar;')
-        # os.system(
-        #     'java org.antlr.v4.Tool -Dlanguage=Python3 -visitor'.format('/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
+        os.system('SET CLASSPATH=.;C:\\Javalib\\antlr-4.7.1-complete.jar;')
+        os.system(
+            'java org.antlr.v4.Tool -Dlanguage=Python3 -visitor'.format('/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
 
     else:
         # subprocess.run(["java", "-jar", "/usr/local/lib/antlr-4.7.1-complete.jar", "-Dlanguage=Python3",

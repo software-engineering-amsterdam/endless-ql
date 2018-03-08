@@ -7,21 +7,23 @@ import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.interpreter.dataObject.ASTResult;
 import org.uva.sea.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.ql.parser.antlr.ErrorHandler;
-import org.uva.sea.ql.parser.antlr.QLLexer;
-import org.uva.sea.ql.parser.antlr.QLParser;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.interpreter.staticAnalysis.*;
 import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
+
+import org.uva.sea.ql.antlr.QLLexer;
+import org.uva.sea.ql.antlr.QLParser;
 
 import java.util.List;
 
 public class ASTGenerator {
 
     private List<IStaticAnalysis> staticAnalyses = Arrays.asList(new IStaticAnalysis[]{
-            new LinkAndCheckVariableUsage(),
-            new TypeCheck(),
-            new CheckDuplicateLabels(),
-            new CheckIncorrectDuplicateQuestions()
+            new LinkAndCheckVariableUsage.Checker(),
+            new TypeCheck.Checker(),
+            new CheckDuplicateLabels.Checker(),
+            new CheckIncorrectDuplicateQuestions.Checker(),
+            new CircularQuestionDependencies.Checker()
     });
 
     /**
@@ -31,7 +33,7 @@ public class ASTGenerator {
      * @return The AST node that can be used by the interpreter
      */
     public ASTResult interpreterScriptFile(CharStream source) throws StaticAnalysisError {
-
+new LinkAndCheckVariableUsage.Checker();
         Form AST = createAST(source);
         if (AST == null)
             return new ASTResult(null, new Messages(MessageTypes.UNKNOWN));

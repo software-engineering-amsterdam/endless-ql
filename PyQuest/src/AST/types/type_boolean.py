@@ -10,6 +10,9 @@ class TypeBoolean(Type):
     def __repr__(self):
         return 'boolean'
 
+    def __eq__(self, other):
+        return type(self) == type(other)
+
     @staticmethod
     def pyqt5_default_widget():
         return CheckBox()

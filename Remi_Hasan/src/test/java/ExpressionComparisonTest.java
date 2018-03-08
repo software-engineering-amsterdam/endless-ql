@@ -1,8 +1,10 @@
 import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.generator.InRange;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import expression.*;
-import expression.binary.*;
-import expression.variable.ExpressionVariableNumber;
+import model.expression.Expression;
+import model.expression.binary.*;
+import model.expression.unary.ExpressionUnaryNeg;
+import model.expression.variable.ExpressionVariableInteger;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
@@ -11,47 +13,112 @@ import static org.junit.Assert.assertEquals;
 public class ExpressionComparisonTest {
 
     @Property
-    public void ExpressionComparisonEq(int left, int right){
+    public void ExpressionComparisonEqPositive(@InRange(min="0") int left, @InRange(min="0") int right) {
         ANTLRTester tester = new ANTLRTester(left + " == " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionComparisonEq expectedExpression = new ExpressionComparisonEq(new ExpressionVariableNumber(left), new ExpressionVariableNumber(right));
+        ExpressionComparisonEq expectedExpression = new ExpressionComparisonEq(null,
+                new ExpressionVariableInteger(null, left),  new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
     @Property
-    public void ExpressionComparisonGE(int left, int right){
+    public void ExpressionComparisonEqNegative(@InRange(max="-1") int left, @InRange(max="-1") int right) {
+        ANTLRTester tester = new ANTLRTester(left + " == " + right);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+
+        Expression leftExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(left)));
+        Expression rightExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(right)));
+
+        ExpressionComparisonEq expectedExpression = new ExpressionComparisonEq(null, leftExpression, rightExpression);
+        assertEquals(expectedExpression, actualExpression);
+    }
+
+    @Property
+    public void ExpressionComparisonGEPositive(@InRange(min="0") int left, @InRange(min="0") int right) {
         ANTLRTester tester = new ANTLRTester(left + " >= " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionComparisonGE expectedExpression = new ExpressionComparisonGE(new ExpressionVariableNumber(left), new ExpressionVariableNumber(right));
+        ExpressionComparisonGE expectedExpression = new ExpressionComparisonGE(null,
+                new ExpressionVariableInteger(null, left),  new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
     @Property
-    public void ExpressionComparisonGT(int left, int right){
+    public void ExpressionComparisonGENegative(@InRange(max="-1") int left, @InRange(max="-1") int right) {
+        ANTLRTester tester = new ANTLRTester(left + " >= " + right);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+
+        Expression leftExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(left)));
+        Expression rightExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(right)));
+
+        ExpressionComparisonGE expectedExpression = new ExpressionComparisonGE(null, leftExpression, rightExpression);
+        assertEquals(expectedExpression, actualExpression);
+    }
+
+    @Property
+    public void ExpressionComparisonGTPositive(@InRange(min="0") int left, @InRange(min="0") int right) {
         ANTLRTester tester = new ANTLRTester(left + " > " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionComparisonGT expectedExpression = new ExpressionComparisonGT(new ExpressionVariableNumber(left), new ExpressionVariableNumber(right));
+        ExpressionComparisonGT expectedExpression = new ExpressionComparisonGT(null,
+                new ExpressionVariableInteger(null, left),  new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
     @Property
-    public void ExpressionComparisonLE(int left, int right){
+    public void ExpressionComparisonGTNegative(@InRange(max="-1") int left, @InRange(max="-1") int right) {
+        ANTLRTester tester = new ANTLRTester(left + " > " + right);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+
+        Expression leftExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(left)));
+        Expression rightExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(right)));
+
+        ExpressionComparisonGT expectedExpression = new ExpressionComparisonGT(null, leftExpression, rightExpression);
+        assertEquals(expectedExpression, actualExpression);
+    }
+
+    @Property
+    public void ExpressionComparisonLEPositive(@InRange(min="0") int left, @InRange(min="0") int right) {
         ANTLRTester tester = new ANTLRTester(left + " <= " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionComparisonLE expectedExpression = new ExpressionComparisonLE(new ExpressionVariableNumber(left), new ExpressionVariableNumber(right));
+        ExpressionComparisonLE expectedExpression = new ExpressionComparisonLE(null,
+                new ExpressionVariableInteger(null, left),  new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
     @Property
-    public void ExpressionComparisonLT(int left, int right){
+    public void ExpressionComparisonLENegative(@InRange(max="-1") int left, @InRange(max="-1") int right) {
+        ANTLRTester tester = new ANTLRTester(left + " <= " + right);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+
+        Expression leftExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(left)));
+        Expression rightExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(right)));
+
+        ExpressionComparisonLE expectedExpression = new ExpressionComparisonLE(null, leftExpression, rightExpression);
+        assertEquals(expectedExpression, actualExpression);
+    }
+
+    @Property
+    public void ExpressionComparisonLTPositive(@InRange(min="0") int left, @InRange(min="0") int right) {
         ANTLRTester tester = new ANTLRTester(left + " < " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionComparisonLT expectedExpression = new ExpressionComparisonLT(new ExpressionVariableNumber(left), new ExpressionVariableNumber(right));
+        ExpressionComparisonLT expectedExpression = new ExpressionComparisonLT(null,
+                new ExpressionVariableInteger(null, left),  new ExpressionVariableInteger(null, right));
+        assertEquals(expectedExpression, actualExpression);
+    }
+
+    @Property
+    public void ExpressionComparisonLTNegative(@InRange(max="-1") int left, @InRange(max="-1") int right) {
+        ANTLRTester tester = new ANTLRTester(left + " < " + right);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+
+        Expression leftExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(left)));
+        Expression rightExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(right)));
+
+        ExpressionComparisonLT expectedExpression = new ExpressionComparisonLT(null, leftExpression, rightExpression);
         assertEquals(expectedExpression, actualExpression);
     }
 

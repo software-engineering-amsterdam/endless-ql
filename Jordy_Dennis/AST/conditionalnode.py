@@ -20,7 +20,7 @@ class ConditionalNode:
         self.nodeType = "Conditional"
 
     def addElifCondition(self, condition):
-        self.elifCondition.append(condition)
+        self.elifConditionBlock.append(condition)
 
     def addElseChild(self, block):
         self.elseBlock = block

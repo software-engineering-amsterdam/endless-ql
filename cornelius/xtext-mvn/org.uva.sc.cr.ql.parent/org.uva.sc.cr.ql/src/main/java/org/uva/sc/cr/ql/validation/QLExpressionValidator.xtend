@@ -21,11 +21,6 @@ import org.uva.sc.cr.ql.util.MissingCaseException
 import org.uva.sc.cr.ql.util.Operation
 import org.uva.sc.cr.ql.util.OperationQuestionTypeMapping
 
-/**
- * This class contains custom validation rules. 
- * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
- */
 class QLExpressionValidator extends AbstractQLValidator {
 
 	public static val TYPE_NOT_ALLOWED = 'typeNotAllowed'

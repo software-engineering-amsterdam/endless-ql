@@ -1,11 +1,11 @@
 package ast.visitors.filters;
 
 import ast.model.expressions.values.VariableReference;
-import ast.visitors.ASTNodeAbstractVisitor;
+import ast.visitors.AbstractASTTraverse;
 
 import java.util.ArrayList;
 
-public class ReferencesFilter extends ASTNodeAbstractVisitor {
+public class ReferencesFilter extends AbstractASTTraverse<Void> {
 
     private ArrayList<VariableReference> variableReferences = new ArrayList<>();
 
@@ -14,8 +14,8 @@ public class ReferencesFilter extends ASTNodeAbstractVisitor {
     }
 
     @Override
-    public void visit(VariableReference variableReference) {
+    public Void visit(VariableReference variableReference) {
         this.variableReferences.add(variableReference);
-        super.visit(variableReference);
+        return null;
     }
 }

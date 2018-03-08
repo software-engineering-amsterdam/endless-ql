@@ -7,7 +7,7 @@ import java.util.*;
 
 public class QuestionsDependencyValidator {
 
-    private HashMap<Question, Node> nodes = new HashMap<>();
+    public HashMap<String, Node> nodes = new HashMap<>();
 
     static class Node {
         private final Question question;
@@ -55,10 +55,32 @@ public class QuestionsDependencyValidator {
 
         // create nodes
         for (Question question : questionsMap.keySet()) {
-            this.nodes.put(question, new Node(question));
+            this.nodes.put(question.getVariableName(), new Node(question));
         }
 
+        // create edges
         for (Map.Entry<Question, ArrayList<VariableReference>> entry : questionsMap.entrySet()) {
+
+            Node referringNode = this.nodes.get(entry.getKey().getVariableName());
+
+            // for each given question (entry)
+
+            ArrayList<VariableReference> refs = entry.getValue();
+
+            for(VariableReference reference: entry.getValue()) {
+                // find variables that it refers to
+
+                // find node by name
+                Node referredNode = nodes.get(reference.getName());
+
+                if (referredNode != null) {
+                    referringNode.addEdge(referredNode);
+                }
+
+                        //findOneByName(reference.getName());
+
+            }
+
 
         }
 

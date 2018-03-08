@@ -22,8 +22,11 @@ import grammar.QLBaseVisitor;
 import grammar.QLParser;
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class ASTBuilder extends QLBaseVisitor {
+
+public class ASTBuilder extends QLBaseVisitor<ASTNode> {
 
     @Override
     public Form visitForm(QLParser.FormContext ctx) {
@@ -55,24 +58,30 @@ public class ASTBuilder extends QLBaseVisitor {
 
         Expression ifConditionExpression = (Expression) visit(ctx.condition);
 
-        IfStatement ifStatement = new IfStatement(
-                ifConditionExpression,
-                this.ExtractMetaInformationFromContext(ctx)
-        );
+        List<Statement> ifStatementList = new ArrayList<>();
 
         for (QLParser.StatementContext StatementContext : ctx.statement()) {
             Statement statement = visitStatement(StatementContext);
-            ifStatement.addStatement(statement);
+            ifStatementList.add(statement);
         }
+
+        List<Statement> elseStatementList = new ArrayList<>();
 
         if (ctx.elseStatement() != null) {
 
             for (QLParser.StatementContext StatementContext : ctx.elseStatement().statement()) {
                 Statement statement = visitStatement(StatementContext);
-                ifStatement.addElseStatement(statement);
+                elseStatementList.add(statement);
             }
 
         }
+
+        IfStatement ifStatement = new IfStatement(
+                ifConditionExpression,
+                ifStatementList,
+                elseStatementList,
+                this.ExtractMetaInformationFromContext(ctx)
+        );
 
         return ifStatement;
     }

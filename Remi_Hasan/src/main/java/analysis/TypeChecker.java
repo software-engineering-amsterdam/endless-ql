@@ -62,7 +62,7 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
         Set<String> duplicateQuestionsWithDifferentType = new HashSet<>();
         for (Question question : form.questions) {
             if(types.containsKey(question.name) && !types.get(question.name).eq(question.type)){
-                duplicateQuestionsWithDifferentType.add(question.name + "(" + question);
+                duplicateQuestionsWithDifferentType.add(question.name + " " + question.getLocation());
             }
         }
         return duplicateQuestionsWithDifferentType;

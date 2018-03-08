@@ -29,7 +29,9 @@ class Gui:
         self.questionsGenerator = Question_Generator(self.varDict, self.ast)
         self.questions = self.questionsGenerator.updateQuestions()
         self.create_form()
+        print("hello")
         self.execute()
+
 
     # Upon creating a new form, create a new frame which is a child from the mainframe.
     # For every form, create the header frame and questions frame and fill the questions frame
@@ -40,8 +42,6 @@ class Gui:
         for var in self.questions:
             label = self.questions[var].getQuestion()
             type = self.varDict[var]['node'].checkTypes()
-            print(label)
-            print(type)
             form.add_question(var, label, type)
 
         self.form = form

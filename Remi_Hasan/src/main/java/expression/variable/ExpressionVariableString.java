@@ -1,9 +1,7 @@
 package expression.variable;
 
 import astvisitor.IASTVisitor;
-import astvisitor.StringValue;
 import expression.ExpressionVariable;
-import expression.ReturnType;
 
 public class ExpressionVariableString extends ExpressionVariable<String> {
 

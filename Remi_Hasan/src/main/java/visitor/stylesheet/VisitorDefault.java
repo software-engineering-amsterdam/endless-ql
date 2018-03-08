@@ -19,7 +19,7 @@ public class VisitorDefault extends QLSBaseVisitor<Default> {
         ReturnType returnType = ReturnType.valueOf(ctx.type().getText().toUpperCase());
 
         List<Widget> widgets = new ArrayList<>();
-        for(QLSParser.WidgetContext widgetContext : ctx.widget()){
+        for (QLSParser.WidgetContext widgetContext : ctx.widget()) {
             Widget widget = visitorWidget.visit(widgetContext);
             widgets.add(widget);
         }

@@ -49,7 +49,7 @@ public class NumValue extends Value<BigDecimal> {
 
     @Override
     public Value divide(Value right) {
-        if(right.isUndefined())
+        if (right.isUndefined())
             return new UndefinedValue();
 
         NumValue rightValue = (NumValue) right;
@@ -58,7 +58,7 @@ public class NumValue extends Value<BigDecimal> {
 
     @Override
     public Value multiply(Value right) {
-        if(right.isUndefined())
+        if (right.isUndefined())
             return new UndefinedValue();
 
         NumValue rightValue = (NumValue) right;
@@ -67,7 +67,7 @@ public class NumValue extends Value<BigDecimal> {
 
     @Override
     public Value subtract(Value right) {
-        if(right.isUndefined())
+        if (right.isUndefined())
             return new UndefinedValue();
 
         NumValue rightValue = (NumValue) right;
@@ -76,7 +76,7 @@ public class NumValue extends Value<BigDecimal> {
 
     @Override
     public Value sum(Value right) {
-        if(right.isUndefined())
+        if (right.isUndefined())
             return new UndefinedValue();
 
         NumValue rightValue = (NumValue) right;
@@ -85,7 +85,7 @@ public class NumValue extends Value<BigDecimal> {
 
     @Override
     public Value eq(Value right) {
-        if(right.isUndefined())
+        if (right.isUndefined())
             return new UndefinedValue();
 
         NumValue rightValue = (NumValue) right;
@@ -94,7 +94,7 @@ public class NumValue extends Value<BigDecimal> {
 
     @Override
     public Value ge(Value right) {
-        if(right.isUndefined())
+        if (right.isUndefined())
             return new UndefinedValue();
 
         NumValue rightValue = (NumValue) right;
@@ -103,7 +103,7 @@ public class NumValue extends Value<BigDecimal> {
 
     @Override
     public Value gt(Value right) {
-        if(right.isUndefined())
+        if (right.isUndefined())
             return new UndefinedValue();
 
         NumValue rightValue = (NumValue) right;
@@ -112,7 +112,7 @@ public class NumValue extends Value<BigDecimal> {
 
     @Override
     public Value le(Value right) {
-        if(right.isUndefined())
+        if (right.isUndefined())
             return new UndefinedValue();
 
         NumValue rightValue = (NumValue) right;
@@ -121,7 +121,7 @@ public class NumValue extends Value<BigDecimal> {
 
     @Override
     public Value lt(Value right) {
-        if(right.isUndefined())
+        if (right.isUndefined())
             return new UndefinedValue();
 
         NumValue rightValue = (NumValue) right;
@@ -149,7 +149,7 @@ public class NumValue extends Value<BigDecimal> {
     }
 
     @Override
-    public boolean equals(Value other){
+    public boolean equals(Value other) {
         return this.value.equals(other.value);
     }
 }

@@ -1,6 +1,5 @@
 import analysis.SymbolTable;
 import analysis.TypeChecker;
-import astvisitor.TypeCheckVisitor;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,16 +10,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Form;
-import model.Question;
 import model.stylesheet.StyleSheet;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Main extends Application {
 
@@ -71,10 +67,10 @@ public class Main extends Application {
             SymbolTable symbolTable = new SymbolTable(form);
 //            symbolTable.printValues();
 
-            TypeCheckVisitor typeChecker = new TypeCheckVisitor(form, symbolTable);
+            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
             Set<String> typeCheckErrors = typeChecker.typeCheck();
 
-            if(typeCheckErrors.size() > 0) {
+            if (typeCheckErrors.size() > 0) {
                 showErrorAlert(typeCheckErrors);
                 return;
             }

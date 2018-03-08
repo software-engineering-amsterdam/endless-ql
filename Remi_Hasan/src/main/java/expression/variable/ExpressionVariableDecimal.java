@@ -2,7 +2,6 @@ package expression.variable;
 
 import astvisitor.IASTVisitor;
 import expression.ExpressionVariable;
-import expression.ReturnType;
 
 public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
 

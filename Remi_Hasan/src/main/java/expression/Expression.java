@@ -1,6 +1,5 @@
 package expression;
 
-import analysis.SymbolTable;
 import astvisitor.IASTVisitor;
 
 public abstract class Expression {

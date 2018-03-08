@@ -3,7 +3,6 @@ package expression.unary;
 import astvisitor.IASTVisitor;
 import expression.Expression;
 import expression.ExpressionUnary;
-import expression.ReturnType;
 
 public class ExpressionUnaryNot extends ExpressionUnary<Boolean> {
 

@@ -2,8 +2,8 @@ package astvisitor;
 
 import java.math.BigDecimal;
 
-public class BoolValue extends Value<Boolean>{
-    public BoolValue(Boolean value){
+public class BoolValue extends Value<Boolean> {
+    public BoolValue(Boolean value) {
         super(value);
     }
 
@@ -98,7 +98,7 @@ public class BoolValue extends Value<Boolean>{
     }
 
     @Override
-    public boolean equals(Value other){
+    public boolean equals(Value other) {
         return this.value.equals(other.value);
     }
 }

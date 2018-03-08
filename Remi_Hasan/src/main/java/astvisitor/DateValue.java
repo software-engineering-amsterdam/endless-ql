@@ -2,7 +2,7 @@ package astvisitor;
 
 import java.math.BigDecimal;
 
-public class DateValue extends Value<String>{
+public class DateValue extends Value<String> {
     DateValue(String value) {
         super(value);
     }

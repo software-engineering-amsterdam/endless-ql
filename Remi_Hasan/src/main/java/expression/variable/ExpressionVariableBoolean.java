@@ -2,7 +2,6 @@ package expression.variable;
 
 import astvisitor.IASTVisitor;
 import expression.Expression;
-import expression.ReturnType;
 
 public class ExpressionVariableBoolean extends Expression {
 

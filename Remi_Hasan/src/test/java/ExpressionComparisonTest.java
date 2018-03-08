@@ -1,6 +1,6 @@
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import expression.*;
+import expression.Expression;
 import expression.binary.*;
 import expression.variable.ExpressionVariableInteger;
 import org.junit.runner.RunWith;
@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 public class ExpressionComparisonTest {
 
     @Property
-    public void ExpressionComparisonEq(int left, int right){
+    public void ExpressionComparisonEq(int left, int right) {
         ANTLRTester tester = new ANTLRTester(left + " == " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
@@ -20,7 +20,7 @@ public class ExpressionComparisonTest {
     }
 
     @Property
-    public void ExpressionComparisonGE(int left, int right){
+    public void ExpressionComparisonGE(int left, int right) {
         ANTLRTester tester = new ANTLRTester(left + " >= " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
@@ -29,7 +29,7 @@ public class ExpressionComparisonTest {
     }
 
     @Property
-    public void ExpressionComparisonGT(int left, int right){
+    public void ExpressionComparisonGT(int left, int right) {
         ANTLRTester tester = new ANTLRTester(left + " > " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
@@ -38,7 +38,7 @@ public class ExpressionComparisonTest {
     }
 
     @Property
-    public void ExpressionComparisonLE(int left, int right){
+    public void ExpressionComparisonLE(int left, int right) {
         ANTLRTester tester = new ANTLRTester(left + " <= " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
@@ -47,7 +47,7 @@ public class ExpressionComparisonTest {
     }
 
     @Property
-    public void ExpressionComparisonLT(int left, int right){
+    public void ExpressionComparisonLT(int left, int right) {
         ANTLRTester tester = new ANTLRTester(left + " < " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 

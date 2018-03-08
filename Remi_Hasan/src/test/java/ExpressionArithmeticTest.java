@@ -1,6 +1,6 @@
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import expression.*;
+import expression.Expression;
 import expression.binary.ExpressionArithmeticDivide;
 import expression.binary.ExpressionArithmeticMultiply;
 import expression.binary.ExpressionArithmeticSubtract;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class ExpressionArithmeticTest {
 
     @Property
-    public void ExpressionArithmeticDivide(int left, int right){
+    public void ExpressionArithmeticDivide(int left, int right) {
         ANTLRTester tester = new ANTLRTester(left + " / " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
@@ -23,7 +23,7 @@ public class ExpressionArithmeticTest {
     }
 
     @Property
-    public void ExpressionArithmeticMultiply(int left, int right){
+    public void ExpressionArithmeticMultiply(int left, int right) {
         ANTLRTester tester = new ANTLRTester(left + " * " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
         ExpressionArithmeticMultiply expectedExpression = new ExpressionArithmeticMultiply(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
@@ -31,7 +31,7 @@ public class ExpressionArithmeticTest {
     }
 
     @Property
-    public void ExpressionArithmeticSubtract(int left, int right){
+    public void ExpressionArithmeticSubtract(int left, int right) {
         ANTLRTester tester = new ANTLRTester(left + " - " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
         ExpressionArithmeticSubtract expectedExpression = new ExpressionArithmeticSubtract(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
@@ -39,7 +39,7 @@ public class ExpressionArithmeticTest {
     }
 
     @Property
-    public void ExpressionArithmeticSum(int left, int right){
+    public void ExpressionArithmeticSum(int left, int right) {
         ANTLRTester tester = new ANTLRTester(left + " + " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 

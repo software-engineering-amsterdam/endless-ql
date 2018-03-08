@@ -10,8 +10,6 @@ import expression.unary.ExpressionUnaryNeg;
 import expression.unary.ExpressionUnaryNot;
 import expression.variable.*;
 
-import java.math.BigDecimal;
-
 public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override

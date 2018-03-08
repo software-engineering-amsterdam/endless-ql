@@ -1,9 +1,9 @@
 package analysis;
 
-import astvisitor.*;
+import astvisitor.InterpreterVisitor;
+import astvisitor.Value;
 import expression.Expression;
 import expression.ReturnType;
-import expression.variable.*;
 import model.Form;
 import model.Question;
 
@@ -20,17 +20,17 @@ public class SymbolTable {
     public SymbolTable(Form form) {
         this.table = new HashMap<>();
 
-        for(Question question : form.questions) {
+        for (Question question : form.questions) {
             table.put(question.name, question.defaultAnswer);
         }
     }
 
-    public boolean containsExpression(String identifier){
+    public boolean containsExpression(String identifier) {
         return this.table.containsKey(identifier);
     }
 
     public Expression getExpression(String identifier) {
-        if(this.table.containsKey(identifier)){
+        if (this.table.containsKey(identifier)) {
             return this.table.get(identifier);
         } else {
             throw new UnsupportedOperationException("Cannot get value for unknown field '" + identifier + "'.");
@@ -43,11 +43,11 @@ public class SymbolTable {
         Value evaluated = interpreterVisitor.visit(table.get(identifier));
 
         // Undefined values should display nothing
-        if(evaluated.isUndefined()) {
+        if (evaluated.isUndefined()) {
             return "";
         }
 
-        switch(type) {
+        switch (type) {
             case INTEGER:
                 return evaluated.getIntValue().toString();
             case DECIMAL:

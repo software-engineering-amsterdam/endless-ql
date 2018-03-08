@@ -2,7 +2,7 @@ package astvisitor;
 
 import java.math.BigDecimal;
 
-public class StringValue extends Value<String>{
+public class StringValue extends Value<String> {
 
     StringValue(String value) {
         super(value);
@@ -99,7 +99,7 @@ public class StringValue extends Value<String>{
     }
 
     @Override
-    public boolean equals(Value other){
+    public boolean equals(Value other) {
         return this.value.equals(other.value);
     }
 }

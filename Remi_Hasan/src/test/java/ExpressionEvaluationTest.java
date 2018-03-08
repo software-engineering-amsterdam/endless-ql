@@ -3,7 +3,7 @@ import astvisitor.InterpreterVisitor;
 import astvisitor.Value;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import expression.*;
+import expression.Expression;
 import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;

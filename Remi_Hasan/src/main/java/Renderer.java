@@ -29,7 +29,7 @@ public class Renderer {
     private final StyleSheet styleSheet;
 
     Renderer(Form form, SymbolTable symbolTable, StyleSheet styleSheet) {
-        this.form  = form;
+        this.form = form;
         this.symbolTable = symbolTable;
         this.styleSheet = styleSheet;
     }
@@ -70,7 +70,7 @@ public class Renderer {
     private void addQuestion(HashMap<Question, Field> fieldMap, FieldGroup fieldGroup, Question question) {
         Control input;
 
-        switch(question.type){
+        switch (question.type) {
             case BOOLEAN:
                 // Checkbox
                 input = createBooleanField(fieldMap, question);
@@ -98,7 +98,7 @@ public class Renderer {
                 throw new UnsupportedOperationException("Cannot create field for unknown field type");
         }
 
-        if(input != null){
+        if (input != null) {
             Field field = new Field(question.text, input);
             fieldGroup.add(field);
             fieldMap.put(question, field);
@@ -120,7 +120,7 @@ public class Renderer {
         CheckBox checkBox = new CheckBox();
 
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            Expression expression =  new ExpressionVariableBoolean(Boolean.parseBoolean(newValue.toString()));
+            Expression expression = new ExpressionVariableBoolean(Boolean.parseBoolean(newValue.toString()));
             symbolTable.setExpression(question.name, expression);
             updateFields(fieldMap, form.questions);
         });
@@ -152,7 +152,7 @@ public class Renderer {
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
                 Expression expression = new ExpressionVariableUndefined(null);
-                if(!textField.getText().isEmpty()){
+                if (!textField.getText().isEmpty()) {
                     expression = new ExpressionVariableInteger(Integer.parseInt(textField.getText()));
                     TextFormatter intFormatter = createTextFormatter("-?\\d*");
                     textField.setTextFormatter(intFormatter);
@@ -169,6 +169,7 @@ public class Renderer {
 
         return textField;
     }
+
     private Control createDecimalField(HashMap<Question, Field> fieldMap, Question question) {
         TextInputControl textField = Input.textField();
         textField.setEditable(question.isEditable());
@@ -177,7 +178,7 @@ public class Renderer {
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
                 Expression expression = new ExpressionVariableUndefined(null);
-                if(!textField.getText().isEmpty()){
+                if (!textField.getText().isEmpty()) {
                     expression = new ExpressionVariableDecimal(Double.parseDouble(textField.getText()));
                 }
 
@@ -192,6 +193,7 @@ public class Renderer {
 
         return textField;
     }
+
     private Control createMoneyField(HashMap<Question, Field> fieldMap, Question question) {
         TextInputControl textField = Input.textField();
         textField.setEditable(question.isEditable());
@@ -200,7 +202,7 @@ public class Renderer {
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
                 Expression expression = new ExpressionVariableUndefined(null);
-                if(!textField.getText().isEmpty()){
+                if (!textField.getText().isEmpty()) {
                     expression = new ExpressionVariableString(textField.getText());
                 }
 
@@ -216,7 +218,7 @@ public class Renderer {
         return textField;
     }
 
-    private TextFormatter createTextFormatter(String pattern){
+    private TextFormatter createTextFormatter(String pattern) {
         Pattern textPattern = Pattern.compile(pattern);
         UnaryOperator<TextFormatter.Change> filter = c -> {
             if (textPattern.matcher(c.getControlNewText()).matches()) {
@@ -255,16 +257,15 @@ public class Renderer {
         field.getControl().setVisible(visible);
 
         // If question is based on value and cannot be set by the user, set value by evaluating its value
-        if(!question.isEditable()) {
+        if (!question.isEditable()) {
             String answer = symbolTable.getStringValue(question.name, question.type);
 
             if (question.type == ReturnType.BOOLEAN) {
                 CheckBox checkBox = (CheckBox) field.getControl();
                 checkBox.setSelected(Boolean.valueOf(answer));
-            } else if(question.type == ReturnType.DATE){
+            } else if (question.type == ReturnType.DATE) {
                 // TODO
-            }
-            else {
+            } else {
                 TextInputControl textField = (TextInputControl) field.getControl();
                 textField.setText(answer);
             }

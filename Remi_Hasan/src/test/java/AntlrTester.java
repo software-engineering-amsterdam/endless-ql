@@ -9,7 +9,7 @@ public class ANTLRTester {
     final QLParser parser;
     final VisitorExpression visitor;
 
-    ANTLRTester(String input){
+    ANTLRTester(String input) {
         QLLexer lexer = new QLLexer(CharStreams.fromString(input));
 
         CommonTokenStream tokens = new CommonTokenStream(lexer);

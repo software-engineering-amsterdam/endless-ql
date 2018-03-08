@@ -11,7 +11,7 @@ public class ExpressionVariableUndefined extends ExpressionVariable<ReturnType> 
     }
 
     public ReturnType getReturnType() {
-        if(this.value == ReturnType.INTEGER || this.value == ReturnType.DECIMAL || this.value == ReturnType.MONEY) {
+        if (this.value == ReturnType.INTEGER || this.value == ReturnType.DECIMAL || this.value == ReturnType.MONEY) {
             return ReturnType.NUMBER;
         }
 

@@ -8,13 +8,13 @@ form taxOfficeExample
     hasMaintLoan: boolean
     
   
-  if (hasSoldHouse)
+  if ((hasBoughtHouse || hasSoldHouse) == (hasSoldHouse == hasBoughtHouse))
   {
     "What was the selling price?"
       sellingPrice: int
     "Private debts for the sold house:"
       privateDebt: int
-"Value residue:"
+	"Value residue:"
       valueResidue: int = 
         (sellingPrice - privateDebt)
   }

@@ -62,7 +62,7 @@ class QLParser ( Parser ):
                      u"'('", u"')'", u"'int'", u"'boolean'", u"'if'", u"'elif'", 
                      u"'else'", u"<INVALID>", u"<INVALID>", u"'!'", u"<INVALID>", 
                      u"<INVALID>", u"<INVALID>", u"'+'", u"'/'", u"'-'", 
-                     u"'*'", u"'&&'", u"'OR'", u"'true'", u"'false'" ]
+                     u"'*'", u"'&&'", u"'||'", u"'true'", u"'false'" ]
 
     symbolicNames = [ u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
                       u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 

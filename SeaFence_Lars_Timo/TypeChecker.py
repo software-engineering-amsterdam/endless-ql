@@ -1,8 +1,8 @@
 from QLast import *
 import sys
 
-BOOLEAN_UNICODE = u'boolean'
-INTEGER_UNICODE = u'int'
+BOOLEAN_UNICODE = u"boolean"
+INTEGER_UNICODE = u"int"
 
 class TypeChecker(object):    
 
@@ -24,10 +24,10 @@ class TypeChecker(object):
             
             elif type(statement) is IfNode or type(statement) is ElifNode:
                 if type(statement.expression) is UnOpNode:
-                    if statement.expression.negate:
-                        self.checkNegation(statement)
+                    # if statement.expression.negate:
+                    #     self.checkNegation(statement)
 
-                    self.checkUndefinedQuestions(statement)
+                    # self.checkUndefinedQuestions(statement)
                     self.checkConditionals(statement)
 
                 elif type(statement.expression) is BinOpNode:
@@ -43,13 +43,13 @@ class TypeChecker(object):
     def checkUndefinedQuestions(self, statement):
         variable_exists = False
         for key, value in self.questions.iteritems():
-            if statement.expression.var in value:
+            if statement.var in value:
                 variable_exists = True
                 
             if variable_exists:
                 return
 
-        exitProgram("Variable {} is referenced, but does not exist.".format(statement.expression.var))
+        exitProgram("Variable {} is referenced, but does not exist.".format(statement.var))
         return
 
 
@@ -59,9 +59,7 @@ class TypeChecker(object):
             # todo: Proper error handling?
             print "Warning: question {} is asked twice.".format(statement.question)
             return statement.question + "dup"
-            # if statement.vartype != self.questions[statement.question][1]:
-                # print "wooow"
-            # sys.exit()
+
         return statement.question
 
 
@@ -78,28 +76,25 @@ class TypeChecker(object):
     def checkInvalidOperations(self, statement):
         left_type = ""
         right_type = ""
+        operator = statement.op
 
-        if type(statement.left) is UnOpNode and type(statement.right) is UnOpNode:
-            operator = statement.op
-            for key, value in self.questions.iteritems():
-                if statement.left.var in value:
-                    left_type = value[1]
-                if statement.right.var in value:
-                    right_type = value[1]
+        if type(statement.left) is BinOpNode:
+            left_type = self.checkInvalidOperations(statement.left)
 
-            if operator == "&&" or operator == "||":
-                if left_type != BOOLEAN_UNICODE or right_type != BOOLEAN_UNICODE:
-                    exitProgram("Operation ({} {} {}) has invalid types.".format(statement.left.var, statement.op, statement.right.var))
+        elif type(statement.left) is UnOpNode:
+            self.checkUndefinedQuestions(statement.left)
+            left_type = self.getVariableTypes(statement.left)
 
-            elif operator == "==" or operator == "!=":
-                if left_type != right_type:
-                    exitProgram("Operation ({} {} {}) has invalid types.".format(statement.left.var, statement.op, statement.right.var))
+        if type(statement.right) is BinOpNode:
+            right_type = self.checkInvalidOperations(statement.right)
 
-            else:
-                if left_type != INTEGER_UNICODE or right_type != INTEGER_UNICODE:
-                    exitProgram("Operation ({} {} {}) has invalid types.".format(statement.left.var, statement.op, statement.right.var))
+        elif type(statement.right) is UnOpNode:
+            self.checkUndefinedQuestions(statement.right)
+            right_type = self.getVariableTypes(statement.right)
 
-        return
+        self.checkOperation(statement, left_type, right_type, operator)
+
+        return left_type
 
 
     # Check for cyclic dependencies between questions.
@@ -120,6 +115,30 @@ class TypeChecker(object):
         for value in self.questions.values():
             if statement.var == value[0]:
                 exitProgram("Variable {} is already declared.".format(statement.var))
+        return
+
+
+    def getVariableTypes(self, statement):
+        for key, value in self.questions.iteritems():
+            if statement.var in value:
+                variable_type = value[1]
+
+        return variable_type
+
+
+    def checkOperation(self, statement, left_type, right_type, operator):
+        if operator == "&&" or operator == "||":
+            if left_type != BOOLEAN_UNICODE or right_type != BOOLEAN_UNICODE:
+                exitProgram("Operation ({}) has invalid types.".format(statement))
+
+        elif operator == "==" or operator == "!=":
+            if left_type != right_type:
+                exitProgram("Operation ({}) has invalid types.".format(statement))
+
+        else:
+            if left_type != INTEGER_UNICODE or right_type != INTEGER_UNICODE:
+                exitProgram("Operation ({}) has invalid types.".format(statement))
+
         return
 
 

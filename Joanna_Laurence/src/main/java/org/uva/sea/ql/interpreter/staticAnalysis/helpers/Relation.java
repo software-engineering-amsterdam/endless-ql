@@ -21,7 +21,8 @@ public class Relation<T> {
         return this.relations.add(element);
     }
 
-    public List<T> getCircularDependacies() {
+    //TODO: Return chain instead of elements
+    public List<T> getCircularDependencies() {
         List<T> circular = new ArrayList<>();
         for(AbstractMap.SimpleEntry<T,T> entry : this.relations) {
             if(entry.getKey().equals(entry.getValue())) {

@@ -1,14 +1,11 @@
 import {Component, isDevMode} from '@angular/core';
-import {parse} from '../parser/ql-parser';
-import {parse as parseQls} from '../parser/qls-parser';
 import {QuestionBase} from './domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {QuestionControlService} from './services/question-control.service';
-import {Page, Question as QlsQuestion, Section, Style, Stylesheet, Widget, WidgetType} from './domain/ast/qls';
-import {emptyLoc, Form, QuestionType, Question as QlQuestion} from './domain/ast';
-import {ParseQlWithQlsFactoryService} from './services/parse-ql-with-qls-factory.service';
-import {ParseFactoryInterface} from './services/parse-factory-interface';
-import {ParseQlWithDefaultStylingFactoryService} from './services/parse-ql-with-default-styling-factory.service';
+import {Question as QlsQuestion, Section, Style, Stylesheet} from './domain/ast/qls';
+import {Form} from './domain/ast';
+import {ParseFactory} from './factories/parse-factory';
+import {parse} from '../parser/ql-parser';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +13,7 @@ import {ParseQlWithDefaultStylingFactoryService} from './services/parse-ql-with-
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  input: string;
+  inputQl: string;
   inputQls: string;
   questions: QuestionBase<any>[] = [];
   form: FormGroup;
@@ -27,57 +24,63 @@ export class AppComponent {
   qlsStylesheet: Stylesheet;
   qlsToQlQuestionDictionary: Map<string, QuestionBase<any>> = new Map<string, QuestionBase<any>>();
 
-  constructor (private questionControlService: QuestionControlService) {
-  this.inputQls = 'stylesheet "taxOfficeExample"\n' +
-    '{\n' +
-    '  page "Housing"\n' +
-    '  {\n' +
-    '    section "Buying"\n' +
-    '    {\n' +
-    '      question question3\n' +
-    '        widget checkbox\n' +
-    '    }\n' +
-    '    section "Loaning"\n' +
-    '      question question4\n' +
-    '  }\n' +
-    '\n' +
-    '  page "Selling"\n' +
-    '  {\n' +
-    '    section "Selling"\n' +
-    '    {\n' +
-    '      question question5\n' +
-    '        widget radio("Yes", "No")\n' +
-    '      section "You sold a house"\n' +
-    '      {\n' +
-    '        question question1\n' +
-    '          widget spinbox\n' +
-    '        question question2\n' +
-    '          widget spinbox\n' +
-    '        question question6\n' +
-    '        default integer\n' +
-    '        {\n' +
-    '          width: 400\n' +
-    '          font: "Arial"\n' +
-    '          fontsize: 14\n' +
-    '          color: #999999\n' +
-    '          widget spinbox\n' +
-    '        }\n' +
-    '      }\n' +
-    '    }\n' +
-    '    default boolean widget radio("Yes", "No")\n' +
-    '  }\n' +
-    '}';
+  constructor(private questionControlService: QuestionControlService) {
+    this.inputQls = 'stylesheet "taxOfficeExample"\n' +
+      '{\n' +
+      '  page "Housing"\n' +
+      '  {\n' +
+      '    section "Buying"\n' +
+      '    {\n' +
+      '      question question3\n' +
+      '        widget checkbox\n' +
+      '    }\n' +
+      '    section "Loaning"\n' +
+      '      question question4\n' +
+      '  }\n' +
+      '\n' +
+      '  page "Selling"\n' +
+      '  {\n' +
+      '    section "Selling"\n' +
+      '    {\n' +
+      '      question question5\n' +
+      '        widget radio("Yes", "No")\n' +
+      '      section "You sold a house"\n' +
+      '      {\n' +
+      '        question question1\n' +
+      '          widget spinbox\n' +
+      '        question question2\n' +
+      '          widget spinbox\n' +
+      '        question question6\n' +
+      '        default integer\n' +
+      '        {\n' +
+      '          width: 400\n' +
+      '          font: "Arial"\n' +
+      '          fontsize: 14\n' +
+      '          color: #999999\n' +
+      '          widget spinbox\n' +
+      '        }\n' +
+      '      }\n' +
+      '    }\n' +
+      '    default boolean widget radio("Yes", "No")\n' +
+      '  }\n' +
+      '}';
 
-  this.input = 'form form {\n' +
-    '  question1: "IntegerQuestion?"  integer\n' +
-    '  question2: "DecimalQuestion?"  integer\n' +
-    '  question3: "BooleanQuestion?"  boolean\n' +
-    '  question4: "StringQuestion?"  string\n' +
-    '  question5: "DateQuestion?"  date\n' +
-    '  if (question3) {\n' +
-    '    question6: "ifQuestion" integer\n' +
-    '  }\n' +
-    '}';
+    this.inputQl = 'form form {\n' +
+      '  question1: "IntegerQuestion?"  integer\n' +
+      '  question2: "DecimalQuestion?"  integer\n' +
+      '  question3: "BooleanQuestion?"  boolean\n' +
+      '  question4: "StringQuestion?"  string\n' +
+      '  question5: "DateQuestion?"  date\n' +
+      '  if (question3) {\n' +
+      '    question6: "ifQuestion" integer\n' +
+      '  }\n' +
+      '}';
+  }
+
+  temp(section: Section): ReadonlyArray<QlsQuestion> {
+    return section.getQuestions([]).map(q => {
+      return q.question;
+    });
   }
 
   getQuestionBaseByName(name: string): QuestionBase<any> {
@@ -133,18 +136,10 @@ export class AppComponent {
 
   parseInput() {
     try {
-      let factory: ParseFactory;
-      if (this.inputQls && this.inputQls !== '') {
-        factory = new ParseQlWithQlsFactory(this.input, this.inputQls);
-      } else {
-        factory = new ParseQlWithDefaultStylingFactory(this.input);
-      }
-
-      const parseResult = factory.parse();
+      const parseResult = ParseFactory.parse(this.inputQl, this.inputQls);
       this.formName = parseResult.formName;
-      this.qlForm = parseResult.qlForm;
-      this.qlsStylesheet = parseResult.qlsStylesheet;
-
+      this.qlForm = parseResult.form;
+      this.qlsStylesheet = parseResult.styles;
       // make form
       this.questions = this.qlForm.toFormQuestion();
       this.form = this.questionControlService.toFormGroup(this.questions);

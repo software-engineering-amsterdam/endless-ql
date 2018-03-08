@@ -33,39 +33,9 @@ class EvaluatorTest extends WordSpec {
         )
       )
 
-      val result = Evaluator.evaluate(qLForm)
-      val expected = QLForm(
-        "Revenue",
-        List(
-          Question(
-            "revenue",
-            "How much did you earn",
-            IntegerType,
-            IntAnswer(Some(1000)),
-            Some(IntAnswer(Some(1000)))
-          ),
-          Question(
-            "expenses",
-            "How much did you earn",
-            IntegerType,
-            IntAnswer(Some(800)),
-            Some(IntAnswer(Some(800)))
-          ),
-          Conditional(
-            BooleanAnswer(Some(true)),
-            List(
-              Question(
-                "profit",
-                "You still have",
-                IntegerType,
-                BinaryOperation(Sub, Reference("revenue"), Reference("expenses")),
-                Some(IntAnswer(Some(200)))
-              )
-            ),
-            Some(BooleanAnswer(Some(true)))
-          )
-        )
-      )
+      val result = Evaluator.evaluate(qLForm, Map.empty)
+      val expected =
+        Map("revenue" -> IntAnswer(Some(1000)), "expenses" -> IntAnswer(Some(800)), "profit" -> IntAnswer(Some(200)))
 
       assert(result == expected)
     }

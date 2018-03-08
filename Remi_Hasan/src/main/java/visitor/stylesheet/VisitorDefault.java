@@ -2,7 +2,7 @@ package visitor.stylesheet;
 
 import antlr.QLSBaseVisitor;
 import antlr.QLSParser;
-import expression.ReturnType;
+import model.expression.ReturnType;
 import model.stylesheet.Default;
 import model.stylesheet.widgets.Widget;
 

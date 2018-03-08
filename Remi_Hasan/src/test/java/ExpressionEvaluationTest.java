@@ -1,9 +1,9 @@
 import analysis.SymbolTable;
-import astvisitor.InterpreterVisitor;
-import astvisitor.Value;
+import evaluation.ExpressionEvaluator;
+import evaluation.value.Value;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import expression.Expression;
+import model.expression.Expression;
 import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;
@@ -28,7 +28,7 @@ public class ExpressionEvaluationTest {
         Expression expression = tester.visitor.visit(tester.parser.expression());
 
         SymbolTable symbolTable = new SymbolTable();
-        InterpreterVisitor interpreterVisitor = new InterpreterVisitor(symbolTable);
+        ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(symbolTable);
 
         return interpreterVisitor.visit(expression);
     }

@@ -2,9 +2,9 @@ package visitor;
 
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
-import expression.Expression;
-import expression.binary.ExpressionLogicalAnd;
-import expression.unary.ExpressionUnaryNot;
+import model.expression.Expression;
+import model.expression.binary.ExpressionLogicalAnd;
+import model.expression.unary.ExpressionUnaryNot;
 import model.Question;
 
 import java.util.ArrayList;

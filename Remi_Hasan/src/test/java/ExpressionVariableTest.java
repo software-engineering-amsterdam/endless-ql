@@ -1,7 +1,7 @@
 //import analysis.SymbolTable;
-//import expression.*;
-//import expression.variable.*;
-//import expression.unary.ExpressionUnaryNeg;
+//import model.expression.*;
+//import model.expression.variable.*;
+//import model.expression.unary.ExpressionUnaryNeg;
 //import org.junit.Test;
 //
 //import java.math.BigDecimal;
@@ -48,7 +48,7 @@
 //    @Test
 //    public void ExpressionIntegerNegativeTest() {
 //        ANTLRTester tester = new ANTLRTester("-1");
-//        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+//        Expression actualExpression = tester.visitor.visit(tester.parser.model.expression());
 //        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableInteger(1));
 //
 //        // TODO implement real equals
@@ -70,7 +70,7 @@
 //    @Test
 //    public void ExpressionDecimalNegativeTest() {
 //        ANTLRTester tester = new ANTLRTester("-1.0");
-//        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+//        Expression actualExpression = tester.visitor.visit(tester.parser.model.expression());
 //        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableInteger(1.0));
 //
 //        // TODO implement real equals

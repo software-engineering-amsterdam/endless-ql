@@ -1,14 +1,14 @@
 package analysis;
 
-import astvisitor.IASTVisitor;
-import expression.Expression;
-import expression.ExpressionBinary;
-import expression.ExpressionIdentifier;
-import expression.ReturnType;
-import expression.binary.*;
-import expression.unary.ExpressionUnaryNeg;
-import expression.unary.ExpressionUnaryNot;
-import expression.variable.*;
+import evaluation.IASTVisitor;
+import model.expression.Expression;
+import model.expression.ExpressionBinary;
+import model.expression.ExpressionIdentifier;
+import model.expression.ReturnType;
+import model.expression.binary.*;
+import model.expression.unary.ExpressionUnaryNeg;
+import model.expression.unary.ExpressionUnaryNot;
+import model.expression.variable.*;
 import model.Form;
 import model.Question;
 
@@ -35,7 +35,7 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
         for (Question q : form.questions) {
             this.visit(q.condition);
 
-            // Only check expression when it is a predefined expression
+            // Only check model.expression when it is a predefined model.expression
             if (!q.isEditable()) {
                 ReturnType defaultAnswerType = this.visit(q.defaultAnswer);
 
@@ -49,34 +49,34 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
     }
 
     private ReturnType checkBinaryArithmetic(ExpressionBinary e, String operation) {
-        // Check whether operation can be applied to left and right expression
+        // Check whether operation can be applied to left and right model.expression
         boolean selfValid = e.left.accept(this).isNumber() && e.right.accept(this).isNumber();
 
         if (!selfValid) {
-            errors.add("Invalid " + operation + ": non-numeric value in expression");
+            errors.add("Invalid " + operation + ": non-numeric value in model.expression");
         }
 
         return ReturnType.NUMBER;
     }
 
     private ReturnType checkBinaryComparison(ExpressionBinary e, String operation) {
-        // Check whether operation can be applied to left and right expression
+        // Check whether operation can be applied to left and right model.expression
         boolean selfValid = e.left.accept(this).isNumber() && e.right.accept(this).isNumber();
 
         if (!selfValid) {
-            errors.add("Invalid " + operation + ": non-numeric value in expression");
+            errors.add("Invalid " + operation + ": non-numeric value in model.expression");
         }
 
         return ReturnType.BOOLEAN;
     }
 
     private ReturnType checkBinaryBoolean(ExpressionBinary e, String operation) {
-        // Check whether operation can be applied to left and right expression
+        // Check whether operation can be applied to left and right model.expression
         boolean selfValid = e.left.accept(this) == ReturnType.BOOLEAN
                 && e.right.accept(this) == ReturnType.BOOLEAN;
 
         if (!selfValid) {
-            errors.add("Invalid " + operation + ": non-boolean value in expression");
+            errors.add("Invalid " + operation + ": non-boolean value in model.expression");
         }
 
         return ReturnType.BOOLEAN;
@@ -153,7 +153,7 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
         boolean selfValid = e.value.accept(this) == ReturnType.BOOLEAN;
 
         if (!selfValid) {
-            errors.add("Invalid NOT: non-boolean expression");
+            errors.add("Invalid NOT: non-boolean model.expression");
         }
 
         return ReturnType.BOOLEAN;
@@ -164,7 +164,7 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
         boolean selfValid = e.value.accept(this) == ReturnType.NUMBER;
 
         if (!selfValid) {
-            errors.add("Invalid NEG: non-numeric expression");
+            errors.add("Invalid NEG: non-numeric model.expression");
         }
 
         return ReturnType.NUMBER;

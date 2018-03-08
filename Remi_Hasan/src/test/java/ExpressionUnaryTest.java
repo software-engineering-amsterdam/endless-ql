@@ -1,10 +1,10 @@
 //import com.pholser.junit.quickcheck.Property;
 //import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-//import expression.*;
-//import expression.variable.ExpressionVariableBoolean;
-//import expression.unary.ExpressionUnaryNeg;
-//import expression.unary.ExpressionUnaryNot;
-//import expression.variable.ExpressionVariableInteger;
+//import model.expression.*;
+//import model.expression.variable.ExpressionVariableBoolean;
+//import model.expression.unary.ExpressionUnaryNeg;
+//import model.expression.unary.ExpressionUnaryNot;
+//import model.expression.variable.ExpressionVariableInteger;
 //import org.junit.runner.RunWith;
 //
 //import static org.junit.Assert.assertEquals;
@@ -15,7 +15,7 @@
 //    @Property
 //    public void ExpressionUnaryNot(boolean value) {
 //        ANTLRTester tester = new ANTLRTester("!" + value);
-//        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+//        Expression actualExpression = tester.visitor.visit(tester.parser.model.expression());
 //
 //        ExpressionUnaryNot expectedExpression = new ExpressionUnaryNot(new ExpressionVariableBoolean(value));
 //        assertEquals(expectedExpression, actualExpression);
@@ -24,7 +24,7 @@
 //    @Property
 //    public void ExpressionUnaryNegInteger(int value) {
 //        ANTLRTester tester = new ANTLRTester("-" + value);
-//        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+//        Expression actualExpression = tester.visitor.visit(tester.parser.model.expression());
 //
 //        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableInteger(value + ""));
 //        assertEquals(expectedExpression, actualExpression);
@@ -33,7 +33,7 @@
 //    @Property
 //    public void ExpressionUnaryNegDecimal(double value) {
 //        ANTLRTester tester = new ANTLRTester("-" + value);
-//        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+//        Expression actualExpression = tester.visitor.visit(tester.parser.model.expression());
 //
 //        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableInteger(value + ""));
 //        assertEquals(expectedExpression, actualExpression);

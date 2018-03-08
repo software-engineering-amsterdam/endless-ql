@@ -3,12 +3,12 @@ package visitor;
 import antlr.QLBaseVisitor;
 import antlr.QLLexer;
 import antlr.QLParser;
-import expression.Expression;
-import expression.ExpressionIdentifier;
-import expression.binary.*;
-import expression.unary.ExpressionUnaryNeg;
-import expression.unary.ExpressionUnaryNot;
-import expression.variable.*;
+import model.expression.Expression;
+import model.expression.ExpressionIdentifier;
+import model.expression.binary.*;
+import model.expression.unary.ExpressionUnaryNeg;
+import model.expression.unary.ExpressionUnaryNot;
+import model.expression.variable.*;
 
 public class VisitorExpression extends QLBaseVisitor<Expression> {
 

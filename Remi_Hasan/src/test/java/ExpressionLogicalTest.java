@@ -1,9 +1,9 @@
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import expression.Expression;
-import expression.binary.ExpressionLogicalAnd;
-import expression.binary.ExpressionLogicalOr;
-import expression.variable.ExpressionVariableBoolean;
+import model.expression.Expression;
+import model.expression.binary.ExpressionLogicalAnd;
+import model.expression.binary.ExpressionLogicalOr;
+import model.expression.variable.ExpressionVariableBoolean;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;

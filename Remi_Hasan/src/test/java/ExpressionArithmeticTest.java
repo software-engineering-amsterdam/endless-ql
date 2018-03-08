@@ -1,11 +1,11 @@
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import expression.Expression;
-import expression.binary.ExpressionArithmeticDivide;
-import expression.binary.ExpressionArithmeticMultiply;
-import expression.binary.ExpressionArithmeticSubtract;
-import expression.binary.ExpressionArithmeticSum;
-import expression.variable.ExpressionVariableInteger;
+import model.expression.Expression;
+import model.expression.binary.ExpressionArithmeticDivide;
+import model.expression.binary.ExpressionArithmeticMultiply;
+import model.expression.binary.ExpressionArithmeticSubtract;
+import model.expression.binary.ExpressionArithmeticSum;
+import model.expression.variable.ExpressionVariableInteger;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;

@@ -2,8 +2,8 @@ package visitor;
 
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
-import expression.Expression;
-import expression.variable.ExpressionVariableBoolean;
+import model.expression.Expression;
+import model.expression.variable.ExpressionVariableBoolean;
 import model.Question;
 
 import java.util.ArrayList;

@@ -1,9 +1,9 @@
 package model;
 
 import analysis.SymbolTable;
-import astvisitor.InterpreterVisitor;
-import expression.Expression;
-import expression.ReturnType;
+import evaluation.ExpressionEvaluator;
+import model.expression.Expression;
+import model.expression.ReturnType;
 
 public class Question {
 
@@ -24,7 +24,7 @@ public class Question {
     }
 
     public boolean isVisible(SymbolTable symbolTable) {
-        InterpreterVisitor interpreterVisitor = new InterpreterVisitor(symbolTable);
+        ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(symbolTable);
         return interpreterVisitor.visit(this.condition).getBooleanValue();
     }
 

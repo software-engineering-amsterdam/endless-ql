@@ -1,9 +1,9 @@
 package analysis;
 
-import astvisitor.InterpreterVisitor;
-import astvisitor.Value;
-import expression.Expression;
-import expression.ReturnType;
+import evaluation.ExpressionEvaluator;
+import evaluation.value.Value;
+import model.expression.Expression;
+import model.expression.ReturnType;
 import model.Form;
 import model.Question;
 
@@ -39,7 +39,7 @@ public class SymbolTable {
 
     // TODO: move to value?
     public String getStringValue(String identifier, ReturnType type) {
-        InterpreterVisitor interpreterVisitor = new InterpreterVisitor(this);
+        ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(this);
         Value evaluated = interpreterVisitor.visit(table.get(identifier));
 
         // Undefined values should display nothing

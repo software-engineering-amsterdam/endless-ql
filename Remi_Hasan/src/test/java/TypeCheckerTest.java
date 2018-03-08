@@ -1,7 +1,7 @@
 import analysis.TypeChecker;
-import expression.binary.ExpressionArithmeticSum;
-import expression.variable.ExpressionVariableBoolean;
-import expression.variable.ExpressionVariableInteger;
+import model.expression.binary.ExpressionArithmeticSum;
+import model.expression.variable.ExpressionVariableBoolean;
+import model.expression.variable.ExpressionVariableInteger;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

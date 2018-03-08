@@ -1,7 +1,7 @@
 import analysis.SymbolTable;
-import expression.Expression;
-import expression.ReturnType;
-import expression.variable.*;
+import model.expression.Expression;
+import model.expression.ReturnType;
+import model.expression.variable.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;

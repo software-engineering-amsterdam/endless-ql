@@ -2,9 +2,9 @@ package visitor;
 
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
-import expression.Expression;
-import expression.ReturnType;
-import expression.variable.ExpressionVariableUndefined;
+import model.expression.Expression;
+import model.expression.ReturnType;
+import model.expression.variable.ExpressionVariableUndefined;
 import model.Question;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {

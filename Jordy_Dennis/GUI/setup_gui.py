@@ -26,18 +26,22 @@ class Gui:
         self.form = None
         self.varDict = varDict
         self.questions = questions
-        
+        self.create_form()
+        self.execute()
+
 
     # Upon creating a new form, create a new frame which is a child from the mainframe.
     # For every form, create the header frame and questions frame and fill the questions frame
     # with questions
     def create_form(self):
-        form = FormGui(self.mainframe, header)
+        form = FormGui(self.mainframe, "idk lol")
         content_frame = form.get_contents()
-        # sfg = ScrollFrameGui(content_frame)
-        q = Question(content_frame)
-        # for q in range(0, len(questions)):
-        #     form.add_question(questions[q], qtypes[q])
+        sfg = ScrollFrameGui(content_frame)
+        sfg_content = sfg.get_contents()
+        
+        for q in range(0, 10):
+            # form.add_question()
+            q = Question(sfg_content)
         self.form = form
 
         b = Button(self.mainframe, text="OK", command=self.collect_answers)

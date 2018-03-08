@@ -10,10 +10,12 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class QLFormBuilder extends JPanel{
 
+    static DefaultFormBuilder builder;
+
     public QLFormBuilder() {
         super(new BorderLayout());
 
-        DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout(""));
+        builder = new DefaultFormBuilder(new FormLayout(""));
 //        builder.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         builder.appendColumn("right:pref");
@@ -53,11 +55,20 @@ public class QLFormBuilder extends JPanel{
         builder.nextLine();
 
         add(builder.getPanel());
+
+    }
+
+    public static void addQuestion(String question){
+
+        builder.append(question, new JTextField());
+        builder.nextLine();
+
     }
 
 
-    public static void showForm () {
-        QLFrame f = new QLFrame("Form layout example");
+    public void showForm () {
+
+        QLFrame f = new QLFrame("Form layout ecxample");
         f.setDefaultSize(36);
         f.setDefaultCloseOperation(2);
         f.add(new QLFormBuilder());

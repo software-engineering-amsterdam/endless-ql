@@ -26,10 +26,11 @@ class Gui:
         self.form = None
         self.ast = ast
         self.varDict = ast.varDict
-        self.questionsGenerator = Question_Generator(self.varDict, self.ast)
+        self.questionsGenerator = Question_Generator(self.varDict, self.ast, self.form)
         self.questions = self.questionsGenerator.updateQuestions()
+        self.form = FormGui(self.mainframe, self.questionsGenerator, self.ast.getName())
+        self.questionsGenerator.form = self.form
         self.create_form()
-        print("hello")
         self.execute()
 
 
@@ -37,15 +38,7 @@ class Gui:
     # For every form, create the header frame and questions frame and fill the questions frame
     # with questions
     def create_form(self):
-        form = FormGui(self.mainframe, self.questionsGenerator, self.ast.getName())
-
-        for var in self.questions:
-            label = self.questions[var].getQuestion()
-            type = self.varDict[var]['node'].checkTypes()
-            form.add_question(var, label, type)
-
-        self.form = form
-
+        self.questionsGenerator.updateQuestions()
         b = Button(self.mainframe, text="SUBMIT", command=self.collect_answers)
         b.pack()
 

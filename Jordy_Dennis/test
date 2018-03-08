@@ -1,11 +1,8 @@
 form taxOfficeExample {
 	"This is an int"
-		a: int = (4)
-
-	"This is a string"
 		b: int
 
-	if(a){
+	if(b){
 		"Q3 Within the if (int)"
 			f: int
 	}

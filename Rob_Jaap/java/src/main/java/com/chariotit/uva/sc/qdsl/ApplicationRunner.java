@@ -47,6 +47,11 @@ public class ApplicationRunner implements CommandLineRunner {
         ParseTree tree = parser.forms();
         QLVisitor visitor = new QLVisitor();
 
+        QLFormBuilder builder = new QLFormBuilder();
+
+        builder.addQuestion("Test question");
+
+        builder.showForm();
 
         // AST is initialised here.
         AstRoot astRoot = (AstRoot)visitor.visit(tree);

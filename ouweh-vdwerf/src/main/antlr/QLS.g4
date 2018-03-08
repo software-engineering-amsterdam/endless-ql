@@ -8,21 +8,23 @@ stylesheet
     :   'stylesheet' id=ID OPEN_BRACKET page+ CLOSE_BRACKET
     ;
 
-page: 'page' ID OPEN_BRACKET segment+ default* CLOSE_BRACKET;
+page: 'page' ID OPEN_BRACKET segment+ defaultStatement* CLOSE_BRACKET;
 
-section: 'section' ID OPEN_BRACKET segment+ default* CLOSE_BRACKET;
+section: 'section' ID OPEN_BRACKET segment+ defaultStatement* CLOSE_BRACKET;
 
 segment: question
        | section
        ;
 
-default: 'default' type widget
-       | 'default' type style
-       ;
+defaultStatement: 'default' type widget
+                | 'default' type style
+                ;
 
-question: 'question' ID widget?;
+question: 'question' ID widget?
+        | 'question' ID style?
+        ;
 
-widget: 'widget' widgetType style?;
+widget: 'widget' widgetType;
 
 widgetType: 'radio' OPEN_PARENTH yes=STRING',' no=STRING CLOSE_PARENTH                     # radio
           | 'checkbock' OPEN_PARENTH yes=STRING CLOSE_PARENTH                              # checkbox
@@ -40,7 +42,9 @@ type
 
 style: OPEN_BRACKET styleProperty+ CLOSE_BRACKET;
 
-styleProperty: property=STRING ':' value;
+styleProperty: property=STRING ':' value
+             | widget
+             ;
 
 value: STRING
      | NUMBER

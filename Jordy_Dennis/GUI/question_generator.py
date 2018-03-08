@@ -9,17 +9,30 @@ import collections
 
 class Question_Generator:
 
-    def __init__(self, varDict, ast):
+    def __init__(self, varDict, ast, form):
         self.varDict = varDict
         self.ast = ast
         self.questions = collections.OrderedDict()
+        self.form = form
 
     def getVarDict(self):
         return self.varDict
 
     # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
     def updateQuestions(self):
+        print("update questions")
         self.get_questions(self.ast.form.block)
+        if self.form:
+            print("-------------------")
+            printDict(self.ast)
+            printDict(self.varDict)
+            self.form.empty_frame()
+            for varName in self.questions:
+                label = self.questions[varName].getQuestion()
+                type = self.varDict[varName]['node'].checkTypes()
+                value = self.varDict[varName]['node'].evaluate()
+                self.form.add_question(varName, label, type, value)
+
         return self.questions
 
     # Create the list of all the questions by recursively looping through the statements and adding them to te dictionairy

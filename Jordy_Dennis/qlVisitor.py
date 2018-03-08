@@ -55,7 +55,7 @@ class QLVisitor(QLGrammarVisitor):
         varName = ctx.ID().getText()
         varType = self.visit(ctx.types())
 
-        varNode = VarNode(varName, varType, ctx.start.line)
+        varNode = VarNode(varName, varType, ctx.start.line, True)
         questionN = QuestionNode(question, varNode, ctx.start.line)
 
         return questionN

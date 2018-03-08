@@ -27,7 +27,7 @@
 //            //}
 
 //            //var actualVariableNames = m_domainItemLocator
-//            //    .GetAll<ICalcualtionVariableNode>()
+//            //    .GetAll<ICalculationVariableNode>()
 //            //    .Select(x => x.VariableName)
 //            //    .ToList();
 

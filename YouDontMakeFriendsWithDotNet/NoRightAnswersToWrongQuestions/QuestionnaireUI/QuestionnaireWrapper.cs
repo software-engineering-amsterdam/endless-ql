@@ -2,9 +2,9 @@
 
 namespace QuestionnaireUI
 {
-    public class QuestionaireWrapper
+    public class QuestionnaireWrapper
     {
-        public QuestionaireWrapper(QuestionnaireModel questionnaire)
+        public QuestionnaireWrapper(QuestionnaireModel questionnaire)
         {
             if (questionnaire == null)
             {

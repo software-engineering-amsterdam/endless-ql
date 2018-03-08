@@ -85,8 +85,6 @@ public class QLLoader extends FormBaseListener {
         String questionText = ctx.label().getText();
 
         this.formNode.getFormData().addQuestion(this.conditionsHolder, new QuestionNode(questionText, constructedVariable));
-
-
         QuestionNode q = new QuestionNode(questionText, constructedVariable);
         if(this.inIfNode) {
             this.formNode.addToLastIf(q);
@@ -99,9 +97,7 @@ public class QLLoader extends FormBaseListener {
     }
     @Override
     public void enterVariableValue(FormParser.VariableValueContext ctx){
-        if(ctx.value() instanceof FormParser.ValueContext) {
-            constructedVariable.setValue(new PlainValue(ctx.getText()));
-        }else if(ctx.expression() instanceof FormParser.ExpressionContext){
+        if(ctx.expression() instanceof FormParser.ExpressionContext){
             constructedVariable.setValue(getExpressionByContext(ctx.expression()));
         }
     }

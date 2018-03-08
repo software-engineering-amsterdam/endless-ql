@@ -10,8 +10,8 @@ import javafx.scene.Parent
 import javafx.scene.control._
 import javafx.util.converter.{ BigDecimalStringConverter, IntegerStringConverter, LocalDateStringConverter }
 import nl.uva.se.sc.niro.Evaluator
-import nl.uva.se.sc.niro.model.Expressions.Expression
-import nl.uva.se.sc.niro.model.Expressions.answers._
+import nl.uva.se.sc.niro.model.expressions.Expression
+import nl.uva.se.sc.niro.model.expressions.answers._
 import nl.uva.se.sc.niro.model.Question
 
 object WidgetFactory {

@@ -1,6 +1,6 @@
 form Box1HouseOwning {
-    hasSoldHouse: "Did you sell a house in 2010?" boolean
+    "Did you sell a house in 2010?" hasSoldHouse:  boolean
     if (hasSoldHouse) {
-        sellingPrice: "Price the house was sold for:" money
+        "Price the house was sold for:" sellingPrice: money = (6)
     }
 }

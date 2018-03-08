@@ -41,6 +41,9 @@ class InputWindow(QWidget):
 
     def parse(self):
         # Parses QL input
+        self.outputWindow = OutputWindow()
+
+
         if self.qlInput.toPlainText():
             self.tree = run_antrl(self.qlInput.toPlainText())
             self.build_gui(self.tree)
@@ -62,7 +65,7 @@ class InputWindow(QWidget):
         self.outputWindow.show()
 
     def build_gui(self, tree):
-        visitorscript.visit(tree, self.outputWindow)
+        visitorscript.listen(tree, self.outputWindow)
 
 
 class OutputWindow(QWidget):

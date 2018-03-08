@@ -1,5 +1,5 @@
 import Addition from "../../form/nodes/expressions/arithmetic/Addition";
-import NumberLiteral from "../../form/nodes/expressions/literals/NumberLiteral";
+import NumberLiteral from "../../form/nodes/literals/NumberLiteral";
 import { evaluate } from "../../form/evaluation/evaluation_functions";
 import Division from "../../form/nodes/expressions/arithmetic/Division";
 import Multiplication from "../../form/nodes/expressions/arithmetic/Multiplication";

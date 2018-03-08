@@ -1,6 +1,6 @@
 package ast.visitors.filters;
 
-import ast.model.expressions.unary.values.VariableReference;
+import ast.model.expressions.values.VariableReference;
 import ast.visitors.ASTNodeAbstractVisitor;
 
 import java.util.ArrayList;

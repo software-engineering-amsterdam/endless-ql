@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro.model
 
 import nl.uva.se.sc.niro.Evaluator
-import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, IntAnswer }
-import nl.uva.se.sc.niro.model.Expressions.{ BinaryOperation, Reference }
+import nl.uva.se.sc.niro.model.expressions.answers.{ BooleanAnswer, IntAnswer }
+import nl.uva.se.sc.niro.model.expressions.{ BinaryOperation, Reference }
 import org.scalatest.WordSpec
 
 class QLFormTest extends WordSpec {
@@ -70,7 +70,7 @@ class QLFormTest extends WordSpec {
         )
       )
 
-      val result = Evaluator.evaluateQLForm(qLForm.save("yesOrNo", BooleanAnswer(true)))
+      val result = Evaluator.evaluate(qLForm.save("yesOrNo", BooleanAnswer(true)))
 
       val expected = QLForm(
         formName = "ConditionMustTurnTrue",

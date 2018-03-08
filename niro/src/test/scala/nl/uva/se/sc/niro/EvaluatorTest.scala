@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro
 
-import nl.uva.se.sc.niro.model.Expressions.answers.{ BooleanAnswer, IntAnswer }
-import nl.uva.se.sc.niro.model.Expressions.{ BinaryOperation, Reference }
+import nl.uva.se.sc.niro.model.expressions.answers.{ BooleanAnswer, IntAnswer }
+import nl.uva.se.sc.niro.model.expressions.{ BinaryOperation, Reference }
 import nl.uva.se.sc.niro.model._
 import org.scalatest.WordSpec
 
@@ -33,7 +33,7 @@ class EvaluatorTest extends WordSpec {
         )
       )
 
-      val result = Evaluator.evaluateQLForm(qLForm)
+      val result = Evaluator.evaluate(qLForm)
       val expected = QLForm(
         "Revenue",
         List(

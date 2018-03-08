@@ -1,6 +1,6 @@
 package validators;
 
-import ast.model.expressions.unary.values.VariableReference;
+import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
 
 import java.util.ArrayList;

@@ -12,13 +12,15 @@ import nl.uva.se.sc.niro.gui.application.QLForms
 import nl.uva.se.sc.niro.gui.converter.ModelConverter
 import nl.uva.se.sc.niro.gui.widget.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.model.QLForm
-import nl.uva.se.sc.niro.model.expressions.answers.Answer
+import nl.uva.se.sc.niro.model.expressions.answers.{ Answer, BooleanAnswer }
+import nl.uva.se.sc.niro.model.gui.GUIForm
 
 import scala.collection.{ JavaConverters, mutable }
 
 class QLFormController extends QLBaseController with ModelUpdater {
   private val dictionary = mutable.Map[String, Answer]()
   private var qlForm: QLForm = _
+  private var guiForm: GUIForm = _
   private var questions: Seq[Component] = _
 
   @FXML var formName: Label = _
@@ -33,6 +35,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
     dictionary(questionId) = answer
     evaluateAnswers()
     updateQuestionControls()
+    updateVisibility()
   }
 
   @FXML def saveData(event: ActionEvent): Unit =
@@ -41,7 +44,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
 
   def populateForm(form: QLForm): Unit = {
     this.qlForm = form
-    val guiForm = ModelConverter.convert(this.qlForm)
+    guiForm = ModelConverter.convert(this.qlForm)
     questions = guiForm.questions.map(ComponentFactory.make)
 
     formName.setText(guiForm.name)
@@ -49,6 +52,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
 
     evaluateAnswers()
     updateQuestionControls()
+    updateVisibility()
   }
 
   private def evaluateAnswers(): Unit = {
@@ -57,6 +61,15 @@ class QLFormController extends QLBaseController with ModelUpdater {
 
   private def updateQuestionControls(): Unit = {
     questions.foreach(_.update(dictionary))
+  }
+
+  private def updateVisibility(): Unit = {
+    guiForm.questions.foreach(question => {
+      Evaluator.evaluateExpression(question.visibility, qlForm.symbolTable, dictionary.toMap) match {
+        case b: BooleanAnswer => question.component.map(_.setVisible(b.possibleValue.getOrElse(false)))
+      }
+
+    })
   }
 
 }

@@ -45,13 +45,15 @@ class Component(id: String, label: Label, control: Control) extends HBox {
   }
 
   private def intOrNull(value: Option[Int]): java.lang.Integer = if (value.isDefined) value.get else null
-  private def decOrNull(value: Option[BigDecimal]): java.math.BigDecimal = if (value.isDefined) value.get.bigDecimal else null
+  private def decOrNull(value: Option[BigDecimal]): java.math.BigDecimal =
+    if (value.isDefined) value.get.bigDecimal else null
 }
 
 object ComponentFactory {
   def make(question: GUIQuestion): Component = {
     val component = new Component(question.id, new Label(question.label), WidgetFactory.make(question))
     component.setReadOnly(question.isReadOnly)
+    question.component = Some(component)
     component
   }
 

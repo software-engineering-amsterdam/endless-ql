@@ -37,7 +37,11 @@ public class TypeCheckVisitor implements IASTVisitor<ReturnType> {
 
             // Only check expression when it is a predefined expression
             if(!q.isEditable()) {
-                this.visit(q.defaultAnswer);
+                ReturnType defaultAnswerType = this.visit(q.defaultAnswer);
+
+                if(defaultAnswerType != q.type) {
+                    errors.add("Invalid assignment: cannot assign " + defaultAnswerType + " to " + q.type);
+                }
             }
         }
 

@@ -2,6 +2,7 @@ package nl.uva.se.sc.niro.typechecking
 
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
+import nl.uva.se.sc.niro.errors.Warning
 import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions._
@@ -23,21 +24,6 @@ object TypeChecker extends Logging {
       _ <- checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm)
       qlFormWithPossibleWarnings = checkDuplicateLabels(qLForm)
     } yield qlFormWithPossibleWarnings
-
-  // TODO implement checkOperandsOfInvalidTypeToOperators
-  private def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
-    logger.info("Phase 3 - Checking operands of invalid type to operators ...")
-
-    val questions = Statement.collectAllQuestions(qLForm.statements)
-    val conditionals = Statement.collectAllConditionals(qLForm.statements)
-    val expressions = questions.map(_.expression) ++ conditionals.map(_.predicate)
-
-    expressions
-      .map(expression => checkExpression(expression, qLForm.symbolTable))
-      .foldLeft(Right(qLForm): Either[TypeCheckError, QLForm])(
-        (acc: Either[TypeCheckError, QLForm], either: Either[TypeCheckError, Answer]) =>
-          acc.flatMap(form => either.map(_ => qLForm)))
-  }
 
   // TODO clean up this mess
   def checkExpression(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, Answer] = expr match {
@@ -67,6 +53,21 @@ object TypeChecker extends Logging {
       leftAnswer.flatMap(la => rightAnswer.flatMap(ra => Right(la.applyBinaryOperator(operator, ra))))
   }
 
+  // TODO implement checkOperandsOfInvalidTypeToOperators
+  private def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
+    logger.info("Phase 3 - Checking operands of invalid type to operators ...")
+
+    val questions = Statement.collectAllQuestions(qLForm.statements)
+    val conditionals = Statement.collectAllConditionals(qLForm.statements)
+    val expressions = questions.map(_.expression) ++ conditionals.map(_.predicate)
+
+    expressions
+      .map(expression => checkExpression(expression, qLForm.symbolTable))
+      .foldLeft(Right(qLForm): Either[TypeCheckError, QLForm])(
+        (acc: Either[TypeCheckError, QLForm], either: Either[TypeCheckError, Answer]) =>
+          acc.flatMap(form => either.map(_ => qLForm)))
+  }
+
   // TODO make typecheckable type class
   private def checkOperandsAndOperator(operator: Operator, operand: Answer): Option[TypeCheckError] = {
     operator match {
@@ -74,21 +75,21 @@ object TypeChecker extends Logging {
         operand match {
           case _: IntegerAnswer => None
           case _: DecimalAnswer => None
-          case _                => Some(TypeCheckError(message = "Operand of invalid type"))
+          case _ => Some(TypeCheckError(message = "Operand of invalid type"))
         }
       case _: BooleanOperator =>
         operand match {
           case _: IntegerAnswer => None
           case _: DecimalAnswer => None
-          case _: MoneyAnswer   => None
+          case _: MoneyAnswer => None
           case _: BooleanAnswer => None
-          case _: DateAnswer    => None
-          case _                => Some(TypeCheckError(message = "Operand of invalid type"))
+          case _: DateAnswer => None
+          case _ => Some(TypeCheckError(message = "Operand of invalid type"))
         }
       case _: LogicalOperator =>
         operand match {
           case _: BooleanAnswer => None
-          case _                => Some(TypeCheckError(message = "Operand of invalid type"))
+          case _ => Some(TypeCheckError(message = "Operand of invalid type"))
         }
       case _ => Some(TypeCheckError(message = "Operator not implemented yet"))
     }
@@ -115,7 +116,7 @@ object TypeChecker extends Logging {
     val conditionalsWithNonBooleanPredicates: Seq[Conditional] = conditionals filter { conditional =>
       Evaluator.evaluateExpression(conditional.predicate, qLForm.symbolTable, Map.empty) match {
         case _: BooleanAnswer => false
-        case _                => true
+        case _ => true
       }
     }
 
@@ -164,8 +165,8 @@ object TypeChecker extends Logging {
 
   private def buildDependencyGraph(questions: Seq[Question]): Graph = {
     questions.flatMap {
-      case q @ Question(_, _, _, r @ Reference(_)) => Seq(Edge(q.id, r.value))
-      case q @ Question(_, _, _, expression) =>
+      case q@Question(_, _, _, r@Reference(_)) => Seq(Edge(q.id, r.value))
+      case q@Question(_, _, _, expression) =>
         Expression.collectAllReferences(expression).map(r => Edge(q.id, r.value))
     }
   }

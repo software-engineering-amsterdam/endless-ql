@@ -10,8 +10,7 @@ import com.chariotit.uva.sc.qdsl.ast.node.type.*;
 import com.chariotit.uva.sc.qdsl.ast.node.type.BooleanTypeNode;
 import com.chariotit.uva.sc.qdsl.ast.node.type.IntegerTypeNode;
 import com.chariotit.uva.sc.qdsl.ast.symboltable.SymbolTable;
-import com.chariotit.uva.sc.qdsl.ast.symboltable.SymbolTableFormEntry;
-import com.chariotit.uva.sc.qdsl.ast.symboltable.SymbolTableQuestionEntry;
+import com.chariotit.uva.sc.qdsl.ast.symboltable.SymbolTableEntry;
 import com.chariotit.uva.sc.qdsl.ast.symboltable.exception.DuplicateSymbolException;
 
 import java.util.ArrayList;
@@ -119,13 +118,13 @@ public class SymbolTableBuilderVisitor extends NodeVisitor {
 
     @Override
     public void visitAstRoot(AstRoot astRoot) {
-
+        astRoot.setSymbolTable(symbolTable);
     }
 
     @Override
     public void visitForm(Form form) {
         try {
-            symbolTable.addEntry(new SymbolTableFormEntry(
+            symbolTable.addEntry(new SymbolTableEntry(
                     form.getLabel(),
                     form));
         } catch (DuplicateSymbolException exception) {
@@ -135,7 +134,6 @@ public class SymbolTableBuilderVisitor extends NodeVisitor {
 
     @Override
     public void visitConstBinOpExpression(ConstBinOpExpression constBinOpExpression) {
-
     }
 
     @Override
@@ -162,9 +160,10 @@ public class SymbolTableBuilderVisitor extends NodeVisitor {
     public void visitLineElement(LineElement lineElement) {
 
         try {
-            symbolTable.addEntry(new SymbolTableQuestionEntry(
+            symbolTable.addEntry(new SymbolTableEntry(
                     lineElement.getLabel().getLabel(),
-                    lineElement
+                    lineElement,
+                    lineElement.getTypeExpression().getTypeNode().getType()
             ));
         } catch (DuplicateSymbolException exception) {
             addError(lineElement, exception.getMessage());

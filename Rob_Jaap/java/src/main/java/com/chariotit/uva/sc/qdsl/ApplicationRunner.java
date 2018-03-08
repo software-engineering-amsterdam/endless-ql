@@ -47,9 +47,6 @@ public class ApplicationRunner implements CommandLineRunner {
         ParseTree tree = parser.forms();
         QLVisitor visitor = new QLVisitor();
 
-        QLFormBuilder builder = new QLFormBuilder();
-
-        builder.showForm();
 
         // AST is initialised here.
         AstRoot astRoot = (AstRoot)visitor.visit(tree);
@@ -76,6 +73,9 @@ public class ApplicationRunner implements CommandLineRunner {
         // Keep variable values in in SymbolTable (in AstRoot)
         // SymbolTable is initialised in TypeChecker
 
+//        QLFormBuilder builder = new QLFormBuilder();
+//
+//        builder.showForm();
 
         System.out.println(astRoot);
     }

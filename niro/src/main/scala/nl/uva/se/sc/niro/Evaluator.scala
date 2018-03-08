@@ -41,7 +41,8 @@ object Evaluator {
         // expressions that are not defined in the symbol table
         dictionary.get(questionId).orElse(symbolTable.get(questionId).map(_.expression)).get,
         symbolTable,
-        dictionary)
+        dictionary
+      )
     case UnaryOperation(operator: Operator, expression) =>
       val answer = evaluateExpression(expression, symbolTable, dictionary)
       answer.applyUnaryOperator(operator)

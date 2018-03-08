@@ -9,51 +9,34 @@ import model.expression.binary.*;
 import model.expression.unary.ExpressionUnaryNeg;
 import model.expression.unary.ExpressionUnaryNot;
 import model.expression.variable.*;
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-public class CycleDetector implements IASTVisitor<List<String>> {
+public class ReferencedIdentifiersVisitor implements IASTVisitor<List<String>> {
 
     private final Form form;
 
-    public CycleDetector(Form form) {
+    public ReferencedIdentifiersVisitor(Form form){
         this.form = form;
     }
 
-    private Graph<String, DefaultEdge> createVerticesGraph() {
-        Graph<String, DefaultEdge> graph = new DefaultDirectedGraph<>(DefaultEdge.class);
-        for (Question question : form.questions) {
-            graph.addVertex(question.name);
+    public List<String> getUnknownReferencedIdentifiers(){
+        List<String> formQuestionIdentifiers = new ArrayList<>();
+        List<String> referencedIdentifiers = new ArrayList<>();
+        for(Question question : form.questions){
+            formQuestionIdentifiers.add(question.name);
+            referencedIdentifiers.addAll(this.visit(question.defaultAnswer));
+            referencedIdentifiers.addAll(this.visit(question.condition));
         }
 
-        return graph;
-    }
+        // Determine which identifiers are referenced but no question exists with such identifier
+        // Subtraction of formQuestionIdentifiers - referencedIdentifiers
+        List<String> unknownReferencedIdentifiers = new ArrayList<>();
+        unknownReferencedIdentifiers.addAll(referencedIdentifiers);
+        unknownReferencedIdentifiers.removeAll(formQuestionIdentifiers);
 
-    private void addReferenceEdges(Graph<String, DefaultEdge> graph) {
-        for (Question question : form.questions) {
-            // Only check expression when it is a predefined expression
-            if (!question.isEditable()) {
-                // For each question, add references to other questions to the graph
-                List<String> referencedIdentifiers = this.visit(question.defaultAnswer);
-                for (String identifier : referencedIdentifiers) {
-                    graph.addEdge(question.name, identifier);
-                }
-            }
-        }
-    }
-
-    public Set<String> detectCycles() {
-        Graph<String, DefaultEdge> referenceGraph = createVerticesGraph();
-        addReferenceEdges(referenceGraph);
-
-        org.jgrapht.alg.CycleDetector<String, DefaultEdge> jGraphTCycleDetector
-                = new org.jgrapht.alg.CycleDetector<>(referenceGraph);
-        return jGraphTCycleDetector.findCycles();
+        return unknownReferencedIdentifiers;
     }
 
     private List<String> visitLeftRight(Expression left, Expression right) {
@@ -169,8 +152,8 @@ public class CycleDetector implements IASTVisitor<List<String>> {
 
     @Override
     public List<String> visit(ExpressionIdentifier expression) {
-        List<String> list = new ArrayList<>();
-        list.add(expression.identifier);
-        return list;
+        List<String> listWithIdentifier = new ArrayList<>();
+        listWithIdentifier.add(expression.identifier);
+        return listWithIdentifier;
     }
 }

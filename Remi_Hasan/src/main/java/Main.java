@@ -1,4 +1,5 @@
 import analysis.CycleDetector;
+import analysis.ReferencedIdentifiersVisitor;
 import analysis.SymbolTable;
 import analysis.TypeChecker;
 import javafx.application.Application;
@@ -17,6 +18,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 public class Main extends Application {
@@ -67,19 +70,34 @@ public class Main extends Application {
 
             SymbolTable symbolTable = new SymbolTable(form);
 
-            CycleDetector cycleDetector = new CycleDetector(form);
-            Set<String> cycles = cycleDetector.detectCycles();
-
-            if (cycles.size() > 0) {
-                showErrorAlert("Cycles detected in the following variables:", cycles);
+            ReferencedIdentifiersVisitor referencedIdentifiersVisitor = new ReferencedIdentifiersVisitor(form);
+            List<String> unknownReferencedIdentifiers = referencedIdentifiersVisitor.getUnknownReferencedIdentifiers();
+            if(!unknownReferencedIdentifiers.isEmpty()){
+                showErrorAlert("Unknown variable(s):", unknownReferencedIdentifiers);
                 return;
             }
 
-            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-            Set<String> typeCheckErrors = typeChecker.typeCheck();
+            CycleDetector cycleDetector = new CycleDetector(form);
+            Set<String> cycles = cycleDetector.detectCycles();
 
-            if (typeCheckErrors.size() > 0) {
-                showErrorAlert("Type checking errors:", typeCheckErrors);
+            if (!cycles.isEmpty()) {
+                showErrorAlert("Cycles detected in the following variable(s):", cycles);
+                return;
+            }
+
+
+            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
+
+            // Check for duplicate questions with different type
+            Set<String> duplicateQuestionsWithDifferentTypes = typeChecker.getDuplicateQuestionsWithDifferentTypes();
+            if (!duplicateQuestionsWithDifferentTypes.isEmpty()) {
+                showErrorAlert("Redeclaration of questions with different type:", duplicateQuestionsWithDifferentTypes);
+                return;
+            }
+
+            Set<String> typeCheckErrors = typeChecker.typeCheck();
+            if (!typeCheckErrors.isEmpty()) {
+                showErrorAlert("Type checking error(s):", typeCheckErrors);
                 return;
             }
 
@@ -98,7 +116,7 @@ public class Main extends Application {
         }
     }
 
-    private void showErrorAlert(String description, Set<String> messages) {
+    private void showErrorAlert(String description, Collection<String> messages) {
         Alert alert = new Alert(Alert.AlertType.ERROR, description);
         alert.setContentText(description + "\n" + String.join("\n", messages));
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

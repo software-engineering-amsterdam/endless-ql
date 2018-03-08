@@ -5,7 +5,7 @@ import org.uva.ql.ast.Form;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public class Validator {//throws ValidationException
+public class Validator {
 
     private final LogHandler handler;
     private ArrayList<Checker> checkers = new ArrayList<>();

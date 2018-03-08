@@ -1,4 +1,6 @@
-﻿namespace QLParser.AST.Nodes
+﻿using QLParser.AST;
+
+namespace QLParser.AST.Nodes
 {
     public class StatementNode : Node, IExpressionNode
     {
@@ -6,7 +8,7 @@
         public string Operator { get; private set; }
         public IExpressionNode RightSide { get; private set; }
 
-        public StatementNode(IExpressionNode lhs, string opr, IExpressionNode rhs) : base(NodeType.LOGICAL_EXPRESSION)
+        public StatementNode(Location location, IExpressionNode lhs, string opr, IExpressionNode rhs) : base(location, NodeType.LOGICAL_EXPRESSION)
         {
             this.LeftSide = lhs;
             this.Operator = opr;

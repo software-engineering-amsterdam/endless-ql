@@ -55,6 +55,7 @@
     <Compile Include="Analysis\Semantic\StatementTypeAnalyser.cs" />
     <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyser.cs" />
     <Compile Include="Analysis\Semantic\DuplicateVariableAnalyser.cs" />
+    <Compile Include="AST\Location.cs" />
     <Compile Include="AST\Nodes\ComputedNode.cs" />
     <Compile Include="AST\Nodes\ConditionalNode.cs" />
     <Compile Include="AST\Nodes\ExpressionNodes\ArthimetricExpressionNode.cs" />

@@ -1,10 +1,12 @@
-﻿namespace QLParser.AST.Nodes
+﻿using QLParser.AST;
+
+namespace QLParser.AST.Nodes
 {
     public class ConditionalNode : Node
     {
         public IExpressionNode Expression { get; private set; }
 
-        public ConditionalNode(IExpressionNode statementNode) : base(NodeType.CONDITIONAL)
+        public ConditionalNode(Location location, IExpressionNode statementNode) : base(location, NodeType.CONDITIONAL)
         {
             this.Expression = statementNode;
         }

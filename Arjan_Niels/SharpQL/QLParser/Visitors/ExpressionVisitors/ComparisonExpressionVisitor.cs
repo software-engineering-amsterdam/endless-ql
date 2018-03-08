@@ -1,7 +1,8 @@
 ﻿using Antlr4.Runtime.Misc;
+using QLParser.AST;
+using QLanguage;
 using QLParser.AST.Nodes;
 using QLParser.AST.Nodes.ExpressionNodes;
-using QLanguage;
 
 namespace QLParser.Visitors.ExpressionVisitors
 {
@@ -18,7 +19,7 @@ namespace QLParser.Visitors.ExpressionVisitors
             var opr = ComparisonExpressionNode.ParseComparisonOperator(context.OPR.GetText());
             var right = VisitComparisonOperand(context.RIGHT);
 
-            return new ComparisonExpressionNode(left, opr, right);
+            return new ComparisonExpressionNode(Location.FromContext(context), left, opr, right);
         }
 
         public override IExpressionNode VisitComparisonOperand([NotNull] QLanguageParser.ComparisonOperandContext context)

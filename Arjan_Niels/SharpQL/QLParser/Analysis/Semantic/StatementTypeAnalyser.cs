@@ -21,7 +21,7 @@ namespace QLParser.Analysis.Semantic
             var expression = GetExpression(node);
             if (expression != null && AnalyseExpression(expression) == StatementType.UNKNOWN)
             {
-                Analyser.AddMessage("This expression isn't valid.", MessageType.ERROR);
+                Analyser.AddMessage(string.Format("{0} - This expression isn't valid.", node.Location), MessageType.ERROR);
                 return false;
             }
 

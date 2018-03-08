@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLParser.Analysis;
+using QLParser.AST;
 using QLParser.AST.Nodes;
 
 namespace QLParser.Tests.AST.Validators
@@ -13,15 +14,15 @@ namespace QLParser.Tests.AST.Validators
         [TestInitialize]
         public void Initialize()
         {
-            _validAST = new FormNode("ValidForm");
-            var firstQuestion = new QuestionNode("Q1", "Do you like puppies?", QValueType.BOOLEAN);
-            var secondQuestion = new QuestionNode("Q2", "Do you like kittens?", QValueType.BOOLEAN);
+            _validAST = new FormNode(new Location(0, 0), "ValidForm");
+            var firstQuestion = new QuestionNode(new Location(0, 0), "Q1", "Do you like puppies?", QValueType.BOOLEAN);
+            var secondQuestion = new QuestionNode(new Location(0, 0), "Q2", "Do you like kittens?", QValueType.BOOLEAN);
 
             _validAST.AddNode(firstQuestion);
             _validAST.AddNode(secondQuestion);
 
-            _invalidAST = new FormNode("InvalidForm");
-            _invalidAST.AddNode(new FormNode("InvalidSecondForm"));
+            _invalidAST = new FormNode(new Location(0, 0), "InvalidForm");
+            _invalidAST.AddNode(new FormNode(new Location(0, 0), "InvalidSecondForm"));
         }
 
         [TestMethod]

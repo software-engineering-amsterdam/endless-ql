@@ -3,6 +3,7 @@ using QLParser.AST.Nodes;
 using QLParser.Visitors.ExpressionVisitors;
 using QLanguage;
 using System;
+using QLParser.AST;
 
 namespace QLParser.Visitors
 {
@@ -22,7 +23,7 @@ namespace QLParser.Visitors
             else if (context.comparisonExpression() != null)
                 expression = new ComparisonExpressionVisitor().VisitComparisonExpression(context.comparisonExpression());
 
-            var computedNode = new ComputedNode(id, text, qtype, expression);
+            var computedNode = new ComputedNode(Location.FromContext(context), id, text, qtype, expression);
             return computedNode;
         }
     }

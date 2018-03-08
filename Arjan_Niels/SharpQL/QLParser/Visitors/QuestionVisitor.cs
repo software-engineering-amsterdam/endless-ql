@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
-using QLParser.AST.Nodes;
 using QLanguage;
+using QLParser.AST;
+using QLParser.AST.Nodes;
 using System;
 
 namespace QLParser.Visitors
@@ -15,7 +16,7 @@ namespace QLParser.Visitors
 
             var qtype = (QValueType)Enum.Parse(typeof(QValueType), context.QTYPE().GetText().ToUpper());
 
-            return new QuestionNode(id, question, qtype);
+            return new QuestionNode(Location.FromContext(context), id, question, qtype);
         }
     }
 }

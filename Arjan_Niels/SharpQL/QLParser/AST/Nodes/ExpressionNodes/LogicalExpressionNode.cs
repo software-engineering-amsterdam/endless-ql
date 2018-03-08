@@ -1,4 +1,5 @@
-﻿using QLParser.AST.Nodes.ExpressionNodes.Enums;
+﻿using QLParser.AST;
+using QLParser.AST.Nodes.ExpressionNodes.Enums;
 using QLParser.Exceptions;
 
 namespace QLParser.AST.Nodes.ExpressionNodes
@@ -10,7 +11,7 @@ namespace QLParser.AST.Nodes.ExpressionNodes
 
         public LogicalOperator Operator { get; private set; }
 
-        public LogicalExpressionNode(IExpressionNode left, LogicalOperator opr, IExpressionNode right) : base(NodeType.LOGICAL_EXPRESSION)
+        public LogicalExpressionNode(Location location, IExpressionNode left, LogicalOperator opr, IExpressionNode right) : base(location, NodeType.LOGICAL_EXPRESSION)
         {
             this.Left = left;
             this.Operator = opr;

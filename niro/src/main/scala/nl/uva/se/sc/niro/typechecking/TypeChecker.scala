@@ -50,9 +50,9 @@ object TypeChecker extends Logging {
     case BinaryOperation(operator: Operator, leftExpression, rightExpression) =>
       for {
         leftType <- typeOf(leftExpression, symbolTable)
-        _: AnswerType <- checkOperandAndOperator(operator, leftType)
+        _ <- checkOperandAndOperator(operator, leftType)
         rightType <- typeOf(rightExpression, symbolTable)
-        _: AnswerType <- checkOperandAndOperator(operator, rightType)
+        _ <- checkOperandAndOperator(operator, rightType)
         result <- checkLeftRight(leftType, rightType)
       } yield result
 

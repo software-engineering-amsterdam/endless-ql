@@ -1,11 +1,18 @@
 package org.uva.sea.gui.render;
 
 import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Control;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import org.uva.sea.gui.FormController;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.*;
 import org.uva.sea.gui.model.*;
+import org.uva.sea.ql.interpreter.evaluate.valueTypes.BooleanValue;
+import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
 
 import java.util.List;
 
@@ -23,7 +30,7 @@ public class JavafxRendererVisitor implements QuestionModelVisitor {
     }
 
     @Override
-    public void visit(BooleanQuestionModel question) {
+    public Void visit(BooleanQuestionModel question) {
         CheckBox checkBox = new CheckBox();
         if (question.getValue() != null) {
             checkBox.setSelected(question.getBasicValue());
@@ -35,54 +42,60 @@ public class JavafxRendererVisitor implements QuestionModelVisitor {
                     controller.updateGuiModel(question.getVariableName(), new BooleanValue(newIsFocused));
                 });
         questionBox.getChildren().add(createQuestionRow(printLabel(question.getLabel()), checkBox));
+        return null;
     }
 
     @Override
-    public void visit(DateQuestionModel question) {
+    public Void visit(DateQuestionModel question) {
         TextField newInput = printTextField(question);
-        DateValue value = new DateValue(newInput.getText());
-        addGUIListener(question, newInput, value);
+        addGUIListener(question, newInput);
+        return null;
     }
 
     @Override
-    public void visit(DecimalQuestionModel question) {
+    public Void visit(DecimalQuestionModel question) {
         TextField newInput = printTextField(question);
-        DecimalValue value = new DecimalValue(newInput.getText());
-        addGUIListener(question, newInput, value);
+        addGUIListener(question, newInput);
+        return null;
     }
 
     @Override
-    public void visit(ErrorQuestionModel question) {
+    public Void visit(ErrorQuestionModel question) {
         displayError(question.displayValue());
+        return null;
     }
 
     @Override
-    public void visit(IntQuestionModel question) {
+    public Void visit(IntQuestionModel question) {
         TextField newInput = printTextField(question);
-        IntValue value = new IntValue(newInput.getText());
-        addGUIListener(question, newInput, value);
+        addGUIListener(question, newInput);
+        return null;
     }
 
     @Override
-    public void visit(MoneyQuestionModel question) {
+    public Void visit(MoneyQuestionModel question) {
         TextField newInput = printTextField(question);
-        MoneyValue value = new MoneyValue(newInput.getText());
-        addGUIListener(question, newInput, value);
+        addGUIListener(question, newInput);
+        return null;
     }
 
     @Override
-    public void visit(StringQuestionModel question) {
+    public Void visit(StringQuestionModel question) {
         TextField newInput = printTextField(question);
-        StringValue value = new StringValue(newInput.getText());
-        addGUIListener(question, newInput, value);
+        addGUIListener(question, newInput);
+        return null;
     }
 
-    private void addGUIListener(BaseQuestionModel questionModel, TextField textField, Value value) {
+    private void addGUIListener(BaseQuestionModel questionModel, TextField textField) {
         textField.focusedProperty().addListener((observable, oldIsFocused, newIsFocused) -> {
             if (!newIsFocused) {
+                TextToValueVisitor textToValueVisitor = new TextToValueVisitor(textField.getText());
+                Value value = questionModel.accept(textToValueVisitor);
+
                 controller.updateGuiModel(questionModel.getVariableName(), value);
             }
         });
+
         questionBox.getChildren().add(createQuestionRow(printLabel(questionModel.getLabel()), textField));
     }
 

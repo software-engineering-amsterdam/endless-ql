@@ -2,7 +2,7 @@ package org.uva.sea.gui.model;
 
 public interface BaseQuestionGUI {
 
-    void accept(QuestionModelVisitor visitor);
+    <T> T accept(QuestionModelVisitor<T> visitor);
 
     String displayValue();
 }

@@ -1,18 +1,18 @@
 package org.uva.sea.gui.model;
 
-public interface QuestionModelVisitor {
+public interface QuestionModelVisitor<T> {
 
-    void visit(BooleanQuestionModel question);
+    T visit(BooleanQuestionModel question);
 
-    void visit(DateQuestionModel question);
+    T visit(DateQuestionModel question);
 
-    void visit(DecimalQuestionModel question);
+    T visit(DecimalQuestionModel question);
 
-    void visit(ErrorQuestionModel question);
+    T visit(ErrorQuestionModel question);
 
-    void visit(IntQuestionModel question);
+    T visit(IntQuestionModel question);
 
-    void visit(MoneyQuestionModel question);
+    T visit(MoneyQuestionModel question);
 
-    void visit(StringQuestionModel question);
+    T visit(StringQuestionModel question);
 }

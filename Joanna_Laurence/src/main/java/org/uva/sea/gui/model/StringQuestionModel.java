@@ -21,8 +21,8 @@ public class StringQuestionModel extends BaseQuestionModel {
     }
 
     @Override
-    public void accept(QuestionModelVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(QuestionModelVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

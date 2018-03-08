@@ -2,18 +2,10 @@ package nl.uva.se.sc.niro.model
 
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.model.expressions._
-
-case class QLForm(formName: String, statements: Seq[Statement]) {
-  val symbolTable: Map[String, Expression] =
-    Statement.collectAllQuestions(statements).map(q => (q.id, q.expression)).toMap
-
-  def save(questionId: String, answer: Answer): QLForm = {
-    val updatedStatements = Statement.saveAnswer(questionId, answer, statements)
-    QLForm(formName, updatedStatements)
-  }
-}
+import nl.uva.se.sc.niro.model.expressions.answers.Answer
 
 sealed trait Statement
+
 case class Question(
     id: String,
     label: String,
@@ -50,15 +42,7 @@ object Statement {
   }
 
   def collectAllReferences(questions: Seq[Question]): Seq[Reference] = {
-    questions.flatMap(question => collectAllReferences(question.expression))
-  }
-
-  def collectAllReferences(expression: Expression): Seq[Reference] = expression match {
-    case r: Reference                       => Seq(r)
-    case UnaryOperation(_, rightExpression) => collectAllReferences(rightExpression)
-    case BinaryOperation(_, leftExpression, rightExpression) =>
-      collectAllReferences(leftExpression) ++ collectAllReferences(rightExpression)
-    case _ => Seq.empty
+    questions.flatMap(question => Expression.collectAllReferences(question.expression))
   }
 
   def saveAnswer(questionId: String, answer: Answer, statements: Seq[Statement]): Seq[Statement] = {
@@ -68,8 +52,4 @@ object Statement {
       case c: Conditional                    => Seq(c.copy(thenStatements = saveAnswer(questionId, answer, c.thenStatements)))
     }
   }
-}
-
-object QLForm {
-  type SymbolTable = Map[String, Expression]
 }

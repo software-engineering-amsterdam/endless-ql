@@ -1,7 +1,8 @@
 package nl.uva.se.sc.niro.model.gui
 
+import nl.uva.se.sc.niro.model.expressions.Expression
+import nl.uva.se.sc.niro.model.expressions.answers.Answer
 import nl.uva.se.sc.niro.model.{ AnswerType, Question }
-import nl.uva.se.sc.niro.model.expressions.{ Answer, Expression }
 
 class GUIQuestion(id: String, answerType: AnswerType, label: String, isReadOnly: Boolean) {
   var answer: Option[Answer] = None

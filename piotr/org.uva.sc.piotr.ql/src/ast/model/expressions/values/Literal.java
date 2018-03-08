@@ -15,8 +15,8 @@ public class Literal extends Expression {
     private String value;
     private Type type;
 
-    public Literal(String value, Type type, Integer startLine, Integer endLine) {
-        super(startLine, endLine);
+    public Literal(String value, Type type, MetaInformation metaInformation) {
+        super(metaInformation);
         this.value = value;
         this.type = type;
     }

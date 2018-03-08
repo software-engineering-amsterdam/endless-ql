@@ -20,7 +20,7 @@ class ConditionalNode:
         self.nodeType = "Conditional"
 
     def addElifCondition(self, condition):
-        self.elifCondition.append(condition)
+        self.elifConditionBlock.append(condition)
 
     def addElseChild(self, block):
         self.elseBlock = block
@@ -35,7 +35,7 @@ class ConditionalNode:
         for elifBlock in self.elifConditionBlock:
             types.append(elifBlock.checkTypes())
         if(self.elseBlock):
-            for elseblock in self.elseBlock():
+            for elseblock in self.elseBlock:
                 types.append(elseblock.checkTypes())
         return ["Conditional:", types]
 
@@ -45,11 +45,20 @@ class ConditionalNode:
         for elifBlock in self.elifConditionBlock:
             elifBlock.linkVars(varDict)
         if(self.elseBlock):
-            for elseblock in self.elseBlock():
+            for elseblock in self.elseBlock:
                 elseblock.linkVars(varDict)
 
     def getNodeType(self):
         return self.nodeType
+
+    def getIf(self):
+        return self.ifConditionBlock
+
+    def getElIf(self):
+        return self.elifConditionBlock
+
+    def getElse(self):
+        return self.elseBlock
 
 
     def __repr__(self):

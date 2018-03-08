@@ -51,7 +51,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
     updateQuestionControls()
   }
 
-  private def evaluateAnswers(): Unit ={
+  private def evaluateAnswers(): Unit = {
     dictionary ++= Evaluator.evaluate(qlForm, dictionary.toMap)
   }
 

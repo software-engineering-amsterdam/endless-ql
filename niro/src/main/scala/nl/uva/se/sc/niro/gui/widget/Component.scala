@@ -18,19 +18,34 @@ class Component(id: String, label: Label, control: Control) extends HBox {
   def setReadOnly(value: Boolean): Unit = control.setDisable(value)
 
   def update(dictionary: mutable.Map[String, Answer]): Unit = {
-      val value = dictionary(id)
-      value match {
-        case b: BooleanAnswer => control.asInstanceOf[CheckBox].setSelected(b.possibleValue.getOrElse(false))
-        case d: DateAnswer    => control.asInstanceOf[DatePicker].setValue(d.possibleValue.orNull)
-        case s: StringAnswer  => control.asInstanceOf[TextField].setText(s.possibleValue.getOrElse(""))
-        case i: IntAnswer     => control.asInstanceOf[TextField].getTextFormatter.asInstanceOf[TextFormatter[Int]].setValue(intOrNull(i.possibleValue))
-        case d: DecAnswer     => control.asInstanceOf[TextField].getTextFormatter.asInstanceOf[TextFormatter[java.math.BigDecimal]].setValue(decOrNull(d.possibleValue))
-        case m: MoneyAnswer   => control.asInstanceOf[TextField].getTextFormatter.asInstanceOf[TextFormatter[java.math.BigDecimal]].setValue(decOrNull(m.possibleValue))
-      }
+    val value = dictionary(id)
+    value match {
+      case b: BooleanAnswer => control.asInstanceOf[CheckBox].setSelected(b.possibleValue.getOrElse(false))
+      case d: DateAnswer    => control.asInstanceOf[DatePicker].setValue(d.possibleValue.orNull)
+      case s: StringAnswer  => control.asInstanceOf[TextField].setText(s.possibleValue.getOrElse(""))
+      case i: IntAnswer =>
+        control
+          .asInstanceOf[TextField]
+          .getTextFormatter
+          .asInstanceOf[TextFormatter[Int]]
+          .setValue(intOrNull(i.possibleValue))
+      case d: DecAnswer =>
+        control
+          .asInstanceOf[TextField]
+          .getTextFormatter
+          .asInstanceOf[TextFormatter[java.math.BigDecimal]]
+          .setValue(decOrNull(d.possibleValue))
+      case m: MoneyAnswer =>
+        control
+          .asInstanceOf[TextField]
+          .getTextFormatter
+          .asInstanceOf[TextFormatter[java.math.BigDecimal]]
+          .setValue(decOrNull(m.possibleValue))
     }
+  }
 
-  private def intOrNull(int: Option[Int]): java.lang.Integer = if (int.isDefined) int.get else null
-  private def decOrNull(int: Option[BigDecimal]): java.math.BigDecimal = if (int.isDefined) int.get.bigDecimal else null
+  private def intOrNull(value: Option[Int]): java.lang.Integer = if (value.isDefined) value.get else null
+  private def decOrNull(value: Option[BigDecimal]): java.math.BigDecimal = if (value.isDefined) value.get.bigDecimal else null
 }
 
 object ComponentFactory {
@@ -39,6 +54,5 @@ object ComponentFactory {
     component.setReadOnly(question.isReadOnly)
     component
   }
-
 
 }

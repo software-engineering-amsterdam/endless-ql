@@ -16,7 +16,6 @@ object Operator {
     case "||" => Or
     case "&&" => And
     case "!"  => Neg
-    case "-"  => Min
   }
 }
 

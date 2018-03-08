@@ -27,7 +27,7 @@ final case class DecAnswer(possibleValue: Option[BigDecimal]) extends Answer {
   }
 
   def applyUnaryOperator(operator: Operator): Answer = operator match {
-    case Min => DecAnswer(possibleValue.map(-_))
+    case Sub => DecAnswer(possibleValue.map(-_))
     case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
 }

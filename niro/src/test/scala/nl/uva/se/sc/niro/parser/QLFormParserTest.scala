@@ -155,7 +155,7 @@ class QLFormParserTest extends FunSuite {
           predicate = BinaryOperation(
             And,
             BinaryOperation(Ne, Reference("lastName"), Reference("firstName")),
-            BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10))))),
+            BinaryOperation(Gt, Reference("a"), UnaryOperation(Sub, IntAnswer(Some(10))))),
           thenStatements = List(
             Question(id = "lastName", label = "What is your last name?", StringType, expression = StringAnswer(None))
           )
@@ -178,7 +178,7 @@ class QLFormParserTest extends FunSuite {
           predicate = BinaryOperation(
             And,
             BinaryOperation(Ne, Reference("lastName"), Reference("firstName")),
-            BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10))))),
+            BinaryOperation(Gt, Reference("a"), UnaryOperation(Sub, IntAnswer(Some(10))))),
           thenStatements = List(
             Question("lastName", "What is your last name?", StringType, StringAnswer(None)),
             Question("lastName", "What is your last name?", StringType, StringAnswer(None))
@@ -190,7 +190,7 @@ class QLFormParserTest extends FunSuite {
             BinaryOperation(
               And,
               BinaryOperation(Ne, Reference("lastName"), Reference("firstName")),
-              BinaryOperation(Gt, Reference("a"), UnaryOperation(Min, IntAnswer(Some(10)))))
+              BinaryOperation(Gt, Reference("a"), UnaryOperation(Sub, IntAnswer(Some(10)))))
           ),
           thenStatements = List(
             Question("middleName", "Do you have a middle name?", BooleanType, BooleanAnswer(None)),

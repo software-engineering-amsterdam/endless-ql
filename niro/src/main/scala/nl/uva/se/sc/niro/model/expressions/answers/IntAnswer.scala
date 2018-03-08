@@ -30,7 +30,7 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
   }
 
   def applyUnaryOperator(operator: Operator): Answer = operator match {
-    case Min => -this
+    case Sub => -this
     case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
 }

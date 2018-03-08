@@ -23,9 +23,9 @@ class DependencyChecker extends Checker {
 
     @Override
     public void runCheck() {
-        for (Dependency pair : transitiveClosure(dependencies)) {
-            if (pair.isReflexive()) {
-                logger.severe("Circular dependency detected at: " + pair.getFrom());
+        for (Dependency relation : transitiveClosure(dependencies)) {
+            if (relation.isReflexive()) {
+                logger.severe("Circular dependency detected at: " + relation.getFrom());
             }
         }
     }

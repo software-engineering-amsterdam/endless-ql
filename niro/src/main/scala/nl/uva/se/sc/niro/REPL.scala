@@ -16,6 +16,7 @@ import org.apache.logging.log4j.scala.Logging
 import scala.io.Source
 import scala.util.{ Failure, Success, Try }
 
+/** Interactive REPL to help during development. This is throwaway code */
 object REPL {
   def main(args: Array[String]) {
     Application.launch(classOf[REPL], args: _*)

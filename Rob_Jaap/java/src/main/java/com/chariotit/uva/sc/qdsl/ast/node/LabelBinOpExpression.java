@@ -5,24 +5,25 @@ import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
 
 public class LabelBinOpExpression extends Expression {
 
-    private Label label;
+    private LabelExpression labelExpression;
     private Operator operator;
     private Expression expression;
 
-    public LabelBinOpExpression(Label label, Operator operator, Expression expression, Integer
+    public LabelBinOpExpression(LabelExpression labelExpression, Operator operator, Expression expression,
+                                Integer
             lineNumber, Integer columnNumber) {
         super(lineNumber, columnNumber);
-        this.label = label;
+        this.labelExpression = labelExpression;
         this.operator = operator;
         this.expression = expression;
     }
 
-    public Label getLabel() {
-        return label;
+    public LabelExpression getLabelExpression() {
+        return labelExpression;
     }
 
-    public void setLabel(Label label) {
-        this.label = label;
+    public void setLabelExpression(LabelExpression labelExpression) {
+        this.labelExpression = labelExpression;
     }
 
     public Operator getOperator() {
@@ -43,7 +44,7 @@ public class LabelBinOpExpression extends Expression {
 
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
-        label.acceptVisitor(visitor);
+        labelExpression.acceptVisitor(visitor);
         operator.acceptVisitor(visitor);
         expression.acceptVisitor(visitor);
 

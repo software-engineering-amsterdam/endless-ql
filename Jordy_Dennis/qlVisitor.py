@@ -29,7 +29,7 @@ class QLVisitor(QLGrammarVisitor):
         # add all the statements to the block
         formNode.addStatements(statements)
 
-        self.QLAst.addForm(formNode)
+        self.QLAst.form = formNode
 
     # Visit a parse tree produced by QLGrammarParser#block.
     def visitBlock(self, ctx: QLGrammarParser.BlockContext):
@@ -55,7 +55,7 @@ class QLVisitor(QLGrammarVisitor):
         varName = ctx.ID().getText()
         varType = self.visit(ctx.types())
 
-        varNode = VarNode(varName, varType, ctx.start.line)
+        varNode = VarNode(varName, varType, ctx.start.line, True)
         questionN = QuestionNode(question, varNode, ctx.start.line)
 
         return questionN
@@ -194,9 +194,9 @@ def getOp(ctx):
     elif (ctx.MATH_OPERATOR()):
         op = ctx.MATH_OPERATOR().getText()
     elif (ctx.AND()):
-        op = ctx.AND().getText()
+        op = "and"
     elif (ctx.OR()):
-        op = ctx.OR().getText()
+        op = "or"
     return op
 
 # For a literal, change the type to a python type
@@ -205,16 +205,16 @@ def getLiteralValue(ctx):
     litVal = None
     if (ctx.INT()):
         litType = int
-        litVal = ctx.INT()
+        litVal = int(ctx.INT().getText())
     elif (ctx.BOOL()):
         litType = bool
-        litVal = ctx.BOOL()
+        litVal = eval(str(ctx.BOOL()).capitalize())
     elif (ctx.STRING()):
         litType = str
-        litVal = ctx.STRING()
+        litVal = ctx.STRING().getText()
     elif (ctx.FLOAT()):
         litType = float
-        litVal = ctx.FLOAT()
+        litVal = float(ctx.FLOAT().getText())
     elif (ctx.ID()):
         litType = "var"
         litVal = ctx.ID()

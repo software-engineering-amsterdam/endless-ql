@@ -10,8 +10,8 @@ public class Form extends ASTNode {
     private String name;
     private ArrayList<Statement> statementList = new ArrayList<>();
 
-    public Form(String name, Integer startLine, Integer endLine) {
-        super(startLine, endLine);
+    public Form(String name, MetaInformation metaInformation) {
+        super(metaInformation);
         this.name = name;
     }
 
@@ -36,9 +36,7 @@ public class Form extends ASTNode {
     }
 
     @Override
-    public void accept(ASTNodeVisitor visitor) {
-        for (Statement statement : statementList) {
-            statement.accept(visitor);
-        }
+    public <T> T accept(ASTNodeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

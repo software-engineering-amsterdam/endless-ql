@@ -2,11 +2,12 @@
 using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Style;
 using QL_Vizualizer.Widgets.Types;
+using System;
 
 namespace QL_Visualizer.Tests.Controllers.Display
 {
     [TestClass]
-    public abstract class WidgetDisplayControllerTest<T,Y>
+    public abstract class WidgetDisplayControllerTest<T,Y> where Y : ICloneable
     {
         //protected WidgetController _widgetController;
         protected WidgetDisplayController<T, Y> _widgetDisplayController;

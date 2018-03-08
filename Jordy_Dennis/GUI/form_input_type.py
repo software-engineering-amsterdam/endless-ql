@@ -1,14 +1,27 @@
+"""
+Class that controls the widgets as well as the tracing of the widgets.
+It returns the widget based on the requested type, and checks these widgets for correct input
+"""
+
+
 from .gui_imports import *
 
-
-# class that returns the correct widget based on the input type
 class InputTypeMap:
 
-    def __init__(self, parent):
+    """
+        Varname, vardict and question generator are necessary when changing the values in the AST
+    """
+    def __init__(self, parent, questionGenerator, varName, value):
         self.parent = parent
         self.old_value = None
-        pass
+        self.value = value
+        self.questionGenerator = questionGenerator
+        self.varDict = self.questionGenerator.getVarDict()
+        self.varName = varName
 
+    """
+        Map the correct widget method to the correct type
+    """
     def getWidget(self, question_type):
         q_types = {
             bool: self.return_bool,
@@ -18,47 +31,122 @@ class InputTypeMap:
         }
         return q_types[question_type]()
 
-    # return boolean textbox widget
+    """
+        Return boolean textbox widget
+    """
     def return_bool(self):
-        var = IntVar()
+        var = BooleanVar()
+        var.set(self.value)
+        var.trace('w', lambda nm, idx, mode, var=var: self.validateBool(var))
         button = Checkbutton(self.parent, variable=var, background="white")
         button.pack(fill='x')
         return button, var
 
+
+    """
+        Return string textbox widget
+    """
     def return_text(self):
         var = StringVar()
+        var.trace('w', lambda nm, idx, mode, var=var: self.validateString(var))
         e = Entry(self.parent, textvariable=var)
         e.pack(fill='x')
         return e, var
 
+    """
+        Return integer textbox widget (same as string but a different validation method)
+    """
     def return_int(self):
-        sv = StringVar()
+        var = StringVar()
+        var.set(self.value)
         self.old_value = 0
-        sv.trace('w', lambda nm, idx, mode, var=sv: self.validateInt(var))
-        e = Entry(self.parent, textvariable=sv)
+        var.trace('w', lambda nm, idx, mode, var=var: self.validateInt(var))
+        e = Entry(self.parent, textvariable=var)
         e.pack(fill='x')
-        return e, sv
+        return e, var
 
+    """
+        Return float textbox widget (same as string but a different validation method)
+    """
     def return_decimal(self):
-        sv = StringVar()
-        self.old_value = 0
-        sv.trace('w', lambda nm, idx, mode, var=sv: self.validateFloat(var))
-        e = Entry(self.parent, textvariable=sv)
+        var = StringVar()
+        var.set(self.value)
+        self.old_value = 0.0
+        var.trace('w', lambda nm, idx, mode, var=var: self.validateFloat(var))
+        e = Entry(self.parent, textvariable=var)
         e.pack(fill='x')
-        return e, sv
+        return e, var
 
+    
+
+    """ Validation and tracing methods ------------------------------------------------------"""
+
+    """
+        Update the boolean value in the AST, and update the questions
+    """
+    def validateBool(self, var):
+        new_val = var.get()
+
+        # save value in vardict
+        varNode = self.varDict[self.varName]['node']
+        varNode.setVar(new_val)
+        # update_questions
+        self.questionGenerator.updateQuestions()
+
+        self.old_value = new_val
+
+    """
+        Update the string value in the AST, and update the questions
+    """
+    def validateString(self, var):
+        new_val = var.get()
+
+        # save value in vardict
+        varNode = self.varDict[self.varName]['node']
+        varNode.setVar(new_val)
+        # update_questions
+        self.questionGenerator.updateQuestions()
+
+        self.old_value = new_val
+
+    """
+        Update the Int value in the AST, and update the questions, also validate if the
+        input is a correct integer, if it is not, do not change the value
+    """
     def validateInt(self, var):
         new_val = var.get()
         try:
             new_val == '' or int(new_val)
+            if(new_val == ''):
+                new_val = 0
+            new_val = int(new_val)
+            # save value in vardict
+            varNode = self.varDict[self.varName]['node']
+            varNode.setVar(new_val)
+            # update_questions
+            self.questionGenerator.updateQuestions()
+
             self.old_value = new_val
         except:
             var.set(self.old_value)
 
+    """
+        Update the float value in the AST, and update the questions, also validate if the
+        input is a correct float, if it is not, do not change the value
+    """
     def validateFloat(self, var):
         new_val = var.get()
         try:
             new_val == '' or float(new_val)
+            if(new_val == ''):
+                new_val = 0.0
+            new_val = float(new_val)
+            # save value in vardict
+            varNode = self.varDict[self.varName]['node']
+            varNode.setVar(new_val)
+            # update_questions
+            self.questionGenerator.updateQuestions()
+
             self.old_value = new_val
         except:
             var.set(self.old_value)

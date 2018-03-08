@@ -37,7 +37,7 @@ namespace QuestionaireDomain.Entities.API
 
         Reference<INumberNode> CreateNumber(string numberText);
 
-        Reference<AstNodes.Calculation.ICalcualtionVariableNode> CreateNumberVariableName(string variableName);
+        Reference<AstNodes.Calculation.ICalculationVariableNode> CreateNumberVariableName(string variableName);
 
         Reference<AstNodes.Boolean.IBooleanVariableNode> CreateBooleanVariableName(
             string variableName);

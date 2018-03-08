@@ -623,6 +623,56 @@ public class InterpreterTests {
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
+	// Unary operation negation  tests.
+
+	String testSource44 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean !true\n"
+			+ "}";
+
+	@Test
+	public void test44() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource44);
+		interpreter.interpret(ast);
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
+	}
+
+	String testSource45 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean !false\n"
+			+ "}";
+
+	@Test
+	public void test45() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource45);
+		interpreter.interpret(ast);
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
+	}
+
+	String testSource46 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean !(3 > 2) && ( 1 == 6)\n"
+			+ "}";
+
+	@Test
+	public void test46() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource46);
+		interpreter.interpret(ast);
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
+	}
+
+	String testSource47 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean !(1 > 2) && (15 != 6)\n"
+			+ "}";
+
+	@Test
+	public void test47() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource47);
+		interpreter.interpret(ast);
+		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
+	}
+
 	// Automatically generated negative tests.
 
 	String generatedSource1 = "form Form1 {\"\" q0: integer 1 + true }";
@@ -634,7 +684,6 @@ public class InterpreterTests {
 			interpreter.interpret(ast);
 			fail("Test Failed");
 		}
-
 		catch (Exception e) {
 			assertTrue(e.getMessage().equals("RuntimeError: Cannot add a IntegerValue and a BooleanValue"));
 		}

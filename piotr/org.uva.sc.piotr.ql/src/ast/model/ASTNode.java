@@ -1,32 +1,50 @@
 package ast.model;
 
-
-import ast.visitors.ASTNodeVisitor;
-
 abstract public class ASTNode implements VisitableASTNode {
 
-    private Integer startLine;
-    private Integer endLine;
+    public static class MetaInformation {
 
-    public ASTNode(Integer startLine, Integer endLine) {
-        this.startLine = startLine;
-        this.endLine = endLine;
+        private Integer startLine;
+        private Integer endLine;
+        private Integer column;
+        private String text;    //TODO: YAGNI?
+
+        public MetaInformation(Integer startLine, Integer endLine, Integer column, String text) {
+            this.startLine = startLine;
+            this.endLine = endLine;
+            this.column = column;
+            this.text = text;
+        }
+
+        public Integer getStartLine() {
+            return startLine;
+        }
+
+        public Integer getEndLine() {
+            return endLine;
+        }
+
+        public Integer getColumn() {
+            return column;
+        }
+
+        public String getText() {
+            return text;
+        }
+
     }
 
-    public Integer getStartLine() {
-        return startLine;
+    private MetaInformation metaInformation;
+
+    public ASTNode(MetaInformation metaInformation) {
+        this.metaInformation = metaInformation;
     }
 
-    public void setStartLine(Integer startLine) {
-        this.startLine = startLine;
+    public MetaInformation getMetaInformation() {
+        return metaInformation;
     }
 
-    public Integer getEndLine() {
-        return endLine;
+    public void setMetaInformation(MetaInformation metaInformation) {
+        this.metaInformation = metaInformation;
     }
-
-    public void setEndLine(Integer endLine) {
-        this.endLine = endLine;
-    }
-
 }

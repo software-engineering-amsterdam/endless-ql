@@ -2,22 +2,23 @@ package org.uva.jomi.ql.interpreter;
 
 public class IntegerValue implements GenericValue {
 	private final Integer value;
-	
+
 	public IntegerValue(Integer value) {
 		this.value = value;
 	}
-	
+
+	@Override
 	public Integer getValue() {
 		return value;
 	}
-	
+
 	// Addition.
 
 	@Override
 	public GenericValue add(GenericValue rightHandSideValue) {
 		return rightHandSideValue.add(this);
 	}
-	
+
 	@Override
 	public GenericValue add(IntegerValue leftHandSideValue) {
 		return new IntegerValue(leftHandSideValue.getValue() + this.getValue());
@@ -25,16 +26,16 @@ public class IntegerValue implements GenericValue {
 
 	@Override
 	public GenericValue add(StringValue leftHandSideValue) {
-		additionError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = additionError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue add(BooleanValue leftHandSideValue) {
-		additionError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = additionError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
-	
+
 	// Subtraction.
 
 	@Override
@@ -49,16 +50,16 @@ public class IntegerValue implements GenericValue {
 
 	@Override
 	public GenericValue subtract(StringValue leftHandSideValue) {
-		subtractionError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = subtractionError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue subtract(BooleanValue leftHandSideValue) {
-		subtractionError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = subtractionError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
-	
+
 	// Multiplication.
 
 	@Override
@@ -73,23 +74,23 @@ public class IntegerValue implements GenericValue {
 
 	@Override
 	public GenericValue multiply(StringValue leftHandSideValue) {
-		multiplicationError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = multiplicationError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue multiply(BooleanValue leftHandSideValue) {
-		multiplicationError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = multiplicationError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	// Division.
-	
+
 	@Override
 	public GenericValue divide(GenericValue rightHandSideValue) {
 		return rightHandSideValue.divide(this);
 	}
-	
+
 	@Override
 	public GenericValue divide(IntegerValue leftHandSideValue) {
 		return new IntegerValue(leftHandSideValue.getValue() / this.getValue());
@@ -97,68 +98,68 @@ public class IntegerValue implements GenericValue {
 
 	@Override
 	public GenericValue divide(StringValue leftHandSideValue) {
-		divisionError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = divisionError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue divide(BooleanValue leftHandSideValue) {
-		divisionError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = divisionError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
-	
+
 	// And operation.
 
 	@Override
 	public GenericValue and(GenericValue rightHandSideValue) {
-		andOperationError(this.getClass(), rightHandSideValue.getClass());
-		return null;
+		String error = andOperationError(this.getClass(), rightHandSideValue.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue and(IntegerValue leftHandSideValue) {
-		andOperationError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = andOperationError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue and(StringValue leftHandSideValue) {
-		andOperationError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = andOperationError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue and(BooleanValue leftHandSideValue) {
-		andOperationError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = andOperationError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
-	
+
 	// Or operation.
 
 	@Override
 	public GenericValue or(GenericValue rightHandSideValue) {
-		orOperationError(this.getClass(), rightHandSideValue.getClass());
-		return null;
+		String error = orOperationError(this.getClass(), rightHandSideValue.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue or(IntegerValue leftHandSideValue) {
-		orOperationError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = orOperationError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue or(StringValue leftHandSideValue) {
-		orOperationError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = orOperationError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue or(BooleanValue leftHandSideValue) {
-		orOperationError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = orOperationError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
-	
+
 	// Less than operation.
 
 	@Override
@@ -173,16 +174,16 @@ public class IntegerValue implements GenericValue {
 
 	@Override
 	public GenericValue less(StringValue leftHandSideValue) {
-		compareError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = compareError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue less(BooleanValue leftHandSideValue) {
-		compareError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = compareError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
-	
+
 	// Less than or equal operation.
 
 	@Override
@@ -197,16 +198,16 @@ public class IntegerValue implements GenericValue {
 
 	@Override
 	public GenericValue lessOrEqual(StringValue leftHandSideValue) {
-		compareError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = compareError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue lessOrEqual(BooleanValue leftHandSideValue) {
-		compareError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = compareError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
-	
+
 	// Greater than operation.
 
 	@Override
@@ -221,16 +222,16 @@ public class IntegerValue implements GenericValue {
 
 	@Override
 	public GenericValue greater(StringValue leftHandSideValue) {
-		compareError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = compareError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue greater(BooleanValue leftHandSideValue) {
-		compareError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = compareError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
-	
+
 	// Greater than or equal operation.
 
 	@Override
@@ -245,16 +246,16 @@ public class IntegerValue implements GenericValue {
 
 	@Override
 	public GenericValue greaterOrEqual(StringValue leftHandSideValue) {
-		compareError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = compareError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue greaterOrEqual(BooleanValue leftHandSideValue) {
-		compareError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = compareError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
-	
+
 	// Equal operation.
 
 	@Override
@@ -269,16 +270,16 @@ public class IntegerValue implements GenericValue {
 
 	@Override
 	public GenericValue equal(StringValue leftHandSideValue) {
-		compareError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = compareError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue equal(BooleanValue leftHandSideValue) {
-		compareError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = compareError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
-	
+
 	// Not equal operation.
 
 	@Override
@@ -293,13 +294,19 @@ public class IntegerValue implements GenericValue {
 
 	@Override
 	public GenericValue notEqual(StringValue leftHandSideValue) {
-		compareError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = compareError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
 	}
 
 	@Override
 	public GenericValue notEqual(BooleanValue leftHandSideValue) {
-		compareError(leftHandSideValue.getClass(), this.getClass());
-		return null;
+		String error = compareError(leftHandSideValue.getClass(), this.getClass());
+		throw new RuntimeException(error);
+	}
+
+	@Override
+	public GenericValue negate() {
+		String error = negationError(this.getClass());
+		throw new RuntimeException(error);
 	}
 }

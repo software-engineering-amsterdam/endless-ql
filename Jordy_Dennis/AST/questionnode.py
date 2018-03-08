@@ -37,5 +37,9 @@ class QuestionNode:
     def getQuestion(self):
         return self.question
 
+    def setVar(self, value ,varDict):
+        self.varNode.setVar(value)
+        varDict[var]['node'] = self.varNode
+
     def __repr__(self):
         return "Question: {}, {}:{}".format(self.question, self.varNode.getVarname(), self.varNode.checkTypes())

@@ -136,8 +136,8 @@ public class ExpressionEvaluator implements Expr.Visitor<GenericValue> {
 
 	@Override
 	public GenericValue visit(UnaryNotExpr expr) {
-		// TODO Auto-generated method stub
-		return null;
+		GenericValue right = expr.visitRightExpr(this);
+		return right.negate();
 	}
 
 	@Override

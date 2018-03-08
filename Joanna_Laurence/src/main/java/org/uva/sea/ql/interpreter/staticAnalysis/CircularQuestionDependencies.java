@@ -10,14 +10,14 @@ import org.uva.sea.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.*;
 
-public class CircularDependencies extends BaseASTVisitor<Void> implements IStaticAnalysis {
+public class CircularQuestionDependencies extends BaseASTVisitor<Void> implements IStaticAnalysis {
 
     private Map<String,List<String>> dependencies = new HashMap<>();
 
     /**
      * Hide constructor
      */
-    private CircularDependencies() {
+    private CircularQuestionDependencies() {
 
     }
 
@@ -27,7 +27,7 @@ public class CircularDependencies extends BaseASTVisitor<Void> implements IStati
     public static class Checker implements IStaticAnalysis {
         @Override
         public Messages doCheck(Form node) {
-            IStaticAnalysis checker = new CircularDependencies();
+            IStaticAnalysis checker = new CircularQuestionDependencies();
             return checker.doCheck(node);
         }
     }

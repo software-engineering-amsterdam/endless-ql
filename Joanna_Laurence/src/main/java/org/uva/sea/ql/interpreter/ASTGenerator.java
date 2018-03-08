@@ -23,7 +23,7 @@ public class ASTGenerator {
             new TypeCheck.Checker(),
             new CheckDuplicateLabels.Checker(),
             new CheckIncorrectDuplicateQuestions.Checker(),
-            new CircularDependencies.Checker()
+            new CircularQuestionDependencies.Checker()
     });
 
     /**

@@ -32,15 +32,20 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
     }
 
     public Set<String> typeCheck() {
-        for (Question q : form.questions) {
-            this.visit(q.condition);
+        for (Question question : form.questions) {
+            this.visit(question.condition);
 
             // Only check model.expression when it is a predefined model.expression
-            if (!q.isEditable()) {
-                ReturnType defaultAnswerType = this.visit(q.defaultAnswer);
+            if (!question.isEditable()) {
+                ReturnType defaultAnswerType = this.visit(question.defaultAnswer);
 
-                if (defaultAnswerType != q.type) {
-                    errors.add("Invalid assignment: cannot assign " + defaultAnswerType + " to " + q.type);
+                ReturnType questionType = question.type;
+                if(questionType.isNumber()) {
+                    questionType = ReturnType.NUMBER;
+                }
+
+                if (defaultAnswerType != questionType) {
+                    errors.add("Invalid assignment: cannot assign " + defaultAnswerType + " to " + question.type);
                 }
             }
         }

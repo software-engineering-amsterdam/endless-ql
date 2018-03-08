@@ -3,8 +3,8 @@ package domain.model.value;
 public class BooleanValue extends Value<Boolean>{
     private Boolean value;
 
-    public BooleanValue(String value){
-        this.value = Boolean.valueOf(value);
+    public BooleanValue(Boolean value){
+        this.value = value;
     }
     @Override
     public Boolean getValue() {

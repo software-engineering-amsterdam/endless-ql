@@ -1,7 +1,7 @@
 package loader;
 
 import domain.FormNode;
-import domain.model.QuestionNode;
+import domain.model.QuestionASTNode;
 import domain.model.value.Value;
 import domain.model.variable.Variable;
 import exception.InvalidAritmaticExpressionException;
@@ -30,7 +30,7 @@ public class QLChecker {
         }
     }
     public void checkInvalidArithmaticExpression() throws InvalidAritmaticExpressionException{
-        for (QuestionNode qs : formNode.getFormData().getAllQuestions()){
+        for (QuestionASTNode qs : formNode.getFormData().getAllQuestions()){
             Value qVal = qs.getVariable().getValue();
             if (qVal != null){
                 try{

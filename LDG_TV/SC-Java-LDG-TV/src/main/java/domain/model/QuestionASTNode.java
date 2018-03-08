@@ -2,13 +2,14 @@ package domain.model;
 
 import domain.model.variable.Variable;
 
-public class QuestionNode extends Node {
+public class QuestionASTNode extends ASTNode {
     private String text;
     private Variable variable;
 
-    public QuestionNode(String text, Variable variable) {
+    public QuestionASTNode(String text, Variable variable, boolean visible) {
         this.text = text;
         this.variable = variable;
+        this.setVisible(visible);
     }
 
     public String getText() {
@@ -18,8 +19,6 @@ public class QuestionNode extends Node {
     public Variable getVariable() {
         return variable;
     }
-
-
 
     @Override
     public String toString() {

@@ -3,11 +3,10 @@ package loader;
 import antlr.FormBaseListener;
 import antlr.FormParser;
 import domain.FormNode;
-import domain.model.IfNode;
+import domain.model.IfASTNode;
 import domain.model.value.ExpressionValue;
-import domain.model.value.PlainValue;
 import domain.model.variable.*;
-import domain.model.QuestionNode;
+import domain.model.QuestionASTNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +35,14 @@ public class QLLoader extends FormBaseListener {
     @Override
     public void exitFormData(FormParser.FormDataContext ctx){
         this.qlChecker = new QLChecker(formNode);
-        this.qlChecker.doChecks();
+        //this.qlChecker.doChecks();
     }
 
     @Override
     public void enterIfStructure(FormParser.IfStructureContext ctx) {
 
         System.out.println("Entering if");
-        this.formNode.addIfNode(new IfNode());
+        this.formNode.addIfNode(new IfASTNode(false));
         this.inIfNode = true;
 //        Object c = null;
 //        for(FormParser.ConditionContext cc : ctx.statementBlockStructure().conditions().condition()){
@@ -84,8 +83,8 @@ public class QLLoader extends FormBaseListener {
     public void exitQuestionStructure(FormParser.QuestionStructureContext ctx) {
         String questionText = ctx.label().getText();
 
-        this.formNode.getFormData().addQuestion(this.conditionsHolder, new QuestionNode(questionText, constructedVariable));
-        QuestionNode q = new QuestionNode(questionText, constructedVariable);
+        this.formNode.getFormData().addQuestion(this.conditionsHolder, new QuestionASTNode(questionText, constructedVariable, true));
+        QuestionASTNode q = new QuestionASTNode(questionText, constructedVariable, !this.inIfNode);
         if(this.inIfNode) {
             this.formNode.addToLastIf(q);
             System.out.println("  Q: " + questionText);

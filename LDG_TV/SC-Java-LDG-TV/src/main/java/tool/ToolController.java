@@ -5,7 +5,11 @@ import antlr.FormParser;
 import domain.FormData;
 import domain.FormNode;
 import domain.Utilities;
-import domain.model.QuestionNode;
+import domain.model.ASTNode;
+import domain.model.IfASTNode;
+import domain.model.QuestionASTNode;
+import domain.model.value.BooleanValue;
+import domain.model.variable.BooleanVariable;
 import domain.model.variable.Variable;
 import domain.model.visitor.UIVisitor;
 import javafx.event.ActionEvent;
@@ -71,22 +75,82 @@ public class ToolController implements Initializable {
         FormData data = node.getFormData();
 
         UIVisitor v = new UIVisitor();
-        for (domain.model.Node n : node.getNodes()){
 
-            if(!(n instanceof QuestionNode)){
-                break;
-            }
 
-            QuestionNode qn = (QuestionNode) n;
+        List<ASTNode> astNodes = node.getASTNodes();
 
-            Variable qv = qn.getVariable();
-            String qt = qn.getText();
+        List<QuestionASTNode> questions = getAllVisibleQuestions(astNodes);
 
-            Node answerNode = qv.getRelatedUIElement(v);
-            lvQuestionnaire.getItems().add(new QuestionRow(qt, answerNode, false));
-        }
+        drawQuestions(questions);
+
+
+
+//        for (ASTNode n : node.getASTNodes()){
+//
+//            if(!(n instanceof QuestionASTNode)){
+//                break;
+//            }
+//
+//            QuestionASTNode qn = (QuestionASTNode) n;
+//
+//            Variable qv = qn.getVariable();
+//            String qt = qn.getText();
+//
+//            if(qv instanceof BooleanVariable){
+//                CheckBox cb = new CheckBox();
+//
+//                cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
+//                    qv.setValue(new BooleanValue(newValue));
+//                    System.out.println(qn.getText() + " " + qv.getValue().getValue());
+//                });
+//
+//                lvQuestionnaire.getItems().add(new QuestionRow(qt, cb, false));
+//                continue;
+//            }
+//            Node answerNode = qv.getRelatedUIElement(v);
+//
+//            lvQuestionnaire.getItems().add(new QuestionRow(qt, answerNode, false));
+//        }
 
         //this.lvQuestionnaire.getItems().setAll(dummyRows());
+    }
+
+    private void drawQuestions(List<QuestionASTNode> questionASTNodes){
+        for(QuestionASTNode qn : questionASTNodes){
+            String questionText = qn.getText();
+            Variable qv = qn.getVariable();
+
+            if(qv instanceof BooleanVariable) {
+                CheckBox cb = new CheckBox();
+
+                cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                    qv.setValue(new BooleanValue(newValue));
+                    System.out.println(qn.getText() + " " + qv.getValue().getValue());
+                });
+
+                lvQuestionnaire.getItems().add(new QuestionRow(questionText, cb, false));
+            }
+
+        }
+    }
+
+    private List<QuestionASTNode> getAllVisibleQuestions(List<ASTNode> nodes){
+        List<QuestionASTNode> visQuestion = new ArrayList<>();
+        for(ASTNode n : nodes){
+            if(!n.isVisible()) {
+                continue;
+            }
+
+            if(n instanceof QuestionASTNode){
+                visQuestion.add((QuestionASTNode) n);
+                continue;
+            }
+
+            IfASTNode ifASTNode = (IfASTNode) n;
+            visQuestion.addAll(ifASTNode.getQuestionNodes());
+        }
+
+        return visQuestion;
     }
 
 

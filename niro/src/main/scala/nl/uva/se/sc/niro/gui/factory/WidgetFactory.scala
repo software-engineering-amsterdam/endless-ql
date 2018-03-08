@@ -47,7 +47,7 @@ object IntegerWidgetFactory extends AbstractWidgetFactory {
   def make(question: GUIQuestion): Control = {
     val integerField = new TextField()
     integerField.setTextFormatter(
-      TextFormatterBuilder[java.lang.Integer]().buildInputFilter(INTEGER_MASK).buildIntegerConverter().build())
+      TextFormatterBuilder[Int]().buildInputFilter(INTEGER_MASK).buildIntegerConverter().build())
     integerField
   }
 }
@@ -70,7 +70,7 @@ object MoneyWidgetFactory extends AbstractWidgetFactory {
   }
 }
 
-object DateWidgetFactory extends AbstractWidgetFactory  {
+object DateWidgetFactory extends AbstractWidgetFactory {
   def make(question: GUIQuestion): Control = {
     val dateField = new DatePicker()
     val dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT)

@@ -6,24 +6,23 @@ import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
+import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.gui._
 import nl.uva.se.sc.niro.gui.application.QLForms
 import nl.uva.se.sc.niro.gui.converter.ModelConverter
-import nl.uva.se.sc.niro.gui.widgets.ComponentFactory
+import nl.uva.se.sc.niro.gui.widget.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.model.QLForm
 import nl.uva.se.sc.niro.model.expressions.answers.Answer
-import nl.uva.se.sc.niro.model.gui.GUIForm
 
 import scala.collection.{ JavaConverters, mutable }
 
 class QLFormController extends QLBaseController with ModelUpdater {
-  @FXML var formName: Label = _
-  @FXML var questions: VBox = _
+  private val dictionary = mutable.Map[String, Answer]()
   private var qlForm: QLForm = _
-  private var guiForm: GUIForm = _
-  // TODO check if 'mutable' in the definition is needed.
-  //                          |
-  private val symbolTable = mutable.Map[String, Answer]()
+  private var questions: Seq[Component] = _
+
+  @FXML var formName: Label = _
+  @FXML var questionArea: VBox = _
 
   @FXML
   @throws[IOException]
@@ -31,9 +30,9 @@ class QLFormController extends QLBaseController with ModelUpdater {
     QLForms.openHomeScreen(getActiveStage(event))
 
   override def updateModel(questionId: String, answer: Answer): Unit = {
-    symbolTable(questionId) = answer
-    // TODO evaluate AST model
-    updateComponents()
+    dictionary(questionId) = answer
+    evaluateAnswers()
+    updateQuestionControls()
   }
 
   @FXML def saveData(event: ActionEvent): Unit =
@@ -42,18 +41,22 @@ class QLFormController extends QLBaseController with ModelUpdater {
 
   def populateForm(form: QLForm): Unit = {
     this.qlForm = form
-    guiForm = ModelConverter.convert(this.qlForm)
+    val guiForm = ModelConverter.convert(this.qlForm)
+    questions = guiForm.questions.map(ComponentFactory.make)
 
     formName.setText(guiForm.name)
+    questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
 
-    val guiQuestions = guiForm.questions.map(ComponentFactory.make)
-    questions.getChildren.addAll(JavaConverters.seqAsJavaList(guiQuestions))
-    updateComponents()
+    evaluateAnswers()
+    updateQuestionControls()
   }
 
-  private def updateComponents(): Unit = {
-    // TODO update components
-    println("Updating components")
+  private def evaluateAnswers(): Unit ={
+    dictionary ++= Evaluator.evaluate(qlForm, dictionary.toMap)
+  }
+
+  private def updateQuestionControls(): Unit = {
+    questions.foreach(_.update(dictionary))
   }
 
 }

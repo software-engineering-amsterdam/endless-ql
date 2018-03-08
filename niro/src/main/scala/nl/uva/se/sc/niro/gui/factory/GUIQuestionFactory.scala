@@ -14,7 +14,7 @@ object GUIQuestionFactory extends Logging {
 
   private def isReadOnly(expression: Expression): Boolean =
     expression match {
-      case a: Answer => a.possibleValue.isDefined
-      case _         => true
+      case answer: Answer => answer.possibleValue.isDefined
+      case _              => true
     }
 }

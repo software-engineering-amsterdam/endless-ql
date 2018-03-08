@@ -31,15 +31,15 @@ class QLFormController extends QLBaseController with ModelUpdater {
   def cancel(event: ActionEvent): Unit =
     QLForms.openHomeScreen(getActiveStage(event))
 
+  @FXML def saveData(event: ActionEvent): Unit =
+    // TODO Implement
+    println("Data is saved....")
+
   override def updateModel(questionId: String, answer: Answer): Unit = {
     dictionary(questionId) = answer
     evaluateAnswers
     updateView
   }
-
-  @FXML def saveData(event: ActionEvent): Unit =
-    // TODO Implement
-    println("Data is saved....")
 
   def populateForm(form: QLForm): Unit = {
     this.qlForm = form

@@ -8,7 +8,7 @@ import nl.uva.se.sc.niro.model.gui.GUIQuestion
 
 import scala.collection.mutable
 
-class Component(id: String, label: Label, control: Control) extends HBox {
+case class Component(id: String, label: Label, control: Control) extends HBox {
   getChildren.addAll(label, control)
   managedProperty().bind(visibleProperty())
 
@@ -16,6 +16,8 @@ class Component(id: String, label: Label, control: Control) extends HBox {
   control.setPrefWidth(200)
 
   def setReadOnly(value: Boolean): Unit = control.setDisable(value)
+
+  def isReadOnly: Boolean = control.isDisabled
 
   def update(dictionary: mutable.Map[String, Answer]): Unit = {
     val value = dictionary(id)
@@ -27,7 +29,7 @@ class Component(id: String, label: Label, control: Control) extends HBox {
         control
           .asInstanceOf[TextField]
           .getTextFormatter
-          .asInstanceOf[TextFormatter[Int]]
+          .asInstanceOf[TextFormatter[java.lang.Integer]]
           .setValue(intOrNull(i.possibleValue))
       case d: DecAnswer =>
         control
@@ -44,7 +46,8 @@ class Component(id: String, label: Label, control: Control) extends HBox {
     }
   }
 
-  private def intOrNull(value: Option[Int]): java.lang.Integer = if (value.isDefined) value.get else null
+  private def intOrNull(value: Option[Int]): java.lang.Integer =
+    if (value.isDefined) value.get else null
   private def decOrNull(value: Option[BigDecimal]): java.math.BigDecimal =
     if (value.isDefined) value.get.bigDecimal else null
 }

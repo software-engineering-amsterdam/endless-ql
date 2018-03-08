@@ -208,7 +208,6 @@ class VarNode:
             throwError(errorstring)
 
     def getDefaultValue(self):
-        print("Setting default for " + self.varname)
         default_values = {
             int: 0,
             str: "",

@@ -2,9 +2,10 @@ package visitor;
 
 import antlr.QLBaseVisitor;
 import antlr.QLParser;
-import expression.Expression;
-import expression.variable.ExpressionVariableBoolean;
+import model.expression.Expression;
+import model.expression.variable.ExpressionVariableBoolean;
 import model.Question;
+import org.antlr.v4.runtime.Token;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,8 @@ public class VisitorStatement extends QLBaseVisitor<List<Question>> {
 
     private final Expression condition;
 
-    VisitorStatement() {
-        this.condition = new ExpressionVariableBoolean(true);
+    VisitorStatement(Token start) {
+        this.condition = new ExpressionVariableBoolean(start,true);
     }
 
     VisitorStatement(Expression condition) {

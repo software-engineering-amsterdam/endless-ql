@@ -24,10 +24,8 @@ class Gui:
         self.mainframe = create_frame(self.gui, background='pink')
         self.mainframe.pack(expand=True, fill='both')
         self.form = None
-
         self.ast = ast
         self.varDict = ast.varDict
-
         self.questionsGenerator = Question_Generator(self.varDict, self.ast)
         self.questions = self.questionsGenerator.updateQuestions()
         self.create_form()

@@ -31,7 +31,8 @@ class Dialog(QDialog):
 
         # TODO evaluate and check show field of question
         for question in form.block:
-            question.pyqt5_render(layout)
+            show = question.evaluate_show_condition(self.form)
+            question.pyqt5_render(layout, show)
 
         self.formGroupBox.setLayout(layout)
 

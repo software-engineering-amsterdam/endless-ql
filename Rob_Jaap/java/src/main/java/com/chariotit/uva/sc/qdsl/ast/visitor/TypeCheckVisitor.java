@@ -15,7 +15,6 @@ import com.chariotit.uva.sc.qdsl.ast.symboltable.SymbolTableEntry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class TypeCheckVisitor extends NodeVisitor {
 

@@ -8,6 +8,7 @@ class InputTypeMap:
         self.parent = parent
         self.old_value = None
         self.value = value
+        print("------------- inputtypemap -------------")
         print(varName)
         print(value)
         self.questionGenerator = questionGenerator
@@ -76,6 +77,8 @@ class InputTypeMap:
         new_val = var.get()
         try:
             new_val == '' or float(new_val)
+            if(new_val == ''):
+                new_val = 0.0
             new_val = float(new_val)
             # save value in vardict
             varNode = self.varDict[self.varName]['node']

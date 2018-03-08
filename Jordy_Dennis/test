@@ -1,6 +1,6 @@
 form taxOfficeExample {
 	"This is an int"
-		b: int
+		b: money
 
 	if(b){
 		"Q3 Within the if (int)"

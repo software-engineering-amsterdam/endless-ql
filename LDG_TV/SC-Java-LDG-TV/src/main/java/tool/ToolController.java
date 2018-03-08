@@ -20,6 +20,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import loader.QLLoader;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.*;
 import java.net.URL;
@@ -55,19 +60,21 @@ public class ToolController implements Initializable {
 //            return;
 //        }
 
-//        lvQuestionnaire.getItems().clear();
-//
-//        CharStream stream = CharStreams.fromString(qlSource);
-//        FormLexer lexer = new FormLexer(stream);
-//
-//        FormParser parser = new FormParser(new CommonTokenStream(lexer));
-//
-//        FormParser.FormBuilderContext tree = parser.formBuilder();
-//        QLLoader loader = new QLLoader();
-//        ParseTreeWalker.DEFAULT.walk(loader, tree);
-//
-//        FormNode node = loader.getFormNode();
-//        FormData data = node.getFormData();
+        lvQuestionnaire.getItems().clear();
+
+        CharStream stream = CharStreams.fromString(qlSource);
+        FormLexer lexer = new FormLexer(stream);
+
+        FormParser parser = new FormParser(new CommonTokenStream(lexer));
+
+        FormParser.FormBuilderContext tree = parser.formBuilder();
+        QLLoader loader = new QLLoader();
+        ParseTreeWalker.DEFAULT.walk(loader, tree);
+
+        FormNode node = loader.getFormNode();
+        FormData data = node.getFormData();
+
+
 //
 //
 //        List<Question> qs = data.getAllQuestions();

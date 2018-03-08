@@ -66,9 +66,8 @@ class QLFormController extends QLBaseController with ModelUpdater {
   private def updateVisibility(): Unit = {
     guiForm.questions.foreach(question => {
       Evaluator.evaluateExpression(question.visibility, qlForm.symbolTable, dictionary.toMap) match {
-        case b: BooleanAnswer => question.component.map(_.setVisible(b.possibleValue.getOrElse(false)))
+        case b: BooleanAnswer => question.component.foreach(_.setVisible(b.possibleValue.getOrElse(false)))
       }
-
     })
   }
 

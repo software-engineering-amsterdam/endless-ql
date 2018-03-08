@@ -3,30 +3,22 @@ package org.uva.sea.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.model.GuiModel;
-import org.uva.sea.gui.model.QuestionModelFactoryImpl;
 import org.uva.sea.gui.model.ValueChangeListener;
-import org.uva.sea.gui.render2.ErrorRenderer;
-import org.uva.sea.gui.render2.QuestionRenderer;
-import org.uva.sea.gui.render2.WarningRenderer;
-import org.uva.sea.gui.renderer.JavafxRendererVisitor;
+import org.uva.sea.gui.render.ErrorRenderer;
+import org.uva.sea.gui.render.QuestionRenderer;
+import org.uva.sea.gui.render.WarningRenderer;
+import org.uva.sea.gui.render.JavafxRendererVisitor;
 import org.uva.sea.ql.interpreter.dataObject.InterpreterResult;
-import org.uva.sea.ql.interpreter.dataObject.QuestionData;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
 import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -55,11 +47,15 @@ public class FormController implements Initializable, ValueChangeListener {
         questionRenderer = new QuestionRenderer(renderer);
         warningRenderer = new WarningRenderer(renderer);
         errorRenderer = new ErrorRenderer(renderer);
-        onChange();
+        drawGui();
     }
 
     @Override
     public void onChange() {
+        drawGui();
+    }
+
+    private void drawGui() {
         try {
             updateGui();
         } catch (IOException | StaticAnalysisError e) {
@@ -97,10 +93,8 @@ public class FormController implements Initializable, ValueChangeListener {
         System.out.println("Export");
     }
 
-
-
     public void updateGuiModel(String questionName, Value value) {
         guiModel.updateQuestion(questionName, value);
+        drawGui();
     }
-
 }

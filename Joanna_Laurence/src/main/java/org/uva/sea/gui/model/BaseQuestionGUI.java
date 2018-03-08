@@ -5,5 +5,4 @@ public interface BaseQuestionGUI {
     void accept(QuestionModelVisitor visitor);
 
     String displayValue();
-
 }

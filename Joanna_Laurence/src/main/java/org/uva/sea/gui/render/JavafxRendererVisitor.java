@@ -1,4 +1,4 @@
-package org.uva.sea.gui.renderer;
+package org.uva.sea.gui.render;
 
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -6,10 +6,7 @@ import javafx.scene.layout.*;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.*;
 import org.uva.sea.gui.model.*;
-import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 //TODO: Handle situation when newInput.getText().equals("")
@@ -62,13 +59,8 @@ public class JavafxRendererVisitor implements QuestionModelVisitor {
     @Override
     public void visit(IntQuestionModel question) {
         TextField newInput = printTextField(question);
-        if (newInput.getText().equals("")) {
-            displayError("Value cannot be an empty string");
-            System.out.println("Error");
-        } else {
-            IntValue value = new IntValue(newInput.getText());
-            addGUIListener(question, newInput, value);
-        }
+        IntValue value = new IntValue(newInput.getText());
+        addGUIListener(question, newInput, value);
     }
 
     @Override
@@ -103,6 +95,17 @@ public class JavafxRendererVisitor implements QuestionModelVisitor {
 
         wrapper.add(label, 0, 0);
         wrapper.add(input, 1, 0);
+
+        return wrapper;
+    }
+
+    private Node createMessageRow(Label label) {
+        GridPane wrapper = new GridPane();
+
+        wrapper.getColumnConstraints().add(new ColumnConstraints(600));
+        wrapper.getRowConstraints().add(new RowConstraints(40));
+
+        wrapper.add(label, 0, 0);
 
         return wrapper;
     }
@@ -142,6 +145,6 @@ public class JavafxRendererVisitor implements QuestionModelVisitor {
     }
 
     private void displayMessage(String prependMessage, String warningMessage) {
-        messageBox.getChildren().add(new Label(prependMessage + warningMessage));
+        messageBox.getChildren().add(createMessageRow(new Label(prependMessage + warningMessage)));
     }
 }

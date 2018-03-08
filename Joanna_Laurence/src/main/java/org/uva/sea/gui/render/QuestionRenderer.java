@@ -1,8 +1,7 @@
-package org.uva.sea.gui.render2;
+package org.uva.sea.gui.render;
 
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.model.QuestionModelFactoryImpl;
-import org.uva.sea.gui.renderer.JavafxRendererVisitor;
 import org.uva.sea.ql.interpreter.dataObject.QuestionData;
 
 import java.util.ArrayList;

@@ -1,6 +1,4 @@
-package org.uva.sea.gui.render2;
-
-import org.uva.sea.gui.renderer.JavafxRendererVisitor;
+package org.uva.sea.gui.render;
 
 public class ErrorRenderer implements Renderable<String> {
 

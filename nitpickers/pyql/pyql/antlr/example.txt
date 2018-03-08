@@ -1,16 +1,16 @@
 form Box1HouseOwning {
-   hasSoldHouse: "Did you sell a house in 2010?" boolean
+   hasSoldHouse: "Did you sell a house in 2010?" money
    hasBoughtHouse: "Did you by a house in 2010?" boolean
    hasMainLoan: "Did you enter a loan for maintenance/reconstruction?" boolean
-   age: "Whats your age?" integer
+   age: "What's your age?" integer
    if (true || false && 2 + 2 == 4) {
       sellingPrice: "Price the house was sold for:" money
       privateDebt: "Private debts for the sold house:" money
       if (0.5 + 0.3 * (3.0 - 2.0) + 4.0 * 5.0 / 6.0) {
-         bigQuestion: "What's your name?" string
+         bigQuestion: "What's your age?" string
       }
       valueResidue: "Value residue:" money(sellingPrice - privateDebt)
    } else {
-      sellingPrice2: "Price the house was sold for: " money
+      sellingPrice: "Duplicate question: " money
    }
 }

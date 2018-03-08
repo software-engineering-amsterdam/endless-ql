@@ -12,7 +12,7 @@ import org.uva.jomi.ql.tests.utilities.TestUtilities;
 
 public class TypeResolverTests {
 
-	TypeResolver typeResolver = new TypeResolver(false);
+	TypeResolver typeResolver = new TypeResolver(true);
 	IdentifierResolver identifierResolver = new IdentifierResolver(false);
 
 	String testSource1 =
@@ -57,12 +57,94 @@ public class TypeResolverTests {
 		List<Stmt> ast = TestUtilities.buildAst(testSource3);
 		// The identifier resolver is needed when in order to get the types of the identifiers.
 		identifierResolver.resolve(ast);
+		assertTrue(identifierResolver.getNumberOfErrors() == 0);
 		typeResolver.resolve(ast);
 		assertTrue(typeResolver.getNumberOfErrors() == 1);
 		assertTrue(typeResolver.
 				getErrorAtIndex(0).equals("[TypeResolver] line: 3, column: 15: Type mismatch, expected boolean, but got integer"));
 	}
 
+
+	String testSource4 =
+			"form Form1 {\n"
+			+ "\"\" q1: integer (1 + 2) - 3\n"
+			+ "}";
+
+	@Test
+	public void test4() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource4);
+		typeResolver.resolve(ast);
+		assertTrue(typeResolver.getNumberOfErrors() == 0);
+	}
+
+	String testSource5 =
+			"form Form1 {\n"
+			+ "\"\" q1: integer !(1 + 2) - 3\n"
+			+ "}";
+
+	@Test
+	public void test5() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource5);
+		typeResolver.resolve(ast);
+		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.
+			getErrorAtIndex(0).equals("[TypeResolver] line: 2, column: 16: Type mismatch, requested type: integer, allowed types: boolean"));
+	}
+
+	String testSource6 =
+			"form Form1 {\n"
+			+ "\"\" q1: boolean !true\n"
+			+ "}";
+
+	@Test
+	public void test6() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource6);
+		typeResolver.resolve(ast);
+		assertTrue(typeResolver.getNumberOfErrors() == 0);
+	}
+
+	String testSource7 =
+			"form Form1 {\n"
+			+ "if (1) {\n"
+			+ "}\n"
+			+ "}";
+
+	@Test
+	public void test7() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource7);
+		typeResolver.resolve(ast);
+		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.
+		getErrorAtIndex(0).equals("[TypeResolver] line: 2, column: 4: Type mismatch, expected boolean, but got integer"));
+	}
+
+	String testSource8 =
+			"form Form1 {\n"
+			+ "if (\"true\") {\n"
+			+ "}\n"
+			+ "}";
+
+	@Test
+	public void test8() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource8);
+		typeResolver.resolve(ast);
+		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.
+		getErrorAtIndex(0).equals("[TypeResolver] line: 2, column: 4: Type mismatch, expected boolean, but got string"));
+	}
+
+	String testSource9 =
+			"form Form1 {\n"
+			+ "if (1 == 7) {\n"
+			+ "}\n"
+			+ "}";
+
+	@Test
+	public void test9() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource9);
+		typeResolver.resolve(ast);
+		assertTrue(typeResolver.getNumberOfErrors() == 0);
+	}
 
 	/*
 	 *  The test bellow have been generated automatically.

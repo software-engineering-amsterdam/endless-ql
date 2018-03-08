@@ -1,15 +1,17 @@
 ﻿using System.Windows;
+using QuestionnaireWPFApp.ViewModels;
 
 namespace QuestionnaireWPFApp.Views
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private IMainViewModel m_viewModel;
+
+        public MainWindow(IMainViewModel viewModel)
         {
             InitializeComponent();
+            m_viewModel = viewModel;
+            DataContext = m_viewModel;
         }
     }
 }

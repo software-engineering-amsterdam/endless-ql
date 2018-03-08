@@ -10,6 +10,9 @@ class TypeInteger(Type):
     def __repr__(self):
         return 'integer'
 
+    def __eq__(self, other):
+        return type(self) == type(other)
+
     @staticmethod
     def pyqt5_default_widget():
         return SpinBox()

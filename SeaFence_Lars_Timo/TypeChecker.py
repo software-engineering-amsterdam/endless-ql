@@ -10,15 +10,15 @@ class TypeChecker(object):
         self.ast = ast
         self.questions = {}
         self.conditionals = {}
-        self.getVariables()
+        self.getVariables(self.ast.statements)
         # self.checkUndefinedVariables()
 
     # Retrieve the variables/questions/etc from the ast and keep track of them.
-    def getVariables(self):
-        for statement in self.ast.statements:
+    def getVariables(self, statements):
+        for statement in statements:
             if type(statement) is QuestionNode:
                 self.checkDuplicateVariables(statement)
-                statement.question = self.checkDuplicateQuestions(statement)
+                statement.question = self.checkDuplicateQuestions(statement.question)
                 self.questions[statement.question] = [statement.var, statement.vartype]
             
             elif type(statement) is IfNode or type(statement) is ElifNode:
@@ -32,14 +32,24 @@ class TypeChecker(object):
                     conditional_type = self.checkInvalidOperations(statement.expression)
                     if conditional_type != BOOLEAN_UNICODE:
                         exitProgram("Condition {} is not of type boolean.".format(statement.expression))
+
                 self.conditionals[statement.expression] = statement.statements
+                self.getVariables(statement.statements)
+
+            elif type(statement) is ElseNode:
+                self.conditionals["else"] = statement.statements
+                self.getVariables(statement.statements)
 
             elif type(statement) is AssignmentNode:
                 assignment_type = self.checkInvalidOperations(statement.expression)
+                statement.name = self.checkDuplicateQuestions(statement.name)
+
                 if assignment_type != statement.vartype:
                     exitProgram("Assignment expression type does not match variable type at {}".format(statement))
+                
                 self.questions[statement.name] = [statement.var, statement.vartype, statement.expression]
-        # print self.questions
+        
+        print len(self.questions)
         return
 
 
@@ -58,13 +68,13 @@ class TypeChecker(object):
 
 
     # Check for duplicate question declarations with different types.
-    def checkDuplicateQuestions(self, statement):
-        if statement.question in self.questions.keys():
+    def checkDuplicateQuestions(self, question):
+        if question in self.questions.keys():
             # todo: Proper error handling?
-            print "Warning: question {} is asked twice.".format(statement.question)
-            return statement.question + "dup"
+            print "Warning: question {} is asked twice.".format(question)
+            return question + "dup"
 
-        return statement.question
+        return question
 
 
     # Check for conditionals that are not of the type boolean.
@@ -88,6 +98,7 @@ class TypeChecker(object):
         elif type(statement.left) is UnOpNode:
             self.checkUndefinedVariables(statement.left)
             left_type = self.getVariableTypes(statement.left)
+            # self.checkNegation(statement.left, left_type)
 
         if type(statement.right) is BinOpNode:
             right_type = self.checkInvalidOperations(statement.right)
@@ -95,6 +106,11 @@ class TypeChecker(object):
         elif type(statement.right) is UnOpNode:
             self.checkUndefinedVariables(statement.right)
             right_type = self.getVariableTypes(statement.right)
+            # self.checkNegation(statement.right, right_type)
+
+        self.checkNegation(statement.left, left_type)
+        self.checkNegation(statement.right, right_type)
+        self.checkNegation(statement, left_type)
 
         self.checkOperation(statement, left_type, right_type, operator)
 
@@ -109,11 +125,9 @@ class TypeChecker(object):
         return
 
 
-    # todo: check negation of binop
-    def checkNegation(self, statement):
-        for value in self.questions.values():
-            if statement.expression.var == value[0] and value[1] != BOOLEAN_UNICODE:
-                exitProgram("Negation on variable {} is not allowed.".format(statement.expression.var))
+    def checkNegation(self, statement, variable_type):
+        if statement.negate and variable_type == INTEGER_UNICODE:
+            exitProgram("Negation on {} is not allowed.".format(statement))
         return
 
 

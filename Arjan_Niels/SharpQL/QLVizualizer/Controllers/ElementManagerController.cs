@@ -100,10 +100,12 @@ namespace QLVisualizer.Controllers
             return _form.ToXML();
         }
 
+        // TODO: check if class is status -sensitive
         public abstract void Reset();
 
         public ElementManager GetElementManager(string elementID)
         {
+            // TODO: Get elementmanager by id
             return null;
         }
     }

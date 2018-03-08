@@ -122,6 +122,8 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         public override void ShowWidgets()
         {
+            // TODO: Make show widgets recursive
+
             // Ensure styles are set
             UpdateDefaultStyle();
 

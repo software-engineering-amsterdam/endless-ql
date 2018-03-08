@@ -1,11 +1,13 @@
-﻿namespace QLParser.AST.Nodes
+﻿using QLParser.AST;
+
+namespace QLParser.AST.Nodes
 {
     public class LiteralNode : Node, IExpressionNode
     {
         public string Value { get; private set; }
         public QValueType QValueType { get; set; }
 
-        public LiteralNode(string value, QValueType qValueType) : base(NodeType.LITERAL)
+        public LiteralNode(Location location, string value, QValueType qValueType) : base(location, NodeType.LITERAL)
         {
             this.Value = value;
             this.QValueType = qValueType;

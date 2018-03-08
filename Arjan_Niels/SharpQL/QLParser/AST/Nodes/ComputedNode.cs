@@ -1,4 +1,6 @@
-﻿namespace QLParser.AST.Nodes
+﻿using QLParser.AST;
+
+namespace QLParser.AST.Nodes
 {
     public class ComputedNode : Node
     {
@@ -7,7 +9,7 @@
         public QValueType ValueType { get; private set; }
         public IExpressionNode Expression { get; private set; }
 
-        public ComputedNode(string id, string text, QValueType valueType, IExpressionNode expression) : base(NodeType.COMPUTED)
+        public ComputedNode(Location location, string id, string text, QValueType valueType, IExpressionNode expression) : base(location, NodeType.COMPUTED)
         {
             this.ID = id;
             this.Text = text;

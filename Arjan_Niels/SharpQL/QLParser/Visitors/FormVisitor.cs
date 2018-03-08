@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
+using QLParser.AST;
 using QLParser.AST.Nodes;
 using QLParser.Visitors;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace QLParser
 
             // Construct FormNode object to store the results in.
             var name = context.formName().GetText();
-            FormNode node = new FormNode(name);
+            FormNode node = new FormNode(Location.FromContext(context), name);
 
             // Get the sections
             SectionContext[] sectionContext = context.section();

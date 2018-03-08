@@ -1,7 +1,8 @@
 ﻿using Antlr4.Runtime.Misc;
+using QLanguage;
+using QLParser.AST;
 using QLParser.AST.Nodes;
 using QLParser.Visitors.ExpressionVisitors;
-using QLanguage;
 
 namespace QLParser.Visitors
 {
@@ -14,7 +15,7 @@ namespace QLParser.Visitors
             var expression = logicalExpressionVisitor.VisitLogicalExpression(context.logicalExpression());
 
             //Create a conditionalBlock wherein we can store the results.
-            var conditionalNode = new ConditionalNode(expression);
+            var conditionalNode = new ConditionalNode(Location.FromContext(context), expression);
 
             // Get the sections and process them.
             var sectionContext = context.section();

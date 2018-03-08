@@ -1,4 +1,5 @@
-﻿using QLParser.AST.Nodes.ExpressionNodes.Enums;
+﻿using QLParser.AST;
+using QLParser.AST.Nodes.ExpressionNodes.Enums;
 using QLParser.Exceptions;
 
 namespace QLParser.AST.Nodes.ExpressionNodes
@@ -12,7 +13,8 @@ namespace QLParser.AST.Nodes.ExpressionNodes
 
         public ArthimetricOperator Operator { get; set; }
 
-        public ArthimetricExpressionNode(IExpressionNode left, ArthimetricOperator opr, IExpressionNode right) : base(NodeType.ARTHIMETIC_EXPRESSION)
+        public ArthimetricExpressionNode(Location location, IExpressionNode left, ArthimetricOperator opr, IExpressionNode right)
+            : base(location, NodeType.ARTHIMETRIC_EXPRESSION)
         {
             this.Left = left;
             this.Operator = opr;

@@ -1,4 +1,5 @@
-﻿using QLParser.Analysis;
+﻿using QLParser.AST;
+using QLParser.Analysis;
 
 namespace QLParser.AST.Nodes
 {
@@ -6,7 +7,7 @@ namespace QLParser.AST.Nodes
     {
         public string ID { get; private set; }
 
-        public IdentifierNode(string id) : base(NodeType.IDENTIFIER)
+        public IdentifierNode(Location location, string id) : base(location, NodeType.IDENTIFIER)
         {
             this.ID = id;
         }

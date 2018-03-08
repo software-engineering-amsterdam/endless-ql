@@ -36,7 +36,7 @@ namespace QLVisualizer.Factories
         {
             switch (node.GetNodeType())
             {
-                case NodeType.ARTHIMETIC_EXPRESSION:
+                case NodeType.ARTHIMETRIC_EXPRESSION:
                     return ParseArthimeticNode(node as ArthimetricExpressionNode);
                 case NodeType.COMPARISON_EXPRESSION:
                     return ParseComparisonNode(node as ComparisonExpressionNode);

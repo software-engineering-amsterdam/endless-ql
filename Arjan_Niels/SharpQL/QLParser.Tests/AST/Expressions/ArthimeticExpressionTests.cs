@@ -33,7 +33,7 @@ namespace QLParser.Tests.AST.Expressions
             var arthimetric = comparisonNode.Right as ArthimetricExpressionNode;
             Assert.AreEqual(NodeType.LITERAL, arthimetric.Left.GetNodeType());
             Assert.AreEqual(ArthimetricOperator.PLUS, arthimetric.Operator);
-            Assert.AreEqual(NodeType.ARTHIMETIC_EXPRESSION, arthimetric.Right.GetNodeType());
+            Assert.AreEqual(NodeType.ARTHIMETRIC_EXPRESSION, arthimetric.Right.GetNodeType());
             Assert.AreEqual(QValueType.INTEGER, arthimetric.Right.GetQValueType());
         }
 
@@ -47,7 +47,7 @@ namespace QLParser.Tests.AST.Expressions
                 .First().Expression as ComparisonExpressionNode;
 
             var arthimetric = comparisonNode.Right as ArthimetricExpressionNode;
-            Assert.AreEqual(NodeType.ARTHIMETIC_EXPRESSION, arthimetric.Left.GetNodeType());
+            Assert.AreEqual(NodeType.ARTHIMETRIC_EXPRESSION, arthimetric.Left.GetNodeType());
             Assert.AreEqual(ArthimetricOperator.MULT, arthimetric.Operator);
             Assert.AreEqual(NodeType.LITERAL, arthimetric.Right.GetNodeType());
         }

@@ -48,7 +48,7 @@ namespace QLParser.Analysis.Semantic
             {
                 case NodeType.LOGICAL_EXPRESSION:
                 case NodeType.COMPARISON_EXPRESSION:
-                case NodeType.ARTHIMETIC_EXPRESSION:
+                case NodeType.ARTHIMETRIC_EXPRESSION:
                     var statementNode = (ExpressionNode)node;
                     var leftResult = AnalyseExpression(statementNode.Left);
                     var rightResult = AnalyseExpression(statementNode.Right);

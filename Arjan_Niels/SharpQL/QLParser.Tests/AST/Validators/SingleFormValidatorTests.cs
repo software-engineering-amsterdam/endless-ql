@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLParser.Analysis.Syntactic;
+using QLParser.AST;
 using QLParser.AST.Nodes;
 
 namespace QLParser.Tests.AST
@@ -15,23 +16,23 @@ namespace QLParser.Tests.AST
         [TestInitialize]
         public void Initialize()
         {
-            var firstQuestion = new QuestionNode("Q1", "Do you like puppies?", QValueType.BOOLEAN);
-            var secondQuestion = new QuestionNode("Q2", "Do you like kittens?", QValueType.BOOLEAN);
-            var thirdQuestion = new QuestionNode("Q3", "Is this the first question?", QValueType.BOOLEAN);
-            thirdQuestion.AddNode(new FormNode("InvalidFormInLowerLayer"));
-            var forthQuestion = new QuestionNode("Q4", "Is this the forthQuestion?", QValueType.BOOLEAN);
+            var firstQuestion = new QuestionNode(new Location(0, 0), "Q1", "Do you like puppies?", QValueType.BOOLEAN);
+            var secondQuestion = new QuestionNode(new Location(0, 0), "Q2", "Do you like kittens?", QValueType.BOOLEAN);
+            var thirdQuestion = new QuestionNode(new Location(0, 0), "Q3", "Is this the first question?", QValueType.BOOLEAN);
+            thirdQuestion.AddNode(new FormNode(new Location(0, 0), "InvalidFormInLowerLayer"));
+            var forthQuestion = new QuestionNode(new Location(0, 0), "Q4", "Is this the forthQuestion?", QValueType.BOOLEAN);
 
-            _validAST = new FormNode("TestForm");
+            _validAST = new FormNode(new Location(0, 0), "TestForm");
             _validAST.AddNode(firstQuestion);
             _validAST.AddNode(secondQuestion);
 
-            _multipleFormAST = new FormNode("TestForm");
-            _multipleFormAST.AddNode(new FormNode("InvalidForm"));
+            _multipleFormAST = new FormNode(new Location(0, 0), "TestForm");
+            _multipleFormAST.AddNode(new FormNode(new Location(0, 0), "InvalidForm"));
 
-            _multipleFormInLowerNodeAST = new FormNode("InvalidForm");
+            _multipleFormInLowerNodeAST = new FormNode(new Location(0, 0), "InvalidForm");
             _multipleFormInLowerNodeAST.AddNode(thirdQuestion);
 
-            _multipleLayerValidForm = new FormNode("ValidForm");
+            _multipleLayerValidForm = new FormNode(new Location(0, 0), "ValidForm");
             _multipleLayerValidForm.AddNode(forthQuestion);
             forthQuestion.AddNode(firstQuestion);
             forthQuestion.AddNode(secondQuestion);

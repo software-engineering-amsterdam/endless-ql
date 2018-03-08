@@ -1,4 +1,6 @@
-﻿namespace QLParser.AST.Nodes
+﻿using QLParser.AST;
+
+namespace QLParser.AST.Nodes
 {
     public class QuestionNode : Node
     {
@@ -6,7 +8,7 @@
         public string Text { get; private set; }
         public QValueType ValueType { get; private set; }
 
-        public QuestionNode(string id, string text, QValueType questionType) : base(NodeType.QUESTION)
+        public QuestionNode(Location location, string id, string text, QValueType questionType) : base(location, NodeType.QUESTION)
         {
             this.ID = id;
             this.Text = text;

@@ -1,4 +1,5 @@
-﻿using QLParser.AST.Nodes.ExpressionNodes.Enums;
+﻿using QLParser.AST;
+using QLParser.AST.Nodes.ExpressionNodes.Enums;
 using QLParser.Exceptions;
 
 namespace QLParser.AST.Nodes.ExpressionNodes
@@ -13,7 +14,7 @@ namespace QLParser.AST.Nodes.ExpressionNodes
 
         public ComparisonOperator Operator { get; private set; }
 
-        public ComparisonExpressionNode(IExpressionNode left, ComparisonOperator opr, IExpressionNode right) : base(NodeType.COMPARISON_EXPRESSION)
+        public ComparisonExpressionNode(Location location, IExpressionNode left, ComparisonOperator opr, IExpressionNode right) : base(location, NodeType.COMPARISON_EXPRESSION)
         {
             this.Left = left;
             this.Operator = opr;

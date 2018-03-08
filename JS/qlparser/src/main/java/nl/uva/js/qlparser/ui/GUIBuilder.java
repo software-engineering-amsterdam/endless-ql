@@ -19,7 +19,6 @@ public class GUIBuilder {
         JPanel inputPane = new JPanel();
         TextArea inputArea = new TextArea("",0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
         inputArea.setPreferredSize((new Dimension(500, 700)));
-
         inputPane.add(inputArea);
 
         JPanel formPanel = getFormPanel(form);
@@ -34,6 +33,7 @@ public class GUIBuilder {
         TextArea logArea = new TextArea("",0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
         logArea.setPreferredSize((new Dimension(1200, 100)));
         logPane.add(logArea);
+        logPane.setVisible(true);
 
         bottomPane.add(buttonPane, BorderLayout.PAGE_START);
         bottomPane.add(logPane, BorderLayout.PAGE_END);
@@ -56,9 +56,7 @@ public class GUIBuilder {
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         JPanel formPanel       = new JPanel(null);
 
-        contentPanel.setMinimumSize(new Dimension(700, 700));
-        contentPanel.setMaximumSize(new Dimension(700, 700));
-        contentPanel.setPreferredSize(new Dimension(700, 700));
+        contentPanel.setPreferredSize(new Dimension(700, 3000)); // TODO; dynamic height
         contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         List<Component> components = form.getComponents();
@@ -68,7 +66,7 @@ public class GUIBuilder {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(2, 5, 685    , 695);
 
-        formPanel.setPreferredSize(new Dimension(700, 700));
+        formPanel.setPreferredSize(new Dimension(700, 695));
         formPanel.add(scrollPane);
 
         return formPanel;

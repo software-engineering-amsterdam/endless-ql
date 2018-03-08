@@ -72,7 +72,7 @@ class TypeCheckerTest extends WordSpec {
         assert(Right(qlForm) === result)
       }
 
-      "and throw an error when cyclic references are found" in {
+      "and return an error when cyclic references are found" in {
         val qlForm = QLForm(
           "duplicateLabel",
           Seq(
@@ -89,7 +89,7 @@ class TypeCheckerTest extends WordSpec {
               "Found cyclic dependencies: List(q1 -> q3 -> q2 -> q1, q2 -> q1 -> q3 -> q2, q3 -> q2 -> q1 -> q3)")))
       }
 
-      "and throw an error when cyclic references are found inside expressions" in {
+      "and return an error when cyclic references are found inside expressions" in {
         val qlForm = QLForm(
           "duplicateLabel",
           Seq(
@@ -107,7 +107,7 @@ class TypeCheckerTest extends WordSpec {
               "Found cyclic dependencies: List(q1 -> q3 -> q2 -> q1, q2 -> q1 -> q3 -> q2, q3 -> q2 -> q1 -> q3)")))
       }
 
-      "and throw an error when cyclic references are found inside expressions with multiple paths" in {
+      "and return an error when cyclic references are found inside expressions with multiple paths" in {
         val qlForm = QLForm(
           "duplicateLabel",
           Seq(
@@ -124,7 +124,7 @@ class TypeCheckerTest extends WordSpec {
             TypeCheckError("TypeCheckError", "Found cyclic dependencies: List(q1 -> q2 -> q1, q2 -> q1 -> q2)")))
       }
 
-      "and throw an error when multiple cyclic references are found" in {
+      "and return an error when multiple cyclic references are found" in {
         val qlForm = QLForm(
           "cyclicDependencies",
           Seq(
@@ -146,7 +146,7 @@ class TypeCheckerTest extends WordSpec {
     }
 
     "checkReferences" can {
-      "and throw an error when a reference to a non defined question is encountered" in {
+      "and return an error when a reference to a non defined question is encountered" in {
         val qlForm = QLForm(
           "check references",
           Seq(
@@ -159,7 +159,7 @@ class TypeCheckerTest extends WordSpec {
         assert(result === Left(TypeCheckError("TypeCheckError", "Undefined references: List(1)")))
       }
 
-      "and throw an error when a reference to a non defined question is encountered somewhere in an expression" in {
+      "and return an error when a reference to a non defined question is encountered somewhere in an expression" in {
         val qlForm = QLForm(
           "check references in expressions",
           Seq(

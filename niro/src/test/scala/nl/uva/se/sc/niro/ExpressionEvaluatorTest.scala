@@ -68,13 +68,13 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
           (Div, MoneyAnswer(10), IntegerAnswer(5), MoneyAnswer(2)),
           (Div, MoneyAnswer(10), DecimalAnswer(5), MoneyAnswer(2)),
           (Add, IntegerAnswer(10), DecimalAnswer(5), DecimalAnswer(15)),
-//            (Add, DecimalAnswer(10), IntegerAnswer(5), DecimalAnswer(15)),
+          (Add, DecimalAnswer(10), IntegerAnswer(5), DecimalAnswer(15)),
           (Sub, IntegerAnswer(10), DecimalAnswer(6), DecimalAnswer(4)),
-//            (Sub, DecimalAnswer(10), IntegerAnswer(6), DecimalAnswer(4)),
+          (Sub, DecimalAnswer(10), IntegerAnswer(6), DecimalAnswer(4)),
           (Mul, IntegerAnswer(10), DecimalAnswer(5), DecimalAnswer(50)),
-//            (Mul, DecimalAnswer(10), IntegerAnswer(5), DecimalAnswer(50)),
-          (Div, IntegerAnswer(10), DecimalAnswer(5), DecimalAnswer(2))
-//            (Div, DecimalAnswer(10), IntegerAnswer(5), DecimalAnswer(2))
+          (Mul, DecimalAnswer(10), IntegerAnswer(5), DecimalAnswer(50)),
+          (Div, IntegerAnswer(10), DecimalAnswer(5), DecimalAnswer(2)),
+          (Div, DecimalAnswer(10), IntegerAnswer(5), DecimalAnswer(2))
         )
 
         forAll(table) { (operator, left, right, expectedAnswer) =>

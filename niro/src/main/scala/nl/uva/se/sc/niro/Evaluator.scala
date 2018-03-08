@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro
 
-import nl.uva.se.sc.niro.model.expressions._
-import nl.uva.se.sc.niro.model.QLForm.SymbolTable
+import nl.uva.se.sc.niro.model.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model._
+import nl.uva.se.sc.niro.model.expressions._
 import nl.uva.se.sc.niro.model.expressions.answers.Answer
 
 object Evaluator {
@@ -33,12 +33,15 @@ object Evaluator {
   def evaluateExpression(expr: Expression, symbolTable: SymbolTable, dictionary: Dictionary): Answer = expr match {
     case answer: Answer => answer
     case Reference(questionId) =>
-      evaluateExpression(dictionary.get(questionId).orElse(symbolTable.get(questionId)).get, symbolTable, dictionary)
-    case UnaryOperation(operator: UnaryOperator, expression) =>
+      evaluateExpression(
+        dictionary.get(questionId).orElse(symbolTable.get(questionId).map(_.expression)).get,
+        symbolTable,
+        dictionary)
+    case UnaryOperation(operator: Operator, expression) =>
       val answer = evaluateExpression(expression, symbolTable, dictionary)
       answer.applyUnaryOperator(operator)
 
-    case BinaryOperation(operator: BinaryOperator, leftExpression, rightExpression) =>
+    case BinaryOperation(operator: Operator, leftExpression, rightExpression) =>
       val leftAnswer = evaluateExpression(leftExpression, symbolTable, dictionary)
       val rightAnswer = evaluateExpression(rightExpression, symbolTable, dictionary)
       leftAnswer.applyBinaryOperator(operator, rightAnswer)

@@ -1,14 +1,14 @@
 package nl.uva.se.sc.niro.model.expressions
 
-import nl.uva.se.sc.niro.model.{ BinaryOperator, UnaryOperator }
+import nl.uva.se.sc.niro.model.Operator
 
 abstract class Expression
 
 final case class Reference(value: String) extends Expression
 
-final case class BinaryOperation(binaryOperator: BinaryOperator, left: Expression, right: Expression) extends Expression
+final case class BinaryOperation(binaryOperator: Operator, left: Expression, right: Expression) extends Expression
 
-final case class UnaryOperation(unaryOperator: UnaryOperator, left: Expression) extends Expression
+final case class UnaryOperation(unaryOperator: Operator, left: Expression) extends Expression
 
 object Expression {
   def collectAllReferences(expression: Expression): Seq[Reference] = expression match {

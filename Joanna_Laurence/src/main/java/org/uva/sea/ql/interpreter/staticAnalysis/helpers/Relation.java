@@ -18,12 +18,7 @@ public class Relation<T> {
      */
     public boolean addRelation(T elementA, T elementB) {
         AbstractMap.SimpleEntry<T, T> element = new AbstractMap.SimpleEntry<>(elementA, elementB);
-        if(this.relations.contains(element)) {
-            return false;
-        }
-
-        this.relations.add(element);
-        return true;
+        return this.relations.add(element);
     }
 
     public List<T> getCircularDependacies() {

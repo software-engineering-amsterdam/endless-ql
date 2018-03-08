@@ -3,7 +3,7 @@ package com.chariotit.uva.sc.qdsl.ast.symboltable;
 import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
 import com.chariotit.uva.sc.qdsl.ast.node.AstNode;
 
-public abstract class SymbolTableEntry {
+public class SymbolTableEntry {
 
     private String label;
     private AstNode node;
@@ -13,6 +13,12 @@ public abstract class SymbolTableEntry {
     public SymbolTableEntry(String label, AstNode node) {
         this.label = label;
         this.node = node;
+    }
+
+    public SymbolTableEntry(String label, AstNode node, ExpressionType expressionType) {
+        this.label = label;
+        this.node = node;
+        this.expressionType = expressionType;
     }
 
     public String getLabel() {
@@ -29,6 +35,14 @@ public abstract class SymbolTableEntry {
 
     public void setNode(AstNode node) {
         this.node = node;
+    }
+
+    public ExpressionType getExpressionType() {
+        return expressionType;
+    }
+
+    public void setExpressionType(ExpressionType expressionType) {
+        this.expressionType = expressionType;
     }
 
 }

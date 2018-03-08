@@ -158,6 +158,10 @@
       <Project>{7676F4F1-42FC-4A13-8A20-8826B139C98B}</Project>
       <Name>AntlrInterpretor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionaireDomain.Entities.csproj">
+      <Project>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</Project>
+      <Name>QuestionaireDomain.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QuestionaireOrchestration\QuestionaireOrchestration.csproj">
       <Project>{93708D27-D769-4064-8A54-6BFEF8B09F29}</Project>
       <Name>QuestionaireOrchestration</Name>

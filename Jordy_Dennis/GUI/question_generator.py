@@ -20,14 +20,24 @@ class Question_Generator:
 
     # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
     def updateQuestions(self):
-        print("hello")
+        print("update questions")
+        self.questions = collections.OrderedDict()
         self.get_questions(self.ast.form.block)
-
         if self.form:
+            print("-------------------")
+            # printDict(self.ast)
+            # printDict(self.varDict)
+            # self.form.empty_frame()
             for varName in self.questions:
                 label = self.questions[varName].getQuestion()
                 type = self.varDict[varName]['node'].checkTypes()
-                self.form.add_question(varName, label, type)
+                value = self.varDict[varName]['node'].evaluate()
+                if(not checkQuestions(self.form.questions,label)):
+                    self.form.add_question(varName, label, type, value)
+
+            for question in self.form.questions:
+                if(question.varName not in self.questions):
+                    question.frame.destroy()
 
         return self.questions
 
@@ -65,6 +75,11 @@ class Question_Generator:
                 if (elseBlock and not visited):
                     self.get_questions(elseBlock)
 
+def checkQuestions(questions, label):
+    for question in questions:
+        if question.question_text  == label:
+            return True
+    return False
 
 def printDict(dic):
     pp = pprint.PrettyPrinter(indent=4)

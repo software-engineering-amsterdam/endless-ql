@@ -20,12 +20,16 @@ form taxOfficeExample
         (sellingPrice - privateDebt)
   }
   
-/*
+
   elif (hasSoldHouse == hasBoughtHouse) {
-    "Private debts for the sold house:" privateDebt: int
+    "Private debts for the sold house:" privateDebts: int
   }
 
-  if (hasSoldHouse > hasBoughtHouse) {
+  else {
+  	"What was the selling prices?" sellingPrices: int
+  }
+
+  /*if (hasSoldHouse > hasBoughtHouse) {
     "What was the selling price?" sellingPrice: int
     "Private debts for the sold house:" privateDebt: int
     "Value residue:" valueResidue: int = (privateIncome * sellingPrice - !privateDebt)

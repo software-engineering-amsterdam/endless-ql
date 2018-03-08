@@ -33,8 +33,8 @@ class FormGui:
         text.pack(anchor=NW)
         self.header_frame = header_frame
 
-    def add_question(self, varName, question_text="Hi mom", question_type=bool,):
-        q = Question(self.contents, self.questionGenerator, varName, question_text, question_type)
+    def add_question(self, varName, question_text="Hi mom", question_type=bool, value=False):
+        q = Question(self.contents, self.questionGenerator, varName, question_text, question_type, value)
         self.questions.append(q)
 
     def empty_frame(self):
@@ -43,6 +43,11 @@ class FormGui:
         self.sfg = ScrollFrameGui(self.frame)
         self.contents = self.sfg.get_contents()
         return self.contents
+
+    def remove_question(self, varName):
+        for question in self.questions:
+            if question.getVarName == varName:
+                question.empty_frame()
 
     def get_header(self):
         return self.header_frame

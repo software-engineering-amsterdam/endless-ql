@@ -1,6 +1,6 @@
 import { QuestionBase } from './question-base';
 
-export class CheckboxQuestion extends QuestionBase<string> {
+export class BooleanQuestion extends QuestionBase<string> {
   controlType = 'checkbox';
   type: string;
 

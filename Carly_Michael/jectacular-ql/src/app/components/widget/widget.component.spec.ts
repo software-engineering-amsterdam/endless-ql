@@ -3,7 +3,7 @@ import { WidgetComponent } from './widget.component';
 import {MatCheckboxModule, MatFormFieldModule, MatInputModule, MatRadioModule, MatSelectModule, MatSliderModule} from '@angular/material';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Widget, WidgetType} from '../../domain/ast/qls';
-import {TextboxQuestion} from '../../domain/angular-questions/textbox-question';
+import {InputQuestion} from '../../domain/angular-questions/input-question';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from '../../material.module';
 
@@ -18,7 +18,7 @@ describe('WidgetComponent', () => {
     type: 'text',
     value: undefined
   };
-  const question = new TextboxQuestion(options);
+  const question = new InputQuestion(options);
 
   const controls = {};
   controls['question'] = new FormControl({value: ''});

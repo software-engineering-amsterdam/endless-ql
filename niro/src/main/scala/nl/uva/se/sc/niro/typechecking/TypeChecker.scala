@@ -38,13 +38,10 @@ object TypeChecker extends Logging {
       .map(expression => typeOf(expression, qLForm.symbolTable))
       .map(either => either.toValidatedNel)
       .toList
-      .sequenceU_
-      .as(AnswerType)
+      .sequenceU_.as(AnswerType)
       .toEither
-      .left
-      .map(_.toList)
-      .right
-      .map(_ => qLForm)
+      .left.map(_.toList)
+      .right.map(_ => qLForm)
   }
 
   def typeOf(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = expr match {

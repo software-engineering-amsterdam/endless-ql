@@ -34,7 +34,9 @@ class TypeCheckerTest extends WordSpec {
         ))
     }
 
-    "checkOperandsOfInvalidTypeToOperators" in {}
+    "checkOperandsOfInvalidTypeToOperators" in {
+
+    }
 
     "checkNonBooleanPredicates" in {
       val qLForm = QLForm(

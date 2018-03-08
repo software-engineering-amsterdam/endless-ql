@@ -16,19 +16,23 @@ public class GUIBuilder {
     private static final int LOG_HEIGHT    = 100;
     private static final int FOOTER_HEIGHT = BUTTON_HEIGHT + LOG_HEIGHT;
 
-    private static final int FULL_WIDTH  = 1200;
+    private static final int FORM_HEIGHT = 3000; // TODO: Dynamic height
+    private static final int FORM_WIDTH  = 700;
+    private static final int INPUT_WIDTH = 500;
+
     private static final int FULL_HEIGHT = FORM_VIEW_HEIGHT + FOOTER_HEIGHT;
+    private static final int FULL_WIDTH  = FORM_WIDTH + INPUT_WIDTH;
 
     public static Frame getGUI(Form form) {
         Frame mainFrame = getMainFrame();
 
-        JPanel inputPane  = getInputPanel();
-        JPanel formPanel  = getFormPanel(form);
-        JPanel bottomPane = getBottomPanel();
+        JPanel inputPanel  = getTextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT);
+        JPanel formPanel   = getFormPanel(form);
+        JPanel bottomPanel = getBottomPanel();
 
-        mainFrame.add(inputPane, BorderLayout.LINE_START);
+        mainFrame.add(inputPanel, BorderLayout.LINE_START);
         mainFrame.add(formPanel, BorderLayout.CENTER);
-        mainFrame.add(bottomPane, BorderLayout.PAGE_END);
+        mainFrame.add(bottomPanel, BorderLayout.PAGE_END);
 
         mainFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -37,6 +41,7 @@ public class GUIBuilder {
             }
         });
 
+        mainFrame.setVisible(true);
         return mainFrame;
     }
 
@@ -51,23 +56,14 @@ public class GUIBuilder {
         return mainFrame;
     }
 
-    private static JPanel getInputPanel() {
-        JPanel inputPanel  = new JPanel();
-
-        TextArea inputArea = new TextArea("",0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
-        inputArea.setPreferredSize((new Dimension(500, 700)));
-
-        inputPanel.add(inputArea);
-
-        return inputPanel;
-    }
-
     private static JPanel getFormPanel(Form form) {
         JPanel contentPanel    = new JPanel();
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         JPanel formPanel       = new JPanel(null);
 
-        contentPanel.setPreferredSize(new Dimension(700, 3000)); // TODO; dynamic height
+        int panelHeight        = FORM_VIEW_HEIGHT - 5;
+
+        contentPanel.setPreferredSize(new Dimension(FORM_WIDTH, FORM_HEIGHT));
         contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         List<Component> components = form.getComponents();
@@ -75,9 +71,9 @@ public class GUIBuilder {
 
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBounds(2, 5, 685    , 695);
+        scrollPane.setBounds(2, 5, FORM_WIDTH - 15    , panelHeight);
 
-        formPanel.setPreferredSize(new Dimension(700, 695));
+        formPanel.setPreferredSize(new Dimension(FORM_WIDTH, panelHeight));
         formPanel.add(scrollPane);
 
         return formPanel;
@@ -87,7 +83,7 @@ public class GUIBuilder {
         JPanel bottomPanel = new JPanel();
 
         JPanel buttonPanel = getButtonPanel();
-        JPanel logPanel    = getLogPanel();
+        JPanel logPanel    = getTextPanel(FULL_WIDTH, LOG_HEIGHT);
 
         bottomPanel.setLayout(new BorderLayout());
         bottomPanel.add(buttonPanel, BorderLayout.PAGE_START);
@@ -99,18 +95,18 @@ public class GUIBuilder {
 
     private static JPanel getButtonPanel() {
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(1200, 50));
+        buttonPanel.setPreferredSize(new Dimension(FULL_WIDTH, BUTTON_HEIGHT));
         return buttonPanel;
     }
 
-    private static JPanel getLogPanel() {
-        JPanel logPanel = new JPanel();
+    private static JPanel getTextPanel(int width, int height) {
+        JPanel textPanel = new JPanel();
 
-        TextArea logArea = new TextArea("",0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
-        logArea.setPreferredSize((new Dimension(1200, 100)));
+        TextArea textArea = new TextArea("",0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
+        textArea.setPreferredSize(new Dimension(width, height));
 
-        logPanel.add(logArea);
+        textPanel.add(textArea);
 
-        return logPanel;
+        return textPanel;
     }
 }

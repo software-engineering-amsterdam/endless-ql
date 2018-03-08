@@ -70,14 +70,24 @@ def main(argv):
     parser._listeners = [MyErrorListener()]
     qlTree = parser.form()
 
+
     # pass tree to visitor
     qlVisitor = QLVisitor()
     qlVisitor.visit(qlTree)
+
 
     # Get and validate AST -------------------
     ast = qlVisitor.getAst()
     ast.linkVars()
     ast.checkTypes()
+
+    q = Question_Generator(ast.getVarDict(), ast)
+    q.get_questions()
+    exit()
+
+
+
+
     # QLS
     if len(argv)>2:
         input_file = argv[2]

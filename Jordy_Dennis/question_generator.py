@@ -4,6 +4,7 @@
 
 import pprint
 from GUI import Gui
+from AST import *
 class Question_Generator:
 
     def __init__(self, varDict, ast):
@@ -11,6 +12,7 @@ class Question_Generator:
         self.ast = ast
         self.gui = Gui()
         self.create_form()
+        self.questions = {}
 
     def create_form(self):
         # questions, qtypes = self.prepare_questions()
@@ -30,18 +32,30 @@ class Question_Generator:
         # return questions, qtypes
 
     def get_questions(self):
-        for statement in ast.statements():
-            if statement is question:
-                # voeg toe aan ordered dict
-                # key = variable name, value = QuestionNode
-            if statement is assignment:
-                # voer uit en zet in self.vardict ( afhankelijk van vardict)
-            if statement is conditional:
-                #check if condition expression
-                    # is True, get_questions(children)
-                    # if False, check elif and else (opt) and do the same
-        # this generates a ordered dict (variable name: QuestionNode). This dict is used to look up nodes when
-        # looking at the QLS to generate question.
+        for form in self.ast.forms:
+            for statement in form.block:
+                if type(statement) == QuestionNode:
+                    print("QUESTION")
+                    self.questions[statement.getVarName()] = statement
+                elif type(statement) == AssignmentNode:
+                    print("Assignment")
+
+                elif type(statement) == ConditionalNode:
+                    print("CONDITIONAL")
+
+
+        # for statement in ast.statements():
+        #     if statement is question:
+        #         # voeg toe aan ordered dict
+        #         # key = variable name, value = QuestionNode
+        #     if statement is assignment:
+        #         # voer uit en zet in self.vardict ( afhankelijk van vardict)
+        #     if statement is conditional:
+        #         #check if condition expression
+        #             # is True, get_questions(children)
+        #             # if False, check elif and else (opt) and do the same
+        # # this generates a ordered dict (variable name: QuestionNode). This dict is used to look up nodes when
+        # # looking at the QLS to generate question.
 
 
 

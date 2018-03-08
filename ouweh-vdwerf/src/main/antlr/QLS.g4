@@ -8,13 +8,16 @@ stylesheet
     :   'stylesheet' id=ID OPEN_BRACKET page+ CLOSE_BRACKET
     ;
 
+page: 'page' ID OPEN_BRACKET segment+ default* CLOSE_BRACKET;
 
-page: 'page' ID OPEN_BRACKET segment+ CLOSE_BRACKET;
-
-section: 'section' ID OPEN_BRACKET segment+ CLOSE_BRACKET;
+section: 'section' ID OPEN_BRACKET segment+ default* CLOSE_BRACKET;
 
 segment: question
        | section
+       ;
+
+default: 'default' type widget
+       | 'default' type style
        ;
 
 question: 'question' ID widget?;
@@ -28,11 +31,29 @@ widgetType: 'slider'
           | 'checkbox'
           ;
 
-style: OPEN_BRACKET * CLOSE_BRACKET;
+type
+    : 'boolean'                                                             #booleanType
+    | 'integer'                                                             #integerType
+    | 'money'                                                               #moneyType
+    | 'string'                                                              #stringType
+    ;
+
+style: OPEN_BRACKET styleProperty+ CLOSE_BRACKET;
+
+styleProperty: name=STRING ':' value;
+
+value: STRING
+     | NUMBER
+     ;
 
 
+ID:   [a-zA-Z_]+[a-zA-Z0-9_]*;
 
-ID:  [a-zA-Z_]+[a-zA-Z0-9_]*;
+STRING: '"' .*? '"';
+
+NUMBER
+    :   '-'? ('0'..'9')+ ('.' ('0'..'9')+)?
+    ;
 
 WHITESPACE
     :   (' ' | '\t' | '\r'| '\n') -> channel(HIDDEN)

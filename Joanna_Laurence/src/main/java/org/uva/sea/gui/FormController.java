@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.model.GuiModel;
-import org.uva.sea.gui.model.ValueChangeListener;
 import org.uva.sea.gui.render.*;
 import org.uva.sea.ql.interpreter.dataObject.InterpreterResult;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
@@ -18,7 +17,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class FormController implements Initializable, ValueChangeListener {
+public class FormController implements Initializable {
 
     private String defaultQlLocation = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/example.ql";
 
@@ -43,11 +42,6 @@ public class FormController implements Initializable, ValueChangeListener {
         questionRenderer = new QuestionRenderer(renderer);
         warningRenderer = new WarningRenderer(renderer);
         errorRenderer = new ErrorRenderer(renderer);
-        drawGui();
-    }
-
-    @Override
-    public void onChange() {
         drawGui();
     }
 

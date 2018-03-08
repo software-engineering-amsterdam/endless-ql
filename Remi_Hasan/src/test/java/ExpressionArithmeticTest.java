@@ -1,10 +1,12 @@
 import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.generator.InRange;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import model.expression.Expression;
 import model.expression.binary.ExpressionArithmeticDivide;
 import model.expression.binary.ExpressionArithmeticMultiply;
 import model.expression.binary.ExpressionArithmeticSubtract;
 import model.expression.binary.ExpressionArithmeticSum;
+import model.expression.unary.ExpressionUnaryNeg;
 import model.expression.variable.ExpressionVariableInteger;
 import org.junit.runner.RunWith;
 
@@ -14,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class ExpressionArithmeticTest {
 
     @Property
-    public void ExpressionArithmeticDivide(int left, int right) {
+    public void ExpressionArithmeticDividePositive(@InRange(min="0") int left, @InRange(min="0") int right) {
         ANTLRTester tester = new ANTLRTester(left + " / " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
@@ -24,30 +26,80 @@ public class ExpressionArithmeticTest {
     }
 
     @Property
-    public void ExpressionArithmeticMultiply(int left, int right) {
+    public void ExpressionArithmeticDivideNegative(@InRange(max="-1") int left, @InRange(max="-1") int right) {
+        ANTLRTester tester = new ANTLRTester(left + " / " + right);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+
+        Expression leftExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(left)));
+        Expression rightExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(right)));
+
+        ExpressionArithmeticDivide expectedExpression = new ExpressionArithmeticDivide(null, leftExpression, rightExpression);
+        assertEquals(expectedExpression, actualExpression);
+    }
+
+    @Property
+    public void ExpressionArithmeticMultiplyPositive(@InRange(min="0") int left, @InRange(min="0") int right) {
         ANTLRTester tester = new ANTLRTester(left + " * " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+
         ExpressionArithmeticMultiply expectedExpression = new ExpressionArithmeticMultiply(null,
-                new ExpressionVariableInteger(null, left), new ExpressionVariableInteger(null, right));
+                new ExpressionVariableInteger(null, left),  new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
     @Property
-    public void ExpressionArithmeticSubtract(int left, int right) {
+    public void ExpressionArithmeticMultiplyNegative(@InRange(max="-1") int left, @InRange(max="-1") int right) {
+        ANTLRTester tester = new ANTLRTester(left + " * " + right);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+
+        Expression leftExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(left)));
+        Expression rightExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(right)));
+
+        ExpressionArithmeticMultiply expectedExpression = new ExpressionArithmeticMultiply(null, leftExpression, rightExpression);
+        assertEquals(expectedExpression, actualExpression);
+    }
+
+    @Property
+    public void ExpressionArithmeticSubtractPositive(@InRange(min="0") int left, @InRange(min="0") int right) {
         ANTLRTester tester = new ANTLRTester(left + " - " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+
         ExpressionArithmeticSubtract expectedExpression = new ExpressionArithmeticSubtract(null,
-                new ExpressionVariableInteger(null, left), new ExpressionVariableInteger(null, right));
+                new ExpressionVariableInteger(null, left),  new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
     @Property
-    public void ExpressionArithmeticSum(int left, int right) {
+    public void ExpressionArithmeticSubtractNegative(@InRange(max="-1") int left, @InRange(max="-1") int right) {
+        ANTLRTester tester = new ANTLRTester(left + " - " + right);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+
+        Expression leftExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(left)));
+        Expression rightExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(right)));
+
+        ExpressionArithmeticSubtract expectedExpression = new ExpressionArithmeticSubtract(null, leftExpression, rightExpression);
+        assertEquals(expectedExpression, actualExpression);
+    }
+
+    @Property
+    public void ExpressionArithmeticSumPositive(@InRange(min="0") int left, @InRange(min="0") int right) {
         ANTLRTester tester = new ANTLRTester(left + " + " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
         ExpressionArithmeticSum expectedExpression = new ExpressionArithmeticSum(null,
-                new ExpressionVariableInteger(null, left), new ExpressionVariableInteger(null, right));
+                new ExpressionVariableInteger(null, left),  new ExpressionVariableInteger(null, right));
+        assertEquals(expectedExpression, actualExpression);
+    }
+
+    @Property
+    public void ExpressionArithmeticSumNegative(@InRange(max="-1") int left, @InRange(max="-1") int right) {
+        ANTLRTester tester = new ANTLRTester(left + " + " + right);
+        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+
+        Expression leftExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(left)));
+        Expression rightExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(right)));
+
+        ExpressionArithmeticSum expectedExpression = new ExpressionArithmeticSum(null, leftExpression, rightExpression);
         assertEquals(expectedExpression, actualExpression);
     }
 

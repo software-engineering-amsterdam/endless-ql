@@ -16,4 +16,9 @@ public class ExpressionVariableMoney extends ExpressionVariable<BigDecimal> {
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other) && other instanceof ExpressionVariableMoney;
+    }
 }

@@ -10,4 +10,13 @@ public abstract class ExpressionUnary<T> extends Expression {
         this.value = expression;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if(other instanceof ExpressionUnary){
+            ExpressionUnary otherExpressionBinary = (ExpressionUnary) other;
+            return this.value.equals(otherExpressionBinary.value);
+        }
+        return false;
+    }
+
 }

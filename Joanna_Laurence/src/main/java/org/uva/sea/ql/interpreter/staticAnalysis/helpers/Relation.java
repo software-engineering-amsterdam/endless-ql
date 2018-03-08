@@ -8,6 +8,10 @@ public class Relation<T> {
 
     private List<AbstractMap.SimpleEntry<T,T>> relations = new ArrayList<>();
 
+    public boolean addRelation(T element, T relation) {
+        throw new NotImplementedException();
+    }
+
     public List<List<T>> getCircularDependacies() {
         throw new NotImplementedException();
     }

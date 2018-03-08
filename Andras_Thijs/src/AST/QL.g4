@@ -44,17 +44,13 @@ expression : '(' expression ')'
            | expression operator expression;
 
 // Operators
-operator      : booloperator | equaloperator | comparision;
+operator      : booloperator | equaloperator | comparison;
 booloperator  : AND | OR;
 equaloperator : EQUAL | NOTEQUAL;
-comparision   : LESS | GREATER | LESSEQ | GREATEREQ;
+comparison   : LESS | GREATER | LESSEQ | GREATEREQ;
 addsub        : ADDITION | SUBTRACTION;
 muldiv        : MULTIPLICATION | DIVISION;
 factor        : EXPONENT; //TODO
-bool          : BOOLEAN;
-variable      : VARIABLE;
-string        : STRING;
-integer       : INTEGER;
-decimal       : DECIMAL;
 
-term          : bool | variable | string | integer | decimal;
+
+term          : BOOLEAN | VARIABLE | STRING | INTEGER | DECIMAL;

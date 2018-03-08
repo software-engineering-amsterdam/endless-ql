@@ -250,9 +250,17 @@ public class FormReader {
 
             QLParser.BooloperatorContext booloperatorContext = ctx.booloperator();
             QLParser.EqualoperatorContext equaloperatorContext = ctx.equaloperator();
-            QLParser.ComparisionContext comparisionContext = ctx.comparision();
+            QLParser.ComparisonContext comparisonContext = ctx.comparison();
 
             if(booloperatorContext != null){
+                System.out.println(booloperatorContext.getText());
+            }
+
+            if(equaloperatorContext != null){
+                System.out.println(booloperatorContext.getText());
+            }
+
+            if(comparisonContext != null){
                 System.out.println(booloperatorContext.getText());
             }
 

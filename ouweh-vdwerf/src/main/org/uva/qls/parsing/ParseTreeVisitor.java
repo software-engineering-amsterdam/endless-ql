@@ -63,7 +63,10 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
 
     @Override
     public Object visitSegment(QLSParser.SegmentContext ctx) {
-        return super.visitSegment(ctx);
+        if(ctx.section() != null) {
+            return (Section) visit(ctx.section());
+        }
+        return (Question) visit(ctx.question());
     }
 
     @Override

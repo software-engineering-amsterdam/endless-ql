@@ -5,8 +5,11 @@ import antlr.generated.QLSParser;
 
 import org.uva.qls.ast.*;
 import org.uva.qls.ast.DefaultStatement.DefaultStatement;
+import org.uva.qls.ast.Segment.Question;
 import org.uva.qls.ast.Segment.Section;
 import org.uva.qls.ast.Segment.Segment;
+import org.uva.qls.ast.Style.Style;
+import org.uva.qls.ast.Widget.Widget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +73,17 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
 
     @Override
     public Object visitQuestion(QLSParser.QuestionContext ctx) {
-        return super.visitQuestion(ctx);
+        String id = ctx.id.getText();
+        Style style = null;
+        Widget widget = null;
+
+        if(ctx.style() != null) {
+            style = (Style) visit(ctx.style());
+        } else if (ctx.widget() != null) {
+            widget = (Widget) visit(ctx.widget());
+        }
+
+        return new Question(id, style, widget);
     }
 
     @Override

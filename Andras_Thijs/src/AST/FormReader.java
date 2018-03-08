@@ -170,25 +170,22 @@ public class FormReader {
                 return new Expression(termVisitor.visitTerm(ctx.term()));
 
             if(notNode != null)
-                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), new Not());
+                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), new Not(""));
 
-            if(factorContext != null) {
-                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), arithmeticVisitor.visitFactor(factorContext));
-            }
+            if(factorContext != null)
+                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), arithmeticVisitor.visitArithmetic(factorContext));
 
-            if(muldivContext != null) {
-                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), arithmeticVisitor.visitMuldiv(muldivContext));
-            }
+            if(muldivContext != null)
+                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), arithmeticVisitor.visitArithmetic(muldivContext));
 
-            if(addsubContext != null) {
-                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), arithmeticVisitor.visitAddsub(addsubContext));
-            }
+            if(addsubContext != null)
+                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), arithmeticVisitor.visitArithmetic(addsubContext));
 
-            if(operatorContext != null) {
+
+            if(operatorContext != null)
                 return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), operatorVisitor.visitOperator(operatorContext));
-            }
 
-            return new Expression(); //TODO
+            return null; //TODO throw exception
         }
     }
 
@@ -221,24 +218,23 @@ public class FormReader {
 
             // TODO throw error
 
-            return new Boolean(true);
+            return null;
         }
 
     }
 
     private static class ArithmeticVisitor extends QLBaseVisitor<Operator>{
 
-        @Override
-        public Operator visitFactor(@NotNull QLParser.FactorContext ctx) {
-            return new Exponent(); //TODO
+        public Operator visitArithmetic(@NotNull QLParser.FactorContext ctx) {
+            return new ArithmeticOperation(ctx.getText());
         }
 
-        public Operator visitMuldiv(@NotNull QLParser.MuldivContext ctx) {
-            return new Division(); //TODO
+        public Operator visitArithmetic(@NotNull QLParser.MuldivContext ctx) {
+            return new ArithmeticOperation(ctx.getText());
         }
 
-        public Operator visitAddsub(@NotNull QLParser.AddsubContext ctx) {
-            return new Addition(); //TODO
+        public Operator visitArithmetic(@NotNull QLParser.AddsubContext ctx) {
+            return new ArithmeticOperation(ctx.getText());
         }
 
     }
@@ -253,21 +249,19 @@ public class FormReader {
             QLParser.ComparisonContext comparisonContext = ctx.comparison();
 
             if(booloperatorContext != null){
-                System.out.println(booloperatorContext.getText());
+                return new BooleanOperation(booloperatorContext.getText());
             }
 
             if(equaloperatorContext != null){
-                System.out.println(booloperatorContext.getText());
+                return new EqualOperation(equaloperatorContext.getText());
             }
 
             if(comparisonContext != null){
-                System.out.println(booloperatorContext.getText());
+                return new ComparisonOperation(comparisonContext.getText());
             }
 
-
-
-
-            return new Exponent(); //TODO return fitting operator
+            // TODO throw exception
+            return null; //TODO return fitting operator
         }
 
     }

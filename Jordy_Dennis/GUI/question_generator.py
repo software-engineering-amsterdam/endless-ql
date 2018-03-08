@@ -16,8 +16,7 @@ class Question_Generator:
 
     # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
     def getQuestionsFromAst(self):
-        for form in self.ast.forms:
-            self.get_questions(form.block)
+        self.get_questions(self.ast.form.block)
         return self.questions
 
     # Create the list of all the questions by recursively looping through the statements and adding them to te dictionairy

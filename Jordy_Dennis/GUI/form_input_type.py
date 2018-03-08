@@ -56,21 +56,21 @@ class InputTypeMap:
 
     def validateInt(self, var):
         new_val = var.get()
-        # try:
-        new_val == '' or int(new_val)
-        if(new_val == ''):
-            new_val = 0
-        new_val = int(new_val)
-        # save value in vardict
-        varNode = self.varDict[self.varName]['node']
-        varNode.setVar(new_val)
-        # update_questions
-        self.questionGenerator.updateQuestions()
+        try:
+            new_val == '' or int(new_val)
+            if(new_val == ''):
+                new_val = 0
+            new_val = int(new_val)
+            # save value in vardict
+            varNode = self.varDict[self.varName]['node']
+            varNode.setVar(new_val)
+            # update_questions
+            self.questionGenerator.updateQuestions()
 
-        self.old_value = new_val
-        # except:
-        #     print("EXCEPT")
-        #     var.set(self.old_value)
+            self.old_value = new_val
+        except:
+            print("EXCEPT")
+            var.set(self.old_value)
 
     def validateFloat(self, var):
         new_val = var.get()

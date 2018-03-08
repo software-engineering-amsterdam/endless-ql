@@ -1,11 +1,11 @@
-package nl.uva.se.sc.niro.gui
+package nl.uva.se.sc.niro.gui.factory
 
 import java.time.format.DateTimeFormatter
 
 import javafx.scene.control._
 import javafx.util.converter.LocalDateStringConverter
-import nl.uva.se.sc.niro.gui.WidgetFactory.{ DATE_FORMAT, DECIMAL_MASK, INTEGER_MASK, MONEY_MASK }
 import nl.uva.se.sc.niro.gui.builder.TextFormatterBuilder
+import nl.uva.se.sc.niro.gui.factory.WidgetFactory.{ DATE_FORMAT, DECIMAL_MASK, INTEGER_MASK, MONEY_MASK }
 import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
 

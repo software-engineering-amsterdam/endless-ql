@@ -33,8 +33,6 @@ class Gui:
         self.create_form()
         self.execute()
 
-
-
     # Upon creating a new form, create a new frame which is a child from the mainframe.
     # For every form, create the header frame and questions frame and fill the questions frame
     # with questions
@@ -51,7 +49,6 @@ class Gui:
 
         b = Button(self.mainframe, text="OK", command=self.collect_answers)
         b.pack()
-
 
     # Execute the GUI
     def execute(self):

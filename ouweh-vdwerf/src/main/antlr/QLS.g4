@@ -24,11 +24,11 @@ question: 'question' ID widget?;
 
 widget: 'widget' widgetType style?;
 
-widgetType: 'slider'
-          | 'spinbox'
-          | 'text'
-          | 'radio'
-          | 'checkbox'
+widgetType: 'radio' OPEN_PARENTH yes=STRING',' no=STRING CLOSE_PARENTH                     # radio
+          | 'checkbock' OPEN_PARENTH yes=STRING CLOSE_PARENTH                              # checkbox
+          | 'dropdown' OPEN_PARENTH yes=STRING',' no=STRING CLOSE_PARENTH                  # dropdown
+          | 'slider' OPEN_PARENTH start=NUMBER',' end=NUMBER',' step=NUMBER CLOSE_PARENTH  # slider
+          | 'text'                                                                         # text
           ;
 
 type
@@ -40,7 +40,7 @@ type
 
 style: OPEN_BRACKET styleProperty+ CLOSE_BRACKET;
 
-styleProperty: name=STRING ':' value;
+styleProperty: property=STRING ':' value;
 
 value: STRING
      | NUMBER

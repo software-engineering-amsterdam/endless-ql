@@ -2,7 +2,7 @@ package org.uva.forcepushql.ast;
 
 abstract class ASTVisitor<T>{
 
-    public T Visit(BinaryExpression node)
+    public T Visit(ExpressionNode node)
     {
         if(node instanceof AdditionNode)
         {

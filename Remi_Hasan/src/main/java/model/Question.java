@@ -1,19 +1,24 @@
 package model;
 
 import analysis.SymbolTable;
-import expression.Expression;
-import expression.ReturnType;
+import evaluation.ExpressionEvaluator;
+import model.expression.Expression;
+import model.expression.ReturnType;
+import org.antlr.v4.runtime.Token;
 
-public class Question {
+public class Question extends Node {
 
     public final ReturnType type;
     public final String name;
     public final String text;
     public final Expression defaultAnswer;
-    private final Expression condition;
+    public final Expression condition;
     private final boolean isEditable;
 
-    public Question(ReturnType type, String name, String text, Expression defaultAnswer, boolean isEditable, Expression condition) {
+    // TODO: too many args?
+    public Question(Token start, ReturnType type, String name, String text, Expression defaultAnswer,
+                    boolean isEditable, Expression condition) {
+        super(start);
         this.type = type;
         this.name = name;
         this.text = text;
@@ -23,26 +28,11 @@ public class Question {
     }
 
     public boolean isVisible(SymbolTable symbolTable) {
-        return this.condition.evaluate(symbolTable).getBooleanValue();
+        ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(symbolTable);
+        return interpreterVisitor.visit(this.condition).getBooleanValue();
     }
 
     public boolean isEditable() {
         return isEditable;
-    }
-
-    public void typeCheck(SymbolTable symbolTable) {
-        this.condition.typeCheck(symbolTable);
-        this.defaultAnswer.typeCheck(symbolTable);
-
-        // Compare defaultAnswer expression type to question type
-        if(this.type == ReturnType.INTEGER || this.type == ReturnType.DECIMAL || this.type == ReturnType.MONEY) {
-            if(this.defaultAnswer.getReturnType(symbolTable) != ReturnType.NUMBER) {
-                throw new IllegalArgumentException("Cannot assign '"
-                        + this.defaultAnswer.getReturnType(symbolTable) + "' to '" + this.type + "'");
-            }
-        } else if(this.defaultAnswer.getReturnType(symbolTable) != this.type) {
-            throw new IllegalArgumentException("Cannot assign '"
-                    + this.defaultAnswer.getReturnType(symbolTable) + "' to '" + this.type + "'");
-        }
     }
 }

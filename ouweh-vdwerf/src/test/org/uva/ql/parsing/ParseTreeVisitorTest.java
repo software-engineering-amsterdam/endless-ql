@@ -4,11 +4,18 @@ import antlr.generated.QLParser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.uva.ql.ast.expression.binary.*;
-import org.uva.ql.ast.expression.unary.*;
-import org.uva.ql.ast.expression.*;
-import org.uva.ql.ast.*;
-
+import org.uva.ql.ast.CalculatedQuestion;
+import org.uva.ql.ast.Conditional;
+import org.uva.ql.ast.Form;
+import org.uva.ql.ast.Question;
+import org.uva.ql.ast.expression.Expression;
+import org.uva.ql.ast.expression.ParameterGroup;
+import org.uva.ql.ast.expression.binary.And;
+import org.uva.ql.ast.expression.binary.Or;
+import org.uva.ql.ast.expression.unary.BooleanLiteral;
+import org.uva.ql.ast.expression.unary.IntegerLiteral;
+import org.uva.ql.ast.expression.unary.Parameter;
+import org.uva.ql.ast.expression.unary.StringLiteral;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,14 +39,14 @@ public class ParseTreeVisitorTest {
         Assert.assertEquals("Form: Questions\n" +
                 "\t\"Test?\"\ttest:StringType\n" +
                 "\tIf \"1\" == 1 \n" +
-                "\t\t\"Test1?\"\ttest:IntegerType\n",form.toString());
+                "\t\t\"Test1?\"\ttest:IntegerType\n", form.toString());
     }
 
     @Test
     public void visitQuestion() {
         QLParser parser = builder.getQLParser("\"TestQuestion:\" testText: integer");
         Question question = (Question) builder.getStatement(parser);
-        Assert.assertEquals("\"TestQuestion:\"\ttestText:IntegerType",question.toString());
+        Assert.assertEquals("\"TestQuestion:\"\ttestText:IntegerType", question.toString());
     }
 
     @Test
@@ -65,7 +72,7 @@ public class ParseTreeVisitorTest {
                 "1 - 1",
                 "( ( 1 - 1 ) + 1 ) - 1"
         );
-        for (String testCase: testCases) {
+        for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
             Expression expression = builder.getExpression(parser);
             Assert.assertEquals(testCase, expression.toString());
@@ -89,7 +96,7 @@ public class ParseTreeVisitorTest {
                 "( 1 == 1 ) == 1",
                 "( 1 < 1 ) >= ( ( ( 1 < 1 ) > ( 1 == 1 ) ) != 1 ) == 1"
         );
-        for (String testCase: testCases) {
+        for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
             Expression expression = builder.getExpression(parser);
             Assert.assertEquals(testCase, expression.toString());
@@ -136,7 +143,7 @@ public class ParseTreeVisitorTest {
                 "Parameter",
                 "PARAMETER"
         );
-        for (String testCase: testCases) {
+        for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
             Parameter parameter = (Parameter) builder.getExpression(parser);
             Assert.assertEquals(testCase, parameter.toString());
@@ -150,7 +157,7 @@ public class ParseTreeVisitorTest {
                 "\"ABC\"",
                 "\"TestTestTestTestTestTest\""
         );
-        for (String testCase: testCases) {
+        for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
             StringLiteral stringLiteral = (StringLiteral) builder.getExpression(parser);
             Assert.assertEquals(testCase, stringLiteral.toString());
@@ -163,7 +170,7 @@ public class ParseTreeVisitorTest {
                 "TRUE",
                 "FALSE"
         );
-        for (String testCase: testCases) {
+        for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
             BooleanLiteral booleanLiteral = (BooleanLiteral) builder.getExpression(parser);
             Assert.assertEquals(testCase.toLowerCase(), booleanLiteral.toString());
@@ -179,7 +186,7 @@ public class ParseTreeVisitorTest {
                 "10",
                 "2147483647" // Max signed positive int
         );
-        for (String testCase: testCases) {
+        for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
             IntegerLiteral integerLiteral = (IntegerLiteral) builder.getExpression(parser);
             Assert.assertEquals(testCase, integerLiteral.toString());
@@ -204,7 +211,7 @@ public class ParseTreeVisitorTest {
     public void visitCalculatedValue() {
         QLParser parser = builder.getQLParser("\"TestQuestion:\" testText: integer = 10");
         CalculatedQuestion calculatedQuestion = (CalculatedQuestion) builder.getStatement(parser);
-        Assert.assertEquals("\"TestQuestion:\"\ttestText:IntegerType = 10",calculatedQuestion.toString());
+        Assert.assertEquals("\"TestQuestion:\"\ttestText:IntegerType = 10", calculatedQuestion.toString());
     }
 
     @Test
@@ -221,7 +228,7 @@ public class ParseTreeVisitorTest {
                 "1 * 1",
                 "1 / 1"
         );
-        for (String testCase: testCases) {
+        for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
             Expression expression = builder.getExpression(parser);
             Assert.assertEquals(testCase, expression.toString());

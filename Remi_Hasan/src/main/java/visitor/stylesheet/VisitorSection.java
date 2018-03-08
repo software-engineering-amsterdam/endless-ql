@@ -21,8 +21,8 @@ public class VisitorSection extends QLSBaseVisitor<Section> {
 
         // Visit subsections
         List<Section> sections = new ArrayList<>();
-        if(ctx.section() != null){
-            for(QLSParser.SectionContext sectionContext : ctx.section()){
+        if (ctx.section() != null) {
+            for (QLSParser.SectionContext sectionContext : ctx.section()) {
                 Section section = visitorSection.visitSection(sectionContext);
                 sections.add(section);
             }
@@ -30,7 +30,7 @@ public class VisitorSection extends QLSBaseVisitor<Section> {
 
         // Visit defaults
         List<Default> defaults = new ArrayList<>();
-        if(ctx.default_() != null) {
+        if (ctx.default_() != null) {
             for (QLSParser.Default_Context default_context : ctx.default_()) {
                 Default default_ = visitorDefault.visitDefault_(default_context);
                 defaults.add(default_);

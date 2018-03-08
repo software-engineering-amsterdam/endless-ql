@@ -19,9 +19,9 @@ else_elems          : elem+ ;
 question            : STRING ;
 expr                : unop_expr | label_binop_expr | const_binop_expr | constant | label_expr ;
 unop_expr           : unop expr ;
-label_binop_expr    : label binop expr ;
+label_binop_expr    : label_expr binop expr ;
 const_binop_expr    : constant binop expr ;
-label_expr          : label ;
+label_expr          : WORD ;
 constant            : money_constant | string_constant | boolean_constant | integer_constant ;
 money_constant      : NUMBER '.' NUMBER ;
 string_constant     : STRING ;
@@ -29,9 +29,9 @@ boolean_constant    : TRUE | FALSE ;
 integer_constant    : NUMBER ;
 binop               : (MINUS | PLUS | MULTIPLY | DIVIDE | EQ | NEQ | GTE | GT | LTE | LT) ;
 unop                : (MINUS | PLUS | NOT) ;
-type_expr           : type
-                    | type PARENTH_L expr PARENTH_R ;
-type                : (BOOLEAN_TYPE | MONEY_TYPE | INTEGER_TYPE | STRING_TYPE) ;
+type_expr           : typeNode
+                    | typeNode PARENTH_L expr PARENTH_R ;
+typeNode                : (BOOLEAN_TYPE | MONEY_TYPE | INTEGER_TYPE | STRING_TYPE) ;
 
 
 /**

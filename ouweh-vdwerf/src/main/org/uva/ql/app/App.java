@@ -10,40 +10,30 @@ import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.LogHandler;
 import org.uva.ql.validation.Validator;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 
 public class App {
 
     private App() {
-        try {
-            byte[] a = Files.readAllBytes(Paths.get("input/default.ql"));
-            String input = new String(a);
+        Logger logger = Logger.getGlobal();
+        LogManager.getLogManager().reset();
+        logger.addHandler(new LogHandler());
 
-            ASTBuilder builder = new ASTBuilder();
-            Form form = builder.buildAST(input);
+        String input = new InputHandler().readFile("input/default.ql");
+        ASTBuilder builder = new ASTBuilder();
+        Form form = builder.buildAST(input);
 
-            Validator validator = new Validator();
-            validator.execute(form);
+        Validator validator = new Validator(form);
+        validator.run();
 
-            Logger logger = Logger.getGlobal();
-            logger.addHandler(new LogHandler());
+        FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
 
-            FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
-            
-            GUIHandler guiHandler = new GUIHandler(formEvaluator);
-
-        }
-        catch (IOException ex) {
-            System.out.println(ex.toString());
-        }
+        GUIHandler guiHandler = new GUIHandler(formEvaluator);
     }
 
-    public static void main (String [] args) {
+    public static void main(String[] args) {
         new App();
     }
 }

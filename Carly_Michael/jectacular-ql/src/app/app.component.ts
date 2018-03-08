@@ -1,14 +1,12 @@
 import {Component, isDevMode} from '@angular/core';
-import {parse} from '../parser/ql-parser';
-import {parse as parseQls} from '../parser/qls-parser';
 import {QuestionBase} from './domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {QuestionControlService} from './services/question-control.service';
-import {Page, Question as QlsQuestion, Section, Style, Stylesheet, Widget, WidgetType} from './domain/ast/qls';
-import {emptyLoc, Form, QuestionType, Question as QlQuestion} from './domain/ast';
-import {ParseQlWithQlsFactoryService} from './services/parse-ql-with-qls-factory.service';
-import {ParseFactoryInterface} from './services/parse-factory-interface';
-import {ParseQlWithDefaultStylingFactoryService} from './services/parse-ql-with-default-styling-factory.service';
+import {Stylesheet} from './domain/ast/qls';
+import {Form} from './domain/ast';
+import {ParseQlWithQlsFactory} from './factories/parse-ql-with-qls-factory';
+import {ParseFactory} from './factories/parse-factory';
+import {ParseQlWithDefaultStylingFactory} from './factories/parse-ql-with-default-styling-factory';
 
 @Component({
   selector: 'app-root',
@@ -133,11 +131,11 @@ export class AppComponent {
 
   parseInput() {
     try {
-      let factory: ParseFactoryInterface;
+      let factory: ParseFactory;
       if (this.inputQls && this.inputQls !== '') {
-        factory = new ParseQlWithQlsFactoryService(this.input, this.inputQls);
+        factory = new ParseQlWithQlsFactory(this.input, this.inputQls);
       } else {
-        factory = new ParseQlWithDefaultStylingFactoryService(this.input);
+        factory = new ParseQlWithDefaultStylingFactory(this.input);
       }
 
       const parseResult = factory.parse();

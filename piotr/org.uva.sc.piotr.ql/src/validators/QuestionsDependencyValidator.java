@@ -1,23 +1,20 @@
 package validators;
 
-import ast.model.expressions.unary.values.VariableReference;
+import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 public class QuestionsDependencyValidator {
 
-    private HashMap<Question, Node> nodes = new HashMap<>();
+    public HashMap<String, Node> nodes = new HashMap<>();
 
     static class Node {
         private final Question question;
         private final HashSet<Edge> inEdges;
         private final HashSet<Edge> outEdges;
 
-        public Node(Question question) {
+        Node(Question question) {
             this.question = question;
             this.inEdges = new HashSet<>();
             this.outEdges = new HashSet<>();
@@ -53,24 +50,38 @@ public class QuestionsDependencyValidator {
     }
 
     public QuestionsDependencyValidator(HashMap<Question, ArrayList<VariableReference>> questionsMap) {
+        this.CreateGraph(questionsMap);
+    }
+
+    private void CreateGraph(HashMap<Question, ArrayList<VariableReference>> questionsMap) {
 
         // create nodes
         for (Question question : questionsMap.keySet()) {
-            this.nodes.put(question, new Node(question));
+            this.nodes.put(question.getVariableName(), new Node(question));
         }
 
         // create edges
         for (Map.Entry<Question, ArrayList<VariableReference>> entry : questionsMap.entrySet()) {
 
-            // 
+            // for each given question (entry)
+            Node referringNode = this.nodes.get(entry.getKey().getVariableName());
 
+            // find variables that it refers to
             for (VariableReference reference : entry.getValue()) {
-                //this.nodes.get();
+
+                // find node by name
+                Node referredNode = nodes.get(reference.getName());
+
+                // add edge
+                if (referredNode != null) {
+                    referringNode.addEdge(referredNode);
+                }
             }
         }
-
     }
 
 
-
+    private void ConstructTransitiveClosure() {
+        
+    }
 }

@@ -1,5 +1,5 @@
 from AST.types.type import Type
-from PyQt5.QtWidgets import QLabel
+from render.widgets import Label
 
 
 class TypeUndefined(Type):
@@ -10,6 +10,9 @@ class TypeUndefined(Type):
     def __repr__(self):
         return 'undefined'
 
+    def __eq__(self, other):
+        return type(self) == type(other)
+
     @staticmethod
     def pyqt5_default_widget():
-        return QLabel('Undefined')
+        return Label('Undefined')

@@ -1,5 +1,5 @@
 from AST.types.type import Type
-from PyQt5.QtWidgets import QDoubleSpinBox
+from render.widgets import DoubleSpinBox
 
 
 class TypeMoney(Type):
@@ -10,6 +10,9 @@ class TypeMoney(Type):
     def __repr__(self):
         return 'money'
 
+    def __eq__(self, other):
+        return type(self) == type(other)
+
     @staticmethod
     def pyqt5_default_widget():
-        return QDoubleSpinBox()
+        return DoubleSpinBox()

@@ -1,6 +1,6 @@
 package expression
 
-import data.BooleanValue
+import data.value.BooleanValue
 import org.junit.Assert
 import org.junit.Test
 import javax.naming.OperationNotSupportedException

@@ -5,8 +5,8 @@ import org.uva.ql.visitor.ExpressionVisitor;
 
 public class Equal extends BinaryOperation {
 
-    public Equal(Expression left, Expression right){
-        super(left,right);
+    public Equal(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override

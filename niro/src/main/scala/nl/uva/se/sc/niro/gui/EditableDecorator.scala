@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.gui
 
 import javafx.scene.control.{ CheckBox, DatePicker, TextField }
-import nl.uva.se.sc.niro.model.Expressions.{ BinaryOperation, Reference, UnaryOperation }
+import nl.uva.se.sc.niro.model.expressions.{ BinaryOperation, Reference, UnaryOperation }
 import nl.uva.se.sc.niro.model.Question
 
 object EditableDecorator {

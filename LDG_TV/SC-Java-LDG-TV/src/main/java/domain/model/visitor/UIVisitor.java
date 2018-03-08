@@ -1,6 +1,6 @@
 package domain.model.visitor;
 
-import domain.model.expression.Expression;
+import domain.model.value.ExpressionValue;
 import domain.model.variable.BooleanVariable;
 import domain.model.variable.MoneyVariable;
 import domain.model.variable.StringVariable;
@@ -22,7 +22,7 @@ public class UIVisitor implements Visitor {
     }
 
     @Override
-    public Node visit(Expression ev) {
+    public Node visit(ExpressionValue ev) {
         return (Node) new Label("Value");
     }
 

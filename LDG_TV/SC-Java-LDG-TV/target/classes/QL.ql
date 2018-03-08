@@ -1,20 +1,21 @@
-form taxOfficeExample {
+form taxOfficeExample
+{
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
   "Did you buy a house in 2010?"
-    hasBoughtHouse: string
+    hasBoughtHouse: boolean
   "Did you enter a loan?"
     hasMaintLoan: boolean
-  "Did you enter a loan?"
-      hasMaintLoan: string
 
-  if (hasSoldHouse || (hasMaintLoan == hasBoughtHouse)) {
+  if (hasSoldHouse)
+  {
     "What was the selling price?"
-      sellingPrice: money
+      sellingPrice: money = 500
     "Private debts for the sold house:"
-      privateDebt: money
+      privateDebt: money = 300
     "Value residue:"
-      valueResidue: money = (hasSoldHouse / privateDebt)
+      valueResidue: money =
+        (sellingPrice - privateDebt)
   }
 
 }

@@ -85,9 +85,17 @@ public class Main extends Application {
                 return;
             }
 
-            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-            Set<String> typeCheckErrors = typeChecker.typeCheck();
 
+            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
+
+            // Check for duplicate questions with different type
+            Set<String> duplicateQuestionsWithDifferentTypes = typeChecker.getDuplicateQuestionsWithDifferentTypes();
+            if (!duplicateQuestionsWithDifferentTypes.isEmpty()) {
+                showErrorAlert("Redeclaration of questions with different type:", duplicateQuestionsWithDifferentTypes);
+                return;
+            }
+
+            Set<String> typeCheckErrors = typeChecker.typeCheck();
             if (!typeCheckErrors.isEmpty()) {
                 showErrorAlert("Type checking errors:", typeCheckErrors);
                 return;

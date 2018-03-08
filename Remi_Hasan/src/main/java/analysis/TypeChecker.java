@@ -12,8 +12,7 @@ import model.expression.variable.*;
 import model.Form;
 import model.Question;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class TypeChecker implements IASTVisitor<ReturnType> {
 
@@ -53,6 +52,20 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
         }
 
         return this.errors;
+    }
+
+    public Set<String> getDuplicateQuestionsWithDifferentTypes(){
+        Map<String, ReturnType> types = new HashMap<>();
+        for (Question question : form.questions) {
+            types.put(question.name, question.type);
+        }
+        Set<String> duplicateQuestionsWithDifferentType = new HashSet<>();
+        for (Question question : form.questions) {
+            if(types.containsKey(question.name) && !types.get(question.name).eq(question.type)){
+                duplicateQuestionsWithDifferentType.add(question.name + "(" + question);
+            }
+        }
+        return duplicateQuestionsWithDifferentType;
     }
 
     private ReturnType checkBinaryArithmetic(ExpressionBinary e, String operation) {

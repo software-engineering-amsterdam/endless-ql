@@ -36,15 +36,16 @@ class Question_Generator:
         for form in self.ast.forms:
             for statement in form.block:
                 if type(statement) == QuestionNode:
-                    print("QUESTION")
-                    self.questions[statement.getVarName()] = statement
+                    print("")
+                    # self.questions[statement.getVarName()] = statement
                 elif type(statement) == AssignmentNode:
-                    exp = statement.getExpression()
-                    print(exp.evaluate())
+                    statement.evaluate(self.varDict)
+                    # exp = statement.getExpression()
+                    # print(exp.evaluate())
                     
 
                 elif type(statement) == ConditionalNode:
-                    print("CONDITIONAL")
+                    print("")
 
 
         # for statement in ast.statements():

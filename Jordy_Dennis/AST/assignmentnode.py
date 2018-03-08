@@ -56,6 +56,12 @@ class AssignmentNode:
     def getVarName(self):
         return self.varNode.getVarname()
 
+    def evaluate(self, varDict):
+        var = self.getVarName()
+        outcome = self.expression.evaluate()
+        self.varNode.setVar(outcome)
+        varDict[var]['node'] = self.varNode
+
     def getExpression(self):
         return self.expression
 

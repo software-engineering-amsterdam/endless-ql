@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import visitor.VisitorExpression;
 
-class ANTLRTester {
+public class ANTLRTester {
 
     final QLParser parser;
     final VisitorExpression visitor;

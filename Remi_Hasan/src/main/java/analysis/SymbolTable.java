@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SymbolTable {
-    private Map<String, Expression> table;
+    public Map<String, Expression> table;
 
     public SymbolTable() {
         this.table = new HashMap<>();
@@ -22,12 +22,6 @@ public class SymbolTable {
 
         for(Question question : form.questions) {
             table.put(question.name, question.defaultAnswer);
-        }
-    }
-
-    public void printValues() {
-        for (Map.Entry<String, Expression> entry : table.entrySet()) {
-            System.out.println(entry.getKey());
         }
     }
 
@@ -61,29 +55,7 @@ public class SymbolTable {
         }
     }
 
-    // TODO: fails when number value is '-'
-    public void setValue(String identifier, String value, ReturnType type) {
-        if(value.isEmpty()) {
-            this.table.put(identifier, new ExpressionVariableUndefined(type));
-            return;
-        }
-
-        switch(type) {
-            case INTEGER:
-                this.table.put(identifier, new ExpressionVariableInteger(Integer.parseInt(value)));
-                break;
-            case DECIMAL:
-                this.table.put(identifier, new ExpressionVariableDecimal(Double.parseDouble(value)));
-                break;
-            case MONEY:
-                this.table.put(identifier, new ExpressionVariableMoney(value));
-                break;
-            case STRING:
-                this.table.put(identifier, new ExpressionVariableString(value));
-                break;
-            case BOOLEAN:
-                this.table.put(identifier, new ExpressionVariableBoolean(Boolean.valueOf(value)));
-                break;
-        }
+    public void setExpression(String identifier, Expression value) {
+        this.table.put(identifier, value);
     }
 }

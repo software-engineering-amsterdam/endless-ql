@@ -37,7 +37,7 @@ namespace QL_Parser.Analysis.Semantic
             }
             else
             {
-                Analyser.AddMessage(string.Format("Unknown identifier {0} in statement", node.ID), MessageType.ERROR);
+                Analyser.AddMessage(string.Format("Unknown identifier '{0}' in statement", node.ID), MessageType.ERROR);
                 return false;
             }
         }

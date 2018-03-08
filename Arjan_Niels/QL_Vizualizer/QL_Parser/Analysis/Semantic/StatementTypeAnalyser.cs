@@ -33,7 +33,6 @@ namespace QL_Parser.Analysis.Semantic
                     var statementNode = (LogicalExpressionNode)node;
                     var leftSideIsBoolean = AnalyseExpression(statementNode.Left);
                     var rightSideIsBoolean = AnalyseExpression(statementNode.Right);
-
                     return leftSideIsBoolean && rightSideIsBoolean;
                 case NodeType.COMPARISON_EXPRESSION:
                     return true;

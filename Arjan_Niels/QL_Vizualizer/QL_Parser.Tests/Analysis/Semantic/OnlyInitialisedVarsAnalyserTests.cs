@@ -42,7 +42,7 @@ namespace QL_Parser.Tests.Analysis.Semantic
 
             Assert.IsFalse(result);
             Assert.AreEqual(1, Analyser.GetErrors().Count);
-            Assert.AreEqual("ERROR Unknown identifier notInitialisedVar in statement", Analyser.GetErrors()[0]);
+            Assert.AreEqual("ERROR Unknown identifier 'notInitialisedVar' in statement", Analyser.GetErrors()[0]);
 
         }
     }

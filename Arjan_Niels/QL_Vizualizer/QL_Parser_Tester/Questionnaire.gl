@@ -25,5 +25,5 @@
 			wantsCheese: boolean
 	}
 		"Diff:"
-			diff: money = buyingPrice - seenHouse
+			diff: money = buyingPrice - seenHouseOfCards
 }

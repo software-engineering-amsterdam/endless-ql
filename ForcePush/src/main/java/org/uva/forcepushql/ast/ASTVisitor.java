@@ -1,16 +1,27 @@
 package org.uva.forcepushql.ast;
 
-abstract class ASTVisitor<T> extends  BuildASTVisitor{
+abstract class ASTVisitor<T>{
 
-   /* public T Visit(BuildASTVisitor node)
+    public T Visit(ExpressionNode node)
     {
-        if(node is PlusExpression)
+        if(node instanceof AdditionNode)
         {
-            return visitExpression(PlusExpression.node);
+            return Visit((AdditionNode)node);
         }
-        else if(node is MinusExpression)
+        else if(node instanceof SubtractionNode)
         {
-            return Visit((MinusExpression) node);
+            return Visit((SubtractionNode) node);
         }
-    }*/
+        else if(node instanceof DivisionNode)
+        {
+            return Visit((DivisionNode) node);
+        }
+        else if(node instanceof MultiplicationNode)
+        {
+            return Visit((MultiplicationNode) node);
+        }
+        else{
+            return null; //REPLACE WITH ERROR!
+        }
+    }
 }

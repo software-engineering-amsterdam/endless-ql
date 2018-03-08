@@ -8,6 +8,7 @@ class AssignmentNode:
         self.varNode = varNode
         self.expression = expression
         self.line = line
+        self.nodeType = "Assignment"
 
     def changeValue(self, value):
         pass
@@ -45,6 +46,24 @@ class AssignmentNode:
             new_entry["node"] = self.varNode
             new_entry["assign"] = self
             varDict[varname] = new_entry
+
+    def getNodeType(self):
+        return self.nodeType
+
+    def getName(self):
+        return self.question
+
+    def getVarName(self):
+        return self.varNode.getVarname()
+
+    def evaluate(self, varDict):
+        var = self.getVarName()
+        outcome = self.expression.evaluate()
+        self.varNode.setVar(outcome)
+        varDict[var]['node'] = self.varNode
+
+    def getExpression(self):
+        return self.expression
 
 
     def __repr__(self):

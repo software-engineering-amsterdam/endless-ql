@@ -1,16 +1,17 @@
-from sys import exit, argv
-from scanparse.qllex import LexTokenizer
-from scanparse.qlyacc import QLParser
-from visitors.render import Render
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import (QApplication, QDialog,
-                             QDialogButtonBox, QFormLayout, QGroupBox,
-                             QVBoxLayout)
+from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QDialogButtonBox
+from PyQt5.QtWidgets import QFormLayout
+from PyQt5.QtWidgets import QGroupBox
+from PyQt5.QtWidgets import QVBoxLayout
+from PyQt5.QtWidgets import QMessageBox
+from json import dumps
 
 
 class Dialog(QDialog):
     def __init__(self, form):
         super(Dialog, self).__init__()
+        self.form = form
         self.formGroupBox = QGroupBox(form.identifier)
         self.create_form(form)
 
@@ -28,33 +29,32 @@ class Dialog(QDialog):
     def create_form(self, form):
         layout = QFormLayout()
 
-        # TODO evaluate and check show field of question
         for question in form.block:
-            question.pyqt5_render(layout)
+            show = question.evaluate_show_condition(self.form)
+            question.pyqt5_render(layout, show)
+            question.widget.onChange(form.update_show_condition_on_change)
 
         self.formGroupBox.setLayout(layout)
 
-    # TODO output json
-    # @pyqtSlot()
-    # def accept(self):
-    #     pass
+    # TODO unique file name
+    @pyqtSlot()
+    def accept(self):
+        result = {}
 
-    # @pyqtSlot()
-    # def reject(self):
-    #     exit()
+        for child in self.formGroupBox.children()[1:]:
+            question = self.form.find_question_of_widget(child)
 
+            if question:
+                result[question.identifier] = child.value()
 
-if __name__ == '__main__':
-    with open('../tests/test3.ql') as f:
-        data = f.read()
+        print(result)
 
-    parser = QLParser()
-    lexer = LexTokenizer()
-    ast = parser.parser.parse(data, lexer.lexer)
+        with open('out.json', 'w') as file:
+            file.write(dumps(result))
 
-    visitor = Render()
-    visitor.visit(ast)
+        self.close()
+        QMessageBox.information(self, 'Submission', 'Your answers have been submitted successfully.', QMessageBox.Ok, QMessageBox.Ok)
 
-    app = QApplication(argv)
-    dialog = Dialog(visitor.form)
-    exit(dialog.exec_())
+    @pyqtSlot()
+    def reject(self):
+        self.hide()

@@ -11,23 +11,23 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link GrammarParser#compileUnit}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompileUnit(GrammarParser.CompileUnitContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GrammarParser#mathUnit}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMathUnit(GrammarParser.MathUnitContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link GrammarParser#variable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitVariable(GrammarParser.VariableContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link GrammarParser#logical}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLogical(GrammarParser.LogicalContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link GrammarParser#arithmetic}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArithmetic(GrammarParser.ArithmeticContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GrammarParser#type}.
 	 * @param ctx the parse tree
@@ -35,38 +35,53 @@ public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitType(GrammarParser.TypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GrammarParser#comparison}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitComparison(GrammarParser.ComparisonContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link GrammarParser#questionTypes}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitQuestionTypes(GrammarParser.QuestionTypesContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code binaryExpression}
+	 * Visit a parse tree produced by the {@code infixExpression}
 	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBinaryExpression(GrammarParser.BinaryExpressionContext ctx);
+	T visitInfixExpression(GrammarParser.InfixExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code valueExpression}
+	 * Visit a parse tree produced by the {@code numberExpression}
 	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValueExpression(GrammarParser.ValueExpressionContext ctx);
+	T visitNumberExpression(GrammarParser.NumberExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code parensExpression}
+	 * Visit a parse tree produced by the {@code parenthesisExpression}
 	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParensExpression(GrammarParser.ParensExpressionContext ctx);
+	T visitParenthesisExpression(GrammarParser.ParenthesisExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code comparisonExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComparisonExpression(GrammarParser.ComparisonExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code unaryExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnaryExpression(GrammarParser.UnaryExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code logicalExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicalExpression(GrammarParser.LogicalExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GrammarParser#questionFormat}.
 	 * @param ctx the parse tree

@@ -10,7 +10,7 @@ import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;;
 import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.ql.interpreter.staticAnalysis.helpers.TypeCheckSpecification;
-import org.uva.sea.ql.interpreter.visitor.BaseASTVisitor;
+import org.uva.sea.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
 
@@ -20,9 +20,23 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
 
     private HashMap<SpecificationKey, NodeType> typeCheckSpecification;
 
-    public TypeCheck() {
+    /**
+     * Hide constructor
+     */
+    private TypeCheck() {
         TypeCheckSpecification typeCheckSpecification = new TypeCheckSpecification();
         this.typeCheckSpecification = typeCheckSpecification.getSpecification();
+    }
+
+    /**
+     * Hide the visitor, make only doCheck visible
+     */
+    public static class Checker implements IStaticAnalysis {
+        @Override
+        public Messages doCheck(Form node) {
+            IStaticAnalysis checker = new TypeCheck();
+            return checker.doCheck(node);
+        }
     }
 
     /**
@@ -196,7 +210,7 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
 
     @Override
     public NodeType visit(Money node) {
-        return NodeType.MONEY;
+        return node.getType().getNodeType();
     }
 
     @Override

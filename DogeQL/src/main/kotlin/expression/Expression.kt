@@ -1,5 +1,5 @@
 package expression
 
-interface Expression: ExpressionVisitable {
+import expression.visitor.evaluation.EvaluationVisitable
 
-}
+interface Expression: EvaluationVisitable

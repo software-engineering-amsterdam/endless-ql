@@ -63,7 +63,7 @@ DIV: '/';
 SUB: '-';
 MUL: '*';
 AND: '&&';
-OR: 'OR';
+OR: '||';
 TRUE: 'true';
 FALSE: 'false';
 

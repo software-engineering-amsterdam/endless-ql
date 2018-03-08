@@ -52,7 +52,14 @@ namespace QL_Vizualizer.Controllers.Display
         public override float ShowWidget(QLWidget widget, WindowsStyleProperties style)
         {
             // Create control
-            Control control = CreateElement(widget, style);
+            Control control = null;
+            if (ElementIndex.ContainsKey(widget.Identifyer))
+            {
+                control = ElementIndex[widget.Identifyer];
+                control.Location = new Point(0, style.YPosition);
+            }
+            else
+                control = CreateElement(widget, style);
 
             // Calculate bottom position
             int newBottom = control.Height + control.Location.Y;
@@ -188,7 +195,7 @@ namespace QL_Vizualizer.Controllers.Display
             };
         }
 
-        
+
         /// <summary>
         /// Creates label element for title
         /// </summary>

@@ -1,90 +1,37 @@
 package org.uva.ql.validation;
 
-import org.uva.ql.ast.*;
-
-import org.uva.ql.visitor.StatementVisitor;
+import org.uva.ql.ast.Form;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.logging.Logger;
 
-public class Validator implements StatementVisitor<Void, String> {
+public class Validator {
 
-    private SymbolTable symbolTable;
-    private List<Question> questions;
+    private final LogHandler handler;
+    private ArrayList<Checker> checkers = new ArrayList<>();
 
-    public Validator() {
-        this.symbolTable = new SymbolTable();
-        this.questions = new ArrayList<>();
+    public Validator(Form form) {
+        QuestionChecker questionChecker = new QuestionChecker(form);
+        checkers.add(questionChecker);
+
+        ParameterChecker parameterChecker = new ParameterChecker(form, questionChecker.getSymbolTable());
+        checkers.add(parameterChecker);
+
+        DependencyChecker dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());
+        checkers.add(dependencyChecker);
+
+        TypeChecker typeChecker = new TypeChecker(form, questionChecker.getSymbolTable());
+        checkers.add(typeChecker);
+
+        this.handler = (LogHandler) Logger.getGlobal().getHandlers()[0];
     }
 
-    public void execute (Form form) {
-        // Collect all questions from the form & add them to the list.
-        for (Statement statement : form.getStatements()) {
-            statement.accept(this, null);
-        }
-
-        // Add relevant data to the symbol symbolTable.
-        for (Question question : this.questions) {
-//            System.out.println(question);
-            this.symbolTable.add(question.getName(), question.getType());
-        }
-
-        // Check if all question phrases & ID's are unique.
-        findDuplicates();
-
-        ParameterChecker parameterChecker = new ParameterChecker(form, symbolTable);
-
-        DependencyChecker dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());//form, symbolTable
-        dependencyChecker.execute();
-        TypeChecker typeChecker = new TypeChecker();//form, symbolTable
-
-        System.out.println("Total number of questions: " + symbolTable.size());
-    }
-
-    public boolean findDuplicates() {
-        Set<String> questionIDs = new HashSet<>();
-        Set<String> questionTexts = new HashSet<>();
-
-        for (Question question : this.questions) {
-            if (!questionIDs.add(question.getName())) {
-                System.out.printf("WARNING: (var could be overwritten) question name %s already exists\n", question.getName());
+    public void run() {
+        for (Checker checker : checkers) {
+            if (handler.hasErrors()) {
+                break;
             }
-
-            if (!questionTexts.add(question.getContent())) {
-                System.out.printf("WARNING: Question content %s already exists\n", question.getContent());
-            }
+            checker.runCheck();
         }
-        // TODO return something useful here.
-        return false;
-    }
-
-    @Override
-    public Void visit(Question question, String context) {
-        this.questions.add(question);
-
-        return null;
-    }
-
-    @Override
-    public Void visit(Conditional conditional, String context) {
-
-        for (Statement statement : conditional.getIfSide()) {
-            statement.accept(this, null);
-        }
-
-        for (Statement statement : conditional.getElseSide()) {
-            statement.accept(this, null);
-        }
-
-        return null;
-    }
-
-    @Override
-    public Void visit(CalculatedQuestion question, String context) {
-        questions.add(question);
-        symbolTable.add(question.getName(), question.getType());
-        return null;
     }
 }

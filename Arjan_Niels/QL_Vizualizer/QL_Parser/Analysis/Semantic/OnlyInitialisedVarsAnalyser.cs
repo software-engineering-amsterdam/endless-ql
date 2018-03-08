@@ -14,6 +14,11 @@ namespace QL_Parser.Analysis.Semantic
                 var conditionalNode = (ConditionalNode)node;
                 return AnalyseExpression(conditionalNode.Expression);
             }
+            else if (node.Type == NodeType.COMPUTED)
+            {
+                var computedNode = (ComputedNode)node;
+                return AnalyseExpression(computedNode.Expression);
+            }
 
             // Set result to false when any of the children encounters a error.
             foreach (Node child in node.Children)
@@ -48,10 +53,8 @@ namespace QL_Parser.Analysis.Semantic
                     var leftResult = AnalyseExpression(statementNode.Left);
                     var rightResult = AnalyseExpression(statementNode.Right);
                     return leftResult == rightResult;
-
                 case NodeType.LITERAL:
                     return true;
-
                 case NodeType.IDENTIFIER:
                     var valueNode = (IdentifierNode)node;
                     return IsIdentiierInSymbolTable(valueNode);

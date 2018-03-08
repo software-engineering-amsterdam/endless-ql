@@ -5,7 +5,7 @@ import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.Question;
 import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
-import org.uva.sea.ql.interpreter.visitor.BaseASTVisitor;
+import org.uva.sea.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
 
@@ -18,6 +18,24 @@ public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> imple
      * Labels that are associated with variables
      */
     private HashMap<String, NodeType> variables = new HashMap<>();
+
+    /**
+     * Hide constructor
+     */
+    private CheckIncorrectDuplicateQuestions() {
+
+    }
+
+    /**
+     * Hide the visitor, make only doCheck visible
+     */
+    public static class Checker implements IStaticAnalysis {
+        @Override
+        public Messages doCheck(Form node) {
+            IStaticAnalysis checker = new CheckIncorrectDuplicateQuestions();
+            return checker.doCheck(node);
+        }
+    }
 
     /**
      * Report warning

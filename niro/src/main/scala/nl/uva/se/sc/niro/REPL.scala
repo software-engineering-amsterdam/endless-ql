@@ -7,7 +7,7 @@ import javafx.scene.control._
 import javafx.scene.layout.{ HBox, VBox }
 import javafx.scene.text.Font
 import javafx.stage.{ Screen, Stage }
-import nl.uva.se.sc.niro.model.Expressions.answers.IntAnswer
+import nl.uva.se.sc.niro.model.expressions.answers.IntAnswer
 import nl.uva.se.sc.niro.model.{ QLForm, Question, Statement }
 import nl.uva.se.sc.niro.parser.QLFormParser
 import org.antlr.v4.runtime.CharStreams
@@ -16,6 +16,7 @@ import org.apache.logging.log4j.scala.Logging
 import scala.io.Source
 import scala.util.{ Failure, Success, Try }
 
+/** Interactive REPL to help during development. This is throwaway code */
 object REPL {
   def main(args: Array[String]) {
     Application.launch(classOf[REPL], args: _*)
@@ -130,7 +131,7 @@ class REPL extends Application with Logging {
               val intAnswer = IntAnswer(Try(newValue.toInt).toOption)
 
               qlForm = qlForm.save(id, intAnswer)
-              qlForm = Evaluator.evaluateQLForm(qlForm)
+              qlForm = Evaluator.evaluate(qlForm)
 
               astFrame.getChildren.remove(1)
               astFrame.getChildren.add(new Label(prettyPrintQLForm(qlForm)))

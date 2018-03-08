@@ -11,28 +11,36 @@ import java.util.List;
 public class GUIBuilder {
     public static Frame getGUI(Form form) {
         Frame mainFrame = new Frame();
-        mainFrame.setSize(new Dimension(1200, 750));
+        mainFrame.setSize(new Dimension(1200, 730));
         mainFrame.setResizable(false);
         mainFrame.setVisible(true);
         mainFrame.setLayout(new BorderLayout());
 
         JPanel inputPane = new JPanel();
         TextArea inputArea = new TextArea("",0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
-        inputArea.setPreferredSize((new Dimension(300, 700)));
+        inputArea.setPreferredSize((new Dimension(500, 700)));
 
         inputPane.add(inputArea);
 
         JPanel formPanel = getFormPanel(form);
 
+        JPanel bottomPane = new JPanel();
+        bottomPane.setLayout(new BorderLayout());
+
+        JPanel buttonPane = new JPanel();
+        buttonPane.setPreferredSize(new Dimension(1200, 50));
+
         JPanel logPane = new JPanel();
         TextArea logArea = new TextArea("",0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
-        logArea.setPreferredSize((new Dimension(200, 700)));
+        logArea.setPreferredSize((new Dimension(1200, 100)));
         logPane.add(logArea);
 
+        bottomPane.add(buttonPane, BorderLayout.PAGE_START);
+        bottomPane.add(logPane, BorderLayout.PAGE_END);
 
         mainFrame.add(inputPane, BorderLayout.LINE_START);
         mainFrame.add(formPanel, BorderLayout.CENTER);
-        mainFrame.add(logPane, BorderLayout.LINE_END);
+        mainFrame.add(bottomPane, BorderLayout.PAGE_END);
 
         mainFrame.addWindowListener(new WindowAdapter() {
             @Override

@@ -3,8 +3,11 @@ package org.uva.qls.parsing;
 import antlr.generated.QLSBaseVisitor;
 import antlr.generated.QLSParser;
 
+import org.uva.ql.ast.type.*;
 import org.uva.qls.ast.*;
 import org.uva.qls.ast.DefaultStatement.DefaultStatement;
+import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
+import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
 import org.uva.qls.ast.Segment.Question;
 import org.uva.qls.ast.Segment.Section;
 import org.uva.qls.ast.Segment.Segment;
@@ -71,7 +74,11 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
 
     @Override
     public Object visitDefaultStatement(QLSParser.DefaultStatementContext ctx) {
-        return super.visitDefaultStatement(ctx);
+        Type type = (Type) visit(ctx.type());
+        if(ctx.style() != null) {
+            return new DefaultStyleStatement(type, (Style) visit(ctx.style()));
+        }
+        return new DefaultWidgetStatement(type, (Widget) visit(ctx.widget()));
     }
 
     @Override

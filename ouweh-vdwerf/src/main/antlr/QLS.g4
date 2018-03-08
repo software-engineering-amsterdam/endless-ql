@@ -8,9 +8,9 @@ stylesheet
     :   'stylesheet' id=ID OPEN_BRACKET page+ CLOSE_BRACKET
     ;
 
-page: 'page' ID OPEN_BRACKET segment+ defaultStatement* CLOSE_BRACKET;
+page: 'page' id=ID OPEN_BRACKET segment+ defaultStatement* CLOSE_BRACKET;
 
-section: 'section' ID OPEN_BRACKET segment+ defaultStatement* CLOSE_BRACKET;
+section: 'section' id=ID OPEN_BRACKET segment+ defaultStatement* CLOSE_BRACKET;
 
 segment: question
        | section
@@ -20,8 +20,8 @@ defaultStatement: 'default' type widget
                 | 'default' type style
                 ;
 
-question: 'question' ID widget?
-        | 'question' ID style?
+question: 'question' id=ID widget?
+        | 'question' id=ID style?
         ;
 
 widget: 'widget' widgetType;

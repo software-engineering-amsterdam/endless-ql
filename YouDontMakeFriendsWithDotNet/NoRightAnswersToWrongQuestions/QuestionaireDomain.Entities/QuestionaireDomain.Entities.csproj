@@ -30,8 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.ZipFile">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,7 +63,7 @@
     <Compile Include="API\AstNodes\Calculation\ITerminal.cs" />
     <Compile Include="API\AstNodes\Calculation\IMultiplyNode.cs" />
     <Compile Include="API\AstNodes\Calculation\INumberNode.cs" />
-    <Compile Include="API\AstNodes\Calculation\ICalcualtionVariableNode.cs" />
+    <Compile Include="API\AstNodes\Calculation\ICalculationVariableNode.cs" />
     <Compile Include="API\AstNodes\Calculation\ISubtractNode.cs" />
     <Compile Include="API\AstNodes\IVariableNode.cs" />
     <Compile Include="API\AstNodes\Questionnaire\ICalculatedQuestionNode.cs" />
@@ -85,42 +92,58 @@
     <Compile Include="API\AstNodes\Calculation\IDivideNode.cs" />
     <Compile Include="API\IDomainItem.cs" />
     <Compile Include="API\IDomainItemLocator.cs" />
-    <Compile Include="API\IIdMaker.cs" />
+    <Compile Include="API\IDomainItemRegistry.cs" />
     <Compile Include="API\IQlInterpretor.cs" />
     <Compile Include="API\AstNodes\Questionnaire\IQuestionnaireNode.cs" />
-    <Compile Include="DomainObjects\AndNode.cs" />
-    <Compile Include="DomainObjects\BooleanLiteralNode.cs" />
-    <Compile Include="DomainObjects\BooleanVariableNode.cs" />
-    <Compile Include="DomainObjects\CalculatedQuestion.cs" />
-    <Compile Include="DomainObjects\DateNode.cs" />
-    <Compile Include="DomainObjects\DateVariableNode.cs" />
-    <Compile Include="DomainObjects\DivideNode.cs" />
-    <Compile Include="DomainObjects\EqualityNode.cs" />
-    <Compile Include="DomainObjects\GreaterOrEqualNode.cs" />
-    <Compile Include="DomainObjects\GreaterThanNode.cs" />
-    <Compile Include="DomainObjects\InequalityNode.cs" />
-    <Compile Include="DomainObjects\LessThanNode.cs" />
-    <Compile Include="DomainObjects\MultiplyNode.cs" />
-    <Compile Include="DomainObjects\NegateNode.cs" />
-    <Compile Include="DomainObjects\NumberNode.cs" />
-    <Compile Include="DomainObjects\CalculationVariableNode.cs" />
+    <Compile Include="API\Output\IQuestionnaire.cs" />
+    <Compile Include="AstFactory.cs" />
+    <Compile Include="DomainItemRegistry.cs" />
+    <Compile Include="DomainObjects\Ast\AndNode.cs" />
+    <Compile Include="DomainObjects\Ast\BooleanNode.cs" />
+    <Compile Include="DomainObjects\Ast\BooleanVariableNode.cs" />
+    <Compile Include="DomainObjects\Ast\CalculatedQuestionNode.cs" />
+    <Compile Include="DomainObjects\Ast\DateNode.cs" />
+    <Compile Include="DomainObjects\Ast\DateVariableNode.cs" />
+    <Compile Include="DomainObjects\Ast\DivideNode.cs" />
+    <Compile Include="DomainObjects\Ast\EqualityNode.cs" />
+    <Compile Include="DomainObjects\Ast\GreaterOrEqualNode.cs" />
+    <Compile Include="DomainObjects\Ast\GreaterThanNode.cs" />
+    <Compile Include="DomainObjects\Ast\InequalityNode.cs" />
+    <Compile Include="DomainObjects\Ast\LessOrEqualNode.cs" />
+    <Compile Include="DomainObjects\Ast\LessThanNode.cs" />
+    <Compile Include="DomainObjects\Ast\MultiplyNode.cs" />
+    <Compile Include="DomainObjects\Ast\NegateNode.cs" />
+    <Compile Include="DomainObjects\Ast\NumberNode.cs" />
+    <Compile Include="DomainObjects\Ast\CalculationVariableNode.cs" />
     <Compile Include="API\QlParserException.cs" />
-    <Compile Include="DomainObjects\AstNodeBase.cs" />
-    <Compile Include="DomainObjects\CalculationNode.cs" />
+    <Compile Include="DomainObjects\Ast\AstNodeBase.cs" />
+    <Compile Include="DomainObjects\Ast\TextVariableNode.cs" />
     <Compile Include="DomainObjects\CommandObjectRegistry.cs" />
-    <Compile Include="DomainObjects\ConditionalAst.cs" />
+    <Compile Include="DomainObjects\Ast\ConditionalAst.cs" />
     <Compile Include="API\AstNodes\IAstNode.cs" />
     <Compile Include="API\IAstVisitor.cs" />
-    <Compile Include="DomainObjects\OrNode.cs" />
-    <Compile Include="DomainObjects\RelationalOperationNode.cs" />
-    <Compile Include="DomainObjects\TextNode.cs" />
-    <Compile Include="DomainObjects\UserInputQuestion.cs" />
-    <Compile Include="DomainObjects\QuestionnaireRootNode.cs" />
+    <Compile Include="DomainObjects\Ast\OrNode.cs" />
+    <Compile Include="DomainObjects\Ast\RelationalOperationNode.cs" />
+    <Compile Include="DomainObjects\Ast\TextNode.cs" />
+    <Compile Include="DomainObjects\Ast\UserInputQuestionNode.cs" />
+    <Compile Include="DomainObjects\Ast\QuestionnaireRootNode.cs" />
     <Compile Include="DomainObjects\Reference.cs" />
-    <Compile Include="DomainObjects\VariableNodeBase.cs" />
+    <Compile Include="DomainObjects\Ast\VariableNodeBase.cs" />
+    <Compile Include="EntitiesModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DomainObjects\Evaluated\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
+      <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>
+      <Name>QuestionnaireInfrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

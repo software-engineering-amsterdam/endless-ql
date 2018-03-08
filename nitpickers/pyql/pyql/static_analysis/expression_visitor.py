@@ -1,5 +1,4 @@
 from multimethods import multimethod
-from pyql.static_analysis import symbol_table
 from pyql.ast.expression.expressions import *
 from pyql.ast.expression.literals import *
 from pyql.util import types
@@ -7,9 +6,12 @@ from pyql.util import types
 
 class ExpressionVisitor:
 
+    def __init__(self, symbol_table):
+        self.symbol_table = symbol_table
+
     @multimethod(Identifier)
     def visit(self, identifier):
-        print(symbol_table.get(identifier))
+        print(self.symbol_table.get(identifier))
 
     @multimethod(MoneyLiteral)
     def visit(self, money_literal):

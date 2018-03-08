@@ -46,5 +46,10 @@ class Date(Type):
 
 class Money(Type):
 
-    def __init__(self):
+    def __init__(self, expression=None):
         super().__init__("Money")
+        self._expression = expression
+
+    @property
+    def expression(self):
+        return self._expression

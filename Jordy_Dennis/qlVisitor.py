@@ -29,7 +29,7 @@ class QLVisitor(QLGrammarVisitor):
         # add all the statements to the block
         formNode.addStatements(statements)
 
-        self.QLAst.addForm(formNode)
+        self.QLAst.form = formNode
 
     # Visit a parse tree produced by QLGrammarParser#block.
     def visitBlock(self, ctx: QLGrammarParser.BlockContext):
@@ -55,7 +55,7 @@ class QLVisitor(QLGrammarVisitor):
         varName = ctx.ID().getText()
         varType = self.visit(ctx.types())
 
-        varNode = VarNode(varName, varType, ctx.start.line)
+        varNode = VarNode(varName, varType, ctx.start.line, True)
         questionN = QuestionNode(question, varNode, ctx.start.line)
 
         return questionN

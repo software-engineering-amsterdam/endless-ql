@@ -33,7 +33,7 @@ public class QuestionDependencyData {
 
 	public void add(ComputedQuestion question) {
 		Expression expression = question.getExpression();
-		QuestionDependency dependency = getDependency(question.getName());
+		QuestionDependency dependency = getDependency(question.getIdentifier().toString());
 		for (String var:expression.collectVariables()) {
 			dependency.addDependency(var);
 		}
@@ -60,8 +60,8 @@ public class QuestionDependencyData {
 	    	// check for each circle add it to paths
 	    	getPaths().forEach(path -> {
 	    		if (path.hasCircle()) {circlePaths.add(path); }
-	      });
-	      return Collections.unmodifiableList(circlePaths);
+	    	});
+	    	return Collections.unmodifiableList(circlePaths);
 	    }
 
 	    private List<QuestionDependencyData.DependencyPath> getPaths() {

@@ -114,7 +114,7 @@ public class TypeChecker {
 	public void addQuestionToMaps(Question question) {
 		List<Question> idQuestionList;
 		List<Question> nameQuestionList;
-		idQuestionList = mapIdQuestion.computeIfAbsent(question.getIdentifier().getIdentifier(), x -> new ArrayList<>());
+		idQuestionList = mapIdQuestion.computeIfAbsent(question.getIdentifier().toString(), x -> new ArrayList<>());
 		nameQuestionList = mapNameQuestion.computeIfAbsent(question.getName(), x -> new ArrayList<>());
 		idQuestionList.add(question);
 		nameQuestionList.add(question);
@@ -170,13 +170,15 @@ public class TypeChecker {
                          @Override
                          public Void visit(ComputedQuestion question, Void ctx) {
                         	 dependencyTable.add(question);
+                        	 //System.out.print(question.getLocation().getStartLine());
                            return null;
                          }
                        }, null);
 
 	    for (QuestionDependency dependency : dependencyTable.getDependencies()) {
-	    	boolean[] found = {false}; 
+	    	boolean[] found = {false};
 	    	mapIdQuestion.forEach((key, value) -> {
+		    	//System.out.print(key.toString() + "=====" + value);
 	    		if (dependency.toString() == key) {
 	    			found[0] = true; // because we cannot change local boolean from lambda expr
 	    		}

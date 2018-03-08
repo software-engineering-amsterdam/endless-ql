@@ -33,8 +33,10 @@ class ParseTreeVisitor(QLVisitor):
         return self.visitChildren(ctx)
 
     def visitQuestion(self, ctx: QLParser.QuestionContext):
-        return Question(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(),
-                        ctx.questionType().accept(self))
+        questionType = ctx.questionType().accept(self)
+        if isinstance(questionType, Money) and questionType.expression is not None:
+            return ComputedQuestion(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(), Money(), questionType.expression)
+        return Question(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(), questionType)
 
     def visitBooleanType(self, ctx: QLParser.BooleanTypeContext):
         return Boolean()
@@ -51,8 +53,11 @@ class ParseTreeVisitor(QLVisitor):
     def visitDecimalType(self, ctx: QLParser.DecimalTypeContext):
         return Decimal()
 
-    def visitMoneyType(self, ctx: QLParser.MoneyTypeContext):
+    def visitBasicMoneyType(self, ctx: QLParser.BasicMoneyTypeContext):
         return Money()
+
+    def visitComputedMoneyType(self, ctx: QLParser.ComputedMoneyTypeContext):
+        return Money(ctx.addExpression().accept(self))
 
     def visitExpression(self, ctx: QLParser.ExpressionContext):
         return self.visitChildren(ctx)
@@ -124,9 +129,6 @@ class ParseTreeVisitor(QLVisitor):
 
     def visitIdentifier(self, ctx: QLParser.IdentifierContext):
         return Identifier(self.location(ctx), ctx.getText())
-
-    def visitMoney(self, ctx: QLParser.MoneyContext):
-        print("visit money")
 
     def location(self, context):
         return CodeLocation(context.start.line, context.start.column)

@@ -7,8 +7,8 @@ public class VariableReference extends Expression {
 
     private String name;
 
-    public VariableReference(String name, Integer startLine, Integer endLine) {
-        super(startLine, endLine);
+    public VariableReference(String name, MetaInformation metaInformation) {
+        super(metaInformation);
         this.name = name;
     }
 
@@ -21,8 +21,7 @@ public class VariableReference extends Expression {
     }
 
     @Override
-    public void accept(ASTNodeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(ASTNodeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
-
 }

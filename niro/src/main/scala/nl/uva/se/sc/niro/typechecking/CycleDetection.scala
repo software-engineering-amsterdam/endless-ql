@@ -7,10 +7,8 @@ object CycleDetection extends Logging {
   case class Edge(from: String, to: String)
   type Graph = Seq[Edge]
 
-  def graphToString(followedPath: Graph): String = {
-    (followedPath.init.map(_.from) :+ followedPath.last.from :+ followedPath.last.to).mkString(" -> ")
-  }
-
+  /** Returns a sequence of detected cycles or an empty sequence if no cycles are found.
+    * */
   def detectCycles(graph: Graph, followedPath: Graph): Seq[Graph] = {
     logger.info(s"Detecting cycles in graph: $graph. Now traversing: $followedPath")
 
@@ -32,5 +30,9 @@ object CycleDetection extends Logging {
         }
       }
     }
+  }
+
+  def graphToString(followedPath: Graph): String = {
+    (followedPath.init.map(_.from) :+ followedPath.last.from :+ followedPath.last.to).mkString(" -> ")
   }
 }

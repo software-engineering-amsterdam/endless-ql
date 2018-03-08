@@ -10,6 +10,7 @@ from parser_generator.grammar.QLParser import QLParser
 
 def run_antlr_parse_gen():
     if sys.platform == 'win32':
+        pass
         # todo: make sure classpath always works
         os.system('SET CLASSPATH=.;C:\\Javalib\\antlr-4.7.1-complete.jar;')
         os.system(

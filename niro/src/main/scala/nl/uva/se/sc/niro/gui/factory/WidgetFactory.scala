@@ -5,54 +5,37 @@ import java.time.format.DateTimeFormatter
 import javafx.scene.control._
 import javafx.util.converter.LocalDateStringConverter
 import nl.uva.se.sc.niro.gui.builder.TextFormatterBuilder
-import nl.uva.se.sc.niro.gui.factory.WidgetFactory.{ DATE_FORMAT, DECIMAL_MASK, INTEGER_MASK, MONEY_MASK }
-import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
 
-abstract class AbstractWidgetFactory {
-  def make(question: GUIQuestion): Control
-}
-
-object WidgetFactory extends AbstractWidgetFactory {
+trait WidgetFactory {
   val INTEGER_MASK = "\\d*"
   val DECIMAL_MASK = "\\d*(\\.\\d*)?"
   val MONEY_MASK = "\\d*(\\.\\d{0,2})?"
   val DATE_FORMAT = "yyyy-MM-dd"
-
-  override def make(question: GUIQuestion): Control = {
-    question.answerType match {
-      case BooleanType => BooleanWidgetFactory.make(question)
-      case StringType  => StringWidgetFactory.make(question)
-      case IntegerType => IntegerWidgetFactory.make(question)
-      case DecimalType => DecimalWidgetFactory.make(question)
-      case MoneyType   => MoneyWidgetFactory.make(question)
-      case DateType    => DateWidgetFactory.make(question)
-    }
-  }
 }
 
-object BooleanWidgetFactory extends AbstractWidgetFactory {
+object BooleanWidgetFactory extends WidgetFactory {
   def make(question: GUIQuestion): Control = {
     new CheckBox()
   }
 }
 
-object StringWidgetFactory extends AbstractWidgetFactory {
+object StringWidgetFactory extends WidgetFactory {
   def make(question: GUIQuestion): Control = {
     new TextField()
   }
 }
 
-object IntegerWidgetFactory extends AbstractWidgetFactory {
+object IntegerWidgetFactory extends WidgetFactory {
   def make(question: GUIQuestion): Control = {
     val integerField = new TextField()
     integerField.setTextFormatter(
-      TextFormatterBuilder[Int]().buildInputFilter(INTEGER_MASK).buildIntegerConverter().build())
+      TextFormatterBuilder[java.lang.Integer]().buildInputFilter(INTEGER_MASK).buildIntegerConverter().build())
     integerField
   }
 }
 
-object DecimalWidgetFactory extends AbstractWidgetFactory {
+object DecimalWidgetFactory extends WidgetFactory {
   def make(question: GUIQuestion): Control = {
     val decimalField = new TextField()
     decimalField.setTextFormatter(
@@ -61,7 +44,7 @@ object DecimalWidgetFactory extends AbstractWidgetFactory {
   }
 }
 
-object MoneyWidgetFactory extends AbstractWidgetFactory {
+object MoneyWidgetFactory extends WidgetFactory {
   def make(question: GUIQuestion): Control = {
     val moneyField = new TextField()
     moneyField.setTextFormatter(
@@ -70,7 +53,7 @@ object MoneyWidgetFactory extends AbstractWidgetFactory {
   }
 }
 
-object DateWidgetFactory extends AbstractWidgetFactory {
+object DateWidgetFactory extends WidgetFactory {
   def make(question: GUIQuestion): Control = {
     val dateField = new DatePicker()
     val dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT)

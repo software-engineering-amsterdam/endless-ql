@@ -4,7 +4,7 @@ import java.time.LocalDate
 
 import javafx.scene.control._
 import javafx.scene.layout.HBox
-import nl.uva.se.sc.niro.gui.factory.WidgetFactory
+import nl.uva.se.sc.niro.gui.factory._
 import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.expressions.answers._
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
@@ -113,12 +113,12 @@ case class MoneyComponent(id: String, label: Label, control: Control)
 object ComponentFactory {
   def make(question: GUIQuestion): Component[_] = {
     val component = question.answerType match {
-      case StringType  => StringComponent(question.id, new Label(question.label), WidgetFactory.make(question))
-      case BooleanType => BooleanComponent(question.id, new Label(question.label), WidgetFactory.make(question))
-      case DateType    => DateComponent(question.id, new Label(question.label), WidgetFactory.make(question))
-      case IntegerType => IntegerComponent(question.id, new Label(question.label), WidgetFactory.make(question))
-      case DecimalType => DecimalComponent(question.id, new Label(question.label), WidgetFactory.make(question))
-      case MoneyType   => MoneyComponent(question.id, new Label(question.label), WidgetFactory.make(question))
+      case StringType  => StringComponent(question.id, new Label(question.label), StringWidgetFactory.make(question))
+      case BooleanType => BooleanComponent(question.id, new Label(question.label), BooleanWidgetFactory.make(question))
+      case DateType    => DateComponent(question.id, new Label(question.label), DateWidgetFactory.make(question))
+      case IntegerType => IntegerComponent(question.id, new Label(question.label), IntegerWidgetFactory.make(question))
+      case DecimalType => DecimalComponent(question.id, new Label(question.label), DecimalWidgetFactory.make(question))
+      case MoneyType   => MoneyComponent(question.id, new Label(question.label), MoneyWidgetFactory.make(question))
     }
     component.setReadOnly(question.isReadOnly)
     question.component = Some(component)

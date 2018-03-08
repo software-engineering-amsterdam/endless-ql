@@ -75,6 +75,7 @@ object TypeChecker extends Logging {
         operand match {
           case _: IntegerAnswer => None
           case _: DecimalAnswer => None
+          case _: MoneyAnswer => None
           case _                => Some(TypeCheckError(message = "Operand of invalid type"))
         }
       case _: BooleanOperator =>

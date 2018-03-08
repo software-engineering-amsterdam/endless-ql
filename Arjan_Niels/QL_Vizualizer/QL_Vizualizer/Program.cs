@@ -1,13 +1,9 @@
-﻿using QL_Vizualizer.Controllers;
-using QL_Vizualizer.Controllers.Display;
-using QL_Vizualizer.Style;
+﻿using QLVizualizer.Controllers;
+using QLVizualizer.Controllers.Display;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace QL_Vizualizer
+namespace QLVizualizer
 {
     static class Program
     {

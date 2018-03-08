@@ -1,10 +1,10 @@
 ﻿using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Vizualizer.Controllers;
-using QL_Vizualizer.Controllers.Display;
-using QL_Vizualizer.Factories;
-using QL_Vizualizer.Style;
-using QL_Vizualizer.ElementManagers.Types;
+using QLVizualizer.Controllers;
+using QLVizualizer.Controllers.Display;
+using QLVizualizer.Factories;
+using QLVizualizer.Style;
+using QLVizualizer.ElementManagers.Types;
 
 namespace QL_Visualizer.Tests.Elements
 {

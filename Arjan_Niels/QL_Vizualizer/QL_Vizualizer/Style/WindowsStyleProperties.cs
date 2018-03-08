@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QL_Vizualizer.Style
+namespace QLVizualizer.Style
 {
     public class WindowsStyleProperties : ICloneable
     {

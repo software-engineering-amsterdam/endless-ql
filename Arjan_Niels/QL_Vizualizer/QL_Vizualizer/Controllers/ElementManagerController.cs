@@ -1,13 +1,13 @@
 ﻿using QLParser;
 using QLParser.Analysis;
 using QLParser.AST.Nodes;
-using QL_Vizualizer.Factories;
-using QL_Vizualizer.ElementManagers;
+using QLVizualizer.Factories;
+using QLVizualizer.ElementManagers;
 using System.Collections.Generic;
 using System.Linq;
 
 
-namespace QL_Vizualizer.Controllers
+namespace QLVizualizer.Controllers
 {
     /// <summary>
     /// Stores used Widgets

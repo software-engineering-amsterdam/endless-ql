@@ -1,8 +1,8 @@
 ﻿using System;
-using QL_Vizualizer.Expression;
-using QL_Vizualizer.Expression.Types;
+using QLVizualizer.Expression;
+using QLVizualizer.Expression.Types;
 
-namespace QL_Vizualizer.ElementManagers.Types
+namespace QLVizualizer.ElementManagers.Types
 {
     public class MoneyElementManager : QuestionElementManager<double>
     {

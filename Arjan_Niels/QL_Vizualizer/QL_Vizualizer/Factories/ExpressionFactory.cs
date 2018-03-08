@@ -1,13 +1,13 @@
 ﻿using QLParser.AST.Nodes;
 using QLParser.AST.Nodes.ExpressionNodes;
-using QL_Vizualizer.Controllers;
-using QL_Vizualizer.Expression;
-using QL_Vizualizer.Expression.Types;
-using QL_Vizualizer.ElementManagers.Types;
+using QLVizualizer.Controllers;
+using QLVizualizer.Expression;
+using QLVizualizer.Expression.Types;
+using QLVizualizer.ElementManagers.Types;
 using System;
 using QLParser.AST.Nodes.ExpressionNodes.Enums;
 
-namespace QL_Vizualizer.Factories
+namespace QLVizualizer.Factories
 {
     public class ExpressionFactory
     {

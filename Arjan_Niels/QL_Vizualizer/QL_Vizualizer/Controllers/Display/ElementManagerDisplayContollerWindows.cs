@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using QL_Vizualizer.Expression;
-using QL_Vizualizer.Expression.Types;
-using QL_Vizualizer.Factories;
-using QL_Vizualizer.Properties;
-using QL_Vizualizer.Style;
-using QL_Vizualizer.ElementManagers;
-using QL_Vizualizer.ElementManagers.Types;
+using QLVizualizer.Expression;
+using QLVizualizer.Expression.Types;
+using QLVizualizer.Factories;
+using QLVizualizer.Properties;
+using QLVizualizer.Style;
+using QLVizualizer.ElementManagers;
+using QLVizualizer.ElementManagers.Types;
 
-namespace QL_Vizualizer.Controllers.Display
+namespace QLVizualizer.Controllers.Display
 {
     public class ElementManagerDisplayContollerWindows : WidgetDisplayController<Control, WindowsStyleProperties>
     {

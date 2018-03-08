@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace QL_Vizualizer.Expression.Types
+namespace QLVizualizer.Expression.Types
 {
     public abstract class ExpressionValue
     {

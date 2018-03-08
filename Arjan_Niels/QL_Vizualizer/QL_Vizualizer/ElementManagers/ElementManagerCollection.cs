@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using QL_Vizualizer.Controllers;
-using QL_Vizualizer.Expression.Types;
+using QLVizualizer.Controllers;
+using QLVizualizer.Expression.Types;
 
-namespace QL_Vizualizer.ElementManagers
+namespace QLVizualizer.ElementManagers
 {
     public abstract class ElementManagerCollection : ElementManager
     {

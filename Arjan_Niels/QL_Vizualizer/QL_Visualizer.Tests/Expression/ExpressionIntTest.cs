@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Vizualizer.Expression.Types;
+using QLVizualizer.Expression.Types;
 
 namespace QL_Visualizer.Tests.Expression
 {

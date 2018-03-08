@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL_Vizualizer.ElementManagers;
+using QLVizualizer.ElementManagers;
 
 namespace QL_Visualizer.Tests.ElementManagers
 {

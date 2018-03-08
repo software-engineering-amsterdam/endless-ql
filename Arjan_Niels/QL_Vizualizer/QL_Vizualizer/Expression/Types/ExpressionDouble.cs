@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace QL_Vizualizer.Expression.Types
+namespace QLVizualizer.Expression.Types
 {
     public class ExpressionDouble : TypedExpressionValue<double>
     {

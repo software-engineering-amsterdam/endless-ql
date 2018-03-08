@@ -1,6 +1,6 @@
-﻿using QL_Vizualizer.Expression.Types;
+﻿using QLVizualizer.Expression.Types;
 
-namespace QL_Vizualizer.Expression
+namespace QLVizualizer.Expression
 {
     /// <summary>
     /// Static class containing default ExpressionOperator collections

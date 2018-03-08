@@ -1,14 +1,14 @@
 ﻿using QLParser.AST.Nodes;
-using QL_Vizualizer.Controllers;
-using QL_Vizualizer.Expression;
-using QL_Vizualizer.Expression.Types;
-using QL_Vizualizer.ElementManagers;
-using QL_Vizualizer.ElementManagers.Types;
+using QLVizualizer.Controllers;
+using QLVizualizer.Expression;
+using QLVizualizer.Expression.Types;
+using QLVizualizer.ElementManagers;
+using QLVizualizer.ElementManagers.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QL_Vizualizer.Factories
+namespace QLVizualizer.Factories
 {
     public static class ElementManagerFactory
     {

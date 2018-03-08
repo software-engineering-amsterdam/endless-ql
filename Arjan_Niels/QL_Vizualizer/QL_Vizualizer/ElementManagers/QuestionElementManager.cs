@@ -1,8 +1,8 @@
-﻿using QL_Vizualizer.Controllers;
-using QL_Vizualizer.Expression.Types;
+﻿using QLVizualizer.Controllers;
+using QLVizualizer.Expression.Types;
 using System.Linq;
 
-namespace QL_Vizualizer.ElementManagers
+namespace QLVizualizer.ElementManagers
 {
     public abstract class QuestionElementManager<T> : ElementManager
     {

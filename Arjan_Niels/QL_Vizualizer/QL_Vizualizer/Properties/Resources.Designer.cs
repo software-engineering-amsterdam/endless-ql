@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QL_Vizualizer.Properties {
+namespace QLVizualizer.Properties {
     using System;
     
     

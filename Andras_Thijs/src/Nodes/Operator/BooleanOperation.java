@@ -2,10 +2,10 @@ package Nodes.Operator;
 
 import Nodes.Term.Boolean;
 
-public class BoolOperator extends Operator {
+public class BooleanOperation extends Operator {
 
 
-    public BoolOperator(String value){
+    public BooleanOperation(String value){
         super(value);
     }
 

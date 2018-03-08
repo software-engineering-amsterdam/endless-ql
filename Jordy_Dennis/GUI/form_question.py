@@ -9,6 +9,7 @@ class Question:
         self.frame = create_frame(parent)
         self.questionGenerator = questionGenerator
         self.frame.pack(fill="both", anchor=NW, expand=True)
+        self.varName = varName
         self.map = InputTypeMap(self.frame, self.questionGenerator, varName, value)
         self.create_header_label(question_text)
         self.answer = None
@@ -27,6 +28,12 @@ class Question:
     # The frame that contains the input_user depending on the type of question
     def create_input_user(self, question_type):
         widget, self.answer = self.map.getWidget(question_type)
+
+    def empty_frame(self):
+        self.frame.destroy()
+
+    def getVarName(self):
+        return self.varName
 
     def get_frame(self):
         return self.frame

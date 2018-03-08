@@ -4,27 +4,25 @@ import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
 
 public class LabelExpression extends Expression {
 
-    private Label label;
+    private String label;
 
-    public LabelExpression(Label label, Integer lineNumber, Integer columnNumber) {
+    public LabelExpression(String label, Integer lineNumber, Integer columnNumber) {
         super(lineNumber, columnNumber);
 
         this.label = label;
     }
 
-    public Label getLabel() {
+    public String getLabel() {
         return label;
     }
 
-    public void setLabel(Label label) {
+    public void setLabel(String label) {
         this.label = label;
     }
 
 
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
-        label.acceptVisitor(visitor);
-
         visitor.visitLabelExpression(this);
     }
 }

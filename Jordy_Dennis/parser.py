@@ -6,10 +6,9 @@
 import sys
 import pprint
 from antlr4 import *
-from question_generator import Question_Generator
+from GUI.question_generator import Question_Generator
 from parse_grammar import generateParsers
 import logging
-from GUI import Gui
 
 # Generate the lexer and parser for the grammar
 generateParsers()
@@ -83,6 +82,7 @@ def main(argv):
 
     q = Question_Generator(ast.getVarDict(), ast)
     q.getQuestionsFromAst()
+    print("finished")
     exit()
 
     # QLS

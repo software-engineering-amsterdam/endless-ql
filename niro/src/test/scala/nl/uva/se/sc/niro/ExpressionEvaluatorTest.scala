@@ -11,353 +11,141 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
   "The Expression evaluator" can {
     "do basic arithmetic operations" should {
-      "add" in {
-        val expression = BinaryOperation(Add, IntAnswer(5), IntAnswer(3))
+      "on integers" in {
+        // TODO deal with div by zero error
+        val table = Table(
+          ("Operator", "Left", "Right", "Expected Answer"),
+          (Add, IntAnswer(5), IntAnswer(3), IntAnswer(8)),
+          (Sub, IntAnswer(5), IntAnswer(3), IntAnswer(2)),
+          (Mul, IntAnswer(5), IntAnswer(3), IntAnswer(15)),
+          (Div, IntAnswer(10), IntAnswer(5), IntAnswer(2))
+        )
 
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(IntAnswer(8))
+        forAll(table) { (operator, left, right, expectedAnswer) =>
+          val expression = BinaryOperation(operator, left, right)
+          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+        }
       }
-      "subtract" in {
-        val expression = BinaryOperation(Sub, IntAnswer(5), IntAnswer(3))
 
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
+      "on decimals" in {
+        // TODO deal with div by zero error
+        val table = Table(
+          ("Operator", "Left", "Right", "Expected Answer"),
+          (Add, DecAnswer(5), DecAnswer(3), DecAnswer(8)),
+          (Sub, DecAnswer(5), DecAnswer(3), DecAnswer(2)),
+          (Mul, DecAnswer(5), DecAnswer(3), DecAnswer(15)),
+          (Div, DecAnswer(10), DecAnswer(5), DecAnswer(2))
+        )
 
-        answer should be(IntAnswer(2))
+        forAll(table) { (operator, left, right, expectedAnswer) =>
+          val expression = BinaryOperation(operator, left, right)
+          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+        }
       }
-      "multiply" in {
-        val expression = BinaryOperation(Mul, IntAnswer(5), IntAnswer(3))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(IntAnswer(15))
-      }
-      "divide" in {
-        val expression = BinaryOperation(Div, IntAnswer(10), IntAnswer(5))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(IntAnswer(2))
-      }
-      // TODO deal with div by zero error
-      //      "return None when dividing by zero" in {
-      //        val expression = BinaryOperation(Div, IntAnswer(10), IntAnswer(0)))
-      //
-      //        val answer: Answer = evaluate(expression, Map.empty)
-      //
-      //        answer should be(None)
-      //      }
     }
 
     "do comparison operations" should {
-      "on strings Lt positive" in {
-        val expression = BinaryOperation(Lt, StringAnswer("A"), StringAnswer("B"))
+      "on strings" in {
+        val table = Table(
+          ("Operator", "Left", "Right", "Expected Answer"),
+          (Lt, StringAnswer("A"), StringAnswer("B"), BooleanAnswer(true)),
+          (Lt, StringAnswer("B"), StringAnswer("A"), BooleanAnswer(false)),
+          (Lte, StringAnswer("A"), StringAnswer("B"), BooleanAnswer(true)),
+          (Lte, StringAnswer("B"), StringAnswer("A"), BooleanAnswer(false)),
+          (Gte, StringAnswer("B"), StringAnswer("B"), BooleanAnswer(true)),
+          (Gte, StringAnswer("A"), StringAnswer("B"), BooleanAnswer(false)),
+          (Gt, StringAnswer("B"), StringAnswer("A"), BooleanAnswer(true)),
+          (Gt, StringAnswer("A"), StringAnswer("B"), BooleanAnswer(false)),
+          (Ne, StringAnswer("A"), StringAnswer("B"), BooleanAnswer(true)),
+          (Ne, StringAnswer("A"), StringAnswer("A"), BooleanAnswer(false)),
+          (Eq, StringAnswer("A"), StringAnswer("A"), BooleanAnswer(true)),
+          (Eq, StringAnswer("A"), StringAnswer("B"), BooleanAnswer(false))
+        )
 
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
+        forAll(table) { (operator, left, right, expectedAnswer) =>
+          val expression = BinaryOperation(operator, left, right)
+          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+        }
       }
-      "on strings Lt negative" in {
-        val expression = BinaryOperation(Lt, StringAnswer("B"), StringAnswer("A"))
 
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
+      "on integers" in {
+        val table = Table(
+          ("Operator", "Left", "Right", "Expected Answer"),
+          (Lt, IntAnswer(1), IntAnswer(2), BooleanAnswer(true)),
+          (Lt, IntAnswer(2), IntAnswer(1), BooleanAnswer(false)),
+          (Lte, IntAnswer(1), IntAnswer(1), BooleanAnswer(true)),
+          (Lte, IntAnswer(2), IntAnswer(1), BooleanAnswer(false)),
+          (Gte, IntAnswer(5), IntAnswer(3), BooleanAnswer(true)),
+          (Gte, IntAnswer(3), IntAnswer(5), BooleanAnswer(false)),
+          (Gt, IntAnswer(5), IntAnswer(3), BooleanAnswer(true)),
+          (Gt, IntAnswer(3), IntAnswer(5), BooleanAnswer(false)),
+          (Ne, IntAnswer(5), IntAnswer(3), BooleanAnswer(true)),
+          (Ne, IntAnswer(5), IntAnswer(5), BooleanAnswer(false)),
+          (Eq, IntAnswer(5), IntAnswer(5), BooleanAnswer(true)),
+          (Eq, IntAnswer(5), IntAnswer(3), BooleanAnswer(false))
+        )
 
-        answer should be(BooleanAnswer(false))
+        forAll(table) { (operator, left, right, expectedAnswer) =>
+          val expression = BinaryOperation(operator, left, right)
+          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+        }
       }
-      "on strings LTe positive" in {
-        val expression = BinaryOperation(Lte, StringAnswer("A"), StringAnswer("A"))
 
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on strings LTe negative" in {
-        val expression = BinaryOperation(Lte, StringAnswer("B"), StringAnswer("A"))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on strings GTe positive" in {
-        val expression = BinaryOperation(Gte, StringAnswer("B"), StringAnswer("B"))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on strings GTe negative" in {
-        val expression = BinaryOperation(Gte, StringAnswer("A"), StringAnswer("B"))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on strings Gt positive" in {
-        val expression = BinaryOperation(Gt, StringAnswer("B"), StringAnswer("A"))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on strings Gt negative" in {
-        val expression = BinaryOperation(Gt, StringAnswer("A"), StringAnswer("B"))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on strings Ne positive" in {
-        val expression = BinaryOperation(Ne, StringAnswer("A"), StringAnswer("B"))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on strings Ne negative" in {
-        val expression = BinaryOperation(Ne, StringAnswer("A"), StringAnswer("A"))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on strings Eq positive" in {
-        val expression = BinaryOperation(Eq, StringAnswer("A"), StringAnswer("A"))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on strings Eq negative" in {
-        val expression = BinaryOperation(Eq, StringAnswer("A"), StringAnswer("B"))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on integers Lt positive" in {
-        val expression = BinaryOperation(Lt, IntAnswer(1), IntAnswer(2))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on integers Lt negative" in {
-        val expression = BinaryOperation(Lt, IntAnswer(2), IntAnswer(1))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on integers LTe positive" in {
-        val expression = BinaryOperation(Lte, IntAnswer(1), IntAnswer(1))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on integers LTe negative" in {
-        val expression = BinaryOperation(Lte, IntAnswer(2), IntAnswer(1))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on integers GTe positive" in {
-        val expression = BinaryOperation(Gte, IntAnswer(5), IntAnswer(3))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on integers GTe negative" in {
-        val expression = BinaryOperation(Gte, IntAnswer(3), IntAnswer(5))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on integers Gt positive" in {
-        val expression = BinaryOperation(Gt, IntAnswer(5), IntAnswer(3))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on integers Gt negative" in {
-        val expression = BinaryOperation(Gt, IntAnswer(3), IntAnswer(5))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on integers Ne positive" in {
-        val expression = BinaryOperation(Ne, IntAnswer(5), IntAnswer(3))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on integers Ne negative" in {
-        val expression = BinaryOperation(Ne, IntAnswer(5), IntAnswer(5))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on integers Eq positive" in {
-        val expression = BinaryOperation(Eq, IntAnswer(5), IntAnswer(5))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on integers Eq negative" in {
-        val expression = BinaryOperation(Eq, IntAnswer(5), IntAnswer(3))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on booleans Lt positive" in {
-        val expression = BinaryOperation(Lt, BooleanAnswer(false), BooleanAnswer(true))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on booleans Lt negative" in {
-        val expression = BinaryOperation(Lt, BooleanAnswer(true), BooleanAnswer(false))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on booleans LTe positive" in {
-        val expression = BinaryOperation(Lte, BooleanAnswer(true), BooleanAnswer(true))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on booleans LTe negative" in {
-        val expression = BinaryOperation(Lte, BooleanAnswer(true), BooleanAnswer(false))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on booleans GTe positive" in {
-        val expression = BinaryOperation(Gte, BooleanAnswer(true), BooleanAnswer(true))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on booleans GTe negative" in {
-        val expression = BinaryOperation(Gte, BooleanAnswer(false), BooleanAnswer(true))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on booleans Gt positive" in {
-        val expression = BinaryOperation(Gt, BooleanAnswer(true), BooleanAnswer(false))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on booleans Gt negative" in {
-        val expression = BinaryOperation(Gt, BooleanAnswer(true), BooleanAnswer(true))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on booleans Ne positive" in {
-        val expression = BinaryOperation(Ne, BooleanAnswer(true), BooleanAnswer(false))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on booleans Ne negative" in {
-        val expression = BinaryOperation(Ne, BooleanAnswer(true), BooleanAnswer(true))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "on booleans Eq positive" in {
-        val expression = BinaryOperation(Eq, BooleanAnswer(true), BooleanAnswer(true))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "on booleans Eq negative" in {
-        val expression = BinaryOperation(Eq, BooleanAnswer(true), BooleanAnswer(false))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
+      "on booleans" in {
+        val table = Table(
+          ("Operator", "Left", "Right", "Expected Answer"),
+          (Lt, BooleanAnswer(false), BooleanAnswer(true), BooleanAnswer(true)),
+          (Lt, BooleanAnswer(true), BooleanAnswer(false), BooleanAnswer(false)),
+          (Lte, BooleanAnswer(true), BooleanAnswer(true), BooleanAnswer(true)),
+          (Lte, BooleanAnswer(true), BooleanAnswer(false), BooleanAnswer(false)),
+          (Gte, BooleanAnswer(true), BooleanAnswer(true), BooleanAnswer(true)),
+          (Gte, BooleanAnswer(false), BooleanAnswer(true), BooleanAnswer(false)),
+          (Gt, BooleanAnswer(true), BooleanAnswer(false), BooleanAnswer(true)),
+          (Gt, BooleanAnswer(true), BooleanAnswer(true), BooleanAnswer(false)),
+          (Ne, BooleanAnswer(true), BooleanAnswer(false), BooleanAnswer(true)),
+          (Ne, BooleanAnswer(true), BooleanAnswer(true), BooleanAnswer(false)),
+          (Eq, BooleanAnswer(true), BooleanAnswer(true), BooleanAnswer(true)),
+          (Eq, BooleanAnswer(true), BooleanAnswer(false), BooleanAnswer(false))
+        )
+
+        forAll(table) { (operator, left, right, expectedAnswer) =>
+          val expression = BinaryOperation(operator, left, right)
+          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+        }
       }
     }
+
     "do logical operations" should {
-      "Or positive" in {
-        val expression = BinaryOperation(Or, BooleanAnswer(true), BooleanAnswer(false))
+      "on booleans" in {
+        val table = Table(
+          ("Operator", "Left", "Right", "Expected Answer"),
+          (Or, BooleanAnswer(true), BooleanAnswer(false), BooleanAnswer(true)),
+          (Or, BooleanAnswer(false), BooleanAnswer(false), BooleanAnswer(false)),
+          (And, BooleanAnswer(true), BooleanAnswer(true), BooleanAnswer(true)),
+          (And, BooleanAnswer(true), BooleanAnswer(false), BooleanAnswer(false))
+        )
 
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "Or negative" in {
-        val expression = BinaryOperation(Or, BooleanAnswer(false), BooleanAnswer(false))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
-      }
-      "And positive" in {
-        val expression = BinaryOperation(And, BooleanAnswer(true), BooleanAnswer(true))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "And negative" in {
-        val expression = BinaryOperation(And, BooleanAnswer(true), BooleanAnswer(false))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(false))
+        forAll(table) { (operator, left, right, expectedAnswer) =>
+          val expression = BinaryOperation(operator, left, right)
+          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+        }
       }
     }
-    "do nested operations" should {
-      "nested arithmetic operation" in {
-        val expression = BinaryOperation(Mul, IntAnswer(5), BinaryOperation(Mul, IntAnswer(5), IntAnswer(5)))
 
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
+    "do nested operations" in {
+      val table = Table(
+        ("Operator", "Left", "Right", "Expected Answer"),
+        (Mul, IntAnswer(5), BinaryOperation(Mul, IntAnswer(10), IntAnswer(15)), IntAnswer(750)),
+        (And, BooleanAnswer(true), BinaryOperation(And, BooleanAnswer(true), BooleanAnswer(true)), BooleanAnswer(true)),
+        (And, BooleanAnswer(true), BinaryOperation(Eq, StringAnswer("Foo"), StringAnswer("Foo")), BooleanAnswer(true))
+      )
 
-        answer should be(IntAnswer(125))
-      }
-      "nested logical operation" in {
-        val expression =
-          BinaryOperation(And, BooleanAnswer(true), BinaryOperation(And, BooleanAnswer(true), BooleanAnswer(true)))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
-      }
-      "nested mixed operation" in {
-        val expression =
-          BinaryOperation(And, BooleanAnswer(true), BinaryOperation(Eq, StringAnswer("Foo"), StringAnswer("Foo")))
-
-        val answer: Answer = evaluateExpression(expression, Map.empty, Map.empty)
-
-        answer should be(BooleanAnswer(true))
+      forAll(table) { (operator, left, right, expectedAnswer) =>
+        val expression = BinaryOperation(operator, left, right)
+        evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
       }
     }
+
     "correctly find references" in {
       val qlForm = QLForm(
         formName = "Revenue",
@@ -376,6 +164,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
       val x = q.map(q => evaluateExpression(q.expression, qlForm.symbolTable, Map.empty))
       assert(x == Seq(IntAnswer(1000), IntAnswer(200), IntAnswer(800)))
     }
+
     "do error handling" should {
       "throw an error for arithmetic operations on unsupported types" in {
         val expression = BinaryOperation(Div, BooleanAnswer(true), BooleanAnswer(true))

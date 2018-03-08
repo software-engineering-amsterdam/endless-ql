@@ -1,14 +1,17 @@
 package nl.uva.se.sc.niro.gui.widget
 
+import java.time.LocalDate
+
 import javafx.scene.control._
 import javafx.scene.layout.HBox
 import nl.uva.se.sc.niro.gui.factory.WidgetFactory
+import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.expressions.answers._
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
 
 import scala.collection.mutable
 
-case class Component(id: String, label: Label, control: Control) extends HBox {
+abstract class Component[T](id: String, label: Label, control: Control) extends HBox {
   getChildren.addAll(label, control)
   managedProperty().bind(visibleProperty())
 
@@ -16,45 +19,107 @@ case class Component(id: String, label: Label, control: Control) extends HBox {
   control.setPrefWidth(200)
 
   def setReadOnly(value: Boolean): Unit = control.setDisable(value)
-
   def isReadOnly: Boolean = control.isDisabled
 
-  def update(dictionary: mutable.Map[String, Answer]): Unit = {
-    val value = dictionary(id)
-    value match {
-      case b: BooleanAnswer => control.asInstanceOf[CheckBox].setSelected(b.possibleValue.getOrElse(false))
-      case d: DateAnswer    => control.asInstanceOf[DatePicker].setValue(d.possibleValue.orNull)
-      case s: StringAnswer  => control.asInstanceOf[TextField].setText(s.possibleValue.getOrElse(""))
-      case i: IntAnswer =>
-        control
-          .asInstanceOf[TextField]
-          .getTextFormatter
-          .asInstanceOf[TextFormatter[java.lang.Integer]]
-          .setValue(intOrNull(i.possibleValue))
-      case d: DecAnswer =>
-        control
-          .asInstanceOf[TextField]
-          .getTextFormatter
-          .asInstanceOf[TextFormatter[java.math.BigDecimal]]
-          .setValue(decOrNull(d.possibleValue))
-      case m: MoneyAnswer =>
-        control
-          .asInstanceOf[TextField]
-          .getTextFormatter
-          .asInstanceOf[TextFormatter[java.math.BigDecimal]]
-          .setValue(decOrNull(m.possibleValue))
-    }
-  }
+  def update(dictionary: mutable.Map[String, Answer]): Unit
+  def getValue: Option[T]
+  def setValue(value: Option[T]): Unit
+}
 
-  private def intOrNull(value: Option[Int]): java.lang.Integer =
-    if (value.isDefined) value.get else null
-  private def decOrNull(value: Option[BigDecimal]): java.math.BigDecimal =
+case class StringComponent(id: String, label: Label, control: Control) extends Component[String](id, label, control) {
+  override def getValue: Option[String] = toOption(control.asInstanceOf[TextField].getText)
+  override def setValue(value: Option[String]): Unit = control.asInstanceOf[TextField].setText(fromOption(value))
+  override def update(dictionary: mutable.Map[String, Answer]): Unit = {
+    setValue(dictionary(id).possibleValue.map(_.toString))
+  }
+  private def fromOption(value: Option[String]): String = value.orNull
+  private def toOption(value: String): Option[String] = Option(value)
+}
+
+case class BooleanComponent(id: String, label: Label, control: Control) extends Component[Boolean](id, label, control) {
+  override def getValue: Option[Boolean] = toOption(control.asInstanceOf[CheckBox].isSelected)
+  override def setValue(value: Option[Boolean]): Unit = control.asInstanceOf[CheckBox].setSelected(fromOption(value))
+  override def update(dictionary: mutable.Map[String, Answer]): Unit = {
+    setValue(dictionary(id).possibleValue.asInstanceOf[Option[Boolean]])
+  }
+  private def fromOption(value: Option[Boolean]): Boolean = value.getOrElse(false)
+  private def toOption(value: Boolean): Option[Boolean] = Option(value)
+}
+
+case class DateComponent(id: String, label: Label, control: Control) extends Component[LocalDate](id, label, control) {
+  override def getValue: Option[LocalDate] = toOption(control.asInstanceOf[DatePicker].getValue)
+  override def setValue(value: Option[LocalDate]): Unit = control.asInstanceOf[DatePicker].setValue(fromOption(value))
+  override def update(dictionary: mutable.Map[String, Answer]): Unit = {
+    setValue(dictionary(id).possibleValue.asInstanceOf[Option[LocalDate]])
+  }
+  private def fromOption(value: Option[LocalDate]): LocalDate = if (value.isDefined) value.get else null
+  private def toOption(value: LocalDate): Option[LocalDate] = Option(value)
+}
+
+case class IntegerComponent(id: String, label: Label, control: Control) extends Component[Int](id, label, control) {
+  override def getValue: Option[Int] =
+    toOption(control.asInstanceOf[TextField].getTextFormatter.asInstanceOf[TextFormatter[java.lang.Integer]].getValue())
+  override def setValue(value: Option[Int]): Unit =
+    control
+      .asInstanceOf[TextField]
+      .getTextFormatter
+      .asInstanceOf[TextFormatter[java.lang.Integer]]
+      .setValue(fromOption(value))
+  override def update(dictionary: mutable.Map[String, Answer]): Unit = {
+    setValue(dictionary(id).possibleValue.asInstanceOf[Option[Int]])
+  }
+  private def fromOption(value: Option[Int]): java.lang.Integer = if (value.isDefined) value.get else null
+  private def toOption(value: Int): Option[Int] = Option(value)
+}
+
+case class DecimalComponent(id: String, label: Label, control: Control)
+    extends Component[BigDecimal](id, label, control) {
+  override def getValue: Option[BigDecimal] =
+    toOption(
+      control.asInstanceOf[TextField].getTextFormatter.asInstanceOf[TextFormatter[java.math.BigDecimal]].getValue())
+  override def setValue(value: Option[BigDecimal]): Unit =
+    control
+      .asInstanceOf[TextField]
+      .getTextFormatter
+      .asInstanceOf[TextFormatter[java.math.BigDecimal]]
+      .setValue(fromOption(value))
+  override def update(dictionary: mutable.Map[String, Answer]): Unit = {
+    setValue(dictionary(id).possibleValue.asInstanceOf[Option[BigDecimal]])
+  }
+  private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal =
     if (value.isDefined) value.get.bigDecimal else null
+  private def toOption(value: BigDecimal): Option[BigDecimal] = Option(value)
+}
+
+case class MoneyComponent(id: String, label: Label, control: Control)
+    extends Component[BigDecimal](id, label, control) {
+  override def getValue: Option[BigDecimal] =
+    toOption(
+      control.asInstanceOf[TextField].getTextFormatter.asInstanceOf[TextFormatter[java.math.BigDecimal]].getValue())
+  override def setValue(value: Option[BigDecimal]): Unit =
+    control
+      .asInstanceOf[TextField]
+      .getTextFormatter
+      .asInstanceOf[TextFormatter[java.math.BigDecimal]]
+      .setValue(fromOption(value))
+  override def update(dictionary: mutable.Map[String, Answer]): Unit = {
+    setValue(dictionary(id).possibleValue.asInstanceOf[Option[BigDecimal]])
+  }
+  private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal =
+    if (value.isDefined) value.get.bigDecimal else null
+  private def toOption(value: BigDecimal): Option[BigDecimal] = Option(value)
 }
 
 object ComponentFactory {
-  def make(question: GUIQuestion): Component = {
-    val component = new Component(question.id, new Label(question.label), WidgetFactory.make(question))
+  def make(question: GUIQuestion): Component[_] = {
+    val component = question.answerType match {
+      case StringType  => StringComponent(question.id, new Label(question.label), WidgetFactory.make(question))
+      case BooleanType => BooleanComponent(question.id, new Label(question.label), WidgetFactory.make(question))
+      case DateType    => DateComponent(question.id, new Label(question.label), WidgetFactory.make(question))
+      case IntegerType => IntegerComponent(question.id, new Label(question.label), WidgetFactory.make(question))
+      case DecimalType => DecimalComponent(question.id, new Label(question.label), WidgetFactory.make(question))
+      case MoneyType   => MoneyComponent(question.id, new Label(question.label), WidgetFactory.make(question))
+    }
     component.setReadOnly(question.isReadOnly)
     question.component = Some(component)
     component

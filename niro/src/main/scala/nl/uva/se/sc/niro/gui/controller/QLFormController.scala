@@ -21,7 +21,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
   private val dictionary = mutable.Map[String, Answer]()
   private var qlForm: QLForm = _
   private var guiForm: GUIForm = _
-  private var questions: Seq[Component] = _
+  private var questions: Seq[Component[_]] = _
 
   @FXML var formName: Label = _
   @FXML var questionArea: VBox = _

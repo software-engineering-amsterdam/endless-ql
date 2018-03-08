@@ -10,5 +10,5 @@ case class GUIQuestion(
     label: String,
     isReadOnly: Boolean,
     visibility: Expression, // Holds the accumulated if-conditions.
-    var component: Option[Component] = None
+    var component: Option[Component[_]] = None
 )

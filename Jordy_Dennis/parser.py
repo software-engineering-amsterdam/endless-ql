@@ -85,9 +85,6 @@ def main(argv):
     q.get_questions()
     exit()
 
-
-
-
     # QLS
     if len(argv)>2:
         input_file = argv[2]

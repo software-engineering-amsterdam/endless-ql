@@ -56,6 +56,9 @@ class AssignmentNode:
     def getVarName(self):
         return self.varNode.getVarname()
 
+    def getExpression(self):
+        return self.expression
+
 
     def __repr__(self):
         return "Assigment: \"{}\" {}:{} = {}".format(self.question, self.varNode.getVarname(), self.varNode.checkTypes(), self.expression)

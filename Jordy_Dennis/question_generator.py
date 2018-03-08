@@ -32,13 +32,16 @@ class Question_Generator:
         # return questions, qtypes
 
     def get_questions(self):
+        printDict(self.varDict)
         for form in self.ast.forms:
             for statement in form.block:
                 if type(statement) == QuestionNode:
                     print("QUESTION")
                     self.questions[statement.getVarName()] = statement
                 elif type(statement) == AssignmentNode:
-                    print("Assignment")
+                    exp = statement.getExpression()
+                    print(exp.evaluate())
+                    
 
                 elif type(statement) == ConditionalNode:
                     print("CONDITIONAL")

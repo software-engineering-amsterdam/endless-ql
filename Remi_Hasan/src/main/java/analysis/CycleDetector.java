@@ -25,7 +25,7 @@ public class CycleDetector implements IASTVisitor<List<String>> {
         this.form = form;
     }
 
-    private Graph<String, DefaultEdge> createVerticeGraph() {
+    private Graph<String, DefaultEdge> createVerticesGraph() {
         Graph<String, DefaultEdge> graph = new DefaultDirectedGraph<>(DefaultEdge.class);
         for (Question question : form.questions) {
             graph.addVertex(question.name);
@@ -48,7 +48,7 @@ public class CycleDetector implements IASTVisitor<List<String>> {
     }
 
     public Set<String> detectCycles() {
-        Graph<String, DefaultEdge> referenceGraph = createVerticeGraph();
+        Graph<String, DefaultEdge> referenceGraph = createVerticesGraph();
         addReferenceEdges(referenceGraph);
 
         org.jgrapht.alg.CycleDetector<String, DefaultEdge> jGraphTCycleDetector

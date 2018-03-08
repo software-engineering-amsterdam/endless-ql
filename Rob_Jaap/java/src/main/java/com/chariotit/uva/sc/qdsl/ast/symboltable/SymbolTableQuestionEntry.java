@@ -7,6 +7,9 @@ public class SymbolTableQuestionEntry extends SymbolTableEntry {
 
     private ExpressionType expressionType;
 
+    public SymbolTableQuestionEntry(String label, AstNode node) {
+        super(label, node);
+    }
 
     public SymbolTableQuestionEntry(String label, AstNode node, ExpressionType expressionType) {
         super(label, node);

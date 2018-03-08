@@ -59,8 +59,8 @@ public class QLGrammarTest {
                 "hasSoldHouse");
 
         LineElement valueResidue = (LineElement)(ifBlock.getIfElements().get(2));
-        assertTrue(valueResidue.getTypeExpression().getType() instanceof MoneyTypeNode);
-        assertFalse(valueResidue.getTypeExpression().getType() instanceof BooleanTypeNode);
+        assertTrue(valueResidue.getTypeExpression().getTypeNode() instanceof MoneyTypeNode);
+        assertFalse(valueResidue.getTypeExpression().getTypeNode() instanceof BooleanTypeNode);
         assertEquals(valueResidue.getQuestion().getQuestion(), "Value residue:");
 
         assertTrue(valueResidue.getTypeExpression().getExpression() instanceof
@@ -74,13 +74,13 @@ public class QLGrammarTest {
         AstRoot astRoot = getAst("types.ql");
         List<FormElement> elements = astRoot.getForms().get(0).getFormElements();
 
-        assertTrue(((LineElement)elements.get(0)).getTypeExpression().getType() instanceof
+        assertTrue(((LineElement)elements.get(0)).getTypeExpression().getTypeNode() instanceof
                 BooleanTypeNode);
-        assertTrue(((LineElement)elements.get(1)).getTypeExpression().getType() instanceof
+        assertTrue(((LineElement)elements.get(1)).getTypeExpression().getTypeNode() instanceof
                 IntegerTypeNode);
-        assertTrue(((LineElement)elements.get(2)).getTypeExpression().getType() instanceof
+        assertTrue(((LineElement)elements.get(2)).getTypeExpression().getTypeNode() instanceof
                 MoneyTypeNode);
-        assertTrue(((LineElement)elements.get(3)).getTypeExpression().getType() instanceof
+        assertTrue(((LineElement)elements.get(3)).getTypeExpression().getTypeNode() instanceof
                 StringTypeNode);
     }
 

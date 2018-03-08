@@ -31,7 +31,6 @@ class Gui:
         self.form = FormGui(self.mainframe, self.questionsGenerator, self.ast.getName())
         self.questionsGenerator.form = self.form
         self.create_form()
-        print("hello")
         self.execute()
 
 

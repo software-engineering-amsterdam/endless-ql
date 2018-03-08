@@ -18,4 +18,4 @@ namespace QuestionaireOrchestration
             appRegistration.AddTransient(typeof(IBooleanLogicPrinter), typeof(BooleanLogicPrinter));
         }
     }
-}
+}   

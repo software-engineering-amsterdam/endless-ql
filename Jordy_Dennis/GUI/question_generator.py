@@ -20,14 +20,18 @@ class Question_Generator:
 
     # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
     def updateQuestions(self):
-        print("hello")
+        print("update questions")
         self.get_questions(self.ast.form.block)
-
         if self.form:
+            print("-------------------")
+            printDict(self.ast)
+            printDict(self.varDict)
+            self.form.empty_frame()
             for varName in self.questions:
                 label = self.questions[varName].getQuestion()
                 type = self.varDict[varName]['node'].checkTypes()
-                self.form.add_question(varName, label, type)
+                value = self.varDict[varName]['node'].evaluate()
+                self.form.add_question(varName, label, type, value)
 
         return self.questions
 

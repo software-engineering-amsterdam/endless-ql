@@ -37,7 +37,7 @@ object TypeChecker extends Logging {
       .map(expression => checkExpression(expression, qLForm.symbolTable))
       .foldLeft(Right(qLForm): Either[TypeCheckError, QLForm])(
         (acc: Either[TypeCheckError, QLForm], either: Either[TypeCheckError, Answer]) =>
-          acc.flatMap(form => either.map(_ => qLForm)))
+          acc.flatMap(_ => either.map(_ => qLForm)))
   }
 
   // TODO clean up this mess

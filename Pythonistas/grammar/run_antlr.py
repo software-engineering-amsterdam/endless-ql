@@ -12,8 +12,7 @@ def run_antlr_parse_gen():
         # todo: make sure classpath always works
         os.system('SET CLASSPATH=.;C:\\Javalib\\antlr-4.7.1-complete.jar;')
         os.system(
-            'java org.antlr.v4.Tool -Dlanguage=Python3 -visitor')  # .format('/usr/local/lib/antlr-4.7.1-complete.jar',
-        #           config['antlr']['directory']))
+            'java org.antlr.v4.Tool -Dlanguage=Python3 -visitor'.format('/usr/local/lib/antlr-4.7.1-complete.jar', config['antlr']['directory']))
 
     else:
         os.system('java -jar {} -Dlanguage=Python3 grammar/QL.g4 -o {} -visitor'.format(

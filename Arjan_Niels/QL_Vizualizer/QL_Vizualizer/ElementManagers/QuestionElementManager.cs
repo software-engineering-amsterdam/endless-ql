@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace QL_Vizualizer.ElementManagers
 {
-    public abstract class QLQuestionWidget<T> : ElementManager
+    public abstract class QuestionElementManager<T> : ElementManager
     {
         /// <summary>
         /// Contains given answer, if not answered contains default value for T
@@ -26,7 +26,7 @@ namespace QL_Vizualizer.ElementManagers
         /// </summary>
         public bool Editable { get { return _answerExpression == null; } }
 
-        public QLQuestionWidget(string identifyer, string text, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : base(identifyer, text, activationExpression)
+        public QuestionElementManager(string identifyer, string text, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : base(identifyer, text, activationExpression)
         {
             AnswerValue = default(T);
             IsAnswered = false;
@@ -43,7 +43,7 @@ namespace QL_Vizualizer.ElementManagers
             return input;
         }
 
-        public abstract ParsedWidgetValue<T> ParseInput(string input);
+        public abstract QuestionElementValue<T> ParseInput(string input);
 
         /// <summary>
         /// Sets widgetcontroller and subscribes to value changes

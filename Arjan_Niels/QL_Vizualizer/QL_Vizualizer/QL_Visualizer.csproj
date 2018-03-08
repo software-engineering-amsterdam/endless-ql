@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Display\ElementManagerDisplayContollerWindows.cs" />
     <Compile Include="Controllers\ElementManagerController.cs" />
+    <Compile Include="ElementManagers\ElementManagerCollection.cs" />
     <Compile Include="Expression\ExpressionOperators.cs" />
     <Compile Include="Expression\Types\ExpressionBool.cs" />
     <Compile Include="Expression\ExpressionOperator.cs" />

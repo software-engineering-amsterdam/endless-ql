@@ -1,6 +1,7 @@
 ﻿using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Expression;
 using QL_Vizualizer.Expression.Types;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace QL_Vizualizer.ElementManagers
@@ -8,29 +9,34 @@ namespace QL_Vizualizer.ElementManagers
     public abstract class ElementManager
     {
         /// <summary>
-        /// Unique identifyer of the widget
+        /// Unique identifyer of the Element & ElementManager
         /// </summary>
         public string Identifyer { get; private set; }
 
         /// <summary>
-        /// Text of the widget
+        /// Text of the ElementManager
         /// </summary>
         public string Text { get; private set; }
 
         /// <summary>
-        /// Indication if the widget should be shown
+        /// Indication if the Element should be shown
         /// </summary>
         public bool Active { get; protected set; }
 
         /// <summary>
         /// Expression for activation evaluation
         /// </summary>
-        private ExpressionBool _activationExpression;
+        protected ExpressionBool _activationExpression;
 
         /// <summary>
-        /// Widget controller that this widget receives updates from
+        /// ElementManager controller that this ElementManager receives updates from
         /// </summary>
-        protected ElementManagerController _widgetController { get; private set; }
+        protected ElementManagerController _widgetController;
+
+        /// <summary>
+        /// Parent of this ElementManager
+        /// </summary>
+        protected ElementManager _parent { get; private set; }
 
         public ElementManager(string identifyer, string text, ExpressionBool activationExpression = null)
         {
@@ -39,6 +45,11 @@ namespace QL_Vizualizer.ElementManagers
 
             _activationExpression = activationExpression;
             Active = activationExpression == null;
+        }
+
+        public virtual IEnumerable<string> GetNotifyWidgetIDs()
+        {
+            return _activationExpression.UsedWidgetIDs;
         }
 
         /// <summary>
@@ -52,7 +63,7 @@ namespace QL_Vizualizer.ElementManagers
             // Subscribe to items from the controller
             if (_activationExpression != null)
             {
-                foreach (string id in _activationExpression.UsedWidgetIDs)
+                foreach (string id in GetNotifyWidgetIDs())
                     _widgetController.ReceiveUpdates(id, this);
                 Active = _activationExpression.Result;
             }
@@ -76,5 +87,9 @@ namespace QL_Vizualizer.ElementManagers
 
         public abstract string ToXML();
 
+        public void SetParent(ElementManager parent)
+        {
+            _parent = parent;
+        }
     }
 }

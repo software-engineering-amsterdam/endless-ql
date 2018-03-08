@@ -164,7 +164,7 @@ namespace QL_Vizualizer.Factories
         /// <param name="style">Textbox style</param>
         /// <param name="result">Parent control</param>
         /// <returns>Created textbox already present in result</returns>
-        private TextBox ConstructTextbox<T>(QLQuestionWidget<T> widget, WindowsStyleProperties style, ref Control result)
+        private TextBox ConstructTextbox<T>(QuestionElementManager<T> widget, WindowsStyleProperties style, ref Control result)
         {
             TextBox textBox = new TextBox();
             if(widget.IsAnswered)
@@ -247,7 +247,7 @@ namespace QL_Vizualizer.Factories
         private void ChangedIntWidget(IntElementManager intWidget, TextBox input)
         {
             // Parse value
-            ParsedWidgetValue<int> value = intWidget.ParseInput(input.Text);
+            QuestionElementValue<int> value = intWidget.ParseInput(input.Text);
 
             // Assign parsed answer to input
             if (value.IsValid)
@@ -280,7 +280,7 @@ namespace QL_Vizualizer.Factories
         /// <param name="input">Input textbox</param>
         private void ChangedStringWidget(StringElementManager stringWidget, TextBox input)
         {
-            ParsedWidgetValue<string> value = stringWidget.ParseInput(input.Text);
+            QuestionElementValue<string> value = stringWidget.ParseInput(input.Text);
             if (value.IsValid)
             {
                 input.Text = value.Value.ToString();
@@ -293,7 +293,7 @@ namespace QL_Vizualizer.Factories
 
         private void ChangedMoneyWidget(MoneyElementManager moneyWidget, TextBox input)
         {
-            ParsedWidgetValue<double> value = moneyWidget.ParseInput(input.Text);
+            QuestionElementValue<double> value = moneyWidget.ParseInput(input.Text);
 
             if (value.IsValid)
             {

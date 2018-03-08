@@ -5,7 +5,7 @@
     /// Indicates widgets value and validity of the input
     /// </summary>
     /// <typeparam name="T">Type of value</typeparam>
-    public struct ParsedWidgetValue<T>
+    public struct QuestionElementValue<T>
     {
         /// <summary>
         /// Value of the widget
@@ -17,7 +17,7 @@
         /// </summary>
         public bool IsValid { get; private set; }
 
-        public ParsedWidgetValue(T value, bool isValid)
+        public QuestionElementValue(T value, bool isValid)
         {
             Value = value;
             IsValid = isValid;

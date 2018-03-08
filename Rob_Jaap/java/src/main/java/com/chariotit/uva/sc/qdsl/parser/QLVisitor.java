@@ -207,7 +207,8 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
 
     @Override
     public TypeExpression visitType_expr(QLParser.Type_exprContext ctx) {
-        TypeExpression typeExpression = new TypeExpression(visitType(ctx.type()), lineNumber(ctx), columnNumber(ctx));
+        TypeExpression typeExpression = new TypeExpression(visitTypeNode(ctx.typeNode()), lineNumber
+                (ctx), columnNumber(ctx));
 
         if (ctx.expr() != null) {
             typeExpression.setExpression(visitExpr(ctx.expr()));
@@ -217,7 +218,7 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
     }
 
     @Override
-    public TypeNode visitType(QLParser.TypeContext ctx) {
+    public TypeNode visitTypeNode(QLParser.TypeNodeContext ctx) {
         if (ctx.BOOLEAN_TYPE() != null) {
             return new BooleanTypeNode(lineNumber(ctx), columnNumber(ctx));
         } else if (ctx.INTEGER_TYPE() != null) {

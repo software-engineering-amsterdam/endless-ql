@@ -24,9 +24,6 @@ class Question_Generator:
         self.get_questions(self.ast.form.block)
         tmp_bool = False
         if self.form:
-            print("-------------------")
-            printDict(self.ast)
-            printDict(self.varDict)
             # self.form.empty_frame()
             for varName in self.questions:
                 print(varName)

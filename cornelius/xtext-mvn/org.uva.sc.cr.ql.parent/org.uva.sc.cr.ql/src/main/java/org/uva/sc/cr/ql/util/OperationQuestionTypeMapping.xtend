@@ -5,7 +5,7 @@ import java.util.List
 import java.util.Map
 import org.uva.sc.cr.ql.qL.QuestionType
 
-class QLUtil {
+class OperationQuestionTypeMapping {
 
 	private static val Map<QuestionType, List<Operation>> ALLOWED_OPERATIONS_FOR_TYPES = #{
 		QuestionType.TYPE_BOOLEAN -> #[Operation.AND, Operation.OR, Operation.NOT],

@@ -8,4 +8,9 @@ public class Boolean extends Term {
     }
 
     public boolean getBoolean() { return value; }
+
+    @Override
+    public float getValue() {
+        return (this.value ? 1 : 0);
+    }
 }

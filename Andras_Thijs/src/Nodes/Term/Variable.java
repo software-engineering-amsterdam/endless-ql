@@ -17,4 +17,8 @@ public class Variable extends Term {
     public String getName() { return name; }
 
     public Term getTerm() { return value; }
+
+    public float getValue(){
+        return this.value.getValue();
+    }
 }

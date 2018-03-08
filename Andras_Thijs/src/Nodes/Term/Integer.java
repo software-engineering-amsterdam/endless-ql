@@ -8,4 +8,6 @@ public class Integer extends Term {
     }
 
     public int getInteger() { return value; }
+
+    public float getValue() {return (float) value;}
 }

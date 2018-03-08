@@ -8,4 +8,8 @@ public class QLString extends Term {
     }
 
     public String getString() { return value; }
+
+    public float getValue(){
+        return this.value.length();
+    }
 }

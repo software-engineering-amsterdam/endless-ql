@@ -7,5 +7,5 @@ public class Float extends Term {
         this.value = value;
     }
 
-    public float getFloat() { return value; }
+    public float getValue() { return value; }
 }

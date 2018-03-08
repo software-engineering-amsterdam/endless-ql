@@ -27,5 +27,5 @@ final case class StringAnswer(possibleValue: Option[String]) extends Answer {
 
 object StringAnswer {
   def apply() = new StringAnswer(None)
-  def apply(value: String) = new StringAnswer(Some(value))
+  def apply(value: String) = new StringAnswer(Option(value).filter(_.nonEmpty))
 }

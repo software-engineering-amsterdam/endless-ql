@@ -44,5 +44,6 @@ final case class MoneyAnswer(possibleValue: Option[BigDecimal]) extends Answer {
 
 object MoneyAnswer {
   def apply() = new MoneyAnswer(None)
-  def apply(value: BigDecimal) = new MoneyAnswer(Some(value))
+  def apply(value: BigDecimal) = new MoneyAnswer(Option(value))
+  def apply(value: java.math.BigDecimal) = new MoneyAnswer(Option(value).map(BigDecimal(_)))
 }

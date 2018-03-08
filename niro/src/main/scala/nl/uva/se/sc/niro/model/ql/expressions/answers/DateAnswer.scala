@@ -29,6 +29,6 @@ final case class DateAnswer(possibleValue: Option[LocalDate]) extends Answer {
 
 object DateAnswer {
   def apply() = new DateAnswer(None)
-  def apply(value: LocalDate) = new DateAnswer(Some(value))
-  def apply(value: String): DateAnswer = if (value.isEmpty) DateAnswer() else DateAnswer(LocalDate.parse(value))
+  def apply(value: LocalDate) = new DateAnswer(Option(value))
+  def apply(value: String): DateAnswer = new DateAnswer(Option(value).filter(_.nonEmpty).map(LocalDate.parse(_)))
 }

@@ -44,5 +44,6 @@ final case class DecimalAnswer(possibleValue: Option[BigDecimal]) extends Answer
 
 object DecimalAnswer {
   def apply() = new DecimalAnswer(None)
-  def apply(value: BigDecimal) = new DecimalAnswer(Some(value))
+  def apply(value: BigDecimal) = new DecimalAnswer(Option(value))
+  def apply(value: java.math.BigDecimal) = new DecimalAnswer(Option(value).map(BigDecimal(_)))
 }

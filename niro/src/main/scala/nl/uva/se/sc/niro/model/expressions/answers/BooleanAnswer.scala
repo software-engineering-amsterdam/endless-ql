@@ -10,7 +10,7 @@ final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
 
   override def isTrue: Boolean = possibleValue.getOrElse(false)
 
-  def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
+  def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
     case that: BooleanAnswer =>
       operator match {
         case Lt  => this < that
@@ -26,7 +26,7 @@ final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
-  def applyUnaryOperator(operator: UnaryOperator): Answer = operator match {
+  def applyUnaryOperator(operator: Operator): Answer = operator match {
     case Neg => !this
     case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }

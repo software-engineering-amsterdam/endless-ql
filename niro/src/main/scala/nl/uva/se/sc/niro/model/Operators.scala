@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro.model
 
-sealed abstract class BinaryOperator
-object BinaryOperator {
-  def apply(operator: String): BinaryOperator = operator match {
+sealed abstract class Operator
+object Operator {
+  def apply(operator: String): Operator = operator match {
     case "<"  => Lt
     case "<=" => Lte
     case "==" => Eq
@@ -15,31 +15,27 @@ object BinaryOperator {
     case "*"  => Mul
     case "||" => Or
     case "&&" => And
+    case "!"  => Neg
+    case "-"  => Min
   }
 }
 
-sealed abstract class UnaryOperator
-object UnaryOperator {
-  def apply(operator: String): UnaryOperator = operator match {
-    case "!" => Neg
-    case "-" => Min
-  }
-}
+sealed abstract class ArithmeticOperator extends Operator
+case object Add extends ArithmeticOperator
+case object Sub extends ArithmeticOperator
+case object Mul extends ArithmeticOperator
+case object Div extends ArithmeticOperator
 
-case object Add extends BinaryOperator
-case object Sub extends BinaryOperator
-case object Mul extends BinaryOperator
-case object Div extends BinaryOperator
+sealed abstract class BooleanOperator extends Operator
+case object Lt extends BooleanOperator
+case object Lte extends BooleanOperator
+case object Gte extends BooleanOperator
+case object Gt extends BooleanOperator
+case object Ne extends BooleanOperator
+case object Eq extends BooleanOperator
 
-case object Lt extends BinaryOperator
-case object Lte extends BinaryOperator
-case object Gte extends BinaryOperator
-case object Gt extends BinaryOperator
-case object Ne extends BinaryOperator
-case object Eq extends BinaryOperator
+case object Or extends Operator
+case object And extends Operator
 
-case object Or extends BinaryOperator
-case object And extends BinaryOperator
-
-case object Min extends UnaryOperator
-case object Neg extends UnaryOperator
+case object Min extends Operator
+case object Neg extends Operator

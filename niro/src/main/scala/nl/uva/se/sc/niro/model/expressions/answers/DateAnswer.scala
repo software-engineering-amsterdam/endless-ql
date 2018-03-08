@@ -9,7 +9,7 @@ final case class DateAnswer(possibleValue: Option[LocalDate]) extends Answer {
 
   type T = LocalDate
 
-  def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
+  def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
     case that: DateAnswer =>
       operator match {
         case Lt  => this < that
@@ -23,7 +23,7 @@ final case class DateAnswer(possibleValue: Option[LocalDate]) extends Answer {
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
-  def applyUnaryOperator(operator: UnaryOperator): Answer =
+  def applyUnaryOperator(operator: Operator): Answer =
     throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
 }
 

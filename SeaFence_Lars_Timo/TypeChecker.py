@@ -12,7 +12,7 @@ class TypeChecker(object):
         self.conditionals = {}
         self.assignments = {}
         self.getVariables()
-        # self.checkUndefinedQuestions()
+        # self.checkUndefinedVariables()
 
     # Retrieve the variables/questions/etc from the ast and keep track of them.
     def getVariables(self):
@@ -27,7 +27,6 @@ class TypeChecker(object):
                     # if statement.expression.negate:
                     #     self.checkNegation(statement)
 
-                    # self.checkUndefinedQuestions(statement)
                     self.checkConditionals(statement)
 
                 elif type(statement.expression) is BinOpNode:
@@ -40,7 +39,7 @@ class TypeChecker(object):
 
 
     # Check for references to undefined question variables.
-    def checkUndefinedQuestions(self, statement):
+    def checkUndefinedVariables(self, statement):
         variable_exists = False
         for key, value in self.questions.iteritems():
             if statement.var in value:
@@ -82,17 +81,20 @@ class TypeChecker(object):
             left_type = self.checkInvalidOperations(statement.left)
 
         elif type(statement.left) is UnOpNode:
-            self.checkUndefinedQuestions(statement.left)
+            self.checkUndefinedVariables(statement.left)
             left_type = self.getVariableTypes(statement.left)
 
         if type(statement.right) is BinOpNode:
             right_type = self.checkInvalidOperations(statement.right)
 
         elif type(statement.right) is UnOpNode:
-            self.checkUndefinedQuestions(statement.right)
+            self.checkUndefinedVariables(statement.right)
             right_type = self.getVariableTypes(statement.right)
 
         self.checkOperation(statement, left_type, right_type, operator)
+
+        if operator == "<" or operator == ">" or operator == "<=" or operator == ">=" or operator == "==" or operator == "!=":
+            return BOOLEAN_UNICODE
 
         return left_type
 

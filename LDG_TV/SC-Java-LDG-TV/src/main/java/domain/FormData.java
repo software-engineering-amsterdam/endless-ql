@@ -41,8 +41,8 @@ public class FormData {
     }
     public Variable getVariableByLabel(String label){
         Variable qv = null ;
-        for (Map.Entry<List<Variable>, List<Question>> entry : this.getQuestions().entrySet()) {
-            for (Question qs : entry.getValue()) {
+        for (Map.Entry<List<Variable>, List<QuestionNode>> entry : this.getQuestions().entrySet()) {
+            for (QuestionNode qs : entry.getValue()) {
                 if (qs.getVariable().getIdentifier().equals(label)){
                     qv = qs.getVariable();
                 }

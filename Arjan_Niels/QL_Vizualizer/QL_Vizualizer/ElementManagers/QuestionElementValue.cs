@@ -1,4 +1,4 @@
-﻿namespace QL_Vizualizer.Widgets
+﻿namespace QL_Vizualizer.ElementManagers
 {
     /// <summary>
     /// Response of a ParseInput of a Widget

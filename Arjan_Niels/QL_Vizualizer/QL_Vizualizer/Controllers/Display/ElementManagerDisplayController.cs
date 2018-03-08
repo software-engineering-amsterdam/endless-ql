@@ -1,12 +1,12 @@
 ﻿using QL_Vizualizer.Factories;
-using QL_Vizualizer.Widgets;
+using QL_Vizualizer.ElementManagers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace QL_Vizualizer.Controllers.Display
 {
-    public abstract class WidgetDisplayController<T, Y> : WidgetController where Y : ICloneable
+    public abstract class WidgetDisplayController<T, Y> : ElementManagerController where Y : ICloneable
     {
         /// <summary>
         /// X-Position of first widget
@@ -101,14 +101,14 @@ namespace QL_Vizualizer.Controllers.Display
         /// <param name="widget">Widget to be shown</param>
         /// <param name="position">X-Position of widget</param>
         /// <returns>Bottom X-Position of placed widget with repsect to all style attributes</returns>
-        public abstract float ShowWidget(QLWidget widget, Y style);
+        public abstract float ShowWidget(ElementManager widget, Y style);
 
         /// <summary>
         /// Shows form to user
         /// </summary>
         /// <param name="title">Tile of form</param>
         /// <param name="widgets">Widgets on form</param>
-        public override void DisplayForm(string title, QLWidget[] widgets)
+        public override void DisplayForm(string title, ElementManager[] widgets)
         {
             SetTitle(title);
             SetWidgets(widgets);
@@ -130,7 +130,7 @@ namespace QL_Vizualizer.Controllers.Display
 
             // Display all widgets, updating their position as the bottom
             // of the last displayed widget.
-            foreach (QLWidget widget in _widgets.Values)
+            foreach (ElementManager widget in _widgets.Values)
                 if (widget.Active)
                 {
                     _tempStyle[widget.Identifyer] = UpdatePosition(widget, position, _tempStyle[widget.Identifyer]);
@@ -151,7 +151,7 @@ namespace QL_Vizualizer.Controllers.Display
         /// <param name="positionAbove">Bottom of previous/above widget</param>
         /// <param name="style">Style of the widget to update</param>
         /// <returns>Updated style</returns>
-        public abstract Y UpdatePosition(QLWidget widget, float positionAbove, Y style);
+        public abstract Y UpdatePosition(ElementManager widget, float positionAbove, Y style);
 
         /// <summary>
         /// Creates view element
@@ -159,7 +159,7 @@ namespace QL_Vizualizer.Controllers.Display
         /// <param name="widget">Widget to show</param>
         /// <param name="style">Style of widget</param>
         /// <returns>View element</returns>
-        protected T CreateElement(QLWidget widget, Y style)
+        protected T CreateElement(ElementManager widget, Y style)
         {
             T element = _elementFactory.CreateElement(widget, style);
             ElementIndex.Add(widget.Identifyer, element);
@@ -170,7 +170,7 @@ namespace QL_Vizualizer.Controllers.Display
         /// Updates the view of a specific widget
         /// </summary>
         /// <param name="widget">Target widget</param>
-        public override void UpdateView(QLWidget widget)
+        public override void UpdateView(ElementManager widget)
         {
             if (widget.Active == true)
             {

@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Controllers.Display;
 using QL_Vizualizer.Style;
-using QL_Vizualizer.Widgets.Types;
+using QL_Vizualizer.ElementManagers.Types;
 
 namespace QL_Visualizer.Tests.Controllers.Display
 {
@@ -15,10 +15,10 @@ namespace QL_Visualizer.Tests.Controllers.Display
         {
             _widgetStyle = new WindowsStyleProperties();
 
-            _widgetDisplayController = new WidgetDisplayControllerWindows(10);
-            _intWidget = new QLWidgetInt("a", "q1");
-            _boolWidget = new QLWidgetBool("b", "q2");
-            _stringWidget = new QLWidgetString("c", "q3");
+            _widgetDisplayController = new ElementManagerDisplayContollerWindows(10);
+            _intWidget = new IntElementManager("a", "q1");
+            _boolWidget = new BoolElementManager("b", "q2");
+            _stringWidget = new StringElementManager("c", "q3");
         }
 
         [TestMethod]

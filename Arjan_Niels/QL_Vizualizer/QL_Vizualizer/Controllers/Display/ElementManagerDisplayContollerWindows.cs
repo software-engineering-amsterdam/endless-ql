@@ -8,12 +8,12 @@ using QL_Vizualizer.Expression.Types;
 using QL_Vizualizer.Factories;
 using QL_Vizualizer.Properties;
 using QL_Vizualizer.Style;
-using QL_Vizualizer.Widgets;
-using QL_Vizualizer.Widgets.Types;
+using QL_Vizualizer.ElementManagers;
+using QL_Vizualizer.ElementManagers.Types;
 
 namespace QL_Vizualizer.Controllers.Display
 {
-    public class WidgetDisplayControllerWindows : WidgetDisplayController<Control, WindowsStyleProperties>
+    public class ElementManagerDisplayContollerWindows : WidgetDisplayController<Control, WindowsStyleProperties>
     {
         /// <summary>
         /// Control element to add all created controls to
@@ -37,7 +37,7 @@ namespace QL_Vizualizer.Controllers.Display
 
         private Label _titleLabel;
 
-        public WidgetDisplayControllerWindows(float topMargin) : base(topMargin, new WindowsStyleProperties { Width = 338 })
+        public ElementManagerDisplayContollerWindows(float topMargin) : base(topMargin, new WindowsStyleProperties { Width = 338 })
         {
             _elementFactory = new ControlFactory(this);
             ConstructMainWindow();
@@ -49,7 +49,7 @@ namespace QL_Vizualizer.Controllers.Display
         /// <param name="widget">Widget to show</param>
         /// <param name="position">X position to show widget</param>
         /// <returns></returns>
-        public override float ShowWidget(QLWidget widget, WindowsStyleProperties style)
+        public override float ShowWidget(ElementManager widget, WindowsStyleProperties style)
         {
             // Create control
             Control control = null;
@@ -90,7 +90,7 @@ namespace QL_Vizualizer.Controllers.Display
         /// <param name="positionAbove">Bottom of previous</param>
         /// <param name="style">Style of target</param>
         /// <returns>Updated style</returns>
-        public override WindowsStyleProperties UpdatePosition(QLWidget widget, float positionAbove, WindowsStyleProperties style)
+        public override WindowsStyleProperties UpdatePosition(ElementManager widget, float positionAbove, WindowsStyleProperties style)
         {
             style.YPosition += (int)positionAbove;
             return style;

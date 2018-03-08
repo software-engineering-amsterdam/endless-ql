@@ -38,7 +38,7 @@ export class ExpressionQuestion extends Question {
   toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
                  condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
 
-    const question = QuestionFactory.toFormQuestion(this, condition);
+    const question = QuestionFactory.toFormQuestion(this.name, this.label, this.type, condition);
     question.toCalculatedQuestion((form: FormGroup) => this.expression.evaluate(form));
     return [question];
   }

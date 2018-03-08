@@ -1,4 +1,4 @@
-import {Question, QuestionType} from '../domain/ast';
+import {QuestionType} from '../domain/ast/question-type';
 import {QuestionBase} from '../domain/angular-questions/question-base';
 import {InputQuestion} from '../domain/angular-questions/input-question';
 import {BooleanQuestion} from '../domain/angular-questions/boolean-question';
@@ -16,21 +16,23 @@ export class QuestionFactory {
     }
   }
 
-  static toFormQuestion(question: Question,
+  static toFormQuestion(name: string,
+                        label: string,
+                        type: QuestionType,
                         condition?: (form: FormGroup) => boolean
                         ): QuestionBase<any> {
 
     const options = {
-      key: question.name,
-      label: question.label,
-      type: QuestionFactory.toHtmlInputType(question.type),
+      key: name,
+      label: label,
+      type: QuestionFactory.toHtmlInputType(type),
       value: undefined,
       hiddenCondition: condition
     };
 
     let formQuestionsToReturn: QuestionBase<any>;
 
-    if (question.type === QuestionType.BOOLEAN) {
+    if (type === QuestionType.BOOLEAN) {
       formQuestionsToReturn = new BooleanQuestion(options);
     } else {
       formQuestionsToReturn = new InputQuestion(options);

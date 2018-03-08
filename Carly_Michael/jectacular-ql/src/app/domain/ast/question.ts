@@ -16,6 +16,6 @@ export class Question extends Statement {
 
   toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
                  condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
-    return [QuestionFactory.toFormQuestion(this, condition)];
+    return [QuestionFactory.toFormQuestion(this.name, this.label, this.type, condition)];
   }
 }

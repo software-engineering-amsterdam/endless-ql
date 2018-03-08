@@ -5,8 +5,8 @@ import org.uva.ql.visitor.ExpressionVisitor;
 
 public class GreaterThanEqualTo extends BinaryOperation {
 
-    public GreaterThanEqualTo(Expression left, Expression right){
-        super(left,right);
+    public GreaterThanEqualTo(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override

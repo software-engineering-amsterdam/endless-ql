@@ -142,7 +142,6 @@ function peg$parse(input, options) {
   const peg$c2 = peg$literalExpectation("stylesheet", false);
   const peg$c3 = function(id, page) {
       return new Nodes.Stylesheet( id, page);
-      //return new Nodes.Stylesheet(id, page)
   };
   const peg$c4 = "page";
   const peg$c5 = peg$literalExpectation("page", false);
@@ -177,7 +176,7 @@ function peg$parse(input, options) {
   const peg$c22 = "widget";
   const peg$c23 = peg$literalExpectation("widget", false);
   const peg$c24 = function(id, options) {
-      return new Nodes.WidgetAttribuut("widget", id, options);
+      return new Nodes.WidgetAttribute("widget", id, options);
   };
   const peg$c25 = "(";
   const peg$c26 = peg$literalExpectation("(", false);
@@ -195,7 +194,7 @@ function peg$parse(input, options) {
   const peg$c34 = ":";
   const peg$c35 = peg$literalExpectation(":", false);
   const peg$c36 = function(id, args) {
-      return new Nodes.BaseAttribuut(id, args);
+      return new Nodes.BaseAttribute(id, args);
   };
   const peg$c37 = /^["#"]/;
   const peg$c38 = peg$classExpectation(["\"", "#", "\""], false, false);

@@ -1,7 +1,8 @@
 import ExpressionVisitor from "../visitors/ExpressionVisitor";
 import Expression from "./Expression";
+import AbstractTreeNode from "../AbstractTreeNode";
 
-export default class VariableIdentifier implements Expression {
+export default class VariableIdentifier extends AbstractTreeNode implements Expression {
   readonly identifier: string;
 
   /**
@@ -9,6 +10,7 @@ export default class VariableIdentifier implements Expression {
    * @param {string} identifier
    */
   constructor(identifier: string) {
+    super();
     this.identifier = identifier;
   }
 

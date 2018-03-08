@@ -25,7 +25,7 @@ class BinaryNode:
         self.numOps = ["<", "<=", ">", ">="]
         self.arithmeticOps = ["+", "-", "/", "*"]
         self.allOps = ["!=", "=="]
-        self.boolOps = ["&&", "||"]
+        self.boolOps = ["and", "or"]
 
     # check the actual expression type
     def checkTypes(self):
@@ -66,6 +66,10 @@ class BinaryNode:
             errorstring = "Unknown operator at line " + str(self.line)
             throwError(errorstring)
 
+    # Return string representation of expression
+    def getName(self):
+        return str(self.left.getName()) + self.op + str(self.right.getName())
+
     # check if both types are numerical (int or float), return true, and if they are not of the same type,
     # return float (small conversion)
     def typeCompareNumOp(self, leftType, rightType):
@@ -98,6 +102,11 @@ class BinaryNode:
         self.left.linkVars(varDict)
         self.right.linkVars(varDict)
 
+    def evaluate(self):
+        left_exp = self.left.evaluate()
+        right_exp = self.right.evaluate()
+        return eval(str(left_exp) + " " +  self.op + " " + str(right_exp))
+
     def __repr__(self):
         return "Binop: {} {} {}".format(self.left, self.op, self.right)
 
@@ -121,6 +130,14 @@ class UnaryNode:
     def linkVars(self, varDict):
         self.left.linkVars(varDict)
 
+    # Return string representation of expression
+    def getName(self):
+        return self.op + str(self.left.getName())
+
+    def evaluate(self):
+        left_exp = self.left.evaluate()
+        return eval("not " + str(left_exp))
+
     def __repr__(self):
         return "Monop: {} {}".format(self.op, self.left)
 
@@ -141,6 +158,13 @@ class LiteralNode:
     # We do not have to modify the dict here, so we can pass this method
     def linkVars(self, varDict):
         pass
+
+    # Return string representation of expression
+    def getName(self):
+        return str(self.value)
+
+    def evaluate(self):
+        return self.value
 
     def __repr__(self):
         return "literal: {}({}) ".format(self.value, self.type)
@@ -195,6 +219,24 @@ class VarNode:
         except KeyError:
             errorstring = "Invalid default type: " + str(self.type) + "; at line " + str(self.line)
             throwError(errorstring)
+
+    # Return string representation of expression
+    def getName(self):
+        return self.varname
+
+    # Set the value of the variable, and only accept its own type or a int to float conversion
+    def setVar(self, var):
+        print(var)
+        print(type(var))
+        if type(var) == self.type:
+            self.value = var
+        elif self.type == float and type(var) == int:
+            self.value = float(var)
+        else:
+            throwError("Bad assignment of variable after expression")
+
+    def evaluate(self):
+        return self.value
 
     def __repr__(self):
         return "VarNode: {} {}".format(self.varname, self.type)

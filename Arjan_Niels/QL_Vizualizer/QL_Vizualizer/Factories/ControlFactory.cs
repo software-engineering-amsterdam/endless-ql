@@ -62,6 +62,9 @@ namespace QL_Vizualizer.Factories
                 case QLWidgetString stringWidget:
                     UpdateStringWidget(stringWidget, control);
                     break;
+                case QLWidgetMoney moneyWidget:
+                    UpdateMoneyWidget(moneyWidget, control);
+                    break;
             }
 
             return control;
@@ -120,6 +123,13 @@ namespace QL_Vizualizer.Factories
             foreach (Control c in control.Controls)
                 if (c.GetType() == typeof(TextBox))
                     ((TextBox)c).Text = widget.AnswerValue;
+        }
+
+        private void UpdateMoneyWidget(QLWidgetMoney widget, Control control)
+        {
+            foreach (Control c in control.Controls)
+                if (c.GetType() == typeof(TextBox))
+                    ((TextBox)c).Text = widget.AnswerValue.ToString();
         }
         #endregion
 

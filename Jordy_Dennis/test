@@ -1,15 +1,12 @@
 form taxOfficeExample {
-	"Did you sell a house in 2010?"
-		a: int
+	"This is an int"
+		a: int = (4)
 
-	"Did you sell a house in 2012?"
-		b: string
+	"This is a string"
+		b: int
 
-	"Uitkomst"
-		g: int = (a * a)
-
-	if(a && b){
-		"Did you sell a house in 2012?"
+	if(a){
+		"Q3 Within the if (int)"
 			f: int
 	}
 

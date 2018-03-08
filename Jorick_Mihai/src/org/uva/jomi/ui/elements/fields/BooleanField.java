@@ -9,7 +9,10 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class BooleanField extends InputField<Boolean> implements ChangeListener {
+import org.uva.jomi.ql.interpreter.BooleanValue;
+import org.uva.jomi.ql.interpreter.GenericValue;
+
+public class BooleanField extends InputField implements ChangeListener {
 
 	private JCheckBox checkbox;
 	
@@ -30,14 +33,25 @@ public class BooleanField extends InputField<Boolean> implements ChangeListener 
 	}
 
 	@Override
-	public Boolean getValue() {
-		return this.checkbox.isSelected();
+	public GenericValue getValue() {
+		return new BooleanValue(this.checkbox.isSelected());
 	}
 
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		this.listener.valueDidChange(this);
+	}
+	
+	@Override
+	public void setValue(GenericValue value) {
+		BooleanValue booleanValue = (BooleanValue) value;
+		this.checkbox.setSelected(booleanValue.getValue());
+	}
+
+	@Override
+	public void setEnabled(boolean enabled) {
+		this.checkbox.setEnabled(enabled);
 	}
 
 }

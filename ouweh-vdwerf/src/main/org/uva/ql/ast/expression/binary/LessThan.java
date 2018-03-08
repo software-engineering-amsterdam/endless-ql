@@ -5,8 +5,8 @@ import org.uva.ql.visitor.ExpressionVisitor;
 
 public class LessThan extends BinaryOperation {
 
-    public LessThan(Expression left, Expression right){
-        super(left,right);
+    public LessThan(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override

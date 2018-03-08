@@ -1,5 +1,5 @@
 from AST.types.type import Type
-from PyQt5.QtWidgets import QCalendarWidget
+from render.widgets import CalendarWidget
 
 
 class TypeDate(Type):
@@ -12,4 +12,4 @@ class TypeDate(Type):
 
     @staticmethod
     def pyqt5_default_widget():
-        return QCalendarWidget()
+        return CalendarWidget()

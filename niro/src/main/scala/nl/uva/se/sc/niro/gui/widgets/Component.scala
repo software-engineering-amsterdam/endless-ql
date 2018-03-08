@@ -13,6 +13,6 @@ class Component(label: Label, control: Control) extends HBox {
 
 object ComponentFactory {
   def make(question: GUIQuestion): Component = {
-    new Component(new Label(question.label), WidgetFactory.makeWidget(question))
+    new Component(new Label(question.label), WidgetFactory.make(question))
   }
 }

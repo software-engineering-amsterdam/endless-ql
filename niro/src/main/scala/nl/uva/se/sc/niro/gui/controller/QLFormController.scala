@@ -16,14 +16,16 @@ import nl.uva.se.sc.niro.model.QLForm
 import nl.uva.se.sc.niro.model.expressions.Answer
 import nl.uva.se.sc.niro.model.gui.GUIForm
 
-import scala.collection.JavaConverters
+import scala.collection.{ JavaConverters, mutable }
 
 class QLFormController extends QLBaseController with ModelUpdater {
   @FXML var formName: Label = _
   @FXML var questions: VBox = _
   private var qlForm: QLForm = _
   private var guiForm: GUIForm = _
-  private var symbolTable: Map[String, Answer] = Map()
+  // TODO check if 'mutable' in the definition is needed.
+  //                          |
+  private val symbolTable: mutable.Map[String, Answer] = mutable.Map()
 
   @FXML
   @throws[IOException]
@@ -31,7 +33,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
     QLForms.openHomeScreen(getActiveStage(event))
 
   override def updateModel(questionId: String, answer: Answer): Unit = {
-    symbolTable = symbolTable + (questionId -> answer)
+    symbolTable(questionId) = answer
     // TODO evaluate AST model
     updateComponents()
   }

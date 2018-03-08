@@ -1,4 +1,4 @@
-// Generated from QL.g4 by ANTLR 4.7.1
+// Generated from QLS.g4 by ANTLR 4.7.1
 
 package antlr.generated;
 
@@ -8,251 +8,239 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
- * This class provides an empty implementation of {@link QLListener},
+ * This class provides an empty implementation of {@link QLSListener},
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
-public class QLBaseListener implements QLListener {
+public class QLSBaseListener implements QLSListener {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterForm(QLParser.FormContext ctx) { }
+	@Override public void enterStylesheet(QLSParser.StylesheetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitForm(QLParser.FormContext ctx) { }
+	@Override public void exitStylesheet(QLSParser.StylesheetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestion(QLParser.QuestionContext ctx) { }
+	@Override public void enterPage(QLSParser.PageContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestion(QLParser.QuestionContext ctx) { }
+	@Override public void exitPage(QLSParser.PageContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfStatement(QLParser.IfStatementContext ctx) { }
+	@Override public void enterSection(QLSParser.SectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIfStatement(QLParser.IfStatementContext ctx) { }
+	@Override public void exitSection(QLSParser.SectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfElseStatement(QLParser.IfElseStatementContext ctx) { }
+	@Override public void enterSegment(QLSParser.SegmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIfElseStatement(QLParser.IfElseStatementContext ctx) { }
+	@Override public void exitSegment(QLSParser.SegmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNegation(QLParser.NegationContext ctx) { }
+	@Override public void enterDefaultStatement(QLSParser.DefaultStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNegation(QLParser.NegationContext ctx) { }
+	@Override public void exitDefaultStatement(QLSParser.DefaultStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStringLiteral(QLParser.StringLiteralContext ctx) { }
+	@Override public void enterQuestion(QLSParser.QuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStringLiteral(QLParser.StringLiteralContext ctx) { }
+	@Override public void exitQuestion(QLSParser.QuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParameter(QLParser.ParameterContext ctx) { }
+	@Override public void enterWidget(QLSParser.WidgetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParameter(QLParser.ParameterContext ctx) { }
+	@Override public void exitWidget(QLSParser.WidgetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterComparation(QLParser.ComparationContext ctx) { }
+	@Override public void enterRadio(QLSParser.RadioContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitComparation(QLParser.ComparationContext ctx) { }
+	@Override public void exitRadio(QLSParser.RadioContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntegerLiteral(QLParser.IntegerLiteralContext ctx) { }
+	@Override public void enterCheckbox(QLSParser.CheckboxContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntegerLiteral(QLParser.IntegerLiteralContext ctx) { }
+	@Override public void exitCheckbox(QLSParser.CheckboxContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLogicalAnd(QLParser.LogicalAndContext ctx) { }
+	@Override public void enterDropdown(QLSParser.DropdownContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLogicalAnd(QLParser.LogicalAndContext ctx) { }
+	@Override public void exitDropdown(QLSParser.DropdownContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAddSub(QLParser.AddSubContext ctx) { }
+	@Override public void enterSlider(QLSParser.SliderContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAddSub(QLParser.AddSubContext ctx) { }
+	@Override public void exitSlider(QLSParser.SliderContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParameterGroup(QLParser.ParameterGroupContext ctx) { }
+	@Override public void enterText(QLSParser.TextContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParameterGroup(QLParser.ParameterGroupContext ctx) { }
+	@Override public void exitText(QLSParser.TextContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLogicalOr(QLParser.LogicalOrContext ctx) { }
+	@Override public void enterBooleanType(QLSParser.BooleanTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLogicalOr(QLParser.LogicalOrContext ctx) { }
+	@Override public void exitBooleanType(QLSParser.BooleanTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBooleanLiteral(QLParser.BooleanLiteralContext ctx) { }
+	@Override public void enterIntegerType(QLSParser.IntegerTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBooleanLiteral(QLParser.BooleanLiteralContext ctx) { }
+	@Override public void exitIntegerType(QLSParser.IntegerTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMulDiv(QLParser.MulDivContext ctx) { }
+	@Override public void enterMoneyType(QLSParser.MoneyTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMulDiv(QLParser.MulDivContext ctx) { }
+	@Override public void exitMoneyType(QLSParser.MoneyTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCalculatedValue(QLParser.CalculatedValueContext ctx) { }
+	@Override public void enterStringType(QLSParser.StringTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCalculatedValue(QLParser.CalculatedValueContext ctx) { }
+	@Override public void exitStringType(QLSParser.StringTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBooleanType(QLParser.BooleanTypeContext ctx) { }
+	@Override public void enterStyle(QLSParser.StyleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBooleanType(QLParser.BooleanTypeContext ctx) { }
+	@Override public void exitStyle(QLSParser.StyleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntegerType(QLParser.IntegerTypeContext ctx) { }
+	@Override public void enterStyleProperty(QLSParser.StylePropertyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntegerType(QLParser.IntegerTypeContext ctx) { }
+	@Override public void exitStyleProperty(QLSParser.StylePropertyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMoneyType(QLParser.MoneyTypeContext ctx) { }
+	@Override public void enterValue(QLSParser.ValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMoneyType(QLParser.MoneyTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterStringType(QLParser.StringTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStringType(QLParser.StringTypeContext ctx) { }
+	@Override public void exitValue(QLSParser.ValueContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

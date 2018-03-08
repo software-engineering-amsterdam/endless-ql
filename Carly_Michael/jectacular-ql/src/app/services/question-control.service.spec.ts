@@ -1,7 +1,7 @@
 import {inject, TestBed} from '@angular/core/testing';
 import {QuestionControlService} from './question-control.service';
-import {TextboxQuestion} from '../domain/angular-questions/question-textbox';
-import {CheckboxQuestion} from '../domain/angular-questions/question-checkbox';
+import {TextboxQuestion} from '../domain/angular-questions/textbox-question';
+import {CheckboxQuestion} from '../domain/angular-questions/checkbox-question';
 
 describe('The question control service', () => {
   let service: QuestionControlService;

@@ -1,156 +1,149 @@
-// Generated from QL.g4 by ANTLR 4.7.1
+// Generated from QLS.g4 by ANTLR 4.7.1
 
 package antlr.generated;
 
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
- * This class provides an empty implementation of {@link QLVisitor},
+ * This class provides an empty implementation of {@link QLSVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
  * of the available methods.
  *
  * @param <T> The return type of the visit operation. Use {@link Void} for
  * operations with no return type.
  */
-public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLVisitor<T> {
+public class QLSBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLSVisitor<T> {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitForm(QLParser.FormContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStylesheet(QLSParser.StylesheetContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitQuestion(QLParser.QuestionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPage(QLSParser.PageContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIfStatement(QLParser.IfStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSection(QLSParser.SectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIfElseStatement(QLParser.IfElseStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSegment(QLSParser.SegmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNegation(QLParser.NegationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefaultStatement(QLSParser.DefaultStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStringLiteral(QLParser.StringLiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitQuestion(QLSParser.QuestionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParameter(QLParser.ParameterContext ctx) { return visitChildren(ctx); }
+	@Override public T visitWidget(QLSParser.WidgetContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitComparation(QLParser.ComparationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRadio(QLSParser.RadioContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIntegerLiteral(QLParser.IntegerLiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCheckbox(QLSParser.CheckboxContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicalAnd(QLParser.LogicalAndContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDropdown(QLSParser.DropdownContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAddSub(QLParser.AddSubContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSlider(QLSParser.SliderContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParameterGroup(QLParser.ParameterGroupContext ctx) { return visitChildren(ctx); }
+	@Override public T visitText(QLSParser.TextContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicalOr(QLParser.LogicalOrContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBooleanType(QLSParser.BooleanTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBooleanLiteral(QLParser.BooleanLiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIntegerType(QLSParser.IntegerTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMulDiv(QLParser.MulDivContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMoneyType(QLSParser.MoneyTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCalculatedValue(QLParser.CalculatedValueContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStringType(QLSParser.StringTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBooleanType(QLParser.BooleanTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStyle(QLSParser.StyleContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIntegerType(QLParser.IntegerTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStyleProperty(QLSParser.StylePropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMoneyType(QLParser.MoneyTypeContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitStringType(QLParser.StringTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitValue(QLSParser.ValueContext ctx) { return visitChildren(ctx); }
 }

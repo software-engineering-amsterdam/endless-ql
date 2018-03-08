@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Main extends Application {
@@ -71,7 +72,7 @@ public class Main extends Application {
 //            symbolTable.printValues();
 
             TypeCheckVisitor typeChecker = new TypeCheckVisitor(form, symbolTable);
-            List<String> typeCheckErrors = typeChecker.typeCheck();
+            Set<String> typeCheckErrors = typeChecker.typeCheck();
 
             if(typeCheckErrors.size() > 0) {
                 showErrorAlert(typeCheckErrors);
@@ -93,7 +94,7 @@ public class Main extends Application {
         }
     }
 
-    private void showErrorAlert(List<String> messages) {
+    private void showErrorAlert(Set<String> messages) {
         Alert alert = new Alert(Alert.AlertType.ERROR, "Type checking error");
         alert.setContentText(String.join("\n", messages));
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

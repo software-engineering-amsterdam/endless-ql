@@ -53,9 +53,9 @@ class InputTypeMap:
         new_val = var.get()
         try:
             new_val == '' or int(new_val)
-
+            new_val = int(new_val)
             # save value in vardict
-            varNode = self.varDict[self.var]['node']
+            varNode = self.varDict[self.varName]['node']
             varNode.setVar(new_val)
             # update_questions
             self.questionGenerator.updateQuestions()
@@ -69,9 +69,9 @@ class InputTypeMap:
         new_val = var.get()
         try:
             new_val == '' or float(new_val)
-
+            new_val = float(new_val)
             # save value in vardict
-            varNode = self.varDict[self.var]['node']
+            varNode = self.varDict[self.varName]['node']
             varNode.setVar(new_val)
             # update_questions
             self.questionGenerator.updateQuestions()

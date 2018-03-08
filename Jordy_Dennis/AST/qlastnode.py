@@ -13,18 +13,14 @@ Important notes:
 """
 class QLAst:
     def __init__(self):
-        self.forms = []
+        self.form = None
         self.types = []
         self.varDict = collections.OrderedDict()
-
-    def addForm(self, form):
-        self.forms.append(form)
 
     # Check all types of child forms
     def checkTypes(self):
         types = []
-        for form in self.forms:
-            types.append(form.checkTypes())
+        types.append(self.form.checkTypes())
         self.types = types
         return types
 
@@ -32,12 +28,14 @@ class QLAst:
     # We do not support variable scopes, THIS IS VERY IMPORTANT, that is why all variables can only be declared or assigned once!
     # The varDict contains all used variables along with their types and the node which will hold the variable
     def linkVars(self):
-        for form in self.forms:
-            form.linkVars(self.varDict)
+        self.form.linkVars(self.varDict)
         return self.varDict
 
     def getVarDict(self):
         return self.varDict
+
+    def getName(self):
+        return self.form.name
 
     def __repr__(self):
         return "FORMS: {}".format(self.forms)

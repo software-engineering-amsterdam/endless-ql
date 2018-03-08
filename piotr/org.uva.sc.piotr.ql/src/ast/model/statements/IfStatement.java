@@ -11,8 +11,8 @@ public class IfStatement extends Statement {
     private ArrayList<Statement> statementList = new ArrayList<>();
     private ArrayList<Statement> elseStatementList = new ArrayList<>();
 
-    public IfStatement(Expression condition, Integer startLine, Integer endLine) {
-        super(startLine, endLine);
+    public IfStatement(Expression condition, MetaInformation metaInformation) {
+        super(metaInformation);
         this.condition = condition;
     }
 

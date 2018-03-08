@@ -82,7 +82,7 @@ namespace Assignment1
          */
         public override void ExitIfstatement(QL.IfstatementContext context)
         {
-            object conditionType = context.result.Expression.Evaluate();
+            object conditionType = context._expression.result.Evaluate();
             if (!(conditionType is bool))
             {
                 AddError(context, "The expression '" + context._expression.GetText() + "' is not of type boolean.");

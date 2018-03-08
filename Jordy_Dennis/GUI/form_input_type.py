@@ -4,10 +4,12 @@ from .gui_imports import *
 # class that returns the correct widget based on the input type
 class InputTypeMap:
 
-    def __init__(self, parent):
+    def __init__(self, parent, questionGenerator, varName):
         self.parent = parent
         self.old_value = None
-        pass
+        self.questionGenerator = questionGenerator
+        self.varDict = self.questionGenerator.getVarDict()
+        self.varName = varName
 
     def getWidget(self, question_type):
         q_types = {
@@ -51,14 +53,29 @@ class InputTypeMap:
         new_val = var.get()
         try:
             new_val == '' or int(new_val)
+
+            # save value in vardict
+            varNode = self.varDict[self.var]['node']
+            varNode.setVar(new_val)
+            # update_questions
+            self.questionGenerator.updateQuestions()
+
             self.old_value = new_val
         except:
+            print("EXCEPT")
             var.set(self.old_value)
 
     def validateFloat(self, var):
         new_val = var.get()
         try:
             new_val == '' or float(new_val)
+
+            # save value in vardict
+            varNode = self.varDict[self.var]['node']
+            varNode.setVar(new_val)
+            # update_questions
+            self.questionGenerator.updateQuestions()
+
             self.old_value = new_val
         except:
             var.set(self.old_value)

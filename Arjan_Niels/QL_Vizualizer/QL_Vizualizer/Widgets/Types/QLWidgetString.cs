@@ -13,5 +13,10 @@ namespace QL_Vizualizer.Widgets.Types
         {
             return new ParsedWidgetValue<string>(input, true);
         }
+
+        public override string ToXML()
+        {
+            return string.Format("<stringValue>{0}</stringValue>", AnswerValue);
+        }
     }
 }

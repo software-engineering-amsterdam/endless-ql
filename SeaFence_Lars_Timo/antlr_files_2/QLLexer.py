@@ -67,7 +67,7 @@ def serializedATN():
         buf.write(u"\u0089\7\61\2\2\u0089*\3\2\2\2\u008a\u008b\7/\2\2\u008b")
         buf.write(u",\3\2\2\2\u008c\u008d\7,\2\2\u008d.\3\2\2\2\u008e\u008f")
         buf.write(u"\7(\2\2\u008f\u0090\7(\2\2\u0090\60\3\2\2\2\u0091\u0092")
-        buf.write(u"\7Q\2\2\u0092\u0093\7T\2\2\u0093\62\3\2\2\2\u0094\u0095")
+        buf.write(u"\7~\2\2\u0092\u0093\7~\2\2\u0093\62\3\2\2\2\u0094\u0095")
         buf.write(u"\7v\2\2\u0095\u0096\7t\2\2\u0096\u0097\7w\2\2\u0097\u0098")
         buf.write(u"\7g\2\2\u0098\64\3\2\2\2\u0099\u009a\7h\2\2\u009a\u009b")
         buf.write(u"\7c\2\2\u009b\u009c\7n\2\2\u009c\u009d\7u\2\2\u009d\u009e")
@@ -138,7 +138,7 @@ class QLLexer(Lexer):
     literalNames = [ u"<INVALID>",
             u"'form'", u"'{'", u"'}'", u"':'", u"'='", u"'('", u"')'", u"'int'", 
             u"'boolean'", u"'if'", u"'elif'", u"'else'", u"'!'", u"'+'", 
-            u"'/'", u"'-'", u"'*'", u"'&&'", u"'OR'", u"'true'", u"'false'" ]
+            u"'/'", u"'-'", u"'*'", u"'&&'", u"'||'", u"'true'", u"'false'" ]
 
     symbolicNames = [ u"<INVALID>",
             u"BOOL", u"INT", u"NOT", u"COMPARER", u"ADDSUBOPERATOR", u"DIVMULOPERATOR", 

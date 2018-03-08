@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.typechecking
 
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model.expressions.Reference
+import nl.uva.se.sc.niro.model.expressions.{ Expression, Reference }
 import nl.uva.se.sc.niro.model.expressions.answers.BooleanAnswer
 import nl.uva.se.sc.niro.model.{ Conditional, QLForm, Question, Statement }
 import org.apache.logging.log4j.scala.Logging
@@ -10,6 +10,8 @@ import CycleDetection._
 
 object TypeChecker extends Logging {
 
+  /** Performs all type checking tasks. Early aborts when one of the tasks returns a TypeCheckError
+    * */
   def pipeline(qLForm: QLForm): Either[TypeCheckError, QLForm] =
     for {
       _ <- checkOperandsOfInvalidTypeToOperators(qLForm)
@@ -99,7 +101,7 @@ object TypeChecker extends Logging {
     questions.flatMap {
       case q @ Question(_, _, _, r @ Reference(_), _) => Seq(Edge(q.id, r.value))
       case q @ Question(_, _, _, expression, _) =>
-        Statement.collectAllReferences(expression).map(r => Edge(q.id, r.value))
+        Expression.collectAllReferences(expression).map(r => Edge(q.id, r.value))
     }
   }
 

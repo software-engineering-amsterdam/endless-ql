@@ -15,7 +15,6 @@ import ast.model.expressions.values.Literal;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
-import ast.model.statements.Statement;
 
 public interface ASTNodeVisitor {
 

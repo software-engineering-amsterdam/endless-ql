@@ -20,7 +20,17 @@ class TypeCheckerTest extends WordSpec {
         ))
 
       val result = TypeChecker.pipeline(qlForm)
-      assert(result === Left(TypeCheckError("TypeCheckError", "Found questions with duplicate labels")))
+
+      assert(result === Right(
+        QLForm(
+          "duplicateLabel",
+          List(
+            Question("q1", "duplicate-label", IntegerType, IntegerAnswer(Some(1))),
+            Question("q2", "duplicate-label", IntegerType, IntegerAnswer(Some(1)))
+          ),
+          List(Warning("Warning: questions q1, q2 have duplicate label: duplicate-label"))
+        )
+      ))
     }
 
     "checkOperandsOfInvalidTypeToOperators" in {}

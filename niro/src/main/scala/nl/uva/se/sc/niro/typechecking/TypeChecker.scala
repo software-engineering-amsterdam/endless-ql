@@ -21,8 +21,8 @@ object TypeChecker extends Logging {
       _ <- checkOperandsOfInvalidTypeToOperators(qLForm)
       _ <- checkNonBooleanPredicates(qLForm)
       _ <- checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm)
-      _ <- checkDuplicateLabels(qLForm)
-    } yield qLForm
+      qlFormWithPossibleWarnings = checkDuplicateLabels(qLForm)
+    } yield qlFormWithPossibleWarnings
 
   // TODO implement checkOperandsOfInvalidTypeToOperators
   private def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
@@ -170,18 +170,18 @@ object TypeChecker extends Logging {
     }
   }
 
-  // TODO this function should not throw an error. Somehow we should give a warning when duplicate labels are detected
-  private def checkDuplicateLabels(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
+  private def checkDuplicateLabels(qLForm: QLForm): QLForm = {
     logger.info("Phase 6 - Checking duplicate question labels ...")
 
     val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
     val questionsWithDuplicateLabels: Seq[Seq[Question]] =
       questions.groupBy(_.label).valuesIterator.filter(_.size > 1).toList
 
-    if (questionsWithDuplicateLabels.nonEmpty) {
-      Left(TypeCheckError(message = s"Found questions with duplicate labels"))
-    } else {
-      Right(qLForm)
-    }
+    val warnings = questionsWithDuplicateLabels
+      .map(qg => Warning(
+        s"Warning: questions ${qg.map(_.id).mkString(", ")} have duplicate label: ${qg.head.label}"
+      ))
+
+    qLForm.copy(warnings = warnings)
   }
 }

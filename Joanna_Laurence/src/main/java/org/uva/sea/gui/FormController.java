@@ -19,8 +19,7 @@ import java.util.ResourceBundle;
 
 public class FormController implements Initializable {
 
-    //TODO: set a relative path
-    private String defaultQlLocation = "/Users/joannaroczniak/Desktop/UvA/endless-ql/Joanna_Laurence/src/main/resources/example.ql";
+    private String defaultQlLocation = "/example.ql";
 
     private GuiModel guiModel;
 
@@ -38,7 +37,7 @@ public class FormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        guiModel = new GuiModel(defaultQlLocation);
+        guiModel = new GuiModel(getClass().getResource(defaultQlLocation).getFile());
         ViewRenderer renderer = new ViewRenderer(questionBox, messageBox, this);
         questionRenderer = new QuestionRenderer(renderer);
         warningRenderer = new WarningRenderer(renderer);

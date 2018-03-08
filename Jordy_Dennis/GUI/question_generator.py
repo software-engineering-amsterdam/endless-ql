@@ -14,8 +14,11 @@ class Question_Generator:
         self.ast = ast
         self.questions = collections.OrderedDict()
 
+    def getVarDict(self):
+        return self.varDict
+
     # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
-    def getQuestionsFromAst(self):
+    def updateQuestions(self):
         self.get_questions(self.ast.form.block)
         return self.questions
 

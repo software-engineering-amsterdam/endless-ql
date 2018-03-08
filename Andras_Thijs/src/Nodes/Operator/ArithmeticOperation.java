@@ -23,6 +23,7 @@ public class ArithmeticOperation extends Operator{
             case "-": return new Float(left.getValue() - right.getValue());
             case "/": return new Float(left.getValue() / right.getValue());
             case "*": return new Float(left.getValue() * right.getValue());
+            case "^": return new Float((float) Math.pow(left.getValue(),right.getValue()));
             default: ; //TODO throw error
         }
         // TODO throw error if code gets here

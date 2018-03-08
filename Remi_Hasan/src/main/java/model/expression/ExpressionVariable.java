@@ -9,4 +9,13 @@ public abstract class ExpressionVariable<T> extends Expression {
         super(start);
         this.value = value;
     }
+
+    @Override
+    public boolean equals(Object other){
+        if(other instanceof ExpressionVariable){
+            ExpressionVariable otherExpressionVariable = (ExpressionVariable) other;
+            return this.value.equals(otherExpressionVariable.value);
+        }
+        return false;
+    }
 }

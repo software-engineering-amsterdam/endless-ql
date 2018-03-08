@@ -12,4 +12,6 @@ public abstract class Expression extends Node {
 
     public abstract <T> T accept(IASTVisitor<T> visitor);
 
+    @Override
+    public abstract boolean equals(Object other);
 }

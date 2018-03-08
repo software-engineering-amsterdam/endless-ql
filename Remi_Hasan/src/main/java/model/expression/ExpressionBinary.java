@@ -11,4 +11,13 @@ public abstract class ExpressionBinary<T> extends Expression {
         this.left = left;
         this.right = right;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other instanceof ExpressionBinary){
+            ExpressionBinary otherExpressionBinary = (ExpressionBinary) other;
+            return this.left.equals(otherExpressionBinary.left) && this.right.equals(otherExpressionBinary.right);
+        }
+        return false;
+    }
 }

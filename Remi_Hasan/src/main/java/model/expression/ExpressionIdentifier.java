@@ -21,4 +21,13 @@ public class ExpressionIdentifier extends Expression {
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other instanceof ExpressionIdentifier){
+            ExpressionIdentifier otherExpressionIdentifier = (ExpressionIdentifier) other;
+            return this.identifier.equals(otherExpressionIdentifier.identifier);
+        }
+        return false;
+    }
 }

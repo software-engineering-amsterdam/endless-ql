@@ -15,4 +15,9 @@ public class ExpressionComparisonLE extends ExpressionBinary<Boolean> {
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other) && other instanceof ExpressionComparisonLE;
+    }
 }

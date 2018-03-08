@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.factories
+package nl.uva.se.sc.niro.gui.factory
 
 import nl.uva.se.sc.niro.model.Question
 import nl.uva.se.sc.niro.model.expressions._

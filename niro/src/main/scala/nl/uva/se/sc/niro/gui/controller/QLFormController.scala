@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.controllers
+package nl.uva.se.sc.niro.gui.controller
 
 import java.io.IOException
 
@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.gui._
 import nl.uva.se.sc.niro.gui.application.QLForms
-import nl.uva.se.sc.niro.gui.converters.ModelConverter
+import nl.uva.se.sc.niro.gui.converter.ModelConverter
 import nl.uva.se.sc.niro.gui.widgets.ComponentFactory
 import nl.uva.se.sc.niro.model.QLForm
 import nl.uva.se.sc.niro.model.expressions.Answer
@@ -23,16 +23,21 @@ class QLFormController extends QLBaseController with ModelUpdater {
   @FXML var questions: VBox = _
   private var qlForm: QLForm = _
   private var guiForm: GUIForm = _
+  private var symbolTable: Map[String, Answer] = Map()
 
   @FXML
   @throws[IOException]
   def cancel(event: ActionEvent): Unit =
     QLForms.openHomeScreen(getActiveStage(event))
 
-  override def updateModel(questionId: String, answer: Answer): Unit =
-    updateGUI(Evaluator.evaluate(qlForm.save(questionId, answer)))
+  override def updateModel(questionId: String, answer: Answer): Unit = {
+    symbolTable = symbolTable + (questionId -> answer)
+    // TODO evaluate AST model
+    updateComponents()
+  }
 
   @FXML def saveData(event: ActionEvent): Unit =
+    // TODO Implement
     println("Data is saved....")
 
   def populateForm(form: QLForm): Unit = {
@@ -41,16 +46,14 @@ class QLFormController extends QLBaseController with ModelUpdater {
 
     formName.setText(guiForm.name)
 
-//    questions.setPadding(new Insets(0, 20, 0, 20))
     val guiQuestions = guiForm.questions.map(ComponentFactory.make)
     questions.getChildren.addAll(JavaConverters.seqAsJavaList(guiQuestions))
-//    CreateCallbackVisitor.visit(this, questionsGrid, form.statements)
-//    updateGUI(Evaluator.evaluate(form))
+    updateComponents()
   }
 
-  private def updateGUI(form: QLForm) = {
-//    GUIUpdateVisitor.visit(questionsGrid, form.statements, form.symbolTable)
-    this.qlForm = form
+  private def updateComponents(): Unit = {
+    // TODO update components
+    println("Updating components")
   }
 
 }

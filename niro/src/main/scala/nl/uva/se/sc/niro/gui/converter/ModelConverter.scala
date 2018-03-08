@@ -1,6 +1,6 @@
-package nl.uva.se.sc.niro.gui.converters
+package nl.uva.se.sc.niro.gui.converter
 
-import nl.uva.se.sc.niro.gui.factories.{ GUIConditionalFactory, GUIQuestionFactory }
+import nl.uva.se.sc.niro.gui.factory.{ GUIConditionalFactory, GUIQuestionFactory }
 import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.expressions.Expression
 import nl.uva.se.sc.niro.model.expressions.answers.BooleanAnswer

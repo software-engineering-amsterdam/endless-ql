@@ -70,7 +70,10 @@ public class QLLoader extends FormBaseListener {
     }
     @Override
     public void exitQuestionStructure(FormParser.QuestionStructureContext ctx) {
-        this.formNode.getFormData().addQuestion(this.conditionsHolder, new Question(ctx.label().getText(), constructedVariable));
+        String questionText = ctx.label().getText();
+
+        this.formNode.getFormData().addQuestion(this.conditionsHolder, new Question(questionText, constructedVariable));
+        this.formNode.addQuestion(new Question(questionText, constructedVariable));
     }
     @Override
     public void enterVariableValue(FormParser.VariableValueContext ctx){

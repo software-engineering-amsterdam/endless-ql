@@ -2,6 +2,7 @@ package domain;
 
 import domain.model.Question;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FormNode {
@@ -12,6 +13,7 @@ public class FormNode {
 
     public FormNode(){
         this.formData = new FormData();
+        this.questions = new ArrayList<>();
     }
 
     public void setFormIdentifier(String formIdentifier) {

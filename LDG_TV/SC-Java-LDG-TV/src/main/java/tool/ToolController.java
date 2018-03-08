@@ -55,13 +55,14 @@ public class ToolController implements Initializable {
     public void generateQuestionnaire(ActionEvent event) {
         String qlSource = taSourceCode.getText();
 
-//        if(qlSource.isEmpty()){
-//            showAlertBox("Please import or add QL code");
-//            return;
-//        }
+        if(qlSource.isEmpty()){
+            showAlertBox("Please import or add QL code");
+            return;
+        }
 
         lvQuestionnaire.getItems().clear();
 
+        // Parse input field and create AST
         CharStream stream = CharStreams.fromString(qlSource);
         FormLexer lexer = new FormLexer(stream);
 
@@ -74,22 +75,19 @@ public class ToolController implements Initializable {
         FormNode node = loader.getFormNode();
         FormData data = node.getFormData();
 
+        UIVisitor v = new UIVisitor();
+        for (Question q : node.getQuestions()){
+            Variable qv = q.getVariable();
+            String qt = q.getText();
 
-//
-//
-//        List<Question> qs = data.getAllQuestions();
-//        UIVisitor v = new UIVisitor();
-//        for (Question q : qs) {
-//            Variable qv =  q.getVariable();
-//            String qText = q.getText();
-//            Node answerNode = qv.getRelatedUIElement(v);
-//            lvQuestionnaire.getItems().add(new QuestionRow(qText, answerNode));
-//
-//        }
+            Node answerNode = qv.getRelatedUIElement(v);
+            lvQuestionnaire.getItems().add(new QuestionRow(qt, answerNode, false));
+        }
 
-
-        this.lvQuestionnaire.getItems().setAll(dummyRows());
+        //this.lvQuestionnaire.getItems().setAll(dummyRows());
     }
+
+
 
 
     private List<Row> dummyRows(){

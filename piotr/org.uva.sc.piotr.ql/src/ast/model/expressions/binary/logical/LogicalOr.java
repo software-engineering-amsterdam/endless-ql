@@ -5,8 +5,8 @@ import ast.model.expressions.binary.BinaryExpression;
 import ast.visitors.ASTNodeVisitor;
 
 public class LogicalOr extends BinaryExpression {
-    public LogicalOr(Expression leftSide, Expression rightSide, Integer startLine, Integer endLine) {
-        super(leftSide, rightSide, startLine, endLine);
+    public LogicalOr(Expression leftSide, Expression rightSide, MetaInformation metaInformation) {
+        super(leftSide, rightSide, metaInformation);
     }
 
     @Override

@@ -94,7 +94,7 @@ class TypeCheckerTest extends WordSpec {
           Seq(
             Question("q1", "question1", IntegerType, Reference("q3")),
             Question("q2", "question2", IntegerType, Reference("q1")),
-            Question("q3", "question3", IntegerType, UnaryOperation(Min, Reference("q2")))
+            Question("q3", "question3", IntegerType, UnaryOperation(Sub, Reference("q2")))
           )
         )
 
@@ -113,7 +113,7 @@ class TypeCheckerTest extends WordSpec {
             Question("q1", "question1", IntegerType, BinaryOperation(Mul, Reference("q2"), Reference("q3"))),
             Question("q2", "question2", IntegerType, Reference("q3")),
             Question("q2", "question2", IntegerType, Reference("q1")),
-            Question("q3", "question3", IntegerType, UnaryOperation(Min, IntAnswer()))
+            Question("q3", "question3", IntegerType, UnaryOperation(Sub, IntAnswer()))
           )
         )
 
@@ -166,7 +166,7 @@ class TypeCheckerTest extends WordSpec {
               "q1",
               "questions with undefined reference",
               IntegerType,
-              UnaryOperation(Min, Reference("1"))
+              UnaryOperation(Sub, Reference("1"))
             ),
             Question("q2", "question2", IntegerType, IntAnswer(1)),
             Question("q3", "question3", IntegerType, Reference("q2"))

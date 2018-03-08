@@ -1,11 +1,11 @@
-package ast.visitors.filters;
+package ast.visitors.collectors;
 
 import ast.model.expressions.values.VariableReference;
 import ast.visitors.AbstractASTTraverse;
 
 import java.util.ArrayList;
 
-public class ReferencesFilter extends AbstractASTTraverse<Void> {
+public class CollectReferencesVisitor extends AbstractASTTraverse<Void> {
 
     private ArrayList<VariableReference> variableReferences = new ArrayList<>();
 

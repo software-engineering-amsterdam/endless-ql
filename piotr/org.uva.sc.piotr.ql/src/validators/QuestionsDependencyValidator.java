@@ -50,8 +50,10 @@ public class QuestionsDependencyValidator {
     }
 
     public QuestionsDependencyValidator(HashMap<Question, ArrayList<VariableReference>> questionsMap) {
+        this.CreateGraph(questionsMap);
+    }
 
-        Set<Question> questions = questionsMap.keySet();
+    private void CreateGraph(HashMap<Question, ArrayList<VariableReference>> questionsMap) {
 
         // create nodes
         for (Question question : questionsMap.keySet()) {
@@ -61,63 +63,25 @@ public class QuestionsDependencyValidator {
         // create edges
         for (Map.Entry<Question, ArrayList<VariableReference>> entry : questionsMap.entrySet()) {
 
+            // for each given question (entry)
             Node referringNode = this.nodes.get(entry.getKey().getVariableName());
 
-            // for each given question (entry)
-
-            ArrayList<VariableReference> refs = entry.getValue();
-
-            for(VariableReference reference: entry.getValue()) {
-                // find variables that it refers to
+            // find variables that it refers to
+            for (VariableReference reference : entry.getValue()) {
 
                 // find node by name
                 Node referredNode = nodes.get(reference.getName());
 
+                // add edge
                 if (referredNode != null) {
                     referringNode.addEdge(referredNode);
                 }
-
-                        //findOneByName(reference.getName());
-
             }
-
-
         }
-
-
-        // find in questionsMap all references to a question
-
-        // find the node containing a question with the exact same name as referenceVar
-
-        // for each node
-        // get all references
-        // for each reference
-        // find all ref.nodes
-        // create edge node <-> ref.node
-
-
-//
-//
-//
-//            // create edges
-//            for (Map.Entry<Question, ArrayList<VariableReference>> entry : questionsMap.entrySet()) {
-//
-//                for (VariableReference reference : entry.getValue()) {
-//
-//                    // find all ref.nodes
-//                    for (Map.Entry<Question, Node> nodeEntry : this.nodes.entrySet()) {
-//                        if (question.getVariableName().equals(reference.getName())) {
-//                            Node referredNode = this.nodes.get(question);
-//                            entry
-//                        }
-//                    }
-//
-//
-//                }
-//            }
-//
-
     }
 
 
+    private void ConstructTransitiveClosure() {
+        
+    }
 }

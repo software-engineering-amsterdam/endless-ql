@@ -5,9 +5,8 @@ import ast.model.Form;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
 import ast.visitors.TestASTTraverse;
-import ast.visitors.filters.QuestionsFilter;
-import ast.visitors.filters.ReferencesFilter;
-import com.google.gson.Gson;
+import ast.visitors.collectors.CollectQuestionsVisitor;
+import ast.visitors.collectors.CollectReferencesVisitor;
 import grammar.QLLexer;
 import grammar.QLParser;
 import gui.QLGui;
@@ -24,7 +23,7 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CharStream charStream = CharStreams.fromFileName("./example-ql/form1.qlform");
+        CharStream charStream = CharStreams.fromFileName("./example-ql/form3.qlform");
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
         QLParser qlParser = new QLParser(commonTokenStream);
@@ -34,35 +33,35 @@ public class Main {
         ASTBuilder astBuilder = new ASTBuilder();
         Form form = astBuilder.visitForm(formContext);
 
-//        // list of references (?)
-//        ReferencesFilter referencesFilter = new ReferencesFilter();
-//        form.accept(referencesFilter);
-//
-//        // questions graph for type validator
-//        QuestionsFilter questionsFilter = new QuestionsFilter();
-//        form.accept(questionsFilter);
-////
-//        // Type checking
-//        HashMap<Question, ArrayList<VariableReference>> map = questionsFilter.getQuestionsMap();
-//        QuestionsDependencyValidator questionsDependencyValidator = new QuestionsDependencyValidator(map);
-//
-//        // undeclared variables usage
-//        VariablesReferencesValidator.validateVariablesUsage(
-//                questionsFilter.getQuestions(),
-//                referencesFilter.getVariableReferences()
-//        );
-//
-//        // duplicate question declarations with different types
-//        QuestionsValidator.validateDuplicates(questionsFilter.getQuestions());
-//
-//        // duplicate labels (warning)
-//        try {
-//            QuestionsValidator.validateLabels(questionsFilter.getQuestions());
-//        } catch (Exception e) {
-//            System.out.println("Warning: " + e.getMessage());
-//        }
+        // list of references (?)
+        CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
+        form.accept(collectReferencesVisitor);
 
-//        form.accept(new TestASTTraverse());
+        // questions graph for type validator
+        CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
+        form.accept(collectQuestionsVisitor);
+
+        // Type checking
+        HashMap<Question, ArrayList<VariableReference>> map = collectQuestionsVisitor.getQuestionsMap();
+        QuestionsDependencyValidator questionsDependencyValidator = new QuestionsDependencyValidator(map);
+
+        // undeclared variables usage
+        VariablesReferencesValidator.validateVariablesUsage(
+                collectQuestionsVisitor.getQuestions(),
+                collectReferencesVisitor.getVariableReferences()
+        );
+
+        // duplicate question declarations with different types
+        QuestionsValidator.validateDuplicates(collectQuestionsVisitor.getQuestions());
+
+        // duplicate labels (warning)
+        try {
+            QuestionsValidator.validateLabels(collectQuestionsVisitor.getQuestions());
+        } catch (Exception e) {
+            System.out.println("Warning: " + e.getMessage());
+        }
+
+        form.accept(new TestASTTraverse());
 //
 //        Gson gson = new Gson();
 //        System.out.println(gson.toJson(form));
@@ -70,7 +69,7 @@ public class Main {
         System.out.println("Main finish.");
 
 //        /* Show the GUI */
-//        new QLGui();
+        new QLGui(form);
 
 
     }

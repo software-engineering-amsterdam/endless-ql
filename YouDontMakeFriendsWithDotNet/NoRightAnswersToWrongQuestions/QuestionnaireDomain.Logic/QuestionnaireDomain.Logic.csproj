@@ -142,7 +142,6 @@
     <Compile Include="API\IQuestionnaireCreator.cs" />
     <Compile Include="DomainLogicModule.cs" />
     <Compile Include="Logic\DomainItemLocator.cs" />
-    <Compile Include="Logic\IdMaker.cs" />
     <Compile Include="Logic\PredicateCreator.cs" />
     <Compile Include="Logic\QuestionnaireCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

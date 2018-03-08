@@ -1,7 +1,7 @@
 ﻿using System;
-using QuestionaireDomain.Entities.API;
+using QuestionnaireInfrastructure.API;
 
-namespace QuestionnaireDomain.Logic.Logic
+namespace QuestionnaireInfrastructure.Logic
 {
     internal class IdMaker : IIdMaker
     {

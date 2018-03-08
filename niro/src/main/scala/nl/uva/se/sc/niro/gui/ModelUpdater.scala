@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.gui
 
-import nl.uva.se.sc.niro.model.expressions.Answer
+import nl.uva.se.sc.niro.model.expressions.answers.Answer
 
 /**
   * Classes that implement the @{@link ModelUpdater} trait are responsible for updating the answer for a single

@@ -25,7 +25,7 @@ class BinaryNode:
         self.numOps = ["<", "<=", ">", ">="]
         self.arithmeticOps = ["+", "-", "/", "*"]
         self.allOps = ["!=", "=="]
-        self.boolOps = ["&&", "||"]
+        self.boolOps = ["and", "or"]
 
     # check the actual expression type
     def checkTypes(self):
@@ -105,7 +105,7 @@ class BinaryNode:
     def evaluate(self):
         left_exp = self.left.evaluate()
         right_exp = self.right.evaluate()
-        return eval(str(left_exp) + self.op + str(right_exp))
+        return eval(str(left_exp) + " " +  self.op + " " + str(right_exp))
 
     def __repr__(self):
         return "Binop: {} {} {}".format(self.left, self.op, self.right)
@@ -224,8 +224,17 @@ class VarNode:
     def getName(self):
         return self.varname
 
+    # Set the value of the variable, and only accept its own type or a int to float conversion
+    def setVar(self, var):
+        if type(var) == self.type:
+            self.value = var
+        elif self.type == float and type(var) == int:
+            self.value = float(var)
+        else:
+            throwError("Bad assignment of variable after expression")
+
     def evaluate(self):
         return self.value
 
     def __repr__(self):
-        return "VarNode: {} {}".format(self.varname, self.type)
+        return "VarNode: {} {} {}".format(self.varname, self.type, self.value)

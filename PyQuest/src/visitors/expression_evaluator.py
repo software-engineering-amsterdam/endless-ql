@@ -13,6 +13,7 @@ from AST.expressions.binary_operators.not_equals_node import NotEqualsOperatorNo
 from AST.expressions.binary_operators.or_node import OrOperatorNode
 from AST.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
 from AST.expressions.literals.integer_node import IntegerNode
+from AST.expressions.literals.boolean_node import BooleanNode
 
 
 class ExpressionEvaluator:
@@ -154,4 +155,8 @@ class ExpressionEvaluator:
 
     @when(IntegerNode)
     def visit(self, node):
-        pass
+        self.result = node.value
+
+    @when(BooleanNode)
+    def visit(self, node):
+        self.result = node.value

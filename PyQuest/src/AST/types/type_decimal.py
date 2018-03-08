@@ -10,6 +10,9 @@ class TypeDecimal(Type):
     def __repr__(self):
         return 'decimal'
 
+    def __eq__(self, other):
+        return type(self) == type(other)
+
     @staticmethod
     def pyqt5_default_widget():
         number_of_decimals = 16

@@ -31,36 +31,32 @@ public class Main {
         ASTBuilder astBuilder = new ASTBuilder();
         Form form = astBuilder.visitForm(formContext);
 
-        TestVisitor testVisitor = new TestVisitor();
-        testVisitor.visit(form);
+        // questions graph for type validator
+        QuestionsFilter questionsFilter = new QuestionsFilter();
+        form.accept(questionsFilter);
 
+        // list of references (?)
+        ReferencesFilter referencesFilter = new ReferencesFilter();
+        form.accept(referencesFilter);
 
-//        // questions graph for type validator
-//        QuestionsFilter questionsFilter = new QuestionsFilter();
-//        form.accept(questionsFilter);
-//
-//        // list of references (?)
-//        ReferencesFilter referencesFilter = new ReferencesFilter();
-//        form.accept(referencesFilter);
-//
-//        // Type checking
-//        HashMap<Question, ArrayList<VariableReference>> map = questionsFilter.getQuestionsMap();
-//
-//        // undeclared variables usage
-//        VariablesReferencesValidator.validateVariablesUsage(
-//                questionsFilter.getQuestions(),
-//                referencesFilter.getVariableReferences()
-//        );
-//
-//        // duplicate question declarations with different types
-//        QuestionsValidator.validateDuplicates(questionsFilter.getQuestions());
-//
-//        // duplicate labels (warning)
-//        try {
-//            QuestionsValidator.validateLabels(questionsFilter.getQuestions());
-//        } catch (Exception e) {
-//            System.out.println("Warning: " + e.getMessage());
-//        }
+        // Type checking
+        HashMap<Question, ArrayList<VariableReference>> map = questionsFilter.getQuestionsMap();
+
+        // undeclared variables usage
+        VariablesReferencesValidator.validateVariablesUsage(
+                questionsFilter.getQuestions(),
+                referencesFilter.getVariableReferences()
+        );
+
+        // duplicate question declarations with different types
+        QuestionsValidator.validateDuplicates(questionsFilter.getQuestions());
+
+        // duplicate labels (warning)
+        try {
+            QuestionsValidator.validateLabels(questionsFilter.getQuestions());
+        } catch (Exception e) {
+            System.out.println("Warning: " + e.getMessage());
+        }
 
         System.out.println("Main finish.");
 

@@ -18,7 +18,7 @@ public final class VariablesReferencesValidator {
                 }
             }
             if (!found) {
-                throw new RuntimeException("Reference to undeclared variable \"" + reference.getName() + "\" on line " + reference.getStartLine() + ".");
+                throw new RuntimeException("Reference to undeclared variable \"" + reference.getName() + "\" on line " + reference.getMetaInformation().getStartLine() + ".");
             }
         }
     }

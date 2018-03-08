@@ -5,8 +5,9 @@ import ast.model.expressions.unary.UnaryExpression;
 import ast.visitors.ASTNodeVisitor;
 
 public class Negation extends UnaryExpression{
-    public Negation(Expression expression, Integer startLine, Integer endLine) {
-        super(expression, startLine, endLine);
+
+    public Negation(Expression expression, MetaInformation metaInformation) {
+        super(expression, metaInformation);
     }
 
     @Override

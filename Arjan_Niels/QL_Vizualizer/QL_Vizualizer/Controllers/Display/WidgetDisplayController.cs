@@ -1,11 +1,12 @@
 ﻿using QL_Vizualizer.Factories;
 using QL_Vizualizer.Widgets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace QL_Vizualizer.Controllers.Display
 {
-    public abstract class WidgetDisplayController<T, Y> : WidgetController
+    public abstract class WidgetDisplayController<T, Y> : WidgetController where Y : ICloneable
     {
         /// <summary>
         /// X-Position of first widget
@@ -27,6 +28,8 @@ namespace QL_Vizualizer.Controllers.Display
         /// </summary>
         public Dictionary<string, Y> ElementStyleIndex { get; private set; }
 
+        public Dictionary<string, Y> ActiveElementStyles { get; private set; }
+
         /// <summary>
         /// Default style in case no style is set
         /// </summary>
@@ -44,9 +47,6 @@ namespace QL_Vizualizer.Controllers.Display
         /// </summary>
         public override void RefreshWidgets()
         {
-            foreach (T element in ElementIndex.Values)
-                RemoveFromView(element);
-
             ShowWidgets();
         }
 
@@ -123,6 +123,8 @@ namespace QL_Vizualizer.Controllers.Display
             // Ensure styles are set
             UpdateDefaultStyle();
 
+            Dictionary<string, Y> _tempStyle = ElementStyleIndex.ToDictionary(o => o.Key, o => (Y)o.Value.Clone());
+
             // Start showing widgets at specified starting position
             float position = InitialPosition;
 
@@ -131,8 +133,8 @@ namespace QL_Vizualizer.Controllers.Display
             foreach (QLWidget widget in _widgets.Values)
                 if (widget.Active)
                 {
-                    ElementStyleIndex[widget.Identifyer] = UpdatePosition(widget, position, ElementStyleIndex[widget.Identifyer]);
-                    position = ShowWidget(widget, ElementStyleIndex[widget.Identifyer]);
+                    _tempStyle[widget.Identifyer] = UpdatePosition(widget, position, _tempStyle[widget.Identifyer]);
+                    position = ShowWidget(widget, _tempStyle[widget.Identifyer]);
                 }
         }
 

@@ -164,8 +164,7 @@ public class SymbolTableBuilderVisitor extends NodeVisitor {
         try {
             symbolTable.addEntry(new SymbolTableQuestionEntry(
                     lineElement.getLabel().getLabel(),
-                    lineElement,
-                    lineElement.getTypeExpression().getExpression().getExpressionType()
+                    lineElement
             ));
         } catch (DuplicateSymbolException exception) {
             addError(lineElement, exception.getMessage());

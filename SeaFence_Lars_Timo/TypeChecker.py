@@ -10,9 +10,8 @@ class TypeChecker(object):
         self.ast = ast
         self.questions = {}
         self.conditionals = {}
-        self.assignments = {}
         self.getVariables()
-        # self.checkUndefinedQuestions()
+        # self.checkUndefinedVariables()
 
     # Retrieve the variables/questions/etc from the ast and keep track of them.
     def getVariables(self):
@@ -27,20 +26,25 @@ class TypeChecker(object):
                     # if statement.expression.negate:
                     #     self.checkNegation(statement)
 
-                    # self.checkUndefinedQuestions(statement)
                     self.checkConditionals(statement)
 
                 elif type(statement.expression) is BinOpNode:
-                    self.checkInvalidOperations(statement.expression)
+                    conditional_type = self.checkInvalidOperations(statement.expression)
+                    if conditional_type != BOOLEAN_UNICODE:
+                        exitProgram("Condition {} is not of type boolean.".format(statement.expression))
                 self.conditionals[statement.expression] = statement.statements
-            # elif type(statement) is AssignmentNode:
-            #     self.assignments[statement.name] = [statement.var, statement.vartype, statement.expression]
+
+            elif type(statement) is AssignmentNode:
+                assignment_type = self.checkInvalidOperations(statement.expression)
+                if assignment_type != statement.vartype:
+                    exitProgram("Assignment expression type does not match variable type at {}".format(statement))
+                self.questions[statement.name] = [statement.var, statement.vartype, statement.expression]
         # print self.questions
         return
 
 
     # Check for references to undefined question variables.
-    def checkUndefinedQuestions(self, statement):
+    def checkUndefinedVariables(self, statement):
         variable_exists = False
         for key, value in self.questions.iteritems():
             if statement.var in value:
@@ -82,17 +86,20 @@ class TypeChecker(object):
             left_type = self.checkInvalidOperations(statement.left)
 
         elif type(statement.left) is UnOpNode:
-            self.checkUndefinedQuestions(statement.left)
+            self.checkUndefinedVariables(statement.left)
             left_type = self.getVariableTypes(statement.left)
 
         if type(statement.right) is BinOpNode:
             right_type = self.checkInvalidOperations(statement.right)
 
         elif type(statement.right) is UnOpNode:
-            self.checkUndefinedQuestions(statement.right)
+            self.checkUndefinedVariables(statement.right)
             right_type = self.getVariableTypes(statement.right)
 
         self.checkOperation(statement, left_type, right_type, operator)
+
+        if operator == "<" or operator == ">" or operator == "<=" or operator == ">=" or operator == "==" or operator == "!=":
+            return BOOLEAN_UNICODE
 
         return left_type
 

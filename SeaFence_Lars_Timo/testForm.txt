@@ -5,10 +5,11 @@ form taxOfficeExample
   "Did you buy a house in 2010?"
     hasBoughtHouse: boolean
   "Did you enter a loan?"
-    hasMaintLoan: boolean
+    hasMaintLoan: int
+
+  "Value residue:" valueResidue: boolean = (hasSoldHouse == hasBoughtHouse)
     
-  
-  if ((hasBoughtHouse || hasSoldHouse) == (hasSoldHouse == hasBoughtHouse))
+  if ((hasMaintLoan == hasMaintLoan))
   {
     "What was the selling price?"
       sellingPrice: int

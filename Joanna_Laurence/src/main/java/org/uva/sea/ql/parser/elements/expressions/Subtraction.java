@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.interpreter.visitor.IASTVisitor;
+import org.uva.sea.ql.parser.visitor.IASTVisitor;
 
 public class Subtraction extends BinaryOperator {
     public Subtraction(Token token, ASTNode leftHandSide, ASTNode rightHandSide) {

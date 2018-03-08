@@ -1,9 +1,9 @@
 import Equals from "../../form/nodes/expressions/comparisons/Equals";
-import BooleanLiteral from "../../form/nodes/expressions/literals/BooleanLiteral";
+import BooleanLiteral from "../../form/nodes/literals/BooleanLiteral";
 import { evaluate } from "../../form/evaluation/evaluation_functions";
 import NotEqual from "../../form/nodes/expressions/comparisons/NotEqual";
 import Negation from "../../form/nodes/expressions/boolean_expressions/Negation";
-import NumberLiteral from "../../form/nodes/expressions/literals/NumberLiteral";
+import NumberLiteral from "../../form/nodes/literals/NumberLiteral";
 import { FieldType } from "../../form/FieldType";
 import { ValuesNotComparableError } from "../../form/form_errors";
 

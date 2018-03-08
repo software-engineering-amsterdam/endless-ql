@@ -34,7 +34,7 @@ def main():
 
     # Run testsuite
     if args.test:
-        os.system("pytest")
+        os.system("pytest -vv")
         sys.exit(0)
 
     # Generate antlr parser
@@ -42,7 +42,7 @@ def main():
 
     # GUI
     app = QApplication(sys.argv)
-    screen = InputWindow()
+    screen = MainWindow()
     screen.show()
 
     sys.exit(app.exec_())

@@ -6,7 +6,7 @@ namespace QL.Core.Ast
     public abstract class Node
     {
         protected readonly IToken _token;
-        protected readonly IList<Node> _childNodes = new List<Node>();        
+        protected readonly IList<Node> _childNodes = new List<Node>();
 
         public void AddChild(Node node)
         {

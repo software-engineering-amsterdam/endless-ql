@@ -5,13 +5,13 @@ import org.uva.ql.visitor.ExpressionVisitor;
 
 public class Or extends BinaryOperation {
 
-    public Or(Expression left, Expression right){
-        super(left,right);
+    public Or(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override
     public String toString() {
-        return String.format("%s OR %s", this.getLeft(), this.getRight());
+        return String.format("%s || %s", this.getLeft(), this.getRight());
     }
 
     @Override

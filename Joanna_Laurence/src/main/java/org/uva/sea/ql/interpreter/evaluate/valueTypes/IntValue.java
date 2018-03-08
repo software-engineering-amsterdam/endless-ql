@@ -2,13 +2,14 @@ package org.uva.sea.ql.interpreter.evaluate.valueTypes;
 
 import org.uva.sea.ql.interpreter.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
-import org.uva.sea.ql.interpreter.visitor.BaseValueVisitor;
+import org.uva.sea.ql.parser.visitor.BaseValueVisitor;
 
 public class IntValue extends Value {
     private int intValue;
 
     public IntValue(String value) {
-        this.intValue = Integer.parseInt(value);
+        if(!value.equals(""))
+            this.intValue = Integer.parseInt(value);
     }
 
     public IntValue(int intValue) {

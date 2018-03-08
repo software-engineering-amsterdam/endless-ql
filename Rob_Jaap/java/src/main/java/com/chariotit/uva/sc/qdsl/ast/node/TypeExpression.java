@@ -4,21 +4,21 @@ import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
 
 public class TypeExpression extends AstNode {
 
-    private Type type;
+    private TypeNode typeNode;
     private Expression expression;
 
-    public TypeExpression(Type type, Integer lineNumber, Integer columnNumber) {
+    public TypeExpression(TypeNode typeNode, Integer lineNumber, Integer columnNumber) {
         super(lineNumber, columnNumber);
-        this.type = type;
+        this.typeNode = typeNode;
     }
 
 
-    public Type getType() {
-        return type;
+    public TypeNode getTypeNode() {
+        return typeNode;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setTypeNode(TypeNode typeNode) {
+        this.typeNode = typeNode;
     }
 
     public Expression getExpression() {
@@ -31,7 +31,7 @@ public class TypeExpression extends AstNode {
 
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
-        type.acceptVisitor(visitor);
+        typeNode.acceptVisitor(visitor);
 
         if (expression != null) {
             expression.acceptVisitor(visitor);

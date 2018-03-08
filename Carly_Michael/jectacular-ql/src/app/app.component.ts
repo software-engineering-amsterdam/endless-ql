@@ -133,11 +133,11 @@ export class AppComponent {
 
   parseInput() {
     try {
-      let factory: ParseFactoryInterface;
+      let factory: ParseFactory;
       if (this.inputQls && this.inputQls !== '') {
-        factory = new ParseQlWithQlsFactoryService(this.input, this.inputQls);
+        factory = new ParseQlWithQlsFactory(this.input, this.inputQls);
       } else {
-        factory = new ParseQlWithDefaultStylingFactoryService(this.input);
+        factory = new ParseQlWithDefaultStylingFactory(this.input);
       }
 
       const parseResult = factory.parse();

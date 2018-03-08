@@ -716,7 +716,6 @@ form CommentFormML {}";
                     new[] { "nq1*nq1","10", "100", "nq1" },
                     new[] { "nq1", "nq1", "nq1" },
                     new RelationalOperatorCount { LessThanCount = 1, LessOrEqualCount = 1});
-
             }
         }
     }

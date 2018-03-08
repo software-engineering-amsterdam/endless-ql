@@ -8,6 +8,13 @@ import antlrGen.QLBaseVisitor;
 import antlrGen.QLParser;
 
 public class QuestionVisitor extends QLBaseVisitor<Question>{
+    private ExpressionTable expressionTable;
+
+    public QuestionVisitor(ExpressionTable exprTable){
+        super();
+        this.expressionTable = exprTable;
+    }
+
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx){
         String name = ctx.IDENTIFIER().getText();
@@ -20,13 +27,13 @@ public class QuestionVisitor extends QLBaseVisitor<Question>{
         EvaluationType typeValue = EvaluationType.valueOf(typeText);
 
         Expression initialAnswer = initializeAnswer(questionTypeCTX, typeValue);
-
+        expressionTable.addExpression(name, initialAnswer);
         return new Question(name, text, typeValue, initialAnswer);
     }
 
     private Expression initializeAnswer(QLParser.QuestionTypeContext ctx, EvaluationType type){
         if(ctx.expression() != null) {
-            ExpressionVisitor expressionVisitor = new ExpressionVisitor();
+            ExpressionVisitor expressionVisitor = new ExpressionVisitor(expressionTable);
             return expressionVisitor.visit(ctx.expression());
         }
 

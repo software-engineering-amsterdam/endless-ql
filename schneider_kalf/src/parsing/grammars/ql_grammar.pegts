@@ -21,8 +21,8 @@
               "/"  : Nodes.Division
             }
 
-    // Dictionary of types to their tsc definition
-    let types = {
+  // Dictionary of types to their tsc definition
+  let types = {
                   "boolean" : FieldType.Boolean,
                   "date" : FieldType.Date,
                   "money" : FieldType.Money,

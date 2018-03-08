@@ -14,7 +14,7 @@ public class Test
 {
     public static void main(String[] args) throws Exception
     {
-        File testFile = new File("C:\\Users\\georg\\Documents\\GitHub\\endless-ql\\ForcePush\\src\\main\\resources\\antlr\\TestInput.txt");
+        File testFile = new File("src/main/resources/antlr/TestInput.txt");
         InputStream stream = new FileInputStream(testFile);
         // create a CharStream that reads from standard input
         ANTLRInputStream input = new ANTLRInputStream(stream);
@@ -26,7 +26,7 @@ public class Test
         GrammarParser parser = new GrammarParser(tokens);
         // begin parsing at rule x
         double value = new EvaluateExpressionVisitor().Visit(new BuildASTVisitor().visitMathUnit(parser.mathUnit()));
-        System.out.println(value);
+        System.out.println("Final result is: " + value);
 
     }
 }

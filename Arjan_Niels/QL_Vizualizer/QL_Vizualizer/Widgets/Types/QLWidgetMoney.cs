@@ -22,5 +22,10 @@ namespace QL_Vizualizer.Widgets.Types
         {
             return Math.Round(input, 2);
         }
+
+        public override string ToXML()
+        {
+            return string.Format("<moneyValue>{0}</moneyValue>", AnswerValue);
+        }
     }
 }

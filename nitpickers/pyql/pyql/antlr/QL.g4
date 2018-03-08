@@ -22,7 +22,8 @@ questionType      : 'boolean' #booleanType
                   | 'integer' #integerType
                   | 'date' #dateType
                   | 'decimal' #decimalType
-                  | money #moneyType
+                  | 'money' #basicMoneyType
+                  | 'money(' addExpression ')' #computedMoneyType
                   ;
 
 expression        : '!' orExpression | orExpression ;
@@ -52,8 +53,6 @@ literal           : MONEY #moneyLiteral
 
 identifier        : IDENTIFIER ;
 
-money             : 'money' | 'money(' addExpression ')' ;
-
 /*
  * Lexer rules
  */
@@ -64,11 +63,11 @@ COMMENT      : '/*' .*? '*/' -> channel(HIDDEN);
 
 LINE_COMMENT : '//'.*? ~[\r\n]* -> channel(HIDDEN);
 
-MONEY        : [1-9]+'.'([0-9] [0-9] [0-9]);
+MONEY        : [0-9] ([1-9] [0-9]*)? '.' [0-9] [0-9];
 
-DECIMAL      : INT '.' [0-9]+;
+DECIMAL      : [0-9] ([1-9] [0-9]*)? '.' [0-9]+;
 
-INT          : ('1'..'9')+('0'..'9')*;//rejects leading zeros
+INT          : [1-9]+[0-9]*;//rejects leading zeros
 
 STRING       : '"' .*? '"';
 

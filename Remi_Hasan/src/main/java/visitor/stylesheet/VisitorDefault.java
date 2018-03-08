@@ -2,7 +2,7 @@ package visitor.stylesheet;
 
 import antlr.QLSBaseVisitor;
 import antlr.QLSParser;
-import expression.ReturnType;
+import model.expression.ReturnType;
 import model.stylesheet.Default;
 import model.stylesheet.widgets.Widget;
 
@@ -19,7 +19,7 @@ public class VisitorDefault extends QLSBaseVisitor<Default> {
         ReturnType returnType = ReturnType.valueOf(ctx.type().getText().toUpperCase());
 
         List<Widget> widgets = new ArrayList<>();
-        for(QLSParser.WidgetContext widgetContext : ctx.widget()){
+        for (QLSParser.WidgetContext widgetContext : ctx.widget()) {
             Widget widget = visitorWidget.visit(widgetContext);
             widgets.add(widget);
         }

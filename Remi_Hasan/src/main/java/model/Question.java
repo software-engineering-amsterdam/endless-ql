@@ -4,8 +4,9 @@ import analysis.SymbolTable;
 import evaluation.ExpressionEvaluator;
 import model.expression.Expression;
 import model.expression.ReturnType;
+import org.antlr.v4.runtime.Token;
 
-public class Question {
+public class Question extends Node {
 
     public final ReturnType type;
     public final String name;
@@ -14,7 +15,10 @@ public class Question {
     public final Expression condition;
     private final boolean isEditable;
 
-    public Question(ReturnType type, String name, String text, Expression defaultAnswer, boolean isEditable, Expression condition) {
+    // TODO: too many args?
+    public Question(Token start, ReturnType type, String name, String text, Expression defaultAnswer,
+                    boolean isEditable, Expression condition) {
+        super(start);
         this.type = type;
         this.name = name;
         this.text = text;

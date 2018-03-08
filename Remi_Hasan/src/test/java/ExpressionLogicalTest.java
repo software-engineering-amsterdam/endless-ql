@@ -17,7 +17,8 @@ public class ExpressionLogicalTest {
         ANTLRTester tester = new ANTLRTester(left + " && " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionLogicalAnd expectedExpression = new ExpressionLogicalAnd(new ExpressionVariableBoolean(left), new ExpressionVariableBoolean(right));
+        ExpressionLogicalAnd expectedExpression = new ExpressionLogicalAnd(null,
+                new ExpressionVariableBoolean(null, left), new ExpressionVariableBoolean(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
@@ -26,7 +27,8 @@ public class ExpressionLogicalTest {
         ANTLRTester tester = new ANTLRTester(left + " || " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionLogicalOr expectedExpression = new ExpressionLogicalOr(new ExpressionVariableBoolean(left), new ExpressionVariableBoolean(right));
+        ExpressionLogicalOr expectedExpression = new ExpressionLogicalOr(null,
+                new ExpressionVariableBoolean(null, left), new ExpressionVariableBoolean(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 

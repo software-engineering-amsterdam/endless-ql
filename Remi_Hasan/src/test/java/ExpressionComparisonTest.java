@@ -15,7 +15,8 @@ public class ExpressionComparisonTest {
         ANTLRTester tester = new ANTLRTester(left + " == " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionComparisonEq expectedExpression = new ExpressionComparisonEq(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
+        ExpressionComparisonEq expectedExpression = new ExpressionComparisonEq(null,
+                new ExpressionVariableInteger(null, left), new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
@@ -24,7 +25,8 @@ public class ExpressionComparisonTest {
         ANTLRTester tester = new ANTLRTester(left + " >= " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionComparisonGE expectedExpression = new ExpressionComparisonGE(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
+        ExpressionComparisonGE expectedExpression = new ExpressionComparisonGE(null,
+                new ExpressionVariableInteger(null, left), new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
@@ -33,7 +35,8 @@ public class ExpressionComparisonTest {
         ANTLRTester tester = new ANTLRTester(left + " > " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionComparisonGT expectedExpression = new ExpressionComparisonGT(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
+        ExpressionComparisonGT expectedExpression = new ExpressionComparisonGT(null,
+                new ExpressionVariableInteger(null, left), new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
@@ -42,7 +45,8 @@ public class ExpressionComparisonTest {
         ANTLRTester tester = new ANTLRTester(left + " <= " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionComparisonLE expectedExpression = new ExpressionComparisonLE(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
+        ExpressionComparisonLE expectedExpression = new ExpressionComparisonLE(null,
+                new ExpressionVariableInteger(null, left), new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
@@ -51,7 +55,8 @@ public class ExpressionComparisonTest {
         ANTLRTester tester = new ANTLRTester(left + " < " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionComparisonLT expectedExpression = new ExpressionComparisonLT(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
+        ExpressionComparisonLT expectedExpression = new ExpressionComparisonLT(null,
+                new ExpressionVariableInteger(null, left), new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 

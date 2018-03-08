@@ -45,7 +45,8 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
                 }
 
                 if (defaultAnswerType != questionType) {
-                    errors.add("Invalid assignment: cannot assign " + defaultAnswerType + " to " + question.type);
+                    errors.add("Invalid assignment: cannot assign " + defaultAnswerType + " to " + question.type +
+                            "(" + question.getLine() + ":" + question.getColumn() + ")");
                 }
             }
         }
@@ -58,7 +59,8 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
         boolean selfValid = e.left.accept(this).isNumber() && e.right.accept(this).isNumber();
 
         if (!selfValid) {
-            errors.add("Invalid " + operation + ": non-numeric value in model.expression");
+            errors.add("Invalid " + operation + ": non-numeric value in model.expression " +
+                    "(" + e.getLine() + ":" + e.getColumn() + ")");
         }
 
         return ReturnType.NUMBER;
@@ -69,7 +71,8 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
         boolean selfValid = e.left.accept(this).isNumber() && e.right.accept(this).isNumber();
 
         if (!selfValid) {
-            errors.add("Invalid " + operation + ": non-numeric value in model.expression");
+            errors.add("Invalid " + operation + ": non-numeric value in model.expression" +
+                    "(" + e.getLine() + ":" + e.getColumn() + ")");
         }
 
         return ReturnType.BOOLEAN;
@@ -81,7 +84,8 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
                 && e.right.accept(this) == ReturnType.BOOLEAN;
 
         if (!selfValid) {
-            errors.add("Invalid " + operation + ": non-boolean value in model.expression");
+            errors.add("Invalid " + operation + ": non-boolean value in model.expression" +
+                    "(" + e.getLine() + ":" + e.getColumn() + ")");
         }
 
         return ReturnType.BOOLEAN;
@@ -117,7 +121,8 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
         boolean selfValid = e.left.accept(this) == e.right.accept(this);
 
         if (!selfValid) {
-            errors.add("Invalid EQ: comparing values of different types");
+            errors.add("Invalid EQ: comparing values of different types"  +
+                    "(" + e.getLine() + ":" + e.getColumn() + ")");
         }
 
         return ReturnType.BOOLEAN;
@@ -158,7 +163,8 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
         boolean selfValid = e.value.accept(this) == ReturnType.BOOLEAN;
 
         if (!selfValid) {
-            errors.add("Invalid NOT: non-boolean model.expression");
+            errors.add("Invalid NOT: non-boolean model.expression " +
+                    "(" + e.getLine() + ":" + e.getColumn() + ")");
         }
 
         return ReturnType.BOOLEAN;
@@ -169,7 +175,8 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
         boolean selfValid = e.value.accept(this) == ReturnType.NUMBER;
 
         if (!selfValid) {
-            errors.add("Invalid NEG: non-numeric model.expression");
+            errors.add("Invalid NEG: non-numeric model.expression " +
+                    "(" + e.getLine() + ":" + e.getColumn() + ")");
         }
 
         return ReturnType.NUMBER;
@@ -215,7 +222,8 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
         if (this.symbolTable.containsExpression(e.identifier)) {
             return this.symbolTable.getExpression(e.identifier).accept(this);
         } else {
-            errors.add("Cannot get value for unknown field '" + e.identifier + "'.");
+            errors.add("Cannot get value for unknown field '" + e.identifier + "' " +
+                    "(" + e.getLine() + ":" + e.getColumn() + ")");
             return ReturnType.UNDEFINED;
         }
     }

@@ -26,7 +26,7 @@ public class VisitorCondition extends QLBaseVisitor<List<Question>> {
         List<Question> questions = new ArrayList<>();
 
         // Chain nested conditional statements
-        Expression trueExpression = new ExpressionLogicalAnd(this.condition, expression);
+        Expression trueExpression = new ExpressionLogicalAnd(ctx.getStart(), this.condition, expression);
         addQuestions(questions, ctx.conditionTrueBlock.statement(), trueExpression);
 
         if (ctx.conditionFalseBlock == null) {
@@ -34,7 +34,8 @@ public class VisitorCondition extends QLBaseVisitor<List<Question>> {
         }
 
         // Else block, so negate condition (and again, chain nested conditional statements)
-        Expression falseExpression = new ExpressionLogicalAnd(new ExpressionUnaryNot(expression), this.condition);
+        Expression falseExpression = new ExpressionLogicalAnd(ctx.expression().getStart(),
+                new ExpressionUnaryNot(ctx.expression().getStart(), expression), this.condition);
         addQuestions(questions, ctx.conditionFalseBlock.statement(), falseExpression);
 
         return questions;

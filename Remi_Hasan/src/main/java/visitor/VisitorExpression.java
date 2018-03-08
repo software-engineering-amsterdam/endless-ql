@@ -15,7 +15,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     @Override
     public Expression visitNotExpr(QLParser.NotExprContext ctx) {
         Expression value = visit(ctx.expr);
-        return new ExpressionUnaryNot(value);
+        return new ExpressionUnaryNot(ctx.getStart(), value);
     }
 
     @Override
@@ -27,13 +27,13 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         int op = ctx.op.getType();
         switch (op) {
             case QLLexer.PLUS:
-                return new ExpressionArithmeticSum(left, right);
+                return new ExpressionArithmeticSum(ctx.getStart(), left, right);
             case QLLexer.MINUS:
-                return new ExpressionArithmeticSubtract(left, right);
+                return new ExpressionArithmeticSubtract(ctx.getStart(), left, right);
             case QLLexer.MUL:
-                return new ExpressionArithmeticMultiply(left, right);
+                return new ExpressionArithmeticMultiply(ctx.getStart(), left, right);
             case QLLexer.DIV:
-                return new ExpressionArithmeticDivide(left, right);
+                return new ExpressionArithmeticDivide(ctx.getStart(), left, right);
             default:
                 throw new IllegalArgumentException("Cannot apply unknown operator '" + ctx.op.toString() + "'");
         }
@@ -42,7 +42,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     @Override
     public Expression visitNegExpr(QLParser.NegExprContext ctx) {
         Expression value = visit(ctx.expr);
-        return new ExpressionUnaryNeg(value);
+        return new ExpressionUnaryNeg(ctx.getStart(), value);
     }
 
     @Override
@@ -53,9 +53,9 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         int op = ctx.op.getType();
         switch (op) {
             case QLLexer.EQ:
-                return new ExpressionComparisonEq(left, right);
+                return new ExpressionComparisonEq(ctx.getStart(), left, right);
             case QLLexer.NE:
-                return new ExpressionUnaryNot(new ExpressionComparisonEq(left, right));
+                return new ExpressionUnaryNot(ctx.getStart(), new ExpressionComparisonEq(ctx.getStart(), left, right));
             default:
                 throw new IllegalArgumentException("Cannot apply unknown operator '" + ctx.op.toString() + "'");
         }
@@ -69,9 +69,9 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         int op = ctx.op.getType();
         switch (op) {
             case QLLexer.AND:
-                return new ExpressionLogicalAnd(left, right);
+                return new ExpressionLogicalAnd(ctx.getStart(), left, right);
             case QLLexer.OR:
-                return new ExpressionLogicalOr(left, right);
+                return new ExpressionLogicalOr(ctx.getStart(), left, right);
             default:
                 throw new IllegalArgumentException("Unknown operator " + op);
         }
@@ -85,13 +85,13 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         int op = ctx.op.getType();
         switch (op) {
             case QLLexer.GT:
-                return new ExpressionComparisonGT(left, right);
+                return new ExpressionComparisonGT(ctx.getStart(), left, right);
             case QLLexer.GE:
-                return new ExpressionComparisonGE(left, right);
+                return new ExpressionComparisonGE(ctx.getStart(), left, right);
             case QLLexer.LT:
-                return new ExpressionComparisonLT(left, right);
+                return new ExpressionComparisonLT(ctx.getStart(), left, right);
             case QLLexer.LE:
-                return new ExpressionComparisonLE(left, right);
+                return new ExpressionComparisonLE(ctx.getStart(), left, right);
             default:
                 throw new IllegalArgumentException("Unknown operator " + op);
         }
@@ -104,27 +104,27 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitBooleanConstant(QLParser.BooleanConstantContext ctx) {
-        return new ExpressionVariableBoolean(Boolean.parseBoolean(ctx.getText()));
+        return new ExpressionVariableBoolean(ctx.getStart(), Boolean.parseBoolean(ctx.getText()));
     }
 
     @Override
     public Expression visitIntegerConstant(QLParser.IntegerConstantContext ctx) {
-        return new ExpressionVariableInteger(Integer.parseInt(ctx.getText()));
+        return new ExpressionVariableInteger(ctx.getStart(), Integer.parseInt(ctx.getText()));
     }
 
     @Override
     public Expression visitDecimalConstant(QLParser.DecimalConstantContext ctx) {
-        return new ExpressionVariableDecimal(Double.parseDouble(ctx.getText()));
+        return new ExpressionVariableDecimal(ctx.getStart(), Double.parseDouble(ctx.getText()));
     }
 
     @Override
     public Expression visitDateConstant(QLParser.DateConstantContext ctx) {
-        return new ExpressionVariableDate(ctx.getText());
+        return new ExpressionVariableDate(ctx.getStart(), ctx.getText());
     }
 
     @Override
     public Expression visitMoneyConstant(QLParser.MoneyConstantContext ctx) {
-        return new ExpressionVariableMoney(ctx.getText());
+        return new ExpressionVariableMoney(ctx.getStart(), ctx.getText());
     }
 
     @Override
@@ -134,11 +134,11 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         // remove quotes surrounding the string
         text = text.substring(1, text.length() - 1);
 
-        return new ExpressionVariableString(text);
+        return new ExpressionVariableString(ctx.getStart(), text);
     }
 
     @Override
     public Expression visitIdentifierConstant(QLParser.IdentifierConstantContext ctx) {
-        return new ExpressionIdentifier(ctx.IDENTIFIER().getText());
+        return new ExpressionIdentifier(ctx.getStart(), ctx.IDENTIFIER().getText());
     }
 }

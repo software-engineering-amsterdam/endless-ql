@@ -108,7 +108,7 @@ public class Renderer {
     private Control createDateField(HashMap<Question, Field> fieldMap, Question question) {
         DatePicker datePicker = new DatePicker();
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-            Expression expression = new ExpressionVariableDate(newValue.toString());
+            Expression expression = new ExpressionVariableDate(question.defaultAnswer.getToken(), newValue.toString());
             symbolTable.setExpression(question.name, expression);
             updateFields(fieldMap, form.questions);
         });
@@ -120,7 +120,8 @@ public class Renderer {
         CheckBox checkBox = new CheckBox();
 
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            Expression expression = new ExpressionVariableBoolean(Boolean.parseBoolean(newValue.toString()));
+            Expression expression = new ExpressionVariableBoolean(question.defaultAnswer.getToken(),
+                    Boolean.parseBoolean(newValue.toString()));
             symbolTable.setExpression(question.name, expression);
             updateFields(fieldMap, form.questions);
         });
@@ -135,7 +136,8 @@ public class Renderer {
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
-                Expression expression = new ExpressionVariableString(textField.getText());
+                Expression expression = new ExpressionVariableString(question.defaultAnswer.getToken(),
+                        textField.getText());
                 symbolTable.setExpression(question.name, expression);
                 updateFields(fieldMap, form.questions);
             }
@@ -151,9 +153,10 @@ public class Renderer {
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
-                Expression expression = new ExpressionVariableUndefined(null);
+                Expression expression = new ExpressionVariableUndefined(question.defaultAnswer.getToken(), question.type);
                 if (!textField.getText().isEmpty()) {
-                    expression = new ExpressionVariableInteger(Integer.parseInt(textField.getText()));
+                    expression = new ExpressionVariableInteger(question.defaultAnswer.getToken(),
+                            Integer.parseInt(textField.getText()));
                     TextFormatter intFormatter = createTextFormatter("-?\\d*");
                     textField.setTextFormatter(intFormatter);
                 }
@@ -177,9 +180,10 @@ public class Renderer {
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
-                Expression expression = new ExpressionVariableUndefined(null);
+                Expression expression = new ExpressionVariableUndefined(question.defaultAnswer.getToken(), question.type);
                 if (!textField.getText().isEmpty()) {
-                    expression = new ExpressionVariableDecimal(Double.parseDouble(textField.getText()));
+                    expression = new ExpressionVariableDecimal(question.defaultAnswer.getToken(),
+                            Double.parseDouble(textField.getText()));
                 }
 
                 symbolTable.setExpression(question.name, expression);
@@ -201,9 +205,9 @@ public class Renderer {
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
-                Expression expression = new ExpressionVariableUndefined(null);
+                Expression expression = new ExpressionVariableUndefined(question.defaultAnswer.getToken(), question.type);
                 if (!textField.getText().isEmpty()) {
-                    expression = new ExpressionVariableString(textField.getText());
+                    expression = new ExpressionVariableString(question.defaultAnswer.getToken(), textField.getText());
                 }
 
                 symbolTable.setExpression(question.name, expression);

@@ -3,11 +3,12 @@ package model.expression.variable;
 import evaluation.IASTVisitor;
 import model.expression.ExpressionVariable;
 import model.expression.ReturnType;
+import org.antlr.v4.runtime.Token;
 
 public class ExpressionVariableUndefined extends ExpressionVariable<ReturnType> {
 
-    public ExpressionVariableUndefined(ReturnType value) {
-        super(value);
+    public ExpressionVariableUndefined(Token start, ReturnType value) {
+        super(start, value);
     }
 
     public ReturnType getReturnType() {

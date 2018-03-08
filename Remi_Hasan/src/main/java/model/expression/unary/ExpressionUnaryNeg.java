@@ -3,11 +3,12 @@ package model.expression.unary;
 import evaluation.IASTVisitor;
 import model.expression.Expression;
 import model.expression.ExpressionUnary;
+import org.antlr.v4.runtime.Token;
 
 public class ExpressionUnaryNeg extends ExpressionUnary {
 
-    public ExpressionUnaryNeg(Expression expression) {
-        super(expression);
+    public ExpressionUnaryNeg(Token start, Expression expression) {
+        super(start, expression);
     }
 
     @Override

@@ -3,11 +3,12 @@ package model.expression.binary;
 import evaluation.IASTVisitor;
 import model.expression.Expression;
 import model.expression.ExpressionBinary;
+import org.antlr.v4.runtime.Token;
 
 public class ExpressionArithmeticMultiply extends ExpressionBinary<Number> {
 
-    public ExpressionArithmeticMultiply(Expression left, Expression right) {
-        super(left, right);
+    public ExpressionArithmeticMultiply(Token start, Expression left, Expression right) {
+        super(start, left, right);
     }
 
     @Override

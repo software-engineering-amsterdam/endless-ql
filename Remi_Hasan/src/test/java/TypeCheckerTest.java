@@ -10,8 +10,8 @@ public class TypeCheckerTest {
 
     @Test
     public void SomeHappyTypeCheckTest() {
-        ExpressionVariableInteger intExpression = new ExpressionVariableInteger(1);
-        ExpressionArithmeticSum sumExpression = new ExpressionArithmeticSum(intExpression, intExpression);
+        ExpressionVariableInteger intExpression = new ExpressionVariableInteger(null,1);
+        ExpressionArithmeticSum sumExpression = new ExpressionArithmeticSum(null, intExpression, intExpression);
 
         TypeChecker typeChecker = new TypeChecker(null, null);
         typeChecker.visit(sumExpression);
@@ -21,9 +21,9 @@ public class TypeCheckerTest {
 
     @Test
     public void SomeSadTypeCheckTest() {
-        ExpressionVariableInteger intExpression = new ExpressionVariableInteger(1);
-        ExpressionVariableBoolean boolExpression = new ExpressionVariableBoolean(true);
-        ExpressionArithmeticSum sumExpression = new ExpressionArithmeticSum(intExpression, boolExpression);
+        ExpressionVariableInteger intExpression = new ExpressionVariableInteger(null, 1);
+        ExpressionVariableBoolean boolExpression = new ExpressionVariableBoolean(null, true);
+        ExpressionArithmeticSum sumExpression = new ExpressionArithmeticSum(null, intExpression, boolExpression);
 
         TypeChecker typeChecker = new TypeChecker(null, null);
         typeChecker.visit(sumExpression);

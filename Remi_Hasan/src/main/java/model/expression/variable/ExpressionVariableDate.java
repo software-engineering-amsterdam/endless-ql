@@ -2,11 +2,12 @@ package model.expression.variable;
 
 import evaluation.IASTVisitor;
 import model.expression.ExpressionVariable;
+import org.antlr.v4.runtime.Token;
 
 public class ExpressionVariableDate extends ExpressionVariable<String> {
 
-    public ExpressionVariableDate(String value) {
-        super(value);
+    public ExpressionVariableDate(Token start, String value) {
+        super(start, value);
     }
 
     @Override

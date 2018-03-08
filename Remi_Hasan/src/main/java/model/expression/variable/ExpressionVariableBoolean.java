@@ -2,13 +2,13 @@ package model.expression.variable;
 
 import evaluation.IASTVisitor;
 import model.expression.Expression;
+import model.expression.ExpressionVariable;
+import org.antlr.v4.runtime.Token;
 
-public class ExpressionVariableBoolean extends Expression {
+public class ExpressionVariableBoolean extends ExpressionVariable<Boolean> {
 
-    public Boolean value;
-
-    public ExpressionVariableBoolean(Boolean value) {
-        this.value = value;
+    public ExpressionVariableBoolean(Token start, Boolean value) {
+        super(start, value);
     }
 
     @Override

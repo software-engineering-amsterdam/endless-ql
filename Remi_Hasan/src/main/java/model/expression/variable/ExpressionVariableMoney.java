@@ -2,13 +2,14 @@ package model.expression.variable;
 
 import evaluation.IASTVisitor;
 import model.expression.ExpressionVariable;
+import org.antlr.v4.runtime.Token;
 
 import java.math.BigDecimal;
 
 public class ExpressionVariableMoney extends ExpressionVariable<BigDecimal> {
 
-    public ExpressionVariableMoney(String value) {
-        super(new BigDecimal(value));
+    public ExpressionVariableMoney(Token start, String value) {
+        super(start, new BigDecimal(value));
     }
 
     @Override

@@ -18,7 +18,8 @@ public class ExpressionArithmeticTest {
         ANTLRTester tester = new ANTLRTester(left + " / " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionArithmeticDivide expectedExpression = new ExpressionArithmeticDivide(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
+        ExpressionArithmeticDivide expectedExpression = new ExpressionArithmeticDivide(null,
+                new ExpressionVariableInteger(null, left),  new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
@@ -26,7 +27,8 @@ public class ExpressionArithmeticTest {
     public void ExpressionArithmeticMultiply(int left, int right) {
         ANTLRTester tester = new ANTLRTester(left + " * " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
-        ExpressionArithmeticMultiply expectedExpression = new ExpressionArithmeticMultiply(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
+        ExpressionArithmeticMultiply expectedExpression = new ExpressionArithmeticMultiply(null,
+                new ExpressionVariableInteger(null, left), new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
@@ -34,7 +36,8 @@ public class ExpressionArithmeticTest {
     public void ExpressionArithmeticSubtract(int left, int right) {
         ANTLRTester tester = new ANTLRTester(left + " - " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
-        ExpressionArithmeticSubtract expectedExpression = new ExpressionArithmeticSubtract(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
+        ExpressionArithmeticSubtract expectedExpression = new ExpressionArithmeticSubtract(null,
+                new ExpressionVariableInteger(null, left), new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 
@@ -43,7 +46,8 @@ public class ExpressionArithmeticTest {
         ANTLRTester tester = new ANTLRTester(left + " + " + right);
         Expression actualExpression = tester.visitor.visit(tester.parser.expression());
 
-        ExpressionArithmeticSum expectedExpression = new ExpressionArithmeticSum(new ExpressionVariableInteger(left), new ExpressionVariableInteger(right));
+        ExpressionArithmeticSum expectedExpression = new ExpressionArithmeticSum(null,
+                new ExpressionVariableInteger(null, left), new ExpressionVariableInteger(null, right));
         assertEquals(expectedExpression, actualExpression);
     }
 

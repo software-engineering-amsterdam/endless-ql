@@ -1,6 +1,7 @@
 import ql.models.ast._
 import ql.grammar._
 import ql.visitors._
+import ql.validators._
 import ql.parsers._
 
 import scala.io.Source
@@ -20,14 +21,15 @@ class ConditionTypeSpec extends FunSpec with BeforeAndAfter {
 
   describe("when typechecking a valid form") {
     val filename = "ql/typechecking/conditions/simple.ql"
-    val typechecker = new TypeChecker(getForm(filename))
+    val form = getForm(filename)
+    val typechecker = new TypeChecker(form)
 
     it("check method should return true") {
       assert(typechecker.check() == true)
     }
 
     it("checkVarDecls method should not throw an exception") {
-      noException should be thrownBy typechecker.checkVarDecls
+      noException should be thrownBy IdentifierValidator.validate(form)
     }
   }
 }

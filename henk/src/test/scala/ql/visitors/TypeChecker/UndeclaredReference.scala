@@ -1,6 +1,7 @@
 import ql.models.ast._
 import ql.grammar._
 import ql.visitors._
+import ql.validators._
 import ql.parsers._
 
 import scala.io.Source
@@ -20,20 +21,22 @@ class UndeclaredReferenceSpec extends FunSpec with BeforeAndAfter {
 
   describe("when typechecking a valid form") {
     val filename = "ql/typechecking/simple.ql"
-    val typechecker = new TypeChecker(getForm(filename))
+    val form = getForm(filename)
+    val typechecker = new TypeChecker(form)
 
     it("check method should return true") {
       assert(typechecker.check() == true)
     }
 
     it("checkVarDecls method should not throw an exception") {
-      noException should be thrownBy typechecker.checkVarDecls
+      noException should be thrownBy IdentifierValidator.validate(form)
     }
   }
 
   describe("when typechecking a form with a single undeclared identifier") {
     val filename = "ql/typechecking/single_undeclared_identifier.ql"
-    val typechecker = new TypeChecker(getForm(filename))
+    val form = getForm(filename)
+    val typechecker = new TypeChecker(form)
 
     it("check method should return false") {
       assert(typechecker.check() == false)
@@ -41,7 +44,8 @@ class UndeclaredReferenceSpec extends FunSpec with BeforeAndAfter {
 
     it("checkVarDecls method should throw an IdentifierNotDeclared exception") {
       assertThrows[IdentifierNotDeclared] {
-        typechecker.checkVarDecls()
+        // typechecker.checkVarDecls()
+        IdentifierValidator.validate(form)
       }
     }
 
@@ -55,7 +59,8 @@ class UndeclaredReferenceSpec extends FunSpec with BeforeAndAfter {
 
   describe("when typechecking a form with multiple undeclared identifiers") {
     val filename = "ql/typechecking/multiple_undeclared_identifiers.ql"
-    val typechecker = new TypeChecker(getForm(filename))
+    val form = getForm(filename)
+    val typechecker = new TypeChecker(form)
 
     it("check method should return false") {
       assert(typechecker.check() == false)
@@ -63,7 +68,8 @@ class UndeclaredReferenceSpec extends FunSpec with BeforeAndAfter {
 
     it("checkVarDecls should throw an IdentifierNotDeclared exception") {
       assertThrows[IdentifierNotDeclared] {
-        typechecker.checkVarDecls()
+        // typechecker.checkVarDecls()
+        IdentifierValidator.validate(form)
       }
     }
 

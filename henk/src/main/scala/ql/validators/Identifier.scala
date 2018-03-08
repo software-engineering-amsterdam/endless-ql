@@ -1,4 +1,4 @@
-package ql.visitors
+package ql.validators
 
 import ql.models.ast._
 import ql.parsers._
@@ -8,26 +8,9 @@ import scala.collection.JavaConversions._
 
 case class IdentifierNotDeclared(label: String) extends Exception(label)
 
-class TypeChecker(val node: ASTNode) {
-
-  var errorMessage = ""
-  val ast = node
-
-  def check(): Boolean = {
-    try {
-      checkVarDecls()
-      // checkConditions()
-      true
-    } catch {
-      case ex: IdentifierNotDeclared => {
-        errorMessage = s"Identifier with name '${ex.label}' is not declared!"
-      }
-      false
-    }
-  }
-
-  def checkVarDecls(): Unit = {
-    val forms = ASTCollector.getFormBody(ast)
+object IdentifierValidator {
+  def validate(node: ASTNode): Unit = {
+    val forms = ASTCollector.getFormBody(node)
     val formVarDecls = forms.map(ASTCollector.getVarDecls)
     val formTerminals = forms.map(ASTCollector.getTerminals)
 

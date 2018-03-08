@@ -92,7 +92,7 @@ object TypeChecker extends Logging {
           case MoneyType   => BooleanType.asRight
           case BooleanType => BooleanType.asRight
           case DateType    => BooleanType.asRight
-          case StringType  =>  BooleanType.asRight
+          case StringType  => BooleanType.asRight
           case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
         }
       case _: LogicalOperator =>

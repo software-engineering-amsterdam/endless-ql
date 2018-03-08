@@ -44,7 +44,9 @@ class TypeCheckerTest extends WordSpec {
 
         val result = TypeChecker.pipeline(qlForm)
 
-        assert(result === Left(List(TypeCheckError("TypeCheckError", "Operand: StringType of invalid type to operator: Mul"))))
+        assert(
+          result === Left(
+            List(TypeCheckError("TypeCheckError", "Operand: StringType of invalid type to operator: Mul"))))
       }
 
       "return error for operands of invalid type to eachother" in {
@@ -56,7 +58,8 @@ class TypeCheckerTest extends WordSpec {
 
         val result = TypeChecker.pipeline(qlForm)
 
-        assert(result === Left(List(TypeCheckError("TypeCheckError","Operands of invalid type: StringType, IntegerType"))))
+        assert(
+          result === Left(List(TypeCheckError("TypeCheckError", "Operands of invalid type: StringType, IntegerType"))))
       }
 
       "return no error for operands of different types but valid: Decimal and Integer" ignore {
@@ -243,6 +246,8 @@ class TypeCheckerTest extends WordSpec {
             Conditional(Reference("a"), List.empty)
           )
         )
+
+        pprint.pprintln(qlForm.symbolTable)
         val result = TypeChecker.pipeline(qlForm)
         assert(result === Left(List(TypeCheckError("TypeCheckError", "Undefined references: List(a)"))))
       }

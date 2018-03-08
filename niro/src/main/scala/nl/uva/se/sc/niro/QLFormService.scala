@@ -23,7 +23,7 @@ object QLFormService {
     val parseErrors: Seq[Error] = QLFormParser.getParseErrors.toList
 
     if (parseErrors.isEmpty) {
-      TypeChecker.pipeline(qlFormAst).left.map(error => Seq(error))
+      TypeChecker.pipeline(qlFormAst)
     } else {
       Left(parseErrors)
     }

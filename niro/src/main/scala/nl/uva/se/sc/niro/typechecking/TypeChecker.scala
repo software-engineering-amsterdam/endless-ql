@@ -16,18 +16,18 @@ object TypeChecker extends Logging {
   /** Performs all type checking tasks. Early aborts when one of the tasks returns a TypeCheckError
     * */
   // Order of execution is important here to avoid infinite loops in later tasks
-  def pipeline(qLForm: QLForm): Either[TypeCheckError, QLForm] =
+  def pipeline(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] =
     for {
-      _ <- checkReferences(qLForm)
-      _ <- checkCyclicDependenciesBetweenQuestions(qLForm)
+      _ <- checkReferences(qLForm).left.map(error => Seq(error))
+      _ <- checkCyclicDependenciesBetweenQuestions(qLForm).left.map(error => Seq(error))
       _ <- checkOperandsOfInvalidTypeToOperators(qLForm)
-      _ <- checkNonBooleanPredicates(qLForm)
-      _ <- checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm)
+      _ <- checkNonBooleanPredicates(qLForm).left.map(error => Seq(error))
+      _ <- checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm).left.map(error => Seq(error))
       qlFormWithPossibleWarnings = checkDuplicateLabels(qLForm)
     } yield qlFormWithPossibleWarnings
 
   // TODO implement checkOperandsOfInvalidTypeToOperators
-  private def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
+  private def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[List[TypeCheckError], QLForm] = {
     logger.info("Phase 3 - Checking operands of invalid type to operators ...")
 
     val questions = Statement.collectAllQuestions(qLForm.statements)
@@ -36,9 +36,15 @@ object TypeChecker extends Logging {
 
     expressions
       .map(expression => typeOf(expression, qLForm.symbolTable))
-      .foldLeft(Right(qLForm): Either[TypeCheckError, QLForm])(
-        (acc: Either[TypeCheckError, QLForm], either: Either[TypeCheckError, AnswerType]) =>
-          acc.flatMap(_ => either.map(_ => qLForm)))
+      .map(either => either.toValidatedNel)
+      .toList
+      .sequenceU_
+      .as(AnswerType)
+      .toEither
+      .left
+      .map(_.toList)
+      .right
+      .map(_ => qLForm)
   }
 
   def typeOf(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = expr match {

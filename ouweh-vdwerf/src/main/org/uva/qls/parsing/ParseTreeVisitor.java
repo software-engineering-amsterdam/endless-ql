@@ -40,28 +40,28 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
     }
 
     @Override
-    public Object visitRadio(QLSParser.RadioContext ctx) {
-        return super.visitRadio(ctx);
+    public Object visitRadioType(QLSParser.RadioTypeContext ctx) {
+        return super.visitRadioType(ctx);
     }
 
     @Override
-    public Object visitCheckbox(QLSParser.CheckboxContext ctx) {
-        return super.visitCheckbox(ctx);
+    public Object visitCheckboxType(QLSParser.CheckboxTypeContext ctx) {
+        return super.visitCheckboxType(ctx);
     }
 
     @Override
-    public Object visitDropdown(QLSParser.DropdownContext ctx) {
-        return super.visitDropdown(ctx);
+    public Object visitDropdownType(QLSParser.DropdownTypeContext ctx) {
+        return super.visitDropdownType(ctx);
     }
 
     @Override
-    public Object visitSlider(QLSParser.SliderContext ctx) {
-        return super.visitSlider(ctx);
+    public Object visitSliderType(QLSParser.SliderTypeContext ctx) {
+        return super.visitSliderType(ctx);
     }
 
     @Override
-    public Object visitText(QLSParser.TextContext ctx) {
-        return super.visitText(ctx);
+    public Object visitTextType(QLSParser.TextTypeContext ctx) {
+        return super.visitTextType(ctx);
     }
 
     @Override

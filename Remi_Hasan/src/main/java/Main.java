@@ -1,3 +1,4 @@
+import analysis.CycleDetector;
 import analysis.SymbolTable;
 import analysis.TypeChecker;
 import javafx.application.Application;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Set;
 
 public class Main extends Application {
 
@@ -65,8 +67,21 @@ public class Main extends Application {
 
             SymbolTable symbolTable = new SymbolTable(form);
 
+            CycleDetector cycleDetector = new CycleDetector(form);
+            Set<String> cycles = cycleDetector.detectCycles();
+
+            if (cycles.size() > 0) {
+                showErrorAlert("Cycles detected in the following variables:", cycles);
+                return;
+            }
+
             TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-            typeChecker.typeCheck();
+            Set<String> typeCheckErrors = typeChecker.typeCheck();
+
+            if (typeCheckErrors.size() > 0) {
+                showErrorAlert("Type checking errors:", typeCheckErrors);
+                return;
+            }
 
             File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
             StyleSheet styleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));
@@ -81,6 +96,13 @@ public class Main extends Application {
         } catch (IOException e) {
             showErrorAlert(e, "IO exception while lexing form file");
         }
+    }
+
+    private void showErrorAlert(String description, Set<String> messages) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, description);
+        alert.setContentText(description + "\n" + String.join("\n", messages));
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.showAndWait();
     }
 
     private void showErrorAlert(Exception e, String message) {

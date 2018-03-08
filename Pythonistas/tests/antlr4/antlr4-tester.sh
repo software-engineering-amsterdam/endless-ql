@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # For info: ./antlr4-tester.sh
-# Example: ./antlr4-tester.sh QL.g4 "form Box1HouseOwning {}" form
+# Example: ./antlr4-tester.sh QL.g4 'form Box1HouseOwning {}' form
 # -----------------
 
 mandatory_binaries=( "java" "javac" )
@@ -27,7 +27,7 @@ if [ "$#" -ne "3" ]; then
                source for the parser to process
     RULE       the name of the parser rule to invoke
   EXAMPLE
-    $ ./antlr4-tester.sh QL.g4 "form Box1HouseOwning {}" form
+    $ ./antlr4-tester.sh QL.g4 'form Box1HouseOwning {}' form
 EOF
   exit 1
 fi

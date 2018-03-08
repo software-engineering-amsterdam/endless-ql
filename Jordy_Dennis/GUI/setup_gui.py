@@ -1,10 +1,10 @@
 # Jordy Bottelier & Dennis Kruidenberg
 #
-# GUI class; 
+# GUI class;
 #
-# Each form gets its own frame. Each form_frame consists of a header frame, and a questions frame. 
+# Each form gets its own frame. Each form_frame consists of a header frame, and a questions frame.
 # The header simply contains the title, and the questions frame contains all of the questions defined
-# by the programmer. 
+# by the programmer.
 #
 # Each question has 2 frames, namely the label frame and the input frame (text and input)
 #
@@ -19,14 +19,19 @@ from .form_question import Question
 
 class Gui:
 
-    def __init__(self, varDict, questions):
+    def __init__(self, ast):
         self.gui = Tk()
         self.mainframe = create_frame(self.gui, background='pink')
         self.mainframe.pack(expand=True, fill='both')
         self.form = None
-        self.varDict = varDict
-        self.questions = questions
+        self.ast = ast
+        self.varDict = ast.varDict
+        self.questionsGenerator = Question_Generator(self.varDict, self.ast, self.form)
+        self.questions = self.questionsGenerator.updateQuestions()
+        self.form = FormGui(self.mainframe, self.questionsGenerator, self.ast.getName())
+        self.questionsGenerator.form = self.form
         self.create_form()
+        print("hello")
         self.execute()
 
 
@@ -34,23 +39,13 @@ class Gui:
     # For every form, create the header frame and questions frame and fill the questions frame
     # with questions
     def create_form(self):
-        form = FormGui(self.mainframe, "idk lol")
-        content_frame = form.get_contents()
-        sfg = ScrollFrameGui(content_frame)
-        sfg_content = sfg.get_contents()
-        
-        for q in range(0, 10):
-            # form.add_question()
-            q = Question(sfg_content)
-        self.form = form
-
-        b = Button(self.mainframe, text="OK", command=self.collect_answers)
+        self.questionsGenerator.updateQuestions()
+        b = Button(self.mainframe, text="SUBMIT", command=self.collect_answers)
         b.pack()
-
 
     # Execute the GUI
     def execute(self):
-        self.gui.geometry("1500x1000")
+        self.gui.geometry("600x400")
         self.gui.mainloop()
 
     def collect_answers(self):

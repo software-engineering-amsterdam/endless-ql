@@ -1,6 +1,0 @@
-
-In AST node, interface + put it inside AST node. And use get and set location.
-
-Refactor QLSNode and QLNode
-
-".*" <<STR.text. Call method to remove " ". substr.

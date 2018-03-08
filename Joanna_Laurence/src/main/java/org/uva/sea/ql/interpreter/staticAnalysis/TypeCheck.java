@@ -20,9 +20,23 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
 
     private HashMap<SpecificationKey, NodeType> typeCheckSpecification;
 
-    public TypeCheck() {
+    /**
+     * Hide constructor
+     */
+    private TypeCheck() {
         TypeCheckSpecification typeCheckSpecification = new TypeCheckSpecification();
         this.typeCheckSpecification = typeCheckSpecification.getSpecification();
+    }
+
+    /**
+     * Hide the visitor, make only doCheck visible
+     */
+    public static class Checker implements IStaticAnalysis {
+        @Override
+        public Messages doCheck(Form node) {
+            IStaticAnalysis checker = new TypeCheck();
+            return checker.doCheck(node);
+        }
     }
 
     /**

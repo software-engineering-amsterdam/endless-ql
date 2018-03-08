@@ -14,6 +14,24 @@ public class CircularDependencies extends BaseASTVisitor<Void> implements IStati
 
     private Map<String,List<String>> dependencies = new HashMap<>();
 
+    /**
+     * Hide constructor
+     */
+    private CircularDependencies() {
+
+    }
+
+    /**
+     * Hide the visitor, make only doCheck visible
+     */
+    public static class Checker implements IStaticAnalysis {
+        @Override
+        public Messages doCheck(Form node) {
+            IStaticAnalysis checker = new CircularDependencies();
+            return checker.doCheck(node);
+        }
+    }
+
     @Override
     public Messages doCheck(Form node) {
         node.accept(this);
@@ -37,7 +55,9 @@ public class CircularDependencies extends BaseASTVisitor<Void> implements IStati
         List<String> dependsOn = new ArrayList<>();
         node.getExpression().accept(new BaseASTVisitor<Void>() {
             public Void visit(Variable node) {
-                dependsOn.add(node.getVariableName());
+                if(node.getLinkedQuestion() != null && node.getLinkedQuestion().getValue() == null)
+                    dependsOn.add(node.getVariableName());
+
                 return super.visit(node);
             }
         });

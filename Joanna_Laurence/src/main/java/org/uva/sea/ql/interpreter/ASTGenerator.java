@@ -18,11 +18,11 @@ import java.util.List;
 public class ASTGenerator {
 
     private List<IStaticAnalysis> staticAnalyses = Arrays.asList(new IStaticAnalysis[]{
-            new LinkAndCheckVariableUsage(),
-            new TypeCheck(),
-            new CheckDuplicateLabels(),
-            new CheckIncorrectDuplicateQuestions(),
-            new CircularDependencies()
+            new LinkAndCheckVariableUsage.Checker(),
+            new TypeCheck.Checker(),
+            new CheckDuplicateLabels.Checker(),
+            new CheckIncorrectDuplicateQuestions.Checker(),
+            new CircularDependencies.Checker()
     });
 
     /**
@@ -32,7 +32,7 @@ public class ASTGenerator {
      * @return The AST node that can be used by the interpreter
      */
     public ASTResult interpreterScriptFile(CharStream source) throws StaticAnalysisError {
-
+new LinkAndCheckVariableUsage.Checker();
         Form AST = createAST(source);
         if (AST == null)
             return new ASTResult(null, new Messages(MessageTypes.UNKNOWN));

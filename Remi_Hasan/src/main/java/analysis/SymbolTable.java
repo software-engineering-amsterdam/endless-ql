@@ -1,8 +1,9 @@
 package analysis;
 
-import expression.Expression;
-import expression.ReturnType;
-import expression.variable.*;
+import evaluation.ExpressionEvaluator;
+import evaluation.value.Value;
+import model.expression.Expression;
+import model.expression.ReturnType;
 import model.Form;
 import model.Question;
 
@@ -18,25 +19,35 @@ public class SymbolTable {
 
     public SymbolTable(Form form) {
         this.table = new HashMap<>();
-        for(Question question : form.questions) {
+
+        for (Question question : form.questions) {
             table.put(question.name, question.defaultAnswer);
         }
     }
 
-    public ExpressionVariable getExpression(String identifier) {
-        return table.get(identifier).evaluate(this);
+    public boolean containsExpression(String identifier) {
+        return this.table.containsKey(identifier);
     }
 
-    // TODO: move to expression?
+    public Expression getExpression(String identifier) {
+        if (this.table.containsKey(identifier)) {
+            return this.table.get(identifier);
+        } else {
+            throw new UnsupportedOperationException("Cannot get value for unknown field '" + identifier + "'.");
+        }
+    }
+
+    // TODO: move to value?
     public String getStringValue(String identifier, ReturnType type) {
-        ExpressionVariable evaluated = this.getExpression(identifier).evaluate(this);
+        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(this);
+        Value evaluated = expressionEvaluator.visit(table.get(identifier));
 
         // Undefined values should display nothing
-        if(evaluated.isUndefined()) {
+        if (evaluated.isUndefined()) {
             return "";
         }
 
-        switch(type) {
+        switch (type) {
             case INTEGER:
                 return evaluated.getIntValue().toString();
             case DECIMAL:
@@ -52,25 +63,11 @@ public class SymbolTable {
         }
     }
 
-    // TODO: fails when number value is '-'
-    public void setValue(String identifier, String value, ReturnType type) {
-        if(value.isEmpty()) {
-            this.table.put(identifier, new ExpressionVariableUndefined(type));
-            return;
-        }
+    public Map<String, Expression> getAllAnswers(){
+        return table;
+    }
 
-        switch(type) {
-            case INTEGER:
-            case DECIMAL:
-            case MONEY:
-                this.table.put(identifier, new ExpressionVariableNumber(value));
-                break;
-            case STRING:
-                this.table.put(identifier, new ExpressionVariableString(value));
-                break;
-            case BOOLEAN:
-                this.table.put(identifier, new ExpressionVariableBoolean(Boolean.valueOf(value)));
-                break;
-        }
+    public void setExpression(String identifier, Expression value) {
+        this.table.put(identifier, value);
     }
 }

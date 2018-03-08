@@ -1,7 +1,6 @@
 package ast.model.expressions.binary;
 
 import ast.model.expressions.Expression;
-import ast.visitors.ASTNodeVisitor;
 
 public abstract class BinaryExpression extends Expression {
 

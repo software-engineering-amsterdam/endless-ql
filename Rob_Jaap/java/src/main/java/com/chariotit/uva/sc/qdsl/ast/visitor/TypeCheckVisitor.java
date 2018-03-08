@@ -15,7 +15,6 @@ import com.chariotit.uva.sc.qdsl.ast.symboltable.SymbolTableEntry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class TypeCheckVisitor extends NodeVisitor {
 
@@ -151,7 +150,9 @@ public class TypeCheckVisitor extends NodeVisitor {
 
     @Override
     public void visitIfBlock(IfBlock ifBlock) {
-
+        if (ifBlock.getExpression().getExpressionType() != ExpressionType.BOOLEAN) {
+            addError(ifBlock, "If condition is not of type boolean");
+        }
     }
 
     @Override

@@ -12,9 +12,11 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
         {
             Id = id;
             Definition = definition;
+            DisplayName = definition;
         }
 
         public Guid Id { get; }
+        public string DisplayName { get; }
         public string Definition { get; }
         public abstract void Accept(IAstVisitor visitor);
     }

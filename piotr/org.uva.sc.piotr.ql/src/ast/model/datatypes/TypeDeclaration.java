@@ -1,7 +1,6 @@
 package ast.model.datatypes;
 
 import ast.model.ASTNode;
-import ast.visitors.ASTNodeVisitor;
 
 public abstract class TypeDeclaration extends ASTNode {
 

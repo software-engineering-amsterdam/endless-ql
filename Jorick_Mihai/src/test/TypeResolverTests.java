@@ -12,7 +12,7 @@ import org.uva.jomi.ql.tests.utilities.TestUtilities;
 
 public class TypeResolverTests {
 
-	TypeResolver typeResolver = new TypeResolver(false);
+	TypeResolver typeResolver = new TypeResolver(true);
 	IdentifierResolver identifierResolver = new IdentifierResolver(false);
 
 	String testSource1 =
@@ -103,6 +103,48 @@ public class TypeResolverTests {
 		assertTrue(typeResolver.getNumberOfErrors() == 0);
 	}
 
+	String testSource7 =
+			"form Form1 {\n"
+			+ "if (1) {\n"
+			+ "}\n"
+			+ "}";
+
+	@Test
+	public void test7() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource7);
+		typeResolver.resolve(ast);
+		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.
+		getErrorAtIndex(0).equals("[TypeResolver] line: 2, column: 4: Type mismatch, expected boolean, but got integer"));
+	}
+
+	String testSource8 =
+			"form Form1 {\n"
+			+ "if (\"true\") {\n"
+			+ "}\n"
+			+ "}";
+
+	@Test
+	public void test8() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource8);
+		typeResolver.resolve(ast);
+		assertTrue(typeResolver.getNumberOfErrors() == 1);
+		assertTrue(typeResolver.
+		getErrorAtIndex(0).equals("[TypeResolver] line: 2, column: 4: Type mismatch, expected boolean, but got string"));
+	}
+
+	String testSource9 =
+			"form Form1 {\n"
+			+ "if (1 == 7) {\n"
+			+ "}\n"
+			+ "}";
+
+	@Test
+	public void test9() throws Exception {
+		List<Stmt> ast = TestUtilities.buildAst(testSource9);
+		typeResolver.resolve(ast);
+		assertTrue(typeResolver.getNumberOfErrors() == 0);
+	}
 
 	/*
 	 *  The test bellow have been generated automatically.

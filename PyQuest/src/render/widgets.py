@@ -7,11 +7,14 @@ from PyQt5.QtWidgets import QCalendarWidget
 
 
 class Label(QLabel):
-    def __init__(self):
-        super(QLabel, self).__init__()
+    def __init__(self, label):
+        super(QLabel, self).__init__(label)
 
     def value(self):
         return self.text()
+
+    def onChange(self, change_event_function):
+        pass
 
 
 class LineEdit(QLineEdit):
@@ -21,6 +24,9 @@ class LineEdit(QLineEdit):
     def value(self):
         return self.text()
 
+    def onChange(self, change_event_function):
+        self.textChanged.connect(lambda: change_event_function(self))
+
 
 class CheckBox(QCheckBox):
     def __init__(self):
@@ -29,15 +35,24 @@ class CheckBox(QCheckBox):
     def value(self):
         return self.isChecked()
 
+    def onChange(self, change_event_function):
+        self.stateChanged.connect(lambda: change_event_function(self))
+
 
 class SpinBox(QSpinBox):
     def __init__(self):
         super(QSpinBox, self).__init__()
 
+    def onChange(self, change_event_function):
+        self.valueChanged.connect(lambda: change_event_function(self))
+
 
 class DoubleSpinBox(QDoubleSpinBox):
     def __init__(self):
         super(QDoubleSpinBox, self).__init__()
+
+    def onChange(self, change_event_function):
+        self.valueChanged.connect(lambda: change_event_function(self))
 
 
 class CalendarWidget(QCalendarWidget):
@@ -46,5 +61,7 @@ class CalendarWidget(QCalendarWidget):
 
     def value(self):
         date = self.selectedDate()
-        print(date)
         return date.day(), date.month(), date.year()
+
+    def onChange(self, change_event_function):
+        self.selectionChanged.connect(lambda: change_event_function(self))

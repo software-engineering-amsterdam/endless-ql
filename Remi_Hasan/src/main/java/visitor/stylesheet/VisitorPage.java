@@ -18,14 +18,14 @@ public class VisitorPage extends QLSBaseVisitor<Page> {
 
         // Visit defaults
         List<Default> defaults = new ArrayList<>();
-        for(QLSParser.Default_Context default_context : ctx.default_()){
+        for (QLSParser.Default_Context default_context : ctx.default_()) {
             Default default_ = visitorDefault.visitDefault_(default_context);
             defaults.add(default_);
         }
 
         // Visit sections
         List<Section> sections = new ArrayList<>();
-        for(QLSParser.SectionContext sectionContext: ctx.section()){
+        for (QLSParser.SectionContext sectionContext : ctx.section()) {
             Section section = visitorSection.visitSection(sectionContext);
             sections.add(section);
         }

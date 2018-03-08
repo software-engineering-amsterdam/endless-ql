@@ -22,6 +22,6 @@ form taxOfficeExample {
 
     if(freeBag2) {
         "Number of free giftbags: "
-           nbfreeBags: integer = 2
+           nbfreeBags: integer = sellingPrice * waitDays
         }
 }

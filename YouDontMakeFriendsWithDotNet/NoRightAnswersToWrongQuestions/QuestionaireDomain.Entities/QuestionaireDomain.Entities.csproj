@@ -93,9 +93,9 @@
     <Compile Include="API\IDomainItem.cs" />
     <Compile Include="API\IDomainItemLocator.cs" />
     <Compile Include="API\IDomainItemRegistry.cs" />
-    <Compile Include="API\IIdMaker.cs" />
     <Compile Include="API\IQlInterpretor.cs" />
     <Compile Include="API\AstNodes\Questionnaire\IQuestionnaireNode.cs" />
+    <Compile Include="API\Output\IQuestionnaire.cs" />
     <Compile Include="AstFactory.cs" />
     <Compile Include="DomainItemRegistry.cs" />
     <Compile Include="DomainObjects\Ast\AndNode.cs" />

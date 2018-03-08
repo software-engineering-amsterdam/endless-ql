@@ -3,7 +3,8 @@
 namespace QuestionaireDomain.Entities.API
 {
     public interface IDomainItem
-    { 
+    {
         Guid Id { get; }
+        string DisplayName { get; }
     }
 }

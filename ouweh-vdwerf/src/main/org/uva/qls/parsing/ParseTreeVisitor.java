@@ -3,90 +3,158 @@ package org.uva.qls.parsing;
 import antlr.generated.QLSBaseVisitor;
 import antlr.generated.QLSParser;
 
+import org.uva.ql.ast.type.*;
+import org.uva.qls.ast.*;
+import org.uva.qls.ast.DefaultStatement.DefaultStatement;
+import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
+import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
+import org.uva.qls.ast.Segment.Question;
+import org.uva.qls.ast.Segment.Section;
+import org.uva.qls.ast.Segment.Segment;
+import org.uva.qls.ast.Style.Style;
+import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
+import org.uva.qls.ast.Widget.Widget;
+import org.uva.qls.ast.Widget.WidgetTypes.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ParseTreeVisitor extends QLSBaseVisitor {
     @Override
     public Object visitStylesheet(QLSParser.StylesheetContext ctx) {
-        return super.visitStylesheet(ctx);
+        String styleSheetId = ctx.id.getText();
+        List<Page> pages = new ArrayList<>();
+
+        for (QLSParser.PageContext pageContext : ctx.page()) {
+            pages.add((Page) visit(pageContext));
+        }
+
+        return new Stylesheet(styleSheetId, pages);
     }
 
     @Override
     public Object visitPage(QLSParser.PageContext ctx) {
-        return super.visitPage(ctx);
+        String pageId = ctx.id.getText();
+
+        List<Segment> segments = new ArrayList<>();
+        for (QLSParser.SegmentContext segmentContext : ctx.segment()) {
+            segments.add((Segment) visit(segmentContext));
+        }
+
+        List<DefaultStatement> defaultStatements = new ArrayList<>();
+        for (QLSParser.DefaultStatementContext defaultStatementContext : ctx.defaultStatement()) {
+            defaultStatements.add((DefaultStatement) visit(defaultStatementContext));
+        }
+
+        return new Page(pageId, segments, defaultStatements);
     }
 
     @Override
     public Object visitSection(QLSParser.SectionContext ctx) {
-        return super.visitSection(ctx);
+        String pageId = ctx.id.getText();
+
+        List<Segment> segments = new ArrayList<>();
+        for (QLSParser.SegmentContext segmentContext : ctx.segment()) {
+            segments.add((Segment) visit(segmentContext));
+        }
+
+        List<DefaultStatement> defaultStatements = new ArrayList<>();
+        for (QLSParser.DefaultStatementContext defaultStatementContext : ctx.defaultStatement()) {
+            defaultStatements.add((DefaultStatement) visit(defaultStatementContext));
+        }
+
+        return new Section(pageId, segments, defaultStatements);
     }
 
     @Override
     public Object visitSegment(QLSParser.SegmentContext ctx) {
-        return super.visitSegment(ctx);
+        if(ctx.section() != null) {
+            return visit(ctx.section());
+        }
+        return visit(ctx.question());
     }
 
     @Override
     public Object visitDefaultStatement(QLSParser.DefaultStatementContext ctx) {
-        return super.visitDefaultStatement(ctx);
+        Type type = (Type) visit(ctx.type());
+        if(ctx.style() != null) {
+            return new DefaultStyleStatement(type, (Style) visit(ctx.style()));
+        }
+        return new DefaultWidgetStatement(type, (Widget) visit(ctx.widget()));
     }
 
     @Override
     public Object visitQuestion(QLSParser.QuestionContext ctx) {
-        return super.visitQuestion(ctx);
+        String id = ctx.id.getText();
+        Style style = null;
+        Widget widget = null;
+
+        if(ctx.style() != null) {
+            style = (Style) visit(ctx.style());
+        } else if (ctx.widget() != null) {
+            widget = (Widget) visit(ctx.widget());
+        }
+
+        return new Question(id, style, widget);
     }
 
     @Override
     public Object visitWidget(QLSParser.WidgetContext ctx) {
-        return super.visitWidget(ctx);
+        return new Widget((WidgetType) visit(ctx.widgetType()));
     }
 
     @Override
-    public Object visitRadio(QLSParser.RadioContext ctx) {
-        return super.visitRadio(ctx);
+    public Object visitRadioType(QLSParser.RadioTypeContext ctx) {
+        return new RadioType(ctx.yes.getText(), ctx.no.getText());
     }
 
     @Override
-    public Object visitCheckbox(QLSParser.CheckboxContext ctx) {
-        return super.visitCheckbox(ctx);
+    public Object visitCheckboxType(QLSParser.CheckboxTypeContext ctx) {
+        return new CheckboxType(ctx.yes.getText());
     }
 
     @Override
-    public Object visitDropdown(QLSParser.DropdownContext ctx) {
-        return super.visitDropdown(ctx);
+    public Object visitDropdownType(QLSParser.DropdownTypeContext ctx) {
+        return new DropDownType(ctx.yes.getText(), ctx.no.getText());
     }
 
     @Override
-    public Object visitSlider(QLSParser.SliderContext ctx) {
-        return super.visitSlider(ctx);
+    public Object visitSliderType(QLSParser.SliderTypeContext ctx) {
+        return new SliderType(ctx.start.getText(), ctx.end.getText(), ctx.step.getText());
     }
 
     @Override
-    public Object visitText(QLSParser.TextContext ctx) {
-        return super.visitText(ctx);
+    public Object visitTextType(QLSParser.TextTypeContext ctx) {
+        return new TextType();
     }
 
     @Override
     public Object visitBooleanType(QLSParser.BooleanTypeContext ctx) {
-        return super.visitBooleanType(ctx);
+        return new BooleanType();
     }
 
     @Override
     public Object visitIntegerType(QLSParser.IntegerTypeContext ctx) {
-        return super.visitIntegerType(ctx);
+        return new IntegerType();
     }
 
     @Override
     public Object visitMoneyType(QLSParser.MoneyTypeContext ctx) {
-        return super.visitMoneyType(ctx);
+        return new MoneyType();
     }
 
     @Override
     public Object visitStringType(QLSParser.StringTypeContext ctx) {
-        return super.visitStringType(ctx);
+        return new StringType();
     }
 
     @Override
     public Object visitStyle(QLSParser.StyleContext ctx) {
-        return super.visitStyle(ctx);
+        List<StyleProperty> styleProperties = new ArrayList<>();
+        for (QLSParser.StylePropertyContext stylePropertyContext : ctx.styleProperty()) {
+            styleProperties.add((StyleProperty) visit(stylePropertyContext));
+        }
+        return new Style(styleProperties);
     }
 
     @Override

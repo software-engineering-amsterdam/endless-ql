@@ -55,7 +55,7 @@ public class QLGrammarTest {
 
         IfBlock ifBlock = (IfBlock)firstForm.getFormElements().get(3);
         assertEquals(ifBlock.getIfElements().size(), 3);
-        assertEquals(((LabelExpression)(ifBlock.getExpression())).getLabel().getLabel(),
+        assertEquals(((LabelExpression)(ifBlock.getExpression())).getLabel(),
                 "hasSoldHouse");
 
         LineElement valueResidue = (LineElement)(ifBlock.getIfElements().get(2));

@@ -19,7 +19,12 @@ class Question_Generator:
 
     # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
     def updateQuestions(self):
+        print("hello")
         self.get_questions(self.ast.form.block)
+        print("Questions")
+        printDict(self.questions)
+        print("Ast")
+        printDict(self.ast)
         return self.questions
 
     # Create the list of all the questions by recursively looping through the statements and adding them to te dictionairy

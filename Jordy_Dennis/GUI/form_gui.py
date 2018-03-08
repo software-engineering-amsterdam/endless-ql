@@ -15,8 +15,8 @@ class FormGui:
         self.header_frame = None
         self.create_header(header, parent=self.frame)
 
-        sfg = ScrollFrameGui(self.frame)
-        self.contents = sfg.get_contents()
+        self.sfg = ScrollFrameGui(self.frame)
+        self.contents = self.sfg.get_contents()
         self.questions = []
         self.name = header
         self.questionGenerator = questionGenerator
@@ -36,6 +36,13 @@ class FormGui:
     def add_question(self, varName, question_text="Hi mom", question_type=bool,):
         q = Question(self.contents, self.questionGenerator, varName, question_text, question_type)
         self.questions.append(q)
+
+    def empty_frame(self):
+        f = self.sfg.get_frame()
+        f.destroy()
+        self.sfg = ScrollFrameGui(self.frame)
+        self.contents = self.sfg.get_contents()
+        return self.contents
 
     def get_header(self):
         return self.header_frame

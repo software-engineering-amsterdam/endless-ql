@@ -4,13 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import org.uva.sea.gui.model.GuiModel;
 import org.uva.sea.gui.model.ValueChangeListener;
-import org.uva.sea.gui.render.ErrorRenderer;
-import org.uva.sea.gui.render.QuestionRenderer;
-import org.uva.sea.gui.render.WarningRenderer;
-import org.uva.sea.gui.render.JavafxRendererVisitor;
+import org.uva.sea.gui.render.*;
 import org.uva.sea.ql.interpreter.dataObject.InterpreterResult;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
@@ -24,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class FormController implements Initializable, ValueChangeListener {
 
-    private String fileName = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/example.ql";
+    private String defaultQlLocation = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/example.ql";
 
     private GuiModel guiModel;
 
@@ -42,8 +38,8 @@ public class FormController implements Initializable, ValueChangeListener {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        guiModel = new GuiModel(fileName);
-        JavafxRendererVisitor renderer = new JavafxRendererVisitor(questionBox, messageBox, this);
+        guiModel = new GuiModel(defaultQlLocation);
+        ViewRenderer renderer = new ViewRenderer(questionBox, messageBox, this);
         questionRenderer = new QuestionRenderer(renderer);
         warningRenderer = new WarningRenderer(renderer);
         errorRenderer = new ErrorRenderer(renderer);
@@ -75,16 +71,16 @@ public class FormController implements Initializable, ValueChangeListener {
 
     @FXML
     public void loadQLFile(ActionEvent actionEvent) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choose a QL file");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("QL Files", "*.ql"),
-                new FileChooser.ExtensionFilter("All Files", "*.*"));
-        File qlFile = fileChooser.showOpenDialog(null);
-        if (qlFile != null) {
-            fileName = qlFile.getAbsolutePath();
-            guiModel = new GuiModel(fileName);
+        FileSelector fileSelector = new FileSelector("Load QL file", "QL", "*.ql");
+        File qlFile = fileSelector.getFile();
+
+        if (qlFile == null) {
+            errorRenderer.render("File not found");
+            return;
         }
+
+        guiModel = new GuiModel(qlFile.getAbsolutePath());
+        drawGui();
     }
 
     @FXML

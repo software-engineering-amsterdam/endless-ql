@@ -1,4 +1,4 @@
-package org.uva.sea.gui.render;
+package org.uva.sea.gui.render.visitor;
 
 import org.uva.sea.gui.model.*;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.*;

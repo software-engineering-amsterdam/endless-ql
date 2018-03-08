@@ -10,83 +10,33 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.FormController;
-import org.uva.sea.gui.model.*;
+import org.uva.sea.gui.model.BaseQuestionModel;
+import org.uva.sea.gui.model.BooleanQuestionModel;
+import org.uva.sea.gui.render.visitor.ModelRenderer;
+import org.uva.sea.gui.render.visitor.TextToValueVisitor;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.BooleanValue;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
 
 import java.util.List;
 
-//TODO: Handle situation when newInput.getText().equals("")
-public class JavafxRendererVisitor implements QuestionModelVisitor {
+public class ViewRenderer {
 
     private final VBox questionBox;
     private final VBox messageBox;
     private final FormController controller;
+    private final ModelRenderer modelRenderer;
 
-    public JavafxRendererVisitor(VBox questionBox, VBox messageBox, FormController formController) {
+    public ViewRenderer(VBox questionBox, VBox messageBox, FormController formController) {
         this.questionBox = questionBox;
         this.messageBox = messageBox;
         this.controller = formController;
+        this.modelRenderer = new ModelRenderer(this);
     }
 
-    @Override
-    public Void visit(BooleanQuestionModel question) {
-        CheckBox checkBox = new CheckBox();
-        if (question.getValue() != null) {
-            checkBox.setSelected(question.getBasicValue());
-        }
-        checkBox.selectedProperty()
-                .addListener((observable, oldIsFocused, newIsFocused) ->
-                {
-                    System.out.println("Checkbox set into " + newIsFocused + " " + question.getVariableName());
-                    controller.updateGuiModel(question.getVariableName(), new BooleanValue(newIsFocused));
-                });
-        questionBox.getChildren().add(createQuestionRow(printLabel(question.getLabel()), checkBox));
-        return null;
-    }
-
-    @Override
-    public Void visit(DateQuestionModel question) {
-        TextField newInput = printTextField(question);
-        addGUIListener(question, newInput);
-        return null;
-    }
-
-    @Override
-    public Void visit(DecimalQuestionModel question) {
-        TextField newInput = printTextField(question);
-        addGUIListener(question, newInput);
-        return null;
-    }
-
-    @Override
-    public Void visit(ErrorQuestionModel question) {
-        displayError(question.displayValue());
-        return null;
-    }
-
-    @Override
-    public Void visit(IntQuestionModel question) {
-        TextField newInput = printTextField(question);
-        addGUIListener(question, newInput);
-        return null;
-    }
-
-    @Override
-    public Void visit(MoneyQuestionModel question) {
-        TextField newInput = printTextField(question);
-        addGUIListener(question, newInput);
-        return null;
-    }
-
-    @Override
-    public Void visit(StringQuestionModel question) {
-        TextField newInput = printTextField(question);
-        addGUIListener(question, newInput);
-        return null;
-    }
-
-    private void addGUIListener(BaseQuestionModel questionModel, TextField textField) {
+    public void drawQuestionRow(BaseQuestionModel questionModel) {
+        //TODO: refactor for widget
+        //This is the implementation for a text
+        TextField textField = this.createTextField(questionModel);
         textField.focusedProperty().addListener((observable, oldIsFocused, newIsFocused) -> {
             if (!newIsFocused) {
                 TextToValueVisitor textToValueVisitor = new TextToValueVisitor(textField.getText());
@@ -96,7 +46,25 @@ public class JavafxRendererVisitor implements QuestionModelVisitor {
             }
         });
 
-        questionBox.getChildren().add(createQuestionRow(printLabel(questionModel.getLabel()), textField));
+        questionBox.getChildren().add(createQuestionRow(createLabel(questionModel.getLabel()), textField));
+    }
+
+    public void drawBooleanQuestionRow(BooleanQuestionModel questionModel) {
+        //TODO: add widget support. Remove this because this is a different widget
+        //This is the implementation for a checkbox
+        CheckBox checkBox = new CheckBox();
+        if (questionModel.getValue() != null) {
+            checkBox.setSelected(questionModel.getBasicValue());
+        }
+
+        checkBox.selectedProperty()
+                .addListener((observable, oldIsFocused, newIsFocused) ->
+                {
+                    System.out.println("Checkbox set into " + newIsFocused + " " + questionModel.getVariableName());
+                    controller.updateGuiModel(questionModel.getVariableName(), new BooleanValue(newIsFocused));
+                });
+
+        questionBox.getChildren().add(createQuestionRow(createLabel(questionModel.getLabel()), checkBox));
     }
 
 
@@ -123,11 +91,11 @@ public class JavafxRendererVisitor implements QuestionModelVisitor {
         return wrapper;
     }
 
-    private Label printLabel(String string) {
+    private Label createLabel(String string) {
         return new Label(string.replace("\"", ""));
     }
 
-    private TextField printTextField(BaseQuestionModel question) {
+    private TextField createTextField(BaseQuestionModel question) {
         TextField textField = new TextField();
         if (question.getValue() != null) {
             textField.setText(question.displayValue());
@@ -145,7 +113,7 @@ public class JavafxRendererVisitor implements QuestionModelVisitor {
     public void displayQuestions(List<BaseQuestionModel> questionGUIs) {
         questionBox.getChildren().removeAll(questionBox.getChildren());
         for (BaseQuestionModel questionRow : questionGUIs) {
-            questionRow.accept(this);
+            questionRow.accept(this.modelRenderer);
         }
     }
 

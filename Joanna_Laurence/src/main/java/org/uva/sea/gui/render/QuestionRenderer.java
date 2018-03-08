@@ -9,9 +9,9 @@ import java.util.List;
 
 public class QuestionRenderer implements Renderable<List<QuestionData>> {
 
-    private JavafxRendererVisitor renderer;
+    private ViewRenderer renderer;
 
-    public QuestionRenderer(JavafxRendererVisitor renderer) {
+    public QuestionRenderer(ViewRenderer renderer) {
         this.renderer = renderer;
     }
 

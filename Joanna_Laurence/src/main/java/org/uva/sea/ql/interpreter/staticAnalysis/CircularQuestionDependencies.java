@@ -2,6 +2,7 @@ package org.uva.sea.ql.interpreter.staticAnalysis;
 
 import org.uva.sea.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
+import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Relation;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
@@ -12,7 +13,7 @@ import java.util.*;
 
 public class CircularQuestionDependencies extends BaseASTVisitor<Void> implements IStaticAnalysis {
 
-    private Map<String,List<String>> dependencies = new HashMap<>();
+    private Relation<String> dependencies = new Relation<>();
 
     /**
      * Hide constructor
@@ -35,7 +36,7 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
     @Override
     public Messages doCheck(Form node) {
         node.accept(this);
-        return incorrectDependenciesToErrors(this.isMapAsymmetric(this.dependencies));
+        return incorrectDependenciesToErrors(this.getIncorrectAsymmetricElements(this.dependencies));
     }
 
     /**
@@ -43,9 +44,9 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
      * @param incorrectDependencies The dependency errors
      * @return The messages
      */
-    private Messages incorrectDependenciesToErrors(List<AbstractMap.SimpleEntry<String, String>> incorrectDependencies) {
+    private Messages incorrectDependenciesToErrors(Relation<String> incorrectDependencies) {
         Messages errors = new Messages(MessageTypes.ERROR);
-        for( AbstractMap.SimpleEntry<String,String> dependency : incorrectDependencies)
+        for( AbstractMap.SimpleEntry<String,String> dependency : incorrectDependencies.getRelations())
             errors.addMessage(dependency.getKey() + " has a circular dependency with" + dependency.getValue());
         return errors;
     }
@@ -70,49 +71,43 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
             }
         });
 
-        listsToMap(questions, dependsOn, this.dependencies);
+
+        addRelations(questions, dependsOn, this.dependencies);
 
         super.visit(node);
         return null;
     }
 
     /**
-     * Combines two lists into a map. List one is related with all of list two
-     * @param firstList First list
-     * @param secondList Second list
-     * @param map The output
-     * @param <T> Type
+     *
+     * @param questions
+     * @param dependsOn
+     * @param relation
      */
-    private <T> void listsToMap(final Collection<T> firstList, final List<T> secondList, Map<T,List<T>> map) {
-        for(T first : firstList) {
-            List<T> keyContent = map.get(first);
-            if(keyContent == null) {
-                map.put(first, secondList);
-            } else {
-                keyContent.addAll(secondList);
+    private void addRelations(List<String> questions, List<String> dependsOn, Relation<String> relation) {
+        for(String question : questions) {
+            for(String dependOn : dependsOn) {
+                relation.addRelation(question, dependOn);
             }
         }
     }
 
+
     /**
      * for all a,b IN X (aRb -> NOT(bRa)).
      * Return all elements that make the map not asymmetric
-     * @param map The map with relations
-     * @param <T> Type
+     * @param relation The relations
      * @return Relations that make the map not asymmetric
      */
-    private <T> List<AbstractMap.SimpleEntry<T,T>> isMapAsymmetric(Map<T,List<T>> map) {
-        List<AbstractMap.SimpleEntry<T,T>> incorrectElements = new ArrayList<>();
+    private Relation<String> getIncorrectAsymmetricElements(Relation<String> relation) {
+        Relation<String> incorrectElements = new Relation<>();
 
-        for (Map.Entry<T, List<T>> entry : map.entrySet())
+        for (AbstractMap.SimpleEntry<String,String> entry : relation.getRelations())
         {
-            T key = entry.getKey();
-            for(T element : entry.getValue()) {
-                List<T> oppositeRelations = map.get(element);
-                if(oppositeRelations != null && oppositeRelations.contains(key))
-                    incorrectElements.add(new AbstractMap.SimpleEntry<>(key, element));
-            }
+            if(relation.contains(entry.getValue(),entry.getKey()))
+                incorrectElements.addRelation(entry.getKey(), entry.getValue());
         }
+
         return incorrectElements;
     }
 }

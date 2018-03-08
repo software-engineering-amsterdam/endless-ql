@@ -26,12 +26,13 @@ class GuiBuilder():
             elif type(statement) is AssignmentNode:
                 self.parseAssignment(statement)
             elif type(statement) is IfNode:
-                if self.checkVariableStatus(statement.expression):                 
+                print statement
+                if self.checkExpressionValues(statement.expression):                 
                     if statement.expression not in self.trueExpressions:
                         self.trueExpressions[statement.expression] = self.gui.setCurrentStatementFrame()
                     self.parseStatements(statement, False)
 
-                elif not self.checkVariableStatus(statement.expression) and statement.expression in self.trueExpressions:
+                elif not self.checkExpressionValues(statement.expression) and statement.expression in self.trueExpressions:
                     self.removeIfBlock(statement)
                 else:
                     continue
@@ -55,12 +56,12 @@ class GuiBuilder():
             self.values.append(statement.var)
 
     def parseAssignment(self, statement):
-        if type(statement.expression) == BinOpNode:
+        if type(statement.expression) is BinOpNode:
             left = self.parseBinOpAssignment(statement.expression.left)
             right = self.parseBinOpAssignment(statement.expression.right)
             result = self.get_operator(statement.expression.op)(left, right)
 
-        if(type(statement.expression) == UnOpNode):
+        if(type(statement.expression) is UnOpNode):
             result = self.gui.getValue(statement.var, "int")
 
         if statement.var in self.values:
@@ -69,25 +70,13 @@ class GuiBuilder():
             self.values.append(statement.var)
             self.gui.addAssignment(statement.var, statement.name, result)
 
-    def parseIfNode(self, statement):
-        if type(statement.expression) == BinOpNode:
-            return
-        elif type(statement.expression) == UnOpNode:
-            # print statement.expression
-            # print statement.expression.var
-            rv = self.parseUnOp(statement.expression)
-            
-        # if statement.statements != []:
-        #         self.parseStatements(statement)
-        return
-
     def parseBinOpAssignment(self, statement):
-        if type(statement) == BinOpNode:
+        if type(statement) is BinOpNode:
             left = self.parseBinOpAssignment(statement.left, assigmentFrame)
             right = self.parseBinOpAssignment(statement.right, assigmentFrame)
             return self.get_operator(statement.expression.op)(left, right)
 
-        if type(statement) == UnOpNode:
+        if type(statement) is UnOpNode:
             return self.gui.getValue(statement.var, "int")
 
     # def parseUnOp(self, expression, assigmentFrame):
@@ -111,15 +100,18 @@ class GuiBuilder():
 
     #     return False
 
-    # def notifyClickRadioButton(self, name, vars):
-    #     print str(vars[name].get()) + str(vars[name])
-    #     self.form_variable[name] = vars[name].get()
-    #     print self.form_variable
-
     # Function that check if the expression variables match the needed values to show the block
-    # !Currently only working on Unary!
-    def checkVariableStatus(self, expression):
-        if type(expression) == UnOpNode:
+    def checkExpressionValues(self, expression):
+        if type(expression) is BinOpNode:
+            if expression.op == "&&":
+                if self.checkExpressionValues(expression.left) and self.checkExpressionValues(expression.right):
+                    return True
+
+            if expression.op == "||":
+                if self.checkExpressionValues(expression.left) or self.checkExpressionValues(expression.right):
+                    return True
+
+        if type(expression) is UnOpNode:
             if not expression.negate and self.gui.values[expression.var].get() == 1:
                 return True
             elif expression.negate and self.gui.values[expression.var].get() == 0:
@@ -136,8 +128,3 @@ class GuiBuilder():
             '%' : op.mod,
             '^' : op.xor,
             }[operator]
-
-# def notifyChangeTextBox(*args):
-#     # selection = "You selected the option " + str(entryVariable2.get())
-#     # label.config(text = selection)
-#     print "change"

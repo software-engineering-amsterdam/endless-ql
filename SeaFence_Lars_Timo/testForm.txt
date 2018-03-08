@@ -8,7 +8,7 @@ form taxOfficeExample
     hasMaintLoan: boolean
     
   
-  if (hasSoldHouse)
+  if (hasSoldHouse && hasBoughtHouse && hasMaintLoan)
   {
     "What was the selling price?"
       sellingPrice: int

@@ -1,16 +1,15 @@
 package nl.uva.se.sc.niro.typechecking
 
+import cats.implicits._
+import nl.uva.se.sc.niro.ExpressionEvaluator._
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.errors.Warning
 import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
-import nl.uva.se.sc.niro.model.ql.{ DecimalType, MoneyType, _ }
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
+import nl.uva.se.sc.niro.model.ql.{ DecimalType, MoneyType, _ }
 import nl.uva.se.sc.niro.typechecking.CycleDetection._
 import org.apache.logging.log4j.scala.Logging
-import nl.uva.se.sc.niro.ExpressionEvaluator._
-import cats.implicits._
-import cats.data.Validated._
 
 object TypeChecker extends Logging {
 
@@ -49,16 +48,13 @@ object TypeChecker extends Logging {
       typeOf(expression, symbolTable).flatMap(answerType => checkOperandAndOperator(operator, answerType))
 
     case BinaryOperation(operator: Operator, leftExpression, rightExpression) =>
-      val leftAnswer = typeOf(leftExpression, symbolTable)
-        .flatMap(answer => checkOperandAndOperator(operator, answer))
-
-      val rightAnswer = typeOf(rightExpression, symbolTable)
-        .flatMap(answer => checkOperandAndOperator(operator, answer))
-
-      if (leftAnswer != rightAnswer)
-        Left(TypeCheckError(message = s"Operands of invalid type $leftAnswer, $rightAnswer"))
-      else
-        rightAnswer
+      for {
+        leftType <- typeOf(leftExpression, symbolTable)
+        _: AnswerType <- checkOperandAndOperator(operator, leftType)
+        rightType <- typeOf(rightExpression, symbolTable)
+        _: AnswerType <- checkOperandAndOperator(operator, rightType)
+        result <- checkLeftRight(leftType, rightType)
+      } yield result
 
     case _: IntegerAnswer => IntegerType.asRight
     case _: DecimalAnswer => DecimalType.asRight
@@ -66,6 +62,13 @@ object TypeChecker extends Logging {
     case _: BooleanAnswer => BooleanType.asRight
     case _: StringAnswer  => StringType.asRight
     case _: DateAnswer    => DateType.asRight
+  }
+
+  def checkLeftRight(leftType: AnswerType, rightType: AnswerType): Either[TypeCheckError, AnswerType] = {
+    if (leftType != rightType)
+      TypeCheckError(message = s"Operands of invalid type $leftType, $rightType").asLeft
+    else
+      rightType.asRight
   }
 
   // TODO make typecheckable type class

@@ -20,6 +20,10 @@ public abstract class AbstractActionListener extends AbstractAction {
         }
     }
     
+    public static void setVisibility(Container container, boolean visible) {
+        container.setVisible(visible);
+    }
+    
     public void resetPanel(Container container) {
         Component[] components = container.getComponents();
         for(Component component : components) {

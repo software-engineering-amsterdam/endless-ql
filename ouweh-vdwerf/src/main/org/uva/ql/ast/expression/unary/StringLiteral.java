@@ -6,7 +6,7 @@ import org.uva.ql.visitor.ExpressionVisitor;
 public class StringLiteral extends Expression {
     private final String value;
 
-    public StringLiteral(String value){
+    public StringLiteral(String value) {
         this.value = value;
     }
 

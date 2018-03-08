@@ -4,6 +4,7 @@
 
 import pprint
 from GUI import Gui
+from AST import *
 class Question_Generator:
 
     def __init__(self, varDict, ast):
@@ -11,7 +12,8 @@ class Question_Generator:
         self.ast = ast
         self.gui = Gui()
         self.create_form()
-        
+        self.questions = {}
+
     def create_form(self):
         # questions, qtypes = self.prepare_questions()
         self.prepare_questions()
@@ -29,7 +31,45 @@ class Question_Generator:
         #         qtypes.append(self.varDict[var]["type"])
         # return questions, qtypes
 
+    def getQuestionsFromAst(self):
+        for form in self.ast.forms:
+            self.get_questions(form.block)
+        printDict(self.questions)
 
+    def get_questions(self, block):
+        for statement in block:
+            if type(statement) == QuestionNode:
+                print("QUESTION")
+                self.questions[statement.getVarName()] = statement
+            elif type(statement) == AssignmentNode:
+                statement.evaluate(self.varDict)
+
+
+            elif type(statement) == ConditionalNode:
+                print("CONDITIONAL")
+                visited = False
+                # check if block
+                ifblock = statement.getIf();
+                if_exp = ifblock.getExpression()
+
+                if(if_exp.evaluate()):
+                    self.get_questions(ifblock.block)
+                    visited = True
+
+                # check elif block
+                if(not visited):
+                    elifBlocks = statement.getElIf()
+                    for elifBlock in elifBlocks:
+                        elif_exp = elifBlock.getExpression()
+                        if(elif_exp.evaluate()):
+                            self.get_questions(elifBlock.block)
+                            visited = True
+                            break
+
+                # check else block
+                elseBlock = statement.getElse()
+                if(elseBlock and not visited):
+                    self.get_questions(elseBlock)
 
 def printDict(dic):
     pp = pprint.PrettyPrinter(indent=4)

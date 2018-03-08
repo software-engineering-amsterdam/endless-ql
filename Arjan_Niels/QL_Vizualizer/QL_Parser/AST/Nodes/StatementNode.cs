@@ -28,10 +28,5 @@
             else
                 return QValueType.UNKNOWN;
         }
-
-        public NodeType GetNodeType()
-        {
-            return Type;
-        }
     }
 }

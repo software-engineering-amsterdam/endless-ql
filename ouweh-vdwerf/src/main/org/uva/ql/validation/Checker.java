@@ -7,7 +7,7 @@ abstract class Checker {
 
     Logger logger;
 
-    Checker(){
+    Checker() {
         this.logger = Logger.getGlobal();
     }
 

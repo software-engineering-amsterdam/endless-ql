@@ -16,9 +16,9 @@ public class LexerTest {
         return new GrammarLexer(new ANTLRInputStream(new StringReader(code)));
     }
 
-    public GrammarLexer lexerForResource (String resourceName) throws IOException {
+    /*public GrammarLexer lexerForResource (String resourceName) throws IOException {
         return new GrammarLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("/${resourceName}.grammar")));
-    }
+    }*/
 
     public List<String> tokens(GrammarLexer lexer){
         LinkedList<String> tokens = new LinkedList<String>();

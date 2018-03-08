@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "Integra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionaireConsoleApp", "QuestionaireConsoleApp\QuestionaireConsoleApp.csproj", "{D0A33CD6-41E6-4A46-9977-1F2955013D42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionnaireWPFApp", "QuestionnaireWPFApp\QuestionnaireWPFApp.csproj", "{CC7EC5D5-64EC-4833-83E3-413B4A7FDE31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{D0A33CD6-41E6-4A46-9977-1F2955013D42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0A33CD6-41E6-4A46-9977-1F2955013D42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0A33CD6-41E6-4A46-9977-1F2955013D42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC7EC5D5-64EC-4833-83E3-413B4A7FDE31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC7EC5D5-64EC-4833-83E3-413B4A7FDE31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC7EC5D5-64EC-4833-83E3-413B4A7FDE31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC7EC5D5-64EC-4833-83E3-413B4A7FDE31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

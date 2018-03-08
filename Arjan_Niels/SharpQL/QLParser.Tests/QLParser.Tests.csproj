@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyserTests.cs" />
     <Compile Include="Analysis\Semantic\DuplicateVariableAnalyserTest.cs" />
+    <Compile Include="Analysis\Semantic\StatementTypeAnalyserTests.cs" />
     <Compile Include="AST\CommentTest.cs" />
     <Compile Include="AST\ComputedNodeTest.cs" />
     <Compile Include="AST\Expressions\ArthimeticExpressionTests.cs" />

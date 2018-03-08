@@ -5,7 +5,7 @@ using QLParser.Exceptions;
 
 namespace QLParser.Analysis.Semantic
 {
-    public class BooleanStatementnalyser : IAnalyser
+    public class StatementTypeAnalyser : IAnalyser
     {
         private enum StatementType
         {
@@ -71,6 +71,10 @@ namespace QLParser.Analysis.Semantic
                 case NodeType.COMPUTED:
                     var computed = (ComputedNode)node;
                     return computed.Expression;
+                case NodeType.ARTHIMETRIC_EXPRESSION:
+                case NodeType.COMPARISON_EXPRESSION:
+                case NodeType.LOGICAL_EXPRESSION:
+                    return node as IExpressionNode;
                 default:
                     return null;
             }

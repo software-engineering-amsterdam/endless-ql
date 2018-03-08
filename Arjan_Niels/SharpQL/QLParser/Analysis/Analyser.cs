@@ -37,7 +37,7 @@ namespace QLParser.Analysis
                 // Semantic
                 new DuplicateVariableAnalyser(),
                 new OnlyInitialisedVarsAnalyser(),
-                new BooleanStatementnalyser()
+                new StatementTypeAnalyser()
             };
         }
 

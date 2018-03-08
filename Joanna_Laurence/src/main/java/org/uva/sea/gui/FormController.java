@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
 
 public class FormController implements Initializable, ValueChangeListener {
 
-    private String fileName = "/Users/joannaroczniak/Desktop/UvA/endless-ql/Joanna_Laurence/src/main/resources/example.ql";
+    private String fileName = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/example.ql";
 
     private GuiModel guiModel;
 
@@ -50,28 +50,30 @@ public class FormController implements Initializable, ValueChangeListener {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            guiModel = new GuiModel(fileName);
-            JavafxRendererVisitor renderer = new JavafxRendererVisitor(questionBox, messageBox, this);
-            questionRenderer = new QuestionRenderer(renderer);
-            warningRenderer = new WarningRenderer(renderer);
-            errorRenderer = new ErrorRenderer(renderer);
-            guiModel.attachListener(this);
-            updateGui();
-        } catch (IOException | StaticAnalysisError e) {
-            //TODO: Send a message and quit
-        }
+        guiModel = new GuiModel(fileName);
+        JavafxRendererVisitor renderer = new JavafxRendererVisitor(questionBox, messageBox, this);
+        questionRenderer = new QuestionRenderer(renderer);
+        warningRenderer = new WarningRenderer(renderer);
+        errorRenderer = new ErrorRenderer(renderer);
+        onChange();
     }
 
     @Override
     public void onChange() {
-        updateGui();
+        try {
+            updateGui();
+        } catch (IOException | StaticAnalysisError e) {
+            errorRenderer.render(e.getMessage());
+        }
     }
 
-    private void updateGui() {
+    private void updateGui() throws IOException, StaticAnalysisError {
         InterpreterResult interpreterResult = guiModel.getInterpreterResult();
         questionRenderer.render(interpreterResult.getQuestions());
-        warningRenderer.render(interpreterResult.getWarnings().getMessages());
+
+        Messages warnings = interpreterResult.getWarnings();
+        for(String warning : warnings.getMessages())
+            warningRenderer.render(warning);
     }
 
 
@@ -85,14 +87,7 @@ public class FormController implements Initializable, ValueChangeListener {
         File qlFile = fileChooser.showOpenDialog(null);
         if (qlFile != null) {
             fileName = qlFile.getAbsolutePath();
-            try {
-                guiModel.loadNewForm(fileName);
-            } catch (IOException | StaticAnalysisError e) {
-                e.printStackTrace();
-                errorRenderer.render(Arrays.asList(new String[] {e.getMessage()}));
-            }
-
-            System.out.println(qlFile.getAbsolutePath());
+            guiModel = new GuiModel(fileName);
         }
     }
 

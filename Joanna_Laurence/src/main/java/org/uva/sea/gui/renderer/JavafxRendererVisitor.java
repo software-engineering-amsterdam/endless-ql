@@ -56,7 +56,7 @@ public class JavafxRendererVisitor implements QuestionModelVisitor {
 
     @Override
     public void visit(ErrorQuestionModel question) {
-        displayErrors(Arrays.asList(question.displayValue()));
+        displayError(question.displayValue());
     }
 
     @Override
@@ -130,18 +130,6 @@ public class JavafxRendererVisitor implements QuestionModelVisitor {
         questionBox.getChildren().removeAll(questionBox.getChildren());
         for (BaseQuestionModel questionRow : questionGUIs) {
             questionRow.accept(this);
-        }
-    }
-
-    public void displayWarnings(List<String> warnings) {
-        for (String warning : warnings) {
-            displayWarning(warning);
-        }
-    }
-
-    public void displayErrors(List<String> errors) {
-        for (String error : errors) {
-            displayError(error);
         }
     }
 

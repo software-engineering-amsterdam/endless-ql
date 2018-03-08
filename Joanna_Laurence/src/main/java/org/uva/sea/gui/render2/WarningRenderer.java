@@ -2,9 +2,7 @@ package org.uva.sea.gui.render2;
 
 import org.uva.sea.gui.renderer.JavafxRendererVisitor;
 
-import java.util.List;
-
-public class WarningRenderer implements Renderable<List<String>> {
+public class WarningRenderer implements Renderable<String> {
 
     private JavafxRendererVisitor render;
 
@@ -13,7 +11,7 @@ public class WarningRenderer implements Renderable<List<String>> {
     }
 
     @Override
-    public void render(List<String> data) {
-        render.displayWarnings(data);
+    public void render(String warning) {
+        render.displayWarning(warning);
     }
 }

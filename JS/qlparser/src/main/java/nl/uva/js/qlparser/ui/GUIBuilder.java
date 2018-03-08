@@ -52,16 +52,26 @@ public class GUIBuilder {
     }
 
     private static JPanel getFormPanel(Form form) {
-        JPanel panel = new JPanel();
+        JPanel contentPanel    = new JPanel();
+        JScrollPane scrollPane = new JScrollPane(contentPanel);
+        JPanel formPanel       = new JPanel(null);
+
+        contentPanel.setMinimumSize(new Dimension(700, 700));
+        contentPanel.setMaximumSize(new Dimension(700, 700));
+        contentPanel.setPreferredSize(new Dimension(700, 700));
+        contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         List<Component> components = form.getComponents();
-        components.forEach(panel::add);
+        components.forEach(contentPanel::add);
 
-        panel.setMinimumSize(new Dimension(700, 700));
-        panel.setMaximumSize(new Dimension(700, 2000));
-        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBounds(2, 5, 685    , 695);
 
-        return panel;
+        formPanel.setPreferredSize(new Dimension(700, 700));
+        formPanel.add(scrollPane);
+
+        return formPanel;
     }
 
 

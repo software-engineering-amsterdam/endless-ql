@@ -25,8 +25,16 @@ public class SymbolTable {
         }
     }
 
+    public boolean containsExpression(String identifier){
+        return this.table.containsKey(identifier);
+    }
+
     public Expression getExpression(String identifier) {
-        return this.table.get(identifier);
+        if(this.table.containsKey(identifier)){
+            return this.table.get(identifier);
+        } else {
+            throw new UnsupportedOperationException("Cannot get value for unknown field '" + identifier + "'.");
+        }
     }
 
     // TODO: move to value?

@@ -181,6 +181,11 @@ public class TypeCheckVisitor implements IASTVisitor<ReturnType> {
 
     @Override
     public ReturnType visit(ExpressionIdentifier e) {
-        return this.symbolTable.getExpression(e.identifier).accept(this);
+        if(this.symbolTable.containsExpression(e.identifier)){
+            return this.symbolTable.getExpression(e.identifier).accept(this);
+        } else {
+            errors.add("Cannot get value for unknown field '" + e.identifier + "'.");
+            return ReturnType.UNDEFINED;
+        }
     }
 }

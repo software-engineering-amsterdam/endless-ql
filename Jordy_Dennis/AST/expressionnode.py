@@ -25,7 +25,7 @@ class BinaryNode:
         self.numOps = ["<", "<=", ">", ">="]
         self.arithmeticOps = ["+", "-", "/", "*"]
         self.allOps = ["!=", "=="]
-        self.boolOps = ["&&", "||"]
+        self.boolOps = ["and", "or"]
 
     # check the actual expression type
     def checkTypes(self):
@@ -105,7 +105,7 @@ class BinaryNode:
     def evaluate(self):
         left_exp = self.left.evaluate()
         right_exp = self.right.evaluate()
-        return eval(str(left_exp) + self.op + str(right_exp))
+        return eval(str(left_exp) + " " +  self.op + " " + str(right_exp))
 
     def __repr__(self):
         return "Binop: {} {} {}".format(self.left, self.op, self.right)

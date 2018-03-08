@@ -34,6 +34,7 @@ class Question_Generator:
     def getQuestionsFromAst(self):
         for form in self.ast.forms:
             self.get_questions(form.block)
+        printDict(self.questions)
 
     def get_questions(self, block):
         for statement in block:
@@ -50,6 +51,7 @@ class Question_Generator:
                 # check if block
                 ifblock = statement.getIf();
                 if_exp = ifblock.getExpression()
+
                 if(if_exp.evaluate()):
                     self.get_questions(ifblock.block)
                     visited = True
@@ -68,21 +70,6 @@ class Question_Generator:
                 elseBlock = statement.getElse()
                 if(elseBlock and not visited):
                     self.get_questions(elseBlock)
-
-        # for statement in ast.statements():
-        #     if statement is question:
-        #         # voeg toe aan ordered dict
-        #         # key = variable name, value = QuestionNode
-        #     if statement is assignment:
-        #         # voer uit en zet in self.vardict ( afhankelijk van vardict)
-        #     if statement is conditional:
-        #         #check if condition expression
-        #             # is True, get_questions(children)
-        #             # if False, check elif and else (opt) and do the same
-        # # this generates a ordered dict (variable name: QuestionNode). This dict is used to look up nodes when
-        # # looking at the QLS to generate question.
-
-
 
 def printDict(dic):
     pp = pprint.PrettyPrinter(indent=4)

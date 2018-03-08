@@ -8,8 +8,6 @@ class InputTypeMap:
         self.parent = parent
         self.old_value = None
         self.value = value
-        print(varName)
-        print(value)
         self.questionGenerator = questionGenerator
         self.varDict = self.questionGenerator.getVarDict()
         self.varName = varName

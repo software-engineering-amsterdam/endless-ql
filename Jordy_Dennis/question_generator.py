@@ -41,8 +41,7 @@ class Question_Generator:
                 print("QUESTION")
                 self.questions[statement.getVarName()] = statement
             elif type(statement) == AssignmentNode:
-                exp = statement.getExpression()
-                print(exp.evaluate())
+                statement.evaluate(self.varDict)
 
 
             elif type(statement) == ConditionalNode:
@@ -69,9 +68,6 @@ class Question_Generator:
                 elseBlock = statement.getElse()
                 if(elseBlock and not visited):
                     self.get_questions(elseBlock)
-
-
-
 
         # for statement in ast.statements():
         #     if statement is question:

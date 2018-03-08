@@ -224,6 +224,15 @@ class VarNode:
     def getName(self):
         return self.varname
 
+    # Set the value of the variable, and only accept its own type or a int to float conversion
+    def setVar(self, var):
+        if type(var) == self.type:
+            self.value = var
+        elif self.type == float and type(var) == int:
+            self.value = float(var)
+        else:
+            throwError("Bad assignment of variable after expression")
+
     def evaluate(self):
         return self.value
 

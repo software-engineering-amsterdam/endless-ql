@@ -14,6 +14,7 @@ using QuestionaireDomain.Entities.API.AstNodes.Relational;
 using QuestionnaireDomain.Logic;
 using QuestionnaireDomain.Logic.API;
 using QuestionnaireDomain.Logic.Logic;
+using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
 
 
@@ -30,6 +31,7 @@ namespace UnitTests.Domain.UnitTests
         {
             var services = new ServiceCollection();
             services.AddModule(new AntlrModule());
+            services.AddModule(new InfrastructureModule());
             services.AddModule(new EntitiesModule());
             services.AddModule(new DomainLogicModule());
             m_serviceProvider = services.BuildServiceProvider();

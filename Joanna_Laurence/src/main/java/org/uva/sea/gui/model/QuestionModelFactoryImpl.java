@@ -1,6 +1,7 @@
 package org.uva.sea.gui.model;
 
 import org.uva.sea.ql.interpreter.dataObject.QuestionData;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class QuestionModelFactoryImpl implements QuestionModelFactory {
 
@@ -21,7 +22,7 @@ public class QuestionModelFactoryImpl implements QuestionModelFactory {
                 return new BooleanQuestionModel(data);
             case UNKNOWN:
             default:
-                return null;
+                throw new NotImplementedException();
         }
     }
 }

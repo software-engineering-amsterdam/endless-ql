@@ -1,7 +1,10 @@
 package ast.visitors;
 
 import ast.model.Form;
-import ast.model.datatypes.*;
+import ast.model.datatypes.TypeDeclarationBoolean;
+import ast.model.datatypes.TypeDeclarationDecimal;
+import ast.model.datatypes.TypeDeclarationInteger;
+import ast.model.datatypes.TypeDeclarationString;
 import ast.model.expressions.binary.arithmetics.Addition;
 import ast.model.expressions.binary.arithmetics.Division;
 import ast.model.expressions.binary.arithmetics.Multiplication;
@@ -15,167 +18,148 @@ import ast.model.expressions.values.Literal;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
-import ast.model.statements.Statement;
 
-public class ASTNodeAbstractVisitor implements ASTNodeVisitor {
+public class TestASTTraverse extends AbstractASTTraverse {
+
+    public TestASTTraverse() {
+        System.out.println("TestVisitor created");
+    }
+
     @Override
-    public void visit(Form form) {
+    public Object visit(Form form) {
         System.out.println("Visiting form :" + form.getMetaInformation().getStartLine());
-
-        for (Statement statement : form.getStatementList()) {
-            statement.accept(this);
-        }
+        return super.visit(form);
     }
 
     @Override
-    public void visit(Question question) {
+    public Object visit(Question question) {
         System.out.println("Visiting question :" + question.getMetaInformation().getStartLine());
-
-        question.getVariableType().accept(this);
-
-        if (question.getAssignedExpression() != null) {
-            question.getAssignedExpression().accept(this);
-        }
+        return super.visit(question);
     }
 
     @Override
-    public void visit(IfStatement ifStatement) {
-
+    public Object visit(IfStatement ifStatement) {
         System.out.println("Visiting if statement " + ifStatement.getMetaInformation().getStartLine());
-
-        ifStatement.getCondition().accept(this);
-
-        for (Statement statement : ifStatement.getStatementList()) {
-            statement.accept(this);
-        }
-        for (Statement statement : ifStatement.getElseStatementList()) {
-            statement.accept(this);
-        }
+        return super.visit(ifStatement);
     }
 
     @Override
-    public void visit(Literal literal) {
+    public Object visit(Literal literal) {
         System.out.println("Visiting literal " + literal.getClass().getSimpleName() + " :" + literal.getMetaInformation().getStartLine());
+        return super.visit(literal);
     }
 
     @Override
-    public void visit(VariableReference variableReference) {
+    public Object visit(VariableReference variableReference) {
         System.out.println("Visiting variable reference " + variableReference.getClass().getSimpleName() + " :" + variableReference.getMetaInformation().getStartLine());
+        return super.visit(variableReference);
     }
 
     @Override
-    public void visit(Negation negation) {
+    public Object visit(Negation negation) {
         System.out.println("Visiting negation " + negation.getClass().getSimpleName() + " :" + negation.getMetaInformation().getStartLine());
-        negation.getExpression().accept(this);
+        return super.visit(negation);
     }
 
     @Override
-    public void visit(Minus minus) {
+    public Object visit(Minus minus) {
         System.out.println("Visiting minus " + minus.getClass().getSimpleName() + " :" + minus.getMetaInformation().getStartLine());
-        minus.getExpression().accept(this);
+        return super.visit(minus);
     }
 
     @Override
-    public void visit(Addition addition) {
+    public Object visit(Addition addition) {
         System.out.println("Visiting addition " + addition.getClass().getSimpleName() + " :" + addition.getMetaInformation().getStartLine());
-        addition.getLeftSide().accept(this);
-        addition.getRightSide().accept(this);
+        return super.visit(addition);
     }
 
     @Override
-    public void visit(Subtraction subtraction) {
+    public Object visit(Subtraction subtraction) {
         System.out.println("Visiting subtraction " + subtraction.getClass().getSimpleName() + " :" + subtraction.getMetaInformation().getStartLine());
-        subtraction.getLeftSide().accept(this);
-        subtraction.getRightSide().accept(this);
+        return super.visit(subtraction);
     }
 
     @Override
-    public void visit(Division division) {
+    public Object visit(Division division) {
         System.out.println("Visiting divistion " + division.getClass().getSimpleName() + " :" + division.getMetaInformation().getStartLine());
-        division.getLeftSide().accept(this);
-        division.getRightSide().accept(this);
+        return super.visit(division);
     }
 
     @Override
-    public void visit(Multiplication multiplication) {
+    public Object visit(Multiplication multiplication) {
         System.out.println("Visiting multiplication " + multiplication.getClass().getSimpleName() + " :" + multiplication.getMetaInformation().getStartLine());
-        multiplication.getLeftSide().accept(this);
-        multiplication.getRightSide().accept(this);
+        return super.visit(multiplication);
     }
 
     @Override
-    public void visit(Equal equal) {
+    public Object visit(Equal equal) {
         System.out.println("Visiting equal " + equal.getClass().getSimpleName() + " :" + equal.getMetaInformation().getStartLine());
-        equal.getLeftSide().accept(this);
-        equal.getRightSide().accept(this);
+        return super.visit(equal);
     }
 
     @Override
-    public void visit(GreaterEqual greaterEqual) {
+    public Object visit(GreaterEqual greaterEqual) {
         System.out.println("Visiting greaterEqual " + greaterEqual.getClass().getSimpleName() + " :" + greaterEqual.getMetaInformation().getStartLine());
-        greaterEqual.getLeftSide().accept(this);
-        greaterEqual.getRightSide().accept(this);
+        return super.visit(greaterEqual);
     }
 
     @Override
-    public void visit(GreaterThan greaterThan) {
+    public Object visit(GreaterThan greaterThan) {
         System.out.println("Visiting greaterThan " + greaterThan.getClass().getSimpleName() + " :" + greaterThan.getMetaInformation().getStartLine());
-        greaterThan.getLeftSide().accept(this);
-        greaterThan.getRightSide().accept(this);
+        return super.visit(greaterThan);
     }
 
     @Override
-    public void visit(LessEqual lessEqual) {
+    public Object visit(LessEqual lessEqual) {
         System.out.println("Visiting lessEqual " + lessEqual.getClass().getSimpleName() + " :" + lessEqual.getMetaInformation().getStartLine());
-        lessEqual.getLeftSide().accept(this);
-        lessEqual.getRightSide().accept(this);
+        return super.visit(lessEqual);
     }
 
     @Override
-    public void visit(LessThan lessThan) {
+    public Object visit(LessThan lessThan) {
         System.out.println("Visiting lessThan " + lessThan.getClass().getSimpleName() + " :" + lessThan.getMetaInformation().getStartLine());
-        lessThan.getLeftSide().accept(this);
-        lessThan.getRightSide().accept(this);
+        return super.visit(lessThan);
     }
 
     @Override
-    public void visit(NotEqual notEqual) {
+    public Object visit(NotEqual notEqual) {
         System.out.println("Visiting notEqual " + notEqual.getClass().getSimpleName() + " :" + notEqual.getMetaInformation().getStartLine());
-        notEqual.getLeftSide().accept(this);
-        notEqual.getRightSide().accept(this);
+        return super.visit(notEqual);
     }
 
     @Override
-    public void visit(LogicalAnd logicalAnd) {
+    public Object visit(LogicalAnd logicalAnd) {
         System.out.println("Visiting logicalAnd " + logicalAnd.getClass().getSimpleName() + " :" + logicalAnd.getMetaInformation().getStartLine());
-        logicalAnd.getLeftSide().accept(this);
-        logicalAnd.getRightSide().accept(this);
+        return super.visit(logicalAnd);
     }
 
     @Override
-    public void visit(LogicalOr logicalOr) {
+    public Object visit(LogicalOr logicalOr) {
         System.out.println("Visiting logicalOr " + logicalOr.getClass().getSimpleName() + " :" + logicalOr.getMetaInformation().getStartLine());
-        logicalOr.getLeftSide().accept(this);
-        logicalOr.getRightSide().accept(this);
+        return super.visit(logicalOr);
     }
 
     @Override
-    public void visit(TypeDeclarationBoolean typeDeclarationBoolean) {
+    public Object visit(TypeDeclarationBoolean typeDeclarationBoolean) {
         System.out.println("Visiting typeDeclarationBoolean " + typeDeclarationBoolean.getClass().getSimpleName() + " :" + typeDeclarationBoolean.getMetaInformation().getStartLine());
+        return super.visit(typeDeclarationBoolean);
     }
 
     @Override
-    public void visit(TypeDeclarationDecimal typeDeclarationDecimal) {
+    public Object visit(TypeDeclarationDecimal typeDeclarationDecimal) {
         System.out.println("Visiting typeDeclarationDecimal " + typeDeclarationDecimal.getClass().getSimpleName() + " :" + typeDeclarationDecimal.getMetaInformation().getStartLine());
+        return super.visit(typeDeclarationDecimal);
     }
 
     @Override
-    public void visit(TypeDeclarationInteger typeDeclarationInteger) {
+    public Object visit(TypeDeclarationInteger typeDeclarationInteger) {
         System.out.println("Visiting typeDeclarationInteger " + typeDeclarationInteger.getClass().getSimpleName() + " :" + typeDeclarationInteger.getMetaInformation().getStartLine());
+        return super.visit(typeDeclarationInteger);
     }
 
     @Override
-    public void visit(TypeDeclarationString typeDeclarationString) {
+    public Object visit(TypeDeclarationString typeDeclarationString) {
         System.out.println("Visiting typeDeclarationString " + typeDeclarationString.getClass().getSimpleName() + " :" + typeDeclarationString.getMetaInformation().getStartLine());
+        return super.visit(typeDeclarationString);
     }
 }

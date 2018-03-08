@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuestionaireDomain.Entities.API
+namespace QuestionnaireInfrastructure.API
 {
     public interface IIdMaker
     {

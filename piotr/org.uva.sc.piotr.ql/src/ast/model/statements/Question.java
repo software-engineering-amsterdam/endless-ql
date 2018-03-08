@@ -51,8 +51,7 @@ public class Question extends Statement {
     }
 
     @Override
-    public void accept(ASTNodeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(ASTNodeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
-
 }

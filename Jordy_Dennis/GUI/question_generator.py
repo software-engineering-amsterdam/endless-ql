@@ -24,18 +24,19 @@ class Question_Generator:
         self.get_questions(self.ast.form.block)
         # deep cody dict. This is used to insert if-questions in the GUI
         toBeDeleteQuestions = self.questions.copy()
-
+        print(self.ast)
         if self.form:
             # for every question that is evaluated
             for varName in self.questions:
                 # get information of the question
                 label = self.questions[varName].getQuestion()
                 type = self.varDict[varName]['node'].checkTypes()
-                print(label)
+
                 value = self.varDict[varName]['node'].evaluate()
 
                 # if the question is not yet in the GUI
                 if(not self.isQuestionInForm(varName)):
+
                     # it is not the initial setup process
                     if not initial:
                         # delete every question that is under the to be inserted if-question
@@ -47,8 +48,8 @@ class Question_Generator:
                 # delete question from the to be deleted list
                 del toBeDeleteQuestions[varName]
 
-            # remove if question if no longer valid
-            self.deleteInvalidQuestions()
+                # remove if question if no longer valid
+                self.deleteInvalidQuestions()
 
         return self.questions
 
@@ -60,6 +61,7 @@ class Question_Generator:
 
     def deleteInvalidQuestions(self):
         for question in self.form.questions:
+            print(question.question_text)
             if (question.varName not in self.questions):
                 question.frame.destroy()
                 self.form.questions.remove(question)
@@ -84,6 +86,8 @@ class Question_Generator:
                 # check if block
                 ifblock = statement.getIf();
                 if_exp = ifblock.getExpression()
+                print(if_exp)
+
 
                 if (if_exp.evaluate()):
                     self.get_questions(ifblock.block)

@@ -1,11 +1,13 @@
 ﻿using System;
+using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 
 namespace QLVisualizer.ElementManagers.LeafTypes
 {
     public class MoneyQuestionManager : QuestionElementManager<double>
     {
-        public MoneyQuestionManager(string identifyer, string text, ElementManager parent, ExpressionBool activationExpression = null, TypedExpressionValue<double> answerExpression = null) : base(identifyer, text, parent, activationExpression, answerExpression)
+        public MoneyQuestionManager(string identifyer, string text, ElementManager parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<double> answerExpression = null) : 
+            base(identifyer, text, parent, controller, activationExpression, answerExpression)
         {
         }
 

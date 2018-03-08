@@ -14,7 +14,8 @@ namespace QLVisualizer.ElementManagers
         /// </summary>
         protected List<ElementManagerLeaf> _children { get; private set; }
 
-        public ElementManagerCollection(string identifyer, string text, string xmlName, ExpressionBool activationExpression = null) : base(identifyer, text, xmlName, activationExpression)
+        public ElementManagerCollection(string identifyer, string text, string xmlName, ElementManagerController controller, ExpressionBool activationExpression = null) : 
+            base(identifyer, text, xmlName, controller, activationExpression)
         {
         }
 
@@ -25,29 +26,20 @@ namespace QLVisualizer.ElementManagers
         public void AddChild(ElementManagerLeaf elementManager)
         {
             _children.Add(elementManager);
-            elementManager.SetParent(this);
+            elementManager.Parent = this;
         }
 
-        public override void SetController(ElementManagerController controller)
-        {
-            base.SetController(controller); 
-
-            // Forward call to children
-            foreach (ElementManagerLeaf manager in _children)
-                manager.SetController(controller);
-        }
-
-        public override void ReceiveUpdate(string updatedIdentifyer)
+        public override void NotifyChange(string updatedIdentifyer)
         {
             // Only trigger if it contains
             if(_activationExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
-                base.ReceiveUpdate(updatedIdentifyer);
+                base.NotifyChange(updatedIdentifyer);
 
 
             // Only send to children if parent is active
             if (Active)
                 foreach (ElementManagerLeaf manager in _children)
-                    manager.ReceiveUpdate(updatedIdentifyer);
+                    manager.NotifyChange(updatedIdentifyer);
         }
 
         public override IEnumerable<string> GetNotifyWidgetIDs()

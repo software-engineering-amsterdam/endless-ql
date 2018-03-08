@@ -17,7 +17,7 @@ namespace QLVisualizer
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Initialize widget controller
-            ElementManagerController widgetController = new ElementManagerDisplayContollerWindows(10);
+            ElementManagerController widgetController = new ElementManagerDisplayContollerWindows(null, 10);
             widgetController.ShowView();
         }
     }

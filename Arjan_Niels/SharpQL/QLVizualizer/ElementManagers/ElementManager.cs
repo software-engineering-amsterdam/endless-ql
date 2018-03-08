@@ -30,71 +30,7 @@ namespace QLVisualizer.ElementManagers
         /// <summary>
         /// Parent of this manager
         /// </summary>
-        public ElementManager Parent { get; protected set; }
-
-
-        public ElementManager(string identifyer, string text, string xmlName, ExpressionBool activationExpression = null)
-        {
-            Text = text;
-            Identifier = identifyer;
-            XMLElementName = xmlName;
-
-
-            _activationExpression = activationExpression;
-            Active = activationExpression == null;
-        }
-
-
-        public abstract IEnumerable<string> GetNotifyWidgetIDs();
-
-        /// <summary>
-        /// Sets widgetcontroller and subscribes to value changes
-        /// </summary>
-        /// <param name="controller">Controller to use</param>
-        public virtual void SetController(ElementManagerController controller)
-        {
-            _widgetController = controller;
-
-            // Subscribe to items from the controller
-            if (_activationExpression != null)
-            {
-                foreach (string id in GetNotifyWidgetIDs())
-                    _widgetController.ReceiveUpdates(id, this);
-                Active = _activationExpression.Result;
-            }
-        }
-
-        /// <summary>
-        /// Handles incoming update notifactions
-        /// </summary>
-        /// <param name="updatedIdentifyer">Updated widgetID</param>
-        public virtual void ReceiveUpdate(string updatedIdentifyer)
-        {
-            bool _oldActive = Active;
-            if (_activationExpression != null && _activationExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
-                Active = _activationExpression.Result;
-            _widgetController.UpdateView(this);
-
-            // Value is changed
-            if (_oldActive != Active)
-                _widgetController.ActiveChanged();
-        }
-
-
-        /// <summary>
-        /// Exports Element to XML
-        /// </summary>
-        /// <returns>XML representation of the element</returns>
-        public abstract string ToXML();
-
-        /// <summary>
-        /// Sets parent of IElementManager
-        /// </summary>
-        /// <param name="parent">Parent manager</param>
-        public void SetParent(ElementManager parent)
-        {
-            Parent = parent;
-        }
+        public ElementManager Parent;
 
         /// <summary>
         /// Expression for activation evaluation
@@ -104,7 +40,44 @@ namespace QLVisualizer.ElementManagers
         /// <summary>
         /// ElementManager controller that this ElementManager receives updates from
         /// </summary>
-        protected ElementManagerController _widgetController;
+        protected ElementManagerController _elementManagerController;
 
+
+        public ElementManager(string identifyer, string text, string xmlName, ElementManagerController controller, ExpressionBool activationExpression = null)
+        {
+            Text = text;
+            Identifier = identifyer;
+            XMLElementName = xmlName;
+            _elementManagerController = controller;
+
+            _activationExpression = activationExpression;
+            Active = activationExpression == null;
+        }
+
+
+        public abstract IEnumerable<string> GetNotifyWidgetIDs();
+
+        /// <summary>
+        /// Handles incoming update notifactions
+        /// </summary>
+        /// <param name="updatedIdentifyer">Updated widgetID</param>
+        public virtual void NotifyChange(string updatedIdentifyer)
+        {
+            bool _oldActive = Active;
+            if (_activationExpression != null && _activationExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
+                Active = _activationExpression.Result;
+            _elementManagerController.UpdateView(this);
+
+            // Value is changed
+            if (_oldActive != Active)
+                _elementManagerController.ActiveChanged();
+        }
+
+
+        /// <summary>
+        /// Exports Element to XML
+        /// </summary>
+        /// <returns>XML representation of the element</returns>
+        public abstract string ToXML();
     }
 }

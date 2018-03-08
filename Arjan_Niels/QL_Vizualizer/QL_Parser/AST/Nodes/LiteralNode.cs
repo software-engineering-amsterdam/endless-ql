@@ -11,11 +11,6 @@
             this.QValueType = qValueType;
         }
 
-        public NodeType GetNodeType()
-        {
-            return this.Type;
-        }
-
         public QValueType GetQValueType()
         {
             return this.QValueType;

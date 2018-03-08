@@ -12,3 +12,7 @@ class AndOperatorNode(BinaryOperatorNode):
         if self.__valid_types.get((type1, type2)):
             return self.__valid_types.get((type1, type2))
         return TypeUndefined
+
+    def evaluate(self):
+        if self.left_expression.value and self.right_expression.value:
+            self.value = self.left_expression.value and self.right_expression.value

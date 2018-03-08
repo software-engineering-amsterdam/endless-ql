@@ -38,13 +38,13 @@ public class TypeCheckerVisitor
 		form.getBlock().accept(new MainVisitor<Void, Void>() {
 						 @Override
 						 public Void visit(ComputedQuestion question, Void ctx) {
-							 insertToMap(question.getIdentifier().getIdentifier(), question.getType());
+							 insertToMap(question.getIdentifier().toString(), question.getType());
 						   return null;
 						 };
 	
 						 @Override
 						 public Void visit(NormalQuestion question, Void ctx) {
-							 insertToMap(question.getIdentifier().getIdentifier(), question.getType());
+							 insertToMap(question.getIdentifier().toString(), question.getType());
 						   return null;
 						 }
 					 	},
@@ -60,6 +60,7 @@ public class TypeCheckerVisitor
 
 	private void checkTypeMismatch(Expression expr, Type expectedType) {
 		Type currentType =  expr.accept(this, null);
+		//System.out.println("Check types" + currentType + "\t" + expectedType);
 		if (isUndefinedType(currentType)) {
 			return;
 		}
@@ -82,14 +83,14 @@ public class TypeCheckerVisitor
 	/* Statements and master-expressions */
 	@Override
 	public Void visit(IfThenStatement node, Void ctx) {
-		checkTypeMismatch(node.getExpression(), Type.BOOLEAN);
+		checkTypeMismatch(node.getCondition(), Type.BOOLEAN);
 		node.getIfBody().accept(TypeCheckerVisitor.this, ctx);
 		return null;
 	}
 	
 	@Override
 	public Void visit(IfThenElseStatement node, Void ctx) {
-		checkTypeMismatch(node.getExpression(), Type.BOOLEAN);
+		checkTypeMismatch(node.getCondition(), Type.BOOLEAN);
 		node.getIfBody().accept(TypeCheckerVisitor.this, ctx);
 		node.getElseBody().accept(TypeCheckerVisitor.this, ctx);
 		return null;
@@ -97,7 +98,7 @@ public class TypeCheckerVisitor
 	
 	@Override
 	public Void visit(ComputedQuestion node, Void ctx) {
-	   Type type =  getType(node.getIdentifier().getIdentifier());
+	   Type type =  getType(node.getIdentifier().toString());
 	   checkTypeMismatch(node.getExpression(), type);
 	   return null;
 	}

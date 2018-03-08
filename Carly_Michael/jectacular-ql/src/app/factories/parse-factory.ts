@@ -7,6 +7,6 @@ export interface ParseResult {
   qlsStylesheet: Stylesheet;
 }
 
-export interface ParseFactoryInterface {
+export interface ParseFactory {
   parse(): ParseResult;
 }

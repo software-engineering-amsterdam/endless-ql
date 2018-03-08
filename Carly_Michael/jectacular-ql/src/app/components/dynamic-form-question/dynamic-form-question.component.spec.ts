@@ -1,4 +1,4 @@
-import {TextboxQuestion} from '../../domain/angular-questions/textbox-question';
+import {InputQuestion} from '../../domain/angular-questions/input-question';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {DynamicFormQuestionComponent} from './dynamic-form-question.component';
@@ -14,7 +14,7 @@ describe('FormQuestionComponent', () => {
     type: 'text',
     value: undefined
   };
-  const question = new TextboxQuestion(options);
+  const question = new InputQuestion(options);
 
   const controls = {};
   controls['question'] = new FormControl({value: ''});

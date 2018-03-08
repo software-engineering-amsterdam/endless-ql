@@ -1,9 +1,9 @@
-import {ParseFactoryInterface, ParseResult} from './parse-factory-interface';
+import {ParseFactory, ParseResult} from './parse-factory';
 import {Page, Question as QlsQuestion, Section, Stylesheet, Widget, WidgetType} from '../domain/ast/qls';
 import {emptyLoc, Form, QuestionType} from '../domain/ast';
 import {parse} from '../../parser/ql-parser';
 
-export class ParseQlWithDefaultStylingFactoryService implements ParseFactoryInterface {
+export class ParseQlWithDefaultStylingFactory implements ParseFactory {
   constructor(private ql: string) { }
 
   private static qlQuestionTypeToQlsType(qlType: QuestionType): WidgetType {
@@ -29,7 +29,7 @@ export class ParseQlWithDefaultStylingFactoryService implements ParseFactoryInte
     const qlsQuestions: QlsQuestion[] = [];
 
     for (const qlQuestion of astQl.getAllQuestions()) {
-      const widget = new Widget(ParseQlWithDefaultStylingFactoryService.qlQuestionTypeToQlsType(qlQuestion.type), []);
+      const widget = new Widget(ParseQlWithDefaultStylingFactory.qlQuestionTypeToQlsType(qlQuestion.type), []);
       qlsQuestions.push(new QlsQuestion(qlQuestion.name, widget, emptyLoc));
     }
 

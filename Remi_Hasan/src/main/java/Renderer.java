@@ -1,4 +1,5 @@
 import analysis.SymbolTable;
+import analysis.SymbolTableElement;
 import javafx.event.ActionEvent;
 import model.expression.Expression;
 import model.expression.ReturnType;
@@ -28,12 +29,10 @@ public class Renderer {
 
     private final Form form;
     private final SymbolTable symbolTable;
-    private final StyleSheet styleSheet;
 
-    Renderer(Form form, SymbolTable symbolTable, StyleSheet styleSheet) {
+    Renderer(Form form, SymbolTable symbolTable) {
         this.form = form;
         this.symbolTable = symbolTable;
-        this.styleSheet = styleSheet;
     }
 
     void renderForm(Stage stage) {
@@ -248,8 +247,8 @@ public class Renderer {
         Button submitButton = new Button("Submit (see output in console)");
         submitButton.setOnAction((ActionEvent e) -> {
             // Debug output, shows answer to every question in console
-            for(Map.Entry<String, Expression> answer : symbolTable.getAllAnswers().entrySet()){
-                System.out.println(answer.getKey() + " " + answer.getValue().toString());
+            for(Map.Entry<String, Expression> symbolTableElement : symbolTable.getAllAnswers().entrySet()){
+                System.out.println(symbolTableElement.getKey() + " " + symbolTableElement.getValue().toString());
             }
         });
         return submitButton;
@@ -265,6 +264,19 @@ public class Renderer {
         Field field = fieldMap.get(question);
         field.getLabel().setVisible(visible);
         field.getControl().setVisible(visible);
+
+        // TODO cleanup
+        if(!visible){
+            if (question.type == ReturnType.BOOLEAN) {
+                CheckBox checkBox = (CheckBox) field.getControl();
+                checkBox.setSelected(false);
+            } else if (question.type == ReturnType.DATE) {
+                // TODO
+            } else {
+                TextInputControl textField = (TextInputControl) field.getControl();
+                textField.setText("");
+            }
+        }
 
         // If question is based on value and cannot be set by the user, set value by evaluating its value
         if (!question.isEditable()) {

@@ -19,7 +19,7 @@ namespace Assignment1
 
         public Presenter()
         {
-            QLListener listener = QuestionForm.ParseString(System.IO.File.ReadAllText("test.txt"));
+            var listener = QLListener.ParseString(System.IO.File.ReadAllText("test.txt"));
             if (listener.FormHasErrors)
             {
                 ReportFormErrors(listener.Errors);

@@ -7,8 +7,8 @@ from AST.types.type_undefined import TypeUndefined
 
 
 class SubtractionOperatorNode(BinaryOperatorNode):
-    def __init__(self, position, expression_type, left_expression, right_expression):
-        super(SubtractionOperatorNode, self).__init__(position, expression_type, left_expression, right_expression)
+    def __init__(self, position, expression_type, left_expression, right_expression, value):
+        super(SubtractionOperatorNode, self).__init__(position, expression_type, left_expression, right_expression, value)
         self.__valid_types = {(TypeDecimal, TypeDecimal): TypeDecimal,
                               (TypeDecimal, TypeInteger): TypeDecimal,
                               (TypeDecimal, TypeMoney):   TypeMoney,

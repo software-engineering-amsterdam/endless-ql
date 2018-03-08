@@ -17,6 +17,7 @@ from AST.expressions.binary_operators.or_node import OrOperatorNode
 from AST.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
 from AST.expressions.literals.integer_node import IntegerNode
 from AST.expressions.literals.decimal_node import DecimalNode
+from AST.expressions.literals.undefined_node import UndefinedNode
 from AST.expressions.unary_operators.negation import NegationOperatorNode
 from AST.statements.form_node import FormNode
 from AST.statements.if_node import IfNode
@@ -75,7 +76,7 @@ class QLParser:
     @staticmethod
     def p_question(p):
         """question : QUESTION VAR COLON type"""
-        p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4], None)
+        p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4], UndefinedNode(Position(0, 0), TypeUndefined, None))
 
     @staticmethod
     def p_question_computed(p):

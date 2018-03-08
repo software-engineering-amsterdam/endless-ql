@@ -29,10 +29,10 @@ class Dialog(QDialog):
     def create_form(self, form):
         layout = QFormLayout()
 
-        # TODO evaluate and check show field of question
         for question in form.block:
             show = question.evaluate_show_condition(self.form)
             question.pyqt5_render(layout, show)
+            question.widget.onChange(form.update_show_condition_on_change)
 
         self.formGroupBox.setLayout(layout)
 
@@ -42,10 +42,10 @@ class Dialog(QDialog):
         result = {}
 
         for child in self.formGroupBox.children()[1:]:
-            key = self.form.find_question_of_widget(child)
+            question = self.form.find_question_of_widget(child)
 
-            if key:
-                result[key] = child.value()
+            if question:
+                result[question.identifier] = child.value()
 
         print(result)
 

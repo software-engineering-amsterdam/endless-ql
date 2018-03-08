@@ -14,6 +14,7 @@ class Question:
         self.create_header_label(question_text)
         self.answer = None
         self.value = value
+        self.question_type = question_type
         self.create_input_user(question_type)
         self.varName = varName
 
@@ -40,7 +41,10 @@ class Question:
         return self.frame
 
     def get_answer(self):
-        return self.answer.get()
+        if((self.question_type == float or self.question_type == int) and (self.answer.get() == "")):
+            return 0
+        else:
+            return self.answer.get()
 
     def get_text(self):
         return self.question_text

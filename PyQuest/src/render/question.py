@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QLabel
+from render.widgets import Label
 from visitors.expression_evaluator import ExpressionEvaluator
 
 
@@ -32,6 +32,10 @@ class Question:
     def answer(self):
         return self.__answer
 
+    @answer.setter
+    def answer(self, value):
+        self.__answer = value
+
     @property
     def show_condition(self):
         return self.__show_condition
@@ -64,7 +68,7 @@ class Question:
 
     def pyqt5_render(self, layout, show=True):
         self.widget = self.answer_type.pyqt5_default_widget()
-        self.__widget_label = QLabel(self.label)
+        self.__widget_label = Label(self.label)
 
         if not show:
             self.widget.hide()

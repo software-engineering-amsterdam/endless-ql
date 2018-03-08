@@ -4,7 +4,11 @@ import java.util.List;
 
 public class Stylesheet extends TreeNode{
 
-    public Stylesheet(String id, List<Page> pages){
+    private String id;
+    private List<Page> pages;
 
+    public Stylesheet(String id, List<Page> pages) {
+        this.id = id;
+        this.pages = pages;
     }
 }

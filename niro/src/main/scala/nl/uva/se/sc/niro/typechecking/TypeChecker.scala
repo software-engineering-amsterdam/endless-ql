@@ -3,12 +3,14 @@ package nl.uva.se.sc.niro.typechecking
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.errors.Warning
 import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
-import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.model.ql.{ DecimalType, MoneyType, _ }
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import nl.uva.se.sc.niro.typechecking.CycleDetection._
 import org.apache.logging.log4j.scala.Logging
 import nl.uva.se.sc.niro.ExpressionEvaluator._
+import cats.implicits._
+import cats.data.Validated._
 
 object TypeChecker extends Logging {
 
@@ -34,65 +36,63 @@ object TypeChecker extends Logging {
     val expressions = questions.map(_.expression) ++ conditionals.map(_.predicate)
 
     expressions
-      .map(expression => checkExpression(expression, qLForm.symbolTable))
+      .map(expression => typeOf(expression, qLForm.symbolTable))
       .foldLeft(Right(qLForm): Either[TypeCheckError, QLForm])(
-        (acc: Either[TypeCheckError, QLForm], either: Either[TypeCheckError, Answer]) =>
+        (acc: Either[TypeCheckError, QLForm], either: Either[TypeCheckError, AnswerType]) =>
           acc.flatMap(_ => either.map(_ => qLForm)))
   }
 
-  // TODO clean up this mess
-  def checkExpression(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, Answer] = expr match {
-    case a: Answer => Right(a)
-    case Reference(questionId) =>
-      checkExpression(symbolTable(questionId).expression, symbolTable)
+  def typeOf(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = expr match {
+    case Reference(questionId) => typeOf(symbolTable(questionId).expression, symbolTable)
+
     case UnaryOperation(operator: Operator, expression) =>
-      checkExpression(expression, symbolTable).flatMap(
-        answer =>
-          Either.cond(
-            checkOperandsAndOperator(operator, answer).isEmpty,
-            answer,
-            checkOperandsAndOperator(operator, answer).get))
+      typeOf(expression, symbolTable).flatMap(answerType => checkOperandAndOperator(operator, answerType))
+
     case BinaryOperation(operator: Operator, leftExpression, rightExpression) =>
-      val leftAnswer: Either[TypeCheckError, Answer] = checkExpression(leftExpression, symbolTable).flatMap(
-        answer =>
-          Either.cond(
-            checkOperandsAndOperator(operator, answer).isEmpty,
-            answer,
-            checkOperandsAndOperator(operator, answer).get))
-      val rightAnswer: Either[TypeCheckError, Answer] = checkExpression(rightExpression, symbolTable).flatMap(
-        answer =>
-          Either.cond(
-            checkOperandsAndOperator(operator, answer).isEmpty,
-            answer,
-            checkOperandsAndOperator(operator, answer).get))
-      leftAnswer.flatMap(la => rightAnswer.flatMap(ra => Right(la.applyBinaryOperator(operator, ra))))
+      val leftAnswer = typeOf(leftExpression, symbolTable)
+        .flatMap(answer => checkOperandAndOperator(operator, answer))
+
+      val rightAnswer = typeOf(rightExpression, symbolTable)
+        .flatMap(answer => checkOperandAndOperator(operator, answer))
+
+      if (leftAnswer != rightAnswer)
+        Left(TypeCheckError(message = s"Operands of invalid type $leftAnswer, $rightAnswer"))
+      else
+        rightAnswer
+
+    case _: IntegerAnswer => IntegerType.asRight
+    case _: DecimalAnswer => DecimalType.asRight
+    case _: MoneyAnswer   => MoneyType.asRight
+    case _: BooleanAnswer => BooleanType.asRight
+    case _: StringAnswer  => StringType.asRight
+    case _: DateAnswer    => DateType.asRight
   }
 
   // TODO make typecheckable type class
-  private def checkOperandsAndOperator(operator: Operator, operand: Answer): Option[TypeCheckError] = {
+  private def checkOperandAndOperator(operator: Operator, operand: AnswerType): Either[TypeCheckError, AnswerType] = {
     operator match {
       case _: ArithmeticOperator =>
         operand match {
-          case _: IntegerAnswer => None
-          case _: DecimalAnswer => None
-          case _: MoneyAnswer   => None
-          case _                => Some(TypeCheckError(message = "Operand of invalid type"))
+          case IntegerType => IntegerType.asRight
+          case DecimalType => DecimalType.asRight
+          case MoneyType   => MoneyType.asRight
+          case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
         }
       case _: BooleanOperator =>
         operand match {
-          case _: IntegerAnswer => None
-          case _: DecimalAnswer => None
-          case _: MoneyAnswer   => None
-          case _: BooleanAnswer => None
-          case _: DateAnswer    => None
-          case _                => Some(TypeCheckError(message = "Operand of invalid type"))
+          case IntegerType => BooleanType.asRight
+          case DecimalType => BooleanType.asRight
+          case MoneyType   => BooleanType.asRight
+          case BooleanType => BooleanType.asRight
+          case DateType    => BooleanType.asRight
+          case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
         }
       case _: LogicalOperator =>
         operand match {
-          case _: BooleanAnswer => None
-          case _                => Some(TypeCheckError(message = "Operand of invalid type"))
+          case BooleanType => BooleanType.asRight
+          case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
         }
-      case _ => Some(TypeCheckError(message = "Operator not implemented yet"))
+      case _ => TypeCheckError(message = s"Operator: $operator not implemented").asLeft
     }
   }
 

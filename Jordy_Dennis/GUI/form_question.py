@@ -15,6 +15,7 @@ class Question:
         self.answer = None
         self.value = value
         self.create_input_user(question_type)
+        self.varName = varName
 
 
         self.question_text = question_text

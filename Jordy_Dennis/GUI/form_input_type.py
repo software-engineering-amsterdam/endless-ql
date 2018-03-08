@@ -8,8 +8,6 @@ class InputTypeMap:
         self.parent = parent
         self.old_value = None
         self.value = value
-        print(varName)
-        print(value)
         self.questionGenerator = questionGenerator
         self.varDict = self.questionGenerator.getVarDict()
         self.varName = varName
@@ -25,34 +23,58 @@ class InputTypeMap:
 
     # return boolean textbox widget
     def return_bool(self):
-        var = IntVar()
+        var = BooleanVar()
         var.set(self.value)
+        var.trace('w', lambda nm, idx, mode, var=var: self.validateBool(var))
         button = Checkbutton(self.parent, variable=var, background="white")
         button.pack(fill='x')
         return button, var
 
     def return_text(self):
         var = StringVar()
+        var.trace('w', lambda nm, idx, mode, var=var: self.validateString(var))
         e = Entry(self.parent, textvariable=var)
         e.pack(fill='x')
         return e, var
 
     def return_int(self):
-        sv = StringVar()
-        sv.set(self.value)
+        var = StringVar()
+        var.set(self.value)
         self.old_value = 0
-        sv.trace('w', lambda nm, idx, mode, var=sv: self.validateInt(var))
-        e = Entry(self.parent, textvariable=sv)
+        var.trace('w', lambda nm, idx, mode, var=var: self.validateInt(var))
+        e = Entry(self.parent, textvariable=var)
         e.pack(fill='x')
-        return e, sv
+        return e, var
 
     def return_decimal(self):
-        sv = StringVar()
+        var = StringVar()
         self.old_value = 0
-        sv.trace('w', lambda nm, idx, mode, var=sv: self.validateFloat(var))
-        e = Entry(self.parent, textvariable=sv)
+        var.trace('w', lambda nm, idx, mode, var=var: self.validateFloat(var))
+        e = Entry(self.parent, textvariable=var)
         e.pack(fill='x')
-        return e, sv
+        return e, var
+
+    def validateBool(self, var):
+        new_val = var.get()
+
+        # save value in vardict
+        varNode = self.varDict[self.varName]['node']
+        varNode.setVar(new_val)
+        # update_questions
+        self.questionGenerator.updateQuestions()
+
+        self.old_value = new_val
+
+    def validateString(self, var):
+        new_val = var.get()
+
+        # save value in vardict
+        varNode = self.varDict[self.varName]['node']
+        varNode.setVar(new_val)
+        # update_questions
+        self.questionGenerator.updateQuestions()
+
+        self.old_value = new_val
 
     def validateInt(self, var):
         new_val = var.get()
@@ -69,13 +91,14 @@ class InputTypeMap:
 
             self.old_value = new_val
         except:
-            print("EXCEPT")
             var.set(self.old_value)
 
     def validateFloat(self, var):
         new_val = var.get()
         try:
             new_val == '' or float(new_val)
+            if(new_val == ''):
+                new_val = 0.0
             new_val = float(new_val)
             # save value in vardict
             varNode = self.varDict[self.varName]['node']

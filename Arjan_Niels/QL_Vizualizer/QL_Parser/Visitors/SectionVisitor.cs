@@ -25,9 +25,15 @@ namespace QL_Parser.Visitors
                 return conditionalBlockVisitor.VisitConditionalBlock(conditionalContext);
             }
 
-            // A section can only be a Question or a ConditionalBlock. If it manages to reach this line; throw an
-            // exception, because it should not be possible.
-            throw new InvalidOperationException("We don't know how to process this section.");
+            var computedVariableContext = context.computedVariable();
+            if (computedVariableContext != null)
+            {
+                var computedVisitor = new ComputedVariableVisitor();
+                return computedVisitor.VisitComputedVariable(computedVariableContext);
+            }
+
+            //If it manages to reach this line; throw an exception, because it should not be possible.
+             throw new InvalidOperationException("We don't know how to process this section.");
         }
     }
 }

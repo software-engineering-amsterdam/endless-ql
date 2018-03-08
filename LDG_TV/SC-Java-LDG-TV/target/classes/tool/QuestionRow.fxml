@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.HBox?>
+
+<fx:root alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="root" stylesheets="@QuestionRow.css" type="HBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox id="left-box" stylesheets="@QuestionRow.css" HBox.hgrow="ALWAYS">
+         <children>
+            <Label fx:id="lblQuestion" text="Hello, world!" />
+         </children></HBox>
+      <HBox id="right-box" fx:id="hbAnswer" HBox.hgrow="ALWAYS" />
+   </children>
+</fx:root>

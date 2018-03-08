@@ -33,6 +33,9 @@ namespace QL_Vizualizer.Factories
                 case QLWidgetString stringWidget:
                     CreateStringWidget(stringWidget, style, ref result);
                     break;
+                case QLWidgetMoney moneyWidget:
+                    CreateMoneyWidget(moneyWidget, style, ref result);
+                    break;
             }
 
             // Resize main control
@@ -58,6 +61,9 @@ namespace QL_Vizualizer.Factories
                     break;
                 case QLWidgetString stringWidget:
                     UpdateStringWidget(stringWidget, control);
+                    break;
+                case QLWidgetMoney moneyWidget:
+                    UpdateMoneyWidget(moneyWidget, control);
                     break;
             }
 
@@ -118,6 +124,13 @@ namespace QL_Vizualizer.Factories
                 if (c.GetType() == typeof(TextBox))
                     ((TextBox)c).Text = widget.AnswerValue;
         }
+
+        private void UpdateMoneyWidget(QLWidgetMoney widget, Control control)
+        {
+            foreach (Control c in control.Controls)
+                if (c.GetType() == typeof(TextBox))
+                    ((TextBox)c).Text = widget.AnswerValue.ToString();
+        }
         #endregion
 
         #region Creators
@@ -142,6 +155,29 @@ namespace QL_Vizualizer.Factories
             return styledLabel.Height + styledLabel.Location.Y + style.LabelInputMargin;
         }
 
+
+        /// <summary>
+        /// Construct textbox 
+        /// </summary>
+        /// <typeparam name="T">Expected input type</typeparam>
+        /// <param name="widget">Widget to copple to</param>
+        /// <param name="style">Textbox style</param>
+        /// <param name="result">Parent control</param>
+        /// <returns>Created textbox already present in result</returns>
+        private TextBox ConstructTextbox<T>(QLQuestionWidget<T> widget, WindowsStyleProperties style, ref Control result)
+        {
+            TextBox textBox = new TextBox();
+            if(widget.IsAnswered)
+                textBox.Text = widget.AnswerValue.ToString();
+            textBox.Location = new Point(0, AddLabel(widget.Text, 0, style, ref result));
+            textBox.Enabled = widget.Editable;
+
+            textBox = ApplyControlStyle(textBox, style) as TextBox;
+            result.Controls.Add(textBox);
+
+            return textBox;
+        }
+
         /// <summary>
         /// Creates an integer widget
         /// </summary>
@@ -150,12 +186,11 @@ namespace QL_Vizualizer.Factories
         /// <param name="result">Styled Widget</param>
         private void CreateIntWidget(QLWidgetInt widget, WindowsStyleProperties style, ref Control result)
         {
-            // Create textbox for integerss
-            TextBox input = new TextBox();
+            // Create textbox for integers
+            TextBox input = ConstructTextbox<int>(widget, style, ref result);
+
+            // Add change listener
             input.TextChanged += delegate (object sender, EventArgs e) { ChangedIntWidget(widget, input); };
-            input.Enabled = widget.Editable;
-            input.Location = new Point(0, AddLabel(widget.Text, 0, style, ref result));
-            result.Controls.Add(ApplyControlStyle(input, style));
         }
 
         /// <summary>
@@ -185,14 +220,21 @@ namespace QL_Vizualizer.Factories
         /// <param name="result">Styled Widget</param>
         private void CreateStringWidget(QLWidgetString widget, WindowsStyleProperties style, ref Control result)
         {
-            TextBox textBox = new TextBox();
-            textBox.Text = widget.AnswerValue;
-            textBox.Location = new Point(0, AddLabel(widget.Text, 0, style, ref result));
-            textBox.TextChanged += delegate (object sender, EventArgs e) { ChangedStringWidget(widget, textBox); };
+            // Create textbox
+            TextBox input = ConstructTextbox<string>(widget, style, ref result);
 
-            result.Controls.Add(ApplyControlStyle(textBox, style));
+            // Add listener
+            input.TextChanged += delegate (object sender, EventArgs e) { ChangedStringWidget(widget, input); };
         }
 
+
+        private void CreateMoneyWidget(QLWidgetMoney widget, WindowsStyleProperties style, ref Control result)
+        {
+            TextBox input = ConstructTextbox<double>(widget, style, ref result);
+
+            // Add listener
+            input.TextChanged += delegate (object sender, EventArgs e) { ChangedMoneyWidget(widget, input); };
+        }
         #endregion
 
         #region Windows Change Events
@@ -204,19 +246,19 @@ namespace QL_Vizualizer.Factories
         /// <param name="input">Input textbox</param>
         private void ChangedIntWidget(QLWidgetInt intWidget, TextBox input)
         {
-            // try to parse the value
-            int value = 0;
+            // Parse value
+            ParsedWidgetValue<int> value = intWidget.ParseInput(input.Text);
 
-            // If invalid, set textbox to previous value
-            if (!int.TryParse(input.Text, out value))
+            // Assign parsed answer to input
+            if (value.IsValid)
             {
-                input.Text = intWidget.AnswerValue.ToString();
-                value = intWidget.AnswerValue;
+                input.Text = value.Value.ToString();
+                intWidget.SetAnswer(value.Value);
             }
+            else if (input.Text != "")
+                input.Text = value.Value.ToString();
 
             // Launch update 
-            intWidget.SetAnswer(value);
-            _widgetController.ValueUpdate(intWidget.Identifyer);
         }
 
         /// <summary>
@@ -226,8 +268,9 @@ namespace QL_Vizualizer.Factories
         /// <param name="input">Input checkbox</param>
         private void ChangedBoolWidget(QLWidgetBool boolWidget, CheckBox input)
         {
-            boolWidget.SetAnswer(input.Checked);
-            _widgetController.ValueUpdate(boolWidget.Identifyer);
+            bool value = boolWidget.Validate(input.Checked);
+            boolWidget.SetAnswer(value);
+            input.Checked = value;
         }
 
         /// <summary>
@@ -237,8 +280,29 @@ namespace QL_Vizualizer.Factories
         /// <param name="input">Input textbox</param>
         private void ChangedStringWidget(QLWidgetString stringWidget, TextBox input)
         {
-            stringWidget.SetAnswer(input.Text);
-            _widgetController.ValueUpdate(stringWidget.Identifyer);
+            ParsedWidgetValue<string> value = stringWidget.ParseInput(input.Text);
+            if (value.IsValid)
+            {
+                input.Text = value.Value.ToString();
+                stringWidget.SetAnswer(value.Value);
+            }
+            else if (input.Text != "")
+                input.Text = value.Value.ToString();
+        }
+
+
+        private void ChangedMoneyWidget(QLWidgetMoney moneyWidget, TextBox input)
+        {
+            ParsedWidgetValue<double> value = moneyWidget.ParseInput(input.Text);
+
+            if (value.IsValid)
+            {
+                input.Text = value.Value.ToString();
+                moneyWidget.SetAnswer(value.Value);
+            }
+            else if (input.Text != "")
+                input.Text = moneyWidget.AnswerValue.ToString();
+
         }
         #endregion
     }

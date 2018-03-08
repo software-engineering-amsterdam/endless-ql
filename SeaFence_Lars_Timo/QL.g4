@@ -12,8 +12,8 @@ statement: question
          | conditional
          | assignment
          ;
-         
-assignment: STR var ':' vartype '=' '(' expression ')';
+
+assignment: STR var ':' vartype '=' expression;
 question: STR var ':' vartype;
 conditional: if_cond elif_cond* else_cond?;
 expression: BOOL 
@@ -63,7 +63,7 @@ DIV: '/';
 SUB: '-';
 MUL: '*';
 AND: '&&';
-OR: 'OR';
+OR: '||';
 TRUE: 'true';
 FALSE: 'false';
 

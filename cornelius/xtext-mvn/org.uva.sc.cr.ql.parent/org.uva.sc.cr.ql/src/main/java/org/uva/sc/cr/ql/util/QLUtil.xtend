@@ -7,41 +7,26 @@ import org.uva.sc.cr.ql.qL.QuestionType
 
 class QLUtil {
 
-	public static val OPERATION_OR = "||"
-	public static val OPERATION_AND = "&&"
-	public static val OPERATION_EQUALS = "=="
-	public static val OPERATION_NOT_EQUALS = "!="
-	public static val OPERATION_SMALLER_THAN = "<"
-	public static val OPERATION_SMALLER_THAN_EQUALS = "<="
-	public static val OPERATION_GREATER_THAN = ">"
-	public static val OPERATION_GREATER_THAN_EUQALS = ">="
-	public static val OPERATION_PLUS = "+"
-	public static val OPERATION_MINUS = "-"
-	public static val OPERATION_MUL = "*"
-	public static val OPERATION_DIV = "/"
-	public static val OPERATION_NOT = "!"
-
-	private static val Map<QuestionType, List<String>> ALLOWED_OPERATIONS_FOR_TYPES = #{
-		QuestionType.TYPE_BOOLEAN -> #[OPERATION_AND, OPERATION_OR, OPERATION_NOT],
-		QuestionType.TYPE_STRING -> #[OPERATION_PLUS, OPERATION_EQUALS, OPERATION_NOT_EQUALS],
+	private static val Map<QuestionType, List<Operation>> ALLOWED_OPERATIONS_FOR_TYPES = #{
+		QuestionType.TYPE_BOOLEAN -> #[Operation.AND, Operation.OR, Operation.NOT],
+		QuestionType.TYPE_STRING -> #[Operation.PLUS, Operation.EQUALS, Operation.NOT_EQUALS],
 		QuestionType.TYPE_INTEGER ->
-			#[OPERATION_SMALLER_THAN, OPERATION_SMALLER_THAN_EQUALS, OPERATION_GREATER_THAN,
-				OPERATION_GREATER_THAN_EUQALS, OPERATION_PLUS, OPERATION_MINUS, OPERATION_MUL, OPERATION_DIV],
+			#[Operation.SMALLER_THAN, Operation.SMALLER_THAN_EQUALS, Operation.GREATER_THAN,
+				Operation.GREATER_THAN_EQUALS, Operation.PLUS, Operation.MINUS, Operation.MULTIPLICATION,
+				Operation.DIVISION],
 		QuestionType.TYPE_DECIMAL ->
-			#[OPERATION_SMALLER_THAN, OPERATION_SMALLER_THAN_EQUALS, OPERATION_GREATER_THAN,
-				OPERATION_GREATER_THAN_EUQALS, OPERATION_PLUS, OPERATION_MINUS, OPERATION_MUL, OPERATION_DIV],
+			#[Operation.SMALLER_THAN, Operation.SMALLER_THAN_EQUALS, Operation.GREATER_THAN,
+				Operation.GREATER_THAN_EQUALS, Operation.PLUS, Operation.MINUS, Operation.MULTIPLICATION,
+				Operation.DIVISION],
 		QuestionType.TYPE_DATE -> #[],
 		QuestionType.TYPE_MONEY ->
-			#[OPERATION_SMALLER_THAN, OPERATION_SMALLER_THAN_EQUALS, OPERATION_GREATER_THAN,
-				OPERATION_GREATER_THAN_EUQALS, OPERATION_PLUS, OPERATION_MINUS, OPERATION_MUL, OPERATION_DIV]
+			#[Operation.SMALLER_THAN, Operation.SMALLER_THAN_EQUALS, Operation.GREATER_THAN,
+				Operation.GREATER_THAN_EQUALS, Operation.PLUS, Operation.MINUS, Operation.MULTIPLICATION,
+				Operation.DIVISION]
 	}
 
-	def static getAllowedOperationsForTypes() {
-		return ALLOWED_OPERATIONS_FOR_TYPES
-	}
-
-	def static getAllowedTypesForOperations() {
-		val ret = new HashMap<String, List<QuestionType>>
+	def private static ALLOWED_TYPES_FOR_OPERATIONS() {
+		val ret = new HashMap<Operation, List<QuestionType>>
 		ALLOWED_OPERATIONS_FOR_TYPES.forEach [ type, operations |
 			operations.forEach [
 				if (ret.containsKey(it)) {
@@ -52,6 +37,12 @@ class QLUtil {
 			]
 		]
 		return ret;
+	}
+
+	def static getAllowedTypesForOperation(String op) {
+		ALLOWED_TYPES_FOR_OPERATIONS.filter [ operation, allowedTypes |
+			operation.literal == op
+		].entrySet.head.value
 	}
 
 }

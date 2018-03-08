@@ -3,8 +3,8 @@ grammar QL;
 
 // Lexical parts
 // Grammar is whitespace insensative
-WS: [ \n\t\r]+      -> channel(HIDDEN);
-LC: '//'~[\r\n]+    -> channel(HIDDEN);
+WS: [ \n\t\r]+      -> skip;
+LC: '//'~[\r\n]+    -> skip;
 
 // Top level element indicator
 FORM:       'form';
@@ -27,12 +27,12 @@ DATVAL:     [0-9]+'-'[0-9]+'-'[0-9]+;
 INTVAL:     [0-9]+;
 DECVAL:     [0-9]+'.'[0-9]+;
 MONVAL:     [0-9]+','[0-9]+;
-STRVAL:     '"'~['\\\r\n]+?'"';
+STRVAL:     '"'~['\\\r\n]*?'"';
 
 IF:         'if';
 
 // Variable names, also form name
-NAME:       [a-zA-Z][a-zA-Z0-9]+;
+NAME:       [a-zA-Z][a-zA-Z0-9]*;
 
 COLON:      ':';
 ASSIGN:     '=';
@@ -103,7 +103,7 @@ arithOp
     | MULT
     ;
 
-oper
+op
     : boolOp
     | compOp
     | arithOp
@@ -129,7 +129,7 @@ expression
     | value
     | LP expression RP
     | NOT expression
-    | expression oper expression
+    | expression op expression
     ;
 
 question

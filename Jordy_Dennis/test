@@ -1,5 +1,13 @@
-form taxOfficeExample { 
-  "Did you sell a house in 2010?"
-    hasSoldHouse: int = (!(f<4))
-}
+form taxOfficeExample {
+	"This is an int"
+		a: int = (4)
 
+	"This is a string"
+		b: int
+
+	if(a){
+		"Q3 Within the if (int)"
+			f: int
+	}
+
+}

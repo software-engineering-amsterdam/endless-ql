@@ -6,6 +6,7 @@
         BOOLEAN,
         MONEY,
         TEXT,
-        INTEGER
+        INTEGER,
+        DOUBLE
     }
 }

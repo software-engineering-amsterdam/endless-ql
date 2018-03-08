@@ -1,12 +1,12 @@
 package org.uva.sea.ql.parser.elements.expressions;
 
 import org.antlr.v4.runtime.Token;
+import org.uva.sea.ql.parser.nodeTypes.SingleNode;
 import org.uva.sea.ql.parser.elements.ASTNode;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.parser.nodeTypes.SingleNode;
-import org.uva.sea.ql.traverse.Visitor;
+import org.uva.sea.ql.parser.visitor.IASTVisitor;
 
-public class Positive extends SingleNode  {
+public class Positive extends SingleNode {
     public Positive(Token token, ASTNode value) {
         super(token, value);
     }
@@ -16,7 +16,7 @@ public class Positive extends SingleNode  {
     }
 
     @Override
-    public <T> T accept(Visitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

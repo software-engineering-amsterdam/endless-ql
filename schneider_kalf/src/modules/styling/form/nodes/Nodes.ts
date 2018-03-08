@@ -1,34 +1,22 @@
-export class Stylesheet {
-  constructor(public identifier: string, public pages: Page[]) {
-  }
-}
+import Stylesheet from "./StyleSheet";
+import BaseAttribute from "./attributes/BaseAttribute";
+import Page from "./containers/Page";
+import Section from "./containers/Section";
+import WidgetAttribute from "./attributes/WidgetAttribute";
+import QuestionStyle from "./children/QuestionStyle";
+import DefaultStyle from "./children/DefaultStyle";
 
-export class Page {
-  constructor(public identifier: string, public sections: Section[]) {
-  }
-}
-
-export class Section {
-  constructor(public name: string, public questions: Question[]) {
-  }
-}
-
-export class Widget {
-  constructor(public name: string, public options?: String[]) {
-  }
-}
-
-export class Question {
-  constructor(public identifier: string, public widget: Widget) {
-  }
-}
-
-export class Default {
-  constructor(public type: string, public styles: Style[]) {
-  }
-}
-
-export default class Style {
-  constructor(public name: string, public value: string) {
-  }
-}
+/**
+ * List all available node types for easy access in the grammar.
+ * This list is not needed otherwise, but used to create according
+ * instances inside the parser.
+ */
+export default {
+  Stylesheet,
+  BaseAttribute,
+  WidgetAttribute,
+  Page,
+  Section,
+  QuestionStyle,
+  DefaultStyle
+};

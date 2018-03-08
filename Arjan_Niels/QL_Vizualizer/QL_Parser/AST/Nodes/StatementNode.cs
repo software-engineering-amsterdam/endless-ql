@@ -6,7 +6,7 @@
         public string Operator { get; private set; }
         public IExpressionNode RightSide { get; private set; }
 
-        public StatementNode(IExpressionNode lhs, string opr, IExpressionNode rhs) : base(NodeType.STATEMENT)
+        public StatementNode(IExpressionNode lhs, string opr, IExpressionNode rhs) : base(NodeType.LOGICAL_EXPRESSION)
         {
             this.LeftSide = lhs;
             this.Operator = opr;
@@ -27,11 +27,6 @@
                 return leftSideType;
             else
                 return QValueType.UNKNOWN;
-        }
-
-        public NodeType GetNodeType()
-        {
-            return Type;
         }
     }
 }

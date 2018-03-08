@@ -1,6 +1,7 @@
 package org.uva.jomi.ql.ast.expressions;
 
 import org.uva.jomi.ql.ast.QLToken;
+import org.uva.jomi.ql.ast.QLType;
 
 public abstract class UnaryExpr extends Expr {
 	private final QLToken operator;
@@ -12,14 +13,22 @@ public abstract class UnaryExpr extends Expr {
 	}
 
 	public QLToken getOperator() {
-		return operator;
+		return this.operator;
 	}
 
 	public String getOperatorName() {
-		return operator.getLexeme();
+		return this.operator.getLexeme();
 	}
 
 	public Expr getRightExpr() {
-		return right;
+		return this.right;
+	}
+	
+	public QLType getRightExprType() {
+		return this.right.getType();
+	}
+	
+	public <T> T visitRightExpr(Visitor<T> visitor) {
+		return this.right.accept(visitor);
 	}
 }

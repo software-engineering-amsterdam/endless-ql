@@ -1,8 +1,8 @@
 package org.uva.sea.ql.parser.elements;
 
-import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.traverse.Visitor;
+import org.uva.sea.ql.parser.NodeType;
+import org.uva.sea.ql.parser.visitor.IASTVisitor;
 
 public class Statement extends ASTNode {
     private Question question;
@@ -21,7 +21,7 @@ public class Statement extends ASTNode {
     }
 
     @Override
-    public <T> T accept(Visitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

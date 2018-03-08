@@ -1,11 +1,12 @@
-import FieldType from "../../FieldType";
+import { FieldType } from "../../FieldType";
 import Field from "./FieldNode";
 import Expression from "../expressions/Expression";
-import NodeVisitor from "../visitors/NodeVisitor";
 import FormState from "../../state/FormState";
 import { canBeEvaluated, evaluate } from "../../evaluation/evaluation_functions";
+import FieldVisitor from "../visitors/FieldVisitor";
+import AbstractTreeNode from "../AbstractTreeNode";
 
-export default class ComputedField implements Field {
+export default class ComputedField extends AbstractTreeNode implements Field {
   readonly label: string;
   readonly identifier: string;
   readonly type: FieldType;
@@ -21,13 +22,14 @@ export default class ComputedField implements Field {
    * @param {Expression} formula
    */
   constructor(identifier: string, label: string, type: FieldType, formula: Expression) {
+    super();
     this.label = label;
     this.identifier = identifier;
     this.type = type;
     this.formula = formula;
   }
 
-  accept(visitor: NodeVisitor): any {
+  accept(visitor: FieldVisitor): any {
     return visitor.visitComputedField(this);
   }
 
@@ -35,7 +37,7 @@ export default class ComputedField implements Field {
     return true;
   }
 
-  getAnswer(state: FormState) {
+  computeAnswer(state: FormState) {
     if (!canBeEvaluated(this.formula, state)) {
       return null;
     }

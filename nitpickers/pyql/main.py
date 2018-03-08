@@ -2,7 +2,11 @@ import sys
 from antlr4 import *
 from pyql.antlr.QLLexer import QLLexer
 from pyql.antlr.QLParser import QLParser
-from pyql.ast.visitor import ParseTreeVisitor
+from pyql.ast.parse_tree_visitor import ParseTreeVisitor
+
+from pyql.static_analysis.type_check import TypeChecker
+
+from pyql.static_analysis.symbol_table import *
 
 
 def main(argv):
@@ -17,13 +21,11 @@ def main(argv):
     c = tree.accept(visitor)
     print(c)
 
-    # output = open("output.html", "w")
+    ss = SymbolTableBuilder().build(c)
 
-    # htmlQL = HtmlQLListener(output)
-    # walker = ParseTreeWalker()
-    # walker.walk(htmlQL, tree)
-
-    # output.close()
+    vv = TypeChecker()
+    c.accept(vv)
+    print(c)
 
 
 if __name__ == '__main__':

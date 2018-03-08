@@ -1,31 +1,23 @@
 parser grammar QL;
 
 @header {
-using Assignment1;
+using Assignment1.Model;
 }
 
 options { tokenVocab=QLLexer; }
 
-file returns [List<QuestionForm> result]
-	@init {
-	$result = new List<QuestionForm>();
-	}
-	: (form
-		{$result.Add($form.result);}
-		)* EOF
-	;
 form returns [QuestionForm result]
-	: FORM ID content
+	: FORM ID content EOF
 		{$result = new QuestionForm($ID.text, $content.result);}
 	;	
-content returns [List<Content> result]
+content returns [List<Question> result]
 	@init {
-	$result = new List<Content>();
+	$result = new List<Question>();
 	}
 	: OPEN_CB (question
 		{$result.Add($question.result);}
 		| ifstatement
-		{$result.Add($ifstatement.result);}
+		{$result.AddRange($ifstatement.result);}
 		)* CLOSE_CB
 	;
 question returns [Question result]
@@ -40,24 +32,41 @@ questionAssign returns [Question result]
 		 $result.Value = $value.result;}
 	| questionNorm ASSIGN expression
 		{$result = $questionNorm.result;
-		 $result.Computed = true;
-		 $result.Expression = $expression.result;}
+		 $result.Computation = $expression.result;}
 	;
 questionNorm returns [Question result]
-	: LABEL ID SEP BOOLEAN
-		{$result = new QuestionBool($ID.text, $LABEL.text);}
-	| LABEL ID SEP MONEY
-		{$result = new QuestionMoney($ID.text, $LABEL.text);}
+	: STRING ID SEP BOOLEAN_TYPE
+		{$result = new QuestionBool($ID.text, $STRING.text);}
+	| STRING ID SEP DATE_TYPE
+		{$result = new QuestionDate($ID.text, $STRING.text);}
+	| STRING ID SEP DECIMAL_TYPE
+		{$result = new QuestionDecimal($ID.text, $STRING.text);}
+	| STRING ID SEP INTEGER_TYPE
+		{$result = new QuestionInt($ID.text, $STRING.text);}
+	| STRING ID SEP MONEY_TYPE
+		{$result = new QuestionMoney($ID.text, $STRING.text);}
+	| STRING ID SEP STRING_TYPE
+		{$result = new QuestionString($ID.text, $STRING.text);}
 	;
-ifstatement returns [IfStatement result]
+ifstatement returns [List<Question> result]
+	@init {
+	$result = new List<Question>();
+	}
 	: IF OPEN_BR expression CLOSE_BR content1=content ELSE content2=content
-		{$result = new IfElseStatement($expression.result, $content1.result, $content2.result);}
+		{foreach (var content in $content1.result)
+            content.AddCondition($expression.result);
+		foreach (var content in $content2.result)
+            content.AddCondition(new ExpressionNot($expression.result));
+		$result.AddRange($content1.result);
+		$result.AddRange($content2.result);}
 	| IF OPEN_BR expression CLOSE_BR content
-		{$result = new IfStatement($expression.result, $content.result);}
+		{foreach (var content in $content.result)
+            content.AddCondition($expression.result);
+		$result.AddRange($content.result);}
 	;
 expression returns [Expression result]
 	: value
-		{$result = new Expression($value.result);}
+		{$result = new ExpressionValue($value.result);}
 	| OPEN_BR expression CLOSE_BR
 		{$result = $expression.result;}
 	| NOT expression
@@ -67,9 +76,9 @@ expression returns [Expression result]
 	| left=expression SUB right=expression
 		{$result = new ExpressionSub($left.result, $right.result);}
 	| left=expression MULT right=expression
-		{$result = new ExpressionAdd($left.result, $right.result);}
+		{$result = new ExpressionMult($left.result, $right.result);}
 	| left=expression DIV right=expression
-		{$result = new ExpressionAdd($left.result, $right.result);}
+		{$result = new ExpressionDiv($left.result, $right.result);}
 	| left=expression GTEQ right=expression
 		{$result = new ExpressionGreaterEqual($left.result, $right.result);}
 	| left=expression LTEQ right=expression
@@ -96,6 +105,8 @@ expressionId returns [ExpressionId result]
 value returns [dynamic result]
 	: TRUE    {$result = true;}
 	| FALSE   {$result = false;}
-	| INTEGER {$result = int.Parse($INTEGER.text);}
+	| DATE    {$result = DateTime.Parse($DATE.text);}
 	| DECIMAL {$result = decimal.Parse($DECIMAL.text);}
+	| INTEGER {$result = int.Parse($INTEGER.text);}
+	| STRING  {$result = $STRING.text;}
 	;

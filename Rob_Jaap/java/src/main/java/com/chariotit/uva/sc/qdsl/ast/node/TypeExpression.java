@@ -1,25 +1,24 @@
 package com.chariotit.uva.sc.qdsl.ast.node;
 
+import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
+
 public class TypeExpression extends AstNode {
 
-    private Type type;
+    private TypeNode typeNode;
     private Expression expression;
 
-    public TypeExpression(Type type) {
-        this.type = type;
+    public TypeExpression(TypeNode typeNode, Integer lineNumber, Integer columnNumber) {
+        super(lineNumber, columnNumber);
+        this.typeNode = typeNode;
     }
 
-    public TypeExpression(Type type, Expression expression) {
-        this.type = type;
-        this.expression = expression;
+
+    public TypeNode getTypeNode() {
+        return typeNode;
     }
 
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
+    public void setTypeNode(TypeNode typeNode) {
+        this.typeNode = typeNode;
     }
 
     public Expression getExpression() {
@@ -28,5 +27,16 @@ public class TypeExpression extends AstNode {
 
     public void setExpression(Expression expression) {
         this.expression = expression;
+    }
+
+    @Override
+    public void acceptVisitor(NodeVisitor visitor) {
+        typeNode.acceptVisitor(visitor);
+
+        if (expression != null) {
+            expression.acceptVisitor(visitor);
+        }
+
+        visitor.visitTypeExpression(this);
     }
 }

@@ -1,5 +1,7 @@
 ﻿using QL_Parser.AST.Nodes;
+using QL_Vizualizer.Controllers;
 using QL_Vizualizer.Expression;
+using QL_Vizualizer.Expression.Types;
 using QL_Vizualizer.Widgets;
 using QL_Vizualizer.Widgets.Types;
 using System;
@@ -16,29 +18,33 @@ namespace QL_Vizualizer.Factories
         /// <param name="node">Node to parse</param>
         /// <param name="condition">Base condition, optional</param>
         /// <returns>Collection of widgets</returns>
-        public static IEnumerable<QLWidget> CreateWidgets(Node node, IExpression<bool> condition = null)
+        public static IEnumerable<QLWidget> CreateWidgets(Node node, WidgetController widgetController, ExpressionBool condition = null)
         {
             switch (node.Type)
             {
                 case NodeType.CONDITIONAL:
+                    ExpressionFactory expressionFactory = new ExpressionFactory(widgetController);
                     // Parse condition
-                    IExpression<bool> newCondition = ExpressionFactory.GetCondition(node as ConditionalNode);
+                    ExpressionBool newCondition = expressionFactory.GetCondition(node as ConditionalNode);
 
                     // Return children with new condition
-                    return node.Children.SelectMany(o => CreateWidgets(o, (condition == null) ? newCondition : condition.Add(newCondition)));
-                
+                    return node.Children.SelectMany(o => CreateWidgets(o, widgetController, (condition == null) ? newCondition : condition.Combine(newCondition, ExpressionOperator.And) as ExpressionBool));
+
                 case NodeType.FORM:
                     // Parse all children
-                    return node.Children.SelectMany(o => CreateWidgets(o, condition));
+                    return node.Children.SelectMany(o => CreateWidgets(o, widgetController, condition));
 
                 case NodeType.QUESTION:
                     // Return widget as array
                     return new QLWidget[] { CreateWidget(node as QuestionNode, condition) };
 
-                case NodeType.STATEMENT:
+                case NodeType.COMPUTED:
+                    return new QLWidget[] { CreateComputedWidget(node as ComputedNode, condition, widgetController) };
+
+                case NodeType.LOGICAL_EXPRESSION:
                     break;
 
-                case NodeType.VALUE:
+                case NodeType.IDENTIFIER:
                     break;
             }
 
@@ -51,19 +57,43 @@ namespace QL_Vizualizer.Factories
         /// </summary>
         /// <param name="questionNode">Node to parse</param>
         /// <returns>Parsed widget</returns>
-        private static QLWidget CreateWidget(QuestionNode questionNode, IExpression<bool> condition)
+        private static QLWidget CreateWidget(QuestionNode questionNode, ExpressionBool condition)
         {
-
             switch (questionNode.ValueType)
             {
                 case QValueType.BOOLEAN:
-                    return new QLWidgetBool(questionNode.ID, questionNode.Question, condition);
+                    return new QLWidgetBool(questionNode.ID, questionNode.Text, condition);
                 case QValueType.INTEGER:
-                    return new QLWidgetInt(questionNode.ID, questionNode.Question, condition);
+                    return new QLWidgetInt(questionNode.ID, questionNode.Text, condition);
                 case QValueType.TEXT:
-                    return new QLWidgetString(questionNode.ID, questionNode.Question, condition);
+                    return new QLWidgetString(questionNode.ID, questionNode.Text, condition);
+                case QValueType.MONEY:
+                    return new QLWidgetMoney(questionNode.ID, questionNode.Text, condition);
             }
             throw new InvalidOperationException("Unsupported type: " + questionNode.ValueType);
+        }
+
+        /// <summary>
+        /// Creates widget with computed value
+        /// </summary>
+        /// <param name="node">Node</param>
+        /// <param name="condition">Condition of widget</param>
+        /// <param name="widgetController">Widget controller</param>
+        /// <returns></returns>
+        private static QLWidget CreateComputedWidget(ComputedNode node, ExpressionBool condition, WidgetController widgetController)
+        {
+            ExpressionFactory expressionFactory = new ExpressionFactory(widgetController);
+            ExpressionValue expression = expressionFactory.ParseExpressionNode(node.Expression);
+            switch (node.Expression.GetQValueType())
+            {
+                case QValueType.BOOLEAN:
+                    return new QLWidgetBool(node.ID, node.Text, condition, expression as ExpressionBool);
+                case QValueType.INTEGER:
+                    return new QLWidgetInt(node.ID, node.Text, condition, expression as ExpressionInt);
+                case QValueType.MONEY:
+                    return new QLWidgetMoney(node.ID, node.Text, condition, expression as ExpressionDouble);
+            }
+            throw new NotImplementedException();
         }
     }
 }

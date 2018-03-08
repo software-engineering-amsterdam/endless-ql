@@ -1,5 +1,5 @@
 //Q=3
-//waitDays:=integer 5
+//waitDays:=IntValue 5
 
 form taxOfficeExample {
   "What was the selling price?"
@@ -11,10 +11,8 @@ form taxOfficeExample {
     if (sellingPrice * waitDays > 50) {
       "Did you wait to long?"
         waitedToLong1: boolean = true
-    }
-
-    if ((sellingPrice * waitDays) <= 50) {
-      "Did you wait to long?"
+    } else {
+      "Did you wait to long2?"
         waitedToLong1: boolean = false
     }
 

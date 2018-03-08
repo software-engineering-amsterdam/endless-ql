@@ -2,19 +2,27 @@ package org.uva.ql.ast;
 
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.type.Type;
+import org.uva.ql.visitor.StatementVisitor;
 
 public class CalculatedQuestion extends Question {
     private Expression expression;
 
     public CalculatedQuestion(String name, String content, Type type, Expression expression) {
-        super(name,content,type);
+        super(name, content, type);
         this.expression = expression;
+    }
+
+    public Expression getExpression() {
+        return this.expression;
     }
 
     @Override
     public String toString() {
-        String content = this.getContent();
-        //return content;
         return String.format("%s\t%s:%s = %s", this.getContent(), this.getName(), this.getType(), this.expression);
+    }
+
+    @Override
+    public <T, C> T accept(StatementVisitor<T, C> visitor, C context) {
+        return visitor.visit(this, context);
     }
 }

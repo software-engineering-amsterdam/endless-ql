@@ -1,9 +1,9 @@
 package org.uva.sea.ql.parser.elements;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.types.Type;
-import org.uva.sea.ql.traverse.Visitor;
+import org.uva.sea.ql.parser.NodeType;
+import org.uva.sea.ql.parser.visitor.IASTVisitor;
 
 public class Form extends ASTNode {
 
@@ -29,7 +29,7 @@ public class Form extends ASTNode {
     }
 
     @Override
-    public <T> T accept(Visitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

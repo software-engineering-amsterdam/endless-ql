@@ -1,153 +1,179 @@
-from PyQt5.QtWidgets import *
-import sys
-import parse
-import ql_ast
-
-from parse.ql_parser import *
-
-'''
+"""
 This file contains two widget windows. If this file is run, the first, InputWindow, opens.
 In this window QL text can be typed or pasted. When pressing the "Parse" button, this text
 is parsed, and a second window, OutputWindow opens. The Outputwindow contains an interactive
  questionnaire, encoded by the input text.
-'''
+"""
+import visitor.visitor as visitorscript
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Qt
+from grammar.run_antlr import run_antrl
+import sys
 
 
-class InputWindow(QWidget):
+class MainWindow(QWidget):
     def __init__(self):
-        super(InputWindow,self).__init__()
-        self.layout = QGridLayout()
+        super(MainWindow, self).__init__()
+        # Parses QL input
+        self.layout = QVBoxLayout()
         self.layout.setSpacing(10)
+        self.setWindowTitle('QL parser')
+        self.setGeometry(600, 600, 700, 600)
+        self.setLayout(self.layout)
+        self.tree = None
 
-        # Creates a textbox for input of QL text.
-        # This QL text can later be parsed into a questionnaire.
-        titlelabel = QLabel("Input your QL text here")
-        self.layout.addWidget(titlelabel,0,0)
+
+        self.row = 0
+        self.btn_grp = []
+        self.questions = []  # Ordered list of questions
+        self.answers = []  # Ordered list of corresponding answers
+
+        self.outputFrame = QFrame()
+        # self.outputlayout = QGridLayout()
+        # self.outputFrame.setLayout(self.outputlayout)
+
+
+        # Initialize inputFrame
+        self.inputFrame = QFrame()
+        self.inputlayout = QGridLayout()
+        self.inputFrame.setLayout(self.inputlayout)
+        # Creates textbox
+        self.inputlayout.addWidget(QLabel("Input your QL text here"))
         self.qlInput = QTextEdit()
-        self.layout.addWidget(self.qlInput,1,0,10,5)
+        self.inputlayout.addWidget(self.qlInput)
 
-        # Adds a button to the window, which when pressed generates a questionnaire
-        # GUI from QL text that is entered in the input textbox.
+        # Adds parse button
         self.parsebutton = QPushButton('Parse', self)
         self.parsebutton.clicked.connect(self.parse)
         self.parsebutton.resize(self.parsebutton.sizeHint())
-        self.layout.addWidget(self.parsebutton, 12, 0)
+        self.inputlayout.addWidget(self.parsebutton)
 
-        # Adds a button which, when clicked, closes the window
+        # Adds quit button
         self.quitbutton = QPushButton('Quit', self)
         self.quitbutton.clicked.connect(QApplication.instance().quit)
         self.quitbutton.resize(self.quitbutton.sizeHint())
-        self.layout.addWidget(self.quitbutton, 12, 4)
+        self.inputlayout.addWidget(self.quitbutton)
 
-        self.setWindowTitle('QL parser')
-        self.setGeometry(300, 300, 350, 300)
-        self.setLayout(self.layout)
+
+        self.splitter = QSplitter(Qt.Horizontal)
+        self.splitter.addWidget(self.inputFrame)
+        self.splitter.addWidget(self.outputFrame)
+        self.layout.addWidget(self.splitter)
 
     def parse(self):
-        # Parses QL that is entered in the input textbox, and generates a questionnaire GUI
-        self.output = OutputWindow()
-        tokens = ql_lex(self.qlInput.toPlainText())
-        result = ql_parser(tokens)
-        self.buildGui(result,self.output)
 
-        self.output.addQuitButton()
-        self.output.addSubmitButton()
-
-        self.output.show()
-
-    def buildGui(self, node, screen):
-        if type(node) is parse.combinators.Result:
-            self.buildGui(node.value, screen)
-        elif type(node) is ql_ast.ql_ast.FormStatement:
-            # for child in node.form:
-            #     self.buildGui(child,screen)
-            self.buildGui(node.form, screen)
-        elif type(node) is ql_ast.ql_ast.CompoundStatement:
-            self.buildGui(node.first, screen)
-            self.buildGui(node.second, screen)
-        elif type(node) is ql_ast.ql_ast.AssignStatement:
-            screen.addQuestion(node.question, node.data_type)
-
-
-class OutputWindow(QWidget):
-    '''A questionnaire window'''
-    def __init__(self):
-        super(OutputWindow,self).__init__()
-        self.layout = QGridLayout()
-        self.setLayout(self.layout)
+        # Removes the old outputFrame from splitter, and resets related parameters
+        self.outputFrame.setParent(None)
+        self.outputFrame.destroy()
         self.row = 0
         self.btn_grp = []
-        self.questions = [] # Ordered list of questions
-        self.answers = []   # Ordered list of corresponding answers
+        self.questions = []  # Ordered list of questions
+        self.answers = []  # Ordered list of corresponding answers
 
-        self.setWindowTitle('Questionnaire')
+        # Reinitializes outputframe
+        self.outputFrame = QFrame()
+        self.outputlayout = QGridLayout()
+        self.outputFrame.setLayout(self.outputlayout)
 
-    def addQuestion(self,question, datatype='boolean',choices = ['Yes','No']):
-        # Adds questions and corresponding buttons or textboxes to the questionnaire window,
-        # as instructed by QL text.
+        self.splitter.addWidget(self.outputFrame)
 
-        self.layout.addWidget(QLabel(question.strip('"\'')), self.row, 0)
+        if self.qlInput.toPlainText():
+            self.tree = run_antrl(self.qlInput.toPlainText())
+            self.build_gui(self.tree)
+            self.add_submit_button()
+            # if self.tree:
+            #     self.build_gui(self.tree)
+            # else:
+            #     self.outputWindow.no_tree_label()
+            # self.outputWindow.add_submit_button()
+            # print('below is tree')
+            # print(type(self.tree))
+            # print((self.tree))
+            # print(self.tree.depth())
+            # elif self.tree.depth() > 1:
+        else:
+            self.no_tree_message()
+
+    def build_gui(self, tree):
+        visitorscript.listen(tree, self)
+
+    def add_question(self, input):
+        # Adds questions and answer option
+
+        splitline = input.split('"')  # Filters the actual question from the input string
+        question = splitline[1]
+        datatype = splitline[2].split(":")[1]  # Filters datatype from the question string
+
+        choices = ['Yes', 'No']  # Default choices; todo: move to appropriate location.
+
+        self.outputlayout.addWidget(QLabel(question))
         self.questions.append(question)
-        self.answers.append('undefined') # Default answer
+        self.answers.append('undefined')  # Default answer
 
         if datatype == 'boolean':
-            self.btn_grp.append(QButtonGroup()) # Makes sure only one radiobutton can be true per question
+            self.btn_grp.append(QButtonGroup())  # Makes sure only one radiobutton can be true per question
             for choicenumber in range(len(choices)):
                 radiobutton = QRadioButton(choices[choicenumber])
                 radiobutton.answer = choices[choicenumber]
                 radiobutton.question = question
 
-                self.layout.addWidget(radiobutton, self.row, choicenumber+1)
-                radiobutton.toggled.connect(self.writeAnswer)
+                self.outputlayout.addWidget(radiobutton, self.row, choicenumber+1)
+                radiobutton.toggled.connect(self.write_answer)
 
                 self.btn_grp[-1].setExclusive(True)
                 self.btn_grp[-1].addButton(radiobutton)
 
-        elif datatype == 'Num':
-            # Needs testing
-
+        elif datatype == 'money':
+            # todo:testing
             textbox = QLineEdit(self)
-            textbox.answer = textbox.text # does this work? is the answer updated when it needs to?
+            textbox.answer = textbox.text()
             textbox.question = question
-            # self.textbox.resize(280, 40)
-            textbox.textEdited(self.writeAnswer)
-            self.layout.addWidget(textbox, self.row, 1)
+            textbox.textEdited.connect(self.write_answer)
+            textbox.textEdited
+            self.outputlayout.addWidget(textbox, self.row, 1)
 
         self.row += 1
 
-    def writeAnswer(self):
-        # Writes the new answer to a question to the list of answers.
+    def write_answer(self):
+        # Saves the user's answer to the corresponding question
         sender = self.sender()
+        try:
+            sender.answer = sender.text()
+        except:
+            pass
         self.answers[self.questions.index(sender.question)] = sender.answer
 
-
-    def addQuitButton(self):
-        quitbutton = QPushButton('Quit', self)
-        quitbutton.clicked.connect(self.close)
-        # qbtn.clicked.connect(QApplication.instance().quit)
-        quitbutton.resize(quitbutton.sizeHint())
-        self.layout.addWidget(quitbutton, self.row,2)
+    def add_close_button(self):
+        # todo: fix bug: clear inputscreen when close is pushed (parse -> close -> parse)
+        close_button = QPushButton('Close', self)
+        close_button.clicked.connect(self.close)
+        close_button.resize(close_button.sizeHint())
+        self.outputlayout.addWidget(close_button)
         # self.row +=1
 
-    def addSubmitButton(self):
-        self.submitbutton = QPushButton('Submit', self)
-        self.submitbutton.clicked.connect(self.submit)
-        self.submitbutton.resize(self.submitbutton.sizeHint())
-        self.layout.addWidget(self.submitbutton, self.row,1)
+    def add_submit_button(self):
+        submit_button = QPushButton('Submit', self)
+        submit_button.clicked.connect(self.submit)
+        submit_button.resize(submit_button.sizeHint())
+        self.outputlayout.addWidget(submit_button,self.row,1)
 
     def submit(self):
-        # Writes the entries from the answers list to a text file, together with the questions
-        file = open( 'output.txt', 'w')
+        # Writes answers to txt
+        file = open('QL_output.txt', 'w')
 
         for i in range(len(self.questions)):
             file.write(self.questions[i]+str(self.answers[i])+"\n")
         file.close()
 
 
+    def no_tree_message(self):
+        self.outputlayout.addWidget(QLabel('Invalid input'))
+
+    def testfunc(self):
+        print('testingtext')
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-
-    screen = InputWindow()
-    screen.show()
-
+    ex = MainWindow()
+    ex.show()
     sys.exit(app.exec_())

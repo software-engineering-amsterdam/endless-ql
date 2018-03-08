@@ -1,13 +1,11 @@
-# Generated from QL.g4 by ANTLR 4.7
+# Generated from QL.g4 by ANTLR 4.5.3
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
-from typing.io import TextIO
-import sys
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\'")
+        buf.write("\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\'")
         buf.write("\u00a5\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
@@ -23,49 +21,49 @@ def serializedATN():
         buf.write("\3\21\3\21\3\21\5\21\u0093\n\21\3\22\3\22\3\22\3\22\3")
         buf.write("\22\5\22\u009a\n\22\3\23\3\23\3\24\3\24\3\24\3\24\3\24")
         buf.write("\5\24\u00a3\n\24\3\24\2\2\25\2\4\6\b\n\f\16\20\22\24\26")
-        buf.write("\30\32\34\36 \"$&\2\5\3\2\23\30\3\2\31\32\3\2\33\34\2")
-        buf.write("\u00a6\2(\3\2\2\2\4.\3\2\2\2\6\66\3\2\2\2\bC\3\2\2\2\n")
-        buf.write("J\3\2\2\2\fL\3\2\2\2\16W\3\2\2\2\20\\\3\2\2\2\22^\3\2")
-        buf.write("\2\2\24f\3\2\2\2\26n\3\2\2\2\30v\3\2\2\2\32\177\3\2\2")
-        buf.write("\2\34\u0081\3\2\2\2\36\u008a\3\2\2\2 \u0092\3\2\2\2\"")
-        buf.write("\u0099\3\2\2\2$\u009b\3\2\2\2&\u00a2\3\2\2\2()\7\3\2\2")
-        buf.write(")*\5$\23\2*+\7\4\2\2+,\5\b\5\2,-\7\5\2\2-\3\3\2\2\2./")
-        buf.write("\7\6\2\2/\60\7\7\2\2\60\61\5\20\t\2\61\62\7\b\2\2\62\63")
-        buf.write("\7\4\2\2\63\64\5\b\5\2\64\65\7\5\2\2\65\5\3\2\2\2\66\67")
-        buf.write("\7\6\2\2\678\7\7\2\289\5\20\t\29:\7\b\2\2:;\7\4\2\2;<")
-        buf.write("\5\b\5\2<=\7\5\2\2=>\7\t\2\2>?\7\4\2\2?@\5\b\5\2@A\7\5")
-        buf.write("\2\2A\7\3\2\2\2BD\5\n\6\2CB\3\2\2\2DE\3\2\2\2EC\3\2\2")
-        buf.write("\2EF\3\2\2\2F\t\3\2\2\2GK\5\f\7\2HK\5\4\3\2IK\5\6\4\2")
-        buf.write("JG\3\2\2\2JH\3\2\2\2JI\3\2\2\2K\13\3\2\2\2LM\5$\23\2M")
-        buf.write("N\7\n\2\2NO\7%\2\2OP\5\16\b\2P\r\3\2\2\2QX\7\13\2\2RX")
-        buf.write("\7\f\2\2SX\7\r\2\2TX\7\16\2\2UX\7\17\2\2VX\5&\24\2WQ\3")
-        buf.write("\2\2\2WR\3\2\2\2WS\3\2\2\2WT\3\2\2\2WU\3\2\2\2WV\3\2\2")
-        buf.write("\2X\17\3\2\2\2YZ\7\20\2\2Z]\5\22\n\2[]\5\22\n\2\\Y\3\2")
-        buf.write("\2\2\\[\3\2\2\2]\21\3\2\2\2^c\5\24\13\2_`\7\21\2\2`b\5")
-        buf.write("\24\13\2a_\3\2\2\2be\3\2\2\2ca\3\2\2\2cd\3\2\2\2d\23\3")
-        buf.write("\2\2\2ec\3\2\2\2fk\5\26\f\2gh\7\22\2\2hj\5\26\f\2ig\3")
-        buf.write("\2\2\2jm\3\2\2\2ki\3\2\2\2kl\3\2\2\2l\25\3\2\2\2mk\3\2")
-        buf.write("\2\2ns\5\30\r\2op\t\2\2\2pr\5\30\r\2qo\3\2\2\2ru\3\2\2")
-        buf.write("\2sq\3\2\2\2st\3\2\2\2t\27\3\2\2\2us\3\2\2\2v|\5\34\17")
-        buf.write("\2wx\5\32\16\2xy\5\34\17\2y{\3\2\2\2zw\3\2\2\2{~\3\2\2")
-        buf.write("\2|z\3\2\2\2|}\3\2\2\2}\31\3\2\2\2~|\3\2\2\2\177\u0080")
-        buf.write("\t\3\2\2\u0080\33\3\2\2\2\u0081\u0087\5 \21\2\u0082\u0083")
-        buf.write("\5\36\20\2\u0083\u0084\5 \21\2\u0084\u0086\3\2\2\2\u0085")
-        buf.write("\u0082\3\2\2\2\u0086\u0089\3\2\2\2\u0087\u0085\3\2\2\2")
-        buf.write("\u0087\u0088\3\2\2\2\u0088\35\3\2\2\2\u0089\u0087\3\2")
-        buf.write("\2\2\u008a\u008b\t\4\2\2\u008b\37\3\2\2\2\u008c\u0093")
-        buf.write("\5\"\22\2\u008d\u0093\5$\23\2\u008e\u008f\7\7\2\2\u008f")
-        buf.write("\u0090\5\20\t\2\u0090\u0091\7\b\2\2\u0091\u0093\3\2\2")
-        buf.write("\2\u0092\u008c\3\2\2\2\u0092\u008d\3\2\2\2\u0092\u008e")
-        buf.write("\3\2\2\2\u0093!\3\2\2\2\u0094\u009a\7\"\2\2\u0095\u009a")
-        buf.write("\7#\2\2\u0096\u009a\7$\2\2\u0097\u009a\7%\2\2\u0098\u009a")
-        buf.write("\7&\2\2\u0099\u0094\3\2\2\2\u0099\u0095\3\2\2\2\u0099")
-        buf.write("\u0096\3\2\2\2\u0099\u0097\3\2\2\2\u0099\u0098\3\2\2\2")
-        buf.write("\u009a#\3\2\2\2\u009b\u009c\7\'\2\2\u009c%\3\2\2\2\u009d")
-        buf.write("\u00a3\7\35\2\2\u009e\u009f\7\36\2\2\u009f\u00a0\5\30")
-        buf.write("\r\2\u00a0\u00a1\7\b\2\2\u00a1\u00a3\3\2\2\2\u00a2\u009d")
-        buf.write("\3\2\2\2\u00a2\u009e\3\2\2\2\u00a3\'\3\2\2\2\16EJW\\c")
-        buf.write("ks|\u0087\u0092\u0099\u00a2")
+        buf.write("\30\32\34\36 \"$&\2\5\3\2\23\30\3\2\31\32\3\2\33\34\u00a6")
+        buf.write("\2(\3\2\2\2\4.\3\2\2\2\6\66\3\2\2\2\bC\3\2\2\2\nJ\3\2")
+        buf.write("\2\2\fL\3\2\2\2\16W\3\2\2\2\20\\\3\2\2\2\22^\3\2\2\2\24")
+        buf.write("f\3\2\2\2\26n\3\2\2\2\30v\3\2\2\2\32\177\3\2\2\2\34\u0081")
+        buf.write("\3\2\2\2\36\u008a\3\2\2\2 \u0092\3\2\2\2\"\u0099\3\2\2")
+        buf.write("\2$\u009b\3\2\2\2&\u00a2\3\2\2\2()\7\3\2\2)*\5$\23\2*")
+        buf.write("+\7\4\2\2+,\5\b\5\2,-\7\5\2\2-\3\3\2\2\2./\7\6\2\2/\60")
+        buf.write("\7\7\2\2\60\61\5\20\t\2\61\62\7\b\2\2\62\63\7\4\2\2\63")
+        buf.write("\64\5\b\5\2\64\65\7\5\2\2\65\5\3\2\2\2\66\67\7\6\2\2\67")
+        buf.write("8\7\7\2\289\5\20\t\29:\7\b\2\2:;\7\4\2\2;<\5\b\5\2<=\7")
+        buf.write("\5\2\2=>\7\t\2\2>?\7\4\2\2?@\5\b\5\2@A\7\5\2\2A\7\3\2")
+        buf.write("\2\2BD\5\n\6\2CB\3\2\2\2DE\3\2\2\2EC\3\2\2\2EF\3\2\2\2")
+        buf.write("F\t\3\2\2\2GK\5\f\7\2HK\5\4\3\2IK\5\6\4\2JG\3\2\2\2JH")
+        buf.write("\3\2\2\2JI\3\2\2\2K\13\3\2\2\2LM\5$\23\2MN\7\n\2\2NO\7")
+        buf.write("%\2\2OP\5\16\b\2P\r\3\2\2\2QX\7\13\2\2RX\7\f\2\2SX\7\r")
+        buf.write("\2\2TX\7\16\2\2UX\7\17\2\2VX\5&\24\2WQ\3\2\2\2WR\3\2\2")
+        buf.write("\2WS\3\2\2\2WT\3\2\2\2WU\3\2\2\2WV\3\2\2\2X\17\3\2\2\2")
+        buf.write("YZ\7\20\2\2Z]\5\22\n\2[]\5\22\n\2\\Y\3\2\2\2\\[\3\2\2")
+        buf.write("\2]\21\3\2\2\2^c\5\24\13\2_`\7\21\2\2`b\5\24\13\2a_\3")
+        buf.write("\2\2\2be\3\2\2\2ca\3\2\2\2cd\3\2\2\2d\23\3\2\2\2ec\3\2")
+        buf.write("\2\2fk\5\26\f\2gh\7\22\2\2hj\5\26\f\2ig\3\2\2\2jm\3\2")
+        buf.write("\2\2ki\3\2\2\2kl\3\2\2\2l\25\3\2\2\2mk\3\2\2\2ns\5\30")
+        buf.write("\r\2op\t\2\2\2pr\5\30\r\2qo\3\2\2\2ru\3\2\2\2sq\3\2\2")
+        buf.write("\2st\3\2\2\2t\27\3\2\2\2us\3\2\2\2v|\5\34\17\2wx\5\32")
+        buf.write("\16\2xy\5\34\17\2y{\3\2\2\2zw\3\2\2\2{~\3\2\2\2|z\3\2")
+        buf.write("\2\2|}\3\2\2\2}\31\3\2\2\2~|\3\2\2\2\177\u0080\t\3\2\2")
+        buf.write("\u0080\33\3\2\2\2\u0081\u0087\5 \21\2\u0082\u0083\5\36")
+        buf.write("\20\2\u0083\u0084\5 \21\2\u0084\u0086\3\2\2\2\u0085\u0082")
+        buf.write("\3\2\2\2\u0086\u0089\3\2\2\2\u0087\u0085\3\2\2\2\u0087")
+        buf.write("\u0088\3\2\2\2\u0088\35\3\2\2\2\u0089\u0087\3\2\2\2\u008a")
+        buf.write("\u008b\t\4\2\2\u008b\37\3\2\2\2\u008c\u0093\5\"\22\2\u008d")
+        buf.write("\u0093\5$\23\2\u008e\u008f\7\7\2\2\u008f\u0090\5\20\t")
+        buf.write("\2\u0090\u0091\7\b\2\2\u0091\u0093\3\2\2\2\u0092\u008c")
+        buf.write("\3\2\2\2\u0092\u008d\3\2\2\2\u0092\u008e\3\2\2\2\u0093")
+        buf.write("!\3\2\2\2\u0094\u009a\7\"\2\2\u0095\u009a\7#\2\2\u0096")
+        buf.write("\u009a\7$\2\2\u0097\u009a\7%\2\2\u0098\u009a\7&\2\2\u0099")
+        buf.write("\u0094\3\2\2\2\u0099\u0095\3\2\2\2\u0099\u0096\3\2\2\2")
+        buf.write("\u0099\u0097\3\2\2\2\u0099\u0098\3\2\2\2\u009a#\3\2\2")
+        buf.write("\2\u009b\u009c\7\'\2\2\u009c%\3\2\2\2\u009d\u00a3\7\35")
+        buf.write("\2\2\u009e\u009f\7\36\2\2\u009f\u00a0\5\30\r\2\u00a0\u00a1")
+        buf.write("\7\b\2\2\u00a1\u00a3\3\2\2\2\u00a2\u009d\3\2\2\2\u00a2")
+        buf.write("\u009e\3\2\2\2\u00a3\'\3\2\2\2\16EJW\\cks|\u0087\u0092")
+        buf.write("\u0099\u00a2")
         return buf.getvalue()
 
 
@@ -160,9 +158,9 @@ class QLParser ( Parser ):
     BOOL=36
     IDENTIFIER=37
 
-    def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
-        super().__init__(input, output)
-        self.checkVersion("4.7")
+    def __init__(self, input:TokenStream):
+        super().__init__(input)
+        self.checkVersion("4.5.3")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
@@ -465,7 +463,7 @@ class QLParser ( Parser ):
         self.enterRule(localctx, 8, self.RULE_statement)
         try:
             self.state = 72
-            self._errHandler.sync(self)
+            self._errHandler.sync(self);
             la_ = self._interp.adaptivePredict(self._input,1,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
@@ -711,44 +709,43 @@ class QLParser ( Parser ):
         self.enterRule(localctx, 12, self.RULE_questionType)
         try:
             self.state = 85
-            self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLParser.T__8]:
                 localctx = QLParser.BooleanTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 79
                 self.match(QLParser.T__8)
-                pass
+
             elif token in [QLParser.T__9]:
                 localctx = QLParser.StringTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 80
                 self.match(QLParser.T__9)
-                pass
+
             elif token in [QLParser.T__10]:
                 localctx = QLParser.IntegerTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
                 self.state = 81
                 self.match(QLParser.T__10)
-                pass
+
             elif token in [QLParser.T__11]:
                 localctx = QLParser.DateTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
                 self.state = 82
                 self.match(QLParser.T__11)
-                pass
+
             elif token in [QLParser.T__12]:
                 localctx = QLParser.DecimalTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
                 self.state = 83
                 self.match(QLParser.T__12)
-                pass
+
             elif token in [QLParser.T__26, QLParser.T__27]:
                 localctx = QLParser.MoneyTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 6)
                 self.state = 84
                 self.money()
-                pass
+
             else:
                 raise NoViableAltException(self)
 
@@ -796,7 +793,6 @@ class QLParser ( Parser ):
         self.enterRule(localctx, 14, self.RULE_expression)
         try:
             self.state = 90
-            self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLParser.T__13]:
                 self.enterOuterAlt(localctx, 1)
@@ -804,12 +800,12 @@ class QLParser ( Parser ):
                 self.match(QLParser.T__13)
                 self.state = 88
                 self.orExpression()
-                pass
+
             elif token in [QLParser.T__4, QLParser.MONEY, QLParser.DECIMAL, QLParser.INT, QLParser.STRING, QLParser.BOOL, QLParser.IDENTIFIER]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 89
                 self.orExpression()
-                pass
+
             else:
                 raise NoViableAltException(self)
 
@@ -996,7 +992,6 @@ class QLParser ( Parser ):
                 if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLParser.T__16) | (1 << QLParser.T__17) | (1 << QLParser.T__18) | (1 << QLParser.T__19) | (1 << QLParser.T__20) | (1 << QLParser.T__21))) != 0)):
                     self._errHandler.recoverInline(self)
                 else:
-                    self._errHandler.reportMatch(self)
                     self.consume()
                 self.state = 110
                 self.addExpression()
@@ -1120,7 +1115,6 @@ class QLParser ( Parser ):
             if not(_la==QLParser.T__22 or _la==QLParser.T__23):
                 self._errHandler.recoverInline(self)
             else:
-                self._errHandler.reportMatch(self)
                 self.consume()
         except RecognitionException as re:
             localctx.exception = re
@@ -1238,7 +1232,6 @@ class QLParser ( Parser ):
             if not(_la==QLParser.T__24 or _la==QLParser.T__25):
                 self._errHandler.recoverInline(self)
             else:
-                self._errHandler.reportMatch(self)
                 self.consume()
         except RecognitionException as re:
             localctx.exception = re
@@ -1292,18 +1285,17 @@ class QLParser ( Parser ):
         self.enterRule(localctx, 30, self.RULE_unExpression)
         try:
             self.state = 144
-            self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLParser.MONEY, QLParser.DECIMAL, QLParser.INT, QLParser.STRING, QLParser.BOOL]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 138
                 self.literal()
-                pass
+
             elif token in [QLParser.IDENTIFIER]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 139
                 self.identifier()
-                pass
+
             elif token in [QLParser.T__4]:
                 self.enterOuterAlt(localctx, 3)
                 self.state = 140
@@ -1312,7 +1304,7 @@ class QLParser ( Parser ):
                 self.expression()
                 self.state = 142
                 self.match(QLParser.T__5)
-                pass
+
             else:
                 raise NoViableAltException(self)
 
@@ -1467,38 +1459,37 @@ class QLParser ( Parser ):
         self.enterRule(localctx, 32, self.RULE_literal)
         try:
             self.state = 151
-            self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLParser.MONEY]:
                 localctx = QLParser.MoneyLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 146
                 self.match(QLParser.MONEY)
-                pass
+
             elif token in [QLParser.DECIMAL]:
                 localctx = QLParser.DecimalLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 147
                 self.match(QLParser.DECIMAL)
-                pass
+
             elif token in [QLParser.INT]:
                 localctx = QLParser.IntLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
                 self.state = 148
                 self.match(QLParser.INT)
-                pass
+
             elif token in [QLParser.STRING]:
                 localctx = QLParser.StringLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
                 self.state = 149
                 self.match(QLParser.STRING)
-                pass
+
             elif token in [QLParser.BOOL]:
                 localctx = QLParser.BoolLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
                 self.state = 150
                 self.match(QLParser.BOOL)
-                pass
+
             else:
                 raise NoViableAltException(self)
 
@@ -1591,13 +1582,12 @@ class QLParser ( Parser ):
         self.enterRule(localctx, 36, self.RULE_money)
         try:
             self.state = 160
-            self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLParser.T__26]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 155
                 self.match(QLParser.T__26)
-                pass
+
             elif token in [QLParser.T__27]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 156
@@ -1606,7 +1596,7 @@ class QLParser ( Parser ):
                 self.addExpression()
                 self.state = 158
                 self.match(QLParser.T__5)
-                pass
+
             else:
                 raise NoViableAltException(self)
 

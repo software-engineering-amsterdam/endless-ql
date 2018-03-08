@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    >
+
+    <SolidColorBrush x:Key="IsChangedBackgroundBrush" Color="SteelBlue"/>
+    <SolidColorBrush x:Key="HasErrorBackgroundBrush" Color="LightCoral"/>
+
+    <!--Override of SystemColors for DataGrid and ComboBox selection-->
+    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#999999"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#999999"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#999999"/>
+
+    <!--Default Brushes for the FriendStorage-application-->
+    <SolidColorBrush x:Key="DefaultForegroundBrush" Color="MediumPurple"/>
+    <SolidColorBrush x:Key="DefaultBackgroundBrush" Color="Purple"/>
+    <SolidColorBrush x:Key="DefaultBorderBrush" Color="CornflowerBlue"/>
+
+    <SolidColorBrush x:Key="DisabledBorderBrush" Color="Gray"/>
+    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="Gray"/>
+
+    <SolidColorBrush x:Key="LabelForegroundBrush" Color="#CCCCCC"/>
+
+    <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrush" Color="CornflowerBlue"/>
+    <SolidColorBrush x:Key="ButtonIsPressedBackgroundBrush" Color="CadetBlue"/>
+    <SolidColorBrush x:Key="ButtonIsPressedBorderBrush" Color="CornflowerBlue"/>
+    <SolidColorBrush x:Key="ButtonMouseOverBorderBrush" Color="CornflowerBlue"/>
+</ResourceDictionary>

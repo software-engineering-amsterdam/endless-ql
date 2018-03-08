@@ -1,5 +1,5 @@
 ﻿using QL_Vizualizer.Controllers;
-using QL_Vizualizer.Expression;
+using QL_Vizualizer.Expression.Types;
 using System.Linq;
 
 namespace QL_Vizualizer.Widgets
@@ -19,19 +19,31 @@ namespace QL_Vizualizer.Widgets
         /// <summary>
         /// Expression that creates the answer
         /// </summary>
-        private IExpression<T> _answerExpression;
+        private TypedExpressionValue<T> _answerExpression;
 
         /// <summary>
         /// Indication if the answer is editable
         /// </summary>
         public bool Editable { get { return _answerExpression == null; } }
 
-        public QLQuestionWidget(string identifyer, string text, IExpression<bool> activationExpression = null, IExpression<T> answerExpression = null) : base(identifyer, text, activationExpression)
+        public QLQuestionWidget(string identifyer, string text, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : base(identifyer, text, activationExpression)
         {
             AnswerValue = default(T);
             IsAnswered = false;
-            _answerExpression = answerExpression;       
+            _answerExpression = answerExpression;
         }
+
+        /// <summary>
+        /// Validates the input value
+        /// </summary>
+        /// <param name="input">Input value</param>
+        /// <returns>Correct value obtained from input</returns>
+        public virtual T Validate(T input)
+        {
+            return input;
+        }
+
+        public abstract ParsedWidgetValue<T> ParseInput(string input);
 
         /// <summary>
         /// Sets widgetcontroller and subscribes to value changes
@@ -43,7 +55,7 @@ namespace QL_Vizualizer.Widgets
 
             // Subscribe for answer expressions
             if (_answerExpression != null)
-                foreach (string s in _answerExpression.GetWidgetIDs())
+                foreach (string s in _answerExpression.UsedWidgetIDs)
                     _widgetController.ReceiveUpdates(s, this);
         }
 
@@ -55,6 +67,10 @@ namespace QL_Vizualizer.Widgets
         {
             AnswerValue = answer;
             IsAnswered = true;
+
+            // Send update to the controller
+            if (_widgetController != null)
+                _widgetController.ValueUpdate(Identifyer);
         }
 
         /// <summary>
@@ -64,9 +80,11 @@ namespace QL_Vizualizer.Widgets
         public override void ReceiveUpdate(string updatedIdentifyer)
         {
             base.ReceiveUpdate(updatedIdentifyer);
-            if (_answerExpression.GetWidgetIDs().Contains(updatedIdentifyer))
+            if (_answerExpression != null && _answerExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
             {
-                SetAnswer(_answerExpression.Validate());
+                SetAnswer(_answerExpression.Result);
+
+                // Update view of this widget since the value is calculated
                 _widgetController.UpdateView(this);
             }
         }

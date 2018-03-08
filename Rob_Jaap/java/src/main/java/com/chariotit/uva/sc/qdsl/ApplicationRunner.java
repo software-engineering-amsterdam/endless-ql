@@ -1,5 +1,8 @@
 package com.chariotit.uva.sc.qdsl;
 
+import com.chariotit.uva.sc.qdsl.ast.TypeChecker;
+import com.chariotit.uva.sc.qdsl.ast.node.AstRoot;
+import com.chariotit.uva.sc.qdsl.ast.visitor.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
 import com.chariotit.uva.sc.qdsl.QLFrame;
 import org.springframework.boot.CommandLineRunner;
@@ -14,6 +17,7 @@ import com.chariotit.uva.sc.qdsl.grammar.QLParser;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import java.util.List;
 
 @Component
 public class ApplicationRunner implements CommandLineRunner {
@@ -43,17 +47,37 @@ public class ApplicationRunner implements CommandLineRunner {
         ParseTree tree = parser.forms();
         QLVisitor visitor = new QLVisitor();
 
-        System.out.println(visitor.visit(tree));
-
-//        QLFrame frame = new QLFrame();
-
         QLFormBuilder builder = new QLFormBuilder();
 
         builder.showForm();
 
-//        QLFormFrame frame = new QLFormFrame();
+        // AST is initialised here.
+        AstRoot astRoot = (AstRoot)visitor.visit(tree);
 
-        System.out.println("Frame generated");
+        // Run Typechecker
+        TypeChecker typeChecker = new TypeChecker();
+        List<TypeCheckError> errors = typeChecker.typeCheckAst(astRoot);
+
+        if (errors.size() > 0) {
+            for (TypeCheckError error : errors) {
+                System.out.println(String.format(
+                        "TypeCheckError line %d, column %d: %s",
+                        error.getLineNumber(),
+                        error.getColumnNumber(),
+                        error.getMessage()
+                ));
+            }
+
+            System.exit(1);
+        }
+
+        // If everything ok, build form with new Visitor (extend NodeVisitor in
+        // com.chariotit.uva.sc.qdsl.ast.visitor)
+        // Keep variable values in in SymbolTable (in AstRoot)
+        // SymbolTable is initialised in TypeChecker
+
+
+        System.out.println(astRoot);
     }
 
 }

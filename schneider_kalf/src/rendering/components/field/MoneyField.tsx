@@ -19,7 +19,7 @@ export const MoneyField: React.SFC<MoneyFieldProps> = (props) => {
               name={props.field.identifier}
               type="number"
               step={0.01}
-              value={props.value || ""}
+              value={(props.value || props.value === 0) ? props.value : ""}
           />
           <div className="input-group-append">
             <span className="input-group-text">€</span>

@@ -3,15 +3,6 @@ using System.Collections.Generic;
 
 namespace QL_Parser.AST.Nodes
 {
-    public enum NodeType
-    {
-        FORM,
-        QUESTION,
-        CONDITIONAL,
-        STATEMENT,
-        VALUE
-    }
-
     public abstract class Node
     {
         public NodeType Type { get; private set; }
@@ -34,6 +25,11 @@ namespace QL_Parser.AST.Nodes
         public override string ToString()
         {
             return string.Format("{0}", Type);
+        }
+
+        public NodeType GetNodeType()
+        {
+            return this.Type;
         }
     }
 }

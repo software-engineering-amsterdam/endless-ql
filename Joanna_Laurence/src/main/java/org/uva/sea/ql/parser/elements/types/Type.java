@@ -1,12 +1,11 @@
 package org.uva.sea.ql.parser.elements.types;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.sea.ql.parser.NodeType;
 import org.uva.sea.ql.parser.elements.ASTNode;
-import org.uva.sea.ql.traverse.Visitor;
+import org.uva.sea.ql.parser.NodeType;
+import org.uva.sea.ql.parser.visitor.IASTVisitor;
 
-//TODO: Override equals
-public class Type extends ASTNode  {
+public class Type extends ASTNode {
     private NodeType nodeType;
 
     public Type(Token token, String type) {
@@ -42,7 +41,7 @@ public class Type extends ASTNode  {
     }
 
     @Override
-    public <T> T accept(Visitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

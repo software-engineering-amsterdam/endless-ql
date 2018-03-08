@@ -24,7 +24,7 @@ class AstFormTests {
 	public void singleFormTest() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(singleFormsSource);
 		FormStmt form1 = (FormStmt) ast.get(0);
-		assertTrue(form1.identifier.getName().equals("Form1"));
+		assertTrue(form1.getIdentifierName().equals("Form1"));
 	}
 	
 	String twoFormsSource = "form Form1 {} form Form2 {}";
@@ -32,10 +32,10 @@ class AstFormTests {
 	public void twoFormsTest() throws Exception {
 		List<Stmt> ast = TestUtilities.buildAst(twoFormsSource);
 		FormStmt form1 = (FormStmt) ast.get(0);
-		assertTrue(form1.identifier.getName().equals("Form1"));
+		assertTrue(form1.getIdentifierName().equals("Form1"));
 		
 		FormStmt form2 = (FormStmt) ast.get(1);
-		assertTrue(form2.identifier.getName().equals("Form2"));
+		assertTrue(form2.getIdentifierName().equals("Form2"));
 	}
 
 }

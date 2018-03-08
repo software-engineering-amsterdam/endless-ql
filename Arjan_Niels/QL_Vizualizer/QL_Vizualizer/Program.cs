@@ -21,8 +21,7 @@ namespace QL_Vizualizer
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Initialize widget controller
-            WidgetController widgetController = new TypedWidgetController<Control, WindowsStyleProperties>();
-            widgetController.SetDisplayController(new WidgetDisplayControllerWindows(10, widgetController));
+            WidgetController widgetController = new WidgetDisplayControllerWindows(10);
             widgetController.ShowView();
         }
     }

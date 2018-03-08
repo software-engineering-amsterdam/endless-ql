@@ -2,97 +2,85 @@ package org.uva.jomi.ql.ast.analysis;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.uva.jomi.ql.ast.QLType;
 import org.uva.jomi.ql.ast.expressions.*;
 import org.uva.jomi.ql.ast.statements.*;
 import org.uva.jomi.ql.error.ErrorHandler;
 
-public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
-	
+public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
+
 	private final ErrorHandler errorHandler;
-	
+
 	public TypeResolver(boolean printErrors) {
 		this.errorHandler = new ErrorHandler(this.getClass().getSimpleName(), printErrors);
 	}
-	
+
 	public void resolve(List<Stmt> statements) {
 		// Clear previous errors first
 		errorHandler.clearErrors();
-		
-		for (Stmt statement : statements) {
-			statement.accept(this);
-		}
+		statements.forEach( statement -> statement.accept(this));
 	}
-	
+
 	public int getNumberOfErrors() {
 		return errorHandler.getNumberOfErrors();
 	}
-	
+
 	// This method was added for testing purposes
 	public String getErrorAtIndex(int index) {
 		return errorHandler.getErrorAtIndex(index);
 	}
-	
+
 	public boolean binaryExprHasEqualTypes(BinaryExpr expr) {
 		if (expr.getLeftExprType() != expr.getRightExprType()) {
 			this.errorHandler.addTypeError(expr.getLeftExpr(), expr.getOperator(), expr.getRightExpr());
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	public boolean exprHasAllowedType(Expr expr, QLType ... allowedTypes) {
-		
-		// If the expression is does not have an allowed type 
+
+		// Check whether the expression an allowed type.
 		if (!Arrays.asList(allowedTypes).contains(expr.getType())) {
 			errorHandler.addTypeError(expr, allowedTypes);
 			return false;
 		}
-		
+
 		return true;
 	}
-	
-	public void resolveBinaryExpr(BinaryExpr expr, QLType[] validTypes) {
+
+	public QLType resolveBinaryExpr(BinaryExpr expr, QLType[] validTypes) {
 		if (expr.getLeftExprType() == null) {
-			expr.getLeftExpr().accept(this);
+			expr.visitLeftExpr(this);
 		}
-		
+
 		if (expr.getRightExprType() == null) {
-			expr.getRightExpr().accept(this);
+			expr.visitRightExpr(this);
 		}
-		
+
 		if (binaryExprHasEqualTypes(expr)) {
 			if (exprHasAllowedType(expr.getLeftExpr(), validTypes)) {
 				expr.setType(expr.getLeftExprType());
+			} else {
+				expr.setType(QLType.UNKNOWN);
 			}
+		} else {
+			expr.setType(QLType.UNKNOWN);
 		}
+
+		return expr.getType();
 	}
-	
-	public void resolveExpr(QLType exprectedType, Expr expr) {
-		// Set the expected type for the expression and visit it.
-		if (expr.getType() == null) {
-			expr.setType(exprectedType);
-			expr.accept(this);
-		} else if (expr.getType() != exprectedType) {
-			// We found a type mismatch.
-			//errorHandler.addTypeError(exprectedType, expr);
-		}
-	}
-	
+
 	@Override
 	public Void visit(FormStmt form) {
-		form.blockStmt.accept(this);
+		form.visitBlockStmt(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(BlockStmt block) {
-		for (Stmt statement : block.statements) {
-			statement.accept(this);
-		}
-		
+		block.getStatements().forEach( statement -> statement.accept(this));
 		return null;
 	}
 
@@ -100,171 +88,191 @@ public class TypeResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 	public Void visit(QuestionStmt stmt) {
 		return null;
 	}
-	
+
 	@Override
 	public Void visit(ComputedQuestionStmt stmt) {
-		stmt.expression.accept(this);
-		
-		if (stmt.expression.getType() != null && stmt.getType() != stmt.expression.getType()) {
+
+		QLType expressionType = stmt.visitExpr(this);
+		if (stmt.getType() != expressionType) {
 			this.errorHandler.addTypeError(stmt);
 		}
-		
+
 		return null;
-	}	
+	}
 
 	@Override
 	public Void visit(IfStmt stmt) {
-		stmt.expression.accept(this);
-		
-		if (stmt.expression.getType() != null && stmt.expression.getType() != QLType.BOOLEAN) {
+		stmt.visitExpr(this);
+
+		if (stmt.getExprType() != null && stmt.getExprType() != QLType.BOOLEAN) {
 			this.errorHandler.addTypeError(stmt);
 		}
-		
-		stmt.blockStmt.accept(this);
+
+		stmt.visitIfBlockStmt(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(IfElseStmt stmt) {
-		resolveExpr(QLType.BOOLEAN, stmt.expression);
-		stmt.ifBlockStmt.accept(this);
-		stmt.elseBlockStmt.accept(this);
-		return null;
-	}
-	
-	@Override
-	public Void visit(UnaryNotExpr expr) {
-		resolveExpr(QLType.BOOLEAN, expr);
+		stmt.visitExpr(this);
+
+		if (stmt.getExprType() != null && stmt.getExprType() != QLType.BOOLEAN) {
+			this.errorHandler.addTypeError(stmt);
+		}
+
+		stmt.visitIfBlockStmt(this);
+		stmt.visitElseBlockStmt(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(GroupingExpr expr) {
-		expr.getExpression().accept(this);
-		return null;
-	}
-	
-	@Override
-	public Void visit(IdentifierExpr expr) {
-		return null;
+	public QLType visit(UnaryNotExpr expr) {
+		QLType expressionType = expr.visitRightExpr(this);
+
+		if (expressionType != QLType.BOOLEAN) {
+			this.errorHandler.addTypeError(expr.getRightExpr(), QLType.BOOLEAN);
+		}
+
+		return expressionType;
 	}
 
 	@Override
-	public Void visit(PrimaryExpr expr) {
-		return null;
+	public QLType visit(GroupingExpr expr) {
+		QLType innerExpressionType = expr.visitInnerExpr(this);
+		expr.setType(innerExpressionType);
+		return expr.visitInnerExpr(this);
 	}
 
 	@Override
-	public Void visit(AdditionExpr expr) {
+	public QLType visit(IdentifierExpr expr) {
+		if (expr.getType() == null) {
+			return QLType.UNKNOWN;
+		} else {
+			return expr.getType();
+		}
+
+	}
+
+	@Override
+	public QLType visit(AdditionExpr expr) {
 		QLType[] validTypes = { QLType.INTEGER, QLType.STRING };
 		resolveBinaryExpr(expr, validTypes);
-		return null;
+		return expr.getType();
 	}
 
 	@Override
-	public Void visit(SubtractionExpr expr) {
+	public QLType visit(SubtractionExpr expr) {
 		QLType[] validTypes = { QLType.INTEGER };
 		resolveBinaryExpr(expr, validTypes);
-		return null;
+		return expr.getType();
 	}
 
 	@Override
-	public Void visit(MultiplicationExpr expr) {
+	public QLType visit(MultiplicationExpr expr) {
 		QLType[] validTypes = { QLType.INTEGER };
 		resolveBinaryExpr(expr, validTypes);
-		return null;
+		return expr.getType();
 	}
 
 	@Override
-	public Void visit(DivisionExpr expr) {
+	public QLType visit(DivisionExpr expr) {
 		QLType[] validTypes = { QLType.INTEGER };
 		resolveBinaryExpr(expr, validTypes);
-		return null;
+		return expr.getType();
 	}
 
 	@Override
-	public Void visit(LessThanExpr expr) {
+	public QLType visit(LessThanExpr expr) {
 		QLType[] validTypes = { QLType.INTEGER, QLType.STRING };
 		resolveBinaryExpr(expr, validTypes);
-		
+
 		// Set the type to boolean before returning
 		expr.setType(QLType.BOOLEAN);
-		return null;
+		return expr.getType();
 	}
 
 	@Override
-	public Void visit(LessThanOrEqualExpr expr) {
+	public QLType visit(LessThanOrEqualExpr expr) {
 		QLType[] validTypes = { QLType.INTEGER, QLType.STRING };
 		resolveBinaryExpr(expr, validTypes);
-		
+
 		// Set the type to boolean before returning
 		expr.setType(QLType.BOOLEAN);
-		return null;
+		return expr.getType();
 	}
 
 	@Override
-	public Void visit(GreaterThanExpr expr) {
+	public QLType visit(GreaterThanExpr expr) {
 		QLType[] validTypes = { QLType.INTEGER, QLType.STRING };
 		resolveBinaryExpr(expr, validTypes);
-		
+
 		// Set the type to boolean before returning
 		expr.setType(QLType.BOOLEAN);
-		return null;
+		return expr.getType();
 	}
 
 	@Override
-	public Void visit(GreaterThanOrEqualExpr expr) {
+	public QLType visit(GreaterThanOrEqualExpr expr) {
 		QLType[] validTypes = { QLType.INTEGER, QLType.STRING };
 		resolveBinaryExpr(expr, validTypes);
-		
+
 		// Set the type to boolean before returning
 		expr.setType(QLType.BOOLEAN);
-		return null;
+		return expr.getType();
 	}
 
 	@Override
-	public Void visit(NotEqualExpr expr) {
-		QLType[] validTypes = { QLType.INTEGER, QLType.STRING };
+	public QLType visit(NotEqualExpr expr) {
+		QLType[] validTypes = { QLType.BOOLEAN, QLType.INTEGER, QLType.STRING };
 		resolveBinaryExpr(expr, validTypes);
-		
+
 		// Set the type to boolean before returning
 		expr.setType(QLType.BOOLEAN);
-		return null;
+		return expr.getType();
 	}
 
 	@Override
-	public Void visit(EqualExpr expr) {
+	public QLType visit(EqualExpr expr) {
+		QLType[] validTypes = { QLType.BOOLEAN, QLType.INTEGER, QLType.STRING };
+		resolveBinaryExpr(expr, validTypes);
+
+		// Set the type to boolean before returning
+		expr.setType(QLType.BOOLEAN);
+		return expr.getType();
+	}
+
+	@Override
+	public QLType visit(AndExpr expr) {
 		QLType[] validTypes = { QLType.BOOLEAN };
 		resolveBinaryExpr(expr, validTypes);
-		return null;
+
+		// Set the type to boolean before returning
+		expr.setType(QLType.BOOLEAN);
+		return expr.getType();
 	}
 
 	@Override
-	public Void visit(AndExpr expr) {
+	public QLType visit(OrExpr expr) {
 		QLType[] validTypes = { QLType.BOOLEAN };
 		resolveBinaryExpr(expr, validTypes);
-		return null;
+
+		// Set the type to boolean before returning
+		expr.setType(QLType.BOOLEAN);
+		return expr.getType();
 	}
 
 	@Override
-	public Void visit(OrExpr expr) {
-		QLType[] validTypes = { QLType.BOOLEAN };
-		resolveBinaryExpr(expr, validTypes);
-		return null;
+	public QLType visit(IntegerExpr expr) {
+		return expr.getType();
 	}
 
 	@Override
-	public Void visit(IntegerExpr expr) {
-		return null;
+	public QLType visit(StringExpr expr) {
+		return expr.getType();
 	}
 
 	@Override
-	public Void visit(StringExpr expr) {
-		return null;
-	}
-
-	@Override
-	public Void visit(BooleanExpr expr) {
-		return null;
+	public QLType visit(BooleanExpr expr) {
+		return expr.getType();
 	}
 }

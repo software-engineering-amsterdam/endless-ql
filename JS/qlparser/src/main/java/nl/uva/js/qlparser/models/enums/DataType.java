@@ -1,32 +1,26 @@
 package nl.uva.js.qlparser.models.enums;
 
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.TextField;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import nl.uva.js.qlparser.ui.ComponentBuilder;
+import nl.uva.js.qlparser.models.expressions.data.Variable;
 
+import javax.swing.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 public enum DataType {
-    DATE(LocalDate::parse, DateField::new),
+    DATE(LocalDate::parse, ComponentBuilder::buildTextField),
 //    To be improved at a later stage, but needed for type checking
-    MONEY(value -> BigDecimal.valueOf(Double.valueOf(value.replace(',', '.'))), TextField::new),
-    STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), TextField::new),
-    DECIMAL(Double::valueOf, TextField::new),
-    BOOLEAN(Boolean::valueOf, CheckBox::new),
-    INTEGER(Integer::valueOf, TextField::new);
+    MONEY(value -> BigDecimal.valueOf(Double.valueOf(value.replace(',', '.'))), ComponentBuilder::buildTextField),
+    STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), ComponentBuilder::buildTextField),
+    DECIMAL(Double::valueOf, ComponentBuilder::buildTextField),
+    BOOLEAN(Boolean::valueOf, ComponentBuilder::buildTextField),
+    INTEGER(Integer::valueOf, ComponentBuilder::buildTextField);
 
-    @NonNull @Getter private Function<String, ?> valueOf;
-    @NonNull private Supplier<AbstractField> component;
-
-    public Supplier<AbstractField> getComponent() {
-        return component;
-    }
+    @NonNull @Getter private Function<String, ?>                      valueOf;
+    @NonNull @Getter private Function<Variable, ? extends JComponent> component;
 }

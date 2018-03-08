@@ -11,7 +11,11 @@ label               : WORD ;
 line_elm            : label COLON question type_expr ;
 elem                : line_elm | block_elm ;
 block_elm           : if_block ;
-if_block            : IF PARENTH_L expr PARENTH_R BRACKET_L elem+ BRACKET_R ;
+if_block            : IF PARENTH_L expr PARENTH_R BRACKET_L elem+ BRACKET_R
+                    | IF PARENTH_L expr PARENTH_R BRACKET_L elem+ BRACKET_R ELSE BRACKET_L
+                    else_elems
+                    BRACKET_R ;
+else_elems          : elem+ ;
 question            : STRING ;
 expr                : unop_expr | label_binop_expr | const_binop_expr | constant | label_expr ;
 unop_expr           : unop expr ;
@@ -25,9 +29,9 @@ boolean_constant    : TRUE | FALSE ;
 integer_constant    : NUMBER ;
 binop               : (MINUS | PLUS | MULTIPLY | DIVIDE | EQ | NEQ | GTE | GT | LTE | LT) ;
 unop                : (MINUS | PLUS | NOT) ;
-type_expr           : type
-                    | type PARENTH_L expr PARENTH_R ;
-type                : (BOOLEAN_TYPE | MONEY_TYPE | INTEGER_TYPE | STRING_TYPE) ;
+type_expr           : typeNode
+                    | typeNode PARENTH_L expr PARENTH_R ;
+typeNode                : (BOOLEAN_TYPE | MONEY_TYPE | INTEGER_TYPE | STRING_TYPE) ;
 
 
 /**
@@ -36,6 +40,7 @@ type                : (BOOLEAN_TYPE | MONEY_TYPE | INTEGER_TYPE | STRING_TYPE) ;
 
 FORM            : 'form' ;
 IF              : 'if' ;
+ELSE            : 'else' ;
 BOOLEAN_TYPE    : 'boolean' ;
 STRING_TYPE     : 'string' ;
 INTEGER_TYPE    : 'integer' ;

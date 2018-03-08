@@ -5,6 +5,7 @@ import {QuestionControlService} from './services/question-control.service';
 import {DynamicFormQuestionComponent} from './components/dynamic-form-question/dynamic-form-question.component';
 import {BrowserModule} from '@angular/platform-browser';
 import * as mockData from './mock-input';
+import {MatListModule, MatTabsModule} from '@angular/material';
 
 describe('AppComponent', () => {
   let app: AppComponent;
@@ -18,7 +19,9 @@ describe('AppComponent', () => {
       imports: [
         BrowserModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatTabsModule,
+        MatListModule
       ],
       providers: [QuestionControlService]
     }).compileComponents();
@@ -33,7 +36,7 @@ describe('AppComponent', () => {
     app.input = mockData.validFormWithIf;
     app.parseInput();
     expect(app.formName).toBe('form');
-    expect(app.questions.length).toBe(7);
+    expect(app.questions.length).toBe(5);
     expect(app.form).toBeDefined();
     expect(app.errorMessage).toBeUndefined();
   });

@@ -1,5 +1,6 @@
 package parsing;
 
+import classes.CodeBlock;
 import classes.Configuration;
 import classes.statements.Question;
 
@@ -22,10 +23,9 @@ public class AST_Visitor extends QLBaseVisitor {
     @Override
     public Object visitQuestion(QLParser.QuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-
+        CodeBlock codeBlock = CodeBlock.getCodeBlock(ctx);
         String questionString = ctx.STR().getText();
-        Question question = new Question(questionString, visit(ctx.type()));
-
+        Question question = new Question(codeBlock, questionString, visit(ctx.type()));
         memory.put(id, question);
         return memory;
     }

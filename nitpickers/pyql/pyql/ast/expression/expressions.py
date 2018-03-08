@@ -1,8 +1,8 @@
-from pyql.ast import ast
+from pyql.ast.ast import ASTNode
 from pyql.ast import code_location
 
 
-class Expression(ast.ASTNode):
+class Expression(ASTNode):
 
     def __init__(self, location):
         super().__init__(location)
@@ -17,6 +17,9 @@ class Identifier(Expression):
     @property
     def identifier(self):
         return self._identifier
+
+    def __repr__(self):
+        return str(self.identifier)
 
 
 class UnaryExpression(Expression):
@@ -165,63 +168,28 @@ class Not(UnaryExpression):
 
 class Literal(Expression):
 
-    def __init__(self, location):
+    def __init__(self, location, type, value):
         super().__init__(location)
+        self._value = value
+        self._type = type
 
+    @property
+    def value(self):
+        return self._value
 
-class StringLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
+    @value.setter
+    def value(self, value):
         self._value = value
 
     @property
-    def value(self):
-        return self._value
+    def type(self):
+        return self._type
 
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
-class IntLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = int(value)
-
-    @property
-    def value(self):
-        return self._value
-
-
-class DecimalLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = float(value)
-
-    @property
-    def value(self):
-        return self._value
-
-
-class BoolLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = value == "true"
-
-    @property
-    def value(self):
-        return self._value
-
-
-class MoneyLiteral(Literal):
-
-    def __init__(self, location, value):
-        super().__init__(location)
-        self._value = value
-
-    @property
-    def value(self):
-        return self._value
+    def __repr__(self):
+        return str(self._value)
 
 
 if __name__ == "__main__":

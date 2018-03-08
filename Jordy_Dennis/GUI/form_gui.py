@@ -6,10 +6,10 @@ from .form_question import Question
 
 
 # Any formGUI consists of a main frame, a header within this frame, and a scroll frame.
-# The scroll frame can not be changed, only the contents within. 
+# The scroll frame can not be changed, only the contents within.
 class FormGui:
 
-    def __init__(self, parent, header="No Header Text", color="orange"):
+    def __init__(self, parent, questionGenerator, header="No Header Text", color="orange"):
         self.frame = create_frame(parent, color)
         self.frame.pack(expand=True, fill='both')
         self.header_frame = None
@@ -19,6 +19,7 @@ class FormGui:
         self.contents = sfg.get_contents()
         self.questions = []
         self.name = header
+        self.questionGenerator = questionGenerator
 
     # Create the header according to the specified layout
     def create_header(self, header, parent=None, box_width=200, box_height=5, font_type='Arial', font_size=15,
@@ -32,8 +33,8 @@ class FormGui:
         text.pack(anchor=NW)
         self.header_frame = header_frame
 
-    def add_question(self, question_text="Hi mom", question_type="bool"):
-        q = Question(self.contents, question_text, question_type)
+    def add_question(self, varName, question_text="Hi mom", question_type=bool,):
+        q = Question(self.contents, self.questionGenerator, varName, question_text, question_type)
         self.questions.append(q)
 
     def get_header(self):

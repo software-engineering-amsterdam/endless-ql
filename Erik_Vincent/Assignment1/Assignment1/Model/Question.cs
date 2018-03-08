@@ -1,39 +1,118 @@
-﻿namespace Assignment1
+﻿using System;
+
+namespace Assignment1.Model
 {
-    public class Question : Content
+    public interface IQuestionVisitor
+    {
+        void Visit(QuestionBool question);
+        void Visit(QuestionInt question);
+        void Visit(QuestionDate question);
+        void Visit(QuestionDecimal question);
+        void Visit(QuestionMoney question);
+        void Visit(QuestionString question);
+    }
+
+    public abstract class Question
     {
         public string Id { get; }
         public string Label { get; }
         public dynamic Value
         {
-            get => Computed ? Expression.Evaluate() : _value;
+            get => Computed ? Computation.Evaluate() : _value;
             set => _value = value;
         }
 
         private dynamic _value;
-        public Expression Expression;
-        public bool Computed;
+        public Expression Computation;
+        public bool Computed => Computation != null;
+        public Expression Condition;
 
-        public Question(string id, string label)
+        protected Question(string id, string label)
         {
             Id = id;
             Label = label;
         }
+
+        public abstract void Accept(IQuestionVisitor visitor);
+
+        public void AddCondition(Expression condition) => Condition = Condition == null ? condition :  new ExpressionAnd(condition, Condition);
     }
 
-    internal class QuestionBool : Question
+    public class QuestionBool : Question
     {
         public QuestionBool(string id, string label) : base(id, label)
         {
             Value = false;
         }
+
+        public override void Accept(IQuestionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 
-    internal class QuestionMoney : Question
+    public class QuestionDate : Question
+    {
+        public QuestionDate(string id, string label) : base(id, label)
+        {
+            Value = DateTime.Today;
+        }
+
+        public override void Accept(IQuestionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionDecimal : Question
+    {
+        public QuestionDecimal(string id, string label) : base(id, label)
+        {
+            Value = 0;
+        }
+
+        public override void Accept(IQuestionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionInt : Question
+    {
+        public QuestionInt(string id, string label) : base(id, label)
+        {
+            Value = 0;
+        }
+
+        public override void Accept(IQuestionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionMoney : Question
     {
         public QuestionMoney(string id, string label) : base(id, label)
         {
-            Value = 0.0;
+            Value = 0;
+        }
+
+        public override void Accept(IQuestionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class QuestionString : Question
+    {
+        public QuestionString(string id, string label) : base(id, label)
+        {
+            Value = "";
+        }
+
+        public override void Accept(IQuestionVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

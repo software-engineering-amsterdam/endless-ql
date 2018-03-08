@@ -1,6 +1,8 @@
 package ql.visitors;
 
-import ql.ast.expressions.Binary.*;
+import ql.ast.expressions.binary.*;
+import ql.ast.expressions.literals.Identifier;
+import ql.ast.expressions.literals.StringLiteral;
 
 public interface ExpressionVisitor<T> {
     public T visit(Addition addition);
@@ -15,4 +17,6 @@ public interface ExpressionVisitor<T> {
     public T visit(Multiplication multiplication);
     public T visit(NotEqual notEqual);
     public T visit(Subtraction subtraction);
+    public T visit(Identifier identifier);
+    public T visit(StringLiteral stringLiteral);
 }

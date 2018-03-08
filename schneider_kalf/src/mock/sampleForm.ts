@@ -1,5 +1,5 @@
 import Form from "../form/Form";
-import FieldType from "../form/FieldType";
+import { FieldType } from "../form/FieldType";
 import FormNode from "../form/nodes/FormNode";
 import Question from "../form/nodes/fields/Question";
 import IfCondition from "../form/nodes/conditions/IfCondition";
@@ -10,18 +10,20 @@ import QuestionForm from "../form/QuestionForm";
 import FormState from "../form/state/FormState";
 
 /*
-form Box1HouseOwning {
-hasSoldHouse: “Did you sell a house in 2010?” boolean
-hasBoughtHouse: “Did you by a house in 2010?” boolean
-hasMaintLoan: “Did you enter a loan for maintenance/reconstruction?”
-boolean
-if (hasSoldHouse) {
-sellingPrice: “Price the house was sold for:” money
-privateDebt: “Private debts for the sold house:” money
-valueResidue: “Value residue:” money(sellingPrice - privateDebt)
-}
-}
-*/
+ Bases on example form given by professor:
+
+ form Box1HouseOwning {
+  hasSoldHouse: “Did you sell a house in 2010?” boolean
+  hasBoughtHouse: “Did you by a house in 2010?” boolean
+  hasMaintLoan: “Did you enter a loan for maintenance/reconstruction?”
+  boolean
+  if (hasSoldHouse) {
+  sellingPrice: “Price the house was sold for:” money
+  privateDebt: “Private debts for the sold house:” money
+  valueResidue: “Value residue:” money(sellingPrice - privateDebt)
+  }
+  }
+ */
 
 const formNode: FormNode = new FormNode("Box1HouseOwning", [
   new Question("hasSoldHouse", "Did you sell a house in 2010?", FieldType.Boolean),

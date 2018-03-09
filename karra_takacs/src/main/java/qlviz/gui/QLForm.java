@@ -31,6 +31,7 @@ import qlviz.typecheker.CircularReferenceChecker;
 import qlviz.typecheker.DuplicateLabelChecker;
 import qlviz.typecheker.DuplicateQuestionChecker;
 import qlviz.typecheker.Severity;
+import qlviz.typecheker.StaticChecker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +112,7 @@ public class QLForm extends Application {
 						),
 						pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor)
 				);
-		List<AnalysisResult> staticCheckResults = new ArrayList<>();
+		
 		FormVisitor visitor = new FormVisitor(questionBlockVisitor);
 		this.model = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()))
 				.createFormFromMarkup(this.getParameters().getRaw().get(0));
@@ -121,40 +122,33 @@ public class QLForm extends Application {
 			}catch(IllegalStateException e) {
 				containsDuplicates = true;
 	       }
+		StaticChecker staticChecker = new StaticChecker();
+		List<AnalysisResult> staticCheckResults = staticChecker.valdiate(this.model,containsDuplicates);
 		
-		DuplicateQuestionChecker duplicateQuestionChecker = new DuplicateQuestionChecker();
-		duplicateQuestionChecker.initialize(this.model);
-		DuplicateLabelChecker duplicateLabelChecker = new DuplicateLabelChecker();
-		duplicateLabelChecker.initialize(this.model);
-		staticCheckResults.addAll(duplicateQuestionChecker.analyze());
-		staticCheckResults.addAll(duplicateLabelChecker.analyze());
-		if(staticCheckResults == null) {
-		CircularReferenceChecker circularReferenceChecker = new CircularReferenceChecker();
-		circularReferenceChecker.initialize(this.model);
-		staticCheckResults.addAll(circularReferenceChecker.analyze());
-		}
-		
-
 		if (staticCheckResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
 			ErrorRenderer errorRenderer = new JavafxErrorRenderer(stage);
 			errorRenderer.render(staticCheckResults);
 		}
 		else
 		{
-            NumericExpressionViewModelFactory numericExpressionViewModelFactory = new NumericExpressionViewModelFactoryImpl();
-            BooleanExpressionViewModelFactory booleanExpressionFactory = new BooleanExpressionViewModelFactoryImpl(numericExpressionViewModelFactory);
-            QuestionViewModelFactoryImpl questionViewModelFactory =
-                    new QuestionViewModelFactoryImpl(numericExpressionViewModelFactory::create);
-            QuestionBlockViewModelFactory questionBlockViewModelFactory =
-                    new QuestionBlockViewModelFactory(questionViewModelFactory::create, booleanExpressionFactory::create);
-
-
-            this.viewModel = new FormViewModelImpl(model, renderer, questionBlockViewModelFactory::create);
-
-            QuestionViewModelLinker viewModelLinker = new QuestionViewModelLinkerImpl(new QuestionViewModelCollectorImpl());
-            viewModelLinker.linkQuestionStubs(this.viewModel);
-            this.renderer.render(this.viewModel);
+            renderView();
 		}
+	}
+
+	private void renderView() {
+		NumericExpressionViewModelFactory numericExpressionViewModelFactory = new NumericExpressionViewModelFactoryImpl();
+		BooleanExpressionViewModelFactory booleanExpressionFactory = new BooleanExpressionViewModelFactoryImpl(numericExpressionViewModelFactory);
+		QuestionViewModelFactoryImpl questionViewModelFactory =
+		        new QuestionViewModelFactoryImpl(numericExpressionViewModelFactory::create);
+		QuestionBlockViewModelFactory questionBlockViewModelFactory =
+		        new QuestionBlockViewModelFactory(questionViewModelFactory::create, booleanExpressionFactory::create);
+
+
+		this.viewModel = new FormViewModelImpl(model, renderer, questionBlockViewModelFactory::create);
+
+		QuestionViewModelLinker viewModelLinker = new QuestionViewModelLinkerImpl(new QuestionViewModelCollectorImpl());
+		viewModelLinker.linkQuestionStubs(this.viewModel);
+		this.renderer.render(this.viewModel);
 	}
 
 }

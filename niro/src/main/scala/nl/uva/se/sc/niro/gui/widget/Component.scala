@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox
 import nl.uva.se.sc.niro.gui.control.QLWidget
 import nl.uva.se.sc.niro.gui.factory._
 import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.expressions.answers._
+import nl.uva.se.sc.niro.model.expressions.answers.{ DecAnswer, _ }
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
 
 import scala.collection.mutable
@@ -19,26 +19,32 @@ abstract class Component[T](id: String, label: Label, control: QLWidget[_]) exte
   label.setPrefWidth(200)
   control.setPrefWidth(200)
 
+  def getQuestionId: String = id
+
+  def getControl: QLWidget[_] = control
+
   def setReadOnly(value: Boolean): Unit = control.setDisable(value)
   def isReadOnly: Boolean = control.isDisabled
 
   def update(dictionary: mutable.Map[String, Answer]): Unit
-  def getValue: Option[T]
+  def getValue: Answer
   def setValue(value: Option[T]): Unit
 }
 
-case class StringComponent(id: String, label: Label, control: QLWidget[String]) extends Component[String](id, label, control) {
-  override def getValue: Option[String] = toOption(control.getValue)
+case class StringComponent(id: String, label: Label, control: QLWidget[String])
+    extends Component[String](id, label, control) {
+  override def getValue: StringAnswer = toOption(control.getValue)
   override def setValue(value: Option[String]): Unit = control.setValue(fromOption(value))
   override def update(dictionary: mutable.Map[String, Answer]): Unit = {
     setValue(dictionary(id).possibleValue.map(_.toString))
   }
   private def fromOption(value: Option[String]): String = value.orNull
-  private def toOption(value: String): Option[String] = Option(value)
+  private def toOption(value: String): StringAnswer = if (value == null) StringAnswer() else StringAnswer(value)
 }
 
-case class BooleanComponent(id: String, label: Label, control: QLWidget[Boolean]) extends Component[Boolean](id, label, control) {
-  override def getValue: Option[Boolean] = toOption(control.getValue)
+case class BooleanComponent(id: String, label: Label, control: QLWidget[Boolean])
+    extends Component[Boolean](id, label, control) {
+  override def getValue: BooleanAnswer = BooleanAnswer(control.getValue)
   override def setValue(value: Option[Boolean]): Unit = control.setValue(fromOption(value))
   override def update(dictionary: mutable.Map[String, Answer]): Unit = {
     setValue(dictionary(id).possibleValue.asInstanceOf[Option[Boolean]])
@@ -47,8 +53,9 @@ case class BooleanComponent(id: String, label: Label, control: QLWidget[Boolean]
   private def toOption(value: Boolean): Option[Boolean] = Option(value)
 }
 
-case class DateComponent(id: String, label: Label, control: QLWidget[LocalDate]) extends Component[LocalDate](id, label, control) {
-  override def getValue: Option[LocalDate] = toOption(control.getValue)
+case class DateComponent(id: String, label: Label, control: QLWidget[LocalDate])
+    extends Component[LocalDate](id, label, control) {
+  override def getValue: DateAnswer = DateAnswer(control.getValue)
   override def setValue(value: Option[LocalDate]): Unit = control.setValue(fromOption(value))
   override def update(dictionary: mutable.Map[String, Answer]): Unit = {
     setValue(dictionary(id).possibleValue.asInstanceOf[Option[LocalDate]])
@@ -57,38 +64,39 @@ case class DateComponent(id: String, label: Label, control: QLWidget[LocalDate])
   private def toOption(value: LocalDate): Option[LocalDate] = Option(value)
 }
 
-case class IntegerComponent(id: String, label: Label, control: QLWidget[Integer]) extends Component[Int](id, label, control) {
-  override def getValue: Option[Int] = toOption(control.getValue)
+case class IntegerComponent(id: String, label: Label, control: QLWidget[Integer])
+    extends Component[Int](id, label, control) {
+  override def getValue: IntAnswer = IntAnswer(control.getValue)
   override def setValue(value: Option[Int]): Unit = control.setValue(fromOption(value))
   override def update(dictionary: mutable.Map[String, Answer]): Unit = {
     setValue(dictionary(id).possibleValue.asInstanceOf[Option[Int]])
   }
   private def fromOption(value: Option[Int]): java.lang.Integer = if (value.isDefined) value.get else null
-  private def toOption(value: Int): Option[Int] = Option(value)
+  private def toOption(value: java.lang.Integer): IntAnswer = if (value == null) IntAnswer() else IntAnswer(value)
 }
 
 case class DecimalComponent(id: String, label: Label, control: QLWidget[java.math.BigDecimal])
     extends Component[BigDecimal](id, label, control) {
-  override def getValue: Option[BigDecimal] = toOption(control.getValue)
+  override def getValue: DecAnswer = toOption(control.getValue)
   override def setValue(value: Option[BigDecimal]): Unit = control.setValue(fromOption(value))
   override def update(dictionary: mutable.Map[String, Answer]): Unit = {
     setValue(dictionary(id).possibleValue.asInstanceOf[Option[BigDecimal]])
   }
   private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal =
     if (value.isDefined) value.get.bigDecimal else null
-  private def toOption(value: BigDecimal): Option[BigDecimal] = Option(value)
+  private def toOption(value: java.math.BigDecimal): DecAnswer = if (value == null) DecAnswer() else DecAnswer(value)
 }
 
 case class MoneyComponent(id: String, label: Label, control: QLWidget[java.math.BigDecimal])
     extends Component[BigDecimal](id, label, control) {
-  override def getValue: Option[BigDecimal] = toOption(control.getValue)
+  override def getValue: MoneyAnswer = toOption(control.getValue)
   override def setValue(value: Option[BigDecimal]): Unit = control.setValue(fromOption(value))
   override def update(dictionary: mutable.Map[String, Answer]): Unit = {
     setValue(dictionary(id).possibleValue.asInstanceOf[Option[BigDecimal]])
   }
   private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal =
     if (value.isDefined) value.get.bigDecimal else null
-  private def toOption(value: java.math.BigDecimal): Option[BigDecimal] = Option(value)
+  private def toOption(value: java.math.BigDecimal): MoneyAnswer = if (value == null) MoneyAnswer() else MoneyAnswer(value)
 }
 
 object ComponentFactory {

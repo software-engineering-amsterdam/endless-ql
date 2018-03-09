@@ -1,13 +1,14 @@
 package nl.uva.se.sc.niro.gui.controller
 
 import java.io.IOException
+import java.lang
 
+import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import nl.uva.se.sc.niro.Evaluator
-import nl.uva.se.sc.niro.gui._
 import nl.uva.se.sc.niro.gui.application.QLForms
 import nl.uva.se.sc.niro.gui.converter.ModelConverter
 import nl.uva.se.sc.niro.gui.widget.{ Component, ComponentFactory }
@@ -17,7 +18,7 @@ import nl.uva.se.sc.niro.model.gui.GUIForm
 
 import scala.collection.{ JavaConverters, mutable }
 
-class QLFormController extends QLBaseController with ModelUpdater {
+class QLFormController extends QLBaseController {
   private val dictionary = mutable.Map[String, Answer]()
   private var qlForm: QLForm = _
   private var guiForm: GUIForm = _
@@ -35,7 +36,7 @@ class QLFormController extends QLBaseController with ModelUpdater {
     // TODO Implement
     println("Data is saved....")
 
-  override def updateModel(questionId: String, answer: Answer): Unit = {
+  def updateModel(questionId: String, answer: Answer): Unit = {
     dictionary(questionId) = answer
     evaluateAnswers
     updateView
@@ -45,6 +46,19 @@ class QLFormController extends QLBaseController with ModelUpdater {
     this.qlForm = form
     guiForm = ModelConverter.convert(this.qlForm)
     questions = guiForm.questions.map(ComponentFactory.make)
+    questions.foreach(
+      component =>
+        component
+          .getControl
+          .focusedProperty()
+          .addListener(new ChangeListener[lang.Boolean] {
+            override def changed(
+                observable: ObservableValue[_ <: lang.Boolean],
+                oldValue: lang.Boolean,
+                newValue: lang.Boolean): Unit = {
+              updateModel(component.getQuestionId, component.getValue)
+            }
+          }))
 
     formName.setText(guiForm.name)
     questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))

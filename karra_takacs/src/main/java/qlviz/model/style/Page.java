@@ -10,18 +10,20 @@ public class Page extends Node implements Scope {
     private final String name;
     private final List<Section> sections;
     private final List<DefaultWidgetDeclaration> defaultWidgetDeclarations;
-    private final Stylesheet parent;
+    private  Stylesheet parent;
+
+    public void setParent(Stylesheet parent) {
+        this.parent = parent;
+    }
 
     public Page(String name,
                 List<Section> sections,
                 List<DefaultWidgetDeclaration> defaultWidgetDeclarations,
-                Stylesheet parent,
                 ParserRuleContext context) {
         super(context);
         this.name = name;
         this.defaultWidgetDeclarations = defaultWidgetDeclarations;
         this.sections = sections;
-        this.parent = parent;
     }
 
     public Scope getParent() {return parent;}

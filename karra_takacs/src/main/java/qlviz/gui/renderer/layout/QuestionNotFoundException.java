@@ -1,4 +1,5 @@
 package qlviz.gui.renderer.layout;
 
-public class QuestionNotFoundException {
+public class QuestionNotFoundException extends Exception {
+
 }

@@ -2,6 +2,7 @@ package qlviz.gui.renderer.layout;
 
 import qlviz.gui.viewModel.question.QuestionViewModel;
 import qlviz.model.style.Page;
+import qlviz.model.style.Scope;
 import qlviz.model.style.Section;
 import qlviz.model.style.Stylesheet;
 
@@ -31,6 +32,45 @@ public class NaiveQuestionLocator implements QuestionLocator{
 
     private boolean hasQuestion(Page page, QuestionViewModel questionViewModel) {
         return page.getSections().stream().anyMatch(s -> hasQuestion(s, questionViewModel));
+    }
+
+    private void visitScope(QuestionViewModel questionViewModel, QuestionLocation questionLocation, Section section) {
+        if (questionLocation.getQuestion() != null) {
+            return;
+        }
+        questionLocation.getScopes().push(section);
+        if (section.getQuestions().stream().anyMatch(question -> question.getName().equals(questionViewModel.getName()))) {
+            questionLocation.setQuestion(
+                    section.getQuestions()
+                            .stream()
+                            .filter(question -> question.getName().equals(questionViewModel.getName()))
+                            .findFirst()
+                            .get());
+        }
+        else
+        {
+            for (Section child : section.getSections())
+            {
+                visitScope(questionViewModel, questionLocation, child);
+            }
+            if (questionLocation.getQuestion() == null) {
+                questionLocation.getScopes().pop();
+            }
+        }
+    }
+
+    @Override
+    public QuestionLocation getPathToQuestion(QuestionViewModel questionViewModel) throws QuestionNotFoundException {
+        Page page = this.getPage(questionViewModel).get();
+        QuestionLocation questionLocation = new QuestionLocation();
+        questionLocation.getScopes().push(page);
+        for (Section section : page.getSections()) {
+            this.visitScope(questionViewModel, questionLocation, section);
+            if (questionLocation.getQuestion() != null) {
+                return questionLocation;
+            }
+        }
+        throw new QuestionNotFoundException();
     }
 
     @Override

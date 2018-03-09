@@ -10,19 +10,21 @@ public class Section extends Node implements Scope {
     private final String name;
     private final List<Question> questions;
     private final List<DefaultWidgetDeclaration> defaultWidgetDeclarations;
-    private final Scope parent;
+    private Scope parent;
     private final List<Section> sections;
+
+    public void setParent(Scope parent) {
+        this.parent = parent;
+    }
 
     public Section(String name,
                    List<Question> questions,
                    List<DefaultWidgetDeclaration> defaultWidgetDeclarations,
-                   Scope parent,
                    List<Section> sections, ParserRuleContext context) {
         super(context);
         this.name = name;
         this.questions = questions;
         this.defaultWidgetDeclarations = defaultWidgetDeclarations;
-        this.parent = parent;
         this.sections = sections;
     }
 

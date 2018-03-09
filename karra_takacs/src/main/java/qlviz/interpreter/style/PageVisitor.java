@@ -1,11 +1,11 @@
 package qlviz.interpreter.style;
 
-import qlviz.QLBaseVisitor;
 import qlviz.QLSBaseVisitor;
 import qlviz.QLSParser;
 import qlviz.model.style.DefaultWidgetDeclaration;
 import qlviz.model.style.Page;
 import qlviz.model.style.Section;
+import qlviz.model.style.Stylesheet;
 
 import java.util.stream.Collectors;
 
@@ -21,7 +21,7 @@ public class PageVisitor extends QLSBaseVisitor<Page> {
 
     @Override
     public Page visitPage(QLSParser.PageContext ctx) {
-        return new Page(
+        Page page = new Page(
                 ctx.IDENTIFIER().getText(),
                 ctx.section()
                         .stream()
@@ -33,5 +33,9 @@ public class PageVisitor extends QLSBaseVisitor<Page> {
                         .collect(Collectors.toList()),
                 ctx
         );
+        for (Section section : page.getSections()) {
+            section.setParent(page);
+        }
+        return page;
     }
 }

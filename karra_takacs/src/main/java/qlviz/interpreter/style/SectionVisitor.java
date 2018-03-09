@@ -4,6 +4,7 @@ import qlviz.QLSBaseVisitor;
 import qlviz.QLSParser;
 import qlviz.model.style.DefaultWidgetDeclaration;
 import qlviz.model.style.Question;
+import qlviz.model.style.Scope;
 import qlviz.model.style.Section;
 
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ public class SectionVisitor extends QLSBaseVisitor<Section> {
 
     @Override
     public Section visitSection(QLSParser.SectionContext ctx) {
-        return new Section(
+        Section section = new Section(
                ctx.STRING().getText(),
                ctx.question()
                     .stream()
@@ -33,7 +34,12 @@ public class SectionVisitor extends QLSBaseVisitor<Section> {
                 ctx.section()
                     .stream()
                     .map(this::visitSection)
-                    .collect(Collectors.toList()), ctx
+                    .collect(Collectors.toList()),
+                ctx
         );
+        for (Section child : section.getSections()) {
+            child.setParent(section);
+        }
+        return section;
     }
 }

@@ -5,6 +5,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModel;
 import qlviz.model.question.Question;
+import qlviz.model.question.QuestionType;
 
 import java.util.List;
 
@@ -29,6 +30,11 @@ public abstract class BaseQuestionViewModel implements QuestionViewModel {
         }
         this.isEnabled = new SimpleBooleanProperty(true);
         this.isEnabled.bind(isEnabledBinding);
+    }
+
+    @Override
+    public QuestionType getQuestionType() {
+        return this.question.getType();
     }
 
     public String getText() {

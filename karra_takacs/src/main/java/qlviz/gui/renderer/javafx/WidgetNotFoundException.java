@@ -1,4 +1,5 @@
 package qlviz.gui.renderer.javafx;
 
-public class WidgetNotFoundException {
+public class WidgetNotFoundException extends Exception {
+
 }

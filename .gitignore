@@ -214,17 +214,17 @@ remihasan/.idea/
 Ioana_Hisham/.idea/
 *.iml
 
-Arjan_Niels/QL_Vizualizer/.vs/
-Arjan_Niels/QL_Vizualizer/packages/
-Arjan_Niels/QL_Vizualizer/QL_Parser/obj/Debug/
-Arjan_Niels/QL_Vizualizer/QL_Vizualizer/obj/Debug/
-Arjan_Niels/QL_Vizualizer/\.vs/
-Arjan_Niels/QL_Vizualizer/QL_Parser/obj/Debug/
-Arjan_Niels/QL_Vizualizer/packages/Antlr\.3\.5\.0\.2/
-Arjan_Niels/QL_Vizualizer/packages/
-Arjan_Niels/QL_Vizualizer/QL_Parser_Tester/obj/Debug/
-Arjan_Niels/QL_Vizualizer/QL_Parser\.Tests/obj/Debug/
-Arjan_Niels/QL_Vizualizer/QL_Visualizer\.Tests/obj/Debug/
+Arjan_Niels/SharpQL/.vs/
+Arjan_Niels/SharpQL/packages/
+Arjan_Niels/SharpQL/QLParser/obj/Debug/
+Arjan_Niels/SharpQL/QLVizualizer/obj/Debug/
+Arjan_Niels/SharpQL/\.vs/
+Arjan_Niels/SharpQL/QLParser/obj/Debug/
+Arjan_Niels/SharpQL/packages/Antlr\.3\.5\.0\.2/
+Arjan_Niels/SharpQL/packages/
+Arjan_Niels/SharpQL/QLParserTester/obj/Debug/
+Arjan_Niels/SharpQL/QLParser\.Tests/obj/Debug/
+Arjan_Niels/SharpQL/QLVisualizer\.Tests/obj/Debug/
 
 PyQuest/.idea/
 

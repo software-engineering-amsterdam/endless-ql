@@ -6,11 +6,9 @@ package qlviz.style;
         import qlviz.QLSBaseVisitor;
         import qlviz.QLSParser;
         import qlviz.interpreter.style.PageVisitor;
-        import qlviz.interpreter.style.StylesheetVisitor;
         import qlviz.model.style.DefaultWidgetDeclaration;
         import qlviz.model.style.Page;
         import qlviz.model.style.Section;
-        import qlviz.model.style.Stylesheet;
 
         import java.util.List;
 

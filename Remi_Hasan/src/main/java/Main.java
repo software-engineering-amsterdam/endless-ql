@@ -1,7 +1,4 @@
-import analysis.CycleDetector;
-import analysis.ReferencedIdentifiersVisitor;
-import analysis.SymbolTable;
-import analysis.TypeChecker;
+import analysis.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,7 +9,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Form;
-import model.stylesheet.StyleSheet;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -70,8 +66,8 @@ public class Main extends Application {
 
             SymbolTable symbolTable = new SymbolTable(form);
 
-            ReferencedIdentifiersVisitor referencedIdentifiersVisitor = new ReferencedIdentifiersVisitor(form);
-            List<String> unknownReferencedIdentifiers = referencedIdentifiersVisitor.getUnknownReferencedIdentifiers();
+            UnknownIdentifiersDetector unknownIdentifiersDetector = new UnknownIdentifiersDetector(form);
+            List<String> unknownReferencedIdentifiers = unknownIdentifiersDetector.detectUnknownIdentifiers();
             if(!unknownReferencedIdentifiers.isEmpty()){
                 showErrorAlert("Unknown variable(s):", unknownReferencedIdentifiers);
                 return;
@@ -85,11 +81,10 @@ public class Main extends Application {
                 return;
             }
 
-
             TypeChecker typeChecker = new TypeChecker(form, symbolTable);
 
             // Check for duplicate questions with different type
-            Set<String> duplicateQuestionsWithDifferentTypes = typeChecker.getDuplicateQuestionsWithDifferentTypes();
+            Set<String> duplicateQuestionsWithDifferentTypes = typeChecker.checkDuplicateQuestionsWithDifferentTypes();
             if (!duplicateQuestionsWithDifferentTypes.isEmpty()) {
                 showErrorAlert("Redeclaration of questions with different type:", duplicateQuestionsWithDifferentTypes);
                 return;
@@ -101,10 +96,10 @@ public class Main extends Application {
                 return;
             }
 
-            File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
-            StyleSheet styleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));
+//            File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
+//            StyleSheet styleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));
 
-            Renderer renderer = new Renderer(form, symbolTable, styleSheet);
+            Renderer renderer = new Renderer(form, symbolTable);
             renderer.renderForm(stage);
         } catch (FileNotFoundException e) {
             showErrorAlert(e, "Form file not found");

@@ -40,7 +40,8 @@ public class TypeCheckSpecification {
 
         specification = new HashMap<>();
 
-        add(operators(Positive.class, Negative.class), NodeType.MONEY, NodeType.UNKNOWN, NodeType.MONEY);
+        add(operators(Positive.class, Negative.class), NodeType.MONEY_DOLLAR, NodeType.UNKNOWN, NodeType.MONEY_DOLLAR);
+        add(operators(Positive.class, Negative.class), NodeType.MONEY_EURO, NodeType.UNKNOWN, NodeType.MONEY_EURO);
         add(operators(Positive.class, Negative.class), NodeType.DECIMAL, NodeType.UNKNOWN, NodeType.DECIMAL);
         add(operators(Positive.class, Negative.class), NodeType.INTEGER, NodeType.UNKNOWN, NodeType.INTEGER);
 
@@ -50,7 +51,8 @@ public class TypeCheckSpecification {
 
         add(operators(Equal.class, NotEqual.class), NodeType.BOOLEAN, NodeType.BOOLEAN, NodeType.BOOLEAN);
         add(operators(Equal.class, NotEqual.class), NodeType.STRING, NodeType.STRING, NodeType.BOOLEAN);
-        add(operators(Equal.class, NotEqual.class, GreaterOrEqual.class, GreaterThan.class, LessOrEqual.class, LessThan.class), NodeType.MONEY, NodeType.MONEY, NodeType.BOOLEAN);
+        add(operators(Equal.class, NotEqual.class, GreaterOrEqual.class, GreaterThan.class, LessOrEqual.class, LessThan.class), NodeType.MONEY_EURO, NodeType.MONEY_EURO, NodeType.BOOLEAN);
+        add(operators(Equal.class, NotEqual.class, GreaterOrEqual.class, GreaterThan.class, LessOrEqual.class, LessThan.class), NodeType.MONEY_DOLLAR, NodeType.MONEY_DOLLAR, NodeType.BOOLEAN);
         add(operators(Equal.class, NotEqual.class, GreaterOrEqual.class, GreaterThan.class, LessOrEqual.class, LessThan.class), NodeType.DECIMAL, NodeType.DECIMAL, NodeType.BOOLEAN);
         add(operators(Equal.class, NotEqual.class, GreaterOrEqual.class, GreaterThan.class, LessOrEqual.class, LessThan.class), NodeType.INTEGER, NodeType.INTEGER, NodeType.BOOLEAN);
         add(operators(Equal.class, NotEqual.class, GreaterOrEqual.class, GreaterThan.class, LessOrEqual.class, LessThan.class), NodeType.DECIMAL, NodeType.INTEGER, NodeType.BOOLEAN);
@@ -58,14 +60,18 @@ public class TypeCheckSpecification {
         add(operators(Equal.class, NotEqual.class, GreaterOrEqual.class, GreaterThan.class, LessOrEqual.class, LessThan.class), NodeType.DATE, NodeType.DATE, NodeType.BOOLEAN);
 
         add(operators(Division.class), NodeType.INTEGER, NodeType.INTEGER, NodeType.DECIMAL);
-        add(operators(Division.class), NodeType.MONEY, NodeType.MONEY, NodeType.DECIMAL);
+        add(operators(Division.class), NodeType.MONEY_DOLLAR, NodeType.MONEY_DOLLAR, NodeType.DECIMAL);
+        add(operators(Division.class), NodeType.MONEY_EURO, NodeType.MONEY_EURO, NodeType.DECIMAL);
         add(operators(Addition.class, Subtraction.class, Multiplication.class), NodeType.INTEGER, NodeType.INTEGER, NodeType.INTEGER);
-        add(operators(Addition.class, Subtraction.class, Multiplication.class, Division.class), NodeType.MONEY, NodeType.INTEGER, NodeType.MONEY);
+        add(operators(Addition.class, Subtraction.class, Multiplication.class, Division.class), NodeType.MONEY_DOLLAR, NodeType.INTEGER, NodeType.MONEY_DOLLAR);
+        add(operators(Addition.class, Subtraction.class, Multiplication.class, Division.class), NodeType.MONEY_EURO, NodeType.INTEGER, NodeType.MONEY_EURO);
         add(operators(Addition.class, Subtraction.class, Multiplication.class, Division.class), NodeType.DECIMAL, NodeType.DECIMAL, NodeType.DECIMAL);
         add(operators(Addition.class, Subtraction.class, Multiplication.class, Division.class), NodeType.DECIMAL, NodeType.INTEGER, NodeType.DECIMAL);
         add(operators(Addition.class, Subtraction.class, Multiplication.class, Division.class), NodeType.INTEGER, NodeType.DECIMAL, NodeType.DECIMAL);
-        add(operators(Addition.class, Subtraction.class, Multiplication.class, Division.class), NodeType.MONEY, NodeType.DECIMAL, NodeType.MONEY);
-        add(operators(Addition.class, Subtraction.class), NodeType.MONEY, NodeType.MONEY, NodeType.MONEY);
+        add(operators(Addition.class, Subtraction.class, Multiplication.class, Division.class), NodeType.MONEY_DOLLAR, NodeType.DECIMAL, NodeType.MONEY_DOLLAR);
+        add(operators(Addition.class, Subtraction.class, Multiplication.class, Division.class), NodeType.MONEY_EURO, NodeType.DECIMAL, NodeType.MONEY_EURO);
+        add(operators(Addition.class, Subtraction.class), NodeType.MONEY_DOLLAR, NodeType.MONEY_DOLLAR, NodeType.MONEY_DOLLAR);
+        add(operators(Addition.class, Subtraction.class), NodeType.MONEY_EURO, NodeType.MONEY_EURO, NodeType.MONEY_EURO);
     }
 
     /**

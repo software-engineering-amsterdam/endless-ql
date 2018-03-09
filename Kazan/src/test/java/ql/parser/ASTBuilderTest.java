@@ -5,13 +5,13 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import ql.ast.Form;
 
 public class ASTBuilderTest {
 
-    private ASTBuilder astBuilder;
-
     @Rule
     public final ExpectedException exception = ExpectedException.none();
+    private ASTBuilder astBuilder;
 
     @Before
     public void setUp() throws Exception {
@@ -30,7 +30,8 @@ public class ASTBuilderTest {
 
     @Test
     public void canParseSimpleForm() {
-        astBuilder.buildASTFromFile("src/input/ql/correct/simple.ql");
+        Form form = astBuilder.buildASTFromFile("src/input/ql/correct/simple.ql");
+
     }
 
     @Test

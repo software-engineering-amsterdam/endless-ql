@@ -8,7 +8,7 @@ public class SymbolTable {
 
     private final HashMap<String, Type> table;
 
-    public SymbolTable() {
+    SymbolTable() {
 
         this.table = new HashMap<>();
     }
@@ -27,5 +27,9 @@ public class SymbolTable {
 
     public boolean contains(String name) {
         return this.table.containsKey(name);
+    }
+
+    public String toString() {
+        return table.toString();
     }
 }

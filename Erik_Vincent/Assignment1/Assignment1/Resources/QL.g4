@@ -4,6 +4,11 @@ parser grammar QL;
 using Assignment1.Model;
 }
 
+@parser::members
+{
+    private static string UnEscapeQLString(string input) => input.Substring(1, input.Length - 2).Replace("\"\"", "\"");
+}
+
 options { tokenVocab=QLLexer; }
 
 form returns [QuestionForm result]
@@ -35,18 +40,18 @@ questionAssign returns [Question result]
 		 $result.Computation = $expression.result;}
 	;
 questionNorm returns [Question result]
-	: STRING ID SEP BOOLEAN_TYPE
-		{$result = new QuestionBool($ID.text, $STRING.text);}
-	| STRING ID SEP DATE_TYPE
-		{$result = new QuestionDate($ID.text, $STRING.text);}
-	| STRING ID SEP DECIMAL_TYPE
-		{$result = new QuestionDecimal($ID.text, $STRING.text);}
-	| STRING ID SEP INTEGER_TYPE
-		{$result = new QuestionInt($ID.text, $STRING.text);}
-	| STRING ID SEP MONEY_TYPE
-		{$result = new QuestionMoney($ID.text, $STRING.text);}
-	| STRING ID SEP STRING_TYPE
-		{$result = new QuestionString($ID.text, $STRING.text);}
+	: string ID SEP BOOLEAN_TYPE
+		{$result = new QuestionBool($ID.text, $string.result);}
+	| string ID SEP DATE_TYPE
+		{$result = new QuestionDate($ID.text, $string.result);}
+	| string ID SEP DECIMAL_TYPE
+		{$result = new QuestionDecimal($ID.text, $string.result);}
+	| string ID SEP INTEGER_TYPE
+		{$result = new QuestionInt($ID.text, $string.result);}
+	| string ID SEP MONEY_TYPE
+		{$result = new QuestionMoney($ID.text, $string.result);}
+	| string ID SEP STRING_TYPE
+		{$result = new QuestionString($ID.text, $string.result);}
 	;
 ifstatement returns [List<Question> result]
 	@init {
@@ -108,5 +113,9 @@ value returns [dynamic result]
 	| DATE    {$result = DateTime.Parse($DATE.text);}
 	| DECIMAL {$result = decimal.Parse($DECIMAL.text);}
 	| INTEGER {$result = int.Parse($INTEGER.text);}
-	| STRING  {$result = $STRING.text;}
+	| string  {$result = $string.result;}
+	;
+string returns [string result]
+	: STRING
+		{$result = UnEscapeQLString($STRING.text);}
 	;

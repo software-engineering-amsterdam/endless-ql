@@ -1,6 +1,8 @@
 package analysis;
 
 import evaluation.IASTVisitor;
+import model.Form;
+import model.Question;
 import model.expression.Expression;
 import model.expression.ExpressionBinary;
 import model.expression.ExpressionIdentifier;
@@ -9,10 +11,11 @@ import model.expression.binary.*;
 import model.expression.unary.ExpressionUnaryNeg;
 import model.expression.unary.ExpressionUnaryNot;
 import model.expression.variable.*;
-import model.Form;
-import model.Question;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class TypeChecker implements IASTVisitor<ReturnType> {
 
@@ -40,7 +43,7 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
 
                 // Check if question type is same as assigned expression type
                 ReturnType questionType = question.type;
-                if(questionType.isNumber()) {
+                if (questionType.isNumber()) {
                     questionType = ReturnType.NUMBER;
                 }
 
@@ -54,14 +57,14 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
         return this.errors;
     }
 
-    public Set<String> getDuplicateQuestionsWithDifferentTypes(){
+    public Set<String> checkDuplicateQuestionsWithDifferentTypes() {
         Map<String, ReturnType> types = new HashMap<>();
         for (Question question : form.questions) {
             types.put(question.name, question.type);
         }
         Set<String> duplicateQuestionsWithDifferentType = new HashSet<>();
         for (Question question : form.questions) {
-            if(types.containsKey(question.name) && !types.get(question.name).eq(question.type)){
+            if (types.containsKey(question.name) && !types.get(question.name).eq(question.type)) {
                 duplicateQuestionsWithDifferentType.add(question.name + " " + question.getLocation());
             }
         }
@@ -202,17 +205,17 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
 
     @Override
     public ReturnType visit(ExpressionVariableInteger expression) {
-        return ReturnType.NUMBER;
+        return ReturnType.INTEGER;
     }
 
     @Override
     public ReturnType visit(ExpressionVariableDecimal expression) {
-        return ReturnType.NUMBER;
+        return ReturnType.DECIMAL;
     }
 
     @Override
     public ReturnType visit(ExpressionVariableMoney expression) {
-        return ReturnType.NUMBER;
+        return ReturnType.MONEY;
     }
 
     @Override

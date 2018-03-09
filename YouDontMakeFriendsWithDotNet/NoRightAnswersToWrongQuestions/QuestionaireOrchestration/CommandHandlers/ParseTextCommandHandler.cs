@@ -6,17 +6,17 @@ namespace QuestionaireOrchestration.CommandHandlers
 {
     internal class ParseTextCommandHandler : ICommandHandler<CreateQuestionnaireCommandMessage>
     {
-        private readonly IQuestionnaireCreator m_questionnaireCreator;
+        private readonly IQuestionnaireAstCreator m_questionnaireAstCreator;
 
         public ParseTextCommandHandler(
-            IQuestionnaireCreator questionnaireCreator)
+            IQuestionnaireAstCreator questionnaireAstCreator)
         {
-            m_questionnaireCreator = questionnaireCreator;
+            m_questionnaireAstCreator = questionnaireAstCreator;
         }
         
         public void Execute(CreateQuestionnaireCommandMessage command)
         {
-            m_questionnaireCreator.Create(command.Text);
+            m_questionnaireAstCreator.Create(command.Text);
         }
     }
 }

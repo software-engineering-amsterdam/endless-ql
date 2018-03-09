@@ -59,7 +59,7 @@ export class If extends Statement {
   }
 
   toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
-                 condition?: (form: FormGroup) => LiteralType): ReadonlyArray<QuestionBase<any>> {
+                 condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
 
     // generate function that should be evaluated for the condition
     const conditionFunction = ((form: FormGroup) => {
@@ -73,8 +73,13 @@ export class If extends Statement {
       return !conditionFunction(form);
     });
 
+    return this.generateQuestionsForBody(formQuestions, conditionFunction, elseConditionFunction);
+  }
+
+  private generateQuestionsForBody(formQuestions: ReadonlyArray<QuestionBase<any>>,
+                                   conditionFunction: (form: FormGroup) => LiteralType,
+                                   elseConditionFunction: (form: FormGroup) => LiteralType): ReadonlyArray<QuestionBase<any>> {
     let formQuestionsToReturn: QuestionBase<any>[] = [];
-    // generate questions for statements in body
     for (const statement of this.statements) {
       formQuestionsToReturn = formQuestionsToReturn.concat(statement.toFormQuestion(formQuestions, conditionFunction));
     }

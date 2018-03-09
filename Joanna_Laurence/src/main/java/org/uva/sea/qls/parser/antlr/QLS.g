@@ -20,6 +20,9 @@ grammar QLS;
     import org.uva.sea.qls.parser.elements.specification.Section;
    	import org.uva.sea.qls.parser.elements.specification.Specification;
 
+    String removeQuotes(String string){
+        return string.substring(1, string.length()-1);
+    }
 }
 
 @lexer::header
@@ -64,13 +67,13 @@ specification returns [Specification result]
 
 section returns [Section result]
     :   s='section' STR '{' specifications '}' {
-            $result = new Section($s, $STR.text, $specifications.result);
+            $result = new Section($s, removeQuotes($STR.text), $specifications.result);
         }
     |
         s='section' STR specification {
             List<Specification> specifications = new ArrayList<>();
             specifications.add($specification.result);
-            $result = new Section($s, $STR.text, specifications);
+            $result = new Section($s, removeQuotes($STR.text), specifications);
         }
     ;
 
@@ -124,15 +127,13 @@ styleSpecifications returns [List<StyleSpecification> result]
 
 styleSpecification returns [StyleSpecification result]
     :  s='width' ':' NUM { $result = new Width($s, $NUM.text); }
-     | s='font' ':' STR { $result = new Font($s, $STR.text); }
+     | s='font' ':' STR { $result = new Font($s, removeQuotes($STR.text)); }
      | s='fontsize' ':' NUM { $result = new FontSize($s, $NUM.text); }
      | s='color' ':' COLOR_CODE { $result = new Color($s, $COLOR_CODE.text); }
      | widget { $result = $widget.result; }
      ;
 
-string returns [String result]
-   :  '"' IDENT '"' { $result = $IDENT.text; }
-   ;
+
 
 IDENT:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 

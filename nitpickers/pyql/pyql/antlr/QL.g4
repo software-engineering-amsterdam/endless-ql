@@ -22,7 +22,8 @@ questionType      : 'boolean' #booleanType
                   | 'integer' #integerType
                   | 'date' #dateType
                   | 'decimal' #decimalType
-                  | money #moneyType
+                  | 'money' #basicMoneyType
+                  | 'money(' addExpression ')' #computedMoneyType
                   ;
 
 expression        : '!' orExpression | orExpression ;
@@ -51,8 +52,6 @@ literal           : MONEY #moneyLiteral
                   ;
 
 identifier        : IDENTIFIER ;
-
-money             : 'money' | 'money(' addExpression ')' ;
 
 /*
  * Lexer rules

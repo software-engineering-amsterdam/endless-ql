@@ -1,21 +1,10 @@
-from sys import exit, argv
-from scanparse.qllex import LexTokenizer
-from scanparse.qlyacc import QLParser
-from visitors.render import Render
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QDialogButtonBox
 from PyQt5.QtWidgets import QFormLayout
 from PyQt5.QtWidgets import QGroupBox
 from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtWidgets import QLabel
-from PyQt5.QtWidgets import QLineEdit
-from PyQt5.QtWidgets import QCheckBox
-from PyQt5.QtWidgets import QSpinBox
-from PyQt5.QtWidgets import QDoubleSpinBox
-from PyQt5.QtWidgets import QCalendarWidget
 from json import dumps
 
 
@@ -40,22 +29,23 @@ class Dialog(QDialog):
     def create_form(self, form):
         layout = QFormLayout()
 
-        # TODO evaluate and check show field of question
         for question in form.block:
-            question.pyqt5_render(layout)
+            show = question.evaluate_show_condition(self.form)
+            question.pyqt5_render(layout, show)
+            question.widget.onChange(form.update_show_condition_on_change)
 
         self.formGroupBox.setLayout(layout)
 
-    # TODO output json
+    # TODO unique file name
     @pyqtSlot()
     def accept(self):
         result = {}
 
         for child in self.formGroupBox.children()[1:]:
-            key = self.form.find_question_of_widget(child)
+            question = self.form.find_question_of_widget(child)
 
-            if key:
-                result[key] = child.value()
+            if question:
+                result[question.identifier] = child.value()
 
         print(result)
 
@@ -64,25 +54,7 @@ class Dialog(QDialog):
 
         self.close()
         QMessageBox.information(self, 'Submission', 'Your answers have been submitted successfully.', QMessageBox.Ok, QMessageBox.Ok)
-        # self.close()
 
     @pyqtSlot()
     def reject(self):
-        # QMessageBox.warning(self, 'Warning', 'Are you sure you want to cancel the questionnaire?', QMessageBox.Ok, QMessageBox.Ok)
         self.hide()
-
-
-if __name__ == '__main__':
-    with open('../tests/test3.ql') as f:
-        data = f.read()
-
-    parser = QLParser()
-    lexer = LexTokenizer()
-    ast = parser.parser.parse(data, lexer.lexer)
-
-    visitor = Render()
-    visitor.visit(ast)
-
-    app = QApplication(argv)
-    dialog = Dialog(visitor.form)
-    exit(dialog.exec_())

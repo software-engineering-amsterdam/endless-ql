@@ -226,8 +226,6 @@ class VarNode:
 
     # Set the value of the variable, and only accept its own type or a int to float conversion
     def setVar(self, var):
-        print(var)
-        print(type(var))
         if type(var) == self.type:
             self.value = var
         elif self.type == float and type(var) == int:
@@ -239,4 +237,4 @@ class VarNode:
         return self.value
 
     def __repr__(self):
-        return "VarNode: {} {}".format(self.varname, self.type)
+        return "VarNode: {} {} {}".format(self.varname, self.type, self.value)

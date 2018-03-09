@@ -4,7 +4,6 @@ import * as _ from 'lodash';
 import {DuplicateIdentifierError, UnknownQuestionError} from '../errors';
 import {Question} from './question';
 import {Location} from './location';
-import {Variable} from './expressions/variable';
 
 export class Form {
   constructor(public name: string, public statements: Statement[], public location: Location) {
@@ -58,7 +57,7 @@ export class Form {
     }
 
     // TODO make proper error
-    throw new Error(`question by name ${name} not found`);
+    throw new UnknownQuestionError(`question by name ${name} not found`);
   }
 
   private checkDuplicateIdentifiers(allQuestions: Question[]): void {

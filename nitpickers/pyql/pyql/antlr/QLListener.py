@@ -1,4 +1,4 @@
-# Generated from QL.g4 by ANTLR 4.5.3
+# Generated from QL.g4 by ANTLR 4.7
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .QLParser import QLParser
@@ -107,12 +107,21 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#moneyType.
-    def enterMoneyType(self, ctx:QLParser.MoneyTypeContext):
+    # Enter a parse tree produced by QLParser#basicMoneyType.
+    def enterBasicMoneyType(self, ctx:QLParser.BasicMoneyTypeContext):
         pass
 
-    # Exit a parse tree produced by QLParser#moneyType.
-    def exitMoneyType(self, ctx:QLParser.MoneyTypeContext):
+    # Exit a parse tree produced by QLParser#basicMoneyType.
+    def exitBasicMoneyType(self, ctx:QLParser.BasicMoneyTypeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#computedMoneyType.
+    def enterComputedMoneyType(self, ctx:QLParser.ComputedMoneyTypeContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#computedMoneyType.
+    def exitComputedMoneyType(self, ctx:QLParser.ComputedMoneyTypeContext):
         pass
 
 
@@ -248,15 +257,6 @@ class QLListener(ParseTreeListener):
 
     # Exit a parse tree produced by QLParser#identifier.
     def exitIdentifier(self, ctx:QLParser.IdentifierContext):
-        pass
-
-
-    # Enter a parse tree produced by QLParser#money.
-    def enterMoney(self, ctx:QLParser.MoneyContext):
-        pass
-
-    # Exit a parse tree produced by QLParser#money.
-    def exitMoney(self, ctx:QLParser.MoneyContext):
         pass
 
 

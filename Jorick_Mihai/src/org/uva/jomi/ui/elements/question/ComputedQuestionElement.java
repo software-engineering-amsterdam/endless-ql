@@ -1,12 +1,12 @@
-package org.uva.jomi.ui.elements;
-
-import javax.swing.JPanel;
+package org.uva.jomi.ui.elements.question;
 
 import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.interpreter.EmptyValue;
 import org.uva.jomi.ql.interpreter.GenericValue;
 import org.uva.jomi.ui.ExpressionEvaluator;
 import org.uva.jomi.ui.SymbolTable;
+import org.uva.jomi.ui.elements.ComputingInterface;
+import org.uva.jomi.ui.elements.core.Panel;
 
 public class ComputedQuestionElement extends QuestionElement implements ComputingInterface {
 
@@ -20,8 +20,8 @@ public class ComputedQuestionElement extends QuestionElement implements Computin
 	}
 
 	@Override
-	public JPanel build() {
-		JPanel panel = super.build();
+	public Panel build() {
+		Panel panel = super.build();
 		this.inputField.setEnabled(false);
 		return panel;
 	}
@@ -29,9 +29,9 @@ public class ComputedQuestionElement extends QuestionElement implements Computin
 	@Override
 	public void update() {
 
-		ExpressionEvaluator interpreter = new ExpressionEvaluator();
+		ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 
-		GenericValue genericValue = this.expression.visitExpr(interpreter);
+		GenericValue genericValue = expressionEvaluator.execute(this.expression);
 		if(genericValue instanceof EmptyValue) {
 			return;
 		}

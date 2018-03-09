@@ -1,16 +1,12 @@
 package org.uva.jomi.ui.elements.fields;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.uva.jomi.ql.interpreter.BooleanValue;
 import org.uva.jomi.ql.interpreter.GenericValue;
+import org.uva.jomi.ui.elements.core.Panel;
 
 public class BooleanField extends InputField implements ChangeListener {
 
@@ -23,9 +19,8 @@ public class BooleanField extends InputField implements ChangeListener {
 	}
 	
 	@Override
-	public JPanel build() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS ));
+	public Panel build() {
+		Panel panel = new Panel();
 		
 		panel.add(this.checkbox);
 		

@@ -1,4 +1,4 @@
-package org.uva.jomi.ui.elements;
+package org.uva.jomi.ui.elements.panel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,9 @@ import org.uva.jomi.ql.interpreter.EmptyValue;
 import org.uva.jomi.ql.interpreter.GenericValue;
 import org.uva.jomi.ui.ExpressionEvaluator;
 import org.uva.jomi.ui.SymbolTable;
+import org.uva.jomi.ui.elements.BaseElement;
+import org.uva.jomi.ui.elements.ComputingInterface;
+import org.uva.jomi.ui.elements.core.Panel;
 
 public class ConditionalPanelElement implements BaseElement, ComputingInterface{
 
@@ -31,9 +34,8 @@ public class ConditionalPanelElement implements BaseElement, ComputingInterface{
 	}
 
 	@Override
-	public JPanel build() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS ));
+	public Panel build() {
+		Panel panel = new Panel();
 
 		if(this.ifElement != null) {
 			this.ifPanel = this.ifElement.build();
@@ -44,15 +46,17 @@ public class ConditionalPanelElement implements BaseElement, ComputingInterface{
 			this.elsePanel = this.elseElement.build();
 			panel.add(this.elsePanel);
 		}
+		
+		this.update();
 
 		return panel;
 	}
 
 	@Override
 	public void update() {
-		ExpressionEvaluator interpreter = new ExpressionEvaluator();
+		ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 
-		GenericValue genericValue = this.expression.visitExpr(interpreter);
+		GenericValue genericValue = expressionEvaluator.execute(this.expression);
 		if(genericValue instanceof EmptyValue) {
 			return;
 		}

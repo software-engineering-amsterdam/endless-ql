@@ -1,9 +1,9 @@
 package org.uva.jomi.ui.elements;
 
-import javax.swing.JPanel;
+import org.uva.jomi.ui.elements.core.Panel;
 
 public interface BaseElement {
 
-	public JPanel build();
+	public Panel build();
 	
 }

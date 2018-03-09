@@ -1,12 +1,8 @@
-package org.uva.jomi.ui.elements;
-
-import java.awt.BorderLayout;
-
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+package org.uva.jomi.ui.elements.question;
 
 import org.uva.jomi.ui.SymbolTable;
+import org.uva.jomi.ui.elements.BaseElement;
+import org.uva.jomi.ui.elements.core.Panel;
 import org.uva.jomi.ui.elements.fields.FieldFactory;
 import org.uva.jomi.ui.elements.fields.InputField;
 import org.uva.jomi.ui.elements.fields.InputField.InputFieldListener;
@@ -25,11 +21,11 @@ public class QuestionElement implements BaseElement, InputFieldListener {
 	}
 
 	@Override
-	public JPanel build() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS ));
-
-		panel.add(new JLabel(this.question));
+	public Panel build() {
+		Panel panel = new Panel();
+		
+		Label label = new Label(this.question);
+		panel.add(label.build());
 		
 		this.inputField = new FieldFactory().getField(this.type);
 		if(this.inputField != null) {

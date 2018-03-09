@@ -1,18 +1,13 @@
 package org.uva.jomi.ui.elements.fields;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.uva.jomi.ql.interpreter.BooleanValue;
 import org.uva.jomi.ql.interpreter.GenericValue;
-import org.uva.jomi.ql.interpreter.IntegerValue;
 import org.uva.jomi.ql.interpreter.StringValue;
+import org.uva.jomi.ui.elements.core.Panel;
 
 public class TextField extends InputField implements DocumentListener {
 
@@ -24,9 +19,8 @@ public class TextField extends InputField implements DocumentListener {
 	}
 	
 	@Override
-	public JPanel build() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS ));
+	public Panel build() {
+		Panel panel = new Panel();
 		
 		panel.add(this.textfield);
 		

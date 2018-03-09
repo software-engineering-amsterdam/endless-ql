@@ -1,10 +1,10 @@
 grammar QL;
-
+import QLCommon;
 //file to define grammar
 
 
 form : FORM_HEADER IDENTIFIER BRACKET_OPEN questionBlock+ BRACKET_CLOSE EOF;
-question: questionText questionName QUESTION_DELIMITER TYPE computedValue?;
+question: questionText questionName QUESTION_DELIMITER QUESTION_TYPE computedValue?;
 questionText: STRING ;
 questionBlock:  question+
              | conditionalBlock+ ;
@@ -44,13 +44,7 @@ PAREN_CLOSE: ')';
 QUESTION_DELIMITER: ':';
 
 //keywords
-TYPE : 'boolean'
-     | 'money'
-     | 'string'
-     | 'integer'
-     | 'date'
-     | 'decimal'
-     ;
+
 IF	:'if';
 FORM_HEADER :  'form';
 

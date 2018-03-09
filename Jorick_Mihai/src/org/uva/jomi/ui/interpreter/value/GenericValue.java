@@ -1,4 +1,4 @@
-package org.uva.jomi.ql.interpreter;
+package org.uva.jomi.ui.interpreter.value;
 
 public interface GenericValue {
 

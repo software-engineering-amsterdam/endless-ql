@@ -17,6 +17,7 @@ import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
 import org.uva.jomi.ui.elements.ElementBuilder;
 import org.uva.jomi.ui.elements.core.Frame;
 import org.uva.jomi.ui.elements.core.Panel;
+import org.uva.jomi.ui.elements.core.ScrollPanel;
 
 public class QL {
 
@@ -66,17 +67,16 @@ public class QL {
 						Frame frame = new Frame();
 
 						for (Panel panel : panels) {
-						    frame.add(panel);
+							frame.add(panel);
 						}
-
+						
 						frame.setVisible(true);
-						// Show Panels
 					}
 
 					// Output the Ast in GraphViz dot format.
-					java.io.PrintStream outStream = new java.io.PrintStream("graph.txt");
-					outStream.println(new AstGraph().getGraph(ast));
-					outStream.close();
+//					java.io.PrintStream outStream = new java.io.PrintStream("graph.txt");
+//					outStream.println(new AstGraph().getGraph(ast));
+//					outStream.close();
 				}
 			}
 

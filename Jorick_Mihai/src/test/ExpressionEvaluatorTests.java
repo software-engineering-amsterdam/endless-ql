@@ -7,15 +7,15 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.uva.jomi.ql.ast.statements.*;
-import org.uva.jomi.ql.interpreter.BooleanValue;
-import org.uva.jomi.ql.interpreter.GenericValue;
-import org.uva.jomi.ql.interpreter.IntegerValue;
-import org.uva.jomi.ql.interpreter.StringValue;
 import org.uva.jomi.ql.tests.utilities.TestUtilities;
-import org.uva.jomi.ui.ExpressionEvaluator;
-import org.uva.jomi.ui.SymbolTable;
+import org.uva.jomi.ui.interpreter.ExpressionEvaluator;
+import org.uva.jomi.ui.interpreter.SymbolTable;
+import org.uva.jomi.ui.interpreter.value.BooleanValue;
+import org.uva.jomi.ui.interpreter.value.GenericValue;
+import org.uva.jomi.ui.interpreter.value.IntegerValue;
+import org.uva.jomi.ui.interpreter.value.StringValue;
 
-public class InterpreterTests {
+public class ExpressionEvaluatorTests {
 
 	private class StmtInterpreter implements Stmt.Visitor<Void> {
 

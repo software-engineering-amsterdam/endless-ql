@@ -1,20 +1,19 @@
-package org.uva.jomi.ui;
+package org.uva.jomi.ui.interpreter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import org.uva.jomi.ql.interpreter.EmptyValue;
-import org.uva.jomi.ql.interpreter.GenericValue;
-import org.uva.jomi.ui.elements.ComputingInterface;
+import org.uva.jomi.ui.interpreter.value.EmptyValue;
+import org.uva.jomi.ui.interpreter.value.GenericValue;
 
 public class SymbolTable {
 
 	private static SymbolTable singleton = new SymbolTable();
 	private HashMap<String, GenericValue> symbolTable;
 	
-	public List<ComputingInterface> watchers = new ArrayList<ComputingInterface>();
+	private List<SymbolTableListener> watchers = new ArrayList<SymbolTableListener>();
 	
 	private SymbolTable() {
 		this.symbolTable = new HashMap<String, GenericValue>();
@@ -28,8 +27,8 @@ public class SymbolTable {
 	public void put(String key, GenericValue value) {
 		this.symbolTable.put(key, value);
 		
-		for(ComputingInterface element : this.watchers) {
-			element.update();
+		for(SymbolTableListener element : this.watchers) {
+			element.update(key, value);
 		}
 	}
 	
@@ -48,6 +47,15 @@ public class SymbolTable {
 	
 	public Boolean contains(String key) {
 		return this.symbolTable.containsKey(key);
+	}
+	
+	
+	public void addWatcher(SymbolTableListener watcher) {
+		this.watchers.add(watcher);
+	}
+	
+	public void removeWatcher(SymbolTableListener watcher) {
+		this.watchers.remove(watcher);
 	}
 	
 }

@@ -1,4 +1,4 @@
-package org.uva.jomi.ui;
+package org.uva.jomi.ui.interpreter;
 
 import org.uva.jomi.ql.ast.expressions.AdditionExpr;
 import org.uva.jomi.ql.ast.expressions.AndExpr;
@@ -19,11 +19,10 @@ import org.uva.jomi.ql.ast.expressions.OrExpr;
 import org.uva.jomi.ql.ast.expressions.StringExpr;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
 import org.uva.jomi.ql.ast.expressions.UnaryNotExpr;
-import org.uva.jomi.ql.interpreter.BooleanValue;
-import org.uva.jomi.ql.interpreter.GenericValue;
-import org.uva.jomi.ql.interpreter.IntegerValue;
-import org.uva.jomi.ql.interpreter.StringValue;
-
+import org.uva.jomi.ui.interpreter.value.BooleanValue;
+import org.uva.jomi.ui.interpreter.value.GenericValue;
+import org.uva.jomi.ui.interpreter.value.IntegerValue;
+import org.uva.jomi.ui.interpreter.value.StringValue;
 
 public class ExpressionEvaluator implements Expr.Visitor<GenericValue> {
 
@@ -146,12 +145,12 @@ public class ExpressionEvaluator implements Expr.Visitor<GenericValue> {
 	}
 
 	@Override
-	public GenericValue visit(StringExpr expr) {
+	public StringValue visit(StringExpr expr) {
 		return new StringValue(expr.getValue());
 	}
 
 	@Override
-	public GenericValue visit(BooleanExpr expr) {
+	public BooleanValue visit(BooleanExpr expr) {
 		return new BooleanValue(expr.getValue());
 	}
 

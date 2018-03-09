@@ -7,16 +7,16 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import org.uva.jomi.ql.ast.expressions.Expr;
-import org.uva.jomi.ql.interpreter.BooleanValue;
-import org.uva.jomi.ql.interpreter.EmptyValue;
-import org.uva.jomi.ql.interpreter.GenericValue;
-import org.uva.jomi.ui.ExpressionEvaluator;
-import org.uva.jomi.ui.SymbolTable;
 import org.uva.jomi.ui.elements.BaseElement;
-import org.uva.jomi.ui.elements.ComputingInterface;
 import org.uva.jomi.ui.elements.core.Panel;
+import org.uva.jomi.ui.interpreter.SymbolTableListener;
+import org.uva.jomi.ui.interpreter.ExpressionEvaluator;
+import org.uva.jomi.ui.interpreter.SymbolTable;
+import org.uva.jomi.ui.interpreter.value.BooleanValue;
+import org.uva.jomi.ui.interpreter.value.EmptyValue;
+import org.uva.jomi.ui.interpreter.value.GenericValue;
 
-public class ConditionalPanelElement implements BaseElement, ComputingInterface{
+public class ConditionalPanelElement implements BaseElement, SymbolTableListener{
 
 	private Expr expression;
 	private BaseElement ifElement;
@@ -30,7 +30,7 @@ public class ConditionalPanelElement implements BaseElement, ComputingInterface{
 		this.ifElement = ifElement;
 		this.elseElement = elseElement;
 
-		SymbolTable.getInstance().watchers.add(this);
+		SymbolTable.getInstance().addWatcher(this);
 	}
 
 	@Override
@@ -39,11 +39,13 @@ public class ConditionalPanelElement implements BaseElement, ComputingInterface{
 
 		if(this.ifElement != null) {
 			this.ifPanel = this.ifElement.build();
+			this.ifPanel.setVisible(false);
 			panel.add(this.ifPanel);
 		}
 
 		if(this.elseElement != null) {
 			this.elsePanel = this.elseElement.build();
+			this.elsePanel.setVisible(false);
 			panel.add(this.elsePanel);
 		}
 		
@@ -51,8 +53,7 @@ public class ConditionalPanelElement implements BaseElement, ComputingInterface{
 
 		return panel;
 	}
-
-	@Override
+	
 	public void update() {
 		ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 
@@ -60,10 +61,16 @@ public class ConditionalPanelElement implements BaseElement, ComputingInterface{
 		if(genericValue instanceof EmptyValue) {
 			return;
 		}
-		BooleanValue value = (BooleanValue) genericValue;
-
-		this.ifPanel.setVisible(value.getValue());
-		this.elsePanel.setVisible(!value.getValue());
+		BooleanValue booleanValue = (BooleanValue) genericValue;
+		this.ifPanel.setVisible(booleanValue.getValue());
+		
+		if(this.elseElement != null) {
+			this.elsePanel.setVisible(!booleanValue.getValue());	
+		}
 	}
-
+	
+	@Override
+	public void update(String key, GenericValue value) {
+		this.update();
+	}
 }

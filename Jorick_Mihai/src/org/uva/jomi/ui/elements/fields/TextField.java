@@ -1,13 +1,12 @@
 package org.uva.jomi.ui.elements.fields;
 
-
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.uva.jomi.ql.interpreter.GenericValue;
-import org.uva.jomi.ql.interpreter.StringValue;
 import org.uva.jomi.ui.elements.core.Panel;
+import org.uva.jomi.ui.interpreter.value.GenericValue;
+import org.uva.jomi.ui.interpreter.value.StringValue;
 
 public class TextField extends InputField implements DocumentListener {
 

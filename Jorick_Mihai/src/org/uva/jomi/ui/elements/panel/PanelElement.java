@@ -1,10 +1,13 @@
-package org.uva.jomi.ui.elements;
+package org.uva.jomi.ui.elements.panel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+
+import org.uva.jomi.ui.elements.BaseElement;
+import org.uva.jomi.ui.elements.core.Panel;
 
 public class PanelElement implements BaseElement{
 	
@@ -19,9 +22,8 @@ public class PanelElement implements BaseElement{
 	}
 
 	@Override
-	public JPanel build() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS ));
+	public Panel build() {
+		Panel panel = new Panel();
 		
 		for(BaseElement element : this.elements) {
 			panel.add(element.build());

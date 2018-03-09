@@ -2,7 +2,7 @@ package ast;
 
 import ast.model.ASTNode;
 import ast.model.Form;
-import ast.model.datatypes.*;
+import ast.model.declarations.*;
 import ast.model.expressions.Expression;
 import ast.model.expressions.binary.arithmetics.Addition;
 import ast.model.expressions.binary.arithmetics.Division;
@@ -21,6 +21,7 @@ import ast.model.statements.Statement;
 import grammar.QLBaseVisitor;
 import grammar.QLParser;
 import org.antlr.v4.runtime.ParserRuleContext;
+import types.DataType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,16 +145,16 @@ public class ASTBuilder extends QLBaseVisitor<ASTNode> {
     @Override
     public Literal visitExpressionSingleValue(QLParser.ExpressionSingleValueContext ctx) {
 
-        Literal.Type type = Literal.Type.STRING;
+        DataType.Type type = DataType.Type.STRING;
 
         if (ctx.BOOL_FALSE() != null || ctx.BOOL_TRUE() != null)
-            type = Literal.Type.BOOLEAN;
+            type = DataType.Type.BOOLEAN;
 
         if (ctx.DECIMAL() != null)
-            type = Literal.Type.DECIMAL;
+            type = DataType.Type.DECIMAL;
 
         if (ctx.INTEGER() != null)
-            type = Literal.Type.INTEGER;
+            type = DataType.Type.INTEGER;
 
         return new Literal(
                 ctx.value.getText().substring(1, ctx.value.getText().length() - 1),

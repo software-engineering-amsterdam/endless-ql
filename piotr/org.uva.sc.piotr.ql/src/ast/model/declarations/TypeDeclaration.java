@@ -1,8 +1,9 @@
-package ast.model.datatypes;
+package ast.model.declarations;
 
 import ast.model.ASTNode;
+import types.DataType;
 
-public abstract class TypeDeclaration extends ASTNode {
+public abstract class TypeDeclaration extends ASTNode implements TypeDeclarationInterface {
 
     private String identifier;
 
@@ -18,4 +19,5 @@ public abstract class TypeDeclaration extends ASTNode {
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
+
 }

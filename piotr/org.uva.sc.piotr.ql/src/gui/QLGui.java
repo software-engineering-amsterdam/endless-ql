@@ -10,6 +10,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// http://www.java2s.com/Code/Java/Swing-JFC/Asimplelabelforfieldformpanel.htm
+// eventually
+// https://www.callicoder.com/javafx-registration-form-gui-tutorial/
+
 public class QLGui {
     public QLGui(Form ASTform) {
 

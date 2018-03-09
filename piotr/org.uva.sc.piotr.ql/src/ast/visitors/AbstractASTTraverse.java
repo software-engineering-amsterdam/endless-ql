@@ -1,10 +1,10 @@
 package ast.visitors;
 
 import ast.model.Form;
-import ast.model.datatypes.TypeDeclarationBoolean;
-import ast.model.datatypes.TypeDeclarationDecimal;
-import ast.model.datatypes.TypeDeclarationInteger;
-import ast.model.datatypes.TypeDeclarationString;
+import ast.model.declarations.TypeDeclarationBoolean;
+import ast.model.declarations.TypeDeclarationDecimal;
+import ast.model.declarations.TypeDeclarationInteger;
+import ast.model.declarations.TypeDeclarationString;
 import ast.model.expressions.binary.arithmetics.Addition;
 import ast.model.expressions.binary.arithmetics.Division;
 import ast.model.expressions.binary.arithmetics.Multiplication;

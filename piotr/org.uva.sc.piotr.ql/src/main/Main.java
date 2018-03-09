@@ -4,13 +4,11 @@ import ast.ASTBuilder;
 import ast.model.Form;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
-import ast.visitors.TestASTTraverse;
 import ast.visitors.collectors.CollectFormStatementsVisitor;
 import ast.visitors.collectors.CollectQuestionsVisitor;
 import ast.visitors.collectors.CollectReferencesVisitor;
 import grammar.QLLexer;
 import grammar.QLParser;
-import gui.QLGui;
 import gui.model.FormBlock;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -22,8 +20,6 @@ import validators.VariablesReferencesValidator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Stack;
-import java.util.function.Consumer;
 
 public class Main {
     public static void main(String[] args) throws Exception {

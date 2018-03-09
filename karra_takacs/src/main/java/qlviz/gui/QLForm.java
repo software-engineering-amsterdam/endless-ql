@@ -31,6 +31,7 @@ import qlviz.typecheker.CircularReferenceChecker;
 import qlviz.typecheker.DuplicateLabelChecker;
 import qlviz.typecheker.DuplicateQuestionChecker;
 import qlviz.typecheker.Severity;
+import qlviz.typecheker.StaticChecker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,18 +110,8 @@ public class QLForm extends Application {
 				containsDuplicates = true;
 	       }
 		
-		DuplicateQuestionChecker duplicateQuestionChecker = new DuplicateQuestionChecker();
-		duplicateQuestionChecker.initialize(this.model);
-		DuplicateLabelChecker duplicateLabelChecker = new DuplicateLabelChecker();
-		duplicateLabelChecker.initialize(this.model);
-		staticCheckResults.addAll(duplicateQuestionChecker.analyze());
-		staticCheckResults.addAll(duplicateLabelChecker.analyze());
-		if(staticCheckResults == null) {
-		CircularReferenceChecker circularReferenceChecker = new CircularReferenceChecker();
-		circularReferenceChecker.initialize(this.model);
-		staticCheckResults.addAll(circularReferenceChecker.analyze());
-		}
-		
+		StaticChecker staticChecker = new StaticChecker();
+		staticCheckResults = staticChecker.valdiate(this.model, containsDuplicates);
 
 		if (staticCheckResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
 			ErrorRenderer errorRenderer = new JavafxErrorRenderer(stage);

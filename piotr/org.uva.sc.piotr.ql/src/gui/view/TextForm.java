@@ -17,7 +17,7 @@ public class TextForm extends JPanel {
     private JTextField[] fields;
 
     // Create a form with the specified labels, tooltips, and sizes.
-    public TextForm(String[] labels, char[] mnemonics, int[] widths, String[] tips) {
+    public TextForm(String[] labels) {
         super(new BorderLayout());
         JPanel labelPanel = new JPanel(new GridLayout(labels.length, 1));
         JPanel fieldPanel = new JPanel(new GridLayout(labels.length, 1));
@@ -27,15 +27,15 @@ public class TextForm extends JPanel {
 
         for (int i = 0; i < labels.length; i += 1) {
             fields[i] = new JTextField();
-            if (i < tips.length)
-                fields[i].setToolTipText(tips[i]);
-            if (i < widths.length)
-                fields[i].setColumns(widths[i]);
+//            if (i < tips.length)
+//                fields[i].setToolTipText(tips[i]);
+////            if (i < widths.length)
+                fields[i].setColumns(20);
 
             JLabel lab = new JLabel(labels[i], JLabel.RIGHT);
             lab.setLabelFor(fields[i]);
-            if (i < mnemonics.length)
-                lab.setDisplayedMnemonic(mnemonics[i]);
+//            if (i < mnemonics.length)
+//                lab.setDisplayedMnemonic(mnemonics[i]);
 
             labelPanel.add(lab);
             JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));

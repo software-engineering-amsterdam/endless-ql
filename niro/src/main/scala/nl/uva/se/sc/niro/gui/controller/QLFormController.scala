@@ -10,8 +10,8 @@ import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.gui.application.QLForms
+import nl.uva.se.sc.niro.gui.control.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.gui.converter.ModelConverter
-import nl.uva.se.sc.niro.gui.widget.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.model.QLForm
 import nl.uva.se.sc.niro.model.expressions.answers.{ Answer, BooleanAnswer }
 import nl.uva.se.sc.niro.model.gui.GUIForm

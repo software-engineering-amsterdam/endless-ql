@@ -1,10 +1,9 @@
-package nl.uva.se.sc.niro.gui.widget
+package nl.uva.se.sc.niro.gui.control
 
 import java.time.LocalDate
 
 import javafx.scene.control._
 import javafx.scene.layout.HBox
-import nl.uva.se.sc.niro.gui.control.QLWidget
 import nl.uva.se.sc.niro.gui.factory._
 import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.expressions.answers.{ DecAnswer, _ }

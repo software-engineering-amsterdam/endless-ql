@@ -43,6 +43,7 @@ def main():
     # Debug grammar
     if args.grammar:
         # todo: make it so that you give path in CLI call
+        # debug_grammar('C:/Users/svdh/PycharmProjects/sql/endless-ql/Pythonistas/tests/forms/if.ql')
         debug_grammar("tests/forms/if.ql")
         sys.exit(0)
 

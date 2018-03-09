@@ -5,29 +5,31 @@ import javafx.scene.control.TextField
 import javafx.scene.control.TextFormatter
 import javafx.util.converter.BigDecimalStringConverter
 import org.uva.sc.cr.ql.qL.Question
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class ControlWrapperMoney extends ControlWrapper {
 
-	private var TextField control
+	@Accessors(PUBLIC_GETTER)
+	private var TextField textField
 
 	new(Question question, StringBinding binding) {
 		super(question, binding)
 		if (question.expression !== null) {
-			control.textProperty.bind(binding)
+			textField.textProperty.bind(binding)
 		}
 	}
 
 	override getValue() {
-		return control.text
+		return textField.text
 	}
 
 	override getControl() {
-		return control
+		return textField
 	}
 
 	override protected buildControl() {
-		control = new TextField
-		control.textFormatter = new TextFormatter(new BigDecimalStringConverter)
+		textField = new TextField
+		textField.textFormatter = new TextFormatter(new BigDecimalStringConverter)
 	}
 
 }

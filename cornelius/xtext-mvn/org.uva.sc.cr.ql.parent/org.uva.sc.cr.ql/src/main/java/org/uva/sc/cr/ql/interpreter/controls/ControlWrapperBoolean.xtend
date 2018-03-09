@@ -3,28 +3,30 @@ package org.uva.sc.cr.ql.interpreter.controls
 import javafx.beans.binding.BooleanBinding
 import javafx.scene.control.CheckBox
 import org.uva.sc.cr.ql.qL.Question
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class ControlWrapperBoolean extends ControlWrapper {
 
-	private var CheckBox control
+	@Accessors(PUBLIC_GETTER)
+	private var CheckBox checkBox
 
 	new(Question question, BooleanBinding binding) {
 		super(question, binding)
 		if (question.expression !== null) {
-			control.selectedProperty.bind(binding)
+			checkBox.selectedProperty.bind(binding)
 		}
 	}
 
 	override getValue() {
-		return control.selected
+		return checkBox.selected
 	}
 
 	override getControl() {
-		return control
+		return checkBox
 	}
 
 	override protected buildControl() {
-		control = new CheckBox
+		checkBox = new CheckBox
 	}
 
 }

@@ -73,6 +73,8 @@ namespace QLVisualizer.Controllers
                 return;
             }
 
+            FormManager formManager = ElementManagerFactory.CreateForm(node, this);
+            DisplayForm(formManager.Text, formManager);
             //IEnumerable<ElementManager> widgets = ElementManagerFactory.CreateWidgets(node, this);
             //DisplayForm(node.FormName, widgets.ToArray());
         }
@@ -101,7 +103,10 @@ namespace QLVisualizer.Controllers
         }
 
         // TODO: check if class is status -sensitive
-        public abstract void Reset();
+        public virtual void Reset()
+        {
+            _form = null;
+        }
 
         public ElementManager GetElementManager(string elementID)
         {

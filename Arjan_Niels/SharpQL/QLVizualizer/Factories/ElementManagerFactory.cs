@@ -4,20 +4,32 @@ using QLVisualizer.Expression.Types;
 using QLVisualizer.ElementManagers;
 using QLVisualizer.ElementManagers.LeafTypes;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using QLVisualizer.ElementManagers.CollectionTypes;
 
 namespace QLVisualizer.Factories
 {
     public static class ElementManagerFactory
     {
+
+        public static FormManager CreateForm(FormNode node, ElementManagerController elementManagerController)
+        {
+            FormManager form = new FormManager(node.FormName, node.FormName, elementManagerController);
+
+            // Add all children
+            form.AddChildren(node.Children.Select(o => ParseChildNode(o, elementManagerController, form)).Where(o => o != null));
+
+            return form;
+        }
+
+
         /// <summary>
         /// Parses (AST)Node recursively
         /// </summary>
         /// <param name="node">Node to parse</param>
         /// <param name="condition">Base condition, optional</param>
         /// <returns>Collection of widgets</returns>
-        public static IEnumerable<ElementManagerLeaf> CreateWidgets(Node node, ElementManagerController elementManagerController, ExpressionBool condition = null)
+        public static ElementManager ParseChildNode(Node node, ElementManagerController elementManagerController, ElementManagerCollection parent, ExpressionBool condition = null)
         {
             switch (node.Type)
             {
@@ -26,29 +38,25 @@ namespace QLVisualizer.Factories
                     // Parse condition
                     ExpressionBool newCondition = expressionFactory.GetCondition(node as ConditionalNode);
 
-                    // Return children with new condition
-                    return node.Children.SelectMany(o => CreateWidgets(o, elementManagerController, (condition == null) ? newCondition : condition.Combine(newCondition, ExpressionOperator.And) as ExpressionBool));
+                    newCondition = (condition == null) ? newCondition : condition.Combine(newCondition, ExpressionOperator.And) as ExpressionBool;
+                    
+                    // Add children with new condition
+                    parent.AddChildren(node.Children.Select(o => ParseChildNode(o, elementManagerController, parent, newCondition)).Where(o => o != null));
+
+                    // return parent
+                    return null;
 
                 case NodeType.FORM:
-                    // Parse all children
-                    return node.Children.SelectMany(o => CreateWidgets(o, elementManagerController, condition));
+                    throw new InvalidOperationException("Cannot stack form nodes");
 
                 case NodeType.QUESTION:
-                    // Return widget as array
-                    return new ElementManagerLeaf[] { CreateWidget(node as QuestionNode, condition, null, elementManagerController) };
+                    return CreateElementManager(node as QuestionNode, condition, parent, elementManagerController);
 
                 case NodeType.COMPUTED:
-                    return new ElementManagerLeaf[] { CreateComputedWidget(node as ComputedNode, condition, null, elementManagerController) };
-
-                case NodeType.LOGICAL_EXPRESSION:
-                    break;
-
-                case NodeType.IDENTIFIER:
-                    break;
+                    return CreateComputedWidget(node as ComputedNode, condition, parent, elementManagerController);
             }
 
-            // Nothing found, return empty array
-            return new ElementManagerLeaf[0];
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -56,7 +64,7 @@ namespace QLVisualizer.Factories
         /// </summary>
         /// <param name="questionNode">Node to parse</param>
         /// <returns>Parsed widget</returns>
-        private static ElementManagerLeaf CreateWidget(QuestionNode questionNode, ExpressionBool condition, ElementManager parent, ElementManagerController elementManagerController)
+        private static ElementManagerLeaf CreateElementManager(QuestionNode questionNode, ExpressionBool condition, ElementManager parent, ElementManagerController elementManagerController)
         {
             switch (questionNode.ValueType)
             {

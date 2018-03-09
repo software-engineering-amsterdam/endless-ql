@@ -12,21 +12,28 @@ namespace QLVisualizer.ElementManagers
         /// <summary>
         /// Children of this ElementManager
         /// </summary>
-        protected List<ElementManagerLeaf> _children { get; private set; }
+        protected List<ElementManager> _children { get; private set; }
 
         public ElementManagerCollection(string identifyer, string text, string xmlName, ElementManagerController controller, ExpressionBool activationExpression = null) : 
             base(identifyer, text, xmlName, controller, activationExpression)
         {
+            _children = new List<ElementManager>();
         }
 
         /// <summary>
         /// Add child, set parent of ElementManager
         /// </summary>
         /// <param name="elementManager">ElementManager to add as child</param>
-        public void AddChild(ElementManagerLeaf elementManager)
+        public void AddChild(ElementManager elementManager)
         {
             _children.Add(elementManager);
             elementManager.Parent = this;
+        }
+
+        public void AddChildren(IEnumerable<ElementManager> elementManagers)
+        {
+            foreach (ElementManager elementManager in elementManagers)
+                AddChild(elementManager);
         }
 
         public override void NotifyChange(string updatedIdentifyer)

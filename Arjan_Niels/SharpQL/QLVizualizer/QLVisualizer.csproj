@@ -100,13 +100,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\eye_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\QLParser\QLParser.csproj">
       <Project>{aed597d7-3472-4d95-9d15-7ba9b8bbe89e}</Project>
       <Name>QLParser</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\eye_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

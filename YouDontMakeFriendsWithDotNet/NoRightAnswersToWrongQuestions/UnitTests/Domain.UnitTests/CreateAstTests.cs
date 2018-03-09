@@ -21,7 +21,7 @@ using QuestionnaireInfrastructure.API;
 namespace UnitTests.Domain.UnitTests
 {
     [TestFixture]
-    public class CreateQuestionnaireTests
+    public class CreateAstTests
     {
         private IServiceProvider m_serviceProvider;
         private IDomainItemLocator m_domainItemLocator;
@@ -64,7 +64,7 @@ namespace UnitTests.Domain.UnitTests
         private void CreateForm(string validText)
         {
             var questionnaireCreator = m_serviceProvider
-                .GetService<IQuestionnaireCreator>();
+                .GetService<IQuestionnaireAstCreator>();
 
             var domainItemId = questionnaireCreator.
                 Create(validText);
@@ -73,8 +73,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData), 
-            nameof(TestData.GoodFormCases))]
+            typeof(TestAstData), 
+            nameof(TestAstData.GoodFormCases))]
         public void WhenGivenWellFormedDefinition_ReturnsAFormObjects(
             string validDescription,
             string expectedId)
@@ -87,8 +87,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData), 
-            nameof(TestData.BadFormCases))]
+            typeof(TestAstData), 
+            nameof(TestAstData.BadFormCases))]
         public void WhenGivenBadlyFormedForm_ThrowsException(
             string invalidDescription)
         {
@@ -98,8 +98,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData), 
-            nameof(TestData.GoodCommentCases))]
+            typeof(TestAstData), 
+            nameof(TestAstData.GoodCommentCases))]
         public void WhenGivenComments_ReturnsDomainObjects(
             string validText, 
             string expectedName)
@@ -112,8 +112,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData), 
-            nameof(TestData.BadCommentCases))]
+            typeof(TestAstData), 
+            nameof(TestAstData.BadCommentCases))]
         public void WhenGivenBadlyFormedComments_ThrowsException(
             string invalidDescription)
         {
@@ -123,8 +123,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData), 
-            nameof(TestData.ValidNameCases))]
+            typeof(TestAstData), 
+            nameof(TestAstData.ValidNameCases))]
         public void WhenGivenValidIdentifier_NamesTheFormCorrectly(
             string validText, 
             string expectedName)
@@ -137,8 +137,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData), 
-            nameof(TestData.InvalidNameCases))]
+            typeof(TestAstData), 
+            nameof(TestAstData.InvalidNameCases))]
         public void WhenGivenInvalidIdentifier_ThrowsLexingError(
             string invalidText, 
             string invalidName)
@@ -155,10 +155,10 @@ namespace UnitTests.Domain.UnitTests
                 message: $"The questionnaire identifier '{invalidName}' should not be parsed");
         }
 
-        private IRootNode GetForm()
+        private IQuestionnaireRootNode GetForm()
         {
             var createdForm = m_domainItemLocator
-                .GetAll<IRootNode>()
+                .GetAll<IQuestionnaireRootNode>()
                 .FirstOrDefault();
 
             Assert.IsNotNull(createdForm, "could not find a questionnaire node");
@@ -167,8 +167,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData), 
-            nameof(TestData.QuestionCases))]
+            typeof(TestAstData), 
+            nameof(TestAstData.QuestionCases))]
         public void WhenGivenValidQuestion_NameTextAndTypeCorrect(
             string validText,
             string expectedId,
@@ -199,8 +199,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData), 
-            nameof(TestData.MultipleQuestionCases))]
+            typeof(TestAstData), 
+            nameof(TestAstData.MultipleQuestionCases))]
         public void WhenGivenMultipleQuestions_CorrectNumberOfQuestions(
             string validText,
             int expectedQuestionCount)
@@ -217,8 +217,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData), 
-            nameof(TestData.ConditionalStatementCases))]
+            typeof(TestAstData), 
+            nameof(TestAstData.ConditionalStatementCases))]
         public void WhenFormHasConditionalStatement_CorrectNumberOfConditionalCasesExist(
             string validText,
             int conditionCount)
@@ -235,8 +235,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData), 
-            nameof(TestData.ElseStatementCases))]
+            typeof(TestAstData), 
+            nameof(TestAstData.ElseStatementCases))]
         public void WhenFormHasElseConditional_CorrectNumberOfQuestionsExist(
             string validText,
             int conditionCount)
@@ -253,8 +253,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData), 
-            nameof(TestData.BooleanConditional))]
+            typeof(TestAstData), 
+            nameof(TestAstData.BooleanConditional))]
         public void WhenBooleanQuestionUsedInAConditional_ParsesCorrectly(
             string validText,
             IEnumerable<string> expectedDefinitions,
@@ -353,8 +353,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData),
-            nameof(TestData.MathStatements))]
+            typeof(TestAstData),
+            nameof(TestAstData.MathStatements))]
         public void WhenCalculationUsedInACalcualtedQuestion_ParsesCorrectly(
             string validText,
             IEnumerable<decimal> expectedLiterals,
@@ -421,8 +421,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData),
-            nameof(TestData.ComparisonConditional))]
+            typeof(TestAstData),
+            nameof(TestAstData.ComparisonConditional))]
         public void WhenComparisonUsedInACondition_ParsesCorrectly(
             string validText,
             IEnumerable<string> expectedCalculationDefinitions,
@@ -471,8 +471,8 @@ namespace UnitTests.Domain.UnitTests
         }
 
         [TestCaseSource(
-            typeof(TestData),
-            nameof(TestData.DateComparisonConditional))]
+            typeof(TestAstData),
+            nameof(TestAstData.DateComparisonConditional))]
         public void WhenDateComparisonUsedInACondition_ParsesCorrectly(
             string validText,
             IEnumerable<string> expectedCalculationDefinitions,
@@ -526,8 +526,8 @@ namespace UnitTests.Domain.UnitTests
             }
         }
         [TestCaseSource(
-            typeof(TestData),
-            nameof(TestData.TextEqualityConditional))]
+            typeof(TestAstData),
+            nameof(TestAstData.TextEqualityConditional))]
         public void WhenTextComparisonUsedInACondition_ParsesCorrectly(
             string validText,
             IEnumerable<string> expectedCalculationDefinitions,
@@ -585,8 +585,8 @@ namespace UnitTests.Domain.UnitTests
 
 
         [TestCaseSource(
-            typeof(TestData),
-            nameof(TestData.CalculationRelationalConditional))]
+            typeof(TestAstData),
+            nameof(TestAstData.CalculationRelationalConditional))]
         public void WhenCalculationUsedInACondition_ParsesCorrectly(
             string validText,
             IEnumerable<string> expectedCalculationDefinitions,

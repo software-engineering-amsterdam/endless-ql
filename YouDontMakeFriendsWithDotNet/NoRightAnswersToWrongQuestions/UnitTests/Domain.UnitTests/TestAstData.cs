@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace UnitTests.Domain.UnitTests
 {
-    public static class TestData
+    public static class TestAstData
     {
         private static readonly string NewLine = Environment.NewLine;
 

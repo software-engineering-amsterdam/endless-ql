@@ -23,7 +23,7 @@ namespace QuestionaireDomain.Entities
             m_registry = registry;
         }
 
-        public Reference<IRootNode> CreateQuestionnaire(
+        public Reference<IQuestionnaireRootNode> CreateQuestionnaire(
             string definition,
             string questionaireName,
             IEnumerable<Reference<IStatementNode>> statements)
@@ -34,7 +34,7 @@ namespace QuestionaireDomain.Entities
                 questionaireName,
                 statements);
 
-            return AstNodeRegistration<IRootNode>(questionnaire);
+            return DomainItemRegistration<IQuestionnaireRootNode>(questionnaire);
         }
         
         public Reference<IConditionalStatementNode> CreateConditional(
@@ -50,7 +50,7 @@ namespace QuestionaireDomain.Entities
                 consequent,
                 alternative);
 
-            return AstNodeRegistration<IConditionalStatementNode>(condition);
+            return DomainItemRegistration<IConditionalStatementNode>(condition);
         }
         
         public Reference<IUserInputQuestionNode> CreateUserInputQuestion(
@@ -66,7 +66,7 @@ namespace QuestionaireDomain.Entities
                 questionText, 
                 questionType);
 
-            return AstNodeRegistration<IUserInputQuestionNode>(question);
+            return DomainItemRegistration<IUserInputQuestionNode>(question);
         }
 
         public Reference<ICalculatedQuestionNode> CreateCalculatedQuestion(
@@ -84,31 +84,31 @@ namespace QuestionaireDomain.Entities
                 questionType,
                 calculation);
 
-            return AstNodeRegistration<ICalculatedQuestionNode>(question);
+            return DomainItemRegistration<ICalculatedQuestionNode>(question);
         }
         
         public Reference<INumberNode> CreateNumber(string numberText)
         {
             var number = new NumberNode(m_ids.Next, numberText);
-            return AstNodeRegistration<INumberNode>(number);
+            return DomainItemRegistration<INumberNode>(number);
         }
 
         public Reference<ICalculationVariableNode> CreateNumberVariableName(string variableName)
         {
             var variable = new CalculationVariableNode(m_ids.Next, variableName);
-            return AstNodeRegistration<ICalculationVariableNode>(variable);
+            return DomainItemRegistration<ICalculationVariableNode>(variable);
         }
 
         public Reference<IBooleanVariableNode> CreateBooleanVariableName(string variableName)
         {
             var variable = new BooleanVariableNode(m_ids.Next, variableName);
-            return AstNodeRegistration<IBooleanVariableNode>(variable);
+            return DomainItemRegistration<IBooleanVariableNode>(variable);
         }
 
         public Reference<ILiteralNode> CreateBooleanLiteral(string booleanString)
         {
             var literal = new BooleanLiteralNode(m_ids.Next,booleanString);
-            return AstNodeRegistration<ILiteralNode>(literal);
+            return DomainItemRegistration<ILiteralNode>(literal);
         }
 
         public Reference<IAndNode> CreateAndOperation(
@@ -122,7 +122,7 @@ namespace QuestionaireDomain.Entities
                 leftExpression, 
                 rightExpression);
 
-            return AstNodeRegistration<IAndNode>(andNode);
+            return DomainItemRegistration<IAndNode>(andNode);
         }
 
         public Reference<IOrNode> CreateOrOperation(
@@ -136,7 +136,7 @@ namespace QuestionaireDomain.Entities
                 leftExpression, 
                 rightExpression);
 
-            return AstNodeRegistration<IOrNode>(orNode);
+            return DomainItemRegistration<IOrNode>(orNode);
         }
 
         public Reference<INegateNode> CreateNegationOperation(
@@ -148,7 +148,7 @@ namespace QuestionaireDomain.Entities
                 definition,
                 childExpression);
 
-            return AstNodeRegistration<INegateNode>(negateNode);
+            return DomainItemRegistration<INegateNode>(negateNode);
         }
 
         public Reference<IEqualityNode> CreateEqualityOperation(
@@ -162,7 +162,7 @@ namespace QuestionaireDomain.Entities
                 leftExpression, 
                 rightExpression);
 
-            return AstNodeRegistration<IEqualityNode>(equalityNode);
+            return DomainItemRegistration<IEqualityNode>(equalityNode);
         }
 
         public Reference<IAstNode> CreateMultiplicationOperation(
@@ -176,7 +176,7 @@ namespace QuestionaireDomain.Entities
                 leftExpression,
                 rightExpression);
 
-            return AstNodeRegistration<IMultiplyNode>(multiplicationNode);
+            return DomainItemRegistration<IMultiplyNode>(multiplicationNode);
         }
 
         public Reference<IAstNode> CreateDivisionOperation(
@@ -190,7 +190,7 @@ namespace QuestionaireDomain.Entities
                 leftExpression,
                 rightExpression);
 
-            return AstNodeRegistration<IDivideNode>(divisionNode);
+            return DomainItemRegistration<IDivideNode>(divisionNode);
         }
 
         public Reference<IAstNode> CreateAdditionOperation(
@@ -204,7 +204,7 @@ namespace QuestionaireDomain.Entities
                 leftExpression,
                 rightExpression);
 
-            return AstNodeRegistration<IAddNode>(addNode);
+            return DomainItemRegistration<IAddNode>(addNode);
         }
 
         public Reference<IAstNode> CreateSubtractionOperation(
@@ -218,7 +218,7 @@ namespace QuestionaireDomain.Entities
                 leftExpression,
                 rightExpression);
 
-            return AstNodeRegistration<ISubtractNode>(subtractNode);
+            return DomainItemRegistration<ISubtractNode>(subtractNode);
         }
 
         public Reference<IAstNode> CreateInequalityOperation(
@@ -231,7 +231,7 @@ namespace QuestionaireDomain.Entities
                 leftExpression,
                 rightExpression);
 
-            return AstNodeRegistration<IInequalityNode>(inequalityNode);
+            return DomainItemRegistration<IInequalityNode>(inequalityNode);
         }
 
         public Reference<IAstNode> CreateDate(string dateText)
@@ -240,7 +240,7 @@ namespace QuestionaireDomain.Entities
                 m_ids.Next,
                 dateText);
 
-            return AstNodeRegistration<IDateNode>(dateNode);
+            return DomainItemRegistration<IDateNode>(dateNode);
         }
 
         public Reference<IAstNode> CreateDateVariableName(string variableName)
@@ -249,7 +249,7 @@ namespace QuestionaireDomain.Entities
                 m_ids.Next,
                 variableName);
 
-            return AstNodeRegistration<IDateVariableNode>(dateNode);
+            return DomainItemRegistration<IDateVariableNode>(dateNode);
         }
 
         public Reference<IAstNode> CreateText(string text)
@@ -258,7 +258,7 @@ namespace QuestionaireDomain.Entities
                 m_ids.Next,
                 text);
 
-            return AstNodeRegistration<ITextNode>(dateNode);
+            return DomainItemRegistration<ITextNode>(dateNode);
         }
 
         public Reference<IAstNode> CreateTextVariableName(string variableName)
@@ -267,7 +267,7 @@ namespace QuestionaireDomain.Entities
                 m_ids.Next,
                 variableName);
 
-            return AstNodeRegistration<ITextVariableNode>(textNode);
+            return DomainItemRegistration<ITextVariableNode>(textNode);
         }
 
         public Reference<IAstNode> CreateGreaterThanOperation(
@@ -281,7 +281,7 @@ namespace QuestionaireDomain.Entities
                 leftExpression,
                 rightExpression);
 
-            return AstNodeRegistration<IGreaterThanNode>(greaterThanNode);
+            return DomainItemRegistration<IGreaterThanNode>(greaterThanNode);
         }
 
         public Reference<IAstNode> CreateGreaterOrEqualOperation(
@@ -295,7 +295,7 @@ namespace QuestionaireDomain.Entities
                 leftExpression,
                 rightExpression);
 
-            return AstNodeRegistration<IGreaterOrEqualNode>(greaterOrEqualNode);
+            return DomainItemRegistration<IGreaterOrEqualNode>(greaterOrEqualNode);
         }
 
         public Reference<IAstNode> CreateLessThanOperation(string definition, Reference<IAstNode> leftExpression, Reference<IAstNode> rightExpression)
@@ -306,7 +306,7 @@ namespace QuestionaireDomain.Entities
                 leftExpression,
                 rightExpression);
 
-            return AstNodeRegistration<ILessThanNode>(lessThanNode);
+            return DomainItemRegistration<ILessThanNode>(lessThanNode);
         }
 
         public Reference<IAstNode> CreateLessOrEqualOperation(string definition, Reference<IAstNode> leftExpression, Reference<IAstNode> rightExpression)
@@ -317,10 +317,10 @@ namespace QuestionaireDomain.Entities
                 leftExpression,
                 rightExpression);
 
-            return AstNodeRegistration<ILessOrEqualNode>(lessOrEqualNode);
+            return DomainItemRegistration<ILessOrEqualNode>(lessOrEqualNode);
         }
 
-        private Reference<T> AstNodeRegistration<T>(T node) where T : IAstNode
+        private Reference<T> DomainItemRegistration<T>(T node) where T : IDomainItem
         {
             m_registry.Add(node);
             return new Reference<T>(node.Id);

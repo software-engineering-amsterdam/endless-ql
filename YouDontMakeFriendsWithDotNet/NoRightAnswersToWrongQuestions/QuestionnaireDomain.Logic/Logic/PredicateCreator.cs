@@ -7,16 +7,16 @@ namespace QuestionnaireDomain.Logic.Logic
 {
     internal class PredicateCreator : IPredicateCreator
     {
-        private readonly IQlInterpretor m_qlInterpretor;
+        private readonly IAstTreeBuilder m_astTreeBuilder;
 
-        public PredicateCreator(IQlInterpretor qlInterpretor)
+        public PredicateCreator(IAstTreeBuilder astTreeBuilder)
         {
-            m_qlInterpretor = qlInterpretor;
+            m_astTreeBuilder = astTreeBuilder;
         }
 
         public Reference<IBooleanLogicNode> Create(string definition)
         {
-            return m_qlInterpretor.BuildPredicate(definition);
+            return m_astTreeBuilder.BuildPredicate(definition);
         }
         
     }

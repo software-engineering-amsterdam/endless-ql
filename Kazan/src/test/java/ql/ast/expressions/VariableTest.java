@@ -18,11 +18,11 @@ public class VariableTest {
     }
 
     @Test
-    public void CanParseVariable() {
+    public void canParseVariable() {
         final String EXPECTED_RESULT = "testVariable";
         QLParser parser = astBuilder.createParser(EXPECTED_RESULT);
         Variable variable = (Variable) astBuilder.getExpression(parser);
 
-        assertEquals(variable.toString(), EXPECTED_RESULT);
+        assertEquals(EXPECTED_RESULT, variable.toString());
     }
 }

@@ -6,7 +6,7 @@ using Assignment1.Model;
 
 namespace Assignment1
 {
-    internal class Presenter : IContentVisitor
+    internal class Presenter : IQuestionVisitor
     {
         public readonly Panel Panel = new FlowLayoutPanel
         {
@@ -19,11 +19,12 @@ namespace Assignment1
 
         public Presenter()
         {
-            QLListener listener = QuestionForm.ParseString(System.IO.File.ReadAllText("test.txt"));
+            var listener = QLListener.ParseString(System.IO.File.ReadAllText("test.txt"));
             if (listener.FormHasErrors)
             {
                 ReportFormErrors(listener.Errors);
-            } else
+            }
+            else
             {
                 _form = listener.Form;
                 UpdateControls();
@@ -58,15 +59,16 @@ namespace Assignment1
         {
             Panel.SuspendLayout();
             Panel.Controls.Clear();
-            foreach (var content in _form.Content)
+            foreach (var question in _form.Questions)
             {
-                content.Accept(this);
+                question.Accept(this);
             }
             Panel.ResumeLayout();
         }
 
         public void Visit(QuestionBool question)
         {
+            if (question.Condition?.Evaluate() == false) return;
             var checkbox = new CheckBox
             {
                 Text = question.Label,
@@ -87,6 +89,7 @@ namespace Assignment1
 
         public void Visit(QuestionInt question)
         {
+            if (question.Condition?.Evaluate() == false) return;
             Panel.Controls.Add(new Label
             {
                 Text = question.Label,
@@ -113,6 +116,7 @@ namespace Assignment1
 
         public void Visit(QuestionDate question)
         {
+            if (question.Condition?.Evaluate() == false) return;
             Panel.Controls.Add(new Label
             {
                 Text = question.Label,
@@ -138,6 +142,7 @@ namespace Assignment1
 
         public void Visit(QuestionDecimal question)
         {
+            if (question.Condition?.Evaluate() == false) return;
             Panel.Controls.Add(new Label
             {
                 Text = question.Label,
@@ -164,6 +169,7 @@ namespace Assignment1
 
         public void Visit(QuestionMoney question)
         {
+            if (question.Condition?.Evaluate() == false) return;
             Panel.Controls.Add(new Label
             {
                 Text = question.Label,
@@ -190,6 +196,7 @@ namespace Assignment1
 
         public void Visit(QuestionString question)
         {
+            if (question.Condition?.Evaluate() == false) return;
             Panel.Controls.Add(new Label
             {
                 Text = question.Label,
@@ -209,26 +216,6 @@ namespace Assignment1
                 };
             }
             Panel.Controls.Add(textBox);
-        }
-
-        public void Visit(IfStatement ifStatement)
-        {
-            if (!ifStatement.Expression.Evaluate()) return;
-            foreach (var content in ifStatement.ThenContent)
-            {
-                content.Accept(this);
-            }
-        }
-
-        public void Visit(IfElseStatement ifElseStatement)
-        {
-            var contents = ifElseStatement.Expression.Evaluate()
-                ? ifElseStatement.ThenContent
-                : ifElseStatement.ElseContent;
-            foreach (var content in contents)
-            {
-                content.Accept(this);
-            }
         }
     }
 }

@@ -43,3 +43,6 @@ class ScrollFrameGui:
     # Return contents so widgets can be added
     def get_contents(self):
         return self.contents_frame
+
+    def get_frame(self):
+        return self.frame

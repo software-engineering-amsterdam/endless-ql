@@ -6,84 +6,50 @@
         xmlns:local="clr-namespace:QuestionnaireWPFApp"
         xmlns:view="clr-namespace:QuestionnaireWPFApp.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Questionnaire App" 
+        MinHeight="650" 
+        MinWidth="900" 
+        Height="650" 
+        Width="920"
+        Background="Azure"
+        Icon="..\output.ico">
     <Grid>
-            <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="200"/>
-      <ColumnDefinition Width="Auto"/>
-      <ColumnDefinition/>
-    </Grid.ColumnDefinitions>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="Auto"/>
-    </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-    <!--Header-->
-    <TextBlock Margin="10" Foreground="White" FontSize="40" Grid.ColumnSpan="3">
-                <Bold Foreground="Red">Friend</Bold>Storage
-    </TextBlock>
+        <TextBlock Margin="10" FontSize="40" Grid.ColumnSpan="3">
+            <Bold Foreground="Red">Questionaires</Bold>
+        </TextBlock>
 
-    <!--Buttons-->
-    <StackPanel Background="#333333" Grid.Row="1" Orientation="Horizontal">
-      <!--<Button Command="{Binding AddFriendCommand}" 
-            ToolTip="Add friend" Style="{StaticResource AddButtonStyle}" />-->
-        <Button>TODO: Add questionaire Button</Button>
-    </StackPanel>
+        <StackPanel Background="Azure" Grid.Row="1" Orientation="Horizontal">
+            <Button Style="{StaticResource NewQuestionnaireButtonStyle}" />
+        </StackPanel>
 
-    <!--Navigation-->
-    <!--<view:NavigationView DataContext="{Binding NavigationViewModel}" Grid.Row="2"/>-->
+        <GridSplitter Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Width="5" Background="DarkRed"
+                      HorizontalAlignment="Center" />
 
-    <GridSplitter Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Width="5" Background="DarkRed" HorizontalAlignment="Center"/>
-
-    <!--Tabs-->
-        <TabControl Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Background="Black">
-            <!--<TabControl ItemsSource="{Binding FriendEditViewModels}"
-                        SelectedItem="{Binding SelectedFriendEditViewModel, Mode=TwoWay}" 
-                        Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Background="Black">-->
-      <!--ToDo: Add style-->
-        <!--<TabControl.ItemContainerStyle>
-        <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
-          <Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-              <Setter Property="FontWeight" Value="Bold"/>
-            </Trigger>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self},
-              Path=Content.Friend.IsChanged}" Value="True">
-              <Setter Property="Background" Value="{StaticResource IsChangedBackgroundBrush}"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self},
-              Path=Content.Friend.IsValid}" Value="False">
-              <Setter Property="Background" Value="{StaticResource HasErrorBackgroundBrush}"/>
-            </DataTrigger>
-          </Style.Triggers>
-        </Style>
-      </TabControl.ItemContainerStyle>-->
-      <TabControl.ItemTemplate>
-        <DataTemplate>
-          <StackPanel Orientation="Horizontal">
-              <!--<TextBlock Text="{Binding Friend.FirstName,ValidatesOnNotifyDataErrors=False}"/>
-              <TextBlock Text="{Binding Friend.LastName}" Margin="5 0 20 0"/>-->
-              <TextBlock Text="TODO: Bind to questionaire Name"/>
-            <Button Content="X" Command="{Binding RelativeSource=
-                                  {RelativeSource FindAncestor,
-                                  AncestorType={x:Type TabControl}},
-                                  Path=DataContext.CloseFriendTabCommand}"
-                                CommandParameter="{Binding}"
-                                Width="20" Height="20" FontWeight="Bold" FontSize="12"
-                                Foreground="White" Padding="0">
-            </Button>
-          </StackPanel>
-        </DataTemplate>
-      </TabControl.ItemTemplate>
-        <!--<TabControl.ContentTemplate>
-        <DataTemplate>
-          <view:FriendEditView/>
-        </DataTemplate>
-      </TabControl.ContentTemplate>-->
-    </TabControl>
-
-
+        <TabControl Grid.Row="1" 
+                    Grid.RowSpan="2" 
+                    Grid.Column="2" 
+                    Background="Azure">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="TODO: Bind to questionaire Name" />
+                        <Button Content="X"
+                                Foreground="White" Padding="0" />
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
     </Grid>
 </Window>

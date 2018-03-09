@@ -11,8 +11,8 @@ public class Question extends Statement {
     private TypeDeclaration variableType;
     private Expression assignedExpression;
 
-    public Question(String label, String variableName, TypeDeclaration variableType, Integer startLine, Integer endLine) {
-        super(startLine, endLine);
+    public Question(String label, String variableName, TypeDeclaration variableType, MetaInformation metaInformation) {
+        super(metaInformation);
         this.label = label;
         this.variableName = variableName;
         this.variableType = variableType;
@@ -51,8 +51,7 @@ public class Question extends Statement {
     }
 
     @Override
-    public void accept(ASTNodeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(ASTNodeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
-
 }

@@ -23,24 +23,44 @@ class GuiBuilder():
         for statement in form.statements:
             if type(statement) is QuestionNode:
                 self.parseQuestion(statement)
+
             elif type(statement) is AssignmentNode:
                 self.parseAssignment(statement)
+
             elif type(statement) is IfNode:
-                print statement
-                if self.checkExpressionValues(statement.expression):                 
+                potentiallyShowIfElifElseBlock = True
+                if self.checkExpressionValues(statement.expression): 
+                    potentiallyShowIfElifElseBlock = False
                     if statement.expression not in self.trueExpressions:
                         self.trueExpressions[statement.expression] = self.gui.setCurrentStatementFrame()
                     self.parseStatements(statement, False)
-
                 elif not self.checkExpressionValues(statement.expression) and statement.expression in self.trueExpressions:
-                    self.removeIfBlock(statement)
+                    self.removeIfBlock(statement.expression, statement.statements)
                 else:
                     continue
+
+            elif type(statement) is ElifNode and potentiallyShowIfElifElseBlock:
+                if self.checkExpressionValues(statement.expression):
+                    potentiallyShowIfElifElseBlock = False
+                    if statement.expression not in self.trueExpressions:
+                        self.trueExpressions[statement.expression] = self.gui.setCurrentStatementFrame()
+                    self.parseStatements(statement, False)
+                elif not self.checkExpressionValues(statement.expression) and statement.expression in self.trueExpressions:
+                    self.removeIfBlock(statement.expression, statement.statements)
+
+            elif type(statement) is ElseNode and potentiallyShowIfElifElseBlock:
+                if len(statement.statements) > 0:
+                    if statement.statements[0].var not in self.trueExpressions:
+                            self.trueExpressions[statement.statements[0].var] = self.gui.setCurrentStatementFrame()
+                    self.parseStatements(statement, False)
+
+            elif type(statement) is ElseNode and not potentiallyShowIfElifElseBlock:
+                if len(statement.statements) > 0 and statement.statements[0].var in self.trueExpressions:
+                    self.removeIfBlock(statement.statements[0].var, statement.statements)
 
         if setSubmitButton:
             self.gui.addFormButton(self.reEvaluateForm, self.ast)
             self.submitButtonShown = True
-        return
 
     def reEvaluateForm(self, form, submitButton):
         submitButton.destroy()
@@ -72,23 +92,18 @@ class GuiBuilder():
 
     def parseBinOpAssignment(self, statement):
         if type(statement) is BinOpNode:
-            left = self.parseBinOpAssignment(statement.left, assigmentFrame)
-            right = self.parseBinOpAssignment(statement.right, assigmentFrame)
-            return self.get_operator(statement.expression.op)(left, right)
+            left = self.parseBinOpAssignment(statement.left)
+            right = self.parseBinOpAssignment(statement.right)
+            return self.get_operator(statement.op)(left, right)
 
         if type(statement) is UnOpNode:
             return self.gui.getValue(statement.var, "int")
 
-    # def parseUnOp(self, expression, assigmentFrame):
-    #     self.gui.addAssignmentEntry(expression.var, assigmentFrame)
-    #     negate = expression.negate
-    #     return expression.var
+    def removeIfBlock(self, expression, statements):
+        self.trueExpressions[expression].destroy()
+        del self.trueExpressions[expression]
 
-    def removeIfBlock(self, statement):
-        self.trueExpressions[statement.expression].destroy()
-        del self.trueExpressions[statement.expression]
-
-        for stmnt in statement.statements:
+        for stmnt in statements:
             if stmnt.var in self.values:
                 self.values.remove(stmnt.var)
 
@@ -127,4 +142,8 @@ class GuiBuilder():
             '/' : op.div,
             '%' : op.mod,
             '^' : op.xor,
+            '<' : op.lt,
+            '>' : op.gt,
+            '=<': op.le,
+            '=>': op.ge
             }[operator]

@@ -48,7 +48,7 @@ sectionBlockUnquoted
 // Question
 question
  = _ "question" _ id:identifier lb* widget:widget? lb*{
-    return new Nodes.Question( id, widget );
+    return new Nodes.QuestionStyle( id, widget );
 }
 
 // Default

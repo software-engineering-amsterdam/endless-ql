@@ -8,16 +8,23 @@ form taxOfficeExample
     hasMaintLoan: boolean
     
   
-  if (hasSoldHouse && hasBoughtHouse && hasMaintLoan)
+  if (hasSoldHouse)
   {
-    "What was the selling price?"
-      sellingPrice: int
-    "Private debts for the sold house:"
-      privateDebt: int
-"Value residue:"
-      valueResidue: int = 
-        (sellingPrice - privateDebt)
+    	"ifV"
+      	ifV: int
   }
+
+  elif (hasBoughtHouse)
+  {
+	"elif"
+      	elifV: int 
+  }
+
+else 
+{
+	"else"
+	elseV: int
+}
   
 /*
   elif (hasSoldHouse == hasBoughtHouse) {

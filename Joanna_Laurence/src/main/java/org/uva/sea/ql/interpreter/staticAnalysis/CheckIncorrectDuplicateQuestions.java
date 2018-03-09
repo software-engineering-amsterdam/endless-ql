@@ -20,6 +20,24 @@ public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> imple
     private HashMap<String, NodeType> variables = new HashMap<>();
 
     /**
+     * Hide constructor
+     */
+    private CheckIncorrectDuplicateQuestions() {
+
+    }
+
+    /**
+     * Hide the visitor, make only doCheck visible
+     */
+    public static class Checker implements IStaticAnalysis {
+        @Override
+        public Messages doCheck(Form node) {
+            IStaticAnalysis checker = new CheckIncorrectDuplicateQuestions();
+            return checker.doCheck(node);
+        }
+    }
+
+    /**
      * Report warning
      *
      * @param node The node that caused the warning

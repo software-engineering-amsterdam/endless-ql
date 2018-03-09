@@ -8,47 +8,47 @@ import model.expression.unary.ExpressionUnaryNot;
 import model.expression.variable.*;
 
 public interface IASTVisitor<T> {
-    T visit(Expression e);
+    T visit(Expression expression);
 
-    T visit(ExpressionArithmeticDivide e);
+    T visit(ExpressionArithmeticDivide expression);
 
-    T visit(ExpressionArithmeticMultiply e);
+    T visit(ExpressionArithmeticMultiply expression);
 
-    T visit(ExpressionArithmeticSubtract e);
+    T visit(ExpressionArithmeticSubtract expression);
 
-    T visit(ExpressionArithmeticSum e);
+    T visit(ExpressionArithmeticSum expression);
 
-    T visit(ExpressionComparisonEq e);
+    T visit(ExpressionComparisonEq expression);
 
-    T visit(ExpressionComparisonGE e);
+    T visit(ExpressionComparisonGE expression);
 
-    T visit(ExpressionComparisonGT e);
+    T visit(ExpressionComparisonGT expression);
 
-    T visit(ExpressionComparisonLE e);
+    T visit(ExpressionComparisonLE expression);
 
-    T visit(ExpressionComparisonLT e);
+    T visit(ExpressionComparisonLT expression);
 
-    T visit(ExpressionLogicalAnd e);
+    T visit(ExpressionLogicalAnd expression);
 
-    T visit(ExpressionLogicalOr e);
+    T visit(ExpressionLogicalOr expression);
 
-    T visit(ExpressionUnaryNot e);
+    T visit(ExpressionUnaryNot expression);
 
-    T visit(ExpressionUnaryNeg e);
+    T visit(ExpressionUnaryNeg expression);
 
-    T visit(ExpressionVariableBoolean e);
+    T visit(ExpressionVariableBoolean expression);
 
-    T visit(ExpressionVariableDate e);
+    T visit(ExpressionVariableDate expression);
 
-    T visit(ExpressionVariableInteger e);
+    T visit(ExpressionVariableInteger expression);
 
-    T visit(ExpressionVariableDecimal e);
+    T visit(ExpressionVariableDecimal expression);
 
-    T visit(ExpressionVariableMoney e);
+    T visit(ExpressionVariableMoney expression);
 
-    T visit(ExpressionVariableString e);
+    T visit(ExpressionVariableString expression);
 
-    T visit(ExpressionVariableUndefined e);
+    T visit(ExpressionVariableUndefined expression);
 
-    T visit(ExpressionIdentifier e);
+    T visit(ExpressionIdentifier expression);
 }

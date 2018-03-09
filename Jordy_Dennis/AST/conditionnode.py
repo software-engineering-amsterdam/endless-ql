@@ -27,7 +27,6 @@ class ConditionNodeBlock:
         return ["IF/ELIF:"+ str(self.expression), types]
 
     def linkVars(self, varDict):
-        print(self.expression)
         self.expression.linkVars(varDict)
         for statement in self.block:
             statement.linkVars(varDict)

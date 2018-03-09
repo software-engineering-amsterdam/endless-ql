@@ -13,11 +13,7 @@ public class Node {
         return token;
     }
 
-    public int getLine() {
-        return token.getLine();
-    }
-
-    public int getColumn() {
-        return token.getCharPositionInLine();
+    public String getLocation() {
+        return "(" + token.getLine() + ":" + token.getCharPositionInLine() + ")";
     }
 }

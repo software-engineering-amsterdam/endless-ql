@@ -26,7 +26,10 @@ namespace QuestionaireDomain.Entities
 
         public IEnumerable<T> GetAll<T>() where T : IDomainItem
         {
-            return Registry.Values.OfType<T>();
+            return Registry
+                .Values
+                .OfType<T>()
+                .ToList();
         }
 
         public void Nuke()

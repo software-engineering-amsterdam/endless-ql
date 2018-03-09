@@ -1,6 +1,13 @@
-// Generated from src/main/java/org/uva/sea/ql/parser/QL.g by ANTLR 4.7.1
+// Generated from src/main/java/org/uva/sea/ql/parser/antlr/QL.g by ANTLR 4.7.1
 
-    package org.uva.sea.ql.parser.antlr;
+    package org.uva.sea.ql.antlr;
+    import org.uva.sea.ql.parser.elements.*;
+    import org.uva.sea.ql.parser.elements.expressions.*;
+    import org.uva.sea.ql.parser.elements.types.*;
+
+    import org.uva.sea.ql.antlr.QLListener;
+    import org.uva.sea.ql.antlr.QLParser;
+          
 
 
 import org.antlr.v4.runtime.ParserRuleContext;

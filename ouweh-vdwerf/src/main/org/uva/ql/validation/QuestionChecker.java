@@ -33,11 +33,11 @@ public class QuestionChecker extends Checker implements StatementVisitor<Void, S
 
         for (Question question : this.questions) {
             if (!questionIDs.add(question.getName())) {
-                logger.info("WARNING: (var could be overwritten) question name " + question.getName() + " already exists");
+                logger.warning("WARNING: (var could be overwritten) question name " + question.getName() + " already exists");
             }
 
             if (!questionTexts.add(question.getContent())) {
-                logger.info("WARNING: Question content " + question.getContent() + " already exists");
+                logger.warning("WARNING: Question content " + question.getContent() + " already exists");
             }
         }
     }

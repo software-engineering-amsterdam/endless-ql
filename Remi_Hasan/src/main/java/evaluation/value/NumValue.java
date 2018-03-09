@@ -10,10 +10,6 @@ public class NumValue extends Value<BigDecimal> {
         super(value);
     }
 
-    public NumValue(String value) {
-        super(new BigDecimal(value));
-    }
-
     public NumValue(Integer value) {
         super(new BigDecimal(value.toString()));
     }

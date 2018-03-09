@@ -9,11 +9,6 @@ import org.uva.sc.cr.ql.qL.Form
 import org.uva.sc.cr.ql.qL.QLPackage
 import org.uva.sc.cr.ql.qL.Question
 
-/**
- * This class contains custom validation rules. 
- * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
- */
 class QLValidator extends AbstractQLValidator {
 
 	public static val BLOCK_MISSING_QUESTION = 'blockMissingQuestion'

@@ -27,6 +27,8 @@ def main():
                         help="Runs the testsuite.")
     parser.add_argument('-g', '--grammar', action='store_true',
                         help="Debug grammar.")
+    parser.add_argument('-p', '--parser', action='store_true',
+                        help="Generate parser.")
 
     args = parser.parse_args()
 
@@ -45,10 +47,13 @@ def main():
         # todo: make it so that you give path in CLI call
         # debug_grammar('C:/Users/svdh/PycharmProjects/sql/endless-ql/Pythonistas/tests/forms/if.ql')
         debug_grammar("tests/forms/if.ql")
+        sys.stdout.write(debug_grammar("tests/forms/arithmetic.ql"))
         sys.exit(0)
 
     # Generate antlr parser
-    run_antlr_parse_gen()
+    if args.parser:
+        run_antlr_parse_gen()
+        sys.exit(0)
 
     # GUI
     app = QApplication(sys.argv)

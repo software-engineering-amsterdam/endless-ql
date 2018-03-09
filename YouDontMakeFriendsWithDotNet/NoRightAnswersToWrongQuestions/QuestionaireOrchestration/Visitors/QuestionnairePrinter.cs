@@ -28,7 +28,7 @@ namespace QuestionaireOrchestration.Visitors
             this.Visit(d);
         }
 
-        private void Visit(IRootNode node)
+        private void Visit(IQuestionnaireRootNode node)
         {
             m_writer.WriteLine($"questionaire: {node.QuestionnaireName}");
             foreach (var statementId in node.Statements)

@@ -1,7 +1,6 @@
-import os
-import scanparse.qllex as qll
-import scanparse.qlyacc as qly
-
+from os import listdir
+from scanparse.qllex import LexTokenizer
+from scanparse.qlyacc import QLParser
 from termcolor import colored
 
 
@@ -9,8 +8,8 @@ def test_directory(directory, parser, lexer):
     success_counter = 0
     directory_valid_tests = directory + '/valid/'
     directory_invalid_tests = directory + '/invalid/'
-    valid_files = sorted(os.listdir(directory_valid_tests))
-    invalid_files = sorted(os.listdir(directory_invalid_tests))
+    valid_files = sorted(listdir(directory_valid_tests))
+    invalid_files = sorted(listdir(directory_invalid_tests))
 
     print('Performing valid {} tests:'.format(directory[:-1]))
 
@@ -53,8 +52,8 @@ def print_result(file, result=True):
 
 
 if __name__ == '__main__':
-    parser = qly.QLParser()
-    lexer = qll.LexTokenizer()
+    parser = QLParser()
+    lexer = LexTokenizer()
     directories = ['parser/']
 
     for directory in directories:

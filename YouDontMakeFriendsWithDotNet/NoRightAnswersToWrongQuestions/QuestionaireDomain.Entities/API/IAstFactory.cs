@@ -11,7 +11,7 @@ namespace QuestionaireDomain.Entities.API
 {
     public interface IAstFactory
     {
-        Reference<IRootNode> CreateQuestionnaire(
+        Reference<IQuestionnaireRootNode> CreateQuestionnaire(
             string definition,
             string questionaireName,
             IEnumerable<Reference<IStatementNode>> statements);
@@ -37,7 +37,7 @@ namespace QuestionaireDomain.Entities.API
 
         Reference<INumberNode> CreateNumber(string numberText);
 
-        Reference<AstNodes.Calculation.ICalcualtionVariableNode> CreateNumberVariableName(string variableName);
+        Reference<AstNodes.Calculation.ICalculationVariableNode> CreateNumberVariableName(string variableName);
 
         Reference<AstNodes.Boolean.IBooleanVariableNode> CreateBooleanVariableName(
             string variableName);

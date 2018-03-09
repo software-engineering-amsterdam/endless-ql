@@ -139,15 +139,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\IPredicateCreator.cs" />
-    <Compile Include="API\IQuestionnaireCreator.cs" />
+    <Compile Include="API\IQuestionnaireAstCreator.cs" />
     <Compile Include="DomainLogicModule.cs" />
-    <Compile Include="Logic\AstFactory.cs" />
+    <Compile Include="Logic\QuestionnaireModelCreator.cs" />
     <Compile Include="Logic\DomainItemLocator.cs" />
-    <Compile Include="Logic\DomainItemRegistry.cs" />
-    <Compile Include="Logic\IdMaker.cs" />
-    <Compile Include="Logic\IDomainItemRegistry.cs" />
     <Compile Include="Logic\PredicateCreator.cs" />
-    <Compile Include="Logic\QuestionnaireCreator.cs" />
+    <Compile Include="Logic\QuestionnaireAstCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

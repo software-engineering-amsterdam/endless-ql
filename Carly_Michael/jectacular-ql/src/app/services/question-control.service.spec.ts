@@ -1,41 +1,41 @@
 import {inject, TestBed} from '@angular/core/testing';
 import {QuestionControlService} from './question-control.service';
-import {TextboxQuestion} from '../domain/angular-questions/question-textbox';
-import {CheckboxQuestion} from '../domain/angular-questions/question-checkbox';
+import {InputQuestion} from '../domain/angular-questions/input-question';
+import {BooleanQuestion} from '../domain/angular-questions/boolean-question';
 
 describe('The question control service', () => {
   let service: QuestionControlService;
 
   const questions = [
-    new TextboxQuestion({
+    new InputQuestion({
       key: 'intQuestion',
       label: 'intQuestion?',
       type: 'number',
       value: undefined,
       order: 0
     }),
-    new TextboxQuestion({
+    new InputQuestion({
       key: 'decimalQuestion',
       label: 'decimalQuestion?',
       type: 'number',
       value: undefined,
       order: 1
     }),
-    new CheckboxQuestion({
+    new BooleanQuestion({
       key: 'booleanQuestion',
       label: 'booleanQuestion?',
       type: 'boolean',
       value: undefined,
       order: 2
     }),
-    new TextboxQuestion({
+    new InputQuestion({
       key: 'stringQuestion',
       label: 'stringQuestion?',
       type: 'text',
       value: '',
       order: 3
     }),
-    new TextboxQuestion({
+    new InputQuestion({
       key: 'dateQuestion',
       label: 'dateQuestion?',
       type: 'date',

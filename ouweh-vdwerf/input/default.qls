@@ -21,9 +21,12 @@ stylesheet taxOfficeExample
       {
         question sellingPrice
           widget spinbox
+
         question privateDebt
           widget spinbox
+
         question valueResidue
+
         default money
         {
           width: 400
@@ -31,7 +34,7 @@ stylesheet taxOfficeExample
           fontsize: 14
           color: #999999
           widget spinbox
-        }        
+        }
       }
     }
     default boolean widget radio("Yes", "No")

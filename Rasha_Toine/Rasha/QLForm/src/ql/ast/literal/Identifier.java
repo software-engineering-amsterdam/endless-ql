@@ -10,7 +10,7 @@ public class Identifier extends AstNode {
 		this.id = id;
 	}
 
-	public String getIdentifier() {
+	public String toString() {
 		return id;
 	}
 }

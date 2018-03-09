@@ -3,6 +3,8 @@ package org.uva.ql.validation;
 import java.util.ArrayList;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class LogHandler extends Handler {
 
@@ -23,12 +25,21 @@ public class LogHandler extends Handler {
 
     }
 
+    public boolean hasWarnings() {
+        return getLogs(Level.WARNING).size() > 0;
+    }
+
     public boolean hasErrors() {
-        // TODO info may not break this
-        return logs.size() > 0;
+        return getLogs(Level.SEVERE).size() > 0;
     }
 
     public ArrayList<LogRecord> getLogs() {
-        return logs;
+        return getLogs(Level.FINEST);
+    }
+
+    public ArrayList<LogRecord> getLogs(Level level) {
+        return logs.stream()
+                .filter(logRecord -> logRecord.getLevel().intValue() >= level.intValue())
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }

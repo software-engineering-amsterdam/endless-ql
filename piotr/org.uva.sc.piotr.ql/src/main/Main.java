@@ -1,17 +1,19 @@
 package main;
 
+import ast.ASTBuilder;
+import ast.model.Form;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
-import ast.visitors.TestVisitor;
-import ast.visitors.filters.QuestionsFilter;
-import ast.visitors.filters.ReferencesFilter;
-import ast.ASTBuilder;
+import ast.visitors.TestASTTraverse;
+import ast.visitors.collectors.CollectQuestionsVisitor;
+import ast.visitors.collectors.CollectReferencesVisitor;
 import grammar.QLLexer;
 import grammar.QLParser;
-import ast.model.Form;
+import gui.QLGui;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import validators.QuestionsDependencyValidator;
 import validators.QuestionsValidator;
 import validators.VariablesReferencesValidator;
 
@@ -21,7 +23,7 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CharStream charStream = CharStreams.fromFileName("./example-ql/form1.qlform");
+        CharStream charStream = CharStreams.fromFileName("./example-ql/form3.qlform");
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
         QLParser qlParser = new QLParser(commonTokenStream);
@@ -31,41 +33,43 @@ public class Main {
         ASTBuilder astBuilder = new ASTBuilder();
         Form form = astBuilder.visitForm(formContext);
 
-        TestVisitor testVisitor = new TestVisitor();
-        testVisitor.visit(form);
+        // list of references (?)
+        CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
+        form.accept(collectReferencesVisitor);
 
+        // questions graph for type validator
+        CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
+        form.accept(collectQuestionsVisitor);
 
-//        // questions graph for type validator
-//        QuestionsFilter questionsFilter = new QuestionsFilter();
-//        form.accept(questionsFilter);
+        // Type checking
+        HashMap<Question, ArrayList<VariableReference>> map = collectQuestionsVisitor.getQuestionsMap();
+        QuestionsDependencyValidator questionsDependencyValidator = new QuestionsDependencyValidator(map);
+
+        // undeclared variables usage
+        VariablesReferencesValidator.validateVariablesUsage(
+                collectQuestionsVisitor.getQuestions(),
+                collectReferencesVisitor.getVariableReferences()
+        );
+
+        // duplicate question declarations with different types
+        QuestionsValidator.validateDuplicates(collectQuestionsVisitor.getQuestions());
+
+        // duplicate labels (warning)
+        try {
+            QuestionsValidator.validateLabels(collectQuestionsVisitor.getQuestions());
+        } catch (Exception e) {
+            System.out.println("Warning: " + e.getMessage());
+        }
+
+        form.accept(new TestASTTraverse());
 //
-//        // list of references (?)
-//        ReferencesFilter referencesFilter = new ReferencesFilter();
-//        form.accept(referencesFilter);
-//
-//        // Type checking
-//        HashMap<Question, ArrayList<VariableReference>> map = questionsFilter.getQuestionsMap();
-//
-//        // undeclared variables usage
-//        VariablesReferencesValidator.validateVariablesUsage(
-//                questionsFilter.getQuestions(),
-//                referencesFilter.getVariableReferences()
-//        );
-//
-//        // duplicate question declarations with different types
-//        QuestionsValidator.validateDuplicates(questionsFilter.getQuestions());
-//
-//        // duplicate labels (warning)
-//        try {
-//            QuestionsValidator.validateLabels(questionsFilter.getQuestions());
-//        } catch (Exception e) {
-//            System.out.println("Warning: " + e.getMessage());
-//        }
+//        Gson gson = new Gson();
+//        System.out.println(gson.toJson(form));
 
         System.out.println("Main finish.");
 
-        /* Show the GUI */
-       // new QLGui();
+//        /* Show the GUI */
+        new QLGui(form);
 
 
     }

@@ -237,4 +237,4 @@ class VarNode:
         return self.value
 
     def __repr__(self):
-        return "VarNode: {} {}".format(self.varname, self.type)
+        return "VarNode: {} {} {}".format(self.varname, self.type, self.value)

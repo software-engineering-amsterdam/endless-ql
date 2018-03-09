@@ -1,14 +1,13 @@
 package ast.model.datatypes;
 
 import ast.model.ASTNode;
-import ast.visitors.ASTNodeVisitor;
 
 public abstract class TypeDeclaration extends ASTNode {
 
     private String identifier;
 
-    public TypeDeclaration(String identifier, Integer startLine, Integer endLine) {
-        super(startLine, endLine);
+    public TypeDeclaration(String identifier, MetaInformation metaInformation) {
+        super(metaInformation);
         this.identifier = identifier;
     }
 

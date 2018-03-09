@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL.Core.Api;
+using QL.Core.Operators;
 using QL.Core.Types;
 
 namespace QL.Core.Test.Parsing
@@ -27,7 +28,7 @@ namespace QL.Core.Test.Parsing
             {
                 Assert.AreEqual("whatIsMeaning", question.Label);
                 Assert.AreEqual("What is the meaning of life?", question.Description);
-                Assert.AreEqual(QLType.Money, question.Type);
+                Assert.AreEqual(QLType.Decimal, question.Type);
             });
             parsedSymbols.FormNode.Accept(_assertVisitor);
             _assertVisitor.VerifyAll();
@@ -44,7 +45,7 @@ namespace QL.Core.Test.Parsing
             {
                 Assert.AreEqual("whatIsMeaning", question.Label);
                 Assert.AreEqual("What is the meaning of life?", question.Description);
-                Assert.AreEqual(QLType.Money, question.Type);
+                Assert.AreEqual(QLType.Decimal, question.Type);
             });
             _assertVisitor.EnqueueQuestionNodeCallback(question =>
             {
@@ -73,13 +74,13 @@ namespace QL.Core.Test.Parsing
             {
                 Assert.AreEqual("sellingPrice", question.Label);
                 Assert.AreEqual("What was the selling price?", question.Description);
-                Assert.AreEqual(QLType.Money, question.Type);
+                Assert.AreEqual(QLType.Decimal, question.Type);
             });
             _assertVisitor.EnqueueQuestionNodeCallback(question =>
             {
                 Assert.AreEqual("valueHouse", question.Label);
                 Assert.AreEqual("Value house:", question.Description);
-                Assert.AreEqual(QLType.Money, question.Type);
+                Assert.AreEqual(QLType.Decimal, question.Type);
             });
             _assertVisitor.EnqueueVariableNodeCallback(variable =>
             {
@@ -104,11 +105,11 @@ namespace QL.Core.Test.Parsing
             });
             _assertVisitor.EnqueueExpressionNodeCallback(expression =>
             {
-                Assert.AreEqual("-", expression.Operator);
+                Assert.IsInstanceOfType(expression.Operator, typeof(Substraction));
             });
             _assertVisitor.EnqueueExpressionNodeCallback(expression =>
             {
-                Assert.AreEqual("+", expression.Operator);
+                Assert.IsInstanceOfType(expression.Operator, typeof(Addition));
             });
             _assertVisitor.EnqueueLiteralNodeCallback(literal =>
             {
@@ -133,7 +134,7 @@ namespace QL.Core.Test.Parsing
             var parsedSymbols = _parsingService.ParseQLInput(TestDataResolver.LoadTestFile("wrongType.ql"));
 
             // Assert
-            Assert.AreEqual("Syntax error in line 3, character 10: mismatched input 'cadeautje' expecting {'boolean', 'integer', 'decimal', 'string', 'date', 'money'}.",
+            Assert.AreEqual("Syntax error in line 3, character 10: mismatched input 'cadeautje' expecting {'boolean', 'integer', 'decimal', 'string', 'date'}.",
                 parsedSymbols.Errors[0]);
         }
 
@@ -166,7 +167,7 @@ namespace QL.Core.Test.Parsing
             var parsedSymbols = _parsingService.ParseQLInput(TestDataResolver.LoadTestFile("emptyExpression.ql"));
 
             // Assert
-            Assert.AreEqual("Syntax error in line 4, character 0: mismatched input '}' expecting {'!', '+', '-', '(', BOOLEAN, INTEGER, DECIMAL, STRING, DATE, MONEY, LABEL}.",
+            Assert.AreEqual("Syntax error in line 4, character 0: mismatched input '}' expecting {'!', '+', '-', '(', BOOLEAN, INTEGER, DECIMAL, STRING, DATE, LABEL}.",
                 parsedSymbols.Errors[0]);
         }
     }

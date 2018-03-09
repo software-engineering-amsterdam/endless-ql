@@ -62,21 +62,57 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#if_conditional.
-    def enterIf_conditional(self, ctx:QLParser.If_conditionalContext):
+    # Enter a parse tree produced by QLParser#if_.
+    def enterIf_(self, ctx:QLParser.If_Context):
         pass
 
-    # Exit a parse tree produced by QLParser#if_conditional.
-    def exitIf_conditional(self, ctx:QLParser.If_conditionalContext):
+    # Exit a parse tree produced by QLParser#if_.
+    def exitIf_(self, ctx:QLParser.If_Context):
         pass
 
 
-    # Enter a parse tree produced by QLParser#type_declaration.
-    def enterType_declaration(self, ctx:QLParser.Type_declarationContext):
+    # Enter a parse tree produced by QLParser#type.
+    def enterType(self, ctx:QLParser.TypeContext):
         pass
 
-    # Exit a parse tree produced by QLParser#type_declaration.
-    def exitType_declaration(self, ctx:QLParser.Type_declarationContext):
+    # Exit a parse tree produced by QLParser#type.
+    def exitType(self, ctx:QLParser.TypeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#value.
+    def enterValue(self, ctx:QLParser.ValueContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#value.
+    def exitValue(self, ctx:QLParser.ValueContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#compute.
+    def enterCompute(self, ctx:QLParser.ComputeContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#compute.
+    def exitCompute(self, ctx:QLParser.ComputeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#arithmetic_.
+    def enterArithmetic_(self, ctx:QLParser.Arithmetic_Context):
+        pass
+
+    # Exit a parse tree produced by QLParser#arithmetic_.
+    def exitArithmetic_(self, ctx:QLParser.Arithmetic_Context):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#boolean_.
+    def enterBoolean_(self, ctx:QLParser.Boolean_Context):
+        pass
+
+    # Exit a parse tree produced by QLParser#boolean_.
+    def exitBoolean_(self, ctx:QLParser.Boolean_Context):
         pass
 
 

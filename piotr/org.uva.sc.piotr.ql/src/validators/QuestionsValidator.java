@@ -15,13 +15,13 @@ public final class QuestionsValidator {
                         && !Objects.equals(question1.getVariableType().getIdentifier(), question2.getVariableType().getIdentifier())
                         ) {
                     throw new RuntimeException("Duplicate question declarations with different types in lines : "
-                            + question1.getStartLine()
+                            + question1.getMetaInformation().getStartLine()
                             + "-"
-                            + question1.getEndLine()
+                            + question1.getMetaInformation().getEndLine()
                             + " and "
-                            + question2.getStartLine()
+                            + question2.getMetaInformation().getStartLine()
                             + "-"
-                            + question2.getEndLine()
+                            + question2.getMetaInformation().getEndLine()
                     );
                 }
             }
@@ -34,9 +34,9 @@ public final class QuestionsValidator {
                 if (!Objects.equals(question1, question2)
                         && Objects.equals(question1.getLabel(), question2.getLabel())) {
                     throw new Exception("Duplicate label declarations in lines : "
-                            + question1.getStartLine()
+                            + question1.getMetaInformation().getStartLine()
                             + " and "
-                            + question2.getStartLine()
+                            + question2.getMetaInformation().getStartLine()
                     );
                 }
             }

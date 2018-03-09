@@ -19,6 +19,24 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
     private HashMap<String, String> labels = new HashMap<>();
 
     /**
+     * Hide constructor
+     */
+    private CheckDuplicateLabels() {
+
+    }
+
+    /**
+     * Hide the visitor, make only doCheck visible
+     */
+    public static class Checker implements IStaticAnalysis {
+        @Override
+        public Messages doCheck(Form node) {
+            IStaticAnalysis checker = new CheckDuplicateLabels();
+            return checker.doCheck(node);
+        }
+    }
+
+    /**
      * Report warning
      *
      * @param node The node that caused the warning

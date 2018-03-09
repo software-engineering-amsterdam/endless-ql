@@ -247,4 +247,9 @@ public class EmptyValue implements GenericValue {
 		return new EmptyValue();
 	}
 
+	@Override
+	public GenericValue negate() {
+		return new EmptyValue();
+	}
+
 }

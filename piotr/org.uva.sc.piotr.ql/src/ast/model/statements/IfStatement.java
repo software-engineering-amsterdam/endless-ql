@@ -4,41 +4,35 @@ import ast.model.expressions.Expression;
 import ast.visitors.ASTNodeVisitor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class IfStatement extends Statement {
 
     private Expression condition;
-    private ArrayList<Statement> statementList = new ArrayList<>();
-    private ArrayList<Statement> elseStatementList = new ArrayList<>();
+    private List<Statement> statementList = new ArrayList<>();
+    private List<Statement> elseStatementList = new ArrayList<>();
 
-    public IfStatement(Expression condition, Integer startLine, Integer endLine) {
-        super(startLine, endLine);
+    public IfStatement(Expression condition, List<Statement> statementList, List<Statement> elseStatementList, MetaInformation metaInformation) {
+        super(metaInformation);
         this.condition = condition;
-    }
-
-    public boolean addStatement(Statement statement) {
-        return this.statementList.add(statement);
-    }
-
-    public boolean addElseStatement(Statement statement) {
-        return this.elseStatementList.add(statement);
+        this.statementList = statementList;
+        this.elseStatementList = elseStatementList;
     }
 
     public Expression getCondition() {
         return condition;
     }
 
-    public ArrayList<Statement> getElseStatementList() {
+    public List<Statement> getElseStatementList() {
         return elseStatementList;
     }
 
-    public ArrayList<Statement> getStatementList() {
+    public List<Statement> getStatementList() {
         return statementList;
     }
 
     @Override
-    public void accept(ASTNodeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(ASTNodeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
-
 }

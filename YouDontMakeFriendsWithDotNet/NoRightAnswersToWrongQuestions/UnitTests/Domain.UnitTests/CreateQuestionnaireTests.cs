@@ -1,4 +1,4 @@
-﻿//        [TestCaseSource(typeof(TestData), nameof(TestData.CalculationQuestionCases))]
+﻿//        [TestCaseSource(typeof(TestAstData), nameof(TestAstData.CalculationQuestionCases))]
 //        public void WhenQuestionIsCalculation_ParsesCorrectly(
 //            string validText,
 //            IEnumerable<string> expectedDefinitions,
@@ -27,7 +27,7 @@
 //            //}
 
 //            //var actualVariableNames = m_domainItemLocator
-//            //    .GetAll<ICalcualtionVariableNode>()
+//            //    .GetAll<ICalculationVariableNode>()
 //            //    .Select(x => x.VariableName)
 //            //    .ToList();
 
@@ -37,7 +37,7 @@
 //            //}
 //        }
 
-//        [TestCaseSource(typeof(TestData), nameof(TestData.ComparisonConditional))]
+//        [TestCaseSource(typeof(TestAstData), nameof(TestAstData.ComparisonConditional))]
 //        public void WhenComparisonUsedInAConditional_ParsesCorrectly(string validText, IEnumerable<string> booleanNames)
 //        {
 //            CreateForm(validText);

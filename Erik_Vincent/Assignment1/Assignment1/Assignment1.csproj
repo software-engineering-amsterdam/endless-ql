@@ -53,7 +53,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\IContent.cs" />
+    <Compile Include="Model\QLS\IContent.cs" />
+    <Compile Include="Model\QLS\Page.cs" />
+    <Compile Include="Model\QLS\QuestionStyle.cs" />
+    <Compile Include="Model\QLS\Section.cs" />
+    <Compile Include="Model\QLS\Style.cs" />
+    <Compile Include="Model\QLS\Stylesheet.cs" />
+    <Compile Include="Model\QLS\Widget.cs" />
+    <Compile Include="Parser\QLS.cs" />
+    <Compile Include="Parser\QLSBaseListener.cs" />
+    <Compile Include="Parser\QLSLexer.cs" />
+    <Compile Include="Parser\QLSListener.cs" />
     <Compile Include="Presenter.cs" />
     <Compile Include="Model\Expression.cs" />
     <Compile Include="Form1.cs">
@@ -62,7 +72,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\IfStatement.cs" />
     <Compile Include="Parser\QL.cs" />
     <Compile Include="Parser\QLBaseListener.cs" />
     <Compile Include="Parser\QLListener.cs" />
@@ -97,6 +106,7 @@
     <None Include="Resources\QLLexer.g4" />
     <None Include="Resources\QL.g4" />
     <None Include="Resources\QLS.g4" />
+    <None Include="Resources\QLSLexer.g4" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

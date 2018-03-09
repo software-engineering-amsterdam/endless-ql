@@ -57,15 +57,14 @@
   <ItemGroup>
     <Compile Include="AssertVisitor.cs" />
     <Compile Include="Interpreting\InterpreterTests.cs" />
-    <Compile Include="Operators\OperatorResultTypeResolverTests.cs" />
     <Compile Include="Parsing\ConditionalParseTests.cs" />
     <Compile Include="Parsing\ExpressionParseTests.cs" />
     <Compile Include="Parsing\FormParseTests.cs" />
     <EmbeddedResource Include="TestData\IncorrectForms\wrongType.ql" />
+    <Compile Include="Types\TypeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parsing\QuestionParseTests.cs" />
-    <Compile Include="Scopes\ScopeTreeTests.cs" />
-    <Compile Include="Scopes\ScopeTreeValidatorTests.cs" />
+    <Compile Include="References\ReferenceCheckingTests.cs" />
     <Compile Include="Symbols\DuplicateSymbolDetectorTests.cs" />
     <Compile Include="Symbols\SymbolTableTests.cs" />
     <Compile Include="TestDataResolver.cs" />
@@ -83,13 +82,16 @@
     <EmbeddedResource Include="TestData\IncorrectForms\emptyExpression.ql" />
     <EmbeddedResource Include="TestData\IncorrectForms\unclosedBlock.ql" />
     <EmbeddedResource Include="TestData\IncorrectForms\binaryExpressionWithMissingOperand.ql" />
-    <EmbeddedResource Include="TestData\CorrectForms\threeNestedQuestions.ql" />
+    <EmbeddedResource Include="TestData\IncorrectForms\decimalInCoditional.ql" />
     <EmbeddedResource Include="TestData\CorrectForms\oneBooleanEvaluation.ql" />
     <EmbeddedResource Include="TestData\CorrectForms\oneConditional.ql" />
     <EmbeddedResource Include="TestData\CorrectForms\twoQuestionsOneReference.ql" />
     <EmbeddedResource Include="TestData\CorrectForms\oneLiteralAssignment.ql" />
     <EmbeddedResource Include="TestData\CorrectForms\simpleTypeWideningConversion.ql" />
     <None Include="packages.config" />
+    <EmbeddedResource Include="TestData\IncorrectForms\forwardReferencing.ql" />
+    <EmbeddedResource Include="TestData\IncorrectForms\boolAssignedToInt.ql" />
+    <EmbeddedResource Include="TestData\IncorrectForms\binaryExpressionWithWrongTypes.ql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QL.Core\QL.Core.csproj">

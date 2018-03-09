@@ -53,6 +53,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\QLS\IContent.cs" />
+    <Compile Include="Model\QLS\Page.cs" />
+    <Compile Include="Model\QLS\QuestionStyle.cs" />
+    <Compile Include="Model\QLS\Section.cs" />
+    <Compile Include="Model\QLS\Style.cs" />
+    <Compile Include="Model\QLS\Stylesheet.cs" />
+    <Compile Include="Model\QLS\Widget.cs" />
+    <Compile Include="Parser\QLS.cs" />
+    <Compile Include="Parser\QLSBaseListener.cs" />
+    <Compile Include="Parser\QLSLexer.cs" />
+    <Compile Include="Parser\QLSListener.cs" />
     <Compile Include="Presenter.cs" />
     <Compile Include="Model\Expression.cs" />
     <Compile Include="Form1.cs">

@@ -19,13 +19,8 @@ import org.uva.sc.cr.ql.qL.Question
 import org.uva.sc.cr.ql.qL.QuestionType
 import org.uva.sc.cr.ql.util.MissingCaseException
 import org.uva.sc.cr.ql.util.Operation
-import org.uva.sc.cr.ql.util.QLUtil
+import org.uva.sc.cr.ql.util.OperationQuestionTypeMapping
 
-/**
- * This class contains custom validation rules. 
- * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
- */
 class QLExpressionValidator extends AbstractQLValidator {
 
 	public static val TYPE_NOT_ALLOWED = 'typeNotAllowed'
@@ -77,7 +72,7 @@ class QLExpressionValidator extends AbstractQLValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = QLUtil.getAllowedTypesForOperation(exp.op)
+		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_OR__LEFT, TYPE_NOT_ALLOWED)
 
@@ -95,7 +90,7 @@ class QLExpressionValidator extends AbstractQLValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = QLUtil.getAllowedTypesForOperation(exp.op)
+		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_AND__LEFT, TYPE_NOT_ALLOWED)
 
@@ -113,7 +108,7 @@ class QLExpressionValidator extends AbstractQLValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = QLUtil.getAllowedTypesForOperation(exp.op)
+		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_EQUALITY__LEFT, TYPE_NOT_ALLOWED)
 
@@ -131,7 +126,7 @@ class QLExpressionValidator extends AbstractQLValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = QLUtil.getAllowedTypesForOperation(exp.op)
+		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_COMPARISON__LEFT, TYPE_NOT_ALLOWED)
 
@@ -149,7 +144,7 @@ class QLExpressionValidator extends AbstractQLValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = QLUtil.getAllowedTypesForOperation(exp.op)
+		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_PLUS_OR_MINUS__LEFT, TYPE_NOT_ALLOWED)
 
@@ -167,7 +162,7 @@ class QLExpressionValidator extends AbstractQLValidator {
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
-		var allowedTypes = QLUtil.getAllowedTypesForOperation(exp.op)
+		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(exp.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_MUL_OR_DIV__LEFT, TYPE_NOT_ALLOWED)
 
@@ -184,7 +179,7 @@ class QLExpressionValidator extends AbstractQLValidator {
 
 		var type = computeType(exp.expression)
 
-		var allowedTypes = QLUtil.getAllowedTypesForOperation(Operation.NOT.literal)
+		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(Operation.NOT.literal)
 		if (!allowedTypes.contains(type))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_NOT__EXPRESSION, TYPE_NOT_ALLOWED)
 

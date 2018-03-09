@@ -1,8 +1,9 @@
-﻿namespace QuestionnaireInfrastructure.API
+﻿using System.Collections.Generic;
+
+namespace QuestionnaireInfrastructure.API
 {
     public interface IQuestionnaireDefinitionLoader
     {
-        string Load();
-        string Load(string filePath);
+        IEnumerable<string> Load(string filePath = null);
     }
 }

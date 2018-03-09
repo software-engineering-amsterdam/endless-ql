@@ -3,46 +3,31 @@ package gui;
 import ast.model.Form;
 import ast.model.statements.Question;
 import ast.model.statements.Statement;
+import gui.model.FormBlock;
 import gui.view.TextForm;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 // http://www.java2s.com/Code/Java/Swing-JFC/Asimplelabelforfieldformpanel.htm
 // eventually
 // https://www.callicoder.com/javafx-registration-form-gui-tutorial/
 
 public class QLGui {
-    public QLGui(Form ASTform) {
+    public QLGui(List<FormBlock> formBlocks) {
 
-//        JFrame frame = new JFrame(form.getName());
-//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//
-//        Container contentPane = frame.getContentPane();
-//        SpringLayout layout = new SpringLayout();
-//        contentPane.setLayout(layout);
-//
-//        for (Statement statement : form.getStatementList()) {
-//            if (statement instanceof Question) {
-//                JLabel label = new JLabel(((Question) statement).getLabel());
-//                contentPane.add(label);
-//                JTextField textField = new JTextField("Text field", 15);
-//                label.setLabelFor(textField);
-//                contentPane.add(textField);
-//            }
-//        }
-//
-//        frame.pack();
-//        frame.setVisible(true);
+        List<String> labels = new ArrayList<>();
 
-        String[] labels = {"First Name", "Middle Initial", "Last Name", "Age"};
-        char[] mnemonics = {'F', 'M', 'L', 'A'};
-        int[] widths = {15, 1, 15, 3};
-        String[] descs = {"First Name", "Middle Initial", "Last Name", "Age"};
+        for (FormBlock block : formBlocks) {
+            labels.add(block.getLabel());
+        }
 
-        final TextForm form = new TextForm(labels, mnemonics, widths, descs);
+        final TextForm form = new TextForm((labels.toArray(new String[0])));
 
         JButton submit = new JButton("Submit Form");
 

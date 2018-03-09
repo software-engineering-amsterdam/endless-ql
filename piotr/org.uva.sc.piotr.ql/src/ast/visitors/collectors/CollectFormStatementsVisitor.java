@@ -13,7 +13,6 @@ import gui.model.FormBlock;
 
 import java.util.*;
 
-
 public class CollectFormStatementsVisitor extends AbstractASTTraverse {
 
     private List<FormBlock> formBlocks = new ArrayList<>();
@@ -34,16 +33,10 @@ public class CollectFormStatementsVisitor extends AbstractASTTraverse {
     @Override
     public Void visit(Question question) {
 
-        System.out.println("Visiting question: " + question.getLabel());
         Expression aggregatedExpression = this.aggregateConditionsStack();
 
-//        if (aggregatedExpression != null) {
-//            System.out.println("Expression: " + aggregatedExpression.getMetaInformation().getText());
-//        } else {
-//            System.out.println("Expression: none");
-//        }
-
         this.formBlocks.add(new FormBlock(
+                question.getLabel(),
                 question.getVariableName(),
                 question.getVariableType().toDataType(),
                 aggregatedExpression,
@@ -61,27 +54,23 @@ public class CollectFormStatementsVisitor extends AbstractASTTraverse {
     @Override
     public Void visit(IfStatement ifStatement) {
 
-        // enter
         ifStatement.getCondition().accept(this);
 
-        // put the condition on the stack
         this.conditionsStack.push(ifStatement.getCondition());
 
         for (Statement statement : ifStatement.getStatementList()) {
             statement.accept(this);
         }
 
-        // flip the condition on the stack to negation
-        this.conditionsStack.push(new Negation(this.conditionsStack.pop(), new ASTNode.MetaInformation(0, 0, 0, "!(" + ifStatement.getCondition().getMetaInformation().getText() + ")")));
+        // flip the condition on the stack to negation @TODO: pretiffy metainformation, Expression is not necessary an AST node - can be, but doesn't have to... think about it.
+        this.conditionsStack.push(new Negation(this.conditionsStack.pop(), new ASTNode.MetaInformation(null, null, null, "!(" + ifStatement.getCondition().getMetaInformation().getText() + ")")));
 
         for (Statement statement : ifStatement.getElseStatementList()) {
             statement.accept(this);
         }
 
-        // remove from stack
         this.conditionsStack.pop();
 
-        // exit
         return null;
     }
 
@@ -93,6 +82,7 @@ public class CollectFormStatementsVisitor extends AbstractASTTraverse {
             if (finalExpression == null) {
                 finalExpression = expression;
             } else {
+                // @TODO: idem
                 finalExpression = new LogicalAnd(finalExpression, expression, new ASTNode.MetaInformation(0, 0, 0, "(" + finalExpression.getMetaInformation().getText() + ") && (" + expression.getMetaInformation().getText() + ")"));
             }
         }

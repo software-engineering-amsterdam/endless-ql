@@ -9,6 +9,7 @@ import ast.visitors.collectors.CollectQuestionsVisitor;
 import ast.visitors.collectors.CollectReferencesVisitor;
 import grammar.QLLexer;
 import grammar.QLParser;
+import gui.QLGui;
 import gui.model.FormBlock;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -75,7 +76,7 @@ public class Main {
         System.out.println("Main finish.");
 
 //        /* Show the GUI */
-//        new QLGui(form);
+        new QLGui(formBlocks);
 
 
     }

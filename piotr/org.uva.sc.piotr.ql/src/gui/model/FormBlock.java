@@ -5,17 +5,23 @@ import types.DataType;
 
 public class FormBlock {
 
+    private String label;
     private String variableName;
     private DataType.Type variableType;
     private Expression visibilityCondition;
     private Expression valueExpression;
     private String value;
 
-    public FormBlock(String variableName, DataType.Type variableType, Expression visibilityCondition, Expression valueExpression) {
+    public FormBlock(String label, String variableName, DataType.Type variableType, Expression visibilityCondition, Expression valueExpression) {
+        this.label = label;
         this.variableName = variableName;
         this.variableType = variableType;
         this.visibilityCondition = visibilityCondition;
         this.valueExpression = valueExpression;
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     public String getVariableName() {

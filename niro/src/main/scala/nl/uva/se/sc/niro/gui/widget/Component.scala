@@ -96,7 +96,8 @@ case class MoneyComponent(id: String, label: Label, control: QLWidget[java.math.
   }
   private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal =
     if (value.isDefined) value.get.bigDecimal else null
-  private def toOption(value: java.math.BigDecimal): MoneyAnswer = if (value == null) MoneyAnswer() else MoneyAnswer(value)
+  private def toOption(value: java.math.BigDecimal): MoneyAnswer =
+    if (value == null) MoneyAnswer() else MoneyAnswer(value)
 }
 
 object ComponentFactory {

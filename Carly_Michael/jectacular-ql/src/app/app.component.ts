@@ -2,10 +2,9 @@ import {Component, isDevMode} from '@angular/core';
 import {QuestionBase} from './domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {QuestionControlService} from './services/question-control.service';
-import {Question as QlsQuestion, Section, Style, Stylesheet} from './domain/ast/qls';
+import {Stylesheet} from './domain/ast/qls';
 import {Form} from './domain/ast';
 import {ParseFactory} from './factories/parse-factory';
-import {parse} from '../parser/ql-parser';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +21,6 @@ export class AppComponent {
   payload: string;
   qlForm: Form;
   qlsStylesheet: Stylesheet;
-  qlsToQlQuestionDictionary: Map<string, QuestionBase<any>> = new Map<string, QuestionBase<any>>();
 
   constructor(private questionControlService: QuestionControlService) {
     this.inputQls = 'stylesheet "taxOfficeExample"\n' +
@@ -77,63 +75,6 @@ export class AppComponent {
       '}';
   }
 
-  temp(section: Section): ReadonlyArray<QlsQuestion> {
-    return section.getQuestions([]).map(q => {
-      return q.question;
-    });
-  }
-
-  getQuestionBaseByName(name: string): QuestionBase<any> {
-    const question = this.qlsToQlQuestionDictionary[name];
-
-    if (!question) {
-      throw new Error(`Couldn't get question '${name}'`);
-    }
-
-    return question;
-  }
-
-  createQuestionMappingCache() {
-    for (const qlsQuestion of this.qlsStylesheet.getQuestions([])) {
-      let questionBase: QuestionBase<any>;
-
-      for (const q of this.questions) {
-        if (q.key === qlsQuestion.question.name) {
-          questionBase = q;
-          break;
-        }
-      }
-
-      if (!questionBase) {
-        throw new Error(`Couldn't find question ${qlsQuestion.question.name}`);
-      }
-
-      this.qlsToQlQuestionDictionary[qlsQuestion.question.name] = questionBase;
-    }
-  }
-
-  assignStyleToQuestions() {
-    for (const qlsQuestionWithAppliedStyles of this.qlsStylesheet.getQuestions([])) {
-      const question = this.qlsToQlQuestionDictionary[qlsQuestionWithAppliedStyles.question.name];
-
-      if (qlsQuestionWithAppliedStyles.styles && qlsQuestionWithAppliedStyles.styles.length > 0) {
-        const styles: Map<string, Style> = new Map<string, Style>();
-
-        for (const style of qlsQuestionWithAppliedStyles.styles) {
-          styles[style.name] = style;
-        }
-
-        let questionStyle = '';
-
-        for (const [, v] of styles) {
-          questionStyle += v.name + ': ' + v.value + ';';
-        }
-        //console.log(question.name, questionStyle);
-        question.style = questionStyle;
-      }
-    }
-  }
-
   parseInput() {
     try {
       const parseResult = ParseFactory.parse(this.inputQl, this.inputQls);
@@ -145,9 +86,6 @@ export class AppComponent {
       this.form = this.questionControlService.toFormGroup(this.questions);
       this.formName = this.qlForm.name;
       this.errorMessage = undefined;
-
-      this.createQuestionMappingCache();
-      //this.assignStyleToQuestions();
     } catch (e) {
       this.form = undefined;
       this.formName = undefined;

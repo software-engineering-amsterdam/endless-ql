@@ -6,7 +6,7 @@
 
     <span id="error-message" *ngIf="errorMessage" class="error"> {{errorMessage}}</span>
 
-    <textarea id="input" rows="25" cols="70" [(ngModel)]="inputQl"></textarea><br />
+    <textarea id="inputQl" rows="25" cols="70" [(ngModel)]="inputQl"></textarea><br />
     <span class="header">Input QLS</span>
     <textarea id="inputQls" rows="25" cols="70" [(ngModel)]="inputQls"></textarea>
 
@@ -18,7 +18,10 @@
     <span class="header">{{formName}}</span>
     <form id="form" (ngSubmit)="onSubmit()" [formGroup]="form">
 
-      <app-styled-form-content *ngIf="inputQls; else unstyledquestions"></app-styled-form-content>
+      <app-styled-form-content *ngIf="inputQls; else unstyledquestions"
+                               [styles]="qlsStylesheet" [questions]="questions" [form]="form">
+
+      </app-styled-form-content>
 
       <ng-template #unstyledquestions>
         <div class="form-row" *ngFor="let question of questions">

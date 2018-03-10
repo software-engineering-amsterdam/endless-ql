@@ -9,12 +9,15 @@ export class ParseResult {
 
 export class ParseFactory {
   static parse(qlInput: string, qlsInput: string): ParseResult {
+    let astQls: Stylesheet;
 
     const astQl: Form = parse(qlInput, {});
-    const astQls: Stylesheet = parseQls(qlsInput, {});
     // check form
     astQl.checkForm();
 
+    if (qlsInput.trim().length > 0 ) {
+      astQls = parseQls(qlsInput, {});
+    }
     return new ParseResult(astQl.name, astQl, astQls);
   }
 }

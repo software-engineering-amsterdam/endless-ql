@@ -11,7 +11,7 @@ namespace QuestionaireDomain.Entities.API
 {
     public interface IAstFactory
     {
-        Reference<IRootNode> CreateQuestionnaire(
+        Reference<IQuestionnaireRootNode> CreateQuestionnaire(
             string definition,
             string questionaireName,
             IEnumerable<Reference<IStatementNode>> statements);

@@ -4,12 +4,13 @@ import ast.ASTBuilder;
 import ast.model.Form;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
-import ast.visitors.TestASTTraverse;
+import ast.visitors.collectors.CollectFormStatementsVisitor;
 import ast.visitors.collectors.CollectQuestionsVisitor;
 import ast.visitors.collectors.CollectReferencesVisitor;
 import grammar.QLLexer;
 import grammar.QLParser;
 import gui.QLGui;
+import gui.model.FormBlock;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -19,6 +20,7 @@ import validators.VariablesReferencesValidator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -61,15 +63,20 @@ public class Main {
             System.out.println("Warning: " + e.getMessage());
         }
 
-        form.accept(new TestASTTraverse());
+        CollectFormStatementsVisitor collectFormStatementsVisitor = new CollectFormStatementsVisitor();
+        form.accept(collectFormStatementsVisitor);
+
+        List<FormBlock> formBlocks = collectFormStatementsVisitor.getFormBlocks();
 //
 //        Gson gson = new Gson();
 //        System.out.println(gson.toJson(form));
 
+
+
         System.out.println("Main finish.");
 
 //        /* Show the GUI */
-        new QLGui(form);
+        new QLGui(formBlocks);
 
 
     }

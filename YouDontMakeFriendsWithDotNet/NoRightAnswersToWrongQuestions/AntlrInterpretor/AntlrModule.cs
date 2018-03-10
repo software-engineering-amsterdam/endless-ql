@@ -9,7 +9,7 @@ namespace AntlrInterpretor
     {
         public void RegisterDependencies(IServiceCollection appRegistration)
         {
-            appRegistration.AddSingleton(typeof(IQlInterpretor), typeof(QlInterpretor));
+            appRegistration.AddSingleton(typeof(IAstTreeBuilder), typeof(AstTreeBuilder));
         }
     }
 }

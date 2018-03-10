@@ -18,48 +18,48 @@ public class TypeTest {
     }
 
     @Test
-    public void CanParseBooleanType() {
+    public void canParseBooleanType() {
         final String EXPECTED_RESULT = "boolean";
         QLParser parser = astBuilder.createParser("\"test\" testQuestion: boolean");
         Question question = (Question) astBuilder.getStatement(parser);
 
-        assertEquals(question.getType().toString(), EXPECTED_RESULT);
+        assertEquals(EXPECTED_RESULT, question.getType().toString());
     }
 
     @Test
-    public void CanParseDecimalType() {
+    public void canParseDecimalType() {
         final String EXPECTED_RESULT = "decimal";
         QLParser parser = astBuilder.createParser("\"test\" testQuestion: decimal");
         Question question = (Question) astBuilder.getStatement(parser);
 
-        assertEquals(question.getType().toString(), EXPECTED_RESULT);
+        assertEquals(EXPECTED_RESULT, question.getType().toString());
     }
 
     @Test
-    public void CanParseIntegerType() {
+    public void canParseIntegerType() {
         final String EXPECTED_RESULT = "integer";
         QLParser parser = astBuilder.createParser("\"test\" testQuestion: integer");
         Question question = (Question) astBuilder.getStatement(parser);
 
-        assertEquals(question.getType().toString(), EXPECTED_RESULT);
+        assertEquals(EXPECTED_RESULT, question.getType().toString());
     }
 
     @Test
-    public void CanParseMoneyType() {
+    public void canParseMoneyType() {
         final String EXPECTED_RESULT = "money";
         QLParser parser = astBuilder.createParser("\"test\" testQuestion: money");
         Question question = (Question) astBuilder.getStatement(parser);
 
-        assertEquals(question.getType().toString(), EXPECTED_RESULT);
+        assertEquals(EXPECTED_RESULT, question.getType().toString());
     }
 
     @Test
-    public void CanParseStringType() {
+    public void canParseStringType() {
         final String EXPECTED_RESULT = "string";
         QLParser parser = astBuilder.createParser("\"test\" testQuestion: string");
         Question question = (Question) astBuilder.getStatement(parser);
 
-        assertEquals(question.getType().toString(), EXPECTED_RESULT);
+        assertEquals(EXPECTED_RESULT, question.getType().toString());
     }
 
 }

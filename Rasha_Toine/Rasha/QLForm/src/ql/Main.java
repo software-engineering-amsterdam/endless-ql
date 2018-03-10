@@ -5,7 +5,7 @@ import java.io.IOException;
 
 
 import ql.checking.TypeChecker;
-import ql.gui.QlFormGUI;
+import ql.gui.FormGUI;
 import ql.gui.QlPageGenerator;
 import ql.ast.Form;
 import ql.ast.literal.Identifier;
@@ -39,7 +39,7 @@ public class Main {
 	    	});
 	
 	    	System.out.println("Count statements = " + form.getBlock().getStatements().size());
-	    	System.out.print(id.getIdentifier());
+	    	System.out.print(id.toString());
 
 	    	// 2- Run type checker on generated ql form 
 	        TypeChecker checker = new TypeChecker();

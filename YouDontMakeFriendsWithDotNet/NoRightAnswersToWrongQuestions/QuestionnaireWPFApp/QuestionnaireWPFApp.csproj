@@ -82,14 +82,27 @@
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Events\OpenQuestionnaireEditViewEvent.cs" />
+    <Compile Include="Services\MessageDialog.xaml.cs">
+      <DependentUpon>MessageDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\IMainViewModel.cs" />
+    <Compile Include="ViewModels\IMessageDialogService.cs" />
+    <Compile Include="ViewModels\IQuestionnaireViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MessageDialogResult.cs" />
+    <Compile Include="ViewModels\MessageDialogService.cs" />
+    <Compile Include="ViewModels\NavigationItemViewModel.cs" />
     <Compile Include="ViewModels\NavigationViewModel.cs" />
     <Compile Include="ViewModels\Observable.cs" />
     <Compile Include="ViewModels\QuestionnaireViewModel.cs" />
+    <Compile Include="Views\IView.cs" />
     <Compile Include="Views\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Services\MessageDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Brushes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -147,6 +160,10 @@
     <ProjectReference Include="..\AntlrInterpretor\AntlrInterpretor.csproj">
       <Project>{7676F4F1-42FC-4A13-8A20-8826B139C98B}</Project>
       <Name>AntlrInterpretor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionaireDomain.Entities.csproj">
+      <Project>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</Project>
+      <Name>QuestionaireDomain.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\QuestionaireOrchestration\QuestionaireOrchestration.csproj">
       <Project>{93708D27-D769-4064-8A54-6BFEF8B09F29}</Project>

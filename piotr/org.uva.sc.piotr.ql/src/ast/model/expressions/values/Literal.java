@@ -2,20 +2,14 @@ package ast.model.expressions.values;
 
 import ast.model.expressions.Expression;
 import ast.visitors.ASTNodeVisitor;
+import types.DataType;
 
 public class Literal extends Expression {
 
-    public enum Type {
-        STRING,
-        BOOLEAN,
-        INTEGER,
-        DECIMAL
-    }
-
     private String value;
-    private Type type;
+    private DataType.Type type;
 
-    public Literal(String value, Type type, MetaInformation metaInformation) {
+    public Literal(String value, DataType.Type type, MetaInformation metaInformation) {
         super(metaInformation);
         this.value = value;
         this.type = type;
@@ -29,11 +23,11 @@ public class Literal extends Expression {
         this.value = value;
     }
 
-    public Type getType() {
+    public DataType.Type getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(DataType.Type type) {
         this.type = type;
     }
 

@@ -12,7 +12,15 @@ public class ComputedQuestion {
 		this.label = label;
 		this.value = value;
 	}
-	
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
 	public Value getValue() {
 		return value;
 	}

@@ -21,22 +21,16 @@ import java.util.List;
 public class QLGui {
     public QLGui(List<FormBlock> formBlocks) {
 
-        List<String> labels = new ArrayList<>();
-
-        for (FormBlock block : formBlocks) {
-            labels.add(block.getLabel());
-        }
-
-        final TextForm form = new TextForm((labels.toArray(new String[0])));
+        final TextForm form = new TextForm(formBlocks);
 
         JButton submit = new JButton("Submit Form");
 
-        submit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println(form.getText(0) + " " + form.getText(1) + ". " + form.getText(2)
-                        + ", age " + form.getText(3));
-            }
-        });
+//        submit.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                System.out.println(form.getText(0) + " " + form.getText(1) + ". " + form.getText(2)
+//                        + ", age " + form.getText(3));
+//            }
+//        });
 
         JFrame f = new JFrame("Text Form Example");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,6 +39,7 @@ public class QLGui {
         p.add(submit);
         f.getContentPane().add(p, BorderLayout.SOUTH);
         f.pack();
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 }

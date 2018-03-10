@@ -35,5 +35,4 @@ final case class DecAnswer(possibleValue: Option[BigDecimal]) extends Answer {
 object DecAnswer {
   def apply() = new DecAnswer(None)
   def apply(value: BigDecimal) = new DecAnswer(Some(value))
-  def apply(value: String): DecAnswer = if (value.isEmpty) DecAnswer() else DecAnswer(BigDecimal(value))
 }

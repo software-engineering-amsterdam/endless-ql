@@ -38,5 +38,4 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
 object IntAnswer {
   def apply() = new IntAnswer(None)
   def apply(value: Int) = new IntAnswer(Some(value))
-  def apply(value: String): IntAnswer = if (value.isEmpty) IntAnswer() else IntAnswer(Integer.parseInt(value))
 }

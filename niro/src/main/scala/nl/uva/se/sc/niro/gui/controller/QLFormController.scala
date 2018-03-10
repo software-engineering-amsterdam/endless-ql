@@ -1,9 +1,7 @@
 package nl.uva.se.sc.niro.gui.controller
 
 import java.io.IOException
-import java.lang
 
-import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Label
@@ -12,13 +10,14 @@ import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.gui.application.QLForms
 import nl.uva.se.sc.niro.gui.control.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.gui.converter.ModelConverter
+import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.QLForm
 import nl.uva.se.sc.niro.model.expressions.answers.{ Answer, BooleanAnswer }
-import nl.uva.se.sc.niro.model.gui.GUIForm
+import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
 
 import scala.collection.{ JavaConverters, mutable }
 
-class QLFormController extends QLBaseController {
+class QLFormController extends QLBaseController with ComponentChangedListener {
   private val dictionary = mutable.Map[String, Answer]()
   private var qlForm: QLForm = _
   private var guiForm: GUIForm = _
@@ -36,31 +35,20 @@ class QLFormController extends QLBaseController {
     // TODO Implement
     println("Data is saved....")
 
-  def updateModel(questionId: String, answer: Answer): Unit = {
-    dictionary(questionId) = answer
+  def componentChanged(component: Component[_]): Unit = {
+    dictionary(component.getQuestionId) = component.getValue
     evaluateAnswers
     updateView
   }
 
-  def populateForm(form: QLForm): Unit = {
+  def initializeForm(form: QLForm): Unit = {
     this.qlForm = form
     guiForm = ModelConverter.convert(this.qlForm)
-    questions = guiForm.questions.map(ComponentFactory.make)
-    questions.foreach(
-      component =>
-        component
-          .getControl
-          .focusedProperty()
-          .addListener(new ChangeListener[lang.Boolean] {
-            override def changed(
-                observable: ObservableValue[_ <: lang.Boolean],
-                oldValue: lang.Boolean,
-                newValue: lang.Boolean): Unit = {
-              updateModel(component.getQuestionId, component.getValue)
-            }
-          }))
-
     formName.setText(guiForm.name)
+
+    questions = guiForm.questions.map(ComponentFactory.make)
+    questions.foreach(_.addComponentChangedListener(this))
+
     questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
 
     evaluateAnswers
@@ -72,21 +60,28 @@ class QLFormController extends QLBaseController {
   }
 
   private def updateView = {
-    updateQuestionControls()
+    updateValues()
     updateVisibility()
   }
 
-  private def updateQuestionControls(): Unit = {
-    questions.foreach(_.update(dictionary))
+  private def updateValues(): Unit = {
+    questions.foreach(_.updateValue(dictionary))
   }
 
   private def updateVisibility(): Unit = {
     guiForm.questions.foreach(question => {
-      Evaluator.evaluateExpression(question.visibility, qlForm.symbolTable, dictionary.toMap) match {
-        case b: BooleanAnswer => question.component.foreach(_.setVisible(b.possibleValue.getOrElse(false)))
-        case _                => throw new IllegalArgumentException("A if-condition did not result in a boolean expression!")
+      getVisibilitySetting(question) match {
+        case visibility: BooleanAnswer => question.component.map(_.setVisible(isVisible(visibility)))
+        case _                         => throw new IllegalArgumentException("A if-condition did not result in a boolean expression!")
       }
     })
   }
 
+  private def isVisible(b: BooleanAnswer) = {
+    b.possibleValue.getOrElse(false)
+  }
+
+  private def getVisibilitySetting(question: GUIQuestion) = {
+    Evaluator.evaluateExpression(question.visibility, qlForm.symbolTable, dictionary.toMap)
+  }
 }

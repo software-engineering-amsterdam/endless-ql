@@ -8,7 +8,7 @@ import nl.uva.js.qlparser.models.enums.DataType;
 public class Variable implements DataExpression {
     private DataType dataType;
     @NonNull private String name;
-    @Setter private Object value;
+    @Setter private DataExpression value;
 
     @Override
     public DataType checkAndReturnType() {
@@ -17,6 +17,6 @@ public class Variable implements DataExpression {
 
     @Override
     public Object value() {
-        return value;
+        return value.value();
     }
 }

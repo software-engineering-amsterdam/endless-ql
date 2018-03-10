@@ -160,6 +160,8 @@ public class GUIBuilder {
         TextArea textArea = new TextArea("",0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
         textArea.setPreferredSize(new Dimension(width, height));
         textArea.setBackground(color);
+        textArea.setForeground(Color.white);
+        textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 
         textPanel.add(textArea);
         textPanel.setVisible(true);

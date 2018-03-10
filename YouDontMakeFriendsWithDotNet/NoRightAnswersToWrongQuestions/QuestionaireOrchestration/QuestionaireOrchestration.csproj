@@ -50,6 +50,9 @@
     <Compile Include="API\LoadQuestionnaireDefinitionsCommand.cs" />
     <Compile Include="API\ICommandQueryService.cs" />
     <Compile Include="API\IQuestionnaireQueryService.cs" />
+    <Compile Include="API\ModelExtensions.cs" />
+    <Compile Include="API\ModelReference.cs" />
+    <Compile Include="API\QuestionnaireQueryService.cs" />
     <Compile Include="CommandHandlers\LoadQuestionnaireDefinitionsCommandHandler.cs" />
     <Compile Include="CommandHandlers\ParseTextCommandHandler.cs" />
     <Compile Include="OrchestrationModule.cs" />

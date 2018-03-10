@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
 using Assignment1.Model;
 
 namespace Assignment1
@@ -113,11 +114,24 @@ namespace Assignment1
             {
                 context.result.Question = _questions[context.result.Id];
             }
-            catch (KeyNotFoundException e)
+            catch (KeyNotFoundException)
             {
                 AddError(context, "The question id '" + context.result.Id + "' does not exist in the current context.");
                 //throw;
             }
+        }
+
+        internal static QLListener ParseString(string input)
+        {
+            ICharStream stream = CharStreams.fromstring(input);
+            ITokenSource lexer = new QLLexer(stream);
+            ITokenStream tokens = new CommonTokenStream(lexer);
+            QL parser = new QL(tokens);
+            QL.FormContext context = parser.form();
+            QLListener listener = new QLListener();
+            ParseTreeWalker walker = new ParseTreeWalker();
+            walker.Walk(listener, context);
+            return listener;
         }
     }
 }

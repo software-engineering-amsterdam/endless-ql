@@ -5,7 +5,7 @@ using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 
 namespace QuestionaireDomain.Entities.DomainObjects.Ast
 {
-    internal class QuestionnaireRootNode : AstNodeBase, IRootNode
+    internal class QuestionnaireRootNode : AstNodeBase, IQuestionnaireRootNode
     {
         public QuestionnaireRootNode(
             Guid id, 

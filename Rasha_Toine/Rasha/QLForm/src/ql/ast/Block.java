@@ -15,7 +15,7 @@ public class Block extends AstNode {
 	}
 
 	public Block() {
-		// TODO Auto-generated constructor stub
+
 	}
 
     public void insertStatement(Statement statement){

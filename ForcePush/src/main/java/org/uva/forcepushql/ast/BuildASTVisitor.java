@@ -67,6 +67,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
 
         System.out.println("node.Left is " + node.Left);
         System.out.println("node.Right is " + node.Right);
+        System.out.println(node);
 
         return node;
 

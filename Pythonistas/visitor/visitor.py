@@ -23,7 +23,8 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#form.
     def enterForm(self, ctx:QLParser.FormContext):
-        print(ctx.getText())
+        # print(ctx.getText())
+        pass
 
     # Exit a parse tree produced by QLParser#form.
     def exitForm(self, ctx:QLParser.FormContext):

@@ -25,6 +25,7 @@ form taxOfficeExample {
     hasBoughtHouse: boolean = true == true
   "Did you enter a loan?"
     hasMaintLoan: boolean
+  "Easy integer addition" nummer: integer = 1+1
   if (hasSoldHouse) {
     "What was the selling price?"
       sellingPrice: money
@@ -32,6 +33,6 @@ form taxOfficeExample {
       privateDebt: money = 1000,00
     "Value residue:"
       valueResidue: money =
-        (sellingPrice - privateDebt)
+        ((3.0*privateDebt) - privateDebt)
   }
 }

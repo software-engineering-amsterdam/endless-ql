@@ -1,6 +1,6 @@
 package ast.model.statements;
 
-import ast.model.datatypes.TypeDeclaration;
+import ast.model.declarations.TypeDeclaration;
 import ast.model.expressions.Expression;
 import ast.visitors.ASTNodeVisitor;
 

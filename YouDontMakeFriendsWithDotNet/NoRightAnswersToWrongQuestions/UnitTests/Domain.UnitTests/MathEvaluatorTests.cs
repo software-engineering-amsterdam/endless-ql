@@ -42,7 +42,7 @@
 //        [Test]
 //        public void WhenGivenSingleNumber_ReturnsSameNumber()
 //        {
-//            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+//            var questionnaireCreator = m_serviceProvider.GetService<IQuestionnaireAstCreator>();
 //            var domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
 //            var validText = "form NameForm { x: \"xyz\" integer = (1 + 1) }";
 //            questionnaireCreator.Create(validText);

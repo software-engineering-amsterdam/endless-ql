@@ -4,6 +4,8 @@ import nl.uva.js.qlparser.models.expressions.Form;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -26,13 +28,14 @@ public class GUIBuilder {
     public static Frame getGUI(Form form) {
         Frame mainFrame = getMainFrame();
 
-        JPanel inputPanel  = getTextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT);
+        JPanel inputPanel  = getTextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray);
         JPanel formPanel   = getFormPanel(form);
         JPanel bottomPanel = getBottomPanel();
 
         mainFrame.add(inputPanel, BorderLayout.LINE_START);
         mainFrame.add(formPanel, BorderLayout.CENTER);
         mainFrame.add(bottomPanel, BorderLayout.PAGE_END);
+        bottomPanel.setVisible(true);
 
         mainFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -51,7 +54,6 @@ public class GUIBuilder {
         mainFrame.setSize(new Dimension(FULL_WIDTH, FULL_HEIGHT));
         mainFrame.setResizable(false);
         mainFrame.setLayout(new BorderLayout());
-        mainFrame.setVisible(true);
 
         return mainFrame;
     }
@@ -74,6 +76,7 @@ public class GUIBuilder {
         scrollPane.setBounds(2, 5, FORM_WIDTH - 15    , panelHeight);
 
         formPanel.setPreferredSize(new Dimension(FORM_WIDTH, panelHeight));
+        formPanel.setBackground(Color.gray);
         formPanel.add(scrollPane);
 
         return formPanel;
@@ -82,30 +85,86 @@ public class GUIBuilder {
     private static JPanel getBottomPanel() {
         JPanel bottomPanel = new JPanel();
 
-        JPanel buttonPanel = getButtonPanel();
-        JPanel logPanel    = getTextPanel(FULL_WIDTH, LOG_HEIGHT);
+        JPanel menuButtons = getMenuButtons();
+        JPanel console     = getTextPanel(FULL_WIDTH, LOG_HEIGHT, Color.black);
 
         bottomPanel.setLayout(new BorderLayout());
-        bottomPanel.add(buttonPanel, BorderLayout.PAGE_START);
-        bottomPanel.add(logPanel, BorderLayout.PAGE_END);
-        bottomPanel.setVisible(true);
+        bottomPanel.add(menuButtons, BorderLayout.PAGE_START);
+        bottomPanel.add(console, BorderLayout.PAGE_END);
+        console.setVisible(true);
 
         return bottomPanel;
     }
 
-    private static JPanel getButtonPanel() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(FULL_WIDTH, BUTTON_HEIGHT));
-        return buttonPanel;
+    private static JPanel getMenuButtons() {
+        JPanel menuBar = getButtonPanel(FULL_WIDTH);
+
+        JButton loadButton = getButton("Load QL", 150);
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        JButton saveButton = getButton("Save QL", 150);
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        JButton processButton = getButton("Process QL", 150);
+        processButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        JButton exportButton = getButton("Load QL", 250);
+        exportButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        menuBar.add(loadButton);
+        menuBar.add(saveButton);
+        menuBar.add(processButton);
+        menuBar.add(getButtonPanel(210));
+        menuBar.add(exportButton);
+        menuBar.add(getButtonPanel(220));
+        return menuBar;
     }
 
-    private static JPanel getTextPanel(int width, int height) {
+    private static JButton getButton(String text, int width) {
+        JButton button = new JButton(text);
+        button.setPreferredSize(new Dimension(width, BUTTON_HEIGHT));
+        return button;
+    }
+
+    private static JPanel getButtonPanel(int i) {
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(i, BUTTON_HEIGHT));
+        panel.setBackground(Color.gray);
+        return panel;
+    }
+
+    private static JPanel getTextPanel(int width, int height, Color color) {
         JPanel textPanel = new JPanel();
+        textPanel.setBackground(Color.gray);
 
         TextArea textArea = new TextArea("",0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
         textArea.setPreferredSize(new Dimension(width, height));
+        textArea.setBackground(color);
+        textArea.setForeground(Color.white);
+        textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 
         textPanel.add(textArea);
+        textPanel.setVisible(true);
 
         return textPanel;
     }

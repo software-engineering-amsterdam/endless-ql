@@ -1,4 +1,22 @@
 form taxOfficeExample {
+  ""
+    a: string
+""
+    b: string
+""
+    c: string
+""
+    d: string
+""
+    e: string
+""
+    f: string
+""
+    g: string
+""
+    h: string
+""
+    i: string
   "What is your name?"
     name: string
   "Did you sell a house in 2010?"

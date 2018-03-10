@@ -29,7 +29,10 @@ trait QLWidget[T] extends Control {
 
 class QLTextField() extends TextField with QLWidget[String] {
   focusedProperty().addListener(new ChangeListener[lang.Boolean] {
-    override def changed(observable: ObservableValue[_ <: lang.Boolean], oldValue: lang.Boolean, newValue: lang.Boolean): Unit =
+    override def changed(
+        observable: ObservableValue[_ <: lang.Boolean],
+        oldValue: lang.Boolean,
+        newValue: lang.Boolean): Unit =
       if (oldValue) valueChanged
   })
   textProperty().addListener(new ChangeListener[String] {
@@ -51,7 +54,10 @@ class QLDateField() extends DatePicker with QLWidget[LocalDate] {
 
 class QLBooleanField extends CheckBox with QLWidget[Boolean] {
   selectedProperty().addListener(new ChangeListener[lang.Boolean] {
-    override def changed(observable: ObservableValue[_ <: lang.Boolean], oldValue: lang.Boolean, newValue: lang.Boolean): Unit =
+    override def changed(
+        observable: ObservableValue[_ <: lang.Boolean],
+        oldValue: lang.Boolean,
+        newValue: lang.Boolean): Unit =
       valueChanged
   })
   override def setValue(value: Boolean): Unit = setSelected(value)
@@ -60,7 +66,10 @@ class QLBooleanField extends CheckBox with QLWidget[Boolean] {
 
 class QLIntegerField() extends TextField with QLWidget[java.lang.Integer] {
   focusedProperty().addListener(new ChangeListener[lang.Boolean] {
-    override def changed(observable: ObservableValue[_ <: lang.Boolean], oldValue: lang.Boolean, newValue: lang.Boolean): Unit =
+    override def changed(
+        observable: ObservableValue[_ <: lang.Boolean],
+        oldValue: lang.Boolean,
+        newValue: lang.Boolean): Unit =
       if (oldValue) valueChanged
   })
   private val integerFormatter =
@@ -72,7 +81,10 @@ class QLIntegerField() extends TextField with QLWidget[java.lang.Integer] {
 
 class QLDecimalField() extends TextField with QLWidget[java.math.BigDecimal] {
   focusedProperty().addListener(new ChangeListener[lang.Boolean] {
-    override def changed(observable: ObservableValue[_ <: lang.Boolean], oldValue: lang.Boolean, newValue: lang.Boolean): Unit =
+    override def changed(
+        observable: ObservableValue[_ <: lang.Boolean],
+        oldValue: lang.Boolean,
+        newValue: lang.Boolean): Unit =
       if (oldValue) valueChanged
   })
   private val decimalFormatter =
@@ -84,7 +96,10 @@ class QLDecimalField() extends TextField with QLWidget[java.math.BigDecimal] {
 
 class QLMoneyField() extends TextField with QLWidget[java.math.BigDecimal] {
   focusedProperty().addListener(new ChangeListener[lang.Boolean] {
-    override def changed(observable: ObservableValue[_ <: lang.Boolean], oldValue: lang.Boolean, newValue: lang.Boolean): Unit =
+    override def changed(
+        observable: ObservableValue[_ <: lang.Boolean],
+        oldValue: lang.Boolean,
+        newValue: lang.Boolean): Unit =
       if (oldValue) valueChanged
   })
   private val decimalFormatter =

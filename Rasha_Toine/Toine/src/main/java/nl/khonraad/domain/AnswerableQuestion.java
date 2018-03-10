@@ -10,7 +10,25 @@ public class AnswerableQuestion {
 
 		this.identifier = identifier;
 		this.label = label;
-		this.value = new Value(type, 0);
+		
+		switch( type ) {
+			case Integer:
+				this.value = new Value(type, "0");
+				break;
+			case Boolean:
+				this.value = new Value(type, "False");
+				break;
+			case Money:
+				this.value = new Value(type, "0.00");
+				break;
+			case String:
+				this.value = new Value(type, "");
+				break;
+			case Date:
+				this.value = new Value(type, "01/01/1970");
+				break;
+				
+		}
 	}
 
 	public String getIdentifier() {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace QLVisualizer.Tests.Elements
+namespace QLVisualizer.Tests.Elementss
 {
     public interface IElementFactoryTest
     {

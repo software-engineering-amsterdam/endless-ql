@@ -1,11 +1,11 @@
 ﻿using QLParser.AST.Nodes;
 using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
-using QLVisualizer.ElementManagers;
-using QLVisualizer.ElementManagers.LeafTypes;
+using QLVisualizer.Elements.Managers;
+using QLVisualizer.Elements.Managers.LeafTypes;
 using System;
 using System.Linq;
-using QLVisualizer.ElementManagers.CollectionTypes;
+using QLVisualizer.Elements.Managers.CollectionTypes;
 
 namespace QLVisualizer.Factories
 {

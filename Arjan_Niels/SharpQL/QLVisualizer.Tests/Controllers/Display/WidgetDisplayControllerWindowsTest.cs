@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLVisualizer.Controllers;
 using QLVisualizer.Controllers.Display;
 using QLVisualizer.Style;
-using QLVisualizer.ElementManagers.LeafTypes;
+using QLVisualizer.Elements.Managers.LeafTypes;
 
 namespace QLVisualizer.Tests.Controllers.Display
 {
@@ -34,7 +34,9 @@ namespace QLVisualizer.Tests.Controllers.Display
             _intWidget.SetAnswer(20);
 
             // Element value does not equal origional value
-            Assert.AreNotEqual(_widgetDisplayController.ElementIndex[_intWidget.Identifier], 10);
+            // TODO: reimplement this test
+            Assert.Fail();
+            //Assert.AreNotEqual(_widgetDisplayController.ElementsIndex[_intWidget.Identifier], 10);
         }
 
         [TestMethod]
@@ -50,7 +52,9 @@ namespace QLVisualizer.Tests.Controllers.Display
             _boolWidget.SetAnswer(false);
 
             // Element value does not equal origional value
-            Assert.AreNotEqual(_widgetDisplayController.ElementIndex[_boolWidget.Identifier], true);
+            // TODO: reimplement this test
+            Assert.Fail();
+            //Assert.AreNotEqual(_widgetDisplayController.ElementsIndex[_boolWidget.Identifier], true);
         }
 
         [TestMethod]
@@ -66,7 +70,9 @@ namespace QLVisualizer.Tests.Controllers.Display
             _stringWidget.SetAnswer("pass");
 
             // Element value does not equal origional value
-            Assert.AreNotEqual(_widgetDisplayController.ElementIndex[_stringWidget.Identifier], "fail");
+            // TODO: reimplement this test
+            Assert.Fail();
+            //Assert.AreNotEqual(_widgetDisplayController.ElementsIndex[_stringWidget.Identifier], "fail");
         }
     }
 }

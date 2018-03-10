@@ -5,7 +5,7 @@ using System.Text;
 using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 
-namespace QLVisualizer.ElementManagers
+namespace QLVisualizer.Elements.Managers
 {
     public abstract class ElementManagerCollection : ElementManager
     {

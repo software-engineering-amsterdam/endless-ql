@@ -1,5 +1,6 @@
 package nl.uva.js.qlparser.ui;
 
+import nl.uva.js.qlparser.logic.FormBuilder;
 import nl.uva.js.qlparser.models.expressions.Form;
 
 import javax.swing.*;
@@ -8,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class GUIBuilder {
@@ -25,16 +29,25 @@ public class GUIBuilder {
     private static final int FULL_HEIGHT = FORM_VIEW_HEIGHT + FOOTER_HEIGHT;
     private static final int FULL_WIDTH  = FORM_WIDTH + INPUT_WIDTH;
 
-    public static Frame getGUI(Form form) {
-        Frame mainFrame = getMainFrame();
+    private static Frame mainFrame;
+    private static JPanel inputPanel;
+    private static JPanel formPanel;
+    private static JPanel bottomPanel;
+    private static JPanel console;
+    private static JPanel contentPanel;
 
-        JPanel inputPanel  = getTextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray);
-        JPanel formPanel   = getFormPanel(form);
-        JPanel bottomPanel = getBottomPanel();
+    public static Frame getGUI(Form form) {
+        mainFrame   = getMainFrame();
+        inputPanel  = getTextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray);
+        formPanel   = getFormPanel(form);
+        bottomPanel = getBottomPanel();
+
+        setInput(loadDefaultFileContent());
 
         mainFrame.add(inputPanel, BorderLayout.LINE_START);
         mainFrame.add(formPanel, BorderLayout.CENTER);
         mainFrame.add(bottomPanel, BorderLayout.PAGE_END);
+
         bottomPanel.setVisible(true);
 
         mainFrame.addWindowListener(new WindowAdapter() {
@@ -48,6 +61,29 @@ public class GUIBuilder {
         return mainFrame;
     }
 
+    private static void setInput(String ql) {
+        TextArea input = ((TextArea) inputPanel.getComponent(0));
+        input.setText(ql);
+    }
+
+    private static String loadDefaultFileContent() {
+        try {
+            String file = GUIBuilder.class.getClassLoader().getResource(System.getProperty("ql.file")).getFile();
+            return new String(Files.readAllBytes(Paths.get(file)));
+        } catch (IOException e) {
+            log(e.getMessage());
+        }
+        return "";
+    }
+
+    private static void log(String message) {
+        System.out.println("HAI");
+        TextArea log = ((TextArea) console.getComponent(0));
+        log.setText(log.getText() + "\n" + message);
+        log.revalidate();
+        log.repaint();
+    }
+
     private static Frame getMainFrame() {
         Frame mainFrame = new Frame();
 
@@ -59,7 +95,7 @@ public class GUIBuilder {
     }
 
     private static JPanel getFormPanel(Form form) {
-        JPanel contentPanel    = new JPanel();
+        contentPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         JPanel formPanel       = new JPanel(null);
 
@@ -86,7 +122,7 @@ public class GUIBuilder {
         JPanel bottomPanel = new JPanel();
 
         JPanel menuButtons = getMenuButtons();
-        JPanel console     = getTextPanel(FULL_WIDTH, LOG_HEIGHT, Color.black);
+        console = getTextPanel(FULL_WIDTH, LOG_HEIGHT, Color.black);
 
         bottomPanel.setLayout(new BorderLayout());
         bottomPanel.add(menuButtons, BorderLayout.PAGE_START);
@@ -119,7 +155,7 @@ public class GUIBuilder {
         processButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                reloadForm();
             }
         });
 
@@ -138,6 +174,24 @@ public class GUIBuilder {
         menuBar.add(exportButton);
         menuBar.add(getButtonPanel(220));
         return menuBar;
+    }
+
+    private static void reloadForm() {
+        contentPanel.removeAll();
+
+        Form newForm = FormBuilder.parseFormFromString(getInput());
+
+        List<Component> components = newForm.getComponents();
+        components.forEach(contentPanel::add);
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    private static String getInput() {
+        TextArea input = ((TextArea) inputPanel.getComponent(0));
+        return input.getText();
+
     }
 
     private static JButton getButton(String text, int width) {

@@ -28,7 +28,7 @@ public class GUIBuilder {
     public static Frame getGUI(Form form) {
         Frame mainFrame = getMainFrame();
 
-        JPanel inputPanel  = getTextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT);
+        JPanel inputPanel  = getTextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray);
         JPanel formPanel   = getFormPanel(form);
         JPanel bottomPanel = getBottomPanel();
 
@@ -76,6 +76,7 @@ public class GUIBuilder {
         scrollPane.setBounds(2, 5, FORM_WIDTH - 15    , panelHeight);
 
         formPanel.setPreferredSize(new Dimension(FORM_WIDTH, panelHeight));
+        formPanel.setBackground(Color.gray);
         formPanel.add(scrollPane);
 
         return formPanel;
@@ -84,23 +85,21 @@ public class GUIBuilder {
     private static JPanel getBottomPanel() {
         JPanel bottomPanel = new JPanel();
 
-        JPanel buttonPanel = getButtonPanel();
-        JPanel logPanel    = getTextPanel(FULL_WIDTH, LOG_HEIGHT);
+        JPanel menuButtons = getMenuButtons();
+        JPanel console     = getTextPanel(FULL_WIDTH, LOG_HEIGHT, Color.black);
 
         bottomPanel.setLayout(new BorderLayout());
-        bottomPanel.add(buttonPanel, BorderLayout.PAGE_START);
-        bottomPanel.add(logPanel, BorderLayout.PAGE_END);
-        logPanel.setVisible(true);
+        bottomPanel.add(menuButtons, BorderLayout.PAGE_START);
+        bottomPanel.add(console, BorderLayout.PAGE_END);
+        console.setVisible(true);
 
         return bottomPanel;
     }
 
-    private static JPanel getButtonPanel() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(FULL_WIDTH, BUTTON_HEIGHT));
+    private static JPanel getMenuButtons() {
+        JPanel menuBar = getButtonPanel(FULL_WIDTH);
 
-        JButton loadButton = new JButton("Load QL");
-        loadButton.setPreferredSize(new Dimension(150, BUTTON_HEIGHT));
+        JButton loadButton = getButton("Load QL", 150);
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -108,8 +107,7 @@ public class GUIBuilder {
             }
         });
 
-        JButton saveButton = new JButton("Save QL");
-        saveButton.setPreferredSize(new Dimension(150, BUTTON_HEIGHT));
+        JButton saveButton = getButton("Save QL", 150);
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,8 +115,7 @@ public class GUIBuilder {
             }
         });
 
-        JButton processButton = new JButton("Process QL");
-        processButton.setPreferredSize(new Dimension(150, BUTTON_HEIGHT));
+        JButton processButton = getButton("Process QL", 150);
         processButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,15 +123,7 @@ public class GUIBuilder {
             }
         });
 
-        JPanel spacingL = new JPanel();
-        spacingL.setPreferredSize(new Dimension(210, BUTTON_HEIGHT));
-
-        JPanel spacingR = new JPanel();
-        spacingR.setPreferredSize(new Dimension(220, BUTTON_HEIGHT));
-
-
-        JButton exportButton = new JButton("Export form");
-        exportButton.setPreferredSize(new Dimension(250, BUTTON_HEIGHT));
+        JButton exportButton = getButton("Load QL", 250);
         exportButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -142,24 +131,35 @@ public class GUIBuilder {
             }
         });
 
-
-        buttonPanel.add(loadButton);
-        buttonPanel.add(saveButton);
-        buttonPanel.add(processButton);
-        buttonPanel.add(spacingL);
-        buttonPanel.add(exportButton);
-        buttonPanel.add(spacingR);
-
-
-
-        return buttonPanel;
+        menuBar.add(loadButton);
+        menuBar.add(saveButton);
+        menuBar.add(processButton);
+        menuBar.add(getButtonPanel(210));
+        menuBar.add(exportButton);
+        menuBar.add(getButtonPanel(220));
+        return menuBar;
     }
 
-    private static JPanel getTextPanel(int width, int height) {
+    private static JButton getButton(String text, int width) {
+        JButton button = new JButton(text);
+        button.setPreferredSize(new Dimension(width, BUTTON_HEIGHT));
+        return button;
+    }
+
+    private static JPanel getButtonPanel(int i) {
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(i, BUTTON_HEIGHT));
+        panel.setBackground(Color.gray);
+        return panel;
+    }
+
+    private static JPanel getTextPanel(int width, int height, Color color) {
         JPanel textPanel = new JPanel();
+        textPanel.setBackground(Color.gray);
 
         TextArea textArea = new TextArea("",0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
         textArea.setPreferredSize(new Dimension(width, height));
+        textArea.setBackground(color);
 
         textPanel.add(textArea);
         textPanel.setVisible(true);

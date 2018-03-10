@@ -2,6 +2,7 @@ package nl.uva.js.qlparser.ui;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.models.expressions.data.Variable;
 
 import javax.swing.*;
@@ -13,6 +14,7 @@ public class ComponentBuilder {
     public static JTextField buildTextField(Variable v) {
         JTextField textField = new JTextField(1);
 
+        NonNullRun.consumer(v.getValue(), val -> textField.setText(val.value().toString()));
         textField.getDocument().addDocumentListener(new TextChangeListener(textField));
 
         return textField;

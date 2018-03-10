@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLVisualizer.ElementManagers.LeafTypes;
+using QLVisualizer.Elements.Managers.LeafTypes;
 
-namespace QLVisualizer.Tests.ElementManagers.Typed
+namespace QLVisualizer.Tests.Elements.Managers.Typed
 {
     [TestClass]
     public class IntWidgetTest : QuestionWidget<IntQuestionManager, int>

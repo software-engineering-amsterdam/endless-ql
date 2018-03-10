@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLVisualizer.ElementManagers;
+using QLVisualizer.Elements.Managers;
 
-namespace QLVisualizer.Tests.ElementManagers
+namespace QLVisualizer.Tests.Elements.Managers
 {
     [TestClass]
     public abstract class ElementManagerTest<T> where T : ElementManagerLeaf

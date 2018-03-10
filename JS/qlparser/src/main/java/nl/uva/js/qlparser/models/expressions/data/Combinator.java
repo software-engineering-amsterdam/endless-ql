@@ -13,8 +13,8 @@ import nl.uva.js.qlparser.exceptions.TypeNotPossibleException;
 @Builder
 public class Combinator<T> implements DataExpression {
     @NonNull private Operator operator;
-    @NonNull private DataExpression left;
-    @NonNull private DataExpression right;
+    @NonNull private DataExpression<T> left;
+    @NonNull private DataExpression<T> right;
 
     @Override
     public DataType checkAndReturnType() {
@@ -34,6 +34,6 @@ public class Combinator<T> implements DataExpression {
 
     @Override
     public T value() {
-        return (T) new Object();
+        return (T) operator.getApply().apply(left.value(), right.value());
     }
 }

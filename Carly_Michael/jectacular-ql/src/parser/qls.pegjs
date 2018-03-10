@@ -32,8 +32,8 @@ section         = ws comment* ws "section" ws "\"" name:text "\"" ws "{" ws
                   ws comment* ws
                   "}" ws {
                     return new Section(name, sections, questions, location());
-                  } / ws comment* ws "section" ws "\"" name:identifier "\"" ws questions:question {
-                    return new Section(name, [], questions, location());
+                  } / ws comment* ws "section" ws "\"" name:identifier "\"" ws question:question {
+                    return new Section(name, [], [question], location());
                   }
 
 question        = ws comment* ws "question" ws name:identifier ws type:defaultWidget {

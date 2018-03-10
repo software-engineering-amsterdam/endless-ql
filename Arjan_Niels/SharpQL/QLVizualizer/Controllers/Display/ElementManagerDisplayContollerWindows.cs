@@ -7,8 +7,8 @@ using QLVisualizer.Expression;
 using QLVisualizer.Factories;
 using QLVisualizer.Properties;
 using QLVisualizer.Style;
-using QLVisualizer.ElementManagers;
-using QLVisualizer.ElementManagers.CollectionTypes;
+using QLVisualizer.Elements.Managers;
+using QLVisualizer.Elements.Managers.CollectionTypes;
 
 namespace QLVisualizer.Controllers.Display
 {

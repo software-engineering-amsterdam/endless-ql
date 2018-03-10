@@ -1,5 +1,5 @@
 ﻿using QLVisualizer.Controllers;
-using QLVisualizer.ElementManagers;
+using QLVisualizer.Elements.Managers;
 
 namespace QLVisualizer.Factories
 {

@@ -4,9 +4,9 @@ using QLVisualizer.Controllers;
 using QLVisualizer.Controllers.Display;
 using QLVisualizer.Factories;
 using QLVisualizer.Style;
-using QLVisualizer.ElementManagers.LeafTypes;
+using QLVisualizer.Elements.Managers.LeafTypes;
 
-namespace QLVisualizer.Tests.Elements
+namespace QLVisualizer.Tests.Elementss
 {
     [TestClass]
     public class ControlFactoryTest : IElementFactoryTest

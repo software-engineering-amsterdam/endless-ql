@@ -166,8 +166,8 @@ function peg$parse(input, options) {
   const peg$c16 = function(name, questions, sections) {
                       return new Section(name, sections, questions, location());
                     };
-  const peg$c17 = function(name, questions) {
-                      return new Section(name, [], questions, location());
+  const peg$c17 = function(name, question) {
+                      return new Section(name, [], [question], location());
                     };
   const peg$c18 = "question";
   const peg$c19 = peg$literalExpectation("question", false);

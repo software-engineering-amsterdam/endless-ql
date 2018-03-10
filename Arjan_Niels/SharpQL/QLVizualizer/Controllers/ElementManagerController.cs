@@ -2,10 +2,10 @@
 using QLParser.Analysis;
 using QLParser.AST.Nodes;
 using QLVisualizer.Factories;
-using QLVisualizer.ElementManagers;
+using QLVisualizer.Elements.Managers;
 using System.Collections.Generic;
 using System.Linq;
-using QLVisualizer.ElementManagers.CollectionTypes;
+using QLVisualizer.Elements.Managers.CollectionTypes;
 
 namespace QLVisualizer.Controllers
 {
@@ -73,6 +73,8 @@ namespace QLVisualizer.Controllers
                 return;
             }
 
+            FormManager formManager = ElementManagerFactory.CreateForm(node, this);
+            DisplayForm(formManager.Text, formManager);
             //IEnumerable<ElementManager> widgets = ElementManagerFactory.CreateWidgets(node, this);
             //DisplayForm(node.FormName, widgets.ToArray());
         }
@@ -101,7 +103,10 @@ namespace QLVisualizer.Controllers
         }
 
         // TODO: check if class is status -sensitive
-        public abstract void Reset();
+        public virtual void Reset()
+        {
+            _form = null;
+        }
 
         public ElementManager GetElementManager(string elementID)
         {

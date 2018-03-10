@@ -1,7 +1,7 @@
 ﻿using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 
-namespace QLVisualizer.ElementManagers.CollectionTypes
+namespace QLVisualizer.Elements.Managers.CollectionTypes
 {
     public class SectionManager : ElementManagerSubCollection
     {

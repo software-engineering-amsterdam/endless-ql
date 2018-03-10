@@ -47,12 +47,14 @@
   <ItemGroup>
     <Compile Include="Controllers\Display\ElementManagerDisplayContollerWindows.cs" />
     <Compile Include="Controllers\ElementManagerController.cs" />
-    <Compile Include="ElementManagers\CollectionTypes\ElementManagerSubCollection.cs" />
-    <Compile Include="ElementManagers\CollectionTypes\FormManager.cs" />
-    <Compile Include="ElementManagers\CollectionTypes\PageManager.cs" />
-    <Compile Include="ElementManagers\CollectionTypes\SectionManager.cs" />
-    <Compile Include="ElementManagers\ElementManagerCollection.cs" />
-    <Compile Include="ElementManagers\ElementManager.cs" />
+    <Compile Include="Elements\ElementUtils.cs" />
+    <Compile Include="Elements\Managers\CollectionTypes\ElementManagerSubCollection.cs" />
+    <Compile Include="Elements\Managers\CollectionTypes\FormManager.cs" />
+    <Compile Include="Elements\Managers\CollectionTypes\PageManager.cs" />
+    <Compile Include="Elements\Managers\CollectionTypes\SectionManager.cs" />
+    <Compile Include="Elements\Managers\ElementManagerCollection.cs" />
+    <Compile Include="Elements\Managers\ElementManager.cs" />
+    <Compile Include="Elements\ElementTypes.cs" />
     <Compile Include="Expression\ExpressionOperators.cs" />
     <Compile Include="Expression\Types\ExpressionBool.cs" />
     <Compile Include="Expression\ExpressionOperator.cs" />
@@ -69,13 +71,23 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\Display\ElementManagerDisplayController.cs" />
     <Compile Include="UserMessages.cs" />
-    <Compile Include="ElementManagers\QuestionElementManager.cs" />
-    <Compile Include="ElementManagers\ElementManagerLeaf.cs" />
-    <Compile Include="ElementManagers\LeafTypes\BoolQuestionManager.cs" />
-    <Compile Include="ElementManagers\LeafTypes\IntQuestionManager.cs" />
-    <Compile Include="ElementManagers\LeafTypes\MoneyQuestionManager.cs" />
-    <Compile Include="ElementManagers\LeafTypes\StringQuestionManager.cs" />
-    <Compile Include="ElementManagers\QuestionElementValue.cs" />
+    <Compile Include="Elements\Managers\QuestionElementManager.cs" />
+    <Compile Include="Elements\Managers\ElementManagerLeaf.cs" />
+    <Compile Include="Elements\Managers\LeafTypes\BoolQuestionManager.cs" />
+    <Compile Include="Elements\Managers\LeafTypes\IntQuestionManager.cs" />
+    <Compile Include="Elements\Managers\LeafTypes\MoneyQuestionManager.cs" />
+    <Compile Include="Elements\Managers\LeafTypes\StringQuestionManager.cs" />
+    <Compile Include="Elements\Managers\QuestionElementValue.cs" />
+    <Compile Include="Widgets\WidgetCollectionCreator.cs" />
+    <Compile Include="Widgets\WidgetCreator.cs" />
+    <Compile Include="Widgets\WidgetLeafCreator.cs" />
+    <Compile Include="Widgets\Windows\Collections\FormCreatorWindows.cs" />
+    <Compile Include="Widgets\Windows\Collections\PageCreatorWindows.cs" />
+    <Compile Include="Widgets\Windows\Collections\SectionCreatorWindows.cs" />
+    <Compile Include="Widgets\Windows\Leafs\BoolCreatorWindows.cs" />
+    <Compile Include="Widgets\Windows\Leafs\IntCreatorWindows.cs" />
+    <Compile Include="Widgets\Windows\Leafs\MoneyCreatorWindows.cs" />
+    <Compile Include="Widgets\Windows\Leafs\StringCreatorWindows.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -100,13 +112,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\eye_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\QLParser\QLParser.csproj">
       <Project>{aed597d7-3472-4d95-9d15-7ba9b8bbe89e}</Project>
       <Name>QLParser</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\eye_icon.ico" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

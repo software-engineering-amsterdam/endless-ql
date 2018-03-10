@@ -1,7 +1,7 @@
 ﻿using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 
-namespace QLVisualizer.ElementManagers.LeafTypes
+namespace QLVisualizer.Elements.Managers.LeafTypes
 {
     public class BoolQuestionManager : QuestionElementManager<bool>
     {

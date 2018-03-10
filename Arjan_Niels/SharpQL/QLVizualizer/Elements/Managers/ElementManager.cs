@@ -3,7 +3,7 @@ using QLVisualizer.Expression.Types;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QLVisualizer.ElementManagers
+namespace QLVisualizer.Elements.Managers
 {
     public abstract class ElementManager
     {

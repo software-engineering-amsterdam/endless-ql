@@ -1,6 +1,6 @@
-package nl.uva.se.sc.niro.model
+package nl.uva.se.sc.niro.model.ql
 
-import nl.uva.se.sc.niro.model.expressions.Expression
+import nl.uva.se.sc.niro.model.ql.expressions.Expression
 
 object SymbolTable {
   def createSymbolTable(qLForm: QLForm): Map[String, Symbol] = {

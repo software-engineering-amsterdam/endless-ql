@@ -1,8 +1,8 @@
-package nl.uva.se.sc.niro.model.expressions.answers
+package nl.uva.se.sc.niro.model.ql.expressions.answers
 
-import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.expressions.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
-import nl.uva.se.sc.niro.model.expressions.Orderings.IntAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.model.ql.expressions.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
+import nl.uva.se.sc.niro.model.ql.expressions.Orderings.IntAnswerCanDoOrderings._
 
 final case class IntegerAnswer(possibleValue: Option[Int]) extends Answer {
 

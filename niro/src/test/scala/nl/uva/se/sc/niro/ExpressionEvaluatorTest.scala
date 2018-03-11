@@ -3,9 +3,9 @@ package nl.uva.se.sc.niro
 import java.time.LocalDate
 
 import nl.uva.se.sc.niro.Evaluator.evaluateExpression
-import nl.uva.se.sc.niro.model.{ Div, Mul, Sub, _ }
-import nl.uva.se.sc.niro.model.expressions.answers._
-import nl.uva.se.sc.niro.model.expressions.{ BinaryOperation, Reference }
+import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.model.ql.expressions.answers._
+import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Reference }
 import org.scalatest.prop.TableDrivenPropertyChecks
 import org.scalatest.{ Matchers, WordSpec }
 

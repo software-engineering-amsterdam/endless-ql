@@ -5,7 +5,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
-import javafx.event.{ ActionEvent, EventHandler }
 import javafx.scene.control.{ CheckBox, Control, DatePicker, TextField }
 import javafx.util.converter.LocalDateStringConverter
 import nl.uva.se.sc.niro.gui.builder.TextFormatterBuilder

@@ -6,9 +6,9 @@ import javafx.scene.control._
 import javafx.scene.layout.HBox
 import nl.uva.se.sc.niro.gui.factory._
 import nl.uva.se.sc.niro.gui.listener.{ ComponentChangedListener, ValueChangedListener }
-import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.expressions.answers._
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
+import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.model.ql.expressions.answers._
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer

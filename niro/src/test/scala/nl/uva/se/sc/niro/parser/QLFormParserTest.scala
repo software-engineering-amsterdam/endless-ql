@@ -2,9 +2,10 @@ package nl.uva.se.sc.niro.parser
 
 import java.io.IOException
 
-import nl.uva.se.sc.niro.model.expressions.answers.{ BooleanAnswer, DecimalAnswer, IntegerAnswer, StringAnswer }
-import nl.uva.se.sc.niro.model.expressions.{ BinaryOperation, Reference, UnaryOperation }
+import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, DecimalAnswer, IntegerAnswer, StringAnswer }
+import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Reference, UnaryOperation }
 import nl.uva.se.sc.niro.model._
+import nl.uva.se.sc.niro.model.ql._
 import org.antlr.v4.runtime.{ CharStream, CharStreams }
 import org.scalatest.FunSuite
 

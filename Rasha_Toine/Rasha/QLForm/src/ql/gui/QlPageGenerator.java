@@ -74,54 +74,54 @@ public class QlPageGenerator implements QlGraphicalInterface<FormGUI, QuestionGU
 	public WidgetInterface createValueWidget(Question question, EvaluationContext ctx) {
 		return question.getType().accept(new TypeVisitor<WidgetInterface, Void>() {
 			
-				// type visitor found undefined type, no widget is created
-                @Override
-                public WidgetInterface visit(UndefinedType type, Void ctx) {
-                	throw new UnsupportedOperationException(
-                			"Error WidgetInterface: Value type is undefined!");
-                }
-
-				@Override
-				public WidgetInterface visit(BooleanType type, Void ctx2){
-					//default False "No"
-					FieldOption defaultOption = new FieldOption("No", BooleanValue.FALSE);
-					FieldOption otherOption = new FieldOption("Yes", BooleanValue.TRUE);
-					List<FieldOption> optionsList = new ArrayList<>();
-					optionsList.add(defaultOption);
-					optionsList.add(otherOption);
-					FieldOptions options = new FieldOptions(optionsList, defaultOption);
-					return new RadioBtn(question, options, ctx);
-				}
+			// type visitor found undefined type, no widget is created
+			@Override
+			public WidgetInterface visit(UndefinedType type, Void ctx) {
+				throw new UnsupportedOperationException(
+						"Error WidgetInterface: Value type is undefined!");
+			}
+			
+			@Override
+			public WidgetInterface visit(BooleanType type, Void ctx2){
+				//default False "No"
+				FieldOption defaultOption = new FieldOption("No", BooleanValue.FALSE);
+				FieldOption otherOption = new FieldOption("Yes", BooleanValue.TRUE);
+				List<FieldOption> optionsList = new ArrayList<>();
+				optionsList.add(defaultOption);
+				optionsList.add(otherOption);
+				FieldOptions options = new FieldOptions(optionsList, defaultOption);
+				return new RadioBtn(question, options, ctx);
+			}
+			
+			@Override
+			public WidgetInterface visit(StringType type, Void ctx2) {
+				//default empty string
+				return new TextField(question, new StringValue(""), ctx);
+			}
 				
-				@Override
-				public WidgetInterface visit(StringType type, Void ctx2) {
-					//default empty string
-					return new TextField(question, new StringValue(""), ctx);
-				}
-					
-				@Override
-				public WidgetInterface visit(MoneyType type, Void ctx2) {
-					//default 0.0
-					return new TextField(question, new DecimalValue(BigDecimal.valueOf(0.0)), ctx);
-				}
-				
-				@Override
-				public WidgetInterface visit(DateType type, Void ctx2) {
-					//default today
-					return new TextField(question, new DateValue(new Date()), ctx);
-				}
-				
-				@Override
-				public WidgetInterface visit(IntegerType type, Void ctx2) {
-					//default 0
-					return new TextField(question, new IntegerValue(0), ctx);
-				}
-				
-				@Override
-				public WidgetInterface visit(DecimalType type, Void ctx2) {
-					//default 0.0
-					return new TextField(question, new DecimalValue(BigDecimal.valueOf(0.0)), ctx);
-				}
+			@Override
+			public WidgetInterface visit(MoneyType type, Void ctx2) {
+				//default 0.0
+				return new TextField(question, new DecimalValue(BigDecimal.valueOf(0.0)), ctx);
+			}
+			
+			@Override
+			public WidgetInterface visit(DateType type, Void ctx2) {
+				//default today
+				return new TextField(question, new DateValue(new Date()), ctx);
+			}
+			
+			@Override
+			public WidgetInterface visit(IntegerType type, Void ctx2) {
+				//default 0
+				return new TextField(question, new IntegerValue(0), ctx);
+			}
+			
+			@Override
+			public WidgetInterface visit(DecimalType type, Void ctx2) {
+				//default 0.0
+				return new TextField(question, new DecimalValue(BigDecimal.valueOf(0.0)), ctx);
+			}
 				
 		  },
 		  null);

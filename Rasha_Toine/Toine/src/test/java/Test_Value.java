@@ -12,17 +12,17 @@ import org.junit.Test;
 import nl.khonraad.domain.Type;
 import nl.khonraad.domain.Value;
 
-public class TestValue {
+public class Test_Value {
 
-	Value valueOf( boolean i ) {
+	Value booleanValue( boolean i ) {
 		return new Value( Type.Boolean, i ? "True" : "False" );
 	}
 
-	Value iValue( int i ) {
+	Value integerValue( int i ) {
 		return new Value( Type.Integer, Integer.toString( i ) );
 	}
 
-	Value sValue( String s ) {
+	Value stringValue( String s ) {
 		return new Value( Type.String, s );
 	}
 
@@ -32,41 +32,45 @@ public class TestValue {
 
 	@Test
 	public void boolean_and_boolean() {
-		qt().forAll( booleans().all(), booleans().all() )
-				.check( ( φ, ψ ) -> valueOf( φ ).apply( "&&", valueOf( ψ ) ).equals( valueOf( φ && ψ ) ) );
+		qt().forAll( booleans().all(), booleans().all() ).check(
+				( φ, ψ ) -> booleanValue( φ ).apply( "&&", booleanValue( ψ ) ).equals( booleanValue( φ && ψ ) ) );
 	}
 
 	@Test
 	public void boolean_or_boolean() {
-		qt().forAll( booleans().all(), booleans().all() )
-				.check( ( φ, ψ ) -> valueOf( φ ).apply( "||", valueOf( ψ ) ).equals( valueOf( φ || ψ ) ) );
+		qt().forAll( booleans().all(), booleans().all() ).check(
+				( φ, ψ ) -> booleanValue( φ ).apply( "||", booleanValue( ψ ) ).equals( booleanValue( φ || ψ ) ) );
 	}
 
 	@Test
 	public void string_plus_string() {
 		qt().forAll( strings().basicLatinAlphabet().ofLengthBetween( 0, 10000 ),
 				strings().basicLatinAlphabet().ofLengthBetween( 0, 10000 ) )
-				.check( ( s1, s2 ) -> sValue( s1 ).apply( "+", sValue( s2 ) ).equals( sValue( s1 + s2 ) ) );
+				.check( ( s1, s2 ) -> stringValue( s1 ).apply( "+", stringValue( s2 ) )
+						.equals( stringValue( s1 + s2 ) ) );
 	}
 
 	@Test
 	public void string_plus_integer() {
-		qt().forAll( strings().basicLatinAlphabet().ofLengthBetween( 0, 10000 ), integers().all() ).check(
-				( s, n ) -> sValue( s ).apply( "+", iValue( n ) ).equals( sValue( s + Integer.toString( n ) ) ) );
+		qt().forAll( strings().basicLatinAlphabet().ofLengthBetween( 0, 10000 ), integers().all() )
+				.check( ( string, integer ) -> stringValue( string ).apply( "+", integerValue( integer ) )
+						.equals( stringValue( string + integer ) ) );
 	}
 
 	@Test
 	public void string_plus_money() {
 		qt().forAll( strings().basicLatinAlphabet().ofLengthBetween( 0, 10000 ),
 				bigDecimals().ofBytes( 32 ).withScale( 2 ) )
-				.check( ( s, n ) -> sValue( s ).apply( "+", moneyValue( n ) ).equals( sValue( s + n.toString() ) ) );
+				.check( ( string, money ) -> stringValue( string ).apply( "+", moneyValue( money ) )
+						.equals( stringValue( string + money.toString() ) ) );
 	}
 
 	@Test
 	public void integer_plus_integer() {
 		qt().forAll( integers().between( -(Integer.MAX_VALUE) / 2, (Integer.MAX_VALUE) / 2 ),
 				integers().between( -(Integer.MAX_VALUE) / 2, (Integer.MAX_VALUE) / 2 ) )
-				.check( ( n1, n2 ) -> iValue( n1 ).apply( "+", iValue( n2 ) ).equals( iValue( n1 + n2 ) ) );
+				.check( ( integer1, integer2 ) -> integerValue( integer1 ).apply( "+", integerValue( integer2 ) )
+						.equals( integerValue( integer1 + integer2 ) ) );
 	}
 
 }

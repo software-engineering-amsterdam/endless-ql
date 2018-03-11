@@ -31,6 +31,12 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   @FXML var next: Button = _
 
   @FXML
+  def initialize: Unit = {
+    navigationBar.managedProperty().bind(navigationBar.visibleProperty())
+    navigationBar.setVisible(false)
+  }
+
+  @FXML
   @throws[IOException]
   def cancel(event: ActionEvent): Unit =
     QLForms.openHomeScreen(getActiveStage(event))
@@ -58,9 +64,6 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
 
   def initializeForm(form: QLForm): Unit = {
     this.qlForm = form
-
-    navigationBar.managedProperty().bind(navigationBar.visibleProperty())
-    navigationBar.setVisible(false)
 
     guiForm = ModelConverter.convert(this.qlForm)
     formName.setText(guiForm.name)

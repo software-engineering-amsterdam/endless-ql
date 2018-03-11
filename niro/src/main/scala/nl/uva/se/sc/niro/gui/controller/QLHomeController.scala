@@ -23,8 +23,6 @@ class QLHomeController extends QLBaseController {
     if (selectedFile != null) try {
       val formOrErrors: Either[Seq[Errors.Error], QLForm] = QLFormService.importQLSpecification(selectedFile)
       val qlsFile = new File(selectedFile.toString + "s")
-      pprint.pprintln(qlsFile.toString)
-      pprint.pprintln(qlsFile.exists().toString)
       formOrErrors match {
         case Right(form)  => handleSuccess(stage, form)
         case Left(errors) => handleErrors(errors)

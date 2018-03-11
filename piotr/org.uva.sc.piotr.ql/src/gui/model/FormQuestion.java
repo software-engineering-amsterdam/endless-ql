@@ -78,4 +78,17 @@ public class FormQuestion {
     public void setValue(ExpressionResult value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "FormQuestion{" +
+                "label='" + label + '\'' +
+                ", variableName='" + variableName + '\'' +
+                ", variableDataType=" + variableDataType.name() +
+                ", visibilityCondition=" + visibilityCondition +
+                ", assignedExpression=" + assignedExpression +
+                ", visibility=" + visibility +
+                ", value=" + value +
+                '}';
+    }
 }

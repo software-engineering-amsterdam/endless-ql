@@ -1,5 +1,7 @@
 form taxOfficeExample
 {
+  "What is your age?"
+    age: integer
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
   "Did you buy a house in 2010?"

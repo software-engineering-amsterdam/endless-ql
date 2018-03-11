@@ -75,6 +75,38 @@ public class ExpressionResult {
         return booleanValue;
     }
 
+    public void setStringValue(String stringValue) {
+        if (this.type == Expression.DataType.STRING) {
+            this.stringValue = stringValue;
+        } else {
+            throw new RuntimeException("Illegal value assignment: String value cannot be assigned to " + this.type.name() + " type.");
+        }
+    }
+
+    public void setDecimalValue(BigDecimal decimalValue) {
+        if (this.type == Expression.DataType.DECIMAL) {
+            this.decimalValue = decimalValue;
+        } else {
+            throw new RuntimeException("Illegal value assignment: Decimal value cannot be assigned to " + this.type.name() + " type.");
+        }
+    }
+
+    public void setIntegerValue(Integer integerValue) {
+        if (this.type == Expression.DataType.INTEGER) {
+            this.integerValue = integerValue;
+        } else {
+            throw new RuntimeException("Illegal value assignment: Integer value cannot be assigned to " + this.type.name() + " type.");
+        }
+    }
+
+    public void setBooleanValue(Boolean booleanValue) {
+        if (this.type == Expression.DataType.BOOLEAN) {
+            this.booleanValue = booleanValue;
+        } else {
+            throw new RuntimeException("Illegal value assignment: Boolean value cannot be assigned to " + this.type.name() + " type.");
+        }
+    }
+
     public Expression.DataType getType() {
         return type;
     }

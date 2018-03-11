@@ -23,6 +23,10 @@ public class ExpressionEvaluator extends AbstractASTTraverse<ExpressionResult> {
         this.variablesValues = variablesValues;
     }
 
+    public void setVariablesValues(HashMap<String, ExpressionResult> variablesValues) {
+        this.variablesValues = variablesValues;
+    }
+
     @Override
     public ExpressionResult visit(Negation negation) {
         ExpressionResult result = negation.getExpression().accept(this);

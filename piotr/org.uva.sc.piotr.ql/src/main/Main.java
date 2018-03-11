@@ -28,7 +28,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CharStream charStream = CharStreams.fromFileName("./example-ql/form1.qlform");
+        CharStream charStream = CharStreams.fromFileName("./example-ql/form0.qlform");
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
         QLParser qlParser = new QLParser(commonTokenStream);
@@ -103,11 +103,25 @@ public class Main {
 //            variablesValues.put(variableReference.getName(), ExpressionResult.createExpressionResult(variableReference.))
 //        }
 
-
         CollectFormFieldModelsVisitor collectFormFieldModelsVisitor = new CollectFormFieldModelsVisitor();
         form.accept(collectFormFieldModelsVisitor);
 
         List<FormQuestion> formQuestions = collectFormFieldModelsVisitor.getFormQuestions();
+
+        ExpressionEvaluator evaluator = new ExpressionEvaluator(collectFormFieldModelsVisitor.getVariablesValues());
+
+        // initial evaluation
+        for (FormQuestion formQuestion : formQuestions) {
+            if (formQuestion.getAssignedExpression() != null) {
+                formQuestion.setValue(formQuestion.getAssignedExpression().accept(evaluator));
+            }
+            if (formQuestion.getVisibilityCondition() != null) {
+                formQuestion.setVisibility(formQuestion.getVisibilityCondition().accept(evaluator));
+            } else {
+                formQuestion.setVisibility(new ExpressionResult(Expression.DataType.BOOLEAN, true));
+            }
+        }
+
         new QLGui(formQuestions);
 
 

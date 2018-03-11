@@ -31,11 +31,11 @@ public class TextForm extends JPanel {
         fields = new JComponent[formQuestions.size()];
 
         int i = 0;
-        for (FormQuestion fieldModel : formQuestions) {
+        for (FormQuestion formQuestion : formQuestions) {
 
-            System.out.println(fieldModel.getVariableType().name());
+            System.out.println(formQuestion.getVariableDataType().name());
 
-            if (fieldModel.getVariableType() == Expression.DataType.STRING) {
+            if (formQuestion.getVariableDataType() == Expression.DataType.STRING) {
                 JTextField textField = new JTextField();
                 textField.setColumns(20);
                 textField.getDocument().addDocumentListener(new DocumentListener() {
@@ -57,7 +57,7 @@ public class TextForm extends JPanel {
                 });
 
                 fields[i] = textField;
-            } else if (fieldModel.getVariableType() == Expression.DataType.INTEGER) {
+            } else if (formQuestion.getVariableDataType() == Expression.DataType.INTEGER) {
                 SpinnerModel spinnerModel = new SpinnerNumberModel(
                         0,
                         Integer.MIN_VALUE,
@@ -70,7 +70,7 @@ public class TextForm extends JPanel {
 
                 fields[i] = spinner;
 
-            } else if (fieldModel.getVariableType() == Expression.DataType.DECIMAL) {
+            } else if (formQuestion.getVariableDataType() == Expression.DataType.DECIMAL) {
                 NumberFormat format = DecimalFormat.getInstance();
                 format.setGroupingUsed(false);
                 NumberFormatter formatter = new NumberFormatter(format);
@@ -97,7 +97,7 @@ public class TextForm extends JPanel {
                 });
                 fields[i] = field;
 
-            } else if (fieldModel.getVariableType() == Expression.DataType.BOOLEAN) {
+            } else if (formQuestion.getVariableDataType() == Expression.DataType.BOOLEAN) {
                 JCheckBox checkbox = new JCheckBox();
                 checkbox.addItemListener(new ItemListener() {
 
@@ -114,7 +114,7 @@ public class TextForm extends JPanel {
                 System.out.println("E-eeeeee");
             }
 
-            JLabel lab = new JLabel(fieldModel.getLabel(), JLabel.RIGHT);
+            JLabel lab = new JLabel(formQuestion.getLabel(), JLabel.RIGHT);
             lab.setLabelFor(fields[i]);
             labelPanel.add(lab);
 

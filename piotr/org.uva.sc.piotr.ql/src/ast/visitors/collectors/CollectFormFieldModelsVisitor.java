@@ -9,6 +9,7 @@ import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
 import ast.model.statements.Statement;
 import ast.visitors.AbstractASTTraverse;
+import ast.visitors.evaluators.ExpressionResult;
 import gui.model.FormQuestion;
 
 import java.util.*;
@@ -35,13 +36,15 @@ public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
 
         Expression aggregatedVisibilityCondition = this.aggregateConditionsStack();
 
-        this.formQuestions.add(new FormQuestion(
+        FormQuestion formQuestion = new FormQuestion(
                 question.getLabel(),
                 question.getVariableName(),
                 question.getVariableType().toDataType(),
                 aggregatedVisibilityCondition,
                 question.getAssignedExpression()
-                ));
+        );
+
+        this.formQuestions.add(formQuestion);
 
         question.getVariableType().accept(this);
         if (question.getAssignedExpression() != null) {
@@ -88,5 +91,14 @@ public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
         }
 
         return finalExpression;
+    }
+
+    public HashMap<String, ExpressionResult> getVariablesValues() {
+
+        HashMap<String, ExpressionResult> variablesValues = new HashMap<>();
+        for (FormQuestion formQuestion : this.formQuestions) {
+            variablesValues.put(formQuestion.getVariableName(), formQuestion.getValue());
+        }
+        return variablesValues;
     }
 }

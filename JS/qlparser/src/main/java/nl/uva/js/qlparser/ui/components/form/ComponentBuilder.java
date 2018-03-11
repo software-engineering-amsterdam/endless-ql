@@ -1,4 +1,4 @@
-package nl.uva.js.qlparser.ui;
+package nl.uva.js.qlparser.ui.components.form;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

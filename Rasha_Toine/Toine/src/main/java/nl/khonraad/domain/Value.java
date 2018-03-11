@@ -178,7 +178,8 @@ public class Value {
 		switch (type_left + "-" + type_right) {
 
 			case "Date-Integer":
-				break;
+				return new Value( Type.Date, dateToString(
+						new Date( dateStringToLong( text_left ) - 24 * 60 * 60 * 1000 * new Long( text_right ) ) ) );
 			case "Integer-Integer":
 				return new Value( Type.Integer,
 						Integer.toString( (Integer.parseInt( text_left ) - Integer.parseInt( text_right )) ) );

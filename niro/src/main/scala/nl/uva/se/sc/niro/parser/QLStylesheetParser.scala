@@ -25,7 +25,7 @@ object QLStylesheetParser extends Logging {
 
   object StylesheetVisitor extends QLSBaseVisitor[QLStylesheet] {
     override def visitStylesheet(ctx: QLSParser.StylesheetContext): QLStylesheet = {
-      val pages = JavaConverters.asScalaBuffer(ctx.page).map(PageVisitor.visit)
+      val pages = JavaConverters.asScalaBuffer(ctx.page).map(PageVisitor.visit).toList
       QLStylesheet(ctx.name.getText, pages)
     }
   }

@@ -4,8 +4,8 @@ import java.io.IOException
 
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.control.Label
-import javafx.scene.layout.VBox
+import javafx.scene.control.{ Button, Label }
+import javafx.scene.layout.{ BorderPane, VBox }
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.gui.application.QLForms
 import nl.uva.se.sc.niro.gui.control.{ Component, ComponentFactory }
@@ -26,14 +26,29 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   @FXML var formName: Label = _
   @FXML var questionArea: VBox = _
 
+  @FXML var navigationBar: BorderPane = _
+  @FXML var back: Button = _
+  @FXML var next: Button = _
+
   @FXML
   @throws[IOException]
   def cancel(event: ActionEvent): Unit =
     QLForms.openHomeScreen(getActiveStage(event))
 
-  @FXML def saveData(event: ActionEvent): Unit =
+  @FXML
+  def saveData(event: ActionEvent): Unit =
     // TODO Implement
     println("Data is saved....")
+
+  @FXML
+  def back(event: ActionEvent): Unit =
+  // TODO Implement
+    println("Going back...")
+
+  @FXML
+  def next(event: ActionEvent): Unit =
+  // TODO Implement
+    println("Going forward...")
 
   def componentChanged(component: Component[_]): Unit = {
     dictionary(component.getQuestionId) = component.getValue
@@ -43,6 +58,10 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
 
   def initializeForm(form: QLForm): Unit = {
     this.qlForm = form
+
+    navigationBar.managedProperty().bind(navigationBar.visibleProperty())
+    navigationBar.setVisible(false)
+
     guiForm = ModelConverter.convert(this.qlForm)
     formName.setText(guiForm.name)
 

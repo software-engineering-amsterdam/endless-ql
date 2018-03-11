@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model.qls
 
-case class QLStylesheet(name: String, pages: Seq[Page])
+case class QLStylesheet(name: String, pages: List[Page])
 
 case class Page(name: String, sections: Seq[Section])
 

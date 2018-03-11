@@ -1,7 +1,9 @@
 package nl.uva.js.qlparser.ui;
 
+import nl.uva.js.qlparser.exceptions.ParseException;
 import nl.uva.js.qlparser.logic.FormBuilder;
 import nl.uva.js.qlparser.models.expressions.Form;
+import nl.uva.js.qlparser.ui.components.gui.FormPanel;
 import nl.uva.js.qlparser.ui.components.gui.TextPanel;
 
 import javax.swing.*;
@@ -13,7 +15,6 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 public class GUIBuilder {
 
@@ -32,23 +33,24 @@ public class GUIBuilder {
 
     private static Frame mainFrame;
     private static TextPanel inputPanel;
-    private static JPanel formPanel;
+    private static FormPanel formPanel;
     private static JPanel bottomPanel;
     private static TextPanel console;
-    private static JPanel formContent;
 
     public static Frame getGUI(Form form) {
-        mainFrame   = getMainFrame();
-        formPanel   = getFormPanel(form);
-        bottomPanel = getBottomPanel();
-
-        inputPanel  = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray);
+        inputPanel = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray);
         inputPanel.setText(loadDefaultFileContent());
 
+        formPanel = new FormPanel(form, FORM_VIEW_HEIGHT, FORM_WIDTH, FORM_HEIGHT);
+
+        bottomPanel = getBottomPanel();
+
+        mainFrame = getMainFrame();
         mainFrame.add(inputPanel, BorderLayout.LINE_START);
         mainFrame.add(formPanel, BorderLayout.CENTER);
         mainFrame.add(bottomPanel, BorderLayout.PAGE_END);
 
+        formPanel.setVisible(true);
         bottomPanel.setVisible(true);
 
         mainFrame.addWindowListener(new WindowAdapter() {
@@ -58,7 +60,6 @@ public class GUIBuilder {
             }
         });
 
-        mainFrame.setVisible(true);
         return mainFrame;
     }
 
@@ -66,7 +67,7 @@ public class GUIBuilder {
         try {
             String file = GUIBuilder.class.getClassLoader().getResource(System.getProperty("ql.file")).getFile();
             return new String(Files.readAllBytes(Paths.get(file)));
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             log(e.getMessage());
         }
         return "";
@@ -86,30 +87,6 @@ public class GUIBuilder {
         mainFrame.setLayout(new BorderLayout());
 
         return mainFrame;
-    }
-
-    private static JPanel getFormPanel(Form form) {
-        formContent = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(formContent);
-        JPanel formPanel       = new JPanel(null);
-
-        int panelHeight        = FORM_VIEW_HEIGHT - 5;
-
-        formContent.setPreferredSize(new Dimension(FORM_WIDTH, FORM_HEIGHT));
-        formContent.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-        List<Component> components = form.getComponents();
-        components.forEach(formContent::add);
-
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBounds(2, 5, FORM_WIDTH - 15    , panelHeight);
-
-        formPanel.setPreferredSize(new Dimension(FORM_WIDTH, panelHeight));
-        formPanel.setBackground(Color.gray);
-        formPanel.add(scrollPane);
-
-        return formPanel;
     }
 
     private static JPanel getBottomPanel() {
@@ -171,15 +148,12 @@ public class GUIBuilder {
     }
 
     private static void reloadForm() {
-        formContent.removeAll();
-
-        Form newForm = FormBuilder.parseFormFromString(inputPanel.getText());
-
-        List<Component> components = newForm.getComponents();
-        components.forEach(formContent::add);
-
-        formContent.revalidate();
-        formContent.repaint();
+        try {
+            Form form = FormBuilder.parseFormFromString(inputPanel.getText());
+            formPanel.reload(form);
+        } catch (ParseException e) {
+            log(e.getMessage());
+        }
     }
 
     private static JButton getButton(String text, int width) {

@@ -38,7 +38,7 @@ public class GUIBuilder {
     private static TextPanel console;
 
     public static Frame getGUI(Form form) {
-        inputPanel = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray);
+        inputPanel = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray, true);
         inputPanel.setText(loadDefaultFileContent());
 
         formPanel = new FormPanel(form, FORM_VIEW_HEIGHT, FORM_WIDTH, FORM_HEIGHT);
@@ -93,7 +93,8 @@ public class GUIBuilder {
         JPanel bottomPanel = new JPanel();
 
         JPanel menuButtons = getMenuButtons();
-        console = new TextPanel(FULL_WIDTH, LOG_HEIGHT, Color.black);
+        console = new TextPanel(FULL_WIDTH, LOG_HEIGHT, Color.black, false);
+
 
         bottomPanel.setLayout(new BorderLayout());
         bottomPanel.add(menuButtons, BorderLayout.PAGE_START);

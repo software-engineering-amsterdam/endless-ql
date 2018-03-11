@@ -25,9 +25,9 @@ abstract class Answer extends Expression {
 object Answer {
   def apply(answerType: String): Answer = answerType match {
     case "boolean" => BooleanAnswer()
-    case "integer" => IntAnswer()
+    case "integer" => IntegerAnswer()
     case "string"  => StringAnswer()
-    case "decimal" => DecAnswer()
+    case "decimal" => DecimalAnswer()
     case "money"   => MoneyAnswer()
     case "date"    => DateAnswer()
     case _         => throw new IllegalArgumentException(s"Unsupported answer type: $answerType")

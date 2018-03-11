@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro
 
 import nl.uva.se.sc.niro.Evaluator.Dictionary
 import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.expressions.answers.{ BooleanAnswer, DecAnswer, IntAnswer }
+import nl.uva.se.sc.niro.model.expressions.answers.{ BooleanAnswer, DecimalAnswer, IntegerAnswer }
 import nl.uva.se.sc.niro.model.expressions.{ BinaryOperation, Reference, UnaryOperation }
 import org.scalatest.WordSpec
 
@@ -21,8 +21,8 @@ class EvaluatorTest extends WordSpec {
         val qLForm = QLForm(
           formName = "Revenue",
           statements = List(
-            Question("revenue", "How much did you earn", IntegerType, IntAnswer(1000)),
-            Question("expenses", "How much did you earn", IntegerType, IntAnswer(800)),
+            Question("revenue", "How much did you earn", IntegerType, IntegerAnswer(1000)),
+            Question("expenses", "How much did you earn", IntegerType, IntegerAnswer(800)),
             Conditional(
               BooleanAnswer(true),
               Seq(
@@ -38,9 +38,9 @@ class EvaluatorTest extends WordSpec {
         val result = Evaluator.evaluate(qLForm, Map.empty)
         val expected =
           Map(
-            "revenue" -> IntAnswer(Some(1000)),
-            "expenses" -> IntAnswer(Some(800)),
-            "profit" -> IntAnswer(Some(200))
+            "revenue" -> IntegerAnswer(Some(1000)),
+            "expenses" -> IntegerAnswer(Some(800)),
+            "profit" -> IntegerAnswer(Some(200))
           )
 
         assert(result == expected)
@@ -51,8 +51,8 @@ class EvaluatorTest extends WordSpec {
           "EditOrNotToEdit",
           List(
             Question("booleanVariable", "Boolean variable", BooleanType, BooleanAnswer(None)),
-            Question("integerVariable", "Integer variable", IntegerType, IntAnswer(None)),
-            Question("decimalVariable", "Decimal variable", DecimalType, DecAnswer(None)),
+            Question("integerVariable", "Integer variable", IntegerType, IntegerAnswer(None)),
+            Question("decimalVariable", "Decimal variable", DecimalType, DecimalAnswer(None)),
             Conditional(
               Reference("booleanVariable"),
               List(
@@ -60,9 +60,9 @@ class EvaluatorTest extends WordSpec {
                   "integerConstant",
                   "Integer constant",
                   IntegerType,
-                  BinaryOperation(Mul, IntAnswer(21), IntAnswer(2))
+                  BinaryOperation(Mul, IntegerAnswer(21), IntegerAnswer(2))
                 ),
-                Question("decimalConstant", "Decimal constant", DecimalType, DecAnswer(42.4))
+                Question("decimalConstant", "Decimal constant", DecimalType, DecimalAnswer(42.4))
               )
             ),
             Conditional(
@@ -74,7 +74,7 @@ class EvaluatorTest extends WordSpec {
                   IntegerType,
                   BinaryOperation(
                     Add,
-                    BinaryOperation(Add, Reference("integerConstant"), IntAnswer(Some(1))),
+                    BinaryOperation(Add, Reference("integerConstant"), IntegerAnswer(Some(1))),
                     Reference("integerVariable")
                   )
                 ),
@@ -84,7 +84,7 @@ class EvaluatorTest extends WordSpec {
                   DecimalType,
                   BinaryOperation(
                     Add,
-                    BinaryOperation(Add, Reference("decimalConstant"), DecAnswer(1.0)),
+                    BinaryOperation(Add, Reference("decimalConstant"), DecimalAnswer(1.0)),
                     Reference("decimalVariable")
                   )
                 )
@@ -95,18 +95,18 @@ class EvaluatorTest extends WordSpec {
 
         val inputs: Dictionary = Map(
           "booleanVariable" -> BooleanAnswer(false),
-          "integerVariable" -> IntAnswer(12),
-          "decimalConstant" -> DecAnswer(42.4)
+          "integerVariable" -> IntegerAnswer(12),
+          "decimalConstant" -> DecimalAnswer(42.4)
         )
 
         val result = Evaluator.evaluate(qlForm, inputs)
         val expected: Dictionary =
           Map(
-            "integerConstant" -> IntAnswer(42),
+            "integerConstant" -> IntegerAnswer(42),
             "booleanVariable" -> BooleanAnswer(false),
-            "integerExpression" -> IntAnswer(55),
-            "integerVariable" -> IntAnswer(12),
-            "decimalConstant" -> DecAnswer(42.4)
+            "integerExpression" -> IntegerAnswer(55),
+            "integerVariable" -> IntegerAnswer(12),
+            "decimalConstant" -> DecimalAnswer(42.4)
           )
 
         assert(result == expected)

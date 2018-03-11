@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox
 import nl.uva.se.sc.niro.gui.factory._
 import nl.uva.se.sc.niro.gui.listener.{ ComponentChangedListener, ValueChangedListener }
 import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.expressions.answers.{ DecAnswer, _ }
+import nl.uva.se.sc.niro.model.expressions.answers._
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
 
 import scala.collection.mutable
@@ -76,7 +76,7 @@ case class DateComponent(id: String, label: Label, control: QLWidget[LocalDate])
 
 case class IntegerComponent(id: String, label: Label, control: QLWidget[Integer])
     extends Component[Int](id, label, control) {
-  override def getValue: IntAnswer = IntAnswer(control.getValue)
+  override def getValue: IntegerAnswer = IntegerAnswer(control.getValue)
   override def setValue(value: Option[Int]): Unit = control.setValue(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit = {
     setValue(if (dictionary.isDefinedAt(id)) dictionary(id).possibleValue.asInstanceOf[Option[Int]] else None)
@@ -86,13 +86,14 @@ case class IntegerComponent(id: String, label: Label, control: QLWidget[Integer]
 
 case class DecimalComponent(id: String, label: Label, control: QLWidget[java.math.BigDecimal])
     extends Component[BigDecimal](id, label, control) {
-  override def getValue: DecAnswer = toAnswer(control.getValue)
+  override def getValue: DecimalAnswer = toAnswer(control.getValue)
   override def setValue(value: Option[BigDecimal]): Unit = control.setValue(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
     setValue(if (dictionary.isDefinedAt(id)) dictionary(id).possibleValue.asInstanceOf[Option[BigDecimal]] else None)
   private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal =
     if (value.isDefined) value.get.bigDecimal else null
-  private def toAnswer(value: java.math.BigDecimal): DecAnswer = if (value == null) DecAnswer() else DecAnswer(value)
+  private def toAnswer(value: java.math.BigDecimal): DecimalAnswer =
+    if (value == null) DecimalAnswer() else DecimalAnswer(value)
 }
 
 case class MoneyComponent(id: String, label: Label, control: QLWidget[java.math.BigDecimal])

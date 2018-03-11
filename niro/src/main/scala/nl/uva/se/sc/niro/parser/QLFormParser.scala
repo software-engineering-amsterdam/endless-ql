@@ -113,10 +113,10 @@ object QLFormParser extends Logging {
       BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
     }
     override def visitIntegerConstant(ctx: QLParser.IntegerConstantContext): Expression = {
-      IntAnswer(ctx.IntegerValue().getText.toInt)
+      IntegerAnswer(ctx.IntegerValue().getText.toInt)
     }
     override def visitDecimalConstant(ctx: QLParser.DecimalConstantContext): Expression = {
-      DecAnswer(BigDecimal(ctx.DecimalValue().getText))
+      DecimalAnswer(BigDecimal(ctx.DecimalValue().getText))
     }
     override def visitBooleanConstant(ctx: QLParser.BooleanConstantContext): Expression = {
       BooleanAnswer(ctx.getText.toBoolean)

@@ -68,14 +68,7 @@ public class TextForm extends JPanel {
                 );
 
                 JSpinner spinner = new JSpinner(spinnerModel);
-                spinner.addChangeListener(new ChangeListener() {
-
-                    @Override
-                    public void stateChanged(ChangeEvent e) {
-                        System.out.println("Spinner value changed to: " + spinner.getValue());
-
-                    }
-                });
+                spinner.addChangeListener(e -> System.out.println("Spinner value changed to: " + spinner.getValue()));
 
                 fields[i] = spinner;
 

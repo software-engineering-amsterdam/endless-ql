@@ -2,6 +2,8 @@ package ql.gui.widget;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.LinkedHashMap;
 
@@ -16,7 +18,7 @@ import ql.ast.statement.Question;
 import ql.visiting.value.Value;
 
 
-public class RadioBtn extends Widget{
+public class RadioBtn extends Widget implements ActionListener {
 	
 	private JPanel panel;
 	private FieldOptions options;
@@ -37,6 +39,7 @@ public class RadioBtn extends Widget{
 		for (FieldOption option : options.getOptions()) {
 			JRadioButton radioBtn = new JRadioButton(option.getName());
 			radioBtn.setActionCommand(option.getName());
+			radioBtn.addActionListener(this);
 			group.add(radioBtn);
 			radioButtons.put(option, radioBtn); //key = option, val= radioBtn
 			this.panel.add(radioBtn);
@@ -103,5 +106,9 @@ public class RadioBtn extends Widget{
 		FieldOption option = options.getOptionByValue(value);
 		radioButtons.get(option).setSelected(true);
 	}
-
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		setValue(options.getOptionByName(e.getActionCommand()).getValue());
+	}
 }

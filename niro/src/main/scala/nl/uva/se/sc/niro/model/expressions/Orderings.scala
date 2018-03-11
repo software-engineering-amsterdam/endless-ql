@@ -44,6 +44,16 @@ object Orderings {
     def equ(x: StringAnswer, y: StringAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ == _))
   }
   implicit object StringAnswerCanDoOrderings extends StringAnswerCanDoOrderings
+
+  trait DateAnswerCanDoOrderings extends Orderings[DateAnswer] {
+    def lt(x: DateAnswer, y: DateAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_.isBefore(_)))
+    def lte(x: DateAnswer, y: DateAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(!_.isAfter(_)))
+    def gte(x: DateAnswer, y: DateAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(!_.isBefore(_)))
+    def gt(x: DateAnswer, y: DateAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_.isAfter(_)))
+    def neq(x: DateAnswer, y: DateAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(!_.isEqual(_)))
+    def equ(x: DateAnswer, y: DateAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_.isEqual(_)))
+  }
+  implicit object DateAnswerCanDoOrderings extends DateAnswerCanDoOrderings
 }
 
 trait Orderings[SubType <: Answer] {

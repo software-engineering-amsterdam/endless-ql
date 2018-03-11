@@ -272,18 +272,15 @@ class QLFormParserTest extends FunSuite {
         List(
           Conditional(
             BooleanAnswer(Some(true)),
-            List(Question("firstIf", "FirstIf", DecimalType, DecAnswer(None), None)),
-            None
+            List(Question("firstIf", "FirstIf", DecimalType, DecAnswer(None)))
           ),
           Conditional(
             BooleanAnswer(Some(false)),
-            List(Question("firstElseIf", "FirstElseIf", IntegerType, IntAnswer(None), None)),
-            None
+            List(Question("firstElseIf", "FirstElseIf", IntegerType, IntAnswer(None)))
           ),
           Conditional(
             UnaryOperation(Neg, BooleanAnswer(Some(false))),
-            List(Question("danglingElse", "DanglingElse", BooleanType, BooleanAnswer(None), None)),
-            None
+            List(Question("danglingElse", "DanglingElse", BooleanType, BooleanAnswer(None)))
           )
         )
       )

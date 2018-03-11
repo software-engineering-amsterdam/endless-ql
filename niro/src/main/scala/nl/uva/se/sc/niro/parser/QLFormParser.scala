@@ -92,25 +92,25 @@ object QLFormParser extends Logging {
       visit(ctx.expression())
     }
     override def visitUnaryExpr(ctx: QLParser.UnaryExprContext): Expression = {
-      UnaryOperation(UnaryOperator(ctx.op.getText), visit(ctx.expression))
+      UnaryOperation(Operator(ctx.op.getText), visit(ctx.expression))
     }
     override def visitMultiplicativeExpr(ctx: QLParser.MultiplicativeExprContext): Expression = {
-      BinaryOperation(BinaryOperator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+      BinaryOperation(Operator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
     }
     override def visitAdditiveExpr(ctx: QLParser.AdditiveExprContext): Expression = {
-      BinaryOperation(BinaryOperator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+      BinaryOperation(Operator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
     }
     override def visitRelationalExp(ctx: QLParser.RelationalExpContext): Expression = {
-      BinaryOperation(BinaryOperator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+      BinaryOperation(Operator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
     }
     override def visitEqualityExpr(ctx: QLParser.EqualityExprContext): Expression = {
-      BinaryOperation(BinaryOperator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+      BinaryOperation(Operator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
     }
     override def visitLogicalAndExpr(ctx: QLParser.LogicalAndExprContext): Expression = {
-      BinaryOperation(BinaryOperator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+      BinaryOperation(Operator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
     }
     override def visitLogicalOrExpr(ctx: QLParser.LogicalOrExprContext): Expression = {
-      BinaryOperation(BinaryOperator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+      BinaryOperation(Operator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
     }
     override def visitIntConst(ctx: QLParser.IntConstContext): Expression = {
       IntAnswer(ctx.IntValue().getText.toInt)

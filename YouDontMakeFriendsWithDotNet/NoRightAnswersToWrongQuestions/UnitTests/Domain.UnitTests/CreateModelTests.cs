@@ -78,24 +78,23 @@ namespace UnitTests.Domain.UnitTests
                 expected: questionType, 
                 actual: domainItem.QuestionType);
         }
-
-
-        //[TestCaseSource(
-        //    typeof(TestModelCreationData),
-        //    nameof(TestModelCreationData.DefaultQuestionValues))]
-        //public void GivenAnUninitiatedValue_ReturnsDefaultValue(
-        //    string validDefinition,
-        //    string questionValue)
-        //{
-        //    CreateForm(validDefinition);
-        //    var outputItem = m_domainItemLocator
-        //        .GetAll<IQuestionOutputItem>()
-        //        .FirstOrDefault();
-        //    Assert.NotNull(outputItem);
-        //    Assert.AreEqual(
-        //        expected: questionValue,
-        //        actual: outputItem.Value);
-        //}
+        
+        [TestCaseSource(
+            typeof(TestModelCreationData),
+            nameof(TestModelCreationData.DefaultQuestionValues))]
+        public void GivenAnUninitiatedValue_ReturnsDefaultValue(
+            string validDefinition,
+            string questionValue)
+        {
+            CreateForm(validDefinition);
+            var outputItem = m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .FirstOrDefault();
+            Assert.NotNull(outputItem);
+            Assert.AreEqual(
+                expected: questionValue,
+                actual: outputItem.Value);
+        }
 
         private void CreateForm(string validText)
         {

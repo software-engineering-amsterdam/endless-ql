@@ -60,21 +60,21 @@ namespace UnitTests.Domain.UnitTests
                     string.Format(formTemplate, "boolean"),
                     default(bool).ToString());
 
-                //yield return new TestCaseData(
-                //    string.Format(formTemplate, "string"),
-                //    default(string));
+                yield return new TestCaseData(
+                    string.Format(formTemplate, "string"),
+                    string.Empty);
 
-                //yield return new TestCaseData(
-                //    string.Format(formTemplate, "decimal"),
-                //    default(decimal).ToString(CultureInfo.InvariantCulture));
+                yield return new TestCaseData(
+                    string.Format(formTemplate, "decimal"),
+                    default(decimal).ToString(CultureInfo.InvariantCulture));
 
-                //yield return new TestCaseData(
-                //    string.Format(formTemplate, "integer"),
-                //    default(int).ToString(CultureInfo.InvariantCulture));
+                yield return new TestCaseData(
+                    string.Format(formTemplate, "integer"),
+                    default(int).ToString(CultureInfo.InvariantCulture));
 
-                //yield return new TestCaseData(
-                //    string.Format(formTemplate, "date"),
-                //    default(DateTime).ToString(CultureInfo.InvariantCulture));
+                yield return new TestCaseData(
+                    string.Format(formTemplate, "date"),
+                    default(DateTime).ToString(CultureInfo.InvariantCulture));
             }
         }
     }

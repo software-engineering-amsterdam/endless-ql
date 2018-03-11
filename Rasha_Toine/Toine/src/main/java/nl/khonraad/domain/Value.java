@@ -124,6 +124,7 @@ public class Value {
 	}
 
 	private Value divided_by( Value rightOperand ) {
+		
 		Type type_right = rightOperand.getType();
 		Type type_left = this.getType();
 		String text_left = this.getText();

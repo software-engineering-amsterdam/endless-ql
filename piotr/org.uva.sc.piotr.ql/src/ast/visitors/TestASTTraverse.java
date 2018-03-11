@@ -1,10 +1,10 @@
 package ast.visitors;
 
 import ast.model.Form;
-import ast.model.datatypes.TypeDeclarationBoolean;
-import ast.model.datatypes.TypeDeclarationDecimal;
-import ast.model.datatypes.TypeDeclarationInteger;
-import ast.model.datatypes.TypeDeclarationString;
+import ast.model.declarations.TypeDeclarationBoolean;
+import ast.model.declarations.TypeDeclarationDecimal;
+import ast.model.declarations.TypeDeclarationInteger;
+import ast.model.declarations.TypeDeclarationString;
 import ast.model.expressions.binary.arithmetics.Addition;
 import ast.model.expressions.binary.arithmetics.Division;
 import ast.model.expressions.binary.arithmetics.Multiplication;
@@ -18,6 +18,7 @@ import ast.model.expressions.values.Literal;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
+import ast.model.statements.Statement;
 
 public class TestASTTraverse extends AbstractASTTraverse {
 
@@ -39,8 +40,18 @@ public class TestASTTraverse extends AbstractASTTraverse {
 
     @Override
     public Object visit(IfStatement ifStatement) {
+        System.out.println("enter");
         System.out.println("Visiting if statement " + ifStatement.getMetaInformation().getStartLine());
-        return super.visit(ifStatement);
+        ifStatement.getCondition().accept(this);
+        for (Statement statement : ifStatement.getStatementList()) {
+            statement.accept(this);
+        }
+        for (Statement statement : ifStatement.getElseStatementList()) {
+            statement.accept(this);
+        }
+        System.out.println("exit");
+
+        return null;
     }
 
     @Override

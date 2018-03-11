@@ -12,6 +12,7 @@ import org.uva.jomi.ql.ast.statements.QuestionStmt;
 import org.uva.jomi.ql.ast.statements.Stmt;
 import org.uva.jomi.ui.elements.core.Panel;
 import org.uva.jomi.ui.elements.panel.ConditionalPanelElement;
+import org.uva.jomi.ui.elements.panel.FormPanel;
 import org.uva.jomi.ui.elements.panel.PanelElement;
 import org.uva.jomi.ui.elements.question.ComputedQuestionElement;
 import org.uva.jomi.ui.elements.question.QuestionElement;
@@ -40,7 +41,7 @@ public class ElementBuilder implements Stmt.Visitor<BaseElement> {
 
 	@Override
 	public BaseElement visit(FormStmt form) {
-		PanelElement panel = new PanelElement();
+		FormPanel panel = new FormPanel();
 
 		panel.addElement(form.visitBlockStmt(this));
 

@@ -8,6 +8,7 @@ export class QuestionBase<T> {
   required: boolean;
   order: number;
   controlType: string;
+  style: {[key: string]: string};
   hiddenCondition: (form: FormGroup) => LiteralType;
   calculateValue: (form: FormGroup) => T;
   readonly: boolean;

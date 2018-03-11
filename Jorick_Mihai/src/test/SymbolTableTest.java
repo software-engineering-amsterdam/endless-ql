@@ -3,8 +3,8 @@ package test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uva.jomi.ql.interpreter.IntegerValue;
-import org.uva.jomi.ui.SymbolTable;
+import org.uva.jomi.ui.interpreter.SymbolTable;
+import org.uva.jomi.ui.interpreter.value.IntegerValue;
 
 class SymbolTableTest {
 	

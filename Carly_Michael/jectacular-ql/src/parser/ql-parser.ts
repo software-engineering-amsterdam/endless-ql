@@ -264,7 +264,7 @@ function peg$parse(input, options) {
   const peg$c83 = "d";
   const peg$c84 = peg$literalExpectation("d", false);
   const peg$c85 = function(day, month, year) {
-    let javascriptMonth = parseInt(month[0] + month[1], 10)-1;
+    const javascriptMonth = parseInt(month[0] + month[1], 10)-1;
     return new ast.Literal(ast.ExpressionType.DATE, new Date(Date.UTC(year[0] + year[1] + year[2] + year[3],
       javascriptMonth, day[0] + day[1], 0, 0, 0, 0)), location());
   };

@@ -11,7 +11,6 @@ import org.uva.jomi.ql.ast.analysis.DuplicatedLabelChecker;
 import org.uva.jomi.ql.ast.analysis.IdentifierResolver;
 import org.uva.jomi.ql.ast.analysis.TypeResolver;
 import org.uva.jomi.ql.ast.statements.Stmt;
-import org.uva.jomi.ql.ast.*;
 import org.uva.jomi.ql.parser.antlr.*;
 import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
 import org.uva.jomi.ui.elements.ElementBuilder;
@@ -66,17 +65,16 @@ public class QL {
 						Frame frame = new Frame();
 
 						for (Panel panel : panels) {
-						    frame.add(panel);
+							frame.add(panel);
 						}
-
+						
 						frame.setVisible(true);
-						// Show Panels
 					}
 
 					// Output the Ast in GraphViz dot format.
-					java.io.PrintStream outStream = new java.io.PrintStream("graph.txt");
-					outStream.println(new AstGraph().getGraph(ast));
-					outStream.close();
+//					java.io.PrintStream outStream = new java.io.PrintStream("graph.txt");
+//					outStream.println(new AstGraph().getGraph(ast));
+//					outStream.close();
 				}
 			}
 

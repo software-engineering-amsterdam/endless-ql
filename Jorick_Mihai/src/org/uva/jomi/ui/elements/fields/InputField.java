@@ -1,7 +1,7 @@
 package org.uva.jomi.ui.elements.fields;
 
-import org.uva.jomi.ql.interpreter.GenericValue;
 import org.uva.jomi.ui.elements.BaseElement;
+import org.uva.jomi.ui.interpreter.value.GenericValue;
 
 public abstract class InputField implements BaseElement{
 	

@@ -1,14 +1,17 @@
 package org.uva.jomi.ui.elements.question;
 
-import org.uva.jomi.ql.ast.expressions.Expr;
-import org.uva.jomi.ql.interpreter.EmptyValue;
-import org.uva.jomi.ql.interpreter.GenericValue;
-import org.uva.jomi.ui.ExpressionEvaluator;
-import org.uva.jomi.ui.SymbolTable;
-import org.uva.jomi.ui.elements.ComputingInterface;
-import org.uva.jomi.ui.elements.core.Panel;
+import java.util.List;
 
-public class ComputedQuestionElement extends QuestionElement implements ComputingInterface {
+import org.uva.jomi.ql.ast.expressions.Expr;
+import org.uva.jomi.ui.elements.core.Panel;
+import org.uva.jomi.ui.interpreter.SymbolTableListener;
+import org.uva.jomi.ui.interpreter.ExpressionEvaluator;
+import org.uva.jomi.ui.interpreter.IdentifierFinder;
+import org.uva.jomi.ui.interpreter.SymbolTable;
+import org.uva.jomi.ui.interpreter.value.EmptyValue;
+import org.uva.jomi.ui.interpreter.value.GenericValue;
+
+public class ComputedQuestionElement extends QuestionElement implements SymbolTableListener {
 
 	private Expr expression;
 
@@ -16,7 +19,7 @@ public class ComputedQuestionElement extends QuestionElement implements Computin
 		super(identifier, question, type);
 		this.expression = expression;
 
-		SymbolTable.getInstance().watchers.add(this);
+		SymbolTable.getInstance().addWatcher(this);
 	}
 
 	@Override
@@ -27,18 +30,24 @@ public class ComputedQuestionElement extends QuestionElement implements Computin
 	}
 
 	@Override
-	public void update() {
+	public void update(String key, GenericValue value) {
+		// Check if an identifier where the expression depends on is updated.
+		List<String> internalIdentifiers = new IdentifierFinder().find(this.expression);
+		if(internalIdentifiers.contains(key)) {
+			
+			GenericValue genericValue = new ExpressionEvaluator().execute(this.expression);
+			if(genericValue instanceof EmptyValue) {
+				return;
+			}
 
-		ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
+			// Store computed variable as result of the question
+			SymbolTable.getInstance().put(this.identifier, value);
 
-		GenericValue genericValue = expressionEvaluator.execute(this.expression);
-		if(genericValue instanceof EmptyValue) {
-			return;
+			this.inputField.setValue(genericValue);	
+			
+			System.out.println("Updated computed question");
 		}
-
-//		SymbolTable.getInstance().put(this.identifier, value);
-
-		this.inputField.setValue(genericValue);
+		
 	}
 
 }

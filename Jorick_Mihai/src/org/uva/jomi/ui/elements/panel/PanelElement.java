@@ -1,5 +1,6 @@
 package org.uva.jomi.ui.elements.panel;
 
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 

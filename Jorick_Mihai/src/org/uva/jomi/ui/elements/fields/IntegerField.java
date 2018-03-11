@@ -1,14 +1,15 @@
 package org.uva.jomi.ui.elements.fields;
 
+import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
 
 import javax.swing.JFormattedTextField;
 
-import org.uva.jomi.ql.interpreter.GenericValue;
-import org.uva.jomi.ql.interpreter.IntegerValue;
 import org.uva.jomi.ui.elements.core.Panel;
+import org.uva.jomi.ui.interpreter.value.GenericValue;
+import org.uva.jomi.ui.interpreter.value.IntegerValue;
 
 public class IntegerField extends InputField implements PropertyChangeListener  {
 

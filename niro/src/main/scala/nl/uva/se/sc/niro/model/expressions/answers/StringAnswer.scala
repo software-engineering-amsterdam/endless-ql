@@ -7,7 +7,7 @@ final case class StringAnswer(possibleValue: Option[String]) extends Answer {
 
   type T = String
 
-  def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
+  def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
     case that: StringAnswer =>
       operator match {
         case Lt  => this < that
@@ -21,7 +21,7 @@ final case class StringAnswer(possibleValue: Option[String]) extends Answer {
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
-  def applyUnaryOperator(operator: UnaryOperator): Answer =
+  def applyUnaryOperator(operator: Operator): Answer =
     throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
 }
 

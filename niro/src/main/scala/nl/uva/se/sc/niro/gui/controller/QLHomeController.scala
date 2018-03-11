@@ -4,8 +4,9 @@ import java.io.{ File, IOException }
 
 import javafx.event.ActionEvent
 import javafx.fxml.{ FXML, FXMLLoader }
+import javafx.scene.Scene
 import javafx.scene.control.TextArea
-import javafx.scene.{ Parent, Scene }
+import javafx.scene.layout.BorderPane
 import javafx.stage.{ FileChooser, Stage }
 import nl.uva.se.sc.niro.QLFormService
 import nl.uva.se.sc.niro.errors.Errors
@@ -52,8 +53,8 @@ class QLHomeController extends QLBaseController {
   @throws[IOException]
   private def createSceneForForm(form: QLForm) = {
     val loader = new FXMLLoader(getClass.getResource(QLForms.FORM_SCREEN))
-    val root: Parent = loader.load[Parent]
-    loader.getController.asInstanceOf[QLFormController].initializeForm(form)
+    val root: BorderPane = loader.load()
+    loader.getController[QLFormController]().initializeForm(form)
     new Scene(root)
   }
 }

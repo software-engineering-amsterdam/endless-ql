@@ -39,11 +39,11 @@ public class GUIBuilder {
 
     public static Frame getGUI(Form form) {
         mainFrame   = getMainFrame();
-        inputPanel  = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray);
         formPanel   = getFormPanel(form);
         bottomPanel = getBottomPanel();
 
-        setInput(loadDefaultFileContent());
+        inputPanel  = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray);
+        inputPanel.setText(loadDefaultFileContent());
 
         mainFrame.add(inputPanel, BorderLayout.LINE_START);
         mainFrame.add(formPanel, BorderLayout.CENTER);
@@ -60,11 +60,6 @@ public class GUIBuilder {
 
         mainFrame.setVisible(true);
         return mainFrame;
-    }
-
-    private static void setInput(String ql) {
-        TextArea input = ((TextArea) inputPanel.getComponent(0));
-        input.setText(ql);
     }
 
     private static String loadDefaultFileContent() {
@@ -178,19 +173,13 @@ public class GUIBuilder {
     private static void reloadForm() {
         formContent.removeAll();
 
-        Form newForm = FormBuilder.parseFormFromString(getInput());
+        Form newForm = FormBuilder.parseFormFromString(inputPanel.getText());
 
         List<Component> components = newForm.getComponents();
         components.forEach(formContent::add);
 
         formContent.revalidate();
         formContent.repaint();
-    }
-
-    private static String getInput() {
-        TextArea input = ((TextArea) inputPanel.getComponent(0));
-        return input.getText();
-
     }
 
     private static JButton getButton(String text, int width) {

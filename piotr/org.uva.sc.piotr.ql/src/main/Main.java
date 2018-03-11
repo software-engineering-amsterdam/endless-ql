@@ -67,27 +67,33 @@ public class Main {
 
         HashMap<String, ExpressionResult> variablesValues = new HashMap<>();
 
-        // Complement the references list with information about data type
+        // Default empty setup
         for (VariableReference reference : references) {
             for (Question question : questions) {
                 if (question.getVariableName().equals(reference.getName())) {
                     if (question.getVariableType().toDataType() == Expression.DataType.STRING) {
-                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.STRING, "hello"));
+                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.STRING, ""));
                     } else if (question.getVariableType().toDataType() == Expression.DataType.DECIMAL) {
-                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.DECIMAL, "123.45"));
+                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.DECIMAL, "0"));
                     } else if (question.getVariableType().toDataType() == Expression.DataType.INTEGER) {
-                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.INTEGER, "3333"));
+                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.INTEGER, "0"));
                     } else if (question.getVariableType().toDataType() == Expression.DataType.BOOLEAN) {
-                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.BOOLEAN, "TRUE"));
+                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.BOOLEAN, "FALSE"));
                     }
                 }
             }
         }
 
 
-        // evaluate each variable :)
+        // evaluate each variable
+        List<ExpressionResult> evaluatedExpressions = new ArrayList<>();
 
         ExpressionEvaluator evaluator = new ExpressionEvaluator(variablesValues);
+        for (Question q: questions) {
+            if(q.getAssignedExpression() != null) {
+                evaluatedExpressions.add(q.getAssignedExpression().accept(evaluator));
+            }
+        }
 
 //        for (VariableReference variableReference : references) {
 //            variablesValues.put(variableReference.getName(), ExpressionResult.createExpressionResult(variableReference.))

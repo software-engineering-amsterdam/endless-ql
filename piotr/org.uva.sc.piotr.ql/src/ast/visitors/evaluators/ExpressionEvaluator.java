@@ -1,6 +1,5 @@
 package ast.visitors.evaluators;
 
-import ast.model.expressions.Expression;
 import ast.model.expressions.binary.arithmetics.Addition;
 import ast.model.expressions.binary.arithmetics.Division;
 import ast.model.expressions.binary.arithmetics.Multiplication;
@@ -18,7 +17,7 @@ import java.util.HashMap;
 
 public class ExpressionEvaluator extends AbstractASTTraverse<ExpressionResult> {
 
-    HashMap<String, ExpressionResult> variablesValues;
+    private HashMap<String, ExpressionResult> variablesValues;
 
     public ExpressionEvaluator(HashMap<String, ExpressionResult> variablesValues) {
         this.variablesValues = variablesValues;
@@ -66,44 +65,44 @@ public class ExpressionEvaluator extends AbstractASTTraverse<ExpressionResult> {
 
     @Override
     public ExpressionResult visit(Equal equal) {
-        equal.getLeftSide().accept(this);
-        equal.getRightSide().accept(this);
-        return null;
+        ExpressionResult lhs = equal.getLeftSide().accept(this);
+        ExpressionResult rhs = equal.getRightSide().accept(this);
+        return lhs.equals(rhs);
     }
 
     @Override
     public ExpressionResult visit(GreaterEqual greaterEqual) {
-        greaterEqual.getLeftSide().accept(this);
-        greaterEqual.getRightSide().accept(this);
-        return null;
+        ExpressionResult lhs = greaterEqual.getLeftSide().accept(this);
+        ExpressionResult rhs = greaterEqual.getRightSide().accept(this);
+        return lhs.greaterEqual(rhs);
     }
 
     @Override
     public ExpressionResult visit(GreaterThan greaterThan) {
-        greaterThan.getLeftSide().accept(this);
-        greaterThan.getRightSide().accept(this);
-        return null;
+        ExpressionResult lhs = greaterThan.getLeftSide().accept(this);
+        ExpressionResult rhs = greaterThan.getRightSide().accept(this);
+        return lhs.greaterThan(rhs);
     }
 
     @Override
     public ExpressionResult visit(LessEqual lessEqual) {
-        lessEqual.getLeftSide().accept(this);
-        lessEqual.getRightSide().accept(this);
-        return null;
+        ExpressionResult lhs = lessEqual.getLeftSide().accept(this);
+        ExpressionResult rhs = lessEqual.getRightSide().accept(this);
+        return lhs.lessEqual(rhs);
     }
 
     @Override
     public ExpressionResult visit(LessThan lessThan) {
-        lessThan.getLeftSide().accept(this);
-        lessThan.getRightSide().accept(this);
-        return null;
+        ExpressionResult lhs = lessThan.getLeftSide().accept(this);
+        ExpressionResult rhs = lessThan.getRightSide().accept(this);
+        return lhs.lessThan(rhs);
     }
 
     @Override
     public ExpressionResult visit(NotEqual notEqual) {
-        notEqual.getLeftSide().accept(this);
-        notEqual.getRightSide().accept(this);
-        return null;
+        ExpressionResult lhs = notEqual.getLeftSide().accept(this);
+        ExpressionResult rhs = notEqual.getRightSide().accept(this);
+        return lhs.notEquals(rhs);
     }
 
     @Override

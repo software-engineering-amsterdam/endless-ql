@@ -1,6 +1,7 @@
 package ast.visitors.evaluators;
 
 import ast.model.expressions.Expression;
+import com.sun.tools.javac.util.Pair;
 
 import java.math.BigDecimal;
 
@@ -115,26 +116,38 @@ public class ExpressionResult {
         return this.binaryOperation(BinaryOperator.OR, rhs);
     }
 
-    private ExpressionResult binaryOperation(BinaryOperator operator, ExpressionResult rhs) {
+    // comparision operators
+    public ExpressionResult equals(ExpressionResult rhs) {
+        return this.comparision(ComparisionOperator.EQ, rhs);
+    }
 
-        ExpressionResult lhs = this;
+    public ExpressionResult notEquals(ExpressionResult rhs) {
+        return this.comparision(ComparisionOperator.NEQ, rhs);
+    }
+
+    public ExpressionResult greaterThan(ExpressionResult rhs) {
+        return this.comparision(ComparisionOperator.GT, rhs);
+    }
+
+    public ExpressionResult greaterEqual(ExpressionResult rhs) {
+        return this.comparision(ComparisionOperator.GE, rhs);
+    }
+
+    public ExpressionResult lessThan(ExpressionResult rhs) {
+        return this.comparision(ComparisionOperator.LT, rhs);
+    }
+
+    public ExpressionResult lessEqual(ExpressionResult rhs) {
+        return this.comparision(ComparisionOperator.LE, rhs);
+    }
+
+    private ExpressionResult binaryOperation(BinaryOperator operator, ExpressionResult secondResult) {
 
         // by default the types must be the same, except when there is a pair of integer and decimal, then the result will be decimal
-        if (lhs.type != rhs.type) {
-            if (lhs.type == Expression.DataType.INTEGER && rhs.type == Expression.DataType.DECIMAL) {
-                // casting lhs to decimal
-                lhs.type = Expression.DataType.DECIMAL;
-                lhs.decimalValue = new BigDecimal(lhs.integerValue);
-                lhs.integerValue = null;
-            } else if (lhs.type == Expression.DataType.DECIMAL && rhs.type == Expression.DataType.INTEGER) {
-                // casting rhs to decimal
-                rhs.type = Expression.DataType.DECIMAL;
-                rhs.decimalValue = new BigDecimal(rhs.integerValue);
-                rhs.integerValue = null;
-            } else {
-                throw new RuntimeException("Types not compatible: " + lhs.type.name() + " and " + rhs.type.name());
-            }
-        }
+        Pair<ExpressionResult, ExpressionResult> unifiedResults = unifyDataTypes(this, secondResult);
+
+        ExpressionResult lhs = unifiedResults.fst;
+        ExpressionResult rhs = unifiedResults.snd;
 
         // for string only concatenation is allowed (PLUS sign)
         if (lhs.type == Expression.DataType.STRING) {
@@ -187,11 +200,90 @@ public class ExpressionResult {
 
     }
 
-    private ExpressionResult comparision(ComparisionOperator operator, ExpressionResult rhs) {
+    private ExpressionResult comparision(ComparisionOperator operator, ExpressionResult secondResult) {
 
-        // TODO: Comparision
+        // by default the types must be the same, except when there is a pair of integer and decimal, then the result will be decimal
+        Pair<ExpressionResult, ExpressionResult> unifiedResults = unifyDataTypes(this, secondResult);
 
-        return null;
+        ExpressionResult lhs = unifiedResults.fst;
+        ExpressionResult rhs = unifiedResults.snd;
+
+        if (lhs.type == Expression.DataType.STRING) {
+            if (operator == ComparisionOperator.EQ) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.stringValue.equals(rhs.stringValue));
+            } else if (operator == ComparisionOperator.NEQ) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, !lhs.stringValue.equals(rhs.stringValue));
+            } else {
+                throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+            }
+        }
+
+        if (this.type == Expression.DataType.DECIMAL) {
+            if (operator == ComparisionOperator.GT) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) > 0);
+            } else if (operator == ComparisionOperator.GE) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) >= 0);
+            } else if (operator == ComparisionOperator.LT) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) < 0);
+            } else if (operator == ComparisionOperator.LE) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) <= 0);
+            } else if (operator == ComparisionOperator.EQ) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) == 0);
+            } else if (operator == ComparisionOperator.NEQ) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) != 0);
+            } else {
+                throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+            }
+        }
+
+        if (this.type == Expression.DataType.INTEGER) {
+            if (operator == ComparisionOperator.GT) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.integerValue > rhs.integerValue);
+            } else if (operator == ComparisionOperator.GE) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.integerValue >= rhs.integerValue);
+            } else if (operator == ComparisionOperator.LT) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.integerValue < rhs.integerValue);
+            } else if (operator == ComparisionOperator.LE) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.integerValue <= rhs.integerValue);
+            } else if (operator == ComparisionOperator.EQ) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.integerValue.equals(rhs.integerValue));
+            } else if (operator == ComparisionOperator.NEQ) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, !lhs.integerValue.equals(rhs.integerValue));
+            } else {
+                throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+            }
+        }
+
+        if (this.type == Expression.DataType.BOOLEAN) {
+            if (operator == ComparisionOperator.EQ) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.booleanValue == rhs.booleanValue);
+            } else if (operator == ComparisionOperator.NEQ) {
+                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.booleanValue != rhs.booleanValue);
+            } else {
+                throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+            }
+        }
+
+        throw new RuntimeException("Unable to perform comparision operation " + operator.name() + ".");
+    }
+
+    private Pair<ExpressionResult, ExpressionResult> unifyDataTypes(ExpressionResult lhs, ExpressionResult rhs) {
+        if (lhs.type != rhs.type) {
+            if (lhs.type == Expression.DataType.INTEGER && rhs.type == Expression.DataType.DECIMAL) {
+                // casting lhs to decimal
+                lhs.type = Expression.DataType.DECIMAL;
+                lhs.decimalValue = new BigDecimal(lhs.integerValue);
+                lhs.integerValue = null;
+            } else if (lhs.type == Expression.DataType.DECIMAL && rhs.type == Expression.DataType.INTEGER) {
+                // casting rhs to decimal
+                rhs.type = Expression.DataType.DECIMAL;
+                rhs.decimalValue = new BigDecimal(rhs.integerValue);
+                rhs.integerValue = null;
+            } else {
+                throw new RuntimeException("Types not compatible: " + lhs.type.name() + " and " + rhs.type.name());
+            }
+        }
+        return new Pair<>(lhs, rhs);
     }
 
     @Override

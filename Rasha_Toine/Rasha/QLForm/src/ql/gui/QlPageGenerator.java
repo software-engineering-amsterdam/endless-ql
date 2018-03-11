@@ -61,13 +61,13 @@ public class QlPageGenerator implements QlGraphicalInterface<FormGUI, QuestionGU
 	 Question question, Expression enableExpression,
 	 Expression computableExpression, EvaluationContext ctx) {
 		return new QuestionGUI(
-								ctx,
-								question,
-								createLabel(question, ctx),
-								createValueWidget(question, ctx),
-								enableExpression,
-								computableExpression
-							);
+						ctx,
+						question,
+						createLabel(question, ctx),
+						createValueWidget(question, ctx),
+						enableExpression,
+						computableExpression
+					);
 	}
 
 	@Override

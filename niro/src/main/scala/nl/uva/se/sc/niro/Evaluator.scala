@@ -1,9 +1,9 @@
 package nl.uva.se.sc.niro
 
-import nl.uva.se.sc.niro.model.SymbolTable.SymbolTable
-import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.expressions._
-import nl.uva.se.sc.niro.model.expressions.answers.Answer
+import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
+import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.model.ql.expressions._
+import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
 
 object Evaluator {
 

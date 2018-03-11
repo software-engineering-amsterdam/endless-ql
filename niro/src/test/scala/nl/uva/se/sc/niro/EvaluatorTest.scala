@@ -2,8 +2,9 @@ package nl.uva.se.sc.niro
 
 import nl.uva.se.sc.niro.Evaluator.Dictionary
 import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.expressions.answers.{ BooleanAnswer, DecimalAnswer, IntegerAnswer }
-import nl.uva.se.sc.niro.model.expressions.{ BinaryOperation, Reference, UnaryOperation }
+import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, DecimalAnswer, IntegerAnswer }
+import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Reference, UnaryOperation }
+import nl.uva.se.sc.niro.model.ql._
 import org.scalatest.WordSpec
 
 class EvaluatorTest extends WordSpec {

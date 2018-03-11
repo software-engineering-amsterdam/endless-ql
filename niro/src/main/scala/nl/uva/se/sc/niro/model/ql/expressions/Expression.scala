@@ -1,6 +1,6 @@
-package nl.uva.se.sc.niro.model.expressions
+package nl.uva.se.sc.niro.model.ql.expressions
 
-import nl.uva.se.sc.niro.model.Operator
+import nl.uva.se.sc.niro.model.ql.Operator
 
 abstract class Expression
 

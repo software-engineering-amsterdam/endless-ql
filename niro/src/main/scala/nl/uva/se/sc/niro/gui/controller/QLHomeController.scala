@@ -10,7 +10,7 @@ import javafx.stage.{ FileChooser, Stage }
 import nl.uva.se.sc.niro.QLFormService
 import nl.uva.se.sc.niro.errors.Errors
 import nl.uva.se.sc.niro.gui.application.QLForms
-import nl.uva.se.sc.niro.model.QLForm
+import nl.uva.se.sc.niro.model.ql.QLForm
 
 class QLHomeController extends QLBaseController {
   @FXML

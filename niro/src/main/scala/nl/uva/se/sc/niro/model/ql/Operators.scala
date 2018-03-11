@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model
+package nl.uva.se.sc.niro.model.ql
 
 sealed abstract class Operator
 object Operator {

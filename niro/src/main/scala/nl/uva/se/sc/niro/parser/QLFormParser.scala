@@ -2,9 +2,9 @@ package nl.uva.se.sc.niro.parser
 
 import _root_.ql.{ QLBaseVisitor, QLLexer, QLParser }
 import nl.uva.se.sc.niro.errors.Errors._
-import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.expressions._
-import nl.uva.se.sc.niro.model.expressions.answers._
+import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.model.ql.expressions._
+import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import org.antlr.v4.runtime.tree.RuleNode
 import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
 import org.apache.logging.log4j.scala.Logging

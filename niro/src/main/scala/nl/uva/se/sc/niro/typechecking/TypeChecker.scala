@@ -2,10 +2,10 @@ package nl.uva.se.sc.niro.typechecking
 
 import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model.SymbolTable.SymbolTable
-import nl.uva.se.sc.niro.model.expressions._
-import nl.uva.se.sc.niro.model.expressions.answers._
-import nl.uva.se.sc.niro.model.{ ArithmeticOperator, _ }
+import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
+import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.model.ql.expressions._
+import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import nl.uva.se.sc.niro.typechecking.CycleDetection._
 import org.apache.logging.log4j.scala.Logging
 

@@ -6,3 +6,4 @@ export * from './stylesheet';
 export * from './widget-type';
 export * from './widget';
 export * from './style';
+export * from './style-value';

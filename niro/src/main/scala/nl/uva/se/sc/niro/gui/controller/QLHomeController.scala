@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.controllers
+package nl.uva.se.sc.niro.gui.controller
 
 import java.io.{ File, IOException }
 
@@ -48,7 +48,7 @@ class QLHomeController extends QLBaseController {
   private def createSceneForForm(form: QLForm) = {
     val loader = new FXMLLoader(getClass.getResource(QLForms.FORM_SCREEN))
     val root: Parent = loader.load[Parent]
-    loader.getController.asInstanceOf[QLFormController].populateForm(form)
+    loader.getController.asInstanceOf[QLFormController].initializeForm(form)
     new Scene(root)
   }
 }

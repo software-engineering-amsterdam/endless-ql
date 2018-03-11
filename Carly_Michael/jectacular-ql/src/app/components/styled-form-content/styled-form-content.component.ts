@@ -24,7 +24,8 @@ export class StyledFormContentComponent implements OnInit {
     }
   }
 
-  temp(section: Section): ReadonlyArray<QlsQuestion> {
+  // This function is necessary to circumvent angular locking up the GUI
+  getSectionQuestions(section: Section): ReadonlyArray<QlsQuestion> {
     return section.getQuestions([]).map(q => {
       return q.question;
     });
@@ -67,14 +68,15 @@ export class StyledFormContentComponent implements OnInit {
         const styles: Map<string, Style> = new Map<string, Style>();
 
         for (const style of qlsQuestionWithAppliedStyles.styles) {
-          styles[style.name] = style;
+          styles.set(style.name, style);
         }
 
-        let questionStyle = '';
+        const questionStyle = {};
 
-        for (const [, v] of styles) {
-          questionStyle += v.name + ': ' + v.value + ';';
+        for (const [, v] of styles.entries()) {
+          questionStyle[v.name] = v.value.getValueAsString();
         }
+
         question.style = questionStyle;
       }
     }

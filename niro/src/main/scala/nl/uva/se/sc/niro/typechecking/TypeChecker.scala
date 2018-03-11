@@ -48,7 +48,7 @@ object TypeChecker extends Logging {
 
     val conditionals: Seq[Conditional] = Statement.collectAllConditionals(qLForm.statements)
     val conditionalsWithNonBooleanPredicates: Seq[Conditional] = conditionals filter { conditional =>
-      Evaluator.evaluateExpression(conditional.predicate, qLForm.symbolTable) match {
+      Evaluator.evaluateExpression(conditional.predicate, qLForm.symbolTable, Map.empty) match {
         case _: BooleanAnswer => false
         case _                => true
       }
@@ -99,8 +99,8 @@ object TypeChecker extends Logging {
 
   private def buildDependencyGraph(questions: Seq[Question]): Graph = {
     questions.flatMap {
-      case q @ Question(_, _, _, r @ Reference(_), _) => Seq(Edge(q.id, r.value))
-      case q @ Question(_, _, _, expression, _) =>
+      case q @ Question(_, _, _, r @ Reference(_)) => Seq(Edge(q.id, r.value))
+      case q @ Question(_, _, _, expression) =>
         Expression.collectAllReferences(expression).map(r => Edge(q.id, r.value))
     }
   }

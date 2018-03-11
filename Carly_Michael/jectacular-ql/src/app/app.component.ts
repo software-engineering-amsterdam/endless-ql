@@ -52,8 +52,8 @@ export class AppComponent {
       '        default integer\n' +
       '        {\n' +
       '          width: 400\n' +
-      '          font: "Arial"\n' +
-      '          fontsize: 14\n' +
+      '          font-family: "Arial"\n' +
+      '          font-size: 14\n' +
       '          color: #999999\n' +
       '          widget spinbox\n' +
       '        }\n' +

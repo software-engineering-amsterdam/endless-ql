@@ -6,7 +6,7 @@
     <mat-list>
       <div *ngFor="let section of page.sections">
         <h3 mat-subheader>{{section.name}}</h3>
-        <mat-list-item *ngFor="let question of temp(section)" class="form-row">
+        <mat-list-item *ngFor="let question of getSectionQuestions(section)" class="form-row">
           <app-question [question]="getQuestionBaseByName(question.name)" [form]="form"></app-question>
         </mat-list-item>
         <mat-divider></mat-divider>

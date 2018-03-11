@@ -1,21 +1,15 @@
 package nl.uva.se.sc.niro.model
 
 import nl.uva.se.sc.niro.Evaluator
+import nl.uva.se.sc.niro.model.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.expressions._
 import nl.uva.se.sc.niro.model.expressions.answers.Answer
 
 sealed trait Statement
 
-case class Question(
-    id: String,
-    label: String,
-    answerType: AnswerType,
-    expression: Expression,
-    answer: Option[Answer] = None)
-    extends Statement
+case class Question(id: String, label: String, answerType: AnswerType, expression: Expression) extends Statement
 
-case class Conditional(predicate: Expression, thenStatements: Seq[Statement], answer: Option[Answer] = None)
-    extends Statement
+case class Conditional(predicate: Expression, thenStatements: Seq[Statement]) extends Statement
 
 object Statement {
 
@@ -33,10 +27,10 @@ object Statement {
     }
   }
 
-  def collectAllVisibleQuestions(statements: Seq[Statement], symbolTable: Map[String, Expression]): Seq[Question] = {
+  def collectAllVisibleQuestions(statements: Seq[Statement], symbolTable: SymbolTable): Seq[Question] = {
     statements.flatMap {
       case q: Question => Seq(q)
-      case c: Conditional if Evaluator.evaluateExpression(c.predicate, symbolTable).isTrue =>
+      case c: Conditional if Evaluator.evaluateExpression(c.predicate, symbolTable, Map.empty).isTrue =>
         collectAllVisibleQuestions(c.thenStatements, symbolTable)
     }
   }

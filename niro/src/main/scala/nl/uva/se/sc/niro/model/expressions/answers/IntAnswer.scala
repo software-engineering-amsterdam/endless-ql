@@ -10,7 +10,7 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
 
   def toDecAnswer = DecAnswer(possibleValue.map(BigDecimal(_)))
 
-  def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
+  def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
     case that: IntAnswer =>
       operator match {
         case Add => this + that
@@ -29,7 +29,7 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
     case _               => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
-  def applyUnaryOperator(operator: UnaryOperator): Answer = operator match {
+  def applyUnaryOperator(operator: Operator): Answer = operator match {
     case Min => -this
     case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
@@ -38,5 +38,4 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
 object IntAnswer {
   def apply() = new IntAnswer(None)
   def apply(value: Int) = new IntAnswer(Some(value))
-  def apply(value: String): IntAnswer = if (value.isEmpty) IntAnswer() else IntAnswer(Integer.parseInt(value))
 }

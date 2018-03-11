@@ -1,7 +1,7 @@
-package nl.uva.se.sc.niro.model.expressions.answers
+package nl.uva.se.sc.niro.model.ql.expressions.answers
 
-import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.expressions.Orderings.StringAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.model.ql.expressions.Orderings.StringAnswerCanDoOrderings._
 
 final case class StringAnswer(possibleValue: Option[String]) extends Answer {
 

@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model
+package nl.uva.se.sc.niro.model.ql
 
 sealed abstract class Operator
 object Operator {
@@ -16,7 +16,6 @@ object Operator {
     case "||" => Or
     case "&&" => And
     case "!"  => Neg
-    case "-"  => Min
   }
 }
 
@@ -34,8 +33,7 @@ case object Gt extends BooleanOperator
 case object Ne extends BooleanOperator
 case object Eq extends BooleanOperator
 
-case object Or extends Operator
-case object And extends Operator
-
-case object Min extends Operator
-case object Neg extends Operator
+sealed abstract class LogicalOperator extends Operator
+case object Or extends LogicalOperator
+case object And extends LogicalOperator
+case object Neg extends LogicalOperator

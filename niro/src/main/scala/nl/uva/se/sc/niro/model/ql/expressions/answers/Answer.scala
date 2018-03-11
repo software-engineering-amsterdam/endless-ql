@@ -1,7 +1,7 @@
-package nl.uva.se.sc.niro.model.expressions.answers
+package nl.uva.se.sc.niro.model.ql.expressions.answers
 
-import nl.uva.se.sc.niro.model.Operator
-import nl.uva.se.sc.niro.model.expressions.Expression
+import nl.uva.se.sc.niro.model.ql.Operator
+import nl.uva.se.sc.niro.model.ql.expressions.Expression
 
 abstract class Answer extends Expression {
 
@@ -25,9 +25,9 @@ abstract class Answer extends Expression {
 object Answer {
   def apply(answerType: String): Answer = answerType match {
     case "boolean" => BooleanAnswer()
-    case "integer" => IntAnswer()
+    case "integer" => IntegerAnswer()
     case "string"  => StringAnswer()
-    case "decimal" => DecAnswer()
+    case "decimal" => DecimalAnswer()
     case "money"   => MoneyAnswer()
     case "date"    => DateAnswer()
     case _         => throw new IllegalArgumentException(s"Unsupported answer type: $answerType")

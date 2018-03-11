@@ -106,10 +106,12 @@ public class Value {
 
 			case "Integer-Integer":
 				return new Value( Type.Integer,
-						String.format( "%d", (Integer.parseInt( text_left ) * Integer.parseInt( text_right )) ) );
+						Integer.toString( Integer.parseInt( text_left ) * Integer.parseInt( text_right )) ) ;
+				
 			case "Integer-Money":
-				return new Value( Type.Money, String.format( "%d",
-						(new BigDecimal( text_right ).multiply( new BigDecimal( Integer.parseInt( text_left ) ) )) ) );
+				return new Value( Type.Money, Double.toString(
+						(new BigDecimal( text_right ).multiply( new BigDecimal( Integer.parseInt( text_left ) ) )).doubleValue() ) );
+				
 			case "Money-Integer":
 				return new Value( Type.Money, Double.toString( (new BigDecimal( text_left )
 						.multiply( new BigDecimal( Integer.parseInt( text_right ) ) ).doubleValue()) ) );
@@ -128,10 +130,10 @@ public class Value {
 
 			case "Integer-Integer":
 				return new Value( Type.Integer,
-						String.format( "%d", (Integer.parseInt( text_left ) / Integer.parseInt( text_right )) ) );
+						Integer.toString( (Integer.parseInt( text_left ) / Integer.parseInt( text_right )) ) );
 			case "Money-Integer":
-				return new Value( Type.Money, String.format( "%d",
-						(new BigDecimal( text_left ).divide( new BigDecimal( Integer.parseInt( text_right ) ) )) ) );
+				return new Value( Type.Money, Double.toString(
+						(new BigDecimal( text_left ).divide( new BigDecimal( Integer.parseInt( text_right ) ) )).doubleValue() ) );
 
 		}
 		throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
@@ -152,9 +154,11 @@ public class Value {
 						new Date( dateStringToLong( text_left ) + 24 * 60 * 60 * 1000 * new Long( text_right ) ) ) );
 			case "Integer-Integer":
 				return new Value( Type.Integer,
-						String.format( "%d", (Integer.parseInt( text_left ) + Integer.parseInt( text_right )) ) );
+						Integer.toString(  (Integer.parseInt( text_left ) + Integer.parseInt( text_right )) ) );
 			case "Money-Money":
 				return new Value( Type.Money, "" + new BigDecimal( text_left ).add( new BigDecimal( text_right ) ) );
+			case "String-Integer":
+			case "String-Money":
 			case "String-String":
 				return new Value( Type.String, text_left + text_right );
 
@@ -177,7 +181,7 @@ public class Value {
 				break;
 			case "Integer-Integer":
 				return new Value( Type.Integer,
-						String.format( "%d", (Integer.parseInt( text_left ) - Integer.parseInt( text_right )) ) );
+						Integer.toString( (Integer.parseInt( text_left ) - Integer.parseInt( text_right )) ) );
 			case "Money-Money":
 				return new Value( Type.Money, Double.toString(
 						new BigDecimal( text_left ).subtract( new BigDecimal( text_right ) ).doubleValue() ) );

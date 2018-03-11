@@ -1,18 +1,17 @@
 package gui.model;
 
 import ast.model.expressions.Expression;
-import types.DataType;
 
-public class FormBlock {
+public class FormFieldModel {
 
     private String label;
     private String variableName;
-    private DataType.Type variableType;
+    private Expression.DataType variableType;
     private Expression visibilityCondition;
     private Expression valueExpression;
     private String value;
 
-    public FormBlock(String label, String variableName, DataType.Type variableType, Expression visibilityCondition, Expression valueExpression) {
+    public FormFieldModel(String label, String variableName, Expression.DataType variableType, Expression visibilityCondition, Expression valueExpression) {
         this.label = label;
         this.variableName = variableName;
         this.variableType = variableType;
@@ -32,11 +31,11 @@ public class FormBlock {
         this.variableName = variableName;
     }
 
-    public DataType.Type getVariableType() {
+    public Expression.DataType getVariableType() {
         return variableType;
     }
 
-    public void setVariableType(DataType.Type variableType) {
+    public void setVariableType(Expression.DataType variableType) {
         this.variableType = variableType;
     }
 

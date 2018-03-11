@@ -4,13 +4,13 @@ import ast.ASTBuilder;
 import ast.model.Form;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
-import ast.visitors.collectors.CollectFormStatementsVisitor;
+import ast.visitors.collectors.CollectFormFieldModelsVisitor;
 import ast.visitors.collectors.CollectQuestionsVisitor;
 import ast.visitors.collectors.CollectReferencesVisitor;
 import grammar.QLLexer;
 import grammar.QLParser;
 import gui.QLGui;
-import gui.model.FormBlock;
+import gui.model.FormFieldModel;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -63,10 +63,10 @@ public class Main {
             System.out.println("Warning: " + e.getMessage());
         }
 
-        CollectFormStatementsVisitor collectFormStatementsVisitor = new CollectFormStatementsVisitor();
-        form.accept(collectFormStatementsVisitor);
+        CollectFormFieldModelsVisitor collectFormFieldModelsVisitor = new CollectFormFieldModelsVisitor();
+        form.accept(collectFormFieldModelsVisitor);
 
-        List<FormBlock> formBlocks = collectFormStatementsVisitor.getFormBlocks();
+        List<FormFieldModel> formFieldModels = collectFormFieldModelsVisitor.getFormFieldModels();
 //
 //        Gson gson = new Gson();
 //        System.out.println(gson.toJson(form));
@@ -76,7 +76,7 @@ public class Main {
         System.out.println("Main finish.");
 
 //        /* Show the GUI */
-        new QLGui(formBlocks);
+        new QLGui(formFieldModels);
 
 
     }

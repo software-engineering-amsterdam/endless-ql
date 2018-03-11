@@ -1,38 +1,38 @@
-package nl.uva.se.sc.niro.model.expressions.answers
+package nl.uva.se.sc.niro.model.ql.expressions.answers
 
-import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.expressions.BasicArithmetics.DecAnswerCanDoBasicArithmetics._
-import nl.uva.se.sc.niro.model.expressions.Orderings.DecAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.model.ql.expressions.Logicals.BooleanAnswerCanDoLogicals._
+import nl.uva.se.sc.niro.model.ql.expressions.Orderings.BooleanAnswerCanDoOrderings._
 
-final case class DecAnswer(possibleValue: Option[BigDecimal]) extends Answer {
+final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
 
-  type T = BigDecimal
+  type T = Boolean
+
+  override def isTrue: Boolean = possibleValue.getOrElse(false)
 
   def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
-    case that: DecAnswer =>
+    case that: BooleanAnswer =>
       operator match {
-        case Add => this + that
-        case Sub => this - that
-        case Mul => this * that
-        case Div => this / that
         case Lt  => this < that
         case Lte => this <= that
         case Gte => this >= that
         case Gt  => this > that
         case Ne  => this !== that
         case Eq  => this === that
+        case And => this && that
+        case Or  => this || that
         case _   => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
       }
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
   def applyUnaryOperator(operator: Operator): Answer = operator match {
-    case Min => DecAnswer(possibleValue.map(-_))
+    case Neg => !this
     case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
 }
 
-object DecAnswer {
-  def apply() = new DecAnswer(None)
-  def apply(value: BigDecimal) = new DecAnswer(Some(value))
+object BooleanAnswer {
+  def apply() = new BooleanAnswer(None)
+  def apply(value: Boolean) = new BooleanAnswer(Some(value))
 }

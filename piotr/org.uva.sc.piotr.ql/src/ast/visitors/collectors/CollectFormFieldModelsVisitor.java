@@ -9,17 +9,17 @@ import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
 import ast.model.statements.Statement;
 import ast.visitors.AbstractASTTraverse;
-import gui.model.FormBlock;
+import gui.model.FormFieldModel;
 
 import java.util.*;
 
-public class CollectFormStatementsVisitor extends AbstractASTTraverse {
+public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
 
-    private List<FormBlock> formBlocks = new ArrayList<>();
+    private List<FormFieldModel> formFieldModels = new ArrayList<>();
     private Stack<Expression> conditionsStack = new Stack<>();
 
-    public List<FormBlock> getFormBlocks() {
-        return formBlocks;
+    public List<FormFieldModel> getFormFieldModels() {
+        return formFieldModels;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class CollectFormStatementsVisitor extends AbstractASTTraverse {
 
         Expression aggregatedExpression = this.aggregateConditionsStack();
 
-        this.formBlocks.add(new FormBlock(
+        this.formFieldModels.add(new FormFieldModel(
                 question.getLabel(),
                 question.getVariableName(),
                 question.getVariableType().toDataType(),
@@ -63,7 +63,7 @@ public class CollectFormStatementsVisitor extends AbstractASTTraverse {
         }
 
         // flip the condition on the stack to negation @TODO: pretiffy metainformation, Expression is not necessary an AST node - can be, but doesn't have to... think about it.
-        this.conditionsStack.push(new Negation(this.conditionsStack.pop(), new ASTNode.MetaInformation(null, null, null, "!(" + ifStatement.getCondition().getMetaInformation().getText() + ")")));
+        this.conditionsStack.push(new Negation(this.conditionsStack.pop(), new ASTNode.MetaInformation(0, 0, 0, "!(" + ifStatement.getCondition().getMetaInformation().getText() + ")")));
 
         for (Statement statement : ifStatement.getElseStatementList()) {
             statement.accept(this);

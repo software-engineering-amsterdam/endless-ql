@@ -1,9 +1,10 @@
 package nl.uva.se.sc.niro.model.expressions
 
-import nl.uva.se.sc.niro.model.expressions.answers.{ DecAnswer, IntAnswer }
+import nl.uva.se.sc.niro.model.expressions.answers.{ DecimalAnswer, IntegerAnswer }
 
 import scala.language.implicitConversions
 
 object ImplicitConversions {
-  implicit def intAnswerToDecAnswer(value: IntAnswer): DecAnswer = DecAnswer(value.possibleValue.map(BigDecimal(_)))
+  implicit def intAnswerToDecAnswer(value: IntegerAnswer): DecimalAnswer =
+    DecimalAnswer(value.possibleValue.map(BigDecimal(_)))
 }

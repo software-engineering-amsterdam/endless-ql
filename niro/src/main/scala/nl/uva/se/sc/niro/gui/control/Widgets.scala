@@ -30,9 +30,9 @@ trait QLWidget[T] extends Control {
 abstract class AbstractQLTextField[T]() extends TextField with QLWidget[T] {
   focusedProperty().addListener(new ChangeListener[lang.Boolean] {
     override def changed(
-                          observable: ObservableValue[_ <: lang.Boolean],
-                          oldValue: lang.Boolean,
-                          newValue: lang.Boolean): Unit =
+        observable: ObservableValue[_ <: lang.Boolean],
+        oldValue: lang.Boolean,
+        newValue: lang.Boolean): Unit =
       if (oldValue) valueChanged
   })
 }
@@ -40,9 +40,9 @@ abstract class AbstractQLTextField[T]() extends TextField with QLWidget[T] {
 class QLBooleanField extends CheckBox with QLWidget[Boolean] {
   selectedProperty().addListener(new ChangeListener[lang.Boolean] {
     override def changed(
-                          observable: ObservableValue[_ <: lang.Boolean],
-                          oldValue: lang.Boolean,
-                          newValue: lang.Boolean): Unit =
+        observable: ObservableValue[_ <: lang.Boolean],
+        oldValue: lang.Boolean,
+        newValue: lang.Boolean): Unit =
       valueChanged
   })
   override def setValue(value: Boolean): Unit = setSelected(value)

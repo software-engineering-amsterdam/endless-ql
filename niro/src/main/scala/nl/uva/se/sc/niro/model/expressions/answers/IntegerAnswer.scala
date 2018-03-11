@@ -4,14 +4,14 @@ import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.expressions.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
 import nl.uva.se.sc.niro.model.expressions.Orderings.IntAnswerCanDoOrderings._
 
-final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
+final case class IntegerAnswer(possibleValue: Option[Int]) extends Answer {
 
   type T = Int
 
-  def toDecAnswer = DecAnswer(possibleValue.map(BigDecimal(_)))
+  def toDecAnswer = DecimalAnswer(possibleValue.map(BigDecimal(_)))
 
   def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
-    case that: IntAnswer =>
+    case that: IntegerAnswer =>
       operator match {
         case Add => this + that
         case Sub => this - that
@@ -25,17 +25,17 @@ final case class IntAnswer(possibleValue: Option[Int]) extends Answer {
         case Eq  => this === that
         case _   => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
       }
-    case that: DecAnswer => toDecAnswer.applyBinaryOperator(operator, that)
-    case _               => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
+    case that: DecimalAnswer => toDecAnswer.applyBinaryOperator(operator, that)
+    case _                   => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
   def applyUnaryOperator(operator: Operator): Answer = operator match {
-    case Min => -this
+    case Sub => -this
     case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
 }
 
-object IntAnswer {
-  def apply() = new IntAnswer(None)
-  def apply(value: Int) = new IntAnswer(Some(value))
+object IntegerAnswer {
+  def apply() = new IntegerAnswer(None)
+  def apply(value: Int) = new IntegerAnswer(Some(value))
 }

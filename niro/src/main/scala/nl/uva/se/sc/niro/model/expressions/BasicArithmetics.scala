@@ -1,25 +1,25 @@
 package nl.uva.se.sc.niro.model.expressions
 
-import nl.uva.se.sc.niro.model.expressions.answers.{ Answer, DecAnswer, IntAnswer }
+import nl.uva.se.sc.niro.model.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer }
 
 import scala.language.implicitConversions
 
 object BasicArithmetics {
-  trait IntAnswerCanDoBasicArithmetics extends BasicArithmetics[IntAnswer] {
-    def plus(x: IntAnswer, y: IntAnswer): IntAnswer = IntAnswer(x.combine(y)(_ + _))
-    def minus(x: IntAnswer, y: IntAnswer): IntAnswer = IntAnswer(x.combine(y)(_ - _))
-    def times(x: IntAnswer, y: IntAnswer): IntAnswer = IntAnswer(x.combine(y)(_ * _))
-    def div(x: IntAnswer, y: IntAnswer): IntAnswer = IntAnswer(x.combine(y)(_ / _))
-    def negate(x: IntAnswer) = IntAnswer(x.possibleValue.map(-_))
+  trait IntAnswerCanDoBasicArithmetics extends BasicArithmetics[IntegerAnswer] {
+    def plus(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.combine(y)(_ + _))
+    def minus(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.combine(y)(_ - _))
+    def times(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.combine(y)(_ * _))
+    def div(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.combine(y)(_ / _))
+    def negate(x: IntegerAnswer) = IntegerAnswer(x.possibleValue.map(-_))
   }
   implicit object IntAnswerCanDoBasicArithmetics extends IntAnswerCanDoBasicArithmetics
 
-  trait DecAnswerCanDoBasicArithmetics extends BasicArithmetics[DecAnswer] {
-    def plus(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(x.combine(y)(_ + _))
-    def minus(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(x.combine(y)(_ - _))
-    def times(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(x.combine(y)(_ * _))
-    def div(x: DecAnswer, y: DecAnswer): DecAnswer = DecAnswer(x.combine(y)(_ / _))
-    def negate(x: DecAnswer) = DecAnswer(x.possibleValue.map(-_))
+  trait DecAnswerCanDoBasicArithmetics extends BasicArithmetics[DecimalAnswer] {
+    def plus(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.combine(y)(_ + _))
+    def minus(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.combine(y)(_ - _))
+    def times(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.combine(y)(_ * _))
+    def div(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.combine(y)(_ / _))
+    def negate(x: DecimalAnswer) = DecimalAnswer(x.possibleValue.map(-_))
   }
   implicit object DecAnswerCanDoBasicArithmetics extends DecAnswerCanDoBasicArithmetics
 }

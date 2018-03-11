@@ -4,12 +4,12 @@ import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.expressions.BasicArithmetics.DecAnswerCanDoBasicArithmetics._
 import nl.uva.se.sc.niro.model.expressions.Orderings.DecAnswerCanDoOrderings._
 
-final case class DecAnswer(possibleValue: Option[BigDecimal]) extends Answer {
+final case class DecimalAnswer(possibleValue: Option[BigDecimal]) extends Answer {
 
   type T = BigDecimal
 
   def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
-    case that: DecAnswer =>
+    case that: DecimalAnswer =>
       operator match {
         case Add => this + that
         case Sub => this - that
@@ -27,12 +27,12 @@ final case class DecAnswer(possibleValue: Option[BigDecimal]) extends Answer {
   }
 
   def applyUnaryOperator(operator: Operator): Answer = operator match {
-    case Min => DecAnswer(possibleValue.map(-_))
+    case Sub => DecimalAnswer(possibleValue.map(-_))
     case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
 }
 
-object DecAnswer {
-  def apply() = new DecAnswer(None)
-  def apply(value: BigDecimal) = new DecAnswer(Some(value))
+object DecimalAnswer {
+  def apply() = new DecimalAnswer(None)
+  def apply(value: BigDecimal) = new DecimalAnswer(Some(value))
 }

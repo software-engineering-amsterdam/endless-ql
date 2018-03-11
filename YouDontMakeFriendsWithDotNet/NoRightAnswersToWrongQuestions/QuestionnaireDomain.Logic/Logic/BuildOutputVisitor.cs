@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using QuestionaireDomain.Entities;
 using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 using QuestionaireDomain.Entities.API.Output;
@@ -18,14 +19,25 @@ namespace QuestionnaireDomain.Logic.Logic
         private bool m_questionsCurrentlyVisible = true;
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly IOutputItemFactory m_outputItemFactory;
-
+        private readonly ISymbolTable<bool> m_boolLookup;
+        private readonly ISymbolTable<decimal> m_decimalLookup;
+        private readonly ISymbolTable<string> m_stringLookup;
+        private readonly ISymbolTable<DateTime> m_dateLookup;
 
         public BuildOutputVisitor(
             IDomainItemLocator domainItemLocator,
-            IOutputItemFactory outputItemFactory)
+            IOutputItemFactory outputItemFactory,
+            ISymbolTable<bool> boolLookup,
+            ISymbolTable<decimal> decimalLookup,
+            ISymbolTable<string> stringLookup,
+            ISymbolTable<DateTime> dateLookup)
         {
             m_domainItemLocator = domainItemLocator;
             m_outputItemFactory = outputItemFactory;
+            m_boolLookup = boolLookup;
+            m_decimalLookup = decimalLookup;
+            m_stringLookup = stringLookup;
+            m_dateLookup = dateLookup;
         }
 
         public Reference<IQuestionnaireOutputItem> Build(
@@ -60,7 +72,28 @@ namespace QuestionnaireDomain.Logic.Logic
 
         private string GetValue(Guid questionId)
         {
-            return "NOT WORKING YET";
+            var type = GetQuestionType(questionId);
+            if (type == typeof(bool))
+            {
+                return m_boolLookup.Lookup(questionId).ToString();
+            }
+
+            if (type == typeof(string))
+            {
+                return m_stringLookup.Lookup(questionId) ?? "";
+            }
+
+            if (type == typeof(decimal) || type == typeof(int))
+            {
+                return m_decimalLookup.Lookup(questionId).ToString();
+            }
+
+            if (type == typeof(DateTime))
+            {
+                return m_dateLookup.Lookup(questionId).ToString();
+            }
+
+            throw new ArgumentException($"value lookup for type '{type}' not implemented");
         }
 
 

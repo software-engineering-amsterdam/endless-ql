@@ -105,6 +105,7 @@
     <Compile Include="API\Output\IQuestionnaireOutputItem.cs" />
     <Compile Include="API\Output\QuestionnaireOutputItem.cs" />
     <Compile Include="AstFactory.cs" />
+    <Compile Include="SymbolTable.cs" />
     <Compile Include="DomainItemRegistry.cs" />
     <Compile Include="DomainObjects\Ast\AndNode.cs" />
     <Compile Include="DomainObjects\Ast\BooleanNode.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="DomainObjects\Reference.cs" />
     <Compile Include="DomainObjects\Ast\VariableNodeBase.cs" />
     <Compile Include="EntitiesModule.cs" />
+    <Compile Include="ISymbolTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

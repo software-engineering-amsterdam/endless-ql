@@ -1,27 +1,27 @@
-package nl.uva.se.sc.niro.model.expressions
+package nl.uva.se.sc.niro.model.ql.expressions
 
-import nl.uva.se.sc.niro.model.expressions.answers._
+import nl.uva.se.sc.niro.model.ql.expressions.answers._
 
 import scala.language.implicitConversions
 
 object Orderings {
-  trait IntAnswerCanDoOrderings extends Orderings[IntAnswer] {
-    def lt(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ < _))
-    def lte(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ <= _))
-    def gte(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ >= _))
-    def gt(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ > _))
-    def neq(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ != _))
-    def equ(x: IntAnswer, y: IntAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ == _))
+  trait IntAnswerCanDoOrderings extends Orderings[IntegerAnswer] {
+    def lt(x: IntegerAnswer, y: IntegerAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ < _))
+    def lte(x: IntegerAnswer, y: IntegerAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ <= _))
+    def gte(x: IntegerAnswer, y: IntegerAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ >= _))
+    def gt(x: IntegerAnswer, y: IntegerAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ > _))
+    def neq(x: IntegerAnswer, y: IntegerAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ != _))
+    def equ(x: IntegerAnswer, y: IntegerAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ == _))
   }
   implicit object IntAnswerCanDoOrderings extends IntAnswerCanDoOrderings
 
-  trait DecAnswerCanDoOrderings extends Orderings[DecAnswer] {
-    def lt(x: DecAnswer, y: DecAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ < _))
-    def lte(x: DecAnswer, y: DecAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ <= _))
-    def gte(x: DecAnswer, y: DecAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ >= _))
-    def gt(x: DecAnswer, y: DecAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ > _))
-    def neq(x: DecAnswer, y: DecAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ != _))
-    def equ(x: DecAnswer, y: DecAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ == _))
+  trait DecAnswerCanDoOrderings extends Orderings[DecimalAnswer] {
+    def lt(x: DecimalAnswer, y: DecimalAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ < _))
+    def lte(x: DecimalAnswer, y: DecimalAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ <= _))
+    def gte(x: DecimalAnswer, y: DecimalAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ >= _))
+    def gt(x: DecimalAnswer, y: DecimalAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ > _))
+    def neq(x: DecimalAnswer, y: DecimalAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ != _))
+    def equ(x: DecimalAnswer, y: DecimalAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ == _))
   }
   implicit object DecAnswerCanDoOrderings extends DecAnswerCanDoOrderings
 

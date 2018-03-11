@@ -1,27 +1,14 @@
 grammar QL;
 
+import  QL_Common ;
+
 FORM         : 'form' ;
 IF           : 'if' ;
 ELSE         : 'else' ;
 ASSIGN       : '=' ;
 
-BOOLEAN      : 'boolean' ;
-INTEGER      : 'integer' ;
-STRING       : 'string' ;
-DECIMAL      : 'decimal' ;
-MONEY        : 'money' ;
-DATE         : 'date' ;
-
 FALSE        : 'false' ;
 TRUE         : 'true' ;
-
-CURLY_LEFT   : '{' ;
-CURLY_RIGHT  : '}' ;
-
-BRACK_LEFT   : '(' ;
-BRACK_RIGHT  : ')' ;
-
-DOUBLE_COLON : ':' ;
 
 LT           : '<' ;
 LTE          : '<=' ;
@@ -43,11 +30,7 @@ PERIOD       : '.' ;
 DateValue    : [0-9][0-9][0-9][0-9] '-' [0-9][0-9] '-' [0-9][0-9] ;
 IntValue     : [1-9][0-9]* ;
 DecValue     : [1-9][0-9]* PERIOD [0-9]+ ;
-Identifier   : [a-zA-Z0-9_]+ ;
 TEXT         : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); };
-
-WS           : [ \t\r\n]+ -> skip ;
-COMMENT      : '//' .*? '\n' -> skip ;
 
 bool        : FALSE | TRUE ;
 

@@ -88,46 +88,46 @@ object QLFormParser extends Logging {
       errorListener.parseErrors.isEmpty
     }
 
-    override def visitGroupExpr(ctx: QLParser.GroupExprContext): Expression = {
+    override def visitGroupExpression(ctx: QLParser.GroupExpressionContext): Expression = {
       visit(ctx.expression())
     }
-    override def visitUnaryExpr(ctx: QLParser.UnaryExprContext): Expression = {
-      UnaryOperation(Operator(ctx.op.getText), visit(ctx.expression))
+    override def visitUnaryExpression(ctx: QLParser.UnaryExpressionContext): Expression = {
+      UnaryOperation(Operator(ctx.operator.getText), visit(ctx.expression))
     }
-    override def visitMultiplicativeExpr(ctx: QLParser.MultiplicativeExprContext): Expression = {
-      BinaryOperation(Operator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+    override def visitMultiplicativeExpression(ctx: QLParser.MultiplicativeExpressionContext): Expression = {
+      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
     }
-    override def visitAdditiveExpr(ctx: QLParser.AdditiveExprContext): Expression = {
-      BinaryOperation(Operator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+    override def visitAdditiveExpression(ctx: QLParser.AdditiveExpressionContext): Expression = {
+      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
     }
-    override def visitRelationalExp(ctx: QLParser.RelationalExpContext): Expression = {
-      BinaryOperation(Operator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+    override def visitRelationalExpression(ctx: QLParser.RelationalExpressionContext): Expression = {
+      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
     }
-    override def visitEqualityExpr(ctx: QLParser.EqualityExprContext): Expression = {
-      BinaryOperation(Operator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+    override def visitEqualityExpression(ctx: QLParser.EqualityExpressionContext): Expression = {
+      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
     }
-    override def visitLogicalAndExpr(ctx: QLParser.LogicalAndExprContext): Expression = {
-      BinaryOperation(Operator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+    override def visitLogicalAndExpression(ctx: QLParser.LogicalAndExpressionContext): Expression = {
+      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
     }
-    override def visitLogicalOrExpr(ctx: QLParser.LogicalOrExprContext): Expression = {
-      BinaryOperation(Operator(ctx.op.getText), visit(ctx.lhs), visit(ctx.rhs))
+    override def visitLogicalOrExpression(ctx: QLParser.LogicalOrExpressionContext): Expression = {
+      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
     }
-    override def visitIntConst(ctx: QLParser.IntConstContext): Expression = {
-      IntAnswer(ctx.IntValue().getText.toInt)
+    override def visitIntegerConstant(ctx: QLParser.IntegerConstantContext): Expression = {
+      IntAnswer(ctx.IntegerValue().getText.toInt)
     }
-    override def visitDecConst(ctx: QLParser.DecConstContext): Expression = {
-      DecAnswer(BigDecimal(ctx.DecValue().getText))
+    override def visitDecimalConstant(ctx: QLParser.DecimalConstantContext): Expression = {
+      DecAnswer(BigDecimal(ctx.DecimalValue().getText))
     }
-    override def visitDateConst(ctx: QLParser.DateConstContext): Expression = {
-      DateAnswer(ctx.DateValue().getText)
-    }
-    override def visitStringConst(ctx: QLParser.StringConstContext): Expression = {
-      StringAnswer(ctx.TEXT().getText)
-    }
-    override def visitBool(ctx: QLParser.BoolContext): Expression = {
+    override def visitBooleanConstant(ctx: QLParser.BooleanConstantContext): Expression = {
       BooleanAnswer(ctx.getText.toBoolean)
     }
-    override def visitVar(ctx: QLParser.VarContext): Expression = {
+    override def visitDateConstant(ctx: QLParser.DateConstantContext): Expression = {
+      DateAnswer(ctx.DateValue().getText)
+    }
+    override def visitStringConstant(ctx: QLParser.StringConstantContext): Expression = {
+      StringAnswer(ctx.Text().getText)
+    }
+    override def visitVariableName(ctx: QLParser.VariableNameContext): Expression = {
       Reference(ctx.Identifier().getText)
     }
   }

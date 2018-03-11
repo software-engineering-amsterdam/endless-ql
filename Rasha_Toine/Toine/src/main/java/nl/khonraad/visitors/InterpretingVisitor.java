@@ -1,19 +1,16 @@
 package nl.khonraad.visitors;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import nl.khonraad.ExpressionLanguageBaseVisitor;
 import nl.khonraad.ExpressionLanguageParser;
 import nl.khonraad.domain.AnswerableQuestion;
 import nl.khonraad.domain.ComputedQuestion;
-import nl.khonraad.domain.Value;
 import nl.khonraad.domain.Type;
+import nl.khonraad.domain.Value;
 
 public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
@@ -60,17 +57,13 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 		switch (operator) {
 
 			case "-":
-				return new Value( expression.getType(), -expression.getUnits() );
+				return expression.apply( operator );
 
 			case "+":
 				return expression;
 
 			case "!":
-				if (!Type.Boolean.equals( expression.getType() )) {
-					throw new RuntimeException(
-							"Operator not allowed " + ctx.unaryOperator().getText() + " on " + expression.getType() );
-				}
-				return new Value( expression.getType(), (expression.getUnits() != 0) ? 0 : 1 );
+				return expression.apply( operator );
 
 			default:
 				throw new RuntimeException( "Undefined operator: \"" + ctx.unaryOperator().getText() + "\"" );
@@ -80,7 +73,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 	@Override
 	public Value visitExpressionQuotedString( ExpressionLanguageParser.ExpressionQuotedStringContext ctx ) {
 
-		return new Value( Type.String, removeQuotes( ctx.String().getText() ) );
+		return new Value( Type.String, removeQuotes( ctx.QuotedString().getText() ) );
 	}
 
 	@Override
@@ -91,60 +84,8 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 		Value right = visit( ctx.expression( 1 ) );
 		String operator = ctx.binaryOperator().getText();
 
-		Type leftType = left.getType();
-		Type rightType = right.getType();
+		return left.apply( operator, right );
 
-		long leftOperand = left.getUnits();
-		long rightOperand = right.getUnits();
-
-		if (!allowdOperation( leftType, rightType, operator )) {
-
-			throw new RuntimeException( "Operation not allowed: \"" + leftType + " " + operator + " " + rightType );
-		}
-
-		Type resultType = resultType( leftType, rightType, operator );
-
-		switch (operator) {
-
-			case "*":
-				return new Value( resultType, leftOperand * rightOperand );
-
-			case "/":
-				return new Value( resultType, leftOperand / rightOperand );
-
-			case "+":
-				switch (resultType) {
-					case String:
-						return new Value( resultType, left.getText() + right.getText() );
-					default: 	
-						return new Value( resultType, leftOperand + rightOperand );
-				}
-
-			case "-":
-				return new Value( resultType, leftOperand - rightOperand );
-
-			case "&&":
-				return new Value( resultType, (leftOperand & rightOperand) != 0 ? 1 : 0 );
-
-			case "||":
-				return new Value( resultType, (leftOperand | rightOperand) != 0 ? 1 : 0 );
-
-			case "==":
-				return new Value( resultType, leftOperand == rightOperand ? 1 : 0 );
-			case "<=":
-				return new Value( resultType, leftOperand <= rightOperand ? 1 : 0 );
-			case ">=":
-				return new Value( resultType, leftOperand >= rightOperand ? 1 : 0 );
-			case "<":
-				return new Value( resultType, leftOperand < rightOperand ? 1 : 0 );
-			case ">":
-				return new Value( resultType, leftOperand > rightOperand ? 1 : 0 );
-
-			default:
-				throw new RuntimeException(
-						"Check Antlr grammar. You defined an operator that isn't implemented here: \""
-								+ ctx.binaryOperator().getText() + "\"" );
-		}
 	}
 
 	@Override
@@ -198,14 +139,14 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 	@Override
 	public Value visitPartAnswerableQuestion( ExpressionLanguageParser.PartAnswerableQuestionContext ctx ) {
 
-		String identifier =  ctx.Identifier().getText();
-		String label = removeQuotes( ctx.String().getText());
+		String identifier = ctx.Identifier().getText();
+		String label = removeQuotes( ctx.QuotedString().getText() );
 
 		forwardReferences.remove( identifier );
 
 		Type type = Type.parseType( ctx.Type().getText() );
 
-		AnswerableQuestion question = new AnswerableQuestion( identifier, ctx.String().getText(), type );
+		AnswerableQuestion question = new AnswerableQuestion( identifier, ctx.QuotedString().getText(), type );
 
 		if (declaredQuestionTypes.contains( identifier )) {
 
@@ -224,8 +165,9 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 	@Override
 	public Value visitPartComputedQuestion( ExpressionLanguageParser.PartComputedQuestionContext ctx ) {
 
-		String identifier =  ctx.Identifier().getText();
-		String label = removeQuotes(ctx.String().getText());;
+		String identifier = ctx.Identifier().getText();
+		String label = removeQuotes( ctx.QuotedString().getText() );
+		;
 		Type type = Type.parseType( ctx.Type().getText() );
 
 		forwardReferences.remove( identifier );
@@ -253,100 +195,10 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 	public Value visitPartConditionalBlock( ExpressionLanguageParser.PartConditionalBlockContext ctx ) {
 
 		Value value = visit( ctx.expression() );
-		if (value.getUnits() != 0) {
+		if (value.equals( new Value( Type.Boolean, "True" ) )) {
 			visitChildren( ctx.block() );
 		}
 		return value;
-	}
-
-	static List<String> PRODUCT_OPERATORS = Arrays.asList( "*", "/" );
-	static List<String> ADDITION_OPERATORS = Arrays.asList( "+", "-" );
-	static List<String> LOGICAL_OPERATORS = Arrays.asList( "&&", "||" );
-	static List<String> COMPARISON_OPERATORS = Arrays.asList( "==", "<=", ">=", "<", ">" );
-
-	private boolean allowdOperation( Type type1, Type type2, String operator ) {
-
-		Set<String> allowedOperators = new HashSet<String>();
-
-		switch (type1 + "-" + type2) {
-
-			case "Integer-Integer":
-				allowedOperators.addAll( PRODUCT_OPERATORS );
-				allowedOperators.addAll( ADDITION_OPERATORS );
-				allowedOperators.addAll( COMPARISON_OPERATORS );
-				break;
-
-			case "Money-Money":
-				allowedOperators.addAll( ADDITION_OPERATORS );
-				allowedOperators.addAll( COMPARISON_OPERATORS );
-				break;
-
-			case "Boolean-Boolean":
-				allowedOperators.addAll( LOGICAL_OPERATORS );
-				allowedOperators.addAll( COMPARISON_OPERATORS );
-				break;
-
-			case "String-String":
-				allowedOperators.addAll( ADDITION_OPERATORS );
-				allowedOperators.addAll( COMPARISON_OPERATORS );
-				break;
-
-			case "Date-Date":
-				allowedOperators.addAll( LOGICAL_OPERATORS );
-				allowedOperators.addAll( COMPARISON_OPERATORS );
-				break;
-
-			case "Integer-Money":
-			case "Money-Integer":
-				allowedOperators.addAll( PRODUCT_OPERATORS );
-				allowedOperators.addAll( COMPARISON_OPERATORS );
-				break;
-
-			case "Integer-Date":
-			case "Date-Integer":
-				allowedOperators.addAll( ADDITION_OPERATORS );
-				break;
-
-		}
-
-		return allowedOperators.contains( operator );
-
-	}
-
-	private Type resultType( Type type1, Type type2, String operator ) {
-
-		List<String> addition = Arrays.asList( "+", "-" );
-
-		switch (type1 + "-" + type2) {
-
-			case "Integer-Integer":
-				return Type.Integer;
-
-			case "Money-Money":
-				if (addition.contains( operator )) {
-					return Type.Money;
-				}
-				return Type.Boolean;
-
-			case "Boolean-Boolean":
-				return Type.Boolean;
-
-			case "String-String":
-				return Type.String;
-
-			case "Date-Date":
-				return Type.Date;
-
-			case "Integer-Money":
-			case "Money-Integer":
-				return Type.Money;
-
-			case "Integer-Date":
-			case "Date-Integer":
-				return Type.Date;
-
-		}
-		throw new RuntimeException( "Check Antlr grammar. Operation impossible: " + type1 + " " + operator + type2 );
 	}
 
 }

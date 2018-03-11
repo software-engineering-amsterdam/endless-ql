@@ -8,7 +8,7 @@ final case class DecAnswer(possibleValue: Option[BigDecimal]) extends Answer {
 
   type T = BigDecimal
 
-  def applyBinaryOperator(operator: BinaryOperator, that: Answer): Answer = that match {
+  def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
     case that: DecAnswer =>
       operator match {
         case Add => this + that
@@ -26,7 +26,7 @@ final case class DecAnswer(possibleValue: Option[BigDecimal]) extends Answer {
     case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
   }
 
-  def applyUnaryOperator(operator: UnaryOperator): Answer = operator match {
+  def applyUnaryOperator(operator: Operator): Answer = operator match {
     case Min => DecAnswer(possibleValue.map(-_))
     case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
@@ -35,5 +35,4 @@ final case class DecAnswer(possibleValue: Option[BigDecimal]) extends Answer {
 object DecAnswer {
   def apply() = new DecAnswer(None)
   def apply(value: BigDecimal) = new DecAnswer(Some(value))
-  def apply(value: String): DecAnswer = if (value.isEmpty) DecAnswer() else DecAnswer(BigDecimal(value))
 }

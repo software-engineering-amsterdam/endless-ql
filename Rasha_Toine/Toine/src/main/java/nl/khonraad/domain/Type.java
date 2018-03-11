@@ -2,7 +2,7 @@ package nl.khonraad.domain;
 
 public enum Type {
 
-	Boolean("boolean"), Integer("integer"), Money("money"), String("string"), Date("date");
+	Boolean("boolean"), Date("date"), Integer("integer"), Money("money"), String("string") ;
 
 	private String text;
 

@@ -27,20 +27,16 @@ trait QLWidget[T] extends Control {
     valueChangedListeners.foreach(_.valueChanged(this))
 }
 
-class QLTextField() extends TextField with QLWidget[String] {
-  focusedProperty().addListener(new ChangeListener[lang.Boolean] {
+class QLBooleanField extends CheckBox with QLWidget[Boolean] {
+  selectedProperty().addListener(new ChangeListener[lang.Boolean] {
     override def changed(
-        observable: ObservableValue[_ <: lang.Boolean],
-        oldValue: lang.Boolean,
-        newValue: lang.Boolean): Unit =
-      if (oldValue) valueChanged
-  })
-  textProperty().addListener(new ChangeListener[String] {
-    override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
+                          observable: ObservableValue[_ <: lang.Boolean],
+                          oldValue: lang.Boolean,
+                          newValue: lang.Boolean): Unit =
       valueChanged
   })
-  override def setValue(value: String): Unit = setText(value)
-  override def getValue: String = getText
+  override def setValue(value: Boolean): Unit = setSelected(value)
+  override def getValue: Boolean = isSelected
 }
 
 class QLDateField() extends DatePicker with QLWidget[LocalDate] {
@@ -52,16 +48,16 @@ class QLDateField() extends DatePicker with QLWidget[LocalDate] {
   setConverter(new LocalDateStringConverter(dateFormatter, dateFormatter))
 }
 
-class QLBooleanField extends CheckBox with QLWidget[Boolean] {
-  selectedProperty().addListener(new ChangeListener[lang.Boolean] {
+class QLTextField() extends TextField with QLWidget[String] {
+  focusedProperty().addListener(new ChangeListener[lang.Boolean] {
     override def changed(
         observable: ObservableValue[_ <: lang.Boolean],
         oldValue: lang.Boolean,
         newValue: lang.Boolean): Unit =
-      valueChanged
+      if (oldValue) valueChanged
   })
-  override def setValue(value: Boolean): Unit = setSelected(value)
-  override def getValue: Boolean = isSelected
+  override def setValue(value: String): Unit = setText(value)
+  override def getValue: String = getText
 }
 
 class QLIntegerField() extends TextField with QLWidget[java.lang.Integer] {

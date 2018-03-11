@@ -1,7 +1,7 @@
 package gui.view;
 
 import ast.model.expressions.Expression;
-import gui.model.FormFieldModel;
+import gui.model.FormQuestion;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -13,8 +13,6 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.NumberFormatter;
@@ -24,16 +22,16 @@ public class TextForm extends JPanel {
     private JComponent[] fields;
 
     // Create a form with the specified labels, tooltips, and sizes.
-    public TextForm(List<FormFieldModel> formFieldModels) {
+    public TextForm(List<FormQuestion> formQuestions) {
         super(new BorderLayout());
-        JPanel labelPanel = new JPanel(new GridLayout(formFieldModels.size(), 1));
-        JPanel fieldPanel = new JPanel(new GridLayout(formFieldModels.size(), 1));
+        JPanel labelPanel = new JPanel(new GridLayout(formQuestions.size(), 1));
+        JPanel fieldPanel = new JPanel(new GridLayout(formQuestions.size(), 1));
         add(labelPanel, BorderLayout.WEST);
         add(fieldPanel, BorderLayout.CENTER);
-        fields = new JComponent[formFieldModels.size()];
+        fields = new JComponent[formQuestions.size()];
 
         int i = 0;
-        for (FormFieldModel fieldModel : formFieldModels) {
+        for (FormQuestion fieldModel : formQuestions) {
 
             System.out.println(fieldModel.getVariableType().name());
 

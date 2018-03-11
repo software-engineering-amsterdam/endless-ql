@@ -1,6 +1,6 @@
 package gui;
 
-import gui.model.FormFieldModel;
+import gui.model.FormQuestion;
 import gui.view.TextForm;
 
 import javax.swing.*;
@@ -12,9 +12,9 @@ import java.util.List;
 // https://www.callicoder.com/javafx-registration-form-gui-tutorial/
 
 public class QLGui {
-    public QLGui(List<FormFieldModel> formFieldModels) {
+    public QLGui(List<FormQuestion> formQuestions) {
 
-        final TextForm form = new TextForm(formFieldModels);
+        final TextForm form = new TextForm(formQuestions);
 
         JButton submit = new JButton("Submit Form");
 

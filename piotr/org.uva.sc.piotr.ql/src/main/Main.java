@@ -13,7 +13,7 @@ import ast.visitors.evaluators.ExpressionResult;
 import grammar.QLLexer;
 import grammar.QLParser;
 import gui.QLGui;
-import gui.model.FormFieldModel;
+import gui.model.FormQuestion;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -48,7 +48,7 @@ public class Main {
         form.accept(collectQuestionsVisitor);
         ArrayList<Question> questions = collectQuestionsVisitor.getQuestions();
 
-        // Validate questions against cyclic dependency
+        // Validate questions against cyclic dependency @TODO: finish
         HashMap<Question, ArrayList<VariableReference>> questionsMap = collectQuestionsVisitor.getQuestionsMap();
         QuestionsDependencyValidator questionsDependencyValidator = new QuestionsDependencyValidator(questionsMap);
 
@@ -65,46 +65,50 @@ public class Main {
             System.out.println("Warning: " + e.getMessage());
         }
 
-        HashMap<String, ExpressionResult> variablesValues = new HashMap<>();
+        // TODO: validate conditions that are not of the type boolean
 
-        // Default empty setup
-        for (VariableReference reference : references) {
-            for (Question question : questions) {
-                if (question.getVariableName().equals(reference.getName())) {
-                    if (question.getVariableType().toDataType() == Expression.DataType.STRING) {
-                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.STRING, ""));
-                    } else if (question.getVariableType().toDataType() == Expression.DataType.DECIMAL) {
-                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.DECIMAL, "0"));
-                    } else if (question.getVariableType().toDataType() == Expression.DataType.INTEGER) {
-                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.INTEGER, "0"));
-                    } else if (question.getVariableType().toDataType() == Expression.DataType.BOOLEAN) {
-                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.BOOLEAN, "FALSE"));
-                    }
-                }
-            }
-        }
+        // TODO: operands of invalid type to operators
 
-
-        // evaluate each variable
-        List<ExpressionResult> evaluatedExpressions = new ArrayList<>();
-
-        ExpressionEvaluator evaluator = new ExpressionEvaluator(variablesValues);
-        for (Question q: questions) {
-            if(q.getAssignedExpression() != null) {
-                evaluatedExpressions.add(q.getAssignedExpression().accept(evaluator));
-            }
-        }
+//        HashMap<String, ExpressionResult> variablesValues = new HashMap<>();
+//
+//        // Default empty setup
+//        for (VariableReference reference : references) {
+//            for (Question question : questions) {
+//                if (question.getVariableName().equals(reference.getName())) {
+//                    if (question.getVariableType().toDataType() == Expression.DataType.STRING) {
+//                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.STRING, ""));
+//                    } else if (question.getVariableType().toDataType() == Expression.DataType.DECIMAL) {
+//                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.DECIMAL, "0"));
+//                    } else if (question.getVariableType().toDataType() == Expression.DataType.INTEGER) {
+//                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.INTEGER, "0"));
+//                    } else if (question.getVariableType().toDataType() == Expression.DataType.BOOLEAN) {
+//                        variablesValues.put(question.getVariableName(), ExpressionResult.createExpressionResult(Expression.DataType.BOOLEAN, "FALSE"));
+//                    }
+//                }
+//            }
+//        }
+//
+//
+//        // evaluate each variable
+//        List<ExpressionResult> evaluatedExpressions = new ArrayList<>();
+//
+//        ExpressionEvaluator evaluator = new ExpressionEvaluator(variablesValues);
+//        for (Question q : questions) {
+//            if (q.getAssignedExpression() != null) {
+//                evaluatedExpressions.add(q.getAssignedExpression().accept(evaluator));
+//            }
+//        }
 
 //        for (VariableReference variableReference : references) {
 //            variablesValues.put(variableReference.getName(), ExpressionResult.createExpressionResult(variableReference.))
 //        }
 
 
-//        CollectFormFieldModelsVisitor collectFormFieldModelsVisitor = new CollectFormFieldModelsVisitor();
-//        form.accept(collectFormFieldModelsVisitor);
+        CollectFormFieldModelsVisitor collectFormFieldModelsVisitor = new CollectFormFieldModelsVisitor();
+        form.accept(collectFormFieldModelsVisitor);
 
-//        List<FormFieldModel> formFieldModels = collectFormFieldModelsVisitor.getFormFieldModels();
-//        new QLGui(formFieldModels);
+        List<FormQuestion> formQuestions = collectFormFieldModelsVisitor.getFormQuestions();
+        new QLGui(formQuestions);
 
 
 //        Gson gson = new Gson();

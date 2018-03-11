@@ -9,17 +9,17 @@ import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
 import ast.model.statements.Statement;
 import ast.visitors.AbstractASTTraverse;
-import gui.model.FormFieldModel;
+import gui.model.FormQuestion;
 
 import java.util.*;
 
 public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
 
-    private List<FormFieldModel> formFieldModels = new ArrayList<>();
+    private List<FormQuestion> formQuestions = new ArrayList<>();
     private Stack<Expression> conditionsStack = new Stack<>();
 
-    public List<FormFieldModel> getFormFieldModels() {
-        return formFieldModels;
+    public List<FormQuestion> getFormQuestions() {
+        return formQuestions;
     }
 
     @Override
@@ -33,13 +33,13 @@ public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
     @Override
     public Void visit(Question question) {
 
-        Expression aggregatedExpression = this.aggregateConditionsStack();
+        Expression aggregatedVisibilityCondition = this.aggregateConditionsStack();
 
-        this.formFieldModels.add(new FormFieldModel(
+        this.formQuestions.add(new FormQuestion(
                 question.getLabel(),
                 question.getVariableName(),
                 question.getVariableType().toDataType(),
-                aggregatedExpression,
+                aggregatedVisibilityCondition,
                 question.getAssignedExpression()
                 ));
 
@@ -62,7 +62,7 @@ public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
             statement.accept(this);
         }
 
-        // flip the condition on the stack to negation @TODO: pretiffy metainformation, Expression is not necessary an AST node - can be, but doesn't have to... think about it.
+        // flip the condition on the stack to negation @TODO: prettify meta-information, Expression is not necessary an AST node - can be, but doesn't have to... think about it.
         this.conditionsStack.push(new Negation(this.conditionsStack.pop(), new ASTNode.MetaInformation(0, 0, 0, "!(" + ifStatement.getCondition().getMetaInformation().getText() + ")")));
 
         for (Statement statement : ifStatement.getElseStatementList()) {
@@ -82,7 +82,7 @@ public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
             if (finalExpression == null) {
                 finalExpression = expression;
             } else {
-                // @TODO: idem
+                // @TODO: prettify meta-information
                 finalExpression = new LogicalAnd(finalExpression, expression, new ASTNode.MetaInformation(0, 0, 0, "(" + finalExpression.getMetaInformation().getText() + ") && (" + expression.getMetaInformation().getText() + ")"));
             }
         }

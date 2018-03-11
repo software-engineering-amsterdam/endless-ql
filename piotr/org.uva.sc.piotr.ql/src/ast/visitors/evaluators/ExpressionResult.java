@@ -24,12 +24,15 @@ public class ExpressionResult {
     public static ExpressionResult createExpressionResult(Expression.DataType type, String text) {
 
         if (type == Expression.DataType.INTEGER) {
-            return new ExpressionResult(type, Integer.parseInt(text));
+            Integer safeInteger = text.isEmpty() ? 0 : Integer.parseInt(text);
+            return new ExpressionResult(type, safeInteger);
         } else if (type == Expression.DataType.DECIMAL) {
-            return new ExpressionResult(type, new BigDecimal(text));
+            BigDecimal safeDecimal = text.isEmpty() ? new BigDecimal(0) : new BigDecimal(text);
+            return new ExpressionResult(type, safeDecimal);
         } else if (type == Expression.DataType.BOOLEAN) {
             // @TODO: Check it - I don't like the string here
-            return new ExpressionResult(type, text.toUpperCase().equals("TRUE"));
+            Boolean safeBoolean = text.toUpperCase().equals("TRUE");
+            return new ExpressionResult(type, safeBoolean);
         } else if (type == Expression.DataType.STRING) {
             return new ExpressionResult(type, text);
         }

@@ -5,26 +5,22 @@ import ql.parsers._
 import ql.visitors._
 
 import scala.collection.JavaConversions._
+import scala.util.{ Try, Success, Failure }
 
 case class IdentifierNotDeclared(label: String) extends Exception(label)
 
 object IdentifierValidator {
-  def validate(node: ASTNode): Unit = {
+  def validate(node: ASTNode): Try[Boolean] = {
     val forms = ASTCollector.getFormBody(node)
-    val formVarDecls = forms.map(ASTCollector.getVarDecls)
-    val formTerminals = forms.map(ASTCollector.getTerminals)
 
-    (formVarDecls, formTerminals).zipped.foreach(checkScope)
-  }
+    val declaredIdentifiers = forms.flatMap(ASTCollector.getVarDecls).flatMap(ASTCollector.getIdentifiers)
+    val foundIdentifiers = forms.flatMap(ASTCollector.getTerminals).flatMap(ASTCollector.getIdentifiers)
+    val undeclaredIdentifiers = foundIdentifiers.distinct diff declaredIdentifiers.distinct
 
-  def checkScope(varDecls: List[ASTNode], terminals: List[ASTNode]): Unit = {
-    val declaredIdentifiers =
-      varDecls.map(ASTCollector.getIdentifiers).flatten
-    terminals.foreach {
-      case node: ASTIdentifier if !declaredIdentifiers.contains(node) => {
-        throw new IdentifierNotDeclared(node.id)
-      }
-      case other => None
+    if(undeclaredIdentifiers.isEmpty) {
+      Success(true)
+    } else {
+      Failure(new IdentifierNotDeclared(undeclaredIdentifiers(0).id))
     }
   }
 }

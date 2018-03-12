@@ -5,6 +5,7 @@ import ql.validators._
 import ql.parsers._
 
 import scala.io.Source
+import scala.util.{ Try, Success, Failure }
 
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
@@ -19,7 +20,7 @@ class UndeclaredReferenceSpec extends FunSpec with BeforeAndAfter {
     return QlFormParser.parseFromURL(getClass.getResource(location))
   }
 
-  describe("when typechecking a valid form") {
+  describe("when typechecking a simple valid form") {
     val filename = "ql/typechecking/simple.ql"
     val form = getForm(filename)
     val typechecker = new TypeChecker(form)
@@ -43,9 +44,9 @@ class UndeclaredReferenceSpec extends FunSpec with BeforeAndAfter {
     }
 
     it("checkVarDecls method should throw an IdentifierNotDeclared exception") {
-      assertThrows[IdentifierNotDeclared] {
-        // typechecker.checkVarDecls()
-        IdentifierValidator.validate(form)
+      IdentifierValidator.validate(form) match {
+        case Failure(e) => e shouldBe a [IdentifierNotDeclared]
+        case Success(_) => fail()
       }
     }
 
@@ -67,9 +68,9 @@ class UndeclaredReferenceSpec extends FunSpec with BeforeAndAfter {
     }
 
     it("checkVarDecls should throw an IdentifierNotDeclared exception") {
-      assertThrows[IdentifierNotDeclared] {
-        // typechecker.checkVarDecls()
-        IdentifierValidator.validate(form)
+      IdentifierValidator.validate(form) match {
+        case Failure(e) => e shouldBe a [IdentifierNotDeclared]
+        case Success(_) => fail()
       }
     }
 

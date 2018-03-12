@@ -21,9 +21,9 @@ object ASTCollector {
     }
   }
 
-  def getIdentifiers(node: ASTNode): List[ASTNode] = {
+  def getIdentifiers(node: ASTNode): List[ASTIdentifier] = {
     node match {
-      case nt: ASTNonTerminal => traverseChildren(nt, getIdentifiers)
+      case nt: ASTNonTerminal => nt.flatten.flatMap(getIdentifiers)
       case id: ASTIdentifier  => List(id)
       case other              => List()
     }

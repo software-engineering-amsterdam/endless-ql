@@ -1,0 +1,7 @@
+stylesheet EditOrNotToEdit {
+    page PageOne {
+        section "Variables" {
+            question integerVariable
+        }
+    }
+}

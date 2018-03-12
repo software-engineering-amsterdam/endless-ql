@@ -14,6 +14,7 @@ import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer }
+import nl.uva.se.sc.niro.model.qls.QLStylesheet
 
 import scala.collection.{ JavaConverters, mutable }
 
@@ -22,8 +23,11 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   private var qlForm: QLForm = _
   private var guiForm: GUIForm = _
   private var questions: Seq[Component[_]] = _
+  private var stylesheet: Option[QLStylesheet] = None
+  private var page: Int = 0
 
   @FXML var formName: Label = _
+  @FXML var pageName: Label = _
   @FXML var questionArea: VBox = _
 
   @FXML var navigationBar: BorderPane = _
@@ -33,7 +37,9 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   @FXML
   def initialize: Unit = {
     navigationBar.managedProperty().bind(navigationBar.visibleProperty())
-    navigationBar.setVisible(false)
+    pageName.managedProperty().bind(pageName.visibleProperty())
+    pageName.visibleProperty().bind(navigationBar.visibleProperty())
+    back.setDisable(true)
   }
 
   @FXML
@@ -47,14 +53,19 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
     println("Data is saved....")
 
   @FXML
-  def back(event: ActionEvent): Unit =
-  // TODO Implement
+  def back(event: ActionEvent): Unit = {
+    page -= 1
+    back.setDisable(page > 0)
     println("Going back...")
+  }
 
   @FXML
-  def next(event: ActionEvent): Unit =
-  // TODO Implement
+  def next(event: ActionEvent): Unit = {
+    page += 1
+    // The navigation bar (and therefor this button) is invisible when there is no stylesheet provided, so 'get' is safe
+    next.setDisable(page == stylesheet.get.pages.size)
     println("Going forward...")
+  }
 
   def componentChanged(component: Component[_]): Unit = {
     dictionary(component.getQuestionId) = component.getValue
@@ -62,8 +73,9 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
     updateView
   }
 
-  def initializeForm(form: QLForm): Unit = {
+  def initializeForm(form: QLForm, stylesheet: Option[QLStylesheet]): Unit = {
     this.qlForm = form
+    this.stylesheet = stylesheet
 
     guiForm = ModelConverter.convert(this.qlForm)
     formName.setText(guiForm.name)
@@ -72,6 +84,10 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
     questions.foreach(_.addComponentChangedListener(this))
 
     questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
+
+    // Guard for incorrect usage of 'get' is on the left side of the '&&' operation
+    navigationBar.setVisible(stylesheet.isDefined && stylesheet.get.pages.size > 0)
+    next.setDisable(stylesheet.isDefined && stylesheet.get.pages.size == 1)
 
     evaluateAnswers
     updateView

@@ -7,10 +7,11 @@ import javafx.fxml.{ FXML, FXMLLoader }
 import javafx.scene.control.TextArea
 import javafx.scene.{ Parent, Scene }
 import javafx.stage.{ FileChooser, Stage }
-import nl.uva.se.sc.niro.QLFormService
+import nl.uva.se.sc.niro.{ QLFormService, QLStylesheetService }
 import nl.uva.se.sc.niro.errors.Errors
 import nl.uva.se.sc.niro.gui.application.QLForms
 import nl.uva.se.sc.niro.model.ql.QLForm
+import nl.uva.se.sc.niro.model.qls.QLStylesheet
 
 class QLHomeController extends QLBaseController {
   @FXML
@@ -22,9 +23,15 @@ class QLHomeController extends QLBaseController {
     val selectedFile: File = selectQLFile(stage)
     if (selectedFile != null) try {
       val formOrErrors: Either[Seq[Errors.Error], QLForm] = QLFormService.importQLSpecification(selectedFile)
-      val qlsFile = new File(selectedFile.toString + "s")
       formOrErrors match {
-        case Right(form)  => handleSuccess(stage, form)
+        case Right(form) => {
+          val stylesheetOrErrors: Either[Seq[Errors.Error], Option[QLStylesheet]] =
+            QLStylesheetService.importQLStylesheetSpecification(form, new File(selectedFile.toString + "s"))
+          stylesheetOrErrors match {
+            case Right(stylesheet) => handleSuccess(stage, form, stylesheet)
+            case Left(errors)      => handleErrors(errors)
+          }
+        }
         case Left(errors) => handleErrors(errors)
       }
     } catch {
@@ -39,8 +46,8 @@ class QLHomeController extends QLBaseController {
     fileChooser.showOpenDialog(stage)
   }
 
-  private def handleSuccess(stage: Stage, form: QLForm) = {
-    val formScene = createSceneForForm(form)
+  private def handleSuccess(stage: Stage, form: QLForm, stylesheet: Option[QLStylesheet]) = {
+    val formScene = createSceneForForm(form, stylesheet)
     stage.setScene(formScene)
   }
 
@@ -50,10 +57,10 @@ class QLHomeController extends QLBaseController {
   }
 
   @throws[IOException]
-  private def createSceneForForm(form: QLForm) = {
+  private def createSceneForForm(form: QLForm, stylesheet: Option[QLStylesheet]) = {
     val loader = new FXMLLoader(getClass.getResource(QLForms.FORM_SCREEN))
     val root: Parent = loader.load[Parent]
-    loader.getController.asInstanceOf[QLFormController].initializeForm(form)
+    loader.getController.asInstanceOf[QLFormController].initializeForm(form, stylesheet)
     new Scene(root)
   }
 }

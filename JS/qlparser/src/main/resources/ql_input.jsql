@@ -1,22 +1,6 @@
 form taxOfficeExample {
   ""
-    a: string
-""
-    b: string
-""
-    c: string
-""
-    d: string
-""
-    e: string
-""
-    f: string
-""
-    g: string
-""
-    h: string
-""
-    i: string
+    noQuestion: string
   "What is your name?"
     name: string
   "Did you sell a house in 2010?"
@@ -24,7 +8,7 @@ form taxOfficeExample {
   "Did you buy a house in 2010?"
     hasBoughtHouse: boolean = true == true
   "Did you enter a loan?"
-    hasMaintLoan: boolean
+    hasMaintLoan: boolean = hasBoughtHouse
   "Easy integer addition" nummer: integer = 1+1
   if (hasSoldHouse) {
     "What was the selling price?"

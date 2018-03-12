@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import nl.uva.js.qlparser.models.enums.DataType;
 import nl.uva.js.qlparser.exceptions.TypeMismatchException;
+import nl.uva.js.qlparser.wrappers.logic.ValueChangeListener;
 
 @Data
 @Builder
@@ -23,5 +24,10 @@ public class Negation implements DataExpression {
     @Override
     public Boolean value() {
         return !((Boolean) expression.value());
+    }
+
+    @Override
+    public void addChangeListener(ValueChangeListener listener) {
+        expression.addChangeListener(listener);
     }
 }

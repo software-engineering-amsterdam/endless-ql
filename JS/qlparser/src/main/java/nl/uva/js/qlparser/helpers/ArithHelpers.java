@@ -1,6 +1,6 @@
 package nl.uva.js.qlparser.helpers;
 
-import wrappers.NumberWrapper;
+import nl.uva.js.qlparser.wrappers.arithmetic.NumberWrapper;
 
 public class ArithHelpers {
     public static <T extends NumberWrapper>NumberWrapper plus(T a, T b) {

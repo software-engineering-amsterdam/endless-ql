@@ -1,6 +1,6 @@
-﻿using QuestionaireDomain.Entities.DomainObjects;
+﻿using QuestionnaireDomain.Entities.Domain;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Calculation.Interfaces
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces
 {
     public interface IBinaryExpressionNode : IExpressionNode
     {

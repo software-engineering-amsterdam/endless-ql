@@ -1,6 +1,6 @@
-﻿using QuestionaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+﻿using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Calculation.Interfaces
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces
 {
     public interface ICalculationVariableNode : ITerminal, IVariableNode
     {

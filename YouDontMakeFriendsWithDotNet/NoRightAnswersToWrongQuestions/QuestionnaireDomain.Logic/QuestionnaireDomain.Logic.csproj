@@ -138,13 +138,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\IPredicateCreator.cs" />
-    <Compile Include="API\IQuestionnaireAstCreator.cs" />
     <Compile Include="DomainLogicModule.cs" />
-    <Compile Include="Logic\BooleanLogicVisitor.cs" />
+    <Compile Include="Logic\BooleanEvaluatorVisitor.cs" />
     <Compile Include="Logic\BuildOutputVisitor.cs" />
     <Compile Include="Logic\CalculationVisitor.cs" />
-    <Compile Include="Logic\IBooleanLogicVisitor.cs" />
+    <Compile Include="Logic\IBooleanEvaluatorVisitor.cs" />
     <Compile Include="Logic\IBuildOutputVisitor.cs" />
     <Compile Include="Logic\ICalculationVisitor.cs" />
     <Compile Include="Logic\IVariableUpdater.cs" />
@@ -173,6 +171,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

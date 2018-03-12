@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
 {
     public interface IQuestionNode : IStatementNode, ITerminal
     {

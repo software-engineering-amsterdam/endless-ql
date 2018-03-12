@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.DomainObjects;
 
 namespace QuestionnaireDomain.Logic.Logic
 {

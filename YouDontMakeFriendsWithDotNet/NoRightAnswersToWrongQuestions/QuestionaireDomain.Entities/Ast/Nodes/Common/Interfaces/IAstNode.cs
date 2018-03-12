@@ -1,6 +1,6 @@
-﻿using QuestionaireDomain.Entities.API;
+﻿using QuestionnaireDomain.Entities.API;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Common.Interfaces
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces
 {
     public interface IAstNode : IDomainItem
     {

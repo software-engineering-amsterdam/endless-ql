@@ -1,5 +1,5 @@
-﻿using QuestionaireOrchestration.API;
-using QuestionnaireDomain.Logic.API;
+﻿using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
+using QuestionaireOrchestration.API;
 using QuestionnaireInfrastructure.API;
 
 namespace QuestionaireOrchestration.CommandHandlers

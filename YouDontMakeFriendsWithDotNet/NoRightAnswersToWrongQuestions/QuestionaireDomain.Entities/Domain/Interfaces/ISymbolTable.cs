@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuestionaireDomain.Entities
+namespace QuestionnaireDomain.Entities
 {
     public interface ISymbolTable<T> 
     {

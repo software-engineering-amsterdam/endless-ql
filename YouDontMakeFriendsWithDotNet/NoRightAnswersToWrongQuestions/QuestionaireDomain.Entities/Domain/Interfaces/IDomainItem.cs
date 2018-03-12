@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuestionaireDomain.Entities.API
+namespace QuestionnaireDomain.Entities.Domain.Interfaces
 {
     public interface IDomainItem
     {

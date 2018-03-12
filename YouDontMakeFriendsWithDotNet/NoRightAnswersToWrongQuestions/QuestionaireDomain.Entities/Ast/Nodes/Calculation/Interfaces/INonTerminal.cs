@@ -1,4 +1,4 @@
-﻿namespace QuestionaireDomain.Entities.Ast.Nodes.Calculation.Interfaces
+﻿namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces
 {
     public interface INonTerminal : ICalculationNode
     {

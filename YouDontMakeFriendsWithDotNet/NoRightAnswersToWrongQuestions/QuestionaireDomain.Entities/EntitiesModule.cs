@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using QuestionaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.API;
 using QuestionnaireInfrastructure.API;
 
-namespace QuestionaireDomain.Entities
+namespace QuestionnaireDomain.Entities
 {
     public class EntitiesModule : IHasRegistrations
     {

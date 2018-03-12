@@ -1,8 +1,8 @@
 ﻿using System;
-using QuestionaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Common;
+using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Calculation
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation
 {
     internal class CalculationVariableNode : 
         VariableNodeBase, 

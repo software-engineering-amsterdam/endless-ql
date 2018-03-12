@@ -1,7 +1,7 @@
 ﻿using System;
-using QuestionaireDomain.Entities.API.Output;
-using QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
+using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 
 namespace QuestionnaireDomain.Logic.Logic
 {

@@ -1,19 +1,19 @@
 ﻿using System;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
-using QuestionaireDomain.Entities.DomainObjects;
-using IBinaryExpressionNode = QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces.IBinaryExpressionNode;
+using QuestionnaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
+using QuestionnaireDomain.Entities.DomainObjects;
+using IBinaryExpressionNode = QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces.IBinaryExpressionNode;
 
 namespace QuestionnaireDomain.Logic.Logic
 {
-    internal class BooleanLogicVisitor : IBooleanLogicVisitor
+    internal class BooleanEvaluatorVisitor : IBooleanEvaluatorVisitor
     {
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly ICalculationVisitor m_calculationVisitor;
 
-        public BooleanLogicVisitor(
+        public BooleanEvaluatorVisitor(
             IDomainItemLocator domainItemLocator,
             ICalculationVisitor calculationVisitor)
         {

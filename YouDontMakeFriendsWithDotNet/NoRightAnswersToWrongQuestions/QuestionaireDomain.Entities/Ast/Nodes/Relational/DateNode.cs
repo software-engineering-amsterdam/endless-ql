@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Globalization;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.Ast.Nodes.Common;
-using QuestionaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
+using QuestionnaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common;
+using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Relational
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
 {
     internal class DateNode : AstNodeBase, IDateNode
     {

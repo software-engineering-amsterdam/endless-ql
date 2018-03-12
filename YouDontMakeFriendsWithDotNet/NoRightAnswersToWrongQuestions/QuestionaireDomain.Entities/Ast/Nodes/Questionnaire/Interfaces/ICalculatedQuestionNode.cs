@@ -1,7 +1,7 @@
-﻿using QuestionaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
-using QuestionaireDomain.Entities.DomainObjects;
+﻿using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
 {
     public interface ICalculatedQuestionNode : IQuestionNode
     {

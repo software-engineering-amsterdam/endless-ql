@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using QuestionaireDomain.Entities.API.Output;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 
 namespace QuestionaireOrchestration.API
 {

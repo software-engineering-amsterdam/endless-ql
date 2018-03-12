@@ -1,7 +1,7 @@
 ﻿using System;
-using QuestionaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Common
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Common
 {
     internal abstract class VariableNodeBase : 
         AstNodeBase, 

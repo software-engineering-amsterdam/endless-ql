@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuestionaireDomain.Entities.API
+namespace QuestionnaireDomain.Entities.API
 {
     public class QlParserException : Exception
     {

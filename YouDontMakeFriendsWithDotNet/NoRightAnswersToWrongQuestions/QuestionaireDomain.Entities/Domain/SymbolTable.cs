@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace QuestionaireDomain.Entities
+namespace QuestionnaireDomain.Entities
 {
     public class SymbolTable<T> : ISymbolTable<T>
     {

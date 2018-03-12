@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.Design;
-using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
-using QuestionaireDomain.Entities.DomainObjects;
+﻿using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
 
-namespace QuestionaireDomain.Entities.API
+namespace QuestionnaireDomain.Entities.Ast.Tools.Interfaces
 {
     public interface IAstTreeBuilder
     {

@@ -1,6 +1,6 @@
 ﻿using AntlrInterpretor.Logic;
 using Microsoft.Extensions.DependencyInjection;
-using QuestionaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireInfrastructure.API;
 
 namespace AntlrInterpretor

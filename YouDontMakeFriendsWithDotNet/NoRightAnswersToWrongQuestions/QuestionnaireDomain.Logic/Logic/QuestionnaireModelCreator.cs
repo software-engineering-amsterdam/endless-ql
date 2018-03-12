@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
+using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 
 namespace QuestionnaireDomain.Logic.Logic
 {

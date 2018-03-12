@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.Ast.Nodes.Boolean;
-using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Calculation;
-using QuestionaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Common.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Questionnaire;
-using QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Relational;
-using QuestionaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.Ast.Nodes.Boolean;
+using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Calculation;
+using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Relational;
+using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
+using QuestionnaireDomain.Entities.DomainObjects;
 using QuestionnaireInfrastructure.API;
 
-namespace QuestionaireDomain.Entities
+namespace QuestionnaireDomain.Entities
 {
     internal class AstFactory : IAstFactory
     {

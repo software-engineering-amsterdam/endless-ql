@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Common.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
+using QuestionnaireDomain.Entities.DomainObjects;
 
-namespace QuestionaireDomain.Entities.API
+namespace QuestionnaireDomain.Entities.API
 {
     public interface IAstFactory
     {

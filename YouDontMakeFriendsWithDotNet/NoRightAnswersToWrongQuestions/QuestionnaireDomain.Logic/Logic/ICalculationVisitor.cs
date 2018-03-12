@@ -1,5 +1,5 @@
-﻿using QuestionaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
-using QuestionaireDomain.Entities.DomainObjects;
+﻿using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Logic.Logic
 {

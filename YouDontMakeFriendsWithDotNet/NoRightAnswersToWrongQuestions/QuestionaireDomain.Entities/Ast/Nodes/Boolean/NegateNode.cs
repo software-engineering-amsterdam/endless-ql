@@ -1,9 +1,9 @@
 ﻿using System;
-using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Common;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common;
+using QuestionnaireDomain.Entities.DomainObjects;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Boolean
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Boolean
 {
     internal class NegateNode : AstNodeBase, INegateNode
     {

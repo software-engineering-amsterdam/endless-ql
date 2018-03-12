@@ -1,5 +1,5 @@
 ﻿using System;
-using QuestionaireDomain.Entities.API.Output;
+using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 
 namespace QuestionaireOrchestration.API
 {

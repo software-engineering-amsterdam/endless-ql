@@ -1,11 +1,11 @@
 ﻿using System;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
-using QuestionaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionaireOrchestration;
 using QuestionaireOrchestration.Visitors;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Logic;
-using QuestionnaireDomain.Logic.API;
 using QuestionnaireDomain.Logic.Logic;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;

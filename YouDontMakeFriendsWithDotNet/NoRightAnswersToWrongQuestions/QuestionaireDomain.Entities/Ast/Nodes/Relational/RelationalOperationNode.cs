@@ -1,9 +1,9 @@
 ﻿using System;
-using QuestionaireDomain.Entities.Ast.Nodes.Common;
-using QuestionaireDomain.Entities.Ast.Nodes.Common.Interfaces;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.DomainObjects;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Relational
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
 {
     internal abstract class RelationalOperationNode : AstNodeBase
     {

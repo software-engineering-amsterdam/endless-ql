@@ -1,9 +1,9 @@
 ﻿using System;
-using QuestionaireDomain.Entities.Ast.Nodes.Common.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
+using QuestionnaireDomain.Entities.DomainObjects;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Relational
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
 {
     internal class LessThanNode : 
         RelationalOperationNode, 

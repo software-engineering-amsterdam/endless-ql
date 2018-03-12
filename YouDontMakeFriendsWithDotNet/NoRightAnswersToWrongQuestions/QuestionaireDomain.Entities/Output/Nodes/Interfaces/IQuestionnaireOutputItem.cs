@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Domain;
 
-namespace QuestionaireDomain.Entities.API.Output
+namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
 {
     public interface IQuestionnaireOutputItem : IOutputItem
     {

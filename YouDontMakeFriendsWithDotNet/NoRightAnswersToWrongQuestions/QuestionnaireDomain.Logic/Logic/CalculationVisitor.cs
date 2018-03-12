@@ -1,6 +1,6 @@
-﻿using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
-using QuestionaireDomain.Entities.DomainObjects;
+﻿using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace QuestionnaireDomain.Logic.Logic
 {

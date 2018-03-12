@@ -1,8 +1,8 @@
 ﻿using System;
-using QuestionaireDomain.Entities.Ast.Nodes.Common;
-using QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Questionnaire
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
 {
     internal class UserInputQuestionNode : 
         AstNodeBase, 

@@ -2,7 +2,7 @@
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
-using QuestionaireDomain.Entities;
+using QuestionnaireDomain.Entities;
 using QuestionaireOrchestration;
 using QuestionaireOrchestration.API;
 using QuestionnaireDomain.Logic;

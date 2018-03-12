@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using QuestionaireDomain.Entities.API.Output;
-using QuestionaireDomain.Entities.Ast.Nodes.Common.Interfaces;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.API.Output;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.DomainObjects;
 
-namespace QuestionaireDomain.Entities.API
+namespace QuestionnaireDomain.Entities.API
 {
     public interface IAstToOutputVisitor { }
 

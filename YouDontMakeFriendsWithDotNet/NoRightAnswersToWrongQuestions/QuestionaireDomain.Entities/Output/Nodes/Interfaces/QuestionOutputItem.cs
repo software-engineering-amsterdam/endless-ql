@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace QuestionaireDomain.Entities.API.Output
+namespace QuestionnaireDomain.Entities.API.Output
 {
     internal class QuestionOutputItem : IQuestionOutputItem
     {

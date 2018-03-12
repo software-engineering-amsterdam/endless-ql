@@ -1,7 +1,7 @@
 ﻿using System;
-using QuestionaireDomain.Entities.API.Output;
+using QuestionnaireDomain.Entities.API.Output;
 
-namespace QuestionaireDomain.Entities.API
+namespace QuestionnaireDomain.Entities.API
 {
     //ToDo: fix this to the available types (in the class)
 

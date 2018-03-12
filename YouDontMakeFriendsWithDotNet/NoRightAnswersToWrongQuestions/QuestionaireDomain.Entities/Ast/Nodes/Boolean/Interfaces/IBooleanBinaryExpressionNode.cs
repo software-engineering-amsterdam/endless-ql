@@ -1,6 +1,6 @@
-﻿using QuestionaireDomain.Entities.DomainObjects;
+﻿using QuestionnaireDomain.Entities.DomainObjects;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces
 {
     public interface IBinaryExpressionNode : IExpressionNode
     {

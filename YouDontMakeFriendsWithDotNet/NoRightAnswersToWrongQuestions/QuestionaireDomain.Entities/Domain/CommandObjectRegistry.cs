@@ -1,4 +1,4 @@
-﻿namespace QuestionaireDomain.Entities.DomainObjects
+﻿namespace QuestionnaireDomain.Entities.Domain
 {
     internal interface ICommandObjectRegistry
     {

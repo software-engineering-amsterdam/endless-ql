@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using QuestionaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
 
-namespace QuestionaireDomain.Entities
+namespace QuestionnaireDomain.Entities.Domain
 {
     public class DomainItemRegistry : IDomainItemRegistry
     {

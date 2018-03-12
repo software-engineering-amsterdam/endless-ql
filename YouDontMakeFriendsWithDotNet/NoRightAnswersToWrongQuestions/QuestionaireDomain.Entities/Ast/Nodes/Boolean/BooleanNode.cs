@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Common;
+using QuestionnaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Boolean
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Boolean
 {
     internal class BooleanLiteralNode : 
         AstNodeBase, 

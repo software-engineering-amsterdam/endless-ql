@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using QuestionaireDomain.Entities;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.API.Output;
-using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
-using QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities;
+using QuestionnaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.API.Output;
+using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QuestionnaireDomain.Entities.DomainObjects;
 
 namespace QuestionnaireDomain.Logic.Logic
 {
@@ -22,7 +22,7 @@ namespace QuestionnaireDomain.Logic.Logic
         private readonly ISymbolTable<decimal> m_decimalLookup;
         private readonly ISymbolTable<string> m_stringLookup;
         private readonly ISymbolTable<DateTime> m_dateLookup;
-        private readonly IBooleanLogicVisitor m_booleanEvaluator;
+        private readonly IBooleanEvaluatorVisitor m_booleanEvaluator;
 
         private readonly IList<Reference<IQuestionOutputItem>> questions = 
             new List<Reference<IQuestionOutputItem>>();
@@ -34,7 +34,7 @@ namespace QuestionnaireDomain.Logic.Logic
             ISymbolTable<decimal> decimalLookup,
             ISymbolTable<string> stringLookup,
             ISymbolTable<DateTime> dateLookup,
-            IBooleanLogicVisitor booleanEvaluator)
+            IBooleanEvaluatorVisitor booleanEvaluator)
         {
             m_domainItemLocator = domainItemLocator;
             m_outputItemFactory = outputItemFactory;

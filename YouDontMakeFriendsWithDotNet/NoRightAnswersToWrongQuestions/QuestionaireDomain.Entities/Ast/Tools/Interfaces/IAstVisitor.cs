@@ -1,6 +1,6 @@
-﻿using QuestionaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+﻿using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 
-namespace QuestionaireDomain.Entities.API
+namespace QuestionnaireDomain.Entities.API
 {
     public interface IAstVisitor { }
     public interface IAstVisitor<in TNode> where TNode : IAstNode

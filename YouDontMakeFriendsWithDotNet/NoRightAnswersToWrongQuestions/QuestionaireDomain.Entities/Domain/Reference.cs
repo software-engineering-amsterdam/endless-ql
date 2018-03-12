@@ -1,8 +1,8 @@
 ﻿using System;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
 
-namespace QuestionaireDomain.Entities.DomainObjects
+namespace QuestionnaireDomain.Entities.Domain
 {
     public class Reference<T> where T : IDomainItem
     {

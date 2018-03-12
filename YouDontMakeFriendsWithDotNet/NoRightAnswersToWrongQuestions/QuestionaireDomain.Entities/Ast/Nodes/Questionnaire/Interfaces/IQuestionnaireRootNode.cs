@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Domain;
 
-namespace QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
+namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
 {
     public interface IQuestionnaireRootNode : INonTerminal
     {

@@ -1,7 +1,7 @@
 ﻿using System.CodeDom.Compiler;
 using System.IO;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionnaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 
 namespace QuestionaireOrchestration.Visitors
 {

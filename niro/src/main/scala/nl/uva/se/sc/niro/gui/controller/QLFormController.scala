@@ -15,6 +15,7 @@ import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer }
 import nl.uva.se.sc.niro.model.qls.QLStylesheet
+import nl.uva.se.sc.niro.util.StringUtil
 
 import scala.collection.{ JavaConverters, mutable }
 
@@ -56,15 +57,18 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   def back(event: ActionEvent): Unit = {
     page -= 1
     back.setDisable(page > 0)
+    next.setDisable(false)
     println("Going back...")
+    updateView()
   }
 
   @FXML
   def next(event: ActionEvent): Unit = {
     page += 1
-    // The navigation bar (and therefor this button) is invisible when there is no stylesheet provided, so 'get' is safe
-    next.setDisable(page == stylesheet.get.pages.size)
+    next.setDisable(page >= stylesheet.map(_.pages.size).getOrElse(0) - 1)
+    back.setDisable(false)
     println("Going forward...")
+    updateView()
   }
 
   def componentChanged(component: Component[_]): Unit = {
@@ -85,9 +89,8 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
 
     questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
 
-    // Guard for incorrect usage of 'get' is on the left side of the '&&' operation
-    navigationBar.setVisible(stylesheet.isDefined && stylesheet.get.pages.nonEmpty)
-    next.setDisable(stylesheet.isDefined && stylesheet.get.pages.size == 1)
+    navigationBar.setVisible(stylesheet.exists(_.pages.nonEmpty))
+    next.setDisable(stylesheet.map(_.pages.size).getOrElse(0)  <= 1)
 
     evaluateAnswers()
     updateView()
@@ -98,8 +101,13 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   }
 
   private def updateView(): Unit = {
+    updatePageTitle()
     updateValues()
     updateVisibility()
+  }
+
+  private def updatePageTitle(): Unit = {
+    pageName.setText(StringUtil.addSpaceOnCaseChange(stylesheet.map(_.pages(page).name).getOrElse("")))
   }
 
   private def updateValues(): Unit = {
@@ -116,7 +124,6 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   }
 
   private def isVisible(b: BooleanAnswer) = {
-    // None values are mapped to false
     b.possibleValue.getOrElse(false)
   }
 

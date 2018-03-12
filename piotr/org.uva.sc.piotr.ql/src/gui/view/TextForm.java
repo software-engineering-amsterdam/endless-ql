@@ -174,12 +174,15 @@ public class TextForm extends JPanel {
     private void evaluate() {
         // initial evaluation
         for (FormQuestion formQuestion : this.formQuestions) {
+
             if (formQuestion.getAssignedExpression() != null) {
                 formQuestion.setValue(formQuestion.getAssignedExpression().accept(evaluator));
             }
+
+
             if (formQuestion.getVisibilityCondition() != null) {
 
-                System.out.println(formQuestion.getVisibilityCondition());
+                System.out.println(formQuestion.getVariableName() + " : " + formQuestion.getVisibilityCondition().getMetaInformation().getText());
 
                 ExpressionResult xres = formQuestion.getVisibilityCondition().accept(evaluator);
 

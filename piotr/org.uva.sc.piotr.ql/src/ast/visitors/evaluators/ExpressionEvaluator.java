@@ -50,7 +50,7 @@ public class ExpressionEvaluator extends AbstractASTTraverse<ExpressionResult> {
     public ExpressionResult visit(Subtraction subtraction) {
         ExpressionResult lhs = subtraction.getLeftSide().accept(this);
         ExpressionResult rhs = subtraction.getRightSide().accept(this);
-        return lhs.min(rhs);
+        return lhs.subtract(rhs);
     }
 
     @Override

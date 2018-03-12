@@ -1,6 +1,7 @@
 package ast.visitors.evaluators;
 
 import ast.model.expressions.Expression;
+import com.sun.istack.internal.NotNull;
 import com.sun.tools.javac.util.Pair;
 
 import java.math.BigDecimal;
@@ -21,7 +22,7 @@ public class ExpressionResult {
         GT, GE, LT, LE, EQ, NEQ
     }
 
-    public static ExpressionResult createExpressionResult(Expression.DataType type, String text) {
+    public static ExpressionResult createExpressionResult(@NotNull Expression.DataType type, String text) {
 
         if (type == Expression.DataType.INTEGER) {
             Integer safeInteger = text.isEmpty() ? 0 : Integer.parseInt(text);
@@ -39,22 +40,22 @@ public class ExpressionResult {
         return null;
     }
 
-    public ExpressionResult(Expression.DataType type, String stringValue) {
+    public ExpressionResult(@NotNull Expression.DataType type, @NotNull String stringValue) {
         this.type = type;
         this.stringValue = stringValue;
     }
 
-    public ExpressionResult(Expression.DataType type, BigDecimal decimalValue) {
+    public ExpressionResult(@NotNull Expression.DataType type, @NotNull BigDecimal decimalValue) {
         this.type = type;
         this.decimalValue = decimalValue;
     }
 
-    public ExpressionResult(Expression.DataType type, Integer integerValue) {
+    public ExpressionResult(@NotNull Expression.DataType type, @NotNull Integer integerValue) {
         this.type = type;
         this.integerValue = integerValue;
     }
 
-    public ExpressionResult(Expression.DataType type, Boolean booleanValue) {
+    public ExpressionResult(@NotNull Expression.DataType type, @NotNull Boolean booleanValue) {
         this.type = type;
         this.booleanValue = booleanValue;
     }
@@ -131,7 +132,7 @@ public class ExpressionResult {
         return this.binaryOperation(BinaryOperator.PLUS, rhs);
     }
 
-    public ExpressionResult min(ExpressionResult rhs) {
+    public ExpressionResult subtract(ExpressionResult rhs) {
         return this.binaryOperation(BinaryOperator.MINUS, rhs);
     }
 
@@ -197,7 +198,7 @@ public class ExpressionResult {
             if (operator == BinaryOperator.PLUS) {
                 return new ExpressionResult(lhs.type, lhs.decimalValue.add(rhs.decimalValue));
             } else if (operator == BinaryOperator.MINUS) {
-                return new ExpressionResult(lhs.type, lhs.decimalValue.min(rhs.decimalValue));
+                return new ExpressionResult(lhs.type, lhs.decimalValue.subtract(rhs.decimalValue));
             } else if (operator == BinaryOperator.MULTIPLY) {
                 return new ExpressionResult(lhs.type, lhs.decimalValue.multiply(rhs.decimalValue));
             } else if (operator == BinaryOperator.DIVIDE) {

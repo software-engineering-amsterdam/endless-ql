@@ -1,4 +1,4 @@
-import ply.yacc as yacc
+from ply.yacc import yacc
 from scanparse import qllex
 
 from AST.position import Position
@@ -19,6 +19,7 @@ from AST.expressions.literals.integer_node import IntegerNode
 from AST.expressions.literals.decimal_node import DecimalNode
 from AST.expressions.literals.undefined_node import UndefinedNode
 from AST.expressions.unary_operators.negation import NegationOperatorNode
+from AST.expressions.unary_operators.negative import NegativeOperatorNode
 from AST.statements.form_node import FormNode
 from AST.statements.if_node import IfNode
 from AST.statements.question_node import QuestionNode
@@ -43,7 +44,7 @@ class QLParser:
             ('left', 'TIMES', 'DIVIDE'),
             ('right', 'NOT'),
         )
-        self.parser = yacc.yacc(module=self)
+        self.parser = yacc(module=self)
 
     def parse(self, data, lexer):
         self.parser.parse(data, lexer)
@@ -76,7 +77,7 @@ class QLParser:
     @staticmethod
     def p_question(p):
         """question : QUESTION VAR COLON type"""
-        p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4], UndefinedNode(Position(0, 0), TypeUndefined, None), False)
+        p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4], UndefinedNode(None, TypeUndefined, None), False)
 
     @staticmethod
     def p_question_computed(p):
@@ -115,6 +116,11 @@ class QLParser:
     def p_not(p):
         """expression : NOT expression"""
         p[0] = NegationOperatorNode(Position(p.lineno(1), p.lexpos(1)), TypeBoolean, p[2], None)
+
+    @staticmethod
+    def p_negative(p):
+        """expression : MINUS expression"""
+        p[0] = NegativeOperatorNode(Position(p.lineno(1), p.lexpos(1)), TypeUndefined, p[2], None)
 
     # Binary operators
     @staticmethod

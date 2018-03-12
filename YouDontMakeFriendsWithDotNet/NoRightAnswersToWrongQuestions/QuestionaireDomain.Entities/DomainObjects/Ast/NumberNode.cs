@@ -12,10 +12,5 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
         {
             Value = decimal.Parse(numberText);
         }
-
-        public override void Accept(IAstVisitor visitor)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

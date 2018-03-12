@@ -15,11 +15,5 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
         {
             Value = text.Replace("\"", "");
         }
-
-
-        public override void Accept(IAstVisitor visitor)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

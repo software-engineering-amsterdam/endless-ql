@@ -15,12 +15,7 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
             LeftExpression = leftExpression;
             RightExpression = rightExpression;
         }
-
-        public override void Accept(IAstVisitor visitor)
-        {
-            (visitor as IAstVisitor<IAndNode>)?.Visit(this);
-        }
-
+        
         public Reference<IBooleanLogicNode> LeftExpression { get; }
         public Reference<IBooleanLogicNode> RightExpression { get; }
     }

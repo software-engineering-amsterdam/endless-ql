@@ -14,11 +14,6 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
             Expression = childExpression;
         }
 
-        public override void Accept(IAstVisitor visitor)
-        {
-            (visitor as IAstVisitor<INegateNode>)?.Visit(this);
-        }
-
         public Reference<IBooleanLogicNode> Expression { get; set; }
     }
 }

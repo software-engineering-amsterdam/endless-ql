@@ -18,6 +18,5 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
         public Guid Id { get; }
         public string DisplayName { get; }
         public string Definition { get; }
-        public abstract void Accept(IAstVisitor visitor);
     }
 }

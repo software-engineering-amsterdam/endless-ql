@@ -22,10 +22,5 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
             Consequent = consequent ?? new List<Reference<IStatementNode>>();
             Alternative = alternative ?? new List<Reference<IStatementNode>>();
         }
-
-        public override void Accept(IAstVisitor visitor)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

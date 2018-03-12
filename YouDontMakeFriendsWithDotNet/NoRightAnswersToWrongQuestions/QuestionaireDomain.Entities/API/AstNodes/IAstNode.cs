@@ -2,7 +2,6 @@
 {
     public interface IAstNode : IDomainItem
     {
-        void Accept(IAstVisitor visitor);
         string Definition { get; }
     }
 }

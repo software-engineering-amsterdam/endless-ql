@@ -21,10 +21,5 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
             QuestionText = questionText;
             QuestionType = questionType;
         }
-
-        public override void Accept(IAstVisitor visitor)
-        {
-            //ToDo: Do something here
-        }
     }
 }

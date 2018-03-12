@@ -29,10 +29,5 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
                 throw new QlParserException($"The value '{booleanString}' could not be resolved to True or False ",null);
             }
         }
-
-        public override void Accept(IAstVisitor visitor)
-        {
-            (visitor as IAstVisitor<IBooleanLiteralNode>)?.Visit(this);
-        }
     }
 }

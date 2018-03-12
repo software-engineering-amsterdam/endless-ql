@@ -25,10 +25,5 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
             QuestionType = questionType;
             CalculatedValue = calculation;
         }
-
-        public override void Accept(IAstVisitor visitor)
-        {
-            //ToDo: Do something here
-        }
     }
 }

@@ -15,10 +15,5 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
             : base(id, definition, leftExpression, rightExpression)
         {
         }
-        
-        public override void Accept(IAstVisitor visitor)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -24,10 +24,5 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
 
             Value = parsedDateTime;
         }
-
-        public override void Accept(IAstVisitor visitor)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -18,10 +18,5 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
             LeftCalculation = leftCalculation;
             RightCalculation = rightCalculation;
         }
-
-        public override void Accept(IAstVisitor visitor)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

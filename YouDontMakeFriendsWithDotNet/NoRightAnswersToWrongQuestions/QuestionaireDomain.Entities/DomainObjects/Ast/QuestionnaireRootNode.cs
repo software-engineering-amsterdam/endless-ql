@@ -21,10 +21,5 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
         public string QuestionnaireName { get; }
 
         public IEnumerable<Reference<IStatementNode>> Statements { get; }
-        
-        public override void Accept(IAstVisitor visitor)
-        {
-            //ToDo: something here
-        }
     }
 }

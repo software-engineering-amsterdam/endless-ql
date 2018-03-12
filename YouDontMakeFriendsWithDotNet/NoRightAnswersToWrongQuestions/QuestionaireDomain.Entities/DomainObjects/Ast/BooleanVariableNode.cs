@@ -12,10 +12,5 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
         {
             VariableName = variableName;
         }
-
-        public override void Accept(IAstVisitor visitor)
-        {
-            (visitor as IAstVisitor<IBooleanVariableNode>)?.Visit(this);
-        }
     }
 }

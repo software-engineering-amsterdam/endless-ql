@@ -1,5 +1,6 @@
 ﻿using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
+using QLVisualizer.Widgets;
 
 namespace QLVisualizer.Elements.Managers.CollectionTypes
 {

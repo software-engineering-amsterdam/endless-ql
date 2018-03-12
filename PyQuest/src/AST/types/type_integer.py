@@ -20,4 +20,8 @@ class TypeInteger(Type):
 
     @staticmethod
     def pyqt5_default_widget():
-        return SpinBox()
+        widget = SpinBox()
+        maximum = 2 ^ 31
+        minimum = -maximum
+        widget.setRange(minimum, maximum)
+        return widget

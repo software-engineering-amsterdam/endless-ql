@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using QuestionaireDomain.Entities;
 using QuestionaireDomain.Entities.API;
+using QuestionaireDomain.Entities.API.AstNodes;
 using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 using QuestionaireDomain.Entities.API.Output;
 using QuestionaireDomain.Entities.DomainObjects;
 using QuestionnaireDomain.Logic;
 using QuestionnaireDomain.Logic.API;
+using QuestionnaireDomain.Logic.Logic;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
 
@@ -21,6 +24,8 @@ namespace UnitTests.Domain.UnitTests
         private IServiceProvider m_serviceProvider;
         private IDomainItemLocator m_domainItemLocator;
         private IQuestionnaireModelCreator m_modelCreator;
+        private IVariableUpdater m_variableUpdater;
+
         [SetUp]
         public void Init()
         {
@@ -32,6 +37,7 @@ namespace UnitTests.Domain.UnitTests
             m_serviceProvider = services.BuildServiceProvider();
             m_domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
             m_modelCreator = m_serviceProvider.GetService<IQuestionnaireModelCreator>();
+            m_variableUpdater = m_serviceProvider.GetService<IVariableUpdater>();
         }
 
         [TearDown]
@@ -119,6 +125,64 @@ namespace UnitTests.Domain.UnitTests
             Assert.AreEqual(
                 expected: expectedInvisible,
                 actual: actualInvisibleCount);
+        }
+
+        
+        [TestCaseSource(
+            typeof(TestModelCreationData),
+            nameof(TestModelCreationData.CalculationVariableValues))]
+        public void GivenBooleanVariableThatChange_ReturnsCorrectVisibility(
+            string validDefinition,
+            string variableName1,
+            string variableName2,
+            int expectedInitialVisible,
+            int expectedInitialInvisible,
+            int newValueVariable1,
+            int newValueVariable2,
+            int expectedNewVisible,
+            int expectedNewInvisible)
+        {
+            CreateForm(validDefinition);
+            var actualInitialVisibleCount = m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .Count(x => x.Visible);
+            var actualInitialInvisibleCount = m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .Count(x => !x.Visible);
+
+            UpdateIntVariable(variableName1, newValueVariable1);
+            UpdateIntVariable(variableName2, newValueVariable2);
+
+            var actualNewVisibleCount = m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .Count(x => x.Visible);
+            var actualNewInvisibleCount = m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .Count(x => !x.Visible);
+
+            Assert.AreEqual(
+                expected: expectedInitialVisible,
+                actual: actualInitialVisibleCount);
+            Assert.AreEqual(
+                expected: expectedInitialInvisible,
+                actual: actualInitialInvisibleCount);
+            Assert.AreEqual(
+                expected: expectedNewVisible,
+                actual: actualNewVisibleCount);
+            Assert.AreEqual(
+                expected: expectedNewInvisible,
+                actual: actualNewInvisibleCount);
+        }
+
+        private void UpdateIntVariable(string variableName, int value)
+        {
+            var domainItem = m_domainItemLocator
+                .GetAll<IVariableNode>()
+                .Where(x => x.VariableName == variableName)
+                .Select(x => new Reference<IVariableNode>(x.Id))
+                .FirstOrDefault();
+
+            m_variableUpdater.Update(domainItem, value.ToString(CultureInfo.InvariantCulture));
         }
 
         private void CreateForm(string validText)

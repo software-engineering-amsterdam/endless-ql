@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using QuestionaireDomain.Entities;
 using QuestionaireDomain.Entities.API;
 using QuestionnaireDomain.Logic.API;
 using QuestionnaireDomain.Logic.Logic;
@@ -18,6 +17,7 @@ namespace QuestionnaireDomain.Logic
             appRegistration.AddSingleton(typeof(IBuildOutputVisitor), typeof(BuildOutputVisitor));
             appRegistration.AddSingleton(typeof(IBooleanLogicVisitor), typeof(BooleanLogicVisitor));
             appRegistration.AddSingleton(typeof(ICalculationVisitor), typeof(CalculationVisitor));
+            appRegistration.AddSingleton(typeof(IVariableUpdater), typeof(VariableUpdater));
         }
     }
 }

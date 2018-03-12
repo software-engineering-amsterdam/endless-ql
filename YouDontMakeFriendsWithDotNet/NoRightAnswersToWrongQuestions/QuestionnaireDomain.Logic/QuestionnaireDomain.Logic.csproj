@@ -147,10 +147,12 @@
     <Compile Include="Logic\IBooleanLogicVisitor.cs" />
     <Compile Include="Logic\IBuildOutputVisitor.cs" />
     <Compile Include="Logic\ICalculationVisitor.cs" />
+    <Compile Include="Logic\IVariableUpdater.cs" />
     <Compile Include="Logic\QuestionnaireModelCreator.cs" />
     <Compile Include="Logic\DomainItemLocator.cs" />
     <Compile Include="Logic\PredicateCreator.cs" />
     <Compile Include="Logic\QuestionnaireAstCreator.cs" />
+    <Compile Include="Logic\VariableUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

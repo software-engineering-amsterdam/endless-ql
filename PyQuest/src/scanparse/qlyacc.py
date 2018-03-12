@@ -76,12 +76,12 @@ class QLParser:
     @staticmethod
     def p_question(p):
         """question : QUESTION VAR COLON type"""
-        p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4], UndefinedNode(Position(0, 0), TypeUndefined, None))
+        p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4], UndefinedNode(Position(0, 0), TypeUndefined, None), False)
 
     @staticmethod
     def p_question_computed(p):
         """question : QUESTION VAR COLON type ASSIGN expression"""
-        p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4], p[6])
+        p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4], p[6], True)
 
     # Control Flow
     @staticmethod

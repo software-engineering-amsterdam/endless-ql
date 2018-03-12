@@ -3,12 +3,13 @@ from render.question import Question
 
 
 class QuestionNode(BaseNode):
-    def __init__(self, line_number, label, identifier, answer_type, answer):
+    def __init__(self, line_number, label, identifier, answer_type, answer, computed):
         super(QuestionNode, self).__init__(line_number)
         self.__label = label
         self.__identifier = identifier
         self.__answer_type = answer_type
         self.__answer = answer
+        self.__computed = computed
 
     @property
     def label(self):
@@ -25,6 +26,10 @@ class QuestionNode(BaseNode):
     @property
     def answer(self):
         return self.__answer
+
+    @property
+    def computed(self):
+        return self.__computed
 
     def __eq__(self, other):
         return self.__label == other.__label and \

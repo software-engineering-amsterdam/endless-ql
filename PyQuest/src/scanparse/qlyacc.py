@@ -111,7 +111,6 @@ class QLParser:
         """expression : VAR"""
         p[0] = VariableNode(Position(p.lineno(1), p.lexpos(1)), TypeUndefined, p[1], None)
 
-    # Unary operators TODO: unary minus
     @staticmethod
     def p_not(p):
         """expression : NOT expression"""

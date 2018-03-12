@@ -110,6 +110,14 @@ public class Test_Value {
 	}
 
 	@Test
+	public void boolean_compared_with_boolean() {
+		qt().forAll( booleans().all(), booleans().all() )
+				.check( ( left_boolean, right_boolean ) -> booleanValue( left_boolean )
+						.apply( "==", booleanValue( right_boolean ) )
+						.equals( booleanValue( left_boolean.equals( right_boolean ) ) ) );
+	}
+
+	@Test
 	public void integer_compared_with_integer() {
 		qt().forAll( integers().all(), integers().all() )
 				.check( ( left_integer, right_integer ) -> integerValue( left_integer )

@@ -6,6 +6,7 @@ using QLVisualizer.Elements.Managers;
 using System.Collections.Generic;
 using System.Linq;
 using QLVisualizer.Elements.Managers.CollectionTypes;
+using System;
 
 namespace QLVisualizer.Controllers
 {
@@ -21,9 +22,12 @@ namespace QLVisualizer.Controllers
         /// </summary>
         protected FormManager _form;
 
+        private ParseController _parseController;
+
         public ElementManagerController(FormManager formManager)
         {
             _form = formManager;
+            _parseController = new ParseController();
         }
 
         /// <summary>
@@ -31,11 +35,6 @@ namespace QLVisualizer.Controllers
         /// </summary>
         /// <param name="widget">Widget to update</param>
         public abstract void UpdateView(ElementManager widget);
-
-        /// <summary>
-        /// Shows all widgets
-        /// </summary>
-        public abstract void ShowWidgets();
 
         /// <summary>
         /// Removes all widgets form view and shows them again
@@ -58,7 +57,7 @@ namespace QLVisualizer.Controllers
         /// </summary>
         /// <param name="title">Form title</param>
         /// <param name="widgets">Widgets of form</param>
-        public abstract void DisplayForm(string title, FormManager form);
+        public abstract void DisplayForm(FormManager form);
 
         /// <summary>
         /// Handles QL-language input
@@ -66,17 +65,11 @@ namespace QLVisualizer.Controllers
         /// <param name="rawQL">Raw QL-language string</param>
         public virtual void HandleQL(string rawQL)
         {
-            FormNode node = QLParserHelper.Parse(rawQL);
-            if (!Analyser.Analyse(node))
-            {
-                ShowError(Analyser.GetErrors().ToArray());
-                return;
-            }
-
-            FormManager formManager = ElementManagerFactory.CreateForm(node, this);
-            DisplayForm(formManager.Text, formManager);
-            //IEnumerable<ElementManager> widgets = ElementManagerFactory.CreateWidgets(node, this);
-            //DisplayForm(node.FormName, widgets.ToArray());
+            Tuple<string[], FormManager> parseResults = _parseController.ParseQL(rawQL, this);
+            if (parseResults.Item1.Length > 0)
+                ShowError(parseResults.Item1);
+            else
+                DisplayForm(parseResults.Item2);
         }
 
         /// <summary>

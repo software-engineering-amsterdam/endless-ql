@@ -1,4 +1,4 @@
-package wrappers;
+package nl.uva.js.qlparser.wrappers.arithmetic;
 
 public abstract class NumberWrapper<T extends Number> {
     abstract public T get();

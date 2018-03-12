@@ -4,9 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using QLVisualizer.Elements.Managers.CollectionTypes;
+using QLVisualizer.Widgets;
 
 namespace QLVisualizer.Controllers.Display
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T">View-element Type</typeparam>
+    /// <typeparam name="Y">Style-element Type</typeparam>
     public abstract class WidgetDisplayController<T, Y> : ElementManagerController where Y : ICloneable
     {
         /// <summary>
@@ -31,16 +37,19 @@ namespace QLVisualizer.Controllers.Display
 
         public Dictionary<string, Y> ActiveElementStyles { get; private set; }
 
+        public WidgetCreator<T> WidgetCreator { get; private set; }
+
         /// <summary>
         /// Default style in case no style is set
         /// </summary>
         public Y DefaultStyle { get; private set; }
 
-        public WidgetDisplayController(FormManager form, float initialPosition, Y defaultStyle) : base(form)
+        public WidgetDisplayController(FormManager form, float initialPosition, Y defaultStyle, WidgetCreator<T> widgetCreator) : base(form)
         {
             InitialPosition = initialPosition;
             ElementIndex = new Dictionary<string, T>();
             DefaultStyle = defaultStyle;
+            WidgetCreator = widgetCreator;
         }
 
         /// <summary>
@@ -48,7 +57,7 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         public override void RefreshWidgets()
         {
-            ShowWidgets();
+            ShowWidget(_form, DefaultStyle);
         }
 
         /// <summary>
@@ -110,30 +119,10 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         /// <param name="title">Tile of form</param>
         /// <param name="widgets">Widgets on form</param>
-        public override void DisplayForm(string title, FormManager form)
+        public override void DisplayForm(FormManager form)
         {
-            SetTitle(title);
+            SetTitle(form.Text);
             _form = form;
-            ShowWidgets();
-        }
-
-        /// <summary>
-        /// Shows all widgets to the user
-        /// </summary>
-        public override void ShowWidgets()
-        {
-            // TODO: Make show widgets recursive
-
-            // Ensure styles are set
-            UpdateDefaultStyle();
-
-            Dictionary<string, Y> _tempStyle = ElementStyleIndex.ToDictionary(o => o.Key, o => (Y)o.Value.Clone());
-
-            // Start showing widgets at specified starting position
-            float position = InitialPosition;
-
-            // Display all widgets, updating their position as the bottom
-            // of the last displayed widget.
             ShowWidget(_form, DefaultStyle);
         }
 

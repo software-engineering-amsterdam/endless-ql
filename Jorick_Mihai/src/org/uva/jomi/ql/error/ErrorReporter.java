@@ -8,7 +8,7 @@ public abstract class ErrorReporter<T> {
 	private final List<T> reports;
 	
 	public ErrorReporter() {
-		reports = new ArrayList<T>();
+		reports = new ArrayList<>();
 	}
 	
 	public void displayReport(T report) {

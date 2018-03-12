@@ -1,16 +1,14 @@
 package nl.uva.se.sc.niro.model.gui
 
-import nl.uva.se.sc.niro.model.expressions.Expression
-import nl.uva.se.sc.niro.model.expressions.answers.Answer
-import nl.uva.se.sc.niro.model.{ AnswerType, Question }
+import nl.uva.se.sc.niro.gui.control.Component
+import nl.uva.se.sc.niro.model.ql.AnswerType
+import nl.uva.se.sc.niro.model.ql.expressions.Expression
 
-class GUIQuestion(id: String, answerType: AnswerType, label: String, isReadOnly: Boolean) {
-  var answer: Option[Answer] = None
-  var isVisible: Boolean = true
-}
-
-object GUIQuestion {
-  def apply(visible: Expression, question: Question): GUIQuestion = {
-    new GUIQuestion(question.id, question.answerType, question.label, false)
-  }
-}
+case class GUIQuestion(
+    id: String,
+    answerType: AnswerType,
+    label: String,
+    isReadOnly: Boolean,
+    visibility: Expression, // Holds the accumulated if-conditions.
+    var component: Option[Component[_]] = None
+)

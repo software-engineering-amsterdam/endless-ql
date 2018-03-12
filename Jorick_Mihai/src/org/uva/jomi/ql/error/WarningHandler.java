@@ -27,7 +27,7 @@ public class WarningHandler {
 				moduleName,
 				stmt.getIdentifierLineNumber(),
 				stmt.getIdentifierColumnNumber(),
-				stmt.getIdentifierName(),
+				stmt.getName(),
 				String.join(" and ", questionNames));
 		
 		if (printWarnings) {

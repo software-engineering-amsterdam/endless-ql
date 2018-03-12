@@ -50,7 +50,7 @@
     <Compile Include="API\AstNodes\Boolean\IAndNode.cs" />
     <Compile Include="API\AstNodes\Boolean\IBinaryExpressionNode.cs" />
     <Compile Include="API\AstNodes\Boolean\IExpressionNode.cs" />
-    <Compile Include="API\AstNodes\Boolean\ILiteralNode.cs" />
+    <Compile Include="API\AstNodes\Boolean\IBooleanLiteralNode.cs" />
     <Compile Include="API\AstNodes\Boolean\IBooleanLogicNode.cs" />
     <Compile Include="API\AstNodes\Boolean\INonTerminal.cs" />
     <Compile Include="API\AstNodes\Boolean\ITerminalNode.cs" />
@@ -87,6 +87,7 @@
     <Compile Include="API\AstNodes\Relational\IRelationalLogicNode.cs" />
     <Compile Include="API\AstNodes\Relational\ITextNode.cs" />
     <Compile Include="API\AstNodes\Relational\ITextVariableNode.cs" />
+    <Compile Include="API\IAstToOutputVisitor.cs" />
     <Compile Include="API\IOutputItemFactory.cs" />
     <Compile Include="API\IAstFactory.cs" />
     <Compile Include="API\AstNodes\Boolean\INegateNode.cs" />
@@ -99,8 +100,12 @@
     <Compile Include="API\IQuestionnaireModelCreator.cs" />
     <Compile Include="API\IQuestionOutput.cs" />
     <Compile Include="API\OutputItemFactory.cs" />
-    <Compile Include="API\Output\IQuestionnaire.cs" />
+    <Compile Include="API\Output\IOutputItem.cs" />
+    <Compile Include="API\Output\QuestionOutputItem.cs" />
+    <Compile Include="API\Output\IQuestionnaireOutputItem.cs" />
+    <Compile Include="API\Output\QuestionnaireOutputItem.cs" />
     <Compile Include="AstFactory.cs" />
+    <Compile Include="SymbolTable.cs" />
     <Compile Include="DomainItemRegistry.cs" />
     <Compile Include="DomainObjects\Ast\AndNode.cs" />
     <Compile Include="DomainObjects\Ast\BooleanNode.cs" />
@@ -134,6 +139,7 @@
     <Compile Include="DomainObjects\Reference.cs" />
     <Compile Include="DomainObjects\Ast\VariableNodeBase.cs" />
     <Compile Include="EntitiesModule.cs" />
+    <Compile Include="ISymbolTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

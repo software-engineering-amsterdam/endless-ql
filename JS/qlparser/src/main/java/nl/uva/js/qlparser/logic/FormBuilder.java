@@ -20,9 +20,12 @@ public class FormBuilder {
     }
 
     public static Form parseFormFromString(String qlInput) {
+        ErrorListener errorListener = new ErrorListener();
+
         QLLexer lexer = new QLLexer(CharStreams.fromString(qlInput));
-        lexer.addErrorListener(new ErrorListener());
+        lexer.addErrorListener(errorListener);
         QLParser parser = new QLParser(new CommonTokenStream(lexer));
+        parser.addErrorListener(errorListener);
 
         Form form = new QLVisitor().visitForm(parser.form());
         form.checkType();

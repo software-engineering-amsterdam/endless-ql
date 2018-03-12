@@ -5,7 +5,7 @@ using QuestionaireDomain.Entities.API.AstNodes.Boolean;
 
 namespace QuestionaireDomain.Entities.DomainObjects.Ast
 {
-    internal class BooleanLiteralNode : AstNodeBase, ILiteralNode
+    internal class BooleanLiteralNode : AstNodeBase, IBooleanLiteralNode
     {
         private static readonly string[] TruthValues = { "true", "True", "TRUE" };
         private static readonly string[] FalseValues = { "false", "False", "FALSE" };
@@ -32,7 +32,7 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
 
         public override void Accept(IAstVisitor visitor)
         {
-            (visitor as IAstVisitor<ILiteralNode>)?.Visit(this);
+            (visitor as IAstVisitor<IBooleanLiteralNode>)?.Visit(this);
         }
     }
 }

@@ -1,6 +1,10 @@
 package nl.uva.js.qlparser.ui;
 
+import nl.uva.js.qlparser.exceptions.ParseException;
+import nl.uva.js.qlparser.logic.FormBuilder;
 import nl.uva.js.qlparser.models.expressions.Form;
+import nl.uva.js.qlparser.ui.components.gui.FormPanel;
+import nl.uva.js.qlparser.ui.components.gui.TextPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class GUIBuilder {
 
@@ -25,16 +31,26 @@ public class GUIBuilder {
     private static final int FULL_HEIGHT = FORM_VIEW_HEIGHT + FOOTER_HEIGHT;
     private static final int FULL_WIDTH  = FORM_WIDTH + INPUT_WIDTH;
 
+    private static Frame mainFrame;
+    private static TextPanel inputPanel;
+    private static FormPanel formPanel;
+    private static JPanel bottomPanel;
+    private static TextPanel console;
+
     public static Frame getGUI(Form form) {
-        Frame mainFrame = getMainFrame();
+        inputPanel = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray, true);
+        inputPanel.setText(loadDefaultFileContent());
 
-        JPanel inputPanel  = getTextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray);
-        JPanel formPanel   = getFormPanel(form);
-        JPanel bottomPanel = getBottomPanel();
+        formPanel = new FormPanel(form, FORM_VIEW_HEIGHT, FORM_WIDTH, FORM_HEIGHT);
 
+        bottomPanel = getBottomPanel();
+
+        mainFrame = getMainFrame();
         mainFrame.add(inputPanel, BorderLayout.LINE_START);
         mainFrame.add(formPanel, BorderLayout.CENTER);
         mainFrame.add(bottomPanel, BorderLayout.PAGE_END);
+
+        formPanel.setVisible(true);
         bottomPanel.setVisible(true);
 
         mainFrame.addWindowListener(new WindowAdapter() {
@@ -44,8 +60,23 @@ public class GUIBuilder {
             }
         });
 
-        mainFrame.setVisible(true);
         return mainFrame;
+    }
+
+    private static String loadDefaultFileContent() {
+        try {
+            String file = GUIBuilder.class.getClassLoader().getResource(System.getProperty("ql.file")).getFile();
+            return new String(Files.readAllBytes(Paths.get(file)));
+        } catch (IOException | ParseException e) {
+            log(e.getMessage());
+        }
+        return "";
+    }
+
+    private static void log(String message) {
+        console.setText(console.getText() + "\n" + message);
+        console.revalidate();
+        console.repaint();
     }
 
     private static Frame getMainFrame() {
@@ -58,35 +89,12 @@ public class GUIBuilder {
         return mainFrame;
     }
 
-    private static JPanel getFormPanel(Form form) {
-        JPanel contentPanel    = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(contentPanel);
-        JPanel formPanel       = new JPanel(null);
-
-        int panelHeight        = FORM_VIEW_HEIGHT - 5;
-
-        contentPanel.setPreferredSize(new Dimension(FORM_WIDTH, FORM_HEIGHT));
-        contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-        List<Component> components = form.getComponents();
-        components.forEach(contentPanel::add);
-
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBounds(2, 5, FORM_WIDTH - 15    , panelHeight);
-
-        formPanel.setPreferredSize(new Dimension(FORM_WIDTH, panelHeight));
-        formPanel.setBackground(Color.gray);
-        formPanel.add(scrollPane);
-
-        return formPanel;
-    }
-
     private static JPanel getBottomPanel() {
         JPanel bottomPanel = new JPanel();
 
         JPanel menuButtons = getMenuButtons();
-        JPanel console     = getTextPanel(FULL_WIDTH, LOG_HEIGHT, Color.black);
+        console = new TextPanel(FULL_WIDTH, LOG_HEIGHT, Color.black, false);
+
 
         bottomPanel.setLayout(new BorderLayout());
         bottomPanel.add(menuButtons, BorderLayout.PAGE_START);
@@ -119,7 +127,7 @@ public class GUIBuilder {
         processButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                reloadForm();
             }
         });
 
@@ -140,6 +148,15 @@ public class GUIBuilder {
         return menuBar;
     }
 
+    private static void reloadForm() {
+        try {
+            Form form = FormBuilder.parseFormFromString(inputPanel.getText());
+            formPanel.reload(form);
+        } catch (ParseException e) {
+            log(e.getMessage());
+        }
+    }
+
     private static JButton getButton(String text, int width) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(width, BUTTON_HEIGHT));
@@ -151,21 +168,5 @@ public class GUIBuilder {
         panel.setPreferredSize(new Dimension(i, BUTTON_HEIGHT));
         panel.setBackground(Color.gray);
         return panel;
-    }
-
-    private static JPanel getTextPanel(int width, int height, Color color) {
-        JPanel textPanel = new JPanel();
-        textPanel.setBackground(Color.gray);
-
-        TextArea textArea = new TextArea("",0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
-        textArea.setPreferredSize(new Dimension(width, height));
-        textArea.setBackground(color);
-        textArea.setForeground(Color.white);
-        textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-
-        textPanel.add(textArea);
-        textPanel.setVisible(true);
-
-        return textPanel;
     }
 }

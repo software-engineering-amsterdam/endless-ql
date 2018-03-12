@@ -14,5 +14,5 @@ class AndOperatorNode(BinaryOperatorNode):
         return TypeUndefined
 
     def evaluate(self):
-        if self.left_expression.value and self.right_expression.value:
+        if self.left_expression.value is not None and self.right_expression.value is not None:
             self.value = self.left_expression.value and self.right_expression.value

@@ -1,17 +1,13 @@
 package gui;
 
-import ast.model.Form;
-import ast.model.statements.Question;
-import ast.model.statements.Statement;
-import gui.model.FormBlock;
+import ast.visitors.evaluators.ExpressionEvaluator;
+import gui.model.FormQuestion;
 import gui.view.TextForm;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 // http://www.java2s.com/Code/Java/Swing-JFC/Asimplelabelforfieldformpanel.htm
@@ -19,22 +15,15 @@ import java.util.List;
 // https://www.callicoder.com/javafx-registration-form-gui-tutorial/
 
 public class QLGui {
-    public QLGui(List<FormBlock> formBlocks) {
+    public QLGui(List<FormQuestion> formQuestions, ExpressionEvaluator evaluator) {
 
-        List<String> labels = new ArrayList<>();
-
-        for (FormBlock block : formBlocks) {
-            labels.add(block.getLabel());
-        }
-
-        final TextForm form = new TextForm((labels.toArray(new String[0])));
+        final TextForm form = new TextForm(formQuestions, evaluator);
 
         JButton submit = new JButton("Submit Form");
 
         submit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(form.getText(0) + " " + form.getText(1) + ". " + form.getText(2)
-                        + ", age " + form.getText(3));
+                System.out.println(formQuestions.toString());
             }
         });
 
@@ -45,6 +34,7 @@ public class QLGui {
         p.add(submit);
         f.getContentPane().add(p, BorderLayout.SOUTH);
         f.pack();
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 }

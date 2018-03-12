@@ -39,18 +39,18 @@ public class DuplicatedLabelChecker implements Stmt.Visitor<Void> {
 	    	
 				// If the list is empty add the question name to the list.
 				if (questionNames.size() == 0) {
-					questionNames.add(stmt.getIdentifierName());
+					questionNames.add(stmt.getName());
 				} else {
 					// Print out a warning.
 					this.warningHandler.addWarning(stmt, questionNames);
 					
-					questionNames.add(stmt.getIdentifierName());
+					questionNames.add(stmt.getName());
 				}
 		    } else {
 		    	// Create a new list
 		    	List<String> questionNames = new ArrayList<>();
 		    	// Add the question name to the list
-		    	questionNames.add(stmt.getIdentifierName());
+		    	questionNames.add(stmt.getName());
 		    	// Update the map
 		    	this.labelMap.put(stmt.getLabel(), questionNames);
 		    }	

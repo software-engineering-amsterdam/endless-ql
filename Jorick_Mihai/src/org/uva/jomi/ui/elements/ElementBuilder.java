@@ -61,12 +61,12 @@ public class ElementBuilder implements Stmt.Visitor<BaseElement> {
 
 	@Override
 	public BaseElement visit(QuestionStmt questionStmt) {
-		return new QuestionElement(questionStmt.getIdentifierName(), questionStmt.getLabel(), questionStmt.getType().toString());
+		return new QuestionElement(questionStmt.getName(), questionStmt.getLabel(), questionStmt.getType().toString());
 	}
 
 	@Override
 	public BaseElement visit(ComputedQuestionStmt questionStmt) {
-		return new ComputedQuestionElement(questionStmt.getIdentifierName(), questionStmt.getLabel(), questionStmt.getType().toString(), questionStmt.getExp());
+		return new ComputedQuestionElement(questionStmt.getName(), questionStmt.getLabel(), questionStmt.getType().toString(), questionStmt.getExp());
 	}
 
 	@Override

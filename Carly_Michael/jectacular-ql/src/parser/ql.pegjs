@@ -152,7 +152,7 @@ expression 		  = [a-zA-Z0-9 +\-\/*><=]+ {return text();}
 integer         = whitespace [0-9]+ whitespace { return new ast.Literal(ast.ExpressionType.NUMBER, parseInt(text(), 10), location()); }
 boolean         = whitespace val:("true" / "false") whitespace { return new ast.Literal(ast.ExpressionType.BOOLEAN, val, location()); }
 date            = whitespace "d" day:([0-9][0-9]) "-" month:([0-9][0-9]) "-" year:([0-9][0-9][0-9][0-9]) {
-  let javascriptMonth = parseInt(month[0] + month[1], 10)-1;
+  const javascriptMonth = parseInt(month[0] + month[1], 10)-1;
   return new ast.Literal(ast.ExpressionType.DATE, new Date(Date.UTC(year[0] + year[1] + year[2] + year[3],
     javascriptMonth, day[0] + day[1], 0, 0, 0, 0)), location());
 }

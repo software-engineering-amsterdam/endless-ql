@@ -6,8 +6,8 @@ abstract public class ASTNode implements VisitableASTNode {
 
         private Integer startLine;
         private Integer endLine;
-        private Integer column;
-        private String text;    //TODO: YAGNI?
+        private Integer column;     //TODO: YAGNI?
+        private String text;        //TODO: YAGNI?
 
         public MetaInformation(Integer startLine, Integer endLine, Integer column, String text) {
             this.startLine = startLine;

@@ -35,7 +35,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   @FXML var next: Button = _
 
   @FXML
-  def initialize: Unit = {
+  def initialize(): Unit = {
     navigationBar.managedProperty().bind(navigationBar.visibleProperty())
     pageName.managedProperty().bind(pageName.visibleProperty())
     pageName.visibleProperty().bind(navigationBar.visibleProperty())
@@ -69,8 +69,8 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
 
   def componentChanged(component: Component[_]): Unit = {
     dictionary(component.getQuestionId) = component.getValue
-    evaluateAnswers
-    updateView
+    evaluateAnswers()
+    updateView()
   }
 
   def initializeForm(form: QLForm, stylesheet: Option[QLStylesheet]): Unit = {
@@ -86,18 +86,18 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
     questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
 
     // Guard for incorrect usage of 'get' is on the left side of the '&&' operation
-    navigationBar.setVisible(stylesheet.isDefined && stylesheet.get.pages.size > 0)
+    navigationBar.setVisible(stylesheet.isDefined && stylesheet.get.pages.nonEmpty)
     next.setDisable(stylesheet.isDefined && stylesheet.get.pages.size == 1)
 
-    evaluateAnswers
-    updateView
+    evaluateAnswers()
+    updateView()
   }
 
   private def evaluateAnswers(): Unit = {
     dictionary ++= Evaluator.evaluate(qlForm, dictionary.toMap)
   }
 
-  private def updateView = {
+  private def updateView(): Unit = {
     updateValues()
     updateVisibility()
   }
@@ -109,13 +109,14 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   private def updateVisibility(): Unit = {
     guiForm.questions.foreach(question => {
       getVisibilitySetting(question) match {
-        case visibility: BooleanAnswer => question.component.map(_.setVisible(isVisible(visibility)))
+        case visibility: BooleanAnswer => question.component.foreach(_.setVisible(isVisible(visibility)))
         case _                         => throw new IllegalArgumentException("A if-condition did not result in a boolean expression!")
       }
     })
   }
 
   private def isVisible(b: BooleanAnswer) = {
+    // None values are mapped to false
     b.possibleValue.getOrElse(false)
   }
 

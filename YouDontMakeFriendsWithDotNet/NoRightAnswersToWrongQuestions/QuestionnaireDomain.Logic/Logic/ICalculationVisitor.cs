@@ -1,4 +1,4 @@
-﻿using QuestionaireDomain.Entities.API.AstNodes.Calculation;
+﻿using QuestionaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
 using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionnaireDomain.Logic.Logic

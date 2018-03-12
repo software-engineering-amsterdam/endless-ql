@@ -4,9 +4,9 @@ using System.Globalization;
 using System.Linq;
 using QuestionaireDomain.Entities;
 using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.API.AstNodes.Boolean;
-using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 using QuestionaireDomain.Entities.API.Output;
+using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionnaireDomain.Logic.Logic

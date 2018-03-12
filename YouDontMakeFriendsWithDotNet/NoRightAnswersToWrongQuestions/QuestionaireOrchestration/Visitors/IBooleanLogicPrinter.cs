@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using QuestionaireDomain.Entities.API.AstNodes.Boolean;
+using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 
 namespace QuestionaireOrchestration.Visitors
 {

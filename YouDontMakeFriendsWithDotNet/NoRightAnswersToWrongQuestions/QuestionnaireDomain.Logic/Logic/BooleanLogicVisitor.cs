@@ -1,10 +1,10 @@
 ﻿using System;
 using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.API.AstNodes.Boolean;
-using QuestionaireDomain.Entities.API.AstNodes.Calculation;
-using QuestionaireDomain.Entities.API.AstNodes.Relational;
+using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
 using QuestionaireDomain.Entities.DomainObjects;
-using IBinaryExpressionNode = QuestionaireDomain.Entities.API.AstNodes.Boolean.IBinaryExpressionNode;
+using IBinaryExpressionNode = QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces.IBinaryExpressionNode;
 
 namespace QuestionnaireDomain.Logic.Logic
 {

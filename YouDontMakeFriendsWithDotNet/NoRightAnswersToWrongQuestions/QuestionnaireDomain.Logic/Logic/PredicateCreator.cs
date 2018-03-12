@@ -1,5 +1,5 @@
 ﻿using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.API.AstNodes.Boolean;
+using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionaireDomain.Entities.DomainObjects;
 using QuestionnaireDomain.Logic.API;
 

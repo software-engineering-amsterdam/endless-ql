@@ -1,4 +1,4 @@
-﻿using QuestionaireDomain.Entities.API.AstNodes.Boolean;
+﻿using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionnaireDomain.Logic.Logic

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
+using QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionaireDomain.Entities.DomainObjects;
 
 namespace QuestionnaireDomain.Logic.Logic

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.Remoting.Channels;
 using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.API.AstNodes;
+using QuestionaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionaireDomain.Entities.DomainObjects;
 
 namespace AntlrInterpretor.Logic

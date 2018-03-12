@@ -2,9 +2,9 @@
 using AntlGrammar;
 using Antlr4.Runtime;
 using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.API.AstNodes;
-using QuestionaireDomain.Entities.API.AstNodes.Boolean;
-using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
+using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionaireDomain.Entities.DomainObjects;
 
 namespace AntlrInterpretor.Logic

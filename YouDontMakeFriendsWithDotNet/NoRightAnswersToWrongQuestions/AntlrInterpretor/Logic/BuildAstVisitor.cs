@@ -3,11 +3,10 @@ using System.ComponentModel;
 using System.Linq;
 using AntlGrammar;
 using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.API.AstNodes;
-using QuestionaireDomain.Entities.API.AstNodes.Boolean;
-using QuestionaireDomain.Entities.API.AstNodes.Calculation;
-using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
-using QuestionaireDomain.Entities.API.AstNodes.Relational;
+using QuestionaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionaireDomain.Entities.DomainObjects;
 
 namespace AntlrInterpretor.Logic

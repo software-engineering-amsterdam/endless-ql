@@ -1,7 +1,6 @@
 ﻿using System;
 using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
-using QuestionaireDomain.Entities.API.AstNodes.Relational;
+using QuestionaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionaireDomain.Entities.DomainObjects;
 using QuestionnaireDomain.Logic.API;
 

@@ -5,7 +5,9 @@ using QuestionaireDomain.Entities.API.AstNodes.Boolean;
 
 namespace QuestionaireDomain.Entities.DomainObjects.Ast
 {
-    internal class BooleanLiteralNode : AstNodeBase, IBooleanLiteralNode
+    internal class BooleanLiteralNode : 
+        AstNodeBase, 
+        IBooleanLiteralNode
     {
         private static readonly string[] TruthValues = { "true", "True", "TRUE" };
         private static readonly string[] FalseValues = { "false", "False", "FALSE" };

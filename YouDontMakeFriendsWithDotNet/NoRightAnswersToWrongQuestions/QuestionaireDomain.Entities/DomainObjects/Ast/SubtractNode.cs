@@ -3,11 +3,11 @@ using QuestionaireDomain.Entities.API.AstNodes.Calculation;
 
 namespace QuestionaireDomain.Entities.DomainObjects.Ast
 {
-    internal class MultiplyNode : 
+    internal class SubtractNode : 
         CalculationBinaryExpressionNodeBase, 
-        IMultiplyNode
+        ISubtractNode
     {
-        public MultiplyNode(
+        public SubtractNode(
             Guid id,
             string definition,
             Reference<ICalculationNode> leftCalculation,

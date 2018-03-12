@@ -1,5 +1,4 @@
 ﻿using System;
-using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.API.AstNodes.Boolean;
 
 namespace QuestionaireDomain.Entities.DomainObjects.Ast
@@ -9,7 +8,8 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
         public NegateNode(
             Guid id,
             string definition,
-            Reference<IBooleanLogicNode> childExpression) : base(id, definition)
+            Reference<IBooleanLogicNode> childExpression) 
+            : base(id, definition)
         {
             Expression = childExpression;
         }

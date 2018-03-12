@@ -1,10 +1,9 @@
 ﻿using System;
-using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.API.AstNodes;
 
 namespace QuestionaireDomain.Entities.DomainObjects.Ast
 {
-    public abstract class AstNodeBase : IAstNode
+    internal abstract class AstNodeBase : IAstNode
     {
         protected AstNodeBase(
             Guid id,

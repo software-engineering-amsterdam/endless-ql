@@ -3,16 +3,16 @@ using QuestionaireDomain.Entities.API.AstNodes.Calculation;
 
 namespace QuestionaireDomain.Entities.DomainObjects.Ast
 {
-    internal class MultiplyNode : 
+    internal class AddNode : 
         CalculationBinaryExpressionNodeBase, 
-        IMultiplyNode
+        IAddNode
     {
-        public MultiplyNode(
+        public AddNode(
             Guid id,
             string definition,
             Reference<ICalculationNode> leftCalculation,
-            Reference<ICalculationNode> rightCalculation) 
-            : base(id, definition, leftCalculation, rightCalculation)
+            Reference<ICalculationNode> rightCalculation) : 
+            base(id, definition,leftCalculation,rightCalculation)
         {
         }
     }

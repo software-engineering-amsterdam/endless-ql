@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 
 namespace QuestionaireDomain.Entities.DomainObjects.Ast
 {
-    internal class QuestionnaireRootNode : AstNodeBase, IQuestionnaireRootNode
+    internal class QuestionnaireRootNode : 
+        AstNodeBase, 
+        IQuestionnaireRootNode
     {
         public QuestionnaireRootNode(
             Guid id, 

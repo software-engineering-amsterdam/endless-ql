@@ -3,7 +3,9 @@ using QuestionaireDomain.Entities.API.AstNodes;
 
 namespace QuestionaireDomain.Entities.DomainObjects.Ast
 {
-    internal abstract class VariableNodeBase : AstNodeBase, IVariableNode
+    internal abstract class VariableNodeBase : 
+        AstNodeBase, 
+        IVariableNode
     {
         public string VariableName { get; }
 

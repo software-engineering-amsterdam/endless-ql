@@ -43,7 +43,7 @@ namespace QuestionaireDomain.Entities
             IEnumerable<Reference<IStatementNode>> consequent,
             IEnumerable<Reference<IStatementNode>> alternative)
         {
-            var condition = new ConditionalAst(
+            var condition = new ConditionalNode(
                 m_ids.Next, 
                 definition,
                 predicate,

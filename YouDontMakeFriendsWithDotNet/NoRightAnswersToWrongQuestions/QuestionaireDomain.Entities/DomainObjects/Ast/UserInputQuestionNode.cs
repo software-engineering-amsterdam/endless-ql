@@ -1,10 +1,11 @@
 ﻿using System;
-using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 
 namespace QuestionaireDomain.Entities.DomainObjects.Ast
 {
-    internal class UserInputQuestionNode : AstNodeBase, IUserInputQuestionNode
+    internal class UserInputQuestionNode : 
+        AstNodeBase, 
+        IUserInputQuestionNode
     {
         public string QuestionId { get; }
         public string QuestionText { get; }

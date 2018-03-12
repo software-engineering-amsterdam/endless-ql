@@ -5,7 +5,9 @@ using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
 
 namespace QuestionaireDomain.Entities.DomainObjects.Ast
 {
-    public class CalculatedQuestionNode : AstNodeBase, ICalculatedQuestionNode
+    internal class CalculatedQuestionNode : 
+        AstNodeBase, 
+        ICalculatedQuestionNode
     {
         public string QuestionId { get; }
         public string QuestionText { get; }
@@ -18,7 +20,8 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
             string questionId, 
             string questionText, 
             Type questionType,
-            Reference<ICalculationNode> calculation) : base(id, definition)
+            Reference<ICalculationNode> calculation) 
+            : base(id, definition)
         {
             QuestionId = questionId;
             QuestionText = questionText;

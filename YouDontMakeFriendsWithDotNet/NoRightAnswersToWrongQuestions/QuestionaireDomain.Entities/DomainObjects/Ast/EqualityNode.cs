@@ -1,11 +1,12 @@
 ﻿using System;
-using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.API.AstNodes;
 using QuestionaireDomain.Entities.API.AstNodes.Relational;
 
 namespace QuestionaireDomain.Entities.DomainObjects.Ast
 {
-    internal class EqualityNode : RelationalOperationNode, IEqualityNode
+    internal class EqualityNode : 
+        RelationalOperationNode, 
+        IEqualityNode
     {
         public EqualityNode(
             Guid id,

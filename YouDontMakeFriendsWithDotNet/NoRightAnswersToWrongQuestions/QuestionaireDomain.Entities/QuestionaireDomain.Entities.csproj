@@ -105,6 +105,10 @@
     <Compile Include="API\Output\IQuestionnaireOutputItem.cs" />
     <Compile Include="API\Output\QuestionnaireOutputItem.cs" />
     <Compile Include="AstFactory.cs" />
+    <Compile Include="DomainObjects\Ast\AddNode.cs" />
+    <Compile Include="DomainObjects\Ast\BooleanBinaryNodeBase.cs" />
+    <Compile Include="DomainObjects\Ast\CalculationBinaryExpressionNodeBase.cs" />
+    <Compile Include="DomainObjects\Ast\SubtractNode.cs" />
     <Compile Include="SymbolTable.cs" />
     <Compile Include="DomainItemRegistry.cs" />
     <Compile Include="DomainObjects\Ast\AndNode.cs" />
@@ -128,7 +132,7 @@
     <Compile Include="DomainObjects\Ast\AstNodeBase.cs" />
     <Compile Include="DomainObjects\Ast\TextVariableNode.cs" />
     <Compile Include="DomainObjects\CommandObjectRegistry.cs" />
-    <Compile Include="DomainObjects\Ast\ConditionalAst.cs" />
+    <Compile Include="DomainObjects\Ast\ConditionalNode.cs" />
     <Compile Include="API\AstNodes\IAstNode.cs" />
     <Compile Include="API\IAstVisitor.cs" />
     <Compile Include="DomainObjects\Ast\OrNode.cs" />

@@ -7,7 +7,9 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.uva.jomi.ql.ast.AstBuilder;
+import org.uva.jomi.ql.ast.analysis.CyclicDependencyChecker;
 import org.uva.jomi.ql.ast.analysis.DuplicatedLabelChecker;
+import org.uva.jomi.ql.ast.analysis.IdentifierMapBuilder;
 import org.uva.jomi.ql.ast.analysis.IdentifierResolver;
 import org.uva.jomi.ql.ast.analysis.TypeResolver;
 import org.uva.jomi.ql.ast.statements.Stmt;
@@ -27,13 +29,13 @@ public class QL {
 		}
 
 		try {
-			// Create a character stream form the source file
+			// Create a character stream form the source file.
 			CharStream inputStream = CharStreams.fromFileName(args[0]);
-			// Create a lexer instance
+			// Create a lexer instance.
 			QLLexer lexer = new QLLexer(inputStream);
-			// Create a token stream using the lexer
+			// Create a token stream using the lexer.
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			// Create a lexer instance
+			// Create a lexer instance.
 			QLParser parser = new QLParser(tokens);
 
 			ParseContext cst = parser.parse();
@@ -49,35 +51,46 @@ public class QL {
 				DuplicatedLabelChecker labelChecker = new DuplicatedLabelChecker(true);
 				labelChecker.check(ast);
 				
-				// Create a new identifier resolver
-				IdentifierResolver identifierResolver = new IdentifierResolver(true);
-				// Resolve the Ast
-				identifierResolver.resolve(ast);
+				// Check for cyclic references between questions.
+				CyclicDependencyChecker cyclicChecker = new CyclicDependencyChecker(true);
+				
+				// Build an identifier map instance that will be used to generate a mapping bewteen questions.
+				IdentifierMapBuilder identifierMap = new IdentifierMapBuilder();
+				
+				// Build the identifier map and check for cycles.
+				cyclicChecker.check(identifierMap.buildMap(ast));
+				
+				if (cyclicChecker.getNumberofErrors() == 0) {
+					
+					// Create a new identifier resolver.
+					IdentifierResolver identifierResolver = new IdentifierResolver(true);
+					// Resolve the AST.
+					identifierResolver.resolve(ast);
 
-				if (identifierResolver.getNumberOfErrors() == 0) {
-					TypeResolver typeResolver = new TypeResolver(true);
-					typeResolver.resolve(ast);
+					if (identifierResolver.getNumberOfErrors() == 0) {
+						TypeResolver typeResolver = new TypeResolver(true);
+						typeResolver.resolve(ast);
 
-					if (typeResolver.getNumberOfErrors() == 0) {
-						ElementBuilder builder = new ElementBuilder();
-						List<Panel>panels = builder.build(ast);
+						if (typeResolver.getNumberOfErrors() == 0) {
+							ElementBuilder builder = new ElementBuilder();
+							List<Panel>panels = builder.build(ast);
 
-						Frame frame = new Frame();
+							Frame frame = new Frame();
 
-						for (Panel panel : panels) {
-							frame.add(panel);
+							for (Panel panel : panels) {
+								frame.add(panel);
+							}
+							
+							frame.setVisible(true);
 						}
-						
-						frame.setVisible(true);
-					}
 
-					// Output the Ast in GraphViz dot format.
-//					java.io.PrintStream outStream = new java.io.PrintStream("graph.txt");
-//					outStream.println(new AstGraph().getGraph(ast));
-//					outStream.close();
+						// Output the Ast in GraphViz dot format.
+//						java.io.PrintStream outStream = new java.io.PrintStream("graph.txt");
+//						outStream.println(new AstGraph().getGraph(ast));
+//						outStream.close();
+					}
 				}
 			}
-
 		} catch (IOException e) {
 			System.err.println("Source file was not found: " + e.getMessage());
 		}

@@ -33,6 +33,10 @@ public class CyclicDependencyChecker {
 		
 		return "Index is out of range";
 	}
+	
+	public int getNumberofErrors() {
+		return errors.size();
+	}
 
 	public CyclicDependencyChecker(boolean printCycles) {
 		graph = new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);

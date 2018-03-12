@@ -4,4 +4,14 @@ stylesheet EditOrNotToEdit {
             question integerVariable
         }
     }
+    page PageTwo {
+        section "Variables" {
+            question integerVariable
+        }
+    }
+    page PageThree {
+        section "Variables" {
+            question integerVariable
+        }
+    }
 }

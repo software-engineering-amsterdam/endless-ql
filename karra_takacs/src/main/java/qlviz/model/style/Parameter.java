@@ -1,25 +1,10 @@
 package qlviz.model.style;
 
+import javafx.scene.paint.Color;
+
 import java.math.BigDecimal;
 
-public interface VoidParameterVisitor {
-    void visit(StringParameter stringParameter);
-    void visit(NumericParameter numericParameter);
-    void visit(ColorParameter colorParameter);
-}
-
 public interface Parameter {
-    void accept(VoidParameterVisitor voidParameterVisitor);
+    void accept(ParameterVisitor voidParameterVisitor);
 }
 
-public class StringParameter implements Parameter {
-
-}
-
-public class NumericParameter implments Parameter {
-
-}
-
-public class ColorParameter implements Parameter {
-
-}

@@ -1,7 +1,6 @@
-package qlviz.gui.renderer.javafx;
+package qlviz.gui.renderer.javafx.widgets;
 
 import javafx.scene.Node;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import qlviz.gui.viewModel.question.*;
 

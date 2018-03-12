@@ -1,14 +1,17 @@
 package qlviz.model.style;
 
-public class ColorParameter extends Parameter {
+import javafx.scene.paint.Color;
 
-    private final String colorAsHex;
+public class ColorParameter implements Parameter {
+
+    private final Color color;
 
     public ColorParameter(String colorAsHex) {
-        this.colorAsHex = colorAsHex;
+        this.color = Color.web(colorAsHex);
     }
 
-    public String getColorAsHex() {
-        return colorAsHex;
+    @Override
+    public void accept(ParameterVisitor voidParameterVisitor) {
+        voidParameterVisitor.visit(this);
     }
 }

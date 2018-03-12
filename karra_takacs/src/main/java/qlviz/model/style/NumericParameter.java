@@ -2,7 +2,7 @@ package qlviz.model.style;
 
 import java.math.BigDecimal;
 
-public class NumericParameter extends Parameter {
+public class NumericParameter implements Parameter {
 
     private final BigDecimal value;
 
@@ -12,5 +12,10 @@ public class NumericParameter extends Parameter {
 
     public BigDecimal getValue() {
         return value;
+    }
+
+    @Override
+    public void accept(ParameterVisitor voidParameterVisitor) {
+        voidParameterVisitor.visit(this);
     }
 }

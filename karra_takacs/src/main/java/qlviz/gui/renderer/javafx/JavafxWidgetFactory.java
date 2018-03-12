@@ -1,12 +1,7 @@
 package qlviz.gui.renderer.javafx;
 
-import javafx.scene.Node;
-import javafx.scene.control.Spinner;
-import qlviz.gui.viewModel.question.*;
-import qlviz.model.question.*;
+import qlviz.gui.renderer.javafx.widgets.*;
 import qlviz.model.style.Widget;
-
-import java.math.BigDecimal;
 
 
 public class JavafxWidgetFactory {
@@ -21,11 +16,11 @@ public class JavafxWidgetFactory {
                 return new TextFieldUIWidget();
             case Dropdown:
                 return new DropdownUIWidget(widgetDefinition.getParameters());
-                break;
             case Radio:
-                break;
+                return new RadioUIWidget(widgetDefinition.getParameters());
             case Slider:
-                break;
+                return new SliderUIWidget();
         }
+        return null;
     }
 }

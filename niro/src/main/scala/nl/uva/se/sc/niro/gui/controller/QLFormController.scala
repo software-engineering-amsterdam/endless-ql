@@ -32,7 +32,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   @FXML var questionArea: VBox = _
 
   @FXML var navigationBar: BorderPane = _
-  @FXML var back: Button = _
+  @FXML var previous: Button = _
   @FXML var next: Button = _
 
   @FXML
@@ -40,7 +40,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
     navigationBar.managedProperty().bind(navigationBar.visibleProperty())
     pageName.managedProperty().bind(pageName.visibleProperty())
     pageName.visibleProperty().bind(navigationBar.visibleProperty())
-    back.setDisable(true)
+    previous.setDisable(true)
   }
 
   @FXML
@@ -56,7 +56,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   @FXML
   def previousPage(event: ActionEvent): Unit = {
     page -= 1
-    back.setDisable(page > 0)
+    previous.setDisable(page == 0)
     next.setDisable(false)
     println("Going back...")
     updateView()
@@ -66,7 +66,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   def nextPage(event: ActionEvent): Unit = {
     page += 1
     next.setDisable(page >= stylesheet.map(_.pages.size).getOrElse(0) - 1)
-    back.setDisable(false)
+    previous.setDisable(false)
     println("Going forward...")
     updateView()
   }

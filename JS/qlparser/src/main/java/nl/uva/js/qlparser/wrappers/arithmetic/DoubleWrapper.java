@@ -1,4 +1,4 @@
-package wrappers;
+package nl.uva.js.qlparser.wrappers.arithmetic;
 
 public class DoubleWrapper extends NumberWrapper<Double> {
     private Double storage;

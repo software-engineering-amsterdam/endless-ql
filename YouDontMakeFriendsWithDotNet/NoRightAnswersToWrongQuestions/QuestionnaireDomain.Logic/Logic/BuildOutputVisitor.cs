@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using QuestionaireDomain.Entities;
 using QuestionaireDomain.Entities.API;
@@ -124,12 +125,12 @@ namespace QuestionnaireDomain.Logic.Logic
 
             if (type == typeof(decimal) || type == typeof(int))
             {
-                return m_decimalLookup.Lookup(questionId).ToString();
+                return m_decimalLookup.Lookup(questionId).ToString(CultureInfo.InvariantCulture);
             }
 
             if (type == typeof(DateTime))
             {
-                return m_dateLookup.Lookup(questionId).ToString();
+                return m_dateLookup.Lookup(questionId).ToString(CultureInfo.InvariantCulture);
             }
 
             throw new ArgumentException($"value lookup for type '{type}' not implemented");

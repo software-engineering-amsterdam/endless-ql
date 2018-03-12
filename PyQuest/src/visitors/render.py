@@ -7,7 +7,7 @@ from src.visitors.visitor_helper import when, on
 from render.form import Form
 
 
-class Render(object):
+class Render:
     def __init__(self):
         self.form = None
         self.condition = TypeBoolean.get_literal_node(True)

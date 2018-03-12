@@ -1,4 +1,5 @@
 from AST.types.type import Type
+from AST.expressions.literals.integer_node import IntegerNode
 from render.widgets import SpinBox
 
 
@@ -14,5 +15,13 @@ class TypeInteger(Type):
         return type(self) == type(other)
 
     @staticmethod
+    def get_literal_node(value):
+        return IntegerNode(None, TypeInteger, value)
+
+    @staticmethod
     def pyqt5_default_widget():
-        return SpinBox()
+        widget = SpinBox()
+        maximum = 2 ^ 31
+        minimum = -maximum
+        widget.setRange(minimum, maximum)
+        return widget

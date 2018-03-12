@@ -1,4 +1,5 @@
 from AST.types.type import Type
+from AST.expressions.literals.boolean_node import BooleanNode
 from render.widgets import CheckBox
 
 
@@ -12,6 +13,10 @@ class TypeBoolean(Type):
 
     def __eq__(self, other):
         return type(self) == type(other)
+
+    @staticmethod
+    def get_literal_node(value):
+        return BooleanNode(None, TypeBoolean, value)
 
     @staticmethod
     def pyqt5_default_widget():

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using QuestionaireDomain.Entities.API;
 using QuestionaireDomain.Entities.DomainObjects;
-using QuestionnaireDomain.Logic.API;
 
 namespace QuestionnaireDomain.Logic.Logic
 {
@@ -31,7 +30,6 @@ namespace QuestionnaireDomain.Logic.Logic
         {
             return m_registry.GetAll<TDomainItem>();
         }
-
 
         public IEnumerable<Reference<TDomainItem>> GetAllRefs<TDomainItem>() where TDomainItem : IDomainItem
         {

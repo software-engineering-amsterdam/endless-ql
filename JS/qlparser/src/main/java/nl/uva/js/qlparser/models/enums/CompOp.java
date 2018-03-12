@@ -16,8 +16,8 @@ public enum CompOp implements Operator {
     LTE((a,b) -> CompareToBuilder.reflectionCompare(a, b) <= 0),
     GTE((a,b) -> CompareToBuilder.reflectionCompare(a, b) >= 0),
 
-    EQ(Object::equals),
-    NEQ((a, b) -> !a.equals(b));
+    EQ((a,b) -> CompareToBuilder.reflectionCompare(a, b) == 0),
+    NEQ((a,b) -> CompareToBuilder.reflectionCompare(a, b) != 0);
 
     @NonNull @Getter public BiFunction apply;
     public List<DataType> requiredType() {

@@ -15,6 +15,8 @@ import org.uva.jomi.ql.ast.analysis.TypeResolver;
 import org.uva.jomi.ql.ast.statements.Stmt;
 import org.uva.jomi.ql.parser.antlr.*;
 import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
+import org.uva.jomi.qls.parser.antlr.QLSLexer;
+import org.uva.jomi.qls.parser.antlr.QLSParser;
 import org.uva.jomi.ui.elements.ElementBuilder;
 import org.uva.jomi.ui.elements.core.Frame;
 import org.uva.jomi.ui.elements.core.Panel;

@@ -54,7 +54,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
     println("Data is saved....")
 
   @FXML
-  def back(event: ActionEvent): Unit = {
+  def previousPage(event: ActionEvent): Unit = {
     page -= 1
     back.setDisable(page > 0)
     next.setDisable(false)
@@ -63,7 +63,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   }
 
   @FXML
-  def next(event: ActionEvent): Unit = {
+  def nextPage(event: ActionEvent): Unit = {
     page += 1
     next.setDisable(page >= stylesheet.map(_.pages.size).getOrElse(0) - 1)
     back.setDisable(false)

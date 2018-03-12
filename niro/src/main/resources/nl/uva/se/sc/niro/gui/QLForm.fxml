@@ -39,10 +39,10 @@
          <children>
             <BorderPane fx:id="navigationBar" prefWidth="200.0">
                <left>
-                  <Button fx:id="back" onAction="#back" text="Back" />
+                  <Button fx:id="back" onAction="#previousPage" text="Back" />
                </left>
                <right>
-                  <Button fx:id="next" onAction="#next" text="Next" />
+                  <Button fx:id="next" onAction="#nextPage" text="Next" />
                </right>
                <padding>
                   <Insets left="10.0" right="10.0" />

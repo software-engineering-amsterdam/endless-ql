@@ -105,10 +105,10 @@ namespace QuestionaireDomain.Entities
             return DomainItemRegistration<IBooleanVariableNode>(variable);
         }
 
-        public Reference<ILiteralNode> CreateBooleanLiteral(string booleanString)
+        public Reference<IBooleanLiteralNode> CreateBooleanLiteral(string booleanString)
         {
             var literal = new BooleanLiteralNode(m_ids.Next,booleanString);
-            return DomainItemRegistration<ILiteralNode>(literal);
+            return DomainItemRegistration<IBooleanLiteralNode>(literal);
         }
 
         public Reference<IAndNode> CreateAndOperation(

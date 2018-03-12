@@ -77,5 +77,129 @@ namespace UnitTests.Domain.UnitTests
                     default(DateTime).ToString(CultureInfo.InvariantCulture));
             }
         }
+
+        public static IEnumerable IfQuestionValues
+        {
+            get
+            {
+                const string form1 = "form TestForm { if (true) { q: \"i\"  boolean } }";
+                yield return new TestCaseData(form1, 1, 0);
+
+                const string form2 = "form TestForm { if (true) { q1: \"i\"  boolean } else { q2: \"i\"  boolean } }";
+                yield return new TestCaseData(form2, 1, 1);
+
+                const string template1T2F = "form TestForm {{ if ({0}) {{ q1: \"i\"  boolean }} else {{ q2: \"i\"  boolean q3: \"i\"  boolean }} }}";
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "false"), 2, 1);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "False"), 2, 1);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "FALSE"), 2, 1);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "True"), 1, 2);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "TRUE"), 1, 2);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "true && true"), 1, 2);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "true && false"), 2, 1);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "false && true"), 2, 1);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "false && false"), 2, 1);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "true || true"), 1, 2);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "true || false"), 1, 2);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "false || true"), 1, 2);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "false || false"), 2, 1);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "false || false || true"), 
+                    1, 
+                    2);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "false || true || false "), 
+                    1, 
+                    2);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "true || false || false"), 
+                    1, 
+                    2);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "true && true && true"), 
+                    1, 
+                    2);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "true && true && false"), 
+                    2, 
+                    1);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "true && false && true"), 
+                    2, 
+                    1);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "false && true && true"), 
+                    2, 
+                    1);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "false && true && true"),
+                    2,
+                    1);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "(false && true) && (true && true)"),
+                    2,
+                    1);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "(false && true) || (true && true)"),
+                    1,
+                    2);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "!false"),
+                    1,
+                    2);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "!true"),
+                    2,
+                    1);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "!(true && false)"),
+                    1,
+                    2);
+
+                yield return new TestCaseData(
+                    string.Format(template1T2F, "!(true || false)"),
+                    2,
+                    1);
+
+            }
+        }
+
     }
-}
+        }

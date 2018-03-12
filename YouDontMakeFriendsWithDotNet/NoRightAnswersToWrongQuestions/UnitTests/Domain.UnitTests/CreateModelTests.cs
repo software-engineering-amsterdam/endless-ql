@@ -96,6 +96,31 @@ namespace UnitTests.Domain.UnitTests
                 actual: outputItem.Value);
         }
 
+
+        [TestCaseSource(
+            typeof(TestModelCreationData),
+            nameof(TestModelCreationData.IfQuestionValues))]
+        public void GivenIfElseCondition_ReturnsCorrectVisibility(
+            string validDefinition,
+            int expectedVisible,
+            int expectedInvisible)
+        {
+            CreateForm(validDefinition);
+            var actualVisibleCount = m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .Count(x => x.Visible);
+            var actualInvisibleCount = m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .Count(x => !x.Visible);
+
+            Assert.AreEqual(
+                expected: expectedVisible,
+                actual: actualVisibleCount);
+            Assert.AreEqual(
+                expected: expectedInvisible,
+                actual: actualInvisibleCount);
+        }
+
         private void CreateForm(string validText)
         {
             var questionnaireCreator = m_serviceProvider

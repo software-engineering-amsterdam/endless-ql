@@ -21,7 +21,7 @@ namespace QuestionaireDomain.Entities.API
 
         public Reference<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
             string displayName,
-            List<Reference<IQuestionOutputItem>> questions)
+            IList<Reference<IQuestionOutputItem>> questions)
         {
             var questionnaireOutputItem= new QuestionnaireOutputItem(
                 m_ids.Next,

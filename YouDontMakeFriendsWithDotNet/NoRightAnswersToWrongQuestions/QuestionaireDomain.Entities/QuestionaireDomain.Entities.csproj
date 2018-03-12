@@ -50,7 +50,7 @@
     <Compile Include="API\AstNodes\Boolean\IAndNode.cs" />
     <Compile Include="API\AstNodes\Boolean\IBinaryExpressionNode.cs" />
     <Compile Include="API\AstNodes\Boolean\IExpressionNode.cs" />
-    <Compile Include="API\AstNodes\Boolean\ILiteralNode.cs" />
+    <Compile Include="API\AstNodes\Boolean\IBooleanLiteralNode.cs" />
     <Compile Include="API\AstNodes\Boolean\IBooleanLogicNode.cs" />
     <Compile Include="API\AstNodes\Boolean\INonTerminal.cs" />
     <Compile Include="API\AstNodes\Boolean\ITerminalNode.cs" />

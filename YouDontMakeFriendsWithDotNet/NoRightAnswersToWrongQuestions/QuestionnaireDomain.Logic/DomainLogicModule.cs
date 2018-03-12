@@ -16,6 +16,7 @@ namespace QuestionnaireDomain.Logic
             appRegistration.AddSingleton(typeof(IPredicateCreator), typeof(PredicateCreator));
             appRegistration.AddSingleton(typeof(IDomainItemLocator), typeof(DomainItemLocator));
             appRegistration.AddSingleton(typeof(IBuildOutputVisitor), typeof(BuildOutputVisitor));
+            appRegistration.AddSingleton(typeof(IBooleanLogicVisitor), typeof(BooleanLogicVisitor));
         }
     }
 }

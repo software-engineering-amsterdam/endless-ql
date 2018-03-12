@@ -1,6 +1,6 @@
 ﻿namespace QuestionaireDomain.Entities.API.AstNodes.Boolean
 {
-    public interface ILiteralNode : ITerminalNode
+    public interface IBooleanLiteralNode : ITerminalNode
     {
         bool Value { get; }
     }

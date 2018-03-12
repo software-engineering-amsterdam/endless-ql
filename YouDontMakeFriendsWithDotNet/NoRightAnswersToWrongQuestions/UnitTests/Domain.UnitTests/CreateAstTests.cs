@@ -278,7 +278,7 @@ namespace UnitTests.Domain.UnitTests
             }
 
             var literals = m_domainItemLocator
-                .GetAll<ILiteralNode>()
+                .GetAll<IBooleanLiteralNode>()
                 .Select(x => x.Value)
                 .ToList();
 

@@ -19,8 +19,8 @@ namespace QuestionaireDomain.Entities.DomainObjects.Ast
             IEnumerable<Reference<IStatementNode>> alternative) : base(id, definition)
         {
             Predicate = predicate;
-            Consequent = consequent;
-            Alternative = alternative;
+            Consequent = consequent ?? new List<Reference<IStatementNode>>();
+            Alternative = alternative ?? new List<Reference<IStatementNode>>();
         }
 
         public override void Accept(IAstVisitor visitor)

@@ -42,7 +42,7 @@ namespace QuestionaireDomain.Entities.API
         Reference<AstNodes.Boolean.IBooleanVariableNode> CreateBooleanVariableName(
             string variableName);
 
-        Reference<AstNodes.Boolean.ILiteralNode> CreateBooleanLiteral(
+        Reference<AstNodes.Boolean.IBooleanLiteralNode> CreateBooleanLiteral(
             string booleanString);
 
         Reference<AstNodes.Boolean.IAndNode> CreateAndOperation(

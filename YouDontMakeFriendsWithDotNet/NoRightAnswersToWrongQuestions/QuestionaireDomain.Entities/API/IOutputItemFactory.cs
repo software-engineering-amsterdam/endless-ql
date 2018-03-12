@@ -7,8 +7,9 @@ namespace QuestionaireDomain.Entities.API
 {
     public interface IOutputItemFactory
     {
-        Reference<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(string displayName,
-            List<Reference<IQuestionOutputItem>> questions);
+        Reference<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
+            string displayName,
+            IList<Reference<IQuestionOutputItem>> questions);
 
         Reference<IQuestionOutputItem> CreateQuestionOutputItem(
             string text,

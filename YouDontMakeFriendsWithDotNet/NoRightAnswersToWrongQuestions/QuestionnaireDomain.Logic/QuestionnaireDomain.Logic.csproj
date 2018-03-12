@@ -142,6 +142,7 @@
     <Compile Include="API\IQuestionnaireAstCreator.cs" />
     <Compile Include="DomainLogicModule.cs" />
     <Compile Include="Logic\BuildOutputVisitor.cs" />
+    <Compile Include="Logic\IBooleanLogicVisitor.cs" />
     <Compile Include="Logic\IBuildOutputVisitor.cs" />
     <Compile Include="Logic\QuestionnaireModelCreator.cs" />
     <Compile Include="Logic\DomainItemLocator.cs" />

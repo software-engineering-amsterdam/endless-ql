@@ -57,7 +57,7 @@ public class ExpressionEvaluatorTests {
 		@Override
 		public Void visit(ComputedQuestionStmt stmt) {
 			GenericValue value = stmt.getExp().accept(exprEvaluator);
-			String name = stmt.getIdentifierName();
+			String name = stmt.getName();
 			SymbolTable.getInstance().put(name, value);
 			return null;
 		}

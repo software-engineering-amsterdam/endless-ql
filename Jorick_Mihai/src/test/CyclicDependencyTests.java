@@ -13,7 +13,7 @@ import org.uva.jomi.ql.tests.utilities.TestUtilities;
 
 public class CyclicDependencyTests {
 
-	CyclicDependencyChecker checker = new CyclicDependencyChecker(false);
+	CyclicDependencyChecker checker = new CyclicDependencyChecker(true);
 	IdentifierMapBuilder identifierMapBuilder = new IdentifierMapBuilder();
 
 	String test1 =
@@ -41,7 +41,7 @@ public class CyclicDependencyTests {
 		assertTrue(checker.check(identifierMapBuilder.buildMap(ast)));
 		assertTrue(checker.getErrors().size() == 1);
 		assertTrue(checker.
-				getErrorAtIndex(0).equals("[CyclicDependencyChecker] A cyclic dependencie was found between the following questions: q1"));
+				getErrorAtIndex(0).equals("[CyclicDependencyChecker] A cyclic dependency was found between the following questions: q1"));
 	}
 	
 	String test3 =
@@ -57,6 +57,6 @@ public class CyclicDependencyTests {
 		assertTrue(checker.check(identifierMapBuilder.buildMap(ast)));
 		assertTrue(checker.getErrors().size() == 1);
 		assertTrue(checker.
-				getErrorAtIndex(0).equals("[CyclicDependencyChecker] A cyclic dependencie was found between the following questions: q1, q2"));
+				getErrorAtIndex(0).equals("[CyclicDependencyChecker] A cyclic dependency was found between the following questions: q1, q2"));
 	}
 }

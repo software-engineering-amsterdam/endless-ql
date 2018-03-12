@@ -107,7 +107,7 @@ public class CyclicDependencyChecker {
 		 
 		 if (!cycleSet.isEmpty()) {
 			 for (Set<String> set : cycleSet) {
-				String error = String.format("[CyclicDependencyChecker] A cyclic dependencie was found between the following questions: %s",
+				String error = String.format("[CyclicDependencyChecker] A cyclic dependency was found between the following questions: %s",
 						String.join(", ", set));
 				errors.add(error);
 			 }

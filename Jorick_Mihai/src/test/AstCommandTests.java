@@ -25,7 +25,7 @@ public class AstCommandTests {
 		
 		QuestionStmt question1 = (QuestionStmt) form1.getBlockStmt().getStmtAtIndex(0);
 		assertEquals(question1.getLabel(), "\"Question 1\"");
-		assertEquals(question1.getIdentifierName(), "question1");
+		assertEquals(question1.getName(), "question1");
 	}
 	
 	String twoQuestionsSource = "form Form1 { \"Question 1\" question1: string \"Question 2\" question2: string }";	
@@ -37,11 +37,11 @@ public class AstCommandTests {
 		
 		QuestionStmt question1 = (QuestionStmt) form1.getBlockStmt().getStmtAtIndex(0);
 		assertEquals(question1.getLabel(), "\"Question 1\"");
-		assertEquals(question1.getIdentifierName(), "question1");
+		assertEquals(question1.getName(), "question1");
 		
 		QuestionStmt question2 = (QuestionStmt) form1.getBlockStmt().getStmtAtIndex(1);
 		assertEquals(question2.getLabel(), "\"Question 2\"");
-		assertEquals(question2.getIdentifierName(), "question2");
+		assertEquals(question2.getName(), "question2");
 	}
 	
 	String singleIfSource = "form Form1 { if(true) { \"Question 1\" question1: string } }";	
@@ -56,7 +56,7 @@ public class AstCommandTests {
 		
 		QuestionStmt question1 = (QuestionStmt) ifStmt.getIfBlockStmt().getStmtAtIndex(0);
 		assertEquals(question1.getLabel(), "\"Question 1\"");
-		assertEquals(question1.getIdentifierName(), "question1");
+		assertEquals(question1.getName(), "question1");
 	}
 	
 	String twoIfSource = "form Form1 { if(true) { \"Question 1\" question1: string } \"Question 2\" question2: string }";	
@@ -71,11 +71,11 @@ public class AstCommandTests {
 		
 		QuestionStmt question1 = (QuestionStmt) ifStmt.getIfBlockStmt().getStmtAtIndex(0);
 		assertEquals(question1.getLabel(), "\"Question 1\"");
-		assertEquals(question1.getIdentifierName(), "question1");
+		assertEquals(question1.getName(), "question1");
 		
 		QuestionStmt question2 = (QuestionStmt) form1.getBlockStmt().getStmtAtIndex(1);
 		assertEquals(question2.getLabel(), "\"Question 2\"");
-		assertEquals(question2.getIdentifierName(), "question2");
+		assertEquals(question2.getName(), "question2");
 	}
 	
 	String ifElseSource = "form Form1 { if(true) { \"Question 1\" question1: string } else { \"Question 2\" question2: string } }";	
@@ -90,11 +90,11 @@ public class AstCommandTests {
 		
 		QuestionStmt question1 = (QuestionStmt) ifElseStmt.getIfBlockStmt().getStmtAtIndex(0);
 		assertEquals(question1.getLabel(), "\"Question 1\"");
-		assertEquals(question1.getIdentifierName(), "question1");
+		assertEquals(question1.getName(), "question1");
 		
 		QuestionStmt question2 = (QuestionStmt) ifElseStmt.getElseBlockStmt().getStmtAtIndex(0);
 		assertEquals(question2.getLabel(), "\"Question 2\"");
-		assertEquals(question2.getIdentifierName(), "question2");
+		assertEquals(question2.getName(), "question2");
 	}
 
 }

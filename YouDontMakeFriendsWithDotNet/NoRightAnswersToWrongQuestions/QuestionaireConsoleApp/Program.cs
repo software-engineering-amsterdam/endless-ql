@@ -73,7 +73,7 @@ namespace QuestionaireConsoleApp
         {
             Console.WriteLine("Enter form:");
             var formDefinition = Console.ReadLine();
-            var creator = m_serviceProvider.GetService<IQuestionnaireCreator>();
+            var creator = m_serviceProvider.GetService<IQuestionnaireAstCreator>();
             var questionaire = creator.Create(formDefinition);
 
             m_qprint.Print(questionaire.ToDomainItem(m_domainItemLocator));

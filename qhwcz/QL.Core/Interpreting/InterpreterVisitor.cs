@@ -1,8 +1,8 @@
 ﻿using Antlr4.Runtime;
-using QL.Core.Ast;
-using QL.Core.Operators;
-using QL.Core.Symbols;
-using QL.Core.Types;
+using QL.Api.Ast;
+using QL.Api.Entities;
+using QL.Api.Operators;
+using QL.Api.Types;
 using System.Linq;
 
 namespace QL.Core.Interpreting
@@ -110,7 +110,7 @@ namespace QL.Core.Interpreting
             return new LiteralNode(variable.Token, memoryValue.ToString(), memoryValue.Type);
         }
 
-        private Node EvaluateBinaryExpression(Node leftOperandNode, Node rightOperandNode, Operator @operator, IToken token)
+        private Node EvaluateBinaryExpression(Node leftOperandNode, Node rightOperandNode, IOperator @operator, IToken token)
         {
             var leftOperandLiteral = leftOperandNode.Accept(this) as LiteralNode;
             var rightOperandLiteral = rightOperandNode.Accept(this) as LiteralNode;
@@ -120,7 +120,7 @@ namespace QL.Core.Interpreting
             return new LiteralNode(token, @operator.Evaluate(leftValue, rightValue).ToString(), QLType.Undefined); 
         }
 
-        private Node EvaluateUnaryExpression(Node node, Operator @operator, IToken token)
+        private Node EvaluateUnaryExpression(Node node, IOperator @operator, IToken token)
         {
             var operand = node.Accept(this) as LiteralNode;
             var nodeValue = new Value(operand.Value, operand.Type);

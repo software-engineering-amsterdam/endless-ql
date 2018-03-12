@@ -4,7 +4,7 @@ using QuestionaireDomain.Entities.API.AstNodes;
 
 namespace QuestionaireDomain.Entities.DomainObjects
 {
-    public class Reference<T> where T : IAstNode
+    public class Reference<T> where T : IDomainItem
     {
         public Reference(Guid id)
         {

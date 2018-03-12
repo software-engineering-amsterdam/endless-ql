@@ -47,52 +47,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\IInterpreterService.cs" />
-    <Compile Include="Api\ParsedSymbols.cs" />
-    <Compile Include="Api\IParserService.cs" />
-    <Compile Include="Api\ServiceRegistry.cs" />
-    <Compile Include="Ast\BaseVisitor.cs" />
-    <Compile Include="Ast\VariableNode.cs" />
-    <Compile Include="Ast\ExpressionNode.cs" />
-    <Compile Include="Ast\LiteralNode.cs" />
-    <Compile Include="Ast\BlockNode.cs" />
-    <Compile Include="Ast\Node.cs" />
-    <Compile Include="Ast\QuestionNode.cs" />
-    <Compile Include="Ast\ConditionalNode.cs" />
-    <Compile Include="Ast\IVisitor.cs" />
-    <Compile Include="Errors\ConditionalType.cs" />
-    <Compile Include="Errors\QuestionAssignmentType.cs" />
-    <Compile Include="Errors\BinaryOperatorType.cs" />
-    <Compile Include="Errors\UnaryOperatorType.cs" />
-    <Compile Include="Errors\ReferenceNotFound.cs" />
-    <Compile Include="Errors\VariableDuplicate.cs" />
-    <Compile Include="Errors\Error.cs" />
+    <Compile Include="Validation\Errors\ConditionalType.cs" />
+    <Compile Include="Validation\Errors\QuestionAssignmentType.cs" />
+    <Compile Include="Validation\Errors\BinaryOperatorType.cs" />
+    <Compile Include="Validation\Errors\UnaryOperatorType.cs" />
+    <Compile Include="Validation\Errors\ReferenceNotFound.cs" />
+    <Compile Include="Validation\Errors\VariableDuplicate.cs" />
+    <Compile Include="Validation\Errors\Error.cs" />
+    <Compile Include="Infrastructure\DuplicateSymbolDetectionPipelineElement.cs" />
+    <Compile Include="Infrastructure\InterpretingPipelineElement.cs" />
+    <Compile Include="Infrastructure\ParsingPipelineElement.cs" />
+    <Compile Include="Infrastructure\ReferenceCheckingPipelineElement.cs" />
+    <Compile Include="Infrastructure\SymbolExtractionPipelineElement.cs" />
+    <Compile Include="Infrastructure\TypeCheckingPipelineElement.cs" />
     <Compile Include="Interpreting\InterpreterVisitor.cs" />
-    <Compile Include="Interpreting\InterpreterService.cs" />
-    <Compile Include="Interpreting\MemorySystem.cs" />
-    <Compile Include="Operators\Binary\Division.cs" />
-    <Compile Include="Operators\Binary\SmallerOrEqual.cs" />
-    <Compile Include="Operators\Binary\Smaller.cs" />
-    <Compile Include="Operators\Binary\GreaterOrEqual.cs" />
-    <Compile Include="Operators\Binary\Greater.cs" />
-    <Compile Include="Operators\Binary\NotEqual.cs" />
-    <Compile Include="Operators\Binary\Multiplication.cs" />
-    <Compile Include="Operators\Binary\Equal.cs" />
-    <Compile Include="Operators\Binary\And.cs" />
-    <Compile Include="Operators\Binary\Or.cs" />
-    <Compile Include="Operators\Binary\Substraction.cs" />
-    <Compile Include="Operators\Binary\Groups\Logical.cs" />
-    <Compile Include="Operators\Binary\Addition.cs" />
-    <Compile Include="Operators\Binary\Groups\AbsoluteComparisons.cs" />
-    <Compile Include="Operators\Operator.cs" />
-    <Compile Include="Operators\Parser.cs" />
-    <Compile Include="Operators\Unary\BooleanNegation.cs" />
-    <Compile Include="Operators\Binary\Groups\Arithmetical.cs" />
-    <Compile Include="Operators\Binary\Groups\RelativeComparisons.cs" />
-    <Compile Include="Operators\Unary\ArithmeticalNegation.cs" />
+    <Compile Include="Module.cs" />
+    <Compile Include="Interpreting\Operators\Binary\Division.cs" />
+    <Compile Include="Interpreting\Operators\Binary\SmallerOrEqual.cs" />
+    <Compile Include="Interpreting\Operators\Binary\Smaller.cs" />
+    <Compile Include="Interpreting\Operators\Binary\GreaterOrEqual.cs" />
+    <Compile Include="Interpreting\Operators\Binary\Greater.cs" />
+    <Compile Include="Interpreting\Operators\Binary\NotEqual.cs" />
+    <Compile Include="Interpreting\Operators\Binary\Multiplication.cs" />
+    <Compile Include="Interpreting\Operators\Binary\Equal.cs" />
+    <Compile Include="Interpreting\Operators\Binary\And.cs" />
+    <Compile Include="Interpreting\Operators\Binary\Or.cs" />
+    <Compile Include="Interpreting\Operators\Binary\Substraction.cs" />
+    <Compile Include="Interpreting\Operators\Binary\Groups\Logical.cs" />
+    <Compile Include="Interpreting\Operators\Binary\Addition.cs" />
+    <Compile Include="Interpreting\Operators\Binary\Groups\AbsoluteComparisons.cs" />
+    <Compile Include="Parsing\OperatorFactory.cs" />
+    <Compile Include="Interpreting\Operators\Unary\BooleanNegation.cs" />
+    <Compile Include="Interpreting\Operators\Binary\Groups\Arithmetical.cs" />
+    <Compile Include="Interpreting\Operators\Binary\Groups\RelativeComparisons.cs" />
+    <Compile Include="Interpreting\Operators\Unary\ArithmeticalNegation.cs" />
     <Compile Include="Parsing\ErrorListener.cs" />
-    <Compile Include="Parsing\ParsingFailureException.cs" />
-    <Compile Include="Parsing\ParserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QL.g4.lexer.cs">
       <DependentUpon>QL.g4</DependentUpon>
@@ -100,17 +89,11 @@
     <Compile Include="QL.g4.parser.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
-    <Compile Include="Ast\FormNode.cs" />
     <Compile Include="Parsing\ParseTreeVisitor.cs" />
-    <Compile Include="Symbols\DuplicateSymbolDetector.cs" />
-    <Compile Include="References\Scope.cs" />
-    <Compile Include="References\ReferenceCheckingVisitor.cs" />
-    <Compile Include="Symbols\Symbol.cs" />
-    <Compile Include="Symbols\SymbolExtractingVisitor.cs" />
-    <Compile Include="Symbols\SymbolTable.cs" />
-    <Compile Include="Types\QLType.cs" />
-    <Compile Include="Types\TypeCheckingVisitor.cs" />
-    <Compile Include="Types\Value.cs" />
+    <Compile Include="Validation\ReferenceCheckingVisitor.cs" />
+    <Compile Include="Parsing\SymbolExtractingVisitor.cs" />
+    <Compile Include="Parsing\QLTypeConverter.cs" />
+    <Compile Include="Validation\TypeCheckingVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -121,7 +104,12 @@
       <CustomToolNamespace>QL.Core</CustomToolNamespace>
     </Antlr4>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\QL.Api\QL.Api.csproj">
+      <Project>{e314abd5-8189-4707-b201-a82933957f51}</Project>
+      <Name>QL.Api</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

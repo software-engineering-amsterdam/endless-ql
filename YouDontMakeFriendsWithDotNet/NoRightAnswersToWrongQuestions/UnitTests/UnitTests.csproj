@@ -164,12 +164,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain.UnitTests\BooleanOperatorCount.cs" />
-    <Compile Include="Domain.UnitTests\CreateQuestionnaireTestsReBoot.cs" />
+    <Compile Include="Domain.UnitTests\CreateModelTests.cs" />
+    <Compile Include="Domain.UnitTests\CreateAstTests.cs" />
     <Compile Include="Domain.UnitTests\CreateQuestionnaireTests.cs" />
     <Compile Include="Domain.UnitTests\MathEvaluatorTests.cs" />
     <Compile Include="Domain.UnitTests\MathOperatorCount.cs" />
     <Compile Include="Domain.UnitTests\RelationalOperatorCount.cs" />
-    <Compile Include="Domain.UnitTests\TestData.cs" />
+    <Compile Include="Domain.UnitTests\TestAstData.cs" />
+    <Compile Include="Domain.UnitTests\TestModelCreationData.cs" />
     <Compile Include="Orchestration.UnitTests\CreateQuestionnaireCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI.UnitTests\BasicTests.cs" />

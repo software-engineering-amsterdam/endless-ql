@@ -1,8 +1,7 @@
-﻿using QL.Core.Ast;
-using static QL.Core.QLParser;
+﻿using static QL.Core.QLParser;
 using Antlr4.Runtime.Tree;
-using QL.Core.Types;
-using static QL.Core.Operators.Parser;
+using QL.Api.Ast;
+using QL.Api.Types;
 
 namespace QL.Core.Parsing
 {
@@ -63,7 +62,7 @@ namespace QL.Core.Parsing
                 context.STRING().GetText().Replace("\"", string.Empty),
                 context.LABEL().GetText(),
                 expressionNode != null,
-                QLTypes.FromStringTypeToQLType(context.type().GetText()));
+                QLTypeConverter.FromStringTypeToQLType(context.type().GetText()));
             question.AddChild(expressionNode);
 
             return question;
@@ -96,20 +95,20 @@ namespace QL.Core.Parsing
 
         public override Node VisitLiteralExpression(LiteralExpressionContext context)
         {
-            QLType type = QLTypes.FromTokenTypeToQLType(context.Start);
+            QLType type = QLTypeConverter.FromTokenTypeToQLType(context.Start);
             return new LiteralNode(context.Start, context.literal().GetText(), type);
         }
 
         public override Node VisitUnaryExpression(UnaryExpressionContext context)
         {
-            var expression = new ExpressionNode(context.Start, StringToUnaryOperator(context.unaryOperator().GetText()));
+            var expression = new ExpressionNode(context.Start, CreateUnaryOperator(context.unaryOperator().GetText()));
             expression.AddChild(Visit(context.expression()));
             return expression;
         }
 
         public override Node VisitBinaryExpression(BinaryExpressionContext context)
         {
-            var expression = new ExpressionNode(context.Start, StringToBinaryOperator(context.binaryOperator().GetText()));
+            var expression = new ExpressionNode(context.Start, CreateBinaryOperator(context.binaryOperator().GetText()));
             expression.AddChild(Visit(context.expression(0)));
             expression.AddChild(Visit(context.expression(1)));
             return expression;

@@ -2,8 +2,10 @@ package ast
 
 import QuestionareLanguageParser
 import QuestionareLanguageParserBaseListener
+import data.question.Question
 import data.value.*
 import expression.BinaryExpression
+import expression.Expression
 import expression.LiteralExpression
 import expression.UnaryExpression
 import expression.operation.BinaryOperation
@@ -14,13 +16,39 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
 
     val expressionBuilder = ExpressionBuilder()
 
+    val questions = HashMap<String, Question>()
+    val subQuestions = HashMap<Expression, ArrayList<String>>()
+
     override fun exitForm(ctx: QuestionareLanguageParser.FormContext?) {
-        val expression = expressionBuilder.build()
-
         val visitor = EvaluationVisitor()
-        val result = expression.accept(visitor)
-
+//        val result = expression.accept(visitor)
         println("yay")
+    }
+
+    override fun exitQuestionStatement(ctx: QuestionareLanguageParser.QuestionStatementContext?) {
+        requireNotNull(ctx)
+
+        val context = ctx!!
+
+        val label = context.LIT_STRING().text
+        val name = context.NAME().text
+        val type = context.TYPE().text
+
+        val question = Question(label, convertType(type))
+
+        questions[name] = question
+
+        if (!expressionBuilder.isEmpty()){
+            if (subQuestions[expressionBuilder.first()] != null){
+                subQuestions[expressionBuilder.first()]?.add(name)
+            }else{
+                subQuestions[expressionBuilder.first()] = arrayListOf(name)
+            }
+        }
+    }
+
+    override fun exitIfStatement(ctx: QuestionareLanguageParser.IfStatementContext?) {
+        expressionBuilder.pop()
     }
 
     override fun exitExpression(ctx: QuestionareLanguageParser.ExpressionContext?) {
@@ -174,5 +202,11 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         expressionBuilder.push(
                 BinaryExpression(left, right, operation)
         )
+    }
+
+    private fun convertType(type: String) = when (type) {
+        "boolean" -> BooleanValue(false)
+        "int" -> IntegerValue(0)
+        else -> BooleanValue(false)
     }
 }

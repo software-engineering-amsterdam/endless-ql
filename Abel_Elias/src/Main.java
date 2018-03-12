@@ -53,7 +53,7 @@ public class Main {
             //typeChecker.initTypeChecking(form);
 
             //Pass the relevant questions to the UI builder
-            FormBuilder formBuilder = new FormBuilder();
+            FormBuilder formBuilder = new FormBuilder(builder);
             formBuilder.initComponents(memory);
 
         } catch (IOException e) {

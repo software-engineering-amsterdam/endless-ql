@@ -3,11 +3,12 @@ from visitors.expression_evaluator import ExpressionEvaluator
 
 
 class Question:
-    def __init__(self, label, identifier, answer_type, answer, show_condition):
+    def __init__(self, label, identifier, answer_type, answer, computed, show_condition):
         self.__label = label
         self.__identifier = identifier
         self.__answer_type = answer_type
         self.__answer = answer
+        self.__computed = computed
         self.__show_condition = show_condition
         self.__widget = None
         self.__widget_label = None
@@ -35,6 +36,10 @@ class Question:
     @answer.setter
     def answer(self, value):
         self.__answer = value
+
+    @property
+    def computed(self):
+        return self.__computed
 
     @property
     def show_condition(self):
@@ -66,9 +71,19 @@ class Question:
 
         return visitor.result
 
-    def pyqt5_render(self, layout, show=True):
-        self.widget = self.answer_type.pyqt5_default_widget()
-        self.__widget_label = Label(self.label)
+    def evaluate_answer(self, form):
+        visitor = ExpressionEvaluator(form)
+        visitor.visit(self.answer)
+
+        return visitor.result
+
+    def pyqt5_render(self, layout, form, show=True):
+        self.widget_label = Label(self.label)
+
+        if self.computed:
+            self.widget = Label(str(self.evaluate_answer(form)))
+        else:
+            self.widget = self.answer_type.pyqt5_default_widget()
 
         if not show:
             self.widget.hide()

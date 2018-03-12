@@ -12,6 +12,7 @@ from AST.expressions.binary_operators.multiplication_node import MultiplicationO
 from AST.expressions.binary_operators.not_equals_node import NotEqualsOperatorNode
 from AST.expressions.binary_operators.or_node import OrOperatorNode
 from AST.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
+from AST.expressions.unary_operators.negative import NegativeOperatorNode
 from AST.expressions.literals.integer_node import IntegerNode
 from AST.expressions.literals.boolean_node import BooleanNode
 from AST.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
@@ -39,6 +40,12 @@ class ExpressionEvaluator:
         for question in self.form.block:
             if node.identifier == question.identifier:
                 node.value = question.answer.value
+
+    @when(NegativeOperatorNode)
+    def visit(self, node):
+        node.expression.accept(self)
+        node.evaluate()
+        self.result = node.value
 
     @when(AdditionOperatorNode)
     def visit(self, node):

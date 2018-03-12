@@ -43,9 +43,7 @@ public class ComputedQuestionElement extends QuestionElement implements SymbolTa
 			// Store computed variable as result of the question
 			SymbolTable.getInstance().put(this.identifier, value);
 
-			this.inputField.setValue(genericValue);	
-			
-			System.out.println("Updated computed question");
+			this.inputField.setValue(genericValue);
 		}
 		
 	}

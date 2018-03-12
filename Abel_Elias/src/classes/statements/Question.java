@@ -20,6 +20,12 @@ public class Question<T> extends Statement {
         return type;
     }
 
+    public ExpressionType getTypeName() {
+        String typeText = type.getClass().getSimpleName();
+        typeText = typeText.substring(0,1).toUpperCase() + typeText.substring(1);
+        return ExpressionType.valueOf(typeText);
+    }
+
     @Override
     public String toString() {
         return type.getClass().getName() + ": " + questionText;

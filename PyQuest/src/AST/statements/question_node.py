@@ -38,4 +38,4 @@ class QuestionNode(BaseNode):
                self.__answer == other.answer
 
     def to_question(self, show):
-        return Question(self.label, self.identifier, self.answer_type, self.answer, show)
+        return Question(self.label, self.identifier, self.answer_type, self.answer, self.computed, show)

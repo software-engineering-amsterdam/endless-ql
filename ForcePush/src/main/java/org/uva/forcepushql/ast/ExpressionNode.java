@@ -1,7 +1,7 @@
 package org.uva.forcepushql.ast;
 
 
-abstract class ExpressionNode { }
+public abstract class ExpressionNode { }
 
 abstract class InfixExpressionNode extends ExpressionNode
 {

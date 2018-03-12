@@ -141,13 +141,18 @@
     <Compile Include="API\IPredicateCreator.cs" />
     <Compile Include="API\IQuestionnaireAstCreator.cs" />
     <Compile Include="DomainLogicModule.cs" />
+    <Compile Include="Logic\BooleanLogicVisitor.cs" />
     <Compile Include="Logic\BuildOutputVisitor.cs" />
+    <Compile Include="Logic\CalculationVisitor.cs" />
     <Compile Include="Logic\IBooleanLogicVisitor.cs" />
     <Compile Include="Logic\IBuildOutputVisitor.cs" />
+    <Compile Include="Logic\ICalculationVisitor.cs" />
+    <Compile Include="Logic\IVariableUpdater.cs" />
     <Compile Include="Logic\QuestionnaireModelCreator.cs" />
     <Compile Include="Logic\DomainItemLocator.cs" />
     <Compile Include="Logic\PredicateCreator.cs" />
     <Compile Include="Logic\QuestionnaireAstCreator.cs" />
+    <Compile Include="Logic\VariableUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

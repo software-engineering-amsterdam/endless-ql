@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Display\ElementManagerDisplayContollerWindows.cs" />
     <Compile Include="Controllers\ElementManagerController.cs" />
+    <Compile Include="Controllers\ParseController.cs" />
     <Compile Include="Elements\ElementUtils.cs" />
     <Compile Include="Elements\Managers\CollectionTypes\ElementManagerSubCollection.cs" />
     <Compile Include="Elements\Managers\CollectionTypes\FormManager.cs" />
@@ -78,16 +79,8 @@
     <Compile Include="Elements\Managers\LeafTypes\MoneyQuestionManager.cs" />
     <Compile Include="Elements\Managers\LeafTypes\StringQuestionManager.cs" />
     <Compile Include="Elements\Managers\QuestionElementValue.cs" />
-    <Compile Include="Widgets\WidgetCollectionCreator.cs" />
     <Compile Include="Widgets\WidgetCreator.cs" />
-    <Compile Include="Widgets\WidgetLeafCreator.cs" />
-    <Compile Include="Widgets\Windows\Collections\FormCreatorWindows.cs" />
-    <Compile Include="Widgets\Windows\Collections\PageCreatorWindows.cs" />
-    <Compile Include="Widgets\Windows\Collections\SectionCreatorWindows.cs" />
-    <Compile Include="Widgets\Windows\Leafs\BoolCreatorWindows.cs" />
-    <Compile Include="Widgets\Windows\Leafs\IntCreatorWindows.cs" />
-    <Compile Include="Widgets\Windows\Leafs\MoneyCreatorWindows.cs" />
-    <Compile Include="Widgets\Windows\Leafs\StringCreatorWindows.cs" />
+    <Compile Include="Widgets\WidgetCreatorWindows.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

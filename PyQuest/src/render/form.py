@@ -33,3 +33,6 @@ class Form:
                 else:
                     question.widget.hide()
                     question.widget_label.hide()
+
+                if question.computed:
+                    question.widget.setText(str(question.evaluate_answer(self)))

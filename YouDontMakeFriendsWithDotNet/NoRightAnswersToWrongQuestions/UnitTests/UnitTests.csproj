@@ -167,7 +167,6 @@
     <Compile Include="Domain.UnitTests\CreateModelTests.cs" />
     <Compile Include="Domain.UnitTests\CreateAstTests.cs" />
     <Compile Include="Domain.UnitTests\CreateQuestionnaireTests.cs" />
-    <Compile Include="Domain.UnitTests\MathEvaluatorTests.cs" />
     <Compile Include="Domain.UnitTests\MathOperatorCount.cs" />
     <Compile Include="Domain.UnitTests\RelationalOperatorCount.cs" />
     <Compile Include="Domain.UnitTests\TestAstData.cs" />

@@ -10,7 +10,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class Value {
 
-	private static SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat( "dd/MM/yyyy" );
+	private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat( "dd/MM/yyyy" );
+	private static final long MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000L;
 
 	private Type type;
 	private String text;
@@ -109,7 +110,7 @@ public class Value {
 
 			case "Date + Integer":
 				return new Value( Type.Date, dateToString(
-						new Date( dateStringToLong( text_left ) + 24 * 60 * 60 * 1000 * new Long( text_right ) ) ) );
+						new Date( dateStringToLong( text_left ) + MILLISECONDS_IN_A_DAY * new Long( text_right ) ) ) );
 
 			case "Integer + Integer":
 				return new Value( Type.Integer,

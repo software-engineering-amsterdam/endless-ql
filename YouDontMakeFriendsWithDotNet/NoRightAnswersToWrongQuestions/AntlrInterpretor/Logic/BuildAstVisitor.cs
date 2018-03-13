@@ -79,7 +79,7 @@ namespace AntlrInterpretor.Logic
         public override Reference<IAstNode> VisitTypeCheckExpression(QLParser.TypeCheckExpressionContext context)
         {
             var leftExpression = m_astFactory.CreateUntypedVariableName(context.leftIdentifier.Text);
-            var rightExpression = m_astFactory.CreateUntypedVariableName(context.leftIdentifier.Text);
+            var rightExpression = m_astFactory.CreateUntypedVariableName(context.rightIdentifier.Text);
 
             return CreateRelationalOperation(
                 context.relationalOperator().chosenOperator.Type,

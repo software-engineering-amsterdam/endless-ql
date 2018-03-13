@@ -165,8 +165,8 @@ namespace UnitTests.Domain.UnitTests.Data
                 const string variableTemplate = @"
 form TestForm {{ 
    intQ1: ""First int question"" integer
-   intQ1: ""2nd int question"" integer
-   if (intQ1 {0} intQ1) 
+   intQ2: ""2nd int question"" integer
+   if (intQ1 {0} intQ2) 
    {{ 
       trueVisibleQuestion: ""trueviz""  integer 
    }} 

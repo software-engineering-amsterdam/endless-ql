@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Domain.Interfaces
 {
@@ -12,5 +13,6 @@ namespace QuestionnaireDomain.Entities.Domain.Interfaces
         IEnumerable<Reference<TDomainItem>> GetAllRefs<TDomainItem>() where TDomainItem : IDomainItem;
 
         bool Exists<TDomainItem>(Guid id) where TDomainItem : IDomainItem;
+        Reference<IQuestionnaireRootNode> GetRoot(Reference<IQuestionNode> node);
     }
 }

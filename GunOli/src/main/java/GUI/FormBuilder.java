@@ -1,10 +1,10 @@
 package GUI;
 
-import ParseObjectsQL.Question;
+import QL.ParseObjectsQL.Question;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import ParseObjectsQL.Form;
-import ParseObjectsQL.QuestionMap;
+import QL.ParseObjectsQL.Form;
+import QL.ParseObjectsQL.QuestionMap;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;

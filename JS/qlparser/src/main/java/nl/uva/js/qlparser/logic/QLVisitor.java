@@ -12,6 +12,7 @@ import nl.uva.js.qlparser.models.expressions.form.FormExpression;
 import nl.uva.js.qlparser.models.expressions.form.IfBlock;
 import nl.uva.js.qlparser.models.expressions.form.Question;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.Arrays;
@@ -21,72 +22,65 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 class QLVisitor extends QLBaseVisitor {
-    private Map<String, Variable> variableRegistry = new HashMap<>();
+    private final Map<String, Variable> variableRegistry = new HashMap<>();
 
     @Override
-    public DataType visitDatatype(QLParser.DatatypeContext ctx) {
+    public DataType visitDataType(QLParser.DataTypeContext ctx) {
         return DataType.valueOf(ctx.getText().toUpperCase());
     }
 
     @Override
-    public Boolean visitBoolval(QLParser.BoolvalContext ctx) {
-        return Boolean.parseBoolean(ctx.getText());
-    }
-
-    @Override
     public Value visitValue(QLParser.ValueContext ctx) {
-        DataType type;
-        Object value;
+        String typeName = (ctx.BOOLVAL != null)? "BOOL" : getTokenType(((TerminalNode) ctx.getChild(0)).getSymbol());
 
-        if (ctx.boolval() != null) {
-            type = DataType.BOOLEAN;
-            value = visitBoolval(ctx.boolval());
-        } else {
-            type = Arrays.stream(DataType.values())
-//                    Match datatype of the value with any of the defined datatypes.
-//                    Should antlr decide to make up value types that are not available as enum (which it should not,
-//                    as the value types are defined in the grammar), the Java Optional class with throw an exception.
-                    .filter(dataType -> dataType.toString().startsWith(getTokenType(ctx).substring(0, 3)))
-                    .findFirst()
-                    .get();
-
-            value = type.getValueOf().apply(ctx.getText());
-        }
+        DataType type = Arrays.stream(DataType.values())
+//                Match datatype of the value with any of the defined datatypes.
+//                Should antlr decide to make up value types that are not available as enum (which it should not,
+//                as the value types are defined in the grammar), the Java Optional class with throw an exception.
+                .filter(dataType -> dataType.toString().startsWith(typeName.substring(0, 3)))
+                .findFirst()
+                .get();
 
         return Value.builder()
                 .dataType(type)
-                .value(value)
+                .value(type.getValueOf().apply(ctx.getText()))
+                .build();
+    }
+
+    private Combinator buildCombinator(ParserRuleContext ctx, Operator operator) {
+        return Combinator.builder()
+                .left(ctx.getChild(0).<DataExpression>accept(this))
+                .operator(operator)
+                .right(ctx.getChild(2).<DataExpression>accept(this))
                 .build();
     }
 
     @Override
-    public Operator visitBoolOp(QLParser.BoolOpContext ctx) {
-        return BoolOp.valueOf(this.getTokenType(ctx));
+    public Combinator visitBoolExpression(QLParser.BoolExpressionContext ctx) {
+        return buildCombinator(ctx, BoolOp.valueOf(this.getTokenType(ctx.op)));
     }
 
     @Override
-    public Operator visitCompOp(QLParser.CompOpContext ctx) {
-        return CompOp.valueOf(this.getTokenType(ctx));
+    public Combinator visitCompExpression(QLParser.CompExpressionContext ctx) {
+        return buildCombinator(ctx, CompOp.valueOf(this.getTokenType(ctx.op)));
     }
 
     @Override
-    public Operator visitArithOp(QLParser.ArithOpContext ctx) {
-        return ArithOp.valueOf(this.getTokenType(ctx));
-    }
-
-    @Override
-    public Operator visitOp(QLParser.OpContext ctx) {
-        if (ctx.boolOp() != null) return visitBoolOp(ctx.boolOp());
-        else if (ctx.compOp() != null) return visitCompOp(ctx.compOp());
-        else return visitArithOp(ctx.arithOp());
+    public Combinator visitArithExpression(QLParser.ArithExpressionContext ctx) {
+        return buildCombinator(ctx, ArithOp.valueOf(this.getTokenType(ctx.op)));
     }
 
     @Override
     public Form visitForm(QLParser.FormContext ctx) {
         return Form.builder()
                 .name(ctx.NAME().getText())
-                .formExpressions(visitFormBlock(ctx.formBlock()))
+                .formExpressions(ctx.formBlock().<LinkedList<FormExpression>>accept(this))
                 .build();
+    }
+
+    @Override
+    public FormExpression visitFormExpression(QLParser.FormExpressionContext ctx) {
+        return (FormExpression) super.visitFormExpression(ctx);
     }
 
     @Override
@@ -98,47 +92,22 @@ class QLVisitor extends QLBaseVisitor {
     }
 
     @Override
-    public FormExpression visitFormExpression(QLParser.FormExpressionContext ctx) {
-        if (ctx.question() != null)
-            return visitQuestion(ctx.question());
-
-        else
-            return IfBlock.builder()
-                    .condition(visitExpression(ctx.expression()))
-                    .expressions(visitFormBlock(ctx.formBlock()))
-                    .build();
+    public Negation visitNegation(QLParser.NegationContext ctx) {
+        return Negation.builder()
+                .expression(ctx.<DataExpression>accept(this))
+                .build();
     }
 
     @Override
-    public DataExpression visitExpression(QLParser.ExpressionContext ctx) {
-        if (ctx.NAME() != null) {
-            String varName = ctx.NAME().getText();
+    public Variable visitVariable(QLParser.VariableContext ctx) {
+        String varName = ctx.NAME().getText();
 
-            if (!variableRegistry.containsKey(varName))
-                throw new VariableNotFoundException(varName,
-                        ctx.NAME().getSymbol().getLine(),
-                        ctx.NAME().getSymbol().getCharPositionInLine());
+        if (!variableRegistry.containsKey(varName))
+            throw new VariableNotFoundException(varName,
+                    ctx.NAME().getSymbol().getLine(),
+                    ctx.NAME().getSymbol().getCharPositionInLine());
 
-            return variableRegistry.get(varName);
-
-        } else if (ctx.NOT() != null)
-            return Negation.builder()
-                    .expression(visitExpression(ctx.expression(0)))
-                    .build();
-
-        else if (ctx.value() != null)
-            return visitValue(ctx.value());
-
-        else if (ctx.op() != null)
-            return Combinator.builder()
-                    .left(visitExpression(ctx.expression(0)))
-                    .operator(visitOp(ctx.op()))
-                    .right(visitExpression(ctx.expression(1)))
-                    .build();
-
-//        The only possibility left here is an expression between parentheses. These do not matter for the models,
-//        so just return the embedded expression
-        else return visitExpression(ctx.expression(0));
+        return variableRegistry.get(varName);
     }
 
     @Override
@@ -151,14 +120,13 @@ class QLVisitor extends QLBaseVisitor {
                 ctx.NAME().getSymbol().getCharPositionInLine());
 
         Variable variable = Variable.builder()
-                .dataType(visitDatatype(ctx.datatype()))
+                .dataType(ctx.dataType().<DataType>accept(this))
                 .name(varName)
 //                As the value is optional, only apply the visitExpression function if there is something to visit.
-                .value(NonNullRun.function(ctx.expression(), this::visitExpression))
+                .value(NonNullRun.function(ctx.expression(), e -> e.<DataExpression>accept(this)))
                 .build();
 
         Question question = Question.builder()
-                .name(varName)
                 .question((String) DataType.STRING.getValueOf().apply(ctx.STRVAL().getText()))
                 .dataType(variable.getDataType())
                 .variable(variable)
@@ -169,13 +137,26 @@ class QLVisitor extends QLBaseVisitor {
         return question;
     }
 
+    @Override
+    public IfBlock visitIfBlock(QLParser.IfBlockContext ctx) {
+        return IfBlock.builder()
+                .condition(ctx.expression().<DataExpression>accept(this))
+                .expressions(ctx.formBlock().<LinkedList<FormExpression>>accept(this))
+                .build();
+    }
+
+    @Override
+    public DataExpression visitParentheses(QLParser.ParenthesesContext ctx) {
+        return ctx.expression().<DataExpression>accept(this);
+    }
+
     /*
      * Get the name of the token that was parsed.
      * This is particularly interesting for operators, as they can immediately be parsed to the corresponding enum.
      */
-    private String getTokenType(ParserRuleContext ctx) {
+    private String getTokenType(Token token) {
         return QLParser.VOCABULARY.getSymbolicName(
-                ((TerminalNode) ctx.children.get(0)).getSymbol().getType()
+                token.getType()
         );
     }
 }

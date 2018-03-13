@@ -26,5 +26,8 @@ class SubtractionOperatorNode(BinaryOperatorNode):
         return TypeUndefined
 
     def evaluate(self):
+        result_type = self.get_result_type(self.left_expression.expression_type, self.right_expression.expression_type)
+
         if self.left_expression.value is not None and self.right_expression.value is not None:
-            self.value = self.left_expression.value - self.right_expression.value
+            self.value = result_type.cast(self.left_expression.value - self.right_expression.value)
+

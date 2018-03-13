@@ -1,10 +1,10 @@
 package GUI;
 
-import ParseObjects.Question;
+import QL.ParseObjectsQL.Question;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import ParseObjects.Form;
-import ParseObjects.QuestionMap;
+import QL.ParseObjectsQL.Form;
+import QL.ParseObjectsQL.QuestionMap;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -14,8 +14,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.util.regex.Pattern;
 
 public class FormBuilder {
     private Form form;

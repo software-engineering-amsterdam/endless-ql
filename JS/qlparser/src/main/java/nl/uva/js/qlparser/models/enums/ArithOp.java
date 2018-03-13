@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import nl.uva.js.qlparser.helpers.ArithHelpers;
-import wrappers.NumberWrapper;
+import nl.uva.js.qlparser.wrappers.arithmetic.NumberWrapper;
 
 import java.util.Arrays;
 import java.util.List;

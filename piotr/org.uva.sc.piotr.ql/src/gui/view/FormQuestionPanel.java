@@ -1,22 +1,22 @@
 package gui.view;
 
 import ast.model.expressions.Expression;
-import gui.model.FormQuestion;
+import gui.model.FormQuestionHolder;
 import gui.view.widgets.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class FormPanel extends JPanel {
+public class FormQuestionPanel extends JPanel {
     private JLabel labelComponent;
     private Widget widget;
-    private FormQuestion formQuestion;
+    private FormQuestionHolder formQuestionHolder;
 
-    public FormPanel(FormQuestion formQuestion) {
+    public FormQuestionPanel(FormQuestionHolder formQuestionHolder) {
         super(new GridBagLayout());
-        this.formQuestion = formQuestion;
-        this.labelComponent = new JLabel(formQuestion.getLabel());
+        this.formQuestionHolder = formQuestionHolder;
+        this.labelComponent = new JLabel(formQuestionHolder.getLabel());
 
         this.widget = this.createDefaultWidget();
 
@@ -34,26 +34,26 @@ public class FormPanel extends JPanel {
         this.add(this.widget.getComponent(), gridBagConstraints);
     }
 
-    public FormQuestion getFormQuestion() {
-        return formQuestion;
+    public FormQuestionHolder getFormQuestionHolder() {
+        return formQuestionHolder;
     }
 
     private Widget createDefaultWidget() {
 
-        Expression.DataType questionDataType = this.formQuestion.getOriginalDataTypeDeclaration().toDataType();
+        Expression.DataType questionDataType = this.formQuestionHolder.getOriginalDataTypeDeclaration().toDataType();
 
         if (questionDataType == Expression.DataType.DECIMAL) {
             // if decimal is originally declared as "money", then use a widget with currency sign
-            if (this.formQuestion.getOriginalDataTypeDeclaration().getIdentifier().equals("money")) {
-                return new MoneyFieldWidget(this);
+            if (this.formQuestionHolder.getOriginalDataTypeDeclaration().getIdentifier().equals("money")) {
+                return new MoneyFieldWidget(this.formQuestionHolder);
             }
-            return new DecimalFieldWidget(this);
+            return new DecimalFieldWidget(this.formQuestionHolder);
         } else if (questionDataType == Expression.DataType.INTEGER) {
-            return new IntegerSpinnerWidget(this);
+            return new IntegerSpinnerWidget(this.formQuestionHolder);
         } else if (questionDataType == Expression.DataType.BOOLEAN) {
-            return new BooleanCheckboxWidget(this);
+            return new BooleanCheckboxWidget(this.formQuestionHolder);
         }
         // string and any other
-        return new TextFieldWidget(this);
+        return new TextFieldWidget(this.formQuestionHolder);
     }
 }

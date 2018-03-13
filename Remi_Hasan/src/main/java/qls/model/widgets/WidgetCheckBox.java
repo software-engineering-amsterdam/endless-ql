@@ -1,4 +1,4 @@
-package ql.model.stylesheet.widgets;
+package qls.model.widgets;
 
 public class WidgetCheckBox extends Widget {
 }

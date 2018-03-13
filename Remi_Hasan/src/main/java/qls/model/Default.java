@@ -1,7 +1,7 @@
-package ql.model.stylesheet;
+package qls.model;
 
 import ql.model.expression.ReturnType;
-import ql.model.stylesheet.widgets.Widget;
+import qls.model.widgets.Widget;
 
 import java.util.List;
 

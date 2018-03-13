@@ -31,7 +31,7 @@ public class CycleDetector {
 
         for (Question question : form.questions) {
             // Only check expression when it is a predefined expression
-            if (!question.isEditable()) {
+            if (question.isComputed()) {
                 // For each question, add references to other questions to the graph
                 List<String> referencedIdentifiers = referencedIdentifiersVisitor.visit(question.defaultAnswer);
                 for (String identifier : referencedIdentifiers) {

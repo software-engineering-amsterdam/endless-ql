@@ -2,8 +2,8 @@ package qls.visitor;
 
 import qls.parser.QLSBaseVisitor;
 import qls.parser.QLSParser;
-import ql.model.stylesheet.Page;
-import ql.model.stylesheet.StyleSheet;
+import qls.model.Page;
+import qls.model.StyleSheet;
 
 import java.util.ArrayList;
 import java.util.List;

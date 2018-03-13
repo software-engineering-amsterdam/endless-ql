@@ -4,7 +4,7 @@ import qls.parser.QLSLexer;
 import qls.parser.QLSParser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import ql.model.stylesheet.StyleSheet;
+import qls.model.StyleSheet;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import qls.visitor.VisitorStyleSheet;

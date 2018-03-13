@@ -34,67 +34,67 @@ public class StringValue extends Value<String> {
     }
 
     @Override
-    public NumValue divide(Value right) {
+    public NumberValue divide(Value right) {
         throw new UnsupportedOperationException("Cannot perform divide on string.");
     }
 
     @Override
-    public NumValue multiply(Value right) {
+    public NumberValue multiply(Value right) {
         throw new UnsupportedOperationException("Cannot perform multiply on string.");
     }
 
     @Override
-    public NumValue subtract(Value right) {
+    public NumberValue subtract(Value right) {
         throw new UnsupportedOperationException("Cannot perform subtract on string.");
     }
 
     @Override
-    public NumValue sum(Value right) {
+    public NumberValue sum(Value right) {
         throw new UnsupportedOperationException("Cannot perform sum on string.");
     }
 
     @Override
-    public BoolValue eq(Value right) {
-        return new BoolValue(this.value.equals(right.value));
+    public BooleanValue eq(Value right) {
+        return new BooleanValue(this.value.equals(right.value));
     }
 
     @Override
-    public BoolValue ge(Value right) {
+    public BooleanValue ge(Value right) {
         throw new UnsupportedOperationException("Cannot perform ge on string.");
     }
 
     @Override
-    public BoolValue gt(Value right) {
+    public BooleanValue gt(Value right) {
         throw new UnsupportedOperationException("Cannot perform gt on string.");
     }
 
     @Override
-    public BoolValue le(Value right) {
+    public BooleanValue le(Value right) {
         throw new UnsupportedOperationException("Cannot perform le on string.");
     }
 
     @Override
-    public BoolValue lt(Value right) {
+    public BooleanValue lt(Value right) {
         throw new UnsupportedOperationException("Cannot perform lt on string.");
     }
 
     @Override
-    public BoolValue and(Value right) {
+    public BooleanValue and(Value right) {
         throw new UnsupportedOperationException("Cannot perform and on string.");
     }
 
     @Override
-    public BoolValue or(Value right) {
+    public BooleanValue or(Value right) {
         throw new UnsupportedOperationException("Cannot perform or on string.");
     }
 
     @Override
-    public BoolValue not() {
+    public BooleanValue not() {
         throw new UnsupportedOperationException("Cannot perform not on string.");
     }
 
     @Override
-    public NumValue neg() {
+    public NumberValue neg() {
         throw new UnsupportedOperationException("Cannot perform neg on string.");
     }
 

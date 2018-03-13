@@ -1,4 +1,4 @@
-package ql.model.stylesheet;
+package qls.model;
 
 import java.util.List;
 

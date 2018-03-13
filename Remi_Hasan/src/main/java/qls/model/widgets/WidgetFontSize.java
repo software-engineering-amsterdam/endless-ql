@@ -1,4 +1,4 @@
-package ql.model.stylesheet.widgets;
+package qls.model.widgets;
 
 public class WidgetFontSize extends Widget {
     private final int fontSize;

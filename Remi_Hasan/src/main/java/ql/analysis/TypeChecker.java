@@ -37,15 +37,13 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
         for (Question question : form.questions) {
             this.visit(question.condition);
 
+            // Check if question type is same as assigned expression type
             // Only check expression when it is a predefined expression
-            if (!question.isEditable()) {
+            if (question.isComputed()) {
                 ReturnType defaultAnswerType = this.visit(question.defaultAnswer);
 
-                // Check if question type is same as assigned expression type
-                ReturnType questionType = question.type;
-                if (questionType.isNumber()) {
-                    questionType = ReturnType.NUMBER;
-                }
+                // Any type of number expression can be assigned to another number type field
+                ReturnType questionType = question.type.isNumber() ? ReturnType.NUMBER : question.type;
 
                 if (defaultAnswerType != questionType) {
                     errors.add("Invalid assignment: cannot assign " + defaultAnswerType + " to " + question.type +
@@ -62,11 +60,11 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
         Set<String> duplicateQuestionsWithDifferentType = new HashSet<>();
 
         for (Question question : form.questions) {
-            if(types.containsKey(question.name) && !types.get(question.name).equals(question.type)) {
+            if(types.containsKey(question.name) && types.get(question.name) != question.type) {
                 duplicateQuestionsWithDifferentType.add(question.name + " " + question.getLocation());
+            } else {
+                types.put(question.name, question.type);
             }
-
-            types.put(question.name, question.type);
         }
 
         return duplicateQuestionsWithDifferentType;

@@ -3,8 +3,8 @@ package Visitor;
 import ParseObjects.Block;
 import ParseObjects.Condition;
 import ParseObjects.Expressions.Expression;
-import antlrGen.QLBaseVisitor;
-import antlrGen.QLParser;
+import QLAntlrGen.QLBaseVisitor;
+import QLAntlrGen.QLParser;
 
 public class ConditionVisitor extends QLBaseVisitor<Condition>{
     private ExpressionTable expressionTable;

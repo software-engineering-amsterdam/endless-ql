@@ -8,8 +8,6 @@ import nl.uva.js.qlparser.ui.components.gui.TextPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -60,6 +58,8 @@ public class GUIBuilder {
             }
         });
 
+        mainFrame.setTitle(form.getHumanizedName());
+
         return mainFrame;
     }
 
@@ -108,36 +108,24 @@ public class GUIBuilder {
         JPanel menuBar = getButtonPanel(FULL_WIDTH);
 
         JButton loadButton = getButton("Load QL", 150);
-        loadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        loadButton.addActionListener(e -> {});
 
         JButton saveButton = getButton("Save QL", 150);
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        saveButton.addActionListener(e -> {});
 
         JButton processButton = getButton("Process QL", 150);
-        processButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                reloadForm();
+        processButton.addActionListener(e -> {
+            try {
+                Form form = FormBuilder.parseFormFromString(inputPanel.getText());
+                formPanel.reload(form);
+                mainFrame.setTitle(form.getHumanizedName());
+            } catch (ParseException exception) {
+                log(exception.getMessage());
             }
         });
 
         JButton exportButton = getButton("Load QL", 250);
-        exportButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        exportButton.addActionListener(e -> {});
 
         menuBar.add(loadButton);
         menuBar.add(saveButton);
@@ -146,15 +134,6 @@ public class GUIBuilder {
         menuBar.add(exportButton);
         menuBar.add(getButtonPanel(220));
         return menuBar;
-    }
-
-    private static void reloadForm() {
-        try {
-            Form form = FormBuilder.parseFormFromString(inputPanel.getText());
-            formPanel.reload(form);
-        } catch (ParseException e) {
-            log(e.getMessage());
-        }
     }
 
     private static JButton getButton(String text, int width) {

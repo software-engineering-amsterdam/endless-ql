@@ -3,8 +3,8 @@ package parsing;
 import classes.CodeBlock;
 import classes.Configuration;
 import classes.statements.Question;
-
-import parsing.gen.*;
+import parsing.gen.QLBaseVisitor;
+import parsing.gen.QLParser;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +13,7 @@ import java.util.Map;
 public class AST_Visitor extends QLBaseVisitor {
     Configuration config = new Configuration();
     Map<String, Question> memory = new HashMap<String, Question>();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
 
     @Override
     public Object visitForm(QLParser.FormContext ctx) {
@@ -131,5 +132,21 @@ public class AST_Visitor extends QLBaseVisitor {
         }
 
         return type.cast(value);
+    }
+
+    public void update(String key, Object value) {
+        valueMap.put(key, value);
+    }
+
+    public Map<String, Object> getValueMap() {
+        return this.valueMap;
+    }
+
+    public Object checkExpression() {
+        return new Object();
+    }
+
+    public Boolean validateExpression() {
+        return true;
     }
 }

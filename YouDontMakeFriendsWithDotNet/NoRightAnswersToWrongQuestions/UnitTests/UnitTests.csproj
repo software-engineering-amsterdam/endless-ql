@@ -163,15 +163,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain.UnitTests\BooleanOperatorCount.cs" />
-    <Compile Include="Domain.UnitTests\CreateModelTests.cs" />
-    <Compile Include="Domain.UnitTests\CreateAstTests.cs" />
-    <Compile Include="Domain.UnitTests\CreateQuestionnaireTests.cs" />
-    <Compile Include="Domain.UnitTests\MathEvaluatorTests.cs" />
-    <Compile Include="Domain.UnitTests\MathOperatorCount.cs" />
-    <Compile Include="Domain.UnitTests\RelationalOperatorCount.cs" />
-    <Compile Include="Domain.UnitTests\TestAstData.cs" />
-    <Compile Include="Domain.UnitTests\TestModelCreationData.cs" />
+    <Compile Include="Domain.UnitTests\Utilities\BooleanOperatorCount.cs" />
+    <Compile Include="Domain.UnitTests\Tests\CreateModelTests.cs" />
+    <Compile Include="Domain.UnitTests\Tests\CreateAstTests.cs" />
+    <Compile Include="Domain.UnitTests\Tests\CreateQuestionnaireTests.cs" />
+    <Compile Include="Domain.UnitTests\Utilities\MathOperatorCount.cs" />
+    <Compile Include="Domain.UnitTests\Utilities\RelationalOperatorCount.cs" />
+    <Compile Include="Domain.UnitTests\Data\TestAstData.cs" />
+    <Compile Include="Domain.UnitTests\Data\TestModelCreationData.cs" />
     <Compile Include="Orchestration.UnitTests\CreateQuestionnaireCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI.UnitTests\BasicTests.cs" />
@@ -185,17 +184,13 @@
       <Project>{7676F4F1-42FC-4A13-8A20-8826B139C98B}</Project>
       <Name>AntlrInterpretor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionaireDomain.Entities.csproj">
+    <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionnaireDomain.Entities.csproj">
       <Project>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</Project>
-      <Name>QuestionaireDomain.Entities</Name>
+      <Name>QuestionnaireDomain.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\QuestionaireOrchestration\QuestionaireOrchestration.csproj">
       <Project>{93708D27-D769-4064-8A54-6BFEF8B09F29}</Project>
       <Name>QuestionaireOrchestration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\QuestionnaireDomain.Logic\QuestionnaireDomain.Logic.csproj">
-      <Project>{A90F662F-AFD9-45AA-8B13-DBFBAF4A6CFC}</Project>
-      <Name>QuestionnaireDomain.Logic</Name>
     </ProjectReference>
     <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
       <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>

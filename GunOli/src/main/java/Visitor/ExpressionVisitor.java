@@ -6,8 +6,8 @@ import ParseObjects.Expressions.ExpressionConstants.*;
 import ParseObjects.Expressions.ConstantExpression;
 import ParseObjects.Expressions.UnaryExpressions.NegationExpression;
 import ParseObjects.Expressions.UnaryExpressions.NotExpression;
-import antlrGen.QLBaseVisitor;
-import antlrGen.QLParser;
+import QLAntlrGen.QLBaseVisitor;
+import QLAntlrGen.QLParser;
 
 public class ExpressionVisitor extends QLBaseVisitor<Expression> {
     private ExpressionTable expressionTable;

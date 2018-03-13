@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Events;
-using QuestionaireDomain.Entities;
+using QuestionnaireDomain.Entities;
 using QuestionaireOrchestration;
 using QuestionaireOrchestration.API;
 using QuestionnaireDomain.Logic;

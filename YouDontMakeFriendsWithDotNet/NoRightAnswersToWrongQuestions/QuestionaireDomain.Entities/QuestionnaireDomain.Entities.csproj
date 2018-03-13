@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QuestionnaireDomain.Entities</RootNamespace>
+    <AssemblyName>QuestionnaireDomain.Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.ZipFile">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ast\Nodes\Boolean\Interfaces\IAndNode.cs" />
+    <Compile Include="Ast\Nodes\Boolean\Interfaces\IBooleanBinaryExpressionNode.cs" />
+    <Compile Include="Ast\Nodes\Boolean\Interfaces\IExpressionNode.cs" />
+    <Compile Include="Ast\Nodes\Boolean\Interfaces\IBooleanLiteralNode.cs" />
+    <Compile Include="Ast\Nodes\Boolean\Interfaces\IBooleanLogicNode.cs" />
+    <Compile Include="Ast\Nodes\Boolean\Interfaces\INonTerminal.cs" />
+    <Compile Include="Ast\Nodes\Boolean\Interfaces\ITerminalNode.cs" />
+    <Compile Include="Ast\Nodes\Boolean\Interfaces\IBooleanVariableNode.cs" />
+    <Compile Include="Ast\Nodes\Calculation\Interfaces\IAddNode.cs" />
+    <Compile Include="Ast\Nodes\Calculation\Interfaces\IBinaryExpressionNode.cs" />
+    <Compile Include="Ast\Nodes\Calculation\Interfaces\IExpressionNode.cs" />
+    <Compile Include="Ast\Nodes\Calculation\Interfaces\ICalculationNode.cs" />
+    <Compile Include="Ast\Nodes\Calculation\Interfaces\INonTerminal.cs" />
+    <Compile Include="Ast\Nodes\Calculation\Interfaces\ITerminal.cs" />
+    <Compile Include="Ast\Nodes\Calculation\Interfaces\IMultiplyNode.cs" />
+    <Compile Include="Ast\Nodes\Calculation\Interfaces\INumberNode.cs" />
+    <Compile Include="Ast\Nodes\Calculation\Interfaces\ICalculationVariableNode.cs" />
+    <Compile Include="Ast\Nodes\Calculation\Interfaces\ISubtractNode.cs" />
+    <Compile Include="Ast\Nodes\Common\Interfaces\IVariableNode.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\ICalculatedQuestionNode.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IConditionalStatementNode.cs" />
+    <Compile Include="Ast\Nodes\Boolean\Interfaces\IOrNode.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IStatementNode.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\INonTerminal.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IQuestionnaireRootNode.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\ITerminal.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IQuestionNode.cs" />
+    <Compile Include="Ast\Nodes\Boolean\Interfaces\IUnaryExpressionNode.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IUserInputQuestionNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\Interfaces\IDateVariableNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\Interfaces\IEqualityNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\Interfaces\IGreaterOrEqualNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\Interfaces\IGreaterThanNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\Interfaces\IInequalityNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\Interfaces\ILessOrEqualNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\Interfaces\ILessThanNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\Interfaces\IDateNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\Interfaces\IRelationalLogicNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\Interfaces\ITextNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\Interfaces\ITextVariableNode.cs" />
+    <Compile Include="Ast\Tools\Interfaces\IQuestionnaireAstCreator.cs" />
+    <Compile Include="Ast\Tools\QuestionnaireAstCreator.cs" />
+    <Compile Include="Domain\DomainItemLocator.cs" />
+    <Compile Include="Output\Tools\BooleanEvaluatorVisitor.cs" />
+    <Compile Include="Output\Tools\BuildOutputVisitor.cs" />
+    <Compile Include="Output\Tools\CalculationVisitor.cs" />
+    <Compile Include="Output\Tools\Interfaces\IBooleanEvaluatorVisitor.cs" />
+    <Compile Include="Output\Tools\Interfaces\IAstToOutputVisitor.cs" />
+    <Compile Include="Output\Tools\Interfaces\IBuildOutputVisitor.cs" />
+    <Compile Include="Output\Tools\Interfaces\ICalculationVisitor.cs" />
+    <Compile Include="Output\Tools\Interfaces\IOutputItemFactory.cs" />
+    <Compile Include="Ast\Tools\Interfaces\IAstFactory.cs" />
+    <Compile Include="Ast\Nodes\Boolean\Interfaces\INegateNode.cs" />
+    <Compile Include="Ast\Nodes\Calculation\Interfaces\IDivideNode.cs" />
+    <Compile Include="Domain\Interfaces\IDomainItem.cs" />
+    <Compile Include="Domain\Interfaces\IDomainItemLocator.cs" />
+    <Compile Include="Domain\Interfaces\IDomainItemRegistry.cs" />
+    <Compile Include="Ast\Tools\Interfaces\IAstTreeBuilder.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IQuestionnaireNode.cs" />
+    <Compile Include="Output\Tools\Interfaces\IQuestionnaireModelCreator.cs" />
+    <Compile Include="Output\Nodes\Interfaces\IQuestionOutput.cs" />
+    <Compile Include="Output\Tools\Interfaces\IVariableUpdater.cs" />
+    <Compile Include="Output\Tools\OutputItemFactory.cs" />
+    <Compile Include="Output\Nodes\Interfaces\IOutputItem.cs" />
+    <Compile Include="Output\Nodes\Interfaces\QuestionOutputItem.cs" />
+    <Compile Include="Output\Nodes\Interfaces\IQuestionnaireOutputItem.cs" />
+    <Compile Include="Output\Nodes\Interfaces\QuestionnaireOutputItem.cs" />
+    <Compile Include="Ast\Tools\AstFactory.cs" />
+    <Compile Include="Ast\Nodes\Calculation\AddNode.cs" />
+    <Compile Include="Ast\Nodes\Boolean\BooleanBinaryNodeBase.cs" />
+    <Compile Include="Ast\Nodes\Calculation\CalculationBinaryExpressionNodeBase.cs" />
+    <Compile Include="Ast\Nodes\Calculation\SubtractNode.cs" />
+    <Compile Include="Domain\SymbolTable.cs" />
+    <Compile Include="Domain\DomainItemRegistry.cs" />
+    <Compile Include="Ast\Nodes\Boolean\AndNode.cs" />
+    <Compile Include="Ast\Nodes\Boolean\BooleanNode.cs" />
+    <Compile Include="Ast\Nodes\Boolean\BooleanVariableNode.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\CalculatedQuestionNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\DateNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\DateVariableNode.cs" />
+    <Compile Include="Ast\Nodes\Calculation\DivideNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\EqualityNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\GreaterOrEqualNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\GreaterThanNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\InequalityNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\LessOrEqualNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\LessThanNode.cs" />
+    <Compile Include="Ast\Nodes\Calculation\MultiplyNode.cs" />
+    <Compile Include="Ast\Nodes\Boolean\NegateNode.cs" />
+    <Compile Include="Ast\Nodes\Calculation\NumberNode.cs" />
+    <Compile Include="Ast\Nodes\Calculation\CalculationVariableNode.cs" />
+    <Compile Include="Domain\QlParserException.cs" />
+    <Compile Include="Ast\Nodes\Common\AstNodeBase.cs" />
+    <Compile Include="Ast\Nodes\Relational\TextVariableNode.cs" />
+    <Compile Include="Domain\CommandObjectRegistry.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\ConditionalNode.cs" />
+    <Compile Include="Ast\Nodes\Common\Interfaces\IAstNode.cs" />
+    <Compile Include="Ast\Tools\Interfaces\IAstVisitor.cs" />
+    <Compile Include="Ast\Nodes\Boolean\OrNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\RelationalOperationNode.cs" />
+    <Compile Include="Ast\Nodes\Relational\TextNode.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\UserInputQuestionNode.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\QuestionnaireRootNode.cs" />
+    <Compile Include="Domain\Reference.cs" />
+    <Compile Include="Ast\Nodes\Common\VariableNodeBase.cs" />
+    <Compile Include="EntitiesModule.cs" />
+    <Compile Include="Domain\Interfaces\ISymbolTable.cs" />
+    <Compile Include="Output\Tools\QuestionnaireModelCreator.cs" />
+    <Compile Include="Output\Tools\VariableUpdater.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
+      <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>
+      <Name>QuestionnaireInfrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

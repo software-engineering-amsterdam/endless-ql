@@ -1,9 +1,14 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using QuestionaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.Ast.Tools;
+using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
+using QuestionnaireDomain.Entities.Output.Tools;
+using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using QuestionnaireInfrastructure.API;
 
-namespace QuestionaireDomain.Entities
+namespace QuestionnaireDomain.Entities
 {
     public class EntitiesModule : IHasRegistrations
     {
@@ -16,6 +21,13 @@ namespace QuestionaireDomain.Entities
             appRegistration.AddSingleton(typeof(ISymbolTable<decimal>), typeof(SymbolTable<decimal>));
             appRegistration.AddSingleton(typeof(ISymbolTable<DateTime>), typeof(SymbolTable<DateTime>));
             appRegistration.AddSingleton(typeof(ISymbolTable<string>), typeof(SymbolTable<string>));
+            appRegistration.AddSingleton(typeof(IBooleanEvaluatorVisitor), typeof(BooleanEvaluatorVisitor));
+            appRegistration.AddSingleton(typeof(ICalculationVisitor), typeof(CalculationVisitor));
+            appRegistration.AddSingleton(typeof(IBuildOutputVisitor), typeof(BuildOutputVisitor));
+            appRegistration.AddSingleton(typeof(IDomainItemLocator), typeof(DomainItemLocator));
+            appRegistration.AddSingleton(typeof(IVariableUpdater), typeof(VariableUpdater));
+            appRegistration.AddSingleton(typeof(IQuestionnaireModelCreator), typeof(QuestionnaireModelCreator));
+            appRegistration.AddSingleton(typeof(IQuestionnaireAstCreator), typeof(QuestionnaireAstCreator));
         }
     }
 }

@@ -15,8 +15,7 @@ public class FormPanel extends JPanel {
         formContent.setPreferredSize(new Dimension(formWidth, formHeight));
         formContent.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        List<Component> components = form.getComponents();
-        components.forEach(formContent::add);
+        form.getComponents().forEach(formContent::add);
 
         int panelHeight = viewHeight - 5;
 

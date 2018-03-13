@@ -3,7 +3,7 @@ grammar QLS;
 head        : STYLESHEET IDENTIFIER block EOF;
 block       : '{' page+ '}';
 page        : PAGE IDENTIFIER '{' (section | defaultSec)+ '}';
-section     : SECTION STRING '{' (question | section | defaultSec)+ '}';
+section     : SECTION STRING (question | '{' (question | section | defaultSec)+ '}');
 question    : QUESTION IDENTIFIER (widget)*;
 defaultSec  : DEFAULT type (widget | '{' widget* '}');
 

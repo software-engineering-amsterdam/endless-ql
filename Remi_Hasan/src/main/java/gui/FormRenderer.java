@@ -113,7 +113,7 @@ public class FormRenderer {
 
     private Control createBooleanField(HashMap<Question, Field> fieldMap, Question question) {
         CheckBox checkBox = new CheckBox();
-        checkBox.setDisable(!question.isEditable());
+        checkBox.setDisable(question.isComputed());
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (!checkBox.isDisabled()){
                 Expression expression = new ExpressionVariableBoolean(question.defaultAnswer.getToken(), Boolean.parseBoolean(newValue.toString()));
@@ -127,7 +127,7 @@ public class FormRenderer {
 
     private Control createTextField(HashMap<Question, Field> fieldMap, Question question) {
         TextInputControl textField = Input.textField();
-        textField.setEditable(question.isEditable());
+        textField.setEditable(!question.isComputed());
 
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
@@ -144,7 +144,7 @@ public class FormRenderer {
 
     private Control createIntField(HashMap<Question, Field> fieldMap, Question question) {
         TextInputControl textField = Input.textField();
-        textField.setEditable(question.isEditable());
+        textField.setEditable(!question.isComputed());
 
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
@@ -171,7 +171,7 @@ public class FormRenderer {
 
     private Control createDecimalField(HashMap<Question, Field> fieldMap, Question question) {
         TextInputControl textField = Input.textField();
-        textField.setEditable(question.isEditable());
+        textField.setEditable(!question.isComputed());
 
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
@@ -196,7 +196,7 @@ public class FormRenderer {
 
     private Control createMoneyField(HashMap<Question, Field> fieldMap, Question question) {
         TextInputControl textField = Input.textField();
-        textField.setEditable(question.isEditable());
+        textField.setEditable(!question.isComputed());
 
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
@@ -273,7 +273,7 @@ public class FormRenderer {
         }
 
         // If question is based on value and cannot be set by the user, set value by evaluating its value
-        if (!question.isEditable()) {
+        if (question.isComputed()) {
             String answer = symbolTable.getStringValue(question.name, question.type);
 
             if (question.type == ReturnType.BOOLEAN) {

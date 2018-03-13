@@ -39,7 +39,7 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
 
             // Check if question type is same as assigned expression type
             // Only check expression when it is a predefined expression
-            if (!question.isEditable()) {
+            if (question.isComputed()) {
                 ReturnType defaultAnswerType = this.visit(question.defaultAnswer);
 
                 // Any type of number expression can be assigned to another number type field

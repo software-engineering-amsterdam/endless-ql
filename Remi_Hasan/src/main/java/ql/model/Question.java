@@ -13,17 +13,17 @@ public class Question extends Node {
     public final String text;
     public final Expression defaultAnswer;
     public final Expression condition;
-    private final boolean isEditable;
+    private final boolean isComputed;
 
     // TODO: too many args?
     public Question(Token start, ReturnType type, String name, String text, Expression defaultAnswer,
-                    boolean isEditable, Expression condition) {
+                    boolean isComputed, Expression condition) {
         super(start);
         this.type = type;
         this.name = name;
         this.text = text;
         this.defaultAnswer = defaultAnswer;
-        this.isEditable = isEditable;
+        this.isComputed = isComputed;
         this.condition = condition;
     }
 
@@ -32,7 +32,7 @@ public class Question extends Node {
         return interpreterVisitor.visit(this.condition).getBooleanValue();
     }
 
-    public boolean isEditable() {
-        return isEditable;
+    public boolean isComputed() {
+        return isComputed;
     }
 }

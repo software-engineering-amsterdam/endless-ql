@@ -20,8 +20,9 @@ public class QLParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, OP_AND=5, OP_OR=6, OP_NOT=7, OP_ASSIG=8, 
 		OP_MULT=9, OP_DIV=10, OP_PLUS=11, OP_MINUS=12, OP_GT=13, OP_GE=14, OP_LT=15, 
 		OP_LE=16, OP_EQ=17, OP_NEQ=18, IF=19, ELSE=20, BEGIN=21, END=22, TYPE_BOOLEAN=23, 
-		TYPE_STRING=24, TYPE_INTEGER=25, TYPE_DECIMAL=26, BOOL_TRUE=27, BOOL_FALSE=28, 
-		WS=29, COMMENT=30, IDENTIFIER=31, INTEGER=32, STRING=33, DECIMAL=34;
+		TYPE_STRING=24, TYPE_INTEGER=25, TYPE_DECIMAL=26, TYPE_MONEY=27, BOOL_TRUE=28, 
+		BOOL_FALSE=29, WS=30, COMMENT=31, IDENTIFIER=32, INTEGER=33, STRING=34, 
+		DECIMAL=35;
 	public static final int
 		RULE_form = 0, RULE_statement = 1, RULE_question = 2, RULE_dataType = 3, 
 		RULE_ifStatement = 4, RULE_elseStatement = 5, RULE_expression = 6;
@@ -33,14 +34,15 @@ public class QLParser extends Parser {
 	private static final String[] _LITERAL_NAMES = {
 		null, "'form'", "':'", "'('", "')'", "'&&'", "'||'", "'!'", "'='", "'*'", 
 		"'/'", "'+'", "'-'", "'>'", "'>='", "'<'", "'<='", "'=='", "'!='", "'if'", 
-		"'else'", "'{'", "'}'", "'boolean'", "'string'", "'integer'"
+		"'else'", "'{'", "'}'", "'boolean'", "'string'", "'integer'", "'decimal'", 
+		"'money'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, "OP_AND", "OP_OR", "OP_NOT", "OP_ASSIG", 
 		"OP_MULT", "OP_DIV", "OP_PLUS", "OP_MINUS", "OP_GT", "OP_GE", "OP_LT", 
 		"OP_LE", "OP_EQ", "OP_NEQ", "IF", "ELSE", "BEGIN", "END", "TYPE_BOOLEAN", 
-		"TYPE_STRING", "TYPE_INTEGER", "TYPE_DECIMAL", "BOOL_TRUE", "BOOL_FALSE", 
-		"WS", "COMMENT", "IDENTIFIER", "INTEGER", "STRING", "DECIMAL"
+		"TYPE_STRING", "TYPE_INTEGER", "TYPE_DECIMAL", "TYPE_MONEY", "BOOL_TRUE", 
+		"BOOL_FALSE", "WS", "COMMENT", "IDENTIFIER", "INTEGER", "STRING", "DECIMAL"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -343,6 +345,23 @@ public class QLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class TypeDeclarationMoneyContext extends DataTypeContext {
+		public TerminalNode TYPE_MONEY() { return getToken(QLParser.TYPE_MONEY, 0); }
+		public TypeDeclarationMoneyContext(DataTypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterTypeDeclarationMoney(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitTypeDeclarationMoney(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitTypeDeclarationMoney(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class TypeDeclarationStringContext extends DataTypeContext {
 		public TerminalNode TYPE_STRING() { return getToken(QLParser.TYPE_STRING, 0); }
 		public TypeDeclarationStringContext(DataTypeContext ctx) { copyFrom(ctx); }
@@ -382,7 +401,7 @@ public class QLParser extends Parser {
 		DataTypeContext _localctx = new DataTypeContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_dataType);
 		try {
-			setState(41);
+			setState(42);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case TYPE_BOOLEAN:
@@ -415,6 +434,14 @@ public class QLParser extends Parser {
 				{
 				setState(40);
 				match(TYPE_DECIMAL);
+				}
+				break;
+			case TYPE_MONEY:
+				_localctx = new TypeDeclarationMoneyContext(_localctx);
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(41);
+				match(TYPE_MONEY);
 				}
 				break;
 			default:
@@ -475,38 +502,38 @@ public class QLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(43);
-			match(IF);
 			setState(44);
-			match(T__2);
+			match(IF);
 			setState(45);
-			((IfStatementContext)_localctx).condition = expression(0);
+			match(T__2);
 			setState(46);
-			match(T__3);
+			((IfStatementContext)_localctx).condition = expression(0);
 			setState(47);
+			match(T__3);
+			setState(48);
 			match(BEGIN);
-			setState(51);
+			setState(52);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==IF || _la==STRING) {
 				{
 				{
-				setState(48);
+				setState(49);
 				statement();
 				}
 				}
-				setState(53);
+				setState(54);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(54);
+			setState(55);
 			match(END);
-			setState(56);
+			setState(57);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==ELSE) {
 				{
-				setState(55);
+				setState(56);
 				elseStatement();
 				}
 			}
@@ -560,25 +587,25 @@ public class QLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(58);
-			match(ELSE);
 			setState(59);
+			match(ELSE);
+			setState(60);
 			match(BEGIN);
-			setState(63);
+			setState(64);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==IF || _la==STRING) {
 				{
 				{
-				setState(60);
+				setState(61);
 				statement();
 				}
 				}
-				setState(65);
+				setState(66);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(66);
+			setState(67);
 			match(END);
 			}
 		}
@@ -1035,7 +1062,7 @@ public class QLParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(79);
+			setState(80);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__2:
@@ -1044,11 +1071,11 @@ public class QLParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(69);
-				match(T__2);
 				setState(70);
-				((ExpressionParenthesisesContext)_localctx).subExpression = expression(0);
+				match(T__2);
 				setState(71);
+				((ExpressionParenthesisesContext)_localctx).subExpression = expression(0);
+				setState(72);
 				match(T__3);
 				}
 				break;
@@ -1057,9 +1084,9 @@ public class QLParser extends Parser {
 				_localctx = new ExpressionNegationContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(73);
-				match(OP_NOT);
 				setState(74);
+				match(OP_NOT);
+				setState(75);
 				((ExpressionNegationContext)_localctx).subExpression = expression(16);
 				}
 				break;
@@ -1068,9 +1095,9 @@ public class QLParser extends Parser {
 				_localctx = new ExpressionArithmeticMinusContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(75);
-				match(OP_MINUS);
 				setState(76);
+				match(OP_MINUS);
+				setState(77);
 				((ExpressionArithmeticMinusContext)_localctx).subExpression = expression(15);
 				}
 				break;
@@ -1079,7 +1106,7 @@ public class QLParser extends Parser {
 				_localctx = new ExpressionVariableReferenceContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(77);
+				setState(78);
 				((ExpressionVariableReferenceContext)_localctx).variableReference = match(IDENTIFIER);
 				}
 				break;
@@ -1092,7 +1119,7 @@ public class QLParser extends Parser {
 				_localctx = new ExpressionSingleValueContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(78);
+				setState(79);
 				((ExpressionSingleValueContext)_localctx).value = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL_TRUE) | (1L << BOOL_FALSE) | (1L << INTEGER) | (1L << STRING) | (1L << DECIMAL))) != 0)) ) {
@@ -1109,7 +1136,7 @@ public class QLParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(119);
+			setState(120);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -1117,7 +1144,7 @@ public class QLParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(117);
+					setState(118);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 					case 1:
@@ -1125,11 +1152,11 @@ public class QLParser extends Parser {
 						_localctx = new ExpressionArithmeticMultiplicationContext(new ExpressionContext(_parentctx, _parentState));
 						((ExpressionArithmeticMultiplicationContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(81);
-						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
 						setState(82);
-						((ExpressionArithmeticMultiplicationContext)_localctx).binaryOperator = match(OP_MULT);
+						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
 						setState(83);
+						((ExpressionArithmeticMultiplicationContext)_localctx).binaryOperator = match(OP_MULT);
+						setState(84);
 						((ExpressionArithmeticMultiplicationContext)_localctx).rhs = expression(15);
 						}
 						break;
@@ -1138,11 +1165,11 @@ public class QLParser extends Parser {
 						_localctx = new ExpressionArithmeticDivisionContext(new ExpressionContext(_parentctx, _parentState));
 						((ExpressionArithmeticDivisionContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(84);
-						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
 						setState(85);
-						((ExpressionArithmeticDivisionContext)_localctx).binaryOperator = match(OP_DIV);
+						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
 						setState(86);
+						((ExpressionArithmeticDivisionContext)_localctx).binaryOperator = match(OP_DIV);
+						setState(87);
 						((ExpressionArithmeticDivisionContext)_localctx).rhs = expression(14);
 						}
 						break;
@@ -1151,11 +1178,11 @@ public class QLParser extends Parser {
 						_localctx = new ExpressionArithmeticAdditionContext(new ExpressionContext(_parentctx, _parentState));
 						((ExpressionArithmeticAdditionContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(87);
-						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
 						setState(88);
-						((ExpressionArithmeticAdditionContext)_localctx).binaryOperator = match(OP_PLUS);
+						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
 						setState(89);
+						((ExpressionArithmeticAdditionContext)_localctx).binaryOperator = match(OP_PLUS);
+						setState(90);
 						((ExpressionArithmeticAdditionContext)_localctx).rhs = expression(13);
 						}
 						break;
@@ -1164,11 +1191,11 @@ public class QLParser extends Parser {
 						_localctx = new ExpressionArithmeticSubtractionContext(new ExpressionContext(_parentctx, _parentState));
 						((ExpressionArithmeticSubtractionContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(90);
-						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
 						setState(91);
-						((ExpressionArithmeticSubtractionContext)_localctx).binaryOperator = match(OP_MINUS);
+						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
 						setState(92);
+						((ExpressionArithmeticSubtractionContext)_localctx).binaryOperator = match(OP_MINUS);
+						setState(93);
 						((ExpressionArithmeticSubtractionContext)_localctx).rhs = expression(12);
 						}
 						break;
@@ -1177,11 +1204,11 @@ public class QLParser extends Parser {
 						_localctx = new ExpressionComparisionGreaterThanContext(new ExpressionContext(_parentctx, _parentState));
 						((ExpressionComparisionGreaterThanContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(93);
-						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
 						setState(94);
-						((ExpressionComparisionGreaterThanContext)_localctx).binaryOperator = match(OP_GT);
+						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
 						setState(95);
+						((ExpressionComparisionGreaterThanContext)_localctx).binaryOperator = match(OP_GT);
+						setState(96);
 						((ExpressionComparisionGreaterThanContext)_localctx).rhs = expression(11);
 						}
 						break;
@@ -1190,11 +1217,11 @@ public class QLParser extends Parser {
 						_localctx = new ExpressionComparisionGreaterEqualContext(new ExpressionContext(_parentctx, _parentState));
 						((ExpressionComparisionGreaterEqualContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(96);
-						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
 						setState(97);
-						((ExpressionComparisionGreaterEqualContext)_localctx).binaryOperator = match(OP_GE);
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
 						setState(98);
+						((ExpressionComparisionGreaterEqualContext)_localctx).binaryOperator = match(OP_GE);
+						setState(99);
 						((ExpressionComparisionGreaterEqualContext)_localctx).rhs = expression(10);
 						}
 						break;
@@ -1203,11 +1230,11 @@ public class QLParser extends Parser {
 						_localctx = new ExpressionComparisionLessThanContext(new ExpressionContext(_parentctx, _parentState));
 						((ExpressionComparisionLessThanContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(99);
-						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
 						setState(100);
-						((ExpressionComparisionLessThanContext)_localctx).binaryOperator = match(OP_LT);
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
 						setState(101);
+						((ExpressionComparisionLessThanContext)_localctx).binaryOperator = match(OP_LT);
+						setState(102);
 						((ExpressionComparisionLessThanContext)_localctx).rhs = expression(9);
 						}
 						break;
@@ -1216,11 +1243,11 @@ public class QLParser extends Parser {
 						_localctx = new ExpressionComparisionLessEqualContext(new ExpressionContext(_parentctx, _parentState));
 						((ExpressionComparisionLessEqualContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(102);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
 						setState(103);
-						((ExpressionComparisionLessEqualContext)_localctx).binaryOperator = match(OP_LE);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
 						setState(104);
+						((ExpressionComparisionLessEqualContext)_localctx).binaryOperator = match(OP_LE);
+						setState(105);
 						((ExpressionComparisionLessEqualContext)_localctx).rhs = expression(8);
 						}
 						break;
@@ -1229,11 +1256,11 @@ public class QLParser extends Parser {
 						_localctx = new ExpressionComparisionEqualContext(new ExpressionContext(_parentctx, _parentState));
 						((ExpressionComparisionEqualContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(105);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
 						setState(106);
-						((ExpressionComparisionEqualContext)_localctx).binaryOperator = match(OP_EQ);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
 						setState(107);
+						((ExpressionComparisionEqualContext)_localctx).binaryOperator = match(OP_EQ);
+						setState(108);
 						((ExpressionComparisionEqualContext)_localctx).rhs = expression(7);
 						}
 						break;
@@ -1242,11 +1269,11 @@ public class QLParser extends Parser {
 						_localctx = new ExpressionComparisionNotEqualContext(new ExpressionContext(_parentctx, _parentState));
 						((ExpressionComparisionNotEqualContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(108);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(109);
-						((ExpressionComparisionNotEqualContext)_localctx).binaryOperator = match(OP_NEQ);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(110);
+						((ExpressionComparisionNotEqualContext)_localctx).binaryOperator = match(OP_NEQ);
+						setState(111);
 						((ExpressionComparisionNotEqualContext)_localctx).rhs = expression(6);
 						}
 						break;
@@ -1255,11 +1282,11 @@ public class QLParser extends Parser {
 						_localctx = new ExpressionLogicalAndContext(new ExpressionContext(_parentctx, _parentState));
 						((ExpressionLogicalAndContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(111);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(112);
-						((ExpressionLogicalAndContext)_localctx).binaryOperator = match(OP_AND);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(113);
+						((ExpressionLogicalAndContext)_localctx).binaryOperator = match(OP_AND);
+						setState(114);
 						((ExpressionLogicalAndContext)_localctx).rhs = expression(5);
 						}
 						break;
@@ -1268,18 +1295,18 @@ public class QLParser extends Parser {
 						_localctx = new ExpressionLogicalOrContext(new ExpressionContext(_parentctx, _parentState));
 						((ExpressionLogicalOrContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(114);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(115);
-						((ExpressionLogicalOrContext)_localctx).binaryOperator = match(OP_OR);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(116);
+						((ExpressionLogicalOrContext)_localctx).binaryOperator = match(OP_OR);
+						setState(117);
 						((ExpressionLogicalOrContext)_localctx).rhs = expression(4);
 						}
 						break;
 					}
 					} 
 				}
-				setState(121);
+				setState(122);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
 			}
@@ -1334,38 +1361,39 @@ public class QLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$}\4\2\t\2\4\3\t\3"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3%~\4\2\t\2\4\3\t\3"+
 		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\3\2\3\2\3\2\7\2\25\n\2\f"+
 		"\2\16\2\30\13\2\3\2\3\2\3\3\3\3\5\3\36\n\3\3\4\3\4\3\4\3\4\3\4\3\4\5\4"+
-		"&\n\4\3\5\3\5\3\5\3\5\5\5,\n\5\3\6\3\6\3\6\3\6\3\6\3\6\7\6\64\n\6\f\6"+
-		"\16\6\67\13\6\3\6\3\6\5\6;\n\6\3\7\3\7\3\7\7\7@\n\7\f\7\16\7C\13\7\3\7"+
-		"\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\bR\n\b\3\b\3\b\3\b"+
-		"\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3"+
-		"\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\7\bx\n"+
-		"\b\f\b\16\b{\13\b\3\b\2\3\16\t\2\4\6\b\n\f\16\2\3\4\2\35\36\"$\2\u008e"+
-		"\2\20\3\2\2\2\4\35\3\2\2\2\6\37\3\2\2\2\b+\3\2\2\2\n-\3\2\2\2\f<\3\2\2"+
-		"\2\16Q\3\2\2\2\20\21\7\3\2\2\21\22\7!\2\2\22\26\7\27\2\2\23\25\5\4\3\2"+
-		"\24\23\3\2\2\2\25\30\3\2\2\2\26\24\3\2\2\2\26\27\3\2\2\2\27\31\3\2\2\2"+
-		"\30\26\3\2\2\2\31\32\7\30\2\2\32\3\3\2\2\2\33\36\5\6\4\2\34\36\5\n\6\2"+
-		"\35\33\3\2\2\2\35\34\3\2\2\2\36\5\3\2\2\2\37 \7#\2\2 !\7!\2\2!\"\7\4\2"+
-		"\2\"%\5\b\5\2#$\7\n\2\2$&\5\16\b\2%#\3\2\2\2%&\3\2\2\2&\7\3\2\2\2\',\7"+
-		"\31\2\2(,\7\32\2\2),\7\33\2\2*,\7\34\2\2+\'\3\2\2\2+(\3\2\2\2+)\3\2\2"+
-		"\2+*\3\2\2\2,\t\3\2\2\2-.\7\25\2\2./\7\5\2\2/\60\5\16\b\2\60\61\7\6\2"+
-		"\2\61\65\7\27\2\2\62\64\5\4\3\2\63\62\3\2\2\2\64\67\3\2\2\2\65\63\3\2"+
-		"\2\2\65\66\3\2\2\2\668\3\2\2\2\67\65\3\2\2\28:\7\30\2\29;\5\f\7\2:9\3"+
-		"\2\2\2:;\3\2\2\2;\13\3\2\2\2<=\7\26\2\2=A\7\27\2\2>@\5\4\3\2?>\3\2\2\2"+
-		"@C\3\2\2\2A?\3\2\2\2AB\3\2\2\2BD\3\2\2\2CA\3\2\2\2DE\7\30\2\2E\r\3\2\2"+
-		"\2FG\b\b\1\2GH\7\5\2\2HI\5\16\b\2IJ\7\6\2\2JR\3\2\2\2KL\7\t\2\2LR\5\16"+
-		"\b\22MN\7\16\2\2NR\5\16\b\21OR\7!\2\2PR\t\2\2\2QF\3\2\2\2QK\3\2\2\2QM"+
-		"\3\2\2\2QO\3\2\2\2QP\3\2\2\2Ry\3\2\2\2ST\f\20\2\2TU\7\13\2\2Ux\5\16\b"+
-		"\21VW\f\17\2\2WX\7\f\2\2Xx\5\16\b\20YZ\f\16\2\2Z[\7\r\2\2[x\5\16\b\17"+
-		"\\]\f\r\2\2]^\7\16\2\2^x\5\16\b\16_`\f\f\2\2`a\7\17\2\2ax\5\16\b\rbc\f"+
-		"\13\2\2cd\7\20\2\2dx\5\16\b\fef\f\n\2\2fg\7\21\2\2gx\5\16\b\13hi\f\t\2"+
-		"\2ij\7\22\2\2jx\5\16\b\nkl\f\b\2\2lm\7\23\2\2mx\5\16\b\tno\f\7\2\2op\7"+
-		"\24\2\2px\5\16\b\bqr\f\6\2\2rs\7\7\2\2sx\5\16\b\7tu\f\5\2\2uv\7\b\2\2"+
-		"vx\5\16\b\6wS\3\2\2\2wV\3\2\2\2wY\3\2\2\2w\\\3\2\2\2w_\3\2\2\2wb\3\2\2"+
-		"\2we\3\2\2\2wh\3\2\2\2wk\3\2\2\2wn\3\2\2\2wq\3\2\2\2wt\3\2\2\2x{\3\2\2"+
-		"\2yw\3\2\2\2yz\3\2\2\2z\17\3\2\2\2{y\3\2\2\2\f\26\35%+\65:AQwy";
+		"&\n\4\3\5\3\5\3\5\3\5\3\5\5\5-\n\5\3\6\3\6\3\6\3\6\3\6\3\6\7\6\65\n\6"+
+		"\f\6\16\68\13\6\3\6\3\6\5\6<\n\6\3\7\3\7\3\7\7\7A\n\7\f\7\16\7D\13\7\3"+
+		"\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\bS\n\b\3\b\3\b\3"+
+		"\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b"+
+		"\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\7\by"+
+		"\n\b\f\b\16\b|\13\b\3\b\2\3\16\t\2\4\6\b\n\f\16\2\3\4\2\36\37#%\2\u0090"+
+		"\2\20\3\2\2\2\4\35\3\2\2\2\6\37\3\2\2\2\b,\3\2\2\2\n.\3\2\2\2\f=\3\2\2"+
+		"\2\16R\3\2\2\2\20\21\7\3\2\2\21\22\7\"\2\2\22\26\7\27\2\2\23\25\5\4\3"+
+		"\2\24\23\3\2\2\2\25\30\3\2\2\2\26\24\3\2\2\2\26\27\3\2\2\2\27\31\3\2\2"+
+		"\2\30\26\3\2\2\2\31\32\7\30\2\2\32\3\3\2\2\2\33\36\5\6\4\2\34\36\5\n\6"+
+		"\2\35\33\3\2\2\2\35\34\3\2\2\2\36\5\3\2\2\2\37 \7$\2\2 !\7\"\2\2!\"\7"+
+		"\4\2\2\"%\5\b\5\2#$\7\n\2\2$&\5\16\b\2%#\3\2\2\2%&\3\2\2\2&\7\3\2\2\2"+
+		"\'-\7\31\2\2(-\7\32\2\2)-\7\33\2\2*-\7\34\2\2+-\7\35\2\2,\'\3\2\2\2,("+
+		"\3\2\2\2,)\3\2\2\2,*\3\2\2\2,+\3\2\2\2-\t\3\2\2\2./\7\25\2\2/\60\7\5\2"+
+		"\2\60\61\5\16\b\2\61\62\7\6\2\2\62\66\7\27\2\2\63\65\5\4\3\2\64\63\3\2"+
+		"\2\2\658\3\2\2\2\66\64\3\2\2\2\66\67\3\2\2\2\679\3\2\2\28\66\3\2\2\29"+
+		";\7\30\2\2:<\5\f\7\2;:\3\2\2\2;<\3\2\2\2<\13\3\2\2\2=>\7\26\2\2>B\7\27"+
+		"\2\2?A\5\4\3\2@?\3\2\2\2AD\3\2\2\2B@\3\2\2\2BC\3\2\2\2CE\3\2\2\2DB\3\2"+
+		"\2\2EF\7\30\2\2F\r\3\2\2\2GH\b\b\1\2HI\7\5\2\2IJ\5\16\b\2JK\7\6\2\2KS"+
+		"\3\2\2\2LM\7\t\2\2MS\5\16\b\22NO\7\16\2\2OS\5\16\b\21PS\7\"\2\2QS\t\2"+
+		"\2\2RG\3\2\2\2RL\3\2\2\2RN\3\2\2\2RP\3\2\2\2RQ\3\2\2\2Sz\3\2\2\2TU\f\20"+
+		"\2\2UV\7\13\2\2Vy\5\16\b\21WX\f\17\2\2XY\7\f\2\2Yy\5\16\b\20Z[\f\16\2"+
+		"\2[\\\7\r\2\2\\y\5\16\b\17]^\f\r\2\2^_\7\16\2\2_y\5\16\b\16`a\f\f\2\2"+
+		"ab\7\17\2\2by\5\16\b\rcd\f\13\2\2de\7\20\2\2ey\5\16\b\ffg\f\n\2\2gh\7"+
+		"\21\2\2hy\5\16\b\13ij\f\t\2\2jk\7\22\2\2ky\5\16\b\nlm\f\b\2\2mn\7\23\2"+
+		"\2ny\5\16\b\top\f\7\2\2pq\7\24\2\2qy\5\16\b\brs\f\6\2\2st\7\7\2\2ty\5"+
+		"\16\b\7uv\f\5\2\2vw\7\b\2\2wy\5\16\b\6xT\3\2\2\2xW\3\2\2\2xZ\3\2\2\2x"+
+		"]\3\2\2\2x`\3\2\2\2xc\3\2\2\2xf\3\2\2\2xi\3\2\2\2xl\3\2\2\2xo\3\2\2\2"+
+		"xr\3\2\2\2xu\3\2\2\2y|\3\2\2\2zx\3\2\2\2z{\3\2\2\2{\17\3\2\2\2|z\3\2\2"+
+		"\2\f\26\35%,\66;BRxz";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

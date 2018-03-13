@@ -19,7 +19,7 @@ public enum DataType {
     MONEY(value -> new DoubleWrapper(value.replace(',', '.')), ComponentBuilder::buildTextField),
     STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), ComponentBuilder::buildTextField),
     DECIMAL(DoubleWrapper::new, ComponentBuilder::buildTextField),
-    BOOLEAN(Boolean::valueOf, ComponentBuilder::buildCheckBox),
+    BOOLEAN(Boolean::parseBoolean, ComponentBuilder::buildCheckBox),
     INTEGER(IntegerWrapper::new, ComponentBuilder::buildTextField);
 
     @NonNull @Getter private Function<String, ?> valueOf;

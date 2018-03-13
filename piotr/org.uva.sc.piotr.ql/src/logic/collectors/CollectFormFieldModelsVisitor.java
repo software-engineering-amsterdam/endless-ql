@@ -1,4 +1,4 @@
-package ast.visitors.collectors;
+package logic.collectors;
 
 import ast.model.ASTNode;
 import ast.model.Form;
@@ -9,7 +9,7 @@ import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
 import ast.model.statements.Statement;
 import ast.visitors.AbstractASTTraverse;
-import ast.visitors.evaluators.ExpressionResult;
+import logic.evaluators.UniversalTypeValue;
 import gui.model.FormQuestion;
 
 import java.util.*;
@@ -39,7 +39,7 @@ public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
         FormQuestion formQuestion = new FormQuestion(
                 question.getLabel(),
                 question.getVariableName(),
-                question.getVariableType().toDataType(),
+                question.getVariableType(),
                 aggregatedVisibilityCondition,
                 question.getAssignedExpression()
         );
@@ -93,9 +93,9 @@ public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
         return finalExpression;
     }
 
-    public HashMap<String, ExpressionResult> getVariablesValues() {
+    public HashMap<String, UniversalTypeValue> getVariablesValues() {
 
-        HashMap<String, ExpressionResult> variablesValues = new HashMap<>();
+        HashMap<String, UniversalTypeValue> variablesValues = new HashMap<>();
         for (FormQuestion formQuestion : this.formQuestions) {
             variablesValues.put(formQuestion.getVariableName(), formQuestion.getValue());
         }

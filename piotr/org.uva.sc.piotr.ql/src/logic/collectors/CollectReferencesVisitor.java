@@ -1,4 +1,4 @@
-package ast.visitors.collectors;
+package logic.collectors;
 
 import ast.model.expressions.values.VariableReference;
 import ast.visitors.AbstractASTTraverse;

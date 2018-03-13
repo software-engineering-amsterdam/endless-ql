@@ -1,4 +1,4 @@
-package validators;
+package logic.validators;
 
 import ast.model.statements.Question;
 

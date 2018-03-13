@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Assignment1.Model;
 
-namespace Assignment1
+namespace Assignment1.Rendering
 {
-    internal class Presenter : IQuestionVisitor
+    class QuestionFormRenderer : IQuestionFormRenderer, IQuestionVisitor
     {
-        public readonly Panel Panel = new FlowLayoutPanel
+        private readonly Panel _panel = new FlowLayoutPanel
         {
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
@@ -17,53 +19,26 @@ namespace Assignment1
 
         private readonly QuestionForm _form;
 
-        public Presenter()
+        public QuestionFormRenderer(QuestionForm form)
         {
-            var listener = QLListener.ParseString(System.IO.File.ReadAllText("test.txt"));
-            if (listener.FormHasErrors)
-            {
-                ReportFormErrors(listener.Errors);
-            }
-            else
-            {
-                _form = listener.Form;
-                UpdateControls();
-            }
+            _form = form;
         }
 
-        private void ReportFormErrors(List<string> errors)
+        public Control Render()
         {
-            var header = new Label
-            {
-                Text = "Provided form is invalid!",
-                Width = 1000,
-                Height = 30,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Arial", 12, FontStyle.Bold)
-            };
-            Panel.Controls.Add(header);
-            foreach (string error in errors)
-            {
-                var label = new Label
-                {
-                    Text = error,
-                    Width = 1000,
-                    Font = new Font("Arial", 10),
-                    ForeColor = Color.Red
-                };
-                Panel.Controls.Add(label);
-            }
+            UpdateControls();
+            return _panel;
         }
 
         private void UpdateControls()
         {
-            Panel.SuspendLayout();
-            Panel.Controls.Clear();
+            _panel.SuspendLayout();
+            _panel.Controls.Clear();
             foreach (var question in _form.Questions)
             {
                 question.Accept(this);
             }
-            Panel.ResumeLayout();
+            _panel.ResumeLayout();
         }
 
         public void Visit(QuestionBool question)
@@ -84,13 +59,13 @@ namespace Assignment1
                     UpdateControls();
                 };
             }
-            Panel.Controls.Add(checkbox);
+            _panel.Controls.Add(checkbox);
         }
 
         public void Visit(QuestionInt question)
         {
             if (question.Condition?.Evaluate() == false) return;
-            Panel.Controls.Add(new Label
+            _panel.Controls.Add(new Label
             {
                 Text = question.Label,
                 AutoSize = true
@@ -111,13 +86,13 @@ namespace Assignment1
                     UpdateControls();
                 };
             }
-            Panel.Controls.Add(numericUpDown);
+            _panel.Controls.Add(numericUpDown);
         }
 
         public void Visit(QuestionDate question)
         {
             if (question.Condition?.Evaluate() == false) return;
-            Panel.Controls.Add(new Label
+            _panel.Controls.Add(new Label
             {
                 Text = question.Label,
                 AutoSize = true
@@ -137,13 +112,13 @@ namespace Assignment1
                     UpdateControls();
                 };
             }
-            Panel.Controls.Add(dateTimePicker);
+            _panel.Controls.Add(dateTimePicker);
         }
 
         public void Visit(QuestionDecimal question)
         {
             if (question.Condition?.Evaluate() == false) return;
-            Panel.Controls.Add(new Label
+            _panel.Controls.Add(new Label
             {
                 Text = question.Label,
                 AutoSize = true
@@ -164,13 +139,13 @@ namespace Assignment1
                     UpdateControls();
                 };
             }
-            Panel.Controls.Add(numericUpDown);
+            _panel.Controls.Add(numericUpDown);
         }
 
         public void Visit(QuestionMoney question)
         {
             if (question.Condition?.Evaluate() == false) return;
-            Panel.Controls.Add(new Label
+            _panel.Controls.Add(new Label
             {
                 Text = question.Label,
                 AutoSize = true
@@ -191,13 +166,13 @@ namespace Assignment1
                     UpdateControls();
                 };
             }
-            Panel.Controls.Add(numericUpDown);
+            _panel.Controls.Add(numericUpDown);
         }
 
         public void Visit(QuestionString question)
         {
             if (question.Condition?.Evaluate() == false) return;
-            Panel.Controls.Add(new Label
+            _panel.Controls.Add(new Label
             {
                 Text = question.Label,
                 AutoSize = true
@@ -215,7 +190,7 @@ namespace Assignment1
                     UpdateControls();
                 };
             }
-            Panel.Controls.Add(textBox);
+            _panel.Controls.Add(textBox);
         }
     }
 }

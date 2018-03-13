@@ -1,6 +1,6 @@
-package ParseObjectQLS.Property;
+package ParseObjectQLS.Widgets;
 
-public class Font {
+public class Font extends Widget {
     private String font;
 
     public Font(String fontToUse){

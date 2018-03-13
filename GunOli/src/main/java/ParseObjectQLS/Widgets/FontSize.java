@@ -1,6 +1,6 @@
-package ParseObjectQLS.Property;
+package ParseObjectQLS.Widgets;
 
-public class FontSize {
+public class FontSize extends Widget {
     private int FontSize;
 
     public void FontSize(int size){

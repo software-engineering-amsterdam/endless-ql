@@ -1,8 +1,8 @@
-package ParseObjectQLS.Property;
+package ParseObjectQLS.Widgets;
 
 import java.util.List;
 
-public class Radio {
+public class Radio extends Widget {
     private List<String> radioQuestions;
 
     public Radio(List<String> radioQuestions ){

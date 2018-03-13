@@ -1,6 +1,6 @@
-package ParseObjectQLS.Property;
+package ParseObjectQLS.Widgets;
 
-public class Color {
+public class Color extends Widget {
     private String HEX;
 
     public void color(String color){

@@ -1,6 +1,6 @@
-package ParseObjectQLS.Property;
+package ParseObjectQLS.Widgets;
 
-public class Width {
+public class Width extends Widget {
     private int width;
 
     public void Width(int size){

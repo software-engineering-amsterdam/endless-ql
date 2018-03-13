@@ -45,15 +45,15 @@ public class FormPanel extends JPanel {
         if (questionDataType == Expression.DataType.DECIMAL) {
             // if decimal is originally declared as "money", then use a widget with currency sign
             if (this.formQuestion.getOriginalDataTypeDeclaration().getIdentifier().equals("money")) {
-                return new MoneyFieldWidget(this);
+                return new MoneyFieldWidget(this.formQuestion);
             }
-            return new DecimalFieldWidget(this);
+            return new DecimalFieldWidget(this.formQuestion);
         } else if (questionDataType == Expression.DataType.INTEGER) {
-            return new IntegerSpinnerWidget(this);
+            return new IntegerSpinnerWidget(this.formQuestion);
         } else if (questionDataType == Expression.DataType.BOOLEAN) {
-            return new BooleanCheckboxWidget(this);
+            return new BooleanCheckboxWidget(this.formQuestion);
         }
         // string and any other
-        return new TextFieldWidget(this);
+        return new TextFieldWidget(this.formQuestion);
     }
 }

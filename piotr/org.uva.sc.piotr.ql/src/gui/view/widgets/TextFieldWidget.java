@@ -1,6 +1,7 @@
 package gui.view.widgets;
 
 import ast.model.expressions.Expression;
+import gui.model.FormQuestion;
 import gui.view.FormPanel;
 import gui.view.Widget;
 
@@ -12,14 +13,14 @@ public class TextFieldWidget extends Widget {
 
     private JTextField textField;
 
-    public TextFieldWidget(FormPanel formPanel) {
+    public TextFieldWidget(FormQuestion formQuestion) {
 
-        super(formPanel);
+        super(formQuestion);
 
         JTextField field = new JTextField();
         field.setColumns(20);
 
-        if (formPanel.getFormQuestion().getAssignedExpression() != null) {
+        if (formQuestion.getAssignedExpression() != null) {
             textField.setEditable(false);
         }
 
@@ -43,6 +44,7 @@ public class TextFieldWidget extends Widget {
 //                formQuestion.getValue().setStringValue(textField.getText());
 //                anchor.evaluate();
 //                textField.setVisible(formQuestion.getVisibility().getBooleanValue());
+                formQuestion.getValue().setStringValue(field.getText());
             }
         });
         this.textField = field;

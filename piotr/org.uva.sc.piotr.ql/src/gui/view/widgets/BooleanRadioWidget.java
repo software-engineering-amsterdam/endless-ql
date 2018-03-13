@@ -1,8 +1,10 @@
 package gui.view.widgets;
 
 import ast.model.expressions.Expression;
+import gui.model.FormQuestion;
 import gui.view.FormPanel;
 import gui.view.Widget;
+import logic.evaluators.UniversalTypeValue;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -12,12 +14,12 @@ public class BooleanRadioWidget extends Widget {
 
     private JCheckBox checkbox;
 
-    public BooleanRadioWidget(FormPanel formPanel) {
-        super(formPanel);
+    public BooleanRadioWidget(FormQuestion formQuestion) {
+        super(formQuestion);
 
         JCheckBox checkbox = new JCheckBox();
 
-        if (formPanel.getFormQuestion().getAssignedExpression() != null) {
+        if (formQuestion.getAssignedExpression() != null) {
             checkbox.setEnabled(false);
         }
 
@@ -26,8 +28,10 @@ public class BooleanRadioWidget extends Widget {
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     System.out.println("Checkbox SELECTED");
+                    formQuestion.getValue().setBooleanValue(true);
                 } else {
                     System.out.println("Checkbox DESELECTED");
+                    formQuestion.getValue().setBooleanValue(false);
                 }
 
             }

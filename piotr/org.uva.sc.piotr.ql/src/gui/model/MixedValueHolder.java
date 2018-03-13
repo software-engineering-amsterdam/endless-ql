@@ -337,7 +337,6 @@ public class MixedValueHolder {
         } else if (this.getType() == Expression.DataType.STRING) {
             return this.stringValue;
         }
-
         return null;
     }
 }

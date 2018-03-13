@@ -127,7 +127,9 @@ public class FormController {
     public LinkedHashMap<String, String> prepareResults() {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
         for (FormQuestionHolder formQuestionHolder : this.formQuestionHolders) {
-            result.put(formQuestionHolder.getVariableName(), formQuestionHolder.getValueHolder().toString());
+            if (formQuestionHolder.getVisibilityHolder().getBooleanValue()) {
+                result.put(formQuestionHolder.getVariableName(), formQuestionHolder.getValueHolder().toString());
+            }
         }
         return result;
     }

@@ -12,15 +12,15 @@ class FormTreeBuilder {
 
     private val nodeStack = ArrayDeque<Node>()
 
-    init{
+    init {
         nodeStack.push(RootNode())
     }
 
-    fun pushQuestion(question : Question){
+    fun pushQuestion(question: Question) {
         nodeStack.first.addChild(QuestionNode(question))
     }
 
-    fun pushExpression(expression: Expression){
+    fun pushExpression(expression: Expression) {
         nodeStack.push(ExpressionNode(expression))
     }
 

@@ -1,9 +1,11 @@
 package node
 
+import data.question.Question
+
 abstract class Node {
     internal val children = ArrayList<Node>()
 
-    fun addChild(child : Node){
+    fun addChild(child: Node) {
         children.add(child)
     }
 
@@ -11,9 +13,17 @@ abstract class Node {
         return children
     }
 
-    fun hasChildren() : Boolean {
+    fun hasChildren(): Boolean {
         return children.isEmpty()
     }
 
-    abstract fun validate() : Boolean
+    open fun getAllChildren(): ArrayList<Question> {
+        val allChildren = children.flatMap {
+            getAllChildren()
+        }
+
+        return ArrayList(allChildren)
+    }
+
+    abstract fun validate(): Boolean
 }

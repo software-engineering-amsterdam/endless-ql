@@ -198,7 +198,7 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         else -> BooleanValue(false)
     }
 
-    fun getParsedQuestionareLanguage() : Node {
+    fun getParsedQuestionareLanguage(): Node {
         return formTreeBuilder.build()
     }
 }

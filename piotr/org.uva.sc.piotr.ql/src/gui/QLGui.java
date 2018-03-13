@@ -1,5 +1,6 @@
 package gui;
 
+import com.google.gson.Gson;
 import gui.controller.FormController;
 import gui.model.FormQuestionHolder;
 import gui.view.FormQuestionPanel;
@@ -7,6 +8,8 @@ import logic.evaluators.ExpressionEvaluator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public class QLGui {
@@ -34,7 +37,15 @@ public class QLGui {
             i++;
         }
 
-        // p.add(submit);
+        JButton submit = new JButton("Submit form");
+        submit.addActionListener(e -> {
+            System.out.println("Submitted");
+            Gson gson = new Gson();
+            System.out.println(gson.toJson(formController.prepareResults()));
+        });
+
+        gridBagConstraints.gridy = i;
+        panel.add(submit, gridBagConstraints);
         frame.getContentPane().add(scrollFrame);
         frame.pack();
         frame.setLocationRelativeTo(null);

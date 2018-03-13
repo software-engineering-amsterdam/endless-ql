@@ -328,12 +328,16 @@ public class MixedValueHolder {
 
     @Override
     public String toString() {
-        return "ExpressionResult{" +
-                "type=" + type +
-                ", stringValue='" + stringValue + '\'' +
-                ", decimalValue=" + decimalValue +
-                ", integerValue=" + integerValue +
-                ", booleanValue=" + booleanValue +
-                '}';
+        if (this.getType() == Expression.DataType.INTEGER) {
+            return this.integerValue.toString();
+        } else if (this.getType() == Expression.DataType.DECIMAL) {
+            return this.decimalValue.toString();
+        } else if (this.getType() == Expression.DataType.BOOLEAN) {
+            return this.booleanValue.toString();
+        } else if (this.getType() == Expression.DataType.INTEGER) {
+            return this.stringValue;
+        }
+
+        return null;
     }
 }

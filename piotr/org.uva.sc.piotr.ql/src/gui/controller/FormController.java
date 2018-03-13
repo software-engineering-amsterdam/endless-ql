@@ -7,10 +7,7 @@ import gui.model.MixedValueHolder;
 import logic.collectors.CollectReferencesVisitor;
 import logic.evaluators.ExpressionEvaluator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class FormController {
 
@@ -107,47 +104,32 @@ public class FormController {
 
     public void processFormQuestionHolderChange(FormQuestionHolder formQuestionHolder) {
 
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println(formQuestionHolder.getVariableName() + " has registered a change");
-
-        System.out.println("Hey! The change is going to affect visibility of the following questions: ");
-
         List<FormQuestionHolder> formQuestionHoldersVisibility = dependentFormQuestionsForVisibility.get(formQuestionHolder.getVariableName());
 
         if (formQuestionHoldersVisibility != null) {
             for (FormQuestionHolder fqh : formQuestionHoldersVisibility) {
-                System.out.println("Visibility update for: " + fqh.getVariableName());
                 // TODO: check setValueHolder vs changing the value only
                 fqh.setVisibilityHolder(fqh.getVisibilityCondition().accept(evaluator));
                 fqh.getPanel().refreshVisibility();
-                // inform the panel that it has to check and eventually change visibility for this
             }
         }
 
-        System.out.println("Hey! The change is going to affect value of the following questions: ");
         List<FormQuestionHolder> formQuestionHoldersValue = dependentFormQuestionsForValue.get(formQuestionHolder.getVariableName());
         if (formQuestionHoldersValue != null) {
             for (FormQuestionHolder fqh : formQuestionHoldersValue) {
-                System.out.println("Value update update for: " + fqh.getVariableName());
                 // TODO: check setValueHolder vs changing the value only
                 fqh.setValueHolder(fqh.getAssignedExpression().accept(evaluator));
                 fqh.getPanel().refreshValue();
-                // inform the panel that it has to check and eventually change value for this
             }
         }
+    }
 
-        // if something has changes, then all relying FormQuestions should be informed
-        // thus:
-        // - all form questions whose visibility relies on value of this form question
-        // - all form questions that have an assigned expression that is holding a reference to this question
-
-        // foreach form question
-        // evaluate values
-        // evaluate visibility values
-
-
+    public LinkedHashMap<String, String> prepareResults() {
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
+        for (FormQuestionHolder formQuestionHolder : this.formQuestionHolders) {
+            result.put(formQuestionHolder.getVariableName(), formQuestionHolder.getValueHolder().toString());
+        }
+        return result;
     }
 
 }

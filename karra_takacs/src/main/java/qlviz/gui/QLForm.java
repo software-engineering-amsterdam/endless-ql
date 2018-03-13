@@ -25,11 +25,11 @@ import qlviz.interpreter.style.*;
 import qlviz.model.booleanExpressions.BooleanExpression;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
+import qlviz.model.style.DefaultWidgetDeclaration;
+import qlviz.model.style.PropertySetting;
 import qlviz.model.style.Stylesheet;
+import qlviz.model.style.Widget;
 import qlviz.typecheker.AnalysisResult;
-import qlviz.typecheker.CircularReferenceChecker;
-import qlviz.typecheker.DuplicateLabelChecker;
-import qlviz.typecheker.DuplicateQuestionChecker;
 import qlviz.typecheker.Severity;
 import qlviz.typecheker.StaticChecker;
 
@@ -56,6 +56,13 @@ public class QLForm extends Application {
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
+		QLSBaseVisitor<PropertySetting> propertySettingVisitor = new QLSBaseVisitor<>();
+		QLSBaseVisitor<Widget> widgetVisitor = new WidgetVisitor(
+				new WidgetTypeTranslator(),
+				new ParameterVisitor());
+		QuestionTypeTranslator questionTypeTranslator = new QuestionTypeVisitor();
+		QLSBaseVisitor<DefaultWidgetDeclaration> defaultWidgetVisitor =
+				new DefaultWidgetVisitor(propertySettingVisitor, widgetVisitor, questionTypeTranslator);
 		QLSBaseVisitor<Stylesheet> stylesheetVisitor = new StylesheetVisitor(
 				new PageVisitor(
 						new SectionVisitor(
@@ -65,9 +72,9 @@ public class QLForm extends Application {
 												new ParameterVisitor()
 										)
 								),
-								new DefaultWidgetVisitor()
+								defaultWidgetVisitor
 						),
-						new DefaultWidgetVisitor())
+						defaultWidgetVisitor)
 		);
 		StyleModelBuilder styleBuilder = new StyleModelBuilder(stylesheetVisitor);
 

@@ -29,7 +29,6 @@ public class WidgetFinder {
             Stack<Scope> scopes = questionLocation.getScopes();
             while (!scopes.empty()) {
                 Scope scope = scopes.pop();
-                List<DefaultWidgetDeclaration> defaultWidgetDeclarations = scope.getDefaultWidgetDeclarations();
                 for (DefaultWidgetDeclaration declaration : scope.getDefaultWidgetDeclarations()) {
                     if (declaration.getQuestionType() == questionViewModel.getQuestionType()) {
                         return declaration.getWidget();

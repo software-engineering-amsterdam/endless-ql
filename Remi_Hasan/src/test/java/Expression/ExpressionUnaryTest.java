@@ -14,7 +14,7 @@
 //
 //    @Property
 //    public void ExpressionUnaryNot(boolean value) {
-//        ANTLRTester tester = new ANTLRTester("!" + value);
+//        Parser.ANTLRTester tester = new Parser.ANTLRTester("!" + value);
 //        Expression actualExpression = tester.visitor.visit(tester.parser.model.expression());
 //
 //        ExpressionUnaryNot expectedExpression = new ExpressionUnaryNot(new ExpressionVariableBoolean(value));
@@ -23,7 +23,7 @@
 //
 //    @Property
 //    public void ExpressionUnaryNegInteger(int value) {
-//        ANTLRTester tester = new ANTLRTester("-" + value);
+//        Parser.ANTLRTester tester = new Parser.ANTLRTester("-" + value);
 //        Expression actualExpression = tester.visitor.visit(tester.parser.model.expression());
 //
 //        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableInteger(value + ""));
@@ -32,7 +32,7 @@
 //
 //    @Property
 //    public void ExpressionUnaryNegDecimal(double value) {
-//        ANTLRTester tester = new ANTLRTester("-" + value);
+//        Parser.ANTLRTester tester = new Parser.ANTLRTester("-" + value);
 //        Expression actualExpression = tester.visitor.visit(tester.parser.model.expression());
 //
 //        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableInteger(value + ""));

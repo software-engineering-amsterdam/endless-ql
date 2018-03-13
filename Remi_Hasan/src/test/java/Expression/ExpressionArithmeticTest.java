@@ -1,3 +1,6 @@
+package Expression;
+
+import Parser.ANTLRTester;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.generator.InRange;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
@@ -17,8 +20,7 @@ public class ExpressionArithmeticTest {
 
     @Property
     public void ExpressionArithmeticDividePositive(@InRange(min="0") int left, @InRange(min="0") int right) {
-        ANTLRTester tester = new ANTLRTester(left + " / " + right);
-        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+        Expression actualExpression = ANTLRTester.expressionFromString((left + " / " + right));
 
         ExpressionArithmeticDivide expectedExpression = new ExpressionArithmeticDivide(null,
                 new ExpressionVariableInteger(null, left),  new ExpressionVariableInteger(null, right));
@@ -27,8 +29,7 @@ public class ExpressionArithmeticTest {
 
     @Property
     public void ExpressionArithmeticDivideNegative(@InRange(max="-1") int left, @InRange(max="-1") int right) {
-        ANTLRTester tester = new ANTLRTester(left + " / " + right);
-        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+        Expression actualExpression = ANTLRTester.expressionFromString((left + " / " + right));
 
         Expression leftExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(left)));
         Expression rightExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(right)));
@@ -39,8 +40,7 @@ public class ExpressionArithmeticTest {
 
     @Property
     public void ExpressionArithmeticMultiplyPositive(@InRange(min="0") int left, @InRange(min="0") int right) {
-        ANTLRTester tester = new ANTLRTester(left + " * " + right);
-        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+        Expression actualExpression = ANTLRTester.expressionFromString((left + " * " + right));
 
         ExpressionArithmeticMultiply expectedExpression = new ExpressionArithmeticMultiply(null,
                 new ExpressionVariableInteger(null, left),  new ExpressionVariableInteger(null, right));
@@ -49,8 +49,7 @@ public class ExpressionArithmeticTest {
 
     @Property
     public void ExpressionArithmeticMultiplyNegative(@InRange(max="-1") int left, @InRange(max="-1") int right) {
-        ANTLRTester tester = new ANTLRTester(left + " * " + right);
-        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+        Expression actualExpression = ANTLRTester.expressionFromString((left + " * " + right));
 
         Expression leftExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(left)));
         Expression rightExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(right)));
@@ -61,8 +60,7 @@ public class ExpressionArithmeticTest {
 
     @Property
     public void ExpressionArithmeticSubtractPositive(@InRange(min="0") int left, @InRange(min="0") int right) {
-        ANTLRTester tester = new ANTLRTester(left + " - " + right);
-        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+        Expression actualExpression = ANTLRTester.expressionFromString((left + " - " + right));
 
         ExpressionArithmeticSubtract expectedExpression = new ExpressionArithmeticSubtract(null,
                 new ExpressionVariableInteger(null, left),  new ExpressionVariableInteger(null, right));
@@ -71,8 +69,7 @@ public class ExpressionArithmeticTest {
 
     @Property
     public void ExpressionArithmeticSubtractNegative(@InRange(max="-1") int left, @InRange(max="-1") int right) {
-        ANTLRTester tester = new ANTLRTester(left + " - " + right);
-        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+        Expression actualExpression = ANTLRTester.expressionFromString((left + " - " + right));
 
         Expression leftExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(left)));
         Expression rightExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(right)));
@@ -83,8 +80,7 @@ public class ExpressionArithmeticTest {
 
     @Property
     public void ExpressionArithmeticSumPositive(@InRange(min="0") int left, @InRange(min="0") int right) {
-        ANTLRTester tester = new ANTLRTester(left + " + " + right);
-        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+        Expression actualExpression = ANTLRTester.expressionFromString((left + " + " + right));
 
         ExpressionArithmeticSum expectedExpression = new ExpressionArithmeticSum(null,
                 new ExpressionVariableInteger(null, left),  new ExpressionVariableInteger(null, right));
@@ -93,8 +89,7 @@ public class ExpressionArithmeticTest {
 
     @Property
     public void ExpressionArithmeticSumNegative(@InRange(max="-1") int left, @InRange(max="-1") int right) {
-        ANTLRTester tester = new ANTLRTester(left + " + " + right);
-        Expression actualExpression = tester.visitor.visit(tester.parser.expression());
+        Expression actualExpression = ANTLRTester.expressionFromString((left + " + " + right));
 
         Expression leftExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(left)));
         Expression rightExpression = new ExpressionUnaryNeg(null, new ExpressionVariableInteger(null, Math.abs(right)));

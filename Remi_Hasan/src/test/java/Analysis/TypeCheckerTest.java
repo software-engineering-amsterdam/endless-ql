@@ -1,3 +1,6 @@
+package Analysis;
+
+import Parser.ANTLRTester;
 import analysis.TypeChecker;
 import model.expression.Expression;
 import model.expression.binary.ExpressionArithmeticSum;
@@ -12,14 +15,9 @@ import static org.junit.Assert.assertEquals;
 
 public class TypeCheckerTest {
 
-    private Expression expressionFromString(String input) {
-        ANTLRTester tester = new ANTLRTester(input);
-        return tester.visitor.visit(tester.parser.expression());
-    }
-
     @Test
     public void SomeHappyTypeCheckTest() {
-        Expression expression = this.expressionFromString("1 + 1");
+        Expression expression = ANTLRTester.expressionFromString("1 + 1");
 
         TypeChecker typeChecker = new TypeChecker(null, null);
         typeChecker.visit(expression);
@@ -29,7 +27,7 @@ public class TypeCheckerTest {
 
     @Test
     public void SomeSadTypeCheckTest() {
-        Expression expression = this.expressionFromString("1 + true");
+        Expression expression = ANTLRTester.expressionFromString("1 + true");
 
         TypeChecker typeChecker = new TypeChecker(null, null);
         typeChecker.visit(expression);

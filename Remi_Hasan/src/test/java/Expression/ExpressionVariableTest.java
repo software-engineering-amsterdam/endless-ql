@@ -14,7 +14,7 @@
 //
 //    @Test
 //    public void ExpressionBooleanTrueTest() {
-//        ANTLRTester tester = new ANTLRTester("true");
+//        Parser.ANTLRTester tester = new Parser.ANTLRTester("true");
 //        Expression actualExpression = tester.visitor.visitBooleanConstant(tester.parser.booleanConstant());
 //        ExpressionVariableBoolean expectedExpression = new ExpressionVariableBoolean(true);
 //
@@ -25,7 +25,7 @@
 //
 //    @Test
 //    public void ExpressionBooleanFalseTest() {
-//        ANTLRTester tester = new ANTLRTester("false");
+//        Parser.ANTLRTester tester = new Parser.ANTLRTester("false");
 //        Expression actualExpression = tester.visitor.visitBooleanConstant(tester.parser.booleanConstant());
 //        ExpressionVariableBoolean expectedExpression = new ExpressionVariableBoolean(false);
 //
@@ -36,7 +36,7 @@
 //
 //    @Test
 //    public void ExpressionIntegerPositiveTest() {
-//        ANTLRTester tester = new ANTLRTester("1");
+//        Parser.ANTLRTester tester = new Parser.ANTLRTester("1");
 //        Expression actualExpression = tester.visitor.visitIntegerConstant(tester.parser.integerConstant());
 //        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(1);
 //
@@ -47,7 +47,7 @@
 //
 //    @Test
 //    public void ExpressionIntegerNegativeTest() {
-//        ANTLRTester tester = new ANTLRTester("-1");
+//        Parser.ANTLRTester tester = new Parser.ANTLRTester("-1");
 //        Expression actualExpression = tester.visitor.visit(tester.parser.model.expression());
 //        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableInteger(1));
 //
@@ -58,7 +58,7 @@
 //
 //    @Test
 //    public void ExpressionDecimalPositiveTest() {
-//        ANTLRTester tester = new ANTLRTester("1.0");
+//        Parser.ANTLRTester tester = new Parser.ANTLRTester("1.0");
 //        Expression actualExpression = tester.visitor.visitDecimalConstant(tester.parser.decimalConstant());
 //        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(1.0);
 //
@@ -69,7 +69,7 @@
 //
 //    @Test
 //    public void ExpressionDecimalNegativeTest() {
-//        ANTLRTester tester = new ANTLRTester("-1.0");
+//        Parser.ANTLRTester tester = new Parser.ANTLRTester("-1.0");
 //        Expression actualExpression = tester.visitor.visit(tester.parser.model.expression());
 //        ExpressionUnaryNeg expectedExpression = new ExpressionUnaryNeg(new ExpressionVariableInteger(1.0));
 //
@@ -80,7 +80,7 @@
 //
 //    @Test
 //    public void ExpressionMoneyTest() {
-//        ANTLRTester tester = new ANTLRTester("1.99");
+//        Parser.ANTLRTester tester = new Parser.ANTLRTester("1.99");
 //        Expression actualExpression = tester.visitor.visitMoneyConstant(tester.parser.moneyConstant());
 //        ExpressionVariableInteger expectedExpression = new ExpressionVariableInteger(BigDecimal.valueOf(1.99));
 //
@@ -91,7 +91,7 @@
 //
 //    @Test
 //    public void ExpressionStringTest() {
-//        ANTLRTester tester = new ANTLRTester("\"Could you give me some value?\"");
+//        Parser.ANTLRTester tester = new Parser.ANTLRTester("\"Could you give me some value?\"");
 //        Expression actualExpression = tester.visitor.visitStringConstant(tester.parser.stringConstant());
 //        ExpressionVariableString expectedExpression = new ExpressionVariableString("Could you give me some value?");
 //

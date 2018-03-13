@@ -334,7 +334,7 @@ public class MixedValueHolder {
             return this.decimalValue.toString();
         } else if (this.getType() == Expression.DataType.BOOLEAN) {
             return this.booleanValue.toString();
-        } else if (this.getType() == Expression.DataType.INTEGER) {
+        } else if (this.getType() == Expression.DataType.STRING) {
             return this.stringValue;
         }
 

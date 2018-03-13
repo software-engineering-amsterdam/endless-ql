@@ -20,7 +20,7 @@ public class TextFieldWidget extends Widget {
         field.setColumns(20);
 
         if (formQuestionHolder.getAssignedExpression() != null) {
-            textField.setEditable(false);
+            field.setEditable(false);
         }
 
         field.getDocument().addDocumentListener(new DocumentListener() {

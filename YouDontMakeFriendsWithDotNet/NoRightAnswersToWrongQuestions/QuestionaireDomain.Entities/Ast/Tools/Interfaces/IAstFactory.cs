@@ -116,5 +116,8 @@ namespace QuestionnaireDomain.Entities.Ast.Tools.Interfaces
             string definition, 
             Reference<IAstNode> leftExpression, 
             Reference<IAstNode> rightExpression);
+
+        Reference<IUntypedVariableNode> CreateUntypedVariableName(
+            string variableName);
     }
 }

@@ -78,6 +78,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             var domainItem = m_domainItemLocator
                 .GetAll<IQuestionOutputItem>()
                 .FirstOrDefault();
+
             Assert.NotNull(domainItem);
             Assert.AreEqual(
                 expected: questionType, 
@@ -95,6 +96,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             var outputItem = m_domainItemLocator
                 .GetAll<IQuestionOutputItem>()
                 .FirstOrDefault();
+
             Assert.NotNull(outputItem);
             Assert.AreEqual(
                 expected: questionValue,
@@ -111,12 +113,8 @@ namespace UnitTests.Domain.UnitTests.Tests
             int expectedInvisible)
         {
             CreateForm(validDefinition);
-            var actualVisibleCount = m_domainItemLocator
-                .GetAll<IQuestionOutputItem>()
-                .Count(x => x.Visible);
-            var actualInvisibleCount = m_domainItemLocator
-                .GetAll<IQuestionOutputItem>()
-                .Count(x => !x.Visible);
+            var actualVisibleCount = GetVisibleCount();
+            var actualInvisibleCount = GetInvisibleCount();
 
             Assert.AreEqual(
                 expected: expectedVisible,
@@ -126,52 +124,47 @@ namespace UnitTests.Domain.UnitTests.Tests
                 actual: actualInvisibleCount);
         }
 
+
+        [TestCaseSource(
+            typeof(TestModelCreationData),
+            nameof(TestModelCreationData.CalculationVariableValues))]
+        public void GivenBooleanVariableThatChangeFromTrueToFalse_ReturnsCorrectVisibility(
+            string validDefinition,
+            int newValueVariable1,
+            int newValueVariable2)
+        {
+            CreateForm(validDefinition);
+            var actualInitialVisibleCount = GetVisibleCount();
+            var actualInitialInvisibleCount = GetInvisibleCount();
+
+            UpdateIntVariable(@"intQ1", newValueVariable1);
+            UpdateIntVariable(@"intQ2", newValueVariable2);
+
+            var actualNewVisibleCount = GetVisibleCount();
+            var actualNewInvisibleCount = GetInvisibleCount();
+
+            Assert.AreEqual(expected: 1, actual: actualInitialVisibleCount);
+            Assert.AreEqual(expected: 2, actual: actualInitialInvisibleCount);
+            Assert.AreEqual(expected: 2, actual: actualNewVisibleCount);
+            Assert.AreEqual(expected: 1,actual: actualNewInvisibleCount);
+        }
+
+        private int GetVisibleCount()
+        {
+            return GetVisibilityCount(x => x.Visible);
+        }
+
+        private int GetInvisibleCount()
+        {
+            return GetVisibilityCount(x => !x.Visible);
+        }
         
-        //[TestCaseSource(
-        //    typeof(TestModelCreationData),
-        //    nameof(TestModelCreationData.CalculationVariableValues))]
-        //public void GivenBooleanVariableThatChange_ReturnsCorrectVisibility(
-        //    string validDefinition,
-        //    string variableName1,
-        //    string variableName2,
-        //    int expectedInitialVisible,
-        //    int expectedInitialInvisible,
-        //    int newValueVariable1,
-        //    int newValueVariable2,
-        //    int expectedNewVisible,
-        //    int expectedNewInvisible)
-        //{
-        //    CreateForm(validDefinition);
-        //    var actualInitialVisibleCount = m_domainItemLocator
-        //        .GetAll<IQuestionOutputItem>()
-        //        .Count(x => x.Visible);
-        //    var actualInitialInvisibleCount = m_domainItemLocator
-        //        .GetAll<IQuestionOutputItem>()
-        //        .Count(x => !x.Visible);
-
-        //    UpdateIntVariable(variableName1, newValueVariable1);
-        //    UpdateIntVariable(variableName2, newValueVariable2);
-
-        //    var actualNewVisibleCount = m_domainItemLocator
-        //        .GetAll<IQuestionOutputItem>()
-        //        .Count(x => x.Visible);
-        //    var actualNewInvisibleCount = m_domainItemLocator
-        //        .GetAll<IQuestionOutputItem>()
-        //        .Count(x => !x.Visible);
-
-        //    Assert.AreEqual(
-        //        expected: expectedInitialVisible,
-        //        actual: actualInitialVisibleCount);
-        //    Assert.AreEqual(
-        //        expected: expectedInitialInvisible,
-        //        actual: actualInitialInvisibleCount);
-        //    Assert.AreEqual(
-        //        expected: expectedNewVisible,
-        //        actual: actualNewVisibleCount);
-        //    Assert.AreEqual(
-        //        expected: expectedNewInvisible,
-        //        actual: actualNewInvisibleCount);
-        //}
+        private int GetVisibilityCount(Func<IQuestionOutputItem, bool> predicate)
+        {
+            return m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .Count(predicate);
+        }
 
         private void UpdateIntVariable(string variableName, int value)
         {
@@ -203,6 +196,5 @@ namespace UnitTests.Domain.UnitTests.Tests
                 }
             }
         }
-
     }
 }

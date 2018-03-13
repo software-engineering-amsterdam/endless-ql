@@ -4,15 +4,19 @@ from render.widgets import DoubleSpinBox
 
 
 class TypeDecimal(Type):
-    def __init__(self):
+    def __init__(self, value):
         super(TypeDecimal, self).__init__()
-        self.operations = []
+        self.__value = value
 
     def __repr__(self):
-        return 'decimal'
+        return str(self.__value)
 
     def __eq__(self, other):
         return type(self) == type(other)
+
+    @staticmethod
+    def cast(value):
+        return float(value)
 
     @staticmethod
     def get_literal_node(value):

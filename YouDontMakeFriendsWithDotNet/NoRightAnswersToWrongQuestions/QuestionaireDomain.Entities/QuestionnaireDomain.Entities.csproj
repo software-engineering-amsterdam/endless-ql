@@ -65,7 +65,9 @@
     <Compile Include="Ast\Nodes\Calculation\Interfaces\INumberNode.cs" />
     <Compile Include="Ast\Nodes\Calculation\Interfaces\ICalculationVariableNode.cs" />
     <Compile Include="Ast\Nodes\Calculation\Interfaces\ISubtractNode.cs" />
+    <Compile Include="Ast\Nodes\Common\Interfaces\IUntypedVariableNode.cs" />
     <Compile Include="Ast\Nodes\Common\Interfaces\IVariableNode.cs" />
+    <Compile Include="Ast\Nodes\Common\UntypedVariableNode.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\Interfaces\ICalculatedQuestionNode.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IConditionalStatementNode.cs" />
     <Compile Include="Ast\Nodes\Boolean\Interfaces\IOrNode.cs" />

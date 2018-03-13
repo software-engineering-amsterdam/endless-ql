@@ -1,6 +1,7 @@
 ﻿using System;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
@@ -13,13 +14,17 @@ namespace QuestionnaireDomain.Entities.Output.Tools
     {
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly ICalculationVisitor m_calculationVisitor;
+        private readonly ISymbolTable m_lookup;
+
 
         public BooleanEvaluatorVisitor(
             IDomainItemLocator domainItemLocator,
-            ICalculationVisitor calculationVisitor)
+            ICalculationVisitor calculationVisitor,
+            ISymbolTable lookup)
         {
             m_domainItemLocator = domainItemLocator;
             m_calculationVisitor = calculationVisitor;
+            m_lookup = lookup;
         }
 
         public bool Evaluate(Reference<IBooleanLogicNode> predicate)
@@ -27,6 +32,36 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             var node = m_domainItemLocator.Get<IBooleanLogicNode>(predicate.Id);
             dynamic d = node;
             return this.Evaluate(d);
+        }
+
+        public bool Evaluate(IBooleanVariableNode node)
+        {
+            return m_lookup.Lookup<bool>(node.Id);
+        }
+
+        public string Evaluate(ITextVariableNode node)
+        {
+            return m_lookup.Lookup<string>(node.Id);
+        }
+
+        public DateTime Evaluate(IDateVariableNode node)
+        {
+            return m_lookup.Lookup<DateTime>(node.Id);
+        }
+
+        public decimal Evaluate(ICalculationVariableNode node)
+        {
+            return m_lookup.Lookup<decimal>(node.Id);
+        }
+
+        public object Evaluate(IUntypedVariableNode variable)
+        {
+            if (!m_lookup.Exists(variable.Id))
+            {
+                throw new ArgumentException($@"untyped '{variable.DisplayName}' variable not initialized");
+            }
+
+            return m_lookup.Lookup(variable.Id);
         }
 
         public bool Evaluate(IBooleanLiteralNode node)
@@ -50,6 +85,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             dynamic d = expresion;
             return !Evaluate(d);
         }
+        
         
         public DateTime Evaluate(IDateNode node)
         {

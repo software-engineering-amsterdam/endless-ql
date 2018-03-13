@@ -4,6 +4,7 @@ using QuestionnaireDomain.Entities.Ast.Nodes.Boolean;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
@@ -322,6 +323,15 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
                 rightExpression);
 
             return DomainItemRegistration<ILessOrEqualNode>(lessOrEqualNode);
+        }
+
+        public Reference<IUntypedVariableNode> CreateUntypedVariableName(string variableName)
+        {
+            var untypedVariableNode = new UntypedVariableNode(
+                m_ids.Next,
+                variableName);
+
+            return DomainItemRegistration<IUntypedVariableNode>(untypedVariableNode);
         }
 
         private Reference<T> DomainItemRegistration<T>(T node) where T : IDomainItem

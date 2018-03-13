@@ -4,15 +4,19 @@ from render.widgets import CheckBox
 
 
 class TypeBoolean(Type):
-    def __init__(self):
+    def __init__(self, value):
         super(TypeBoolean, self).__init__()
-        self.operations = []
+        self.__value = value
 
     def __repr__(self):
-        return 'boolean'
+        return str(self.__value)
 
     def __eq__(self, other):
         return type(self) == type(other)
+
+    @staticmethod
+    def cast(value):
+        return bool(value)
 
     @staticmethod
     def get_literal_node(value):

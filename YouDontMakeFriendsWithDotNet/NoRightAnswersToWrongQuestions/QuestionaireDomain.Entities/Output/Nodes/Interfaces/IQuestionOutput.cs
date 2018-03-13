@@ -1,7 +1,6 @@
 ﻿using System;
-using QuestionnaireDomain.Entities.API.Output;
 
-namespace QuestionnaireDomain.Entities.API
+namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
 {
     //ToDo: fix this to the available types (in the class)
 

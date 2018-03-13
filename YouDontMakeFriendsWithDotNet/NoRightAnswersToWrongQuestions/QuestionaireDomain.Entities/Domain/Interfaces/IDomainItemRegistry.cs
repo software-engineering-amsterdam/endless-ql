@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace QuestionnaireDomain.Entities.API
+namespace QuestionnaireDomain.Entities.Domain.Interfaces
 {
     public interface IDomainItemRegistry
     {

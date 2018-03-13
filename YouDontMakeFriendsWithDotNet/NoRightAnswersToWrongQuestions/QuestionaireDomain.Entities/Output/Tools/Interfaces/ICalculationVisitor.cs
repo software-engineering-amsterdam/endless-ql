@@ -1,7 +1,7 @@
 ﻿using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 
-namespace QuestionnaireDomain.Logic.Logic
+namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 {
     public interface ICalculationVisitor
     {

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using QuestionnaireDomain.Entities;
-using QuestionnaireDomain.Entities.API;
-using QuestionnaireDomain.Entities.API.Output;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
-using QuestionnaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Domain;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
+using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
+using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 
-namespace QuestionnaireDomain.Logic.Logic
+namespace QuestionnaireDomain.Entities.Output.Tools
 {
     internal class BuildOutputVisitor : 
         IBuildOutputVisitor

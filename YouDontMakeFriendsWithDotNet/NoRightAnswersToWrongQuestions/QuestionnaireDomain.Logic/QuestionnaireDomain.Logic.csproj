@@ -139,18 +139,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainLogicModule.cs" />
-    <Compile Include="Logic\BooleanEvaluatorVisitor.cs" />
-    <Compile Include="Logic\BuildOutputVisitor.cs" />
-    <Compile Include="Logic\CalculationVisitor.cs" />
-    <Compile Include="Logic\IBooleanEvaluatorVisitor.cs" />
-    <Compile Include="Logic\IBuildOutputVisitor.cs" />
-    <Compile Include="Logic\ICalculationVisitor.cs" />
-    <Compile Include="Logic\IVariableUpdater.cs" />
     <Compile Include="Logic\QuestionnaireModelCreator.cs" />
-    <Compile Include="Logic\DomainItemLocator.cs" />
     <Compile Include="Logic\PredicateCreator.cs" />
     <Compile Include="Logic\QuestionnaireAstCreator.cs" />
-    <Compile Include="Logic\VariableUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -158,9 +149,9 @@
       <Project>{7676F4F1-42FC-4A13-8A20-8826B139C98B}</Project>
       <Name>AntlrInterpretor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionaireDomain.Entities.csproj">
+    <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionnaireDomain.Entities.csproj">
       <Project>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</Project>
-      <Name>QuestionaireDomain.Entities</Name>
+      <Name>QuestionnaireDomain.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
       <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>

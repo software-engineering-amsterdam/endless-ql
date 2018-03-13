@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuestionnaireDomain.Entities.API;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation;
@@ -10,10 +9,12 @@ using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Relational;
 using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
-using QuestionnaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireInfrastructure.API;
 
-namespace QuestionnaireDomain.Entities
+namespace QuestionnaireDomain.Entities.Ast.Tools
 {
     internal class AstFactory : IAstFactory
     {

@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntlrInterpretor", "AntlrInterpretor\AntlrInterpretor.csproj", "{7676F4F1-42FC-4A13-8A20-8826B139C98B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionaireDomain.Entities", "QuestionaireDomain.Entities\QuestionaireDomain.Entities.csproj", "{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionnaireDomain.Entities", "QuestionaireDomain.Entities\QuestionnaireDomain.Entities.csproj", "{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionnaireDomain.Logic", "QuestionnaireDomain.Logic\QuestionnaireDomain.Logic.csproj", "{A90F662F-AFD9-45AA-8B13-DBFBAF4A6CFC}"
 EndProject

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuestionnaireDomain.Entities.DomainObjects;
 
-namespace QuestionnaireDomain.Entities.API
+namespace QuestionnaireDomain.Entities.Domain.Interfaces
 {
     public interface IDomainItemLocator
     {

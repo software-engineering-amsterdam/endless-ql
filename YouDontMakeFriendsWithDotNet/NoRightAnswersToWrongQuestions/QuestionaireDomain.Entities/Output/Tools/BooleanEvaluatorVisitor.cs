@@ -1,12 +1,13 @@
 ﻿using System;
-using QuestionnaireDomain.Entities.API;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
-using QuestionnaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Domain;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
+using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using IBinaryExpressionNode = QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces.IBinaryExpressionNode;
 
-namespace QuestionnaireDomain.Logic.Logic
+namespace QuestionnaireDomain.Entities.Output.Tools
 {
     internal class BooleanEvaluatorVisitor : IBooleanEvaluatorVisitor
     {

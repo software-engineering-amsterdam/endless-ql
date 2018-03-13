@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuestionnaireDomain.Entities.API.Output;
-using QuestionnaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Domain;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
+using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
+using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using QuestionnaireInfrastructure.API;
 
-namespace QuestionnaireDomain.Entities.API
+namespace QuestionnaireDomain.Entities.Output.Tools
 {
     internal class OutputItemFactory : IOutputItemFactory
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using QuestionnaireDomain.Entities.API;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common;
 using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
 {

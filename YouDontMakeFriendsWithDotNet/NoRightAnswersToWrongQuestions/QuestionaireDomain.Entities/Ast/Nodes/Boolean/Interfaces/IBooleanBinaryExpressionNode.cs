@@ -1,4 +1,4 @@
-﻿using QuestionnaireDomain.Entities.DomainObjects;
+﻿using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces
 {

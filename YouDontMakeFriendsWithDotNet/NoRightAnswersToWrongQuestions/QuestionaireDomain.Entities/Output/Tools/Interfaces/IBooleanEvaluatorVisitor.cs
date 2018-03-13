@@ -1,7 +1,7 @@
 ﻿using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
-using QuestionnaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Domain;
 
-namespace QuestionnaireDomain.Logic.Logic
+namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 {
     public interface IBooleanEvaluatorVisitor
     {

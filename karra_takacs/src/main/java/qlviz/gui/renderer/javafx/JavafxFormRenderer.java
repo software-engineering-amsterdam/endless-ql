@@ -3,6 +3,7 @@ package qlviz.gui.renderer.javafx;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import qlviz.gui.renderer.FormRenderer;
@@ -17,9 +18,9 @@ import java.util.function.Function;
 public class JavafxFormRenderer implements FormRenderer {
 
     protected final Stage stage;
-    protected final Function<VBox, QuestionRenderer> questionRendererFactory;
+    protected final Function<Pane, QuestionRenderer> questionRendererFactory;
 
-    public JavafxFormRenderer(Stage stage, Function<VBox, QuestionRenderer> questionRendererFactory) {
+    public JavafxFormRenderer(Stage stage, Function<Pane, QuestionRenderer> questionRendererFactory) {
         this.stage = stage;
         this.questionRendererFactory = questionRendererFactory;
     }

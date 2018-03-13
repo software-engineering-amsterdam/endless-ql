@@ -1,14 +1,14 @@
 package qlviz.gui;
 
 import javafx.application.Application;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import qlviz.QLBaseVisitor;
 import qlviz.QLSBaseVisitor;
 import qlviz.gui.renderer.ErrorRenderer;
 import qlviz.gui.renderer.JavafxErrorRenderer;
-import qlviz.gui.renderer.javafx.JavafxFormRenderer;
-import qlviz.gui.renderer.javafx.JavafxQuestionRenderer;
-import qlviz.gui.renderer.javafx.StyledJavafxFormRenderer;
+import qlviz.gui.renderer.QuestionRenderer;
+import qlviz.gui.renderer.javafx.*;
 import qlviz.gui.renderer.layout.NaiveQuestionLocator;
 import qlviz.gui.viewModel.*;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactory;
@@ -35,6 +35,7 @@ import qlviz.typecheker.StaticChecker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class QLForm extends Application {
 	private JavafxFormRenderer renderer;
@@ -70,9 +71,15 @@ public class QLForm extends Application {
 		);
 		StyleModelBuilder styleBuilder = new StyleModelBuilder(stylesheetVisitor);
 
+
 		if (this.getParameters().getRaw().size() > 1) {
 			Stylesheet stylesheet = styleBuilder.createFromMarkup(this.getParameters().getRaw().get(1));
-			this.renderer = new StyledJavafxFormRenderer(stage, JavafxQuestionRenderer::new, stylesheet, new NaiveQuestionLocator(stylesheet));
+			WidgetFinder widgetFinder = new WidgetFinder(new NaiveQuestionLocator(stylesheet));
+			JavafxWidgetFactory javafxWidgetFactory = new JavafxWidgetFactory();
+
+			Function<Pane, QuestionRenderer> questionRendererFactory =
+					pane -> new StyledJavafxQuestionRenderer(pane, javafxWidgetFactory, widgetFinder);
+			this.renderer = new StyledJavafxFormRenderer(stage, questionRendererFactory, stylesheet, new NaiveQuestionLocator(stylesheet));
 		}
 		else {
 			this.renderer = new JavafxFormRenderer(stage, JavafxQuestionRenderer::new);

@@ -3,7 +3,7 @@ package ParseObjectQLS.Widgets;
 public class Width extends Widget {
     private int width;
 
-    public void Width(int size){
+    public Width(int size){
         setWidth(size);
     }
 

@@ -5,12 +5,8 @@ public class Font extends Widget {
 
     public Font(String fontToUse){
 
-        getFont();
-        setFont(fontToUse);
-    }
 
-    public String getFont() {
-        return font;
+        setFont(fontToUse);
     }
 
     public void setFont(String font) {

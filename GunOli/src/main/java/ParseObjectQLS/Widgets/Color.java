@@ -3,7 +3,7 @@ package ParseObjectQLS.Widgets;
 public class Color extends Widget {
     private String HEX;
 
-    public void color(String color){
+    public Color(String color){
         setHEX(color);
     }
 

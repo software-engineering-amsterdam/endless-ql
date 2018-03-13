@@ -3,12 +3,13 @@ from render.widgets import DoubleSpinBox
 
 
 class TypeMoney(Type):
-    def __init__(self):
+    def __init__(self, value, currency=''):
         super(TypeMoney, self).__init__()
-        self.operations = []
+        self.__value = value
+        self.__currency = currency
 
     def __repr__(self):
-        return 'money'
+        return '{}{:.2f}'.format(self.__currency, self.__value)
 
     def __eq__(self, other):
         return type(self) == type(other)

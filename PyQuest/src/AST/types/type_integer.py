@@ -4,12 +4,12 @@ from render.widgets import SpinBox
 
 
 class TypeInteger(Type):
-    def __init__(self):
+    def __init__(self, value):
         super(TypeInteger, self).__init__()
-        self.operations = []
+        self.__value = value
 
     def __repr__(self):
-        return 'integer'
+        return str(self.__value)
 
     def __eq__(self, other):
         return type(self) == type(other)

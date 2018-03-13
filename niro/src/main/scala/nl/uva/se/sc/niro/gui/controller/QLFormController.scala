@@ -71,13 +71,14 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   private def updateVisibility(): Unit = {
     guiForm.questions.foreach(question => {
       getVisibilitySetting(question) match {
-        case visibility: BooleanAnswer => question.component.map(_.setVisible(isVisible(visibility)))
+        case visibility: BooleanAnswer => question.component.foreach(_.setVisible(isVisible(visibility)))
         case _                         => throw new IllegalArgumentException("A if-condition did not result in a boolean expression!")
       }
     })
   }
 
   private def isVisible(b: BooleanAnswer) = {
+    // None values are mapped to false
     b.possibleValue.getOrElse(false)
   }
 

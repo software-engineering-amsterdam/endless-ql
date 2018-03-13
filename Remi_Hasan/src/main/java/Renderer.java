@@ -1,5 +1,4 @@
 import analysis.SymbolTable;
-import analysis.SymbolTableElement;
 import javafx.event.ActionEvent;
 import model.expression.Expression;
 import model.expression.ReturnType;
@@ -73,7 +72,6 @@ public class Renderer {
 
         switch (question.type) {
             case BOOLEAN:
-                // Checkbox
                 input = createBooleanField(fieldMap, question);
                 break;
             case STRING:
@@ -88,11 +86,7 @@ public class Renderer {
             case MONEY:
                 input = createMoneyField(fieldMap, question);
                 break;
-//            case NUMBER:
-//                input = createIntField(fieldMap, question, question.type);
-//                break;
             case DATE:
-                // Date picker
                 input = createDateField(fieldMap, question);
                 break;
             default:
@@ -113,7 +107,6 @@ public class Renderer {
             symbolTable.setExpression(question.name, expression);
             updateFields(fieldMap, form.questions);
         });
-//        throw new NotImplementedException();
         return datePicker;
     }
 

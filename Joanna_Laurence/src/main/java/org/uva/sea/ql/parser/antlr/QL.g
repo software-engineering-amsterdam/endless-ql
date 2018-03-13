@@ -2,15 +2,19 @@ grammar QL;
 
 @parser::header
 {
-    package org.uva.sea.ql.parser.antlr;
+    package org.uva.sea.ql.antlr;
     import org.uva.sea.ql.parser.elements.*;
     import org.uva.sea.ql.parser.elements.expressions.*;
     import org.uva.sea.ql.parser.elements.types.*;
+
+    import org.uva.sea.ql.antlr.QLListener;
+    import org.uva.sea.ql.antlr.QLParser;
+
 }
 
 @lexer::header
 {
-    package org.uva.sea.ql.parser.antlr;
+    package org.uva.sea.ql.antlr;
 }
 
 form returns [Form result]
@@ -192,7 +196,7 @@ date returns [DateExpr result]
         $result = new DateExpr($day, $day.text, $month.text, $year.text);
     };
 
-TYPES: ('money' | 'boolean' | 'string' | 'integer' | 'date' | 'decimal');
+TYPES: ('money_dollar' | 'money_euro' | 'boolean' | 'string' | 'integer' | 'date' | 'decimal');
 
 BOOLEAN_TRUE: ('true' | 'TRUE');
 

@@ -184,7 +184,7 @@ public class MainVisitor<T, U> implements ExpressionVisitor<T, U>, StatementVisi
 	/* Data-model */
 	@Override
 	public T visit(IfThenStatement node, U ctx) {
-		node.getExpression().accept(this, ctx);
+		node.getCondition().accept(this, ctx);
 		node.getIfBody().accept(this, ctx);
 		return null;
 	}
@@ -202,20 +202,20 @@ public class MainVisitor<T, U> implements ExpressionVisitor<T, U>, StatementVisi
 	}
 
 	@Override
-	public T visit(Type type, U ctx) {
-		return null;
-	}
-
-	@Override
 	public T visit(ParenthesesExpression parenthesesExpression, U ctx) {
 		return null;
 	}
 
 	@Override
 	public T visit(IfThenElseStatement node, U ctx) {
-		node.getExpression().accept(this, ctx);
+		node.getCondition().accept(this, ctx);
 		node.getIfBody().accept(this, ctx);
 		node.getElseBody().accept(this, ctx);
+		return null;
+	}
+
+	@Override
+	public T visit(UndefinedType type, U ctx) {
 		return null;
 	}
 }

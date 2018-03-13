@@ -1,11 +1,10 @@
-import { Component} from '@angular/core';
-import {parse} from '../parser/ql-parser';
-import {parse as parseQls} from '../parser/qls-parser';
+import {Component, isDevMode} from '@angular/core';
 import {QuestionBase} from './domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {QuestionControlService} from './services/question-control.service';
-import {Page, Question as QlsQuestion, Section, Stylesheet, Widget, WidgetType} from './domain/ast/qls';
-import {emptyLoc, Form, QuestionType, Question as QlQuestion} from './domain/ast';
+import {Stylesheet} from './domain/ast/qls';
+import {Form} from './domain/ast';
+import {ParseFactory} from './factories/parse-factory';
 
 @Component({
   selector: 'app-root',
@@ -13,93 +12,89 @@ import {emptyLoc, Form, QuestionType, Question as QlQuestion} from './domain/ast
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  input: string;
+  inputQl: string;
   inputQls: string;
   questions: QuestionBase<any>[] = [];
   form: FormGroup;
   formName: string;
   errorMessage: string;
   payload: string;
-  astQl: Form;
-  astQls: Stylesheet;
+  qlForm: Form;
+  qlsStylesheet: Stylesheet;
 
-  constructor (private questionControlService: QuestionControlService) {
+  constructor(private questionControlService: QuestionControlService) {
+    this.inputQls = 'stylesheet "taxOfficeExample"\n' +
+      '{\n' +
+      '  page "Housing"\n' +
+      '  {\n' +
+      '    section "Buying"\n' +
+      '    {\n' +
+      '      question question3\n' +
+      '        widget checkbox\n' +
+      '    }\n' +
+      '    section "Loaning"\n' +
+      '      question question4\n' +
+      '  }\n' +
+      '\n' +
+      '  page "Selling"\n' +
+      '  {\n' +
+      '    section "Selling"\n' +
+      '    {\n' +
+      '      question question5\n' +
+      '        widget radio("Yes", "No")\n' +
+      '      section "You sold a house"\n' +
+      '      {\n' +
+      '        question question1\n' +
+      '          widget spinbox\n' +
+      '        question question2\n' +
+      '          widget spinbox\n' +
+      '        question question6\n' +
+      '        default integer\n' +
+      '        {\n' +
+      '          width: 400\n' +
+      '          font-family: "Arial"\n' +
+      '          font-size: 14\n' +
+      '          color: #999999\n' +
+      '          widget spinbox\n' +
+      '        }\n' +
+      '      }\n' +
+      '    }\n' +
+      '    default boolean widget radio("Yes", "No")\n' +
+      '  }\n' +
+      '}';
 
-  }
-
-  // TODO move into factory pattern mentioned below
-  qlQuestionTypeToQlsType(qlType: QuestionType): WidgetType {
-    switch (qlType) {
-      case QuestionType.INT:
-      case QuestionType.DECIMAL:
-        return WidgetType.SPINBOX;
-      case QuestionType.BOOLEAN:
-        return WidgetType.CHECKBOX;
-      case QuestionType.DATE:
-      case QuestionType.STRING:
-      default:
-        return WidgetType.NONE;
-        // throw new Error('TODO implementation');
-    }
-  }
-
-  getQuestionBaseByName(name: string): QuestionBase<any> {
-    for (const question of this.questions) {
-      if (question.key === name) {
-        return question;
-      }
-    }
-
-    throw new Error(`Couldn't get question '${name}'`);
-  }
-
-  getQlQuestionsForSection(section: Section): QuestionBase<any>[] {
-    const qlsQuestions = section.getQuestions();
-    const questions: QuestionBase<any>[] = [];
-
-    for (const qlsQuestion of qlsQuestions) {
-      questions.push(this.getQuestionBaseByName(qlsQuestion.name));
-    }
-
-    return questions;
+    this.inputQl = 'form form {\n' +
+      '  question1: "IntegerQuestion?"  integer\n' +
+      '  question2: "DecimalQuestion?"  integer\n' +
+      '  question3: "BooleanQuestion?"  boolean\n' +
+      '  question4: "StringQuestion?"  string\n' +
+      '  question5: "DateQuestion?"  date\n' +
+      '  if (question3) {\n' +
+      '    question6: "ifQuestion" integer\n' +
+      '  }\n' +
+      '}';
   }
 
   parseInput() {
     try {
-      // parse input to tree
-      this.astQl = parse(this.input, {});
-      // check form
-      this.astQl.checkForm();
-
-      if (this.inputQls && this.inputQls !== '') {
-        this.astQls = parseQls(this.inputQls, {});
-      } else {
-        // generate default styling for all questions in case input is empty
-        // TODO move this into factory pattern
-        const qlsQuestions: QlsQuestion[] = [];
-
-        for (const qlQuestion of this.astQl.getAllQuestions()) {
-          const widget = new Widget(this.qlQuestionTypeToQlsType(qlQuestion.type), []);
-          qlsQuestions.push(new QlsQuestion(qlQuestion.name, widget, emptyLoc));
-        }
-
-        const section = new Section('default section', [], qlsQuestions, emptyLoc);
-        const page = new Page('default page', [section], emptyLoc);
-        this.astQls = new Stylesheet('default implementation', [page], emptyLoc);
-      }
-
-      console.log(this.astQls);
-
+      const parseResult = ParseFactory.parse(this.inputQl, this.inputQls);
+      this.formName = parseResult.formName;
+      this.qlForm = parseResult.form;
+      this.qlsStylesheet = parseResult.styles;
       // make form
-      this.questions = this.astQl.toFormQuestion();
+      this.questions = this.qlForm.toFormQuestion();
       this.form = this.questionControlService.toFormGroup(this.questions);
-      this.formName = this.astQl.name;
+      this.formName = this.qlForm.name;
       this.errorMessage = undefined;
     } catch (e) {
       this.form = undefined;
       this.formName = undefined;
       this.questions = undefined;
       this.errorMessage = e.message;
+
+      if (isDevMode()) {
+        console.log(e);
+      }
     }
     this.payload = undefined;
   }

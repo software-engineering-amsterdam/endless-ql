@@ -7,15 +7,17 @@ import javafx.scene.control._
 import javafx.scene.layout.{ HBox, VBox }
 import javafx.scene.text.Font
 import javafx.stage.{ Screen, Stage }
-import nl.uva.se.sc.niro.model.Expressions.answers.IntAnswer
-import nl.uva.se.sc.niro.model.{ QLForm, Question, Statement }
+import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, IntegerAnswer }
+import nl.uva.se.sc.niro.model.ql.{ QLForm, Question, Statement }
 import nl.uva.se.sc.niro.parser.QLFormParser
 import org.antlr.v4.runtime.CharStreams
 import org.apache.logging.log4j.scala.Logging
 
+import scala.collection.mutable
 import scala.io.Source
 import scala.util.{ Failure, Success, Try }
 
+/** Interactive REPL to help during development. This is throwaway code */
 object REPL {
   def main(args: Array[String]) {
     Application.launch(classOf[REPL], args: _*)
@@ -27,6 +29,7 @@ class REPL extends Application with Logging {
   var inputFrameText = ""
 
   var qlForm = QLForm("", Seq.empty)
+  val dictionary: mutable.Map[String, Answer] = mutable.Map.empty
 
   override def start(primaryStage: Stage) {
     primaryStage.setTitle("Niro Repl")
@@ -112,14 +115,15 @@ class REPL extends Application with Logging {
   def renderQuestions(astFrame: VBox, outputFrame: VBox): Unit = {
     val allQuestionsInForm = Statement.collectAllQuestions(qlForm.statements)
     val questions = allQuestionsInForm.map {
-      case Question(id, label, answerType, expression, answer) =>
+      case Question(id, label, answerType, expression) =>
         val idField = new Label(id)
         val labelField = new Label(label)
         val inputField = new TextField()
 
+        val answer: Option[Answer] = dictionary.get(id)
         answer foreach {
-          case IntAnswer(Some(value)) => inputField.setText(value.toString)
-          case IntAnswer(None)        => ()
+          case IntegerAnswer(Some(value)) => inputField.setText(value.toString)
+          case IntegerAnswer(None)        => ()
         }
 
         inputField
@@ -127,11 +131,13 @@ class REPL extends Application with Logging {
           .addListener(new ChangeListener[String] {
             def changed(p1: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
               logger.debug(s"change event on question: $id")
-              val intAnswer = IntAnswer(Try(newValue.toInt).toOption)
+              val intAnswer = IntegerAnswer(Try(newValue.toInt).toOption)
 
-              qlForm = qlForm.save(id, intAnswer)
-              qlForm = Evaluator.evaluateQLForm(qlForm)
-
+              dictionary(id) = intAnswer
+              val updatedDictionary = Evaluator.evaluate(qlForm, dictionary.toMap)
+              pprint.pprintln(updatedDictionary)
+              dictionary ++= mutable.Map(updatedDictionary.toSeq: _*)
+              pprint.pprintln(dictionary)
               astFrame.getChildren.remove(1)
               astFrame.getChildren.add(new Label(prettyPrintQLForm(qlForm)))
 

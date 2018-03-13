@@ -3,13 +3,25 @@ package nl.uva.js.qlparser.models.expressions.data;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
+import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.models.enums.DataType;
+import nl.uva.js.qlparser.wrappers.logic.ValueChangeListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
-public class Variable<T> implements DataExpression {
-    private DataType dataType;
+public class Variable implements DataExpression {
+    @NonNull private DataType dataType;
     @NonNull private String name;
+    private DataExpression value;
+    private final List<ValueChangeListener> valueChangeListeners = new ArrayList<>();
+
+    public void setValue(DataExpression value) {
+        this.value = value;
+        valueChangeListeners.forEach(listener -> listener.onChange(this));
+    }
 
     @Override
     public DataType checkAndReturnType() {
@@ -17,7 +29,13 @@ public class Variable<T> implements DataExpression {
     }
 
     @Override
-    public T value() {
-        return (T) new Object();
+    public Object value() {
+        return NonNullRun.function(value, DataExpression::value);
+    }
+
+    @Override
+    public void addChangeListener(ValueChangeListener listener) {
+        valueChangeListeners.add(listener);
+        NonNullRun.consumer(value, val -> val.addChangeListener(listener));
     }
 }

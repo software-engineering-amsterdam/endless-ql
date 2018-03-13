@@ -70,17 +70,18 @@ class LexTokenizer(object):
         r'\n+'
         t.lexer.lineno += len(t.value)
 
+    # Define a rule for detecting decimal numbers
+    @staticmethod
+    def t_FLOAT(t):
+        r'\d+[.]\d+'
+        t.value = float(t.value)
+        return t
+
     # Define a rule for detecting round numbers
     @staticmethod
     def t_NUMBER(t):
         r'\d+'
         t.value = int(t.value)
-        return t
-
-    # Define a rule for detecting decimal numbers
-    @staticmethod
-    def t_FLOAT(t):
-        r'\d+\.(\d+)'
         return t
 
     @staticmethod

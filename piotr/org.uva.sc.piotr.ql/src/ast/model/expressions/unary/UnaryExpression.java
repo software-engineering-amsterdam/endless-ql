@@ -4,7 +4,19 @@ import ast.model.expressions.Expression;
 
 abstract public class UnaryExpression extends Expression {
 
-    public UnaryExpression(Integer startLine, Integer endLine) {
-        super(startLine, endLine);
+    private Expression expression;
+
+    public UnaryExpression(Expression expression, MetaInformation metaInformation) {
+        super(metaInformation);
+        this.expression = expression;
     }
+
+    public Expression getExpression() {
+        return expression;
+    }
+
+    public void setExpression(Expression expression) {
+        this.expression = expression;
+    }
+
 }

@@ -1,0 +1,55 @@
+﻿<Window x:Class="QuestionnaireWPFApp.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuestionnaireWPFApp"
+        xmlns:view="clr-namespace:QuestionnaireWPFApp.Views"
+        mc:Ignorable="d"
+        Title="Questionnaire App" 
+        MinHeight="650" 
+        MinWidth="900" 
+        Height="650" 
+        Width="920"
+        Background="Azure"
+        Icon="..\output.ico">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Margin="10" FontSize="40" Grid.ColumnSpan="3">
+            <Bold Foreground="Red">Questionaires</Bold>
+        </TextBlock>
+
+        <StackPanel Background="Azure" Grid.Row="1" Orientation="Horizontal">
+            <Button Style="{StaticResource NewQuestionnaireButtonStyle}" />
+        </StackPanel>
+
+        <GridSplitter Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Width="5" Background="DarkRed"
+                      HorizontalAlignment="Center" />
+
+        <TabControl Grid.Row="1" 
+                    Grid.RowSpan="2" 
+                    Grid.Column="2" 
+                    Background="Azure">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="TODO: Bind to questionaire Name" />
+                        <Button Content="X"
+                                Foreground="White" Padding="0" />
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
+    </Grid>
+</Window>

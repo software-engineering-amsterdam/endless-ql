@@ -13,13 +13,14 @@ statement
     ;
 
 question        
-    :   label=STRING variableName=IDENTIFIER ':' variableType=dataType (OP_ASSIG expression)?;
+    :   label=STRING variableName=IDENTIFIER ':' variableType=dataType (OP_ASSIG assignment=expression)?;
 
 dataType
     : TYPE_BOOLEAN  #TypeDeclarationBoolean
     | TYPE_STRING   #TypeDeclarationString
     | TYPE_INTEGER  #TypeDeclarationInteger
     | TYPE_DECIMAL  #TypeDeclarationDecimal
+    | TYPE_MONEY    #TypeDeclarationMoney
     ;
 
 ifStatement
@@ -31,9 +32,9 @@ elseStatement
     ;
 
 expression
-    : '(' expression ')'                                            #ExpressionParenthesises
-    | OP_NOT expression                                             #ExpressionNegation
-    | OP_MINUS expression                                           #ExpressionArithmeticMinus
+    : '(' subExpression=expression ')'                              #ExpressionParenthesises
+    | OP_NOT subExpression=expression                               #ExpressionNegation
+    | OP_MINUS subExpression=expression                             #ExpressionArithmeticMinus
     | lhs=expression binaryOperator=OP_MULT rhs=expression          #ExpressionArithmeticMultiplication
     | lhs=expression binaryOperator=OP_DIV rhs=expression           #ExpressionArithmeticDivision
     | lhs=expression binaryOperator=OP_PLUS rhs=expression          #ExpressionArithmeticAddition
@@ -81,7 +82,8 @@ END     : '}';
 TYPE_BOOLEAN    : 'boolean';
 TYPE_STRING     : 'string';
 TYPE_INTEGER    : 'integer';
-TYPE_DECIMAL    : 'decimal' | 'money';
+TYPE_DECIMAL    : 'decimal';
+TYPE_MONEY      : 'money';
 
 BOOL_TRUE    : 'true' | 'TRUE';
 BOOL_FALSE   : 'false' | 'FALSE';

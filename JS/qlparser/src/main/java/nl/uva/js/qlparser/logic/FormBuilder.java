@@ -20,11 +20,14 @@ public class FormBuilder {
     }
 
     public static Form parseFormFromString(String qlInput) {
-        QLLexer lexer = new QLLexer(CharStreams.fromString(qlInput));
-        lexer.addErrorListener(new ErrorListener());
-        QLParser parser = new QLParser(new CommonTokenStream(lexer));
+        ErrorListener errorListener = new ErrorListener();
 
-        Form form = new QLVisitorImpl().visitForm(parser.form());
+        QLLexer lexer = new QLLexer(CharStreams.fromString(qlInput));
+        lexer.addErrorListener(errorListener);
+        QLParser parser = new QLParser(new CommonTokenStream(lexer));
+        parser.addErrorListener(errorListener);
+
+        Form form = new QLVisitor().visitForm(parser.form());
         form.checkType();
 
         return form;

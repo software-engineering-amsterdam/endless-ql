@@ -3,5 +3,5 @@ package ast.model;
 import ast.visitors.ASTNodeVisitor;
 
 public interface VisitableASTNode {
-    void accept(ASTNodeVisitor visitor);
+    <T> T accept(ASTNodeVisitor<T> visitor);
 }

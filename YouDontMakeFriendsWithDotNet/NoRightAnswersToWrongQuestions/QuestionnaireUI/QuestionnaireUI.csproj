@@ -48,6 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalculatedQuestionModel.cs" />
+    <Compile Include="CalculatedQuestionWrapper.cs" />
+    <Compile Include="QuestionnaireWrapper.cs" />
+    <Compile Include="QuestionnaireModel.cs" />
     <Compile Include="UiModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

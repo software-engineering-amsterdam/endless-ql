@@ -3,11 +3,8 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
-using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
-using QuestionaireDomain.Entities.DomainObjects;
 using QuestionaireOrchestration;
 using QuestionaireOrchestration.API;
-using QuestionnaireDomain.Logic.API;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
 
@@ -32,10 +29,10 @@ namespace UnitTests.Orchestration.UnitTests
         //    var commandMessage = new CreateQuestionnaireCommandMessage();
         //    var commandId = commandMessage.Id;
 
-        //    var domainItemId = new Reference<IRootNode>(Guid.NewGuid());
-        //    var mockCreator = new Mock<IQuestionnaireCreator>();
+        //    var domainItemId = new Reference<IQuestionnaireRootNode>(Guid.NewGuid());
+        //    var mockCreator = new Mock<IQuestionnaireAstCreator>();
         //    mockCreator.Setup(x => x.Create(It.IsAny<string>())).Returns(domainItemId);
-        //    m_services.AddTransient(typeof(IQuestionnaireCreator), x => mockCreator.Object);
+        //    m_services.AddTransient(typeof(IQuestionnaireAstCreator), x => mockCreator.Object);
         //    var serviceProvider = m_services.BuildServiceProvider();
         //    var commandBus = serviceProvider.GetService<ICommandBus>();
         //    var commandQueryService = serviceProvider.GetService<ICommandQueryService>();

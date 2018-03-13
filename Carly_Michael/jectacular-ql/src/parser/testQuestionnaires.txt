@@ -8,7 +8,6 @@ form form {
 form form {
   question1: "IntegerQuestion?"  integer
   question2: "DecimalQuestion?"  decimal
-  question3: "MoneyQuestion?"  money
   question4: "BooleanQuestion?"  boolean
   question5: "StringQuestion?"  string
  	question6: "DateQuestion?"  date
@@ -22,7 +21,7 @@ form form {
 //valid form with if question
 form form {
   question1: "IntegerQuestion?"  integer
-  question2: "DecimalQuestion?"  decimal
+  question2: "DecimalQuestion?"  integer
   question3: "BooleanQuestion?"  boolean
   question4: "StringQuestion?"  string
   question5: "DateQuestion?"  date
@@ -35,7 +34,6 @@ form form {
 form form {
    question1: "IntegerQuestion?"  integer
    question2: "DecimalQuestion?"  decimal
-   question3: "MoneyQuestion?"  money
    question4: "BooleanQuestion?"  boolean
    question5: "StringQuestion?"  string
    question5: "StringQuestion?"  string
@@ -48,12 +46,11 @@ form form {
 //type error form
 form form {
   question1: "IntegerQuestion?"  integer
-  question2: "DecimalQuestion?"  decimal
-  question3: "BooleanQuestion?"  boolean
-  question4: "StringQuestion?"  string
-  question5: "DateQuestion?"  date
+  question2: "BooleanQuestion?"  boolean
+  question3: "StringQuestion?"  string
+  question4: "DateQuestion?"  date
   if (question4) {
-    question6: "ifQuestion" integer
+    question5: "ifQuestion" integer
   }
 }
 
@@ -71,7 +68,16 @@ form form {
 
 //calculated value form with variable dependency
 form form {
-   salaryQuestion: "What do you earn on a day?" money
+   salaryQuestion: "What do you earn in an hour?" integer
    workHourQuestion: "How many hours do you work in a week?" integer
    weeklyEarnings: "In a week you earn:" integer = salaryQuestion * workHourQuestion
+   monthlyEarnings: "In a month you earn:" integer = weeklyEarnings * 4
+   holidaySalary: "Do you get holiday money?" boolean
+   if (holidaySalary) {
+      yearlyEarnings: "In a year you earn: " integer = monthlyEarnings * 12 + monthlyEarnings
+   } else {
+      yearlyEarnings2: "in a year you earn: " integer = monthlyEarnings * 12
+   }
+
+   salaryMoreThanAverage: "Your salary bigger than average" boolean = yearlyEarnings > 30000 || yearlyEarnings2 > 30000
 }

@@ -4,20 +4,25 @@ parser grammar QL;
 using Assignment1.Model;
 }
 
+@parser::members
+{
+    private static string UnEscapeQLString(string input) => input.Substring(1, input.Length - 2).Replace("\"\"", "\"");
+}
+
 options { tokenVocab=QLLexer; }
 
 form returns [QuestionForm result]
 	: FORM ID content EOF
 		{$result = new QuestionForm($ID.text, $content.result);}
 	;	
-content returns [List<Content> result]
+content returns [List<Question> result]
 	@init {
-	$result = new List<Content>();
+	$result = new List<Question>();
 	}
 	: OPEN_CB (question
 		{$result.Add($question.result);}
 		| ifstatement
-		{$result.Add($ifstatement.result);}
+		{$result.AddRange($ifstatement.result);}
 		)* CLOSE_CB
 	;
 question returns [Question result]
@@ -32,28 +37,37 @@ questionAssign returns [Question result]
 		 $result.Value = $value.result;}
 	| questionNorm ASSIGN expression
 		{$result = $questionNorm.result;
-		 $result.Computed = true;
-		 $result.Expression = $expression.result;}
+		 $result.Computation = $expression.result;}
 	;
 questionNorm returns [Question result]
-	: STRING ID SEP BOOLEAN_TYPE
-		{$result = new QuestionBool($ID.text, $STRING.text);}
-	| STRING ID SEP DATE_TYPE
-		{$result = new QuestionDate($ID.text, $STRING.text);}
-	| STRING ID SEP DECIMAL_TYPE
-		{$result = new QuestionDecimal($ID.text, $STRING.text);}
-	| STRING ID SEP INTEGER_TYPE
-		{$result = new QuestionInt($ID.text, $STRING.text);}
-	| STRING ID SEP MONEY_TYPE
-		{$result = new QuestionMoney($ID.text, $STRING.text);}
-	| STRING ID SEP STRING_TYPE
-		{$result = new QuestionString($ID.text, $STRING.text);}
+	: string ID SEP BOOLEAN_TYPE
+		{$result = new QuestionBool($ID.text, $string.result);}
+	| string ID SEP DATE_TYPE
+		{$result = new QuestionDate($ID.text, $string.result);}
+	| string ID SEP DECIMAL_TYPE
+		{$result = new QuestionDecimal($ID.text, $string.result);}
+	| string ID SEP INTEGER_TYPE
+		{$result = new QuestionInt($ID.text, $string.result);}
+	| string ID SEP MONEY_TYPE
+		{$result = new QuestionMoney($ID.text, $string.result);}
+	| string ID SEP STRING_TYPE
+		{$result = new QuestionString($ID.text, $string.result);}
 	;
-ifstatement returns [IfStatement result]
+ifstatement returns [List<Question> result]
+	@init {
+	$result = new List<Question>();
+	}
 	: IF OPEN_BR expression CLOSE_BR content1=content ELSE content2=content
-		{$result = new IfElseStatement($expression.result, $content1.result, $content2.result);}
+		{foreach (var content in $content1.result)
+            content.AddCondition($expression.result);
+		foreach (var content in $content2.result)
+            content.AddCondition(new ExpressionNot($expression.result));
+		$result.AddRange($content1.result);
+		$result.AddRange($content2.result);}
 	| IF OPEN_BR expression CLOSE_BR content
-		{$result = new IfStatement($expression.result, $content.result);}
+		{foreach (var content in $content.result)
+            content.AddCondition($expression.result);
+		$result.AddRange($content.result);}
 	;
 expression returns [Expression result]
 	: value
@@ -99,5 +113,9 @@ value returns [dynamic result]
 	| DATE    {$result = DateTime.Parse($DATE.text);}
 	| DECIMAL {$result = decimal.Parse($DECIMAL.text);}
 	| INTEGER {$result = int.Parse($INTEGER.text);}
-	| STRING  {$result = $STRING.text;}
+	| string  {$result = $string.result;}
+	;
+string returns [string result]
+	: STRING
+		{$result = UnEscapeQLString($STRING.text);}
 	;

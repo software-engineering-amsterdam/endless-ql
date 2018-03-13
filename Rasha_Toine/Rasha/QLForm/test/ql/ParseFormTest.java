@@ -5,11 +5,11 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import ast.Form;
-import ast.literal.Identifier;
-import ast.statement.IfThenElseStatement;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import ql.ast.Form;
+import ql.ast.literal.Identifier;
+import ql.ast.statement.IfThenElseStatement;
+import org.junit.Assert.assertTrue;
+import org.junit.Assert.assertEquals;
 
 public class ParseFormTest {
     @Test
@@ -26,7 +26,7 @@ public class ParseFormTest {
 		    	Form form = Form.parseFileToForm(qlFile);
 		    	Identifier id = form.getId();
 		    	String expectedId = "Box1HouseOwning";
-		    	String extractedId = id.getIdentifier(); 
+		    	String extractedId = id.toString(); 
 	
 		        assertTrue(form != null);
 		        assertEquals(expectedName, extractedId);

@@ -7,37 +7,39 @@ import org.uva.ql.evaluator.data.StatementTable;
 import org.uva.ql.evaluator.data.ValueTable;
 import org.uva.ql.gui.GUIHandler;
 import org.uva.ql.parsing.ASTBuilder;
+import org.uva.ql.validation.LogHandler;
 import org.uva.ql.validation.Validator;
+import org.uva.qls.QLSBuilder;
+import org.uva.qls.ast.Stylesheet;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 
 public class App {
 
     private App() {
-        try {
-            byte[] a = Files.readAllBytes(Paths.get("input/default.ql"));
-            String input = new String(a);
+        Logger logger = Logger.getGlobal();
+        LogManager.getLogManager().reset();
+        logger.addHandler(new LogHandler());
 
-            ASTBuilder builder = new ASTBuilder();
-            Form form = builder.buildAST(input);
+        String input = new InputHandler().readFile("input/default.ql");
+        ASTBuilder builder = new ASTBuilder();
+        Form form = builder.buildAST(input);
 
-            Validator validator = new Validator();
-            validator.execute(form);
+        String qlsInput = new InputHandler().readFile("input/default.qls");
+        QLSBuilder QLSBuilder = new QLSBuilder();
+        Stylesheet stylesheet = QLSBuilder.buildAST(qlsInput);
 
-            FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
-            
-            GUIHandler guiHandler = new GUIHandler(formEvaluator);
+        Validator validator = new Validator(form);
+        validator.run();
 
-        }
-        catch (IOException ex) {
-            System.out.println(ex.toString());
-        }
+        FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
+
+        GUIHandler guiHandler = new GUIHandler(formEvaluator);
     }
 
-    public static void main (String [] args) {
+    public static void main(String[] args) {
         new App();
     }
 }

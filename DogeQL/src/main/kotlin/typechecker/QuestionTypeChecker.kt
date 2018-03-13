@@ -1,7 +1,7 @@
 package typechecker
 
 import common.Name
-import data.Question
+import data.question.Question
 import java.util.HashMap
 
 class QuestionTypeChecker : TypeChecker{

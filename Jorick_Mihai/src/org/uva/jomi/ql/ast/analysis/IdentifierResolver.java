@@ -1,5 +1,6 @@
 package org.uva.jomi.ql.ast.analysis;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.jomi.ql.ast.expressions.*;
@@ -34,26 +35,38 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		return errorHandler.getErrorAtIndex(index);
 	}
 	
+	// Return a list that contains only question statements
+	public List<QuestionStmt> filterQuestionStmt(List<Stmt> statements) {
+		List<QuestionStmt> questions = new ArrayList<>();
+		
+		statements.stream().filter(questionStmt -> questionStmt instanceof QuestionStmt)
+		.forEach(question -> questions.add((QuestionStmt) question));
+		
+		return questions;
+	}
+	
+	public boolean findDuplicatedIdentifier(IdentifierExpr identifier) {
+		if (identifierStack.isInCurrentScope(identifier.getName())) {
+			errorHandler.addIdentifierError(identifier.getToken(), "Read-only identifier already declared the current scope");
+			return true;
+		} else {
+			IdentifierExpr outsideIdentifier = identifierStack.getIdentifier(identifier.getName());
+			if (outsideIdentifier != null) {
+				if (outsideIdentifier.getType() != identifier.getType()) {
+					String error = String.format("Read-only identifier (line: %d, column: %d) with a different type is declared in an outside scope",
+							outsideIdentifier.getLineNumber(), outsideIdentifier.getColumnNumber());
+					errorHandler.addIdentifierError(identifier.getToken(), error);
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
 	public void visitBinaryExpr(BinaryExpr expr) {
 		expr.visitLeftExpr(this);
 		expr.visitRightExpr(this);
-	}
-
-	/*
-	 * Add supplementary method in order to add the question identifier 
-	 * to the stack.
-	 */
-	public void resolveQuestionIdentifier(IdentifierExpr identifier) {
-		// First check if the identifier is already present in the current scope
-		if (identifierStack.isInCurrentScope(identifier.getName())) {
-			errorHandler.addIdentifierError(identifier.getToken(), "Read-only identifier already declared the current scope");
-		// Make sure the identifier is not declared in any outside scope
-		} else if (identifierStack.getIdentifier(identifier.getName()) != null) {
-			errorHandler.addIdentifierError(identifier.getToken(), "Read-only identifier already declared in an outside scope");
-		// The identifier is not present in any scope, add it to the top stack;
-		} else {
-			identifierStack.add(identifier);
-		}
 	}
 
 	@Override
@@ -64,8 +77,15 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visit(BlockStmt stmt) {
-		// Create a new scope for the block statement
+		// Create a new scope for the block statement.
 		identifierStack.enterScope();
+		
+		// Make sure we add all the question identifiers to the stack before we visit each statement.
+		for (QuestionStmt question : filterQuestionStmt(stmt.getStatements())) {
+			if (!findDuplicatedIdentifier(question.getIdentifier())) {
+				identifierStack.add(question.getIdentifier());
+			}
+		}
 
 		// Visit every statement in the block.
 		stmt.getStatements().forEach( statement -> statement.accept(this));
@@ -77,21 +97,14 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 
 	@Override
 	public Void visit(QuestionStmt stmt) {
-		resolveQuestionIdentifier(stmt.getIdentifier());
 		return null;
 	}
 
 	@Override
 	public Void visit(ComputedQuestionStmt stmt) {
 		
-		/*
-		 * Visit the expressions first in case the question identifier is used 
-		 * inside the expression.
-		 */
+		// Visit the expression.
 		stmt.visitExpr(this);
-		
-		// Make  sure the question name has not been already declared
-		resolveQuestionIdentifier(stmt.getIdentifier());
 		return null;
 	}
 

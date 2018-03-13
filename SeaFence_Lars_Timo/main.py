@@ -5,6 +5,7 @@ from antlr_files_2.QLParser import QLParser
 from antlr_files_2.QLVisitor import QLVisitor
 from QLVisitorHelper import QLVisitorHelper
 from GuiBuilder import GuiBuilder
+from TypeChecker import TypeChecker
 
 def main(argv):
     input = FileStream(argv[1])
@@ -18,6 +19,8 @@ def main(argv):
 
     ast = visitor.visit(tree)
     # print ast
+
+    # checker = TypeChecker(ast)
 
     builder = GuiBuilder(ast)
     # gui = Gui()

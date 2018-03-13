@@ -1,20 +1,28 @@
 package nl.khonraad.domain;
 
-public class ComputedQuestion extends Value {
+public class ComputedQuestion {
 
 	String identifier;
 	String label;
+	Value value;
 
-	// An undefined boolean will therefore be considered False, a date as EPOCH.
-	
-	private static int UNDEFINED_VALUE = 0;   
-	
-	public ComputedQuestion(String identifier, String label, Type type) {
-		
-		super(type, UNDEFINED_VALUE);
+	public ComputedQuestion(String identifier, String label, Value value) {
 		
 		this.identifier = identifier;
 		this.label = label;
+		this.value = value;
+	}
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public Value getValue() {
+		return value;
 	}
 
 }

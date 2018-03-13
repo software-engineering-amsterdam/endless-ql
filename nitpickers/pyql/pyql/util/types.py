@@ -3,8 +3,14 @@ class Type:
     def __init__(self, type_name="UnknownType"):
         self._type_name = type_name
 
+    def accept(self, visitor):
+        return visitor.visit(self)
+
     @property
     def type_name(self):
+        return self._type_name
+
+    def __repr__(self):
         return self._type_name
 
 
@@ -40,5 +46,10 @@ class Date(Type):
 
 class Money(Type):
 
-    def __init__(self):
+    def __init__(self, expression=None):
         super().__init__("Money")
+        self._expression = expression
+
+    @property
+    def expression(self):
+        return self._expression

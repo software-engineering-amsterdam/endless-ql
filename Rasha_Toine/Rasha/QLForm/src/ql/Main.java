@@ -4,8 +4,9 @@ import java.io.File;
 import java.io.IOException;
 
 
-
 import ql.checking.TypeChecker;
+import ql.gui.FormGUI;
+import ql.gui.QlPageGenerator;
 import ql.ast.Form;
 import ql.ast.literal.Identifier;
 import ql.ast.statement.IfThenElseStatement;
@@ -28,8 +29,8 @@ public class Main {
 	    
 	    try {
 	    	// 1- Generate ast tree
-	    	ql.ast.Form form = Form.parseFileToForm(qlFile);
-	    	ql.ast.literal.Identifier id = form.getId();
+	    	Form form = Form.parseFileToForm(qlFile);
+	    	Identifier id = form.getId();
 	    	form.getBlock().getStatements().forEach(it -> {
 				System.out.println("statementlocation = " + it.getLocation().getStartLine() + ", class = " + it.getClass());
 				/*if (it.getClass() == ast.statement.IfThenElseStatement.class)
@@ -38,7 +39,7 @@ public class Main {
 	    	});
 	
 	    	System.out.println("Count statements = " + form.getBlock().getStatements().size());
-	    	System.out.print(id.getIdentifier());
+	    	System.out.print(id.toString());
 
 	    	// 2- Run type checker on generated ql form 
 	        TypeChecker checker = new TypeChecker();

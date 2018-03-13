@@ -95,7 +95,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	public String visit(QuestionStmt stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
 			   stmt.getId(),
-			   stmt.getIdentifierName(),
+			   stmt.getName(),
 			   stmt.getType());
 
 		// Visit the identifier expression
@@ -109,7 +109,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	public String visit(ComputedQuestionStmt stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
 				   stmt.getId(),
-				   stmt.getIdentifierName(),
+				   stmt.getName(),
 				   stmt.getType());
 
 		// Visit the expression statement

@@ -15,6 +15,7 @@ describe('jectacular-ql App', () => {
 
   it('should parse an input to a form', done => {
     page.navigateTo();
+    page.clearInputs();
     page.parseInput(mockInput.ifQuestionForm);
     page.formDisplayed().then(displayed => {
       expect(displayed).toBe(true);

@@ -11,4 +11,4 @@ class ASTNode:
         return str({"AST node " + str(self.location)})
 
     def accept(self, visitor):
-        return visitor.visit_ast_node(self)
+        return visitor.visit(self)

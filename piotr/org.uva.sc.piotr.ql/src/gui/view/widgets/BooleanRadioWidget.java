@@ -1,7 +1,7 @@
 package gui.view.widgets;
 
 import ast.model.expressions.Expression;
-import gui.view.FormPanel;
+import gui.model.FormQuestionHolder;
 import gui.view.Widget;
 
 import javax.swing.*;
@@ -12,12 +12,12 @@ public class BooleanRadioWidget extends Widget {
 
     private JCheckBox checkbox;
 
-    public BooleanRadioWidget(FormPanel formPanel) {
-        super(formPanel);
+    public BooleanRadioWidget(FormQuestionHolder formQuestionHolder) {
+        super(formQuestionHolder);
 
         JCheckBox checkbox = new JCheckBox();
 
-        if (formPanel.getFormQuestion().getAssignedExpression() != null) {
+        if (formQuestionHolder.getAssignedExpression() != null) {
             checkbox.setEnabled(false);
         }
 
@@ -26,8 +26,10 @@ public class BooleanRadioWidget extends Widget {
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     System.out.println("Checkbox SELECTED");
+                    formQuestionHolder.changeValue(true);
                 } else {
                     System.out.println("Checkbox DESELECTED");
+                    formQuestionHolder.changeValue(false);
                 }
 
             }

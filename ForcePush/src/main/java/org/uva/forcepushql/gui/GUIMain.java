@@ -39,10 +39,6 @@ public class GUIMain
     Textbox textBoxQuestion2 = new Textbox("Private debts for the sold house:", "money", "privateDebt");
     Textbox textboxQuestion3 = new Textbox("Value Residue:", "money", "valueResidue");
 
-	/*JComponent newContentPane = radio;
-	newContentPane.setOpaque(true);
-	guiFrame.setContentPane(newContentPane);*/
-
 	guiFrame.setLocationRelativeTo(null);
 
 	JPanel panel1 = new JPanel();
@@ -169,16 +165,7 @@ public class GUIMain
             }
         };
 
-       /* ActionListener listener3 = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println(values);
-                if(values[0] != 0 && values[1] != 0) {
-                    int val = values[0] - values[1];
-                    text3.setText(Integer.toString(val));
-                }
-            }
-        };*/
+
 
     radio1.addActionListener(listen);
     radio2.addActionListener(listen);

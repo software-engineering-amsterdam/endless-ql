@@ -1,7 +1,7 @@
 package gui.view.widgets;
 
 import ast.model.expressions.Expression;
-import gui.view.FormPanel;
+import gui.model.FormQuestionHolder;
 import gui.view.Widget;
 
 import javax.swing.*;
@@ -12,11 +12,11 @@ public class BooleanCheckboxWidget extends Widget {
 
     private JCheckBox checkbox;
 
-    public BooleanCheckboxWidget(FormPanel formPanel) {
-        super(formPanel);
+    public BooleanCheckboxWidget(FormQuestionHolder formQuestionHolder) {
+        super(formQuestionHolder);
         JCheckBox checkbox = new JCheckBox();
 
-        if (formPanel.getFormQuestion().getAssignedExpression() != null) {
+        if (formQuestionHolder.getAssignedExpression() != null) {
             checkbox.setEnabled(false);
         }
 
@@ -29,10 +29,12 @@ public class BooleanCheckboxWidget extends Widget {
                 // he re-evaluates the form and updates values and visibility for all widgets
 
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-
                     System.out.println("Checkbox SELECTED");
+                    formQuestionHolder.changeValue(true);
+
                 } else {
                     System.out.println("Checkbox DESELECTED");
+                    formQuestionHolder.changeValue(false);
                 }
 
             }

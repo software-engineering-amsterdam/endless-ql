@@ -17,12 +17,16 @@ public class StylesheetVisitor extends QLSBaseVisitor<Stylesheet> {
 
     @Override
     public Stylesheet visitStylesheet(QLSParser.StylesheetContext ctx) {
-        return new Stylesheet(
+        Stylesheet stylesheet = new Stylesheet(
                 ctx.page()
                         .stream()
                         .map(pageVisitor::visitPage)
                         .collect(Collectors.toList()),
                 ctx.IDENTIFIER().getText(),
                 ctx);
+        for (Page page : stylesheet.getPages()) {
+            page.setParent(stylesheet);
+        }
+        return stylesheet;
     }
 }

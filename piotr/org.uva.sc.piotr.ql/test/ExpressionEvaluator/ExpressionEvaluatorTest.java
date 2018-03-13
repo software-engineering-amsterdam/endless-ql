@@ -2,11 +2,11 @@ package ExpressionEvaluator;
 
 import ast.ASTBuilder;
 import ast.model.Form;
-import logic.collectors.CollectFormFieldModelsVisitor;
+import logic.collectors.CollectFormQuestionHoldersVisitor;
 import logic.evaluators.ExpressionEvaluator;
 import grammar.QLLexer;
 import grammar.QLParser;
-import gui.model.FormQuestion;
+import gui.model.FormQuestionHolder;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -20,7 +20,7 @@ public class ExpressionEvaluatorTest {
 
     private Form astForm;
     private ExpressionEvaluator evaluator;
-    private List<FormQuestion> formQuestions;
+    private List<FormQuestionHolder> formQuestionHolders;
 
     @Before
     public void setUp() throws Exception {
@@ -34,11 +34,11 @@ public class ExpressionEvaluatorTest {
         ASTBuilder astBuilder = new ASTBuilder();
         this.astForm = astBuilder.visitForm(formContext);
 
-        CollectFormFieldModelsVisitor collectFormFieldModelsVisitor = new CollectFormFieldModelsVisitor();
-        this.astForm.accept(collectFormFieldModelsVisitor);
+        CollectFormQuestionHoldersVisitor collectFormQuestionHoldersVisitor = new CollectFormQuestionHoldersVisitor();
+        this.astForm.accept(collectFormQuestionHoldersVisitor);
 
-        this.formQuestions = collectFormFieldModelsVisitor.getFormQuestions();
-        this.evaluator = new ExpressionEvaluator(collectFormFieldModelsVisitor.getVariablesValues());
+        this.formQuestionHolders = collectFormQuestionHoldersVisitor.getFormQuestionHolders();
+        this.evaluator = new ExpressionEvaluator(collectFormQuestionHoldersVisitor.getVariablesValues());
 
     }
 
@@ -50,14 +50,14 @@ public class ExpressionEvaluatorTest {
 //    @Test
 //    public void testIncompatibleTypesExceptionMessage() {
 //
-//        for (FormQuestion formQuestion : this.formQuestions) {
+//        for (FormQuestionHolder formQuestion : this.formQuestionHolders) {
 //            if (formQuestion.getAssignedExpression() != null) {
-//                formQuestion.setValue(formQuestion.getAssignedExpression().accept(evaluator));
+//                formQuestion.setValueHolder(formQuestion.getAssignedExpression().accept(evaluator));
 //            }
 //            if (formQuestion.getVisibilityCondition() != null) {
-//                formQuestion.setVisibility(formQuestion.getVisibilityCondition().accept(evaluator));
+//                formQuestion.setVisibilityHolder(formQuestion.getVisibilityCondition().accept(evaluator));
 //            } else {
-//                formQuestion.setVisibility(new ExpressionResult(Expression.DataType.BOOLEAN, true));
+//                formQuestion.setVisibilityHolder(new ExpressionResult(Expression.DataType.BOOLEAN, true));
 //            }
 //        }
 //    }

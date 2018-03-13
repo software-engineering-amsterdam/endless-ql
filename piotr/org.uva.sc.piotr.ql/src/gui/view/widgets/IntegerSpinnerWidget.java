@@ -1,7 +1,7 @@
 package gui.view.widgets;
 
 import ast.model.expressions.Expression;
-import gui.view.FormPanel;
+import gui.model.FormQuestionHolder;
 import gui.view.Widget;
 
 import javax.swing.*;
@@ -10,8 +10,8 @@ public class IntegerSpinnerWidget extends Widget {
 
     private JSpinner spinner;
 
-    public IntegerSpinnerWidget(FormPanel formPanel) {
-        super(formPanel);
+    public IntegerSpinnerWidget(FormQuestionHolder formQuestionHolder) {
+        super(formQuestionHolder);
 
         SpinnerModel spinnerModel = new SpinnerNumberModel(
                 0,
@@ -22,13 +22,13 @@ public class IntegerSpinnerWidget extends Widget {
 
         JSpinner spinner = new JSpinner(spinnerModel);
 
-        if (formPanel.getFormQuestion().getAssignedExpression() != null) {
+        if (formQuestionHolder.getAssignedExpression() != null) {
             spinner.setEnabled(false);
         }
 
         spinner.addChangeListener(e -> {
             System.out.println("Spinner value changed to: " + spinner.getValue());
-
+            formQuestionHolder.changeValue((Integer) spinner.getValue());
         });
 
         this.spinner = spinner;

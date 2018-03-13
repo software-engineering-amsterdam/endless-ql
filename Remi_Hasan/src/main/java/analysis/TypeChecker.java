@@ -72,8 +72,9 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
     }
 
     private ReturnType checkBinaryArithmetic(ExpressionBinary expression, String operation) {
-        // Check whether operation can be applied to left and right model.expression
-        boolean selfValid = expression.left.accept(this).isNumber() && expression.right.accept(this).isNumber();
+        // Check whether operation can be applied to left and right expression
+        boolean selfValid = expression.left.accept(this).isNumber()
+                && expression.right.accept(this).isNumber();
 
         if (!selfValid) {
             errors.add("Invalid " + operation + ": non-numeric value in expression " + expression.getLocation());
@@ -83,8 +84,9 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
     }
 
     private ReturnType checkBinaryComparison(ExpressionBinary expression, String operation) {
-        // Check whether operation can be applied to left and right model.expression
-        boolean selfValid = expression.left.accept(this).isNumber() && expression.right.accept(this).isNumber();
+        // Check whether operation can be applied to left and right expression
+        boolean selfValid = expression.left.accept(this).isNumber()
+                && expression.right.accept(this).isNumber();
 
         if (!selfValid) {
             errors.add("Invalid " + operation + ": non-numeric value in expression" + expression.getLocation());
@@ -94,7 +96,7 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
     }
 
     private ReturnType checkBinaryBoolean(ExpressionBinary expression, String operation) {
-        // Check whether operation can be applied to left and right model.expression
+        // Check whether operation can be applied to left and right expression
         boolean selfValid = expression.left.accept(this) == ReturnType.BOOLEAN
                 && expression.right.accept(this) == ReturnType.BOOLEAN;
 
@@ -230,11 +232,6 @@ public class TypeChecker implements IASTVisitor<ReturnType> {
 
     @Override
     public ReturnType visit(ExpressionIdentifier expression) {
-        if (this.symbolTable.containsExpression(expression.identifier)) {
-            return this.symbolTable.getExpression(expression.identifier).accept(this);
-        } else {
-            errors.add("Cannot get value for unknown field '" + expression.identifier + "' " + expression.getLocation());
-            return ReturnType.UNDEFINED;
-        }
+        return this.symbolTable.getExpression(expression.identifier).accept(this);
     }
 }

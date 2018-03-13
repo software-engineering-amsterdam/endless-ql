@@ -5,11 +5,11 @@ import ast.model.Form;
 import ast.model.expressions.Expression;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
-import ast.visitors.collectors.CollectFormFieldModelsVisitor;
-import ast.visitors.collectors.CollectQuestionsVisitor;
-import ast.visitors.collectors.CollectReferencesVisitor;
-import ast.visitors.evaluators.ExpressionEvaluator;
-import ast.visitors.evaluators.ExpressionResult;
+import logic.collectors.CollectFormFieldModelsVisitor;
+import logic.collectors.CollectQuestionsVisitor;
+import logic.collectors.CollectReferencesVisitor;
+import logic.evaluators.ExpressionEvaluator;
+import logic.evaluators.UniversalTypeValue;
 import grammar.QLLexer;
 import grammar.QLParser;
 import gui.QLGui;
@@ -17,9 +17,9 @@ import gui.model.FormQuestion;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import validators.QuestionsDependencyValidator;
-import validators.QuestionsValidator;
-import validators.VariablesReferencesValidator;
+import logic.validators.QuestionsDependencyValidator;
+import logic.validators.QuestionsValidator;
+import logic.validators.VariablesReferencesValidator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,7 +83,7 @@ public class Main {
             if (formQuestion.getVisibilityCondition() != null) {
                 formQuestion.setVisibility(formQuestion.getVisibilityCondition().accept(evaluator));
             } else {
-                formQuestion.setVisibility(new ExpressionResult(Expression.DataType.BOOLEAN, true));
+                formQuestion.setVisibility(new UniversalTypeValue(Expression.DataType.BOOLEAN, true));
             }
         }
 

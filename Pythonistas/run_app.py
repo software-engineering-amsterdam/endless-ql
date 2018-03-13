@@ -47,7 +47,7 @@ def main():
         # todo: make it so that you give path in CLI call
         # debug_grammar('C:/Users/svdh/PycharmProjects/sql/endless-ql/Pythonistas/tests/forms/if.ql')
         # debug_grammar("tests/forms/if.ql")
-        sys.stdout.write(debug_grammar("tests/forms/arithmetic.ql"))
+        sys.stdout.write(debug_grammar("tests/forms/if.ql"))
         sys.exit(0)
 
     # Generate antlr parser

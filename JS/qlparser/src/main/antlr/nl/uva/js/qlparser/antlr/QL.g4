@@ -60,7 +60,7 @@ MULT:       '*';
 DIV:        '/';
 
 // Token groupings
-datatype
+dataType
     : DATE
     | MONEY
     | STRING
@@ -69,44 +69,12 @@ datatype
     | INTEGER
     ;
 
-boolval
-    : TRUE
-    | FALSE
-    ;
-
 value
     : STRVAL
     | INTVAL
     | DECVAL
     | MONVAL
-    | boolval
-    ;
-
-boolOp
-    : OR
-    | AND
-    ;
-
-compOp
-    : LT
-    | LTE
-    | GT
-    | GTE
-    | EQ
-    | NEQ
-    ;
-
-arithOp
-    : MIN
-    | PLUS
-    | DIV
-    | MULT
-    ;
-
-op
-    : boolOp
-    | compOp
-    | arithOp
+    | BOOLVAL=(TRUE | FALSE)
     ;
 
 // Higher level parsing
@@ -121,17 +89,26 @@ formBlock
 
 formExpression
     : question
-    | IF LP expression RP formBlock
+    | ifBlock
     ;
 
 expression
-    : NAME
-    | value
-    | LP expression RP
-    | NOT expression
-    | expression op expression
+    : NAME                                              # variable
+    | value                                             # rawValue
+    | LP expression RP                                  # parentheses
+    | NOT expression                                    # negation
+    | expression op=(DIV | MULT) expression             # arithExpression
+    | expression op=(MIN | PLUS) expression             # arithExpression
+    | expression op=(LT | LTE | GT | GTE) expression    # compExpression
+    | expression op=(EQ | NEQ) expression               # compExpression
+    | expression op=AND expression                      # boolExpression
+    | expression op=OR expression                       # boolExpression
     ;
 
 question
-    : STRVAL NAME COLON datatype (ASSIGN expression)?
+    : STRVAL NAME COLON dataType (ASSIGN expression)?
+    ;
+
+ifBlock
+    : IF LP expression RP formBlock
     ;

@@ -2,6 +2,7 @@ package Nodes;
 
 import Nodes.Operator.Operator;
 import Nodes.Operator.Not;
+import Nodes.Term.Boolean;
 import Nodes.Term.Term;
 
 /**
@@ -20,6 +21,14 @@ public class Expression extends ASTNode {
     public Expression(){}
 
     /**
+     * Creates an expression with a single expression inside
+     * @param expression
+     */
+    public Expression(Expression expression){
+        this.left = expression;
+    }
+
+    /**
      * Creates an expression containing a single term
      * @param term contains a instance of the abstract Term class
      */
@@ -27,6 +36,8 @@ public class Expression extends ASTNode {
         this.term = term;
     }
 
+
+    // TODO make NOT operator obsolete
     /**
      * Create an expression with a negated term
      * @param right contains the right side of a Not Expression
@@ -37,6 +48,7 @@ public class Expression extends ASTNode {
         this.right = right;
         this.op = op;
     }
+
 
     /**
      * Creates an expression with left and right expressions, and an operator
@@ -54,11 +66,16 @@ public class Expression extends ASTNode {
      * Returns the calculated value of the expression
      * @return The calculated value of the expression
      */
-    public Term getValue() {
+    public Term getTerm() {
         if (op instanceof Not) {
-            return op.calculate(null, right.getValue());
+            return op.calculate(null, right.getTerm());
         } else {
-            return op.calculate(left.getValue(), right.getValue());
+            return op.calculate(left.getTerm(), right.getTerm());
         }
+    }
+
+    public boolean getBoolean() {
+        Boolean term = (Boolean) this.getTerm();
+        return term.getBoolean();
     }
 }

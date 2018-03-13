@@ -73,7 +73,7 @@ public class Main {
         List<FormQuestionHolder> formQuestionHolders = collectFormQuestionHoldersVisitor.getFormQuestionHolders();
         ExpressionEvaluator evaluator = new ExpressionEvaluator(collectFormQuestionHoldersVisitor.getVariablesValues());
 
-        new QLGui(formQuestionHolders, evaluator);
+        new QLGui(form.getName(), formQuestionHolders, evaluator);
 
 
 //        Gson gson = new Gson();

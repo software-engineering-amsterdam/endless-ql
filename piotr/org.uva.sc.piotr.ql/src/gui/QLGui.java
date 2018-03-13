@@ -7,21 +7,25 @@ import gui.view.FormQuestionPanel;
 import logic.evaluators.ExpressionEvaluator;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 public class QLGui {
-    public QLGui(List<FormQuestionHolder> formQuestionHolders, ExpressionEvaluator evaluator) throws Exception {
+    public QLGui(String title, List<FormQuestionHolder> formQuestionHolders, ExpressionEvaluator evaluator) throws Exception {
 
-        JFrame frame = new JFrame("Text Form Example");
+        JFrame frame = new JFrame("QL Form GUI");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel(new GridBagLayout());
 
+        TitledBorder titled = new TitledBorder(title);
+        panel.setBorder(titled);
+
         JScrollPane scrollFrame = new JScrollPane(panel);
         panel.setAutoscrolls(true);
-        scrollFrame.setPreferredSize(new Dimension(800, 600));
+        scrollFrame.setPreferredSize(new Dimension(400, 600));
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.anchor = GridBagConstraints.WEST;

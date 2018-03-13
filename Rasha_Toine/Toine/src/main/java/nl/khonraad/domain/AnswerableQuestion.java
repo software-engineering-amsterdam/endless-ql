@@ -1,5 +1,8 @@
 package nl.khonraad.domain;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 public class AnswerableQuestion {
 
 	private String identifier;
@@ -46,5 +49,11 @@ public class AnswerableQuestion {
 	public void parseThenSetValue(String s) {
 
 		this.value = new Value(value.getType(), s);
+	}
+	@Override
+	public String toString() {
+
+		return new ToStringBuilder( this, ToStringStyle.MULTI_LINE_STYLE ).append( "identifier", identifier ).append( "label", label ).append( "value", value )
+				.toString();
 	}
 }

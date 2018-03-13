@@ -1,4 +1,4 @@
-package utils;
+package nl.khonraad.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

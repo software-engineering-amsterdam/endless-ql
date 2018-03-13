@@ -93,7 +93,7 @@ public class Value {
 		this.text = condition ? "True" : "False";
 	}
 
-	private String getText() {
+	public String getText() {
 
 		return text;
 	}

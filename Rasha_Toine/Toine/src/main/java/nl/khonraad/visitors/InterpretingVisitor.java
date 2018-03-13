@@ -148,7 +148,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 		Type type = Type.parseType( ctx.Type().getText() );
 
-		AnswerableQuestion question = new AnswerableQuestion( identifier, ctx.QuotedString().getText(), type );
+		AnswerableQuestion question = new AnswerableQuestion( identifier, label, type );
 
 		if (declaredQuestionTypes.contains( identifier )) {
 

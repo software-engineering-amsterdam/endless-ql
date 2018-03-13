@@ -9,7 +9,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class FormQuestionPanel extends JPanel {
-    private JLabel labelComponent;
     private Widget widget;
     private FormQuestionHolder formQuestionHolder;
 
@@ -18,8 +17,8 @@ public class FormQuestionPanel extends JPanel {
         formQuestionHolder.setPanel(this);
 
         this.formQuestionHolder = formQuestionHolder;
-        this.labelComponent = new JLabel(formQuestionHolder.getLabel());
         this.widget = createDefaultWidget(formQuestionHolder);
+        JLabel labelComponent = new JLabel(formQuestionHolder.getLabel());
 
         this.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -29,7 +28,7 @@ public class FormQuestionPanel extends JPanel {
         gridBagConstraints.anchor = GridBagConstraints.WEST;
 
         gridBagConstraints.gridy = 0;
-        this.add(this.labelComponent, gridBagConstraints);
+        this.add(labelComponent, gridBagConstraints);
 
         gridBagConstraints.gridy = 1;
         this.add(this.widget.getComponent(), gridBagConstraints);

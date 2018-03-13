@@ -17,6 +17,7 @@ object ConditionalValidator {
       {
         val isValid = stmt.expression match {
           case binOp: ASTBinary  => validateBinOp(binOp, ast)
+          case unOp: ASTUnary    => validateUnOp(unOp, ast)
           case id: ASTIdentifier => isBooleanIdentifier(id, ast)
           case other             => false
         }
@@ -62,6 +63,17 @@ object ConditionalValidator {
       case ab @ ASTBinary(_, _, ASTLogicalDis()) => validateLogical(ab, ast)
       case ab @ ASTBinary(_, _, ASTLogicalCon()) => validateLogical(ab, ast)
       case other                                 => false
+    }
+  }
+
+  def validateUnOp(unOp: ASTNode, ast: ASTNode): Boolean = {
+    unOp match {
+      case ASTUnary(expr: ASTIdentifier, op: ASTUnaryNot) =>
+        isBooleanIdentifier(expr, ast)
+      case ASTUnary(expr: ASTUnary, op: ASTUnaryNot) => validateUnOp(expr, ast)
+      case ASTUnary(expr: ASTBinary, op: ASTUnaryNot) =>
+        validateBinOp(expr, ast)
+      case other => false
     }
   }
 }

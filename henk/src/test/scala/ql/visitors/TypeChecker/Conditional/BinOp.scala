@@ -30,7 +30,6 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
     }
 
     it("validate method should not throw an exception") {
-      // noException should be thrownBy ConditionalValidator.validate(form)
       ConditionalValidator.validate(form) match {
         case Failure(ConditionalNotBoolean(_)) => succeed
         case other => fail("ConditionalValidator should have thrown an error")
@@ -48,7 +47,6 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
     }
 
     it("validate method should return a failure") {
-      // noException should be thrownBy ConditionalValidator.validate(form)
       ConditionalValidator.validate(form) match {
         case Failure(ConditionalNotBoolean(_)) => succeed
         case other => fail("ConditionalValidator should have thrown an error")
@@ -83,7 +81,6 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
     }
 
     it("validate method should return a failure") {
-      // noException should be thrownBy ConditionalValidator.validate(form)
       ConditionalValidator.validate(form) match {
         case Failure(ConditionalNotBoolean(_)) => succeed
         case other => fail("ConditionalValidator should have thrown an error")

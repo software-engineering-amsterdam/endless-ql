@@ -62,10 +62,9 @@ namespace QuestionaireConsoleApp
         {
             Console.WriteLine("Enter statement:");
             var formDefinition = Console.ReadLine();
-            var creator = m_serviceProvider.GetService<IPredicateCreator>();
-            var predicate = creator.Create(formDefinition);
-
-            m_bprint.Print(predicate.ToDomainItem(m_domainItemLocator));
+            //ToDo: move creation of predicate into console app
+  
+           // m_bprint.Print(predicate.ToDomainItem(m_domainItemLocator));
         }
 
         private static void WriteQuestionnaire()

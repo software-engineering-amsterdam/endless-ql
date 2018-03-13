@@ -140,7 +140,6 @@
   <ItemGroup>
     <Compile Include="DomainLogicModule.cs" />
     <Compile Include="Logic\QuestionnaireModelCreator.cs" />
-    <Compile Include="Logic\PredicateCreator.cs" />
     <Compile Include="Logic\QuestionnaireAstCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -87,7 +87,6 @@
     <Compile Include="Ast\Nodes\Relational\Interfaces\IRelationalLogicNode.cs" />
     <Compile Include="Ast\Nodes\Relational\Interfaces\ITextNode.cs" />
     <Compile Include="Ast\Nodes\Relational\Interfaces\ITextVariableNode.cs" />
-    <Compile Include="Ast\Tools\Interfaces\IPredicateCreator.cs" />
     <Compile Include="Ast\Tools\Interfaces\IQuestionnaireAstCreator.cs" />
     <Compile Include="Domain\DomainItemLocator.cs" />
     <Compile Include="Output\Tools\BooleanEvaluatorVisitor.cs" />

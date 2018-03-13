@@ -27,17 +27,7 @@ namespace AntlrInterpretor.Logic
         {
             return BuildAstTree<IQuestionnaireRootNode>(definition);
         }
-
-        public Reference<IBooleanLogicNode> BuildPredicate(string definition)
-        {
-            definition = $"form FakeForm {{ if ({definition}) {{ fakeVar: \"fakeText\" date }} }}";
-            BuildForm(definition);
-            return m_domainItemLocator
-                .GetAll<IConditionalStatementNode>()
-                .FirstOrDefault()
-                ?.Predicate;
-        }
-
+        
         private Reference<T> BuildAstTree<T>(string definition) where T : IAstNode
         {
             var stream = new AntlrInputStream(definition);

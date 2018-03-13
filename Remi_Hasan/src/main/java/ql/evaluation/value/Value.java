@@ -1,6 +1,7 @@
 package ql.evaluation.value;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public abstract class Value<T> {
     public final T value;
@@ -18,6 +19,8 @@ public abstract class Value<T> {
     public abstract BigDecimal getMoneyValue();
 
     public abstract String getStringValue();
+
+    public abstract Date getDateValue();
 
     public abstract Value divide(Value right);
 
@@ -48,8 +51,6 @@ public abstract class Value<T> {
     public boolean isUndefined() {
         return false;
     }
-
-    public abstract boolean equals(Value other);
 }
 
 

@@ -4,9 +4,13 @@ import ql.evaluation.IExpressionVisitor;
 import ql.model.expression.ExpressionVariable;
 import org.antlr.v4.runtime.Token;
 
-public class ExpressionVariableDate extends ExpressionVariable<String> {
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    public ExpressionVariableDate(Token start, String value) {
+public class ExpressionVariableDate extends ExpressionVariable<Date> {
+
+    public ExpressionVariableDate(Token start, Date value) {
         super(start, value);
     }
 

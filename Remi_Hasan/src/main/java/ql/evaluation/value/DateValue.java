@@ -1,105 +1,105 @@
 package ql.evaluation.value;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
-public class DateValue extends Value<String> {
-    public DateValue(String value) {
+public class DateValue extends Value<Date> {
+    public DateValue(Date value) {
         super(value);
     }
 
     @Override
     public Boolean getBooleanValue() {
-        return null;
+        throw new UnsupportedOperationException("Cannot cast date to boolean.");
     }
 
     @Override
     public Integer getIntValue() {
-        return null;
+        throw new UnsupportedOperationException("Cannot cast date to integer.");
     }
 
     @Override
     public Double getDecimalValue() {
-        return null;
+        throw new UnsupportedOperationException("Cannot cast date to decimal.");
     }
 
     @Override
     public BigDecimal getMoneyValue() {
-        return null;
+        throw new UnsupportedOperationException("Cannot cast date to money.");
     }
 
     @Override
     public String getStringValue() {
-        return null;
+        throw new UnsupportedOperationException("Cannot cast date to string.");
+    }
+
+    @Override
+    public Date getDateValue() {
+        return this.value;
     }
 
     @Override
     public NumberValue divide(Value right) {
-        return null;
+        throw new UnsupportedOperationException("Cannot perform divide on date.");
     }
 
     @Override
     public NumberValue multiply(Value right) {
-        return null;
+        throw new UnsupportedOperationException("Cannot perform multiply on date.");
     }
 
     @Override
     public NumberValue subtract(Value right) {
-        return null;
+        throw new UnsupportedOperationException("Cannot perform subtract on date.");
     }
 
     @Override
     public NumberValue sum(Value right) {
-        return null;
+        throw new UnsupportedOperationException("Cannot perform add on date.");
     }
 
     @Override
     public BooleanValue eq(Value right) {
-        return null;
+        return new BooleanValue(this.value.equals(right.value));
     }
 
     @Override
     public BooleanValue ge(Value right) {
-        return null;
+        throw new UnsupportedOperationException("Cannot perform ge on date.");
     }
 
     @Override
     public BooleanValue gt(Value right) {
-        return null;
+        throw new UnsupportedOperationException("Cannot perform gt on date.");
     }
 
     @Override
     public BooleanValue le(Value right) {
-        return null;
+        throw new UnsupportedOperationException("Cannot perform le on date.");
     }
 
     @Override
     public BooleanValue lt(Value right) {
-        return null;
+        throw new UnsupportedOperationException("Cannot perform lt on date.");
     }
 
     @Override
     public BooleanValue and(Value right) {
-        return null;
+        throw new UnsupportedOperationException("Cannot perform and on date.");
     }
 
     @Override
     public BooleanValue or(Value right) {
-        return null;
+        throw new UnsupportedOperationException("Cannot perform or on date.");
     }
 
     @Override
     public BooleanValue not() {
-        return null;
+        throw new UnsupportedOperationException("Cannot perform not on date.");
     }
 
     @Override
     public NumberValue neg() {
-        return null;
-    }
-
-    @Override
-    public boolean equals(Value other) {
-        // TODO
-        return false;
+        throw new UnsupportedOperationException("Cannot perform neg on date.");
     }
 }

@@ -1,6 +1,7 @@
 package ql.evaluation.value;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class BooleanValue extends Value<Boolean> {
     public BooleanValue(Boolean value) {
@@ -30,6 +31,11 @@ public class BooleanValue extends Value<Boolean> {
     @Override
     public String getStringValue() {
         throw new UnsupportedOperationException("Cannot cast boolean to string");
+    }
+
+    @Override
+    public Date getDateValue() {
+        throw new UnsupportedOperationException("Cannot cast boolean to date");
     }
 
     @Override
@@ -95,10 +101,5 @@ public class BooleanValue extends Value<Boolean> {
     @Override
     public NumberValue neg() {
         throw new UnsupportedOperationException("Cannot perform neg on boolean.");
-    }
-
-    @Override
-    public boolean equals(Value other) {
-        return this.value.equals(other.value);
     }
 }

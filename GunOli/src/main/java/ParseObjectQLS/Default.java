@@ -1,7 +1,7 @@
 package ParseObjectQLS;
 
 import ParseObjectQLS.Widgets.Widget;
-import ParseObjects.Expressions.EvaluationType;
+import ParseObjectsQL.Expressions.EvaluationType;
 
 import java.util.ArrayList;
 

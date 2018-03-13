@@ -1,9 +1,9 @@
 package Visitor;
 
-import ParseObjects.Expressions.EvaluationType;
-import ParseObjects.Expressions.Expression;
-import ParseObjects.Expressions.ExpressionConstants.*;
-import ParseObjects.Question;
+import ParseObjectsQL.Expressions.EvaluationType;
+import ParseObjectsQL.Expressions.Expression;
+import ParseObjectsQL.Expressions.ExpressionConstants.*;
+import ParseObjectsQL.Question;
 import QLAntlrGen.QLBaseVisitor;
 import QLAntlrGen.QLParser;
 

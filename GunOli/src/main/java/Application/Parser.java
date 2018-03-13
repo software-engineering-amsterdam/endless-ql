@@ -3,10 +3,10 @@ package Application;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import ParseObjects.QuestionMap;
+import ParseObjectsQL.QuestionMap;
 import Visitor.ExpressionTable;
-import ParseObjects.Question;
-import ParseObjects.Form;
+import ParseObjectsQL.Question;
+import ParseObjectsQL.Form;
 import QLAntlrGen.QLParser;
 import QLAntlrGen.QLLexer;
 import Visitor.FormVisitor;

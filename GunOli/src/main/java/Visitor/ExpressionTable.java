@@ -1,6 +1,6 @@
 package Visitor;
 
-import ParseObjects.Expressions.Expression;
+import ParseObjectsQL.Expressions.Expression;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,11 +1,11 @@
 package Visitor;
 
-import ParseObjects.Expressions.BinaryExpressions.*;
-import ParseObjects.Expressions.Expression;
-import ParseObjects.Expressions.ExpressionConstants.*;
-import ParseObjects.Expressions.ConstantExpression;
-import ParseObjects.Expressions.UnaryExpressions.NegationExpression;
-import ParseObjects.Expressions.UnaryExpressions.NotExpression;
+import ParseObjectsQL.Expressions.BinaryExpressions.*;
+import ParseObjectsQL.Expressions.Expression;
+import ParseObjectsQL.Expressions.ExpressionConstants.*;
+import ParseObjectsQL.Expressions.ConstantExpression;
+import ParseObjectsQL.Expressions.UnaryExpressions.NegationExpression;
+import ParseObjectsQL.Expressions.UnaryExpressions.NotExpression;
 import QLAntlrGen.QLBaseVisitor;
 import QLAntlrGen.QLParser;
 

@@ -1,8 +1,8 @@
 package Visitor;
 
-import ParseObjects.Block;
-import ParseObjects.Condition;
-import ParseObjects.Question;
+import ParseObjectsQL.Block;
+import ParseObjectsQL.Condition;
+import ParseObjectsQL.Question;
 import QLAntlrGen.QLBaseVisitor;
 import QLAntlrGen.QLParser;
 

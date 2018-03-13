@@ -1,6 +1,6 @@
 package Visitor;
 
-import ParseObjects.*;
+import ParseObjectsQL.*;
 import QLAntlrGen.QLBaseVisitor;
 import QLAntlrGen.QLParser;
 

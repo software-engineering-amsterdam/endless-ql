@@ -1,28 +1,48 @@
-package nl.khonraad.visitors;
+package nl.khonraad;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import nl.khonraad.ExpressionLanguageBaseVisitor;
 import nl.khonraad.ExpressionLanguageParser;
-import nl.khonraad.domain.AnswerableQuestion;
-import nl.khonraad.domain.ComputedQuestion;
+import nl.khonraad.domain.Question;
 import nl.khonraad.domain.Type;
+import nl.khonraad.domain.Question.BehaviouralType;
 import nl.khonraad.domain.Value;
 
-public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
+public class QLVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 	public List<String> declaredQuestionTypes = new ArrayList<String>();
-	public Map<String, AnswerableQuestion> answerableQuestions = new HashMap<String, AnswerableQuestion>();
-	public Map<String, ComputedQuestion> computedQuestions = new HashMap<String, ComputedQuestion>();
+	private  Map<String, Question> questions = new HashMap<String, Question>();
 
 	public List<String> forwardReferences = new ArrayList<String>();
 
 	public static final String ERROR_ReferenceToUndefinedQuestion = "Reference to undefined question: ";
 	public static final String ERROR_DuplicateQuestionDeclaration = "Duplicate question declaration: ";
 	public static final String ERROR_TYPEERROR = "Type error: ";
+
+	public Optional<Question> findQuestion( BehaviouralType behaviouralType, String identifier ) {
+
+		return questions.entrySet().stream().filter( map -> behaviouralType.equals( map.getValue().getBehaviouralType() ))
+				.filter( map -> identifier.equals( map.getValue().getIdentifier() ) ).map( map -> map.getValue() )
+				.findFirst();
+	}
+
+	public List<Question> allQuestions( ) {
+		
+		return questions.entrySet().stream().map( map -> map.getValue() ).collect(Collectors.toList());
+				
+	}
+	public void removeComputableQuestions( ) {
+		
+		questions = questions.entrySet().stream().filter( map -> BehaviouralType.ANSWERABLE == map.getValue().getBehaviouralType())
+				.collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+		
+	}
 
 	private String removeQuotes( String text ) {
 		return text.substring( 1, text.length() - 1 );
@@ -37,14 +57,14 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 	public Value visitForm( ExpressionLanguageParser.FormContext ctx ) {
 
 		declaredQuestionTypes = new ArrayList<String>();
+		removeComputableQuestions();
+		
 
 		Value value = visitChildren( ctx );
 
 		if (forwardReferences.size() != 0) {
 			throw new RuntimeException( ERROR_ReferenceToUndefinedQuestion + forwardReferences.get( 0 ) );
 		}
-
-		System.out.println( "visitForm: " + declaredQuestionTypes.toString() );
 
 		return value;
 
@@ -95,17 +115,13 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 		String identifier = ctx.Identifier().getText();
 
-		if (answerableQuestions.containsKey( identifier )) {
+		Optional<Question> optionalQuestion = findQuestion( BehaviouralType.ANSWERABLE, identifier );
+
+		if (optionalQuestion.isPresent()) {
 
 			forwardReferences.remove( identifier );
-			return answerableQuestions.get( identifier ).getValue();
 
-		}
-
-		if (computedQuestions.containsKey( identifier )) {
-
-			forwardReferences.remove( identifier );
-			return computedQuestions.get( identifier ).getValue();
+			return optionalQuestion.get().getValue();
 
 		}
 
@@ -148,8 +164,6 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 		Type type = Type.parseType( ctx.Type().getText() );
 
-		AnswerableQuestion question = new AnswerableQuestion( identifier, label, type );
-
 		if (declaredQuestionTypes.contains( identifier )) {
 
 			throw new RuntimeException( ERROR_DuplicateQuestionDeclaration + identifier + " typed " + type );
@@ -157,13 +171,13 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 		}
 		declaredQuestionTypes.add( identifier );
 
-		if (!answerableQuestions.containsKey( identifier )) {
-			answerableQuestions.put( identifier, question );
+		Optional<Question> optionalQuestion = findQuestion( BehaviouralType.ANSWERABLE, identifier );
+		
+		if (!optionalQuestion.isPresent()) {
+			questions.put( identifier, new Question( BehaviouralType.ANSWERABLE, identifier, label, type, new Value( type ) ) );
 		}
-
-		System.out.println( "visitPartAnswerableQuestion: " + question.toString() );
-
-		return answerableQuestions.get( identifier ).getValue();
+		
+		return findQuestion( BehaviouralType.ANSWERABLE, identifier ).get().getValue();
 	}
 
 	@Override
@@ -182,16 +196,10 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 					ERROR_TYPEERROR + identifier + " expects " + type + " not " + newValue.getType() );
 		}
 
-		ComputedQuestion question = new ComputedQuestion( identifier, label, newValue );
+		Question question = new Question( BehaviouralType.COMPUTED, identifier, label, type, newValue );
 
-		computedQuestions.put( identifier, question );
+		questions.put( identifier, question );
 
-		if (declaredQuestionTypes.contains( identifier )) {
-
-			throw new RuntimeException( ERROR_DuplicateQuestionDeclaration + identifier + " typed " + type );
-
-		}
-		declaredQuestionTypes.add( identifier );
 		return newValue;
 	}
 

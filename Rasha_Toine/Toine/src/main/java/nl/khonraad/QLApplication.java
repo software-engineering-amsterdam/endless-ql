@@ -1,4 +1,4 @@
-package nl.khonraad.domain;
+package nl.khonraad;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -9,6 +9,7 @@ import java.util.Date;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,8 +20,10 @@ import javax.swing.SpinnerNumberModel;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import nl.khonraad.domain.Question;
+import nl.khonraad.domain.Question.BehaviouralType;
+import nl.khonraad.domain.Type;
 import nl.khonraad.utils.AbstractParserFactory;
-import nl.khonraad.visitors.InterpretingVisitor;
 
 public class QLApplication {
 
@@ -38,7 +41,7 @@ public class QLApplication {
 			+ "  	}																							"
 			+ "}																								";
 
-	final InterpretingVisitor interpretingVisitor = new InterpretingVisitor();
+	final QLVisitor interpretingVisitor = new QLVisitor();
 	final ParseTree parseTree = AbstractParserFactory.parseDataForTest( testData ).form();
 	final JPanel mainPanel = new JPanel();
 
@@ -46,7 +49,6 @@ public class QLApplication {
 
 		new QLApplication();
 	}
-
 
 	public QLApplication() throws RecognitionException, IOException {
 
@@ -70,38 +72,17 @@ public class QLApplication {
 
 		interpretingVisitor.visit( parseTree );
 
-		// interpretingVisitor.answerableQuestions.get( "hasSoldHouse"
-		// ).parseThenSetValue( "True" );
-		//
-		// interpretingVisitor.visit( parseTree );
-		//
-		// interpretingVisitor.answerableQuestions.get( "sellingPrice"
-		// ).parseThenSetValue( "100.03" );
-		// interpretingVisitor.answerableQuestions.get( "privateDebt"
-		// ).parseThenSetValue( "25.00" );
-		//
-		// interpretingVisitor.visit( parseTree );
-
-		for (String s : interpretingVisitor.declaredQuestionTypes) {
-
-			if (interpretingVisitor.answerableQuestions.containsKey( s )) {
-				AnswerableQuestion answerableQuestion = interpretingVisitor.answerableQuestions.get( s );
-				mainPanel.add( makeQuestion( s, true, answerableQuestion.getValue().getType(),
-						answerableQuestion.getLabel(), answerableQuestion.getValue().getText() ) );
-			}
-			if (interpretingVisitor.computedQuestions.containsKey( s )) {
-				ComputedQuestion computedQuestion = interpretingVisitor.computedQuestions.get( s );
-				mainPanel.add( makeQuestion( null, false, computedQuestion.getValue().getType(),
-						computedQuestion.getLabel(), computedQuestion.getValue().getText() ) );
-			}
+		for (Question question : interpretingVisitor.allQuestions()) {
+			mainPanel.add( makeQuestion( question.getIdentifier(), question.getBehaviouralType(),
+					question.getValue().getType(), question.getLabel(), question.getValue().getText() ) );
 
 		}
 
 		mainPanel.add( new JLabel( new Date().toString() ) );
-
+		mainPanel.validate();
+		
 		mainPanel.updateUI();
 		mainPanel.repaint();
-		// guiFrame.invalidate();
 
 	}
 
@@ -115,38 +96,42 @@ public class QLApplication {
 		guiFrame.setLocationRelativeTo( null );
 	}
 
-	private JPanel makeQuestion( String id, boolean answerable, Type type, String label, String text ) {
+	private JPanel addToParent( JPanel parent, JComponent component ) {
+		parent.add( component );
+		return parent;
+	}
+
+	private JPanel makeQuestion( String identifier, BehaviouralType behaviouralType, Type type, String label, String text ) {
 
 		JPanel container = new JPanel();
 
 		JLabel leftComponent = new JLabel( label );
 		container.add( leftComponent );
 
-		switch ( type ) {
+		if (behaviouralType == BehaviouralType.COMPUTED) {
 
-			case Boolean: {
-				container.add( answerable ? createBooleanBox( id, text ) : boldText( text ) );
-				break;
-			}
-			case Date: {
-				container.add( answerable ? createDateBox( id, text ) : boldText( text ) );
-				break;
-			}
-			case Integer: {
-				container.add( answerable ? createIntegerBox( id, text ) : boldText( text ) );
-				break;
-			}
-			case Money: {
-				container.add( answerable ? createMoneyBox( id, text ) : boldText( text ) );
-				break;
-			}
-			case String:
-				container.add( answerable ? createStringBox( id, text ) : boldText( text ) );
-				break;
-
+			return addToParent( container, boldText( text ) );
 		}
 
-		return container;
+		switch ( type ) {
+
+			case Boolean:
+				return addToParent( container, createBooleanBox( identifier, text ) );
+
+			case Date:
+				return addToParent( container, createDateBox( identifier, text ) );
+
+			case Integer:
+				return addToParent( container, createIntegerBox( identifier, text ) );
+
+			case Money:
+				return addToParent( container, createMoneyBox( identifier, text ) );
+
+			case String:
+				return addToParent( container, createStringBox( identifier, text ) );
+		}
+		throw new RuntimeException( "Do not know how to diplay type: " + type );
+
 	}
 
 	private JLabel boldText( String text ) {
@@ -155,7 +140,7 @@ public class QLApplication {
 		return jLabel;
 	}
 
-	private JSpinner createMoneyBox( String id, String text ) {
+	private JSpinner createMoneyBox( String identifier, String text ) {
 
 		JSpinner m_numberSpinner;
 		SpinnerNumberModel m_numberSpinnerModel;
@@ -167,7 +152,7 @@ public class QLApplication {
 
 	}
 
-	private JSpinner createIntegerBox( String id, String text ) {
+	private JSpinner createIntegerBox( String identifier, String text ) {
 
 		JSpinner m_numberSpinner;
 		SpinnerNumberModel m_numberSpinnerModel;
@@ -179,13 +164,13 @@ public class QLApplication {
 
 	}
 
-	private JTextField createDateBox( String id, String text ) {
+	private JTextField createDateBox( String identifier, String text ) {
 
 		JTextField rightComponent = new JTextField( text, 10 );
 		return rightComponent;
 	}
 
-	private JTextField createStringBox( String id, String text ) {
+	private JTextField createStringBox( String identifier, String text ) {
 
 		JTextField rightComponent = new JTextField( text, 40 );
 		rightComponent.addActionListener( new ActionListener() {
@@ -198,7 +183,7 @@ public class QLApplication {
 	}
 
 	@SuppressWarnings("unchecked")
-	private JComboBox<String> createBooleanBox( String id, String text ) {
+	private JComboBox<String> createBooleanBox( String identifier, String text ) {
 
 		String[] options = { "True", "False" };
 		JComboBox<String> rightComponent = new JComboBox<String>( options );
@@ -209,8 +194,8 @@ public class QLApplication {
 			public void actionPerformed( ActionEvent e ) {
 				JComboBox<String> combo = (JComboBox<String>) e.getSource();
 				String current = (String) combo.getSelectedItem();
-				AnswerableQuestion answerableQuestion = interpretingVisitor.answerableQuestions.get( id );
-				answerableQuestion.parseThenSetValue( current );
+
+				interpretingVisitor.findQuestion( BehaviouralType.ANSWERABLE, identifier ).get().parseThenSetValue( current );
 				try {
 					show( mainPanel );
 				} catch (RecognitionException e1) {

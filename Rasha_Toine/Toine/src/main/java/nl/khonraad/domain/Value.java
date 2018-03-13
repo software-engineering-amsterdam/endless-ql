@@ -81,11 +81,35 @@ public class Value {
 		return type;
 	}
 
+	public Value(Type type) {
+		
+		this.type = type;
+		
+		switch( type ) {
+			case Boolean:
+				this.text="False";
+				break;
+			case Date:
+				this.text="01/01/1970";
+				break;
+			case Integer:
+				this.text="0";
+				break;
+			case Money:
+				this.text="0.00";
+				break;
+			case String:
+				this.text="";
+				break;
+		}
+	}
+
 	public Value(Type type, String string) {
 
 		this.type = type;
 		this.text = string;
 	}
+
 
 	private Value(boolean condition) {
 

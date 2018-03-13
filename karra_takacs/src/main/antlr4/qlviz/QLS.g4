@@ -35,20 +35,6 @@ STYLESHEET: 'stylesheet';
 PAGE: 'page';
 WIDGET: 'widget';
 
-// To skip New Lines, White spaces and comments
-NEWLINE: ('\n' | '\r' | '\r\n') -> skip;
-WHITESPACE : (' ' | '\n' | '\r' | '\t') -> skip;
-COMMENT			: ('/*' .*? '*/') ->skip;
-LINE_COMMENT	: '//' ~[\r\n]* ->skip;
-BRACKET_OPEN : '{';
-BRACKET_CLOSE: '}';
-PAREN_OPEN: '(';
-PAREN_CLOSE: ')';
 PROPERTY_SEPARATOR: ':';
 
-// Literals
-IDENTIFIER	: [a-zA-Z0-1_]+;
-NUMBER		: [0-9]+(.[0-9]+)?;
-BOOLEAN		: 'true' | 'false';
-STRING		: '"' .*? '"';
 COLOR       : '#' [a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9];

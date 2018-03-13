@@ -3,7 +3,7 @@ using System.Collections;
 using System.Globalization;
 using NUnit.Framework;
 
-namespace UnitTests.Domain.UnitTests
+namespace UnitTests.Domain.UnitTests.Data
 {
     public static class TestModelCreationData
     {

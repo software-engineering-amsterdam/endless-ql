@@ -163,14 +163,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain.UnitTests\BooleanOperatorCount.cs" />
-    <Compile Include="Domain.UnitTests\CreateModelTests.cs" />
-    <Compile Include="Domain.UnitTests\CreateAstTests.cs" />
-    <Compile Include="Domain.UnitTests\CreateQuestionnaireTests.cs" />
-    <Compile Include="Domain.UnitTests\MathOperatorCount.cs" />
-    <Compile Include="Domain.UnitTests\RelationalOperatorCount.cs" />
-    <Compile Include="Domain.UnitTests\TestAstData.cs" />
-    <Compile Include="Domain.UnitTests\TestModelCreationData.cs" />
+    <Compile Include="Domain.UnitTests\Utilities\BooleanOperatorCount.cs" />
+    <Compile Include="Domain.UnitTests\Tests\CreateModelTests.cs" />
+    <Compile Include="Domain.UnitTests\Tests\CreateAstTests.cs" />
+    <Compile Include="Domain.UnitTests\Tests\CreateQuestionnaireTests.cs" />
+    <Compile Include="Domain.UnitTests\Utilities\MathOperatorCount.cs" />
+    <Compile Include="Domain.UnitTests\Utilities\RelationalOperatorCount.cs" />
+    <Compile Include="Domain.UnitTests\Data\TestAstData.cs" />
+    <Compile Include="Domain.UnitTests\Data\TestModelCreationData.cs" />
     <Compile Include="Orchestration.UnitTests\CreateQuestionnaireCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI.UnitTests\BasicTests.cs" />

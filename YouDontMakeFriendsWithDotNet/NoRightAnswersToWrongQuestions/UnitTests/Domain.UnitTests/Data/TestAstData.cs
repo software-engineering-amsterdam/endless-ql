@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
+using UnitTests.Domain.UnitTests.Utilities;
 
-namespace UnitTests.Domain.UnitTests
+namespace UnitTests.Domain.UnitTests.Data
 {
     public static class TestAstData
     {

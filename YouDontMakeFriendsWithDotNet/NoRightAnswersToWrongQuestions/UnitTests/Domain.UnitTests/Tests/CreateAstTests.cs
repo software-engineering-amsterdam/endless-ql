@@ -15,9 +15,10 @@ using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
+using UnitTests.Domain.UnitTests.Data;
+using UnitTests.Domain.UnitTests.Utilities;
 
-
-namespace UnitTests.Domain.UnitTests
+namespace UnitTests.Domain.UnitTests.Tests
 {
     [TestFixture]
     public class CreateAstTests

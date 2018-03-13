@@ -14,8 +14,9 @@ using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
+using UnitTests.Domain.UnitTests.Data;
 
-namespace UnitTests.Domain.UnitTests
+namespace UnitTests.Domain.UnitTests.Tests
 {
     [TestFixture]
     public class CreateModelTests

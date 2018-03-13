@@ -4,17 +4,17 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-public class NumValue extends Value<BigDecimal> {
+public class NumberValue extends Value<BigDecimal> {
 
-    public NumValue(BigDecimal value) {
+    public NumberValue(BigDecimal value) {
         super(value);
     }
 
-    public NumValue(Integer value) {
+    public NumberValue(Integer value) {
         super(new BigDecimal(value.toString()));
     }
 
-    public NumValue(Double value) {
+    public NumberValue(Double value) {
         super(new BigDecimal(value.toString()));
     }
 
@@ -48,8 +48,8 @@ public class NumValue extends Value<BigDecimal> {
         if (right.isUndefined())
             return new UndefinedValue();
 
-        NumValue rightValue = (NumValue) right;
-        return new NumValue(this.value.divide(rightValue.value, MathContext.DECIMAL128));
+        NumberValue rightValue = (NumberValue) right;
+        return new NumberValue(this.value.divide(rightValue.value, MathContext.DECIMAL128));
     }
 
     @Override
@@ -57,8 +57,8 @@ public class NumValue extends Value<BigDecimal> {
         if (right.isUndefined())
             return new UndefinedValue();
 
-        NumValue rightValue = (NumValue) right;
-        return new NumValue(this.value.multiply(rightValue.value));
+        NumberValue rightValue = (NumberValue) right;
+        return new NumberValue(this.value.multiply(rightValue.value));
     }
 
     @Override
@@ -66,8 +66,8 @@ public class NumValue extends Value<BigDecimal> {
         if (right.isUndefined())
             return new UndefinedValue();
 
-        NumValue rightValue = (NumValue) right;
-        return new NumValue(this.value.subtract(rightValue.value));
+        NumberValue rightValue = (NumberValue) right;
+        return new NumberValue(this.value.subtract(rightValue.value));
     }
 
     @Override
@@ -75,8 +75,8 @@ public class NumValue extends Value<BigDecimal> {
         if (right.isUndefined())
             return new UndefinedValue();
 
-        NumValue rightValue = (NumValue) right;
-        return new NumValue(this.value.add(rightValue.value));
+        NumberValue rightValue = (NumberValue) right;
+        return new NumberValue(this.value.add(rightValue.value));
     }
 
     @Override
@@ -84,8 +84,8 @@ public class NumValue extends Value<BigDecimal> {
         if (right.isUndefined())
             return new UndefinedValue();
 
-        NumValue rightValue = (NumValue) right;
-        return new BoolValue(this.value.equals(rightValue.value));
+        NumberValue rightValue = (NumberValue) right;
+        return new BooleanValue(this.value.equals(rightValue.value));
     }
 
     @Override
@@ -93,8 +93,8 @@ public class NumValue extends Value<BigDecimal> {
         if (right.isUndefined())
             return new UndefinedValue();
 
-        NumValue rightValue = (NumValue) right;
-        return new BoolValue(this.value.compareTo(rightValue.value) >= 0);
+        NumberValue rightValue = (NumberValue) right;
+        return new BooleanValue(this.value.compareTo(rightValue.value) >= 0);
     }
 
     @Override
@@ -102,8 +102,8 @@ public class NumValue extends Value<BigDecimal> {
         if (right.isUndefined())
             return new UndefinedValue();
 
-        NumValue rightValue = (NumValue) right;
-        return new BoolValue(this.value.compareTo(rightValue.value) > 0);
+        NumberValue rightValue = (NumberValue) right;
+        return new BooleanValue(this.value.compareTo(rightValue.value) > 0);
     }
 
     @Override
@@ -111,8 +111,8 @@ public class NumValue extends Value<BigDecimal> {
         if (right.isUndefined())
             return new UndefinedValue();
 
-        NumValue rightValue = (NumValue) right;
-        return new BoolValue(this.value.compareTo(rightValue.value) <= 0);
+        NumberValue rightValue = (NumberValue) right;
+        return new BooleanValue(this.value.compareTo(rightValue.value) <= 0);
     }
 
     @Override
@@ -120,8 +120,8 @@ public class NumValue extends Value<BigDecimal> {
         if (right.isUndefined())
             return new UndefinedValue();
 
-        NumValue rightValue = (NumValue) right;
-        return new BoolValue(this.value.compareTo(rightValue.value) < 0);
+        NumberValue rightValue = (NumberValue) right;
+        return new BooleanValue(this.value.compareTo(rightValue.value) < 0);
     }
 
     @Override
@@ -141,7 +141,7 @@ public class NumValue extends Value<BigDecimal> {
 
     @Override
     public Value neg() {
-        return new NumValue(this.value.multiply(new BigDecimal(-1.0)));
+        return new NumberValue(this.value.multiply(new BigDecimal(-1.0)));
     }
 
     @Override

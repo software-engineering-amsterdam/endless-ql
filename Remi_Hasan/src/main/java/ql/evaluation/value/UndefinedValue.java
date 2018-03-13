@@ -95,12 +95,12 @@ public class UndefinedValue extends Value<Boolean> {
 
     @Override
     public Value or(Value right) {
-        return new BoolValue(right.getBooleanValue());
+        return new BooleanValue(right.getBooleanValue());
     }
 
     @Override
     public Value not() {
-        return new BoolValue(true);
+        return new BooleanValue(true);
     }
 
     @Override

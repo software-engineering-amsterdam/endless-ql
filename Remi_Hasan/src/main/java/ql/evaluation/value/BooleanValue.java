@@ -2,8 +2,8 @@ package ql.evaluation.value;
 
 import java.math.BigDecimal;
 
-public class BoolValue extends Value<Boolean> {
-    public BoolValue(Boolean value) {
+public class BooleanValue extends Value<Boolean> {
+    public BooleanValue(Boolean value) {
         super(value);
     }
 
@@ -33,67 +33,67 @@ public class BoolValue extends Value<Boolean> {
     }
 
     @Override
-    public NumValue divide(Value right) {
+    public NumberValue divide(Value right) {
         throw new UnsupportedOperationException("Cannot perform divide on boolean.");
     }
 
     @Override
-    public NumValue multiply(Value right) {
+    public NumberValue multiply(Value right) {
         throw new UnsupportedOperationException("Cannot perform multiply on boolean.");
     }
 
     @Override
-    public NumValue subtract(Value right) {
+    public NumberValue subtract(Value right) {
         throw new UnsupportedOperationException("Cannot perform subtract on boolean.");
     }
 
     @Override
-    public NumValue sum(Value right) {
+    public NumberValue sum(Value right) {
         throw new UnsupportedOperationException("Cannot perform sum on boolean.");
     }
 
     @Override
-    public BoolValue eq(Value right) {
-        return new BoolValue(this.value.equals(right.value));
+    public BooleanValue eq(Value right) {
+        return new BooleanValue(this.value.equals(right.value));
     }
 
     @Override
-    public BoolValue ge(Value right) {
+    public BooleanValue ge(Value right) {
         throw new UnsupportedOperationException("Cannot perform ge on boolean.");
     }
 
     @Override
-    public BoolValue gt(Value right) {
+    public BooleanValue gt(Value right) {
         throw new UnsupportedOperationException("Cannot perform gt on boolean.");
     }
 
     @Override
-    public BoolValue le(Value right) {
+    public BooleanValue le(Value right) {
         throw new UnsupportedOperationException("Cannot perform le on boolean.");
     }
 
     @Override
-    public BoolValue lt(Value right) {
+    public BooleanValue lt(Value right) {
         throw new UnsupportedOperationException("Cannot perform lt on boolean.");
     }
 
     @Override
-    public BoolValue and(Value right) {
-        return new BoolValue(this.getBooleanValue() && right.getBooleanValue());
+    public BooleanValue and(Value right) {
+        return new BooleanValue(this.getBooleanValue() && right.getBooleanValue());
     }
 
     @Override
-    public BoolValue or(Value right) {
-        return new BoolValue(this.getBooleanValue() || right.getBooleanValue());
+    public BooleanValue or(Value right) {
+        return new BooleanValue(this.getBooleanValue() || right.getBooleanValue());
     }
 
     @Override
-    public BoolValue not() {
-        return new BoolValue(!this.getBooleanValue());
+    public BooleanValue not() {
+        return new BooleanValue(!this.getBooleanValue());
     }
 
     @Override
-    public NumValue neg() {
+    public NumberValue neg() {
         throw new UnsupportedOperationException("Cannot perform neg on boolean.");
     }
 

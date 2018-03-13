@@ -35,44 +35,11 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         private Form _mainForm;
 
-        private Label _titleLabel;
-
         public ElementManagerDisplayContollerWindows(FormManager form, float topMargin) : base(form, topMargin, new WindowsStyleProperties { Width = 338 }, new WidgetCreatorWindows())
         {
             _elementFactory = new ControlFactory(this);
             ConstructMainWindow();
-        }
-
-        /// <summary>
-        /// Shows specific widget
-        /// </summary>
-        /// <param name="widget">Widget to show</param>
-        /// <param name="position">X position to show widget</param>
-        /// <returns></returns>
-        public override float ShowWidget(ElementManager widget, WindowsStyleProperties style)
-        {
-            // Create control
-            Control control = null;
-            if (ElementIndex.ContainsKey(widget.Identifier))
-            {
-                control = ElementIndex[widget.Identifier];
-                control.Location = new Point(0, style.YPosition);
-            }
-            else
-                control = CreateElement(widget, style);
-
-            // Calculate bottom position
-            int newBottom = control.Height + control.Location.Y;
-
-            // Check if form has enough space, extend if needed
-            if (_widgetContainer.Height < newBottom)
-                _widgetContainer.Height = newBottom + (int)InitialPosition;
-
-            // Add control to form
-            _widgetContainer.Controls.Add(control);
-
-            // Return bottom
-            return newBottom;
+            BaseDisplay = _widgetContainer;
         }
 
         /// <summary>
@@ -81,24 +48,6 @@ namespace QLVisualizer.Controllers.Display
         public override void ShowView()
         {
             Application.Run(_mainForm);
-        }
-
-        /// <summary>
-        /// Updates style of widget
-        /// </summary>
-        /// <param name="widget">Target widget</param>
-        /// <param name="positionAbove">Bottom of previous</param>
-        /// <param name="style">Style of target</param>
-        /// <returns>Updated style</returns>
-        public override WindowsStyleProperties UpdatePosition(ElementManager widget, float positionAbove, WindowsStyleProperties style)
-        {
-            style.YPosition += (int)positionAbove;
-            return style;
-        }
-
-        protected override void RemoveFromView(Control element)
-        {
-            element.Dispose();
         }
 
         /*/// <summary>
@@ -133,15 +82,6 @@ namespace QLVisualizer.Controllers.Display
         }
 
         /// <summary>
-        /// Sets title of current form
-        /// </summary>
-        /// <param name="title">Title of form</param>
-        protected override void SetTitle(string title)
-        {
-            _titleLabel.Text = title;
-        }
-
-        /// <summary>
         /// Resets all values that define its state
         /// </summary>
         public override void Reset()
@@ -163,7 +103,6 @@ namespace QLVisualizer.Controllers.Display
             _widgetContainer = CreateWidgetPanel();
             _qlInput = CreateQLInputPanel();
             _parseButton = CreateParseButton();
-            _titleLabel = CreateTitle();
 
             // Assign controls
             _mainForm.Controls.AddRange(new Control[]
@@ -171,7 +110,6 @@ namespace QLVisualizer.Controllers.Display
                 _widgetContainer,
                 _qlInput,
                 _parseButton,
-                _titleLabel
             });
 
             _mainForm.ResumeLayout(false);
@@ -192,20 +130,6 @@ namespace QLVisualizer.Controllers.Display
                 Icon = (Icon)Resources.ResourceManager.GetObject("MainIcon"),
                 Name = "Visualizer",
                 Text = "Sharp QL"
-            };
-        }
-
-
-        /// <summary>
-        /// Creates label element for title
-        /// </summary>
-        /// <returns>Title element</returns>
-        private Label CreateTitle()
-        {
-            return new Label
-            {
-                Location = new Point(378, 12),
-                Text = "Form: -"
             };
         }
 

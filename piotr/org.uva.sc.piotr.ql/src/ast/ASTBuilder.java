@@ -127,7 +127,8 @@ public class ASTBuilder extends QLBaseVisitor<ASTNode> {
         return new TypeDeclarationMoney(
                 ctx.getText(),
                 this.ExtractMetaInformationFromContext(ctx)
-        );    }
+        );
+    }
 
     @Override
     public TypeDeclarationInteger visitTypeDeclarationInteger(QLParser.TypeDeclarationIntegerContext ctx) {
@@ -151,18 +152,20 @@ public class ASTBuilder extends QLBaseVisitor<ASTNode> {
     public Literal visitExpressionSingleValue(QLParser.ExpressionSingleValueContext ctx) {
 
         Expression.DataType type = Expression.DataType.STRING;
+        String text = ctx.value.getText();
 
-        if (ctx.BOOL_FALSE() != null || ctx.BOOL_TRUE() != null)
+        if (ctx.BOOL_FALSE() != null || ctx.BOOL_TRUE() != null) {
             type = Expression.DataType.BOOLEAN;
-
-        if (ctx.DECIMAL() != null)
+        } else if (ctx.DECIMAL() != null) {
             type = Expression.DataType.DECIMAL;
-
-        if (ctx.INTEGER() != null)
+        } else if (ctx.INTEGER() != null) {
             type = Expression.DataType.INTEGER;
+        } else if (ctx.STRING() != null) {
+            text = ctx.value.getText().substring(1, ctx.value.getText().length() - 1);
+        }
 
         return new Literal(
-                ctx.value.getText().substring(1, ctx.value.getText().length() - 1),
+                text,
                 type,
                 this.ExtractMetaInformationFromContext(ctx)
         );

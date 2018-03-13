@@ -11,6 +11,10 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class QLGui {
@@ -45,7 +49,30 @@ public class QLGui {
         submit.addActionListener(e -> {
             System.out.println("Submitted");
             Gson gson = new Gson();
-            System.out.println(gson.toJson(formController.prepareResults()));
+            String jsonResults = gson.toJson(formController.prepareResults());
+            System.out.println(jsonResults);
+
+//            JFileChooser fileChooser = new JFileChooser();
+//            if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+//                File file = fileChooser.getSelectedFile();
+//                // save to file
+//            }
+
+            final JFileChooser fileChooser = new JFileChooser();
+            int returnVal = fileChooser.showSaveDialog(null);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                    writer.write(jsonResults);
+                    writer.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+                //your writing code goes here
+            }
+
         });
 
         gridBagConstraints.gridy = i;

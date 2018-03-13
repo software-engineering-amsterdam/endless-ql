@@ -2,9 +2,9 @@ package qls.visitor;
 
 import qls.parser.QLSBaseVisitor;
 import qls.parser.QLSParser;
-import ql.model.stylesheet.Default;
-import ql.model.stylesheet.Page;
-import ql.model.stylesheet.Section;
+import qls.model.Default;
+import qls.model.Page;
+import qls.model.Section;
 
 import java.util.ArrayList;
 import java.util.List;

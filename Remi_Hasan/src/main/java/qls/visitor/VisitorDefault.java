@@ -3,8 +3,8 @@ package qls.visitor;
 import qls.parser.QLSBaseVisitor;
 import qls.parser.QLSParser;
 import ql.model.expression.ReturnType;
-import ql.model.stylesheet.Default;
-import ql.model.stylesheet.widgets.Widget;
+import qls.model.Default;
+import qls.model.widgets.Widget;
 
 import java.util.ArrayList;
 import java.util.List;

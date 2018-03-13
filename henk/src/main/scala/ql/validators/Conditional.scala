@@ -17,7 +17,7 @@ object ConditionalValidator {
       {
         val isValid = stmt.expression match {
           case binOp: ASTBinary  => validateBinOp(binOp, ast)
-          case id: ASTIdentifier => validateIdentifier(id, ast)
+          case id: ASTIdentifier => isBooleanIdentifier(id, ast)
           case other             => false
         }
 
@@ -29,30 +29,39 @@ object ConditionalValidator {
     }
     Success(true)
   }
-  // case other => Failure(new ConditionalNotBoolean("nope"))
-  // binop -> kijk of lhs & rhs vergelijkbaar zijn, geef type door naar boven.
-  // identifier -> kijk of de identifier een boolean value heeft.
 
-  def validateIdentifier(node: ASTIdentifier, ast: ASTNode): Boolean = {
+  def isBooleanIdentifier(node: ASTIdentifier, ast: ASTNode): Boolean = {
     ASTCollector.getTypeDecl(node, ast) match {
       case Some(ASTBoolean()) => true
       case other              => false
     }
   }
 
-  def validateBinOp(binOp: ASTNode, ast: ASTNode): Boolean = {
-    binOp match {
+  def validateLogical(node: ASTBinary, ast: ASTNode): Boolean = {
+    node match {
       case ASTBinary(lhs: ASTIdentifier,
                      rhs: ASTIdentifier,
                      op: ASTLogicalCon) => {
-        val lhsType = ASTCollector.getTypeDecl(lhs, ast)
-        val rhsType = ASTCollector.getTypeDecl(rhs, ast)
-        (lhsType, rhsType) match {
-          case (Some(ASTBoolean()), Some(ASTBoolean())) => true
-          case other                                    => false
-        }
+        isBooleanIdentifier(lhs, ast) && isBooleanIdentifier(rhs, ast)
       }
-      case other => true
+      case ASTBinary(lhs: ASTBinary, rhs: ASTIdentifier, op: ASTLogicalCon) => {
+        validateBinOp(lhs, ast) && isBooleanIdentifier(rhs, ast)
+      }
+      case ASTBinary(lhs: ASTIdentifier, rhs: ASTBinary, op: ASTLogicalCon) => {
+        validateBinOp(rhs, ast) && isBooleanIdentifier(lhs, ast)
+      }
+      case ASTBinary(lhs: ASTBinary, rhs: ASTBinary, op: ASTLogicalCon) => {
+        validateBinOp(lhs, ast) && validateBinOp(lhs, ast)
+      }
+      case other => false
+    }
+  }
+
+  def validateBinOp(binOp: ASTNode, ast: ASTNode): Boolean = {
+    binOp match {
+      case ab @ ASTBinary(_, _, ASTLogicalDis()) => validateLogical(ab, ast)
+      case ab @ ASTBinary(_, _, ASTLogicalCon()) => validateLogical(ab, ast)
+      case other                                 => false
     }
   }
 }

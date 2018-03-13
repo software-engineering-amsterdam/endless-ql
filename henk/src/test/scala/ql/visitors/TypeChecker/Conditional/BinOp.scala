@@ -72,4 +72,22 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
       }
     }
   }
+
+  describe("invalid on both sides of conditional") {
+    val filename = "ql/typechecking/conditions/binop/nested/both_invalid_nested.ql"
+    val form = getForm(filename)
+    val typechecker = new TypeChecker(form)
+
+    it("check method should return false") {
+      assert(!typechecker.check())
+    }
+
+    it("validate method should return a failure") {
+      // noException should be thrownBy ConditionalValidator.validate(form)
+      ConditionalValidator.validate(form) match {
+        case Failure(ConditionalNotBoolean(_)) => succeed
+        case other => fail("ConditionalValidator should have thrown an error")
+      }
+    }
+  }
 }

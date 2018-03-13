@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+// TODO: change it into a real boolean radio widget
 public class BooleanRadioWidget extends Widget {
 
     private JCheckBox checkbox;
@@ -41,6 +42,11 @@ public class BooleanRadioWidget extends Widget {
     @Override
     public JComponent getComponent() {
         return this.checkbox;
+    }
+
+    @Override
+    public void updateValue() {
+        this.checkbox.setSelected(this.getFormQuestionHolder().getValueHolder().getBooleanValue());
     }
 
     @Override

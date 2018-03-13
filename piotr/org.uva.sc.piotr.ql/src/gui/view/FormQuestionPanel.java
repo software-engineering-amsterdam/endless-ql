@@ -15,9 +15,10 @@ public class FormQuestionPanel extends JPanel {
 
     public FormQuestionPanel(FormQuestionHolder formQuestionHolder) {
         super(new GridBagLayout());
+        formQuestionHolder.setPanel(this);
+
         this.formQuestionHolder = formQuestionHolder;
         this.labelComponent = new JLabel(formQuestionHolder.getLabel());
-
         this.widget = this.createDefaultWidget();
 
         this.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -32,6 +33,9 @@ public class FormQuestionPanel extends JPanel {
 
         gridBagConstraints.gridy = 1;
         this.add(this.widget.getComponent(), gridBagConstraints);
+
+        if (formQuestionHolder.getVisibilityHolder() != null)
+            this.setVisible(formQuestionHolder.getVisibilityHolder().getBooleanValue());
     }
 
     public FormQuestionHolder getFormQuestionHolder() {
@@ -55,5 +59,20 @@ public class FormQuestionPanel extends JPanel {
         }
         // string and any other
         return new TextFieldWidget(this.formQuestionHolder);
+    }
+
+    public void refreshVisibility() {
+        if (this.formQuestionHolder.getVisibilityHolder() != null) {
+            System.out.println("@@ Updating visibility of " + this.formQuestionHolder.getVariableName() + " to " + this.formQuestionHolder.getVisibilityHolder().getBooleanValue());
+            this.setVisible(this.formQuestionHolder.getVisibilityHolder().getBooleanValue());
+        }
+    }
+
+    public void refreshValue() {
+        if (this.formQuestionHolder.getValueHolder() != null) {
+            this.widget.updateValue();
+            // change value
+            //this.widget.getComponent().(this.formQuestionHolder.getVisibilityHolder().getBooleanValue());
+        }
     }
 }

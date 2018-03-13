@@ -24,10 +24,6 @@ public class ExpressionEvaluator extends AbstractASTTraverse<MixedValueHolder> {
         this.variablesValues = variablesValues;
     }
 
-    public void setVariablesValues(HashMap<String, MixedValueHolder> variablesValues) {
-        this.variablesValues = variablesValues;
-    }
-
     @Override
     public MixedValueHolder visit(Negation negation) {
         MixedValueHolder result = negation.getExpression().accept(this);

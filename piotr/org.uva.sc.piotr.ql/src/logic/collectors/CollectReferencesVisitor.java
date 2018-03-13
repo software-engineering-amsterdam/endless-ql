@@ -13,6 +13,10 @@ public class CollectReferencesVisitor extends AbstractASTTraverse<Void> {
         return variableReferences;
     }
 
+    public void reset() {
+        this.variableReferences = new ArrayList<>();
+    }
+
     @Override
     public Void visit(VariableReference variableReference) {
         this.variableReferences.add(variableReference);

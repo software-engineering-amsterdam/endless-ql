@@ -18,4 +18,5 @@ public abstract class Widget extends JComponent {
 
     public abstract JComponent getComponent();
     public abstract Expression.DataType getSupportedDataType();
+    public abstract void updateValue();
 }

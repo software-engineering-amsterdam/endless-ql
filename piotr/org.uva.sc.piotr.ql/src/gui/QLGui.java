@@ -1,7 +1,9 @@
 package gui;
 
+import ast.model.expressions.Expression;
 import gui.controller.FormController;
 import gui.model.FormQuestionHolder;
+import gui.model.MixedValueHolder;
 import gui.view.FormQuestionPanel;
 import logic.evaluators.ExpressionEvaluator;
 
@@ -18,13 +20,13 @@ public class QLGui {
 
         JScrollPane scrollFrame = new JScrollPane(panel);
         panel.setAutoscrolls(true);
-        scrollFrame.setPreferredSize(new Dimension(1024, 768));
+        scrollFrame.setPreferredSize(new Dimension(800, 600));
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.anchor = GridBagConstraints.WEST;
 
         // form controller setup
-        FormController formController = new FormController(formQuestionHolders);
+        FormController formController = new FormController(formQuestionHolders, evaluator);
 
         // render form questions panels
         int i = 0;

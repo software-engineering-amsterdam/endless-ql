@@ -66,6 +66,11 @@ public class IntegerFieldWidget extends Widget {
     }
 
     @Override
+    public void updateValue() {
+        this.field.setValue(this.getFormQuestionHolder().getValueHolder().getIntegerValue());
+    }
+
+    @Override
     public Expression.DataType getSupportedDataType() {
         return Expression.DataType.DECIMAL;
     }

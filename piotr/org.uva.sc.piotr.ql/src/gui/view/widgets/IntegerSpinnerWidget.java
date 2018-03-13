@@ -40,6 +40,11 @@ public class IntegerSpinnerWidget extends Widget {
     }
 
     @Override
+    public void updateValue() {
+        this.spinner.setValue(this.getFormQuestionHolder().getValueHolder().getIntegerValue());
+    }
+
+    @Override
     public JComponent getComponent() {
         return this.spinner;
     }

@@ -3,6 +3,7 @@ package gui.model;
 import ast.model.declarations.TypeDeclaration;
 import ast.model.expressions.Expression;
 import gui.controller.FormController;
+import gui.view.FormQuestionPanel;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,6 +21,7 @@ public class FormQuestionHolder {
     private MixedValueHolder valueHolder;
 
     private FormController formController;
+    private FormQuestionPanel panel;
 
     public FormQuestionHolder(String label, String variableName, TypeDeclaration originalDataTypeDeclaration, Expression visibilityCondition, Expression assignedExpression) {
         this.label = label;
@@ -130,5 +132,13 @@ public class FormQuestionHolder {
         } else {
             this.formController = formController;
         }
+    }
+
+    public void setPanel(FormQuestionPanel panel) {
+        this.panel = panel;
+    }
+
+    public FormQuestionPanel getPanel() {
+        return panel;
     }
 }

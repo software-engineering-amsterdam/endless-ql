@@ -75,18 +75,6 @@ public class Main {
         List<FormQuestionHolder> formQuestionHolders = collectFormQuestionHoldersVisitor.getFormQuestionHolders();
         ExpressionEvaluator evaluator = new ExpressionEvaluator(collectFormQuestionHoldersVisitor.getVariablesValues());
 
-        // initial evaluation
-        for (FormQuestionHolder formQuestionHolder : formQuestionHolders) {
-            if (formQuestionHolder.getAssignedExpression() != null) {
-                formQuestionHolder.setValueHolder(formQuestionHolder.getAssignedExpression().accept(evaluator));
-            }
-            if (formQuestionHolder.getVisibilityCondition() != null) {
-                formQuestionHolder.setVisibilityHolder(formQuestionHolder.getVisibilityCondition().accept(evaluator));
-            } else {
-                formQuestionHolder.setVisibilityHolder(new MixedValueHolder(Expression.DataType.BOOLEAN, true));
-            }
-        }
-
         new QLGui(formQuestionHolders, evaluator);
 
 

@@ -48,6 +48,11 @@ public class BooleanCheckboxWidget extends Widget {
     }
 
     @Override
+    public void updateValue() {
+        this.checkbox.setSelected(this.getFormQuestionHolder().getValueHolder().getBooleanValue());
+    }
+
+    @Override
     public Expression.DataType getSupportedDataType() {
         return Expression.DataType.BOOLEAN;
     }

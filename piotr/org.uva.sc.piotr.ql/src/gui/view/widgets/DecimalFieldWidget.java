@@ -72,6 +72,11 @@ public class DecimalFieldWidget extends Widget {
     }
 
     @Override
+    public void updateValue() {
+        this.field.setValue(this.getFormQuestionHolder().getValueHolder().getDecimalValue());
+    }
+
+    @Override
     public Expression.DataType getSupportedDataType() {
         return Expression.DataType.DECIMAL;
     }

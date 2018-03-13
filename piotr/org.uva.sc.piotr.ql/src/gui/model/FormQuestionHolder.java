@@ -36,40 +36,20 @@ public class FormQuestionHolder {
         return label;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
     public String getVariableName() {
         return variableName;
-    }
-
-    public void setVariableName(String variableName) {
-        this.variableName = variableName;
     }
 
     public TypeDeclaration getOriginalDataTypeDeclaration() {
         return originalDataTypeDeclaration;
     }
 
-    public void setOriginalDataTypeDeclaration(TypeDeclaration originalDataTypeDeclaration) {
-        this.originalDataTypeDeclaration = originalDataTypeDeclaration;
-    }
-
     public Expression getVisibilityCondition() {
         return visibilityCondition;
     }
 
-    public void setVisibilityCondition(Expression visibilityCondition) {
-        this.visibilityCondition = visibilityCondition;
-    }
-
     public Expression getAssignedExpression() {
         return assignedExpression;
-    }
-
-    public void setAssignedExpression(Expression assignedExpression) {
-        this.assignedExpression = assignedExpression;
     }
 
     public MixedValueHolder getVisibilityHolder() {
@@ -89,25 +69,21 @@ public class FormQuestionHolder {
     }
 
     public void changeValue(Boolean value) {
-        System.out.println("Change value " + value.getClass().getSimpleName());
         this.valueHolder.setBooleanValue(value);
         this.formController.processFormQuestionHolderChange(this);
     }
 
     public void changeValue(BigDecimal value) {
-        System.out.println("Change value " + value.getClass().getSimpleName());
         this.valueHolder.setDecimalValue(value);
         this.formController.processFormQuestionHolderChange(this);
     }
 
     public void changeValue(Integer value) {
-        System.out.println("Change value " + value.getClass().getSimpleName());
         this.valueHolder.setIntegerValue(value);
         this.formController.processFormQuestionHolderChange(this);
     }
 
     public void changeValue(String value) {
-        System.out.println("Change value " + value.getClass().getSimpleName());
         this.valueHolder.setStringValue(value);
         this.formController.processFormQuestionHolderChange(this);
     }

@@ -43,7 +43,6 @@ public class FormQuestionPanel extends JPanel {
 
     public void refreshVisibility() {
         if (this.formQuestionHolder.getVisibilityHolder() != null) {
-            System.out.println("@@ Updating visibility of " + this.formQuestionHolder.getVariableName() + " to " + this.formQuestionHolder.getVisibilityHolder().getBooleanValue());
             this.setVisible(this.formQuestionHolder.getVisibilityHolder().getBooleanValue());
         }
     }

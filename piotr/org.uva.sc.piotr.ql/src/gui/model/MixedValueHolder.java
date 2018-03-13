@@ -79,7 +79,6 @@ public class MixedValueHolder {
     public void setStringValue(String stringValue) {
         if (this.type == Expression.DataType.STRING) {
             this.stringValue = stringValue;
-            System.out.println("String value changed to: \"" + stringValue + "\"");
         } else {
             throw new RuntimeException("Illegal value assignment: String value cannot be assigned to " + this.type.name() + " type.");
         }
@@ -88,7 +87,6 @@ public class MixedValueHolder {
     public void setDecimalValue(BigDecimal decimalValue) {
         if (this.type == Expression.DataType.DECIMAL) {
             this.decimalValue = decimalValue;
-            System.out.println("Decimal value changed to: " + decimalValue);
         } else {
             throw new RuntimeException("Illegal value assignment: Decimal value cannot be assigned to " + this.type.name() + " type.");
         }
@@ -97,7 +95,6 @@ public class MixedValueHolder {
     public void setIntegerValue(Integer integerValue) {
         if (this.type == Expression.DataType.INTEGER) {
             this.integerValue = integerValue;
-            System.out.println("Integer value changed to: " + integerValue);
         } else {
             throw new RuntimeException("Illegal value assignment: Integer value cannot be assigned to " + this.type.name() + " type.");
         }
@@ -106,7 +103,6 @@ public class MixedValueHolder {
     public void setBooleanValue(Boolean booleanValue) {
         if (this.type == Expression.DataType.BOOLEAN) {
             this.booleanValue = booleanValue;
-            System.out.println("Boolean value changed to: " + booleanValue);
         } else {
             throw new RuntimeException("Illegal value assignment: Boolean value cannot be assigned to " + this.type.name() + " type.");
         }

@@ -32,18 +32,14 @@ public class MoneyFieldWidget extends Widget {
         textField.setColumns(15);
         textField.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
-                System.out.println("changed update");
                 warn();
             }
 
             public void removeUpdate(DocumentEvent e) {
-                System.out.println("remove update");
                 //warn();
             }
 
             public void insertUpdate(DocumentEvent e) {
-
-                System.out.println("insert update");
                 warn();
             }
 
@@ -52,7 +48,6 @@ public class MoneyFieldWidget extends Widget {
                 Runnable format = () -> {
                     String text = textField.getText();
                     if (!text.matches("(-)?\\d*(\\.\\d{0,2})?")) {
-                        System.out.println("-- nope! --");
                         textField.setText(text.substring(0, text.length() - 1));
                     }
                 };

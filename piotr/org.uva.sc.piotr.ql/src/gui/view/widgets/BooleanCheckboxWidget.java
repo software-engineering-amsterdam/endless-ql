@@ -22,15 +22,13 @@ public class BooleanCheckboxWidget extends Widget {
 
         checkbox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                System.out.println("Checkbox SELECTED");
                 formQuestionHolder.changeValue(true);
 
             } else {
-                System.out.println("Checkbox DESELECTED");
                 formQuestionHolder.changeValue(false);
             }
         });
-        
+
         this.checkbox = checkbox;
     }
 

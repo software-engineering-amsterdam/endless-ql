@@ -32,17 +32,14 @@ public class DecimalFieldWidget extends Widget {
         textField.setColumns(15);
         textField.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
-                System.out.println("changed update");
                 warn();
             }
 
             public void removeUpdate(DocumentEvent e) {
-                System.out.println("remove update");
                 warn();
             }
 
             public void insertUpdate(DocumentEvent e) {
-                System.out.println("insert update");
                 warn();
             }
 

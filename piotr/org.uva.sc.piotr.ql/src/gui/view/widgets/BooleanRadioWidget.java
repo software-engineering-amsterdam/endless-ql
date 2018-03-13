@@ -35,12 +35,10 @@ public class BooleanRadioWidget extends Widget {
         radioPanel.add(this.noButton);
 
         this.yesButton.addActionListener(e -> {
-            System.out.println("Radio YES");
             formQuestionHolder.changeValue(true);
         });
 
         this.noButton.addActionListener(e -> {
-            System.out.println("Radio NO");
             formQuestionHolder.changeValue(false);
         });
 

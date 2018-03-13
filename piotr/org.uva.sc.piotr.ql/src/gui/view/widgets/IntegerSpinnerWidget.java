@@ -27,7 +27,6 @@ public class IntegerSpinnerWidget extends Widget {
         }
 
         spinner.addChangeListener(e -> {
-            System.out.println("Spinner value changed to: " + spinner.getValue());
             formQuestionHolder.changeValue((Integer) spinner.getValue());
         });
 

@@ -45,16 +45,9 @@ public class QLGui {
 
         JButton submit = new JButton("Submit form");
         submit.addActionListener(e -> {
-            System.out.println("Submitted");
             Gson gson = new Gson();
             String jsonResults = gson.toJson(formController.prepareResults());
             System.out.println(jsonResults);
-
-//            JFileChooser fileChooser = new JFileChooser();
-//            if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-//                File file = fileChooser.getSelectedFile();
-//                // save to file
-//            }
 
             final JFileChooser fileChooser = new JFileChooser();
             int returnVal = fileChooser.showSaveDialog(null);
@@ -67,8 +60,6 @@ public class QLGui {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-
-                //your writing code goes here
             }
 
         });

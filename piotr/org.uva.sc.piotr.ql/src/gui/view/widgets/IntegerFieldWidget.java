@@ -35,24 +35,20 @@ public class IntegerFieldWidget extends Widget {
 
         textField.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
-                System.out.println("changed update");
                 warn();
             }
 
             public void removeUpdate(DocumentEvent e) {
-                System.out.println("remove update");
                 warn();
             }
 
             public void insertUpdate(DocumentEvent e) {
-                System.out.println("insert update");
                 warn();
             }
 
             private void warn() {
                 String clearText = textField.getText().replaceAll("[^0-9]", "");
                 String safeText = clearText.equals("") ? "0" : clearText;
-                System.out.println("Integer changed to: " + safeText);
                 formQuestionHolder.changeValue(Integer.parseInt(safeText));
             }
         });

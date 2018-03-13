@@ -39,13 +39,7 @@ public class TextAreaWidget extends Widget {
             }
 
             private void pushEvent() {
-
-                System.out.println("TextFieldWidget new value: " + area.getText());
-//                formQuestionHolder.getValueHolder().setStringValue(textField.getText());
-//                anchor.evaluate();
-//                textField.setVisible(formQuestionHolder.getVisibilityHolder().getBooleanValue());
                 formQuestionHolder.changeValue(area.getText());
-
             }
         });
 

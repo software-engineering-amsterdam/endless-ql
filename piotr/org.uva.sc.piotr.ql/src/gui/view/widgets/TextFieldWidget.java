@@ -38,11 +38,6 @@ public class TextFieldWidget extends Widget {
             }
 
             private void pushEvent() {
-
-                System.out.println("TextFieldWidget new value: " + field.getText());
-//                formQuestionHolder.getValueHolder().setStringValue(textField.getText());
-//                anchor.evaluate();
-//                textField.setVisible(formQuestionHolder.getVisibilityHolder().getBooleanValue());
                 formQuestionHolder.changeValue(field.getText());
             }
         });

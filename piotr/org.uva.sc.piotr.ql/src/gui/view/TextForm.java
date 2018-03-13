@@ -48,9 +48,9 @@ public class TextForm extends JPanel {
         int i = 0;
         for (FormQuestion formQuestion : formQuestions) {
 
-            System.out.println(formQuestion.getVariableDataType().name());
+            System.out.println(formQuestion.getOriginalDataTypeDeclaration().toDataType().name());
 
-            if (formQuestion.getVariableDataType() == Expression.DataType.STRING) {
+            if (formQuestion.getOriginalDataTypeDeclaration().toDataType() == Expression.DataType.STRING) {
                 JTextField textField = new JTextField();
                 textField.setColumns(20);
                 textField.getDocument().addDocumentListener(new DocumentListener() {
@@ -75,7 +75,7 @@ public class TextForm extends JPanel {
                 });
                 textField.setVisible(formQuestion.getVisibility().getBooleanValue());
                 fields[i] = textField;
-            } else if (formQuestion.getVariableDataType() == Expression.DataType.INTEGER) {
+            } else if (formQuestion.getOriginalDataTypeDeclaration().toDataType() == Expression.DataType.INTEGER) {
                 SpinnerModel spinnerModel = new SpinnerNumberModel(
                         0,
                         Integer.MIN_VALUE,
@@ -95,7 +95,7 @@ public class TextForm extends JPanel {
                 spinner.setVisible(formQuestion.getVisibility().getBooleanValue());
                 fields[i] = spinner;
 
-            } else if (formQuestion.getVariableDataType() == Expression.DataType.DECIMAL) {
+            } else if (formQuestion.getOriginalDataTypeDeclaration().toDataType() == Expression.DataType.DECIMAL) {
                 NumberFormat format = DecimalFormat.getInstance();
                 format.setGroupingUsed(false);
                 NumberFormatter formatter = new NumberFormatter(format);
@@ -133,7 +133,7 @@ public class TextForm extends JPanel {
                 field.setVisible(formQuestion.getVisibility().getBooleanValue());
                 fields[i] = field;
 
-            } else if (formQuestion.getVariableDataType() == Expression.DataType.BOOLEAN) {
+            } else if (formQuestion.getOriginalDataTypeDeclaration().toDataType() == Expression.DataType.BOOLEAN) {
                 JCheckBox checkbox = new JCheckBox();
                 checkbox.addItemListener(new ItemListener() {
 

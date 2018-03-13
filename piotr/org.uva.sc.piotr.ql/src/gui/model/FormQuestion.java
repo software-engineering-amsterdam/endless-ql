@@ -1,5 +1,6 @@
 package gui.model;
 
+import ast.model.declarations.TypeDeclaration;
 import ast.model.expressions.Expression;
 import logic.evaluators.UniversalTypeValue;
 
@@ -7,20 +8,20 @@ public class FormQuestion {
 
     private String label;
     private String variableName;
-    private Expression.DataType variableDataType;
+    private TypeDeclaration originalDataTypeDeclaration;
     private Expression visibilityCondition;
     private Expression assignedExpression;
     private UniversalTypeValue visibility;
     private UniversalTypeValue value;
 
-    public FormQuestion(String label, String variableName, Expression.DataType variableDataType, Expression visibilityCondition, Expression assignedExpression) {
+    public FormQuestion(String label, String variableName, TypeDeclaration originalDataTypeDeclaration, Expression visibilityCondition, Expression assignedExpression) {
         this.label = label;
         this.variableName = variableName;
-        this.variableDataType = variableDataType;
+        this.originalDataTypeDeclaration = originalDataTypeDeclaration;
         this.visibilityCondition = visibilityCondition;
         this.assignedExpression = assignedExpression;
         // default value
-        this.value = UniversalTypeValue.createValue(this.variableDataType, "");
+        this.value = UniversalTypeValue.createValue(this.originalDataTypeDeclaration.toDataType(), "");
     }
 
     public String getLabel() {
@@ -39,12 +40,12 @@ public class FormQuestion {
         this.variableName = variableName;
     }
 
-    public Expression.DataType getVariableDataType() {
-        return variableDataType;
+    public TypeDeclaration getOriginalDataTypeDeclaration() {
+        return originalDataTypeDeclaration;
     }
 
-    public void setVariableDataType(Expression.DataType variableDataType) {
-        this.variableDataType = variableDataType;
+    public void setOriginalDataTypeDeclaration(TypeDeclaration originalDataTypeDeclaration) {
+        this.originalDataTypeDeclaration = originalDataTypeDeclaration;
     }
 
     public Expression getVisibilityCondition() {
@@ -84,7 +85,7 @@ public class FormQuestion {
         return "FormQuestion{" +
                 "label='" + label + '\'' +
                 ", variableName='" + variableName + '\'' +
-                ", variableDataType=" + variableDataType.name() +
+                ", originalDataTypeDeclaration=" + originalDataTypeDeclaration +
                 ", visibilityCondition=" + visibilityCondition +
                 ", assignedExpression=" + assignedExpression +
                 ", visibility=" + visibility +

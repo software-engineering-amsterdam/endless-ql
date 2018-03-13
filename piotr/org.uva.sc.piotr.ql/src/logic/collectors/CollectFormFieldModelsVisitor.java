@@ -39,7 +39,7 @@ public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
         FormQuestion formQuestion = new FormQuestion(
                 question.getLabel(),
                 question.getVariableName(),
-                question.getVariableType().toDataType(),
+                question.getVariableType(),
                 aggregatedVisibilityCondition,
                 question.getAssignedExpression()
         );

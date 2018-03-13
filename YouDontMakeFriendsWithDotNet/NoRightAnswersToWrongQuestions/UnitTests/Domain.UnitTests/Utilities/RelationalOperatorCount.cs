@@ -1,4 +1,4 @@
-﻿namespace UnitTests.Domain.UnitTests
+﻿namespace UnitTests.Domain.UnitTests.Utilities
 {
     public struct RelationalOperatorCount
     {

@@ -5,7 +5,6 @@ using NUnit.Framework;
 using QuestionnaireDomain.Entities;
 using QuestionaireOrchestration;
 using QuestionaireOrchestration.API;
-using QuestionnaireDomain.Logic;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
 using QuestionnaireUI;
@@ -40,7 +39,6 @@ namespace IntegrationTests
             QlServiceCollection.AddModule(new InfrastructureModule());
             QlServiceCollection.AddModule(new AntlrModule());
             QlServiceCollection.AddModule(new EntitiesModule());
-            QlServiceCollection.AddModule(new DomainLogicModule());
             QlServiceCollection.AddModule(new OrchestrationModule());
             QlServiceCollection.AddModule(new UiModule());
             QlServiceCollection.AddSingleton(typeof(IServiceProvider), x => m_serviceProvider);

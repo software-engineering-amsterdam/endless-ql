@@ -88,6 +88,7 @@
     <Compile Include="Ast\Nodes\Relational\Interfaces\ITextNode.cs" />
     <Compile Include="Ast\Nodes\Relational\Interfaces\ITextVariableNode.cs" />
     <Compile Include="Ast\Tools\Interfaces\IQuestionnaireAstCreator.cs" />
+    <Compile Include="Ast\Tools\QuestionnaireAstCreator.cs" />
     <Compile Include="Domain\DomainItemLocator.cs" />
     <Compile Include="Output\Tools\BooleanEvaluatorVisitor.cs" />
     <Compile Include="Output\Tools\BuildOutputVisitor.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Ast\Nodes\Common\VariableNodeBase.cs" />
     <Compile Include="EntitiesModule.cs" />
     <Compile Include="Domain\Interfaces\ISymbolTable.cs" />
+    <Compile Include="Output\Tools\QuestionnaireModelCreator.cs" />
     <Compile Include="Output\Tools\VariableUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

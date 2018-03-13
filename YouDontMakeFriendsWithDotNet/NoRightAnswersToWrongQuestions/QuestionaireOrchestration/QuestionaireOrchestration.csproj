@@ -69,10 +69,6 @@
       <Project>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</Project>
       <Name>QuestionnaireDomain.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\QuestionnaireDomain.Logic\QuestionnaireDomain.Logic.csproj">
-      <Project>{A90F662F-AFD9-45AA-8B13-DBFBAF4A6CFC}</Project>
-      <Name>QuestionnaireDomain.Logic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
       <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>
       <Name>QuestionnaireInfrastructure</Name>

@@ -26,6 +26,8 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(IBuildOutputVisitor), typeof(BuildOutputVisitor));
             appRegistration.AddSingleton(typeof(IDomainItemLocator), typeof(DomainItemLocator));
             appRegistration.AddSingleton(typeof(IVariableUpdater), typeof(VariableUpdater));
+            appRegistration.AddSingleton(typeof(IQuestionnaireModelCreator), typeof(QuestionnaireModelCreator));
+            appRegistration.AddSingleton(typeof(IQuestionnaireAstCreator), typeof(QuestionnaireAstCreator));
         }
     }
 }

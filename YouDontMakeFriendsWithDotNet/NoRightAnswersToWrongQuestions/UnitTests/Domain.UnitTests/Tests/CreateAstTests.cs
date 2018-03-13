@@ -13,8 +13,6 @@ using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
-using QuestionnaireDomain.Logic;
-using QuestionnaireDomain.Logic.Logic;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
 
@@ -34,7 +32,6 @@ namespace UnitTests.Domain.UnitTests
             services.AddModule(new AntlrModule());
             services.AddModule(new InfrastructureModule());
             services.AddModule(new EntitiesModule());
-            services.AddModule(new DomainLogicModule());
             m_serviceProvider = services.BuildServiceProvider();
             m_domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
         }

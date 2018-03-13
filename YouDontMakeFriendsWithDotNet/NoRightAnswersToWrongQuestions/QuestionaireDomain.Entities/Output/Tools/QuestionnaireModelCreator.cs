@@ -5,7 +5,7 @@ using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 
-namespace QuestionnaireDomain.Logic.Logic
+namespace QuestionnaireDomain.Entities.Output.Tools
 {
     public class QuestionnaireModelCreator : IQuestionnaireModelCreator
     {

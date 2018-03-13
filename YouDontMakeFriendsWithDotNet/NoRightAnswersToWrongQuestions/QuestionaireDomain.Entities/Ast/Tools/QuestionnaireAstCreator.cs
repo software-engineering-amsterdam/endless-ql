@@ -3,7 +3,7 @@ using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 
-namespace QuestionnaireDomain.Logic.Logic
+namespace QuestionnaireDomain.Entities.Ast.Tools
 {
     internal class QuestionnaireAstCreator : IQuestionnaireAstCreator
     {

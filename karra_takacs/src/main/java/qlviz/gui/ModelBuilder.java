@@ -41,9 +41,8 @@ public class ModelBuilder {
 	}
 
 
-	public Form linkQuestions(Form form){
+	public void linkQuestions(Form form){
 		questionLinker.linkQuestionStubs(form);
-		return form;
 	}
 
 

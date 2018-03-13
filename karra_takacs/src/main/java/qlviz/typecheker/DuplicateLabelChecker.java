@@ -8,23 +8,16 @@ import qlviz.model.Form;
 import qlviz.model.question.Question;
 
 public class DuplicateLabelChecker implements  Analyzer {
-	Form form;
-	List<String> questionNames;
-	List<String> questionLabels;
-	List<AnalysisResult> errors;
+	private Form form;
 
 
-	public void initialize(Form form) {
+    public void initialize(Form form) {
 		this.form = form;
-		this.questionNames = new ArrayList<>();
-		this.errors = new ArrayList<>();
 	}
 
 	@Override
 	public List<AnalysisResult> analyze() {
-		List<Question> questions = QuestionCollector.collect(this.form);
 		List<Question> questionLabels = QuestionCollector.collect(this.form);
-        HashMap<String, List<Question>> questionsByName = new HashMap<>();
         HashMap<String, List<Question>> questionsByLabel = new HashMap<>();
         
         for (Question question : questionLabels) {

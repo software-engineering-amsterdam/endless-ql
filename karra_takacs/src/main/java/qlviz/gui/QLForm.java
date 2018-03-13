@@ -115,17 +115,21 @@ public class QLForm extends Application {
 				);
 		List<AnalysisResult> staticCheckResults = new ArrayList<>();
 		FormVisitor visitor = new FormVisitor(questionBlockVisitor);
-		this.model = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()))
-				.createFormFromMarkup(this.getParameters().getRaw().get(0));
-		try {
-			this.model = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()))
-					.linkQuestions(this.model);
-			}catch(IllegalStateException e) {
-				containsDuplicates = true;
-	       }
-		
+		ModelBuilder modelBuilder = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()));
+
+		this.model = modelBuilder.createFormFromMarkup(this.getParameters().getRaw().get(0));
+
+
 		StaticChecker staticChecker = new StaticChecker();
-		staticCheckResults = staticChecker.valdiate(this.model, containsDuplicates);
+		List<AnalysisResult> duplicateResults = staticChecker.checkForDuplicateLables(this.model);
+		if (duplicateResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
+			staticCheckResults = duplicateResults;
+		}
+		else
+		{
+			modelBuilder.linkQuestions(this.model);
+            staticCheckResults = staticChecker.valdiate(this.model, containsDuplicates);
+		}
 
 		if (staticCheckResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
 			ErrorRenderer errorRenderer = new JavafxErrorRenderer(stage);

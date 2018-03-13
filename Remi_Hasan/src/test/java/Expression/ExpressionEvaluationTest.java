@@ -1,12 +1,12 @@
 package Expression;
 
 import Parser.ANTLRTester;
-import analysis.SymbolTable;
-import evaluation.ExpressionEvaluator;
-import evaluation.value.Value;
+import ql.analysis.SymbolTable;
+import ql.evaluation.ExpressionEvaluator;
+import ql.evaluation.value.Value;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import model.expression.Expression;
+import ql.model.expression.Expression;
 import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;
@@ -113,6 +113,18 @@ public class ExpressionEvaluationTest {
     public void ExpressionEvaluationNeg(int i) {
         Value result = ANTLRTester.evaluateExpression("-" + i);
         assertEquals(Integer.valueOf(-1 * i), result.getIntValue());
+    }
+
+    @Property
+    public void ExpressionEvaluationAnd(boolean left, boolean right) {
+        Value result = ANTLRTester.evaluateExpression(left + " && " + right);
+        assertEquals(left && right, result.getBooleanValue());
+    }
+
+    @Property
+    public void ExpressionEvaluationOr(boolean left, boolean right) {
+        Value result = ANTLRTester.evaluateExpression(left + " || " + right);
+        assertEquals(left || right, result.getBooleanValue());
     }
 
 }

@@ -15,12 +15,16 @@ class TypeChecker(val node: ASTNode) {
   def runValidators(): Try[Boolean] = {
     for {
       isValid <- IdentifierValidator.validate(node)
+      isValid <- ConditionalValidator.validate(node)
     } yield true
   }
 
   def setError(exception: Throwable): Unit = {
     exception match {
       case ex: IdentifierNotDeclared => {
+        errorMessage = s"Identifier with name '${ex.label}' is not declared!"
+      }
+      case ex: ConditionalNotBoolean => {
         errorMessage = s"Identifier with name '${ex.label}' is not declared!"
       }
     }

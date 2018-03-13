@@ -14,6 +14,17 @@ object ASTCollector {
     flattenNT(node).collect { case ifStmt:  ASTIfStatement => ifStmt }
   }
 
+  def getTypeDecl(id: ASTIdentifier, ast: ASTNode): Option[ASTNode] = {
+    val forms = getFormBody(ast)
+    val formVarDecls = forms.flatMap(getVarDecls)
+    val varDecl = formVarDecls.filter(vd => vd.id == id)
+    if(varDecl.isEmpty) {
+      None
+    } else {
+      Some(varDecl.get(0).typeDecl)
+    }
+  }
+
   def getTerminals(node: ASTNode): List[ASTNode] = {
     node match {
       case nt: ASTNonTerminal => traverseChildren(nt, getTerminals)

@@ -1,11 +1,11 @@
 package Analysis;
 
 import Parser.ANTLRTester;
-import analysis.TypeChecker;
-import model.expression.Expression;
-import model.expression.binary.ExpressionArithmeticSum;
-import model.expression.variable.ExpressionVariableBoolean;
-import model.expression.variable.ExpressionVariableInteger;
+import ql.analysis.TypeChecker;
+import ql.model.expression.Expression;
+import ql.model.expression.binary.ExpressionArithmeticSum;
+import ql.model.expression.variable.ExpressionVariableBoolean;
+import ql.model.expression.variable.ExpressionVariableInteger;
 import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNode;

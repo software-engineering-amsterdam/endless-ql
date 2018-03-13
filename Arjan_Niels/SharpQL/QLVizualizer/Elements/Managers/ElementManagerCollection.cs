@@ -12,12 +12,12 @@ namespace QLVisualizer.Elements.Managers
         /// <summary>
         /// Children of this ElementManager
         /// </summary>
-        protected List<ElementManager> _children { get; private set; }
+        public List<ElementManager> Children { get; private set; }
 
         public ElementManagerCollection(string identifyer, string text, string xmlName, ElementManagerController controller, ExpressionBool activationExpression = null) : 
             base(identifyer, text, xmlName, controller, activationExpression)
         {
-            _children = new List<ElementManager>();
+            Children = new List<ElementManager>();
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace QLVisualizer.Elements.Managers
         /// <param name="elementManager">ElementManager to add as child</param>
         public void AddChild(ElementManager elementManager)
         {
-            _children.Add(elementManager);
+            Children.Add(elementManager);
             elementManager.Parent = this;
         }
 
@@ -45,19 +45,19 @@ namespace QLVisualizer.Elements.Managers
 
             // Only send to children if parent is active
             if (Active)
-                foreach (ElementManagerLeaf manager in _children)
+                foreach (ElementManagerLeaf manager in Children)
                     manager.NotifyChange(updatedIdentifyer);
         }
 
         public override IEnumerable<string> GetNotifyWidgetIDs()
         {
             // Return children and self
-            return _children.SelectMany(o => o.GetNotifyWidgetIDs()).Concat(_activationExpression.UsedWidgetIDs);
+            return Children.SelectMany(o => o.GetNotifyWidgetIDs()).Concat(_activationExpression.UsedWidgetIDs);
         }
 
         public override string ToXML()
         {
-            return string.Format("<{0} identifier=\"{1}\">{2}</{0}>", XMLElementName, Identifier, string.Join("", _children.Select(o => o.ToXML())));
+            return string.Format("<{0} identifier=\"{1}\">{2}</{0}>", XMLElementName, Identifier, string.Join("", Children.Select(o => o.ToXML())));
         }
     }
 }

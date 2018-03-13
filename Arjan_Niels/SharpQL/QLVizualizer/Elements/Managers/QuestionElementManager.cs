@@ -54,7 +54,7 @@ namespace QLVisualizer.Elements.Managers
         public void SetAnswer(T answer)
         {
             Answer = Validate(answer);
-            IsAnswered = true;
+            IsAnswered = Answer.IsValid;
 
             // Send update to the controller
             if (_elementManagerController != null)
@@ -73,7 +73,7 @@ namespace QLVisualizer.Elements.Managers
                 SetAnswer(_answerExpression.Result);
 
                 // Update view of this widget since the value is calculated
-                _elementManagerController.UpdateView(this);
+                //_elementManagerController.UpdateView(this);
             }
         }
 

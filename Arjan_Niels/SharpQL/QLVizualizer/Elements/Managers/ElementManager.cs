@@ -66,11 +66,11 @@ namespace QLVisualizer.Elements.Managers
             bool _oldActive = Active;
             if (_activationExpression != null && _activationExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
                 Active = _activationExpression.Result;
-            _elementManagerController.UpdateView(this);
+            //_elementManagerController.UpdateView(this);
 
             // Value is changed
-            if (_oldActive != Active)
-                _elementManagerController.ActiveChanged();
+            //if (_oldActive != Active)
+               // _elementManagerController.ActiveChanged();
         }
 
 

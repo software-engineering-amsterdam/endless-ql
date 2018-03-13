@@ -31,17 +31,6 @@ namespace QLVisualizer.Controllers
         }
 
         /// <summary>
-        /// Updates the view of a widget
-        /// </summary>
-        /// <param name="widget">Widget to update</param>
-        public abstract void UpdateView(ElementManager widget);
-
-        /// <summary>
-        /// Removes all widgets form view and shows them again
-        /// </summary>
-        public abstract void RefreshWidgets();
-
-        /// <summary>
         /// Shows view to user
         /// </summary>
         public abstract void ShowView();
@@ -57,7 +46,7 @@ namespace QLVisualizer.Controllers
         /// </summary>
         /// <param name="title">Form title</param>
         /// <param name="widgets">Widgets of form</param>
-        public abstract void DisplayForm(FormManager form);
+        public abstract void DisplayForm();
 
         /// <summary>
         /// Handles QL-language input
@@ -69,7 +58,10 @@ namespace QLVisualizer.Controllers
             if (parseResults.Item1.Length > 0)
                 ShowError(parseResults.Item1);
             else
-                DisplayForm(parseResults.Item2);
+                _form = parseResults.Item2;
+
+            // Always display
+            DisplayForm();
         }
 
         /// <summary>
@@ -79,11 +71,6 @@ namespace QLVisualizer.Controllers
         public void ValueUpdate(string elementManagerID)
         {
             _form.NotifyChange(elementManagerID);
-        }
-
-        public void ActiveChanged()
-        {
-            RefreshWidgets();
         }
 
         /// <summary>

@@ -1,6 +1,6 @@
 ﻿using AntlrInterpretor.Logic;
 using Microsoft.Extensions.DependencyInjection;
-using QuestionaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireInfrastructure.API;
 
 namespace AntlrInterpretor
@@ -9,7 +9,7 @@ namespace AntlrInterpretor
     {
         public void RegisterDependencies(IServiceCollection appRegistration)
         {
-            appRegistration.AddSingleton(typeof(IQlInterpretor), typeof(QlInterpretor));
+            appRegistration.AddSingleton(typeof(IAstTreeBuilder), typeof(AstTreeBuilder));
         }
     }
 }

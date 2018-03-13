@@ -14,7 +14,8 @@ public class QuestionModelFactoryImpl implements QuestionModelFactory {
                 return new DecimalQuestionModel(data);
             case DATE:
                 return new DateQuestionModel(data);
-            case MONEY:
+            case MONEY_EURO:
+            case MONEY_DOLLAR:
                 return new MoneyQuestionModel(data);
             case INTEGER:
                 return new IntQuestionModel(data);

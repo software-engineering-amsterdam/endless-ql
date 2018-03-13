@@ -2,7 +2,7 @@ package nl.khonraad.domain;
 
 public enum Type {
 
-	Boolean("boolean"), Integer("integer"), Money("money");
+	Boolean("boolean"), Date("date"), Integer("integer"), Money("money"), String("string") ;
 
 	private String text;
 
@@ -10,17 +10,16 @@ public enum Type {
 		this.text = text;
 	}
 
-	public static Type parseType(String text) {
-		
+	public static Type parseType( String text ) {
+
 		for (Type type : Type.values()) {
-		
-			if (type.text.equalsIgnoreCase(text)) {
+
+			if (type.text.equalsIgnoreCase( text )) {
 				return type;
 			}
 		}
-		
-		throw new RuntimeException(
-				"CHeck your grammar. Do not know how to instantiate a Type from \"" + text + "\"" );
+
+		throw new RuntimeException( "CHeck your grammar. Do not know how to instantiate a Type from \"" + text + "\"" );
 	}
-	
+
 }

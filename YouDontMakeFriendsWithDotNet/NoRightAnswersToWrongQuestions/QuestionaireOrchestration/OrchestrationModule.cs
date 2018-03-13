@@ -25,6 +25,10 @@ namespace QuestionaireOrchestration
             appRegistration.AddTransient(
                 typeof(ICommandHandler<CreateQuestionnaireCommandMessage>), 
                 typeof(ParseTextCommandHandler));
+
+            appRegistration.AddTransient(
+                typeof(IQuestionnaireQueryService),
+                typeof(QuestionnaireQueryService));
         }
     }
 }   

@@ -25,7 +25,6 @@ namespace QuestionnaireWPFApp
             MainWindow = new MainWindow(mainViewModel);
             MainWindow.Show();
             mainViewModel.Load();
-
         }
     }
 }

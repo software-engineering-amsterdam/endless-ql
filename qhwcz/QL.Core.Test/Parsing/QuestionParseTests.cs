@@ -1,18 +1,21 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL.Core.Api;
-using QL.Core.Types;
+using QL.Api.Infrastructure;
+using QL.Api.Types;
+using QL.Core.Infrastructure;
+using QL.Core.Interpreting.Operators;
 
 namespace QL.Core.Test.Parsing
 {
     [TestClass]
     public class QuestionParseTests
     {
-        private readonly IParserService _parsingService;
+        private readonly Pipeline<ParsingTask> _parsingPipeline;
         private readonly AssertVisitor _assertVisitor;
 
         public QuestionParseTests()
         {
-            _parsingService = ServiceRegistry.ParsingService;
+            _parsingPipeline = new Pipeline<ParsingTask>();
+            _parsingPipeline.ConnectElement(new ParsingPipelineElement());
             _assertVisitor = new AssertVisitor();
         }
 
@@ -20,7 +23,7 @@ namespace QL.Core.Test.Parsing
         public void ParseOneQuestionWithALabelNoConditional_WillSucceed()
         {
             // Arrange & Act
-            var parsedSymbols = _parsingService.ParseQLInput(TestDataResolver.LoadTestFile("singleQuestion.ql"));
+            var task = _parsingPipeline.Process(new ParsingTask(TestDataResolver.LoadTestFile("singleQuestion.ql")));
 
             // Assert
             _assertVisitor.EnqueueQuestionNodeCallback(question =>
@@ -29,7 +32,7 @@ namespace QL.Core.Test.Parsing
                 Assert.AreEqual("What is the meaning of life?", question.Description);
                 Assert.AreEqual(QLType.Decimal, question.Type);
             });
-            parsedSymbols.FormNode.Accept(_assertVisitor);
+            task.Ast.Accept(_assertVisitor);
             _assertVisitor.VerifyAll();
         }
 
@@ -37,7 +40,7 @@ namespace QL.Core.Test.Parsing
         public void ParseMultipleQuestionsWithALabelNoConditional_WillSucceed()
         {
             // Arrange & Act
-            var parsedSymbols = _parsingService.ParseQLInput(TestDataResolver.LoadTestFile("multipleQuestions.ql"));
+            var task = _parsingPipeline.Process(new ParsingTask(TestDataResolver.LoadTestFile("multipleQuestions.ql")));
 
             // Assert
             _assertVisitor.EnqueueQuestionNodeCallback(question =>
@@ -58,7 +61,7 @@ namespace QL.Core.Test.Parsing
                 Assert.AreEqual("Which day is today?", question.Description);
                 Assert.AreEqual(QLType.Date, question.Type);
             });
-            parsedSymbols.FormNode.Accept(_assertVisitor);
+            task.Ast.Accept(_assertVisitor);
             _assertVisitor.VerifyAll();
         }
 
@@ -66,7 +69,7 @@ namespace QL.Core.Test.Parsing
         public void ParseMultipleQuestionsWithASimpleAssignment_WillSucceed()
         {
             // Arrange & Act
-            var parsedSymbols = _parsingService.ParseQLInput(TestDataResolver.LoadTestFile("questionWithSimpleAssignment.ql"));
+            var task = _parsingPipeline.Process(new ParsingTask(TestDataResolver.LoadTestFile("questionWithSimpleAssignment.ql")));
 
             // Assert
             _assertVisitor.EnqueueQuestionNodeCallback(question =>
@@ -85,7 +88,7 @@ namespace QL.Core.Test.Parsing
             {
                 Assert.AreEqual("sellingPrice", variable.Label);
             });
-            parsedSymbols.FormNode.Accept(_assertVisitor);
+            task.Ast.Accept(_assertVisitor);
             _assertVisitor.VerifyAll();
         }
 
@@ -93,7 +96,7 @@ namespace QL.Core.Test.Parsing
         public void ParseQuestionWithSimpleExpression_WillSucceed()
         {
             // Arrange & Act
-            var parsedSymbols = _parsingService.ParseQLInput(TestDataResolver.LoadTestFile("simpleExpression.ql"));
+            var task = _parsingPipeline.Process(new ParsingTask(TestDataResolver.LoadTestFile("simpleExpression.ql")));
 
             // Assert
             _assertVisitor.EnqueueQuestionNodeCallback(question =>
@@ -104,11 +107,11 @@ namespace QL.Core.Test.Parsing
             });
             _assertVisitor.EnqueueExpressionNodeCallback(expression =>
             {
-                Assert.AreEqual("-", expression.Operator);
+                Assert.AreEqual("-",expression.Operator.AsString);
             });
             _assertVisitor.EnqueueExpressionNodeCallback(expression =>
             {
-                Assert.AreEqual("+", expression.Operator);
+                Assert.AreEqual("+", expression.Operator.AsString);
             });
             _assertVisitor.EnqueueLiteralNodeCallback(literal =>
             {
@@ -122,7 +125,7 @@ namespace QL.Core.Test.Parsing
             {
                 Assert.AreEqual("3", literal.Value);
             });
-            parsedSymbols.FormNode.Accept(_assertVisitor);
+            task.Ast.Accept(_assertVisitor);
             _assertVisitor.VerifyAll();
         }
 
@@ -130,44 +133,44 @@ namespace QL.Core.Test.Parsing
         public void ParseQuestionWithIncorrectType_WillReportError()
         {
             // Arrange & Act
-            var parsedSymbols = _parsingService.ParseQLInput(TestDataResolver.LoadTestFile("wrongType.ql"));
+            var task = _parsingPipeline.Process(new ParsingTask(TestDataResolver.LoadTestFile("wrongType.ql")));
 
             // Assert
             Assert.AreEqual("Syntax error in line 3, character 10: mismatched input 'cadeautje' expecting {'boolean', 'integer', 'decimal', 'string', 'date'}.",
-                parsedSymbols.Errors[0]);
+                task.Errors[0]);
         }
 
         [TestMethod]
         public void ParseQuestionWithMissingLabel_WillReportError()
         {
             // Arrange & Act
-            var parsedSymbols = _parsingService.ParseQLInput(TestDataResolver.LoadTestFile("missingLabel.ql"));
+            var task = _parsingPipeline.Process(new ParsingTask(TestDataResolver.LoadTestFile("missingLabel.ql")));
 
             // Assert
             Assert.AreEqual("Syntax error in line 3, character 0: missing LABEL at ':'.",
-                parsedSymbols.Errors[0]);
+                task.Errors[0]);
         }
 
         [TestMethod]
         public void ParseQuestionWithMissingText_WillReportError()
         {
             // Arrange & Act
-            var parsedSymbols = _parsingService.ParseQLInput(TestDataResolver.LoadTestFile("missingQuestionText.ql"));
+            var task = _parsingPipeline.Process(new ParsingTask(TestDataResolver.LoadTestFile("missingQuestionText.ql")));
 
             // Assert
             Assert.AreEqual("Syntax error in line 2, character 0: mismatched input 'whatIsThis' expecting {'if', '}', STRING}.",
-                parsedSymbols.Errors[0]);
+                task.Errors[0]);
         }
 
         [TestMethod]
         public void ParseQuestionWithEmptyExpression_WillReportError()
         {
             // Arrange & Act
-            var parsedSymbols = _parsingService.ParseQLInput(TestDataResolver.LoadTestFile("emptyExpression.ql"));
+            var task = _parsingPipeline.Process(new ParsingTask(TestDataResolver.LoadTestFile("emptyExpression.ql")));
 
             // Assert
-            Assert.AreEqual("Syntax error in line 4, character 0: mismatched input '}' expecting {'!', '+', '-', '(', BOOLEAN, INTEGER, DECIMAL, STRING, DATE, LABEL}.",
-                parsedSymbols.Errors[0]);
+            Assert.AreEqual("Syntax error in line 4, character 0: mismatched input '}' expecting {'!', '-', '(', BOOLEAN, INTEGER, DECIMAL, STRING, DATE, LABEL}.",
+                task.Errors[0]);
         }
     }
 }

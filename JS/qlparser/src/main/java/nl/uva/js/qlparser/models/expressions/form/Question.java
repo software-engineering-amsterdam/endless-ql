@@ -29,11 +29,6 @@ public class Question implements FormExpression {
 
         JComponent component = dataType.getComponent().apply(variable);
 
-//        if (component instanceof JTextField)
-//            ((JTextField) component).getDocument().addDocumentListener(new TextChangeListener((JTextField) component));
-//        else if (component instanceof JCheckBox)
-//            ((JCheckBox) component).addItemListener(e -> variable.setValue(e.getStateChange() == ItemEvent.SELECTED));
-
         JLabel label = new JLabel(question, JLabel.LEFT);
 
         panel.add(label);

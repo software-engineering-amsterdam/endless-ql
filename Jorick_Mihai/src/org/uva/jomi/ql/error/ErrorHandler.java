@@ -2,7 +2,6 @@ package org.uva.jomi.ql.error;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
@@ -10,7 +9,7 @@ import org.uva.jomi.ql.ast.expressions.Expr;
 import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
 import org.uva.jomi.ql.ast.statements.IfStmt;
 
-public class ErrorHandler {
+public class ErrorHandler extends ErrorReporter<String> {
 	
 	private class Error {
 		private final String message;
@@ -73,22 +72,20 @@ public class ErrorHandler {
 	}
 	
 	private final String moduleName;
-	private List<Error> errorMessages;
 	private boolean printErrors;
 	
 	public ErrorHandler(String moduleName, boolean printErrors) {
 		this.moduleName = moduleName;
 		this.printErrors = printErrors;
-		errorMessages = new ArrayList<>();
 	}
 	
 	public int getNumberOfErrors() {
-		return errorMessages.size();
+		return this.getNumberOfReports();
 	}
 
 	public void addIdentifierError(QLToken token, String message) {
 		Error error = new IdentifierError(token.getLexeme(), token.getLine(), token.getColumn(), message);
-		errorMessages.add(error);
+		this.addReport(error.toString());
 		if (printErrors)
 			System.err.println(error.toString());
 	}
@@ -106,7 +103,7 @@ public class ErrorHandler {
 				String.join(" or ", typeNames));
 		
 		Error error = new TypeError(message);
-		errorMessages.add(error);
+		this.addReport(error.toString());
 		if (printErrors)
 			System.err.println(error.toString());
 	}
@@ -120,7 +117,7 @@ public class ErrorHandler {
 				childExpr.getType());
 		
 		Error error = new TypeError(message);
-		errorMessages.add(error);
+		this.addReport(error.toString());
 		if (printErrors)
 			System.err.println(error.toString());
 	}
@@ -135,7 +132,7 @@ public class ErrorHandler {
 				rightExpr.getType());
 		
 		Error error = new TypeError(message);
-		errorMessages.add(error);
+		this.addReport(error.toString());
 		if (printErrors)
 			System.err.println(error.toString());
 	}
@@ -150,7 +147,7 @@ public class ErrorHandler {
 				stmt.getExprType());
 		
 		Error error = new TypeError(message);
-		errorMessages.add(error);
+		this.addReport(error.toString());
 		if (printErrors)
 			System.err.println(error.toString());
 	}
@@ -165,27 +162,16 @@ public class ErrorHandler {
 				stmt.getExprType());
 		
 		Error error = new TypeError(message);
-		errorMessages.add(error);
-		if (printErrors)
-			System.err.println(error.toString());
-	}
-	
-	public void addError(String errorMessage) {
-		Error error = new Error(errorMessage);
-		errorMessages.add(error);
+		this.addReport(error.toString());
 		if (printErrors)
 			System.err.println(error.toString());
 	}
 	
 	public void clearErrors() {
-		errorMessages.clear();
+		this.clearAllReports();
 	}
 	
 	public String getErrorAtIndex(int index) {
-		if (index >= 0 && index < errorMessages.size()) {
-			return errorMessages.get(index).toString();
-		} else {
-			return String.format("No error is present at index %d", index);
-		}
+		return this.getReport(index);
 	}
 }

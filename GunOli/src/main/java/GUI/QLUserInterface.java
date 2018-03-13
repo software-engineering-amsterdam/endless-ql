@@ -1,8 +1,8 @@
 package GUI;
 import java.io.File;
 
-import ParseObjectsQL.Form;
-import ParseObjectsQL.QuestionMap;
+import QL.ParseObjectsQL.Form;
+import QL.ParseObjectsQL.QuestionMap;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

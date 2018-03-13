@@ -12,7 +12,7 @@ import org.uva.jomi.ql.tests.utilities.TestUtilities;
 
 public class TypeResolverTests {
 
-	TypeResolver typeResolver = new TypeResolver(true);
+	TypeResolver typeResolver = new TypeResolver(false);
 	IdentifierResolver identifierResolver = new IdentifierResolver(false);
 
 	String testSource1 =

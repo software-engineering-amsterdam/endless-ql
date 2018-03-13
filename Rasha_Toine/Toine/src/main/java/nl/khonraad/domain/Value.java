@@ -10,14 +10,15 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class Value {
 
-	private static SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat( "dd/MM/yyyy" );
+	private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat( "dd/MM/yyyy" );
+	private static final long MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000L;
 
 	private Type type;
 	private String text;
 
 	public Value apply( String operator ) {
 
-		switch (operator) {
+		switch ( operator ) {
 
 			case "+":
 				return this;
@@ -35,7 +36,7 @@ public class Value {
 
 	public Value apply( String operator, Value rightOperand ) {
 
-		switch (operator) {
+		switch ( operator ) {
 
 			case "*":
 				return this.multiplied_by( rightOperand );
@@ -97,55 +98,6 @@ public class Value {
 		return text;
 	}
 
-	private Value multiplied_by( Value rightOperand ) {
-
-		Type type_right = rightOperand.getType();
-		Type type_left = this.getType();
-		String text_left = this.getText();
-		String text_right = rightOperand.getText();
-
-		switch (type_left + "-" + type_right) {
-
-			case "Integer-Integer":
-				return new Value( Type.Integer,
-						Integer.toString( Integer.parseInt( text_left ) * Integer.parseInt( text_right ) ) );
-
-			case "Integer-Money":
-				return new Value( Type.Money, Double.toString(
-						(new BigDecimal( text_right ).multiply( new BigDecimal( Integer.parseInt( text_left ) ) ))
-								.doubleValue() ) );
-
-			case "Money-Integer":
-				return new Value( Type.Money, Double.toString( (new BigDecimal( text_left )
-						.multiply( new BigDecimal( Integer.parseInt( text_right ) ) ).doubleValue()) ) );
-
-		}
-		throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
-	}
-
-	private Value divided_by( Value rightOperand ) {
-		
-		Type type_right = rightOperand.getType();
-		Type type_left = this.getType();
-		String text_left = this.getText();
-		String text_right = rightOperand.getText();
-
-		switch (type_left + "-" + type_right) {
-
-			case "Integer-Integer":
-				return new Value( Type.Integer,
-						Integer.toString( (Integer.parseInt( text_left ) / Integer.parseInt( text_right )) ) );
-
-			case "Money-Integer":
-				return new Value( Type.Money,
-						Double.toString(
-								(new BigDecimal( text_left ).divide( new BigDecimal( Integer.parseInt( text_right ) ) ))
-										.doubleValue() ) );
-
-		}
-		throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
-	}
-
 	private Value added_with( Value rightOperand ) {
 
 		Type type_right = rightOperand.getType();
@@ -154,22 +106,22 @@ public class Value {
 		String text_left = this.getText();
 		String text_right = rightOperand.getText();
 
-		switch (type_left + "-" + type_right) {
+		switch ( type_left + " + " + type_right ) {
 
-			case "Date-Integer":
+			case "Date + Integer":
 				return new Value( Type.Date, dateToString(
-						new Date( dateStringToLong( text_left ) + 24 * 60 * 60 * 1000 * new Long( text_right ) ) ) );
+						new Date( dateStringToLong( text_left ) + MILLISECONDS_IN_A_DAY * new Long( text_right ) ) ) );
 
-			case "Integer-Integer":
+			case "Integer + Integer":
 				return new Value( Type.Integer,
 						Integer.toString( (Integer.parseInt( text_left ) + Integer.parseInt( text_right )) ) );
 
-			case "Money-Money":
+			case "Money + Money":
 				return new Value( Type.Money, "" + new BigDecimal( text_left ).add( new BigDecimal( text_right ) ) );
 
-			case "String-Integer":
-			case "String-Money":
-			case "String-String":
+			case "String + Integer":
+			case "String + Money":
+			case "String + String":
 				return new Value( Type.String, text_left + text_right );
 
 		}
@@ -177,40 +129,16 @@ public class Value {
 
 	}
 
-	private Value subtracted_with( Value rightOperand ) {
-
-		Type type_right = rightOperand.getType();
-		Type type_left = this.getType();
-
-		String text_left = this.getText();
-		String text_right = rightOperand.getText();
-
-		switch (type_left + "-" + type_right) {
-
-			case "Date-Integer":
-				return new Value( Type.Date, dateToString(
-						new Date( dateStringToLong( text_left ) - 24 * 60 * 60 * 1000 * new Long( text_right ) ) ) );
-
-			case "Integer-Integer":
-				return new Value( Type.Integer,
-						Integer.toString( (Integer.parseInt( text_left ) - Integer.parseInt( text_right )) ) );
-
-			case "Money-Money":
-				return new Value( Type.Money, Double.toString(
-						new BigDecimal( text_left ).subtract( new BigDecimal( text_right ) ).doubleValue() ) );
-		}
-		throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
-	}
-
 	private Value conjuncted_with( Value rightOperand ) {
 
 		Type type_right = rightOperand.getType();
 		Type type_left = this.getType();
 
-		switch (type_left + "-" + type_right) {
+		switch ( type_left + " && " + type_right ) {
 
-			case "Boolean-Boolean":
-				return booleanAndboolean( this, rightOperand );
+			case "Boolean && Boolean":
+				// use the Morgan's Theorem
+				return not( booleanOrboolean( not( this ), not( rightOperand ) ) );
 
 		}
 		throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
@@ -221,10 +149,84 @@ public class Value {
 		Type type_right = rightOperand.getType();
 		Type type_left = this.getType();
 
-		switch (type_left + "-" + type_right) {
+		switch ( type_left + " || " + type_right ) {
 
-			case "Boolean-Boolean":
+			case "Boolean || Boolean":
 				return booleanOrboolean( this, rightOperand );
+		}
+		throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+	}
+
+	private Value divided_by( Value rightOperand ) {
+
+		Type type_right = rightOperand.getType();
+		Type type_left = this.getType();
+		String text_left = this.getText();
+		String text_right = rightOperand.getText();
+
+		switch ( type_left + " / " + type_right ) {
+
+			case "Integer / Integer":
+				return new Value( Type.Integer,
+						Integer.toString( (Integer.parseInt( text_left ) / Integer.parseInt( text_right )) ) );
+
+			case "Money / Integer":
+				return new Value( Type.Money,
+						Double.toString(
+								(new BigDecimal( text_left ).divide( new BigDecimal( Integer.parseInt( text_right ) ) ))
+										.doubleValue() ) );
+
+		}
+		throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+	}
+
+	private Value multiplied_by( Value rightOperand ) {
+
+		Type type_right = rightOperand.getType();
+		Type type_left = this.getType();
+		String text_left = this.getText();
+		String text_right = rightOperand.getText();
+
+		switch ( type_left + " * " + type_right ) {
+
+			case "Integer * Integer":
+				return new Value( Type.Integer,
+						Integer.toString( Integer.parseInt( text_left ) * Integer.parseInt( text_right ) ) );
+
+			case "Integer * Money":
+				return new Value( Type.Money, Double.toString(
+						(new BigDecimal( text_right ).multiply( new BigDecimal( Integer.parseInt( text_left ) ) ))
+								.doubleValue() ) );
+
+			case "Money * Integer":
+				return new Value( Type.Money, Double.toString( (new BigDecimal( text_left )
+						.multiply( new BigDecimal( Integer.parseInt( text_right ) ) ).doubleValue()) ) );
+
+		}
+		throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+	}
+
+	private Value subtracted_with( Value rightOperand ) {
+
+		Type type_right = rightOperand.getType();
+		Type type_left = this.getType();
+
+		String text_left = this.getText();
+		String text_right = rightOperand.getText();
+
+		switch ( type_left + " - " + type_right ) {
+
+			case "Date - Integer":
+				return new Value( Type.Date, dateToString(
+						new Date( dateStringToLong( text_left ) - 24 * 60 * 60 * 1000 * new Long( text_right ) ) ) );
+
+			case "Integer - Integer":
+				return new Value( Type.Integer,
+						Integer.toString( (Integer.parseInt( text_left ) - Integer.parseInt( text_right )) ) );
+
+			case "Money - Money":
+				return new Value( Type.Money, Double.toString(
+						new BigDecimal( text_left ).subtract( new BigDecimal( text_right ) ).doubleValue() ) );
 		}
 		throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
 	}
@@ -237,29 +239,24 @@ public class Value {
 		String text_left = this.getText();
 		String text_right = rightOperand.getText();
 
-		switch (type_left + "-" + type_right) {
+		switch ( type_left + " >= " + type_right ) {
 
-			case "Date-Date":
+			case "Date >= Date":
 				return new Value( (toDate( text_left ).after( toDate( text_right ) )
 						|| (toDate( text_left ).equals( toDate( text_right ) ))) );
 
-			case "Integer-Integer":
+			case "Integer >= Integer":
 				return new Value( (Integer.parseInt( text_left ) >= Integer.parseInt( text_right )) );
 
-			case "Money-Money":
+			case "Money >= Money":
 				return new Value(
 						(new BigDecimal( text_left ).doubleValue() >= new BigDecimal( text_right ).doubleValue()) );
 
-			case "String-String":
+			case "String >= String":
 				return new Value( text_left.compareTo( text_right ) != -1 );
 
 		}
 		throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
-	}
-
-	private Date toDate( String text ) {
-
-		return new Date( dateStringToLong( text ) );
 	}
 
 	private Value isLowerThenOrEqualTo( Value rightOperand ) {
@@ -270,20 +267,20 @@ public class Value {
 		String text_left = this.getText();
 		String text_right = rightOperand.getText();
 
-		switch (type_left + "-" + type_right) {
+		switch ( type_left + " <= " + type_right ) {
 
-			case "Date-Date":
+			case "Date <= Date":
 				return new Value( (toDate( text_left ).before( toDate( text_right ) )
 						|| (toDate( text_left ).equals( toDate( text_right ) ))) );
 
-			case "Integer-Integer":
+			case "Integer <= Integer":
 				return new Value( (Integer.parseInt( text_left ) <= Integer.parseInt( text_right )) );
 
-			case "Money-Money":
+			case "Money <= Money":
 				return new Value(
 						(new BigDecimal( text_left ).doubleValue() <= new BigDecimal( text_right ).doubleValue()) );
 
-			case "String-String":
+			case "String <= String":
 				return new Value( text_left.compareTo( text_right ) != 1 );
 
 		}
@@ -298,13 +295,13 @@ public class Value {
 		String text_left = this.getText();
 		String text_right = rightOperand.getText();
 
-		switch (type_left + "-" + type_right) {
+		switch ( type_left + " == " + type_right ) {
 
-			case "Boolean-Boolean":
-			case "Date-Date":
-			case "Integer-Integer":
-			case "Money-Money":
-			case "String-String":
+			case "Boolean == Boolean":
+			case "Date == Date":
+			case "Integer == Integer":
+			case "Money == Money":
+			case "String == String":
 				return new Value( this.equals( rightOperand ) );
 
 		}
@@ -320,19 +317,19 @@ public class Value {
 		String text_left = this.getText();
 		String text_right = rightOperand.getText();
 
-		switch (type_left + "-" + type_right) {
+		switch ( type_left + " > " + type_right ) {
 
-			case "Date-Date":
+			case "Date > Date":
 				return new Value( toDate( text_left ).after( toDate( text_right ) ) );
 
-			case "Integer-Integer":
+			case "Integer > Integer":
 				return new Value( (Integer.parseInt( text_left ) > Integer.parseInt( text_right )) );
 
-			case "Money-Money":
+			case "Money > Money":
 				return new Value(
 						new BigDecimal( text_left ).doubleValue() > new BigDecimal( text_right ).doubleValue() );
 
-			case "String-String":
+			case "String > String":
 				return new Value( text_left.compareTo( text_right ) == 1 );
 
 		}
@@ -347,23 +344,41 @@ public class Value {
 		String text_left = this.getText();
 		String text_right = rightOperand.getText();
 
-		switch (type_left + "-" + type_right) {
+		switch ( type_left + " < " + type_right ) {
 
-			case "Date-Date":
+			case "Date < Date":
 				return new Value( toDate( text_left ).before( toDate( text_right ) ) );
 
-			case "Integer-Integer":
+			case "Integer < Integer":
 				return new Value( Integer.parseInt( text_left ) < Integer.parseInt( text_right ) );
 
-			case "Money-Money":
+			case "Money < Money":
 				return new Value(
 						new BigDecimal( text_left ).doubleValue() < new BigDecimal( text_right ).doubleValue() );
 
-			case "String-String":
+			case "String < String":
 				return new Value( text_left.compareTo( text_right ) == -1 );
 
 		}
 		throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+	}
+
+	private Value not( Value value ) {
+
+		return new Value( !"True".equals( value.text ) );
+	}
+
+	private Value booleanOrboolean( Value left, Value right ) {
+
+		if ("True".equals( left.getText() ) || "True".equals( right.getText() )) {
+			return new Value( true );
+		}
+		return new Value( false );
+	}
+
+	private Date toDate( String text ) {
+
+		return new Date( dateStringToLong( text ) );
 	}
 
 	private long dateStringToLong( String text_left ) {
@@ -378,24 +393,6 @@ public class Value {
 	private String dateToString( Date d ) {
 
 		return SIMPLE_DATE_FORMAT.format( d );
-	}
-
-	private Value booleanAndboolean( Value left, Value right ) {
-
-		return not( booleanOrboolean( not( left ), not( right ) ) );
-	}
-
-	private Value not( Value value ) {
-
-		return new Value( !"True".equals( value.text ) );
-	}
-
-	private Value booleanOrboolean( Value left, Value right ) {
-
-		if ("True".equals( left.getText() ) || "True".equals( right.getText() )) {
-			return new Value( true );
-		}
-		return new Value( false );
 	}
 
 	@Override

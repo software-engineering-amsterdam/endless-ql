@@ -232,6 +232,7 @@ Remi_Hasan/gen/
 Remi_Hasan/target/
 *.bat
 
+.vs
 
 GunOli/src/main/autoGen/
 ForcePush/.idea/workspace.xml

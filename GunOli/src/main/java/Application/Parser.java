@@ -3,13 +3,13 @@ package Application;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import ParseObjects.QuestionMap;
-import Visitor.ExpressionTable;
-import ParseObjects.Question;
-import ParseObjects.Form;
-import antlrGen.QLParser;
-import antlrGen.QLLexer;
-import Visitor.FormVisitor;
+import QL.ParseObjectsQL.QuestionMap;
+import QL.QLVisitor.ExpressionTable;
+import QL.ParseObjectsQL.Question;
+import QL.ParseObjectsQL.Form;
+import QL.QLAntlrGen.QLParser;
+import QL.QLAntlrGen.QLLexer;
+import QL.QLVisitor.FormVisitor;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 

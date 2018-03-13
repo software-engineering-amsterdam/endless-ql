@@ -69,7 +69,7 @@ public class Main extends Application {
             UnknownIdentifiersDetector unknownIdentifiersDetector = new UnknownIdentifiersDetector(form);
             List<String> unknownReferencedIdentifiers = unknownIdentifiersDetector.detectUnknownIdentifiers();
             if(!unknownReferencedIdentifiers.isEmpty()){
-                showErrorAlert("Unknown variable(s):", unknownReferencedIdentifiers);
+                showErrorAlert("Unknown variable reference(s):", unknownReferencedIdentifiers);
                 return;
             }
 

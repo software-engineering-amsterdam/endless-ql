@@ -1,27 +1,16 @@
 package GUI;
-import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.net.URL;
 
-import ParseObjects.Form;
-import ParseObjects.QuestionMap;
-import javafx.application.Application;
+import QL.ParseObjectsQL.Form;
+import QL.ParseObjectsQL.QuestionMap;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import Application.Parser;
-
-import javafx.event.EventHandler;
 
 public class QLUserInterface {
     public QLUserInterface(Stage stage){

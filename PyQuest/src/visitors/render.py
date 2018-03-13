@@ -1,17 +1,16 @@
 from AST.statements.form_node import FormNode
 from AST.statements.if_node import IfNode
 from AST.statements.question_node import QuestionNode
-from AST.expressions.literals.boolean_node import BooleanNode
+from AST.expressions.binary_operators.and_node import AndOperatorNode
 from AST.types.type_boolean import TypeBoolean
-from AST.position import Position
 from src.visitors.visitor_helper import when, on
 from render.form import Form
 
 
-class Render(object):
+class Render:
     def __init__(self):
         self.form = None
-        self.condition = None
+        self.condition = TypeBoolean.get_literal_node(True)
 
     @on('node')
     def visit(self, node):
@@ -20,7 +19,6 @@ class Render(object):
     @when(FormNode)
     def visit(self, node):
         self.form = Form(node.identifier)
-        self.condition = BooleanNode(Position(0, 0), TypeBoolean, True)
 
         for child in node.block:
             child.accept(self)
@@ -28,7 +26,7 @@ class Render(object):
     @when(IfNode)
     def visit(self, node):
         previous_condition = self.condition
-        self.condition = self.condition and node.condition
+        self.condition = AndOperatorNode(None, TypeBoolean, self.condition, node.condition, None)
 
         for child in node.block:
             child.accept(self)

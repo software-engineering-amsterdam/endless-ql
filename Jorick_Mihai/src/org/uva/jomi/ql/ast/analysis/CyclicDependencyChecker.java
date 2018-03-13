@@ -33,6 +33,10 @@ public class CyclicDependencyChecker {
 		
 		return "Index is out of range";
 	}
+	
+	public int getNumberofErrors() {
+		return errors.size();
+	}
 
 	public CyclicDependencyChecker(boolean printCycles) {
 		graph = new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);
@@ -107,7 +111,7 @@ public class CyclicDependencyChecker {
 		 
 		 if (!cycleSet.isEmpty()) {
 			 for (Set<String> set : cycleSet) {
-				String error = String.format("[CyclicDependencyChecker] A cyclic dependencie was found between the following questions: %s",
+				String error = String.format("[CyclicDependencyChecker] A cyclic dependency was found between the following questions: %s",
 						String.join(", ", set));
 				errors.add(error);
 			 }

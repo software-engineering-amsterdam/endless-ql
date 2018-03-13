@@ -69,13 +69,13 @@ public class IdentifierMapBuilder implements Stmt.Visitor<Void>, Expr.Visitor<Li
 
 	@Override
 	public Void visit(QuestionStmt stmt) {
-		this.map.put(stmt.getIdentifierName(), new ArrayList<>());
+		this.map.put(stmt.getName(), new ArrayList<>());
 		return null;
 	}
 
 	@Override
 	public Void visit(ComputedQuestionStmt stmt) {
-		this.map.put(stmt.getIdentifierName(), stmt.visitExpr(this));
+		this.map.put(stmt.getName(), stmt.visitExpr(this));
 		return null;
 	}
 

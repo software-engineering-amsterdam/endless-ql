@@ -1,11 +1,12 @@
 ﻿using System.Linq;
 using AntlGrammar;
 using Antlr4.Runtime;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.API.AstNodes;
-using QuestionaireDomain.Entities.API.AstNodes.Boolean;
-using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace AntlrInterpretor.Logic
 {
@@ -26,17 +27,7 @@ namespace AntlrInterpretor.Logic
         {
             return BuildAstTree<IQuestionnaireRootNode>(definition);
         }
-
-        public Reference<IBooleanLogicNode> BuildPredicate(string definition)
-        {
-            definition = $"form FakeForm {{ if ({definition}) {{ fakeVar: \"fakeText\" date }} }}";
-            BuildForm(definition);
-            return m_domainItemLocator
-                .GetAll<IConditionalStatementNode>()
-                .FirstOrDefault()
-                ?.Predicate;
-        }
-
+        
         private Reference<T> BuildAstTree<T>(string definition) where T : IAstNode
         {
             var stream = new AntlrInputStream(definition);

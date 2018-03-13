@@ -5,6 +5,7 @@ from parser_generator.grammar.QLParser import QLParser
 
 
 def listen(tree, outputWindow):
+    print(tree.toStringTree())
     ql = QLListener(outputWindow)
     walker = ParseTreeWalker()
     walker.walk(ql, tree)

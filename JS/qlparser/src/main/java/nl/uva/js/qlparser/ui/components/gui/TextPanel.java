@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class TextPanel extends JPanel{
 
-    private TextArea textArea;
+    private final TextArea textArea;
 
     public TextPanel(int width, int height, Color color, boolean editable) {
         this.setBackground(Color.gray);

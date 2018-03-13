@@ -12,10 +12,14 @@ public abstract class Type extends ASTNode {
 
     public abstract String toString();
 
-    public boolean isCompatibleWith(Type type) {
-        return this.toString().equals(type.toString()) ||
-                (this.toString().equals("integer") && type.toString().equals("decimal")) ||
-                (this.toString().equals("decimal") && type.toString().equals("integer"));
+    public boolean isOfType(String type) {
+        return toString().equals(type);
+    }
+
+    public boolean isCompatibleWith(Type otherType) {
+        return this.toString().equals(otherType.toString()) ||
+                (this.toString().equals("integer") && otherType.toString().equals("decimal")) ||
+                (this.toString().equals("decimal") && otherType.toString().equals("integer"));
     }
 
     public abstract <T> T accept(TypeVisitor<T> visitor);

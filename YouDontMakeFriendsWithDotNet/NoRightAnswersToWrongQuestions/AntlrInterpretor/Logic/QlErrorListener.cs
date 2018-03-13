@@ -1,5 +1,5 @@
 ﻿using Antlr4.Runtime;
-using QuestionaireDomain.Entities.API;
+using QuestionnaireDomain.Entities.Domain;
 
 namespace AntlrInterpretor.Logic
 {

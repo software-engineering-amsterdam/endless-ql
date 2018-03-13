@@ -26,7 +26,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CharStream charStream = CharStreams.fromFileName("./example-ql/form4.qlform");
+        CharStream charStream = CharStreams.fromFileName("./example-ql/form0.qlform");
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
         QLParser qlParser = new QLParser(commonTokenStream);

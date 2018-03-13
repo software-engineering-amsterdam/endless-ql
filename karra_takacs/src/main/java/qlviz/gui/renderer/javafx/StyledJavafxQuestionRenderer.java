@@ -14,13 +14,11 @@ public class StyledJavafxQuestionRenderer implements QuestionRenderer {
     private final Pane target;
     private final JavafxWidgetFactory javafxWidgetFactory;
     private final WidgetFinder widgetFinder;
-    private UIWidget widgetBeingBound;
 
     public StyledJavafxQuestionRenderer(Pane target, JavafxWidgetFactory javafxWidgetFactory, WidgetFinder widgetFinder) {
         this.target = target;
         this.javafxWidgetFactory = javafxWidgetFactory;
         this.widgetFinder = widgetFinder;
-        this.widgetBeingBound = null;
     }
 
     private void renderErrorBox() {
@@ -41,6 +39,9 @@ public class StyledJavafxQuestionRenderer implements QuestionRenderer {
 
             container.getChildren().add(label);
             container.getChildren().add(widget.getNode());
+
+            container.visibleProperty().bindBidirectional(question.isEnabledProperty());
+            target.getChildren().add(container);
 
         } catch (QuestionNotFoundException e) {
         } catch (WidgetNotFoundException e) {

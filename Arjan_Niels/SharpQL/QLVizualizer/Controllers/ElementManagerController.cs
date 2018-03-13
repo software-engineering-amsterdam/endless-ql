@@ -20,13 +20,13 @@ namespace QLVisualizer.Controllers
         /// <summary>
         /// Collection of widgets, dictionary on widget identifyer
         /// </summary>
-        protected FormManager _form;
+        public FormManager Form { get; private set; }
 
         private ParseController _parseController;
 
         public ElementManagerController(FormManager formManager)
         {
-            _form = formManager;
+            Form = formManager;
             _parseController = new ParseController();
         }
 
@@ -58,19 +58,10 @@ namespace QLVisualizer.Controllers
             if (parseResults.Item1.Length > 0)
                 ShowError(parseResults.Item1);
             else
-                _form = parseResults.Item2;
+                Form = parseResults.Item2;
 
             // Always display
             DisplayForm();
-        }
-
-        /// <summary>
-        /// Start notifying subscribed that the value of the widget has changed
-        /// </summary>
-        /// <param name="elementManagerID">ID of the changed elementManagers value</param>
-        public void ValueUpdate(string elementManagerID)
-        {
-            _form.NotifyChange(elementManagerID);
         }
 
         /// <summary>
@@ -79,19 +70,13 @@ namespace QLVisualizer.Controllers
         /// <returns>XML string conaining answers</returns>
         public string AnswersToXml()
         {
-            return _form.ToXML();
+            return Form.ToXML();
         }
 
         // TODO: check if class is status -sensitive
         public virtual void Reset()
         {
-            _form = null;
-        }
-
-        public ElementManager GetElementManager(string elementID)
-        {
-            // TODO: Get elementmanager by id
-            return null;
+            Form = null;
         }
     }
 }

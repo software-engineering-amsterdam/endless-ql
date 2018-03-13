@@ -1,5 +1,6 @@
 ﻿using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace QLVisualizer.Elements.Managers
@@ -26,6 +27,10 @@ namespace QLVisualizer.Elements.Managers
         /// </summary>
         public bool Editable { get { return _answerExpression == null; } }
 
+
+        public delegate void AnswerValueUpdate(QuestionElementValue<T> answer, bool calculated);
+        public event AnswerValueUpdate OnAnswerValueUpdate;
+
         public QuestionElementManager(string identifyer, string text, ElementManager parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : 
             base(identifyer, text, "question", parent, controller, activationExpression)
         {
@@ -51,30 +56,26 @@ namespace QLVisualizer.Elements.Managers
         /// Set the value of the AnswerValue
         /// </summary>
         /// <param name="answer"></param>
-        public void SetAnswer(T answer)
+        public void SetAnswer(T answer, bool fromNotify = false)
         {
             Answer = Validate(answer);
             IsAnswered = Answer.IsValid;
 
-            // Send update to the controller
-            if (_elementManagerController != null)
-                _elementManagerController.ValueUpdate(Identifier);
+            OnAnswerValueUpdate?.Invoke(Answer, fromNotify);
         }
 
         /// <summary>
         /// Handles incoming updates for Answer values
         /// </summary>
         /// <param name="updatedIdentifyer">Updated widgetID</param>
-        public override void NotifyChange(string updatedIdentifyer)
+        public override void RegisterListeners()
         {
-            base.NotifyChange(updatedIdentifyer);
-            if (_answerExpression != null && _answerExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
-            {
-                SetAnswer(_answerExpression.Result);
+            base.RegisterListeners();
+            Dictionary<string, ElementManager> managers = _elementManagerController.Form.FindByID(_answerExpression.UsedIdentifiers);
+            foreach (ElementManager manager in managers.Values) ;
+            // TODO: cast to questionElementManager to listen to event
 
-                // Update view of this widget since the value is calculated
-                //_elementManagerController.UpdateView(this);
-            }
+                //if(manager.GetType().IsSubclassOf(QuestionElementManager))
         }
 
         public override string ToXML()

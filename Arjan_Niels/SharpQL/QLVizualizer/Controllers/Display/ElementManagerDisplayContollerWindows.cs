@@ -35,8 +35,6 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         private Form _mainForm;
 
-        private Label _titleLabel;
-
         public ElementManagerDisplayContollerWindows(FormManager form, float topMargin) : base(form, topMargin, new WindowsStyleProperties { Width = 338 }, new WidgetCreatorWindows())
         {
             _elementFactory = new ControlFactory(this);
@@ -105,7 +103,6 @@ namespace QLVisualizer.Controllers.Display
             _widgetContainer = CreateWidgetPanel();
             _qlInput = CreateQLInputPanel();
             _parseButton = CreateParseButton();
-            _titleLabel = CreateTitle();
 
             // Assign controls
             _mainForm.Controls.AddRange(new Control[]
@@ -113,7 +110,6 @@ namespace QLVisualizer.Controllers.Display
                 _widgetContainer,
                 _qlInput,
                 _parseButton,
-                _titleLabel
             });
 
             _mainForm.ResumeLayout(false);
@@ -134,20 +130,6 @@ namespace QLVisualizer.Controllers.Display
                 Icon = (Icon)Resources.ResourceManager.GetObject("MainIcon"),
                 Name = "Visualizer",
                 Text = "Sharp QL"
-            };
-        }
-
-
-        /// <summary>
-        /// Creates label element for title
-        /// </summary>
-        /// <returns>Title element</returns>
-        private Label CreateTitle()
-        {
-            return new Label
-            {
-                Location = new Point(378, 12),
-                Text = "Form: -"
             };
         }
 

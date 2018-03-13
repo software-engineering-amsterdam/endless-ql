@@ -7,7 +7,6 @@ using QLVisualizer.Elements.Managers.LeafTypes;
 
 namespace QLVisualizer.Widgets
 {
-    // TODO: implement
     public class WidgetCreatorWindows : WidgetCreator<Control>
     {
         private Control CreateWidgetContainer(ElementManagerCollection elementManagerCollection, Control holder, string titleText)
@@ -20,7 +19,8 @@ namespace QLVisualizer.Widgets
             Label title = new Label()
             {
                 Text = titleText,
-                Location = new Point(0, pos)
+                Location = new Point(0, pos),
+                Width = holder.Width
             };
 
             // Add title
@@ -33,7 +33,8 @@ namespace QLVisualizer.Widgets
                 // Create holder for child
                 Control childHolder = new Panel()
                 {
-                    Location = new Point(0, pos)
+                    Location = new Point(0, pos),
+                    Width = holder.Width
                 };
 
                 // Create actual widget for child
@@ -47,18 +48,25 @@ namespace QLVisualizer.Widgets
             // Set height of holder
             holder.Height = pos;
 
+            elementManagerCollection.OnActiveChange += delegate (string identifier, bool isActive) { holder.Visible = isActive; };
+
             // Return filled holder
             return holder;
         }
 
-        private Control CreateWidgetLeaf(Control holder, string question, params Control[] controls)
+        private Control CreateWidgetLeaf(ElementManagerLeaf elementManager, Control holder, string question, params Control[] controls)
         {
             int margin = 10;
             int pos = margin;
 
             if(!string.IsNullOrEmpty(question))
             {
-                Label questionLabel = new Label() { Text = question, Location = new Point(0, pos) };
+                Label questionLabel = new Label()
+                {
+                    Text = question,
+                    Location = new Point(0, pos),
+                    Width = holder.Width
+                };
                 holder.Controls.Add(questionLabel);
                 pos += questionLabel.Height + margin;
             }
@@ -66,9 +74,12 @@ namespace QLVisualizer.Widgets
             foreach (Control control in controls)
             {
                 control.Location = new Point(0, pos);
+                control.Width = holder.Width;
                 holder.Controls.Add(control);
                 pos += control.Height + margin;
             }
+
+            elementManager.OnActiveChange += delegate (string identifier, bool isActive) { holder.Visible = isActive; };
 
             holder.Height = pos;
             return holder;
@@ -77,10 +88,12 @@ namespace QLVisualizer.Widgets
         private Control CreateTextBoxWidget<T>(QuestionElementManager<T> questionElementManager, Control holder)
         {
             TextBox questionInput = new TextBox();
-            Control result = CreateWidgetLeaf(holder, questionElementManager.Text, questionInput);
-            questionInput.TextChanged += delegate (object sender, EventArgs eventArgs) { questionElementManager.ParseInput(questionInput.Text); };
-
-            return result;
+            if (questionElementManager.Editable)
+                questionInput.TextChanged += delegate (object sender, EventArgs eventArgs) { questionElementManager.ParseInput(questionInput.Text); };
+            else
+                questionElementManager.OnAnswerValueUpdate += delegate (QuestionElementValue<T> answer, bool calculated) { if (calculated) questionInput.Text = answer.Value.ToString(); };
+            
+            return CreateWidgetLeaf(questionElementManager, holder, questionElementManager.Text, questionInput);
         }
 
         protected override Control CreateWidget(FormManager form, Control holder)
@@ -101,19 +114,15 @@ namespace QLVisualizer.Widgets
         protected override Control CreateWidget(BoolQuestionManager boolQuestion, Control holder)
         {
             // Create input
-            CheckBox question = new CheckBox()
-            {
-                Text = boolQuestion.Text
-            };
+            CheckBox question = new CheckBox() { Text = boolQuestion.Text };
+            if (boolQuestion.Editable)
+                question.CheckedChanged += delegate (object sender, EventArgs eventArgs) { boolQuestion.SetAnswer(question.Checked); };
+            else
+                boolQuestion.OnAnswerValueUpdate += delegate (QuestionElementValue<bool> questionElementValue, bool calculated) {
+                    if (calculated) question.Checked = questionElementValue.Value;
+                };
 
-            // Create result
-            Control result = CreateWidgetLeaf(holder, "", question);
-
-            // Add event
-            question.CheckedChanged += delegate (object sender, EventArgs eventArgs) { boolQuestion.SetAnswer(question.Checked); };
-
-            // return result
-            return result;
+            return CreateWidgetLeaf(boolQuestion, holder, "", question);
         }
 
         protected override Control CreateWidget(IntQuestionManager intQuestion, Control holder)

@@ -1,4 +1,4 @@
-package validators;
+package logic.validators;
 
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;

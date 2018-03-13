@@ -1,4 +1,4 @@
-package ast.visitors.evaluators;
+package logic.evaluators;
 
 import ast.model.expressions.Expression;
 import com.sun.istack.internal.NotNull;
@@ -6,7 +6,7 @@ import com.sun.tools.javac.util.Pair;
 
 import java.math.BigDecimal;
 
-public class ExpressionResult {
+public class UniversalTypeValue {
 
     private Expression.DataType type;
     private String stringValue;
@@ -22,40 +22,40 @@ public class ExpressionResult {
         GT, GE, LT, LE, EQ, NEQ
     }
 
-    public static ExpressionResult createExpressionResult(@NotNull Expression.DataType type, String text) {
+    public static UniversalTypeValue createValue(@NotNull Expression.DataType type, String text) {
 
         if (type == Expression.DataType.INTEGER) {
             Integer safeInteger = text.isEmpty() ? 0 : Integer.parseInt(text);
-            return new ExpressionResult(type, safeInteger);
+            return new UniversalTypeValue(type, safeInteger);
         } else if (type == Expression.DataType.DECIMAL) {
             BigDecimal safeDecimal = text.isEmpty() ? new BigDecimal(0) : new BigDecimal(text);
-            return new ExpressionResult(type, safeDecimal);
+            return new UniversalTypeValue(type, safeDecimal);
         } else if (type == Expression.DataType.BOOLEAN) {
             // @TODO: Check it - I don't like the string here
             Boolean safeBoolean = text.toUpperCase().equals("TRUE");
-            return new ExpressionResult(type, safeBoolean);
+            return new UniversalTypeValue(type, safeBoolean);
         } else if (type == Expression.DataType.STRING) {
-            return new ExpressionResult(type, text);
+            return new UniversalTypeValue(type, text);
         }
         return null;
     }
 
-    public ExpressionResult(@NotNull Expression.DataType type, @NotNull String stringValue) {
+    public UniversalTypeValue(@NotNull Expression.DataType type, @NotNull String stringValue) {
         this.type = type;
         this.stringValue = stringValue;
     }
 
-    public ExpressionResult(@NotNull Expression.DataType type, @NotNull BigDecimal decimalValue) {
+    public UniversalTypeValue(@NotNull Expression.DataType type, @NotNull BigDecimal decimalValue) {
         this.type = type;
         this.decimalValue = decimalValue;
     }
 
-    public ExpressionResult(@NotNull Expression.DataType type, @NotNull Integer integerValue) {
+    public UniversalTypeValue(@NotNull Expression.DataType type, @NotNull Integer integerValue) {
         this.type = type;
         this.integerValue = integerValue;
     }
 
-    public ExpressionResult(@NotNull Expression.DataType type, @NotNull Boolean booleanValue) {
+    public UniversalTypeValue(@NotNull Expression.DataType type, @NotNull Boolean booleanValue) {
         this.type = type;
         this.booleanValue = booleanValue;
     }
@@ -115,80 +115,80 @@ public class ExpressionResult {
     // unary operations
 
     // logical and arithmetical negation
-    public ExpressionResult negate() {
+    public UniversalTypeValue negate() {
         if (this.type == Expression.DataType.BOOLEAN) {
-            return new ExpressionResult(this.type, !this.booleanValue);
+            return new UniversalTypeValue(this.type, !this.booleanValue);
         } else if (this.type == Expression.DataType.INTEGER) {
-            return new ExpressionResult(this.type, -this.integerValue);
+            return new UniversalTypeValue(this.type, -this.integerValue);
         } else if (this.type == Expression.DataType.DECIMAL) {
-            return new ExpressionResult(this.type, this.decimalValue.negate());
+            return new UniversalTypeValue(this.type, this.decimalValue.negate());
         } else {
             throw new RuntimeException("Logical negation on type " + this.type + " is illegal.");
         }
     }
 
     // binary operations
-    public ExpressionResult add(ExpressionResult rhs) {
+    public UniversalTypeValue add(UniversalTypeValue rhs) {
         return this.binaryOperation(BinaryOperator.PLUS, rhs);
     }
 
-    public ExpressionResult subtract(ExpressionResult rhs) {
+    public UniversalTypeValue subtract(UniversalTypeValue rhs) {
         return this.binaryOperation(BinaryOperator.MINUS, rhs);
     }
 
-    public ExpressionResult multiply(ExpressionResult rhs) {
+    public UniversalTypeValue multiply(UniversalTypeValue rhs) {
         return this.binaryOperation(BinaryOperator.MULTIPLY, rhs);
     }
 
-    public ExpressionResult divide(ExpressionResult rhs) {
+    public UniversalTypeValue divide(UniversalTypeValue rhs) {
         return this.binaryOperation(BinaryOperator.DIVIDE, rhs);
     }
 
-    public ExpressionResult and(ExpressionResult rhs) {
+    public UniversalTypeValue and(UniversalTypeValue rhs) {
         return this.binaryOperation(BinaryOperator.AND, rhs);
     }
 
-    public ExpressionResult or(ExpressionResult rhs) {
+    public UniversalTypeValue or(UniversalTypeValue rhs) {
         return this.binaryOperation(BinaryOperator.OR, rhs);
     }
 
     // comparision operators
-    public ExpressionResult equals(ExpressionResult rhs) {
+    public UniversalTypeValue equals(UniversalTypeValue rhs) {
         return this.comparision(ComparisionOperator.EQ, rhs);
     }
 
-    public ExpressionResult notEquals(ExpressionResult rhs) {
+    public UniversalTypeValue notEquals(UniversalTypeValue rhs) {
         return this.comparision(ComparisionOperator.NEQ, rhs);
     }
 
-    public ExpressionResult greaterThan(ExpressionResult rhs) {
+    public UniversalTypeValue greaterThan(UniversalTypeValue rhs) {
         return this.comparision(ComparisionOperator.GT, rhs);
     }
 
-    public ExpressionResult greaterEqual(ExpressionResult rhs) {
+    public UniversalTypeValue greaterEqual(UniversalTypeValue rhs) {
         return this.comparision(ComparisionOperator.GE, rhs);
     }
 
-    public ExpressionResult lessThan(ExpressionResult rhs) {
+    public UniversalTypeValue lessThan(UniversalTypeValue rhs) {
         return this.comparision(ComparisionOperator.LT, rhs);
     }
 
-    public ExpressionResult lessEqual(ExpressionResult rhs) {
+    public UniversalTypeValue lessEqual(UniversalTypeValue rhs) {
         return this.comparision(ComparisionOperator.LE, rhs);
     }
 
-    private ExpressionResult binaryOperation(BinaryOperator operator, ExpressionResult secondResult) {
+    private UniversalTypeValue binaryOperation(BinaryOperator operator, UniversalTypeValue secondResult) {
 
         // by default the types must be the same, except when there is a pair of integer and decimal, then the result will be decimal
-        Pair<ExpressionResult, ExpressionResult> unifiedResults = unifyDataTypes(this, secondResult);
+        Pair<UniversalTypeValue, UniversalTypeValue> unifiedResults = unifyDataTypes(this, secondResult);
 
-        ExpressionResult lhs = unifiedResults.fst;
-        ExpressionResult rhs = unifiedResults.snd;
+        UniversalTypeValue lhs = unifiedResults.fst;
+        UniversalTypeValue rhs = unifiedResults.snd;
 
         // for string only concatenation is allowed (PLUS sign)
         if (lhs.type == Expression.DataType.STRING) {
             if (operator == BinaryOperator.PLUS) {
-                return new ExpressionResult(lhs.type, lhs.stringValue + rhs.stringValue);
+                return new UniversalTypeValue(lhs.type, lhs.stringValue + rhs.stringValue);
             } else {
                 throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
@@ -196,13 +196,13 @@ public class ExpressionResult {
 
         if (this.type == Expression.DataType.DECIMAL) {
             if (operator == BinaryOperator.PLUS) {
-                return new ExpressionResult(lhs.type, lhs.decimalValue.add(rhs.decimalValue));
+                return new UniversalTypeValue(lhs.type, lhs.decimalValue.add(rhs.decimalValue));
             } else if (operator == BinaryOperator.MINUS) {
-                return new ExpressionResult(lhs.type, lhs.decimalValue.subtract(rhs.decimalValue));
+                return new UniversalTypeValue(lhs.type, lhs.decimalValue.subtract(rhs.decimalValue));
             } else if (operator == BinaryOperator.MULTIPLY) {
-                return new ExpressionResult(lhs.type, lhs.decimalValue.multiply(rhs.decimalValue));
+                return new UniversalTypeValue(lhs.type, lhs.decimalValue.multiply(rhs.decimalValue));
             } else if (operator == BinaryOperator.DIVIDE) {
-                return new ExpressionResult(lhs.type, lhs.decimalValue.divide(rhs.decimalValue));
+                return new UniversalTypeValue(lhs.type, lhs.decimalValue.divide(rhs.decimalValue));
             } else {
                 throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
@@ -210,13 +210,13 @@ public class ExpressionResult {
 
         if (this.type == Expression.DataType.INTEGER) {
             if (operator == BinaryOperator.PLUS) {
-                return new ExpressionResult(lhs.type, lhs.integerValue + rhs.integerValue);
+                return new UniversalTypeValue(lhs.type, lhs.integerValue + rhs.integerValue);
             } else if (operator == BinaryOperator.MINUS) {
-                return new ExpressionResult(lhs.type, lhs.integerValue - rhs.integerValue);
+                return new UniversalTypeValue(lhs.type, lhs.integerValue - rhs.integerValue);
             } else if (operator == BinaryOperator.MULTIPLY) {
-                return new ExpressionResult(lhs.type, lhs.integerValue * rhs.integerValue);
+                return new UniversalTypeValue(lhs.type, lhs.integerValue * rhs.integerValue);
             } else if (operator == BinaryOperator.DIVIDE) {
-                return new ExpressionResult(lhs.type, lhs.integerValue / rhs.integerValue);
+                return new UniversalTypeValue(lhs.type, lhs.integerValue / rhs.integerValue);
             } else {
                 throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
@@ -224,9 +224,9 @@ public class ExpressionResult {
 
         if (this.type == Expression.DataType.BOOLEAN) {
             if (operator == BinaryOperator.AND) {
-                return new ExpressionResult(lhs.type, lhs.booleanValue && rhs.booleanValue);
+                return new UniversalTypeValue(lhs.type, lhs.booleanValue && rhs.booleanValue);
             } else if (operator == BinaryOperator.OR) {
-                return new ExpressionResult(lhs.type, lhs.booleanValue || rhs.booleanValue);
+                return new UniversalTypeValue(lhs.type, lhs.booleanValue || rhs.booleanValue);
             } else {
                 throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
@@ -236,19 +236,19 @@ public class ExpressionResult {
 
     }
 
-    private ExpressionResult comparision(ComparisionOperator operator, ExpressionResult secondResult) {
+    private UniversalTypeValue comparision(ComparisionOperator operator, UniversalTypeValue secondResult) {
 
         // by default the types must be the same, except when there is a pair of integer and decimal, then the result will be decimal
-        Pair<ExpressionResult, ExpressionResult> unifiedResults = unifyDataTypes(this, secondResult);
+        Pair<UniversalTypeValue, UniversalTypeValue> unifiedResults = unifyDataTypes(this, secondResult);
 
-        ExpressionResult lhs = unifiedResults.fst;
-        ExpressionResult rhs = unifiedResults.snd;
+        UniversalTypeValue lhs = unifiedResults.fst;
+        UniversalTypeValue rhs = unifiedResults.snd;
 
         if (lhs.type == Expression.DataType.STRING) {
             if (operator == ComparisionOperator.EQ) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.stringValue.equals(rhs.stringValue));
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.stringValue.equals(rhs.stringValue));
             } else if (operator == ComparisionOperator.NEQ) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, !lhs.stringValue.equals(rhs.stringValue));
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, !lhs.stringValue.equals(rhs.stringValue));
             } else {
                 throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
@@ -256,17 +256,17 @@ public class ExpressionResult {
 
         if (this.type == Expression.DataType.DECIMAL) {
             if (operator == ComparisionOperator.GT) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) > 0);
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) > 0);
             } else if (operator == ComparisionOperator.GE) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) >= 0);
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) >= 0);
             } else if (operator == ComparisionOperator.LT) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) < 0);
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) < 0);
             } else if (operator == ComparisionOperator.LE) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) <= 0);
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) <= 0);
             } else if (operator == ComparisionOperator.EQ) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) == 0);
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) == 0);
             } else if (operator == ComparisionOperator.NEQ) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) != 0);
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) != 0);
             } else {
                 throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
@@ -274,17 +274,17 @@ public class ExpressionResult {
 
         if (this.type == Expression.DataType.INTEGER) {
             if (operator == ComparisionOperator.GT) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.integerValue > rhs.integerValue);
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.integerValue > rhs.integerValue);
             } else if (operator == ComparisionOperator.GE) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.integerValue >= rhs.integerValue);
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.integerValue >= rhs.integerValue);
             } else if (operator == ComparisionOperator.LT) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.integerValue < rhs.integerValue);
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.integerValue < rhs.integerValue);
             } else if (operator == ComparisionOperator.LE) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.integerValue <= rhs.integerValue);
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.integerValue <= rhs.integerValue);
             } else if (operator == ComparisionOperator.EQ) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.integerValue.equals(rhs.integerValue));
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.integerValue.equals(rhs.integerValue));
             } else if (operator == ComparisionOperator.NEQ) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, !lhs.integerValue.equals(rhs.integerValue));
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, !lhs.integerValue.equals(rhs.integerValue));
             } else {
                 throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
@@ -292,9 +292,9 @@ public class ExpressionResult {
 
         if (this.type == Expression.DataType.BOOLEAN) {
             if (operator == ComparisionOperator.EQ) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.booleanValue == rhs.booleanValue);
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.booleanValue == rhs.booleanValue);
             } else if (operator == ComparisionOperator.NEQ) {
-                return new ExpressionResult(Expression.DataType.BOOLEAN, lhs.booleanValue != rhs.booleanValue);
+                return new UniversalTypeValue(Expression.DataType.BOOLEAN, lhs.booleanValue != rhs.booleanValue);
             } else {
                 throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
@@ -303,7 +303,7 @@ public class ExpressionResult {
         throw new RuntimeException("Unable to perform comparision operation " + operator.name() + ".");
     }
 
-    private Pair<ExpressionResult, ExpressionResult> unifyDataTypes(ExpressionResult lhs, ExpressionResult rhs) {
+    private Pair<UniversalTypeValue, UniversalTypeValue> unifyDataTypes(UniversalTypeValue lhs, UniversalTypeValue rhs) {
         if (lhs.type != rhs.type) {
             if (lhs.type == Expression.DataType.INTEGER && rhs.type == Expression.DataType.DECIMAL) {
                 // casting lhs to decimal

@@ -2,10 +2,8 @@ package ExpressionEvaluator;
 
 import ast.ASTBuilder;
 import ast.model.Form;
-import ast.model.expressions.Expression;
-import ast.visitors.collectors.CollectFormFieldModelsVisitor;
-import ast.visitors.evaluators.ExpressionEvaluator;
-import ast.visitors.evaluators.ExpressionResult;
+import logic.collectors.CollectFormFieldModelsVisitor;
+import logic.evaluators.ExpressionEvaluator;
 import grammar.QLLexer;
 import grammar.QLParser;
 import gui.model.FormQuestion;

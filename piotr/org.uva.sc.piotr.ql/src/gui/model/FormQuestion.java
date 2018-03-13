@@ -1,7 +1,7 @@
 package gui.model;
 
 import ast.model.expressions.Expression;
-import ast.visitors.evaluators.ExpressionResult;
+import logic.evaluators.UniversalTypeValue;
 
 public class FormQuestion {
 
@@ -10,8 +10,8 @@ public class FormQuestion {
     private Expression.DataType variableDataType;
     private Expression visibilityCondition;
     private Expression assignedExpression;
-    private ExpressionResult visibility;
-    private ExpressionResult value;
+    private UniversalTypeValue visibility;
+    private UniversalTypeValue value;
 
     public FormQuestion(String label, String variableName, Expression.DataType variableDataType, Expression visibilityCondition, Expression assignedExpression) {
         this.label = label;
@@ -20,7 +20,7 @@ public class FormQuestion {
         this.visibilityCondition = visibilityCondition;
         this.assignedExpression = assignedExpression;
         // default value
-        this.value = ExpressionResult.createExpressionResult(this.variableDataType, "");
+        this.value = UniversalTypeValue.createValue(this.variableDataType, "");
     }
 
     public String getLabel() {
@@ -63,19 +63,19 @@ public class FormQuestion {
         this.assignedExpression = assignedExpression;
     }
 
-    public ExpressionResult getVisibility() {
+    public UniversalTypeValue getVisibility() {
         return visibility;
     }
 
-    public void setVisibility(ExpressionResult visibility) {
+    public void setVisibility(UniversalTypeValue visibility) {
         this.visibility = visibility;
     }
 
-    public ExpressionResult getValue() {
+    public UniversalTypeValue getValue() {
         return value;
     }
 
-    public void setValue(ExpressionResult value) {
+    public void setValue(UniversalTypeValue value) {
         this.value = value;
     }
 

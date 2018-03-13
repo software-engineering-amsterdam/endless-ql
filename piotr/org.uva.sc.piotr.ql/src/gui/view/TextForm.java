@@ -1,8 +1,8 @@
 package gui.view;
 
 import ast.model.expressions.Expression;
-import ast.visitors.evaluators.ExpressionEvaluator;
-import ast.visitors.evaluators.ExpressionResult;
+import logic.evaluators.ExpressionEvaluator;
+import logic.evaluators.UniversalTypeValue;
 import gui.model.FormQuestion;
 
 import java.awt.BorderLayout;
@@ -182,16 +182,16 @@ public class TextForm extends JPanel {
 
             if (formQuestion.getVisibilityCondition() != null) {
 
-                System.out.println(formQuestion.getVariableName() + " : " + formQuestion.getVisibilityCondition().getMetaInformation().getText());
+                System.out.println("Question " +  formQuestion.getVariableName() + " depends on " + formQuestion.getVisibilityCondition().getMetaInformation().getText());
 
-                ExpressionResult xres = formQuestion.getVisibilityCondition().accept(evaluator);
+                UniversalTypeValue xres = formQuestion.getVisibilityCondition().accept(evaluator);
 
-                System.out.println(xres);
+                System.out.println(xres.getBooleanValue());
 
                 formQuestion.setVisibility(xres);
 
             } else {
-                formQuestion.setVisibility(new ExpressionResult(Expression.DataType.BOOLEAN, true));
+                formQuestion.setVisibility(new UniversalTypeValue(Expression.DataType.BOOLEAN, true));
             }
         }
     }

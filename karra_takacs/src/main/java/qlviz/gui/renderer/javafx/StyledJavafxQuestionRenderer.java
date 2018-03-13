@@ -40,11 +40,11 @@ public class StyledJavafxQuestionRenderer implements QuestionRenderer {
             container.getChildren().add(label);
             container.getChildren().add(widget.getNode());
 
-            container.visibleProperty().bindBidirectional(question.isEnabledProperty());
+            container.visibleProperty().bind(question.isEnabledProperty());
             target.getChildren().add(container);
 
-        } catch (QuestionNotFoundException e) {
-        } catch (WidgetNotFoundException e) {
+        } catch (QuestionNotFoundException | WidgetNotFoundException e) {
+            renderErrorBox();
         }
     }
 }

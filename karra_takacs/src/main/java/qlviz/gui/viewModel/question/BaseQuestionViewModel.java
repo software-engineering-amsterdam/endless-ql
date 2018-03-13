@@ -26,7 +26,7 @@ public abstract class BaseQuestionViewModel implements QuestionViewModel {
             }
         };
         for (BooleanExpressionViewModel booleanExpressionViewModel : conditions) {
-            isEnabledBinding = booleanExpressionViewModel.valueProperty().and(isEnabledBinding);
+            this.isEnabledBinding = booleanExpressionViewModel.valueProperty().and(isEnabledBinding);
         }
         this.isEnabled = new SimpleBooleanProperty(true);
         this.isEnabled.bind(isEnabledBinding);

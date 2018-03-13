@@ -38,7 +38,8 @@ public class RadioUIWidget implements UIWidget, QuestionViewModelVisitor, Parame
 
     @Override
     public void visit(BooleanQuestionViewModel booleanQuestion) {
-
+        this.toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) ->
+            booleanQuestion.valueProperty().setValue(newValue == toggleGroup.getToggles().get(0)));
     }
 
     @Override
@@ -63,13 +64,15 @@ public class RadioUIWidget implements UIWidget, QuestionViewModelVisitor, Parame
 
     @Override
     public void visit(StringQuestionViewModel stringQuestion) {
-
+        this.toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) ->
+            stringQuestion.valueProperty().setValue(((StringParameter)newValue.getUserData()).getValue()));
     }
 
     @Override
     public void visit(StringParameter stringParameter) {
         RadioButton radioButton = new RadioButton();
         radioButton.setText(stringParameter.getValue());
+        radioButton.setUserData(stringParameter);
         this.container.getChildren().add(radioButton);
         radioButton.setToggleGroup(this.toggleGroup);
     }

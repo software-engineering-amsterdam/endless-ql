@@ -9,4 +9,7 @@ public abstract class Expression extends TreeNode {
         super(fragment);
     }
 
+    public abstract <T> T accept(ExpressionVisitor<T> visitor);
+
+
 };

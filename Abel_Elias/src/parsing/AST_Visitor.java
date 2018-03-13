@@ -1,7 +1,10 @@
 package parsing;
 
+import classes.Block;
 import classes.CodeBlock;
 import classes.Configuration;
+import classes.expressions.Expression;
+import classes.statements.IfStatement;
 import classes.statements.Question;
 import parsing.gen.QLBaseVisitor;
 import parsing.gen.QLParser;
@@ -12,8 +15,8 @@ import java.util.Map;
 
 public class AST_Visitor extends QLBaseVisitor {
     Configuration config = new Configuration();
-    Map<String, Question> memory = new HashMap<String, Question>();
-    Map<String, Object> valueMap = new HashMap<String, Object>();
+    private Map<String, Question> memory = new HashMap<String, Question>();
+    private Map<String, Object> valueMap = new HashMap<String, Object>();
 
     @Override
     public Object visitForm(QLParser.FormContext ctx) {
@@ -26,7 +29,7 @@ public class AST_Visitor extends QLBaseVisitor {
         String id = ctx.IDENTIFIER().getText();
         CodeBlock codeBlock = CodeBlock.getCodeBlock(ctx);
         String questionString = ctx.STR().getText();
-        Question question = new Question(codeBlock, questionString, visit(ctx.type()));
+        Question question = new Question(codeBlock, questionString, visit(ctx.type()), id);
         memory.put(id, question);
         return memory;
     }
@@ -36,6 +39,15 @@ public class AST_Visitor extends QLBaseVisitor {
         String id = ctx.getText();
         Question question = getQuestion(id);
         return castToType(question.getType(), Boolean.class);
+    }
+
+    @Override
+    public Object visitIfStatement(QLParser.IfStatementContext ctx) {
+//        CodeBlock codeBlock = CodeBlock.getCodeBlock(ctx);
+//        Expression expression = (Expression) ctx.booleanExpression().accept(this);
+//        Block block = (Block) ctx.block(0).accept(this);
+//        return new IfStatement(expression, codeBlock, block);
+        return null;
     }
 
     @Override

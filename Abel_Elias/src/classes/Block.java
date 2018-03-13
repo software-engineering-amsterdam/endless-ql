@@ -1,5 +1,6 @@
 package classes;
 
+import classes.form.FormVisitor;
 import classes.statements.Statement;
 
 import java.util.ArrayList;
@@ -12,5 +13,14 @@ public class Block extends TreeNode {
     public Block(CodeBlock code, boolean constraint) {
         super(code);
         List<Statement> statements = new ArrayList<>();
+    }
+
+
+    public void accept(FormVisitor formVisitor) {
+        formVisitor.visitBlock(this);
+    }
+
+    public List<Statement> getStatements() {
+        return statements;
     }
 }

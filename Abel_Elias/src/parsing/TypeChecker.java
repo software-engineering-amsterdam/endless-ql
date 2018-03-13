@@ -1,5 +1,5 @@
 package parsing;
-import classes.Form;
+import classes.form.Form;
 
 public class TypeChecker {
     public void initTypeChecking(Form form) {

@@ -1,6 +1,7 @@
 package gui;
 
 import classes.expressions.Expression;
+import classes.form.Form;
 import classes.statements.Question;
 import parsing.AST_Visitor;
 
@@ -16,31 +17,29 @@ import java.util.Map;
 public class FormBuilder {
     private JFrame mainFrame; //The frame on which the form is located
     private JPanel mainPanel; //The panel on which the widgets are located
-    private JPanel mainList;
+    private JPanel mainList; // The list of widgets
+    private static int FRAMEHEIGHT = 800; //The height of the GUI
+    private static int FRAMEWIDTH = 800; //The width of the GUI
     private AST_Visitor astBuilder;
+    private HashMap<Question, Expression> statementConditionsMap;
 
-    private HashMap<QuestionPanel, Expression> statementConditions;
-
-
-    private int FRAMEHEIGHT = 800; //The height of the GUI
-    private int FRAMEWIDTH = 800; //The width of the GUI
 
     /**
      * constructor method
      * initializes the building process of the form
-     * @param astbuilder class
+     * @param astBuilder ast builder clkass
      */
     public FormBuilder(AST_Visitor astBuilder) {
         this.astBuilder = astBuilder;
-        this.statementConditions = new HashMap<QuestionPanel, Expression>();
     }
 
     /**
      * initComponents() method
      * initializes the building process for all widgets
-     * @param memory
+     * @param form a
      */
-    public void initComponents(HashMap memory) {
+    public void initComponents(Form form) {
+
         //Build the frame and panel of the form
         buildFrame();
         buildPanel();
@@ -48,7 +47,10 @@ public class FormBuilder {
         //Add a scroll pane to the form
         mainPanel.add(new JScrollPane(mainList));
 
-        initQuestionPanels(memory);
+        FormBuilderVisitor formBuilderVisitor = new FormBuilderVisitor(this);
+        formBuilderVisitor.visitForm(form);
+        this.statementConditionsMap = formBuilderVisitor.getStatementConditionsMap();
+        initQuestionPanels();
 
         mainFrame.add(mainPanel);
         mainFrame.setVisible(true);
@@ -60,25 +62,26 @@ public class FormBuilder {
     /**
      * Initialize the creation of the panels containing
      * the question it's controls through iteration
-     * @param memory
      */
-    private void initQuestionPanels(HashMap memory) {
-        Iterator it = memory.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            buildQuestionPanel((String) pair.getKey(), (Question) pair.getValue());
-            it.remove(); // avoid a ConcurrentModificationException
+    private void initQuestionPanels() {
+//        Iterator it = statementConditionsMap.keySet().iterator();
+//        while (it.hasNext()) {
+//            Map.Entry pair = (Map.Entry)it.next();
+//            buildQuestionPanel((String) pair.getValue(), (Question) pair.getValue());
+//            it.remove(); // avoid a ConcurrentModificationException
+//        }
+        for(Question question : statementConditionsMap.keySet()) {
+            buildQuestionPanel(question);
         }
     }
 
     /**
      * Build each individual question panel and add
      * these to the main panel
-     * @param key
-     * @param question
+     * @param question a
      */
-    private void buildQuestionPanel(String key, Question question) {
-        QuestionPanel qPanel = new QuestionPanel(key, question);
+    private void buildQuestionPanel(Question question) {
+        QuestionPanel qPanel = new QuestionPanel(question);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.weightx = 1;
@@ -114,7 +117,7 @@ public class FormBuilder {
         private String key;
         private Question question;
 
-        private QuestionPanel(String key, Question question) {
+        private QuestionPanel(Question question) {
             this.key = key;
             this.question = question;
             this.add(new JLabel(question.getText()));
@@ -170,15 +173,14 @@ public class FormBuilder {
 
     private void updateGUI(String key, Object value) {
         astBuilder.update(key, value);
-        for(QuestionPanel questionPanel : statementConditions.keySet()) {
-            Boolean ifExpressionSatisfied = astBuilder.validateExpression();
-            if(ifExpressionSatisfied) {
-                addQuestionToPanel(questionPanel);
-            } else {
-                removeQuestionFromPanel(questionPanel);
-            }
-        }
-
+//        for(QuestionPanel questionPanel : statementConditions.keySet()) {
+//            Boolean ifExpressionSatisfied = astBuilder.validateExpression();
+//            if(ifExpressionSatisfied) {
+//                addQuestionToPanel(questionPanel);
+//            } else {
+//                removeQuestionFromPanel(questionPanel);
+//            }
+//        }
         //Update and validate the components
         mainList.revalidate();
         mainList.repaint();
@@ -187,7 +189,6 @@ public class FormBuilder {
     private void addQuestionToPanel(QuestionPanel questionPanel) {
         mainList.add(questionPanel);
     }
-
 
     private void removeQuestionFromPanel(QuestionPanel questionPanel) {
         mainList.remove(questionPanel);

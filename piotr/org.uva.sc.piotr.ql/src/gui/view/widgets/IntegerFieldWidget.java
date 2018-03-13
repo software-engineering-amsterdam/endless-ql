@@ -1,25 +1,22 @@
 package gui.view.widgets;
 
 import ast.model.expressions.Expression;
-import gui.model.FormQuestion;
-import gui.view.FormPanel;
+import gui.model.FormQuestionHolder;
 import gui.view.Widget;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.NumberFormatter;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class IntegerFieldWidget extends Widget {
 
     private JFormattedTextField field;
 
-    public IntegerFieldWidget(FormQuestion formQuestion) {
+    public IntegerFieldWidget(FormQuestionHolder formQuestionHolder) {
 
-        super(formQuestion);
+        super(formQuestionHolder);
 
         NumberFormat format = NumberFormat.getIntegerInstance();
         format.setGroupingUsed(false);
@@ -30,7 +27,7 @@ public class IntegerFieldWidget extends Widget {
 
         JFormattedTextField textField = new JFormattedTextField(formatter);
 
-        if (formQuestion.getAssignedExpression() != null) {
+        if (formQuestionHolder.getAssignedExpression() != null) {
             textField.setEditable(false);
         }
 
@@ -56,7 +53,7 @@ public class IntegerFieldWidget extends Widget {
                 String clearText = textField.getText().replaceAll("[^0-9]", "");
                 String safeText = clearText.equals("") ? "0" : clearText;
                 System.out.println("Integer changed to: " + safeText);
-                formQuestion.getValue().setIntegerValue(Integer.parseInt(safeText));
+                formQuestionHolder.changeValue(Integer.parseInt(safeText));
             }
         });
 

@@ -3,7 +3,10 @@ package logic.validators;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class QuestionsDependencyValidator {
 

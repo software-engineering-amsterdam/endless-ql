@@ -1,8 +1,7 @@
 package gui.view.widgets;
 
 import ast.model.expressions.Expression;
-import gui.model.FormQuestion;
-import gui.view.FormPanel;
+import gui.model.FormQuestionHolder;
 import gui.view.Widget;
 
 import javax.swing.*;
@@ -12,14 +11,13 @@ import javax.swing.text.NumberFormatter;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Locale;
 
 public class MoneyFieldWidget extends Widget {
 
     private JFormattedTextField field;
 
-    public MoneyFieldWidget(FormQuestion formQuestion) {
-        super(formQuestion);
+    public MoneyFieldWidget(FormQuestionHolder formQuestionHolder) {
+        super(formQuestionHolder);
         NumberFormat format = DecimalFormat.getInstance();
         format.setGroupingUsed(false);
         NumberFormatter formatter = new NumberFormatter(format);
@@ -27,7 +25,7 @@ public class MoneyFieldWidget extends Widget {
         formatter.setCommitsOnValidEdit(true);
         JFormattedTextField textField = new JFormattedTextField(formatter);
 
-        if (formQuestion.getAssignedExpression() != null) {
+        if (formQuestionHolder.getAssignedExpression() != null) {
             textField.setEditable(false);
         }
 
@@ -62,7 +60,7 @@ public class MoneyFieldWidget extends Widget {
                 SwingUtilities.invokeLater(format);
 
                 if (textField.getText().matches("(-)?\\d*(\\.\\d{0,2})?")) {
-                    formQuestion.getValue().setDecimalValue(new BigDecimal(textField.getText()));
+                    formQuestionHolder.changeValue(new BigDecimal(textField.getText()));
                 }
 
             }

@@ -1,21 +1,21 @@
 package ExpressionEvaluator;
 
 import ast.model.expressions.Expression;
-import logic.evaluators.UniversalTypeValue;
+import gui.model.MixedValueHolder;
 import org.junit.Test;
 import org.junit.Assert;
 
 import java.math.BigDecimal;
 
-public final class UniversalTypeValueTest {
+public final class MixedValueHolderTest {
 
     @Test
     public void testIncompatibleTypesExceptionMessage() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "10");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.STRING, "7");
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "10");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.STRING, "7");
 
         try {
-            UniversalTypeValue result = val1.add(val2);
+            MixedValueHolder result = val1.add(val2);
         } catch (Exception e) {
             Assert.assertEquals("Types not compatible: INTEGER and STRING", e.getMessage());
         }
@@ -23,202 +23,202 @@ public final class UniversalTypeValueTest {
 
     @Test
     public void testIntegerNegation() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "10");
-        UniversalTypeValue result = val1.negate();
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "10");
+        MixedValueHolder result = val1.negate();
         Assert.assertEquals(result.getType(), val1.getType());
         Assert.assertEquals(-10, (long) result.getIntegerValue());
     }
 
     @Test
     public void testIntegerAddition() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "10");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "7");
-        UniversalTypeValue result = val1.add(val2);
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "10");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "7");
+        MixedValueHolder result = val1.add(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals(17, (long) result.getIntegerValue());
     }
 
     @Test
     public void testIntegerSubtraction() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "10");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "17");
-        UniversalTypeValue result = val1.subtract(val2);
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "10");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "17");
+        MixedValueHolder result = val1.subtract(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals(-7, (long) result.getIntegerValue());
     }
 
     @Test
     public void testIntegerMultiplication() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "3");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "7");
-        UniversalTypeValue result = val1.multiply(val2);
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "3");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "7");
+        MixedValueHolder result = val1.multiply(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals(21, (long) result.getIntegerValue());
     }
 
     @Test
     public void testIntegerDivision() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "10");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "3");
-        UniversalTypeValue result = val1.divide(val2);
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "10");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "3");
+        MixedValueHolder result = val1.divide(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals(3, (long) result.getIntegerValue());
     }
 
     @Test
     public void testDecimalAddition() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "3.2");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "2.1");
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "3.2");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "2.1");
 
-        UniversalTypeValue result = val1.add(val2);
+        MixedValueHolder result = val1.add(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals(new BigDecimal("5.3"), result.getDecimalValue());
     }
 
     @Test
     public void testDecimalSubtraction() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "43.16");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "3.15");
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "43.16");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "3.15");
 
-        UniversalTypeValue result = val1.subtract(val2);
+        MixedValueHolder result = val1.subtract(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals(new BigDecimal("40.01"), result.getDecimalValue());
     }
 
     @Test
     public void testDecimalMultiplication() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "3.2");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "2.1");
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "3.2");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "2.1");
 
-        UniversalTypeValue result = val1.multiply(val2);
+        MixedValueHolder result = val1.multiply(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals(new BigDecimal("6.72"), result.getDecimalValue());
     }
 
     @Test
     public void testDecimalDivision() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "6.72");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "2.1");
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "6.72");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "2.1");
 
-        UniversalTypeValue result = val1.divide(val2);
+        MixedValueHolder result = val1.divide(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals(new BigDecimal("3.2"), result.getDecimalValue());
     }
 
     @Test
     public void testIntegerCastToDecimalAddition() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "3.2");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "2");
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "3.2");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "2");
 
-        UniversalTypeValue result = val1.add(val2);
+        MixedValueHolder result = val1.add(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals(new BigDecimal("5.2"), result.getDecimalValue());
     }
 
     @Test
     public void testIntegerCastToDecimalSubtraction() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "43.16");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "3");
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "43.16");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "3");
 
-        UniversalTypeValue result = val1.subtract(val2);
+        MixedValueHolder result = val1.subtract(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals(new BigDecimal("40.16"), result.getDecimalValue());
     }
 
     @Test
     public void testIntegerCastToDecimalMultiplication() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "3.2");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "2");
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "3.2");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "2");
 
-        UniversalTypeValue result = val1.multiply(val2);
+        MixedValueHolder result = val1.multiply(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals(new BigDecimal("6.4"), result.getDecimalValue());
     }
 
     @Test
     public void testIntegerCastToDecimalDivision() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "6.72");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "2");
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "6.72");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "2");
 
-        UniversalTypeValue result = val1.divide(val2);
+        MixedValueHolder result = val1.divide(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals(new BigDecimal("3.36"), result.getDecimalValue());
     }
 
     @Test
     public void testLogicalNegation() {
-        UniversalTypeValue universalTypeValueTrue = UniversalTypeValue.createValue(Expression.DataType.BOOLEAN, "true");
+        MixedValueHolder mixedValueHolderTrue = MixedValueHolder.createValueHolder(Expression.DataType.BOOLEAN, "true");
 
-        UniversalTypeValue result = universalTypeValueTrue.negate();
-        Assert.assertEquals(result.getType(), universalTypeValueTrue.getType());
+        MixedValueHolder result = mixedValueHolderTrue.negate();
+        Assert.assertEquals(result.getType(), mixedValueHolderTrue.getType());
         Assert.assertEquals(false, result.getBooleanValue());
     }
 
     @Test
     public void testLogicalAnd() {
-        UniversalTypeValue universalTypeValueTrue = UniversalTypeValue.createValue(Expression.DataType.BOOLEAN, "true");
-        UniversalTypeValue universalTypeValueFalse = UniversalTypeValue.createValue(Expression.DataType.BOOLEAN, "false");
+        MixedValueHolder mixedValueHolderTrue = MixedValueHolder.createValueHolder(Expression.DataType.BOOLEAN, "true");
+        MixedValueHolder mixedValueHolderFalse = MixedValueHolder.createValueHolder(Expression.DataType.BOOLEAN, "false");
 
-        Assert.assertEquals(universalTypeValueTrue.getType(), universalTypeValueFalse.getType());
+        Assert.assertEquals(mixedValueHolderTrue.getType(), mixedValueHolderFalse.getType());
 
         // true && false -> false
-        UniversalTypeValue result = universalTypeValueTrue.and(universalTypeValueFalse);
+        MixedValueHolder result = mixedValueHolderTrue.and(mixedValueHolderFalse);
         Assert.assertEquals(false, result.getBooleanValue());
 
         // false && true -> false
-        result = universalTypeValueFalse.and(universalTypeValueTrue);
+        result = mixedValueHolderFalse.and(mixedValueHolderTrue);
         Assert.assertEquals(false, result.getBooleanValue());
 
         // false && false -> false
-        result = universalTypeValueFalse.and(universalTypeValueFalse);
+        result = mixedValueHolderFalse.and(mixedValueHolderFalse);
         Assert.assertEquals(false, result.getBooleanValue());
 
         // true && true -> true
-        result = universalTypeValueTrue.and(universalTypeValueTrue);
+        result = mixedValueHolderTrue.and(mixedValueHolderTrue);
         Assert.assertEquals(true, result.getBooleanValue());
 
     }
 
     @Test
     public void testLogicalOr() {
-        UniversalTypeValue universalTypeValueTrue = UniversalTypeValue.createValue(Expression.DataType.BOOLEAN, "true");
-        UniversalTypeValue universalTypeValueFalse = UniversalTypeValue.createValue(Expression.DataType.BOOLEAN, "false");
+        MixedValueHolder mixedValueHolderTrue = MixedValueHolder.createValueHolder(Expression.DataType.BOOLEAN, "true");
+        MixedValueHolder mixedValueHolderFalse = MixedValueHolder.createValueHolder(Expression.DataType.BOOLEAN, "false");
 
-        Assert.assertEquals(universalTypeValueTrue.getType(), universalTypeValueFalse.getType());
+        Assert.assertEquals(mixedValueHolderTrue.getType(), mixedValueHolderFalse.getType());
 
         // true || false -> true
-        UniversalTypeValue result = universalTypeValueTrue.or(universalTypeValueFalse);
+        MixedValueHolder result = mixedValueHolderTrue.or(mixedValueHolderFalse);
         Assert.assertEquals(true, result.getBooleanValue());
 
         // false || true -> true
-        result = universalTypeValueFalse.or(universalTypeValueTrue);
+        result = mixedValueHolderFalse.or(mixedValueHolderTrue);
         Assert.assertEquals(true, result.getBooleanValue());
 
         // false || false -> false
-        result = universalTypeValueFalse.or(universalTypeValueFalse);
+        result = mixedValueHolderFalse.or(mixedValueHolderFalse);
         Assert.assertEquals(false, result.getBooleanValue());
 
         // true || true -> true
-        result = universalTypeValueTrue.or(universalTypeValueTrue);
+        result = mixedValueHolderTrue.or(mixedValueHolderTrue);
         Assert.assertEquals(true, result.getBooleanValue());
 
     }
 
     @Test
     public void testStringConcatenation() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.STRING, "One");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.STRING, "Two");
-        UniversalTypeValue result = val1.add(val2);
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.STRING, "One");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.STRING, "Two");
+        MixedValueHolder result = val1.add(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals("OneTwo", result.getStringValue());
     }
 
     @Test
     public void testIntegerComparision() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "10");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.INTEGER, "7");
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "10");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.INTEGER, "7");
 
-        UniversalTypeValue result = val1.equals(val2);
+        MixedValueHolder result = val1.equals(val2);
         Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
         Assert.assertEquals(false, result.getBooleanValue());
 
@@ -245,10 +245,10 @@ public final class UniversalTypeValueTest {
 
     @Test
     public void testDecimalComparision() {
-        UniversalTypeValue val1 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "10.4");
-        UniversalTypeValue val2 = UniversalTypeValue.createValue(Expression.DataType.DECIMAL, "7.4");
+        MixedValueHolder val1 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "10.4");
+        MixedValueHolder val2 = MixedValueHolder.createValueHolder(Expression.DataType.DECIMAL, "7.4");
 
-        UniversalTypeValue result = val1.equals(val2);
+        MixedValueHolder result = val1.equals(val2);
         Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
         Assert.assertEquals(false, result.getBooleanValue());
 

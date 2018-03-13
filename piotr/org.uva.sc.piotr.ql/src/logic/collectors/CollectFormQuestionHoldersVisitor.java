@@ -9,18 +9,21 @@ import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
 import ast.model.statements.Statement;
 import ast.visitors.AbstractASTTraverse;
-import logic.evaluators.UniversalTypeValue;
-import gui.model.FormQuestion;
+import gui.model.FormQuestionHolder;
+import gui.model.MixedValueHolder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Stack;
 
-public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
+public class CollectFormQuestionHoldersVisitor extends AbstractASTTraverse {
 
-    private List<FormQuestion> formQuestions = new ArrayList<>();
+    private List<FormQuestionHolder> formQuestionHolders = new ArrayList<>();
     private Stack<Expression> conditionsStack = new Stack<>();
 
-    public List<FormQuestion> getFormQuestions() {
-        return formQuestions;
+    public List<FormQuestionHolder> getFormQuestionHolders() {
+        return formQuestionHolders;
     }
 
     @Override
@@ -36,7 +39,8 @@ public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
 
         Expression aggregatedVisibilityCondition = this.aggregateConditionsStack();
 
-        FormQuestion formQuestion = new FormQuestion(
+        // strips question and flattens visibility condition (for gui rendering ease)
+        FormQuestionHolder formQuestionHolder = new FormQuestionHolder(
                 question.getLabel(),
                 question.getVariableName(),
                 question.getVariableType(),
@@ -44,7 +48,7 @@ public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
                 question.getAssignedExpression()
         );
 
-        this.formQuestions.add(formQuestion);
+        this.formQuestionHolders.add(formQuestionHolder);
 
         question.getVariableType().accept(this);
         if (question.getAssignedExpression() != null) {
@@ -93,11 +97,11 @@ public class CollectFormFieldModelsVisitor extends AbstractASTTraverse {
         return finalExpression;
     }
 
-    public HashMap<String, UniversalTypeValue> getVariablesValues() {
+    public HashMap<String, MixedValueHolder> getVariablesValues() {
 
-        HashMap<String, UniversalTypeValue> variablesValues = new HashMap<>();
-        for (FormQuestion formQuestion : this.formQuestions) {
-            variablesValues.put(formQuestion.getVariableName(), formQuestion.getValue());
+        HashMap<String, MixedValueHolder> variablesValues = new HashMap<>();
+        for (FormQuestionHolder formQuestionHolder : this.formQuestionHolders) {
+            variablesValues.put(formQuestionHolder.getVariableName(), formQuestionHolder.getValueHolder());
         }
         return variablesValues;
     }

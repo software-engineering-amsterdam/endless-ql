@@ -1,19 +1,19 @@
 package gui.view;
 
 import ast.model.expressions.Expression;
-import gui.model.FormQuestion;
+import gui.model.FormQuestionHolder;
 
 import javax.swing.*;
 
 public abstract class Widget extends JComponent {
-    private FormQuestion formQuestion;
+    private FormQuestionHolder formQuestionHolder;
 
-    public Widget(FormQuestion formQuestion) {
-        this.formQuestion = formQuestion;
+    public Widget(FormQuestionHolder formQuestionHolder) {
+        this.formQuestionHolder = formQuestionHolder;
     }
 
-    public FormQuestion getFormQuestion() {
-        return formQuestion;
+    public FormQuestionHolder getFormQuestionHolder() {
+        return formQuestionHolder;
     }
 
     public abstract JComponent getComponent();

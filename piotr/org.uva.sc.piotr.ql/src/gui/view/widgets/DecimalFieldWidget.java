@@ -1,8 +1,7 @@
 package gui.view.widgets;
 
 import ast.model.expressions.Expression;
-import gui.model.FormQuestion;
-import gui.view.FormPanel;
+import gui.model.FormQuestionHolder;
 import gui.view.Widget;
 
 import javax.swing.*;
@@ -17,8 +16,8 @@ public class DecimalFieldWidget extends Widget {
 
     private JFormattedTextField field;
 
-    public DecimalFieldWidget(FormQuestion formQuestion) {
-        super(formQuestion);
+    public DecimalFieldWidget(FormQuestionHolder formQuestionHolder) {
+        super(formQuestionHolder);
         NumberFormat format = DecimalFormat.getInstance();
         format.setGroupingUsed(false);
         NumberFormatter formatter = new NumberFormatter(format);
@@ -26,7 +25,7 @@ public class DecimalFieldWidget extends Widget {
         formatter.setCommitsOnValidEdit(true);
         JFormattedTextField textField = new JFormattedTextField(formatter);
 
-        if (formQuestion.getAssignedExpression() != null) {
+        if (formQuestionHolder.getAssignedExpression() != null) {
             textField.setEditable(false);
         }
 
@@ -53,14 +52,13 @@ public class DecimalFieldWidget extends Widget {
                     String text = textField.getText();
                     if (!text.matches("(-)?\\d*(\\.\\d{0,5})?")) {
                         textField.setText(text.substring(0, text.length() - 1));
-                        formQuestion.getValue().setDecimalValue(new BigDecimal(textField.getText()));
                     }
                 };
 
                 SwingUtilities.invokeLater(format);
 
                 if (textField.getText().matches("(-)?\\d*(\\.\\d{0,5})?")) {
-                    formQuestion.getValue().setDecimalValue(new BigDecimal(textField.getText()));
+                    formQuestionHolder.changeValue(new BigDecimal(textField.getText()));
                 }
             }
         });

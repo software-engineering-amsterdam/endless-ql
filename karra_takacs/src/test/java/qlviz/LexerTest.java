@@ -32,7 +32,7 @@ public class LexerTest {
 		tokenList.add(QLLexer.STRING);
 		tokenList.add(QLLexer.IDENTIFIER);
 		tokenList.add(QLLexer.QUESTION_DELIMITER);
-		tokenList.add(QLLexer.TYPE);
+		tokenList.add(QLLexer.QUESTION_TYPE);
 		tokenList.add(QLLexer.BRACKET_CLOSE);
 		List<? extends Token> tokens = lexer.getAllTokens();
 		Assert.assertEquals(7, tokens.size());
@@ -54,7 +54,7 @@ public class LexerTest {
 				QLLexer.STRING,
 				QLLexer.IDENTIFIER,
 				QLLexer.QUESTION_DELIMITER,
-				QLLexer.TYPE,
+				QLLexer.QUESTION_TYPE,
 				QLLexer.T__0,
 				QLLexer.PAREN_OPEN,
 				QLLexer.IDENTIFIER,

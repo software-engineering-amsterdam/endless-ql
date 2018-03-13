@@ -1,40 +1,44 @@
 package gui;
 
-import ast.visitors.evaluators.ExpressionEvaluator;
-import gui.model.FormQuestion;
-import gui.view.TextForm;
+import gui.controller.FormController;
+import gui.model.FormQuestionHolder;
+import gui.view.FormQuestionPanel;
+import logic.evaluators.ExpressionEvaluator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
-// http://www.java2s.com/Code/Java/Swing-JFC/Asimplelabelforfieldformpanel.htm
-// eventually
-// https://www.callicoder.com/javafx-registration-form-gui-tutorial/
-
 public class QLGui {
-    public QLGui(List<FormQuestion> formQuestions, ExpressionEvaluator evaluator) {
+    public QLGui(List<FormQuestionHolder> formQuestionHolders, ExpressionEvaluator evaluator) throws Exception {
 
-        final TextForm form = new TextForm(formQuestions, evaluator);
+        JFrame frame = new JFrame("Text Form Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel panel = new JPanel(new GridBagLayout());
 
-        JButton submit = new JButton("Submit Form");
+        JScrollPane scrollFrame = new JScrollPane(panel);
+        panel.setAutoscrolls(true);
+        scrollFrame.setPreferredSize(new Dimension(1024, 768));
 
-        submit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println(formQuestions.toString());
-            }
-        });
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
 
-        JFrame f = new JFrame("Text Form Example");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.getContentPane().add(form, BorderLayout.NORTH);
-        JPanel p = new JPanel();
-        p.add(submit);
-        f.getContentPane().add(p, BorderLayout.SOUTH);
-        f.pack();
-        f.setLocationRelativeTo(null);
-        f.setVisible(true);
+        // form controller setup
+        FormController formController = new FormController(formQuestionHolders);
+
+        // render form questions panels
+        int i = 0;
+        for (FormQuestionHolder formQuestionHolder : formQuestionHolders) {
+            gridBagConstraints.gridy = i;
+            panel.add(new FormQuestionPanel(formQuestionHolder), gridBagConstraints);
+            i++;
+        }
+
+        // p.add(submit);
+        frame.getContentPane().add(scrollFrame);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setResizable(false);
     }
 }

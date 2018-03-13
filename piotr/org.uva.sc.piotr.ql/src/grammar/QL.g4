@@ -20,6 +20,7 @@ dataType
     | TYPE_STRING   #TypeDeclarationString
     | TYPE_INTEGER  #TypeDeclarationInteger
     | TYPE_DECIMAL  #TypeDeclarationDecimal
+    | TYPE_MONEY    #TypeDeclarationMoney
     ;
 
 ifStatement
@@ -81,7 +82,8 @@ END     : '}';
 TYPE_BOOLEAN    : 'boolean';
 TYPE_STRING     : 'string';
 TYPE_INTEGER    : 'integer';
-TYPE_DECIMAL    : 'decimal' | 'money';
+TYPE_DECIMAL    : 'decimal';
+TYPE_MONEY      : 'money';
 
 BOOL_TRUE    : 'true' | 'TRUE';
 BOOL_FALSE   : 'false' | 'FALSE';

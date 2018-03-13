@@ -2,27 +2,27 @@ package ast
 
 import QuestionareLanguageParser
 import QuestionareLanguageParserBaseListener
+import node.Node
 import data.question.Question
 import data.value.*
 import expression.BinaryExpression
-import expression.Expression
 import expression.LiteralExpression
 import expression.UnaryExpression
 import expression.operation.BinaryOperation
 import expression.operation.UnaryOperation
-import expression.visitor.evaluation.EvaluationVisitor
 
 class DogeListener : QuestionareLanguageParserBaseListener() {
 
-    val expressionBuilder = ExpressionBuilder()
+    private val expressionBuilder = ExpressionBuilder()
+    private val formTreeBuilder = FormTreeBuilder()
 
-    val questions = HashMap<String, Question>()
-    val subQuestions = HashMap<Expression, ArrayList<String>>()
+    override fun enterBlock(ctx: QuestionareLanguageParser.BlockContext?) {
+        if (!expressionBuilder.isEmpty())
+            formTreeBuilder.pushExpression(expressionBuilder.first())
+    }
 
-    override fun exitForm(ctx: QuestionareLanguageParser.FormContext?) {
-        val visitor = EvaluationVisitor()
-//        val result = expression.accept(visitor)
-        println("yay")
+    override fun exitIfStatement(ctx: QuestionareLanguageParser.IfStatementContext?) {
+        formTreeBuilder.build() //Build subtree
     }
 
     override fun exitQuestionStatement(ctx: QuestionareLanguageParser.QuestionStatementContext?) {
@@ -34,21 +34,9 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         val name = context.NAME().text
         val type = context.TYPE().text
 
-        val question = Question(label, convertType(type))
+        val question = Question(name, label, convertType(type))
 
-        questions[name] = question
-
-        if (!expressionBuilder.isEmpty()){
-            if (subQuestions[expressionBuilder.first()] != null){
-                subQuestions[expressionBuilder.first()]?.add(name)
-            }else{
-                subQuestions[expressionBuilder.first()] = arrayListOf(name)
-            }
-        }
-    }
-
-    override fun exitIfStatement(ctx: QuestionareLanguageParser.IfStatementContext?) {
-        expressionBuilder.pop()
+        formTreeBuilder.pushQuestion(question)
     }
 
     override fun exitExpression(ctx: QuestionareLanguageParser.ExpressionContext?) {
@@ -208,5 +196,9 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         "boolean" -> BooleanValue(false)
         "int" -> IntegerValue(0)
         else -> BooleanValue(false)
+    }
+
+    fun getParsedQuestionareLanguage(): Node {
+        return formTreeBuilder.build()
     }
 }

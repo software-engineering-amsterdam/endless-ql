@@ -44,6 +44,8 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 			throw new RuntimeException( ERROR_ReferenceToUndefinedQuestion + forwardReferences.get( 0 ) );
 		}
 
+		System.out.println( "visitForm: " + declaredQuestionTypes.toString() );
+
 		return value;
 
 	}
@@ -54,7 +56,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 		Value expression = visit( ctx.expression() );
 		String operator = ctx.unaryOperator().getText();
 
-		switch (operator) {
+		switch ( operator ) {
 
 			case "-":
 				return expression.apply( operator );
@@ -146,7 +148,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 		Type type = Type.parseType( ctx.Type().getText() );
 
-		AnswerableQuestion question = new AnswerableQuestion( identifier, ctx.QuotedString().getText(), type );
+		AnswerableQuestion question = new AnswerableQuestion( identifier, label, type );
 
 		if (declaredQuestionTypes.contains( identifier )) {
 
@@ -159,6 +161,8 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 			answerableQuestions.put( identifier, question );
 		}
 
+		System.out.println( "visitPartAnswerableQuestion: " + question.toString() );
+
 		return answerableQuestions.get( identifier ).getValue();
 	}
 
@@ -167,7 +171,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 		String identifier = ctx.Identifier().getText();
 		String label = removeQuotes( ctx.QuotedString().getText() );
-		
+
 		Type type = Type.parseType( ctx.Type().getText() );
 
 		forwardReferences.remove( identifier );
@@ -195,7 +199,7 @@ public class InterpretingVisitor extends ExpressionLanguageBaseVisitor<Value> {
 	public Value visitPartConditionalBlock( ExpressionLanguageParser.PartConditionalBlockContext ctx ) {
 
 		Value value = visit( ctx.expression() );
-		
+
 		if (value.equals( new Value( Type.Boolean, "True" ) )) {
 			visitChildren( ctx.block() );
 		}

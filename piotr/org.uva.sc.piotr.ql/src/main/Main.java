@@ -5,21 +5,21 @@ import ast.model.Form;
 import ast.model.expressions.Expression;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
-import ast.visitors.collectors.CollectFormFieldModelsVisitor;
-import ast.visitors.collectors.CollectQuestionsVisitor;
-import ast.visitors.collectors.CollectReferencesVisitor;
-import ast.visitors.evaluators.ExpressionEvaluator;
-import ast.visitors.evaluators.ExpressionResult;
 import grammar.QLLexer;
 import grammar.QLParser;
 import gui.QLGui;
-import gui.model.FormQuestion;
+import gui.model.FormQuestionHolder;
+import gui.model.MixedValueHolder;
+import logic.collectors.CollectFormQuestionHoldersVisitor;
+import logic.collectors.CollectQuestionsVisitor;
+import logic.collectors.CollectReferencesVisitor;
+import logic.evaluators.ExpressionEvaluator;
+import logic.validators.QuestionsDependencyValidator;
+import logic.validators.QuestionsValidator;
+import logic.validators.VariablesReferencesValidator;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import validators.QuestionsDependencyValidator;
-import validators.QuestionsValidator;
-import validators.VariablesReferencesValidator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,25 +69,25 @@ public class Main {
 
         // TODO: operands of invalid type to operators
 
-        CollectFormFieldModelsVisitor collectFormFieldModelsVisitor = new CollectFormFieldModelsVisitor();
-        form.accept(collectFormFieldModelsVisitor);
+        CollectFormQuestionHoldersVisitor collectFormQuestionHoldersVisitor = new CollectFormQuestionHoldersVisitor();
+        form.accept(collectFormQuestionHoldersVisitor);
 
-        List<FormQuestion> formQuestions = collectFormFieldModelsVisitor.getFormQuestions();
-        ExpressionEvaluator evaluator = new ExpressionEvaluator(collectFormFieldModelsVisitor.getVariablesValues());
+        List<FormQuestionHolder> formQuestionHolders = collectFormQuestionHoldersVisitor.getFormQuestionHolders();
+        ExpressionEvaluator evaluator = new ExpressionEvaluator(collectFormQuestionHoldersVisitor.getVariablesValues());
 
         // initial evaluation
-        for (FormQuestion formQuestion : formQuestions) {
-            if (formQuestion.getAssignedExpression() != null) {
-                formQuestion.setValue(formQuestion.getAssignedExpression().accept(evaluator));
+        for (FormQuestionHolder formQuestionHolder : formQuestionHolders) {
+            if (formQuestionHolder.getAssignedExpression() != null) {
+                formQuestionHolder.setValueHolder(formQuestionHolder.getAssignedExpression().accept(evaluator));
             }
-            if (formQuestion.getVisibilityCondition() != null) {
-                formQuestion.setVisibility(formQuestion.getVisibilityCondition().accept(evaluator));
+            if (formQuestionHolder.getVisibilityCondition() != null) {
+                formQuestionHolder.setVisibilityHolder(formQuestionHolder.getVisibilityCondition().accept(evaluator));
             } else {
-                formQuestion.setVisibility(new ExpressionResult(Expression.DataType.BOOLEAN, true));
+                formQuestionHolder.setVisibilityHolder(new MixedValueHolder(Expression.DataType.BOOLEAN, true));
             }
         }
 
-        new QLGui(formQuestions, evaluator);
+        new QLGui(formQuestionHolders, evaluator);
 
 
 //        Gson gson = new Gson();

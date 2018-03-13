@@ -25,7 +25,6 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ASTBuilder extends QLBaseVisitor<ASTNode> {
 
     @Override
@@ -122,6 +121,13 @@ public class ASTBuilder extends QLBaseVisitor<ASTNode> {
                 this.ExtractMetaInformationFromContext(ctx)
         );
     }
+
+    @Override
+    public ASTNode visitTypeDeclarationMoney(QLParser.TypeDeclarationMoneyContext ctx) {
+        return new TypeDeclarationMoney(
+                ctx.getText(),
+                this.ExtractMetaInformationFromContext(ctx)
+        );    }
 
     @Override
     public TypeDeclarationInteger visitTypeDeclarationInteger(QLParser.TypeDeclarationIntegerContext ctx) {

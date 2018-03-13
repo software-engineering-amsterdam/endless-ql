@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import nl.khonraad.domain.Type;
 import nl.khonraad.domain.Value;
+import nl.khonraad.utils.AbstractParserFactory;
 import nl.khonraad.visitors.InterpretingVisitor;
-import utils.AbstractParserFactory;
 
 public class Test_Interpretor {
 

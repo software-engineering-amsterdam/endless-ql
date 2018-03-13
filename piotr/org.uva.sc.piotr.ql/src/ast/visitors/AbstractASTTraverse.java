@@ -1,10 +1,7 @@
 package ast.visitors;
 
 import ast.model.Form;
-import ast.model.declarations.TypeDeclarationBoolean;
-import ast.model.declarations.TypeDeclarationDecimal;
-import ast.model.declarations.TypeDeclarationInteger;
-import ast.model.declarations.TypeDeclarationString;
+import ast.model.declarations.*;
 import ast.model.expressions.binary.arithmetics.Addition;
 import ast.model.expressions.binary.arithmetics.Division;
 import ast.model.expressions.binary.arithmetics.Multiplication;
@@ -174,6 +171,11 @@ public abstract class AbstractASTTraverse<T> implements ASTNodeVisitor<T> {
 
     @Override
     public T visit(TypeDeclarationString typeDeclarationString) {
+        return null;
+    }
+
+    @Override
+    public T visit(TypeDeclarationMoney typeDeclarationMoney) {
         return null;
     }
 }

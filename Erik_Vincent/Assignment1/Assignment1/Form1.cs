@@ -1,18 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Assignment1.Export;
 using Assignment1.Rendering;
 
 namespace Assignment1
 {
     public partial class Form1 : Form
     {
+        private FlowLayoutPanel _mainPanel;
+
         public Form1()
         {
             InitializeComponent();
+            _mainPanel = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                FlowDirection = FlowDirection.TopDown
+            };
+            Controls.Add(_mainPanel);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -22,7 +31,7 @@ namespace Assignment1
 
         private void ParseFile(string fileLocation)
         {
-            Controls.Clear();
+            _mainPanel.Controls.Clear();
             var listener = QLListener.ParseString(System.IO.File.ReadAllText(fileLocation));
             if (listener.FormHasErrors)
             {
@@ -30,9 +39,11 @@ namespace Assignment1
             }
             else
             {
-                Controls.Add(RenderFileSelector());
+                _mainPanel.Controls.Add(RenderFileSelector());
                 IQuestionFormRenderer renderer = new QuestionFormRenderer(listener.Form);
-                Controls.Add(renderer.Render());
+                _mainPanel.Controls.Add(renderer.Render());
+                FormExporter exporter = new FormExporter(listener.Form);
+                _mainPanel.Controls.Add(exporter.Render());
             }
         }
 

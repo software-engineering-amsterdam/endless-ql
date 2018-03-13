@@ -34,13 +34,9 @@ object ConditionalValidator {
   // identifier -> kijk of de identifier een boolean value heeft.
 
   def validateIdentifier(node: ASTIdentifier, ast: ASTNode): Boolean = {
-    val forms = ASTCollector.getFormBody(ast)
-    val formVarDecls = forms.map(ASTCollector.getVarDecls).flatten
-    val varDecl = formVarDecls.filter(vd => vd.id == node)
-
-    varDecl(0).typeDecl match {
-      case ASTBoolean() => true
-      case other        => false
+    ASTCollector.getTypeDecl(node, ast) match {
+      case Some(ASTBoolean()) => true
+      case other              => false
     }
   }
 

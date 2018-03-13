@@ -25,7 +25,11 @@ def create_temp_files():
     shutil.copyfile(ql_path_from, ql_path_to)
 
     # Generate the lexer and parser classes
-    subprocess.check_output("""java -cp '{}/antlr-4.7-complete.jar' org.antlr.v4.Tool '{}/QL.g4'""".format(
+    # subprocess.check_output("""java -cp '{}/antlr-4.7-complete.jar' org.antlr.v4.Tool '{}/QL.g4'""".format(
+    #     tmp_test_dir, tmp_test_dir), shell=True, universal_newlines=True)
+
+    os.system('SET CLASSPATH=.;C:\\Javalib\\antlr-4.7.1-complete.jar;')
+    subprocess.check_output("""java -cp '{0}\\antlr-4.7-complete.jar' org.antlr.v4.Tool '{1}\\QL.g4'""".format(
         tmp_test_dir, tmp_test_dir), shell=True, universal_newlines=True)
 
     # Generate a java main class

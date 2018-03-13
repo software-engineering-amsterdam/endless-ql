@@ -164,31 +164,22 @@ namespace UnitTests.Domain.UnitTests.Data
             {
                 const string variableTemplate = @"
 form TestForm {{ 
-   {0}: ""First int question"" integer
-   {1}: ""2nd int question"" integer
-   if ({0} {2} {1}) 
+   intQ1: ""First int question"" integer
+   intQ1: ""2nd int question"" integer
+   if (intQ1 {0} intQ1) 
    {{ 
-      trueVisibleQuestion: ""trueviz""  int 
+      trueVisibleQuestion: ""trueviz""  integer 
    }} 
    else 
    {{ 
-      falseVisibleQuestion1: ""falseViz1""  int 
-      falseVisibleQuestion2: ""falseViz2""  int 
+      falseVisibleQuestion1: ""falseViz1""  integer 
+      falseVisibleQuestion2: ""falseViz2""  integer 
    }} 
 }}";
-                var variableName1 = @"intQ1";
-                var variableName2 = @"intQ2";
-
                 yield return new TestCaseData(
-                    string.Format(variableTemplate, variableName1, variableName2, @"=="),
-                    variableName1,
-                    variableName2,
-                    1, // original visible
-                    2, // original invisible
-                    100, // new value var 1
-                    200, // new value var 2
-                    2, // new visible
-                    1); // new invisible
+                    string.Format(variableTemplate,  @"=="),
+                    100, 
+                    200);
             }
         }
     }

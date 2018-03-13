@@ -26,7 +26,7 @@ question: IDENTIFIER ':' TEXT questionType
 
 calculatedValue: ASSIGN BEGINGROUP mathExpression ENDGROUP;
 
-conditionalStatement: IFKEYWORD BEGINGROUP booleanExpression ENDGROUP 
+conditionalStatement: IFKEYWORD BEGINGROUP expression ENDGROUP 
                       BEGINSCOPE consequentStatement ENDSCOPE 
                       (ELSEKEYWORD BEGINSCOPE alternativeStatement ENDSCOPE)?;
 
@@ -40,6 +40,12 @@ questionType: chosenType=(BOOLTYPE
             | DATETYPE     
             | DECIMALTYPE)
 			;
+
+expression : leftIdentifier=IDENTIFIER 
+				relationalOperator 
+		     rightIdentifier=IDENTIFIER                   #typeCheckExpression
+           | booleanExpression                            #otherExpressions
+		   ;
 
 booleanExpression : IDENTIFIER                             #booleanQuestionIdentifier
 	              | booleanValue                           #booleanLiteral

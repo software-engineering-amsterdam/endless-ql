@@ -7,6 +7,7 @@ import ql.model.expression.ReturnType;
 import ql.model.Form;
 import ql.model.Question;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,6 +59,8 @@ public class SymbolTable {
                 return evaluated.getStringValue();
             case BOOLEAN:
                 return evaluated.getBooleanValue().toString();
+            case DATE:
+                return new SimpleDateFormat("dd-MM-yyy").format(evaluated.getDateValue());
             default:
                 return "";
         }

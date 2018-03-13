@@ -3,6 +3,7 @@ package ql.evaluation.value;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.Date;
 
 public class NumberValue extends Value<BigDecimal> {
 
@@ -41,6 +42,11 @@ public class NumberValue extends Value<BigDecimal> {
     @Override
     public String getStringValue() {
         throw new UnsupportedOperationException("Cannot cast number to string");
+    }
+
+    @Override
+    public Date getDateValue() {
+        throw new UnsupportedOperationException("Cannot cast number to date");
     }
 
     @Override
@@ -142,10 +148,5 @@ public class NumberValue extends Value<BigDecimal> {
     @Override
     public Value neg() {
         return new NumberValue(this.value.multiply(new BigDecimal(-1.0)));
-    }
-
-    @Override
-    public boolean equals(Value other) {
-        return this.value.equals(other.value);
     }
 }

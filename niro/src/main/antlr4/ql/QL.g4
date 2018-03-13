@@ -3,14 +3,13 @@ grammar QL;
 FORM         : 'form' ;
 IF           : 'if' ;
 ELSE         : 'else' ;
-ASSIGN       : '=' ;
-
 BOOLEAN      : 'boolean' ;
 INTEGER      : 'integer' ;
 STRING       : 'string' ;
 DECIMAL      : 'decimal' ;
 MONEY        : 'money' ;
 DATE         : 'date' ;
+ASSIGN       : '=' ;
 
 FALSE        : 'false' ;
 TRUE         : 'true' ;
@@ -40,14 +39,14 @@ AND          : '&&' ;
 NOT          : '!' ;
 PERIOD       : '.' ;
 
-WHITESPACE   : [ \t\r\n]+ -> skip ;
-COMMENT      : '//' .*? '\n' -> skip ;
-
 DateValue    : [0-9][0-9][0-9][0-9] '-' [0-9][0-9] '-' [0-9][0-9] ;
 IntegerValue : [1-9][0-9]* ;
 DecimalValue : [1-9][0-9]* PERIOD [0-9]+ ;
 Identifier   : [a-zA-Z0-9_]+ ;
 Text         : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); }; // excluding double quotes
+
+WHITESPACE   : [ \t\r\n]+ -> skip ;
+COMMENT      : '//' .*? '\n' -> skip ;
 
 form        : FORM Identifier CURLY_LEFT statement+ CURLY_RIGHT EOF ;
 

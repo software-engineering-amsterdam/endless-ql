@@ -11,11 +11,7 @@ class TextFormatterBuilder[T] {
   private var inputFilter: UnaryOperator[TextFormatter.Change] = _
 
   def buildInputFilter(pattern: String): TextFormatterBuilder[T] = {
-    inputFilter = new UnaryOperator[TextFormatter.Change]() {
-      override def apply(change: TextFormatter.Change): TextFormatter.Change = {
-        if (change.getControlNewText.matches(pattern)) change else null
-      }
-    }
+    inputFilter = (change: TextFormatter.Change) => if (change.getControlNewText.matches(pattern)) change else null
     this
   }
 

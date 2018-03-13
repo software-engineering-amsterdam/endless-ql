@@ -55,6 +55,7 @@
 				<artifactId>antlr4-maven-plugin</artifactId>
 				<version>${antlr4.plugin.version}</version>
 				<configuration>
+					<libDirectory>${basedir}/src/main/antlr4/qlviz</libDirectory>
 					<arguments>
 						<argument>-visitor</argument>
 					</arguments>

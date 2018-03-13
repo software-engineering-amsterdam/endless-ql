@@ -19,6 +19,10 @@ import gui.formfx.field.Field;
 import gui.formfx.field.FieldGroup;
 import gui.formfx.form.GridForm;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,7 +108,7 @@ public class FormRenderer {
     private Control createDateField(HashMap<Question, Field> fieldMap, Question question) {
         DatePicker datePicker = new DatePicker();
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-            Expression expression = new ExpressionVariableDate(question.defaultAnswer.getToken(), newValue.toString());
+            Expression expression = new ExpressionVariableDate(question.defaultAnswer.getToken(), Date.from(newValue.atStartOfDay(ZoneId.systemDefault()).toInstant()));
             symbolTable.setExpression(question.name, expression);
             updateFields(fieldMap, form.questions);
         });
@@ -280,7 +284,11 @@ public class FormRenderer {
                 CheckBox checkBox = (CheckBox) field.getControl();
                 checkBox.setSelected(Boolean.valueOf(answer));
             } else if (question.type == ReturnType.DATE) {
-                // TODO
+                if(!answer.isEmpty()) {
+                    DatePicker datePicker = (DatePicker) field.getControl();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy");
+                    datePicker.setValue(LocalDate.parse(answer, formatter));
+                }
             } else {
                 TextInputControl textField = (TextInputControl) field.getControl();
                 textField.setText(answer);

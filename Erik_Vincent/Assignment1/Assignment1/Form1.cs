@@ -1,30 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
+using Assignment1.Export;
 using Assignment1.Rendering;
 
 namespace Assignment1
 {
     public partial class Form1 : Form
     {
+        private FlowLayoutPanel _mainPanel;
+
         public Form1()
         {
             InitializeComponent();
+            _mainPanel = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                FlowDirection = FlowDirection.TopDown
+            };
+            Controls.Add(_mainPanel);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            var listener = QLListener.ParseString(System.IO.File.ReadAllText("test.txt"));
+            ParseFile("test.txt");
+        }
+
+        private void ParseFile(string fileLocation)
+        {
+            _mainPanel.Controls.Clear();
+            var listener = QLListener.ParseString(System.IO.File.ReadAllText(fileLocation));
             if (listener.FormHasErrors)
             {
                 ReportFormErrors(listener.Errors);
             }
             else
             {
+                _mainPanel.Controls.Add(RenderFileSelector());
                 IQuestionFormRenderer renderer = new QuestionFormRenderer(listener.Form);
-                Controls.Add(renderer.Render());
+                _mainPanel.Controls.Add(renderer.Render());
+                FormExporter exporter = new FormExporter(listener.Form);
+                _mainPanel.Controls.Add(exporter.Render());
             }
+        }
+
+        private ToolStrip RenderFileSelector()
+        {
+            ToolStrip fileSelectorPanel = new ToolStrip();
+            ToolStripButton toolStripButton = new ToolStripButton("Open file", null, FileSelectorClicked);
+            fileSelectorPanel.Items.Add(toolStripButton);
+            return fileSelectorPanel;
         }
 
         private void ReportFormErrors(List<string> errors)
@@ -48,6 +76,16 @@ namespace Assignment1
                     ForeColor = Color.Red
                 };
                 Controls.Add(label);
+            }
+        }
+
+        private void FileSelectorClicked(object sender, EventArgs eventArgs)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.InitialDirectory = Path.GetDirectoryName(Directory.GetCurrentDirectory());
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                ParseFile(fileDialog.FileName);
             }
         }
     }

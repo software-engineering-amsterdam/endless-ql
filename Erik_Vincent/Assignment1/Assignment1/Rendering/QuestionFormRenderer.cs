@@ -8,7 +8,7 @@ using Assignment1.Model;
 
 namespace Assignment1.Rendering
 {
-    class QuestionFormRenderer : IQuestionFormRenderer, IQuestionVisitor
+    internal class QuestionFormRenderer : IQuestionFormRenderer, IQuestionVisitor
     {
         private readonly Panel _panel = new FlowLayoutPanel
         {
@@ -43,7 +43,42 @@ namespace Assignment1.Rendering
 
         public void Visit(QuestionBool question)
         {
-            if (question.Condition?.Evaluate() == false) return;
+            _panel.Controls.Add(RenderQuestionBool(question));
+        }
+
+        public void Visit(QuestionInt question)
+        {
+            _panel.Controls.Add(RenderQuestionLabel(question));
+            _panel.Controls.Add(RenderQuestionInt(question));
+        }
+
+        public void Visit(QuestionDate question)
+        {
+            _panel.Controls.Add(RenderQuestionLabel(question));
+            _panel.Controls.Add(RenderQuestionDate(question));
+        }
+
+        public void Visit(QuestionDecimal question)
+        {
+            _panel.Controls.Add(RenderQuestionLabel(question));
+            _panel.Controls.Add(RenderQuestionDecimal(question));
+        }
+
+        public void Visit(QuestionMoney question)
+        {
+            _panel.Controls.Add(RenderQuestionLabel(question));
+            _panel.Controls.Add(RenderQuestionMoney(question));
+        }
+
+        public void Visit(QuestionString question)
+        {
+            _panel.Controls.Add(RenderQuestionLabel(question));
+            _panel.Controls.Add(RenderQuestionString(question));
+        }
+
+        public CheckBox RenderQuestionBool(QuestionBool question)
+        {
+            if (question.Condition?.Evaluate() == false) return null;
             var checkbox = new CheckBox
             {
                 Text = question.Label,
@@ -59,17 +94,22 @@ namespace Assignment1.Rendering
                     UpdateControls();
                 };
             }
-            _panel.Controls.Add(checkbox);
+            return checkbox;
         }
 
-        public void Visit(QuestionInt question)
+        public static Label RenderQuestionLabel(Question question)
         {
-            if (question.Condition?.Evaluate() == false) return;
-            _panel.Controls.Add(new Label
+            if (question.Condition?.Evaluate() == false) return null;
+            return new Label
             {
                 Text = question.Label,
                 AutoSize = true
-            });
+            };
+        }
+
+        public NumericUpDown RenderQuestionInt(QuestionInt question)
+        {
+            if (question.Condition?.Evaluate() == false) return null;
             var numericUpDown = new NumericUpDown
             {
                 Minimum = int.MinValue,
@@ -86,17 +126,12 @@ namespace Assignment1.Rendering
                     UpdateControls();
                 };
             }
-            _panel.Controls.Add(numericUpDown);
+            return numericUpDown;
         }
 
-        public void Visit(QuestionDate question)
+        public DateTimePicker RenderQuestionDate(QuestionDate question)
         {
-            if (question.Condition?.Evaluate() == false) return;
-            _panel.Controls.Add(new Label
-            {
-                Text = question.Label,
-                AutoSize = true
-            });
+            if (question.Condition?.Evaluate() == false) return null;
             var dateTimePicker = new DateTimePicker
             {
                 MinDate = DateTime.MinValue,
@@ -112,17 +147,13 @@ namespace Assignment1.Rendering
                     UpdateControls();
                 };
             }
-            _panel.Controls.Add(dateTimePicker);
+
+            return dateTimePicker;
         }
 
-        public void Visit(QuestionDecimal question)
+        public NumericUpDown RenderQuestionDecimal(QuestionDecimal question)
         {
-            if (question.Condition?.Evaluate() == false) return;
-            _panel.Controls.Add(new Label
-            {
-                Text = question.Label,
-                AutoSize = true
-            });
+            if (question.Condition?.Evaluate() == false) return null;
             var numericUpDown = new NumericUpDown
             {
                 Minimum = decimal.MinValue,
@@ -139,17 +170,13 @@ namespace Assignment1.Rendering
                     UpdateControls();
                 };
             }
-            _panel.Controls.Add(numericUpDown);
+
+            return numericUpDown;
         }
 
-        public void Visit(QuestionMoney question)
+        public NumericUpDown RenderQuestionMoney(QuestionMoney question)
         {
-            if (question.Condition?.Evaluate() == false) return;
-            _panel.Controls.Add(new Label
-            {
-                Text = question.Label,
-                AutoSize = true
-            });
+            if (question.Condition?.Evaluate() == false) return null;
             var numericUpDown = new NumericUpDown
             {
                 Minimum = decimal.MinValue,
@@ -166,17 +193,13 @@ namespace Assignment1.Rendering
                     UpdateControls();
                 };
             }
-            _panel.Controls.Add(numericUpDown);
+
+            return numericUpDown;
         }
 
-        public void Visit(QuestionString question)
+        public TextBox RenderQuestionString(QuestionString question)
         {
-            if (question.Condition?.Evaluate() == false) return;
-            _panel.Controls.Add(new Label
-            {
-                Text = question.Label,
-                AutoSize = true
-            });
+            if (question.Condition?.Evaluate() == false) return null;
             var textBox = new TextBox
             {
                 Text = question.Value,
@@ -190,7 +213,8 @@ namespace Assignment1.Rendering
                     UpdateControls();
                 };
             }
-            _panel.Controls.Add(textBox);
+
+            return textBox;
         }
     }
 }

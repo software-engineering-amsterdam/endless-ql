@@ -1,4 +1,5 @@
 // Generated from C:/Users/Michael/Desktop/Software Construction/endless-ql/GunOli/src/main/antlr\QLS.g4 by ANTLR 4.7
+package QLSAntlrGen;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -57,15 +58,15 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitQuestion(QLSParser.QuestionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSParser#default}.
+	 * Enter a parse tree produced by {@link QLSParser#defaultSec}.
 	 * @param ctx the parse tree
 	 */
-	void enterDefault(QLSParser.DefaultContext ctx);
+	void enterDefaultSec(QLSParser.DefaultSecContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSParser#default}.
+	 * Exit a parse tree produced by {@link QLSParser#defaultSec}.
 	 * @param ctx the parse tree
 	 */
-	void exitDefault(QLSParser.DefaultContext ctx);
+	void exitDefaultSec(QLSParser.DefaultSecContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code radioWidget}
 	 * labeled alternative in {@link QLSParser#widget}.

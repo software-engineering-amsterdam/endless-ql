@@ -1,4 +1,5 @@
 // Generated from C:/Users/Michael/Desktop/Software Construction/endless-ql/GunOli/src/main/antlr\QLS.g4 by ANTLR 4.7
+package QLSAntlrGen;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -24,9 +25,10 @@ public class QLSParser extends Parser {
 		HEXVALUE=34, WHITESPACE=35, MULTI_COMMENT=36, SINGLE_COMMENT=37;
 	public static final int
 		RULE_head = 0, RULE_block = 1, RULE_page = 2, RULE_section = 3, RULE_question = 4, 
-		RULE_default = 5, RULE_widget = 6, RULE_type = 7;
+		RULE_defaultSec = 5, RULE_widget = 6, RULE_type = 7;
 	public static final String[] ruleNames = {
-		"head", "block", "page", "section", "question", "default", "widget", "type"
+		"head", "block", "page", "section", "question", "defaultSec", "widget", 
+		"type"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -218,11 +220,11 @@ public class QLSParser extends Parser {
 		public SectionContext section(int i) {
 			return getRuleContext(SectionContext.class,i);
 		}
-		public List<DefaultContext> default() {
-			return getRuleContexts(DefaultContext.class);
+		public List<DefaultSecContext> defaultSec() {
+			return getRuleContexts(DefaultSecContext.class);
 		}
-		public DefaultContext default(int i) {
-			return getRuleContext(DefaultContext.class,i);
+		public DefaultSecContext defaultSec(int i) {
+			return getRuleContext(DefaultSecContext.class,i);
 		}
 		public PageContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -273,7 +275,7 @@ public class QLSParser extends Parser {
 				case DEFAULT:
 					{
 					setState(33);
-					default();
+					defaultSec();
 					}
 					break;
 				default:
@@ -314,11 +316,11 @@ public class QLSParser extends Parser {
 		public SectionContext section(int i) {
 			return getRuleContext(SectionContext.class,i);
 		}
-		public List<DefaultContext> default() {
-			return getRuleContexts(DefaultContext.class);
+		public List<DefaultSecContext> defaultSec() {
+			return getRuleContexts(DefaultSecContext.class);
 		}
-		public DefaultContext default(int i) {
-			return getRuleContext(DefaultContext.class,i);
+		public DefaultSecContext defaultSec(int i) {
+			return getRuleContext(DefaultSecContext.class,i);
 		}
 		public SectionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -375,7 +377,7 @@ public class QLSParser extends Parser {
 				case DEFAULT:
 					{
 					setState(45);
-					default();
+					defaultSec();
 					}
 					break;
 				default:
@@ -467,7 +469,7 @@ public class QLSParser extends Parser {
 		return _localctx;
 	}
 
-	public static class DefaultContext extends ParserRuleContext {
+	public static class DefaultSecContext extends ParserRuleContext {
 		public TerminalNode DEFAULT() { return getToken(QLSParser.DEFAULT, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
@@ -478,28 +480,28 @@ public class QLSParser extends Parser {
 		public WidgetContext widget(int i) {
 			return getRuleContext(WidgetContext.class,i);
 		}
-		public DefaultContext(ParserRuleContext parent, int invokingState) {
+		public DefaultSecContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_default; }
+		@Override public int getRuleIndex() { return RULE_defaultSec; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterDefault(this);
+			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterDefaultSec(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitDefault(this);
+			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitDefaultSec(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitDefault(this);
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitDefaultSec(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final DefaultContext default() throws RecognitionException {
-		DefaultContext _localctx = new DefaultContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_default);
+	public final DefaultSecContext defaultSec() throws RecognitionException {
+		DefaultSecContext _localctx = new DefaultSecContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_defaultSec);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);

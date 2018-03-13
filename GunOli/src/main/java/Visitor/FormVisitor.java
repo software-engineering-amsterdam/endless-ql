@@ -1,8 +1,8 @@
 package Visitor;
 
 import ParseObjects.*;
-import antlrGen.QLBaseVisitor;
-import antlrGen.QLParser;
+import QLAntlrGen.QLBaseVisitor;
+import QLAntlrGen.QLParser;
 
 public class FormVisitor extends QLBaseVisitor<Form> {
     private ExpressionTable expressionTable;

@@ -1,11 +1,11 @@
 grammar QLS;
 
-head    : STYLESHEET IDENTIFIER block EOF;
-block   : '{' page+ '}';
-page    : PAGE IDENTIFIER '{' (section | default)+ '}';
-section : SECTION STRING '{' (question | section | default)+ '}';
-question: QUESTION IDENTIFIER (widget)*;
-default : DEFAULT type (widget | '{' widget* '}');
+head        : STYLESHEET IDENTIFIER block EOF;
+block       : '{' page+ '}';
+page        : PAGE IDENTIFIER '{' (section | defaultSec)+ '}';
+section     : SECTION STRING '{' (question | section | defaultSec)+ '}';
+question    : QUESTION IDENTIFIER (widget)*;
+defaultSec  : DEFAULT type (widget | '{' widget* '}');
 
 widget  : WIDGET RADIO '(' STRING (',' STRING)* ')' #radioWidget
         | WIDGET CHECKBOX                           #checkWidget

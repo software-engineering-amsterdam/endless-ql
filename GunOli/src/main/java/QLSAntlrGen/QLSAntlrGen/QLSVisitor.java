@@ -1,4 +1,5 @@
 // Generated from C:/Users/Michael/Desktop/Software Construction/endless-ql/GunOli/src/main/antlr\QLS.g4 by ANTLR 4.7
+package QLSAntlrGen;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -40,11 +41,11 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestion(QLSParser.QuestionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#default}.
+	 * Visit a parse tree produced by {@link QLSParser#defaultSec}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDefault(QLSParser.DefaultContext ctx);
+	T visitDefaultSec(QLSParser.DefaultSecContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code radioWidget}
 	 * labeled alternative in {@link QLSParser#widget}.

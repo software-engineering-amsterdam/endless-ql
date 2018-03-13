@@ -3,8 +3,8 @@ package Visitor;
 import ParseObjects.Block;
 import ParseObjects.Condition;
 import ParseObjects.Question;
-import antlrGen.QLBaseVisitor;
-import antlrGen.QLParser;
+import QLAntlrGen.QLBaseVisitor;
+import QLAntlrGen.QLParser;
 
 import java.util.ArrayList;
 

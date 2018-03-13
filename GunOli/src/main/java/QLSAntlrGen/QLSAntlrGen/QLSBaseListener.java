@@ -1,4 +1,5 @@
 // Generated from C:/Users/Michael/Desktop/Software Construction/endless-ql/GunOli/src/main/antlr\QLS.g4 by ANTLR 4.7
+package QLSAntlrGen;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -75,13 +76,13 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefault(QLSParser.DefaultContext ctx) { }
+	@Override public void enterDefaultSec(QLSParser.DefaultSecContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDefault(QLSParser.DefaultContext ctx) { }
+	@Override public void exitDefaultSec(QLSParser.DefaultSecContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

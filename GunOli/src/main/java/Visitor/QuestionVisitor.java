@@ -4,8 +4,8 @@ import ParseObjects.Expressions.EvaluationType;
 import ParseObjects.Expressions.Expression;
 import ParseObjects.Expressions.ExpressionConstants.*;
 import ParseObjects.Question;
-import antlrGen.QLBaseVisitor;
-import antlrGen.QLParser;
+import QLAntlrGen.QLBaseVisitor;
+import QLAntlrGen.QLParser;
 
 public class QuestionVisitor extends QLBaseVisitor<Question>{
     private ExpressionTable expressionTable;

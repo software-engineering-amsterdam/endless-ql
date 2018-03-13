@@ -2,7 +2,7 @@ package qls.visitor;
 
 import qls.parser.QLSBaseVisitor;
 import qls.parser.QLSParser;
-import ql.model.stylesheet.widgets.*;
+import qls.model.widgets.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.ArrayList;

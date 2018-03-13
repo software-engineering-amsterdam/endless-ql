@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FormPanel extends JPanel {
 
-    private JPanel formContent;
+    private final JPanel formContent;
 
     public FormPanel(Form form, int viewHeight, int formWidth, int formHeight){
         formContent = new JPanel();

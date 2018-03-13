@@ -1,9 +1,7 @@
 package gui;
 
-import ast.model.expressions.Expression;
 import gui.controller.FormController;
 import gui.model.FormQuestionHolder;
-import gui.model.MixedValueHolder;
 import gui.view.FormQuestionPanel;
 import logic.evaluators.ExpressionEvaluator;
 

@@ -6,7 +6,6 @@ import gui.controller.FormController;
 import gui.view.FormQuestionPanel;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public class FormQuestionHolder {
 

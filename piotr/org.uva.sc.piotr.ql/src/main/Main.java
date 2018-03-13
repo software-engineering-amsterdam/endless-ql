@@ -2,14 +2,12 @@ package main;
 
 import ast.ASTBuilder;
 import ast.model.Form;
-import ast.model.expressions.Expression;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
 import grammar.QLLexer;
 import grammar.QLParser;
 import gui.QLGui;
 import gui.model.FormQuestionHolder;
-import gui.model.MixedValueHolder;
 import logic.collectors.CollectFormQuestionHoldersVisitor;
 import logic.collectors.CollectQuestionsVisitor;
 import logic.collectors.CollectReferencesVisitor;

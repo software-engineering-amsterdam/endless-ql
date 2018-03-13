@@ -19,7 +19,7 @@ public class FormQuestionPanel extends JPanel {
 
         this.formQuestionHolder = formQuestionHolder;
         this.labelComponent = new JLabel(formQuestionHolder.getLabel());
-        this.widget = this.createDefaultWidget();
+        this.widget = createDefaultWidget(formQuestionHolder);
 
         this.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -52,28 +52,26 @@ public class FormQuestionPanel extends JPanel {
     public void refreshValue() {
         if (this.formQuestionHolder.getValueHolder() != null) {
             this.widget.updateValue();
-            // change value
-            //this.widget.getComponent().(this.formQuestionHolder.getVisibilityHolder().getBooleanValue());
         }
     }
 
-    private Widget createDefaultWidget() {
+    private static Widget createDefaultWidget(FormQuestionHolder formQuestionHolder) {
 
-        Expression.DataType questionDataType = this.formQuestionHolder.getOriginalDataTypeDeclaration().toDataType();
+        Expression.DataType questionDataType = formQuestionHolder.getOriginalDataTypeDeclaration().toDataType();
 
         if (questionDataType == Expression.DataType.DECIMAL) {
             // if decimal is originally declared as "money", then use a widget with currency sign
-            if (this.formQuestionHolder.getOriginalDataTypeDeclaration().getIdentifier().equals("money")) {
-                return new MoneyFieldWidget(this.formQuestionHolder);
+            if (formQuestionHolder.getOriginalDataTypeDeclaration().getIdentifier().equals("money")) {
+                return new MoneyFieldWidget(formQuestionHolder);
             }
-            return new DecimalFieldWidget(this.formQuestionHolder);
+            return new DecimalFieldWidget(formQuestionHolder);
         } else if (questionDataType == Expression.DataType.INTEGER) {
-            return new IntegerSpinnerWidget(this.formQuestionHolder);
+            return new IntegerSpinnerWidget(formQuestionHolder);
         } else if (questionDataType == Expression.DataType.BOOLEAN) {
             //return new BooleanCheckboxWidget(this.formQuestionHolder);
-            return new BooleanRadioWidget(this.formQuestionHolder);
+            return new BooleanRadioWidget(formQuestionHolder);
         }
         // string and any other
-        return new TextFieldWidget(this.formQuestionHolder);
+        return new TextFieldWidget(formQuestionHolder);
     }
 }

@@ -12,7 +12,7 @@ import org.scalatest.BeforeAndAfter
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree._
 
-class ASTParser extends FunSpec with BeforeAndAfter {
+class ASTParserSpec extends FunSpec with BeforeAndAfter {
   // maybe extract method to general helper class
   private def getForm(location: String): ASTNode = {
     return QlFormParser.parseFromURL(getClass.getResource(location))
@@ -20,7 +20,7 @@ class ASTParser extends FunSpec with BeforeAndAfter {
 
   private def getFlattenedForm(location: String): List[ASTNode] = {
     val form = QlFormParser.parseFromURL(getClass.getResource(location))
-    QlFormParser.flattenNT(form)
+    ASTCollector.flattenNT(form)
   }
 
   describe("when parsing a form") {

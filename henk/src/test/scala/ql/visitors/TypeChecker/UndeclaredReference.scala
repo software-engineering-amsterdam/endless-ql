@@ -1,9 +1,11 @@
 import ql.models.ast._
 import ql.grammar._
 import ql.visitors._
+import ql.validators._
 import ql.parsers._
 
 import scala.io.Source
+import scala.util.{ Try, Success, Failure }
 
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
@@ -12,36 +14,39 @@ import org.scalatest.BeforeAndAfter
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree._
 
-class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
+class UndeclaredReferenceSpec extends FunSpec with BeforeAndAfter {
   // maybe extract method to general helper class
   private def getForm(location: String): ASTNode = {
     return QlFormParser.parseFromURL(getClass.getResource(location))
   }
 
-  describe("when typechecking a valid form") {
+  describe("when typechecking a simple valid form") {
     val filename = "ql/typechecking/simple.ql"
-    val typechecker = new TypeChecker(getForm(filename))
+    val form = getForm(filename)
+    val typechecker = new TypeChecker(form)
 
     it("check method should return true") {
       assert(typechecker.check() == true)
     }
 
     it("checkVarDecls method should not throw an exception") {
-      noException should be thrownBy typechecker.checkVarDecls
+      noException should be thrownBy IdentifierValidator.validate(form)
     }
   }
 
   describe("when typechecking a form with a single undeclared identifier") {
     val filename = "ql/typechecking/single_undeclared_identifier.ql"
-    val typechecker = new TypeChecker(getForm(filename))
+    val form = getForm(filename)
+    val typechecker = new TypeChecker(form)
 
-    it("check method should return true") {
+    it("check method should return false") {
       assert(typechecker.check() == false)
     }
 
     it("checkVarDecls method should throw an IdentifierNotDeclared exception") {
-      assertThrows[IdentifierNotDeclared] {
-        typechecker.checkVarDecls()
+      IdentifierValidator.validate(form) match {
+        case Failure(e) => e shouldBe a [IdentifierNotDeclared]
+        case Success(_) => fail()
       }
     }
 
@@ -55,15 +60,17 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
 
   describe("when typechecking a form with multiple undeclared identifiers") {
     val filename = "ql/typechecking/multiple_undeclared_identifiers.ql"
-    val typechecker = new TypeChecker(getForm(filename))
+    val form = getForm(filename)
+    val typechecker = new TypeChecker(form)
 
-    it("check method should return true") {
+    it("check method should return false") {
       assert(typechecker.check() == false)
     }
 
     it("checkVarDecls should throw an IdentifierNotDeclared exception") {
-      assertThrows[IdentifierNotDeclared] {
-        typechecker.checkVarDecls()
+      IdentifierValidator.validate(form) match {
+        case Failure(e) => e shouldBe a [IdentifierNotDeclared]
+        case Success(_) => fail()
       }
     }
 

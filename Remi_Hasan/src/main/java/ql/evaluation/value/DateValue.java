@@ -33,67 +33,67 @@ public class DateValue extends Value<String> {
     }
 
     @Override
-    public NumValue divide(Value right) {
+    public NumberValue divide(Value right) {
         return null;
     }
 
     @Override
-    public NumValue multiply(Value right) {
+    public NumberValue multiply(Value right) {
         return null;
     }
 
     @Override
-    public NumValue subtract(Value right) {
+    public NumberValue subtract(Value right) {
         return null;
     }
 
     @Override
-    public NumValue sum(Value right) {
+    public NumberValue sum(Value right) {
         return null;
     }
 
     @Override
-    public BoolValue eq(Value right) {
+    public BooleanValue eq(Value right) {
         return null;
     }
 
     @Override
-    public BoolValue ge(Value right) {
+    public BooleanValue ge(Value right) {
         return null;
     }
 
     @Override
-    public BoolValue gt(Value right) {
+    public BooleanValue gt(Value right) {
         return null;
     }
 
     @Override
-    public BoolValue le(Value right) {
+    public BooleanValue le(Value right) {
         return null;
     }
 
     @Override
-    public BoolValue lt(Value right) {
+    public BooleanValue lt(Value right) {
         return null;
     }
 
     @Override
-    public BoolValue and(Value right) {
+    public BooleanValue and(Value right) {
         return null;
     }
 
     @Override
-    public BoolValue or(Value right) {
+    public BooleanValue or(Value right) {
         return null;
     }
 
     @Override
-    public BoolValue not() {
+    public BooleanValue not() {
         return null;
     }
 
     @Override
-    public NumValue neg() {
+    public NumberValue neg() {
         return null;
     }
 

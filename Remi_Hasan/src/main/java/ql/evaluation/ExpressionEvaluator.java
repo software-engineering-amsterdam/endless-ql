@@ -113,7 +113,7 @@ public class ExpressionEvaluator implements IExpressionVisitor<Value> {
 
     @Override
     public Value visit(ExpressionVariableBoolean expression) {
-        return new BoolValue(expression.value);
+        return new BooleanValue(expression.value);
     }
 
     @Override
@@ -123,17 +123,17 @@ public class ExpressionEvaluator implements IExpressionVisitor<Value> {
 
     @Override
     public Value visit(ExpressionVariableInteger expression) {
-        return new NumValue(expression.value);
+        return new NumberValue(expression.value);
     }
 
     @Override
     public Value visit(ExpressionVariableDecimal expression) {
-        return new NumValue(expression.value);
+        return new NumberValue(expression.value);
     }
 
     @Override
     public Value visit(ExpressionVariableMoney expression) {
-        return new NumValue(expression.value);
+        return new NumberValue(expression.value);
     }
 
     @Override

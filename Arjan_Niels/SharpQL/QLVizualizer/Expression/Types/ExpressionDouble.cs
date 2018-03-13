@@ -30,7 +30,7 @@ namespace QLVisualizer.Expression.Types
                     throw new NotImplementedException();
 
                 AddToChain(expression.GetExpression(), op);
-                UsedWidgetIDs = CombineWidgets(expressionValue);
+                UsedIdentifiers = CombineWidgets(expressionValue);
                 return this;
             }
             throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, expressionValue.Type, op));
@@ -112,7 +112,7 @@ namespace QLVisualizer.Expression.Types
         /// <param name="expressionDouble">Double expression</param>
         public static implicit operator ExpressionInt(ExpressionDouble expressionDouble)
         {
-            return new ExpressionInt(expressionDouble.UsedWidgetIDs, () => (int)expressionDouble.Result);
+            return new ExpressionInt(expressionDouble.UsedIdentifiers, () => (int)expressionDouble.Result);
         }
     }
 }

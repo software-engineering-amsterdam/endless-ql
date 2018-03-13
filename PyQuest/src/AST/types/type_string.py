@@ -14,5 +14,9 @@ class TypeString(Type):
         return type(self) == type(other)
 
     @staticmethod
+    def cast(value):
+        return str(value)
+
+    @staticmethod
     def pyqt5_default_widget():
         return LineEdit()

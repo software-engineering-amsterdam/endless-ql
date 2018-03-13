@@ -15,6 +15,10 @@ class TypeInteger(Type):
         return type(self) == type(other)
 
     @staticmethod
+    def cast(value):
+        return int(value)
+
+    @staticmethod
     def get_literal_node(value):
         return IntegerNode(None, TypeInteger, value)
 

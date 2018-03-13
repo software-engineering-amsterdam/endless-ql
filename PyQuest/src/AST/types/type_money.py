@@ -14,5 +14,9 @@ class TypeMoney(Type):
         return type(self) == type(other)
 
     @staticmethod
+    def cast(value):
+        return round(float(value), 2)
+
+    @staticmethod
     def pyqt5_default_widget():
         return DoubleSpinBox()

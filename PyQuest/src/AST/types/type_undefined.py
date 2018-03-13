@@ -15,6 +15,10 @@ class TypeUndefined(Type):
         return type(self) == type(other)
 
     @staticmethod
+    def cast(value):
+        return
+
+    @staticmethod
     def get_literal_node():
         return UndefinedNode(None, TypeUndefined, None)
 

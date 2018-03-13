@@ -14,5 +14,9 @@ class TypeDate(Type):
         return type(self) == type(other)
 
     @staticmethod
+    def cast(value):
+        return
+
+    @staticmethod
     def pyqt5_default_widget():
         return CalendarWidget()

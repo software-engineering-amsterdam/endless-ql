@@ -15,6 +15,10 @@ class TypeDecimal(Type):
         return type(self) == type(other)
 
     @staticmethod
+    def cast(value):
+        return float(value)
+
+    @staticmethod
     def get_literal_node(value):
         return DecimalNode(None, TypeDecimal, value)
 

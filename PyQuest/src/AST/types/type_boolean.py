@@ -15,6 +15,10 @@ class TypeBoolean(Type):
         return type(self) == type(other)
 
     @staticmethod
+    def cast(value):
+        return bool(value)
+
+    @staticmethod
     def get_literal_node(value):
         return BooleanNode(None, TypeBoolean, value)
 

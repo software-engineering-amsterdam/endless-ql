@@ -75,14 +75,12 @@ public class ASTBuilder extends QLBaseVisitor<ASTNode> {
 
         }
 
-        IfStatement ifStatement = new IfStatement(
+        return new IfStatement(
                 ifConditionExpression,
                 ifStatementList,
                 elseStatementList,
                 this.ExtractMetaInformationFromContext(ctx)
         );
-
-        return ifStatement;
     }
 
     @Override

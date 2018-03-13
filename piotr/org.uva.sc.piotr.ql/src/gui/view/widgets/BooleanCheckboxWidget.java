@@ -6,7 +6,6 @@ import gui.view.Widget;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class BooleanCheckboxWidget extends Widget {
 

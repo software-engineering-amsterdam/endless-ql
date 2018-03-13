@@ -6,6 +6,7 @@ import com.sun.tools.javac.util.Pair;
 
 import java.math.BigDecimal;
 
+// TODO: Should the methods return new instances od MixedValueHolder, or rather modified (possibly) left one?
 public class MixedValueHolder {
 
     private Expression.DataType type;

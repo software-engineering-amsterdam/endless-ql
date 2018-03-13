@@ -19,7 +19,6 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,15 +38,15 @@ public class Main {
         // Collect all references from all expressions in the form (both: assignments and conditions)
         CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
         form.accept(collectReferencesVisitor);
-        ArrayList<VariableReference> references = collectReferencesVisitor.getVariableReferences();
+        List<VariableReference> references = collectReferencesVisitor.getVariableReferences();
 
         // Collect all questions
         CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
         form.accept(collectQuestionsVisitor);
-        ArrayList<Question> questions = collectQuestionsVisitor.getQuestions();
+        List<Question> questions = collectQuestionsVisitor.getQuestions();
 
         // Validate questions against cyclic dependency @TODO: finish
-        HashMap<Question, ArrayList<VariableReference>> questionsMap = collectQuestionsVisitor.getQuestionsMap();
+        HashMap<Question, List<VariableReference>> questionsMap = collectQuestionsVisitor.getQuestionsMap();
         QuestionsDependencyValidator questionsDependencyValidator = new QuestionsDependencyValidator(questionsMap);
 
         // Validate undeclared variables usage in questions and conditions

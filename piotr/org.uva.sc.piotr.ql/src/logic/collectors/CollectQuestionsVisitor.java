@@ -6,17 +6,18 @@ import ast.visitors.AbstractASTTraverse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CollectQuestionsVisitor extends AbstractASTTraverse<Void> {
 
     // AST node as key
-    private HashMap<Question, ArrayList<VariableReference>> questionsMap = new HashMap<>();
+    private HashMap<Question, List<VariableReference>> questionsMap = new HashMap<>();
 
-    public ArrayList<Question> getQuestions() {
+    public List<Question> getQuestions() {
         return new ArrayList<>(this.questionsMap.keySet());
     }
 
-    public HashMap<Question, ArrayList<VariableReference>> getQuestionsMap() {
+    public HashMap<Question, List<VariableReference>> getQuestionsMap() {
         return questionsMap;
     }
 
@@ -28,7 +29,7 @@ public class CollectQuestionsVisitor extends AbstractASTTraverse<Void> {
             question.getAssignedExpression().accept(collectReferencesVisitor);
         }
 
-        ArrayList<VariableReference> references = collectReferencesVisitor.getVariableReferences();
+        List<VariableReference> references = collectReferencesVisitor.getVariableReferences();
 
         if (question.getAssignedExpression() != null) {
             question.getAssignedExpression().accept(this);

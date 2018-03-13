@@ -3,9 +3,9 @@ package logic.validators;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 public class QuestionsDependencyValidator {
@@ -52,11 +52,11 @@ public class QuestionsDependencyValidator {
         }
     }
 
-    public QuestionsDependencyValidator(HashMap<Question, ArrayList<VariableReference>> questionsMap) {
+    public QuestionsDependencyValidator(HashMap<Question, List<VariableReference>> questionsMap) {
         this.CreateGraph(questionsMap);
     }
 
-    private void CreateGraph(HashMap<Question, ArrayList<VariableReference>> questionsMap) {
+    private void CreateGraph(HashMap<Question, List<VariableReference>> questionsMap) {
 
         // create nodes
         for (Question question : questionsMap.keySet()) {
@@ -64,7 +64,7 @@ public class QuestionsDependencyValidator {
         }
 
         // create edges
-        for (Map.Entry<Question, ArrayList<VariableReference>> entry : questionsMap.entrySet()) {
+        for (Map.Entry<Question, List<VariableReference>> entry : questionsMap.entrySet()) {
 
             // for each given question (entry)
             Node referringNode = this.nodes.get(entry.getKey().getVariableName());
@@ -84,6 +84,7 @@ public class QuestionsDependencyValidator {
     }
 
 
+    // TODO: write code
     private void ConstructTransitiveClosure() {
         
     }

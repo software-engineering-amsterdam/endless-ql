@@ -54,7 +54,7 @@ class Question:
         widget, self.answer = self.map.getWidget(questionType)
 
     """
-        Getters and setters
+        Getters and setters ----------------------------
     """
     def emptyFrame(self):
         self.frame.destroy()

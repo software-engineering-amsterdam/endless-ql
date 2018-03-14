@@ -55,7 +55,7 @@ def getAstFromString(input):
 def main(argv):
     # used to log debug self.logger.debugs
     # set to logging.DEBUG to show debug messages, logging.ERROR to not show
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.ERROR)
     logger = logging.getLogger(__name__)
     # QL
     if len(argv)>1:
@@ -84,8 +84,8 @@ def main(argv):
     # start up Gui
     Gui(ast, False)
 
-
     # QLS
+    """
     if len(argv)>2:
         input_file = argv[2]
     else:
@@ -101,6 +101,7 @@ def main(argv):
     qlsVisitor = QLSVisitor()
     qlsVisitor.visit(qlsTree)
     print(qlsVisitor.stylesheet)
+    """
     # print(qlsTree.toStringTree())
 
 

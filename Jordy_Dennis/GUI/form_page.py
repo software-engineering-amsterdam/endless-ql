@@ -12,6 +12,7 @@ from .form_question import Question
 class Page():
 
     def __init__(self, parent, questionGenerator, page_header='Page1', color='green'):
+        self.questionGenerator = questionGenerator
         self.frame = create_frame(parent, color)
         self.frame.pack(expand=True, fill='both')
         self.sfg = ScrollFrameGui(self.frame)
@@ -46,16 +47,15 @@ class Page():
                 self.questions.remove(question)
                 question.emptyFrame()
 
-
-    def getFrame(self):
-        return self.frame
-
-    def getContents(self):
-        return self.contents
-
     def emptyFrame(self):
         f = self.sfg.getFrame()
         f.destroy()
         self.sfg = ScrollFrameGui(self.frame)
         self.contents = self.sfg.getContents()
+        return self.contents
+
+    def getFrame(self):
+        return self.frame
+
+    def getContents(self):
         return self.contents

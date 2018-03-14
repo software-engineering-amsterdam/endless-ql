@@ -7,18 +7,20 @@ import javafx.scene.Node;
 
 public class BooleanVariable extends Variable {
 
-    private Value value;
+    private Value<Boolean> value;
 
     public BooleanVariable(String identifier) {
         super(identifier);
+        this.value = new BooleanValue(false); // TODO move setting of value upstream (pass in consturctor)
     }
+
     @Override
     public Value getValue() {
         return value;
     }
-    @Override
-    public void setValue(BooleanValue value){
-        this.value = value;
+
+    public void setValue(Boolean newValue){
+        this.value.setValue(newValue);
     }
 
     @Override

@@ -56,22 +56,22 @@ public class ApplicationRunner implements CommandLineRunner {
         // AST is initialised here.
         AstRoot astRoot = (AstRoot)visitor.visit(tree);
 
-        // Run Typechecker
-        TypeChecker typeChecker = new TypeChecker();
-        List<TypeCheckError> errors = typeChecker.typeCheckAst(astRoot);
-
-        if (errors.size() > 0) {
-            for (TypeCheckError error : errors) {
-                System.out.println(String.format(
-                        "TypeCheckError line %d, column %d: %s",
-                        error.getLineNumber(),
-                        error.getColumnNumber(),
-                        error.getMessage()
-                ));
-            }
-
-            System.exit(1);
-        }
+//        // Run Typechecker
+//        TypeChecker typeChecker = new TypeChecker();
+//        List<TypeCheckError> errors = typeChecker.typeCheckAst(astRoot);
+//
+//        if (errors.size() > 0) {
+//            for (TypeCheckError error : errors) {
+//                System.out.println(String.format(
+//                        "TypeCheckError line %d, column %d: %s",
+//                        error.getLineNumber(),
+//                        error.getColumnNumber(),
+//                        error.getMessage()
+//                ));
+//            }
+//
+//            System.exit(1);
+//        }
 
         // If everything ok, build form with new Visitor (extend NodeVisitor in
         // com.chariotit.uva.sc.qdsl.ast.visitor)
@@ -79,6 +79,7 @@ public class ApplicationRunner implements CommandLineRunner {
         // SymbolTable is initialised in TypeChecker
 
 
+        System.out.println("finished");
         System.out.println(astRoot);
     }
 

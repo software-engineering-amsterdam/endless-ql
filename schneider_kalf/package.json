@@ -36,8 +36,5 @@
     "typescript": "^2.7.1"
   },
   "jest": {
-    "transformIgnorePatterns": [
-      "/!node_modules\\/decimal.js/"
-    ]
   }
 }

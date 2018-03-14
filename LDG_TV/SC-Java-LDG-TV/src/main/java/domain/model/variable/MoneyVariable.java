@@ -11,6 +11,7 @@ public class MoneyVariable extends Variable {
 
     public MoneyVariable(String identifier) {
         super(identifier);
+        value = new MoneyValue(0); // TODO move setting of value upstream (pass in consturctor)
     }
     @Override
     public Value getValue() {

@@ -16,4 +16,9 @@ public class StringValue extends Value<String>{
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public void accept(String s) throws Exception {
+        this.value = s;
+    }
 }

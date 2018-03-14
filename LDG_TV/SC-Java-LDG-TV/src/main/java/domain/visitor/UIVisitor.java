@@ -6,7 +6,10 @@ import domain.model.value.MoneyValue;
 import domain.model.variable.BooleanVariable;
 import domain.model.variable.MoneyVariable;
 import domain.model.variable.StringVariable;
+import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -17,8 +20,9 @@ public class UIVisitor implements Visitor {
     @Override
     public Node visit(BooleanVariable bv) {
         CheckBox cb = new CheckBox();
-        cb.selectedProperty()
-                .addListener((observable, oldValue, newValue) -> bv.setValue(newValue));
+
+        JavaFxObservable.valuesOf(cb.selectedProperty())
+                .subscribe(bv.getValue());
         return cb;
     }
 
@@ -26,9 +30,7 @@ public class UIVisitor implements Visitor {
     public Node visit(StringVariable sv) {
         TextField tf = new TextField();
 
-        tf.textProperty()
-                .addListener((observable, oldValue, newValue) -> sv.setValue(newValue));
-
+        JavaFxObservable.valuesOf(tf.textProperty()).subscribe(sv.getValue());
         return tf;
     }
 
@@ -43,17 +45,25 @@ public class UIVisitor implements Visitor {
     public Node visit(MoneyVariable mv) {
         TextField tf = new TextField();
 
-        tf.textProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    boolean isNotNumeric =!Utilities.isNumeric(newValue);
-                    if(isNotNumeric){
-                        System.out.println("Got a non-numeric value!");
-                        return;
-                    }
+        System.out.println("Money Val "+mv.getValue());
 
-                    int val = Integer.valueOf(newValue);
-                    mv.setValue(new MoneyValue(val));
-                });
+        JavaFxObservable.valuesOf(tf.textProperty())
+                .filter(Utilities::isNumeric)
+                .map(Integer::valueOf)
+                .subscribe(mv.getValue());
+
+
+//        tf.textProperty()
+//                .addListener((observable, oldValue, newValue) -> {
+//                    boolean isNotNumeric =!Utilities.isNumeric(newValue);
+//                    if(isNotNumeric){
+//                        System.out.println("Got a non-numeric value!");
+//                        return;
+//                    }
+//
+//                    int val = Integer.valueOf(newValue);
+//                    mv.setValue(new MoneyValue(val));
+//                });
 
 
         return tf;

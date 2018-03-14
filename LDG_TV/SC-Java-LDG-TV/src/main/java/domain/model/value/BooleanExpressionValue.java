@@ -41,4 +41,9 @@ public class BooleanExpressionValue extends Value<Boolean>{
     public void setValue(Boolean value) {
         // TODO
     }
+
+    @Override
+    public void accept(Boolean aBoolean) throws Exception {
+
+    }
 }

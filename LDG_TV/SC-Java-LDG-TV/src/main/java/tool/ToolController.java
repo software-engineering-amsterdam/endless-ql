@@ -10,6 +10,8 @@ import domain.model.QuestionASTNode;
 import domain.model.variable.Variable;
 import domain.visitor.UIVisitor;
 import domain.visitor.Visitor;
+import io.reactivex.Observable;
+import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,6 +37,9 @@ public class ToolController implements Initializable {
     @FXML
     private ListView<Row> lvQuestionnaire;
 
+    @FXML
+    private Button btnBuild;
+
     private List<Row> data = new ArrayList<>();
 
     public ToolController() {
@@ -43,6 +48,14 @@ public class ToolController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Pane initialized");
+
+        Observable<ActionEvent> btnEvents = JavaFxObservable.eventsOf(btnBuild, ActionEvent.ACTION);
+
+
+
+        btnEvents.subscribe(actionEvent -> System.out.println("Action: "+actionEvent), throwable -> {
+            System.out.println(throwable);
+        });
     }
 
     /**

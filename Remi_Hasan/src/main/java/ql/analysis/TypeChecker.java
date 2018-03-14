@@ -48,17 +48,16 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
         for (Question question : form.questions) {
             this.visit(question.condition);
 
-            // Only check expression when it is a predefined expression
+            // Check type of computed answer is same as the question type
             if (question.isComputed()) {
-                ReturnType defaultAnswerType = this.visit(question.defaultAnswer);
+                ReturnType computedAnswerType = this.visit(question.computedAnswer);
 
                 // Any type of number expression can be assigned to another number type field
                 ReturnType questionType = question.type.isNumber() ? ReturnType.NUMBER : question.type;
 
-                // Check if question type is same as assigned expression type
-                if (defaultAnswerType != questionType) {
-                    throw new IllegalArgumentException("Invalid assignment: cannot assign " + defaultAnswerType + " to " + question.type +
-                            question.getLocation());
+                if (computedAnswerType != questionType) {
+                    throw new IllegalArgumentException("Invalid assignment: cannot assign " + computedAnswerType
+                            + " to " + question.type + question.getLocation());
                 }
             }
         }

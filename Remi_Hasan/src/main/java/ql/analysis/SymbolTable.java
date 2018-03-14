@@ -22,7 +22,7 @@ public class SymbolTable {
     public void buildTable(Form form) {
         for (Question question : form.questions) {
             if(question.isComputed()) {
-                table.put(question.name, question.defaultAnswer);
+                table.put(question.name, question.computedAnswer);
             } else {
                 table.put(question.name, new ExpressionVariableUndefined(question.getToken(), question.type));
             }

@@ -11,7 +11,7 @@ public class Question extends Node {
     public final ReturnType type;
     public final String name;
     public final String text;
-    public final Expression defaultAnswer;
+    public final Expression computedAnswer;
     public final Expression condition;
     private final boolean isComputed;
 
@@ -20,7 +20,7 @@ public class Question extends Node {
         this.type = type;
         this.name = name;
         this.text = text;
-        this.defaultAnswer = null;
+        this.computedAnswer = null;
         this.isComputed = false;
         this.condition = condition;
     }
@@ -30,7 +30,7 @@ public class Question extends Node {
         this.type = type;
         this.name = name;
         this.text = text;
-        this.defaultAnswer = defaultAnswer;
+        this.computedAnswer = defaultAnswer;
         this.isComputed = true;
         this.condition = condition;
     }

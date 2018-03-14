@@ -21,23 +21,33 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
 
     private final Form form;
     private final SymbolTable symbolTable;
-    private final Set<String> errors;
 
     public TypeChecker(Form form, SymbolTable symbolTable) {
         this.form = form;
         this.symbolTable = symbolTable;
-        this.errors = new HashSet<>();
     }
 
-    public Set<String> getErrors() {
-        return this.errors;
+    public void detectDuplicateQuestionsWithDifferentTypes() {
+        Map<String, ReturnType> types = new HashMap<>();
+        Set<String> duplicates = new HashSet<>();
+
+        for (Question question : form.questions) {
+            if (types.containsKey(question.name) && types.get(question.name) != question.type) {
+                duplicates.add(question.name + " " + question.getLocation());
+            } else {
+                types.put(question.name, question.type);
+            }
+        }
+
+        if (!duplicates.isEmpty()) {
+            throw new IllegalArgumentException("Redeclaration of question(s) with different type: " + duplicates);
+        }
     }
 
-    public Set<String> typeCheck() {
+    public void typeCheck() {
         for (Question question : form.questions) {
             this.visit(question.condition);
 
-            // Check if question type is same as assigned expression type
             // Only check expression when it is a predefined expression
             if (question.isComputed()) {
                 ReturnType defaultAnswerType = this.visit(question.defaultAnswer);
@@ -45,29 +55,13 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
                 // Any type of number expression can be assigned to another number type field
                 ReturnType questionType = question.type.isNumber() ? ReturnType.NUMBER : question.type;
 
+                // Check if question type is same as assigned expression type
                 if (defaultAnswerType != questionType) {
-                    errors.add("Invalid assignment: cannot assign " + defaultAnswerType + " to " + question.type +
+                    throw new IllegalArgumentException("Invalid assignment: cannot assign " + defaultAnswerType + " to " + question.type +
                             question.getLocation());
                 }
             }
         }
-
-        return this.errors;
-    }
-
-    public Set<String> checkDuplicateQuestionsWithDifferentTypes() {
-        Map<String, ReturnType> types = new HashMap<>();
-        Set<String> duplicateQuestionsWithDifferentType = new HashSet<>();
-
-        for (Question question : form.questions) {
-            if(types.containsKey(question.name) && types.get(question.name) != question.type) {
-                duplicateQuestionsWithDifferentType.add(question.name + " " + question.getLocation());
-            } else {
-                types.put(question.name, question.type);
-            }
-        }
-
-        return duplicateQuestionsWithDifferentType;
     }
 
     private ReturnType checkBinaryArithmetic(ExpressionBinary expression, String operation) {
@@ -76,7 +70,8 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
                 && expression.right.accept(this).isNumber();
 
         if (!selfValid) {
-            errors.add("Invalid " + operation + ": non-numeric value in expression " + expression.getLocation());
+            throw new IllegalArgumentException("Invalid " + operation + ": non-numeric value in expression "
+                    + expression.getLocation());
         }
 
         return ReturnType.NUMBER;
@@ -88,7 +83,8 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
                 && expression.right.accept(this).isNumber();
 
         if (!selfValid) {
-            errors.add("Invalid " + operation + ": non-numeric value in expression" + expression.getLocation());
+            throw new IllegalArgumentException("Invalid " + operation + ": non-numeric value in expression"
+                    + expression.getLocation());
         }
 
         return ReturnType.BOOLEAN;
@@ -100,7 +96,8 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
                 && expression.right.accept(this) == ReturnType.BOOLEAN;
 
         if (!selfValid) {
-            errors.add("Invalid " + operation + ": non-boolean value in expression" + expression.getLocation());
+            throw new IllegalArgumentException("Invalid " + operation + ": non-boolean value in expression"
+                    + expression.getLocation());
         }
 
         return ReturnType.BOOLEAN;
@@ -136,7 +133,8 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
         boolean selfValid = expression.left.accept(this) == expression.right.accept(this);
 
         if (!selfValid) {
-            errors.add("Invalid EQ: comparing values of different types" + expression.getLocation());
+            throw new IllegalArgumentException("Invalid EQ: comparing values of different types"
+                    + expression.getLocation());
         }
 
         return ReturnType.BOOLEAN;
@@ -177,7 +175,7 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
         boolean selfValid = expression.value.accept(this) == ReturnType.BOOLEAN;
 
         if (!selfValid) {
-            errors.add("Invalid NOT: non-boolean expression " + expression.getLocation());
+            throw new IllegalArgumentException("Invalid NOT: non-boolean expression " + expression.getLocation());
         }
 
         return ReturnType.BOOLEAN;
@@ -188,7 +186,7 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
         boolean selfValid = expression.value.accept(this) == ReturnType.NUMBER;
 
         if (!selfValid) {
-            errors.add("Invalid NEG: non-numeric expression " + expression.getLocation());
+            throw new IllegalArgumentException("Invalid NEG: non-numeric expression " + expression.getLocation());
         }
 
         return ReturnType.NUMBER;

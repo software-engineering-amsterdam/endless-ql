@@ -49,7 +49,11 @@ public class EvaluateExpressionVisitor implements ASTVisitor<Double> {
 
     public double visit(DivisionNode node)
     {
+        double divisor = visit(node.Right);
+        if (divisor != 0.0)
+        {
         return visit(node.Left) / visit(node.Right);
+        }else {return 1.0;} //TODO: Add exception error
     }
 
     public double visit(NegateNode node)

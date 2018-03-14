@@ -7,30 +7,29 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
 
 
     @Override
-    public ExpressionNode visitMathUnit(GrammarParser.MathUnitContext ctx) {
-        return super.visitMathUnit(ctx);
+    public ExpressionNode visitMathUnit(GrammarParser.MathUnitContext context) {
+        return super.visitMathUnit(context);
     }
 
 
     @Override
-    public ExpressionNode visitNumberExpression(GrammarParser.NumberExpressionContext ctx) {
-        System.out.println("I visited this leaf with value = " + ctx.value.getText());
+    public ExpressionNode visitNumberExpression(GrammarParser.NumberExpressionContext context) {
+        System.out.println("I visited this leaf with value = " + context.value.getText());
         NumberNode number = new NumberNode();
-        number.setValue(Double.valueOf(ctx.value.getText()));
+        number.setValue(Double.valueOf(context.value.getText()));
         number.getValue();
         return number;
     }
 
     @Override
-    public ExpressionNode visitParenthesisExpression(GrammarParser.ParenthesisExpressionContext ctx) {
-        return super.visitParenthesisExpression(ctx);
+    public ExpressionNode visitParenthesisExpression(GrammarParser.ParenthesisExpressionContext context) {
+        return super.visitParenthesisExpression(context);
     }
 
     @Override
     public ExpressionNode visitInfixExpression(GrammarParser.InfixExpressionContext context){
 
         InfixExpressionNode node;
-        System.out.println("Context.op is " + context.op.getType() + " and GrammarParser.PLUS is " + GrammarParser.PLUS);
 
         switch(context.op.getType()){
             case GrammarParser.PLUS:
@@ -73,14 +72,14 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
     }
 
     @Override
-    public ExpressionNode visitUnaryExpression(GrammarParser.UnaryExpressionContext ctx) {
-        switch (ctx.op.getType()){
+    public ExpressionNode visitUnaryExpression(GrammarParser.UnaryExpressionContext context) {
+        switch (context.op.getType()){
             case GrammarParser.PLUS:
-                return visit(ctx.expression());
+                return visit(context.expression());
             case GrammarParser.MINUS:
             {
                 NegateNode negateNode = new NegateNode();
-                negateNode.setInnerNode(visit(ctx.expression()));
+                negateNode.setInnerNode(visit(context.expression()));
                 negateNode.getInnerNode();
                 return negateNode;
             }

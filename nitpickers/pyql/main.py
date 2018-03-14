@@ -3,10 +3,7 @@ from antlr4 import *
 from pyql.antlr.QLLexer import QLLexer
 from pyql.antlr.QLParser import QLParser
 from pyql.ast.parse_tree_visitor import ParseTreeVisitor
-
-from pyql.static_analysis.ast_visitor import ASTVisitor
-
-from pyql.static_analysis.symbol_table import *
+from pyql.static_analysis.static_checker import StaticChecker
 
 
 def main(argv):
@@ -21,14 +18,8 @@ def main(argv):
     c = tree.accept(visitor)
     print(c)
 
-    stb = SymbolTableBuilder()
-    st = stb.build_from_tree(c)
-
-    print(st)
-
-    vv = ASTVisitor(stb.symbol_table)
-    c.accept(vv)
-    # print(c)
+    sc = StaticChecker()
+    sc.run(c)
 
 
 if __name__ == '__main__':

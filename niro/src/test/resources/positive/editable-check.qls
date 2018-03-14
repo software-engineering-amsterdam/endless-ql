@@ -1,17 +1,32 @@
 stylesheet EditOrNotToEdit {
     page PageOne {
         section "Variables" {
+            question stringVariable
+            question booleanVariable
             question integerVariable
+            question decimalVariable
+            question moneyVariable
+            question dateVariable
         }
     }
     page PageTwo {
         section "Variables" {
-            question integerVariable
+            question stringConstant
+            question booleanConstant
+            question integerConstant
+            question stringExpression
+            question booleanExpression
+            question integerExpression
         }
     }
     page PageThree {
         section "Variables" {
-            question integerVariable
+            question decimalConstant
+            question moneyConstant
+            question dateConstant
+            question decimalExpression
+            question moneyExpression
+            question dateExpression
         }
     }
 }

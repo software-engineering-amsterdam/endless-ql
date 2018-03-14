@@ -14,9 +14,7 @@ object QLSTypeChecker extends Logging {
     } yield stylesheet
 
   def checkReferences(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] = {
-    val questionInStylesheet = stylesheet
-      .collectAllQuestions()
-      .filter(question => !form.symbolTable.isDefinedAt(question.name))
+    val questionInStylesheet = stylesheet.collectAllQuestions()
     val questionsOnForm = Statement.collectAllQuestions(form.statements)
 
     val uniqueQuestionNamesInStylesheet = questionInStylesheet.map(_.name).toSet

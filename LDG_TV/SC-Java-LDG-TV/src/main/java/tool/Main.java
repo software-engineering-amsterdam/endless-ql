@@ -3,6 +3,8 @@ package tool;
 
 import antlr.ql.FormLexer;
 import antlr.ql.FormParser;
+import domain.model.Condition;
+import domain.model.IfASTNode;
 import domain.visitor.UIVisitor;
 import loader.QLLoader;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -22,6 +24,8 @@ public class Main {
             QLLoader loader = new QLLoader();
             UIVisitor visitor = new UIVisitor();
             ParseTreeWalker.DEFAULT.walk(loader, tree);
+            IfASTNode f =(IfASTNode) loader.getFormNode().getASTNodes().get(3);
+            System.out.println(f.checkConditions());
         } catch (IOException e) {
             e.printStackTrace();
         }

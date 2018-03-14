@@ -34,6 +34,7 @@ expression: BRACKET_OPEN (booleanExpression | arithmeticExpression) BRACKET_CLOS
 
 booleanExpression: unaryBooleanExpression | gteoqExpression | gtExpression | stExpression | stoeqExpression | eqExpression | neqExpression;
 
+
 unaryBooleanExpression: '!' value;
 gtExpression: variable GT variable ;
 gteoqExpression: variable GTOEQ variable ;

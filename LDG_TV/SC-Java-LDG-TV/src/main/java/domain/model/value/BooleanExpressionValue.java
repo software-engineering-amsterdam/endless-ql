@@ -16,23 +16,19 @@ public class BooleanExpressionValue extends Value<Boolean>{
     }
     @Override
     public Boolean getValue() {
-        try {
-            switch (operator) {
-                case ">":
-                    return (Integer) this.leftHandOperand.getValue().getValue() >  (Integer) this.rightHandOperand.getValue().getValue();
-                case "==":
-                    return (Integer) this.leftHandOperand.getValue().getValue() ==  (Integer) this.rightHandOperand.getValue().getValue();
-                case "!=":
-                    return (Integer) this.leftHandOperand.getValue().getValue() !=  (Integer) this.rightHandOperand.getValue().getValue();
-                case "<":
-                    return (Integer) this.leftHandOperand.getValue().getValue() <  (Integer) this.rightHandOperand.getValue().getValue();
-                case ">=":
-                    return (Integer) this.leftHandOperand.getValue().getValue() >= (Integer) this.rightHandOperand.getValue().getValue();
-                case "<=":
-                    return (Integer) this.leftHandOperand.getValue().getValue() <= (Integer) this.rightHandOperand.getValue().getValue();
-            }
-        }catch(InvalidArithmaticExpressionException e){
-            throw new InvalidArithmaticExpressionException("Invalid aritmatic expression found. Are you using strings were numbers are expected?");
+        switch (operator) {
+            case "==":
+                return (Boolean) this.leftHandOperand.getValue().getValue() ==  (Boolean) this.rightHandOperand.getValue().getValue();
+            case "!=":
+                return (Boolean) this.leftHandOperand.getValue().getValue() !=  (Boolean) this.rightHandOperand.getValue().getValue();
+            case ">":
+                return (Integer) this.leftHandOperand.getValue().getValue() >  (Integer) this.rightHandOperand.getValue().getValue();
+            case "<":
+                return (Integer) this.leftHandOperand.getValue().getValue() <  (Integer) this.rightHandOperand.getValue().getValue();
+            case ">=":
+                return (Integer) this.leftHandOperand.getValue().getValue() >= (Integer) this.rightHandOperand.getValue().getValue();
+            case "<=":
+                return (Integer) this.leftHandOperand.getValue().getValue() <= (Integer) this.rightHandOperand.getValue().getValue();
         }
         return false;
     }

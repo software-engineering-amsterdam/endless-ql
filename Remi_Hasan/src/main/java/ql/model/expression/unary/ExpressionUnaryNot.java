@@ -1,9 +1,12 @@
 package ql.model.expression.unary;
 
+import ql.evaluation.Binding;
 import ql.evaluation.IExpressionVisitor;
 import ql.model.expression.Expression;
 import ql.model.expression.ExpressionUnary;
 import org.antlr.v4.runtime.Token;
+
+import java.util.List;
 
 public class ExpressionUnaryNot extends ExpressionUnary<Boolean> {
 
@@ -12,7 +15,7 @@ public class ExpressionUnaryNot extends ExpressionUnary<Boolean> {
     }
 
     @Override
-    public <T> T accept(IExpressionVisitor<T> visitor) {
-        return visitor.visit(this);
+    public <T> T accept(IExpressionVisitor<T> visitor, List<Binding> bindings) {
+        return visitor.visit(this, bindings);
     }
 }

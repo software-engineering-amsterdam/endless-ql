@@ -1,4 +1,5 @@
 import gui.FormRenderer;
+import ql.evaluation.Binding;
 import ql.parser.FormParser;
 import ql.analysis.*;
 import javafx.application.Application;
@@ -65,8 +66,7 @@ public class Main extends Application {
     private void loadForm(Stage stage, File file) {
         try {
             Form form = FormParser.parseForm(new FileInputStream(file));
-
-            SymbolTable symbolTable = new SymbolTable(form);
+            ReferencedIdentifiersVisitor referencedIdentifiersVisitor = new ReferencedIdentifiersVisitor();
 
             // TODO: just throw exceptions
             UnknownIdentifiersDetector unknownIdentifiersDetector = new UnknownIdentifiersDetector(form);
@@ -84,7 +84,7 @@ public class Main extends Application {
                 return;
             }
 
-            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
+            TypeChecker typeChecker = new TypeChecker(form);
 
             // Check for duplicate questions with different type
             Set<String> duplicateQuestionsWithDifferentTypes = typeChecker.checkDuplicateQuestionsWithDifferentTypes();
@@ -102,7 +102,7 @@ public class Main extends Application {
 //            File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
 //            StyleSheet styleSheet = qls.StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));
 
-            FormRenderer formRenderer = new FormRenderer(form, symbolTable);
+            FormRenderer formRenderer = new FormRenderer(form);
             formRenderer.renderForm(stage);
         } catch (FileNotFoundException e) {
             showErrorAlert(e, "Form file not found");

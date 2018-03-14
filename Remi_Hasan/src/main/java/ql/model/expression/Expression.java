@@ -1,8 +1,11 @@
 package ql.model.expression;
 
+import ql.evaluation.Binding;
 import ql.evaluation.IExpressionVisitor;
 import ql.model.Node;
 import org.antlr.v4.runtime.Token;
+
+import java.util.List;
 
 public abstract class Expression extends Node {
 
@@ -10,5 +13,5 @@ public abstract class Expression extends Node {
         super(start);
     }
 
-    public abstract <T> T accept(IExpressionVisitor<T> visitor);
+    public abstract <T> T accept(IExpressionVisitor<T> visitor, List<Binding> bindings);
 }

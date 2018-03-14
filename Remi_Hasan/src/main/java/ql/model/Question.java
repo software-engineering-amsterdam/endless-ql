@@ -1,7 +1,5 @@
 package ql.model;
 
-import ql.analysis.SymbolTable;
-import ql.evaluation.ExpressionEvaluator;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 import org.antlr.v4.runtime.Token;
@@ -27,10 +25,10 @@ public class Question extends Node {
         this.condition = condition;
     }
 
-    public boolean isVisible(SymbolTable symbolTable) {
-        ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(symbolTable);
-        return interpreterVisitor.visit(this.condition).getBooleanValue();
-    }
+//    public boolean isVisible(SymbolTable symbolTable) {
+//        ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(symbolTable);
+//        return interpreterVisitor.visit(this.condition).getBooleanValue();
+//    }
 
     public boolean isComputed() {
         return isComputed;

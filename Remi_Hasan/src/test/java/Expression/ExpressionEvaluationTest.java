@@ -1,12 +1,9 @@
 package Expression;
 
 import Parser.ANTLRTester;
-import ql.analysis.SymbolTable;
-import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import ql.model.expression.Expression;
 import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;

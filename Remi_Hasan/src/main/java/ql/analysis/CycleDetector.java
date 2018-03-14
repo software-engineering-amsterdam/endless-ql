@@ -1,5 +1,6 @@
 package ql.analysis;
 
+import ql.evaluation.Binding;
 import ql.model.Form;
 import ql.model.Question;
 import org.jgrapht.Graph;
@@ -28,12 +29,13 @@ public class CycleDetector {
 
     private void addReferenceEdges(Graph<String, DefaultEdge> graph) {
         ReferencedIdentifiersVisitor referencedIdentifiersVisitor = new ReferencedIdentifiersVisitor();
+        List<Binding> bindings = referencedIdentifiersVisitor.getBindings(form);
 
         for (Question question : form.questions) {
             // Only check expression when it is a predefined expression
             if (question.isComputed()) {
                 // For each question, add references to other questions to the graph
-                List<String> referencedIdentifiers = referencedIdentifiersVisitor.visit(question.defaultAnswer);
+                List<String> referencedIdentifiers = referencedIdentifiersVisitor.visit(question.defaultAnswer, bindings);
                 for (String identifier : referencedIdentifiers) {
                     graph.addEdge(question.name, identifier);
                 }

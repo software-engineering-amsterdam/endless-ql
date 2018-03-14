@@ -1,6 +1,5 @@
 package Parser;
 
-import ql.analysis.SymbolTable;
 import ql.parser.QLLexer;
 import ql.parser.QLParser;
 import ql.evaluation.ExpressionEvaluator;
@@ -9,6 +8,8 @@ import ql.model.expression.Expression;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import ql.visitor.VisitorExpression;
+
+import java.util.ArrayList;
 
 public class ANTLRTester {
 
@@ -26,10 +27,7 @@ public class ANTLRTester {
 
     public static Value evaluateExpression(String input) {
         Expression expression = expressionFromString(input);
-
-        SymbolTable symbolTable = new SymbolTable();
-        ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(symbolTable);
-
-        return interpreterVisitor.visit(expression);
+        ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator();
+        return interpreterVisitor.visit(expression, new ArrayList<>());
     }
 }

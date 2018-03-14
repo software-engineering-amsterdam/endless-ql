@@ -1,8 +1,11 @@
 package ql.model.expression.variable;
 
+import ql.evaluation.Binding;
 import ql.evaluation.IExpressionVisitor;
 import ql.model.expression.ExpressionVariable;
 import org.antlr.v4.runtime.Token;
+
+import java.util.List;
 
 public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
 
@@ -11,7 +14,7 @@ public class ExpressionVariableDecimal extends ExpressionVariable<Double> {
     }
 
     @Override
-    public <T> T accept(IExpressionVisitor<T> visitor) {
-        return visitor.visit(this);
+    public <T> T accept(IExpressionVisitor<T> visitor, List<Binding> bindings) {
+        return visitor.visit(this, bindings);
     }
 }

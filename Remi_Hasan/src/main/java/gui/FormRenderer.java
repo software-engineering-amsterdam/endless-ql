@@ -1,10 +1,10 @@
 package gui;
 
-import ql.analysis.SymbolTable;
+import gui.formfx.control.Input;
+import gui.formfx.field.Field;
+import gui.formfx.field.FieldGroup;
+import gui.formfx.form.GridForm;
 import javafx.event.ActionEvent;
-import ql.model.expression.Expression;
-import ql.model.expression.ReturnType;
-import ql.model.expression.variable.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -12,31 +12,34 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ql.analysis.Lookup;
+import ql.analysis.ReferencedIdentifiersVisitor;
+import ql.evaluation.Binding;
+import ql.evaluation.ExpressionEvaluator;
+import ql.evaluation.value.Value;
 import ql.model.Form;
 import ql.model.Question;
-import gui.formfx.control.Input;
-import gui.formfx.field.Field;
-import gui.formfx.field.FieldGroup;
-import gui.formfx.form.GridForm;
+import ql.model.expression.Expression;
+import ql.model.expression.ReturnType;
+import ql.model.expression.variable.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class FormRenderer {
 
     private final Form form;
-    private final SymbolTable symbolTable;
+    private List<Binding> bindings;
 
-    public FormRenderer(Form form, SymbolTable symbolTable) {
+    public FormRenderer(Form form) {
         this.form = form;
-        this.symbolTable = symbolTable;
+        ReferencedIdentifiersVisitor referencedIdentifiersVisitor = new ReferencedIdentifiersVisitor();
+        this.bindings = referencedIdentifiersVisitor.getBindings(form);
     }
 
     public void renderForm(Stage stage) {
@@ -105,11 +108,27 @@ public class FormRenderer {
         }
     }
 
+    // TODO make nicer
+    private void setExpression(String name, Expression expression){
+
+        // TODO remove debug
+        System.out.println();
+        for(Binding binding : bindings){
+            System.out.println(binding);
+        }
+
+        // Remove bindings with this name
+        bindings = bindings.stream().filter(x -> !x.name.equals(name)).collect(Collectors.toList());
+
+        Binding binding = new Binding(name, expression);
+        bindings.add(0, binding);
+    }
+
     private Control createDateField(HashMap<Question, Field> fieldMap, Question question) {
         DatePicker datePicker = new DatePicker();
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
             Expression expression = new ExpressionVariableDate(question.defaultAnswer.getToken(), Date.from(newValue.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-            symbolTable.setExpression(question.name, expression);
+            setExpression(question.name, expression);
             updateFields(fieldMap, form.questions);
         });
         return datePicker;
@@ -121,7 +140,7 @@ public class FormRenderer {
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (!checkBox.isDisabled()){
                 Expression expression = new ExpressionVariableBoolean(question.defaultAnswer.getToken(), Boolean.parseBoolean(newValue.toString()));
-                symbolTable.setExpression(question.name, expression);
+                setExpression(question.name, expression);
                 updateFields(fieldMap, form.questions);
             }
         });
@@ -138,7 +157,7 @@ public class FormRenderer {
             if (textField.isEditable() || !textField.isDisabled()) {
                 Expression expression = new ExpressionVariableString(question.defaultAnswer.getToken(),
                         textField.getText());
-                symbolTable.setExpression(question.name, expression);
+                setExpression(question.name, expression);
                 updateFields(fieldMap, form.questions);
             }
         });
@@ -161,7 +180,7 @@ public class FormRenderer {
                     textField.setTextFormatter(intFormatter);
                 }
 
-                symbolTable.setExpression(question.name, expression);
+                setExpression(question.name, expression);
                 updateFields(fieldMap, form.questions);
             }
         });
@@ -186,7 +205,7 @@ public class FormRenderer {
                             Double.parseDouble(textField.getText()));
                 }
 
-                symbolTable.setExpression(question.name, expression);
+                setExpression(question.name, expression);
                 updateFields(fieldMap, form.questions);
             }
         });
@@ -210,7 +229,7 @@ public class FormRenderer {
                     expression = new ExpressionVariableString(question.defaultAnswer.getToken(), textField.getText());
                 }
 
-                symbolTable.setExpression(question.name, expression);
+                setExpression(question.name, expression);
                 updateFields(fieldMap, form.questions);
             }
         });
@@ -245,8 +264,14 @@ public class FormRenderer {
         Button submitButton = new Button("Submit (see output in console)");
         submitButton.setOnAction((ActionEvent e) -> {
             // Debug output, shows answer to every question in console
-            for(Map.Entry<String, Expression> symbolTableElement : symbolTable.getAllAnswers().entrySet()){
-                System.out.println(symbolTableElement.getKey() + " " + symbolTableElement.getValue().toString());
+            ExpressionEvaluator evaluator = new ExpressionEvaluator();
+            Set<String> printedBindings = new HashSet<>();
+            for(Binding binding : bindings){
+                if(!printedBindings.contains(binding.name)){
+                    printedBindings.add(binding.name);
+                    Value value = binding.expression.accept(evaluator, bindings);
+                    System.out.println(binding.name + " " + value);
+                }
             }
         });
         return submitButton;
@@ -254,7 +279,9 @@ public class FormRenderer {
 
     private void updateFields(HashMap<Question, Field> fieldMap, List<Question> questions) {
         for (Question question : questions) {
-            updateField(fieldMap, question, question.isVisible(this.symbolTable));
+            ExpressionEvaluator evaluator = new ExpressionEvaluator();
+            Boolean value = evaluator.visit(question.condition, bindings).getBooleanValue();
+            updateField(fieldMap, question, value);
         }
     }
 
@@ -278,20 +305,22 @@ public class FormRenderer {
 
         // If question is based on value and cannot be set by the user, set value by evaluating its value
         if (question.isComputed()) {
-            String answer = symbolTable.getStringValue(question.name, question.type);
+//            String answer = symbolTable.getStringValue(question.name, question.type);
+            ExpressionEvaluator evaluator = new ExpressionEvaluator();
+            Value answer = Lookup.lookup(question.name, bindings).accept(evaluator, bindings);
 
             if (question.type == ReturnType.BOOLEAN) {
                 CheckBox checkBox = (CheckBox) field.getControl();
-                checkBox.setSelected(Boolean.valueOf(answer));
+                checkBox.setSelected(Boolean.valueOf(answer.toString()));
             } else if (question.type == ReturnType.DATE) {
-                if(!answer.isEmpty()) {
+                if(!answer.isUndefined()) {
                     DatePicker datePicker = (DatePicker) field.getControl();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy");
-                    datePicker.setValue(LocalDate.parse(answer, formatter));
+                    datePicker.setValue(LocalDate.parse(answer.toString(), formatter));
                 }
             } else {
                 TextInputControl textField = (TextInputControl) field.getControl();
-                textField.setText(answer);
+                textField.setText(answer.toString());
             }
         }
     }

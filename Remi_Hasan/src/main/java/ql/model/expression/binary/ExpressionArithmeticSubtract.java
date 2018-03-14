@@ -1,9 +1,12 @@
 package ql.model.expression.binary;
 
+import ql.evaluation.Binding;
 import ql.evaluation.IExpressionVisitor;
 import ql.model.expression.Expression;
 import ql.model.expression.ExpressionBinary;
 import org.antlr.v4.runtime.Token;
+
+import java.util.List;
 
 public class ExpressionArithmeticSubtract extends ExpressionBinary<Number> {
 
@@ -12,7 +15,7 @@ public class ExpressionArithmeticSubtract extends ExpressionBinary<Number> {
     }
 
     @Override
-    public <T> T accept(IExpressionVisitor<T> visitor) {
-        return visitor.visit(this);
+    public <T> T accept(IExpressionVisitor<T> visitor, List<Binding> bindings) {
+        return visitor.visit(this, bindings);
     }
 }

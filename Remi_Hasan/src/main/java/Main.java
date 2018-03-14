@@ -68,9 +68,9 @@ public class Main extends Application {
             FormRenderer formRenderer = new FormRenderer(form, symbolTable);
             formRenderer.renderForm(stage);
         } catch (FileNotFoundException e) {
-            showErrorAlert(e, "Form file not found");
+            showErrorAlert(e, "FormBuilder file not found");
         } catch (UnsupportedOperationException | IllegalArgumentException e) {
-            showErrorAlert(e, "Form invalid");
+            showErrorAlert(e, "FormBuilder invalid");
         } catch (IOException e) {
             showErrorAlert(e, "IO exception while lexing form file");
         }

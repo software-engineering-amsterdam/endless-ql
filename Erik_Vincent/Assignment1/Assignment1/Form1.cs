@@ -41,9 +41,9 @@ namespace Assignment1
                 FormExporter exporter = new FormExporter(form);
                 _mainPanel.Controls.Add(exporter.Render());
             }
-            catch (Exception e)
+            catch (QLParseException exception)
             {
-                ReportFormErrors((List<string>)e.Data["MoreInfo"]); //TODO: Handle specific exception
+                ReportFormErrors(exception.Exceptions);
             }
         }
 

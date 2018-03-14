@@ -9,7 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javassist.compiler.ast.Symbol;
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 import ql.QLFormBuilder;
 import ql.analysis.SymbolTable;
 import ql.model.Form;
@@ -47,6 +47,9 @@ public class Renderer extends Application {
         } catch (IOException e) {
             showErrorAlert(e, "IO exception while lexing form file");
             return;
+        } catch (ParseCancellationException e) {
+            showErrorAlert(e, "Error while parsing form file");
+            return;
         }
 
         buildQuestions(qlForm, primaryStage);
@@ -56,14 +59,14 @@ public class Renderer extends Application {
 
     private void buildQuestions(Form qlForm, Stage stage) {
         List<BaseQuestion> formQuestions = new ArrayList<>();
-        for(Question q : qlForm.questions) {
+        for (Question q : qlForm.questions) {
             formQuestions.add(new StringQuestion(q.text, q.condition, !q.isComputed()));
         }
 
         // Show all fields
         VBox vBox = new VBox(35);
         vBox.setAlignment(Pos.CENTER);
-        for(BaseQuestion formQuestion : formQuestions) {
+        for (BaseQuestion formQuestion : formQuestions) {
             vBox.getChildren().add(formQuestion.render());
         }
 

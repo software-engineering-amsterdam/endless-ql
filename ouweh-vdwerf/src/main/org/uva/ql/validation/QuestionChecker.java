@@ -24,11 +24,11 @@ public class QuestionChecker extends Checker {
 
         for (Question question : this.questions) {
             if (!questionIDs.add(question.getName())) {
-                logger.warning("WARNING: (var could be overwritten) question name " + question.getName() + " already exists");
+                logger.warning(String.format("WARNING: (var could be overwritten) question name %s already exists", question.getName()));
             }
 
             if (!questionTexts.add(question.getContent())) {
-                logger.warning("WARNING: Question content " + question.getContent() + " already exists");
+                logger.warning(String.format("WARNING: Question content %s already exists", question.getContent()));
             }
         }
     }

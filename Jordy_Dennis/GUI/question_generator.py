@@ -55,9 +55,12 @@ class Question_Generator:
 
         return self.questions
 
+    # This function is use to delete question under an if statement, in order to insert an if en re-redener the
+    # questions below the if
     def deleteQuestionInForm(self, varName):
         self.form.removeQuestionFromPage(formQuestion)
 
+    # this function is used to delete question that are no longer valid, i.e. the questions in an if or elif or else block
     def deleteInvalidQuestions(self):
         for question in self.form.questions:
             if (question.varName not in self.questions):

@@ -18,6 +18,11 @@ export class DuplicateIdentifierError implements Error {
   constructor(public message: string) {}
 }
 
+export class MissingIdentifierError implements Error {
+  name = 'MissingIdentifier';
+  constructor(public message: string) {}
+}
+
 export class UnknownOperatorError implements Error {
   name = 'UnknownOperator';
   constructor(public message: string) {}

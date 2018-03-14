@@ -1,6 +1,6 @@
-package nl.uva.js.qlparser.models.expressions;
+package nl.uva.js.qlparser.models.ql.expressions;
 
-import nl.uva.js.qlparser.models.enums.DataType;
+import nl.uva.js.qlparser.models.ql.enums.DataType;
 
 import java.awt.*;
 import java.util.List;

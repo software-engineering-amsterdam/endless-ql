@@ -1,5 +1,5 @@
 import gui.FormRenderer;
-import ql.parser.FormParser;
+import ql.QLFormBuilder;
 import ql.analysis.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -64,67 +64,25 @@ public class Main extends Application {
 
     private void loadForm(Stage stage, File file) {
         try {
-            Form form = FormParser.parseForm(new FileInputStream(file));
-
-            SymbolTable symbolTable = new SymbolTable(form);
-
-            // TODO: just throw exceptions
-            UnknownIdentifiersDetector unknownIdentifiersDetector = new UnknownIdentifiersDetector(form);
-            List<String> unknownReferencedIdentifiers = unknownIdentifiersDetector.detectUnknownIdentifiers();
-            if(!unknownReferencedIdentifiers.isEmpty()){
-                showErrorAlert("Unknown variable reference(s):", unknownReferencedIdentifiers);
-                return;
-            }
-
-            CycleDetector cycleDetector = new CycleDetector(form);
-            Set<String> cycles = cycleDetector.detectCycles();
-
-            if (!cycles.isEmpty()) {
-                showErrorAlert("Cycles detected in the following variable(s):", cycles);
-                return;
-            }
-
-            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-
-            // Check for duplicate questions with different type
-            Set<String> duplicateQuestionsWithDifferentTypes = typeChecker.checkDuplicateQuestionsWithDifferentTypes();
-            if (!duplicateQuestionsWithDifferentTypes.isEmpty()) {
-                showErrorAlert("Redeclaration of questions with different type:", duplicateQuestionsWithDifferentTypes);
-                return;
-            }
-
-            Set<String> typeCheckErrors = typeChecker.typeCheck();
-            if (!typeCheckErrors.isEmpty()) {
-                showErrorAlert("Type checking error(s):", typeCheckErrors);
-                return;
-            }
-
-//            File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
-//            StyleSheet styleSheet = qls.StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));
+            QLFormBuilder qlFormBuilder = new QLFormBuilder();
+            Form form = qlFormBuilder.buildForm(new FileInputStream(file));
+            SymbolTable symbolTable = qlFormBuilder.getSymbolTable();
 
             FormRenderer formRenderer = new FormRenderer(form, symbolTable);
             formRenderer.renderForm(stage);
         } catch (FileNotFoundException e) {
             showErrorAlert(e, "Form file not found");
         } catch (UnsupportedOperationException | IllegalArgumentException e) {
-            // TODO Explain why form is invalid
             showErrorAlert(e, "Form invalid");
         } catch (IOException e) {
             showErrorAlert(e, "IO exception while lexing form file");
         }
     }
 
-    private void showErrorAlert(String description, Collection<String> messages) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, description);
-        alert.setContentText(description + "\n" + String.join("\n", messages));
-        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        alert.showAndWait();
-    }
-
     private void showErrorAlert(Exception e, String message) {
         e.printStackTrace();
         Alert alert = new Alert(Alert.AlertType.ERROR, message);
-        alert.setContentText(e.toString());
+        alert.setContentText(e.getMessage());
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }

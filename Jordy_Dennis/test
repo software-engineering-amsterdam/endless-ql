@@ -3,7 +3,7 @@ form taxOfficeExample2
   "vraag1"
     a: int
   "vraag1"
-    b: int
+    b: bool
   "vraag1"
     c: int
   "vraag1"

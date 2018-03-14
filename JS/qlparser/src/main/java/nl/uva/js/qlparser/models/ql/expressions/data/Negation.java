@@ -1,8 +1,8 @@
-package nl.uva.js.qlparser.models.expressions.data;
+package nl.uva.js.qlparser.models.ql.expressions.data;
 
 import lombok.Builder;
 import lombok.Data;
-import nl.uva.js.qlparser.models.enums.DataType;
+import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.exceptions.TypeMismatchException;
 import nl.uva.js.qlparser.wrappers.logic.ValueChangeListener;
 

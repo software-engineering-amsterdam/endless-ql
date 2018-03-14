@@ -18,7 +18,6 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
   val resourceDir = "ql/typechecking/conditions/binop"
 
   describe("conjunction") {
-
     describe("containing a left nested boolean and money binop") {
       val filename = s"${resourceDir}/nested/invalid_left_nested.ql"
       val form = FormHelper.getForm(getClass.getResource(filename))

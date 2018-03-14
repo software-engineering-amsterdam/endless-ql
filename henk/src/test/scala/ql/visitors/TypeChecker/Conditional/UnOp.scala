@@ -2,7 +2,7 @@ import ql.models.ast._
 import ql.grammar._
 import ql.visitors._
 import ql.validators._
-import ql.parsers._
+import ql.spec.helpers._
 
 import scala.io.Source
 import scala.util.{Try, Success, Failure}
@@ -15,16 +15,11 @@ import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree._
 
 class UnOpConditionalSpec extends FunSpec with BeforeAndAfter {
-  // maybe extract method to general helper class
-  private def getForm(location: String): ASTNode = {
-    return QlFormParser.parseFromURL(getClass.getResource(location))
-  }
-
   val resourceDir = "ql/typechecking/conditions/unop"
 
-  describe("invalid not money expression in unary") {
+  describe("containing invalid not money expression in unary") {
     val filename = s"${resourceDir}/not_money_unop.ql"
-    val form = getForm(filename)
+    val form = FormHelper.getForm(getClass.getResource(filename))
     val typechecker = new TypeChecker(form)
 
     it("check method should return true") {
@@ -39,9 +34,9 @@ class UnOpConditionalSpec extends FunSpec with BeforeAndAfter {
     }
   }
 
-  describe("valid not boolean expression in unary") {
+  describe("containing valid not boolean expression in unary") {
     val filename = s"${resourceDir}/not_boolean_unop.ql"
-    val form = getForm(filename)
+    val form = FormHelper.getForm(getClass.getResource(filename))
     val typechecker = new TypeChecker(form)
 
     it("check method should return true") {
@@ -56,9 +51,9 @@ class UnOpConditionalSpec extends FunSpec with BeforeAndAfter {
     }
   }
 
-  describe("valid binOp in unary not") {
+  describe("containing valid binop expression in unary") {
     val filename = s"${resourceDir}/not_binop_unop.ql"
-    val form = getForm(filename)
+    val form = FormHelper.getForm(getClass.getResource(filename))
     val typechecker = new TypeChecker(form)
 
     it("check method should return true") {

@@ -8,7 +8,6 @@ public class FormVisitor extends QLBaseVisitor<Form> {
     private ExpressionTable expressionTable;
 
     public FormVisitor(ExpressionTable exprTable){
-        super();
         this.expressionTable = exprTable;
     }
 
@@ -17,6 +16,6 @@ public class FormVisitor extends QLBaseVisitor<Form> {
         BlockVisitor blockVisitor = new BlockVisitor(expressionTable);
         Block block = blockVisitor.visitBlock(ctx.block());
 
-        return new Form(ctx.IDENTIFIER().getText(), block);
+        return new Form(ctx.IDENTIFIER().getText(), block, expressionTable);
     }
 }

@@ -25,4 +25,10 @@ public class MoneyQuestionViewModel extends NumericQuestionViewModel {
         visitor.visit(this);
     }
 
+    @Override
+    public <T> T accept(TypedQuestionViewModelVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+
 }

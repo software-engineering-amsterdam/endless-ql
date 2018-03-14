@@ -81,7 +81,10 @@ public class QLForm extends Application {
 
 		if (this.getParameters().getRaw().size() > 1) {
 			Stylesheet stylesheet = styleBuilder.createFromMarkup(this.getParameters().getRaw().get(1));
-			WidgetFinder widgetFinder = new WidgetFinder(new NaiveQuestionLocator(stylesheet));
+			WidgetFinder widgetFinder = new ChainedWidgetFinder(List.of(
+					new StylesheetWidgetFinder(new NaiveQuestionLocator(stylesheet)),
+					new DefaultWidgetProvider()
+			));
 			JavafxWidgetFactory javafxWidgetFactory = new JavafxWidgetFactory();
 
 			Function<Pane, QuestionRenderer> questionRendererFactory =

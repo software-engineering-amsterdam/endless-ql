@@ -27,6 +27,7 @@ public class IfASTNode extends ASTNode {
     public void addQuestion(QuestionASTNode q){
         this.questionNodes.add(q);
     }
+
     public void addCondition(Condition c){this.conditions.add(c);}
 
     public boolean checkConditions() {
@@ -34,22 +35,31 @@ public class IfASTNode extends ASTNode {
         for (int i = 0; i < this.conditions.size(); i++) {
             Condition condition = this.conditions.get(i);
             String operator = condition.getOperator();
-            if (operator != null){
+            if (operator != null) {
                 switch (operator) {
                     case "||":
                         temp = temp || (Boolean) condition.getVariable().getValue().getValue();
                     case "&&":
                         temp = temp && (Boolean) condition.getVariable().getValue().getValue();
                 }
-            }else{
+            } else {
                 return (Boolean) condition.getVariable().getValue().getValue();
             }
             return temp;
         }
         return temp;
     }
+    public String toString () {
 
-    private void visitBooleanOperation(Variable lh, String operator, Variable rh){
+        StringBuilder str = new StringBuilder("if {\n");
+        for (QuestionASTNode qn : questionNodes) {
+            str.append('\t')
+                    .append(qn.toString())
+                    .append('\n');
+        }
 
+        str.append('}');
+
+        return str.toString();
     }
 }

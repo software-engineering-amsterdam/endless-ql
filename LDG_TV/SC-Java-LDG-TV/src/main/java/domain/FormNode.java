@@ -71,4 +71,16 @@ public class FormNode {
         }
         return temp;
     }
+
+    @Override
+    public String toString() {
+
+        StringBuilder str = new StringBuilder();
+        for (ASTNode n : ASTNodes) {
+            str.append(n)
+                    .append('\n');
+        }
+
+        return str.toString();
+    }
 }

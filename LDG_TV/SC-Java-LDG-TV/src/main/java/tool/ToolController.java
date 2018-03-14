@@ -79,6 +79,8 @@ public class ToolController implements Initializable {
         drawQuestions(questions);
 
 
+        System.out.println(node);
+
 
 //        for (ASTNode n : node.getASTNodes()){
 //

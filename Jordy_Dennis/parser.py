@@ -82,12 +82,10 @@ def main(argv):
     ast.checkTypes()
 
     # start up Gui
-    Gui(ast)
-
-    print("finished")
-    exit()
+    Gui(ast, False)
 
     # QLS
+    """
     if len(argv)>2:
         input_file = argv[2]
     else:
@@ -102,6 +100,8 @@ def main(argv):
     # pass tree to visitor
     qlsVisitor = QLSVisitor()
     qlsVisitor.visit(qlsTree)
+    print(qlsVisitor.stylesheet)
+    """
     # print(qlsTree.toStringTree())
 
 

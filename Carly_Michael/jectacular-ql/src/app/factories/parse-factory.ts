@@ -15,8 +15,10 @@ export class ParseFactory {
     // check form
     astQl.checkForm();
 
-    if (qlsInput.trim().length > 0 ) {
+    if (qlsInput && qlsInput.trim().length > 0 ) {
       astQls = parseQls(qlsInput, {});
+      console.log(astQls);
+      astQls.checkStylesheet([], astQl.getAllQuestions());
     }
     return new ParseResult(astQl.name, astQl, astQls);
   }

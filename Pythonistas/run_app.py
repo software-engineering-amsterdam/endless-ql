@@ -45,7 +45,8 @@ def main():
     # Debug grammar
     if args.grammar:
         # todo: make it so that you give path in CLI call
-        sys.stdout.write(debug_grammar("tests/forms/ql/fail/arithmetic.ql")[0])
+        report, err = debug_grammar("tests/forms/ql/fail/arithmetic.ql")
+        print(err, report)
         sys.exit(0)
 
     # Generate antlr parser

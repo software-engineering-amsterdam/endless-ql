@@ -1,6 +1,7 @@
 package ui.model
 
 import data.question.Question
+import data.question.QuestionType
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import tornadofx.ItemViewModel
@@ -26,5 +27,9 @@ class QuestionFormModel : ItemViewModel<QuestionModel>() {
 
     private fun convertToViewModel(it: ObservableList<Question>) {
         questions.addAll(it.map(::QuestionModel))
+    }
+
+    override fun onCommit() {
+        questions.forEach { x -> x.commit() }
     }
 }

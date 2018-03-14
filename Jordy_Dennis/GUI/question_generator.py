@@ -15,7 +15,6 @@ class Question_Generator:
         self.questions = collections.OrderedDict()
         self.form = form
 
-
     def getVarDict(self):
         return self.varDict
 
@@ -32,6 +31,10 @@ class Question_Generator:
                 label = self.questions[varName].getQuestion()
                 var_type = self.varDict[varName]['node'].checkTypes()
                 value = self.varDict[varName]['node'].evaluate()
+                # check if assignment node, only show evaluated value
+                if(type(self.questions[varName]) == AssignmentNode):
+                    if(self.getFormQuestion(varName)):
+                        self.getFormQuestion(varName).set_value(value)
 
                 # if the question is not yet in the GUI
                 if(not self.isQuestionInForm(varName)):
@@ -43,7 +46,7 @@ class Question_Generator:
                             self.deleteQuestionInForm(varNameToBeDeleted)
 
                     #insert new question into the GUI
-                    self.form.add_question(varName, label, var_type, value)
+                    self.form.addQuestionToPage(varName, label, var_type, value)
                 # delete question from the to be deleted list
                 del toBeDeleteQuestions[varName]
 
@@ -52,12 +55,12 @@ class Question_Generator:
 
         return self.questions
 
+    # This function is use to delete question under an if statement, in order to insert an if en re-redener the
+    # questions below the if
     def deleteQuestionInForm(self, varName):
-        for formQuestion in self.form.questions:
-            if formQuestion.varName == varName:
-                formQuestion.frame.destroy()
-                self.form.questions.remove(formQuestion)
+        self.form.removeQuestionFromPage(formQuestion)
 
+    # this function is used to delete question that are no longer valid, i.e. the questions in an if or elif or else block
     def deleteInvalidQuestions(self):
         for question in self.form.questions:
             if (question.varName not in self.questions):
@@ -70,6 +73,12 @@ class Question_Generator:
                 return True
         return False
 
+    def getFormQuestion(self, varName):
+        for formQuestion in self.form.questions:
+            if formQuestion.varName == varName:
+                return formQuestion
+        return None
+
     # Create the list of all the questions by recursively looping through the statements and adding them to te dictionairy
     def get_questions(self, block):
         for statement in block:
@@ -77,6 +86,7 @@ class Question_Generator:
                 self.questions[statement.getVarName()] = statement
             elif type(statement) == AssignmentNode:
                 statement.evaluate(self.varDict)
+                self.questions[statement.getVarName()] = statement
 
 
             elif type(statement) == ConditionalNode:

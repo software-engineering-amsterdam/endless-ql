@@ -1,4 +1,5 @@
 from render.widgets import Label
+from GUI.gui import gui_to_string
 from visitors.expression_evaluator import ExpressionEvaluator
 
 
@@ -81,7 +82,8 @@ class Question:
         self.widget_label = Label(self.label)
 
         if self.computed:
-            self.widget = Label(str(self.evaluate_answer(form)))
+            answer_result = gui_to_string(self.evaluate_answer(form))
+            self.widget = Label(answer_result)
         else:
             self.widget = self.answer_type.pyqt5_default_widget()
 

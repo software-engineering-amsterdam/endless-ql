@@ -13,19 +13,21 @@ import nl.uva.se.sc.niro.gui.converter.ModelConverter
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer }
+import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer, StringAnswer }
 import nl.uva.se.sc.niro.model.qls.QLStylesheet
 import nl.uva.se.sc.niro.util.StringUtil
 
 import scala.collection.{ JavaConverters, mutable }
 
 class QLFormController extends QLBaseController with ComponentChangedListener {
+  // TODO de-dup this constant, seeGUIQuestionFactory
   private val dictionary = mutable.Map[String, Answer]()
   private var qlForm: QLForm = _
   private var guiForm: GUIForm = _
   private var questions: Seq[Component[_]] = _
   private var stylesheet: Option[QLStylesheet] = None
   private var page: Int = 0
+  private val ACTIVE_PAGE_NAME = "__active_page_name__"
 
   @FXML var formName: Label = _
   @FXML var pageName: Label = _
@@ -38,8 +40,8 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   @FXML
   def initialize(): Unit = {
     navigationBar.managedProperty().bind(navigationBar.visibleProperty())
-    pageName.managedProperty().bind(pageName.visibleProperty())
     pageName.visibleProperty().bind(navigationBar.visibleProperty())
+    pageName.managedProperty().bind(pageName.visibleProperty())
     previous.setDisable(true)
   }
 
@@ -58,6 +60,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
     page -= 1
     previous.setDisable(page == 0)
     next.setDisable(false)
+    // TODO implement
     println("Going back...")
     updateView()
   }
@@ -67,6 +70,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
     page += 1
     next.setDisable(page >= stylesheet.map(_.pages.size).getOrElse(0) - 1)
     previous.setDisable(false)
+    // TODO implement
     println("Going forward...")
     updateView()
   }
@@ -81,7 +85,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
     this.qlForm = form
     this.stylesheet = stylesheet
 
-    guiForm = ModelConverter.convert(this.qlForm)
+    guiForm = ModelConverter.convert(this.qlForm, stylesheet)
     formName.setText(guiForm.name)
 
     questions = guiForm.questions.map(ComponentFactory.make)
@@ -90,7 +94,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
     questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
 
     navigationBar.setVisible(stylesheet.exists(_.pages.nonEmpty))
-    next.setDisable(stylesheet.map(_.pages.size).getOrElse(0)  <= 1)
+    next.setDisable(stylesheet.map(_.pages.size).getOrElse(0) <= 1)
 
     evaluateAnswers()
     updateView()
@@ -107,7 +111,9 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   }
 
   private def updatePageTitle(): Unit = {
-    pageName.setText(StringUtil.addSpaceOnCaseChange(stylesheet.map(_.pages(page).name).getOrElse("")))
+    val activePageName = stylesheet.map(_.pages(page).name).getOrElse("")
+    pageName.setText(StringUtil.addSpaceOnCaseChange(activePageName))
+    dictionary(ACTIVE_PAGE_NAME) = StringAnswer(activePageName)
   }
 
   private def updateValues(): Unit = {

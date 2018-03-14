@@ -17,7 +17,12 @@ object QLStylesheetService {
       val stylesheet: QLStylesheet = QLStylesheetParser.parse(CharStreams.fromFileName(qlsFile.getAbsolutePath))
       val parseErrors: Seq[Error] = QLStylesheetParser.getParseErrors.toList
       if (parseErrors.isEmpty) {
-        QLSTypeChecker.pipeline(form, stylesheet).left.map(error => Seq(error)).right.map(stylesheet => Some(stylesheet))
+        QLSTypeChecker
+          .pipeline(form, stylesheet)
+          .left
+          .map(error => Seq(error))
+          .right
+          .map(stylesheet => Some(stylesheet))
       } else {
         Left(parseErrors)
       }

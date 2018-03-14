@@ -5,6 +5,7 @@ import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.expressions.Expression
 import nl.uva.se.sc.niro.model.ql.expressions.answers.BooleanAnswer
 import nl.uva.se.sc.niro.model.ql.{ Conditional, QLForm, Question, Statement }
+import nl.uva.se.sc.niro.model.qls.QLStylesheet
 import nl.uva.se.sc.niro.util.StringUtil
 
 /**
@@ -15,15 +16,15 @@ import nl.uva.se.sc.niro.util.StringUtil
   */
 object ModelConverter {
 
-  def convert(form: QLForm): GUIForm = {
-    GUIForm(StringUtil.addSpaceOnCaseChange(form.formName), convert(BooleanAnswer(true), form.statements))
+  def convert(form: QLForm, stylesheet: Option[QLStylesheet]): GUIForm = {
+    GUIForm(StringUtil.addSpaceOnCaseChange(form.formName), convert(BooleanAnswer(true), form.statements, stylesheet))
   }
 
-  def convert(visible: Expression, statements: Seq[Statement]): Seq[GUIQuestion] = {
+  def convert(visible: Expression, statements: Seq[Statement], stylesheet: Option[QLStylesheet]): Seq[GUIQuestion] = {
     statements.flatMap(statement =>
       statement match {
-        case question: Question       => Seq(GUIQuestionFactory.makeGUIQuestion(visible, question))
-        case conditional: Conditional => GUIConditionalFactory.makeGUIConditional(visible, conditional)
+        case question: Question       => Seq(GUIQuestionFactory.makeGUIQuestion(visible, question, stylesheet))
+        case conditional: Conditional => GUIConditionalFactory.makeGUIConditional(visible, conditional, stylesheet)
         case _                        => Seq.empty
     })
   }

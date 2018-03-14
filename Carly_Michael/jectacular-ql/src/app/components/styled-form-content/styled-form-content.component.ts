@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Question as QlsQuestion, Section, Style, Stylesheet} from '../../domain/ast/qls';
 import {QuestionBase} from '../../domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
@@ -8,7 +8,7 @@ import {FormGroup} from '@angular/forms';
   templateUrl: './styled-form-content.component.html',
   styleUrls: ['./styled-form-content.component.css']
 })
-export class StyledFormContentComponent implements OnInit {
+export class StyledFormContentComponent implements OnInit, OnChanges {
   @Input() styles: Stylesheet;
   @Input() questions: QuestionBase<any>[];
   @Input() form: FormGroup;
@@ -17,17 +17,24 @@ export class StyledFormContentComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.init();
+  }
+
+  ngOnChanges() {
+    this.init();
+  }
+
+  private init() {
     if (this.styles && this.questions) {
       this.createQuestionMappingCache();
       this.assignStyleToQuestions();
-      console.log('assigned styles');
     }
   }
 
   // This function is necessary to circumvent angular locking up the GUI
-  getSectionQuestions(section: Section): ReadonlyArray<QlsQuestion> {
+  getSectionQuestions(section: Section): ReadonlyArray<QuestionBase<any>> {
     return section.getQuestions([]).map(q => {
-      return q.question;
+      return this.getQuestionBaseByName(q.question.name);
     });
   }
 

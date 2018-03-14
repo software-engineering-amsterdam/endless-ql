@@ -78,7 +78,6 @@ public class QLApplication {
 
 		}
 
-		mainPanel.add( new JLabel( new Date().toString() ) );
 		mainPanel.validate();
 		
 		mainPanel.updateUI();

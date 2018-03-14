@@ -21,7 +21,7 @@ class DogeParser {
 
         walker.walk(listener, parser.form())
 
-        return listener.getParsedQuestionareLanguage()
+        return listener.getParsedDogeLanguage()
     }
 
 }

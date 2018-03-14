@@ -1,9 +1,32 @@
-form taxOfficeExample {
-	"This is an int"
-		b: string
-	if(b){
-		"Q3 Within the if (int)"
-			f: int
-	}
+form taxOfficeExample
+{
+  "Did you sell a house in 2010?"
+    hasSoldHouse: boolean
+
+  if (hasSoldHouse)
+  {
+    "What was the selling price?"
+      sellingPrice: money
+  }
+  else{
+      "What was the selling price?"
+      sellingPrice2: int
+
+      "What was the selling room?"
+      sellingRoom: int
+
+      if(sellingPrice2 > 50){
+        "GOED GEDAAN"
+        sellingPrice3: int
+
+        if(sellingRoom > 500){
+         "GOED GEDAAN2"
+         sellingprice5: int
+        }
+      }
+     "What was the selling pricenu dan ?"
+      sellingPrice4: int
+
+  }
 
 }

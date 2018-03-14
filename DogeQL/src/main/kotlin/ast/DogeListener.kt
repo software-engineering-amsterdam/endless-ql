@@ -10,6 +10,7 @@ import expression.LiteralExpression
 import expression.UnaryExpression
 import expression.operation.BinaryOperation
 import expression.operation.UnaryOperation
+import java.math.BigDecimal
 
 class DogeListener : QuestionareLanguageParserBaseListener() {
 
@@ -195,10 +196,14 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
     private fun convertType(type: String) = when (type) {
         "boolean" -> BooleanValue(false)
         "int" -> IntegerValue(0)
-        else -> BooleanValue(false)
+        "string" -> StringValue("")
+        "money" -> MoneyValue(BigDecimal.ZERO)
+        "decimal" -> DecimalValue(0)
+//        "date" -> DateValue(0)
+        else -> BooleanValue(false)//TODO refactor remove default
     }
 
-    fun getParsedQuestionareLanguage(): Node {
+    fun getParsedDogeLanguage(): Node {
         return formTreeBuilder.build()
     }
 }

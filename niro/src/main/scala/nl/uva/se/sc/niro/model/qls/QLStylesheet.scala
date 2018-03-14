@@ -1,9 +1,11 @@
 package nl.uva.se.sc.niro.model.qls
 
 case class QLStylesheet(name: String, pages: Seq[Page]) {
-  
+
   def getPageNamesWithQuestion(questionId: String): Seq[String] =
     pages.filter(containsSectionWithQuestion(_, questionId)).map(_.name)
+
+  def collectAllQuestions(): Seq[Question] = pages.flatMap(_.sections.flatMap(_.questions))
 
   private def containsSectionWithQuestion(page: Page, questionId: String) = {
     page.sections.exists(containsQuestion(_, questionId))

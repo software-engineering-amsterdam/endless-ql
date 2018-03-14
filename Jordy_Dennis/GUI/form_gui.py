@@ -19,7 +19,8 @@ class FormGui:
     """
         Create the header, buttonframe, and content frame, also set the question generator.
 
-        If QLS is enabled, a menu for the buttons will be created
+        If QLS is enabled, a menu for the buttons will be created, if it is disabled, a default frame
+        will be created
     """
     def __init__(self, parent, questionGenerator, header="No Header Text", color="orange", qls=False):
         self.frame = create_frame(parent, color)
@@ -35,11 +36,13 @@ class FormGui:
 
         self.contents = create_frame(self.frame, background='black')
         self.contents.pack(side="top", fill="both", expand=True)
-        self.addPage("hi")
-        
+
         self.questions = []
         self.name = header
         self.questionGenerator = questionGenerator
+
+        if qls == False:
+            self.addPage()
 
     """
         Create the header with possible QLS formatting
@@ -59,8 +62,8 @@ class FormGui:
         Add a new page to the content frame and place a button within the button frame. 
         The new page is also added to our dictionairy of pages (used for adding and removing question)
     """
-    def addPage(self, questionGenerator, header='default', color='green'):
-        new_page = Page(self.contents, questionGenerator, color=color)
+    def addPage(self, header='default', color='green'):
+        new_page = Page(self.contents, self.questionGenerator, color=color)
         new_page.place(self.contents, x=0, y=0, relwidth=1, relheight=1)
         button = Button(self.buttonFrame, text=header, command=new_page.show)
         button.pack(side="left")

@@ -46,7 +46,7 @@ class Question_Generator:
                             self.deleteQuestionInForm(varNameToBeDeleted)
 
                     #insert new question into the GUI
-                    self.form.add_question(varName, label, var_type, value)
+                    self.form.addQuestionToPage(varName, label, var_type, value)
                 # delete question from the to be deleted list
                 del toBeDeleteQuestions[varName]
 
@@ -56,10 +56,7 @@ class Question_Generator:
         return self.questions
 
     def deleteQuestionInForm(self, varName):
-        for formQuestion in self.form.questions:
-            if formQuestion.varName == varName:
-                formQuestion.frame.destroy()
-                self.form.questions.remove(formQuestion)
+        self.form.removeQuestionFromPage(formQuestion)
 
     def deleteInvalidQuestions(self):
         for question in self.form.questions:

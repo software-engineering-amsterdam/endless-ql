@@ -70,8 +70,7 @@ text            = (ws word ws)+ {return text();}
 type            = booleanType /
                   stringType /
                   integerType /
-                  dateType /
-                  decimalType
+                  dateType
 
 widget          = radioWidget /
                   textWidget /
@@ -101,7 +100,6 @@ booleanType     = "boolean" { return astQl.QuestionType.BOOLEAN; }
 stringType      = "string" { return astQl.QuestionType.STRING; }
 integerType     = "integer" { return astQl.QuestionType.INT; }
 dateType        = "date" { return astQl.QuestionType.DATE; }
-decimalType     = "decimal" { return astQl.QuestionType.DECIMAL; }
 
 radioWidget     = "radio" ws "(\"" yesValue:identifier "\"," ws "\"" noValue:identifier "\")" {
   return new astQls.Widget(astQls.WidgetType.RADIO, [yesValue, noValue]);

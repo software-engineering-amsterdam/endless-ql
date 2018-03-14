@@ -8,22 +8,22 @@ namespace QLVisualizer.Widgets
 {
     public abstract class WidgetCreator<T>
     {
-        public T CreateWidgets(FormManager formManager, T holder)
+        /*public T CreateWidgets(FormManager formManager, T holder)
         {
             return CreateWidget(formManager, holder);
-        }
+        }*/
 
-        protected T CreateWidget(ElementManager elementManager, T holder)
+        public T CreateWidget(ElementManager elementManager, T holder)
         {
             switch (elementManager)
             {
-                case FormManager form:                      throw new InvalidOperationException("Cannot have multiple forms");
-                case PageManager page:                      return CreateWidget(page as PageManager, holder);
-                case SectionManager section:                return CreateWidget(section as SectionManager, holder);
-                case BoolQuestionManager boolQuestion:      return CreateWidget(boolQuestion as BoolQuestionManager, holder);
-                case IntQuestionManager intQuestion:        return CreateWidget(intQuestion as IntQuestionManager, holder);
-                case MoneyQuestionManager moneyQuestion:    return CreateWidget(moneyQuestion as MoneyQuestionManager, holder);
-                case StringQuestionManager stringQuestion:  return CreateWidget(stringQuestion as StringQuestionManager, holder);
+                case FormManager form:                      return CreateWidget(form, holder);
+                case PageManager page:                      return CreateWidget(page, holder);
+                case SectionManager section:                return CreateWidget(section, holder);
+                case BoolQuestionManager boolQuestion:      return CreateWidget(boolQuestion, holder);
+                case IntQuestionManager intQuestion:        return CreateWidget(intQuestion, holder);
+                case MoneyQuestionManager moneyQuestion:    return CreateWidget(moneyQuestion, holder);
+                case StringQuestionManager stringQuestion:  return CreateWidget(stringQuestion, holder);
             }
 
             throw new NotImplementedException();

@@ -63,8 +63,6 @@
     <Compile Include="Expression\TypedExpressionValue.cs" />
     <Compile Include="Expression\Types\ExpressionDouble.cs" />
     <Compile Include="Expression\Types\ExpressionInt.cs" />
-    <Compile Include="Factories\ControlFactory.cs" />
-    <Compile Include="Factories\WidgetFactory.cs" />
     <Compile Include="Factories\ExpressionFactory.cs" />
     <Compile Include="Factories\ElementManagerFactory.cs" />
     <Compile Include="Style\WindowsStyleProperties.cs" />

@@ -4,6 +4,7 @@ using QLVisualizer.Controllers;
 using QLVisualizer.Controllers.Display;
 using QLVisualizer.Style;
 using QLVisualizer.Elements.Managers.LeafTypes;
+using QLVisualizer.Elements.Managers.CollectionTypes;
 
 namespace QLVisualizer.Tests.Controllers.Display
 {
@@ -15,10 +16,11 @@ namespace QLVisualizer.Tests.Controllers.Display
         {
             _widgetStyle = new WindowsStyleProperties();
 
-            _widgetDisplayController = new ElementManagerDisplayContollerWindows(null, 10);
-            _intWidget = new IntQuestionManager("a", "q1", null, _widgetDisplayController);
-            _boolWidget = new BoolQuestionManager("b", "q2", null, _widgetDisplayController);
-            _stringWidget = new StringQuestionManager("c", "q3", null, _widgetDisplayController);
+            _elementManagerDisplayContoller = new ElementManagerDisplayContollerWindows(null, 10);
+            _intWidget = new IntQuestionManager("a", "q1", null, _elementManagerDisplayContoller);
+            _boolWidget = new BoolQuestionManager("b", "q2", null, _elementManagerDisplayContoller);
+            _stringWidget = new StringQuestionManager("c", "q3", null, _elementManagerDisplayContoller);
+            _formManager = new FormManager("d", "form", _elementManagerDisplayContoller);
         }
 
         [TestMethod]
@@ -27,16 +29,16 @@ namespace QLVisualizer.Tests.Controllers.Display
             // Set initial value
             _intWidget.SetAnswer(10);
 
-            // Create element
-            //_widgetDisplayController.ShowWidget(_intWidget, _widgetStyle);
+            Assert.AreEqual(_intWidget.Answer.Value, 10);
 
-            // Update value
             _intWidget.SetAnswer(20);
+            Assert.AreEqual(_intWidget.Answer.Value, 20);
 
-            // Element value does not equal origional value
-            // TODO: reimplement this test
-            Assert.Fail();
-            //Assert.AreNotEqual(_widgetDisplayController.ElementsIndex[_intWidget.Identifier], 10);
+            _intWidget.SetAnswer("30");
+            Assert.AreEqual(_intWidget.Answer.Value, 30);
+
+            _intWidget.SetAnswer("random string");
+            Assert.AreEqual(_intWidget.Answer.Value, 30);
         }
 
         [TestMethod]
@@ -44,17 +46,18 @@ namespace QLVisualizer.Tests.Controllers.Display
         {
             // Set initial value
             _boolWidget.SetAnswer(true);
-
-            // Create element
-            //_widgetDisplayController.ShowWidget(_boolWidget, _widgetStyle);
+            Assert.AreEqual(_boolWidget.Answer.Value, true);   
             
             // Update value
             _boolWidget.SetAnswer(false);
+            Assert.AreEqual(_boolWidget.Answer.Value, false);
 
-            // Element value does not equal origional value
-            // TODO: reimplement this test
-            Assert.Fail();
-            //Assert.AreNotEqual(_widgetDisplayController.ElementsIndex[_boolWidget.Identifier], true);
+            _boolWidget.SetAnswer("true");
+            Assert.AreEqual(_boolWidget.Answer.Value, true);
+            Assert.AreEqual(_boolWidget.Answer.IsValid, true);
+
+            _boolWidget.SetAnswer("random string");
+            Assert.AreEqual(_boolWidget.Answer.Value, true);
         }
 
         [TestMethod]
@@ -63,16 +66,11 @@ namespace QLVisualizer.Tests.Controllers.Display
             // Set initial value
             _stringWidget.SetAnswer("fail");
 
-            // Create element
-            //_widgetDisplayController.ShowWidget(_stringWidget, _widgetStyle);
+            Assert.AreEqual(_stringWidget.Answer.Value, "fail");
 
             // Update value
             _stringWidget.SetAnswer("pass");
-
-            // Element value does not equal origional value
-            // TODO: reimplement this test
-            Assert.Fail();
-            //Assert.AreNotEqual(_widgetDisplayController.ElementsIndex[_stringWidget.Identifier], "fail");
+            Assert.AreEqual(_stringWidget.Answer.Value, "pass");
         }
     }
 }

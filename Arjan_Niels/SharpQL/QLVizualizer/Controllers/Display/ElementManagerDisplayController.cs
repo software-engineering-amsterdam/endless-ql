@@ -88,7 +88,7 @@ namespace QLVisualizer.Controllers.Display
         /// <param name="widgets">Widgets on form</param>
         public override void DisplayForm()
         {
-            WidgetCreator.CreateWidgets(Form, BaseDisplay);
+            WidgetCreator.CreateWidget(Form, BaseDisplay);
             Form.RegisterListeners();
         }
 

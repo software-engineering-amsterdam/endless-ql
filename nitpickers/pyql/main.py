@@ -4,7 +4,7 @@ from pyql.antlr.QLLexer import QLLexer
 from pyql.antlr.QLParser import QLParser
 from pyql.ast.parse_tree_visitor import ParseTreeVisitor
 
-from pyql.static_analysis.type_check import ASTVisitor
+from pyql.static_analysis.ast_visitor import ASTVisitor
 
 from pyql.static_analysis.symbol_table import *
 
@@ -22,11 +22,13 @@ def main(argv):
     print(c)
 
     stb = SymbolTableBuilder()
-    stb.build(c)
+    st = stb.build_from_tree(c)
+
+    print(st)
 
     vv = ASTVisitor(stb.symbol_table)
     c.accept(vv)
-    print(c)
+    # print(c)
 
 
 if __name__ == '__main__':

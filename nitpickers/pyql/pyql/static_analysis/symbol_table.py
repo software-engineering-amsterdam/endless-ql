@@ -2,7 +2,6 @@ from multimethods import multimethod
 from pyql.ast.form.form import Form
 from pyql.ast.form.block import Block
 from pyql.ast.form.ql_statements import Question
-from pyql.ast.form.ql_statements import ComputedQuestion
 from pyql.ast.form.ql_statements import If
 from pyql.ast.form.ql_statements import IfElse
 from pyql.ast.ast import ASTNode
@@ -50,11 +49,12 @@ class SymbolTable:
 class SymbolTableBuilder:
 
     def __init__(self):
-        self._symbol_table = SymbolTable()
         self._messages = []
+        self._symbol_table = SymbolTable()
 
-    def build(self, tree):
+    def build_from_tree(self, tree):
         tree.accept(self)
+        return self._symbol_table
 
     @property
     def messages(self):

@@ -1,13 +1,10 @@
-package Expression;
+package ql.Expression;
 
-import Parser.ANTLRTester;
-import ql.analysis.SymbolTable;
-import ql.evaluation.ExpressionEvaluator;
-import ql.evaluation.value.Value;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import ql.model.expression.Expression;
 import org.junit.runner.RunWith;
+import ql.QLTestUtilities;
+import ql.evaluation.value.Value;
 
 import java.math.BigDecimal;
 
@@ -30,19 +27,19 @@ public class ExpressionEvaluationTest {
 
     @Property
     public void ExpressionEvaluationSum(int left, int right) {
-        Value result = ANTLRTester.evaluateExpression(left + " + " + right);
+        Value result = QLTestUtilities.evaluateExpression(left + " + " + right);
         assertEquals(Integer.valueOf(left + right), result.getIntValue());
     }
 
     @Property
     public void ExpressionEvaluationSum(double left, double right) {
-        Value result = ANTLRTester.evaluateExpression(doubleString(left) + " + " + doubleString(right));
+        Value result = QLTestUtilities.evaluateExpression(doubleString(left) + " + " + doubleString(right));
         assertEquals(left + right, result.getDecimalValue(), DELTA);
     }
 
     @Property
     public void ExpressionEvaluationSum(int left, double right) {
-        Value result = ANTLRTester.evaluateExpression(left + " + " + doubleString(right));
+        Value result = QLTestUtilities.evaluateExpression(left + " + " + doubleString(right));
         assertEquals(left + right, result.getDecimalValue(), DELTA);
     }
 
@@ -50,19 +47,19 @@ public class ExpressionEvaluationTest {
 
     @Property
     public void ExpressionEvaluationSub(int left, int right) {
-        Value result = ANTLRTester.evaluateExpression(left + " - " + right);
+        Value result = QLTestUtilities.evaluateExpression(left + " - " + right);
         assertEquals(Integer.valueOf(left - right), result.getIntValue());
     }
 
     @Property
     public void ExpressionEvaluationSub(double left, double right) {
-        Value result = ANTLRTester.evaluateExpression(doubleString(left) + " - " + doubleString(right));
+        Value result = QLTestUtilities.evaluateExpression(doubleString(left) + " - " + doubleString(right));
         assertEquals(left - right, result.getDecimalValue(), DELTA);
     }
 
     @Property
     public void ExpressionEvaluationSub(int left, double right) {
-        Value result = ANTLRTester.evaluateExpression(left + " - " + doubleString(right));
+        Value result = QLTestUtilities.evaluateExpression(left + " - " + doubleString(right));
         assertEquals(left - right, result.getDecimalValue(), DELTA);
     }
 
@@ -70,19 +67,19 @@ public class ExpressionEvaluationTest {
 
     @Property
     public void ExpressionEvaluationMul(int left, int right) {
-        Value result = ANTLRTester.evaluateExpression(left + " * " + right);
+        Value result = QLTestUtilities.evaluateExpression(left + " * " + right);
         assertEquals(Integer.valueOf(left * right), result.getIntValue());
     }
 
     @Property
     public void ExpressionEvaluationMul(double left, double right) {
-        Value result = ANTLRTester.evaluateExpression(doubleString(left) + " * " + doubleString(right));
+        Value result = QLTestUtilities.evaluateExpression(doubleString(left) + " * " + doubleString(right));
         assertEquals(left * right, result.getDecimalValue(), DELTA);
     }
 
     @Property
     public void ExpressionEvaluationMul(int left, double right) {
-        Value result = ANTLRTester.evaluateExpression(left + " * " + doubleString(right));
+        Value result = QLTestUtilities.evaluateExpression(left + " * " + doubleString(right));
         assertEquals(left * right, result.getDecimalValue(), DELTA);
     }
 
@@ -91,39 +88,39 @@ public class ExpressionEvaluationTest {
     @Property
     public void ExpressionEvaluationDiv(int left, int right) {
         assumeThat(right, not(equalTo(0)));
-        Value result = ANTLRTester.evaluateExpression(left + " / " + right);
+        Value result = QLTestUtilities.evaluateExpression(left + " / " + right);
         assertEquals(Integer.valueOf(left / right), result.getIntValue());
     }
 
     @Property
     public void ExpressionEvaluationDiv(double left, double right) {
         assumeThat(right, not(equalTo(0)));
-        Value result = ANTLRTester.evaluateExpression(doubleString(left) + " / " + doubleString(right));
+        Value result = QLTestUtilities.evaluateExpression(doubleString(left) + " / " + doubleString(right));
         assertEquals(left / right, result.getDecimalValue(), DELTA);
     }
 
     @Property
     public void ExpressionEvaluationDiv(int left, double right) {
         assumeThat(right, not(equalTo(0)));
-        Value result = ANTLRTester.evaluateExpression(left + " / " + doubleString(right));
+        Value result = QLTestUtilities.evaluateExpression(left + " / " + doubleString(right));
         assertEquals(left / right, result.getDecimalValue(), DELTA);
     }
 
     @Property
     public void ExpressionEvaluationNeg(int i) {
-        Value result = ANTLRTester.evaluateExpression("-" + i);
+        Value result = QLTestUtilities.evaluateExpression("-" + i);
         assertEquals(Integer.valueOf(-1 * i), result.getIntValue());
     }
 
     @Property
     public void ExpressionEvaluationAnd(boolean left, boolean right) {
-        Value result = ANTLRTester.evaluateExpression(left + " && " + right);
+        Value result = QLTestUtilities.evaluateExpression(left + " && " + right);
         assertEquals(left && right, result.getBooleanValue());
     }
 
     @Property
     public void ExpressionEvaluationOr(boolean left, boolean right) {
-        Value result = ANTLRTester.evaluateExpression(left + " || " + right);
+        Value result = QLTestUtilities.evaluateExpression(left + " || " + right);
         assertEquals(left || right, result.getBooleanValue());
     }
 

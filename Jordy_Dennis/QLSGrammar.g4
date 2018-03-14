@@ -6,13 +6,13 @@ section: SECTION STRING (BRACKETL (section|question|default_style)* BRACKETR | (
 question: QUESTION (ID | ID widget);
 widget: WIDGET CHECKBOX|
         WIDGET RADIO PARL STRING COMMA STRING PARR |
-        WIDGET SPINBOX;
-css:    FONT COLOM STRING |
+        WIDGET SPINBOX |
+          FONT COLOM STRING |
         WIDTH COLOM INT |
         FONTSIZE COLOM INT |
         COLOR COLOM HEXCOLOR
         ;
-default_style: DEFAULT types (BRACKETL (css|widget)* BRACKETR | (css|widget));
+default_style: DEFAULT types (BRACKETL widget* BRACKETR | widget);
 
 
 STYLESHEET: 'stylesheet';

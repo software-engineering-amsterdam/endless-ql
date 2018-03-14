@@ -1,7 +1,7 @@
 package domain.model.value;
 
 import domain.model.variable.Variable;
-import exception.InvalidArithmaticExpressionException;
+import exception.InvalidArithmeticExpressionException;
 
 public class ArithmeticExpressionValue extends Value<Integer>{
 
@@ -27,8 +27,8 @@ public class ArithmeticExpressionValue extends Value<Integer>{
                 case "*":
                     return (Integer) this.leftHandOperand.getValue().getValue() * (Integer) this.rightHandOperand.getValue().getValue();
             }
-        }catch(InvalidArithmaticExpressionException e){
-            throw new InvalidArithmaticExpressionException("Invalid aritmatic expression found. Are you using strings were numbers are expected?");
+        }catch(Exception e){
+            throw new InvalidArithmeticExpressionException("Invalid aritmatic expression found. Are you using strings were numbers are expected?");
         }
         return null;
     }

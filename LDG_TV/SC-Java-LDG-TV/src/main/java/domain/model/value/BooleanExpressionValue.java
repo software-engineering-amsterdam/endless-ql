@@ -1,7 +1,6 @@
 package domain.model.value;
 
 import domain.model.variable.Variable;
-import exception.InvalidArithmaticExpressionException;
 
 public class BooleanExpressionValue extends Value<Boolean>{
 

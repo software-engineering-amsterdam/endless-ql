@@ -1,6 +1,6 @@
 package domain.model;
 
-public class ASTNode {
+public abstract class ASTNode {
     private boolean visible;
 
     public boolean isVisible() {

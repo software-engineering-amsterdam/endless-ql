@@ -17,9 +17,9 @@ public class StringVariable extends Variable {
     public Value getValue() {
         return value;
     }
-
-    public void setValue(String newVale){
-        value.setValue(newVale);
+    @Override
+    public void setValue(StringValue newVale){
+        this.value = newVale;
     }
 
     @Override

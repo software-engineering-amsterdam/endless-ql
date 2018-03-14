@@ -20,6 +20,4 @@ public class EqualOperation extends  Operator{
         // TODO throw error if code gets here
         return new Boolean(left.getTerm() == right.getTerm());
     }
-
-
 }

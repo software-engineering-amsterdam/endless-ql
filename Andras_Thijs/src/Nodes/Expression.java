@@ -20,22 +20,6 @@ public class Expression extends ASTNode {
     // Default needed for Term class
     public Expression(){}
 
-    /**
-     * Creates an expression with a single expression inside
-     * @param expression
-     */
-    public Expression(Expression expression){
-        this.left = expression;
-    }
-
-    /**
-     * Creates an expression containing a single term
-     * @param term contains a instance of the abstract Term class
-     */
-    public Expression(Term term){
-        this.term = term;
-    }
-
     // TODO make NOT operator obsolete
     /**
      * Create an expression with a negated term
@@ -58,6 +42,14 @@ public class Expression extends ASTNode {
         this.left = left;
         this.right = right;
         this.op = op;
+    }
+
+    public void setParents(ASTNode parent) {
+        setParent(parent);
+        op.setParent(this);
+        right.setParents(this);
+        if(left != null) // Specific for the Not operator.
+            left.setParents(this);
     }
 
     /**

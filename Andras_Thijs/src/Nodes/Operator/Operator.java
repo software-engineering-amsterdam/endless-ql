@@ -1,11 +1,11 @@
 package Nodes.Operator;
 
+import Nodes.ASTNode;
 import Nodes.Term.Boolean;
 import Nodes.Term.Term;
 import Nodes.Term.Variable;
 
-public abstract class Operator {
-
+public abstract class Operator extends ASTNode {
     private String value;
 
     public Operator(String value){

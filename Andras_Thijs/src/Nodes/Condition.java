@@ -48,6 +48,11 @@ public class Condition extends ASTNode {
         this.conditions = conditions;
     }
 
+    public void setParents(QLForm parent) {
+        setParent(parent);
+        expression.setParents(this);
+    }
+
     /**
      * Returns the condition's evaluable expression
      * @return The expression

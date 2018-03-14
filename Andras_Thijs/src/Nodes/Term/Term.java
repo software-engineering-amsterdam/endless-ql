@@ -1,10 +1,21 @@
 package Nodes.Term;
 
+import Nodes.ASTNode;
 import Nodes.Expression;
 
 public abstract class Term extends Expression {
+    /**
+     * For Terms, only set the parent because it is a leaf of a tree.
+     */
     @Override
-    // Return when Expression.getTerm() is called with a Term on one side.
+    public void setParents(ASTNode parent) {
+        setParent(parent);
+    }
+
+    /**
+     * Return itself when Expression.getTerm() is called with a Term on one side.
+     */
+    @Override
     public Term getTerm() { return this; }
 
     @Override
@@ -15,5 +26,4 @@ public abstract class Term extends Expression {
     public float getValue(){
         return 0;
     }
-
 }

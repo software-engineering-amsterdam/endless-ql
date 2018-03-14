@@ -10,7 +10,6 @@ public class QLForm extends ASTNode {
     private List<Question> questions;
     private List<Condition> conditions;
 
-
     /**
      * Creates a QLForm with just a name
      * @param name contains the name of the form
@@ -47,6 +46,18 @@ public class QLForm extends ASTNode {
         this.name = name;
         this.questions = questions;
         this.conditions = conditions;
+    }
+
+    /**
+     * Initiates the parent variable for every child ASTNode.
+     */
+    public void setParents() {
+        for(Question q : questions) {
+            q.setParents(this);
+        }
+        for(Condition c : conditions) {
+            c.setParents(this);
+        }
     }
 
     /**

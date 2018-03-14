@@ -42,6 +42,12 @@ public class Question extends ASTNode {
         this.expression = expression;
     }
 
+    public void setParents(QLForm parent) {
+        setParent(parent);
+        if(expression != null)
+            expression.setParents(this);
+    }
+
     /**
      * Returns the name of the question
      * @return The name of the question

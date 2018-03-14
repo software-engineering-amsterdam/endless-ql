@@ -31,7 +31,6 @@ class Question_Generator:
                 # get information of the question
                 label = self.questions[varName].getQuestion()
                 type = self.varDict[varName]['node'].checkTypes()
-                print(label)
                 value = self.varDict[varName]['node'].evaluate()
 
                 # if the question is not yet in the GUI

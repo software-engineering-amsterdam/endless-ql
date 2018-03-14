@@ -46,12 +46,12 @@ public class QLSParser extends Parser {
 		RULE_styleSpecification = 12, RULE_string = 13;
 	public static final String[] ruleNames = {
 		"stylesheet", "pages", "page", "specifications", "specification", "section", 
-		"question", "widget", "parameters", "parameter", "defaultStyle", "styleSpecifications", 
+		"questionData", "widget", "parameters", "parameter", "defaultStyle", "styleSpecifications",
 		"styleSpecification", "string"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'stylesheet'", "'{'", "'}'", "'page'", "'section'", "'question'", 
+		null, "'stylesheet'", "'{'", "'}'", "'page'", "'section'", "'questionData'",
 		"'widget'", "'('", "')'", "','", "'default'", "'width'", "':'", "'font'", 
 		"'fontsize'", "'color'", "'\"'"
 	};

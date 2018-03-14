@@ -1,6 +1,7 @@
 package org.uva.sea.qls.parser.elements.style;
 
 import org.antlr.v4.runtime.Token;
+import org.uva.sea.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.qls.parser.elements.Parameter;
 import org.uva.sea.qls.parser.visitor.IStyleASTVisitor;
 
@@ -8,17 +9,17 @@ import java.util.List;
 
 public class Widget extends StyleSpecification {
 
-    private String widgetName;
+    private WidgetType widgetType;
     private List<Parameter> parameters;
 
-    public Widget(Token token, String widgetName, List<Parameter> parameters) {
+    public Widget(Token token, String widgetType, List<Parameter> parameters) {
         super(token);
         this.parameters = parameters;
-        this.widgetName = widgetName;
+        this.widgetType = WidgetType.valueOf(widgetType.toUpperCase());
     }
 
-    public String getWidgetName() {
-        return widgetName;
+    public WidgetType getWidgetType() {
+        return widgetType;
     }
 
     public List<Parameter> getParameters() {

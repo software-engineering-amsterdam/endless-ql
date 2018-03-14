@@ -37,7 +37,7 @@ public class QLSLexer extends Lexer {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'stylesheet'", "'{'", "'}'", "'page'", "'section'", "'question'", 
+		null, "'stylesheet'", "'{'", "'}'", "'page'", "'section'", "'questionData'",
 		"'widget'", "'('", "')'", "','", "'default'", "'width'", "':'", "'font'", 
 		"'fontsize'", "'color'", "'\"'"
 	};

@@ -1,7 +1,7 @@
 package org.uva.sea.gui.model;
 
 import javafx.scene.control.Control;
-import org.uva.sea.ql.interpreter.dataObject.QuestionData;
+import org.uva.sea.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.ql.parser.NodeType;

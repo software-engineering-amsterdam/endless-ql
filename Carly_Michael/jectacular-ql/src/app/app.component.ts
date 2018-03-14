@@ -22,7 +22,9 @@ export class AppComponent {
   qlForm: Form;
   qlsStylesheet: Stylesheet;
 
-  constructor(private questionControlService: QuestionControlService) {
+  constructor(private questionControlService: QuestionControlService) { }
+
+  prefill() {
     this.inputQls = 'stylesheet "taxOfficeExample"\n' +
       '{\n' +
       '  page "Housing"\n' +
@@ -77,6 +79,7 @@ export class AppComponent {
 
   parseInput() {
     try {
+      console.log('parsing', this.inputQls);
       const parseResult = ParseFactory.parse(this.inputQl, this.inputQls);
       this.formName = parseResult.formName;
       this.qlForm = parseResult.form;

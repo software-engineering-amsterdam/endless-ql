@@ -6,16 +6,15 @@ describe('jectacular-ql App', () => {
 
   beforeEach(() => {
     page = new AppPage();
+    page.navigateTo();
+    page.clearInputs();
   });
 
   it('should display welcome message', () => {
-    page.navigateTo();
     expect(page.getParagraphText()).toEqual('Welcome to our spectacular QL parser!');
   });
 
   it('should parse an input to a form', done => {
-    page.navigateTo();
-    page.clearInputs();
     page.parseInput(mockInput.ifQuestionForm);
     page.formDisplayed().then(displayed => {
       expect(displayed).toBe(true);
@@ -23,7 +22,6 @@ describe('jectacular-ql App', () => {
   });
 
   it('should show an error', done => {
-    page.navigateTo();
     page.parseInput(mockInput.duplicateIdentifierForm);
     page.errorDisplayed().then(errorDisplayed => {
       expect(errorDisplayed).toBe(true);

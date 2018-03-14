@@ -18,6 +18,6 @@ describe('QLS Stylesheet', () => {
     const qlIntQuestion = new QlQuestion('name', 'label', QuestionType.INT, emptyLoc);
     const qlBoolQuestion = new QlQuestion('missingname', 'label', QuestionType.BOOLEAN, emptyLoc);
 
-    expect(() => stylesheet.checkStylesheet([], [qlIntQuestion, qlBoolQuestion])).toThrow()
+    expect(() => stylesheet.checkStylesheet([], [qlIntQuestion, qlBoolQuestion])).toThrow();
   });
 });

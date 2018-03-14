@@ -14,22 +14,24 @@ export class Question extends Node {
     super();
   }
 
-  getQuestions(parentStyles: ReadonlyArray<Style>): ReadonlyArray<QuestionWithAppliedStyles> {
+  getQuestions(parentStyles: ReadonlyArray<Style>, widgetParent: Widget): ReadonlyArray<QuestionWithAppliedStyles> {
     const updatedParentStyles: ReadonlyArray<Style> = this.defaultSettings && this.defaultSettings.styles.length > 0 ?
       parentStyles.concat(this.defaultSettings.styles) : parentStyles;
 
-    return [{question: this, styles: updatedParentStyles}];
+    const widget = this.type.type !== WidgetType.NONE ? this.type : widgetParent;
+
+    return [new QuestionWithAppliedStyles(this, updatedParentStyles, widget)];
   }
 
   checkStylesheet(parentDefaults: ReadonlyArray<Default>, allQuestions: QlQuestion[]): void {
     const qlQuestion: QlQuestion = _.find(allQuestions, {name: this.name});
 
-    if(!qlQuestion) {
+    if (!qlQuestion) {
       throw new MissingIdentifierError(`Question with name ${this.name} not found`);
     }
 
     if (this.type.type !== WidgetType.NONE) {
-      this.throwIfQlsTypeDoesNotMatchQlType(qlQuestion.type, this.type.type)
+      this.throwIfQlsTypeDoesNotMatchQlType(qlQuestion.type, this.type.type);
       return;
     }
 
@@ -47,13 +49,13 @@ export class Question extends Node {
 
   // throw an exception when an error is detected, otherwise do nothing
   private throwIfQlsTypeDoesNotMatchQlType(qlType: QuestionType, qlsType: WidgetType): void {
-    if(qlsType === WidgetType.NONE) {
+    if (qlsType === WidgetType.NONE) {
       throw new UnsupportedTypeError(`Expected a type for question ${this.name}`);
     }
 
     if (qlType === QuestionType.BOOLEAN && !(qlsType === WidgetType.CHECKBOX || qlsType === WidgetType.RADIO)) {
       throw new TypeError(`Question ${this.name} has type boolean but QLS defines something else than checkbox or radio.`);
-    } else if(qlType === QuestionType.INT &&
+    } else if (qlType === QuestionType.INT &&
         !(qlsType === WidgetType.TEXT || qlsType === WidgetType.SLIDER || qlsType === WidgetType.SPINBOX)) {
       throw new TypeError(`Question ${this.name} has type integer but QLS defines something else than text, slider or spinbox.`);
     } else if (qlType === QuestionType.STRING && !(qlsType === WidgetType.TEXT)) {

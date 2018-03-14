@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Export\FormExporter.cs" />
+    <Compile Include="IMainView.cs" />
+    <Compile Include="MainPresenter.cs" />
     <Compile Include="Model\QLS\IContent.cs" />
     <Compile Include="Model\QLS\Page.cs" />
     <Compile Include="Model\QLS\QuestionStyle.cs" />

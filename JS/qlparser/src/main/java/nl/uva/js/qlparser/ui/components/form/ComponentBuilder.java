@@ -3,8 +3,8 @@ package nl.uva.js.qlparser.ui.components.form;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import nl.uva.js.qlparser.helpers.NonNullRun;
-import nl.uva.js.qlparser.models.expressions.data.Value;
-import nl.uva.js.qlparser.models.expressions.data.Variable;
+import nl.uva.js.qlparser.models.ql.expressions.data.Value;
+import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

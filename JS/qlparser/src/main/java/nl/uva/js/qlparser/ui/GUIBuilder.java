@@ -2,7 +2,7 @@ package nl.uva.js.qlparser.ui;
 
 import nl.uva.js.qlparser.exceptions.ParseException;
 import nl.uva.js.qlparser.logic.FormBuilder;
-import nl.uva.js.qlparser.models.expressions.Form;
+import nl.uva.js.qlparser.models.ql.expressions.Form;
 import nl.uva.js.qlparser.ui.components.gui.FormPanel;
 import nl.uva.js.qlparser.ui.components.gui.TextPanel;
 

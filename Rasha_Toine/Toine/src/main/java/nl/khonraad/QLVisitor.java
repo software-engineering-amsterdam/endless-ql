@@ -1,232 +1,184 @@
 package nl.khonraad;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import nl.khonraad.ExpressionLanguageBaseVisitor;
 import nl.khonraad.ExpressionLanguageParser;
+import nl.khonraad.domain.Form;
 import nl.khonraad.domain.Question;
 import nl.khonraad.domain.Type;
-import nl.khonraad.domain.Question.BehaviouralType;
 import nl.khonraad.domain.Value;
+import nl.khonraad.domain.Question.BehaviouralType;
 
 public class QLVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
-	public List<String> declaredQuestionTypes = new ArrayList<String>();
-	
-	private Map<String, Question> questions = new HashMap<String, Question>();
-	public Map<String, Value> answersSeen = new HashMap<String, Value>();
+    private List<String>        declaredQuestionTypes              = new ArrayList<String>();
 
-	public List<String> forwardReferences = new ArrayList<String>();
+    public Form                 form                               = new Form();
+    private List<String>        forwardReferences                  = new ArrayList<String>();
 
-	public static final String ERROR_ReferenceToUndefinedQuestion = "Reference to undefined question: ";
-	public static final String ERROR_DuplicateQuestionDeclaration = "Duplicate question declaration: ";
-	public static final String ERROR_TYPEERROR = "Type error: ";
+    private static final String ERROR_ReferenceToUndefinedQuestion = "Reference to undefined question: ";
+    private static final String ERROR_DuplicateQuestionDeclaration = "Duplicate question declaration: ";
+    private static final String ERROR_TYPEERROR                    = "Type error: ";
 
-	public Optional<Question> findQuestion( BehaviouralType behaviouralType, String identifier ) {
+    private String removeQuotes( String text ) {
+        return text.substring( 1, text.length() - 1 );
+    }
 
-		return questions.entrySet().stream()
-				.filter( map -> behaviouralType.equals( map.getValue().getBehaviouralType() ) )
-				.filter( map -> identifier.equals( map.getValue().getIdentifier() ) ).map( map -> map.getValue() )
-				.findFirst();
-	}
+    @Override
+    public Value visitPartBlock( ExpressionLanguageParser.PartBlockContext ctx ) {
+        return visitChildren( ctx );
+    }
 
-	public List<Question> listQuestions() {
+    @Override
+    public Value visitForm( ExpressionLanguageParser.FormContext ctx ) {
 
-		return questions.entrySet().stream().map( map -> map.getValue() ).collect( Collectors.toList() );
+        declaredQuestionTypes = new ArrayList<String>();
 
-	}
+        form.forgetQuestionsRememberAnswers();
 
-	private void clearAst() {
+        Value value = visitChildren( ctx );
 
-		for (Map.Entry<String, Question> entry : questions.entrySet()) {
-			if (BehaviouralType.ANSWERABLE == entry.getValue().getBehaviouralType()) {
-				answersSeen.put( entry.getKey(), entry.getValue().getValue() );
-			}
-		}
-		questions.clear();
+        if ( forwardReferences.size() != 0 ) {
+            throw new RuntimeException( ERROR_ReferenceToUndefinedQuestion + forwardReferences.get( 0 ) );
+        }
 
-	}
+        return value;
 
-	private String removeQuotes( String text ) {
-		return text.substring( 1, text.length() - 1 );
-	}
+    }
 
-	@Override
-	public Value visitPartBlock( ExpressionLanguageParser.PartBlockContext ctx ) {
-		return visitChildren( ctx );
-	}
+    @Override
+    public Value visitUnaryOperator_Expression( ExpressionLanguageParser.UnaryOperator_ExpressionContext ctx ) {
 
-	@Override
-	public Value visitForm( ExpressionLanguageParser.FormContext ctx ) {
+        Value expression = visit( ctx.expression() );
+        String operator = ctx.unaryOperator().getText();
 
-		declaredQuestionTypes = new ArrayList<String>();
+        switch ( operator ) {
 
-		clearAst();
+            case "-":
+                return expression.apply( operator );
 
-		Value value = visitChildren( ctx );
+            case "+":
+                return expression;
 
-		if (forwardReferences.size() != 0) {
-			throw new RuntimeException( ERROR_ReferenceToUndefinedQuestion + forwardReferences.get( 0 ) );
-		}
+            case "!":
+                return expression.apply( operator );
 
-		return value;
+            default:
+                throw new RuntimeException( "Undefined operator: \"" + ctx.unaryOperator().getText() + "\"" );
+        }
+    }
 
-	}
+    @Override
+    public Value visitExpressionQuotedString( ExpressionLanguageParser.ExpressionQuotedStringContext ctx ) {
 
-	@Override
-	public Value visitUnaryOperator_Expression( ExpressionLanguageParser.UnaryOperator_ExpressionContext ctx ) {
+        return new Value( Type.String, removeQuotes( ctx.QuotedString().getText() ) );
+    }
 
-		Value expression = visit( ctx.expression() );
-		String operator = ctx.unaryOperator().getText();
+    @Override
+    public Value visitExpression_BinaryOperator_Expression(
+            ExpressionLanguageParser.Expression_BinaryOperator_ExpressionContext ctx ) {
 
-		switch ( operator ) {
+        Value left = visit( ctx.expression( 0 ) );
+        Value right = visit( ctx.expression( 1 ) );
+        String operator = ctx.binaryOperator().getText();
 
-			case "-":
-				return expression.apply( operator );
+        return left.apply( operator, right );
 
-			case "+":
-				return expression;
+    }
 
-			case "!":
-				return expression.apply( operator );
+    @Override
+    public Value visitIdentifier( ExpressionLanguageParser.IdentifierContext ctx ) {
 
-			default:
-				throw new RuntimeException( "Undefined operator: \"" + ctx.unaryOperator().getText() + "\"" );
-		}
-	}
+        String identifier = ctx.Identifier().getText();
 
-	@Override
-	public Value visitExpressionQuotedString( ExpressionLanguageParser.ExpressionQuotedStringContext ctx ) {
+        Optional<Question> optionalQuestion = form.findQuestion( BehaviouralType.ANSWERABLE, identifier );
 
-		return new Value( Type.String, removeQuotes( ctx.QuotedString().getText() ) );
-	}
+        if ( optionalQuestion.isPresent() ) {
 
-	@Override
-	public Value visitExpression_BinaryOperator_Expression(
-			ExpressionLanguageParser.Expression_BinaryOperator_ExpressionContext ctx ) {
+            forwardReferences.remove( identifier );
 
-		Value left = visit( ctx.expression( 0 ) );
-		Value right = visit( ctx.expression( 1 ) );
-		String operator = ctx.binaryOperator().getText();
+            return optionalQuestion.get().getValue();
 
-		return left.apply( operator, right );
+        }
 
-	}
+        throw new RuntimeException( ERROR_ReferenceToUndefinedQuestion + identifier );
+    }
 
-	@Override
-	public Value visitIdentifier( ExpressionLanguageParser.IdentifierContext ctx ) {
+    @Override
+    public Value visitExpressionMoneyConstant( ExpressionLanguageParser.ExpressionMoneyConstantContext ctx ) {
+        return new Value( Type.Money, ctx.MoneyConstant().getText() );
+    }
 
-		String identifier = ctx.Identifier().getText();
+    @Override
+    public Value visitExpressionDateConstant( ExpressionLanguageParser.ExpressionDateConstantContext ctx ) {
+        return new Value( Type.Date, ctx.DateConstant().getText() );
+    }
 
-		Optional<Question> optionalQuestion = findQuestion( BehaviouralType.ANSWERABLE, identifier );
+    @Override
+    public Value visitExpressionIntegerConstant( ExpressionLanguageParser.ExpressionIntegerConstantContext ctx ) {
+        return new Value( Type.Integer, ctx.IntegerConstant().getText() );
+    }
 
-		if (optionalQuestion.isPresent()) {
+    @Override
+    public Value visitExpressionBooleanConstant( ExpressionLanguageParser.ExpressionBooleanConstantContext ctx ) {
+        return new Value( Type.Boolean, ctx.BooleanConstant().getText() );
+    }
 
-			forwardReferences.remove( identifier );
+    @Override
+    public Value visitExpressionParenthesized( ExpressionLanguageParser.ExpressionParenthesizedContext ctx ) {
+        return visit( ctx.expression() );
+    }
 
-			return optionalQuestion.get().getValue();
+    @Override
+    public Value visitPartAnswerableQuestion( ExpressionLanguageParser.PartAnswerableQuestionContext ctx ) {
 
-		}
+        String identifier = ctx.Identifier().getText();
+        String label = removeQuotes( ctx.QuotedString().getText() );
 
-		throw new RuntimeException( ERROR_ReferenceToUndefinedQuestion + identifier );
-	}
+        forwardReferences.remove( identifier );
 
-	@Override
-	public Value visitExpressionMoneyConstant( ExpressionLanguageParser.ExpressionMoneyConstantContext ctx ) {
+        Type type = Type.parseType( ctx.Type().getText() );
 
-		return new Value( Type.Money, ctx.MoneyConstant().getText() );
-	}
+        if ( declaredQuestionTypes.contains( identifier ) ) {
+            throw new RuntimeException( ERROR_DuplicateQuestionDeclaration + identifier + " typed " + type );
+        }
+        declaredQuestionTypes.add( identifier );
 
-	@Override
-	public Value visitExpressionDateConstant( ExpressionLanguageParser.ExpressionDateConstantContext ctx ) {
-		return new Value( Type.Date, ctx.DateConstant().getText() );
-	}
+        return form.saveAnswerableQuestion( identifier, label, type );
 
-	@Override
-	public Value visitExpressionIntegerConstant( ExpressionLanguageParser.ExpressionIntegerConstantContext ctx ) {
-		return new Value( Type.Integer, ctx.IntegerConstant().getText() );
-	}
+    }
 
-	@Override
-	public Value visitExpressionBooleanConstant( ExpressionLanguageParser.ExpressionBooleanConstantContext ctx ) {
-		return new Value( Type.Boolean, ctx.BooleanConstant().getText() );
-	}
+    @Override
+    public Value visitPartComputedQuestion( ExpressionLanguageParser.PartComputedQuestionContext ctx ) {
 
-	@Override
-	public Value visitExpressionParenthesized( ExpressionLanguageParser.ExpressionParenthesizedContext ctx ) {
-		return visit( ctx.expression() );
-	}
+        String identifier = ctx.Identifier().getText();
+        String label = removeQuotes( ctx.QuotedString().getText() );
 
-	@Override
-	public Value visitPartAnswerableQuestion( ExpressionLanguageParser.PartAnswerableQuestionContext ctx ) {
+        Type type = Type.parseType( ctx.Type().getText() );
 
-		String identifier = ctx.Identifier().getText();
-		String label = removeQuotes( ctx.QuotedString().getText() );
+        forwardReferences.remove( identifier );
 
-		forwardReferences.remove( identifier );
+        Value value = visit( ctx.expression() );
 
-		Type type = Type.parseType( ctx.Type().getText() );
+        if ( !type.equals( value.getType() ) ) {
+            throw new RuntimeException( ERROR_TYPEERROR + identifier + " expects " + type + " not " + value.getType() );
+        }
 
-		if (declaredQuestionTypes.contains( identifier )) {
+        return form.saveComputedQuestion( identifier, label, type, value );
+    }
 
-			throw new RuntimeException( ERROR_DuplicateQuestionDeclaration + identifier + " typed " + type );
+    @Override
+    public Value visitPartConditionalBlock( ExpressionLanguageParser.PartConditionalBlockContext ctx ) {
 
-		}
-		declaredQuestionTypes.add( identifier );
+        Value value = visit( ctx.expression() );
 
-		Optional<Question> optionalQuestion = findQuestion( BehaviouralType.ANSWERABLE, identifier );
-
-		Value earlierAnswer;
-		if (answersSeen.containsKey( identifier )) {
-			earlierAnswer = answersSeen.get( identifier );
-		} else {
-			earlierAnswer = new Value( type );
-		}
-		if (!optionalQuestion.isPresent()) {
-			questions.put( identifier,
-					new Question( BehaviouralType.ANSWERABLE, identifier, label, type, earlierAnswer ) );
-		}
-
-		return findQuestion( BehaviouralType.ANSWERABLE, identifier ).get().getValue();
-	}
-
-	@Override
-	public Value visitPartComputedQuestion( ExpressionLanguageParser.PartComputedQuestionContext ctx ) {
-
-		String identifier = ctx.Identifier().getText();
-		String label = removeQuotes( ctx.QuotedString().getText() );
-
-		Type type = Type.parseType( ctx.Type().getText() );
-
-		forwardReferences.remove( identifier );
-
-		Value newValue = visit( ctx.expression() );
-		if (!type.equals( newValue.getType() )) {
-			throw new RuntimeException(
-					ERROR_TYPEERROR + identifier + " expects " + type + " not " + newValue.getType() );
-		}
-
-		Question question = new Question( BehaviouralType.COMPUTED, identifier, label, type, newValue );
-
-		questions.put( identifier, question );
-
-		return newValue;
-	}
-
-	@Override
-	public Value visitPartConditionalBlock( ExpressionLanguageParser.PartConditionalBlockContext ctx ) {
-
-		Value value = visit( ctx.expression() );
-
-		if (value.equals( new Value( Type.Boolean, "True" ) )) {
-			visitChildren( ctx.block() );
-		}
-		return value;
-	}
+        if ( value.equals( new Value( Type.Boolean, "True" ) ) ) {
+            visitChildren( ctx.block() );
+        }
+        return value;
+    }
 
 }

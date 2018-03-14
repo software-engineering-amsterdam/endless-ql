@@ -5,49 +5,55 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class Question {
 
-	public enum BehaviouralType {
+    public enum BehaviouralType {
 
-		ANSWERABLE, COMPUTED;
-	}
+        ANSWERABLE, COMPUTED;
+    }
 
-	private BehaviouralType behaviouralType;
-	private String identifier;
-	private String label;
-	private Value value;
+    private BehaviouralType behaviouralType;
+    private String          identifier;
+    private String          label;
+    private Type            type;
+    private Value           value;
 
-	public Question(BehaviouralType behaviouralType, String identifier, String label, Type type, Value value) {
+    public Question(BehaviouralType behaviouralType, String identifier, String label, Type type, Value value) {
 
-		this.behaviouralType = behaviouralType;
-		this.identifier = identifier;
-		this.label = label;
-		this.value = value;
-	}
+        this.behaviouralType = behaviouralType;
+        this.identifier = identifier;
+        this.label = label;
+        this.type = type;
+        this.value = value;
+    }
 
-	public BehaviouralType getBehaviouralType() {
-		return behaviouralType;
-	}
+    public BehaviouralType getBehaviouralType() {
+        return behaviouralType;
+    }
 
-	public String getIdentifier() {
-		return identifier;
-	}
+    public String getIdentifier() {
+        return identifier;
+    }
 
-	public String getLabel() {
-		return label;
-	}
+    public Type getType() {
+        return type;
+    }
 
-	public Value getValue() {
-		return value;
-	}
+    public String getLabel() {
+        return label;
+    }
 
-	public void parseThenSetValue( String s ) {
+    public Value getValue() {
+        return value;
+    }
 
-		this.value = new Value( value.getType(), s );
-	}
+    public void parseThenSetValue( String s ) {
 
-	@Override
-	public String toString() {
+        this.value = new Value( this.getType(), s );
+    }
 
-		return new ToStringBuilder( this, ToStringStyle.MULTI_LINE_STYLE ).append( "identifier", identifier )
-				.append( "label", label ).append( "value", value ).toString();
-	}
+    @Override
+    public String toString() {
+
+        return new ToStringBuilder( this, ToStringStyle.MULTI_LINE_STYLE ).append( "identifier", identifier )
+                .append( "label", label ).append( "value", value ).toString();
+    }
 }

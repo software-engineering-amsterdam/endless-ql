@@ -1,6 +1,6 @@
 package nl.uva.js.qlparser.ui.components.gui;
 
-import nl.uva.js.qlparser.models.expressions.Form;
+import nl.uva.js.qlparser.models.ql.expressions.Form;
 
 import javax.swing.*;
 import java.awt.*;

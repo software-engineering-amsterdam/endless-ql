@@ -55,7 +55,7 @@ def getAstFromString(input):
 def main(argv):
     # used to log debug self.logger.debugs
     # set to logging.DEBUG to show debug messages, logging.ERROR to not show
-    logging.basicConfig(level=logging.ERROR)
+    logging.basicConfig(level=logging.DEBUG)
     logger = logging.getLogger(__name__)
     # QL
     if len(argv)>1:
@@ -82,10 +82,8 @@ def main(argv):
     ast.checkTypes()
 
     # start up Gui
-    Gui(ast)
+    Gui(ast, False)
 
-    print("finished")
-    exit()
 
     # QLS
     if len(argv)>2:
@@ -102,6 +100,7 @@ def main(argv):
     # pass tree to visitor
     qlsVisitor = QLSVisitor()
     qlsVisitor.visit(qlsTree)
+    print(qlsVisitor.stylesheet)
     # print(qlsTree.toStringTree())
 
 

@@ -34,14 +34,11 @@ class DogeMainView : View() {
 
 
     fun save() {
-        model.questions.forEach { x ->
-            x.commit()
-            println("label: ${x.item.label}")
-            println("Integer Value: ${x.integerValue}")
-            println("String Value: ${x.stringValue}")
-            println("BigDeciamal Value: ${x.decimalValue}")
-            println("Money Value: ${x.moneyValue}")
-            println("Boolean Value: ${x.booleanValue}")
-        }
+        model.commit()
+//        model.questions.forEach { x ->
+//            x.commit()
+//        }
+
+        print("sdfsdf")
     }
 }

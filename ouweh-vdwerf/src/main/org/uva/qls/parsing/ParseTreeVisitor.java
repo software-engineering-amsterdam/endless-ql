@@ -4,17 +4,20 @@ import antlr.generated.QLSBaseVisitor;
 import antlr.generated.QLSParser;
 
 import org.uva.ql.ast.type.*;
-import org.uva.ql.evaluator.value.Value;
 import org.uva.qls.ast.*;
 import org.uva.qls.ast.DefaultStatement.DefaultStatement;
 import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
 import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
-import org.uva.qls.ast.Segment.Question;
+import org.uva.qls.ast.Segment.QuestionReference;
 import org.uva.qls.ast.Segment.Section;
 import org.uva.qls.ast.Segment.Segment;
 import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 import org.uva.qls.ast.Style.StyleProperty.StylePropertyStatement;
+import org.uva.qls.ast.Value.ColorValue;
+import org.uva.qls.ast.Value.NumberValue;
+import org.uva.qls.ast.Value.StringValue;
+import org.uva.qls.ast.Value.Value;
 import org.uva.qls.ast.Widget.Widget;
 import org.uva.qls.ast.Widget.WidgetTypes.*;
 
@@ -97,7 +100,7 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
             widget = (Widget) visit(ctx.widget());
         }
 
-        return new Question(id, style, widget);
+        return new QuestionReference(id, style, widget);
     }
 
     @Override
@@ -138,6 +141,11 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
     }
 
     @Override
+    public Object visitSpinboxType(QLSParser.SpinboxTypeContext ctx) {
+        return new SpinboxType();
+    }
+
+    @Override
     public Object visitBooleanType(QLSParser.BooleanTypeContext ctx) {
         return new BooleanType();
     }
@@ -173,9 +181,20 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
         return new StylePropertyStatement(ctx.property.getText(), (Value) visit(ctx.value()));
     }
 
-    //TODO Process values correctly
     @Override
-    public Object visitValue(QLSParser.ValueContext ctx) {
-        return super.visitValue(ctx);
+    public Object visitStringValue(QLSParser.StringValueContext ctx) {
+        return new StringValue(ctx.STRING().toString());
     }
+
+    @Override
+    public Object visitNumberValue(QLSParser.NumberValueContext ctx) {
+        return new NumberValue(ctx.NUMBER().toString());
+    }
+
+    @Override
+    public Object visitColorValue(QLSParser.ColorValueContext ctx) {
+        return new ColorValue(ctx.COLOR().toString());
+    }
+
+
 }

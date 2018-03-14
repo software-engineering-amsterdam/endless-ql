@@ -13,6 +13,9 @@ class AssignmentNode:
     def changeValue(self, value):
         pass
 
+    def getQuestion(self):
+        return self.question
+
     # This only works if both types are the same, OR if the expression is of type integer and the varNode is of type boolean.
     # Since an integer can always fit in a boolean
     def checkTypes(self):
@@ -29,8 +32,8 @@ class AssignmentNode:
             throwError(errorstring)
 
     # Add the newly created variable if necessary, and call linkVars for the expression children.
-    # We also add the assignment node, so we can set the varNode of this assignment later, to be equal
-    # to a varNode which could be used elsewhere
+    # The node list is a collection of all the occurences of the varNodes, this is collected so we can easily
+    # modify all the values once they have been changed in the gui
     def linkVars(self, varDict):
         # call for children
         self.expression.linkVars(varDict)
@@ -45,6 +48,7 @@ class AssignmentNode:
             new_entry["type"] = self.varNode.checkTypes()
             new_entry["node"] = self.varNode
             new_entry["assign"] = self
+            new_entry["node_list"] = [self.varNode]
             varDict[varname] = new_entry
 
     def getNodeType(self):

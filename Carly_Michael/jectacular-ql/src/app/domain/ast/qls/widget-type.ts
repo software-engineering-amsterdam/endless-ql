@@ -4,5 +4,6 @@ export enum WidgetType {
   TEXT = 3,
   CHECKBOX = 4,
   SPINBOX = 5,
-  SELECT = 6
+  DROPDOWN = 6,
+  SLIDER = 7
 }

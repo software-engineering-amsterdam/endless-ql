@@ -41,7 +41,7 @@ export class AppComponent {
       '    section "Selling"\n' +
       '    {\n' +
       '      question question5\n' +
-      '        widget radio("Yes", "No")\n' +
+      '        widget text\n' +
       '      section "You sold a house"\n' +
       '      {\n' +
       '        question question1\n' +

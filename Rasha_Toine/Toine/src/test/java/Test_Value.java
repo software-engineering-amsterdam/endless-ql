@@ -48,6 +48,14 @@ public class Test_Value {
 	}
 
 	@Test
+	public void boolean_compared_with_boolean() {
+		qt().forAll( booleans().all(), booleans().all() )
+				.check( ( left_boolean, right_boolean ) -> booleanValue( left_boolean )
+						.apply( "==", booleanValue( right_boolean ) )
+						.equals( booleanValue( left_boolean.equals( right_boolean ) ) ) );
+	}
+
+	@Test
 	public void string_plus_string() {
 		qt().forAll( strings().basicLatinAlphabet().ofLengthBetween( 0, 20000 ),
 				strings().basicLatinAlphabet().ofLengthBetween( 0, 20000 ) )
@@ -107,14 +115,6 @@ public class Test_Value {
 				.check( ( left_integer, right_integer ) -> integerValue( left_integer )
 						.apply( "-", integerValue( right_integer ) )
 						.equals( integerValue( left_integer - right_integer ) ) );
-	}
-
-	@Test
-	public void boolean_compared_with_boolean() {
-		qt().forAll( booleans().all(), booleans().all() )
-				.check( ( left_boolean, right_boolean ) -> booleanValue( left_boolean )
-						.apply( "==", booleanValue( right_boolean ) )
-						.equals( booleanValue( left_boolean.equals( right_boolean ) ) ) );
 	}
 
 	@Test

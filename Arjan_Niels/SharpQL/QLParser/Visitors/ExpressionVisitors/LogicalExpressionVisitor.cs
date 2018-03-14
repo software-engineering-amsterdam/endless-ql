@@ -1,15 +1,16 @@
 ﻿using Antlr4.Runtime.Misc;
+using QLGrammar;
+using QLParser.AST;
 using QLParser.AST.Nodes;
 using QLParser.AST.Nodes.ExpressionNodes;
 using QLParser.Exceptions;
-using QLanguage;
-using QLParser.AST;
+using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.Visitors.ExpressionVisitors
 {
-    public class LogicalExpressionVisitor : QLanguage.QLanguageBaseVisitor<IExpressionNode>
+    public class LogicalExpressionVisitor : QLGrammarBaseVisitor<IExpressionNode>
     {
-        public override IExpressionNode VisitLogicalExpression([NotNull] QLanguageParser.LogicalExpressionContext context)
+        public override IExpressionNode VisitLogicalExpression([NotNull] LogicalExpressionContext context)
         {
             var logicalEntityContext = context.logicalEntity();
             if (logicalEntityContext != null)
@@ -31,7 +32,7 @@ namespace QLParser.Visitors.ExpressionVisitors
             return new LogicalExpressionNode(Location.FromContext(context), left, opr, right); ;
         }
 
-        public override IExpressionNode VisitLogicalEntity([NotNull] QLanguageParser.LogicalEntityContext context)
+        public override IExpressionNode VisitLogicalEntity([NotNull] LogicalEntityContext context)
         {
             if (context.ID() != null)
                 return new IdentifierNode(Location.FromContext(context), context.ID().GetText());

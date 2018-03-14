@@ -95,11 +95,15 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <Antlr4 Include="QLSGrammar.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>QLSGrammar</CustomToolNamespace>
+    </Antlr4>
   </ItemGroup>
   <ItemGroup>
-    <Antlr4 Include="QLanguage.g4">
+    <Antlr4 Include="QLGrammar.g4">
       <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>QLanguage</CustomToolNamespace>
+      <CustomToolNamespace>QLGrammar</CustomToolNamespace>
     </Antlr4>
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,11 @@
 ﻿using Antlr4.Runtime.Misc;
 using QLParser.AST.Nodes;
 using System;
-using static QLanguage.QLanguageParser;
+using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.Visitors
 {
-    public class SectionVisitor : QLanguage.QLanguageBaseVisitor<Node>
+    public class SectionVisitor : QLGrammar.QLGrammarBaseVisitor<Node>
     {
         public override Node VisitSection([NotNull] SectionContext context)
         {
@@ -33,7 +33,7 @@ namespace QLParser.Visitors
             }
 
             //If it manages to reach this line; throw an exception, because it should not be possible.
-             throw new InvalidOperationException("We don't know how to process this section.");
+            throw new InvalidOperationException("We don't know how to process this section.");
         }
     }
 }

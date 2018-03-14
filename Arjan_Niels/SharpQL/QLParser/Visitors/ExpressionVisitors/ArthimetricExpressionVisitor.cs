@@ -1,16 +1,17 @@
 ﻿using Antlr4.Runtime.Misc;
-using QLanguage;
+using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.Nodes;
 using QLParser.AST.Nodes.ExpressionNodes;
 using QLParser.AST.Nodes.ExpressionNodes.Enums;
 using QLParser.Exceptions;
+using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.Visitors.ExpressionVisitors
 {
-    public class ArthimetricExpressionVisitor : QLanguage.QLanguageBaseVisitor<IExpressionNode>
+    public class ArthimetricExpressionVisitor : QLGrammarBaseVisitor<IExpressionNode>
     {
-        public override IExpressionNode VisitArtithmeticExpression([NotNull] QLanguageParser.ArtithmeticExpressionContext context)
+        public override IExpressionNode VisitArtithmeticExpression([NotNull] ArtithmeticExpressionContext context)
         {
             if (context.ID() != null)
                 return new IdentifierNode(Location.FromContext(context), context.ID().GetText());
@@ -37,7 +38,7 @@ namespace QLParser.Visitors.ExpressionVisitors
         }
 
 
-        private ArthimetricOperator GetArthimeticOperator(QLanguageParser.ArtithmeticExpressionContext context)
+        private ArthimetricOperator GetArthimeticOperator(ArtithmeticExpressionContext context)
         {
             if (context.MULT() != null)
                 return ArthimetricExpressionNode.ParseArthimeticOperator(context.MULT().GetText());

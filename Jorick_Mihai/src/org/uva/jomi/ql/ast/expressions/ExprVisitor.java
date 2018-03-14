@@ -2,10 +2,21 @@ package org.uva.jomi.ql.ast.expressions;
 
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
+import org.uva.jomi.ql.error.ErrorHandler;
 import org.uva.jomi.ql.parser.antlr.*;
 import org.uva.jomi.ql.parser.antlr.QLParser.ExpressionContext;
 
 public class ExprVisitor extends QLBaseVisitor<Expr> {
+
+	private ErrorHandler errorHandler;
+
+	public ExprVisitor(boolean printErrors) {
+		this.errorHandler = new ErrorHandler(this.getClass().getSimpleName(), printErrors);
+	}
+
+	public int getNumberOfErrors() {
+		return errorHandler.getNumberOfErrors();
+	}
 
 	// Sets the line and column number of an expression based on a ANTLR expression context.
 	public void setPosition(Expr expression, ExpressionContext context) {
@@ -52,8 +63,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		case QLParser.AND:
 			return new AndExpr(left, operator, right);
 		default:
-			// TODO - Needs to go into an Error class.
-			System.err.println("Illegal oprator found in And expression: " + ctx.operator.getText());
+			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in And expression: ");
 			return null;
 		}
 	}
@@ -71,8 +81,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		case QLParser.OR:
 			return new OrExpr(left, operator, right);
 		default:
-			// TODO - Needs to go into an Error class.
-			System.err.println("Illegal oprator found in Or expression: " + ctx.operator.getText());
+			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in Or expression: ");
 			return null;
 		}
 	}
@@ -92,8 +101,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		case QLParser.MINUS:
 			return new SubtractionExpr(left, operator, right);
 		default:
-			// TODO - Needs to go into an Error class.
-			System.err.println("Illegal oprator found in AdditionOrSubtraction expression: " + ctx.operator.getText());
+			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in AdditionOrSubtraction expression: ");
 			return null;
 		}
 	}
@@ -113,8 +121,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		case QLParser.BANG_EQUAL:
 			return new NotEqualExpr(left, operator, right);
 		default:
-			// TODO - Needs to go into an Error class.
-			System.err.println("Illegal oprator found in Equality expression: " + ctx.operator.getText());
+			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in Equality expression: ");
 			return null;
 		}
 	}
@@ -138,8 +145,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		case QLParser.LESS_EQUAL:
 			return new LessThanOrEqualExpr(left, operator, right);
 		default:
-			// TODO - Needs to go into an Error class.
-			System.err.println("Illegal oprator found in Comparison expression: " + ctx.operator.getText());
+			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in Comparison expression: ");
 			return null;
 		}
 	}
@@ -159,8 +165,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 		case QLParser.SLASH:
 			return new DivisionExpr(left, operator, right);
 		default:
-			// TODO - Needs to go into an Error class.
-			System.err.println("Illegal oprator found in MultiplicationOrDivision expression: " + ctx.operator.getText());
+			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in MultiplicationOrDivision expression: ");
 			return null;
 		}
 	}
@@ -186,8 +191,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 			return new UnaryNotExpr(operator, right);
 
 		default:
-			// TODO - Needs to go into an Error class.
-			System.err.println("Illegal oprator found in Unary expression: " + ctx.operator.getText());
+			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in Unary expression: ");
 			return null;
 		}
 	}

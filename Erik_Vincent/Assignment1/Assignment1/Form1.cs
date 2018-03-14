@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
-using Assignment1.Export;
-using Assignment1.Rendering;
 
 namespace Assignment1
 {
@@ -44,6 +41,28 @@ namespace Assignment1
                     Width = 1000,
                     Font = new Font("Arial", 10),
                     ForeColor = Color.Red
+                };
+                _mainPanel.Controls.Add(label);
+            }
+        }
+
+        public void SetWarnings(List<string> warnings)
+        {
+            var header = new Label
+            {
+                Text = "Warning:",
+                Width = 1000,
+                Font = new Font("Arial", 9, FontStyle.Bold)
+            };
+            _mainPanel.Controls.Add(header);
+            foreach (var warning in warnings)
+            {
+                var label = new Label
+                {
+                    Text = warning,
+                    Width = 1000,
+                    Font = new Font("Arial", 8),
+                    ForeColor = Color.DarkOrange
                 };
                 _mainPanel.Controls.Add(label);
             }

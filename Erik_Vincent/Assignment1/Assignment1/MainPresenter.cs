@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Assignment1.Model;
+using Assignment1.Parser;
 using Assignment1.Rendering;
 
 namespace Assignment1
@@ -36,6 +39,7 @@ namespace Assignment1
                 var form = QLListener.ParseString(File.ReadAllText(inputFile));
                 IQuestionFormRenderer renderer = new QuestionFormRenderer(form);
                 _view.SetFormControl(renderer.Render());
+                _view.SetWarnings(form.Warnings.Values.ToList()); // TODO: find a way to show it above in form or somewhere else?
             }
             catch (QLParseException exception)
             {

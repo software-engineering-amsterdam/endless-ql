@@ -5,13 +5,21 @@ import nl.uva.se.sc.niro.model.ql.{ QLForm, Statement }
 import nl.uva.se.sc.niro.model.qls.QLStylesheet
 import org.apache.logging.log4j.scala.Logging
 
-// TODO check if this is the correct name, maybe facade is better
-object QLSTypeChecker extends Logging {
+object QLSTypeCheckFacade extends Logging {
 
-  def pipeline(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] =
+  def performChecks(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] =
     for {
+      _ <- checkFormStylesheetNames(form, stylesheet)
       _ <- checkReferences(form, stylesheet)
     } yield stylesheet
+
+  def checkFormStylesheetNames(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] = {
+    if (form.formName == stylesheet.name) {
+      Right(stylesheet)
+    } else {
+      Left(Seq(TypeCheckError("Name Check Error", s"The name of the stylesheet '${stylesheet.name}' does not match that of the form '${form.formName}'.")))
+    }
+  }
 
   def checkReferences(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] = {
     val questionInStylesheet = stylesheet.collectAllQuestions()

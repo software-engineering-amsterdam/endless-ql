@@ -3,7 +3,7 @@ package domain.model.variable;
 import domain.model.value.ExpressionValue;
 import domain.model.value.PlainValue;
 import domain.model.value.Value;
-import domain.model.visitor.Visitor;
+import domain.visitor.Visitor;
 import javafx.scene.Node;
 
 public class MoneyVariable extends Variable {

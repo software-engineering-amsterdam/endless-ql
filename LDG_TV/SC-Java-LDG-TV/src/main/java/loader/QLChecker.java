@@ -22,7 +22,7 @@ public class QLChecker {
     }
     public void checkReferenceUndefinedVariable() throws ReferenceUndefinedVariableException {
         boolean found = false;
-        for (Variable referencedVariable : formNode.getFormData().getReferencedVariables()){
+        for (Variable referencedVariable : formNode.getReferencedVariables()){
             if(referencedVariable == null){
                 throw new ReferenceUndefinedVariableException("Reference undefined variable found.");
             }

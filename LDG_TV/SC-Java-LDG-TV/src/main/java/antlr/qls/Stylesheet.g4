@@ -5,7 +5,7 @@ grammar Stylesheet;
 stylesheetBuilder  : 'stylesheet' CHARACTERS CURLY_BRACKET_OPEN stylesheetData CURLY_BRACKET_CLOSE;
 stylesheetData : (pageNodeStructure)+;
 
-pageNodeStructure: 'page' label CURLY_BRACKET_OPEN (sectionNodeStructure)+ CURLY_BRACKET_CLOSE;
+pageNodeStructure: 'page' identifier CURLY_BRACKET_OPEN (sectionNodeStructure)+ CURLY_BRACKET_CLOSE;
 sectionNodeStructure:
     'section'
     label

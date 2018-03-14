@@ -1,4 +1,4 @@
-package domain.model.visitor;
+package domain.visitor;
 
 import domain.model.variable.BooleanVariable;
 import domain.model.value.ExpressionValue;

@@ -30,7 +30,6 @@ public class QLLoader extends FormBaseListener {
     }
     @Override
     public void enterFormData(FormParser.FormDataContext ctx) {
-        this.formNode.getFormData().addConditionsAsKey(conditionsHolder);
     }
     @Override
     public void exitFormData(FormParser.FormDataContext ctx){
@@ -46,19 +45,18 @@ public class QLLoader extends FormBaseListener {
 //        Object c = null;
 //        for(FormParser.ConditionContext cc : ctx.statementBlockStructure().conditions().condition()){
 //            if (cc.value() instanceof FormParser.ValueContext){
-//                c = this.formNode.getFormData().getVariableByLabel(cc.value().getText());
+//                c = this.formNode.getVariableFromList(cc.value().getText());
 //                this.conditionsHolder.add((BooleanVariable) c);
-//                this.formNode.getFormData().getReferencedVariables().add((Variable) c);
+//                this.formNode.getReferencedVariables().add((Variable) c);
 //            }
 //            c = null;
 //        }
-//        this.formNode.getFormData().addConditionsAsKey(conditionsHolder);
+//        this.formNode.addConditionsAsKey(conditionsHolder);
      }
     @Override
     public void exitIfStructure(FormParser.IfStructureContext ctx){
         System.out.println("Exit if");
         this.inIfNode = false;
-
         this.conditionsHolder = new ArrayList<Variable>(); ;
     }
     @Override
@@ -82,7 +80,7 @@ public class QLLoader extends FormBaseListener {
     public void exitQuestionStructure(FormParser.QuestionStructureContext ctx) {
         String questionText = ctx.label().getText();
 
-        this.formNode.getFormData().addQuestion(this.conditionsHolder, new QuestionASTNode(questionText, constructedVariable, true));
+        this.formNode.addQuestion(new QuestionASTNode(questionText, constructedVariable, true));
         QuestionASTNode q = new QuestionASTNode(questionText, constructedVariable, !this.inIfNode);
         if(this.inIfNode) {
             this.formNode.addToLastIf(q);
@@ -109,27 +107,27 @@ public class QLLoader extends FormBaseListener {
         Variable left = null;
         Variable right = null;
         if (fe.aritmaticExpression().divExpression() instanceof FormParser.DivExpressionContext){
-            left = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().divExpression().variable(0).getText());
-            right = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().divExpression().variable(1).getText());
+            left = this.formNode.getVariableFromList(fe.aritmaticExpression().divExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(fe.aritmaticExpression().divExpression().variable(1).getText());
             operator = "/";
         }
         if (fe.aritmaticExpression().mulExpression() instanceof FormParser.MulExpressionContext){
-            left = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().mulExpression().variable(0).getText());
-            right = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().mulExpression().variable(1).getText());
+            left = this.formNode.getVariableFromList(fe.aritmaticExpression().mulExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(fe.aritmaticExpression().mulExpression().variable(1).getText());
             operator = "*";
         }
         if (fe.aritmaticExpression().minExpression() instanceof FormParser.MinExpressionContext){
-            left = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().minExpression().variable(0).getText());
-            right = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().minExpression().variable(1).getText());
+            left = this.formNode.getVariableFromList(fe.aritmaticExpression().minExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(fe.aritmaticExpression().minExpression().variable(1).getText());
             operator = "-";
         }
         if (fe.aritmaticExpression().addExpression() instanceof FormParser.AddExpressionContext){
-            left = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().addExpression().variable(0).getText());
-            right = this.formNode.getFormData().getVariableByLabel(fe.aritmaticExpression().addExpression().variable(1).getText());
+            left = this.formNode.getVariableFromList(fe.aritmaticExpression().addExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(fe.aritmaticExpression().addExpression().variable(1).getText());
             operator = "+";
         }
-        this.formNode.getFormData().getReferencedVariables().add(left);
-        this.formNode.getFormData().getReferencedVariables().add(right);
+        this.formNode.getReferencedVariables().add(left);
+        this.formNode.getReferencedVariables().add(right);
         return (new ExpressionValue(left, right, operator));
 
     }

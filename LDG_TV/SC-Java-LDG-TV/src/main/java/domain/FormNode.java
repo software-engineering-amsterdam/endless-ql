@@ -3,6 +3,7 @@ package domain;
 import domain.model.IfASTNode;
 import domain.model.ASTNode;
 import domain.model.QuestionASTNode;
+import domain.model.variable.Variable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +11,17 @@ import java.util.List;
 public class FormNode {
 
     private String formIdentifier;
-    private FormData formData;
     private List<ASTNode> ASTNodes;
+    private List<Variable> referencedVariables;
     private int lastIfIndex;
 
     public FormNode(){
-        this.formData = new FormData();
         this.ASTNodes = new ArrayList<>();
+        this.referencedVariables = new ArrayList<Variable>();
+    }
+
+    public List<Variable> getReferencedVariables() {
+        return referencedVariables;
     }
 
     public void setFormIdentifier(String formIdentifier) {
@@ -24,9 +29,6 @@ public class FormNode {
     }
     public String getFormIdentifier() {
         return formIdentifier;
-    }
-    public FormData getFormData() {
-        return this.formData;
     }
 
     public List<ASTNode> getASTNodes() {
@@ -45,5 +47,30 @@ public class FormNode {
     public void addToLastIf(QuestionASTNode q){
         IfASTNode ifNode = (IfASTNode) this.ASTNodes.get(this.lastIfIndex); // TODO check for instance of and not out of bounds
         ifNode.addQuestion(q);
+    }
+
+    public Variable getVariableFromList(String label){
+        Variable qv = null ;
+        for (QuestionASTNode qan : getAllQuestionASTNodes()) {
+               if(qan.getVariable().getIdentifier().equals(label) ){
+                   qv = qan.getVariable();
+               }
+        }
+        return qv;
+    }
+
+    public List<QuestionASTNode> getAllQuestionASTNodes(){
+        List<QuestionASTNode> temp = new ArrayList<>();
+        for (ASTNode an : getASTNodes()) {
+            if(an instanceof QuestionASTNode){
+                temp.add((QuestionASTNode) an);
+            }
+            if(an instanceof IfASTNode){
+                for (QuestionASTNode qan : ((IfASTNode) an).getQuestionNodes()){
+                    temp.addAll(((IfASTNode) an).getQuestionNodes());
+                }
+            }
+        }
+        return temp;
     }
 }

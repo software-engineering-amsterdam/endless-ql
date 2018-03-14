@@ -2,7 +2,6 @@ package tool;
 
 import antlr.ql.FormLexer;
 import antlr.ql.FormParser;
-import domain.FormData;
 import domain.FormNode;
 import domain.Utilities;
 import domain.model.ASTNode;
@@ -11,11 +10,10 @@ import domain.model.QuestionASTNode;
 import domain.model.value.BooleanValue;
 import domain.model.variable.BooleanVariable;
 import domain.model.variable.Variable;
-import domain.model.visitor.UIVisitor;
+import domain.visitor.UIVisitor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -72,7 +70,6 @@ public class ToolController implements Initializable {
         ParseTreeWalker.DEFAULT.walk(loader, tree);
 
         FormNode node = loader.getFormNode();
-        FormData data = node.getFormData();
 
         UIVisitor v = new UIVisitor();
 

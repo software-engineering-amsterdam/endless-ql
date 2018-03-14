@@ -4,7 +4,7 @@ import domain.model.value.BooleanValue;
 import domain.model.value.ExpressionValue;
 import domain.model.value.PlainValue;
 import domain.model.value.Value;
-import domain.model.visitor.Visitor;
+import domain.visitor.Visitor;
 import javafx.scene.Node;
 
 
@@ -25,5 +25,6 @@ public abstract class Variable {
     public void setValue(ExpressionValue value){};
 
     public abstract Node getRelatedUIElement(Visitor v);
+
 
 }

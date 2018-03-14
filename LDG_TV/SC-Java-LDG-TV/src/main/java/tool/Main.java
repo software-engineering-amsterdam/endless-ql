@@ -3,7 +3,7 @@ package tool;
 
 import antlr.ql.FormLexer;
 import antlr.ql.FormParser;
-import domain.model.visitor.UIVisitor;
+import domain.visitor.UIVisitor;
 import loader.QLLoader;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;

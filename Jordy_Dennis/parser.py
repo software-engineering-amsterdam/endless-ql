@@ -82,7 +82,7 @@ def main(argv):
     ast.checkTypes()
 
     # start up Gui
-    Gui(ast)
+    Gui(ast, False)
 
     print("finished")
     exit()

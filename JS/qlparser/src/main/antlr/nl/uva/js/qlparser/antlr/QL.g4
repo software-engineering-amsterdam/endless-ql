@@ -18,8 +18,7 @@ BOOLEAN:    'boolean';
 INTEGER:    'integer';
 
 // Reserved boolean values
-TRUE:       'true';
-FALSE:      'false';
+BOOLVAL:    ('true' | 'false');
 
 // ISO8601 date notation
 DATVAL:     [0-9]+'-'[0-9]+'-'[0-9]+;
@@ -74,7 +73,7 @@ value
     | INTVAL
     | DECVAL
     | MONVAL
-    | BOOLVAL=(TRUE | FALSE)
+    | BOOLVAL
     ;
 
 // Higher level parsing

@@ -1,10 +1,10 @@
-package nl.uva.js.qlparser.models.expressions.form;
+package nl.uva.js.qlparser.models.ql.expressions.form;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-import nl.uva.js.qlparser.models.enums.DataType;
-import nl.uva.js.qlparser.models.expressions.data.Variable;
+import nl.uva.js.qlparser.models.ql.enums.DataType;
+import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,6 +42,6 @@ public class Question implements FormExpression {
 
     @Override
     public void checkType() {
-        variable.checkAndReturnType();
+        variable.returnCheckedType();
     }
 }

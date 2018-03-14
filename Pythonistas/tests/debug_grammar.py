@@ -11,25 +11,20 @@ from subprocess import Popen, PIPE, check_output
 def debug_grammar(path):
     """ Prints tokens and tree """
     string_input = open_file(path)
-    output = create_temp_files(string_input)
+    create_temp_files()
 
+    output = compile_run_debug(string_input)
+
+    clean_up_tmp_files()
     return output
 
 
-def create_temp_files(string_input):
-    """"""
+def compile_run_debug(string_input):
     tmp_test_dir = Path(__file__).parent
-    get_antlr(tmp_test_dir)
-
-    ql_path_from = tmp_test_dir.joinpath('../grammar/QL.g4')
-    ql_path_to = tmp_test_dir.joinpath('QL.g4')
-    shutil.copyfile(ql_path_from, ql_path_to)
 
     # Generate the lexer and parser classes
     check_output("""java -cp '{}/antlr-4.7-complete.jar' org.antlr.v4.Tool '{}/QL.g4'""".format(
         tmp_test_dir, tmp_test_dir), shell=True, universal_newlines=True)
-    # subprocess.check_output("java -cp '{0}\\antlr-4.7-complete.jar' org.antlr.v4.Tool '{1}\\QL.g4'".format(
-    #     tmp_test_dir, tmp_test_dir), shell=False, universal_newlines=True)
 
     # Generate a java main class
     write_java_file(string_input)
@@ -43,8 +38,17 @@ def create_temp_files(string_input):
 
     output, err = process.communicate()
 
-    clean_up()
     return output, err
+
+
+def create_temp_files():
+    """gets antlr4 & grammerfile"""
+    tmp_test_dir = Path(__file__).parent
+    get_antlr(tmp_test_dir)
+
+    ql_path_from = tmp_test_dir.joinpath('../grammar/QL.g4')
+    ql_path_to = tmp_test_dir.joinpath('QL.g4')
+    shutil.copyfile(ql_path_from, ql_path_to)
 
 
 def get_antlr(tmp_test_dir):
@@ -57,13 +61,12 @@ def get_antlr(tmp_test_dir):
     tmp_test_jar.write_bytes(response.content)
 
 
-def clean_up():
+def clean_up_tmp_files():
     dir_name = Path(__file__).parent
     test = os.listdir(dir_name)
 
     for item in test:
-        if item.endswith(".java") | item.endswith(".class") | item.endswith(".tokens") | item.endswith(".jar") | \
-                item.endswith(".g4"):
+        if item.endswith((".java", ".class", ".tokens", ".jar", ".g4")):
             os.remove(os.path.join(dir_name, item))
 
 

@@ -53,3 +53,6 @@ class Question:
 
     def get_text(self):
         return self.question_text
+
+    def set_value(self, value):
+        self.answer.set(value)

@@ -82,26 +82,31 @@ public class Value {
 	}
 
 	public Value(Type type) {
-		
+
 		this.type = type;
-		
-		switch( type ) {
+
+		switch ( type ) {
 			case Boolean:
-				this.text="False";
-				break;
+				this.text = "False";
+				return;
+				
 			case Date:
-				this.text="01/01/1970";
-				break;
+				this.text = "01/01/1970";
+				return;
+				
 			case Integer:
-				this.text="0";
-				break;
+				this.text = "0";
+				return;
+				
 			case Money:
-				this.text="0.00";
-				break;
+				this.text = "0.00";
+				return;
+				
 			case String:
-				this.text="";
-				break;
+				this.text = "";
+				return;
 		}
+		throw new RuntimeException( "Constructor not imlemented for type " + type );
 	}
 
 	public Value(Type type, String string) {
@@ -109,7 +114,6 @@ public class Value {
 		this.type = type;
 		this.text = string;
 	}
-
 
 	private Value(boolean condition) {
 

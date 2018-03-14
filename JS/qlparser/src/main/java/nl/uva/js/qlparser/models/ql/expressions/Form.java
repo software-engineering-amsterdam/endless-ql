@@ -1,9 +1,9 @@
-package nl.uva.js.qlparser.models.expressions;
+package nl.uva.js.qlparser.models.ql.expressions;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-import nl.uva.js.qlparser.models.expressions.form.FormExpression;
+import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;

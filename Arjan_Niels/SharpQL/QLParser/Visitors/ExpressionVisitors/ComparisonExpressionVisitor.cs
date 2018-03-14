@@ -1,14 +1,15 @@
 ﻿using Antlr4.Runtime.Misc;
+using QLGrammar;
 using QLParser.AST;
-using QLanguage;
 using QLParser.AST.Nodes;
 using QLParser.AST.Nodes.ExpressionNodes;
+using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.Visitors.ExpressionVisitors
 {
-    public class ComparisonExpressionVisitor : QLanguage.QLanguageBaseVisitor<IExpressionNode>
+    public class ComparisonExpressionVisitor : QLGrammarBaseVisitor<IExpressionNode>
     {
-        public override IExpressionNode VisitComparisonExpression([NotNull] QLanguageParser.ComparisonExpressionContext context)
+        public override IExpressionNode VisitComparisonExpression([NotNull] ComparisonExpressionContext context)
         {
             // If ( expression )
             var comparisonoContext = context.comparisonExpression();
@@ -22,7 +23,7 @@ namespace QLParser.Visitors.ExpressionVisitors
             return new ComparisonExpressionNode(Location.FromContext(context), left, opr, right);
         }
 
-        public override IExpressionNode VisitComparisonOperand([NotNull] QLanguageParser.ComparisonOperandContext context)
+        public override IExpressionNode VisitComparisonOperand([NotNull] ComparisonOperandContext context)
         {
             var arthimeticContext = context.artithmeticExpression();
             return new ArthimetricExpressionVisitor().VisitArtithmeticExpression(arthimeticContext);

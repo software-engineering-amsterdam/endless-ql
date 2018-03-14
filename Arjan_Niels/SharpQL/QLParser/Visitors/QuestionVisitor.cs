@@ -1,14 +1,15 @@
 ﻿using Antlr4.Runtime.Misc;
-using QLanguage;
+using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.Nodes;
 using System;
+using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.Visitors
 {
-    public class QuestionVisitor : QLanguageBaseVisitor<QuestionNode>
+    public class QuestionVisitor : QLGrammarBaseVisitor<QuestionNode>
     {
-        public override QuestionNode VisitQuestion([NotNull] QLanguageParser.QuestionContext context)
+        public override QuestionNode VisitQuestion([NotNull] QuestionContext context)
         {
             var id = context.ID().GetText();
             var questionRaw = context.TEXT().GetText();

@@ -1,4 +1,4 @@
-﻿grammar QLanguage;
+﻿grammar QLGrammar;
 
 /*
  * Parser Rules

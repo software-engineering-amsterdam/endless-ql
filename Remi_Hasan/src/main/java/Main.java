@@ -1,6 +1,4 @@
 import gui.FormRenderer;
-import ql.QLFormBuilder;
-import ql.analysis.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,15 +8,14 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import ql.QLFormBuilder;
+import ql.analysis.SymbolTable;
 import ql.model.Form;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 
 public class Main extends Application {
 

@@ -6,8 +6,13 @@ import tornadofx.Controller
 
 class DogeController: Controller() {
 
+    private val tree = DogeParser().parse()
+
     fun getQuestions(): List<Question> {
-        val tree = DogeParser().parse()
         return tree.getEnabledQuestions()
+    }
+
+    fun updateQuestion(question: Question){
+        tree.updateQuestion(question)
     }
 }

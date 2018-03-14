@@ -12,11 +12,11 @@ form taxOfficeExample {
   "Easy integer addition" nummer: integer = 1+1
   if (hasSoldHouse) {
     "What was the selling price?"
-      sellingPrice: money
+      sellingPrice: decimal = 100.00d
     "Private debts for the sold house:"
-      privateDebt: money = 1000,00
+      privateDebt: money = EUR1000.00
     "Value residue:"
       valueResidue: money =
-        ((3.0*privateDebt) - privateDebt)
+        privateDebt + privateDebt
   }
 }

@@ -34,7 +34,9 @@ public class UIVisitor implements Visitor {
 
     @Override
     public Node visit(ArithmeticExpressionValue ev) {
-        return (Node) new Label();
+        Label lbl = new Label();
+        lbl.setText(ev.getValue().toString());
+        return lbl;
     }
 
     @Override

@@ -25,15 +25,15 @@ class SymbolTable {
             previousSymbol == null -> {
                 val symbol = Symbol(type, value)
                 symbols[name] = symbol
-                SymbolRegistrationResult.Registered(symbol)
+                SymbolRegistrationResult.Registered(name, symbol)
             }
 
             previousSymbol.value.type == type -> {
-                SymbolRegistrationResult.AlreadyRegistered()
+                SymbolRegistrationResult.AlreadyRegistered(name)
             }
 
             else -> {
-                SymbolRegistrationResult.AlreadyRegisteredTypeMismatch(previousSymbol)
+                SymbolRegistrationResult.AlreadyRegisteredTypeMismatch(name, previousSymbol)
             }
 
         }

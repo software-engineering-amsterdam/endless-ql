@@ -3,7 +3,7 @@
 /*
  * Parser Rules
 */
-formDeclaration			: FORM formName LCURLY (section)* RCURLY;
+form					: FORM formName LCURLY (section)* RCURLY;
 section					: computedVariable | question | conditionalBlock;
 question				: TEXT ID COLON QTYPE;
 computedVariable		: TEXT ID COLON QTYPE EQUAL (artithmeticExpression | comparisonExpression);

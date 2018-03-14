@@ -18,10 +18,10 @@ namespace QLParser
             CommonTokenStream commonTokenStream = new CommonTokenStream(qLanguageLexer);
             QLGrammarParser qLanguageParser = new QLGrammarParser(commonTokenStream);
 
-            FormDeclarationContext formContext = qLanguageParser.formDeclaration();
+            FormContext formContext = qLanguageParser.form();
             FormVisitor visitor = new FormVisitor();
 
-            return visitor.VisitFormDeclaration(formContext);
+            return visitor.VisitForm(formContext);
         }
 
         private static void Prepare()

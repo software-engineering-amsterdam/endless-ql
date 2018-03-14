@@ -11,7 +11,7 @@ namespace QLParser
 {
     public class FormVisitor : QLGrammarBaseVisitor<FormNode>
     {
-        public override FormNode VisitFormDeclaration([NotNull] FormDeclarationContext context)
+        public override FormNode VisitForm([NotNull] FormContext context)
         {
             if (context.children.Any(x => x.GetType() == typeof(ErrorNodeImpl)))
                 return null;

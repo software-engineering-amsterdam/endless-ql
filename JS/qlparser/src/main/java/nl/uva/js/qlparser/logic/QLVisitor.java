@@ -31,13 +31,11 @@ class QLVisitor extends QLBaseVisitor {
 
     @Override
     public Value visitValue(QLParser.ValueContext ctx) {
-        String typeName = (ctx.BOOLVAL != null)? "BOOL" : getTokenType(((TerminalNode) ctx.getChild(0)).getSymbol());
-
         DataType type = Arrays.stream(DataType.values())
 //                Match datatype of the value with any of the defined datatypes.
 //                Should antlr decide to make up value types that are not available as enum (which it should not,
 //                as the value types are defined in the grammar), the Java Optional class with throw an exception.
-                .filter(dataType -> dataType.toString().startsWith(typeName.substring(0, 3)))
+                .filter(dataType -> dataType.toString().startsWith(getTokenType(((TerminalNode) ctx.getChild(0)).getSymbol()).substring(0, 3)))
                 .findFirst()
                 .get();
 
@@ -47,7 +45,7 @@ class QLVisitor extends QLBaseVisitor {
                 .build();
     }
 
-    private Combinator buildCombinator(ParserRuleContext ctx, Operator operator) {
+    private Combinator<?> buildCombinator(ParserRuleContext ctx, Operator operator) {
         return Combinator.builder()
                 .left(ctx.getChild(0).<DataExpression>accept(this))
                 .operator(operator)
@@ -94,7 +92,7 @@ class QLVisitor extends QLBaseVisitor {
     @Override
     public Negation visitNegation(QLParser.NegationContext ctx) {
         return Negation.builder()
-                .expression(ctx.<DataExpression>accept(this))
+                .expression(ctx.expression().<DataExpression>accept(this))
                 .build();
     }
 

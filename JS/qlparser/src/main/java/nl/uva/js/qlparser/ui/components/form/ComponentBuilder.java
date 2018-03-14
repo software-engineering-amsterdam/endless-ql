@@ -22,7 +22,10 @@ public class ComponentBuilder {
         textField.getDocument().addDocumentListener(new TextChangeListener(textField, variable));
 
 //        Listen to external changes
-        variable.addChangeListener(newValue -> textField.setText(variable.value().toString()));
+        variable.addChangeListener(newValue -> {
+            if (!newValue.getName().equals(variable.getName()))
+                textField.setText(variable.value().toString());
+        });
 
         return textField;
     }
@@ -34,13 +37,18 @@ public class ComponentBuilder {
         NonNullRun.consumer(variable.getValue(), value -> checkBox.setSelected(((Boolean) value.value())));
 
 //        Listen to field changes and update the variable accordingly
-        checkBox.addItemListener(event -> variable.setValue(Value.builder()
+        checkBox.addActionListener(event -> {
+            variable.setValue(Value.builder()
                 .dataType(variable.getDataType())
                 .value(checkBox.isSelected())
-                .build()));
+                .build());
+        });
 
 //        Listen to external changes
-        variable.addChangeListener(newValue -> checkBox.setSelected(((Boolean) newValue.value())));
+        variable.addChangeListener(newValue -> {
+            if (!newValue.getName().equals(variable.getName()))
+                checkBox.setSelected(((Boolean) variable.value()));
+        });
 
         return checkBox;
     }
@@ -51,10 +59,12 @@ public class ComponentBuilder {
         @NonNull private Variable variable;
 
         private void updateValue() {
-            variable.setValue(Value.builder()
-                    .dataType(variable.getDataType())
-                    .value(textField.getText())
-                    .build());
+            if (variable.getValue() instanceof Value)
+                variable.setValue(
+                        Value.builder()
+                            .dataType(variable.getDataType())
+                            .value(variable.getDataType().getValueOf().apply(textField.getText()))
+                            .build());
         }
 
         @Override
@@ -64,7 +74,7 @@ public class ComponentBuilder {
 
         @Override
         public void removeUpdate(DocumentEvent documentEvent) {
-            updateValue();
+            if (!textField.getText().isEmpty()) updateValue();
         }
 
         @Override

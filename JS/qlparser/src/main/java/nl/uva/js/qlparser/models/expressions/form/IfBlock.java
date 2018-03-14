@@ -40,7 +40,7 @@ public class IfBlock implements FormExpression {
 
     @Override
     public void checkType() {
-        DataType conditionType = condition.checkAndReturnType();
+        DataType conditionType = condition.returnCheckedType();
         if (conditionType != DataType.BOOLEAN)
             throw new TypeMismatchException(DataType.BOOLEAN, conditionType);
 

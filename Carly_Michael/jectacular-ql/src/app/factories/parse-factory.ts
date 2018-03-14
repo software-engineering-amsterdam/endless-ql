@@ -17,6 +17,7 @@ export class ParseFactory {
 
     if (qlsInput.trim().length > 0 ) {
       astQls = parseQls(qlsInput, {});
+      astQls.checkStylesheet([], astQl.getAllQuestions());
     }
     return new ParseResult(astQl.name, astQl, astQls);
   }

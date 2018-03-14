@@ -17,4 +17,12 @@ public class FormBuilderTest {
         assertEquals(form.questions.size(), 6);
     }
 
+    @Test
+    public void conditionForm() throws Exception {
+        Form form = QLTestUtilities.buildForm(UnknownIdentifiersTest.class
+                .getResourceAsStream("/ValidForms/ConditionForm.ql"));
+
+        assertEquals(form.questions.size(), 7);
+    }
+
 }

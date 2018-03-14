@@ -36,7 +36,7 @@ export class Stylesheet extends Node {
       });
 
       if (!qlsQuestion) {
-        throw new MissingIdentifierError(`QL question ${qlQuestion.name} does not have a matching QLS question.`)
+        throw new MissingIdentifierError(`QL question ${qlQuestion.name} does not have a matching QLS question.`);
       }
     }
   }

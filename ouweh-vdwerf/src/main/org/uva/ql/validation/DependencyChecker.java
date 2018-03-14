@@ -49,7 +49,7 @@ class DependencyChecker extends Checker {
                 }
             }
             closure.addAll(newRelations);
-        } while (!(newRelations.size() == 0));
+        } while (newRelations.size() > 0);
 
         return closure;
     }

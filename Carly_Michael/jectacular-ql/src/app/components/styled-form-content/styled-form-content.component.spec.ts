@@ -4,6 +4,7 @@ import { StyledFormContentComponent } from './styled-form-content.component';
 import {MaterialModule} from '../../material.module';
 import {DynamicFormQuestionComponent} from '../dynamic-form-question/dynamic-form-question.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {WidgetComponent} from '../widget/widget.component';
 
 describe('StyledFormContentComponent', () => {
   let component: StyledFormContentComponent;
@@ -11,7 +12,7 @@ describe('StyledFormContentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StyledFormContentComponent, DynamicFormQuestionComponent ],
+      declarations: [ StyledFormContentComponent, DynamicFormQuestionComponent, WidgetComponent],
       imports: [MaterialModule, ReactiveFormsModule]
     })
     .compileComponents();

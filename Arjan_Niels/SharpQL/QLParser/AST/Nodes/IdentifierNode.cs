@@ -1,5 +1,4 @@
-﻿using QLParser.AST;
-using QLParser.Analysis;
+﻿using QLParser.Analysis;
 
 namespace QLParser.AST.Nodes
 {
@@ -15,11 +14,6 @@ namespace QLParser.AST.Nodes
         public QValueType GetQValueType()
         {
             return SymbolTable.Get(ID);
-        }
-
-        public NodeType GetNodeType()
-        {
-            return Type;
         }
 
         public override string ToString()

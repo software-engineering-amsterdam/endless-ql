@@ -18,7 +18,6 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
         NumberNode number = new NumberNode();
         number.setValue(Double.valueOf(ctx.value.getText()));
         number.getValue();
-        System.out.println("I now end my visit and return a Number Node with value = " + number.Value);
         return number;
     }
 

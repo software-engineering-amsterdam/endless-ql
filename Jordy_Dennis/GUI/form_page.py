@@ -43,7 +43,9 @@ class Page():
     def removeQuestion(self, varName):
         for question in self.questions:
             if question.getVarName == varName:
+                self.questions.remove(question)
                 question.emptyFrame()
+
 
     def getFrame(self):
         return self.frame

@@ -27,19 +27,19 @@ class ReferenceChecker extends Checker {
                 .filter(e -> !uniqueIds.add(e))
                 .collect(Collectors.toList());
         if (duplicateIds.size() > 0) {
-            logger.severe("Questions: " + duplicateIds.toString() + " are referenced multiple times by the QLS");
+            logger.severe(String.format("Questions: %s are referenced multiple times by the QLS", duplicateIds.toString()));
         }
 
         ArrayList qlsQuestionIdsCopy = new ArrayList(qlsQuestionIds);
         qlsQuestionIdsCopy.removeAll(qlQuestionIds);
 
         if (qlsQuestionIdsCopy.size() > 0) {
-            logger.severe("Questions: " + qlsQuestionIdsCopy.toString() + " are in QLS but not in QL");
+            logger.severe(String.format("Questions:%s are in QLS but not in QL", qlsQuestionIdsCopy.toString()));
         }
 
         qlQuestionIds.removeAll(qlsQuestionIds);
         if (qlQuestionIds.size() > 0) {
-            logger.severe("Questions: " + qlQuestionIds.toString() + " are in QL but not in QLS");
+            logger.severe(String.format("Questions: %s are in QL but not in QLS", qlQuestionIds.toString()));
         }
     }
 }

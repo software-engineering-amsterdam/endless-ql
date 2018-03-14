@@ -1,7 +1,7 @@
 package ui.model
 
 import data.question.Question
-import data.question.QuestionType
+import data.question.SymbolType
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
@@ -21,22 +21,22 @@ class QuestionModel(question: Question) : ItemViewModel<Question>(question) {
 
     init {
         when (item.value.type) {
-            QuestionType.INTEGER -> integerValue = bind { SimpleIntegerProperty(item.value.integerValue.value) }
-            QuestionType.BOOLEAN -> booleanValue = bind { SimpleBooleanProperty(item.value.booleanValue.value) }
-            QuestionType.STRING -> stringValue = bind { SimpleStringProperty(item.value.stringValue.value) }
-            QuestionType.DECIMAL -> decimalValue = bind { SimpleObjectProperty<BigDecimal>(item.value.decimalValue.value) }
-            QuestionType.MONEY -> moneyValue = bind { SimpleObjectProperty<BigDecimal>(item.value.moneyValue.value) }
+            SymbolType.Integer -> integerValue = bind { SimpleIntegerProperty(item.value.integerValue.value) }
+            SymbolType.Boolean -> booleanValue = bind { SimpleBooleanProperty(item.value.booleanValue.value) }
+            SymbolType.String -> stringValue = bind { SimpleStringProperty(item.value.stringValue.value) }
+            SymbolType.Decimal -> decimalValue = bind { SimpleObjectProperty<BigDecimal>(item.value.decimalValue.value) }
+            SymbolType.Money -> moneyValue = bind { SimpleObjectProperty<BigDecimal>(item.value.moneyValue.value) }
             else -> throw IllegalArgumentException("Unsupported type")
         }
     }
 
     override fun onCommit() {
         when (item.value.type) {
-            QuestionType.STRING -> item.value.stringValue.value = stringValue.value
-            QuestionType.BOOLEAN -> item.value.booleanValue.value = booleanValue.value
-            QuestionType.INTEGER -> item.value.integerValue.value = integerValue.value
-            QuestionType.DECIMAL -> item.value.decimalValue.value = decimalValue.value
-            QuestionType.MONEY -> item.value.moneyValue.value = moneyValue.value
+            SymbolType.String -> item.value.stringValue.value = stringValue.value
+            SymbolType.Boolean -> item.value.booleanValue.value = booleanValue.value
+            SymbolType.Integer -> item.value.integerValue.value = integerValue.value
+            SymbolType.Decimal -> item.value.decimalValue.value = decimalValue.value
+            SymbolType.Money -> item.value.moneyValue.value = moneyValue.value
             else -> throw IllegalArgumentException("Unsupported type")
         }
     }

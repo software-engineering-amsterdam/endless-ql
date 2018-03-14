@@ -46,7 +46,7 @@ class Question_Generator:
                             self.deleteQuestionInForm(varNameToBeDeleted)
 
                     #insert new question into the GUI
-                    self.form.add_question(varName, label, var_type, value)
+                    self.form.addQuestionToPage(varName, label, var_type, value)
                 # delete question from the to be deleted list
                 del toBeDeleteQuestions[varName]
 
@@ -58,10 +58,7 @@ class Question_Generator:
     # This function is use to delete question under an if statement, in order to insert an if en re-redener the
     # questions below the if
     def deleteQuestionInForm(self, varName):
-        for formQuestion in self.form.questions:
-            if formQuestion.varName == varName:
-                formQuestion.frame.destroy()
-                self.form.questions.remove(formQuestion)
+        self.form.removeQuestionFromPage(formQuestion)
 
     # this function is used to delete question that are no longer valid, i.e. the questions in an if or elif or else block
     def deleteInvalidQuestions(self):

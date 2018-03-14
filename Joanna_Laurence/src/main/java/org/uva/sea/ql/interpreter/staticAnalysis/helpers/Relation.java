@@ -21,10 +21,14 @@ public class Relation<T> {
         return this.relations.add(element);
     }
 
-    //TODO: Return chain instead of elements
-    public List<T> getCircularDependencies() {
+    /**
+     * Checks if there are circular relations
+     * @return List of relations that are circular
+     */
+    public List<T> getCircularRelations() {
+        Relation<T> transitiveClosure = this.getTransitiveClosure();
         List<T> circular = new ArrayList<>();
-        for(AbstractMap.SimpleEntry<T,T> entry : this.relations) {
+        for(AbstractMap.SimpleEntry<T,T> entry : transitiveClosure.getRelations()) {
             if(entry.getKey().equals(entry.getValue())) {
                 circular.add(entry.getKey());
             }
@@ -33,11 +37,15 @@ public class Relation<T> {
         return circular;
     }
 
-    private Relation getTransativeClosure() {
+    /**
+     * Get transitive closure of the current relation
+     * @return
+     */
+    private Relation<T> getTransitiveClosure() {
         Relation<T> transitiveClosure = new Relation<>();
         transitiveClosure.addAll(this.relations);
 
-        boolean newElementsAdded = false;
+        boolean newElementsAdded;
         do {
             newElementsAdded = false;
             for(AbstractMap.SimpleEntry<T,T> entry : transitiveClosure.getRelations()) {
@@ -55,14 +63,29 @@ public class Relation<T> {
         return transitiveClosure;
     }
 
+    /**
+     * Add a set of relations
+     * @param relations
+     */
     private void addAll(Set<AbstractMap.SimpleEntry<T, T>> relations) {
         this.relations.addAll(relations);
     }
 
+    /**
+     * Check if key is related to value
+     * @param key
+     * @param value
+     * @return If it this relation
+     */
     public boolean contains(T key, T value) {
         return relations.contains(new AbstractMap.SimpleEntry<>(key, value));
     }
 
+    /**
+     * Find what elements have a relation with element
+     * @param element The element
+     * @return Set of items that have a relation to element
+     */
     public Set<T> getRelationTo(T element) {
         Set<T> result = new HashSet<>();
         for( AbstractMap.SimpleEntry<T,T> entry : this.relations) {

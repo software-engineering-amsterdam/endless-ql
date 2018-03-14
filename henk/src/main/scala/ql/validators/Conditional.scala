@@ -32,10 +32,7 @@ object ConditionalValidator {
   }
 
   def isBooleanIdentifier(node: ASTIdentifier, ast: ASTNode): Boolean = {
-    ASTCollector.getTypeDecl(node, ast) match {
-      case Some(ASTBoolean()) => true
-      case other              => false
-    }
+    ASTCollector.getTypeDecl(node, ast).exists { _ == ASTBoolean()}
   }
 
   def validateLogical(node: ASTBinary, ast: ASTNode): Boolean = {

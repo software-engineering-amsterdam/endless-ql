@@ -17,12 +17,7 @@ object ASTCollector {
   def getTypeDecl(id: ASTIdentifier, ast: ASTNode): Option[ASTNode] = {
     val forms = getFormBody(ast)
     val formVarDecls = forms.flatMap(getVarDecls)
-    val varDecl = formVarDecls.filter(vd => vd.id == id)
-    if(varDecl.isEmpty) {
-      None
-    } else {
-      Some(varDecl.get(0).typeDecl)
-    }
+    formVarDecls.find(vd => vd.id == id).map(_.typeDecl)
   }
 
   def getTerminals(node: ASTNode): List[ASTNode] = {

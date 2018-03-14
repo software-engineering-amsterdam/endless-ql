@@ -3,14 +3,20 @@ package parsing;
 import classes.Block;
 import classes.CodeBlock;
 import classes.Configuration;
+import classes.TreeNode;
 import classes.expressions.Expression;
+import classes.form.Form;
 import classes.statements.IfStatement;
 import classes.statements.Question;
+import classes.statements.Statement;
+import jdk.nashorn.api.tree.Tree;
 import parsing.gen.QLBaseVisitor;
 import parsing.gen.QLParser;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AST_Visitor extends QLBaseVisitor {
@@ -20,8 +26,18 @@ public class AST_Visitor extends QLBaseVisitor {
 
     @Override
     public Object visitForm(QLParser.FormContext ctx) {
-        visitChildren(ctx);
-        return memory;
+       visitChildren(ctx);
+       return new Form(ctx.IDENTIFIER().getText(), (Block) ctx.block().accept(this), CodeBlock.getCodeBlock(ctx));
+    }
+
+    @Override
+    public Object visitBlock(QLParser.BlockContext ctx) {
+        CodeBlock code = CodeBlock.getCodeBlock(ctx);
+        List<Statement> questions = new ArrayList();
+        for (QLParser.QuestionContext questionContext: ctx.question()) {
+            questions.add((Question) questionContext.accept(this));
+        }
+        return new Block(code, questions,true);
     }
 
     @Override
@@ -29,9 +45,9 @@ public class AST_Visitor extends QLBaseVisitor {
         String id = ctx.IDENTIFIER().getText();
         CodeBlock codeBlock = CodeBlock.getCodeBlock(ctx);
         String questionString = ctx.STR().getText();
-        Question question = new Question(codeBlock, questionString, visit(ctx.type()), id);
-        memory.put(id, question);
-        return memory;
+        return new Question(codeBlock, questionString, visit(ctx.type()), id);
+//        memory.put(id, question);
+//        return question;
     }
 
     @Override
@@ -41,13 +57,13 @@ public class AST_Visitor extends QLBaseVisitor {
         return castToType(question.getType(), Boolean.class);
     }
 
+
     @Override
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
-//        CodeBlock codeBlock = CodeBlock.getCodeBlock(ctx);
-//        Expression expression = (Expression) ctx.booleanExpression().accept(this);
-//        Block block = (Block) ctx.block(0).accept(this);
-//        return new IfStatement(expression, codeBlock, block);
-        return null;
+        CodeBlock codeBlock = CodeBlock.getCodeBlock(ctx);
+        Expression expression = (Expression) ctx.booleanExpression().accept(this);
+        Block block = (Block) ctx.block(0).accept(this);
+        return new IfStatement(expression, codeBlock, block);
     }
 
     @Override

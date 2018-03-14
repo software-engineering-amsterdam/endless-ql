@@ -14,7 +14,6 @@ import java.util.HashMap;
 
 public class FormBuilderVisitor implements FormVisitor, StatementVisitor {
 
-    private Form form;
     private FormBuilder formBuilder;
     private HashMap<Question, Expression> statementConditionsMap;
 
@@ -25,7 +24,7 @@ public class FormBuilderVisitor implements FormVisitor, StatementVisitor {
     }
 
     @Override
-    public void visitForm(Form Form) {
+    public void visitForm(Form form) {
         form.getBlock().accept(this);
     }
 
@@ -39,7 +38,7 @@ public class FormBuilderVisitor implements FormVisitor, StatementVisitor {
 
     @Override
     public void visitQuestion(Question question) {
-
+        statementConditionsMap.put(question, null);
     }
 
     @Override

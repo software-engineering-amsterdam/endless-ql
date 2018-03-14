@@ -1,5 +1,6 @@
 import classes.form.Form;
 import gui.FormBuilder;
+import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -13,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Main {
 
@@ -32,19 +35,19 @@ public class Main {
 
             //Call the visitor and build the tree
             AST_Visitor builder = new AST_Visitor();
-            HashMap memory = (HashMap) builder.visit(tree);
+            Form form = (Form) builder.visit(tree);
 
             //Test output
-            //Iterator it = memory.entrySet().iterator();
-            //while (it.hasNext()) {
-            //      Map.Entry pair = (Map.Entry)it.next();
-            //      System.out.println(pair.getKey() + " = " + pair.getValue());
-            //      it.remove();
-            //}
-            System.out.println("done");
+//            Iterator it = memory.entrySet().iterator();
+//            while (it.hasNext()) {
+//                  Map.Entry pair = (Map.Entry)it.next();
+//                  System.out.println(pair.getKey() + " = " + pair.getValue());
+//                  it.remove();
+//            }
+//            System.out.println("done");
 
-            ParseTree parseTree = parser.form();
-            Form form = (Form) parseTree.accept(builder);
+//            ParseTree parseTree = parser.form();
+//            Form form = (Form) parseTree.accept(builder);
 
             //Call parse tree inspector: Show the tree
             //Trees.inspect(tree, parser);

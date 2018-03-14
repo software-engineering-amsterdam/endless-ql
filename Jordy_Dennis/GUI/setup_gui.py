@@ -1,25 +1,28 @@
-# Jordy Bottelier & Dennis Kruidenberg
-#
-# GUI class;
-#
-# Each form gets its own frame. Each form_frame consists of a header frame, and a questions frame.
-# The header simply contains the title, and the questions frame contains all of the questions defined
-# by the programmer.
-#
-# Each question has 2 frames, namely the label frame and the input frame (text and input)
-#
-# To add any widget to any class to another class, use the following notation:
-# x = ClassToBeAdded(Parent, vars**) / q = Question(content_frame)
+"""
+    This class defines the overall gui. The created mainframe is the root of our application.
+    
+    We can create a form, and add questions to the pages of the form. The questions are generated
+    by the QuestionGenerator, which uses the AST to evaluate expressions and list all of the questions
+    that need rendering.
+
+    If you need to know more about the question generator, the questions or the forms, please navigate to
+    their respecting files and look in the comments, everything is explained. 
+    
+"""
 
 from .gui_imports import *
-from .scroll_frame_gui import ScrollFrameGui
+from .form_scroll_frame import ScrollFrameGui
 from .form_gui import FormGui
 from .form_question import Question
 
-
 class Gui:
 
-    def __init__(self, ast):
+    """
+        Initialize the GUI, create the question generator based on the AST and the VarDict.
+        The question generator is initialized first and then later set after the form is created.
+        This is done because their is a circular dependency.
+    """
+    def __init__(self, ast, qls=False):
         self.gui = Tk()
         self.mainframe = create_frame(self.gui, background='pink')
         self.mainframe.pack(expand=True, fill='both')
@@ -27,26 +30,30 @@ class Gui:
         self.ast = ast
         self.varDict = ast.varDict
         self.questionsGenerator = Question_Generator(self.varDict, self.ast, self.form)
-        self.questions = self.questionsGenerator.updateQuestions()
-        self.form = FormGui(self.mainframe, self.questionsGenerator, self.ast.getName())
+        self.form = FormGui(self.mainframe, self.questionsGenerator, self.ast.getName(), qls=qls)
         self.questionsGenerator.form = self.form
-        self.create_form()
+        self.createForm()
         self.execute()
 
-
-    # Upon creating a new form, create a new frame which is a child from the mainframe.
-    # For every form, create the header frame and questions frame and fill the questions frame
-    # with questions
-    def create_form(self):
+    """
+        Create the questions for the form based on the Question Generator,
+        and add a submit button which collects the answers
+    """
+    def createForm(self):
         self.questionsGenerator.updateQuestions(True)
-        b = Button(self.mainframe, text="SUBMIT", command=self.collect_answers)
+        b = Button(self.mainframe, text="SUBMIT", command=self.collectAnswers)
         b.pack()
 
-    # Execute the GUI
+    """
+        Execute the GUI
+    """
     def execute(self):
         self.gui.geometry("600x400")
         self.gui.mainloop()
 
-    def collect_answers(self):
-        answers = self.form.get_answers()
-        print(answers)
+    """
+        Collect the answers from the form varDict
+    """
+    def collectAnswers(self):
+        answers = self.form.getAnswers()
+        printDict(answers)

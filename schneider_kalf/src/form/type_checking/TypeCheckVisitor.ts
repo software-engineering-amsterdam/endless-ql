@@ -61,13 +61,7 @@ export class TypeCheckVisitor implements NodeVisitor {
   }
 
   visitNumberLiteral(literal: NumberLiteral): any {
-    // TODO: Replace this simple integer check with solution in parser, differentiate between 10 and 10.0
-    // TODO: Allow money and date literal
-    if (Math.round(literal.getValue()) === literal.getValue()) {
-      return FieldType.Integer;
-    }
-
-    return FieldType.Float;
+    return literal.getType();
   }
 
   visitMultiplication(multiplication: Multiplication): any {

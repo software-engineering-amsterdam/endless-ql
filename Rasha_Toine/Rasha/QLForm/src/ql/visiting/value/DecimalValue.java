@@ -138,7 +138,7 @@ public class DecimalValue extends AbstractValue {
 			return new BooleanValue(false);
 	}
 	
-	/*@Override
+	@Override
 	public DecimalValue neg() {
 		return new DecimalValue(this.value.multiply(new BigDecimal(-1)));
 	}
@@ -146,7 +146,7 @@ public class DecimalValue extends AbstractValue {
 	@Override
 	public DecimalValue pos() {
 		return new DecimalValue(this.value.multiply(new BigDecimal(+1)));
-	}*/
+	}
 
 	@Override
 	public BooleanValue or(Value val) {
@@ -190,7 +190,6 @@ public class DecimalValue extends AbstractValue {
 
 	@Override
 	public Value translate(String str) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -55,7 +55,7 @@ BANG_EQUAL: '!=' ;
 EQUAL_EQUAL: '==' ;
 AND: '&&' ;
 OR: '||' ;
-INTEGER: DIGIT+ ;
+INTEGER: ('-')? DIGIT+ ;
 LABEL: '"' .*? '"' ;
 
 LINE_COMMENT : '//' .*? '\r'? '\n' -> skip ;

@@ -32,18 +32,18 @@ namespace Assignment1
         private void ParseFile(string fileLocation)
         {
             _mainPanel.Controls.Clear();
-            var listener = QLListener.ParseString(System.IO.File.ReadAllText(fileLocation));
-            if (listener.FormHasErrors)
+            try
             {
-                ReportFormErrors(listener.Errors);
-            }
-            else
-            {
+                var form = QLListener.ParseString(File.ReadAllText(fileLocation));
                 _mainPanel.Controls.Add(RenderFileSelector());
-                IQuestionFormRenderer renderer = new QuestionFormRenderer(listener.Form);
+                IQuestionFormRenderer renderer = new QuestionFormRenderer(form);
                 _mainPanel.Controls.Add(renderer.Render());
-                FormExporter exporter = new FormExporter(listener.Form);
+                FormExporter exporter = new FormExporter(form);
                 _mainPanel.Controls.Add(exporter.Render());
+            }
+            catch (QLParseException exception)
+            {
+                ReportFormErrors(exception.Exceptions);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Assignment1
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Arial", 12, FontStyle.Bold)
             };
-            Controls.Add(header);
+            _mainPanel.Controls.Add(header);
             foreach (string error in errors)
             {
                 var label = new Label
@@ -75,7 +75,7 @@ namespace Assignment1
                     Font = new Font("Arial", 10),
                     ForeColor = Color.Red
                 };
-                Controls.Add(label);
+                _mainPanel.Controls.Add(label);
             }
         }
 

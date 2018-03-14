@@ -3,10 +3,13 @@ import Expression from "../expressions/Expression";
 import { FieldType } from "../../FieldType";
 import { ValueIsNaNError } from "../../form_errors";
 import AbstractTreeNode from "../AbstractTreeNode";
+import Decimal from "decimal.js/decimal";
+
+const DecimalConstructor = require('decimal.js/decimal.js');
 
 export default class NumberLiteral extends AbstractTreeNode implements Expression {
   private type: FieldType;
-  private value: number;
+  private value: Decimal;
 
   static fromString(text: string) {
     if (Number.isNaN(Number(text))) {
@@ -31,7 +34,7 @@ export default class NumberLiteral extends AbstractTreeNode implements Expressio
       type = FieldType.Float;
     }
 
-    this.value = value;
+    this.value = new DecimalConstructor(value);
     this.type = type;
   }
 
@@ -39,7 +42,11 @@ export default class NumberLiteral extends AbstractTreeNode implements Expressio
     return visitor.visitNumberLiteral(this);
   }
 
-  getValue() {
+  getValue(): Decimal {
+    return this.value;
+  }
+
+  getType(): Decimal {
     return this.value;
   }
 

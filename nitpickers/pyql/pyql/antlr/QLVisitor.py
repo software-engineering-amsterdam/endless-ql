@@ -114,8 +114,18 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#unExpression.
-    def visitUnExpression(self, ctx:QLParser.UnExpressionContext):
+    # Visit a parse tree produced by QLParser#negNotUnExpression.
+    def visitNegNotUnExpression(self, ctx:QLParser.NegNotUnExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#primaryUnExpression.
+    def visitPrimaryUnExpression(self, ctx:QLParser.PrimaryUnExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#primary.
+    def visitPrimary(self, ctx:QLParser.PrimaryContext):
         return self.visitChildren(ctx)
 
 

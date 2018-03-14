@@ -27,4 +27,8 @@ class ExpressionBuilder {
         return stack.isEmpty()
     }
 
+    fun size(): Int {
+        return stack.size
+    }
+
 }

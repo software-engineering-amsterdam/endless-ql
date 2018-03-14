@@ -17,16 +17,16 @@ import org.uva.jomi.ql.parser.antlr.*;
 import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
 import org.uva.jomi.qls.parser.antlr.QLSLexer;
 import org.uva.jomi.qls.parser.antlr.QLSParser;
-import org.uva.jomi.ui.Questionair;
+import org.uva.jomi.ui.Questionnaire;
 import org.uva.jomi.ui.elements.ElementBuilder;
 import org.uva.jomi.ui.elements.core.Frame;
 import org.uva.jomi.ui.elements.core.Panel;
 
 public class QL {
 
-	public static void main(String[] args) {	
-		Questionair questionair = new Questionair();
-		questionair.setVisibility(true);
+	public static void main(String[] args) {
+		Questionnaire questionnaire = new Questionnaire();
+		questionnaire.setVisibility(true);
 	}
 
 }

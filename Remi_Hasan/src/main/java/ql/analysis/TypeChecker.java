@@ -52,10 +52,7 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
             if (question.isComputed()) {
                 ReturnType computedAnswerType = this.visit(question.computedAnswer);
 
-                // Any type of number expression can be assigned to another number type field
-                ReturnType questionType = question.type.isNumber() ? ReturnType.NUMBER : question.type;
-
-                if (computedAnswerType != questionType) {
+                if (!computedAnswerType.isCompatible(question.type)) {
                     throw new IllegalArgumentException("Invalid assignment: cannot assign " + computedAnswerType
                             + " to " + question.type + question.getLocation());
                 }
@@ -129,11 +126,10 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
 
     @Override
     public ReturnType visit(ExpressionComparisonEq expression) {
-        boolean selfValid = expression.left.accept(this) == expression.right.accept(this);
+        boolean selfValid = expression.left.accept(this).isCompatible(expression.right.accept(this));
 
         if (!selfValid) {
-            throw new IllegalArgumentException("Invalid EQ: comparing values of different types"
-                    + expression.getLocation());
+            throw new IllegalArgumentException("Invalid EQ: comparing incompatible types" + expression.getLocation());
         }
 
         return ReturnType.BOOLEAN;

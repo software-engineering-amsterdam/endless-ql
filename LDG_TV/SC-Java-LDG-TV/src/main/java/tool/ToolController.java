@@ -7,8 +7,6 @@ import domain.Utilities;
 import domain.model.ASTNode;
 import domain.model.IfASTNode;
 import domain.model.QuestionASTNode;
-import domain.model.value.BooleanValue;
-import domain.model.variable.BooleanVariable;
 import domain.model.variable.Variable;
 import domain.visitor.UIVisitor;
 import domain.visitor.Visitor;

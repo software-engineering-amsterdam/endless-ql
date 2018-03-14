@@ -6,7 +6,6 @@ import domain.FormNode;
 import domain.model.IfASTNode;
 import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.BooleanExpressionValue;
-import domain.model.value.Value;
 import domain.model.variable.*;
 import domain.model.QuestionASTNode;
 
@@ -63,7 +62,7 @@ public class QLLoader extends FormBaseListener {
         this.conditionsHolder = new ArrayList<Variable>(); ;
     }
     @Override
-    public void enterQuestionStructure(FormParser.QuestionStructureContext ctx) {
+    public void enterQuestionNodeStructure(FormParser.QuestionNodeStructureContext ctx) {
         constructedVariable = null;
         switch(ctx.variableType().getText()) {
             case "money":
@@ -80,7 +79,7 @@ public class QLLoader extends FormBaseListener {
         }
     }
     @Override
-    public void exitQuestionStructure(FormParser.QuestionStructureContext ctx) {
+    public void exitQuestionNodeStructure(FormParser.QuestionNodeStructureContext ctx) {
         String questionText = ctx.label().getText();
 
         QuestionASTNode q = new QuestionASTNode(questionText, constructedVariable, !this.inIfNode);
@@ -93,22 +92,17 @@ public class QLLoader extends FormBaseListener {
     @Override
     public void enterVariableValue(FormParser.VariableValueContext ctx){
         if(ctx.expression() instanceof FormParser.ExpressionContext){
-            constructedVariable.setValue(getArithmaticExpression(ctx.expression()));
+            if(ctx.expression().arithmeticExpression() instanceof FormParser.ArithmeticExpressionContext){
+                constructedVariable.setValue(getArithmeticExpression(ctx.expression()));
+            }else if(ctx.expression().booleanExpression() instanceof FormParser.BooleanExpressionContext){
+                constructedVariable.setValue(getBooleanExpression(ctx.expression()));
+            }
         }
     }
     public FormNode getFormNode() {
         return formNode;
     }
 
-    private Object getExpressionByContext(FormParser.ExpressionContext ec) {
-        Object v = null;
-        if (ec.aritmaticExpression() instanceof FormParser.AritmaticExpressionContext){
-            v = (ArithmeticExpressionValue) getArithmaticExpression(ec);
-        }else{
-            v = (BooleanExpressionValue) getBooleanExpression(ec);
-        }
-        return v;
-    }
     private BooleanExpressionValue getBooleanExpression(FormParser.ExpressionContext ec){
         String operator = null;
         Variable left = null;
@@ -148,28 +142,28 @@ public class QLLoader extends FormBaseListener {
         return (new BooleanExpressionValue(left, right, operator));
     }
 
-    private ArithmeticExpressionValue getArithmaticExpression(FormParser.ExpressionContext ec){
+    private ArithmeticExpressionValue getArithmeticExpression(FormParser.ExpressionContext ec){
         String operator = null;
         Variable left = null;
         Variable right = null;
-        if (ec.aritmaticExpression().divExpression() instanceof FormParser.DivExpressionContext){
-            left = this.formNode.getVariableFromList(ec.aritmaticExpression().divExpression().variable(0).getText());
-            right = this.formNode.getVariableFromList(ec.aritmaticExpression().divExpression().variable(1).getText());
+        if (ec.arithmeticExpression().divExpression() instanceof FormParser.DivExpressionContext){
+            left = this.formNode.getVariableFromList(ec.arithmeticExpression().divExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(ec.arithmeticExpression().divExpression().variable(1).getText());
             operator = "/";
         }
-        if (ec.aritmaticExpression().mulExpression() instanceof FormParser.MulExpressionContext){
-            left = this.formNode.getVariableFromList(ec.aritmaticExpression().mulExpression().variable(0).getText());
-            right = this.formNode.getVariableFromList(ec.aritmaticExpression().mulExpression().variable(1).getText());
+        if (ec.arithmeticExpression().mulExpression() instanceof FormParser.MulExpressionContext){
+            left = this.formNode.getVariableFromList(ec.arithmeticExpression().mulExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(ec.arithmeticExpression().mulExpression().variable(1).getText());
             operator = "*";
         }
-        if (ec.aritmaticExpression().minExpression() instanceof FormParser.MinExpressionContext){
-            left = this.formNode.getVariableFromList(ec.aritmaticExpression().minExpression().variable(0).getText());
-            right = this.formNode.getVariableFromList(ec.aritmaticExpression().minExpression().variable(1).getText());
+        if (ec.arithmeticExpression().minExpression() instanceof FormParser.MinExpressionContext){
+            left = this.formNode.getVariableFromList(ec.arithmeticExpression().minExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(ec.arithmeticExpression().minExpression().variable(1).getText());
             operator = "-";
         }
-        if (ec.aritmaticExpression().addExpression() instanceof FormParser.AddExpressionContext){
-            left = this.formNode.getVariableFromList(ec.aritmaticExpression().addExpression().variable(0).getText());
-            right = this.formNode.getVariableFromList(ec.aritmaticExpression().addExpression().variable(1).getText());
+        if (ec.arithmeticExpression().addExpression() instanceof FormParser.AddExpressionContext){
+            left = this.formNode.getVariableFromList(ec.arithmeticExpression().addExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(ec.arithmeticExpression().addExpression().variable(1).getText());
             operator = "+";
         }
         this.formNode.getReferencedVariables().add(left);

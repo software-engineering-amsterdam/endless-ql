@@ -3,7 +3,9 @@ import Expression from "../expressions/Expression";
 import { FieldType } from "../../FieldType";
 import { ValueIsNaNError } from "../../form_errors";
 import AbstractTreeNode from "../AbstractTreeNode";
-import { Decimal } from "decimal.js";
+import Decimal from "decimal.js/decimal";
+
+const DecimalConstructor = require('decimal.js/decimal.js');
 
 export default class NumberLiteral extends AbstractTreeNode implements Expression {
   private type: FieldType;
@@ -32,7 +34,7 @@ export default class NumberLiteral extends AbstractTreeNode implements Expressio
       type = FieldType.Float;
     }
 
-    this.value = new Decimal(value);
+    this.value = new DecimalConstructor(value);
     this.type = type;
   }
 
@@ -41,6 +43,10 @@ export default class NumberLiteral extends AbstractTreeNode implements Expressio
   }
 
   getValue(): Decimal {
+    return this.value;
+  }
+
+  getType(): Decimal {
     return this.value;
   }
 

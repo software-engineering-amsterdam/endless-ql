@@ -27,19 +27,19 @@ class Gui:
         self.ast = ast
         self.varDict = ast.varDict
         self.questionsGenerator = Question_Generator(self.varDict, self.ast, self.form)
-        self.questions = self.questionsGenerator.updateQuestions()
+        # self.questions = self.questionsGenerator.updateQuestions()
         self.form = FormGui(self.mainframe, self.questionsGenerator, self.ast.getName())
         self.questionsGenerator.form = self.form
-        self.create_form()
+        self.createForm()
         self.execute()
 
 
     # Upon creating a new form, create a new frame which is a child from the mainframe.
     # For every form, create the header frame and questions frame and fill the questions frame
     # with questions
-    def create_form(self):
+    def createForm(self):
         self.questionsGenerator.updateQuestions(True)
-        b = Button(self.mainframe, text="SUBMIT", command=self.collect_answers)
+        b = Button(self.mainframe, text="SUBMIT", command=self.collectAnswers)
         b.pack()
 
     # Execute the GUI
@@ -47,6 +47,6 @@ class Gui:
         self.gui.geometry("600x400")
         self.gui.mainloop()
 
-    def collect_answers(self):
-        answers = self.form.get_answers()
+    def collectAnswers(self):
+        answers = self.form.getAnswers()
         print(answers)

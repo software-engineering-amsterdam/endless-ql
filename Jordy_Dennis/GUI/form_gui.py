@@ -3,6 +3,7 @@
 from .gui_imports import *
 from .form_scroll_frame import ScrollFrameGui
 from .form_question import Question
+from .form_page import Page
 
 
 # Any formGUI consists of a main frame, a header within this frame, and a scroll frame.
@@ -12,56 +13,65 @@ class FormGui:
     def __init__(self, parent, questionGenerator, header="No Header Text", color="orange"):
         self.frame = create_frame(parent, color)
         self.frame.pack(expand=True, fill='both')
-        self.header_frame = None
-        self.create_header(header, parent=self.frame)
+        self.headerFrame = None
+        self.createHeader(header, parent=self.frame)
 
-        self.sfg = ScrollFrameGui(self.frame)
-        self.contents = self.sfg.get_contents()
+        self.pages = []
+        self.buttonFrame = create_frame(self.frame, background='blue')
+        self.buttonFrame.pack(side="top", fill="x", expand=False)
+        self.contents = create_frame(self.frame, background='black')
+        self.contents.pack(side="top", fill="both", expand=True)
+        self.addPage("Hallo", questionGenerator)
+
+        # self.sfg = ScrollFrameGui(self.frame)
+        # self.contents = self.sfg.get_contents()
+        
         self.questions = []
         self.name = header
         self.questionGenerator = questionGenerator
 
     # Create the header according to the specified layout
-    def create_header(self, header, parent=None, box_width=200, box_height=5, font_type='Arial', font_size=15,
-                      font_color='blue'):
-        header_frame = create_frame(parent)
-        text = Text(parent, height=box_height, width=box_width)
-        header_font = Font(family=font_type, size=font_size, weight='bold')
-        text.tag_configure('header_conf', font=header_font)
+    def createHeader(self, header, parent=None, boxWidth=200, boxHeight=2, fontType='Arial', fontSize=15,
+                      fontColor='blue'):
+        headerFrame = create_frame(parent)
+        text = Text(parent, height=boxHeight, width=boxWidth)
+        headerFont = Font(family=fontType, size=fontSize, weight='bold')
+        text.tag_configure('header_conf', font=headerFont)
         text.insert(INSERT, header, 'header_conf')
         text.config(state=DISABLED)
         text.pack(anchor=NW)
-        self.header_frame = header_frame
+        self.headerFrame = headerFrame
+
+    def addPage(self, header, questionGenerator, color='green'):
+        new_page = Page(self.contents, questionGenerator, color=color)
+        new_page.place(self.contents, x=0, y=0, relwidth=1, relheight=1)
+        button = Button(self.buttonFrame, text=header, command=new_page.show)
+        button.pack(side="left")
+        self.pages.append([header, new_page])
+        return new_page
 
     def add_question(self, varName, question_text="Hi mom", question_type=bool, value=False):
         q = Question(self.contents, self.questionGenerator, varName, question_text, question_type, value)
         self.questions.append(q)
-
-    def empty_frame(self):
-        f = self.sfg.get_frame()
-        f.destroy()
-        self.sfg = ScrollFrameGui(self.frame)
-        self.contents = self.sfg.get_contents()
-        return self.contents
 
     def remove_question(self, varName):
         for question in self.questions:
             if question.getVarName == varName:
                 question.empty_frame()
 
-    def get_header(self):
-        return self.header_frame
+    def getHeader(self):
+        return self.headerFrame
 
-    def get_frame(self):
+    def getFrame(self):
         return self.frame
 
-    def get_contents(self):
+    def getContents(self):
         return self.contents
 
-    def get_text(self):
+    def getText(self):
         return self.name
 
-    def get_answers(self):
+    def getAnswers(self):
         answers = {}
         varDict = self.questionGenerator.getVarDict()
         for varName in varDict:

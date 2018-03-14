@@ -1,6 +1,4 @@
 import ql.models.ast._
-import ql.grammar._
-import ql.visitors._
 import ql.validators._
 import ql.spec.helpers._
 

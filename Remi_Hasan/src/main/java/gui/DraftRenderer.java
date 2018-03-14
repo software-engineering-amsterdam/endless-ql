@@ -1,13 +1,9 @@
 package gui;
 
-import gui.widgets.DoubleWidget;
-import gui.widgets.IntegerWidget;
-import gui.widgets.MoneyWidget;
-import gui.widgets.RadioWidget;
+import gui.widgets.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -21,22 +17,37 @@ public class DraftRenderer extends Application {
         pane.setSpacing(20);
         pane.setPadding(new Insets(20, 20, 20, 20));
 
-        // Radio widget
-        List<String> options = List.of("false", "true");
-        RadioWidget radioWidget = new RadioWidget("dummyname", options);
-        pane.getChildren().add(radioWidget.get());
+        // Boolean radio widget
+        RadioWidget radioWidget = new RadioWidget("boolean_radio", List.of("false", "true"));
+        pane.getChildren().add(radioWidget.getUI());
+
+        // Boolean dropdown widget
+        DropdownWidget dropdownWidget = new DropdownWidget("boolean_dropdown", List.of("false", "true"));
+        pane.getChildren().add(dropdownWidget.getUI());
+
+        // Boolean checkbox widget
+        CheckboxWidget checkboxWidget = new CheckboxWidget("boolean_checkbox");
+        pane.getChildren().add(checkboxWidget.getUI());
 
         // Integer widget
-        IntegerWidget integerWidget = new IntegerWidget("dummyname");
-        pane.getChildren().add(integerWidget.get());
+        IntegerWidget integerWidget = new IntegerWidget("integer");
+        pane.getChildren().add(integerWidget.getUI());
 
         // Double widget
-        DoubleWidget doubleWidget = new DoubleWidget("dummyname");
-        pane.getChildren().add(doubleWidget.get());
+        DoubleWidget doubleWidget = new DoubleWidget("double");
+        pane.getChildren().add(doubleWidget.getUI());
+
+        // String widget
+        StringWidget stringWidget = new StringWidget("string");
+        pane.getChildren().add(stringWidget.getUI());
 
         // Money widget
-        MoneyWidget moneyWidget = new MoneyWidget("dummyname");
-        pane.getChildren().add(moneyWidget.get());
+        MoneyWidget moneyWidget = new MoneyWidget("money");
+        pane.getChildren().add(moneyWidget.getUI());
+
+        // Date widget
+        DateWidget dateWidget = new DateWidget("date");
+        pane.getChildren().add(dateWidget.getUI());
 
         primaryStage.setScene(new Scene(pane));
         primaryStage.show();

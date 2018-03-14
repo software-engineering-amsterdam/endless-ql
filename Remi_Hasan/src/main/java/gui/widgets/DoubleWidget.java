@@ -13,7 +13,7 @@ public class DoubleWidget extends Widget {
     }
 
     @Override
-    public Pane get() {
+    public Pane getUI() {
         HBox pane = new HBox();
         pane.setSpacing(20);
 

@@ -10,7 +10,7 @@ public abstract class Widget {
 
     public final String name;
 
-    Widget(String name){
+    public Widget(String name){
         this.name = name;
     }
 
@@ -26,5 +26,5 @@ public abstract class Widget {
         return new TextFormatter<>(filter);
     }
 
-    public abstract Pane get();
+    public abstract Pane getUI();
 }

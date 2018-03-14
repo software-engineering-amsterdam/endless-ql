@@ -1,20 +1,18 @@
 package gui.widgets;
 
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
+import java.awt.*;
 import java.util.List;
 
-public class RadioWidget extends Widget {
-
-    private final List<String> options;
-
-    public RadioWidget(String name, List<String> options){
+public class CheckboxWidget extends Widget {
+    public CheckboxWidget(String name){
         super(name);
-        this.options = options;
     }
 
 
@@ -24,13 +22,8 @@ public class RadioWidget extends Widget {
         pane.setSpacing(20);
 
         pane.getChildren().add(new Label(name));
-
-        ToggleGroup group = new ToggleGroup();
-        for(String option : options){
-            RadioButton optionButton = new RadioButton(option);
-            pane.getChildren().add(optionButton);
-            optionButton.setToggleGroup(group);
-        }
+        CheckBox checkBox = new CheckBox();
+        pane.getChildren().add(checkBox);
 
         return pane;
     }

@@ -110,13 +110,6 @@ public class FormRenderer {
 
     // TODO make nicer
     private void setExpression(String name, Expression expression){
-
-        // TODO remove debug
-        System.out.println();
-        for(Binding binding : bindings){
-            System.out.println(binding);
-        }
-
         // Remove bindings with this name
         bindings = bindings.stream().filter(x -> !x.name.equals(name)).collect(Collectors.toList());
 
@@ -311,16 +304,16 @@ public class FormRenderer {
 
             if (question.type == ReturnType.BOOLEAN) {
                 CheckBox checkBox = (CheckBox) field.getControl();
-                checkBox.setSelected(Boolean.valueOf(answer.toString()));
+                checkBox.setSelected(Boolean.valueOf(answer.getBooleanValue().toString()));
             } else if (question.type == ReturnType.DATE) {
                 if(!answer.isUndefined()) {
                     DatePicker datePicker = (DatePicker) field.getControl();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy");
-                    datePicker.setValue(LocalDate.parse(answer.toString(), formatter));
+                    datePicker.setValue(LocalDate.parse(answer.getDateValue().toString(), formatter));
                 }
             } else {
                 TextInputControl textField = (TextInputControl) field.getControl();
-                textField.setText(answer.toString());
+                textField.setText(answer.getIntValue().toString());
             }
         }
     }

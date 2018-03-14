@@ -10,7 +10,7 @@ class SymbolTable:
     def create(self, key, value):
         if key in self._dictionary:
             raise KeyError("Key {0} already exists".format(key))
-        print("Creating {0}".format(key))
+        # print("Creating {0}".format(key))
         self._dictionary[key] = value
 
     def update(self, key, value):
@@ -26,7 +26,7 @@ class SymbolTable:
     def remove(self, key):
         if key not in self._dictionary:
             raise KeyError("Invalid key: {0}".format(key))
-        print("Removing {0}".format(key))
+        # print("Removing {0}".format(key))
         del self._dictionary[key]
 
     def __str__(self):

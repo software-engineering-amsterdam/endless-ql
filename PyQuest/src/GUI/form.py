@@ -1,4 +1,5 @@
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QDialogButtonBox
 from PyQt5.QtWidgets import QFormLayout
@@ -15,14 +16,14 @@ class Dialog(QDialog):
         self.formGroupBox = QGroupBox(form.identifier)
         self.create_form(form)
 
-        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        buttonBox.accepted.connect(self.accept)
-        buttonBox.rejected.connect(self.reject)
+        button_box = QDialogButtonBox(QDialogButtonBox.Save | QDialogButtonBox.Cancel)
+        button_box.accepted.connect(self.accept)
+        button_box.rejected.connect(self.reject)
 
-        mainLayout = QVBoxLayout()
-        mainLayout.addWidget(self.formGroupBox)
-        mainLayout.addWidget(buttonBox)
-        self.setLayout(mainLayout)
+        main_layout = QVBoxLayout()
+        main_layout.addWidget(self.formGroupBox)
+        main_layout.addWidget(button_box)
+        self.setLayout(main_layout)
 
         self.setWindowTitle("Form")
 
@@ -36,7 +37,6 @@ class Dialog(QDialog):
 
         self.formGroupBox.setLayout(layout)
 
-    # TODO unique file name
     @pyqtSlot()
     def accept(self):
         result = {}
@@ -47,13 +47,18 @@ class Dialog(QDialog):
             if question:
                 result[question.identifier] = child.value()
 
-        print(result)
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        file_name, _ = QFileDialog.getSaveFileName(self, 'Save results', self.form.identifier, 'JSON (*.json);;All Files (*)', options=options)
 
-        with open('out.json', 'w') as file:
+        if file_name:
+            file = open(file_name, 'w')
             file.write(dumps(result))
-
-        self.close()
-        QMessageBox.information(self, 'Submission', 'Your answers have been submitted successfully.', QMessageBox.Ok, QMessageBox.Ok)
+            file.close()
+            self.close()
+            QMessageBox.information(self, 'Submission', 'Your answers have been submitted successfully.', QMessageBox.Ok, QMessageBox.Ok)
+        else:
+            QMessageBox.warning(self, 'Warning', 'Unable to save the submission.', QMessageBox.Ok, QMessageBox.Ok)
 
     @pyqtSlot()
     def reject(self):

@@ -12,9 +12,9 @@ namespace QLVisualizer.Elements.Managers
             Parent = parent;
         }
 
-        public override IEnumerable<string> GetNotifyWidgetIDs()
+        public override IEnumerable<string> GetActivationTargetIDs()
         {
-            return _activationExpression.UsedWidgetIDs;
+            return _activationExpression.UsedIdentifiers;
         }
     }
 }

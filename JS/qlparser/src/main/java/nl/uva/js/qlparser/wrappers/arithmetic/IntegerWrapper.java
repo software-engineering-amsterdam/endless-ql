@@ -1,7 +1,7 @@
 package nl.uva.js.qlparser.wrappers.arithmetic;
 
 public class IntegerWrapper extends NumberWrapper<Integer> {
-    private Integer storage;
+    private final Integer storage;
 
     private IntegerWrapper(Integer value) {
         storage = value;

@@ -37,7 +37,7 @@ namespace QLVisualizer.Controllers.Display
 
         public ElementManagerDisplayContollerWindows(FormManager form, float topMargin) : base(form, topMargin, new WindowsStyleProperties { Width = 338 }, new WidgetCreatorWindows())
         {
-            _elementFactory = new ControlFactory(this);
+            //_elementFactory = new ControlFactory(this);
             ConstructMainWindow();
             BaseDisplay = _widgetContainer;
         }

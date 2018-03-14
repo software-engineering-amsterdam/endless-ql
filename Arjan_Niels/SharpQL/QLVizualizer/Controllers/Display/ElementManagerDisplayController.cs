@@ -28,7 +28,7 @@ namespace QLVisualizer.Controllers.Display
         /// <summary>
         /// Element factory that creates all elements
         /// </summary>
-        protected ElementFactory<T, Y> _elementFactory;
+        //protected ElementFactory<T, Y> _elementFactory;
 
         /// <summary>
         /// Style for each widget, key: widgetID, value: style
@@ -89,6 +89,7 @@ namespace QLVisualizer.Controllers.Display
         public override void DisplayForm()
         {
             WidgetCreator.CreateWidgets(Form, BaseDisplay);
+            Form.RegisterListeners();
         }
 
         /// <summary>

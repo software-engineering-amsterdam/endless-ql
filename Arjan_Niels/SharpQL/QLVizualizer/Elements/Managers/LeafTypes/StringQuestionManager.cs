@@ -10,7 +10,7 @@ namespace QLVisualizer.Elements.Managers.LeafTypes
         {
         }
 
-        public override QuestionElementValue<string> ParseInput(string input)
+        protected override QuestionElementValue<string> ParseInput(string input)
         {
             return new QuestionElementValue<string>(input, true);
         }

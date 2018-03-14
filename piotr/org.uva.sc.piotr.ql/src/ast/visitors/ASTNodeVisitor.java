@@ -1,10 +1,7 @@
 package ast.visitors;
 
 import ast.model.Form;
-import ast.model.datatypes.TypeDeclarationBoolean;
-import ast.model.datatypes.TypeDeclarationDecimal;
-import ast.model.datatypes.TypeDeclarationInteger;
-import ast.model.datatypes.TypeDeclarationString;
+import ast.model.declarations.*;
 import ast.model.expressions.binary.arithmetics.Addition;
 import ast.model.expressions.binary.arithmetics.Division;
 import ast.model.expressions.binary.arithmetics.Multiplication;
@@ -62,6 +59,8 @@ public interface ASTNodeVisitor<T> {
     T visit(TypeDeclarationBoolean typeDeclarationBoolean);
 
     T visit(TypeDeclarationDecimal typeDeclarationDecimal);
+
+    T visit(TypeDeclarationMoney typeDeclarationMoney);
 
     T visit(TypeDeclarationInteger typeDeclarationInteger);
 

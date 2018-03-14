@@ -8,13 +8,15 @@ import {DynamicFormQuestionComponent} from './components/dynamic-form-question/d
 import {QuestionControlService} from './services/question-control.service';
 import { WidgetComponent } from './components/widget/widget.component';
 import {MaterialModule} from './material.module';
+import {StyledFormContentComponent} from './components/styled-form-content/styled-form-content.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     DynamicFormQuestionComponent,
-    WidgetComponent
+    WidgetComponent,
+    StyledFormContentComponent
   ],
   imports: [
     BrowserModule,

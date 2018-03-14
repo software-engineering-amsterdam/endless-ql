@@ -10,7 +10,7 @@
     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#999999"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#999999"/>
 
-    <!--Default Brushes for the FriendStorage-application-->
+    <!--Default Brushes for the QL-application-->
     <SolidColorBrush x:Key="DefaultForegroundBrush" Color="MediumPurple"/>
     <SolidColorBrush x:Key="DefaultBackgroundBrush" Color="Purple"/>
     <SolidColorBrush x:Key="DefaultBorderBrush" Color="CornflowerBlue"/>

@@ -3,7 +3,6 @@ package org.uva.sc.cr.ql.interpreter.controls
 import javafx.beans.binding.Binding
 import javafx.event.EventHandler
 import javafx.event.EventType
-import javafx.scene.Node
 import javafx.scene.control.Control
 import javafx.scene.control.Label
 import javafx.scene.layout.HBox
@@ -15,6 +14,7 @@ abstract class ControlWrapper {
 	@Accessors(PUBLIC_GETTER)
 	val String name
 
+	@Accessors(PUBLIC_GETTER)
 	val Label label
 
 	new(Question question, Binding binding) {
@@ -37,7 +37,7 @@ abstract class ControlWrapper {
 		control.addEventHandler(EventType.ROOT, eventHandler)
 	}
 
-	def Node getControlWithLabel() {
+	def HBox getControlWithLabel() {
 		val hbox = new HBox
 		hbox.children.add(label)
 		hbox.children.add(control)

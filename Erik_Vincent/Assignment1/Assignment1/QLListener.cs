@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
 using Assignment1.Model;
 
 namespace Assignment1
@@ -14,12 +15,19 @@ namespace Assignment1
         public QuestionForm Form { get; private set; }
         private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
         public List<string> Errors = new List<string>();
-        public List<string> Warnings = new List<string>();
+        public Dictionary<string, string> Warnings = new Dictionary<string, string>();
         public bool FormHasErrors
         {
             get
             {
                 return Errors.Count > 0;
+            }
+        }
+        public bool FormHasWarnings
+        {
+            get
+            {
+                return Warnings.Count > 0;
             }
         }
 
@@ -44,27 +52,35 @@ namespace Assignment1
             Errors.Add("Line " + context.Start.Line + ": " + message);
         }
 
+        private void AddWarning(ParserRuleContext context, string questionId, string message)
+        {
+            Warnings.Add(questionId, "Line " + context.Start.Line + ": " + message);
+        }
+
         public override void ExitForm(QL.FormContext context)
         {
-            Console.WriteLine(Errors.Count + " error(s) found.");
-            foreach (string error in Errors)
+            foreach (string warning in Warnings.Values)
             {
-                Console.WriteLine(error);
+                Console.WriteLine(warning);
             }
             Form = context.result;
         }
 
+        /* Check for each question if the label is already used and add a warning if this is the case.
+         */
         public override void EnterQuestion(QL.QuestionContext context)
         {
             string questionLabel = context.result.Label;
-
-            // Should be warnings, move to separate list
+            string questionId = context.result.Id;
+            
             if (QuestionLabelExists(questionLabel))
             {
-                //AddError(context, "The question label '" + questionLabel + "' has already been used.");
+                AddWarning(context, questionId, "The question label '" + questionLabel + "' has already been used.");
             }
         }
 
+        /* Check for each question if the id already exists and add an error if this is the case.
+         */ 
         public override void ExitQuestion(QL.QuestionContext context)
         {
             string questionId = context.result.Id;
@@ -113,11 +129,23 @@ namespace Assignment1
             {
                 context.result.Question = _questions[context.result.Id];
             }
-            catch (KeyNotFoundException e)
+            catch (KeyNotFoundException)
             {
                 AddError(context, "The question id '" + context.result.Id + "' does not exist in the current context.");
-                //throw;
             }
+        }
+
+        internal static QLListener ParseString(string input)
+        {
+            ICharStream stream = CharStreams.fromstring(input);
+            ITokenSource lexer = new QLLexer(stream);
+            ITokenStream tokens = new CommonTokenStream(lexer);
+            QL parser = new QL(tokens);
+            QL.FormContext context = parser.form();
+            QLListener listener = new QLListener();
+            ParseTreeWalker walker = new ParseTreeWalker();
+            walker.Walk(listener, context);
+            return listener;
         }
     }
 }

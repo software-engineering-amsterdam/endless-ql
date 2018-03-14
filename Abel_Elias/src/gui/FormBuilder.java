@@ -1,10 +1,14 @@
 package gui;
 
+import classes.expressions.Expression;
 import classes.statements.Question;
-import gui.questions.QuestionPanel;
+import parsing.AST_Visitor;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -12,14 +16,23 @@ import java.util.Map;
 public class FormBuilder {
     private JFrame mainFrame; //The frame on which the form is located
     private JPanel mainPanel; //The panel on which the widgets are located
+    private JPanel mainList;
+    private AST_Visitor astBuilder;
+
+    private HashMap<QuestionPanel, Expression> statementConditions;
+
+
     private int FRAMEHEIGHT = 800; //The height of the GUI
     private int FRAMEWIDTH = 800; //The width of the GUI
 
     /**
      * constructor method
      * initializes the building process of the form
+     * @param astbuilder class
      */
-    public FormBuilder() {;
+    public FormBuilder(AST_Visitor astBuilder) {
+        this.astBuilder = astBuilder;
+        this.statementConditions = new HashMap<QuestionPanel, Expression>();
     }
 
     /**
@@ -31,12 +44,16 @@ public class FormBuilder {
         //Build the frame and panel of the form
         buildFrame();
         buildPanel();
+        buildList();
         //Add a scroll pane to the form
-        JScrollPane scrollPane = new JScrollPane(mainPanel);
-        this.mainFrame.getContentPane().add(scrollPane);
+        mainPanel.add(new JScrollPane(mainList));
 
         initQuestionPanels(memory);
-        mainFrame.add(mainPanel, BorderLayout.NORTH);
+
+        mainFrame.add(mainPanel);
+        mainFrame.setVisible(true);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
 
     }
 
@@ -62,7 +79,11 @@ public class FormBuilder {
      */
     private void buildQuestionPanel(String key, Question question) {
         QuestionPanel qPanel = new QuestionPanel(key, question);
-        mainPanel.add(qPanel, BorderLayout.NORTH);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.weightx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        mainList.add(qPanel, gbc, 0);
     }
 
     /**
@@ -83,4 +104,93 @@ public class FormBuilder {
     private void buildPanel() {
         mainPanel = new JPanel(new BorderLayout());
     }
+
+    private void buildList() {
+        mainList = new JPanel(new GridBagLayout());
+    }
+
+
+    private class QuestionPanel extends JPanel {
+        private String key;
+        private Question question;
+
+        private QuestionPanel(String key, Question question) {
+            this.key = key;
+            this.question = question;
+            this.add(new JLabel(question.getText()));
+            this.setBorder(new MatteBorder(1, 1, 1, 1, Color.GRAY));
+            addQuestionPanelControls(question);
+        }
+
+        private void addQuestionPanelControls(Question question) {
+            switch(question.getTypeName()) {
+                case String:
+                    createStringControl();
+                    break;
+                case Boolean:
+                    createBoolControl();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void createBoolControl() {
+            JCheckBox checkBox = new JCheckBox();
+            checkBox.addActionListener(new BoolActionListener(key, checkBox));
+            this.add(checkBox);
+        }
+
+        private void createStringControl() {
+        }
+    }
+
+    public class BoolActionListener implements ActionListener {
+
+        private JCheckBox checkBox;
+        private String key;
+
+        private BoolActionListener(String key, JCheckBox checkBox) {
+            this.key = key;
+            this.checkBox = checkBox;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(checkBox.isSelected()) {
+                System.out.println("checkbox checked");
+                updateGUI(key, true);
+            } else {
+                updateGUI(key, false);
+
+            }
+            checkBox.requestFocus();
+        }
+    }
+
+    private void updateGUI(String key, Object value) {
+        astBuilder.update(key, value);
+        for(QuestionPanel questionPanel : statementConditions.keySet()) {
+            Boolean ifExpressionSatisfied = astBuilder.validateExpression();
+            if(ifExpressionSatisfied) {
+                addQuestionToPanel(questionPanel);
+            } else {
+                removeQuestionFromPanel(questionPanel);
+            }
+        }
+
+        //Update and validate the components
+        mainList.revalidate();
+        mainList.repaint();
+    }
+
+    private void addQuestionToPanel(QuestionPanel questionPanel) {
+        mainList.add(questionPanel);
+    }
+
+
+    private void removeQuestionFromPanel(QuestionPanel questionPanel) {
+        mainList.remove(questionPanel);
+    }
+
 }

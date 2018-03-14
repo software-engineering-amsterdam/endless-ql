@@ -1,8 +1,8 @@
 import sys
 from antlr4 import *
-from antlr_files_2.QLLexer import QLLexer
-from antlr_files_2.QLParser import QLParser
-from antlr_files_2.QLVisitor import QLVisitor
+from QL.QLLexer import QLLexer
+from QL.QLParser import QLParser
+from QL.QLVisitor import QLVisitor
 from QLVisitorHelper import QLVisitorHelper
 from GuiBuilder import GuiBuilder
 from TypeChecker import TypeChecker
@@ -20,9 +20,9 @@ def main(argv):
     ast = visitor.visit(tree)
     # print ast
 
-    checker = TypeChecker(ast)
+    # checker = TypeChecker(ast)
 
-    # builder = GuiBuilder(ast)
+    builder = GuiBuilder(ast)
     # gui = Gui()
     # gui.addLabel("hey", "jaja")
     # gui.removeLabel("hey")
@@ -32,7 +32,7 @@ def main(argv):
     # gui.addTextBox("text", 3, 30)
     # gui.addRadioButton("radio", "ben je dik:", 2)
     # gui.addDropDown("drop", ["1", "2", "3"])
-    # builder.gui.window.mainloop()
+    builder.gui.window.mainloop()
 
 if __name__ == '__main__':
     main(sys.argv)

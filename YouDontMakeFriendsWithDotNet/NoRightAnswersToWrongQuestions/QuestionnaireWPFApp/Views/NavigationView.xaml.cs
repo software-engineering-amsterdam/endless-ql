@@ -12,17 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QuestionnaireWPFApp.ViewModels;
 
 namespace QuestionnaireWPFApp.Views
 {
-    /// <summary>
-    /// Interaction logic for NavigationView.xaml
-    /// </summary>
-    public partial class NavigationView : UserControl
+    public partial class NavigationView : UserControl, IView<NavigationViewModel>
     {
         public NavigationView()
         {
             InitializeComponent();
+        }
+
+        public NavigationViewModel ViewModel
+        {
+            get { return (NavigationViewModel)DataContext; }
+            set { DataContext = value; }
         }
     }
 }

@@ -15,6 +15,8 @@ class QuestionNode:
         return ["Question", self.varNode.checkTypes()]
 
     # Check if a variable has not been used yet, if so, add it to the dictionary, otherwise throw an error
+    # The node list is a collection of all the occurences of the varNodes, this is collected so we can easily
+    # modify all the values once they have been changed in the gui
     def linkVars(self, varDict):
         varname = self.varNode.getVarname()
         line = self.varNode.getLine()
@@ -26,6 +28,7 @@ class QuestionNode:
             new_entry["type"] = self.varNode.checkTypes()
             new_entry["node"] = self.varNode
             new_entry["assign"] = self
+            new_entry["node_list"] = [self.varNode]
             varDict[varname] = new_entry
 
     def getNodeType(self):

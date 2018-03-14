@@ -4,88 +4,12 @@ from parser_generator.grammar.QLListener import *
 from parser_generator.grammar.QLParser import QLParser
 
 
-def listen(tree, outputWindow):
-    ql = QLListener(outputWindow)
-    walker = ParseTreeWalker()
-    walker.walk(ql, tree)
-
-
 def visit(tree, outputWindow):
     # print(tree.toStringTree())
     ql = QLVisitor(outputWindow)
     walker = ParseTreeVisitor()
     walker.visit(tree)
 
-
-class QLListener(ParseTreeListener):
-    def __init__(self, outputWindow):
-        self.outputWindow = outputWindow
-
-    # Enter a parse tree produced by QLParser#form.
-    def enterForm(self, ctx:QLParser.FormContext):
-        print(ctx.getText())
-
-    # Exit a parse tree produced by QLParser#form.
-    def exitForm(self, ctx:QLParser.FormContext):
-        pass
-
-
-    # Enter a parse tree produced by QLParser#block.
-    def enterBlock(self, ctx:QLParser.BlockContext):
-        pass
-
-    # Exit a parse tree produced by QLParser#block.
-    def exitBlock(self, ctx:QLParser.BlockContext):
-        pass
-
-
-    # Enter a parse tree produced by QLParser#question.
-    def enterQuestion(self, ctx:QLParser.QuestionContext):
-        # print('Found Question')
-        # print(ctx.getText())
-        self.outputWindow.add_question(ctx.getText())
-
-    # Exit a parse tree produced by QLParser#question.
-    def exitQuestion(self, ctx:QLParser.QuestionContext):
-        pass
-
-    # Enter a parse tree produced by QLParser#stmt.
-    def enterStmt(self, ctx: QLParser.StmtContext):
-        pass
-
-    # Exit a parse tree produced by QLParser#stmt.
-    def exitStmt(self, ctx: QLParser.StmtContext):
-        pass
-
-    # Enter a parse tree produced by QLParser#declaration.
-    def enterDeclaration(self, ctx: QLParser.DeclarationContext):
-        # print('Found Declaration')
-        # print(ctx.getText())
-        pass
-
-    # Exit a parse tree produced by QLParser#declaration.
-    def exitDeclaration(self, ctx: QLParser.DeclarationContext):
-        pass
-
-    # Enter a parse tree produced by QLParser#type_declaration.
-    def enterType_declaration(self, ctx: QLParser.Type_declarationContext):
-        # print('Found Type_declaration')
-        # print(ctx.getText())
-        pass
-
-    # Exit a parse tree produced by QLParser#type_declaration.
-    def exitType_declaration(self, ctx: QLParser.Type_declarationContext):
-        pass
-
-    # Enter a parse tree produced by QLParser#if_conditional.
-    def enterIf_conditional(self, ctx:QLParser.If_conditionalContext):
-        # print('Found if')
-        # print(ctx.getText())
-        pass
-
-    # Exit a parse tree produced by QLParser#if_conditional.
-    def exitIf_conditional(self, ctx:QLParser.If_conditionalContext):
-        pass
 
 class QLVisitor(ParseTreeVisitor):
     def __init__(self, outputWindow):
@@ -108,14 +32,45 @@ class QLVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by QLParser#question.
     def visitQuestion(self, ctx:QLParser.QuestionContext):
+        self.outputWindow.add_question(ctx.getText())
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#if_conditional.
-    def visitIf_conditional(self, ctx:QLParser.If_conditionalContext):
+    # Visit a parse tree produced by QLParser#declaration.
+    def visitDeclaration(self, ctx:QLParser.DeclarationContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#type_declaration.
-    def visitType_declaration(self, ctx:QLParser.Type_declarationContext):
+    # Visit a parse tree produced by QLParser#expression.
+    def visitExpression(self, ctx:QLParser.ExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#if_.
+    def visitIf_(self, ctx:QLParser.If_Context):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#type.
+    def visitType(self, ctx:QLParser.TypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#value.
+    def visitValue(self, ctx:QLParser.ValueContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#compute.
+    def visitCompute(self, ctx:QLParser.ComputeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#arithmetic.
+    def visitArithmetic_(self, ctx:QLParser.Arithmetic_Context):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#boolean.
+    def visitBoolean_(self, ctx:QLParser.Boolean_Context):
         return self.visitChildren(ctx)

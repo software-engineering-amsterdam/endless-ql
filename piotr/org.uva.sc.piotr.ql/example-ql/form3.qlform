@@ -2,8 +2,16 @@ form taxOfficeExample
 {
   "What is your first name?"
      firstName: string
-   "What is your last name?"
-      lastName: string
-    "What is your name?"
-       name: string = firstName + lastName
+   if (firstName == "Piotr") {
+     "What is your last name?"
+        lastName: string
+        if (lastName == "Kosytorz") {
+            "What is your name?"
+              name: string = firstName + " " + lastName
+        }
+        else {
+          "Say something"
+          something: string
+        }
+    }
 }

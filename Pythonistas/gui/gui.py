@@ -4,7 +4,8 @@ In this window QL text can be typed or pasted. When pressing the "Parse" button,
 is parsed, and a second window, OutputWindow opens. The Outputwindow contains an interactive
  questionnaire, encoded by the input text.
 """
-import visitor.visitor as visitorscript
+import visitor.visitor as visitor_script
+from visitor.listener import listen
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from grammar.run_antlr import run_antrl
@@ -18,7 +19,7 @@ class MainWindow(QWidget):
         self.layout = QVBoxLayout()
         self.layout.setSpacing(10)
         self.setWindowTitle('QL parser')
-        self.setGeometry(600, 600, 700, 600)
+        self.setGeometry(600, 600, 1100, 600)
         self.setLayout(self.layout)
         self.tree = None
 
@@ -96,14 +97,14 @@ class MainWindow(QWidget):
             self.no_tree_message()
 
     def build_gui(self, tree):
-        visitorscript.listen(tree, self)
+        listen(tree, self)
 
-    def add_question(self, input):
+    def add_question(self, completequestion):  # todo: split question and its datatype in ast rather than here
         # Adds questions and answer option
 
-        splitline = input.split('"')  # Filters the actual question from the input string
-        question = splitline[1]
-        datatype = splitline[2].split(":")[1]  # Filters datatype from the question string
+        splitquestion = completequestion.split('"')  # Filters the actual question from the input string
+        question = splitquestion[1]
+        datatype = splitquestion[2].split(":")[1]  # Filters datatype from the question string
 
         choices = ['Yes', 'No']  # Default choices; todo: move to appropriate location.
 
@@ -157,12 +158,9 @@ class MainWindow(QWidget):
             file.write(self.questions[i]+str(self.answers[i])+"\n")
         file.close()
 
-
     def no_tree_message(self):
         self.outputlayout.addWidget(QLabel('Invalid input'))
 
-    def testfunc(self):
-        print('testingtext')
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

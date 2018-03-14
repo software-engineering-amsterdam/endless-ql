@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AntlrInterpretor;
+﻿using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Events;
+using QuestionnaireDomain.Entities;
 using QuestionaireOrchestration;
-using QuestionaireOrchestration.API;
-using QuestionnaireDomain.Logic;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
 using QuestionnaireUI;
@@ -26,14 +19,15 @@ namespace QuestionnaireWPFApp
 
             collection.AddModule(new InfrastructureModule());
             collection.AddModule(new AntlrModule());
-            collection.AddModule(new DomainLogicModule());
+            collection.AddModule(new EntitiesModule());
             collection.AddModule(new OrchestrationModule());
             collection.AddModule(new UiModule());
 
             collection.AddSingleton(typeof(IEventAggregator), typeof(EventAggregator));
             collection.AddTransient(typeof(INavigationViewModel), typeof(NavigationViewModel));
             collection.AddTransient(typeof(IQuestionnaireViewModel), typeof(QuestionnaireViewModel));
-            collection.AddTransient(typeof(IMainViewModel), typeof(MainViewModel));
+            collection.AddSingleton(typeof(IMainViewModel), typeof(MainViewModel));
+            collection.AddSingleton(typeof(IMessageDialogService), typeof(MessageDialogService));
 
             return collection;
         }

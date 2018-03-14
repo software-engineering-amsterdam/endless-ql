@@ -42,6 +42,6 @@ public class Question implements FormExpression {
 
     @Override
     public void checkType() {
-        variable.checkAndReturnType();
+        variable.returnCheckedType();
     }
 }

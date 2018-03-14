@@ -32,19 +32,21 @@ namespace Assignment1
         private void ParseFile(string fileLocation)
         {
             _mainPanel.Controls.Clear();
-            var listener = QLListener.ParseString(System.IO.File.ReadAllText(fileLocation));
-            if (listener.FormHasErrors)
+            try
             {
-                ReportFormErrors(listener.Errors);
-            }
-            else
-            {
+                var form = QLListener.ParseString(File.ReadAllText(fileLocation));
                 _mainPanel.Controls.Add(RenderFileSelector());
-                IQuestionFormRenderer renderer = new QuestionFormRenderer(listener.Form);
+                IQuestionFormRenderer renderer = new QuestionFormRenderer(form);
                 _mainPanel.Controls.Add(renderer.Render());
-                FormExporter exporter = new FormExporter(listener.Form);
+                FormExporter exporter = new FormExporter(form);
                 _mainPanel.Controls.Add(exporter.Render());
             }
+            catch (Exception e)
+            {
+                ReportFormErrors((List<string>)e.Data["MoreInfo"]); //TODO: Handle specific exception
+                throw;
+            }
+
         }
 
         private ToolStrip RenderFileSelector()

@@ -24,7 +24,7 @@ public class Variable implements DataExpression {
     }
 
     @Override
-    public DataType checkAndReturnType() {
+    public DataType returnCheckedType() {
         return dataType;
     }
 

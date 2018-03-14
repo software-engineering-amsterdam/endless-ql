@@ -18,7 +18,7 @@ public interface Expression {
      * Expressions that have a type and CAN have typed children
      */
     interface Typed {
-        DataType checkAndReturnType();
+        DataType returnCheckedType();
     }
 
     /*

@@ -18,9 +18,9 @@ public class Combinator<T> implements DataExpression {
     @NonNull private DataExpression<T> right;
 
     @Override
-    public DataType checkAndReturnType() {
-        DataType leftType = left.checkAndReturnType();
-        DataType rightType = right.checkAndReturnType();
+    public DataType returnCheckedType() {
+        DataType leftType = left.returnCheckedType();
+        DataType rightType = right.returnCheckedType();
 
         if (!leftType.equals(rightType))
             throw new TypeMismatchException(leftType, rightType);

@@ -166,7 +166,7 @@ function peg$parse(input, options) {
   const peg$c16 = "question";
   const peg$c17 = peg$literalExpectation("question", false);
   const peg$c18 = function(id, widget) {
-      return new Nodes.Question( id, widget );
+      return new Nodes.QuestionStyle( id, widget );
   };
   const peg$c19 = "default";
   const peg$c20 = peg$literalExpectation("default", false);

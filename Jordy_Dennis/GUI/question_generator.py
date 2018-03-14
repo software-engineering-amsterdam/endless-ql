@@ -15,6 +15,7 @@ class Question_Generator:
         self.questions = collections.OrderedDict()
         self.form = form
 
+
     def getVarDict(self):
         return self.varDict
 
@@ -59,7 +60,6 @@ class Question_Generator:
 
     def deleteInvalidQuestions(self):
         for question in self.form.questions:
-            print(question.question_text)
             if (question.varName not in self.questions):
                 question.frame.destroy()
                 self.form.questions.remove(question)
@@ -84,8 +84,6 @@ class Question_Generator:
                 # check if block
                 ifblock = statement.getIf();
                 if_exp = ifblock.getExpression()
-                print(if_exp)
-
 
                 if (if_exp.evaluate()):
                     self.get_questions(ifblock.block)
@@ -105,6 +103,7 @@ class Question_Generator:
                 elseBlock = statement.getElse()
                 if (elseBlock and not visited):
                     self.get_questions(elseBlock)
+
 
 def printDict(dic):
     pp = pprint.PrettyPrinter(indent=4)

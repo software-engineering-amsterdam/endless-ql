@@ -8,22 +8,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class QuestionChecker extends Checker implements StatementVisitor<Void, String> {
+public class QuestionChecker extends Checker {
 
-    private SymbolTable symbolTable;
+
     private List<Question> questions;
 
-    QuestionChecker(Form form) {
-        this.symbolTable = new SymbolTable();
-        this.questions = new ArrayList<>();
-
-        for (Statement statement : form.getStatements()) {
-            statement.accept(this, null);
-        }
-
-        for (Question question : this.questions) {
-            this.symbolTable.add(question.getName(), question.getType());
-        }
+    QuestionChecker(List<Question> questions) {
+        this.questions = questions;
     }
 
     @Override
@@ -40,35 +31,5 @@ public class QuestionChecker extends Checker implements StatementVisitor<Void, S
                 logger.warning("WARNING: Question content " + question.getContent() + " already exists");
             }
         }
-    }
-
-    @Override
-    public Void visit(Question question, String context) {
-        this.questions.add(question);
-        return null;
-    }
-
-    @Override
-    public Void visit(Conditional conditional, String context) {
-        for (Statement statement : conditional.getIfSide()) {
-            statement.accept(this, null);
-        }
-
-        for (Statement statement : conditional.getElseSide()) {
-            statement.accept(this, null);
-        }
-
-        return null;
-    }
-
-    @Override
-    public Void visit(CalculatedQuestion question, String context) {
-        questions.add(question);
-        symbolTable.add(question.getName(), question.getType());
-        return null;
-    }
-
-    public SymbolTable getSymbolTable() {
-        return symbolTable;
     }
 }

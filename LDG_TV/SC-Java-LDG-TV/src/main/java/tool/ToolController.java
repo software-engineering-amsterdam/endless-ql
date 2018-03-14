@@ -73,11 +73,10 @@ public class ToolController implements Initializable {
 
         FormNode node = loader.getFormNode();
 
-        UIVisitor v = new UIVisitor();
-
         List<ASTNode> astNodes = node.getASTNodes();
 
         List<QuestionASTNode> questions = getAllVisibleQuestions(astNodes);
+
 
         drawQuestions(questions);
 
@@ -118,23 +117,11 @@ public class ToolController implements Initializable {
 
         for(QuestionASTNode qn : questionASTNodes){
             String questionText = qn.getText();
+            System.out.println("QUI: " + questionText);
             Variable qv = qn.getVariable();
-
 
             Node n = qv.getRelatedUIElement(uiVisitor);
             lvQuestionnaire.getItems().add(new QuestionRow(questionText, n, false));
-
-//            if(qv instanceof BooleanVariable) {
-//                CheckBox cb = new CheckBox();
-//
-//                cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
-//                    qv.setValue(new BooleanValue(newValue));
-//                    System.out.println(qn.getText() + " " + qv.getValue().getValue());
-//                });
-//
-//                lvQuestionnaire.getItems().add(new QuestionRow(questionText, cb, false));
-//            }
-
         }
     }
 

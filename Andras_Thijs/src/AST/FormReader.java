@@ -164,10 +164,10 @@ public class FormReader {
 
 
             if(expressions.size() == 1 && notNode == null)
-                return new Expression(expressionVisitor.visitExpression(expressions.get(0)));
+                return expressionVisitor.visitExpression(expressions.get(0));
 
             if(termContext != null)
-                return new Expression(termVisitor.visitTerm(ctx.term()));
+                return termVisitor.visitTerm(ctx.term());
 
             if(notNode != null)
                 return new Expression(expressionVisitor.visitExpression(expressions.get(0)), new Not(""));

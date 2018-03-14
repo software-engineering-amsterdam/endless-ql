@@ -8,11 +8,11 @@ import org.uva.ql.evaluator.data.ValueTable;
 import org.uva.ql.gui.GUIHandler;
 import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.LogHandler;
-import org.uva.ql.validation.Validator;
+import org.uva.ql.validation.QLValidator;
+import org.uva.qls.QLSBuilder;
+import org.uva.qls.ast.Stylesheet;
+import org.uva.qls.validation.QLSValidator;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -20,27 +20,27 @@ import java.util.logging.Logger;
 public class App {
 
     private App() {
-        try {
-            Logger logger = Logger.getGlobal();
-            LogManager.getLogManager().reset();
-            logger.addHandler(new LogHandler());
+        Logger logger = Logger.getGlobal();
+        LogManager.getLogManager().reset();
+        logger.addHandler(new LogHandler());
 
-            byte[] a = Files.readAllBytes(Paths.get("input/default.ql"));
-            String input = new String(a);
+        String input = new InputHandler().readFile("input/default.ql");
+        ASTBuilder builder = new ASTBuilder();
+        Form form = builder.buildAST(input);
 
-            ASTBuilder builder = new ASTBuilder();
-            Form form = builder.buildAST(input);
+        String qlsInput = new InputHandler().readFile("input/default.qls");
+        QLSBuilder QLSBuilder = new QLSBuilder();
+        Stylesheet stylesheet = QLSBuilder.buildAST(qlsInput);
 
-            Validator validator = new Validator(form);
-            validator.run();
+        QLValidator validator = new QLValidator(form);
+        validator.run();
 
-            FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
+        QLSValidator qlsValidator = new QLSValidator(validator.getQuestions(), stylesheet);
+        qlsValidator.run();
 
-            GUIHandler guiHandler = new GUIHandler(formEvaluator);
+        FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
 
-        } catch (IOException ex) {
-            System.out.println(ex.toString());
-        }
+        GUIHandler guiHandler = new GUIHandler(formEvaluator);
     }
 
     public static void main(String[] args) {

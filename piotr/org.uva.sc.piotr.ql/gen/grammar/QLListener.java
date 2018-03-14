@@ -86,6 +86,18 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitTypeDeclarationDecimal(QLParser.TypeDeclarationDecimalContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code TypeDeclarationMoney}
+	 * labeled alternative in {@link QLParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypeDeclarationMoney(QLParser.TypeDeclarationMoneyContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code TypeDeclarationMoney}
+	 * labeled alternative in {@link QLParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypeDeclarationMoney(QLParser.TypeDeclarationMoneyContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QLParser#ifStatement}.
 	 * @param ctx the parse tree
 	 */

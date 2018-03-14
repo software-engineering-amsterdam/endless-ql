@@ -1,8 +1,8 @@
 ﻿using System.CodeDom.Compiler;
 using System.IO;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.API.AstNodes.Boolean;
-using QuestionaireDomain.Entities.API.AstNodes.Calculation;
+using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace QuestionaireOrchestration.Visitors
 {
@@ -13,7 +13,7 @@ namespace QuestionaireOrchestration.Visitors
         IAstVisitor<IAndNode>,
         IAstVisitor<IOrNode>,
         IAstVisitor<INegateNode>,
-        IAstVisitor<ILiteralNode>
+        IAstVisitor<IBooleanLiteralNode>
     {
         private readonly IDomainItemLocator m_domainItemLocator;
         private IndentedTextWriter m_writer;
@@ -91,9 +91,9 @@ namespace QuestionaireOrchestration.Visitors
             VisitSubExpression(child);
         }
 
-        public void Visit(ILiteralNode literalNode)
+        public void Visit(IBooleanLiteralNode booleanLiteralNode)
         {
-            m_writer.WriteLine(literalNode.Value);
+            m_writer.WriteLine(booleanLiteralNode.Value);
         }
     }
 }

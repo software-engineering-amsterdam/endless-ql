@@ -5,8 +5,8 @@ class DogeQL {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-//            Application.launch(DogeApp::class.java, *args)
-            DogeParser().parse()
+            DogeParser().parse().getEnabledQuestions()
+            //Application.launch(DogeApp::class.java, *args)
         }
     }
 

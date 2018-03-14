@@ -10,7 +10,9 @@ stylesheet
 
 page: 'page' ID OPEN_BRACKET segment+ defaultStatement* CLOSE_BRACKET;
 
-section: 'section' ID OPEN_BRACKET segment+ defaultStatement* CLOSE_BRACKET;
+section: 'section' id=STRING OPEN_BRACKET segment+ defaultStatement* CLOSE_BRACKET
+       | 'section' id=STRING segment
+       ;
 
 segment: question
        | section
@@ -20,17 +22,18 @@ defaultStatement: 'default' type widget
                 | 'default' type style
                 ;
 
-question: 'question' ID widget?
-        | 'question' ID style?
+question: 'question' id=ID widget?
+        | 'question' id=ID style?
         ;
 
 widget: 'widget' widgetType;
 
-widgetType: 'radio' OPEN_PARENTH yes=STRING',' no=STRING CLOSE_PARENTH                     # radio
-          | 'checkbock' OPEN_PARENTH yes=STRING CLOSE_PARENTH                              # checkbox
-          | 'dropdown' OPEN_PARENTH yes=STRING',' no=STRING CLOSE_PARENTH                  # dropdown
-          | 'slider' OPEN_PARENTH start=NUMBER',' end=NUMBER',' step=NUMBER CLOSE_PARENTH  # slider
-          | 'text'                                                                         # text
+widgetType: 'radio' (OPEN_PARENTH yes=STRING',' no=STRING CLOSE_PARENTH)?                     # radioType
+          | 'checkbox' (OPEN_PARENTH yes=STRING CLOSE_PARENTH)?                               # checkboxType
+          | 'dropdown' (OPEN_PARENTH yes=STRING',' no=STRING CLOSE_PARENTH)?                  # dropdownType
+          | 'slider' OPEN_PARENTH start=NUMBER',' end=NUMBER',' step=NUMBER CLOSE_PARENTH     # sliderType
+          | 'text'                                                                            # textType
+          | 'spinbox'                                                                         # spinboxType
           ;
 
 type
@@ -40,20 +43,21 @@ type
     | 'string'                                                              #stringType
     ;
 
-style: OPEN_BRACKET styleProperty+ CLOSE_BRACKET;
+style: OPEN_BRACKET styleProperty+ widget? CLOSE_BRACKET;
 
-styleProperty: property=STRING ':' value
-             | widget
-             ;
+styleProperty: property=ID ':' value;
 
-value: STRING
-     | NUMBER
+value: STRING # stringValue
+     | NUMBER # numberValue
+     | COLOR  # colorValue
      ;
 
 
 ID:   [a-zA-Z_]+[a-zA-Z0-9_]*;
 
 STRING: '"' .*? '"';
+
+COLOR : '#' ('0'..'9' | 'a'..'f')+;
 
 NUMBER
     :   '-'? ('0'..'9')+ ('.' ('0'..'9')+)?

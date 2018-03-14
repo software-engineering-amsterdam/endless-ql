@@ -1,71 +1,102 @@
-﻿using QL.Core.Api;
-using QL.Core.Ast;
-using QL.Core.Interpreting;
-using QL.Core.Symbols;
-using QL.Core.Types;
-using QL.Presentation.ViewModels;
+﻿using QL.Api.Ast;
+using QL.Api.Entities;
+using QL.Api.Infrastructure;
+using Presentation.ViewModels;
+using QLS.Api.Infrastructure;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Presentation.Visitors;
+using Infrastructure;
+using QL.Api.Factories;
 
-namespace QL.Presentation.Controllers
+namespace Presentation.Controllers
 {
     internal class MainController
     {        
-        private readonly IParserService _parsingService;
-        private readonly IInterpreterService _interpretingService;
+        private readonly Pipeline<ParsingTask> _parsingPipeline;
+        private readonly Pipeline<InterpretingTask> _interpretingPipeline;
+        private readonly Pipeline<StylesheetTask> _stylesheetPipeline;
+
         private readonly MainViewModel _mainViewModel;
+        private Node _qlAst;
         private MemorySystem _memory;
         private SymbolTable _symbols;
+        private readonly IValueFactory _valueFactory;
 
-        public MainController(MainViewModel viewModel, IParserService parsingService, IInterpreterService interpretingService)
+        public MainController(MainViewModel viewModel,
+                              Pipeline<ParsingTask> parsingPipeline,
+                              Pipeline<InterpretingTask> interpretingPipeline,
+                              Pipeline<StylesheetTask> stylesheetPipeline,
+                              IValueFactory valueFactory)
         {
             _mainViewModel = viewModel;
-            _parsingService = parsingService;
-            _interpretingService = interpretingService;
+            _parsingPipeline = parsingPipeline;
+            _interpretingPipeline = interpretingPipeline;
+            _stylesheetPipeline = stylesheetPipeline;
+            _valueFactory = valueFactory;
 
             viewModel.RebuildQuestionnaireCommand = new RelayCommand<string>(RebuildQuestionnaireCommand_Execute);
         }
 
         private void RebuildQuestionnaireCommand_Execute(string questionnaireInput)
         {            
-            var parsedSymbols = _parsingService.ParseQLInput(questionnaireInput);
-            if (parsedSymbols.Errors.Count > 0)
+            var parsingTask = _parsingPipeline.Process(new ParsingTask(questionnaireInput));
+            if (parsingTask.Errors.Count > 0)
             {
-                _mainViewModel.QuestionnaireValidation = parsedSymbols.Errors.Aggregate(
-                $"Validation failed! There are {parsedSymbols.Errors.Count} error(s) in your questionnaire.",
+                _mainViewModel.QuestionnaireValidation = parsingTask.Errors.Aggregate(
+                $"Validation failed! There are {parsingTask.Errors.Count} error(s) in your questionnaire.",
                 (err, acc) => err + Environment.NewLine + acc);
                 return;
             }
-            _symbols = parsedSymbols.Symbols;
-            _mainViewModel.QuestionnaireValidation = "Validation succeeded! Enjoy your questionnaire";
-
+            _symbols = parsingTask.SymbolTable;
+            _qlAst = parsingTask.Ast;
             _memory = new MemorySystem();
-            RebuildQuestionnaire(parsedSymbols.FormNode);
+            _mainViewModel.QuestionnaireValidation = "Validation succeeded! Enjoy your questionnaire.";
+            
+            RebuildQuestionnaire(parsingTask.Ast);
         }
 
         private void QuestionValueAssignedCommand_Execute(object target)
         {
             var questionViewModel = target as QuestionViewModel;
 
-            Value memoryValue;
+            IValue memoryValue;
             if(!_memory.TryRetrieveValue(questionViewModel.Id, out memoryValue))
             {
-                memoryValue = new Value(_symbols[questionViewModel.Id].Type);
+                memoryValue = _valueFactory.CreateDefaultValue(_symbols[questionViewModel.Id].Type);
             }
-            _memory.AssignValue(questionViewModel.Id, new Value(questionViewModel.Value, memoryValue.Type));
-
-            Node ast = _parsingService.ParseQLInput(_mainViewModel.QuestionnaireInput).FormNode;
-            RebuildQuestionnaire(ast);
+            _memory.AssignValue(questionViewModel.Id, _valueFactory.CreateValue(questionViewModel.Value, memoryValue.GetType()));                        
+            RebuildQuestionnaire(_qlAst);
         }
 
-        private void RebuildQuestionnaire(Node ast)
+        private void RebuildQuestionnaire(Node evaluatedAst)
         {
-            Node evaluatedAst = _interpretingService.EvaluateQuestionnaire(ast, _memory, _symbols);
+            _mainViewModel.Form = CreateFormViewModelFromQL(evaluatedAst);
+            _mainViewModel.Form.Pages = CreatePagesFromStylesheet();
+        }
 
-            var formBuildingVisitor = new FormViewModelBuildingVisitor();
-            evaluatedAst.Accept(formBuildingVisitor);
-            _mainViewModel.Form = formBuildingVisitor.Form;
-            _mainViewModel.Form.QuestionValueAssignedCommand = new RelayCommand<QuestionViewModel>(QuestionValueAssignedCommand_Execute);
+        private FormViewModel CreateFormViewModelFromQL(Node ast)
+        {
+            var interpretingTask = _interpretingPipeline.Process(new InterpretingTask(ast, _memory, _symbols));
+
+            var formBuildingVisitor = new QuestionnaireVisitor();
+            interpretingTask.InterpretedAst.Accept(formBuildingVisitor);
+
+            FormViewModel form = formBuildingVisitor.Form;
+            form.QuestionValueAssignedCommand = new RelayCommand<QuestionViewModel>(QuestionValueAssignedCommand_Execute);
+            return form;
+        }
+
+        private PagesViewModel CreatePagesFromStylesheet()
+        {
+            IReadOnlyList<QuestionViewModel> questionViewModels = _mainViewModel.Form.Questions.ToList();
+            var stylesheetTask = new StylesheetTask(_mainViewModel.StylesheetInput, questionViewModels.Select(x => x.Id).ToList());
+            var processedStylesheet = _stylesheetPipeline.Process(stylesheetTask);
+
+            var stylesheetVisitor = new StylesheetVisitor(questionViewModels);
+            processedStylesheet.Ast.Accept(stylesheetVisitor);
+            return stylesheetVisitor.PagesViewModel;
         }
     }
 }

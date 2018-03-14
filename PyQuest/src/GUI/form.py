@@ -1,59 +1,69 @@
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QDialogButtonBox
 from PyQt5.QtWidgets import QFormLayout
 from PyQt5.QtWidgets import QGroupBox
 from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QMessageBox
+from GUI.gui import append_file_extension
 from json import dumps
 
 
-class Dialog(QDialog):
+class Form(QDialog):
     def __init__(self, form):
-        super(Dialog, self).__init__()
+        super(Form, self).__init__()
         self.form = form
-        self.formGroupBox = QGroupBox(form.identifier)
+        self.form_group_box = QGroupBox(form.identifier)
         self.create_form(form)
 
-        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        buttonBox.accepted.connect(self.accept)
-        buttonBox.rejected.connect(self.reject)
+        button_box = QDialogButtonBox(QDialogButtonBox.Save | QDialogButtonBox.Cancel)
+        button_box.accepted.connect(self.accept)
+        button_box.rejected.connect(self.reject)
 
-        mainLayout = QVBoxLayout()
-        mainLayout.addWidget(self.formGroupBox)
-        mainLayout.addWidget(buttonBox)
-        self.setLayout(mainLayout)
+        main_layout = QVBoxLayout()
+        main_layout.addWidget(self.form_group_box)
+        main_layout.addWidget(button_box)
+        self.setLayout(main_layout)
 
-        self.setWindowTitle("Form")
+        self.setWindowTitle('Form')
 
     def create_form(self, form):
         layout = QFormLayout()
 
-        # TODO evaluate and check show field of question
         for question in form.block:
             show = question.evaluate_show_condition(self.form)
-            question.pyqt5_render(layout, show)
+            question.pyqt5_render(layout, form, show)
+            question.widget.onChange(form.update_show_condition_on_change)
 
-        self.formGroupBox.setLayout(layout)
+        self.form_group_box.setLayout(layout)
 
-    # TODO unique file name
     @pyqtSlot()
     def accept(self):
         result = {}
 
-        for child in self.formGroupBox.children()[1:]:
-            key = self.form.find_question_of_widget(child)
+        for child in self.form_group_box.children():
+            question = self.form.find_question_of_widget(child)
 
-            if key:
-                result[key] = child.value()
+            if question:
+                result[question.identifier] = child.value()
 
-        print(result)
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        file_name, _ = QFileDialog.getSaveFileName(QFileDialog(), 'Save results', self.form.identifier,
+                                                   'JSON (*.json);;All Files (*)', options=options)
 
-        with open('out.json', 'w') as file:
+        if file_name:
+            file_name = append_file_extension(file_name, 'json')
+            file = open(file_name, 'w')
             file.write(dumps(result))
-
-        self.close()
-        QMessageBox.information(self, 'Submission', 'Your answers have been submitted successfully.', QMessageBox.Ok, QMessageBox.Ok)
+            file.close()
+            self.close()
+            QMessageBox.information(QMessageBox(), 'Submission', 'Your answers have been submitted successfully.',
+                                    QMessageBox.Close, QMessageBox.Escape)
+        else:
+            QMessageBox.warning(QMessageBox(), 'Warning', 'Questionnaire results were not saved.',
+                                QMessageBox.Close, QMessageBox.Escape)
 
     @pyqtSlot()
     def reject(self):

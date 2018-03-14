@@ -2,36 +2,37 @@ package org.uva.forcepushql.ast;
 
 import org.uva.forcepushql.antlr.GrammarParser;
 import org.uva.forcepushql.antlr.GrammarParserBaseVisitor;
+import org.uva.forcepushql.antlr.GrammarParserVisitor;
 
-public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
+public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode> implements GrammarParserVisitor<ExpressionNode>{
 
 
     @Override
-    public ExpressionNode visitMathUnit(GrammarParser.MathUnitContext ctx) {
-        return super.visitMathUnit(ctx);
+    public ExpressionNode visitMathUnit(GrammarParser.MathUnitContext context) {
+        return visit(context.expression());
     }
 
 
+
+
     @Override
-    public ExpressionNode visitNumberExpression(GrammarParser.NumberExpressionContext ctx) {
-        System.out.println("I visited this leaf with value = " + ctx.value.getText());
+    public ExpressionNode visitNumberExpression(GrammarParser.NumberExpressionContext context) {
+        System.out.println("I visited this leaf with value = " + context.value.getText());
         NumberNode number = new NumberNode();
-        number.setValue(Double.valueOf(ctx.value.getText()));
+        number.setValue(Double.valueOf(context.value.getText()));
         number.getValue();
-        System.out.println("I now end my visit and return a Number Node with value = " + number.Value);
         return number;
     }
 
     @Override
-    public ExpressionNode visitParenthesisExpression(GrammarParser.ParenthesisExpressionContext ctx) {
-        return super.visitParenthesisExpression(ctx);
+    public ExpressionNode visitParenthesisExpression(GrammarParser.ParenthesisExpressionContext context) {
+        return visit(context.expression());
     }
 
     @Override
     public ExpressionNode visitInfixExpression(GrammarParser.InfixExpressionContext context){
 
         InfixExpressionNode node;
-        System.out.println("Context.op is " + context.op.getType() + " and GrammarParser.PLUS is " + GrammarParser.PLUS);
 
         switch(context.op.getType()){
             case GrammarParser.PLUS:
@@ -49,38 +50,39 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
                 node = new DivisionNode();
                 break;
             default:
-                node = new AdditionNode();
-                /*try {
-                    throw new Exception();
+                try {
+                    throw new Exception("Invalid Node type");
                 } catch (Exception e) {
                     e.printStackTrace();
-                }*/
+                }
+                return null;
         }
 
-        System.out.println("\nStart of node.Left");
+
         node.Left = visit(context.left);
         System.out.println("End of node.Left \n");
 
-        System.out.println("\nStart of node.Right");
+
         node.Right = visit(context.right);
         System.out.println("End of node.Right \n");
 
         System.out.println("node.Left is " + node.Left);
         System.out.println("node.Right is " + node.Right);
+        System.out.println(node);
 
         return node;
 
     }
 
     @Override
-    public ExpressionNode visitUnaryExpression(GrammarParser.UnaryExpressionContext ctx) {
-        switch (ctx.op.getType()){
+    public ExpressionNode visitUnaryExpression(GrammarParser.UnaryExpressionContext context) {
+        switch (context.op.getType()){
             case GrammarParser.PLUS:
-                return visit(ctx.expression());
+                return visit(context.expression());
             case GrammarParser.MINUS:
             {
                 NegateNode negateNode = new NegateNode();
-                negateNode.setInnerNode(visit(ctx.expression()));
+                negateNode.setInnerNode(visit(context.expression()));
                 negateNode.getInnerNode();
                 return negateNode;
             }

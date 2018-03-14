@@ -43,7 +43,7 @@ public class DateLess extends AbstractEvaluator<DateLiteral> {
 
     @Override
     public Literal<?> visit(DateLiteral secondOperand) {
-        return new BoolLiteral(firstOperand.getValue().isBefore(secondOperand.getValue()));
+        return new BoolLiteral(firstOperand.getValue().before(secondOperand.getValue()));
     }
 
     @Override

@@ -1,0 +1,30 @@
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    section "Buying"
+    {
+      question hasBoughtHouse widget checkbox 
+      question someQuestion widget dropdown ("T1", "T2", "T3") 
+    }
+    section "Loaning"
+    {
+    		question hasMaintLoan widget radio("Si", "no")
+    }
+  }
+
+  page Selling
+  { 
+    section "Selling"
+    {
+      question hasSoldHouse
+      section "You sold a house"
+      {
+        question sellingPrice widget spinbox
+        question privateDebt widget spinbox 
+        question valueResidue      
+      }
+    }
+    default boolean widget radio
+  }  
+}

@@ -19,5 +19,5 @@ public abstract class QLSNode {
         return token.getCharPositionInLine();
     }
 
-    public abstract <T> T accept(IStyleASTVisitor<T> visitor);
+    public abstract <T> T accept(IStyleASTVisitor<T> visitor) throws InterruptedException;
 }

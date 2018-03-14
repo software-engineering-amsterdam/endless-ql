@@ -1,4 +1,4 @@
-import {TextboxQuestion} from '../../domain/angular-questions/textbox-question';
+import {InputQuestion} from '../../domain/angular-questions/input-question';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {DynamicFormQuestionComponent} from './dynamic-form-question.component';
@@ -7,14 +7,10 @@ describe('FormQuestionComponent', () => {
   let component: DynamicFormQuestionComponent;
   let fixture: ComponentFixture<DynamicFormQuestionComponent>;
 
-
-  const options = {
-    key: 'question',
-    label: 'textboxquestion',
-    type: 'text',
-    value: undefined
-  };
-  const question = new TextboxQuestion(options);
+  const question = new InputQuestion('question',
+    'textboxquestion',
+    undefined,
+    'text', undefined);
 
   const controls = {};
   controls['question'] = new FormControl({value: ''});
@@ -22,7 +18,7 @@ describe('FormQuestionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DynamicFormQuestionComponent ],
+      declarations: [DynamicFormQuestionComponent],
       imports: [
         ReactiveFormsModule
       ]

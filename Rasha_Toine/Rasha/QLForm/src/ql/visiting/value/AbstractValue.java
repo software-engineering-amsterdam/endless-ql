@@ -103,15 +103,15 @@ public abstract class AbstractValue extends Value {
 	}
 	
 	@Override
-	public IntegerValue neg(){
+	public Value neg(){
 		return throwException();
 	}
 
 	@Override
-	public IntegerValue pos() {
+	public Value pos() {
 		return throwException();
 	}
-
+	
 	@Override
 	public BooleanValue gt(IntegerValue val){
 		return throwException();

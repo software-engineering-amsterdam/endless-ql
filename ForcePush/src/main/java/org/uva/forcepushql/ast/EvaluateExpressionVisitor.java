@@ -1,37 +1,81 @@
 package org.uva.forcepushql.ast;
 
 
-public class EvaluateExpressionVisitor extends ASTVisitor<Double> {
 
-    public double Visit(AdditionNode node)
+public class EvaluateExpressionVisitor implements ASTVisitor {
+
+
+    @Override
+    public double visit(ExpressionNode node) {
+        if (node instanceof AdditionNode)
+        {
+            return visit((AdditionNode) node);
+        }
+        else if(node instanceof NumberNode)
+        {
+            return visit((NumberNode) node);
+        }
+        else if(node instanceof SubtractionNode)
+        {
+            return visit((SubtractionNode) node);
+        }
+        else if(node instanceof MultiplicationNode)
+        {
+            return visit((MultiplicationNode) node);
+        }
+        else if(node instanceof NegateNode)
+        {
+            return visit((NegateNode) node);
+        }
+        else if(node instanceof DivisionNode)
+        {
+            return visit((DivisionNode) node);
+        }
+        else {
+            try {
+                throw new Exception();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return 0.0;
+        }
+
+    }
+
+    public double visit(AdditionNode node)
     {
-        double result = Visit(node.Left) + Visit(node.Right);
-        System.out.println("Final result = " + result);
+        double result = visit(node.Left) + visit(node.Right);
         return result;
     }
 
-    public double Visit(SubtractionNode node)
+    public double visit(SubtractionNode node)
     {
-        return Visit(node.Left) - Visit(node.Right);
+        return visit(node.Left) - visit(node.Right);
     }
 
-    public double Visit(MultiplicationNode node)
+    public double visit(MultiplicationNode node) { return visit(node.Left) * visit(node.Right); }
+
+    public double visit(DivisionNode node)
     {
-        return Visit(node.Left) * Visit(node.Right);
+        double divisor = visit(node.Right);
+        if (divisor != 0.0)
+        {
+        return visit(node.Left) / visit(node.Right);
+        }else { throw new ArithmeticException("Division by zero."); }
     }
 
-    public double Visit(DivisionNode node)
+    public double visit(NegateNode node)
     {
-        return Visit(node.Left) / Visit(node.Right);
+        return -visit(node.getInnerNode());
     }
 
-    public double Visit(NegateNode node)
-    {
-        return -Visit(node.InnerNode);
+    public double visit(NumberNode node){
+        return node.getValue();
     }
 
-    public double Visit(NumberNode node){
-        return node.Value;
+    public double visit(InfixExpressionNode node)
+    {
+        return visit(node.Left);
     }
 
 

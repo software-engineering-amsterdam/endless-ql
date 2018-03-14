@@ -1,20 +1,20 @@
 import { AppPage } from './app.po';
-import * as mockInput from '../src/app/mock-input';
+import * as mockInput from '../src/app/ql-mock-input';
 
 describe('jectacular-ql App', () => {
   let page: AppPage;
 
   beforeEach(() => {
     page = new AppPage();
+    page.navigateTo();
+    page.clearInputs();
   });
 
   it('should display welcome message', () => {
-    page.navigateTo();
     expect(page.getParagraphText()).toEqual('Welcome to our spectacular QL parser!');
   });
 
   it('should parse an input to a form', done => {
-    page.navigateTo();
     page.parseInput(mockInput.ifQuestionForm);
     page.formDisplayed().then(displayed => {
       expect(displayed).toBe(true);
@@ -22,7 +22,6 @@ describe('jectacular-ql App', () => {
   });
 
   it('should show an error', done => {
-    page.navigateTo();
     page.parseInput(mockInput.duplicateIdentifierForm);
     page.errorDisplayed().then(errorDisplayed => {
       expect(errorDisplayed).toBe(true);

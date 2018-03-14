@@ -2,7 +2,9 @@ package org.uva.sea.ql.interpreter.evaluate.valueTypes;
 
 import org.uva.sea.ql.interpreter.exceptions.EvaluationException;
 import org.uva.sea.ql.parser.NodeType;
+import org.uva.sea.ql.parser.elements.types.Type;
 import org.uva.sea.ql.parser.visitor.BaseValueVisitor;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.math.BigDecimal;
 import java.security.InvalidParameterException;
@@ -266,6 +268,11 @@ public class MoneyValue extends Value {
 
     @Override
     public NodeType getType() {
-        return NodeType.MONEY;
+        if(this.currency.equals("€"))
+            return NodeType.MONEY_EURO;
+        else if(this.currency.equals("$"))
+            return NodeType.MONEY_DOLLAR;
+
+        throw new NotImplementedException();
     }
 }

@@ -7,7 +7,6 @@ import sys
 
 class QLVisitor(QLGrammarVisitor):
     def __init__(self):
-        self.program = {}
         self.QLAst = QLAst()
 
         self.logger = logging.getLogger(__name__)
@@ -55,7 +54,7 @@ class QLVisitor(QLGrammarVisitor):
         varName = ctx.ID().getText()
         varType = self.visit(ctx.types())
 
-        varNode = VarNode(varName, varType, ctx.start.line)
+        varNode = VarNode(varName, varType, ctx.start.line, True)
         questionN = QuestionNode(question, varNode, ctx.start.line)
 
         return questionN

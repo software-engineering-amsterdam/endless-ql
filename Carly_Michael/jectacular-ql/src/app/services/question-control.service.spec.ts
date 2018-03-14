@@ -1,47 +1,47 @@
 import {inject, TestBed} from '@angular/core/testing';
 import {QuestionControlService} from './question-control.service';
-import {TextboxQuestion} from '../domain/angular-questions/textbox-question';
-import {CheckboxQuestion} from '../domain/angular-questions/checkbox-question';
+import {InputQuestion} from '../domain/angular-questions/input-question';
+import {BooleanQuestion} from '../domain/angular-questions/boolean-question';
 
 describe('The question control service', () => {
   let service: QuestionControlService;
 
   const questions = [
-    new TextboxQuestion({
-      key: 'intQuestion',
-      label: 'intQuestion?',
-      type: 'number',
-      value: undefined,
-      order: 0
-    }),
-    new TextboxQuestion({
-      key: 'decimalQuestion',
-      label: 'decimalQuestion?',
-      type: 'number',
-      value: undefined,
-      order: 1
-    }),
-    new CheckboxQuestion({
-      key: 'booleanQuestion',
-      label: 'booleanQuestion?',
-      type: 'boolean',
-      value: undefined,
-      order: 2
-    }),
-    new TextboxQuestion({
-      key: 'stringQuestion',
-      label: 'stringQuestion?',
-      type: 'text',
-      value: '',
-      order: 3
-    }),
-    new TextboxQuestion({
-      key: 'dateQuestion',
-      label: 'dateQuestion?',
-      type: 'date',
-      value: undefined,
-      order: 4
-    })
+    new InputQuestion(
+      'intQuestion',
+      'intQuestion?',
+      undefined,
+      'number',
+      undefined
+    ),
+    new InputQuestion(
+      'decimalQuestion',
+      'decimalQuestion?',
+      undefined,
+      'number',
+      undefined
+    ),
+    new BooleanQuestion(
+      'booleanQuestion',
+      'booleanQuestion?',
+      undefined,
+      'boolean',
+      undefined
+    ),
+    new InputQuestion(
+      'stringQuestion',
+      'stringQuestion?',
+      '',
+      'text',
+      undefined
+    ),
+    new InputQuestion(
+      'dateQuestion',
+      'dateQuestion?',
+      undefined,
+      'date',
+      undefined
+    )
   ];
 
   beforeEach(() => {

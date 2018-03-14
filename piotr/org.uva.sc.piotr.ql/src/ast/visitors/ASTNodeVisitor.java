@@ -1,7 +1,7 @@
 package ast.visitors;
 
 import ast.model.Form;
-import ast.model.datatypes.*;
+import ast.model.declarations.*;
 import ast.model.expressions.binary.arithmetics.Addition;
 import ast.model.expressions.binary.arithmetics.Division;
 import ast.model.expressions.binary.arithmetics.Multiplication;
@@ -16,52 +16,54 @@ import ast.model.expressions.values.VariableReference;
 import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
 
-public interface ASTNodeVisitor {
+public interface ASTNodeVisitor<T> {
 
-    void visit(Form form);
+    T visit(Form form);
 
-    void visit(Question question);
+    T visit(Question question);
 
-    void visit(IfStatement ifStatement);
+    T visit(IfStatement ifStatement);
 
-    void visit(Literal literal);
+    T visit(Literal literal);
 
-    void visit(VariableReference variableReference);
+    T visit(VariableReference variableReference);
 
-    void visit(Negation negation);
+    T visit(Negation negation);
 
-    void visit(Minus minus);
+    T visit(Minus minus);
 
-    void visit(Addition addition);
+    T visit(Addition addition);
 
-    void visit(Subtraction subtraction);
+    T visit(Subtraction subtraction);
 
-    void visit(Division division);
+    T visit(Division division);
 
-    void visit(Multiplication multiplication);
+    T visit(Multiplication multiplication);
 
-    void visit(Equal equal);
+    T visit(Equal equal);
 
-    void visit(GreaterEqual greaterEqual);
+    T visit(GreaterEqual greaterEqual);
 
-    void visit(GreaterThan greaterThan);
+    T visit(GreaterThan greaterThan);
 
-    void visit(LessEqual lessEqual);
+    T visit(LessEqual lessEqual);
 
-    void visit(LessThan lessThan);
+    T visit(LessThan lessThan);
 
-    void visit(NotEqual notEqual);
+    T visit(NotEqual notEqual);
 
-    void visit(LogicalAnd logicalAnd);
+    T visit(LogicalAnd logicalAnd);
 
-    void visit(LogicalOr logicalOr);
+    T visit(LogicalOr logicalOr);
 
-    void visit(TypeDeclarationBoolean typeDeclarationBoolean);
+    T visit(TypeDeclarationBoolean typeDeclarationBoolean);
 
-    void visit(TypeDeclarationDecimal typeDeclarationDecimal);
+    T visit(TypeDeclarationDecimal typeDeclarationDecimal);
 
-    void visit(TypeDeclarationInteger typeDeclarationInteger);
+    T visit(TypeDeclarationMoney typeDeclarationMoney);
 
-    void visit(TypeDeclarationString typeDeclarationString);
+    T visit(TypeDeclarationInteger typeDeclarationInteger);
+
+    T visit(TypeDeclarationString typeDeclarationString);
     
 }

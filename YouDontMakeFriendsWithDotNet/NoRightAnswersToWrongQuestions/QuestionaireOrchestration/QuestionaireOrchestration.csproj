@@ -47,26 +47,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\ICommandQueryService.cs" />
-    <Compile Include="CommandHandlers\ICommandObjectRegistry.cs" />
+    <Compile Include="Models\DomainItemModel.cs" />
+    <Compile Include="Commands\LoadQuestionnaireDefinitionsCommand.cs" />
+    <Compile Include="QueryServices\Interfaces\ICommandQueryService.cs" />
+    <Compile Include="QueryServices\Interfaces\IQuestionnaireQueryService.cs" />
+    <Compile Include="Models\ModelExtensions.cs" />
+    <Compile Include="Models\ModelReference.cs" />
+    <Compile Include="Models\QuestionnaireDefinitionModel.cs" />
+    <Compile Include="QueryServices\QuestionnaireQueryService.cs" />
+    <Compile Include="CommandHandlers\LoadQuestionnaireDefinitionsCommandHandler.cs" />
     <Compile Include="CommandHandlers\ParseTextCommandHandler.cs" />
     <Compile Include="OrchestrationModule.cs" />
-    <Compile Include="API\CreateQuestionnaireCommandMessage.cs" />
+    <Compile Include="Commands\CreateQuestionnaireCommandMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryServices\CommandQueryService.cs" />
+    <Compile Include="QueryServices\QuestionnaireDefintionQueryService.cs" />
+    <Compile Include="QueryServices\Interfaces\IModelQueryService.cs" />
     <Compile Include="Visitors\BooleanLogicPrinter.cs" />
     <Compile Include="Visitors\IBooleanLogicPrinter.cs" />
+    <Compile Include="Visitors\IPrinter.cs" />
     <Compile Include="Visitors\IQuestionnairePrinter.cs" />
     <Compile Include="Visitors\QuestionnairePrinter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionaireDomain.Entities.csproj">
+    <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionnaireDomain.Entities.csproj">
       <Project>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</Project>
-      <Name>QuestionaireDomain.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\QuestionnaireDomain.Logic\QuestionnaireDomain.Logic.csproj">
-      <Project>{A90F662F-AFD9-45AA-8B13-DBFBAF4A6CFC}</Project>
-      <Name>QuestionnaireDomain.Logic</Name>
+      <Name>QuestionnaireDomain.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
       <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>

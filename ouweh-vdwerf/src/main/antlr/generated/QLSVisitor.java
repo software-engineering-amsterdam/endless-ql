@@ -55,40 +55,47 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitWidget(QLSParser.WidgetContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code radio}
+	 * Visit a parse tree produced by the {@code radioType}
 	 * labeled alternative in {@link QLSParser#widgetType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRadio(QLSParser.RadioContext ctx);
+	T visitRadioType(QLSParser.RadioTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code checkbox}
+	 * Visit a parse tree produced by the {@code checkboxType}
 	 * labeled alternative in {@link QLSParser#widgetType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCheckbox(QLSParser.CheckboxContext ctx);
+	T visitCheckboxType(QLSParser.CheckboxTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code dropdown}
+	 * Visit a parse tree produced by the {@code dropdownType}
 	 * labeled alternative in {@link QLSParser#widgetType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDropdown(QLSParser.DropdownContext ctx);
+	T visitDropdownType(QLSParser.DropdownTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code slider}
+	 * Visit a parse tree produced by the {@code sliderType}
 	 * labeled alternative in {@link QLSParser#widgetType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSlider(QLSParser.SliderContext ctx);
+	T visitSliderType(QLSParser.SliderTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code text}
+	 * Visit a parse tree produced by the {@code textType}
 	 * labeled alternative in {@link QLSParser#widgetType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitText(QLSParser.TextContext ctx);
+	T visitTextType(QLSParser.TextTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code spinboxType}
+	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSpinboxType(QLSParser.SpinboxTypeContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code booleanType}
 	 * labeled alternative in {@link QLSParser#type}.
@@ -130,9 +137,24 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStyleProperty(QLSParser.StylePropertyContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#value}.
+	 * Visit a parse tree produced by the {@code stringValue}
+	 * labeled alternative in {@link QLSParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValue(QLSParser.ValueContext ctx);
+	T visitStringValue(QLSParser.StringValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code numberValue}
+	 * labeled alternative in {@link QLSParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumberValue(QLSParser.NumberValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code colorValue}
+	 * labeled alternative in {@link QLSParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitColorValue(QLSParser.ColorValueContext ctx);
 }

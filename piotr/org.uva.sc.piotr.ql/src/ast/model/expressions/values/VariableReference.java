@@ -5,7 +5,7 @@ import ast.visitors.ASTNodeVisitor;
 
 public class VariableReference extends Expression {
 
-    private String name;
+    private final String name;
 
     public VariableReference(String name, MetaInformation metaInformation) {
         super(metaInformation);
@@ -16,13 +16,8 @@ public class VariableReference extends Expression {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Override
-    public void accept(ASTNodeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(ASTNodeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
-
 }

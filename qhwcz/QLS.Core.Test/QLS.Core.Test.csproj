@@ -69,6 +69,15 @@
       <Name>QLS.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CorrectStylesheets\emptyStylesheetWithTwoPagesAndSections.qls" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CorrectStylesheets\onePageStylesheetWithQuestion.qls" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CorrectStylesheets\onePageStylesheetWithQuestionAndWidget.qls" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

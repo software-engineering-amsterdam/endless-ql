@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.uva.sea.ql.interpreter.Interpreter;
 import org.uva.sea.ql.interpreter.dataObject.InterpreterResult;
-import org.uva.sea.ql.interpreter.dataObject.QuestionData;
+import org.uva.sea.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.ErrorValue;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.ql.interpreter.exceptions.EvaluationException;

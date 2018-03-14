@@ -2,9 +2,7 @@ package ast;
 
 import ast.model.ASTNode;
 import ast.model.Form;
-import grammar.QLBaseVisitor;
-import grammar.QLParser;
-import ast.model.datatypes.*;
+import ast.model.declarations.*;
 import ast.model.expressions.Expression;
 import ast.model.expressions.binary.arithmetics.Addition;
 import ast.model.expressions.binary.arithmetics.Division;
@@ -20,10 +18,14 @@ import ast.model.expressions.values.VariableReference;
 import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
 import ast.model.statements.Statement;
+import grammar.QLBaseVisitor;
+import grammar.QLParser;
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class ASTBuilder extends QLBaseVisitor {
+public class ASTBuilder extends QLBaseVisitor<ASTNode> {
 
     @Override
     public Form visitForm(QLParser.FormContext ctx) {
@@ -55,26 +57,30 @@ public class ASTBuilder extends QLBaseVisitor {
 
         Expression ifConditionExpression = (Expression) visit(ctx.condition);
 
-        IfStatement ifStatement = new IfStatement(
-                ifConditionExpression,
-                this.ExtractMetaInformationFromContext(ctx)
-        );
+        List<Statement> ifStatementList = new ArrayList<>();
 
         for (QLParser.StatementContext StatementContext : ctx.statement()) {
             Statement statement = visitStatement(StatementContext);
-            ifStatement.addStatement(statement);
+            ifStatementList.add(statement);
         }
+
+        List<Statement> elseStatementList = new ArrayList<>();
 
         if (ctx.elseStatement() != null) {
 
             for (QLParser.StatementContext StatementContext : ctx.elseStatement().statement()) {
                 Statement statement = visitStatement(StatementContext);
-                ifStatement.addElseStatement(statement);
+                elseStatementList.add(statement);
             }
 
         }
 
-        return ifStatement;
+        return new IfStatement(
+                ifConditionExpression,
+                ifStatementList,
+                elseStatementList,
+                this.ExtractMetaInformationFromContext(ctx)
+        );
     }
 
     @Override
@@ -87,8 +93,8 @@ public class ASTBuilder extends QLBaseVisitor {
                 this.ExtractMetaInformationFromContext(ctx)
         );
 
-        if (ctx.expression() != null) {
-            question.setAssignedExpression((Expression) visit(ctx.expression()));
+        if (ctx.assignment != null) {
+            question.setAssignedExpression((Expression) visit(ctx.assignment));
         }
 
         question.setMetaInformation(this.ExtractMetaInformationFromContext(ctx));
@@ -115,6 +121,14 @@ public class ASTBuilder extends QLBaseVisitor {
     }
 
     @Override
+    public ASTNode visitTypeDeclarationMoney(QLParser.TypeDeclarationMoneyContext ctx) {
+        return new TypeDeclarationMoney(
+                ctx.getText(),
+                this.ExtractMetaInformationFromContext(ctx)
+        );
+    }
+
+    @Override
     public TypeDeclarationInteger visitTypeDeclarationInteger(QLParser.TypeDeclarationIntegerContext ctx) {
         return new TypeDeclarationInteger(
                 ctx.getText(),
@@ -135,25 +149,32 @@ public class ASTBuilder extends QLBaseVisitor {
     @Override
     public Literal visitExpressionSingleValue(QLParser.ExpressionSingleValueContext ctx) {
 
-        Literal.Type type = Literal.Type.STRING;
+        Expression.DataType type = Expression.DataType.STRING;
+        String text = ctx.value.getText();
 
-        if (ctx.BOOL_FALSE() != null || ctx.BOOL_TRUE() != null)
-            type = Literal.Type.BOOLEAN;
-
-        if (ctx.DECIMAL() != null)
-            type = Literal.Type.DECIMAL;
-
-        if (ctx.INTEGER() != null)
-            type = Literal.Type.INTEGER;
+        if (ctx.BOOL_FALSE() != null || ctx.BOOL_TRUE() != null) {
+            type = Expression.DataType.BOOLEAN;
+        } else if (ctx.DECIMAL() != null) {
+            type = Expression.DataType.DECIMAL;
+        } else if (ctx.INTEGER() != null) {
+            type = Expression.DataType.INTEGER;
+        } else if (ctx.STRING() != null) {
+            text = ctx.value.getText().substring(1, ctx.value.getText().length() - 1);
+        }
 
         return new Literal(
-                ctx.value.getText().substring(1, ctx.value.getText().length() - 1),
+                text,
                 type,
                 this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
     // References
+
+    @Override
+    public ASTNode visitExpressionParenthesises(QLParser.ExpressionParenthesisesContext ctx) {
+        return visit(ctx.subExpression);
+    }
 
     @Override
     public VariableReference visitExpressionVariableReference(QLParser.ExpressionVariableReferenceContext ctx) {
@@ -166,7 +187,7 @@ public class ASTBuilder extends QLBaseVisitor {
     @Override
     public Negation visitExpressionNegation(QLParser.ExpressionNegationContext ctx) {
         return new Negation(
-                (Expression) visit(ctx.expression()),
+                (Expression) visit(ctx.subExpression),
                 this.ExtractMetaInformationFromContext(ctx)
         );
     }
@@ -176,7 +197,7 @@ public class ASTBuilder extends QLBaseVisitor {
     @Override
     public Minus visitExpressionArithmeticMinus(QLParser.ExpressionArithmeticMinusContext ctx) {
         return new Minus(
-                (Expression) visit(ctx.expression()),
+                (Expression) visit(ctx.subExpression),
                 this.ExtractMetaInformationFromContext(ctx)
         );
     }
@@ -291,7 +312,6 @@ public class ASTBuilder extends QLBaseVisitor {
         return new ASTNode.MetaInformation(
                 ctx.start.getLine(),
                 ctx.stop.getLine(),
-                ctx.start.getCharPositionInLine() + 1,
                 ctx.getText()
         );
     }

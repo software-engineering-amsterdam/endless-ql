@@ -1,5 +1,5 @@
 """
-
+    Node for question, it contains a varnode where the value will be stored
 """
 from .ast_methods import *
 
@@ -11,10 +11,11 @@ class QuestionNode:
         self.line = line
         self.nodeType = "Question"
 
-    def checkTypes(self):
-        return ["Question", self.varNode.checkTypes()]
-
-    # Check if a variable has not been used yet, if so, add it to the dictionary, otherwise throw an error
+    """
+        Check if a variable has not been used yet, if so, add it to the dictionary, otherwise throw an error
+        The node list is a collection of all the occurences of the varNodes, this is collected so we can easily
+        modify all the values once they have been changed in the gui
+    """
     def linkVars(self, varDict):
         varname = self.varNode.getVarname()
         line = self.varNode.getLine()
@@ -26,7 +27,11 @@ class QuestionNode:
             new_entry["type"] = self.varNode.checkTypes()
             new_entry["node"] = self.varNode
             new_entry["assign"] = self
+            new_entry["node_list"] = [self.varNode]
             varDict[varname] = new_entry
+
+    def checkTypes(self):
+        return ["Question", self.varNode.checkTypes()]
 
     def getNodeType(self):
         return self.nodeType

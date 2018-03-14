@@ -4,11 +4,12 @@ import ast.model.statements.Statement;
 import ast.visitors.ASTNodeVisitor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Form extends ASTNode {
 
-    private String name;
-    private ArrayList<Statement> statementList = new ArrayList<>();
+    private final String name;
+    private final List<Statement> statementList = new ArrayList<>();
 
     public Form(String name, MetaInformation metaInformation) {
         super(metaInformation);
@@ -19,26 +20,16 @@ public class Form extends ASTNode {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ArrayList<Statement> getStatementList() {
+    public List<Statement> getStatementList() {
         return statementList;
     }
 
-    public void setStatementList(ArrayList<Statement> statementList) {
-        this.statementList = statementList;
-    }
-
-    public boolean addStatement(Statement statement) {
-        return this.statementList.add(statement);
+    public void addStatement(Statement statement) {
+        this.statementList.add(statement);
     }
 
     @Override
-    public void accept(ASTNodeVisitor visitor) {
-        for (Statement statement : statementList) {
-            statement.accept(visitor);
-        }
+    public <T> T accept(ASTNodeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

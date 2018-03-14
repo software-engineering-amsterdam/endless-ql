@@ -10,8 +10,13 @@ export class AppPage {
     return element(by.css('app-root h1')).getText();
   }
 
+  clearInputs() {
+    element(by.id('inputQls')).clear();
+    element(by.id('inputQl')).clear();
+  }
+
   parseInput(input: string) {
-    element(by.id('input')).sendKeys(input);
+    element(by.id('inputQl')).sendKeys(input);
     element(by.id('parse-button')).click();
   }
 

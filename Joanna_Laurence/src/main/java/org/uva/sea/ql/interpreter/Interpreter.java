@@ -7,7 +7,7 @@ import org.uva.sea.ql.interpreter.dataObject.InterpreterResult;
 import org.uva.sea.ql.interpreter.evaluate.ExpressionEvaluator;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
-import org.uva.sea.ql.interpreter.dataObject.QuestionData;
+import org.uva.sea.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.ql.interpreter.evaluate.FormEvaluator;
 import org.uva.sea.ql.interpreter.evaluate.SymbolTable;
 import org.uva.sea.ql.parser.elements.Question;
@@ -42,7 +42,7 @@ public class Interpreter {
     }
 
     /**
-     * Interpreter questions, and return results
+     * ApplyQLSStyle questions, and return results
      *
      * @param symbolTable Symbol table
      * @param questions   questions that are converted
@@ -62,7 +62,7 @@ public class Interpreter {
      *
      * @param symbolTable Symbol table
      * @param question    Questions
-     * @return Value of the question
+     * @return Value of the questionData
      */
     private Value getQuestionValue(Question question, SymbolTable symbolTable) {
         if (question.getValue() != null)

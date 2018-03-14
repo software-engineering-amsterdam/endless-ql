@@ -1,30 +1,22 @@
-﻿using System;
-using QuestionaireOrchestration.API;
-using QuestionnaireDomain.Logic.API;
+﻿using QuestionaireOrchestration.Commands;
+using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireInfrastructure.API;
 
 namespace QuestionaireOrchestration.CommandHandlers
 {
     internal class ParseTextCommandHandler : ICommandHandler<CreateQuestionnaireCommandMessage>
     {
-        private readonly IQuestionnaireCreator m_questionnaireCreator;
-        private readonly ICommandObjectRegistry m_commandObjectRegistry;
+        private readonly IQuestionnaireAstCreator m_questionnaireAstCreator;
 
         public ParseTextCommandHandler(
-            IQuestionnaireCreator questionnaireCreator,
-            ICommandObjectRegistry commandObjectRegistry)
+            IQuestionnaireAstCreator questionnaireAstCreator)
         {
-            m_questionnaireCreator = questionnaireCreator;
-            m_commandObjectRegistry = commandObjectRegistry;
+            m_questionnaireAstCreator = questionnaireAstCreator;
         }
         
         public void Execute(CreateQuestionnaireCommandMessage command)
         {
-            var questionnaire = m_questionnaireCreator.Create(command.Text);
-            if (questionnaire.Id != Guid.Empty) 
-            {
-                m_commandObjectRegistry.Add(command, questionnaire.Id);
-            }
+            m_questionnaireAstCreator.Create(command.Text);
         }
     }
 }

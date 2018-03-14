@@ -102,61 +102,73 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRadio(QLSParser.RadioContext ctx) { }
+	@Override public void enterRadioType(QLSParser.RadioTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRadio(QLSParser.RadioContext ctx) { }
+	@Override public void exitRadioType(QLSParser.RadioTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCheckbox(QLSParser.CheckboxContext ctx) { }
+	@Override public void enterCheckboxType(QLSParser.CheckboxTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCheckbox(QLSParser.CheckboxContext ctx) { }
+	@Override public void exitCheckboxType(QLSParser.CheckboxTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDropdown(QLSParser.DropdownContext ctx) { }
+	@Override public void enterDropdownType(QLSParser.DropdownTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDropdown(QLSParser.DropdownContext ctx) { }
+	@Override public void exitDropdownType(QLSParser.DropdownTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSlider(QLSParser.SliderContext ctx) { }
+	@Override public void enterSliderType(QLSParser.SliderTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSlider(QLSParser.SliderContext ctx) { }
+	@Override public void exitSliderType(QLSParser.SliderTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterText(QLSParser.TextContext ctx) { }
+	@Override public void enterTextType(QLSParser.TextTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitText(QLSParser.TextContext ctx) { }
+	@Override public void exitTextType(QLSParser.TextTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSpinboxType(QLSParser.SpinboxTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSpinboxType(QLSParser.SpinboxTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -234,13 +246,37 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterValue(QLSParser.ValueContext ctx) { }
+	@Override public void enterStringValue(QLSParser.StringValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitValue(QLSParser.ValueContext ctx) { }
+	@Override public void exitStringValue(QLSParser.StringValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNumberValue(QLSParser.NumberValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNumberValue(QLSParser.NumberValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterColorValue(QLSParser.ColorValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitColorValue(QLSParser.ColorValueContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

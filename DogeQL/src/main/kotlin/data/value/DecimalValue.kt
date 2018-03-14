@@ -1,9 +1,9 @@
 package data.value
 
-import data.question.QuestionType
+import data.question.SymbolType
 import java.math.BigDecimal
 
-class DecimalValue(var value: BigDecimal) : BaseSymbolValue(QuestionType.DECIMAL) {
+class DecimalValue(var value: BigDecimal) : BaseSymbolValue(SymbolType.Decimal) {
 
     constructor(value: String): this(BigDecimal(value))
     constructor(value: Int): this(BigDecimal(value))

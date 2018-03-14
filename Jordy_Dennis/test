@@ -1,10 +1,7 @@
-form taxOfficeExample {
-	"This is an int"
-		b: int
+form taxOfficeExample2
+{
+  "Wat is je naam"
+  naam : int
 
-	if(b){
-		"Q3 Within the if (int)"
-			f: int
-	}
-
+  
 }

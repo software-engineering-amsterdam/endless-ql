@@ -12,8 +12,12 @@ from AST.expressions.binary_operators.multiplication_node import MultiplicationO
 from AST.expressions.binary_operators.not_equals_node import NotEqualsOperatorNode
 from AST.expressions.binary_operators.or_node import OrOperatorNode
 from AST.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
-from AST.expressions.literals.integer_node import IntegerNode
+from AST.expressions.unary_operators.negation import NegationOperatorNode
+from AST.expressions.unary_operators.negative import NegativeOperatorNode
 from AST.expressions.literals.boolean_node import BooleanNode
+from AST.expressions.literals.decimal_node import DecimalNode
+from AST.expressions.literals.integer_node import IntegerNode
+from AST.expressions.literals.money_node import MoneyNode
 
 
 class ExpressionEvaluator:
@@ -26,137 +30,91 @@ class ExpressionEvaluator:
     def visit(self, node):
         pass
 
+    def unary_operator_visit(self, node):
+        node.expression.accept(self)
+        node.evaluate()
+        self.result = node.value
+    
+    def binary_operator_visit(self, node):
+        node.left_expression.accept(self)
+        node.right_expression.accept(self)
+        node.evaluate()
+        self.result = node.value
+
     @when(VariableNode)
     def visit(self, node):
-        # TODO symbol table value lookup
         for question in self.form.block:
             if node.identifier == question.identifier:
-                node.value = question.answer
+                node.value = question.answer.value
+
+    @when(NegationOperatorNode)
+    def visit(self, node):
+        self.unary_operator_visit(node)
+
+    @when(NegativeOperatorNode)
+    def visit(self, node):
+        self.unary_operator_visit(node)
 
     @when(AdditionOperatorNode)
     def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-        if node.left_expression.value and node.right_expression.value:
-            node.value = node.left_expression.value + node.right_expression.value
-
-        self.result = node.value
+        self.binary_operator_visit(node)
 
     @when(AndOperatorNode)
     def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-        if node.left_expression.value and node.right_expression.value:
-            node.value = node.left_expression.value and node.right_expression.value
-
-        self.result = node.value
+        self.binary_operator_visit(node)
 
     @when(DivisionOperatorNode)
     def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-        if node.left_expression.value and node.right_expression.value:
-            node.value = node.left_expression.value / node.right_expression.value
-
-        self.result = node.value
+        self.binary_operator_visit(node)
 
     @when(EqualsOperatorNode)
     def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-        if node.left_expression.value and node.right_expression.value:
-            node.value = node.left_expression.value == node.right_expression.value
-
-        self.result = node.value
+        self.binary_operator_visit(node)
 
     @when(GreaterEqualsOperatorNode)
     def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-        if node.left_expression.value and node.right_expression.value:
-            node.value = node.left_expression.value >= node.right_expression.value
-
-        self.result = node.value
+        self.binary_operator_visit(node)
 
     @when(GreaterThanOperatorNode)
     def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-        if node.left_expression.value and node.right_expression.value:
-            node.value = node.left_expression.value > node.right_expression.value
-
-        self.result = node.value
+        self.binary_operator_visit(node)
 
     @when(LessEqualsOperatorNode)
     def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-        if node.left_expression.value and node.right_expression.value:
-            node.value = node.left_expression.value <= node.right_expression.value
-
-        self.result = node.value
+        self.binary_operator_visit(node)
 
     @when(LessThanOperatorNode)
     def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-        if node.left_expression.value and node.right_expression.value:
-            node.value = node.left_expression.value < node.right_expression.value
-
-        self.result = node.value
+        self.binary_operator_visit(node)
 
     @when(MultiplicationOperatorNode)
     def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-        if node.left_expression.value and node.right_expression.value:
-            node.value = node.left_expression.value * node.right_expression.value
-
-        self.result = node.value
+        self.binary_operator_visit(node)
 
     @when(NotEqualsOperatorNode)
     def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-        if node.left_expression.value and node.right_expression.value:
-            node.value = node.left_expression.value != node.right_expression.value
-
-        self.result = node.value
+        self.binary_operator_visit(node)
 
     @when(OrOperatorNode)
     def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-        if node.left_expression.value and node.right_expression.value:
-            node.value = node.left_expression.value or node.right_expression.value
-
-        self.result = node.value
+        self.binary_operator_visit(node)
 
     @when(SubtractionOperatorNode)
     def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
+        self.binary_operator_visit(node)
 
-        if node.left_expression.value and node.right_expression.value:
-            node.value = node.left_expression.value - node.right_expression.value
+    @when(BooleanNode)
+    def visit(self, node):
+        self.result = node.value
 
+    @when(DecimalNode)
+    def visit(self, node):
         self.result = node.value
 
     @when(IntegerNode)
     def visit(self, node):
         self.result = node.value
 
-    @when(BooleanNode)
+    @when(MoneyNode)
     def visit(self, node):
         self.result = node.value

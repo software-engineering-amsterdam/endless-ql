@@ -1,8 +1,8 @@
 import sys
 from antlr4 import *
-from antlr_files_2.QLLexer import QLLexer
-from antlr_files_2.QLParser import QLParser
-from antlr_files_2.QLVisitor import QLVisitor
+from QL.QLLexer import QLLexer
+from QL.QLParser import QLParser
+from QL.QLVisitor import QLVisitor
 from QLVisitorHelper import QLVisitorHelper
 from GuiBuilder import GuiBuilder
 from TypeChecker import TypeChecker

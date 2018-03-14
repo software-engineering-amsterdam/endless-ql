@@ -32,23 +32,21 @@ object ConditionalValidator {
   }
 
   def isBooleanIdentifier(node: ASTIdentifier, ast: ASTNode): Boolean = {
-    ASTCollector.getTypeDecl(node, ast).exists { _ == ASTBoolean()}
+    ASTCollector.getTypeDecl(node, ast).exists { _ == ASTBoolean() }
   }
 
   def validateLogical(node: ASTBinary, ast: ASTNode): Boolean = {
     node match {
-      case ASTBinary(lhs: ASTIdentifier,
-                     rhs: ASTIdentifier,
-                     op: ASTLogicalOp) => {
+      case ASTBinary(lhs: ASTIdentifier, rhs: ASTIdentifier, _) => {
         isBooleanIdentifier(lhs, ast) && isBooleanIdentifier(rhs, ast)
       }
-      case ASTBinary(lhs: ASTBinary, rhs: ASTIdentifier, op: ASTLogicalOp) => {
+      case ASTBinary(lhs: ASTBinary, rhs: ASTIdentifier, _) => {
         validateBinOp(lhs, ast) && isBooleanIdentifier(rhs, ast)
       }
-      case ASTBinary(lhs: ASTIdentifier, rhs: ASTBinary, op: ASTLogicalOp) => {
+      case ASTBinary(lhs: ASTIdentifier, rhs: ASTBinary, _) => {
         validateBinOp(rhs, ast) && isBooleanIdentifier(lhs, ast)
       }
-      case ASTBinary(lhs: ASTBinary, rhs: ASTBinary, op: ASTLogicalOp) => {
+      case ASTBinary(lhs: ASTBinary, rhs: ASTBinary, _) => {
         validateBinOp(lhs, ast) && validateBinOp(lhs, ast)
       }
       case other => false
@@ -57,8 +55,8 @@ object ConditionalValidator {
 
   def validateBinOp(binOp: ASTNode, ast: ASTNode): Boolean = {
     binOp match {
-      case ab @ ASTBinary(_, _, op:ASTLogicalOp) => validateLogical(ab, ast)
-      case other                                 => false
+      case ab @ ASTBinary(_, _, op: ASTLogicalOp) => validateLogical(ab, ast)
+      case other                                  => false
     }
   }
 

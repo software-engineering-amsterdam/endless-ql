@@ -33,8 +33,7 @@ public class FormQuestionPanel extends JPanel {
         gridBagConstraints.gridy = 1;
         this.add(this.widget.getComponent(), gridBagConstraints);
 
-        if (formQuestion.getVisibility() != null)
-            this.setVisible(formQuestion.getVisibility().getBooleanValue());
+        this.setVisible(formQuestion.getVisibility());
     }
 
     public FormQuestion getFormQuestion() {
@@ -43,7 +42,7 @@ public class FormQuestionPanel extends JPanel {
 
     public void refreshVisibility() {
         if (this.formQuestion.getVisibility() != null) {
-            this.setVisible(this.formQuestion.getVisibility().getBooleanValue());
+            this.setVisible(this.formQuestion.getVisibility());
         }
     }
 

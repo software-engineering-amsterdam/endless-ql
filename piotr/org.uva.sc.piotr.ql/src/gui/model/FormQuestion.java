@@ -17,19 +17,22 @@ public class FormQuestion {
     private final Expression visibilityCondition;
     private final Expression assignedExpression;
 
-    private MixedValue visibility;
+    private Boolean visibility;
     private MixedValue value;
 
     private FormController formController;
     private FormQuestionPanel panel;
 
     public FormQuestion(String label, String variableName, TypeDeclaration originalDataTypeDeclaration, Expression visibilityCondition, Expression assignedExpression) {
+
         this.label = label;
         this.variableName = variableName;
         this.originalDataTypeDeclaration = originalDataTypeDeclaration;
+
         this.visibilityCondition = visibilityCondition;
+        this.visibility = true;
+
         this.assignedExpression = assignedExpression;
-        // default value
         this.value = MixedValue.createValue(this.originalDataTypeDeclaration.toDataType(), "");
     }
 
@@ -53,11 +56,11 @@ public class FormQuestion {
         return assignedExpression;
     }
 
-    public MixedValue getVisibility() {
+    public Boolean getVisibility() {
         return visibility;
     }
 
-    public void setVisibility(MixedValue visibility) {
+    public void setVisibility(Boolean visibility) {
         this.visibility = visibility;
     }
 

@@ -69,7 +69,10 @@ public class Main {
         CollectFormQuestionsVisitor collectFormQuestionsVisitor = new CollectFormQuestionsVisitor();
         form.accept(collectFormQuestionsVisitor);
 
+        // start: ONE LIST TO RULE THEM ALL
         List<FormQuestion> formQuestions = collectFormQuestionsVisitor.getFormQuestions();
+        // end: ONE LIST TO RULE THEM ALL
+
         ExpressionEvaluator evaluator = new ExpressionEvaluator(collectFormQuestionsVisitor.getVariablesValues());
 
         new QLGui(form.getName(), formQuestions, evaluator);

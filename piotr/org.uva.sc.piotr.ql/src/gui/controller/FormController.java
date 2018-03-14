@@ -26,9 +26,9 @@ public class FormController {
                 formQuestion.setValue(formQuestion.getAssignedExpression().accept(evaluator));
             }
             if (formQuestion.getVisibilityCondition() != null) {
-                formQuestion.setVisibility(formQuestion.getVisibilityCondition().accept(evaluator));
+                formQuestion.setVisibility(formQuestion.getVisibilityCondition().accept(evaluator).getBooleanValue());
             } else {
-                formQuestion.setVisibility(new MixedValue(Expression.DataType.BOOLEAN, true));
+                formQuestion.setVisibility(true);
             }
         }
 
@@ -108,7 +108,7 @@ public class FormController {
         if (formQuestionsVisibility != null) {
             for (FormQuestion formQuestion1 : formQuestionsVisibility) {
                 // TODO: check setValue vs changing the value only
-                formQuestion1.setVisibility(formQuestion1.getVisibilityCondition().accept(evaluator));
+                formQuestion1.setVisibility(formQuestion1.getVisibilityCondition().accept(evaluator).getBooleanValue());
                 formQuestion1.getPanel().refreshVisibility();
             }
         }
@@ -126,7 +126,7 @@ public class FormController {
     public LinkedHashMap<String, String> prepareResults() {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
         for (FormQuestion formQuestion : this.formQuestions) {
-            if (formQuestion.getVisibility().getBooleanValue()) {
+            if (formQuestion.getVisibility()) {
                 result.put(formQuestion.getVariableName(), formQuestion.getValue().toString());
             }
         }

@@ -6,7 +6,6 @@ import com.sun.tools.javac.util.Pair;
 
 import java.math.BigDecimal;
 
-// TODO: Should the methods return new instances od MixedValue, or rather modified (possibly) left one?
 public class MixedValue {
 
     private Expression.DataType type;
@@ -206,7 +205,10 @@ public class MixedValue {
                 case MULTIPLY:
                     return new MixedValue(lhs.type, lhs.decimalValue.multiply(rhs.decimalValue));
                 case DIVIDE:
-                    return new MixedValue(lhs.type, lhs.decimalValue.divide(rhs.decimalValue, 4, BigDecimal.ROUND_DOWN));
+                    if (rhs.decimalValue.compareTo(BigDecimal.ZERO) != 0) {
+                        return new MixedValue(lhs.type, lhs.decimalValue.divide(rhs.decimalValue, 4, BigDecimal.ROUND_DOWN));
+                    }
+                    throw new RuntimeException("Division by zero!");
                 default:
                     throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
@@ -221,7 +223,16 @@ public class MixedValue {
                 case MULTIPLY:
                     return new MixedValue(lhs.type, lhs.integerValue * rhs.integerValue);
                 case DIVIDE:
-                    return new MixedValue(lhs.type, lhs.integerValue / rhs.integerValue);
+                    if (rhs.integerValue != 0) {
+                        if (lhs.integerValue % rhs.integerValue == 0) {
+                            return new MixedValue(lhs.type, lhs.integerValue / rhs.integerValue);
+                        } else {
+                            return new MixedValue(
+                                    Expression.DataType.DECIMAL,
+                                    new BigDecimal(lhs.integerValue).divide(new BigDecimal(rhs.integerValue), 4, BigDecimal.ROUND_DOWN));
+                        }
+                    }
+                    throw new RuntimeException("Division by zero!");
                 default:
                     throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }

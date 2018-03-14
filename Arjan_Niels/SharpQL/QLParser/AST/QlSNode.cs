@@ -38,7 +38,7 @@ namespace QLParser.AST
             StringBuilder builder = new StringBuilder();
             builder.Append("\n");
             foreach (QLSNode child in this.Children)
-                builder.Append("\t").Append(child.ToString());
+                builder.Append(child.ToString());
 
             return string.Format("{0} {1} {2}", this.NodeType, this.ID, builder.ToString());
         }

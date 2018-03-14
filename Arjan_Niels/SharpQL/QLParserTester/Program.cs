@@ -13,7 +13,7 @@ namespace QLParserTester
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Start parsing the QL");
+            Console.WriteLine("---- Start parsing the QL ----");
             FormNode form = QLParserHelper.Parse(Util.FileToString(QLFile));
             QLPrinter.Print(form);
 
@@ -24,6 +24,8 @@ namespace QLParserTester
                 Console.WriteLine(error);
 
 
+            Console.WriteLine();
+            Console.WriteLine("---- Start parsing QLS ----");
             QLSNode qls = QLSParserHelper.Parse(Util.FileToString(QLSFile));
             QLSPrinter.Print(qls);
 

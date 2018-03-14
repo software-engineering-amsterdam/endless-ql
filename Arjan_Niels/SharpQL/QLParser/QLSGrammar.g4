@@ -4,8 +4,8 @@
  * Parser rules
 */
 stylesheet			: STYLESHEET ID LCURLY page* RCURLY;
-page				: PAGE ID LCURLY section* RCURLY;
-section				: SECTION ID LCURLY (section |question)* RCURLY;
+page				: PAGE TEXT LCURLY section* RCURLY;
+section				: SECTION TEXT LCURLY (section |question)* RCURLY;
 question			: QUESTION ID;
 
 /*
@@ -22,6 +22,7 @@ LCURLY				: '{';
 RCURLY				: '}';
 
 ID					: [a-zA-Z][a-zA-Z0-9]+;
+TEXT				: '"' .*? '"' ;
 
 /*
  * Ignore

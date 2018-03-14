@@ -19,7 +19,7 @@ namespace QLParser.Visitors.QLS
 
         public override QLSNode VisitPage([NotNull] PageContext context)
         {
-            string id = context.ID().GetText();
+            string id = context.TEXT().GetText();
             var qlsNode = new QLSNode(QLSNodeType.Page, id);
 
             foreach (SectionContext sectionContext in context.section())
@@ -30,7 +30,7 @@ namespace QLParser.Visitors.QLS
 
         public override QLSNode VisitSection([NotNull] SectionContext context)
         {
-            string id = context.ID().GetText();
+            string id = context.TEXT().GetText();
             var qlsNode = new QLSNode(QLSNodeType.Section, id);
 
             foreach (SectionContext sectionContext in context.section())

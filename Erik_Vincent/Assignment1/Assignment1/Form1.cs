@@ -45,5 +45,27 @@ namespace Assignment1
                 _mainPanel.Controls.Add(label);
             }
         }
+
+        public void SetWarnings(List<string> warnings)
+        {
+            var header = new Label
+            {
+                Text = "Warning:",
+                Width = 1000,
+                Font = new Font("Arial", 9, FontStyle.Bold)
+            };
+            _mainPanel.Controls.Add(header);
+            foreach (var warning in warnings)
+            {
+                var label = new Label
+                {
+                    Text = warning,
+                    Width = 1000,
+                    Font = new Font("Arial", 8),
+                    ForeColor = Color.DarkOrange
+                };
+                _mainPanel.Controls.Add(label);
+            }
+        }
     }
 }

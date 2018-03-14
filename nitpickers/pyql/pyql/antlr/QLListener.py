@@ -197,12 +197,30 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#unExpression.
-    def enterUnExpression(self, ctx:QLParser.UnExpressionContext):
+    # Enter a parse tree produced by QLParser#negNotUnExpression.
+    def enterNegNotUnExpression(self, ctx:QLParser.NegNotUnExpressionContext):
         pass
 
-    # Exit a parse tree produced by QLParser#unExpression.
-    def exitUnExpression(self, ctx:QLParser.UnExpressionContext):
+    # Exit a parse tree produced by QLParser#negNotUnExpression.
+    def exitNegNotUnExpression(self, ctx:QLParser.NegNotUnExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#primaryUnExpression.
+    def enterPrimaryUnExpression(self, ctx:QLParser.PrimaryUnExpressionContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#primaryUnExpression.
+    def exitPrimaryUnExpression(self, ctx:QLParser.PrimaryUnExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#primary.
+    def enterPrimary(self, ctx:QLParser.PrimaryContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#primary.
+    def exitPrimary(self, ctx:QLParser.PrimaryContext):
         pass
 
 

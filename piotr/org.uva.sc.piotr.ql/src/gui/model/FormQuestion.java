@@ -4,10 +4,11 @@ import ast.model.declarations.TypeDeclaration;
 import ast.model.expressions.Expression;
 import gui.controller.FormController;
 import gui.view.FormQuestionPanel;
+import logic.type.MixedValue;
 
 import java.math.BigDecimal;
 
-public class FormQuestionHolder {
+public class FormQuestion {
 
     private final String label;
     private final String variableName;
@@ -16,20 +17,20 @@ public class FormQuestionHolder {
     private final Expression visibilityCondition;
     private final Expression assignedExpression;
 
-    private MixedValueHolder visibilityHolder;
-    private MixedValueHolder valueHolder;
+    private MixedValue visibility;
+    private MixedValue value;
 
     private FormController formController;
     private FormQuestionPanel panel;
 
-    public FormQuestionHolder(String label, String variableName, TypeDeclaration originalDataTypeDeclaration, Expression visibilityCondition, Expression assignedExpression) {
+    public FormQuestion(String label, String variableName, TypeDeclaration originalDataTypeDeclaration, Expression visibilityCondition, Expression assignedExpression) {
         this.label = label;
         this.variableName = variableName;
         this.originalDataTypeDeclaration = originalDataTypeDeclaration;
         this.visibilityCondition = visibilityCondition;
         this.assignedExpression = assignedExpression;
         // default value
-        this.valueHolder = MixedValueHolder.createValueHolder(this.originalDataTypeDeclaration.toDataType(), "");
+        this.value = MixedValue.createValue(this.originalDataTypeDeclaration.toDataType(), "");
     }
 
     public String getLabel() {
@@ -52,52 +53,52 @@ public class FormQuestionHolder {
         return assignedExpression;
     }
 
-    public MixedValueHolder getVisibilityHolder() {
-        return visibilityHolder;
+    public MixedValue getVisibility() {
+        return visibility;
     }
 
-    public void setVisibilityHolder(MixedValueHolder visibilityHolder) {
-        this.visibilityHolder = visibilityHolder;
+    public void setVisibility(MixedValue visibility) {
+        this.visibility = visibility;
     }
 
-    public MixedValueHolder getValueHolder() {
-        return valueHolder;
+    public MixedValue getValue() {
+        return value;
     }
 
-    public void setValueHolder(MixedValueHolder valueHolder) {
-        this.valueHolder = valueHolder;
+    public void setValue(MixedValue value) {
+        this.value = value;
     }
 
     public void changeValue(Boolean value) {
-        this.valueHolder.setBooleanValue(value);
-        this.formController.processFormQuestionHolderChange(this);
+        this.value.setBooleanValue(value);
+        this.formController.processFormQuestionChange(this);
     }
 
     public void changeValue(BigDecimal value) {
-        this.valueHolder.setDecimalValue(value);
-        this.formController.processFormQuestionHolderChange(this);
+        this.value.setDecimalValue(value);
+        this.formController.processFormQuestionChange(this);
     }
 
     public void changeValue(Integer value) {
-        this.valueHolder.setIntegerValue(value);
-        this.formController.processFormQuestionHolderChange(this);
+        this.value.setIntegerValue(value);
+        this.formController.processFormQuestionChange(this);
     }
 
     public void changeValue(String value) {
-        this.valueHolder.setStringValue(value);
-        this.formController.processFormQuestionHolderChange(this);
+        this.value.setStringValue(value);
+        this.formController.processFormQuestionChange(this);
     }
 
     @Override
     public String toString() {
-        return "FormQuestionHolder{" +
+        return "FormQuestion{" +
                 "label='" + label + '\'' +
                 ", variableName='" + variableName + '\'' +
                 ", originalDataTypeDeclaration=" + originalDataTypeDeclaration +
                 ", visibilityCondition=" + visibilityCondition +
                 ", assignedExpression=" + assignedExpression +
-                ", visibility=" + visibilityHolder +
-                ", value=" + valueHolder +
+                ", visibility=" + visibility +
+                ", value=" + value +
                 '}';
     }
 

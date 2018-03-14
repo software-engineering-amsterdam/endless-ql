@@ -9,21 +9,21 @@ import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
 import ast.model.statements.Statement;
 import ast.visitors.AbstractASTTraverse;
-import gui.model.FormQuestionHolder;
-import gui.model.MixedValueHolder;
+import gui.model.FormQuestion;
+import logic.type.MixedValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
-public class CollectFormQuestionHoldersVisitor extends AbstractASTTraverse {
+public class CollectFormQuestionsVisitor extends AbstractASTTraverse {
 
-    private final List<FormQuestionHolder> formQuestionHolders = new ArrayList<>();
+    private final List<FormQuestion> formQuestions = new ArrayList<>();
     private final Stack<Expression> conditionsStack = new Stack<>();
 
-    public List<FormQuestionHolder> getFormQuestionHolders() {
-        return formQuestionHolders;
+    public List<FormQuestion> getFormQuestions() {
+        return formQuestions;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class CollectFormQuestionHoldersVisitor extends AbstractASTTraverse {
         Expression aggregatedVisibilityCondition = this.aggregateConditionsStack();
 
         // strips question and flattens visibility condition (for gui rendering ease)
-        FormQuestionHolder formQuestionHolder = new FormQuestionHolder(
+        FormQuestion formQuestion = new FormQuestion(
                 question.getLabel(),
                 question.getVariableName(),
                 question.getVariableType(),
@@ -48,7 +48,7 @@ public class CollectFormQuestionHoldersVisitor extends AbstractASTTraverse {
                 question.getAssignedExpression()
         );
 
-        this.formQuestionHolders.add(formQuestionHolder);
+        this.formQuestions.add(formQuestion);
 
         question.getVariableType().accept(this);
         if (question.getAssignedExpression() != null) {
@@ -90,18 +90,22 @@ public class CollectFormQuestionHoldersVisitor extends AbstractASTTraverse {
                 finalExpression = expression;
             } else {
                 // @TODO: prettify meta-information
-                finalExpression = new LogicalAnd(finalExpression, expression, new ASTNode.MetaInformation(0, 0, "(" + finalExpression.getMetaInformation().getText() + ") && (" + expression.getMetaInformation().getText() + ")"));
+                finalExpression = new LogicalAnd(finalExpression, expression, new ASTNode.MetaInformation(
+                        0,
+                        0,
+                        "(" + finalExpression.getMetaInformation().getText() + ") && (" + expression.getMetaInformation().getText() + ")"
+                ));
             }
         }
 
         return finalExpression;
     }
 
-    public HashMap<String, MixedValueHolder> getVariablesValues() {
+    public HashMap<String, MixedValue> getVariablesValues() {
 
-        HashMap<String, MixedValueHolder> variablesValues = new HashMap<>();
-        for (FormQuestionHolder formQuestionHolder : this.formQuestionHolders) {
-            variablesValues.put(formQuestionHolder.getVariableName(), formQuestionHolder.getValueHolder());
+        HashMap<String, MixedValue> variablesValues = new HashMap<>();
+        for (FormQuestion formQuestion : this.formQuestions) {
+            variablesValues.put(formQuestion.getVariableName(), formQuestion.getValue());
         }
         return variablesValues;
     }

@@ -7,8 +7,8 @@ import ast.model.statements.Question;
 import grammar.QLLexer;
 import grammar.QLParser;
 import gui.QLGui;
-import gui.model.FormQuestionHolder;
-import logic.collectors.CollectFormQuestionHoldersVisitor;
+import gui.model.FormQuestion;
+import logic.collectors.CollectFormQuestionsVisitor;
 import logic.collectors.CollectQuestionsVisitor;
 import logic.collectors.CollectReferencesVisitor;
 import logic.evaluators.ExpressionEvaluator;
@@ -25,7 +25,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CharStream charStream = CharStreams.fromFileName("./example-ql/form0.qlform");
+        CharStream charStream = CharStreams.fromFileName("./example-ql/form5.qlform");
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
         QLParser qlParser = new QLParser(commonTokenStream);
@@ -66,13 +66,13 @@ public class Main {
 
         // TODO: operands of invalid type to operators
 
-        CollectFormQuestionHoldersVisitor collectFormQuestionHoldersVisitor = new CollectFormQuestionHoldersVisitor();
-        form.accept(collectFormQuestionHoldersVisitor);
+        CollectFormQuestionsVisitor collectFormQuestionsVisitor = new CollectFormQuestionsVisitor();
+        form.accept(collectFormQuestionsVisitor);
 
-        List<FormQuestionHolder> formQuestionHolders = collectFormQuestionHoldersVisitor.getFormQuestionHolders();
-        ExpressionEvaluator evaluator = new ExpressionEvaluator(collectFormQuestionHoldersVisitor.getVariablesValues());
+        List<FormQuestion> formQuestions = collectFormQuestionsVisitor.getFormQuestions();
+        ExpressionEvaluator evaluator = new ExpressionEvaluator(collectFormQuestionsVisitor.getVariablesValues());
 
-        new QLGui(form.getName(), formQuestionHolders, evaluator);
+        new QLGui(form.getName(), formQuestions, evaluator);
 
         System.out.println("Main finish.");
 

@@ -12,122 +12,122 @@ import ast.model.expressions.unary.logical.Negation;
 import ast.model.expressions.values.Literal;
 import ast.model.expressions.values.VariableReference;
 import ast.visitors.AbstractASTTraverse;
-import gui.model.MixedValueHolder;
+import logic.type.MixedValue;
 
 import java.util.HashMap;
 
-public class ExpressionEvaluator extends AbstractASTTraverse<MixedValueHolder> {
+public class ExpressionEvaluator extends AbstractASTTraverse<MixedValue> {
 
-    private final HashMap<String, MixedValueHolder> variablesValues;
+    private final HashMap<String, MixedValue> variablesValues;
 
-    public ExpressionEvaluator(HashMap<String, MixedValueHolder> variablesValues) {
+    public ExpressionEvaluator(HashMap<String, MixedValue> variablesValues) {
         this.variablesValues = variablesValues;
     }
 
     @Override
-    public MixedValueHolder visit(Negation negation) {
-        MixedValueHolder result = negation.getExpression().accept(this);
+    public MixedValue visit(Negation negation) {
+        MixedValue result = negation.getExpression().accept(this);
         return result.negate();
     }
 
     @Override
-    public MixedValueHolder visit(Minus minus) {
-        MixedValueHolder result = minus.getExpression().accept(this);
+    public MixedValue visit(Minus minus) {
+        MixedValue result = minus.getExpression().accept(this);
         return result.negate();
     }
 
     @Override
-    public MixedValueHolder visit(Addition addition) {
-        MixedValueHolder lhs = addition.getLeftSide().accept(this);
-        MixedValueHolder rhs = addition.getRightSide().accept(this);
+    public MixedValue visit(Addition addition) {
+        MixedValue lhs = addition.getLeftSide().accept(this);
+        MixedValue rhs = addition.getRightSide().accept(this);
         return lhs.add(rhs);
     }
 
     @Override
-    public MixedValueHolder visit(Subtraction subtraction) {
-        MixedValueHolder lhs = subtraction.getLeftSide().accept(this);
-        MixedValueHolder rhs = subtraction.getRightSide().accept(this);
+    public MixedValue visit(Subtraction subtraction) {
+        MixedValue lhs = subtraction.getLeftSide().accept(this);
+        MixedValue rhs = subtraction.getRightSide().accept(this);
         return lhs.subtract(rhs);
     }
 
     @Override
-    public MixedValueHolder visit(Division division) {
-        MixedValueHolder lhs = division.getLeftSide().accept(this);
-        MixedValueHolder rhs = division.getRightSide().accept(this);
+    public MixedValue visit(Division division) {
+        MixedValue lhs = division.getLeftSide().accept(this);
+        MixedValue rhs = division.getRightSide().accept(this);
         return lhs.divide(rhs);
     }
 
     @Override
-    public MixedValueHolder visit(Multiplication multiplication) {
-        MixedValueHolder lhs = multiplication.getLeftSide().accept(this);
-        MixedValueHolder rhs = multiplication.getRightSide().accept(this);
+    public MixedValue visit(Multiplication multiplication) {
+        MixedValue lhs = multiplication.getLeftSide().accept(this);
+        MixedValue rhs = multiplication.getRightSide().accept(this);
         return lhs.multiply(rhs);
     }
 
     @Override
-    public MixedValueHolder visit(Equal equal) {
-        MixedValueHolder lhs = equal.getLeftSide().accept(this);
-        MixedValueHolder rhs = equal.getRightSide().accept(this);
+    public MixedValue visit(Equal equal) {
+        MixedValue lhs = equal.getLeftSide().accept(this);
+        MixedValue rhs = equal.getRightSide().accept(this);
         return lhs.equals(rhs);
     }
 
     @Override
-    public MixedValueHolder visit(GreaterEqual greaterEqual) {
-        MixedValueHolder lhs = greaterEqual.getLeftSide().accept(this);
-        MixedValueHolder rhs = greaterEqual.getRightSide().accept(this);
+    public MixedValue visit(GreaterEqual greaterEqual) {
+        MixedValue lhs = greaterEqual.getLeftSide().accept(this);
+        MixedValue rhs = greaterEqual.getRightSide().accept(this);
         return lhs.greaterEqual(rhs);
     }
 
     @Override
-    public MixedValueHolder visit(GreaterThan greaterThan) {
-        MixedValueHolder lhs = greaterThan.getLeftSide().accept(this);
-        MixedValueHolder rhs = greaterThan.getRightSide().accept(this);
+    public MixedValue visit(GreaterThan greaterThan) {
+        MixedValue lhs = greaterThan.getLeftSide().accept(this);
+        MixedValue rhs = greaterThan.getRightSide().accept(this);
         return lhs.greaterThan(rhs);
     }
 
     @Override
-    public MixedValueHolder visit(LessEqual lessEqual) {
-        MixedValueHolder lhs = lessEqual.getLeftSide().accept(this);
-        MixedValueHolder rhs = lessEqual.getRightSide().accept(this);
+    public MixedValue visit(LessEqual lessEqual) {
+        MixedValue lhs = lessEqual.getLeftSide().accept(this);
+        MixedValue rhs = lessEqual.getRightSide().accept(this);
         return lhs.lessEqual(rhs);
     }
 
     @Override
-    public MixedValueHolder visit(LessThan lessThan) {
-        MixedValueHolder lhs = lessThan.getLeftSide().accept(this);
-        MixedValueHolder rhs = lessThan.getRightSide().accept(this);
+    public MixedValue visit(LessThan lessThan) {
+        MixedValue lhs = lessThan.getLeftSide().accept(this);
+        MixedValue rhs = lessThan.getRightSide().accept(this);
         return lhs.lessThan(rhs);
     }
 
     @Override
-    public MixedValueHolder visit(NotEqual notEqual) {
-        MixedValueHolder lhs = notEqual.getLeftSide().accept(this);
-        MixedValueHolder rhs = notEqual.getRightSide().accept(this);
+    public MixedValue visit(NotEqual notEqual) {
+        MixedValue lhs = notEqual.getLeftSide().accept(this);
+        MixedValue rhs = notEqual.getRightSide().accept(this);
         return lhs.notEquals(rhs);
     }
 
     @Override
-    public MixedValueHolder visit(LogicalAnd logicalAnd) {
-        MixedValueHolder lhs = logicalAnd.getLeftSide().accept(this);
-        MixedValueHolder rhs = logicalAnd.getRightSide().accept(this);
+    public MixedValue visit(LogicalAnd logicalAnd) {
+        MixedValue lhs = logicalAnd.getLeftSide().accept(this);
+        MixedValue rhs = logicalAnd.getRightSide().accept(this);
         return lhs.and(rhs);
     }
 
     @Override
-    public MixedValueHolder visit(LogicalOr logicalOr) {
-        MixedValueHolder lhs = logicalOr.getLeftSide().accept(this);
-        MixedValueHolder rhs = logicalOr.getRightSide().accept(this);
+    public MixedValue visit(LogicalOr logicalOr) {
+        MixedValue lhs = logicalOr.getLeftSide().accept(this);
+        MixedValue rhs = logicalOr.getRightSide().accept(this);
         return lhs.or(rhs);
     }
 
     @Override
-    public MixedValueHolder visit(VariableReference variableReference) {
+    public MixedValue visit(VariableReference variableReference) {
         return variablesValues.get(variableReference.getName());
     }
 
     @Override
-    public MixedValueHolder visit(Literal literal) {
-        return MixedValueHolder.createValueHolder(literal.getType(), literal.getValue());
+    public MixedValue visit(Literal literal) {
+        return MixedValue.createValue(literal.getType(), literal.getValue());
     }
 
 }

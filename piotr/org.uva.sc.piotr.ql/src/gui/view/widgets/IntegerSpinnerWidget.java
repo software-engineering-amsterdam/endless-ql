@@ -1,7 +1,6 @@
 package gui.view.widgets;
 
-import ast.model.expressions.Expression;
-import gui.model.FormQuestionHolder;
+import gui.model.FormQuestion;
 import gui.view.Widget;
 
 import javax.swing.*;
@@ -10,8 +9,8 @@ public class IntegerSpinnerWidget extends Widget {
 
     private final JSpinner spinner;
 
-    public IntegerSpinnerWidget(FormQuestionHolder formQuestionHolder) {
-        super(formQuestionHolder);
+    public IntegerSpinnerWidget(FormQuestion formQuestion) {
+        super(formQuestion);
 
         SpinnerModel spinnerModel = new SpinnerNumberModel(
                 0,
@@ -22,18 +21,18 @@ public class IntegerSpinnerWidget extends Widget {
 
         JSpinner spinner = new JSpinner(spinnerModel);
 
-        if (formQuestionHolder.getAssignedExpression() != null) {
+        if (formQuestion.getAssignedExpression() != null) {
             spinner.setEnabled(false);
         }
 
-        spinner.addChangeListener(e -> formQuestionHolder.changeValue((Integer) spinner.getValue()));
+        spinner.addChangeListener(e -> formQuestion.changeValue((Integer) spinner.getValue()));
 
         this.spinner = spinner;
     }
 
     @Override
     public void updateValue() {
-        this.spinner.setValue(this.getFormQuestionHolder().getValueHolder().getIntegerValue());
+        this.spinner.setValue(this.getFormQuestion().getValue().getIntegerValue());
     }
 
     @Override

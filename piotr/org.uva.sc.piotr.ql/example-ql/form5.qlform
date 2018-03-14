@@ -1,0 +1,34 @@
+form testForm5
+{
+  "What is your first name?"
+    firstName: string
+  if (firstName != "") {
+    "Welcome message:"
+    welcome: string = "Hello " + firstName
+  }
+  "What is your last name?"
+    lastName: string
+  "What is your full name?"
+    fullName: string = firstName + " " + lastName
+  "What is your age?"
+    age: integer
+
+  if (age >= 18)
+  {
+    "Do you have a driving license?"
+      hasDrivingLicense: boolean
+    "Do you have a car?"
+      hasCar: boolean
+    "Can you drive your own car?"
+      canDriveOwnCar: boolean = (hasDrivingLicense && hasCar)
+    if (hasDrivingLicense && hasCar) {
+      "How much do you spend monthly on gas?"
+        gasCost: money
+      "How much do you spend yearly on maintenance of your car?"
+        maintenanceCost: money
+      "Total monthly spendings on your car:"
+        monthlyCarSpendings: money = gasCost + maintenanceCost/12
+    }
+  }
+
+}

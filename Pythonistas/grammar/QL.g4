@@ -1,7 +1,7 @@
 grammar QL;
 
 // Parser
-form: FORM ID block EOF;
+form: ID block EOF;
 block: BRACKETL NEWLINE* (stmt NEWLINE*)* BRACKETR;
 stmt: (question | if_);
 
@@ -11,7 +11,7 @@ declaration: EQUAL PARL value PARR;
 
 expression: ID | PARL expression PARR | boolean_;
 
-if_: IF_TOKEN PARL expression PARR block;
+if_: PARL expression PARR block;
 type: (BOOLEAN | MONEY | ID); // | OTHER {System.out.println("first token "+$start.getText());}
 value: (INT | BOOL| compute);
 
@@ -20,9 +20,6 @@ arithmetic_: INT ARITHMETIC_OP INT | PARL arithmetic_ PARR;
 boolean_: INT BOOLEAN_OP INT | PARL boolean_ PARR;
 
 // Lexer
-FORM       : 'form';
-IF_TOKEN   : 'if';
-ELSE_TOKEN : 'else';
 BOOLEAN    : 'boolean';
 MONEY      : 'money';
 

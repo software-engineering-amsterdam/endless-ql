@@ -1,5 +1,5 @@
 <mat-tab-group *ngIf="styles">
-  <mat-tab *ngFor="let page of styles.pages">
+  <mat-tab *ngFor="let page of styles.pages" [label]="page.name">
     <ng-template mat-tab-label>
       {{page.name}}
     </ng-template>
@@ -7,7 +7,7 @@
       <div *ngFor="let section of page.sections">
         <h3 mat-subheader>{{section.name}}</h3>
         <mat-list-item *ngFor="let question of getSectionQuestions(section)" class="form-row">
-          <app-question [question]="getQuestionBaseByName(question.name)" [form]="form"></app-question>
+          <app-question [question]="question" [form]="form"></app-question>
         </mat-list-item>
         <mat-divider></mat-divider>
       </div>

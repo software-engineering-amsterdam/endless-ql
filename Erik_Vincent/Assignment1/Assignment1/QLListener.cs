@@ -12,24 +12,10 @@ namespace Assignment1
 {
     internal class QLListener : QLBaseListener
     {
-        public QuestionForm Form { get; private set; }
+        private QuestionForm _form;
         private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
-        public List<string> Errors = new List<string>();
-        public Dictionary<string, string> Warnings = new Dictionary<string, string>();
-        public bool FormHasErrors
-        {
-            get
-            {
-                return Errors.Count > 0;
-            }
-        }
-        public bool FormHasWarnings
-        {
-            get
-            {
-                return Warnings.Count > 0;
-            }
-        }
+        private readonly Dictionary<string,string> _warnings = new Dictionary<string, string>();
+        private readonly List<string> _errors = new List<string>();
 
         private bool QuestionIdExists(string questionId)
         {
@@ -49,21 +35,22 @@ namespace Assignment1
 
         private void AddError(ParserRuleContext context, string message)
         {
-            Errors.Add("Line " + context.Start.Line + ": " + message);
+            _errors.Add("Line " + context.Start.Line + ": " + message);
         }
 
         private void AddWarning(ParserRuleContext context, string questionId, string message)
         {
-            Warnings.Add(questionId, "Line " + context.Start.Line + ": " + message);
+            _warnings.Add(questionId, "Line " + context.Start.Line + ": " + message);
         }
 
         public override void ExitForm(QL.FormContext context)
         {
-            foreach (string warning in Warnings.Values)
+            foreach (string warning in _warnings.Values)
             {
                 Console.WriteLine(warning);
             }
-            Form = context.result;
+            _form = context.result;
+            _form.Warnings = _warnings;
         }
 
         /* Check for each question if the label is already used and add a warning if this is the case.
@@ -72,7 +59,7 @@ namespace Assignment1
         {
             string questionLabel = context.result.Label;
             string questionId = context.result.Id;
-            
+
             if (QuestionLabelExists(questionLabel))
             {
                 AddWarning(context, questionId, "The question label '" + questionLabel + "' has already been used.");
@@ -80,15 +67,16 @@ namespace Assignment1
         }
 
         /* Check for each question if the id already exists and add an error if this is the case.
-         */ 
+         */
         public override void ExitQuestion(QL.QuestionContext context)
         {
             string questionId = context.result.Id;
-            
+
             if (QuestionIdExists(questionId))
             {
                 AddError(context, "The question id '" + questionId + "' already exists in the current context.");
-            } else
+            }
+            else
             {
                 _questions.Add(context.result.Id, context.result);
             }
@@ -114,7 +102,8 @@ namespace Assignment1
             try
             {
                 var expressionType = expression.Evaluate();
-            } catch (Exception exception)
+            }
+            catch (Exception exception)
             {
                 AddError(context, exception.Message);
             }
@@ -135,7 +124,7 @@ namespace Assignment1
             }
         }
 
-        internal static QLListener ParseString(string input)
+        internal static QuestionForm ParseString(string input)
         {
             ICharStream stream = CharStreams.fromstring(input);
             ITokenSource lexer = new QLLexer(stream);
@@ -145,7 +134,10 @@ namespace Assignment1
             QLListener listener = new QLListener();
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.Walk(listener, context);
-            return listener;
+            if (listener._errors.Count == 0) return listener._form;
+            var e = new Exception("Invalid form"); //TODO: Create specific exception
+            e.Data.Add("MoreInfo", listener._errors);
+            throw e;
         }
     }
 }

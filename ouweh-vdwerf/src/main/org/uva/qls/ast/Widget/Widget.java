@@ -9,7 +9,9 @@ import java.util.List;
 
 public class Widget extends TreeNode {
 
-    public Widget(WidgetType type){
+    private WidgetType type;
 
+    public Widget(WidgetType type){
+        this.type = type;
     }
 }

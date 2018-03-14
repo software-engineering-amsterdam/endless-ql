@@ -1,7 +1,7 @@
-import {WidgetType} from './widget-type';
 import {Location} from '../location';
 import {Style} from './style';
+import {Widget} from './widget';
 
 export class Default {
-  constructor(public type: string, public widgetType: WidgetType, public styles: Style[], public location: Location) {}
+  constructor(public type: string, public widget: Widget, public styles: Style[], public location: Location) {}
 }

@@ -10,10 +10,17 @@ import LargerThan from "../../form/nodes/expressions/comparisons/LargerThan";
 import LargerThanOrEqual from "../../form/nodes/expressions/comparisons/LargerThanOrEqual";
 import SmallerThanOrEqual from "../../form/nodes/expressions/comparisons/SmallerThanOrEqual";
 import { DivisionByZeroError } from "../../form/form_errors";
+import Subtraction from "../../form/nodes/expressions/arithmetic/Subtraction";
+import { toDecimal } from "../../form/evaluation/numeric_helpers";
 
 it('holds that 1 + 1 === 2', () => {
   const expression = new Addition(new NumberLiteral(1), new NumberLiteral(1));
-  expect(evaluate(expression)).toBe(2);
+  expect(evaluate(expression)).toEqual(toDecimal(2));
+});
+
+it('can work with decimals', () => {
+  const expression = new Subtraction(new NumberLiteral(0.3), new NumberLiteral(0.2));
+  expect(evaluate(expression)).toEqual(toDecimal(0.1));
 });
 
 it('is not possible to divide by zero', () => {

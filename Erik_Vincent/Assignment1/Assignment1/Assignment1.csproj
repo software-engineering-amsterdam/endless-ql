@@ -56,6 +56,7 @@
     <Compile Include="Export\FormExporter.cs" />
     <Compile Include="IMainView.cs" />
     <Compile Include="MainPresenter.cs" />
+    <Compile Include="Model\IQuestionVisitor.cs" />
     <Compile Include="Model\QLS\IContent.cs" />
     <Compile Include="Model\QLS\Page.cs" />
     <Compile Include="Model\QLS\QuestionStyle.cs" />
@@ -70,6 +71,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\QuestionBool.cs" />
+    <Compile Include="Model\QuestionDate.cs" />
+    <Compile Include="Model\QuestionDecimal.cs" />
+    <Compile Include="Model\QuestionInt.cs" />
+    <Compile Include="Model\QuestionMoney.cs" />
+    <Compile Include="Model\QuestionString.cs" />
     <Compile Include="Parser\AntlrGenerated\QL.cs" />
     <Compile Include="Parser\AntlrGenerated\QLBaseListener.cs" />
     <Compile Include="Parser\AntlrGenerated\QLLexer.cs" />

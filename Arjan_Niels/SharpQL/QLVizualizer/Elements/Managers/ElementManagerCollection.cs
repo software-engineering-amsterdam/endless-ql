@@ -43,23 +43,24 @@ namespace QLVisualizer.Elements.Managers
                 child.RegisterListeners();
         }
 
-        public override void ActivationUpdate(string identifier, bool isActive)
+        public override void ActivationUpdate(ElementManagerLeaf elementManagerLeaf, bool isActive)
         {
             // Only trigger if it contains
-            if (_activationExpression.UsedIdentifiers.Contains(identifier))
-                base.ActivationUpdate(identifier, isActive);
+            if (_activationExpression != null && _activationExpression.UsedIdentifiers.Contains(elementManagerLeaf.Identifier))
+                base.ActivationUpdate(elementManagerLeaf, isActive);
 
 
             // Only send to children if parent is active
             if (Active)
                 foreach (ElementManagerLeaf manager in Children)
-                    manager.ActivationUpdate(identifier, isActive);
+                    manager.ActivationUpdate(elementManagerLeaf, isActive);
         }
 
         public override IEnumerable<string> GetActivationTargetIDs()
         {
             // Return children and self
-            return Children.SelectMany(o => o.GetActivationTargetIDs()).Concat(_activationExpression.UsedIdentifiers);
+            IEnumerable<string> result = Children.SelectMany(o => o.GetActivationTargetIDs());
+            return _activationExpression == null ? result : result.Concat(_activationExpression.UsedIdentifiers);
         }
 
         public override string ToXML()
@@ -70,6 +71,38 @@ namespace QLVisualizer.Elements.Managers
         public Dictionary<string, ElementManager> FindByID(IEnumerable<string> identifiers)
         {
             return FindRecursiveByID(new List<string>(identifiers)).Item2;
+        }
+
+        public Dictionary<string, ElementManagerLeaf> FindLeafsByID(IEnumerable<string> identifiers)
+        {
+            return FindRecursiveLeafsById(new List<string>(identifiers)).Item2;
+        }
+
+        private Tuple<List<string>, Dictionary<string, ElementManagerLeaf>> FindRecursiveLeafsById(List<string> targets)
+        {
+            Dictionary<string, ElementManagerLeaf> result = new Dictionary<string, ElementManagerLeaf>();
+            foreach (ElementManager child in Children)
+            {
+                switch (child)
+                {
+                    case ElementManagerCollection childCollection:
+                        Tuple<List<string>, Dictionary<string, ElementManagerLeaf>> recResult = childCollection.FindRecursiveLeafsById(targets);
+                        foreach (string identifier in recResult.Item1)
+                            targets.Remove(identifier);
+
+                        result.Concat(recResult.Item2);
+                        break;
+                    case ElementManagerLeaf childLeaf:
+                        if (targets.Contains(childLeaf.Identifier))
+                            result.Add(childLeaf.Identifier, childLeaf);
+                        break;
+                }
+
+                if (targets.Count == 0)
+                    break;
+            }
+
+            return new Tuple<List<string>, Dictionary<string, ElementManagerLeaf>>(targets, result);
         }
 
         private Tuple<List<string>, Dictionary<string, ElementManager>> FindRecursiveByID(List<string> targets)

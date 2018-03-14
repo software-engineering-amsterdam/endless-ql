@@ -10,7 +10,7 @@ namespace QLVisualizer.Elements.Managers.LeafTypes
         {
         }
 
-        public override QuestionElementValue<bool> ParseInput(string input)
+        protected override QuestionElementValue<bool> ParseInput(string input)
         {
             bool result = false;
             bool valid = bool.TryParse(input, out result);

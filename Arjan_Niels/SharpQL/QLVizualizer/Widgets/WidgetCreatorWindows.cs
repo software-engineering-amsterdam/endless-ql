@@ -59,7 +59,7 @@ namespace QLVisualizer.Widgets
             int margin = 10;
             int pos = margin;
 
-            if(!string.IsNullOrEmpty(question))
+            if (!string.IsNullOrEmpty(question))
             {
                 Label questionLabel = new Label()
                 {
@@ -77,9 +77,11 @@ namespace QLVisualizer.Widgets
                 control.Width = holder.Width;
                 holder.Controls.Add(control);
                 pos += control.Height + margin;
+                control.Enabled = elementManager.Editable;
             }
 
             elementManager.OnActiveChange += delegate (string identifier, bool isActive) { holder.Visible = isActive; };
+            holder.Visible = elementManager.Active;
 
             holder.Height = pos;
             return holder;
@@ -88,11 +90,15 @@ namespace QLVisualizer.Widgets
         private Control CreateTextBoxWidget<T>(QuestionElementManager<T> questionElementManager, Control holder)
         {
             TextBox questionInput = new TextBox();
-            if (questionElementManager.Editable)
-                questionInput.TextChanged += delegate (object sender, EventArgs eventArgs) { questionElementManager.ParseInput(questionInput.Text); };
-            else
-                questionElementManager.OnAnswerValueUpdate += delegate (QuestionElementValue<T> answer, bool calculated) { if (calculated) questionInput.Text = answer.Value.ToString(); };
-            
+
+            questionInput.TextChanged += delegate (object sender, EventArgs eventArgs) { questionElementManager.SetAnswer(questionInput.Text); };
+
+            questionElementManager.OnAnswerValueUpdate += delegate (ElementManagerLeaf elementManagerLeaf, bool calculated)
+            {
+                if (calculated)
+                    questionInput.Text = elementManagerLeaf.AnswerToString();
+            };
+
             return CreateWidgetLeaf(questionElementManager, holder, questionElementManager.Text, questionInput);
         }
 
@@ -118,8 +124,9 @@ namespace QLVisualizer.Widgets
             if (boolQuestion.Editable)
                 question.CheckedChanged += delegate (object sender, EventArgs eventArgs) { boolQuestion.SetAnswer(question.Checked); };
             else
-                boolQuestion.OnAnswerValueUpdate += delegate (QuestionElementValue<bool> questionElementValue, bool calculated) {
-                    if (calculated) question.Checked = questionElementValue.Value;
+                boolQuestion.OnTypedAnswerValueUpdate += delegate (QuestionElementValue<bool> answer, bool calculated)
+                {
+                    if (calculated) question.Checked = answer.Value;
                 };
 
             return CreateWidgetLeaf(boolQuestion, holder, "", question);

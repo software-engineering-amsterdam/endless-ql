@@ -11,7 +11,7 @@ namespace QLVisualizer.Elements.Managers.LeafTypes
         {
         }
 
-        public override QuestionElementValue<double> ParseInput(string input)
+        protected override QuestionElementValue<double> ParseInput(string input)
         {
             double inputValue = 0;
             bool valid = double.TryParse(input, out inputValue);
@@ -21,7 +21,7 @@ namespace QLVisualizer.Elements.Managers.LeafTypes
                 return new QuestionElementValue<double>(0, false);
         }
 
-        public override QuestionElementValue<double> Validate(double input)
+        protected override QuestionElementValue<double> Validate(double input)
         {
             return new QuestionElementValue<double>(Math.Round(input, 2), true);
         }

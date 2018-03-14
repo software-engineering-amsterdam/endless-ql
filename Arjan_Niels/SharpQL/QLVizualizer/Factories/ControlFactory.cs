@@ -1,4 +1,4 @@
-﻿using QLVisualizer.Controllers;
+﻿/*using QLVisualizer.Controllers;
 using QLVisualizer.Style;
 using QLVisualizer.Elements.Managers;
 using QLVisualizer.Elements.Managers.LeafTypes;
@@ -247,7 +247,7 @@ namespace QLVisualizer.Factories
         private void ChangedIntWidget(IntQuestionManager intWidget, TextBox input)
         {
             // Parse value
-            QuestionElementValue<int> value = intWidget.ParseInput(input.Text);
+            QuestionElementValue<int> value = null;// intWidget.seta(input.Text);
 
             // Assign parsed answer to input
             if (value.IsValid)
@@ -307,3 +307,4 @@ namespace QLVisualizer.Factories
         #endregion
     }
 }
+*/

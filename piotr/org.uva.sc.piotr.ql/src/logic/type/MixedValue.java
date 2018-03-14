@@ -56,7 +56,7 @@ public class MixedValue {
         this.integerValue = integerValue;
     }
 
-    public MixedValue(@NotNull Expression.DataType type, @NotNull Boolean booleanValue) {
+    private MixedValue(@NotNull Expression.DataType type, @NotNull Boolean booleanValue) {
         this.type = type;
         this.booleanValue = booleanValue;
     }

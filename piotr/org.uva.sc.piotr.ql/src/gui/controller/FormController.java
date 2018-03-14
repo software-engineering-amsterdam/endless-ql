@@ -107,7 +107,6 @@ public class FormController {
         List<FormQuestion> formQuestionsVisibility = dependentFormQuestionsForVisibility.get(formQuestion.getVariableName());
         if (formQuestionsVisibility != null) {
             for (FormQuestion formQuestion1 : formQuestionsVisibility) {
-                // TODO: check setValue vs changing the value only
                 formQuestion1.setVisibility(formQuestion1.getVisibilityCondition().accept(evaluator).getBooleanValue());
                 formQuestion1.getPanel().refreshVisibility();
             }
@@ -116,7 +115,6 @@ public class FormController {
         List<FormQuestion> formQuestionsValue = dependentFormQuestionsForValue.get(formQuestion.getVariableName());
         if (formQuestionsValue != null) {
             for (FormQuestion formQuestion1 : formQuestionsValue) {
-                // TODO: check setValue vs changing the value only
                 formQuestion1.setValue(formQuestion1.getAssignedExpression().accept(evaluator));
                 formQuestion1.getPanel().refreshValue();
             }

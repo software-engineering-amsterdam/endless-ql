@@ -58,7 +58,7 @@ public final class MixedValueTest {
 
     @Test
     public void testIntegerDivision() {
-        MixedValue val1 = MixedValue.createValue(Expression.DataType.INTEGER, "10");
+        MixedValue val1 = MixedValue.createValue(Expression.DataType.INTEGER, "9");
         MixedValue val2 = MixedValue.createValue(Expression.DataType.INTEGER, "3");
         MixedValue result = val1.divide(val2);
         Assert.assertEquals(val1.getType(), val2.getType());

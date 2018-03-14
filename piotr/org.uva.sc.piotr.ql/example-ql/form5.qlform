@@ -21,7 +21,7 @@ form testForm5
       hasCar: boolean
     "Can you drive your own car?"
       canDriveOwnCar: boolean = (hasDrivingLicense && hasCar)
-    if (hasDrivingLicense && hasCar) {
+    if (canDriveOwnCar) {
       "How much do you spend monthly on gas?"
         gasCost: money
       "How much do you spend yearly on maintenance of your car?"

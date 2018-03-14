@@ -14,7 +14,7 @@ import java.io.IOException;
 public class Interpreter {
 
     public Stylesheet generate(String styleSpecification) throws IOException {
-
+//TODO: convert to ASTGenerator. And reuse!
         QLSLexer lexer = new QLSLexer(toCharStream(styleSpecification));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 

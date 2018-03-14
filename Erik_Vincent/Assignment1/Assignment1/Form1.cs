@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
-using Assignment1.Export;
-using Assignment1.Rendering;
 
 namespace Assignment1
 {

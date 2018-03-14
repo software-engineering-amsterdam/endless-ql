@@ -1,10 +1,18 @@
-﻿using QL.Api.Operators;
-using QL.Api.Types;
+﻿using QL.Api.Entities;
+using QL.Api.Operators;
 
 namespace QL.Core.Interpreting.Operators
 {
     internal class BooleanNegation : IOperator
     {
+        public string AsString
+        {
+            get
+            {
+                return "!";
+            }
+        }
+
         public Value Evaluate(Value input, Value empty = null)
         {
             return new Value(!input.ToBoolean(), QLType.Boolean);

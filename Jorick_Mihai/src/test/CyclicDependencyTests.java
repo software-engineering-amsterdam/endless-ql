@@ -13,7 +13,7 @@ import org.uva.jomi.ql.tests.utilities.TestUtilities;
 
 public class CyclicDependencyTests {
 
-	CyclicDependencyChecker checker = new CyclicDependencyChecker(true);
+	CyclicDependencyChecker checker = new CyclicDependencyChecker(false);
 	IdentifierMapBuilder identifierMapBuilder = new IdentifierMapBuilder();
 
 	String test1 =

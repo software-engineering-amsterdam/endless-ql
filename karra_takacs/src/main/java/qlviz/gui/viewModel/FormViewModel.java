@@ -14,5 +14,5 @@ public interface FormViewModel {
 
     String getTitle();
 
-    List<QuestionBlockViewModel> getQuestions();
+    List<QuestionViewModel> getQuestions();
 }

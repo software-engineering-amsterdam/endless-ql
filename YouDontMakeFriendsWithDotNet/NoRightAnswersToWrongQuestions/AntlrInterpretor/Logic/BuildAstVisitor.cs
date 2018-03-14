@@ -2,13 +2,13 @@
 using System.ComponentModel;
 using System.Linq;
 using AntlGrammar;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.API.AstNodes;
-using QuestionaireDomain.Entities.API.AstNodes.Boolean;
-using QuestionaireDomain.Entities.API.AstNodes.Calculation;
-using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
-using QuestionaireDomain.Entities.API.AstNodes.Relational;
-using QuestionaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace AntlrInterpretor.Logic
 {
@@ -76,12 +76,26 @@ namespace AntlrInterpretor.Logic
                 questionType);
         }
 
+        public override Reference<IAstNode> VisitTypeCheckExpression(QLParser.TypeCheckExpressionContext context)
+        {
+            var leftExpression = m_astFactory.CreateUntypedVariableName(context.leftIdentifier.Text);
+            var rightExpression = m_astFactory.CreateUntypedVariableName(context.rightIdentifier.Text);
+
+            return CreateRelationalOperation(
+                context.relationalOperator().chosenOperator.Type,
+                context.GetText(),
+                leftExpression,
+                rightExpression,
+                context.relationalOperator().chosenOperator.Text);
+        }
+
+
         public override Reference<IAstNode> VisitIfElseStatement(
             QLParser.IfElseStatementContext context)
         {
-            var questionName = context.conditionalStatement().booleanExpression().GetText();
+            var questionName = context.conditionalStatement().expression().GetText();
 
-            var predicate = Visit(context.conditionalStatement().booleanExpression())
+            var predicate = Visit(context.conditionalStatement().expression())
                 .To<IBooleanLogicNode>(m_domainItemLocator);
             
             var consequent = context

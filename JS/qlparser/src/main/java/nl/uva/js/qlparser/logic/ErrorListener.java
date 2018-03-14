@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.misc.IntervalSet;
 
 import java.util.BitSet;
 
-public class ErrorListener extends DefaultErrorStrategy implements ANTLRErrorListener {
+class ErrorListener extends DefaultErrorStrategy implements ANTLRErrorListener {
 
     @Override
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {

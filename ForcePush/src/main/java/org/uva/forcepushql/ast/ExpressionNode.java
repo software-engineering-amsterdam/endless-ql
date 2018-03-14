@@ -1,7 +1,7 @@
 package org.uva.forcepushql.ast;
 
 
-abstract class ExpressionNode { }
+public abstract class ExpressionNode { }
 
 abstract class InfixExpressionNode extends ExpressionNode
 {
@@ -50,7 +50,7 @@ class NegateNode extends ExpressionNode
 
 class NumberNode extends ExpressionNode
 {
-    public double Value;
+    private double Value;
 
     public void setValue(double value)
     {

@@ -1,4 +1,4 @@
-﻿using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
+﻿using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 
 namespace QuestionaireOrchestration.Visitors
 {

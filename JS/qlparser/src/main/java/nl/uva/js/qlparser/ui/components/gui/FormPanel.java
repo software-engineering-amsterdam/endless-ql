@@ -8,15 +8,14 @@ import java.util.List;
 
 public class FormPanel extends JPanel {
 
-    private JPanel formContent;
+    private final JPanel formContent;
 
     public FormPanel(Form form, int viewHeight, int formWidth, int formHeight){
         formContent = new JPanel();
         formContent.setPreferredSize(new Dimension(formWidth, formHeight));
         formContent.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        List<Component> components = form.getComponents();
-        components.forEach(formContent::add);
+        form.getComponents().forEach(formContent::add);
 
         int panelHeight = viewHeight - 5;
 

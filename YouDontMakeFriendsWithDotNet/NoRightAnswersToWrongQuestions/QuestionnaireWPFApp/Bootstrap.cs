@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AntlrInterpretor;
+﻿using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Events;
-using QuestionaireDomain.Entities;
+using QuestionnaireDomain.Entities;
 using QuestionaireOrchestration;
-using QuestionaireOrchestration.API;
-using QuestionnaireDomain.Logic;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
 using QuestionnaireUI;
@@ -28,7 +20,6 @@ namespace QuestionnaireWPFApp
             collection.AddModule(new InfrastructureModule());
             collection.AddModule(new AntlrModule());
             collection.AddModule(new EntitiesModule());
-            collection.AddModule(new DomainLogicModule());
             collection.AddModule(new OrchestrationModule());
             collection.AddModule(new UiModule());
 

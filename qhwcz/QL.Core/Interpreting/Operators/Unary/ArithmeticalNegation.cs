@@ -1,11 +1,19 @@
-﻿using QL.Api.Operators;
-using QL.Api.Types;
+﻿using QL.Api.Entities;
+using QL.Api.Operators;
 using System;
 
 namespace QL.Core.Interpreting.Operators
 {
     internal class ArithmeticalNegation : IOperator
     {
+        public string AsString
+        {
+            get
+            {
+                return "-";
+            }
+        }
+
         public Value Evaluate(Value input, Value empty = null)
         {
             if (input.Type == QLType.Integer)

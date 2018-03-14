@@ -1,6 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Infrastructure;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL.Api.Entities;
 using QL.Api.Infrastructure;
-using QL.Api.Types;
 using QL.Core.Infrastructure;
 
 namespace QL.Core.Test.Parsing
@@ -20,7 +21,10 @@ namespace QL.Core.Test.Parsing
         [TestMethod]
         public void FormWithOneQuestion_OneSymbolDetectedCorrectly()
         {
+            // Arrange & Act
             var parsingTask = _parsingPipeline.Process(new ParsingTask(TestDataResolver.LoadTestFile("singleQuestion.ql")));
+
+            // Assert
             Assert.AreEqual(1, parsingTask.SymbolTable.Count);
             Assert.AreEqual("whatIsMeaning", parsingTask.SymbolTable[0].Name);
             Assert.AreEqual(QLType.Decimal, parsingTask.SymbolTable[0].Type);
@@ -29,7 +33,10 @@ namespace QL.Core.Test.Parsing
         [TestMethod]
         public void FormWithThreeQuestion_OneSymbolDetectedCorrectly()
         {
+            // Arrange & Act
             var parsingTask = _parsingPipeline.Process(new ParsingTask(TestDataResolver.LoadTestFile("multipleQuestions.ql")));
+
+            // Assert
             Assert.AreEqual(3, parsingTask.SymbolTable.Count);
             Assert.AreEqual("whatIsMeaning", parsingTask.SymbolTable[0].Name);
             Assert.AreEqual("hasSoldHouse", parsingTask.SymbolTable[1].Name);

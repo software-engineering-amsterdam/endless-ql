@@ -8,8 +8,6 @@ import nl.uva.js.qlparser.ui.components.gui.TextPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -35,6 +33,7 @@ public class GUIBuilder {
     private static TextPanel inputPanel;
     private static FormPanel formPanel;
     private static JPanel bottomPanel;
+    private static JPanel topPanel;
     private static TextPanel console;
 
     public static Frame getGUI(Form form) {
@@ -44,8 +43,10 @@ public class GUIBuilder {
         formPanel = new FormPanel(form, FORM_VIEW_HEIGHT, FORM_WIDTH, FORM_HEIGHT);
 
         bottomPanel = getBottomPanel();
+        topPanel = getTopPanel();
 
         mainFrame = getMainFrame();
+        mainFrame.add(topPanel, BorderLayout.PAGE_START);
         mainFrame.add(inputPanel, BorderLayout.LINE_START);
         mainFrame.add(formPanel, BorderLayout.CENTER);
         mainFrame.add(bottomPanel, BorderLayout.PAGE_END);
@@ -59,6 +60,8 @@ public class GUIBuilder {
                 mainFrame.dispose();
             }
         });
+
+        mainFrame.setTitle(form.getHumanizedName());
 
         return mainFrame;
     }
@@ -104,40 +107,75 @@ public class GUIBuilder {
         return bottomPanel;
     }
 
+    private static JPanel getTopPanel() {
+        JPanel topPanel = new JPanel();
+
+        int numberOfPages = 5; //TODO
+        JPanel topButtons = getTopButtons(numberOfPages);
+
+        topPanel.setLayout(new BorderLayout());
+        topPanel.add(topButtons, BorderLayout.LINE_START);
+
+        return topPanel;
+    }
+
+    private static JPanel getTopButtons(int numberOfPages) {
+        JPanel topBar = getButtonPanel(FULL_WIDTH);
+        topBar.setLayout(new BorderLayout());
+
+        JPanel togglePanel = getButtonPanel(INPUT_WIDTH);
+
+        JButton qlModeButton = getButton("QL mode", 150);
+        qlModeButton.addActionListener(e -> {}); // Toggle mode QL
+
+        JButton qlsModeButton = getButton("QLS mode", 150);
+        qlsModeButton.addActionListener(e -> {}); // Toggle mode QLS
+
+        togglePanel.add(qlModeButton);
+        togglePanel.add(qlsModeButton);
+        togglePanel.add(getButtonPanel(300));
+
+        topBar.add(togglePanel, BorderLayout.LINE_START);
+
+        JPanel pagesPanel = new JPanel();
+        pagesPanel.setPreferredSize(new Dimension(FORM_WIDTH, BUTTON_HEIGHT));
+        pagesPanel.setBackground(Color.GRAY);
+
+        for (int i = 1; i <= numberOfPages; i++) {
+            int pageNumber = i;
+            JButton pageButton = getButton(String.valueOf (pageNumber),50);
+            pageButton.addActionListener(e -> {
+                System.out.println(pageNumber);
+            });
+            pagesPanel.add(pageButton);
+        }
+        topBar.add(pagesPanel, BorderLayout.LINE_END);
+
+        return topBar;
+    }
+
     private static JPanel getMenuButtons() {
         JPanel menuBar = getButtonPanel(FULL_WIDTH);
 
         JButton loadButton = getButton("Load QL", 150);
-        loadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        loadButton.addActionListener(e -> {});
 
         JButton saveButton = getButton("Save QL", 150);
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        saveButton.addActionListener(e -> {});
 
         JButton processButton = getButton("Process QL", 150);
-        processButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                reloadForm();
+        processButton.addActionListener(e -> {
+            try {
+                Form form = FormBuilder.parseFormFromString(inputPanel.getText());
+                formPanel.reload(form);
+                mainFrame.setTitle(form.getHumanizedName());
+            } catch (ParseException exception) {
+                log(exception.getMessage());
             }
         });
 
         JButton exportButton = getButton("Load QL", 250);
-        exportButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        exportButton.addActionListener(e -> {});
 
         menuBar.add(loadButton);
         menuBar.add(saveButton);
@@ -148,24 +186,15 @@ public class GUIBuilder {
         return menuBar;
     }
 
-    private static void reloadForm() {
-        try {
-            Form form = FormBuilder.parseFormFromString(inputPanel.getText());
-            formPanel.reload(form);
-        } catch (ParseException e) {
-            log(e.getMessage());
-        }
-    }
-
     private static JButton getButton(String text, int width) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(width, BUTTON_HEIGHT));
         return button;
     }
 
-    private static JPanel getButtonPanel(int i) {
+    private static JPanel getButtonPanel(int width) {
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(i, BUTTON_HEIGHT));
+        panel.setPreferredSize(new Dimension(width, BUTTON_HEIGHT));
         panel.setBackground(Color.gray);
         return panel;
     }

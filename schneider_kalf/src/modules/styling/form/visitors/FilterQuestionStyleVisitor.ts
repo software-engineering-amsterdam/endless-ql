@@ -13,7 +13,7 @@ export default class QuestionStylesVisitor implements StyleNodeVisitor {
   }
 
   visitQuestionStyle(question: QuestionStyle): any {
-
+    return new Error("not implemented yet");
   }
 
   visitSection(section: Section): any {

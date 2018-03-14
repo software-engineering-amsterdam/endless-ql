@@ -58,7 +58,13 @@ public class ViewRenderer {
         wrapper.getRowConstraints().add(new RowConstraints(40));
 
         wrapper.add(createQuestionLabel(questionModel.getLabel()), 0, 0);
-        wrapper.add(createWidget(questionModel), 1, 0);
+        Control widget = createWidget(questionModel);
+        if (controller.getLastFocusedQuestion().equals(questionModel.getVariableName())) {
+            widget.setFocusTraversable(true);
+        } else {
+            widget.setFocusTraversable(false);
+        }
+        wrapper.add(widget, 1, 0);
 
         return wrapper;
     }

@@ -28,7 +28,7 @@ public class QuestionChecker extends Checker {
             }
 
             if (!questionTexts.add(question.getContent())) {
-                logger.warning("WARNING: QuestionReference content " + question.getContent() + " already exists");
+                logger.warning("WARNING: Question content " + question.getContent() + " already exists");
             }
         }
     }

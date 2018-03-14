@@ -6,9 +6,9 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
-public class IntegerWidget extends Widget {
+public class StringWidget extends Widget {
 
-    public IntegerWidget(String name) {
+    public StringWidget(String name) {
         super(name);
     }
 
@@ -18,8 +18,6 @@ public class IntegerWidget extends Widget {
         pane.setSpacing(20);
 
         TextField textField = new TextField();
-        TextFormatter formatter = createTextFormatter("-?\\d*");
-        textField.setTextFormatter(formatter);
         pane.getChildren().add(new Label(name));
         pane.getChildren().add(textField);
 

@@ -18,6 +18,9 @@ class SymbolTable:
             raise KeyError("Invalid key: {0}".format(key))
         self._dictionary[key] = value
 
+    def update_or_create(self, key, value):
+        self._dictionary[key] = value
+
     def get(self, key):
         if key not in self._dictionary:
             raise KeyError("Invalid key: {0}".format(key))

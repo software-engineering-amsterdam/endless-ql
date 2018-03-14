@@ -1,11 +1,11 @@
 form taxOfficeExample {
-    "Is BTC gonna crash?" crash: boolean
+    "Is BTC gonna crash?" crash: int
 
     if(true && true) {
         "Send help?" sendHelp: boolean
 
         if(false) {
-            "Q3" q3: boolean
+            "Q3" q3: string
         }
 
         "Q4" q4: boolean

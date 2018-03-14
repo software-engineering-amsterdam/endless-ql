@@ -7,6 +7,8 @@ import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.ItemViewModel
+import tornadofx.ValidationMessage
+import tornadofx.ValidationSeverity
 import java.math.BigDecimal
 
 class QuestionModel(question: Question) : ItemViewModel<Question>(question) {
@@ -37,6 +39,10 @@ class QuestionModel(question: Question) : ItemViewModel<Question>(question) {
             QuestionType.MONEY -> item.value.moneyValue.value = moneyValue.value
             else -> throw IllegalArgumentException("Unsupported type")
         }
+    }
+
+    fun validate() : ValidationMessage? {
+        return null
     }
 }
 

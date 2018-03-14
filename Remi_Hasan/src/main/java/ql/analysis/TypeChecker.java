@@ -129,7 +129,7 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
         boolean selfValid = expression.left.accept(this).isCompatible(expression.right.accept(this));
 
         if (!selfValid) {
-            throw new IllegalArgumentException("Invalid EQ: comparing incompatible types" + expression.getLocation());
+            throw new IllegalArgumentException("Invalid equals: comparing incompatible types" + expression.getLocation());
         }
 
         return ReturnType.BOOLEAN;
@@ -181,7 +181,7 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
         boolean selfValid = expression.value.accept(this).isNumber();
 
         if (!selfValid) {
-            throw new IllegalArgumentException("Invalid NEG: non-numeric expression " + expression.getLocation());
+            throw new IllegalArgumentException("Invalid negation: non-numeric expression " + expression.getLocation());
         }
 
         return ReturnType.NUMBER;

@@ -1,4 +1,5 @@
 from AST.types.type import Type
+from AST.expressions.literals.date_node import DateNode
 from render.widgets import CalendarWidget
 
 
@@ -18,6 +19,10 @@ class TypeDate(Type):
     @staticmethod
     def cast(value):
         return
+
+    @staticmethod
+    def get_literal_node(value):
+        return DateNode(None, TypeDate, value)
 
     @staticmethod
     def pyqt5_default_widget():

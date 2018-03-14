@@ -4,17 +4,17 @@ import org.uva.sea.qls.parser.elements.Page;
 import org.uva.sea.qls.parser.elements.Parameter;
 import org.uva.sea.qls.parser.elements.Stylesheet;
 import org.uva.sea.qls.parser.elements.specification.DefaultStyle;
+import org.uva.sea.qls.parser.elements.specification.Question;
 import org.uva.sea.qls.parser.elements.specification.Section;
 import org.uva.sea.qls.parser.elements.style.*;
-import org.uva.sea.qls.parser.elements.specification.Question;
 
 public interface IStyleASTVisitor<T> {
 
-    T visit(Stylesheet node);
+    T visit(Stylesheet node) throws InterruptedException;
 
     T visit(Parameter node);
 
-    T visit(Page node);
+    T visit(Page node) throws InterruptedException;
 
     T visit(Color node);
 
@@ -26,10 +26,10 @@ public interface IStyleASTVisitor<T> {
 
     T visit(Width node);
 
-    T visit(DefaultStyle node);
+    T visit(DefaultStyle node) throws InterruptedException;
 
-    T visit(Question node);
+    T visit(Question node) throws InterruptedException;
 
-    T visit(Section node);
+    T visit(Section node) throws InterruptedException;
 
 }

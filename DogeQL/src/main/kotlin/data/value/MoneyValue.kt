@@ -1,9 +1,12 @@
 package data.value
 
-import data.question.QuestionType
+import data.question.SymbolType
 import java.math.BigDecimal
 
-class MoneyValue(var value: BigDecimal): BaseSymbolValue(QuestionType.MONEY) {
+class MoneyValue(var value: BigDecimal) : BaseSymbolValue(SymbolType.Money) {
+
+    constructor(value: String) : this(BigDecimal(value))
+    constructor(value: Int) : this(BigDecimal(value))
 
     override fun plus(that: BaseSymbolValue): BaseSymbolValue = when (that) {
         is MoneyValue -> MoneyValue(value + that.value)

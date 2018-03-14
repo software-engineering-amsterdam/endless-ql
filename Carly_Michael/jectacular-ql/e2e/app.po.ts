@@ -11,8 +11,8 @@ export class AppPage {
   }
 
   clearInputs() {
-    element(by.id('inputQl')).clear();
     element(by.id('inputQls')).clear();
+    element(by.id('inputQl')).clear();
   }
 
   parseInput(input: string) {

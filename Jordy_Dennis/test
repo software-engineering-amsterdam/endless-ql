@@ -1,27 +1,7 @@
 form taxOfficeExample2
 {
-  "vraag1"
-    a: int
-  "vraag1"
-    b: int
-  "vraag1"
-    c: int
-  "vraag1"
-    q: int
-  "vraag1"
-    w: int
-  "vraag1"
-    e: int
-  "vraag1"
-    r: int
-  "vraag1"
-    t: int
-  "vraag1"
-    y: int
-  "vraag1"
-    u: int
-  "vraag1"
-    i: int
+  "Wat is je naam"
+  naam : int
 
   
 }

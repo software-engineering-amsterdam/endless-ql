@@ -8,54 +8,24 @@ using Assignment1.Rendering;
 
 namespace Assignment1
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IMainView
     {
-        private FlowLayoutPanel _mainPanel;
-
         public Form1()
         {
             InitializeComponent();
-            _mainPanel = new FlowLayoutPanel
-            {
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                FlowDirection = FlowDirection.TopDown
-            };
-            Controls.Add(_mainPanel);
+            var presenter = new MainPresenter(this);
+            openFileButton.Click += SelectQLFile;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            ParseFile("test.txt");
-        }
+        public event EventHandler SelectQLFile;
 
-        private void ParseFile(string fileLocation)
+        public void SetFormControl(Control control)
         {
             _mainPanel.Controls.Clear();
-            var listener = QLListener.ParseString(System.IO.File.ReadAllText(fileLocation));
-            if (listener.FormHasErrors)
-            {
-                ReportFormErrors(listener.Errors);
-            }
-            else
-            {
-                _mainPanel.Controls.Add(RenderFileSelector());
-                IQuestionFormRenderer renderer = new QuestionFormRenderer(listener.Form);
-                _mainPanel.Controls.Add(renderer.Render());
-                FormExporter exporter = new FormExporter(listener.Form);
-                _mainPanel.Controls.Add(exporter.Render());
-            }
+            _mainPanel.Controls.Add(control);
         }
 
-        private ToolStrip RenderFileSelector()
-        {
-            ToolStrip fileSelectorPanel = new ToolStrip();
-            ToolStripButton toolStripButton = new ToolStripButton("Open file", null, FileSelectorClicked);
-            fileSelectorPanel.Items.Add(toolStripButton);
-            return fileSelectorPanel;
-        }
-
-        private void ReportFormErrors(List<string> errors)
+        public void SetErrors(List<string> errors)
         {
             var header = new Label
             {
@@ -65,7 +35,7 @@ namespace Assignment1
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Arial", 12, FontStyle.Bold)
             };
-            Controls.Add(header);
+            _mainPanel.Controls.Add(header);
             foreach (string error in errors)
             {
                 var label = new Label
@@ -75,17 +45,7 @@ namespace Assignment1
                     Font = new Font("Arial", 10),
                     ForeColor = Color.Red
                 };
-                Controls.Add(label);
-            }
-        }
-
-        private void FileSelectorClicked(object sender, EventArgs eventArgs)
-        {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.InitialDirectory = Path.GetDirectoryName(Directory.GetCurrentDirectory());
-            if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-                ParseFile(fileDialog.FileName);
+                _mainPanel.Controls.Add(label);
             }
         }
     }

@@ -19,15 +19,13 @@ class ConditionalNode:
         self.qlOrder = collections.OrderedDict()
         self.nodeType = "Conditional"
 
-    def addElifCondition(self, condition):
-        self.elifConditionBlock.append(condition)
+    """
+        We check the types of the expressions, it does not matter if they are eventually int or bool, 
+        since they all have a default value that can map to a boolean (set or unset).
 
-    def addElseChild(self, block):
-        self.elseBlock = block
-
-    # We check the types of the expressions, it does not matter if they are eventually int or bool, since they all have a default value.
-    # We also do not have to check anything else, because at this point an error would have been thrown if the types didnt match.
-    # Return the types for possible debugging
+        We also check the types for all of the possible statements
+        Return the types for possible debugging
+    """
     def checkTypes(self):
         types = []
         ifType = self.ifConditionBlock.checkTypes()
@@ -39,7 +37,9 @@ class ConditionalNode:
                 types.append(elseblock.checkTypes())
         return ["Conditional:", types]
 
-    # Link all variables from the assignments/questions to the variable nodes.
+    """
+        Link all variables from the assignments/questions to the variable nodes.
+    """
     def linkVars(self, varDict):
         self.ifConditionBlock.linkVars(varDict)
         for elifBlock in self.elifConditionBlock:
@@ -47,6 +47,16 @@ class ConditionalNode:
         if(self.elseBlock):
             for elseblock in self.elseBlock:
                 elseblock.linkVars(varDict)
+
+    
+    """
+        Some getters and setters --------------------
+    """
+    def addElifCondition(self, condition):
+        self.elifConditionBlock.append(condition)
+
+    def addElseChild(self, block):
+        self.elseBlock = block
 
     def getNodeType(self):
         return self.nodeType

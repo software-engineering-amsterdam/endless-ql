@@ -29,12 +29,12 @@ expression: BOOLEAN # BooleanExpr
 		  | IDENTIFIER # IdentifierExpr
 		  | operator='!' expression # UnaryExpr
           | '(' expression ')' # GroupingExpr
-          | expression operator=('*'|'/') expression # MultiplicationOrDivisionExpr
- 	   	  | expression operator=('+'|'-') expression # AdditionOrSubtractionExpr
-		  | expression operator=('>'|'>='|'<'|'<=') expression # ComparisonExpr
- 	      | expression operator=('!='|'==') expression # EqualityExpr
- 	      | expression operator='&&' expression # AndExpr
- 	      | expression operator='||' expression # OrExpr
+          | left=expression operator=('*'|'/') right=expression # MultiplicationOrDivisionExpr
+ 	   	  | left=expression operator=('+'|'-') right=expression # AdditionOrSubtractionExpr
+		  | left=expression operator=('>'|'>='|'<'|'<=') right=expression # ComparisonExpr
+ 	      | left=expression operator=('!='|'==') right=expression # EqualityExpr
+ 	      | left=expression operator='&&' right=expression # AndExpr
+ 	      | left=expression operator='||' right=expression # OrExpr
 		  ;
  
 BOOLEAN: TRUE | FALSE ;

@@ -7,7 +7,8 @@ class Gui():
         self.window.geometry('%sx%s' % (self.window.winfo_screenwidth()/3, self.window.winfo_screenheight()))
         # self.window.maxsize(self.window.winfo_screenwidth()/3, self.window.winfo_screenheight())
    
-        self.frame = self.window
+        self.frame = None
+        self.setCurrentStatementFrame
         self.frames = {}
         self.values = {}
 
@@ -25,12 +26,6 @@ class Gui():
         self.entryBoxes = {}
         self.formVariables = {}
 
-    def configureContent(self, event):
-        self.canvas.itemconfig(self.window, width=event.width)
-
-    def configureCanvas(self, event):
-        self.canvas.configure(scrollregion=self.canvas.bbox('all'))
-
     def addLabel(self, text, frame=None):
         if not frame:
             if self.frame: 
@@ -45,10 +40,6 @@ class Gui():
         if name in self.labels:
             self.labels[name].destroy()
             del self.labels[name]
-
-    def addAssignmentEntry(self, var, frame):
-        entry = tk.Entry(frame)
-        entry.pack(side=LEFT)
 
     #add checkbox and keep track of its variable/name (use lambda for command later)
     def addCheckBox(self, name):
@@ -147,9 +138,10 @@ class Gui():
             self.dropDowns[name].destroy()
             del self.dropDowns[name]
 
-    def addBooleanQuestion(self, name, question, text1, text2):
+    def addBooleanQuestion(self, name, question, text1, text2, updateFunction):
         var = tk.IntVar()
-        
+        var.trace("w", updateFunction)
+
         frame = tk.Frame(self.frame, height=2)
         frame.pack(expand=False, fill='both')
         
@@ -164,18 +156,18 @@ class Gui():
         self.values[name] = var
         self.frames[name] = frame
 
-    def addIntQuestion(self, name, question):
+    def addIntQuestion(self, name, question, updateFunction):
         var = tk.StringVar()
-
+        var.trace('w', lambda nm, idx, mode, var=var: self.validateForm(updateFunction))
+        
         frame = tk.Frame(self.frame, height=2)
         frame.pack(expand=False, fill='both')
 
         label = tk.Label(frame, text=question, height=2)
         label.pack(side=LEFT)
 
-        entry = tk.Entry(frame, textvariable=var)
+        entry = tk.Entry(frame, textvariable=var,validatecommand=self.validateForm)
         entry.pack(side=LEFT)
-        entry.insert(0, "0")
 
         self.values[name] = var
         self.frames[name] = frame
@@ -222,24 +214,13 @@ class Gui():
         label.pack(side=LEFT)
         print label.cget("text")
 
-    # Loop through current questions and save the values on clicking the button if the input type is correct.
-    # The current questions have to be overwritten with the questions of the new frame if we do this...
-    def getVariables(self):
-
-        # for question in self.questions:
-        #     if type(self.questions[question].get()) is int:
-        #         self.formVariables[question] = self.questions[question].get()
-
-        #     # todo: better error handling...
-        #     elif type(self.questions[question].get()) is str and self.questions[question].get().isdigit():
-        #         self.formVariables[question] = self.questions[question].get()
-
-        # print self.formVariables
-        return
-
     def getValue(self, varName, type):
         if type == "int":
-            return int(self.values[varName].get())
+            value = self.values[varName].get()
+            if value == '':
+                return 0
+            else:
+                return int(value) 
         else:
             return self.values[varName].get()
 
@@ -247,8 +228,5 @@ class Gui():
         if varName in self.values:
             self.values[varName].set(text)
 
-def notifyClick(name, vars):
-    print vars[name].get()
-
-def printUpdatedText(name, vars):
-    print vars[name].get()
+    def validateForm(self, function):
+        function()

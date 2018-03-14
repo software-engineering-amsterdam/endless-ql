@@ -29,6 +29,8 @@ public class FormController implements Initializable {
 
     private ErrorRenderer errorRenderer;
 
+    private String lastFocusedQuestion = "";
+
     @FXML
     private VBox questionBox;
 
@@ -37,7 +39,7 @@ public class FormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        guiModel = new GuiModel(getClass().getResource(defaultQlLocation).getFile());
+        guiModel = new GuiModel(getClass().getResource(defaultQlLocation).getFile(), null);
         ViewRenderer renderer = new ViewRenderer(questionBox, messageBox, this);
         questionRenderer = new QuestionRenderer(renderer);
         warningRenderer = new WarningRenderer(renderer);
@@ -48,17 +50,17 @@ public class FormController implements Initializable {
     private void drawGui() {
         try {
             updateGui();
-        } catch (IOException | StaticAnalysisError e) {
+        } catch (InterruptedException | IOException | StaticAnalysisError e) {
             errorRenderer.render(e.getMessage());
         }
     }
 
-    private void updateGui() throws IOException, StaticAnalysisError {
+    private void updateGui() throws IOException, StaticAnalysisError, InterruptedException {
         InterpreterResult interpreterResult = guiModel.getInterpreterResult();
         questionRenderer.render(interpreterResult.getQuestions());
 
         Messages warnings = interpreterResult.getWarnings();
-        for(String warning : warnings.getMessages())
+        for (String warning : warnings.getMessages())
             warningRenderer.render(warning);
     }
 
@@ -73,7 +75,7 @@ public class FormController implements Initializable {
             return;
         }
 
-        guiModel = new GuiModel(qlFile.getAbsolutePath());
+        guiModel = new GuiModel(qlFile.getAbsolutePath(), null);
         drawGui();
     }
 
@@ -86,5 +88,13 @@ public class FormController implements Initializable {
     public void updateGuiModel(String questionName, Value value) {
         guiModel.updateQuestion(questionName, value);
         drawGui();
+    }
+
+    public void setLastFocused(String variableName) {
+        this.lastFocusedQuestion = variableName;
+    }
+
+    public String getLastFocusedQuestion() {
+        return lastFocusedQuestion;
     }
 }

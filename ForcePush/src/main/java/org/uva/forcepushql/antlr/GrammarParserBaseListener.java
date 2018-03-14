@@ -208,18 +208,6 @@ public class GrammarParserBaseListener implements GrammarParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestionMultiAns(GrammarParser.QuestionMultiAnsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitQuestionMultiAns(GrammarParser.QuestionMultiAnsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterFormStructure(GrammarParser.FormStructureContext ctx) { }
 	/**
 	 * {@inheritDoc}

@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Export\FormExporter.cs" />
+    <Compile Include="IMainView.cs" />
+    <Compile Include="MainPresenter.cs" />
     <Compile Include="Model\QLS\IContent.cs" />
     <Compile Include="Model\QLS\Page.cs" />
     <Compile Include="Model\QLS\QuestionStyle.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Parser\QLLexer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QLParseException.cs" />
     <Compile Include="Rendering\QuestionFormRenderer.cs" />
     <Compile Include="Rendering\IQuestionFormRenderer.cs" />
     <EmbeddedResource Include="Form1.resx">

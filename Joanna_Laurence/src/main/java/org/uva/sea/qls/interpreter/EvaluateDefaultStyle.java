@@ -52,6 +52,13 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
         }
     }
 
+    /**
+     * Find all default blocks inside element
+     * @param node
+     * @param widgetTypeToFind
+     * @return
+     * @throws InterruptedException
+     */
     public Style findStyle(QLSNode node, WidgetType widgetTypeToFind) throws InterruptedException {
         this.widgetTypeToFind = widgetTypeToFind;
         node.accept(this);
@@ -87,7 +94,7 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
 
             @Override
             public Void visit(Widget node) {
-                defaultStyle.setWidget(convertToStyleWidget(node));
+                defaultStyle.setWidget(node.getWidgetParameters());
                 return null;
             }
 
@@ -113,18 +120,5 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
     @Override
     public Void visit(Section node) {
         return null;
-    }
-
-
-    /**
-     *
-     * @param node
-     * @return
-     */
-    private WidgetParameters convertToStyleWidget(Widget node) {
-        List<String> parameters = new ArrayList<>();
-        for(Parameter parameter : node.getParameters())
-            parameters.add(parameter.getParameter());
-        return new WidgetParameters(parameters);
     }
 }

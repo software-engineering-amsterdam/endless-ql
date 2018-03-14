@@ -124,7 +124,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
         style.setSection(getCurrentSection());
 
         if(question.getWidget() != null)
-            style.setWidget(getWidgetParameters(question.getWidget()));
+            style.setWidget(question.getWidget().getWidgetParameters());
 
         style.fillNullFields(getParentStyles(widgetType));
         return style;
@@ -167,17 +167,5 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      */
     private WidgetType getDefaultWidgetType(NodeType nodeType) {
         return WidgetType.valueOf(nodeType.toString());
-    }
-
-    /**
-     *
-     * @param node
-     * @return
-     */
-    private WidgetParameters getWidgetParameters(Widget node) {
-        List<String> parameters = new ArrayList<>();
-        for(Parameter parameter : node.getParameters())
-            parameters.add(parameter.getParameter());
-        return new WidgetParameters(parameters);
     }
 }

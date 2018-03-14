@@ -1,7 +1,7 @@
 form taxOfficeExample2
 {
   "Wat is je naam"
-  naam : string
+  naam : bool
 
   
 }

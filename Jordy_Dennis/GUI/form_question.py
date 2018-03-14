@@ -1,10 +1,23 @@
+"""
+    A question is a frame which consists of a label (question text) and the question widget
+    which is obtained from the InputTypeMap. 
+
+    The input type map is an object that can return
+    a widget based on its own type, thats why every question gets an instance of this object.
+    This is done because there are a lot of self set variables needed for the functions in this class,
+    such as the AST and the question generator
+"""
+
+
 from .gui_imports import *
 from .form_input_type import InputTypeMap
 
-
-# A question is a frame which consists of a label (question text) and the input_user all packed in one frame
 class Question:
 
+    """
+        Get the correct widget according to the specification and pack it inside the question frame. 
+        The header is also created. 
+    """
     def __init__(self, parent, questionGenerator, varName, questionText, questionType, value, fontType='Arial', fontSize=15):
         self.frame = create_frame(parent)
         self.questionGenerator = questionGenerator
@@ -25,17 +38,24 @@ class Question:
 
         self.questionText = questionText
 
-    # Create the text of the question
+    """
+        Create header of the question according to possible QLS or default value
+    """
     def createHeaderLabel(self, questionText, fontType, fontSize):
         label = Label(self.frame)
         label.config(text=questionText)
         label.config(font=(fontType, fontSize))
         label.pack()
 
-    # The frame that contains the input_user depending on the type of question
+    """
+        Get the widget according to the question type
+    """
     def createInputUser(self, questionType):
         widget, self.answer = self.map.getWidget(questionType)
 
+    """
+        Getters and setters
+    """
     def emptyFrame(self):
         self.frame.destroy()
 

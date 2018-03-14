@@ -82,8 +82,7 @@ def main(argv):
     ast.checkTypes()
 
     # start up Gui
-    # Gui(ast)
-
+    Gui(ast, False)
 
 
     # QLS
@@ -101,6 +100,7 @@ def main(argv):
     # pass tree to visitor
     qlsVisitor = QLSVisitor()
     qlsVisitor.visit(qlsTree)
+    print(qlsVisitor.stylesheet)
     # print(qlsTree.toStringTree())
 
 

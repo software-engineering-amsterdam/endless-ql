@@ -11,3 +11,6 @@ class Page:
 
     def addDefault(self, default):
         self.default.append(default)
+
+    def __repr__(self):
+        return "Page {}-{}: sections: {} default: {}".format(self.name, self.id, self.sections, self.default)

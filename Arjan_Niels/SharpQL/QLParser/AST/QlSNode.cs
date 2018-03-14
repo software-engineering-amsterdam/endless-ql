@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace QLParser.AST
 {
@@ -30,6 +31,16 @@ namespace QLParser.AST
                 this.Children.Add(node);
             else
                 throw new ArgumentNullException("A node can't be null!");
+        }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("\n");
+            foreach (QLSNode child in this.Children)
+                builder.Append("\t").Append(child.ToString());
+
+            return string.Format("{0} {1} {2}", this.NodeType, this.ID, builder.ToString());
         }
     }
 }

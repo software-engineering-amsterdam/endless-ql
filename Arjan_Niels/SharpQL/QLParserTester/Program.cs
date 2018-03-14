@@ -25,11 +25,9 @@ namespace QLParserTester
 
 
             QLSNode qls = QLSParserHelper.Parse(Util.FileToString(QLSFile));
-
+            QLSPrinter.Print(qls);
 
             Console.ReadLine();
         }
-
-
     }
 }

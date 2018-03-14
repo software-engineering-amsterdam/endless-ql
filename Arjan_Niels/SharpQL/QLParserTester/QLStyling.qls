@@ -1,3 +1,20 @@
 ﻿stylesheet TestForm {
+	page FirstPage {
+	}
 
+	page SecondPage {
+
+		section section1 {
+			section section11 {
+				question hasSeenHouseOfCards
+				section section111{
+					question hasSoldAHouse
+				}
+			}
+		}
+	}
+
+
+	page ThirdPage {
+	}
 }

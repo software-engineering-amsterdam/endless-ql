@@ -7,7 +7,6 @@ import sys
 
 class QLVisitor(QLGrammarVisitor):
     def __init__(self):
-        self.program = {}
         self.QLAst = QLAst()
 
         self.logger = logging.getLogger(__name__)

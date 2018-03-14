@@ -46,6 +46,8 @@ public class Main {
 	        checker.runChecker(form);
 	        
 	        // 3- Generate gui for the ql form
+	        FormGUI qlform = new QlPageGenerator().createFormGUI(form);
+	        qlform.render();
 	        
 	    } catch (Exception e) {
 	        e.printStackTrace();

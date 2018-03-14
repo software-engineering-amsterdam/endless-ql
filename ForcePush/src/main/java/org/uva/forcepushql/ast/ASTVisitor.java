@@ -1,6 +1,6 @@
 package org.uva.forcepushql.ast;
 
-public interface ASTVisitor<T>{
+public interface ASTVisitor{
 
     double visit(ExpressionNode node);
     double visit(AdditionNode node);

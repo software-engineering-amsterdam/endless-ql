@@ -2,6 +2,7 @@ from multimethods import multimethod
 from pyql.ast.form.form import Form
 from pyql.ast.form.block import Block
 from pyql.ast.form.ql_statements import Question
+from pyql.ast.form.ql_statements import ComputedQuestion
 from pyql.ast.form.ql_statements import If
 from pyql.ast.form.ql_statements import IfElse
 from pyql.ast.ast import ASTNode
@@ -20,6 +21,7 @@ class SymbolTable:
     def create(self, key, value):
         if key in self._dictionary:
             raise KeyError("Key {0} already exists".format(key))
+        print("Creating {0}".format(key))
         self._dictionary[key] = value
 
     def update(self, key, value):
@@ -35,7 +37,14 @@ class SymbolTable:
     def remove(self, key):
         if key not in self._dictionary:
             raise KeyError("Invalid key: {0}".format(key))
+        print("Removing {0}".format(key))
         del self._dictionary[key]
+
+    def __str__(self):
+        res = "Keys: "
+        for key in self._dictionary.keys():
+            res += key + " "
+        return res
 
 
 class SymbolTableBuilder:
@@ -61,8 +70,13 @@ class SymbolTableBuilder:
 
     @multimethod(Block)
     def visit(self, block):
-        for q in block.statements:
+        statements = block.statements
+        for q in statements:
             q.accept(self)
+        print("Doing something in the block")
+        for q in statements:
+            if hasattr(q, "identifier"):
+                self._symbol_table.remove(q.identifier.identifier)
 
     @multimethod(Question)
     def visit(self, question):
@@ -75,11 +89,15 @@ class SymbolTableBuilder:
 
     @multimethod(IfElse)
     def visit(self, if_else_statement):
+        print("Evaluating {0}".format(if_else_statement.expression))
+        print(self._symbol_table)
         if_else_statement.if_block.accept(self)
         if_else_statement.else_block.accept(self)
 
     @multimethod(If)
     def visit(self, if_statement):
+        print("Evaluating {0}".format(if_statement.expression))
+        print(self._symbol_table)
         if_statement.block.accept(self)
 
     @multimethod(ASTNode)
@@ -90,6 +108,5 @@ class SymbolTableBuilder:
     def _label_exists(self, question):
         for q in self._symbol_table.dictionary.items():
             if str(q[1].text) == str(question.text):
-                print("EQUALS")
                 return True
         return False

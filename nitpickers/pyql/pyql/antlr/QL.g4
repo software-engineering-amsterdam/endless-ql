@@ -17,16 +17,16 @@ statement         : question | ifStatement | ifElseStatement ;
 
 question          : identifier ':' STRING questionType ;
 
-questionType      : 'boolean' #booleanType
-                  | 'string' #stringType
-                  | 'integer' #integerType
-                  | 'date' #dateType
-                  | 'decimal' #decimalType
-                  | 'money' #basicMoneyType
+questionType      : 'boolean'                  #booleanType
+                  | 'string'                   #stringType
+                  | 'integer'                  #integerType
+                  | 'date'                     #dateType
+                  | 'decimal'                  #decimalType
+                  | 'money'                    #basicMoneyType
                   | 'money(' addExpression ')' #computedMoneyType
                   ;
 
-expression        : '!' orExpression | orExpression ;
+expression        : orExpression ;
 
 orExpression      : andExpression ('||' andExpression)* ;
 
@@ -36,19 +36,23 @@ relExpression     : addExpression (('<' | '<=' | '>' | '>=' | '==' | '!=') addEx
 
 addExpression     : mulExpression (addOperator mulExpression)*;
 
-addOperator       : '+' | '-' ;
+addOperator       : ('+' | '-') ;
 
 mulExpression     : unExpression (mulOperator unExpression)*;
 
-mulOperator       : '*' | '/' ;
+mulOperator       : ('*' | '/') ;
 
-unExpression      : literal | identifier | '(' expression ')';
+unExpression      : ('!' | '-') unExpression #negNotUnExpression
+                  | primary                  #primaryUnExpression
+                  ;
 
-literal           : MONEY #moneyLiteral
+primary           : literal | identifier | '(' expression ')';
+
+literal           : MONEY   #moneyLiteral
                   | DECIMAL #decimalLiteral
-                  | INT #intLiteral
-                  | STRING #stringLiteral
-                  | BOOL #boolLiteral
+                  | INT     #intLiteral
+                  | STRING  #stringLiteral
+                  | BOOL    #boolLiteral
                   ;
 
 identifier        : IDENTIFIER ;

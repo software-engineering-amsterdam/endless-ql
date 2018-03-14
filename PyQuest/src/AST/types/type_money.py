@@ -1,4 +1,5 @@
 from AST.types.type import Type
+from AST.expressions.literals.money_node import MoneyNode
 from render.widgets import DoubleSpinBox
 
 
@@ -17,6 +18,10 @@ class TypeMoney(Type):
     @staticmethod
     def cast(value):
         return round(float(value), 2)
+
+    @staticmethod
+    def get_literal_node(value):
+        return MoneyNode(None, TypeMoney, value)
 
     @staticmethod
     def pyqt5_default_widget():

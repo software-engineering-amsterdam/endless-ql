@@ -27,7 +27,7 @@ public class Test
         GrammarParser parser = new GrammarParser(tokens);
         // begin parsing at rule x
         ExpressionNode expression = new BuildASTVisitor().visitMathUnit(parser.mathUnit());
-        double value = new EvaluateExpressionVisitor().Visit(expression);
+        double value = new EvaluateExpressionVisitor().visit(expression);
         System.out.println("Final result is: " + value);
 
     }

@@ -15,9 +15,9 @@ import java.util.function.Function;
 
 @RequiredArgsConstructor
 public enum DataType {
-    DATE(LocalDate::parse, ComponentBuilder::buildTextField),
+    DATE(LocalDate::parse, ComponentBuilder::buildDateField),
 //    To be improved at a later stage, but needed for type checking
-    MONEY(CalculatableMoney::new, ComponentBuilder::buildTextField),
+    MONEY(CalculatableMoney::new, ComponentBuilder::buildMoneyField),
     STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), ComponentBuilder::buildTextField),
     DECIMAL(CalculatableDouble::new, ComponentBuilder::buildTextField),
     BOOLEAN(Boolean::parseBoolean, ComponentBuilder::buildCheckBox),

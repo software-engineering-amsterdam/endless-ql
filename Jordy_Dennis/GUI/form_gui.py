@@ -82,7 +82,7 @@ class FormGui:
     """
         Add questions to a given page, if no page is given (QL), the default page will be used
     """
-    def addQuestionToPage(self, varName, pageName='default', questionText="Default Question", questionType=bool, value=False):
+    def addQuestionToPage(self, varName, questionText="Default Question", questionType=bool, value=False, pageName='default'):
         pageContents = self.pages[pageName].getContents()
         q = Question(pageContents, self.questionGenerator, varName, questionText, questionType, value)
         self.questions.append(q)

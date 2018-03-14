@@ -82,7 +82,7 @@ def main(argv):
     ast.checkTypes()
 
     # start up Gui
-    Gui(ast, False)
+    Gui(ast, True)
 
 
     # QLS

@@ -7,24 +7,20 @@ import java.util.Date;
 /**
  * Contains a parsed question with name, label, type, and an expression if applicable
  */
-public class Question {
+public class Question extends ASTNode {
     private String name;
     private String label;
     private Type type;
     private Expression expression;
     //TODO: private boolean condition;
 
-    //Possible values, only one is used in each expression.
-    private float value_float;
-    private boolean value_boolean;
-    private String value_string;
-    private Date value_date;
+    private Term result;
 
     /**
      * Creates a question with name, label, and type
-     * @param name
-     * @param label
-     * @param type
+     * @param name contains the name of a Question (which will act as a variable)
+     * @param label contains the label of a Question
+     * @param type contains the Type of a Question
      */
     public Question(String name, String label, String type) {
         this.name = name;
@@ -34,10 +30,10 @@ public class Question {
 
     /**
      * Creates a question with name, label, type, and expression
-     * @param name
-     * @param label
-     * @param type
-     * @param expression
+     * @param name contains the name of a Question (which will act as a variable)
+     * @param label contains the label of a Question
+     * @param type contains the Type of a Question
+     * @param expression contains an Expression of a Question
      */
     public Question(String name, String label, String type, Expression expression) {
         this.name = name;
@@ -71,24 +67,20 @@ public class Question {
     }
 
     /**
+     * Returns the result of a question
+     * @return the term of a question, used for example as variable
+     */
+    public Term getResult() { return result; }
+
+    /**
      * Evaluates the expression of the question
-     * @throws UnsupportedOperationException
+     * @throws UnsupportedOperationException when the Types don't match
      */
     // This function evaluates the expression (which also does typechecking) and stores the resulting value
     public void getExpressionValue() throws UnsupportedOperationException {
-        Term result = expression.getValue();
-        if(type.toString() == result.toString() || ((type.toString() == "money" || type.toString() == "integer") && result.toString() == "float")) {
-            switch (result.toString()) {
-                case "float":
-                    this.value_float = result.getFloat();
-                    break;
-                case "boolean":
-                    this.value_boolean = result.getBoolean();
-                    break;
-                case "string":
-                    this.value_string = result.getString();
-                    break;
-            }
+        Term result = expression.getTerm();
+        if(type.toString().equals(result.toString()) || ((type.toString().equals("money") || type.toString().equals("integer")) && result.toString().equals("float"))) {
+            this.result = result;
         } else {
             throw new UnsupportedOperationException(); // TODO: Change to some type error
         }

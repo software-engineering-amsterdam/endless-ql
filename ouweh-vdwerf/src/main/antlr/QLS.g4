@@ -11,6 +11,7 @@ stylesheet
 page: 'page' ID OPEN_BRACKET segment+ defaultStatement* CLOSE_BRACKET;
 
 section: 'section' id=STRING OPEN_BRACKET segment+ defaultStatement* CLOSE_BRACKET
+       | 'section' id=STRING segment
        ;
 
 segment: question
@@ -44,12 +45,11 @@ type
 
 style: OPEN_BRACKET styleProperty+ widget? CLOSE_BRACKET;
 
-styleProperty: property=ID ':' value
-             ;
+styleProperty: property=ID ':' value;
 
-value: STRING
-     | NUMBER
-     | COLOR
+value: STRING # stringValue
+     | NUMBER # numberValue
+     | COLOR  # colorValue
      ;
 
 

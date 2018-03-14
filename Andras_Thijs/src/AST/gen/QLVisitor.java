@@ -1,4 +1,4 @@
-// Generated from C:/Users/Gebruiker/IdeaProjects/endless-ql/Andras_Thijs/src/AST\QL.g4 by ANTLR 4.7
+// Generated from C:/Users/Gebruiker/IdeaProjects/SC/endless-ql/Andras_Thijs/src/AST\QL.g4 by ANTLR 4.7
 package AST.gen;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -10,12 +10,6 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  * operations with no return type.
  */
 public interface QLVisitor<T> extends ParseTreeVisitor<T> {
-	/**
-	 * Visit a parse tree produced by {@link QLParser#numeral}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNumeral(QLParser.NumeralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#form}.
 	 * @param ctx the parse tree
@@ -59,11 +53,11 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitEqualoperator(QLParser.EqualoperatorContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#comparision}.
+	 * Visit a parse tree produced by {@link QLParser#comparison}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitComparision(QLParser.ComparisionContext ctx);
+	T visitComparison(QLParser.ComparisonContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#addsub}.
 	 * @param ctx the parse tree

@@ -20,70 +20,91 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
     return QlFormParser.parseFromURL(getClass.getResource(location))
   }
 
-  describe("invalid left nested binop in conditional") {
-    val filename = "ql/typechecking/conditions/binop/nested/invalid_left_nested.ql"
-    val form = getForm(filename)
-    val typechecker = new TypeChecker(form)
+  describe("conjunction") {
+    describe("invalid left nested binop in conditional") {
+      val filename = "ql/typechecking/conditions/binop/nested/invalid_left_nested.ql"
+      val form = getForm(filename)
+      val typechecker = new TypeChecker(form)
 
-    it("check method should return true") {
-      assert(!typechecker.check())
+      it("check method should return true") {
+        assert(!typechecker.check())
+      }
+
+      it("validate method should not throw an exception") {
+        ConditionalValidator.validate(form) match {
+          case Failure(ConditionalNotBoolean(_)) => succeed
+          case other => fail("ConditionalValidator should have thrown an error")
+        }
+      }
     }
 
-    it("validate method should not throw an exception") {
-      ConditionalValidator.validate(form) match {
-        case Failure(ConditionalNotBoolean(_)) => succeed
-        case other => fail("ConditionalValidator should have thrown an error")
+    describe("invalid right nested binop in conditional") {
+      val filename = "ql/typechecking/conditions/binop/nested/invalid_right_nested.ql"
+      val form = getForm(filename)
+      val typechecker = new TypeChecker(form)
+
+      it("check method should return false") {
+        assert(!typechecker.check())
+      }
+
+      it("validate method should return a failure") {
+        ConditionalValidator.validate(form) match {
+          case Failure(ConditionalNotBoolean(_)) => succeed
+          case other => fail("ConditionalValidator should have thrown an error")
+        }
+      }
+    }
+
+    describe("valid both nested binop in conditional") {
+      val filename = "ql/typechecking/conditions/binop/nested/both_valid_nested.ql"
+      val form = getForm(filename)
+      val typechecker = new TypeChecker(form)
+
+      it("check method should return true") {
+        assert(typechecker.check())
+      }
+
+      it("validate method should not return a Failure") {
+        ConditionalValidator.validate(form) match {
+          case Failure(e) => fail("ConditionalValidator should not have thrown an error")
+          case Success(_) => succeed
+        }
+      }
+    }
+
+    describe("invalid on both sides of conditional") {
+      val filename = "ql/typechecking/conditions/binop/nested/both_invalid_nested.ql"
+      val form = getForm(filename)
+      val typechecker = new TypeChecker(form)
+
+      it("check method should return false") {
+        assert(!typechecker.check())
+      }
+
+      it("validate method should return a failure") {
+        ConditionalValidator.validate(form) match {
+          case Failure(ConditionalNotBoolean(_)) => succeed
+          case other => fail("ConditionalValidator should have thrown an error")
+        }
       }
     }
   }
 
-  describe("invalid right nested binop in conditional") {
-    val filename = "ql/typechecking/conditions/binop/nested/invalid_right_nested.ql"
-    val form = getForm(filename)
-    val typechecker = new TypeChecker(form)
+  describe("disjunction") {
+    describe("containing two booleans") {
+      val filename = "ql/typechecking/conditions/binop/dis/valid.ql"
+      val form = getForm(filename)
+      val typechecker = new TypeChecker(form)
 
-    it("check method should return false") {
-      assert(!typechecker.check())
-    }
-
-    it("validate method should return a failure") {
-      ConditionalValidator.validate(form) match {
-        case Failure(ConditionalNotBoolean(_)) => succeed
-        case other => fail("ConditionalValidator should have thrown an error")
+      it("check method should return true") {
+        assert(typechecker.check())
       }
-    }
-  }
 
-  describe("valid both nested binop in conditional") {
-    val filename = "ql/typechecking/conditions/binop/nested/both_valid_nested.ql"
-    val form = getForm(filename)
-    val typechecker = new TypeChecker(form)
-
-    it("check method should return true") {
-      assert(typechecker.check())
-    }
-
-    it("validate method should not return a Failure") {
-      ConditionalValidator.validate(form) match {
-        case Failure(e) => fail("ConditionalValidator should not have thrown an error")
-        case Success(_) => succeed
-      }
-    }
-  }
-
-  describe("invalid on both sides of conditional") {
-    val filename = "ql/typechecking/conditions/binop/nested/both_invalid_nested.ql"
-    val form = getForm(filename)
-    val typechecker = new TypeChecker(form)
-
-    it("check method should return false") {
-      assert(!typechecker.check())
-    }
-
-    it("validate method should return a failure") {
-      ConditionalValidator.validate(form) match {
-        case Failure(ConditionalNotBoolean(_)) => succeed
-        case other => fail("ConditionalValidator should have thrown an error")
+      it("validate method should not throw an exception") {
+        ConditionalValidator.validate(form) match {
+          case Failure(e) => fail("ConditionalValidator should not have thrown an error")
+          case Success(_) => succeed
+        }
       }
     }
   }

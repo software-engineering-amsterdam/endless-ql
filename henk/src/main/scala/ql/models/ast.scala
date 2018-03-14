@@ -7,6 +7,8 @@ sealed trait ASTNode {
 }
 
 sealed trait ASTNonTerminal extends ASTNode
+sealed trait ASTLogicalOp extends ASTNode
+sealed trait ASTRelationalOp extends ASTNode
 
 case class ASTRoot(header: ASTNode, body: ASTNode) extends ASTNonTerminal {
   override def flatten(): List[ASTNode] = {
@@ -55,8 +57,8 @@ case class ASTMoney() extends ASTNode
 case class ASTNumber() extends ASTNode
 case class ASTIdentifier(id: String) extends ASTNode
 
-case class ASTLogicalCon() extends ASTNode
-case class ASTLogicalDis() extends ASTNode
+case class ASTLogicalCon() extends ASTLogicalOp
+case class ASTLogicalDis() extends ASTLogicalOp
 
 case class ASTUnaryNot() extends ASTNode
 case class ASTUnaryMin() extends ASTNode

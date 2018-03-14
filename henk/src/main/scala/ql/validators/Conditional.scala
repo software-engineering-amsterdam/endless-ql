@@ -39,16 +39,16 @@ object ConditionalValidator {
     node match {
       case ASTBinary(lhs: ASTIdentifier,
                      rhs: ASTIdentifier,
-                     op: ASTLogicalCon) => {
+                     op: ASTLogicalOp) => {
         isBooleanIdentifier(lhs, ast) && isBooleanIdentifier(rhs, ast)
       }
-      case ASTBinary(lhs: ASTBinary, rhs: ASTIdentifier, op: ASTLogicalCon) => {
+      case ASTBinary(lhs: ASTBinary, rhs: ASTIdentifier, op: ASTLogicalOp) => {
         validateBinOp(lhs, ast) && isBooleanIdentifier(rhs, ast)
       }
-      case ASTBinary(lhs: ASTIdentifier, rhs: ASTBinary, op: ASTLogicalCon) => {
+      case ASTBinary(lhs: ASTIdentifier, rhs: ASTBinary, op: ASTLogicalOp) => {
         validateBinOp(rhs, ast) && isBooleanIdentifier(lhs, ast)
       }
-      case ASTBinary(lhs: ASTBinary, rhs: ASTBinary, op: ASTLogicalCon) => {
+      case ASTBinary(lhs: ASTBinary, rhs: ASTBinary, op: ASTLogicalOp) => {
         validateBinOp(lhs, ast) && validateBinOp(lhs, ast)
       }
       case other => false
@@ -57,8 +57,7 @@ object ConditionalValidator {
 
   def validateBinOp(binOp: ASTNode, ast: ASTNode): Boolean = {
     binOp match {
-      case ab @ ASTBinary(_, _, ASTLogicalDis()) => validateLogical(ab, ast)
-      case ab @ ASTBinary(_, _, ASTLogicalCon()) => validateLogical(ab, ast)
+      case ab @ ASTBinary(_, _, op:ASTLogicalOp) => validateLogical(ab, ast)
       case other                                 => false
     }
   }

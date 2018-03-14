@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.model.qls
 
 import org.scalatest.WordSpec
 
-class StylesheetTest extends WordSpec {
+class QLStylesheetTest extends WordSpec {
 
   "stylesheet collectPageNamesWithQuestion" should {
     "find no page for question" in {

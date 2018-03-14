@@ -1,9 +1,8 @@
 export enum QuestionType {
   INT = 1,
-  DECIMAL = 2,
-  BOOLEAN = 3,
-  STRING = 4,
-  DATE = 5
+  BOOLEAN = 2,
+  STRING = 3,
+  DATE = 4
 }
 
 export class QuestionTypeUtil {

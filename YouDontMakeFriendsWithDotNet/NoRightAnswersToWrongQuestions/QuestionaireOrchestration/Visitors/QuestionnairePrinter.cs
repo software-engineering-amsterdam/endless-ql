@@ -1,8 +1,8 @@
 ﻿using System.CodeDom.Compiler;
 using System.IO;
-using QuestionaireDomain.Entities.API;
-using QuestionaireDomain.Entities.API.AstNodes;
-using QuestionaireDomain.Entities.API.AstNodes.Questionnaire;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace QuestionaireOrchestration.Visitors
 {
@@ -40,7 +40,7 @@ namespace QuestionaireOrchestration.Visitors
 
         private void Visit(IUserInputQuestionNode question)
         {
-            m_writer.WriteLine($"Question{{ Id: {question.QuestionId}, Type: {question.QuestionType}, Text: {question.QuestionText} }}");
+            m_writer.WriteLine($"Question{{ Id: {question.QuestionName}, Type: {question.QuestionType}, Text: {question.QuestionText} }}");
         }
 
         private void Visit(IConditionalStatementNode conditionalStatement)

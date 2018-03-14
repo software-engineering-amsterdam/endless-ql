@@ -1,0 +1,110 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+#content {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: row;
+}
+
+header {
+    background-color: #000000;
+    padding: 13px;
+    font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma, Sans-Serif;
+    text-align: left;
+    font-size: 150%;
+    color: #ffffff;
+}
+
+footer {
+    background-color: #343436;
+    padding: 7px;
+    font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma, Sans-Serif;
+    text-align: center;
+    color: white;
+    border-top: 1px solid #343436;
+    box-shadow: 0 -1px 1px black;
+}
+
+#input-boxes-area {
+    flex-grow: 1;
+    width: 30%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#ql-input-box {
+    flex-grow: 1;
+    border: 5px solid #343436;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#qls-input-box {
+    flex-grow: 1;
+    border: 5px solid #343436;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    background-color: #1a1c1d;
+    border-bottom: 1px solid #343436;
+    box-shadow: 0 1px 1px black;
+}
+
+.title > p {
+    font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma, Sans-Serif;
+    font-weight: bold;
+    color: #ccc;
+    margin: 6px 0px 6px 10px;
+    font-size: 1.3em;
+    display: inline-block;
+    padding-left: 2px;
+    vertical-align: middle;
+}
+
+.code-wrap {
+    flex-grow: 9;
+    background-color: #1d1f20;
+}
+
+#result-display-area {
+    flex-grow: 1;
+    width: 70%;
+}
+
+#title-header {
+    margin: 0;
+    margin-left: 7px;
+}
+
+#title-footer {
+    margin: 0;
+}
+
+a:visited {
+    color: #ffffff;
+}
+
+a:hover {
+    color: #32cd32;
+}
+
+/*h1 {
+    color: navy;
+    margin-left: 20px;
+}*/

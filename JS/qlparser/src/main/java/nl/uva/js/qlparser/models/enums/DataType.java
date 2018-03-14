@@ -5,8 +5,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import nl.uva.js.qlparser.models.expressions.data.Variable;
 import nl.uva.js.qlparser.ui.components.form.ComponentBuilder;
-import wrappers.DoubleWrapper;
-import wrappers.IntegerWrapper;
+import nl.uva.js.qlparser.wrappers.arithmetic.DoubleWrapper;
+import nl.uva.js.qlparser.wrappers.arithmetic.IntegerWrapper;
 
 import javax.swing.*;
 import java.time.LocalDate;
@@ -19,9 +19,9 @@ public enum DataType {
     MONEY(value -> new DoubleWrapper(value.replace(',', '.')), ComponentBuilder::buildTextField),
     STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), ComponentBuilder::buildTextField),
     DECIMAL(DoubleWrapper::new, ComponentBuilder::buildTextField),
-    BOOLEAN(Boolean::valueOf, ComponentBuilder::buildTextField),
+    BOOLEAN(Boolean::parseBoolean, ComponentBuilder::buildCheckBox),
     INTEGER(IntegerWrapper::new, ComponentBuilder::buildTextField);
 
-    @NonNull @Getter private Function<String, ?>                      valueOf;
+    @NonNull @Getter private Function<String, ?> valueOf;
     @NonNull @Getter private Function<Variable, ? extends JComponent> component;
 }

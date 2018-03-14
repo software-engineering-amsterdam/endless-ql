@@ -31,7 +31,7 @@ public class QuestionStmt extends Stmt {
 		return this.identifier.getId();
 	}
 	
-	public String getIdentifierName() {
+	public String getName() {
 		return this.identifier.getName();
 	}
 	

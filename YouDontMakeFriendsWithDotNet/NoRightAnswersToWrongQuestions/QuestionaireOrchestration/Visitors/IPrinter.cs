@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using QuestionaireDomain.Entities.API.AstNodes;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 
 namespace QuestionaireOrchestration.Visitors
 {

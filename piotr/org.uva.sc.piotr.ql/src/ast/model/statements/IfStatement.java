@@ -8,7 +8,7 @@ import java.util.List;
 
 public class IfStatement extends Statement {
 
-    private Expression condition;
+    private final Expression condition;
     private List<Statement> statementList = new ArrayList<>();
     private List<Statement> elseStatementList = new ArrayList<>();
 

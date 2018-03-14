@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Infrastructure;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL.Api.Entities;
 using QL.Api.Infrastructure;
-using QL.Api.Types;
 using QL.Core.Infrastructure;
-using QL.Core.Interpreting.Operators;
 
 namespace QL.Core.Test.Parsing
 {
@@ -107,11 +107,11 @@ namespace QL.Core.Test.Parsing
             });
             _assertVisitor.EnqueueExpressionNodeCallback(expression =>
             {
-                Assert.AreEqual("+",expression.Operator.AsString);
+                Assert.AreEqual("-",expression.Operator.AsString);
             });
             _assertVisitor.EnqueueExpressionNodeCallback(expression =>
             {
-                Assert.AreEqual("-", expression.Operator.AsString);
+                Assert.AreEqual("+", expression.Operator.AsString);
             });
             _assertVisitor.EnqueueLiteralNodeCallback(literal =>
             {

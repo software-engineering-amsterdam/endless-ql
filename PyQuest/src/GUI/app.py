@@ -1,88 +1,113 @@
-from src.scanparse.qllex import LexTokenizer
-from src.scanparse.qlyacc import QLParser
+from scanparse.qllex import LexTokenizer
+from scanparse.qlyacc import QLParser
 from visitors.render import Render
 from GUI.form import Dialog
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QTextEdit
 from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QAction
 from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot
-from screeninfo import get_monitors
-from sys import exit, argv
+from sys import exit
+from sys import argv
 
 
 class MainApp(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        # calculate proper window width and position on screen
-        self.title = 'PyQuest'
-        self.width = get_monitors()[0].width / 2
-        self.height = get_monitors()[0].height / 2
-        self.left = (get_monitors()[0].width - self.width) / 2
-        self.top = (get_monitors()[0].height - self.height) / 2
+        self.setWindowTitle('PyQuest')
+        self.current_file = None
+        self.create_menu_bar()
+        self.text_edit = QTextEdit()
+        self.setCentralWidget(self.text_edit)
 
-        self.offset = 10
-        self.button_size = 40
-
-        # start app
-        self.initUI()
-
-    def initUI(self):
-        self.setWindowTitle(self.title)
-        self.setGeometry(self.left, self.top, self.width, self.height)
-
-        # add option for opening a new file
-        open_file = QAction(QIcon('open.png'), 'Open', self)
-        open_file.setShortcut('Ctrl+O')
-        open_file.setStatusTip('Open new File')
-        open_file.triggered.connect(self.showOpenFileDialog)
-
-        # add menu bar with file option and connect with open file function
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('&File')
-        fileMenu.addAction(open_file)
-
-        # Create textbox
-        self.textbox = QTextEdit(self)
-        self.textbox.move(self.offset, self.offset)
-        self.textbox.resize(self.width - self.offset*2, self.height - self.offset*2 - self.button_size)
-
-        # Create a button in the window
-        self.button = QPushButton('Create Form', self)
-        self.button.move(self.offset, self.height - self.button_size)
-
-        # connect button to function on_click
-        self.button.clicked.connect(self.on_click)
         self.show()
 
-    @pyqtSlot()
-    def on_click(self):
-        textbox_value = self.textbox.toPlainText()
+    def create_menu_bar(self):
+        menu_bar = self.menuBar()
+
+        new_file = QAction(QIcon(), 'New', self)
+        new_file.setShortcut('Ctrl+N')
+        new_file.setStatusTip('New file')
+        new_file.triggered.connect(self.new_file)
+
+        open_file = QAction(QIcon(), 'Open', self)
+        open_file.setShortcut('Ctrl+O')
+        open_file.setStatusTip('Open file')
+        open_file.triggered.connect(self.open_file)
+
+        save = QAction(QIcon(), 'Save', self)
+        save.setShortcut('Ctrl+S')
+        save.setStatusTip('Save file')
+        save.triggered.connect(self.save)
+
+        save_file = QAction(QIcon(), 'Save as', self)
+        save_file.setShortcut('Ctrl+Shift+S')
+        save_file.setStatusTip('Save file as')
+        save_file.triggered.connect(self.save_file)
+
+        create_form = QAction(QIcon(), 'Create form', self)
+        create_form.setShortcut('Ctrl+R')
+        create_form.setStatusTip('Create form')
+        create_form.triggered.connect(self.create_form)
+
+        file_menu = menu_bar.addMenu('&File')
+        file_menu.addAction(new_file)
+        file_menu.addAction(open_file)
+        file_menu.addAction(save)
+        file_menu.addAction(save_file)
+
+        create_menu = menu_bar.addMenu('&Create')
+        create_menu.addAction(create_form)
+
+    def new_file(self):
+        self.current_file = None
+        self.text_edit.setText('')
+
+    def open_file(self):
+        self.current_file, _ = QFileDialog.getOpenFileName(self, 'Open file', '/home', "Questionnaire language files (*.ql)")
+
+        if self.current_file:
+            with open(self.current_file, 'r') as file:
+                self.text_edit.setText(file.read())
+
+    def save(self):
+        if self.current_file:
+            with open(self.current_file, 'w') as file:
+                file.write(self.text_edit.toPlainText())
+        else:
+            self.save_file()
+
+    def save_file(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        file_name, _ = QFileDialog.getSaveFileName(self, 'Save file as', '/home',
+                                                   'Questionnaire language files (*.ql)', options=options)
+
+        if file_name:
+            self.current_file = file_name
+            with open(self.current_file, 'w') as file:
+                file.write(self.text_edit.toPlainText())
+
+    def create_form(self):
+        textbox_value = self.text_edit.toPlainText()
         parser = QLParser()
         lexer = LexTokenizer()
-        ast = parser.parser.parse(textbox_value, lexer.lexer)
 
-        visitor = Render()
-        visitor.visit(ast)
+        try:
+            ast = parser.parser.parse(textbox_value, lexer.lexer)
 
-        dialog = Dialog(visitor.form)
-        dialog.exec_()
+            # TODO type check
 
-        # QMessageBox.question(self, 'Form Created!', "You typed: " + textbox_value, QMessageBox.Ok,
-        #                      QMessageBox.Ok)
-        # self.textbox.setText("")
+            visitor = Render()
+            visitor.visit(ast)
 
-    # opens a .txt file and fills the text field with its content
-    def showOpenFileDialog(self):
-        file_name = QFileDialog.getOpenFileName(self, 'Open file', '/home', "QL files (*.ql)")[0]
-        if file_name:
-            ql_script = open(file_name, 'r').read()
-            self.textbox.setText(ql_script)
+            dialog = Dialog(visitor.form)
+            dialog.exec_()
+        except:
+            QMessageBox.warning(self, 'Warning', 'Unable to create form.', QMessageBox.Ok, QMessageBox.Ok)
 
 
 if __name__ == '__main__':

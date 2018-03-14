@@ -5,9 +5,9 @@ form taxOfficeExample
    if (firstName == "Piotr") {
      "What is your last name?"
         lastName: string
-        if (lastName == "Koytorz") {
+        if (lastName == "Kosytorz") {
             "What is your name?"
-              name: string = firstName + lastName
+              name: string = firstName + " " + lastName
         }
         else {
           "Say something"

@@ -1,7 +1,7 @@
 package Parser;
 
-import antlr.QLLexer;
-import antlr.QLParser;
+import ql.parser.QLLexer;
+import ql.parser.QLParser;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import org.antlr.v4.runtime.CharStreams;

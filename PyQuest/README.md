@@ -11,10 +11,10 @@ This repository contains code implementing a Questionnaire Language (QL) in Pyth
 
 ## Dependencies
 ### Python
-Python version 3 and higher.
+Python version 3 or higher.
 
 #### Packages
-- Ply
+- PLY
 - PyQt5
 - termcolor
 

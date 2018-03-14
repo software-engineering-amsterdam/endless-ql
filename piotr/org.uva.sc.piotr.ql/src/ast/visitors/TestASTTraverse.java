@@ -1,10 +1,7 @@
 package ast.visitors;
 
 import ast.model.Form;
-import ast.model.declarations.TypeDeclarationBoolean;
-import ast.model.declarations.TypeDeclarationDecimal;
-import ast.model.declarations.TypeDeclarationInteger;
-import ast.model.declarations.TypeDeclarationString;
+import ast.model.declarations.*;
 import ast.model.expressions.binary.arithmetics.Addition;
 import ast.model.expressions.binary.arithmetics.Division;
 import ast.model.expressions.binary.arithmetics.Multiplication;
@@ -160,6 +157,12 @@ public class TestASTTraverse extends AbstractASTTraverse {
     public Object visit(TypeDeclarationDecimal typeDeclarationDecimal) {
         System.out.println("Visiting typeDeclarationDecimal " + typeDeclarationDecimal.getClass().getSimpleName() + " :" + typeDeclarationDecimal.getMetaInformation().getStartLine());
         return super.visit(typeDeclarationDecimal);
+    }
+
+    @Override
+    public Object visit(TypeDeclarationMoney typeDeclarationMoney) {
+        System.out.println("Visiting typeDeclarationMoney " + typeDeclarationMoney.getClass().getSimpleName() + " :" + typeDeclarationMoney.getMetaInformation().getStartLine());
+        return super.visit(typeDeclarationMoney);
     }
 
     @Override

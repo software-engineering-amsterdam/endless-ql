@@ -14,7 +14,6 @@ import java.util.List;
 @Data
 @Builder
 public class Question implements FormExpression {
-    @NonNull private String name;
     @NonNull private String question;
     @NonNull private DataType dataType;
     @NonNull private Variable variable;

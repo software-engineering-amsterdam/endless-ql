@@ -42,6 +42,9 @@ namespace QLVisualizer.Elements.Managers
         /// </summary>
         protected ElementManagerController _elementManagerController;
 
+        public delegate void ActiveChanged(string identifier, bool isActive);
+
+        public event ActiveChanged OnActiveChange;
 
         public ElementManager(string identifyer, string text, string xmlName, ElementManagerController controller, ExpressionBool activationExpression = null)
         {
@@ -54,25 +57,26 @@ namespace QLVisualizer.Elements.Managers
             Active = activationExpression == null;
         }
 
-
-        public abstract IEnumerable<string> GetNotifyWidgetIDs();
-
-        /// <summary>
-        /// Handles incoming update notifactions
-        /// </summary>
-        /// <param name="updatedIdentifyer">Updated widgetID</param>
-        public virtual void NotifyChange(string updatedIdentifyer)
+        public virtual void RegisterListeners()
         {
-            bool _oldActive = Active;
-            if (_activationExpression != null && _activationExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
-                Active = _activationExpression.Result;
-            _elementManagerController.UpdateView(this);
-
-            // Value is changed
-            if (_oldActive != Active)
-                _elementManagerController.ActiveChanged();
+            Dictionary<string, ElementManager> targets = _elementManagerController.Form.FindByID(GetActivationTargetIDs());
+            foreach (ElementManager manager in targets.Values)
+                manager.OnActiveChange += ActivationUpdate;
         }
 
+
+        public abstract IEnumerable<string> GetActivationTargetIDs();
+
+        public virtual void ActivationUpdate(string identifier, bool isActive)
+        {
+            bool oldActive = Active;
+
+            if (_activationExpression != null && _activationExpression.UsedIdentifiers.Contains(identifier))
+                Active = _activationExpression.Result;
+
+            if (oldActive != Active && OnActiveChange != null)
+                OnActiveChange.Invoke(Identifier, Active);
+        }
 
         /// <summary>
         /// Exports Element to XML

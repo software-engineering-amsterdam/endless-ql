@@ -10,6 +10,7 @@ import nl.uva.se.sc.niro.Evaluator
 import nl.uva.se.sc.niro.gui.application.QLForms
 import nl.uva.se.sc.niro.gui.control.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.gui.converter.ModelConverter
+import nl.uva.se.sc.niro.gui.factory.PageVisibilityFactory
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm
@@ -20,14 +21,12 @@ import nl.uva.se.sc.niro.util.StringUtil
 import scala.collection.{ JavaConverters, mutable }
 
 class QLFormController extends QLBaseController with ComponentChangedListener {
-  // TODO de-dup this constant, seeGUIQuestionFactory
   private val dictionary = mutable.Map[String, Answer]()
   private var qlForm: QLForm = _
   private var guiForm: GUIForm = _
   private var questions: Seq[Component[_]] = _
   private var stylesheet: Option[QLStylesheet] = None
   private var page: Int = 0
-  private val ACTIVE_PAGE_NAME = "__active_page_name__"
 
   @FXML var formName: Label = _
   @FXML var pageName: Label = _
@@ -60,8 +59,6 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
     page -= 1
     previous.setDisable(page == 0)
     next.setDisable(false)
-    // TODO implement
-    println("Going back...")
     updateView()
   }
 
@@ -70,8 +67,6 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
     page += 1
     next.setDisable(page >= stylesheet.map(_.pages.size).getOrElse(0) - 1)
     previous.setDisable(false)
-    // TODO implement
-    println("Going forward...")
     updateView()
   }
 
@@ -113,7 +108,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   private def updatePageTitle(): Unit = {
     val activePageName = stylesheet.map(_.pages(page).name).getOrElse("")
     pageName.setText(StringUtil.addSpaceOnCaseChange(activePageName))
-    dictionary(ACTIVE_PAGE_NAME) = StringAnswer(activePageName)
+    dictionary(PageVisibilityFactory.ACTIVE_PAGE_NAME) = StringAnswer(activePageName)
   }
 
   private def updateValues(): Unit = {

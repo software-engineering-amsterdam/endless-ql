@@ -1,3 +1,18 @@
 ﻿stylesheet TestForm {
+	page "First page" {
+	}
 
+	page "Second page" {
+
+		section "The first section" {
+			section "The first subsection" {
+				question hasSeenHouseOfCards
+				section "The first subsubsection"{
+					question hasSoldAHouse
+				}
+			}
+		}
+	}
+	page "Third page" {
+	}
 }

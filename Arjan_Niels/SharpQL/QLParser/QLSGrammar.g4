@@ -3,19 +3,14 @@
 /*
  * Parser rules
 */
-stylesheet			: STYLESHEET ID LCURLY pages* RCURLY;
-pages				: PAGE LCURLY RCURLY;
-
-
-
-
-
+stylesheet			: STYLESHEET ID LCURLY page* RCURLY;
+page				: PAGE TEXT LCURLY section* RCURLY;
+section				: SECTION TEXT LCURLY (section |question)* RCURLY;
+question			: QUESTION ID;
 
 /*
  * Lexer rules
 */
-
-
 
 STYLESHEET			: 'stylesheet';
 PAGE				: 'page';
@@ -27,7 +22,7 @@ LCURLY				: '{';
 RCURLY				: '}';
 
 ID					: [a-zA-Z][a-zA-Z0-9]+;
-
+TEXT				: '"' .*? '"' ;
 
 /*
  * Ignore

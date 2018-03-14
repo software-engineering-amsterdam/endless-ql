@@ -66,9 +66,7 @@ public class FormNode {
                 temp.add((QuestionASTNode) an);
             }
             if(an instanceof IfASTNode){
-                for (QuestionASTNode qan : ((IfASTNode) an).getQuestionNodes()){
-                    temp.addAll(((IfASTNode) an).getQuestionNodes());
-                }
+                temp.addAll(((IfASTNode) an).getQuestionNodes());
             }
         }
         return temp;

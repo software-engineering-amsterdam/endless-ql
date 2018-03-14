@@ -15,7 +15,6 @@ class Question_Generator:
         self.questions = collections.OrderedDict()
         self.form = form
 
-
     def getVarDict(self):
         return self.varDict
 

@@ -1,11 +1,10 @@
 package ql.visitor;
 
-import ql.parser.QLBaseVisitor;
-import ql.parser.QLParser;
+import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
-import ql.model.expression.variable.ExpressionVariableUndefined;
-import ql.model.Question;
+import ql.parser.QLBaseVisitor;
+import ql.parser.QLParser;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {
 
@@ -26,21 +25,16 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
         QLParser.QuestionTypeContext questionTypeContext = ctx.questionType();
         ReturnType questionType = ReturnType.valueOf(questionTypeContext.type().getText().toUpperCase());
 
-        // Check whether answer can be filled in by user, or is based on an value
-        boolean isComputed = ctx.questionType().expression() != null;
-        Expression defaultAnswer = getDefaultAnswer(ctx.questionType(), isComputed);
-
-        return new Question(ctx.getStart(),
-                questionType, questionName, questionText, defaultAnswer, isComputed, this.condition);
+        // Check whether answer can be filled in by user, or is computed
+        if (ctx.questionType().expression() != null) {
+            Expression defaultAnswer = getDefaultAnswer(ctx.questionType());
+            return new Question(ctx.getStart(), questionType, questionName, questionText, defaultAnswer, this.condition);
+        } else {
+            return new Question(ctx.getStart(), questionType, questionName, questionText, this.condition);
+        }
     }
 
-    private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType, boolean isComputed) {
-        // If answer can be filled in by user, create empty (undefined) value of correct type (for type checking)
-        if (!isComputed) {
-            return new ExpressionVariableUndefined(questionType.getStart(),
-                    ReturnType.valueOf(questionType.type().getText().toUpperCase()));
-        }
-
+    private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType) {
         VisitorExpression visitorExpression = new VisitorExpression();
         return visitorExpression.visit(questionType.expression());
     }

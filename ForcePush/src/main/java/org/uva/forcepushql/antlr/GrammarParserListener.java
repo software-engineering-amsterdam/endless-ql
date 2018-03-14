@@ -180,16 +180,6 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 */
 	void exitConditionalElse(GrammarParser.ConditionalElseContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link GrammarParser#questionMultiAns}.
-	 * @param ctx the parse tree
-	 */
-	void enterQuestionMultiAns(GrammarParser.QuestionMultiAnsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GrammarParser#questionMultiAns}.
-	 * @param ctx the parse tree
-	 */
-	void exitQuestionMultiAns(GrammarParser.QuestionMultiAnsContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link GrammarParser#formStructure}.
 	 * @param ctx the parse tree
 	 */

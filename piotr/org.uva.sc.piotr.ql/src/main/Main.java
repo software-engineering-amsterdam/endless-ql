@@ -2,26 +2,23 @@ package main;
 
 import ast.ASTBuilder;
 import ast.model.Form;
-import ast.model.expressions.Expression;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
-import logic.collectors.CollectFormFieldModelsVisitor;
-import logic.collectors.CollectQuestionsVisitor;
-import logic.collectors.CollectReferencesVisitor;
-import logic.evaluators.ExpressionEvaluator;
-import logic.evaluators.UniversalTypeValue;
 import grammar.QLLexer;
 import grammar.QLParser;
 import gui.QLGui;
-import gui.model.FormQuestion;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
+import gui.model.FormQuestionHolder;
+import logic.collectors.CollectFormQuestionHoldersVisitor;
+import logic.collectors.CollectQuestionsVisitor;
+import logic.collectors.CollectReferencesVisitor;
+import logic.evaluators.ExpressionEvaluator;
 import logic.validators.QuestionsDependencyValidator;
 import logic.validators.QuestionsValidator;
 import logic.validators.VariablesReferencesValidator;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,15 +38,15 @@ public class Main {
         // Collect all references from all expressions in the form (both: assignments and conditions)
         CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
         form.accept(collectReferencesVisitor);
-        ArrayList<VariableReference> references = collectReferencesVisitor.getVariableReferences();
+        List<VariableReference> references = collectReferencesVisitor.getVariableReferences();
 
         // Collect all questions
         CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
         form.accept(collectQuestionsVisitor);
-        ArrayList<Question> questions = collectQuestionsVisitor.getQuestions();
+        List<Question> questions = collectQuestionsVisitor.getQuestions();
 
         // Validate questions against cyclic dependency @TODO: finish
-        HashMap<Question, ArrayList<VariableReference>> questionsMap = collectQuestionsVisitor.getQuestionsMap();
+        HashMap<Question, List<VariableReference>> questionsMap = collectQuestionsVisitor.getQuestionsMap();
         QuestionsDependencyValidator questionsDependencyValidator = new QuestionsDependencyValidator(questionsMap);
 
         // Validate undeclared variables usage in questions and conditions
@@ -69,33 +66,15 @@ public class Main {
 
         // TODO: operands of invalid type to operators
 
-        CollectFormFieldModelsVisitor collectFormFieldModelsVisitor = new CollectFormFieldModelsVisitor();
-        form.accept(collectFormFieldModelsVisitor);
+        CollectFormQuestionHoldersVisitor collectFormQuestionHoldersVisitor = new CollectFormQuestionHoldersVisitor();
+        form.accept(collectFormQuestionHoldersVisitor);
 
-        List<FormQuestion> formQuestions = collectFormFieldModelsVisitor.getFormQuestions();
-        ExpressionEvaluator evaluator = new ExpressionEvaluator(collectFormFieldModelsVisitor.getVariablesValues());
+        List<FormQuestionHolder> formQuestionHolders = collectFormQuestionHoldersVisitor.getFormQuestionHolders();
+        ExpressionEvaluator evaluator = new ExpressionEvaluator(collectFormQuestionHoldersVisitor.getVariablesValues());
 
-        // initial evaluation
-        for (FormQuestion formQuestion : formQuestions) {
-            if (formQuestion.getAssignedExpression() != null) {
-                formQuestion.setValue(formQuestion.getAssignedExpression().accept(evaluator));
-            }
-            if (formQuestion.getVisibilityCondition() != null) {
-                formQuestion.setVisibility(formQuestion.getVisibilityCondition().accept(evaluator));
-            } else {
-                formQuestion.setVisibility(new UniversalTypeValue(Expression.DataType.BOOLEAN, true));
-            }
-        }
-
-        new QLGui(formQuestions, evaluator);
-
-
-//        Gson gson = new Gson();
-//        System.out.println(gson.toJson(form));
-
+        new QLGui(form.getName(), formQuestionHolders, evaluator);
 
         System.out.println("Main finish.");
-
 
     }
 }

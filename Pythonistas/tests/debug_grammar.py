@@ -1,10 +1,11 @@
 import sys
 import shutil
 import requests
-from pathlib import Path
 import os
+
+from pathlib import Path
 from commons.utility import open_file, remove_char
-import subprocess
+from subprocess import Popen, PIPE, check_output
 
 
 def debug_grammar(path):
@@ -25,21 +26,25 @@ def create_temp_files(string_input):
     shutil.copyfile(ql_path_from, ql_path_to)
 
     # Generate the lexer and parser classes
-    subprocess.check_output("""java -cp '{}/antlr-4.7-complete.jar' org.antlr.v4.Tool '{}/QL.g4'""".format(
+    check_output("""java -cp '{}/antlr-4.7-complete.jar' org.antlr.v4.Tool '{}/QL.g4'""".format(
         tmp_test_dir, tmp_test_dir), shell=True, universal_newlines=True)
+    # subprocess.check_output("java -cp '{0}\\antlr-4.7-complete.jar' org.antlr.v4.Tool '{1}\\QL.g4'".format(
+    #     tmp_test_dir, tmp_test_dir), shell=False, universal_newlines=True)
 
     # Generate a java main class
     write_java_file(string_input)
 
     # Compile all .java source files and run the main class
-    subprocess.check_output("""javac -cp 'antlr-4.7-complete.jar:{}' *.java""".format(tmp_test_dir), shell=True,
-                            universal_newlines=True, cwd=tmp_test_dir)
+    check_output("""javac -cp 'antlr-4.7-complete.jar:{}' *.java""".format(tmp_test_dir), shell=True,
+                 universal_newlines=True, cwd=tmp_test_dir)
 
-    output = subprocess.check_output("""java -cp '{}/antlr-4.7-complete.jar:{}' 'Main'""".format(
-        tmp_test_dir, tmp_test_dir), shell=True, universal_newlines=True)
+    process = Popen("""java -cp '{}/antlr-4.7-complete.jar:{}' 'Main'""".format(
+        tmp_test_dir, tmp_test_dir), shell=True, universal_newlines=True, stderr=PIPE, stdout=PIPE)
+
+    output, err = process.communicate()
 
     clean_up()
-    return output
+    return output, err
 
 
 def get_antlr(tmp_test_dir):

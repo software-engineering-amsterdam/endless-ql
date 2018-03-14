@@ -33,8 +33,9 @@ elseStatement
 
 expression
     : '(' subExpression=expression ')'                              #ExpressionParenthesises
+    | lhs=expression binaryOperator=OP_AND rhs=expression           #ExpressionLogicalAnd
+    | lhs=expression binaryOperator=OP_OR rhs=expression            #ExpressionLogicalOr
     | OP_NOT subExpression=expression                               #ExpressionNegation
-    | OP_MINUS subExpression=expression                             #ExpressionArithmeticMinus
     | lhs=expression binaryOperator=OP_MULT rhs=expression          #ExpressionArithmeticMultiplication
     | lhs=expression binaryOperator=OP_DIV rhs=expression           #ExpressionArithmeticDivision
     | lhs=expression binaryOperator=OP_PLUS rhs=expression          #ExpressionArithmeticAddition
@@ -45,8 +46,7 @@ expression
     | lhs=expression binaryOperator=OP_LE rhs=expression            #ExpressionComparisionLessEqual
     | lhs=expression binaryOperator=OP_EQ rhs=expression            #ExpressionComparisionEqual
     | lhs=expression binaryOperator=OP_NEQ rhs=expression           #ExpressionComparisionNotEqual
-    | lhs=expression binaryOperator=OP_AND rhs=expression           #ExpressionLogicalAnd
-    | lhs=expression binaryOperator=OP_OR rhs=expression            #ExpressionLogicalOr
+    | OP_MINUS subExpression=expression                             #ExpressionArithmeticMinus
     | variableReference=IDENTIFIER                                  #ExpressionVariableReference
     | value=(STRING | INTEGER | DECIMAL | BOOL_TRUE | BOOL_FALSE)   #ExpressionSingleValue
 ;

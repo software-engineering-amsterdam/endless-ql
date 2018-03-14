@@ -8,7 +8,7 @@ options { tokenVocab=GrammarLexer; }
 //RULES
 
 compileUnit     :formStructure EOF;
-mathUnit        :expression EOF;
+mathUnit        :expression;
 
 //Variables and operators
 variable        :VAR

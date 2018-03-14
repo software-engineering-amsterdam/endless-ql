@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using AntlrInterpretor;
@@ -143,9 +144,9 @@ namespace UnitTests.Domain.UnitTests.Tests
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
 
-            Assert.AreEqual(expected: 1, actual: actualInitialVisibleCount);
+            Assert.AreEqual(expected: 3, actual: actualInitialVisibleCount);
             Assert.AreEqual(expected: 2, actual: actualInitialInvisibleCount);
-            Assert.AreEqual(expected: 2, actual: actualNewVisibleCount);
+            Assert.AreEqual(expected: 4, actual: actualNewVisibleCount);
             Assert.AreEqual(expected: 1,actual: actualNewInvisibleCount);
         }
 
@@ -168,20 +169,25 @@ namespace UnitTests.Domain.UnitTests.Tests
 
         private void UpdateIntVariable(string variableName, int value)
         {
-            var domainItem = m_domainItemLocator
+
+            var variableItem = m_domainItemLocator
                 .GetAll<IVariableNode>()
-                .Where(x => x.VariableName == variableName)
-                .Select(x => new Reference<IVariableNode>(x.Id))
+                .FirstOrDefault(x => x.VariableName == variableName);
+
+            var questionItem = m_domainItemLocator
+                .GetAll<IQuestionNode>()
+                .Where(x => x.QuestionName == variableItem.VariableName)
+                .Select(x => new Reference<IQuestionNode>(x.Id))
                 .FirstOrDefault();
 
-            m_variableUpdater.Update(domainItem, value.ToString(CultureInfo.InvariantCulture));
+            m_variableUpdater.Update(questionItem, value.ToString(CultureInfo.InvariantCulture));
         }
 
         private void CreateForm(string validText)
         {
             var questionnaireCreator = m_serviceProvider
                 .GetService<IQuestionnaireAstCreator>();
-           
+
             questionnaireCreator.Create(validText);
 
             var questionnaireNodes = m_domainItemLocator
@@ -195,6 +201,7 @@ namespace UnitTests.Domain.UnitTests.Tests
                     m_modelCreator.Create(questionnaireRef);
                 }
             }
+
         }
     }
 }

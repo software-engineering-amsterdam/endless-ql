@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
@@ -36,32 +38,51 @@ namespace QuestionnaireDomain.Entities.Output.Tools
 
         public bool Evaluate(IBooleanVariableNode node)
         {
-            return m_lookup.Lookup<bool>(node.Id);
+            return m_lookup.Lookup<bool>(GetQuestionId(node));
         }
 
         public string Evaluate(ITextVariableNode node)
         {
-            return m_lookup.Lookup<string>(node.Id);
+            return m_lookup.Lookup<string>(GetQuestionId(node));
         }
 
         public DateTime Evaluate(IDateVariableNode node)
         {
-            return m_lookup.Lookup<DateTime>(node.Id);
+            return m_lookup.Lookup<DateTime>(GetQuestionId(node));
         }
 
         public decimal Evaluate(ICalculationVariableNode node)
         {
-            return m_lookup.Lookup<decimal>(node.Id);
+            return m_lookup.Lookup<decimal>(GetQuestionId(node));
         }
 
-        public object Evaluate(IUntypedVariableNode variable)
+        private Guid GetQuestionId(IVariableNode variableNodeId)
         {
-            if (!m_lookup.Exists(variable.Id))
+            var question = m_domainItemLocator
+                .GetAll<IQuestionNode>()
+                .FirstOrDefault(x => x.QuestionName == variableNodeId.VariableName);
+
+            if (question == null || m_lookup.Exists(question.Id))
             {
-                throw new ArgumentException($@"untyped '{variable.DisplayName}' variable not initialized");
+                throw new ArgumentException($@"variable node '{variableNodeId.DisplayName}' variable not initialized");
             }
 
-            return m_lookup.Lookup(variable.Id);
+            return question.Id;
+        }
+
+
+        public object Evaluate(IUntypedVariableNode node)
+        {
+            var question = m_domainItemLocator
+                .GetAll<IQuestionNode>()
+                .FirstOrDefault(x => x.QuestionName == node.VariableName);
+
+            if (question == null || m_lookup.Exists(question.Id))
+            {
+                throw new ArgumentException($@"untyped '{node.DisplayName}' variable not initialized");
+            }
+
+            return m_lookup.Lookup(question.Id);
         }
 
         public bool Evaluate(IBooleanLiteralNode node)

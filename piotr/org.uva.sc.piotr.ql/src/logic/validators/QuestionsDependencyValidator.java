@@ -3,11 +3,14 @@ package logic.validators;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class QuestionsDependencyValidator {
 
-    public HashMap<String, Node> nodes = new HashMap<>();
+    private final HashMap<String, Node> nodes = new HashMap<>();
 
     static class Node {
         private final Question question;
@@ -20,11 +23,10 @@ public class QuestionsDependencyValidator {
             this.outEdges = new HashSet<>();
         }
 
-        public Node addEdge(Node node) {
+        void addEdge(Node node) {
             Edge e = new Edge(this, node);
             this.outEdges.add(e);
             node.inEdges.add(e);
-            return this;
         }
 
         @Override
@@ -49,11 +51,11 @@ public class QuestionsDependencyValidator {
         }
     }
 
-    public QuestionsDependencyValidator(HashMap<Question, ArrayList<VariableReference>> questionsMap) {
+    public QuestionsDependencyValidator(HashMap<Question, List<VariableReference>> questionsMap) {
         this.CreateGraph(questionsMap);
     }
 
-    private void CreateGraph(HashMap<Question, ArrayList<VariableReference>> questionsMap) {
+    private void CreateGraph(HashMap<Question, List<VariableReference>> questionsMap) {
 
         // create nodes
         for (Question question : questionsMap.keySet()) {
@@ -61,7 +63,7 @@ public class QuestionsDependencyValidator {
         }
 
         // create edges
-        for (Map.Entry<Question, ArrayList<VariableReference>> entry : questionsMap.entrySet()) {
+        for (Map.Entry<Question, List<VariableReference>> entry : questionsMap.entrySet()) {
 
             // for each given question (entry)
             Node referringNode = this.nodes.get(entry.getKey().getVariableName());
@@ -81,6 +83,7 @@ public class QuestionsDependencyValidator {
     }
 
 
+    // TODO: write code
     private void ConstructTransitiveClosure() {
         
     }

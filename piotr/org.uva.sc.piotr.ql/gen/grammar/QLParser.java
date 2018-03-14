@@ -1087,7 +1087,7 @@ public class QLParser extends Parser {
 				setState(74);
 				match(OP_NOT);
 				setState(75);
-				((ExpressionNegationContext)_localctx).subExpression = expression(16);
+				((ExpressionNegationContext)_localctx).subExpression = expression(14);
 				}
 				break;
 			case OP_MINUS:
@@ -1098,7 +1098,7 @@ public class QLParser extends Parser {
 				setState(76);
 				match(OP_MINUS);
 				setState(77);
-				((ExpressionArithmeticMinusContext)_localctx).subExpression = expression(15);
+				((ExpressionArithmeticMinusContext)_localctx).subExpression = expression(3);
 				}
 				break;
 			case IDENTIFIER:
@@ -1149,158 +1149,158 @@ public class QLParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 					case 1:
 						{
-						_localctx = new ExpressionArithmeticMultiplicationContext(new ExpressionContext(_parentctx, _parentState));
-						((ExpressionArithmeticMultiplicationContext)_localctx).lhs = _prevctx;
+						_localctx = new ExpressionLogicalAndContext(new ExpressionContext(_parentctx, _parentState));
+						((ExpressionLogicalAndContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(82);
-						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
+						if (!(precpred(_ctx, 16))) throw new FailedPredicateException(this, "precpred(_ctx, 16)");
 						setState(83);
-						((ExpressionArithmeticMultiplicationContext)_localctx).binaryOperator = match(OP_MULT);
+						((ExpressionLogicalAndContext)_localctx).binaryOperator = match(OP_AND);
 						setState(84);
-						((ExpressionArithmeticMultiplicationContext)_localctx).rhs = expression(15);
+						((ExpressionLogicalAndContext)_localctx).rhs = expression(17);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new ExpressionArithmeticDivisionContext(new ExpressionContext(_parentctx, _parentState));
-						((ExpressionArithmeticDivisionContext)_localctx).lhs = _prevctx;
+						_localctx = new ExpressionLogicalOrContext(new ExpressionContext(_parentctx, _parentState));
+						((ExpressionLogicalOrContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(85);
-						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
+						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
 						setState(86);
-						((ExpressionArithmeticDivisionContext)_localctx).binaryOperator = match(OP_DIV);
+						((ExpressionLogicalOrContext)_localctx).binaryOperator = match(OP_OR);
 						setState(87);
-						((ExpressionArithmeticDivisionContext)_localctx).rhs = expression(14);
+						((ExpressionLogicalOrContext)_localctx).rhs = expression(16);
 						}
 						break;
 					case 3:
 						{
-						_localctx = new ExpressionArithmeticAdditionContext(new ExpressionContext(_parentctx, _parentState));
-						((ExpressionArithmeticAdditionContext)_localctx).lhs = _prevctx;
+						_localctx = new ExpressionArithmeticMultiplicationContext(new ExpressionContext(_parentctx, _parentState));
+						((ExpressionArithmeticMultiplicationContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(88);
-						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
+						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
 						setState(89);
-						((ExpressionArithmeticAdditionContext)_localctx).binaryOperator = match(OP_PLUS);
+						((ExpressionArithmeticMultiplicationContext)_localctx).binaryOperator = match(OP_MULT);
 						setState(90);
-						((ExpressionArithmeticAdditionContext)_localctx).rhs = expression(13);
+						((ExpressionArithmeticMultiplicationContext)_localctx).rhs = expression(14);
 						}
 						break;
 					case 4:
 						{
-						_localctx = new ExpressionArithmeticSubtractionContext(new ExpressionContext(_parentctx, _parentState));
-						((ExpressionArithmeticSubtractionContext)_localctx).lhs = _prevctx;
+						_localctx = new ExpressionArithmeticDivisionContext(new ExpressionContext(_parentctx, _parentState));
+						((ExpressionArithmeticDivisionContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(91);
-						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
+						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
 						setState(92);
-						((ExpressionArithmeticSubtractionContext)_localctx).binaryOperator = match(OP_MINUS);
+						((ExpressionArithmeticDivisionContext)_localctx).binaryOperator = match(OP_DIV);
 						setState(93);
-						((ExpressionArithmeticSubtractionContext)_localctx).rhs = expression(12);
+						((ExpressionArithmeticDivisionContext)_localctx).rhs = expression(13);
 						}
 						break;
 					case 5:
 						{
-						_localctx = new ExpressionComparisionGreaterThanContext(new ExpressionContext(_parentctx, _parentState));
-						((ExpressionComparisionGreaterThanContext)_localctx).lhs = _prevctx;
+						_localctx = new ExpressionArithmeticAdditionContext(new ExpressionContext(_parentctx, _parentState));
+						((ExpressionArithmeticAdditionContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(94);
-						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
+						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
 						setState(95);
-						((ExpressionComparisionGreaterThanContext)_localctx).binaryOperator = match(OP_GT);
+						((ExpressionArithmeticAdditionContext)_localctx).binaryOperator = match(OP_PLUS);
 						setState(96);
-						((ExpressionComparisionGreaterThanContext)_localctx).rhs = expression(11);
+						((ExpressionArithmeticAdditionContext)_localctx).rhs = expression(12);
 						}
 						break;
 					case 6:
 						{
-						_localctx = new ExpressionComparisionGreaterEqualContext(new ExpressionContext(_parentctx, _parentState));
-						((ExpressionComparisionGreaterEqualContext)_localctx).lhs = _prevctx;
+						_localctx = new ExpressionArithmeticSubtractionContext(new ExpressionContext(_parentctx, _parentState));
+						((ExpressionArithmeticSubtractionContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(97);
-						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
+						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
 						setState(98);
-						((ExpressionComparisionGreaterEqualContext)_localctx).binaryOperator = match(OP_GE);
+						((ExpressionArithmeticSubtractionContext)_localctx).binaryOperator = match(OP_MINUS);
 						setState(99);
-						((ExpressionComparisionGreaterEqualContext)_localctx).rhs = expression(10);
+						((ExpressionArithmeticSubtractionContext)_localctx).rhs = expression(11);
 						}
 						break;
 					case 7:
 						{
-						_localctx = new ExpressionComparisionLessThanContext(new ExpressionContext(_parentctx, _parentState));
-						((ExpressionComparisionLessThanContext)_localctx).lhs = _prevctx;
+						_localctx = new ExpressionComparisionGreaterThanContext(new ExpressionContext(_parentctx, _parentState));
+						((ExpressionComparisionGreaterThanContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(100);
-						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
 						setState(101);
-						((ExpressionComparisionLessThanContext)_localctx).binaryOperator = match(OP_LT);
+						((ExpressionComparisionGreaterThanContext)_localctx).binaryOperator = match(OP_GT);
 						setState(102);
-						((ExpressionComparisionLessThanContext)_localctx).rhs = expression(9);
+						((ExpressionComparisionGreaterThanContext)_localctx).rhs = expression(10);
 						}
 						break;
 					case 8:
 						{
-						_localctx = new ExpressionComparisionLessEqualContext(new ExpressionContext(_parentctx, _parentState));
-						((ExpressionComparisionLessEqualContext)_localctx).lhs = _prevctx;
+						_localctx = new ExpressionComparisionGreaterEqualContext(new ExpressionContext(_parentctx, _parentState));
+						((ExpressionComparisionGreaterEqualContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(103);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
 						setState(104);
-						((ExpressionComparisionLessEqualContext)_localctx).binaryOperator = match(OP_LE);
+						((ExpressionComparisionGreaterEqualContext)_localctx).binaryOperator = match(OP_GE);
 						setState(105);
-						((ExpressionComparisionLessEqualContext)_localctx).rhs = expression(8);
+						((ExpressionComparisionGreaterEqualContext)_localctx).rhs = expression(9);
 						}
 						break;
 					case 9:
 						{
-						_localctx = new ExpressionComparisionEqualContext(new ExpressionContext(_parentctx, _parentState));
-						((ExpressionComparisionEqualContext)_localctx).lhs = _prevctx;
+						_localctx = new ExpressionComparisionLessThanContext(new ExpressionContext(_parentctx, _parentState));
+						((ExpressionComparisionLessThanContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(106);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
 						setState(107);
-						((ExpressionComparisionEqualContext)_localctx).binaryOperator = match(OP_EQ);
+						((ExpressionComparisionLessThanContext)_localctx).binaryOperator = match(OP_LT);
 						setState(108);
-						((ExpressionComparisionEqualContext)_localctx).rhs = expression(7);
+						((ExpressionComparisionLessThanContext)_localctx).rhs = expression(8);
 						}
 						break;
 					case 10:
 						{
-						_localctx = new ExpressionComparisionNotEqualContext(new ExpressionContext(_parentctx, _parentState));
-						((ExpressionComparisionNotEqualContext)_localctx).lhs = _prevctx;
+						_localctx = new ExpressionComparisionLessEqualContext(new ExpressionContext(_parentctx, _parentState));
+						((ExpressionComparisionLessEqualContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(109);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
 						setState(110);
-						((ExpressionComparisionNotEqualContext)_localctx).binaryOperator = match(OP_NEQ);
+						((ExpressionComparisionLessEqualContext)_localctx).binaryOperator = match(OP_LE);
 						setState(111);
-						((ExpressionComparisionNotEqualContext)_localctx).rhs = expression(6);
+						((ExpressionComparisionLessEqualContext)_localctx).rhs = expression(7);
 						}
 						break;
 					case 11:
 						{
-						_localctx = new ExpressionLogicalAndContext(new ExpressionContext(_parentctx, _parentState));
-						((ExpressionLogicalAndContext)_localctx).lhs = _prevctx;
+						_localctx = new ExpressionComparisionEqualContext(new ExpressionContext(_parentctx, _parentState));
+						((ExpressionComparisionEqualContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(112);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(113);
-						((ExpressionLogicalAndContext)_localctx).binaryOperator = match(OP_AND);
+						((ExpressionComparisionEqualContext)_localctx).binaryOperator = match(OP_EQ);
 						setState(114);
-						((ExpressionLogicalAndContext)_localctx).rhs = expression(5);
+						((ExpressionComparisionEqualContext)_localctx).rhs = expression(6);
 						}
 						break;
 					case 12:
 						{
-						_localctx = new ExpressionLogicalOrContext(new ExpressionContext(_parentctx, _parentState));
-						((ExpressionLogicalOrContext)_localctx).lhs = _prevctx;
+						_localctx = new ExpressionComparisionNotEqualContext(new ExpressionContext(_parentctx, _parentState));
+						((ExpressionComparisionNotEqualContext)_localctx).lhs = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(115);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(116);
-						((ExpressionLogicalOrContext)_localctx).binaryOperator = match(OP_OR);
+						((ExpressionComparisionNotEqualContext)_localctx).binaryOperator = match(OP_NEQ);
 						setState(117);
-						((ExpressionLogicalOrContext)_localctx).rhs = expression(4);
+						((ExpressionComparisionNotEqualContext)_localctx).rhs = expression(5);
 						}
 						break;
 					}
@@ -1333,29 +1333,29 @@ public class QLParser extends Parser {
 	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 14);
+			return precpred(_ctx, 16);
 		case 1:
-			return precpred(_ctx, 13);
+			return precpred(_ctx, 15);
 		case 2:
-			return precpred(_ctx, 12);
+			return precpred(_ctx, 13);
 		case 3:
-			return precpred(_ctx, 11);
+			return precpred(_ctx, 12);
 		case 4:
-			return precpred(_ctx, 10);
+			return precpred(_ctx, 11);
 		case 5:
-			return precpred(_ctx, 9);
+			return precpred(_ctx, 10);
 		case 6:
-			return precpred(_ctx, 8);
+			return precpred(_ctx, 9);
 		case 7:
-			return precpred(_ctx, 7);
+			return precpred(_ctx, 8);
 		case 8:
-			return precpred(_ctx, 6);
+			return precpred(_ctx, 7);
 		case 9:
-			return precpred(_ctx, 5);
+			return precpred(_ctx, 6);
 		case 10:
-			return precpred(_ctx, 4);
+			return precpred(_ctx, 5);
 		case 11:
-			return precpred(_ctx, 3);
+			return precpred(_ctx, 4);
 		}
 		return true;
 	}
@@ -1383,17 +1383,17 @@ public class QLParser extends Parser {
 		";\7\30\2\2:<\5\f\7\2;:\3\2\2\2;<\3\2\2\2<\13\3\2\2\2=>\7\26\2\2>B\7\27"+
 		"\2\2?A\5\4\3\2@?\3\2\2\2AD\3\2\2\2B@\3\2\2\2BC\3\2\2\2CE\3\2\2\2DB\3\2"+
 		"\2\2EF\7\30\2\2F\r\3\2\2\2GH\b\b\1\2HI\7\5\2\2IJ\5\16\b\2JK\7\6\2\2KS"+
-		"\3\2\2\2LM\7\t\2\2MS\5\16\b\22NO\7\16\2\2OS\5\16\b\21PS\7\"\2\2QS\t\2"+
-		"\2\2RG\3\2\2\2RL\3\2\2\2RN\3\2\2\2RP\3\2\2\2RQ\3\2\2\2Sz\3\2\2\2TU\f\20"+
-		"\2\2UV\7\13\2\2Vy\5\16\b\21WX\f\17\2\2XY\7\f\2\2Yy\5\16\b\20Z[\f\16\2"+
-		"\2[\\\7\r\2\2\\y\5\16\b\17]^\f\r\2\2^_\7\16\2\2_y\5\16\b\16`a\f\f\2\2"+
-		"ab\7\17\2\2by\5\16\b\rcd\f\13\2\2de\7\20\2\2ey\5\16\b\ffg\f\n\2\2gh\7"+
-		"\21\2\2hy\5\16\b\13ij\f\t\2\2jk\7\22\2\2ky\5\16\b\nlm\f\b\2\2mn\7\23\2"+
-		"\2ny\5\16\b\top\f\7\2\2pq\7\24\2\2qy\5\16\b\brs\f\6\2\2st\7\7\2\2ty\5"+
-		"\16\b\7uv\f\5\2\2vw\7\b\2\2wy\5\16\b\6xT\3\2\2\2xW\3\2\2\2xZ\3\2\2\2x"+
-		"]\3\2\2\2x`\3\2\2\2xc\3\2\2\2xf\3\2\2\2xi\3\2\2\2xl\3\2\2\2xo\3\2\2\2"+
-		"xr\3\2\2\2xu\3\2\2\2y|\3\2\2\2zx\3\2\2\2z{\3\2\2\2{\17\3\2\2\2|z\3\2\2"+
-		"\2\f\26\35%,\66;BRxz";
+		"\3\2\2\2LM\7\t\2\2MS\5\16\b\20NO\7\16\2\2OS\5\16\b\5PS\7\"\2\2QS\t\2\2"+
+		"\2RG\3\2\2\2RL\3\2\2\2RN\3\2\2\2RP\3\2\2\2RQ\3\2\2\2Sz\3\2\2\2TU\f\22"+
+		"\2\2UV\7\7\2\2Vy\5\16\b\23WX\f\21\2\2XY\7\b\2\2Yy\5\16\b\22Z[\f\17\2\2"+
+		"[\\\7\13\2\2\\y\5\16\b\20]^\f\16\2\2^_\7\f\2\2_y\5\16\b\17`a\f\r\2\2a"+
+		"b\7\r\2\2by\5\16\b\16cd\f\f\2\2de\7\16\2\2ey\5\16\b\rfg\f\13\2\2gh\7\17"+
+		"\2\2hy\5\16\b\fij\f\n\2\2jk\7\20\2\2ky\5\16\b\13lm\f\t\2\2mn\7\21\2\2"+
+		"ny\5\16\b\nop\f\b\2\2pq\7\22\2\2qy\5\16\b\trs\f\7\2\2st\7\23\2\2ty\5\16"+
+		"\b\buv\f\6\2\2vw\7\24\2\2wy\5\16\b\7xT\3\2\2\2xW\3\2\2\2xZ\3\2\2\2x]\3"+
+		"\2\2\2x`\3\2\2\2xc\3\2\2\2xf\3\2\2\2xi\3\2\2\2xl\3\2\2\2xo\3\2\2\2xr\3"+
+		"\2\2\2xu\3\2\2\2y|\3\2\2\2zx\3\2\2\2z{\3\2\2\2{\17\3\2\2\2|z\3\2\2\2\f"+
+		"\26\35%,\66;BRxz";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

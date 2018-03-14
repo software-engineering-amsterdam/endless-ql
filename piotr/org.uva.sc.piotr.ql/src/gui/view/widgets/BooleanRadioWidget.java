@@ -1,48 +1,54 @@
 package gui.view.widgets;
 
 import ast.model.expressions.Expression;
-import gui.view.FormPanel;
+import gui.model.FormQuestionHolder;
 import gui.view.Widget;
 
 import javax.swing.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.*;
 
+// TODO: change it into a real boolean radio widget
 public class BooleanRadioWidget extends Widget {
 
-    private JCheckBox checkbox;
+    private final JPanel radioPanel;
+    private final JRadioButton yesButton;
+    private final JRadioButton noButton;
 
-    public BooleanRadioWidget(FormPanel formPanel) {
-        super(formPanel);
+    public BooleanRadioWidget(FormQuestionHolder formQuestionHolder) {
+        super(formQuestionHolder);
 
-        JCheckBox checkbox = new JCheckBox();
+        this.yesButton = new JRadioButton("Yes");
+        this.noButton = new JRadioButton("No");
 
-        if (formPanel.getFormQuestion().getAssignedExpression() != null) {
-            checkbox.setEnabled(false);
+        if (formQuestionHolder.getAssignedExpression() != null) {
+            this.yesButton.setEnabled(false);
+            this.noButton.setEnabled(false);
         }
 
-        checkbox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    System.out.println("Checkbox SELECTED");
-                } else {
-                    System.out.println("Checkbox DESELECTED");
-                }
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(this.yesButton);
+        buttonGroup.add(this.noButton);
 
-            }
-        });
+        JPanel radioPanel = new JPanel();
+        radioPanel.setLayout(new GridLayout(1, 2));
+        radioPanel.add(this.yesButton);
+        radioPanel.add(this.noButton);
 
-        this.checkbox = checkbox;
+        this.yesButton.addActionListener(e -> formQuestionHolder.changeValue(true));
+
+        this.noButton.addActionListener(e -> formQuestionHolder.changeValue(false));
+
+        this.radioPanel = radioPanel;
     }
 
     @Override
     public JComponent getComponent() {
-        return this.checkbox;
+        return this.radioPanel;
     }
 
     @Override
-    public Expression.DataType getSupportedDataType() {
-        return Expression.DataType.BOOLEAN;
+    public void updateValue() {
+        this.yesButton.setSelected(this.getFormQuestionHolder().getValueHolder().getBooleanValue());
+        this.noButton.setSelected(!this.getFormQuestionHolder().getValueHolder().getBooleanValue());
     }
 }

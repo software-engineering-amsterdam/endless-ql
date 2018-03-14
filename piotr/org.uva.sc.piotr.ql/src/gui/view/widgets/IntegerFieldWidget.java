@@ -1,23 +1,22 @@
 package gui.view.widgets;
 
 import ast.model.expressions.Expression;
-import gui.view.FormPanel;
+import gui.model.FormQuestionHolder;
 import gui.view.Widget;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.NumberFormatter;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class IntegerFieldWidget extends Widget {
 
-    private JFormattedTextField field;
+    private final JFormattedTextField field;
 
-    public IntegerFieldWidget(FormPanel formPanel) {
+    public IntegerFieldWidget(FormQuestionHolder formQuestionHolder) {
 
-        super(formPanel);
+        super(formQuestionHolder);
 
         NumberFormat format = NumberFormat.getIntegerInstance();
         format.setGroupingUsed(false);
@@ -28,7 +27,7 @@ public class IntegerFieldWidget extends Widget {
 
         JFormattedTextField textField = new JFormattedTextField(formatter);
 
-        if (formPanel.getFormQuestion().getAssignedExpression() != null) {
+        if (formQuestionHolder.getAssignedExpression() != null) {
             textField.setEditable(false);
         }
 
@@ -36,24 +35,21 @@ public class IntegerFieldWidget extends Widget {
 
         textField.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
-                System.out.println("changed update");
                 warn();
             }
 
             public void removeUpdate(DocumentEvent e) {
-                System.out.println("remove update");
                 warn();
             }
 
             public void insertUpdate(DocumentEvent e) {
-                System.out.println("insert update");
                 warn();
             }
 
             private void warn() {
                 String clearText = textField.getText().replaceAll("[^0-9]", "");
                 String safeText = clearText.equals("") ? "0" : clearText;
-                System.out.println("Integer changed to: " + safeText);
+                formQuestionHolder.changeValue(Integer.parseInt(safeText));
             }
         });
 
@@ -66,7 +62,7 @@ public class IntegerFieldWidget extends Widget {
     }
 
     @Override
-    public Expression.DataType getSupportedDataType() {
-        return Expression.DataType.DECIMAL;
+    public void updateValue() {
+        this.field.setValue(this.getFormQuestionHolder().getValueHolder().getIntegerValue());
     }
 }

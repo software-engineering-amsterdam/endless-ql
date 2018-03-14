@@ -1,14 +1,14 @@
 package Parser;
 
-import analysis.SymbolTable;
-import antlr.QLLexer;
-import antlr.QLParser;
-import evaluation.ExpressionEvaluator;
-import evaluation.value.Value;
-import model.expression.Expression;
+import ql.analysis.SymbolTable;
+import ql.parser.QLLexer;
+import ql.parser.QLParser;
+import ql.evaluation.ExpressionEvaluator;
+import ql.evaluation.value.Value;
+import ql.model.expression.Expression;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import visitor.VisitorExpression;
+import ql.visitor.VisitorExpression;
 
 public class ANTLRTester {
 

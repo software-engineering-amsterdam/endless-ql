@@ -2,12 +2,12 @@ package logic.validators;
 
 import ast.model.statements.Question;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public final class QuestionsValidator {
 
-    public static void validateDuplicates(ArrayList<Question> questions) throws RuntimeException {
+    public static void validateDuplicates(List<Question> questions) throws RuntimeException {
         for (Question question1 : questions) {
             for (Question question2 : questions) {
                 if (!Objects.equals(question1, question2)
@@ -28,7 +28,7 @@ public final class QuestionsValidator {
         }
     }
 
-    public static  void validateLabels(ArrayList<Question> questions) throws Exception {
+    public static  void validateLabels(List<Question> questions) throws Exception {
         for (Question question1 : questions) {
             for (Question question2 : questions) {
                 if (!Objects.equals(question1, question2)

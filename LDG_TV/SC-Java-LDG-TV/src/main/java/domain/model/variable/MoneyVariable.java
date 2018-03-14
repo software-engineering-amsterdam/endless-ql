@@ -1,6 +1,7 @@
 package domain.model.variable;
 
 import domain.model.value.ExpressionValue;
+import domain.model.value.MoneyValue;
 import domain.model.value.PlainValue;
 import domain.model.value.Value;
 import domain.visitor.Visitor;
@@ -17,7 +18,7 @@ public class MoneyVariable extends Variable {
         return value;
     }
     @Override
-    public void setValue(PlainValue value){
+    public void setValue(MoneyValue value){
         this.value = value;
     }
     @Override

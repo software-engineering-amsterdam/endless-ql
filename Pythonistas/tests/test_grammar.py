@@ -25,7 +25,6 @@ def test_all_pass_forms():
             assert True
 
 
-
 def test_all_fail_forms():
     """ Iterates through all the failing forms directory and finds grammar errors"""
     path = 'tests/forms/ql/fail/'

@@ -13,7 +13,13 @@ import javafx.scene.control.TextField;
 public class UIVisitor implements Visitor {
     @Override
     public Node visit(BooleanVariable bv) {
-        return (Node) new CheckBox();
+        CheckBox cb = new CheckBox();
+        cb.selectedProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    bv.setValue(newValue);
+                    System.out.println("yoooooo");
+                });
+        return cb;
     }
 
     @Override

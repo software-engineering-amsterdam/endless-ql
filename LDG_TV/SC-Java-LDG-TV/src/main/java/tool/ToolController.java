@@ -11,9 +11,11 @@ import domain.model.value.BooleanValue;
 import domain.model.variable.BooleanVariable;
 import domain.model.variable.Variable;
 import domain.visitor.UIVisitor;
+import domain.visitor.Visitor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -71,12 +73,10 @@ public class ToolController implements Initializable {
 
         FormNode node = loader.getFormNode();
 
-        UIVisitor v = new UIVisitor();
-
-
         List<ASTNode> astNodes = node.getASTNodes();
 
         List<QuestionASTNode> questions = getAllVisibleQuestions(astNodes);
+
 
         drawQuestions(questions);
 
@@ -113,21 +113,15 @@ public class ToolController implements Initializable {
     }
 
     private void drawQuestions(List<QuestionASTNode> questionASTNodes){
+        Visitor uiVisitor = new UIVisitor();
+
         for(QuestionASTNode qn : questionASTNodes){
             String questionText = qn.getText();
+            System.out.println("QUI: " + questionText);
             Variable qv = qn.getVariable();
 
-            if(qv instanceof BooleanVariable) {
-                CheckBox cb = new CheckBox();
-
-                cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
-                    qv.setValue(new BooleanValue(newValue));
-                    System.out.println(qn.getText() + " " + qv.getValue().getValue());
-                });
-
-                lvQuestionnaire.getItems().add(new QuestionRow(questionText, cb, false));
-            }
-
+            Node n = qv.getRelatedUIElement(uiVisitor);
+            lvQuestionnaire.getItems().add(new QuestionRow(questionText, n, false));
         }
     }
 

@@ -2,6 +2,7 @@ package domain.model.value;
 
 import domain.model.variable.Variable;
 import exception.InvalidAritmaticExpressionException;
+import jdk.jshell.spi.ExecutionControl;
 
 public class ExpressionValue extends Value<Integer>{
 
@@ -31,5 +32,10 @@ public class ExpressionValue extends Value<Integer>{
             throw new InvalidAritmaticExpressionException("Invalid arithmatic expression found. Are you using strings were numbers are expected?");
         }
         return null;
+    }
+
+    @Override
+    public void setValue(Integer value) {
+        // TODO
     }
 }

@@ -85,12 +85,7 @@ public class QLLoader extends FormBaseListener {
         QuestionASTNode q = new QuestionASTNode(questionText, constructedVariable, !this.inIfNode);
         if(this.inIfNode) {
             this.formNode.addToLastIf(q);
-            System.out.println("  Q: " + questionText);
-            return;
         }
-
-        this.formNode.addQuestion(q);
-        System.out.println("Q: " + questionText);
     }
     @Override
     public void enterVariableValue(FormParser.VariableValueContext ctx){

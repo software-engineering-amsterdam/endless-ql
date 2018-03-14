@@ -10,4 +10,9 @@ public class BooleanValue extends Value<Boolean>{
     public Boolean getValue() {
         return value;
     }
+
+    @Override
+    public void setValue(Boolean value) {
+        this.value = value;
+    }
 }

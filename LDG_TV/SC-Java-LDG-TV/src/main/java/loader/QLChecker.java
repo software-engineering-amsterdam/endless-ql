@@ -16,6 +16,7 @@ public class QLChecker {
     public void doChecks(){
         try {
             this.checkReferenceUndefinedVariable();
+            this.checkDuplicateQuestionDeclaration();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -23,6 +24,7 @@ public class QLChecker {
     public void checkReferenceUndefinedVariable() throws ReferenceUndefinedVariableException {
         boolean found = false;
         for (Variable referencedVariable : formNode.getReferencedVariables()){
+            System.out.println(referencedVariable);
             if(referencedVariable == null){
                 throw new ReferenceUndefinedVariableException("Reference undefined variable found.");
             }
@@ -30,6 +32,30 @@ public class QLChecker {
     }
 
     public void checkDuplicateQuestionDeclaration() {
-
+        for (QuestionASTNode qan : formNode.getAllQuestionASTNodes()){
+            //check qan.getText()
+            //check qan.getVariable()
+            //check
+            if (foundQuestionMoreThanOnce(qan)){
+                System.out.println("dubble declaration found for " + qan.getText());
+            }
+        }
+    }
+    private boolean foundQuestionMoreThanOnce(QuestionASTNode qan){
+        int count = 0;
+        for (QuestionASTNode _qan : formNode.getAllQuestionASTNodes()){
+            if
+            (
+                qan.getText().equals(_qan.getText()) &&
+                qan.getVariable().getIdentifier().equals(_qan.getVariable().getIdentifier())
+            ){
+                count++;
+            }
+            if (count == 2){
+                return true;
+            }
+        }
+        count = 0;
+        return false;
     }
 }

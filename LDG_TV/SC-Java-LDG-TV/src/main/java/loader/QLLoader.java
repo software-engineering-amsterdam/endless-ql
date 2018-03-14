@@ -42,15 +42,16 @@ public class QLLoader extends FormBaseListener {
         System.out.println("Entering if");
         this.formNode.addIfNode(new IfASTNode(false));
         this.inIfNode = true;
-//        Object c = null;
-//        for(FormParser.ConditionContext cc : ctx.statementBlockStructure().conditions().condition()){
-//            if (cc.value() instanceof FormParser.ValueContext){
-//                c = this.formNode.getVariableFromList(cc.value().getText());
+        Object c = null;
+        for(FormParser.ConditionContext cc : ctx.statementBlockStructure().conditions().condition()){
+            System.out.println(cc.value().getText());
+            if (cc.value() instanceof FormParser.ValueContext){
+                c = this.formNode.getVariableFromList(cc.value().getText());
 //                this.conditionsHolder.add((BooleanVariable) c);
 //                this.formNode.getReferencedVariables().add((Variable) c);
-//            }
-//            c = null;
-//        }
+            }
+            c = null;
+        }
 //        this.formNode.addConditionsAsKey(conditionsHolder);
      }
     @Override

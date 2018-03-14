@@ -135,9 +135,8 @@ namespace Assignment1
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.Walk(listener, context);
             if (listener._errors.Count == 0) return listener._form;
-            var e = new Exception("Invalid form"); //TODO: Create specific exception
-            e.Data.Add("MoreInfo", listener._errors);
-            throw e;
+            var exception = new QLParseException("Invalid form", listener._errors);
+            throw exception;
         }
     }
 }

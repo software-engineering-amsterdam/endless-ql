@@ -1,5 +1,7 @@
 package ql.ast;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ql.ast.statement.Statement;
@@ -15,7 +17,7 @@ public class Block extends AstNode {
 	}
 
 	public Block() {
-
+		this.statements = new ArrayList<>();
 	}
 
     public void insertStatement(Statement statement){
@@ -23,7 +25,7 @@ public class Block extends AstNode {
     }
     
     public List<Statement> getStatements(){
-        return this.statements;
+        return Collections.unmodifiableList(statements);
     }
     
 	public <T, U> T accept(StatementVisitor<T, U> visitor, U ctx){

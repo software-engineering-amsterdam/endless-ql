@@ -16,7 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.uva.jomi.ui.elements.core.Frame;
 import org.uva.jomi.ui.elements.core.Panel;
 
-public class Questionair implements ActionListener {
+public class Questionnaire implements ActionListener {
 
 	private Frame frame;
 	
@@ -24,7 +24,7 @@ public class Questionair implements ActionListener {
 	
 	private List<Panel> panels = new ArrayList<Panel>();
 	
-	public Questionair() {
+	public Questionnaire() {
 		this.frame = new Frame();
 		
 		this.createMenu();

@@ -37,14 +37,13 @@ public class QLUserInterface {
             Parser parser = new Parser();
 
             Form form = parser.parseInputToForm(formFile.getPath());
-            QuestionMap questionMap = new QuestionMap(form);
 
             Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
 
-            //parser.printQLForm(form, questionMap); //debug print the form questions in console
+            parser.printQLForm(form); //debug print the form questions in console
             //parser.printQLSStyleSheet(stylesheet); //debug partially print stylesheet to console
 
-            FormBuilder formBuilder = new FormBuilder(form, questionMap, stage);
+            FormBuilder formBuilder = new FormBuilder(form, stage);
             formBuilder.renderForm();
         });
 
@@ -63,7 +62,7 @@ public class QLUserInterface {
                 QuestionMap questionMap = new QuestionMap(form);
                 if (form == null) { Platform.exit(); }
                 else {
-                    FormBuilder formBuilder = new FormBuilder(form, questionMap, stage);
+                    FormBuilder formBuilder = new FormBuilder(form, stage);
                     formBuilder.renderForm();
                 }
             }

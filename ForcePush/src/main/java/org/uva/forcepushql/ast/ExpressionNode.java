@@ -8,24 +8,13 @@ abstract class InfixExpressionNode extends ExpressionNode
     public ExpressionNode Left;
     public ExpressionNode Right;
 
-    public void setLeft (ExpressionNode left){
-        this.Left = left;
-        System.out.println("InfixExpressionNode setLeft = " + this.Left);
-    }
-    public void setRight (ExpressionNode right){
-        this.Right = right;
-        System.out.println("InfixExpressionNode setRight = " + this.Right);
-    }
+    public void setLeft (ExpressionNode left)   { this.Left = left; }
+    public void setRight (ExpressionNode right) { this.Right = right; }
 
-    public ExpressionNode getLeft () {
-        System.out.println("InfixExpressionNode getLeft = " + this.Left);
-        return this.Left;
-    }
-    public ExpressionNode getRight () {
-        System.out.println("InfixExpressionNode getRight = " + this.Right);
-        return this.Right;
-    }
+    public ExpressionNode getLeft ()    {  return this.Left;  }
+    public ExpressionNode getRight ()   {  return this.Right; }
 }
+
 
 class AdditionNode extends InfixExpressionNode { }
 
@@ -37,7 +26,7 @@ class DivisionNode extends InfixExpressionNode { }
 
 class NegateNode extends ExpressionNode
 {
-    public ExpressionNode InnerNode;
+    private ExpressionNode InnerNode;
 
     public void setInnerNode(ExpressionNode innerNode) {
         this.InnerNode = innerNode;
@@ -57,8 +46,5 @@ class NumberNode extends ExpressionNode
         this.Value = value;
     }
 
-    public double getValue() {
-        System.out.println("I have set and returning value of " + this.Value);
-        return this.Value;
-    }
+    public double getValue() { return this.Value; }
 }

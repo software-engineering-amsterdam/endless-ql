@@ -17,7 +17,9 @@ import nl.khonraad.domain.Value;
 public class QLVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 	public List<String> declaredQuestionTypes = new ArrayList<String>();
-	private  Map<String, Question> questions = new HashMap<String, Question>();
+	
+	private Map<String, Question> questions = new HashMap<String, Question>();
+	public Map<String, Value> answersSeen = new HashMap<String, Value>();
 
 	public List<String> forwardReferences = new ArrayList<String>();
 
@@ -27,21 +29,27 @@ public class QLVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
 	public Optional<Question> findQuestion( BehaviouralType behaviouralType, String identifier ) {
 
-		return questions.entrySet().stream().filter( map -> behaviouralType.equals( map.getValue().getBehaviouralType() ))
+		return questions.entrySet().stream()
+				.filter( map -> behaviouralType.equals( map.getValue().getBehaviouralType() ) )
 				.filter( map -> identifier.equals( map.getValue().getIdentifier() ) ).map( map -> map.getValue() )
 				.findFirst();
 	}
 
-	public List<Question> allQuestions( ) {
-		
-		return questions.entrySet().stream().map( map -> map.getValue() ).collect(Collectors.toList());
-				
+	public List<Question> listQuestions() {
+
+		return questions.entrySet().stream().map( map -> map.getValue() ).collect( Collectors.toList() );
+
 	}
-	public void removeComputableQuestions( ) {
-		
-		questions = questions.entrySet().stream().filter( map -> BehaviouralType.ANSWERABLE == map.getValue().getBehaviouralType())
-				.collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
-		
+
+	private void clearAst() {
+
+		for (Map.Entry<String, Question> entry : questions.entrySet()) {
+			if (BehaviouralType.ANSWERABLE == entry.getValue().getBehaviouralType()) {
+				answersSeen.put( entry.getKey(), entry.getValue().getValue() );
+			}
+		}
+		questions.clear();
+
 	}
 
 	private String removeQuotes( String text ) {
@@ -57,8 +65,8 @@ public class QLVisitor extends ExpressionLanguageBaseVisitor<Value> {
 	public Value visitForm( ExpressionLanguageParser.FormContext ctx ) {
 
 		declaredQuestionTypes = new ArrayList<String>();
-		removeComputableQuestions();
-		
+
+		clearAst();
 
 		Value value = visitChildren( ctx );
 
@@ -172,11 +180,18 @@ public class QLVisitor extends ExpressionLanguageBaseVisitor<Value> {
 		declaredQuestionTypes.add( identifier );
 
 		Optional<Question> optionalQuestion = findQuestion( BehaviouralType.ANSWERABLE, identifier );
-		
-		if (!optionalQuestion.isPresent()) {
-			questions.put( identifier, new Question( BehaviouralType.ANSWERABLE, identifier, label, type, new Value( type ) ) );
+
+		Value earlierAnswer;
+		if (answersSeen.containsKey( identifier )) {
+			earlierAnswer = answersSeen.get( identifier );
+		} else {
+			earlierAnswer = new Value( type );
 		}
-		
+		if (!optionalQuestion.isPresent()) {
+			questions.put( identifier,
+					new Question( BehaviouralType.ANSWERABLE, identifier, label, type, earlierAnswer ) );
+		}
+
 		return findQuestion( BehaviouralType.ANSWERABLE, identifier ).get().getValue();
 	}
 

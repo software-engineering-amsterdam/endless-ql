@@ -197,14 +197,14 @@ public class ParseTreeVisitorTest {
     public void visitLogicalOr() {
         QLParser parser = builder.getQLParser("A || B");
         Or or = (Or) builder.getExpression(parser);
-        Assert.assertEquals("A OR B", or.toString());
+        Assert.assertEquals("A || B", or.toString());
     }
 
     @Test
     public void visitLogicalAnd() {
         QLParser parser = builder.getQLParser("A && B");
         And and = (And) builder.getExpression(parser);
-        Assert.assertEquals("A AND B", and.toString());
+        Assert.assertEquals("A && B", and.toString());
     }
 
     @Test

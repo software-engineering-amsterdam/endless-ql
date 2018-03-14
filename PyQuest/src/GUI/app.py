@@ -1,7 +1,8 @@
 from scanparse.qllex import LexTokenizer
 from scanparse.qlyacc import QLParser
 from visitors.render import Render
-from GUI.form import Dialog
+from GUI.form import Form
+from GUI.gui import append_file_extension
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QTextEdit
 from PyQt5.QtWidgets import QFileDialog
@@ -67,7 +68,8 @@ class MainApp(QMainWindow):
         self.text_edit.setText('')
 
     def open_file(self):
-        self.current_file, _ = QFileDialog.getOpenFileName(self, 'Open file', '/home', "Questionnaire language files (*.ql)")
+        self.current_file, _ = QFileDialog.getOpenFileName(caption='Open file', directory='/home',
+                                                           filter="Questionnaire language files (*.ql)")
 
         if self.current_file:
             with open(self.current_file, 'r') as file:
@@ -83,11 +85,11 @@ class MainApp(QMainWindow):
     def save_file(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        file_name, _ = QFileDialog.getSaveFileName(self, 'Save file as', '/home',
-                                                   'Questionnaire language files (*.ql)', options=options)
+        file_name, _ = QFileDialog.getSaveFileName(caption='Save file as', directory='/home',
+                                                   filter='Questionnaire language files (*.ql)', options=options)
 
         if file_name:
-            self.current_file = file_name
+            self.current_file = append_file_extension(file_name, 'ql')
             with open(self.current_file, 'w') as file:
                 file.write(self.text_edit.toPlainText())
 
@@ -104,7 +106,7 @@ class MainApp(QMainWindow):
             visitor = Render()
             visitor.visit(ast)
 
-            dialog = Dialog(visitor.form)
+            dialog = Form(visitor.form)
             dialog.exec_()
         except:
             QMessageBox.warning(self, 'Warning', 'Unable to create form.', QMessageBox.Ok, QMessageBox.Ok)

@@ -10,8 +10,20 @@ class Type:
     def type_name(self):
         return self._type_name
 
+    def infer_type(self):
+        return self.__class__
+
     def __repr__(self):
         return self._type_name
+
+    __str__ = __repr__
+
+    def __eq__(self, other):
+        if not isinstance(other, Type):
+            raise TypeError("Type {0} and {1} cannot be compared".format(self.infer_type(), other.__class__))
+        if type(self) == type(other):
+            return True
+        return False
 
 
 class String(Type):
@@ -53,3 +65,14 @@ class Money(Type):
     @property
     def expression(self):
         return self._expression
+
+
+if __name__ == "__main__":
+    m = Money()
+    s = String()
+    n = Money()
+    p = Integer()
+    print(m == s)
+    print(n == m)
+    print(p == s)
+

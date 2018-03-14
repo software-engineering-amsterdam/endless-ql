@@ -1,5 +1,5 @@
 package gui;
-
+//TODO: remove class
 import ql.analysis.SymbolTable;
 import javafx.event.ActionEvent;
 import ql.model.expression.Expression;
@@ -108,7 +108,7 @@ public class FormRenderer {
     private Control createDateField(HashMap<Question, Field> fieldMap, Question question) {
         DatePicker datePicker = new DatePicker();
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-            Expression expression = new ExpressionVariableDate(question.defaultAnswer.getToken(), Date.from(newValue.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            Expression expression = new ExpressionVariableDate(question.getToken(), Date.from(newValue.atStartOfDay(ZoneId.systemDefault()).toInstant()));
             symbolTable.setExpression(question.name, expression);
             updateFields(fieldMap, form.questions);
         });
@@ -120,7 +120,7 @@ public class FormRenderer {
         checkBox.setDisable(question.isComputed());
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (!checkBox.isDisabled()){
-                Expression expression = new ExpressionVariableBoolean(question.defaultAnswer.getToken(), Boolean.parseBoolean(newValue.toString()));
+                Expression expression = new ExpressionVariableBoolean(question.getToken(), Boolean.parseBoolean(newValue.toString()));
                 symbolTable.setExpression(question.name, expression);
                 updateFields(fieldMap, form.questions);
             }
@@ -136,7 +136,7 @@ public class FormRenderer {
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
-                Expression expression = new ExpressionVariableString(question.defaultAnswer.getToken(),
+                Expression expression = new ExpressionVariableString(question.getToken(),
                         textField.getText());
                 symbolTable.setExpression(question.name, expression);
                 updateFields(fieldMap, form.questions);
@@ -153,9 +153,9 @@ public class FormRenderer {
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
-                Expression expression = new ExpressionVariableUndefined(question.defaultAnswer.getToken(), question.type);
+                Expression expression = new ExpressionVariableUndefined(question.getToken(), question.type);
                 if (!textField.getText().isEmpty()) {
-                    expression = new ExpressionVariableInteger(question.defaultAnswer.getToken(),
+                    expression = new ExpressionVariableInteger(question.getToken(),
                             Integer.parseInt(textField.getText()));
                     TextFormatter intFormatter = createTextFormatter("-?\\d*");
                     textField.setTextFormatter(intFormatter);
@@ -180,9 +180,9 @@ public class FormRenderer {
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
-                Expression expression = new ExpressionVariableUndefined(question.defaultAnswer.getToken(), question.type);
+                Expression expression = new ExpressionVariableUndefined(question.getToken(), question.type);
                 if (!textField.getText().isEmpty()) {
-                    expression = new ExpressionVariableDecimal(question.defaultAnswer.getToken(),
+                    expression = new ExpressionVariableDecimal(question.getToken(),
                             Double.parseDouble(textField.getText()));
                 }
 
@@ -205,9 +205,9 @@ public class FormRenderer {
         // If input changes some questions might need to be enabled/disabled
         textField.setOnKeyTyped(e -> {
             if (textField.isEditable() || !textField.isDisabled()) {
-                Expression expression = new ExpressionVariableUndefined(question.defaultAnswer.getToken(), question.type);
+                Expression expression = new ExpressionVariableUndefined(question.getToken(), question.type);
                 if (!textField.getText().isEmpty()) {
-                    expression = new ExpressionVariableString(question.defaultAnswer.getToken(), textField.getText());
+                    expression = new ExpressionVariableString(question.getToken(), textField.getText());
                 }
 
                 symbolTable.setExpression(question.name, expression);
@@ -253,9 +253,9 @@ public class FormRenderer {
     }
 
     private void updateFields(HashMap<Question, Field> fieldMap, List<Question> questions) {
-        for (Question question : questions) {
-            updateField(fieldMap, question, question.isVisible(this.symbolTable));
-        }
+//        for (Question question : questions) {
+//            updateField(fieldMap, question, question.isVisible(this.symbolTable));
+//        }
     }
 
     private void updateField(HashMap<Question, Field> fieldMap, Question question, boolean visible) {

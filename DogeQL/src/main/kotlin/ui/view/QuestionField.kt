@@ -7,7 +7,7 @@ import ui.model.QuestionModel
 
 class QuestionField(question: QuestionModel) : View(){
 
-    override val root = field ()
+    override val root = field (question.item.label)
 
     init{
         with(root){

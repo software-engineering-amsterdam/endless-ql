@@ -9,6 +9,7 @@ class TypeCheckTest(unittest.TestCase):
             ast = getAstFromString(inputText)
             ast.linkVars()
             typeCheck_output = ast.checkTypes()
+
             self.assertEqual(str(typeCheck_output), outputText, filename)
 
     def testErrorFilesTypecheck(self):

@@ -11,6 +11,7 @@ class TypeChecker(object):
         self.questions = {}
         self.conditionals = {}
         self.getVariables(self.ast.statements)
+        # self.checkUndefinedVariables()
 
     # Retrieve the variables/questions/etc from the ast and keep track of them.
     def getVariables(self, statements):
@@ -22,6 +23,8 @@ class TypeChecker(object):
             
             elif type(statement) is IfNode or type(statement) is ElifNode:
                 if type(statement.expression) is UnOpNode:
+                    # if statement.expression.negate:
+                    #     self.checkNegation(statement)
 
                     self.checkConditionals(statement)
 
@@ -67,6 +70,7 @@ class TypeChecker(object):
     # Check for duplicate question declarations with different types.
     def checkDuplicateQuestions(self, question):
         if question in self.questions.keys():
+            # todo: Proper error handling?
             print "Warning: question {} is asked twice.".format(question)
             return question + "dup"
 
@@ -94,6 +98,7 @@ class TypeChecker(object):
         elif type(statement.left) is UnOpNode:
             self.checkUndefinedVariables(statement.left)
             left_type = self.getVariableTypes(statement.left)
+            # self.checkNegation(statement.left, left_type)
 
         if type(statement.right) is BinOpNode:
             right_type = self.checkInvalidOperations(statement.right)
@@ -101,6 +106,7 @@ class TypeChecker(object):
         elif type(statement.right) is UnOpNode:
             self.checkUndefinedVariables(statement.right)
             right_type = self.getVariableTypes(statement.right)
+            # self.checkNegation(statement.right, right_type)
 
         self.checkNegation(statement.left, left_type)
         self.checkNegation(statement.right, right_type)
@@ -114,7 +120,11 @@ class TypeChecker(object):
         return left_type
 
 
-    # Check if negation on a given node is allowed.
+    # Check for cyclic dependencies between questions.
+    def checkCyclicDependencies(self):
+        return
+
+
     def checkNegation(self, statement, variable_type):
         if statement.negate and variable_type == INTEGER_UNICODE:
             exitProgram("Negation on {} is not allowed.".format(statement))
@@ -137,7 +147,6 @@ class TypeChecker(object):
         return variable_type
 
 
-    # Check if the operation has correct input.
     def checkOperation(self, statement, left_type, right_type, operator):
         if operator == "&&" or operator == "||":
             if left_type != BOOLEAN_UNICODE or right_type != BOOLEAN_UNICODE:
@@ -154,6 +163,7 @@ class TypeChecker(object):
         return
 
 
+# todo: Proper error handling?
 def exitProgram(message):
     print message
     sys.exit()

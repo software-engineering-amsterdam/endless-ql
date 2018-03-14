@@ -4,7 +4,7 @@ form taxOfficeExample {
     if(true && true) {
         "Send help?" sendHelp: boolean
 
-        if(false) {
+        if(1 && true || true) {
             "Q3" q3: boolean
         }
 

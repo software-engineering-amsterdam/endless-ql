@@ -4,4 +4,4 @@ form taxOfficeExample
     hasSoldHouse: boolean
 }
 ---
-OrderedDict([('hasSoldHouse', OrderedDict([('type', <class 'bool'>), ('node', VarNode: hasSoldHouse <class 'bool'> False), ('assign', Question: "Did you sell a house in 2010?", hasSoldHouse:<class 'bool'>)]))])
+OrderedDict([('hasSoldHouse', OrderedDict([('type', <class 'bool'>), ('node', VarNode: hasSoldHouse <class 'bool'>), ('assign', Question: "Did you sell a house in 2010?", hasSoldHouse:<class 'bool'>)]))])

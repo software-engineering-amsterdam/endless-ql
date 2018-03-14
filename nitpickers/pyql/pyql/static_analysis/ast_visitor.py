@@ -1,14 +1,17 @@
 from multimethods import multimethod
 from pyql.ast.form.form import Form
 from pyql.ast.form.block import Block
-from pyql.ast.form.ql_statements import *
+from pyql.ast.form.ql_statements import ComputedQuestion
+from pyql.ast.form.ql_statements import Question
+from pyql.ast.form.ql_statements import If
+from pyql.ast.form.ql_statements import IfElse
 from pyql.ast.ast import ASTNode
 from pyql.ast.expression.expressions import Identifier
 from pyql.util.types import Type
 from pyql.static_analysis.expression_visitor import ExpressionVisitor
 
 
-class ASTVisitor:
+class TypeCheckVisitor:
 
     def __init__(self, symbol_table):
         self._expression_visitor = ExpressionVisitor(symbol_table)

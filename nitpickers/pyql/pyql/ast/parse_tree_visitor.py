@@ -110,13 +110,11 @@ class ParseTreeVisitor(QLVisitor):
         operator = ctx.getChild(0)
         location = self.location(ctx)
         expression = ctx.unExpression().accept(self)
-        print("Operator:", operator)
         if str(operator) == '!':
             return Not(location, expression)
         return Multiplication(location, IntegerLiteral(location, -1), expression)
 
     def visitPrimaryUnExpression(self, ctx:QLParser.PrimaryUnExpressionContext):
-        print("Primary node!")
         return self.visitChildren(ctx)
 
     def visitPrimary(self, ctx:QLParser.PrimaryContext):

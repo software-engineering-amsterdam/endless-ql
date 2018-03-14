@@ -214,24 +214,13 @@ class Gui():
         label.pack(side=LEFT)
         print label.cget("text")
 
-    # Loop through current questions and save the values on clicking the button if the input type is correct.
-    # The current questions have to be overwritten with the questions of the new frame if we do this...
-    def getVariables(self):
-
-        # for question in self.questions:
-        #     if type(self.questions[question].get()) is int:
-        #         self.formVariables[question] = self.questions[question].get()
-
-        #     # todo: better error handling...
-        #     elif type(self.questions[question].get()) is str and self.questions[question].get().isdigit():
-        #         self.formVariables[question] = self.questions[question].get()
-
-        # print self.formVariables
-        return
-
     def getValue(self, varName, type):
         if type == "int":
-            return int(self.values[varName].get())
+            value = self.values[varName].get()
+            if value == '':
+                return 0
+            else:
+                return int(value) 
         else:
             return self.values[varName].get()
 

@@ -6,9 +6,8 @@ form taxOfficeExample
     hasBoughtHouse: boolean
   "Did you enter a loan?"
     hasMaintLoan: boolean
-    
-  
-  if (hasSoldHouse)
+
+if (hasSoldHouse)
   {
     	"ifV"
       	ifV: int

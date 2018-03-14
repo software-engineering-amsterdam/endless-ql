@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QLVisualizer.Elements.Managers.LeafTypes;
+using System;
 
 namespace QLVisualizer.Expression.Types
 {
@@ -11,6 +12,8 @@ namespace QLVisualizer.Expression.Types
                                                                             value)
         {
         }
+
+        //public ExpressionBool(BoolQuestionManager boolQuestionManager) : base(new Type[] { typeof(bool) }, ExpressionOperators.Logical, boolQuestionManager) { }
 
         /// <summary>
         /// Combines with expressionValue

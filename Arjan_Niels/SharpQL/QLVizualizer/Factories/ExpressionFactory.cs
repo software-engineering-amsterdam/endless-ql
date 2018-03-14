@@ -140,6 +140,7 @@ namespace QLVisualizer.Factories
             switch (identifierNode.GetQValueType())
             {
                 case QValueType.BOOLEAN:
+                    //return new ExpressionBool(identifierNode.ID);
                     return new ExpressionBool(new string[] { identifierNode.ID }, () => { return (_widgetController.Form.FindByID(new string[] { identifierNode.ID })[identifierNode.ID] as BoolQuestionManager).Answer.Value; });
                 case QValueType.INTEGER:
                     return new ExpressionInt(new string[] { identifierNode.ID }, () => { return (_widgetController.Form.FindByID(new string[] { identifierNode.ID })[identifierNode.ID] as IntQuestionManager).Answer.Value; });

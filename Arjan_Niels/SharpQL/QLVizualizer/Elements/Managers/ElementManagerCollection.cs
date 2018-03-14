@@ -68,12 +68,12 @@ namespace QLVisualizer.Elements.Managers
             return string.Format("<{0} identifier=\"{1}\">{2}</{0}>", XMLElementName, Identifier, string.Join("", Children.Select(o => o.ToXML())));
         }
 
-        public Dictionary<string, ElementManager> FindByID(IEnumerable<string> identifiers)
+        public Dictionary<string, ElementManager> FindByID(params string[] identifiers)
         {
             return FindRecursiveByID(new List<string>(identifiers)).Item2;
         }
 
-        public Dictionary<string, ElementManagerLeaf> FindLeafsByID(IEnumerable<string> identifiers)
+        public Dictionary<string, ElementManagerLeaf> FindLeafsByID(params string[] identifiers)
         {
             return FindRecursiveLeafsById(new List<string>(identifiers)).Item2;
         }

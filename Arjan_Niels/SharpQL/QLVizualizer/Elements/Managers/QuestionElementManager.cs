@@ -89,12 +89,7 @@ namespace QLVisualizer.Elements.Managers
                 Dictionary<string, ElementManagerLeaf> managers = _elementManagerController.Form.FindLeafsByID(_answerExpression.UsedIdentifiers);
                 foreach (ElementManagerLeaf manager in managers.Values)
                     manager.OnAnswerValueUpdate += DependendValueUpdate;
-
-
             }
-            // TODO: cast to questionElementManager to listen to event
-
-                //if(manager.GetType().IsSubclassOf(QuestionElementManager))
         }
 
         private void DependendValueUpdate(ElementManagerLeaf elementManagerLeaf, bool calculated)

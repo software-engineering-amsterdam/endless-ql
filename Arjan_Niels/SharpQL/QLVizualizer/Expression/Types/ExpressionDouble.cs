@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QLVisualizer.Elements.Managers.LeafTypes;
+using System;
 
 
 namespace QLVisualizer.Expression.Types
@@ -8,6 +9,8 @@ namespace QLVisualizer.Expression.Types
         public ExpressionDouble(string[] usedWidgetIDs, Func<double> expression) : base(new Type[] { typeof(int), typeof(double) }, ExpressionOperators.Numeric, usedWidgetIDs, expression)
         {
         }
+
+       // public ExpressionDouble(MoneyQuestionManager moneyQuestionManager) : base(new Type[] { typeof(int), typeof(double) }, ExpressionOperators.Numeric, moneyQuestionManager) { }
 
         #region Combine
         /// <summary>

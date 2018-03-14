@@ -1,4 +1,6 @@
-﻿using System;
+﻿using QLVisualizer.Controllers;
+using QLVisualizer.Elements.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,6 +8,17 @@ namespace QLVisualizer.Expression.Types
 {
     public abstract class TypedExpressionValue<T> : ExpressionValue
     {
+        private ElementManagerController _elementManagerController;
+        private string _elementManagerID;
+        private QuestionElementManager<T> _elementManager;
+
+        private QuestionElementManager<T> GetElementManager()
+        {
+            if (_elementManager == null)
+                _elementManager = _elementManagerController.Form.FindLeafsByID(_elementManagerID)[_elementManagerID] as QuestionElementManager<T>;
+            return _elementManager;
+        }
+
         /// <summary>
         /// Contains all expresssions to be run
         /// </summary>
@@ -30,6 +43,14 @@ namespace QLVisualizer.Expression.Types
         public TypedExpressionValue(Type[] compatibleTypes, ExpressionOperator[] compatibleOperators, string[] usedWidgetIDs, Func<T> expression) : base(compatibleTypes, compatibleOperators, typeof(T), usedWidgetIDs)
         {
             _expressionChain = new List<Func<T>>() { expression };
+            _operatorChain = new List<ExpressionOperator>();
+        }
+
+        public TypedExpressionValue(Type[] compatibleTypes, ExpressionOperator[] compatibleOperators, string id, ElementManagerController elementManagerController) : base(compatibleTypes, compatibleOperators, typeof(T), new string[] { id })
+        {
+            _elementManagerID = id;
+            _elementManagerController = elementManagerController;
+            _expressionChain = new List<Func<T>>() { () => GetElementManager().Answer.Value };
             _operatorChain = new List<ExpressionOperator>();
         }
 

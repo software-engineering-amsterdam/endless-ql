@@ -59,7 +59,7 @@ namespace QLVisualizer.Elements.Managers
 
         public virtual void RegisterListeners()
         {
-            Dictionary<string, ElementManagerLeaf> targets = _elementManagerController.Form.FindLeafsByID(GetActivationTargetIDs());
+            Dictionary<string, ElementManagerLeaf> targets = _elementManagerController.Form.FindLeafsByID(GetActivationTargetIDs().ToArray());
             foreach (ElementManagerLeaf manager in targets.Values)
                 manager.OnAnswerValueUpdate += ActivationUpdate;
         }

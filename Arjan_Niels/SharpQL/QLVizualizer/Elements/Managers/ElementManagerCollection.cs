@@ -12,12 +12,12 @@ namespace QLVisualizer.Elements.Managers
         /// <summary>
         /// Children of this ElementManager
         /// </summary>
-        protected List<ElementManager> _children { get; private set; }
+        public List<ElementManager> Children { get; private set; }
 
-        public ElementManagerCollection(string identifyer, string text, string xmlName, ElementManagerController controller, ExpressionBool activationExpression = null) : 
+        public ElementManagerCollection(string identifyer, string text, string xmlName, ElementManagerController controller, ExpressionBool activationExpression = null) :
             base(identifyer, text, xmlName, controller, activationExpression)
         {
-            _children = new List<ElementManager>();
+            Children = new List<ElementManager>();
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace QLVisualizer.Elements.Managers
         /// <param name="elementManager">ElementManager to add as child</param>
         public void AddChild(ElementManager elementManager)
         {
-            _children.Add(elementManager);
+            Children.Add(elementManager);
             elementManager.Parent = this;
         }
 
@@ -36,28 +36,69 @@ namespace QLVisualizer.Elements.Managers
                 AddChild(elementManager);
         }
 
-        public override void NotifyChange(string updatedIdentifyer)
+        public override void RegisterListeners()
+        {
+            base.RegisterListeners();
+            foreach (ElementManager child in Children)
+                child.RegisterListeners();
+        }
+
+        public override void ActivationUpdate(string identifier, bool isActive)
         {
             // Only trigger if it contains
-            if(_activationExpression.UsedWidgetIDs.Contains(updatedIdentifyer))
-                base.NotifyChange(updatedIdentifyer);
+            if (_activationExpression.UsedIdentifiers.Contains(identifier))
+                base.ActivationUpdate(identifier, isActive);
 
 
             // Only send to children if parent is active
             if (Active)
-                foreach (ElementManagerLeaf manager in _children)
-                    manager.NotifyChange(updatedIdentifyer);
+                foreach (ElementManagerLeaf manager in Children)
+                    manager.ActivationUpdate(identifier, isActive);
         }
 
-        public override IEnumerable<string> GetNotifyWidgetIDs()
+        public override IEnumerable<string> GetActivationTargetIDs()
         {
             // Return children and self
-            return _children.SelectMany(o => o.GetNotifyWidgetIDs()).Concat(_activationExpression.UsedWidgetIDs);
+            return Children.SelectMany(o => o.GetActivationTargetIDs()).Concat(_activationExpression.UsedIdentifiers);
         }
 
         public override string ToXML()
         {
-            return string.Format("<{0} identifier=\"{1}\">{2}</{0}>", XMLElementName, Identifier, string.Join("", _children.Select(o => o.ToXML())));
+            return string.Format("<{0} identifier=\"{1}\">{2}</{0}>", XMLElementName, Identifier, string.Join("", Children.Select(o => o.ToXML())));
         }
+
+        public Dictionary<string, ElementManager> FindByID(IEnumerable<string> identifiers)
+        {
+            return FindRecursiveByID(new List<string>(identifiers)).Item2;
+        }
+
+        private Tuple<List<string>, Dictionary<string, ElementManager>> FindRecursiveByID(List<string> targets)
+        {
+            Dictionary<string, ElementManager> result = new Dictionary<string, ElementManager>();
+            foreach (ElementManager child in Children)
+            {
+                switch (child)
+                {
+                    case ElementManagerCollection childCollection:
+                        Tuple<List<string>, Dictionary<string, ElementManager>> recResult = childCollection.FindRecursiveByID(targets);
+                        foreach (string identifier in recResult.Item1)
+                            targets.Remove(identifier);
+
+                        result.Concat(recResult.Item2);
+                        break;
+                    default:
+                        if (targets.Contains(child.Identifier))
+                            result.Add(child.Identifier, child);
+                        break;
+                }
+
+                if (targets.Count == 0)
+                    break;
+            }
+
+            return new Tuple<List<string>, Dictionary<string, ElementManager>>(targets, result);
+        }
+
+
     }
 }

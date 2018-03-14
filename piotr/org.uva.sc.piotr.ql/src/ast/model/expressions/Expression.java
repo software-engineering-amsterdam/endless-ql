@@ -9,7 +9,7 @@ abstract public class Expression extends ASTNode {
         INTEGER,
         DECIMAL
     }
-    public Expression(MetaInformation metaInformation) {
+    protected Expression(MetaInformation metaInformation) {
         super(metaInformation);
     }
 }

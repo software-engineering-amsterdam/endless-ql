@@ -1,7 +1,7 @@
 package gui.view.widgets;
 
 import ast.model.expressions.Expression;
-import gui.view.FormPanel;
+import gui.model.FormQuestionHolder;
 import gui.view.Widget;
 
 import javax.swing.*;
@@ -10,17 +10,17 @@ import javax.swing.event.DocumentListener;
 
 public class TextFieldWidget extends Widget {
 
-    private JTextField textField;
+    private final JTextField textField;
 
-    public TextFieldWidget(FormPanel formPanel) {
+    public TextFieldWidget(FormQuestionHolder formQuestionHolder) {
 
-        super(formPanel);
+        super(formQuestionHolder);
 
         JTextField field = new JTextField();
         field.setColumns(20);
 
-        if (formPanel.getFormQuestion().getAssignedExpression() != null) {
-            textField.setEditable(false);
+        if (formQuestionHolder.getAssignedExpression() != null) {
+            field.setEditable(false);
         }
 
         field.getDocument().addDocumentListener(new DocumentListener() {
@@ -38,11 +38,7 @@ public class TextFieldWidget extends Widget {
             }
 
             private void pushEvent() {
-
-                System.out.println("TextFieldWidget new value: " + field.getText());
-//                formQuestion.getValue().setStringValue(textField.getText());
-//                anchor.evaluate();
-//                textField.setVisible(formQuestion.getVisibility().getBooleanValue());
+                formQuestionHolder.changeValue(field.getText());
             }
         });
         this.textField = field;
@@ -54,8 +50,7 @@ public class TextFieldWidget extends Widget {
     }
 
     @Override
-    public Expression.DataType getSupportedDataType() {
-        return Expression.DataType.STRING;
+    public void updateValue() {
+        this.textField.setText(this.getFormQuestionHolder().getValueHolder().getStringValue());
     }
-
 }

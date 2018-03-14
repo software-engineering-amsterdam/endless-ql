@@ -37,7 +37,7 @@ namespace QuestionnaireDomain.Entities.Domain
         {
             return m_symbols.ContainsKey(variableRef);
         }
-
+        
         public void Add<T>(Guid variableRef, T value)
         {
             ValidateType(typeof(T));
@@ -51,7 +51,7 @@ namespace QuestionnaireDomain.Entities.Domain
 
         private void ValidateType(Type type)
         {
-            var validTypes = new[] {typeof(decimal), typeof(bool), typeof(DateTime), typeof(string)};
+            var validTypes = new[] {typeof(int), typeof(decimal), typeof(bool), typeof(DateTime), typeof(string)};
             if (validTypes.All(x => x != type))
             {
                 throw new ArgumentException($@"tried to process a variable of a the unsupported type '{type}'");

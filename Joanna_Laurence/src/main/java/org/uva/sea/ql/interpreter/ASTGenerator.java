@@ -23,7 +23,8 @@ public class ASTGenerator {
             new TypeCheck.Checker(),
             new CheckDuplicateLabels.Checker(),
             new CheckIncorrectDuplicateQuestions.Checker(),
-            new CircularQuestionDependencies.Checker()
+            new CircularQuestionDependencies.Checker(),
+            new CircularExpressionDependencies.Checker()
     });
 
     /**
@@ -33,7 +34,6 @@ public class ASTGenerator {
      * @return The AST node that can be used by the interpreter
      */
     public ASTResult interpreterScriptFile(CharStream source) throws StaticAnalysisError {
-new LinkAndCheckVariableUsage.Checker();
         Form AST = createAST(source);
         if (AST == null)
             return new ASTResult(null, new Messages(MessageTypes.UNKNOWN));

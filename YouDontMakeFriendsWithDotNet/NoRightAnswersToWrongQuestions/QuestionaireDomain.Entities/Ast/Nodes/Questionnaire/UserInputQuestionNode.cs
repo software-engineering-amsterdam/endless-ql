@@ -8,7 +8,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
         AstNodeBase, 
         IUserInputQuestionNode
     {
-        public string QuestionId { get; }
+        public string QuestionName { get; }
         public string QuestionText { get; }
         public Type QuestionType { get; }
 
@@ -19,7 +19,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
             string questionText, 
             Type questionType) : base(id, definition)
         {
-            QuestionId = questionId;
+            QuestionName = questionId;
             QuestionText = questionText;
             QuestionType = questionType;
         }

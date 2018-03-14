@@ -1,20 +1,20 @@
 package gui.view;
 
-import ast.model.expressions.Expression;
+import gui.model.FormQuestionHolder;
 
 import javax.swing.*;
 
 public abstract class Widget extends JComponent {
-    private FormPanel formPanel;
+    private final FormQuestionHolder formQuestionHolder;
 
-    public Widget(FormPanel formPanel) {
-        this.formPanel = formPanel;
+    protected Widget(FormQuestionHolder formQuestionHolder) {
+        this.formQuestionHolder = formQuestionHolder;
     }
 
-    public FormPanel getFormPanel() {
-        return formPanel;
+    public FormQuestionHolder getFormQuestionHolder() {
+        return formQuestionHolder;
     }
 
     public abstract JComponent getComponent();
-    public abstract Expression.DataType getSupportedDataType();
+    public abstract void updateValue();
 }

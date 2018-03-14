@@ -1,4 +1,6 @@
-import analysis.*;
+import gui.FormRenderer;
+import ql.parser.FormParser;
+import ql.analysis.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -8,7 +10,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.Form;
+import ql.model.Form;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,6 +68,7 @@ public class Main extends Application {
 
             SymbolTable symbolTable = new SymbolTable(form);
 
+            // TODO: just throw exceptions
             UnknownIdentifiersDetector unknownIdentifiersDetector = new UnknownIdentifiersDetector(form);
             List<String> unknownReferencedIdentifiers = unknownIdentifiersDetector.detectUnknownIdentifiers();
             if(!unknownReferencedIdentifiers.isEmpty()){
@@ -97,10 +100,10 @@ public class Main extends Application {
             }
 
 //            File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
-//            StyleSheet styleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));
+//            StyleSheet styleSheet = qls.StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));
 
-            Renderer renderer = new Renderer(form, symbolTable);
-            renderer.renderForm(stage);
+            FormRenderer formRenderer = new FormRenderer(form, symbolTable);
+            formRenderer.renderForm(stage);
         } catch (FileNotFoundException e) {
             showErrorAlert(e, "Form file not found");
         } catch (UnsupportedOperationException | IllegalArgumentException e) {

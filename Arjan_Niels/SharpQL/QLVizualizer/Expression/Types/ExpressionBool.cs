@@ -29,7 +29,7 @@ namespace QLVisualizer.Expression.Types
                     throw new NotImplementedException();
 
                 AddToChain(expression.GetExpression(), op);
-                UsedWidgetIDs = CombineWidgets(item);
+                UsedIdentifiers = CombineWidgets(item);
                 return this;
             }
             throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, item.Type, op));
@@ -48,7 +48,7 @@ namespace QLVisualizer.Expression.Types
                 if (expressionValue.Type == typeof(bool))
                 {
                     AddToChain((expressionValue as ExpressionBool).GetExpression(), op);
-                    UsedWidgetIDs = CombineWidgets(expressionValue);
+                    UsedIdentifiers = CombineWidgets(expressionValue);
                     return this;
                 }
             }

@@ -15,7 +15,7 @@ import ql.grammar.QLLexer;
 import ql.grammar.QLParser;
 import ql.helpers.MessageBag;
 import ql.listeners.QLErrorListener;
-import ql.visitors.QLVisitorToAst;
+import ql.visitors.TextToAST;
 
 public class QL {
 
@@ -37,7 +37,7 @@ public class QL {
     public Form getForm() throws Exception { 
         
         InputStream inputStream         = getClass().getClassLoader().getResourceAsStream(filePath);
-        QLVisitorToAst visitor          = new QLVisitorToAst(errors);
+        TextToAST visitor          = new TextToAST(errors);
         QLErrorListener errorListener   = new QLErrorListener(errors);
         
         CharStream charStream;

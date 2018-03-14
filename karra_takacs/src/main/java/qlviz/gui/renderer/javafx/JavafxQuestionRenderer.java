@@ -5,6 +5,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import qlviz.gui.renderer.QuestionRenderer;
 import qlviz.gui.viewModel.question.*;
@@ -23,11 +24,16 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewMod
 
 	@Override
 	public void visit(BooleanQuestionViewModel booleanQuestion) {
+		VBox container = new VBox();
+
 		Label label = new Label(booleanQuestion.getText());
 		CheckBox checkBox = new CheckBox();
 		checkBox.selectedProperty().bindBidirectional(booleanQuestion.valueProperty());
-		target.getChildren().add(label);
-		target.getChildren().add(checkBox);
+
+		container.getChildren().add(label);
+		container.getChildren().add(checkBox);
+		container.visibleProperty().bind(booleanQuestion.isEnabledProperty());
+		target.getChildren().add(container);
 
 	}
 
@@ -48,10 +54,12 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewMod
 
 	@Override
 	public void visit(MoneyQuestionViewModel moneyQuestion) {
+		VBox container = new VBox();
 		Label label = new Label(moneyQuestion.getText());
 		TextField textField = new TextField();
 		textField.setMinWidth(50);
 		textField.setPrefWidth(50);
+		textField.visibleProperty().bind(moneyQuestion.isEnabledProperty());
 		textField.textProperty().bindBidirectional(moneyQuestion.valueProperty(), new StringConverter<BigDecimal>() {
 			@Override
 			public String toString(BigDecimal object) {
@@ -69,20 +77,25 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewMod
 			}
 		});
 
-		target.getChildren().add(label);
-		target.getChildren().add(textField);
-
+        container.getChildren().add(label);
+		container.getChildren().add(textField);
+		container.visibleProperty().bind(moneyQuestion.isEnabledProperty());
+		target.getChildren().add(container);
 	}
 
 	@Override
 	public void visit(StringQuestionViewModel stringQuestion) {
+		VBox container = new VBox();
 		Label label = new Label(stringQuestion.getText());
 		TextField textField = new TextField();
 		textField.setMinWidth(50);
 		textField.setPrefWidth(50);
-		target.getChildren().add(label);
-		target.getChildren().add(textField);
+		textField.visibleProperty().bind(stringQuestion.isEnabledProperty());
 
+		container.getChildren().add(label);
+		container.getChildren().add(textField);
+		container.visibleProperty().bind(stringQuestion.isEnabledProperty());
+		target.getChildren().add(container);
 	}
 
 	@Override

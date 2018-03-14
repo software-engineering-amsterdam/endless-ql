@@ -4,13 +4,19 @@ import ast.model.expressions.values.VariableReference;
 import ast.visitors.AbstractASTTraverse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CollectReferencesVisitor extends AbstractASTTraverse<Void> {
 
-    private ArrayList<VariableReference> variableReferences = new ArrayList<>();
+    private List<VariableReference> variableReferences = new ArrayList<>();
 
-    public ArrayList<VariableReference> getVariableReferences() {
+    public List<VariableReference> getVariableReferences() {
         return variableReferences;
+    }
+
+    // TODO: This reset is ugly - refactor?
+    public void reset() {
+        this.variableReferences = new ArrayList<>();
     }
 
     @Override

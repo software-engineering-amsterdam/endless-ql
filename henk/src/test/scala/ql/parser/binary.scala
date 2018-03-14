@@ -1,4 +1,4 @@
-import ql.models._
+import ql.models.ast._
 import ql.grammar._
 import ql.visitors._
 import ql.parsers._
@@ -14,161 +14,90 @@ import org.antlr.v4.runtime.tree._
 
 class ArithmeticParser extends FunSpec with BeforeAndAfter {
   // maybe extract method to general helper class
-  private def getForm(location:String): ASTNode = {
-    return QlFormParser.parseFromURL(getClass.getResource(location))
+  private def getFlattenedForm(location: String): List[ASTNode] = {
+    val form = QlFormParser.parseFromURL(getClass.getResource(location))
+    ASTCollector.flattenNT(form)
   }
 
   describe("when parsing a form containing arithmetic tokens") {
-    it("should contain a logical conjunction") {
-      val result = getForm("ql/binary/and.ql")
-      val expected = ASTRoot(
-        ASTFormHeader(),
-        ASTFormBody(
-          List(
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
+    it("should contain one logical conjunction") {
+      val result = getFlattenedForm("ql/binary/and.ql")
+      val expected =
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTLogicalCon())
 
-            ASTIfStatement(
-              ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTLogicalCon()),
-              List()
-            )
-          )
-        )
-      )
-      assert(result == expected)
+      assert(result.filter(x => x == expected).size == 1)
     }
 
-    it("should contain a logical disjunction") {
-      val result = getForm("ql/binary/or.ql")
-      val expected = ASTRoot(
-        ASTFormHeader(),
-        ASTFormBody(
-          List(
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
+    it("should contain one logical disjunction") {
+      val result = getFlattenedForm("ql/binary/or.ql")
+      val expected =
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTLogicalDis())
 
-            ASTIfStatement(
-              ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTLogicalDis()),
-              List()
-            )
-          )
-        )
-      )
-      assert(result == expected)
+      assert(result.filter(x => x == expected).size == 1)
     }
 
-    it("should contain a logical eq") {
-      val result = getForm("ql/binary/eq.ql")
-      val expected = ASTRoot(
-        ASTFormHeader(),
-        ASTFormBody(
-          List(
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
+    it("should contain one logical eq") {
+      val result = getFlattenedForm("ql/binary/eq.ql")
+      val expected =
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTRelationalEQ())
 
-            ASTIfStatement(
-              ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTRelationalEQ()),
-              List()
-            )
-          )
-        )
-      )
-      assert(result == expected)
+      assert(result.filter(x => x == expected).size == 1)
     }
 
-    it("should contain a logical gt") {
-      val result = getForm("ql/binary/gt.ql")
-      val expected = ASTRoot(
-        ASTFormHeader(),
-        ASTFormBody(
-          List(
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
+    it("should contain one logical gt") {
+      val result = getFlattenedForm("ql/binary/gt.ql")
+      val expected =
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTRelationalGT())
 
-            ASTIfStatement(
-              ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTRelationalGT()),
-              List()
-            )
-          )
-        )
-      )
-      assert(result == expected)
+      assert(result.filter(x => x == expected).size == 1)
     }
 
-    it("should contain a logical gte") {
-      val result = getForm("ql/binary/gte.ql")
-      val expected = ASTRoot(
-        ASTFormHeader(),
-        ASTFormBody(
-          List(
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
+    it("should contain one logical gte") {
+      val result = getFlattenedForm("ql/binary/gte.ql")
+      val expected =
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTRelationalGTE())
 
-            ASTIfStatement(
-              ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTRelationalGTE()),
-              List()
-            )
-          )
-        )
-      )
-      assert(result == expected)
+      assert(result.filter(x => x == expected).size == 1)
     }
 
-    it("should contain a logical lt") {
-      val result = getForm("ql/binary/lt.ql")
-      val expected = ASTRoot(
-        ASTFormHeader(),
-        ASTFormBody(
-          List(
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
+    it("should contain one logical lt") {
+      val result = getFlattenedForm("ql/binary/lt.ql")
+      val expected =
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTRelationalLT())
 
-            ASTIfStatement(
-              ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTRelationalLT()),
-              List()
-            )
-          )
-        )
-      )
-      assert(result == expected)
+      assert(result.filter(x => x == expected).size == 1)
     }
 
-    it("should contain a logical lte") {
-      val result = getForm("ql/binary/lte.ql")
-      val expected = ASTRoot(
-        ASTFormHeader(),
-        ASTFormBody(
-          List(
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
+    it("should contain one logical lte") {
+      val result = getFlattenedForm("ql/binary/lte.ql")
+      val expected =
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTRelationalLTE())
 
-            ASTIfStatement(
-              ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTRelationalLTE()),
-              List()
-            )
-          )
-        )
-      )
-      assert(result == expected)
+      assert(result.filter(x => x == expected).size == 1)
     }
 
-    it("should contain a logical neq") {
-      val result = getForm("ql/binary/ne.ql")
-      val expected = ASTRoot(
-        ASTFormHeader(),
-        ASTFormBody(
-          List(
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
+    it("should contain one logical neq") {
+      val result = getFlattenedForm("ql/binary/ne.ql")
+      val expected =
+        ASTBinary(ASTIdentifier("hasSoldHouse"),
+                  ASTIdentifier("hasBoughtHouse"),
+                  ASTRelationalNE())
 
-            ASTIfStatement(
-              ASTBinary(ASTIdentifier(), ASTIdentifier(), ASTRelationalNE()),
-              List()
-            )
-          )
-        )
-      )
-      assert(result == expected)
+      assert(result.filter(x => x == expected).size == 1)
     }
   }
 }

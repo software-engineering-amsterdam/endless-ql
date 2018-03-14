@@ -77,8 +77,6 @@ class InputTypeMap:
         e.pack(fill='x')
         return e, var
 
-
-
     """ Validation and tracing methods ------------------------------------------------------"""
 
     """

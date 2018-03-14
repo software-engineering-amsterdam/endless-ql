@@ -73,7 +73,7 @@ export class StyledFormContentComponent implements OnInit {
 
         const questionStyle = {};
 
-        for (const [, v] of styles.entries()) {
+        for (const [, v] of styles) {
           questionStyle[v.name] = v.value.getValueAsString();
         }
 

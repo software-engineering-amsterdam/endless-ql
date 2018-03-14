@@ -1,6 +1,6 @@
-package nl.uva.js.qlparser.models.expressions.data;
+package nl.uva.js.qlparser.models.ql.expressions.data;
 
-import nl.uva.js.qlparser.models.expressions.Expression;
+import nl.uva.js.qlparser.models.ql.expressions.Expression;
 import nl.uva.js.qlparser.wrappers.logic.ValueChangeListener;
 
 public interface DataExpression<T> extends Expression, Expression.Typed {

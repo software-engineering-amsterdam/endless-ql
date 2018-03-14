@@ -25,7 +25,17 @@ else
 	"else"
 	elseV: int
 }
-  
+
+  if (hasMaintLoan)
+  {
+    	"if2"
+      	ifV2: int
+  }
+else 
+{
+	"else2"
+	elseV2: int
+}
 /*
   elif (hasSoldHouse == hasBoughtHouse) {
     "Private debts for the sold house:" privateDebt: int

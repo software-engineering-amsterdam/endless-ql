@@ -1,11 +1,11 @@
-package nl.uva.js.qlparser.models.expressions.data;
+package nl.uva.js.qlparser.models.ql.expressions.data;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-import nl.uva.js.qlparser.models.enums.CompOp;
-import nl.uva.js.qlparser.models.enums.DataType;
-import nl.uva.js.qlparser.models.enums.Operator;
+import nl.uva.js.qlparser.models.ql.enums.CompOp;
+import nl.uva.js.qlparser.models.ql.enums.DataType;
+import nl.uva.js.qlparser.models.ql.enums.Operator;
 import nl.uva.js.qlparser.exceptions.TypeMismatchException;
 import nl.uva.js.qlparser.exceptions.TypeNotPossibleException;
 import nl.uva.js.qlparser.wrappers.logic.ValueChangeListener;
@@ -18,9 +18,9 @@ public class Combinator<T> implements DataExpression {
     @NonNull private DataExpression<T> right;
 
     @Override
-    public DataType checkAndReturnType() {
-        DataType leftType = left.checkAndReturnType();
-        DataType rightType = right.checkAndReturnType();
+    public DataType returnCheckedType() {
+        DataType leftType = left.returnCheckedType();
+        DataType rightType = right.returnCheckedType();
 
         if (!leftType.equals(rightType))
             throw new TypeMismatchException(leftType, rightType);

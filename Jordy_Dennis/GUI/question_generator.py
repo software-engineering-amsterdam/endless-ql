@@ -32,6 +32,10 @@ class Question_Generator:
                 label = self.questions[varName].getQuestion()
                 var_type = self.varDict[varName]['node'].checkTypes()
                 value = self.varDict[varName]['node'].evaluate()
+                # check if assignment node, only show evaluated value
+                if(type(self.questions[varName]) == AssignmentNode):
+                    if(self.getFormQuestion(varName)):
+                        self.getFormQuestion(varName).set_value(value)
 
                 # if the question is not yet in the GUI
                 if(not self.isQuestionInForm(varName)):
@@ -70,6 +74,12 @@ class Question_Generator:
                 return True
         return False
 
+    def getFormQuestion(self, varName):
+        for formQuestion in self.form.questions:
+            if formQuestion.varName == varName:
+                return formQuestion
+        return None
+
     # Create the list of all the questions by recursively looping through the statements and adding them to te dictionairy
     def get_questions(self, block):
         for statement in block:
@@ -77,6 +87,7 @@ class Question_Generator:
                 self.questions[statement.getVarName()] = statement
             elif type(statement) == AssignmentNode:
                 statement.evaluate(self.varDict)
+                self.questions[statement.getVarName()] = statement
 
 
             elif type(statement) == ConditionalNode:

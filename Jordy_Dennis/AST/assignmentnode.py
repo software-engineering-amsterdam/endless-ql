@@ -13,6 +13,9 @@ class AssignmentNode:
     def changeValue(self, value):
         pass
 
+    def getQuestion(self):
+        return self.question
+
     # This only works if both types are the same, OR if the expression is of type integer and the varNode is of type boolean.
     # Since an integer can always fit in a boolean
     def checkTypes(self):

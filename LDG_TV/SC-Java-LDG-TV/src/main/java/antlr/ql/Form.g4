@@ -30,7 +30,7 @@ variableType: 'boolean' | 'money' | 'string';
 variableValue: expression | value;
 
 
-expression: BRACKET_OPEN (booleanExpression | aritmaticExpression) BRACKET_CLOSE;
+expression: BRACKET_OPEN (booleanExpression | arithmeticExpression) BRACKET_CLOSE;
 
 booleanExpression: unaryBooleanExpression | gteoqExpression | gtExpression | stExpression | stoeqExpression | eqExpression | neqExpression;
 
@@ -42,7 +42,7 @@ stoeqExpression: variable STOEQ variable ;
 eqExpression: variable EQ variable ;
 neqExpression: variable NEQ variable ;
 
-aritmaticExpression : (mulExpression| divExpression | addExpression | minExpression);
+arithmeticExpression : (mulExpression| divExpression | addExpression | minExpression);
 
 mulExpression: variable TIMES variable ;
 addExpression: variable PLUS variable;

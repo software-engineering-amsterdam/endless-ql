@@ -1,4 +1,4 @@
-// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/java/antlr\Form.g4 by ANTLR 4.7
+// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/java/antlr/ql\Form.g4 by ANTLR 4.7
 package antlr.ql;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -28,15 +28,15 @@ public interface FormListener extends ParseTreeListener {
 	 */
 	void exitFormData(FormParser.FormDataContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FormParser#questionStructure}.
+	 * Enter a parse tree produced by {@link FormParser#questionNodeStructure}.
 	 * @param ctx the parse tree
 	 */
-	void enterQuestionStructure(FormParser.QuestionStructureContext ctx);
+	void enterQuestionNodeStructure(FormParser.QuestionNodeStructureContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FormParser#questionStructure}.
+	 * Exit a parse tree produced by {@link FormParser#questionNodeStructure}.
 	 * @param ctx the parse tree
 	 */
-	void exitQuestionStructure(FormParser.QuestionStructureContext ctx);
+	void exitQuestionNodeStructure(FormParser.QuestionNodeStructureContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FormParser#ifStructure}.
 	 * @param ctx the parse tree
@@ -198,15 +198,15 @@ public interface FormListener extends ParseTreeListener {
 	 */
 	void exitNeqExpression(FormParser.NeqExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FormParser#aritmaticExpression}.
+	 * Enter a parse tree produced by {@link FormParser#arithmeticExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterAritmaticExpression(FormParser.AritmaticExpressionContext ctx);
+	void enterArithmeticExpression(FormParser.ArithmeticExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FormParser#aritmaticExpression}.
+	 * Exit a parse tree produced by {@link FormParser#arithmeticExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitAritmaticExpression(FormParser.AritmaticExpressionContext ctx);
+	void exitArithmeticExpression(FormParser.ArithmeticExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FormParser#mulExpression}.
 	 * @param ctx the parse tree

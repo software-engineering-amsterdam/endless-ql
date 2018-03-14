@@ -1,8 +1,7 @@
 package domain.model.value;
 
 import domain.model.variable.Variable;
-import exception.InvalidAritmaticExpressionException;
-import jdk.jshell.spi.ExecutionControl;
+import exception.InvalidArithmaticExpressionException;
 
 public class BooleanExpressionValue extends Value<Boolean>{
 
@@ -32,8 +31,8 @@ public class BooleanExpressionValue extends Value<Boolean>{
                 case "<=":
                     return (Integer) this.leftHandOperand.getValue().getValue() <= (Integer) this.rightHandOperand.getValue().getValue();
             }
-        }catch(InvalidAritmaticExpressionException e){
-            throw new InvalidAritmaticExpressionException("Invalid aritmatic expression found. Are you using strings were numbers are expected?");
+        }catch(InvalidArithmaticExpressionException e){
+            throw new InvalidArithmaticExpressionException("Invalid aritmatic expression found. Are you using strings were numbers are expected?");
         }
         return false;
     }

@@ -1,4 +1,4 @@
-// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/java/antlr\Form.g4 by ANTLR 4.7
+// Generated from C:/Users/laure/Documents/Git-repositories/software-construction/endless-ql/LDG_TV/SC-Java-LDG-TV/src/main/java/antlr/ql\Form.g4 by ANTLR 4.7
 package antlr.ql;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -40,13 +40,13 @@ public class FormBaseListener implements FormListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestionStructure(FormParser.QuestionStructureContext ctx) { }
+	@Override public void enterQuestionNodeStructure(FormParser.QuestionNodeStructureContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestionStructure(FormParser.QuestionStructureContext ctx) { }
+	@Override public void exitQuestionNodeStructure(FormParser.QuestionNodeStructureContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -244,13 +244,13 @@ public class FormBaseListener implements FormListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAritmaticExpression(FormParser.AritmaticExpressionContext ctx) { }
+	@Override public void enterArithmeticExpression(FormParser.ArithmeticExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAritmaticExpression(FormParser.AritmaticExpressionContext ctx) { }
+	@Override public void exitArithmeticExpression(FormParser.ArithmeticExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

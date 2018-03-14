@@ -2,14 +2,17 @@ package org.uva.forcepushql.ast;
 
 import org.uva.forcepushql.antlr.GrammarParser;
 import org.uva.forcepushql.antlr.GrammarParserBaseVisitor;
+import org.uva.forcepushql.antlr.GrammarParserVisitor;
 
-public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
+public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode> implements GrammarParserVisitor<ExpressionNode>{
 
 
     @Override
     public ExpressionNode visitMathUnit(GrammarParser.MathUnitContext context) {
-        return super.visitMathUnit(context);
+        return visit(context.expression());
     }
+
+
 
 
     @Override
@@ -23,7 +26,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
 
     @Override
     public ExpressionNode visitParenthesisExpression(GrammarParser.ParenthesisExpressionContext context) {
-        return super.visitParenthesisExpression(context);
+        return visit(context.expression());
     }
 
     @Override
@@ -47,19 +50,19 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
                 node = new DivisionNode();
                 break;
             default:
-                node = new AdditionNode();
-                /*try {
-                    throw new Exception();
+                try {
+                    throw new Exception("Invalid Node type");
                 } catch (Exception e) {
                     e.printStackTrace();
-                }*/
+                }
+                return null;
         }
 
-        System.out.println("\nStart of node.Left");
+
         node.Left = visit(context.left);
         System.out.println("End of node.Left \n");
 
-        System.out.println("\nStart of node.Right");
+
         node.Right = visit(context.right);
         System.out.println("End of node.Right \n");
 

@@ -2,7 +2,7 @@ package org.uva.forcepushql.ast;
 
 
 
-public class EvaluateExpressionVisitor implements ASTVisitor<Double> {
+public class EvaluateExpressionVisitor implements ASTVisitor {
 
 
     @Override
@@ -31,7 +31,15 @@ public class EvaluateExpressionVisitor implements ASTVisitor<Double> {
         {
             return visit((DivisionNode) node);
         }
-        else {return 0.0;}
+        else {
+            try {
+                throw new Exception();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return 0.0;
+        }
+
     }
 
     public double visit(AdditionNode node)
@@ -53,16 +61,21 @@ public class EvaluateExpressionVisitor implements ASTVisitor<Double> {
         if (divisor != 0.0)
         {
         return visit(node.Left) / visit(node.Right);
-        }else {return 1.0;} //TODO: Add exception error
+        }else { throw new ArithmeticException("Division by zero."); }
     }
 
     public double visit(NegateNode node)
     {
-        return -visit(node.InnerNode);
+        return -visit(node.getInnerNode());
     }
 
     public double visit(NumberNode node){
         return node.getValue();
+    }
+
+    public double visit(InfixExpressionNode node)
+    {
+        return visit(node.Left);
     }
 
 

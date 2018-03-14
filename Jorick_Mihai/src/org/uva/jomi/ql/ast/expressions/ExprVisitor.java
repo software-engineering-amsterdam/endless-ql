@@ -3,8 +3,17 @@ package org.uva.jomi.ql.ast.expressions;
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
 import org.uva.jomi.ql.parser.antlr.*;
+import org.uva.jomi.ql.parser.antlr.QLParser.ExpressionContext;
 
 public class ExprVisitor extends QLBaseVisitor<Expr> {
+
+	// Sets the line and column number of an expression based on a ANTLR expression context.
+	public void setPosition(Expr expression, ExpressionContext context) {
+		int line = context.getStart().getLine();
+		int column = context.getStart().getCharPositionInLine();
+		expression.setLineNumber(line);
+		expression.setColumnNumber(column);
+	}
 
 	// Builds an Identifier expression using the parser context.
 	@Override public Expr visitIdentifierExpr(QLParser.IdentifierExprContext ctx) {
@@ -32,14 +41,12 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 
 	// Builds an And expression using the parser context.
 	@Override public Expr visitAndExpr(QLParser.AndExprContext ctx) {
-		Expr left = ctx.expression(0).accept(this);
-		Expr right = ctx.expression(1).accept(this);
+		Expr left = ctx.left.accept(this);
+		Expr right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
 
-		left.setLineNumber(ctx.expression(0).getStart().getLine());
-		left.setColumnNumber(ctx.expression(0).getStart().getCharPositionInLine());
-		right.setLineNumber(ctx.expression(1).getStart().getLine());
-		right.setColumnNumber(ctx.expression(1).getStart().getCharPositionInLine());
+		setPosition(left, ctx.left);
+		setPosition(right, ctx.right);
 
 		switch (ctx.operator.getType()) {
 		case QLParser.AND:
@@ -53,14 +60,12 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 
 	// Builds an Or expression using the parser context.
 	@Override public Expr visitOrExpr(QLParser.OrExprContext ctx) {
-		Expr left = ctx.expression(0).accept(this);
-		Expr right = ctx.expression(1).accept(this);
+		Expr left = ctx.left.accept(this);
+		Expr right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
-		
-		left.setLineNumber(ctx.expression(0).getStart().getLine());
-		left.setColumnNumber(ctx.expression(0).getStart().getCharPositionInLine());
-		right.setLineNumber(ctx.expression(1).getStart().getLine());
-		right.setColumnNumber(ctx.expression(1).getStart().getCharPositionInLine());
+
+		setPosition(left, ctx.left);
+		setPosition(right, ctx.right);
 
 		switch (ctx.operator.getType()) {
 		case QLParser.OR:
@@ -74,14 +79,12 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 
 	// Builds an Addition expression using the parser context.
 	@Override public Expr visitAdditionOrSubtractionExpr(QLParser.AdditionOrSubtractionExprContext ctx) {
-		Expr left = ctx.expression(0).accept(this);
-		Expr right = ctx.expression(1).accept(this);
+		Expr left = ctx.left.accept(this);
+		Expr right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
-		
-		left.setLineNumber(ctx.expression(0).getStart().getLine());
-		left.setColumnNumber(ctx.expression(0).getStart().getCharPositionInLine());
-		right.setLineNumber(ctx.expression(1).getStart().getLine());
-		right.setColumnNumber(ctx.expression(1).getStart().getCharPositionInLine());
+
+		setPosition(left, ctx.left);
+		setPosition(right, ctx.right);
 
 		switch (ctx.operator.getType()) {
 		case QLParser.PLUS:
@@ -97,14 +100,12 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 
 	// Builds an Equality expression using the parser context.
 	@Override public Expr visitEqualityExpr(QLParser.EqualityExprContext ctx) {
-		Expr left = ctx.expression(0).accept(this);
-		Expr right = ctx.expression(1).accept(this);
+		Expr left = ctx.left.accept(this);
+		Expr right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
-		
-		left.setLineNumber(ctx.expression(0).getStart().getLine());
-		left.setColumnNumber(ctx.expression(0).getStart().getCharPositionInLine());
-		right.setLineNumber(ctx.expression(1).getStart().getLine());
-		right.setColumnNumber(ctx.expression(1).getStart().getCharPositionInLine());
+
+		setPosition(left, ctx.left);
+		setPosition(right, ctx.right);
 
 		switch (ctx.operator.getType()) {
 		case QLParser.EQUAL_EQUAL:
@@ -120,14 +121,12 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 
 	// Builds a Comparison expression using the parser context.
 	@Override public Expr visitComparisonExpr(QLParser.ComparisonExprContext ctx) {
-		Expr left = ctx.expression(0).accept(this);
-		Expr right = ctx.expression(1).accept(this);
+		Expr left = ctx.left.accept(this);
+		Expr right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
-		
-		left.setLineNumber(ctx.expression(0).getStart().getLine());
-		left.setColumnNumber(ctx.expression(0).getStart().getCharPositionInLine());
-		right.setLineNumber(ctx.expression(1).getStart().getLine());
-		right.setColumnNumber(ctx.expression(1).getStart().getCharPositionInLine());
+
+		setPosition(left, ctx.left);
+		setPosition(right, ctx.right);
 
 		switch (ctx.operator.getType()) {
 		case QLParser.GREATER:
@@ -147,14 +146,12 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 
 	// Builds a Multiplication expression using the parser context.
 	@Override public Expr visitMultiplicationOrDivisionExpr(QLParser.MultiplicationOrDivisionExprContext ctx) {
-		Expr left = ctx.expression(0).accept(this);
-		Expr right = ctx.expression(1).accept(this);
+		Expr left = ctx.left.accept(this);
+		Expr right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
-		
-		left.setLineNumber(ctx.expression(0).getStart().getLine());
-		left.setColumnNumber(ctx.expression(0).getStart().getCharPositionInLine());
-		right.setLineNumber(ctx.expression(1).getStart().getLine());
-		right.setColumnNumber(ctx.expression(1).getStart().getCharPositionInLine());
+
+		setPosition(left, ctx.left);
+		setPosition(right, ctx.right);
 
 		switch (ctx.operator.getType()) {
 		case QLParser.STAR:
@@ -171,10 +168,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	// Builds a Grouping expression using the parser context.
 	@Override public Expr visitGroupingExpr(QLParser.GroupingExprContext ctx) {
 		Expr expression = ctx.expression().accept(this);
-		
-		expression.setLineNumber(ctx.expression().getStart().getLine());
-		expression.setColumnNumber(ctx.expression().getStart().getCharPositionInLine());
-		
+
+		setPosition(expression, ctx.expression());
+
 		return new GroupingExpr(expression);
 	}
 
@@ -182,9 +178,8 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	@Override public Expr visitUnaryExpr(QLParser.UnaryExprContext ctx) {
 		Expr right = ctx.expression().accept(this);
 		QLToken operator = new QLToken(ctx.operator);
-		
-		right.setLineNumber(ctx.expression().getStart().getLine());
-		right.setColumnNumber(ctx.expression().getStart().getCharPositionInLine());
+
+		setPosition(right, ctx.expression());
 
 		switch (ctx.operator.getType()) {
 		case QLParser.BANG:

@@ -7,7 +7,7 @@ form Box1HouseOwning {
     
     if (hasSoldHouse) {
         "Price the house was sold for:" sellingPrice: integer
-        "Private debts for the sold house:" privateDebt: integer
+        "Private debts for the sold house:" privateDebt: integer (-10)
         "Value residue:" valueResidue: integer (sellingPrice * privateDebt / 10)
         
         if (valueResidue > 2000) {

@@ -178,7 +178,7 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
 
     @Override
     public ReturnType visit(ExpressionUnaryNeg expression) {
-        boolean selfValid = expression.value.accept(this) == ReturnType.NUMBER;
+        boolean selfValid = expression.value.accept(this).isNumber();
 
         if (!selfValid) {
             throw new IllegalArgumentException("Invalid NEG: non-numeric expression " + expression.getLocation());

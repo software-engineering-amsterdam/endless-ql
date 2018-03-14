@@ -19,4 +19,19 @@ public class IfASTNode extends ASTNode {
     public void addQuestion(QuestionASTNode q){
         this.questionNodes.add(q);
     }
+
+    @Override
+    public String toString() {
+
+        StringBuilder str = new StringBuilder("if {\n");
+        for (QuestionASTNode qn : questionNodes){
+            str.append('\t')
+                    .append(qn.toString())
+                    .append('\n');
+        }
+
+        str.append('}');
+
+        return str.toString();
+    }
 }

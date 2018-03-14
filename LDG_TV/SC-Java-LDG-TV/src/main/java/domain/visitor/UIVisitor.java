@@ -47,6 +47,7 @@ public class UIVisitor implements Visitor {
                 .addListener((observable, oldValue, newValue) -> {
                     boolean isNotNumeric =!Utilities.isNumeric(newValue);
                     if(isNotNumeric){
+                        System.out.println("Got a non-numeric value!");
                         return;
                     }
 

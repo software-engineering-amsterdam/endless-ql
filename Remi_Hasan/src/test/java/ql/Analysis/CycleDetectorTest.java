@@ -1,5 +1,6 @@
 package ql.Analysis;
 
+import org.hamcrest.core.StringContains;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -11,7 +12,7 @@ public class CycleDetectorTest {
     public ExpectedException expectedEx = ExpectedException.none();
 
     @Test
-    public void testCycleToSelf() throws Exception {
+    public void cycleToSelf() throws Exception {
         expectedEx.expect(IllegalArgumentException.class);
         expectedEx.expectMessage("Cycles detected in the following variables: [someString]");
 
@@ -20,19 +21,27 @@ public class CycleDetectorTest {
     }
 
     @Test
-    public void testCycleBetweenTwo() throws Exception {
+    public void cycleBetweenTwo() throws Exception {
         expectedEx.expect(IllegalArgumentException.class);
-        expectedEx.expectMessage("Cycles detected in the following variables: [someString2, someString1]");
+
+        String[] expectedStrings = {"Cycles detected in the following variables:", "someString1", "someString2"};
+        for(String expectedString : expectedStrings) {
+            expectedEx.expectMessage(StringContains.containsString(expectedString));
+        }
 
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class
                 .getResourceAsStream("/Cycles/CycleBetweenTwo.ql"));
     }
 
     @Test
-    public void testCycleBetweenMultiple() throws Exception {
+    public void cycleBetweenMultiple() throws Exception {
         expectedEx.expect(IllegalArgumentException.class);
-        expectedEx.expectMessage("Cycles detected in the following variables: " +
-                "[someString2, someString1, someString4, someString3]");
+
+        String[] expectedStrings = {"Cycles detected in the following variables:", "someString1", "someString2",
+                "someString3", "someString4"};
+        for(String expectedString : expectedStrings) {
+            expectedEx.expectMessage(StringContains.containsString(expectedString));
+        }
 
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class
                 .getResourceAsStream("/Cycles/CycleBetweenMultiple.ql"));

@@ -8,7 +8,7 @@ import ql.model.expression.Expression;
 public class TypeCheckerTest {
 
     @Test
-    public void SomeHappyTypeCheckTest() {
+    public void positiveTypeCheckerTest() {
         Expression expression = QLTestUtilities.expressionFromString("1 + 1");
 
         TypeChecker typeChecker = new TypeChecker(null, null);
@@ -16,7 +16,7 @@ public class TypeCheckerTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void SomeSadTypeCheckTest() {
+    public void negativeTypeCheckerTest() {
         Expression expression = QLTestUtilities.expressionFromString("1 + true");
 
         TypeChecker typeChecker = new TypeChecker(null, null);

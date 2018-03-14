@@ -9,12 +9,12 @@ import java.math.BigDecimal;
 
 public class FormQuestionHolder {
 
-    private String label;
-    private String variableName;
-    private TypeDeclaration originalDataTypeDeclaration;
+    private final String label;
+    private final String variableName;
+    private final TypeDeclaration originalDataTypeDeclaration;
 
-    private Expression visibilityCondition;
-    private Expression assignedExpression;
+    private final Expression visibilityCondition;
+    private final Expression assignedExpression;
 
     private MixedValueHolder visibilityHolder;
     private MixedValueHolder valueHolder;

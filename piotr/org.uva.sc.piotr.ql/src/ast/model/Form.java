@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Form extends ASTNode {
 
-    private String name;
-    private List<Statement> statementList = new ArrayList<>();
+    private final String name;
+    private final List<Statement> statementList = new ArrayList<>();
 
     public Form(String name, MetaInformation metaInformation) {
         super(metaInformation);
@@ -24,8 +24,8 @@ public class Form extends ASTNode {
         return statementList;
     }
 
-    public boolean addStatement(Statement statement) {
-        return this.statementList.add(statement);
+    public void addStatement(Statement statement) {
+        this.statementList.add(statement);
     }
 
     @Override

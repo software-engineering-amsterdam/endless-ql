@@ -11,10 +11,10 @@ import java.util.*;
 
 public class FormController {
 
-    private List<FormQuestionHolder> formQuestionHolders;
-    private HashMap<String, List<FormQuestionHolder>> dependentFormQuestionsForVisibility = new HashMap<>();
-    private HashMap<String, List<FormQuestionHolder>> dependentFormQuestionsForValue = new HashMap<>();
-    private ExpressionEvaluator evaluator;
+    private final List<FormQuestionHolder> formQuestionHolders;
+    private final HashMap<String, List<FormQuestionHolder>> dependentFormQuestionsForVisibility = new HashMap<>();
+    private final HashMap<String, List<FormQuestionHolder>> dependentFormQuestionsForValue = new HashMap<>();
+    private final ExpressionEvaluator evaluator;
 
     public FormController(List<FormQuestionHolder> formQuestionHolders, ExpressionEvaluator evaluator) throws Exception {
 

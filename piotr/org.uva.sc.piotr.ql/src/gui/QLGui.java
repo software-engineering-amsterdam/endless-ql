@@ -19,7 +19,7 @@ public class QLGui {
     public QLGui(String title, List<FormQuestionHolder> formQuestionHolders, ExpressionEvaluator evaluator) throws Exception {
 
         JFrame frame = new JFrame("QL Form GUI");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JPanel panel = new JPanel(new GridBagLayout());
 
         TitledBorder titled = new TitledBorder(title);

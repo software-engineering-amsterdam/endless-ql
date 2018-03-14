@@ -14,7 +14,7 @@ import java.text.NumberFormat;
 
 public class DecimalFieldWidget extends Widget {
 
-    private JFormattedTextField field;
+    private final JFormattedTextField field;
 
     public DecimalFieldWidget(FormQuestionHolder formQuestionHolder) {
         super(formQuestionHolder);
@@ -71,10 +71,5 @@ public class DecimalFieldWidget extends Widget {
     @Override
     public void updateValue() {
         this.field.setValue(this.getFormQuestionHolder().getValueHolder().getDecimalValue());
-    }
-
-    @Override
-    public Expression.DataType getSupportedDataType() {
-        return Expression.DataType.DECIMAL;
     }
 }

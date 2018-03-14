@@ -312,7 +312,6 @@ public class ASTBuilder extends QLBaseVisitor<ASTNode> {
         return new ASTNode.MetaInformation(
                 ctx.start.getLine(),
                 ctx.stop.getLine(),
-                ctx.start.getCharPositionInLine() + 1,
                 ctx.getText()
         );
     }

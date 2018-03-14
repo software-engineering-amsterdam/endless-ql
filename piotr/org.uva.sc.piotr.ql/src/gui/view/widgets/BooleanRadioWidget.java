@@ -10,9 +10,9 @@ import java.awt.*;
 // TODO: change it into a real boolean radio widget
 public class BooleanRadioWidget extends Widget {
 
-    private JPanel radioPanel;
-    private JRadioButton yesButton;
-    private JRadioButton noButton;
+    private final JPanel radioPanel;
+    private final JRadioButton yesButton;
+    private final JRadioButton noButton;
 
     public BooleanRadioWidget(FormQuestionHolder formQuestionHolder) {
         super(formQuestionHolder);
@@ -34,13 +34,9 @@ public class BooleanRadioWidget extends Widget {
         radioPanel.add(this.yesButton);
         radioPanel.add(this.noButton);
 
-        this.yesButton.addActionListener(e -> {
-            formQuestionHolder.changeValue(true);
-        });
+        this.yesButton.addActionListener(e -> formQuestionHolder.changeValue(true));
 
-        this.noButton.addActionListener(e -> {
-            formQuestionHolder.changeValue(false);
-        });
+        this.noButton.addActionListener(e -> formQuestionHolder.changeValue(false));
 
         this.radioPanel = radioPanel;
     }
@@ -54,10 +50,5 @@ public class BooleanRadioWidget extends Widget {
     public void updateValue() {
         this.yesButton.setSelected(this.getFormQuestionHolder().getValueHolder().getBooleanValue());
         this.noButton.setSelected(!this.getFormQuestionHolder().getValueHolder().getBooleanValue());
-    }
-
-    @Override
-    public Expression.DataType getSupportedDataType() {
-        return Expression.DataType.BOOLEAN;
     }
 }

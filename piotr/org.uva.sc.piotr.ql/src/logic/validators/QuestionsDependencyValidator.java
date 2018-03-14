@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class QuestionsDependencyValidator {
 
-    public HashMap<String, Node> nodes = new HashMap<>();
+    private final HashMap<String, Node> nodes = new HashMap<>();
 
     static class Node {
         private final Question question;
@@ -23,11 +23,10 @@ public class QuestionsDependencyValidator {
             this.outEdges = new HashSet<>();
         }
 
-        public Node addEdge(Node node) {
+        void addEdge(Node node) {
             Edge e = new Edge(this, node);
             this.outEdges.add(e);
             node.inEdges.add(e);
-            return this;
         }
 
         @Override

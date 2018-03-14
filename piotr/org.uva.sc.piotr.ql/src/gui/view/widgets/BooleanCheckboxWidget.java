@@ -9,7 +9,7 @@ import java.awt.event.ItemEvent;
 
 public class BooleanCheckboxWidget extends Widget {
 
-    private JCheckBox checkbox;
+    private final JCheckBox checkbox;
 
     public BooleanCheckboxWidget(FormQuestionHolder formQuestionHolder) {
         super(formQuestionHolder);
@@ -39,10 +39,5 @@ public class BooleanCheckboxWidget extends Widget {
     @Override
     public void updateValue() {
         this.checkbox.setSelected(this.getFormQuestionHolder().getValueHolder().getBooleanValue());
-    }
-
-    @Override
-    public Expression.DataType getSupportedDataType() {
-        return Expression.DataType.BOOLEAN;
     }
 }

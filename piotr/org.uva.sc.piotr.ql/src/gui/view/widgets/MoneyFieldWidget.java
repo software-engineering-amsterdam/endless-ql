@@ -14,7 +14,7 @@ import java.text.NumberFormat;
 
 public class MoneyFieldWidget extends Widget {
 
-    private JFormattedTextField field;
+    private final JFormattedTextField field;
 
     public MoneyFieldWidget(FormQuestionHolder formQuestionHolder) {
         super(formQuestionHolder);
@@ -74,8 +74,4 @@ public class MoneyFieldWidget extends Widget {
         this.field.setValue(this.getFormQuestionHolder().getValueHolder().getDecimalValue());
     }
 
-    @Override
-    public Expression.DataType getSupportedDataType() {
-        return Expression.DataType.DECIMAL;
-    }
 }

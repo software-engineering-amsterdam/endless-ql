@@ -10,7 +10,7 @@ import javax.swing.event.DocumentListener;
 
 public class TextFieldWidget extends Widget {
 
-    private JTextField textField;
+    private final JTextField textField;
 
     public TextFieldWidget(FormQuestionHolder formQuestionHolder) {
 
@@ -53,10 +53,4 @@ public class TextFieldWidget extends Widget {
     public void updateValue() {
         this.textField.setText(this.getFormQuestionHolder().getValueHolder().getStringValue());
     }
-
-    @Override
-    public Expression.DataType getSupportedDataType() {
-        return Expression.DataType.STRING;
-    }
-
 }

@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 public class ExpressionEvaluator extends AbstractASTTraverse<MixedValueHolder> {
 
-    private HashMap<String, MixedValueHolder> variablesValues;
+    private final HashMap<String, MixedValueHolder> variablesValues;
 
     public ExpressionEvaluator(HashMap<String, MixedValueHolder> variablesValues) {
         this.variablesValues = variablesValues;

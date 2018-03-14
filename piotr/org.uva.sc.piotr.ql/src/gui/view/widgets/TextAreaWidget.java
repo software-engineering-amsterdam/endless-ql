@@ -10,7 +10,7 @@ import javax.swing.event.DocumentListener;
 
 public class TextAreaWidget extends Widget {
 
-    private JTextArea textArea;
+    private final JTextArea textArea;
 
     public TextAreaWidget(FormQuestionHolder formQuestionHolder) {
 
@@ -54,11 +54,6 @@ public class TextAreaWidget extends Widget {
     @Override
     public void updateValue() {
         this.textArea.setText(this.getFormQuestionHolder().getValueHolder().getStringValue());
-    }
-
-    @Override
-    public Expression.DataType getSupportedDataType() {
-        return Expression.DataType.STRING;
     }
 
 }

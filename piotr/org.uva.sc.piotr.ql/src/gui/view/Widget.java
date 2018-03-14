@@ -1,14 +1,13 @@
 package gui.view;
 
-import ast.model.expressions.Expression;
 import gui.model.FormQuestionHolder;
 
 import javax.swing.*;
 
 public abstract class Widget extends JComponent {
-    private FormQuestionHolder formQuestionHolder;
+    private final FormQuestionHolder formQuestionHolder;
 
-    public Widget(FormQuestionHolder formQuestionHolder) {
+    protected Widget(FormQuestionHolder formQuestionHolder) {
         this.formQuestionHolder = formQuestionHolder;
     }
 
@@ -17,6 +16,5 @@ public abstract class Widget extends JComponent {
     }
 
     public abstract JComponent getComponent();
-    public abstract Expression.DataType getSupportedDataType();
     public abstract void updateValue();
 }

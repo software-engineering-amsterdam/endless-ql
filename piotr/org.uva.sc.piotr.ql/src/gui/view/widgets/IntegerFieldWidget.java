@@ -12,7 +12,7 @@ import java.text.NumberFormat;
 
 public class IntegerFieldWidget extends Widget {
 
-    private JFormattedTextField field;
+    private final JFormattedTextField field;
 
     public IntegerFieldWidget(FormQuestionHolder formQuestionHolder) {
 
@@ -64,10 +64,5 @@ public class IntegerFieldWidget extends Widget {
     @Override
     public void updateValue() {
         this.field.setValue(this.getFormQuestionHolder().getValueHolder().getIntegerValue());
-    }
-
-    @Override
-    public Expression.DataType getSupportedDataType() {
-        return Expression.DataType.DECIMAL;
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 public class CollectQuestionsVisitor extends AbstractASTTraverse<Void> {
 
     // AST node as key
-    private HashMap<Question, List<VariableReference>> questionsMap = new HashMap<>();
+    private final HashMap<Question, List<VariableReference>> questionsMap = new HashMap<>();
 
     public List<Question> getQuestions() {
         return new ArrayList<>(this.questionsMap.keySet());

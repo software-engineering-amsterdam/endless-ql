@@ -25,33 +25,34 @@ public class MixedValueHolder {
 
     public static MixedValueHolder createValueHolder(@NotNull Expression.DataType type, String text) {
 
-        if (type == Expression.DataType.INTEGER) {
-            Integer safeInteger = text.isEmpty() ? 0 : Integer.parseInt(text);
-            return new MixedValueHolder(type, safeInteger);
-        } else if (type == Expression.DataType.DECIMAL) {
-            BigDecimal safeDecimal = text.isEmpty() ? new BigDecimal(0) : new BigDecimal(text);
-            return new MixedValueHolder(type, safeDecimal);
-        } else if (type == Expression.DataType.BOOLEAN) {
-            // @TODO: Check it - I don't like the string here
-            Boolean safeBoolean = text.toUpperCase().equals("TRUE");
-            return new MixedValueHolder(type, safeBoolean);
-        } else if (type == Expression.DataType.STRING) {
-            return new MixedValueHolder(type, text);
+        switch (type) {
+            case INTEGER:
+                Integer safeInteger = text.isEmpty() ? 0 : Integer.parseInt(text);
+                return new MixedValueHolder(type, safeInteger);
+            case DECIMAL:
+                BigDecimal safeDecimal = text.isEmpty() ? new BigDecimal(0) : new BigDecimal(text);
+                return new MixedValueHolder(type, safeDecimal);
+            case BOOLEAN:
+                // @TODO: Check it - I don't like the string here
+                Boolean safeBoolean = text.toUpperCase().equals("TRUE");
+                return new MixedValueHolder(type, safeBoolean);
+            case STRING:
+                return new MixedValueHolder(type, text);
         }
         return null;
     }
 
-    public MixedValueHolder(@NotNull Expression.DataType type, @NotNull String stringValue) {
+    private MixedValueHolder(@NotNull Expression.DataType type, @NotNull String stringValue) {
         this.type = type;
         this.stringValue = stringValue;
     }
 
-    public MixedValueHolder(@NotNull Expression.DataType type, @NotNull BigDecimal decimalValue) {
+    private MixedValueHolder(@NotNull Expression.DataType type, @NotNull BigDecimal decimalValue) {
         this.type = type;
         this.decimalValue = decimalValue;
     }
 
-    public MixedValueHolder(@NotNull Expression.DataType type, @NotNull Integer integerValue) {
+    private MixedValueHolder(@NotNull Expression.DataType type, @NotNull Integer integerValue) {
         this.type = type;
         this.integerValue = integerValue;
     }
@@ -117,14 +118,15 @@ public class MixedValueHolder {
 
     // logical and arithmetical negation
     public MixedValueHolder negate() {
-        if (this.type == Expression.DataType.BOOLEAN) {
-            return new MixedValueHolder(this.type, !this.booleanValue);
-        } else if (this.type == Expression.DataType.INTEGER) {
-            return new MixedValueHolder(this.type, -this.integerValue);
-        } else if (this.type == Expression.DataType.DECIMAL) {
-            return new MixedValueHolder(this.type, this.decimalValue.negate());
-        } else {
-            throw new RuntimeException("Logical negation on type " + this.type + " is illegal.");
+        switch (this.type) {
+            case BOOLEAN:
+                return new MixedValueHolder(this.type, !this.booleanValue);
+            case INTEGER:
+                return new MixedValueHolder(this.type, -this.integerValue);
+            case DECIMAL:
+                return new MixedValueHolder(this.type, this.decimalValue.negate());
+            default:
+                throw new RuntimeException("Logical negation on type " + this.type + " is illegal.");
         }
     }
 
@@ -196,40 +198,43 @@ public class MixedValueHolder {
         }
 
         if (this.type == Expression.DataType.DECIMAL) {
-            if (operator == BinaryOperator.PLUS) {
-                return new MixedValueHolder(lhs.type, lhs.decimalValue.add(rhs.decimalValue));
-            } else if (operator == BinaryOperator.MINUS) {
-                return new MixedValueHolder(lhs.type, lhs.decimalValue.subtract(rhs.decimalValue));
-            } else if (operator == BinaryOperator.MULTIPLY) {
-                return new MixedValueHolder(lhs.type, lhs.decimalValue.multiply(rhs.decimalValue));
-            } else if (operator == BinaryOperator.DIVIDE) {
-                return new MixedValueHolder(lhs.type, lhs.decimalValue.divide(rhs.decimalValue));
-            } else {
-                throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+            switch (operator) {
+                case PLUS:
+                    return new MixedValueHolder(lhs.type, lhs.decimalValue.add(rhs.decimalValue));
+                case MINUS:
+                    return new MixedValueHolder(lhs.type, lhs.decimalValue.subtract(rhs.decimalValue));
+                case MULTIPLY:
+                    return new MixedValueHolder(lhs.type, lhs.decimalValue.multiply(rhs.decimalValue));
+                case DIVIDE:
+                    return new MixedValueHolder(lhs.type, lhs.decimalValue.divide(rhs.decimalValue, 4, BigDecimal.ROUND_DOWN));
+                default:
+                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
         }
 
         if (this.type == Expression.DataType.INTEGER) {
-            if (operator == BinaryOperator.PLUS) {
-                return new MixedValueHolder(lhs.type, lhs.integerValue + rhs.integerValue);
-            } else if (operator == BinaryOperator.MINUS) {
-                return new MixedValueHolder(lhs.type, lhs.integerValue - rhs.integerValue);
-            } else if (operator == BinaryOperator.MULTIPLY) {
-                return new MixedValueHolder(lhs.type, lhs.integerValue * rhs.integerValue);
-            } else if (operator == BinaryOperator.DIVIDE) {
-                return new MixedValueHolder(lhs.type, lhs.integerValue / rhs.integerValue);
-            } else {
-                throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+            switch (operator) {
+                case PLUS:
+                    return new MixedValueHolder(lhs.type, lhs.integerValue + rhs.integerValue);
+                case MINUS:
+                    return new MixedValueHolder(lhs.type, lhs.integerValue - rhs.integerValue);
+                case MULTIPLY:
+                    return new MixedValueHolder(lhs.type, lhs.integerValue * rhs.integerValue);
+                case DIVIDE:
+                    return new MixedValueHolder(lhs.type, lhs.integerValue / rhs.integerValue);
+                default:
+                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
         }
 
         if (this.type == Expression.DataType.BOOLEAN) {
-            if (operator == BinaryOperator.AND) {
-                return new MixedValueHolder(lhs.type, lhs.booleanValue && rhs.booleanValue);
-            } else if (operator == BinaryOperator.OR) {
-                return new MixedValueHolder(lhs.type, lhs.booleanValue || rhs.booleanValue);
-            } else {
-                throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+            switch (operator) {
+                case AND:
+                    return new MixedValueHolder(lhs.type, lhs.booleanValue && rhs.booleanValue);
+                case OR:
+                    return new MixedValueHolder(lhs.type, lhs.booleanValue || rhs.booleanValue);
+                default:
+                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
         }
 
@@ -246,58 +251,62 @@ public class MixedValueHolder {
         MixedValueHolder rhs = unifiedResults.snd;
 
         if (lhs.type == Expression.DataType.STRING) {
-            if (operator == ComparisionOperator.EQ) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.stringValue.equals(rhs.stringValue));
-            } else if (operator == ComparisionOperator.NEQ) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, !lhs.stringValue.equals(rhs.stringValue));
-            } else {
-                throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+            switch (operator) {
+                case EQ:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.stringValue.equals(rhs.stringValue));
+                case NEQ:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, !lhs.stringValue.equals(rhs.stringValue));
+                default:
+                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
         }
 
         if (this.type == Expression.DataType.DECIMAL) {
-            if (operator == ComparisionOperator.GT) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) > 0);
-            } else if (operator == ComparisionOperator.GE) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) >= 0);
-            } else if (operator == ComparisionOperator.LT) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) < 0);
-            } else if (operator == ComparisionOperator.LE) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) <= 0);
-            } else if (operator == ComparisionOperator.EQ) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) == 0);
-            } else if (operator == ComparisionOperator.NEQ) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) != 0);
-            } else {
-                throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+            switch (operator) {
+                case GT:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) > 0);
+                case GE:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) >= 0);
+                case LT:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) < 0);
+                case LE:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) <= 0);
+                case EQ:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) == 0);
+                case NEQ:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) != 0);
+                default:
+                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
         }
 
         if (this.type == Expression.DataType.INTEGER) {
-            if (operator == ComparisionOperator.GT) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.integerValue > rhs.integerValue);
-            } else if (operator == ComparisionOperator.GE) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.integerValue >= rhs.integerValue);
-            } else if (operator == ComparisionOperator.LT) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.integerValue < rhs.integerValue);
-            } else if (operator == ComparisionOperator.LE) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.integerValue <= rhs.integerValue);
-            } else if (operator == ComparisionOperator.EQ) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.integerValue.equals(rhs.integerValue));
-            } else if (operator == ComparisionOperator.NEQ) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, !lhs.integerValue.equals(rhs.integerValue));
-            } else {
-                throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+            switch (operator) {
+                case GT:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.integerValue > rhs.integerValue);
+                case GE:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.integerValue >= rhs.integerValue);
+                case LT:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.integerValue < rhs.integerValue);
+                case LE:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.integerValue <= rhs.integerValue);
+                case EQ:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.integerValue.equals(rhs.integerValue));
+                case NEQ:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, !lhs.integerValue.equals(rhs.integerValue));
+                default:
+                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
         }
 
         if (this.type == Expression.DataType.BOOLEAN) {
-            if (operator == ComparisionOperator.EQ) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.booleanValue == rhs.booleanValue);
-            } else if (operator == ComparisionOperator.NEQ) {
-                return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.booleanValue != rhs.booleanValue);
-            } else {
-                throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+            switch (operator) {
+                case EQ:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.booleanValue == rhs.booleanValue);
+                case NEQ:
+                    return new MixedValueHolder(Expression.DataType.BOOLEAN, lhs.booleanValue != rhs.booleanValue);
+                default:
+                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
             }
         }
 
@@ -325,14 +334,15 @@ public class MixedValueHolder {
 
     @Override
     public String toString() {
-        if (this.getType() == Expression.DataType.INTEGER) {
-            return this.integerValue.toString();
-        } else if (this.getType() == Expression.DataType.DECIMAL) {
-            return this.decimalValue.toString();
-        } else if (this.getType() == Expression.DataType.BOOLEAN) {
-            return this.booleanValue.toString();
-        } else if (this.getType() == Expression.DataType.STRING) {
-            return this.stringValue;
+        switch (this.getType()) {
+            case INTEGER:
+                return this.integerValue.toString();
+            case DECIMAL:
+                return this.decimalValue.toString();
+            case BOOLEAN:
+                return this.booleanValue.toString();
+            case STRING:
+                return this.stringValue;
         }
         return null;
     }

@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class IntegerSpinnerWidget extends Widget {
 
-    private JSpinner spinner;
+    private final JSpinner spinner;
 
     public IntegerSpinnerWidget(FormQuestionHolder formQuestionHolder) {
         super(formQuestionHolder);
@@ -26,16 +26,9 @@ public class IntegerSpinnerWidget extends Widget {
             spinner.setEnabled(false);
         }
 
-        spinner.addChangeListener(e -> {
-            formQuestionHolder.changeValue((Integer) spinner.getValue());
-        });
+        spinner.addChangeListener(e -> formQuestionHolder.changeValue((Integer) spinner.getValue()));
 
         this.spinner = spinner;
-    }
-
-    @Override
-    public Expression.DataType getSupportedDataType() {
-        return Expression.DataType.INTEGER;
     }
 
     @Override

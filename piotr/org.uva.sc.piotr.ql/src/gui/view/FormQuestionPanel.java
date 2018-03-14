@@ -9,8 +9,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class FormQuestionPanel extends JPanel {
-    private Widget widget;
-    private FormQuestionHolder formQuestionHolder;
+    private final Widget widget;
+    private final FormQuestionHolder formQuestionHolder;
 
     public FormQuestionPanel(FormQuestionHolder formQuestionHolder) {
         super(new GridBagLayout());
@@ -57,17 +57,18 @@ public class FormQuestionPanel extends JPanel {
 
         Expression.DataType questionDataType = formQuestionHolder.getOriginalDataTypeDeclaration().toDataType();
 
-        if (questionDataType == Expression.DataType.DECIMAL) {
-            // if decimal is originally declared as "money", then use a widget with currency sign
-            if (formQuestionHolder.getOriginalDataTypeDeclaration().getIdentifier().equals("money")) {
-                return new MoneyFieldWidget(formQuestionHolder);
-            }
-            return new DecimalFieldWidget(formQuestionHolder);
-        } else if (questionDataType == Expression.DataType.INTEGER) {
-            return new IntegerSpinnerWidget(formQuestionHolder);
-        } else if (questionDataType == Expression.DataType.BOOLEAN) {
-            //return new BooleanCheckboxWidget(this.formQuestionHolder);
-            return new BooleanRadioWidget(formQuestionHolder);
+        switch (questionDataType) {
+            case DECIMAL:
+                // if decimal is originally declared as "money", then use a widget with currency sign
+                if (formQuestionHolder.getOriginalDataTypeDeclaration().getIdentifier().equals("money")) {
+                    return new MoneyFieldWidget(formQuestionHolder);
+                }
+                return new DecimalFieldWidget(formQuestionHolder);
+            case INTEGER:
+                return new IntegerSpinnerWidget(formQuestionHolder);
+            case BOOLEAN:
+                //return new BooleanCheckboxWidget(this.formQuestionHolder);
+                return new BooleanRadioWidget(formQuestionHolder);
         }
         // string and any other
         return new TextFieldWidget(formQuestionHolder);

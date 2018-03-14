@@ -1,61 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
-using Assignment1.Export;
-using Assignment1.Rendering;
 
 namespace Assignment1
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IMainView
     {
-        private FlowLayoutPanel _mainPanel;
-
         public Form1()
         {
             InitializeComponent();
-            _mainPanel = new FlowLayoutPanel
-            {
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                FlowDirection = FlowDirection.TopDown
-            };
-            Controls.Add(_mainPanel);
+            var presenter = new MainPresenter(this);
+            openFileButton.Click += SelectQLFile;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            ParseFile("test.txt");
-        }
+        public event EventHandler SelectQLFile;
 
-        private void ParseFile(string fileLocation)
+        public void SetFormControl(Control control)
         {
             _mainPanel.Controls.Clear();
-            try
-            {
-                var form = QLListener.ParseString(File.ReadAllText(fileLocation));
-                _mainPanel.Controls.Add(RenderFileSelector());
-                IQuestionFormRenderer renderer = new QuestionFormRenderer(form);
-                _mainPanel.Controls.Add(renderer.Render());
-                FormExporter exporter = new FormExporter(form);
-                _mainPanel.Controls.Add(exporter.Render());
-            }
-            catch (Exception e)
-            {
-                ReportFormErrors((List<string>)e.Data["MoreInfo"]); //TODO: Handle specific exception
-            }
+            _mainPanel.Controls.Add(control);
         }
 
-        private ToolStrip RenderFileSelector()
-        {
-            ToolStrip fileSelectorPanel = new ToolStrip();
-            ToolStripButton toolStripButton = new ToolStripButton("Open file", null, FileSelectorClicked);
-            fileSelectorPanel.Items.Add(toolStripButton);
-            return fileSelectorPanel;
-        }
-
-        private void ReportFormErrors(List<string> errors)
+        public void SetErrors(List<string> errors)
         {
             var header = new Label
             {
@@ -79,13 +46,25 @@ namespace Assignment1
             }
         }
 
-        private void FileSelectorClicked(object sender, EventArgs eventArgs)
+        public void SetWarnings(List<string> warnings)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.InitialDirectory = Path.GetDirectoryName(Directory.GetCurrentDirectory());
-            if (fileDialog.ShowDialog() == DialogResult.OK)
+            var header = new Label
             {
-                ParseFile(fileDialog.FileName);
+                Text = "Warning:",
+                Width = 1000,
+                Font = new Font("Arial", 9, FontStyle.Bold)
+            };
+            _mainPanel.Controls.Add(header);
+            foreach (var warning in warnings)
+            {
+                var label = new Label
+                {
+                    Text = warning,
+                    Width = 1000,
+                    Font = new Font("Arial", 8),
+                    ForeColor = Color.DarkOrange
+                };
+                _mainPanel.Controls.Add(label);
             }
         }
     }

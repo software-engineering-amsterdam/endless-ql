@@ -47,7 +47,7 @@ export class ExpressionQuestion extends Question {
   expressionTypeValidForQuestion(expressionType: ExpressionType): boolean {
     switch (expressionType) {
       case ExpressionType.NUMBER:
-        return this.type === QuestionType.INT || this.type === QuestionType.DECIMAL;
+        return this.type === QuestionType.INT;
       case ExpressionType.BOOLEAN:
         return this.type === QuestionType.BOOLEAN;
       case ExpressionType.DATE:

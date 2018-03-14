@@ -25,7 +25,6 @@ export abstract class Expression {
   // TODO: see if switch can be deleted
   protected toExpressionType(questionType: QuestionType): ExpressionType {
     switch (questionType) {
-      case QuestionType.DECIMAL:
       case QuestionType.INT:
         return ExpressionType.NUMBER;
       case QuestionType.STRING:

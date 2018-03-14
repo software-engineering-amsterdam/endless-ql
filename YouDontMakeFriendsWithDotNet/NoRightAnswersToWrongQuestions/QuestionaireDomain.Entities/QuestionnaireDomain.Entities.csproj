@@ -110,8 +110,9 @@
     <Compile Include="Domain\Interfaces\IDomainItemRegistry.cs" />
     <Compile Include="Ast\Tools\Interfaces\IAstTreeBuilder.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IQuestionnaireNode.cs" />
-    <Compile Include="Output\Tools\Interfaces\IQuestionnaireModelCreator.cs" />
+    <Compile Include="Output\Tools\Interfaces\IQuestionnaireOutputCreator.cs" />
     <Compile Include="Output\Nodes\Interfaces\IQuestionOutput.cs" />
+    <Compile Include="Output\Tools\IQuestionnaireOutputUpdater.cs" />
     <Compile Include="Output\Tools\OutputItemFactory.cs" />
     <Compile Include="Output\Nodes\Interfaces\IOutputItem.cs" />
     <Compile Include="Output\Nodes\Interfaces\QuestionOutputItem.cs" />
@@ -157,7 +158,8 @@
     <Compile Include="Ast\Nodes\Common\VariableNodeBase.cs" />
     <Compile Include="EntitiesModule.cs" />
     <Compile Include="Domain\Interfaces\ISymbolTable.cs" />
-    <Compile Include="Output\Tools\QuestionnaireModelCreator.cs" />
+    <Compile Include="Output\Tools\QuestionnaireOutputCreator.cs" />
+    <Compile Include="Output\Tools\QuestionnaireOutputUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

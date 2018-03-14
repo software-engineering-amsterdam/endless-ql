@@ -1,5 +1,5 @@
 package gui;
-
+//TODO: remove class
 import ql.analysis.SymbolTable;
 import javafx.event.ActionEvent;
 import ql.model.expression.Expression;
@@ -253,9 +253,9 @@ public class FormRenderer {
     }
 
     private void updateFields(HashMap<Question, Field> fieldMap, List<Question> questions) {
-        for (Question question : questions) {
-            updateField(fieldMap, question, question.isVisible(this.symbolTable));
-        }
+//        for (Question question : questions) {
+//            updateField(fieldMap, question, question.isVisible(this.symbolTable));
+//        }
     }
 
     private void updateField(HashMap<Question, Field> fieldMap, Question question, boolean visible) {

@@ -24,7 +24,7 @@ public class TestUtilities {
 
 		ParseContext cst = parser.parse();
 
-		AstBuilder astBuilder = new AstBuilder();
+		AstBuilder astBuilder = new AstBuilder(false);
 		return astBuilder.visit(cst);
 	}
 

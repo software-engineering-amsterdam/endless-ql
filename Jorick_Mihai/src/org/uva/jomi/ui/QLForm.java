@@ -18,7 +18,6 @@ import org.uva.jomi.ql.parser.antlr.QLLexer;
 import org.uva.jomi.ql.parser.antlr.QLParser;
 import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
 import org.uva.jomi.ui.elements.ElementBuilder;
-import org.uva.jomi.ui.elements.core.Frame;
 import org.uva.jomi.ui.elements.core.Panel;
 
 public class QLForm {
@@ -39,7 +38,12 @@ public class QLForm {
 
 			ParseContext cst = parser.parse();
 
-			this.ast = new AstBuilder().visit(cst);
+			AstBuilder builder = new AstBuilder(true);
+			this.ast = builder.visit(cst);
+
+			if (builder.getNumberOfErros() > 0) {
+				System.err.println("Failed to build the AST");
+			}
 		} catch(IOException e) {
 			System.err.println("Source file was not found: " + e.getMessage());
 		}

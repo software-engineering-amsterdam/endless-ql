@@ -20,11 +20,13 @@ stylesheet taxOfficeExample
       section "You sold a house"
       {
         question sellingPrice
-          widget spinbox
+
         question privateDebt
           widget spinbox
+
         question valueResidue
-        default money
+
+        default money_euro
         {
           width: 400
           font: "Arial"

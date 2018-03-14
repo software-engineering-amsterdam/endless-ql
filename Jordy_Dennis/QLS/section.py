@@ -15,3 +15,6 @@ class Section:
 
     def addDefault(self, default):
         self.defaults.append(default)
+
+    def __repr__(self):
+        return "Section {}: questions: {} sections: {} defaults: {}".format(self.name, self.questions, self.sections, self.defaults)

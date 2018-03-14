@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using Assignment1.Model;
+using Assignment1.Parser;
 
 namespace Assignment1
 {
@@ -15,7 +14,7 @@ namespace Assignment1
         private QuestionForm _form;
         private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
         private readonly Dictionary<string,string> _warnings = new Dictionary<string, string>();
-        private readonly List<string> _errors = new List<string>();
+        private QLParseErrorHandler _errorHandler = new QLParseErrorHandler();
 
         private bool QuestionIdExists(string questionId)
         {
@@ -31,11 +30,6 @@ namespace Assignment1
                     return true;
             }
             return false;
-        }
-
-        private void AddError(ParserRuleContext context, string message)
-        {
-            _errors.Add("Line " + context.Start.Line + ": " + message);
         }
 
         private void AddWarning(ParserRuleContext context, string questionId, string message)
@@ -74,7 +68,7 @@ namespace Assignment1
 
             if (QuestionIdExists(questionId))
             {
-                AddError(context, "The question id '" + questionId + "' already exists in the current context.");
+                _errorHandler.AddError(context.Start.Line, "The question id '" + questionId + "' already exists in the current context.");
             }
             else
             {
@@ -89,7 +83,7 @@ namespace Assignment1
             object conditionType = context._expression.result.Evaluate();
             if (!(conditionType is bool))
             {
-                AddError(context, "The expression '" + context._expression.GetText() + "' is not of type boolean.");
+                _errorHandler.AddError(context.Start.Line, "The expression '" + context._expression.GetText() + "' is not of type boolean.");
             }
         }
 
@@ -105,7 +99,7 @@ namespace Assignment1
             }
             catch (Exception exception)
             {
-                AddError(context, exception.Message);
+                _errorHandler.AddError(context.Start.Line, exception.Message);
             }
         }
 
@@ -120,24 +114,36 @@ namespace Assignment1
             }
             catch (KeyNotFoundException)
             {
-                AddError(context, "The question id '" + context.result.Id + "' does not exist in the current context.");
+                _errorHandler.AddError(context.Start.Line, "The question id '" + context.result.Id + "' does not exist in the current context.");
             }
+        }
+
+        public override void VisitErrorNode(IErrorNode node)
+        {
+            Console.WriteLine("Error node: " + node.GetText());
         }
 
         internal static QuestionForm ParseString(string input)
         {
+            QLListener listener = new QLListener();
+            QLErrorListener errorListener = new QLErrorListener(listener._errorHandler);
+
             ICharStream stream = CharStreams.fromstring(input);
             ITokenSource lexer = new QLLexer(stream);
+            ((QLLexer)lexer).RemoveErrorListeners();
+            ((QLLexer)lexer).AddErrorListener(errorListener);
             ITokenStream tokens = new CommonTokenStream(lexer);
             QL parser = new QL(tokens);
+            parser.RemoveErrorListeners();
+            parser.AddErrorListener(errorListener);
             QL.FormContext context = parser.form();
-            QLListener listener = new QLListener();
+            
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.Walk(listener, context);
-            if (listener._errors.Count == 0) return listener._form;
-            var e = new Exception("Invalid form"); //TODO: Create specific exception
-            e.Data.Add("MoreInfo", listener._errors);
-            throw e;
+
+            if (listener._errorHandler.FormHasErrors)
+                listener._errorHandler.ThrowQLParseException();
+            return listener._form;
         }
     }
 }

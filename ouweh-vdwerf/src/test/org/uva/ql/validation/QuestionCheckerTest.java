@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class QuestionCheckerTest {
 
@@ -37,7 +39,7 @@ public class QuestionCheckerTest {
         QuestionChecker questionChecker = new QuestionChecker(questions);
         questionChecker.runCheck();
 
-        assertEquals(false, this.logHandler.hasWarnings());
+        assertFalse(this.logHandler.hasWarnings());
     }
 
     @Test
@@ -48,7 +50,7 @@ public class QuestionCheckerTest {
         QuestionChecker questionChecker = new QuestionChecker(questions);
         questionChecker.runCheck();
 
-        assertEquals(true, this.logHandler.hasWarnings());
+        assertTrue(this.logHandler.hasWarnings());
     }
 
     @Test
@@ -59,6 +61,6 @@ public class QuestionCheckerTest {
         QuestionChecker questionChecker = new QuestionChecker(questions);
         questionChecker.runCheck();
 
-        assertEquals(true, this.logHandler.hasWarnings());
+        assertTrue(this.logHandler.hasWarnings());
     }
 }

@@ -6,7 +6,7 @@ import org.uva.ql.visitor.StatementVisitor;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public class Validator implements StatementVisitor<Void, String> {
+public class QLValidator implements StatementVisitor<Void, String> {
 
     private final LogHandler handler;
     private Form form;
@@ -15,7 +15,7 @@ public class Validator implements StatementVisitor<Void, String> {
     private ArrayList<Question> questions = new ArrayList<>();
     private SymbolTable symbolTable = new SymbolTable();
 
-    public Validator(Form form) {
+    public QLValidator(Form form) {
         this.form = form;
         this.handler = (LogHandler) Logger.getGlobal().getHandlers()[0];
 

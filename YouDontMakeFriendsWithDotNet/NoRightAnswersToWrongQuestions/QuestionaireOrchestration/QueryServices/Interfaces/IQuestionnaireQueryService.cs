@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using QuestionaireOrchestration.Models;
 using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 
-namespace QuestionaireOrchestration.API
+namespace QuestionaireOrchestration.QueryServices.Interfaces
 {
     public interface IQuestionnaireQueryService
     {

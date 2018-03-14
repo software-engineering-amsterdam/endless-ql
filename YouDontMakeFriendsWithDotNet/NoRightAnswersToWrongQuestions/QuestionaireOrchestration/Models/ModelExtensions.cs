@@ -1,6 +1,6 @@
 ﻿using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 
-namespace QuestionaireOrchestration.API
+namespace QuestionaireOrchestration.Models
 {
     public static class ModelExtensions
     {

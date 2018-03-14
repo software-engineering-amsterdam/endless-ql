@@ -1,6 +1,6 @@
 ﻿using QuestionnaireInfrastructure.API;
 
-namespace QuestionaireOrchestration.API
+namespace QuestionaireOrchestration.Commands
 {
     public class LoadQuestionnaireDefinitionsCommand : ICommandMessage
     {

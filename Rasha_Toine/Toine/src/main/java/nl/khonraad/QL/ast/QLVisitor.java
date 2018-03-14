@@ -1,16 +1,16 @@
-package nl.khonraad;
+package nl.khonraad.QL.ast;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import nl.khonraad.ExpressionLanguageBaseVisitor;
-import nl.khonraad.ExpressionLanguageParser;
-import nl.khonraad.domain.Form;
-import nl.khonraad.domain.Question;
-import nl.khonraad.domain.Type;
-import nl.khonraad.domain.Value;
-import nl.khonraad.domain.Question.BehaviouralType;
+import nl.khonraad.QL.ExpressionLanguageBaseVisitor;
+import nl.khonraad.QL.ExpressionLanguageParser;
+import nl.khonraad.QL.domain.Form;
+import nl.khonraad.QL.domain.Question;
+import nl.khonraad.QL.domain.Type;
+import nl.khonraad.QL.domain.Value;
+import nl.khonraad.QL.domain.Question.BehaviouralType;
 
 public class QLVisitor extends ExpressionLanguageBaseVisitor<Value> {
 

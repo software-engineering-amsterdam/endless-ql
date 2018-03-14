@@ -1,14 +1,15 @@
+package nl.khonraad.QL;
 
 import static org.junit.Assert.assertEquals;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 
-import nl.khonraad.QLVisitor;
-import nl.khonraad.domain.Question.BehaviouralType;
-import nl.khonraad.domain.Type;
-import nl.khonraad.domain.Value;
-import nl.khonraad.utils.AbstractParseTreeFactory;
+import nl.khonraad.QL.domain.Type;
+import nl.khonraad.QL.domain.Value;
+import nl.khonraad.QL.ast.AbstractParseTreeFactory;
+import nl.khonraad.QL.ast.QLVisitor;
+import nl.khonraad.QL.domain.Question.BehaviouralType;
 
 public class Test_Interpretor {
 

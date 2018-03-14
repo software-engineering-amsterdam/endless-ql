@@ -21,10 +21,11 @@ import javax.swing.SpinnerNumberModel;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import nl.khonraad.domain.Question;
-import nl.khonraad.domain.Question.BehaviouralType;
-import nl.khonraad.domain.Type;
-import nl.khonraad.utils.AbstractParseTreeFactory;
+import nl.khonraad.QL.ast.AbstractParseTreeFactory;
+import nl.khonraad.QL.ast.QLVisitor;
+import nl.khonraad.QL.domain.Question;
+import nl.khonraad.QL.domain.Type;
+import nl.khonraad.QL.domain.Question.BehaviouralType;
 
 public class QLApplication {
 

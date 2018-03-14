@@ -1,4 +1,4 @@
-package nl.khonraad.utils;
+package nl.khonraad.QL.ast;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
-import nl.khonraad.ExpressionLanguageLexer;
-import nl.khonraad.ExpressionLanguageParser;
+import nl.khonraad.QL.ExpressionLanguageLexer;
+import nl.khonraad.QL.ExpressionLanguageParser;
 
 public abstract class AbstractParseTreeFactory {
 

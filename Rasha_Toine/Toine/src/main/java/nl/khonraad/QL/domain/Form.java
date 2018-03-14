@@ -1,4 +1,4 @@
-package nl.khonraad.domain;
+package nl.khonraad.QL.domain;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import nl.khonraad.domain.Question.BehaviouralType;
+import nl.khonraad.QL.domain.Question.BehaviouralType;
 
 public class Form {
 

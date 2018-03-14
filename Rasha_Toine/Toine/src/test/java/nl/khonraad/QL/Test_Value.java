@@ -1,3 +1,4 @@
+package nl.khonraad.QL;
 
 import static org.quicktheories.QuickTheory.qt;
 import static org.quicktheories.generators.SourceDSL.booleans;
@@ -9,8 +10,8 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 
-import nl.khonraad.domain.Type;
-import nl.khonraad.domain.Value;
+import nl.khonraad.QL.domain.Type;
+import nl.khonraad.QL.domain.Value;
 
 public class Test_Value {
 

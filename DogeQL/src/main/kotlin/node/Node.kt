@@ -17,13 +17,15 @@ abstract class Node {
         return children.isEmpty()
     }
 
-    open fun getAllChildren(): ArrayList<Question> {
-        val allChildren = children.flatMap {
-            getAllChildren()
+    open fun getQuestions(): ArrayList<Question> {
+        val questions = children.flatMap { child ->
+            child.getQuestions()
         }
 
-        return ArrayList(allChildren)
+        return ArrayList(questions)
     }
+
+    abstract fun getEnabledQuestions() : ArrayList<Question>
 
     abstract fun validate(): Boolean
 }

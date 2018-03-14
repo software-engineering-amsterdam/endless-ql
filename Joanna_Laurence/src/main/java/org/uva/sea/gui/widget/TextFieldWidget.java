@@ -1,8 +1,6 @@
 package org.uva.sea.gui.widget;
 
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import org.uva.sea.gui.FormController;
@@ -15,20 +13,13 @@ public class TextFieldWidget implements Widget {
     @Override
     public Control draw(BaseQuestionModel questionModel, FormController controller) {
         TextField textField = this.createTextField(questionModel);
-        //TODO: Implement listener for checkig the focus and bringing focus on the previously selected value
-        textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-
-            }
-        });
 
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            controller.setLastFocused(questionModel.getVariableName());
             System.out.println("TextField Text Changed (newValue: " + newValue + ")");
             TextToValueVisitor textToValueVisitor = new TextToValueVisitor(newValue);
             Value value = questionModel.accept(textToValueVisitor);
             controller.updateGuiModel(questionModel.getVariableName(), value);
-            textField.requestFocus();
         });
         textField.positionCaret(textField.getText().length());
         return textField;

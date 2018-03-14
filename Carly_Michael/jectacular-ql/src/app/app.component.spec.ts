@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import {QuestionControlService} from './services/question-control.service';
 import {DynamicFormQuestionComponent} from './components/dynamic-form-question/dynamic-form-question.component';
 import {BrowserModule} from '@angular/platform-browser';
-import * as mockData from './mock-input';
+import * as mockData from './ql-mock-input';
 import {MaterialModule} from './material.module';
 import {StyledFormContentComponent} from './components/styled-form-content/styled-form-content.component';
 

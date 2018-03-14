@@ -8,7 +8,6 @@ public class Question {
 	public enum BehaviouralType {
 
 		ANSWERABLE, COMPUTED;
-
 	}
 
 	private BehaviouralType behaviouralType;

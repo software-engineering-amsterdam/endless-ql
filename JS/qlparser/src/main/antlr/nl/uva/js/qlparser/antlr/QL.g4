@@ -24,8 +24,8 @@ BOOLVAL:    ('true' | 'false');
 DATVAL:     [0-9]+'-'[0-9]+'-'[0-9]+;
 
 INTVAL:     [0-9]+;
-DECVAL:     [0-9]+'.'[0-9]+;
-MONVAL:     [0-9]+','[0-9]+;
+DECVAL:     [0-9]+'.'[0-9]+[dD];
+MONVAL:     [A-Z]+[+-]?[0-9]*[.]?[0-9]*;
 STRVAL:     '"'~['\\\r\n]*?'"';
 
 IF:         'if';
@@ -71,8 +71,8 @@ dataType
 value
     : STRVAL
     | INTVAL
-    | DECVAL
     | MONVAL
+    | DECVAL
     | BOOLVAL
     ;
 

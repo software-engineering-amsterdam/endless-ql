@@ -44,9 +44,7 @@ namespace Assignment1
             catch (Exception e)
             {
                 ReportFormErrors((List<string>)e.Data["MoreInfo"]); //TODO: Handle specific exception
-                throw;
             }
-
         }
 
         private ToolStrip RenderFileSelector()
@@ -67,7 +65,7 @@ namespace Assignment1
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Arial", 12, FontStyle.Bold)
             };
-            Controls.Add(header);
+            _mainPanel.Controls.Add(header);
             foreach (string error in errors)
             {
                 var label = new Label
@@ -77,7 +75,7 @@ namespace Assignment1
                     Font = new Font("Arial", 10),
                     ForeColor = Color.Red
                 };
-                Controls.Add(label);
+                _mainPanel.Controls.Add(label);
             }
         }
 

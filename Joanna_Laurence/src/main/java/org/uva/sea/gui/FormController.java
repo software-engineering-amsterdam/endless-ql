@@ -29,6 +29,8 @@ public class FormController implements Initializable {
 
     private ErrorRenderer errorRenderer;
 
+    private String lastFocusedQuestion = "";
+
     @FXML
     private VBox questionBox;
 
@@ -58,7 +60,7 @@ public class FormController implements Initializable {
         questionRenderer.render(interpreterResult.getQuestions());
 
         Messages warnings = interpreterResult.getWarnings();
-        for(String warning : warnings.getMessages())
+        for (String warning : warnings.getMessages())
             warningRenderer.render(warning);
     }
 
@@ -86,5 +88,13 @@ public class FormController implements Initializable {
     public void updateGuiModel(String questionName, Value value) {
         guiModel.updateQuestion(questionName, value);
         drawGui();
+    }
+
+    public void setLastFocused(String variableName) {
+        this.lastFocusedQuestion = variableName;
+    }
+
+    public String getLastFocusedQuestion() {
+        return lastFocusedQuestion;
     }
 }

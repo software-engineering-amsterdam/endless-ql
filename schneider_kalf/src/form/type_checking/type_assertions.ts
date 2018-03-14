@@ -3,6 +3,7 @@ import {
   TypeCheckError
 } from "../form_errors";
 import { FieldType, numericFieldTypes } from "../FieldType";
+import Decimal from "decimal.js/decimal";
 
 /**
  * Returns the type of a given value including the classname if it is
@@ -35,7 +36,13 @@ export const getTypeString = (value: any) => {
  * @returns {any}
  */
 export const assertType = (value: any, expectedType: string) => {
-  if (typeof value !== expectedType) {
+  let typeName = typeof value;
+
+  if (typeName === 'object' && expectedType !== 'object' && value.constructor && value.constructor.name) {
+    typeName = value.constructor.name;
+  }
+
+  if (typeName !== expectedType) {
     throw TypeCheckError.make(expectedType, getTypeString(value));
   }
 
@@ -88,6 +95,16 @@ export const assertNumeric = (value: any) => {
   return assertType(value, "number");
 };
 
+/**
+ * Assert that the types of the value is "Decimal" or fail otherwise.
+ *
+ * @param value
+ * @returns {any}
+ */
+export const assertDecimal = (value: any): Decimal => {
+  return assertType(value, "Decimal");
+};
+
 export const assertNumericFieldType = (fieldType: FieldType): FieldType => {
   return assertAnyFieldType(fieldType, numericFieldTypes);
 };
@@ -100,7 +117,7 @@ export const assertNumericFieldType = (fieldType: FieldType): FieldType => {
  * @returns {any}
  */
 export const assertComparable = (value: any) => {
-  if (["string", "number", "boolean"].indexOf(typeof  value) === -1) {
+  if (["string", "number", "boolean", "Decimal"].indexOf(typeof  value) === -1) {
     throw TypeCheckError.make("compareable", getTypeString(value));
   }
 
@@ -113,13 +130,13 @@ export const assertComparable = (value: any) => {
  *
  * @param dividend
  * @param divisor
- * @returns {{dividend: number; divisor: number}}
+ * @returns {{dividend: Decimal; divisor: Decimal}}
  */
-export const assertValidDivision = (dividend: number, divisor: number) => {
+export const assertValidDivision = (dividend: Decimal, divisor: Decimal) => {
   dividend = assertNumeric(dividend);
   divisor = assertNumeric(divisor);
 
-  if (divisor === 0) {
+  if (divisor.equals(0)) {
     throw DivisionByZeroError.make();
   }
 

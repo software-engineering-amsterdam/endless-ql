@@ -25,10 +25,10 @@ public class Test_Interpretor {
 				+ "	if (hasSoldHouse) {																			"
 				+ "		sellingPrice: \"Price the house was sold for:\" money										"
 				+ "		privateDebt: \"Private debts for the sold house:\" money									"
-				+ "  		valueResidue: \"Value residue:\" money (sellingPrice - privateDebt - 0.01 )				"
-				+ "  		testDate: \"Testdate:\" date (01/01/1970 + 3 )				"
-				+ "  		testString: \"testString:\" string (\"abc\"  + \"ABC\")				"
-				+ "  	}																							"
+				+ "  		valueResidue: \"Value residue:\" money (sellingPrice - privateDebt - 0.01 )			"
+				+ "  		testDate: \"Testdate:\" date (01/01/1970 + 3 )										"
+				+ "  		testString: \"testString:\" string (\"abc\"  + \"ABC\")								"
+				+ "  	}																						"
 				+ "}																								";
 
 		ParseTree parseTree = AbstractParserFactory.parseDataForTest( testData ).form();
@@ -37,13 +37,14 @@ public class Test_Interpretor {
 
 		// simulate answers given
 
-		interpretingVisitor.findQuestion( BehaviouralType.ANSWERABLE, "hasSoldHouse" ).get().parseThenSetValue( "True" );
-		
-		
-		interpretingVisitor.visit( parseTree );
-		interpretingVisitor.findQuestion( BehaviouralType.ANSWERABLE, "sellingPrice" ).get().parseThenSetValue( "100.03" );
-		interpretingVisitor.findQuestion( BehaviouralType.ANSWERABLE, "privateDebt" ).get().parseThenSetValue( "25.00" );
+		interpretingVisitor.findQuestion( BehaviouralType.ANSWERABLE, "hasSoldHouse" ).get()
+				.parseThenSetValue( "True" );
 
+		interpretingVisitor.visit( parseTree );
+		interpretingVisitor.findQuestion( BehaviouralType.ANSWERABLE, "sellingPrice" ).get()
+				.parseThenSetValue( "100.03" );
+		interpretingVisitor.findQuestion( BehaviouralType.ANSWERABLE, "privateDebt" ).get()
+				.parseThenSetValue( "25.00" );
 
 		interpretingVisitor.visit( parseTree );
 
@@ -66,29 +67,29 @@ public class Test_Interpretor {
 		String s = "";
 
 		s = "form x { x: \"x:\" integer (4+5)   }";
-		
+
 		ParseTree parseTree = AbstractParserFactory.parseDataForTest( s ).form();
 		interpretingVisitor.visit( parseTree );
 		assertEquals( "x", new Value( Type.Integer, "9" ),
-				interpretingVisitor.findQuestion( BehaviouralType.COMPUTED,"x" ).get().getValue() );
+				interpretingVisitor.findQuestion( BehaviouralType.COMPUTED, "x" ).get().getValue() );
 
 		s = "form x { x: \"x:\" boolean (True || False)   }";
 		ParseTree parseTree2 = AbstractParserFactory.parseDataForTest( s ).form();
 		interpretingVisitor.visit( parseTree2 );
 		assertEquals( "x", new Value( Type.Boolean, "True" ),
-				interpretingVisitor.findQuestion( BehaviouralType.COMPUTED,"x" ).get().getValue() );
+				interpretingVisitor.findQuestion( BehaviouralType.COMPUTED, "x" ).get().getValue() );
 
 		s = "form x { x: \"x:\" boolean (True == False)   }";
 		ParseTree parseTree3 = AbstractParserFactory.parseDataForTest( s ).form();
 		interpretingVisitor.visit( parseTree3 );
 		assertEquals( "x", new Value( Type.Boolean, "False" ),
-				interpretingVisitor.findQuestion( BehaviouralType.COMPUTED,"x" ).get().getValue() );
+				interpretingVisitor.findQuestion( BehaviouralType.COMPUTED, "x" ).get().getValue() );
 
 		s = "form x { x: \"x:\" boolean (2.50 >= (5.50 - 3.00 * 1) )   }";
 		ParseTree parseTree4 = AbstractParserFactory.parseDataForTest( s ).form();
 		interpretingVisitor.visit( parseTree4 );
 		assertEquals( "x", new Value( Type.Boolean, "True" ),
-				interpretingVisitor.findQuestion( BehaviouralType.COMPUTED,"x" ).get().getValue() );
+				interpretingVisitor.findQuestion( BehaviouralType.COMPUTED, "x" ).get().getValue() );
 
 	}
 

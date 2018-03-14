@@ -14,13 +14,27 @@ class Dependency {
         return this.from.equals(this.to);
     }
 
-    boolean isTransitive(Dependency input) {
-        return this.to.equals(input.getFrom());
-    }
-
     @Override
     public String toString() {
         return from + " -> " + to;
+    }
+
+    @Override
+    public int hashCode() {
+        return (from + to).hashCode();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (!Dependency.class.isAssignableFrom(object.getClass())) {
+            return false;
+        }
+
+        final Dependency dependency = (Dependency) object;
+        return this.from.equals(dependency.getFrom()) && this.to.equals(dependency.getTo());
     }
 
     public String getTo() {

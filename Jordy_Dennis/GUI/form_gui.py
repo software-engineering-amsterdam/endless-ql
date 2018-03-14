@@ -1,7 +1,7 @@
 # Jordy Bottelier & Dennis Kruidenberg
 
 from .gui_imports import *
-from .scroll_frame_gui import ScrollFrameGui
+from .form_scroll_frame import ScrollFrameGui
 from .form_question import Question
 
 
@@ -63,6 +63,8 @@ class FormGui:
 
     def get_answers(self):
         answers = {}
-        for q in self.questions:
-            answers[q.get_text()] = q.get_answer()
+        varDict = self.questionGenerator.getVarDict()
+        for varName in varDict:
+            assignNode = varDict[varName]['assign']
+            answers[varName] = varDict[varName]['node'].evaluate()
         return answers

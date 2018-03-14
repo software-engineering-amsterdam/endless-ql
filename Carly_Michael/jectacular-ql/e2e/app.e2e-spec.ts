@@ -1,5 +1,5 @@
 import { AppPage } from './app.po';
-import * as mockInput from '../src/app/mock-input';
+import * as mockInput from '../src/app/ql-mock-input';
 
 describe('jectacular-ql App', () => {
   let page: AppPage;

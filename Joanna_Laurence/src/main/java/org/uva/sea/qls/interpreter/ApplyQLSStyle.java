@@ -21,15 +21,15 @@ import java.util.Stack;
 
 public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
-    private InterpreterResult inputResult;
+    private InterpreterResult qlInputResult;
 
     private InterpreterResult outputResult;
 
     private EvaluateDefaultStyle.Fetcher defaultStyleEvaluator = new EvaluateDefaultStyle.Fetcher();
 
-    private Page page = null;
+    private Page currentPage = null;
 
-    private Stack<Section> sections = new Stack<>();
+    private Stack<Section> currentSections = new Stack<>();
 
 
     /**
@@ -53,24 +53,25 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
     /**
      * Generate a new InterpreterResult with style
-     * @param interpreterResult
-     * @param stylesheet
+     * @param interpreterResult QL interpreterResult
+     * @param stylesheet QLS AST
      * @throws InterruptedException
      */
     public InterpreterResult addStyle(InterpreterResult interpreterResult, Stylesheet stylesheet) throws InterruptedException {
-        this.inputResult = interpreterResult;
+        this.qlInputResult = interpreterResult;
         this.outputResult = new InterpreterResult(new ArrayList<>(), interpreterResult.getWarnings());
+        //The visitor will fill the outputResult
         stylesheet.accept(this);
         return this.outputResult;
     }
 
     /**
      *
-     * @param questionName
-     * @return
+     * @param questionName Name for the question that has to be looked-up
+     * @return The Question Data
      */
     private QuestionData getQuestionData(String questionName) {
-        for (QuestionData questionData : this.inputResult.getQuestions()) {
+        for (QuestionData questionData : this.qlInputResult.getQuestions()) {
             if (questionData.getQuestionName().equals(questionName)) {
                 return questionData;
             }
@@ -81,15 +82,15 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
     @Override
     public Void visit(Page node) throws InterruptedException {
-        this.page = node;
+        this.currentPage = node;
         return super.visit(node);
     }
 
     @Override
     public Void visit(Section node) throws InterruptedException {
-        this.sections.add(node);
+        this.currentSections.add(node);
         super.visit(node);
-        this.sections.pop();
+        this.currentSections.pop();
         return null;
     }
 
@@ -100,44 +101,70 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
         QuestionData questionData = this.getQuestionData(node.getName());
 
         if(questionData != null) {
-            Style style = new Style();
-            style.setPage(this.page.getName());
-            style.setSection(getCurrentSection());
-
-            if(node.getWidget() != null)
-                style.setWidget(convertToStyleWidget(node.getWidget()));
-
             WidgetType widgetType = node.getWidget() != null ? node.getWidget().getWidgetType() : getDefaultWidgetType(questionData.getNodeType());
-            style.fillNullFields(getParentStyles(widgetType));
             questionData.setWidgetType(widgetType);
 
-            questionData.setStyle(style);
+            questionData.setStyle(getQuestionStyle(node, widgetType));
             this.outputResult.add(questionData);
         }
 
         return null;
     }
 
+    /**
+     * Get default style for a question
+     * @param question Question node
+     * @param widgetType What type of question
+     * @return Style for the widget
+     * @throws InterruptedException
+     */
+    private Style getQuestionStyle(Question question, WidgetType widgetType) throws InterruptedException {
+        Style style = new Style();
+        style.setPage(this.currentPage.getName());
+        style.setSection(getCurrentSection());
+
+        if(question.getWidget() != null)
+            style.setWidget(getWidgetParameters(question.getWidget()));
+
+        style.fillNullFields(getParentStyles(widgetType));
+        return style;
+    }
+
+    /**
+     * Lookup style in parent sections and pages
+     * @param widgetType For what widget type the style has to be fetched
+     * @return Cascading style
+     * @throws InterruptedException
+     */
     private Style getParentStyles(WidgetType widgetType) throws InterruptedException {
         Style style = new Style();
 
-        ListIterator<Section> li = this.sections.listIterator(this.sections.size());
+        ListIterator<Section> li = this.currentSections.listIterator(this.currentSections.size());
         while(li.hasPrevious()) {
             Style defaultStyle = this.defaultStyleEvaluator.findStyle(li.previous(), widgetType);
             style.fillNullFields(defaultStyle);
         }
-        Style pageStyle = this.defaultStyleEvaluator.findStyle(this.page, widgetType);
+        Style pageStyle = this.defaultStyleEvaluator.findStyle(this.currentPage, widgetType);
         style.fillNullFields(pageStyle);
         return style;
     }
 
+    /**
+     * Get list of the current point of sections
+     * @return List of section
+     */
     private List<String> getCurrentSection() {
         List<String> sections = new ArrayList<>();
-        for(Section section : this.sections)
+        for(Section section : this.currentSections)
             sections.add(section.getName());
         return sections;
     }
 
+    /**
+     * Determine what NodeType type belongs to what WidgetType
+     * @param nodeType
+     * @return
+     */
     private WidgetType getDefaultWidgetType(NodeType nodeType) {
         return WidgetType.valueOf(nodeType.toString());
     }
@@ -147,7 +174,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      * @param node
      * @return
      */
-    private WidgetParameters convertToStyleWidget(Widget node) {
+    private WidgetParameters getWidgetParameters(Widget node) {
         List<String> parameters = new ArrayList<>();
         for(Parameter parameter : node.getParameters())
             parameters.add(parameter.getParameter());

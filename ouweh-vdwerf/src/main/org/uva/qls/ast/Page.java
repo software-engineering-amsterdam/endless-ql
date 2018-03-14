@@ -1,7 +1,7 @@
 package org.uva.qls.ast;
 
 import org.uva.qls.ast.DefaultStatement.DefaultStatement;
-import org.uva.qls.ast.Segment.Question;
+import org.uva.qls.ast.Segment.QuestionReference;
 import org.uva.qls.ast.Segment.Segment;
 
 import java.util.ArrayList;
@@ -19,11 +19,11 @@ public class Page extends TreeNode {
         this.defaultStatements = defaultStatements;
     }
 
-    public List<Question> getQuestions() {
-        List<Question> questions = new ArrayList<>();
+    public List<QuestionReference> getQuestions() {
+        List<QuestionReference> questionReferences = new ArrayList<>();
         for (Segment segment : segments) {
-            questions.addAll(segment.getQuestions());
+            questionReferences.addAll(segment.getQuestions());
         }
-        return questions;
+        return questionReferences;
     }
 }

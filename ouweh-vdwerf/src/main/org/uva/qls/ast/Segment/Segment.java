@@ -4,5 +4,5 @@ import org.uva.qls.ast.TreeNode;
 import java.util.List;
 
 public  abstract class Segment extends TreeNode {
-    public abstract List<Question> getQuestions();
+    public abstract List<QuestionReference> getQuestions();
 }

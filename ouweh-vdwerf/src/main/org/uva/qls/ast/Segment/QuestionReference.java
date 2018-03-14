@@ -5,13 +5,13 @@ import org.uva.qls.ast.Widget.Widget;
 import java.util.List;
 import java.util.Arrays;
 
-public class Question extends Segment {
+public class QuestionReference extends Segment {
 
     private String id;
     private Style style;
     private Widget widget;
 
-    public Question(String id, Style style, Widget widget) {
+    public QuestionReference(String id, Style style, Widget widget) {
         this.id = id;
         this.style = style;
         this.widget = widget;
@@ -22,7 +22,7 @@ public class Question extends Segment {
     }
 
     @Override
-    public List<Question> getQuestions() {
+    public List<QuestionReference> getQuestions() {
         return Arrays.asList(this);
     }
 }

@@ -1,6 +1,5 @@
 package ql.Analysis;
 
-import org.hamcrest.core.StringContains;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -25,8 +24,8 @@ public class CycleDetectorTest {
         expectedEx.expect(IllegalArgumentException.class);
 
         String[] expectedStrings = {"Cycles detected in the following variables:", "someString1", "someString2"};
-        for(String expectedString : expectedStrings) {
-            expectedEx.expectMessage(StringContains.containsString(expectedString));
+        for (String expectedString : expectedStrings) {
+            expectedEx.expectMessage(expectedString);
         }
 
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class
@@ -39,8 +38,8 @@ public class CycleDetectorTest {
 
         String[] expectedStrings = {"Cycles detected in the following variables:", "someString1", "someString2",
                 "someString3", "someString4"};
-        for(String expectedString : expectedStrings) {
-            expectedEx.expectMessage(StringContains.containsString(expectedString));
+        for (String expectedString : expectedStrings) {
+            expectedEx.expectMessage(expectedString);
         }
 
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class

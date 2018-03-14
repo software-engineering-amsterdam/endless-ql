@@ -1,5 +1,5 @@
 package gui;
-
+//TODO: remove class
 import ql.analysis.SymbolTable;
 import javafx.event.ActionEvent;
 import ql.model.expression.Expression;

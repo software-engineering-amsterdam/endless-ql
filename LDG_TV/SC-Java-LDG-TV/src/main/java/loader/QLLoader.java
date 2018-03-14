@@ -35,12 +35,11 @@ public class QLLoader extends FormBaseListener {
     @Override
     public void exitFormData(FormParser.FormDataContext ctx){
         this.qlChecker = new QLChecker(formNode);
-        //this.qlChecker.doChecks();
+        this.qlChecker.doChecks();
     }
 
     @Override
     public void enterIfStructure(FormParser.IfStructureContext ctx) {
-
         System.out.println("Entering if");
         this.formNode.addIfNode(new IfASTNode(false));
         this.inIfNode = true;
@@ -134,6 +133,5 @@ public class QLLoader extends FormBaseListener {
         return (new ExpressionValue(left, right, operator));
 
     }
-
 
 }

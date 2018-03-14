@@ -16,7 +16,6 @@ public class QLChecker {
     public void doChecks(){
         try {
             this.checkReferenceUndefinedVariable();
-            this.checkInvalidArithmaticExpression();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -26,18 +25,6 @@ public class QLChecker {
         for (Variable referencedVariable : formNode.getFormData().getReferencedVariables()){
             if(referencedVariable == null){
                 throw new ReferenceUndefinedVariableException("Reference undefined variable found.");
-            }
-        }
-    }
-    public void checkInvalidArithmaticExpression() throws InvalidAritmaticExpressionException{
-        for (QuestionASTNode qs : formNode.getFormData().getAllQuestions()){
-            Value qVal = qs.getVariable().getValue();
-            if (qVal != null){
-                try{
-                    qVal.getValue();
-                }catch(NumberFormatException nfe){
-                    throw new InvalidAritmaticExpressionException("Invalid arithmatic expression found.");
-                }
             }
         }
     }

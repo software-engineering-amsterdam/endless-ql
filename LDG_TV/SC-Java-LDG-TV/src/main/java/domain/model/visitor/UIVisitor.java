@@ -23,7 +23,7 @@ public class UIVisitor implements Visitor {
 
     @Override
     public Node visit(ExpressionValue ev) {
-        return (Node) new Label("Value");
+        return (Node) new Label();
     }
 
     @Override

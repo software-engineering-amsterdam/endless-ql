@@ -1,6 +1,7 @@
 package domain.model.value;
 
 import domain.model.variable.Variable;
+import exception.InvalidAritmaticExpressionException;
 
 public class ExpressionValue extends Value<Integer>{
 
@@ -15,15 +16,19 @@ public class ExpressionValue extends Value<Integer>{
     }
     @Override
     public Integer getValue() {
-        switch (operator) {
-            case "/":
-                return Integer.valueOf((String) this.leftHandOperand.getValue().getValue()) / Integer.valueOf((String) this.rightHandOperand.getValue().getValue());
-            case "+":
-                return Integer.valueOf((String) this.leftHandOperand.getValue().getValue()) + Integer.valueOf((String) this.rightHandOperand.getValue().getValue());
-            case "-":
-                return Integer.valueOf((String) this.leftHandOperand.getValue().getValue()) - Integer.valueOf((String) this.rightHandOperand.getValue().getValue());
-            case "*":
-                return Integer.valueOf((String) this.leftHandOperand.getValue().getValue()) * Integer.valueOf((String) this.rightHandOperand.getValue().getValue());
+        try {
+            switch (operator) {
+                case "/":
+                    return Integer.valueOf((String) this.leftHandOperand.getValue().getValue()) / Integer.valueOf((String) this.rightHandOperand.getValue().getValue());
+                case "+":
+                    return Integer.valueOf((String) this.leftHandOperand.getValue().getValue()) + Integer.valueOf((String) this.rightHandOperand.getValue().getValue());
+                case "-":
+                    return Integer.valueOf((String) this.leftHandOperand.getValue().getValue()) - Integer.valueOf((String) this.rightHandOperand.getValue().getValue());
+                case "*":
+                    return Integer.valueOf((String) this.leftHandOperand.getValue().getValue()) * Integer.valueOf((String) this.rightHandOperand.getValue().getValue());
+            }
+        }catch(InvalidAritmaticExpressionException e){
+            throw new InvalidAritmaticExpressionException("Invalid arithmatic expression found. Are you using strings were numbers are expected?");
         }
         return null;
     }

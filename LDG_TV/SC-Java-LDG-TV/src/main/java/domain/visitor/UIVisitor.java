@@ -15,16 +15,18 @@ public class UIVisitor implements Visitor {
     public Node visit(BooleanVariable bv) {
         CheckBox cb = new CheckBox();
         cb.selectedProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    bv.setValue(newValue);
-                    System.out.println("yoooooo");
-                });
+                .addListener((observable, oldValue, newValue) -> bv.setValue(newValue));
         return cb;
     }
 
     @Override
     public Node visit(StringVariable sv) {
-        return (Node) new TextField();
+        TextField tf = new TextField();
+
+        tf.textProperty()
+                .addListener((observable, oldValue, newValue) -> sv.setValue(newValue));
+
+        return tf;
     }
 
     @Override

@@ -72,7 +72,7 @@ public class QLApplication {
 
 		interpretingVisitor.visit( parseTree );
 
-		for (Question question : interpretingVisitor.allQuestions()) {
+		for (Question question : interpretingVisitor.listQuestions()) {
 			mainPanel.add( makeQuestion( question.getIdentifier(), question.getBehaviouralType(),
 					question.getValue().getType(), question.getLabel(), question.getValue().getText() ) );
 
@@ -97,7 +97,7 @@ public class QLApplication {
 	}
 
 	private JPanel addToParent( JPanel parent, JComponent component ) {
-		parent.add( component );
+		parent.add( component);
 		return parent;
 	}
 
@@ -106,7 +106,7 @@ public class QLApplication {
 		JPanel container = new JPanel();
 
 		JLabel leftComponent = new JLabel( label );
-		container.add( leftComponent );
+		container.add( leftComponent, BorderLayout.WEST  );
 
 		if (behaviouralType == BehaviouralType.COMPUTED) {
 

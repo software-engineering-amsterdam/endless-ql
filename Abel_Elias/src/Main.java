@@ -31,12 +31,11 @@ public class Main {
 
             //Parse the tokens/tree
             QLParser parser = new QLParser(tokens);
-            QLParser.FormContext tree = parser.form();
 
             //Call the visitor and build the tree
             AST_Visitor builder = new AST_Visitor();
+            QLParser.FormContext tree = parser.form();
             Form form = (Form) builder.visit(tree);
-
             //Test output
 //            Iterator it = memory.entrySet().iterator();
 //            while (it.hasNext()) {
@@ -46,14 +45,11 @@ public class Main {
 //            }
 //            System.out.println("done");
 
-//            ParseTree parseTree = parser.form();
-//            Form form = (Form) parseTree.accept(builder);
-
             //Call parse tree inspector: Show the tree
             //Trees.inspect(tree, parser);
 
             //Do typechecking
-            TypeChecker typeChecker = new TypeChecker();
+            //TypeChecker typeChecker = new TypeChecker();
             //typeChecker.initTypeChecking(form);
 
             //Pass the relevant questions to the UI builder

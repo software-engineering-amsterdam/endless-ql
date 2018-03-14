@@ -13,31 +13,35 @@ import jdk.nashorn.api.tree.Tree;
 import parsing.gen.QLBaseVisitor;
 import parsing.gen.QLParser;
 
+import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AST_Visitor extends QLBaseVisitor {
+public class AST_Visitor extends QLBaseVisitor<Object> {
     Configuration config = new Configuration();
     private Map<String, Question> memory = new HashMap<String, Question>();
     private Map<String, Object> valueMap = new HashMap<String, Object>();
+    private List<Statement> questionList = new ArrayList<>();
 
     @Override
     public Object visitForm(QLParser.FormContext ctx) {
-       visitChildren(ctx);
-       return new Form(ctx.IDENTIFIER().getText(), (Block) ctx.block().accept(this), CodeBlock.getCodeBlock(ctx));
+       Block block = (Block) ctx.block().accept(this);
+       Form form = new Form(ctx.IDENTIFIER().getText(), block, CodeBlock.getCodeBlock(ctx));
+       return form;
     }
 
     @Override
     public Object visitBlock(QLParser.BlockContext ctx) {
         CodeBlock code = CodeBlock.getCodeBlock(ctx);
-        List<Statement> questions = new ArrayList();
-        for (QLParser.QuestionContext questionContext: ctx.question()) {
-            questions.add((Question) questionContext.accept(this));
+        List<Statement> statements = new ArrayList();
+        Block block = new Block(code, statements,true);
+        for (QLParser.QuestionContext statementContext: ctx.question()) {
+            block.getStatements().add((Statement) statementContext.accept(this));
         }
-        return new Block(code, questions,true);
+        return block;
     }
 
     @Override

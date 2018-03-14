@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A013C465-F47B-44B4-9196-9549AA92EAA7}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>QL_Parser_Tester</RootNamespace>
+    <RootNamespace>QLParserTester</RootNamespace>
     <AssemblyName>QL_Parser_Tester</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -44,12 +44,15 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QLPrinter.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Questionnaire.gl" />
+    <None Include="QLStyling.qls" />
+    <None Include="Questionnaire.ql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QLParser\QLParser.csproj">

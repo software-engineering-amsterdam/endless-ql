@@ -17,9 +17,9 @@ public abstract class Variable {
     }
     public abstract Value getValue();
 
-    public void setValue(PlainValue value){};
+    public void setValue(StringValue value){};
     public void setValue(BooleanValue value){};
-    public void setValue(ExpressionValue value){};
+    public void setValue(ArithmeticExpressionValue value){};
     public void setValue(MoneyValue value){};
 
     public abstract Node getRelatedUIElement(Visitor v);

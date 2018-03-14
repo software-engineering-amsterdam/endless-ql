@@ -4,13 +4,13 @@ import domain.model.variable.Variable;
 import exception.InvalidAritmaticExpressionException;
 import jdk.jshell.spi.ExecutionControl;
 
-public class ExpressionValue extends Value<Integer>{
+public class ArithmeticExpressionValue extends Value<Integer>{
 
     private Variable leftHandOperand;
     private Variable rightHandOperand;
     private String operator;
 
-    public ExpressionValue(Variable leftHandOperand, Variable rightHandOperand, String operator){
+    public ArithmeticExpressionValue(Variable leftHandOperand, Variable rightHandOperand, String operator){
         this.leftHandOperand = leftHandOperand;
         this.rightHandOperand = rightHandOperand;
         this.operator = operator;
@@ -20,13 +20,13 @@ public class ExpressionValue extends Value<Integer>{
         try {
             switch (operator) {
                 case "/":
-                    return Integer.valueOf((String) this.leftHandOperand.getValue().getValue()) / Integer.valueOf((String) this.rightHandOperand.getValue().getValue());
+                    return (Integer) this.leftHandOperand.getValue().getValue() / (Integer) this.rightHandOperand.getValue().getValue();
                 case "+":
-                    return Integer.valueOf((String) this.leftHandOperand.getValue().getValue()) + Integer.valueOf((String) this.rightHandOperand.getValue().getValue());
+                    return (Integer) this.leftHandOperand.getValue().getValue() + (Integer) this.rightHandOperand.getValue().getValue();
                 case "-":
-                    return Integer.valueOf((String) this.leftHandOperand.getValue().getValue()) - Integer.valueOf((String) this.rightHandOperand.getValue().getValue());
+                    return (Integer) this.leftHandOperand.getValue().getValue() - (Integer) this.rightHandOperand.getValue().getValue();
                 case "*":
-                    return Integer.valueOf((String) this.leftHandOperand.getValue().getValue()) * Integer.valueOf((String) this.rightHandOperand.getValue().getValue());
+                    return (Integer) this.leftHandOperand.getValue().getValue() * (Integer) this.rightHandOperand.getValue().getValue();
             }
         }catch(InvalidAritmaticExpressionException e){
             throw new InvalidAritmaticExpressionException("Invalid aritmatic expression found. Are you using strings were numbers are expected?");

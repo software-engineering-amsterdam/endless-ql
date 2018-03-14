@@ -1,6 +1,6 @@
 package domain.visitor;
 
-import domain.model.value.ExpressionValue;
+import domain.model.value.ArithmeticExpressionValue;
 import domain.model.variable.BooleanVariable;
 import domain.model.variable.MoneyVariable;
 import domain.model.variable.StringVariable;
@@ -30,7 +30,7 @@ public class UIVisitor implements Visitor {
     }
 
     @Override
-    public Node visit(ExpressionValue ev) {
+    public Node visit(ArithmeticExpressionValue ev) {
         return (Node) new Label();
     }
 

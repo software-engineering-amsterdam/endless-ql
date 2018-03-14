@@ -1,6 +1,6 @@
 package domain.model.variable;
 
-import domain.model.value.PlainValue;
+import domain.model.value.StringValue;
 import domain.model.value.Value;
 import domain.visitor.Visitor;
 import javafx.scene.Node;
@@ -10,7 +10,7 @@ public class StringVariable extends Variable {
 
     public StringVariable(String identifier) {
         super(identifier);
-        this.value = new PlainValue("");
+        this.value = new StringValue("");
     }
 
     @Override

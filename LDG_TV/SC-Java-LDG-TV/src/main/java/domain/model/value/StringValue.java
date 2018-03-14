@@ -1,9 +1,9 @@
 package domain.model.value;
 
-public class PlainValue extends Value<String>{
+public class StringValue extends Value<String>{
     private String value;
 
-    public PlainValue(String value){
+    public StringValue(String value){
         this.value = value;
     }
 

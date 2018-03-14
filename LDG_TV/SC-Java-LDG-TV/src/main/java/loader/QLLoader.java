@@ -4,7 +4,9 @@ import antlr.ql.FormBaseListener;
 import antlr.ql.FormParser;
 import domain.FormNode;
 import domain.model.IfASTNode;
-import domain.model.value.ExpressionValue;
+import domain.model.value.ArithmeticExpressionValue;
+import domain.model.value.BooleanExpressionValue;
+import domain.model.value.Value;
 import domain.model.variable.*;
 import domain.model.QuestionASTNode;
 
@@ -91,14 +93,62 @@ public class QLLoader extends FormBaseListener {
     @Override
     public void enterVariableValue(FormParser.VariableValueContext ctx){
         if(ctx.expression() instanceof FormParser.ExpressionContext){
-            constructedVariable.setValue(getExpressionByContext(ctx.expression()));
+            constructedVariable.setValue(getArithmaticExpression(ctx.expression()));
         }
     }
     public FormNode getFormNode() {
         return formNode;
     }
 
-    private ExpressionValue getExpressionByContext(FormParser.ExpressionContext ec) {
+    private Object getExpressionByContext(FormParser.ExpressionContext ec) {
+        Object v = null;
+        if (ec.aritmaticExpression() instanceof FormParser.AritmaticExpressionContext){
+            v = (ArithmeticExpressionValue) getArithmaticExpression(ec);
+        }else{
+            v = (BooleanExpressionValue) getBooleanExpression(ec);
+        }
+        return v;
+    }
+    private BooleanExpressionValue getBooleanExpression(FormParser.ExpressionContext ec){
+        String operator = null;
+        Variable left = null;
+        Variable right = null;
+        if (ec.booleanExpression().eqExpression() instanceof FormParser.EqExpressionContext){
+            left = this.formNode.getVariableFromList(ec.booleanExpression().eqExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(ec.booleanExpression().eqExpression().variable(1).getText());
+            operator = "==";
+        }
+        if (ec.booleanExpression().neqExpression() instanceof FormParser.NeqExpressionContext){
+            left = this.formNode.getVariableFromList(ec.booleanExpression().neqExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(ec.booleanExpression().neqExpression().variable(1).getText());
+            operator = "!=";
+        }
+        if (ec.booleanExpression().gteoqExpression() instanceof FormParser.GteoqExpressionContext){
+            left = this.formNode.getVariableFromList(ec.booleanExpression().gteoqExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(ec.booleanExpression().gteoqExpression().variable(1).getText());
+            operator = ">=";
+        }
+        if (ec.booleanExpression().gtExpression() instanceof FormParser.GtExpressionContext){
+            left = this.formNode.getVariableFromList(ec.booleanExpression().gtExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(ec.booleanExpression().gtExpression().variable(1).getText());
+            operator = ">";
+        }
+        if (ec.booleanExpression().stoeqExpression() instanceof FormParser.StoeqExpressionContext){
+            left = this.formNode.getVariableFromList(ec.booleanExpression().stoeqExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(ec.booleanExpression().stoeqExpression().variable(1).getText());
+            operator = "<=";
+        }
+        if (ec.booleanExpression().stExpression() instanceof FormParser.StExpressionContext){
+            left = this.formNode.getVariableFromList(ec.booleanExpression().stExpression().variable(0).getText());
+            right = this.formNode.getVariableFromList(ec.booleanExpression().stExpression().variable(1).getText());
+            operator = "<";
+        }
+        this.formNode.getReferencedVariables().add(left);
+        this.formNode.getReferencedVariables().add(right);
+        return (new BooleanExpressionValue(left, right, operator));
+    }
+
+    private ArithmeticExpressionValue getArithmaticExpression(FormParser.ExpressionContext ec){
         String operator = null;
         Variable left = null;
         Variable right = null;
@@ -124,8 +174,7 @@ public class QLLoader extends FormBaseListener {
         }
         this.formNode.getReferencedVariables().add(left);
         this.formNode.getReferencedVariables().add(right);
-        return (new ExpressionValue(left, right, operator));
-
+        return (new ArithmeticExpressionValue(left, right, operator));
     }
 
 }

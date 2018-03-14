@@ -3,6 +3,7 @@ package loader;
 import antlr.ql.FormBaseListener;
 import antlr.ql.FormParser;
 import domain.FormNode;
+import domain.model.Condition;
 import domain.model.IfASTNode;
 import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.BooleanExpressionValue;
@@ -16,14 +17,12 @@ import java.util.List;
 public class QLLoader extends FormBaseListener {
     private FormNode formNode;
 
-    private List<Variable> conditionsHolder;
     private QLChecker qlChecker;
     private Variable constructedVariable;
     private boolean inIfNode = false;
 
     public QLLoader(){
         this.formNode = new FormNode();
-        this.conditionsHolder = new ArrayList<Variable>();
     }
     @Override
     public void enterFormBuilder(FormParser.FormBuilderContext ctx) {
@@ -41,25 +40,35 @@ public class QLLoader extends FormBaseListener {
     @Override
     public void enterIfStructure(FormParser.IfStructureContext ctx) {
         System.out.println("Entering if");
-        this.formNode.addIfNode(new IfASTNode(false));
+        IfASTNode ifASTNode = new IfASTNode(false);
         this.inIfNode = true;
-        Object c = null;
-        for(FormParser.ConditionContext cc : ctx.statementBlockStructure().conditions().condition()){
-            System.out.println(cc.value().getText());
+        BooleanVariable v = null;
+        Condition c = null;
+        for(int i=0; i< ctx.statementBlockStructure().conditions().condition().size(); i++){
+            FormParser.ConditionContext cc = ctx.statementBlockStructure().conditions().condition(i);
+            FormParser.BooleanOperatorContext bo = ctx.statementBlockStructure().conditions().booleanOperator(i);
             if (cc.value() instanceof FormParser.ValueContext){
-                c = this.formNode.getVariableFromList(cc.value().getText());
-//                this.conditionsHolder.add((BooleanVariable) c);
-//                this.formNode.getReferencedVariables().add((Variable) c);
+                v = (BooleanVariable) this.formNode.getVariableFromList(cc.value().getText());
+                this.formNode.getReferencedVariables().add(v);
             }
-            c = null;
+            if (cc.expression() instanceof FormParser.ExpressionContext){
+                v = new BooleanVariable(null);
+                v.setValue(this.getBooleanExpressionValue(cc.expression()));
+            }
+            if(bo != null){
+                c = new Condition(v, bo.getText());
+            }else{
+                c = new Condition(v, null);
+            }
+            ifASTNode.addCondition(c);
         }
-//        this.formNode.addConditionsAsKey(conditionsHolder);
+        this.formNode.addIfNode(ifASTNode);
+
      }
     @Override
     public void exitIfStructure(FormParser.IfStructureContext ctx){
         System.out.println("Exit if");
         this.inIfNode = false;
-        this.conditionsHolder = new ArrayList<Variable>(); ;
     }
     @Override
     public void enterQuestionNodeStructure(FormParser.QuestionNodeStructureContext ctx) {
@@ -75,7 +84,6 @@ public class QLLoader extends FormBaseListener {
                 constructedVariable = new StringVariable(ctx.variable().getText());
                 break;
             default:
-
         }
     }
     @Override
@@ -93,9 +101,9 @@ public class QLLoader extends FormBaseListener {
     public void enterVariableValue(FormParser.VariableValueContext ctx){
         if(ctx.expression() instanceof FormParser.ExpressionContext){
             if(ctx.expression().arithmeticExpression() instanceof FormParser.ArithmeticExpressionContext){
-                constructedVariable.setValue(getArithmeticExpression(ctx.expression()));
+                constructedVariable.setValue(getArithmeticExpressionValue(ctx.expression()));
             }else if(ctx.expression().booleanExpression() instanceof FormParser.BooleanExpressionContext){
-                constructedVariable.setValue(getBooleanExpression(ctx.expression()));
+                constructedVariable.setValue(getBooleanExpressionValue(ctx.expression()));
             }
         }
     }
@@ -103,7 +111,7 @@ public class QLLoader extends FormBaseListener {
         return formNode;
     }
 
-    private BooleanExpressionValue getBooleanExpression(FormParser.ExpressionContext ec){
+    private BooleanExpressionValue getBooleanExpressionValue(FormParser.ExpressionContext ec){
         String operator = null;
         Variable left = null;
         Variable right = null;
@@ -142,7 +150,7 @@ public class QLLoader extends FormBaseListener {
         return (new BooleanExpressionValue(left, right, operator));
     }
 
-    private ArithmeticExpressionValue getArithmeticExpression(FormParser.ExpressionContext ec){
+    private ArithmeticExpressionValue getArithmeticExpressionValue(FormParser.ExpressionContext ec){
         String operator = null;
         Variable left = null;
         Variable right = null;

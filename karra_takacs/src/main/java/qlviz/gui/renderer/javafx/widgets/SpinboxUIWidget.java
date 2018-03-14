@@ -2,13 +2,46 @@ package qlviz.gui.renderer.javafx.widgets;
 
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextFormatter;
+import javafx.util.converter.BigDecimalStringConverter;
 import qlviz.gui.viewModel.question.*;
 
 import java.math.BigDecimal;
 
 public class SpinboxUIWidget implements UIWidget, QuestionViewModelVisitor {
 
-    private final Spinner<BigDecimal> spinner = new Spinner<>();
+    private class DecimalSpinnerValueFactory extends SpinnerValueFactory<BigDecimal> {
+
+        public DecimalSpinnerValueFactory() {
+            this.setValue(BigDecimal.ZERO);
+        }
+
+        @Override
+        public void decrement(int steps) {
+            this.valueProperty().setValue(
+                this.valueProperty().get().subtract(BigDecimal.valueOf(steps)));
+        }
+
+        @Override
+        public void increment(int steps) {
+            this.valueProperty().setValue(
+                    this.valueProperty().get().add(BigDecimal.valueOf(steps)));
+        }
+    }
+
+    private final Spinner<BigDecimal> spinner;
+
+    public SpinboxUIWidget() {
+        DecimalSpinnerValueFactory factory = new DecimalSpinnerValueFactory();
+        this.spinner = new Spinner<>();
+        TextFormatter<BigDecimal> formatter = new TextFormatter<BigDecimal>(new BigDecimalStringConverter());
+        factory.valueProperty().bindBidirectional(formatter.valueProperty());
+
+        this.spinner.editableProperty().setValue(true);
+        this.spinner.editorProperty().get().setTextFormatter(formatter);
+        this.spinner.setValueFactory(factory);
+    }
 
     @Override
     public Node getNode() {
@@ -30,25 +63,29 @@ public class SpinboxUIWidget implements UIWidget, QuestionViewModelVisitor {
         return;
     }
 
+    private void visitInternal(NumericQuestionViewModel numericQuestion) {
+        if (numericQuestion.getValueExpression() == null){
+            numericQuestion.valueProperty().bind(this.spinner.getValueFactory().valueProperty());
+        }
+        else {
+            this.spinner.editableProperty().setValue(false);
+            this.spinner.getValueFactory().valueProperty().bind(numericQuestion.getValueExpression().valueProperty());
+        }
+    }
+
     @Override
     public void visit(DecimalQuestionViewModel decimalQuestion) {
-        if (decimalQuestion.getValueExpression() != null){
-            decimalQuestion.valueProperty().bind(this.spinner.valueProperty());
-        }
+       this.visitInternal(decimalQuestion);
     }
 
     @Override
     public void visit(IntegerQuestionViewModel integerQuestion) {
-        if (integerQuestion.getValueExpression() != null) {
-            integerQuestion.valueProperty().bind(this.spinner.valueProperty());
-        }
+        this.visitInternal(integerQuestion);
     }
 
     @Override
     public void visit(MoneyQuestionViewModel moneyQuestion) {
-        if (moneyQuestion.getValueExpression() != null) {
-            moneyQuestion.valueProperty().bind(this.spinner.valueProperty());
-        }
+        this.visitInternal(moneyQuestion);
     }
 
     @Override

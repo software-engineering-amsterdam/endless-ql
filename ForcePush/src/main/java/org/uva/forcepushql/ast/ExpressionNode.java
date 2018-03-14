@@ -50,7 +50,7 @@ class NegateNode extends ExpressionNode
 
 class NumberNode extends ExpressionNode
 {
-    public double Value;
+    private double Value;
 
     public void setValue(double value)
     {

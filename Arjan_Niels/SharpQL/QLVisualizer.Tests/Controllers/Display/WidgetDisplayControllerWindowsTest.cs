@@ -28,7 +28,7 @@ namespace QLVisualizer.Tests.Controllers.Display
             _intWidget.SetAnswer(10);
 
             // Create element
-            _widgetDisplayController.ShowWidget(_intWidget, _widgetStyle);
+            //_widgetDisplayController.ShowWidget(_intWidget, _widgetStyle);
 
             // Update value
             _intWidget.SetAnswer(20);
@@ -46,7 +46,7 @@ namespace QLVisualizer.Tests.Controllers.Display
             _boolWidget.SetAnswer(true);
 
             // Create element
-            _widgetDisplayController.ShowWidget(_boolWidget, _widgetStyle);
+            //_widgetDisplayController.ShowWidget(_boolWidget, _widgetStyle);
             
             // Update value
             _boolWidget.SetAnswer(false);
@@ -64,7 +64,7 @@ namespace QLVisualizer.Tests.Controllers.Display
             _stringWidget.SetAnswer("fail");
 
             // Create element
-            _widgetDisplayController.ShowWidget(_stringWidget, _widgetStyle);
+            //_widgetDisplayController.ShowWidget(_stringWidget, _widgetStyle);
 
             // Update value
             _stringWidget.SetAnswer("pass");

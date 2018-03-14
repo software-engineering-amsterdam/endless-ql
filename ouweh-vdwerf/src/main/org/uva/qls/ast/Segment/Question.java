@@ -17,6 +17,10 @@ public class Question extends Segment {
         this.widget = widget;
     }
 
+    public String getId() {
+        return id;
+    }
+
     @Override
     public List<Question> getQuestions() {
         return Arrays.asList(this);

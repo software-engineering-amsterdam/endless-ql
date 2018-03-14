@@ -34,6 +34,9 @@ public class App {
         QLValidator validator = new QLValidator(form);
         validator.run();
 
+        org.uva.qls.validation.Validator qlsValidator = new org.uva.qls.validation.Validator(validator.getQuestions(), stylesheet);
+        qlsValidator.run();
+
         FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
 
         GUIHandler guiHandler = new GUIHandler(formEvaluator);

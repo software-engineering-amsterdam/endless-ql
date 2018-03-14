@@ -13,7 +13,6 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
     private ExpressionTable expressionTable;
 
     public ExpressionVisitor(ExpressionTable exprTable){
-        super();
         this.expressionTable = exprTable;
     }
 
@@ -115,7 +114,11 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
         return new MoneyConstant(Double.parseDouble(ctx.getText()));
     }
 
-    //Todo: Boolean Constant?
+    @Override
+    public Expression visitBooleanConstant(QLParser.BooleanConstantContext ctx){
+        return new BooleanConstant(Boolean.parseBoolean(ctx.getText()));
+    }
+
     @Override
     public Expression visitIdentifierConstant(QLParser.IdentifierConstantContext ctx){
         return new ConstantExpression(ctx.IDENTIFIER().getText(), expressionTable);

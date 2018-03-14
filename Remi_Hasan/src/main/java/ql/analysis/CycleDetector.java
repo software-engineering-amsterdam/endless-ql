@@ -33,7 +33,7 @@ public class CycleDetector {
             // Only check expression when it is a predefined expression
             if (question.isComputed()) {
                 // For each question, add references to other questions to the graph
-                List<String> referencedIdentifiers = referencedIdentifiersVisitor.visit(question.defaultAnswer);
+                List<String> referencedIdentifiers = referencedIdentifiersVisitor.visit(question.computedAnswer);
                 for (String identifier : referencedIdentifiers) {
                     graph.addEdge(question.name, identifier);
                 }
@@ -41,12 +41,16 @@ public class CycleDetector {
         }
     }
 
-    public Set<String> detectCycles() {
+    public void detectCycles() {
         Graph<String, DefaultEdge> referenceGraph = createVerticesGraph();
         addReferenceEdges(referenceGraph);
 
         org.jgrapht.alg.CycleDetector<String, DefaultEdge> jGraphTCycleDetector
                 = new org.jgrapht.alg.CycleDetector<>(referenceGraph);
-        return jGraphTCycleDetector.findCycles();
+
+        Set<String> cycleVariables = jGraphTCycleDetector.findCycles();
+        if(!cycleVariables.isEmpty()) {
+            throw new IllegalArgumentException("Cycles detected in the following variables: " + cycleVariables);
+        }
     }
 }

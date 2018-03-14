@@ -14,14 +14,20 @@ public class UnknownIdentifiersDetector {
         this.form = form;
     }
 
-    public List<String> detectUnknownIdentifiers(){
+    public void detectUnknownIdentifiers() {
         ReferencedIdentifiersVisitor referencedIdentifiersVisitor = new ReferencedIdentifiersVisitor();
 
         List<String> formQuestionIdentifiers = new ArrayList<>();
         List<String> referencedIdentifiers = new ArrayList<>();
         for(Question question : form.questions){
             formQuestionIdentifiers.add(question.name);
-            referencedIdentifiers.addAll(referencedIdentifiersVisitor.visit(question.defaultAnswer));
+
+            // Add all references to variables in either the question's computer answer
+            // or the question's condition
+            if(question.isComputed()) {
+                referencedIdentifiers.addAll(referencedIdentifiersVisitor.visit(question.computedAnswer));
+            }
+
             referencedIdentifiers.addAll(referencedIdentifiersVisitor.visit(question.condition));
         }
 
@@ -30,6 +36,8 @@ public class UnknownIdentifiersDetector {
         List<String> unknownReferencedIdentifiers = new ArrayList<>(referencedIdentifiers);
         unknownReferencedIdentifiers.removeAll(formQuestionIdentifiers);
 
-        return unknownReferencedIdentifiers;
+        if(!unknownReferencedIdentifiers.isEmpty()) {
+            throw new IllegalArgumentException("Unknown reference(s) to identifiers: " + unknownReferencedIdentifiers);
+        }
     }
 }

@@ -20,6 +20,7 @@ unaryOp         : MINUS | NOT;
 binaryOp        : MUL | DIV | PLUS | MINUS | LE | LT | GE | GT | EQ | NE | AND | OR;
 
 constant        : INTEGER                                           # integerConstant
+                | BOOLEAN                                           # booleanConstant
                 | DECIMAL                                           # decimalConstant
                 | STRING                                            # stringConstant
                 | IDENTIFIER                                        # identifierConstant
@@ -54,6 +55,7 @@ DATETYPE        : 'date';
 DECIMALTYPE     : 'decimal';
 
 // Literals
+BOOLEAN         : ('true'|'false');
 INTEGER         : [0-9]+;
 DECIMAL         : [0-9]+ '.' [0-9]+;
 MONEY           : ([0-9]+ '.' [0-9]+) | [0-9]+;

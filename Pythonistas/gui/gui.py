@@ -4,7 +4,8 @@ In this window QL text can be typed or pasted. When pressing the "Parse" button,
 is parsed, and a second window, OutputWindow opens. The Outputwindow contains an interactive
  questionnaire, encoded by the input text.
 """
-import visitor.visitor as visitorscript
+import visitor.visitor as visitor_script
+from visitor.listener import listen
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from grammar.run_antlr import run_antrl
@@ -96,7 +97,7 @@ class MainWindow(QWidget):
             self.no_tree_message()
 
     def build_gui(self, tree):
-        visitorscript.listen(tree, self)
+        listen(tree, self)
 
     def add_question(self, completequestion):  # todo: split question and its datatype in ast rather than here
         # Adds questions and answer option

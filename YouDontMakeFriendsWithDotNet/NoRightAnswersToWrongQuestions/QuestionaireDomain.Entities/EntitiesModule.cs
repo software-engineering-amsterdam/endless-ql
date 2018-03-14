@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using QuestionnaireDomain.Entities.Ast.Tools;
 using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
@@ -24,6 +23,7 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(IDomainItemLocator), typeof(DomainItemLocator));
             appRegistration.AddSingleton(typeof(IVariableUpdater), typeof(VariableUpdater));
             appRegistration.AddSingleton(typeof(IQuestionnaireModelCreator), typeof(QuestionnaireModelCreator));
+            appRegistration.AddSingleton(typeof(IQuestionnaireModelUpdater), typeof(QuestionnaireModelUpdater));
             appRegistration.AddSingleton(typeof(IQuestionnaireAstCreator), typeof(QuestionnaireAstCreator));
         }
     }

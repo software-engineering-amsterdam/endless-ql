@@ -67,12 +67,18 @@ public class Question extends ASTNode {
     }
 
     /**
+     * Returns the result of a question
+     * @return the term of a question, used for example as variable
+     */
+    public Term getResult() { return result; }
+
+    /**
      * Evaluates the expression of the question
      * @throws UnsupportedOperationException when the Types don't match
      */
     // This function evaluates the expression (which also does typechecking) and stores the resulting value
     public void getExpressionValue() throws UnsupportedOperationException {
-        Term result = expression.getValue();
+        Term result = expression.getTerm();
         if(type.toString().equals(result.toString()) || ((type.toString().equals("money") || type.toString().equals("integer")) && result.toString().equals("float"))) {
             this.result = result;
         } else {

@@ -36,7 +36,6 @@ public class Expression extends ASTNode {
         this.term = term;
     }
 
-
     // TODO make NOT operator obsolete
     /**
      * Create an expression with a negated term
@@ -48,7 +47,6 @@ public class Expression extends ASTNode {
         this.right = right;
         this.op = op;
     }
-
 
     /**
      * Creates an expression with left and right expressions, and an operator

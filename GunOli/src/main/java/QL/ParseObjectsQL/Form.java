@@ -1,12 +1,24 @@
 package QL.ParseObjectsQL;
 
+import QL.QLVisitor.ExpressionTable;
+
 public class Form {
     private String name;
     private Block block;
+    private ExpressionTable expressionTable;
 
-    public Form(String s, Block b){
+    public Form(String s, Block b, ExpressionTable exprTable){
         setName(s);
         setBlock(b);
+        setExpressionTable(exprTable);
+    }
+
+    public void setExpressionTable(ExpressionTable exprTable){
+        this.expressionTable = exprTable;
+    }
+
+    public ExpressionTable getExpressionTable(){
+        return expressionTable;
     }
 
     public String getName() {

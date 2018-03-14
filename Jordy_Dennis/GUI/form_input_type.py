@@ -90,6 +90,7 @@ class InputTypeMap:
         # save value in vardict
         varNode = self.varDict[self.varName]['node']
         varNode.setVar(new_val)
+        self.setNodeValue(new_val)
         # update_questions
         self.questionGenerator.updateQuestions()
 
@@ -104,6 +105,7 @@ class InputTypeMap:
         # save value in vardict
         varNode = self.varDict[self.varName]['node']
         varNode.setVar(new_val)
+        self.setNodeValue(new_val)
         # update_questions
         self.questionGenerator.updateQuestions()
 
@@ -123,6 +125,7 @@ class InputTypeMap:
             # save value in vardict
             varNode = self.varDict[self.varName]['node']
             varNode.setVar(new_val)
+            self.setNodeValue(new_val)
             # update_questions
             self.questionGenerator.updateQuestions()
 
@@ -144,9 +147,18 @@ class InputTypeMap:
             # save value in vardict
             varNode = self.varDict[self.varName]['node']
             varNode.setVar(new_val)
+            self.setNodeValue(new_val)
             # update_questions
             self.questionGenerator.updateQuestions()
 
             self.old_value = new_val
         except:
             var.set(self.old_value)
+
+    """
+        Set the value of all the nodes in the varDict nodelist to the new value, this
+        is done in order to have the correct values in the AST
+    """
+    def setNodeValue(self, value):
+        for varNode in self.varDict[self.varName]["node_list"]:
+            varNode.setVar(value)

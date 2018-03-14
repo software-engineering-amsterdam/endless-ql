@@ -63,6 +63,8 @@ class FormGui:
 
     def get_answers(self):
         answers = {}
+        vardict = self.questionGenerator.getVarDict()
+        printDict(vardict)
         for q in self.questions:
             answers[q.get_text()] = q.get_answer()
         return answers

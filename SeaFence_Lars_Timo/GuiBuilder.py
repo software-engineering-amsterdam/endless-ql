@@ -11,7 +11,8 @@ class GuiBuilder():
 
         self.values = []
         self.trueExpressions = {}
-        self.submitButtonShown = False
+        self.frameOrder = []
+        self.frameCounter = 0
 
         self.labels = {}
         self.textBoxes = {}
@@ -19,8 +20,15 @@ class GuiBuilder():
         self.yesNoButtonsValues = {}
         self.parseStatements(ast)
 
-    def parseStatements(self, form, setSubmitButton=True):
+    def updateForm(self, name='', index='', mode=''):
+        self.frameCounter = 0
+        self.parseStatements(self.ast)
+
+    def parseStatements(self, form):  
+        print self.frameOrder
+        print self.frameCounter                          
         for statement in form.statements:
+            print statement
             if type(statement) is QuestionNode:
                 self.parseQuestion(statement)
 
@@ -29,50 +37,70 @@ class GuiBuilder():
 
             elif type(statement) is IfNode:
                 potentiallyShowIfElifElseBlock = True
-                if self.checkExpressionValues(statement.expression): 
+                if self.checkExpressionValues(statement.expression) and statement.expression not in self.trueExpressions: 
                     potentiallyShowIfElifElseBlock = False
-                    if statement.expression not in self.trueExpressions:
-                        self.trueExpressions[statement.expression] = self.gui.setCurrentStatementFrame()
-                    self.parseStatements(statement, False)
+                    if len(self.frameOrder) > 0 and self.frameCounter <= len(self.frameOrder):
+                        self.removeFrames(self.frameOrder[self.frameCounter:])
+                        self.frameOrder = self.frameOrder[:self.frameCounter]
+                        self.frameCounter = len(self.frameOrder)
+
+                    self.trueExpressions[statement.expression] = self.gui.setCurrentStatementFrame()
+                    self.frameOrder.append((statement.expression, statement.statements))
+                    self.frameCounter += 1
+                    self.parseStatements(statement)
+
                 elif not self.checkExpressionValues(statement.expression) and statement.expression in self.trueExpressions:
-                    self.removeIfBlock(statement.expression, statement.statements)
-                else:
-                    continue
+                    self.removeFrame(statement.expression, statement.statements)
+                elif self.checkExpressionValues(statement.expression) and statement.expression in self.trueExpressions:
+                    potentiallyShowIfElifElseBlock = False
+                    self.frameCounter += 1
 
             elif type(statement) is ElifNode and potentiallyShowIfElifElseBlock:
-                if self.checkExpressionValues(statement.expression):
+                if self.checkExpressionValues(statement.expression) and statement.expression not in self.trueExpressions: 
                     potentiallyShowIfElifElseBlock = False
                     if statement.expression not in self.trueExpressions:
+
+                        if len(self.frameOrder) > 0 and self.frameCounter <= len(self.frameOrder):
+                            self.removeFrames(self.frameOrder[self.frameCounter:])
+                            self.frameOrder = self.frameOrder[:self.frameCounter]
+                            self.frameCounter = len(self.frameOrder)
+
                         self.trueExpressions[statement.expression] = self.gui.setCurrentStatementFrame()
-                    self.parseStatements(statement, False)
+                        self.frameOrder.append((statement.expression, statement.statements))
+                        self.frameCounter += 1
+                        self.parseStatements(statement)
+
                 elif not self.checkExpressionValues(statement.expression) and statement.expression in self.trueExpressions:
-                    self.removeIfBlock(statement.expression, statement.statements)
+                    self.removeFrame(statement.expression, statement.statements)
+                elif self.checkExpressionValues(statement.expression) and statement.expression in self.trueExpressions:
+                    potentiallyShowIfElifElseBlock = False
+                    self.frameCounter += 1
 
             elif type(statement) is ElseNode and potentiallyShowIfElifElseBlock:
                 if len(statement.statements) > 0:
                     if statement.statements[0].var not in self.trueExpressions:
-                            self.trueExpressions[statement.statements[0].var] = self.gui.setCurrentStatementFrame()
-                    self.parseStatements(statement, False)
+                        
+                        if len(self.frameOrder) > 0 and self.frameCounter <= len(self.frameOrder):
+                            self.removeFrames(self.frameOrder[self.frameCounter:])
+                            self.frameOrder = self.frameOrder[:self.frameCounter]
+                            self.frameCounter = len(self.frameOrder)
+                        
+                        self.trueExpressions[statement.statements[0].var] = self.gui.setCurrentStatementFrame()
+                        self.frameOrder.append((statement.statements[0].var, statement.statements))
+                        self.parseStatements(statement)
+
+                    self.frameCounter += 1
 
             elif type(statement) is ElseNode and not potentiallyShowIfElifElseBlock:
                 if len(statement.statements) > 0 and statement.statements[0].var in self.trueExpressions:
-                    self.removeIfBlock(statement.statements[0].var, statement.statements)
-
-        if setSubmitButton:
-            self.gui.addFormButton(self.reEvaluateForm, self.ast)
-            self.submitButtonShown = True
-
-    def reEvaluateForm(self, form, submitButton):
-        submitButton.destroy()
-        self.parseStatements(form)
+                    self.removeFrame(statement.statements[0].var, statement.statements)
 
     def parseQuestion(self, statement):
-        # print statement
         if statement.vartype == "boolean" and statement.var not in self.values:
-            self.gui.addBooleanQuestion(statement.var, statement.question, "No", "Yes")
+            self.gui.addBooleanQuestion(statement.var, statement.question, "No", "Yes", self.updateForm)
             self.values.append(statement.var)
         elif statement.vartype == "int" and statement.var not in self.values:
-            self.gui.addIntQuestion(statement.var, statement.question)
+            self.gui.addIntQuestion(statement.var, statement.question, self.updateForm)
             self.values.append(statement.var)
 
     def parseAssignment(self, statement):
@@ -99,23 +127,21 @@ class GuiBuilder():
         if type(statement) is UnOpNode:
             return self.gui.getValue(statement.var, "int")
 
-    def removeIfBlock(self, expression, statements):
-        self.trueExpressions[expression].destroy()
-        del self.trueExpressions[expression]
+    def removeFrame(self, expression, statements):
+        if expression in self.trueExpressions:
+            self.trueExpressions[expression].destroy()
+            del self.trueExpressions[expression]
 
         for stmnt in statements:
             if stmnt.var in self.values:
                 self.values.remove(stmnt.var)
 
-    # def checkIfVariableExists(self, statement):
-    #     print "Checking questions"
-    #     for key in self.gui.formVariables:
-    #         if key == statement.var
-    #             return True
+    def removeFrames(self, frameList):
+        print "removing frames: ", frameList
+        for frame in frameList:
+            self.removeFrame(frame[0], frame[1])
 
-    #     return False
-
-    # Function that check if the expression variables match the needed values to show the block
+    # Function that checks if the expression variables match the needed values to show the block
     def checkExpressionValues(self, expression):
         if type(expression) is BinOpNode:
             if expression.op == "&&":

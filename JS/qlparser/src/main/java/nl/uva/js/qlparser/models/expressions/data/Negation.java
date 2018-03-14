@@ -12,8 +12,8 @@ public class Negation implements DataExpression {
     private DataExpression expression;
 
     @Override
-    public DataType checkAndReturnType() {
-        DataType expressionType = expression.checkAndReturnType();
+    public DataType returnCheckedType() {
+        DataType expressionType = expression.returnCheckedType();
 
         if (!expressionType.equals(DataType.BOOLEAN))
             throw new TypeMismatchException(DataType.BOOLEAN, expressionType);

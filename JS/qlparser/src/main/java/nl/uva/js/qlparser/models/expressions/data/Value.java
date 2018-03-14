@@ -13,7 +13,7 @@ public class Value<T> implements DataExpression {
     @NonNull private T value;
 
     @Override
-    public DataType checkAndReturnType() {
+    public DataType returnCheckedType() {
         return dataType;
     }
 

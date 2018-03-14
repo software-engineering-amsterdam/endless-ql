@@ -9,6 +9,7 @@ namespace Assignment1.Model
     {
         public string Id { get; }
         public List<Question> Questions { get; }
+        public Dictionary<string, string> Warnings;
 
         public QuestionForm(string id, List<Question> questions)
         {

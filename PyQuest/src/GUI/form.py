@@ -50,7 +50,8 @@ class Form(QDialog):
 
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        file_name, _ = QFileDialog.getSaveFileName(self, 'Save results', self.form.identifier, 'JSON (*.json);;All Files (*)', options=options)
+        file_name, _ = QFileDialog.getSaveFileName(QFileDialog(), 'Save results', self.form.identifier,
+                                                   'JSON (*.json);;All Files (*)', options=options)
 
         if file_name:
             file_name = append_file_extension(file_name, 'json')
@@ -58,9 +59,11 @@ class Form(QDialog):
             file.write(dumps(result))
             file.close()
             self.close()
-            QMessageBox.information(self, 'Submission', 'Your answers have been submitted successfully.', QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.information(QMessageBox(), 'Submission', 'Your answers have been submitted successfully.',
+                                    QMessageBox.Close, QMessageBox.Escape)
         else:
-            QMessageBox.warning(self, 'Warning', 'Questionnaire results were not saved.', QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.warning(QMessageBox(), 'Warning', 'Questionnaire results were not saved.',
+                                QMessageBox.Close, QMessageBox.Escape)
 
     @pyqtSlot()
     def reject(self):

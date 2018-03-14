@@ -109,7 +109,8 @@ class MainApp(QMainWindow):
             dialog = Form(visitor.form)
             dialog.exec_()
         except:
-            QMessageBox.warning(self, 'Warning', 'Unable to create form.', QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.warning(QMessageBox(), 'Warning', 'Unable to create form.',
+                                QMessageBox.Close, QMessageBox.Escape)
 
 
 if __name__ == '__main__':

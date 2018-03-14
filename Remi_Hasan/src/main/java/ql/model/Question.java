@@ -15,15 +15,23 @@ public class Question extends Node {
     public final Expression condition;
     private final boolean isComputed;
 
-    // TODO: too many args?
-    public Question(Token start, ReturnType type, String name, String text, Expression defaultAnswer,
-                    boolean isComputed, Expression condition) {
+    public Question(Token start, ReturnType type, String name, String text, Expression condition) {
+        super(start);
+        this.type = type;
+        this.name = name;
+        this.text = text;
+        this.defaultAnswer = null;
+        this.isComputed = false;
+        this.condition = condition;
+    }
+
+    public Question(Token start, ReturnType type, String name, String text, Expression defaultAnswer, Expression condition) {
         super(start);
         this.type = type;
         this.name = name;
         this.text = text;
         this.defaultAnswer = defaultAnswer;
-        this.isComputed = isComputed;
+        this.isComputed = true;
         this.condition = condition;
     }
 

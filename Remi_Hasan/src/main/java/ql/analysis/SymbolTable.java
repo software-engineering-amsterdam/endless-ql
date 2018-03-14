@@ -6,6 +6,7 @@ import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 import ql.model.Form;
 import ql.model.Question;
+import ql.model.expression.variable.ExpressionVariableUndefined;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -20,12 +21,12 @@ public class SymbolTable {
 
     public void buildTable(Form form) {
         for (Question question : form.questions) {
-            table.put(question.name, question.defaultAnswer);
+            if(question.isComputed()) {
+                table.put(question.name, question.defaultAnswer);
+            } else {
+                table.put(question.name, new ExpressionVariableUndefined(question.getToken(), question.type));
+            }
         }
-    }
-
-    public boolean containsExpression(String identifier) {
-        return this.table.containsKey(identifier);
     }
 
     public Expression getExpression(String identifier) {

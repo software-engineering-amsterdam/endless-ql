@@ -24,7 +24,10 @@ public class UnknownIdentifiersDetector {
 
             // Add all references to variables in either the question's computer answer
             // or the question's condition
-            referencedIdentifiers.addAll(referencedIdentifiersVisitor.visit(question.defaultAnswer));
+            if(question.isComputed()) {
+                referencedIdentifiers.addAll(referencedIdentifiersVisitor.visit(question.defaultAnswer));
+            }
+
             referencedIdentifiers.addAll(referencedIdentifiersVisitor.visit(question.condition));
         }
 

@@ -15,7 +15,7 @@ object PageVisibilityFactory {
   }
 
   private def getPageNamesContainingQuestion(question: Question, stylesheet: Option[QLStylesheet]): Seq[String] = {
-    stylesheet.map(_.getPageNamesWithQuestion(question.id)).getOrElse(Seq.empty)
+    stylesheet.map(_.collectPageNamesWithQuestion(question.id)).getOrElse(Seq.empty)
   }
 
   private def createPageCheckExpressions(pageNames: Seq[String]): Seq[Expression] = {

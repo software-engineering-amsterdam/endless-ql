@@ -17,7 +17,11 @@ object QLSTypeCheckFacade extends Logging {
     if (form.formName == stylesheet.name) {
       Right(stylesheet)
     } else {
-      Left(Seq(TypeCheckError("Name Check Error", s"The name of the stylesheet '${stylesheet.name}' does not match that of the form '${form.formName}'.")))
+      Left(
+        Seq(
+          TypeCheckError(
+            "Name Check Error",
+            s"The name of the stylesheet '${stylesheet.name}' does not match that of the form '${form.formName}'.")))
     }
   }
 

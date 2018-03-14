@@ -3,7 +3,7 @@ package nl.uva.js.qlparser.logic;
 import lombok.SneakyThrows;
 import nl.uva.js.qlparser.antlr.QLLexer;
 import nl.uva.js.qlparser.antlr.QLParser;
-import nl.uva.js.qlparser.models.expressions.Form;
+import nl.uva.js.qlparser.models.ql.expressions.Form;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 

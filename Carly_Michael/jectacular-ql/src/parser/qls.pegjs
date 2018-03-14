@@ -73,9 +73,12 @@ type            = booleanType /
                   dateType /
                   decimalType
 
-widget          = radioWidgetType /
-                  checkboxWidgetType /
-                  spinboxWidgetType
+widget          = radioWidget /
+                  textWidget /
+                  checkboxWidget /
+                  spinboxWidget /
+                  dropdownWidget /
+                  sliderWidget
 
 // low-level
 
@@ -100,6 +103,18 @@ integerType     = "integer" { return astQl.QuestionType.INT; }
 dateType        = "date" { return astQl.QuestionType.DATE; }
 decimalType     = "decimal" { return astQl.QuestionType.DECIMAL; }
 
-radioWidgetType     = "radio" ws "(\"" yesValue:identifier "\"," ws "\"" noValue:identifier "\")" { return new astQls.Widget(astQls.WidgetType.RADIO, [yesValue, noValue]); }
-checkboxWidgetType  = "checkbox" { return new astQls.Widget(astQls.WidgetType.RADIO, []); }
-spinboxWidgetType   = "spinbox" { return new astQls.Widget(astQls.WidgetType.RADIO, []); }
+radioWidget     = "radio" ws "(\"" yesValue:identifier "\"," ws "\"" noValue:identifier "\")" {
+  return new astQls.Widget(astQls.WidgetType.RADIO, [yesValue, noValue]);
+}
+textWidget      = "text" { return new astQls.Widget(astQls.WidgetType.TEXT, []); }
+checkboxWidget  = "checkbox" { return new astQls.Widget(astQls.WidgetType.CHECKBOX, []); }
+spinboxWidget   = "spinbox" { return new astQls.Widget(astQls.WidgetType.SPINBOX, []); }
+dropdownWidget  = "dropdown" ws "(\"" yesValue:identifier "\"," ws "\"" noValue:identifier "\")" {
+  return new astQls.Widget(astQls.WidgetType.DROPDOWN, [yesValue, noValue]);
+}
+sliderWidget    = "slider" { return new astQls.Widget(astQls.WidgetType.SLIDER, []); }
+
+
+
+
+

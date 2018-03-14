@@ -1,7 +1,7 @@
 package org.uva.qls.ast.Style.StyleProperty;
 
 
-import org.uva.ql.evaluator.value.Value;
+import org.uva.qls.ast.Value.Value;
 
 public class StylePropertyStatement extends StyleProperty {
 

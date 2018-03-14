@@ -21,17 +21,13 @@ public class TypeCheckerTest {
 
         TypeChecker typeChecker = new TypeChecker(null, null);
         typeChecker.visit(expression);
-
-        assertEquals(typeChecker.getErrors().size(), 0);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void SomeSadTypeCheckTest() {
         Expression expression = ANTLRTester.expressionFromString("1 + true");
 
         TypeChecker typeChecker = new TypeChecker(null, null);
         typeChecker.visit(expression);
-
-        assertEquals(typeChecker.getErrors().size(), 1);
     }
 }

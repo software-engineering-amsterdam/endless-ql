@@ -41,12 +41,16 @@ public class CycleDetector {
         }
     }
 
-    public Set<String> detectCycles() {
+    public void detectCycles() {
         Graph<String, DefaultEdge> referenceGraph = createVerticesGraph();
         addReferenceEdges(referenceGraph);
 
         org.jgrapht.alg.CycleDetector<String, DefaultEdge> jGraphTCycleDetector
                 = new org.jgrapht.alg.CycleDetector<>(referenceGraph);
-        return jGraphTCycleDetector.findCycles();
+
+        Set<String> cycleVariables = jGraphTCycleDetector.findCycles();
+        if(!cycleVariables.isEmpty()) {
+            throw new IllegalArgumentException("Cycles detected in the following variables: " + cycleVariables);
+        }
     }
 }

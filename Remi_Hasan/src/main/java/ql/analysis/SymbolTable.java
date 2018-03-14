@@ -18,9 +18,7 @@ public class SymbolTable {
         this.table = new HashMap<>();
     }
 
-    public SymbolTable(Form form) {
-        this.table = new HashMap<>();
-
+    public void buildTable(Form form) {
         for (Question question : form.questions) {
             table.put(question.name, question.defaultAnswer);
         }

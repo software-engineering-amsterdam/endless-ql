@@ -77,7 +77,7 @@ class InputTypeMap:
         e.pack(fill='x')
         return e, var
 
-    
+
 
     """ Validation and tracing methods ------------------------------------------------------"""
 
@@ -118,10 +118,13 @@ class InputTypeMap:
     def validateInt(self, var):
         new_val = var.get()
         try:
-            new_val == '' or int(new_val)
+            new_val == '' or new_val == '-' or int(new_val)
+            if(new_val == '-'):
+                new_val = -0.0
             if(new_val == ''):
                 new_val = 0
             new_val = int(new_val)
+
             # save value in vardict
             varNode = self.varDict[self.varName]['node']
             varNode.setVar(new_val)
@@ -140,10 +143,14 @@ class InputTypeMap:
     def validateFloat(self, var):
         new_val = var.get()
         try:
-            new_val == '' or float(new_val)
-            if(new_val == ''):
-                new_val = 0.0
+
+            new_val == '' or new_val == '-' or float(new_val)
+            if(new_val == '-'):
+               new_val = -0.0
+            elif(new_val == ''):
+                new_val = 0
             new_val = float(new_val)
+
             # save value in vardict
             varNode = self.varDict[self.varName]['node']
             varNode.setVar(new_val)
@@ -153,6 +160,7 @@ class InputTypeMap:
 
             self.old_value = new_val
         except:
+            print("expept")
             var.set(self.old_value)
 
     """

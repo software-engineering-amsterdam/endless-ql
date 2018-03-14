@@ -198,11 +198,8 @@ class VarNode:
             self.type = varDict[self.varname]['type']
             self.value = self.getDefaultValue()
 
-            # we finally link the node of the assignment (or question) to this varNode, in order to get the correct value
-            # into the node at the moment of an assignment. It does not matter if a variable is used more than once
-            # since we only use the value of the varNode in the assignment node after this.
-            varDict[self.varname]['assign'].varNode = self
-            varDict[self.varname]['node'] = self
+            # We finally append the node to the node_list in order to easily change its value in the GUI
+            varDict[self.varname]['node_list'].append(self)
         else:
             errorstring = "Undeclared variable '" + self.varname + "' at line " + str(self.line)
             throwError(errorstring)

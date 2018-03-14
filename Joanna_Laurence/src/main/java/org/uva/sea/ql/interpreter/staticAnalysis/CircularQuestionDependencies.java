@@ -3,6 +3,7 @@ package org.uva.sea.ql.interpreter.staticAnalysis;
 import org.uva.sea.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Relation;
+import org.uva.sea.ql.interpreter.staticAnalysis.helpers.RelationEntity;
 import org.uva.sea.ql.parser.elements.Form;
 import org.uva.sea.ql.parser.elements.IfStatement;
 import org.uva.sea.ql.parser.elements.Question;
@@ -46,7 +47,7 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
      */
     private Messages incorrectDependenciesToErrors(Relation<String> incorrectDependencies) {
         Messages errors = new Messages(MessageTypes.ERROR);
-        for( AbstractMap.SimpleEntry<String,String> dependency : incorrectDependencies.getRelations())
+        for( RelationEntity<String> dependency : incorrectDependencies.getRelations())
             errors.addMessage(dependency.getKey() + " has a circular dependency with" + dependency.getValue());
         return errors;
     }
@@ -102,7 +103,7 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
     private Relation<String> getIncorrectAsymmetricElements(Relation<String> relation) {
         Relation<String> incorrectElements = new Relation<>();
 
-        for (AbstractMap.SimpleEntry<String,String> entry : relation.getRelations())
+        for (RelationEntity<String> entry : relation.getRelations())
         {
             if(relation.contains(entry.getValue(),entry.getKey()))
                 incorrectElements.addRelation(entry.getKey(), entry.getValue());

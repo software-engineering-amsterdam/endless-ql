@@ -90,7 +90,7 @@ form CommentFormML {}";
             get
             {
                 yield return new TestCaseData(@"form 1NameForm {}", @"1");
-                yield return new TestCaseData(@"form QuestionId$Form {}", @"QuestionId$Form");
+                yield return new TestCaseData(@"form QuestionName$Form {}", @"QuestionName$Form");
                 yield return new TestCaseData(@"form _NameForm {}", @"_NameForm");
                 yield return new TestCaseData(@"form % {}", @"%");
                 yield return new TestCaseData(@"form +_(# {}", @"+_(#");

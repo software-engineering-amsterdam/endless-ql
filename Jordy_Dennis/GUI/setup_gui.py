@@ -12,7 +12,7 @@
 # x = ClassToBeAdded(Parent, vars**) / q = Question(content_frame)
 
 from .gui_imports import *
-from .scroll_frame_gui import ScrollFrameGui
+from .form_scroll_frame import ScrollFrameGui
 from .form_gui import FormGui
 from .form_question import Question
 

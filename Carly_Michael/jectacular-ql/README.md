@@ -9,7 +9,7 @@ Please remember to always run `npm install` before running the code to ensure yo
 Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 Insert QL code into the left of the application, press parse to make a form. Fill the form and press submit to see the results.
 
-Example input can be found in src/parser/textQuestionnaires.txt and src/app/mock-input.ts
+Example input can be found in src/parser/textQuestionnaires.txt and src/app/ql-mock-input.ts
 
 ## Code scaffolding
 

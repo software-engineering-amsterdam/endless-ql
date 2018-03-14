@@ -14,14 +14,13 @@ namespace QuestionnaireDomain.Entities.Output.Tools
     internal class BuildOutputVisitor : 
         IBuildOutputVisitor
     {
-        //ToDo, make a stack of visibility
         private bool m_questionsCurrentlyVisible = true;
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly IOutputItemFactory m_outputItemFactory;
         private readonly ISymbolTable m_lookup;
         private readonly IBooleanEvaluatorVisitor m_booleanEvaluator;
 
-        private readonly IList<Reference<IQuestionOutputItem>> questions = 
+        private readonly IList<Reference<IQuestionOutputItem>> m_questions = 
             new List<Reference<IQuestionOutputItem>>();
 
         public BuildOutputVisitor(
@@ -56,7 +55,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             
             m_outputItemFactory.CreateQuestionnaireOutputItem(
                 node.QuestionnaireName,
-                questions);
+                m_questions);
         }
 
         private void HandleStatements(IEnumerable<Reference<IStatementNode>> statements)
@@ -99,8 +98,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         {
             return m_booleanEvaluator.Evaluate(predicate);
         }
-
-
+        
         private string GetValue(Guid questionId)
         {
             var type = GetQuestionType(questionId);
@@ -114,9 +112,14 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 return m_lookup.Lookup<string>(questionId) ?? "";
             }
 
-            if (type == typeof(decimal) || type == typeof(int))
+            if (type == typeof(decimal))
             {
                 return m_lookup.Lookup<decimal>(questionId).ToString(CultureInfo.InvariantCulture);
+            }
+
+            if (type == typeof(int))
+            {
+                return m_lookup.Lookup<int>(questionId).ToString(CultureInfo.InvariantCulture);
             }
 
             if (type == typeof(DateTime))

@@ -1,4 +1,4 @@
-import ql.models._
+import ql.models.ast._
 import ql.grammar._
 import ql.visitors._
 import ql.parsers._
@@ -14,69 +14,34 @@ import org.antlr.v4.runtime.tree._
 
 class UnaryParser extends FunSpec with BeforeAndAfter {
   // maybe extract method to general helper class
-  private def getForm(location:String): ASTNode = {
-    return QlFormParser.parseFromURL(getClass.getResource(location))
+  private def getFlattenedForm(location: String): List[ASTNode] = {
+    val form = QlFormParser.parseFromURL(getClass.getResource(location))
+    ASTCollector.flattenNT(form)
   }
 
   describe("when parsing a form containing arithmetic tokens") {
     it("should contain one unary negation") {
-      val result = getForm("ql/unary/not.ql")
-      val expected = ASTRoot(
-        ASTFormHeader(),
-        ASTFormBody(
-          List(
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
+      val result = getFlattenedForm("ql/unary/not.ql")
+      val expected = ASTUnary(ASTIdentifier("hasBoughtHouse"), ASTUnaryNot())
 
-            ASTIfStatement(
-              ASTUnary(ASTIdentifier(), ASTUnaryNot()),
-              List()
-            )
-          )
-        )
-      )
-      assert(result == expected)
+      assert(result.filter(x => x == expected).size == 1)
     }
 
     it("should contain two unary negations") {
-      val result = getForm("ql/unary/notnot.ql")
-      val expected = ASTRoot(
-        ASTFormHeader(),
-        ASTFormBody(
-          List(
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
-
-            ASTIfStatement(
-              ASTUnary(
-                ASTUnary(ASTIdentifier(), ASTUnaryNot()),
-                ASTUnaryNot()
-              ),
-              List()
-            )
-          )
-        )
+      val result = getFlattenedForm("ql/unary/notnot.ql")
+      val expected = ASTUnary(
+        ASTUnary(ASTIdentifier("hasBoughtHouse"), ASTUnaryNot()),
+        ASTUnaryNot()
       )
-      assert(result == expected)
+
+      assert(result.filter(x => x == expected).size == 1)
     }
 
     it("should contain an unary min") {
-      val result = getForm("ql/unary/min.ql")
-      val expected = ASTRoot(
-        ASTFormHeader(),
-        ASTFormBody(
-          List(
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
-            ASTQuestion(ASTVarDecl(ASTBoolean())),
+      val result = getFlattenedForm("ql/unary/min.ql")
+      val expected = ASTUnary(ASTIdentifier("hasBoughtHouse"), ASTUnaryMin())
 
-            ASTIfStatement(
-              ASTUnary(ASTIdentifier(), ASTUnaryMin()),
-              List()
-            )
-          )
-        )
-      )
-      assert(result == expected)
+      assert(result.filter(x => x == expected).size == 1)
     }
   }
 }

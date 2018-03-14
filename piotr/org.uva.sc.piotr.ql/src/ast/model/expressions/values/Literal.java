@@ -18,16 +18,8 @@ public class Literal extends Expression {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     public Expression.DataType getType() {
         return type;
-    }
-
-    public void setType(Expression.DataType type) {
-        this.type = type;
     }
 
     @Override

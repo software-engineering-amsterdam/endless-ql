@@ -40,7 +40,7 @@ namespace QuestionaireOrchestration.Visitors
 
         private void Visit(IUserInputQuestionNode question)
         {
-            m_writer.WriteLine($"Question{{ Id: {question.QuestionId}, Type: {question.QuestionType}, Text: {question.QuestionText} }}");
+            m_writer.WriteLine($"Question{{ Id: {question.QuestionName}, Type: {question.QuestionType}, Text: {question.QuestionText} }}");
         }
 
         private void Visit(IConditionalStatementNode conditionalStatement)

@@ -92,6 +92,8 @@
     <Compile Include="Ast\Tools\Interfaces\IQuestionnaireAstCreator.cs" />
     <Compile Include="Ast\Tools\QuestionnaireAstCreator.cs" />
     <Compile Include="Domain\DomainItemLocator.cs" />
+    <Compile Include="Domain\Interfaces\IVariableUpdater.cs" />
+    <Compile Include="Domain\Interfaces\VariableUpdater.cs" />
     <Compile Include="Output\Tools\BooleanEvaluatorVisitor.cs" />
     <Compile Include="Output\Tools\BuildOutputVisitor.cs" />
     <Compile Include="Output\Tools\CalculationVisitor.cs" />
@@ -110,7 +112,6 @@
     <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IQuestionnaireNode.cs" />
     <Compile Include="Output\Tools\Interfaces\IQuestionnaireModelCreator.cs" />
     <Compile Include="Output\Nodes\Interfaces\IQuestionOutput.cs" />
-    <Compile Include="Output\Tools\Interfaces\IVariableUpdater.cs" />
     <Compile Include="Output\Tools\OutputItemFactory.cs" />
     <Compile Include="Output\Nodes\Interfaces\IOutputItem.cs" />
     <Compile Include="Output\Nodes\Interfaces\QuestionOutputItem.cs" />
@@ -157,7 +158,6 @@
     <Compile Include="EntitiesModule.cs" />
     <Compile Include="Domain\Interfaces\ISymbolTable.cs" />
     <Compile Include="Output\Tools\QuestionnaireModelCreator.cs" />
-    <Compile Include="Output\Tools\VariableUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

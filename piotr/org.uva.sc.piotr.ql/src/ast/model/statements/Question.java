@@ -22,24 +22,12 @@ public class Question extends Statement {
         return label;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
     public String getVariableName() {
         return variableName;
     }
 
-    public void setVariableName(String variableName) {
-        this.variableName = variableName;
-    }
-
     public TypeDeclaration getVariableType() {
         return variableType;
-    }
-
-    public void setVariableType(TypeDeclaration variableType) {
-        this.variableType = variableType;
     }
 
     public Expression getAssignedExpression() {

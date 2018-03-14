@@ -11,8 +11,7 @@ class ExpressionVisitor:
 
     @multimethod(Identifier)
     def visit(self, identifier):
-        # print(self.symbol_table.get(identifier))
-        pass
+        return self.symbol_table.get(identifier.identifier)
 
     @multimethod(MoneyLiteral)
     def visit(self, money_literal):

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using Assignment1.Model;
+using Assignment1.Parser;
 using Assignment1.Rendering;
 
 namespace Assignment1

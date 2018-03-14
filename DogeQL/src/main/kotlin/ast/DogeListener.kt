@@ -2,25 +2,42 @@ package ast
 
 import QuestionareLanguageParser
 import QuestionareLanguageParserBaseListener
+import node.Node
+import data.question.Question
 import data.value.*
 import expression.BinaryExpression
 import expression.LiteralExpression
 import expression.UnaryExpression
 import expression.operation.BinaryOperation
 import expression.operation.UnaryOperation
-import expression.visitor.evaluation.EvaluationVisitor
+import java.math.BigDecimal
 
 class DogeListener : QuestionareLanguageParserBaseListener() {
 
-    val expressionBuilder = ExpressionBuilder()
+    private val expressionBuilder = ExpressionBuilder()
+    private val formTreeBuilder = FormTreeBuilder()
 
-    override fun exitForm(ctx: QuestionareLanguageParser.FormContext?) {
-        val expression = expressionBuilder.build()
+    override fun enterBlock(ctx: QuestionareLanguageParser.BlockContext?) {
+        if (!expressionBuilder.isEmpty())
+            formTreeBuilder.pushExpression(expressionBuilder.first())
+    }
 
-        val visitor = EvaluationVisitor()
-        val result = expression.accept(visitor)
+    override fun exitIfStatement(ctx: QuestionareLanguageParser.IfStatementContext?) {
+        formTreeBuilder.build() //Build subtree
+    }
 
-        println("yay")
+    override fun exitQuestionStatement(ctx: QuestionareLanguageParser.QuestionStatementContext?) {
+        requireNotNull(ctx)
+
+        val context = ctx!!
+
+        val label = context.LIT_STRING().text
+        val name = context.NAME().text
+        val type = context.TYPE().text
+
+        val question = Question(name, label, convertType(type))
+
+        formTreeBuilder.pushQuestion(question)
     }
 
     override fun exitExpression(ctx: QuestionareLanguageParser.ExpressionContext?) {
@@ -174,5 +191,19 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         expressionBuilder.push(
                 BinaryExpression(left, right, operation)
         )
+    }
+
+    private fun convertType(type: String) = when (type) {
+        "boolean" -> BooleanValue(false)
+        "int" -> IntegerValue(0)
+        "string" -> StringValue("")
+        "money" -> MoneyValue(BigDecimal.ZERO)
+        "decimal" -> DecimalValue(0)
+//        "date" -> DateValue(0)
+        else -> BooleanValue(false)//TODO refactor remove default
+    }
+
+    fun getParsedDogeLanguage(): Node {
+        return formTreeBuilder.build()
     }
 }

@@ -3,8 +3,12 @@ package org.uva.qls.ast.Widget.WidgetTypes;
 
 public class RadioType extends WidgetType {
 
-    public RadioType(){
+    private String yes;
+    private String no;
 
+    public RadioType(String yes, String no) {
+        this.yes = yes;
+        this.no = no;
     }
 
 }

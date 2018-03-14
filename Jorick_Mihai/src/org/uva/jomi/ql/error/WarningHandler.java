@@ -1,25 +1,21 @@
 package org.uva.jomi.ql.error;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.jomi.ql.ast.statements.QuestionStmt;
 
-public class WarningHandler {
+public class WarningHandler extends ErrorReporter<String> {
 
-	private final List<String> warningList;
 	private final String moduleName;
 	private final boolean printWarnings;
 	
 	public WarningHandler(String moduleName, boolean printWarnings) {
-		this.warningList = new ArrayList<>();
 		this.moduleName = moduleName;
 		this.printWarnings = printWarnings;
-		
 	}
 	
-	public int getNumberOfErrors() {
-		return warningList.size();
+	public int getNumberOfWarnings() {
+		return this.getNumberOfReports();
 	}
 	
 	public void addWarning(QuestionStmt stmt, List<String> questionNames) {
@@ -27,17 +23,17 @@ public class WarningHandler {
 				moduleName,
 				stmt.getIdentifierLineNumber(),
 				stmt.getIdentifierColumnNumber(),
-				stmt.getIdentifierName(),
+				stmt.getName(),
 				String.join(" and ", questionNames));
 		
 		if (printWarnings) {
 			System.err.println(warning);
 		}
 				
-		warningList.add(warning);
+		this.addReport(warning);
 	}
 
-	public String getErrorAtIndex(int index) {
-		return warningList.get(index);
+	public String getError(int index) {
+		return this.getReport(index);
 	}
 }

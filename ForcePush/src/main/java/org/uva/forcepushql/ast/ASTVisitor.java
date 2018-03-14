@@ -20,6 +20,10 @@ abstract class ASTVisitor<T>{
         {
             return Visit((MultiplicationNode) node);
         }
+        else if(node instanceof NumberNode)
+        {
+            return Visit((NumberNode) node);
+        }
         else{
             return null; //REPLACE WITH ERROR!
         }

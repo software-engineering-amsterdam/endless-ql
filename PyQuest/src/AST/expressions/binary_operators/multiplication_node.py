@@ -21,3 +21,10 @@ class MultiplicationOperatorNode(BinaryOperatorNode):
         if self.__valid_types.get((type1, type2)):
             return self.__valid_types.get((type1, type2))
         return TypeUndefined
+
+    def evaluate(self):
+        result_type = self.get_result_type(self.left_expression.expression_type, self.right_expression.expression_type)
+
+        if self.left_expression.value is not None and self.right_expression.value is not None:
+            self.value = result_type.cast(self.left_expression.value * self.right_expression.value)
+

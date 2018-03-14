@@ -6,10 +6,9 @@ package qlviz.style;
         import qlviz.QLSBaseVisitor;
         import qlviz.QLSParser;
         import qlviz.interpreter.style.PageVisitor;
-        import qlviz.interpreter.style.StylesheetVisitor;
+        import qlviz.model.style.DefaultWidgetDeclaration;
         import qlviz.model.style.Page;
         import qlviz.model.style.Section;
-        import qlviz.model.style.Stylesheet;
 
         import java.util.List;
 
@@ -24,7 +23,8 @@ public class PageVisitorTest {
         // Arrange
         QLSBaseVisitor<Section> sectionVisitorMock = mock(QLSBaseVisitor.class);
         QLSParser.PageContext contextMock = mock(QLSParser.PageContext.class);
-        PageVisitor pageVisitor = new PageVisitor(sectionVisitorMock);
+        QLSBaseVisitor<DefaultWidgetDeclaration> defaultWidgetVisitorMock = mock(QLSBaseVisitor.class);
+        PageVisitor pageVisitor = new PageVisitor(sectionVisitorMock, defaultWidgetVisitorMock);
         TerminalNode identifierMock = mock(TerminalNode.class);
 
         when(contextMock.IDENTIFIER()).thenReturn(identifierMock);
@@ -46,7 +46,8 @@ public class PageVisitorTest {
         final String name = "test_name";
         QLSBaseVisitor<Section> sectionVisitorMock = mock(QLSBaseVisitor.class);
         QLSParser.PageContext contextMock = mock(QLSParser.PageContext.class);
-        PageVisitor pageVisitor = new PageVisitor(sectionVisitorMock);
+        QLSBaseVisitor<DefaultWidgetDeclaration> defaultWidgetVisitorMock = mock(QLSBaseVisitor.class);
+        PageVisitor pageVisitor = new PageVisitor(sectionVisitorMock, defaultWidgetVisitorMock);
         TerminalNode identifierMock = mock(TerminalNode.class);
         when(contextMock.IDENTIFIER()).thenReturn(identifierMock);
         when(contextMock.section()).thenReturn(

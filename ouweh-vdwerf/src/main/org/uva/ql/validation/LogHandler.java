@@ -25,8 +25,12 @@ public class LogHandler extends Handler {
 
     }
 
-    public boolean hasErrors() {
+    public boolean hasWarnings() {
         return getLogs(Level.WARNING).size() > 0;
+    }
+
+    public boolean hasErrors() {
+        return getLogs(Level.SEVERE).size() > 0;
     }
 
     public ArrayList<LogRecord> getLogs() {

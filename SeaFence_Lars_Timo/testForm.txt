@@ -5,31 +5,33 @@ form taxOfficeExample
   "Did you buy a house in 2010?"
     hasBoughtHouse: boolean
   "Did you enter a loan?"
-    hasMaintLoan: int
-
-  "Value residue:" valueResidue: int = !(hasMaintLoan - hasMaintLoan)
+    hasMaintLoan: boolean
     
-  if ((hasMaintLoan == hasMaintLoan))
-  {
-    "What was the selling price?"
-      sellingPrice: int
-    "Private debts for the sold house:"
-      privateDebt: int
-	"Value residue:"
-      valueResidue: int = 
-        (sellingPrice - privateDebt)
-  }
   
+  if (hasSoldHouse)
+  {
+    	"ifV"
+      	ifV: int
+  }
 
+  elif (hasBoughtHouse)
+  {
+	"elif"
+      	elifV: int 
+  }
+
+else 
+{
+	"else"
+	elseV: int
+}
+  
+/*
   elif (hasSoldHouse == hasBoughtHouse) {
-    "Private debts for the sold house:" privateDebts: int
+    "Private debts for the sold house:" privateDebt: int
   }
 
-  else {
-  	"What was the selling prices?" sellingPrices: int
-  }
-
-  /*if (hasSoldHouse > hasBoughtHouse) {
+  if (hasSoldHouse > hasBoughtHouse) {
     "What was the selling price?" sellingPrice: int
     "Private debts for the sold house:" privateDebt: int
     "Value residue:" valueResidue: int = (privateIncome * sellingPrice - !privateDebt)

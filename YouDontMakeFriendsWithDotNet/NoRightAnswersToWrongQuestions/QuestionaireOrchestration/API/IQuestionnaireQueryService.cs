@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using QuestionaireDomain.Entities.DomainObjects;
+using System.Runtime.CompilerServices;
+using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 
 namespace QuestionaireOrchestration.API
 {
     public interface IQuestionnaireQueryService
     {
-        //IEnumerable<Reference<IQuestionnaireRootNode>> GetAll();
+        IEnumerable<ModelReference<IQuestionnaireOutputItem>> GetAll();
     }
 }

@@ -8,6 +8,7 @@ export class QuestionBase<T> {
   required: boolean;
   order: number;
   controlType: string;
+  style: {[key: string]: string};
   hiddenCondition: (form: FormGroup) => LiteralType;
   calculateValue: (form: FormGroup) => T;
   readonly: boolean;
@@ -30,7 +31,12 @@ export class QuestionBase<T> {
     this.order = options.order === undefined ? 1 : options.order;
     this.controlType = options.controlType || '';
     this.hiddenCondition = options.hiddenCondition || (() => true);
-    this.calculateValue = options.calculateValue || (() => this.value);
-    this.readonly = options.readonly || false;
+    this.calculateValue = (() => this.value);
+    this.readonly = false;
+  }
+
+  toCalculatedQuestion(calculateFunction: (form: FormGroup) => T) {
+    this.calculateValue = calculateFunction;
+    this.readonly = true;
   }
 }

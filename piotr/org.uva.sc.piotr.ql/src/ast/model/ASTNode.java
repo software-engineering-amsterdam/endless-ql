@@ -4,15 +4,13 @@ abstract public class ASTNode implements VisitableASTNode {
 
     public static class MetaInformation {
 
-        private Integer startLine;
-        private Integer endLine;
-        private Integer column;
-        private String text;    //TODO: YAGNI?
+        private final Integer startLine;
+        private final Integer endLine;
+        private final String text;        //TODO: YAGNI?
 
-        public MetaInformation(Integer startLine, Integer endLine, Integer column, String text) {
+        public MetaInformation(Integer startLine, Integer endLine, String text) {
             this.startLine = startLine;
             this.endLine = endLine;
-            this.column = column;
             this.text = text;
         }
 
@@ -20,38 +18,19 @@ abstract public class ASTNode implements VisitableASTNode {
             return startLine;
         }
 
-        public void setStartLine(Integer startLine) {
-            this.startLine = startLine;
-        }
-
         public Integer getEndLine() {
             return endLine;
-        }
-
-        public void setEndLine(Integer endLine) {
-            this.endLine = endLine;
-        }
-
-        public Integer getColumn() {
-            return column;
-        }
-
-        public void setColumn(Integer column) {
-            this.column = column;
         }
 
         public String getText() {
             return text;
         }
 
-        public void setText(String text) {
-            this.text = text;
-        }
     }
 
     private MetaInformation metaInformation;
 
-    public ASTNode(MetaInformation metaInformation) {
+    protected ASTNode(MetaInformation metaInformation) {
         this.metaInformation = metaInformation;
     }
 

@@ -33,7 +33,8 @@ public class QLFormBuilder {
         Form form = visitor.visit(parser.root());
 
         this.symbolTable.buildTable(form);
-        this.performAnalysis(form, this.symbolTable);
+
+        this.performAnalysis(form, symbolTable);
 
         return form;
     }

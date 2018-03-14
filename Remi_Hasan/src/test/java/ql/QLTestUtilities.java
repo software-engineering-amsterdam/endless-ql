@@ -1,16 +1,23 @@
-package Parser;
+package ql;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import ql.analysis.SymbolTable;
-import ql.parser.QLLexer;
-import ql.parser.QLParser;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
+import ql.parser.QLLexer;
+import ql.parser.QLParser;
 import ql.visitor.VisitorExpression;
 
-public class ANTLRTester {
+import java.io.InputStream;
+
+public class QLTestUtilities {
+
+    public static void buildForm(InputStream stream) throws Exception {
+        QLFormBuilder qlFormBuilder = new QLFormBuilder();
+        qlFormBuilder.buildForm(stream);
+    }
 
     public static Expression expressionFromString(String input) {
         QLLexer lexer = new QLLexer(CharStreams.fromString(input));

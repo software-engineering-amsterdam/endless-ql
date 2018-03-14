@@ -1,4 +1,4 @@
-package Parser;
+package ql.Parser;
 
 import ql.parser.QLLexer;
 import ql.parser.QLParser;

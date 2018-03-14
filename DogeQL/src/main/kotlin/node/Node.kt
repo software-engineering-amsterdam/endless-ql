@@ -25,7 +25,12 @@ abstract class Node {
         return ArrayList(questions)
     }
 
+    open fun updateQuestion(question: Question) : Boolean = children.any {
+        child -> child.updateQuestion(question)
+    }
+
     abstract fun getEnabledQuestions() : ArrayList<Question>
 
     abstract fun validate(): Boolean
+
 }

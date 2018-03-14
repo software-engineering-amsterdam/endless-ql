@@ -35,11 +35,12 @@ public class Widget extends StyleSpecification {
 
     /**
      * Get parameters from widget
+     *
      * @return List of parameters
      */
     public WidgetParameters getWidgetParameters() {
         List<String> parameters = new ArrayList<>();
-        for(Parameter parameter : this.getParameters())
+        for (Parameter parameter : this.getParameters())
             parameters.add(parameter.getParameter());
         return new WidgetParameters(parameters);
     }

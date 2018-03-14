@@ -4,9 +4,9 @@ import org.uva.sea.qls.parser.elements.Page;
 import org.uva.sea.qls.parser.elements.Parameter;
 import org.uva.sea.qls.parser.elements.Stylesheet;
 import org.uva.sea.qls.parser.elements.specification.DefaultStyle;
+import org.uva.sea.qls.parser.elements.specification.Question;
 import org.uva.sea.qls.parser.elements.specification.Section;
 import org.uva.sea.qls.parser.elements.style.*;
-import org.uva.sea.qls.parser.elements.specification.Question;
 
 public interface IStyleASTVisitor<T> {
 

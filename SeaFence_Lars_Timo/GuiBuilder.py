@@ -36,62 +36,15 @@ class GuiBuilder():
                 self.parseAssignment(statement)
 
             elif type(statement) is IfNode:
-                potentiallyShowIfElifElseBlock = True
-                if self.checkExpressionValues(statement.expression) and statement.expression not in self.trueExpressions: 
-                    potentiallyShowIfElifElseBlock = False
-                    if len(self.frameOrder) > 0 and self.frameCounter <= len(self.frameOrder):
-                        self.removeFrames(self.frameOrder[self.frameCounter:])
-                        self.frameOrder = self.frameOrder[:self.frameCounter]
-                        self.frameCounter = len(self.frameOrder)
+                condionalShown = self.parseConditional(statement, 'if')
 
-                    self.trueExpressions[statement.expression] = self.gui.setCurrentStatementFrame()
-                    self.frameOrder.append((statement.expression, statement.statements))
-                    self.frameCounter += 1
-                    self.parseStatements(statement)
+            elif type(statement) is ElifNode and not condionalShown:
+                condionalShown = self.parseConditional(statement, 'elif')
 
-                elif not self.checkExpressionValues(statement.expression) and statement.expression in self.trueExpressions:
-                    self.removeFrame(statement.expression, statement.statements)
-                elif self.checkExpressionValues(statement.expression) and statement.expression in self.trueExpressions:
-                    potentiallyShowIfElifElseBlock = False
-                    self.frameCounter += 1
+            elif type(statement) is ElseNode and not condionalShown:
+                condionalShown = self.parseConditional(statement, 'else')
 
-            elif type(statement) is ElifNode and potentiallyShowIfElifElseBlock:
-                if self.checkExpressionValues(statement.expression) and statement.expression not in self.trueExpressions: 
-                    potentiallyShowIfElifElseBlock = False
-                    if statement.expression not in self.trueExpressions:
-
-                        if len(self.frameOrder) > 0 and self.frameCounter <= len(self.frameOrder):
-                            self.removeFrames(self.frameOrder[self.frameCounter:])
-                            self.frameOrder = self.frameOrder[:self.frameCounter]
-                            self.frameCounter = len(self.frameOrder)
-
-                        self.trueExpressions[statement.expression] = self.gui.setCurrentStatementFrame()
-                        self.frameOrder.append((statement.expression, statement.statements))
-                        self.frameCounter += 1
-                        self.parseStatements(statement)
-
-                elif not self.checkExpressionValues(statement.expression) and statement.expression in self.trueExpressions:
-                    self.removeFrame(statement.expression, statement.statements)
-                elif self.checkExpressionValues(statement.expression) and statement.expression in self.trueExpressions:
-                    potentiallyShowIfElifElseBlock = False
-                    self.frameCounter += 1
-
-            elif type(statement) is ElseNode and potentiallyShowIfElifElseBlock:
-                if len(statement.statements) > 0:
-                    if statement.statements[0].var not in self.trueExpressions:
-                        
-                        if len(self.frameOrder) > 0 and self.frameCounter <= len(self.frameOrder):
-                            self.removeFrames(self.frameOrder[self.frameCounter:])
-                            self.frameOrder = self.frameOrder[:self.frameCounter]
-                            self.frameCounter = len(self.frameOrder)
-                        
-                        self.trueExpressions[statement.statements[0].var] = self.gui.setCurrentStatementFrame()
-                        self.frameOrder.append((statement.statements[0].var, statement.statements))
-                        self.parseStatements(statement)
-
-                    self.frameCounter += 1
-
-            elif type(statement) is ElseNode and not potentiallyShowIfElifElseBlock:
+            elif type(statement) is ElseNode and not condionalShown:
                 if len(statement.statements) > 0 and statement.statements[0].var in self.trueExpressions:
                     self.removeFrame(statement.statements[0].var, statement.statements)
 
@@ -127,6 +80,41 @@ class GuiBuilder():
         if type(statement) is UnOpNode:
             return self.gui.getValue(statement.var, "int")
 
+    def parseConditional(self, statement, type):
+        if type == 'else' and len(statement.statements) > 0:
+            expression = statement.statements[0].var
+            statements = statement.statements
+            elseNode = True
+
+        else:
+            expression = statement.expression
+            statements = statement.statements
+            elseNode = False
+
+        if (self.checkExpressionValues(expression) and expression not in self.trueExpressions) or elseNode: 
+            print "yes"
+            if len(self.frameOrder) > 0 and self.frameCounter <= len(self.frameOrder):
+                self.removeFrames(self.frameOrder[self.frameCounter:])
+                self.frameOrder = self.frameOrder[:self.frameCounter]
+                self.frameCounter = len(self.frameOrder)
+
+            self.trueExpressions[expression] = self.gui.setCurrentStatementFrame()
+            self.frameOrder.append((expression, statements))
+            self.frameCounter += 1
+            self.parseStatements(statement)
+
+            return True
+        
+        elif self.checkExpressionValues(expression) and expression in self.trueExpressions and not elseNode:
+            self.frameCounter += 1
+            return True
+        elif not self.checkExpressionValues(expression) and expression in self.trueExpressions and not elseNode:
+            self.removeFrame(expression, statements)
+        elif expression in self.trueExpressions and not (len(self.frameOrder) > 0 and self.frameCounter <= len(self.frameOrder)) and not elseNode:
+            self.frameCounter += 1
+
+        return False
+
     def removeFrame(self, expression, statements):
         if expression in self.trueExpressions:
             self.trueExpressions[expression].destroy()
@@ -152,6 +140,11 @@ class GuiBuilder():
                 if self.checkExpressionValues(expression.left) or self.checkExpressionValues(expression.right):
                     return True
 
+            else:
+                left = self.parseBinOpAssignment(expression.left)
+                right = self.parseBinOpAssignment(expression.right)
+                result = self.get_operator(expression.op)(left, right)
+
         if type(expression) is UnOpNode:
             if not expression.negate and self.gui.values[expression.var].get() == 1:
                 return True
@@ -170,6 +163,6 @@ class GuiBuilder():
             '^' : op.xor,
             '<' : op.lt,
             '>' : op.gt,
-            '=<': op.le,
-            '=>': op.ge
+            '<=': op.le,
+            '>=': op.ge
             }[operator]

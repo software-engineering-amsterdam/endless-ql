@@ -1,26 +1,36 @@
 ﻿using QL.Api.Ast;
 using QL.Api.Entities;
 using QL.Api.Infrastructure;
-using QL.Api.Types;
-using QL.Presentation.ViewModels;
+using Presentation.ViewModels;
+using QLS.Api.Infrastructure;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Presentation.Visitors;
+using Infrastructure;
 
-namespace QL.Presentation.Controllers
+namespace Presentation.Controllers
 {
     internal class MainController
     {        
         private readonly Pipeline<ParsingTask> _parsingPipeline;
         private readonly Pipeline<InterpretingTask> _interpretingPipeline;
+        private readonly Pipeline<StylesheetTask> _stylesheetPipeline;
+
         private readonly MainViewModel _mainViewModel;
+        private Node _qlAst;
         private MemorySystem _memory;
         private SymbolTable _symbols;
 
-        public MainController(MainViewModel viewModel, Pipeline<ParsingTask> parsingPipeline, Pipeline<InterpretingTask> interpretingPipeline)
+        public MainController(MainViewModel viewModel,
+                              Pipeline<ParsingTask> parsingPipeline,
+                              Pipeline<InterpretingTask> interpretingPipeline,
+                              Pipeline<StylesheetTask> stylesheetPipeline)
         {
             _mainViewModel = viewModel;
             _parsingPipeline = parsingPipeline;
             _interpretingPipeline = interpretingPipeline;
+            _stylesheetPipeline = stylesheetPipeline;
 
             viewModel.RebuildQuestionnaireCommand = new RelayCommand<string>(RebuildQuestionnaireCommand_Execute);
         }
@@ -36,9 +46,10 @@ namespace QL.Presentation.Controllers
                 return;
             }
             _symbols = parsingTask.SymbolTable;
-            _mainViewModel.QuestionnaireValidation = "Validation succeeded! Enjoy your questionnaire";
-
+            _qlAst = parsingTask.Ast;
             _memory = new MemorySystem();
+            _mainViewModel.QuestionnaireValidation = "Validation succeeded! Enjoy your questionnaire.";
+            
             RebuildQuestionnaire(parsingTask.Ast);
         }
 
@@ -51,20 +62,37 @@ namespace QL.Presentation.Controllers
             {
                 memoryValue = new Value(_symbols[questionViewModel.Id].Type);
             }
-            _memory.AssignValue(questionViewModel.Id, new Value(questionViewModel.Value, memoryValue.Type));
-            
-            var parsingTask = _parsingPipeline.Process(new ParsingTask(_mainViewModel.QuestionnaireInput));
-            RebuildQuestionnaire(parsingTask.Ast);
+            _memory.AssignValue(questionViewModel.Id, new Value(questionViewModel.Value, memoryValue.Type));                        
+            RebuildQuestionnaire(_qlAst);
         }
 
-        private void RebuildQuestionnaire(Node ast)
+        private void RebuildQuestionnaire(Node evaluatedAst)
+        {
+            _mainViewModel.Form = CreateFormViewModelFromQL(evaluatedAst);
+            _mainViewModel.Form.Pages = CreatePagesFromStylesheet();
+        }
+
+        private FormViewModel CreateFormViewModelFromQL(Node ast)
         {
             var interpretingTask = _interpretingPipeline.Process(new InterpretingTask(ast, _memory, _symbols));
 
-            var formBuildingVisitor = new FormViewModelBuildingVisitor();
+            var formBuildingVisitor = new QuestionnaireVisitor();
             interpretingTask.InterpretedAst.Accept(formBuildingVisitor);
-            _mainViewModel.Form = formBuildingVisitor.Form;
-            _mainViewModel.Form.QuestionValueAssignedCommand = new RelayCommand<QuestionViewModel>(QuestionValueAssignedCommand_Execute);
+
+            FormViewModel form = formBuildingVisitor.Form;
+            form.QuestionValueAssignedCommand = new RelayCommand<QuestionViewModel>(QuestionValueAssignedCommand_Execute);
+            return form;
+        }
+
+        private PagesViewModel CreatePagesFromStylesheet()
+        {
+            IReadOnlyList<QuestionViewModel> questionViewModels = _mainViewModel.Form.Questions.ToList();
+            var stylesheetTask = new StylesheetTask(_mainViewModel.StylesheetInput, questionViewModels.Select(x => x.Id).ToList());
+            var processedStylesheet = _stylesheetPipeline.Process(stylesheetTask);
+
+            var stylesheetVisitor = new StylesheetVisitor(questionViewModels);
+            processedStylesheet.Ast.Accept(stylesheetVisitor);
+            return stylesheetVisitor.PagesViewModel;
         }
     }
 }

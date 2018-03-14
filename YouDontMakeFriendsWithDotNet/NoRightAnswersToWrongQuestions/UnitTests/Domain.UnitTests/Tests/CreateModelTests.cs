@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using AntlrInterpretor;
@@ -78,6 +79,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             var domainItem = m_domainItemLocator
                 .GetAll<IQuestionOutputItem>()
                 .FirstOrDefault();
+
             Assert.NotNull(domainItem);
             Assert.AreEqual(
                 expected: questionType, 
@@ -95,6 +97,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             var outputItem = m_domainItemLocator
                 .GetAll<IQuestionOutputItem>()
                 .FirstOrDefault();
+
             Assert.NotNull(outputItem);
             Assert.AreEqual(
                 expected: questionValue,
@@ -111,12 +114,8 @@ namespace UnitTests.Domain.UnitTests.Tests
             int expectedInvisible)
         {
             CreateForm(validDefinition);
-            var actualVisibleCount = m_domainItemLocator
-                .GetAll<IQuestionOutputItem>()
-                .Count(x => x.Visible);
-            var actualInvisibleCount = m_domainItemLocator
-                .GetAll<IQuestionOutputItem>()
-                .Count(x => !x.Visible);
+            var actualVisibleCount = GetVisibleCount();
+            var actualInvisibleCount = GetInvisibleCount();
 
             Assert.AreEqual(
                 expected: expectedVisible,
@@ -126,69 +125,69 @@ namespace UnitTests.Domain.UnitTests.Tests
                 actual: actualInvisibleCount);
         }
 
+
+        [TestCaseSource(
+            typeof(TestModelCreationData),
+            nameof(TestModelCreationData.CalculationVariableValues))]
+        public void GivenBooleanVariableThatChangeFromTrueToFalse_ReturnsCorrectVisibility(
+            string validDefinition,
+            int newValueVariable1,
+            int newValueVariable2)
+        {
+            CreateForm(validDefinition);
+            var actualInitialVisibleCount = GetVisibleCount();
+            var actualInitialInvisibleCount = GetInvisibleCount();
+
+            UpdateIntVariable(@"intQ1", newValueVariable1);
+            UpdateIntVariable(@"intQ2", newValueVariable2);
+
+            var actualNewVisibleCount = GetVisibleCount();
+            var actualNewInvisibleCount = GetInvisibleCount();
+
+            Assert.AreEqual(expected: 3, actual: actualInitialVisibleCount);
+            Assert.AreEqual(expected: 2, actual: actualInitialInvisibleCount);
+            Assert.AreEqual(expected: 4, actual: actualNewVisibleCount);
+            Assert.AreEqual(expected: 1,actual: actualNewInvisibleCount);
+        }
+
+        private int GetVisibleCount()
+        {
+            return GetVisibilityCount(x => x.Visible);
+        }
+
+        private int GetInvisibleCount()
+        {
+            return GetVisibilityCount(x => !x.Visible);
+        }
         
-        //[TestCaseSource(
-        //    typeof(TestModelCreationData),
-        //    nameof(TestModelCreationData.CalculationVariableValues))]
-        //public void GivenBooleanVariableThatChange_ReturnsCorrectVisibility(
-        //    string validDefinition,
-        //    string variableName1,
-        //    string variableName2,
-        //    int expectedInitialVisible,
-        //    int expectedInitialInvisible,
-        //    int newValueVariable1,
-        //    int newValueVariable2,
-        //    int expectedNewVisible,
-        //    int expectedNewInvisible)
-        //{
-        //    CreateForm(validDefinition);
-        //    var actualInitialVisibleCount = m_domainItemLocator
-        //        .GetAll<IQuestionOutputItem>()
-        //        .Count(x => x.Visible);
-        //    var actualInitialInvisibleCount = m_domainItemLocator
-        //        .GetAll<IQuestionOutputItem>()
-        //        .Count(x => !x.Visible);
-
-        //    UpdateIntVariable(variableName1, newValueVariable1);
-        //    UpdateIntVariable(variableName2, newValueVariable2);
-
-        //    var actualNewVisibleCount = m_domainItemLocator
-        //        .GetAll<IQuestionOutputItem>()
-        //        .Count(x => x.Visible);
-        //    var actualNewInvisibleCount = m_domainItemLocator
-        //        .GetAll<IQuestionOutputItem>()
-        //        .Count(x => !x.Visible);
-
-        //    Assert.AreEqual(
-        //        expected: expectedInitialVisible,
-        //        actual: actualInitialVisibleCount);
-        //    Assert.AreEqual(
-        //        expected: expectedInitialInvisible,
-        //        actual: actualInitialInvisibleCount);
-        //    Assert.AreEqual(
-        //        expected: expectedNewVisible,
-        //        actual: actualNewVisibleCount);
-        //    Assert.AreEqual(
-        //        expected: expectedNewInvisible,
-        //        actual: actualNewInvisibleCount);
-        //}
+        private int GetVisibilityCount(Func<IQuestionOutputItem, bool> predicate)
+        {
+            return m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .Count(predicate);
+        }
 
         private void UpdateIntVariable(string variableName, int value)
         {
-            var domainItem = m_domainItemLocator
+
+            var variableItem = m_domainItemLocator
                 .GetAll<IVariableNode>()
-                .Where(x => x.VariableName == variableName)
-                .Select(x => new Reference<IVariableNode>(x.Id))
+                .FirstOrDefault(x => x.VariableName == variableName);
+
+            var questionItem = m_domainItemLocator
+                .GetAll<IQuestionNode>()
+                .Where(x => x.QuestionName == variableItem.VariableName)
+                .Select(x => new Reference<IQuestionNode>(x.Id))
                 .FirstOrDefault();
 
-            m_variableUpdater.Update(domainItem, value.ToString(CultureInfo.InvariantCulture));
+            m_variableUpdater.Update(questionItem, value.ToString(CultureInfo.InvariantCulture));
         }
 
         private void CreateForm(string validText)
         {
             var questionnaireCreator = m_serviceProvider
                 .GetService<IQuestionnaireAstCreator>();
-           
+
             questionnaireCreator.Create(validText);
 
             var questionnaireNodes = m_domainItemLocator
@@ -202,7 +201,7 @@ namespace UnitTests.Domain.UnitTests.Tests
                     m_modelCreator.Create(questionnaireRef);
                 }
             }
-        }
 
+        }
     }
 }

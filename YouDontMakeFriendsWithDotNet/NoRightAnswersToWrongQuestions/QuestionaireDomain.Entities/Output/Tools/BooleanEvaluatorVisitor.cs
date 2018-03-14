@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
@@ -13,13 +16,17 @@ namespace QuestionnaireDomain.Entities.Output.Tools
     {
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly ICalculationVisitor m_calculationVisitor;
+        private readonly ISymbolTable m_lookup;
+
 
         public BooleanEvaluatorVisitor(
             IDomainItemLocator domainItemLocator,
-            ICalculationVisitor calculationVisitor)
+            ICalculationVisitor calculationVisitor,
+            ISymbolTable lookup)
         {
             m_domainItemLocator = domainItemLocator;
             m_calculationVisitor = calculationVisitor;
+            m_lookup = lookup;
         }
 
         public bool Evaluate(Reference<IBooleanLogicNode> predicate)
@@ -27,6 +34,55 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             var node = m_domainItemLocator.Get<IBooleanLogicNode>(predicate.Id);
             dynamic d = node;
             return this.Evaluate(d);
+        }
+
+        public bool Evaluate(IBooleanVariableNode node)
+        {
+            return m_lookup.Lookup<bool>(GetQuestionId(node));
+        }
+
+        public string Evaluate(ITextVariableNode node)
+        {
+            return m_lookup.Lookup<string>(GetQuestionId(node));
+        }
+
+        public DateTime Evaluate(IDateVariableNode node)
+        {
+            return m_lookup.Lookup<DateTime>(GetQuestionId(node));
+        }
+
+        public decimal Evaluate(ICalculationVariableNode node)
+        {
+            return m_lookup.Lookup<decimal>(GetQuestionId(node));
+        }
+
+        private Guid GetQuestionId(IVariableNode variableNodeId)
+        {
+            var question = m_domainItemLocator
+                .GetAll<IQuestionNode>()
+                .FirstOrDefault(x => x.QuestionName == variableNodeId.VariableName);
+
+            if (question == null || m_lookup.Exists(question.Id))
+            {
+                throw new ArgumentException($@"variable node '{variableNodeId.DisplayName}' variable not initialized");
+            }
+
+            return question.Id;
+        }
+
+
+        public object Evaluate(IUntypedVariableNode node)
+        {
+            var question = m_domainItemLocator
+                .GetAll<IQuestionNode>()
+                .FirstOrDefault(x => x.QuestionName == node.VariableName);
+
+            if (question == null || m_lookup.Exists(question.Id))
+            {
+                throw new ArgumentException($@"untyped '{node.DisplayName}' variable not initialized");
+            }
+
+            return m_lookup.Lookup(question.Id);
         }
 
         public bool Evaluate(IBooleanLiteralNode node)
@@ -50,6 +106,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             dynamic d = expresion;
             return !Evaluate(d);
         }
+        
         
         public DateTime Evaluate(IDateNode node)
         {

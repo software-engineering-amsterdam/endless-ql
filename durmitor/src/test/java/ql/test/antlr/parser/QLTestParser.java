@@ -5,11 +5,11 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import ql.grammar.QLLexer;
 import ql.grammar.QLParser;
-import ql.visitors.QLVisitorToAst;
+import ql.visitors.TextToAST;
 
 public class QLTestParser {
 
-    QLVisitorToAst visitor = new QLVisitorToAst();
+    TextToAST visitor = new TextToAST();
     
     public Object parseForm(String expr) {
         

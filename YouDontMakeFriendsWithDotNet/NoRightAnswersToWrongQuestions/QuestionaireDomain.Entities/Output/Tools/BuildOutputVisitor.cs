@@ -14,34 +14,24 @@ namespace QuestionnaireDomain.Entities.Output.Tools
     internal class BuildOutputVisitor : 
         IBuildOutputVisitor
     {
-        //ToDo, make a stack of visibility
         private bool m_questionsCurrentlyVisible = true;
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly IOutputItemFactory m_outputItemFactory;
-        private readonly ISymbolTable<bool> m_boolLookup;
-        private readonly ISymbolTable<decimal> m_decimalLookup;
-        private readonly ISymbolTable<string> m_stringLookup;
-        private readonly ISymbolTable<DateTime> m_dateLookup;
+        private readonly ISymbolTable m_lookup;
         private readonly IBooleanEvaluatorVisitor m_booleanEvaluator;
 
-        private readonly IList<Reference<IQuestionOutputItem>> questions = 
+        private readonly IList<Reference<IQuestionOutputItem>> m_questions = 
             new List<Reference<IQuestionOutputItem>>();
 
         public BuildOutputVisitor(
             IDomainItemLocator domainItemLocator,
             IOutputItemFactory outputItemFactory,
-            ISymbolTable<bool> boolLookup,
-            ISymbolTable<decimal> decimalLookup,
-            ISymbolTable<string> stringLookup,
-            ISymbolTable<DateTime> dateLookup,
+            ISymbolTable lookup,
             IBooleanEvaluatorVisitor booleanEvaluator)
         {
             m_domainItemLocator = domainItemLocator;
             m_outputItemFactory = outputItemFactory;
-            m_boolLookup = boolLookup;
-            m_decimalLookup = decimalLookup;
-            m_stringLookup = stringLookup;
-            m_dateLookup = dateLookup;
+            m_lookup = lookup;
             m_booleanEvaluator = booleanEvaluator;
         }
 
@@ -65,7 +55,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             
             m_outputItemFactory.CreateQuestionnaireOutputItem(
                 node.QuestionnaireName,
-                questions);
+                m_questions);
         }
 
         private void HandleStatements(IEnumerable<Reference<IStatementNode>> statements)
@@ -108,32 +98,36 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         {
             return m_booleanEvaluator.Evaluate(predicate);
         }
-
-
+        
         private string GetValue(Guid questionId)
         {
             var type = GetQuestionType(questionId);
             if (type == typeof(bool))
             {
-                return m_boolLookup.Lookup(questionId).ToString();
+                return m_lookup.Lookup<bool>(questionId).ToString();
             }
 
             if (type == typeof(string))
             {
-                return m_stringLookup.Lookup(questionId) ?? "";
+                return m_lookup.Lookup<string>(questionId) ?? "";
             }
 
-            if (type == typeof(decimal) || type == typeof(int))
+            if (type == typeof(decimal))
             {
-                return m_decimalLookup.Lookup(questionId).ToString(CultureInfo.InvariantCulture);
+                return m_lookup.Lookup<decimal>(questionId).ToString(CultureInfo.InvariantCulture);
+            }
+
+            if (type == typeof(int))
+            {
+                return m_lookup.Lookup<int>(questionId).ToString(CultureInfo.InvariantCulture);
             }
 
             if (type == typeof(DateTime))
             {
-                return m_dateLookup.Lookup(questionId).ToString(CultureInfo.InvariantCulture);
+                return m_lookup.Lookup<DateTime>(questionId).ToString(CultureInfo.InvariantCulture);
             }
 
-            throw new ArgumentException($"value lookup for type '{type}' not implemented");
+            throw new ArgumentException($@"value lookup for type '{type}' not implemented");
         }
 
 

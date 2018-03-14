@@ -6,13 +6,17 @@ from render.widgets import Label
 class TypeUndefined(Type):
     def __init__(self):
         super(TypeUndefined, self).__init__()
-        self.operations = []
+        self.__value = None
 
     def __repr__(self):
-        return 'undefined'
+        return str(self.__value)
 
     def __eq__(self, other):
         return type(self) == type(other)
+
+    @staticmethod
+    def cast(value):
+        return
 
     @staticmethod
     def get_literal_node():

@@ -17,10 +17,7 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(IAstFactory), typeof(AstFactory));
             appRegistration.AddSingleton(typeof(IOutputItemFactory), typeof(OutputItemFactory));
             appRegistration.AddSingleton(typeof(IDomainItemRegistry), typeof(DomainItemRegistry));
-            appRegistration.AddSingleton(typeof(ISymbolTable<bool>), typeof(SymbolTable<bool>));
-            appRegistration.AddSingleton(typeof(ISymbolTable<decimal>), typeof(SymbolTable<decimal>));
-            appRegistration.AddSingleton(typeof(ISymbolTable<DateTime>), typeof(SymbolTable<DateTime>));
-            appRegistration.AddSingleton(typeof(ISymbolTable<string>), typeof(SymbolTable<string>));
+            appRegistration.AddSingleton(typeof(ISymbolTable), typeof(SymbolTable));
             appRegistration.AddSingleton(typeof(IBooleanEvaluatorVisitor), typeof(BooleanEvaluatorVisitor));
             appRegistration.AddSingleton(typeof(ICalculationVisitor), typeof(CalculationVisitor));
             appRegistration.AddSingleton(typeof(IBuildOutputVisitor), typeof(BuildOutputVisitor));

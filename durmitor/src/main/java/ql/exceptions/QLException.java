@@ -2,8 +2,10 @@ package ql.exceptions;
 
 import ql.helpers.Location;
 
-public abstract class QLException {
+public abstract class QLException extends RuntimeException {
 
+    private static final long serialVersionUID = -4521749810520204195L;
+    
     protected String message;
     protected Location location;
 
@@ -20,6 +22,10 @@ public abstract class QLException {
         return location;
     }
 
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+    
     public String toString() {
         return "["+location+"] " + message;
     }

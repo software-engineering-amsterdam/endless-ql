@@ -1,27 +1,17 @@
 package GUI;
-import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.net.URL;
 
-import ParseObjects.Form;
-import ParseObjects.QuestionMap;
-import javafx.application.Application;
+import QL.ParseObjectsQL.Form;
+import QL.ParseObjectsQL.QuestionMap;
+import QLS.ParseObjectQLS.Stylesheet;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import Application.Parser;
-
-import javafx.event.EventHandler;
 
 public class QLUserInterface {
     public QLUserInterface(Stage stage){
@@ -38,12 +28,22 @@ public class QLUserInterface {
         Button debugBtn = new Button("Debug");
 
         debugBtn.setOnAction((event) ->{
-            String filePath = "./src/main/resources/example.ql";
-            File file = new File(filePath);
+            String formPath = "./src/main/resources/example.ql";
+            String styleSheetPath = "./src/main/resources/example.qls";
+
+            File formFile = new File(formPath);
+            File styleSheetFile = new File(styleSheetPath);
+
             Parser parser = new Parser();
-            Form form = parser.parseInputToForm(file.getPath());
+
+            Form form = parser.parseInputToForm(formFile.getPath());
             QuestionMap questionMap = new QuestionMap(form);
-            parser.printQLForm(form, questionMap); //debug print the form questions in console
+
+            Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
+
+            //parser.printQLForm(form, questionMap); //debug print the form questions in console
+            //parser.printQLSStyleSheet(stylesheet); //debug partially print stylesheet to console
+
             FormBuilder formBuilder = new FormBuilder(form, questionMap, stage);
             formBuilder.renderForm();
         });

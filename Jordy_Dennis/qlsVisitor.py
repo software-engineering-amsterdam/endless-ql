@@ -10,7 +10,6 @@ class QLSVisitor(QLSGrammarVisitor):
     def __init__(self):
         self.logger = logging.getLogger(__name__)
 
-
         def __init__(self):
             self.program = {}
             self.QLAst = QLAst()
@@ -23,7 +22,6 @@ class QLSVisitor(QLSGrammarVisitor):
 
         stylesheetName = ctx.ID().getText()
         self.stylesheet = Stylesheet(stylesheetName)
-        print(ctx)
 
         self.visitChildren(ctx)
 
@@ -32,7 +30,7 @@ class QLSVisitor(QLSGrammarVisitor):
         self.logger.debug("PAGE")
 
         pageName = ctx.ID().getText()
-        page = Page(pageName, self.stylesheet.getNumberOfPages()+1)
+        page = Page(pageName, self.stylesheet.getNumberOfPages() + 1)
 
         # defaults
         for default in ctx.default_style():
@@ -44,9 +42,7 @@ class QLSVisitor(QLSGrammarVisitor):
             sectionObject = self.visit(section)
             page.addSection(sectionObject)
 
-
-
-
+        self.stylesheet.addPage(page)
 
     # Visit a parse tree produced by QLSGrammarParser#section.
     def visitSection(self, ctx: QLSGrammarParser.SectionContext):
@@ -77,7 +73,7 @@ class QLSVisitor(QLSGrammarVisitor):
         self.logger.debug("QUESTION")
 
         questionName = ctx.ID().getText()
-        if(ctx.widget()):
+        if (ctx.widget()):
             widget = self.visit(ctx.widget())
         else:
             widget = None
@@ -86,15 +82,35 @@ class QLSVisitor(QLSGrammarVisitor):
 
     # Visit a parse tree produced by QLSGrammarParser#widget.
     def visitWidget(self, ctx: QLSGrammarParser.WidgetContext):
-        return self.visitChildren(ctx)
+        print("WIDGET")
+
+        if(ctx.CHECKBOX()):
+            return CheckBoxWidget()
+        elif ctx.RADIO():
+            return RadioWidget([ctx.STRING()[0].getText(), ctx.STRING()[1].getText()])
+        elif ctx.SPINBOX():
+            return SpinBoxWidget(0, 100000)
+        elif ctx.WIDTH():
+            return WidgetWidth(ctx.INT().getText())
+        elif ctx.FONTSIZE():
+            return WidgetFontSize(ctx.INT().getText())
+        elif ctx.FONT():
+            print(ctx.STRING()[0])
+            return WidgetFont(ctx.STRING()[0].getText())
+
 
 
     # Visit a parse tree produced by QLSGrammarParser#default_style.
     def visitDefault_style(self, ctx: QLSGrammarParser.Default_styleContext):
         self.logger.debug("DEFAULT_STYLE")
 
+        default = DefaultStyle()
 
-        return "STYLE"
+        for widget in ctx.widget():
+            widgetObject = self.visit(widget)
+            default.addWidget(widgetObject)
+
+        return default
 
     # Visit a parse tree produced by QLSGrammarParser#types.
     def visitTypes(self, ctx: QLSGrammarParser.TypesContext):

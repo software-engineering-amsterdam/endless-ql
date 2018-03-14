@@ -101,6 +101,7 @@ def main(argv):
     # pass tree to visitor
     qlsVisitor = QLSVisitor()
     qlsVisitor.visit(qlsTree)
+    print(qlsVisitor.stylesheet)
     # print(qlsTree.toStringTree())
 
 

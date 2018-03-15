@@ -39,7 +39,7 @@ public class QLParser extends Parser {
 		RULE_primary = 16, RULE_bool = 17, RULE_num = 18, RULE_dec = 19, RULE_str = 20, 
 		RULE_money = 21, RULE_date = 22;
 	public static final String[] ruleNames = {
-		"form", "statements", "statement", "question", "label", "variable", "type", 
+		"form", "statements", "statement", "questionData", "label", "variable", "type",
 		"condition", "block", "expression", "orExpr", "andExpr", "relExpr", "addExpr", 
 		"mulExpr", "unExpr", "primary", "bool", "num", "dec", "str", "money", 
 		"date"

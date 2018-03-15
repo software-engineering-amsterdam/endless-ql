@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using QuestionaireOrchestration.API;
 using QuestionaireOrchestration.CommandHandlers;
+using QuestionaireOrchestration.Commands;
+using QuestionaireOrchestration.QueryServices;
+using QuestionaireOrchestration.QueryServices.Interfaces;
 using QuestionaireOrchestration.Visitors;
 using QuestionnaireInfrastructure.API;
 

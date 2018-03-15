@@ -5,21 +5,27 @@ from pyql.antlr.QLParser import QLParser
 from pyql.ast.parse_tree_visitor import ParseTreeVisitor
 from pyql.static_analysis.static_checker import StaticChecker
 
+from pyql.static_analysis.symbol_table import SymbolTable
+
+from pyql.gui.gui_visitor import GUIVisitor
+
 
 def main(argv):
     input = FileStream(argv[1])
     lexer = QLLexer(input)
     stream = CommonTokenStream(lexer)
     parser = QLParser(stream)
-    tree = parser.form()
-    print(tree)
-    b = type(tree)
+    parse_tree = parser.form()
+
     visitor = ParseTreeVisitor()
-    c = tree.accept(visitor)
-    print(c)
+    ast = parse_tree.accept(visitor)
 
     sc = StaticChecker()
-    sc.run(c)
+    sc.run(ast)
+
+    stb = SymbolTable()
+
+    GUIVisitor(ast, stb)
 
 
 if __name__ == '__main__':

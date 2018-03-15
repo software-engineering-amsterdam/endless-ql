@@ -12,6 +12,18 @@ class WidgetFactory:
     def widget(self):
         return StringWidget
 
+    @multimethod(Integer)
+    def widget(self):
+        return IntegerWidget
+
+    @multimethod(Decimal)
+    def widget(self):
+        return DecimalWidget
+
+    @multimethod(Money)
+    def widget(self):
+        return MoneyWidget
+
     @multimethod(Boolean)
     def widget(self):
         return BooleanWidget

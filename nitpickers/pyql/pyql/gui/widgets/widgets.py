@@ -2,31 +2,35 @@ from tkinter import ttk
 from pyql.ast.expression.literals import *
 
 
-class ValidatingEntryWidget(ttk.Entry):
-    # base class for validating entry widgets
+class ValidatingEntry(ttk.Entry):
 
-    def __init__(self, master, value="", **kw):
-        apply(Entry.__init__, (self, master), kw)
-        self.__value = value
-        self.__variable = StringVar()
-        self.__variable.set(value)
-        self.__variable.trace("w", self.__callback)
-        self.config(textvariable=self.__variable)
+    def __init__(self, parent, **kw):
+        super().__init__(parent, validate='all', validatecommand=(parent.register(self.validate), '%P'), **kw) #
 
-    def __callback(self, *dummy):
-        value = self.__variable.get()
-        newvalue = self.validate(value)
-        if newvalue is None:
-            self.__variable.set(self.__value)
-        elif newvalue != value:
-            self.__value = newvalue
-            self.__variable.set(self.newvalue)
-        else:
-            self.__value = value
+    def validate(self, new_value):
+        return new_value
 
-    def validate(self, value):
-        # override: return value, new value, or None if invalid
-        return value
+
+class IntegerWidget(ValidatingEntry):
+
+    def __init__(self, parent, identifier, value=""):
+        super().__init__(parent, width=20, name=identifier)
+        # super().insert(0, value)
+
+    def get(self):
+        return IntegerLiteral("", super().get())
+
+    def validate(self, new_value):
+        try:
+            print(new_value)
+            if int(new_value) == int(new_value):
+                return True
+        except ValueError:
+            return False
+        return True
+
+    def __repr__(self):
+        return "IntegerWidget"
 
 
 class StringWidget(ttk.Entry):
@@ -40,6 +44,32 @@ class StringWidget(ttk.Entry):
 
     def __repr__(self):
         return "StringWidget"
+
+
+class DecimalWidget(ttk.Entry):
+
+    def __init__(self, parent, identifier, value=""):
+        super().__init__(parent, width=20, name=identifier)
+        super().insert(0, value)
+
+    def get(self):
+        return DecimalLiteral("", super().get())
+
+    def __repr__(self):
+        return "DecimalWidget"
+
+
+class MoneyWidget(ttk.Entry):
+
+    def __init__(self, parent, identifier, value=""):
+        super().__init__(parent, width=20, name=identifier)
+        super().insert(0, value)
+
+    def get(self):
+        return MoneyLiteral("", super().get())
+
+    def __repr__(self):
+        return "MoneyWidget"
 
 
 class BooleanWidget(ttk.Checkbutton):

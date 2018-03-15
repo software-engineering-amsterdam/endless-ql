@@ -47,17 +47,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\LoadQuestionnaireDefinitionsCommand.cs" />
-    <Compile Include="API\ICommandQueryService.cs" />
-    <Compile Include="API\IQuestionnaireQueryService.cs" />
-    <Compile Include="API\ModelExtensions.cs" />
-    <Compile Include="API\ModelReference.cs" />
-    <Compile Include="API\QuestionnaireQueryService.cs" />
+    <Compile Include="Models\DomainItemModel.cs" />
+    <Compile Include="Commands\LoadQuestionnaireDefinitionsCommand.cs" />
+    <Compile Include="QueryServices\Interfaces\ICommandQueryService.cs" />
+    <Compile Include="QueryServices\Interfaces\IQuestionnaireQueryService.cs" />
+    <Compile Include="Models\ModelExtensions.cs" />
+    <Compile Include="Models\ModelReference.cs" />
+    <Compile Include="Models\QuestionnaireDefinitionModel.cs" />
+    <Compile Include="QueryServices\QuestionnaireQueryService.cs" />
     <Compile Include="CommandHandlers\LoadQuestionnaireDefinitionsCommandHandler.cs" />
     <Compile Include="CommandHandlers\ParseTextCommandHandler.cs" />
     <Compile Include="OrchestrationModule.cs" />
-    <Compile Include="API\CreateQuestionnaireCommandMessage.cs" />
+    <Compile Include="Commands\CreateQuestionnaireCommandMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryServices\QuestionnaireDefintionQueryService.cs" />
+    <Compile Include="QueryServices\Interfaces\IModelQueryService.cs" />
     <Compile Include="Visitors\BooleanLogicPrinter.cs" />
     <Compile Include="Visitors\IBooleanLogicPrinter.cs" />
     <Compile Include="Visitors\IPrinter.cs" />
@@ -77,9 +81,7 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="QueryServices\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

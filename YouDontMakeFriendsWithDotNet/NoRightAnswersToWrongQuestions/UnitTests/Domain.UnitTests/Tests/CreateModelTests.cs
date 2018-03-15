@@ -24,7 +24,7 @@ namespace UnitTests.Domain.UnitTests.Tests
     {
         private IServiceProvider m_serviceProvider;
         private IDomainItemLocator m_domainItemLocator;
-        private IQuestionnaireModelCreator m_modelCreator;
+        private IQuestionnaireOutputCreator m_outputCreator;
         private IVariableUpdater m_variableUpdater;
 
         [SetUp]
@@ -36,7 +36,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             services.AddModule(new EntitiesModule());
             m_serviceProvider = services.BuildServiceProvider();
             m_domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();
-            m_modelCreator = m_serviceProvider.GetService<IQuestionnaireModelCreator>();
+            m_outputCreator = m_serviceProvider.GetService<IQuestionnaireOutputCreator>();
             m_variableUpdater = m_serviceProvider.GetService<IVariableUpdater>();
         }
 
@@ -125,11 +125,10 @@ namespace UnitTests.Domain.UnitTests.Tests
                 actual: actualInvisibleCount);
         }
 
-
         [TestCaseSource(
             typeof(TestModelCreationData),
-            nameof(TestModelCreationData.CalculationVariableValues))]
-        public void GivenBooleanVariableThatChangeFromTrueToFalse_ReturnsCorrectVisibility(
+            nameof(TestModelCreationData.CalculationIntVariableTrueToFalseValues))]
+        public void GivenIntPredicateVariableThatChangeFromTrueToFalse_ReturnsCorrectVisibility(
             string validDefinition,
             int newValueVariable1,
             int newValueVariable2)
@@ -138,8 +137,8 @@ namespace UnitTests.Domain.UnitTests.Tests
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateIntVariable(@"intQ1", newValueVariable1);
-            UpdateIntVariable(@"intQ2", newValueVariable2);
+            UpdateIntVariable(@"q1", newValueVariable1);
+            UpdateIntVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -147,8 +146,106 @@ namespace UnitTests.Domain.UnitTests.Tests
             Assert.AreEqual(expected: 3, actual: actualInitialVisibleCount);
             Assert.AreEqual(expected: 2, actual: actualInitialInvisibleCount);
             Assert.AreEqual(expected: 4, actual: actualNewVisibleCount);
-            Assert.AreEqual(expected: 1,actual: actualNewInvisibleCount);
+            Assert.AreEqual(expected: 1, actual: actualNewInvisibleCount);
         }
+
+        [TestCaseSource(
+            typeof(TestModelCreationData),
+            nameof(TestModelCreationData.CalculationIntVariableFalseToTrueValues))]
+        public void GivenIntPredicateThatChangeFromFalseToTrue_ReturnsCorrectVisibility(
+            string validDefinition,
+            int newValueVariable1,
+            int newValueVariable2)
+        {
+            CreateForm(validDefinition);
+            var actualInitialVisibleCount = GetVisibleCount();
+            var actualInitialInvisibleCount = GetInvisibleCount();
+
+            UpdateIntVariable(@"q1", newValueVariable1);
+            UpdateIntVariable(@"q2", newValueVariable2);
+
+            var actualNewVisibleCount = GetVisibleCount();
+            var actualNewInvisibleCount = GetInvisibleCount();
+
+            Assert.AreEqual(expected: 4, actual: actualInitialVisibleCount);
+            Assert.AreEqual(expected: 1, actual: actualInitialInvisibleCount);
+            Assert.AreEqual(expected: 3, actual: actualNewVisibleCount);
+            Assert.AreEqual(expected: 2, actual: actualNewInvisibleCount);
+        }
+
+        [TestCaseSource(
+            typeof(TestModelCreationData),
+            nameof(TestModelCreationData.CalculationDecimalVariableTrueToFalseValues))]
+        public void GivenDecimalPredicateVariableThatChangeFromTrueToFalse_ReturnsCorrectVisibility(
+            string validDefinition,
+            decimal newValueVariable1,
+            decimal newValueVariable2)
+        {
+            CreateForm(validDefinition);
+            var actualInitialVisibleCount = GetVisibleCount();
+            var actualInitialInvisibleCount = GetInvisibleCount();
+
+            UpdateDecimalVariable(@"q1", newValueVariable1);
+            UpdateDecimalVariable(@"q2", newValueVariable2);
+
+            var actualNewVisibleCount = GetVisibleCount();
+            var actualNewInvisibleCount = GetInvisibleCount();
+
+            Assert.AreEqual(expected: 3, actual: actualInitialVisibleCount);
+            Assert.AreEqual(expected: 2, actual: actualInitialInvisibleCount);
+            Assert.AreEqual(expected: 4, actual: actualNewVisibleCount);
+            Assert.AreEqual(expected: 1, actual: actualNewInvisibleCount);
+        }
+
+        [TestCaseSource(
+            typeof(TestModelCreationData),
+            nameof(TestModelCreationData.CalculationDecimalVariableFalseToTrueValues))]
+        public void GivenDecimalPredicateThatChangeFromFalseToTrue_ReturnsCorrectVisibility(
+            string validDefinition,
+            decimal newValueVariable1,
+            decimal newValueVariable2)
+        {
+            CreateForm(validDefinition);
+            var actualInitialVisibleCount = GetVisibleCount();
+            var actualInitialInvisibleCount = GetInvisibleCount();
+
+            UpdateDecimalVariable(@"q1", newValueVariable1);
+            UpdateDecimalVariable(@"q2", newValueVariable2);
+
+            var actualNewVisibleCount = GetVisibleCount();
+            var actualNewInvisibleCount = GetInvisibleCount();
+
+            Assert.AreEqual(expected: 4, actual: actualInitialVisibleCount);
+            Assert.AreEqual(expected: 1, actual: actualInitialInvisibleCount);
+            Assert.AreEqual(expected: 3, actual: actualNewVisibleCount);
+            Assert.AreEqual(expected: 2, actual: actualNewInvisibleCount);
+        }
+
+
+        [TestCaseSource(
+            typeof(TestModelCreationData),
+            nameof(TestModelCreationData.CalculationDateVariableTrueToFalseValues))]
+        public void GivenDatePredicateVariableThatChangeFromTrueToFalse_ReturnsCorrectVisibility(
+            string validDefinition,
+            DateTime newValueVariable1,
+            DateTime newValueVariable2)
+        {
+            CreateForm(validDefinition);
+            var actualInitialVisibleCount = GetVisibleCount();
+            var actualInitialInvisibleCount = GetInvisibleCount();
+
+            UpdateDateVariable(@"q1", newValueVariable1);
+            UpdateDateVariable(@"q2", newValueVariable2);
+
+            var actualNewVisibleCount = GetVisibleCount();
+            var actualNewInvisibleCount = GetInvisibleCount();
+
+            Assert.AreEqual(expected: 3, actual: actualInitialVisibleCount);
+            Assert.AreEqual(expected: 2, actual: actualInitialInvisibleCount);
+            Assert.AreEqual(expected: 4, actual: actualNewVisibleCount);
+            Assert.AreEqual(expected: 1, actual: actualNewInvisibleCount);
+        }
+
 
         private int GetVisibleCount()
         {
@@ -169,7 +266,38 @@ namespace UnitTests.Domain.UnitTests.Tests
 
         private void UpdateIntVariable(string variableName, int value)
         {
+            var variableItem = m_domainItemLocator
+                .GetAll<IVariableNode>()
+                .FirstOrDefault(x => x.VariableName == variableName);
 
+            var questionItem = m_domainItemLocator
+                .GetAll<IQuestionNode>()
+                .Where(x => x.QuestionName == variableItem.VariableName)
+                .Select(x => new Reference<IQuestionNode>(x.Id))
+                .FirstOrDefault();
+
+            m_variableUpdater.Update(questionItem, value.ToString(CultureInfo.InvariantCulture));
+        }
+
+
+        private void UpdateDecimalVariable(string variableName, decimal value)
+        {
+            var variableItem = m_domainItemLocator
+                .GetAll<IVariableNode>()
+                .FirstOrDefault(x => x.VariableName == variableName);
+
+            var questionItem = m_domainItemLocator
+                .GetAll<IQuestionNode>()
+                .Where(x => x.QuestionName == variableItem.VariableName)
+                .Select(x => new Reference<IQuestionNode>(x.Id))
+                .FirstOrDefault();
+
+            m_variableUpdater.Update(questionItem, value.ToString(CultureInfo.InvariantCulture));
+        }
+
+
+        private void UpdateDateVariable(string variableName, DateTime value)
+        {
             var variableItem = m_domainItemLocator
                 .GetAll<IVariableNode>()
                 .FirstOrDefault(x => x.VariableName == variableName);
@@ -196,12 +324,11 @@ namespace UnitTests.Domain.UnitTests.Tests
             foreach (var questionnaireRootNode in questionnaireNodes)
             {
                 var questionnaireRef = new Reference<IQuestionnaireRootNode>(questionnaireRootNode.Id);
-                if (m_modelCreator.Validate(questionnaireRef))
+                if (m_outputCreator.Validate(questionnaireRef))
                 {
-                    m_modelCreator.Create(questionnaireRef);
+                    m_outputCreator.Create(questionnaireRef);
                 }
             }
-
         }
     }
 }

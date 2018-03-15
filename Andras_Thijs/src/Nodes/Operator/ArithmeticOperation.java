@@ -21,7 +21,7 @@ public class ArithmeticOperation extends Operator{
     public QLFloat calculate(Term left, Term right) throws SyntaxException, TypeException {
         // Check if the sides are comparable types
         if(!((left instanceof QLInteger || left instanceof QLFloat) && (right instanceof QLInteger || right instanceof QLFloat))){
-            throw new TypeException();
+            throw new TypeException(this);
         }
 
         switch (this.getValue()){

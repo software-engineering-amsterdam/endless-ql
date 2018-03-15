@@ -19,6 +19,6 @@ public class EqualOperation extends  Operator{
 
         //TODO: Typechecking!
 
-        throw new SyntaxException();
+        throw new SyntaxException("Invalid equal operator", this);
     }
 }

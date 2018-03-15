@@ -9,7 +9,9 @@ public class SyntaxException extends Exception {
     private String message = "Syntax error";
     private ASTNode node;
 
-    public SyntaxException() {}
+    public SyntaxException(ASTNode node) {
+        this.node = node;
+    }
 
     public SyntaxException(String message, ASTNode node) {
         this.message = message;

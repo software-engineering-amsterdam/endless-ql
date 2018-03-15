@@ -38,7 +38,7 @@ public class Condition extends ASTNode {
         } else if(first instanceof Condition) {
             this.conditions = (List<Condition>) nodes;
         } else {
-            throw new SyntaxException();
+            throw new SyntaxException("Received a List that doesn't contain Questions or Conditions", this);
         }
     }
 
@@ -108,7 +108,7 @@ public class Condition extends ASTNode {
             if (result.toString().equals("qlboolean")) {
                 this.result = (QLBoolean) result;
             } else {
-                throw new TypeException(Type.BOOL, Type.getByCode(result.toString()));
+                throw new TypeException(this, Type.BOOL, Type.getByCode(result.toString()));
             }
         } catch(OtherException e) {
             // This is thrown when a Variable isn't set yet.

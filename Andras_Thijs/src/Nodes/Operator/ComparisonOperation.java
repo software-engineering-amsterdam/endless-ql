@@ -13,7 +13,7 @@ public class ComparisonOperation extends Operator{
 
         // Check if the sides are comparable types
         if(!((left instanceof QLInteger || left instanceof QLFloat) && (right instanceof QLInteger || right instanceof QLFloat))){
-            throw new TypeException();
+            throw new TypeException(this);
         }
 
         switch (this.getValue()){

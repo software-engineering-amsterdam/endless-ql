@@ -36,6 +36,6 @@ public abstract class Operator extends ASTNode {
      * @throws TypeException When types don't match
      */
     public Term calculate(Term left, Term right) throws SyntaxException, TypeException {
-        throw new TypeException();
+        throw new TypeException(this);
     }
 }

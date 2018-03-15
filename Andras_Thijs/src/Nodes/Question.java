@@ -92,7 +92,7 @@ public class Question extends ASTNode {
             if (type.toString().equals(result.toString()) || ((type.toString().equals("money") || type.toString().equals("integer")) && result.toString().equals("float"))) {
                 this.result = result;
             } else {
-                throw new TypeException(type, Type.getByCode(result.toString()));
+                throw new TypeException(this, type, Type.getByCode(result.toString()));
             }
         } catch(OtherException e) {
             // This Exception is thrown when a Variable isn't set yet.

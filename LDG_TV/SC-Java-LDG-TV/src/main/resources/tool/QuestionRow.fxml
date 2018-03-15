@@ -10,7 +10,8 @@
       <HBox id="left-box" stylesheets="@QuestionRow.css" HBox.hgrow="ALWAYS">
          <children>
             <Label fx:id="lblQuestion" text="Hello, world!" />
-         </children></HBox>
+         </children>
+      </HBox>
       <HBox id="right-box" fx:id="hbAnswer" HBox.hgrow="ALWAYS" />
    </children>
 </fx:root>

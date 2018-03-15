@@ -24,6 +24,22 @@ class MultiplicationNode extends InfixExpressionNode { }
 
 class DivisionNode extends InfixExpressionNode { }
 
+class AndNode extends InfixExpressionNode { }
+
+class OrNode extends InfixExpressionNode { }
+
+class LessNode extends InfixExpressionNode{ }
+
+class GreaterNode extends InfixExpressionNode{ }
+
+class EqualLessNode extends InfixExpressionNode{ }
+
+class EqualGreaterNode extends InfixExpressionNode{ }
+
+class NotEqualNode extends InfixExpressionNode{ }
+
+class IsEqualNode extends InfixExpressionNode{ }
+
 class NegateNode extends ExpressionNode
 {
     private Node InnerNode;
@@ -37,14 +53,38 @@ class NegateNode extends ExpressionNode
     }
 }
 
+class Variable extends ExpressionNode{
+    public String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
 class NumberNode extends ExpressionNode
 {
-    private double Value;
+    private int value;
+
+    public void setValue(int value)
+    {
+        this.value = value;
+    }
+
+    public int getValue() { return this.value; }
+}
+
+class DecimalNode extends ExpressionNode
+{
+    private double value;
 
     public void setValue(double value)
     {
-        this.Value = value;
+        this.value = value;
     }
 
-    public double getValue() { return this.Value; }
+    public double getValue() { return this.value; }
 }

@@ -1,10 +1,10 @@
 import {Statement} from './statement';
-import {QuestionBase} from '../angular-questions/question-base';
+import {QuestionBase} from '../../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {Question} from './question';
 import * as _ from 'lodash';
-import {TypeError} from '../errors';
-import {Location} from './location';
+import {TypeError} from '../../errors';
+import {Location} from '../location';
 import {Expression, LiteralType} from './expressions/expression';
 import {ExpressionType, ExpressionTypeUtil} from './expressions/expression-type';
 import {Variable} from './expressions/variable';

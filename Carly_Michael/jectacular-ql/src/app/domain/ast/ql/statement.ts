@@ -1,7 +1,7 @@
-import {QuestionBase} from '../angular-questions/question-base';
+import {QuestionBase} from '../../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {Question} from './question';
-import {Location} from './location';
+import {Location} from '../location';
 import {LiteralType} from './expressions/expression';
 import {Variable} from './expressions/variable';
 

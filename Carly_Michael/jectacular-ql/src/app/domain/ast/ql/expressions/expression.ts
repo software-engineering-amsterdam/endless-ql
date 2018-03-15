@@ -1,10 +1,10 @@
 import {ExpressionType} from './expression-type';
-import {Location} from '../location';
+import {Location} from '../../location';
 import {Question} from '../question';
 import {FormGroup} from '@angular/forms';
 import {Variable} from './variable';
-import {QuestionType, QuestionTypeUtil} from '../question-type';
-import {UnsupportedTypeError} from '../../errors';
+import {QuestionType, QuestionTypeUtil} from '../../question-type';
+import {UnsupportedTypeError} from '../../../errors';
 export type LiteralType = boolean | number | string | Date;
 
 export abstract class Expression {

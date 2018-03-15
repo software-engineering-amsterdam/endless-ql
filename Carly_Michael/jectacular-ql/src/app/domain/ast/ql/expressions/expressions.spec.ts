@@ -3,7 +3,7 @@ import {ExpressionType} from './expression-type';
 import {AndExpression, LogicalExpression, OrExpression} from './logical-expression';
 import {AddExpression, ArithmeticExpression, DivideExpression, MultiplyExpression, SubtractExpression} from './arithmetic-expression';
 import {NegateExpression, NegativeExpression, UnaryExpression} from './unary-expression';
-import {Location} from '../location';
+import {Location} from '../../location';
 import {
   ComparisonExpression, GreaterThanEqualExpression, GreaterThanExpression, LessThanEqualExpression,
   LessThanExpression

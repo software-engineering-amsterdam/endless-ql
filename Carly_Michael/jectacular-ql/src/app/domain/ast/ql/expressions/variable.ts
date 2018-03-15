@@ -1,9 +1,9 @@
 import {Expression, LiteralType} from './expression';
 import {Question} from '../question';
 import {ExpressionType} from './expression-type';
-import {Location} from '../location';
+import {Location} from '../../location';
 import {FormGroup} from '@angular/forms';
-import {UnknownQuestionError} from '../../errors';
+import {UnknownQuestionError} from '../../../errors';
 
 export class Variable extends Expression {
   public referencedQuestion: Question;

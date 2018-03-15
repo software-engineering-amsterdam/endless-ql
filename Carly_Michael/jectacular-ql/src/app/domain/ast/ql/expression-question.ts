@@ -1,14 +1,14 @@
-import {QuestionBase} from '../angular-questions/question-base';
+import {QuestionBase} from '../../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
-import {QuestionType, QuestionTypeUtil} from './question-type';
+import {QuestionType, QuestionTypeUtil} from '../question-type';
 import {Question} from './question';
-import {Location} from './location';
+import {Location} from '../location';
 import {Expression} from './expressions/expression';
 import {ExpressionType, ExpressionTypeUtil} from './expressions/expression-type';
-import {CircularDependencyError, UnsupportedTypeError} from '../errors';
+import {CircularDependencyError, UnsupportedTypeError} from '../../errors';
 import * as _ from 'lodash';
 import {Variable} from './expressions/variable';
-import {QuestionFactory} from '../../factories/question-factory';
+import {QuestionFactory} from '../../../factories/question-factory';
 
 export class ExpressionQuestion extends Question {
   constructor(name: string, label: string, type: QuestionType, public expression: Expression, location: Location) {

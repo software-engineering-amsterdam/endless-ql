@@ -3,7 +3,7 @@ import {QuestionBase} from './domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {QuestionControlService} from './services/question-control.service';
 import {Stylesheet} from './domain/ast/qls';
-import {Form} from './domain/ast';
+import {Form} from './domain/ast/ql/index';
 import {ParseFactory} from './factories/parse-factory';
 
 @Component({
@@ -24,7 +24,7 @@ export class AppComponent {
 
   constructor(private questionControlService: QuestionControlService) { }
 
-  prefill() {
+  prefillForm() {
     this.inputQls = 'stylesheet "taxOfficeExample"\n' +
       '{\n' +
       '  page "Housing"\n' +

@@ -20,8 +20,8 @@ public class QLParser extends Parser {
 		WS=1, BOOLEANTYPE=2, STRINGTYPE=3, INTEGERTYPE=4, MONEYTYPE=5, DATETYPE=6, 
 		DECIMALTYPE=7, FORM=8, IF=9, COLON=10, CURLY_BRACE_L=11, CURLY_BRACE_R=12, 
 		BRACE_L=13, BRACE_R=14, ADD=15, SUB=16, MUL=17, DIV=18, REM=19, EQT=20, 
-		GRT=21, LST=22, GRTE=23, LSTE=24, AND=25, NEQT=26, OR=27, NOT=28, IDENTIFIER=29, 
-		STR=30, INT=31, BOOL=32, MON=33, DEC=34, NEWLINE=35;
+		GRT=21, LST=22, GRTE=23, LSTE=24, AND=25, NEQT=26, OR=27, NOT=28, BOOL=29, 
+		IDENTIFIER=30, STR=31, INT=32, MON=33, DEC=34, NEWLINE=35;
 	public static final int
 		RULE_form = 0, RULE_block = 1, RULE_lineInBlock = 2, RULE_question = 3, 
 		RULE_expression = 4, RULE_booleanExpression = 5, RULE_numberExpression = 6, 
@@ -43,8 +43,8 @@ public class QLParser extends Parser {
 		null, "WS", "BOOLEANTYPE", "STRINGTYPE", "INTEGERTYPE", "MONEYTYPE", "DATETYPE", 
 		"DECIMALTYPE", "FORM", "IF", "COLON", "CURLY_BRACE_L", "CURLY_BRACE_R", 
 		"BRACE_L", "BRACE_R", "ADD", "SUB", "MUL", "DIV", "REM", "EQT", "GRT", 
-		"LST", "GRTE", "LSTE", "AND", "NEQT", "OR", "NOT", "IDENTIFIER", "STR", 
-		"INT", "BOOL", "MON", "DEC", "NEWLINE"
+		"LST", "GRTE", "LSTE", "AND", "NEQT", "OR", "NOT", "BOOL", "IDENTIFIER", 
+		"STR", "INT", "MON", "DEC", "NEWLINE"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -223,7 +223,7 @@ public class QLParser extends Parser {
 			setState(46);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -809,7 +809,7 @@ public class QLParser extends Parser {
 			setState(104);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
@@ -1047,7 +1047,7 @@ public class QLParser extends Parser {
 			setState(124);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
@@ -1527,33 +1527,32 @@ public class QLParser extends Parser {
 		"\3\2\26\32\3\2\21\25\2\u00a2\2\32\3\2\2\2\4\37\3\2\2\2\6A\3\2\2\2\bM\3"+
 		"\2\2\2\nS\3\2\2\2\fb\3\2\2\2\16v\3\2\2\2\20\u0081\3\2\2\2\22\u0083\3\2"+
 		"\2\2\24\u0085\3\2\2\2\26\u0087\3\2\2\2\30\u0093\3\2\2\2\32\33\7\n\2\2"+
-		"\33\34\7\37\2\2\34\35\5\4\3\2\35\36\7\2\2\3\36\3\3\2\2\2\37#\7\r\2\2 "+
-		"\"\7%\2\2! \3\2\2\2\"%\3\2\2\2#!\3\2\2\2#$\3\2\2\2$)\3\2\2\2%#\3\2\2\2"+
-		"&(\5\6\4\2\'&\3\2\2\2(+\3\2\2\2)\'\3\2\2\2)*\3\2\2\2*,\3\2\2\2+)\3\2\2"+
+		"\33\34\7 \2\2\34\35\5\4\3\2\35\36\7\2\2\3\36\3\3\2\2\2\37#\7\r\2\2 \""+
+		"\7%\2\2! \3\2\2\2\"%\3\2\2\2#!\3\2\2\2#$\3\2\2\2$)\3\2\2\2%#\3\2\2\2&"+
+		"(\5\6\4\2\'&\3\2\2\2(+\3\2\2\2)\'\3\2\2\2)*\3\2\2\2*,\3\2\2\2+)\3\2\2"+
 		"\2,\60\7\16\2\2-/\7%\2\2.-\3\2\2\2/\62\3\2\2\2\60.\3\2\2\2\60\61\3\2\2"+
 		"\2\61\5\3\2\2\2\62\60\3\2\2\2\63\67\5\26\f\2\64\66\7%\2\2\65\64\3\2\2"+
 		"\2\669\3\2\2\2\67\65\3\2\2\2\678\3\2\2\28B\3\2\2\29\67\3\2\2\2:>\5\b\5"+
 		"\2;=\7%\2\2<;\3\2\2\2=@\3\2\2\2><\3\2\2\2>?\3\2\2\2?B\3\2\2\2@>\3\2\2"+
-		"\2A\63\3\2\2\2A:\3\2\2\2B\7\3\2\2\2CD\7\37\2\2DE\7\f\2\2EF\7 \2\2FN\5"+
-		"\30\r\2GH\7\37\2\2HI\7\f\2\2IJ\7 \2\2JK\5\30\r\2KL\5\n\6\2LN\3\2\2\2M"+
-		"C\3\2\2\2MG\3\2\2\2N\t\3\2\2\2OT\7\37\2\2PT\5\f\7\2QT\5\16\b\2RT\7 \2"+
-		"\2SO\3\2\2\2SP\3\2\2\2SQ\3\2\2\2SR\3\2\2\2T\13\3\2\2\2UV\b\7\1\2Vc\7\37"+
-		"\2\2WX\7\17\2\2XY\5\f\7\2YZ\7\20\2\2Zc\3\2\2\2[\\\5\16\b\2\\]\5\22\n\2"+
-		"]^\5\16\b\2^c\3\2\2\2_`\7\36\2\2`c\5\f\7\4ac\7\"\2\2bU\3\2\2\2bW\3\2\2"+
-		"\2b[\3\2\2\2b_\3\2\2\2ba\3\2\2\2cj\3\2\2\2de\f\7\2\2ef\5\20\t\2fg\5\f"+
-		"\7\bgi\3\2\2\2hd\3\2\2\2il\3\2\2\2jh\3\2\2\2jk\3\2\2\2k\r\3\2\2\2lj\3"+
-		"\2\2\2mn\b\b\1\2nw\7\37\2\2op\7\17\2\2pq\5\16\b\2qr\7\20\2\2rw\3\2\2\2"+
-		"sw\7#\2\2tw\7!\2\2uw\7$\2\2vm\3\2\2\2vo\3\2\2\2vs\3\2\2\2vt\3\2\2\2vu"+
-		"\3\2\2\2w~\3\2\2\2xy\f\6\2\2yz\5\24\13\2z{\5\16\b\7{}\3\2\2\2|x\3\2\2"+
-		"\2}\u0080\3\2\2\2~|\3\2\2\2~\177\3\2\2\2\177\17\3\2\2\2\u0080~\3\2\2\2"+
-		"\u0081\u0082\t\2\2\2\u0082\21\3\2\2\2\u0083\u0084\t\3\2\2\u0084\23\3\2"+
-		"\2\2\u0085\u0086\t\4\2\2\u0086\25\3\2\2\2\u0087\u0088\7\13\2\2\u0088\u0089"+
-		"\7\17\2\2\u0089\u008a\5\f\7\2\u008a\u008b\7\20\2\2\u008b\u008c\5\4\3\2"+
-		"\u008c\27\3\2\2\2\u008d\u0094\7\4\2\2\u008e\u0094\7\5\2\2\u008f\u0094"+
-		"\7\6\2\2\u0090\u0094\7\7\2\2\u0091\u0094\7\b\2\2\u0092\u0094\7\t\2\2\u0093"+
-		"\u008d\3\2\2\2\u0093\u008e\3\2\2\2\u0093\u008f\3\2\2\2\u0093\u0090\3\2"+
-		"\2\2\u0093\u0091\3\2\2\2\u0093\u0092\3\2\2\2\u0094\31\3\2\2\2\17#)\60"+
-		"\67>AMSbjv~\u0093";
+		"\2A\63\3\2\2\2A:\3\2\2\2B\7\3\2\2\2CD\7 \2\2DE\7\f\2\2EF\7!\2\2FN\5\30"+
+		"\r\2GH\7 \2\2HI\7\f\2\2IJ\7!\2\2JK\5\30\r\2KL\5\n\6\2LN\3\2\2\2MC\3\2"+
+		"\2\2MG\3\2\2\2N\t\3\2\2\2OT\7 \2\2PT\5\f\7\2QT\5\16\b\2RT\7!\2\2SO\3\2"+
+		"\2\2SP\3\2\2\2SQ\3\2\2\2SR\3\2\2\2T\13\3\2\2\2UV\b\7\1\2Vc\7 \2\2WX\7"+
+		"\17\2\2XY\5\f\7\2YZ\7\20\2\2Zc\3\2\2\2[\\\5\16\b\2\\]\5\22\n\2]^\5\16"+
+		"\b\2^c\3\2\2\2_`\7\36\2\2`c\5\f\7\4ac\7\37\2\2bU\3\2\2\2bW\3\2\2\2b[\3"+
+		"\2\2\2b_\3\2\2\2ba\3\2\2\2cj\3\2\2\2de\f\7\2\2ef\5\20\t\2fg\5\f\7\bgi"+
+		"\3\2\2\2hd\3\2\2\2il\3\2\2\2jh\3\2\2\2jk\3\2\2\2k\r\3\2\2\2lj\3\2\2\2"+
+		"mn\b\b\1\2nw\7 \2\2op\7\17\2\2pq\5\16\b\2qr\7\20\2\2rw\3\2\2\2sw\7#\2"+
+		"\2tw\7\"\2\2uw\7$\2\2vm\3\2\2\2vo\3\2\2\2vs\3\2\2\2vt\3\2\2\2vu\3\2\2"+
+		"\2w~\3\2\2\2xy\f\6\2\2yz\5\24\13\2z{\5\16\b\7{}\3\2\2\2|x\3\2\2\2}\u0080"+
+		"\3\2\2\2~|\3\2\2\2~\177\3\2\2\2\177\17\3\2\2\2\u0080~\3\2\2\2\u0081\u0082"+
+		"\t\2\2\2\u0082\21\3\2\2\2\u0083\u0084\t\3\2\2\u0084\23\3\2\2\2\u0085\u0086"+
+		"\t\4\2\2\u0086\25\3\2\2\2\u0087\u0088\7\13\2\2\u0088\u0089\7\17\2\2\u0089"+
+		"\u008a\5\f\7\2\u008a\u008b\7\20\2\2\u008b\u008c\5\4\3\2\u008c\27\3\2\2"+
+		"\2\u008d\u0094\7\4\2\2\u008e\u0094\7\5\2\2\u008f\u0094\7\6\2\2\u0090\u0094"+
+		"\7\7\2\2\u0091\u0094\7\b\2\2\u0092\u0094\7\t\2\2\u0093\u008d\3\2\2\2\u0093"+
+		"\u008e\3\2\2\2\u0093\u008f\3\2\2\2\u0093\u0090\3\2\2\2\u0093\u0091\3\2"+
+		"\2\2\u0093\u0092\3\2\2\2\u0094\31\3\2\2\2\17#)\60\67>AMSbjv~\u0093";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

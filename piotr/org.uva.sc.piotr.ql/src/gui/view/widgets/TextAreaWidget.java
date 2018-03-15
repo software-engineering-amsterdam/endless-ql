@@ -1,7 +1,6 @@
 package gui.view.widgets;
 
-import ast.model.expressions.Expression;
-import gui.model.FormQuestionHolder;
+import gui.model.FormQuestion;
 import gui.view.Widget;
 
 import javax.swing.*;
@@ -12,13 +11,13 @@ public class TextAreaWidget extends Widget {
 
     private final JTextArea textArea;
 
-    public TextAreaWidget(FormQuestionHolder formQuestionHolder) {
+    public TextAreaWidget(FormQuestion formQuestion) {
 
-        super(formQuestionHolder);
+        super(formQuestion);
 
         JTextArea area = new JTextArea();
 
-        if (formQuestionHolder.getAssignedExpression() != null) {
+        if (formQuestion.getAssignedExpression() != null) {
             area.setEditable(false);
         }
 
@@ -39,7 +38,7 @@ public class TextAreaWidget extends Widget {
             }
 
             private void pushEvent() {
-                formQuestionHolder.changeValue(area.getText());
+                formQuestion.changeValue(area.getText());
             }
         });
 
@@ -53,7 +52,7 @@ public class TextAreaWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.textArea.setText(this.getFormQuestionHolder().getValueHolder().getStringValue());
+        this.textArea.setText(this.getFormQuestion().getValue().getStringValue());
     }
 
 }

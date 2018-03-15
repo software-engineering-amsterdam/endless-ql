@@ -33,7 +33,7 @@ public class Main {
             InitVisitor builder = new InitVisitor(tree);
             HashMap<String, Question> memory = builder.getQuestions();
 
-//          Test output
+            //Test output
             Iterator it = memory.entrySet().iterator();
             while (it.hasNext()) {
                   Map.Entry pair = (Map.Entry)it.next();

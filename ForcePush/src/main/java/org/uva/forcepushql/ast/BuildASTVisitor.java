@@ -20,10 +20,28 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
 
         FormNode node = new FormNode();
         node.setName(context.variable().getText());
-        List<GrammarParser.QuestionTypesContext> list = context.questionTypes();
-        for (GrammarParser.QuestionTypesContext q: list) {
+        for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
             node.setOneQuestion(visit(q));
         }
+
+        return node;
+    }
+
+    public Node visitConditionalIf(GrammarParser.ConditionalIfContext context) {
+        ConditionalIfNode node = new ConditionalIfNode();
+
+        node.setCondition(visit(context.variable()));//IT IS NEEDED TO CHANGE THIS!!!
+        for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
+            node.setOneQuestion(visit(q));
+        }
+        return node;
+    }
+
+    @Override
+    public Node visitQuestionAssignValue(GrammarParser.QuestionAssignValueContext context) {
+        QuestionAssignValueNode node = new QuestionAssignValueNode();
+        node.setPrevious(visit(context.questionFormat()));
+        node.setExpression(visit(context.expression()));
 
         return node;
     }

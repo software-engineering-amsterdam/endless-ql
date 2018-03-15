@@ -11,7 +11,7 @@ from .form_question import Question
 
 class Page():
 
-    def __init__(self, parent, questionGenerator, page_header='Page1', color='green'):
+    def __init__(self, parent, questionGenerator, page_header='default', color='green'):
         self.questionGenerator = questionGenerator
         self.frame = create_frame(parent, color)
         self.frame.pack(expand=True, fill='both')
@@ -42,8 +42,10 @@ class Page():
         Remove a question if it exists in our questions
     """
     def removeQuestion(self, varName):
+        print("REMOVE QUESTION")
         for question in self.questions:
-            if question.getVarName == varName:
+            if question.getVarName() == varName:
+                print("HIER")
                 self.questions.remove(question)
                 question.emptyFrame()
 

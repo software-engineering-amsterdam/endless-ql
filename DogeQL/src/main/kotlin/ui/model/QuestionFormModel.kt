@@ -1,7 +1,6 @@
 package ui.model
 
 import data.question.Question
-import data.question.QuestionType
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import tornadofx.ItemViewModel
@@ -16,20 +15,24 @@ class QuestionFormModel : ItemViewModel<QuestionModel>() {
 
     private val dogeController: DogeController by inject()
 
+
     fun load() {
         runAsync {
             dogeController.getQuestions().observable()
         } ui {
             convertToViewModel(it)
-            dataQuestions.addAll(it)
+            dataQuestions = it
         }
     }
 
     private fun convertToViewModel(it: ObservableList<Question>) {
+        questions.removeAll()
         questions.addAll(it.map(::QuestionModel))
     }
 
     override fun onCommit() {
-        questions.forEach { x -> x.commit() }
+        questions.forEach { x ->
+            x.commit()
+        }
     }
 }

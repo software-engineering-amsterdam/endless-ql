@@ -9,7 +9,7 @@ namespace Assignment1.Model
     {
         public string Id { get; }
         public List<Question> Questions { get; }
-        public Dictionary<string, string> Warnings;
+        public Dictionary<string, string> Warnings; // TODO: change to List<string>
 
         public QuestionForm(string id, List<Question> questions)
         {

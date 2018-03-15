@@ -30,7 +30,7 @@ class FormGui:
 
         self.pages = {}
         self.buttonFrame = create_frame(self.frame, background='blue')
-        
+
         if qls:
             self.buttonFrame.pack(side="top", fill="x", expand=False)
 
@@ -95,6 +95,36 @@ class FormGui:
     def removeQuestionFromPage(self, varName, pageName='default'):
         page = self.pages[pageName]
         page.removeQuestion(varName)
+
+    """
+        Checks if question is already on a page
+    """
+    def isQuestionOnPage(self, varName, pageName='default'):
+        page = self.pages[pageName]
+        for question in page.questions:
+            if question.varName == varName:
+                return True
+        return False
+
+    """
+        Returns a question object from a page
+    """
+    def getQuestionFromPage(self, varName, pageName='default'):
+        page = self.pages[pageName]
+        for question in page.questions:
+            if question.varName == varName:
+                return question
+        return None
+
+    """
+        Deletes question that are no longer valid, i.e. questions in a if, elif or else
+    """
+    def deleteInvalidQuestions(self, questions, pageName='default'):
+        page = self.pages[pageName]
+        for questionOnPage in page.questions:
+            if (questionOnPage.varName not in questions):
+                print(questionOnPage.varName)
+                self.removeQuestionFromPage(questionOnPage.varName)
 
     """
         Get all of the answers (and assignments) from the varDict, and download them

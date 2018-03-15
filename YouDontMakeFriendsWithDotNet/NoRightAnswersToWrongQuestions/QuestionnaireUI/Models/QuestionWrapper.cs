@@ -1,4 +1,6 @@
 ﻿using System;
+using System.CodeDom;
+using System.Runtime.CompilerServices;
 
 namespace QuestionnaireUI.Models
 {
@@ -13,14 +15,10 @@ namespace QuestionnaireUI.Models
             get { return Model.Value; }
             set
             {
-                if (value != Model.Value)
-                {
-                    Model.Value = value;
-                    RaisePropertyChanged();
-                }
+                SetValue(value);
             }
         }
-
+        
         public bool ReadOnly => Model.ReadOnly;
 
         public bool Visible => Model.Visible;
